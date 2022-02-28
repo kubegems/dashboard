@@ -1,0 +1,70 @@
+/**
+ * ace_editor样式覆盖
+ */
+
+.ace_editor {
+  line-height: 20px !important;
+  font-family: Monaco, Menlo, Consolas, Courier New, monospace;
+  -webkit-font-smoothing: auto;
+}
+
+.ace_editor.ace-chrome {
+  color: #4d4d4c;
+  background-color: #f6f6f6;
+}
+
+.ace_editor.ace-chrome .ace_gutter {
+  color: #4d4d4c;
+  background-color: #f6f6f6;
+  border-right: 1px solid #dcdcdc;
+}
+
+.ace_editor.ace-chrome .ace_variable,
+.ace_editor.ace-chrome .ace_identifier,
+.ace_editor.ace-chrome .ace_meta.ace_tag {
+  color: #1d88e5;
+}
+
+.ace_editor.ace-chrome .ace_keyword {
+  color: #8959a8;
+}
+
+.ace_editor.ace-chrome .ace_string {
+  color: #f4871e;
+}
+
+.ace_editor.ace-chrome .ace_constant.ace_numeric {
+  color: #66bb6a;
+}
+
+.ace_editor.ace-chrome .ace_marker-layer .ace_active-line {
+  background-color: #dcdcdc;
+}
+
+.ace_editor.ace-chrome .ace_marker-layer .ace_selection {
+  background-color: burlywood;
+}
+
+.ace_editor.ace-chrome .ace_comment {
+  color: #aaaaaa;
+}
+
+.ace_editor.ace-chrome .ace_cursor {
+  color: #4d4d4c;
+}
+
+.ace_editor.ace-chrome .ace_fold:hover {
+  background-color: #ffffff;
+}
+
+.ace_editor.ace-chrome .ace_line .ace_fold {
+  height: auto;
+}
+
+.ace_search {
+  background-color: #f9fbfd;
+}
+
+.ace_search.right {
+  right: 12px;
+}

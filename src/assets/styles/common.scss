@@ -1,0 +1,158 @@
+/**
+ * 公共全局样式
+ */
+
+.kubegems__full-right {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translate(-0%, -50%);
+}
+.kubegems__break-all {
+  word-break: break-all;
+  white-space: inherit;
+}
+
+.kubegems__clear-float {
+  clear: both;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.kubegems__form-width {
+  width: 405px;
+}
+.kubegems__three-form-width {
+  width: 265px;
+}
+.kubegems__long-width {
+  width: 820px;
+}
+.kubegems__two-width {
+  width: 400px;
+}
+.kubegems__three-width {
+  width: 250px;
+}
+.kubegems__min-width {
+  width: 80px;
+  word-break: break-all;
+}
+.kubegems__middle-width {
+  width: 120px;
+  word-break: break-all;
+}
+.kubegems__mount-width {
+  width: 150px;
+  word-break: break-all;
+  white-space: break-spaces;
+}
+.kubegems__container-width {
+  width: 200px;
+  word-break: break-all;
+  white-space: break-spaces;
+}
+.kubegems__word-all-break {
+  word-break: break-all;
+  white-space: break-spaces;
+}
+
+.kubegems__data-pre {
+  color: #5f5f53;
+  padding: 10px;
+  font-weight: 500;
+  overflow-x: auto;
+}
+
+.kubegems__tool-card-menu {
+  top: auto !important;
+  bottom: 65px;
+  z-index: 20 !important;
+}
+
+.terminal {
+  display: inline-block;
+  width: 100%;
+  outline: medium none;
+  padding: 5px 10px;
+}
+
+.terminal .xterm-viewport {
+  border-radius: 0;
+}
+
+.terminal .xterm-text-layer {
+  border-radius: 0;
+}
+
+.kubegems__overlay {
+  opacity: 0.1;
+  background-color: rgb(33, 33, 33);
+  border-color: rgb(33, 33, 33);
+  position: absolute;
+  z-index: 10;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.kubegems__expand-transition {
+  z-index: 15;
+}
+
+.kubegems__pointer {
+  cursor: pointer;
+}
+
+.apexcharts-tooltip-text {
+  max-width: 400px;
+  word-break: break-all;
+  white-space: break-spaces;
+  z-index: 9999;
+}
+
+.kubegems__absolute-middle {
+  position: absolute;
+  top: 50%;
+  transform: translate(-0%, -50%);
+}
+
+.kubegems__attach-position {
+  position: relative !important;
+}
+
+.kubegems__label-class-padding {
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
+.kubegems__table-nowrap-cell {
+  white-space: nowrap;
+  width: 1px;
+}
+
+.kubegems__role {
+  color: rgba(0, 0, 0, 0.6) !important;
+  font-weight: initial !important;
+}
+.kubegems__detail {
+  color: rgba(0, 0, 0, 0.7) !important;
+  font-weight: initial !important;
+}
+
+.kubegems__wizard-footer {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  bottom: 8px;
+}
+.kubegems__wizard-tab-content {
+  padding: 0;
+  margin: 0;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}

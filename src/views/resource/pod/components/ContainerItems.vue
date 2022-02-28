@@ -1,0 +1,387 @@
+<template>
+  <v-flex>
+    <span>容器</span>
+    <v-sheet
+      v-if="containerStatusesCopy.length === 0"
+      class="grey lighten-4 rounded my-1 py-6 text-center"
+    >
+      暂无容器
+    </v-sheet>
+    <v-sheet
+      v-for="(container, index) in containerStatusesCopy"
+      :key="index"
+      class="grey lighten-4 rounded my-1"
+    >
+      <v-list-item two-line>
+        <v-list-item-content class="py-0">
+          <v-list-item-subtitle class="text-body-2 py-0">
+            <v-list-item
+              two-line
+              class="float-left py-0 pl-0"
+              style="width: 500px;"
+            >
+              <v-list-item-content class="py-0">
+                <v-list-item-title
+                  class="
+                            text-subtitle-2
+                            py-1
+                            kubegems__detail
+                            font-weight-regular
+                          "
+                >
+                  <v-icon
+                    left
+                    small
+                    color="primary"
+                    class="float-left mt-1"
+                  >
+                    mdi-cube
+                  </v-icon>
+                  <v-flex class="float-left">
+                    {{ container.name }}
+                  </v-flex>
+                  <v-flex
+                    v-if="
+                      Plugins.tke_gpu_manager &&
+                        item &&
+                        item.spec &&
+                        item.spec.nodeSelector &&
+                        item.spec.nodeSelector['tencent.com/vcuda'] ===
+                        'true' &&
+                        container.resources &&
+                        container.resources.requests &&
+                        container.resources.requests[
+                          'tencent.com/vcuda-core'
+                        ] &&
+                        container.resources.requests[
+                          'tencent.com/vcuda-memory'
+                        ]
+                    "
+                    class="float-left mt-1 ml-2 icon"
+                  >
+                    <Logo
+                      :width="16"
+                      icon-name="tke_gpu_manager"
+                    />
+                  </v-flex>
+                  <v-flex
+                    v-if="
+                      Plugins.nvidia_device_plugin &&
+                        item &&
+                        item.spec &&
+                        item.spec.nodeSelector &&
+                        item.spec.nodeSelector['nvidia.com/gpu'] ===
+                        'true' &&
+                        container.resources &&
+                        container.resources.requests &&
+                        container.resources.requests['nvidia.com/gpu']
+                    "
+                    class="float-left mt-1 ml-2 icon"
+                  >
+                    <Logo
+                      :width="16"
+                      icon-name="nvidia_device_plugin"
+                    />
+                  </v-flex>
+                  <v-icon
+                    v-if="
+                      (container.state &&
+                        container.state.running !== undefined) ||
+                        (item.metadata.deletionTimestamp
+                          ? 'Terminating'
+                          : item.status.phase) === 'Succeeded' ||
+                        (container.state && container.state.waiting)
+                    "
+                    small
+                    right
+                    color="primary float-left"
+                    class="kubegems__pointer"
+                    @click="containerLog(container.name, item)"
+                  >
+                    mdi-file-document
+                  </v-icon>
+                  <v-icon
+                    v-if="
+                      resourceAllow &&
+                        container.state &&
+                        container.state.running !== undefined
+                    "
+                    small
+                    right
+                    color="primary float-left"
+                    class="kubegems__pointer"
+                    @click="containerShell(container.name, item)"
+                  >
+                    mdi-console
+                  </v-icon>
+                  <div class="kubegems__clear-float" />
+                </v-list-item-title>
+                <v-list-item-subtitle class="text-body-2 py-1">
+                  {{ container.image }}
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item
+              two-line
+              class="float-left py-0 pl-0"
+              style="width: 250px;"
+            >
+              <v-list-item-content class="py-0">
+                <v-list-item-title
+                  class="
+                            text-subtitle-2
+                            py-1
+                            kubegems__detail
+                            font-weight-regular
+                          "
+                >
+                  <span
+                    :class="`v-avatar mr-2 ${
+                      getContainerStatus(container) === 'Waiting'
+                        ? 'waiting-flashing'
+                        : ''
+                    }`"
+                    :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
+                      $CONTAINER_STATUS_COLOR[
+                        getContainerStatus(container)
+                      ]
+                    };`"
+                  />
+                  <span v-if="container.state.running"> Running </span>
+                  <span v-else-if="container.state.terminated">
+                    Terminated({{ container.state.terminated.reason }})
+                  </span>
+                  <span v-else-if="container.state.waiting">
+                    Waiting({{ container.state.waiting.reason }})
+                  </span>
+                </v-list-item-title>
+                <v-list-item-subtitle class="text-body-2 py-1">
+                  状态
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item
+              two-line
+              class="float-left py-0 pl-0"
+              style="width: 300px;"
+            >
+              <v-list-item-content class="py-0">
+                <v-list-item-title
+                  class="
+                            text-subtitle-2
+                            py-1
+                            kubegems__detail
+                            font-weight-regular
+                          "
+                >
+                  <v-flex
+                    v-for="(probe, index) in getContainerProbes(
+                      item,
+                      container,
+                    )"
+                    :key="index"
+                    class="float-left mr-2"
+                  >
+                    <ProbeInfo
+                      :title="probe.title"
+                      :item="probe.probe"
+                    />
+                  </v-flex>
+                  <v-flex
+                    v-if="
+                      getContainerProbes(item, container).length === 0
+                    "
+                    class="float-left mr-1"
+                  >
+                    暂无探针
+                  </v-flex>
+                  <div class="kubegems__clear-float" />
+                </v-list-item-title>
+                <v-list-item-subtitle class="text-body-2 py-1">
+                  探针
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item
+              two-line
+              class="float-left py-0 pl-0"
+              style="width: 200px;"
+            >
+              <v-list-item-content class="py-0">
+                <v-list-item-title
+                  class="
+                            text-subtitle-2
+                            py-1
+                            kubegems__detail
+                            font-weight-regular
+                          "
+                >
+                  {{ container.restartCount }}
+                </v-list-item-title>
+                <v-list-item-subtitle class="text-body-2 py-1">
+                  重启次数
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item
+              two-line
+              class="float-left py-0 pl-0"
+              style="width: 200px;"
+            >
+              <v-list-item-content class="py-0">
+                <v-list-item-title
+                  class="
+                            text-subtitle-2
+                            py-1
+                            kubegems__detail
+                            font-weight-regular
+                          "
+                >
+                  <span v-if="container.state.running">
+                    {{
+                      container.state.running.startedAt
+                        ? $moment(
+                          container.state.running.startedAt,
+                          'YYYY-MM-DDTHH:mm:ssZ',
+                        ).fromNow()
+                        : ''
+                    }}
+                  </span>
+                  <span v-else-if="container.state.terminated">
+                    {{
+                      container.state.terminated.startedAt
+                        ? $moment(
+                          container.state.terminated.startedAt,
+                          'YYYY-MM-DDTHH:mm:ssZ',
+                        ).fromNow()
+                        : ''
+                    }}
+                  </span>
+                </v-list-item-title>
+                <v-list-item-subtitle class="text-body-2 py-1">
+                  Age
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-item-subtitle>
+          <div class="kubegems__clear-float" />
+        </v-list-item-content>
+      </v-list-item>
+    </v-sheet>
+
+    <ContainerLog ref="containerLog" />
+  </v-flex>
+</template>
+
+<script>
+import { mapState } from 'vuex'
+import ProbeInfo from '@/views/resource/components/common/ProbeInfo'
+import Logo from '@/views/resource/components/common/Logo'
+import ContainerLog from '@/views/resource/components/common/ContainerLog'
+import BasePermission from '@/mixins/permission'
+import { deepCopy } from '@/utils/helpers'
+
+export default {
+  name: 'ContainerItems',
+  components: {
+    ProbeInfo,
+    Logo,
+    ContainerLog,
+  },
+  mixins: [BasePermission],
+  props: {
+    containerStatuses: {
+      type: Array,
+      default: () => [],
+    },
+    containers: {
+      type: Array,
+      default: () => [],
+    },
+    item: {
+      type: Object,
+      default: () => {},
+    },
+  },
+  data() {
+    return {
+      containerStatusesCopy: [],
+    }
+  },
+  computed: {
+    ...mapState(['Plugins']),
+  },
+  watch: {
+    containerStatuses: {
+      handler() {
+        this.containerStatusesCopy = deepCopy(this.containerStatuses)
+      },
+      deep: true,
+      immediate: true,
+    },
+    containers: {
+      handler() {
+        this.containers.forEach(c => {
+          const index = this.containerStatusesCopy.findIndex(s => { return s.name === c.name })
+          if (index > -1) {
+            const container = this.containerStatusesCopy[index]
+            container.image = c.image
+            this.$set(this.containerStatusesCopy, index, container)
+          }
+        })
+      },
+      deep: true,
+      immediate: true,
+    },
+  },
+  methods: {
+    getContainerStatus(item) {
+      if (item.state) {
+        if (item.state.running) return 'Running'
+        if (item.state.terminated) return 'Terminated'
+        if (item.state.waiting) return 'Waiting'
+      } else return 'Failed'
+    },
+    getContainerProbes(item, container) {
+      const probes = []
+      const spec = item.spec.containers.find((c) => {
+        return (c.name = container.name)
+      })
+      if (spec) {
+        if (spec.livenessProbe) {
+          probes.push({ title: '存活探针', probe: spec.livenessProbe })
+        }
+        if (spec.readinessProbe) {
+          probes.push({ title: '就绪探针', probe: spec.readinessProbe })
+        }
+        if (spec.startupProbe) {
+          probes.push({ title: '启动探针', probe: spec.startupProbe })
+        }
+      }
+      return probes
+    },
+    containerLog(container, pod) {
+      const item = {
+        namespace: pod.metadata.namespace,
+        name: pod.metadata.name,
+        containers: pod.status.containerStatuses,
+      }
+      this.$refs.containerLog.init(container, item)
+      this.$refs.containerLog.open()
+    },
+    containerShell(container, pod) {
+      const routeData = this.$router.resolve({
+        name: this.AdminViewport ? 'admin-terminal-viewer' : 'terminal-viewer',
+        params: { name: pod.metadata.name },
+        query: {
+          type: 'shell',
+          namespace: pod.metadata.namespace,
+          cluster: this.ThisCluster,
+          container: container,
+        },
+      })
+      window.open(routeData.href, '_blank')
+    },
+  },
+}
+</script>

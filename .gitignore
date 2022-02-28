@@ -1,0 +1,16 @@
+*.log
+*.log.*
+
+# editor
+.idea/
+.DS_Store
+
+node_modules
+dist
+.env.local
+package-lock.json
+mock
+
+#test data
+values.yaml
+values.schema.json

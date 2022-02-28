@@ -1,0 +1,275 @@
+<template>
+  <v-container fluid>
+    <BaseMicroServiceHeader />
+    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <v-card>
+      <v-card-title class="py-2">
+        <BaseFilter
+          :filters="filters"
+          :default="{ items: [], text: '网关实例名称', value: 'search' }"
+          @refresh="filterList"
+        />
+        <EnvironmentFilter />
+        <v-spacer />
+      </v-card-title>
+    </v-card>
+
+    <v-row class="mt-0">
+      <v-col
+        v-for="(item, index) in items"
+        :key="index"
+        cols="3"
+      >
+        <v-card
+          v-if="item.add"
+          class="full-height"
+          min-height="156"
+        >
+          <v-card-text class="pa-0 full-height">
+            <v-list-item
+              three-line
+              class="full-height"
+            >
+              <v-list-item-content>
+                <v-btn
+                  text
+                  block
+                  color="primary"
+                  class="text-h6"
+                  @click="addIstioGatewayInstance"
+                >
+                  <v-icon left>mdi-plus-box</v-icon>
+                  创建网关实例
+                </v-btn>
+              </v-list-item-content>
+            </v-list-item>
+          </v-card-text>
+        </v-card>
+        <v-hover
+          v-else
+          #default="{ hover }"
+        >
+          <v-card
+            class="mx-auto"
+            height="100%"
+            :elevation="hover ? 5 : 0"
+          >
+            <v-list-item three-line>
+              <v-list-item-avatar
+                class="primary--text"
+                tile
+                size="80"
+              >
+                <Icon
+                  icon="simple-icons:istio"
+                  style="width: 80px; height: 80px; margin-left: 10px;"
+                />
+              </v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title class="text-h6 mb-1">
+                  <a>
+                    {{ item ? item.Name : '' }}
+                  </a>
+                </v-list-item-title>
+                <v-list-item-subtitle>
+                  <span class="text-body-2">
+                    状态：
+                    <v-icon
+                      v-if="
+                        item &&
+                          item.status &&
+                          item.status.replicas === item.status.availableReplicas
+                      "
+                      color="success"
+                      small
+                    >
+                      mdi-check-circle
+                    </v-icon>
+                    <v-icon
+                      v-else-if="
+                        item.status && item.status.availableReplicas === 0
+                      "
+                      color="error"
+                      small
+                    >
+                      mdi-close-circle
+                    </v-icon>
+                    <v-icon
+                      v-else
+                      color="warning"
+                      small
+                    >
+                      mdi-alert-circle
+                    </v-icon>
+                  </span>
+                </v-list-item-subtitle>
+                <v-list-item-subtitle>
+                  <span class="text-body-2"> 端口： </span>
+                  <span
+                    v-for="(port, index) in item ? item && item.ports : []"
+                    :key="index"
+                  >
+                    <span v-if="port.name === 'http2'">
+                      http:
+                      {{ port.nodePort === '' ? '-' : port.nodePort }}
+                    </span>
+                    <span v-if="port.name === 'https'">
+                      https:
+                      {{ port.nodePort === '' ? '-' : port.nodePort }}
+                    </span>
+                  </span>
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+            <v-card-actions>
+              <v-spacer />
+              <v-btn
+                text
+                small
+                color="primary"
+                @click="istioGatewayDetail(item)"
+              >
+                详 情
+              </v-btn>
+              <v-btn
+                v-if="virtualSpaceAllow"
+                text
+                small
+                color="primary"
+                @click="updateIstioInstanceGateway(item)"
+              >
+                编 辑
+              </v-btn>
+              <v-btn
+                v-if="virtualSpaceAllow"
+                text
+                small
+                color="error"
+                @click="removeIstioGatewayInstance(item)"
+              >
+                删 除
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-hover>
+      </v-col>
+    </v-row>
+
+    <AddIstioGateway
+      ref="addIstioGateway"
+      @refresh="istioGatewayInstanceList"
+    />
+    <UpdateIstioGateway
+      ref="updateIstioGateway"
+      @refresh="istioGatewayInstanceList"
+    />
+  </v-container>
+</template>
+
+<script>
+import { getIstioGatewayInstanceList, deleteIstioGatewayInstance } from '@/api'
+import BasePermission from '@/mixins/permission'
+import BaseFilter from '@/mixins/base_filter'
+import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter'
+import { mapGetters, mapState } from 'vuex'
+import AddIstioGateway from './components/AddIstioGateway'
+import UpdateIstioGateway from './components/UpdateIstioGateway'
+
+export default {
+  name: 'IstioGateway',
+  components: {
+    EnvironmentFilter,
+    AddIstioGateway,
+    UpdateIstioGateway,
+  },
+  mixins: [BasePermission, BaseFilter],
+  data: () => ({
+    breadcrumb: {
+      title: 'Istio网关实例',
+      tip: 'Istio网关实例(IngressGateway)',
+      icon: 'mdi-gate',
+    },
+    items: [],
+    filters: [{ text: '网关实例名称', value: 'search', items: [] }],
+  }),
+  computed: {
+    ...mapState(['JWT', 'EnvironmentFilter']),
+    ...mapGetters(['VirtualSpace']),
+  },
+  watch: {
+    '$store.state.EnvironmentFilter': {
+      handler: function (env) {
+        if (env) this.istioGatewayInstanceList()
+      },
+      deep: true,
+      immediate: true,
+    },
+  },
+  methods: {
+    async istioGatewayInstanceList() {
+      const data = await getIstioGatewayInstanceList(
+        this.VirtualSpace().ID,
+        this.EnvironmentFilter.clusterid,
+      )
+      this.items = data
+      if (this.virtualSpaceAllow) {
+        this.items.push({ add: true })
+      }
+    },
+    addIstioGatewayInstance() {
+      this.$refs.addIstioGateway.open()
+    },
+    updateIstioInstanceGateway(item) {
+      this.$refs.updateIstioGateway.init(item)
+      this.$refs.updateIstioGateway.open()
+    },
+    istioGatewayDetail(item) {
+      this.$router.push({
+        name: 'istiogateway-detail',
+        params: { name: item.Name },
+        query: {
+          namespace: this.EnvironmentFilter.namespace,
+          cluster: this.EnvironmentFilter.cluster,
+          clusterid: this.EnvironmentFilter.clusterid,
+          environment: this.EnvironmentFilter.text,
+          environmentid: this.EnvironmentFilter.value,
+        },
+      })
+    },
+    async removeIstioGatewayInstance(item) {
+      this.$store.commit('SET_CONFIRM', {
+        title: `删除istio网关实例`,
+        content: {
+          text: `删除istio网关实例 ${item.Name}`,
+          type: 'delete',
+          name: item.Name,
+        },
+        param: { item },
+        doFunc: async (param) => {
+          if (param.item.Name.length > 0) {
+            await deleteIstioGatewayInstance(
+              this.VirtualSpace().ID,
+              this.EnvironmentFilter.clusterid,
+              param.item.Name,
+            )
+            this.istioGatewayInstanceList()
+          }
+        },
+      })
+    },
+  },
+}
+</script>
+
+<style lang="scss" scoped>
+.full-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.full-height {
+  height: 100%;
+}
+</style>
