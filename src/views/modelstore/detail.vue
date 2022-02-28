@@ -159,7 +159,7 @@ export default {
       id: 1,
       name: 'asr-speech-bokan-v2',
       description: 'asr bokan model',
-      repository: 'harbor.cloudminds.com/asrspeech_models/speech-asr-library',
+      repository: '',
       keywords: ['asr', 'speech'],
       maintainers: [],
       createdAt: '2021-08-05T13:40:00.267+08:00',

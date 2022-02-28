@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { TENANT_RESOURCE_QUOTA_GROUP } from '@/utils/gvk'
 
 // 租户资源quota列表
 export const getTenantResourceQuotaList = (tenantid, query = {}) =>
@@ -10,7 +11,7 @@ export const getTenantResourceQuotaList = (tenantid, query = {}) =>
 // 租户资源quota详情
 export const getTenantResourceQuota = (clusterName, name, query = {}) =>
   axios(
-    `proxy/cluster/${clusterName}/gems.cloudminds.com/v1beta1/tenantresourcequotas/${name}`,
+    `proxy/cluster/${clusterName}/${TENANT_RESOURCE_QUOTA_GROUP}/v1beta1/tenantresourcequotas/${name}`,
     { params: query },
   )
 // 增加租户quota

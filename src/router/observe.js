@@ -194,6 +194,7 @@ export const observe = [
           header: '链路追踪',
           title: '链路追踪',
           icon: 'mdi-link-variant',
+          dependencies: ['jaeger'],
           required: ['tenant'],
         },
         component: () => import('@/layouts/Container'),

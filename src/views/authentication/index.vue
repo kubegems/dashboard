@@ -117,10 +117,10 @@
           © 2021 — KubeGems by
           <a
             class="primary--text"
-            href="https://cloudminds.com"
+            href="https://kubegems.io"
             target="_blank"
           >
-            cloudminds.com
+            kubegems.io
           </a>
         </h6>
       </v-container>

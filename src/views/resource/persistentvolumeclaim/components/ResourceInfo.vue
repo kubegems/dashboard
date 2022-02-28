@@ -42,7 +42,7 @@
           v-if="
             pvc &&
               pvc.metadata.annotations &&
-              pvc.metadata.annotations['pvc.cloudminds.com/in-use'] === 'true'
+              pvc.metadata.annotations['pvc.kubegems.io/in-use'] === 'true'
           "
         >
           <v-icon
@@ -65,7 +65,7 @@
           v-if="
             pvc &&
               pvc.metadata.annotations &&
-              pvc.metadata.annotations['pvc.cloudminds.com/allow-snapshot'] ===
+              pvc.metadata.annotations['pvc.kubegems.io/allow-snapshot'] ===
               'true'
           "
         >

@@ -82,7 +82,7 @@
           {{
             item
               ? item.metadata.labels
-                ? item.metadata.labels[`gems.cloudminds.com/project`]
+                ? item.metadata.labels[`gems.kubegems.io/project`]
                 : ''
               : ''
           }}
@@ -99,7 +99,7 @@
           {{
             item
               ? item.metadata.labels
-                ? item.metadata.labels[`gems.cloudminds.com/environment`]
+                ? item.metadata.labels[`gems.kubegems.io/environment`]
                 : ''
               : ''
           }}

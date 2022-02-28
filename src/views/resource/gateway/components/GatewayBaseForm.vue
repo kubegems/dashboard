@@ -195,7 +195,7 @@ export default {
     ],
     protocol: 'http/1.1',
     obj: {
-      apiVersion: 'gems.cloudminds.com/v1beta1',
+      apiVersion: 'gems.kubegems.io/v1beta1',
       kind: 'TenantGateway',
       metadata: {
         name: '',
