@@ -85,63 +85,6 @@ if (['true', 'false', true, false].indexOf(window.localStorage.getItem('admin'))
   window.localStorage.clear()
 }
 
-import * as Sentry from '@sentry/vue'
-import { Integrations } from '@sentry/tracing'
-if (process.env.VUE_APP_SENTRY === 'true') {
-  Sentry.init({
-    Vue,
-    dsn: 'https://d773a269d3544372946067fb227c4153@sentry.cloudminds.com/5',
-    release:
-      process.env.VUE_APP_RELEASE &&
-        process.env.VUE_APP_RELEASE.indexOf('v') === 0
-        ? process.env.VUE_APP_RELEASE
-        : 'develop',
-    integrations: [
-      new Integrations.BrowserTracing({
-        routingInstrumentation: Sentry.vueRouterInstrumentation(router),
-        tracingOrigins: ['console.cloud.iamidata.com', /^\//],
-      }),
-    ],
-    initialScope: {
-      tags: { username: store.state.User.Username },
-    },
-    tracesSampleRate: 1.0,
-    environment: process.env.VUE_APP_ENVIRONMENT,
-    ignoreErrors: [
-      'top.GLOBALS',
-      'originalCreateNotification',
-      'canvas.contentDocument',
-      'MyApp_RemoveAllHighlights',
-      'http://tt.epicplay.com',
-      "Can't find variable: ZiteReader",
-      'jigsaw is not defined',
-      'ComboSearch is not defined',
-      'http://loading.retry.widdit.com/',
-      'atomicFindClose',
-      'fb_xd_fragment',
-      'bmi_SafeAddOnload',
-      'EBCallBackMessageReceived',
-      'conduitPage',
-    ],
-    beforeSend(event, hint) {
-      const error = hint.originalException
-      if (
-        error &&
-        error.message &&
-        error.message.match(
-          new RegExp(
-            '400|401|403|404|408|409|422|500|502|503|504|token过期|参数错误|Loading chunk|Unexpected token',
-            'g',
-          ),
-        )
-      ) {
-        return null
-      }
-      return event
-    },
-  })
-}
-
 // eslint-disable-next-line vue/require-name-property
 new Vue({
   vuetify,

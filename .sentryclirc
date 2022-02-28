@@ -1,7 +1,0 @@
-[defaults]
-url=https://sentry.cloudminds.com
-org=sentry
-project=kubegems-dashboard
-
-[auth]
-token=562f1a2d5cb44321b67e9eada0bd995a9143409455974b5ba40c4caf8ad2501b
