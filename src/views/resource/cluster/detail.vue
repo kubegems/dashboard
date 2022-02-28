@@ -222,7 +222,7 @@ export default {
         noprocessing: true,
       })
       if (data.resources) {
-        data.resources.capacity.pods = pods ? parseInt(pods[0].value[1]) : 0
+        data.resources.capacity.pods = pods ? pods && pods.length ? parseInt(pods[0].value[1]) : 0 : 0
         data.resources.used.pods = data.workloads.pods
 
         this.quota = data.resources

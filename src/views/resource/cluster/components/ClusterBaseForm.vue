@@ -16,29 +16,6 @@
             :readonly="edit"
           />
         </v-col>
-        <v-col cols="6">
-          <v-autocomplete
-            v-model="obj.Runtime"
-            color="primary"
-            :items="runtimeSelect"
-            :rules="objRules.RuntimeRules"
-            required
-            label="容器运行时"
-            hide-selected
-            no-data-text="暂无可选数据"
-            :readonly="edit"
-          >
-            <template #selection="{ item }">
-              <v-chip
-                color="primary"
-                small
-                class="mx-1"
-              >
-                {{ item['text'] }}
-              </v-chip>
-            </template>
-          </v-autocomplete>
-        </v-col>
         <v-col
           v-if="!control && !edit"
           cols="6"
@@ -89,18 +66,12 @@ export default {
     obj: {
       ClusterID: 0,
       ClusterName: '',
-      Runtime: '',
       KubeConfig: '',
       Primary: false,
     },
     objRules: {
       ClusterNameRules: [required],
-      RuntimeRules: [required],
     },
-    runtimeSelect: [
-      { text: 'Docker', value: 'docker' },
-      { text: 'Containerd', value: 'containerd' },
-    ],
   }),
   computed: {
     ...mapState(['Scale']),
