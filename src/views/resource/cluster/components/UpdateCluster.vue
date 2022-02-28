@@ -81,7 +81,6 @@ export default {
       this.$refs[this.formComponent].setData({
         ClusterID: data.ID,
         ClusterName: data.ClusterName,
-        Runtime: data.Runtime && data.Runtime !== '' ? data.Runtime : 'docker',
         KubeConfig: this.$yamldump(data.KubeConfig),
         Primary: data.Primary,
       })

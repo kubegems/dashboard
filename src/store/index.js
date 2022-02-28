@@ -478,22 +478,7 @@ export default new Vuex.Store({
           return t.TenantName === tenant
         })
         if (ten) {
-          if (
-            state.Admin ||
-            state.Auth.tenant.find((t) => {
-              return t.name === tenant
-            })
-          ) {
-            return ten
-          } else {
-            if (router) {
-              router.push({ name: '403' })
-              return {
-                ID: 0,
-                TenantName: '',
-              }
-            }
-          }
+          return ten
         }
         return {
           ID: 0,
@@ -518,25 +503,7 @@ export default new Vuex.Store({
           return v.ProjectName === project
         })
         if (pro) {
-          if (
-            state.Admin ||
-            state.Auth.tenant.find((t) => {
-              return t.isAdmin
-            }) ||
-            state.Auth.projects.find((t) => {
-              return t.name === project
-            })
-          ) {
-            return pro
-          } else {
-            if (router) {
-              router.push({ name: '403' })
-              return {
-                ID: 0,
-                ProjectName: '',
-              }
-            }
-          }
+          return pro
         }
         return {
           ID: 0,
@@ -559,32 +526,7 @@ export default new Vuex.Store({
           return v.EnvironmentName === environment
         })
         if (env) {
-          if (
-            state.Admin ||
-            state.Auth.tenant.find((t) => {
-              return t.isAdmin
-            }) ||
-            state.Auth.projects.find((t) => {
-              return t.isAdmin
-            }) ||
-            state.Auth.environments.find((t) => {
-              return t.name === environment
-            })
-          ) {
-            return env
-          } else {
-            if (router) {
-              router.push({ name: '403' })
-              return {
-                EnvironmentName: '',
-                ID: 0,
-                Namespace: '',
-                ClusterName: '',
-                ClusterID: 0,
-                Type: '',
-              }
-            }
-          }
+          return env
         }
         return {
           EnvironmentName: '',

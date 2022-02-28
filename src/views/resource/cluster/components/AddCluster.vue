@@ -65,7 +65,6 @@ export default {
         if (!config) return
         await postAddCluster({
           ClusterName: data.ClusterName,
-          Runtime: data.Runtime,
           Primary: data.Primary,
           KubeConfig: config,
         })

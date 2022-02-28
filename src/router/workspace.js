@@ -452,7 +452,7 @@ export const workspace = [
         meta: {
           title: '监控中心',
           icon: 'mdi-chart-bar',
-          dependencies: ['alertmanager', 'prometheus'],
+          dependencies: ['monitoring'],
           required: ['tenant'],
         },
         component: () => import('@/layouts/Container'),
