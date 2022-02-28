@@ -2,15 +2,13 @@
 *.log.*
 
 # editor
+.vscode/
 .idea/
 .DS_Store
 
 node_modules
-dist
 .env.local
+.git/
 package-lock.json
-mock
-
-#test data
-values.yaml
-values.schema.json
+.github/
+.sentryclirc

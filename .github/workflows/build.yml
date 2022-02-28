@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - "main"
+      - "develop"
     tags:
       - "v*.*.*"
     paths-ignore:
@@ -73,7 +74,7 @@ jobs:
       
       - run: export VUE_APP_DATE=`date "+%Y-%m-%d %H:%M:%S"`
       - run: export VUE_APP_RELEASE=${{ steps.prepare.outputs.tags }}
-      - run: export MESSAGE_SERVER=`0.0.0.0:8040`
+      - run: export MESSAGE_SERVER=`0.0.0.0:8080`
       - run: export API_SERVER=`0.0.0.0:8020`
       - run: yarn install && yarn build
 

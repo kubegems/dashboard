@@ -1,29 +1,8 @@
 const timestamp = new Date().getTime()
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const SentryPlugin = require('@sentry/webpack-plugin')
 
 module.exports = {
   productionSourceMap: true,
-  chainWebpack: (config) => {
-    if (
-      process.env.VUE_APP_ENVIRONMENT === 'production' ||
-      process.env.VUE_APP_ENVIRONMENT === 'development'
-    ) {
-      config.plugin('sentry').use(SentryPlugin, [
-        {
-          ignoreFile: '.gitignore',
-          include: './dist',
-          configFile: './.sentryclirc',
-          release:
-            process.env.VUE_APP_RELEASE &&
-              process.env.VUE_APP_RELEASE.indexOf('v') === 0
-              ? process.env.VUE_APP_RELEASE
-              : 'develop',
-          urlPrefix: '~/',
-        },
-      ])
-    }
-  },
   configureWebpack: {
     output: {
       filename: `js/[name].${timestamp}.js`,
