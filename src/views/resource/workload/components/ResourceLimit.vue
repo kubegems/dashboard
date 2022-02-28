@@ -146,7 +146,7 @@ export default {
         this.item &&
         this.item.metadata &&
         this.item.metadata.annotations &&
-        this.item.metadata.annotations['gems.cloudminds.com/ref']
+        this.item.metadata.annotations['gems.kubegems.io/ref']
       )
     },
   },

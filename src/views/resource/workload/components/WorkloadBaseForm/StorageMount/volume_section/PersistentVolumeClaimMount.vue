@@ -141,7 +141,7 @@ export default {
         .filter((v) => {
           return !(
             v.metadata.annotations &&
-            v.metadata.annotations['pvc.cloudminds.com/in-use'] === 'true'
+            v.metadata.annotations['pvc.kubegems.io/in-use'] === 'true'
           )
         })
         .map((v) => {

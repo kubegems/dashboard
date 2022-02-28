@@ -140,9 +140,9 @@ export default {
   },
   methods: {
     loaddata() {
-      if (this.obj.spec.selector['gems.cloudminds.com/istioGateway']) {
+      if (this.obj.spec.selector['gems.kubegems.io/istioGateway']) {
         this.ingressgateway =
-          this.obj.spec.selector['gems.cloudminds.com/istioGateway']
+          this.obj.spec.selector['gems.kubegems.io/istioGateway']
       }
     },
     async istioGatewayInstanceList() {
@@ -163,9 +163,9 @@ export default {
     },
     onIngressgatewayChange() {
       this.obj.spec.selector = {}
-      this.obj.spec.selector['gems.cloudminds.com/istioGateway'] =
+      this.obj.spec.selector['gems.kubegems.io/istioGateway'] =
         this.ingressgateway
-      this.obj.spec.selector['gems.cloudminds.com/virtualSpace'] =
+      this.obj.spec.selector['gems.kubegems.io/virtualSpace'] =
         this.VirtualSpace().VirtualSpaceName
     },
     addServerData(data) {
