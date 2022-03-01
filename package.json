@@ -55,7 +55,6 @@
     "vue-okr-tree": "^1.0.9",
     "vue-page-title": "^1.2.5",
     "vue-router": "^3.4.4",
-    "vue-server-renderer": "^2.6.12",
     "vue-slider-component": "^3.2.14",
     "vue2-ace-editor": "^0.0.15",
     "vuetify": "2.4.6",

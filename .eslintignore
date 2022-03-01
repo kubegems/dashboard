@@ -3,4 +3,3 @@ dist/*
 build/*.js
 node_modules/*
 src/components/*.vue
-src/views/appstore/components/Render.vue
