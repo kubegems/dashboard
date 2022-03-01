@@ -19,14 +19,17 @@
       </v-card-text>
     </v-card>
 
-    <v-flex>
-      <!-- <v-flex class="kubegems__role text-subtitle-1 mt-3 font-weight-medium">
-        {{ plugins }}
-      </v-flex> -->
+    <v-flex
+      v-for="(plugins, key) in pluginGroup"
+      :key="key"
+    >
+      <v-flex class="kubegems__role text-subtitle-1 mt-3 font-weight-medium">
+        {{ key }}
+      </v-flex>
       <v-row class="mt-0">
         <v-col
-          v-for="(plugin, key) in pluginGroup"
-          :key="key"
+          v-for="(plugin, index) in plugins"
+          :key="index"
           cols="3"
         >
           <v-hover #default="{ hover }">
