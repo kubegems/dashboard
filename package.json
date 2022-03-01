@@ -85,7 +85,6 @@
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^22.0.0",
     "stylelint-scss": "^3.19.0",
-    "uglifyjs-webpack-plugin": "^2.2.0",
     "vue-cli-plugin-commitlint": "^1.0.12",
     "vue-cli-plugin-vuetify": "^2.0.7",
     "vue-cli-plugin-yaml": "^1.0.2",

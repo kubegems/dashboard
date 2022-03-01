@@ -26,6 +26,16 @@
               <v-flex>
                 <v-btn
                   text
+                  color="primary"
+                  @click="addUser"
+                >
+                  <v-icon left>mdi-plus-box</v-icon>
+                  创建用户
+                </v-btn>
+              </v-flex>
+              <v-flex>
+                <v-btn
+                  text
                   color="error"
                   @click="batchRemoveNotK8SResource('用户', 'User', userList)"
                 >
@@ -152,6 +162,10 @@
       ref="updateRole"
       @refresh="userList"
     />
+    <AddUser
+      ref="addUser"
+      @refresh="userList"
+    />
   </v-container>
 </template>
 
@@ -159,6 +173,7 @@
 import { mapState } from 'vuex'
 import { getUserList, deleteUser } from '@/api'
 import UpdateRole from './components/UpdateRole'
+import AddUser from './components/AddUser'
 import BaseFilter from '@/mixins/base_filter'
 import BaseResource from '@/mixins/resource'
 import { convertStrToNum } from '@/utils/helpers'
@@ -167,6 +182,7 @@ export default {
   name: 'User',
   components: {
     UpdateRole,
+    AddUser,
   },
   mixins: [BaseFilter, BaseResource],
   data: () => ({
@@ -240,6 +256,9 @@ export default {
     },
     onPageIndexChange(page) {
       this.params.page = page
+    },
+    addUser() {
+      this.$refs.addUser.open()
     },
   },
 }

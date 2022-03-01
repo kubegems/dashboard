@@ -27,3 +27,9 @@ export const k8sLabel = (v) => !!new RegExp('^([A-Za-z0-9][-A-Za-z0-9_./]*)?[A-Z
 export const k8sAnnotation = (v) => !!new RegExp('([A-Za-z0-9][-A-Za-z0-9_./]*)?[A-Za-z0-9]').test(v) || '不符合Kubernetes注解规范'
 
 export const k8sName = (v) => !!new RegExp('^([a-z0-9]([-a-z0-9./]*[a-z0-9])?){0,253}$').test(v) || '不符合Kubernetes命名规范'
+
+export const email = (v) => !!new RegExp('^[\\.a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$').test(v) || '邮箱格式错误'
+
+export const phone = (v) => !!new RegExp('^1(3\\d|4[5-9]|5[0-35-9]|6[2567]|7[0-8]|8\\d|9[0-35-9])\\d{8}$').test(v) || '手机号格式错误'
+
+export const password = (v) => !!new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!\\.@#$%~])[A-Za-z\\d!\\.@#$%~]{8,16}', 'g').test(v) || '格式错误(包含大小写数字特殊字符8到16位密码)'
