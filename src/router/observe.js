@@ -7,6 +7,33 @@ export const observe = [
     component: () => import('@/layouts/Layout'),
     redirect: { name: 'log-viewer' },
     children: [
+      // overview
+      {
+        path: 'overview',
+        meta: {
+          header: '概览',
+          title: '概览',
+          icon: 'mdi-tablet-dashboard',
+          show: true,
+        },
+        redirect: { name: 'observe-overview' },
+        component: () => import('@/layouts/Container'),
+        children: [
+          {
+            path: `${prefix}/overview`,
+            name: 'observe-overview',
+            component: () => import('@/views/observe/overview'),
+            meta: {
+              requireAuth: true,
+              title: '概览',
+              upToAdmin: true,
+              icon: 'mdi-home',
+              show: true,
+              rootName: 'observe',
+            },
+          },
+        ],
+      },
       {
         path: 'log',
         meta: {
