@@ -16,7 +16,7 @@
             active-class="primary--text"
           >
             <v-list-item
-              v-if="Plugins.tke_gpu_manager"
+              v-if="Plugins.gpu_manager"
               link
               class="my-1"
             >
@@ -30,7 +30,7 @@
                 <v-list-item-icon class="mr-4">
                   <Logo
                     :width="32"
-                    icon-name="tke_gpu_manager"
+                    icon-name="gpu_manager"
                   />
                 </v-list-item-icon>
                 <v-list-item-content class="text-subtitle-1">
@@ -124,7 +124,7 @@ export default {
       }
     },
     async gpuSchedule() {
-      if (this.Plugins.tke_gpu_manager) {
+      if (this.Plugins.gpu_manager) {
         if (this.gpuSelected.indexOf(0) > -1) {
           this.item.metadata.labels['tencent.com/vcuda'] = 'true'
         } else {
@@ -132,7 +132,7 @@ export default {
         }
       }
       if (this.Plugins.nvidia_device_plugin) {
-        if (this.Plugins.tke_gpu_manager) {
+        if (this.Plugins.gpu_manager) {
           if (this.gpuSelected.indexOf(1) > -1) {
             this.item.metadata.labels['nvidia.com/gpu'] = 'true'
           } else {
