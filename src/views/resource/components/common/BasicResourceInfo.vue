@@ -82,7 +82,7 @@
           {{
             item
               ? item.metadata.labels
-                ? item.metadata.labels[`gems.kubegems.io/project`]
+                ? item.metadata.labels[`gems.${process.env.VUE_APP_DOMAIN}/project`]
                 : ''
               : ''
           }}
@@ -99,7 +99,7 @@
           {{
             item
               ? item.metadata.labels
-                ? item.metadata.labels[`gems.kubegems.io/environment`]
+                ? item.metadata.labels[`gems.${process.env.VUE_APP_DOMAIN}/environment`]
                 : ''
               : ''
           }}
