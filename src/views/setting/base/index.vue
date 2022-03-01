@@ -25,32 +25,15 @@
                         mdi-cube
                       </v-icon>
                       {{ installer ? installer.content.operator_image : '' }}
-                      <v-chip
-                        class="ml-1"
+                      <v-btn
+                        class="mx-1"
+                        depressed
                         small
-                        color="success"
+                        color="primary"
+                        @click="updateInstallerImage"
                       >
-                        运行中
-                      </v-chip>
-                      <v-flex class="float-right">
-                        <v-btn
-                          class="mx-1"
-                          depressed
-                          small
-                          color="primary"
-                          @click="updateInstallerImage"
-                        >
-                          修改
-                        </v-btn>
-                        <v-btn
-                          class="mx-1"
-                          depressed
-                          small
-                          color="error"
-                        >
-                          停止
-                        </v-btn>
-                      </v-flex>
+                        修改
+                      </v-btn>
                     </v-list-item-title>
                     <v-list-item-subtitle class="text-body-2 py-1">
                       镜像
