@@ -256,19 +256,24 @@ export default {
       icon: 'mdi-desktop-tower',
     },
     tab: 0,
-    tabItems: [
-      { text: '资源信息', value: 'ResourceInfo' },
-      { text: '元数据', value: 'Metadata' },
-      { text: '亲和性', value: 'Taint' },
-      { text: '容器组', value: 'PodList' },
-      { text: '事件', value: 'EventList' },
-      { text: '监控', value: 'NodeMonitor' },
-    ],
     node: null,
   }),
   computed: {
     ...mapState(['JWT', 'Plugins']),
     ...mapGetters(['Cluster']),
+    tabItems() {
+      const items = [
+        { text: '资源信息', value: 'ResourceInfo' },
+        { text: '元数据', value: 'Metadata' },
+        { text: '亲和性', value: 'Taint' },
+        { text: '容器组', value: 'PodList' },
+        { text: '事件', value: 'EventList' },
+      ]
+      if (this.Plugins.node_exporter) {
+        items.splice(5, 0, { text: '监控', value: 'NodeMonitor' })
+      }
+      return items
+    },
   },
   mounted() {
     if (this.JWT) {

@@ -226,14 +226,12 @@ export default {
       const data = await getClusterStatus({
         noprocessing: noprocess,
       })
-      const index = this.items.findIndex((c) => {
-        return Object.prototype.hasOwnProperty.call(data, c.ClusterName)
+      this.items.forEach((item, index) => {
+        if (item.ClusterName) {
+          item.Status = data[item.ClusterName]
+          this.$set(this.items, index, item)
+        }
       })
-      if (index > -1) {
-        const item = this.items[index]
-        item.Status = data[item.ClusterName]
-        this.$set(this.items, index, item)
-      }
     },
     clusterDetail(item) {
       this.$router.push({

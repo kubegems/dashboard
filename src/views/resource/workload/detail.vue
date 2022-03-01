@@ -84,7 +84,7 @@
             v-if="
               workload &&
                 workload.metadata.annotations &&
-                !workload.metadata.annotations['gems.cloudminds.com/ref']
+                !workload.metadata.annotations[`gems.${$DOMAIN}/ref`]
             "
           >
             <v-btn

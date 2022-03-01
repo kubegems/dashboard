@@ -12,7 +12,7 @@ const schema = {
             $id: '#/properties/apiVersion',
             type: 'string',
             default: '',
-            const: 'gems.cloudminds.com/v1beta1',
+            const: `gems.${process.env.VUE_APP_DOMAIN}/v1beta1`,
           },
           kind: {
             $id: '#/properties/kind',

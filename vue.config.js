@@ -1,5 +1,5 @@
 const timestamp = new Date().getTime()
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const path = require('path');
 
 module.exports = {
   productionSourceMap: true,
@@ -18,21 +18,16 @@ module.exports = {
         minSize: 10000,
         maxSize: 250000,
       },
-      minimizer: [
-        new UglifyJsPlugin({
-          uglifyOptions: {
-            warnings: false,
-            compress: {
-              pure_funcs: ['console.debug'],
-            },
-          },
-          sourceMap: true,
-          parallel: true,
-        }),
-      ],
     },
     devServer: {
-      disableHostCheck: true,
+      static: {
+        directory: path.join(__dirname, 'public'),
+      },
+      compress: false,
+      hot: true,
+      allowedHosts: "all",
+      port: 8080,
+      host: '0.0.0.0',
       proxy: {
         '/api/v1/': {
           target: 'http://172.16.23.119:8020',
@@ -73,6 +68,6 @@ module.exports = {
         sassOptions: { outputStyle: 'expanded' },
       },
     },
-    extract: true,
+    extract: { ignoreOrder: true },
   },
 }

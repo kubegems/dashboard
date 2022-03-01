@@ -71,16 +71,19 @@ router.beforeEach(async function (to, from, next) {
   } else {
     store.state.ReconnectCount = 0
     store.dispatch('INIT_MESSAGE_STREAM')
-    store.dispatch('INIT_PLUGINS')
+    // 虚拟空间
     if (to.params.virtualspace && store.state.VirtualSpaceStore.length === 0) {
       await store.dispatch('UPDATE_VIRTUALSPACE_DATA')
     }
+    // 集群
     if (
-      (to.params.cluster && store.state.ClusterStore.length === 0)
+      (to.params.cluster)
     ) {
       if (store.state.Admin) {
         store.commit('SET_ADMIN_VIEWPORT', true)
-        await store.dispatch('UPDATE_CLUSTER_DATA')
+        if (store.state.ClusterStore.length === 0) {
+          await store.dispatch('UPDATE_CLUSTER_DATA')
+        }
         store.commit('SET_LATEST_CLUSTER', { cluster: to.params.cluster })
       } else {
         next({ name: '403' })
@@ -147,6 +150,7 @@ router.beforeEach(async function (to, from, next) {
         environment: environment.EnvironmentName,
       })
     }
+    store.dispatch('INIT_PLUGINS')
     if (store.state.AdminViewport && to.meta.upToAdmin) {
       next({
         name: `admin-${to.name}`,

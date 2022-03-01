@@ -19,17 +19,14 @@
       </v-card-text>
     </v-card>
 
-    <v-flex
-      v-for="(plugins, key) in pluginGroup"
-      :key="key"
-    >
-      <v-flex class="kubegems__role text-subtitle-1 mt-3 font-weight-medium">
-        {{ key }}
-      </v-flex>
+    <v-flex>
+      <!-- <v-flex class="kubegems__role text-subtitle-1 mt-3 font-weight-medium">
+        {{ plugins }}
+      </v-flex> -->
       <v-row class="mt-0">
         <v-col
-          v-for="(plugin, index) in plugins"
-          :key="index"
+          v-for="(plugin, key) in pluginGroup"
+          :key="key"
           cols="3"
         >
           <v-hover #default="{ hover }">
@@ -217,7 +214,7 @@
 <script>
 import { mapGetters, mapState } from 'vuex'
 import {
-  getPluginList,
+  getClusterPluginsList,
   postEnablePlugin,
   postDisablePlugin,
   getPlatformVersion,
@@ -289,7 +286,7 @@ export default {
       }
     },
     async pluginList(process = false) {
-      const data = await getPluginList(this.Cluster().ID, {
+      const data = await getClusterPluginsList(this.Cluster().ClusterName, {
         noprocessing: process,
       })
       this.pluginDict = data
@@ -318,7 +315,7 @@ export default {
         content: { text: `启用组件 ${plugin.name}`, type: 'confirm' },
         param: { plugin },
         doFunc: async (param) => {
-          await postEnablePlugin(this.Cluster().ID, param.plugin.name, {
+          await postEnablePlugin(this.Cluster().ClusterName, param.plugin.name, {
             type: this.tabItems[this.tab].value.toLowerCase(),
           })
           this.pluginList(true)
@@ -334,7 +331,7 @@ export default {
         content: { text: `卸载组件 ${plugin.name}`, type: 'confirm' },
         param: { plugin },
         doFunc: async (param) => {
-          await postDisablePlugin(this.Cluster().ID, param.plugin.name, {
+          await postDisablePlugin(this.Cluster().ClusterName, param.plugin.name, {
             type: this.tabItems[this.tab].value.toLowerCase(),
           })
           this.pluginList(true)

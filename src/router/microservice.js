@@ -39,6 +39,7 @@ export const microService = [
           header: '微服务治理',
           title: '应用',
           icon: 'mdi-application',
+          dependencies: ['istio'],
         },
         component: () => import('@/layouts/Container'),
         redirect: { name: 'microapp-graph' },
@@ -149,6 +150,7 @@ export const microService = [
         meta: {
           title: '空间配置',
           icon: 'mdi-home-variant',
+          dependencies: ['istio'],
         },
         component: () => import('@/layouts/Container'),
         redirect: { name: 'istiogateway-list' },
@@ -185,6 +187,7 @@ export const microService = [
         meta: {
           title: 'Istio配置',
           icon: 'mdi-access-point-network',
+          dependencies: ['istio'],
         },
         component: () => import('@/layouts/Container'),
         redirect: { name: 'authorizationpolicy-list' },

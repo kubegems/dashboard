@@ -214,6 +214,11 @@ export default {
             show: false,
           },
           id: id,
+          animations: {
+            animateGradually: {
+              enabled: false,
+            },
+          },
         },
         title: {
           text: title,

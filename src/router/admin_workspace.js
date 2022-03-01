@@ -523,7 +523,7 @@ export const adminWorkspace = [
         meta: {
           title: '监控中心',
           icon: 'mdi-chart-bar',
-          dependencies: ['alertmanager', 'prometheus'],
+          dependencies: ['monitoring'],
           required: ['cluster'],
         },
         component: () => import('@/layouts/Container'),
