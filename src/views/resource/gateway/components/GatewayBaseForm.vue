@@ -195,7 +195,7 @@ export default {
     ],
     protocol: 'http/1.1',
     obj: {
-      apiVersion: 'gems.kubegems.io/v1beta1',
+      apiVersion: '',
       kind: 'TenantGateway',
       metadata: {
         name: '',
@@ -225,6 +225,9 @@ export default {
         baseDomainRule: [(v) => !!v || "域名格式错误（支持通配符'*'）"],
       }
     },
+    apiVersion() {
+      return `gems.${process.env.VUE_APP_DOMAIN}/v1beta1`
+    },
   },
   watch: {
     item() {
@@ -244,6 +247,7 @@ export default {
           } else {
             this.obj = deepCopy(this.item)
           }
+          this.obj.apiVersion = this.apiVersion
         }
         if (!this.AdminViewport) {
           this.obj.spec.tenant = this.Tenant().TenantName

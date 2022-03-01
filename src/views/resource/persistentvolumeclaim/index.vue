@@ -108,7 +108,7 @@
             :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
               $PVC_STATUS_COLOR[
                 item.metadata.annotations
-                  ? item.metadata.annotations['pvc.kubegems.io/in-use']
+                  ? item.metadata.annotations[`pvc.${process.env.VUE_APP_DOMAIN}/in-use`]
                   : 'undefined'
               ]
             };`"
@@ -117,7 +117,7 @@
             v-if="
               !(
                 item.metadata.annotations &&
-                item.metadata.annotations['pvc.kubegems.io/in-use']
+                item.metadata.annotations[`pvc.${process.env.VUE_APP_DOMAIN}/in-use`]
               )
             "
           >
@@ -126,7 +126,7 @@
           <span
             v-else-if="
               item.metadata.annotations &&
-                item.metadata.annotations['pvc.kubegems.io/in-use'] === 'true'
+                item.metadata.annotations[`pvc.${process.env.VUE_APP_DOMAIN}/in-use`] === 'true'
             "
           >
             已挂载
@@ -189,10 +189,10 @@
                   v-if="
                     item.metadata.annotations &&
                       item.metadata.annotations[
-                        'pvc.kubegems.io/allow-snapshot'
+                        `pvc.${process.env.VUE_APP_DOMAIN}/allow-snapshot`
                       ] &&
                       item.metadata.annotations[
-                        'pvc.kubegems.io/allow-snapshot'
+                        `pvc.${process.env.VUE_APP_DOMAIN}/allow-snapshot`
                       ] === 'true'
                   "
                 >

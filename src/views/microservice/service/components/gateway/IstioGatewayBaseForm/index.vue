@@ -140,9 +140,9 @@ export default {
   },
   methods: {
     loaddata() {
-      if (this.obj.spec.selector['gems.kubegems.io/istioGateway']) {
+      if (this.obj.spec.selector[`gems.${process.env.VUE_APP_DOMAIN}/istioGateway`]) {
         this.ingressgateway =
-          this.obj.spec.selector['gems.kubegems.io/istioGateway']
+          this.obj.spec.selector[`gems.${process.env.VUE_APP_DOMAIN}/istioGateway`]
       }
     },
     async istioGatewayInstanceList() {
@@ -163,9 +163,9 @@ export default {
     },
     onIngressgatewayChange() {
       this.obj.spec.selector = {}
-      this.obj.spec.selector['gems.kubegems.io/istioGateway'] =
+      this.obj.spec.selector[`gems.${process.env.VUE_APP_DOMAIN}/istioGateway`] =
         this.ingressgateway
-      this.obj.spec.selector['gems.kubegems.io/virtualSpace'] =
+      this.obj.spec.selector[`gems.${process.env.VUE_APP_DOMAIN}/virtualSpace`] =
         this.VirtualSpace().VirtualSpaceName
     },
     addServerData(data) {

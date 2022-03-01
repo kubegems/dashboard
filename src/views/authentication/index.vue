@@ -114,14 +114,7 @@
           </v-row>
         </div>
         <h6 class="px-12 text-subtitle-1 mt-4 copyright">
-          © 2021 — KubeGems by
-          <a
-            class="primary--text"
-            href="https://kubegems.io"
-            target="_blank"
-          >
-            kubegems.io
-          </a>
+          © 2021 — KubeGems by Kubegems.io
         </h6>
       </v-container>
     </v-col>
