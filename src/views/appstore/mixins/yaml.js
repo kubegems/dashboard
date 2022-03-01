@@ -1,23 +1,9 @@
-const yaml = require('js-yaml')
-const fs = require('fs')
 import YAML from 'yaml'
 import * as jsonpatch from 'fast-json-patch'
 import { isEmpty, set } from 'lodash'
 
 const YamlMixin = {
   methods: {
-    loadyaml(file) {
-      try {
-        const d = yaml.load(fs.readFileSync(file, 'utf8'))
-        return d
-      } catch (e) {
-        this.$store.commit('SET_SNACKBAR', {
-          text: e.reason,
-          color: 'warning',
-        })
-        return null
-      }
-    },
     // setValue modifies the current values (text) based on a path
     setValue(values, path, newValue = null) {
       const doc = YAML.parseDocument(JSON.stringify(values))
@@ -123,3 +109,4 @@ const YamlMixin = {
 }
 
 export { YamlMixin }
+
