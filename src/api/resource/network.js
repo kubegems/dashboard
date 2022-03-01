@@ -1,10 +1,10 @@
 import axios from 'axios'
-import { NETWORK_GROUP } from '@/utils/gvk'
+import { TENANT_NETWORK_POLICY_GROUP } from '@/utils/gvk'
 
 // 网络隔离策略详情
 export const getNetworkPolicyDetail = (clusterName, name, query = {}) =>
   axios(
-    `proxy/cluster/${clusterName}/${NETWORK_GROUP}/v1beta1/tenantnetworkpolicies/${name}`,
+    `proxy/cluster/${clusterName}/${TENANT_NETWORK_POLICY_GROUP}/v1beta1/tenantnetworkpolicies/${name}`,
     { params: query },
   )
 // 更新项目网络隔离策略

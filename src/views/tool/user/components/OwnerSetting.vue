@@ -101,7 +101,7 @@
 <script>
 import { mapState } from 'vuex'
 import { putUpdateUser, getLoginUserInfo, postResetPassword } from '@/api'
-import { required } from '@/utils/rules'
+import { required, email, password, phone } from '@/utils/rules'
 
 export default {
   name: 'OwnerSetting',
@@ -128,18 +128,8 @@ export default {
     ...mapState(['User']),
     objInfoRules() {
       return {
-        emailRules: [
-          (v) =>
-            !!new RegExp(
-              '^[\\.a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$',
-            ).test(v) || '邮箱格式错误',
-        ],
-        phoneRules: [
-          (v) =>
-            !!new RegExp(
-              '^1(3\\d|4[5-9]|5[0-35-9]|6[2567]|7[0-8]|8\\d|9[0-35-9])\\d{8}$',
-            ).test(v) || '手机号格式错误',
-        ],
+        emailRules: [email],
+        phoneRules: [phone],
       }
     },
     objPwdRules() {
@@ -147,19 +137,11 @@ export default {
         originRules: [required],
         new1Rules: [
           required,
-          (v) =>
-            new RegExp(
-              '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!\\.@#$%~])[A-Za-z\\d!\\.@#$%~]{8,16}',
-              'g',
-            ).test(v) || '包含大小写数字特殊字符8到16位密码',
+          password,
         ],
         new2Rules: [
           required,
-          (v) =>
-            new RegExp(
-              '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!\\.@#$%~])[A-Za-z\\d!\\.@#$%~]{8,16}',
-              'g',
-            ).test(v) || '包含大小写数字特殊字符8到16位密码',
+          password,
         ],
       }
     },

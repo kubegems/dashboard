@@ -206,7 +206,7 @@ export default {
       this.closeUserMenu()
     },
     toBook() {
-      window.open('https://docs.cloud.iamidata.com')
+      window.open(`https://docs.${process.env.VUE_APP_DOMAIN}`)
       this.closeUserMenu()
     },
     toUserCenter() {

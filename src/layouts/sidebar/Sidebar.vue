@@ -110,37 +110,38 @@
       :style="`max-height: ${height}px;overflow-y: auto;`"
     >
       <template v-for="(item, i) in items">
-        <!---If Sidebar Caption -->
-        <v-row
-          v-if="item.meta.header"
-          :key="item.meta.header"
-          align="center"
-          class="py-2"
-        >
-          <v-col
-            v-if="required(item.meta.required)"
-            cols="12"
-            class="pa-1"
+        <template v-if="required(item.meta.required) && pluginPass(item.meta.dependencies)">
+          <!---If Sidebar Caption -->
+          <v-row
+            v-if="item.meta.header"
+            :key="item.meta.header"
+            align="center"
+            class="py-2"
           >
-            <v-subheader
-              v-if="item.meta.header && (!expandOnHover || mouseovered)"
-              class="text-truncate"
+            <v-col
+              cols="12"
+              class="pa-1"
             >
-              {{ item.meta.header }}
-            </v-subheader>
-            <v-subheader
-              v-else
-              class="text-truncate"
-            >
-              <v-icon
-                x-small
-                class="dot"
+              <v-subheader
+                v-if="item.meta.header && (!expandOnHover || mouseovered)"
+                class="text-truncate"
               >
-                mdi-stop
-              </v-icon>
-            </v-subheader>
-          </v-col>
-        </v-row>
+                {{ item.meta.header }}
+              </v-subheader>
+              <v-subheader
+                v-else
+                class="text-truncate"
+              >
+                <v-icon
+                  x-small
+                  class="dot"
+                >
+                  mdi-stop
+                </v-icon>
+              </v-subheader>
+            </v-col>
+          </v-row>
+        </template>
         <!---If Sidebar Caption -->
         <BaseItemGroup
           v-if="item.children && pluginPass(item.meta.dependencies) && required(item.meta.required)"

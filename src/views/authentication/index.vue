@@ -114,14 +114,7 @@
           </v-row>
         </div>
         <h6 class="px-12 text-subtitle-1 mt-4 copyright">
-          © 2021 — KubeGems by
-          <a
-            class="primary--text"
-            href="https://cloudminds.com"
-            target="_blank"
-          >
-            cloudminds.com
-          </a>
+          © 2021 — KubeGems by Kubegems.io
         </h6>
       </v-container>
     </v-col>

@@ -278,12 +278,12 @@ export default {
       if (
         this.storageClass &&
         this.storageClass.metadata.annotations[
-          'storageclass.cloudminds.com/supported-access-modes'
+          `storageclass.${process.env.VUE_APP_DOMAIN}/supported-access-modes`
         ]
       ) {
         const modes =
           this.storageClass.metadata.annotations[
-            'storageclass.cloudminds.com/supported-access-modes'
+            `storageclass.${process.env.VUE_APP_DOMAIN}/supported-access-modes`
           ].split(',')
         const accessModes = []
         modes.forEach((mode) => {

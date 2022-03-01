@@ -354,7 +354,7 @@ export default {
     },
     podSeries() {
       return this.quota
-        ? [(this.quota.capacity.pods / this.quota.capacity.pods) * 100]
+        ? this.quota.capacity.pods === 0 ? [0] : [(this.quota.capacity.pods / this.quota.capacity.pods) * 100]
         : [0]
     },
     podOptions() {
