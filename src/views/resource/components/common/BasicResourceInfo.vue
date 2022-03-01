@@ -82,7 +82,7 @@
           {{
             item
               ? item.metadata.labels
-                ? item.metadata.labels[`gems.${process.env.VUE_APP_DOMAIN}/project`]
+                ? item.metadata.labels[`gems.${$DOMAIN}/project`]
                 : ''
               : ''
           }}
@@ -99,7 +99,7 @@
           {{
             item
               ? item.metadata.labels
-                ? item.metadata.labels[`gems.${process.env.VUE_APP_DOMAIN}/environment`]
+                ? item.metadata.labels[`gems.${$DOMAIN}/environment`]
                 : ''
               : ''
           }}
