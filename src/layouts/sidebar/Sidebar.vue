@@ -162,6 +162,7 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex'
+import { SIDEBAR_ITEMS } from './sidebar_items.js'
 
 export default {
   name: 'Sidebar',
@@ -254,12 +255,12 @@ export default {
       try {
         const module = this.$route.path.split('/')[1]
         this.modules = this.getModules()
-        const index = this.modules.findIndex((item) => {
+        const m = this.modules.find((item) => {
           return item.value === module
         })
-        if (index === -1) this.module = this.modules[0]
+        if (!m) this.module = this.modules[0]
         else {
-          this.module = this.modules[index]
+          this.module = m
         }
       } catch {
         this.module = this.modules[0]
@@ -268,104 +269,21 @@ export default {
     getModules() {
       let sidebar = []
       if (this.AdminViewport) {
-        sidebar = [
-          {
-            text: '集群资源',
-            sidebar: 'cluster',
-            value: 'admin-workspace',
-            icon: 'cib:kubernetes',
-            index: 0,
-          },
-          {
-            text: '可观测性',
-            sidebar: 'observe',
-            value: 'admin-observe',
-            icon: 'ic:baseline-visibility',
-            index: 2,
-          },
-          {
-            text: '平台管理',
-            sidebar: 'platform',
-            value: 'platform',
-            icon: 'cib:codesandbox',
-            index: 3,
-          },
-        ]
-      } else {
-        if (
-          (this.Environment().ID === 0 && this.Project().ID === 0) ||
-          this.$route.name === 'resource-dashboard'
-        ) {
-          sidebar = [
-            {
-              text: '容器服务',
-              sidebar: 'dashboard',
-              value: 'resource-dashboard',
-              icon: 'cib:kubernetes',
-              index: 0,
-            },
-            {
-              text: '可观测性',
-              sidebar: 'workspaceobserve',
-              value: 'observe',
-              icon: 'ic:baseline-visibility',
-              index: 2,
-            },
-          ]
-        } else if (
-          (this.Environment().ID === 0 && this.Project().ID !== 0) ||
-          this.$route.name === 'project-detail'
-        ) {
-          sidebar = [
-            {
-              text: '容器服务',
-              sidebar: 'projectspace',
-              value: 'project-detail',
-              icon: 'cib:kubernetes',
-              index: 0,
-            },
-            {
-              text: '可观测性',
-              sidebar: 'workspaceobserve',
-              value: 'observe',
-              icon: 'ic:baseline-visibility',
-              index: 2,
-            },
-          ]
-        } else {
-          sidebar = [
-            {
-              text: '容器服务',
-              sidebar: 'workspace',
-              value: 'environment-detail',
-              icon: 'cib:kubernetes',
-              index: 0,
-            },
-            {
-              text: '可观测性',
-              sidebar: 'workspaceobserve',
-              value: 'observe',
-              icon: 'ic:baseline-visibility',
-              index: 2,
-            },
-          ]
-        }
-      }
-      if (this.VirtualSpace().ID > 0) {
-        sidebar.splice(1, 0, {
-          text: '服务治理',
-          sidebar: 'virtualspace',
-          value: 'microservice',
-          icon: 'file-icons:service-fabric',
-          index: 1,
+        sidebar = SIDEBAR_ITEMS.filter(item => {
+          return this.pluginPass(item.dependencies)
+        }).filter(item => {
+          return item.admin || item.admin === 'all'
         })
       } else {
-        sidebar.splice(1, 0, {
-          text: '服务治理',
-          sidebar: 'microservice',
-          value: 'microservice',
-          icon: 'file-icons:service-fabric',
-          index: 1,
+        sidebar = SIDEBAR_ITEMS.filter(item => {
+          return this.pluginPass(item.dependencies)
+        }).filter(item => {
+          return !item.required ||
+            (item.required &&
+            this.$route.params &&
+            item.required.sort().join('') === Object.keys(this.$route.params).sort().join(''))
+        }).filter(item => {
+          return !item.admin || item.admin === 'all'
         })
       }
       return sidebar
@@ -373,7 +291,7 @@ export default {
     switchModule(module) {
       this.module = module
       this.expand = !this.expand
-      if (this.module.sidebar === 'dashboard') {
+      if (this.module.sidebar === 'dashboard' || this.module.sidebar === 'workspaceobserve') {
         this.$router.push({
           name: this.module.value,
           params: { tenant: this.Tenant().TenantName },
@@ -393,13 +311,6 @@ export default {
             tenant: this.Tenant().TenantName,
             project: this.Project().ProjectName,
             environment: this.Environment().EnvironmentName,
-          },
-        })
-      } else if (this.module.sidebar === 'workspaceobserve') {
-        this.$router.push({
-          name: this.module.value,
-          params: {
-            tenant: this.Tenant().TenantName,
           },
         })
       } else if (this.module.sidebar === 'cluster') {

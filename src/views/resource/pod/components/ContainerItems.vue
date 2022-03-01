@@ -270,6 +270,7 @@
     </v-sheet>
 
     <ContainerLog ref="containerLog" />
+    <Terminal ref="terminal" />
   </v-flex>
 </template>
 
@@ -278,7 +279,9 @@ import { mapState } from 'vuex'
 import ProbeInfo from '@/views/resource/components/common/ProbeInfo'
 import Logo from '@/views/resource/components/common/Logo'
 import ContainerLog from '@/views/resource/components/common/ContainerLog'
+import Terminal from '@/views/resource/components/common/Terminal'
 import BasePermission from '@/mixins/permission'
+import BaseResource from '@/mixins/resource'
 import { deepCopy } from '@/utils/helpers'
 
 export default {
@@ -287,8 +290,9 @@ export default {
     ProbeInfo,
     Logo,
     ContainerLog,
+    Terminal,
   },
-  mixins: [BasePermission],
+  mixins: [BasePermission, BaseResource],
   props: {
     containerStatuses: {
       type: Array,
@@ -309,7 +313,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['Plugins']),
+    ...mapState(['Plugins', 'AdminViewport']),
   },
   watch: {
     containerStatuses: {
@@ -370,17 +374,13 @@ export default {
       this.$refs.containerLog.open()
     },
     containerShell(container, pod) {
-      const routeData = this.$router.resolve({
-        name: this.AdminViewport ? 'admin-terminal-viewer' : 'terminal-viewer',
-        params: { name: pod.metadata.name },
-        query: {
-          type: 'shell',
-          namespace: pod.metadata.namespace,
-          cluster: this.ThisCluster,
-          container: container,
-        },
-      })
-      window.open(routeData.href, '_blank')
+      const item = {
+        namespace: pod.metadata.namespace,
+        name: pod.metadata.name,
+        containers: pod.spec.containers,
+      }
+      this.$refs.terminal.init(container, item, 'shell')
+      this.$refs.terminal.open()
     },
   },
 }

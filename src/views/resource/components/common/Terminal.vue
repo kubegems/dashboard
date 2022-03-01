@@ -8,6 +8,19 @@
     <template #header>
       <v-flex class="ml-2 text-h6 mt-n1">
         {{ item ? item.name : '' }}
+        <v-btn
+          depressed
+          color="white"
+          icon
+          @click="openOnBlankTab"
+        >
+          <v-icon
+            small
+            color="white"
+          >
+            mdi-open-in-new
+          </v-icon>
+        </v-btn>
       </v-flex>
     </template>
     <template #action>
@@ -108,7 +121,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
+import { mapState } from 'vuex'
 import BaseResource from '@/mixins/resource'
 import { deepCopy } from '@/utils/helpers'
 
@@ -187,8 +200,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['JWT', 'Scale']),
-    ...mapGetters(['Environment']),
+    ...mapState(['JWT', 'Scale', 'AdminViewport']),
     rows() {
       return parseInt(
         (window.innerHeight - 64 * this.Scale - 10) / (18.5 * this.getRate()),
@@ -361,6 +373,19 @@ export default {
       if (rate >= 0.8) return 1.047
       if (rate >= 0.75) return 1.045
       return 1
+    },
+    openOnBlankTab() {
+      const routeData = this.$router.resolve({
+        name: this.AdminViewport ? 'admin-terminal-viewer' : 'terminal-viewer',
+        params: { name: this.item.name },
+        query: {
+          type: 'shell',
+          namespace: this.item.namespace,
+          cluster: this.ThisCluster,
+          container: this.container,
+        },
+      })
+      window.open(routeData.href, '_blank')
     },
   },
 }

@@ -562,11 +562,11 @@ export default {
       }
     },
     onPageSizeChange(size) {
-      this.params.page = 1
-      this.params.size = size
+      this.page = 1
+      this.itemsPerPage = size
     },
     onPageIndexChange(page) {
-      this.params.page = page
+      this.page = page
     },
     onRowClick(item, { expand, isExpanded }) {
       expand(!isExpanded)
