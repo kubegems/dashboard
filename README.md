@@ -1,4 +1,4 @@
-[![Build Status](https://github.com/kubegems/dashboard/workflows/build/badge.svg)](https://github.com/kubegems/dashboard/actions)
+[![Build Status](https://github.com/kubegems/dashboard/workflows/Main/badge.svg)](https://github.com/kubegems/dashboard/actions)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 # 项目运行
