@@ -20,7 +20,7 @@
           v-model="params.namespace"
           :cluster="params.cluster"
           class="ml-4"
-          @update-items="onUpdateNamespaceItems"
+          @updateItems="onUpdateNamespaceItems"
           @change="onNamespaceChange"
         />
         <v-spacer />
