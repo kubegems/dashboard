@@ -42,7 +42,7 @@
                   </v-flex>
                   <v-flex
                     v-if="
-                      Plugins.tke_gpu_manager &&
+                      Plugins.gpu_manager &&
                         item &&
                         item.spec &&
                         item.spec.nodeSelector &&
@@ -61,7 +61,7 @@
                   >
                     <Logo
                       :width="16"
-                      icon-name="tke_gpu_manager"
+                      icon-name="gpu_manager"
                     />
                   </v-flex>
                   <v-flex
