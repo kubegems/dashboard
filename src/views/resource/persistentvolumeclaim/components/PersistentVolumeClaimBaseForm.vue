@@ -277,6 +277,8 @@ export default {
     accessModes() {
       if (
         this.storageClass &&
+        this.storageClass.metadata &&
+        this.storageClass.metadata.annotations &&
         this.storageClass.metadata.annotations[
           `storageclass.${process.env.VUE_APP_DOMAIN}/supported-access-modes`
         ]

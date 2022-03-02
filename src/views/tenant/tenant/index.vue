@@ -188,7 +188,7 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex'
-import { getTenantList, putActiveTenant, putForbideTenant, removeTenant } from '@/api'
+import { getTenantList, putActiveTenant, putForbideTenant, deleteTenant } from '@/api'
 import AddTenant from './components/AddTenant'
 import UpdateTenant from './components/UpdateTenant'
 import BaseSelect from '@/mixins/select'
@@ -308,7 +308,7 @@ export default {
         },
         param: { item },
         doFunc: async (param) => {
-          await removeTenant(param.item.ID)
+          await deleteTenant(param.item.ID)
           this.$store.commit('CLEAR_TENANT')
           await this.$store.dispatch('UPDATE_TENANT_DATA')
           this.tenantList()
