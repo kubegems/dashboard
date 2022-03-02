@@ -271,7 +271,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { getNodeList, cordonNode, vector } from '@/api'
+import { getNodeList, patchCordonNode, vector } from '@/api'
 import Logo from '@/views/resource/components/common/Logo'
 import GpuScheduleForm from './components/GpuScheduleForm'
 import BaseFilter from '@/mixins/base_filter'
@@ -460,7 +460,7 @@ export default {
         },
         param: { item },
         doFunc: async (param) => {
-          await cordonNode(this.ThisCluster, param.item.metadata.name, {
+          await patchCordonNode(this.ThisCluster, param.item.metadata.name, {
             Unschedulable: true,
           })
           this.nodeList()
@@ -476,7 +476,7 @@ export default {
         },
         param: { item },
         doFunc: async (param) => {
-          await cordonNode(this.ThisCluster, param.item.metadata.name, {
+          await patchCordonNode(this.ThisCluster, param.item.metadata.name, {
             Unschedulable: false,
           })
           this.nodeList()
