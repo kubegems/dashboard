@@ -6,7 +6,11 @@
       :small-title="$route.meta.smallTitle"
     />
     <v-main :style="`min-height: ${height}px;`">
-      <router-view />
+      <BasePluginPass>
+        <template #default>
+          <router-view />
+        </template>
+      </BasePluginPass>
       <Tool v-if="Admin" />
     </v-main>
   </v-app>
