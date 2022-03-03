@@ -214,7 +214,6 @@ export const workspace = [
               icon: 'mdi-gate',
               show: true,
               rootName: 'workspace',
-              dependencies: ['basic_gateway'],
             },
           },
           {
@@ -374,7 +373,6 @@ export const workspace = [
               icon: 'mdi-book-open',
               show: true,
               rootName: 'workspace',
-              dependencies: ['cert_manager'],
             },
           },
           {
@@ -415,6 +413,7 @@ export const workspace = [
               icon: 'mdi-database',
               show: true,
               rootName: 'workspace',
+              dependencies: ['local_path'],
             },
           },
           {
@@ -429,6 +428,7 @@ export const workspace = [
               icon: 'mdi-database',
               show: false,
               rootName: 'workspace',
+              dependencies: ['local_path'],
             },
           },
           // volumesnapshot
@@ -443,6 +443,7 @@ export const workspace = [
               icon: 'mdi-camera',
               show: true,
               rootName: 'workspace',
+              dependencies: ['local_path'],
             },
           },
         ],
@@ -470,6 +471,7 @@ export const workspace = [
               icon: 'mdi-eyedropper',
               show: true,
               rootName: 'workspace',
+              dependencies: ['monitoring'],
             },
           },
           {
@@ -483,6 +485,7 @@ export const workspace = [
               icon: 'mdi-eyedropper',
               show: false,
               rootName: 'workspace',
+              dependencies: ['monitoring'],
             },
           },
           // prometheusrule
@@ -497,6 +500,7 @@ export const workspace = [
               icon: 'mdi-ruler',
               show: true,
               rootName: 'workspace',
+              dependencies: ['monitoring'],
             },
           },
           {
@@ -510,6 +514,7 @@ export const workspace = [
               icon: 'mdi-ruler',
               show: false,
               rootName: 'workspace',
+              dependencies: ['monitoring'],
             },
           },
           // receivers
@@ -524,6 +529,7 @@ export const workspace = [
               icon: 'mdi-call-received',
               show: true,
               rootName: 'workspace',
+              dependencies: ['monitoring'],
             },
           },
         ],

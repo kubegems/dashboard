@@ -13,6 +13,7 @@ export const entryMicroService = [
           header: '微服务空间',
           title: '微服务空间',
           icon: 'mdi-cloud',
+          dependencies: ['istio'],
         },
         component: () => import('@/layouts/Container'),
         redirect: { name: 'virtualspace-list' },
@@ -28,6 +29,7 @@ export const entryMicroService = [
               title: '虚拟空间',
               show: true,
               rootName: 'entry-microservice',
+              dependencies: ['istio'],
             },
           },
           // dnsdomain
@@ -41,6 +43,7 @@ export const entryMicroService = [
               title: 'DNS管理',
               show: true,
               rootName: 'entry-microservice',
+              dependencies: ['istio'],
             },
           },
         ],
