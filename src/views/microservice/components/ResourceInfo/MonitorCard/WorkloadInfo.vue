@@ -71,7 +71,7 @@
               <span
                 :class="`v-avatar mr-2 ${
                   getWorkloadStatus($route.query.type, item) === 'pending'
-                    ? 'waiting-flashing'
+                    ? 'kubegems__waiting-flashing'
                     : ''
                 }`"
                 :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
@@ -140,7 +140,7 @@
                                 'Terminating',
                                 'PodInitializing',
                               ].indexOf(getPodStatus(pod)) > -1
-                                ? 'waiting-flashing'
+                                ? 'kubegems__waiting-flashing'
                                 : ''
                             } text-body-2`"
                             :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
@@ -218,24 +218,6 @@ export default {
 
 .overflow {
   overflow: auto;
-}
-
-.waiting-flashing {
-  animation-name: animate-waiting-flash;
-  animation-duration: 1s;
-  animation-timing-function: linear;
-  animation-delay: 0s;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-}
-
-@keyframes animate-waiting-flash {
-  from {
-    background-color: #fb8c00;
-  }
-  to {
-    background-color: white;
-  }
 }
 
 .cell-btn {

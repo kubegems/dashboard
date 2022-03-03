@@ -23,7 +23,7 @@
     <span class="float-right mr-1">
       <slot name="selector"></slot>
     </span>
-    <div class="float-clear"></div>
+    <div class="clear-float"></div>
     <v-divider v-if="divider" class="mr-2" />
   </v-sheet>
 </template>
@@ -57,9 +57,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.float-clear {
-  clear: both;
-}
 .title-line {
   line-height: 28px !important;
 }
