@@ -5,7 +5,7 @@
   >
     <BaseBreadcrumb :breadcrumb="breadcrumb" />
     <v-card class="mt-4 pa-4">
-      <div>
+      <div class="mb-4">
         <ClusterSelect
           v-model="params.cluster"
           :auto-select-first="!AdminViewport"

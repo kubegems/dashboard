@@ -140,7 +140,7 @@ import { mapState, mapGetters } from 'vuex'
 import { getDeploymentList, getStatefulSetList, getDaemonSetList, getServiceList, postUpdateMetricsTarget } from '@/api'
 import { deepCopy } from '@/utils/helpers'
 import { required } from '@/utils/rules'
-import getNamespaceItems from '@/views/observe/hooks/namespace'
+import getNamespaceItems from '@/views/observe/utils/namespace'
 import TargetsEndpoints from './TargetsEndpoints'
 import TargetsLabels from './TargetsLabels'
 

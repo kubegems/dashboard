@@ -21,6 +21,7 @@
           <span>{{ title }}</span>
           <v-icon
             class="drawer__close"
+            color="#fff"
             @click="onClose"
           >
             mdi-close
@@ -76,7 +77,7 @@ export default {
     // 抽屉宽度
     width: {
       type: String,
-      default: '30%',
+      default: '50%',
     },
     // 标题
     title: {
@@ -126,13 +127,14 @@ export default {
      * 点击遮罩层关闭
      */
     onClickMask () {
-      if (this.maskClose) this.visible = false
+      if (this.maskClose) this.onClose()
     },
     /**
      * 关闭
      */
     onClose () {
       this.visible = false
+      this.$emit('close')
     },
     /**
      * 确认
@@ -145,7 +147,7 @@ export default {
      */
     onCancel () {
       this.visible = false
-      this.$emit('cancel')
+      this.$emit('close')
     },
   },
 }
@@ -172,7 +174,6 @@ export default {
     display: flex;
     flex-direction: column;
     background-color: #ffffff;
-    border: 1px solid rgba(#000000, 0.12);
     box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%),
       0 2px 2px 0 rgb(0 0 0 / 14%),
       0 1px 5px 0 rgb(0 0 0 / 12%);
@@ -185,8 +186,8 @@ export default {
     height: 64px;
     padding: 16px;
     font-size: 1.25rem;
-    color: $primary;
-    border-bottom: 1px solid rgba(#000000, 0.12);
+    color: #ffffff;
+    background-color: $primary;
   }
 
   &__body {

@@ -210,7 +210,7 @@
 }
 
 $i: 24;
-// height
+
 @while $i > 0 {
   .kubegems__h-#{$i} {
     height: (100% / 24) * $i;

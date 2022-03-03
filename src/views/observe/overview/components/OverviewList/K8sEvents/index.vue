@@ -2,8 +2,6 @@
   <BaseDrawer
     v-model="visible"
     title="Kubernetes事件"
-    width="1200px"
-    :footer="false"
   >
     <div class="d-flex flex-column justify-space-around kubegems__h-24">
       <div class="kubegems__h-8">
