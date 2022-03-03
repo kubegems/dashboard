@@ -118,7 +118,7 @@
                 item.task &&
                 (item.task.status.status === 'Running' ||
                   item.task.status.status === 'Pending')
-                  ? 'waiting-flashing'
+                  ? 'kubegems__waiting-flashing'
                   : ''
               }`"
               :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
@@ -220,7 +220,7 @@
                 <span
                   :class="`v-avatar mr-2 ${
                     item.runtime.status === 'Progressing'
-                      ? 'waiting-flashing'
+                      ? 'kubegems__waiting-flashing'
                       : ''
                   }`"
                   :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
@@ -635,26 +635,3 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.waiting-flashing {
-  animation-name: animate-waiting-flash;
-  animation-duration: 1s;
-  animation-timing-function: linear;
-  animation-delay: 0s;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-}
-
-@keyframes animate-waiting-flash {
-  from {
-    background-color: #fb8c00;
-  }
-  to {
-    background-color: white;
-  }
-}
-
-.icon-font-status {
-  font-size: 18px !important;
-}
-</style>

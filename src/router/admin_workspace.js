@@ -233,7 +233,6 @@ export const adminWorkspace = [
               icon: 'mdi-gate',
               show: true,
               rootName: 'admin-workspace',
-              dependencies: ['basic_gateway'],
             },
           },
           {
@@ -393,7 +392,6 @@ export const adminWorkspace = [
               icon: 'mdi-book-open',
               show: true,
               rootName: 'admin-workspace',
-              dependencies: ['cert_manager'],
             },
           },
           {
@@ -473,6 +471,7 @@ export const adminWorkspace = [
               icon: 'mdi-database',
               show: true,
               rootName: 'admin-workspace',
+              dependencies: ['local_path'],
             },
           },
           {
@@ -487,6 +486,7 @@ export const adminWorkspace = [
               icon: 'mdi-database',
               show: false,
               rootName: 'admin-workspace',
+              dependencies: ['local_path'],
             },
           },
           // volumesnapshot
@@ -500,6 +500,7 @@ export const adminWorkspace = [
               icon: 'mdi-camera',
               show: true,
               rootName: 'admin-workspace',
+              dependencies: ['local_path'],
             },
           },
           // storageclass
@@ -514,6 +515,7 @@ export const adminWorkspace = [
               icon: 'mdi-database',
               show: true,
               rootName: 'admin-workspace',
+              dependencies: ['local_path'],
             },
           },
         ],
@@ -541,6 +543,7 @@ export const adminWorkspace = [
               icon: 'mdi-eyedropper',
               show: true,
               rootName: 'admin-workspace',
+              dependencies: ['monitoring'],
             },
           },
           {
@@ -554,6 +557,7 @@ export const adminWorkspace = [
               icon: 'mdi-eyedropper',
               show: false,
               rootName: 'admin-workspace',
+              dependencies: ['monitoring'],
             },
           },
           // prometheusrule
@@ -568,6 +572,7 @@ export const adminWorkspace = [
               icon: 'mdi-ruler',
               show: true,
               rootName: 'admin-workspace',
+              dependencies: ['monitoring'],
             },
           },
           {
@@ -581,6 +586,7 @@ export const adminWorkspace = [
               icon: 'mdi-ruler',
               show: false,
               rootName: 'admin-workspace',
+              dependencies: ['monitoring'],
             },
           },
           // receivers
@@ -595,6 +601,7 @@ export const adminWorkspace = [
               icon: 'mdi-call-received',
               show: true,
               rootName: 'admin-workspace',
+              dependencies: ['monitoring'],
             },
           },
         ],

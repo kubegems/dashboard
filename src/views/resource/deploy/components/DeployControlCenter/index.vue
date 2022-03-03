@@ -171,7 +171,7 @@
               <span
                 :class="`v-avatar mr-1 ${
                   status && status.status === 'Progressing'
-                    ? 'waiting-flashing'
+                    ? 'kubegems__waiting-flashing'
                     : ''
                 }`"
                 :style="`height: 10px; min-width: 10px; width: 10px; margin-top: -2px; background-color: ${
@@ -659,24 +659,6 @@ export default {
 
 .deploy-line-height {
   line-height: 28px;
-}
-
-.waiting-flashing {
-  animation-name: animate-waiting-flash;
-  animation-duration: 1s;
-  animation-timing-function: linear;
-  animation-delay: 0s;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-}
-
-@keyframes animate-waiting-flash {
-  from {
-    background-color: #fb8c00;
-  }
-  to {
-    background-color: white;
-  }
 }
 
 .error-msg {

@@ -110,7 +110,7 @@
       :style="`max-height: ${height}px;overflow-y: auto;`"
     >
       <template v-for="(item, i) in items">
-        <template v-if="required(item.meta.required) && pluginPass(item.meta.dependencies)">
+        <template v-if="required(item.meta.required)">
           <!---If Sidebar Caption -->
           <v-row
             v-if="item.meta.header"
@@ -144,13 +144,13 @@
         </template>
         <!---If Sidebar Caption -->
         <BaseItemGroup
-          v-if="item.children && pluginPass(item.meta.dependencies) && required(item.meta.required)"
+          v-if="item.children && required(item.meta.required)"
           :key="`group-${i}`"
           :item="item"
         />
 
         <BaseItem
-          v-else-if="!item.children && item.mata.show && pluginPass(item.meta.dependencies)"
+          v-else-if="!item.children && item.mata.show"
           :key="`item-${i}`"
           :item="item"
         />
@@ -240,17 +240,17 @@ export default {
       })
       return pass
     },
-    pluginPass(dependencies) {
-      let pass = true
-      if (dependencies === undefined) return pass
-      dependencies.forEach(d => {
-        if (!this.Plugins[d]) {
-          pass = false
-          return
-        }
-      })
-      return pass
-    },
+    // pluginPass(dependencies) {
+    //   let pass = true
+    //   if (dependencies === undefined) return pass
+    //   dependencies.forEach(d => {
+    //     if (!this.Plugins[d]) {
+    //       pass = false
+    //       return
+    //     }
+    //   })
+    //   return pass
+    // },
     reloadSidebar() {
       try {
         const module = this.$route.path.split('/')[1]
@@ -270,18 +270,18 @@ export default {
       let sidebar = []
       if (this.AdminViewport) {
         sidebar = SIDEBAR_ITEMS.filter(item => {
-          return this.pluginPass(item.dependencies)
-        }).filter(item => {
           return item.admin || item.admin === 'all'
         })
       } else {
+        // 特殊判断，可待优化
         sidebar = SIDEBAR_ITEMS.filter(item => {
-          return this.pluginPass(item.dependencies)
-        }).filter(item => {
           return !item.required ||
             (item.required &&
             this.$route.params &&
-            item.required.sort().join('') === Object.keys(this.$route.params).sort().join(''))
+            item.required.sort().join('') === Object.keys(this.$route.params).sort().join('')) ||
+            ((this.$route.meta.rootName === 'entry-microservice' ||
+              this.$route.meta.rootName === 'microservice') &&
+              item.required.sort().join('') === ['tenant'].join(''))
         }).filter(item => {
           return !item.admin || item.admin === 'all'
         })
