@@ -78,7 +78,7 @@
             color="success"
             text-color="white"
             class="mx-1 font-weight-medium"
-            x-small
+            small
           >
             {{ path.backend.serviceName }}｜{{ path.backend.servicePort }}
           </v-chip>

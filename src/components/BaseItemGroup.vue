@@ -23,7 +23,7 @@
         class="second-dd"
       />
 
-      <BaseItem v-else-if="child.meta.show && pluginPass(item.meta.dependencies)" :key="`item-${i}`" :item="child" text />
+      <BaseItem v-else-if="child.meta.show" :key="`item-${i}`" :item="child" text />
     </template>
   </v-list-group>
 </template>
@@ -87,17 +87,6 @@ export default {
           }
           return group
         }).indexOf(this.$route.name) > -1
-    },
-    pluginPass(dependencies) {
-      let pass = true
-      if (dependencies === undefined) return pass
-      dependencies.forEach(d => {
-        if (!this.Plugins[d]) {
-          pass = false
-          return
-        }
-      })
-      return pass
     },
   },
 }

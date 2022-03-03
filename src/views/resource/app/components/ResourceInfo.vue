@@ -76,27 +76,3 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.space {
-  word-break: break-all;
-  white-space: initial;
-}
-
-.waiting-flashing {
-  animation-name: animate-waiting-flash;
-  animation-duration: 1s;
-  animation-timing-function: linear;
-  animation-delay: 0s;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-}
-
-@keyframes animate-waiting-flash {
-  from {
-    background-color: #fb8c00;
-  }
-  to {
-    background-color: white;
-  }
-}
-</style>

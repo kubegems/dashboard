@@ -16,7 +16,7 @@ export const adminObserve = [
           header: '日志',
           title: '日志',
           icon: 'mdi-math-log',
-          dependencies: ['monitoring'],
+          dependencies: ['logging'],
         },
         component: () => import('@/layouts/Container'),
         redirect: { name: 'admin-log-viewer' },
@@ -33,6 +33,7 @@ export const adminObserve = [
               icon: 'mdi-format-list-bulleted',
               show: true,
               rootName: 'admin-observe',
+              dependencies: ['logging'],
             },
           },
           {
@@ -46,6 +47,7 @@ export const adminObserve = [
               icon: 'mdi-camera',
               show: true,
               rootName: 'admin-observe',
+              dependencies: ['logging'],
             },
           },
           {
@@ -59,6 +61,7 @@ export const adminObserve = [
               icon: 'mdi-arrange-send-backward',
               show: true,
               rootName: 'admin-observe',
+              dependencies: ['logging'],
             },
           },
           {
@@ -72,6 +75,7 @@ export const adminObserve = [
               icon: 'mdi-arrange-send-backward',
               show: false,
               rootName: 'admin-observe',
+              dependencies: ['logging'],
             },
           },
           {
@@ -85,6 +89,7 @@ export const adminObserve = [
               icon: 'mdi-router-wireless',
               show: true,
               rootName: 'admin-observe',
+              dependencies: ['logging'],
             },
           },
           {
@@ -98,6 +103,7 @@ export const adminObserve = [
               icon: 'mdi-router-wireless',
               show: false,
               rootName: 'admin-observe',
+              dependencies: ['logging'],
             },
           },
         ],
@@ -127,6 +133,7 @@ export const adminObserve = [
               icon: 'mdi-feature-search-outline',
               show: true,
               rootName: 'admin-observe',
+              dependencies: ['monitoring'],
             },
           },
           {
@@ -140,6 +147,7 @@ export const adminObserve = [
               icon: 'mdi-eyedropper',
               show: true,
               rootName: 'admin-observe',
+              dependencies: ['monitoring'],
             },
           },
         ],
@@ -169,6 +177,7 @@ export const adminObserve = [
               icon: 'mdi-history',
               show: true,
               rootName: 'admin-observe',
+              dependencies: ['monitoring'],
             },
           },
           {
@@ -182,6 +191,7 @@ export const adminObserve = [
               icon: 'mdi-history',
               show: true,
               rootName: 'admin-observe',
+              dependencies: ['monitoring'],
             },
           },
         ],
@@ -211,6 +221,7 @@ export const adminObserve = [
               icon: 'mdi-feature-search-outline',
               show: true,
               rootName: 'admin-observe',
+              dependencies: ['jaeger'],
             },
           },
           {
@@ -224,6 +235,7 @@ export const adminObserve = [
               icon: 'mdi-details',
               show: true,
               rootName: 'admin-observe',
+              dependencies: ['jaeger'],
             },
           },
         ],
