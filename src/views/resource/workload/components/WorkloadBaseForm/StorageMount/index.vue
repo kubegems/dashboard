@@ -127,7 +127,6 @@
               :volume-mount-name="volumeMountName"
               :volume="volume"
               :manifest="manifest"
-              :edid="componentEdit"
             />
           </v-form>
         </v-card-text>
@@ -214,6 +213,7 @@ export default {
       volumeMountName: null,
       volume: null,
       componentEdit: false,
+      editIndex: -1,
       obj: {
         metadata: {},
         spec: {
@@ -294,9 +294,12 @@ export default {
         if (!this.obj.spec.template.spec.volumes) {
           this.obj.spec.template.spec.volumes = []
         }
-        const vIndex = this.obj.spec.template.spec.volumes.findIndex((v) => {
-          return data && v.name === data.volume.name
-        })
+        let vIndex = this.editIndex
+        if (vIndex === -1) {
+          vIndex = this.obj.spec.template.spec.volumes.findIndex((v) => {
+            return data && v.name === data.volume.name
+          })
+        }
         if (!this.obj.spec.template.spec.volumes) {
           this.obj.spec.template.spec.volumes = []
         }
@@ -345,9 +348,12 @@ export default {
       if (!this.obj.spec.volumeClaimTemplates) {
         this.obj.spec.volumeClaimTemplates = []
       }
-      const vIndex = this.obj.spec.volumeClaimTemplates.findIndex((v) => {
-        return data && v.metadata.name === data.volumeClaimTemplate.metadata.name
-      })
+      let vIndex = this.editIndex
+      if (vIndex === -1) {
+        vIndex = this.obj.spec.volumeClaimTemplates.findIndex((v) => {
+          return data && v.metadata.name === data.volumeClaimTemplate.metadata.name
+        })
+      }
       if (!this.obj.spec.template.spec.volumes) {
         this.obj.spec.template.spec.volumes = []
       }
@@ -382,24 +388,25 @@ export default {
     },
     updateData(index) {
       const volume = this.obj.spec.template.spec.volumes[index]
+      this.editIndex = index
       if (volume.persistentVolumeClaim) {
         this.volumeMountName = volume.name
-        this.volume = volume
+        this.volume = deepCopy(volume)
         this.volumeType = 'PersistentVolumeClaim'
         this.expandCard(true)
       } else if (volume.configMap) {
         this.volumeMountName = volume.name
-        this.volume = volume
+        this.volume = deepCopy(volume)
         this.volumeType = 'ConfigMap'
         this.expandCard(true)
       } else if (volume.secret) {
         this.volumeMountName = volume.name
-        this.volume = volume
+        this.volume = deepCopy(volume)
         this.volumeType = 'Secret'
         this.expandCard(true)
       } else if (volume.hostPath) {
         this.volumeMountName = volume.name
-        this.volume = volume
+        this.volume = deepCopy(volume)
         this.volumeType = 'HostPath'
         this.expandCard(true)
       } else {
@@ -424,12 +431,13 @@ export default {
       })
     },
     updateVolumeTemplateData(index) {
+      this.editIndex = index
       const template = this.obj.spec.volumeClaimTemplates[index]
       if (template) {
         this.template = template
         this.volume = { name: template.metadata.name }
         this.volumeMountName = template.metadata.name
-        this.expandTemplateCard()
+        this.expandTemplateCard(true)
       }
     },
     removeVolumeTemplateData(index) {
@@ -447,27 +455,43 @@ export default {
       })
     },
     expandCard(componentEdit = false) {
-      this.componentEdit = componentEdit
-      this.expand = true
+      if (!componentEdit) {
+        this.volumeType = 'PersistentVolumeClaim'
+        this.editIndex = -1
+      }
+      this.$nextTick(() => {
+        this.componentEdit = componentEdit
+        this.expand = true
+      })
     },
-    expandTemplateCard() {
+    expandTemplateCard(componentEdit = false) {
+      if (!componentEdit) {
+        this.editIndex = -1
+      }
       this.volumeClaimTemplateComponent = 'VolumeClaimTemplateMount'
-      this.expandTemplate = true
+       this.$nextTick(() => {
+        this.componentEdit = componentEdit
+        this.expandTemplate = true
+      })
     },
     closeTemplateCard() {
       this.expandTemplate = false
       this.reset()
-      this.$refs.volumeClaimTemplateMount.$refs.form.reset()
       this.volumeClaimTemplateComponent = ''
+      this.template = null
+      this.volumeMountName = null
+      this.volume = null
+      this.componentEdit = false
+      this.editIndex = -1
     },
     closeCard() {
       this.expand = false
       this.reset()
-      if (this.volumeType) {
-        this.$refs[`${this.volumeType}Mount`].$refs.form.reset()
-      }
+      this.volumeType = ''
       this.volumeMountName = null
       this.volume = null
+      this.componentEdit = false
+      this.editIndex = -1
     },
     reset() {
       this.$refs.form.reset()

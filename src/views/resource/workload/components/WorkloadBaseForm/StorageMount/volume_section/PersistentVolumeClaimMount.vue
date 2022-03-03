@@ -105,13 +105,24 @@ export default {
       return null
     },
   },
+  watch: {
+    volume: {
+      handler: function() {
+        this.loadData()
+      },
+      deep: true,
+    },
+  },
   async mounted() {
     await this.persistentVolumeClaimList()
-    if (this.volume) {
-      this.volumeName = this.volume.persistentVolumeClaim.claimName
-    }
+    this.loadData()
   },
   methods: {
+    loadData() {
+      if (this.volume) {
+        this.volumeName = this.volume.persistentVolumeClaim.claimName
+      }
+    },
     async persistentVolumeClaimList() {
       let data = {}
       if (this.manifest) {
@@ -141,8 +152,8 @@ export default {
         .filter((v) => {
           return !(
             v.metadata.annotations &&
-            v.metadata.annotations[`pvc.${process.env.VUE_APP_DOMAIN}/in-use`] === 'true'
-          )
+            v.metadata.annotations[`pvc.${process.env.VUE_APP_DOMAIN}/in-use`] === 'true' &&
+            v.spec.accessModes.join('') === 'ReadWriteOnce')
         })
         .map((v) => {
           return {

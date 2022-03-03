@@ -160,15 +160,26 @@ export default {
       return rule
     },
   },
+  watch: {
+    volume: {
+      handler: function() {
+        this.loadData()
+      },
+      deep: true,
+    },
+  },
   async mounted() {
     await this.configMapList()
-    if (this.volume && this.volume.configMap) {
-      this.volumeName = this.volume.configMap.name
-      this.volumeCopy = deepCopy(this.volume)
-      this.configMapDetail()
-    }
+    this.loadData()
   },
   methods: {
+    loadData() {
+      if (this.volume && this.volume.configMap) {
+        this.volumeName = this.volume.configMap.name
+        this.volumeCopy = deepCopy(this.volume)
+        if (this.namespace.length > 0) { this.configMapDetail() }
+      }
+    },
     async configMapList() {
       let data = {}
       if (this.manifest) {
