@@ -15,6 +15,7 @@ export const microService = [
           header: '微服务空间',
           title: '虚拟空间',
           icon: 'mdi-cloud',
+          dependencies: ['istio'],
         },
         component: () => import('@/layouts/Container'),
         redirect: { name: 'virtualspace-detail' },
@@ -29,6 +30,7 @@ export const microService = [
               icon: 'mdi-cloud-outline',
               show: true,
               rootName: 'microservice',
+              dependencies: ['istio'],
             },
           },
         ],
@@ -55,6 +57,7 @@ export const microService = [
               icon: 'mdi-vector-polyline',
               show: true,
               rootName: 'microservice',
+              dependencies: ['istio'],
             },
           },
           // microworkload
@@ -68,6 +71,7 @@ export const microService = [
               icon: 'mdi-vector-arrange-above',
               show: true,
               rootName: 'microservice',
+              dependencies: ['istio'],
             },
           },
           {
@@ -80,6 +84,7 @@ export const microService = [
               icon: 'mdi-vector-arrange-above',
               show: false,
               rootName: 'microservice',
+              dependencies: ['istio'],
             },
           },
           // service
@@ -93,6 +98,7 @@ export const microService = [
               icon: 'mdi-network',
               show: true,
               rootName: 'microservice',
+              dependencies: ['istio'],
             },
           },
           {
@@ -105,6 +111,7 @@ export const microService = [
               icon: 'mdi-network',
               show: false,
               rootName: 'microservice',
+              dependencies: ['istio'],
             },
           },
         ],
@@ -114,6 +121,7 @@ export const microService = [
         meta: {
           title: '配置',
           icon: 'mdi-brightness-7',
+          dependencies: ['istio'],
         },
         component: () => import('@/layouts/Container'),
         redirect: { name: 'microconfigmap-list' },
@@ -129,6 +137,7 @@ export const microService = [
               icon: 'mdi-wrench',
               show: true,
               rootName: 'microservice',
+              dependencies: ['istio'],
             },
           },
           {
@@ -141,6 +150,7 @@ export const microService = [
               icon: 'mdi-wrench',
               show: false,
               rootName: 'microservice',
+              dependencies: ['istio'],
             },
           },
         ],
@@ -166,6 +176,7 @@ export const microService = [
               icon: 'mdi-gate',
               show: true,
               rootName: 'microservice',
+              dependencies: ['istio'],
             },
           },
           {
@@ -178,6 +189,7 @@ export const microService = [
               icon: 'mdi-gate',
               show: false,
               rootName: 'microservice',
+              dependencies: ['istio'],
             },
           },
         ],
@@ -204,6 +216,7 @@ export const microService = [
               icon: 'mdi-key',
               show: true,
               rootName: 'microservice',
+              dependencies: ['istio'],
             },
           },
           // gateways
@@ -217,6 +230,7 @@ export const microService = [
               icon: 'mdi-network',
               show: true,
               rootName: 'microservice',
+              dependencies: ['istio'],
             },
           },
           // peerauthentication
@@ -231,6 +245,7 @@ export const microService = [
               icon: 'mdi-vector-point',
               show: true,
               rootName: 'microservice',
+              dependencies: ['istio'],
             },
           },
           // serviceentry
@@ -244,6 +259,7 @@ export const microService = [
               icon: 'mdi-login-variant',
               show: true,
               rootName: 'microservice',
+              dependencies: ['istio'],
             },
           },
           // sidecar
@@ -257,6 +273,7 @@ export const microService = [
               icon: 'mdi-motorbike',
               show: true,
               rootName: 'microservice',
+              dependencies: ['istio'],
             },
           },
         ],

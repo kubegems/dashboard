@@ -13,7 +13,7 @@ export const observe = [
           header: '日志',
           title: '日志',
           icon: 'mdi-math-log',
-          dependencies: ['monitoring'],
+          dependencies: ['logging'],
           required: ['tenant'],
         },
         component: () => import('@/layouts/Container'),
@@ -31,6 +31,7 @@ export const observe = [
               icon: 'mdi-format-list-bulleted',
               show: true,
               rootName: 'observe',
+              dependencies: ['logging'],
             },
           },
           {
@@ -44,6 +45,7 @@ export const observe = [
               icon: 'mdi-camera',
               show: true,
               rootName: 'observe',
+              dependencies: ['logging'],
             },
           },
           {
@@ -57,6 +59,7 @@ export const observe = [
               icon: 'mdi-arrange-send-backward',
               show: true,
               rootName: 'observe',
+              dependencies: ['logging'],
             },
           },
           {
@@ -70,6 +73,7 @@ export const observe = [
               icon: 'mdi-arrange-send-backward',
               show: false,
               rootName: 'observe',
+              dependencies: ['logging'],
             },
           },
           {
@@ -83,6 +87,7 @@ export const observe = [
               icon: 'mdi-router-wireless',
               show: true,
               rootName: 'observe',
+              dependencies: ['logging'],
             },
           },
           {
@@ -96,6 +101,7 @@ export const observe = [
               icon: 'mdi-router-wireless',
               show: false,
               rootName: 'observe',
+              dependencies: ['logging'],
             },
           },
         ],
@@ -126,6 +132,7 @@ export const observe = [
               icon: 'mdi-feature-search-outline',
               show: true,
               rootName: 'observe',
+              dependencies: ['monitoring'],
             },
           },
           {
@@ -139,6 +146,7 @@ export const observe = [
               icon: 'mdi-eyedropper',
               show: true,
               rootName: 'observe',
+              dependencies: ['monitoring'],
             },
           },
         ],
@@ -169,6 +177,7 @@ export const observe = [
               icon: 'mdi-history',
               show: true,
               rootName: 'observe',
+              dependencies: ['monitoring'],
             },
           },
           {
@@ -182,6 +191,7 @@ export const observe = [
               icon: 'mdi-history',
               show: true,
               rootName: 'observe',
+              dependencies: ['monitoring'],
             },
           },
         ],
@@ -212,6 +222,7 @@ export const observe = [
               icon: 'mdi-feature-search-outline',
               show: true,
               rootName: 'observe',
+              dependencies: ['jaeger'],
             },
           },
           {
@@ -225,6 +236,7 @@ export const observe = [
               icon: 'mdi-details',
               show: true,
               rootName: 'observe',
+              dependencies: ['jaeger'],
             },
           },
         ],
