@@ -273,11 +273,15 @@ export default {
           return item.admin || item.admin === 'all'
         })
       } else {
+        // 特殊判断，可待优化
         sidebar = SIDEBAR_ITEMS.filter(item => {
           return !item.required ||
             (item.required &&
             this.$route.params &&
-            item.required.sort().join('') === Object.keys(this.$route.params).sort().join(''))
+            item.required.sort().join('') === Object.keys(this.$route.params).sort().join('')) ||
+            ((this.$route.meta.rootName === 'entry-microservice' ||
+              this.$route.meta.rootName === 'microservice') &&
+              item.required.sort().join('') === ['tenant'].join(''))
         }).filter(item => {
           return !item.admin || item.admin === 'all'
         })
