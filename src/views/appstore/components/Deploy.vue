@@ -108,9 +108,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.fixed {
-  position: fixed;
-}
 .deploy-wizard {
   overflow-y: auto;
 }

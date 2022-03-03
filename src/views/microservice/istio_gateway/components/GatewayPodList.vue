@@ -23,7 +23,7 @@
               'Terminating',
               'PodInitializing',
             ].indexOf(getPodStatus(item)) > -1
-              ? 'waiting-flashing'
+              ? 'kubegems__waiting-flashing'
               : ''
           }`"
           :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
@@ -107,22 +107,3 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.waiting-flashing {
-  animation-name: animate-waiting-flash;
-  animation-duration: 1s;
-  animation-timing-function: linear;
-  animation-delay: 0s;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-}
-
-@keyframes animate-waiting-flash {
-  from {
-    background-color: #fb8c00;
-  }
-  to {
-    background-color: white;
-  }
-}
-</style>
