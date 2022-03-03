@@ -1,12 +1,9 @@
-import store from '@/store'
-
 export const global = [
   {
     path: '/',
     name: 'index',
     redirect: {
       name: 'resource-dashboard',
-      params: { tenant: store.getters.Tenant().TenantName },
     },
   },
   {

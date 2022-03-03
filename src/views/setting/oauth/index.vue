@@ -1,72 +1,78 @@
 <template>
   <v-container fluid>
     <BaseBreadcrumb :breadcrumb="breadcrumb" />
-    <v-card>
-      <v-card-title class="py-2 kubegems__detail text-subtitle-1">认证设置</v-card-title>
-      <v-form
-        class="pa-4"
-        lazy-validation
+
+    <v-row class="mt-0">
+      <v-col
+        v-for="(auth, index) in oauthItems"
+        :key="index"
+        cols="3"
       >
-        <v-sheet
-          v-for="( auth, index ) in oauthItems"
-          :key="index"
-          class="grey lighten-4 rounded my-2"
+        <v-hover
+          #default="{ hover }"
         >
-          <v-list-item two-line>
-            <v-list-item-content class="py-1">
-              <v-list-item-subtitle class="text-body-2 py-0">
-                <v-list-item
-                  two-line
-                  class="float-left pa-0"
-                >
-                  <Logo
-                    class="mr-6 mt-1"
-                    :icon-name="auth.logo"
-                    :width="50"
-                  />
-                  <v-list-item-content class="py-0">
-                    <v-list-item-title class="text-subtitle-2 py-1">
-                      {{ auth.name }}
-                      <v-chip
-                        v-if="auth.enable"
-                        class="ml-1"
-                        small
-                        color="success"
-                      >
-                        已启用
-                      </v-chip>
-                    </v-list-item-title>
-                    <v-list-item-subtitle class="text-body-2 py-1">
-                      {{ auth.desc }}
-                    </v-list-item-subtitle>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list-item-subtitle>
-              <div class="kubegems__clear-float" />
-            </v-list-item-content>
-            <v-btn
-              class="mx-1"
-              depressed
-              right
-              small
-              color="primary"
-            >
-              配置
-            </v-btn>
-            <v-btn
+          <v-card
+            class="mx-auto oauth-pos"
+            height="100%"
+            :elevation="hover ? 5 : 0"
+          >
+            <v-list-item three-line>
+              <v-list-item-avatar
+                class="primary--text"
+                tile
+                size="80"
+              >
+                <Logo
+                  class="mr-6 mt-1"
+                  :icon-name="auth.logo"
+                  :width="60"
+                />
+              </v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title class="text-h6 mb-1">
+                  <a>
+                    {{ auth.name }}
+                  </a>
+                </v-list-item-title>
+                <v-list-item-subtitle>
+                  <span class="text-body-2"> 简介： </span>
+                  {{ auth.desc }}
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+
+            <v-card-actions>
+              <v-spacer />
+              <v-btn
+                text
+                small
+                color="primary"
+              >
+                配置
+              </v-btn>
+              <v-btn
+                text
+                small
+                color="error"
+              >
+                停止
+              </v-btn>
+            </v-card-actions>
+
+            <v-flex
               v-if="auth.enable"
-              class="mx-1"
-              depressed
-              right
-              small
-              color="error"
+              class="oauth-watermark-bg"
+            />
+            <v-flex
+              v-if="auth.enable"
+              class="oauth-watermark font-weight-medium"
             >
-              停止
-            </v-btn>
-          </v-list-item>
-        </v-sheet>
-      </v-form>
-    </v-card>
+              已启用
+            </v-flex>
+          </v-card>
+        </v-hover>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -87,9 +93,9 @@ export default {
     },
     oauthItems: [
       { name: 'Kubegems (Default)', logo: 'kubegems', desc: 'Kubegems 内置的数据库认证', enable: true },
-      { name: 'OpenLdap', logo: 'openldap', desc: '使您的组织能够使用 Ldap 协议登录', enable: false},
-      { name: 'Oauth', logo: 'oauth', desc: '使您的组织能够使用 Oauth 协议登录', enable: false },
-      { name: 'Gitlab', logo: 'gitlab', desc: '使您的组织能够使用 Gitlab 登录', enable: false },
+      { name: 'OpenLdap', logo: 'openldap', desc: '您的组织能够使用Ldap协议登录', enable: false},
+      { name: 'Oauth', logo: 'oauth', desc: '您的组织能够使用Oauth协议登录', enable: false },
+      { name: 'Gitlab', logo: 'gitlab', desc: '您的组织能够使用 Gitlab 登录', enable: false },
     ],
   }),
   mounted() {
@@ -104,3 +110,34 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.oauth-pos {
+  position: relative;
+  background-color: #ffffff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.oauth-watermark-bg {
+  position: absolute;
+  width: 120px;
+  height: 90px;
+  transform: rotate(47deg);
+  top: -46px;
+  right: -55px;
+  background-color: #1e88e5;
+  padding: 0;
+}
+
+.oauth-watermark {
+  position: absolute;
+  top: 13px;
+  right: 4px;
+  transform: rotate(47deg);
+  text-transform: uppercase;
+  color: white;
+  font-size: 12px;
+}
+</style>

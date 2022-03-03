@@ -20,7 +20,7 @@
           v-model="params.namespace"
           :cluster="params.cluster"
           class="ml-4"
-          @update-items="setNamespaceItems"
+          @updateItems="setNamespaceItems"
           @change="onNamespaceChange"
         />
         <v-spacer />
@@ -146,7 +146,7 @@
       ref="flowBaseForm"
       :cluster="params.cluster"
       :namespace-items="namespaceItems"
-      @finish-submit="getFlowList"
+      @finishSubmit="getFlowList"
     />
   </v-container>
 </template>

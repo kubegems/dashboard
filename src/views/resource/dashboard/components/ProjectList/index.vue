@@ -56,7 +56,6 @@
             :items="environmentItems"
             no-data-text="暂无数据"
             hide-default-footer
-            dense
           >
             <template #[`item.environmentName`]="{ item }">
               <BaseMarquee
