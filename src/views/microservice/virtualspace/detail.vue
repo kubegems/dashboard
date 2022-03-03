@@ -109,7 +109,7 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex'
-import { getVirtualSpaceDetail, removeVirtualSpace } from '@/api'
+import { getVirtualSpaceDetail, deleteVirtualSpace } from '@/api'
 import DashboardCard from './components/DashboardCard'
 import EnvironmentList from './components/EnvironmentList'
 import ManageUser from './components/ManageUser'
@@ -162,7 +162,7 @@ export default {
         },
         param: { item },
         doFunc: async (param) => {
-          await removeVirtualSpace(param.item.ID)
+          await deleteVirtualSpace(param.item.ID)
           this.$store.commit('CLEAR_VIRTUAL_SPACE')
           this.$router.push({
             name: 'virtualspace-list',

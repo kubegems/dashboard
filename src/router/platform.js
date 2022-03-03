@@ -173,6 +173,7 @@ export const platform = [
               icon: 'mdi-bell',
               show: true,
               rootName: 'platform',
+              dependencies: ['eventer'],
             },
           },
           // 镜像安全

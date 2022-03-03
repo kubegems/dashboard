@@ -160,15 +160,26 @@ export default {
       return rule
     },
   },
+  watch: {
+    volume: {
+      handler: function() {
+        this.loadData()
+      },
+      deep: true,
+    },
+  },
   async mounted() {
     await this.secretList()
-    if (this.volume) {
-      this.volumeName = this.volume.secret.secretName
-      this.volumeCopy = deepCopy(this.volume)
-      this.secretDetail()
-    }
+    this.loadData()
   },
   methods: {
+    loadData() {
+      if (this.volume) {
+        this.volumeName = this.volume.secret.secretName
+        this.volumeCopy = deepCopy(this.volume)
+        if (this.namespace.length > 0) { this.secretDetail() }
+      }
+    },
     async secretList() {
       let data = {}
       if (this.manifest) {
@@ -191,8 +202,8 @@ export default {
         this.items = data.List
       }
       this.items.forEach((v) => {
-        v.text = v.secret.metadata.name
-        v.value = v.secret.metadata.name
+        v.text = v.secret ? v.secret.metadata.name : v.metadata.name
+        v.value = v.secret ? v.secret.metadata.name : v.metadata.name
       })
     },
     async secretDetail() {

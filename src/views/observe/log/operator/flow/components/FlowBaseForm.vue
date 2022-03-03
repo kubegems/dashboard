@@ -84,7 +84,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { addFlow, addClusterFlow } from '@/api'
+import { postFlowData, postClusterFlowData } from '@/api'
 import { deleteEmpty, deepCopy } from '@/utils/helpers'
 import { required } from '@/utils/rules'
 
@@ -152,7 +152,7 @@ export default {
     async onSubmit() {
       if (this.$refs.form.validate(true)) {
         this.submitLoading = true
-        const action = this.formData.kind === 'Flow' ? addFlow : addClusterFlow
+        const action = this.formData.kind === 'Flow' ? postFlowData : postClusterFlowData
         const { namespace, name } = this.formData.metadata
         await action(this.cluster, namespace, name, deleteEmpty(this.formData))
         this.submitLoading = false

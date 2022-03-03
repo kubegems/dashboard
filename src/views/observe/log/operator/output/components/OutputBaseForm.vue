@@ -108,7 +108,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { addOutput, addClusterOutput } from '@/api'
+import { postOutputData, postClusterOutputData } from '@/api'
 import { deleteEmpty, deepCopy } from '@/utils/helpers'
 import { required } from '@/utils/rules'
 
@@ -189,8 +189,7 @@ export default {
     async onSubmit() {
       if (this.$refs.form.validate(true)) {
         this.submitLoading = true
-        const action =
-          this.formData.kind === 'Output' ? addOutput : addClusterOutput
+        const action = this.formData.kind === 'Output' ? postOutputData : postClusterOutputData
         const { namespace, name } = this.formData.metadata
         await action(this.cluster, namespace, name, deleteEmpty(this.formData))
         this.submitLoading = false

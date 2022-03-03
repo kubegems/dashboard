@@ -302,7 +302,7 @@ export default {
       this.$refs.form.reset()
     },
     setDomain(obj) {
-      obj.spec.baseDomain = '*.gemscloud.com'
+      obj.spec.baseDomain = `*.${process.env.VUE_APP_DOMAIN}`
     },
     help() {
       window.open(

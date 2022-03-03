@@ -137,7 +137,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .pagination {
   position: absolute;
   left: 50%;

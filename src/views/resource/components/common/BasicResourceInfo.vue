@@ -4,7 +4,7 @@
       {{ item ? item.metadata.name : '' }}
       <template
         v-if="
-          Plugins.tke_gpu_manager &&
+          Plugins.gpu_manager &&
             item &&
             item.kind === 'Pod' &&
             item.spec &&
@@ -25,11 +25,11 @@
               class="mt-1 mr-2"
               v-on="on"
             >
-              <Logo icon-name="tke_gpu_manager" />
+              <Logo icon-name="gpu_manager" />
             </span>
           </template>
           <v-card>
-            <v-card-text class="pa-2">tke_gpu_manager </v-card-text>
+            <v-card-text class="pa-2">gpu_manager </v-card-text>
           </v-card>
         </v-menu>
       </template>

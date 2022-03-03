@@ -168,7 +168,7 @@ import { mapGetters, mapState } from 'vuex'
 import {
   getAppResourceFiles,
   deleteAppResourceFile,
-  syncAppResource,
+  postSyncAppResource,
   postRefreshAppResource,
 } from '@/api'
 import AddResourceFile from './AddResourceFile'
@@ -325,7 +325,7 @@ export default {
         },
         param: {},
         doFunc: async () => {
-          await syncAppResource(
+          await postSyncAppResource(
             this.app.TenantID,
             this.app.ProjectID,
             this.ThisAppEnvironmentID,

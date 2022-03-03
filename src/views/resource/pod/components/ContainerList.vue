@@ -223,6 +223,7 @@
     </v-data-table>
 
     <ContainerLog ref="containerLog" />
+    <Terminal ref="terminal" />
   </v-sheet>
 </template>
 
@@ -230,6 +231,7 @@
 import { mapState } from 'vuex'
 import { matrix } from '@/api'
 import ContainerLog from '@/views/resource/components/common/ContainerLog'
+import Terminal from '@/views/resource/components/common/Terminal'
 import BasePermission from '@/mixins/permission'
 import BaseResource from '@/mixins/resource'
 import { beautifyCpuUnit, beautifyStorageUnit } from '@/utils/helpers'
@@ -242,6 +244,7 @@ export default {
   name: 'ContainerList',
   components: {
     ContainerLog,
+    Terminal,
   },
   mixins: [BasePermission, BaseResource],
   props: {
@@ -392,30 +395,22 @@ export default {
       this.$refs.containerLog.open()
     },
     containerShell(container) {
-      const routeData = this.$router.resolve({
-        name: this.AdminViewport ? 'admin-terminal-viewer' : 'terminal-viewer',
-        params: { name: this.item.metadata.name },
-        query: {
-          type: 'shell',
-          namespace: this.item.metadata.namespace,
-          cluster: this.ThisCluster,
-          container: container,
-        },
-      })
-      window.open(routeData.href, '_blank')
+      const item = {
+        namespace: this.item.metadata.namespace,
+        name: this.item.metadata.name,
+        containers: this.item.spec.containers,
+      }
+      this.$refs.terminal.init(container, item, 'shell')
+      this.$refs.terminal.open()
     },
     containerDebug(container) {
-      const routeData = this.$router.resolve({
-        name: this.AdminViewport ? 'admin-terminal-viewer' : 'terminal-viewer',
-        params: { name: this.item.metadata.name },
-        query: {
-          type: 'debug',
-          namespace: this.item.metadata.namespace,
-          cluster: this.ThisCluster,
-          container: container,
-        },
-      })
-      window.open(routeData.href, '_blank')
+      const item = {
+        namespace: this.item.metadata.namespace,
+        name: this.item.metadata.name,
+        containers: this.item.spec.containers,
+      }
+      this.$refs.terminal.init(container, item, 'debug')
+      this.$refs.terminal.open()
     },
     getContainerStatus(item) {
       if (item.state) {

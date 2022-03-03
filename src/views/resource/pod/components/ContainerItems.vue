@@ -42,7 +42,7 @@
                   </v-flex>
                   <v-flex
                     v-if="
-                      Plugins.tke_gpu_manager &&
+                      Plugins.gpu_manager &&
                         item &&
                         item.spec &&
                         item.spec.nodeSelector &&
@@ -61,7 +61,7 @@
                   >
                     <Logo
                       :width="16"
-                      icon-name="tke_gpu_manager"
+                      icon-name="gpu_manager"
                     />
                   </v-flex>
                   <v-flex
@@ -254,7 +254,7 @@
                           container.state.terminated.startedAt,
                           'YYYY-MM-DDTHH:mm:ssZ',
                         ).fromNow()
-                        : ''
+                        : '未知'
                     }}
                   </span>
                 </v-list-item-title>
@@ -270,6 +270,7 @@
     </v-sheet>
 
     <ContainerLog ref="containerLog" />
+    <Terminal ref="terminal" />
   </v-flex>
 </template>
 
@@ -278,7 +279,9 @@ import { mapState } from 'vuex'
 import ProbeInfo from '@/views/resource/components/common/ProbeInfo'
 import Logo from '@/views/resource/components/common/Logo'
 import ContainerLog from '@/views/resource/components/common/ContainerLog'
+import Terminal from '@/views/resource/components/common/Terminal'
 import BasePermission from '@/mixins/permission'
+import BaseResource from '@/mixins/resource'
 import { deepCopy } from '@/utils/helpers'
 
 export default {
@@ -287,8 +290,9 @@ export default {
     ProbeInfo,
     Logo,
     ContainerLog,
+    Terminal,
   },
-  mixins: [BasePermission],
+  mixins: [BasePermission, BaseResource],
   props: {
     containerStatuses: {
       type: Array,
@@ -309,7 +313,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['Plugins']),
+    ...mapState(['Plugins', 'AdminViewport']),
   },
   watch: {
     containerStatuses: {
@@ -370,18 +374,38 @@ export default {
       this.$refs.containerLog.open()
     },
     containerShell(container, pod) {
-      const routeData = this.$router.resolve({
-        name: this.AdminViewport ? 'admin-terminal-viewer' : 'terminal-viewer',
-        params: { name: pod.metadata.name },
-        query: {
-          type: 'shell',
-          namespace: pod.metadata.namespace,
-          cluster: this.ThisCluster,
-          container: container,
-        },
-      })
-      window.open(routeData.href, '_blank')
+      const item = {
+        namespace: pod.metadata.namespace,
+        name: pod.metadata.name,
+        containers: pod.spec.containers,
+      }
+      this.$refs.terminal.init(container, item, 'shell')
+      this.$refs.terminal.open()
     },
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.waiting-flashing {
+  animation-name: animate-waiting-flash;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-delay: 0s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes animate-waiting-flash {
+  from {
+    background-color: #fb8c00;
+  }
+  to {
+    background-color: white;
+  }
+}
+
+.icon {
+  height: 16px;
+}
+</style>

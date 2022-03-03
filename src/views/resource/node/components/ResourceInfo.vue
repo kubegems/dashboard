@@ -16,7 +16,7 @@
       </v-col>
       <v-col
         v-if="
-          Plugins.tke_gpu_manager &&
+          Plugins.gpu_manager &&
             item &&
             item.metadata &&
             item.metadata.labels['tencent.com/vcuda'] &&
@@ -58,7 +58,7 @@
       </v-col>
       <v-col
         v-if="
-          Plugins.tke_gpu_manager &&
+          Plugins.gpu_manager &&
             item &&
             item.metadata &&
             item.metadata.labels['tencent.com/vcuda'] &&
@@ -281,7 +281,7 @@ export default {
       if (
         this.item &&
         this.item.metadata &&
-        this.Plugins.tke_gpu_manager &&
+        this.Plugins.gpu_manager &&
         this.item.metadata.labels['tencent.com/vcuda'] &&
         this.item.metadata.labels['tencent.com/vcuda'] === 'true' &&
         this.Plugins.nvidia_device_plugin &&
@@ -293,7 +293,7 @@ export default {
       if (
         this.item &&
         this.item.metadata &&
-        this.Plugins.tke_gpu_manager &&
+        this.Plugins.gpu_manager &&
         this.item.metadata.labels['tencent.com/vcuda'] &&
         this.item.metadata.labels['tencent.com/vcuda'] === 'true'
       ) {
@@ -311,12 +311,12 @@ export default {
       return 4
     },
     cpuSeries() {
-      return this.totalRequests['cpu'] && this.totalLimits['cpu']
+      return this.totalRequests['cpu'] && this.item.status.capacity['cpu']
         ? [
-            sizeOfCpu(this.totalLimits['cpu']) === 0
+            sizeOfCpu(this.item.status.capacity['cpu']) === 0
               ? 0
               : (sizeOfCpu(this.totalRequests['cpu']) /
-                  sizeOfCpu(this.totalLimits['cpu'])) *
+                  sizeOfCpu(this.item.status.capacity['cpu'])) *
                 100,
           ]
         : [0]
@@ -325,17 +325,17 @@ export default {
       return generateRadialBarChartOptions(
         'CPU',
         ['CPU'],
-        this.totalRequests['cpu'] ? sizeOfCpu(this.totalLimits['cpu']) : 0,
+        this.totalRequests['cpu'] ? sizeOfCpu(this.item.status.capacity['cpu']) : 0,
         'core',
       )
     },
     memorySeries() {
-      return this.totalRequests['memory'] && this.totalLimits['memory']
+      return this.totalRequests['memory'] && this.item.status.capacity['memory']
         ? [
-            sizeOfStorage(this.totalLimits['memory']) === 0
+            sizeOfStorage(this.item.status.capacity['memory']) === 0
               ? 0
               : (sizeOfStorage(this.totalRequests['memory']) /
-                  sizeOfStorage(this.totalLimits['memory'])) *
+                  sizeOfStorage(this.item.status.capacity['memory'])) *
                 100,
           ]
         : [0]
@@ -345,7 +345,7 @@ export default {
         '内存',
         ['内存'],
         this.totalRequests['memory']
-          ? sizeOfStorage(this.totalLimits['memory'])
+          ? sizeOfStorage(this.item.status.capacity['memory'])
           : 0,
         'Gi',
       )
