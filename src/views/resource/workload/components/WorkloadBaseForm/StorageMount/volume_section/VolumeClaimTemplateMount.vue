@@ -23,7 +23,7 @@
       <v-flex class="float-left text-subtitle-2 py-1 primary--text kubegems__min-width" />
       <v-flex class="float-left ml-2 kubegems__form-width">
         <v-autocomplete
-          v-if="!manifest"
+          v-if="$route.params.environment"
           v-model="obj.spec.storageClassName"
           :items="storageClasses"
           :rules="objRules.storageClassNameRule"
@@ -45,6 +45,10 @@
           </template>
         </v-autocomplete>
       </v-flex>
+      <div class="kubegems__clear-float" />
+    </v-sheet>
+    <v-sheet class="px-2">
+      <v-flex class="float-left text-subtitle-2 py-1 primary--text kubegems__min-width" />
       <v-flex class="float-left ml-2 kubegems__form-width">
         <v-autocomplete
           v-model="obj.spec.accessModes[0]"
@@ -67,7 +71,6 @@
           </template>
         </v-autocomplete>
       </v-flex>
-      <v-flex class="float-left text-subtitle-2 pt-4 primary--text kubegems__min-width" />
       <v-flex class="float-left ml-2 kubegems__form-width">
         <v-text-field
           v-model="obj.spec.resources.requests.storage"
@@ -116,10 +119,6 @@ export default {
     template: {
       type: Object,
       default: () => null,
-    },
-    manifest: {
-      type: Boolean,
-      default: () => false,
     },
   },
   data() {
@@ -206,12 +205,9 @@ export default {
   },
   methods: {
     async storageClassList() {
-      let data = {}
-      if (!this.manifest) {
-        data = await getStorageClassList(this.ThisCluster, {
-          size: 500,
-        })
-      }
+      const data = await getStorageClassList(this.ThisCluster, {
+        size: 500,
+      })
       this.storageClasses = data.List
       this.storageClasses.forEach((v) => {
         v.text = v.metadata.name

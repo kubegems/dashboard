@@ -8,10 +8,10 @@
       <v-list-item two-line>
         <v-list-item-content class="py-0">
           <v-list-item-subtitle class="text-subtitle-2 py-1 primary--text">
-            <v-flex class="float-left kubegems__mount-width">
+            <v-flex class="kubegems__mount-width">
               <v-list-item
                 two-line
-                class="pl-0"
+                class="pl-0 list-item-height"
               >
                 <v-list-item-title
                   class="text-subtitle-1 py-1 primary--text font-weight-medium"
@@ -36,8 +36,8 @@
             <v-flex class="float-left">
               <v-list-item
                 two-line
-                class="float-left"
-                style="width: 150px;"
+                class="float-left px-0"
+                style="width: 200px;"
               >
                 <v-list-item-content class="py-0">
                   <v-list-item-title class="text-subtitle-2 py-1">
@@ -51,7 +51,7 @@
               <v-list-item
                 two-line
                 class="float-left"
-                style="width: 100px;"
+                style="width: 200px;"
               >
                 <v-list-item-content class="py-0">
                   <v-list-item-title class="text-subtitle-2 py-1">
@@ -64,7 +64,7 @@
               </v-list-item>
               <v-list-item
                 two-line
-                class="float-left"
+                class="float-left px-0"
                 style="width: 200px;"
               >
                 <v-list-item-content class="py-0">
@@ -253,3 +253,9 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.list-item-height {
+  min-height: 20px !important;
+}
+</style>

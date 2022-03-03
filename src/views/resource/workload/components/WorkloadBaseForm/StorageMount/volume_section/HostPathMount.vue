@@ -75,10 +75,21 @@ export default {
       },
     }
   },
+  watch: {
+    volume: {
+      handler: function() {
+        this.loadData()
+      },
+      deep: true,
+    },
+  },
   async mounted() {
-    if (this.volume) this.volumeObj = this.volume
+    this.loadData()
   },
   methods: {
+    loadData() {
+      if (this.volume) this.volumeObj = this.volume
+    },
     // eslint-disable-next-line vue/no-unused-properties
     generateData() {
       if (this.$refs.form.validate(true)) {
