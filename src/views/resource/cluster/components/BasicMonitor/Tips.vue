@@ -2,30 +2,49 @@
   <div class="d-flex">
     <v-menu
       open-on-hover
-      max-height="400px"
+      bottom
+      max-height="320px"
       max-width="200px"
       offset-y
-      bottom
       origin="top center"
       transition="scale-transition"
       :close-on-content-click="false"
+      :close-delay="200"
     >
       <template #activator="{ on }">
         <!-- 暴露作用域插槽 -->
         <slot :on="on" />
       </template>
-      <v-card>
-        <v-list dense>
-          <v-flex class="text-subtitle-2 text-center ma-2">
+      <v-card flat>
+        <v-list
+          dense
+          class="pa-0"
+        >
+          <v-flex class="text-body-2 text-center primary white--text py-2">
+            <v-icon
+              color="white"
+              left
+              small
+            >
+              mdi-alert
+            </v-icon>
             <span>{{ title }}</span>
           </v-flex>
-          <v-divider class="mx-2" />
-          <v-list-item
-            v-for="(msg, index) in item"
-            :key="index"
-          >
-            <v-list-item-content class="text-body-2">
-              {{ msg }}
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item
+                v-for="(msg, index) in item"
+                :key="index"
+                two-line
+                class="float-left pa-0"
+              >
+                <v-list-item-content class="py-0">
+                  <v-list-item-title> 事件 {{ index + 1 }} </v-list-item-title>
+                  <v-list-item-content class="text-caption kubegems__detail">
+                    {{ msg }}
+                  </v-list-item-content>
+                </v-list-item-content>
+              </v-list-item>
             </v-list-item-content>
           </v-list-item>
         </v-list>

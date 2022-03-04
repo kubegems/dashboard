@@ -129,7 +129,7 @@ export default {
           return o.name === this.obj.name
         })
         if (index === -1) {
-          if (this.obj.value.length === 0) {
+          if (this.obj.value && this.obj.value.length === 0) {
             this.optionsCopy.push({ name: this.obj.name })
           } else {
             this.optionsCopy.push({

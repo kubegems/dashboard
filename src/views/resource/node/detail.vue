@@ -71,7 +71,7 @@
 
             <template
               v-if="
-                Plugins.gpu_manager &&
+                Plugins && Plugins.gpu_manager &&
                   node &&
                   node.metadata &&
                   node.metadata.labels['tencent.com/vcuda'] &&
@@ -269,7 +269,7 @@ export default {
         { text: '容器组', value: 'PodList' },
         { text: '事件', value: 'EventList' },
       ]
-      if (this.Plugins.node_exporter) {
+      if (this.Plugins?.node_exporter) {
         items.splice(5, 0, { text: '监控', value: 'NodeMonitor' })
       }
       return items

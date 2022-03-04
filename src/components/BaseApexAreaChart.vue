@@ -299,7 +299,7 @@ export default {
         },
         noData: {
           text: '暂无数据',
-          offsetY: -23,
+          offsetY: -18,
         },
       }
     },
