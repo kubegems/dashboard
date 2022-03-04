@@ -140,7 +140,7 @@ export default {
       } else {
         data = await getPersistentVolumeClaimList(
           this.ThisCluster,
-          this.namespace,
+          this.namespace || this.$route.query.namespace,
           {
             size: 500,
             noprocessing: true,
