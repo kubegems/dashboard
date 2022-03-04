@@ -128,7 +128,7 @@ export default {
   data: () => ({
     breadcrumb: {
       title: '虚拟空间',
-      tip: '虚拟空间(virtualspace)',
+      tip: '虚拟空间(virtualspace)是一组环境的聚合',
       icon: 'mdi-cloud-outline',
     },
     virtualspace: null,

@@ -47,11 +47,11 @@ export default {
     },
     minWidth:{
       type:Number,
-      default:()=>150
+      default:() => 150,
     },
     maxWidth:{
       type:Number,
-      default:()=>250
+      default:() => 250,
     }
   },
 }

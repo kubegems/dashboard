@@ -69,7 +69,7 @@
         class="py-0"
       >
         <AuditList />
-        <EventList v-if="Plugins.eventer" />
+        <EventList v-if="Plugins && Plugins.eventer" />
       </v-col>
     </v-row>
 

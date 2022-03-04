@@ -42,7 +42,7 @@
                   </v-flex>
                   <v-flex
                     v-if="
-                      Plugins.gpu_manager &&
+                      Plugins && Plugins.gpu_manager &&
                         item &&
                         item.spec &&
                         item.spec.nodeSelector &&
@@ -66,7 +66,7 @@
                   </v-flex>
                   <v-flex
                     v-if="
-                      Plugins.nvidia_device_plugin &&
+                      Plugins && Plugins.nvidia_device_plugin &&
                         item &&
                         item.spec &&
                         item.spec.nodeSelector &&

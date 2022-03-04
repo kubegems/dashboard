@@ -31,7 +31,7 @@
             </v-flex>
             <v-flex
               v-if="
-                Plugins.gpu_manager &&
+                Plugins && Plugins.gpu_manager &&
                   item.metadata.labels['tencent.com/vcuda'] &&
                   item.metadata.labels['tencent.com/vcuda'] === 'true'
               "
@@ -54,7 +54,7 @@
             </v-flex>
             <v-flex
               v-if="
-                Plugins.nvidia_device_plugin &&
+                Plugins && Plugins.nvidia_device_plugin &&
                   item.metadata.labels['nvidia.com/gpu'] &&
                   item.metadata.labels['nvidia.com/gpu'] === 'true'
               "
@@ -214,7 +214,7 @@
             <v-card>
               <v-card-text class="pa-2 text-center">
                 <v-flex
-                  v-if="Plugins.gpu_manager || Plugins.nvidia_device_plugin"
+                  v-if="Plugins && (Plugins.gpu_manager || Plugins.nvidia_device_plugin)"
                 >
                   <v-btn
                     color="primary"

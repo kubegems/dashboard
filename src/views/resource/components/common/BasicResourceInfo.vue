@@ -4,7 +4,7 @@
       {{ item ? item.metadata.name : '' }}
       <template
         v-if="
-          Plugins.gpu_manager &&
+          Plugins && Plugins.gpu_manager &&
             item &&
             item.kind === 'Pod' &&
             item.spec &&
@@ -35,7 +35,7 @@
       </template>
       <template
         v-if="
-          Plugins.nvidia_device_plugin &&
+          Plugins && Plugins.nvidia_device_plugin &&
             item &&
             item.kind === 'Pod' &&
             item.spec &&
