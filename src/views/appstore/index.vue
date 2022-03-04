@@ -174,7 +174,7 @@ export default {
     filterKeywords: [],
     search: '',
     params: {
-      size: 500,
+      size: 1000,
       page: 1,
       reponame: '',
       sort: 'nameAsc',

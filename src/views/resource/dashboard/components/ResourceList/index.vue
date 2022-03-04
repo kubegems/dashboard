@@ -145,7 +145,7 @@ export default {
     pageCount: 0,
     params: {
       page: 1,
-      size: 100,
+      size: 1000,
     },
   }),
   computed: {

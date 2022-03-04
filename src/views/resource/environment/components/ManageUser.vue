@@ -175,7 +175,7 @@ export default {
     },
     async projectUserList() {
       const data = await getProjectUserList(this.Project().ID, {
-        size: 500,
+        size: 1000,
         noprocessing: true,
       })
       this.allUsers = data.List.filter((d) => {
@@ -187,7 +187,7 @@ export default {
     },
     async environmentUserList() {
       const data = await getEnvironmentUserList(this.Environment().ID, {
-        size: 500,
+        size: 1000,
         noprocessing: true,
       })
       this.users = data.List

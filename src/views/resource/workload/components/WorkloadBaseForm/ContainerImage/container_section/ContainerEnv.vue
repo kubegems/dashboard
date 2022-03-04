@@ -700,7 +700,7 @@ export default {
         this.items = data
       } else {
         data = await getSecretList(this.ThisCluster, this.namespace, {
-          size: 500,
+          size: 1000,
           noprocessing: true,
         })
         this.items = data.List
@@ -732,7 +732,7 @@ export default {
         this.items = data
       } else {
         data = await getConfigMapList(this.ThisCluster, this.namespace, {
-          size: 500,
+          size: 1000,
           noprocessing: true,
         })
         this.items = data.List

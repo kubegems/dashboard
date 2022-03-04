@@ -490,7 +490,7 @@ export default {
           this.$route.query.cluster,
           item.Object.metadata.namespace,
           Object.assign({
-            size: 500,
+            size: 1000,
             topkind: this.tabItems[this.tab].value,
             topname: item.Object.metadata.name,
             noprocessing: true,

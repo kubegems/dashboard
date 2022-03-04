@@ -357,7 +357,7 @@ export default {
         this.AdminViewport ? '_all' : this.Tenant().ID,
         this.ThisClusterID,
         {
-          size: 500,
+          size: 1000,
           noprocessing: true,
         },
       )

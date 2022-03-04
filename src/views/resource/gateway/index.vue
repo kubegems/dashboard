@@ -230,7 +230,7 @@ export default {
         this.AdminViewport ? '_all' : this.Tenant().ID,
         this.ThisClusterID,
         {
-          size: 100,
+          size: 1000,
         },
       )
       this.items = data

@@ -281,7 +281,7 @@ export default {
         this.EnvironmentFilter.cluster,
         'gemcloud-gateway-system',
         {
-          size: 500,
+          size: 1000,
           noprocessing: true,
         },
       )

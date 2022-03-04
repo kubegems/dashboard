@@ -180,7 +180,7 @@ export default {
   methods: {
     async storageClassList() {
       const data = await getStorageClassList(this.ThisCluster, {
-        size: 100,
+        size: 1000,
       })
       this.items = data.List
       this.items.push({ add: true })

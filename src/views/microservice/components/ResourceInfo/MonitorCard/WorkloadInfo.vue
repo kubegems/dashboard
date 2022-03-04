@@ -197,7 +197,7 @@ export default {
         this.$route.query.cluster,
         this.item.metadata.namespace,
         Object.assign({
-          size: 500,
+          size: 1000,
           topkind: this.$route.query.type,
           topname: this.item.metadata.name,
           noprocessing: true,
