@@ -258,7 +258,7 @@ export default {
       let data = {}
       if (!this.AdminViewport) {
         data = await getEnvironmentUserList(this.Environment().ID, {
-          size: 500,
+          size: 1000,
           noprocessing: true,
         })
       } else {

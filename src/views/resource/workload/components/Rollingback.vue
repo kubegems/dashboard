@@ -98,7 +98,7 @@ export default {
     search: '',
     params: {
       page: 1,
-      size: 500,
+      size: 1000,
     },
     currentVersion: '',
     selectItem: null,

@@ -206,7 +206,7 @@ export default {
   methods: {
     async storageClassList() {
       const data = await getStorageClassList(this.ThisCluster, {
-        size: 500,
+        size: 1000,
       })
       this.storageClasses = data.List
       this.storageClasses.forEach((v) => {

@@ -51,7 +51,7 @@ export default {
     ],
     params: {
       page: 1,
-      size: 100,
+      size: 1000,
     },
   }),
   watch: {

@@ -142,7 +142,7 @@ export default {
           this.ThisCluster,
           this.namespace || this.$route.query.namespace,
           {
-            size: 500,
+            size: 1000,
             noprocessing: true,
           },
         )

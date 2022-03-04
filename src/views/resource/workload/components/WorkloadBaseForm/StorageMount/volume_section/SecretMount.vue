@@ -196,7 +196,7 @@ export default {
         this.items = data
       } else {
         data = await getSecretList(this.ThisCluster, this.namespace || this.$route.query.namespace, {
-          size: 500,
+          size: 1000,
           noprocessing: true,
         })
         this.items = data.List

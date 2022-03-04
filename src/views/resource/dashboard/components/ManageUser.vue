@@ -189,7 +189,7 @@ export default {
     },
     async tenantUserList() {
       const data = await getTenantUserList(this.Tenant().ID, {
-        size: 500,
+        size: 1000,
         noprocessing: true,
       })
       this.users = data.List

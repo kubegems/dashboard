@@ -234,7 +234,7 @@ export default {
         this.EnvironmentFilter.cluster,
         this.EnvironmentFilter.namespace,
         {
-          size: 500,
+          size: 1000,
           noprocessing: true,
         },
       )
