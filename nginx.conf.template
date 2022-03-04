@@ -30,7 +30,7 @@ server {
     proxy_cache off;
     chunked_transfer_encoding off;
 
-    proxy_pass http://${MESSAGE_SERVER:="gems-msgbus:8080"}/;
+    proxy_pass http://${MESSAGE_SERVER}/;
   }
 
   location /api/ {
@@ -48,7 +48,7 @@ server {
     proxy_cache off;
     chunked_transfer_encoding off;
 
-    proxy_pass http://${API_SERVER:="gems-service:8020"}/;
+    proxy_pass http://${API_SERVER}/;
   }
 
   error_page   500 502 503 504  /50x.html;
