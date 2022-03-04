@@ -195,7 +195,7 @@ export default {
         )
         this.items = data
       } else {
-        data = await getSecretList(this.ThisCluster, this.namespace, {
+        data = await getSecretList(this.ThisCluster, this.namespace || this.$route.query.namespace, {
           size: 500,
           noprocessing: true,
         })
@@ -209,7 +209,7 @@ export default {
     async secretDetail() {
       const data = await getSecretDetail(
         this.ThisCluster,
-        this.namespace,
+        this.namespace || this.$route.query.namespace,
         this.volumeName,
         { noprocessing: true },
       )

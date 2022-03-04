@@ -17,13 +17,13 @@
     <span class="float-left ml-4 text-body-2 title-line">
       <slot name="header"></slot>
     </span>
-    <span :class="actionFloat">
+    <span class="float-right">
       <slot name="action"></slot>
     </span>
     <span class="float-right mr-1">
       <slot name="selector"></slot>
     </span>
-    <div class="clear-float"></div>
+    <div class="float-clear"></div>
     <v-divider v-if="divider" class="mr-2" />
   </v-sheet>
 </template>
@@ -48,15 +48,14 @@ export default {
       type: String,
       default: () => '',
     },
-    actionFloat: {
-      type: String,
-      default: () => 'float-right',
-    },
   },
 }
 </script>
 
 <style lang="scss" scoped>
+.float-clear {
+  clear: both;
+}
 .title-line {
   line-height: 28px !important;
 }

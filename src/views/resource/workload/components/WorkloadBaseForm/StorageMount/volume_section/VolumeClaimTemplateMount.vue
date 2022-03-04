@@ -23,7 +23,7 @@
       <v-flex class="float-left text-subtitle-2 py-1 primary--text kubegems__min-width" />
       <v-flex class="float-left ml-2 kubegems__form-width">
         <v-autocomplete
-          v-if="$route.params.environment"
+          v-if="$route.params.environment || $route.params.cluster"
           v-model="obj.spec.storageClassName"
           :items="storageClasses"
           :rules="objRules.storageClassNameRule"

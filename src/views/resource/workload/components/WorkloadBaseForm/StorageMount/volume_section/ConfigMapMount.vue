@@ -195,7 +195,7 @@ export default {
         )
         this.items = data
       } else {
-        data = await getConfigMapList(this.ThisCluster, this.namespace, {
+        data = await getConfigMapList(this.ThisCluster, this.namespace || this.$route.query.namespace, {
           size: 500,
           noprocessing: true,
         })
@@ -209,7 +209,7 @@ export default {
     async configMapDetail() {
       const data = await getConfigMapDetail(
         this.ThisCluster,
-        this.namespace,
+        this.namespace || this.$route.query.namespace,
         this.volumeName,
         { noprocessing: true },
       )
