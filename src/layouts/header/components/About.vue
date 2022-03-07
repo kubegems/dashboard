@@ -66,8 +66,8 @@ export default {
       dialog: false,
       version: {},
       cnDict: {
-        version: 'UI版本',
-        date: 'UI版本日期',
+        version: 'Dashboard版本',
+        date: 'Dashboard版本日期',
         GitVersion: 'Api版本',
         GitCommit: 'Commit',
         BuildDate: 'Api版本日期',
