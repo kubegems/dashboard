@@ -84,7 +84,7 @@ export default {
         })
 
         if (this.Project().ID === resdata.ProjectID) {
-          await this.projectEnvironmentSelectData(this.Project().ID)
+          await this.m_select_projectEnvironmentSelectData(this.Project().ID)
         }
         this.reset()
         this.$emit('refresh')

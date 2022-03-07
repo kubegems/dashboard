@@ -19,7 +19,7 @@
           <v-flex class="float-left ml-2 kubegems__form-width">
             <v-autocomplete
               v-model="namespace"
-              :items="namespaceSelect"
+              :items="namespaceItems"
               :rules="namespaceRule"
               color="primary"
               label="命名空间"
@@ -84,7 +84,7 @@ export default {
     valid: false,
     expand: false,
     namespace: '',
-    namespaceSelect: [],
+    namespaceItems: [],
     namespaceRule: [required],
   }),
   computed: {
@@ -98,7 +98,7 @@ export default {
     },
   },
   async mounted() {
-    await this.clusterSelectData()
+    await this.m_select_clusterSelectData()
   },
   methods: {
     async addData() {
@@ -134,7 +134,7 @@ export default {
           value: ns.metadata.name,
         })
       })
-      this.namespaceSelect = namespaceSelect
+      this.namespaceItems = namespaceSelect
     },
   },
 }

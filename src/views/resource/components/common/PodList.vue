@@ -120,7 +120,7 @@
             <v-card-text class="pa-2 text-center">
               <v-flex
                 v-if="
-                  resourceAllow &&
+                  m_permisson_resourceAllow &&
                     item.status.phase === 'Running' &&
                     !item.metadata.deletionTimestamp
                 "
@@ -136,7 +136,7 @@
               </v-flex>
               <v-flex
                 v-if="
-                  resourceAllow &&
+                  m_permisson_resourceAllow &&
                     item.status.phase === 'Running' &&
                     !item.metadata.deletionTimestamp
                 "

@@ -171,7 +171,7 @@ export default {
     ...mapGetters(['Tenant']),
     filters() {
       const userItems = []
-      this.tenantUserSelect.forEach((user) => {
+      this.m_select_tenantUserItems.forEach((user) => {
         userItems.push({
           text: user.text,
           value: user.text,
@@ -232,7 +232,7 @@ export default {
     },
     async generateSelectData() {
       if (this.JWT) {
-        await this.tenantUserSelectData()
+        await this.m_select_tenantUserSelectData()
       }
     },
     async onDatetimeChange() {

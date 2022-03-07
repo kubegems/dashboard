@@ -21,7 +21,7 @@
               small
               dark
               v-on="on"
-              @click="virtualSpaceSelectData"
+              @click="m_select_virtualSpaceSelectData"
             >
               <v-icon left>fas fa-cloud</v-icon>
               {{ VirtualSpace().VirtualSpaceName }}
@@ -30,7 +30,7 @@
             </v-btn>
           </template>
           <v-data-iterator
-            :items="[{ text: '虚拟空间', values: virtualSpaceSelect }]"
+            :items="[{ text: '虚拟空间', values: m_select_virtualSpaceItems }]"
             hide-default-footer
           >
             <template #no-data>
@@ -94,8 +94,8 @@
         <span class="text-body-2 kubegems__role">
           虚拟空间角色:
           {{
-            virtualSpaceRoleCN[virtualSpaceRole]
-              ? virtualSpaceRoleCN[virtualSpaceRole]
+            $VIRTUALSPACE_ROLE[m_permisson_virtualSpaceRole]
+              ? $VIRTUALSPACE_ROLE[m_permisson_virtualSpaceRole]
               : '暂无'
           }}
         </span>

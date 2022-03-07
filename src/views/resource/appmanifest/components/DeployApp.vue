@@ -33,7 +33,7 @@
                   small
                   dark
                   v-on="on"
-                  @click="projectSelectData"
+                  @click="m_select_projectSelectData"
                 >
                   <v-icon left>fas fa-cube</v-icon>
                   {{ projectName }}
@@ -41,7 +41,7 @@
                 </v-btn>
               </template>
               <v-data-iterator
-                :items="[{ text: '项目', values: projectSelect }]"
+                :items="[{ text: '项目', values: m_select_projectItems }]"
                 hide-default-footer
               >
                 <template #no-data>
@@ -92,7 +92,7 @@
             @change="onEnvironmentChange"
           >
             <v-btn
-              v-for="(environment, index) in projectEnvironmentSelect"
+              v-for="(environment, index) in m_select_projectEnvironmentItems"
               :key="index"
               small
             >
@@ -316,10 +316,10 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     async init() {
       if (this.AdminViewport) {
-        await this.projectSelectData()
-        if (this.projectSelect.length > 0) {
-          this.projectName = this.projectSelect[0].projectName
-          await this.projectEnvironmentSelectData(this.projectSelect[0].value)
+        await this.m_select_projectSelectData()
+        if (this.m_select_projectItems.length > 0) {
+          this.projectName = this.m_select_projectItems[0].projectName
+          await this.m_select_projectEnvironmentSelectData(this.m_select_projectItems[0].value)
           this.onEnvironmentChange()
         }
       } else {
@@ -330,7 +330,7 @@ export default {
     },
     async setProject(item) {
       this.projectName = item.projectName
-      await this.projectEnvironmentSelectData(item.value)
+      await this.m_select_projectEnvironmentSelectData(item.value)
       await this.onEnvironmentChange()
     },
     onEnvironmentChange() {
@@ -340,9 +340,9 @@ export default {
         return
       }
 
-      if (this.projectEnvironmentSelect.length > 0) {
+      if (this.m_select_projectEnvironmentItems.length > 0) {
         this.environmentID =
-          this.projectEnvironmentSelect[this.environmentIndex].value
+          this.m_select_projectEnvironmentItems[this.environmentIndex].value
       } else {
         this.$store.commit('SET_SNACKBAR', {
           text: '当前项目下无环境',

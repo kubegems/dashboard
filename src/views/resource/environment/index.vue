@@ -10,7 +10,7 @@
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '环境名称', value: 'search' }"
-          @refresh="filterList"
+          @refresh="m_filter_list"
         />
         <v-sheet class="text-subtitle-2 ml-4">租户</v-sheet>
         <v-sheet width="350">
@@ -28,7 +28,7 @@
             full-width
             no-data-text="无数据"
             class="ml-2"
-            :items="tenantSelect"
+            :items="m_select_tenantItems"
             @focus="onTenantSelectFocus"
             @change="onTenantSelectChange"
           >
@@ -254,7 +254,7 @@ export default {
           width: 150,
         },
       ]
-      if (this.projectAllow) {
+      if (this.m_permisson_projectAllow) {
         items.push({ text: '', value: 'action', align: 'center', width: 20 })
       }
       return items
@@ -264,9 +264,9 @@ export default {
     if (this.JWT) {
       if (this.Tenant().ID > 0) {
         Object.assign(this.params, this.$route.query)
-        await this.tenantSelectData()
-        if (this.tenantSelect.length > 0) {
-          this.tenant = this.tenantSelect[0].value
+        await this.m_select_tenantSelectData()
+        if (this.m_select_tenantItems.length > 0) {
+          this.tenant = this.m_select_tenantItems[0].value
           this.environmentTenantResourceQuota(this.tenant)
         }
       } else {
@@ -364,7 +364,7 @@ export default {
       })
     },
     onTenantSelectFocus() {
-      this.tenantSelectData()
+      this.m_select_tenantSelectData()
     },
   },
 }

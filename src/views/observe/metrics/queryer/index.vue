@@ -139,7 +139,7 @@
                     />
                     <v-select
                       v-model="queryList[index].cluster"
-                      :items="clusterSelect"
+                      :items="m_select_clusterItems"
                       item-text="text"
                       item-value="value"
                       label="集群"
@@ -452,7 +452,7 @@ export default {
   },
   mounted() {
     if (this.AdminViewport) {
-      this.clusterSelectData()
+      this.m_select_clusterSelectData()
     }
     this.getMonitorConfig()
     this.getProjectList()

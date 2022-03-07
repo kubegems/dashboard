@@ -6,7 +6,7 @@
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '虚拟负载名称', value: 'search' }"
-          @refresh="filterList"
+          @refresh="m_filter_list"
         />
         <v-spacer />
         <v-menu
@@ -204,7 +204,7 @@ export default {
         { text: '创建时间', value: 'createdAt', align: 'start' },
         { text: '创建人', value: 'createdBy', align: 'start' },
       ]
-      if (this.virtualSpaceAllow || this.tenantAllow) {
+      if (this.m_permisson_virtualSpaceAllow || this.m_permisson_tenantAllow) {
         items.push({ text: '', value: 'action', align: 'center', width: 20 })
       }
       return items

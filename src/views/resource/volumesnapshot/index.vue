@@ -7,13 +7,13 @@
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '快照名称', value: 'search' }"
-          @refresh="filterList"
+          @refresh="m_filter_list"
         />
         <NamespaceFilter />
         <v-spacer />
         <v-spacer />
         <v-menu
-          v-if="resourceAllow"
+          v-if="m_permisson_resourceAllow"
           left
         >
           <template #activator="{ on }">
@@ -196,7 +196,7 @@ export default {
         },
         { text: '创建时间', value: 'createAt', align: 'center' },
       ]
-      if (this.resourceAllow) {
+      if (this.m_permisson_resourceAllow) {
         items.push({
           text: '',
           value: 'action',

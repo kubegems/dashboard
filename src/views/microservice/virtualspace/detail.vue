@@ -10,8 +10,8 @@
           <span class="text-body-2 mx-2">
             虚拟空间角色:
             {{
-              virtualSpaceRoleCN[virtualSpaceRole]
-                ? virtualSpaceRoleCN[virtualSpaceRole]
+              $VIRTUALSPACE_ROLE[m_permisson_virtualSpaceRole]
+                ? $VIRTUALSPACE_ROLE[m_permisson_virtualSpaceRole]
                 : '暂无'
             }}
           </span>
@@ -44,7 +44,7 @@
             返回
           </v-btn>
           <v-menu
-            v-if="tenantAllow || virtualSpaceAllow"
+            v-if="m_permisson_tenantAllow || m_permisson_virtualSpaceAllow"
             left
           >
             <template #activator="{ on }">

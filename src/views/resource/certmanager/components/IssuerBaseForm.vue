@@ -27,7 +27,7 @@
             <v-autocomplete
               v-model="obj.metadata.namespace"
               color="primary"
-              :items="namespaceSelect"
+              :items="m_select_namespaceItems"
               :rules="objRules.namespaceRule"
               :readonly="edit"
               label="命名空间"
@@ -225,7 +225,7 @@ export default {
           }
         } else {
           if (this.AdminViewport) {
-            this.namespaceSelectData(this.ThisCluster)
+            this.m_select_namespaceSelectData(this.ThisCluster)
           } else {
             this.obj.metadata.namespace = this.ThisNamespace
           }

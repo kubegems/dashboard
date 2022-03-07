@@ -7,12 +7,12 @@
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '策略名称', value: 'search' }"
-          @refresh="filterList"
+          @refresh="m_filter_list"
         />
         <EnvironmentFilter />
         <v-spacer />
         <v-menu
-          v-if="virtualSpaceAllow"
+          v-if="m_permisson_virtualSpaceAllow"
           left
         >
           <template #activator="{ on }">
@@ -220,7 +220,7 @@ export default {
         { text: '规则数量', value: 'rules', align: 'start' },
         { text: '创建时间', value: 'createAt', align: 'start', width: 180 },
       ]
-      if (this.virtualSpaceAllow) {
+      if (this.m_permisson_virtualSpaceAllow) {
         items.push({
           text: '',
           value: 'action',

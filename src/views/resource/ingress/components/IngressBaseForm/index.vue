@@ -52,7 +52,7 @@
             <v-autocomplete
               v-model="obj.metadata.namespace"
               color="primary"
-              :items="namespaceSelect"
+              :items="m_select_namespaceItems"
               :rules="objRules.namespaceRule"
               :readonly="edit"
               label="命名空间"
@@ -86,7 +86,7 @@
               hide-selected
               class="my-0"
               no-data-text="暂无可选数据"
-              :items="gatewaySelect"
+              :items="m_select_gatewayItems"
               :rules="objRules.ingressClassNameRule"
               @focus="onGatewaySelectFocus(ThisCluster)"
             >
@@ -235,7 +235,7 @@ export default {
       }
     },
     baseDomain() {
-      const gateway = this.gatewaySelect.find((g) => {
+      const gateway = this.m_select_gatewayItems.find((g) => {
         return g.value === this.obj.spec.ingressClassName
       })
       if (gateway) {
@@ -265,11 +265,11 @@ export default {
         } else {
           if (!this.manifest) {
             if (this.AdminViewport) {
-              this.namespaceSelectData(this.ThisCluster)
+              this.m_select_namespaceSelectData(this.ThisCluster)
             } else {
               this.obj.metadata.namespace = this.ThisNamespace
             }
-            this.gatewaySelectData(this.ThisCluster)
+            this.m_select_gatewaySelectData(this.ThisCluster)
           } else {
             this.obj.metadata.name = `${this.app.ApplicationName}`
           }
@@ -430,10 +430,10 @@ export default {
       this.obj = data
     },
     onNamespaceSelectFocus(clusterName) {
-      this.namespaceSelectData(clusterName)
+      this.m_select_namespaceSelectData(clusterName)
     },
     onGatewaySelectFocus(clusterName) {
-      this.gatewaySelectData(clusterName)
+      this.m_select_gatewaySelectData(clusterName)
     },
   },
 }

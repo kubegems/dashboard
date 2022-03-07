@@ -102,7 +102,7 @@
                   </v-icon>
                   <v-icon
                     v-if="
-                      resourceAllow &&
+                      m_permisson_resourceAllow &&
                         container.state &&
                         container.state.running !== undefined
                     "

@@ -6,7 +6,7 @@
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '用户名称', value: 'search' }"
-          @refresh="filterList"
+          @refresh="m_filter_list"
         />
         <v-spacer />
         <v-menu left>

@@ -4,7 +4,7 @@
     <BaseBreadcrumb :breadcrumb="breadcrumb">
       <template #extend>
         <v-flex class="kubegems__full-right">
-          <template v-if="projectAllow">
+          <template v-if="m_permisson_projectAllow">
             <v-btn
               text
               small
@@ -183,7 +183,7 @@
                       dark
                       v-on="on"
                     >
-                      {{ podUsedModeCN }}
+                      {{ podUsedMode }}
                       <v-icon
                         v-if="topMenu"
                         right
@@ -357,11 +357,17 @@ export default {
     topN: [],
     ready: false,
     topMenu: false,
+    environmentPodUsageSelect: [
+      { text: 'CPU平均使用量', value: 'cpuavg' },
+      { text: 'CPU最大使用量', value: 'cpumax' },
+      { text: '内存平均使用量', value: 'memoryavg' },
+      { text: '内存最大使用量', value: 'memorymax' },
+    ],
   }),
   computed: {
     ...mapState(['JWT', 'Scale']),
     ...mapGetters(['Environment', 'Project']),
-    podUsedModeCN() {
+    podUsedMode() {
       const cn = this.environmentPodUsageSelect.find((e) => {
         return e.value === this.podUsageMode
       })

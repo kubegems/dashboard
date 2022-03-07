@@ -52,7 +52,7 @@
             <v-autocomplete
               v-model="obj.metadata.namespace"
               color="primary"
-              :items="namespaceSelect"
+              :items="m_select_namespaceItems"
               :rules="objRules.namespaceRule"
               :readonly="edit"
               label="命名空间"
@@ -341,7 +341,7 @@ export default {
         } else {
           if (!this.manifest) {
             if (this.AdminViewport) {
-              this.namespaceSelectData(this.ThisCluster)
+              this.m_select_namespaceSelectData(this.ThisCluster)
             } else {
               this.obj.metadata.namespace = this.ThisNamespace
             }
@@ -475,11 +475,11 @@ export default {
         ) {
           return
         }
-        await this.workloadSelectData(
+        await this.m_select_workloadSelectData(
           this.ThisCluster,
           this.obj.metadata.namespace,
         )
-        this.workloads = this.workloadSelect
+        this.workloads = this.m_select_workloadSelectItems
       }
     },
     onWorkloadSelectorChange() {
@@ -554,7 +554,7 @@ export default {
       this.obj = data
     },
     onNamespaceSelectFocus(clusterName) {
-      this.namespaceSelectData(clusterName)
+      this.m_select_namespaceSelectData(clusterName)
     },
   },
 }

@@ -7,13 +7,13 @@
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '路由名称', value: 'search' }"
-          @refresh="filterList"
+          @refresh="m_filter_list"
         />
         <NamespaceFilter />
         <v-spacer />
         <v-spacer />
         <v-menu
-          v-if="resourceAllow"
+          v-if="m_permisson_resourceAllow"
           left
         >
           <template #activator="{ on }">
@@ -241,7 +241,7 @@ export default {
         { text: '访问地址', value: 'address', align: 'start', sortable: false },
         { text: '创建时间', value: 'createAt', align: 'start' },
       ]
-      if (this.resourceAllow) {
+      if (this.m_permisson_resourceAllow) {
         items.push({
           text: '',
           value: 'action',

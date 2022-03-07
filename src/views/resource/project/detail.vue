@@ -6,11 +6,11 @@
           <span class="text-body-2 mx-2">
             项目角色:
             {{
-              projectRoleCN[projectRole] ? projectRoleCN[projectRole] : '暂无'
+              $PROJECT_ROLE[m_permisson_projectRole] ? $PROJECT_ROLE[m_permisson_projectRole] : '暂无'
             }}
           </span>
           <v-btn
-            v-if="projectAllow"
+            v-if="m_permisson_projectAllow"
             text
             small
             class="primary--text"
@@ -25,7 +25,7 @@
             创建环境
           </v-btn>
           <v-btn
-            v-if="projectAllow"
+            v-if="m_permisson_projectAllow"
             text
             small
             class="primary--text"
@@ -54,7 +54,7 @@
             资源使用清单
           </v-btn>
           <v-menu
-            v-if="tenantAllow"
+            v-if="m_permisson_tenantAllow"
             left
           >
             <template #activator="{ on }">

@@ -7,7 +7,7 @@
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '负载名称', value: 'search' }"
-          @refresh="filterList"
+          @refresh="m_filter_list"
         />
         <EnvironmentFilter />
       </v-card-title>
@@ -390,7 +390,7 @@ export default {
         { text: '副本状态', value: 'status', align: 'start' },
         { text: '标签', value: 'labels', align: 'start', width: 400 },
       ]
-      if (this.virtualSpaceAllow) {
+      if (this.m_permisson_virtualSpaceAllow) {
         items.push({ text: '', value: 'action', align: 'end', width: 10 })
       }
       items.push({ text: '', value: 'data-table-expand' })

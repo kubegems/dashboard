@@ -7,7 +7,7 @@
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '网关实例名称', value: 'search' }"
-          @refresh="filterList"
+          @refresh="m_filter_list"
         />
         <EnvironmentFilter />
         <v-spacer />
@@ -132,7 +132,7 @@
                 详 情
               </v-btn>
               <v-btn
-                v-if="virtualSpaceAllow"
+                v-if="m_permisson_virtualSpaceAllow"
                 text
                 small
                 color="primary"
@@ -141,7 +141,7 @@
                 编 辑
               </v-btn>
               <v-btn
-                v-if="virtualSpaceAllow"
+                v-if="m_permisson_virtualSpaceAllow"
                 text
                 small
                 color="error"
@@ -212,7 +212,7 @@ export default {
         this.EnvironmentFilter.clusterid,
       )
       this.items = data
-      if (this.virtualSpaceAllow) {
+      if (this.m_permisson_virtualSpaceAllow) {
         this.items.push({ add: true })
       }
     },

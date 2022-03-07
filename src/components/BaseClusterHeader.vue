@@ -21,7 +21,7 @@
               small
               dark
               v-on="on"
-              @click="clusterSelectData(null)"
+              @click="m_select_clusterSelectData(null)"
             >
               <v-icon left>fab fa-docker</v-icon>
               {{ Cluster().ClusterName }}
@@ -30,7 +30,7 @@
             </v-btn>
           </template>
           <v-data-iterator
-            :items="[{ text: '集群', values: clusterSelect }]"
+            :items="[{ text: '集群', values: m_select_clusterItems }]"
             hide-default-footer
           >
             <template #no-data>

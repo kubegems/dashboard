@@ -7,7 +7,7 @@
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '模型名称', value: 'search' }"
-          @refresh="filterList"
+          @refresh="m_filter_list"
         />
         <NamespaceFilter />
       </v-card-title>

@@ -26,7 +26,7 @@
             <v-autocomplete
               v-model="obj.SystemRoleID"
               class="my-0"
-              :items="systemRoleSelect"
+              :items="m_select_systemRoleItems"
               :rules="objRules.systemRoleRules"
               color="primary"
               hide-selected
@@ -88,7 +88,7 @@ export default {
     ...mapState(['Circular']),
   },
   mounted() {
-    this.systemRoleSelectData()
+    this.m_select_systemRoleSelectData()
   },
   methods: {
     // eslint-disable-next-line vue/no-unused-properties
@@ -115,7 +115,7 @@ export default {
       this.$refs.form.reset()
     },
     onSystemRoleSelectFocus() {
-      this.systemRoleSelectData()
+      this.m_select_systemRoleSelectData()
     },
   },
 }

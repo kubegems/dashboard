@@ -21,7 +21,7 @@
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '日志快照名称', value: 'search' }"
-          @refresh="filterList"
+          @refresh="m_filter_list"
         />
       </v-card-title>
       <v-data-table

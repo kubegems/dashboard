@@ -7,7 +7,7 @@
       <v-card-title class="pa-0">
         <v-spacer />
         <v-btn
-          v-if="resourceAllow"
+          v-if="m_permisson_resourceAllow"
           text
           small
           color="primary"
@@ -148,7 +148,7 @@ export default {
           sortable: false,
         })
       }
-      if (this.resourceAllow) {
+      if (this.m_permisson_resourceAllow) {
         items.push({
           text: '',
           value: 'action',
