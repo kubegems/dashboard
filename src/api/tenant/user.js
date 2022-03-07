@@ -13,3 +13,6 @@ export const putChangeUserRole = (roleid, userid, body = {}) =>
 // 更新用户信息
 export const putUpdateUser = (userid, body = {}) =>
   axios.put(`user/${userid}`, body)
+// 重设用户密码
+export const postResetUserPassword = (userid, body = {}) =>
+  axios.post(`user/${userid}/reset_password`, body)

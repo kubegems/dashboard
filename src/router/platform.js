@@ -176,20 +176,6 @@ export const platform = [
               dependencies: ['eventer'],
             },
           },
-          // 镜像安全
-          {
-            path: 'image/security',
-            name: `image-security-setting`,
-            component: () => import('@/views/setting/image/index'),
-            meta: {
-              requireAuth: true,
-              admin: true,
-              title: '镜像安全',
-              icon: 'mdi-lock',
-              show: true,
-              rootName: 'platform',
-            },
-          },
         ],
       },
       {
