@@ -8,6 +8,11 @@
         lazy-validation
       >
         <v-sheet>
+          <v-switch
+            class="mb-4"
+            hide-details
+            label="启用镜像扫描和分析报告"
+          />
           <v-text-field
             v-model="obj.RegistryName"
             class="my-0"

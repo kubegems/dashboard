@@ -93,7 +93,7 @@
                   text
                   color="primary"
                   class="mt-n1"
-                  @click.stop="openExpaned('AddNamespace')"
+                  @click.stop="openExpaned('addNamespace')"
                 >
                   <v-icon
                     left

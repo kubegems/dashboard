@@ -134,6 +134,16 @@
                 </v-flex>
                 <v-flex>
                   <v-btn
+                    color="warning"
+                    text
+                    small
+                    @click="resetPassword(item)"
+                  >
+                    重设密码
+                  </v-btn>
+                </v-flex>
+                <v-flex>
+                  <v-btn
                     color="error"
                     text
                     small
@@ -166,6 +176,10 @@
       ref="addUser"
       @refresh="userList"
     />
+    <ResetPassword
+      ref="resetPassword"
+      @refresh="userList"
+    />
   </v-container>
 </template>
 
@@ -174,6 +188,7 @@ import { mapState } from 'vuex'
 import { getUserList, deleteUser } from '@/api'
 import UpdateRole from './components/UpdateRole'
 import AddUser from './components/AddUser'
+import ResetPassword from './components/ResetPassword'
 import BaseFilter from '@/mixins/base_filter'
 import BaseResource from '@/mixins/resource'
 import { convertStrToNum } from '@/utils/helpers'
@@ -183,6 +198,7 @@ export default {
   components: {
     UpdateRole,
     AddUser,
+    ResetPassword,
   },
   mixins: [BaseFilter, BaseResource],
   data: () => ({
@@ -259,6 +275,10 @@ export default {
     },
     addUser() {
       this.$refs.addUser.open()
+    },
+    resetPassword(item) {
+      this.$refs.resetPassword.init(item.ID)
+      this.$refs.resetPassword.open()
     },
   },
 }

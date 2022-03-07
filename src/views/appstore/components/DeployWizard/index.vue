@@ -327,7 +327,7 @@ export default {
       const projectEnvironmentObj = this.projectEnvironmentSelect.find((e) => {
         return e.value === this.obj.EnvironmentId
       })
-      return projectEnvironmentObj ? projectEnvironmentObj.ClusterName : ''
+      return projectEnvironmentObj ? projectEnvironmentObj.clusterName : ''
     },
     footerWidth() {
       return (window.innerWidth / 12) * 9 + 10
