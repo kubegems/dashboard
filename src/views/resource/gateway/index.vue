@@ -234,7 +234,7 @@ export default {
         },
       )
       this.items = data
-      if (this.tenantAllow) {
+      if (this.m_permisson_tenantAllow) {
         this.items.push({ add: true })
       }
     },

@@ -7,7 +7,7 @@
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '节点名称', value: 'search' }"
-          @refresh="filterList"
+          @refresh="m_filter_list"
         />
         <v-spacer />
       </v-card-title>

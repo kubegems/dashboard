@@ -80,8 +80,8 @@ export default {
           this.param.name === 'storageClass') &&
         this.clusterName !== ''
       ) {
-        this.storageClassSelectData(this.clusterName)
-        this.items = this.storageClassSelect
+        this.m_select_storageClassSelectData(this.clusterName)
+        this.items = this.m_select_storageClassItems
       }
     },
   },
@@ -103,8 +103,8 @@ export default {
           this.param.name === 'storageClass') &&
         this.clusterName !== ''
       ) {
-        await this.storageClassSelectData(this.clusterName)
-        this.items = this.storageClassSelect
+        await this.m_select_storageClassSelectData(this.clusterName)
+        this.items = this.m_select_storageClassItems
       }
     },
   },

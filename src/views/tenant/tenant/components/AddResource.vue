@@ -19,7 +19,7 @@
               <v-autocomplete
                 v-model="obj.ClusterID"
                 class="my-0"
-                :items="clusterSelect"
+                :items="m_select_clusterItems"
                 :rules="objRules.clusterIDRules"
                 color="primary"
                 hide-selected
@@ -239,7 +239,7 @@ export default {
       this.quota = null
     },
     onClusterSelectFocus() {
-      this.clusterSelectData(null)
+      this.m_select_clusterSelectData(null)
     },
   },
 }

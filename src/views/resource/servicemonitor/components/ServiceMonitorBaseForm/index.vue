@@ -26,7 +26,7 @@
             <v-autocomplete
               v-model="obj.metadata.namespace"
               color="primary"
-              :items="namespaceSelect"
+              :items="m_select_namespaceItems"
               :rules="objRules.namespaceRule"
               label="命名空间"
               hide-selected
@@ -51,7 +51,7 @@
             <v-autocomplete
               v-model="serviceSelector"
               color="primary"
-              :items="serviceSelect"
+              :items="m_select_serviceItems"
               :rules="objRules.selectorRule"
               label="关联服务"
               hide-selected
@@ -167,7 +167,7 @@ export default {
     async loadData() {
       this.$nextTick(() => {
         if (this.AdminViewport) {
-          this.namespaceSelectData(this.ThisCluster)
+          this.m_select_namespaceSelectData(this.ThisCluster)
           if (this.item && Object.keys(this.item).length > 0) {
             this.obj = this.item
           }
@@ -184,7 +184,7 @@ export default {
           }
         }
         this.retrieveServiceSelector()
-        if (this.serviceSelect.length === 0 && this.obj.metadata.namespace) {
+        if (this.m_select_serviceItems.length === 0 && this.obj.metadata.namespace) {
           this.onServiceSelectFocus()
         }
       })
@@ -209,7 +209,7 @@ export default {
         })
         return
       }
-      this.serviceSelectData(this.ThisCluster, this.obj.metadata.namespace)
+      this.m_select_serviceSelectData(this.ThisCluster, this.obj.metadata.namespace)
     },
     addData(data) {
       this.obj.spec.endpoints = data
@@ -248,7 +248,7 @@ export default {
       this.$delete(this.obj.spec.endpoints, index)
     },
     onServiceSelectorChange() {
-      this.serviceSelect.forEach((s) => {
+      this.m_select_serviceItems.forEach((s) => {
         if (s.text === this.serviceSelector) {
           if (s.labels) {
             this.obj.spec.selector.matchLabels = s.labels
@@ -284,7 +284,7 @@ export default {
       this.obj = data
     },
     onNamespaceSelectFocus(clusterName) {
-      this.namespaceSelectData(clusterName)
+      this.m_select_namespaceSelectData(clusterName)
     },
   },
 }

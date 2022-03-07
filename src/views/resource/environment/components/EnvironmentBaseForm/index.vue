@@ -32,7 +32,7 @@
             <v-autocomplete
               v-model="obj.data.ProjectID"
               color="primary"
-              :items="projectSelect"
+              :items="m_select_projectItems"
               :rules="objRules.projectIDRules"
               label="项目"
               hide-selected
@@ -56,7 +56,7 @@
             <v-autocomplete
               v-model="obj.data.ClusterID"
               color="primary"
-              :items="tenantClusterSelect"
+              :items="m_select_tenantClusterItems"
               :rules="objRules.clusterIDRules"
               label="集群"
               hide-selected
@@ -110,7 +110,7 @@
             <v-autocomplete
               v-model="obj.data.MetaType"
               color="primary"
-              :items="environmentTypeSelect"
+              :items="m_select_environmentTypeItems"
               :rules="objRules.metaTypeRules"
               label="类型"
               hide-selected
@@ -487,7 +487,7 @@ export default {
       this.$refs.addNamespace.closeCard()
     },
     async onClusterChange(ClusterID = null) {
-      const cluster = this.tenantClusterSelect.find((c) => {
+      const cluster = this.m_select_tenantClusterItems.find((c) => {
         return c.value === ClusterID
       })
       if (cluster) {
@@ -558,10 +558,10 @@ export default {
         NowMemory: this.obj.statistics.Memory,
         NowStorage: this.obj.statistics.Storage,
       })
-      await this.tenantClusterSelectData(this.Tenant().ID)
+      await this.m_select_tenantClusterSelectData(this.Tenant().ID)
       await this.onClusterChange(this.obj.data.ClusterID)
       if (this.AdminViewport) {
-        this.projectSelectData()
+        this.m_select_projectSelectData()
       }
     },
     // eslint-disable-next-line vue/no-unused-properties
@@ -672,10 +672,10 @@ export default {
       }
     },
     onProjectSelectFocus() {
-      this.projectSelectData()
+      this.m_select_projectSelectData()
     },
     onTenantClusterSelectFocus(tenantid) {
-      this.tenantClusterSelectData(tenantid)
+      this.m_select_tenantClusterSelectData(tenantid)
     },
   },
 }

@@ -52,7 +52,7 @@
             <v-autocomplete
               v-model="obj.metadata.namespace"
               color="primary"
-              :items="namespaceSelect"
+              :items="m_select_namespaceItems"
               :rules="objRules.namespaceRule"
               :readonly="edit"
               label="命名空间"
@@ -78,7 +78,7 @@
           >
             <v-autocomplete
               v-model="obj.spec.storageClassName"
-              :items="storageClassSelect"
+              :items="m_select_storageClassItems"
               :rules="objRules.storageClassNameRule"
               color="primary"
               label="存储类型"
@@ -262,7 +262,7 @@ export default {
         this.obj.spec.storageClassName &&
         this.obj.spec.storageClassName !== ''
       ) {
-        const sc = this.storageClassSelect.find((sc) => {
+        const sc = this.m_select_storageClassItems.find((sc) => {
           return sc.value === this.obj.spec.storageClassName
         })
         if (sc) {
@@ -328,8 +328,8 @@ export default {
         } else {
           if (!this.manifest) {
             if (this.AdminViewport) {
-              this.storageClassSelectData(this.ThisCluster)
-              this.namespaceSelectData(this.ThisCluster)
+              this.m_select_storageClassSelectData(this.ThisCluster)
+              this.m_select_namespaceSelectData(this.ThisCluster)
             } else {
               this.obj.metadata.namespace = this.ThisNamespace
             }
@@ -399,7 +399,7 @@ export default {
       this.$nextTick(() => {
         this.obj = deepCopy(data)
         if (!this.manifest) {
-          this.storageClassSelectData(this.ThisCluster)
+          this.m_select_storageClassSelectData(this.ThisCluster)
         }
       })
     },
@@ -427,10 +427,10 @@ export default {
       this.obj = data
     },
     onNamespaceSelectFocus(clusterName) {
-      this.namespaceSelectData(clusterName)
+      this.m_select_namespaceSelectData(clusterName)
     },
     onStorageClassSelectFocus(clusterName) {
-      this.storageClassSelectData(clusterName)
+      this.m_select_storageClassSelectData(clusterName)
     },
   },
 }

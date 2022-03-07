@@ -18,7 +18,7 @@
             <v-autocomplete
               v-model="obj.projectid"
               :rules="objRules.projectIDRules"
-              :items="projectSelect"
+              :items="m_select_projectItems"
               color="primary"
               :label="Admin ? `租户(项目)` : `项目`"
               hide-selected
@@ -39,7 +39,7 @@
             <v-autocomplete
               v-model="obj.environmentid"
               :rules="objRules.environmentIDRules"
-              :items="projectEnvironmentSelect"
+              :items="m_select_projectEnvironmentItems"
               color="primary"
               label="环境"
               hide-selected
@@ -121,10 +121,10 @@ export default {
       this.$refs.form.reset()
     },
     onProjectSelectFocus() {
-      this.projectSelectData()
+      this.m_select_projectSelectData()
     },
     onProjectEnvironmentSelectFocus(projectid, vs = true) {
-      this.projectEnvironmentSelectData(projectid, vs)
+      this.m_select_projectEnvironmentSelectData(projectid, vs)
     },
   },
 }

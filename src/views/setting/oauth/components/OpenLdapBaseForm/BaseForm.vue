@@ -121,7 +121,7 @@ export default {
             this.obj = deepCopy(this.item)
           }
         }
-        this.tenantSelectData()
+        this.m_select_tenantSelectData()
       })
     },
     // eslint-disable-next-line vue/no-unused-properties

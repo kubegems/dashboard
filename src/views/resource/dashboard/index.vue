@@ -5,10 +5,10 @@
         <v-flex class="kubegems__full-right">
           <span class="text-body-2 kubegems__role">
             租户角色:
-            {{ tenantRoleCN[tenantRole] ? tenantRoleCN[tenantRole] : '暂无' }}
+            {{ $TENANT_ROLE[m_permisson_tenantRole] ? $TENANT_ROLE[m_permisson_tenantRole] : '暂无' }}
           </span>
           <v-btn
-            v-if="tenantAllow"
+            v-if="m_permisson_tenantAllow"
             text
             small
             class="primary--text mt-n1"
@@ -39,7 +39,7 @@
           >
             <template #action>
               <v-btn
-                v-if="tenantAllow"
+                v-if="m_permisson_tenantAllow"
                 small
                 text
                 color="primary"

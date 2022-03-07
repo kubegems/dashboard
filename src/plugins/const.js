@@ -180,6 +180,36 @@ const LINE_THEME_COLORS = [
   'rgba(0,178,212,.2)',
 ]
 
+const PROJECT_ROLE = {
+  dev: '研发',
+  test: '测试',
+  ops: '运维',
+  admin: '管理员',
+  sys: '系统管理员',
+  tenantadmin: '租户管理员',
+}
+
+const RESOURCE_ROLE = {
+  operator: '操作成员',
+  reader: '只读成员',
+  sys: '系统管理员',
+  tenantadmin: '租户管理员',
+  projectadmin: '项目管理员',
+  projectops: '项目运维',
+}
+
+const TENANT_ROLE = {
+  ordinary: '普通成员',
+  admin: '管理员',
+  sys: '系统管理员',
+}
+
+const VIRTUALSPACE_ROLE = {
+  normal: '普通成员',
+  admin: '管理员',
+  sys: '系统管理员',
+}
+
 export default {
   install(Vue) {
     Vue.prototype.$RESOURCE_CN = RESOURCE_CN
@@ -200,5 +230,9 @@ export default {
     Vue.prototype.$METATYPE_CN = METATYPE_CN
     Vue.prototype.$LINE_THEME_COLORS = LINE_THEME_COLORS
     Vue.prototype.$DOMAIN = process.env.VUE_APP_DOMAIN
+    Vue.prototype.$PROJECT_ROLE = PROJECT_ROLE
+    Vue.prototype.$RESOURCE_ROLE = RESOURCE_ROLE
+    Vue.prototype.$TENANT_ROLE = TENANT_ROLE
+    Vue.prototype.$VIRTUALSPACE_ROLE = VIRTUALSPACE_ROLE
   },
 }

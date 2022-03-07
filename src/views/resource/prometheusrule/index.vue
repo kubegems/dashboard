@@ -8,7 +8,7 @@
           :filters="filters"
           :reload="false"
           :default="{ items: [], text: '告警规则名称', value: 'search' }"
-          @refresh="filterList"
+          @refresh="m_filter_list"
           @filter="customFilter"
         />
         <NamespaceFilter />
@@ -52,7 +52,7 @@
         </v-chip-group>
         <v-spacer />
         <v-menu
-          v-if="resourceAllow"
+          v-if="m_permisson_resourceAllow"
           left
         >
           <template #activator="{ on }">
@@ -383,7 +383,7 @@ export default {
         { text: '接收器', value: 'receivers', align: 'start', width: 300 },
         { text: '使用状态', value: 'open', align: 'start', width: 100 },
       ]
-      if (this.resourceAllow) {
+      if (this.m_permisson_resourceAllow) {
         items.push({ text: '', value: 'action', align: 'center', width: 20 })
       }
       if (this.AdminViewport) {

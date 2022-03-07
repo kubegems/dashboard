@@ -103,7 +103,7 @@
           </template>
           <v-card>
             <v-card-text class="pa-2 text-center">
-              <v-flex v-if="resourceAllow && item.state.running !== undefined">
+              <v-flex v-if="m_permisson_resourceAllow && item.state.running !== undefined">
                 <v-btn
                   color="primary"
                   text
@@ -113,7 +113,7 @@
                   终端
                 </v-btn>
               </v-flex>
-              <v-flex v-if="resourceAllow && item.state.running !== undefined">
+              <v-flex v-if="m_permisson_resourceAllow && item.state.running !== undefined">
                 <v-btn
                   color="primary"
                   text

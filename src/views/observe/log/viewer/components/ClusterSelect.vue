@@ -1,7 +1,7 @@
 <template>
   <v-flex>
     <span
-      v-for="cluster in clusterSelect"
+      v-for="cluster in m_select_clusterItems"
       :key="cluster.text"
       class="mr-2"
     >
@@ -67,25 +67,25 @@ export default {
   methods: {
     // eslint-disable-next-line vue/no-unused-properties
     async generateClusters(refresh = false) {
-      if (!this.clusterSelect || this.clusterSelect.length === 0 || refresh) {
-        await this.clusterSelectData(
+      if (!this.m_select_clusterItems || this.m_select_clusterItems.length === 0 || refresh) {
+        await this.m_select_clusterSelectData(
           this.AdminViewport ? null : this.Tenant().ID,
         )
       }
-      if (this.clusterSelect.length > 0) {
-        this.clusterSelect.forEach((cluster) => {
+      if (this.m_select_clusterItems.length > 0) {
+        this.m_select_clusterItems.forEach((cluster) => {
           this.$set(cluster, 'selected', false)
           cluster.selected = false
         })
         if (Object.keys(this.currentCluster).length === 0) {
-          this.currentCluster = this.clusterSelect[0]
-          this.$set(this.clusterSelect[0], 'selected', true)
+          this.currentCluster = this.m_select_clusterItems[0]
+          this.$set(this.m_select_clusterItems[0], 'selected', true)
           this.$emit('clusterChange', this.currentCluster)
         } else {
-          const clusterIndex = this.clusterSelect.findIndex((c) => {
+          const clusterIndex = this.m_select_clusterItems.findIndex((c) => {
             return c.value === this.currentCluster.value
           })
-          this.$set(this.clusterSelect[clusterIndex], 'selected', true)
+          this.$set(this.m_select_clusterItems[clusterIndex], 'selected', true)
           this.$emit('clusterChange', this.currentCluster)
         }
       } else {
@@ -95,19 +95,19 @@ export default {
     },
     setCurrentCluster(clusterName) {
       if (Object.keys(this.currentCluster).length === 0) {
-        const clusterIndex = this.clusterSelect.findIndex((c) => {
+        const clusterIndex = this.m_select_clusterItems.findIndex((c) => {
           return c.text === clusterName
         })
         this.$set(this.currentCluster, 'text', clusterName)
         this.$set(
           this.currentCluster,
           'value',
-          this.clusterSelect[clusterIndex].value,
+          this.m_select_clusterItems[clusterIndex].value,
         )
       }
     },
     async clickCluster(clusterNew) {
-      this.clusterSelect.forEach((c) => {
+      this.m_select_clusterItems.forEach((c) => {
         if (c.value !== clusterNew.value) {
           this.$set(c, 'selected', false)
         } else {
@@ -122,13 +122,13 @@ export default {
     },
     // eslint-disable-next-line vue/no-unused-properties
     async activeCluster(cluster, useClusterName = false) {
-      if (!this.clusterSelect || this.clusterSelect.length === 0) {
-        await this.clusterSelectData(
+      if (!this.m_select_clusterItems || this.m_select_clusterItems.length === 0) {
+        await this.m_select_clusterSelectData(
           this.AdminViewport ? null : this.Tenant().ID,
         )
       }
       if (!useClusterName) {
-        this.clusterSelect.forEach((c) => {
+        this.m_select_clusterItems.forEach((c) => {
           if (c.value === cluster.value) {
             this.$set(c, 'selected', true)
           } else {
@@ -136,7 +136,7 @@ export default {
           }
         })
       } else {
-        this.clusterSelect.forEach((c) => {
+        this.m_select_clusterItems.forEach((c) => {
           if (c.text === cluster) {
             c.selected = true
             this.setCurrentCluster(c.text)

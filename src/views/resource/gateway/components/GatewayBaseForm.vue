@@ -15,7 +15,7 @@
           >
             <v-autocomplete
               v-model="obj.spec.tenant"
-              :items="tenantSelect"
+              :items="m_select_tenantItems"
               :rules="objRules.tenantRule"
               color="primary"
               label="租户"
@@ -255,7 +255,7 @@ export default {
         if (!this.obj.spec.configMapData) {
           this.$set(this.obj.spec, 'configMapData', {})
         }
-        this.tenantSelectData()
+        this.m_select_tenantSelectData()
       })
     },
     addData(data) {
@@ -321,7 +321,7 @@ export default {
       this.obj = data
     },
     onTenantSelectFocus() {
-      this.tenantSelectData()
+      this.m_select_tenantSelectData()
     },
   },
 }

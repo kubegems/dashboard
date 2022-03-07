@@ -99,7 +99,7 @@
               <v-autocomplete
                 v-model="ruler.secretName"
                 color="primary"
-                :items="secretSelect"
+                :items="m_select_secretItems"
                 :rules="rulerRules.secretName"
                 label="密钥"
                 hide-selected
@@ -153,7 +153,7 @@
                 hide-selected
                 class="my-0"
                 no-data-text="暂无可选数据"
-                :items="serviceSelect"
+                :items="m_select_serviceItems"
                 :rules="rulerRules.pathsRule[index].serviceNameRule"
                 @focus="onServiceSelectFocus(ThisCluster, obj.metadata.namespace)"
               >
@@ -180,10 +180,10 @@
                 class="my-0"
                 no-data-text="暂无可选数据"
                 :items="
-                  serviceSelect.find((s) => {
+                  m_select_serviceItems.find((s) => {
                     return s.text === ruler.paths[index].serviceName
                   })
-                    ? serviceSelect.find((s) => {
+                    ? m_select_serviceItems.find((s) => {
                       return s.text === ruler.paths[index].serviceName
                     }).ports
                     : []
@@ -312,8 +312,8 @@ export default {
           data.metadata.namespace !== '' &&
           data.metadata.namespace !== this.objCopy.metadata.namespace
         ) {
-          this.serviceSelectData(this.ThisCluster, data.metadata.namespace)
-          this.secretSelectData(
+          this.m_select_serviceSelectData(this.ThisCluster, data.metadata.namespace)
+          this.m_select_secretSelectData(
             this.ThisCluster,
             data.metadata.namespace,
             'kubernetes.io/tls',
@@ -530,10 +530,10 @@ export default {
       this.$emit('closeOverlay')
     },
     onServiceSelectFocus(clusterName, namespace) {
-      this.serviceSelectData(clusterName, namespace)
+      this.m_select_serviceSelectData(clusterName, namespace)
     },
     onSecretSelectFocus(clusterName, namespace, type) {
-      this.secretSelectData(clusterName, namespace, type)
+      this.m_select_secretSelectData(clusterName, namespace, type)
     },
   },
 }

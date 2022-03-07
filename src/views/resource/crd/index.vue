@@ -7,11 +7,11 @@
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: 'crd名称', value: 'search' }"
-          @refresh="filterList"
+          @refresh="m_filter_list"
         />
         <v-spacer />
         <v-menu
-          v-if="resourceAllow"
+          v-if="m_permisson_resourceAllow"
           left
         >
           <template #activator="{ on }">
@@ -183,7 +183,7 @@ export default {
         { text: 'Scope', value: 'scope', align: 'start', sortable: false },
         { text: '创建时间', value: 'createAt', align: 'start', width: 180 },
       ]
-      if (this.resourceAllow) {
+      if (this.m_permisson_resourceAllow) {
         items.push({
           text: '',
           value: 'action',

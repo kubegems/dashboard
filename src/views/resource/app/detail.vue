@@ -12,7 +12,7 @@
             v-if="
               app &&
                 app.kind === 'Deployment' &&
-                resourceAllow &&
+                m_permisson_resourceAllow &&
                 $route.query.kind === 'app' &&
                 Plugins['argo_rollouts']
             "
@@ -34,7 +34,7 @@
             v-if="
               app &&
                 app.kind !== 'DaemonSet' &&
-                resourceAllow &&
+                m_permisson_resourceAllow &&
                 $route.query.kind === 'app'
             "
             text
@@ -54,7 +54,7 @@
             v-if="
               app &&
                 app.kind !== 'DaemonSet' &&
-                resourceAllow &&
+                m_permisson_resourceAllow &&
                 $route.query.kind === 'app'
             "
             text

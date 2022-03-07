@@ -84,7 +84,7 @@ export default {
     async updateTenant() {
       if (this.$refs.form.validate(true)) {
         await putUpdateTenant(this.obj.TenantID, this.obj)
-        await this.tenantSelectData()
+        await this.m_select_tenantSelectData()
         this.reset()
         this.$emit('refresh')
       }

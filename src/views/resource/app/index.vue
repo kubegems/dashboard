@@ -10,12 +10,12 @@
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '应用名称', value: 'search' }"
-          @refresh="filterList"
+          @refresh="m_filter_list"
         />
         <NamespaceFilter />
         <v-spacer />
         <v-menu
-          v-if="resourceAllow && tab === 0"
+          v-if="m_permisson_resourceAllow && tab === 0"
           left
         >
           <template #activator="{ on }">
@@ -384,7 +384,7 @@ export default {
           sortable: false,
         })
       }
-      if (this.resourceAllow || this.AdminViewport) {
+      if (this.m_permisson_resourceAllow || this.AdminViewport) {
         items.push({
           text: '',
           value: 'action',

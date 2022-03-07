@@ -26,7 +26,7 @@
             <v-autocomplete
               v-model="obj.namespace"
               color="primary"
-              :items="namespaceSelect"
+              :items="m_select_namespaceItems"
               :rules="objRules.namespaceRule"
               :readonly="edit"
               label="命名空间"
@@ -281,7 +281,7 @@ export default {
   mounted() {
     this.obj = this.$_.merge(this.obj, deepCopy(this.item))
     // when click back, load ns first
-    this.AdminViewport && this.namespaceSelectData(this.ThisCluster)
+    this.AdminViewport && this.m_select_namespaceSelectData(this.ThisCluster)
     this.getMonitorConfig()
   },
   methods: {
@@ -341,7 +341,7 @@ export default {
     },
     // eslint-disable-next-line vue/no-unused-properties
     updateNamespaceSelectData() {
-      this.namespaceSelectData(this.ThisCluster)
+      this.m_select_namespaceSelectData(this.ThisCluster)
     },
     // eslint-disable-next-line vue/no-unused-properties
     reset() {
@@ -387,7 +387,7 @@ export default {
       this.setLabelpairs(this.obj.labelpairs) // 此处确保配置项加载完后更新labelpairs列表
     },
     onNamespaceSelectFocus(clusterName) {
-      this.namespaceSelectData(clusterName)
+      this.m_select_namespaceSelectData(clusterName)
     },
   },
 }

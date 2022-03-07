@@ -31,7 +31,7 @@
           no-data-text="无数据"
           full-width
           class="ml-2"
-          :items="namespaceSelect"
+          :items="m_select_namespaceItems"
           @focus="onNamespaceSelectFocus(Cluster().ClusterName)"
           @change="onNamespaceFilterChange"
         >
@@ -102,7 +102,7 @@ export default {
   },
   methods: {
     onNamespaceFilterChange() {
-      const namespace = this.namespaceSelect.find((n) => {
+      const namespace = this.m_select_namespaceItems.find((n) => {
         return this.namespaceFilter && n.value === this.namespaceFilter.value
       })
       if (namespace) {
@@ -134,7 +134,7 @@ export default {
       this.reload()
     },
     onNamespaceSelectFocus(clusterName) {
-      this.namespaceSelectData(clusterName)
+      this.m_select_namespaceSelectData(clusterName)
     },
   },
 }

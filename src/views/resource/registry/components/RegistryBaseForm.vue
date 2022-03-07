@@ -9,6 +9,7 @@
       >
         <v-sheet>
           <v-switch
+            v-model="obj.EnableExtends"
             class="mb-4"
             hide-details
             label="启用镜像扫描和分析报告"
@@ -29,7 +30,7 @@
             hide-selected
             class="my-0"
             no-data-text="暂无可选数据"
-            :items="projectSelect"
+            :items="m_select_projectItems"
             :rules="objRules.ProjectRules"
             @focus="onProjectSelectFocus"
           >
@@ -182,6 +183,7 @@ export default {
       CreatorID: 0,
       ProjectID: 0,
       IsDefault: false,
+      EnableExtends: false,
     },
   }),
   computed: {
@@ -204,7 +206,7 @@ export default {
     if (!this.AdminViewport) {
       this.obj.ProjectID = this.Project().ID
     } else {
-      this.projectSelectData()
+      this.m_select_projectSelectData()
     }
     this.obj.CreatorID = this.User.ID
   },
@@ -228,7 +230,7 @@ export default {
       this.obj = data
     },
     onProjectSelectFocus() {
-      this.projectSelectData()
+      this.m_select_projectSelectData()
     },
   },
 }

@@ -5,7 +5,7 @@
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-menu
-            v-if="virtualSpaceAllow"
+            v-if="m_permisson_virtualSpaceAllow"
             left
           >
             <template #activator="{ on }">

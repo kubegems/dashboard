@@ -176,7 +176,7 @@ export default {
           width: 150,
         },
       ]
-      if (this.tenantAllow) {
+      if (this.m_permisson_tenantAllow) {
         items.push({
           text: '操作',
           value: 'action',

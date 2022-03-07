@@ -24,7 +24,7 @@
                 small
                 dark
                 v-on="on"
-                @click="clusterSelectData(Tenant().ID)"
+                @click="m_select_clusterSelectData(Tenant().ID)"
               >
                 {{ clusterName }}
                 <v-icon
@@ -42,7 +42,7 @@
               </v-btn>
             </template>
             <v-data-iterator
-              :items="[{ text: '集群', values: clusterSelect }]"
+              :items="[{ text: '集群', values: m_select_clusterItems }]"
               hide-default-footer
             >
               <template #no-data>
@@ -220,9 +220,9 @@ export default {
   async mounted() {
     if (this.JWT) {
       if (this.Tenant().ID > 0) {
-        await this.clusterSelectData(this.Tenant().ID)
-        if (this.clusterSelect.length > 0) {
-          this.clusterName = this.clusterSelect[0].text
+        await this.m_select_clusterSelectData(this.Tenant().ID)
+        if (this.m_select_clusterItems.length > 0) {
+          this.clusterName = this.m_select_clusterItems[0].text
           this.eventList()
         }
       }
@@ -231,10 +231,10 @@ export default {
   methods: {
     async eventList() {
       let query = '{container="gems-eventer"} | json | __error__=``'
-      await this.environmentSelectData(this.Tenant().ID)
+      await this.m_select_environmentSelectData(this.Tenant().ID)
       const ns = []
-      if (this.environmentSelect.length > 0) {
-        this.environmentSelect.forEach((e) => {
+      if (this.m_select_environmentItems.length > 0) {
+        this.m_select_environmentItems.forEach((e) => {
           ns.push(`^${e.value}$`)
         })
         query += ` | line_format "{{.metadata_namespace}}" |~ "${ns.join('|')}"`

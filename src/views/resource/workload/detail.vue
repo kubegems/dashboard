@@ -88,7 +88,7 @@
             "
           >
             <v-btn
-              v-if="$route.query.type !== 'DaemonSet' && resourceAllow"
+              v-if="$route.query.type !== 'DaemonSet' && m_permisson_resourceAllow"
               text
               small
               class="primary--text"
@@ -103,7 +103,7 @@
               调整副本数
             </v-btn>
             <v-btn
-              v-if="resourceAllow"
+              v-if="m_permisson_resourceAllow"
               text
               small
               class="primary--text"
@@ -118,7 +118,7 @@
               回滚
             </v-btn>
             <v-btn
-              v-if="$route.query.type !== 'DaemonSet' && resourceAllow"
+              v-if="$route.query.type !== 'DaemonSet' && m_permisson_resourceAllow"
               text
               small
               class="primary--text"
@@ -148,7 +148,7 @@
             Yaml
           </v-btn>
           <v-menu
-            v-if="resourceAllow"
+            v-if="m_permisson_resourceAllow"
             left
           >
             <template #activator="{ on }">

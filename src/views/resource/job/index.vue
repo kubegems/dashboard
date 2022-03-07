@@ -7,13 +7,13 @@
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '任务名称', value: 'search' }"
-          @refresh="filterList"
+          @refresh="m_filter_list"
         />
         <NamespaceFilter />
         <v-spacer />
         <v-spacer />
         <v-menu
-          v-if="resourceAllow"
+          v-if="m_permisson_resourceAllow"
           left
         >
           <template #activator="{ on }">
@@ -242,7 +242,7 @@ export default {
         { text: '开始时间', value: 'startAt', align: 'start', sortable: false },
         { text: '结束时间', value: 'endAt', align: 'start', sortable: false },
       ]
-      if (this.resourceAllow) {
+      if (this.m_permisson_resourceAllow) {
         items.push({
           text: '',
           value: 'action',
