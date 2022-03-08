@@ -32,7 +32,6 @@
                   :search-input.sync="commandText"
                   hide-selected
                   multiple
-                  small-chips
                   @change="onCommandChange"
                   @keydown.13="createCommand"
                 >
@@ -72,7 +71,6 @@
                   :search-input.sync="argsText"
                   hide-selected
                   multiple
-                  small-chips
                   @change="onArgsChange"
                   @keydown.13="createArgs"
                 >

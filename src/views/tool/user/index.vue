@@ -21,7 +21,7 @@
                   <span
                     class="text-body-2 white--text blue-grey lighten-2 px-1 rounded ml-2"
                   >
-                    gitlab
+                    {{ User.Source }}
                   </span>
                 </h3>
                 <h5 class="text-subtitle-2">

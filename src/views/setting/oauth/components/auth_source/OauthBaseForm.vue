@@ -4,13 +4,15 @@
     v-model="valid"
     lazy-validation
   >
-    <BaseSubTitle title="OAuth定义" />
     <v-card-text class="pa-2">
       <v-row>
         <v-col cols="6">
           <v-autocomplete
+            v-model="obj.tokenType"
+            :items="tokenTypeItems"
+            :rules="objRules.tokenTypeRule"
             color="primary"
-            label="JWT过期时间"
+            label="token类型"
             hide-selected
             class="my-0"
             no-data-text="暂无可选数据"
@@ -28,6 +30,8 @@
         </v-col>
         <v-col cols="6">
           <v-text-field
+            v-model="obj.config.redirectURL"
+            :rules="objRules.redirectURLRule"
             class="my-0"
             required
             label="Redirect URL"
@@ -35,6 +39,8 @@
         </v-col>
         <v-col cols="6">
           <v-text-field
+            v-model="obj.config.appID"
+            :rules="objRules.appIDRule"
             class="my-0"
             required
             label="Application ID"
@@ -42,18 +48,24 @@
         </v-col>
         <v-col cols="6">
           <v-text-field
+            v-model="obj.config.appSecret"
+            :rules="objRules.appSecretRule"
             class="my-0"
             required
             label="Secret"
           />
         </v-col>
         <v-col cols="6">
-          <v-autocomplete
-            color="primary"
+          <v-combobox
+            v-model="scopes"
+            hide-no-data
+            :items="[]"
+            :search-input.sync="scopeText"
+            multiple
             label="Scope"
-            hide-selected
             class="my-0"
-            no-data-text="暂无可选数据"
+            @change="onScopeChange"
+            @keydown.13="createScope"
           >
             <template #selection="{ item }">
               <v-chip
@@ -62,9 +74,15 @@
                 class="ma-1"
               >
                 {{ item['text'] }}
+                <v-icon
+                  small
+                  @click="removeScope(item)"
+                >
+                  mdi-close
+                </v-icon>
               </v-chip>
             </template>
-          </v-autocomplete>
+          </v-combobox>
         </v-col>
       </v-row>
     </v-card-text>
@@ -73,9 +91,10 @@
 
 <script>
 import { deepCopy } from '@/utils/helpers'
+import { required } from '@/utils/rules'
 
 export default {
-  name: 'BaseForm',
+  name: 'OauthBaseForm',
   props: {
     item: {
       type: Object,
@@ -84,11 +103,31 @@ export default {
   },
   data: () => ({
     valid: false,
+    tokenTypeItems: [
+      { text: 'Bearer', value: 'Bearer' },
+      { text: 'JWT', value: 'JWT' },
+    ],
+    scopes: [],
+    scopeText: '',
     obj: {
-
+      config: {
+        appID: '',
+        appSecret: '',
+        redirectURL: '',
+        scopes: [],
+      },
+      tokenType: '',
     },
   }),
   computed: {
+    objRules() {
+      return {
+        appIDRule: [required],
+        appSecretRule: [required],
+        redirectURLRule: [required],
+        tokenTypeRule: [required],
+      }
+    },
   },
   watch: {
     item() {
@@ -109,12 +148,34 @@ export default {
             this.obj = deepCopy(this.item)
           }
         }
-        this.m_select_tenantSelectData()
       })
+    },
+    onScopeChange() {
+      console.log(this.scopes)
+      const scopes = this.scopes.filter((scope) => {
+        return scope !== '' && typeof scope === 'object'
+      })
+      this.scopes = scopes
+    },
+    createScope() {
+      console.log(this.scopeText)
+      if (!this.scopeText) return
+      const index = this.scopes.length
+      this.scopes.push({
+        text: this.scopeText,
+        value: index,
+      })
+      console.log(this.scopes)
+      this.scopeText = ''
+    },
+    removeScope(item) {
+      const scopes = this.scopes.filter((scope) => {
+        return scope.value !== item.value
+      })
+      this.scopes = scopes
     },
     // eslint-disable-next-line vue/no-unused-properties
     reset() {
-      this.$refs.dataForm.closeCard()
       this.$refs.form.reset()
     },
     // eslint-disable-next-line vue/no-unused-properties
