@@ -11,13 +11,12 @@ axios.interceptors.request.use(function (config) {
     !validateJWT(store.state.JWT) &&
     [
       '/login',
-      '/oauth/callback',
       '/403',
       '/404',
       '/white/page',
       '/white/tenant',
       '/whitecluster/cluster',
-    ].indexOf(window.location.pathname) === -1
+    ].indexOf(window.location.pathname) === -1 && !window.location.pathname.startsWith("/oauth/callback/")
   ) {
     store.commit('CLEARALL')
     window.localStorage.clear()
