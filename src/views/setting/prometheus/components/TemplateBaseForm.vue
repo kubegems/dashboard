@@ -44,7 +44,6 @@
               :items="[]"
               :search-input.sync="labelText"
               multiple
-              small-chips
               label="标签(回车)"
               height="32"
               @change="onLabelChange"

@@ -9,13 +9,15 @@ axios.defaults.timeout = 1000 * parseInt(process.env.VUE_APP_API_TIMEOUT)
 axios.interceptors.request.use(function (config) {
   if (
     !validateJWT(store.state.JWT) &&
-    window.location.pathname !== '/login' &&
-    window.location.pathname !== '/oauth/callback' &&
-    window.location.pathname !== '/403' &&
-    window.location.pathname !== '/404' &&
-    window.location.pathname !== '/white/page' &&
-    window.location.pathname !== '/white/tenant' &&
-    window.location.pathname !== '/whitecluster/cluster'
+    [
+      '/login',
+      '/oauth/callback',
+      '/403',
+      '/404',
+      '/white/page',
+      '/white/tenant',
+      '/whitecluster/cluster',
+    ].indexOf(window.location.pathname) === -1
   ) {
     store.commit('CLEARALL')
     window.localStorage.clear()
@@ -136,15 +138,15 @@ axios.interceptors.response.use(
             color: 'warning',
           })
           store.commit('CLEARALL')
-          if (
-            window.location.pathname !== '/login' &&
-            window.location.pathname !== '/oauth/callback' &&
-            window.location.pathname !== '/403' &&
-            window.location.pathname !== '/404' &&
-            window.location.pathname !== '/white/page' &&
-            window.location.pathname !== '/white/tenant' &&
-            window.location.pathname !== '/whitecluster/cluster'
-          ) {
+          if ([
+            '/login',
+            '/oauth/callback',
+            '/403',
+            '/404',
+            '/white/page',
+            '/white/tenant',
+            '/whitecluster/cluster',
+          ].indexOf(window.location.pathname) === -1) {
             router.push({
               name: 'login',
               query: {

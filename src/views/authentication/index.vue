@@ -91,8 +91,11 @@
               </v-form>
               <div class="mt-6">
                 <v-chip
+                  v-for="(item, index) in oauthItems"
+                  :key="index"
                   pill
-                  @click="oauth"
+                  class="mr-1 mb-1"
+                  @click="oauth(item)"
                 >
                   <v-avatar left>
                     <v-btn
@@ -100,14 +103,14 @@
                       class="white--text"
                     >
                       <Icon
-                        icon="logos:gitlab"
+                        :icon="getIconName(item.kind.toLowerCase())"
                         class="primary--text"
                         width="25px"
                         height="25px"
                       />
                     </v-btn>
                   </v-avatar>
-                  sign in with gitlab
+                  sign in with {{ item.name }}
                 </v-chip>
               </div>
             </v-col>
@@ -123,11 +126,12 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex'
-import { postLogin, getLoginUserInfo, getLoginUserAuth, getOauthAddr } from '@/api'
+import { postLogin, getLoginUserInfo, getLoginUserAuth, getOauthAddr, getSystemAuthSource } from '@/api'
 import BaseSelect from '@/mixins/select'
 import BasePermission from '@/mixins/permission'
 import { validateJWT } from '@/utils/helpers'
 import { required } from '@/utils/rules'
+import { getIconName } from '@/utils/icon'
 
 export default {
   name: 'Login',
@@ -142,6 +146,7 @@ export default {
     ],
     username: '',
     usernameRules: [required],
+    oauthItems: [],
   }),
   computed: {
     ...mapState(['JWT', 'Circular', 'Admin', 'AdminViewport', 'Scale']),
@@ -151,12 +156,18 @@ export default {
     },
   },
   mounted() {
+    this.authSource()
     if (validateJWT(this.$route.query.token)) {
       this.$store.commit('SET_JWT', this.$route.query.token)
     }
     this.init()
   },
   methods: {
+    async authSource() {
+      const data = await getSystemAuthSource()
+      this.oauthItems = data
+    },
+    getIconName: getIconName,
     async login() {
       if (this.$refs.loginForm.validate(true)) {
         this.$store.commit('CLEARALL')
@@ -164,7 +175,7 @@ export default {
           username: this.username,
           password: this.password,
         })
-        this.$store.commit('SET_JWT', data.token)
+        this.$store.commit('SET_JWT', data)
         await this.loadData()
         this.$store.commit('SET_SNACKBAR', {
           text: '登录成功',
@@ -185,8 +196,7 @@ export default {
     },
     async redirect() {
       if (
-        this.$route.params.cluster ||
-        ['cluster-center', 'cluster-detail'].indexOf(this.$route.name) > -1
+        this.$route.params.cluster
       ) {
         await this.$store.dispatch('UPDATE_CLUSTER_DATA')
         this.$store.commit('SET_ADMIN_VIEWPORT', true)
@@ -227,8 +237,8 @@ export default {
         this.redirect()
       }
     },
-    async oauth() {
-      const data = await getOauthAddr()
+    async oauth(auth) {
+      const data = await getOauthAddr({source: auth.name})
       window.location.href = data
     },
   },

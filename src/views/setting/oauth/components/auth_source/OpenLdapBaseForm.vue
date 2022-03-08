@@ -4,7 +4,6 @@
     v-model="valid"
     lazy-validation
   >
-    <BaseSubTitle title="OpenLdap定义" />
     <v-card-text class="pa-2">
       <v-row>
         <v-col cols="6">
@@ -121,12 +120,10 @@ export default {
             this.obj = deepCopy(this.item)
           }
         }
-        this.m_select_tenantSelectData()
       })
     },
     // eslint-disable-next-line vue/no-unused-properties
     reset() {
-      this.$refs.dataForm.closeCard()
       this.$refs.form.reset()
     },
     // eslint-disable-next-line vue/no-unused-properties
