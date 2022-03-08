@@ -9,7 +9,8 @@ export default {
   name: 'Callback',
   async mounted() {
     const code = this.$route.query.code
-    const data = await getOauthCallback({ code: code })
+    const source = this.$route.params.source
+    const data = await getOauthCallback(source, { code: code })
     this.$router.push({ name: 'login', query: { token: data.token } })
   },
 }
