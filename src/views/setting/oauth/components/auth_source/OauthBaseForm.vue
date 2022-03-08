@@ -39,6 +39,24 @@
         </v-col>
         <v-col cols="6">
           <v-text-field
+            v-model="obj.config.authURL"
+            :rules="objRules.authURLRule"
+            class="my-0"
+            required
+            label="Auth URL"
+          />
+        </v-col>
+        <v-col cols="6">
+          <v-text-field
+            v-model="obj.config.userInfoURL"
+            :rules="objRules.userInfoURLRule"
+            class="my-0"
+            required
+            label="UserInfo URL"
+          />
+        </v-col>
+        <v-col cols="12">
+          <v-text-field
             v-model="obj.config.appID"
             :rules="objRules.appIDRule"
             class="my-0"
@@ -46,7 +64,7 @@
             label="Application ID"
           />
         </v-col>
-        <v-col cols="6">
+        <v-col cols="12">
           <v-text-field
             v-model="obj.config.appSecret"
             :rules="objRules.appSecretRule"
@@ -105,7 +123,6 @@ export default {
     valid: false,
     tokenTypeItems: [
       { text: 'Bearer', value: 'Bearer' },
-      { text: 'JWT', value: 'JWT' },
     ],
     scopes: [],
     scopeText: '',
@@ -115,6 +132,8 @@ export default {
         appSecret: '',
         redirectURL: '',
         scopes: [],
+        authURL: '',
+        userInfoURL: '',
       },
       tokenType: '',
     },
@@ -126,61 +145,47 @@ export default {
         appSecretRule: [required],
         redirectURLRule: [required],
         tokenTypeRule: [required],
+        authURLRule: [required],
+        userInfoURLRule: [required],
       }
     },
   },
   watch: {
     item() {
-      this.loadData(true)
-    },
-  },
-  mounted() {
-    this.loadData(false)
-  },
-  methods: {
-    async loadData(cover = false) {
-      this.$nextTick(() => {
-        if (cover) {
-          if (!this.item) {
-            this.obj = this.$options.data().obj
-            this.$refs.form.resetValidation()
-          } else {
-            this.obj = deepCopy(this.item)
-          }
-        }
+      this.obj = deepCopy(this.item)
+      this.scopes = this.obj.config.scopes.map((scope, index) => {
+        return { text: scope, value: index }
       })
     },
+  },
+  methods: {
     onScopeChange() {
-      console.log(this.scopes)
       const scopes = this.scopes.filter((scope) => {
         return scope !== '' && typeof scope === 'object'
       })
       this.scopes = scopes
+      this.obj.config.scopes = scopes.map(scope => { return scope.text })
     },
     createScope() {
-      console.log(this.scopeText)
       if (!this.scopeText) return
       const index = this.scopes.length
       this.scopes.push({
         text: this.scopeText,
         value: index,
       })
-      console.log(this.scopes)
       this.scopeText = ''
+      this.obj.config.scopes = this.scopes.map(scope => { return scope.text })
     },
     removeScope(item) {
       const scopes = this.scopes.filter((scope) => {
         return scope.value !== item.value
       })
       this.scopes = scopes
+      this.obj.config.scopes = this.scopes.map(scope => { return scope.text })
     },
     // eslint-disable-next-line vue/no-unused-properties
     reset() {
       this.$refs.form.reset()
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    setData(data) {
-      this.obj = data
     },
   },
 }

@@ -2,7 +2,7 @@
   <BaseDialog
     v-model="dialog"
     :width="1000"
-    title="配置第三方登录"
+    title="添加第三方登录"
     icon="mdi-star"
     @reset="reset"
   >
@@ -53,7 +53,6 @@
           :is="formComponent"
           :ref="formComponent"
           :item="item"
-          :edit="true"
         />
       </v-form>
     </template>
@@ -97,7 +96,7 @@ export default {
     },
     kindItems: [
       { text: 'Oauth', value: 'OAUTH' },
-      { text: 'OpenLdap', value: 'LDAP' },
+      { text: 'Ldap', value: 'LDAP' },
     ],
     obj: {
       name: '',
@@ -135,6 +134,7 @@ export default {
       this.dialog = false
       this.$refs[this.formComponent].reset()
       this.formComponent = 'OauthBaseForm'
+      this.obj = this.$options.data().obj
     },
   },
 }

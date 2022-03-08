@@ -108,7 +108,7 @@ export function getIconName(name) {
   if (name.indexOf('vscode') > -1) return 'vscode-icons:file-type-vscode2'
   if (name.indexOf('gitlab') > -1) return 'logos:gitlab'
   if (name.indexOf('oauth') > -1) return 'logos:oauth'
-  if (name.indexOf('openldap') > -1) return 'img:openldap.jpeg'
+  if (name.indexOf('ldap') > -1) return 'img:openldap.jpeg'
   if (name.indexOf('kubegems') > -1) return 'img:kubegems.jpg'
   return 'logos:kubernetes'
 }

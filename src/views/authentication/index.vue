@@ -90,28 +90,30 @@
                 </v-btn>
               </v-form>
               <div class="mt-6">
-                <v-chip
-                  v-for="(item, index) in oauthItems"
-                  :key="index"
-                  pill
-                  class="mr-1 mb-1"
-                  @click="oauth(item)"
-                >
-                  <v-avatar left>
-                    <v-btn
-                      color="grey lighten-4"
-                      class="white--text"
-                    >
-                      <Icon
-                        :icon="getIconName(item.kind.toLowerCase())"
-                        class="primary--text"
-                        width="25px"
-                        height="25px"
-                      />
-                    </v-btn>
-                  </v-avatar>
-                  sign in with {{ item.name }}
-                </v-chip>
+                <template v-for="(item, index) in oauthItems">
+                  <v-chip
+                    v-if="item.enabled && item.kind === 'OAUTH'"
+                    :key="index"
+                    pill
+                    class="mr-1 mb-1"
+                    @click="oauth(item)"
+                  >
+                    <v-avatar left>
+                      <v-btn
+                        color="grey lighten-4"
+                        class="white--text"
+                      >
+                        <Icon
+                          :icon="getIconName(item.kind.toLowerCase())"
+                          class="primary--text"
+                          width="25px"
+                          height="25px"
+                        />
+                      </v-btn>
+                    </v-avatar>
+                    sign in with {{ item.name }}
+                  </v-chip>
+                </template>
               </div>
             </v-col>
           </v-row>

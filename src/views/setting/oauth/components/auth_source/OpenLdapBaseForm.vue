@@ -8,73 +8,60 @@
       <v-row>
         <v-col cols="6">
           <v-text-field
+            v-model="obj.config.ldapaddr"
+            :rules="objRules.ldapaddrRule"
             class="my-0"
             required
             label="Ldap地址"
           />
         </v-col>
         <v-col cols="6">
-          <v-text-field
+          <v-autocomplete
+            v-model="obj.tokenType"
+            :items="tokenTypeItems"
+            :rules="objRules.tokenTypeRule"
+            color="primary"
+            label="token类型"
+            hide-selected
             class="my-0"
-            required
-            label="Ldap端口"
-          />
+            no-data-text="暂无可选数据"
+          >
+            <template #selection="{ item }">
+              <v-chip
+                color="primary"
+                small
+                class="ma-1"
+              >
+                {{ item['text'] }}
+              </v-chip>
+            </template>
+          </v-autocomplete>
         </v-col>
         <v-col cols="6">
           <v-text-field
+            v-model="obj.config.basedn"
+            :rules="objRules.basednRule"
             class="my-0"
             required
-            label="Secret"
-          />
-        </v-col>
-        <v-col cols="6">
-          <v-text-field
-            class="my-0"
-            required
-            label="search_dn"
-          />
-        </v-col>
-        <v-col cols="6">
-          <v-text-field
-            class="my-0"
-            required
-            label="search_password"
-          />
-        </v-col>
-        <v-col cols="6">
-          <v-text-field
-            class="my-0"
-            required
-            label="base_dn"
+            label="BaseDN"
           />
         </v-col>
         <v-col cols="6">
           <v-text-field
+            v-model="obj.config.binduser"
+            :rules="objRules.binduserRule"
             class="my-0"
             required
-            label="search_filter"
+            label="Username"
           />
         </v-col>
         <v-col cols="6">
-          <v-switch
-            hide-details
-            class="mt-4"
-            label="启用TLS"
-          />
-        </v-col>
-        <v-col cols="12">
-          <v-textarea
+          <v-text-field
+            v-model="obj.config.password"
+            :rules="objRules.passwordRule"
             class="my-0"
-            auto-grow
             required
-            label="CA证书"
-          />
-        </v-col>
-        <v-col cols="6">
-          <v-switch
-            hide-details
-            class="mt-4"
-            label="跳过证书验证"
+            label="Password"
           />
         </v-col>
       </v-row>
@@ -84,9 +71,10 @@
 
 <script>
 import { deepCopy } from '@/utils/helpers'
+import { required } from '@/utils/rules'
 
 export default {
-  name: 'BaseForm',
+  name: 'OpenLdapBaseForm',
   props: {
     item: {
       type: Object,
@@ -95,40 +83,38 @@ export default {
   },
   data: () => ({
     valid: false,
+    tokenTypeItems: [
+      { text: 'Bearer', value: 'Bearer' },
+    ],
     obj: {
-
+      config: {
+        basedn: '',
+        binduser: '',
+        password: '',
+        ldapaddr: '',
+      },
+      tokenType: '',
     },
   }),
   computed: {
+    objRules() {
+      return {
+        basednRule: [required],
+        binduserRule: [required],
+        passwordRule: [required],
+        ldapaddrRule: [required],
+      }
+    },
   },
   watch: {
     item() {
-      this.loadData(true)
+      this.obj = deepCopy(this.item)
     },
-  },
-  mounted() {
-    this.loadData(false)
   },
   methods: {
-    async loadData(cover = false) {
-      this.$nextTick(() => {
-        if (cover) {
-          if (!this.item) {
-            this.obj = this.$options.data().obj
-            this.$refs.form.resetValidation()
-          } else {
-            this.obj = deepCopy(this.item)
-          }
-        }
-      })
-    },
     // eslint-disable-next-line vue/no-unused-properties
     reset() {
       this.$refs.form.reset()
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    setData(data) {
-      this.obj = data
     },
   },
 }

@@ -73,6 +73,7 @@
                 text
                 small
                 color="primary"
+                @click="updateAuthSource(item)"
               >
                 更新
               </v-btn>
@@ -105,6 +106,10 @@
       ref="addAuthSource"
       @refresh="oauthSourceConfigList"
     />
+    <UpdateAuthSource
+      ref="updateAuthSource"
+      @refresh="oauthSourceConfigList"
+    />
   </v-container>
 </template>
 
@@ -112,12 +117,14 @@
 import { getAuthSourceConfigList, deleteAuthSourceConfig } from '@/api'
 import Logo from '@/views/resource/components/common/Logo'
 import AddAuthSource from './components/AddAuthSource'
+import UpdateAuthSource from './components/UpdateAuthSource'
 
 export default {
   name: 'OAuthSetting',
   components: {
     Logo,
     AddAuthSource,
+    UpdateAuthSource,
   },
   data: () => ({
     breadcrumb: {
@@ -152,6 +159,10 @@ export default {
     },
     addAuthSource() {
       this.$refs.addAuthSource.open()
+    },
+    updateAuthSource(item) {
+      this.$refs.updateAuthSource.init(item)
+      this.$refs.updateAuthSource.open()
     },
     removeAuthSource(item) {
       this.$store.commit('SET_CONFIRM', {
