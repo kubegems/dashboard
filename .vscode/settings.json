@@ -1,45 +1,44 @@
 {
-  "javascript.updateImportsOnFileMove.enabled": "always",
-  "[javascript]": {
-      "editor.defaultFormatter": "vscode.typescript-language-features"
-  },
-  "editor.suggestSelection": "first",
-  "[json]": {
-      "editor.defaultFormatter": "vscode.json-language-features"
-  },
-  "[html]": {
-      "editor.defaultFormatter": "vscode.html-language-features"
-  },
-  "typescript.updateImportsOnFileMove.enabled": "always",
-  // eslint
-  "eslint.codeAction.showDocumentation": {
-      "enable": true
-  },
-  "eslint.options": {
-      "configFile": "./.eslintrc.js"
-  },
-  "eslint.alwaysShowStatus": true,
-  "eslint.format.enable": true,
-  "eslint.packageManager": "yarn",
-  "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true,
-  },
-  "eslint.validate": [
-      "javascript",
-      "vue",
-      "html",
-      "jsx",
-      "typescript",
-      "tsx",
-      "json",
-      "js",
-      "ts",
-  ],
-  "[typescriptreact]": {
-      "editor.defaultFormatter": "dbaeumer.vscode-eslint"
-  },
-"terminal.integrated.fontFamily": "Hack Nerd Font Mono",
-"yaml.schemas": {
-    "https://json.schemastore.org/github-workflow.json": "file:///Users/leonchen/code/gemcloud/ui/.github/workflows/build.yml"
-},
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "[javascript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "editor.suggestSelection": "first",
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[html]": {
+        "editor.defaultFormatter": "vscode.html-language-features"
+    },
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    // eslint
+    "eslint.codeAction.showDocumentation": {
+        "enable": true
+    },
+    "eslint.options": {
+        "configFile": "./.eslintrc.js"
+    },
+    "eslint.alwaysShowStatus": true,
+    "eslint.format.enable": true,
+    "eslint.packageManager": "yarn",
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true,
+    },
+    "eslint.validate": [
+        "javascript",
+        "vue",
+        "html",
+        "jsx",
+        "typescript",
+        "tsx",
+        "json",
+        "js",
+        "ts",
+    ],
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "terminal.integrated.fontFamily": "Hack Nerd Font Mono",
+    "javascript.inlayHints.parameterNames.enabled": "all",
+    "javascript.inlayHints.variableTypes.enabled": true,
 }
