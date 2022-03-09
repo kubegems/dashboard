@@ -30,7 +30,7 @@
                 label="nameservers(回车)"
                 height="32"
                 @change="onNameserversChange"
-                @keydown.13="createNameservers"
+                @keydown.enter="createNameservers"
               >
                 <template #selection="{ item }">
                   <v-chip
@@ -70,7 +70,7 @@
                 label="searches(回车)"
                 height="32"
                 @change="onSearchesChange"
-                @keydown.13="createSearches"
+                @keydown.enter="createSearches"
               >
                 <template #selection="{ item }">
                   <v-chip

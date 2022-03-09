@@ -28,7 +28,7 @@
                   />
                 </v-list-item-action>
                 <v-list-item-icon class="mr-4">
-                  <Logo
+                  <BaseLogo
                     :width="32"
                     icon-name="gpu_manager"
                   />
@@ -82,13 +82,11 @@
 <script>
 import { mapState } from 'vuex'
 import { patchMetadataNode } from '@/api'
-import Logo from '@/views/resource/components/common/Logo'
 import BaseResource from '@/mixins/resource'
 import { deepCopy } from '@/utils/helpers'
 
 export default {
   name: 'GpuScheduleForm',
-  components: { Logo },
   mixins: [BaseResource],
   data: () => ({
     dialog: false,

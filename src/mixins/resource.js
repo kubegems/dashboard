@@ -217,13 +217,13 @@ const resource = {
         })
         return false
       }
-      if (!data.metadata.namespace) {
+      if (!data?.metadata?.namespace) {
         data.metadata.namespace = ns
       }
       return true
     },
     addNsToData(data, ns) {
-      if (!data.metadata.namespace) {
+      if (!data?.metadata?.namespace) {
         data.metadata.namespace = ns
       }
     },

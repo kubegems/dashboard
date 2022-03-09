@@ -139,7 +139,7 @@
             <v-flex style="display: flex;">
               <a
                 class="text-subtitle-2"
-                @click="prometheusRuleDetail(item)"
+                @click.stop="prometheusRuleDetail(item)"
               >
                 {{ item.name }}
               </a>

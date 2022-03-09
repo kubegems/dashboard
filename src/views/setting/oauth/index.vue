@@ -48,7 +48,7 @@
                 tile
                 size="80"
               >
-                <Logo
+                <BaseLogo
                   class="mr-6 mt-1"
                   :icon-name="item.kind.toLowerCase()"
                   :width="60"
@@ -115,14 +115,12 @@
 
 <script>
 import { getAuthSourceConfigList, deleteAuthSourceConfig } from '@/api'
-import Logo from '@/views/resource/components/common/Logo'
 import AddAuthSource from './components/AddAuthSource'
 import UpdateAuthSource from './components/UpdateAuthSource'
 
 export default {
   name: 'OAuthSetting',
   components: {
-    Logo,
     AddAuthSource,
     UpdateAuthSource,
   },

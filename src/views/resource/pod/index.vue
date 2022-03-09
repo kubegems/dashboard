@@ -73,7 +73,7 @@
         <template #[`item.name`]="{ item }">
           <a
             class="text-subtitle-2"
-            @click="podDetail(item)"
+            @click.stop="podDetail(item)"
           >
             {{ item.metadata.name }}
           </a>

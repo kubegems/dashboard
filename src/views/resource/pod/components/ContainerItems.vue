@@ -59,7 +59,7 @@
                     "
                     class="float-left mt-1 ml-2 icon"
                   >
-                    <Logo
+                    <BaseLogo
                       :width="16"
                       icon-name="gpu_manager"
                     />
@@ -78,7 +78,7 @@
                     "
                     class="float-left mt-1 ml-2 icon"
                   >
-                    <Logo
+                    <BaseLogo
                       :width="16"
                       icon-name="nvidia_device_plugin"
                     />
@@ -277,7 +277,6 @@
 <script>
 import { mapState } from 'vuex'
 import ProbeInfo from '@/views/resource/components/common/ProbeInfo'
-import Logo from '@/views/resource/components/common/Logo'
 import ContainerLog from '@/views/resource/components/common/ContainerLog'
 import Terminal from '@/views/resource/components/common/Terminal'
 import BasePermission from '@/mixins/permission'
@@ -288,7 +287,6 @@ export default {
   name: 'ContainerItems',
   components: {
     ProbeInfo,
-    Logo,
     ContainerLog,
     Terminal,
   },

@@ -74,7 +74,7 @@
                   :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                   :type="show ? 'text' : 'password'"
                   @click:append="show = !show"
-                  @keyup.enter="login"
+                  @keyup.enter="login(null)"
                 />
 
                 <v-btn
@@ -84,7 +84,7 @@
                   class="mr-4"
                   submit
                   :loading="Circular"
-                  @click="login"
+                  @click="login(null)"
                 >
                   登录
                 </v-btn>
@@ -92,7 +92,7 @@
               <div class="mt-6">
                 <template v-for="(item, index) in oauthItems">
                   <v-chip
-                    v-if="item.enabled && item.kind === 'OAUTH'"
+                    v-if="item.enabled"
                     :key="index"
                     pill
                     class="mr-1 mb-1"
@@ -103,15 +103,15 @@
                         color="grey lighten-4"
                         class="white--text"
                       >
-                        <Icon
-                          :icon="getIconName(item.kind.toLowerCase())"
-                          class="primary--text"
-                          width="25px"
-                          height="25px"
+                        <BaseLogo
+                          class="primary--text oauth-logo"
+                          :icon-name="item.kind.toLowerCase()"
+                          :width="25"
+                          :ml="0"
                         />
                       </v-btn>
                     </v-avatar>
-                    sign in with {{ item.name }}
+                    使用 {{ item.name }} 帐号登录
                   </v-chip>
                 </template>
               </div>
@@ -133,7 +133,6 @@ import BaseSelect from '@/mixins/select'
 import BasePermission from '@/mixins/permission'
 import { validateJWT } from '@/utils/helpers'
 import { required } from '@/utils/rules'
-import { getIconName } from '@/utils/icon'
 
 export default {
   name: 'Login',
@@ -169,15 +168,15 @@ export default {
       const data = await getSystemAuthSource()
       this.oauthItems = data
     },
-    getIconName: getIconName,
-    async login() {
+    async login(source = null) {
       if (this.$refs.loginForm.validate(true)) {
         this.$store.commit('CLEARALL')
         const data = await postLogin({
           username: this.username,
           password: this.password,
+          source: source,
         })
-        this.$store.commit('SET_JWT', data)
+        this.$store.commit('SET_JWT', data.token)
         await this.loadData()
         this.$store.commit('SET_SNACKBAR', {
           text: '登录成功',
@@ -240,8 +239,12 @@ export default {
       }
     },
     async oauth(auth) {
-      const data = await getOauthAddr({source: auth.name})
-      window.location.href = data
+      if (auth.kind === 'OAUTH') {
+        const data = await getOauthAddr({source: auth.name})
+        window.location.href = data
+      } else if (auth.kind === 'LDAP') {
+        await this.login(auth.name)
+      }
     },
   },
 }
@@ -254,5 +257,10 @@ export default {
   left: 0;
   right: 0;
   text-align: center;
+}
+
+.oauth-logo {
+  margin-left: 0 !important;
+  margin-top: 5px !important;
 }
 </style>

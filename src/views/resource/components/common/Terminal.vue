@@ -385,6 +385,8 @@ export default {
           container: this.container,
         },
       })
+      this.dispose()
+      this.dialog = false
       window.open(routeData.href, '_blank')
     },
   },

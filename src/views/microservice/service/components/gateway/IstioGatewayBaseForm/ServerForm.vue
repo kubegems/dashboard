@@ -75,7 +75,7 @@
                 label="hosts(回车)"
                 height="32"
                 @change="onHostChange"
-                @keydown.13="createHost"
+                @keydown.enter="createHost"
               >
                 <template #selection="{ item }">
                   <v-chip

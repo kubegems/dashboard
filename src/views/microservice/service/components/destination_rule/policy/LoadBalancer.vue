@@ -292,7 +292,7 @@
                     height="32"
                     :rules="objRules.distributeRule[index].from"
                     @change="onToChange(index)"
-                    @keydown.13="createTo(index)"
+                    @keydown.enter="createTo(index)"
                   >
                     <template #selection="{ item }">
                       <v-chip

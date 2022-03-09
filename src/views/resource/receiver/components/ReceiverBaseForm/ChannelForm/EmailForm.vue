@@ -94,7 +94,7 @@
               multiple
               class="my-0"
               no-data-text="暂无可选数据"
-              @keydown.13="createEmail"
+              @keydown.enter="createEmail"
               @change="onEmailChange"
             >
               <template #selection="{ item }">

@@ -83,7 +83,7 @@
             label="Scope"
             class="my-0"
             @change="onScopeChange"
-            @keydown.13="createScope"
+            @keydown.enter="createScope"
           >
             <template #selection="{ item }">
               <v-chip

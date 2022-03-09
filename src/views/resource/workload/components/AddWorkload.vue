@@ -113,7 +113,7 @@ export default {
           data = this.beautifyData(data)
         }
         const namespace = this.AdminViewport
-          ? data.metadata.namespace
+          ? data?.metadata?.namespace
           : this.ThisNamespace
         if (!this.checkDataWithNS(data, namespace)) {
           return
@@ -150,7 +150,7 @@ export default {
         const data = this.$refs[this.formComponent].obj
         this.addNsToData(
           data,
-          this.AdminViewport ? data.metadata.namespace : this.ThisNamespace,
+          this.AdminViewport ? data?.metadata?.namespace : this.ThisNamespace,
         )
         this.formComponent = 'YamlForm'
         this.$nextTick(() => {
@@ -161,7 +161,7 @@ export default {
         const data = this.$yamlload(yaml)
         this.addNsToData(
           data,
-          this.AdminViewport ? data.metadata.namespace : this.ThisNamespace,
+          this.AdminViewport ? data?.metadata?.namespace : this.ThisNamespace,
         )
         if (!this.validateJsonSchema(this.schema, data)) {
           this.yaml = true

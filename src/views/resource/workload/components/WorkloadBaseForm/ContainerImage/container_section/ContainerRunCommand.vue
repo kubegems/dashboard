@@ -33,7 +33,7 @@
                   hide-selected
                   multiple
                   @change="onCommandChange"
-                  @keydown.13="createCommand"
+                  @keydown.enter="createCommand"
                 >
                   <template #selection="{ item }">
                     <v-chip
@@ -65,14 +65,13 @@
               <v-flex class="float-left ml-2 kubegems__long-width">
                 <v-combobox
                   v-model="obj.args"
-                  :rules="objRules.argsRule"
                   hide-no-data
                   :items="[]"
                   :search-input.sync="argsText"
                   hide-selected
                   multiple
                   @change="onArgsChange"
-                  @keydown.13="createArgs"
+                  @keydown.enter="createArgs"
                 >
                   <template #selection="{ item }">
                     <v-chip
@@ -243,7 +242,6 @@ export default {
       },
       objRules: {
         commandRule: [required],
-        argsRule: [required],
       },
       containerCopy: null,
     }

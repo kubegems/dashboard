@@ -43,7 +43,7 @@
                   tile
                   size="80"
                 >
-                  <Logo
+                  <BaseLogo
                     :icon-name="plugin.name"
                     :width="60"
                   />
@@ -222,15 +222,11 @@ import {
   postDisablePlugin,
   getPlatformVersion,
 } from '@/api'
-import Logo from '@/views/resource/components/common/Logo'
 import BaseResource from '@/mixins/resource'
 import BasePermission from '@/mixins/permission'
 
 export default {
   name: 'Plugin',
-  components: {
-    Logo,
-  },
   mixins: [BaseResource, BasePermission],
   data: () => ({
     breadcrumb: {

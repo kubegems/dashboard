@@ -3,6 +3,7 @@
     ref="form"
     v-model="valid"
     lazy-validation
+    @submit.prevent
   >
     <v-expand-transition>
       <v-card
@@ -90,7 +91,7 @@ export default {
   computed: {
     ...mapGetters(['Tenant']),
     clusterName() {
-      const cluster = this.clusterSelect.find((c) => {
+      const cluster = this.m_select_clusterItems.find((c) => {
         return c.value === this.data
       })
       if (cluster) return cluster.text
@@ -122,11 +123,7 @@ export default {
         })
         return
       }
-      const params = {
-        size: 200,
-        noprocessing: true,
-      }
-      const data = await namespaceSelectDataFilter(this.clusterName, params)
+      const data = await namespaceSelectDataFilter(this.clusterName)
       const namespaceSelect = []
       data.List.forEach((ns) => {
         namespaceSelect.push({

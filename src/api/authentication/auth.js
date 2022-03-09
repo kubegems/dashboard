@@ -15,6 +15,6 @@ export const getOauthCallback = (source = 'db', query = {}) =>
 // 重置密码
 export const postResetPassword = (body = {}) =>
   axios.post(`my/reset_password`, body)
-// 三方登陆
+// 三方登录
 export const getSystemAuthSource = (query = {}) =>
   axios(`system/authsource`, { params: query })

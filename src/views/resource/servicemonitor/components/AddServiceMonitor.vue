@@ -83,7 +83,7 @@ export default {
           if (
             !this.checkDataWithNS(
               data,
-              this.AdminViewport ? data.metadata.namespace : this.ThisNamespace,
+              this.AdminViewport ? data?.metadata?.namespace : this.ThisNamespace,
             )
           ) {
             return
@@ -97,7 +97,7 @@ export default {
           data = this.beautifyData(data)
         }
         const namespace = this.AdminViewport
-          ? data.metadata.namespace
+          ? data?.metadata?.namespace
           : this.ThisNamespace
         await postAddServiceMonitor(
           this.ThisCluster,

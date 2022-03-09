@@ -16,7 +16,8 @@ axios.interceptors.request.use(function (config) {
       '/white/page',
       '/white/tenant',
       '/whitecluster/cluster',
-    ].indexOf(window.location.pathname) === -1 && !window.location.pathname.startsWith("/oauth/callback/")
+    ].indexOf(window.location.pathname) === -1 &&
+    !window.location.pathname.startsWith("/oauth/callback/")
   ) {
     store.commit('CLEARALL')
     window.localStorage.clear()
@@ -163,6 +164,12 @@ axios.interceptors.response.use(
         case 404:
           store.commit('SET_SNACKBAR', {
             text: '请求资源不存在',
+            color: 'warning',
+          })
+          break
+        case 405:
+          store.commit('SET_SNACKBAR', {
+            text: '不允许请求',
             color: 'warning',
           })
           break

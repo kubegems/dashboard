@@ -69,7 +69,7 @@
         class="py-0"
       >
         <AuditList />
-        <EventList v-if="Plugins && Plugins.eventer" />
+        <EventList />
       </v-col>
     </v-row>
 
@@ -118,7 +118,7 @@ export default {
     statistics: null,
   }),
   computed: {
-    ...mapState(['JWT', 'Admin', 'Plugins']),
+    ...mapState(['JWT', 'Admin']),
     ...mapGetters(['Tenant']),
   },
   mounted() {

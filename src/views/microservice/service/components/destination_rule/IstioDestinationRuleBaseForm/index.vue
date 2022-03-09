@@ -42,7 +42,7 @@
               height="32"
               label="exportTo(回车)"
               @change="onExportToChange"
-              @keydown.13="createExportTo"
+              @keydown.enter="createExportTo"
             >
               <template #selection="{ item }">
                 <v-chip
