@@ -120,7 +120,7 @@ export default {
   data: () => ({
     breadcrumb: {
       title: '日志快照',
-      tip: '日志快照文件',
+      tip: '用户保存的快照文件，用来复盘某个时刻的日志历史',
       icon: 'mdi-camera',
     },
     items: [],

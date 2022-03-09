@@ -133,7 +133,7 @@ export default {
   data() {
     this.breadcrumb = {
       title: '日志路由器',
-      tip: '',
+      tip: '路由器(Output)定义您的流可以发送日志消息的输出。',
       icon: 'mdi-router-wireless',
     }
 
