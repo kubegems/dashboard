@@ -164,7 +164,7 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     async init(item) {
       this.obj.data = deepCopy(item)
-      this.obj.statistics = await this.tenantResourceQuota(
+      this.obj.statistics = await this.m_resource_tenantResourceQuota(
         this.ThisCluster,
         this.Tenant().TenantName,
         { noprocessing: true },
@@ -176,7 +176,7 @@ export default {
         : 5120
       this.obj.statistics.ApplyPod =
         this.obj.statistics.Pod - this.obj.statistics.AllocatedPod
-      this.obj.quota = await this.clusterQuota(this.obj.data.ClusterID, {
+      this.obj.quota = await this.m_resource_clusterQuota(this.obj.data.ClusterID, {
         NowCpu: this.obj.statistics.Cpu,
         NowMemory: this.obj.statistics.Memory,
         NowStorage: this.obj.statistics.Storage,
@@ -193,7 +193,7 @@ export default {
       this.expand = false
     },
     async addResourceData() {
-      this.obj.statistics = await this.tenantResourceQuota(
+      this.obj.statistics = await this.m_resource_tenantResourceQuota(
         this.ThisCluster,
         this.Tenant().TenantName,
         { noprocessing: true },

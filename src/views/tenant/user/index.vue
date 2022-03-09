@@ -37,7 +37,7 @@
                 <v-btn
                   text
                   color="error"
-                  @click="batchRemoveNotK8SResource('用户', 'User', userList)"
+                  @click="m_resource_batchRemoveNotK8SResource('用户', 'User', userList)"
                 >
                   <v-icon left>mdi-minus-box</v-icon>
                   删除用户
@@ -57,15 +57,15 @@
         no-data-text="暂无数据"
         hide-default-footer
         show-select
-        @toggle-select-all="onNotK8SResourceToggleSelect($event, 'UserID', 'ID')"
+        @toggle-select-all="m_resource_onNotK8SResourceToggleSelect($event, 'UserID', 'ID')"
       >
         <template #[`item.data-table-select`]="{ item }">
           <v-checkbox
-            v-model="batchResources[item.ID].checked"
+            v-model="m_resource_batchResources[item.ID].checked"
             color="primary"
             hide-details
             @click.stop
-            @change="onNotK8SResourceChange($event, item, 'UserID', 'ID')"
+            @change="m_resource_onNotK8SResourceChange($event, item, 'UserID', 'ID')"
           />
         </template>
         <template #[`item.username`]="{ item }">
@@ -245,7 +245,7 @@ export default {
       this.pageCount = Math.ceil(data.Total / this.params.size)
       this.params.page = data.CurrentPage
       this.$router.replace({ query: { ...this.$route.query, ...this.params } })
-      this.generateSelectResourceNoK8s('UserID', 'ID')
+      this.m_resource_generateSelectResourceNoK8s('UserID', 'ID')
     },
     updateRole(item) {
       this.$refs.updateRole.init(item)

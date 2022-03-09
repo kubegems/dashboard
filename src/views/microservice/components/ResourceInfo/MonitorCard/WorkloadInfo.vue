@@ -70,19 +70,19 @@
             <span v-on="on">
               <span
                 :class="`v-avatar mr-2 ${
-                  getWorkloadStatus($route.query.type, item) === 'pending'
+                  m_resource_getWorkloadStatus($route.query.type, item) === 'pending'
                     ? 'kubegems__waiting-flashing'
                     : ''
                 }`"
                 :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
                   $WORKLOAD_STATUS_COLOR[
-                    getWorkloadStatus($route.query.type, item)
+                    m_resource_getWorkloadStatus($route.query.type, item)
                   ]
                 };`"
               />
               <span>
                 {{
-                  getWorkloadStatus($route.query.type, item) === 'ready'
+                  m_resource_getWorkloadStatus($route.query.type, item) === 'ready'
                     ? 'Ready'
                     : 'Pending'
                 }}
@@ -139,15 +139,15 @@
                                 'Pending',
                                 'Terminating',
                                 'PodInitializing',
-                              ].indexOf(getPodStatus(pod)) > -1
+                              ].indexOf(m_resource_getPodStatus(pod)) > -1
                                 ? 'kubegems__waiting-flashing'
                                 : ''
                             } text-body-2`"
                             :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
-                              $POD_STATUS_COLOR[getPodStatus(pod)] || '#ff5252'
+                              $POD_STATUS_COLOR[m_resource_getPodStatus(pod)] || '#ff5252'
                             };`"
                           />
-                          {{ getPodStatus(pod) }}
+                          {{ m_resource_getPodStatus(pod) }}
                         </span>
                       </v-list-item-content>
                     </v-list-item-content>

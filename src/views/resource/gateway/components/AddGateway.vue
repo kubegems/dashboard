@@ -82,16 +82,16 @@ export default {
           if (this.formComponent === 'YamlForm') {
             data = this.$refs[this.formComponent].kubeyaml
             data = this.$yamlload(data)
-            if (!this.validateJsonSchema(this.schema, data)) {
+            if (!this.m_resource_validateJsonSchema(this.schema, data)) {
               return
             }
-            data = this.beautifyData(data)
+            data = this.m_resource_beautifyData(data)
           } else if (this.formComponent === 'GatewayBaseForm') {
             data = this.$refs[this.formComponent].obj
             if (data.cluster === '') data.cluster = this.ThisCluster
-            data = this.beautifyData(data)
+            data = this.m_resource_beautifyData(data)
           }
-          if (!this.checkDataWithOutNS(data)) return
+          if (!this.m_resource_checkDataWithOutNS(data)) return
           await postAddGateway(this.Tenant().ID, this.ThisClusterID, data)
           this.reset()
           this.$emit('refresh')
@@ -108,7 +108,7 @@ export default {
       } else {
         const yaml = this.$refs[this.formComponent].kubeyaml
         const data = this.$yamlload(yaml)
-        if (!this.validateJsonSchema(this.schema, data)) {
+        if (!this.m_resource_validateJsonSchema(this.schema, data)) {
           this.yaml = true
           this.switchKey = randomString(6)
           return

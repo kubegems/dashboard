@@ -57,16 +57,16 @@
           no-data-text="暂无数据"
           hide-default-footer
           @toggle-select-all="
-            onNotK8SResourceToggleSelect($event, 'EnvironmentID', 'ID')
+            m_resource_onNotK8SResourceToggleSelect($event, 'EnvironmentID', 'ID')
           "
         >
           <template #[`item.data-table-select`]="{ item }">
             <v-checkbox
-              v-model="batchResources[item.ID].checked"
+              v-model="m_resource_batchResources[item.ID].checked"
               color="primary"
               hide-details
               @click.stop
-              @change="onNotK8SResourceChange($event, item, 'EnvironmentID', 'ID')"
+              @change="m_resource_onNotK8SResourceChange($event, item, 'EnvironmentID', 'ID')"
             />
           </template>
           <template #[`item.environmentName`]="{ item }">
@@ -324,7 +324,7 @@ export default {
         e.StoragePercentage =
           e.Storage > 0 ? ((e.UsedStorage / e.Storage) * 100).toFixed(1) : 0
       })
-      this.generateSelectResourceNoK8s('EnvironmentID', 'ID')
+      this.m_resource_generateSelectResourceNoK8s('EnvironmentID', 'ID')
     },
     onTenantSelectChange() {
       if (this.tenant) this.environmentTenantResourceQuota(this.tenant)

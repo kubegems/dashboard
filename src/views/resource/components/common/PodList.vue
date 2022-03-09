@@ -7,8 +7,8 @@
       :items-per-page="params.size"
       no-data-text="暂无数据"
       hide-default-footer
-      @update:sort-by="sortBy"
-      @update:sort-desc="sortDesc"
+      @update:sort-by="m_resource_sortBy"
+      @update:sort-desc="m_resource_sortDesc"
     >
       <template #[`item.name`]="{ item }">
         <a
@@ -33,15 +33,15 @@
                   'Pending',
                   'Terminating',
                   'PodInitializing',
-                ].indexOf(getPodStatus(item)) > -1
+                ].indexOf(m_resource_getPodStatus(item)) > -1
                   ? 'kubegems__waiting-flashing'
                   : ''
               }`"
               :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
-                $POD_STATUS_COLOR[getPodStatus(item)] || '#ff5252'
+                $POD_STATUS_COLOR[m_resource_getPodStatus(item)] || '#ff5252'
               };`"
             />
-            <span> {{ getPodStatus(item) }}</span>
+            <span> {{ m_resource_getPodStatus(item) }}</span>
             <span>
               ({{
                 item.status && item.status.containerStatuses
@@ -291,7 +291,7 @@ export default {
       deep: true,
       immediate: true,
     },
-    sortparam: {
+    m_resource_sortparam: {
       handler: function (newV, oldV) {
         if (oldV.name !== newV.name) return
         if (oldV.desc === null) return
@@ -317,7 +317,7 @@ export default {
         Object.assign(
           this.selector,
           Object.assign(this.params, {
-            sort: this.generateResourceSortParamValue(),
+            sort: this.m_resource_generateResourceSortParamValue(),
           }),
         ),
       )

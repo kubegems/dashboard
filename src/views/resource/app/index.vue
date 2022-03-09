@@ -77,8 +77,8 @@
           :items-per-page="params.size"
           no-data-text="暂无数据"
           hide-default-footer
-          @update:sort-by="sortBy"
-          @update:sort-desc="sortDesc"
+          @update:sort-by="m_resource_sortBy"
+          @update:sort-desc="m_resource_sortDesc"
         >
           <template #[`item.name`]="{ item }">
             <a
@@ -411,7 +411,7 @@ export default {
         const app = JSON.parse(updatingApp)
         if (app.MessageType !== 'objectChanged') return
         if (app.EventKind === 'delete') {
-          this.generateParams()
+          this.m_resource_generateParams()
           this.appRunningList(true)
           return
         }
@@ -450,7 +450,7 @@ export default {
       deep: true,
       immediate: true,
     },
-    sortparam: {
+    m_resource_sortparam: {
       handler: function (newV, oldV) {
         if (oldV.name !== newV.name) return
         if (oldV.desc === null) return
@@ -469,7 +469,7 @@ export default {
           })
           return
         }
-        this.generateParams()
+        this.m_resource_generateParams()
         this.appRunningList()
       })
     }
@@ -501,7 +501,7 @@ export default {
           Object.assign(this.params, {
             kind: kind,
             noprocessing: noprocess,
-            sort: this.generateResourceSortParamValue(),
+            sort: this.m_resource_generateResourceSortParamValue(),
           }),
         )
       } else if (this.tabItems[this.tab].value === 'AppStoreList') {
@@ -513,7 +513,7 @@ export default {
           Object.assign(this.params, {
             kind: kind,
             noprocessing: noprocess,
-            sort: this.generateResourceSortParamValue(),
+            sort: this.m_resource_generateResourceSortParamValue(),
           }),
         )
       }

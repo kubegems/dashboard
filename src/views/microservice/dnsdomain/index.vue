@@ -172,7 +172,7 @@ export default {
   mounted() {
     if (this.JWT) {
       this.$nextTick(() => {
-        this.generateParams()
+        this.m_resource_generateParams()
         this.dnsDomainList()
       })
     }

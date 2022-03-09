@@ -38,7 +38,7 @@
                   text
                   color="error"
                   @click="
-                    batchRemoveNotK8SResource(
+                    m_resource_batchRemoveNotK8SResource(
                       '仓库',
                       'Repository',
                       repositoryList,
@@ -63,16 +63,16 @@
         hide-default-footer
         show-select
         @toggle-select-all="
-          onNotK8SResourceToggleSelect($event, 'Name', 'ChartRepoName')
+          m_resource_onNotK8SResourceToggleSelect($event, 'Name', 'ChartRepoName')
         "
       >
         <template #[`item.data-table-select`]="{ item }">
           <v-checkbox
-            v-model="batchResources[item.ID].checked"
+            v-model="m_resource_batchResources[item.ID].checked"
             color="primary"
             hide-details
             @click.stop
-            @change="onNotK8SResourceChange($event, item, 'Name', 'ChartRepoName')"
+            @change="m_resource_onNotK8SResourceChange($event, item, 'Name', 'ChartRepoName')"
           />
         </template>
         <template #[`item.chartRepoName`]="{ item }">
@@ -195,7 +195,7 @@ export default {
           ...item,
         }
       })
-      this.generateSelectResourceNoK8s('Name', 'ChartRepoName')
+      this.m_resource_generateSelectResourceNoK8s('Name', 'ChartRepoName')
     },
     addRepository() {
       this.$refs.repositoryInfo.title = '添加仓库'

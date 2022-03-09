@@ -220,7 +220,7 @@ export default {
       this.item.NowStorage = parseFloat(
         sizeOfStorage(data.spec.hard[`requests.storage`]),
       )
-      this.quota = await this.clusterQuota(this.item.ClusterID, this.item)
+      this.quota = await this.m_resource_clusterQuota(this.item.ClusterID, this.item)
       this.obj.Content = {
         'limits.cpu': this.item.Content[`limits.cpu`],
         'limits.memory': this.item.Content[`limits.memory`].replaceAll(

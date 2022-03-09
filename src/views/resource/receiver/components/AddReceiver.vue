@@ -57,7 +57,7 @@ export default {
         this.$refs[this.formComponent].validate()
       ) {
         let data = this.$refs[this.formComponent].obj
-        data = this.beautifyData(data)
+        data = this.m_resource_beautifyData(data)
         if (!this.AdminViewport) {
           await postAddReceiver(this.ThisCluster, this.ThisNamespace, data)
         } else {

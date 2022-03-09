@@ -59,8 +59,8 @@ export default {
       if (this.$refs.yamlForm.$refs.form.validate(true)) {
         let data = this.$refs.yamlForm.kubeyaml
         data = this.$yamlload(data)
-        if (!this.checkDataWithOutNS(data)) return
-        data = this.beautifyData(data)
+        if (!this.m_resource_checkDataWithOutNS(data)) return
+        data = this.m_resource_beautifyData(data)
         await patchUpdateStorageClass(
           this.ThisCluster,
           this.item.metadata.name,

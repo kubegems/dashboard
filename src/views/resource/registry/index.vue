@@ -253,7 +253,7 @@ export default {
           ...item,
         }
       })
-      this.generateSelectResourceNoK8s('ProjectName', 'ID')
+      this.m_resource_generateSelectResourceNoK8s('ProjectName', 'ID')
       this.pageCount = Math.ceil(data.Total / this.params.size)
       this.params.page = data.CurrentPage
       this.$router.replace({ query: { ...this.$route.query, ...this.params } })

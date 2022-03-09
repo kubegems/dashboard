@@ -92,20 +92,20 @@
           <template #[`item.status`]="{ item }">
             <span
               :class="`v-avatar mr-2 ${
-                getWorkloadStatus(tabItems[tab].value, item.Object) ===
+                m_resource_getWorkloadStatus(tabItems[tab].value, item.Object) ===
                 'pending'
                   ? 'kubegems__waiting-flashing'
                   : ''
               }`"
               :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
                 $WORKLOAD_STATUS_COLOR[
-                  getWorkloadStatus(tabItems[tab].value, item.Object)
+                  m_resource_getWorkloadStatus(tabItems[tab].value, item.Object)
                 ]
               };`"
             />
             <span>
               {{
-                getWorkloadStatus(tabItems[tab].value, item.Object) === 'ready'
+                m_resource_getWorkloadStatus(tabItems[tab].value, item.Object) === 'ready'
                   ? 'Ready'
                   : 'Pending'
               }}
@@ -178,16 +178,16 @@
                                   'Pending',
                                   'Terminating',
                                   'PodInitializing',
-                                ].indexOf(getPodStatus(pod)) > -1
+                                ].indexOf(m_resource_getPodStatus(pod)) > -1
                                   ? 'kubegems__waiting-flashing'
                                   : ''
                               }`"
                               :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
-                                $POD_STATUS_COLOR[getPodStatus(pod)] || '#ff5252'
+                                $POD_STATUS_COLOR[m_resource_getPodStatus(pod)] || '#ff5252'
                               };`"
                             />
                             <span>
-                              {{ getPodStatus(pod) }}
+                              {{ m_resource_getPodStatus(pod) }}
                             </span>
                             <span>
                               ({{

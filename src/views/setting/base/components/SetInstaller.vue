@@ -63,7 +63,7 @@ export default {
         if (this.formComponent === 'YamlForm') {
           data = this.$refs[this.formComponent].kubeyaml
           data = this.$yamlload(data)
-          data = this.beautifyData(data)
+          data = this.m_resource_beautifyData(data)
           this.installer.content.installer_yaml = data
         }
         await putSystemConfigData(

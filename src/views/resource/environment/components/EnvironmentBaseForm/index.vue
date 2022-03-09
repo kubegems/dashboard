@@ -491,12 +491,12 @@ export default {
         return c.value === ClusterID
       })
       if (cluster) {
-        this.obj.statistics = await this.tenantResourceQuota(
+        this.obj.statistics = await this.m_resource_tenantResourceQuota(
           cluster.text,
           this.Tenant().TenantName,
           { noprocessing: true },
         )
-        this.obj.quota = await this.clusterQuota(cluster.value, {
+        this.obj.quota = await this.m_resource_clusterQuota(cluster.value, {
           NowCpu: this.obj.statistics.Cpu,
           NowMemory: this.obj.statistics.Memory,
           NowStorage: this.obj.statistics.Storage,
@@ -548,12 +548,12 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     async init(item) {
       this.obj.data = deepCopy(item)
-      this.obj.statistics = await this.tenantResourceQuota(
+      this.obj.statistics = await this.m_resource_tenantResourceQuota(
         this.ThisCluster,
         this.Tenant().TenantName,
         { noprocessing: true },
       )
-      this.obj.quota = await this.clusterQuota(this.obj.data.ClusterID, {
+      this.obj.quota = await this.m_resource_clusterQuota(this.obj.data.ClusterID, {
         NowCpu: this.obj.statistics.Cpu,
         NowMemory: this.obj.statistics.Memory,
         NowStorage: this.obj.statistics.Storage,

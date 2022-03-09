@@ -43,7 +43,7 @@
                   text
                   color="error"
                   @click="
-                    batchRemoveResource(
+                    m_resource_batchRemoveResource(
                       '服务入口',
                       'ServiceEntry',
                       istioServiceEntryList,
@@ -67,19 +67,19 @@
         no-data-text="暂无数据"
         hide-default-footer
         show-select
-        @update:sort-by="sortBy"
-        @update:sort-desc="sortDesc"
-        @toggle-select-all="onResourceToggleSelect"
+        @update:sort-by="m_resource_sortBy"
+        @update:sort-desc="m_resource_sortDesc"
+        @toggle-select-all="m_resource_onResourceToggleSelect"
       >
         <template #[`item.data-table-select`]="{ item, index }">
           <v-checkbox
             v-model="
-              batchResources[`${item.metadata.name}-${index}`].checked
+              m_resource_batchResources[`${item.metadata.name}-${index}`].checked
             "
             color="primary"
             hide-details
             @click.stop
-            @change="onResourceChange($event, item, index)"
+            @change="m_resource_onResourceChange($event, item, index)"
           />
         </template>
         <template #[`item.name`]="{ item }">
@@ -244,7 +244,7 @@ export default {
     },
   },
   watch: {
-    sortparam: {
+    m_resource_sortparam: {
       handler: function (newV, oldV) {
         if (oldV.name !== newV.name) return
         if (oldV.desc === null) return
@@ -274,7 +274,7 @@ export default {
         this.EnvironmentFilter.namespace,
         Object.assign(this.params, {
           noprocessing: noprocess,
-          sort: this.generateResourceSortParamValue(),
+          sort: this.m_resource_generateResourceSortParamValue(),
         }),
       )
       this.items = data.List.map((s) => {
@@ -289,7 +289,7 @@ export default {
       })
       this.pageCount = Math.ceil(data.Total / this.params.size)
       this.params.page = data.CurrentPage
-      this.generateSelectResource()
+      this.m_resource_generateSelectResource()
     },
     addServiceEntry() {
       this.$refs.addServiceEntry.open()

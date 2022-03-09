@@ -32,7 +32,7 @@
                 <v-btn
                   text
                   color="error"
-                  @click="batchRemoveResource('容器组', 'Pod', podList)"
+                  @click="m_resource_batchRemoveResource('容器组', 'Pod', podList)"
                 >
                   <v-icon left>mdi-minus-box</v-icon>
                   删除容器组
@@ -54,20 +54,20 @@
         show-expand
         item-key="metadata.name"
         single-expand
-        @update:sort-by="sortBy"
-        @update:sort-desc="sortDesc"
-        @toggle-select-all="onResourceToggleSelect"
+        @update:sort-by="m_resource_sortBy"
+        @update:sort-desc="m_resource_sortDesc"
+        @toggle-select-all="m_resource_onResourceToggleSelect"
         @click:row="onRowClick"
       >
         <template #[`item.data-table-select`]="{ item, index }">
           <v-checkbox
             v-model="
-              batchResources[`${item.metadata.name}-${index}`].checked
+              m_resource_batchResources[`${item.metadata.name}-${index}`].checked
             "
             color="primary"
             hide-details
             @click.stop
-            @change="onResourceChange($event, item, index)"
+            @change="m_resource_onResourceChange($event, item, index)"
           />
         </template>
         <template #[`item.name`]="{ item }">
@@ -96,16 +96,16 @@
                     'Pending',
                     'Terminating',
                     'PodInitializing',
-                  ].indexOf(getPodStatus(item)) > -1
+                  ].indexOf(m_resource_getPodStatus(item)) > -1
                     ? 'kubegems__waiting-flashing'
                     : ''
                 }`"
                 :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
-                  $POD_STATUS_COLOR[getPodStatus(item)] || '#ff5252'
+                  $POD_STATUS_COLOR[m_resource_getPodStatus(item)] || '#ff5252'
                 };`"
               />
               <span>
-                {{ getPodStatus(item) }}
+                {{ m_resource_getPodStatus(item) }}
               </span>
               <span>
                 ({{
@@ -335,7 +335,7 @@ export default {
         const pod = JSON.parse(updatingPod)
         if (pod.MessageType !== 'objectChanged') return
         if (pod.EventKind === 'delete') {
-          this.generateParams()
+          this.m_resource_generateParams()
           this.podList(true)
           return
         }
@@ -350,7 +350,7 @@ export default {
               this.Environment().Namespace,
             ) === 0
           ) {
-            this.generateParams()
+            this.m_resource_generateParams()
             this.podList(true)
             return
           }
@@ -369,7 +369,7 @@ export default {
       deep: true,
       immediate: true,
     },
-    sortparam: {
+    m_resource_sortparam: {
       handler: function (newV, oldV) {
         if (oldV.name !== newV.name) return
         if (oldV.desc === null) return
@@ -388,7 +388,7 @@ export default {
           })
           return
         }
-        this.generateParams()
+        this.m_resource_generateParams()
         this.podList()
         this.generateFilters()
       })
@@ -419,7 +419,7 @@ export default {
         this.ThisNamespace,
         Object.assign(this.params, {
           noprocessing: noprocess,
-          sort: this.generateResourceSortParamValue(),
+          sort: this.m_resource_generateResourceSortParamValue(),
         }),
       )
       this.items = data.List
@@ -429,7 +429,7 @@ export default {
       this.podCPUUsage(true)
       this.podMemoryUsage(true)
       this.watchPodList()
-      this.generateSelectResource()
+      this.m_resource_generateSelectResource()
     },
     watchPodList() {
       const sub = {

@@ -255,7 +255,7 @@ export default {
                 kind: djson.kind,
                 manifest: d.content,
                 completed: this.ThisAppEnvironmentID
-                  ? this.checkManifestCompleteness(djson)
+                  ? this.m_resource_checkManifestCompleteness(djson)
                   : true,
               })
             }

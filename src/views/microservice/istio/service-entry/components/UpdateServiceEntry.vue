@@ -62,8 +62,8 @@ export default {
         if (this.formComponent === 'YamlForm') {
           data = this.$refs[this.formComponent].kubeyaml
           data = this.$yamlload(data)
-          if (!this.checkDataWithOutNS(data)) return
-          data = this.beautifyData(data)
+          if (!this.m_resource_checkDataWithOutNS(data)) return
+          data = this.m_resource_beautifyData(data)
         }
         await patchUpdateIstioServiceEntry(
           this.EnvironmentFilter.cluster,
