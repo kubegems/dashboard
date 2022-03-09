@@ -11,7 +11,7 @@
           origin="top center"
           transition="scale-transition"
           nudge-bottom="5px"
-          content-class="z-index-bg"
+          content-class="cluster-header__bg"
         >
           <template #activator="{ on }">
             <v-btn
@@ -119,7 +119,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.z-index-bg {
+.cluster-header__bg {
   z-index: auto !important;
 }
 </style>

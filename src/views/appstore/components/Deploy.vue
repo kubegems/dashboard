@@ -32,7 +32,7 @@
           >
             <DeployWizard
               ref="deployWizard"
-              class="deploy-wizard"
+              class="deploy-wizard-overflow-y"
               :files="files"
               :current-app="currentApp"
               :versions="versions"
@@ -108,7 +108,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.deploy-wizard {
+.deploy-wizard-overflow-y {
   overflow-y: auto;
 }
 </style>

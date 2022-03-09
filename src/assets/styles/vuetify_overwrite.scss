@@ -88,3 +88,21 @@
 .v-data-table__wrapper {
   overflow-y: auto !important;
 }
+
+.date-select {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+}
+
+.date-select .v-input__slot {
+  background: none !important;
+}
+
+.v-application .footerpart {
+  border-top: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+.theme--light.v-footer {
+  background: white;
+}

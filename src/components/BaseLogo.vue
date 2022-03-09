@@ -12,7 +12,7 @@
     />
     <img
       v-else
-      :class="`${large ? 'largeimg' : 'img'} ml-${ml}`"
+      :class="`${large ? 'logo__largeimg' : 'logo__img'} ml-${ml}`"
       :style="`width: ${width}px;height: ${width}px;`"
       :src="`/icon/${getIconName(iconName).replaceAll('img:', '')}`"
     />
@@ -49,11 +49,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.img {
+.logo__img {
   width: 60px;
   height: 60px;
 }
-.largeimg {
+.logo__largeimg {
   width: 100px;
   height: 100px;
 }

@@ -8,7 +8,7 @@
           width="50px"
           height="50px"
         />
-        <div class="mx-2 text-fix-width text-center">
+        <div class="mx-2 info-card-width text-center">
           <h2 class="text-h5">{{ num }} {{ unit }}</h2>
           <h5 class="text-subtitle-2 font-weight-regular">{{ title }}</h5>
         </div>
@@ -46,7 +46,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.text-fix-width {
+.info-card-width {
   width: 100px;
 }
 </style>

@@ -171,6 +171,7 @@ import UpdateVirtualSpace from './components/UpdateVirtualSpace'
 import BasePermission from '@/mixins/permission'
 import BaseFilter from '@/mixins/base_filter'
 import BaseResource from '@/mixins/resource'
+import BaseTable from '@/mixins/table'
 
 export default {
   name: 'VirtualSpace',
@@ -178,7 +179,7 @@ export default {
     AddVirtualSpace,
     UpdateVirtualSpace,
   },
-  mixins: [BasePermission, BaseFilter, BaseResource],
+  mixins: [BasePermission, BaseFilter, BaseResource, BaseTable],
   data: () => ({
     breadcrumb: {
       title: '虚拟空间',
@@ -211,7 +212,7 @@ export default {
     },
   },
   watch: {
-    m_resource_sortparam: {
+    m_table_sortparam: {
       handler: function (newV, oldV) {
         if (oldV.name !== newV.name) return
         if (oldV.desc === null) return
@@ -224,7 +225,7 @@ export default {
     if (this.JWT) {
       this.$nextTick(() => {
         this.$store.commit('CLEAR_VIRTUAL_SPACE')
-        this.m_resource_generateParams()
+        this.m_table_generateParams()
         this.virtualSpaceList()
       })
     }

@@ -57,16 +57,16 @@
           no-data-text="暂无数据"
           hide-default-footer
           @toggle-select-all="
-            m_resource_onNotK8SResourceToggleSelect($event, 'EnvironmentID', 'ID')
+            m_table_onNotK8SResourceToggleSelect($event, 'EnvironmentID', 'ID')
           "
         >
           <template #[`item.data-table-select`]="{ item }">
             <v-checkbox
-              v-model="m_resource_batchResources[item.ID].checked"
+              v-model="m_table_batchResources[item.ID].checked"
               color="primary"
               hide-details
               @click.stop
-              @change="m_resource_onNotK8SResourceChange($event, item, 'EnvironmentID', 'ID')"
+              @change="m_table_onNotK8SResourceChange($event, item, 'EnvironmentID', 'ID')"
             />
           </template>
           <template #[`item.environmentName`]="{ item }">
@@ -213,6 +213,7 @@ import BaseSelect from '@/mixins/select'
 import BaseResource from '@/mixins/resource'
 import BasePermission from '@/mixins/permission'
 import BaseFilter from '@/mixins/base_filter'
+import BaseTable from '@/mixins/table'
 import { sizeOfStorage, sizeOfCpu } from '@/utils/helpers'
 
 export default {
@@ -220,7 +221,7 @@ export default {
   components: {
     UpdateEnvironment,
   },
-  mixins: [BaseSelect, BaseResource, BasePermission, BaseFilter],
+  mixins: [BaseSelect, BaseResource, BasePermission, BaseFilter, BaseTable],
   inject: ['reload'],
   data: () => ({
     breadcrumb: {
@@ -324,7 +325,7 @@ export default {
         e.StoragePercentage =
           e.Storage > 0 ? ((e.UsedStorage / e.Storage) * 100).toFixed(1) : 0
       })
-      this.m_resource_generateSelectResourceNoK8s('EnvironmentID', 'ID')
+      this.m_table_generateSelectResourceNoK8s('EnvironmentID', 'ID')
     },
     onTenantSelectChange() {
       if (this.tenant) this.environmentTenantResourceQuota(this.tenant)

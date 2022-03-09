@@ -43,7 +43,7 @@
                   text
                   color="error"
                   @click="
-                    m_resource_batchRemoveResource('接收器', 'Receiver', receiverList)
+                    m_table_batchRemoveResource('接收器', 'Receiver', receiverList)
                   "
                 >
                   <v-icon left>mdi-minus-box</v-icon>
@@ -68,13 +68,13 @@
           show-expand
           item-key="index"
           @page-count="pageCount = $event"
-          @toggle-select-all="m_resource_onResourceToggleSelect"
+          @toggle-select-all="m_table_onResourceToggleSelect"
           @click:row="onRowClick"
         >
           <template #[`item.data-table-select`]="{ item, index }">
             <v-checkbox
               v-model="
-                m_resource_batchResources[
+                m_table_batchResources[
                   `${item.metadata.name}-${index + itemsPerPage * (page - 1)}`
                 ].checked
               "
@@ -82,7 +82,7 @@
               hide-details
               @click.stop
               @change="
-                m_resource_onResourceChange(
+                m_table_onResourceChange(
                   $event,
                   item,
                   `${index + itemsPerPage * (page - 1)}`,
@@ -215,6 +215,7 @@ import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter'
 import BaseFilter from '@/mixins/base_filter'
 import BaseResource from '@/mixins/resource'
 import BasePermission from '@/mixins/permission'
+import BaseTable from '@/mixins/table'
 
 export default {
   name: 'ReceiverList',
@@ -223,7 +224,7 @@ export default {
     UpdateReceiver,
     NamespaceFilter,
   },
-  mixins: [BaseFilter, BaseResource, BasePermission],
+  mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
     breadcrumb: {
       title: '接收器',
@@ -281,7 +282,7 @@ export default {
           })
           return
         }
-        this.m_resource_generateParams()
+        this.m_table_generateParams()
         this.receiverList()
       })
     }
@@ -304,7 +305,7 @@ export default {
           ...d,
         }
       })
-      this.m_resource_generateSelectResource()
+      this.m_table_generateSelectResource()
     },
     filterList(params) {
       const defaultparams = {

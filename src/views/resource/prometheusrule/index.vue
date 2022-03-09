@@ -83,7 +83,7 @@
                   text
                   color="error"
                   @click="
-                    m_resource_batchRemoveResource(
+                    m_table_batchRemoveResource(
                       '告警规则',
                       'PrometheusRule',
                       prometheusRuleList,
@@ -113,13 +113,13 @@
           show-select
           item-key="index"
           @page-count="pageCount = $event"
-          @toggle-select-all="m_resource_onResourceToggleSelect"
+          @toggle-select-all="m_table_onResourceToggleSelect"
           @click:row="onRowClick"
         >
           <template #[`item.data-table-select`]="{ item, index }">
             <v-checkbox
               v-model="
-                m_resource_batchResources[
+                m_table_batchResources[
                   `${item.metadata.name}-${index + itemsPerPage * (page - 1)}`
                 ].checked
               "
@@ -127,7 +127,7 @@
               hide-details
               @click.stop
               @change="
-                m_resource_onResourceChange(
+                m_table_onResourceChange(
                   $event,
                   item,
                   `${index + itemsPerPage * (page - 1)}`,
@@ -337,6 +337,7 @@ import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter'
 import BaseFilter from '@/mixins/base_filter'
 import BaseResource from '@/mixins/resource'
 import BasePermission from '@/mixins/permission'
+import BaseTable from '@/mixins/table'
 import { deepCopy } from '@/utils/helpers'
 
 export default {
@@ -346,7 +347,7 @@ export default {
     UpdatePrometheusRule,
     NamespaceFilter,
   },
-  mixins: [BaseFilter, BaseResource, BasePermission],
+  mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
     breadcrumb: {
       title: '告警规则',
@@ -437,7 +438,7 @@ export default {
       } else {
         this.items = this.itemsCopy
       }
-      this.m_resource_generateSelectResource()
+      this.m_table_generateSelectResource()
     },
     initAlertStatus() {
       this.alertStatus = { inactive: 0, firing: 0, pending: 0 }
@@ -451,7 +452,7 @@ export default {
           ? true
           : this.alertStateFilter.indexOf(item.state) !== -1
       })
-      this.m_resource_generateSelectResource()
+      this.m_table_generateSelectResource()
     },
     async prometheusRuleList() {
       this.params.isAdmin = this.AdminViewport
@@ -479,7 +480,7 @@ export default {
       })
       this.itemsCopy = deepCopy(this.items)
       this.initAlertStatus()
-      this.m_resource_generateSelectResource()
+      this.m_table_generateSelectResource()
       if (this.$route.query.search) this.customFilter()
     },
     onAlertStateChange() {

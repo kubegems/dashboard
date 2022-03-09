@@ -255,14 +255,14 @@ export default {
                 ) : node.data.sync === 'OutOfSync' ? (
                   node.data.syncState === 'Running' ? (
                     <span>
-                      <span class="v-icon notranslate mdi mdi-autorenew theme--light orange--text mx-1 tree-status waiting-circle-flashing"></span>
+                      <span class="v-icon notranslate mdi mdi-autorenew theme--light orange--text mx-1 tree-status kubegems__waiting-circle-flashing"></span>
                       <span class="v-icon notranslate mdi mdi-arrow-up-bold-circle theme--light orange--text mx-1 tree-status"></span>
                     </span>
                   ) : (
                     <span class="v-icon notranslate mdi mdi-arrow-up-bold-circle theme--light orange--text mx-1 tree-status"></span>
                   )
                 ) : node.data.syncState === 'Running' ? (
-                  <span class="v-icon notranslate mdi mdi-autorenew theme--light orange--text mx-1 tree-status waiting-circle-flashing"></span>
+                  <span class="v-icon notranslate mdi mdi-autorenew theme--light orange--text mx-1 tree-status kubegems__waiting-circle-flashing"></span>
                 ) : (
                   <span></span>
                 )}
@@ -467,23 +467,5 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.waiting-circle-flashing {
-  animation-name: animate-waiting-circle-flash;
-  animation-duration: 2s;
-  animation-timing-function: linear;
-  animation-delay: 0s;
-  animation-iteration-count: infinite;
-  animation-direction: normal;
-}
-
-@keyframes animate-waiting-circle-flash {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
 </style>

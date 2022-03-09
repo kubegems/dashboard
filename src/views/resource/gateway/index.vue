@@ -277,13 +277,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.full-center {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-}
-
 .gateway-pos {
   position: relative;
   background-color: #ffffff;

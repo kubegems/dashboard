@@ -133,6 +133,7 @@ import UpdateDNSDomain from './components/UpdateDNSDomain'
 import BasePermission from '@/mixins/permission'
 import BaseFilter from '@/mixins/base_filter'
 import BaseResource from '@/mixins/resource'
+import BaseTable from '@/mixins/table'
 
 export default {
   name: 'DNSDomain',
@@ -140,7 +141,7 @@ export default {
     AddDNSDomain,
     UpdateDNSDomain,
   },
-  mixins: [BasePermission, BaseFilter, BaseResource],
+  mixins: [BasePermission, BaseFilter, BaseResource, BaseTable],
   data: () => ({
     breadcrumb: {
       title: 'DNS',
@@ -172,7 +173,7 @@ export default {
   mounted() {
     if (this.JWT) {
       this.$nextTick(() => {
-        this.m_resource_generateParams()
+        this.m_table_generateParams()
         this.dnsDomainList()
       })
     }

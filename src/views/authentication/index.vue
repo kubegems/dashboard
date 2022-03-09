@@ -104,7 +104,7 @@
                         class="white--text"
                       >
                         <BaseLogo
-                          class="primary--text oauth-logo"
+                          class="primary--text logo-margin"
                           :icon-name="item.kind.toLowerCase()"
                           :width="25"
                           :ml="0"
@@ -259,7 +259,7 @@ export default {
   text-align: center;
 }
 
-.oauth-logo {
+.logo-margin {
   margin-left: 0 !important;
   margin-top: 5px !important;
 }

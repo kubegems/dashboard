@@ -151,8 +151,8 @@
                 </h3>
                 <span
                   :class="`d-block my-0 text-subtitle-2 font-weight-regular kubegems__break-all ${messageClass[index]}`"
-                  @mouseover="$set(messageClass, index, 'show')"
-                  @mouseout="$set(messageClass, index, 'collapse')"
+                  @mouseover="$set(messageClass, index, 'event--show')"
+                  @mouseout="$set(messageClass, index, 'event--collapse')"
                 >
                   {{ item.stream.message }}
                 </span>
@@ -210,7 +210,7 @@ export default {
   data: () => ({
     eventItems: [],
     clusterName: '',
-    messageClass: ['collapse', 'collapse', 'collapse', 'collapse', 'collapse'],
+    messageClass: ['event--collapse', 'event--collapse', 'event--collapse', 'event--collapse', 'event--collapse'],
     eventMenu: false,
   }),
   computed: {
@@ -276,12 +276,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.collapse {
+.event--collapse {
   min-height: 22px;
   max-height: 43px;
   overflow: hidden;
 }
-.show {
+.event--show {
   min-height: 22px;
   height: auto;
   overflow: auto;

@@ -11,7 +11,7 @@
           (Confirm.content.type === 'delete' ||
             Confirm.content.type === 'batch_delete')
         "
-        class="px-4 py-4 max"
+        class="px-4 py-4 confirm-size"
       >
         <v-alert
           border="left"
@@ -87,7 +87,7 @@
           </v-text-field>
         </v-form>
       </v-sheet>
-      <v-sheet v-else-if="Confirm.content" class="px-4 py-4 max">
+      <v-sheet v-else-if="Confirm.content" class="px-4 py-4 confirm-size">
         <v-flex
           class="text-subtitle-1 kubegems__detail kubegems__break-all"
           v-html="Confirm.content.text"
@@ -179,7 +179,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.max {
+.confirm-size {
   max-height: 400px;
   overflow-y: auto;
 }

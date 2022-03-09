@@ -43,7 +43,7 @@
                 <v-btn
                   text
                   color="error"
-                  @click="m_resource_batchRemoveResource('密钥', 'Secret', secretList)"
+                  @click="m_table_batchRemoveResource('密钥', 'Secret', secretList)"
                 >
                   <v-icon left>mdi-minus-box</v-icon>
                   删除密钥
@@ -62,19 +62,19 @@
         no-data-text="暂无数据"
         hide-default-footer
         show-select
-        @update:sort-by="m_resource_sortBy"
-        @update:sort-desc="m_resource_sortDesc"
-        @toggle-select-all="m_resource_onResourceToggleSelect"
+        @update:sort-by="m_table_sortBy"
+        @update:sort-desc="m_table_sortDesc"
+        @toggle-select-all="m_table_onResourceToggleSelect"
       >
         <template #[`item.data-table-select`]="{ item, index }">
           <v-checkbox
             v-model="
-              m_resource_batchResources[`${item.metadata.name}-${index}`].checked
+              m_table_batchResources[`${item.metadata.name}-${index}`].checked
             "
             color="primary"
             hide-details
             @click.stop
-            @change="m_resource_onResourceChange($event, item, index)"
+            @change="m_table_onResourceChange($event, item, index)"
           />
         </template>
         <template #[`item.name`]="{ item, index }">
@@ -184,6 +184,7 @@ import UpdateSecret from './components/UpdateSecret'
 import BaseResource from '@/mixins/resource'
 import BasePermission from '@/mixins/permission'
 import BaseFilter from '@/mixins/base_filter'
+import BaseTable from '@/mixins/table'
 
 export default {
   name: 'Secret',
@@ -193,7 +194,7 @@ export default {
     NamespaceFilter,
     Tips,
   },
-  mixins: [BaseFilter, BaseResource, BasePermission],
+  mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
     breadcrumb: {
       title: '密钥',
@@ -253,7 +254,7 @@ export default {
       },
       deep: true,
     },
-    m_resource_sortparam: {
+    m_table_sortparam: {
       handler: function (newV, oldV) {
         if (oldV.name !== newV.name) return
         if (oldV.desc === null) return
@@ -272,7 +273,7 @@ export default {
           })
           return
         }
-        this.m_resource_generateParams()
+        this.m_table_generateParams()
         this.secretList()
       })
     }
@@ -284,7 +285,7 @@ export default {
         this.ThisNamespace,
         Object.assign(this.params, {
           noprocessing: noprocess,
-          sort: this.m_resource_generateResourceSortParamValue(),
+          sort: this.m_table_generateResourceSortParamValue(),
         }),
       )
       this.items = data.List
@@ -297,7 +298,7 @@ export default {
           ...secret,
         }
       })
-      this.m_resource_generateSelectResource()
+      this.m_table_generateSelectResource()
     },
     secretDetail(item) {
       this.$router.push({

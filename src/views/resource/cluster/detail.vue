@@ -104,7 +104,7 @@
             <div class="d-flex align-center">
               <Icon
                 :icon="$RESOURCE_ICON[key]"
-                class="mr-6 primary--text icon-large"
+                class="mr-6 primary--text icon--large"
               />
               <div class="ml-4 mr-1">
                 <h2 class="text-h5">
@@ -274,7 +274,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.icon-large {
+.icon--large {
   width: 40px;
   height: 40px;
 }

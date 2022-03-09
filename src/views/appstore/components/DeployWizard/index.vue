@@ -516,7 +516,7 @@ export default {
         })
         return
       }
-      const environment = this.projectEnvironmentSelect.find((e) => {
+      const environment = this.m_select_projectEnvironmentItems.find((e) => {
         return e.value === this.obj.EnvironmentId
       })
 
@@ -628,12 +628,5 @@ export default {
 }
 .vue-form-wizard {
   padding-bottom: 0;
-}
-
-/* 自定义样式 */
-.wizard-footer-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 </style>

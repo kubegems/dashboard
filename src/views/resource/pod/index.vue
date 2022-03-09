@@ -32,7 +32,7 @@
                 <v-btn
                   text
                   color="error"
-                  @click="m_resource_batchRemoveResource('容器组', 'Pod', podList)"
+                  @click="m_table_batchRemoveResource('容器组', 'Pod', podList)"
                 >
                   <v-icon left>mdi-minus-box</v-icon>
                   删除容器组
@@ -54,20 +54,20 @@
         show-expand
         item-key="metadata.name"
         single-expand
-        @update:sort-by="m_resource_sortBy"
-        @update:sort-desc="m_resource_sortDesc"
-        @toggle-select-all="m_resource_onResourceToggleSelect"
+        @update:sort-by="m_table_sortBy"
+        @update:sort-desc="m_table_sortDesc"
+        @toggle-select-all="m_table_onResourceToggleSelect"
         @click:row="onRowClick"
       >
         <template #[`item.data-table-select`]="{ item, index }">
           <v-checkbox
             v-model="
-              m_resource_batchResources[`${item.metadata.name}-${index}`].checked
+              m_table_batchResources[`${item.metadata.name}-${index}`].checked
             "
             color="primary"
             hide-details
             @click.stop
-            @change="m_resource_onResourceChange($event, item, index)"
+            @change="m_table_onResourceChange($event, item, index)"
           />
         </template>
         <template #[`item.name`]="{ item }">
@@ -237,6 +237,7 @@ import ContainerItems from './components/ContainerItems'
 import BaseFilter from '@/mixins/base_filter'
 import BaseResource from '@/mixins/resource'
 import BasePermission from '@/mixins/permission'
+import BaseTable from '@/mixins/table'
 import {
   POD_CPU_USAGE_PROMQL,
   POD_MEMORY_USAGE_PROMQL,
@@ -255,6 +256,7 @@ export default {
     BaseFilter,
     BaseResource,
     BasePermission,
+    BaseTable,
   ],
   data: () => ({
     breadcrumb: {
@@ -335,7 +337,7 @@ export default {
         const pod = JSON.parse(updatingPod)
         if (pod.MessageType !== 'objectChanged') return
         if (pod.EventKind === 'delete') {
-          this.m_resource_generateParams()
+          this.m_table_generateParams()
           this.podList(true)
           return
         }
@@ -350,7 +352,7 @@ export default {
               this.Environment().Namespace,
             ) === 0
           ) {
-            this.m_resource_generateParams()
+            this.m_table_generateParams()
             this.podList(true)
             return
           }
@@ -369,7 +371,7 @@ export default {
       deep: true,
       immediate: true,
     },
-    m_resource_sortparam: {
+    m_table_sortparam: {
       handler: function (newV, oldV) {
         if (oldV.name !== newV.name) return
         if (oldV.desc === null) return
@@ -388,7 +390,7 @@ export default {
           })
           return
         }
-        this.m_resource_generateParams()
+        this.m_table_generateParams()
         this.podList()
         this.generateFilters()
       })
@@ -419,7 +421,7 @@ export default {
         this.ThisNamespace,
         Object.assign(this.params, {
           noprocessing: noprocess,
-          sort: this.m_resource_generateResourceSortParamValue(),
+          sort: this.m_table_generateResourceSortParamValue(),
         }),
       )
       this.items = data.List
@@ -429,7 +431,7 @@ export default {
       this.podCPUUsage(true)
       this.podMemoryUsage(true)
       this.watchPodList()
-      this.m_resource_generateSelectResource()
+      this.m_table_generateSelectResource()
     },
     watchPodList() {
       const sub = {

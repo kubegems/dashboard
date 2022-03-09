@@ -10,7 +10,7 @@
     no-click-animation
   >
     <v-card class="rounded-0">
-      <v-flex class="px-4 py-3 primary white--text fixed">
+      <v-flex class="px-4 py-3 primary white--text full-screen__position">
         <div v-if="isAppstore" class="justify-center float-left text-h6 py-1">
           <span class="hidden-sm-and-down float-left">
             <v-img
@@ -59,7 +59,7 @@
         <div class="kubegems__clear-float"></div>
       </v-flex>
       <v-divider />
-      <v-card-text class="pa-0 margin-top-fixed">
+      <v-card-text class="pa-0 full-screen-mt">
         <slot name="content"></slot>
       </v-card-text>
     </v-card>
@@ -112,13 +112,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.fixed {
+.full-screen__position {
   position: fixed;
   z-index: 10;
   width: 100%;
   height: 64px;
 }
-.margin-top-fixed {
+
+.full-screen-mt {
   margin-top: 64px;
 }
 </style>

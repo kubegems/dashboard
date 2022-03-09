@@ -65,33 +65,3 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.item-section {
-  display: flex;
-}
-.item-value-section {
-  width: 90%;
-}
-.item-action-section {
-  width: 10%;
-}
-.item-action-section .item-action-button {
-  margin-left: 2px;
-  margin-top: 1px;
-  width: 100%;
-}
-.el-form-item--mini.el-form-item,
-.el-form-item--small.el-form-item {
-  margin-bottom: 15px !important;
-}
-
-.env-diff {
-  background: #f0ffff;
-}
-
-.subsection {
-  border: 2px solid var(--cds-alias-object-border-color, #f1f1f1);
-  border-radius: 5px;
-  padding: 10px;
-}
-</style>

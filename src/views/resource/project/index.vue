@@ -59,16 +59,16 @@
         no-data-text="暂无数据"
         hide-default-footer
         @toggle-select-all="
-          m_resource_onNotK8SResourceToggleSelect($event, 'ProjectID', 'ID')
+          m_table_onNotK8SResourceToggleSelect($event, 'ProjectID', 'ID')
         "
       >
         <template #[`item.data-table-select`]="{ item }">
           <v-checkbox
-            v-model="m_resource_batchResources[item.ID].checked"
+            v-model="m_table_batchResources[item.ID].checked"
             color="primary"
             hide-details
             @click.stop
-            @change="m_resource_onNotK8SResourceChange($event, item, 'ProjectID', 'ID')"
+            @change="m_table_onNotK8SResourceChange($event, item, 'ProjectID', 'ID')"
           />
         </template>
         <template #[`item.projectName`]="{ item }">
@@ -229,6 +229,7 @@ import BaseSelect from '@/mixins/select'
 import BaseResource from '@/mixins/resource'
 import BaseFilter from '@/mixins/base_filter'
 import BasePermission from '@/mixins/permission'
+import BaseTable from '@/mixins/table'
 import { sizeOfCpu, sizeOfStorage, convertStrToNum } from '@/utils/helpers'
 
 export default {
@@ -236,7 +237,7 @@ export default {
   components: {
     UpdateProject,
   },
-  mixins: [BaseFilter, BaseSelect, BasePermission, BaseResource],
+  mixins: [BaseFilter, BaseSelect, BasePermission, BaseResource, BaseTable],
   data: () => ({
     breadcrumb: {
       title: '项目',
@@ -317,7 +318,7 @@ export default {
           ...item,
         }
       })
-      this.m_resource_generateSelectResourceNoK8s('ProjectName', 'ID')
+      this.m_table_generateSelectResourceNoK8s('ProjectName', 'ID')
       this.pageCount = Math.ceil(data.Total / this.params.size)
       this.params.page = data.CurrentPage
       this.$router.replace({ query: { ...this.$route.query, ...this.params } })

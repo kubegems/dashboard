@@ -21,7 +21,7 @@
                   >
                     <v-icon
                       color="warning"
-                      class="waiting-circle-flashing icon-font-status"
+                      class="kubegems__waiting-circle-flashing icon-font-status"
                     >
                       mdi-autorenew
                     </v-icon>
@@ -629,24 +629,6 @@ export default {
 }
 .mx-0-5 {
   margin-right: 2px;
-}
-
-.waiting-circle-flashing {
-  animation-name: animate-waiting-circle-flash;
-  animation-duration: 2s;
-  animation-timing-function: linear;
-  animation-delay: 0s;
-  animation-iteration-count: infinite;
-  animation-direction: normal;
-}
-
-@keyframes animate-waiting-circle-flash {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 .icon-font {
