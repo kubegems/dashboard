@@ -85,6 +85,7 @@ export default {
         'scheme',
       )
       this.$refs[this.formComponent].setData({
+        EnableExtends: data.EnableExtends,
         RegistryID: data.ID,
         RegistryName: data.RegistryName,
         RegistryAddress: this.splitRegistry(data.RegistryAddress, 'address'),
