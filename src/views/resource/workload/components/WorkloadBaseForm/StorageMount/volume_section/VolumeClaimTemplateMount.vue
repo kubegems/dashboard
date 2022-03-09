@@ -219,7 +219,7 @@ export default {
       if (this.$refs.form.validate(true)) {
         const data = this.$refs.volumeMount.generateData()
         if (data) {
-          // this.obj.metadata.namespace = this.data.metadata.namespace
+          // this.obj.metadata.namespace = this.data?.metadata?.namespace
           for (const item in data) {
             data[item].name = this.obj.metadata.name
           }

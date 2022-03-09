@@ -10,7 +10,7 @@
           tile
           size="80"
         >
-          <Logo
+          <BaseLogo
             :icon-name="app.name"
             :width="60"
           />
@@ -47,13 +47,9 @@
 </template>
 
 <script>
-import Logo from '@/views/resource/components/common/Logo'
 
 export default {
   name: 'AppStoreCard',
-  components: {
-    Logo,
-  },
   props: {
     app: {
       type: Object,

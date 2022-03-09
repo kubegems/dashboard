@@ -166,7 +166,7 @@ import BaseResource from '@/mixins/resource'
 import GatewayDataItem from './GatewayDataItem'
 import DataForm from '@/views/resource/components/common/DataForm'
 import { deepCopy } from '@/utils/helpers'
-import { k8sName, required, positiveInteger } from '@/utils/rules'
+import { required, positiveInteger } from '@/utils/rules'
 
 export default {
   name: 'GatewayBaseForm',
@@ -216,7 +216,7 @@ export default {
       return {
         nameRule: [
           required,
-          k8sName,
+          v => !v || !!new RegExp('[a-z]([-a-z0-9]*[a-z0-9])?').test(v) || '格式错误（以字母开头）',
         ],
         tenantRule: [required],
         gatewayTypeRule: [required],

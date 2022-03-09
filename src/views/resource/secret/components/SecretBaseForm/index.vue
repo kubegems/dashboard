@@ -56,7 +56,7 @@
               class="my-0"
               no-data-text="暂无可选数据"
               @update:search-input="syncInput"
-              @keydown.13="customType"
+              @keydown.enter="customType"
               @click:clear="clearType"
               @change="onTypeChange"
             >

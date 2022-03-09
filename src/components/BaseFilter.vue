@@ -20,7 +20,7 @@
       @change="onFilterConditionChange"
       @blur="onFilterConditionBlur"
       @focus="onFilterConditionFocus"
-      @keydown.13="contructFilterTextCondition"
+      @keydown.enter="contructFilterTextCondition"
     >
       <template #selection="{ attrs, item, selected }">
         <v-chip

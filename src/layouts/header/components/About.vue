@@ -83,7 +83,7 @@ export default {
       return {
         version: process.env.VUE_APP_RELEASE,
         date: process.env.VUE_APP_DATE
-          ? this.$moment(process.env.VUE_APP_DATE).add(8, 'hours').format('lll')
+          ? this.$moment(process.env.VUE_APP_DATE).format('lll')
           : '',
       }
     },

@@ -52,7 +52,7 @@
               height="32"
               label="hosts(回车)"
               @change="onHostChange"
-              @keydown.13="createHost"
+              @keydown.enter="createHost"
             >
               <template #selection="{ item }">
                 <v-chip
@@ -87,7 +87,7 @@
               height="32"
               label="exportTo(回车)"
               @change="onExportToChange"
-              @keydown.13="createExportTo"
+              @keydown.enter="createExportTo"
             >
               <template #selection="{ item }">
                 <v-chip

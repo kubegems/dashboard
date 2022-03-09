@@ -43,7 +43,7 @@
             <v-flex :id="`i${index}`" />
             <a
               class="text-subtitle-2"
-              @click="microAppWorkoladDetail(item)"
+              @click.stop="microAppWorkoladDetail(item)"
             >
               <v-flex class="float-left">
                 {{ item.name }}

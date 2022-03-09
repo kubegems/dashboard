@@ -44,7 +44,7 @@
               >
                 <template #activator="{ on }">
                   <span v-on="on">
-                    <Logo icon-name="gpu_manager" />
+                    <BaseLogo icon-name="gpu_manager" />
                   </span>
                 </template>
                 <v-card>
@@ -67,7 +67,7 @@
               >
                 <template #activator="{ on }">
                   <span v-on="on">
-                    <Logo icon-name="nvidia_device_plugin" />
+                    <BaseLogo icon-name="nvidia_device_plugin" />
                   </span>
                 </template>
                 <v-card>
@@ -272,7 +272,6 @@
 <script>
 import { mapState } from 'vuex'
 import { getNodeList, patchCordonNode, vector } from '@/api'
-import Logo from '@/views/resource/components/common/Logo'
 import GpuScheduleForm from './components/GpuScheduleForm'
 import BaseFilter from '@/mixins/base_filter'
 import BaseResource from '@/mixins/resource'
@@ -287,7 +286,6 @@ import { convertStrToNum, sizeOfStorage } from '@/utils/helpers'
 export default {
   name: 'Node',
   components: {
-    Logo,
     GpuScheduleForm,
   },
   mixins: [BaseFilter, BaseResource],

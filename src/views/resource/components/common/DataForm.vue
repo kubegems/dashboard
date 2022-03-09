@@ -24,7 +24,7 @@
                 required
                 label="键"
                 :rules="objRules.keyRule"
-                @keydown.13.prevent
+                @keydown.enter.prevent
               />
             </v-flex>
             <div class="kubegems__clear-float" />

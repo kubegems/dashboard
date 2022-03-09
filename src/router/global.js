@@ -12,7 +12,7 @@ export const global = [
     component: () => import('@/views/authentication/index'),
     meta: {
       requireAuth: false,
-      title: '登陆',
+      title: '登录',
     },
   },
   {

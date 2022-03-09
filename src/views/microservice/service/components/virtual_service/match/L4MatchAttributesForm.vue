@@ -34,7 +34,7 @@
                   label="destinationSubnets(回车)"
                   height="32"
                   @change="onDestinationSubnetsChange"
-                  @keydown.13="createDestinationSubnets"
+                  @keydown.enter="createDestinationSubnets"
                 >
                   <template #selection="{ item }">
                     <v-chip

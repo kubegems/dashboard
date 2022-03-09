@@ -87,7 +87,7 @@
                   label="set(回车key[string]:value[string])"
                   height="32"
                   @change="onReqSetChange"
-                  @keydown.13="createReqSet"
+                  @keydown.enter="createReqSet"
                 >
                   <template #selection="{ item }">
                     <v-chip
@@ -127,7 +127,7 @@
                   label="add(回车key[string]:value[string])"
                   height="32"
                   @change="onReqAddChange"
-                  @keydown.13="createReqAdd"
+                  @keydown.enter="createReqAdd"
                 >
                   <template #selection="{ item }">
                     <v-chip
@@ -167,7 +167,7 @@
                   label="remove(回车)"
                   height="32"
                   @change="onReqRemoveChange"
-                  @keydown.13="createReqRemove"
+                  @keydown.enter="createReqRemove"
                 >
                   <template #selection="{ item }">
                     <v-chip
@@ -208,7 +208,7 @@
                   label="set(回车key[string]:value[string])"
                   height="32"
                   @change="onResSetChange"
-                  @keydown.13="createResSet"
+                  @keydown.enter="createResSet"
                 >
                   <template #selection="{ item }">
                     <v-chip
@@ -248,7 +248,7 @@
                   label="add(回车key[string]:value[string])"
                   height="32"
                   @change="onResAddChange"
-                  @keydown.13="createResAdd"
+                  @keydown.enter="createResAdd"
                 >
                   <template #selection="{ item }">
                     <v-chip
@@ -288,7 +288,7 @@
                   label="remove(回车)"
                   height="32"
                   @change="onResRemoveChange"
-                  @keydown.13="createResRemove"
+                  @keydown.enter="createResRemove"
                 >
                   <template #selection="{ item }">
                     <v-chip

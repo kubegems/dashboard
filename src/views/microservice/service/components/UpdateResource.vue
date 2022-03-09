@@ -67,7 +67,7 @@ export default {
         let data = this.$refs.yamlForm.kubeyaml
         data = this.$yamlload(data)
         const namespace = this.AdminViewport
-          ? data.metadata.namespace
+          ? data?.metadata?.namespace
           : this.ThisNamespace
         if (!this.checkDataWithNS(data, namespace)) {
           return

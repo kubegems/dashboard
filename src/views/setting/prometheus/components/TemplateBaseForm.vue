@@ -47,7 +47,7 @@
               label="标签(回车)"
               height="32"
               @change="onLabelChange"
-              @keydown.13="createLabel"
+              @keydown.enter="createLabel"
             >
               <template #selection="{ item }">
                 <v-chip
