@@ -7,7 +7,7 @@ export const required = v => {
     case 'object': pass = !!Object.keys(v).length; break
     case 'array': pass = !!v.length; break
     case 'number': pass = true; break
-    default: pass = !!v
+    default: pass = !!v && v.trim().length > 0
   }
   return pass || '必填项'
 }

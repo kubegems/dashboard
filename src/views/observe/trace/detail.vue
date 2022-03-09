@@ -58,7 +58,7 @@ export default {
   data() {
     this.breadcrumb = {
       title: 'TraceId',
-      tip: '根据TraceId查询相关详细信息',
+      tip: '根据TraceId查询相关链路详细信息',
       icon: 'mdi-details',
     }
 

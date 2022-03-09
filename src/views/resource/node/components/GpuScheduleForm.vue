@@ -51,7 +51,7 @@
                   />
                 </v-list-item-action>
                 <v-list-item-icon class="mr-4">
-                  <Logo
+                  <BaseLogo
                     :width="32"
                     icon-name="nvidia_device_plugin"
                   />

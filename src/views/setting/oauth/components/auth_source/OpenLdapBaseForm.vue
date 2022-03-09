@@ -64,6 +64,14 @@
             label="Password"
           />
         </v-col>
+        <v-col cols="6">
+          <v-switch
+            v-model="obj.config.enableTLS"
+            hide-details
+            class="mt-4"
+            label="开启tls"
+          />
+        </v-col>
       </v-row>
     </v-card-text>
   </v-form>
@@ -88,6 +96,7 @@ export default {
     ],
     obj: {
       config: {
+        enableTLS: true,
         basedn: '',
         binduser: '',
         password: '',
