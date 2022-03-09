@@ -120,6 +120,8 @@ import LokiForm from './components/LokiForm'
 import ElasticsearchForm from './components/ElasticsearchForm'
 import KafkaForm from './components/KafkaForm'
 import YamlForm from '@/views/observe/log/operator/components/YamlForm'
+import BaseResource from '@/mixins/resource'
+import OutputSchema from './mixins/schema'
 
 export default {
   name: 'OutputDetail',
@@ -130,6 +132,7 @@ export default {
     KafkaForm,
     YamlForm,
   },
+  mixins: [BaseResource, OutputSchema],
   data() {
     this.breadcrumb = {
       title: '日志路由器',
@@ -201,6 +204,9 @@ export default {
       if (this.$refs.form.validate(true)) {
         this.$refs[`configComponent${this.tabItems[this.tab].value}`][0].onUpdateData()
         const action = this.outputData.kind === 'Output' ? patchOutputData : patchClusterOutputData
+        if (!this.m_resource_validateJsonSchema(this.schema, this.outputData)) {
+          return
+        }
         const { cluster } = this.$route.query
         const { namespace, name } = this.outputData.metadata
         await action(cluster, namespace, name, this.outputData)

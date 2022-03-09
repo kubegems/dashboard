@@ -177,7 +177,7 @@ export default {
       const items = [
         {
           text: '环境空间',
-          value: 'EnvironmentName',
+          value: 'environmentName',
           align: 'start',
           width: 180,
         },

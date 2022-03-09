@@ -555,4 +555,23 @@ export const workspace = [
       },
     ],
   },
+  {
+    path: '/container',
+    name: 'container-log',
+    component: () => import('@/layouts/LayoutWithoutNavi'),
+    redirect: { name: 'container-log-viewer' },
+    children: [
+      // terminal
+      {
+        path: `${prefix}/log/:name`,
+        name: 'container-log-viewer',
+        component: () => import('@/views/resource/log/index'),
+        meta: {
+          requireAuth: true,
+          title: '容器日志',
+          upToAdmin: true,
+        },
+      },
+    ],
+  },
 ]

@@ -72,6 +72,15 @@
     </template>
     <template #action>
       <v-btn
+        class="float-right mx-2"
+        color="primary"
+        text
+        :loading="Circular"
+        @click="setAppHPAStrategyAndPublish"
+      >
+        确定并发布
+      </v-btn>
+      <v-btn
         class="float-right"
         color="primary"
         text
@@ -86,7 +95,7 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex'
-import { postAppHPAStrategy, getAppRunningHPA, deleteHPAStrategy } from '@/api'
+import { postAppHPAStrategy, getAppRunningHPA, deleteHPAStrategy, postSyncAppResource } from '@/api'
 import BaseResource from '@/mixins/resource'
 
 export default {
@@ -157,6 +166,18 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     open() {
       this.dialog = true
+    },
+    async setAppHPAStrategyAndPublish() {
+      await this.setAppHPAStrategy()
+      await this.syncAppResource()
+    },
+    async syncAppResource() {
+      await postSyncAppResource(
+        this.$route.query.tenantid,
+        this.$route.query.projectid,
+        this.$route.query.environmentid,
+        this.$route.params.name,
+      )
     },
     async setAppHPAStrategy() {
       if (this.$refs.form.validate(true)) {
