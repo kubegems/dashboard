@@ -43,7 +43,7 @@
                   text
                   color="error"
                   @click="
-                    batchRemoveResource('接收器', 'Receiver', receiverList)
+                    m_resource_batchRemoveResource('接收器', 'Receiver', receiverList)
                   "
                 >
                   <v-icon left>mdi-minus-box</v-icon>
@@ -68,13 +68,13 @@
           show-expand
           item-key="index"
           @page-count="pageCount = $event"
-          @toggle-select-all="onResourceToggleSelect"
+          @toggle-select-all="m_resource_onResourceToggleSelect"
           @click:row="onRowClick"
         >
           <template #[`item.data-table-select`]="{ item, index }">
             <v-checkbox
               v-model="
-                batchResources[
+                m_resource_batchResources[
                   `${item.metadata.name}-${index + itemsPerPage * (page - 1)}`
                 ].checked
               "
@@ -82,7 +82,7 @@
               hide-details
               @click.stop
               @change="
-                onResourceChange(
+                m_resource_onResourceChange(
                   $event,
                   item,
                   `${index + itemsPerPage * (page - 1)}`,
@@ -281,7 +281,7 @@ export default {
           })
           return
         }
-        this.generateParams()
+        this.m_resource_generateParams()
         this.receiverList()
       })
     }
@@ -304,7 +304,7 @@ export default {
           ...d,
         }
       })
-      this.generateSelectResource()
+      this.m_resource_generateSelectResource()
     },
     filterList(params) {
       const defaultparams = {

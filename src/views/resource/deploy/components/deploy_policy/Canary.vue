@@ -293,7 +293,7 @@ export default {
           this.Project().ID,
           this.Environment().ID,
           this.$route.params.name,
-          this.beautifyData(this.obj),
+          this.m_resource_beautifyData(this.obj),
         )
         this.reset()
         // this.$emit('refresh')

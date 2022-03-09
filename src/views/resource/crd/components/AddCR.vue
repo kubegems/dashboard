@@ -64,16 +64,16 @@ export default {
         let namespace = ''
         if (this.crd.spec.scope === 'Cluster') {
           namespace = ''
-          if (!this.checkDataWithOutNS(data)) return
+          if (!this.m_resource_checkDataWithOutNS(data)) return
         } else {
           namespace = this.AdminViewport
             ? data?.metadata?.namespace
             : this.ThisNamespace
-          if (!this.checkDataWithNS(data, namespace)) {
+          if (!this.m_resource_checkDataWithNS(data, namespace)) {
             return
           }
         }
-        data = this.beautifyData(data)
+        data = this.m_resource_beautifyData(data)
         await postAddCR(
           this.ThisCluster,
           namespace,

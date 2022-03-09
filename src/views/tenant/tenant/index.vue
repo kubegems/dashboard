@@ -47,15 +47,15 @@
         no-data-text="暂无数据"
         hide-default-footer
         show-select
-        @toggle-select-all="onNotK8SResourceToggleSelect($event, 'TenantID', 'ID')"
+        @toggle-select-all="m_resource_onNotK8SResourceToggleSelect($event, 'TenantID', 'ID')"
       >
         <template #[`item.data-table-select`]="{ item }">
           <v-checkbox
-            v-model="batchResources[item.ID].checked"
+            v-model="m_resource_batchResources[item.ID].checked"
             color="primary"
             hide-details
             @click.stop
-            @change="onNotK8SResourceChange($event, item, 'TenantID', 'ID')"
+            @change="m_resource_onNotK8SResourceChange($event, item, 'TenantID', 'ID')"
           />
         </template>
         <template #[`item.tenantName`]="{ item }">
@@ -260,7 +260,7 @@ export default {
       this.pageCount = Math.ceil(data.Total / this.params.size)
       this.params.page = data.CurrentPage
       this.$router.replace({ query: { ...this.$route.query, ...this.params } })
-      this.generateSelectResourceNoK8s('TenantID', 'ID')
+      this.m_resource_generateSelectResourceNoK8s('TenantID', 'ID')
     },
     addTenant() {
       this.$refs.addTenant.open()

@@ -70,7 +70,7 @@ export default {
         let data = ''
         if (this.formComponent === 'RequestTimeoutsBaseForm') {
           data = this.$refs[this.formComponent].obj
-          data = this.beautifyData(data)
+          data = this.m_resource_beautifyData(data)
         }
         await postAddRequestTimeouts(
           this.VirtualSpace().ID,

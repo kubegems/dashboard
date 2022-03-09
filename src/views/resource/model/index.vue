@@ -18,8 +18,8 @@
         :items-per-page="params.size"
         no-data-text="暂无数据"
         hide-default-footer
-        @update:sort-by="sortBy"
-        @update:sort-desc="sortDesc"
+        @update:sort-by="m_resource_sortBy"
+        @update:sort-desc="m_resource_sortDesc"
       />
       <BasePagination
         v-if="pageCount >= 1"
@@ -100,7 +100,7 @@ export default {
       },
       deep: true,
     },
-    sortparam: {
+    m_resource_sortparam: {
       handler: function (newV, oldV) {
         if (oldV.name !== newV.name) return
         if (oldV.desc === null) return
@@ -112,7 +112,7 @@ export default {
   mounted() {
     if (this.JWT) {
       this.$nextTick(() => {
-        this.generateParams()
+        this.m_resource_generateParams()
         this.modelRuntimeList()
       })
     }

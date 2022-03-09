@@ -59,11 +59,11 @@ export default {
         if (this.formComponent === 'YamlForm') {
           data = this.$refs[this.formComponent].kubeyaml
           data = this.$yamlload(data)
-          if (!this.validateJsonSchema(this.schema, data)) {
+          if (!this.m_resource_validateJsonSchema(this.schema, data)) {
             return
           }
-          if (!this.checkDataWithOutNS(data)) return
-          data = this.beautifyData(data)
+          if (!this.m_resource_checkDataWithOutNS(data)) return
+          data = this.m_resource_beautifyData(data)
         }
         await postAddIstioPeerAuthentication(
           this.EnvironmentFilter.cluster,

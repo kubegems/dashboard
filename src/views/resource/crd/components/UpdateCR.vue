@@ -62,16 +62,16 @@ export default {
         let data = this.$refs.yamlForm.kubeyaml
         data = this.$yamlload(data)
         if (this.crd.spec.scope === 'Cluster') {
-          if (!this.checkDataWithOutNS(data)) return
+          if (!this.m_resource_checkDataWithOutNS(data)) return
         } else {
           const namespace = this.AdminViewport
             ? data?.metadata?.namespace
             : this.ThisNamespace
-          if (!this.checkDataWithNS(data, namespace)) {
+          if (!this.m_resource_checkDataWithNS(data, namespace)) {
             return
           }
         }
-        data = this.beautifyData(data)
+        data = this.m_resource_beautifyData(data)
         await patchUpdateCR(
           this.ThisCluster,
           this.item.metadata.namespace,

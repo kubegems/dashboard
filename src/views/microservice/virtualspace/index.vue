@@ -211,7 +211,7 @@ export default {
     },
   },
   watch: {
-    sortparam: {
+    m_resource_sortparam: {
       handler: function (newV, oldV) {
         if (oldV.name !== newV.name) return
         if (oldV.desc === null) return
@@ -224,7 +224,7 @@ export default {
     if (this.JWT) {
       this.$nextTick(() => {
         this.$store.commit('CLEAR_VIRTUAL_SPACE')
-        this.generateParams()
+        this.m_resource_generateParams()
         this.virtualSpaceList()
       })
     }

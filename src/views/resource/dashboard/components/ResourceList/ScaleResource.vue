@@ -196,7 +196,7 @@ export default {
       this.item.NowCpu = item.Cpu
       this.item.NowMemory = item.Memory
       this.item.NowStorage = item.Storage
-      this.quota = await this.clusterQuota(this.item.ClusterID, this.item)
+      this.quota = await this.m_resource_clusterQuota(this.item.ClusterID, this.item)
       this.obj.Content = {
         'limits.cpu': item.Cpu,
         'limits.memory': item.Memory,
