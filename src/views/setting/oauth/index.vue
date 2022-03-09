@@ -10,13 +10,13 @@
       >
         <v-card
           v-if="item.add"
-          class="full-height"
+          class="kubegems__full-height"
           min-height="156"
         >
-          <v-card-text class="pa-0 full-height">
+          <v-card-text class="pa-0 kubegems__full-height">
             <v-list-item
               three-line
-              class="full-height"
+              class="kubegems__full-height"
             >
               <v-list-item-content>
                 <v-btn

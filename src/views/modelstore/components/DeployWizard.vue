@@ -328,11 +328,4 @@ export default {
 .vue-form-wizard {
   padding-bottom: 0;
 }
-
-/* 自定义样式 */
-.wizard-footer-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 </style>

@@ -7,8 +7,8 @@
       :items-per-page="params.size"
       no-data-text="暂无数据"
       hide-default-footer
-      @update:sort-by="m_resource_sortBy"
-      @update:sort-desc="m_resource_sortDesc"
+      @update:sort-by="m_table_sortBy"
+      @update:sort-desc="m_table_sortDesc"
     >
       <template #[`item.name`]="{ item }">
         <a
@@ -204,6 +204,7 @@ import Terminal from './Terminal'
 import EventTip from './EventTip'
 import BaseResource from '@/mixins/resource'
 import BasePermission from '@/mixins/permission'
+import BaseTable from '@/mixins/table'
 import {
   POD_CPU_USAGE_PROMQL,
   POD_MEMORY_USAGE_PROMQL,
@@ -217,7 +218,7 @@ export default {
     Terminal,
     EventTip,
   },
-  mixins: [BaseResource, BasePermission],
+  mixins: [BaseResource, BasePermission, BaseTable],
   props: {
     item: {
       type: Object,
@@ -291,7 +292,7 @@ export default {
       deep: true,
       immediate: true,
     },
-    m_resource_sortparam: {
+    m_table_sortparam: {
       handler: function (newV, oldV) {
         if (oldV.name !== newV.name) return
         if (oldV.desc === null) return
@@ -317,7 +318,7 @@ export default {
         Object.assign(
           this.selector,
           Object.assign(this.params, {
-            sort: this.m_resource_generateResourceSortParamValue(),
+            sort: this.m_table_generateResourceSortParamValue(),
           }),
         ),
       )

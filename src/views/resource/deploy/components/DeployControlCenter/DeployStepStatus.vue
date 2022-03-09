@@ -122,7 +122,7 @@
                     >
                       <v-icon
                         color="warning"
-                        class="waiting-circle-flashing"
+                        class="kubegems__waiting-circle-flashing"
                         small
                       >
                         mdi-sync
@@ -294,24 +294,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.waiting-circle-flashing {
-  animation-name: animate-waiting-circle-flash;
-  animation-duration: 2s;
-  animation-timing-function: linear;
-  animation-delay: 0s;
-  animation-iteration-count: infinite;
-  animation-direction: normal;
-}
-
-@keyframes animate-waiting-circle-flash {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(-360deg);
-  }
-}
-
 .v-stepper--vertical .v-stepper__content {
   padding: 0 60px 0 23px;
 }

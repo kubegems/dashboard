@@ -10,7 +10,7 @@
     class="rounded-0"
     id="panel"
   >
-    <v-flex class="px-4 py-4 primary white--text fixed-height">
+    <v-flex class="px-4 py-4 primary white--text panel__header">
       <v-flex class="float-left white--text">
         <v-icon left class="white--text mt-n1">{{ icon }}</v-icon>
         <span class="text-h6 white--text">
@@ -114,7 +114,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.fixed-height {
+.panel__header {
   height: 64px;
 }
 

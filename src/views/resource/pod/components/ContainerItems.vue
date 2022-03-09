@@ -57,7 +57,7 @@
                           'tencent.com/vcuda-memory'
                         ]
                     "
-                    class="float-left mt-1 ml-2 icon"
+                    class="float-left mt-1 ml-2 icon-height"
                   >
                     <BaseLogo
                       :width="16"
@@ -76,7 +76,7 @@
                         container.resources.requests &&
                         container.resources.requests['nvidia.com/gpu']
                     "
-                    class="float-left mt-1 ml-2 icon"
+                    class="float-left mt-1 ml-2 icon-height"
                   >
                     <BaseLogo
                       :width="16"
@@ -385,7 +385,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.icon {
+.icon-height {
   height: 16px;
 }
 </style>

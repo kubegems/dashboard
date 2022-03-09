@@ -57,7 +57,7 @@
 
           <v-flex
             v-scroll.self="scrollMessage"
-            class="tab-item-height"
+            class="message-tab-item-height"
           >
             <v-flex
               v-if="
@@ -75,7 +75,7 @@
             </v-flex>
             <v-flex
               v-else
-              class="px-4 mt-2 operator-title"
+              class="px-4 mt-2 message-operator-title"
             >
               <span class="text-body-2">
                 {{
@@ -423,12 +423,12 @@ export default {
   word-break: break-word !important;
 }
 
-.tab-item-height {
+.message-tab-item-height {
   max-height: 450px;
   overflow-y: auto;
 }
 
-.operator-title {
+.message-operator-title {
   line-height: 28px;
 }
 </style>

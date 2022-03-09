@@ -5,7 +5,7 @@
       class="my-7 mx-4"
       height="400px"
     >
-      <v-row class="row-height">
+      <v-row class="plugin-height">
         <v-col class="d-none d-md-flex align-center justify-center">
           <div class="d-none d-sm-block">
             <div class="d-flex align-center pa-10">
@@ -59,7 +59,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.row-height {
+.plugin-height {
   height: 400px;
 }
 </style>

@@ -238,9 +238,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss" scoped>
-.mode-width {
-  width: 200px;
-}
-</style>

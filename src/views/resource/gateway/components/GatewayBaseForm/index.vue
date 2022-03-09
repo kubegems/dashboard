@@ -216,7 +216,7 @@ export default {
       return {
         nameRule: [
           required,
-          v => !v || !!new RegExp('[a-z]([-a-z0-9]*[a-z0-9])?').test(v) || '格式错误（以字母开头）',
+          v => !v || !!new RegExp('^[a-z]([-a-z0-9]*[a-z0-9])?$').test(v) || '格式错误（以字母开头）',
         ],
         tenantRule: [required],
         gatewayTypeRule: [required],

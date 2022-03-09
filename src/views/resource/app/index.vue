@@ -77,8 +77,8 @@
           :items-per-page="params.size"
           no-data-text="暂无数据"
           hide-default-footer
-          @update:sort-by="m_resource_sortBy"
-          @update:sort-desc="m_resource_sortDesc"
+          @update:sort-by="m_table_sortBy"
+          @update:sort-desc="m_table_sortDesc"
         >
           <template #[`item.name`]="{ item }">
             <a
@@ -306,6 +306,7 @@ import AppEventTip from './components/AppEventTip'
 import BaseFilter from '@/mixins/base_filter'
 import BaseResource from '@/mixins/resource'
 import BasePermission from '@/mixins/permission'
+import BaseTable from '@/mixins/table'
 
 export default {
   name: 'App',
@@ -315,7 +316,7 @@ export default {
     NamespaceFilter,
     AppEventTip,
   },
-  mixins: [BaseFilter, BaseResource, BasePermission],
+  mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
     breadcrumb: {
       title: '应用',
@@ -411,7 +412,7 @@ export default {
         const app = JSON.parse(updatingApp)
         if (app.MessageType !== 'objectChanged') return
         if (app.EventKind === 'delete') {
-          this.m_resource_generateParams()
+          this.m_table_generateParams()
           this.appRunningList(true)
           return
         }
@@ -450,7 +451,7 @@ export default {
       deep: true,
       immediate: true,
     },
-    m_resource_sortparam: {
+    m_table_sortparam: {
       handler: function (newV, oldV) {
         if (oldV.name !== newV.name) return
         if (oldV.desc === null) return
@@ -469,7 +470,7 @@ export default {
           })
           return
         }
-        this.m_resource_generateParams()
+        this.m_table_generateParams()
         this.appRunningList()
       })
     }
@@ -501,7 +502,7 @@ export default {
           Object.assign(this.params, {
             kind: kind,
             noprocessing: noprocess,
-            sort: this.m_resource_generateResourceSortParamValue(),
+            sort: this.m_table_generateResourceSortParamValue(),
           }),
         )
       } else if (this.tabItems[this.tab].value === 'AppStoreList') {
@@ -513,7 +514,7 @@ export default {
           Object.assign(this.params, {
             kind: kind,
             noprocessing: noprocess,
-            sort: this.m_resource_generateResourceSortParamValue(),
+            sort: this.m_table_generateResourceSortParamValue(),
           }),
         )
       }

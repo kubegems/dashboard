@@ -44,7 +44,7 @@
                   text
                   color="error"
                   @click="
-                    m_resource_batchRemoveResource(
+                    m_table_batchRemoveResource(
                       tab === 0 ? '证书' : '颁发机构',
                       tab === 0 ? 'Certificate' : 'Issuer',
                       certificateList,
@@ -82,19 +82,19 @@
           no-data-text="暂无数据"
           hide-default-footer
           show-select
-          @update:sort-by="m_resource_sortBy"
-          @update:sort-desc="m_resource_sortDesc"
-          @toggle-select-all="m_resource_onResourceToggleSelect"
+          @update:sort-by="m_table_sortBy"
+          @update:sort-desc="m_table_sortDesc"
+          @toggle-select-all="m_table_onResourceToggleSelect"
         >
           <template #[`item.data-table-select`]="{ item, index }">
             <v-checkbox
               v-model="
-                m_resource_batchResources[`${item.metadata.name}-${index}`].checked
+                m_table_batchResources[`${item.metadata.name}-${index}`].checked
               "
               color="primary"
               hide-details
               @click.stop
-              @change="m_resource_onResourceChange($event, item, index)"
+              @change="m_table_onResourceChange($event, item, index)"
             />
           </template>
           <template #[`item.name`]="{ item }">
@@ -231,6 +231,7 @@ import UpdateIssuer from './components/UpdateIssuer'
 import BaseResource from '@/mixins/resource'
 import BasePermission from '@/mixins/permission'
 import BaseFilter from '@/mixins/base_filter'
+import BaseTable from '@/mixins/table'
 
 export default {
   name: 'CertificateList',
@@ -241,7 +242,7 @@ export default {
     AddIssuer,
     UpdateIssuer,
   },
-  mixins: [BaseFilter, BaseResource, BasePermission],
+  mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
     breadcrumb: {
       title: '证书',
@@ -341,7 +342,7 @@ export default {
       },
       deep: true,
     },
-    m_resource_sortparam: {
+    m_table_sortparam: {
       handler: function (newV, oldV) {
         if (oldV.name !== newV.name) return
         if (oldV.desc === null) return
@@ -360,7 +361,7 @@ export default {
           })
           return
         }
-        this.m_resource_generateParams()
+        this.m_table_generateParams()
         this.certificateList()
       })
     }
@@ -374,7 +375,7 @@ export default {
           this.ThisNamespace,
           Object.assign(this.params, {
             noprocessing: noprocess,
-            sort: this.m_resource_generateResourceSortParamValue(),
+            sort: this.m_table_generateResourceSortParamValue(),
           }),
         )
       } else {
@@ -383,7 +384,7 @@ export default {
           this.ThisNamespace,
           Object.assign(this.params, {
             noprocessing: noprocess,
-            sort: this.m_resource_generateResourceSortParamValue(),
+            sort: this.m_table_generateResourceSortParamValue(),
           }),
         )
       }
@@ -391,7 +392,7 @@ export default {
       this.pageCount = Math.ceil(data.Total / this.params.size)
       this.params.page = data.CurrentPage
       this.$router.replace({ query: { ...this.$route.query, ...this.params } })
-      this.m_resource_generateSelectResource()
+      this.m_table_generateSelectResource()
     },
     async onTabChange() {
       this.params.page = 1

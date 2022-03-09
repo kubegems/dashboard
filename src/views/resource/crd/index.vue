@@ -32,7 +32,7 @@
                   text
                   color="error"
                   @click="
-                    m_resource_batchRemoveResource(
+                    m_table_batchRemoveResource(
                       'CRD',
                       'CustomResourceDefinition',
                       crdList,
@@ -56,19 +56,19 @@
         no-data-text="暂无数据"
         hide-default-footer
         show-select
-        @update:sort-by="m_resource_sortBy"
-        @update:sort-desc="m_resource_sortDesc"
-        @toggle-select-all="m_resource_onResourceToggleSelect"
+        @update:sort-by="m_table_sortBy"
+        @update:sort-desc="m_table_sortDesc"
+        @toggle-select-all="m_table_onResourceToggleSelect"
       >
         <template #[`item.data-table-select`]="{ item, index }">
           <v-checkbox
             v-model="
-              m_resource_batchResources[`${item.metadata.name}-${index}`].checked
+              m_table_batchResources[`${item.metadata.name}-${index}`].checked
             "
             color="primary"
             hide-details
             @click.stop
-            @change="m_resource_onResourceChange($event, item, index)"
+            @change="m_table_onResourceChange($event, item, index)"
           />
         </template>
         <template #[`item.name`]="{ item }">
@@ -148,12 +148,13 @@ import { getCrdList, deleteCRD } from '@/api'
 import BaseFilter from '@/mixins/base_filter'
 import BaseResource from '@/mixins/resource'
 import BasePermission from '@/mixins/permission'
+import BaseTable from '@/mixins/table'
 import { convertStrToNum } from '@/utils/helpers'
 
 export default {
   name: 'CRD',
   components: {},
-  mixins: [BaseFilter, BaseResource, BasePermission],
+  mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
     breadcrumb: {
       title: 'CRD',
@@ -196,7 +197,7 @@ export default {
     },
   },
   watch: {
-    m_resource_sortparam: {
+    m_table_sortparam: {
       handler: function (newV, oldV) {
         if (oldV.name !== newV.name) return
         if (oldV.desc === null) return
@@ -226,14 +227,14 @@ export default {
         this.ThisCluster,
         Object.assign(this.params, {
           noprocessing: noprocess,
-          sort: this.m_resource_generateResourceSortParamValue(),
+          sort: this.m_table_generateResourceSortParamValue(),
         }),
       )
       this.items = data.List
       this.pageCount = Math.ceil(data.Total / this.params.size)
       this.params.page = data.CurrentPage
       this.$router.replace({ query: { ...this.$route.query, ...this.params } })
-      this.m_resource_generateSelectResource()
+      this.m_table_generateSelectResource()
     },
     crdDetail(item) {
       this.$router.push({

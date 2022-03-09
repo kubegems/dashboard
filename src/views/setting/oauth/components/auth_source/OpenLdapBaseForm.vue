@@ -7,15 +7,6 @@
     <v-card-text class="pa-2">
       <v-row>
         <v-col cols="6">
-          <v-text-field
-            v-model="obj.config.ldapaddr"
-            :rules="objRules.ldapaddrRule"
-            class="my-0"
-            required
-            label="Ldap地址"
-          />
-        </v-col>
-        <v-col cols="6">
           <v-autocomplete
             v-model="obj.tokenType"
             :items="tokenTypeItems"
@@ -36,6 +27,15 @@
               </v-chip>
             </template>
           </v-autocomplete>
+        </v-col>
+        <v-col cols="6">
+          <v-text-field
+            v-model="obj.config.ldapaddr"
+            :rules="objRules.ldapaddrRule"
+            class="my-0"
+            required
+            label="Ldap地址"
+          />
         </v-col>
         <v-col cols="6">
           <v-text-field

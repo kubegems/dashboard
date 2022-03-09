@@ -9,13 +9,13 @@
       >
         <v-card
           v-if="item.add"
-          class="full-height"
+          class="kubegems__full-height"
           min-height="168"
         >
-          <v-card-text class="pa-0 full-height">
+          <v-card-text class="pa-0 kubegems__full-height">
             <v-list-item
               three-line
-              class="full-height"
+              class="kubegems__full-height"
             >
               <v-list-item-content>
                 <v-btn
@@ -273,10 +273,6 @@ export default {
 </script>
 
 <style scoped>
-.full-height {
-  height: 100%;
-}
-
 .cluster-pos {
   position: relative;
   background-color: #ffffff;

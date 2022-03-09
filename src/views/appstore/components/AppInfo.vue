@@ -61,7 +61,7 @@
                 <template #default="props">
                   <v-card
                     max-height="300"
-                    class="overflow-y"
+                    class="app-overflow-y"
                   >
                     <v-list
                       v-for="item in props.items"
@@ -197,7 +197,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.overflow-y {
+.app-overflow-y {
   overflow-y: auto;
 }
 </style>

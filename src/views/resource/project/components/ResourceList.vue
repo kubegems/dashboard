@@ -22,7 +22,7 @@
               width="40px"
               height="40px"
             />
-            <div class="mx-2 text-fix-width">
+            <div class="mx-2 text-width">
               <h2 class="text-h5">
                 {{ quota[key] }}
               </h2>
@@ -57,7 +57,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.text-fix-width {
+.text-width {
   width: 100px;
 }
 </style>
