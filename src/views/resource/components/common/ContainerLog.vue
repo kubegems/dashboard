@@ -8,6 +8,19 @@
     <template #header>
       <v-flex class="ml-2 text-h6 mt-n1">
         {{ item ? item.name : '' }}
+        <v-btn
+          depressed
+          color="white"
+          icon
+          @click="openOnBlankTab"
+        >
+          <v-icon
+            small
+            color="white"
+          >
+            mdi-open-in-new
+          </v-icon>
+        </v-btn>
       </v-flex>
     </template>
     <template #action>
@@ -364,6 +377,21 @@ export default {
       this.log = ''
       this.stream = false
       this.linenotbreak = false
+      if (window.opener) window.close()
+    },
+    openOnBlankTab() {
+      const routeData = this.$router.resolve({
+        name: this.AdminViewport ? 'admin-container-log-viewer' : 'container-log-viewer',
+        params: { name: this.item.name },
+        query: {
+          namespace: this.item.namespace,
+          cluster: this.ThisCluster,
+          container: this.container,
+        },
+      })
+      this.dispose()
+      this.dialog = false
+      window.open(routeData.href, '_blank')
     },
   },
 }

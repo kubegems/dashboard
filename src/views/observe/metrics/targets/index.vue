@@ -72,6 +72,7 @@
         <template #[`item.target_name`]="{ item }">{{ item.target_name || '-' }}</template>
         <template #[`item.labels`]="{ item }">
           <BaseCollapseChips
+            icon="mdi-label"
             :chips="item.target_labels"
             single-line
           />

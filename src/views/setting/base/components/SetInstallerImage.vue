@@ -15,25 +15,13 @@
           lazy-validation
         >
           <v-sheet>
-            <v-flex
-              class="float-left"
-              style="width: 55%; padding-top: 18px; font-size: 16px;"
-            >
-              {{ image }}
-            </v-flex>
-            <v-flex
-              class="float-left"
-              style="width: 45%;"
-            >
-              <v-text-field
-                v-model="obj.operatorImage"
-                class="my-0"
-                :rules="objRules.operatorImageRules"
-                required
-                label="镜像tag"
-              />
-            </v-flex>
-            <div class="kubegems__clear-float" />
+            <v-text-field
+              v-model="obj.operatorImage"
+              class="my-0"
+              :rules="objRules.operatorImageRules"
+              required
+              label="镜像"
+            />
           </v-sheet>
         </v-form>
       </v-card-text>
@@ -67,7 +55,6 @@ export default {
     dialog: false,
     valid: false,
     installer: null,
-    image: '',
     obj: {
       operatorImage: '',
     },
@@ -89,7 +76,6 @@ export default {
     },
     async updateSystemConfig() {
       if (this.$refs.form.validate(true)) {
-        this.installer.content.operator_image = `${this.image}:${this.obj.operatorImage}`
         await putSystemConfigData(this.installer.name, this.installer)
         this.reset()
         this.$emit('refresh')
@@ -101,9 +87,7 @@ export default {
         item.name,
       )
       this.installer = deepCopy(data)
-      const operatorImage = this.installer.content.operator_image.split(':')
-      this.image = operatorImage[0]
-      this.obj.operatorImage = operatorImage[1]
+      this.obj.operatorImage = this.installer.content.operator_image
     },
     reset() {
       this.dialog = false

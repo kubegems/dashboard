@@ -1,10 +1,6 @@
 <template>
   <div class="d-inline-block">
-
-    <span v-if="visibleItems.length === 0">{{ emptyText }}</span>
-
     <v-chip
-      v-else-if="hiddenItems.length === 1"
       v-for="item in visibleItems"
       :key="item[itemValue]"
       :color="color"
@@ -17,29 +13,24 @@
       </strong>
       <slot :item="item">{{ item[itemText] }}</slot>
     </v-chip>
-    
+
+    <!-- 无数据显示 -->
+    <span v-if="visibleItems.length === 0">{{ emptyText }}</span>
+
     <v-menu
-      v-else
+      v-if="hiddenItems.length"
       open-on-hover
       :close-delay="200"
       :max-width="maxWidth"
-      :close-on-click="false"
     >
       <template #activator="{ on }">
         <v-chip
-          v-for="item in visibleItems"
-          :key="item[itemValue]"
-          :color="color"
           small
-          class="mr-2"
+          :color="color"
           v-on="on"
+          @click="handleExpand(item.value)"
         >
-          <v-icon v-if="icon" small left> {{ icon }} </v-icon>
-          <strong v-if="dataType === 'object'" class="mr-1">
-            {{ item[itemValue] }}
-          </strong>
-          <slot :item="item">{{ item[itemText] }}</slot>
-          <strong v-if="hiddenItems.length > 1" class="ml-2">+{{ hiddenItems.length }}</strong>
+          <strong>+ {{ hiddenItems.length }}</strong>
         </v-chip>
       </template>
 
@@ -103,10 +94,7 @@ export default {
       type: String,
       default: undefined,
     },
-    singleLine: {
-      type: Boolean,
-      default: true,
-    },
+    singleLine: Boolean,
     icon: {
       type: String,
       default: undefined,
@@ -127,14 +115,13 @@ export default {
   watch: {
     chips: {
       handler() {
-        this.setItems()
+        this.handleSetItems()
       },
       immediate: true,
-      deep: true,
     },
   },
   methods: {
-    setItems() {
+    handleSetItems() {
       if (Array.isArray(this.chips)) {
         this.items = this.chips.map((item) => {
           if (typeof item === 'object') {
@@ -166,7 +153,7 @@ export default {
         this.dataType = 'object'
       }
       this.visibleItems = this.items.slice(0, this.count)
-      this.hiddenItems = this.items
+      this.hiddenItems = this.items.slice(this.count)
     },
   },
 }
