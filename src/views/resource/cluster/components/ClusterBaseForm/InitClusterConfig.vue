@@ -3,6 +3,7 @@
     ref="form"
     v-model="valid"
     lazy-validation
+    @submit.prevent
   >
     <BaseSubTitle title="集群初始化设置" />
     <v-card-text

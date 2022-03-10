@@ -12,6 +12,7 @@
         ref="form"
         v-model="valid"
         lazy-validation
+        @submit.prevent
       >
         <v-card-text class="pa-2">
           <v-row>
@@ -23,6 +24,7 @@
                 required
                 label="名称"
                 readonly
+                @keyup="onNameInput"
               />
             </v-col>
             <v-col cols="6">
@@ -146,6 +148,9 @@ export default {
       this.dialog = false
       this.$refs[this.formComponent].reset()
       this.formComponent = 'OauthBaseForm'
+    },
+    onNameInput() {
+      this.$refs[this.formComponent].setCallback(this.obj.name)
     },
   },
 }

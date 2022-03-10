@@ -4,6 +4,7 @@
       ref="form"
       v-model="valid"
       lazy-validation
+      @submit.prevent
     >
       <BaseSubTitle title="关联应用" />
       <v-card-text class="px-2 pb-0">

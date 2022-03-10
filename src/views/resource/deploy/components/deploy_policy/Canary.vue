@@ -12,6 +12,7 @@
           ref="form"
           v-model="valid"
           lazy-validation
+          @submit.prevent
         >
           <v-flex :class="expand ? 'kubegems__overlay' : ''" />
           <BaseDeployInfoForm

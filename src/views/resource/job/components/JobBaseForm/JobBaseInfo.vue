@@ -3,6 +3,7 @@
     ref="form"
     v-model="valid"
     lazy-validation
+    @submit.prevent
   >
     <BaseSubTitle title="任务定义" />
     <v-card-text class="pa-2">

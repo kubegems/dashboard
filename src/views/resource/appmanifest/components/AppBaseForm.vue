@@ -4,6 +4,7 @@
       ref="form"
       v-model="valid"
       lazy-validation
+      @submit.prevent
     >
       <v-flex :class="expand ? 'kubegems__overlay' : ''" />
       <BaseSubTitle title="应用定义" />

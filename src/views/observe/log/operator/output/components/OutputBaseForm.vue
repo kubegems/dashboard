@@ -10,6 +10,7 @@
         ref="form"
         v-model="valid"
         lazy-validation
+        @submit.prevent
       >
         <v-row class="px-2">
           <v-col cols="6">

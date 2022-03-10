@@ -3,6 +3,7 @@
     ref="form"
     v-model="valid"
     lazy-validation
+    @submit.prevent
   >
     <v-card-text class="pa-2">
       <v-row>
@@ -186,6 +187,10 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     reset() {
       this.$refs.form.reset()
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    setCallback(name) {
+      this.obj.config.redirectURL = `https://${this.$DOMAIN}/oauth/callback/${name}`
     },
   },
 }

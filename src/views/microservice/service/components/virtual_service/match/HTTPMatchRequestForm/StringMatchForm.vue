@@ -4,6 +4,7 @@
     v-model="valid"
     lazy-validation
     class="my-2"
+    @submit.prevent
   >
     <v-flex :class="expand ? 'kubegems__overlay' : ''" />
     <v-expand-transition>

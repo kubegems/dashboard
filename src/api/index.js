@@ -145,13 +145,17 @@ axios.interceptors.response.use(
             '/white/page',
             '/white/tenant',
             '/whitecluster/cluster',
-          ].indexOf(window.location.pathname) === -1 &&
-            !window.location.pathname.startsWith('/oauth/callback/')) {
+          ].indexOf(window.location.pathname) === -1) {
             router.push({
               name: 'login',
               query: {
                 redirect: `${window.location.pathname}${window.location.search}`,
               },
+            })
+          }
+          if (window.location.pathname.startsWith('/oauth/callback/')) {
+            router.push({
+              name: 'login',
             })
           }
           break

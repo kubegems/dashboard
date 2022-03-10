@@ -3,6 +3,7 @@
     ref="form"
     v-model="valid"
     lazy-validation
+    @submit.prevent
   >
     <v-sheet class="pt-2 px-2">
       <v-flex class="float-left text-subtitle-2 pt-4 primary--text kubegems__min-width">

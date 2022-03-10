@@ -27,7 +27,7 @@
     <template #action>
       <v-sheet
         v-if="terminalType !== 'kubectl'"
-        class="text-subtitle-1 primary white--text"
+        class="text-subtitle-2 primary white--text"
       >
         <v-btn
           color="white"
@@ -101,7 +101,7 @@
                     @click="setContainer(con)"
                   >
                     <v-list-item-content>
-                      <span>{{ con.text }}</span>
+                      <span class="font-weight-medium">{{ con.text }}</span>
                     </v-list-item-content>
                   </v-list-item>
                 </v-list>
@@ -204,7 +204,7 @@ export default {
     ...mapState(['JWT', 'Scale', 'AdminViewport']),
     rows() {
       return parseInt(
-        (window.innerHeight - 64 * this.Scale - 10) / (18.5 * this.getRate()),
+        (window.innerHeight - 64 * this.Scale - 10) / (18.5 * this.getRate()) - 2,
       )
     },
     height() {
