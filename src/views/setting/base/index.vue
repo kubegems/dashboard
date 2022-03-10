@@ -6,6 +6,7 @@
       <v-form
         class="pa-4"
         lazy-validation
+        @submit.prevent
       >
         <v-sheet
           class="grey lighten-4 rounded"

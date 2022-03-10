@@ -111,7 +111,7 @@
                         />
                       </v-btn>
                     </v-avatar>
-                    使用 {{ item.name }} 帐号登录
+                    使用 {{ item.name }} 登录
                   </v-chip>
                 </template>
               </div>

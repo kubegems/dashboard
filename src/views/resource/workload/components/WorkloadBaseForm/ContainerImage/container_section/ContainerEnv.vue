@@ -3,6 +3,7 @@
     v-model="valid"
     lazy-validation
     class="my-2"
+    @submit.prevent
   >
     <v-flex :class="expand ? 'kubegems__overlay' : ''" />
     <v-expand-transition>
@@ -46,6 +47,7 @@
             ref="form"
             v-model="valid"
             lazy-validation
+            @submit.prevent
           >
             <v-sheet class="px-2">
               <v-flex

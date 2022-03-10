@@ -79,6 +79,7 @@
             v-model="valid"
             lazy-validation
             class="pa-4"
+            @submit.prevent
           >
             <v-tabs-items
               v-model="tab"

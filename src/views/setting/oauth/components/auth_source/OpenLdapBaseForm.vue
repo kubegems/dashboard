@@ -3,6 +3,7 @@
     ref="form"
     v-model="valid"
     lazy-validation
+    @submit.prevent
   >
     <v-card-text class="pa-2">
       <v-row>
@@ -125,6 +126,8 @@ export default {
     reset() {
       this.$refs.form.reset()
     },
+    // eslint-disable-next-line vue/no-unused-properties
+    setCallback() {},
   },
 }
 </script>

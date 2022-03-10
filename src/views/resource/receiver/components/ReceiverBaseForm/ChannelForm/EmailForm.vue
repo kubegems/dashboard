@@ -4,6 +4,7 @@
     v-model="valid"
     lazy-validation
     class="my-2"
+    @submit.prevent
   >
     <v-card
       class="my-2 pa-2"

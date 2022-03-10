@@ -12,6 +12,7 @@
           ref="form"
           v-model="valid"
           lazy-validation
+          @submit.prevent
         >
           <BaseDeployInfoForm
             ref="baseDeployInfoForm"

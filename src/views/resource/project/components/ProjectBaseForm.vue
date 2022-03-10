@@ -3,6 +3,7 @@
     ref="form"
     v-model="valid"
     lazy-validation
+    @submit.prevent
   >
     <template v-if="step === 0">
       <BaseSubTitle title="项目定义" />

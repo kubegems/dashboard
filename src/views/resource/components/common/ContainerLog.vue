@@ -24,7 +24,7 @@
       </v-flex>
     </template>
     <template #action>
-      <v-sheet class="text-subtitle-1 primary white--text float-left mr-2">
+      <v-sheet class="text-subtitle-2 primary white--text float-left mr-2">
         行数
         <v-menu
           v-model="countMenu"
@@ -108,7 +108,7 @@
           </v-data-iterator>
         </v-menu>
       </v-sheet>
-      <v-flex class="text-subtitle-1 float-left primary white--text">
+      <v-flex class="text-subtitle-2 float-left primary white--text mt-1">
         实时
         <v-switch
           v-model="stream"
@@ -119,7 +119,7 @@
           @change="onStreamSwitchChange"
         />
       </v-flex>
-      <v-flex class="text-subtitle-1 float-left primary white--text">
+      <v-flex class="text-subtitle-2 float-left primary white--text mt-1">
         折行
         <v-switch
           v-model="linenotbreak"
@@ -130,7 +130,7 @@
           @change="onLinebreakSwitchChange"
         />
       </v-flex>
-      <v-sheet class="text-subtitle-1 primary white--text float-left">
+      <v-sheet class="text-subtitle-2 primary white--text float-left">
         容器
         <v-menu
           v-model="containerMenu"

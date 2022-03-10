@@ -4,6 +4,7 @@
     ref="form"
     v-model="valid"
     lazy-validation
+    @submit.prevent
   >
     <v-sheet
       v-for="(container, index) in containers"

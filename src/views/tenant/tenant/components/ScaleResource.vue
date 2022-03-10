@@ -18,6 +18,7 @@
         v-model="valid"
         lazy-validation
         class="mt-3 mx-1"
+        @submit.prevent
       >
         <v-row>
           <v-col

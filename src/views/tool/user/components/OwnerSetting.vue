@@ -6,6 +6,7 @@
           ref="infoForm"
           v-model="validInfo"
           lazy-validation
+          @submit.prevent
         >
           <v-row>
             <v-col cols="12">
@@ -45,6 +46,7 @@
           ref="pwdForm"
           v-model="validPwd"
           lazy-validation
+          @submit.prevent
         >
           <v-row>
             <v-col cols="12">

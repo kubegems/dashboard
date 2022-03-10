@@ -26,6 +26,7 @@
         v-model="valid"
         lazy-validation
         class="wizard-form-content"
+        @submit.prevent
       >
         <v-row>
           <v-col class="my-2">

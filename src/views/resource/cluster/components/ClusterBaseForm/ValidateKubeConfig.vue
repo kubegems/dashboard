@@ -4,6 +4,7 @@
       ref="form"
       v-model="valid"
       lazy-validation
+      @submit.prevent
     >
       <BaseSubTitle title="集群厂商" />
       <v-card-text class="pa-2">

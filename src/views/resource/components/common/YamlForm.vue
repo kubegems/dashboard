@@ -6,6 +6,7 @@
       v-model="valid"
       lazy-validation
       class="mt-2 rounded-t mx-2"
+      @submit.prevent
     />
     <ACEEditor
       v-model="kubeyaml"
