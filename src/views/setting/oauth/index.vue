@@ -6,35 +6,9 @@
       <v-col
         v-for="(item, index) in items"
         :key="index"
-        cols="3"
+        cols="6"
       >
-        <v-card
-          v-if="item.add"
-          class="kubegems__full-height"
-          min-height="156"
-        >
-          <v-card-text class="pa-0 kubegems__full-height">
-            <v-list-item
-              three-line
-              class="kubegems__full-height"
-            >
-              <v-list-item-content>
-                <v-btn
-                  text
-                  block
-                  color="primary"
-                  class="text-h6"
-                  @click="addAuthSource"
-                >
-                  <v-icon left>mdi-plus</v-icon>
-                  添加认证
-                </v-btn>
-              </v-list-item-content>
-            </v-list-item>
-          </v-card-text>
-        </v-card>
         <v-hover
-          v-else
           #default="{ hover }"
         >
           <v-card
@@ -57,33 +31,37 @@
               <v-list-item-content>
                 <v-list-item-title class="text-h6 mb-1">
                   <a>
-                    {{ item.name }}
+                    {{ item.kind }}
                   </a>
                 </v-list-item-title>
                 <v-list-item-subtitle>
                   <span class="text-body-2"> 简介： </span>
-                  {{ desc[item.kind.toLowerCase()] ? desc[item.kind.toLowerCase()] : '' }}
+                  {{ item.desc }}
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
 
-            <v-card-actions v-if="!item.forbid">
+            <v-card-actions
+              v-if="!item.forbid"
+              class="btn-position"
+            >
               <v-spacer />
               <v-btn
+                depressed
                 text
-                small
                 color="primary"
-                @click="updateAuthSource(item)"
+                @click="configAuthSource(item)"
               >
-                更新
+                配置
               </v-btn>
               <v-btn
+                v-if="item.enabled"
+                depressed
                 text
-                small
                 color="error"
                 @click="removeAuthSource(item)"
               >
-                删除
+                停止
               </v-btn>
             </v-card-actions>
 
@@ -130,13 +108,21 @@ export default {
       tip: '基于 oauth2.0/ldap 的第三方认证集成, 用户可进行多种方式登录',
       icon: 'mdi-star',
     },
-    items: [],
-    desc: {
-      kubegems: 'Kubegems 内置的数据库认证',
-      ldap: '您的组织能够使用Ldap协议登录',
-      oauth: '您的组织能够使用Oauth协议登录',
-      gitlab: '您的组织能够使用 Gitlab 登录',
-    },
+    items: [{
+      name: 'kubegems (default)',
+      kind: 'kubegems',
+      desc: 'Kubegems 内置的数据库认证',
+      enabled: true,
+      forbid: true,
+    }, {
+      name: 'Oauth',
+      kind: 'OAUTH',
+      desc: '您的组织能够使用Oauth协议登录',
+    }, {
+      name: 'OpenLdap',
+      kind: 'LDAP',
+      desc: '您的组织能够使用Ldap协议登录',
+    }],
   }),
   mounted() {
     this.$nextTick(() => {
@@ -146,28 +132,28 @@ export default {
   methods: {
     async oauthSourceConfigList() {
       const data = await getAuthSourceConfigList({size: 1000})
-      this.items = data.List
-      this.items.splice(0, 0, {
-        name: "kubegems (default)",
-        enabled: true,
-        kind: "kubegems",
-        forbid: true,
+      data.List.forEach(item => {
+        const index = this.items.findIndex(i => { return i.kind === item.kind })
+        let data = this.items[index]
+        data = Object.assign(data, item)
+        this.$set(this.items, index, data)
       })
-      this.items.push({ add: true })
     },
-    addAuthSource() {
-      this.$refs.addAuthSource.open()
+    configAuthSource(item) {
+      if (item.id) {
+        this.$refs.updateAuthSource.init(item)
+        this.$refs.updateAuthSource.open()
+      } else {
+        this.$refs.addAuthSource.init(item)
+        this.$refs.addAuthSource.open()
+      }
     },
-    updateAuthSource(item) {
-      this.$refs.updateAuthSource.init(item)
-      this.$refs.updateAuthSource.open()
-    },
-    removeAuthSource(item) {
+    async removeAuthSource(item) {
       this.$store.commit('SET_CONFIRM', {
-        title: `删除第三方登录`,
+        title: `停止${item.kind}登录`,
         content: {
-          text: `删除第三方登录 ${item.name}`,
-          type: 'delete',
+          text: `停止${item.kind}登录`,
+          type: 'confirm',
           name: item.name,
         },
         param: { item },
@@ -213,5 +199,11 @@ export default {
   text-transform: uppercase;
   color: white;
   font-size: 12px;
+}
+
+.btn-position {
+  position: absolute;
+  right: 10px;
+  bottom: 0;
 }
 </style>

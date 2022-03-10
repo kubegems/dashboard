@@ -110,5 +110,8 @@ export function getIconName(name) {
   if (name.indexOf('oauth') > -1) return 'logos:oauth'
   if (name.indexOf('ldap') > -1) return 'img:openldap.jpeg'
   if (name.indexOf('kubegems') > -1) return 'img:kubegems.jpg'
+  if (name.indexOf('gke') > -1) return 'logos:google-cloud'
+  if (name.indexOf('aliyun') > -1) return 'img:aliyun.png'
+  // if (name.indexOf('selfhosted') > -1) return 'bx:bxl-kubernetes'
   return 'logos:kubernetes'
 }

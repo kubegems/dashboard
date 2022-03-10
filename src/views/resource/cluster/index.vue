@@ -47,10 +47,9 @@
                 tile
                 size="80"
               >
-                <Icon
-                  icon="bx:bxl-kubernetes"
-                  style="width: 80px; height: 80px;"
-                  class="ml-2"
+                <BaseLogo
+                  :icon-name="item.Vendor"
+                  :width="70"
                 />
               </v-list-item-avatar>
               <v-list-item-content>
