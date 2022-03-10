@@ -64,7 +64,7 @@
         color="primary"
         text
         :loading="Circular"
-        @click="rollbackWorkload"
+        @click="rollback"
       >
         确定
       </v-btn>
@@ -73,19 +73,13 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import { getWorkloadVersionList, postRollbackWorkload } from '@/api'
+import { mapState, mapGetters } from 'vuex'
+import { getStrategyDeployStatus, postStrategyDeployEnvironmentAppsControl } from '@/api'
 import BaseResource from '@/mixins/resource'
 
 export default {
   name: 'Rollingback',
   mixins: [BaseResource],
-  props: {
-    item: {
-      type: Object,
-      default: () => null,
-    },
-  },
   data: () => ({
     dialog: false,
     valid: false,
@@ -105,6 +99,7 @@ export default {
   }),
   computed: {
     ...mapState(['Circular']),
+    ...mapGetters(['Tenant', 'Project', 'Environment']),
   },
   methods: {
     // eslint-disable-next-line vue/no-unused-properties
@@ -113,30 +108,28 @@ export default {
     },
     // eslint-disable-next-line vue/no-unused-properties
     init() {
-      this.workloadVersionList()
+      this.rsVersionList()
     },
-    async workloadVersionList() {
+    async rsVersionList() {
       this.versions = []
-      const data = await getWorkloadVersionList(
-        this.ThisCluster,
-        this.$route.query.namespace,
-        this.$route.query.type,
-        this.item.metadata.name,
-        {},
+      const data = await getStrategyDeployStatus(
+        this.Tenant().ID,
+        this.Project().ID,
+        this.Environment().ID,
+        this.$route.params.name,
       )
-      data.map((d) => {
-        if (!d.current) {
+      if (data && data.replicaSets) {
+        data.replicaSets.map((r, index) => {
+          if (index === 0) this.currentVersion = r.revision
           this.versions.push({
-            value: d.revision,
-            createTime: d.createTime
-              ? this.$moment(d.createTime).format('lll')
+            value: r.revision,
+            createTime: r.objectMeta.creationTimestamp
+              ? this.$moment(r.objectMeta.creationTimestamp).format('lll')
               : '',
-            images: d.images,
+            images: r.images,
           })
-        } else {
-          this.currentVersion = d.revision
-        }
-      })
+        })
+      }
     },
     selectVersion({ item, value }) {
       if (value) {
@@ -145,27 +138,31 @@ export default {
         this.selectItem = null
       }
     },
-    async rollbackWorkload() {
-      if (!this.selectItem) {
-        this.$store.commit('SET_SNACKBAR', {
-          text: '请选择回滚版本',
-          color: 'warning',
-        })
-        return
-      }
-      if (this.$refs.form.validate(true)) {
-        await postRollbackWorkload(
-          this.ThisCluster,
-          this.$route.query.namespace,
-          this.$route.query.type,
-          this.item.metadata.name,
-          {
-            revision: this.selectItem.value,
-          },
-        )
-        this.$emit('refresh')
-        this.reset()
-      }
+    rollback() {
+      this.$store.commit('SET_CONFIRM', {
+        title: '回滚',
+        content: {
+          text: `回滚版本 ${this.selectItem.value}`,
+          type: 'confirm',
+          name: this.$route.params.name,
+        },
+        param: { },
+        doFunc: async () => {
+          await postStrategyDeployEnvironmentAppsControl(
+            this.Tenant().ID,
+            this.Project().ID,
+            this.Environment().ID,
+            this.$route.params.name,
+            {
+              command: 'undo',
+              args: {
+                revision: `${this.selectItem.value}`,
+              },
+            },
+          )
+          this.reset()
+        },
+      })
     },
     reset() {
       this.dialog = false

@@ -51,6 +51,24 @@
             调整副本数
           </v-btn>
           <v-btn
+            v-if="app &&
+              app.kind !== 'DaemonSet' &&
+              m_permisson_resourceAllow &&
+              $route.query.kind === 'app'"
+            text
+            small
+            class="primary--text"
+            @click="rollingback"
+          >
+            <v-icon
+              left
+              small
+            >
+              fas fa-redo-alt
+            </v-icon>
+            回滚
+          </v-btn>
+          <v-btn
             v-if="
               app &&
                 app.kind !== 'DaemonSet' &&
@@ -142,6 +160,10 @@
       v-if="$route.query.kind === 'app'"
       ref="hpaStrategy"
     />
+    <Rollingback
+      v-if="$route.query.kind === 'app'"
+      ref="rollingback"
+    />
   </v-container>
 </template>
 
@@ -156,6 +178,7 @@ import DeployStatus from '@/views/resource/deploy/components/DeployStatus'
 import DeployControlCenter from '@/views/resource/deploy/components/DeployControlCenter'
 import ScaleReplicas from './components/ScaleReplicas'
 import HPAStrategy from './components/HPAStrategy'
+import Rollingback from './components/Rollingback'
 import BaseResource from '@/mixins/resource'
 import BasePermission from '@/mixins/permission'
 
@@ -170,6 +193,7 @@ export default {
     ScaleReplicas,
     HPAStrategy,
     DeployControlCenter,
+    Rollingback,
   },
   mixins: [BaseResource, BasePermission],
   data: () => ({
@@ -276,6 +300,10 @@ export default {
     hpaStrategy() {
       this.$refs.hpaStrategy.init()
       this.$refs.hpaStrategy.open()
+    },
+    rollingback() {
+      this.$refs.rollingback.init()
+      this.$refs.rollingback.open()
     },
     advancedDeploy() {
       this.$router.push({
