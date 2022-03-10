@@ -6,18 +6,17 @@
       v-model="valid"
       lazy-validation
       class="mt-2 rounded-t mx-2"
-    >
-      <ACEEditor
-        v-model="kubeyaml"
-        :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded-0`"
-        lang="yaml"
-        :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
-        theme="chrome"
-        height="600"
-        @init="$aceinit"
-        @keydown.stop
-      />
-    </v-form>
+    />
+    <ACEEditor
+      v-model="kubeyaml"
+      :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded-0 mx-2`"
+      lang="yaml"
+      :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
+      theme="chrome"
+      height="600"
+      @init="$aceinit"
+      @keydown.stop
+    />
   </v-flex>
 </template>
 

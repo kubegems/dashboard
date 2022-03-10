@@ -9,6 +9,7 @@
       <v-flex class="ml-2 text-h6 mt-n1">
         {{ item ? item.name : '' }}
         <v-btn
+          v-if="terminalType !== 'kubectl'"
           depressed
           color="white"
           icon

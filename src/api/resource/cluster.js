@@ -30,3 +30,8 @@ export const getClusterStatus = (query = {}) =>
   axios(`cluster/_/status`, {
     params: query,
   })
+// 集群kubeconfig校验
+export const postValidateClusterKubeConfig = (body = {}) =>
+  axios.post(`cluster/validate-kubeconfig`,
+    body,
+  )

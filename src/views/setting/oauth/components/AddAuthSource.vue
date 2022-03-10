@@ -77,6 +77,7 @@ import OauthBaseForm from './auth_source/OauthBaseForm'
 import OpenLdapBaseForm from './auth_source/OpenLdapBaseForm'
 import BaseResource from '@/mixins/resource'
 import { required } from '@/utils/rules'
+import { deepCopy } from '@/utils/helpers'
 
 export default {
   name: 'AddAuthSource',
@@ -116,6 +117,11 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     open() {
       this.dialog = true
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    init(item) {
+      this.obj = deepCopy(item)
+      this.formComponent = this.formComponents[this.obj.kind]
     },
     async addAuthSource() {
       if (this.$refs.form.validate(true) && this.$refs[this.formComponent].$refs.form.validate(true)) {
