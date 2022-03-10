@@ -86,7 +86,7 @@ export default {
           Remark: data.Remark,
         })
 
-        await this.tenantProjectSelectData()
+        await this.m_select_tenantProjectSelectData()
         this.reset()
         this.$emit('refresh')
       }

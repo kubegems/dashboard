@@ -26,7 +26,7 @@
           >
             <DeployWizard
               ref="deployWizard"
-              class="deploy-wizard"
+              class="deploy-wizard-overflow-y"
               :model="model"
               :style="`height: ${wizardHeight}px;`"
               :versions="versions"
@@ -87,10 +87,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.fixed {
-  position: fixed;
-}
-.deploy-wizard {
+.deploy-wizard-overflow-y {
   overflow-y: auto;
 }
 </style>

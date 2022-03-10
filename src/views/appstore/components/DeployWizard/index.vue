@@ -27,6 +27,7 @@
         v-model="valid"
         lazy-validation
         class="wizard-form-content"
+        @submit.prevent
       >
         <v-row>
           <v-col class="my-2">
@@ -42,7 +43,7 @@
             <v-autocomplete
               v-model="obj.TenantProjectId"
               color="primary"
-              :items="tenantProjectSelect"
+              :items="m_select_tenantProjectItems"
               :rules="objRules.tenantProjectIdRules"
               label="项目"
               hide-selected
@@ -98,7 +99,7 @@
             <v-autocomplete
               v-model="obj.EnvironmentId"
               color="primary"
-              :items="projectEnvironmentSelect"
+              :items="m_select_projectEnvironmentItems"
               :rules="objRules.environmentIdRules"
               label="环境"
               hide-selected
@@ -324,10 +325,10 @@ export default {
       }
     },
     clusterName() {
-      const projectEnvironmentObj = this.projectEnvironmentSelect.find((e) => {
+      const projectEnvironmentObj = this.m_select_projectEnvironmentItems.find((e) => {
         return e.value === this.obj.EnvironmentId
       })
-      return projectEnvironmentObj ? projectEnvironmentObj.ClusterName : ''
+      return projectEnvironmentObj ? projectEnvironmentObj.clusterName : ''
     },
     footerWidth() {
       return (window.innerWidth / 12) * 9 + 10
@@ -489,12 +490,12 @@ export default {
       this.completed = true
     },
     async onEnvSelectFocus() {
-      await this.projectEnvironmentSelectData(this.obj.TenantProjectId)
+      await this.m_select_projectEnvironmentSelectData(this.obj.TenantProjectId)
       // 系统管理员->租户管理员->项目管理员(auth中有项目ID)->其他,断路判断是否启用环境过滤
-      this.projectEnvironmentSelect = this.projectEnvironmentSelect.filter(
+      this.m_select_projectEnvironmentItems = this.m_select_projectEnvironmentItems.filter(
         (projectEnv) => {
           return (
-            this.tenantAllow ||
+            this.m_permisson_tenantAllow ||
             this.Auth.projects.some((p) => {
               return p.isAdmin && p.id === this.obj.TenantProjectId
             }) ||
@@ -506,7 +507,7 @@ export default {
       )
     },
     async showDeployStatus() {
-      const project = this.tenantProjectSelect.find((p) => {
+      const project = this.m_select_tenantProjectItems.find((p) => {
         return p.value === this.obj.TenantProjectId
       })
       if (!project) {
@@ -516,7 +517,7 @@ export default {
         })
         return
       }
-      const environment = this.projectEnvironmentSelect.find((e) => {
+      const environment = this.m_select_projectEnvironmentItems.find((e) => {
         return e.value === this.obj.EnvironmentId
       })
 
@@ -605,7 +606,7 @@ export default {
       }
     },
     onTenantProjectSelectFocus() {
-      this.tenantProjectSelectData()
+      this.m_select_tenantProjectSelectData()
     },
   },
 }
@@ -628,12 +629,5 @@ export default {
 }
 .vue-form-wizard {
   padding-bottom: 0;
-}
-
-/* 自定义样式 */
-.wizard-footer-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 </style>

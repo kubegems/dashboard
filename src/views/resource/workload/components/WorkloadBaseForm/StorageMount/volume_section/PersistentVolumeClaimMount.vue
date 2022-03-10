@@ -3,6 +3,7 @@
     ref="form"
     v-model="valid"
     lazy-validation
+    @submit.prevent
   >
     <v-sheet class="px-2">
       <v-flex class="float-left text-subtitle-2 py-1 primary--text kubegems__min-width" />
@@ -140,9 +141,9 @@ export default {
       } else {
         data = await getPersistentVolumeClaimList(
           this.ThisCluster,
-          this.namespace,
+          this.namespace || this.$route.query.namespace,
           {
-            size: 500,
+            size: 1000,
             noprocessing: true,
           },
         )

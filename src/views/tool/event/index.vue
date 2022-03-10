@@ -252,8 +252,8 @@ export default {
   },
   methods: {
     getTenantIDByName(name) {
-      if (this.tenantSelect.length > 0) {
-        const tenant = this.tenantSelect.find((tenantObj) => {
+      if (this.m_select_tenantItems.length > 0) {
+        const tenant = this.m_select_tenantItems.find((tenantObj) => {
           return tenantObj.text === name
         })
         return tenant ? tenant.value : null
@@ -262,17 +262,17 @@ export default {
       }
     },
     async generateSelectData() {
-      await this.tenantSelectData()
+      await this.m_select_tenantSelectData()
       const noClusterName = !this.$route.query.clustername
       if (this.AdminViewport) {
-        await this.clusterSelectData(null)
+        await this.m_select_clusterSelectData(null)
       } else {
-        await this.clusterSelectData(
+        await this.m_select_clusterSelectData(
           this.getTenantIDByName(this.Tenant().TenantName),
         )
       }
-      if (this.clusterSelect.length > 0) {
-        const clusterFilterItem = this.clusterSelect.map((clusterObj) => {
+      if (this.m_select_clusterItems.length > 0) {
+        const clusterFilterItem = this.m_select_clusterItems.map((clusterObj) => {
           return {
             text: clusterObj.text,
             value: clusterObj.text,
@@ -283,7 +283,7 @@ export default {
           return filter.value === 'clustername'
         }).items = clusterFilterItem
         if (noClusterName) {
-          this.params.clustername = this.clusterSelect[0].text
+          this.params.clustername = this.m_select_clusterItems[0].text
           this.$router.replace({
             query: { ...this.$route.query, ...this.params },
           })
@@ -361,15 +361,15 @@ export default {
         this.items = []
         let query = `{container="gems-eventer"}|__error__=""|json`
         if (this.params.tenant) {
-          await this.environmentSelectData(
+          await this.m_select_environmentSelectData(
             this.getTenantIDByName(this.params.tenant),
           )
           const ns = []
-          if (this.environmentSelect.length === 0) {
+          if (this.m_select_environmentItems.length === 0) {
             this.items = []
             return
           }
-          this.environmentSelect.forEach((e) => {
+          this.m_select_environmentItems.forEach((e) => {
             ns.push(`^${e.value}$`)
           })
           query += `|line_format "{{.metadata_namespace}}"|~"${ns.join('|')}"`

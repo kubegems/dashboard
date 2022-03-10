@@ -25,7 +25,7 @@
       <v-sheet max-height="300px">
         <v-data-table
           :headers="headers"
-          :items="tenantSelect"
+          :items="m_select_tenantItems"
           :page.sync="params.page"
           :search.sync="search"
           :items-per-page="params.size"
@@ -88,7 +88,7 @@ export default {
     search: '',
     params: {
       page: 1,
-      size: 500,
+      size: 1000,
     },
   }),
   computed: {
@@ -102,7 +102,7 @@ export default {
     },
     // eslint-disable-next-line vue/no-unused-properties
     init() {
-      this.tenantSelectData()
+      this.m_select_tenantSelectData()
     },
     async setTenant(item) {
       this.$store.commit('CLEAR_RESOURCE')

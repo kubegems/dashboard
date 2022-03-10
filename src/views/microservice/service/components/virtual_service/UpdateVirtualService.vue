@@ -65,14 +65,14 @@ export default {
         if (this.formComponent === 'YamlForm') {
           data = this.$refs[this.formComponent].kubeyaml
           data = this.$yamlload(data)
-          if (!this.checkDataWithOutNS(data)) return
-          if (!this.validateJsonSchema(this.virtualserviceschema, data)) {
+          if (!this.m_resource_checkDataWithOutNS(data)) return
+          if (!this.m_resource_validateJsonSchema(this.virtualserviceschema, data)) {
             return
           }
-          data = this.beautifyData(data)
+          data = this.m_resource_beautifyData(data)
         } else if (this.formComponent === 'IstioVirtualServiceBaseForm') {
           data = this.$refs[this.formComponent].obj
-          data = this.beautifyData(data)
+          data = this.m_resource_beautifyData(data)
         }
         await patchUpdateIstioVirtualService(
           this.EnvironmentFilter.cluster,

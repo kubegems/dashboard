@@ -1,7 +1,7 @@
 <template>
   <v-card
     flat
-    height="50%"
+    height="45%"
     class="rounded-b-0"
   >
     <v-card-text
@@ -12,15 +12,15 @@
         <div class="d-flex space-and-grow">
           <div>
             <h1 class="white--text text-h4 mt-4">
-              <Icon
-                icon="bx:bxl-kubernetes"
-                style="width: 60px; height: 60px;"
-                class="mx-2"
+              <BaseLogo
+                :icon-name="cluster ? cluster.Vendor : ''"
+                :width="60"
+                class="mx-3"
               />
             </h1>
           </div>
           <div
-            class="mx-2 mt-2"
+            class="ml-4 mt-2"
             style="flex-grow: 2;"
           >
             <h3 class="card-text-h4 white--text text-h5 font-weight-regular">
@@ -37,8 +37,8 @@
             >
               {{ cluster && cluster.Version ? cluster.Version : '' }}
             </h6>
-            <span class="texture-left pa-1">证书有效期:</span>
-            <span class="texture-right pa-1">{{
+            <span class="texture-left pa-1 text-caption">证书有效期:</span>
+            <span class="texture-right pa-1 text-caption">{{
               certInfo && certInfo.ExpiredAt
                 ? $moment(certInfo.ExpiredAt).format('YYYY/MM/DD h:mm')
                 : ''
@@ -60,7 +60,7 @@
         </div>
         <div class="d-flex justify-space-between px-4 fix">
           <div class="d-flex">
-            <h4 class="white--text text-subtitle-1 text-nowrap mr-1">ETCD</h4>
+            <h4 class="white--text text-body-2 text-nowrap mr-1">ETCD</h4>
             <v-icon
               v-if="componentStatus.ETCD && componentStatus.ETCD.IsHealthy"
               color="success"
@@ -79,6 +79,7 @@
             >
               <template #default="scopeData">
                 <v-icon
+                  class="mt-1"
                   color="error"
                   small
                   v-on="scopeData.on"
@@ -89,7 +90,7 @@
             </Tips>
           </div>
           <div class="d-flex">
-            <h4 class="white--text text-subtitle-1 text-nowrap mr-1">
+            <h4 class="white--text text-body-2 text-nowrap mr-1">
               Schedule
             </h4>
             <v-icon
@@ -112,6 +113,7 @@
             >
               <template #default="scopeData">
                 <v-icon
+                  class="mt-1"
                   color="error"
                   small
                   v-on="scopeData.on"
@@ -122,7 +124,7 @@
             </Tips>
           </div>
           <div class="d-flex">
-            <h4 class="white--text text-subtitle-1 text-nowrap mr-1">
+            <h4 class="white--text text-body-2 text-nowrap mr-1">
               APIServer
             </h4>
             <v-icon
@@ -145,6 +147,7 @@
             >
               <template #default="scopeData">
                 <v-icon
+                  class="mt-1"
                   color="error"
                   small
                   v-on="scopeData.on"
@@ -155,7 +158,7 @@
             </Tips>
           </div>
           <div class="d-flex">
-            <h4 class="white--text text-subtitle-1 text-nowrap mr-1">
+            <h4 class="white--text text-body-2 text-nowrap mr-1">
               ControllerManager
             </h4>
             <v-icon
@@ -180,6 +183,7 @@
             >
               <template #default="scopeData">
                 <v-icon
+                  class="mt-1"
                   color="error"
                   small
                   v-on="scopeData.on"

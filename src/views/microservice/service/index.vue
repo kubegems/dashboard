@@ -8,12 +8,12 @@
           :filters="filters"
           :reload="false"
           :default="{ items: [], text: '服务名称', value: 'search' }"
-          @refresh="filterList"
+          @refresh="m_filter_list"
         />
         <EnvironmentFilter />
         <v-spacer />
         <v-menu
-          v-if="virtualSpaceAllow"
+          v-if="m_permisson_virtualSpaceAllow"
           left
         >
           <template #activator="{ on }">

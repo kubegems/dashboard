@@ -11,7 +11,7 @@
           origin="top center"
           transition="scale-transition"
           nudge-bottom="5px"
-          content-class="z-index-bg"
+          content-class="tenant-header__bg"
         >
           <template #activator="{ on }">
             <v-btn
@@ -21,7 +21,7 @@
               small
               dark
               v-on="on"
-              @click="tenantProjectSelectData"
+              @click="m_select_tenantProjectSelectData"
             >
               <v-icon left>fas fa-cube</v-icon>
               {{ Project().ProjectName }}
@@ -30,7 +30,7 @@
             </v-btn>
           </template>
           <v-data-iterator
-            :items="[{ text: '项目', values: tenantProjectSelect }]"
+            :items="[{ text: '项目', values: m_select_tenantProjectItems }]"
             hide-default-footer
           >
             <template #no-data>
@@ -98,7 +98,7 @@
                 small
                 dark
                 v-on="on"
-                @click.stop="projectEnvironmentSelectData(Project().ID)"
+                @click.stop="m_select_projectEnvironmentSelectData(Project().ID)"
               >
                 <v-icon left>fas fa-cloud</v-icon>
                 {{ Environment().EnvironmentName }}
@@ -107,7 +107,7 @@
               </v-btn>
             </template>
             <v-data-iterator
-              :items="[{ text: '环境', values: projectEnvironmentSelect }]"
+              :items="[{ text: '环境', values: m_select_projectEnvironmentItems }]"
               hide-default-footer
             >
               <template #no-data>
@@ -160,7 +160,7 @@
         <span v-if="environmented" class="text-body-2 kubegems__role">
           环境角色:
           {{
-            resourceRoleCN[resourceRole] ? resourceRoleCN[resourceRole] : '暂无'
+            $RESOURCE_ROLE[m_permisson_resourceRole] ? $RESOURCE_ROLE[m_permisson_resourceRole] : '暂无'
           }}
           <span class="ml-4">
             环境类型:
@@ -175,7 +175,7 @@
         </span>
         <span v-else class="text-body-2 kubegems__role">
           项目角色:
-          {{ projectRoleCN[projectRole] ? projectRoleCN[projectRole] : '暂无' }}
+          {{ $PROJECT_ROLE[m_permisson_projectRole] ? $PROJECT_ROLE[m_permisson_projectRole] : '暂无' }}
         </span>
       </v-sheet>
     </v-card-title>
@@ -213,8 +213,8 @@ export default {
   methods: {
     async setProject(item) {
       if (this.environmented) {
-        await this.projectEnvironmentSelectData(item.value)
-        if (this.projectEnvironmentSelect.length === 0) {
+        await this.m_select_projectEnvironmentSelectData(item.value)
+        if (this.m_select_projectEnvironmentItems.length === 0) {
           this.$store.commit('SET_SNACKBAR', {
             text: '该项目下没有环境，请重新选择项目或添加环境',
             color: 'warning',
@@ -225,7 +225,7 @@ export default {
             params: {
               tenant: this.Tenant().TenantName,
               project: item.text,
-              environment: this.projectEnvironmentSelect[0].text,
+              environment: this.m_select_projectEnvironmentItems[0].text,
             },
           })
         }
@@ -269,7 +269,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.z-index-bg {
+.tenant-header__bg {
   z-index: auto !important;
 }
 </style>

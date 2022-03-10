@@ -4,6 +4,7 @@
     v-model="valid"
     lazy-validation
     class="pa-0 ma-0"
+    @submit.prevent
   >
     <v-flex
       v-if="isRender"

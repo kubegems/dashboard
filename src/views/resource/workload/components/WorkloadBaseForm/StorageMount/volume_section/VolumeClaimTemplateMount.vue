@@ -3,6 +3,7 @@
     ref="form"
     v-model="valid"
     lazy-validation
+    @submit.prevent
   >
     <v-sheet class="pt-2 px-2">
       <v-flex class="float-left text-subtitle-2 pt-4 primary--text kubegems__min-width">
@@ -23,7 +24,7 @@
       <v-flex class="float-left text-subtitle-2 py-1 primary--text kubegems__min-width" />
       <v-flex class="float-left ml-2 kubegems__form-width">
         <v-autocomplete
-          v-if="$route.params.environment"
+          v-if="$route.params.environment || $route.params.cluster"
           v-model="obj.spec.storageClassName"
           :items="storageClasses"
           :rules="objRules.storageClassNameRule"
@@ -206,7 +207,7 @@ export default {
   methods: {
     async storageClassList() {
       const data = await getStorageClassList(this.ThisCluster, {
-        size: 500,
+        size: 1000,
       })
       this.storageClasses = data.List
       this.storageClasses.forEach((v) => {
@@ -219,7 +220,7 @@ export default {
       if (this.$refs.form.validate(true)) {
         const data = this.$refs.volumeMount.generateData()
         if (data) {
-          // this.obj.metadata.namespace = this.data.metadata.namespace
+          // this.obj.metadata.namespace = this.data?.metadata?.namespace
           for (const item in data) {
             data[item].name = this.obj.metadata.name
           }
@@ -238,9 +239,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss" scoped>
-.mode-width {
-  width: 200px;
-}
-</style>

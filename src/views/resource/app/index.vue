@@ -10,12 +10,12 @@
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '应用名称', value: 'search' }"
-          @refresh="filterList"
+          @refresh="m_filter_list"
         />
         <NamespaceFilter />
         <v-spacer />
         <v-menu
-          v-if="resourceAllow && tab === 0"
+          v-if="m_permisson_resourceAllow && tab === 0"
           left
         >
           <template #activator="{ on }">
@@ -77,8 +77,8 @@
           :items-per-page="params.size"
           no-data-text="暂无数据"
           hide-default-footer
-          @update:sort-by="sortBy"
-          @update:sort-desc="sortDesc"
+          @update:sort-by="m_table_sortBy"
+          @update:sort-desc="m_table_sortDesc"
         >
           <template #[`item.name`]="{ item }">
             <a
@@ -306,6 +306,7 @@ import AppEventTip from './components/AppEventTip'
 import BaseFilter from '@/mixins/base_filter'
 import BaseResource from '@/mixins/resource'
 import BasePermission from '@/mixins/permission'
+import BaseTable from '@/mixins/table'
 
 export default {
   name: 'App',
@@ -315,7 +316,7 @@ export default {
     NamespaceFilter,
     AppEventTip,
   },
-  mixins: [BaseFilter, BaseResource, BasePermission],
+  mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
     breadcrumb: {
       title: '应用',
@@ -384,7 +385,7 @@ export default {
           sortable: false,
         })
       }
-      if (this.resourceAllow || this.AdminViewport) {
+      if (this.m_permisson_resourceAllow || this.AdminViewport) {
         items.push({
           text: '',
           value: 'action',
@@ -411,7 +412,7 @@ export default {
         const app = JSON.parse(updatingApp)
         if (app.MessageType !== 'objectChanged') return
         if (app.EventKind === 'delete') {
-          this.generateParams()
+          this.m_table_generateParams()
           this.appRunningList(true)
           return
         }
@@ -450,7 +451,7 @@ export default {
       deep: true,
       immediate: true,
     },
-    sortparam: {
+    m_table_sortparam: {
       handler: function (newV, oldV) {
         if (oldV.name !== newV.name) return
         if (oldV.desc === null) return
@@ -469,7 +470,7 @@ export default {
           })
           return
         }
-        this.generateParams()
+        this.m_table_generateParams()
         this.appRunningList()
       })
     }
@@ -501,7 +502,7 @@ export default {
           Object.assign(this.params, {
             kind: kind,
             noprocessing: noprocess,
-            sort: this.generateResourceSortParamValue(),
+            sort: this.m_table_generateResourceSortParamValue(),
           }),
         )
       } else if (this.tabItems[this.tab].value === 'AppStoreList') {
@@ -513,7 +514,7 @@ export default {
           Object.assign(this.params, {
             kind: kind,
             noprocessing: noprocess,
-            sort: this.generateResourceSortParamValue(),
+            sort: this.m_table_generateResourceSortParamValue(),
           }),
         )
       }

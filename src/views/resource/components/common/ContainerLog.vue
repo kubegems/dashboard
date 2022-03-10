@@ -8,10 +8,23 @@
     <template #header>
       <v-flex class="ml-2 text-h6 mt-n1">
         {{ item ? item.name : '' }}
+        <v-btn
+          depressed
+          color="white"
+          icon
+          @click="openOnBlankTab"
+        >
+          <v-icon
+            small
+            color="white"
+          >
+            mdi-open-in-new
+          </v-icon>
+        </v-btn>
       </v-flex>
     </template>
     <template #action>
-      <v-sheet class="text-subtitle-1 primary white--text float-left mr-2">
+      <v-sheet class="text-subtitle-2 primary white--text float-left mr-2">
         行数
         <v-menu
           v-model="countMenu"
@@ -95,7 +108,7 @@
           </v-data-iterator>
         </v-menu>
       </v-sheet>
-      <v-flex class="text-subtitle-1 float-left primary white--text">
+      <v-flex class="text-subtitle-2 float-left primary white--text mt-1">
         实时
         <v-switch
           v-model="stream"
@@ -106,7 +119,7 @@
           @change="onStreamSwitchChange"
         />
       </v-flex>
-      <v-flex class="text-subtitle-1 float-left primary white--text">
+      <v-flex class="text-subtitle-2 float-left primary white--text mt-1">
         折行
         <v-switch
           v-model="linenotbreak"
@@ -117,7 +130,7 @@
           @change="onLinebreakSwitchChange"
         />
       </v-flex>
-      <v-sheet class="text-subtitle-1 primary white--text float-left">
+      <v-sheet class="text-subtitle-2 primary white--text float-left">
         容器
         <v-menu
           v-model="containerMenu"
@@ -364,6 +377,21 @@ export default {
       this.log = ''
       this.stream = false
       this.linenotbreak = false
+      if (window.opener) window.close()
+    },
+    openOnBlankTab() {
+      const routeData = this.$router.resolve({
+        name: this.AdminViewport ? 'admin-container-log-viewer' : 'container-log-viewer',
+        params: { name: this.item.name },
+        query: {
+          namespace: this.item.namespace,
+          cluster: this.ThisCluster,
+          container: this.container,
+        },
+      })
+      this.dispose()
+      this.dialog = false
+      window.open(routeData.href, '_blank')
     },
   },
 }

@@ -67,12 +67,12 @@ export default {
         let data = this.$refs.yamlForm.kubeyaml
         data = this.$yamlload(data)
         const namespace = this.AdminViewport
-          ? data.metadata.namespace
+          ? data?.metadata?.namespace
           : this.ThisNamespace
-        if (!this.checkDataWithNS(data, namespace)) {
+        if (!this.m_resource_checkDataWithNS(data, namespace)) {
           return
         }
-        data = this.beautifyData(data)
+        data = this.m_resource_beautifyData(data)
         await patchUpdateCR(
           this.EnvironmentFilter.cluster,
           this.EnvironmentFilter.namespace,

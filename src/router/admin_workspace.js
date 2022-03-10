@@ -627,4 +627,23 @@ export const adminWorkspace = [
       },
     ],
   },
+  {
+    path: '/container',
+    name: 'admin-container-log',
+    component: () => import('@/layouts/LayoutWithoutNavi'),
+    redirect: { name: `${namePrefix}-container-log-viewer` },
+    children: [
+      // log
+      {
+        path: `${prefix}/log/:name`,
+        name: `${namePrefix}-container-log-viewer`,
+        component: () => import('@/views/resource/log/index'),
+        meta: {
+          requireAuth: true,
+          title: '容器日志',
+          admin: true,
+        },
+      },
+    ],
+  },
 ]

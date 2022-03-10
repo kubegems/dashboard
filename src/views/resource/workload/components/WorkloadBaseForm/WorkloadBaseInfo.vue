@@ -3,6 +3,7 @@
     ref="form"
     v-model="valid"
     lazy-validation
+    @submit.prevent
   >
     <BaseSubTitle title="工作负载定义" />
     <v-card-text class="pa-2">
@@ -52,7 +53,7 @@
           <v-autocomplete
             v-model="obj.metadata.namespace"
             color="primary"
-            :items="namespaceSelect"
+            :items="m_select_namespaceItems"
             :rules="objRules.namespaceRule"
             :readonly="edit"
             label="命名空间"
@@ -187,7 +188,7 @@ export default {
       this.$nextTick(() => {
         if (!this.manifest) {
           if (this.AdminViewport) {
-            this.namespaceSelectData(this.ThisCluster)
+            this.m_select_namespaceSelectData(this.ThisCluster)
           } else {
             this.obj.metadata.namespace = this.ThisNamespace
           }
@@ -224,7 +225,7 @@ export default {
       this.$emit('change', this.resourceKind)
     },
     onNamespaceSelectFocus(clusterName) {
-      this.namespaceSelectData(clusterName)
+      this.m_select_namespaceSelectData(clusterName)
     },
   },
 }

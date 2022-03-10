@@ -4,6 +4,7 @@
       ref="form"
       v-model="valid"
       lazy-validation
+      @submit.prevent
     >
       <v-flex :class="expand ? 'kubegems__overlay' : ''" />
       <BaseSubTitle title="网关定义" />
@@ -15,7 +16,7 @@
           >
             <v-autocomplete
               v-model="obj.spec.tenant"
-              :items="tenantSelect"
+              :items="m_select_tenantItems"
               :rules="objRules.tenantRule"
               color="primary"
               label="租户"
@@ -166,7 +167,7 @@ import BaseResource from '@/mixins/resource'
 import GatewayDataItem from './GatewayDataItem'
 import DataForm from '@/views/resource/components/common/DataForm'
 import { deepCopy } from '@/utils/helpers'
-import { k8sName, required, positiveInteger } from '@/utils/rules'
+import { required, positiveInteger } from '@/utils/rules'
 
 export default {
   name: 'GatewayBaseForm',
@@ -216,7 +217,7 @@ export default {
       return {
         nameRule: [
           required,
-          k8sName,
+          v => !v || !!new RegExp('^[a-z]([-a-z0-9]*[a-z0-9])?$').test(v) || '格式错误（以字母开头）',
         ],
         tenantRule: [required],
         gatewayTypeRule: [required],
@@ -255,7 +256,7 @@ export default {
         if (!this.obj.spec.configMapData) {
           this.$set(this.obj.spec, 'configMapData', {})
         }
-        this.tenantSelectData()
+        this.m_select_tenantSelectData()
       })
     },
     addData(data) {
@@ -321,7 +322,7 @@ export default {
       this.obj = data
     },
     onTenantSelectFocus() {
-      this.tenantSelectData()
+      this.m_select_tenantSelectData()
     },
   },
 }

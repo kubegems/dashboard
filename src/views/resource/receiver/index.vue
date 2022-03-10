@@ -12,7 +12,7 @@
         <NamespaceFilter />
         <v-spacer />
         <v-menu
-          v-if="resourceAllow"
+          v-if="m_permisson_resourceAllow"
           left
         >
           <template #activator="{ on }">
@@ -43,7 +43,7 @@
                   text
                   color="error"
                   @click="
-                    batchRemoveResource('接收器', 'Receiver', receiverList)
+                    m_table_batchRemoveResource('接收器', 'Receiver', receiverList)
                   "
                 >
                   <v-icon left>mdi-minus-box</v-icon>
@@ -68,13 +68,13 @@
           show-expand
           item-key="index"
           @page-count="pageCount = $event"
-          @toggle-select-all="onResourceToggleSelect"
+          @toggle-select-all="m_table_onResourceToggleSelect"
           @click:row="onRowClick"
         >
           <template #[`item.data-table-select`]="{ item, index }">
             <v-checkbox
               v-model="
-                batchResources[
+                m_table_batchResources[
                   `${item.metadata.name}-${index + itemsPerPage * (page - 1)}`
                 ].checked
               "
@@ -82,7 +82,7 @@
               hide-details
               @click.stop
               @change="
-                onResourceChange(
+                m_table_onResourceChange(
                   $event,
                   item,
                   `${index + itemsPerPage * (page - 1)}`,
@@ -215,6 +215,7 @@ import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter'
 import BaseFilter from '@/mixins/base_filter'
 import BaseResource from '@/mixins/resource'
 import BasePermission from '@/mixins/permission'
+import BaseTable from '@/mixins/table'
 
 export default {
   name: 'ReceiverList',
@@ -223,7 +224,7 @@ export default {
     UpdateReceiver,
     NamespaceFilter,
   },
-  mixins: [BaseFilter, BaseResource, BasePermission],
+  mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
     breadcrumb: {
       title: '接收器',
@@ -245,7 +246,7 @@ export default {
         { text: '名称', value: 'name', align: 'start' },
         { text: '渠道', value: 'channel', align: 'start' },
       ]
-      if (this.resourceAllow) {
+      if (this.m_permisson_resourceAllow) {
         items.push({ text: '', value: 'action', align: 'center', width: 20 })
       }
       if (this.AdminViewport) {
@@ -281,7 +282,7 @@ export default {
           })
           return
         }
-        this.generateParams()
+        this.m_table_generateParams()
         this.receiverList()
       })
     }
@@ -304,7 +305,7 @@ export default {
           ...d,
         }
       })
-      this.generateSelectResource()
+      this.m_table_generateSelectResource()
     },
     filterList(params) {
       const defaultparams = {

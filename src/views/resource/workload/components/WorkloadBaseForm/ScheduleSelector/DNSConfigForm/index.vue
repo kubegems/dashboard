@@ -4,6 +4,7 @@
     v-model="valid"
     lazy-validation
     class="my-2"
+    @submit.prevent
   >
     <v-flex :class="expand ? 'kubegems__overlay' : ''" />
     <v-expand-transition>
@@ -30,7 +31,7 @@
                 label="nameservers(回车)"
                 height="32"
                 @change="onNameserversChange"
-                @keydown.13="createNameservers"
+                @keydown.enter="createNameservers"
               >
                 <template #selection="{ item }">
                   <v-chip
@@ -70,7 +71,7 @@
                 label="searches(回车)"
                 height="32"
                 @change="onSearchesChange"
-                @keydown.13="createSearches"
+                @keydown.enter="createSearches"
               >
                 <template #selection="{ item }">
                   <v-chip

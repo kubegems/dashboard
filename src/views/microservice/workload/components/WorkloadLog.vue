@@ -244,7 +244,7 @@ export default {
         this.$route.query.cluster,
         this.$route.query.namespace,
         {
-          size: 500,
+          size: 1000,
           topkind: this.$route.query.type,
           topname: this.$route.params.name,
         },

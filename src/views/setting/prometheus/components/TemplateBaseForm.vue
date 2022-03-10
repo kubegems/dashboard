@@ -4,6 +4,7 @@
       ref="form"
       v-model="valid"
       lazy-validation
+      @submit.prevent
     >
       <v-flex :class="expand ? 'kubegems__overlay' : ''" />
       <BaseSubTitle title="模版定义" />
@@ -44,11 +45,10 @@
               :items="[]"
               :search-input.sync="labelText"
               multiple
-              small-chips
               label="标签(回车)"
               height="32"
               @change="onLabelChange"
-              @keydown.13="createLabel"
+              @keydown.enter="createLabel"
             >
               <template #selection="{ item }">
                 <v-chip

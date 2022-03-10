@@ -3,6 +3,7 @@
     ref="form"
     v-model="valid"
     lazy-validation
+    @submit.prevent
   >
     <v-flex :class="expand ? 'kubegems__overlay' : ''" />
     <AddNamespace
@@ -32,7 +33,7 @@
             <v-autocomplete
               v-model="obj.data.ProjectID"
               color="primary"
-              :items="projectSelect"
+              :items="m_select_projectItems"
               :rules="objRules.projectIDRules"
               label="项目"
               hide-selected
@@ -56,7 +57,7 @@
             <v-autocomplete
               v-model="obj.data.ClusterID"
               color="primary"
-              :items="tenantClusterSelect"
+              :items="m_select_tenantClusterItems"
               :rules="objRules.clusterIDRules"
               label="集群"
               hide-selected
@@ -93,7 +94,7 @@
                   text
                   color="primary"
                   class="mt-n1"
-                  @click.stop="openExpaned('AddNamespace')"
+                  @click.stop="openExpaned('addNamespace')"
                 >
                   <v-icon
                     left
@@ -110,7 +111,7 @@
             <v-autocomplete
               v-model="obj.data.MetaType"
               color="primary"
-              :items="environmentTypeSelect"
+              :items="m_select_environmentTypeItems"
               :rules="objRules.metaTypeRules"
               label="类型"
               hide-selected
@@ -487,16 +488,16 @@ export default {
       this.$refs.addNamespace.closeCard()
     },
     async onClusterChange(ClusterID = null) {
-      const cluster = this.tenantClusterSelect.find((c) => {
+      const cluster = this.m_select_tenantClusterItems.find((c) => {
         return c.value === ClusterID
       })
       if (cluster) {
-        this.obj.statistics = await this.tenantResourceQuota(
+        this.obj.statistics = await this.m_resource_tenantResourceQuota(
           cluster.text,
           this.Tenant().TenantName,
           { noprocessing: true },
         )
-        this.obj.quota = await this.clusterQuota(cluster.value, {
+        this.obj.quota = await this.m_resource_clusterQuota(cluster.value, {
           NowCpu: this.obj.statistics.Cpu,
           NowMemory: this.obj.statistics.Memory,
           NowStorage: this.obj.statistics.Storage,
@@ -548,20 +549,20 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     async init(item) {
       this.obj.data = deepCopy(item)
-      this.obj.statistics = await this.tenantResourceQuota(
+      this.obj.statistics = await this.m_resource_tenantResourceQuota(
         this.ThisCluster,
         this.Tenant().TenantName,
         { noprocessing: true },
       )
-      this.obj.quota = await this.clusterQuota(this.obj.data.ClusterID, {
+      this.obj.quota = await this.m_resource_clusterQuota(this.obj.data.ClusterID, {
         NowCpu: this.obj.statistics.Cpu,
         NowMemory: this.obj.statistics.Memory,
         NowStorage: this.obj.statistics.Storage,
       })
-      await this.tenantClusterSelectData(this.Tenant().ID)
+      await this.m_select_tenantClusterSelectData(this.Tenant().ID)
       await this.onClusterChange(this.obj.data.ClusterID)
       if (this.AdminViewport) {
-        this.projectSelectData()
+        this.m_select_projectSelectData()
       }
     },
     // eslint-disable-next-line vue/no-unused-properties
@@ -575,7 +576,7 @@ export default {
     },
     async projectUserList(projectID) {
       const data = await getProjectUserList(projectID, {
-        size: 500,
+        size: 1000,
         noprocessing: true,
       })
       this.allUsers = data.List.filter((d) => {
@@ -587,7 +588,7 @@ export default {
     },
     async environmentUserList() {
       const data = await getEnvironmentUserList(this.obj.data.ID, {
-        size: 500,
+        size: 1000,
         noprocessing: true,
       })
       this.users = data.List
@@ -672,10 +673,10 @@ export default {
       }
     },
     onProjectSelectFocus() {
-      this.projectSelectData()
+      this.m_select_projectSelectData()
     },
     onTenantClusterSelectFocus(tenantid) {
-      this.tenantClusterSelectData(tenantid)
+      this.m_select_tenantClusterSelectData(tenantid)
     },
   },
 }

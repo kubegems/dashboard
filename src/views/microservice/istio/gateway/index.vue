@@ -7,12 +7,12 @@
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '网关名称', value: 'search' }"
-          @refresh="filterList"
+          @refresh="m_filter_list"
         />
         <EnvironmentFilter />
         <v-spacer />
         <v-menu
-          v-if="virtualSpaceAllow"
+          v-if="m_permisson_virtualSpaceAllow"
           left
         >
           <template #activator="{ on }">
@@ -43,7 +43,7 @@
                   text
                   color="error"
                   @click="
-                    batchRemoveResource('网关', 'Gateway', istioGatewayList)
+                    m_table_batchRemoveResource('网关', 'Gateway', istioGatewayList)
                   "
                 >
                   <v-icon left>mdi-minus-box</v-icon>
@@ -63,19 +63,19 @@
         no-data-text="暂无数据"
         hide-default-footer
         show-select
-        @update:sort-by="sortBy"
-        @update:sort-desc="sortDesc"
-        @toggle-select-all="onResourceToggleSelect"
+        @update:sort-by="m_table_sortBy"
+        @update:sort-desc="m_table_sortDesc"
+        @toggle-select-all="m_table_onResourceToggleSelect"
       >
         <template #[`item.data-table-select`]="{ item, index }">
           <v-checkbox
             v-model="
-              batchResources[`${item.metadata.name}-${index}`].checked
+              m_table_batchResources[`${item.metadata.name}-${index}`].checked
             "
             color="primary"
             hide-details
             @click.stop
-            @change="onResourceChange($event, item, index)"
+            @change="m_table_onResourceChange($event, item, index)"
           />
         </template>
         <template #[`item.name`]="{ item }">
@@ -184,6 +184,7 @@ import UpdateGateway from './components/UpdateGateway'
 import BaseResource from '@/mixins/resource'
 import BasePermission from '@/mixins/permission'
 import BaseFilter from '@/mixins/base_filter'
+import BaseTable from '@/mixins/table'
 import { convertStrToNum } from '@/utils/helpers'
 
 export default {
@@ -193,7 +194,7 @@ export default {
     UpdateGateway,
     EnvironmentFilter,
   },
-  mixins: [BaseFilter, BaseResource, BasePermission],
+  mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
     breadcrumb: {
       title: '网关',
@@ -223,7 +224,7 @@ export default {
         { text: '服务', value: 'service', align: 'start' },
         { text: '创建时间', value: 'createAt', align: 'start', width: 180 },
       ]
-      if (this.virtualSpaceAllow) {
+      if (this.m_permisson_virtualSpaceAllow) {
         items.push({
           text: '',
           value: 'action',
@@ -236,7 +237,7 @@ export default {
     },
   },
   watch: {
-    sortparam: {
+    m_table_sortparam: {
       handler: function (newV, oldV) {
         if (oldV.name !== newV.name) return
         if (oldV.desc === null) return
@@ -266,7 +267,7 @@ export default {
         this.EnvironmentFilter.namespace,
         Object.assign(this.params, {
           noprocessing: noprocess,
-          sort: this.generateResourceSortParamValue(),
+          sort: this.m_table_generateResourceSortParamValue(),
         }),
       )
       this.items = data.List.map((s) => {
@@ -281,7 +282,7 @@ export default {
       })
       this.pageCount = Math.ceil(data.Total / this.params.size)
       this.params.page = data.CurrentPage
-      this.generateSelectResource()
+      this.m_table_generateSelectResource()
     },
     addGateway() {
       this.$refs.addGateway.open()

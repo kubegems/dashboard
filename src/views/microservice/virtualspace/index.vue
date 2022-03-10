@@ -6,7 +6,7 @@
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '虚拟负载名称', value: 'search' }"
-          @refresh="filterList"
+          @refresh="m_filter_list"
         />
         <v-spacer />
         <v-menu
@@ -171,6 +171,7 @@ import UpdateVirtualSpace from './components/UpdateVirtualSpace'
 import BasePermission from '@/mixins/permission'
 import BaseFilter from '@/mixins/base_filter'
 import BaseResource from '@/mixins/resource'
+import BaseTable from '@/mixins/table'
 
 export default {
   name: 'VirtualSpace',
@@ -178,11 +179,11 @@ export default {
     AddVirtualSpace,
     UpdateVirtualSpace,
   },
-  mixins: [BasePermission, BaseFilter, BaseResource],
+  mixins: [BasePermission, BaseFilter, BaseResource, BaseTable],
   data: () => ({
     breadcrumb: {
       title: '虚拟空间',
-      tip: '虚拟空间(virtualspace)',
+      tip: '虚拟空间(virtualspace)是一组环境的聚合',
       icon: 'mdi-cloud-outline',
     },
     items: [],
@@ -204,14 +205,14 @@ export default {
         { text: '创建时间', value: 'createdAt', align: 'start' },
         { text: '创建人', value: 'createdBy', align: 'start' },
       ]
-      if (this.virtualSpaceAllow || this.tenantAllow) {
+      if (this.m_permisson_virtualSpaceAllow || this.m_permisson_tenantAllow) {
         items.push({ text: '', value: 'action', align: 'center', width: 20 })
       }
       return items
     },
   },
   watch: {
-    sortparam: {
+    m_table_sortparam: {
       handler: function (newV, oldV) {
         if (oldV.name !== newV.name) return
         if (oldV.desc === null) return
@@ -224,7 +225,7 @@ export default {
     if (this.JWT) {
       this.$nextTick(() => {
         this.$store.commit('CLEAR_VIRTUAL_SPACE')
-        this.generateParams()
+        this.m_table_generateParams()
         this.virtualSpaceList()
       })
     }

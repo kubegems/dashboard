@@ -1,83 +1,19 @@
 import { mapGetters, mapState } from 'vuex'
 import { getTenantResourceQuota, getClusterQuota } from '@/api'
-import { sizeOfCpu, sizeOfStorage, convertStrToNum } from '@/utils/helpers'
-import {
-  deleteConfigMap,
-  deleteCronJob,
-  deleteIngress,
-  deleteJob,
-  deletePersistentVolumeClaim,
-  deletePod,
-  deleteSecret,
-  deleteService,
-  deleteDaemonSet,
-  deleteDeployment,
-  deleteStatefulSet,
-  deleteVolumeSnapshot,
-  deleteServiceMonitor,
-  deletePrometheusRule,
-  deleteReceiver,
-  deleteCRD,
-  deleteRepository,
-  deleteTenant,
-  deleteUser,
-  deleteProject,
-  deleteEnvironment,
-  deleteCertificate,
-  deleteIssuer,
-  deleteIstioAuthorizationPolicy,
-  deleteIstioGateway,
-  deleteIstioPeerAuthentication,
-  deleteIstioServiceEntry,
-  deleteIstioSidecar,
-} from '@/api'
+import { sizeOfCpu, sizeOfStorage } from '@/utils/helpers'
 import Ajv from 'ajv'
 
 const resource = {
-  data() {
-    return {
-      sortparam: { name: null, desc: false },
-      batchResources: {},
-      resourceRemoveFunc: {
-        Deployment: deleteDeployment,
-        StatefulSet: deleteStatefulSet,
-        Daemonset: deleteDaemonSet,
-        Pod: deletePod,
-        Service: deleteService,
-        Job: deleteJob,
-        CronJob: deleteCronJob,
-        ConfigMap: deleteConfigMap,
-        Secret: deleteSecret,
-        PersistentVolumeClaim: deletePersistentVolumeClaim,
-        Ingress: deleteIngress,
-        VolumeSnapshot: deleteVolumeSnapshot,
-        ServiceMonitor: deleteServiceMonitor,
-        PrometheusRule: deletePrometheusRule,
-        Receiver: deleteReceiver,
-        CustomResourceDefinition: deleteCRD,
-        Repository: deleteRepository,
-        Tenant: deleteTenant,
-        User: deleteUser,
-        Project: deleteProject,
-        Environment: deleteEnvironment,
-        Certificate: deleteCertificate,
-        Issuer: deleteIssuer,
-        AuthorizationPolicy: deleteIstioAuthorizationPolicy,
-        Gateway: deleteIstioGateway,
-        PeerAuthentication: deleteIstioPeerAuthentication,
-        ServiceEntry: deleteIstioServiceEntry,
-        Sidecar: deleteIstioSidecar,
-      },
-    }
-  },
   computed: {
     ...mapState(['AdminViewport', 'NamespaceFilter']),
     ...mapGetters(['Cluster', 'Environment']),
+    // 当前集群，特殊命名
     ThisCluster() {
       return this.AdminViewport
         ? this.Cluster().ClusterName || ''
         : this.Environment().ClusterName || ''
     },
+    // 当前命名空间，特殊命名
     ThisNamespace() {
       return this.AdminViewport
         ? this.NamespaceFilter && this.NamespaceFilter.Namespace
@@ -85,11 +21,13 @@ const resource = {
           : '_all'
         : this.Environment().Namespace || ''
     },
+    // 当前集群ID，特殊命名
     ThisClusterID() {
       return this.AdminViewport
         ? this.Cluster().ID || ''
         : this.Environment().ClusterID || ''
     },
+    // 当前环境ID，特殊命名
     ThisAppEnvironmentID() {
       let EnvironmentID = null
       if (this.Environment().ID > 0) {
@@ -99,36 +37,7 @@ const resource = {
     },
   },
   methods: {
-    sortBy(names) {
-      if (names.length > 0) {
-        this.sortparam['name'] = names[0]
-        this.sortparam['desc'] = null
-      } else this.sortparam['name'] = null
-    },
-    sortDesc(descs) {
-      if (descs.length > 0) {
-        this.sortparam['desc'] = descs[0]
-      } else {
-        this.sortparam['desc'] = null
-      }
-    },
-    generateResourceSortParamValue() {
-      if (this.sortparam.name === 'Name') {
-        return `name${this.sortparam.desc ? 'Desc' : 'Asc'}`
-      } else if (this.sortparam.name === 'CreateAt') {
-        return `createTime${this.sortparam.desc ? 'Desc' : 'Asc'}`
-      } else if (this.sortparam.name === 'Age') {
-        return `createTime${this.sortparam.desc ? 'Desc' : 'Asc'}`
-      } else if (this.sortparam.name === 'Status') {
-        return `status${this.sortparam.desc ? 'Desc' : 'Asc'}`
-      } else if (this.sortparam.name === 'AppName') {
-        return `name${this.sortparam.desc ? 'Desc' : 'Asc'}`
-      } else if (this.sortparam.name === 'CreatedAt') {
-        return `createTime${this.sortparam.desc ? 'Desc' : 'Asc'}`
-      }
-      return null
-    },
-    async tenantResourceQuota(ClusterName, TenantName) {
+    async m_resource_tenantResourceQuota(ClusterName, TenantName) {
       const data = await getTenantResourceQuota(ClusterName, TenantName, {
         noprocessing: true,
       })
@@ -165,7 +74,7 @@ const resource = {
       }
       return null
     },
-    async clusterQuota(clusterid, item) {
+    async m_resource_clusterQuota(clusterid, item) {
       const data = await getClusterQuota(clusterid, {
         noprocessing: true,
       })
@@ -202,7 +111,7 @@ const resource = {
       }
       return null
     },
-    checkDataWithNS(data, ns) {
+    m_resource_checkDataWithNS(data, ns) {
       if (!(data && data.metadata)) {
         this.$store.commit('SET_SNACKBAR', {
           text: '缺少元数据',
@@ -217,17 +126,17 @@ const resource = {
         })
         return false
       }
-      if (!data.metadata.namespace) {
+      if (!data?.metadata?.namespace) {
         data.metadata.namespace = ns
       }
       return true
     },
-    addNsToData(data, ns) {
-      if (!data.metadata.namespace) {
+    m_resource_addNsToData(data, ns) {
+      if (!data?.metadata?.namespace) {
         data.metadata.namespace = ns
       }
     },
-    checkDataWithOutNS(data) {
+    m_resource_checkDataWithOutNS(data) {
       if (!(data && data.metadata)) {
         this.$store.commit('SET_SNACKBAR', {
           text: '缺少元数据',
@@ -244,7 +153,7 @@ const resource = {
       }
       return true
     },
-    checkManifestCompleteness(djson) {
+    m_resource_checkManifestCompleteness(djson) {
       if (djson.kind === 'PersistentVolumeClaim') {
         if (
           !djson.spec.storageClassName ||
@@ -262,7 +171,7 @@ const resource = {
       }
       return true
     },
-    beautifyData(data) {
+    m_resource_beautifyData(data) {
       const newdata = {}
       for (var item in data) {
         if (data[item] === null) continue
@@ -309,7 +218,7 @@ const resource = {
             newdata[item] = []
             data[item].forEach((d) => {
               if (typeof d === 'object') {
-                newdata[item].push(this.beautifyData(d))
+                newdata[item].push(this.m_resource_beautifyData(d))
               } else {
                 newdata[item].push(d)
               }
@@ -329,7 +238,7 @@ const resource = {
               'dnsConfig',
             ].indexOf(item) === -1
           ) {
-            newdata[item] = this.beautifyData(data[item])
+            newdata[item] = this.m_resource_beautifyData(data[item])
           } else {
             newdata[item] = data[item]
           }
@@ -339,7 +248,7 @@ const resource = {
       }
       return newdata
     },
-    getPodStatus(podItem) {
+    m_resource_getPodStatus(podItem) {
       /*
       根据pod生命周期，pod的生命周期分为 Pending, Running, Succeeded, Failed, Unknow 五个大状态
       容器又分为三种大状态 Waiting, Running, Terminated
@@ -363,7 +272,7 @@ const resource = {
       })
       return st
     },
-    getWorkloadStatus(kind, item) {
+    m_resource_getWorkloadStatus(kind, item) {
       if (!item) return ''
       if (kind !== 'DaemonSet') {
         if (
@@ -384,179 +293,7 @@ const resource = {
         }
       }
     },
-    batchRemoveResource(title, resourceType, listFunc) {
-      if (
-        Object.values(this.batchResources).filter((c) => {
-          return c.checked
-        }).length === 0
-      ) {
-        this.$store.commit('SET_SNACKBAR', {
-          text: `请勾选${title}`,
-          color: 'warning',
-        })
-        return
-      }
-      this.$store.commit('SET_CONFIRM', {
-        title: `删除${title}`,
-        content: {
-          text: `${Object.values(this.batchResources)
-            .filter((c) => {
-              return c.checked
-            })
-            .map((c) => {
-              return c.name
-            })
-            .join(',')}`,
-          type: 'batch_delete',
-          status: {},
-        },
-        param: {},
-        doFunc: async () => {
-          const resources = Object.values(this.batchResources)
-          for (const index in resources) {
-            const resource = resources[index]
-            if (resource.checked) {
-              try {
-                await this.resourceRemoveFunc[resourceType](
-                  this.ThisCluster,
-                  resource.namespace,
-                  resource.name,
-                )
-                this.$store.commit('SET_CONFIRM_STATUS', {
-                  key: resource.name,
-                  value: true,
-                })
-              } catch {
-                this.$store.commit('SET_CONFIRM_STATUS', {
-                  key: resource.name,
-                  value: false,
-                })
-              }
-            }
-          }
-          listFunc()
-        },
-      })
-    },
-    batchRemoveNotK8SResource(title, resourceType, listFunc) {
-      if (
-        Object.values(this.batchResources).filter((c) => {
-          return c.checked
-        }).length === 0
-      ) {
-        this.$store.commit('SET_SNACKBAR', {
-          text: `请勾选${title}`,
-          color: 'warning',
-        })
-        return
-      }
-      this.$store.commit('SET_CONFIRM', {
-        title: `删除${title}`,
-        content: {
-          text: `${Object.values(this.batchResources)
-            .filter((c) => {
-              return c.checked
-            })
-            .map((c) => {
-              return c.name
-            })
-            .join(',')}`,
-          type: 'batch_delete',
-          status: {},
-        },
-        param: {},
-        doFunc: async () => {
-          for (const id in this.batchResources) {
-            if (this.batchResources[id].checked) {
-              const deleteObj = {}
-              this.$set(
-                deleteObj,
-                this.batchResources[id]['deleteKey'],
-                this.batchResources[id]['deleteValue'],
-              )
-              try {
-                await this.resourceRemoveFunc[resourceType](deleteObj)
-                this.$store.commit('SET_CONFIRM_STATUS', {
-                  key: this.batchResources[id].name,
-                  value: true,
-                })
-              } catch {
-                this.$store.commit('SET_CONFIRM_STATUS', {
-                  key: this.batchResources[id].name,
-                  value: false,
-                })
-              }
-            }
-          }
-          listFunc()
-        },
-      })
-    },
-    generateSelectResource() {
-      this.batchResources = {}
-      this.items.forEach((resource, index) => {
-        const key = `${resource.metadata.name}-${index}`
-        this.$set(this.batchResources, key, {
-          name: resource.metadata.name,
-          namespace: resource.metadata.namespace,
-          checked: false,
-        })
-      })
-    },
-    generateSelectResourceNoK8s(deleteKey, valueKey) {
-      this.batchResources = {}
-      this.items.forEach((resource) => {
-        this.$set(this.batchResources, resource.ID, {
-          name: resource.name,
-          deleteKey: deleteKey,
-          deleteValue: resource[valueKey],
-          checked: false,
-        })
-      })
-    },
-    onResourceChange(checked, item, index) {
-      const key = `${item.metadata.name}-${index}`
-      this.$set(this.batchResources, key, {
-        name: item.metadata.name,
-        namespace: item.metadata.namespace,
-        checked: checked,
-      })
-    },
-    onNotK8SResourceChange(checked, item, deleteKey, valueKey) {
-      this.$set(this.batchResources, item.ID, {
-        name: item.name,
-        checked: checked,
-        deleteKey: deleteKey,
-        deleteValue: item[valueKey],
-      })
-    },
-    onResourceToggleSelect(checkObj) {
-      this.items.forEach((resource, index) => {
-        const key = `${resource.metadata.name}-${index}`
-        this.batchResources[key] = {
-          name: resource.metadata.name,
-          namespace: resource.metadata.namespace,
-          checked: checkObj.value,
-        }
-      })
-    },
-    onNotK8SResourceToggleSelect(checkObj, deleteKey, valueKey) {
-      this.items.forEach((resource) => {
-        this.batchResources[resource.ID] = {
-          name: resource.name,
-          checked: checkObj.value,
-          deleteKey: deleteKey,
-          deleteValue: resource[valueKey],
-        }
-      })
-    },
-    generateParams() {
-      Object.assign(
-        Object.assign(this.params, { noprocessing: false }),
-        convertStrToNum(this.$route.query),
-      )
-    },
-    validateJsonSchema(schema, data) {
+    m_resource_validateJsonSchema(schema, data) {
       const ajv = new Ajv()
       const validate = ajv.compile(schema)
       const valid = validate(data)

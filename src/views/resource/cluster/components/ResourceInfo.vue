@@ -1,7 +1,7 @@
 <template>
   <v-card
     flat
-    height="50%"
+    height="55%"
     class="rounded-t-0"
   >
     <v-card-text

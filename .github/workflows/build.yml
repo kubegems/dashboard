@@ -72,9 +72,11 @@ jobs:
         with:
           node-version: '16'
       
-      - run: export VUE_APP_DATE=`date "+%Y-%m-%d %H:%M:%S"`
-      - run: export VUE_APP_RELEASE=${{ steps.prepare.outputs.tags }}
-      - run: yarn install && yarn build
+      - name: Build dashboard dist
+        env:
+          VUE_APP_DATE: ${{ steps.prepare.outputs.created }}
+          VUE_APP_RELEASE: ${{ steps.prepare.outputs.tags }}
+        run: echo $VUE_APP_DATE && echo $VUE_APP_RELEASE && yarn install && yarn build
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -90,7 +92,7 @@ jobs:
           username: ${{ secrets.DOCKER_RSY_USER }}
           password: ${{ secrets.DOCKER_RSY_PASSWORD }}
 
-      - name: Build dashboard and push
+      - name: Build dashboard and push image
         id: docker_build_dashboard
         uses: docker/build-push-action@v2
         with:

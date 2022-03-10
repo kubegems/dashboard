@@ -27,3 +27,19 @@ export const postPrometheusTemplate = (resourceName, ruleName, body = {}) => axi
 export const deletePrometheusTemplate = (resourceName, ruleName) => axios.delete(
   `metrics/template/resources/${resourceName}/rules/${ruleName}`,
 )
+
+// Oauth配置列表
+export const getAuthSourceConfigList = (query = {}) =>
+  axios(`authsource`, { params: query })
+
+// 创建Oauth配置
+export const postAuthSourceConfig = (body = {}) =>
+  axios.post(`authsource`, body)
+
+// 更新Oauth配置
+export const putAuthSourceConfig = (sourceId, body = {}) =>
+  axios.put(`authsource/${sourceId}`, body)
+
+// 删除Oauth配置
+export const deleteAuthSourceConfig = (sourceId) =>
+  axios.delete(`authsource/${sourceId}`)

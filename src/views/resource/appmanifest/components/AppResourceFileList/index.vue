@@ -46,7 +46,7 @@
           </template>
           <template #append="{ item }">
             <v-btn
-              v-if="!item.kind && resourceAllow"
+              v-if="!item.kind && m_permisson_resourceAllow"
               color="primary"
               text
               small
@@ -73,7 +73,7 @@
               刷新
             </v-btn>
             <v-menu
-              v-else-if="resourceAllow"
+              v-else-if="m_permisson_resourceAllow"
               left
             >
               <template #activator="{ on }">
@@ -115,7 +115,7 @@
           </template>
         </v-treeview>
         <v-flex
-          v-if="resourceAllow && Environment().ID > 0"
+          v-if="m_permisson_resourceAllow && Environment().ID > 0"
           class="sync-btn mx-3"
         >
           <v-btn
@@ -255,7 +255,7 @@ export default {
                 kind: djson.kind,
                 manifest: d.content,
                 completed: this.ThisAppEnvironmentID
-                  ? this.checkManifestCompleteness(djson)
+                  ? this.m_resource_checkManifestCompleteness(djson)
                   : true,
               })
             }

@@ -6,11 +6,11 @@
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: 'DNS', value: 'search' }"
-          @refresh="filterList"
+          @refresh="m_filter_list"
         />
         <v-spacer />
         <v-menu
-          v-if="tenantAllow || virtualSpaceAllow"
+          v-if="m_permisson_tenantAllow || m_permisson_virtualSpaceAllow"
           left
         >
           <template #activator="{ on }">
@@ -133,6 +133,7 @@ import UpdateDNSDomain from './components/UpdateDNSDomain'
 import BasePermission from '@/mixins/permission'
 import BaseFilter from '@/mixins/base_filter'
 import BaseResource from '@/mixins/resource'
+import BaseTable from '@/mixins/table'
 
 export default {
   name: 'DNSDomain',
@@ -140,7 +141,7 @@ export default {
     AddDNSDomain,
     UpdateDNSDomain,
   },
-  mixins: [BasePermission, BaseFilter, BaseResource],
+  mixins: [BasePermission, BaseFilter, BaseResource, BaseTable],
   data: () => ({
     breadcrumb: {
       title: 'DNS',
@@ -163,7 +164,7 @@ export default {
         { text: '创建时间', value: 'createdAt', align: 'start' },
         { text: '创建人', value: 'createdBy', align: 'start' },
       ]
-      if (this.virtualSpaceAllow || this.tenantAllow) {
+      if (this.m_permisson_virtualSpaceAllow || this.m_permisson_tenantAllow) {
         items.push({ text: '', value: 'action', align: 'center', width: 20 })
       }
       return items
@@ -172,7 +173,7 @@ export default {
   mounted() {
     if (this.JWT) {
       this.$nextTick(() => {
-        this.generateParams()
+        this.m_table_generateParams()
         this.dnsDomainList()
       })
     }

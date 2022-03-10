@@ -57,7 +57,7 @@
               "
               style="margin-top: 6px;"
             >
-              gitlab
+              {{ User.Source }}
             </v-flex>
             <div class="kubegems__clear-float" />
           </v-list-item-title>

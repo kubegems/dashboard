@@ -8,6 +8,22 @@
   top: 50%;
   transform: translate(-0%, -50%);
 }
+
+.kubegems__full-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.kubegems__fixed {
+  position: fixed;
+}
+
+.kubegems__full-height {
+  height: 100%;
+}
+
 .kubegems__break-all {
   word-break: break-all;
   white-space: inherit;
@@ -172,5 +188,23 @@
   }
   to {
     background-color: white;
+  }
+}
+
+.kubegems__waiting-circle-flashing {
+  animation-name: kubegems__animate-waiting-circle-flash;
+  animation-duration: 2s;
+  animation-timing-function: linear;
+  animation-delay: 0s;
+  animation-iteration-count: infinite;
+  animation-direction: normal;
+}
+
+@keyframes kubegems__animate-waiting-circle-flash {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }

@@ -9,13 +9,13 @@
       >
         <v-card
           v-if="item.add"
-          class="full-height"
+          class="kubegems__full-height"
           min-height="168"
         >
-          <v-card-text class="pa-0 full-height">
+          <v-card-text class="pa-0 kubegems__full-height">
             <v-list-item
               three-line
-              class="full-height"
+              class="kubegems__full-height"
             >
               <v-list-item-content>
                 <v-btn
@@ -47,10 +47,9 @@
                 tile
                 size="80"
               >
-                <Icon
-                  icon="bx:bxl-kubernetes"
-                  style="width: 80px; height: 80px;"
-                  class="ml-2"
+                <BaseLogo
+                  :icon-name="item.Vendor"
+                  :width="70"
                 />
               </v-list-item-avatar>
               <v-list-item-content>
@@ -273,10 +272,6 @@ export default {
 </script>
 
 <style scoped>
-.full-height {
-  height: 100%;
-}
-
 .cluster-pos {
   position: relative;
   background-color: #ffffff;

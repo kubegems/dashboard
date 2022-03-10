@@ -32,6 +32,7 @@
           ref="form"
           v-model="valid"
           lazy-validation
+          @submit.prevent
         >
           <v-sheet>
             <v-text-field

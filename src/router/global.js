@@ -12,11 +12,11 @@ export const global = [
     component: () => import('@/views/authentication/index'),
     meta: {
       requireAuth: false,
-      title: '登陆',
+      title: '登录',
     },
   },
   {
-    path: '/oauth/callback',
+    path: '/oauth/callback/:source',
     name: 'callback',
     component: () => import('@/views/authentication/callback'),
     meta: { requireAuth: false },

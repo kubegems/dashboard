@@ -27,7 +27,7 @@
         <v-col cols="6">
           <v-autocomplete
             v-model="username.valueFrom.secretKeyRef.name"
-            :items="secretSelect"
+            :items="secretItems"
             label="用户名-密钥"
             no-data-text="暂无可选数据"
             single-line
@@ -66,7 +66,7 @@
         <v-col cols="6">
           <v-autocomplete
             v-model="password.valueFrom.secretKeyRef.name"
-            :items="secretSelect"
+            :items="secretItems"
             label="密码-密钥"
             no-data-text="暂无可选数据"
             single-line
@@ -144,7 +144,7 @@ export default {
       edit: false,
       username: undefined,
       password: undefined,
-      secretSelect: [],
+      secretItems: [],
       secretMap: {},
     }
   },
@@ -161,7 +161,7 @@ export default {
     },
   },
   mounted () {
-    this.getSecretSelect()
+    this.getSecretList()
   },
   methods: {
     setValue() {
@@ -176,10 +176,10 @@ export default {
       this.edit = true
       this.setValue()
     },
-    async getSecretSelect() {
+    async getSecretList() {
       const { cluster, namespace } = this.$route.query
       const data = await getSecretList(cluster, namespace, { size: 500 })
-      this.secretSelect = data.List.map((item) => {
+      this.secretItems = data.List.map((item) => {
         // 构造键选择器
         this.$set(
           this.secretMap,

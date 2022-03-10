@@ -230,11 +230,11 @@ export default {
         this.AdminViewport ? '_all' : this.Tenant().ID,
         this.ThisClusterID,
         {
-          size: 100,
+          size: 1000,
         },
       )
       this.items = data
-      if (this.tenantAllow) {
+      if (this.m_permisson_tenantAllow) {
         this.items.push({ add: true })
       }
     },
@@ -277,13 +277,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.full-center {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-}
-
 .gateway-pos {
   position: relative;
   background-color: #ffffff;

@@ -26,13 +26,14 @@
         v-model="valid"
         lazy-validation
         class="wizard-form-content"
+        @submit.prevent
       >
         <v-row>
           <v-col class="my-2">
             <v-autocomplete
               v-model="obj.ProjectId"
               color="primary"
-              :items="tenantProjectSelect"
+              :items="m_select_tenantProjectItems"
               :rules="objRules.tenantProjectIdRules"
               label="项目"
               hide-selected
@@ -58,7 +59,7 @@
             </v-autocomplete>
             <v-autocomplete
               v-model="obj.AppId"
-              :items="appSelect"
+              :items="m_select_appItems"
               :rules="objRules.appIdRules"
               color="primary"
               label="应用"
@@ -113,7 +114,7 @@
             <v-autocomplete
               v-model="obj.EnvironmentId"
               color="primary"
-              :items="projectEnvironmentSelect"
+              :items="m_select_projectEnvironmentItems"
               :rules="objRules.environmentIdRules"
               label="环境"
               hide-selected
@@ -278,12 +279,12 @@ export default {
       }
     },
     async onEnvironmentSelectFocus() {
-      await this.projectEnvironmentSelectData(this.obj.ProjectId)
+      await this.m_select_projectEnvironmentSelectData(this.obj.ProjectId)
       // 系统管理员->租户管理员->项目管理员(auth中有项目ID)->其他,断路判断是否启用环境过滤
-      this.projectEnvironmentSelect = this.projectEnvironmentSelect.filter(
+      this.m_select_projectEnvironmentItems = this.m_select_projectEnvironmentItems.filter(
         (projectEnv) => {
           return (
-            this.tenantAllow ||
+            this.m_permisson_tenantAllow ||
             this.Auth.projects.some((p) => {
               return p.isAdmin && p.id === this.obj.TenantProjectId
             }) ||
@@ -301,10 +302,10 @@ export default {
       }
     },
     onTenantProjectSelectFocus() {
-      this.tenantProjectSelectData()
+      this.m_select_tenantProjectSelectData()
     },
     onAppSelectFocus(tenantid, projectid, environmentid) {
-      this.appSelectData(tenantid, projectid, environmentid)
+      this.m_select_appSelectData(tenantid, projectid, environmentid)
     },
   },
 }
@@ -327,12 +328,5 @@ export default {
 }
 .vue-form-wizard {
   padding-bottom: 0;
-}
-
-/* 自定义样式 */
-.wizard-footer-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 </style>

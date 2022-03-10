@@ -4,9 +4,9 @@
 
     <v-row class="mt-0">
       <v-col
-        v-for="(auth, index) in oauthItems"
+        v-for="(item, index) in items"
         :key="index"
-        cols="3"
+        cols="6"
       >
         <v-hover
           #default="{ hover }"
@@ -22,49 +22,55 @@
                 tile
                 size="80"
               >
-                <Logo
+                <BaseLogo
                   class="mr-6 mt-1"
-                  :icon-name="auth.logo"
+                  :icon-name="item.kind.toLowerCase()"
                   :width="60"
                 />
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title class="text-h6 mb-1">
                   <a>
-                    {{ auth.name }}
+                    {{ item.kind }}
                   </a>
                 </v-list-item-title>
                 <v-list-item-subtitle>
                   <span class="text-body-2"> 简介： </span>
-                  {{ auth.desc }}
+                  {{ item.desc }}
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
 
-            <v-card-actions>
+            <v-card-actions
+              v-if="!item.forbid"
+              class="btn-position"
+            >
               <v-spacer />
               <v-btn
+                depressed
                 text
-                small
                 color="primary"
+                @click="configAuthSource(item)"
               >
                 配置
               </v-btn>
               <v-btn
+                v-if="item.enabled"
+                depressed
                 text
-                small
                 color="error"
+                @click="removeAuthSource(item)"
               >
                 停止
               </v-btn>
             </v-card-actions>
 
             <v-flex
-              v-if="auth.enable"
+              v-if="item.enabled"
               class="oauth-watermark-bg"
             />
             <v-flex
-              v-if="auth.enable"
+              v-if="item.enabled"
               class="oauth-watermark font-weight-medium"
             >
               已启用
@@ -73,45 +79,99 @@
         </v-hover>
       </v-col>
     </v-row>
+
+    <AddAuthSource
+      ref="addAuthSource"
+      @refresh="oauthSourceConfigList"
+    />
+    <UpdateAuthSource
+      ref="updateAuthSource"
+      @refresh="oauthSourceConfigList"
+    />
   </v-container>
 </template>
 
 <script>
-import Logo from '@/views/resource/components/common/Logo'
-import { getSystemConfigData } from '@/api'
+import { getAuthSourceConfigList, deleteAuthSourceConfig } from '@/api'
+import AddAuthSource from './components/AddAuthSource'
+import UpdateAuthSource from './components/UpdateAuthSource'
 
 export default {
   name: 'OAuthSetting',
   components: {
-    Logo,
+    AddAuthSource,
+    UpdateAuthSource,
   },
   data: () => ({
     breadcrumb: {
       title: '认证',
-      tip: '基于 oauth2.0 的第三方认证集成, 用户可进行多种方式登录',
+      tip: '基于 oauth2.0/ldap 的第三方认证集成, 用户可进行多种方式登录',
       icon: 'mdi-star',
     },
-    oauthItems: [
-      { name: 'Kubegems (Default)', logo: 'kubegems', desc: 'Kubegems 内置的数据库认证', enable: true },
-      { name: 'OpenLdap', logo: 'openldap', desc: '您的组织能够使用Ldap协议登录', enable: false},
-      { name: 'Oauth', logo: 'oauth', desc: '您的组织能够使用Oauth协议登录', enable: false },
-      { name: 'Gitlab', logo: 'gitlab', desc: '您的组织能够使用 Gitlab 登录', enable: false },
-    ],
+    items: [{
+      name: 'kubegems (default)',
+      kind: 'kubegems',
+      desc: 'Kubegems 内置的数据库认证',
+      enabled: true,
+      forbid: true,
+    }, {
+      name: 'Oauth',
+      kind: 'OAUTH',
+      desc: '您的组织能够使用Oauth协议登录',
+    }, {
+      name: 'OpenLdap',
+      kind: 'LDAP',
+      desc: '您的组织能够使用Ldap协议登录',
+    }],
   }),
   mounted() {
     this.$nextTick(() => {
-      this.oauthConfig()
+      this.oauthSourceConfigList()
     })
   },
   methods: {
-    async oauthConfig() {
-      await getSystemConfigData('Oauth')
+    async oauthSourceConfigList() {
+      const data = await getAuthSourceConfigList({size: 1000})
+      data.List.forEach(item => {
+        const index = this.items.findIndex(i => { return i.kind === item.kind })
+        let data = this.items[index]
+        data = Object.assign(data, item)
+        this.$set(this.items, index, data)
+      })
+    },
+    configAuthSource(item) {
+      if (item.id) {
+        this.$refs.updateAuthSource.init(item)
+        this.$refs.updateAuthSource.open()
+      } else {
+        this.$refs.addAuthSource.init(item)
+        this.$refs.addAuthSource.open()
+      }
+    },
+    async removeAuthSource(item) {
+      this.$store.commit('SET_CONFIRM', {
+        title: `停止${item.kind}登录`,
+        content: {
+          text: `停止${item.kind}登录`,
+          type: 'confirm',
+          name: item.name,
+        },
+        param: { item },
+        doFunc: async (param) => {
+          await deleteAuthSourceConfig(param.item.id)
+          this.oauthSourceConfigList()
+        },
+      })
     },
   },
 }
 </script>
 
 <style scoped>
+.full-height {
+  height: 100%;
+}
+
 .oauth-pos {
   position: relative;
   background-color: #ffffff;
@@ -139,5 +199,11 @@ export default {
   text-transform: uppercase;
   color: white;
   font-size: 12px;
+}
+
+.btn-position {
+  position: absolute;
+  right: 10px;
+  bottom: 0;
 }
 </style>

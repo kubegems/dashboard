@@ -5,11 +5,11 @@
       :small-title="AdminViewport ? '管理员' : '租户工作台'"
     />
     <v-main :style="`min-height: ${height}px;`">
-      <BasePluginPass>
-        <template #default>
-          <router-view />
-        </template>
-      </BasePluginPass>
+      <!-- <BasePluginPass>
+        <template #default> -->
+      <router-view />
+      <!-- </template>
+      </BasePluginPass> -->
       <Tool v-if="Admin" />
     </v-main>
     <Sidebar

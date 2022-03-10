@@ -270,7 +270,7 @@ export default {
       let sidebar = []
       if (this.AdminViewport) {
         sidebar = SIDEBAR_ITEMS.filter(item => {
-          return item.admin || item.admin === 'all'
+          return item.admin || (item.admin === 'all' && this.$route.meta.rootName !== 'microservice')
         })
       } else {
         // 特殊判断，可待优化
@@ -283,7 +283,7 @@ export default {
               this.$route.meta.rootName === 'microservice') &&
               item.required.sort().join('') === ['tenant'].join(''))
         }).filter(item => {
-          return !item.admin || item.admin === 'all'
+          return !item.admin || (item.admin === 'all' && this.$route.meta.rootName !== 'microservice')
         })
       }
       return sidebar

@@ -7,8 +7,8 @@
       :items-per-page="params.size"
       no-data-text="暂无数据"
       hide-default-footer
-      @update:sort-by="sortBy"
-      @update:sort-desc="sortDesc"
+      @update:sort-by="m_table_sortBy"
+      @update:sort-desc="m_table_sortDesc"
     >
       <template #[`item.name`]="{ item }">
         <a
@@ -33,15 +33,15 @@
                   'Pending',
                   'Terminating',
                   'PodInitializing',
-                ].indexOf(getPodStatus(item)) > -1
+                ].indexOf(m_resource_getPodStatus(item)) > -1
                   ? 'kubegems__waiting-flashing'
                   : ''
               }`"
               :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
-                $POD_STATUS_COLOR[getPodStatus(item)] || '#ff5252'
+                $POD_STATUS_COLOR[m_resource_getPodStatus(item)] || '#ff5252'
               };`"
             />
-            <span> {{ getPodStatus(item) }}</span>
+            <span> {{ m_resource_getPodStatus(item) }}</span>
             <span>
               ({{
                 item.status && item.status.containerStatuses
@@ -120,7 +120,7 @@
             <v-card-text class="pa-2 text-center">
               <v-flex
                 v-if="
-                  resourceAllow &&
+                  m_permisson_resourceAllow &&
                     item.status.phase === 'Running' &&
                     !item.metadata.deletionTimestamp
                 "
@@ -136,7 +136,7 @@
               </v-flex>
               <v-flex
                 v-if="
-                  resourceAllow &&
+                  m_permisson_resourceAllow &&
                     item.status.phase === 'Running' &&
                     !item.metadata.deletionTimestamp
                 "
@@ -204,6 +204,7 @@ import Terminal from './Terminal'
 import EventTip from './EventTip'
 import BaseResource from '@/mixins/resource'
 import BasePermission from '@/mixins/permission'
+import BaseTable from '@/mixins/table'
 import {
   POD_CPU_USAGE_PROMQL,
   POD_MEMORY_USAGE_PROMQL,
@@ -217,7 +218,7 @@ export default {
     Terminal,
     EventTip,
   },
-  mixins: [BaseResource, BasePermission],
+  mixins: [BaseResource, BasePermission, BaseTable],
   props: {
     item: {
       type: Object,
@@ -291,7 +292,7 @@ export default {
       deep: true,
       immediate: true,
     },
-    sortparam: {
+    m_table_sortparam: {
       handler: function (newV, oldV) {
         if (oldV.name !== newV.name) return
         if (oldV.desc === null) return
@@ -317,7 +318,7 @@ export default {
         Object.assign(
           this.selector,
           Object.assign(this.params, {
-            sort: this.generateResourceSortParamValue(),
+            sort: this.m_table_generateResourceSortParamValue(),
           }),
         ),
       )

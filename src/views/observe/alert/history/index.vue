@@ -164,7 +164,7 @@ export default {
   data() {
     this.breadcrumb = {
       title: '告警历史',
-      tip: '查询所有历史告警信息',
+      tip: '产生告警的历史信息汇总',
       icon: 'mdi-history',
     }
 

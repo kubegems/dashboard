@@ -3,6 +3,7 @@
     ref="form"
     v-model="valid"
     lazy-validation
+    @submit.prevent
   >
     <BaseSubTitle title="虚拟空间成员" />
     <v-card-text class="pa-2">
@@ -196,7 +197,7 @@ export default {
     },
     async virtualSpaceUserList() {
       const data = await getVirtualSpaceUserList(this.obj.ID, {
-        size: 500,
+        size: 1000,
         noprocessing: true,
       })
       this.users = data.List

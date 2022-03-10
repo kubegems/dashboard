@@ -7,7 +7,7 @@
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '负载名称', value: 'search' }"
-          @refresh="filterList"
+          @refresh="m_filter_list"
         />
         <EnvironmentFilter />
       </v-card-title>
@@ -43,7 +43,7 @@
             <v-flex :id="`i${index}`" />
             <a
               class="text-subtitle-2"
-              @click="microAppWorkoladDetail(item)"
+              @click.stop="microAppWorkoladDetail(item)"
             >
               <v-flex class="float-left">
                 {{ item.name }}
@@ -92,20 +92,20 @@
           <template #[`item.status`]="{ item }">
             <span
               :class="`v-avatar mr-2 ${
-                getWorkloadStatus(tabItems[tab].value, item.Object) ===
+                m_resource_getWorkloadStatus(tabItems[tab].value, item.Object) ===
                 'pending'
                   ? 'kubegems__waiting-flashing'
                   : ''
               }`"
               :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
                 $WORKLOAD_STATUS_COLOR[
-                  getWorkloadStatus(tabItems[tab].value, item.Object)
+                  m_resource_getWorkloadStatus(tabItems[tab].value, item.Object)
                 ]
               };`"
             />
             <span>
               {{
-                getWorkloadStatus(tabItems[tab].value, item.Object) === 'ready'
+                m_resource_getWorkloadStatus(tabItems[tab].value, item.Object) === 'ready'
                   ? 'Ready'
                   : 'Pending'
               }}
@@ -178,16 +178,16 @@
                                   'Pending',
                                   'Terminating',
                                   'PodInitializing',
-                                ].indexOf(getPodStatus(pod)) > -1
+                                ].indexOf(m_resource_getPodStatus(pod)) > -1
                                   ? 'kubegems__waiting-flashing'
                                   : ''
                               }`"
                               :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
-                                $POD_STATUS_COLOR[getPodStatus(pod)] || '#ff5252'
+                                $POD_STATUS_COLOR[m_resource_getPodStatus(pod)] || '#ff5252'
                               };`"
                             />
                             <span>
-                              {{ getPodStatus(pod) }}
+                              {{ m_resource_getPodStatus(pod) }}
                             </span>
                             <span>
                               ({{
@@ -390,7 +390,7 @@ export default {
         { text: '副本状态', value: 'status', align: 'start' },
         { text: '标签', value: 'labels', align: 'start', width: 400 },
       ]
-      if (this.virtualSpaceAllow) {
+      if (this.m_permisson_virtualSpaceAllow) {
         items.push({ text: '', value: 'action', align: 'end', width: 10 })
       }
       items.push({ text: '', value: 'data-table-expand' })
@@ -490,7 +490,7 @@ export default {
           this.$route.query.cluster,
           item.Object.metadata.namespace,
           Object.assign({
-            size: 500,
+            size: 1000,
             topkind: this.tabItems[this.tab].value,
             topname: item.Object.metadata.name,
             noprocessing: true,

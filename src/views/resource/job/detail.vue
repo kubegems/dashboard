@@ -19,7 +19,7 @@
             Yaml
           </v-btn>
           <v-menu
-            v-if="resourceAllow"
+            v-if="m_permisson_resourceAllow"
             left
           >
             <template #activator="{ on }">

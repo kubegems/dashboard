@@ -3,6 +3,7 @@
     v-model="valid"
     lazy-validation
     class="my-2"
+    @submit.prevent
   >
     <v-flex :class="expand ? 'kubegems__overlay' : ''" />
     <v-expand-transition>
@@ -46,6 +47,7 @@
             ref="form"
             v-model="valid"
             lazy-validation
+            @submit.prevent
           >
             <v-sheet class="px-2">
               <v-flex
@@ -700,7 +702,7 @@ export default {
         this.items = data
       } else {
         data = await getSecretList(this.ThisCluster, this.namespace, {
-          size: 500,
+          size: 1000,
           noprocessing: true,
         })
         this.items = data.List
@@ -732,7 +734,7 @@ export default {
         this.items = data
       } else {
         data = await getConfigMapList(this.ThisCluster, this.namespace, {
-          size: 500,
+          size: 1000,
           noprocessing: true,
         })
         this.items = data.List

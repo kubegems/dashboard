@@ -4,6 +4,7 @@
       ref="form"
       v-model="valid"
       lazy-validation
+      @submit.prevent
     >
       <v-flex :class="expand ? 'kubegems__overlay' : ''" />
       <BaseSubTitle title="应用定义" />
@@ -12,7 +13,7 @@
           v-if="AdminViewport"
           v-model="obj.ProjectID"
           color="primary"
-          :items="projectSelect"
+          :items="m_select_projectItems"
           :rules="objRules.projectRule"
           label="项目"
           hide-selected
@@ -154,7 +155,7 @@ export default {
       }
     },
     selectProject() {
-      const project = this.projectSelect.find((p) => {
+      const project = this.m_select_projectItems.find((p) => {
         return p.value === this.obj.ProjectID
       })
       return project
@@ -162,7 +163,7 @@ export default {
   },
   mounted() {
     if (this.AdminViewport) {
-      this.projectSelectData()
+      this.m_select_projectSelectData()
     } else {
       this.obj.ProjectID = this.Project().ID
       this.obj.TenantID = this.Tenant().ID
@@ -208,7 +209,7 @@ export default {
       this.obj = data
     },
     onProjectSelectFocus() {
-      this.projectSelectData()
+      this.m_select_projectSelectData()
     },
   },
 }

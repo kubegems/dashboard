@@ -10,7 +10,7 @@
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '环境名称', value: 'search' }"
-          @refresh="filterList"
+          @refresh="m_filter_list"
         />
         <v-sheet class="text-subtitle-2 ml-4">租户</v-sheet>
         <v-sheet width="350">
@@ -28,7 +28,7 @@
             full-width
             no-data-text="无数据"
             class="ml-2"
-            :items="tenantSelect"
+            :items="m_select_tenantItems"
             @focus="onTenantSelectFocus"
             @change="onTenantSelectChange"
           >
@@ -57,16 +57,16 @@
           no-data-text="暂无数据"
           hide-default-footer
           @toggle-select-all="
-            onNotK8SResourceToggleSelect($event, 'EnvironmentID', 'ID')
+            m_table_onNotK8SResourceToggleSelect($event, 'EnvironmentID', 'ID')
           "
         >
           <template #[`item.data-table-select`]="{ item }">
             <v-checkbox
-              v-model="batchResources[item.ID].checked"
+              v-model="m_table_batchResources[item.ID].checked"
               color="primary"
               hide-details
               @click.stop
-              @change="onNotK8SResourceChange($event, item, 'EnvironmentID', 'ID')"
+              @change="m_table_onNotK8SResourceChange($event, item, 'EnvironmentID', 'ID')"
             />
           </template>
           <template #[`item.environmentName`]="{ item }">
@@ -213,6 +213,7 @@ import BaseSelect from '@/mixins/select'
 import BaseResource from '@/mixins/resource'
 import BasePermission from '@/mixins/permission'
 import BaseFilter from '@/mixins/base_filter'
+import BaseTable from '@/mixins/table'
 import { sizeOfStorage, sizeOfCpu } from '@/utils/helpers'
 
 export default {
@@ -220,7 +221,7 @@ export default {
   components: {
     UpdateEnvironment,
   },
-  mixins: [BaseSelect, BaseResource, BasePermission, BaseFilter],
+  mixins: [BaseSelect, BaseResource, BasePermission, BaseFilter, BaseTable],
   inject: ['reload'],
   data: () => ({
     breadcrumb: {
@@ -254,7 +255,7 @@ export default {
           width: 150,
         },
       ]
-      if (this.projectAllow) {
+      if (this.m_permisson_projectAllow) {
         items.push({ text: '', value: 'action', align: 'center', width: 20 })
       }
       return items
@@ -264,9 +265,9 @@ export default {
     if (this.JWT) {
       if (this.Tenant().ID > 0) {
         Object.assign(this.params, this.$route.query)
-        await this.tenantSelectData()
-        if (this.tenantSelect.length > 0) {
-          this.tenant = this.tenantSelect[0].value
+        await this.m_select_tenantSelectData()
+        if (this.m_select_tenantItems.length > 0) {
+          this.tenant = this.m_select_tenantItems[0].value
           this.environmentTenantResourceQuota(this.tenant)
         }
       } else {
@@ -324,7 +325,7 @@ export default {
         e.StoragePercentage =
           e.Storage > 0 ? ((e.UsedStorage / e.Storage) * 100).toFixed(1) : 0
       })
-      this.generateSelectResourceNoK8s('EnvironmentID', 'ID')
+      this.m_table_generateSelectResourceNoK8s('EnvironmentID', 'ID')
     },
     onTenantSelectChange() {
       if (this.tenant) this.environmentTenantResourceQuota(this.tenant)
@@ -364,7 +365,7 @@ export default {
       })
     },
     onTenantSelectFocus() {
-      this.tenantSelectData()
+      this.m_select_tenantSelectData()
     },
   },
 }

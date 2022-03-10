@@ -3,6 +3,7 @@
     ref="form"
     v-model="valid"
     lazy-validation
+    @submit.prevent
   >
     <template v-if="step === 0">
       <BaseSubTitle title="项目定义" />
@@ -264,7 +265,7 @@ export default {
     },
     async tenantUserList() {
       const data = await getTenantUserList(this.Tenant().ID, {
-        size: 500,
+        size: 1000,
         noprocessing: true,
       })
       this.allUsers = data.List.filter((d) => {
@@ -276,7 +277,7 @@ export default {
     },
     async projectUserList() {
       const data = await getProjectUserList(this.obj.ProjectID, {
-        size: 500,
+        size: 1000,
         noprocessing: true,
       })
       this.users = data.List

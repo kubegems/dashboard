@@ -66,8 +66,8 @@ export default {
       dialog: false,
       version: {},
       cnDict: {
-        version: 'UI版本',
-        date: 'UI版本日期',
+        version: 'Dashboard版本',
+        date: 'Dashboard版本日期',
         GitVersion: 'Api版本',
         GitCommit: 'Commit',
         BuildDate: 'Api版本日期',
@@ -83,7 +83,7 @@ export default {
       return {
         version: process.env.VUE_APP_RELEASE,
         date: process.env.VUE_APP_DATE
-          ? this.$moment(process.env.VUE_APP_DATE).add(8, 'hours').format('lll')
+          ? this.$moment(process.env.VUE_APP_DATE).format('lll')
           : '',
       }
     },

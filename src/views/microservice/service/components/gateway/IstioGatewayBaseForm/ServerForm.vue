@@ -4,6 +4,7 @@
     v-model="valid"
     lazy-validation
     class="my-2"
+    @submit.prevent
   >
     <v-expand-transition>
       <v-card
@@ -75,7 +76,7 @@
                 label="hosts(回车)"
                 height="32"
                 @change="onHostChange"
-                @keydown.13="createHost"
+                @keydown.enter="createHost"
               >
                 <template #selection="{ item }">
                   <v-chip
@@ -281,7 +282,7 @@ export default {
         this.EnvironmentFilter.cluster,
         'gemcloud-gateway-system',
         {
-          size: 500,
+          size: 1000,
           noprocessing: true,
         },
       )

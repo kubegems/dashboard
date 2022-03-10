@@ -7,12 +7,12 @@
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '容器组名称', value: 'search' }"
-          @refresh="filterList"
+          @refresh="m_filter_list"
         />
         <NamespaceFilter />
         <v-spacer />
         <v-menu
-          v-if="resourceAllow"
+          v-if="m_permisson_resourceAllow"
           left
         >
           <template #activator="{ on }">
@@ -32,7 +32,7 @@
                 <v-btn
                   text
                   color="error"
-                  @click="batchRemoveResource('容器组', 'Pod', podList)"
+                  @click="m_table_batchRemoveResource('容器组', 'Pod', podList)"
                 >
                   <v-icon left>mdi-minus-box</v-icon>
                   删除容器组
@@ -54,26 +54,26 @@
         show-expand
         item-key="metadata.name"
         single-expand
-        @update:sort-by="sortBy"
-        @update:sort-desc="sortDesc"
-        @toggle-select-all="onResourceToggleSelect"
+        @update:sort-by="m_table_sortBy"
+        @update:sort-desc="m_table_sortDesc"
+        @toggle-select-all="m_table_onResourceToggleSelect"
         @click:row="onRowClick"
       >
         <template #[`item.data-table-select`]="{ item, index }">
           <v-checkbox
             v-model="
-              batchResources[`${item.metadata.name}-${index}`].checked
+              m_table_batchResources[`${item.metadata.name}-${index}`].checked
             "
             color="primary"
             hide-details
             @click.stop
-            @change="onResourceChange($event, item, index)"
+            @change="m_table_onResourceChange($event, item, index)"
           />
         </template>
         <template #[`item.name`]="{ item }">
           <a
             class="text-subtitle-2"
-            @click="podDetail(item)"
+            @click.stop="podDetail(item)"
           >
             {{ item.metadata.name }}
           </a>
@@ -96,16 +96,16 @@
                     'Pending',
                     'Terminating',
                     'PodInitializing',
-                  ].indexOf(getPodStatus(item)) > -1
+                  ].indexOf(m_resource_getPodStatus(item)) > -1
                     ? 'kubegems__waiting-flashing'
                     : ''
                 }`"
                 :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
-                  $POD_STATUS_COLOR[getPodStatus(item)] || '#ff5252'
+                  $POD_STATUS_COLOR[m_resource_getPodStatus(item)] || '#ff5252'
                 };`"
               />
               <span>
-                {{ getPodStatus(item) }}
+                {{ m_resource_getPodStatus(item) }}
               </span>
               <span>
                 ({{
@@ -237,6 +237,7 @@ import ContainerItems from './components/ContainerItems'
 import BaseFilter from '@/mixins/base_filter'
 import BaseResource from '@/mixins/resource'
 import BasePermission from '@/mixins/permission'
+import BaseTable from '@/mixins/table'
 import {
   POD_CPU_USAGE_PROMQL,
   POD_MEMORY_USAGE_PROMQL,
@@ -255,6 +256,7 @@ export default {
     BaseFilter,
     BaseResource,
     BasePermission,
+    BaseTable,
   ],
   data: () => ({
     breadcrumb: {
@@ -297,7 +299,7 @@ export default {
         { text: 'Pod IP', value: 'ip', align: 'start', sortable: false },
         { text: 'Node IP', value: 'nip', align: 'start', sortable: false },
       ]
-      if (this.resourceAllow) {
+      if (this.m_permisson_resourceAllow) {
         items.push({
           text: '',
           value: 'action',
@@ -335,7 +337,7 @@ export default {
         const pod = JSON.parse(updatingPod)
         if (pod.MessageType !== 'objectChanged') return
         if (pod.EventKind === 'delete') {
-          this.generateParams()
+          this.m_table_generateParams()
           this.podList(true)
           return
         }
@@ -350,7 +352,7 @@ export default {
               this.Environment().Namespace,
             ) === 0
           ) {
-            this.generateParams()
+            this.m_table_generateParams()
             this.podList(true)
             return
           }
@@ -369,7 +371,7 @@ export default {
       deep: true,
       immediate: true,
     },
-    sortparam: {
+    m_table_sortparam: {
       handler: function (newV, oldV) {
         if (oldV.name !== newV.name) return
         if (oldV.desc === null) return
@@ -388,7 +390,7 @@ export default {
           })
           return
         }
-        this.generateParams()
+        this.m_table_generateParams()
         this.podList()
         this.generateFilters()
       })
@@ -419,7 +421,7 @@ export default {
         this.ThisNamespace,
         Object.assign(this.params, {
           noprocessing: noprocess,
-          sort: this.generateResourceSortParamValue(),
+          sort: this.m_table_generateResourceSortParamValue(),
         }),
       )
       this.items = data.List
@@ -429,7 +431,7 @@ export default {
       this.podCPUUsage(true)
       this.podMemoryUsage(true)
       this.watchPodList()
-      this.generateSelectResource()
+      this.m_table_generateSelectResource()
     },
     watchPodList() {
       const sub = {

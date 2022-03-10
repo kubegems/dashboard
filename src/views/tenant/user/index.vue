@@ -6,7 +6,7 @@
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '用户名称', value: 'search' }"
-          @refresh="filterList"
+          @refresh="m_filter_list"
         />
         <v-spacer />
         <v-menu left>
@@ -37,7 +37,7 @@
                 <v-btn
                   text
                   color="error"
-                  @click="batchRemoveNotK8SResource('用户', 'User', userList)"
+                  @click="m_table_batchRemoveNotK8SResource('用户', 'User', userList)"
                 >
                   <v-icon left>mdi-minus-box</v-icon>
                   删除用户
@@ -57,15 +57,15 @@
         no-data-text="暂无数据"
         hide-default-footer
         show-select
-        @toggle-select-all="onNotK8SResourceToggleSelect($event, 'UserID', 'ID')"
+        @toggle-select-all="m_table_onNotK8SResourceToggleSelect($event, 'UserID', 'ID')"
       >
         <template #[`item.data-table-select`]="{ item }">
           <v-checkbox
-            v-model="batchResources[item.ID].checked"
+            v-model="m_table_batchResources[item.ID].checked"
             color="primary"
             hide-details
             @click.stop
-            @change="onNotK8SResourceChange($event, item, 'UserID', 'ID')"
+            @change="m_table_onNotK8SResourceChange($event, item, 'UserID', 'ID')"
           />
         </template>
         <template #[`item.username`]="{ item }">
@@ -134,6 +134,16 @@
                 </v-flex>
                 <v-flex>
                   <v-btn
+                    color="warning"
+                    text
+                    small
+                    @click="resetPassword(item)"
+                  >
+                    重设密码
+                  </v-btn>
+                </v-flex>
+                <v-flex>
+                  <v-btn
                     color="error"
                     text
                     small
@@ -166,6 +176,10 @@
       ref="addUser"
       @refresh="userList"
     />
+    <ResetPassword
+      ref="resetPassword"
+      @refresh="userList"
+    />
   </v-container>
 </template>
 
@@ -174,8 +188,10 @@ import { mapState } from 'vuex'
 import { getUserList, deleteUser } from '@/api'
 import UpdateRole from './components/UpdateRole'
 import AddUser from './components/AddUser'
+import ResetPassword from './components/ResetPassword'
 import BaseFilter from '@/mixins/base_filter'
 import BaseResource from '@/mixins/resource'
+import BaseTable from '@/mixins/table'
 import { convertStrToNum } from '@/utils/helpers'
 
 export default {
@@ -183,8 +199,9 @@ export default {
   components: {
     UpdateRole,
     AddUser,
+    ResetPassword,
   },
-  mixins: [BaseFilter, BaseResource],
+  mixins: [BaseFilter, BaseResource, BaseTable],
   data: () => ({
     breadcrumb: {
       title: '用户',
@@ -229,7 +246,7 @@ export default {
       this.pageCount = Math.ceil(data.Total / this.params.size)
       this.params.page = data.CurrentPage
       this.$router.replace({ query: { ...this.$route.query, ...this.params } })
-      this.generateSelectResourceNoK8s('UserID', 'ID')
+      this.m_table_generateSelectResourceNoK8s('UserID', 'ID')
     },
     updateRole(item) {
       this.$refs.updateRole.init(item)
@@ -259,6 +276,10 @@ export default {
     },
     addUser() {
       this.$refs.addUser.open()
+    },
+    resetPassword(item) {
+      this.$refs.resetPassword.init(item.ID)
+      this.$refs.resetPassword.open()
     },
   },
 }

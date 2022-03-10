@@ -50,7 +50,7 @@
       <v-icon
         left
         small
-        class="icon-line-height"
+        class="header-icon-line-height"
       >
         fas fa-shopping-bag
       </v-icon>
@@ -59,7 +59,7 @@
           font-family: Yuanti SC, YouYuan, Microsoft Yahei !important;
           font-weight: bold;
 "
-        class="span-line-height"
+        class="header-span-line-height"
       >
         应用商店
       </span>
@@ -73,14 +73,14 @@
       origin="top center"
       transition="scale-transition"
       nudge-bottom="5px"
-      content-class="z-index-bg"
+      content-class="header__bg"
     >
       <template #activator="{ on }">
         <v-btn depressed color="primary" dark v-on="on">
-          <v-icon v-if="Store === 'app'" left small class="icon-line-height">
+          <v-icon v-if="Store === 'app'" left small class="header-icon-line-height">
             fas fa-shopping-bag
           </v-icon>
-          <v-icon v-else left small class="icon-line-height">
+          <v-icon v-else left small class="header-icon-line-height">
             fas fa-boxes
           </v-icon>
           <span
@@ -88,7 +88,7 @@
               font-family: Yuanti SC, YouYuan, Microsoft Yahei !important;
               font-weight: bold;
             "
-            class="span-line-height"
+            class="header-span-line-height"
           >
             {{ Store === 'app' ? '应用商店' : '模型商店' }}
           </span>
@@ -121,7 +121,7 @@
                       v-if="store.value === 'app'"
                       left
                       small
-                      :class="store.value === Store ? 'highlight' : ''"
+                      :class="store.value === Store ? 'header--highlight' : ''"
                     >
                       fas fa-shopping-bag
                     </v-icon>
@@ -129,7 +129,7 @@
                       v-else
                       left
                       small
-                      :class="store.value === Store ? 'highlight' : ''"
+                      :class="store.value === Store ? 'header--highlight' : ''"
                     >
                       fas fa-boxes
                     </v-icon>
@@ -152,7 +152,7 @@
       <v-icon
         left
         small
-        class="icon-line-height"
+        class="header-icon-line-height"
       >
         fas fa-th
       </v-icon>
@@ -161,7 +161,7 @@
           font-family: Yuanti SC, YouYuan, Microsoft Yahei !important;
           font-weight: bold;
 "
-        class="span-line-height"
+        class="header-span-line-height"
       >
         工作台
       </span>
@@ -258,18 +258,18 @@ export default {
 .header-line-height {
   line-height: 64px !important;
 }
-.icon-line-height {
+.header-icon-line-height {
   line-height: 20px !important;
 }
-.span-line-height {
+.header-span-line-height {
   line-height: 22px !important;
 }
 
-.z-index-bg {
+.header__bg {
   z-index: 9999 !important;
 }
 
-.highlight {
+.header--highlight {
   color: #1e88e5 !important;
 }
 </style>

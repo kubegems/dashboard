@@ -9,13 +9,15 @@ axios.defaults.timeout = 1000 * parseInt(process.env.VUE_APP_API_TIMEOUT)
 axios.interceptors.request.use(function (config) {
   if (
     !validateJWT(store.state.JWT) &&
-    window.location.pathname !== '/login' &&
-    window.location.pathname !== '/oauth/callback' &&
-    window.location.pathname !== '/403' &&
-    window.location.pathname !== '/404' &&
-    window.location.pathname !== '/white/page' &&
-    window.location.pathname !== '/white/tenant' &&
-    window.location.pathname !== '/whitecluster/cluster'
+    [
+      '/login',
+      '/403',
+      '/404',
+      '/white/page',
+      '/white/tenant',
+      '/whitecluster/cluster',
+    ].indexOf(window.location.pathname) === -1 &&
+    !window.location.pathname.startsWith('/oauth/callback/')
   ) {
     store.commit('CLEARALL')
     window.localStorage.clear()
@@ -136,20 +138,24 @@ axios.interceptors.response.use(
             color: 'warning',
           })
           store.commit('CLEARALL')
-          if (
-            window.location.pathname !== '/login' &&
-            window.location.pathname !== '/oauth/callback' &&
-            window.location.pathname !== '/403' &&
-            window.location.pathname !== '/404' &&
-            window.location.pathname !== '/white/page' &&
-            window.location.pathname !== '/white/tenant' &&
-            window.location.pathname !== '/whitecluster/cluster'
-          ) {
+          if ([
+            '/login',
+            '/403',
+            '/404',
+            '/white/page',
+            '/white/tenant',
+            '/whitecluster/cluster',
+          ].indexOf(window.location.pathname) === -1) {
             router.push({
               name: 'login',
               query: {
                 redirect: `${window.location.pathname}${window.location.search}`,
               },
+            })
+          }
+          if (window.location.pathname.startsWith('/oauth/callback/')) {
+            router.push({
+              name: 'login',
             })
           }
           break
@@ -162,6 +168,12 @@ axios.interceptors.response.use(
         case 404:
           store.commit('SET_SNACKBAR', {
             text: '请求资源不存在',
+            color: 'warning',
+          })
+          break
+        case 405:
+          store.commit('SET_SNACKBAR', {
+            text: '不允许请求',
             color: 'warning',
           })
           break

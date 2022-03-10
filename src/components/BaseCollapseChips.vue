@@ -1,51 +1,47 @@
 <template>
   <div class="d-inline-block">
 
+    <!-- 无数据显示 -->
     <span v-if="visibleItems.length === 0">{{ emptyText }}</span>
 
-    <v-chip
-      v-else-if="hiddenItems.length === 1"
-      v-for="item in visibleItems"
-      :key="item[itemValue]"
-      :color="color"
-      small
-      class="mr-2"
-    >
-      <v-icon v-if="icon" small left> {{ icon }} </v-icon>
-      <strong v-if="dataType === 'object'" class="mr-1">
-        {{ item[itemValue] }}
-      </strong>
-      <slot :item="item">{{ item[itemText] }}</slot>
-    </v-chip>
-    
     <v-menu
-      v-else
+      v-if="items.length"
       open-on-hover
       :close-delay="200"
       :max-width="maxWidth"
-      :close-on-click="false"
+      :disabled="items.length === 1"
     >
       <template #activator="{ on }">
-        <v-chip
-          v-for="item in visibleItems"
-          :key="item[itemValue]"
-          :color="color"
-          small
-          class="mr-2"
-          v-on="on"
-        >
-          <v-icon v-if="icon" small left> {{ icon }} </v-icon>
-          <strong v-if="dataType === 'object'" class="mr-1">
-            {{ item[itemValue] }}
-          </strong>
-          <slot :item="item">{{ item[itemText] }}</slot>
-          <strong v-if="hiddenItems.length > 1" class="ml-2">+{{ hiddenItems.length }}</strong>
-        </v-chip>
+
+        <v-flex v-on="on">
+
+          <v-chip
+            v-for="item in visibleItems"
+            :key="item[itemValue]"
+            :color="color"
+            small
+            class="mr-2"
+          >
+            <v-icon v-if="icon" small left> {{ icon }} </v-icon>
+            <strong v-if="dataType === 'object'" class="mr-1">
+              {{ item[itemValue] }}
+            </strong>
+            <slot :item="item">{{ item[itemText] }}</slot>
+          </v-chip>
+
+          <v-chip
+            v-if="items.length > 1"
+            small
+            :color="color"
+          >
+            <strong>+ {{ items.length - 1 }}</strong>
+          </v-chip>
+        </v-flex>
       </template>
 
       <v-card class="pa-2">
         <template v-if="singleLine">
-          <div v-for="item in hiddenItems" :key="item[itemValue]">
+          <div v-for="item in items" :key="item[itemValue]">
             <v-flex small class="ma-1 text-caption kubegems__detail">
               <v-icon v-if="icon" :color="color" small left> {{ icon }} </v-icon>
               <strong v-if="dataType === 'object'" class="mr-1">
@@ -57,7 +53,7 @@
         </template>
         <template v-else>
           <v-chip
-            v-for="item in hiddenItems"
+            v-for="item in items"
             :key="item[itemValue]"
             small
             :color="color"
@@ -103,10 +99,7 @@ export default {
       type: String,
       default: undefined,
     },
-    singleLine: {
-      type: Boolean,
-      default: true,
-    },
+    singleLine: Boolean,
     icon: {
       type: String,
       default: undefined,
@@ -120,21 +113,19 @@ export default {
     return {
       items: [],
       visibleItems: [],
-      hiddenItems: [],
       dataType: null,
     }
   },
   watch: {
     chips: {
       handler() {
-        this.setItems()
+        this.handleSetItems()
       },
       immediate: true,
-      deep: true,
     },
   },
   methods: {
-    setItems() {
+    handleSetItems() {
       if (Array.isArray(this.chips)) {
         this.items = this.chips.map((item) => {
           if (typeof item === 'object') {
@@ -166,7 +157,6 @@ export default {
         this.dataType = 'object'
       }
       this.visibleItems = this.items.slice(0, this.count)
-      this.hiddenItems = this.items
     },
   },
 }

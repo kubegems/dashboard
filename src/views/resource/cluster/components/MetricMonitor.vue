@@ -228,7 +228,7 @@ export default {
       if (data1) data1[0].metric['name'] = 'ApiServerQPS2XX'
       const data2 = await matrix(
         this.$route.params.name,
-        Object.assign(this.params, {
+        Object.assign(timeParam, {
           query: escape(CLUSTER_API_SERVER_QPS_PROMQL.replaceAll('$1', '4.*')),
           noprocessing: true,
         }),
@@ -236,7 +236,7 @@ export default {
       if (data2) data2[0].metric['name'] = 'ApiServerQPS4XX'
       const data3 = await matrix(
         this.$route.params.name,
-        Object.assign(this.params, {
+        Object.assign(timeParam, {
           query: escape(CLUSTER_API_SERVER_QPS_PROMQL.replaceAll('$1', '5.*')),
           noprocessing: true,
         }),

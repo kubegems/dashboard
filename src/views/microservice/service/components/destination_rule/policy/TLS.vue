@@ -3,6 +3,7 @@
     v-model="valid"
     lazy-validation
     class="my-2"
+    @submit.prevent
   >
     <v-flex :class="expand ? 'kubegems__overlay' : ''" />
     <v-expand-transition>
@@ -16,6 +17,7 @@
             ref="form"
             v-model="valid"
             lazy-validation
+            @submit.prevent
           >
             <v-sheet class="pt-2 px-2">
               <v-flex
@@ -234,7 +236,7 @@ export default {
         this.EnvironmentFilter.cluster,
         this.EnvironmentFilter.namespace,
         {
-          size: 500,
+          size: 1000,
           noprocessing: true,
         },
       )

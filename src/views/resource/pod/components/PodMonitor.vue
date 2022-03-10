@@ -190,7 +190,7 @@ export default {
     },
     onDatetimeChange() {
       this.params.start = this.$moment(this.date[0]).utc().format()
-      this.params.end = this.$moment(this.date[0]).utc().format()
+      this.params.end = this.$moment(this.date[1]).utc().format()
       this.loadMetrics()
     },
   },

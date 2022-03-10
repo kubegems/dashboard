@@ -82,15 +82,3 @@ export default {
   box-shadow: none !important;
 }
 </style>
-
-<style lang="scss">
-.date-select {
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 10px;
-}
-
-.date-select .v-input__slot {
-  background: none !important;
-}
-</style>

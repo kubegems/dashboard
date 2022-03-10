@@ -5,14 +5,14 @@
         getIconName(iconName) !== 'undefined' &&
           getIconName(iconName).indexOf('img:') === -1
       "
-      class="ml-2"
+      :class="`ml-${ml}`"
       :icon="getIconName(iconName)"
       :width="`${width}px`"
       :height="`${width}px`"
     />
     <img
       v-else
-      :class="`${large ? 'largeimg' : 'img'}`"
+      :class="`${large ? 'logo__largeimg' : 'logo__img'} ml-${ml}`"
       :style="`width: ${width}px;height: ${width}px;`"
       :src="`/icon/${getIconName(iconName).replaceAll('img:', '')}`"
     />
@@ -23,7 +23,7 @@
 import { getIconName } from '@/utils/icon'
 
 export default {
-  name: 'Logo',
+  name: 'BaseLogo',
   props: {
     iconName: {
       type: String,
@@ -37,6 +37,10 @@ export default {
       type: Boolean,
       default: () => false,
     },
+    ml: {
+      type: Number,
+      default: () => 2,
+    },
   },
   methods: {
     getIconName: getIconName,
@@ -45,14 +49,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.img {
+.logo__img {
   width: 60px;
   height: 60px;
-  margin-left: 8px;
 }
-.largeimg {
+.logo__largeimg {
   width: 100px;
   height: 100px;
-  margin-left: 8px;
 }
 </style>

@@ -3,6 +3,7 @@
     ref="form"
     v-model="valid"
     lazy-validation
+    @submit.prevent
   >
     <BaseSubTitle title="资源类型" />
     <v-card-text class="pa-2">
