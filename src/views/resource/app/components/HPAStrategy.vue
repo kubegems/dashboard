@@ -117,6 +117,7 @@ export default {
   }),
   computed: {
     ...mapState(['Circular']),
+    ...mapGetters(['Tenant', 'Project', 'Environment']),
     objRules() {
       return {
         cpuRules: [
@@ -160,7 +161,6 @@ export default {
         ],
       }
     },
-    ...mapGetters(['Tenant', 'Project', 'Environment']),
   },
   methods: {
     // eslint-disable-next-line vue/no-unused-properties
@@ -170,12 +170,13 @@ export default {
     async setAppHPAStrategyAndPublish() {
       await this.setAppHPAStrategy()
       await this.syncAppResource()
+      this.reset()
     },
     async syncAppResource() {
       await postSyncAppResource(
-        this.$route.query.tenantid,
-        this.$route.query.projectid,
-        this.$route.query.environmentid,
+        this.Tenant().ID,
+        this.Project().ID,
+        this.Environment().ID,
         this.$route.params.name,
       )
     },

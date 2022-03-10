@@ -121,3 +121,15 @@ export const postSwitchDeployAppStrategy = (
     `tenant/${tenantid}/project/${projectid}/environment/${environmentid}/applications/${name}/strategyswitch`,
     body,
   )
+// 部署状态
+export const getStrategyDeployStatus = (
+  tenantid,
+  projectid,
+  environmentid,
+  name,
+  query = {},
+) =>
+  axios(
+    `tenant/${tenantid}/project/${projectid}/environment/${environmentid}/applications/${name}/strategydeploystatus`,
+    { params: query },
+  )

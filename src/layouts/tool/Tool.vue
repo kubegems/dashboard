@@ -19,7 +19,7 @@
         small
         color="primary"
         v-bind="attrs"
-        style="bottom: 15px;"
+        style="bottom: 15px; z-index: 15;"
         v-on="on"
       >
         <v-icon small>fas fa-wrench</v-icon>
