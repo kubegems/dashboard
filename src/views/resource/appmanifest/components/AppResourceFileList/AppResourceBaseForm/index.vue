@@ -3,6 +3,7 @@
     ref="form"
     v-model="valid"
     lazy-validation
+    @submit.prevent
   >
     <component
       :is="steps[step]"
@@ -14,11 +15,11 @@
       :kinds="
         app
           ? app.kind && app.kind.length > 0
-            ? resourceSelect.concat({
+            ? m_select_resourceItems.concat({
               text: $RESOURCE_SHORT_CN[app.kind],
               value: app.kind,
             })
-            : resourceSelect.concat(defaultKindItems)
+            : m_select_resourceItems.concat(defaultKindItems)
           : []
       "
       :app="app"

@@ -16,7 +16,7 @@
             active-class="primary--text"
           >
             <v-list-item
-              v-if="Plugins.gpu_manager"
+              v-if="Plugins && Plugins.gpu_manager"
               link
               class="my-1"
             >
@@ -28,7 +28,7 @@
                   />
                 </v-list-item-action>
                 <v-list-item-icon class="mr-4">
-                  <Logo
+                  <BaseLogo
                     :width="32"
                     icon-name="gpu_manager"
                   />
@@ -39,7 +39,7 @@
               </template>
             </v-list-item>
             <v-list-item
-              v-if="Plugins.nvidia_device_plugin"
+              v-if="Plugins && Plugins.nvidia_device_plugin"
               link
               class="my-1"
             >
@@ -51,7 +51,7 @@
                   />
                 </v-list-item-action>
                 <v-list-item-icon class="mr-4">
-                  <Logo
+                  <BaseLogo
                     :width="32"
                     icon-name="nvidia_device_plugin"
                   />
@@ -82,13 +82,11 @@
 <script>
 import { mapState } from 'vuex'
 import { patchMetadataNode } from '@/api'
-import Logo from '@/views/resource/components/common/Logo'
 import BaseResource from '@/mixins/resource'
 import { deepCopy } from '@/utils/helpers'
 
 export default {
   name: 'GpuScheduleForm',
-  components: { Logo },
   mixins: [BaseResource],
   data: () => ({
     dialog: false,
@@ -124,15 +122,15 @@ export default {
       }
     },
     async gpuSchedule() {
-      if (this.Plugins.gpu_manager) {
+      if (this.Plugins?.gpu_manager) {
         if (this.gpuSelected.indexOf(0) > -1) {
           this.item.metadata.labels['tencent.com/vcuda'] = 'true'
         } else {
           delete this.item.metadata.labels['tencent.com/vcuda']
         }
       }
-      if (this.Plugins.nvidia_device_plugin) {
-        if (this.Plugins.gpu_manager) {
+      if (this.Plugins?.nvidia_device_plugin) {
+        if (this.Plugins?.gpu_manager) {
           if (this.gpuSelected.indexOf(1) > -1) {
             this.item.metadata.labels['nvidia.com/gpu'] = 'true'
           } else {

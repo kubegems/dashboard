@@ -174,7 +174,7 @@ export default {
   data() {
     this.breadcrumb = {
       title: '日志采集器',
-      tip: '日志采集器声明了当前环境下哪些应用的日志会被采集及解析规则',
+      tip: '采集器(flow)声明了当前环境下哪些应用的日志会被采集及解析规则',
       icon: 'mdi-arrange-send-backward',
     }
 

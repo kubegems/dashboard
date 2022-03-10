@@ -3,14 +3,17 @@
     ref="form"
     v-model="valid"
     lazy-validation
+    @submit.prevent
   >
-    <BaseSubTitle title="OAuth定义" />
     <v-card-text class="pa-2">
       <v-row>
         <v-col cols="6">
           <v-autocomplete
+            v-model="obj.tokenType"
+            :items="tokenTypeItems"
+            :rules="objRules.tokenTypeRule"
             color="primary"
-            label="JWT过期时间"
+            label="token类型"
             hide-selected
             class="my-0"
             no-data-text="暂无可选数据"
@@ -28,43 +31,47 @@
         </v-col>
         <v-col cols="6">
           <v-text-field
+            v-model="obj.config.ldapaddr"
+            :rules="objRules.ldapaddrRule"
             class="my-0"
             required
-            label="Redirect URL"
+            label="Ldap地址"
           />
         </v-col>
         <v-col cols="6">
           <v-text-field
+            v-model="obj.config.basedn"
+            :rules="objRules.basednRule"
             class="my-0"
             required
-            label="Application ID"
+            label="BaseDN"
           />
         </v-col>
         <v-col cols="6">
           <v-text-field
+            v-model="obj.config.binduser"
+            :rules="objRules.binduserRule"
             class="my-0"
             required
-            label="Secret"
+            label="Username"
           />
         </v-col>
         <v-col cols="6">
-          <v-autocomplete
-            color="primary"
-            label="Scope"
-            hide-selected
+          <v-text-field
+            v-model="obj.config.password"
+            :rules="objRules.passwordRule"
             class="my-0"
-            no-data-text="暂无可选数据"
-          >
-            <template #selection="{ item }">
-              <v-chip
-                color="primary"
-                small
-                class="ma-1"
-              >
-                {{ item['text'] }}
-              </v-chip>
-            </template>
-          </v-autocomplete>
+            required
+            label="Password"
+          />
+        </v-col>
+        <v-col cols="6">
+          <v-switch
+            v-model="obj.config.enableTLS"
+            hide-details
+            class="mt-4"
+            label="开启tls"
+          />
         </v-col>
       </v-row>
     </v-card-text>
@@ -73,9 +80,10 @@
 
 <script>
 import { deepCopy } from '@/utils/helpers'
+import { required } from '@/utils/rules'
 
 export default {
-  name: 'BaseForm',
+  name: 'OpenLdapBaseForm',
   props: {
     item: {
       type: Object,
@@ -84,43 +92,42 @@ export default {
   },
   data: () => ({
     valid: false,
+    tokenTypeItems: [
+      { text: 'Bearer', value: 'Bearer' },
+    ],
     obj: {
-
+      config: {
+        enableTLS: true,
+        basedn: '',
+        binduser: '',
+        password: '',
+        ldapaddr: '',
+      },
+      tokenType: '',
     },
   }),
   computed: {
+    objRules() {
+      return {
+        basednRule: [required],
+        binduserRule: [required],
+        passwordRule: [required],
+        ldapaddrRule: [required],
+      }
+    },
   },
   watch: {
     item() {
-      this.loadData(true)
+      this.obj = deepCopy(this.item)
     },
-  },
-  mounted() {
-    this.loadData(false)
   },
   methods: {
-    async loadData(cover = false) {
-      this.$nextTick(() => {
-        if (cover) {
-          if (!this.item) {
-            this.obj = this.$options.data().obj
-            this.$refs.form.resetValidation()
-          } else {
-            this.obj = deepCopy(this.item)
-          }
-        }
-        this.tenantSelectData()
-      })
-    },
     // eslint-disable-next-line vue/no-unused-properties
     reset() {
-      this.$refs.dataForm.closeCard()
       this.$refs.form.reset()
     },
     // eslint-disable-next-line vue/no-unused-properties
-    setData(data) {
-      this.obj = data
-    },
+    setCallback() {},
   },
 }
 </script>

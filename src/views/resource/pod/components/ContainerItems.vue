@@ -42,7 +42,7 @@
                   </v-flex>
                   <v-flex
                     v-if="
-                      Plugins.gpu_manager &&
+                      Plugins && Plugins.gpu_manager &&
                         item &&
                         item.spec &&
                         item.spec.nodeSelector &&
@@ -57,16 +57,16 @@
                           'tencent.com/vcuda-memory'
                         ]
                     "
-                    class="float-left mt-1 ml-2 icon"
+                    class="float-left mt-1 ml-2 icon-height"
                   >
-                    <Logo
+                    <BaseLogo
                       :width="16"
                       icon-name="gpu_manager"
                     />
                   </v-flex>
                   <v-flex
                     v-if="
-                      Plugins.nvidia_device_plugin &&
+                      Plugins && Plugins.nvidia_device_plugin &&
                         item &&
                         item.spec &&
                         item.spec.nodeSelector &&
@@ -76,9 +76,9 @@
                         container.resources.requests &&
                         container.resources.requests['nvidia.com/gpu']
                     "
-                    class="float-left mt-1 ml-2 icon"
+                    class="float-left mt-1 ml-2 icon-height"
                   >
-                    <Logo
+                    <BaseLogo
                       :width="16"
                       icon-name="nvidia_device_plugin"
                     />
@@ -102,7 +102,7 @@
                   </v-icon>
                   <v-icon
                     v-if="
-                      resourceAllow &&
+                      m_permisson_resourceAllow &&
                         container.state &&
                         container.state.running !== undefined
                     "
@@ -277,7 +277,6 @@
 <script>
 import { mapState } from 'vuex'
 import ProbeInfo from '@/views/resource/components/common/ProbeInfo'
-import Logo from '@/views/resource/components/common/Logo'
 import ContainerLog from '@/views/resource/components/common/ContainerLog'
 import Terminal from '@/views/resource/components/common/Terminal'
 import BasePermission from '@/mixins/permission'
@@ -288,7 +287,6 @@ export default {
   name: 'ContainerItems',
   components: {
     ProbeInfo,
-    Logo,
     ContainerLog,
     Terminal,
   },
@@ -387,7 +385,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.icon {
+.icon-height {
   height: 16px;
 }
 </style>

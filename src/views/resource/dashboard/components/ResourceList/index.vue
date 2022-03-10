@@ -145,7 +145,7 @@ export default {
     pageCount: 0,
     params: {
       page: 1,
-      size: 100,
+      size: 1000,
     },
   }),
   computed: {
@@ -176,7 +176,7 @@ export default {
           width: 150,
         },
       ]
-      if (this.tenantAllow) {
+      if (this.m_permisson_tenantAllow) {
         items.push({
           text: '操作',
           value: 'action',

@@ -7,7 +7,7 @@
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '网关实例名称', value: 'search' }"
-          @refresh="filterList"
+          @refresh="m_filter_list"
         />
         <EnvironmentFilter />
         <v-spacer />
@@ -22,13 +22,13 @@
       >
         <v-card
           v-if="item.add"
-          class="full-height"
+          class="kubegems__full-height"
           min-height="156"
         >
-          <v-card-text class="pa-0 full-height">
+          <v-card-text class="pa-0 kubegems__full-height">
             <v-list-item
               three-line
-              class="full-height"
+              class="kubegems__full-height"
             >
               <v-list-item-content>
                 <v-btn
@@ -132,7 +132,7 @@
                 详 情
               </v-btn>
               <v-btn
-                v-if="virtualSpaceAllow"
+                v-if="m_permisson_virtualSpaceAllow"
                 text
                 small
                 color="primary"
@@ -141,7 +141,7 @@
                 编 辑
               </v-btn>
               <v-btn
-                v-if="virtualSpaceAllow"
+                v-if="m_permisson_virtualSpaceAllow"
                 text
                 small
                 color="error"
@@ -212,7 +212,7 @@ export default {
         this.EnvironmentFilter.clusterid,
       )
       this.items = data
-      if (this.virtualSpaceAllow) {
+      if (this.m_permisson_virtualSpaceAllow) {
         this.items.push({ add: true })
       }
     },
@@ -260,16 +260,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss" scoped>
-.full-center {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.full-height {
-  height: 100%;
-}
-</style>

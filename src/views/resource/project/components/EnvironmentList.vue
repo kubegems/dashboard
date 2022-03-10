@@ -11,7 +11,7 @@
       >
         <template #action>
           <v-switch
-            v-if="resourceAllow"
+            v-if="m_permisson_resourceAllow"
             v-model="cluster.Isolation"
             class="float-right mt-2 mr-4"
             color="primary"
@@ -167,7 +167,7 @@ export default {
     clusters: [],
     params: {
       page: 1,
-      size: 500,
+      size: 1000,
     },
   }),
   computed: {
@@ -177,7 +177,7 @@ export default {
       const items = [
         {
           text: '环境空间',
-          value: 'EnvironmentName',
+          value: 'environmentName',
           align: 'start',
           width: 180,
         },
@@ -196,7 +196,7 @@ export default {
           width: 150,
         },
       ]
-      if (this.resourceAllow) {
+      if (this.m_permisson_resourceAllow) {
         items.push({
           text: '网络隔离',
           value: 'isolation',

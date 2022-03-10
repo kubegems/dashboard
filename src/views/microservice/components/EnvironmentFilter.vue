@@ -24,7 +24,7 @@
           no-data-text="无数据"
           full-width
           class="ml-2"
-          :items="virtualSpaceEnvironmentSelect"
+          :items="m_select_virtualSpaceEnvironmentItems"
           @change="onEnvironmentFilterChange"
         >
           <template #selection="{ attrs, item, selected }">
@@ -71,14 +71,14 @@ export default {
     ...mapGetters(['VirtualSpace']),
     Environment() {
       if (!this.environmentFilter) return {}
-      const env = this.virtualSpaceEnvironmentSelect.find((e) => {
+      const env = this.m_select_virtualSpaceEnvironmentItems.find((e) => {
         return e.value === this.environmentFilter.value
       })
       if (env) return env
       return {}
     },
     EnvironmentFormNS() {
-      const env = this.virtualSpaceEnvironmentSelect.find((e) => {
+      const env = this.m_select_virtualSpaceEnvironmentItems.find((e) => {
         return (
           this.NamespaceFilter && e.namespace === this.NamespaceFilter.Namespace
         )
@@ -88,7 +88,7 @@ export default {
     },
   },
   async mounted() {
-    await this.virtualSpaceEnvironmentSelectData(this.VirtualSpace().ID)
+    await this.m_select_virtualSpaceEnvironmentSelectData(this.VirtualSpace().ID)
     if (!this.NamespaceFilter) {
       if (this.$route.query.namespace) {
         this.$store.commit('SET_NAMESPACE_FILTER', {
@@ -96,8 +96,8 @@ export default {
           Mounted: true,
         })
         this.$store.commit('SET_ENVIRONMENT_FILTER', this.EnvironmentFormNS)
-      } else if (this.virtualSpaceEnvironmentSelect.length > 0) {
-        const env = this.virtualSpaceEnvironmentSelect[0]
+      } else if (this.m_select_virtualSpaceEnvironmentItems.length > 0) {
+        const env = this.m_select_virtualSpaceEnvironmentItems[0]
         this.$store.commit('SET_NAMESPACE_FILTER', {
           Namespace: env.namespace,
           Mounted: true,

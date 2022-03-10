@@ -8,7 +8,7 @@
           class="kubegems__full-right"
         >
           <v-btn
-            v-if="virtualSpaceAllow"
+            v-if="m_permisson_virtualSpaceAllow"
             text
             small
             class="primary--text"
@@ -24,7 +24,7 @@
             请求路由
           </v-btn>
           <v-btn
-            v-if="virtualSpaceAllow"
+            v-if="m_permisson_virtualSpaceAllow"
             text
             small
             class="primary--text"
@@ -40,7 +40,7 @@
             故障注入
           </v-btn>
           <v-btn
-            v-if="virtualSpaceAllow"
+            v-if="m_permisson_virtualSpaceAllow"
             text
             small
             class="primary--text"
@@ -56,7 +56,7 @@
             流量切换
           </v-btn>
           <v-btn
-            v-if="virtualSpaceAllow"
+            v-if="m_permisson_virtualSpaceAllow"
             text
             small
             class="primary--text"
@@ -72,7 +72,7 @@
             TCP流量切换
           </v-btn>
           <v-btn
-            v-if="virtualSpaceAllow"
+            v-if="m_permisson_virtualSpaceAllow"
             text
             small
             class="primary--text"
@@ -88,7 +88,7 @@
             请求超时
           </v-btn>
           <v-menu
-            v-if="virtualSpaceAllow"
+            v-if="m_permisson_virtualSpaceAllow"
             left
           >
             <template #activator="{ on }">

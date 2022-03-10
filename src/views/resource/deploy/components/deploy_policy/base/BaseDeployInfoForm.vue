@@ -4,6 +4,7 @@
       ref="form"
       v-model="valid"
       lazy-validation
+      @submit.prevent
     >
       <BaseSubTitle title="当前运行时" />
       <v-card-text class="pa-2">
@@ -253,6 +254,9 @@ export default {
       this.$set(this.tags, image, tags)
       this.$set(this.base.images[image], 'tag', this.base.images[image].tagtext)
       this.$set(this.base.images[image], 'tagtext', '')
+      this.base.images[
+        image
+      ].publish = `${image}:${this.base.images[image].tag}`
     },
     onTagChange(image) {
       this.base.images[

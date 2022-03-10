@@ -10,11 +10,11 @@
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '镜像仓库名称', value: 'search' }"
-          @refresh="filterList"
+          @refresh="m_filter_list"
         />
         <v-spacer />
         <v-menu
-          v-if="resourceAllow"
+          v-if="m_permisson_resourceAllow"
           left
         >
           <template #activator="{ on }">
@@ -175,6 +175,7 @@ import UpdateRegistry from './components/UpdateRegistry'
 import BaseResource from '@/mixins/resource'
 import BasePermission from '@/mixins/permission'
 import BaseFilter from '@/mixins/base_filter'
+import BaseTable from '@/mixins/table'
 import { convertStrToNum } from '@/utils/helpers'
 
 export default {
@@ -183,7 +184,7 @@ export default {
     AddRegistry,
     UpdateRegistry,
   },
-  mixins: [BaseFilter, BaseResource, BasePermission],
+  mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
     breadcrumb: {
       title: '镜像仓库',
@@ -218,7 +219,7 @@ export default {
           align: 'start',
         })
       }
-      if (this.resourceAllow) {
+      if (this.m_permisson_resourceAllow) {
         items.push({ text: '', value: 'action', align: 'center', width: 20 })
       }
       return items
@@ -253,7 +254,7 @@ export default {
           ...item,
         }
       })
-      this.generateSelectResourceNoK8s('ProjectName', 'ID')
+      this.m_table_generateSelectResourceNoK8s('ProjectName', 'ID')
       this.pageCount = Math.ceil(data.Total / this.params.size)
       this.params.page = data.CurrentPage
       this.$router.replace({ query: { ...this.$route.query, ...this.params } })

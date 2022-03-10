@@ -4,6 +4,7 @@
     v-model="valid"
     lazy-validation
     class="my-2"
+    @submit.prevent
   >
     <v-expand-transition>
       <v-card
@@ -22,7 +23,7 @@
               <v-autocomplete
                 v-model="obj.projectid"
                 :rules="objRules.projectIDRules"
-                :items="projectSelect"
+                :items="m_select_projectItems"
                 color="primary"
                 label="租户(项目)"
                 hide-selected
@@ -45,7 +46,7 @@
               <v-autocomplete
                 v-model="obj.environmentid"
                 :rules="objRules.environmentIDRules"
-                :items="projectEnvironmentSelect"
+                :items="m_select_projectEnvironmentItems"
                 color="primary"
                 label="环境"
                 hide-selected
@@ -122,7 +123,7 @@ export default {
   },
   computed: {
     env() {
-      const env = this.projectEnvironmentSelect.find((e) => {
+      const env = this.m_select_projectEnvironmentItems.find((e) => {
         return e.value === this.obj.environmentid
       })
       if (env) return env
@@ -143,8 +144,8 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     init(data) {
       this.obj = data
-      this.projectSelectData()
-      this.projectEnvironmentSelectData(this.obj.projectid, true)
+      this.m_select_projectSelectData()
+      this.m_select_projectEnvironmentSelectData(this.obj.projectid, true)
       this.expand = true
     },
     addData() {
@@ -171,10 +172,10 @@ export default {
       this.expand = true
     },
     onProjectSelectFocus() {
-      this.projectSelectData()
+      this.m_select_projectSelectData()
     },
     onProjectEnvironmentSelectFocus(projectid, vs = true) {
-      this.projectEnvironmentSelectData(projectid, vs)
+      this.m_select_projectEnvironmentSelectData(projectid, vs)
     },
   },
 }

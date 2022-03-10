@@ -11,6 +11,7 @@
         ref="form"
         v-model="valid"
         lazy-validation
+        @submit.prevent
       >
         <BaseSubTitle title="集群定义" />
         <v-card-text class="pa-2">
@@ -19,7 +20,7 @@
               <v-autocomplete
                 v-model="obj.ClusterID"
                 class="my-0"
-                :items="clusterSelect"
+                :items="m_select_clusterItems"
                 :rules="objRules.clusterIDRules"
                 color="primary"
                 hide-selected
@@ -227,7 +228,7 @@ export default {
       this.item = deepCopy(item)
     },
     async onClusterChange() {
-      this.quota = await this.clusterQuota(this.obj.ClusterID, {
+      this.quota = await this.m_resource_clusterQuota(this.obj.ClusterID, {
         NowCpu: 0,
         NowMemory: 0,
         NowStorage: 0,
@@ -239,7 +240,7 @@ export default {
       this.quota = null
     },
     onClusterSelectFocus() {
-      this.clusterSelectData(null)
+      this.m_select_clusterSelectData(null)
     },
   },
 }

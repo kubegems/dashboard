@@ -1,0 +1,157 @@
+<template>
+  <BaseDialog
+    v-model="dialog"
+    :width="1000"
+    title="配置第三方登录"
+    icon="mdi-star"
+    @reset="reset"
+  >
+    <template #content>
+      <BaseSubTitle title="第三方登录定义" />
+      <v-form
+        ref="form"
+        v-model="valid"
+        lazy-validation
+        @submit.prevent
+      >
+        <v-card-text class="pa-2">
+          <v-row>
+            <v-col cols="6">
+              <v-text-field
+                v-model="obj.name"
+                :rules="objRules.nameRule"
+                class="my-0"
+                required
+                label="名称"
+                readonly
+                @keyup="onNameInput"
+              />
+            </v-col>
+            <v-col cols="6">
+              <v-autocomplete
+                v-model="obj.kind"
+                :rules="objRules.kindRule"
+                :items="kindItems"
+                color="primary"
+                label="类型"
+                hide-selected
+                class="my-0"
+                no-data-text="暂无可选数据"
+                readonly
+                @change="onKindChange"
+              >
+                <template #selection="{ item }">
+                  <v-chip
+                    color="primary"
+                    small
+                    class="ma-1"
+                  >
+                    {{ item['text'] }}
+                  </v-chip>
+                </template>
+              </v-autocomplete>
+            </v-col>
+          </v-row>
+        </v-card-text>
+        <component
+          :is="formComponent"
+          :ref="formComponent"
+          :item="item"
+          :edit="true"
+        />
+      </v-form>
+    </template>
+    <template #action>
+      <v-btn
+        class="float-right"
+        color="primary"
+        text
+        :loading="Circular"
+        @click="updateAuthSource"
+      >
+        确定
+      </v-btn>
+    </template>
+  </BaseDialog>
+</template>
+
+<script>
+import { mapState } from 'vuex'
+import { putAuthSourceConfig } from '@/api'
+import OauthBaseForm from './auth_source/OauthBaseForm'
+import OpenLdapBaseForm from './auth_source/OpenLdapBaseForm'
+import BaseResource from '@/mixins/resource'
+import { required } from '@/utils/rules'
+import { deepCopy } from '@/utils/helpers'
+
+export default {
+  name: 'UpdateAuthSource',
+  components: {
+    OauthBaseForm,
+    OpenLdapBaseForm,
+  },
+  mixins: [BaseResource],
+  data: () => ({
+    dialog: false,
+    valid: false,
+    item: null,
+    formComponent: 'OauthBaseForm',
+    formComponents: {
+      OAUTH: 'OauthBaseForm',
+      LDAP: 'OpenLdapBaseForm',
+    },
+    kindItems: [
+      { text: 'Oauth', value: 'OAUTH' },
+      { text: 'Ldap', value: 'LDAP' },
+    ],
+    obj: {
+      name: '',
+      kind: 'OAUTH',
+    },
+  }),
+  computed: {
+    ...mapState(['Circular']),
+    objRules() {
+      return {
+        kindRule: [required],
+        nameRule: [required],
+      }
+    },
+  },
+  methods: {
+    // eslint-disable-next-line vue/no-unused-properties
+    open() {
+      this.dialog = true
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    init(item) {
+      this.obj = deepCopy(item)
+      this.formComponent = this.formComponents[this.obj.kind]
+      this.$nextTick(() => {
+        this.item = deepCopy(item)
+      })
+    },
+    async updateAuthSource() {
+      if (this.$refs.form.validate(true) && this.$refs[this.formComponent].$refs.form.validate(true)) {
+        if (this.formComponent === 'OauthBaseForm' || this.formComponent === 'OpenLdapBaseForm') {
+          const data = Object.assign(this.obj, this.$refs[this.formComponent].obj)
+          await putAuthSourceConfig(this.obj.id, data)
+        }
+        this.reset()
+        this.$emit('refresh')
+      }
+    },
+    onKindChange() {
+      this.formComponent = this.formComponents[this.obj.kind]
+    },
+    reset() {
+      this.dialog = false
+      this.$refs[this.formComponent].reset()
+      this.formComponent = 'OauthBaseForm'
+    },
+    onNameInput() {
+      this.$refs[this.formComponent].setCallback(this.obj.name)
+    },
+  },
+}
+</script>

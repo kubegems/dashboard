@@ -72,6 +72,7 @@
         <template #[`item.target_name`]="{ item }">{{ item.target_name || '-' }}</template>
         <template #[`item.labels`]="{ item }">
           <BaseCollapseChips
+            icon="mdi-label"
             :chips="item.target_labels"
             single-line
           />
@@ -147,7 +148,7 @@ export default {
   data () {
     this.breadcrumb = {
       title: '监控采集器',
-      tip: '',
+      tip: '采集器 (ServiceMonitor) 为一组服务定义监控, 自动被Prometheus发现, 成为其指标拉取目标Target。',
       icon: 'mdi-eyedropper',
     }
 

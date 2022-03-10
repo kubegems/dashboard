@@ -3,6 +3,7 @@
     ref="form"
     v-model="valid"
     lazy-validation
+    @submit.prevent
   >
     <v-sheet class="px-2">
       <v-flex class="float-left text-subtitle-2 py-1 primary--text kubegems__min-width" />
@@ -195,8 +196,8 @@ export default {
         )
         this.items = data
       } else {
-        data = await getSecretList(this.ThisCluster, this.namespace, {
-          size: 500,
+        data = await getSecretList(this.ThisCluster, this.namespace || this.$route.query.namespace, {
+          size: 1000,
           noprocessing: true,
         })
         this.items = data.List
@@ -209,7 +210,7 @@ export default {
     async secretDetail() {
       const data = await getSecretDetail(
         this.ThisCluster,
-        this.namespace,
+        this.namespace || this.$route.query.namespace,
         this.volumeName,
         { noprocessing: true },
       )

@@ -61,15 +61,15 @@ export default {
         if (this.formComponent === 'YamlForm') {
           data = this.$refs[this.formComponent].kubeyaml
           data = this.$yamlload(data)
-          if (!this.validateJsonSchema(this.destinationruleschema, data)) {
+          if (!this.m_resource_validateJsonSchema(this.destinationruleschema, data)) {
             return
           }
-          data = this.beautifyData(data)
+          data = this.m_resource_beautifyData(data)
         } else if (this.formComponent === 'IstioDestinationRuleBaseForm') {
           data = this.$refs[this.formComponent].obj
-          data = this.beautifyData(data)
+          data = this.m_resource_beautifyData(data)
         }
-        if (!this.checkDataWithOutNS(data)) return
+        if (!this.m_resource_checkDataWithOutNS(data)) return
         await postAddIstioDestinationRule(
           this.EnvironmentFilter.cluster,
           this.EnvironmentFilter.namespace,

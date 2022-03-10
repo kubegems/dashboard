@@ -4,6 +4,7 @@
       ref="form"
       v-model="valid"
       lazy-validation
+      @submit.prevent
     >
       <v-flex :class="expand ? 'kubegems__overlay' : ''" />
       <BaseSubTitle title="接收器定义" />
@@ -26,7 +27,7 @@
             <v-autocomplete
               v-model="namespace"
               color="primary"
-              :items="namespaceSelect"
+              :items="m_select_namespaceItems"
               :rules="objRules.namespaceRule"
               label="命名空间"
               hide-selected
@@ -187,7 +188,7 @@ export default {
     },
     // eslint-disable-next-line vue/no-unused-properties
     updateNamespaceSelectData() {
-      this.namespaceSelectData(this.ThisCluster)
+      this.m_select_namespaceSelectData(this.ThisCluster)
     },
     // eslint-disable-next-line vue/no-unused-properties
     reset() {
@@ -219,7 +220,7 @@ export default {
       }
     },
     onNamespaceSelectFocus(clusterName) {
-      this.namespaceSelectData(clusterName)
+      this.m_select_namespaceSelectData(clusterName)
     },
   },
 }

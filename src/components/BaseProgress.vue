@@ -18,6 +18,10 @@ export default {
 <style lang="scss" scoped>
 .v-progress-linear-position {
   top: 64px !important;
-  z-index: 15;
+  z-index: 20;
+}
+
+.v-overlay {
+  z-index: 20 !important;
 }
 </style>

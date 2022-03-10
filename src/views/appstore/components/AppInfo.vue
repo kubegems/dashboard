@@ -3,7 +3,7 @@
     <v-card-text class="pa-7">
       <div class="d-flex justify-center my-3">
         <div class="text-center">
-          <Logo
+          <BaseLogo
             :icon-name="appName"
             :width="100"
             large
@@ -61,7 +61,7 @@
                 <template #default="props">
                   <v-card
                     max-height="300"
-                    class="overflow-y"
+                    class="app-overflow-y"
                   >
                     <v-list
                       v-for="item in props.items"
@@ -148,11 +148,9 @@
 </template>
 
 <script>
-import Logo from '@/views/resource/components/common/Logo'
 
 export default {
   name: 'AppInfo',
-  components: { Logo },
   props: {
     currentApp: {
       type: Object,
@@ -199,7 +197,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.overflow-y {
+.app-overflow-y {
   overflow-y: auto;
 }
 </style>

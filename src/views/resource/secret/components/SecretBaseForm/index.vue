@@ -4,6 +4,7 @@
       ref="form"
       v-model="valid"
       lazy-validation
+      @submit.prevent
     >
       <v-flex :class="expand ? 'kubegems__overlay' : ''" />
       <BaseSubTitle title="密钥定义" />
@@ -56,7 +57,7 @@
               class="my-0"
               no-data-text="暂无可选数据"
               @update:search-input="syncInput"
-              @keydown.13="customType"
+              @keydown.enter="customType"
               @click:clear="clearType"
               @change="onTypeChange"
             >
@@ -78,7 +79,7 @@
             <v-autocomplete
               v-model="obj.metadata.namespace"
               color="primary"
-              :items="namespaceSelect"
+              :items="m_select_namespaceItems"
               :rules="objRules.namespaceRule"
               :readonly="edit"
               label="命名空间"
@@ -227,7 +228,7 @@ export default {
         } else {
           if (!this.manifest) {
             if (this.AdminViewport) {
-              this.namespaceSelectData(this.ThisCluster)
+              this.m_select_namespaceSelectData(this.ThisCluster)
             } else {
               this.obj.metadata.namespace = this.ThisNamespace
             }
@@ -378,7 +379,7 @@ export default {
       this.obj = data
     },
     onNamespaceSelectFocus(clusterName) {
-      this.namespaceSelectData(clusterName)
+      this.m_select_namespaceSelectData(clusterName)
     },
   },
 }

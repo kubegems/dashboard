@@ -16,7 +16,7 @@
       </v-col>
       <v-col
         v-if="
-          Plugins.gpu_manager &&
+          Plugins && Plugins.gpu_manager &&
             item &&
             item.metadata &&
             item.metadata.labels['tencent.com/vcuda'] &&
@@ -33,7 +33,7 @@
       </v-col>
       <v-col
         v-if="
-          Plugins.nvidia_device_plugin &&
+          Plugins && Plugins.nvidia_device_plugin &&
             item &&
             item.metadata &&
             item.metadata.labels['nvidia.com/gpu'] &&
@@ -58,7 +58,7 @@
       </v-col>
       <v-col
         v-if="
-          Plugins.gpu_manager &&
+          Plugins && Plugins.gpu_manager &&
             item &&
             item.metadata &&
             item.metadata.labels['tencent.com/vcuda'] &&
@@ -281,10 +281,10 @@ export default {
       if (
         this.item &&
         this.item.metadata &&
-        this.Plugins.gpu_manager &&
+        this.Plugins?.gpu_manager &&
         this.item.metadata.labels['tencent.com/vcuda'] &&
         this.item.metadata.labels['tencent.com/vcuda'] === 'true' &&
-        this.Plugins.nvidia_device_plugin &&
+        this.Plugins?.nvidia_device_plugin &&
         this.item.metadata.labels['nvidia.com/gpu'] &&
         this.item.metadata.labels['nvidia.com/gpu'] === 'true'
       ) {
@@ -293,7 +293,7 @@ export default {
       if (
         this.item &&
         this.item.metadata &&
-        this.Plugins.gpu_manager &&
+        this.Plugins?.gpu_manager &&
         this.item.metadata.labels['tencent.com/vcuda'] &&
         this.item.metadata.labels['tencent.com/vcuda'] === 'true'
       ) {
@@ -302,7 +302,7 @@ export default {
       if (
         this.item &&
         this.item.metadata &&
-        this.Plugins.nvidia_device_plugin &&
+        this.Plugins?.nvidia_device_plugin &&
         this.item.metadata.labels['nvidia.com/gpu'] &&
         this.item.metadata.labels['nvidia.com/gpu'] === 'true'
       ) {

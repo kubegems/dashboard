@@ -12,6 +12,7 @@
           ref="form"
           v-model="valid"
           lazy-validation
+          @submit.prevent
         >
           <v-flex :class="expand ? 'kubegems__overlay' : ''" />
           <BaseDeployInfoForm
@@ -293,7 +294,7 @@ export default {
           this.Project().ID,
           this.Environment().ID,
           this.$route.params.name,
-          this.beautifyData(this.obj),
+          this.m_resource_beautifyData(this.obj),
         )
         this.reset()
         // this.$emit('refresh')
@@ -434,6 +435,7 @@ export default {
       this.tab = 0
       this.obj = deepCopy(this.$options.data().obj)
       this.$refs.form.resetValidation()
+      this.$refs.baseDeployInfoForm.reset()
     },
   },
 }

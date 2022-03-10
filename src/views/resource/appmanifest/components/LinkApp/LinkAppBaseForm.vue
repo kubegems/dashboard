@@ -4,6 +4,7 @@
       ref="form"
       v-model="valid"
       lazy-validation
+      @submit.prevent
     >
       <BaseSubTitle title="关联应用" />
       <v-card-text class="px-2 pb-0">
@@ -59,7 +60,7 @@ export default {
   methods: {
     async appManifestList() {
       const data = await getManifestList(this.Tenant().ID, this.Project().ID, {
-        size: 500,
+        size: 1000,
         noprocessing: true,
       })
       const apps = []

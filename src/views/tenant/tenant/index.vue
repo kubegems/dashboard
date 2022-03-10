@@ -6,7 +6,7 @@
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '租户名称', value: 'search' }"
-          @refresh="filterList"
+          @refresh="m_filter_list"
         />
         <v-spacer />
         <v-menu left>
@@ -47,15 +47,15 @@
         no-data-text="暂无数据"
         hide-default-footer
         show-select
-        @toggle-select-all="onNotK8SResourceToggleSelect($event, 'TenantID', 'ID')"
+        @toggle-select-all="m_table_onNotK8SResourceToggleSelect($event, 'TenantID', 'ID')"
       >
         <template #[`item.data-table-select`]="{ item }">
           <v-checkbox
-            v-model="batchResources[item.ID].checked"
+            v-model="m_table_batchResources[item.ID].checked"
             color="primary"
             hide-details
             @click.stop
-            @change="onNotK8SResourceChange($event, item, 'TenantID', 'ID')"
+            @change="m_table_onNotK8SResourceChange($event, item, 'TenantID', 'ID')"
           />
         </template>
         <template #[`item.tenantName`]="{ item }">
@@ -194,6 +194,7 @@ import UpdateTenant from './components/UpdateTenant'
 import BaseSelect from '@/mixins/select'
 import BaseFilter from '@/mixins/base_filter'
 import BaseResource from '@/mixins/resource'
+import BaseTable from '@/mixins/table'
 import { sizeOfStorage, sizeOfCpu, convertStrToNum } from '@/utils/helpers'
 
 export default {
@@ -202,7 +203,7 @@ export default {
     AddTenant,
     UpdateTenant,
   },
-  mixins: [BaseFilter, BaseSelect, BaseResource],
+  mixins: [BaseFilter, BaseSelect, BaseResource, BaseTable],
   data: () => ({
     breadcrumb: {
       title: '租户',
@@ -260,7 +261,7 @@ export default {
       this.pageCount = Math.ceil(data.Total / this.params.size)
       this.params.page = data.CurrentPage
       this.$router.replace({ query: { ...this.$route.query, ...this.params } })
-      this.generateSelectResourceNoK8s('TenantID', 'ID')
+      this.m_table_generateSelectResourceNoK8s('TenantID', 'ID')
     },
     addTenant() {
       this.$refs.addTenant.open()

@@ -7,13 +7,13 @@
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '负载名称', value: 'search' }"
-          @refresh="filterList"
+          @refresh="m_filter_list"
         />
         <NamespaceFilter />
         <v-spacer />
         <v-spacer />
         <v-menu
-          v-if="resourceAllow"
+          v-if="m_permisson_resourceAllow"
           left
         >
           <template #activator="{ on }">
@@ -44,7 +44,7 @@
                   text
                   color="error"
                   @click="
-                    batchRemoveResource(
+                    m_table_batchRemoveResource(
                       tabItems[tab].value === 'DaemonSet'
                         ? '守护进程服务'
                         : tabItems[tab].value === 'Deployment'
@@ -85,19 +85,19 @@
           no-data-text="暂无数据"
           hide-default-footer
           show-select
-          @update:sort-by="sortBy"
-          @update:sort-desc="sortDesc"
-          @toggle-select-all="onResourceToggleSelect"
+          @update:sort-by="m_table_sortBy"
+          @update:sort-desc="m_table_sortDesc"
+          @toggle-select-all="m_table_onResourceToggleSelect"
         >
           <template #[`item.data-table-select`]="{ item, index }">
             <v-checkbox
               v-model="
-                batchResources[`${item.metadata.name}-${index}`].checked
+                m_table_batchResources[`${item.metadata.name}-${index}`].checked
               "
               hide-details
               color="primary"
               @click.stop
-              @change="onResourceChange($event, item, index)"
+              @change="m_table_onResourceChange($event, item, index)"
             />
           </template>
           <template #[`item.name`]="{ item, index }">
@@ -139,20 +139,20 @@
               <template #trigger>
                 <span
                   :class="`v-avatar mr-2 ${
-                    getWorkloadStatus(tabItems[tab].value, item.workload) ===
+                    m_resource_getWorkloadStatus(tabItems[tab].value, item.workload) ===
                     'pending'
                       ? 'kubegems__waiting-flashing'
                       : ''
                   }`"
                   :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
                     $WORKLOAD_STATUS_COLOR[
-                      getWorkloadStatus(tabItems[tab].value, item.workload)
+                      m_resource_getWorkloadStatus(tabItems[tab].value, item.workload)
                     ]
                   };`"
                 />
                 <span>
                   {{
-                    getWorkloadStatus(tabItems[tab].value, item.workload) ===
+                    m_resource_getWorkloadStatus(tabItems[tab].value, item.workload) ===
                       'ready'
                       ? 'Ready'
                       : 'Pending'
@@ -274,6 +274,7 @@ import ResourceAdvise from './components/ResourceAdvise'
 import BaseResource from '@/mixins/resource'
 import BasePermission from '@/mixins/permission'
 import BaseFilter from '@/mixins/base_filter'
+import BaseTable from '@/mixins/table'
 
 export default {
   name: 'Workload',
@@ -285,7 +286,7 @@ export default {
     EventTip,
     ResourceLimit,
   },
-  mixins: [BaseFilter, BaseResource, BasePermission],
+  mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
     breadcrumb: {
       title: '工作负载',
@@ -316,7 +317,7 @@ export default {
         { text: '运行状态', value: 'status', align: 'start', sortable: false },
         { text: '创建时间', value: 'createAt', align: 'start' },
       ]
-      if (this.resourceAllow) {
+      if (this.m_permisson_resourceAllow) {
         items.push({
           text: '',
           value: 'action',
@@ -353,7 +354,7 @@ export default {
         const workload = JSON.parse(updatingWorkload)
         if (workload.MessageType !== 'objectChanged') return
         if (workload.EventKind === 'delete') {
-          this.generateParams()
+          this.m_table_generateParams()
           this.workloadList(true)
           return
         }
@@ -368,7 +369,7 @@ export default {
               this.Environment().Namespace,
             ) === 0
           ) {
-            this.generateParams()
+            this.m_table_generateParams()
             this.workloadList(true)
             return
           }
@@ -390,7 +391,7 @@ export default {
       deep: true,
       immediate: true,
     },
-    sortparam: {
+    m_table_sortparam: {
       handler: function (newV, oldV) {
         if (oldV.name !== newV.name) return
         if (oldV.desc === null) return
@@ -409,7 +410,7 @@ export default {
           })
           return
         }
-        this.generateParams()
+        this.m_table_generateParams()
         this.workloadList()
       })
     }
@@ -436,7 +437,7 @@ export default {
           this.ThisNamespace,
           Object.assign(this.params, {
             noprocessing: noprocess,
-            sort: this.generateResourceSortParamValue(),
+            sort: this.m_table_generateResourceSortParamValue(),
           }),
         )
       } else if (this.tabItems[this.tab].value === 'StatefulSet') {
@@ -445,7 +446,7 @@ export default {
           this.ThisNamespace,
           Object.assign(this.params, {
             noprocessing: noprocess,
-            sort: this.generateResourceSortParamValue(),
+            sort: this.m_table_generateResourceSortParamValue(),
           }),
         )
       } else if (this.tabItems[this.tab].value === 'Deployment') {
@@ -454,7 +455,7 @@ export default {
           this.ThisNamespace,
           Object.assign(this.params, {
             noprocessing: noprocess,
-            sort: this.generateResourceSortParamValue(),
+            sort: this.m_table_generateResourceSortParamValue(),
           }),
         )
       }
@@ -476,7 +477,7 @@ export default {
           ...workload,
         }
       })
-      this.generateSelectResource()
+      this.m_table_generateSelectResource()
     },
     watchWorkloadList() {
       const sub = {

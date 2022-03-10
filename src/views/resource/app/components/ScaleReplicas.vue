@@ -13,6 +13,7 @@
           ref="form"
           v-model="valid"
           lazy-validation
+          @submit.prevent
         >
           <v-sheet>
             <v-flex class="text-subtitle-1 mb-2">

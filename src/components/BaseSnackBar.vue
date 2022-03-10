@@ -15,7 +15,7 @@
         </v-icon>
       </v-flex>
       <v-flex
-        :class="`float-left break ${SnackBar.collapse ? 'collapse' : 'show'}`"
+        :class="`float-left snackbar-break ${SnackBar.collapse ? 'snackbar--collapse' : 'snackbar--show'}`"
       >
         {{ SnackBar.text }}
       </v-flex>
@@ -68,15 +68,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.break {
+.snackbar-break {
   word-break: break-word;
 }
-.collapse {
+.snackbar--collapse {
   max-height: 60px;
   overflow: hidden;
   width: 90%;
 }
-.show {
+.snackbar--show {
   /* eslint-disable unit-whitelist */
   max-height: 96vh;
   overflow-y: auto;

@@ -8,7 +8,7 @@
           :filters="filters"
           :reload="false"
           :default="{ items: [], text: '告警规则名称', value: 'search' }"
-          @refresh="filterList"
+          @refresh="m_filter_list"
           @filter="customFilter"
         />
         <NamespaceFilter />
@@ -52,7 +52,7 @@
         </v-chip-group>
         <v-spacer />
         <v-menu
-          v-if="resourceAllow"
+          v-if="m_permisson_resourceAllow"
           left
         >
           <template #activator="{ on }">
@@ -83,7 +83,7 @@
                   text
                   color="error"
                   @click="
-                    batchRemoveResource(
+                    m_table_batchRemoveResource(
                       '告警规则',
                       'PrometheusRule',
                       prometheusRuleList,
@@ -113,13 +113,13 @@
           show-select
           item-key="index"
           @page-count="pageCount = $event"
-          @toggle-select-all="onResourceToggleSelect"
+          @toggle-select-all="m_table_onResourceToggleSelect"
           @click:row="onRowClick"
         >
           <template #[`item.data-table-select`]="{ item, index }">
             <v-checkbox
               v-model="
-                batchResources[
+                m_table_batchResources[
                   `${item.metadata.name}-${index + itemsPerPage * (page - 1)}`
                 ].checked
               "
@@ -127,7 +127,7 @@
               hide-details
               @click.stop
               @change="
-                onResourceChange(
+                m_table_onResourceChange(
                   $event,
                   item,
                   `${index + itemsPerPage * (page - 1)}`,
@@ -139,7 +139,7 @@
             <v-flex style="display: flex;">
               <a
                 class="text-subtitle-2"
-                @click="prometheusRuleDetail(item)"
+                @click.stop="prometheusRuleDetail(item)"
               >
                 {{ item.name }}
               </a>
@@ -337,6 +337,7 @@ import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter'
 import BaseFilter from '@/mixins/base_filter'
 import BaseResource from '@/mixins/resource'
 import BasePermission from '@/mixins/permission'
+import BaseTable from '@/mixins/table'
 import { deepCopy } from '@/utils/helpers'
 
 export default {
@@ -346,7 +347,7 @@ export default {
     UpdatePrometheusRule,
     NamespaceFilter,
   },
-  mixins: [BaseFilter, BaseResource, BasePermission],
+  mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
     breadcrumb: {
       title: '告警规则',
@@ -383,7 +384,7 @@ export default {
         { text: '接收器', value: 'receivers', align: 'start', width: 300 },
         { text: '使用状态', value: 'open', align: 'start', width: 100 },
       ]
-      if (this.resourceAllow) {
+      if (this.m_permisson_resourceAllow) {
         items.push({ text: '', value: 'action', align: 'center', width: 20 })
       }
       if (this.AdminViewport) {
@@ -437,7 +438,7 @@ export default {
       } else {
         this.items = this.itemsCopy
       }
-      this.generateSelectResource()
+      this.m_table_generateSelectResource()
     },
     initAlertStatus() {
       this.alertStatus = { inactive: 0, firing: 0, pending: 0 }
@@ -451,7 +452,7 @@ export default {
           ? true
           : this.alertStateFilter.indexOf(item.state) !== -1
       })
-      this.generateSelectResource()
+      this.m_table_generateSelectResource()
     },
     async prometheusRuleList() {
       this.params.isAdmin = this.AdminViewport
@@ -479,7 +480,7 @@ export default {
       })
       this.itemsCopy = deepCopy(this.items)
       this.initAlertStatus()
-      this.generateSelectResource()
+      this.m_table_generateSelectResource()
       if (this.$route.query.search) this.customFilter()
     },
     onAlertStateChange() {

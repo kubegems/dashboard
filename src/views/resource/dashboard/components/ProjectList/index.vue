@@ -15,7 +15,7 @@
             <span class="text-body-2 ml-3">别名：{{ item.ProjectAlias }}</span>
             <span class="text-body-2 ml-3">备注：{{ item.Remark }}</span>
             <v-btn
-              v-if="projectAllow"
+              v-if="m_permisson_projectAllow"
               color="primary"
               small
               text

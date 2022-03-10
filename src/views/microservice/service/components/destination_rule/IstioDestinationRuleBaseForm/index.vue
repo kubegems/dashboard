@@ -4,6 +4,7 @@
       ref="form"
       v-model="valid"
       lazy-validation
+      @submit.prevent
     >
       <v-flex :class="expand ? 'kubegems__overlay' : ''" />
       <BaseSubTitle title="istio虚拟服务定义" />
@@ -42,7 +43,7 @@
               height="32"
               label="exportTo(回车)"
               @change="onExportToChange"
-              @keydown.13="createExportTo"
+              @keydown.enter="createExportTo"
             >
               <template #selection="{ item }">
                 <v-chip

@@ -11,19 +11,19 @@
     >
       {{ title }}
     </span>
-    <span class="float-left text-body-2 title-line">
+    <span class="float-left text-body-2 subtitle-line-height">
       <slot name="tips"></slot>
     </span>
-    <span class="float-left ml-4 text-body-2 title-line">
+    <span class="float-left ml-4 text-body-2 subtitle-line-height">
       <slot name="header"></slot>
     </span>
-    <span :class="actionFloat">
+    <span class="float-right">
       <slot name="action"></slot>
     </span>
     <span class="float-right mr-1">
       <slot name="selector"></slot>
     </span>
-    <div class="clear-float"></div>
+    <div class="subtitle-clear"></div>
     <v-divider v-if="divider" class="mr-2" />
   </v-sheet>
 </template>
@@ -48,16 +48,15 @@ export default {
       type: String,
       default: () => '',
     },
-    actionFloat: {
-      type: String,
-      default: () => 'float-right',
-    },
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.title-line {
+.subtitle-clear {
+  clear: both;
+}
+.subtitle-line-height {
   line-height: 28px !important;
 }
 </style>

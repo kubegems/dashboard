@@ -13,6 +13,7 @@
           ref="form"
           v-model="valid"
           lazy-validation
+          @submit.prevent
         >
           <v-sheet>
             <v-flex class="text-subtitle-1 mb-2">
@@ -98,7 +99,7 @@ export default {
     search: '',
     params: {
       page: 1,
-      size: 500,
+      size: 1000,
     },
     currentVersion: '',
     selectItem: null,
@@ -170,6 +171,7 @@ export default {
     reset() {
       this.dialog = false
       this.$refs.form.reset()
+      this.selectItem = null
     },
   },
 }

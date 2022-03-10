@@ -21,7 +21,7 @@
                   <span
                     class="text-body-2 white--text blue-grey lighten-2 px-1 rounded ml-2"
                   >
-                    gitlab
+                    {{ User.Source }}
                   </span>
                 </h3>
                 <h5 class="text-subtitle-2">
@@ -49,7 +49,7 @@
                   User.CreatedAt ? $moment(User.CreatedAt).format('lll') : ''
                 }}
               </h6>
-              <h5 class="text-subtitle-1 kubegems__detail">上次登陆</h5>
+              <h5 class="text-subtitle-1 kubegems__detail">上次登录</h5>
               <h6 class="text-body-2 mb-3">
                 {{
                   User.LastLoginAt

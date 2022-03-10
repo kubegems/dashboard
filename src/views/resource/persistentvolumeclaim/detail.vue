@@ -5,7 +5,7 @@
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-btn
-            v-if="resourceAllow"
+            v-if="m_permisson_resourceAllow"
             text
             small
             class="primary--text"
@@ -34,7 +34,7 @@
             Yaml
           </v-btn>
           <v-menu
-            v-if="resourceAllow"
+            v-if="m_permisson_resourceAllow"
             left
           >
             <template #activator="{ on }">

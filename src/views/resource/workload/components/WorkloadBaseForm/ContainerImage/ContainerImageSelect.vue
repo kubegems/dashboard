@@ -4,6 +4,7 @@
     v-model="valid"
     lazy-validation
     class="mb-2"
+    @submit.prevent
   >
     <v-sheet class="pt-2 px-2">
       <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width">
@@ -66,7 +67,7 @@
       <v-flex class="float-left ml-2 kubegems__form-width">
         <v-autocomplete
           v-model="imageRegistry"
-          :items="registrySelect"
+          :items="m_select_registryItems"
           color="primary"
           label="镜像密钥"
           hide-selected
@@ -182,7 +183,7 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      this.registrySelectData()
+      this.m_select_registrySelectData()
     })
   },
   methods: {
@@ -219,7 +220,7 @@ export default {
       this.obj = this.$options.data().obj
     },
     onRegistrySelectFocus() {
-      this.registrySelectData()
+      this.m_select_registrySelectData()
     },
   },
 }

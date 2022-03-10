@@ -3,6 +3,7 @@
     ref="form"
     v-model="valid"
     lazy-validation
+    @submit.prevent
   >
     <v-expand-transition>
       <v-card
@@ -24,7 +25,7 @@
                 required
                 label="键"
                 :rules="objRules.keyRule"
-                @keydown.13.prevent
+                @keydown.enter.prevent
               />
             </v-flex>
             <div class="kubegems__clear-float" />

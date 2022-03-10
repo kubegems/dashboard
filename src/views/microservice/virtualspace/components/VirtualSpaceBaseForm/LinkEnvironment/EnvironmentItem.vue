@@ -29,7 +29,7 @@
             >
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
-                  {{ item.ClusterName || item.Cluster.ClusterName }}
+                  {{ item.clusterName || item.Cluster.ClusterName }}
                 </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1">
                   集群
@@ -43,7 +43,7 @@
             >
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
-                  {{ item.Type || item.MetaType }}
+                  {{ item.type || item.MetaType }}
                 </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1">
                   类型

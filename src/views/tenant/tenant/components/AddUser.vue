@@ -195,7 +195,7 @@ export default {
     },
     async tenantUserList() {
       const data = await getTenantUserList(this.$route.query.id, {
-        size: 500,
+        size: 1000,
         noprocessing: true,
       })
       this.users = data.List

@@ -7,7 +7,7 @@
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '节点名称', value: 'search' }"
-          @refresh="filterList"
+          @refresh="m_filter_list"
         />
         <v-spacer />
       </v-card-title>
@@ -31,7 +31,7 @@
             </v-flex>
             <v-flex
               v-if="
-                Plugins.gpu_manager &&
+                Plugins && Plugins.gpu_manager &&
                   item.metadata.labels['tencent.com/vcuda'] &&
                   item.metadata.labels['tencent.com/vcuda'] === 'true'
               "
@@ -44,7 +44,7 @@
               >
                 <template #activator="{ on }">
                   <span v-on="on">
-                    <Logo icon-name="gpu_manager" />
+                    <BaseLogo icon-name="gpu_manager" />
                   </span>
                 </template>
                 <v-card>
@@ -54,7 +54,7 @@
             </v-flex>
             <v-flex
               v-if="
-                Plugins.nvidia_device_plugin &&
+                Plugins && Plugins.nvidia_device_plugin &&
                   item.metadata.labels['nvidia.com/gpu'] &&
                   item.metadata.labels['nvidia.com/gpu'] === 'true'
               "
@@ -67,7 +67,7 @@
               >
                 <template #activator="{ on }">
                   <span v-on="on">
-                    <Logo icon-name="nvidia_device_plugin" />
+                    <BaseLogo icon-name="nvidia_device_plugin" />
                   </span>
                 </template>
                 <v-card>
@@ -214,7 +214,7 @@
             <v-card>
               <v-card-text class="pa-2 text-center">
                 <v-flex
-                  v-if="Plugins.gpu_manager || Plugins.nvidia_device_plugin"
+                  v-if="Plugins && (Plugins.gpu_manager || Plugins.nvidia_device_plugin)"
                 >
                   <v-btn
                     color="primary"
@@ -272,7 +272,6 @@
 <script>
 import { mapState } from 'vuex'
 import { getNodeList, patchCordonNode, vector } from '@/api'
-import Logo from '@/views/resource/components/common/Logo'
 import GpuScheduleForm from './components/GpuScheduleForm'
 import BaseFilter from '@/mixins/base_filter'
 import BaseResource from '@/mixins/resource'
@@ -287,7 +286,6 @@ import { convertStrToNum, sizeOfStorage } from '@/utils/helpers'
 export default {
   name: 'Node',
   components: {
-    Logo,
     GpuScheduleForm,
   },
   mixins: [BaseFilter, BaseResource],

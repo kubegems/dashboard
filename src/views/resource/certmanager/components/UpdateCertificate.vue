@@ -90,18 +90,18 @@ export default {
         if (this.formComponent === 'YamlForm') {
           data = this.$refs[this.formComponent].kubeyaml
           data = this.$yamlload(data)
-          if (!this.validateJsonSchema(this.schema, data)) {
+          if (!this.m_resource_validateJsonSchema(this.schema, data)) {
             return
           }
-          data = this.beautifyData(data)
+          data = this.m_resource_beautifyData(data)
         } else if (this.formComponent === 'CertificateBaseForm') {
           data = this.$refs[this.formComponent].obj
-          data = this.beautifyData(data)
+          data = this.m_resource_beautifyData(data)
         }
         const namespace = this.AdminViewport
-          ? data.metadata.namespace
+          ? data?.metadata?.namespace
           : this.ThisNamespace
-        if (!this.checkDataWithNS(data, namespace)) {
+        if (!this.m_resource_checkDataWithNS(data, namespace)) {
           return
         }
         await patchUpdateCertificate(
@@ -126,7 +126,7 @@ export default {
     onYamlSwitchChange() {
       if (this.yaml) {
         const data = this.$refs[this.formComponent].obj
-        this.addNsToData(
+        this.m_resource_addNsToData(
           data,
           this.AdminViewport
             ? this.item.metadata.namespace
@@ -139,13 +139,13 @@ export default {
       } else {
         const yaml = this.$refs[this.formComponent].kubeyaml
         const data = this.$yamlload(yaml)
-        this.addNsToData(
+        this.m_resource_addNsToData(
           data,
           this.AdminViewport
             ? this.item.metadata.namespace
             : this.ThisNamespace,
         )
-        if (!this.validateJsonSchema(this.schema, data)) {
+        if (!this.m_resource_validateJsonSchema(this.schema, data)) {
           this.yaml = true
           this.switchKey = randomString(6)
           return

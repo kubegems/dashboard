@@ -83,6 +83,7 @@
             v-model="valid"
             lazy-validation
             class="pa-4"
+            @submit.prevent
           >
             <v-tabs-items
               v-model="tab"
@@ -123,6 +124,8 @@ import InputForm from './components/InputForm'
 import FilterForm from './components/FilterForm'
 import OutputForm from './components/OutputForm'
 import YamlForm from '@/views/observe/log/operator/components/YamlForm'
+import BaseResource from '@/mixins/resource'
+import FlowSchema from './mixins/schema'
 
 export default {
   name: 'FlowDetail',
@@ -133,10 +136,11 @@ export default {
     OutputForm,
     YamlForm,
   },
+  mixins: [BaseResource, FlowSchema],
   data () {
     this.breadcrumb = {
       title: '日志采集器',
-      tip: '',
+      tip: '采集器(flow)声明了当前环境下哪些应用的日志会被采集及解析规则',
       icon: 'mdi-arrange-send-backward',
     }
 
@@ -189,6 +193,9 @@ export default {
       if (this.$refs.form.validate(true)) {
         this.$refs[`configComponent${this.tabItems[this.tab].value}`][0].onUpdateData()
         const action = this.flowData.kind === 'Flow' ? patchFlowData : patchClusterFlowData
+        if (!this.m_resource_validateJsonSchema(this.schema, this.flowData)) {
+          return
+        }
         const { namespace, name } = this.flowData.metadata
         await action(this.$route.query.cluster, namespace, name, this.flowData)
         this.getFlowDetail()

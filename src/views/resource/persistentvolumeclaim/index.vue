@@ -7,13 +7,13 @@
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '存储卷名称', value: 'search' }"
-          @refresh="filterList"
+          @refresh="m_filter_list"
         />
         <NamespaceFilter />
         <v-spacer />
         <v-spacer />
         <v-menu
-          v-if="resourceAllow"
+          v-if="m_permisson_resourceAllow"
           left
         >
           <template #activator="{ on }">
@@ -44,7 +44,7 @@
                   text
                   color="error"
                   @click="
-                    batchRemoveResource(
+                    m_table_batchRemoveResource(
                       '存储卷',
                       'PersistentVolumeClaim',
                       persistentVolumeClaimList,
@@ -68,19 +68,19 @@
         no-data-text="暂无数据"
         hide-default-footer
         show-select
-        @update:sort-by="sortBy"
-        @update:sort-desc="sortDesc"
-        @toggle-select-all="onResourceToggleSelect"
+        @update:sort-by="m_table_sortBy"
+        @update:sort-desc="m_table_sortDesc"
+        @toggle-select-all="m_table_onResourceToggleSelect"
       >
         <template #[`item.data-table-select`]="{ item, index }">
           <v-checkbox
             v-model="
-              batchResources[`${item.metadata.name}-${index}`].checked
+              m_table_batchResources[`${item.metadata.name}-${index}`].checked
             "
             hide-details
             color="primary"
             @click.stop
-            @change="onResourceChange($event, item, index)"
+            @change="m_table_onResourceChange($event, item, index)"
           />
         </template>
         <template #[`item.name`]="{ item }">
@@ -108,7 +108,7 @@
             :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
               $PVC_STATUS_COLOR[
                 item.metadata.annotations
-                  ? item.metadata.annotations[`pvc.${$DOMAIN}/in-use`]
+                  ? item.metadata.annotations[`storage.${$DOMAIN}/in-use`]
                   : 'undefined'
               ]
             };`"
@@ -117,7 +117,7 @@
             v-if="
               !(
                 item.metadata.annotations &&
-                item.metadata.annotations[`pvc.${$DOMAIN}/in-use`]
+                item.metadata.annotations[`storage.${$DOMAIN}/in-use`]
               )
             "
           >
@@ -126,7 +126,7 @@
           <span
             v-else-if="
               item.metadata.annotations &&
-                item.metadata.annotations[`pvc.${$DOMAIN}/in-use`] === 'true'
+                item.metadata.annotations[`storage.${$DOMAIN}/in-use`] === 'true'
             "
           >
             已挂载
@@ -189,10 +189,10 @@
                   v-if="
                     item.metadata.annotations &&
                       item.metadata.annotations[
-                        `pvc.${$DOMAIN}/allow-snapshot`
+                        `storage.${$DOMAIN}/allow-snapshot`
                       ] &&
                       item.metadata.annotations[
-                        `pvc.${$DOMAIN}/allow-snapshot`
+                        `storage.${$DOMAIN}/allow-snapshot`
                       ] === 'true'
                   "
                 >
@@ -260,6 +260,7 @@ import UpdatePersistentVolumeClaim from './components/UpdatePersistentVolumeClai
 import BaseResource from '@/mixins/resource'
 import BasePermission from '@/mixins/permission'
 import BaseFilter from '@/mixins/base_filter'
+import BaseTable from '@/mixins/table'
 
 export default {
   name: 'PersistentVolumeClaim',
@@ -269,7 +270,7 @@ export default {
     NamespaceFilter,
     ScalePersistentVolumeClaim,
   },
-  mixins: [BaseFilter, BaseResource, BasePermission],
+  mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
     breadcrumb: {
       title: '存储卷',
@@ -301,7 +302,7 @@ export default {
         { text: '挂载', value: 'mount', align: 'start', sortable: false },
         { text: '创建时间', value: 'createAt', align: 'start' },
       ]
-      if (this.resourceAllow) {
+      if (this.m_permisson_resourceAllow) {
         items.push({
           text: '',
           value: 'action',
@@ -332,7 +333,7 @@ export default {
       },
       deep: true,
     },
-    sortparam: {
+    m_table_sortparam: {
       handler: function (newV, oldV) {
         if (oldV.name !== newV.name) return
         if (oldV.desc === null) return
@@ -351,7 +352,7 @@ export default {
           })
           return
         }
-        this.generateParams()
+        this.m_table_generateParams()
         this.persistentVolumeClaimList()
       })
     }
@@ -363,14 +364,14 @@ export default {
         this.ThisNamespace,
         Object.assign(this.params, {
           noprocessing: noprocess,
-          sort: this.generateResourceSortParamValue(),
+          sort: this.m_table_generateResourceSortParamValue(),
         }),
       )
       this.items = data.List
       this.pageCount = Math.ceil(data.Total / this.params.size)
       this.params.page = data.CurrentPage
       this.$router.replace({ query: { ...this.$route.query, ...this.params } })
-      this.generateSelectResource()
+      this.m_table_generateSelectResource()
     },
     persistentVolumeClaimDetail(item) {
       this.$router.push({

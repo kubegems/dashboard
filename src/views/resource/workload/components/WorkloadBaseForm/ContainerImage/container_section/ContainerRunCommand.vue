@@ -3,6 +3,7 @@
     v-model="valid"
     lazy-validation
     class="my-2"
+    @submit.prevent
   >
     <v-flex :class="expand ? 'kubegems__overlay' : ''" />
     <v-expand-transition>
@@ -16,6 +17,7 @@
             ref="form"
             v-model="valid"
             lazy-validation
+            @submit.prevent
           >
             <v-sheet class="pt-0 px-2">
               <v-flex
@@ -32,9 +34,8 @@
                   :search-input.sync="commandText"
                   hide-selected
                   multiple
-                  small-chips
                   @change="onCommandChange"
-                  @keydown.13="createCommand"
+                  @keydown.enter="createCommand"
                 >
                   <template #selection="{ item }">
                     <v-chip
@@ -66,15 +67,13 @@
               <v-flex class="float-left ml-2 kubegems__long-width">
                 <v-combobox
                   v-model="obj.args"
-                  :rules="objRules.argsRule"
                   hide-no-data
                   :items="[]"
                   :search-input.sync="argsText"
                   hide-selected
                   multiple
-                  small-chips
                   @change="onArgsChange"
-                  @keydown.13="createArgs"
+                  @keydown.enter="createArgs"
                 >
                   <template #selection="{ item }">
                     <v-chip
@@ -245,7 +244,6 @@ export default {
       },
       objRules: {
         commandRule: [required],
-        argsRule: [required],
       },
       containerCopy: null,
     }

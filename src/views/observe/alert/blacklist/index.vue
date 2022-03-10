@@ -97,7 +97,7 @@ export default {
   data() {
     this.breadcrumb = {
       title: '告警黑名单',
-      tip: '查看告警黑名单',
+      tip: '告警置于黑名单后将不会再产生告警提示',
       icon: 'mdi-playlist-remove',
     }
 

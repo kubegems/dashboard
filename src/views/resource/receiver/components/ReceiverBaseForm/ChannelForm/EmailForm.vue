@@ -4,6 +4,7 @@
     v-model="valid"
     lazy-validation
     class="my-2"
+    @submit.prevent
   >
     <v-card
       class="my-2 pa-2"
@@ -94,7 +95,7 @@
               multiple
               class="my-0"
               no-data-text="暂无可选数据"
-              @keydown.13="createEmail"
+              @keydown.enter="createEmail"
               @change="onEmailChange"
             >
               <template #selection="{ item }">
@@ -258,7 +259,7 @@ export default {
       let data = {}
       if (!this.AdminViewport) {
         data = await getEnvironmentUserList(this.Environment().ID, {
-          size: 500,
+          size: 1000,
           noprocessing: true,
         })
       } else {

@@ -19,7 +19,7 @@
         small
         color="primary"
         v-bind="attrs"
-        style="bottom: 15px;"
+        style="bottom: 15px; z-index: 15;"
         v-on="on"
       >
         <v-icon small>fas fa-wrench</v-icon>
@@ -85,11 +85,4 @@ export default {
   },
 }
 </script>
-<style lang="scss">
-.v-application .footerpart {
-  border-top: 1px solid rgba(0, 0, 0, 0.1) !important;
-}
-.theme--light.v-footer {
-  background: white;
-}
-</style>
+

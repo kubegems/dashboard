@@ -6,6 +6,7 @@
       <v-form
         class="pa-4"
         lazy-validation
+        @submit.prevent
       >
         <v-sheet
           class="grey lighten-4 rounded"
@@ -81,20 +82,6 @@
         </v-sheet>
       </v-form>
     </v-card>
-    <v-card>
-      <v-card-title class="py-2 kubegems__detail text-subtitle-1 mt-4">审计设置</v-card-title>
-      <v-form
-        class="pa-4"
-        lazy-validation
-      >
-        <v-switch
-          v-model="audit"
-          hide-details
-          label="启用"
-          @change="operatorAudit"
-        />
-      </v-form>
-    </v-card>
 
     <SetInstaller
       ref="setInstaller"
@@ -125,7 +112,6 @@ export default {
       icon: 'mdi-brightness-7',
     },
     installer: null,
-    audit: true,
   }),
   mounted() {
     this.$nextTick(() => {
@@ -144,22 +130,6 @@ export default {
     updateInstallerImage() {
       this.$refs.setInstallImage.init(this.installer)
       this.$refs.setInstallImage.open()
-    },
-    operatorAudit() {
-      this.$store.commit('SET_CONFIRM', {
-        title: this.audit ? `启用审计` : `关闭审计`,
-        content: {
-          text: this.audit ? `启用审计` : `关闭审计`,
-          type: 'confirm',
-        },
-        param: { },
-        doFunc: async () => {
-
-        },
-        doClose: () => {
-          this.audit = !this.audit
-        },
-      })
     },
   },
 }

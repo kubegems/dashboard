@@ -12,7 +12,7 @@
             </span>
             <v-icon
               v-if="breadcrumb.tip !== undefined"
-              class="v-tips-bg"
+              class="bread__bg"
               right
               small
             >
@@ -20,7 +20,7 @@
             </v-icon>
             <span
               v-if="breadcrumb.tip !== undefined"
-              class="text-overline v-tips-bg font-weight-regular"
+              class="text-overline bread__bg font-weight-regular"
             >
               {{ breadcrumb.tip }}
             </span>
@@ -49,7 +49,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.v-tips-bg {
+.bread__bg {
   color: rgba(0, 0, 0, 0.6);
   text-transform: capitalize !important;
 }

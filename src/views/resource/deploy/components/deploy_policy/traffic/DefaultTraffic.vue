@@ -2,6 +2,7 @@
   <v-form
     v-model="valid"
     lazy-validation
+    @submit.prevent
   >
     <v-card-text class="px-2">
       <v-row>

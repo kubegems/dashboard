@@ -7,7 +7,7 @@
       >
         <template #action>
           <v-btn
-            v-if="virtualSpaceAllow"
+            v-if="m_permisson_virtualSpaceAllow"
             text
             small
             color="primary"
@@ -127,7 +127,7 @@ export default {
         { text: '命名空间', value: 'namespace', align: 'start' },
         { text: '集群', value: 'cluster', align: 'start' },
       ]
-      if (this.virtualSpaceAllow) {
+      if (this.m_permisson_virtualSpaceAllow) {
         items.push({ text: '', value: 'action', align: 'center', width: 20 })
       }
       return items

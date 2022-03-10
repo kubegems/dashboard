@@ -4,6 +4,7 @@
     v-model="valid"
     lazy-validation
     class="my-2"
+    @submit.prevent
   >
     <v-flex :class="expand ? 'kubegems__overlay' : ''" />
     <v-expand-transition>
@@ -129,7 +130,7 @@ export default {
           return o.name === this.obj.name
         })
         if (index === -1) {
-          if (this.obj.value.length === 0) {
+          if (this.obj.value && this.obj.value.length === 0) {
             this.optionsCopy.push({ name: this.obj.name })
           } else {
             this.optionsCopy.push({

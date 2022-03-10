@@ -12,6 +12,7 @@
           ref="form"
           v-model="valid"
           lazy-validation
+          @submit.prevent
         >
           <BaseDeployInfoForm
             ref="baseDeployInfoForm"
@@ -113,6 +114,7 @@ export default {
     reset() {
       this.obj = deepCopy(this.$options.data().obj)
       this.$refs.form.resetValidation()
+      this.$refs.baseDeployInfoForm.reset()
     },
   },
 }

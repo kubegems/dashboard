@@ -4,6 +4,7 @@
       ref="form"
       v-model="valid"
       lazy-validation
+      @submit.prevent
     >
       <v-flex :class="expand ? 'kubegems__overlay' : ''" />
       <BaseSubTitle title="istio虚拟服务定义" />
@@ -52,7 +53,7 @@
               height="32"
               label="hosts(回车)"
               @change="onHostChange"
-              @keydown.13="createHost"
+              @keydown.enter="createHost"
             >
               <template #selection="{ item }">
                 <v-chip
@@ -87,7 +88,7 @@
               height="32"
               label="exportTo(回车)"
               @change="onExportToChange"
-              @keydown.13="createExportTo"
+              @keydown.enter="createExportTo"
             >
               <template #selection="{ item }">
                 <v-chip
@@ -279,7 +280,7 @@ export default {
         this.EnvironmentFilter.cluster,
         this.EnvironmentFilter.namespace,
         {
-          size: 500,
+          size: 1000,
           noprocessing: true,
         },
       )

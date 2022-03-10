@@ -13,6 +13,7 @@
           ref="form"
           v-model="valid"
           lazy-validation
+          @submit.prevent
         >
           <v-sheet>
             <v-text-field
@@ -84,7 +85,7 @@ export default {
     async updateTenant() {
       if (this.$refs.form.validate(true)) {
         await putUpdateTenant(this.obj.TenantID, this.obj)
-        await this.tenantSelectData()
+        await this.m_select_tenantSelectData()
         this.reset()
         this.$emit('refresh')
       }

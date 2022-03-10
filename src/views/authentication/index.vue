@@ -74,7 +74,7 @@
                   :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                   :type="show ? 'text' : 'password'"
                   @click:append="show = !show"
-                  @keyup.enter="login"
+                  @keyup.enter="login(null)"
                 />
 
                 <v-btn
@@ -84,31 +84,36 @@
                   class="mr-4"
                   submit
                   :loading="Circular"
-                  @click="login"
+                  @click="login(null)"
                 >
                   登录
                 </v-btn>
               </v-form>
               <div class="mt-6">
-                <v-chip
-                  pill
-                  @click="oauth"
-                >
-                  <v-avatar left>
-                    <v-btn
-                      color="grey lighten-4"
-                      class="white--text"
-                    >
-                      <Icon
-                        icon="logos:gitlab"
-                        class="primary--text"
-                        width="25px"
-                        height="25px"
-                      />
-                    </v-btn>
-                  </v-avatar>
-                  sign in with gitlab
-                </v-chip>
+                <template v-for="(item, index) in oauthItems">
+                  <v-chip
+                    v-if="item.enabled"
+                    :key="index"
+                    pill
+                    class="mr-1 mb-1"
+                    @click="oauth(item)"
+                  >
+                    <v-avatar left>
+                      <v-btn
+                        color="grey lighten-4"
+                        class="white--text"
+                      >
+                        <BaseLogo
+                          class="primary--text logo-margin"
+                          :icon-name="item.kind.toLowerCase()"
+                          :width="25"
+                          :ml="0"
+                        />
+                      </v-btn>
+                    </v-avatar>
+                    使用 {{ item.name }} 登录
+                  </v-chip>
+                </template>
               </div>
             </v-col>
           </v-row>
@@ -123,7 +128,7 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex'
-import { postLogin, getLoginUserInfo, getLoginUserAuth, getOauthAddr } from '@/api'
+import { postLogin, getLoginUserInfo, getLoginUserAuth, getOauthAddr, getSystemAuthSource } from '@/api'
 import BaseSelect from '@/mixins/select'
 import BasePermission from '@/mixins/permission'
 import { validateJWT } from '@/utils/helpers'
@@ -142,6 +147,7 @@ export default {
     ],
     username: '',
     usernameRules: [required],
+    oauthItems: [],
   }),
   computed: {
     ...mapState(['JWT', 'Circular', 'Admin', 'AdminViewport', 'Scale']),
@@ -151,18 +157,24 @@ export default {
     },
   },
   mounted() {
+    this.authSource()
     if (validateJWT(this.$route.query.token)) {
       this.$store.commit('SET_JWT', this.$route.query.token)
     }
     this.init()
   },
   methods: {
-    async login() {
+    async authSource() {
+      const data = await getSystemAuthSource()
+      this.oauthItems = data
+    },
+    async login(source = null) {
       if (this.$refs.loginForm.validate(true)) {
         this.$store.commit('CLEARALL')
         const data = await postLogin({
           username: this.username,
           password: this.password,
+          source: source,
         })
         this.$store.commit('SET_JWT', data.token)
         await this.loadData()
@@ -185,8 +197,7 @@ export default {
     },
     async redirect() {
       if (
-        this.$route.params.cluster ||
-        ['cluster-center', 'cluster-detail'].indexOf(this.$route.name) > -1
+        this.$route.params.cluster
       ) {
         await this.$store.dispatch('UPDATE_CLUSTER_DATA')
         this.$store.commit('SET_ADMIN_VIEWPORT', true)
@@ -227,9 +238,13 @@ export default {
         this.redirect()
       }
     },
-    async oauth() {
-      const data = await getOauthAddr()
-      window.location.href = data
+    async oauth(auth) {
+      if (auth.kind === 'OAUTH') {
+        const data = await getOauthAddr({source: auth.name})
+        window.location.href = data
+      } else if (auth.kind === 'LDAP') {
+        await this.login(auth.name)
+      }
     },
   },
 }
@@ -242,5 +257,10 @@ export default {
   left: 0;
   right: 0;
   text-align: center;
+}
+
+.logo-margin {
+  margin-left: 0 !important;
+  margin-top: 5px !important;
 }
 </style>

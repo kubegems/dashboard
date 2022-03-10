@@ -31,62 +31,30 @@ import {
 const select = {
   data() {
     return {
-      clusterSelect: [],
-      tenantRoleSelect: [
-        { text: '租户管理员', value: 'admin' },
-        { text: '普通用户', value: 'ordinary' },
-      ],
-      projectRoleSelect: [
-        { text: '管理员', value: 'admin' },
-        { text: '开发', value: 'dev' },
-        { text: '测试', value: 'test' },
-        { text: '运维', value: 'ops' },
-      ],
-      userSelect: [],
-      environmentSelect: [],
-      systemRoleSelect: [],
-      namespaceSelect: [],
-      tenantSelect: [],
-      tenantUserSelect: [],
-      tenantProjectSelect: [],
-      tenantClusterSelect: [],
-      projectEnvironmentSelect: [],
-      environmentTypeSelect: [
+      m_select_clusterItems: [],
+      m_select_userItems: [],
+      m_select_environmentItems: [],
+      m_select_systemRoleItems: [],
+      m_select_namespaceItems: [],
+      m_select_tenantItems: [],
+      m_select_tenantUserItems: [],
+      m_select_tenantProjectItems: [],
+      m_select_tenantClusterItems: [],
+      m_select_projectEnvironmentItems: [],
+      m_select_environmentTypeItems: [
         { text: '开发', value: 'dev' },
         { text: '测试', value: 'test' },
         { text: '生产', value: 'prod' },
       ],
-      environmentRoleSelect: [
-        { text: '只读成员', value: 'reader' },
-        { text: '管理员', value: 'operator' },
-      ],
-      environmentPodUsageSelect: [
-        { text: 'CPU平均使用量', value: 'cpuavg' },
-        { text: 'CPU最大使用量', value: 'cpumax' },
-        { text: '内存平均使用量', value: 'memoryavg' },
-        { text: '内存最大使用量', value: 'memorymax' },
-      ],
-      storageClassSelect: [],
-      workloadSelect: [],
-      resourceQuotaSelect: [
-        { value: 'count/deployments.apps', text: '无状态服务' },
-        { value: 'count/statefulsets.apps', text: '有状态服务' },
-        { value: 'count/daemonsets.apps', text: '守护进程服务' },
-        { value: 'pods', text: '容器组' },
-        { value: 'count/services', text: '服务' },
-        { value: 'count/jobs.batch', text: '任务' },
-        { value: 'count/cronjobs.batch', text: '定时任务' },
-        { value: 'count/configmaps', text: '配置' },
-        { value: 'count/secrets', text: '密钥' },
-        { value: 'count/persistentvolumeclaims', text: '存储卷' },
-      ],
-      secretSelect: [],
-      serviceSelect: [],
-      issuerSelect: [],
-      gatewaySelect: [],
-      projectSelect: [],
-      registrySelect: [],
-      resourceSelect: [
+      m_select_storageClassItems: [],
+      m_select_workloadSelectItems: [],
+      m_select_secretItems: [],
+      m_select_serviceItems: [],
+      m_select_issuerItems: [],
+      m_select_gatewayItems: [],
+      m_select_projectItems: [],
+      m_select_registryItems: [],
+      m_select_resourceItems: [
         { text: '服务', value: 'Service' },
         { text: '配置', value: 'ConfigMap' },
         { text: '密钥', value: 'Secret' },
@@ -95,9 +63,9 @@ const select = {
         { text: '定时任务', value: 'CronJob' },
         { text: '路由', value: 'Ingress' },
       ],
-      virtualSpaceSelect: [],
-      virtualSpaceEnvironmentSelect: [],
-      appSelect: [],
+      m_select_virtualSpaceItems: [],
+      m_select_virtualSpaceEnvironmentItems: [],
+      m_select_appItems: [],
     }
   },
   computed: {
@@ -105,23 +73,23 @@ const select = {
     ...mapGetters(['Project', 'Environment', 'Cluster', 'Tenant']),
   },
   methods: {
-    async userSelectData() {
+    async m_select_userSelectData() {
       const data = await userSelectData({ noprocessing: true })
       const userSelect = []
       data.List.forEach((user) => {
         userSelect.push({ text: user.Username, value: user.ID })
       })
-      this.userSelect = userSelect
+      this.m_select_userItems = userSelect
     },
-    async systemRoleSelectData() {
+    async m_select_systemRoleSelectData() {
       const data = await systemRoleSelectData({ noprocessing: true })
       const systemRoleSelect = []
       data.List.forEach((role) => {
         systemRoleSelect.push({ text: role.RoleName, value: role.ID })
       })
-      this.systemRoleSelect = systemRoleSelect
+      this.m_select_systemRoleItems = systemRoleSelect
     },
-    async tenantSelectData() {
+    async m_select_tenantSelectData() {
       let data = {}
       if (this.Admin) {
         data = await tenantSelectData({ noprocessing: true })
@@ -153,9 +121,9 @@ const select = {
           })
         }
       })
-      this.tenantSelect = tenantSelect
+      this.m_select_tenantItems = tenantSelect
     },
-    async tenantClusterSelectData(TenantID) {
+    async m_select_tenantClusterSelectData(TenantID) {
       const data = await tenantClusterSelectData(TenantID, {
         noprocessing: true,
       })
@@ -166,9 +134,9 @@ const select = {
           value: tenant.Cluster.ID,
         })
       })
-      this.tenantClusterSelect = tenantClusterSelect
+      this.m_select_tenantClusterItems = tenantClusterSelect
     },
-    async tenantUserSelectData() {
+    async m_select_tenantUserSelectData() {
       const data = await tenantUserSelectData(this.Tenant().ID, {
         noprocessing: true,
       })
@@ -176,9 +144,9 @@ const select = {
       data.List.forEach((user) => {
         tenantUserSelect.push({ text: user.Username, value: user.ID })
       })
-      this.tenantUserSelect = tenantUserSelect
+      this.m_select_tenantUserItems = tenantUserSelect
     },
-    async tenantProjectSelectData() {
+    async m_select_tenantProjectSelectData() {
       const data = await tenantProjectSelectData(this.Tenant().ID, {
         noprocessing: true,
       })
@@ -192,9 +160,9 @@ const select = {
           projectTenant: `${p.ProjectName}(${p.Tenant.TenantName})`,
         })
       })
-      this.tenantProjectSelect = tenantProjectSelect
+      this.m_select_tenantProjectItems = tenantProjectSelect
     },
-    async projectEnvironmentSelectData(projectid, virtualspace = false) {
+    async m_select_projectEnvironmentSelectData(projectid, virtualspace = false) {
       if (!projectid) {
         this.$store.commit('SET_SNACKBAR', {
           text: '请先选择项目',
@@ -222,9 +190,9 @@ const select = {
           disabled: ns.VirtualSpaceID > 0 && virtualspace,
         })
       })
-      this.projectEnvironmentSelect = projectEnvironmentSelect
+      this.m_select_projectEnvironmentItems = projectEnvironmentSelect
     },
-    async clusterSelectData(TenantID = null) {
+    async m_select_clusterSelectData(TenantID = null) {
       let data = null
       if (this.Admin && !TenantID) {
         data = await clusterSelectData({ noprocessing: true })
@@ -250,9 +218,9 @@ const select = {
           version: ns.Version,
         })
       })
-      this.clusterSelect = clusterSelect
+      this.m_select_clusterItems = clusterSelect
     },
-    async namespaceSelectData(Cluster) {
+    async m_select_namespaceSelectData(Cluster) {
       if (!Cluster) {
         this.$store.commit('SET_SNACKBAR', {
           text: '请先选择集群',
@@ -271,9 +239,9 @@ const select = {
           value: ns.metadata.name,
         })
       })
-      this.namespaceSelect = namespaceSelect
+      this.m_select_namespaceItems = namespaceSelect
     },
-    async environmentSelectData(TenantID = null) {
+    async m_select_environmentSelectData(TenantID = null) {
       let data = null
       if (this.Admin && this.AdminViewport && !TenantID) {
         data = await environmentSelectData({ noprocessing: true })
@@ -288,10 +256,10 @@ const select = {
           })
         }
       }
-      this.environmentSelect = []
+      this.m_select_environmentItems = []
       if (data) {
         data.List.forEach((e) => {
-          this.environmentSelect.push({
+          this.m_select_environmentItems.push({
             text: e.EnvironmentName,
             value: e.Namespace,
             clusterName: e.Cluster.ClusterName,
@@ -299,7 +267,7 @@ const select = {
         })
       }
     },
-    async storageClassSelectData(Cluster) {
+    async m_select_storageClassSelectData(Cluster) {
       if (!Cluster) {
         this.$store.commit('SET_SNACKBAR', {
           text: '请先选择集群',
@@ -316,9 +284,9 @@ const select = {
           storageClass: sc,
         })
       })
-      this.storageClassSelect = storageClassSelect
+      this.m_select_storageClassItems = storageClassSelect
     },
-    async workloadSelectData(Cluster, Namespace) {
+    async m_select_workloadSelectData(Cluster, Namespace) {
       if (!Cluster) {
         this.$store.commit('SET_SNACKBAR', {
           text: '请先选择集群',
@@ -358,9 +326,9 @@ const select = {
           value: index,
         })
       })
-      this.workloadSelect = workloadSelect
+      this.m_select_workloadSelectItems = workloadSelect
     },
-    async secretSelectData(Cluster, Namespace, type = null) {
+    async m_select_secretSelectData(Cluster, Namespace, type = null) {
       if (!Cluster) {
         this.$store.commit('SET_SNACKBAR', {
           text: '请先选择集群',
@@ -390,9 +358,9 @@ const select = {
           value: s.metadata.name,
         })
       })
-      this.secretSelect = secretSelect
+      this.m_select_secretItems = secretSelect
     },
-    async serviceSelectData(Cluster, Namespace) {
+    async m_select_serviceSelectData(Cluster, Namespace) {
       if (!Cluster) {
         this.$store.commit('SET_SNACKBAR', {
           text: '请先选择集群',
@@ -425,9 +393,9 @@ const select = {
           })
         }
       })
-      this.serviceSelect = serviceSelect
+      this.m_select_serviceItems = serviceSelect
     },
-    async issuerSelectData(Cluster, Namespace) {
+    async m_select_issuerSelectData(Cluster, Namespace) {
       if (!Cluster) {
         this.$store.commit('SET_SNACKBAR', {
           text: '请先选择集群',
@@ -453,9 +421,9 @@ const select = {
           labels: i.metadata.labels,
         })
       })
-      this.issuerSelect = issuerSelect
+      this.m_select_issuerItems = issuerSelect
     },
-    async gatewaySelectData(Cluster) {
+    async m_select_gatewaySelectData(Cluster) {
       if (!Cluster) {
         this.$store.commit('SET_SNACKBAR', {
           text: '请先选择集群',
@@ -478,9 +446,9 @@ const select = {
           baseDomain: ns.spec.baseDomain,
         })
       })
-      this.gatewaySelect = gatewaySelect
+      this.m_select_gatewayItems = gatewaySelect
     },
-    async projectSelectData() {
+    async m_select_projectSelectData() {
       let data = null
       if (this.Admin && this.AdminViewport) {
         data = await projectSelectData({ noprocessing: true })
@@ -501,9 +469,9 @@ const select = {
           tenantID: p.Tenant.ID,
         })
       })
-      this.projectSelect = projectSelect
+      this.m_select_projectItems = projectSelect
     },
-    async registrySelectData() {
+    async m_select_registrySelectData() {
       let data = null
       if (this.AdminViewport) {
         data = await registrySelectData({ noprocessing: true })
@@ -519,9 +487,9 @@ const select = {
           value: r.RegistryName,
         })
       })
-      this.registrySelect = registrySelect
+      this.m_select_registryItems = registrySelect
     },
-    async virtualSpaceSelectData() {
+    async m_select_virtualSpaceSelectData() {
       const data = await virtualSpaceSelectData({ noprocessing: true })
       const virtualSpaceSelect = []
       data.List.forEach((r) => {
@@ -530,9 +498,9 @@ const select = {
           value: r.ID,
         })
       })
-      this.virtualSpaceSelect = virtualSpaceSelect
+      this.m_select_virtualSpaceItems = virtualSpaceSelect
     },
-    async virtualSpaceEnvironmentSelectData(virtualspaceid) {
+    async m_select_virtualSpaceEnvironmentSelectData(virtualspaceid) {
       const data = await virtualSpaceEnvironmentSelectData(virtualspaceid, {
         noprocessing: true,
       })
@@ -546,9 +514,9 @@ const select = {
           clusterid: r.Cluster.ID,
         })
       })
-      this.virtualSpaceEnvironmentSelect = virtualSpaceEnvironmentSelect
+      this.m_select_virtualSpaceEnvironmentItems = virtualSpaceEnvironmentSelect
     },
-    async appSelectData(tenantid, projectid, environmentid) {
+    async m_select_appSelectData(tenantid, projectid, environmentid) {
       if (!projectid) {
         this.$store.commit('SET_SNACKBAR', {
           text: '请先选择项目',
@@ -571,7 +539,7 @@ const select = {
           value: r.name,
         })
       })
-      this.appSelect = appSelect
+      this.m_select_appItems = appSelect
     },
   },
 }

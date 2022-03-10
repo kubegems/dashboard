@@ -92,7 +92,7 @@ export default {
             })
           })
         }
-        await this.tenantProjectSelectData()
+        await this.m_select_tenantProjectSelectData()
         this.reset()
         this.$emit('refresh')
       }

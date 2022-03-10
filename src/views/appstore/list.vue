@@ -6,7 +6,7 @@
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '应用商店仓库名称', value: 'search' }"
-          @refresh="filterList"
+          @refresh="m_filter_list"
         />
         <v-spacer />
         <v-menu left>
@@ -38,7 +38,7 @@
                   text
                   color="error"
                   @click="
-                    batchRemoveNotK8SResource(
+                    m_table_batchRemoveNotK8SResource(
                       '仓库',
                       'Repository',
                       repositoryList,
@@ -63,16 +63,16 @@
         hide-default-footer
         show-select
         @toggle-select-all="
-          onNotK8SResourceToggleSelect($event, 'Name', 'ChartRepoName')
+          m_table_onNotK8SResourceToggleSelect($event, 'Name', 'ChartRepoName')
         "
       >
         <template #[`item.data-table-select`]="{ item }">
           <v-checkbox
-            v-model="batchResources[item.ID].checked"
+            v-model="m_table_batchResources[item.ID].checked"
             color="primary"
             hide-details
             @click.stop
-            @change="onNotK8SResourceChange($event, item, 'Name', 'ChartRepoName')"
+            @change="m_table_onNotK8SResourceChange($event, item, 'Name', 'ChartRepoName')"
           />
         </template>
         <template #[`item.chartRepoName`]="{ item }">
@@ -156,11 +156,12 @@ import RepositoryInfo from './components/RepositoryInfo'
 import BaseFilter from '@/mixins/base_filter'
 import BaseSelect from '@/mixins/select'
 import BaseResource from '@/mixins/resource'
+import BaseTable from '@/mixins/table'
 
 export default {
   name: 'RepositoryList',
   components: { RepositoryInfo },
-  mixins: [BaseFilter, BaseSelect, BaseResource],
+  mixins: [BaseFilter, BaseSelect, BaseResource, BaseTable],
   data: () => ({
     breadcrumb: {
       title: '应用商店仓库',
@@ -195,7 +196,7 @@ export default {
           ...item,
         }
       })
-      this.generateSelectResourceNoK8s('Name', 'ChartRepoName')
+      this.m_table_generateSelectResourceNoK8s('Name', 'ChartRepoName')
     },
     addRepository() {
       this.$refs.repositoryInfo.title = '添加仓库'

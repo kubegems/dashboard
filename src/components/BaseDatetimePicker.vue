@@ -74,18 +74,6 @@
   </v-menu>
 </template>
 
-<style lang="scss">
-.date-select {
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 10px;
-}
-
-.date-select .v-input__slot {
-  background: none !important;
-}
-</style>
-
 <script>
 import { formatDatetime, parserDatetime } from '@/utils/helpers'
 

@@ -11,7 +11,7 @@
           origin="top center"
           transition="scale-transition"
           nudge-bottom="5px"
-          content-class="z-index-bg"
+          content-class="cluster-header__bg"
         >
           <template #activator="{ on }">
             <v-btn
@@ -21,7 +21,7 @@
               small
               dark
               v-on="on"
-              @click="clusterSelectData(null)"
+              @click="m_select_clusterSelectData(null)"
             >
               <v-icon left>fab fa-docker</v-icon>
               {{ Cluster().ClusterName }}
@@ -30,7 +30,7 @@
             </v-btn>
           </template>
           <v-data-iterator
-            :items="[{ text: '集群', values: clusterSelect }]"
+            :items="[{ text: '集群', values: m_select_clusterItems }]"
             hide-default-footer
           >
             <template #no-data>
@@ -119,7 +119,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.z-index-bg {
+.cluster-header__bg {
   z-index: auto !important;
 }
 </style>

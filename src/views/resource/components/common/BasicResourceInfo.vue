@@ -4,7 +4,7 @@
       {{ item ? item.metadata.name : '' }}
       <template
         v-if="
-          Plugins.gpu_manager &&
+          Plugins && Plugins.gpu_manager &&
             item &&
             item.kind === 'Pod' &&
             item.spec &&
@@ -25,7 +25,7 @@
               class="mt-1 mr-2"
               v-on="on"
             >
-              <Logo icon-name="gpu_manager" />
+              <BaseLogo icon-name="gpu_manager" />
             </span>
           </template>
           <v-card>
@@ -35,7 +35,7 @@
       </template>
       <template
         v-if="
-          Plugins.nvidia_device_plugin &&
+          Plugins && Plugins.nvidia_device_plugin &&
             item &&
             item.kind === 'Pod' &&
             item.spec &&
@@ -55,7 +55,7 @@
               class="mt-1 mr-2"
               v-on="on"
             >
-              <Logo icon-name="nvidia_device_plugin" />
+              <BaseLogo icon-name="nvidia_device_plugin" />
             </span>
           </template>
           <v-card>
@@ -123,12 +123,10 @@
 
 <script>
 import { mapState } from 'vuex'
-import Logo from './Logo'
 import BaseResource from '@/mixins/resource'
 
 export default {
   name: 'BasicResourceInfo',
-  components: { Logo },
   mixins: [BaseResource],
   props: {
     item: {

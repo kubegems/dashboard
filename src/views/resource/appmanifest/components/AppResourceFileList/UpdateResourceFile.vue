@@ -119,7 +119,7 @@ export default {
                 : this.kind.toLowerCase()
             }/mixins/schema.js`)
             if (
-              !this.validateJsonSchema(
+              !this.m_resource_validateJsonSchema(
                 mixinjson.default.data().schema,
                 jsondata,
               )
@@ -127,10 +127,10 @@ export default {
               return
             }
           }
-          data = this.$yamldump(this.beautifyData(jsondata))
+          data = this.$yamldump(this.m_resource_beautifyData(jsondata))
         } else if (this.formComponent === 'AppResourceBaseForm') {
           data = this.$refs[this.formComponent].obj
-          data = this.$yamldump(this.beautifyData(data))
+          data = this.$yamldump(this.m_resource_beautifyData(data))
         }
         await patchAppResourceFile(
           this.app.TenantID,
@@ -164,7 +164,7 @@ export default {
               ? 'workload'
               : this.kind.toLowerCase()
           }/mixins/schema.js`)
-          if (!this.validateJsonSchema(mixinjson.default.data().schema, data)) {
+          if (!this.m_resource_validateJsonSchema(mixinjson.default.data().schema, data)) {
             this.yaml = true
             this.switchKey = randomString(6)
             return

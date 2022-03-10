@@ -203,7 +203,7 @@ export default {
     },
     async virtualSpaceUserList() {
       const data = await getVirtualSpaceUserList(this.VirtualSpace().ID, {
-        size: 500,
+        size: 1000,
         noprocessing: true,
       })
       this.users = data.List

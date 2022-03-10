@@ -71,7 +71,7 @@
 
             <template
               v-if="
-                Plugins.gpu_manager &&
+                Plugins && Plugins.gpu_manager &&
                   node &&
                   node.metadata &&
                   node.metadata.labels['tencent.com/vcuda'] &&
@@ -88,7 +88,7 @@
                     class="mt-1 mr-2"
                     v-on="on"
                   >
-                    <Logo icon-name="gpu_manager" />
+                    <BaseLogo icon-name="gpu_manager" />
                   </span>
                 </template>
                 <v-card>
@@ -115,7 +115,7 @@
                     class="mt-1 mr-2"
                     v-on="on"
                   >
-                    <Logo icon-name="nvidia_device_plugin" />
+                    <BaseLogo icon-name="nvidia_device_plugin" />
                   </span>
                 </template>
                 <v-card>
@@ -225,7 +225,6 @@
 import { mapGetters, mapState } from 'vuex'
 import { getNodeDetail, patchCordonNode } from '@/api'
 import VueApexCharts from 'vue-apexcharts'
-import Logo from '@/views/resource/components/common/Logo'
 import ResourceInfo from './components/ResourceInfo'
 import Metadata from '@/views/resource/components/metadata/Metadata'
 import PodList from '@/views/resource/components/common/PodList'
@@ -246,7 +245,6 @@ export default {
     EventList,
     Taint,
     ResourceYaml,
-    Logo,
   },
   mixins: [BaseResource],
   data: () => ({
@@ -269,7 +267,7 @@ export default {
         { text: '容器组', value: 'PodList' },
         { text: '事件', value: 'EventList' },
       ]
-      if (this.Plugins.node_exporter) {
+      if (this.Plugins?.node_exporter) {
         items.splice(5, 0, { text: '监控', value: 'NodeMonitor' })
       }
       return items

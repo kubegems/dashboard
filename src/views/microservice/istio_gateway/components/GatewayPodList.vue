@@ -22,15 +22,15 @@
               'Pending',
               'Terminating',
               'PodInitializing',
-            ].indexOf(getPodStatus(item)) > -1
+            ].indexOf(m_resource_getPodStatus(item)) > -1
               ? 'kubegems__waiting-flashing'
               : ''
           }`"
           :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
-            $POD_STATUS_COLOR[getPodStatus(item)] || '#ff5252'
+            $POD_STATUS_COLOR[m_resource_getPodStatus(item)] || '#ff5252'
           };`"
         />
-        <span> {{ getPodStatus(item) }}</span>
+        <span> {{ m_resource_getPodStatus(item) }}</span>
         <span>
           ({{
             item.status && item.status.containerStatuses
