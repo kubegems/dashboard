@@ -190,7 +190,7 @@ export default {
     },
     // eslint-disable-next-line vue/no-unused-properties
     setCallback(name) {
-      this.obj.config.redirectURL = `https://${this.$DOMAIN}/oauth/callback/${name}`
+      this.obj.config.redirectURL = `https://${window.location.host}/oauth/callback/${name}`
     },
   },
 }

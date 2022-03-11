@@ -284,7 +284,7 @@ export default {
         this.$refs.form.validate(true) &&
         (!this.$refs[this.tabItems[this.tab].value] ||
           (this.$refs[this.tabItems[this.tab].value] &&
-            this.$refs[this.tabItems[this.tab].value].$refs.form.validate(
+            this.$refs[this.tabItems[this.tab].value].validate(
               true,
             )))
       ) {

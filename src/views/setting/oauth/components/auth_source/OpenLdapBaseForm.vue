@@ -63,6 +63,17 @@
             class="my-0"
             required
             label="Password"
+            :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="show ? 'text' : 'password'"
+            @click:append="show = !show"
+          />
+        </v-col>
+        <v-col cols="6">
+          <v-text-field
+            v-model="obj.config.filter"
+            class="my-0"
+            required
+            label="Filter"
           />
         </v-col>
         <v-col cols="6">
@@ -95,6 +106,7 @@ export default {
     tokenTypeItems: [
       { text: 'Bearer', value: 'Bearer' },
     ],
+    show: false,
     obj: {
       config: {
         enableTLS: true,
@@ -102,6 +114,7 @@ export default {
         binduser: '',
         password: '',
         ldapaddr: '',
+        filter: '',
       },
       tokenType: '',
     },
@@ -112,7 +125,11 @@ export default {
         basednRule: [required],
         binduserRule: [required],
         passwordRule: [required],
-        ldapaddrRule: [required],
+        ldapaddrRule: [
+          required,
+          (v) => !!new RegExp('^(ldap://)?(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5]):([0-9]|[1-9]\\d|[1-9]\\d{2}|[1-9]\\d{3}|[1-5]\\d{4}|6[0-4]\\d{3}|65[0-4]\\d{2}|655[0-2]\\d|6553[0-5])$').test(v) ||
+          '格式错误',
+        ],
       }
     },
   },
