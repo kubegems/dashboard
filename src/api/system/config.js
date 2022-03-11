@@ -7,8 +7,9 @@ export const getSystemAllConfigData = (query = {}) => axios.get(
 )
 
 // 获取系统配置
-export const getSystemConfigData = (name) => axios.get(
+export const getSystemConfigData = (name, query = {}) => axios.get(
   `system/config/${name}`,
+  { params: query },
 )
 
 // 修改系统配置
