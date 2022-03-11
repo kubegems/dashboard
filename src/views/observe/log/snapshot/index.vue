@@ -149,7 +149,6 @@ export default {
     if (this.JWT) {
       Object.assign(this.params, this.$route.query)
       await this.$refs.clusterSelect.generateClusters()
-      this.logQuerySnapshotList()
     }
   },
   methods: {

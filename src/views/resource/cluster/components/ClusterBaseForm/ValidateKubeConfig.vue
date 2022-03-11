@@ -98,9 +98,11 @@ export default {
       Vendor: 'selfhosted',
       ImageRepo: 'docker.io/kubegems',
       DefaultStorageClass: '',
-      status: {
+      extend: {
         storageClasses: [],
         validate: 'progressing',
+        clusterName: '',
+        existInstaller: false,
       },
     },
     vendorItems: [
@@ -139,8 +141,8 @@ export default {
       return this.obj
     },
     // eslint-disable-next-line vue/no-unused-properties
-    getStatus() {
-      return this.obj.status
+    getExtend() {
+      return this.obj.extend
     },
   },
 }

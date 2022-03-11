@@ -10,23 +10,27 @@
       class="pa-2"
     >
       <v-row>
-        <v-col cols="6">
+        <v-col
+          v-if="!control && !edit && obj.extend.existInstaller"
+          cols="12"
+        >
+          <v-switch
+            v-model="obj.Primary"
+            class="mt-5"
+            label="控制集群"
+            @change="onPrimaryChange"
+          />
+        </v-col>
+        <v-col
+          v-if="!obj.Primary"
+          cols="6"
+        >
           <v-text-field
             v-model="obj.ClusterName"
             required
             label="集群名称"
             :rules="objRules.ClusterNameRules"
             :readonly="edit"
-          />
-        </v-col>
-        <v-col
-          v-if="!control && !edit"
-          cols="6"
-        >
-          <v-switch
-            v-model="obj.Primary"
-            class="mt-5"
-            label="控制集群"
           />
         </v-col>
         <v-col cols="6">
@@ -88,9 +92,11 @@ export default {
       Vendor: 'selfhosted',
       ImageRepo: 'docker.io/kubegems',
       DefaultStorageClass: '',
-      status: {
+      extend: {
         storageClasses: [],
         validate: 'progressing',
+        clusterName: '',
+        existInstaller: false,
       },
     },
     objRules: {
@@ -101,7 +107,7 @@ export default {
   }),
   computed: {
     storageClassItems() {
-      return this.obj.status.storageClasses.map(sc => { return { value: sc, text: sc } })
+      return this.obj.extend.storageClasses.map(sc => { return { value: sc, text: sc } })
     },
   },
   methods: {
@@ -127,8 +133,15 @@ export default {
       return this.obj
     },
     // eslint-disable-next-line vue/no-unused-properties
-    getStatus() {
-      return this.obj.status
+    getExtend() {
+      return this.obj.extend
+    },
+    async onPrimaryChange() {
+      if (this.obj.Primary) {
+        this.obj.ClusterName = this.obj.extend.clusterName
+      } else {
+        this.obj.ClusterName = ''
+      }
     },
   },
 }

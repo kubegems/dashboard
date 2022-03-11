@@ -29,7 +29,7 @@
       </v-btn>
       <v-btn
         v-if="step >= 0 && step < totalStep - 1"
-        :disabled="step === 1 && status.validate !== 'success'"
+        :disabled="step === 1 && extend.validate !== 'success'"
         class="float-right mx-2"
         color="primary"
         text
@@ -76,7 +76,7 @@ export default {
     item: {},
     step: 0,
     totalStep: 3,
-    status: null,
+    extend: null,
   }),
   computed: {
     ...mapState(['Circular']),
@@ -113,9 +113,11 @@ export default {
         Vendor: data.Vendor,
         ImageRepo: data.ImageRepo,
         DefaultStorageClass: data.DefaultStorageClass,
-        status: {
+        extend: {
           storageClasses: [],
           validate: 'progressing',
+          clusterName: '',
+          existInstaller: false,
         },
       })
     },
@@ -145,7 +147,7 @@ export default {
           return
         }
       }
-      this.status = this.$refs[this.formComponent].getStatus()
+      this.extend = this.$refs[this.formComponent].getExtend()
       if (
         this.step < this.totalStep - 1 &&
         this.$refs[this.formComponent].validate()
@@ -158,7 +160,7 @@ export default {
       }
     },
     refresh(data) {
-      this.status = data.status
+      this.extend = data.extend
     },
     reset() {
       this.dialog = false

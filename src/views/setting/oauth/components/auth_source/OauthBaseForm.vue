@@ -56,6 +56,15 @@
             label="UserInfo URL"
           />
         </v-col>
+        <v-col cols="6">
+          <v-text-field
+            v-model="obj.config.tokenURL"
+            :rules="objRules.tokenURLRule"
+            class="my-0"
+            required
+            label="Token URL"
+          />
+        </v-col>
         <v-col cols="12">
           <v-text-field
             v-model="obj.config.appID"
@@ -135,6 +144,7 @@ export default {
         scopes: [],
         authURL: '',
         userInfoURL: '',
+        tokenURL: '',
       },
       tokenType: '',
     },
@@ -148,6 +158,7 @@ export default {
         tokenTypeRule: [required],
         authURLRule: [required],
         userInfoURLRule: [required],
+        tokenURLRule: [required],
       }
     },
   },
