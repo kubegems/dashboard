@@ -95,7 +95,7 @@
           :key="key"
           class="pa-0"
         >
-          <v-flex class="grey lighten-4 rounded-0 mt-2 mx-3">
+          <v-flex class="grey lighten-4 rounded-0 mt-3 mb-4 mx-3">
             <v-list-item>
               <v-list-item-content class="py-2">
                 <v-list-item-subtitle class="text-body-2 py-0">

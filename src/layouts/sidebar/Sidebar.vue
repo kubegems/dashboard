@@ -278,7 +278,7 @@ export default {
           return !item.required ||
             (item.required &&
             this.$route.params &&
-            item.required.sort().join('') === Object.keys(this.$route.params).sort().join('')) ||
+            item.required.sort().join('') === Object.keys(this.$route.params).filter(p => { return p !== 'name' }).sort().join('')) ||
             ((this.$route.meta.rootName === 'entry-microservice' ||
               this.$route.meta.rootName === 'microservice') &&
               item.required.sort().join('') === ['tenant'].join(''))

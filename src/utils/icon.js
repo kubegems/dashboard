@@ -112,6 +112,8 @@ export function getIconName(name) {
   if (name.indexOf('kubegems') > -1) return 'img:kubegems.jpg'
   if (name.indexOf('gke') > -1) return 'logos:google-cloud'
   if (name.indexOf('aliyun') > -1) return 'img:aliyun.png'
+  if (name.indexOf('testlink') > -1) return 'img:testlink.png'
+  if (name.indexOf('geode') > -1) return 'img:geode.png'
   // if (name.indexOf('selfhosted') > -1) return 'bx:bxl-kubernetes'
   return 'logos:kubernetes'
 }

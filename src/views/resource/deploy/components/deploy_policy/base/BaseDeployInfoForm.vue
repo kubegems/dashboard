@@ -239,7 +239,7 @@ export default {
     createImageTag(image) {
       const tags = this.tags[image]
       if (
-        !this.tags[image].find((tag) => {
+        !tags.find((tag) => {
           return tag.value === this.base.images[image].tagtext
         })
       ) {
