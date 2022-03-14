@@ -25,7 +25,7 @@
                   class="text-h6"
                   @click="addCluster"
                 >
-                  <v-icon left>mdi-server-plus</v-icon>
+                  <v-icon left>mdi-plus-box</v-icon>
                   创建集群
                 </v-btn>
               </v-list-item-content>
