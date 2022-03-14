@@ -6,7 +6,7 @@
       <v-col
         v-for="(item, index) in items"
         :key="index"
-        cols="6"
+        cols="12"
       >
         <v-hover
           #default="{ hover }"
@@ -24,14 +24,14 @@
               >
                 <BaseLogo
                   class="mr-6 mt-1"
-                  :icon-name="item.kind.toLowerCase()"
+                  :icon-name="item.vendor.toLowerCase()"
                   :width="60"
                 />
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title class="text-h6 mb-1">
                   <a>
-                    {{ item.kind }}
+                    {{ item.vendor }}
                   </a>
                 </v-list-item-title>
                 <v-list-item-subtitle>
@@ -55,13 +55,13 @@
                 配置
               </v-btn>
               <v-btn
-                v-if="item.enabled"
+                v-if="Object.prototype.hasOwnProperty.call(item, 'enabled')"
                 depressed
                 text
-                color="error"
-                @click="removeAuthSource(item)"
+                :color="item.enabled ? `error` : `primary`"
+                @click="operateAuthSource(item)"
               >
-                停止
+                {{ item.enabled ? '停止' : '启用' }}
               </v-btn>
             </v-card-actions>
 
@@ -92,7 +92,7 @@
 </template>
 
 <script>
-import { getAuthSourceConfigList, deleteAuthSourceConfig } from '@/api'
+import { getAuthSourceConfigList, putAuthSourceConfig } from '@/api'
 import AddAuthSource from './components/AddAuthSource'
 import UpdateAuthSource from './components/UpdateAuthSource'
 
@@ -114,14 +114,27 @@ export default {
       desc: 'Kubegems 内置的数据库认证',
       enabled: true,
       forbid: true,
+      vendor: 'kubegems',
     }, {
       name: 'Oauth',
       kind: 'OAUTH',
-      desc: '您的组织能够使用Oauth协议登录',
+      desc: '使您的组织能够使用Oauth协议登录',
+      vendor: 'oauth',
     }, {
       name: 'OpenLdap',
       kind: 'LDAP',
-      desc: '您的组织能够使用Ldap协议登录',
+      desc: '使您的组织能够使用Ldap协议登录',
+      vendor: 'ldap',
+    }, {
+      name: 'Gitlab',
+      kind: 'OAUTH',
+      desc: '使您的组织能够使用Gitlab账号登录',
+      vendor: 'gitlab',
+    }, {
+      name: 'Github',
+      kind: 'OAUTH',
+      desc: '使您的组织能够使用Github账号登录',
+      vendor: 'github',
     }],
   }),
   mounted() {
@@ -133,7 +146,7 @@ export default {
     async oauthSourceConfigList() {
       const data = await getAuthSourceConfigList({size: 1000})
       data.List.forEach(item => {
-        const index = this.items.findIndex(i => { return i.kind === item.kind })
+        const index = this.items.findIndex(i => { return i.vendor === item.vendor })
         let data = this.items[index]
         data = Object.assign(data, item)
         this.$set(this.items, index, data)
@@ -148,17 +161,17 @@ export default {
         this.$refs.addAuthSource.open()
       }
     },
-    async removeAuthSource(item) {
+    async operateAuthSource(item) {
       this.$store.commit('SET_CONFIRM', {
-        title: `停止${item.kind}登录`,
+        title: item.enabled ? `停止${item.kind}登录` : `启用${item.kind}登录`,
         content: {
-          text: `停止${item.kind}登录`,
+          text: item.enabled ? `停止${item.kind}登录` : `启用${item.kind}登录`,
           type: 'confirm',
           name: item.name,
         },
         param: { item },
         doFunc: async (param) => {
-          await deleteAuthSourceConfig(param.item.id)
+          await putAuthSourceConfig(param.item.id, Object.assign(param.item, { enabled: !param.item.enabled }))
           this.oauthSourceConfigList()
         },
       })

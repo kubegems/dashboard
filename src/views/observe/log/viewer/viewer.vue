@@ -1022,7 +1022,9 @@ export default {
     showLogContext(item) {
       const logContextRef = this.$refs.logContext
       logContextRef.timestamp = item.info.timestamp
-      const labels = Object.keys(item.stream)
+      const labels = Object.keys(item.stream).filter(l => {
+        return ['container', 'image', 'pod', 'namespace', process.env.VUE_APP_LOG_LABEL_CLUSTER_KEY].indexOf(l) > -1
+      })
       logContextRef.logQL =
         labels.reduce(
           (pre, current, index) =>

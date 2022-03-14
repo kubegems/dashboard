@@ -203,6 +203,10 @@ export default {
     setCallback(name) {
       this.obj.config.redirectURL = `https://${window.location.host}/oauth/callback/${name}`
     },
+    // eslint-disable-next-line vue/no-unused-properties
+    getData() {
+      return this.obj
+    },
   },
 }
 </script>

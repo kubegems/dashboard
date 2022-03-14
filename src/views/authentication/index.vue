@@ -105,7 +105,7 @@
                       >
                         <BaseLogo
                           class="primary--text logo-margin"
-                          :icon-name="item.kind.toLowerCase()"
+                          :icon-name="item.vendor.toLowerCase()"
                           :width="25"
                           :ml="0"
                         />
@@ -168,7 +168,7 @@ export default {
       const data = await getSystemAuthSource()
       this.oauthItems = data
     },
-    async login(source = null) {
+    async login(source = 'account') {
       if (this.$refs.loginForm.validate(true)) {
         this.$store.commit('CLEARALL')
         const data = await postLogin({

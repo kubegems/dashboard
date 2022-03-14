@@ -145,6 +145,10 @@ export default {
     },
     // eslint-disable-next-line vue/no-unused-properties
     setCallback() {},
+    // eslint-disable-next-line vue/no-unused-properties
+    getData() {
+      return this.obj
+    },
   },
 }
 </script>

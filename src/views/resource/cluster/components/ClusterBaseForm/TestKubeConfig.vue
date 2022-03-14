@@ -74,10 +74,14 @@ export default {
       KubeConfig: '',
       Primary: false,
       Vendor: 'selfhosted',
-      ImageRepo: 'docker.io/kubegems',
-      DefaultStorageClass: '',
+      ImageRepo: 'registry.cn-beijing.aliyuncs.com/kubegems',
+      DefaultStorageClass: 'local-path',
       extend: {
         storageClasses: [],
+        imageRepos: [
+          'registry.cn-beijing.aliyuncs.com/kubegems',
+          'docker.io/kubegems',
+        ],
         validate: 'progressing',
         clusterName: '',
         existInstaller: false,
