@@ -203,13 +203,9 @@ export default {
       const data = await getClusterList({ noprocessing: true })
       this.items = data.List
       this.items.push({ add: true })
-
-      const controllCluster = this.items.find((c) => {
+      this.hasControllerCluster = this.items.some((c) => {
         return c.Primary
       })
-      if (controllCluster) {
-        this.hasControllerCluster = true
-      }
       this.$router.replace({
         name: this.$route.name,
         params: { ...this.$route.params },

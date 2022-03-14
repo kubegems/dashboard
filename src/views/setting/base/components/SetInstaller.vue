@@ -36,6 +36,7 @@ import {
   putSystemConfigData,
 } from '@/api'
 import YamlForm from '@/views/resource/components/common/YamlForm'
+import BaseResource from '@/mixins/resource'
 import { deepCopy } from '@/utils/helpers'
 
 export default {
@@ -43,6 +44,7 @@ export default {
   components: {
     YamlForm,
   },
+  mixins: [BaseResource],
   data: () => ({
     dialog: false,
     installer: null,
