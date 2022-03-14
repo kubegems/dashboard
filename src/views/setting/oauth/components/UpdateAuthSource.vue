@@ -29,16 +29,16 @@
             </v-col>
             <v-col cols="6">
               <v-autocomplete
-                v-model="obj.kind"
-                :rules="objRules.kindRule"
-                :items="kindItems"
+                v-model="obj.vendor"
+                :rules="objRules.vendorRule"
+                :items="vendorItems"
                 color="primary"
                 label="类型"
                 hide-selected
                 class="my-0"
                 no-data-text="暂无可选数据"
                 readonly
-                @change="onKindChange"
+                @change="onVendorChange"
               >
                 <template #selection="{ item }">
                   <v-chip
@@ -97,23 +97,28 @@ export default {
     item: null,
     formComponent: 'OauthBaseForm',
     formComponents: {
-      OAUTH: 'OauthBaseForm',
-      LDAP: 'OpenLdapBaseForm',
+      oauth: 'OauthBaseForm',
+      ldap: 'OpenLdapBaseForm',
+      gitlab: 'OauthBaseForm',
+      github: 'OauthBaseForm',
     },
-    kindItems: [
-      { text: 'Oauth', value: 'OAUTH' },
-      { text: 'Ldap', value: 'LDAP' },
+    vendorItems: [
+      { text: 'Oauth', value: 'oauth' },
+      { text: 'Ldap', value: 'ldap' },
+      { text: 'Gitlab', value: 'gitlab' },
+      { text: 'Github', value: 'github' },
     ],
     obj: {
       name: '',
       kind: 'OAUTH',
+      vendor: '',
     },
   }),
   computed: {
     ...mapState(['Circular']),
     objRules() {
       return {
-        kindRule: [required],
+        vendorRule: [required],
         nameRule: [required],
       }
     },
@@ -126,7 +131,7 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     init(item) {
       this.obj = deepCopy(item)
-      this.formComponent = this.formComponents[this.obj.kind]
+      this.formComponent = this.formComponents[this.obj.vendor]
       this.$nextTick(() => {
         this.item = deepCopy(item)
       })
@@ -134,15 +139,20 @@ export default {
     async updateAuthSource() {
       if (this.$refs.form.validate(true) && this.$refs[this.formComponent].$refs.form.validate(true)) {
         if (this.formComponent === 'OauthBaseForm' || this.formComponent === 'OpenLdapBaseForm') {
-          const data = Object.assign(this.obj, this.$refs[this.formComponent].obj)
+          const data = Object.assign(this.obj, this.$refs[this.formComponent].getData())
           await putAuthSourceConfig(this.obj.id, data)
         }
         this.reset()
         this.$emit('refresh')
       }
     },
-    onKindChange() {
-      this.formComponent = this.formComponents[this.obj.kind]
+    onVendorChange() {
+      if (['oauth', 'gitlab', 'github'].indexOf(this.obj.vendor) > -1) {
+        this.obj.kind = 'OAUTH'
+      } else {
+        this.obj.kind = 'LDAP'
+      }
+      this.formComponent = this.formComponents[this.obj.vendor]
     },
     reset() {
       this.dialog = false

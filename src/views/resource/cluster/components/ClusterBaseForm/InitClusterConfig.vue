@@ -34,22 +34,38 @@
           />
         </v-col>
         <v-col cols="6">
-          <v-text-field
+          <v-autocomplete
             v-model="obj.ImageRepo"
-            required
-            label="默认仓库地址"
+            :search-input.sync="imageRepoText"
+            :items="imageRepoItems"
             :rules="objRules.ImageRepoRules"
-          />
+            color="primary"
+            label="镜像仓库"
+            hide-selected
+            no-data-text="暂无可选数据"
+            @keyup.enter="onCreateImageRepo"
+          >
+            <template #selection="{ item }">
+              <v-chip
+                color="primary"
+                small
+              >
+                {{ item['text'] }}
+              </v-chip>
+            </template>
+          </v-autocomplete>
         </v-col>
         <v-col cols="6">
           <v-autocomplete
             v-model="obj.DefaultStorageClass"
+            :search-input.sync="storageClassText"
             :items="storageClassItems"
             :rules="objRules.StorageClassesRules"
             color="primary"
-            label="默认存储类型"
+            label="存储卷类型"
             hide-selected
             no-data-text="暂无可选数据"
+            @keyup.enter="onCreateStorageClass"
           >
             <template #selection="{ item }">
               <v-chip
@@ -90,10 +106,14 @@ export default {
       KubeConfig: '',
       Primary: false,
       Vendor: 'selfhosted',
-      ImageRepo: 'docker.io/kubegems',
-      DefaultStorageClass: '',
+      ImageRepo: 'registry.cn-beijing.aliyuncs.com/kubegems',
+      DefaultStorageClass: 'local-path',
       extend: {
         storageClasses: [],
+        imageRepos: [
+          'registry.cn-beijing.aliyuncs.com/kubegems',
+          'docker.io/kubegems',
+        ],
         validate: 'progressing',
         clusterName: '',
         existInstaller: false,
@@ -104,10 +124,15 @@ export default {
       ImageRepoRules: [required],
       StorageClassesRules: [required],
     },
+    storageClassText: '',
+    imageRepoText: '',
   }),
   computed: {
     storageClassItems() {
       return this.obj.extend.storageClasses.map(sc => { return { value: sc, text: sc } })
+    },
+    imageRepoItems() {
+      return this.obj.extend.imageRepos.map(repo => { return { value: repo, text: repo } })
     },
   },
   methods: {
@@ -141,6 +166,22 @@ export default {
         this.obj.ClusterName = this.obj.extend.clusterName
       } else {
         this.obj.ClusterName = ''
+      }
+    },
+    onCreateStorageClass() {
+      const index = this.storageClassItems.findIndex(sc => { return sc.value === this.storageClassText.trim() })
+      if (index === -1) {
+        this.obj.extend.storageClasses.push(this.storageClassText.trim())
+        this.obj.DefaultStorageClass = this.storageClassText.trim()
+        this.storageClassText = ''
+      }
+    },
+    onCreateImageRepo() {
+      const index = this.imageRepoItems.findIndex(sc => { return sc.value === this.imageRepoText.trim() })
+      if (index === -1) {
+        this.obj.extend.imageRepos.push(this.imageRepoText.trim())
+        this.obj.ImageRepo = this.imageRepoText.trim()
+        this.imageRepoText = ''
       }
     },
   },
