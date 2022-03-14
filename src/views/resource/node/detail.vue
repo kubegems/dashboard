@@ -98,7 +98,7 @@
             </template>
             <template
               v-if="
-                Plugins.nvidia_device_plugin &&
+                Plugins && Plugins.nvidia_device_plugin &&
                   node &&
                   node.metadata &&
                   node.metadata.labels['nvidia.com/gpu'] &&
