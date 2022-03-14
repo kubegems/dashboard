@@ -4,6 +4,7 @@
     :ref="steps[step]"
     :item="item"
     :edit="edit"
+    :control="control"
     @refresh="refresh"
   />
 </template>
@@ -32,6 +33,10 @@ export default {
     step: {
       type: Number,
       default: () => 0,
+    },
+    control: {
+      type: Boolean,
+      default: () => false,
     },
   },
   data: () => ({
