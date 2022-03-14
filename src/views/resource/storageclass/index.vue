@@ -26,7 +26,7 @@
                   class="text-h6"
                   @click="addStorageClass"
                 >
-                  <v-icon left>mdi-database-plus</v-icon>
+                  <v-icon left>mdi-plus-box</v-icon>
                   创建存储类型
                 </v-btn>
               </v-list-item-content>

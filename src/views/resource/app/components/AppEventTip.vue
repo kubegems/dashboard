@@ -48,15 +48,16 @@
               class="float-left pa-0"
             >
               <v-list-item-content class="py-0">
-                <v-list-item-title> 应用事件 </v-list-item-title>
-                <v-list-item-content
-                  v-for="(event, index) in events"
-                  :key="index"
-                  class="text-caption kubegems__detail kubegems__break-all"
-                >
-                  事件{{ index + 1 }} {{ event.kind }} {{ item.name }} :
-                  {{ event.message }}
-                </v-list-item-content>
+                <template v-for="(event, index) in events">
+                  <v-list-item-title :key="`t${index}`"> 事件 {{ index + 1 }} </v-list-item-title>
+                  <v-list-item-content
+                    :key="index"
+                    class="text-caption kubegems__detail kubegems__break-all"
+                  >
+                    {{ event.kind }} {{ item.name }} :
+                    {{ event.message }}
+                  </v-list-item-content>
+                </template>
               </v-list-item-content>
             </v-list-item>
           </v-list-item-content>
