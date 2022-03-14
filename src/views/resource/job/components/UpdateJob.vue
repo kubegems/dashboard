@@ -19,7 +19,7 @@
     </template>
     <template #action>
       <v-btn
-        v-if="step === totalStep - 1 || formComponent === 'YamlForm'"
+        v-if="step === totalStep - 1 || formComponent === 'BaseYamlForm'"
         class="float-right mx-2"
         color="primary"
         text
@@ -29,7 +29,7 @@
         确定
       </v-btn>
       <v-btn
-        v-if="step >= 0 && step < totalStep - 1 && formComponent !== 'YamlForm'"
+        v-if="step >= 0 && step < totalStep - 1 && formComponent !== 'BaseYamlForm'"
         class="float-right mx-2"
         color="primary"
         text
@@ -38,7 +38,7 @@
         下一步
       </v-btn>
       <v-btn
-        v-if="step > 0 && step <= totalStep - 1 && formComponent !== 'YamlForm'"
+        v-if="step > 0 && step <= totalStep - 1 && formComponent !== 'BaseYamlForm'"
         class="float-right mx-2"
         color="primary"
         text
@@ -71,7 +71,6 @@
 import { mapState } from 'vuex'
 import { patchUpdateJob, getJobDetail } from '@/api'
 import JobBaseForm from './JobBaseForm'
-import YamlForm from '@/views/resource/components/common/YamlForm'
 import BaseResource from '@/mixins/resource'
 import JobSchema from '@/views/resource/job/mixins/schema'
 import { deepCopy, randomString } from '@/utils/helpers'
@@ -79,7 +78,6 @@ import { deepCopy, randomString } from '@/utils/helpers'
 export default {
   name: 'UpdateJob',
   components: {
-    YamlForm,
     JobBaseForm,
   },
   mixins: [BaseResource, JobSchema],
@@ -103,7 +101,7 @@ export default {
     async updateJob() {
       if (this.$refs[this.formComponent].$refs.form.validate(true)) {
         let data = ''
-        if (this.formComponent === 'YamlForm') {
+        if (this.formComponent === 'BaseYamlForm') {
           data = this.$refs[this.formComponent].kubeyaml
           data = this.$yamlload(data)
           if (!this.m_resource_checkDataWithNS(data, this.item.metadata.namespace)) return
@@ -144,7 +142,7 @@ export default {
             ? this.item.metadata.namespace
             : this.ThisNamespace,
         )
-        this.formComponent = 'YamlForm'
+        this.formComponent = 'BaseYamlForm'
         this.$nextTick(() => {
           this.$refs[this.formComponent].setYaml(this.$yamldump(data))
         })

@@ -1,9 +1,9 @@
 import { tenantEnvironmentSelectData, namespaceSelectData } from '@/api'
 
-async function getNamespaceItems (admin, cluster, tenant) {
+async function getNamespaceItems(admin, cluster, tenant) {
   let items = []
   if (admin && cluster) {
-    const data = await namespaceSelectData(cluster, { size: 999, noprocessing: true })
+    const data = await namespaceSelectData(cluster, { size: 1000, noprocessing: true })
     items = (data.List || []).map(item => {
       return {
         text: item.metadata.name,
@@ -11,7 +11,7 @@ async function getNamespaceItems (admin, cluster, tenant) {
       }
     })
   } else {
-    const data = await tenantEnvironmentSelectData(tenant, { size: 999, noprocessing: true })
+    const data = await tenantEnvironmentSelectData(tenant, { size: 1000, noprocessing: true })
     items = (data.List || []).map(item => {
       return {
         text: item.Namespace,

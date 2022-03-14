@@ -47,7 +47,6 @@
 <script>
 import { mapState } from 'vuex'
 import { postAddServiceMonitor } from '@/api'
-import YamlForm from '@/views/resource/components/common/YamlForm'
 import ServiceMonitorBaseForm from './ServiceMonitorBaseForm'
 import BaseResource from '@/mixins/resource'
 import ServiceMonitorSchema from '@/views/resource/servicemonitor/mixins/schema'
@@ -56,7 +55,6 @@ import { randomString } from '@/utils/helpers'
 export default {
   name: 'AddServiceMonitor',
   components: {
-    YamlForm,
     ServiceMonitorBaseForm,
   },
   mixins: [BaseResource, ServiceMonitorSchema],
@@ -77,7 +75,7 @@ export default {
     async addServiceMonitor() {
       if (this.$refs[this.formComponent].$refs.form.validate(true)) {
         let data = ''
-        if (this.formComponent === 'YamlForm') {
+        if (this.formComponent === 'BaseYamlForm') {
           data = this.$refs[this.formComponent].kubeyaml
           data = this.$yamlload(data)
           if (
@@ -112,7 +110,7 @@ export default {
     onYamlSwitchChange() {
       if (this.yaml) {
         const data = this.$refs[this.formComponent].obj
-        this.formComponent = 'YamlForm'
+        this.formComponent = 'BaseYamlForm'
         this.$nextTick(() => {
           this.$refs[this.formComponent].setYaml(this.$yamldump(data))
         })

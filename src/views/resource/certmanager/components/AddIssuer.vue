@@ -48,7 +48,6 @@
 import { mapState } from 'vuex'
 import { postAddIssuer } from '@/api'
 import IssuerBaseForm from './IssuerBaseForm'
-import YamlForm from '@/views/resource/components/common/YamlForm'
 import BaseResource from '@/mixins/resource'
 import IssuerSchema from '@/views/resource/certmanager/mixins/issuerSchema'
 import { randomString } from '@/utils/helpers'
@@ -57,7 +56,6 @@ export default {
   name: 'AddIssuer',
   components: {
     IssuerBaseForm,
-    YamlForm,
   },
   mixins: [BaseResource, IssuerSchema],
   data: () => ({
@@ -77,7 +75,7 @@ export default {
     async addIssuer() {
       if (this.$refs[this.formComponent].$refs.form.validate(true)) {
         let data = ''
-        if (this.formComponent === 'YamlForm') {
+        if (this.formComponent === 'BaseYamlForm') {
           data = this.$refs[this.formComponent].kubeyaml
           data = this.$yamlload(data)
           if (!this.m_resource_validateJsonSchema(this.schema, data)) {
@@ -106,7 +104,7 @@ export default {
           data,
           this.AdminViewport ? data?.metadata?.namespace : this.ThisNamespace,
         )
-        this.formComponent = 'YamlForm'
+        this.formComponent = 'BaseYamlForm'
         this.$nextTick(() => {
           this.$refs[this.formComponent].setYaml(this.$yamldump(data))
         })

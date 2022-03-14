@@ -50,7 +50,6 @@
 import { mapState } from 'vuex'
 import { patchUpdateServiceMonitor, getServiceMonitorDetail } from '@/api'
 import ServiceMonitorBaseForm from './ServiceMonitorBaseForm'
-import YamlForm from '@/views/resource/components/common/YamlForm'
 import BaseResource from '@/mixins/resource'
 import ServiceMonitorSchema from '@/views/resource/servicemonitor/mixins/schema'
 import { deepCopy, randomString } from '@/utils/helpers'
@@ -58,7 +57,6 @@ import { deepCopy, randomString } from '@/utils/helpers'
 export default {
   name: 'UpdateServiceMonitor',
   components: {
-    YamlForm,
     ServiceMonitorBaseForm,
   },
   mixins: [BaseResource, ServiceMonitorSchema],
@@ -80,7 +78,7 @@ export default {
     async updateServiceMonitor() {
       if (this.$refs[this.formComponent].$refs.form.validate(true)) {
         let data = ''
-        if (this.formComponent === 'YamlForm') {
+        if (this.formComponent === 'BaseYamlForm') {
           data = this.$refs[this.formComponent].kubeyaml
           data = this.$yamlload(data)
           if (!this.m_resource_checkDataWithNS(data, this.item.metadata.namespace)) return
@@ -115,7 +113,7 @@ export default {
     onYamlSwitchChange() {
       if (this.yaml) {
         const data = this.$refs[this.formComponent].obj
-        this.formComponent = 'YamlForm'
+        this.formComponent = 'BaseYamlForm'
         this.$nextTick(() => {
           this.$refs[this.formComponent].setYaml(this.$yamldump(data))
         })

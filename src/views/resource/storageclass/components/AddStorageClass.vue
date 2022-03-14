@@ -7,7 +7,7 @@
     @reset="reset"
   >
     <template #content>
-      <YamlForm
+      <BaseYamlForm
         ref="yamlForm"
         title="StorageClass"
       />
@@ -32,14 +32,10 @@
 <script>
 import { mapState } from 'vuex'
 import { postAddStorageClass } from '@/api'
-import YamlForm from '@/views/resource/components/common/YamlForm'
 import BaseResource from '@/mixins/resource'
 
 export default {
   name: 'AddStorageClass',
-  components: {
-    YamlForm,
-  },
   mixins: [BaseResource],
   data: () => ({
     dialog: false,

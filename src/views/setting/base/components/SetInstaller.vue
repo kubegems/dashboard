@@ -35,21 +35,17 @@ import {
   getSystemConfigData,
   putSystemConfigData,
 } from '@/api'
-import YamlForm from '@/views/resource/components/common/YamlForm'
 import BaseResource from '@/mixins/resource'
 import { deepCopy } from '@/utils/helpers'
 
 export default {
   name: 'SetInstaller',
-  components: {
-    YamlForm,
-  },
   mixins: [BaseResource],
   data: () => ({
     dialog: false,
     installer: null,
     item: null,
-    formComponent: 'YamlForm',
+    formComponent: 'BaseYamlForm',
   }),
   computed: {
     ...mapState(['Circular']),
@@ -62,7 +58,7 @@ export default {
     async updateSystemConfig() {
       if (this.$refs[this.formComponent].$refs.form.validate(true)) {
         let data = ''
-        if (this.formComponent === 'YamlForm') {
+        if (this.formComponent === 'BaseYamlForm') {
           data = this.$refs[this.formComponent].kubeyaml
           data = this.$yamlload(data)
           data = this.m_resource_beautifyData(data)
@@ -87,7 +83,7 @@ export default {
     reset() {
       this.dialog = false
       this.$refs[this.formComponent].reset()
-      this.formComponent = 'YamlForm'
+      this.formComponent = 'BaseYamlForm'
     },
   },
 }

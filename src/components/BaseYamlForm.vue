@@ -25,7 +25,7 @@
 import { mapState } from 'vuex'
 
 export default {
-  name: 'YamlForm',
+  name: 'BaseYamlForm',
   props: {
     title: {
       type: String,

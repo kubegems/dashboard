@@ -31,21 +31,19 @@
 import { mapGetters, mapState } from 'vuex'
 import { postAddIstioGateway } from '@/api'
 import IstioGatewayBaseForm from './IstioGatewayBaseForm'
-import YamlForm from '@/views/resource/components/common/YamlForm'
 import BaseResource from '@/mixins/resource'
 import IstioGatewaySchema from '@/views/microservice/service/mixins/schema'
 
 export default {
   name: 'AddIstioGateway',
   components: {
-    YamlForm,
     IstioGatewayBaseForm,
   },
   mixins: [BaseResource, IstioGatewaySchema],
   data: () => ({
     dialog: false,
     yaml: false,
-    formComponent: 'YamlForm',
+    formComponent: 'BaseYamlForm',
   }),
   computed: {
     ...mapState(['Circular', 'EnvironmentFilter']),
@@ -59,7 +57,7 @@ export default {
     async addIstioGateway() {
       if (this.$refs[this.formComponent].$refs.form.validate(true)) {
         let data = ''
-        if (this.formComponent === 'YamlForm') {
+        if (this.formComponent === 'BaseYamlForm') {
           data = this.$refs[this.formComponent].kubeyaml
           data = this.$yamlload(data)
           if (!this.m_resource_validateJsonSchema(this.gatewayschema, data)) {
@@ -84,7 +82,7 @@ export default {
     reset() {
       this.dialog = false
       this.$refs[this.formComponent].reset()
-      this.formComponent = 'YamlForm'
+      this.formComponent = 'BaseYamlForm'
       this.yaml = false
     },
   },
