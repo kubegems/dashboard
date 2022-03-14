@@ -31,21 +31,19 @@
 import { mapState } from 'vuex'
 import { postAddIstioVirtualService } from '@/api'
 import IstioVirtualServiceBaseForm from './IstioVirtualServiceBaseForm'
-import YamlForm from '@/views/resource/components/common/YamlForm'
 import BaseResource from '@/mixins/resource'
 import IstioVirtualServiceSchema from '@/views/microservice/service/mixins/schema'
 
 export default {
   name: 'AddIstioVirtualService',
   components: {
-    YamlForm,
     IstioVirtualServiceBaseForm,
   },
   mixins: [BaseResource, IstioVirtualServiceSchema],
   data: () => ({
     dialog: false,
     yaml: false,
-    formComponent: 'YamlForm',
+    formComponent: 'BaseYamlForm',
   }),
   computed: {
     ...mapState(['Circular', 'EnvironmentFilter']),
@@ -58,7 +56,7 @@ export default {
     async addIstioVirtualService() {
       if (this.$refs[this.formComponent].$refs.form.validate(true)) {
         let data = ''
-        if (this.formComponent === 'YamlForm') {
+        if (this.formComponent === 'BaseYamlForm') {
           data = this.$refs[this.formComponent].kubeyaml
           data = this.$yamlload(data)
           if (!this.m_resource_validateJsonSchema(this.virtualserviceschema, data)) {
@@ -83,7 +81,7 @@ export default {
     reset() {
       this.dialog = false
       this.$refs[this.formComponent].reset()
-      this.formComponent = 'YamlForm'
+      this.formComponent = 'BaseYamlForm'
       this.yaml = false
     },
   },

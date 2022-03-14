@@ -223,6 +223,7 @@ export default new Vuex.Store({
     CLEAR_VIRTUAL_SPACE(state) {
       window.localStorage.removeItem(VirtualSpaceStore)
       state.VirtualSpaceStore = []
+      state.EnvironmentFilter = null
     },
     CLEAR_RESOURCE(state) {
       window.localStorage.removeItem(ProjectStore)

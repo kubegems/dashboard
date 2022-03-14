@@ -210,7 +210,7 @@ export default {
         case 'statefulset': action = getStatefulSetList; break
         case 'daemonset': action = getDaemonSetList; break
       }
-      const params = [this.cluster, this.formData.target_namespace, { size: 999, noprocessing: true }]
+      const params = [this.cluster, this.formData.target_namespace, { size: 1000, noprocessing: true }]
       const data = await action(...params)
       this.targetNameItems = (data.List || []).map(item => {
         return {

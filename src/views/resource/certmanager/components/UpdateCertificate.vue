@@ -50,7 +50,6 @@
 import { mapState } from 'vuex'
 import { patchUpdateCertificate, getCertificateDetail } from '@/api'
 import CertificateBaseForm from './CertificateBaseForm'
-import YamlForm from '@/views/resource/components/common/YamlForm'
 import BaseResource from '@/mixins/resource'
 import CertmanagerSchema from '@/views/resource/certmanager/mixins/schema'
 import { deepCopy, randomString } from '@/utils/helpers'
@@ -59,7 +58,6 @@ export default {
   name: 'Updatecertificate',
   components: {
     CertificateBaseForm,
-    YamlForm,
   },
   mixins: [BaseResource, CertmanagerSchema],
   data: () => ({
@@ -87,7 +85,7 @@ export default {
           return
         }
         let data = ''
-        if (this.formComponent === 'YamlForm') {
+        if (this.formComponent === 'BaseYamlForm') {
           data = this.$refs[this.formComponent].kubeyaml
           data = this.$yamlload(data)
           if (!this.m_resource_validateJsonSchema(this.schema, data)) {
@@ -132,7 +130,7 @@ export default {
             ? this.item.metadata.namespace
             : this.ThisNamespace,
         )
-        this.formComponent = 'YamlForm'
+        this.formComponent = 'BaseYamlForm'
         this.$nextTick(() => {
           this.$refs[this.formComponent].setYaml(this.$yamldump(data))
         })

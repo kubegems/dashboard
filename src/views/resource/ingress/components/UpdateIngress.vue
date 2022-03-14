@@ -49,7 +49,6 @@
 <script>
 import { mapState } from 'vuex'
 import { patchUpdateIngress, getIngressDetail } from '@/api'
-import YamlForm from '@/views/resource/components/common/YamlForm'
 import IngressBaseForm from './IngressBaseForm'
 import BaseResource from '@/mixins/resource'
 import IngressSchema from '@/views/resource/ingress/mixins/schema'
@@ -59,7 +58,6 @@ export default {
   name: 'AddIngress',
   components: {
     IngressBaseForm,
-    YamlForm,
   },
   mixins: [BaseResource, IngressSchema],
   data: () => ({
@@ -90,7 +88,7 @@ export default {
       }
       if (this.$refs[this.formComponent].$refs.form.validate(true)) {
         let data = ''
-        if (this.formComponent === 'YamlForm') {
+        if (this.formComponent === 'BaseYamlForm') {
           data = this.$refs[this.formComponent].kubeyaml
           data = this.$yamlload(data)
           if (!this.m_resource_checkDataWithNS(data, this.item.metadata.namespace)) return
@@ -131,7 +129,7 @@ export default {
             ? this.item.metadata.namespace
             : this.ThisNamespace,
         )
-        this.formComponent = 'YamlForm'
+        this.formComponent = 'BaseYamlForm'
         this.$nextTick(() => {
           this.$refs[this.formComponent].setYaml(this.$yamldump(data))
         })

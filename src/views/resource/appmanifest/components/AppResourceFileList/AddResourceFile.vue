@@ -19,7 +19,7 @@
     </template>
     <template #action>
       <v-btn
-        v-if="step === totalStep - 1 || formComponent === 'YamlForm'"
+        v-if="step === totalStep - 1 || formComponent === 'BaseYamlForm'"
         class="float-right mx-2"
         color="primary"
         text
@@ -29,7 +29,7 @@
         确定
       </v-btn>
       <v-btn
-        v-if="step >= 0 && step < totalStep - 1 && formComponent !== 'YamlForm'"
+        v-if="step >= 0 && step < totalStep - 1 && formComponent !== 'BaseYamlForm'"
         class="float-right mx-2"
         color="primary"
         text
@@ -38,7 +38,7 @@
         下一步
       </v-btn>
       <v-btn
-        v-if="step > 0 && step <= totalStep - 1 && formComponent !== 'YamlForm'"
+        v-if="step > 0 && step <= totalStep - 1 && formComponent !== 'BaseYamlForm'"
         class="float-right mx-2"
         color="primary"
         text
@@ -71,14 +71,12 @@
 import { mapState } from 'vuex'
 import { patchAppResourceFile } from '@/api'
 import AppResourceBaseForm from './AppResourceBaseForm'
-import YamlForm from '@/views/resource/components/common/YamlForm'
 import BaseResource from '@/mixins/resource'
 import { deepCopy, randomString } from '@/utils/helpers'
 
 export default {
   name: 'AddResourceFile',
   components: {
-    YamlForm,
     AppResourceBaseForm,
   },
   mixins: [BaseResource],
@@ -104,7 +102,7 @@ export default {
     async addResourceFile() {
       if (this.$refs[this.formComponent].validate()) {
         let data = ''
-        if (this.formComponent === 'YamlForm') {
+        if (this.formComponent === 'BaseYamlForm') {
           data = this.$refs[this.formComponent].kubeyaml
           const jsondata = this.$yamlload(data)
           const mixinjson = require(`@/views/resource/${
@@ -162,7 +160,7 @@ export default {
     onYamlSwitchChange() {
       if (this.yaml) {
         const data = this.$refs[this.formComponent].obj
-        this.formComponent = 'YamlForm'
+        this.formComponent = 'BaseYamlForm'
         this.$nextTick(() => {
           this.$refs[this.formComponent].setYaml(this.$yamldump(data))
         })

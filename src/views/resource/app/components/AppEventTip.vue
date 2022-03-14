@@ -126,10 +126,7 @@ export default {
         )
         this.events = []
         if (
-          data &&
-          data.liveState &&
-          data.liveState.status.operationState &&
-          data.liveState.status.operationState.syncResult.resources
+          data?.liveState?.status?.operationState?.syncResult?.resources
         ) {
           this.events = this.events.concat(
             data.liveState.status.operationState.syncResult.resources.filter(
