@@ -62,7 +62,7 @@
                   class="mt-4"
                   required
                   outlined
-                  @keyup.enter="login"
+                  @keyup.enter="login('account')"
                 />
                 <v-text-field
                   v-model="password"
