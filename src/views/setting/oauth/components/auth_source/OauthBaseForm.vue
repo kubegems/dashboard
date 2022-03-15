@@ -185,9 +185,9 @@ export default {
   mounted() {
     if (!this.edit) {
       this.obj.config.redirectURL = `https://${window.location.host}/oauth/callback`
-    }
-    if (this.vendor === 'gitlab' || this.vendor === 'github') {
-      this.scopeList()
+      if (this.vendor === 'gitlab' || this.vendor === 'github') {
+        this.scopeList()
+      }
     }
   },
   methods: {
