@@ -123,6 +123,7 @@ import SideDetail from '@/views/observe/log/operator/components/SideDetail'
 import InputForm from './components/InputForm'
 import FilterForm from './components/FilterForm'
 import OutputForm from './components/OutputForm'
+import YamlForm from '@/views/observe/log/operator/components/YamlForm'
 import BaseResource from '@/mixins/resource'
 import FlowSchema from './mixins/schema'
 
@@ -133,6 +134,7 @@ export default {
     InputForm,
     FilterForm,
     OutputForm,
+    YamlForm,
   },
   mixins: [BaseResource, FlowSchema],
   data () {
@@ -146,7 +148,7 @@ export default {
       { text: 'Input', value: 'InputForm' },
       { text: 'Filter', value: 'FilterForm' },
       { text: 'Output', value: 'OutputForm' },
-      { text: 'Yaml', value: 'BaseYamlForm' },
+      { text: 'Yaml', value: 'YamlForm' },
     ]
 
     return {
