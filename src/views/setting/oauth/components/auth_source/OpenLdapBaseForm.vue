@@ -8,28 +8,6 @@
     <v-card-text class="pa-2">
       <v-row>
         <v-col cols="6">
-          <v-autocomplete
-            v-model="obj.tokenType"
-            :items="tokenTypeItems"
-            :rules="objRules.tokenTypeRule"
-            color="primary"
-            label="token类型"
-            hide-selected
-            class="my-0"
-            no-data-text="暂无可选数据"
-          >
-            <template #selection="{ item }">
-              <v-chip
-                color="primary"
-                small
-                class="ma-1"
-              >
-                {{ item['text'] }}
-              </v-chip>
-            </template>
-          </v-autocomplete>
-        </v-col>
-        <v-col cols="6">
           <v-text-field
             v-model="obj.config.ldapaddr"
             :rules="objRules.ldapaddrRule"
@@ -103,9 +81,6 @@ export default {
   },
   data: () => ({
     valid: false,
-    tokenTypeItems: [
-      { text: 'Bearer', value: 'Bearer' },
-    ],
     show: false,
     obj: {
       config: {
@@ -116,7 +91,7 @@ export default {
         ldapaddr: '',
         filter: '',
       },
-      tokenType: '',
+      tokenType: 'Bearer',
     },
   }),
   computed: {
@@ -143,8 +118,6 @@ export default {
     reset() {
       this.$refs.form.reset()
     },
-    // eslint-disable-next-line vue/no-unused-properties
-    setCallback() {},
     // eslint-disable-next-line vue/no-unused-properties
     getData() {
       return this.obj

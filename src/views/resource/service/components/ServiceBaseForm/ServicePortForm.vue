@@ -109,7 +109,7 @@ export default {
         nameRule: [
           (v) =>
             !!new RegExp(
-              '^(http)([-\\w]+)?$|^(https)([-\\w]+)?$|^(http2)([-\\w]+)?$|^(grpc)([-\\w]+)?$|^(tcp)([-\\w]+)?$|^(tls)([-\\w]+)?$|^(mongo)([-\\w]+)?$|^(mysql)([-\\w]+)?$|^(redis)([-\\w]+)?$',
+              '^(http)([-\\w]+)?$|^(https)([-\\w]+)?$|^(http2)([-\\w]+)?$|^(grpc)([-\\w]+)?$|^(tcp)([-\\w]+)?$|^(udp)([-\\w]+)?$|^(tls)([-\\w]+)?$|^(mongo)([-\\w]+)?$|^(mysql)([-\\w]+)?$|^(redis)([-\\w]+)?$',
               'g',
             ).test(v) || '名称格式错误（<protocol>[-<suffix>]）',
         ],

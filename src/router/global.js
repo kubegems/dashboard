@@ -16,7 +16,7 @@ export const global = [
     },
   },
   {
-    path: '/oauth/callback/:source',
+    path: '/oauth/callback',
     name: 'callback',
     component: () => import('@/views/authentication/callback'),
     meta: { requireAuth: false },

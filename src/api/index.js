@@ -16,8 +16,8 @@ axios.interceptors.request.use(function (config) {
       '/white/page',
       '/white/tenant',
       '/whitecluster/cluster',
-    ].indexOf(window.location.pathname) === -1 &&
-    !window.location.pathname.startsWith('/oauth/callback/')
+      '/oauth/callback',
+    ].indexOf(window.location.pathname) === -1
   ) {
     store.commit('CLEARALL')
     window.localStorage.clear()
@@ -155,7 +155,7 @@ axios.interceptors.response.use(
               },
             })
           }
-          if (window.location.pathname.startsWith('/oauth/callback/')) {
+          if (window.location.pathname.startsWith('/oauth/callback')) {
             router.push({
               name: 'login',
             })
