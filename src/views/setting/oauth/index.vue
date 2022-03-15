@@ -90,6 +90,7 @@
 <script>
 import { getAuthSourceConfigList, putAuthSourceConfig } from '@/api'
 import ConfigAuthSource from './components/ConfigAuthSource'
+import { deepCopy } from '@/utils/helpers'
 
 export default {
   name: 'OAuthSetting',
@@ -171,7 +172,8 @@ export default {
         },
         param: { item },
         doFunc: async (param) => {
-          await putAuthSourceConfig(param.item.id, Object.assign(param.item, { enabled: !param.item.enabled }))
+          const data = deepCopy(param.item)
+          await putAuthSourceConfig(param.item.id, Object.assign(data, { enabled: !param.item.enabled }))
           this.oauthSourceConfigList()
         },
       })
