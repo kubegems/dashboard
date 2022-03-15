@@ -80,12 +80,8 @@
       </v-col>
     </v-row>
 
-    <AddAuthSource
-      ref="addAuthSource"
-      @refresh="oauthSourceConfigList"
-    />
-    <UpdateAuthSource
-      ref="updateAuthSource"
+    <ConfigAuthSource
+      ref="configAuthSource"
       @refresh="oauthSourceConfigList"
     />
   </v-container>
@@ -93,14 +89,12 @@
 
 <script>
 import { getAuthSourceConfigList, putAuthSourceConfig } from '@/api'
-import AddAuthSource from './components/AddAuthSource'
-import UpdateAuthSource from './components/UpdateAuthSource'
+import ConfigAuthSource from './components/ConfigAuthSource'
 
 export default {
   name: 'OAuthSetting',
   components: {
-    AddAuthSource,
-    UpdateAuthSource,
+    ConfigAuthSource,
   },
   data: () => ({
     breadcrumb: {
@@ -160,13 +154,12 @@ export default {
       })
     },
     configAuthSource(item) {
-      if (item.id) {
-        this.$refs.updateAuthSource.init(item)
-        this.$refs.updateAuthSource.open()
+      if (item.id > 0) {
+        this.$refs.configAuthSource.init(item, true)
       } else {
-        this.$refs.addAuthSource.init(item)
-        this.$refs.addAuthSource.open()
+        this.$refs.configAuthSource.init(item, false)
       }
+      this.$refs.configAuthSource.open()
     },
     async operateAuthSource(item) {
       this.$store.commit('SET_CONFIRM', {

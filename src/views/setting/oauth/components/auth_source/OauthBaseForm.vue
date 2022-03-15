@@ -12,11 +12,11 @@
           cols="6"
         >
           <v-text-field
-            v-model="gitlabURL"
-            :rules="objRules.gitlabURLRule"
+            v-model="gitlabDomain"
+            :rules="objRules.gitlabDomainRule"
             class="my-0"
             required
-            label="GitLab URL"
+            label="GitLab Domain"
           />
         </v-col>
         <v-col cols="6">
@@ -140,7 +140,7 @@ export default {
     valid: false,
     scopes: [],
     scopeText: '',
-    gitlabURL: 'gitlab.com',
+    gitlabDomain: 'gitlab.com',
     obj: {
       config: {
         appID: '',
@@ -164,7 +164,7 @@ export default {
         authURLRule: [required],
         userInfoURLRule: [required],
         tokenURLRule: [required],
-        gitlabURLRule: [(v) => !!new RegExp('^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}$', 'g').test(v) ||
+        gitlabDomainRule: [(v) => !!new RegExp('^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}$', 'g').test(v) ||
           '格式错误'],
       }
     },
@@ -178,7 +178,7 @@ export default {
       const reg = new RegExp('((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}', 'g')
       const matchDomain = this.obj.config.authURL.match(reg)
       if (matchDomain && matchDomain.length > 0) {
-        this.gitlabURL = matchDomain[0]
+        this.gitlabDomain = matchDomain[0]
       }
     },
   },
@@ -207,9 +207,9 @@ export default {
     },
     replaceDomain() {
       const reg = new RegExp('((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}', 'g')
-      this.obj.config.authURL = this.obj.config.authURL.replace(reg, this.gitlabURL)
-      this.obj.config.userInfoURL = this.obj.config.userInfoURL.replace(reg, this.gitlabURL)
-      this.obj.config.tokenURL = this.obj.config.tokenURL.replace(reg, this.gitlabURL)
+      this.obj.config.authURL = this.obj.config.authURL.replace(reg, this.gitlabDomain)
+      this.obj.config.userInfoURL = this.obj.config.userInfoURL.replace(reg, this.gitlabDomain)
+      this.obj.config.tokenURL = this.obj.config.tokenURL.replace(reg, this.gitlabDomain)
     },
     createScope() {
       if (!this.scopeText) return
@@ -234,7 +234,7 @@ export default {
     },
     // eslint-disable-next-line vue/no-unused-properties
     getData() {
-      this.replaceDomain()
+      if (this.vendor === 'gitlab') { this.replaceDomain() }
       return this.obj
     },
   },

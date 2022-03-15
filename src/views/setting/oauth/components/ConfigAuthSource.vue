@@ -2,12 +2,12 @@
   <BaseDialog
     v-model="dialog"
     :width="1000"
-    title="添加第三方登录"
+    title="配置第三方认证"
     icon="mdi-star"
     @reset="reset"
   >
     <template #content>
-      <BaseSubTitle :title="`${obj.vendor}登录定义`" />
+      <BaseSubTitle :title="`${obj.vendor} 认证定义`" />
       <v-form
         ref="form"
         v-model="valid"
@@ -23,6 +23,7 @@
                 class="my-0"
                 required
                 label="名称"
+                readonly
               />
             </v-col>
           </v-row>
@@ -30,8 +31,9 @@
         <component
           :is="formComponent"
           :ref="formComponent"
-          :vendor="obj.vendor"
           :item="item"
+          :vendor="obj.vendor"
+          :edit="edit"
         />
       </v-form>
     </template>
@@ -41,7 +43,7 @@
         color="primary"
         text
         :loading="Circular"
-        @click="addAuthSource"
+        @click="updateAuthSource"
       >
         确定
       </v-btn>
@@ -51,7 +53,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { postAuthSourceConfig } from '@/api'
+import { putAuthSourceConfig, postAuthSourceConfig } from '@/api'
 import OauthBaseForm from './auth_source/OauthBaseForm'
 import OpenLdapBaseForm from './auth_source/OpenLdapBaseForm'
 import BaseResource from '@/mixins/resource'
@@ -59,7 +61,7 @@ import { required } from '@/utils/rules'
 import { deepCopy } from '@/utils/helpers'
 
 export default {
-  name: 'AddAuthSource',
+  name: 'ConfigAuthSource',
   components: {
     OauthBaseForm,
     OpenLdapBaseForm,
@@ -69,6 +71,7 @@ export default {
     dialog: false,
     valid: false,
     item: null,
+    edit: false,
     formComponent: 'OauthBaseForm',
     formComponents: {
       oauth: 'OauthBaseForm',
@@ -97,15 +100,25 @@ export default {
       this.dialog = true
     },
     // eslint-disable-next-line vue/no-unused-properties
-    init(item) {
+    init(item, edit) {
+      this.edit = edit
       this.obj = deepCopy(item)
       this.formComponent = this.formComponents[this.obj.vendor]
+      if (this.edit) {
+        this.$nextTick(() => {
+          this.item = deepCopy(item)
+        })
+      }
     },
-    async addAuthSource() {
+    async updateAuthSource() {
       if (this.$refs.form.validate(true) && this.$refs[this.formComponent].$refs.form.validate(true)) {
         if (this.formComponent === 'OauthBaseForm' || this.formComponent === 'OpenLdapBaseForm') {
           const data = Object.assign(this.obj, this.$refs[this.formComponent].getData())
-          await postAuthSourceConfig(data)
+          if (this.edit) {
+            await putAuthSourceConfig(this.obj.id, data)
+          } else {
+            await postAuthSourceConfig(data)
+          }
         }
         this.reset()
         this.$emit('refresh')
@@ -115,7 +128,6 @@ export default {
       this.dialog = false
       this.$refs[this.formComponent].reset()
       this.formComponent = ''
-      this.obj = this.$options.data().obj
     },
   },
 }
