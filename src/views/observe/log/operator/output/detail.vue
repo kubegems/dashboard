@@ -120,6 +120,7 @@ import OutputInfoPanel from './components/OutputInfoPanel.vue'
 import LokiForm from './components/LokiForm'
 import ElasticsearchForm from './components/ElasticsearchForm'
 import KafkaForm from './components/KafkaForm'
+import YamlForm from '@/views/observe/log/operator/components/YamlForm'
 import BaseResource from '@/mixins/resource'
 import OutputSchema from './mixins/schema'
 
@@ -130,6 +131,7 @@ export default {
     LokiForm,
     ElasticsearchForm,
     KafkaForm,
+    YamlForm,
   },
   mixins: [BaseResource, OutputSchema],
   data() {
@@ -155,7 +157,7 @@ export default {
       const type = this.getPluginType()
       return (
         type === 'Other' ? [] : [{ text: '插件配置', value: `${type}Form` }]
-      ).concat([{ text: 'Yaml', value: 'BaseYamlForm' }])
+      ).concat([{ text: 'Yaml', value: 'YamlForm' }])
     },
   },
   watch: {

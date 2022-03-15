@@ -89,7 +89,7 @@ axios.interceptors.response.use(
         ['put', 'post', 'patch', 'delete'].indexOf(response.config.method) > -1
       ) {
         store.commit('SET_CIRCULAR', false)
-        if (['cluster/validate-kubeconfig'].indexOf(response.config.url) === -1) {
+        if (['cluster/validate-kubeconfig', 'logqueryhistory'].indexOf(response.config.url) === -1) {
           store.commit('SET_SNACKBAR', {
             text: '操作成功',
             color: 'success',
