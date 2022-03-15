@@ -31,7 +31,7 @@
               <v-list-item-content>
                 <v-list-item-title class="text-h6 mb-1">
                   <a>
-                    {{ item.vendor }}
+                    {{ dn[item.vendor] }}
                   </a>
                 </v-list-item-title>
                 <v-list-item-subtitle>
@@ -108,8 +108,15 @@ export default {
       tip: '基于 oauth2.0/ldap 的第三方认证集成, 用户可进行多种方式登录',
       icon: 'mdi-star',
     },
+    dn: {
+      kubegems: 'Kubegems',
+      oauth: 'Oauth',
+      ldap: 'Ldap',
+      gitlab: 'GitLab',
+      github: 'GitHub',
+    },
     items: [{
-      name: 'kubegems (default)',
+      name: 'Kubegems (default)',
       kind: 'kubegems',
       desc: 'Kubegems 内置的数据库认证',
       enabled: true,
@@ -118,22 +125,22 @@ export default {
     }, {
       name: 'Oauth',
       kind: 'OAUTH',
-      desc: '使您的组织能够使用Oauth协议登录',
+      desc: '使您的组织能够使用 Oauth 协议登录',
       vendor: 'oauth',
     }, {
       name: 'OpenLdap',
       kind: 'LDAP',
-      desc: '使您的组织能够使用Ldap协议登录',
+      desc: '使您的组织能够使用 Ldap 协议登录',
       vendor: 'ldap',
     }, {
-      name: 'Gitlab',
+      name: 'GitLab',
       kind: 'OAUTH',
-      desc: '使您的组织能够使用Gitlab账号登录',
+      desc: '使您的组织能够使用 GitLab 账号登录',
       vendor: 'gitlab',
     }, {
-      name: 'Github',
+      name: 'GitHub',
       kind: 'OAUTH',
-      desc: '使您的组织能够使用Github账号登录',
+      desc: '使您的组织能够使用 GitHub 账号登录',
       vendor: 'github',
     }],
   }),

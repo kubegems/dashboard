@@ -74,7 +74,7 @@
                   :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                   :type="show ? 'text' : 'password'"
                   @click:append="show = !show"
-                  @keyup.enter="login(null)"
+                  @keyup.enter="login('account')"
                 />
 
                 <v-btn
@@ -84,7 +84,7 @@
                   class="mr-4"
                   submit
                   :loading="Circular"
-                  @click="login(null)"
+                  @click="login('account')"
                 >
                   登录
                 </v-btn>

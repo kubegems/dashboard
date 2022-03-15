@@ -44,3 +44,7 @@ export const putAuthSourceConfig = (sourceId, body = {}) =>
 // 删除Oauth配置
 export const deleteAuthSourceConfig = (sourceId) =>
   axios.delete(`authsource/${sourceId}`)
+
+// 获取oauth scope
+export const getOAuthScopeList = (query = {}) =>
+  axios(`system/authsource/predefined`, { params: query })

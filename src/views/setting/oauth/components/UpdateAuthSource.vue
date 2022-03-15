@@ -7,7 +7,7 @@
     @reset="reset"
   >
     <template #content>
-      <BaseSubTitle title="第三方登录定义" />
+      <BaseSubTitle :title="`${obj.vendor}登录定义`" />
       <v-form
         ref="form"
         v-model="valid"
@@ -24,32 +24,7 @@
                 required
                 label="名称"
                 readonly
-                @keyup="onNameInput"
               />
-            </v-col>
-            <v-col cols="6">
-              <v-autocomplete
-                v-model="obj.vendor"
-                :rules="objRules.vendorRule"
-                :items="vendorItems"
-                color="primary"
-                label="类型"
-                hide-selected
-                class="my-0"
-                no-data-text="暂无可选数据"
-                readonly
-                @change="onVendorChange"
-              >
-                <template #selection="{ item }">
-                  <v-chip
-                    color="primary"
-                    small
-                    class="ma-1"
-                  >
-                    {{ item['text'] }}
-                  </v-chip>
-                </template>
-              </v-autocomplete>
             </v-col>
           </v-row>
         </v-card-text>
@@ -57,6 +32,7 @@
           :is="formComponent"
           :ref="formComponent"
           :item="item"
+          :vendor="obj.vendor"
           :edit="true"
         />
       </v-form>
@@ -102,12 +78,6 @@ export default {
       gitlab: 'OauthBaseForm',
       github: 'OauthBaseForm',
     },
-    vendorItems: [
-      { text: 'Oauth', value: 'oauth' },
-      { text: 'Ldap', value: 'ldap' },
-      { text: 'Gitlab', value: 'gitlab' },
-      { text: 'Github', value: 'github' },
-    ],
     obj: {
       name: '',
       kind: 'OAUTH',
@@ -146,21 +116,10 @@ export default {
         this.$emit('refresh')
       }
     },
-    onVendorChange() {
-      if (['oauth', 'gitlab', 'github'].indexOf(this.obj.vendor) > -1) {
-        this.obj.kind = 'OAUTH'
-      } else {
-        this.obj.kind = 'LDAP'
-      }
-      this.formComponent = this.formComponents[this.obj.vendor]
-    },
     reset() {
       this.dialog = false
       this.$refs[this.formComponent].reset()
-      this.formComponent = 'OauthBaseForm'
-    },
-    onNameInput() {
-      this.$refs[this.formComponent].setCallback(this.obj.name)
+      this.formComponent = ''
     },
   },
 }
