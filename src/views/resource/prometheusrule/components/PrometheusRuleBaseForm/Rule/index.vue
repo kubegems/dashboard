@@ -316,6 +316,7 @@ export default {
       this.$refs.alertLevelForm.alertLevel.severity = alertLevel.severity
       this.$nextTick(() => {
         this.$refs.alertLevelForm.init(data)
+        this.expand = true
       })
     },
     removeAlertLevel(index) {

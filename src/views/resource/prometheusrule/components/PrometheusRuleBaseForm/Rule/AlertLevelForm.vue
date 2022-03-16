@@ -28,6 +28,7 @@
                 hide-selected
                 :rules="alertLevelRules.severityRule"
                 no-data-text="暂无可选数据"
+                :readonly="alertLevel.index > -1"
               >
                 <template #selection="{ item }">
                   <v-chip
@@ -167,6 +168,13 @@ export default {
     addData() {
       if (this.$refs.form.validate(true)) {
         if (this.alertLevel.index === -1) {
+          if (this.alertLevelCopy.some(alert => { return alert.severity === this.alertLevel.severity })) {
+            this.$store.commit('SET_SNACKBAR', {
+              text: '该告警级别已存在',
+              color: 'warning',
+            })
+            return
+          }
           const alertLevel = {
             compareOp: this.alertLevel.compareOp,
             compareValue: this.alertLevel.compareValue + '',
@@ -192,6 +200,7 @@ export default {
     },
     // eslint-disable-next-line vue/no-unused-properties
     expandCard() {
+      this.$refs.form.resetValidation()
       this.expand = true
     },
   },
