@@ -8,7 +8,7 @@ m
     @reset="reset"
   >
     <template #content>
-      <YamlForm
+      <BaseYamlForm
         ref="yamlForm"
         :item="item"
         :title="crd ? crd.spec.names.kind : ''"
@@ -34,15 +34,11 @@ m
 <script>
 import { mapState } from 'vuex'
 import { patchUpdateCR, getCrDetail } from '@/api'
-import YamlForm from '@/views/resource/components/common/YamlForm'
 import BaseResource from '@/mixins/resource'
 import { deepCopy } from '@/utils/helpers'
 
 export default {
   name: 'UpdateCR',
-  components: {
-    YamlForm,
-  },
   mixins: [BaseResource],
   data: () => ({
     dialog: false,

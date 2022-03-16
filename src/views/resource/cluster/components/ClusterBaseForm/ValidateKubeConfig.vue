@@ -29,7 +29,7 @@
                     size="50"
                   >
                     <BaseLogo
-                      :icon-name="item.icon"
+                      :icon-name="item.value"
                       :width="40"
                     />
                   </v-list-item-avatar>
@@ -96,17 +96,23 @@ export default {
       KubeConfig: '',
       Primary: false,
       Vendor: 'selfhosted',
-      ImageRepo: 'docker.io/kubegems',
-      DefaultStorageClass: '',
-      status: {
+      ImageRepo: 'registry.cn-beijing.aliyuncs.com/kubegems',
+      DefaultStorageClass: 'local-path',
+      extend: {
         storageClasses: [],
+        imageRepos: [
+          'registry.cn-beijing.aliyuncs.com/kubegems',
+          'docker.io/kubegems',
+        ],
         validate: 'progressing',
+        clusterName: '',
+        existInstaller: false,
       },
     },
     vendorItems: [
-      { vendor: 'Kubernetes Self-host', value: 'selfhosted', icon: 'selfhosted' },
-      { vendor: 'Aliyun ACK', value: 'aliyun', icon: 'aliyun' },
-      { vendor: 'GoogleCloud GKE', value: 'gke', icon: 'gke' },
+      { vendor: 'Kubernetes Self-host', value: 'selfhosted' },
+      { vendor: 'Aliyun ACK', value: 'ack' },
+      { vendor: 'GoogleCloud GKE', value: 'gke' },
     ],
   }),
   computed: {
@@ -139,8 +145,8 @@ export default {
       return this.obj
     },
     // eslint-disable-next-line vue/no-unused-properties
-    getStatus() {
-      return this.obj.status
+    getExtend() {
+      return this.obj.extend
     },
   },
 }

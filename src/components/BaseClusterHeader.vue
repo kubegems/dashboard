@@ -12,6 +12,7 @@
           transition="scale-transition"
           nudge-bottom="5px"
           content-class="cluster-header__bg"
+          max-height="300px"
         >
           <template #activator="{ on }">
             <v-btn

@@ -1,5 +1,5 @@
 <template>
-  <YamlForm
+  <BaseYamlForm
     ref="yamlForm"
     :title="title"
     :item="data"
@@ -7,13 +7,8 @@
 </template>
 
 <script>
-import YamlForm from '@/views/resource/components/common/YamlForm'
-
 export default {
   name: 'LogYamlForm',
-  components: {
-    YamlForm,
-  },
   props: {
     data: {
       type: Object,

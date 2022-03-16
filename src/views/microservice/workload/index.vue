@@ -388,7 +388,7 @@ export default {
         { text: '命名空间', value: 'namespace', align: 'start' },
         { text: '版本', value: 'istioVersion', align: 'start' },
         { text: '副本状态', value: 'status', align: 'start' },
-        { text: '标签', value: 'labels', align: 'start', width: 400 },
+        { text: '标签', value: 'labels', align: 'start', width: 450 },
       ]
       if (this.m_permisson_virtualSpaceAllow) {
         items.push({ text: '', value: 'action', align: 'end', width: 10 })

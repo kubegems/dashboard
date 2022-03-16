@@ -2,12 +2,12 @@
   <BaseDialog
     v-model="dialog"
     :width="1000"
-    title="配置第三方登录"
+    title="配置第三方认证"
     icon="mdi-star"
     @reset="reset"
   >
     <template #content>
-      <BaseSubTitle title="第三方登录定义" />
+      <BaseSubTitle :title="`${obj.vendor} 认证定义`" />
       <v-form
         ref="form"
         v-model="valid"
@@ -24,32 +24,7 @@
                 required
                 label="名称"
                 readonly
-                @keyup="onNameInput"
               />
-            </v-col>
-            <v-col cols="6">
-              <v-autocomplete
-                v-model="obj.kind"
-                :rules="objRules.kindRule"
-                :items="kindItems"
-                color="primary"
-                label="类型"
-                hide-selected
-                class="my-0"
-                no-data-text="暂无可选数据"
-                readonly
-                @change="onKindChange"
-              >
-                <template #selection="{ item }">
-                  <v-chip
-                    color="primary"
-                    small
-                    class="ma-1"
-                  >
-                    {{ item['text'] }}
-                  </v-chip>
-                </template>
-              </v-autocomplete>
             </v-col>
           </v-row>
         </v-card-text>
@@ -57,7 +32,8 @@
           :is="formComponent"
           :ref="formComponent"
           :item="item"
-          :edit="true"
+          :vendor="obj.vendor"
+          :edit="edit"
         />
       </v-form>
     </template>
@@ -77,7 +53,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { putAuthSourceConfig } from '@/api'
+import { putAuthSourceConfig, postAuthSourceConfig } from '@/api'
 import OauthBaseForm from './auth_source/OauthBaseForm'
 import OpenLdapBaseForm from './auth_source/OpenLdapBaseForm'
 import BaseResource from '@/mixins/resource'
@@ -85,7 +61,7 @@ import { required } from '@/utils/rules'
 import { deepCopy } from '@/utils/helpers'
 
 export default {
-  name: 'UpdateAuthSource',
+  name: 'ConfigAuthSource',
   components: {
     OauthBaseForm,
     OpenLdapBaseForm,
@@ -95,25 +71,25 @@ export default {
     dialog: false,
     valid: false,
     item: null,
+    edit: false,
     formComponent: 'OauthBaseForm',
     formComponents: {
-      OAUTH: 'OauthBaseForm',
-      LDAP: 'OpenLdapBaseForm',
+      oauth: 'OauthBaseForm',
+      ldap: 'OpenLdapBaseForm',
+      gitlab: 'OauthBaseForm',
+      github: 'OauthBaseForm',
     },
-    kindItems: [
-      { text: 'Oauth', value: 'OAUTH' },
-      { text: 'Ldap', value: 'LDAP' },
-    ],
     obj: {
       name: '',
       kind: 'OAUTH',
+      vendor: '',
     },
   }),
   computed: {
     ...mapState(['Circular']),
     objRules() {
       return {
-        kindRule: [required],
+        vendorRule: [required],
         nameRule: [required],
       }
     },
@@ -124,33 +100,34 @@ export default {
       this.dialog = true
     },
     // eslint-disable-next-line vue/no-unused-properties
-    init(item) {
+    init(item, edit) {
+      this.edit = edit
       this.obj = deepCopy(item)
-      this.formComponent = this.formComponents[this.obj.kind]
-      this.$nextTick(() => {
-        this.item = deepCopy(item)
-      })
+      this.formComponent = this.formComponents[this.obj.vendor]
+      if (this.edit) {
+        this.$nextTick(() => {
+          this.item = deepCopy(item)
+        })
+      }
     },
     async updateAuthSource() {
       if (this.$refs.form.validate(true) && this.$refs[this.formComponent].$refs.form.validate(true)) {
         if (this.formComponent === 'OauthBaseForm' || this.formComponent === 'OpenLdapBaseForm') {
-          const data = Object.assign(this.obj, this.$refs[this.formComponent].obj)
-          await putAuthSourceConfig(this.obj.id, data)
+          const data = Object.assign(this.obj, this.$refs[this.formComponent].getData())
+          if (this.edit) {
+            await putAuthSourceConfig(this.obj.id, data)
+          } else {
+            await postAuthSourceConfig(data)
+          }
         }
         this.reset()
         this.$emit('refresh')
       }
     },
-    onKindChange() {
-      this.formComponent = this.formComponents[this.obj.kind]
-    },
     reset() {
       this.dialog = false
       this.$refs[this.formComponent].reset()
-      this.formComponent = 'OauthBaseForm'
-    },
-    onNameInput() {
-      this.$refs[this.formComponent].setCallback(this.obj.name)
+      this.formComponent = ''
     },
   },
 }

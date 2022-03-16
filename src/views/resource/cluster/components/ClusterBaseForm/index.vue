@@ -4,6 +4,7 @@
     :ref="steps[step]"
     :item="item"
     :edit="edit"
+    :control="control"
     @refresh="refresh"
   />
 </template>
@@ -32,6 +33,10 @@ export default {
     step: {
       type: Number,
       default: () => 0,
+    },
+    control: {
+      type: Boolean,
+      default: () => false,
     },
   },
   data: () => ({
@@ -63,8 +68,8 @@ export default {
       return this.$refs[this.steps[this.step]].getData()
     },
     // eslint-disable-next-line vue/no-unused-properties
-    getStatus() {
-      return this.$refs[this.steps[this.step]].getStatus()
+    getExtend() {
+      return this.$refs[this.steps[this.step]].getExtend()
     },
     refresh(data) {
       this.$emit('refresh', data)

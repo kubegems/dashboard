@@ -24,7 +24,7 @@
       <v-flex
         class="text-subtitle-1 text-center"
       >
-        <template v-if="obj.status.validate === 'success'">
+        <template v-if="obj.extend.validate === 'success'">
           <v-icon
             color="success"
             small
@@ -34,7 +34,7 @@
           </v-icon>
           集群连接成功
         </template>
-        <template v-else-if="obj.status.validate === 'error'">
+        <template v-else-if="obj.extend.validate === 'error'">
           <v-icon
             color="error"
             small
@@ -44,7 +44,7 @@
           </v-icon>
           集群连接失败
         </template>
-        <template v-if="obj.status.validate === 'progressing'">
+        <template v-if="obj.extend.validate === 'progressing'">
           <v-icon
             color="warning"
             small
@@ -74,11 +74,17 @@ export default {
       KubeConfig: '',
       Primary: false,
       Vendor: 'selfhosted',
-      ImageRepo: 'docker.io/kubegems',
-      DefaultStorageClass: '',
-      status: {
+      ImageRepo: 'registry.cn-beijing.aliyuncs.com/kubegems',
+      DefaultStorageClass: 'local-path',
+      extend: {
         storageClasses: [],
+        imageRepos: [
+          'registry.cn-beijing.aliyuncs.com/kubegems',
+          'docker.io/kubegems',
+        ],
         validate: 'progressing',
+        clusterName: '',
+        existInstaller: false,
       },
     },
   }),
@@ -109,15 +115,17 @@ export default {
       return this.obj
     },
     // eslint-disable-next-line vue/no-unused-properties
-    getStatus() {
-      return this.obj.status
+    getExtend() {
+      return this.obj.extend
     },
     async validateKubeConfig() {
       const data = await postValidateClusterKubeConfig({
         kubeconfig: JSON.stringify(this.$yamlload(this.obj.KubeConfig)),
       })
-      this.obj.status.storageClasses = data.storageClasses
-      this.obj.status.validate = data.Connectable ? 'success' : 'error'
+      this.obj.extend.storageClasses = data.storageClasses
+      this.obj.extend.validate = data.connectable ? 'success' : 'error'
+      this.obj.extend.clusterName = data.clusterName
+      this.obj.extend.existInstaller = data.existInstaller
       this.$emit('refresh', this.obj)
     },
   },

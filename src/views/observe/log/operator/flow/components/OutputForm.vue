@@ -99,7 +99,7 @@ export default {
     async getClusterOutputList () {
       this.clusterOutputLoading = true
       const { cluster, namespace } = this.$route.query
-      const data = await getClusterOutputsData(cluster, namespace, { size: 999, noprocessing: true })
+      const data = await getClusterOutputsData(cluster, namespace, { size: 1000, noprocessing: true })
       this.clusterOutputSelect = data.List.map((item) => {
         return {
           text: `${item.metadata.name}`,
@@ -113,10 +113,10 @@ export default {
       let list = []
       const { cluster, namespace } = this.$route.query
       if (this.AdminViewport) {
-        const data = await getOutputsData(cluster, namespace, { size: 999, noprocessing: true })
+        const data = await getOutputsData(cluster, namespace, { size: 1000, noprocessing: true })
         list = data.List
       } else {
-        const data = await getOutputsDataByTenant(cluster, this.Tenant().ID, { size: 999, noprocessing: true })
+        const data = await getOutputsDataByTenant(cluster, this.Tenant().TenantName, { size: 1000, noprocessing: true })
         list = data
       }
       this.outputSelect = list.map((item) => {

@@ -111,7 +111,12 @@ export function getIconName(name) {
   if (name.indexOf('ldap') > -1) return 'img:openldap.jpeg'
   if (name.indexOf('kubegems') > -1) return 'img:kubegems.jpg'
   if (name.indexOf('gke') > -1) return 'logos:google-cloud'
-  if (name.indexOf('aliyun') > -1) return 'img:aliyun.png'
+  if (name.indexOf('ack') > -1) return 'img:aliyun.png'
+  if (name.indexOf('testlink') > -1) return 'img:testlink.png'
+  if (name.indexOf('geode') > -1) return 'img:geode.png'
+  if (name.indexOf('github') > -1) return 'logos:github-icon'
+  if (name.indexOf('dataplatform') > -1) return 'img:dataplatform.png'
+  if (name.indexOf('cmak') > -1) return 'logos:kafka-icon'
   // if (name.indexOf('selfhosted') > -1) return 'bx:bxl-kubernetes'
   return 'logos:kubernetes'
 }

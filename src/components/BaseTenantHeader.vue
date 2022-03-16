@@ -12,6 +12,7 @@
           transition="scale-transition"
           nudge-bottom="5px"
           content-class="tenant-header__bg"
+          max-height="300px"
         >
           <template #activator="{ on }">
             <v-btn
@@ -89,6 +90,7 @@
             transition="scale-transition"
             nudge-bottom="5px"
             content-class="z-index-bg"
+            max-height="300px"
           >
             <template #activator="{ on }">
               <v-btn

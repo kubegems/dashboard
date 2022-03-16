@@ -53,8 +53,8 @@ export const getOutputsData = (clusterName, namespace, query = {}) => axios.get(
 )
 
 // 获取租户output列表
-export const getOutputsDataByTenant = (clusterName, tenantId, query = {}) => axios.get(
-  `logging/cluster/${clusterName}/tenant/${tenantId}/outputs`,
+export const getOutputsDataByTenant = (clusterName, tenantName, query = {}) => axios.get(
+  `logging/cluster/${clusterName}/tenant/${tenantName}/outputs`,
   { params: query },
 )
 

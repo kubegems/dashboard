@@ -274,7 +274,7 @@ export default {
     },
     onEmailChange() {
       const emailToSelected = this.emailToSelected.filter((email) => {
-        return email !== '' && typeof email === 'object'
+        return email !== ''
       })
       this.emailToSelected = emailToSelected
     },

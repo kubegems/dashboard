@@ -10,7 +10,7 @@
     z-index="1000"
     :close-on-content-click="false"
     min-width="200px"
-    max-width="280px"
+    max-width="310px"
   >
     <template #activator="{ on }">
       <v-btn
@@ -45,20 +45,34 @@
         <v-list-item-content>
           <v-list-item-title class="text-h6 white--text kubegems__detail">
             {{ User.Username }}
-            <v-flex
-              class="
-                float-right
-                text-body-2
-                white
-                primary--text
-                px-1
-                rounded
-                font-weight-medium
-              "
-              style="margin-top: 6px;"
+            <v-chip
+              pill
+              class="mr-1 primary--text"
+              small
+              color="white"
             >
-              {{ User.Source }}
-            </v-flex>
+              <v-avatar
+                color="white"
+                left
+                class="mr-0"
+              >
+                <v-btn
+                  class="primary--text"
+                  small
+                  color="white"
+                >
+                  <BaseLogo
+                    class="primary--text logo-margin mt-1"
+                    :icon-name="User.SourceVendor ? User.SourceVendor.toLowerCase() : 'kubegems'"
+                    :width="20"
+                    :ml="0"
+                  />
+                </v-btn>
+              </v-avatar>
+              <span class="font-weight-medium primary--text kubegems__detail">
+                {{ $VENDOR[User.SourceVendor] || 'Selfhosted' }}
+              </span>
+            </v-chip>
             <div class="kubegems__clear-float" />
           </v-list-item-title>
           <v-list-item-subtitle class="white--text">

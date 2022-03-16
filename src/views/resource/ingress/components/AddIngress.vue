@@ -47,7 +47,6 @@
 <script>
 import { mapState } from 'vuex'
 import { postAddIngress } from '@/api'
-import YamlForm from '@/views/resource/components/common/YamlForm'
 import IngressBaseForm from './IngressBaseForm'
 import BaseResource from '@/mixins/resource'
 import IngressSchema from '@/views/resource/ingress/mixins/schema'
@@ -57,7 +56,6 @@ export default {
   name: 'AddIngress',
   components: {
     IngressBaseForm,
-    YamlForm,
   },
   mixins: [BaseResource, IngressSchema],
   data: () => ({
@@ -116,7 +114,7 @@ export default {
           data,
           this.AdminViewport ? data?.metadata?.namespace : this.ThisNamespace,
         )
-        this.formComponent = 'YamlForm'
+        this.formComponent = 'BaseYamlForm'
         this.$nextTick(() => {
           this.$refs[this.formComponent].setYaml(this.$yamldump(data))
         })

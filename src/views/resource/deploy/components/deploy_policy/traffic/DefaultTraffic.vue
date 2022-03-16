@@ -1,5 +1,6 @@
 <template>
   <v-form
+    ref="form"
     v-model="valid"
     lazy-validation
     @submit.prevent
@@ -57,7 +58,7 @@ export default {
     }
   },
   mounted() {
-    if (this.data) {
+    if (this.data && this.data.strategy.type === 'Canary') {
       this.obj = deepCopy(this.data)
     }
   },
@@ -72,6 +73,10 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     reset() {
       this.obj = deepCopy(this.$options.data().obj)
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    validate() {
+      return this.$refs.form.validate(true)
     },
   },
 }
