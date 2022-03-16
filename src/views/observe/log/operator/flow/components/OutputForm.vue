@@ -116,7 +116,7 @@ export default {
         const data = await getOutputsData(cluster, namespace, { size: 1000, noprocessing: true })
         list = data.List
       } else {
-        const data = await getOutputsDataByTenant(cluster, this.Tenant().ID, { size: 1000, noprocessing: true })
+        const data = await getOutputsDataByTenant(cluster, this.Tenant().TenantName, { size: 1000, noprocessing: true })
         list = data
       }
       this.outputSelect = list.map((item) => {

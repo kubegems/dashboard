@@ -230,7 +230,7 @@ export default {
         list = res.reduce((pre, current) => pre.concat(current.List), [])
       } else {
         res = await Promise.all([
-          getFlowsDataByTenant(this.params.cluster, this.Tenant().ID),
+          getFlowsDataByTenant(this.params.cluster, this.Tenant().TenantName),
         ])
         list = [...res[0]]
       }
