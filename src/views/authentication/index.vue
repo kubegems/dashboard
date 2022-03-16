@@ -120,7 +120,7 @@
                           />
                         </v-btn>
                       </v-avatar>
-                      使用 {{ dn[item.vendor] }} 登录
+                      使用 {{ $VENDOR[item.vendor] }} 登录
                     </v-chip>
                   </v-col>
                 </v-row>
@@ -158,13 +158,6 @@ export default {
     username: '',
     usernameRules: [required],
     oauthItems: [],
-    dn: {
-      kubegems: 'Kubegems',
-      oauth: 'Oauth',
-      ldap: 'Ldap',
-      gitlab: 'GitLab',
-      github: 'GitHub',
-    },
   }),
   computed: {
     ...mapState(['JWT', 'Circular', 'Admin', 'AdminViewport', 'Scale']),

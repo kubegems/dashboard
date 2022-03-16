@@ -90,7 +90,7 @@
               </v-btn>
             </v-avatar>
             <span class="font-weight-medium kubegems__detail">
-              {{ item.SourceVendor || 'selfhosted' }}
+              {{ $VENDOR[item.SourceVendor] || 'Selfhosted' }}
             </span>
           </v-chip>
         </template>
