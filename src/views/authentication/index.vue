@@ -89,7 +89,10 @@
                   登录
                 </v-btn>
               </v-form>
-              <div class="mt-5">
+              <div
+                v-if="enableOauthItems && enableOauthItems.length > 0"
+                class="mt-5"
+              >
                 <div class="divide">其他登录方式</div>
                 <v-row class="mt-3 px-2">
                   <v-col
