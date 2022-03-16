@@ -6,7 +6,9 @@
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '应用商店仓库名称', value: 'search' }"
+          :reload="false"
           @refresh="m_filter_list"
+          @filter="customFilter"
         />
         <v-spacer />
         <v-menu left>
@@ -157,6 +159,7 @@ import BaseFilter from '@/mixins/base_filter'
 import BaseSelect from '@/mixins/select'
 import BaseResource from '@/mixins/resource'
 import BaseTable from '@/mixins/table'
+import { deepCopy } from '@/utils/helpers'
 
 export default {
   name: 'RepositoryList',
@@ -177,6 +180,7 @@ export default {
       { text: '', value: 'action', align: 'center', width: 20 },
     ],
     filters: [{ text: '应用商店仓库名称', value: 'search', items: [] }],
+    params: {},
   }),
   computed: {
     ...mapState(['JWT']),
@@ -188,14 +192,31 @@ export default {
     }
   },
   methods: {
+    customFilter() {
+      if (this.$route.query.search && this.$route.query.search.length > 0) {
+        this.items = this.itemsCopy.filter((item) => {
+          return (
+            item.name &&
+            item.name
+              .toLocaleLowerCase()
+              .indexOf(this.$route.query.search.toLocaleLowerCase()) > -1
+          )
+        })
+      } else {
+        this.items = this.itemsCopy
+      }
+      this.m_table_generateSelectResourceNoK8s('Name', 'ChartRepoName')
+    },
     async repositoryList() {
-      const data = await getRepositoryList({})
+      const data = await getRepositoryList(this.params)
       this.items = data.map((item) => {
         return {
           name: item.ChartRepoName,
           ...item,
         }
       })
+      this.itemsCopy = deepCopy(this.items)
+      this.customFilter()
       this.m_table_generateSelectResourceNoK8s('Name', 'ChartRepoName')
     },
     addRepository() {

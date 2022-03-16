@@ -46,14 +46,14 @@
             @click:append="show = !show"
           />
         </v-col>
-        <v-col cols="6">
+        <!-- <v-col cols="6">
           <v-text-field
             v-model="obj.config.filter"
             class="my-0"
             required
             label="Filter"
           />
-        </v-col>
+        </v-col> -->
         <v-col cols="6">
           <v-switch
             v-model="obj.config.enableTLS"
