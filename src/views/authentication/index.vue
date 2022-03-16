@@ -89,31 +89,38 @@
                   登录
                 </v-btn>
               </v-form>
-              <div class="mt-6">
-                <template v-for="(item, index) in oauthItems">
-                  <v-chip
-                    v-if="item.enabled"
+              <div class="mt-5">
+                <div class="divide">其他登录方式</div>
+                <v-row class="mt-3 px-2">
+                  <v-col
+                    v-for="(item, index) in enableOauthItems"
                     :key="index"
-                    pill
-                    class="mr-1 mb-1"
-                    @click="oauth(item)"
+                    cols="4"
+                    xs="6"
+                    :class="`${index%3===0?'text-left':index%3===1?'text-center':'text-right'} pa-0`"
                   >
-                    <v-avatar left>
-                      <v-btn
-                        color="grey lighten-4"
-                        class="white--text"
-                      >
-                        <BaseLogo
-                          class="primary--text logo-margin"
-                          :icon-name="item.vendor.toLowerCase()"
-                          :width="25"
-                          :ml="0"
-                        />
-                      </v-btn>
-                    </v-avatar>
-                    使用 {{ item.name }} 登录
-                  </v-chip>
-                </template>
+                    <v-chip
+                      pill
+                      class="mr-1 mb-1"
+                      @click="oauth(item)"
+                    >
+                      <v-avatar left>
+                        <v-btn
+                          color="grey lighten-4"
+                          class="white--text"
+                        >
+                          <BaseLogo
+                            class="primary--text logo-margin"
+                            :icon-name="item.vendor.toLowerCase()"
+                            :width="25"
+                            :ml="0"
+                          />
+                        </v-btn>
+                      </v-avatar>
+                      使用 {{ dn[item.vendor] }} 登录
+                    </v-chip>
+                  </v-col>
+                </v-row>
               </div>
             </v-col>
           </v-row>
@@ -148,12 +155,22 @@ export default {
     username: '',
     usernameRules: [required],
     oauthItems: [],
+    dn: {
+      kubegems: 'Kubegems',
+      oauth: 'Oauth',
+      ldap: 'Ldap',
+      gitlab: 'GitLab',
+      github: 'GitHub',
+    },
   }),
   computed: {
     ...mapState(['JWT', 'Circular', 'Admin', 'AdminViewport', 'Scale']),
     ...mapGetters(['Environment', 'Project', 'Tenant', 'Cluster']),
     height() {
       return window.innerHeight / this.Scale + 12
+    },
+    enableOauthItems() {
+      return this.oauthItems.filter(item => { return item.enabled })
     },
   },
   mounted() {
@@ -262,5 +279,28 @@ export default {
 .logo-margin {
   margin-left: 0 !important;
   margin-top: 5px !important;
+}
+
+.divide {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  color: grey;
+}
+
+.divide::before,
+.divide::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #cccccc;
+}
+
+.divide::before {
+  margin-right: 0.25rem;
+}
+
+.divide::after {
+  margin-left: 0.25rem;
 }
 </style>
