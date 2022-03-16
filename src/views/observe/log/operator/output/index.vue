@@ -221,7 +221,7 @@ export default {
   },
   methods: {
     async getOutputList () {
-      const params = [this.params.cluster, '_all', { page: 1, size: 999 }]
+      const params = [this.params.cluster, '_all', { page: 1, size: 1000 }]
       let list = []
       let res = []
       if (this.AdminViewport) {
@@ -232,10 +232,9 @@ export default {
         list = res.reduce((pre, current) => pre.concat(current.List), [])
       } else {
         res = await Promise.all([
-          getOutputsDataByTenant(this.params.cluster, this.Tenant().ID),
-          getClusterOutputsData(...params),
+          getOutputsDataByTenant(this.params.cluster, this.Tenant().TenantName),
         ])
-        list = [...res[0], ...res[1].List]
+        list = [...res[0]]
       }
       this.cacheAll = list.sort(
         (a, b) => Date.parse(b.metadata.creationTimestamp) - Date.parse(a.metadata.creationTimestamp),

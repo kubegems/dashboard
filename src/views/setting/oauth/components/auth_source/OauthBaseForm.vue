@@ -7,27 +7,17 @@
   >
     <v-card-text class="pa-2">
       <v-row>
-        <v-col cols="6">
-          <v-autocomplete
-            v-model="obj.tokenType"
-            :items="tokenTypeItems"
-            :rules="objRules.tokenTypeRule"
-            color="primary"
-            label="token类型"
-            hide-selected
+        <v-col
+          v-if="vendor === 'gitlab'"
+          cols="6"
+        >
+          <v-text-field
+            v-model="gitlabDomain"
+            :rules="objRules.gitlabDomainRule"
             class="my-0"
-            no-data-text="暂无可选数据"
-          >
-            <template #selection="{ item }">
-              <v-chip
-                color="primary"
-                small
-                class="ma-1"
-              >
-                {{ item['text'] }}
-              </v-chip>
-            </template>
-          </v-autocomplete>
+            required
+            label="GitLab Domain"
+          />
         </v-col>
         <v-col cols="6">
           <v-text-field
@@ -38,24 +28,41 @@
             label="Redirect URL"
           />
         </v-col>
-        <v-col cols="6">
-          <v-text-field
-            v-model="obj.config.authURL"
-            :rules="objRules.authURLRule"
-            class="my-0"
-            required
-            label="Auth URL"
-          />
-        </v-col>
-        <v-col cols="6">
-          <v-text-field
-            v-model="obj.config.userInfoURL"
-            :rules="objRules.userInfoURLRule"
-            class="my-0"
-            required
-            label="UserInfo URL"
-          />
-        </v-col>
+        <template v-if="vendor !== 'github' && vendor !== 'gitlab'">
+          <v-col
+            cols="6"
+          >
+            <v-text-field
+              v-model="obj.config.authURL"
+              :rules="objRules.authURLRule"
+              class="my-0"
+              required
+              label="Auth URL"
+            />
+          </v-col>
+          <v-col
+            cols="6"
+          >
+            <v-text-field
+              v-model="obj.config.userInfoURL"
+              :rules="objRules.userInfoURLRule"
+              class="my-0"
+              required
+              label="UserInfo URL"
+            />
+          </v-col>
+          <v-col
+            cols="6"
+          >
+            <v-text-field
+              v-model="obj.config.tokenURL"
+              :rules="objRules.tokenURLRule"
+              class="my-0"
+              required
+              label="Token URL"
+            />
+          </v-col>
+        </template>
         <v-col cols="12">
           <v-text-field
             v-model="obj.config.appID"
@@ -109,6 +116,7 @@
 </template>
 
 <script>
+import { getOAuthScopeList } from '@/api'
 import { deepCopy } from '@/utils/helpers'
 import { required } from '@/utils/rules'
 
@@ -119,14 +127,20 @@ export default {
       type: Object,
       default: () => null,
     },
+    vendor: {
+      type: String,
+      default: () => '',
+    },
+    edit: {
+      type: Boolean,
+      default: () => false,
+    },
   },
   data: () => ({
     valid: false,
-    tokenTypeItems: [
-      { text: 'Bearer', value: 'Bearer' },
-    ],
     scopes: [],
     scopeText: '',
+    gitlabDomain: 'gitlab.com',
     obj: {
       config: {
         appID: '',
@@ -135,8 +149,9 @@ export default {
         scopes: [],
         authURL: '',
         userInfoURL: '',
+        tokenURL: '',
       },
-      tokenType: '',
+      tokenType: 'Bearer',
     },
   }),
   computed: {
@@ -148,6 +163,9 @@ export default {
         tokenTypeRule: [required],
         authURLRule: [required],
         userInfoURLRule: [required],
+        tokenURLRule: [required],
+        gitlabDomainRule: [(v) => !!new RegExp('^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}$', 'g').test(v) ||
+          '格式错误'],
       }
     },
   },
@@ -157,7 +175,20 @@ export default {
       this.scopes = this.obj.config.scopes.map((scope, index) => {
         return { text: scope, value: index }
       })
+      const reg = new RegExp('((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}', 'g')
+      const matchDomain = this.obj.config.authURL.match(reg)
+      if (matchDomain && matchDomain.length > 0) {
+        this.gitlabDomain = matchDomain[0]
+      }
     },
+  },
+  mounted() {
+    if (!this.edit) {
+      this.obj.config.redirectURL = `https://${window.location.host}/oauth/callback`
+      if (this.vendor === 'gitlab' || this.vendor === 'github') {
+        this.scopeList()
+      }
+    }
   },
   methods: {
     onScopeChange() {
@@ -166,6 +197,19 @@ export default {
       })
       this.scopes = scopes
       this.obj.config.scopes = scopes.map(scope => { return scope.text })
+    },
+    async scopeList() {
+      const data = await getOAuthScopeList({ vendor: this.vendor })
+      this.obj.config = Object.assign(this.obj.config, data)
+      this.scopes = this.obj.config.scopes.map((scope, index) => {
+        return { text: scope, value: index }
+      })
+    },
+    replaceDomain() {
+      const reg = new RegExp('((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}', 'g')
+      this.obj.config.authURL = this.obj.config.authURL.replace(reg, this.gitlabDomain)
+      this.obj.config.userInfoURL = this.obj.config.userInfoURL.replace(reg, this.gitlabDomain)
+      this.obj.config.tokenURL = this.obj.config.tokenURL.replace(reg, this.gitlabDomain)
     },
     createScope() {
       if (!this.scopeText) return
@@ -189,8 +233,9 @@ export default {
       this.$refs.form.reset()
     },
     // eslint-disable-next-line vue/no-unused-properties
-    setCallback(name) {
-      this.obj.config.redirectURL = `https://${this.$DOMAIN}/oauth/callback/${name}`
+    getData() {
+      if (this.vendor === 'gitlab') { this.replaceDomain() }
+      return this.obj
     },
   },
 }

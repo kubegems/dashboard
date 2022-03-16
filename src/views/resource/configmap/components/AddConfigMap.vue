@@ -48,7 +48,6 @@
 import { mapState } from 'vuex'
 import { postAddConfigMap } from '@/api'
 import ConfigMapBaseForm from './ConfigMapBaseForm'
-import YamlForm from '@/views/resource/components/common/YamlForm'
 import BaseResource from '@/mixins/resource'
 import ConfigmapSchema from '@/views/resource/configmap/mixins/schema'
 import { randomString } from '@/utils/helpers'
@@ -57,7 +56,6 @@ export default {
   name: 'AddConfigMap',
   components: {
     ConfigMapBaseForm,
-    YamlForm,
   },
   mixins: [BaseResource, ConfigmapSchema],
   data: () => ({
@@ -87,7 +85,7 @@ export default {
       }
       if (this.$refs[this.formComponent].$refs.form.validate(true)) {
         let data = ''
-        if (this.formComponent === 'YamlForm') {
+        if (this.formComponent === 'BaseYamlForm') {
           data = this.$refs[this.formComponent].kubeyaml
           data = this.$yamlload(data)
           if (!this.m_resource_validateJsonSchema(this.schema, data)) {
@@ -121,7 +119,7 @@ export default {
           data,
           this.AdminViewport ? data?.metadata?.namespace : this.ThisNamespace,
         )
-        this.formComponent = 'YamlForm'
+        this.formComponent = 'BaseYamlForm'
         this.$nextTick(() => {
           this.$refs[this.formComponent].setYaml(this.$yamldump(data))
         })

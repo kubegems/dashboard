@@ -49,7 +49,6 @@
 <script>
 import { mapState } from 'vuex'
 import { patchUpdatePersistentVolumeClaim, getPersistentVolumeClaimDetail } from '@/api'
-import YamlForm from '@/views/resource/components/common/YamlForm'
 import PersistentVolumeClaimBaseForm from './PersistentVolumeClaimBaseForm'
 import BaseResource from '@/mixins/resource'
 import PersistentVolumeClaimSchema from '@/views/resource/persistentvolumeclaim/mixins/schema'
@@ -58,7 +57,6 @@ import { deepCopy, randomString } from '@/utils/helpers'
 export default {
   name: 'UpdatePersistentVolumeClaim',
   components: {
-    YamlForm,
     PersistentVolumeClaimBaseForm,
   },
   mixins: [BaseResource, PersistentVolumeClaimSchema],
@@ -90,7 +88,7 @@ export default {
       }
       if (this.$refs[this.formComponent].$refs.form.validate(true)) {
         let data = ''
-        if (this.formComponent === 'YamlForm') {
+        if (this.formComponent === 'BaseYamlForm') {
           data = this.$refs[this.formComponent].kubeyaml
           data = this.$yamlload(data)
           if (!this.m_resource_checkDataWithNS(data, this.item.metadata.namespace)) return
@@ -131,7 +129,7 @@ export default {
             ? this.item.metadata.namespace
             : this.ThisNamespace,
         )
-        this.formComponent = 'YamlForm'
+        this.formComponent = 'BaseYamlForm'
         this.$nextTick(() => {
           this.$refs[this.formComponent].setYaml(this.$yamldump(data))
         })

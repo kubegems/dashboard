@@ -50,7 +50,6 @@
 import { mapGetters, mapState } from 'vuex'
 import { putUpdateGateway, getGatewayDetail } from '@/api'
 import GatewayBaseForm from './GatewayBaseForm'
-import YamlForm from '@/views/resource/components/common/YamlForm'
 import BaseResource from '@/mixins/resource'
 import GatewaySchema from '@/views/resource/gateway/mixins/schema'
 import { deepCopy, randomString } from '@/utils/helpers'
@@ -58,7 +57,6 @@ import { deepCopy, randomString } from '@/utils/helpers'
 export default {
   name: 'UpdateGateway',
   components: {
-    YamlForm,
     GatewayBaseForm,
   },
   mixins: [BaseResource, GatewaySchema],
@@ -81,7 +79,7 @@ export default {
     async updateGateway() {
       if (this.$refs[this.formComponent].$refs.form.validate(true)) {
         let data = ''
-        if (this.formComponent === 'YamlForm') {
+        if (this.formComponent === 'BaseYamlForm') {
           data = this.$refs[this.formComponent].kubeyaml
           data = this.$yamlload(data)
           if (!this.m_resource_checkDataWithOutNS(data)) return
@@ -106,7 +104,7 @@ export default {
     onYamlSwitchChange() {
       if (this.yaml) {
         const data = this.$refs[this.formComponent].obj
-        this.formComponent = 'YamlForm'
+        this.formComponent = 'BaseYamlForm'
         this.$nextTick(() => {
           this.$refs[this.formComponent].setYaml(this.$yamldump(data))
         })

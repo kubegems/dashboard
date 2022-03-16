@@ -488,8 +488,8 @@ export default {
       this.$delete(this.metricsObject, id)
     },
     onAddAlert(data) {
-      this.$refs.AddPrometheusRule.open()
-      this.$refs.AddPrometheusRule.init(data)
+      this.$refs.addPrometheusRule.open()
+      this.$refs.addPrometheusRule.init(data)
     },
     // 设置各项独立的ruleItems
     setRuleItems(index) {

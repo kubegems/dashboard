@@ -177,6 +177,7 @@
           >
             <ContainerItems
               :container-statuses="item && item.status ? item.status.containerStatuses : []"
+              :containers="item && item.spec.containers"
               :item="item"
             />
           </td>

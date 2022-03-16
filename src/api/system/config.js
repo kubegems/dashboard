@@ -7,8 +7,9 @@ export const getSystemAllConfigData = (query = {}) => axios.get(
 )
 
 // 获取系统配置
-export const getSystemConfigData = (name) => axios.get(
+export const getSystemConfigData = (name, query = {}) => axios.get(
   `system/config/${name}`,
+  { params: query },
 )
 
 // 修改系统配置
@@ -43,3 +44,7 @@ export const putAuthSourceConfig = (sourceId, body = {}) =>
 // 删除Oauth配置
 export const deleteAuthSourceConfig = (sourceId) =>
   axios.delete(`authsource/${sourceId}`)
+
+// 获取oauth scope
+export const getOAuthScopeList = (query = {}) =>
+  axios(`system/authsource/predefined`, { params: query })

@@ -77,6 +77,7 @@ export default {
     },
     async updateSystemConfig() {
       if (this.$refs.form.validate(true)) {
+        this.installer.content.operator_image = this.obj.operatorImage
         await putSystemConfigData(this.installer.name, this.installer)
         this.reset()
         this.$emit('refresh')

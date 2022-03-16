@@ -7,7 +7,7 @@
     @reset="reset"
   >
     <template #content>
-      <YamlForm
+      <BaseYamlForm
         ref="yamlForm"
         :item="item"
         title="StorageClass"
@@ -33,15 +33,11 @@
 <script>
 import { mapState } from 'vuex'
 import { patchUpdateStorageClass, getStorageClassDetail } from '@/api'
-import YamlForm from '@/views/resource/components/common/YamlForm'
 import BaseResource from '@/mixins/resource'
 import { deepCopy } from '@/utils/helpers'
 
 export default {
   name: 'UpdateStorageClass',
-  components: {
-    YamlForm,
-  },
   mixins: [BaseResource],
   data: () => ({
     dialog: false,

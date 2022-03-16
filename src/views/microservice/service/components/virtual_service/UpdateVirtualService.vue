@@ -33,7 +33,6 @@
 import { mapState } from 'vuex'
 import { patchUpdateIstioVirtualService, getIstioVirtualServiceDetail } from '@/api'
 import IstioVirtualServiceBaseForm from './IstioVirtualServiceBaseForm'
-import YamlForm from '@/views/resource/components/common/YamlForm'
 import BaseResource from '@/mixins/resource'
 import IstioVirtualServiceSchema from '@/views/microservice/service/mixins/schema'
 import { deepCopy } from '@/utils/helpers'
@@ -41,7 +40,6 @@ import { deepCopy } from '@/utils/helpers'
 export default {
   name: 'UpdateIstioVirtualService',
   components: {
-    YamlForm,
     IstioVirtualServiceBaseForm,
   },
   mixins: [BaseResource, IstioVirtualServiceSchema],
@@ -49,7 +47,7 @@ export default {
     dialog: false,
     yaml: null,
     item: null,
-    formComponent: 'YamlForm',
+    formComponent: 'BaseYamlForm',
   }),
   computed: {
     ...mapState(['Circular', 'EnvironmentFilter']),
@@ -62,7 +60,7 @@ export default {
     async updateIstioVirtualService() {
       if (this.$refs[this.formComponent].$refs.form.validate(true)) {
         let data = ''
-        if (this.formComponent === 'YamlForm') {
+        if (this.formComponent === 'BaseYamlForm') {
           data = this.$refs[this.formComponent].kubeyaml
           data = this.$yamlload(data)
           if (!this.m_resource_checkDataWithOutNS(data)) return
@@ -97,7 +95,7 @@ export default {
     reset() {
       this.dialog = false
       this.$refs[this.formComponent].reset()
-      this.formComponent = 'YamlForm'
+      this.formComponent = 'BaseYamlForm'
       this.yaml = false
     },
   },

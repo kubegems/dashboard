@@ -25,7 +25,7 @@
                   class="text-h6"
                   @click="addCluster"
                 >
-                  <v-icon left>mdi-server-plus</v-icon>
+                  <v-icon left>mdi-plus-box</v-icon>
                   创建集群
                 </v-btn>
               </v-list-item-content>
@@ -203,13 +203,9 @@ export default {
       const data = await getClusterList({ noprocessing: true })
       this.items = data.List
       this.items.push({ add: true })
-
-      const controllCluster = this.items.find((c) => {
+      this.hasControllerCluster = this.items.some((c) => {
         return c.Primary
       })
-      if (controllCluster) {
-        this.hasControllerCluster = true
-      }
       this.$router.replace({
         name: this.$route.name,
         params: { ...this.$route.params },

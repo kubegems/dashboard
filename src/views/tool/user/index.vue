@@ -18,11 +18,29 @@
                 />
                 <h3 class="mt-2 text-h6 font-weight-regular">
                   {{ User.Username }}
-                  <span
-                    class="text-body-2 white--text blue-grey lighten-2 px-1 rounded ml-2"
+                  <v-chip
+                    pill
+                    class="mr-1"
+                    small
                   >
-                    {{ User.Source }}
-                  </span>
+                    <v-avatar left>
+                      <v-btn
+                        color="grey lighten-4"
+                        class="white--text"
+                        small
+                      >
+                        <BaseLogo
+                          class="primary--text logo-margin mt-1"
+                          :icon-name="User.SourceVendor ? User.SourceVendor.toLowerCase() : 'kubegems'"
+                          :width="20"
+                          :ml="0"
+                        />
+                      </v-btn>
+                    </v-avatar>
+                    <span class="font-weight-medium kubegems__detail">
+                      {{ $VENDOR[User.SourceVendor] || 'Selfhosted' }}
+                    </span>
+                  </v-chip>
                 </h3>
                 <h5 class="text-subtitle-2">
                   {{ Admin ? '管理员' : '普通用户' }}

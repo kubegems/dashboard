@@ -53,6 +53,7 @@
                       top
                       open-on-hover
                       :close-delay="200"
+                      nudge-bottom="8px"
                     >
                       <template #activator="{ on }">
                         <span

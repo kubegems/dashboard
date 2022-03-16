@@ -47,7 +47,6 @@
 <script>
 import { mapState } from 'vuex'
 import { postAddService } from '@/api'
-import YamlForm from '@/views/resource/components/common/YamlForm'
 import ServiceBaseForm from './ServiceBaseForm'
 import ServiceSchema from '@/views/resource/service/mixins/schema'
 import BaseResource from '@/mixins/resource'
@@ -56,7 +55,6 @@ import { randomString } from '@/utils/helpers'
 export default {
   name: 'AddService',
   components: {
-    YamlForm,
     ServiceBaseForm,
   },
   mixins: [BaseResource, ServiceSchema],
@@ -87,7 +85,7 @@ export default {
       }
       if (this.$refs[this.formComponent].$refs.form.validate(true)) {
         let data = ''
-        if (this.formComponent === 'YamlForm') {
+        if (this.formComponent === 'BaseYamlForm') {
           data = this.$refs[this.formComponent].kubeyaml
           data = this.$yamlload(data)
           if (!this.m_resource_validateJsonSchema(this.schema, data)) {
@@ -126,7 +124,7 @@ export default {
           data,
           this.AdminViewport ? data?.metadata?.namespace : this.ThisNamespace,
         )
-        this.formComponent = 'YamlForm'
+        this.formComponent = 'BaseYamlForm'
         this.$nextTick(() => {
           this.$refs[this.formComponent].setYaml(this.$yamldump(data))
         })

@@ -302,3 +302,7 @@ export function deleteEmpty(obj, match = v => v === undefined) {
 export function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
+
+export function includes(arr1, arr2) {
+  return arr2.every(val => { arr1.includes(val) })
+}

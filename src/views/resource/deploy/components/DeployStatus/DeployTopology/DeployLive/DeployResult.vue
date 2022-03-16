@@ -67,12 +67,7 @@ export default {
   },
   methods: {
     async resultList() {
-      const data =
-        this.resource &&
-        this.resource.liveState &&
-        this.resource.liveState.status.operationState
-          ? this.resource.liveState.status.operationState.syncResult.resources
-          : []
+      const data = this.resource?.liveState?.status?.operationState?.syncResult?.resources || []
       this.items = data
     },
     // eslint-disable-next-line vue/no-unused-properties

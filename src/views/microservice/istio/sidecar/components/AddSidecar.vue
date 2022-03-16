@@ -30,19 +30,15 @@
 <script>
 import { mapGetters, mapState } from 'vuex'
 import { postAddIstioSidecar } from '@/api'
-import YamlForm from '@/views/resource/components/common/YamlForm'
 import BaseResource from '@/mixins/resource'
 import IstioSidecarSchema from '@/views/microservice/istio/sidecar/mixins/schema'
 
 export default {
   name: 'AddSidecar',
-  components: {
-    YamlForm,
-  },
   mixins: [BaseResource, IstioSidecarSchema],
   data: () => ({
     dialog: false,
-    formComponent: 'YamlForm',
+    formComponent: 'BaseYamlForm',
   }),
   computed: {
     ...mapState(['Circular', 'EnvironmentFilter']),
@@ -56,7 +52,7 @@ export default {
     async addIstioSidecar() {
       if (this.$refs[this.formComponent].$refs.form.validate(true)) {
         let data = ''
-        if (this.formComponent === 'YamlForm') {
+        if (this.formComponent === 'BaseYamlForm') {
           data = this.$refs[this.formComponent].kubeyaml
           data = this.$yamlload(data)
           if (!this.m_resource_validateJsonSchema(this.schema, data)) {
@@ -78,7 +74,7 @@ export default {
     reset() {
       this.dialog = false
       this.$refs[this.formComponent].reset()
-      this.formComponent = 'YamlForm'
+      this.formComponent = 'BaseYamlForm'
     },
   },
 }

@@ -16,8 +16,8 @@ axios.interceptors.request.use(function (config) {
       '/white/page',
       '/white/tenant',
       '/whitecluster/cluster',
-    ].indexOf(window.location.pathname) === -1 &&
-    !window.location.pathname.startsWith('/oauth/callback/')
+      '/oauth/callback',
+    ].indexOf(window.location.pathname) === -1
   ) {
     store.commit('CLEARALL')
     window.localStorage.clear()
@@ -89,10 +89,12 @@ axios.interceptors.response.use(
         ['put', 'post', 'patch', 'delete'].indexOf(response.config.method) > -1
       ) {
         store.commit('SET_CIRCULAR', false)
-        store.commit('SET_SNACKBAR', {
-          text: '操作成功',
-          color: 'success',
-        })
+        if (['cluster/validate-kubeconfig', 'logqueryhistory'].indexOf(response.config.url) === -1) {
+          store.commit('SET_SNACKBAR', {
+            text: '操作成功',
+            color: 'success',
+          })
+        }
       }
       return response.data.Data
     } else {
@@ -153,7 +155,7 @@ axios.interceptors.response.use(
               },
             })
           }
-          if (window.location.pathname.startsWith('/oauth/callback/')) {
+          if (window.location.pathname.startsWith('/oauth/callback')) {
             router.push({
               name: 'login',
             })
