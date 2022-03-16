@@ -31,7 +31,7 @@
               <v-list-item-content>
                 <v-list-item-title class="text-h6 mb-1">
                   <a>
-                    {{ dn[item.vendor] }}
+                    {{ $VENDOR[item.vendor] }}
                   </a>
                 </v-list-item-title>
                 <v-list-item-subtitle>
@@ -102,13 +102,6 @@ export default {
       title: '认证',
       tip: '基于 oauth2.0/ldap 的第三方认证集成, 用户可进行多种方式登录',
       icon: 'mdi-star',
-    },
-    dn: {
-      kubegems: 'Kubegems',
-      oauth: 'Oauth',
-      ldap: 'Ldap',
-      gitlab: 'GitLab',
-      github: 'GitHub',
     },
     items: [{
       name: 'Kubegems (default)',

@@ -210,6 +210,15 @@ const VIRTUALSPACE_ROLE = {
   sys: '系统管理员',
 }
 
+const VENDOR = {
+  kubegems: 'Kubegems',
+  oauth: 'Oauth',
+  ldap: 'Ldap',
+  gitlab: 'GitLab',
+  github: 'GitHub',
+  selfhosted: 'Selfhosted',
+}
+
 export default {
   install(Vue) {
     Vue.prototype.$RESOURCE_CN = RESOURCE_CN
@@ -234,5 +243,6 @@ export default {
     Vue.prototype.$RESOURCE_ROLE = RESOURCE_ROLE
     Vue.prototype.$TENANT_ROLE = TENANT_ROLE
     Vue.prototype.$VIRTUALSPACE_ROLE = VIRTUALSPACE_ROLE
+    Vue.prototype.$VENDOR = VENDOR
   },
 }
