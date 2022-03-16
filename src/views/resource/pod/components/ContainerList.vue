@@ -4,7 +4,7 @@
       v-if="item && item.status && item.status.containerStatuses"
       disable-sort
       :headers="headers"
-      :items="item.status.containerStatuses"
+      :items="containerStatusesCopy"
       no-data-text="暂无数据"
       hide-default-footer
     >
@@ -234,7 +234,7 @@ import ContainerLog from '@/views/resource/components/common/ContainerLog'
 import Terminal from '@/views/resource/components/common/Terminal'
 import BasePermission from '@/mixins/permission'
 import BaseResource from '@/mixins/resource'
-import { beautifyCpuUnit, beautifyStorageUnit } from '@/utils/helpers'
+import { beautifyCpuUnit, beautifyStorageUnit, deepCopy } from '@/utils/helpers'
 import {
   CONTAINER_CPU_USAGE_PROMQL,
   CONTAINER_MEMORY_USAGE_PROMQL,
@@ -265,6 +265,7 @@ export default {
       { text: '操作', value: 'action', align: 'center', width: 20 },
     ],
     status: '',
+    containerStatusesCopy: [],
   }),
   computed: {
     ...mapState(['AdminViewport']),
@@ -282,6 +283,17 @@ export default {
   },
   methods: {
     loaddata(mounted = false) {
+      if (this.item && this.item.status && this.item.status.containerStatuses) {
+        this.containerStatusesCopy = deepCopy(this.item.status.containerStatuses)
+        this.item.spec.containers.forEach(c => {
+          const index = this.containerStatusesCopy.findIndex(s => { return s.name === c.name })
+          if (index > -1) {
+            const container = this.containerStatusesCopy[index]
+            container.image = c.image
+            this.$set(this.containerStatusesCopy, index, container)
+          }
+        })
+      }
       if (!this.item || mounted) {
         this.containerCPUUsage()
         this.containerMemoryUsage()
@@ -298,7 +310,7 @@ export default {
       const CpuLatest = {}
       const containers = []
       if (this.item && this.item.status && this.item.status.containerStatuses) {
-        this.item.status.containerStatuses.forEach((container) => {
+        this.containerStatusesCopy.forEach((container) => {
           CpuUsed[container.name] = []
           CpuLatest[container.name] = 0
           containers.push(container.name)
@@ -330,10 +342,10 @@ export default {
             CpuLatest[d.metric.container] = latest ? beautifyCpuUnit(latest) : 0
             CpuUsed[d.metric.container] = cpuUsed
           })
-          this.item.status.containerStatuses.forEach((c, index) => {
+          this.containerStatusesCopy.forEach((c, index) => {
             c.CpuUsed = CpuUsed[c.name]
             c.LatestCpu = CpuLatest[c.name]
-            this.$set(this.item.status.containerStatuses, index, c)
+            this.$set(this.containerStatusesCopy, index, c)
           })
         }
       }
@@ -343,7 +355,7 @@ export default {
       const MemoryLatest = {}
       const containers = []
       if (this.item && this.item.status && this.item.status.containerStatuses) {
-        this.item.status.containerStatuses.forEach((container) => {
+        this.containerStatusesCopy.forEach((container) => {
           MemoryUsed[container.name] = []
           MemoryLatest[container.name] = 0
           containers.push(container.name)
@@ -377,10 +389,10 @@ export default {
               : 0
             MemoryUsed[d.metric.container] = memoryUsed
           })
-          this.item.status.containerStatuses.forEach((c, index) => {
+          this.containerStatusesCopy.forEach((c, index) => {
             c.MemoryUsed = MemoryUsed[c.name]
             c.LatestMemory = MemoryLatest[c.name]
-            this.$set(this.item.status.containerStatuses, index, c)
+            this.$set(this.containerStatusesCopy, index, c)
           })
         }
       }
@@ -389,7 +401,7 @@ export default {
       const item = {
         namespace: this.item.metadata.namespace,
         name: this.item.metadata.name,
-        containers: this.item.status.containerStatuses,
+        containers: this.item.spec.containers,
       }
       this.$refs.containerLog.init(container, item)
       this.$refs.containerLog.open()

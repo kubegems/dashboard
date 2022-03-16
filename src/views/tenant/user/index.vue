@@ -70,6 +70,29 @@
         </template>
         <template #[`item.username`]="{ item }">
           {{ item.Username }}
+          <v-chip
+            pill
+            class="mr-1"
+            small
+          >
+            <v-avatar left>
+              <v-btn
+                color="grey lighten-4"
+                class="white--text"
+                small
+              >
+                <BaseLogo
+                  class="primary--text logo-margin mt-1"
+                  :icon-name="item.SourceVendor ? item.SourceVendor.toLowerCase() : 'kubegems'"
+                  :width="20"
+                  :ml="0"
+                />
+              </v-btn>
+            </v-avatar>
+            <span class="font-weight-medium kubegems__detail">
+              {{ item.Source || 'selfhosted' }}
+            </span>
+          </v-chip>
         </template>
         <template #[`item.email`]="{ item }">
           {{ item.Email }}
