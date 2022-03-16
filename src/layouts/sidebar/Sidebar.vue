@@ -16,7 +16,10 @@
     @update:mini-variant="updateSidebar"
   >
     <v-list class="ma-0 pa-0">
-      <v-list-item-group color="white">
+      <v-list-item-group
+        color="white"
+        @change="onNavChange"
+      >
         <v-list-item
           class="py-3"
           @click="expand = !expand"
@@ -70,6 +73,7 @@
     <v-expand-transition>
       <v-list
         v-show="expand"
+        id="expand_list"
         dense
         class="ma-0 pa-0"
       >
@@ -229,6 +233,21 @@ export default {
     },
   },
   methods: {
+    onNavChange() {
+      if (this.expand) {
+        // v-item--active v-list-item--active
+        // 导航栏样式优化，vuetify bug 后续升级
+        const listItems = document.querySelectorAll('#expand_list .v-list-item')
+        if (listItems && listItems.length > 0) {
+          for (const index in listItems) {
+            if (listItems[index].classList) {
+              listItems[index].classList.remove('v-item--active')
+              listItems[index].classList.remove('v-list-item--active')
+            }
+          }
+        }
+      }
+    },
     required(required) {
       let pass = true
       if (required === undefined) return pass
