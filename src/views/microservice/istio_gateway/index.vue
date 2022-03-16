@@ -7,7 +7,9 @@
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '网关实例名称', value: 'search' }"
+          :reload="false"
           @refresh="m_filter_list"
+          @filter="customFilter"
         />
         <EnvironmentFilter />
         <v-spacer />
@@ -174,6 +176,7 @@ import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter
 import { mapGetters, mapState } from 'vuex'
 import AddIstioGateway from './components/AddIstioGateway'
 import UpdateIstioGateway from './components/UpdateIstioGateway'
+import { deepCopy } from '@/utils/helpers'
 
 export default {
   name: 'IstioGateway',
@@ -191,6 +194,7 @@ export default {
     },
     items: [],
     filters: [{ text: '网关实例名称', value: 'search', items: [] }],
+    params: {},
   }),
   computed: {
     ...mapState(['JWT', 'EnvironmentFilter']),
@@ -206,15 +210,35 @@ export default {
     },
   },
   methods: {
+    customFilter() {
+      if (this.$route.query.search && this.$route.query.search.length > 0) {
+        this.items = this.itemsCopy.filter((item) => {
+          return (
+            item.Name &&
+            item.Name
+              .toLocaleLowerCase()
+              .indexOf(this.$route.query.search.toLocaleLowerCase()) > -1
+          )
+        })
+        if (this.m_permisson_virtualSpaceAllow) {
+          this.items.push({ add: true })
+        }
+      } else {
+        this.items = this.itemsCopy
+      }
+    },
     async istioGatewayInstanceList() {
       const data = await getIstioGatewayInstanceList(
         this.VirtualSpace().ID,
         this.EnvironmentFilter.clusterid,
+        this.params,
       )
       this.items = data
       if (this.m_permisson_virtualSpaceAllow) {
         this.items.push({ add: true })
       }
+      this.itemsCopy = deepCopy(this.items)
+      this.customFilter()
     },
     addIstioGatewayInstance() {
       this.$refs.addIstioGateway.open()

@@ -48,6 +48,17 @@
             >
               <h2 class="font-weight-bold mt-4 blue-grey--text text--darken-2">
                 用户登录
+                <v-btn
+                  v-if="ldap"
+                  class="float-right mt-1"
+                  color="primary"
+                  text
+                  small
+                  @click="toDefaultLogin"
+                >
+                  返回
+                </v-btn>
+                <div class="kubegems__clear-float" />
               </h2>
               <v-form
                 ref="loginForm"
@@ -62,7 +73,7 @@
                   class="mt-4"
                   required
                   outlined
-                  @keyup.enter="login('account')"
+                  @keyup.enter="login(source)"
                 />
                 <v-text-field
                   v-model="password"
@@ -74,7 +85,7 @@
                   :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                   :type="show ? 'text' : 'password'"
                   @click:append="show = !show"
-                  @keyup.enter="login('account')"
+                  @keyup.enter="login(source)"
                 />
 
                 <v-btn
@@ -84,46 +95,35 @@
                   class="mr-4"
                   submit
                   :loading="Circular"
-                  @click="login('account')"
+                  @click="login(source)"
                 >
-                  登录
+                  {{ ldap ? $VENDOR[vendor] : '' }} 登录
                 </v-btn>
               </v-form>
               <div
-                v-if="enableOauthItems && enableOauthItems.length > 0"
+                v-if="enableOauthItems && enableOauthItems.length > 0 && !ldap"
                 class="mt-5"
               >
                 <div class="divide">其他登录方式</div>
-                <v-row class="mt-3 px-2">
-                  <v-col
+                <div class="mt-2">
+                  <v-avatar
                     v-for="(item, index) in enableOauthItems"
                     :key="index"
-                    cols="4"
-                    xs="6"
-                    :class="`${index%3===0?'text-left':index%3===1?'text-center':'text-right'} pa-0`"
+                    left
+                    width="35"
+                    min-width="35"
+                    height="35"
+                    class="mr-3 kubegems__pointer"
+                    @click="oauth(item)"
                   >
-                    <v-chip
-                      pill
-                      class="mr-1 mb-1"
-                      @click="oauth(item)"
-                    >
-                      <v-avatar left>
-                        <v-btn
-                          color="grey lighten-4"
-                          class="white--text"
-                        >
-                          <BaseLogo
-                            class="primary--text logo-margin"
-                            :icon-name="item.vendor.toLowerCase()"
-                            :width="25"
-                            :ml="0"
-                          />
-                        </v-btn>
-                      </v-avatar>
-                      使用 {{ $VENDOR[item.vendor] }} 登录
-                    </v-chip>
-                  </v-col>
-                </v-row>
+                    <BaseLogo
+                      class="primary--text logo-margin"
+                      :icon-name="item.vendor.toLowerCase()"
+                      :width="35"
+                      :ml="0"
+                    />
+                  </v-avatar>
+                </div>
               </div>
             </v-col>
           </v-row>
@@ -158,6 +158,9 @@ export default {
     username: '',
     usernameRules: [required],
     oauthItems: [],
+    ldap: false,
+    source: '',
+    vendor: '',
   }),
   computed: {
     ...mapState(['JWT', 'Circular', 'Admin', 'AdminViewport', 'Scale']),
@@ -251,12 +254,18 @@ export default {
         this.redirect()
       }
     },
+    toDefaultLogin() {
+      this.ldap = false
+      this.source = 'account'
+    },
     async oauth(auth) {
       if (auth.kind === 'OAUTH') {
-        const data = await getOauthAddr({source: auth.name})
+        const data = await getOauthAddr({ source: auth.name })
         window.location.href = data
       } else if (auth.kind === 'LDAP') {
-        await this.login(auth.name)
+        this.ldap = true
+        this.source = auth.name
+        this.vendor = auth.vendor
       }
     },
   },
