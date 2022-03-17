@@ -115,6 +115,10 @@ export default {
         DefaultStorageClass: data.DefaultStorageClass,
         extend: {
           storageClasses: [],
+          imageRepos: [
+            'registry.cn-beijing.aliyuncs.com/kubegems',
+            'docker.io/kubegems',
+          ],
           validate: 'progressing',
           clusterName: '',
           existInstaller: false,
