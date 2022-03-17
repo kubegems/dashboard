@@ -10,7 +10,7 @@
     z-index="1000"
     :close-on-content-click="false"
     min-width="200px"
-    max-width="310px"
+    max-width="320px"
   >
     <template #activator="{ on }">
       <v-btn
@@ -47,7 +47,7 @@
             {{ User.Username }}
             <v-chip
               pill
-              class="mr-1 primary--text"
+              class="mr-1 primary--text mt-n1 ml-2"
               small
               color="white"
             >
@@ -98,7 +98,7 @@
             <v-list-item-title class="text-body-2 font-weight-medium kubegems__detail">
               租户
               <v-flex
-                class="float-right white--text blue-grey lighten-2 px-1 rounded"
+                class="float-right white--text blue-grey lighten-2 px-1 rounded label"
               >
                 {{ Tenant().TenantName }}
               </v-flex>
@@ -118,7 +118,7 @@
             <v-list-item-title class="text-body-2 font-weight-medium kubegems__detail">
               用户中心
               <v-flex
-                class="float-right white--text blue-grey lighten-2 px-1 rounded"
+                class="float-right white--text blue-grey lighten-2 px-1 rounded label"
               >
                 {{ Admin ? '管理员' : '普通成员' }}
               </v-flex>
@@ -234,3 +234,9 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.label {
+  line-height: 22px;
+}
+</style>
