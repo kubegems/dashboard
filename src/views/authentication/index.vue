@@ -105,21 +105,21 @@
                 class="mt-5"
               >
                 <div class="divide">其他登录方式</div>
-                <div class="mt-2">
+                <div class="mt-4 text-center">
                   <v-avatar
                     v-for="(item, index) in enableOauthItems"
                     :key="index"
                     left
-                    width="35"
-                    min-width="35"
-                    height="35"
+                    width="40"
+                    min-width="40"
+                    height="40"
                     class="mr-3 kubegems__pointer"
                     @click="oauth(item)"
                   >
                     <BaseLogo
                       class="primary--text logo-margin"
                       :icon-name="item.vendor.toLowerCase()"
-                      :width="35"
+                      :width="40"
                       :ml="0"
                     />
                   </v-avatar>
@@ -159,7 +159,7 @@ export default {
     usernameRules: [required],
     oauthItems: [],
     ldap: false,
-    source: '',
+    source: 'account',
     vendor: '',
   }),
   computed: {
@@ -184,13 +184,13 @@ export default {
       const data = await getSystemAuthSource()
       this.oauthItems = data
     },
-    async login(source = 'account') {
+    async login() {
       if (this.$refs.loginForm.validate(true)) {
         this.$store.commit('CLEARALL')
         const data = await postLogin({
           username: this.username,
           password: this.password,
-          source: source,
+          source: this.source,
         })
         this.$store.commit('SET_JWT', data.token)
         await this.loadData()
