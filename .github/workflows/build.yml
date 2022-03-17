@@ -89,6 +89,8 @@ jobs:
     runs-on: ubuntu-18.04
     needs: build
     steps:
+      - run: ls .
+      
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
 
