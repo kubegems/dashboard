@@ -13,9 +13,17 @@
   </a>
 </p>
 
-### Introduction
+## Introduction
 
 KubeGems 是在 Kubernetes 之上构建的面向云原生应用的操作平台，支持多云与多集群管理，提供全栈的 IT 自动化运维能力，简化 DevOps 工作流。
+
+## Documentation
+
+To check out [live demo](http://47.108.158.85/) and docs, visit [kubegems.io](https://kubegems.io).
+
+## Changelog
+
+Detailed changes for each release are documented in the [release notes](https://github.com/kubegems/dashboard/releases).
 
 ### 📑 License
 
