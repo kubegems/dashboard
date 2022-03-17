@@ -1,53 +1,24 @@
-[![Build Status](https://github.com/kubegems/dashboard/workflows/build/badge.svg)](https://github.com/kubegems/dashboard/actions)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+<p align="center">
+  <a href="https://kubegems.io" target="_blank">
+    <img alt="Kubegems Logo" width="100" src="./public/icon/kubegems.jpg">
+  </a>
+</p>
 
-# 项目运行
+<p align="center">
+  <a href="https://github.com/kubegems/dashboard/actions">
+    <img src="https://github.com/kubegems/dashboard/workflows/build/badge.svg" alt="CI badge">
+  </a>
+  <a href="https://opensource.org/licenses/Apache-2.0">
+    <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License">
+  </a>
+</p>
 
-## Project setup
+### Introduction
 
-```sh
-yarn install
-```
+KubeGems 是在 Kubernetes 之上构建的面向云原生应用的操作平台，支持多云与多集群管理，提供全栈的 IT 自动化运维能力，简化 DevOps 工作流。
 
-### Compiles and hot-reloads for development
+### 📑 License
 
-```sh
-yarn run serve
-```
+[Apache-2.0](https://opensource.org/licenses/Apache-2.0)
 
-### Compiles and minifies for production
-
-```sh
-yarn run build
-```
-
-### Run your tests
-
-```sh
-yarn run test
-```
-
-### Lints and fixes files
-
-```sh
-yarn run lint
-```
-
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).
-
-## build
-
-```sh
-make build
-make docker
-make push
-make deploy
-```
-
-## 运行
-
-运行时需要指定环境变量 `NGINX_UPSTREAM` 为后端服务地址，默认为`server`。
-
-详见[nginx.conf.template](./nginx.conf.template)
+Copyright (c) 2021-present Kubegems.io
