@@ -42,7 +42,7 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  build:
+  prepare:
     runs-on: ubuntu-18.04
     steps:
       - name: Checkout
@@ -74,7 +74,11 @@ jobs:
           echo ::set-output name=version::${VERSION}
           echo ::set-output name=tags::${TAGS}
           echo ::set-output name=created::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
-      
+
+  build_dist:
+    needs: prepare
+    runs-on: ubuntu-18.04
+    steps:      
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
@@ -82,10 +86,15 @@ jobs:
       
       - name: Build dashboard dist
         env:
-          VUE_APP_DATE: ${{ steps.prepare.outputs.created }}
-          VUE_APP_RELEASE: ${{ steps.prepare.outputs.tags }}
+          VUE_APP_DATE: ${{ jobs.prepare.steps.prepare.outputs.created }}
+          VUE_APP_RELEASE: ${{ jobs.prepare.steps.prepare.outputs.tags }}
         run: echo $VUE_APP_DATE && echo $VUE_APP_RELEASE && yarn install && yarn build
 
+  push_image:
+    if: ${{ github.event_name != 'pull_request' }}
+    runs-on: ubuntu-18.04
+    needs: [prepare, build_dist]
+    steps:
       - name: Set up QEMU
         if: github.event_name != 'pull_request'
         uses: docker/setup-qemu-action@v1
