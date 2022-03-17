@@ -5,6 +5,7 @@ on:
     branches:
       - "main"
       - "develop"
+      - "*"
     tags:
       - "v*.*.*"
     paths-ignore:
@@ -43,7 +44,11 @@ env:
 
 jobs:
   prepare:
+    name: prepare github metadata
     runs-on: ubuntu-18.04
+    outputs:
+      tags: ${{ steps.prepare.outputs.tags }}
+      created: ${{ steps.prepare.outputs.created }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2.3.3
@@ -76,6 +81,7 @@ jobs:
           echo ::set-output name=created::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
 
   build_dist:
+    name: build dashboard dist
     needs: prepare
     runs-on: ubuntu-18.04
     steps:      
@@ -86,12 +92,13 @@ jobs:
       
       - name: Build dashboard dist
         env:
-          VUE_APP_DATE: ${{ jobs.prepare.steps.prepare.outputs.created }}
-          VUE_APP_RELEASE: ${{ jobs.prepare.steps.prepare.outputs.tags }}
+          VUE_APP_DATE: ${{ needs.prepare.outputs.created }}
+          VUE_APP_RELEASE: ${{ needs.prepare.outputs.tags }}
         run: echo $VUE_APP_DATE && echo $VUE_APP_RELEASE && yarn install && yarn build
 
   push_image:
-    if: ${{ github.event_name != 'pull_request' }}
+    name: build dashboard image and push to registry
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-18.04
     needs: [prepare, build_dist]
     steps:
