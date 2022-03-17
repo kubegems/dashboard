@@ -20,7 +20,7 @@
                   {{ User.Username }}
                   <v-chip
                     pill
-                    class="mr-1"
+                    class="mr-1 mt-n1"
                     small
                   >
                     <v-avatar left>
@@ -42,7 +42,7 @@
                     </span>
                   </v-chip>
                 </h3>
-                <h5 class="text-subtitle-2">
+                <h5 class="text-subtitle-2 mt-1">
                   {{ Admin ? '管理员' : '普通用户' }}
                 </h5>
               </div>
