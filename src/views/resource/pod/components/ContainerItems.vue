@@ -317,12 +317,6 @@ export default {
     containerStatuses: {
       handler() {
         this.containerStatusesCopy = deepCopy(this.containerStatuses)
-      },
-      deep: true,
-      immediate: true,
-    },
-    containers: {
-      handler() {
         this.containers.forEach(c => {
           const index = this.containerStatusesCopy.findIndex(s => { return s.name === c.name })
           if (index > -1) {
