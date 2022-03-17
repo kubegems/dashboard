@@ -41,4 +41,7 @@
     "terminal.integrated.fontFamily": "Hack Nerd Font Mono",
     "javascript.inlayHints.parameterNames.enabled": "all",
     "javascript.inlayHints.variableTypes.enabled": true,
+    "yaml.schemas": {
+        "https://json.schemastore.org/github-workflow.json": "./.github/workflows/build.yml"
+    },
 }
