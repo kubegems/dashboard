@@ -5,7 +5,6 @@ on:
     branches:
       - "main"
       - "develop"
-      - "*"
     tags:
       - "v*.*.*"
     paths-ignore:
@@ -39,9 +38,6 @@ env:
 jobs:
   build:
     runs-on: ubuntu-18.04
-    outputs:
-      tags: ${{ steps.prepare.outputs.tags }}
-      created: ${{ steps.prepare.outputs.created }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2.3.3
@@ -72,7 +68,7 @@ jobs:
           echo ::set-output name=version::${VERSION}
           echo ::set-output name=tags::${TAGS}
           echo ::set-output name=created::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
-
+      
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
@@ -84,32 +80,28 @@ jobs:
           VUE_APP_RELEASE: ${{ steps.prepare.outputs.tags }}
         run: echo $VUE_APP_DATE && echo $VUE_APP_RELEASE && yarn install && yarn build
 
-  push_image:
-    if: github.event_name != 'pull_request'
-    runs-on: ubuntu-18.04
-    needs: build
-    steps:
-      - run: ls .
-      
       - name: Set up QEMU
+        if: github.event_name != 'pull_request'
         uses: docker/setup-qemu-action@v1
 
       - name: Docker Setup Buildx
+        if: github.event_name != 'pull_request'
         uses: docker/setup-buildx-action@v1
 
-      # - name: Login to registry
-      #   uses: docker/login-action@v1.6.0
-      #   with:
-      #     registry: ${{ env.REGISTRY }}
-      #     username: ${{ secrets.ALI_RSY_USER }}
-      #     password: ${{ secrets.ALI_RSY_PASSWORD }}
+      - name: Login to registry
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v1.6.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.ALI_RSY_USER }}
+          password: ${{ secrets.ALI_RSY_PASSWORD }}
 
-      - name: Build dashboard image and push image
-        id: docker_build_dashboard
+      - name: Build dashboard and push image
+        if: github.event_name != 'pull_request'
         uses: docker/build-push-action@v2
         with:
           context: .
           file: ./Dockerfile
           platforms: linux/amd64
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.prepare.outputs.tags }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.prepare.outputs.tags }}
