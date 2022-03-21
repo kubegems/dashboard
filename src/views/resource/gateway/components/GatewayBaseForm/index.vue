@@ -133,7 +133,6 @@
               class="my-0"
               required
               label="镜像"
-              :readonly="edit"
               :rules="objRules.imageRule"
             />
           </v-col>
@@ -342,7 +341,7 @@ export default {
     },
     // eslint-disable-next-line vue/no-unused-properties
     getData() {
-      if (this.image && !this.edit) {
+      if (this.image) {
         const repository = this.splitImage(this.image, 'image')
         const tag = this.splitImage(this.image, 'tag')
         this.obj.spec.image = {
@@ -350,6 +349,8 @@ export default {
           tag: tag,
           pullPolicy: 'IfNotPresent',
         }
+      } else {
+        delete this.obj.spec.image
       }
       return this.obj
     },
