@@ -85,7 +85,7 @@ export default {
             }
             data = this.m_resource_beautifyData(data)
           } else if (this.formComponent === 'GatewayBaseForm') {
-            data = this.$refs[this.formComponent].obj
+            data = this.$refs[this.formComponent].getData()
             if (data.cluster === '') data.cluster = this.ThisCluster
             data = this.m_resource_beautifyData(data)
           }
@@ -98,7 +98,7 @@ export default {
     },
     onYamlSwitchChange() {
       if (this.yaml) {
-        const data = this.$refs[this.formComponent].obj
+        const data = this.$refs[this.formComponent].getData()
         this.formComponent = 'BaseYamlForm'
         this.$nextTick(() => {
           this.$refs[this.formComponent].setYaml(this.$yamldump(data))

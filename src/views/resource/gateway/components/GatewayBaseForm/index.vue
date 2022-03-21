@@ -126,6 +126,17 @@
               </template>
             </v-text-field>
           </v-col>
+
+          <v-col cols="6">
+            <v-text-field
+              v-model="image"
+              class="my-0"
+              required
+              label="镜像"
+              :readonly="edit"
+              :rules="objRules.imageRule"
+            />
+          </v-col>
         </v-row>
       </v-card-text>
 
@@ -195,6 +206,7 @@ export default {
       { text: 'http/2(仅对启用ssl的服务生效)', value: 'http/2' },
     ],
     protocol: 'http/1.1',
+    image: '',
     obj: {
       apiVersion: '',
       kind: 'TenantGateway',
@@ -224,6 +236,7 @@ export default {
         protocolTypeRule: [required],
         replicasRule: [positiveInteger],
         baseDomainRule: [(v) => !!v || "域名格式错误（支持通配符'*'）"],
+        imageRule: [v => !v || !!new RegExp('^([\\w|/|\\.|-]+)[:|@]([\\w|\\.|-]+)$').test(v) || '格式错误（不符合镜像格式）'],
       }
     },
     apiVersion() {
@@ -320,9 +333,41 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     setData(data) {
       this.obj = data
+      if (this.obj.spec.image) {
+        this.image = `${this.obj.spec.image.repository}:${this.obj.spec.image.tag}`
+      }
     },
     onTenantSelectFocus() {
       this.m_select_tenantSelectData()
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    getData() {
+      if (this.image && !this.edit) {
+        const repository = this.splitImage(this.image, 'image')
+        const tag = this.splitImage(this.image, 'tag')
+        this.obj.spec.image = {
+          repository: repository,
+          tag: tag,
+          pullPolicy: 'IfNotPresent',
+        }
+      }
+      return this.obj
+    },
+    splitImage(image, type) {
+      const match = new RegExp(
+        '([\\w|/|\\.|-]+)?[:|@]?([\\w|\\.|-]+)?',
+        'g',
+      ).exec(image)
+
+      if (match) {
+        if (type === 'image') {
+          return match[1]
+        } else if (type === 'tag') {
+          return match[2]
+        }
+        return ''
+      }
+      return ''
     },
   },
 }
