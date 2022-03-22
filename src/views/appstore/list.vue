@@ -65,7 +65,7 @@
         hide-default-footer
         show-select
         @toggle-select-all="
-          m_table_onNotK8SResourceToggleSelect($event, 'Name', 'ChartRepoName')
+          m_table_onNotK8SResourceToggleSelect($event, 'ChartRepoName')
         "
       >
         <template #[`item.data-table-select`]="{ item }">
@@ -74,7 +74,7 @@
             color="primary"
             hide-details
             @click.stop
-            @change="m_table_onNotK8SResourceChange($event, item, 'Name', 'ChartRepoName')"
+            @change="m_table_onNotK8SResourceChange($event, item, 'ChartRepoName')"
           />
         </template>
         <template #[`item.chartRepoName`]="{ item }">
@@ -205,7 +205,7 @@ export default {
       } else {
         this.items = this.itemsCopy
       }
-      this.m_table_generateSelectResourceNoK8s('Name', 'ChartRepoName')
+      this.m_table_generateSelectResourceNoK8s('ChartRepoName')
     },
     async repositoryList() {
       const data = await getRepositoryList(this.params)
@@ -217,7 +217,7 @@ export default {
       })
       this.itemsCopy = deepCopy(this.items)
       this.customFilter()
-      this.m_table_generateSelectResourceNoK8s('Name', 'ChartRepoName')
+      this.m_table_generateSelectResourceNoK8s('ChartRepoName')
     },
     addRepository() {
       this.$refs.repositoryInfo.title = '添加仓库'

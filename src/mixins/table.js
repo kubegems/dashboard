@@ -186,14 +186,8 @@ const table = {
         doFunc: async () => {
           for (const id in this.m_table_batchResources) {
             if (this.m_table_batchResources[id].checked) {
-              const deleteObj = {}
-              this.$set(
-                deleteObj,
-                this.m_table_batchResources[id]['deleteKey'],
-                this.m_table_batchResources[id]['deleteValue'],
-              )
               try {
-                await this.m_table_resourceRemoveFunc[resourceType](deleteObj)
+                await this.m_table_resourceRemoveFunc[resourceType](this.m_table_batchResources[id]['value'])
                 this.$store.commit('SET_CONFIRM_STATUS', {
                   key: this.m_table_batchResources[id].name,
                   value: true,
@@ -221,13 +215,12 @@ const table = {
         })
       })
     },
-    m_table_generateSelectResourceNoK8s(deleteKey, valueKey) {
+    m_table_generateSelectResourceNoK8s(valueKey) {
       this.m_table_batchResources = {}
       this.items.forEach((resource) => {
         this.$set(this.m_table_batchResources, resource.ID, {
           name: resource.name,
-          deleteKey: deleteKey,
-          deleteValue: resource[valueKey],
+          value: resource[valueKey],
           checked: false,
         })
       })
@@ -240,12 +233,11 @@ const table = {
         checked: checked,
       })
     },
-    m_table_onNotK8SResourceChange(checked, item, deleteKey, valueKey) {
+    m_table_onNotK8SResourceChange(checked, item, valueKey) {
       this.$set(this.m_table_batchResources, item.ID, {
         name: item.name,
         checked: checked,
-        deleteKey: deleteKey,
-        deleteValue: item[valueKey],
+        value: item[valueKey],
       })
     },
     m_table_onResourceToggleSelect(checkObj) {
@@ -258,13 +250,12 @@ const table = {
         }
       })
     },
-    m_table_onNotK8SResourceToggleSelect(checkObj, deleteKey, valueKey) {
+    m_table_onNotK8SResourceToggleSelect(checkObj, valueKey) {
       this.items.forEach((resource) => {
         this.m_table_batchResources[resource.ID] = {
           name: resource.name,
           checked: checkObj.value,
-          deleteKey: deleteKey,
-          deleteValue: resource[valueKey],
+          value: resource[valueKey],
         }
       })
     },
