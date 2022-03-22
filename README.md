@@ -54,6 +54,10 @@ yarn serve
 
 To check out [live demo](http://47.108.158.85/) and docs, visit [kubegems.io](https://kubegems.io).
 
+## Issues
+
+Please make sure to read the [Issue Template](https://github.com/kubegems/dashboard/blob/main/.github/ISSUE_TEMPLATE.md) and [Pull Request Template](https://github.com/kubegems/dashboard/blob/main/.github/PULL_REQUEST_TEMPLATE.md) before opening an issue or create PR.
+
 ## Changelog
 
 Detailed changes for each release are documented in the [release notes](https://github.com/kubegems/dashboard/releases).
