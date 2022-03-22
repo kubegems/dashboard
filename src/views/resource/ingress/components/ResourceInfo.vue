@@ -207,7 +207,7 @@ export default {
       if (this.gateway && this.gateway.status) {
         if (type === 'http') {
           const g = this.gateway.status.ports.find((g) => {
-            return g.name === 'http2'
+            return g.name === 'http'
           })
           if (g) return `:${g.nodePort}`
           return ''
