@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://kubegems.io" target="_blank">
-    <img alt="Kubegems Logo" width="30%" height="30%" style="max-width: 100%;" src="./public/kubegem-logo.jpeg">
+    <img alt="Kubegems Logo" width="30%" style="max-width: 100%;" src="./public/kubegem-logo.jpeg">
   </a>
 </p>
 
@@ -13,9 +13,42 @@
   </a>
 </p>
 
+<p align="center">
+  <img alt="Kubegems Dashboard" width="85%" style="max-width: 100%;" src="./public/dashboard.png">
+</p>
+
 ## Introduction
 
-KubeGems 是在 Kubernetes 之上构建的面向云原生应用的操作平台，支持多云与多集群管理，提供全栈的 IT 自动化运维能力，简化 DevOps 工作流。
+KubeGems is a full-stack application platform for Kubernetes automated operation, maintenance, operation and manufacturing. It supports multi-cluster management, provides cloud computing stack capabilities, and provides IT DevOps workflows and workflows.
+
+KubeGems Dashboard is the web interface for [KubeGems](https://github.com/kubegems/kubegems).
+
+## How to build
+
+### Requirement
+
+#### Node.js
+
+Node.js is required. If you don't have a Node.js development environment, please [set it up](https://nodejs.org/en/download/). The minimum version required is 16.
+
+#### Yarn
+
+We use [Yarn](https://yarnpkg.com/) to do package management. If you don't have yarn, use the following to install:
+
+```sh
+npm install -g yarn@1.22.17
+```
+
+The minimum version required is 1.22.17, but you can use a newer version.
+
+Clone the repository, and run `yarn && yarn build`
+
+```sh
+git clone https://github.com/kubegems/dsahboard.git
+cd dashboard/
+yarn && yarn build
+yarn serve
+```
 
 ## Documentation
 
