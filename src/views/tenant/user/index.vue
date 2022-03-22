@@ -57,7 +57,7 @@
         no-data-text="暂无数据"
         hide-default-footer
         show-select
-        @toggle-select-all="m_table_onNotK8SResourceToggleSelect($event, 'UserID', 'ID')"
+        @toggle-select-all="m_table_onNotK8SResourceToggleSelect($event, 'ID')"
       >
         <template #[`item.data-table-select`]="{ item }">
           <v-checkbox
@@ -65,7 +65,7 @@
             color="primary"
             hide-details
             @click.stop
-            @change="m_table_onNotK8SResourceChange($event, item, 'UserID', 'ID')"
+            @change="m_table_onNotK8SResourceChange($event, item, 'ID')"
           />
         </template>
         <template #[`item.username`]="{ item }">
@@ -269,7 +269,7 @@ export default {
       this.pageCount = Math.ceil(data.Total / this.params.size)
       this.params.page = data.CurrentPage
       this.$router.replace({ query: { ...this.$route.query, ...this.params } })
-      this.m_table_generateSelectResourceNoK8s('UserID', 'ID')
+      this.m_table_generateSelectResourceNoK8s('ID')
     },
     updateRole(item) {
       this.$refs.updateRole.init(item)

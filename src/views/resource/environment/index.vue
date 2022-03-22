@@ -56,19 +56,7 @@
           :items-per-page="500"
           no-data-text="暂无数据"
           hide-default-footer
-          @toggle-select-all="
-            m_table_onNotK8SResourceToggleSelect($event, 'EnvironmentID', 'ID')
-          "
         >
-          <template #[`item.data-table-select`]="{ item }">
-            <v-checkbox
-              v-model="m_table_batchResources[item.ID].checked"
-              color="primary"
-              hide-details
-              @click.stop
-              @change="m_table_onNotK8SResourceChange($event, item, 'EnvironmentID', 'ID')"
-            />
-          </template>
           <template #[`item.environmentName`]="{ item }">
             {{ item.EnvironmentName }}
           </template>
@@ -325,7 +313,6 @@ export default {
         e.StoragePercentage =
           e.Storage > 0 ? ((e.UsedStorage / e.Storage) * 100).toFixed(1) : 0
       })
-      this.m_table_generateSelectResourceNoK8s('EnvironmentID', 'ID')
     },
     onTenantSelectChange() {
       if (this.tenant) this.environmentTenantResourceQuota(this.tenant)
