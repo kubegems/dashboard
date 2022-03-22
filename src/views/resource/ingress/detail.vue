@@ -180,6 +180,9 @@ export default {
         this.Tenant().ID,
         this.ThisClusterID,
         ingressClass,
+        {
+          ingressClass: ingressClass,
+        },
       )
       this.gateway = data
     },
