@@ -46,18 +46,7 @@
         :items-per-page="params.size"
         no-data-text="暂无数据"
         hide-default-footer
-        show-select
-        @toggle-select-all="m_table_onNotK8SResourceToggleSelect($event, 'TenantID', 'ID')"
       >
-        <template #[`item.data-table-select`]="{ item }">
-          <v-checkbox
-            v-model="m_table_batchResources[item.ID].checked"
-            color="primary"
-            hide-details
-            @click.stop
-            @change="m_table_onNotK8SResourceChange($event, item, 'TenantID', 'ID')"
-          />
-        </template>
         <template #[`item.tenantName`]="{ item }">
           <a
             class="text-subtitle-2"
@@ -261,7 +250,6 @@ export default {
       this.pageCount = Math.ceil(data.Total / this.params.size)
       this.params.page = data.CurrentPage
       this.$router.replace({ query: { ...this.$route.query, ...this.params } })
-      this.m_table_generateSelectResourceNoK8s('TenantID', 'ID')
     },
     addTenant() {
       this.$refs.addTenant.open()
