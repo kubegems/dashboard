@@ -245,7 +245,10 @@ export default {
         }
       } else {
         if (item.spec && item.spec.template && item.spec.template.spec && item.spec.template.spec.containers) {
-          this.portItems = item.spec.template.spec.containers.map(container => container.name)
+          item.spec.template.spec.containers.forEach(container => {
+            container.ports.forEach(port => this.portItems.push(port.name))
+            return
+          })
         }
       }
     },
