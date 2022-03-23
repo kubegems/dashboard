@@ -36,7 +36,6 @@
               no-data-text="暂无可选数据"
               :hint="globalAlert.hint"
               :persistent-hint="globalAlert.show"
-              @focus="onNamespaceSelectFocus(ThisCluster)"
             >
               <template #selection="{ item }">
                 <v-chip
@@ -284,6 +283,7 @@ export default {
     // when click back, load ns first
     this.AdminViewport && this.m_select_namespaceSelectData(this.ThisCluster)
     this.getMonitorConfig()
+    this.m_select_namespaceSelectData(this.obj.cluster || this.ThisCluster)
   },
   methods: {
     // eslint-disable-next-line vue/no-unused-properties
@@ -387,9 +387,6 @@ export default {
       const data = await getSystemConfigData('Monitor')
       this.metricsConfig = data.content || {}
       this.setLabelpairs(this.obj.labelpairs) // 此处确保配置项加载完后更新labelpairs列表
-    },
-    onNamespaceSelectFocus(clusterName) {
-      this.m_select_namespaceSelectData(clusterName)
     },
   },
 }
