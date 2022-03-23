@@ -364,7 +364,7 @@ export default {
       )
       this.gateway = {}
       data.forEach((d) => {
-        this.gateway[d.metadata.name] = d
+        this.gateway[d.spec.ingressClass] = d
       })
     },
     getSchema(rule, item) {
@@ -402,7 +402,7 @@ export default {
       if (gateway && gateway.status) {
         if (type === 'http') {
           const g = gateway.status.ports.find((g) => {
-            return g.name === 'http2'
+            return g.name === 'http'
           })
           if (g) return `:${g.nodePort}`
           return ''
