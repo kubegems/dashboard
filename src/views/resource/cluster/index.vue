@@ -26,7 +26,7 @@
                   @click="addCluster"
                 >
                   <v-icon left>mdi-plus-box</v-icon>
-                  创建集群
+                  添加集群
                 </v-btn>
               </v-list-item-content>
             </v-list-item>
