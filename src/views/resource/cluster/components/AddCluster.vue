@@ -2,7 +2,7 @@
   <BaseDialog
     v-model="dialog"
     :width="1000"
-    title="创建集群"
+    title="添加集群"
     icon="mdi-server-plus"
     @reset="reset"
   >
