@@ -174,7 +174,7 @@ export default {
   data: () => ({
     valid: false,
     prefixscheme: false,
-    scheme: 'http',
+    scheme: 'https',
     obj: {
       RegistryName: '',
       RegistryAddress: '',
