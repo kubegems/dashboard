@@ -10,7 +10,7 @@
             {{ obj ? obj.LimitRange.Container.default.cpu : 0 }}
           </v-flex>
           <v-flex class="text-center py-0">
-            默认
+            默认值
           </v-flex>
         </v-flex>
         <v-flex class="float-left limit-range-min-width">

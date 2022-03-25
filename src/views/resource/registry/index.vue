@@ -75,7 +75,6 @@
         <template #[`item.isDefault`]="{ item }">
           {{ item.IsDefault ? '是' : '否' }}
         </template>
-        <template #[`item.password`]> ******** </template>
         <template #[`item.action`]="{ item }">
           <v-flex :id="`r${item.ID}`" />
           <v-menu
@@ -208,7 +207,6 @@ export default {
         { text: '仓库地址', value: 'registryAddress', align: 'start' },
         { text: '默认仓库', value: 'isDefault', align: 'start' },
         { text: '用户名', value: 'username', align: 'start' },
-        { text: '密码', value: 'password', align: 'start' },
         { text: '创建人', value: 'creator', align: 'start' },
         { text: '最近更新时间', value: 'updateAt', align: 'start' },
       ]
