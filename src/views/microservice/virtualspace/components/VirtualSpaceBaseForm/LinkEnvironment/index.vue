@@ -130,6 +130,7 @@ export default {
             EnvironmentName: data.text,
           }),
         )
+        this.$emit('refresh')
       }
     },
     expandCard() {
@@ -150,15 +151,13 @@ export default {
       })
       this.$refs.linkEnvironmentForm.expandCard()
     },
-    removeEnvironment(index) {
+    async removeEnvironment(index) {
       if (this.edit) {
         const env = this.obj.Environments[index]
-        deleteVirtualSpaceEnvironment({
-          VirtualSpaceID: this.obj.ID,
-          EnvironmentID: env.ID,
-        })
+        await deleteVirtualSpaceEnvironment(this.obj.ID, env.ID)
       }
       this.$delete(this.obj.Environments, index)
+      this.$emit('refresh')
     },
   },
 }

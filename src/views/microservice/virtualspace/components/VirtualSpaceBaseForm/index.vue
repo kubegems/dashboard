@@ -10,6 +10,7 @@
       :ref="steps[step]"
       :item="item"
       :edit="edit"
+      @refresh="refresh"
     />
   </v-form>
 </template>
@@ -66,6 +67,9 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     reset() {
       this.$refs[this.steps[this.step]].$refs.form.reset()
+    },
+    refresh() {
+      this.$emit('refresh')
     },
   },
 }
