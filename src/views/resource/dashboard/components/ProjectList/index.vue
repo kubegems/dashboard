@@ -2,6 +2,7 @@
   <v-flex class="px-2">
     <v-expansion-panels
       v-model="expand"
+      focusable
       accordion
       class="project-panel"
     >

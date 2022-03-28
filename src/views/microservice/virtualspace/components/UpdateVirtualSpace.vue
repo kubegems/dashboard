@@ -14,6 +14,7 @@
         :edit="true"
         :item="item"
         title="虚拟空间"
+        @refresh="refresh"
       />
     </template>
     <template #action>
@@ -129,6 +130,9 @@ export default {
       this.$refs[this.formComponent].reset()
       this.step = 0
       this.formComponent = 'VirtualSpaceBaseForm'
+    },
+    refresh() {
+      this.$emit('refresh')
     },
   },
 }

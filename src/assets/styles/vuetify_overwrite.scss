@@ -106,3 +106,7 @@
 .theme--light.v-footer {
   background: white;
 }
+
+.theme--light.v-expansion-panels.v-expansion-panels--focusable .v-expansion-panel-header--active::before {
+  opacity: 0 !important;
+}

@@ -11,7 +11,7 @@
             <v-list-item
               two-line
               class="float-left py-0 pl-0"
-              style="width: 250px;"
+              style="width: 260px;"
             >
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
@@ -25,7 +25,7 @@
             <v-list-item
               two-line
               class="float-left py-0"
-              style="width: 250px;"
+              style="width: 260px;"
             >
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
@@ -39,7 +39,7 @@
             <v-list-item
               two-line
               class="float-left py-0"
-              style="width: 250px;"
+              style="width: 260px;"
             >
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
@@ -115,7 +115,7 @@ export default {
       this.$emit('updateEnvironment', index, type)
     },
     removeEnvironment(index, type) {
-      this.$emit('removeData', index, type)
+      this.$emit('removeEnvironment', index, type)
     },
     expandCard() {
       this.$emit('expandCard', false)
