@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <div class="text-center pa-4">
-      <Logo
+      <BaseLogo
         :icon-name="name"
         large
         :width="100"
@@ -41,13 +41,8 @@
 </template>
 
 <script>
-import Logo from '@/views/resource/components/common/Logo'
-
 export default {
   name: 'OutputInfoPanel',
-  components: {
-    Logo,
-  },
   props: {
     data: {
       type: Object,

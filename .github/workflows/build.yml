@@ -5,7 +5,6 @@ on:
     branches:
       - "main"
       - "develop"
-      - "*"
     tags:
       - "v*.*.*"
     paths-ignore:
@@ -45,9 +44,6 @@ env:
 jobs:
   build:
     runs-on: ubuntu-18.04
-    outputs:
-      tags: ${{ steps.prepare.outputs.tags }}
-      created: ${{ steps.prepare.outputs.created }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2.3.3
@@ -78,7 +74,7 @@ jobs:
           echo ::set-output name=version::${VERSION}
           echo ::set-output name=tags::${TAGS}
           echo ::set-output name=created::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
-
+      
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
@@ -90,13 +86,6 @@ jobs:
           VUE_APP_RELEASE: ${{ steps.prepare.outputs.tags }}
         run: echo $VUE_APP_DATE && echo $VUE_APP_RELEASE && yarn install && yarn build
 
-  push_image:
-    if: github.event_name != 'pull_request'
-    runs-on: ubuntu-18.04
-    needs: build
-    steps:
-      - run: ls .
-      
       - name: Set up QEMU
         if: github.event_name != 'pull_request'
         uses: docker/setup-qemu-action@v1

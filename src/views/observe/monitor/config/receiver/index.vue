@@ -65,13 +65,13 @@
           show-expand
           item-key="index"
           @page-count="pageCount = $event"
-          @toggle-select-all="onResourceToggleSelect"
+          @toggle-select-all="m_table_onResourceToggleSelect"
           @click:row="onRowClick"
         >
-          <template #[`item.data-table-select`]="{ item, index }">
+          <!-- <template #[`item.data-table-select`]="{ item, index }">
             <v-checkbox
               v-model="
-                batchResources[
+                m_table_batchResources[
                   `${item.metadata.name}-${index + itemsPerPage * (page - 1)}`
                 ].checked
               "
@@ -86,7 +86,7 @@
                 )
               "
             />
-          </template>
+          </template> -->
           <template #[`item.member`]="{ item }">
             {{ item.member > 0 ? item.member : '' }}
           </template>
@@ -211,6 +211,7 @@ import UpdateReceiver from './components/UpdateReceiver'
 import BaseFilter from '@/mixins/base_filter'
 import BaseResource from '@/mixins/resource'
 import BasePermission from '@/mixins/permission'
+import BaseTable from '@/mixins/table'
 
 export default {
   name: 'ReceiverList',
@@ -218,7 +219,7 @@ export default {
     AddReceiver,
     UpdateReceiver,
   },
-  mixins: [BaseFilter, BaseResource, BasePermission],
+  mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
     // breadcrumb: {
     //   title: '接收器',
@@ -240,7 +241,7 @@ export default {
         { text: '名称', value: 'name', align: 'start' },
         { text: '渠道', value: 'channel', align: 'start' },
       ]
-      if (this.resourceAllow) {
+      if (this.m_permisson_resourceAllow) {
         items.push({ text: '', value: 'action', align: 'center', width: 20 })
       }
       if (this.AdminViewport) {
@@ -269,14 +270,7 @@ export default {
   mounted() {
     if (this.JWT) {
       this.$nextTick(() => {
-        if (this.ThisCluster === '') {
-          this.$store.commit('SET_SNACKBAR', {
-            text: `请创建或选择集群`,
-            color: 'warning',
-          })
-          return
-        }
-        this.generateParams()
+        this.m_table_generateParams()
         this.receiverList()
       })
     }
@@ -284,8 +278,8 @@ export default {
   methods: {
     async receiverList() {
       const data = await getReceiverList(
-        this.ThisCluster,
-        this.ThisNamespace,
+        this.$route.query.cluster,
+        this.$route.query.namespace,
         this.params,
       )
       this.items = data
@@ -299,7 +293,6 @@ export default {
           ...d,
         }
       })
-      this.generateSelectResource()
     },
     filterList(params) {
       const defaultparams = {
@@ -333,7 +326,7 @@ export default {
         param: { item },
         doFunc: async (param) => {
           await deleteReceiver(
-            this.ThisCluster,
+            this.$route.query.cluster,
             param.item.namespace,
             param.item.name,
           )

@@ -11,7 +11,7 @@
         />
         <v-spacer />
         <v-menu
-          v-if="resourceAllow"
+          v-if="m_permisson_resourceAllow"
           left
         >
           <template #activator="{ on }">
@@ -67,14 +67,14 @@
           no-data-text="暂无数据"
           hide-default-footer
           show-select
-          @update:sort-by="sortBy"
-          @update:sort-desc="sortDesc"
-          @toggle-select-all="onResourceToggleSelect"
+          @update:sort-by="m_table_sortBy"
+          @update:sort-desc="m_table_sortDesc"
+          @toggle-select-all="m_table_onResourceToggleSelect"
         >
           <template #[`item.data-table-select`]="{ item, index }">
             <v-checkbox
               v-model="
-                batchResources[`${item.metadata.name}-${index}`].checked
+                m_table_batchResources[`${item.metadata.name}-${index}`].checked
               "
               color="primary"
               hide-details
@@ -189,6 +189,7 @@ import UpdateServiceMonitor from './components/UpdateServiceMonitor'
 import BaseResource from '@/mixins/resource'
 import BasePermission from '@/mixins/permission'
 import BaseFilter from '@/mixins/base_filter'
+import BaseTable from '@/mixins/table'
 
 export default {
   name: 'ServiceMonitorList',
@@ -196,7 +197,7 @@ export default {
     AddServiceMonitor,
     UpdateServiceMonitor,
   },
-  mixins: [BaseFilter, BaseResource, BasePermission],
+  mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
     // breadcrumb: {
     //   title: '采集器',
@@ -223,7 +224,7 @@ export default {
         { text: '采集路径', value: 'path', align: 'start', sortable: false },
         { text: '创建时间', value: 'createAt', align: 'center' },
       ]
-      if (this.resourceAllow) {
+      if (this.m_permisson_resourceAllow) {
         items.push({
           text: '',
           value: 'action',
@@ -280,13 +281,12 @@ export default {
         this.namespace,
         Object.assign(this.params, {
           noprocessing: noprocess,
-          sort: this.generateResourceSortParamValue(),
+          sort: this.m_table_generateResourceSortParamValue(),
         }),
       )
       this.items = data.List
       this.pageCount = Math.ceil(data.Total / this.params.size)
       this.params.page = data.CurrentPage
-      this.generateSelectResource()
     },
     serviceMonitorDetail(item) {
       this.$router.push({
