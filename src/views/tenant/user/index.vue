@@ -126,6 +126,13 @@
               : $moment(item.LastLoginAt).format('lll')
           }}
         </template>
+        <template #[`item.createdAt`]="{ item }">
+          {{
+            item.CreatedAt === null
+              ? '--'
+              : $moment(item.CreatedAt).format('lll')
+          }}
+        </template>
         <template #[`item.action`]="{ item }">
           <v-flex :id="`r${item.ID}`" />
           <v-menu
@@ -239,6 +246,7 @@ export default {
       { text: '手机号', value: 'phone', align: 'start' },
       { text: '角色', value: 'role', align: 'start' },
       { text: '最近登录', value: 'lastLoginAt', align: 'start' },
+      { text: '注册时间', value: 'createdAt', align: 'start' },
       { text: '', value: 'action', align: 'center', width: 20 },
     ],
     pageCount: 0,

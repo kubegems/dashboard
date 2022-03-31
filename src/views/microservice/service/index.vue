@@ -75,8 +75,7 @@
         hide-default-footer
         :custom-filter="baseFilter"
       >
-        <template #[`item.name`]="{ item, index }">
-          <v-flex :id="`i${index}`" />
+        <template #[`item.name`]="{ item }">
           <a
             class="text-subtitle-2"
             @click="kialiServiceDetail(item)"
@@ -93,7 +92,6 @@
                 nudge-right="20px"
                 nudge-top="10px"
                 open-on-hover
-                :attach="`#i${index}`"
               >
                 <template #activator="{ on }">
                   <span v-on="on">
