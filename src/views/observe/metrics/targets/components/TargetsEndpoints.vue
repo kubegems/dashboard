@@ -37,8 +37,8 @@
 </template>
 
 <script>
-import TargetsEndpointsItem from './TargetsEndpointsItem.vue'
-import TargetsEndpointsForm from './TargetsEndpointsForm.vue'
+import TargetsEndpointsItem from './TargetsEndpointsItem'
+import TargetsEndpointsForm from './TargetsEndpointsForm'
 
 export default {
   name: 'TargetsEndpoints',

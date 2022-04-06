@@ -6,7 +6,7 @@
     >
       <template #selector>
         <v-sheet class="text-body-2 text--darken-1">
-          <BaseDatetimePicker2
+          <BaseDatetimePicker
             v-model="date"
             :default-value="30"
             @change="onDatetimeChange(undefined)"

@@ -1,14 +1,13 @@
 <template>
-  <div class="mx-2 pb-3">
+  <div class="mx-2">
     <v-textarea
-      ref="advanceFilter"
-      v-model="logQL"
+      ref="advanceTextarea"
+      v-model="ql"
       dense
       auto-grow
       clearable
       rows="5"
       hide-details
-      :disabled="disabled"
       @focus.stop="focusInput"
       @blur.stop="blurInput"
       @keyup="onSuggestionInput"
@@ -44,11 +43,15 @@
 import { getLogLabels } from '@/api'
 
 export default {
-  name: 'LogFilterAdvanced',
+  name: 'LogAdvancedTextarea',
   props: {
-    currentCluster: {
+    logQL: {
+      type: String,
+      default: () => '',
+    },
+    cluster: {
       type: Object,
-      default: () => null,
+      default: () => ({}),
     },
   },
   data: () => ({
@@ -84,25 +87,23 @@ export default {
       { text: 'label_format', value: 'label_format', t: 'space' },
       { text: 'unwrap', value: 'unwrap', t: 'space' },
     ],
-    headers: [{ text: '', value: 'item', align: 'start' }],
     loading: false,
-    disabled: false,
     tmpFilters: [],
-    logQL: '',
     keyword: '',
     position: 0,
-    label: '',
     suggestTop: 100,
+    ql: '',
+    headers: [{ text: '', value: 'item', align: 'start' }],
   }),
-  watch: {
-    logQL() {
-      this.$emit('advanceUpdateLogQL', this.logQL)
-    },
+  mounted() {
+    this.$nextTick(() => {
+      this.ql = this.logQL
+    })
   },
   methods: {
     async logLabels() {
       this.loading = true
-      const res = await getLogLabels(this.currentCluster.text)
+      const res = await getLogLabels(this.cluster.text, { noprocessing: true })
       if (res.status === 200) {
         this.originLabels = []
         res.data.data.forEach((item) => {
@@ -119,11 +120,11 @@ export default {
       this.loading = false
     },
     clearInput() {
-      this.logQL = ''
+      this.ql = ''
       this.keyword = ''
       this.suggestShow = false
       // this.suggestTop = 62
-      this.$refs.advanceFilter.blur()
+      this.$refs.advanceTextarea.blur()
       this.filterItems = this.originRangeFunctions
       this.tmpFilters = this.originRangeFunctions
     },
@@ -132,11 +133,12 @@ export default {
       setTimeout(() => {
         vue.suggestShow = true
       }, 350)
-      if (this.logQL === '') {
+      if (this.ql === '') {
         this.keyword = ''
         this.filterItems = this.originRangeFunctions
         this.tmpFilters = this.originRangeFunctions
       }
+      this.$emit('setQl', this.ql)
     },
     blurInput(e) {
       this.position = e.srcElement.selectionStart
@@ -144,78 +146,70 @@ export default {
       setTimeout(() => {
         vue.suggestShow = false
       }, 300)
-      if (
-        this.logQL &&
-        this.logQL.indexOf('}') < this.logQL.lastIndexOf('|') &&
-        this.logQL.lastIndexOf('|') > -1
-      ) {
-        this.$emit('updateAdvanceFilter', true)
-      } else this.$emit('updateAdvanceFilter', false)
+      this.$emit('setQl', this.ql)
     },
     selectComplete(item) {
-      if (!this.logQL) return
-      this.$emit('updateQueryed', false)
-      this.logQL = `${this.logQL.substr(
+      if (!this.ql) return
+      this.ql = `${this.ql.substr(
         0,
         this.position - this.keyword.length,
-      )}${this.logQL.substr(this.position)}`
+      )}${this.ql.substr(this.position)}`
       this.position = this.position - this.keyword.length
       switch (item.t) {
         case 'normal':
-          this.logQL = `${item.value}(${this.logQL})`
+          this.ql = `${item.value}(${this.ql})`
           break
         case 'top':
-          this.logQL = `${item.value}(10, ${this.logQL})`
+          this.ql = `${item.value}(10, ${this.ql})`
           break
         case 'time':
-          this.logQL = `${item.value}(${this.logQL}[5m])`
+          this.ql = `${item.value}(${this.ql}[5m])`
           break
         case 'none':
-          this.logQL = `${this.logQL.substr(0, this.position)}${
+          this.ql = `${this.ql.substr(0, this.position)}${
             item.value
-          }${this.logQL.substr(this.position)}`
+          }${this.ql.substr(this.position)}`
           break
         case 'space':
-          this.logQL = `${this.logQL.substr(0, this.position)}${
+          this.ql = `${this.ql.substr(0, this.position)}${
             item.value
-          } ${this.logQL.substr(this.position)}`
+          } ${this.ql.substr(this.position)}`
           break
         case 'quote':
-          this.logQL = `${this.logQL.substr(0, this.position)}${
+          this.ql = `${this.ql.substr(0, this.position)}${
             item.value
-          } \`${this.logQL.substr(this.position)}`
+          } \`${this.ql.substr(this.position)}`
           break
         case 'label':
-          this.logQL = `${this.logQL.substr(0, this.position)}${
+          this.ql = `${this.ql.substr(0, this.position)}${
             item.value
-          }=${this.logQL.substr(this.position)}`
+          }=${this.ql.substr(this.position)}`
           this.label = item.value
           break
         case 'val':
-          this.logQL = `${this.logQL.substr(0, this.position)}${
+          this.ql = `${this.ql.substr(0, this.position)}${
             item.value
-          }"${this.logQL.substr(this.position)}`
+          }"${this.ql.substr(this.position)}`
           break
       }
       this.keyword = ''
       this.suggestShow = false
       this.filterItems = []
-      this.$refs.advanceFilter.focus()
+      this.$refs.advanceTextarea.focus()
     },
     async onSuggestionInput(e) {
-      // this.suggestTop = this.$refs.advanceFilter.$el.clientHeight + 4
-      if (this.suggestTop <= this.$refs.advanceFilter.$el.clientHeight + 90) {
+      // this.suggestTop = this.$refs.advanceTextarea.$el.clientHeight + 4
+      if (this.suggestTop <= this.$refs.advanceTextarea.$el.clientHeight + 90) {
         this.suggestTop =
           e.key === 'Enter' ? this.suggestTop + 25 : this.suggestTop
       } else {
-        this.suggestTop = this.$refs.advanceFilter.$el.clientHeight + 4
+        this.suggestTop = this.$refs.advanceTextarea.$el.clientHeight + 4
       }
-      this.$emit('updateQueryed', false)
       const p = e.srcElement.selectionStart
       if (e.keyCode > 32 && e.keyCode <= 200) {
         this.keyword += e.key
       }
-      if (this.logQL === '') {
+      if (this.ql === '') {
         this.keyword = ''
         this.filterItems = []
         this.filterItems = this.originRangeFunctions
@@ -223,18 +217,18 @@ export default {
       } else {
         let key = e.key
         if (e.key === 'Backspace') {
-          key = this.logQL[p - 1]
+          key = this.ql[p - 1]
           this.keyword = this.keyword.substr(0, this.keyword.length - 1)
         }
         switch (key) {
           case '{':
           case ',':
             if (
-              (this.logQL.indexOf('{') < p &&
-                this.logQL.indexOf('}') >= p &&
-                this.logQL[p - 1] !== '{') ||
-              this.logQL === '{' ||
-              (this.logQL.indexOf('{') < p && this.logQL.indexOf('}') === -1)
+              (this.ql.indexOf('{') < p &&
+                this.ql.indexOf('}') >= p &&
+                this.ql[p - 1] !== '{') ||
+              this.ql === '{' ||
+              (this.ql.indexOf('{') < p && this.ql.indexOf('}') === -1)
             ) {
               // label show
               this.keyword = ''
@@ -245,17 +239,17 @@ export default {
             break
           case '"':
             if (
-              !this.logQL
-                .substr(this.logQL.indexOf('{'), this.logQL.indexOf('}'))
+              !this.ql
+                .substr(this.ql.indexOf('{'), this.ql.indexOf('}'))
                 .match(new RegExp('"', 'g'))
             ) {
               return
             }
             if (
-              this.logQL.indexOf('}') === -1 ||
-              (this.logQL.indexOf('{') < p && this.logQL.indexOf('}') > p) ||
-              this.logQL
-                .substr(this.logQL.indexOf('{'), this.logQL.indexOf('}'))
+              this.ql.indexOf('}') === -1 ||
+              (this.ql.indexOf('{') < p && this.ql.indexOf('}') > p) ||
+              this.ql
+                .substr(this.ql.indexOf('{'), this.ql.indexOf('}'))
                 .match(new RegExp('"', 'g')).length %
                 2 ===
                 1
@@ -274,17 +268,17 @@ export default {
             break
           default:
             if (
-              this.logQL.indexOf('{') > -1 &&
-              this.logQL.indexOf('{') === p - 1 &&
-              this.logQL.length > p
+              this.ql.indexOf('{') > -1 &&
+              this.ql.indexOf('{') === p - 1 &&
+              this.ql.length > p
             ) {
               this.keyword = ''
               await this.logLabels()
               this.filterItems = this.originLabels
               this.tmpFilters = this.originLabels
             } else if (
-              (this.logQL.indexOf('}') > -1 &&
-                this.logQL.indexOf('}') === p - 1) ||
+              (this.ql.indexOf('}') > -1 &&
+                this.ql.indexOf('}') === p - 1) ||
               p === 0
             ) {
               this.keyword = ''
@@ -295,6 +289,7 @@ export default {
         this.filterItems = this.tmpFilters.filter((item) => {
           return item.value.indexOf(this.keyword) > -1
         })
+        this.$emit('setQl', this.ql)
       }
     },
     filterKeyword(value, search, item) {

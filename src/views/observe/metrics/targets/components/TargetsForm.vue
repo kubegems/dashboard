@@ -141,8 +141,8 @@ import { getDeploymentList, getStatefulSetList, getDaemonSetList, getServiceList
 import { deepCopy } from '@/utils/helpers'
 import { required } from '@/utils/rules'
 import getNamespaceItems from '@/views/observe/hooks/namespace'
-import TargetsEndpoints from './TargetsEndpoints.vue'
-import TargetsLabels from './TargetsLabels.vue'
+import TargetsEndpoints from './TargetsEndpoints'
+import TargetsLabels from './TargetsLabels'
 
 export default {
   name: 'MetricsTargetForm',

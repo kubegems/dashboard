@@ -23,7 +23,7 @@ export const observe = [
           {
             path: `${prefix}/viewer`,
             name: 'log-viewer',
-            component: () => import('@/views/observe/log/viewer/viewer'),
+            component: () => import('@/views/observe/log/viewer/index'),
             meta: {
               requireAuth: true,
               title: '日志查看器',

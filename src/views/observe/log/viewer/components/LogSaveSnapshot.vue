@@ -1,6 +1,6 @@
 <template>
   <BaseDialog
-    v-model="dialog"
+    v-model="visible"
     :width="500"
     title="保存快照"
     icon="mdi-content-save"
@@ -16,7 +16,7 @@
           @submit.prevent
         >
           <v-text-field
-            v-model="obj.SnapshotName"
+            v-model="snapshotName"
             :rules="objRules.SnapshotNameRules"
             label="快照名称"
           />
@@ -29,7 +29,7 @@
         color="primary"
         text
         :loading="Circular"
-        @click="addLogQuerySnapshot"
+        @click="handleSaveSnapshot"
       >
         确定
       </v-btn>
@@ -42,19 +42,14 @@ import { mapGetters, mapState } from 'vuex'
 import { postAddLogQuerySnapshot } from '@/api'
 
 export default {
-  name: 'SaveLogSnapshot',
+  name: 'LogSaveSnapshot',
   data: () => ({
-    dialog: false,
+    visible: false,
     valid: false,
-    obj: {
-      SnapshotName: '',
-      SourceFile: '',
-    },
+    snapshotName: '',
     objRules: {
       SnapshotNameRules: [(v) => !!v || '名称必填'],
     },
-    item: {},
-    currentCluster: {},
   }),
   computed: {
     ...mapState(['Circular', 'Progress', 'User']),
@@ -62,27 +57,25 @@ export default {
   },
   methods: {
     // eslint-disable-next-line vue/no-unused-properties
-    open() {
-      this.dialog = true
+    show (params) {
+      if (this.Progress) return
+      this.visible = true
+      this.params = params
     },
-    async addLogQuerySnapshot() {
+    async handleSaveSnapshot () {
       if (this.Progress) return
       if (this.$refs.form.validate()) {
-        await postAddLogQuerySnapshot(
-          Object.assign(this.item, {
-            SnapshotName: this.obj.SnapshotName,
-            SourceFile: this.obj.SourceFile,
-            CreateAt: new Date(),
-            CreatorID: this.User.ID,
-            ClusterName: this.currentCluster.text,
-            ClusterID: this.currentCluster.value,
-          }),
-        )
+        await postAddLogQuerySnapshot({
+          ...this.params,
+          SnapshotName: this.snapshotName,
+          CreateAt: new Date(),
+          CreatorID: this.User.ID,
+        })
       }
       this.reset()
     },
     reset() {
-      this.dialog = false
+      this.visible = false
       this.$refs.form.reset()
     },
   },
