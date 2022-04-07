@@ -1,20 +1,33 @@
 <template>
   <div class="label-select">
     <div class="label-select__header">
-      <!-- <span>选择标签：</span> -->
-      <v-btn
-        v-for="tag in tags"
-        :key="tag.key"
-        x-small
-        label
-        :outlined="!selectedMap[tag.key]"
-        class="mr-2"
-        color="primary"
-        :disabled="!tag.children.length"
-        @click="handleClickTag(tag)"
-      >
-        {{ tag.key }}({{ tag.children.length }})
-      </v-btn>
+      <v-row>
+        <v-col
+          v-for="tag in tags"
+          :key="tag.key"
+          cols="2"
+        >
+          <v-btn
+            small
+            label
+            :outlined="!selectedMap[tag.key]"
+            class="mr-2"
+            color="primary"
+            :disabled="!tag.children.length"
+            min-width="100px"
+            @click="handleClickTag(tag)"
+          >
+            {{ tag.key }}({{ tag.children.length }})
+          </v-btn>
+        </v-col>
+      </v-row>
+    </div>
+
+    <div
+      v-if="tags.length === 0"
+      class="pt-2 kubegems__detail text-body-1"
+    >
+      暂无可选标签
     </div>
 
     <v-row class="ma-0">
@@ -22,51 +35,53 @@
         v-for="(col, index) in cols"
         :key="col.key"
         cols="2"
-        class="label-select__col"
+        :class="`${ index !== cols.length-1 ? 'label-select__col' : '' }`"
       >
-        <div class="d-flex justify-content-between">
-          <v-chip
-            color="primary"
-            small
-            class="mb-4"
-          >
-            {{ col.key }}({{ selectedMap[col.key].length }}/{{ col.children.length }})
-          </v-chip>
-          <v-text-field
-            v-if="col.children.length >= 5"
-            v-model="cols[index].search"
-            solo
-            dense
-            hide-details
-            flat
-            clearable
-            color="primary"
-            class="label-select__search"
-            label="搜索"
-          />
-        </div>
-
-        <ul class="label-select__list">
-          <li
-            v-for="item in col.children"
-            v-show="!col.search || item.includes(col.search)"
-            :key="item"
-            class="mb-2"
-          >
-            <span
-              class="label-select__item"
-              :class="{ 'label-select__item--selected': selectedMap[col.key] && selectedMap[col.key].includes(item) }"
-              @click="handleClickChip(col.key, item)"
+        <template v-if="!!selectedMap[col.key]">
+          <div class="d-flex justify-content-between">
+            <v-chip
+              color="primary"
+              small
             >
-              <LogEllipsisText :text="item" />
-            </span>
-          </li>
-        </ul>
+              {{ col.key }}({{ selectedMap[col.key].length }}/{{ col.children.length }})
+            </v-chip>
+            <v-text-field
+              v-if="col.children.length >= 5"
+              v-model="cols[index].search"
+              solo
+              dense
+              hide-details
+              flat
+              clearable
+              color="primary"
+              class="label-select__search"
+              label="搜索"
+            />
+          </div>
+
+          <ul class="label-select__list">
+            <li
+              v-for="item in col.children"
+              v-show="!col.search || item.includes(col.search)"
+              :key="item"
+              class="mt-2"
+            >
+              <span
+                class="label-select__item"
+                :class="{ 'label-select__item--selected': selectedMap[col.key] && selectedMap[col.key].includes(item) }"
+                @click="handleClickChip(col.key, item)"
+              >
+                <EllipsisText :text="item" />
+              </span>
+            </li>
+          </ul>
+        </template>
       </v-col>
     </v-row>
 
     <div class="text-right">
       <v-btn
+        small
         bottom
         text
         color="error"
@@ -80,13 +95,12 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
-// import { deepCopy } from '@/utils/helpers'
-import LogEllipsisText from './LogEllipsisText'
+import EllipsisText from './EllipsisText'
 
 export default {
-  name: 'LogLabelSelect',
+  name: 'LabelSelector',
   components: {
-    LogEllipsisText,
+    EllipsisText,
   },
   props: {
     value: {
@@ -110,14 +124,8 @@ export default {
     ...mapState(['Progress', 'JWT', 'User', 'AdminViewport']),
     ...mapGetters(['Tenant']),
     cols () {
-      return this.tags.filter(tag => !!this.selectedMap[tag.key])
+      return this.tags
     },
-    // ql () {
-    //   const obj = this.selectedMap || {}
-    //   const keys = Object.keys(obj).filter(k => obj[k] && obj[k].length)
-    //   const match = keys.reduce((pre, key) => pre + `,${key}="${obj[key].join('|')}"`, '')
-    //   return `{${this.LABEL_CLUSTER_KEY}="${this.cluster}"${match}}`
-    // },
   },
   watch: {
     value: {
@@ -125,6 +133,7 @@ export default {
         this.selectedMap = newValue
       },
       deep: true,
+      immediate: true,
     },
     series () {
       this.handleSetTags()
@@ -153,10 +162,12 @@ export default {
       this.handleEmit()
     },
     handleSetTags () {
+      const keyArr = ['app', 'pod', 'container', 'host', 'stream', 'image']
       const s = this.series || []
       const tagMap = {}
       for (let i = 0, len = s.length; i < len; i++) {
         for (const key in s[i]) {
+          if (keyArr.indexOf(key) === -1) continue
           if (!tagMap[key]) {
             tagMap[key] = {}
           }
@@ -196,6 +207,9 @@ export default {
     handleClear () {
       this.selectedMap = {}
       this.handleEmit()
+      this.$router.replace({
+        name: this.$route.name,
+      })
     },
 
     // handleRefresh () {

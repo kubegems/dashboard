@@ -43,7 +43,7 @@
 import { getLogLabels } from '@/api'
 
 export default {
-  name: 'LogAdvancedTextarea',
+  name: 'AdvancedTextarea',
   props: {
     logQL: {
       type: String,
@@ -91,10 +91,18 @@ export default {
     tmpFilters: [],
     keyword: '',
     position: 0,
-    suggestTop: 100,
+    suggestTop: 190,
     ql: '',
     headers: [{ text: '', value: 'item', align: 'start' }],
   }),
+  watch: {
+    logQL: {
+      handler: function() {
+        this.ql = this.logQL
+      },
+      deep: true,
+    },
+  },
   mounted() {
     this.$nextTick(() => {
       this.ql = this.logQL
@@ -104,18 +112,17 @@ export default {
     async logLabels() {
       this.loading = true
       const res = await getLogLabels(this.cluster.text, { noprocessing: true })
-      if (res.status === 200) {
-        this.originLabels = []
-        res.data.data.forEach((item) => {
-          if (item.indexOf('__') === -1) {
-            this.originLabels.push({
-              text: item,
-              value: item,
-              t: 'label',
-            })
-          }
-        })
-      }
+      this.originLabels = []
+      const keyArr = ['app', 'pod', 'container', 'host', 'stream', 'image']
+      res.forEach((item) => {
+        if (keyArr.indexOf(item) > -1) {
+          this.originLabels.push({
+            text: item,
+            value: item,
+            t: 'label',
+          })
+        }
+      })
 
       this.loading = false
     },
@@ -198,6 +205,13 @@ export default {
       this.$refs.advanceTextarea.focus()
     },
     async onSuggestionInput(e) {
+      if (!this.cluster.value) {
+        this.$store.commit('SET_SNACKBAR', {
+          text: '请先选择项目环境',
+          color: 'warning',
+        })
+        return
+      }
       // this.suggestTop = this.$refs.advanceTextarea.$el.clientHeight + 4
       if (this.suggestTop <= this.$refs.advanceTextarea.$el.clientHeight + 90) {
         this.suggestTop =
@@ -307,7 +321,7 @@ export default {
   box-shadow: 2px 3px 3px gray !important;
   position: absolute;
   z-index: 1;
-  left: 10px;
+  left: 20px;
   max-height: 300px;
   overflow-y: auto;
   font-weight: normal;

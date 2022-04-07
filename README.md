@@ -52,7 +52,7 @@ yarn serve
 
 ## Documentation
 
-To check out [live demo](http://47.108.158.85/) and docs, visit [kubegems.io](https://kubegems.io).
+To check out [live demo](https://demo.kubegems.io/) and docs, visit [kubegems.io](https://kubegems.io).
 
 ## Issues
 
