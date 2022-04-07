@@ -22,6 +22,7 @@
         dense
         hide-details
         multiple
+        full-width
         @keydown.enter.native="search"
       >
         <template #prepend-inner>
@@ -44,6 +45,7 @@
         </template>
         <template #selection="{ item }">
           <v-chip
+            class="my-1"
             color="primary"
             small
             label
@@ -115,13 +117,20 @@
       v-show="expand"
       class="mt-3"
     >
-      <LogLabelSelector
+      <div class="my-2 kubegems__detail text-body-2">项目环境</div>
+      <ProjectEnvSelect
+        :series="series"
+        @setEnvironment="handleSetEnvironment"
+        @clearProject="handleClearProject"
+      />
+      <div class="my-2 kubegems__detail text-body-2">{{ queryType === 'tag' ? '选择标签' : '查询语句' }}</div>
+      <LabelSelector
         v-if="queryType === 'tag'"
         v-model="selected"
         :cluster="cluster"
         :series="series"
       />
-      <LogAdvancedTextare
+      <AdvancedTextare
         v-else-if="queryType === 'ql'"
         :log-q-l="logQL"
         :cluster="cluster"
@@ -129,28 +138,26 @@
       />
     </div>
 
-    <p class="mt-2 text-body-1">{{ advancedQl || logQL }}</p>
+    <p class="mt-2 text-body-2">ql : {{ advancedQl || logQL }}</p>
   </v-card>
 </template>
 
 <script>
 import { mapState, mapGetters } from 'vuex'
-import { getLogLabels } from '@/api'
-import LogLabelSelector from './LogLabelSelector'
-import LogAdvancedTextare from './LogAdvancedTextare'
+import { getLogSeries } from '@/api'
+import LabelSelector from './LabelSelector'
+import AdvancedTextare from './AdvancedTextare'
+import ProjectEnvSelect from './ProjectEnvSelect'
 
 export default {
-  name: 'LogLabelQuery',
+  name: 'LogQuery',
   components: {
-    LogLabelSelector,
-    LogAdvancedTextare,
+    LabelSelector,
+    AdvancedTextare,
+    ProjectEnvSelect,
   },
   props: {
-    cluster: {
-      type: Object,
-      default: () => ({}),
-    },
-    series: {
+    dateTimestamp: {
       type: Array,
       default: () => [],
     },
@@ -164,11 +171,15 @@ export default {
       selected: {},
       disabled: false,
       regexp: undefined,
-      logLabels: [],
       filter: null,
 
       websocket: null,
       advancedQl: '',
+      series: [],
+      cluster: {},
+
+      projectName: '',
+      environmentName: '',
     }
   },
   computed: {
@@ -187,16 +198,11 @@ export default {
       return this.filter ? this.filter.map(reg => { return ` |~ \`${reg}\`` }).join('') : ''
     },
     logQL () {
-      const tenant = !this.AdminViewport && this.logLabels.includes('tenant') ? `,tenant="${this.Tenant().TenantName}"` : ''
+      const pe = this.projectName && this.environmentName ? `project="${this.projectName}", environment="${this.environmentName}"` : ''
       const obj = this.selected || {}
       const keys = Object.keys(obj).filter(k => obj[k] && obj[k].length)
-      const match = keys.reduce((pre, key) => pre + `,${key}="${obj[key].join('|')}"`, '')
-      return `{${this.LABEL_CLUSTER_KEY}="${this.cluster.text}"${tenant}${match}}${this.regexQL}`
-    },
-  },
-  watch: {
-    cluster () {
-      this.getLogLabels()
+      const match = keys.reduce((pre, key) => pre + `,${key}=~"${obj[key].join('|')}"`, '')
+      return `{ ${pe}${match} }${this.regexQL}`
     },
   },
   destroyed() {
@@ -206,14 +212,63 @@ export default {
       this.$emit('removeLoading')
     }
   },
+  mounted() {
+    this.$nextTick(() => {
+      if (this.$route.query.query) {
+        const keyArr = ['app', 'pod', 'container', 'host', 'stream', 'image']
+        const reg = new RegExp('(\\w+)=~?"([\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/\|]+)"', 'g')
+        const selected = {}
+        this.$route.query.query.match(reg).map(s => {
+          const l = s.split('=')
+          if (l.length === 2) {
+            if (keyArr.indexOf(l[0]) > -1) {
+              this.$set(selected, l[0], l[1].replaceAll('"', '').replaceAll('~', '').split('|'))
+            }
+          }
+        })
+        this.selected = selected
+      }
+      if (this.$route.query.filters) {
+        this.filter = typeof this.$route.query.filters === 'string' ? [this.$route.query.filters] : this.$route.query.filters
+      }
+    })
+  },
   methods: {
-    async getLogLabels () {
-      const data = await getLogLabels(this.cluster.text, {
-        start: Date.now() - 7 * 24 * 60 * 60 * 1000 + '000000',
-        end: Date.now() + '000000',
+    // 获取Series并设置集群按钮徽标值
+    async getSeriesList (clusterName) {
+      const match = this.AdminViewport
+        ? `{ project="${this.projectName}", environment="${this.environmentName}" }`
+        : `{ project="${this.projectName}", environment="${this.environmentName}",tenant=~"^${this.Tenant().TenantName}$" }`
+
+      const data = await getLogSeries(clusterName, {
+        match,
+        start: this.dateTimestamp[0],
+        end: this.dateTimestamp[1],
         noprocessing: true,
-      }) || []
-      this.logLabels = data
+      })
+      this.series = data
+    },
+
+    handleClearProject() {
+      this.cluster = {}
+      this.projectName = ''
+      this.environmentName = ''
+      this.$emit('setCluster', this.cluster)
+    },
+    async handleSetEnvironment(env, projectName, triggerQuery = false) {
+      if (env) {
+        this.cluster = {
+          text: env.clusterName,
+          value: env.clusterid,
+        }
+        this.projectName = projectName
+        this.environmentName = env.environmentName
+        await this.getSeriesList(env.clusterName)
+        this.$emit('setCluster', this.cluster)
+        if (triggerQuery) {
+          this.search()
+        }
+      }
     },
 
     handleExpand () {
@@ -223,6 +278,7 @@ export default {
     handleRemoveRegexp (item) {
       const index = this.filter.indexOf(item)
       this.filter.splice(index, 1)
+      this.search()
     },
 
     handleRemoveTag (key, value) {
@@ -281,16 +337,11 @@ export default {
       return filterList
     },
 
-    // eslint-disable-next-line vue/no-unused-properties
-    getValuesByPathQuery () {
-       this.$route.query.logQl
-    },
-
     search () {
       // 保证logQL和regexp 获取到最新值
       this.$nextTick(() => {
         this.expand = false
-        this.$emit('search', { logQL: this.advancedQl || this.logQL, regexp: this.regexQL })
+        this.$emit('search', { logQL: this.advancedQl || this.logQL, regexp: this.regexQL, projectName: this.projectName, environmentName: this.environmentName })
       })
     },
 
@@ -324,6 +375,14 @@ export default {
 
     // 流式传输
     handleLiveQuerying() {
+      if (!this.cluster.value) {
+        this.$store.commit('SET_SNACKBAR', {
+          text: '请选择项目环境',
+          color: 'warning',
+        })
+        return
+      }
+
       if (!this.logQL && !this.advancedQl) {
         this.$store.commit('SET_SNACKBAR', {
           text: '请输入查询条件',
@@ -341,10 +400,18 @@ export default {
       }
     },
     constructParams() {
+      let ql = this.advancedQl || this.logQL
+
+      // 补充租户信息
+      if (!this.AdminViewport && !new RegExp('tenant="([\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)"', 'g').test(ql)) {
+        const index = ql.indexOf('{')
+        ql = ql.substr(0, index + 1) + `tenant="${this.Tenant().TenantName}",` + ql.substr(index + 1)
+      }
+
       const data = {
         start: Date.parse(new Date()).toString() + '000000',
-        filter: this.filter?.join(','),
-        query: encodeURIComponent(this.advancedQl || this.logQL),
+        filter: this.filter ? this.filter.join(',') : [],
+        query: encodeURIComponent(ql),
         stream: true,
       }
       const paramArray = []

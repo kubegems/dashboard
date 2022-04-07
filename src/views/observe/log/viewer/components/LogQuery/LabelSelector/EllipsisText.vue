@@ -29,7 +29,7 @@
 
 <script>
 export default {
-  name: 'LogEllipsisText',
+  name: 'EllipsisText',
   props: {
     text: {
       type: String,

@@ -6,26 +6,21 @@
     <BaseBreadcrumb :breadcrumb="breadcrumb" />
     <v-card>
       <div class="d-flex justify-space-between pa-3">
-        <ClusterSelect
-          v-model="cluster"
-          auto-select-first
-          object-value
-          :badge-values="clusterBadge"
-          mode="badge"
-          @change="onClusterChange"
-        />
+        <v-spacer />
         <BaseDatetimePicker
           ref="dateRangePicker"
           v-model="date"
           :default-value="30"
+          default-value-for-query
+          query-start-time-key="start"
+          query-end-time-key="end"
           @change="onDateChange"
         />
       </div>
 
       <LogQuery
         ref="logQuery"
-        :cluster="cluster"
-        :series="series"
+        :date-timestamp="dateTimestamp"
         @search="handleSearch"
         @saveSnapshot="handleSaveSnapshot"
         @showHistroy="handleShowHistroy"
@@ -33,6 +28,7 @@
         @receiveMessage="handleReceiveMessage"
         @initLoading="handleInitLoading"
         @removeLoading="handleRemoveLoading"
+        @setCluster="handleSetCluster"
       />
     </v-card>
 
@@ -156,8 +152,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
-import { getLogSeries, getLogQueryRange, getLogExport, postAddLogQueryHistory } from '@/api'
-import ClusterSelect from '@/views/observe/components/ClusterSelect'
+import { getLogQueryRange, getLogExport, postAddLogQueryHistory } from '@/api'
 import LogQuery from './components/LogQuery'
 import LogLevelSelector from './components/LogLevelSelector'
 import LogTable from './components/LogTable'
@@ -170,7 +165,6 @@ import LogLine from './components/LogLine'
 export default {
   name: 'LogViewer',
   components: {
-    ClusterSelect,
     LogQuery,
     LogLevelSelector,
     LogTable,
@@ -191,8 +185,6 @@ export default {
 
     return {
       cluster: {},
-      clusterBadge: {},
-      series: [],
       date: [],
       params: {
         limit: 500,
@@ -252,60 +244,36 @@ export default {
     },
   },
   methods: {
-    // 获取Series并设置集群按钮徽标值
-    async getSeriesList () {
-      const { text: clusterName } = this.cluster
-      const match = this.AdminViewport
-        ? `{${this.LABEL_CLUSTER_KEY}="${clusterName}"}`
-        : `{${this.LABEL_CLUSTER_KEY}="${clusterName}",tenant=~"^${this.Tenant().TenantName}$"}`
-
-      const data = await getLogSeries(clusterName, {
-        match,
-        start: this.dateTimestamp[0],
-        end: this.dateTimestamp[1],
-        noprocessing: true,
-      })
-      this.series = data
-      this.handleSetClusterBadge(clusterName, data.length)
-    },
-
-    onClusterChange () {
-      this.$refs.dateRangePicker.refresh(false)
-      this.getSeriesList()
-    },
     onDateChange () {
       this.getSeriesList()
-    },
-    handleSetClusterBadge (cluster, total) {
-      this.$set(this.clusterBadge, cluster, total > 5000 ? '5000+' : total.toString())
     },
 
     handleSwitchView (type) {
       this.view[type] = !this.view[type]
     },
 
-    handleSearch ({ logQL, regexp }) {
+    handleSearch ({ logQL, regexp, projectName, environmentName }) {
       this.params.logQL = logQL
       this.params.regexp = regexp
-      this.onLogQuery()
+      this.onLogQuery(projectName, environmentName)
     },
 
     // 查询
-    async onLogQuery() {
-      if (!this.params.logQL) {
+    async onLogQuery(projectName = '', environmentName = '') {
+      if (!this.params.logQL || this.params.logQL === '{  }') {
         this.$store.commit('SET_SNACKBAR', {
           text: '请输入查询条件',
           color: 'warning',
         })
         return
       }
-      // if (this.params.limit > 50000) {
-      //   this.$store.commit('SET_SNACKBAR', {
-      //     text: '最大支持单次50000条日志输出',
-      //     color: 'warning',
-      //   })
-      //   return
-      // }
+
+      // 补充租户信息
+      if (!this.AdminViewport && !new RegExp('tenant="([\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)"', 'g').test(this.params.logQL)) {
+        const index = this.params.logQL.indexOf('{')
+        this.params.logQL = this.params.logQL.substr(0, index + 1) + `tenant="${this.Tenant().TenantName}",` + this.params.logQL.substr(index + 1)
+      }
+
       this.$refs.dateRangePicker.refresh(false)
       const params = {
         ClusterID: this.cluster.value,
@@ -364,6 +332,22 @@ export default {
 
       // 保存值查询历史
       this.saveLogQueryHistory()
+
+      // 填充url
+      if (this.view.resultType === 'streams') {
+        this.$router.replace({
+          name: this.$route.name,
+          query: {
+            ...this.$route.query,
+            project: projectName,
+            environment: environmentName,
+            start: this.dateTimestamp[0],
+            end: this.dateTimestamp[1],
+            query: this.params.logQL,
+            filters: params.filters,
+          },
+        })
+      }
     },
 
     async saveLogQueryHistory() {
@@ -547,6 +531,10 @@ export default {
         top: 0,
         behavior: 'smooth',
       })
+    },
+
+    handleSetCluster(cluster) {
+      this.cluster = cluster
     },
   },
 }

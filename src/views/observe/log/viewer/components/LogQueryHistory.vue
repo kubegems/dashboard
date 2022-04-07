@@ -95,6 +95,7 @@ export default {
   components: {
     ClusterSelect,
   },
+  inject: ['reload'],
   data () {
     this.headers = [
       { text: 'LogQL', value: 'logQL', align: 'start', sortable: false },
@@ -176,20 +177,28 @@ export default {
     },
 
     handleQuery (item) {
-      const params = {
-        LogQL: item.LogQL,
-        ClusterName: this.cluster.text,
-        ClusterID: this.cluster.value,
+      let [projectName, environmentName] = ['', '']
+      const project = new RegExp('project="([\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)"', 'g').exec(item.LogQL)
+      if (project) {
+        projectName = project[1]
       }
-      this.$router.replace({
-        query: {
-          logql: encodeURIComponent(item.LogQL),
-          clusterName: this.cluster.text,
-          clusterId: this.cluster.value,
-        },
-      })
-      this.$emit('queryHistory', params)
-      this.visible = false
+
+      const environment = new RegExp('environment="([\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)"', 'g').exec(item.LogQL)
+      if (environment) {
+        environmentName = environment[1]
+      }
+      if (project && environment) {
+        this.$router.replace({
+          query: {
+            query: item.LogQL,
+            project: projectName,
+            environment: environmentName,
+            filters: item.FilterJSON,
+          },
+        })
+        this.visible = false
+        this.reload()
+      }
     },
 
     async handleDelete (item) {

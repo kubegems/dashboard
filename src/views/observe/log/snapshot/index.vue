@@ -9,8 +9,11 @@
             class="pa-1 pl-2"
           >
             <ClusterSelect
-              ref="clusterSelect"
-              @clusterChange="clusterChange"
+              v-model="cluster"
+              auto-select-first
+              object-value
+              mode="default"
+              @change="onClusterChange"
             />
           </v-col>
         </v-row>
@@ -108,9 +111,9 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
+import { mapState } from 'vuex'
 import { getLogQuerySnapshotList, deleteLogQuerySnapshot } from '@/api'
-import ClusterSelect from '@/views/observe/log/viewer/components/ClusterSelect'
+import ClusterSelect from '@/views/observe/components/ClusterSelect'
 import BaseFilter from '@/mixins/base_filter'
 
 export default {
@@ -139,22 +142,20 @@ export default {
       size: 10,
     },
     filters: [{ text: '日志快照名称', value: 'search', items: [] }],
-    currentCluster: {},
+    cluster: {},
   }),
   computed: {
     ...mapState(['Progress', 'JWT']),
-    ...mapGetters(['Cluster']),
   },
   async mounted() {
     if (this.JWT) {
       Object.assign(this.params, this.$route.query)
-      await this.$refs.clusterSelect.generateClusters()
     }
   },
   methods: {
     async logQuerySnapshotList() {
       const data = await getLogQuerySnapshotList(
-        this.currentCluster.value,
+        this.cluster.value,
         this.params,
       )
       this.items = data.List
@@ -201,15 +202,8 @@ export default {
     refresh() {
       this.logQuerySnapshotList()
     },
-    clusterChange(cluster) {
-      if (
-        !Object.keys(this.currentCluster).length > 0 ||
-        this.currentCluster.value !== cluster.value
-      ) {
-        this.$set(this.currentCluster, 'text', cluster.text)
-        this.$set(this.currentCluster, 'value', cluster.value)
-        this.logQuerySnapshotList()
-      }
+    onClusterChange () {
+      this.logQuerySnapshotList()
     },
     onPageSizeChange(size) {
       this.params.page = 1
