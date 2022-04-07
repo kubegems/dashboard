@@ -136,7 +136,7 @@
 import { getMetricsTargetList, deleteMetricsTarget } from '@/api'
 import ClusterSelect from '@/views/observe/components/ClusterSelect'
 import NamespaceSelect from '@/views/observe/components/NamespaceSelect'
-import TargetsForm from './components/TargetsForm.vue'
+import TargetsForm from './components/TargetsForm'
 
 export default {
   name: 'MetricsMonitor',

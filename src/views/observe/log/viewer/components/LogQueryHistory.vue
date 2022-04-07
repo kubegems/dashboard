@@ -39,7 +39,7 @@
                 :key="labelIndex"
                 color="success"
                 class="ma-1 font-weight-medium"
-                x-small
+                small
               >
                 <span class="pr-2">标签({{ k }}):{{ labelValue }}</span>
               </v-chip>
@@ -48,7 +48,7 @@
               v-for="(it, index) in item.FilterJSON"
               :key="it + index"
               color="success"
-              x-small
+              small
               class="ma-1 font-weight-medium"
             >
               <span class="pr-2">正则(regex):{{ it }}</span>

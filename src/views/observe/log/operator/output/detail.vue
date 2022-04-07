@@ -116,7 +116,7 @@ import {
   patchOutputData,
   patchClusterOutputData,
 } from '@/api'
-import OutputInfoPanel from './components/OutputInfoPanel.vue'
+import OutputInfoPanel from './components/OutputInfoPanel'
 import LokiForm from './components/LokiForm'
 import ElasticsearchForm from './components/ElasticsearchForm'
 import KafkaForm from './components/KafkaForm'

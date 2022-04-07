@@ -3,7 +3,7 @@
     :elevation="expand ? 3 : 0"
     class="pa-3"
   >
-    <div class="d-flex ">
+    <div class="d-flex">
       <v-btn
         color="primary"
         text
@@ -21,6 +21,7 @@
         flat
         dense
         hide-details
+        multiple
         @keydown.enter.native="search"
       >
         <template #prepend-inner>
@@ -51,7 +52,7 @@
             <v-icon
               right
               small
-              @click="handleRemoveRegexp"
+              @click="handleRemoveRegexp(item)"
             >
               mdi-close
             </v-icon>
@@ -60,10 +61,11 @@
       </v-combobox>
       <!-- 标签查询 -->
 
-      <div>
+      <div style="margin-left: auto;">
         <v-btn
           color="primary"
           text
+          :disabled="disabled"
           @click="search"
         >
           <v-icon left>mdi-magnify</v-icon>
@@ -72,6 +74,7 @@
         <v-btn
           color="primary"
           text
+          :disabled="disabled"
           @click="handleSaveSnapshot"
         >
           <v-icon left>mdi-content-save</v-icon>
@@ -87,6 +90,24 @@
           <v-icon left>mdi-history</v-icon>
           历史
         </v-btn>
+        <v-btn
+          v-if="queryType === 'tag'"
+          color="primary"
+          text
+          @click="handleLiveQuerying"
+        >
+          <v-icon left>{{ disabled ? 'mdi-stop-circle-outline' : 'mdi-play-circle-outline' }}</v-icon>
+          流式传输
+        </v-btn>
+        <v-btn
+          color="primary"
+          text
+          :disabled="disabled"
+          @click="handleChangeQueryType"
+        >
+          <v-icon left>mdi-sync</v-icon>
+          {{ queryType === 'tag' ? '高级查询' : '标签查询' }}
+        </v-btn>
       </div>
     </div>
 
@@ -97,24 +118,32 @@
       <LogLabelSelector
         v-if="queryType === 'tag'"
         v-model="selected"
-        :cluster="cluster.text"
+        :cluster="cluster"
         :series="series"
+      />
+      <LogAdvancedTextare
+        v-else-if="queryType === 'ql'"
+        :log-q-l="logQL"
+        :cluster="cluster"
+        @setQl="setQl"
       />
     </div>
 
-    <p>{{ logQL }}</p>
+    <p class="mt-2 text-body-1">{{ advancedQl || logQL }}</p>
   </v-card>
 </template>
 
 <script>
 import { mapState, mapGetters } from 'vuex'
 import { getLogLabels } from '@/api'
-import LogLabelSelector from './LogLabelSelector.vue'
+import LogLabelSelector from './LogLabelSelector'
+import LogAdvancedTextare from './LogAdvancedTextare'
 
 export default {
   name: 'LogLabelQuery',
   components: {
     LogLabelSelector,
+    LogAdvancedTextare,
   },
   props: {
     cluster: {
@@ -136,10 +165,14 @@ export default {
       disabled: false,
       regexp: undefined,
       logLabels: [],
+      filter: null,
+
+      websocket: null,
+      advancedQl: '',
     }
   },
   computed: {
-    ...mapState(['AdminViewport']),
+    ...mapState(['AdminViewport', 'JWT']),
     ...mapGetters(['Tenant']),
     comboboxTags () {
       const tags = []
@@ -150,24 +183,28 @@ export default {
       })
       return tags
     },
+    regexQL() {
+      return this.filter ? this.filter.map(reg => { return ` |~ \`${reg}\`` }).join('') : ''
+    },
     logQL () {
       const tenant = !this.AdminViewport && this.logLabels.includes('tenant') ? `,tenant="${this.Tenant().TenantName}"` : ''
-
-      if (this.queryType === 'tag') {
-        const obj = this.selected || {}
-        const keys = Object.keys(obj).filter(k => obj[k] && obj[k].length)
-        const match = keys.reduce((pre, key) => pre + `,${key}="${obj[key].join('|')}"`, '')
-        const regexp = this.regexp ? ` |~ \`${this.regexp}\`` : ''
-        return `{${this.LABEL_CLUSTER_KEY}="${this.cluster.text}"${tenant}${match}}${regexp}`
-      } else {
-        return ''
-      }
+      const obj = this.selected || {}
+      const keys = Object.keys(obj).filter(k => obj[k] && obj[k].length)
+      const match = keys.reduce((pre, key) => pre + `,${key}="${obj[key].join('|')}"`, '')
+      return `{${this.LABEL_CLUSTER_KEY}="${this.cluster.text}"${tenant}${match}}${this.regexQL}`
     },
   },
   watch: {
     cluster () {
       this.getLogLabels()
     },
+  },
+  destroyed() {
+    if (this.websocket) {
+      this.websocket.close()
+      this.websocket = null
+      this.$emit('removeLoading')
+    }
   },
   methods: {
     async getLogLabels () {
@@ -183,8 +220,9 @@ export default {
       this.expand = !this.expand
     },
 
-    handleRemoveRegexp () {
-      this.regexp = undefined
+    handleRemoveRegexp (item) {
+      const index = this.filter.indexOf(item)
+      this.filter.splice(index, 1)
     },
 
     handleRemoveTag (key, value) {
@@ -252,7 +290,7 @@ export default {
       // 保证logQL和regexp 获取到最新值
       this.$nextTick(() => {
         this.expand = false
-        this.$emit('search', { logQL: this.logQL, regexp: this.regexp })
+        this.$emit('search', { logQL: this.advancedQl || this.logQL, regexp: this.regexQL })
       })
     },
 
@@ -278,6 +316,87 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     setRegexp (value) {
       this.regexp = value
+    },
+
+    setQl(value) {
+      this.advancedQl = value
+    },
+
+    // 流式传输
+    handleLiveQuerying() {
+      if (!this.logQL && !this.advancedQl) {
+        this.$store.commit('SET_SNACKBAR', {
+          text: '请输入查询条件',
+          color: 'warning',
+        })
+        return
+      }
+      if (!this.websocket) {
+        this.initWebSocket()
+      } else {
+        this.websocket.close()
+        this.websocket = null
+        this.disabled = false
+        this.$emit('removeLoading')
+      }
+    },
+    constructParams() {
+      const data = {
+        start: Date.parse(new Date()).toString() + '000000',
+        filter: this.filter?.join(','),
+        query: encodeURIComponent(this.advancedQl || this.logQL),
+        stream: true,
+      }
+      const paramArray = []
+      for (var item in data) {
+        paramArray.push(item + '=' + data[item])
+      }
+      return paramArray.join('&')
+    },
+    initWebSocket() {
+      const params = this.constructParams()
+      const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws'
+      const host = window.location.host
+      const wsuri = `${protocol}://${host}/api/v1/proxy/cluster/${this.cluster.text}/custom/loki/v1/tail?${params}&token=${this.JWT}`
+      this.websocket = new WebSocket(wsuri)
+      this.websocket.binaryType = 'arraybuffer'
+      this.websocket.onmessage = this.onWebsocketMessage
+      this.websocket.onopen = this.onWebsocketOpen
+      this.websocket.onerror = this.onWebsocketError
+      this.websocket.onclose = this.onWebsocketClose
+    },
+    onWebsocketOpen() {
+      this.disabled = true
+      this.$emit('initLoading')
+    },
+    onWebsocketError() {
+      this.disabled = false
+      this.$store.commit('SET_SNACKBAR', {
+        text: 'websocket连接失败',
+        color: 'warning',
+      })
+      this.websocket = null
+      this.$emit('removeLoading')
+    },
+    onWebsocketMessage(e) {
+      this.$emit('receiveMessage', JSON.parse(e.data))
+    },
+    onWebsocketClose() {
+      this.disabled = false
+      this.$emit('stopLogStream')
+    },
+
+    // 高级查询切换
+    handleChangeQueryType() {
+      if (this.queryType === 'tag') {
+        this.queryType = 'ql'
+        this.expand = true
+      } else {
+        this.queryType = 'tag'
+        this.selected = {}
+        this.advancedQl = ''
+        this.expand = false
+      }
     },
   },
 }

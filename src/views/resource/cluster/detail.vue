@@ -17,7 +17,7 @@
             </v-icon>
             资源超分
           </v-btn>
-          <BaseDatetimePicker2
+          <BaseDatetimePicker
             v-model="date"
             :default-value="30"
             @change="onDatetimeChange(undefined)"

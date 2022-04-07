@@ -47,7 +47,7 @@
             />
           </ButtonInput>
 
-          <BaseDatetimePicker2
+          <BaseDatetimePicker
             ref="baseDatetimePicker2"
             v-model="date"
             :default-value="30"

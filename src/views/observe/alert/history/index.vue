@@ -13,7 +13,7 @@
           :clearable="AdminViewport"
           @change="onClusterChange"
         />
-        <BaseDatetimePicker2
+        <BaseDatetimePicker
           v-model="date"
           clearable
         />

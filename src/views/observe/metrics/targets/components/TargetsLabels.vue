@@ -39,8 +39,8 @@
 </template>
 
 <script>
-import TargetsLabelsItem from './TargetsLabelsItem.vue'
-import TargetsLabelsForm from './TargetsLabelsForm.vue'
+import TargetsLabelsItem from './TargetsLabelsItem'
+import TargetsLabelsForm from './TargetsLabelsForm'
 
 export default {
   name: 'TargetsLabels',

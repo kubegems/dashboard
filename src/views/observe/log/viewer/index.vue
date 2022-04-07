@@ -14,7 +14,7 @@
           mode="badge"
           @change="onClusterChange"
         />
-        <BaseDatetimePicker2
+        <BaseDatetimePicker
           ref="dateRangePicker"
           v-model="date"
           :default-value="30"
@@ -29,12 +29,16 @@
         @search="handleSearch"
         @saveSnapshot="handleSaveSnapshot"
         @showHistroy="handleShowHistroy"
+        @stopLogStream="handleStopLogStream"
+        @receiveMessage="handleReceiveMessage"
+        @initLoading="handleInitLoading"
+        @removeLoading="handleRemoveLoading"
       />
     </v-card>
 
     <v-card class="pa-3 mt-3">
       <div class="log-viewer__toolbar">
-        <div>
+        <div v-if="view.resultType === 'streams'">
           <div class="d-inline-block">
             限制:
             <v-text-field
@@ -74,7 +78,7 @@
           </div>
         </div>
 
-        <div>
+        <div style="margin-left: auto;">
           <v-btn
             text
             small
@@ -89,25 +93,57 @@
             color="primary"
             small
             text
-            @click="handleSwitchView('chart')"
+            @click="handleSwitchView('chartShow')"
           >
             图表
             <v-icon right>
-              {{ view.chart ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
+              {{ view.chartShow ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
             </v-icon>
           </v-btn>
         </div>
       </div>
 
+      <v-flex>
+        <v-expand-transition>
+          <v-flex v-show="view.chartShow">
+            <v-flex v-if="view.resultType === 'streams'">
+              <LogBar
+                :chart="view.chart"
+                class="pb-1"
+              />
+            </v-flex>
+            <v-flex v-else-if="view.resultType === 'matrix'">
+              <LogLine :chart="view.chart" />
+            </v-flex>
+          </v-flex>
+        </v-expand-transition>
+      </v-flex>
+
       <LogTable
         v-if="view.resultType === 'streams'"
         :items="ItemsFilterByLevel"
+        :loading="loading"
         :timestamp="view.timestamp"
         :context="!!(params.regexp || params.levels.length)"
         @clickPod="handleAddPod"
         @showContext="handleShowContext"
       />
     </v-card>
+
+    <v-btn
+      fab
+      color="primary"
+      fixed
+      right
+      bottom
+      small
+      direction="left"
+      transition="slide-x-reverse-transition"
+      style="bottom: 65px !important;"
+      @click="handleScrollTo"
+    >
+      <v-icon small>mdi-apple-keyboard-control</v-icon>
+    </v-btn>
 
     <LogContext ref="logContext" />
     <LogSaveSnapshot ref="logSaveSnapshot" />
@@ -120,14 +156,16 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
-import { getLogSeries, getLogQueryRange, getLogExport } from '@/api'
+import { getLogSeries, getLogQueryRange, getLogExport, postAddLogQueryHistory } from '@/api'
 import ClusterSelect from '@/views/observe/components/ClusterSelect'
-import LogQuery from './components2/LogQuery.vue'
-import LogLevelSelector from './components2/LogLevelSelector.vue'
-import LogTable from './components2/LogTable.vue'
-import LogContext from './components2/LogContext.vue'
-import LogSaveSnapshot from './components2/LogSaveSnapshot.vue'
-import LogQueryHistory from './components2/LogQueryHistory.vue'
+import LogQuery from './components/LogQuery'
+import LogLevelSelector from './components/LogLevelSelector'
+import LogTable from './components/LogTable'
+import LogContext from './components/LogContext'
+import LogSaveSnapshot from './components/LogSaveSnapshot'
+import LogQueryHistory from './components/LogQueryHistory'
+import LogBar from './components/LogBar'
+import LogLine from './components/LogLine'
 
 export default {
   name: 'LogViewer',
@@ -139,6 +177,8 @@ export default {
     LogContext,
     LogSaveSnapshot,
     LogQueryHistory,
+    LogBar,
+    LogLine,
   },
   data () {
     this.LABEL_CLUSTER_KEY = process.env.VUE_APP_LOG_LABEL_CLUSTER_KEY
@@ -165,9 +205,11 @@ export default {
       items: [],
       view: {
         timestamp: false,
-        chart: false,
+        chart: null,
+        chartShow: false,
         resultType: 'streams',
       },
+      loading: false,
     }
   },
   computed: {
@@ -238,14 +280,8 @@ export default {
       this.$set(this.clusterBadge, cluster, total > 5000 ? '5000+' : total.toString())
     },
 
-    // 判断是否显示上下文
-    // eslint-disable-next-line vue/no-unused-properties
-    handleSetContext () {
-
-    },
-
-    handleSwitchView (type, value) {
-      this.view[type] === value ?? !this.view[type]
+    handleSwitchView (type) {
+      this.view[type] = !this.view[type]
     },
 
     handleSearch ({ logQL, regexp }) {
@@ -278,7 +314,7 @@ export default {
         end: this.dateTimestamp[1],
         limit: this.params.limit,
         direction: this.params.direction,
-        filters: this.params.regexp ? [this.params.regexp] : '',
+        filters: this.params.regexp ? this.params.regexp.match(new RegExp('`([\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)`', 'g')).map(reg => { return reg.replaceAll('`', '') }) : '',
         query: encodeURIComponent(this.params.logQL),
         step: this.step,
       }
@@ -306,9 +342,10 @@ export default {
       this.view.resultType = data.resultType
       this.chartData = data.chart
 
-      // 自动展开图表
-      if (this.view.resultType !== 'streams') {
-        this.view.chart = data.chart['xAxis-data'].length > 0 || this.view.chart
+      // 填充图表数据
+      this.view.chart = data.chart
+      if (this.view.resultType === 'matrix') {
+         this.view.chartShow = true
       }
 
       // 数据过多提示
@@ -326,6 +363,17 @@ export default {
       }
 
       // 保存值查询历史
+      this.saveLogQueryHistory()
+    },
+
+    async saveLogQueryHistory() {
+      await postAddLogQueryHistory({
+        LogQL: this.params.logQL,
+        CreateAt: new Date(),
+        ClusterName: this.cluster.text,
+        CreatorID: this.User.ID,
+        ClusterID: this.cluster.value,
+      })
     },
 
     async handleGetLogFilename () {
@@ -374,8 +422,8 @@ export default {
       const filename = await this.handleGetLogFilename()
       if (filename) {
         this.$refs.logSaveSnapshot.show({
-          StartTime: this.dateTimestamp[0].slice(0, 13),
-          EndTime: this.dateTimestamp[1].slice(0, 13),
+          StartTime: new Date(parseInt(this.dateTimestamp[0].slice(0, 13))),
+          EndTime: new Date(parseInt(this.dateTimestamp[1].slice(0, 13))),
           SourceFile: filename,
           SnapshotName: '',
           ClusterName: this.cluster.text,
@@ -385,8 +433,8 @@ export default {
     },
 
     // eslint-disable-next-line vue/no-unused-properties
-    async handle(saving) {
-      if (this.logqlIncomplete) {
+    async handleDownloadLog() {
+      if (!this.params.logQL) {
         this.$store.commit('SET_SNACKBAR', {
           text: '请输入查询条件',
           color: 'warning',
@@ -398,14 +446,14 @@ export default {
       }
 
       const getdata = {
-        ClusterID: this.currentCluster.value,
-        ClusterName: this.currentCluster.text,
-        start: this.dateRangeTimestamp[0],
-        end: this.dateRangeTimestamp[1],
-        level: this.level.join(','),
+        ClusterID: this.cluster.value,
+        ClusterName: this.cluster.text,
+        start: this.dateTimestamp[0],
+        end: this.dateTimestamp[1],
+        level: this.params.levels.join(','),
         pod: this.params.pod,
         direction: this.params.direction,
-        query: encodeURIComponent(this.logQL),
+        query: encodeURIComponent(this.params.logQL),
       }
       const data = await getLogExport(getdata.ClusterName, getdata)
       if (data === null) {
@@ -413,9 +461,6 @@ export default {
       }
       if (data.exist) {
         const filename = data.filename
-        if (saving) {
-          return filename
-        }
         const link = document.createElement('a')
         link.addEventListener('click', function () {
           link.download = filename
@@ -426,7 +471,7 @@ export default {
         link.dispatchEvent(e)
         this.$store.commit('SET_SNACKBAR', {
           text: '导出成功',
-          color: 'warning',
+          color: 'success',
         })
       } else {
         this.$store.commit('SET_SNACKBAR', {
@@ -435,10 +480,6 @@ export default {
         })
         return null
       }
-    },
-
-    handleDownloadLog () {
-
     },
 
     handleAddPod (pod) {
@@ -454,12 +495,57 @@ export default {
     },
 
     handleShowContext (item) {
-      const query = Object.keys(item.stream).reduce((pre, current) => `${pre}${current}="${item.stream[current]}",`, '{').slice(0, -1) + '}'
+      const query = Object.keys(item.stream).filter(l => {
+        return ['container', 'image', 'pod', 'namespace', process.env.VUE_APP_LOG_LABEL_CLUSTER_KEY].indexOf(l) > -1
+      }).reduce((pre, current) => `${pre}${current}="${item.stream[current]}",`, '{').slice(0, -1) + '}'
       this.$refs.logContext.showContext(item, {
         ClusterID: this.cluster.value,
         ClusterName: this.cluster.text,
         query: encodeURIComponent(query),
         timestamp: item.info.timestamp,
+      })
+    },
+
+    handleInitLoading() {
+      this.loading = true
+    },
+
+    handleRemoveLoading() {
+      this.loading = false
+    },
+
+    handleStopLogStream() {
+      this.items.forEach((item) => {
+        if (item.info !== undefined) item.info.animation = ''
+      })
+      this.loading = false
+    },
+
+    handleReceiveMessage(data) {
+      data.sort((a, b) => {
+        return a.info.timestamp - b.info.timestamp
+      })
+      const instance = this
+      data.forEach((item) => {
+        this.items.unshift(item)
+        if (this.items.length > this.limit) {
+          this.items.pop()
+        }
+      })
+      this.timeoutTimer = setTimeout(() => {
+        for (var index = 0; index < data.length; index++) {
+          instance.items[index].info.animation =
+            'transition: background-color 2s;'
+        }
+        clearTimeout(this.timeoutTimer)
+      }, 5)
+    },
+
+    handleScrollTo() {
+      const container = document.getElementById('log-viewer')
+      container.scrollTo({
+        top: 0,
+        behavior: 'smooth',
       })
     },
   },

@@ -1,5 +1,6 @@
 <template>
   <div
+    id="log-table"
     class="log-table"
     @click="handleTableClickProxy"
   >
@@ -134,6 +135,11 @@ export default {
     },
     onRowClick(item, { expand, isExpanded }) {
       expand(!isExpanded)
+    },
+
+    // eslint-disable-next-line vue/no-unused-properties
+    goTo() {
+
     },
   },
 }

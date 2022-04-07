@@ -14,7 +14,7 @@
     <template #action>
       <v-flex>
         <v-sheet class="text-body-1 text--darken-1 primary white--text">
-          <BaseDatetimePicker2
+          <BaseDatetimePicker
             v-model="date"
             color="primary"
             :default-value="30"

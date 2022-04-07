@@ -81,7 +81,7 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 // import { deepCopy } from '@/utils/helpers'
-import LogEllipsisText from './LogEllipsisText.vue'
+import LogEllipsisText from './LogEllipsisText'
 
 export default {
   name: 'LogLabelSelect',

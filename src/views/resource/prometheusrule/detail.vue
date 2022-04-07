@@ -4,7 +4,7 @@
     <BaseBreadcrumb :breadcrumb="breadcrumb">
       <template #extend>
         <v-flex class="kubegems__full-right">
-          <BaseDatetimePicker2
+          <BaseDatetimePicker
             v-model="date"
             :default-value="30"
             @change="onDatetimeChange"

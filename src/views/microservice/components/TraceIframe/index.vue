@@ -22,7 +22,7 @@
         <span class="kubegems__detail text-subtitle-2 font-weight-medium">
           起止时间
         </span>
-        <BaseDatetimePicker2
+        <BaseDatetimePicker
           v-model="date"
           :default-value="30"
           @change="onDatetimeChange(undefined)"

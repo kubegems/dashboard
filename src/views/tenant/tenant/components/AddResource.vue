@@ -228,11 +228,13 @@ export default {
       this.item = deepCopy(item)
     },
     async onClusterChange() {
-      this.quota = await this.m_resource_clusterQuota(this.obj.ClusterID, {
-        NowCpu: 0,
-        NowMemory: 0,
-        NowStorage: 0,
-      })
+      if (this.obj.ClusterID) {
+        this.quota = await this.m_resource_clusterQuota(this.obj.ClusterID, {
+          NowCpu: 0,
+          NowMemory: 0,
+          NowStorage: 0,
+        })
+      }
     },
     reset() {
       this.dialog = false
