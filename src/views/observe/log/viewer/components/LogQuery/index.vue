@@ -74,6 +74,7 @@
           运行
         </v-btn>
         <v-btn
+          v-if="queryType === 'tag'"
           color="primary"
           text
           :disabled="disabled"
