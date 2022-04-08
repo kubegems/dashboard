@@ -49,6 +49,7 @@ export default {
       },
       {
         text: 'Debug',
+        value: 'debug',
         color: 'primary',
         intro: '匹配元素:[D],[debug],【debug】,debug,level=debug,忽略大小写',
       },

@@ -300,7 +300,6 @@ export default {
         return
       }
 
-      // this.queryed = true
       this.items = (data.query || []).sort((a, b) => {
         if (this.params.direction === 'backward') {
           return b.info.timestamp - a.info.timestamp
@@ -481,7 +480,7 @@ export default {
 
     handleShowContext (item) {
       const query = Object.keys(item.stream).filter(l => {
-        return ['container', 'image', 'pod', 'namespace', 'project'].indexOf(l) > -1
+        return ['container', 'image', 'pod', 'namespace', 'project'].includes(l)
       }).reduce((pre, current) => `${pre}${current}="${item.stream[current]}",`, '{').slice(0, -1) + '}'
       this.$refs.logContext.showContext(item, {
         ClusterID: this.cluster.value,
