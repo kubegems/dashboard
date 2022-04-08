@@ -187,7 +187,7 @@ export default {
       cluster: {},
       date: [],
       params: {
-        limit: 500,
+        limit: 1000,
         direction: 'backward',
         levels: [],
         logQL: '',
@@ -245,7 +245,10 @@ export default {
   },
   methods: {
     onDateChange () {
-      this.getSeriesList()
+      if (this.cluster.value) {
+        this.$refs.logQuery.getSeriesList(this.cluster.text)
+        this.$refs.logQuery.search()
+      }
     },
 
     handleSwitchView (type) {
@@ -341,8 +344,8 @@ export default {
             ...this.$route.query,
             project: projectName,
             environment: environmentName,
-            start: this.dateTimestamp[0],
-            end: this.dateTimestamp[1],
+            start: this.dateTimestamp[0]?.substr(0, 13),
+            end: this.dateTimestamp[1]?.substr(0, 13),
             query: this.params.logQL,
             filters: params.filters,
           },
