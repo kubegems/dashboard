@@ -165,7 +165,7 @@ export default {
       const tagMap = {}
       for (let i = 0, len = s.length; i < len; i++) {
         for (const key in s[i]) {
-          if (keyArr.indexOf(key) === -1) continue
+          if (!keyArr.includes(key)) continue
           if (!tagMap[key]) {
             tagMap[key] = {}
           }

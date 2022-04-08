@@ -139,7 +139,7 @@
       />
     </div>
 
-    <p class="mt-2 text-body-2">ql : {{ advancedQl || logQL }}</p>
+    <p class="mt-2 text-body-2">logql : {{ advancedQl || logQL }}</p>
   </v-card>
 </template>
 
@@ -220,7 +220,7 @@ export default {
         this.$route.query.query.match(reg).map(s => {
           const l = s.split('=')
           if (l.length === 2) {
-            if (keyArr.indexOf(l[0]) > -1) {
+            if (keyArr.includes(l[0])) {
               this.$set(selected, l[0], l[1].replaceAll('"', '').replaceAll('~', '').split('|'))
             }
           }
