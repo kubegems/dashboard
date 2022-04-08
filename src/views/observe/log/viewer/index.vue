@@ -175,8 +175,6 @@ export default {
     LogLine,
   },
   data () {
-    this.LABEL_CLUSTER_KEY = process.env.VUE_APP_LOG_LABEL_CLUSTER_KEY
-
     this.breadcrumb = {
       title: '日志查看器',
       tip: '基于Loki的日志查看面板，可进行日志实时查询，快照，过滤等等',
@@ -483,7 +481,7 @@ export default {
 
     handleShowContext (item) {
       const query = Object.keys(item.stream).filter(l => {
-        return ['container', 'image', 'pod', 'namespace', process.env.VUE_APP_LOG_LABEL_CLUSTER_KEY].indexOf(l) > -1
+        return ['container', 'image', 'pod', 'namespace', 'project'].indexOf(l) > -1
       }).reduce((pre, current) => `${pre}${current}="${item.stream[current]}",`, '{').slice(0, -1) + '}'
       this.$refs.logContext.showContext(item, {
         ClusterID: this.cluster.value,

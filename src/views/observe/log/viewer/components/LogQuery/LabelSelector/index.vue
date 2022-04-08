@@ -113,8 +113,6 @@ export default {
     },
   },
   data () {
-    this.LABEL_CLUSTER_KEY = process.env.VUE_APP_LOG_LABEL_CLUSTER_KEY
-
     return {
       selectedMap: {},
       tags: [],
@@ -174,7 +172,7 @@ export default {
           tagMap[key][s[i][key]] = 1
         }
       }
-      const labels = Object.keys(tagMap).filter(k => k !== this.LABEL_CLUSTER_KEY && (this.AdminViewport || k !== 'tenant'))
+      const labels = Object.keys(tagMap)
       this.tags = labels.map(key => {
         return {
           key,

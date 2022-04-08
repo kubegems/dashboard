@@ -16,7 +16,7 @@
       dense
       :show-expand="mode === 'normal'"
       :item-key="mode === 'context' ? 'info.timestamp' : 'info.index'"
-      :no-data-text="mode === 'context' ? '暂无数据' : ''"
+      :no-data-text="mode === 'context' ? '' : '暂无数据'"
       loading-text="接收数据中..."
       @click:row="onRowClick"
     >
@@ -42,6 +42,16 @@
           v-else
           :class="`log-table__item log-table__item--${item.level}`"
         >
+          <span
+            class="success--text log-table__timestamp"
+          >
+            {{ $moment(parseInt(item.timestamp.substr(0, 13))).format('YYYY-MM-DD HH:mm:ss') }}
+          </span>
+          <span
+            :class="`log-table__level--${item.level} white--text log-table__level pa-1 mr-2`"
+          >
+            {{ item.level }}
+          </span>
           <span
             :class="{ 'log-table__highlight': highlight }"
             v-html="item.message"
@@ -177,6 +187,31 @@ export default {
     white-space: nowrap;
     width: 164px;
     font-weight: 600;
+  }
+
+  &__level {
+    display: inline-block;
+    white-space: nowrap;
+    width: 70px;
+    font-weight: 600;
+    text-align: center;
+    border-radius: 3px;
+
+    &--warn {
+      background-color: #fb8c00;
+    }
+    &--info {
+      background-color: #00bcd4;
+    }
+    &--debug {
+      background-color: #1e88e5;
+    }
+    &--error {
+      background-color: #ff5252;
+    }
+    &--unknown {
+      background-color: #607d8b;
+    }
   }
 
   &__pod {
