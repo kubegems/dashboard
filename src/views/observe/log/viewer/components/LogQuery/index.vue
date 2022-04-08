@@ -164,8 +164,6 @@ export default {
     },
   },
   data () {
-    this.LABEL_CLUSTER_KEY = process.env.VUE_APP_LOG_LABEL_CLUSTER_KEY
-
     return {
       expand: false,
       queryType: 'tag',
@@ -254,6 +252,7 @@ export default {
       this.cluster = {}
       this.projectName = ''
       this.environmentName = ''
+      this.selected = {}
       this.$emit('setCluster', this.cluster)
     },
     async handleSetEnvironment(env, projectName, triggerQuery = false) {
@@ -264,6 +263,7 @@ export default {
         }
         this.projectName = projectName
         this.environmentName = env.environmentName
+        this.selected = {}
         await this.getSeriesList(env.clusterName)
         this.$emit('setCluster', this.cluster)
         if (triggerQuery) {
