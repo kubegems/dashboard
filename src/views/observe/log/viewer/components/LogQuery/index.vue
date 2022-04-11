@@ -263,11 +263,12 @@ export default {
         }
         this.projectName = projectName
         this.environmentName = env.environmentName
-        this.selected = {}
         await this.getSeriesList(env.clusterName)
         this.$emit('setCluster', this.cluster)
         if (triggerQuery) {
           this.search()
+        } else {
+          this.selected = {}
         }
       }
     },
