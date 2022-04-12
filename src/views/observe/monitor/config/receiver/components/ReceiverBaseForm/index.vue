@@ -19,33 +19,6 @@
               :rules="objRules.nameRule"
             />
           </v-col>
-          <v-col
-            v-if="AdminViewport"
-            cols="6"
-          >
-            <v-autocomplete
-              v-model="namespace"
-              color="primary"
-              :items="namespaceSelect"
-              :rules="objRules.namespaceRule"
-              label="命名空间"
-              hide-selected
-              class="my-0"
-              no-data-text="暂无可选数据"
-              :readonly="edit"
-              @focus="onNamespaceSelectFocus(ThisCluster)"
-            >
-              <template #selection="{ item }">
-                <v-chip
-                  color="primary"
-                  small
-                  class="mx-1"
-                >
-                  {{ item['text'] }}
-                </v-chip>
-              </template>
-            </v-autocomplete>
-          </v-col>
         </v-row>
       </v-card-text>
       <ChannelForm
@@ -124,9 +97,18 @@ export default {
     },
   },
   watch: {
-    item() {
-      this.obj = this.item
+    item: {
+      handler: function() {
+        if (this.item) { this.obj = this.item }
+      },
+      deep: true,
+      immediate: true,
     },
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.namespace = this.$route.query.namespace
+    })
   },
   methods: {
     addData(receiverType, data) {
@@ -186,18 +168,10 @@ export default {
       this.type = null
     },
     // eslint-disable-next-line vue/no-unused-properties
-    updateNamespaceSelectData() {
-      this.namespaceSelectData(this.ThisCluster)
-    },
-    // eslint-disable-next-line vue/no-unused-properties
     reset() {
       this.$refs.channelForm.closeCard()
       this.$refs.form.reset()
-      this.obj = {
-        name: '',
-        webhookConfigs: [],
-        emailConfigs: [],
-      }
+      this.obj = this.$options.data().obj
     },
     // eslint-disable-next-line vue/no-unused-properties
     validate() {
@@ -217,9 +191,6 @@ export default {
       } else {
         return true
       }
-    },
-    onNamespaceSelectFocus(clusterName) {
-      this.namespaceSelectData(clusterName)
     },
   },
 }

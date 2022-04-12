@@ -1,6 +1,5 @@
 <template>
   <v-container fluid>
-    <BaseViewportHeader :selectable="false" />
     <BaseBreadcrumb :breadcrumb="breadcrumb">
       <template #extend>
         <v-flex class="kubegems__full-right">
@@ -168,7 +167,7 @@ export default {
   methods: {
     async serviceMonitorDetail() {
       const data = await getServiceMonitorDetail(
-        this.ThisCluster,
+        this.$route.query.cluster,
         this.$route.query.namespace,
         this.$route.params.name,
       )
@@ -193,7 +192,7 @@ export default {
         param: { item },
         doFunc: async (param) => {
           await deleteServiceMonitor(
-            this.ThisCluster,
+            this.$route.query.cluster,
             this.$route.query.namespace,
             param.item.metadata.name,
           )

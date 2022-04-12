@@ -238,7 +238,6 @@ export default {
     Vue.prototype.$EVENT_STATUS_COLOR = EVENT_STATUS_COLOR
     Vue.prototype.$METATYPE_CN = METATYPE_CN
     Vue.prototype.$LINE_THEME_COLORS = LINE_THEME_COLORS
-    Vue.prototype.$DOMAIN = process.env.VUE_APP_DOMAIN
     Vue.prototype.$PROJECT_ROLE = PROJECT_ROLE
     Vue.prototype.$RESOURCE_ROLE = RESOURCE_ROLE
     Vue.prototype.$TENANT_ROLE = TENANT_ROLE

@@ -19,7 +19,7 @@ export default {
     },
     text: {
       type: String,
-      default: '请先选择环境',
+      default: '请选择环境',
     },
   },
 }
@@ -39,7 +39,7 @@ export default {
   background-color: rgba(#ffffff, 0.95);
   backdrop-filter: blur(2px);
   color: $primary;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 600;
 }
 </style>

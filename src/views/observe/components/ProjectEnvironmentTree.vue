@@ -10,35 +10,34 @@
     transition
     color="primary"
     return-object
-    :load-children="getEnvironmentList"
+    :load-children="environmentList"
   >
     <template #prepend="{ item }">
-      <v-chip
+      <v-icon
         v-if="item.type === 'project'"
+        small
+        left
         color="primary"
-        label
-        small
-        class="mr-2"
       >
-        Proj
-      </v-chip>
-      <v-chip
+        fas fa-cube
+      </v-icon>
+
+      <v-icon
         v-else
-        color="green"
-        text-color="white"
-        label
         small
-        class="mr-2"
+        left
+        color="primary"
       >
-        Env
-      </v-chip>
+        fas fa-cloud
+      </v-icon>
     </template>
   </v-treeview>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { getProjectList, getProjectEnvironmentList } from '@/api'
+import { mapGetters, mapState } from 'vuex'
+import { getProjectList, getProjectEnvironmentList, getAllProjectList } from '@/api'
+
 export default {
   name: 'ProjectEnvironmentTree',
   props: {
@@ -56,6 +55,7 @@ export default {
   },
   computed: {
     ...mapGetters(['Tenant']),
+    ...mapState(['AdminViewport']),
   },
   watch: {
     value: {
@@ -73,12 +73,17 @@ export default {
     },
   },
   mounted () {
-    this.getProjectList()
+    this.projectList()
   },
   methods: {
     // 此接口中返回的env列表中没有集群信息，所以树采用懒加载方式
-    async getProjectList () {
-      const data = await getProjectList(this.Tenant().ID, { size: 999 })
+    async projectList () {
+      let data = {}
+      if (this.AdminViewport) {
+        data = await getAllProjectList({ size: 999 })
+      } else {
+        data = await getProjectList(this.Tenant().ID, { size: 999 })
+      }
       this.items = data.List.map((item) => ({
         type: 'project',
         treeId: `proj-${item.ProjectName}`,
@@ -86,9 +91,9 @@ export default {
         name: item.ProjectName,
         children: [],
       }))
-      this.getDefaultActiveByQuery()
+      this.defaultActiveByQuery()
     },
-    async getEnvironmentList (proj) {
+    async environmentList (proj) {
       const data = await getProjectEnvironmentList(proj.id, { size: 999, noprocessing: true })
       const children = data.List.map(item => ({
         type: 'environment',
@@ -108,12 +113,12 @@ export default {
       this.$emit('input', v)
       this.$emit('change', v)
     },
-    async getDefaultActiveByQuery () {
+    async defaultActiveByQuery () {
       const { env, proj } = this.$route.query
       let projItem = void 0
       if (proj) {
         projItem = this.items.find(item => item.name === proj)
-        projItem && await this.getEnvironmentList(projItem)
+        projItem && await this.environmentList(projItem)
       }
       this.open = projItem ? [projItem] : []
       this.active = env ? [{

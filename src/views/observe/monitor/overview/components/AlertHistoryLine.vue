@@ -1,10 +1,10 @@
 <template>
   <v-card
     class="kubegems__h-24 pa-4"
-    :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
   >
     <div style="height: 100%; width: 100%;">
       <VueApexCharts
+        :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
         height="240px"
         :options="options"
         :series="series"
@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import { getAlertGraph } from '@/api'
 import { mapState } from 'vuex'
 import VueApexCharts from 'vue-apexcharts'
 import moment from 'moment'
@@ -23,6 +24,12 @@ export default {
   name: 'AlertHistoryLine',
   components: {
     VueApexCharts,
+  },
+  props: {
+    tenant: {
+      type: String,
+      default: () => '',
+    },
   },
   data () {
     this.options = {
@@ -46,7 +53,7 @@ export default {
         margin: 0,
         align: 'left',
         style: {
-          fontSize: '1.25rem',
+          fontSize: '1rem',
           fontWeight: 'bold',
         },
       },
@@ -74,6 +81,8 @@ export default {
       legend: {
         show: true,
         position: 'top',
+        showForSingleSeries: true,
+        showForNullSeries: true,
       },
       yaxis: {
         labels: {
@@ -85,7 +94,7 @@ export default {
         labels: {
           datetimeUTC: false,
           formatter: function (value, timestamp) {
-            return moment(new Date(timestamp * 1000)).format('LTS')
+            return moment(new Date(timestamp * 1000)).format('L')
           },
           style: {
             cssClass: 'grey--text lighten-2--text fill-color',
@@ -100,34 +109,38 @@ export default {
       },
       noData: {
         text: '暂无数据',
-        offsetY: -18,
+        offsetY: -5,
       },
     }
     return {
-      series: [
-        {
-          name: 'project1',
-          data: [
-            [Date.now(), 1],
-            [Date.now() + 1000, 5],
-            [Date.now() + 2000, 10],
-            [Date.now() + 3000, 23],
-          ],
-        },
-        {
-          name: 'project2',
-          data: [
-            [Date.now(), 12],
-            [Date.now() + 1000, 32],
-            [Date.now() + 2000, 14],
-            [Date.now() + 3000, 45],
-          ],
-        },
-      ],
+      series: [],
     }
   },
   computed: {
     ...mapState(['Scale']),
+  },
+  watch: {
+    tenant: {
+      handler: function() {
+        if (this.tenant) { this.alertGraphMetrics() }
+      },
+      deep: true,
+    },
+  },
+  methods: {
+    async alertGraphMetrics() {
+      const data = await getAlertGraph({
+        tenant: this.tenant,
+        start: this.$moment().utc().add(-30, 'days').format(),
+        end: this.$moment().utc().format(),
+      })
+      this.series = data.map(d => {
+        return {
+          name: d.metric?.project,
+          data: d.values,
+        }
+      })
+    },
   },
 }
 </script>

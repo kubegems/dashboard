@@ -49,7 +49,7 @@ import { mapState } from 'vuex'
 import { postAddServiceMonitor } from '@/api'
 import ServiceMonitorBaseForm from './ServiceMonitorBaseForm'
 import BaseResource from '@/mixins/resource'
-import ServiceMonitorSchema from '@/views/resource/servicemonitor/mixins/schema'
+import ServiceMonitorSchema from '../mixins/schema'
 import { randomString } from '@/utils/helpers'
 
 export default {
@@ -81,7 +81,7 @@ export default {
           if (
             !this.checkDataWithNS(
               data,
-              this.AdminViewport ? data.metadata.namespace : this.ThisNamespace,
+              this.$route.query.namespace,
             )
           ) {
             return
@@ -89,17 +89,12 @@ export default {
           if (!this.validateJsonSchema(this.schema, data)) {
             return
           }
-          data = this.beautifyData(data)
         } else if (this.formComponent === 'ServiceMonitorBaseForm') {
           data = this.$refs[this.formComponent].obj
-          data = this.beautifyData(data)
         }
-        const namespace = this.AdminViewport
-          ? data.metadata.namespace
-          : this.ThisNamespace
         await postAddServiceMonitor(
-          this.ThisCluster,
-          namespace,
+          this.$route.query.cluster,
+          this.$route.query.namespace,
           data.metadata.name,
           data,
         )

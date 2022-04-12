@@ -43,13 +43,13 @@
               :rules="formData.name"
             />
           </v-col>
-          <v-col cols="6">
+          <!-- <v-col cols="6">
             <v-text-field
               v-model="formData.metadata.namespace"
               label="命名空间"
               readonly
             />
-          </v-col>
+          </v-col> -->
         </v-row>
       </v-form>
     </template>

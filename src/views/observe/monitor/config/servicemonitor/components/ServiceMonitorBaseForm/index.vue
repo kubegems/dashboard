@@ -19,39 +19,12 @@
               :readonly="!edit"
             />
           </v-col>
-          <v-col
-            v-if="AdminViewport"
-            cols="6"
-          >
-            <v-autocomplete
-              v-model="obj.metadata.namespace"
-              color="primary"
-              :items="namespaceSelect"
-              :rules="objRules.namespaceRule"
-              label="命名空间"
-              hide-selected
-              class="my-0"
-              no-data-text="暂无可选数据"
-              @focus="onNamespaceSelectFocus(ThisCluster)"
-              @change="onNamespaceChange"
-            >
-              <template #selection="{ item }">
-                <v-chip
-                  color="primary"
-                  small
-                  class="mx-1"
-                >
-                  {{ item['text'] }}
-                </v-chip>
-              </template>
-            </v-autocomplete>
-          </v-col>
 
           <v-col cols="6">
             <v-autocomplete
               v-model="serviceSelector"
               color="primary"
-              :items="serviceSelect"
+              :items="m_select_serviceItems"
               :rules="objRules.selectorRule"
               label="关联服务"
               hide-selected
@@ -168,7 +141,6 @@ export default {
       this.$nextTick(() => {
         const { cluster, namespace } = this.$route.query
         if (this.AdminViewport) {
-          this.namespaceSelectData(cluster)
           if (this.item && Object.keys(this.item).length > 0) {
             this.obj = this.item
           }
@@ -185,7 +157,7 @@ export default {
           }
         }
         this.retrieveServiceSelector()
-        if (this.serviceSelect.length === 0 && this.obj.metadata.namespace) {
+        if (this.m_select_serviceItems.length === 0 && this.obj.metadata.namespace) {
           this.onServiceSelectFocus()
         }
       })
@@ -205,7 +177,7 @@ export default {
         })
         return
       }
-      this.serviceSelectData(cluster, this.obj.metadata.namespace)
+      this.m_select_serviceSelectData(cluster, this.obj.metadata.namespace)
     },
     addData(data) {
       this.obj.spec.endpoints = data
@@ -233,18 +205,11 @@ export default {
         this.expand = true
       })
     },
-    onNamespaceChange() {
-      this.$set(
-        this.obj.spec.namespaceSelector.matchNames,
-        0,
-        this.obj.metadata.namespace,
-      )
-    },
     removeEndpoint(index) {
       this.$delete(this.obj.spec.endpoints, index)
     },
     onServiceSelectorChange() {
-      this.serviceSelect.forEach((s) => {
+      this.m_select_serviceItems.forEach((s) => {
         if (s.text === this.serviceSelector) {
           if (s.labels) {
             this.obj.spec.selector.matchLabels = s.labels
@@ -274,13 +239,11 @@ export default {
     reset() {
       this.$refs.endpointForm.closeCard()
       this.$refs.form.reset()
+      this.obj = this.$options.data().obj
     },
     // eslint-disable-next-line vue/no-unused-properties
     setData(data) {
       this.obj = data
-    },
-    onNamespaceSelectFocus(clusterName) {
-      this.namespaceSelectData(clusterName)
     },
   },
 }

@@ -102,7 +102,7 @@
 </template>
 
 <script>
-import BaseAlert from '@/views/resource/prometheusrule/mixins/alert'
+import BaseAlert from '../../../mixins/alert'
 
 export default {
   name: 'AlertLevelItem',

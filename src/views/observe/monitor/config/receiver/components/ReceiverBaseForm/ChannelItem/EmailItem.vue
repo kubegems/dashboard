@@ -26,7 +26,10 @@
             <v-list-item-title class="text-subtitle-2 py-1 primary--text">
               收件人
             </v-list-item-title>
-            <v-list-item-subtitle class="text-body-2 py-1 white-space">
+            <v-list-item-subtitle
+              class="text-body-2 py-1 white-space"
+              :style="{ wordBreak: 'break-all' }"
+            >
               {{ item.to }}
             </v-list-item-subtitle>
           </v-list-item-content>

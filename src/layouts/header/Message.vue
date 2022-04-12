@@ -353,11 +353,11 @@ export default {
             name: 'admin-prometheusrule-detail',
             params: {
               name: message.Content.AlertName,
-              cluster: message.Content.ClusterName,
             },
             query: {
               namespace: message.Content.Namespace,
               createAt: message.CreatedAt,
+              cluster: message.Content.ClusterName,
             },
           })
         } else {
@@ -373,6 +373,7 @@ export default {
             query: {
               namespace: message.Content.Namespace,
               createAt: message.CreatedAt,
+              cluster: message.Content.ClusterName,
             },
           })
         }

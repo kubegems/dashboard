@@ -1,10 +1,9 @@
 <template>
   <v-container fluid>
-    <BaseViewportHeader :selectable="false" />
     <BaseBreadcrumb :breadcrumb="breadcrumb">
       <template #extend>
         <v-flex class="kubegems__full-right">
-          <BaseDatetimePicker2
+          <BaseDatetimePicker
             v-model="date"
             :default-value="30"
             @change="onDatetimeChange"
@@ -146,7 +145,7 @@ export default {
     },
     async prometheusRuleDetail() {
       const data = await getPrometheusRuleDetail(
-        this.ThisCluster,
+        this.$route.query.cluster,
         this.$route.query.namespace,
         this.$route.params.name,
         {
@@ -206,7 +205,7 @@ export default {
       }
 
       const data = await getPrometheusAlertHistory(
-        this.ThisCluster,
+        this.$route.query.cluster,
         this.$route.query.namespace,
         this.$route.params.name,
         {

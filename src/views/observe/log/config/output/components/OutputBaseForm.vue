@@ -43,13 +43,13 @@
               :rules="formData.required"
             />
           </v-col>
-          <v-col cols="6">
+          <!-- <v-col cols="6">
             <v-text-field
               v-model="formData.metadata.namespace"
               readonly
               label="命名空间"
             />
-          </v-col>
+          </v-col> -->
 
           <v-col cols="6">
             <v-select

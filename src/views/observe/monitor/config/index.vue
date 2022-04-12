@@ -9,14 +9,8 @@
         {{ item.text }}
       </v-tab>
     </v-tabs>
-    <v-tabs-items v-model="currentTab">
-      <v-tab-item
-        v-for="item in tabs"
-        :key="item.component"
-      >
-        <component :is="item.component" />
-      </v-tab-item>
-    </v-tabs-items>
+
+    <component :is="currentComponent" />
   </ProjectEnvironmentLayout>
 </template>
 
@@ -64,7 +58,13 @@ export default {
 
     return {
       currentTab: this.tabMap[this.$route.query.tab] || 0,
+      tabs: this.tabs,
     }
+  },
+  computed: {
+    currentComponent() {
+      return this.tabs[this.currentTab].component
+    },
   },
   watch: {
     currentTab () {

@@ -24,6 +24,7 @@
               type="number"
               :rules="fieldRules.topk"
               placeholder="Topk"
+              :style="{ width: '100px' }"
               @change="_handleRefresh(undefined)"
             />
           </ButtonInput>
@@ -43,12 +44,13 @@
               hide-details
               :rules="fieldRules.step"
               placeholder="Step"
+              :style="{ width: '110px' }"
               @change="_handleRefresh(undefined)"
             />
           </ButtonInput>
 
-          <BaseDatetimePicker2
-            ref="baseDatetimePicker2"
+          <BaseDatetimePicker
+            ref="baseDatetimePicker"
             v-model="date"
             :default-value="30"
             @change="onRefresh(undefined)"
@@ -139,7 +141,7 @@
                     />
                     <v-select
                       v-model="queryList[index].cluster"
-                      :items="clusterSelect"
+                      :items="m_select_clusterItems"
                       item-text="text"
                       item-value="value"
                       label="集群"
@@ -350,7 +352,7 @@ import {
 } from '@/api'
 import ButtonInput from './components/ButtonInput'
 import MetricsItem from './components/MetricsItem'
-import AddPrometheusRule from '@/views/resource/prometheusrule/components/AddPrometheusRule'
+import AddPrometheusRule from '@/views/observe/monitor/config/prometheusrule/components/AddPrometheusRule'
 import BaseSelect from '@/mixins/select'
 import { deepCopy, debounce } from '@/utils/helpers'
 import { required } from '@/utils/rules'
@@ -452,7 +454,7 @@ export default {
   },
   mounted() {
     if (this.AdminViewport) {
-      this.clusterSelectData()
+      this.m_select_clusterSelectData()
     }
     this.getMonitorConfig()
     this.getProjectList()
@@ -644,7 +646,7 @@ export default {
     async onSearch(id, reset = true) {
       const form = `${id}-form`
       if (this.$refs[form][0].validate(true)) {
-        this.$refs.baseDatetimePicker2.refresh(false)
+        this.$refs.baseDatetimePicker.refresh(false)
         const query = this.queryList.find((item) => item._$id === id)
         // 重置labelpairs
         reset && this.setLabelObject(query)

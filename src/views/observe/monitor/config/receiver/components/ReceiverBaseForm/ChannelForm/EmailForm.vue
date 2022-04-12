@@ -317,7 +317,7 @@ export default {
           namespace = '_all'
         }
         this.emailListToString()
-        await postSendTestEmail(this.ThisCluster, namespace, '_', {
+        await postSendTestEmail(this.$route.query.cluster, namespace, '_', {
           authPassword: this.emailConfig.authPassword,
           from: this.emailConfig.from,
           requireTLS: this.emailConfig.requireTLS,

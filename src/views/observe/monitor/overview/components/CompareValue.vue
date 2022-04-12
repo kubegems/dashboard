@@ -65,8 +65,8 @@ export default {
     classNames () {
       return {
         'compare-value': true,
-        'compare-value--increase': this.reverse ? this.diff > 0 : this.diff < 0,
-        'compare-value--reduce': this.reverse ? this.diff < 0 : this.diff > 0,
+        'compare-value--reduce': this.reverse ? this.diff > 0 : this.diff < 0,
+        'compare-value--increase': this.reverse ? this.diff < 0 : this.diff > 0,
         'compare-value--nochange': this.diff === 0,
       }
     },

@@ -51,7 +51,7 @@ import { mapState } from 'vuex'
 import { patchUpdateServiceMonitor, getServiceMonitorDetail } from '@/api'
 import ServiceMonitorBaseForm from './ServiceMonitorBaseForm'
 import BaseResource from '@/mixins/resource'
-import ServiceMonitorSchema from '@/views/resource/servicemonitor/mixins/schema'
+import ServiceMonitorSchema from '../mixins/schema'
 import { deepCopy, randomString } from '@/utils/helpers'
 
 export default {
@@ -85,13 +85,11 @@ export default {
           if (!this.validateJsonSchema(this.schema, data)) {
             return
           }
-          data = this.beautifyData(data)
         } else if (this.formComponent === 'ServiceMonitorBaseForm') {
           data = this.$refs[this.formComponent].obj
-          data = this.beautifyData(data)
         }
         await patchUpdateServiceMonitor(
-          this.ThisCluster,
+          this.$route.query.cluster,
           this.item.metadata.namespace,
           this.item.metadata.name,
           data,
@@ -103,7 +101,7 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     async init(item) {
       const data = await getServiceMonitorDetail(
-        this.ThisCluster,
+        this.$route.query.cluster,
         item.metadata.namespace,
         item.metadata.name,
       )

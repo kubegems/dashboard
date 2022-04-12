@@ -2,7 +2,7 @@
   <v-card class="pa-4">
     <div class="d-flex justify-space-between align-center">
       <CmsSelect v-model="params.cms" />
-      <BaseDatetimePicker2 v-model="params.date" />
+      <BaseDatetimePicker v-model="params.date" />
     </div>
 
     <v-data-table
@@ -15,10 +15,10 @@
       no-results-text="暂无匹配租户"
       class="px-2 mt-4"
     >
-      <template #item.status>
+      <template #[`item.status`]>
         <StatusTag m />
       </template>
-      <template #item.events>
+      <template #[`item.events`]>
         1 <v-icon @click="onShowEvents">mdi-chart-pie</v-icon>
       </template>
     </v-data-table>
@@ -89,7 +89,6 @@ export default {
       this.params.page = page
     },
     onShowEvents () {
-      console.log(1)
       this.$refs.k8sEvents.show()
     },
   },

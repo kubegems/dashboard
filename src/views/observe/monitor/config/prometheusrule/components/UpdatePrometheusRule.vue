@@ -89,10 +89,8 @@ export default {
         }
 
         await putUpdatePrometheusRule(
-          this.ThisCluster || obj.cluster,
-          this.AdminViewport
-            ? obj.namespace
-            : this.ThisNamespace || obj.namespace,
+          this.$route.query.cluster,
+          this.$route.query.namespace,
           obj.name,
           obj,
         )
@@ -107,7 +105,6 @@ export default {
       this.$nextTick(() => {
         this.item = deepCopy(item)
         // 提前加载命名空间
-        this.$refs[this.formComponent].$refs.Rule.updateNamespaceSelectData()
         this.$refs[this.formComponent].$refs.Rule.setData(this.item)
         this.$refs[this.formComponent].$refs.Rule.setLabelpairs(
           this.item.labelpairs,

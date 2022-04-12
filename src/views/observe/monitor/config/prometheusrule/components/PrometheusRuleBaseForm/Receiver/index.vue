@@ -111,6 +111,7 @@ export default {
 
       this.$nextTick(() => {
         this.$refs.receiverForm.init(data)
+        this.expand = true
       })
     },
     removeReceiver(index) {

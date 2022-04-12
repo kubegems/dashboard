@@ -99,10 +99,8 @@ export default {
         }
 
         await postAddPrometheusRule(
-          this.ThisCluster || obj.cluster,
-          this.AdminViewport
-            ? obj.namespace
-            : this.ThisNamespace || obj.namespace,
+          this.$route.query.cluster,
+          this.$route.query.namespace,
           obj,
         )
         this.reset()

@@ -281,12 +281,12 @@ export default {
         this.storageClass.metadata &&
         this.storageClass.metadata.annotations &&
         this.storageClass.metadata.annotations[
-          `storageclass.${process.env.VUE_APP_DOMAIN}/supported-access-modes`
+          `storageclass.kubegems.io/supported-access-modes`
         ]
       ) {
         const modes =
           this.storageClass.metadata.annotations[
-            `storageclass.${process.env.VUE_APP_DOMAIN}/supported-access-modes`
+            `storageclass.kubegems.io/supported-access-modes`
           ].split(',')
         const accessModes = []
         modes.forEach((mode) => {

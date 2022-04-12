@@ -34,6 +34,7 @@ import { mapState } from 'vuex'
 import { putUpdateReceiver } from '@/api'
 import ReceiverBaseForm from './ReceiverBaseForm'
 import BaseResource from '@/mixins/resource'
+import BaseSelect from '@/mixins/select'
 import { deepCopy } from '@/utils/helpers'
 
 export default {
@@ -41,7 +42,7 @@ export default {
   components: {
     ReceiverBaseForm,
   },
-  mixins: [BaseResource],
+  mixins: [BaseResource, BaseSelect],
   data: () => ({
     dialog: false,
     formComponent: 'ReceiverBaseForm',
@@ -55,17 +56,9 @@ export default {
     open() {
       this.dialog = true
     },
-    // 点击编辑后调用
     // eslint-disable-next-line vue/no-unused-properties
     async init(item) {
-      this.$nextTick(() => {
-        // 提前加载命名空间
-        if (this.AdminViewport) {
-          this.$refs[this.formComponent].updateNamespaceSelectData()
-          this.$refs[this.formComponent].namespace = item.namespace
-        }
-        this.item = deepCopy(item)
-      })
+      this.item = deepCopy(item)
     },
     async updateReceiver() {
       if (
@@ -73,17 +66,17 @@ export default {
         this.$refs[this.formComponent].validate()
       ) {
         let data = this.$refs[this.formComponent].obj
-        data = this.beautifyData(data)
+        data = this.m_resource_beautifyData(data)
         if (!this.AdminViewport) {
           await putUpdateReceiver(
-            this.ThisCluster,
-            this.ThisNamespace,
+            this.$route.query.cluster,
+            this.$route.query.namespace,
             data.name,
             data,
           )
         } else {
           await putUpdateReceiver(
-            this.ThisCluster,
+            this.$route.query.cluster,
             this.$refs[this.formComponent].namespace,
             data.name,
             data,

@@ -83,10 +83,10 @@
 
 <script>
 import { mapState } from 'vuex'
-import { deleteEmpty } from '@/utils/helpers'
 import { getPrometheusBlackList, deletePrometheusBlacklist } from '@/api'
-import BaseSelect from '@/mixins/select'
 import ClusterSelect from '@/views/observe/components/ClusterSelect'
+import BaseSelect from '@/mixins/select'
+import { deleteEmpty } from '@/utils/helpers'
 
 export default {
   name: 'AlertHistroy',

@@ -84,7 +84,7 @@
             v-if="
               workload &&
                 workload.metadata.annotations &&
-                !workload.metadata.annotations[`gems.${$DOMAIN}/ref`]
+                !workload.metadata.annotations[`gems.kubegems.io/ref`]
             "
           >
             <v-btn

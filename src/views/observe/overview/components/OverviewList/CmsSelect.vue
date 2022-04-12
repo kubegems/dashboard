@@ -17,8 +17,9 @@
       <v-chip
         color="primary"
         small
+        label
       >
-        {{ item.text }}
+        项目: {{ item.text }}
       </v-chip>
     </template>
   </v-autocomplete>

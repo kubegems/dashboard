@@ -3,7 +3,7 @@
     fluid
     class="pa-0"
   >
-    <v-card>
+    <v-card flat>
       <v-card-title class="px-0">
         <BaseFilter
           :filters="filters"
@@ -37,7 +37,7 @@
                   创建采集器
                 </v-btn>
               </v-flex>
-              <v-flex>
+              <!-- <v-flex>
                 <v-btn
                   text
                   color="error"
@@ -52,7 +52,7 @@
                   <v-icon left>mdi-minus-box</v-icon>
                   删除采集器
                 </v-btn>
-              </v-flex>
+              </v-flex> -->
             </v-card-text>
           </v-card>
         </v-menu>
@@ -66,10 +66,8 @@
           :items-per-page="params.size"
           no-data-text="暂无数据"
           hide-default-footer
-          show-select
           @update:sort-by="m_table_sortBy"
           @update:sort-desc="m_table_sortDesc"
-          @toggle-select-all="m_table_onResourceToggleSelect"
         >
           <template #[`item.data-table-select`]="{ item, index }">
             <v-checkbox
@@ -199,11 +197,6 @@ export default {
   },
   mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
-    // breadcrumb: {
-    //   title: '采集器',
-    //   tip: '采集器 (ServiceMonitor) 为一组服务定义监控, 自动被Prometheus发现, 成为其指标拉取目标Target。',
-    //   icon: 'mdi-eyedropper',
-    // },
     items: [],
     pageCount: 0,
     cluster: undefined,
@@ -245,19 +238,6 @@ export default {
     },
   },
   watch: {
-    '$route.query': {
-      handler (newValue) {
-        const { cluster, namespace } = newValue
-        const needRefresh = cluster !== this.cluster || namespace !== this.namespace
-        this.cluster = cluster
-        this.namespace = namespace
-        if (needRefresh) {
-          this.serviceMonitorList(true)
-        }
-      },
-      deep: true,
-      immediate: true,
-    },
     sortparam: {
       handler: function (newV, oldV) {
         if (oldV.name !== newV.name) return
@@ -266,14 +246,21 @@ export default {
       },
       deep: true,
     },
-  },
-  mounted() {
-    if (this.JWT) {
-      this.serviceMonitorList()
-    }
+    '$route.query': {
+      handler: function () {
+        if (this.JWT) {
+          this.serviceMonitorList()
+        }
+      },
+      deep: true,
+      immediate: true,
+    },
   },
   methods: {
     async serviceMonitorList(noprocess = false) {
+      const { cluster, namespace } = this.$route.query
+      this.cluster = cluster
+      this.namespace = namespace
       if (!this.cluster || !this.namespace) return
 
       const data = await getServiceMonitorList(
@@ -287,10 +274,11 @@ export default {
       this.items = data.List
       this.pageCount = Math.ceil(data.Total / this.params.size)
       this.params.page = data.CurrentPage
+      // this.m_table_generateSelectResource()
     },
     serviceMonitorDetail(item) {
       this.$router.push({
-        name: 'observe-monitor-config-servicemonitor-detail',
+        name: 'servicemonitor-detail',
         params: {
           name: item.metadata.name,
         },

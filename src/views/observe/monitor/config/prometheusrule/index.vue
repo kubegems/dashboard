@@ -3,7 +3,7 @@
     fluid
     class="pa-0"
   >
-    <v-card>
+    <v-card flat>
       <v-card-title class="px-0">
         <BaseFilter
           :filters="filters"
@@ -12,7 +12,6 @@
           @refresh="m_filter_list"
           @filter="customFilter"
         />
-        <NamespaceFilter />
         <v-chip-group
           v-model="amenities"
           column
@@ -79,7 +78,7 @@
                   创建告警规则
                 </v-btn>
               </v-flex>
-              <v-flex>
+              <!-- <v-flex>
                 <v-btn
                   text
                   color="error"
@@ -94,7 +93,7 @@
                   <v-icon left>mdi-minus-box</v-icon>
                   删除告警规则
                 </v-btn>
-              </v-flex>
+              </v-flex> -->
             </v-card-text>
           </v-card>
         </v-menu>
@@ -111,10 +110,8 @@
           :items-per-page="itemsPerPage"
           single-expand
           show-expand
-          show-select
           item-key="index"
           @page-count="pageCount = $event"
-          @toggle-select-all="m_table_onResourceToggleSelect"
           @click:row="onRowClick"
         >
           <template #[`item.data-table-select`]="{ item, index }">
@@ -140,7 +137,7 @@
             <v-flex style="display: flex;">
               <a
                 class="text-subtitle-2"
-                @click="prometheusRuleDetail(item)"
+                @click.stop="prometheusRuleDetail(item)"
               >
                 {{ item.name }}
               </a>
@@ -334,7 +331,6 @@ import {
 } from '@/api'
 import AddPrometheusRule from './components/AddPrometheusRule'
 import UpdatePrometheusRule from './components/UpdatePrometheusRule'
-import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter'
 import BaseFilter from '@/mixins/base_filter'
 import BaseResource from '@/mixins/resource'
 import BasePermission from '@/mixins/permission'
@@ -346,15 +342,9 @@ export default {
   components: {
     AddPrometheusRule,
     UpdatePrometheusRule,
-    NamespaceFilter,
   },
   mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
-    // breadcrumb: {
-    //   title: '告警规则',
-    //   tip: '告警规则 (PrometheusRule) 通常是针对监控指标设置的Prometheus告警规则。',
-    //   icon: 'mdi-ruler',
-    // },
     filters: [{ text: '告警规则名称', value: 'search', items: [] }],
     items: [],
     itemsCopy: [],
@@ -373,6 +363,8 @@ export default {
       { pending: 'warning' },
       { firing: 'error' },
     ],
+    cluster: undefined,
+    namespace: undefined,
   }),
   computed: {
     ...mapState(['JWT', 'AdminViewport', 'Scale']),
@@ -382,7 +374,7 @@ export default {
         { text: '名称', value: 'name', align: 'start' },
         { text: '指标', value: 'promql', align: 'start', width: 500 },
         { text: '评估时间', value: 'for', align: 'start' },
-        { text: '接收器', value: 'receivers', align: 'start', width: 300 },
+        { text: '接收器', value: 'receivers', align: 'start', width: 200 },
         { text: '使用状态', value: 'open', align: 'start', width: 100 },
       ]
       if (this.m_permisson_resourceAllow) {
@@ -399,6 +391,17 @@ export default {
       return items
     },
   },
+  watch: {
+    '$route.query': {
+      handler: function () {
+        if (this.JWT) {
+          this.prometheusRuleList()
+        }
+      },
+      deep: true,
+      immediate: true,
+    },
+  },
   methods: {
     customFilter() {
       if (this.$route.query.search && this.$route.query.search.length > 0) {
@@ -413,7 +416,7 @@ export default {
       } else {
         this.items = this.itemsCopy
       }
-      this.m_table_generateSelectResource()
+      // this.m_table_generateSelectResource()
     },
     initAlertStatus() {
       this.alertStatus = { inactive: 0, firing: 0, pending: 0 }
@@ -427,13 +430,18 @@ export default {
           ? true
           : this.alertStateFilter.indexOf(item.state) !== -1
       })
-      this.m_table_generateSelectResource()
+      // this.m_table_generateSelectResource()
     },
     async prometheusRuleList() {
       this.params.isAdmin = this.AdminViewport
+      const { cluster, namespace } = this.$route.query
+      this.cluster = cluster
+      this.namespace = namespace
+      if (!this.cluster || !this.namespace) return
+
       const data = await getPrometheusRuleList(
-        this.ThisCluster,
-        this.ThisNamespace,
+        this.cluster,
+        this.namespace,
         this.params,
       )
 
@@ -455,7 +463,7 @@ export default {
       })
       this.itemsCopy = deepCopy(this.items)
       this.initAlertStatus()
-      this.m_table_generateSelectResource()
+      // this.m_table_generateSelectResource()
       if (this.$route.query.search) this.customFilter()
     },
     onAlertStateChange() {
@@ -475,6 +483,7 @@ export default {
           name: item.name,
         },
         query: {
+          cluster: this.cluster,
           namespace: item.namespace,
         },
       })
@@ -498,7 +507,7 @@ export default {
         param: { item },
         doFunc: async (param) => {
           await deletePrometheusRule(
-            this.ThisCluster,
+            this.cluster,
             param.item.namespace,
             param.item.name,
           )
@@ -514,7 +523,7 @@ export default {
           param: { item },
           doFunc: async (param) => {
             await postDisablePrometheusRule(
-              this.ThisCluster,
+              this.cluster,
               param.item.namespace,
               param.item.name,
             )
@@ -528,7 +537,7 @@ export default {
           param: { item },
           doFunc: async (param) => {
             await postEnablePrometheusRule(
-              this.ThisCluster,
+              this.cluster,
               param.item.namespace,
               param.item.name,
             )

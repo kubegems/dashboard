@@ -1,9 +1,24 @@
 <template>
   <v-card
     class="pa-4 kubegems__h-24"
-    :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
   >
+    <div
+      :style="{
+        position: 'absolute',
+        right: '10px',
+        zIndex: '9',
+        top: '24px',
+      }"
+    >
+      <BaseDatetimePicker
+        v-model="date"
+        :default-value="10080"
+        @change="onDatetimeChange(undefined)"
+      />
+    </div>
+
     <VueApexCharts
+      :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
       height="240px"
       :options="options"
       :series="series"
@@ -13,14 +28,20 @@
 
 <script>
 import { mapState } from 'vuex'
+import { getAlertGroup } from '@/api'
 import VueApexCharts from 'vue-apexcharts'
-import moment from 'moment'
 import { toFixed } from '@/utils/helpers'
 
 export default {
   name: 'AlertCategoryBar',
   components: {
     VueApexCharts,
+  },
+  props: {
+    tenant: {
+      type: String,
+      default: () => '',
+    },
   },
   data () {
     this.options = {
@@ -43,7 +64,7 @@ export default {
         offsetY: 20,
         align: 'left',
         style: {
-          fontSize: '1.25rem',
+          fontSize: '1rem',
           fontWeight: 'bold',
         },
       },
@@ -69,8 +90,7 @@ export default {
         },
       },
       legend: {
-        show: true,
-        position: 'top',
+        show: false,
       },
       yaxis: {
         labels: {
@@ -78,12 +98,8 @@ export default {
         },
       },
       xaxis: {
-        type: 'datetime',
+        type: 'category',
         labels: {
-          datetimeUTC: false,
-          formatter: function (value, timestamp) {
-            return moment(new Date(timestamp * 1000)).format('LTS')
-          },
           style: {
             cssClass: 'grey--text lighten-2--text fill-color',
           },
@@ -97,34 +113,46 @@ export default {
       },
       noData: {
         text: '暂无数据',
-        offsetY: -18,
+        offsetY: -2,
       },
     }
     return {
-      series: [
-        {
-          name: 'project1',
-          data: [
-            [Date.now(), 1],
-            [Date.now() + 1000, 5],
-            [Date.now() + 2000, 10],
-            [Date.now() + 3000, 23],
-          ],
-        },
-        {
-          name: 'project2',
-          data: [
-            [Date.now(), 12],
-            [Date.now() + 1000, 32],
-            [Date.now() + 2000, 14],
-            [Date.now() + 3000, 45],
-          ],
-        },
-      ],
+      series: [],
+      date: [],
     }
   },
   computed: {
     ...mapState(['Scale']),
+  },
+  watch: {
+    tenant: {
+      handler: function() {
+        if (this.tenant) { this.alertGroupMetrics() }
+      },
+      deep: true,
+    },
+  },
+  methods: {
+    async alertGroupMetrics() {
+      const data = await getAlertGroup({
+        tenant: this.tenant,
+        groupby: 'alert_type',
+        start: this.$moment(parseInt(this.date[0])).utc().format(),
+        end: this.$moment(parseInt(this.date[1])).utc().format(),
+      })
+      this.series = data.map(d => {
+        return {
+          name: "数量",
+          data: [{
+            x: d.groupValue,
+            y: [d.count],
+          }],
+        }
+      })
+    },
+    onDatetimeChange() {
+      this.alertGroupMetrics()
+    },
   },
 }
 </script>

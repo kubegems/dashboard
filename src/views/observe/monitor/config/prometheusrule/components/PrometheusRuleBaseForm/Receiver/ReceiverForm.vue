@@ -92,14 +92,6 @@ export default {
       type: Array,
       default: () => null,
     },
-    cluster: {
-      type: String,
-      default: () => '',
-    },
-    namespace: {
-      type: String,
-      default: () => '',
-    },
   },
   data() {
     return {
@@ -146,10 +138,8 @@ export default {
     },
     async receiverList() {
       const data = await getReceiverList(
-        this.cluster || this.ThisCluster,
-        this.AdminViewport
-          ? this.namespace
-          : this.ThisNamespace || this.namespace,
+        this.$route.query.cluster,
+        this.$route.query.namespace,
         { noprocessing: true },
       )
       this.receiverSelect = data.map((item) => {

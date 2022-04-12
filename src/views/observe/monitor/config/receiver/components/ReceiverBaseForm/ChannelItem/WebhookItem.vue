@@ -11,7 +11,7 @@
             <v-list-item-title class="text-subtitle-2 py-1 primary--text">
               URL
             </v-list-item-title>
-            <v-list-item-subtitle class="text-subtitle-2 py-1">
+            <v-list-item-subtitle class="text-body-2 py-1">
               {{ item.url }}
             </v-list-item-subtitle>
           </v-list-item-content>

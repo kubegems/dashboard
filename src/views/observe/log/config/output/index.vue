@@ -3,7 +3,7 @@
     fluid
     class="pa-0"
   >
-    <v-card>
+    <v-card flat>
       <v-card-title class="px-0">
         <BaseFilter
           :filters="filters"

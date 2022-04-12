@@ -16,8 +16,8 @@
         </div>
         <div class="d-flex align-center justify-center">
           <CompareValue
-            :value1="value"
-            :value2="compareValue"
+            :value1="compareValue"
+            :value2="value"
             name="较昨日"
           />
         </div>

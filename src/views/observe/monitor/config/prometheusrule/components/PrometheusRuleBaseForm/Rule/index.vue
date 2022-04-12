@@ -19,35 +19,6 @@
               :readonly="edit"
             />
           </v-col>
-          <v-col
-            v-if="AdminViewport"
-            cols="6"
-          >
-            <v-autocomplete
-              v-model="obj.namespace"
-              color="primary"
-              :items="namespaceSelect"
-              :rules="objRules.namespaceRule"
-              :readonly="edit"
-              label="命名空间"
-              hide-selected
-              class="my-0"
-              no-data-text="暂无可选数据"
-              :hint="globalAlert.hint"
-              :persistent-hint="globalAlert.show"
-              @focus="onNamespaceSelectFocus(ThisCluster)"
-            >
-              <template #selection="{ item }">
-                <v-chip
-                  color="primary"
-                  small
-                  class="mx-1"
-                >
-                  {{ item['text'] }}
-                </v-chip>
-              </template>
-            </v-autocomplete>
-          </v-col>
 
           <!-- 资源 -->
           <v-col cols="6">
@@ -270,18 +241,9 @@ export default {
       }
       return []
     },
-    globalAlert() {
-      const show = this.obj.namespace === 'gemcloud-monitoring-system'
-      return {
-        hint: show ? '提示：此命名空间下告警规则将标记为全局告警' : '',
-        show: show,
-      }
-    },
   },
   mounted() {
     this.obj = this.$_.merge(this.obj, deepCopy(this.item))
-    // when click back, load ns first
-    this.AdminViewport && this.namespaceSelectData(this.ThisCluster)
     this.getMonitorConfig()
   },
   methods: {
@@ -315,6 +277,7 @@ export default {
       this.$refs.alertLevelForm.alertLevel.severity = alertLevel.severity
       this.$nextTick(() => {
         this.$refs.alertLevelForm.init(data)
+        this.expand = true
       })
     },
     removeAlertLevel(index) {
@@ -338,10 +301,6 @@ export default {
     },
     closeExpand() {
       this.expand = false
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    updateNamespaceSelectData() {
-      this.namespaceSelectData(this.ThisCluster)
     },
     // eslint-disable-next-line vue/no-unused-properties
     reset() {
@@ -385,9 +344,6 @@ export default {
       const data = await getSystemConfigData('Monitor')
       this.metricsConfig = data.content || {}
       this.setLabelpairs(this.obj.labelpairs) // 此处确保配置项加载完后更新labelpairs列表
-    },
-    onNamespaceSelectFocus(clusterName) {
-      this.namespaceSelectData(clusterName)
     },
   },
 }

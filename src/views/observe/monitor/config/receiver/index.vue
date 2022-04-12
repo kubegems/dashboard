@@ -3,7 +3,7 @@
     fluid
     class="pa-0"
   >
-    <v-card>
+    <v-card flat>
       <v-card-title class="px-0">
         <BaseFilter
           :filters="filters"
@@ -35,7 +35,7 @@
                   创建接收器
                 </v-btn>
               </v-flex>
-              <v-flex>
+              <!-- <v-flex>
                 <v-btn
                   text
                   color="error"
@@ -46,7 +46,7 @@
                   <v-icon left>mdi-minus-box</v-icon>
                   删除接收器
                 </v-btn>
-              </v-flex>
+              </v-flex> -->
             </v-card-text>
           </v-card>
         </v-menu>
@@ -60,15 +60,13 @@
           :items-per-page="itemsPerPage"
           no-data-text="暂无数据"
           hide-default-footer
-          show-select
           single-expand
           show-expand
           item-key="index"
           @page-count="pageCount = $event"
-          @toggle-select-all="m_table_onResourceToggleSelect"
           @click:row="onRowClick"
         >
-          <!-- <template #[`item.data-table-select`]="{ item, index }">
+          <template #[`item.data-table-select`]="{ item, index }">
             <v-checkbox
               v-model="
                 m_table_batchResources[
@@ -86,7 +84,7 @@
                 )
               "
             />
-          </template> -->
+          </template>
           <template #[`item.member`]="{ item }">
             {{ item.member > 0 ? item.member : '' }}
           </template>
@@ -221,11 +219,6 @@ export default {
   },
   mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
-    // breadcrumb: {
-    //   title: '接收器',
-    //   tip: '接收器 (receivers) 是AlertManager中的接收者配置receivers。',
-    //   icon: 'mdi-call-received',
-    // },
     filters: [{ text: '接收器名称', value: 'search', items: [] }],
     items: [],
     page: 1,
@@ -266,17 +259,22 @@ export default {
       },
       deep: true,
     },
-  },
-  mounted() {
-    if (this.JWT) {
-      this.$nextTick(() => {
-        this.m_table_generateParams()
-        this.receiverList()
-      })
-    }
+    '$route.query': {
+      handler: function () {
+        if (this.JWT) {
+          this.m_table_generateParams()
+          this.receiverList()
+        }
+      },
+      deep: true,
+      immediate: true,
+    },
   },
   methods: {
     async receiverList() {
+      if (!this.$route.query.cluster || !this.$route.query.namespace) {
+        return
+      }
       const data = await getReceiverList(
         this.$route.query.cluster,
         this.$route.query.namespace,
@@ -312,8 +310,8 @@ export default {
       this.$refs.addReceiver.open()
     },
     updateReceiver(item) {
-      this.$refs.updateReceiver.open()
       this.$refs.updateReceiver.init(item)
+      this.$refs.updateReceiver.open()
     },
     removeReceiver(item) {
       this.$store.commit('SET_CONFIRM', {

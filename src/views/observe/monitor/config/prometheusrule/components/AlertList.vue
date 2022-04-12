@@ -117,7 +117,7 @@
 <script>
 import { mapState } from 'vuex'
 import { getPrometheusRuleDetail, getPrometheusAlertHistory } from '@/api'
-import BaseAlert from '@/views/resource/prometheusrule/mixins/alert'
+import BaseAlert from '../mixins/alert'
 import BaseResource from '@/mixins/resource'
 
 export default {
@@ -144,7 +144,7 @@ export default {
     ...mapState(['JWT', 'AdminViewport']),
     headers() {
       const items = [
-        { text: '消息', value: 'message', align: 'start', width: 600 },
+        { text: '消息', value: 'message', align: 'start', width: 800 },
         { text: '级别', value: 'severity', align: 'start', width: 200 },
         { text: '状态', value: 'status', align: 'start', width: 200 },
         { text: '首次触发时间', value: 'activeAt', align: 'start', width: 200 },
@@ -198,7 +198,7 @@ export default {
     async prometheusRuleDetail() {
       this.items = []
       const data = await getPrometheusRuleDetail(
-        this.ThisCluster,
+        this.$route.query.cluster,
         this.$route.query.namespace,
         this.$route.params.name,
         { noprocessing: true, isAdmin: this.AdminViewport },
@@ -212,7 +212,7 @@ export default {
     },
     async prometheusAlertHistory() {
       const data = await getPrometheusAlertHistory(
-        this.ThisCluster,
+        this.$route.query.cluster,
         this.$route.query.namespace,
         this.$route.params.name,
         Object.assign(this.params, {
