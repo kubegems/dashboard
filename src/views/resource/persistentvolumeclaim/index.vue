@@ -108,7 +108,7 @@
             :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
               $PVC_STATUS_COLOR[
                 item.metadata.annotations
-                  ? item.metadata.annotations[`storage.${$DOMAIN}/in-use`]
+                  ? item.metadata.annotations[`storage.kubegems.io/in-use`]
                   : 'undefined'
               ]
             };`"
@@ -117,7 +117,7 @@
             v-if="
               !(
                 item.metadata.annotations &&
-                item.metadata.annotations[`storage.${$DOMAIN}/in-use`]
+                item.metadata.annotations[`storage.kubegems.io/in-use`]
               )
             "
           >
@@ -126,7 +126,7 @@
           <span
             v-else-if="
               item.metadata.annotations &&
-                item.metadata.annotations[`storage.${$DOMAIN}/in-use`] === 'true'
+                item.metadata.annotations[`storage.kubegems.io/in-use`] === 'true'
             "
           >
             已挂载
@@ -189,10 +189,10 @@
                   v-if="
                     item.metadata.annotations &&
                       item.metadata.annotations[
-                        `storage.${$DOMAIN}/allow-snapshot`
+                        `storage.kubegems.io/allow-snapshot`
                       ] &&
                       item.metadata.annotations[
-                        `storage.${$DOMAIN}/allow-snapshot`
+                        `storage.kubegems.io/allow-snapshot`
                       ] === 'true'
                   "
                 >

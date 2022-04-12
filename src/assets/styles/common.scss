@@ -208,3 +208,15 @@
     transform: rotate(360deg);
   }
 }
+
+$i: 24;
+
+@while $i > 0 {
+  .kubegems__h-#{$i} {
+    height: (100% / 24) * $i;
+  }
+  .kubegems__w-#{$i} {
+    width: (100% / 24) * $i;
+  }
+  $i: $i - 1;
+}

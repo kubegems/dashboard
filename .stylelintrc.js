@@ -9,5 +9,6 @@ module.exports = {
     'unit-allowed-list': ['em', 'rem', '%', 's', 'px', 'vh', 'vw', 'deg', 'turn'],
     'declaration-colon-newline-after': null,
     'font-family-no-missing-generic-family-keyword': null,
+    'at-rule-no-unknown': [true, { 'ignoreAtRules': ['while'] }],
   },
 }

@@ -32,7 +32,7 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex'
-import getNamespaceItems from '@/views/observe/hooks/namespace'
+import getNamespaceItems from '@/views/observe/utils/namespace'
 
 export default {
   name: 'NamespaceSelect',

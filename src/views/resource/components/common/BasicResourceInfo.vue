@@ -82,7 +82,7 @@
           {{
             item
               ? item.metadata.labels
-                ? item.metadata.labels[`gems.${$DOMAIN}/project`]
+                ? item.metadata.labels[`gems.kubegems.io/project`]
                 : ''
               : ''
           }}
@@ -99,7 +99,7 @@
           {{
             item
               ? item.metadata.labels
-                ? item.metadata.labels[`gems.${$DOMAIN}/environment`]
+                ? item.metadata.labels[`gems.kubegems.io/environment`]
                 : ''
               : ''
           }}
