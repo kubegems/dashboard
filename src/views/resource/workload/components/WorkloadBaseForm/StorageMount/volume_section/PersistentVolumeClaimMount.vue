@@ -153,7 +153,7 @@ export default {
         .filter((v) => {
           return !(
             v.metadata.annotations &&
-            v.metadata.annotations[`pvc.${process.env.VUE_APP_DOMAIN}/in-use`] === 'true' &&
+            v.metadata.annotations[`pvc.kubegems.io/in-use`] === 'true' &&
             v.spec.accessModes.join('') === 'ReadWriteOnce')
         })
         .map((v) => {

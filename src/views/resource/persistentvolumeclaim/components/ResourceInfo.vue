@@ -42,7 +42,7 @@
           v-if="
             pvc &&
               pvc.metadata.annotations &&
-              pvc.metadata.annotations[`storage.${$DOMAIN}/in-use`] === 'true'
+              pvc.metadata.annotations[`storage.kubegems.io/in-use`] === 'true'
           "
         >
           <v-icon
@@ -65,7 +65,7 @@
           v-if="
             pvc &&
               pvc.metadata.annotations &&
-              pvc.metadata.annotations[`storage.${$DOMAIN}/allow-snapshot`] ===
+              pvc.metadata.annotations[`storage.kubegems.io/allow-snapshot`] ===
               'true'
           "
         >

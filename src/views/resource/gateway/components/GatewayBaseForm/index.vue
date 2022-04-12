@@ -239,7 +239,7 @@ export default {
       }
     },
     apiVersion() {
-      return `gems.${process.env.VUE_APP_DOMAIN}/v1beta1`
+      return `gems.kubegems.io/v1beta1`
     },
   },
   watch: {
@@ -315,7 +315,7 @@ export default {
       this.$refs.form.reset()
     },
     setDomain(obj) {
-      obj.spec.baseDomain = `*.${process.env.VUE_APP_DOMAIN}`
+      obj.spec.baseDomain = `*.kubegems.io`
     },
     help() {
       window.open(

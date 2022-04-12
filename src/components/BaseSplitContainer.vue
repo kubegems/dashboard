@@ -54,6 +54,7 @@
           v-if="tooltip"
           right
           open-on-hover
+          offset-x="24"
         >
           <template #activator="{ on }">
             <v-btn
@@ -179,6 +180,7 @@ export default {
 
   &__side,
   &__main {
+    position: relative;
     transition: width 0.5s ease;
   }
 

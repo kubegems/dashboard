@@ -96,7 +96,7 @@ if (process.env.VUE_APP_SENTRY === 'true') {
     integrations: [
       new Integrations.BrowserTracing({
         routingInstrumentation: Sentry.vueRouterInstrumentation(router),
-        tracingOrigins: [`${process.env.VUE_APP_DOMAIN}`, /^\//],
+        tracingOrigins: [`kubegems.io`, /^\//],
       }),
     ],
     initialScope: {
