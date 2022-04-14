@@ -65,6 +65,7 @@
                     <template v-if="plugin.enabled && !plugin.status.healthy">
                       <v-progress-circular
                         size="16"
+                        width="3"
                         indeterminate
                         color="warning"
                       />

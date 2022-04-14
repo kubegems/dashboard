@@ -1,17 +1,17 @@
 <template>
   <v-autocomplete
     v-model="current"
-    :items="cmsItems"
+    :items="projectItems"
     solo
     flat
     dense
     prepend-inner-icon="mdi-magnify"
     hide-details
     hide-selected
-    clearable
     label="请选择项目进行过滤"
     style="max-width: 500px;"
     no-data-text="暂无可选数据"
+    @change="onProjectChange"
   >
     <template #selection="{ item }">
       <v-chip
@@ -26,32 +26,50 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import { getProjectList } from '@/api'
 
 export default {
-  name: 'CmsSelect',
+  name: 'ProjectSelect',
+  props: {
+    tenant: {
+      type: Object,
+      default: () => null,
+    },
+  },
   data () {
     return {
       current: undefined,
-      cmsItems: [],
+      projectItems: [],
     }
   },
-  computed: {
-    ...mapGetters(['Tenant']),
-  },
-  mounted () {
-    this.getTenantProjectList()
+  watch: {
+    tenant: {
+      handler: function() {
+        if (this.tenant) {
+          this.getTenantProjectList()
+        }
+      },
+      deep: true,
+    },
   },
   methods: {
     async getTenantProjectList () {
-      const data = await getProjectList(this.Tenant().ID, { size: 999 })
-      this.cmsItems = data.List.map(item => {
+      const data = await getProjectList(this.tenant.ID, { size: 1000 })
+      this.projectItems = data.List.map(item => {
         return {
           text: item.ProjectName,
           value: item.ID,
         }
       })
+      if (this.projectItems.length > 0) {
+        this.current = this.projectItems[0].value
+        this.$emit('input', this.current)
+        this.$emit('change', this.current)
+      }
+    },
+    onProjectChange() {
+      this.$emit('input', this.current)
+      this.$emit('change', this.current)
     },
   },
 }

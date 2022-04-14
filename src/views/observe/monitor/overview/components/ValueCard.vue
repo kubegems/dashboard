@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import CompareValue from './CompareValue.vue'
+import CompareValue from './CompareValue'
 
 export default {
   name: 'ValueCard',

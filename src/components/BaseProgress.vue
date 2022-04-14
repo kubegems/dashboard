@@ -1,5 +1,5 @@
 <template>
-  <v-overlay :value="Progress">
+  <v-overlay :value="Progress && !DialogActive && !PanelActive">
     <v-progress-circular indeterminate size="64"></v-progress-circular>
   </v-overlay>
 </template>
@@ -10,7 +10,7 @@ import { mapState } from 'vuex'
 export default {
   name: 'BaseProgress',
   computed: {
-    ...mapState(['Progress']),
+    ...mapState(['Progress', 'DialogActive', 'PanelActive']),
   },
 }
 </script>

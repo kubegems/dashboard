@@ -69,6 +69,7 @@
                   <template v-if="!item.Status">
                     <v-progress-circular
                       size="16"
+                      width="3"
                       indeterminate
                       color="warning"
                     />

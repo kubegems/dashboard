@@ -1,6 +1,7 @@
 <template>
-  <v-sheet class="pt-4">
+  <v-sheet class="pt-0">
     <v-data-table
+      class="mx-4"
       disable-sort
       :headers="headers"
       :items="items"

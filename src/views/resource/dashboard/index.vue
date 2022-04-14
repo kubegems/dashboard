@@ -32,7 +32,7 @@
       >
         <DashboardCard :statistics="statistics" />
 
-        <v-card class="mt-2">
+        <v-card class="mt-1">
           <BaseSubTitle
             title="项目"
             :divider="false"

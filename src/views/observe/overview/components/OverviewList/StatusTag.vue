@@ -13,6 +13,7 @@
           label
           :color="setColor(item.key)"
           :class="{ 'ml-2': i > 0 }"
+          :style="{ fontFamily: 'kubegems-sample' }"
           v-on="on"
         >
           {{ item.name }}
@@ -20,7 +21,7 @@
       </template>
       <v-card>
         <v-card-text class="pa-2">
-          {{ item.text }}
+          {{ isRunning ? item.text : item.notext }}
         </v-card-text>
       </v-card>
     </v-menu>
@@ -49,26 +50,30 @@ export default {
       items: [
         {
           key: 'm',
-          name: 'M',
-          text: '状态1',
+          name: 'Metrics',
+          text: '已启用监控',
+          notext: '未启用监控',
         },
         {
           key: 'l',
-          name: 'L',
-          text: '状态2',
+          name: 'Log',
+          text: '已启用日志',
+          notext: '未启用日志',
         },
         {
           key: 's',
-          name: 'S',
-          text: '状态3',
+          name: 'Mesh',
+          text: '已启用服务网格',
+          notext: '未启用服务网格',
         },
       ],
+      isRunning: false,
     }
   },
   methods: {
     setColor (key) {
-      const isRunning = !!this[key]
-      return isRunning ? 'success' : ''
+      this.isRunning = !!this[key]
+      return this.isRunning ? 'success' : ''
     },
   },
 }

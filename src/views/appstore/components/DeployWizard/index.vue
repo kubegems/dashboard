@@ -148,7 +148,7 @@
         >
           {{ item.text }}
           <Tips
-            v-if="tab === 0 && selectRepo !== 'gemscloud'"
+            v-if="tab === 0 && selectRepo !== 'kubegems'"
             msg="第三方仓库,建议使用values.yaml配置"
             class="mx-1"
           />

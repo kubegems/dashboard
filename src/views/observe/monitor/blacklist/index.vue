@@ -69,7 +69,7 @@
         </template>
       </v-data-table>
       <BasePagination
-        v-if="pageCount > 1"
+        v-if="pageCount >= 1"
         v-model="params.page"
         :page-count="pageCount"
         :size="params.size"

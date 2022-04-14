@@ -11,6 +11,18 @@
         <div class="justify-center float-left text-h6 py-1 primary--text">
           <v-icon left class="mt-n1 primary--text">{{ icon }}</v-icon>
           {{ title }}
+          <div v-if="Progress" :style="{
+            position: 'absolute',
+            right: '15px',
+            top: '12px',
+          }">
+            <v-progress-circular
+              size="20"
+              width="3"
+              indeterminate
+              color="primary"
+            ></v-progress-circular>
+          </div>
         </div>
         <div class="float-left">
           <slot name="header-action"></slot>
@@ -40,6 +52,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'BaseDialog',
   model: {
@@ -64,7 +78,16 @@ export default {
       default: () => false,
     },
   },
+  watch: {
+    dialog: {
+      handler(newValue) {
+        this.$store.commit('SET_DIALOG', newValue)
+      },
+      deep: true
+    }
+  },
   computed: {
+    ...mapState(['Progress']),
     clickListeners: function () {
       var vm = this
       return Object.assign({}, this.$listeners, {
