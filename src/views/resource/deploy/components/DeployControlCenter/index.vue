@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="3">
         <v-card
-          class="mx-auto status-pos my-4"
+          class="mx-auto status-pos my-3"
           height="102px"
         >
           <v-list-item three-line>
@@ -96,7 +96,7 @@
             </v-list-item-content>
           </v-list-item>
         </v-card>
-        <v-card class="mx-auto status-pos my-4">
+        <v-card class="mx-auto status-pos my-3">
           <v-list-item three-line>
             <v-list-item-content class="pb-2">
               <v-list-item-title
@@ -196,7 +196,7 @@
             </v-list-item-subtitle>
           </v-card-text>
         </v-card>
-        <v-card class="mt-4">
+        <v-card class="mt-3">
           <v-list-item three-line>
             <v-list-item-content class="pb-2">
               <v-list-item-title
@@ -247,11 +247,11 @@
       </v-col>
       <v-col cols="9">
         <DeployCard
-          class="mt-1"
+          class="mt-0"
           :status="status"
         />
 
-        <v-row>
+        <v-row class="mt-2">
           <v-col
             v-for="(replicaSet, index) in status ? status.replicaSets : []"
             :key="index"

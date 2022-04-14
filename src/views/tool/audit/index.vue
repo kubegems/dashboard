@@ -36,7 +36,7 @@
       <v-card-title class="py-2">
         <BaseFilter
           :filters="filters"
-          :default="{ items: [], text: '审计对象名称', value: 'search' }"
+          :default="{ items: [], text: '检索', value: 'search' }"
           @refresh="filterList"
         />
       </v-card-title>
@@ -179,7 +179,7 @@ export default {
         })
       })
       return [
-        { text: '审计对象名称', value: 'search', items: [] },
+        { text: '检索', value: 'search', items: [] },
         {
           text: '用户',
           value: 'Username',

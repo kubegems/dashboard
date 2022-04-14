@@ -119,7 +119,7 @@ export default {
   computed: {
     ...mapState(['Scale']),
     reponame() {
-      return this.selectRepo === 'gemscloud' ? '' : this.selectRepo
+      return this.selectRepo === 'kubegems' ? '' : this.selectRepo
     },
   },
   mounted() {

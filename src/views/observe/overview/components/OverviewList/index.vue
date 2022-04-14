@@ -1,8 +1,13 @@
 <template>
   <v-card class="pa-4">
     <div class="d-flex justify-space-between align-center">
-      <CmsSelect v-model="params.cms" />
-      <BaseDatetimePicker v-model="params.date" />
+      <ProjectSelect
+        v-model="project"
+        :tenant="tenant"
+      />
+      <Duration
+        v-model="params.duration"
+      />
     </div>
 
     <v-data-table
@@ -14,72 +19,147 @@
       no-data-text="暂无数据"
       no-results-text="暂无匹配租户"
       class="px-2 mt-4"
+      :page.sync="params.page"
+      :items-per-page="params.size"
     >
-      <template #[`item.status`]>
-        <StatusTag m />
+      <template #[`item.labels`]="{ item }">
+        <BaseCollapseChips
+          :chips="item.labels || {}"
+          single-line
+          icon="mdi-label"
+        />
       </template>
-      <template #[`item.events`]>
-        1 <v-icon @click="onShowEvents">mdi-chart-pie</v-icon>
+      <template #[`item.alertLiving`]="{ item }">
+        {{ item.errorAlertCount + item.criticalAlertCount }}
+        <BaseTipChips
+          v-if="item.criticalAlertCount || item.errorAlertCount"
+          :chips="{ error:item.errorAlertCount, critical:item.criticalAlertCount }"
+          single-line
+          :icon="item.criticalAlertCount > 0 ? 'mdi-fire-alert' : 'mdi-alert-circle'"
+          :color="item.criticalAlertCount > 0 ? 'error' : 'warning'"
+        />
+      </template>
+      <template #[`item.alertRuleCount`]="{ item }">
+        {{ item.alertRuleCount }}
+        <BaseTipChips
+          :chips="item.alertResourceMap || {}"
+          single-line
+          icon="mdi-information"
+        />
+      </template>
+      <template #[`item.status`]="{ item }">
+        <StatusTag
+          :m="item.monitoring"
+          :l="item.logging"
+          :s="item.serviceMesh"
+        />
+      </template>
+      <template #[`item.events`]="{ item }">
+        1 <v-icon
+          color="primary"
+          @click="onShowEvents(item)"
+        >
+          mdi-chart-pie
+        </v-icon>
       </template>
     </v-data-table>
 
     <BasePagination
       v-if="pageCount >= 1"
       v-model="params.page"
+      :front-page="true"
       :page-count="pageCount"
       :size="params.size"
-      @loaddata="getOverviewList"
       @changesize="onPageSizeChange"
       @changepage="onPageIndexChange"
     />
 
-    <K8sEvents ref="k8sEvents" />
+    <K8sEvents
+      ref="k8sEvents"
+      :env="env"
+    />
   </v-card>
 </template>
 
 <script>
-import CmsSelect from './CmsSelect.vue'
-import StatusTag from './StatusTag.vue'
+import { getEnvironmentObservability } from '@/api'
+import ProjectSelect from './ProjectSelect'
+import StatusTag from './StatusTag'
 import K8sEvents from './K8sEvents'
+import Duration from './Duration'
+import BaseSelect from '@/mixins/select'
 
 export default {
   name: 'OverviewList',
   components: {
-    CmsSelect,
+    ProjectSelect,
     StatusTag,
     K8sEvents,
+    Duration,
+  },
+  mixins: [BaseSelect],
+  props: {
+    tenant: {
+      type: Object,
+      default: () => null,
+    },
   },
   data () {
     this.headers = [
-      { text: '环境', value: 'environment', align: 'start' },
-      { text: '标签', value: 'tag', align: 'start' },
+      { text: '环境', value: 'environmentName', align: 'start' },
+      { text: '标签', value: 'labels', align: 'start' },
       { text: '状态', value: 'status', align: 'start' },
-      { text: '容灾重启(次)', value: 'restart', align: 'start' },
+      { text: '容灾重启(次)', value: 'containerRestartTotal', align: 'start' },
       { text: 'CPU', value: 'cpu', align: 'start' },
-      { text: 'Mem', value: 'mem', align: 'start' },
-      { text: '指标采集器', value: 'metrics', align: 'start' },
-      { text: '告警规则', value: 'rules', align: 'start' },
-      { text: '实时告警', value: 'alerting', align: 'start' },
-      { text: '日志采集器', value: 'logFlow', align: 'start' },
-      { text: '错误日志', value: 'log', align: 'start' },
-      { text: '日志速率', value: 'rate', align: 'start' },
-      { text: '事件', value: 'events', align: 'start' },
+      { text: 'Mem', value: 'memory', align: 'start' },
+      { text: '指标采集器', value: 'monitorCollectorCount', align: 'start' },
+      { text: '告警规则', value: 'alertRuleCount', align: 'start' },
+      { text: '实时告警', value: 'alertLiving', align: 'start' },
+      { text: '日志采集器', value: 'loggingCollectorCount', align: 'start' },
+      { text: '错误日志', value: 'errorLogCount', align: 'start' },
+      { text: '日志速率', value: 'logRate', align: 'start' },
+      // { text: '事件', value: 'events', align: 'start' },
     ]
 
     return {
       params: {
-        size: 10,
+        duration: '1h',
         page: 1,
-        cms: undefined,
-        date: [],
+        size: 10,
       },
-      items: [{}],
+      project: undefined,
+      items: [],
       pageCount: 0,
+      env: null,
     }
   },
+  watch: {
+    project: {
+      async handler() {
+        if (this.project) {
+          this.items = []
+          await this.m_select_projectEnvironmentSelectData(this.project)
+          this.m_select_projectEnvironmentItems.forEach(env => {
+            this.environmentObservability(env.value)
+          })
+        }
+      },
+      deep: true,
+    },
+    'params.duration': {
+      handler() {
+        this.items = []
+        this.m_select_projectEnvironmentItems.forEach(env => {
+          this.environmentObservability(env.value)
+        })
+      },
+    },
+  },
   methods: {
-    getOverviewList () {
-
+    async environmentObservability (envId) {
+      const data = await getEnvironmentObservability(envId, { duration: this.params.duration })
+      this.items.push(data)
+      this.pageCount = parseInt(this.items.length / this.params.size + 1)
     },
     onPageSizeChange(size) {
       this.params.page = 1
@@ -88,8 +168,9 @@ export default {
     onPageIndexChange(page) {
       this.params.page = page
     },
-    onShowEvents () {
-      this.$refs.k8sEvents.show()
+    onShowEvents (item) {
+      this.env = item
+      this.$refs.k8sEvents.open()
     },
   },
 }

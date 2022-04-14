@@ -71,14 +71,14 @@
             禁用
           </span>
         </template>
-        <template #[`item.allocatedCpu`]="{ item }">
-          {{ item.AllocatedCpu }} core
+        <template #[`item.cpu`]="{ item }">
+          {{ item.Cpu }} core
         </template>
-        <template #[`item.allocatedMemory`]="{ item }">
-          {{ item.AllocatedMemory }} Gi
+        <template #[`item.memory`]="{ item }">
+          {{ item.Memory }} Gi
         </template>
-        <template #[`item.allocatedStorage`]="{ item }">
-          {{ item.AllocatedStorage }} Gi
+        <template #[`item.storage`]="{ item }">
+          {{ item.Storage }} Gi
         </template>
         <template #[`item.createdAt`]="{ item }">
           {{ item.CreatedAt ? $moment(item.CreatedAt).format('lll') : '' }}
@@ -205,9 +205,12 @@ export default {
       { text: '状态', value: 'isActive', align: 'start' },
       { text: '用户数', value: 'user', align: 'start' },
       { text: '集群数', value: 'cluster', align: 'start' },
-      { text: '已分配CPU', value: 'allocatedCpu', align: 'start' },
-      { text: '已分配内存', value: 'allocatedMemory', align: 'start' },
-      { text: '已分配存储', value: 'allocatedStorage', align: 'start' },
+      { text: '总CPU', value: 'cpu', align: 'start' },
+      { text: '总内存', value: 'memory', align: 'start' },
+      { text: '总存储', value: 'storage', align: 'start' },
+      // { text: '已分配CPU', value: 'allocatedCpu', align: 'start' },
+      // { text: '已分配内存', value: 'allocatedMemory', align: 'start' },
+      // { text: '已分配存储', value: 'allocatedStorage', align: 'start' },
       { text: '创建时间', value: 'createdAt', align: 'start' },
       { text: '', value: 'action', align: 'center', width: 20 },
     ],
@@ -232,13 +235,13 @@ export default {
     async tenantList() {
       const data = await getTenantList(this.params)
       data.List.forEach((t) => {
-        t.AllocatedCpu = 0
-        t.AllocatedMemory = 0
-        t.AllocatedStorage = 0
+        t.Cpu = 0
+        t.Memory = 0
+        t.Storage = 0
         t.ResourceQuotas.forEach((r) => {
-          t.AllocatedCpu += sizeOfCpu(r.Content['limits.cpu'])
-          t.AllocatedMemory += sizeOfStorage(r.Content['limits.memory'])
-          t.AllocatedStorage += sizeOfStorage(r.Content['requests.storage'])
+          t.Cpu += sizeOfCpu(r.Content['limits.cpu'])
+          t.Memory += sizeOfStorage(r.Content['limits.memory'])
+          t.Storage += sizeOfStorage(r.Content['requests.storage'])
         })
       })
       this.items = data.List.map((item) => {

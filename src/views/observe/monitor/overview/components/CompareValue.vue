@@ -9,7 +9,7 @@
     </span>
     <v-icon
       v-if="diff !== 0"
-      class="compare-value__icon"
+      class="compare-value__icon mt-n1"
     >
       {{ icon }}
     </v-icon>

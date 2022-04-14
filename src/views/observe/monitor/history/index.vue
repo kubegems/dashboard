@@ -15,6 +15,7 @@
         />
         <BaseDatetimePicker
           v-model="date"
+          :default-value="180"
           clearable
         />
       </div>

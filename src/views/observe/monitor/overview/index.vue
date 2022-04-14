@@ -5,11 +5,13 @@
         v-if="AdminViewport"
         #extend
       >
-        <TenantSelect @loadMetrics="loadMetrics" />
+        <TenantSelect
+          v-model="tenant"
+        />
       </template>
     </BaseBreadcrumb>
 
-    <v-row class="kubegems__h-24">
+    <v-row class="kubegems__h-24 mt-1">
       <v-col cols="4">
         <ValueCard
           name="今日告警"
@@ -54,7 +56,7 @@ import ValueCard from './components/ValueCard'
 import AlertHistoryLine from './components/AlertHistoryLine'
 import AlertCategoryBar from './components/AlertCategoryBar'
 import AlertTopBar from './components/AlertTopBar'
-import TenantSelect from './components/TenantSelect'
+import TenantSelect from '../../components/TenantSelect'
 import BaseSelect from '@/mixins/select'
 
 export default {
@@ -75,7 +77,7 @@ export default {
     }
 
     return {
-      tenant: '',
+      tenant: null,
       alert: null,
     }
   },
@@ -83,18 +85,22 @@ export default {
     ...mapGetters(['Tenant']),
     ...mapState(['AdminViewport']),
   },
+  watch: {
+    tenant: {
+      handler: function() {
+        this.alertTodayMetrics()
+      },
+      deep: true,
+    },
+  },
   mounted() {
     this.$nextTick(() => {
       if (!this.AdminViewport) {
-        this.loadMetrics(this.Tenant().TenantName)
+        this.tenant = this.Tenant()
       }
     })
   },
   methods: {
-    loadMetrics(tenant) {
-      this.tenant = tenant
-      this.alertTodayMetrics()
-    },
     async alertTodayMetrics() {
       this.alert = await getAlertToday({
         tenant: this.tenant,

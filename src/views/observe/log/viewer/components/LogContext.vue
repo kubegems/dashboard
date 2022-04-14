@@ -95,7 +95,7 @@ export default {
         query: this.params.query,
         start: startTime,
         end: endTime,
-        limit: 10,
+        limit: 15,
         noprocessing: true,
       }
       const data = await getLogContext(this.params.ClusterName, params)

@@ -21,6 +21,14 @@
         <slot name="header"></slot>
       </v-flex>
       <div class="float-right">
+        <div v-if="Progress" :style="{ float: 'left' }">
+          <v-progress-circular
+            size="20"
+            width="3"
+            indeterminate
+            color="white"
+          ></v-progress-circular>
+        </div>
         <v-btn
           color="white"
           text
@@ -44,6 +52,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'BasePanel',
   model: {
@@ -69,6 +79,7 @@ export default {
     },
   },
   computed: {
+    ...mapState(['Progress']),
     clickListeners: function () {
       var vm = this
       return Object.assign({}, this.$listeners, {
@@ -80,20 +91,23 @@ export default {
     },
   },
   watch: {
-    panel() {
-      if (this.panel === true) {
-        this.$nextTick(() => {
+    panel: {
+      handler(newValue) {
+        this.$store.commit('SET_PANEL', newValue)
+        if (this.panel === true) {
+          this.$nextTick(() => {
+            const timeout = setTimeout(() => {
+              document.getElementById('panel').style.display = 'flex'
+              clearTimeout(timeout)
+            }, 300)
+          })
+        } else {
           const timeout = setTimeout(() => {
-            document.getElementById('panel').style.display = 'flex'
+            document.getElementById('panel').style.display = 'block'
             clearTimeout(timeout)
           }, 300)
-        })
-      } else {
-        const timeout = setTimeout(() => {
-          document.getElementById('panel').style.display = 'block'
-          clearTimeout(timeout)
-        }, 300)
-      }
+        }
+      },
     },
   },
   destroyed() {

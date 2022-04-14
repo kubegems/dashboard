@@ -12,7 +12,7 @@
     >
       <BaseDatetimePicker
         v-model="date"
-        :default-value="10080"
+        :default-value="1440"
         @change="onDatetimeChange(undefined)"
       />
     </div>
@@ -39,12 +39,13 @@ export default {
   },
   props: {
     tenant: {
-      type: String,
-      default: () => '',
+      type: Object,
+      default: () => null,
     },
   },
   data () {
     this.options = {
+      colors: this.$LINE_THEME_COLORS,
       chart: {
         type: 'bar',
         zoom: {
@@ -135,7 +136,7 @@ export default {
   methods: {
     async alertGroupMetrics() {
       const data = await getAlertGroup({
-        tenant: this.tenant,
+        tenant: this.tenant.TenantName,
         groupby: 'alert_type',
         start: this.$moment(parseInt(this.date[0])).utc().format(),
         end: this.$moment(parseInt(this.date[1])).utc().format(),

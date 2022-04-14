@@ -88,11 +88,19 @@ export default new Vuex.Store({
     ReconnectCount: 0,
     Store: window.localStorage.getItem(Store) || 'app',
     PluginsInterval: null,
+    DialogActive: false,
+    PanelActive: false,
   },
   mutations: {
     SET_PLUGINS(state, payload) {
       state.Plugins = payload
       window.localStorage.setItem(Plugins, JSON.stringify(payload))
+    },
+    SET_DIALOG(state, payload) {
+      state.DialogActive = payload
+    },
+    SET_PANEL(state, payload) {
+      state.PanelActive = payload
     },
     SET_STORE(state, payload) {
       state.Store = payload

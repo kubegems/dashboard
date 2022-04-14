@@ -118,7 +118,7 @@
           </template>
         </v-data-table>
         <BasePagination
-          v-if="pageCount > 1"
+          v-if="pageCount >= 1"
           v-model="params.page"
           :page-count="pageCount"
           :size="params.size"
@@ -229,19 +229,6 @@ export default {
         getClusterFlowsData(...params),
       ])
       const list = res.reduce((pre, current) => pre.concat(current.List), [])
-      // if (this.AdminViewport) {
-      //   res = await Promise.all([
-      //     getFlowsData(...params),
-      //     getClusterFlowsData(...params),
-      //   ])
-      //   list = res.reduce((pre, current) => pre.concat(current.List), [])
-      // } else {
-      //   res = await Promise.all([
-      //     getFlowsDataByTenant(cluster, this.Tenant().ID),
-      //     getClusterFlowsData(...params),
-      //   ])
-      //   list = [...res[0], ...res[1].List]
-      // }
       this.cacheAll = list.sort(
         (a, b) => Date.parse(b.metadata.creationTimestamp) - Date.parse(a.metadata.creationTimestamp),
       )

@@ -1,9 +1,11 @@
 <template>
-  <v-flex class="kubegems__full-right">
-    <v-sheet class="text-body-2 text--darken-1 d-flex align-center mx-1">
-      <span class="text-body-2 mt-1 mr-1">租户</span>
+  <v-flex>
+    <v-sheet
+      class="text-body-2 text--darken-1 d-flex align-right mx-1"
+      :style="{ float:'right' }"
+    >
       <v-menu
-        v-model="tenantMenu"
+        v-model="durationMenu"
         bottom
         left
         offset-y
@@ -14,13 +16,14 @@
         <template #activator="{ on }">
           <v-btn
             text
+            small
             color="white"
             class="primary--text font-weight-medium"
             v-on="on"
           >
-            {{ tenant }}
+            {{ durationText }}
             <v-icon
-              v-if="tenantMenu"
+              v-if="durationMenu"
               right
             >
               fas fa-angle-up
@@ -34,13 +37,13 @@
           </v-btn>
         </template>
         <v-data-iterator
-          :items="[{ text: '租户', values: tenants }]"
+          :items="[{ text: '时间', values: durations }]"
           hide-default-footer
           class="file-iterator"
         >
           <template #no-data>
             <v-card>
-              <v-card-text> 暂无租户 </v-card-text>
+              <v-card-text> 暂无选项 </v-card-text>
             </v-card>
           </template>
           <template #default="props">
@@ -49,20 +52,24 @@
               :key="item.text"
             >
               <v-list dense>
+                <v-flex class="text-subtitle-2 text-center ma-2">
+                  <span>时间</span>
+                </v-flex>
+                <v-divider class="mx-2" />
                 <v-list-item
-                  v-for="(ten, index) in item.values"
+                  v-for="(dur, index) in item.values"
                   :key="index"
-                  class="text-body-2 text-center font-weight-medium"
+                  class="text-caption text-center font-weight-medium"
                   link
                   :style="
-                    ten.text === tenant
+                    dur.value === duration
                       ? `color: #1e88e5 !important;`
                       : ``
                   "
-                  @click="setTenant(ten)"
+                  @click="setDuration(dur)"
                 >
                   <v-list-item-content>
-                    <span>{{ ten.text }}</span>
+                    <span>{{ dur.text }}</span>
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
@@ -75,43 +82,42 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import BaseSelect from '@/mixins/select'
-
 export default {
-  name: 'TenantSelect',
-  mixins: [BaseSelect],
+  name: 'Duration',
   data () {
     return {
-      tenantMenu: false,
-      tenant: '',
+      durationMenu: false,
+      duration: '1h',
     }
   },
   computed: {
-    ...mapGetters(['Tenant']),
-    tenants() {
-      return this.m_select_tenantItems.filter(t => { return t.isActive && !t.disabled })
+    durationText() {
+      return this.durations.find(d => { return d.value === this.duration })?.text
+    },
+    durations() {
+      return [
+        { text: '最近30秒', value: '30s' },
+        { text: '最近5分钟', value: '5m' },
+        { text: '最近1小时', value: '1h' },
+        { text: '最近1天', value: '1d' },
+        { text: '最近1周', value: '1w' },
+      ]
     },
   },
-  mounted() {
-    this.$nextTick(async() => {
-      await this.m_select_tenantSelectData()
-      if (this.tenants) {
-        this.tenant = this.tenants[0].text
-        this.$emit('loadMetrics', this.tenant)
-      } else {
-        this.$store.commit('SET_SNACKBAR', {
-          text: '暂无租户',
-          color: 'warning',
-        })
-      }
-    })
+  watch: {
+    value: {
+      handler(newValue) {
+        this.duration = newValue
+      },
+      deep: true,
+    },
   },
   methods: {
-    setTenant(tenant) {
-      if (tenant.text !== this.tenant) {
-        this.tenant = tenant.text
-        this.$emit('loadMetrics', this.tenant)
+    setDuration(duration) {
+      if (duration.value !== this.duration) {
+        this.duration = duration.value
+        this.$emit('input', this.duration)
+        this.$emit('change', this.duration)
       }
     },
   },

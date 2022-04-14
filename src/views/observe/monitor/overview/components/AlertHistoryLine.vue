@@ -27,12 +27,13 @@ export default {
   },
   props: {
     tenant: {
-      type: String,
-      default: () => '',
+      type: Object,
+      default: () => null,
     },
   },
   data () {
     this.options = {
+      colors: this.$LINE_THEME_COLORS,
       chart: {
         type: 'line',
         zoom: {
@@ -130,7 +131,7 @@ export default {
   methods: {
     async alertGraphMetrics() {
       const data = await getAlertGraph({
-        tenant: this.tenant,
+        tenant: this.tenant.TenantName,
         start: this.$moment().utc().add(-30, 'days').format(),
         end: this.$moment().utc().format(),
       })

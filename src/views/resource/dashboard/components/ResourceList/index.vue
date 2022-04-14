@@ -188,13 +188,11 @@ export default {
     },
   },
   mounted() {
-    if (this.JWT) {
-      this.$nextTick(() => {
-        if (this.Tenant().ID > 0) {
-          this.tenantResourceQuotaList()
-        }
-      })
-    }
+    this.$nextTick(() => {
+      if (this.JWT && this.Tenant().ID > 0) {
+        this.tenantResourceQuotaList()
+      }
+    })
   },
   methods: {
     async tenantResourceQuotaList() {

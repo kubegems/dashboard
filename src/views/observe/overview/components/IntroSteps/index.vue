@@ -20,10 +20,10 @@
 </template>
 
 <script>
-import LeftSteps from './LeftSteps.vue'
-import Install from './Install.vue'
-import Collect from './Collect.vue'
-import Analyze from './Analyze.vue'
+import LeftSteps from './LeftSteps'
+import Install from './Install'
+import Collect from './Collect'
+import Analyze from './Analyze'
 
 export default {
   name: 'IntroSteps',
