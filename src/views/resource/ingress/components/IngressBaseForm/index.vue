@@ -246,35 +246,35 @@ export default {
     },
   },
   watch: {
-    item() {
-      this.loadData(true)
+    item: {
+      handler() {
+        this.loadData()
+      },
+      deep: true,
+      immediate: true,
     },
   },
-  mounted() {
-    this.loadData(false)
-  },
   methods: {
-    loadData(cover = false) {
+    loadData() {
       this.$nextTick(() => {
-        if (cover) {
-          if (!this.item) {
-            this.obj = this.$options.data().obj
-            this.$refs.form.resetValidation()
-          } else {
-            this.obj = deepCopy(this.item)
-          }
+        if (!this.item) {
+          this.obj = this.$options.data().obj
+          this.$refs.form.resetValidation()
         } else {
-          if (!this.manifest) {
-            if (this.AdminViewport) {
-              this.m_select_namespaceSelectData(this.ThisCluster)
-            } else {
-              this.obj.metadata.namespace = this.ThisNamespace
-            }
-            this.m_select_gatewaySelectData(this.ThisCluster)
-          } else {
-            this.obj.metadata.name = `${this.app.ApplicationName}`
-          }
+          this.obj = deepCopy(this.item)
         }
+
+        if (!this.manifest) {
+          if (this.AdminViewport) {
+            this.m_select_namespaceSelectData(this.ThisCluster)
+          } else {
+            this.obj.metadata.namespace = this.ThisNamespace
+          }
+          this.m_select_gatewaySelectData(this.ThisCluster)
+        } else {
+          this.obj.metadata.name = `${this.app.ApplicationName}`
+        }
+
         if (!this.obj.metadata.annotations) {
           this.obj.metadata.annotations = {}
         }

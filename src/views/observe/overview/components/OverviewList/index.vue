@@ -54,8 +54,9 @@
           :s="item.serviceMesh"
         />
       </template>
-      <template #[`item.events`]="{ item }">
-        1 <v-icon
+      <template #[`item.eventCount`]="{ item }">
+        {{ item.eventCount }}
+        <v-icon
           color="primary"
           @click="onShowEvents(item)"
         >
@@ -118,7 +119,7 @@ export default {
       { text: '日志采集器', value: 'loggingCollectorCount', align: 'start' },
       { text: '错误日志', value: 'errorLogCount', align: 'start' },
       { text: '日志速率', value: 'logRate', align: 'start' },
-      // { text: '事件', value: 'events', align: 'start' },
+      { text: '事件', value: 'eventCount', align: 'start' },
     ]
 
     return {

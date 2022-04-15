@@ -128,13 +128,13 @@ export default {
     },
   },
   watch: {
-    // 编辑
-    async item() {
-      this.loadData()
+    item: {
+      handler() {
+        this.loadData()
+      },
+      deep: true,
+      immediate: true,
     },
-  },
-  async mounted() {
-    this.loadData()
   },
   methods: {
     async loadData() {
@@ -168,8 +168,9 @@ export default {
       }
     },
     onServiceSelectFocus() {
-      const { cluster } = this.$route.query
-      if (!cluster) return
+      const { cluster, namespace } = this.$route.query
+      if (!cluster || !namespace) return
+      this.obj.metadata.namespace = namespace
       if (!this.obj.metadata.namespace) {
         this.$store.commit('SET_SNACKBAR', {
           text: '请先选择命名空间',

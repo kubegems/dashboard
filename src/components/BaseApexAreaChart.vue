@@ -195,20 +195,7 @@ export default {
     },
     getOptions(title, id) {
       return {
-        colors: [
-          'rgba(0,188,212,.6)',
-          'rgba(0,188,212,.2)',
-          'rgba(0,185,215,.8)',
-          'rgba(0,185,215,.2)',
-          'rgba(0,188,218,.8)',
-          'rgba(0,188,218,.2)',
-          'rgba(0,185,212,.8)',
-          'rgba(0,185,212,.2)',
-          'rgba(0,182,212,.8)',
-          'rgba(0,182,212,.2)',
-          'rgba(0,178,212,.8)',
-          'rgba(0,178,212,.2)',
-        ],
+        colors: this.$LINE_THEME_COLORS,
         chart: {
           toolbar: {
             show: false,

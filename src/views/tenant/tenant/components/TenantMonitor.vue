@@ -25,7 +25,7 @@
     </template>
     <template #content>
       <v-card
-        :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
+        :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} mt-4`"
         flat
       >
         <v-card-text class="py-0">
@@ -122,7 +122,7 @@ export default {
       )
       const data = await matrix(
         this.item.Cluster.ClusterName,
-        Object.assign(this.params, { query: query, noprocessing: true }),
+        Object.assign(this.params, { query: query }),
       )
       if (data) this.cpu = data
     },
@@ -133,7 +133,7 @@ export default {
       )
       const data = await matrix(
         this.item.Cluster.ClusterName,
-        Object.assign(this.params, { query: query, noprocessing: true }),
+        Object.assign(this.params, { query: query }),
       )
       if (data) this.memory = data
     },

@@ -193,7 +193,7 @@ export default {
       { text: '路由器', value: 'router', align: 'start' },
       { text: '创建时间', value: 'createAt', align: 'start', width: 200 },
       { text: '状态', value: 'status', align: 'start', width: 100 },
-      { text: '', value: 'action', align: 'center', width: 40 },
+      { text: '', value: 'action', align: 'center', width: 20 },
     ]
 
     this.cacheAll = []

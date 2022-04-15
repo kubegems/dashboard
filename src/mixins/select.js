@@ -220,7 +220,7 @@ const select = {
       })
       this.m_select_clusterItems = clusterSelect
     },
-    async m_select_namespaceSelectData(Cluster) {
+    async m_select_namespaceSelectData(Cluster, params = { noprocessing: false }) {
       if (!Cluster) {
         this.$store.commit('SET_SNACKBAR', {
           text: '请先选择集群',
@@ -228,10 +228,9 @@ const select = {
         })
         return
       }
-      const data = await namespaceSelectData(Cluster, {
+      const data = await namespaceSelectData(Cluster, Object.assign({
         size: 200,
-        noprocessing: true,
-      })
+      }, params))
       const namespaceSelect = []
       data.List.forEach((ns) => {
         namespaceSelect.push({
@@ -267,7 +266,7 @@ const select = {
         })
       }
     },
-    async m_select_storageClassSelectData(Cluster) {
+    async m_select_storageClassSelectData(Cluster, params = { noprocessing: false }) {
       if (!Cluster) {
         this.$store.commit('SET_SNACKBAR', {
           text: '请先选择集群',
@@ -275,7 +274,7 @@ const select = {
         })
         return
       }
-      const data = await storageClassSelectData(Cluster, { noprocessing: true })
+      const data = await storageClassSelectData(Cluster, params)
       const storageClassSelect = []
       data.List.forEach((sc) => {
         storageClassSelect.push({
@@ -297,34 +296,30 @@ const select = {
       let data = []
       const ds = await getDaemonSetList(Cluster, Namespace, {
         size: 1000,
-        noprocessing: true,
       })
       const deploy = await getDeploymentList(Cluster, Namespace, {
         size: 1000,
-        noprocessing: true,
       })
       const sts = await getStatefulSetList(Cluster, Namespace, {
         size: 1000,
-        noprocessing: true,
       })
       data = data.concat(ds.List).concat(deploy.List).concat(sts.List)
       const workloadSelect = []
       data.forEach((workload, index) => {
         let selector = {}
         if (
-          workload.spec.template.metadata &&
-          workload.spec.template.metadata.labels
+          workload?.spec?.template?.metadata?.labels
         ) {
           selector = workload.spec.template.metadata.labels
           if (Object.prototype.hasOwnProperty.call(selector, 'version')) {
             delete selector['version']
           }
+          workloadSelect.push({
+            text: workload.metadata.name,
+            labels: selector,
+            value: index,
+          })
         }
-        workloadSelect.push({
-          text: workload.metadata.name,
-          labels: selector,
-          value: index,
-        })
       })
       this.m_select_workloadSelectItems = workloadSelect
     },
@@ -343,9 +338,7 @@ const select = {
         })
         return
       }
-      const data = await secretSelectData(Cluster, Namespace, {
-        noprocessing: true,
-      })
+      const data = await secretSelectData(Cluster, Namespace)
       const secretSelect = []
       if (type) {
         data.List = data.List.filter((d) => {
@@ -375,9 +368,7 @@ const select = {
         })
         return
       }
-      const data = await serviceSelectData(Cluster, Namespace, {
-        noprocessing: true,
-      })
+      const data = await serviceSelectData(Cluster, Namespace)
       const serviceSelect = []
       data.List.forEach((s) => {
         const ports = []
@@ -434,9 +425,6 @@ const select = {
       const data = await gatewaySelectData(
         this.Tenant().ID,
         this.AdminViewport ? this.Cluster().ID : this.Environment().ClusterID,
-        {
-          noprocessing: true,
-        },
       )
       const gatewaySelect = []
       data.forEach((ns) => {
@@ -474,11 +462,9 @@ const select = {
     async m_select_registrySelectData() {
       let data = null
       if (this.AdminViewport) {
-        data = await registrySelectData({ noprocessing: true })
+        data = await registrySelectData()
       } else {
-        data = await projectRegistrySelectData(this.Project().ID, {
-          noprocessing: true,
-        })
+        data = await projectRegistrySelectData(this.Project().ID)
       }
       const registrySelect = []
       data.List.forEach((r) => {

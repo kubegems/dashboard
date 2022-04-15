@@ -1,21 +1,21 @@
 <template>
   <v-card
-    class="kubegems__h-24 pa-4"
+    class="kubegems__h-24"
   >
-    <div
-      :style="{
-        position: 'absolute',
-        right: '10px',
-        zIndex: '9',
-        top: '24px',
-      }"
+    <BaseSubTitle
+      title="告警TOP10"
+      :divider="false"
     >
-      <BaseDatetimePicker
-        v-model="date"
-        :default-value="1440"
-        @change="onDatetimeChange(undefined)"
-      />
-    </div>
+      <template #selector>
+        <v-sheet class="text-body-2 text--darken-1">
+          <BaseDatetimePicker
+            v-model="date"
+            :default-value="1440"
+            @change="onDatetimeChange(undefined)"
+          />
+        </v-sheet>
+      </template>
+    </BaseSubTitle>
 
     <VueApexCharts
       :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
@@ -58,15 +58,6 @@ export default {
           animateGradually: {
             enabled: false,
           },
-        },
-      },
-      title: {
-        text: '告警TOP10',
-        offsetY: 20,
-        align: 'left',
-        style: {
-          fontSize: '1rem',
-          fontWeight: 'bold',
         },
       },
       dataLabels: {
