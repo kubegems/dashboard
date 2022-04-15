@@ -3,21 +3,22 @@
     id="log-viewer"
     fluid
   >
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb :breadcrumb="breadcrumb">
+      <template #extend>
+        <v-flex class="kubegems__full-right">
+          <BaseDatetimePicker
+            ref="dateRangePicker"
+            v-model="date"
+            :default-value="30"
+            default-value-for-query
+            query-start-time-key="start"
+            query-end-time-key="end"
+            @change="onDateChange"
+          />
+        </v-flex>
+      </template>
+    </BaseBreadcrumb>
     <v-card>
-      <div class="d-flex justify-space-between pa-3">
-        <v-spacer />
-        <BaseDatetimePicker
-          ref="dateRangePicker"
-          v-model="date"
-          :default-value="30"
-          default-value-for-query
-          query-start-time-key="start"
-          query-end-time-key="end"
-          @change="onDateChange"
-        />
-      </div>
-
       <LogQuery
         ref="logQuery"
         :date-timestamp="dateTimestamp"

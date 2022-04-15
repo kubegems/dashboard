@@ -7,7 +7,7 @@
       <v-card-title class="px-0">
         <BaseFilter
           :filters="filters"
-          :default="{ items: [], text: '接收器名称', value: 'search' }"
+          :default="{ items: [], text: '名称', value: 'search' }"
           @refresh="filterList"
         />
         <v-spacer />
@@ -219,7 +219,7 @@ export default {
   },
   mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
-    filters: [{ text: '接收器名称', value: 'search', items: [] }],
+    filters: [{ text: '名称', value: 'search', items: [] }],
     items: [],
     page: 1,
     pageCount: 0,

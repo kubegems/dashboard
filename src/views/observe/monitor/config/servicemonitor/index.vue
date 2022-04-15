@@ -7,7 +7,7 @@
       <v-card-title class="px-0">
         <BaseFilter
           :filters="filters"
-          :default="{ items: [], text: '采集器名称', value: 'search' }"
+          :default="{ items: [], text: '名称', value: 'search' }"
         />
         <v-spacer />
         <v-menu
@@ -205,7 +205,7 @@ export default {
       page: 1,
       size: 10,
     },
-    filters: [{ text: '采集器名称', value: 'search', items: [] }],
+    filters: [{ text: '名称', value: 'search', items: [] }],
   }),
   computed: {
     ...mapState(['JWT', 'AdminViewport']),

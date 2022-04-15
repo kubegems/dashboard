@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - "main"
-      - "develop"
     tags:
       - "v*.*.*"
     paths-ignore:
@@ -13,11 +12,7 @@ on:
         "*.md",
         ".dockerignore",
         ".gitignore",
-        "**/ci.yml",
         ".vscode/*",
-        "*.png",
-        "*.jpg",
-        "*.jpeg",
       ]
   pull_request:
     branches:
@@ -28,11 +23,7 @@ on:
         "*.md",
         ".dockerignore",
         ".gitignore",
-        "**/ci.yml",
         ".vscode/*",
-        "*.png",
-        "*.jpg",
-        "*.jpeg",
       ]
 
 env:

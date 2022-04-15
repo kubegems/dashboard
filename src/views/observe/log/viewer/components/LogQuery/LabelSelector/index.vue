@@ -25,7 +25,7 @@
 
     <div
       v-if="tags.length === 0"
-      class="pt-2 kubegems__detail text-body-1"
+      class="pt-2 kubegems__detail text-body-2"
     >
       暂无可选标签
     </div>
