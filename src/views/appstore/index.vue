@@ -181,7 +181,7 @@ export default {
     },
     repos: [],
     chartsNum: 0,
-    selectRepo: 'gemscloud',
+    selectRepo: 'kubegems',
     repoMenu: false,
   }),
   computed: {
@@ -193,13 +193,13 @@ export default {
   mounted() {
     this.selectRepo = this.$route.query.reponame
       ? this.$route.query.reponame
-      : 'gemscloud'
+      : 'kubegems'
     this.appStoreList()
     this.repositoryList()
   },
   methods: {
     async appStoreList() {
-      if (this.selectRepo === 'gemscloud') {
+      if (this.selectRepo === 'kubegems') {
         this.params.reponame = ''
       } else {
         this.params.reponame = this.selectRepo
@@ -221,7 +221,7 @@ export default {
       this.repos = data.map((repo) => {
         return repo.ChartRepoName
       })
-      this.repos.unshift('gemscloud')
+      this.repos.unshift('kubegems')
     },
     generatTypes() {
       this.types = []
