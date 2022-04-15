@@ -134,7 +134,7 @@ export default {
       this.reload()
     },
     onNamespaceSelectFocus(clusterName) {
-      this.m_select_namespaceSelectData(clusterName)
+      this.m_select_namespaceSelectData(clusterName, { noprocessing: true })
     },
   },
 }

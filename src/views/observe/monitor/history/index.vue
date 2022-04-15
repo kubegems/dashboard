@@ -39,19 +39,25 @@
         disable-sort
         @click:row="onRowClick"
       >
-        <template #[`item.Name`]="{ item }">
+        <template #[`item.name`]="{ item }">
           {{ item.Labels.gems_alertname }}
         </template>
-        <template #[`item.Namespace`]="{ item }">
+        <template #[`item.namespace`]="{ item }">
           {{ item.Labels.gems_namespace }}
         </template>
-        <template #[`item.Type`]="{ item }">
+        <template #[`item.message`]="{ item }">
+          {{ item.Message }}
+        </template>
+        <template #[`item.count`]="{ item }">
+          {{ item.Count }}
+        </template>
+        <template #[`item.type`]="{ item }">
           <span v-if="item.Labels.gems_alert_resource && item.Labels.gems_alert_rule">
             {{ `${item.Labels.gems_alert_resource}.${item.Labels.gems_alert_rule}` }}
           </span>
           <span v-else>-</span>
         </template>
-        <template #[`item.Severity`]="{ item }">
+        <template #[`item.severity`]="{ item }">
           <v-chip
             v-if="item.Labels.severity === 'error'"
             color="error"
@@ -75,13 +81,13 @@
             {{ item.Labels.severity }}
           </v-chip>
         </template>
-        <template #[`item.StartsAt`]="{ item }">
+        <template #[`item.startsAt`]="{ item }">
           {{ $moment(item.StartsAt).format('yyyy/MM/DD hh:mm:ss') }}
         </template>
-        <template #[`item.CreatedAt`]="{ item }">
+        <template #[`item.createdAt`]="{ item }">
           {{ $moment(item.CreatedAt).format('yyyy/MM/DD hh:mm:ss') }}
         </template>
-        <template #[`item.SilenceCreator`]="{ item }">
+        <template #[`item.silenceCreator`]="{ item }">
           {{ item.SilenceCreator ? '是' : '-' }}
         </template>
         <template #expanded-item="{ headers, item }">
@@ -92,7 +98,7 @@
             <pre class="pre">{{ item.Labels }}</pre>
           </td>
         </template>
-        <template #[`item.Action`]="{ item }">
+        <template #[`item.action`]="{ item }">
           <v-menu left>
             <template #activator="{ on }">
               <v-btn icon>
@@ -180,38 +186,38 @@ export default {
     ]
 
     this.headers = [
-      { text: '告警名称', value: 'Name', align: 'start' },
+      { text: '告警名称', value: 'name', align: 'start' },
       {
         text: '命名空间',
-        value: 'Namespace',
+        value: 'namespace',
         align: 'start',
         cellClass: 'kubegems__table-nowrap-cell',
       },
       {
         text: '告警类型',
-        value: 'Type',
+        value: 'type',
         align: 'start',
         width: 100,
         cellClass: 'kubegems__table-nowrap-cell',
       },
-      { text: '详情', value: 'Message', align: 'start' },
-      { text: '级别', value: 'Severity', align: 'start' },
-      { text: '告警次数', value: 'Count', align: 'start', width: 90 },
+      { text: '详情', value: 'message', align: 'start' },
+      { text: '级别', value: 'severity', align: 'start' },
+      { text: '告警次数', value: 'count', align: 'start', width: 90 },
       {
         text: '上次开始时间',
-        value: 'StartsAt',
+        value: 'startsAt',
         align: 'start',
         cellClass: 'kubegems__table-nowrap-cell',
       },
       {
         text: '上次触发事件',
-        value: 'CreatedAt',
+        value: 'createdAt',
         align: 'start',
         cellClass: 'kubegems__table-nowrap-cell',
       },
-      { text: '黑名单', value: 'SilenceCreator', align: 'center', width: 80 },
+      { text: '黑名单', value: 'silenceCreator', align: 'center', width: 80 },
+      { text: '', value: 'action', align: 'center', width: 20 },
       { text: '', value: 'data-table-expand', align: 'end' },
-      { text: '', value: 'Action', align: 'center', width: 40 },
     ]
 
     return {

@@ -243,25 +243,25 @@ export default {
     },
   },
   watch: {
-    item() {
-      this.loadData(true)
+    item: {
+      handler() {
+        this.loadData()
+      },
+      deep: true,
+      immediate: true,
     },
   },
-  mounted() {
-    this.loadData(false)
-  },
   methods: {
-    async loadData(cover = false) {
+    async loadData() {
       this.$nextTick(() => {
-        if (cover) {
-          if (!this.item) {
-            this.obj = this.$options.data().obj
-            this.$refs.form.resetValidation()
-          } else {
-            this.obj = deepCopy(this.item)
-          }
-          this.obj.apiVersion = this.apiVersion
+        if (!this.item) {
+          this.obj = this.$options.data().obj
+          this.$refs.form.resetValidation()
+        } else {
+          this.obj = deepCopy(this.item)
         }
+        this.obj.apiVersion = this.apiVersion
+
         if (!this.AdminViewport) {
           this.obj.spec.tenant = this.Tenant().TenantName
         }

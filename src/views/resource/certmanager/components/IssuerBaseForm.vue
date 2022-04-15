@@ -35,6 +35,7 @@
               hide-selected
               class="my-0"
               no-data-text="暂无可选数据"
+              @focus="m_select_namespaceSelectData(ThisCluster)"
               @change="onNamespaceChange"
             >
               <template #selection="{ item }">
@@ -199,38 +200,38 @@ export default {
     },
   },
   watch: {
-    item() {
-      this.loadData(true)
+    item: {
+      handler() {
+        this.loadData()
+      },
+      deep: true,
+      immediate: true,
     },
   },
-  mounted() {
-    this.loadData(false)
-  },
   methods: {
-    loadData(cover = false) {
+    loadData() {
       this.$nextTick(() => {
-        if (cover) {
-          this.obj = deepCopy(this.item)
-          if (this.obj.spec.acme) {
-            this.issuer = 'acme'
-            if (
-              !this.serverItems.find((s) => {
-                return s.value === this.obj.spec.acme.server
-              })
-            ) {
-              this.serverItems.push({
-                text: this.obj.spec.acme.server,
-                value: this.obj.spec.acme.server,
-              })
-            }
-          }
-        } else {
-          if (this.AdminViewport) {
-            this.m_select_namespaceSelectData(this.ThisCluster)
-          } else {
-            this.obj.metadata.namespace = this.ThisNamespace
+        this.obj = deepCopy(this.item)
+        if (this.obj.spec.acme) {
+          this.issuer = 'acme'
+          if (
+            !this.serverItems.find((s) => {
+              return s.value === this.obj.spec.acme.server
+            })
+          ) {
+            this.serverItems.push({
+              text: this.obj.spec.acme.server,
+              value: this.obj.spec.acme.server,
+            })
           }
         }
+
+        if (this.AdminViewport) {
+          this.m_select_namespaceSelectData(this.ThisCluster)
+        } else {
+          this.obj.metadata.namespace = this.ThisNamespace
+        }
+
         if (this.obj.metadata.namespace) this.ingressList()
       })
     },

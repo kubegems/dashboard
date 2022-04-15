@@ -50,11 +50,12 @@ export default {
       },
       title: {
         text: '消息',
-        offsetY: 20,
-        align: 'center',
+        align: 'left',
+        margin: 5,
         style: {
-          fontSize: '1rem',
+          fontSize: '11px',
           fontWeight: 'bold',
+          color: '#757575',
         },
       },
       dataLabels: {

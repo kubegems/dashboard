@@ -259,7 +259,6 @@ export default {
       if (!this.AdminViewport) {
         data = await getEnvironmentUserList(this.Environment().ID, {
           size: 500,
-          noprocessing: true,
         })
       } else {
         // 管理员

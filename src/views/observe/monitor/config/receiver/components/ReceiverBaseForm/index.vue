@@ -99,16 +99,14 @@ export default {
   watch: {
     item: {
       handler: function() {
-        if (this.item) { this.obj = this.item }
+        if (this.item) {
+          this.obj = this.item
+          this.namespace = this.$route.query.namespace
+        }
       },
       deep: true,
       immediate: true,
     },
-  },
-  mounted() {
-    this.$nextTick(() => {
-      this.namespace = this.$route.query.namespace
-    })
   },
   methods: {
     addData(receiverType, data) {

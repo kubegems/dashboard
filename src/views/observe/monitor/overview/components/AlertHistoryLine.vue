@@ -1,7 +1,11 @@
 <template>
   <v-card
-    class="kubegems__h-24 pa-4"
+    class="kubegems__h-24"
   >
+    <BaseSubTitle
+      title="告警历史趋势"
+      :divider="false"
+    />
     <div style="height: 100%; width: 100%;">
       <VueApexCharts
         :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
@@ -46,16 +50,6 @@ export default {
           animateGradually: {
             enabled: false,
           },
-        },
-      },
-      title: {
-        text: '告警历史趋势',
-        offsetY: 20,
-        margin: 0,
-        align: 'left',
-        style: {
-          fontSize: '1rem',
-          fontWeight: 'bold',
         },
       },
       dataLabels: {

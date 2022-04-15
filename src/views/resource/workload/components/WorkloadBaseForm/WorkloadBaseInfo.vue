@@ -176,12 +176,13 @@ export default {
     },
   },
   watch: {
-    item() {
-      this.loadData()
+    item: {
+      handler() {
+        this.loadData()
+      },
+      deep: true,
+      immediate: true,
     },
-  },
-  mounted() {
-    this.loadData()
   },
   methods: {
     async loadData() {

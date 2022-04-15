@@ -15,7 +15,7 @@
     </template>
     <template #content>
       <div
-        class="d-flex flex-column mt-4"
+        class="d-flex flex-column mt-2"
         :style="{ height: `${height}px` }"
       >
         <div class="kubegems__h-8">
@@ -94,10 +94,10 @@ export default {
     },
     async eventList() {
       let query = '{container="gems-eventer"} | json | __error__=``'
-      query += ` | line_format "{{.metadata_namespace}}" |= "gemcloud-workflow-system"`
+      query += ` | line_format "{{.metadata_namespace}}" |= "${this.env.namespace}"`
       const data = await getEventListFromLoki(this.env.clusterName, {
         query: query,
-        limit: 500,
+        limit: 3000,
         start: `${this.date[0]}000000`,
         end: `${this.date[1]}000000`,
       })

@@ -27,7 +27,19 @@
         disable-sort
         @click:row="onRowClick"
       >
-        <template #[`item.SilenceEndsAt`]="{ item }">
+        <template #[`item.summary`]="{ item }">
+          {{ item.Summary }}
+        </template>
+        <template #[`item.namespace`]="{ item }">
+          {{ item.Namespace }}
+        </template>
+        <template #[`item.fingerprint`]="{ item }">
+          {{ item.Fingerprint }}
+        </template>
+        <template #[`item.silenceCreator`]="{ item }">
+          {{ item.SilenceCreator }}
+        </template>
+        <template #[`item.silenceEndsAt`]="{ item }">
           {{
             item.SilenceEndsAt
               ? $moment(item.SilenceEndsAt).format('yyyy/MM/DD hh:mm:ss')
@@ -42,7 +54,7 @@
             <pre class="pre">{{ item.Labels }}</pre>
           </td>
         </template>
-        <template #[`item.Action`]="{ item }">
+        <template #[`item.action`]="{ item }">
           <v-menu left>
             <template #activator="{ on }">
               <v-btn icon>
@@ -57,7 +69,7 @@
             </template>
             <v-card class="pa-2">
               <v-btn
-                color="success"
+                color="primary"
                 text
                 small
                 @click.stop="onRemoveBlack(item)"
@@ -102,13 +114,13 @@ export default {
     }
 
     this.headers = [
-      { text: '摘要', value: 'Summary', align: 'start' },
-      { text: '命名空间', value: 'Namespace', align: 'start' },
-      { text: '指纹', value: 'Fingerprint', align: 'start' },
-      { text: '创建人', value: 'SilenceCreator', align: 'start' },
-      { text: '过期时间', value: 'SilenceEndsAt', align: 'start' },
+      { text: '摘要', value: 'summary', align: 'start' },
+      { text: '命名空间', value: 'namespace', align: 'start' },
+      { text: '指纹', value: 'fingerprint', align: 'start' },
+      { text: '创建人', value: 'silenceCreator', align: 'start' },
+      { text: '过期时间', value: 'silenceEndsAt', align: 'start' },
+      { text: '', value: 'action', align: 'center', width: 20 },
       { text: '', value: 'data-table-expand', align: 'end' },
-      { text: '', value: 'Action', align: 'center', width: 40 },
     ]
 
     return {

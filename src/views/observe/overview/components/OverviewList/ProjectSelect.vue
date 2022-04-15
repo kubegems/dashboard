@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     async getTenantProjectList () {
-      const data = await getProjectList(this.tenant.ID, { size: 1000 })
+      const data = await getProjectList(this.tenant.ID, { size: 1000, noprocessing: true })
       this.projectItems = data.List.map(item => {
         return {
           text: item.ProjectName,

@@ -151,7 +151,7 @@
             cols="6"
           >
             <v-text-field
-              v-if="obj.spec.sessionAffinityConfig"
+              v-if="obj.spec.sessionAffinityConfig && obj.spec.sessionAffinityConfig.clientIP"
               v-model="obj.spec.sessionAffinityConfig.clientIP.timeoutSeconds"
               class="my-0"
               required
@@ -322,34 +322,34 @@ export default {
     },
   },
   watch: {
-    async item() {
-      await this.loadData(true)
+    item: {
+      handler() {
+        this.loadData()
+      },
+      deep: true,
+      immediate: true,
     },
   },
-  async mounted() {
-    await this.loadData(false)
-  },
   methods: {
-    async loadData(cover = false) {
+    async loadData() {
       this.$nextTick(async () => {
-        if (cover) {
-          if (!this.item) {
-            this.obj = this.$options.data().obj
-            this.$refs.form.resetValidation()
+        if (!this.item) {
+          this.obj = this.$options.data().obj
+          this.$refs.form.resetValidation()
+        } else {
+          this.obj = deepCopy(this.item)
+        }
+
+        if (!this.manifest) {
+          if (this.AdminViewport) {
+            this.m_select_namespaceSelectData(this.ThisCluster)
           } else {
-            this.obj = deepCopy(this.item)
+            this.obj.metadata.namespace = this.ThisNamespace
           }
         } else {
-          if (!this.manifest) {
-            if (this.AdminViewport) {
-              this.m_select_namespaceSelectData(this.ThisCluster)
-            } else {
-              this.obj.metadata.namespace = this.ThisNamespace
-            }
-          } else {
-            this.obj.metadata.name = `${this.app.ApplicationName}`
-          }
+          this.obj.metadata.name = `${this.app.ApplicationName}`
         }
+
         if (!this.obj.metadata.labels) {
           this.obj.metadata.labels = {}
         }
@@ -444,26 +444,24 @@ export default {
           this.$route.params.name,
           {
             kind: kind,
-            noprocessing: true,
           },
         )
         const workloadSelect = []
         data.forEach((workload, index) => {
           let selector = {}
           if (
-            workload.spec.template.metadata &&
-            workload.spec.template.metadata.labels
+            workload?.spec?.template?.metadata?.labels
           ) {
             selector = workload.spec.template.metadata.labels
             if (Object.prototype.hasOwnProperty.call(selector, 'version')) {
               delete selector['version']
             }
+            workloadSelect.push({
+              text: workload.metadata.name,
+              labels: selector,
+              value: index,
+            })
           }
-          workloadSelect.push({
-            text: workload.metadata.name,
-            labels: selector,
-            value: index,
-          })
         })
         this.workloads = workloadSelect
         if (this.workloads.length > 0 && !this.edit) {
@@ -491,13 +489,20 @@ export default {
       } else this.obj.spec.selector = {}
     },
     getWorkloadSelectIndex() {
+      if (JSON.stringify(this.obj.spec.selector) === '{}') return -1
       let index = -1
-      this.workloads.forEach((w, i) => {
+      this.workloads.forEach((w) => {
         if (w && w.labels) {
-          const workload = JSON.stringify(w.labels).split('').sort().join('')
-          const service = JSON.stringify(this.obj.spec.selector).split('').sort().join('')
-          if (workload === service) {
-            index = i
+          const keyin = Object.keys(this.obj.spec.selector).every(k => {
+            return Object.keys(w.labels).indexOf(k) > -1
+          })
+
+          const valuein = Object.values(this.obj.spec.selector).every(v => {
+            return Object.values(w.labels).indexOf(v) > -1
+          })
+
+          if (keyin && valuein) {
+            index = w.value
             return
           }
         }
@@ -519,6 +524,7 @@ export default {
       this.$refs.annotationForm.closeCard()
       this.$refs.servicePortForm.closeCard()
       this.$refs.form.reset()
+      this.selector = ''
     },
     // eslint-disable-next-line vue/no-unused-properties
     init(data) {

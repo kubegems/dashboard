@@ -247,6 +247,7 @@ export default {
     },
     onKindChange(kind, totalStep, init, data) {
       this.kind = kind
+      this.item = deepCopy(data)
       this.totalStep = totalStep
       if (init) {
         this.$nextTick(() => {

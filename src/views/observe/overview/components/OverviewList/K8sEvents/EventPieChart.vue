@@ -75,11 +75,12 @@ export default {
         },
         title: {
           text: this.title,
-          align: 'center',
-          offsetY: 20,
+          align: 'left',
+          margin: 5,
           style: {
-            fontSize: '1rem',
+            fontSize: '11px',
             fontWeight: 'bold',
+            color: '#757575',
           },
         },
         dataLabels: {
