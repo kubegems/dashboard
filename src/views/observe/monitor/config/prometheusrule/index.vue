@@ -8,7 +8,7 @@
         <BaseFilter
           :filters="filters"
           :reload="false"
-          :default="{ items: [], text: '告警规则名称', value: 'search' }"
+          :default="{ items: [], text: '名称', value: 'search' }"
           @refresh="m_filter_list"
           @filter="customFilter"
         />
@@ -26,8 +26,7 @@
             small
             overlap
             bordered
-            :class="`zoom-${Scale.toString().replaceAll('.', '-')} mx-3 my-2`"
-            class="mr-4 mt-2"
+            :class="`zoom-${Scale.toString().replaceAll('.', '-')} mx-3 mt-1`"
             :content="
               alertStatus[Object.keys(item)[0]] === 0
                 ? '0'
@@ -345,7 +344,7 @@ export default {
   },
   mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
-    filters: [{ text: '告警规则名称', value: 'search', items: [] }],
+    filters: [{ text: '名称', value: 'search', items: [] }],
     items: [],
     itemsCopy: [],
     page: 1,
