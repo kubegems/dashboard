@@ -26,8 +26,7 @@
             small
             overlap
             bordered
-            :class="`zoom-${Scale.toString().replaceAll('.', '-')} mx-3 my-2`"
-            class="mr-4 mt-2"
+            :class="`zoom-${Scale.toString().replaceAll('.', '-')} mx-3 mt-1`"
             :content="
               alertStatus[Object.keys(item)[0]] === 0
                 ? '0'
