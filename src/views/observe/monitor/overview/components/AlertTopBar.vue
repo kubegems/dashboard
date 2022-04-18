@@ -105,7 +105,7 @@ export default {
       },
       noData: {
         text: '暂无数据',
-        offsetY: -2,
+        offsetY: -15,
       },
     }
     return {

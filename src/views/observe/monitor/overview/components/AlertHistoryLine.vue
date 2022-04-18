@@ -21,8 +21,9 @@
 import { getAlertGraph } from '@/api'
 import { mapState } from 'vuex'
 import VueApexCharts from 'vue-apexcharts'
-import moment from 'moment'
 import { toFixed } from '@/utils/helpers'
+
+import moment from 'moment'
 
 export default {
   name: 'AlertHistoryLine',
@@ -104,7 +105,7 @@ export default {
       },
       noData: {
         text: '暂无数据',
-        offsetY: -5,
+        offsetY: -15,
       },
     }
     return {
