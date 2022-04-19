@@ -46,7 +46,7 @@ export const namespaceSelectDataFilter = (clusterName, query = {}) =>
 export const environmentSelectData = (query = {}) =>
   axios(`environment`, {
     params: Object.assign(query, {
-      preload: 'Cluster',
+      preload: 'Cluster,Project',
       size: 1000,
       noprocessing: true,
     }),
