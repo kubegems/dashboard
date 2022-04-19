@@ -123,6 +123,7 @@
         :series="series"
         @setEnvironment="handleSetEnvironment"
         @clearProject="handleClearProject"
+        @clear="handlerClear"
       />
       <div class="my-2 kubegems__detail text-body-2">{{ queryType === 'tag' ? '选择标签' : '查询语句' }}</div>
       <LabelSelector
@@ -163,7 +164,7 @@ export default {
       default: () => [],
     },
   },
-  data () {
+  data() {
     return {
       expand: false,
       queryType: 'tag',
@@ -179,12 +180,13 @@ export default {
 
       projectName: '',
       environmentName: '',
+      namespace: '',
     }
   },
   computed: {
     ...mapState(['AdminViewport', 'JWT']),
     ...mapGetters(['Tenant']),
-    comboboxTags () {
+    comboboxTags() {
       const tags = []
       Object.keys(this.selected).forEach(k => {
         this.selected[k].forEach(v => {
@@ -196,8 +198,8 @@ export default {
     regexQL() {
       return this.filter ? this.filter.map(reg => { return ` |~ \`${reg}\`` }).join('') : ''
     },
-    logQL () {
-      const pe = this.projectName && this.environmentName ? `project="${this.projectName}", environment="${this.environmentName}"` : ''
+    logQL() {
+      const pe = this.namespace ? `namespace="${this.namespace}"` : ''
       const obj = this.selected || {}
       const keys = Object.keys(obj).filter(k => obj[k] && obj[k].length)
       const match = keys.reduce((pre, key) => pre + `,${key}=~"${obj[key].join('|')}"`, '')
@@ -234,10 +236,10 @@ export default {
   },
   methods: {
     // 获取Series并设置集群按钮徽标值
-    async getSeriesList (clusterName) {
+    async getSeriesList(clusterName) {
       const match = this.AdminViewport
-        ? `{ project="${this.projectName}", environment="${this.environmentName}" }`
-        : `{ project="${this.projectName}", environment="${this.environmentName}",tenant=~"^${this.Tenant().TenantName}$" }`
+        ? `{ namespace="${this.namespace}" }`
+        : `{ namespace="${this.namespace}", tenant=~"^${this.Tenant().TenantName}$" }`
 
       const data = await getLogSeries(clusterName, {
         match,
@@ -252,6 +254,7 @@ export default {
       this.cluster = {}
       this.projectName = ''
       this.environmentName = ''
+      this.namespace = ''
       this.selected = {}
       this.$emit('setCluster', this.cluster)
     },
@@ -263,6 +266,7 @@ export default {
         }
         this.projectName = projectName
         this.environmentName = env.environmentName
+        this.namespace = env.namespace
         await this.getSeriesList(env.clusterName)
         this.$emit('setCluster', this.cluster)
         if (triggerQuery) {
@@ -273,30 +277,30 @@ export default {
       }
     },
 
-    handleExpand () {
+    handleExpand() {
       this.expand = !this.expand
     },
 
-    handleRemoveRegexp (item) {
+    handleRemoveRegexp(item) {
       const index = this.filter.indexOf(item)
       this.filter.splice(index, 1)
       this.search()
     },
 
-    handleRemoveTag (key, value) {
+    handleRemoveTag(key, value) {
       this.$set(this.selected, key, this.selected[key].filter(v => v !== value))
     },
 
-    handleSaveSnapshot () {
+    handleSaveSnapshot() {
       this.$emit('saveSnapshot')
     },
 
-    handleHistory () {
+    handleHistory() {
       this.$emit('showHistroy')
     },
 
     // eslint-disable-next-line vue/no-unused-properties
-    handleParseLabel (input) {
+    handleParseLabel(input) {
       const labelMatchArr = input.match(new RegExp('{(.*)}'))
       if (labelMatchArr && labelMatchArr.length > 1) {
         const labelArr = labelMatchArr[1].split(',')
@@ -322,7 +326,7 @@ export default {
     },
 
     // eslint-disable-next-line vue/no-unused-properties
-    handleParseFilter (input) {
+    handleParseFilter(input) {
       const filterList = []
       const matchedArr = input.match(new RegExp('{.*}(.*)'))
       if (matchedArr && matchedArr.length > 1) {
@@ -339,7 +343,7 @@ export default {
       return filterList
     },
 
-    search () {
+    search() {
       // 保证logQL和regexp 获取到最新值
       this.$nextTick(() => {
         this.expand = false
@@ -348,13 +352,13 @@ export default {
     },
 
     // eslint-disable-next-line vue/no-unused-properties
-    clear () {
+    clear() {
       this.selected = {}
       this.regexp = undefined
     },
 
     // eslint-disable-next-line vue/no-unused-properties
-    setSelectedValue (key, value, switchValue = false) {
+    setSelectedValue(key, value, switchValue = false) {
       if (this.selected[key]) {
         if (this.selected[key].includes(value)) {
           switchValue && this.handleRemoveTag(key, value)
@@ -367,7 +371,7 @@ export default {
     },
 
     // eslint-disable-next-line vue/no-unused-properties
-    setRegexp (value) {
+    setRegexp(value) {
       this.regexp = value
     },
 
@@ -466,6 +470,10 @@ export default {
         this.advancedQl = ''
         this.expand = false
       }
+    },
+
+    handlerClear() {
+      this.selected = {}
     },
   },
 }
