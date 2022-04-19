@@ -263,6 +263,7 @@ const select = {
             text: e.EnvironmentName,
             value: e.Namespace,
             clusterName: e.Cluster.ClusterName,
+            projectName: e.Project.ProjectName,
           })
         })
       }

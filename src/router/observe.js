@@ -154,48 +154,48 @@ export const observe = [
       /**
        * 监控告警
        */
-      {
-        path: 'alert',
-        meta: {
-          header: '告警',
-          title: '监控告警',
-          icon: 'mdi-monitor',
-          dependencies: ['monitoring'],
-          required: ['tenant'],
-        },
-        component: () => import('@/layouts/Container'),
-        redirect: { name: 'observe-alert-history' },
-        children: [
-          {
-            path: `${prefix}/history`,
-            name: 'observe-alert-history',
-            component: () => import('@/views/observe/alert/history'),
-            meta: {
-              requireAuth: true,
-              title: '告警历史',
-              upToAdmin: true,
-              icon: 'mdi-history',
-              show: true,
-              rootName: 'observe',
-              dependencies: ['monitoring'],
-            },
-          },
-          {
-            path: `${prefix}/blacklist`,
-            name: 'observe-alert-blacklist',
-            component: () => import('@/views/observe/alert/blacklist'),
-            meta: {
-              requireAuth: true,
-              title: '告警黑名单',
-              upToAdmin: true,
-              icon: 'mdi-history',
-              show: true,
-              rootName: 'observe',
-              dependencies: ['monitoring'],
-            },
-          },
-        ],
-      },
+      // {
+      //   path: 'alert',
+      //   meta: {
+      //     header: '告警',
+      //     title: '监控告警',
+      //     icon: 'mdi-monitor',
+      //     dependencies: ['monitoring'],
+      //     required: ['tenant'],
+      //   },
+      //   component: () => import('@/layouts/Container'),
+      //   redirect: { name: 'observe-alert-history' },
+      //   children: [
+      //     {
+      //       path: `${prefix}/history`,
+      //       name: 'observe-alert-history',
+      //       component: () => import('@/views/observe/alert/history'),
+      //       meta: {
+      //         requireAuth: true,
+      //         title: '告警历史',
+      //         upToAdmin: true,
+      //         icon: 'mdi-history',
+      //         show: true,
+      //         rootName: 'observe',
+      //         dependencies: ['monitoring'],
+      //       },
+      //     },
+      //     {
+      //       path: `${prefix}/blacklist`,
+      //       name: 'observe-alert-blacklist',
+      //       component: () => import('@/views/observe/alert/blacklist'),
+      //       meta: {
+      //         requireAuth: true,
+      //         title: '告警黑名单',
+      //         upToAdmin: true,
+      //         icon: 'mdi-history',
+      //         show: true,
+      //         rootName: 'observe',
+      //         dependencies: ['monitoring'],
+      //       },
+      //     },
+      //   ],
+      // },
       /**
        * 链路追踪
        */
