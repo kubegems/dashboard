@@ -67,7 +67,22 @@
     </v-sheet>
 
     <v-sheet
-      class="text-body-2 tip ml-2 kubegems__detail"
+      class="text-body-2 ml-2"
+      :style="{ lineHeight: '36px' }"
+    >
+      <v-btn
+        small
+        bottom
+        text
+        color="error"
+        @click="handleClear"
+      >
+        清空
+      </v-btn>
+    </v-sheet>
+
+    <v-sheet
+      class="text-body-2 tip ml-6 kubegems__detail"
     >
       集群:
       <span class="text-body-2 font-weight-medium">
@@ -152,6 +167,9 @@ export default {
       if (this.environment) {
         this.$emit('setEnvironment', this.environemtObj, this.project)
       }
+    },
+    handleClear() {
+      this.$emit('clear')
     },
   },
 }

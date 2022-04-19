@@ -78,18 +78,6 @@
         </template>
       </v-col>
     </v-row>
-
-    <div class="text-right">
-      <v-btn
-        small
-        bottom
-        text
-        color="error"
-        @click="handleClear"
-      >
-        清空
-      </v-btn>
-    </div>
   </div>
 </template>
 
@@ -202,7 +190,8 @@ export default {
       this.$emit('input', this.selectedMap)
     },
 
-    handleClear () {
+    // eslint-disable-next-line vue/no-unused-properties
+    clear () {
       this.selectedMap = {}
       this.handleEmit()
       this.$router.replace({
