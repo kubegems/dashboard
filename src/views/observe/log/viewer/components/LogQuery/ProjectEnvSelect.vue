@@ -5,7 +5,7 @@
       :items="m_select_projectItems"
       item-text="projectName"
       item-value="projectName"
-      style="width: 50px;"
+      style="width: 150px;"
       dense
       chips
       small-chips
@@ -33,7 +33,7 @@
       :items="m_select_projectEnvironmentItems"
       item-text="environmentName"
       item-value="environmentName"
-      style="width: 50px;"
+      style="width: 150px;"
       class="ml-2"
       dense
       chips
