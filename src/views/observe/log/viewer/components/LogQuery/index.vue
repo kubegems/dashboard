@@ -121,6 +121,7 @@
       <div class="my-2 kubegems__detail text-body-2">项目环境</div>
       <ProjectEnvSelect
         :series="series"
+        :loading="loading"
         @setEnvironment="handleSetEnvironment"
         @clearProject="handleClearProject"
         @clear="handlerClear"
@@ -181,6 +182,7 @@ export default {
       projectName: '',
       environmentName: '',
       namespace: '',
+      loading: false,
     }
   },
   computed: {
@@ -241,12 +243,14 @@ export default {
         ? `{ namespace="${this.namespace}" }`
         : `{ namespace="${this.namespace}", tenant=~"^${this.Tenant().TenantName}$" }`
 
+      this.loading = true
       const data = await getLogSeries(clusterName, {
         match,
         start: this.dateTimestamp[0],
         end: this.dateTimestamp[1],
         noprocessing: true,
       })
+      this.loading = false
       this.series = data
     },
 

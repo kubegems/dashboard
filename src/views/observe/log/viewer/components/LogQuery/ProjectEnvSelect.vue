@@ -57,6 +57,18 @@
       </template>
     </v-autocomplete>
 
+    <v-sheet
+      v-if="loading"
+      class="tip ml-2"
+    >
+      <v-progress-circular
+        size="20"
+        width="3"
+        indeterminate
+        color="primary"
+      />
+    </v-sheet>
+
     <v-sheet class="tip">
       <v-icon
         right
@@ -124,6 +136,10 @@ export default {
     series: {
       type: Array,
       default: () => [],
+    },
+    loading: {
+      type: Boolean,
+      default: () => false,
     },
   },
   data () {
