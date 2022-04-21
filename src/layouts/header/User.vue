@@ -220,7 +220,7 @@ export default {
       this.closeUserMenu()
     },
     toBook() {
-      window.open(`https://docs.${process.env.VUE_APP_DOMAIN}`)
+      window.open(`https://www.kubegems.io/docs/concepts/what-is-kubegems`)
       this.closeUserMenu()
     },
     toUserCenter() {
