@@ -15,7 +15,7 @@
       </v-sheet>
       <v-sheet
         class="float-left"
-        width="350"
+        width="400"
       >
         <v-combobox
           v-model="namespaceFilter"

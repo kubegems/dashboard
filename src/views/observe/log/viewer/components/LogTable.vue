@@ -144,6 +144,7 @@ export default {
       }
     },
     onRowClick(item, { expand, isExpanded }) {
+      if (this.mode !== 'normal') return
       expand(!isExpanded)
     },
 

@@ -142,7 +142,9 @@
       <v-icon small>mdi-apple-keyboard-control</v-icon>
     </v-btn>
 
-    <LogContext ref="logContext" />
+    <LogContext
+      ref="logContext"
+    />
     <LogSaveSnapshot ref="logSaveSnapshot" />
     <LogQueryHistory
       ref="logQueryHistory"
@@ -271,7 +273,7 @@ export default {
       }
 
       // 补充租户信息
-      if (!this.AdminViewport && !new RegExp('tenant="([\\u4e00-\\u9fa5\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)"', 'g').test(this.params.logQL)) {
+      if (!this.AdminViewport && !new RegExp('tenant="([\\u4e00-\\u9fa5\\W\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)"', 'g').test(this.params.logQL)) {
         const index = this.params.logQL.indexOf('{')
         this.params.logQL = this.params.logQL.substr(0, index + 1) + `tenant="${this.Tenant().TenantName}",` + this.params.logQL.substr(index + 1)
       }
@@ -284,7 +286,7 @@ export default {
         end: this.dateTimestamp[1],
         limit: this.params.limit,
         direction: this.params.direction,
-        filters: this.params.regexp ? this.params.regexp.match(new RegExp('`([\\u4e00-\\u9fa5\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)`', 'g')).map(reg => { return reg.replaceAll('`', '') }) : '',
+        filters: this.params.regexp ? this.params.regexp.match(new RegExp('`([\\u4e00-\\u9fa5\\W\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)`', 'g')).map(reg => { return reg.replaceAll('`', '') }) : '',
         query: encodeURIComponent(this.params.logQL),
         step: this.step,
       }

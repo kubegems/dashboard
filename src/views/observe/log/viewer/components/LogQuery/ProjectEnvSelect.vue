@@ -1,129 +1,146 @@
 <template>
-  <v-flex class="d-flex">
-    <v-autocomplete
-      v-model="project"
-      :items="m_select_projectItems"
-      item-text="projectName"
-      item-value="projectName"
-      style="width: 150px;"
-      dense
-      chips
-      small-chips
-      label="项目"
-      solo
-      flat
-      hide-details
-      no-data-text="暂无数据"
-      @focus="m_select_projectSelectData"
-      @change="onProjectChange"
+  <div>
+    <v-flex
+      class="d-flex"
+      :style="{ display: 'inline-flex !important' }"
     >
-      <template #selection="{ item }">
-        <v-chip
-          color="primary"
-          small
-          label
-        >
-          <span>项目：{{ item.projectName }}</span>
-        </v-chip>
-      </template>
-    </v-autocomplete>
-
-    <v-autocomplete
-      v-model="environment"
-      :items="m_select_projectEnvironmentItems"
-      item-text="environmentName"
-      item-value="environmentName"
-      style="width: 150px;"
-      class="ml-2"
-      dense
-      chips
-      small-chips
-      label="环境"
-      solo
-      flat
-      hide-details
-      no-data-text="暂无数据"
-      @focus="m_select_projectEnvironmentSelectData(projectid)"
-      @change="onEnvironmentChange"
-    >
-      <template #selection="{ item }">
-        <v-chip
-          color="primary"
-          small
-          label
-        >
-          <span>环境：{{ item.environmentName }}</span>
-        </v-chip>
-      </template>
-    </v-autocomplete>
-
-    <v-sheet
-      v-if="loading"
-      class="tip ml-2"
-    >
-      <v-progress-circular
-        size="20"
-        width="3"
-        indeterminate
-        color="primary"
-      />
-    </v-sheet>
-
-    <v-sheet class="tip">
-      <v-icon
-        right
-        small
+      <v-autocomplete
+        v-model="project"
+        :items="m_select_projectItems"
+        item-text="projectName"
+        item-value="projectName"
+        style="width: 300px;"
+        dense
+        chips
+        small-chips
+        label="项目"
+        solo
+        flat
+        hide-details
+        no-data-text="暂无数据"
+        @focus="m_select_projectSelectData"
+        @change="onProjectChange"
       >
-        fas fa-question-circle
-      </v-icon>
-    </v-sheet>
+        <template #selection="{ item }">
+          <v-chip
+            color="primary"
+            small
+            label
+          >
+            <span>项目：{{ item.projectName }}</span>
+          </v-chip>
+        </template>
+      </v-autocomplete>
 
-    <v-sheet
-      class="text-body-2 ml-2"
-      :style="{ lineHeight: '36px' }"
-    >
-      <v-btn
-        small
-        bottom
-        text
-        color="error"
-        @click="handleClear"
+      <v-autocomplete
+        v-model="environment"
+        :items="m_select_projectEnvironmentItems"
+        item-text="environmentName"
+        item-value="environmentName"
+        style="width: 300px;"
+        class="ml-2"
+        dense
+        chips
+        small-chips
+        label="环境"
+        solo
+        flat
+        hide-details
+        no-data-text="暂无数据"
+        @focus="m_select_projectEnvironmentSelectData(projectid)"
+        @change="onEnvironmentChange"
       >
-        清空
-      </v-btn>
-    </v-sheet>
+        <template #selection="{ item }">
+          <v-chip
+            color="primary"
+            small
+            label
+          >
+            <span>环境：{{ item.environmentName }}</span>
+          </v-chip>
+        </template>
+      </v-autocomplete>
 
-    <v-sheet
-      class="text-body-2 tip ml-6 kubegems__detail"
-    >
-      集群:
-      <span class="text-body-2 font-weight-medium">
-        {{ environemtObj ? environemtObj.clusterName : '' }}
-      </span>
-    </v-sheet>
-    <v-sheet
-      class="text-body-2 tip ml-4 kubegems__detail"
-    >
-      命名空间:
-      <span class="text-body-2 font-weight-medium">
-        {{ environemtObj ? environemtObj.namespace : '' }}
-      </span>
-    </v-sheet>
+      <v-sheet class="tip">
+        <v-icon
+          right
+          small
+        >
+          fas fa-question-circle
+        </v-icon>
+      </v-sheet>
 
-    <v-sheet
-      class="text-body-2 tip ml-4 kubegems__detail"
-    >
-      series:
-      <span class="text-body-2 font-weight-medium">
-        {{ series.length>5000 ? '5000+' : series.length }}
-      </span>
-    </v-sheet>
+      <v-sheet
+        class="text-body-2 ml-2"
+        :style="{ lineHeight: '36px'}"
+      >
+        <v-btn
+          small
+          bottom
+          text
+          color="primary"
+          @click="handleRefresh"
+        >
+          刷新
+        </v-btn>
+      </v-sheet>
 
-    <v-spacer />
-    <v-spacer />
-    <v-spacer />
-    <v-spacer />
-  </v-flex>
+      <v-sheet
+        class="text-body-2 ml-2"
+        :style="{ lineHeight: '36px' }"
+      >
+        <v-btn
+          small
+          bottom
+          text
+          color="error"
+          @click="handleClear"
+        >
+          清空
+        </v-btn>
+      </v-sheet>
+
+      <v-sheet
+        v-if="loading"
+        class="tip ml-2"
+      >
+        <v-progress-circular
+          size="20"
+          width="3"
+          indeterminate
+          color="primary"
+        />
+      </v-sheet>
+    </v-flex>
+
+    <v-flex :style="{ display: 'inline-flex !important', float: 'right' }">
+      <v-sheet
+        class="text-body-2 tip ml-6 kubegems__detail"
+      >
+        集群:
+        <span class="text-body-2 font-weight-medium">
+          {{ environemtObj ? environemtObj.clusterName : '' }}
+        </span>
+      </v-sheet>
+      <v-sheet
+        class="text-body-2 tip ml-4 kubegems__detail"
+      >
+        命名空间:
+        <span class="text-body-2 font-weight-medium">
+          {{ environemtObj ? environemtObj.namespace : '' }}
+        </span>
+      </v-sheet>
+
+      <v-sheet
+        class="text-body-2 tip ml-4 kubegems__detail"
+      >
+        series:
+        <span class="text-body-2 font-weight-medium">
+          {{ series.length>5000 ? '5000+' : series.length }}
+        </span>
+      </v-sheet>
+    </v-flex>
+  </div>
 </template>
 
 <script>
@@ -186,6 +203,12 @@ export default {
     },
     handleClear() {
       this.$emit('clear')
+    },
+
+    handleRefresh() {
+      if (this.environment) {
+        this.$emit('refresh')
+      }
     },
   },
 }
