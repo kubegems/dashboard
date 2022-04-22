@@ -52,8 +52,14 @@
           {{ item.Count }}
         </template>
         <template #[`item.type`]="{ item }">
-          <span v-if="item.Labels.gems_alert_resource && item.Labels.gems_alert_rule">
-            {{ `${item.Labels.gems_alert_resource}.${item.Labels.gems_alert_rule}` }}
+          <span
+            v-if="
+              item.Labels.gems_alert_resource && item.Labels.gems_alert_rule
+            "
+          >
+            {{
+              `${item.Labels.gems_alert_resource}.${item.Labels.gems_alert_rule}`
+            }}
           </span>
           <span v-else>-</span>
         </template>
@@ -82,13 +88,13 @@
           </v-chip>
         </template>
         <template #[`item.startsAt`]="{ item }">
-          {{ $moment(item.StartsAt).format('yyyy/MM/DD hh:mm:ss') }}
+          {{ $moment(item.StartsAt).format("yyyy/MM/DD hh:mm:ss") }}
         </template>
         <template #[`item.createdAt`]="{ item }">
-          {{ $moment(item.CreatedAt).format('yyyy/MM/DD hh:mm:ss') }}
+          {{ $moment(item.CreatedAt).format("yyyy/MM/DD hh:mm:ss") }}
         </template>
         <template #[`item.silenceCreator`]="{ item }">
-          {{ item.SilenceCreator ? '是' : '-' }}
+          {{ item.SilenceCreator ? "是" : "-" }}
         </template>
         <template #expanded-item="{ headers, item }">
           <td
@@ -150,19 +156,19 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 import {
   getPrometheusAletrsSearch,
   postAddPrometheusBlacklist,
   deletePrometheusBlacklist,
-} from '@/api'
-import ClusterSelect from '@/views/observe/components/ClusterSelect'
-import HistorySearch from './components/HistorySearch'
-import BaseSelect from '@/mixins/select'
-import { deleteEmpty } from '@/utils/helpers'
+} from "@/api";
+import ClusterSelect from "@/views/observe/components/ClusterSelect";
+import HistorySearch from "./components/HistorySearch";
+import BaseSelect from "@/mixins/select";
+import { deleteEmpty } from "@/utils/helpers";
 
 export default {
-  name: 'AlertHistroy',
+  name: "AlertHistroy",
   components: {
     ClusterSelect,
     HistorySearch,
@@ -170,55 +176,55 @@ export default {
   mixins: [BaseSelect],
   data() {
     this.breadcrumb = {
-      title: '告警历史',
-      tip: '产生告警的历史信息汇总',
-      icon: 'mdi-history',
-    }
+      title: "告警历史",
+      tip: "产生告警的历史信息汇总",
+      icon: "mdi-history",
+    };
 
     this.filters = [
-      { items: [], text: '名称', value: 'name' },
-      { items: [], text: '资源', value: 'name' },
-    ]
+      { items: [], text: "名称", value: "name" },
+      { items: [], text: "资源", value: "name" },
+    ];
 
     this.levels = [
-      { text: 'firing', value: 'firing', color: 'error' },
-      { text: 'resolved', value: 'resolved', color: 'primary' },
-    ]
+      { text: "firing", value: "firing", color: "error" },
+      { text: "resolved", value: "resolved", color: "primary" },
+    ];
 
     this.headers = [
-      { text: '告警名称', value: 'name', align: 'start' },
+      { text: "告警名称", value: "name", align: "start" },
       {
-        text: '命名空间',
-        value: 'namespace',
-        align: 'start',
-        cellClass: 'kubegems__table-nowrap-cell',
+        text: "命名空间",
+        value: "namespace",
+        align: "start",
+        cellClass: "kubegems__table-nowrap-cell",
       },
       {
-        text: '告警类型',
-        value: 'type',
-        align: 'start',
+        text: "告警类型",
+        value: "type",
+        align: "start",
         width: 100,
-        cellClass: 'kubegems__table-nowrap-cell',
+        cellClass: "kubegems__table-nowrap-cell",
       },
-      { text: '详情', value: 'message', align: 'start' },
-      { text: '级别', value: 'severity', align: 'start' },
-      { text: '告警次数', value: 'count', align: 'start', width: 90 },
+      { text: "详情", value: "message", align: "start" },
+      { text: "级别", value: "severity", align: "start" },
+      { text: "告警次数", value: "count", align: "start", width: 90 },
       {
-        text: '上次开始时间',
-        value: 'startsAt',
-        align: 'start',
-        cellClass: 'kubegems__table-nowrap-cell',
+        text: "上次开始时间",
+        value: "startsAt",
+        align: "start",
+        cellClass: "kubegems__table-nowrap-cell",
       },
       {
-        text: '上次触发事件',
-        value: 'createdAt',
-        align: 'start',
-        cellClass: 'kubegems__table-nowrap-cell',
+        text: "上次触发事件",
+        value: "createdAt",
+        align: "start",
+        cellClass: "kubegems__table-nowrap-cell",
       },
-      { text: '黑名单', value: 'silenceCreator', align: 'center', width: 80 },
-      { text: '', value: 'action', align: 'center', width: 20 },
-      { text: '', value: 'data-table-expand', align: 'end' },
-    ]
+      { text: "黑名单", value: "silenceCreator", align: "center", width: 80 },
+      { text: "", value: "action", align: "center", width: 20 },
+      { text: "", value: "data-table-expand", align: "end" },
+    ];
 
     return {
       items: [],
@@ -241,13 +247,13 @@ export default {
         size: 10,
       },
       date: [],
-    }
+    };
   },
   computed: {
-    ...mapState(['AdminViewport']),
+    ...mapState(["AdminViewport"]),
   },
   mounted() {
-    if (this.AdminViewport) this.getHistoryList()
+    if (this.AdminViewport) this.getHistoryList();
   },
   methods: {
     async getHistoryList() {
@@ -260,68 +266,68 @@ export default {
         end: this.date[1]
           ? this.$moment(this.date[1]).utc().format()
           : undefined,
-      })
-      this.$router.replace({ query: { ...params } })
-      delete params.project
+      });
+      this.$router.replace({ query: { ...params } });
+      delete params.project;
 
-      if (!this.AdminViewport && !params.namespace) {
-        this.$store.commit('SET_SNACKBAR', {
-          text: '请选择项目和环境',
-          color: 'warning',
-        })
-        return
-      }
+      // if (!this.AdminViewport && !params.namespace) {
+      //   this.$store.commit('SET_SNACKBAR', {
+      //     text: '请选择项目和环境',
+      //     color: 'warning',
+      //   })
+      //   return
+      // }
 
-      const data = await getPrometheusAletrsSearch(params)
-      this.pageCount = Math.ceil(data.Total / this.params.size)
-      this.params.page = data.CurrentPage
-      this.items = data.List || []
+      const data = await getPrometheusAletrsSearch(params);
+      this.pageCount = Math.ceil(data.Total / this.params.size);
+      this.params.page = data.CurrentPage;
+      this.items = data.List || [];
     },
     onClusterChange() {
       this.clusterId = this.$refs.ClusterSelect.items.find(
         (cluster) => cluster.text === this.params.cluster,
-      )?.value
+      )?.value;
     },
     onSearch() {
-      this.params.page = 1
-      this.getHistoryList()
+      this.params.page = 1;
+      this.getHistoryList();
     },
     onPageSizeChange(size) {
-      this.params.page = 1
-      this.params.size = size
+      this.params.page = 1;
+      this.params.size = size;
     },
     onPageIndexChange(page) {
-      this.params.page = page
+      this.params.page = page;
     },
     onAddBacklist(item) {
-      this.$store.commit('SET_CONFIRM', {
-        title: '告警黑名单',
+      this.$store.commit("SET_CONFIRM", {
+        title: "告警黑名单",
         content: {
-          text: '是否确认将此条告警信息加入告警黑名单中？',
-          type: 'confirm',
+          text: "是否确认将此条告警信息加入告警黑名单中？",
+          type: "confirm",
         },
         doFunc: async () => {
-          await postAddPrometheusBlacklist({ Fingerprint: item.Fingerprint })
-          this.getHistoryList()
+          await postAddPrometheusBlacklist({ Fingerprint: item.Fingerprint });
+          this.getHistoryList();
         },
-      })
+      });
     },
     onRemoveBlacklist(item) {
-      this.$store.commit('SET_CONFIRM', {
-        title: '告警黑名单',
+      this.$store.commit("SET_CONFIRM", {
+        title: "告警黑名单",
         content: {
-          text: '是否确认将此条告警信息从告警黑名单中移除？',
-          type: 'confirm',
+          text: "是否确认将此条告警信息从告警黑名单中移除？",
+          type: "confirm",
         },
         doFunc: async () => {
-          await deletePrometheusBlacklist(item.Fingerprint)
-          this.getHistoryList()
+          await deletePrometheusBlacklist(item.Fingerprint);
+          this.getHistoryList();
         },
-      })
+      });
     },
     onRowClick(item, { expand, isExpanded }) {
-      expand(!isExpanded)
+      expand(!isExpanded);
     },
   },
-}
+};
 </script>

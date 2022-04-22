@@ -5,9 +5,7 @@
         v-if="AdminViewport"
         #extend
       >
-        <TenantSelect
-          v-model="tenant"
-        />
+        <TenantSelect v-model="tenant" />
       </template>
     </BaseBreadcrumb>
 
@@ -50,17 +48,17 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
-import { getAlertToday } from '@/api'
-import ValueCard from './components/ValueCard'
-import AlertHistoryLine from './components/AlertHistoryLine'
-import AlertCategoryBar from './components/AlertCategoryBar'
-import AlertTopBar from './components/AlertTopBar'
-import TenantSelect from '../../components/TenantSelect'
-import BaseSelect from '@/mixins/select'
+import { mapState, mapGetters } from "vuex";
+import { getAlertToday } from "@/api";
+import ValueCard from "./components/ValueCard";
+import AlertHistoryLine from "./components/AlertHistoryLine";
+import AlertCategoryBar from "./components/AlertCategoryBar";
+import AlertTopBar from "./components/AlertTopBar";
+import TenantSelect from "../../components/TenantSelect";
+import BaseSelect from "@/mixins/select";
 
 export default {
-  name: 'ObserveMonitor',
+  name: "ObserveMonitor",
   components: {
     ValueCard,
     AlertHistoryLine,
@@ -69,26 +67,26 @@ export default {
     TenantSelect,
   },
   mixins: [BaseSelect],
-  data () {
+  data() {
     this.breadcrumb = {
-      title: '监控中心',
-      tip: '监控指标告警大盘统计',
-      icon: 'mdi-monitor-dashboard',
-    }
+      title: "监控中心",
+      tip: "监控指标告警大盘统计",
+      icon: "mdi-monitor-dashboard",
+    };
 
     return {
       tenant: null,
       alert: null,
-    }
+    };
   },
   computed: {
-    ...mapGetters(['Tenant']),
-    ...mapState(['AdminViewport']),
+    ...mapGetters(["Tenant"]),
+    ...mapState(["AdminViewport"]),
   },
   watch: {
     tenant: {
-      handler: function() {
-        this.alertTodayMetrics()
+      handler: function () {
+        this.alertTodayMetrics();
       },
       deep: true,
     },
@@ -96,16 +94,16 @@ export default {
   mounted() {
     this.$nextTick(() => {
       if (!this.AdminViewport) {
-        this.tenant = this.Tenant()
+        this.tenant = this.Tenant();
       }
-    })
+    });
   },
   methods: {
     async alertTodayMetrics() {
       this.alert = await getAlertToday({
         tenant: this.tenant,
-      })
+      });
     },
   },
-}
+};
 </script>

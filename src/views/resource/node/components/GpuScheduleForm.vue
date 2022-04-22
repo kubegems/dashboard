@@ -30,7 +30,7 @@
                 <v-list-item-icon class="mr-4">
                   <BaseLogo
                     :width="32"
-                    icon-name="gpu_manager"
+                    icon-name="tke"
                   />
                 </v-list-item-icon>
                 <v-list-item-content class="text-subtitle-1">
@@ -53,7 +53,7 @@
                 <v-list-item-icon class="mr-4">
                   <BaseLogo
                     :width="32"
-                    icon-name="nvidia_device_plugin"
+                    icon-name="nvidia"
                   />
                 </v-list-item-icon>
                 <v-list-item-content class="text-subtitle-1">

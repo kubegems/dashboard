@@ -43,7 +43,7 @@
                   size="45"
                 >
                   <span class="white--text text-h6">
-                    {{ item.Username[0].toLocaleUpperCase() }}
+                    {{ item.Username ? item.Username[0].toLocaleUpperCase() : 'N' }}
                   </span>
                 </v-avatar>
               </div>

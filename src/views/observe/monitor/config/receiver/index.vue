@@ -133,7 +133,7 @@
             </td>
           </template>
           <template #[`item.action`]="{ item }">
-            <template v-if="item.name !== 'gemcloud-default-webhook'">
+            <template v-if="!item.name.endsWith('default-webhook')">
               <v-flex :id="`r${item.index}`" />
               <v-menu
                 left

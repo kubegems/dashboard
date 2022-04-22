@@ -243,7 +243,7 @@ export default {
       } else {
         this.$delete(this.tagMap, key)
       }
-      if (key === 'project') this.onProjectChange(tag.value)
+      // if (key === 'project') this.onProjectChange(tag.value)
       if (key === 'resource') this.onResourceChange(tag.value)
       this.onEmitChange()
     },
@@ -315,7 +315,7 @@ export default {
       let items = []
       if (this.tagMap.project) {
         if (!this.cache.namespace[value]) {
-          const data = await getProjectEnvironmentList(value, { NoProcessing: true })
+          const data = await getProjectEnvironmentList(value, { noprocessing: true })
           this.cache.namespace[value] = data.List.map(item => ({
             text: item.EnvironmentName,
             value: item.Namespace,
@@ -340,7 +340,7 @@ export default {
       if (this.tagMap.resource) this.onResourceChange(this.tagMap.resource, false)
     },
     async getProjectList () {
-      const data = await getProjectList(this.Tenant().ID, { NoProcessing: true })
+      const data = await getProjectList(this.Tenant().ID, { noprocessing: true })
       this.projectList = data.List.map((item) => ({
         value: item.ID.toString(),
         text: item.ProjectName,

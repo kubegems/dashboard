@@ -52,8 +52,8 @@ export default {
   },
   data() {
     this.breadcrumb = {
-      title: '链路追踪',
-      tip: '链路追踪(jaeger)是端到端分布式跟踪监控系统',
+      title: '链路查询器',
+      tip: '链路查询器(jaeger)是端到端分布式跟踪监控系统',
       icon: 'mdi-text-search',
     }
 
