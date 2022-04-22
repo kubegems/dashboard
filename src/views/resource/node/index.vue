@@ -41,6 +41,7 @@
                 top
                 open-on-hover
                 :close-delay="200"
+                nudge-bottom="7px"
               >
                 <template #activator="{ on }">
                   <span v-on="on">
@@ -64,6 +65,7 @@
                 top
                 open-on-hover
                 :close-delay="200"
+                nudge-bottom="7px"
               >
                 <template #activator="{ on }">
                   <span v-on="on">

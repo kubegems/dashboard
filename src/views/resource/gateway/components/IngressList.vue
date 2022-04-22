@@ -118,7 +118,7 @@ export default {
         '_all',
         Object.assign(
           {
-            [`labels[gems.${process.env.VUE_APP_DOMAIN}/ingressClass]`]:
+            [`labels[networking.${process.env.VUE_APP_DOMAIN}/ingressClass]`]:
               this.selector.ingressClassName,
           },
           this.params,

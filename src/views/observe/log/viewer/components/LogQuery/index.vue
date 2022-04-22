@@ -207,6 +207,24 @@ export default {
       const match = keys.reduce((pre, key) => pre + `,${key}=~"${obj[key].join('|')}"`, '')
       return `{ ${pe}${match} }${this.regexQL}`
     },
+    matchQL() {
+      const pe = this.namespace ? `namespace="${this.namespace}"` : ''
+      const obj = this.selected || {}
+      const keys = Object.keys(obj).filter(k => obj[k] && obj[k].length)
+      const match = keys.reduce((pre, key) => pre + `,${key}=~"${obj[key].join('|')}"`, '')
+      return `{ ${pe}${match} }`
+    },
+  },
+  watch: {
+    matchQL: {
+      handler(newValue, oldValue) {
+        const hasNs = new RegExp('namespace="([\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)"', 'g').test(newValue)
+        if (newValue !== oldValue && hasNs) {
+          this.getSeriesList()
+        }
+      },
+      deep: true,
+    },
   },
   destroyed() {
     if (this.websocket) {
@@ -219,7 +237,7 @@ export default {
     this.$nextTick(() => {
       if (this.$route.query.query) {
         const keyArr = ['app', 'pod', 'container', 'host', 'stream', 'image']
-        const reg = new RegExp('(\\w+)=~?"([\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/\|]+)"', 'g')
+        const reg = new RegExp('([\\u4e00-\\u9fa5\\w]+)=~?"([\\u4e00-\\u9fa5\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/\|]+)"', 'g')
         const selected = {}
         this.$route.query.query.match(reg).map(s => {
           const l = s.split('=')
@@ -238,13 +256,16 @@ export default {
   },
   methods: {
     // 获取Series并设置集群按钮徽标值
-    async getSeriesList(clusterName) {
-      const match = this.AdminViewport
-        ? `{ namespace="${this.namespace}" }`
-        : `{ namespace="${this.namespace}", tenant=~"^${this.Tenant().TenantName}$" }`
+    async getSeriesList() {
+      let match = this.matchQL
+
+      if (!this.AdminViewport && !new RegExp('tenant="([\\u4e00-\\u9fa5\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)"', 'g').test(match)) {
+        const index = match.indexOf('{')
+        match = match.substr(0, index + 1) + `tenant="${this.Tenant().TenantName}",` + match.substr(index + 1)
+      }
 
       this.loading = true
-      const data = await getLogSeries(clusterName, {
+      const data = await getLogSeries(this.cluster.text, {
         match,
         start: this.dateTimestamp[0],
         end: this.dateTimestamp[1],
@@ -271,7 +292,6 @@ export default {
         this.projectName = projectName
         this.environmentName = env.environmentName
         this.namespace = env.namespace
-        await this.getSeriesList(env.clusterName)
         this.$emit('setCluster', this.cluster)
         if (triggerQuery) {
           this.search()
