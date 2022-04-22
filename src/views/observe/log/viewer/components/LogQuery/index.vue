@@ -23,7 +23,6 @@
         hide-details
         multiple
         full-width
-        @keydown.enter.native="search"
       >
         <template #prepend-inner>
           <v-chip
@@ -309,7 +308,7 @@ export default {
     handleRemoveRegexp(item) {
       const index = this.filter.indexOf(item)
       this.filter.splice(index, 1)
-      this.search()
+      // this.search()
     },
 
     handleRemoveTag(key, value) {
