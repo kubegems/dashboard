@@ -219,7 +219,7 @@ export default {
   watch: {
     matchQL: {
       handler(newValue, oldValue) {
-        const hasNs = new RegExp('namespace="([\\W\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)"', 'g').test(newValue)
+        const hasNs = new RegExp('namespace="([\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)"', 'g').test(newValue)
         if (newValue !== oldValue && hasNs) {
           this.getSeriesList()
         }
@@ -238,7 +238,7 @@ export default {
     this.$nextTick(() => {
       if (this.$route.query.query) {
         const keyArr = ['app', 'pod', 'container', 'host', 'stream', 'image']
-        const reg = new RegExp('([\\u4e00-\\u9fa5\\w]+)=~?"([\\u4e00-\\u9fa5\\W\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/\|]+)"', 'g')
+        const reg = new RegExp('([\\u4e00-\\u9fa5\\w]+)=~?"([\\u4e00-\\u9fa5\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/\|]+)"', 'g')
         const selected = {}
         this.$route.query.query.match(reg).map(s => {
           const l = s.split('=')
@@ -260,7 +260,7 @@ export default {
     async getSeriesList() {
       let match = this.matchQL
 
-      if (!this.AdminViewport && !new RegExp('tenant="([\\u4e00-\\u9fa5\\W\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)"', 'g').test(match)) {
+      if (!this.AdminViewport && !new RegExp('tenant="([\\u4e00-\\u9fa5\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)"', 'g').test(match)) {
         const index = match.indexOf('{')
         match = match.substr(0, index + 1) + `tenant="${this.Tenant().TenantName}",` + match.substr(index + 1)
       }
