@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 import EllipsisText from './EllipsisText'
 
 export default {
@@ -108,7 +108,6 @@ export default {
   },
   computed: {
     ...mapState(['Progress', 'JWT', 'User', 'AdminViewport']),
-    ...mapGetters(['Tenant']),
     cols () {
       return this.tags
     },

@@ -146,7 +146,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 import { getLogSeries } from '@/api'
 import LabelSelector from './LabelSelector'
 import AdvancedTextare from './AdvancedTextare'
@@ -187,7 +187,6 @@ export default {
   },
   computed: {
     ...mapState(['AdminViewport', 'JWT']),
-    ...mapGetters(['Tenant']),
     comboboxTags() {
       const tags = []
       Object.keys(this.selected).forEach(k => {
@@ -257,16 +256,9 @@ export default {
   methods: {
     // 获取Series并设置集群按钮徽标值
     async getSeriesList() {
-      let match = this.matchQL
-
-      if (!this.AdminViewport && !new RegExp('tenant="([\\u4e00-\\u9fa5\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)"', 'g').test(match)) {
-        const index = match.indexOf('{')
-        match = match.substr(0, index + 1) + `tenant="${this.Tenant().TenantName}",` + match.substr(index + 1)
-      }
-
       this.loading = true
       const data = await getLogSeries(this.cluster.text, {
-        match,
+        match: this.matchQL,
         start: this.dateTimestamp[0],
         end: this.dateTimestamp[1],
         noprocessing: true,
@@ -430,13 +422,7 @@ export default {
       }
     },
     constructParams() {
-      let ql = this.advancedQl || this.logQL
-
-      // 补充租户信息
-      if (!this.AdminViewport && !new RegExp('tenant="([\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)"', 'g').test(ql)) {
-        const index = ql.indexOf('{')
-        ql = ql.substr(0, index + 1) + `tenant="${this.Tenant().TenantName}",` + ql.substr(index + 1)
-      }
+      const ql = this.advancedQl || this.logQL
 
       const data = {
         start: Date.parse(new Date()).toString() + '000000',
