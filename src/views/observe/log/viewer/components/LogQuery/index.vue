@@ -197,7 +197,14 @@ export default {
       return tags
     },
     regexQL() {
-      return this.filter ? this.filter.map(reg => { return ` |~ \`${reg}\`` }).join('') : ''
+      let filterQl = ''
+      if (this.filter) {
+        filterQl = this.filter.map(reg => { return ` |~ \`${reg}\`` }).join('')
+      }
+      if (this.advancedQl) {
+        filterQl = this.advancedQl.split('|~').filter((reg, index) => { return index > 0 }).map(reg => { return ` |~ \`${reg.replaceAll('`', '').trim()}\`` }).join('')
+      }
+      return filterQl
     },
     logQL() {
       const pe = this.namespace ? `namespace="${this.namespace}"` : ''
@@ -363,7 +370,10 @@ export default {
       // 保证logQL和regexp 获取到最新值
       this.$nextTick(() => {
         this.expand = false
-        this.$emit('search', { logQL: this.advancedQl || this.logQL, regexp: this.regexQL, projectName: this.projectName, environmentName: this.environmentName })
+        const _v = this
+        window.setTimeout(() => {
+          _v.$emit('search', { logQL: this.advancedQl || this.logQL, regexp: this.regexQL, projectName: this.projectName, environmentName: this.environmentName })
+        }, 100)
       })
     },
 
