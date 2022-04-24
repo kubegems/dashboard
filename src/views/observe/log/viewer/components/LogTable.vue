@@ -18,7 +18,6 @@
       :item-key="mode === 'context' ? 'info.timestamp' : 'info.index'"
       :no-data-text="mode === 'context' ? '' : '暂无数据'"
       loading-text="接收数据中..."
-      @click:row="onRowClick"
     >
       <template #[`item.info`]="{ item }">
         <div
@@ -143,10 +142,10 @@ export default {
         // this.$refs.logLabelFilter.setLabelValue('pod', e.target.dataset.pod) && this.logQueryRange()
       }
     },
-    onRowClick(item, { expand, isExpanded }) {
-      if (this.mode !== 'normal') return
-      expand(!isExpanded)
-    },
+    // onRowClick(item, { expand, isExpanded }) {
+    //   if (this.mode !== 'normal') return
+    //   expand(!isExpanded)
+    // },
 
     // eslint-disable-next-line vue/no-unused-properties
     goTo() {
