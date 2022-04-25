@@ -5,6 +5,7 @@
   "license": "Apache-2.0",
   "scripts": {
     "serve": "cross-env VUE_APP_RELEASE=local vue-cli-service serve",
+    "build:map": "cross-env vue-cli-service build",
     "build": "cross-env vue-cli-service build && rm -rf dist/js/*.map dist/*.map",
     "lint": "vue-cli-service lint",
     "prepare": "husky install",

@@ -105,6 +105,7 @@ export default {
       selectedMap: {},
       tags: [],
       layer: [],
+      keyArr: ['app', 'pod', 'container', 'stream', 'host', 'image'],
     }
   },
   computed: {
@@ -158,7 +159,6 @@ export default {
       this.handleEmit()
     },
     handleSetTags () {
-      const keyArr = ['app', 'pod', 'container', 'host', 'stream', 'image']
       const s = this.series || []
       const tagMap = {}
 
@@ -192,7 +192,7 @@ export default {
             }
           }
 
-          if (!keyArr.includes(key)) continue
+          if (!this.keyArr.includes(key)) continue
           if (!tagMap[key]) {
             tagMap[key] = {}
           }
@@ -200,7 +200,8 @@ export default {
         }
       }
       const labels = Object.keys(tagMap)
-      this.tags = labels.map(key => {
+      const orderLabels = this.keyArr.filter(k => { return labels.includes(k) })
+      this.tags = orderLabels.map(key => {
         return {
           key,
           search: '',
