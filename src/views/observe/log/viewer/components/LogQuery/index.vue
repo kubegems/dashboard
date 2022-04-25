@@ -213,24 +213,6 @@ export default {
       const match = keys.reduce((pre, key) => pre + `,${key}=~"${obj[key].join('|')}"`, '')
       return `{ ${pe}${match} }${this.regexQL}`
     },
-    matchQL() {
-      const pe = this.namespace ? `namespace="${this.namespace}"` : ''
-      const obj = this.selected || {}
-      const keys = Object.keys(obj).filter(k => obj[k] && obj[k].length)
-      const match = keys.reduce((pre, key) => pre + `,${key}=~"${obj[key].join('|')}"`, '')
-      return `{ ${pe}${match} }`
-    },
-  },
-  watch: {
-    matchQL: {
-      handler(newValue, oldValue) {
-        const hasNs = new RegExp('namespace="([\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)"', 'g').test(newValue)
-        if (newValue !== oldValue && hasNs) {
-          this.getSeriesList()
-        }
-      },
-      deep: true,
-    },
   },
   destroyed() {
     if (this.websocket) {
@@ -265,7 +247,7 @@ export default {
     async getSeriesList() {
       this.loading = true
       const data = await getLogSeries(this.cluster.text, {
-        match: this.matchQL,
+        match: `{ namespace="${this.namespace}" }`,
         start: this.dateTimestamp[0],
         end: this.dateTimestamp[1],
         noprocessing: true,
@@ -292,6 +274,7 @@ export default {
         this.environmentName = env.environmentName
         this.namespace = env.namespace
         this.$emit('setCluster', this.cluster)
+        await this.getSeriesList()
         if (triggerQuery) {
           this.search()
         } else {
@@ -372,7 +355,12 @@ export default {
         this.expand = false
         const _v = this
         window.setTimeout(() => {
-          _v.$emit('search', { logQL: this.advancedQl || this.logQL, regexp: this.regexQL, projectName: this.projectName, environmentName: this.environmentName })
+          _v.$emit('search', {
+            logQL: this.advancedQl || this.logQL,
+            regexp: this.regexQL,
+            projectName: this.projectName,
+            environmentName: this.environmentName,
+          })
         }, 100)
       })
     },
