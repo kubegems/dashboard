@@ -6,7 +6,7 @@
     />
     <v-data-table
       disable-sort
-      class="px-2 pb-2 cluster-table"
+      class="px-2"
       :headers="headers"
       :items="items"
       :page.sync="params.page"
@@ -120,6 +120,15 @@
       </template>
     </v-data-table>
 
+    <Pagination
+      v-if="pageCount >= 1"
+      v-model="params.page"
+      :page-count="pageCount"
+      :size="params.size"
+      @loaddata="tenantResourceQuotaList"
+      @changepage="onPageIndexChange"
+    />
+
     <ScaleResource
       ref="scaleResource"
       @refresh="tenantResourceQuotaList"
@@ -131,6 +140,7 @@
 import { mapGetters, mapState } from 'vuex'
 import { getTenantResourceQuotaList, getTenantResourceQuota } from '@/api'
 import ScaleResource from './ScaleResource'
+import Pagination from '../Pagination'
 import BasePermission from '@/mixins/permission'
 import { sizeOfCpu, sizeOfStorage } from '@/utils/helpers'
 
@@ -138,6 +148,7 @@ export default {
   name: 'ResourceList',
   components: {
     ScaleResource,
+    Pagination,
   },
   mixins: [BasePermission],
   data: () => ({
@@ -145,7 +156,7 @@ export default {
     pageCount: 0,
     params: {
       page: 1,
-      size: 1000,
+      size: 5,
     },
   }),
   computed: {
@@ -206,6 +217,9 @@ export default {
       this.pageCount = Math.ceil(data.Total / this.params.size)
       this.params.page = data.CurrentPage
     },
+    onPageIndexChange(page) {
+      this.params.page = page
+    },
     async tenantResourceQuota(resourceQuota, index) {
       const data = await getTenantResourceQuota(
         resourceQuota.Cluster.ClusterName,
@@ -246,10 +260,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss" scoped>
-.cluster-table {
-  max-height: 250px;
-  overflow: auto;
-}
-</style>

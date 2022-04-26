@@ -124,7 +124,7 @@
             <v-list-item
               two-line
               class="float-left py-0 pl-0"
-              style="width: 250px;"
+              style="width: 200px;"
             >
               <v-list-item-content class="py-0">
                 <v-list-item-title
@@ -163,7 +163,7 @@
             <v-list-item
               two-line
               class="float-left py-0 pl-0"
-              style="width: 300px;"
+              style="width: 200px;"
             >
               <v-list-item-content class="py-0">
                 <v-list-item-title
@@ -205,7 +205,7 @@
             <v-list-item
               two-line
               class="float-left py-0 pl-0"
-              style="width: 200px;"
+              style="width: 150px;"
             >
               <v-list-item-content class="py-0">
                 <v-list-item-title
@@ -226,7 +226,7 @@
             <v-list-item
               two-line
               class="float-left py-0 pl-0"
-              style="width: 200px;"
+              style="width: 150px;"
             >
               <v-list-item-content class="py-0">
                 <v-list-item-title
@@ -260,6 +260,48 @@
                 </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1">
                   Age
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item
+              two-line
+              class="float-left py-0 pl-0"
+              style="width: 150px;"
+            >
+              <v-list-item-content class="py-0">
+                <v-list-item-title
+                  class="
+                            text-subtitle-2
+                            py-1
+                            kubegems__detail
+                            font-weight-regular
+                          "
+                >
+                  {{ container.resources && container.resources.limits ? container.resources.limits.cpu : '无限制' }}
+                </v-list-item-title>
+                <v-list-item-subtitle class="text-body-2 py-1">
+                  limits.cpu
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item
+              two-line
+              class="float-left py-0 pl-0"
+              style="width: 150px;"
+            >
+              <v-list-item-content class="py-0">
+                <v-list-item-title
+                  class="
+                            text-subtitle-2
+                            py-1
+                            kubegems__detail
+                            font-weight-regular
+                          "
+                >
+                  {{ container.resources && container.resources.limits ? container.resources.limits.memory : '无限制' }}
+                </v-list-item-title>
+                <v-list-item-subtitle class="text-body-2 py-1">
+                  limits.memory
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
@@ -322,6 +364,7 @@ export default {
           if (index > -1) {
             const container = this.containerStatusesCopy[index]
             container.image = c.image
+            container.resources = c.resources
             this.$set(this.containerStatusesCopy, index, container)
           }
         })
