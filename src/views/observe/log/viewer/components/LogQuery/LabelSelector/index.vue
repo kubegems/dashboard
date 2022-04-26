@@ -105,7 +105,7 @@ export default {
       selectedMap: {},
       tags: [],
       layer: [],
-      keyArr: ['app', 'pod', 'container', 'stream', 'host', 'image'],
+      keyArr: ['app', 'pod', 'container', 'stream', 'node', 'image'],
     }
   },
   computed: {

@@ -224,7 +224,7 @@ export default {
   mounted() {
     this.$nextTick(() => {
       if (this.$route.query.query) {
-        const keyArr = ['app', 'pod', 'container', 'host', 'stream', 'image']
+        const keyArr = ['app', 'pod', 'container', 'stream', 'node', 'image']
         const reg = new RegExp('([\\u4e00-\\u9fa5\\w]+)=~?"([\\u4e00-\\u9fa5\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/\|]+)"', 'g')
         const selected = {}
         this.$route.query.query.match(reg).map(s => {

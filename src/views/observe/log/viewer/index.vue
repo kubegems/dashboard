@@ -477,7 +477,7 @@ export default {
 
     handleShowContext (item) {
       const query = Object.keys(item.stream).filter(l => {
-        return ['container', 'image', 'pod', 'namespace', 'project'].includes(l)
+        return ['container', 'image', 'pod', 'namespace'].includes(l)
       }).reduce((pre, current) => `${pre}${current}="${item.stream[current]}",`, '{').slice(0, -1) + '}'
       this.$refs.logContext.showContext(item, {
         ClusterID: this.cluster.value,
