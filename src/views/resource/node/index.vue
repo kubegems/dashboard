@@ -41,14 +41,15 @@
                 top
                 open-on-hover
                 :close-delay="200"
+                nudge-bottom="7px"
               >
                 <template #activator="{ on }">
                   <span v-on="on">
-                    <BaseLogo icon-name="gpu_manager" />
+                    <BaseLogo icon-name="tke" />
                   </span>
                 </template>
                 <v-card>
-                  <v-card-text class="pa-2"> gpu_manager </v-card-text>
+                  <v-card-text class="pa-2"> tke </v-card-text>
                 </v-card>
               </v-menu>
             </v-flex>
@@ -64,14 +65,15 @@
                 top
                 open-on-hover
                 :close-delay="200"
+                nudge-bottom="7px"
               >
                 <template #activator="{ on }">
                   <span v-on="on">
-                    <BaseLogo icon-name="nvidia_device_plugin" />
+                    <BaseLogo icon-name="nvidia" />
                   </span>
                 </template>
                 <v-card>
-                  <v-card-text class="pa-2"> nvidia_device_plugin </v-card-text>
+                  <v-card-text class="pa-2"> nvidia </v-card-text>
                 </v-card>
               </v-menu>
             </v-flex>

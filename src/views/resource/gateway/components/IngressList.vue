@@ -118,7 +118,7 @@ export default {
         '_all',
         Object.assign(
           {
-            [`labels[gems.kubegems.io/ingressClass]`]:
+            [`labels[networking.kubegems.io/ingressClass]`]:
               this.selector.ingressClassName,
           },
           this.params,

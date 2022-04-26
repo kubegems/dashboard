@@ -36,14 +36,143 @@ export const observe = [
       },
 
       /**
-       * 监控中心
+       * 接入中心
        */
       {
-        path: 'monitor',
+        path: 'integrated',
         meta: {
-          header: '监控',
-          title: '监控中心',
-          icon: 'mdi-monitor-eye',
+          header: '接入',
+          title: '接入中心',
+          icon: 'mdi-link-variant',
+          show: true,
+        },
+        component: () => import('@/layouts/Container'),
+        redirect: { name: 'observe-integrated' },
+        children: [
+          {
+            path: `${prefix}/components`,
+            name: `observe-integrated`,
+            component: () => import('@/views/observe/integrated'),
+            meta: {
+              requireAuth: true,
+              title: '接入中心',
+              upToAdmin: true,
+              icon: 'mdi-widgets',
+              show: true,
+              rootName: 'observe',
+            },
+          },
+        ],
+      },
+
+      /**
+       * 可视化
+       */
+      {
+        path: 'dash',
+        meta: {
+          header: '可视化',
+          title: '可视化',
+          icon: 'mdi-view-dashboard',
+          show: true,
+        },
+        component: () => import('@/layouts/Container'),
+        redirect: { name: 'observe-monitor-dashoard' },
+        children: [
+          {
+            path: `${prefix}/dashoard`,
+            name: `observe-monitor-dashoard`,
+            component: () => import('@/views/observe/monitor/dashboard'),
+            meta: {
+              requireAuth: true,
+              title: '监控大盘',
+              upToAdmin: true,
+              icon: 'mdi-gauge',
+              show: true,
+              rootName: 'observe',
+            },
+          },
+          {
+            path: `${prefix}/metrics`,
+            name: 'observe-monitor-metrics',
+            component: () => import('@/views/observe/monitor/metrics'),
+            meta: {
+              requireAuth: true,
+              title: '指标查询器',
+              upToAdmin: true,
+              icon: 'mdi-feature-search-outline',
+              show: true,
+              rootName: 'observe',
+            },
+          },
+          {
+            path: `${prefix}/viewer`,
+            name: 'log-viewer',
+            component: () => import('@/views/observe/log/viewer/index'),
+            meta: {
+              requireAuth: true,
+              title: '日志查询器',
+              upToAdmin: true,
+              icon: 'mdi-format-list-bulleted',
+              show: true,
+              rootName: 'observe',
+              dependencies: ['logging'],
+            },
+          },
+          {
+            path: `${prefix}/snapshot`,
+            name: 'log-snapshot',
+            component: () => import('@/views/observe/log/snapshot'),
+            meta: {
+              requireAuth: true,
+              title: '日志快照',
+              upToAdmin: true,
+              icon: 'mdi-camera',
+              show: true,
+              rootName: 'observe',
+              dependencies: ['logging'],
+            },
+          },
+          {
+            path: `${prefix}/search`,
+            name: 'observe-trace-search',
+            component: () => import('@/views/observe/trace'),
+            meta: {
+              requireAuth: true,
+              title: '链路查询器',
+              upToAdmin: true,
+              icon: 'mdi-feature-search-outline',
+              show: true,
+              rootName: 'observe',
+              dependencies: ['jaeger'],
+            },
+          },
+          {
+            path: `${prefix}/detail`,
+            name: 'observe-trace-detail',
+            component: () => import('@/views/observe/trace/detail'),
+            meta: {
+              requireAuth: true,
+              title: 'TraceId',
+              upToAdmin: true,
+              icon: 'mdi-details',
+              show: true,
+              rootName: 'observe',
+              dependencies: ['jaeger'],
+            },
+          },
+        ],
+      },
+
+      /**
+       * 告警中心
+       */
+      {
+        path: 'alert',
+        meta: {
+          header: '告警',
+          title: '告警中心',
+          icon: 'mdi-alert',
           show: true,
         },
         component: () => import('@/layouts/Container'),
@@ -63,53 +192,14 @@ export const observe = [
             },
           },
           {
-            path: `${prefix}/config`,
-            name: 'observe-monitor-config',
-            component: () => import('@/views/observe/monitor/config'),
+            path: `${prefix}/living`,
+            name: `observe-monitor-alert`,
+            component: () => import('@/views/observe/monitor/alert'),
             meta: {
               requireAuth: true,
-              title: '配置',
+              title: '实时告警',
               upToAdmin: true,
-              icon: 'mdi-format-list-bulleted',
-              show: true,
-              rootName: 'observe',
-            },
-          },
-          {
-            path: `${prefix}/config/detail/service-monitor/:name`,
-            name: 'servicemonitor-detail',
-            component: () => import('@/views/observe/monitor/config/servicemonitor/detail'),
-            meta: {
-              requireAuth: true,
-              title: '监控采集器',
-              upToAdmin: true,
-              icon: 'mdi-eyedropper',
-              show: false,
-              rootName: 'observe',
-            },
-          },
-          {
-            path: `${prefix}/config/detail/prometheus-rule/:name`,
-            name: 'prometheusrule-detail',
-            component: () => import('@/views/observe/monitor/config/prometheusrule/detail'),
-            meta: {
-              requireAuth: true,
-              title: '告警规则',
-              upToAdmin: true,
-              icon: 'mdi-ruler',
-              show: false,
-              rootName: 'observe',
-            },
-          },
-          {
-            path: `${prefix}/metrics`,
-            name: 'observe-monitor-metrics',
-            component: () => import('@/views/observe/monitor/metrics'),
-            meta: {
-              requireAuth: true,
-              title: '指标查询',
-              upToAdmin: true,
-              icon: 'mdi-feature-search-outline',
+              icon: 'mdi-alarm-multiple',
               show: true,
               rootName: 'observe',
             },
@@ -145,56 +235,68 @@ export const observe = [
         ],
       },
 
+      /**
+       * 配置中心
+       */
       {
-        path: 'log',
+        path: 'config',
         meta: {
-          header: '日志',
-          title: '日志中心',
-          icon: 'mdi-math-log',
-          dependencies: ['logging'],
-          required: ['tenant'],
+          header: '配置',
+          title: '配置中心',
+          icon: 'mdi-wrench',
+          show: true,
         },
         component: () => import('@/layouts/Container'),
-        redirect: { name: 'log-viewer' },
+        redirect: { name: 'observe-monitor-config' },
         children: [
-          // viewer
           {
-            path: `${prefix}/viewer`,
-            name: 'log-viewer',
-            component: () => import('@/views/observe/log/viewer/index'),
+            path: `${prefix}/monitor/config`,
+            name: 'observe-monitor-config',
+            component: () => import('@/views/observe/monitor/config'),
             meta: {
               requireAuth: true,
-              title: '日志查看器',
+              title: '监控配置',
               upToAdmin: true,
               icon: 'mdi-format-list-bulleted',
               show: true,
               rootName: 'observe',
-              dependencies: ['logging'],
             },
           },
           {
-            path: `${prefix}/config`,
+            path: `${prefix}/config/detail/service-monitor/:name`,
+            name: 'servicemonitor-detail',
+            component: () => import('@/views/observe/monitor/config/servicemonitor/detail'),
+            meta: {
+              requireAuth: true,
+              title: '监控采集器',
+              upToAdmin: true,
+              icon: 'mdi-eyedropper',
+              show: false,
+              rootName: 'observe',
+            },
+          },
+          {
+            path: `${prefix}/config/detail/prometheus-rule/:name`,
+            name: 'prometheusrule-detail',
+            component: () => import('@/views/observe/monitor/config/prometheusrule/detail'),
+            meta: {
+              requireAuth: true,
+              title: '告警规则',
+              upToAdmin: true,
+              icon: 'mdi-ruler',
+              show: false,
+              rootName: 'observe',
+            },
+          },
+          {
+            path: `${prefix}/log/config`,
             name: 'log-config',
             component: () => import('@/views/observe/log/config'),
             meta: {
               requireAuth: true,
-              title: '配置',
+              title: '日志配置',
               upToAdmin: true,
               icon: 'mdi-arrange-send-backward',
-              show: true,
-              rootName: 'observe',
-              dependencies: ['logging'],
-            },
-          },
-          {
-            path: `${prefix}/snapshot`,
-            name: 'log-snapshot',
-            component: () => import('@/views/observe/log/snapshot'),
-            meta: {
-              requireAuth: true,
-              title: '快照',
-              upToAdmin: true,
-              icon: 'mdi-camera',
               show: true,
               rootName: 'observe',
               dependencies: ['logging'],
@@ -228,49 +330,17 @@ export const observe = [
               dependencies: ['logging'],
             },
           },
-        ],
-      },
-      /**
-       * 链路追踪
-       */
-      {
-        path: 'trace',
-        meta: {
-          header: '链路追踪',
-          title: '链路追踪',
-          icon: 'mdi-link-variant',
-          dependencies: ['jaeger'],
-          required: ['tenant'],
-        },
-        component: () => import('@/layouts/Container'),
-        redirect: { name: 'observe-trace-search' },
-        children: [
           {
-            path: `${prefix}/search`,
-            name: 'observe-trace-search',
-            component: () => import('@/views/observe/trace'),
+            path: `${prefix}/channel`,
+            name: `observe-monitor-channel`,
+            component: () => import('@/views/observe/monitor/channel'),
             meta: {
               requireAuth: true,
-              title: '查询',
+              title: '告警渠道',
               upToAdmin: true,
-              icon: 'mdi-feature-search-outline',
+              icon: 'mdi-road-variant',
               show: true,
               rootName: 'observe',
-              dependencies: ['jaeger'],
-            },
-          },
-          {
-            path: `${prefix}/detail`,
-            name: 'observe-trace-detail',
-            component: () => import('@/views/observe/trace/detail'),
-            meta: {
-              requireAuth: true,
-              title: 'TraceId',
-              upToAdmin: true,
-              icon: 'mdi-details',
-              show: true,
-              rootName: 'observe',
-              dependencies: ['jaeger'],
             },
           },
         ],

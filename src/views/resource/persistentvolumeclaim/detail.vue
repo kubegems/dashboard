@@ -64,8 +64,8 @@
                   v-if="
                     pvc &&
                       pvc.metadata.annotations &&
-                      pvc.metadata.annotations['gemcloud.io/allow-snapshot'] &&
-                      pvc.metadata.annotations['gemcloud.io/allow-snapshot'] ===
+                      pvc.metadata.annotations['storage.kubegems.io/allow-snapshot'] &&
+                      pvc.metadata.annotations['storage.kubegems.io/allow-snapshot'] ===
                       'true'
                   "
                 >

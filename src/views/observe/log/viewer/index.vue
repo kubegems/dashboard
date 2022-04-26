@@ -142,7 +142,9 @@
       <v-icon small>mdi-apple-keyboard-control</v-icon>
     </v-btn>
 
-    <LogContext ref="logContext" />
+    <LogContext
+      ref="logContext"
+    />
     <LogSaveSnapshot ref="logSaveSnapshot" />
     <LogQueryHistory
       ref="logQueryHistory"
@@ -177,7 +179,7 @@ export default {
   },
   data () {
     this.breadcrumb = {
-      title: '日志查看器',
+      title: '日志查询问器',
       tip: '基于Loki的日志查看面板，可进行日志实时查询，快照，过滤等等',
       icon: 'mdi-format-list-bulleted',
     }
@@ -245,7 +247,7 @@ export default {
   methods: {
     onDateChange () {
       if (this.cluster.value) {
-        this.$refs.logQuery.getSeriesList(this.cluster.text)
+        this.$refs.logQuery.getSeriesList()
         this.$refs.logQuery.search()
       }
     },
@@ -271,7 +273,7 @@ export default {
       }
 
       // 补充租户信息
-      if (!this.AdminViewport && !new RegExp('tenant="([\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)"', 'g').test(this.params.logQL)) {
+      if (!this.AdminViewport && !new RegExp('tenant="([\\u4e00-\\u9fa5\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)"', 'g').test(this.params.logQL)) {
         const index = this.params.logQL.indexOf('{')
         this.params.logQL = this.params.logQL.substr(0, index + 1) + `tenant="${this.Tenant().TenantName}",` + this.params.logQL.substr(index + 1)
       }
@@ -284,7 +286,7 @@ export default {
         end: this.dateTimestamp[1],
         limit: this.params.limit,
         direction: this.params.direction,
-        filters: this.params.regexp ? this.params.regexp.match(new RegExp('`([\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)`', 'g')).map(reg => { return reg.replaceAll('`', '') }) : '',
+        filters: this.params.regexp ? this.params.regexp.split('|~').filter(reg => { return reg.trim() }).map(reg => { return reg.trim().replaceAll('`', '').trim() }) : '',
         query: encodeURIComponent(this.params.logQL),
         step: this.step,
       }
@@ -555,6 +557,26 @@ export default {
       position: relative;
       top: 3px;
     }
+  }
+}
+
+#log-viewer {
+  height: 100vh;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    display: block !important;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    width: 10px;
+    border-radius: 5px;
+    background: grey;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  }
+
+  &::-webkit-scrollbar:vertical {
+    width: 10px;
   }
 }
 </style>

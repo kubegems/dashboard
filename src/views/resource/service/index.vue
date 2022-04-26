@@ -296,13 +296,15 @@ export default {
       )
       data.List = data.List.map((d) => {
         const services = []
-        d.spec.ports.forEach((s) => {
-          if (s.nodePort !== undefined) {
-            services.push(`${s.port}:${s.nodePort} ｜ ${s.protocol}`)
-          } else {
-            services.push(`${s.port} ｜ ${s.protocol}`)
-          }
-        })
+        if (d.spec?.ports) {
+          d.spec.ports.forEach((s) => {
+            if (s.nodePort !== undefined) {
+              services.push(`${s.port}:${s.nodePort} ｜ ${s.protocol}`)
+            } else {
+              services.push(`${s.port} ｜ ${s.protocol}`)
+            }
+          })
+        }
         return { ...d, services: services }
       })
       this.items = data.List

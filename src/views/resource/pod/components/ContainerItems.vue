@@ -61,7 +61,7 @@
                   >
                     <BaseLogo
                       :width="16"
-                      icon-name="gpu_manager"
+                      icon-name="tke"
                     />
                   </v-flex>
                   <v-flex
@@ -80,7 +80,7 @@
                   >
                     <BaseLogo
                       :width="16"
-                      icon-name="nvidia_device_plugin"
+                      icon-name="nvidia"
                     />
                   </v-flex>
                   <v-icon
