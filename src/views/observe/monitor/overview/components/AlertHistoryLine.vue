@@ -77,8 +77,6 @@ export default {
       legend: {
         show: true,
         position: 'top',
-        showForSingleSeries: true,
-        showForNullSeries: true,
       },
       yaxis: {
         labels: {
@@ -105,7 +103,7 @@ export default {
       },
       noData: {
         text: '暂无数据',
-        offsetY: -15,
+        offsetY: -12,
       },
     }
     return {

@@ -113,7 +113,7 @@ export default {
       this.loading = true
       const res = await getLogLabels(this.cluster.text, { noprocessing: true })
       this.originLabels = []
-      const keyArr = ['app', 'pod', 'container', 'host', 'stream', 'image']
+      const keyArr = ['app', 'pod', 'container', 'node', 'stream', 'image']
       res.forEach((item) => {
         if (keyArr.indexOf(item) > -1) {
           this.originLabels.push({

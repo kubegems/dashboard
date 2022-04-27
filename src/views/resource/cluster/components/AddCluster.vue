@@ -98,6 +98,7 @@ export default {
         })
         this.reset()
         this.$emit('refresh')
+        this.$store.dispatch('UPDATE_CLUSTER_DATA')
       }
     },
     lastStep() {

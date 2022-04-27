@@ -220,7 +220,7 @@ import {
   matrix,
 } from '@/api'
 import AddEnvironment from '@/views/resource/environment/components/AddEnvironment'
-import Pagination from './Pagination'
+import Pagination from '../Pagination'
 import BaseSelect from '@/mixins/select'
 import BaseResource from '@/mixins/resource'
 import BasePermission from '@/mixins/permission'
@@ -267,7 +267,7 @@ export default {
     pageCount: 0,
     pageParams: {
       page: 1,
-      size: 10,
+      size: 5,
     },
     params: {
       start: '',

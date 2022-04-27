@@ -367,6 +367,13 @@ export default {
       })
     },
     onWebsocketMessage(e) {
+      if (this.$refs.log?.editor?.session.getLength() > 10000) {
+        this.log = ''
+        this.$store.commit('SET_SNACKBAR', {
+          text: `达到行数上限，进行重新计数行数`,
+          color: 'warning',
+        })
+      }
       this.log += e.data
     },
     dispose() {

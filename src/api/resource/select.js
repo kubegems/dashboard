@@ -32,14 +32,18 @@ export const clusterSelectData = (query = {}) =>
   })
 export const namespaceSelectData = (clusterName, query = {}) =>
   axios(`proxy/cluster/${clusterName}/core/v1/namespaces`, {
-    params: query,
-    size: 1000,
-    noprocessing: true,
+    params: Object.assign(query, {
+      preload: 'Cluster,Project',
+      size: 1000,
+      noprocessing: true,
+    }),
   })
 export const namespaceSelectDataFilter = (clusterName, query = {}) =>
   axios(`proxy/cluster/${clusterName}/custom/core/v1/namespaces`, {
-    params: query,
-    size: 1000,
+    params: Object.assign(query, {
+      preload: 'Cluster,Project',
+      size: 1000,
+    }),
   })
 
 export const environmentSelectData = (query = {}) =>

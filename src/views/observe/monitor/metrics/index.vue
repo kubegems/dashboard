@@ -618,8 +618,14 @@ export default {
       this.$set(query, 'environmentItemsLoading', false)
     },
     async getMonitorConfig() {
-      const data = await getSystemConfigData('Monitor')
-      this.config = data.content || {}
+      let data = null
+      if (this.AdminViewport) {
+        data = await getSystemConfigData('Monitor')
+      } else {
+        //
+      }
+
+      this.config = data?.content || {}
     },
     async getProjectList() {
       this.projectListLoading = true

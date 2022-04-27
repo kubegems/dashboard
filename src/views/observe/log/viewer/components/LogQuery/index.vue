@@ -23,7 +23,6 @@
         hide-details
         multiple
         full-width
-        @keydown.enter.native="search"
       >
         <template #prepend-inner>
           <v-chip
@@ -147,7 +146,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 import { getLogSeries } from '@/api'
 import LabelSelector from './LabelSelector'
 import AdvancedTextare from './AdvancedTextare'
@@ -188,7 +187,6 @@ export default {
   },
   computed: {
     ...mapState(['AdminViewport', 'JWT']),
-    ...mapGetters(['Tenant']),
     comboboxTags() {
       const tags = []
       Object.keys(this.selected).forEach(k => {
@@ -199,7 +197,14 @@ export default {
       return tags
     },
     regexQL() {
-      return this.filter ? this.filter.map(reg => { return ` |~ \`${reg}\`` }).join('') : ''
+      let filterQl = ''
+      if (this.filter) {
+        filterQl = this.filter.map(reg => { return ` |~ \`${reg}\`` }).join('')
+      }
+      if (this.advancedQl) {
+        filterQl = this.advancedQl.split('|~').filter((reg, index) => { return index > 0 }).map(reg => { return ` |~ \`${reg.replaceAll('`', '').trim()}\`` }).join('')
+      }
+      return filterQl
     },
     logQL() {
       const pe = this.namespace ? `namespace="${this.namespace}"` : ''
@@ -207,24 +212,6 @@ export default {
       const keys = Object.keys(obj).filter(k => obj[k] && obj[k].length)
       const match = keys.reduce((pre, key) => pre + `,${key}=~"${obj[key].join('|')}"`, '')
       return `{ ${pe}${match} }${this.regexQL}`
-    },
-    matchQL() {
-      const pe = this.namespace ? `namespace="${this.namespace}"` : ''
-      const obj = this.selected || {}
-      const keys = Object.keys(obj).filter(k => obj[k] && obj[k].length)
-      const match = keys.reduce((pre, key) => pre + `,${key}=~"${obj[key].join('|')}"`, '')
-      return `{ ${pe}${match} }`
-    },
-  },
-  watch: {
-    matchQL: {
-      handler(newValue, oldValue) {
-        const hasNs = new RegExp('namespace="([\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)"', 'g').test(newValue)
-        if (newValue !== oldValue && hasNs) {
-          this.getSeriesList()
-        }
-      },
-      deep: true,
     },
   },
   destroyed() {
@@ -237,7 +224,7 @@ export default {
   mounted() {
     this.$nextTick(() => {
       if (this.$route.query.query) {
-        const keyArr = ['app', 'pod', 'container', 'host', 'stream', 'image']
+        const keyArr = ['app', 'pod', 'container', 'stream', 'node', 'image']
         const reg = new RegExp('([\\u4e00-\\u9fa5\\w]+)=~?"([\\u4e00-\\u9fa5\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/\|]+)"', 'g')
         const selected = {}
         this.$route.query.query.match(reg).map(s => {
@@ -258,16 +245,9 @@ export default {
   methods: {
     // 获取Series并设置集群按钮徽标值
     async getSeriesList() {
-      let match = this.matchQL
-
-      if (!this.AdminViewport && !new RegExp('tenant="([\\u4e00-\\u9fa5\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)"', 'g').test(match)) {
-        const index = match.indexOf('{')
-        match = match.substr(0, index + 1) + `tenant="${this.Tenant().TenantName}",` + match.substr(index + 1)
-      }
-
       this.loading = true
       const data = await getLogSeries(this.cluster.text, {
-        match,
+        match: `{ namespace="${this.namespace}" }`,
         start: this.dateTimestamp[0],
         end: this.dateTimestamp[1],
         noprocessing: true,
@@ -294,6 +274,7 @@ export default {
         this.environmentName = env.environmentName
         this.namespace = env.namespace
         this.$emit('setCluster', this.cluster)
+        await this.getSeriesList()
         if (triggerQuery) {
           this.search()
         } else {
@@ -309,7 +290,7 @@ export default {
     handleRemoveRegexp(item) {
       const index = this.filter.indexOf(item)
       this.filter.splice(index, 1)
-      this.search()
+      // this.search()
     },
 
     handleRemoveTag(key, value) {
@@ -372,7 +353,15 @@ export default {
       // 保证logQL和regexp 获取到最新值
       this.$nextTick(() => {
         this.expand = false
-        this.$emit('search', { logQL: this.advancedQl || this.logQL, regexp: this.regexQL, projectName: this.projectName, environmentName: this.environmentName })
+        const _v = this
+        window.setTimeout(() => {
+          _v.$emit('search', {
+            logQL: this.advancedQl || this.logQL,
+            regexp: this.regexQL,
+            projectName: this.projectName,
+            environmentName: this.environmentName,
+          })
+        }, 100)
       })
     },
 
@@ -431,13 +420,7 @@ export default {
       }
     },
     constructParams() {
-      let ql = this.advancedQl || this.logQL
-
-      // 补充租户信息
-      if (!this.AdminViewport && !new RegExp('tenant="([\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)"', 'g').test(ql)) {
-        const index = ql.indexOf('{')
-        ql = ql.substr(0, index + 1) + `tenant="${this.Tenant().TenantName}",` + ql.substr(index + 1)
-      }
+      const ql = this.advancedQl || this.logQL
 
       const data = {
         start: Date.parse(new Date()).toString() + '000000',

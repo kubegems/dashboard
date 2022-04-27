@@ -486,7 +486,7 @@ export default {
       if (item.spec.containers && item.spec.containers.length > 0) {
         container = item.spec.containers[0].name
       }
-      this.$refs.terminal.init(container, itemCopy, 'Debug')
+      this.$refs.terminal.init(container, itemCopy, 'debug')
       this.$refs.terminal.open()
     },
     containerShell(item) {
@@ -499,7 +499,7 @@ export default {
       if (item.spec.containers && item.spec.containers.length > 0) {
         container = item.spec.containers[0].name
       }
-      this.$refs.terminal.init(container, itemCopy, 'Shell')
+      this.$refs.terminal.init(container, itemCopy, 'shell')
       this.$refs.terminal.open()
     },
     getRestart(containerStatuses) {

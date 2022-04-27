@@ -52,11 +52,11 @@ export default new Vuex.Store({
     },
     Circular: false,
     Admin:
-      [true, 'true'].indexOf(window.localStorage.getItem(Admin)) > -1,
+      [true, 'true'].includes(window.localStorage.getItem(Admin)),
     AdminViewport:
-      [true, 'true'].indexOf(
+      [true, 'true'].includes(
         window.localStorage.getItem(AdminViewport),
-      ) > -1,
+      ),
     NamespaceFilter: null,
     SidebarKey: '',
     MessageStreamWS: null,

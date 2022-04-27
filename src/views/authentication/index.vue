@@ -275,7 +275,7 @@ export default {
 <style lang="scss" scoped>
 .copyright {
   position: absolute;
-  bottom: 0;
+  bottom: 10px;
   left: 0;
   right: 0;
   text-align: center;

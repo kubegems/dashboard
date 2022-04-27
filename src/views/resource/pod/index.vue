@@ -278,7 +278,7 @@ export default {
     ...mapGetters(['Environment']),
     headers() {
       const items = [
-        { text: '容器组', value: 'name', align: 'start' },
+        { text: '容器组', value: 'name', align: 'start', width: 358},
         { text: '状态', value: 'status', align: 'start', width: 250 },
         { text: '容器数', value: 'container', align: 'start', sortable: false },
         { text: '重启次数', value: 'restart', align: 'start', sortable: false },
@@ -315,7 +315,10 @@ export default {
           value: 'namespace',
           align: 'start',
           sortable: false,
+          width: 120,
         })
+      } else {
+        items[0].width = 478
       }
       items.push({ text: '', value: 'data-table-expand' })
       return items

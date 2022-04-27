@@ -374,7 +374,7 @@ export default {
         doFunc: async (param) => {
           await deleteTenant(param.item.ID)
           this.$store.commit('CLEAR_TENANT')
-          await this.$store.dispatch('UPDATE_TENANT_DATA')
+          this.$store.dispatch('UPDATE_TENANT_DATA')
           this.tenantList()
         },
       })
