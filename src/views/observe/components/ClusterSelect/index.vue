@@ -108,7 +108,7 @@ export default {
   methods: {
     async getClusters() {
       let data = null
-      if (this.Admin) {
+      if (this.AdminViewport) {
         data = await clusterSelectData({ noprocessing: true })
       } else {
         data = await tenantClusterSelectData(this.Tenant().ID, {
@@ -116,8 +116,8 @@ export default {
         })
       }
       this.items = data.List.map((item) => ({
-        text: item.ClusterName,
-        value: item.ID,
+        text: item?.Cluster?.ClusterName || item.ClusterName,
+        value: item.ClusterID || item.ID,
       }))
       if (!this.current && this.autoSelectFirst && this.items.length) {
         this.onSelect(this.items[0])

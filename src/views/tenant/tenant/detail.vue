@@ -66,7 +66,10 @@
       </template>
     </BaseBreadcrumb>
     <v-row class="mt-0">
-      <v-col cols="2">
+      <v-col
+        cols="2"
+        class="pt-0"
+      >
         <v-card height="100%">
           <v-card-title class="text-h6 primary--text">
             {{ tenant ? tenant.TenantName : '' }}
@@ -120,7 +123,10 @@
           </v-list-item>
         </v-card>
       </v-col>
-      <v-col cols="10">
+      <v-col
+        cols="10"
+        class="pt-0"
+      >
         <v-card>
           <v-card-text>
             <BaseSubTitle
@@ -253,7 +259,7 @@
             />
           </v-card-text>
         </v-card>
-        <v-card class="mt-4">
+        <v-card class="mt-3">
           <v-card-text>
             <BaseSubTitle
               title="资源分配"

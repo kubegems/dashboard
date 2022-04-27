@@ -331,7 +331,7 @@ export default {
     async refreshUserAuth() {
       const data = await getLoginUserAuth()
       this.$store.commit('SET_USER_AUTH', data)
-      this.$store.commit('SET_ADMIN', data.isSystemAdmin)
+      this.$store.commit('SET_ADMIN', data.systemRole === 'sysadmin')
     },
     async setRead(data) {
       if (this.tabItems[this.tab].value === 'message') {
