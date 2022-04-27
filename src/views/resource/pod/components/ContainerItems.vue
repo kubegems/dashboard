@@ -18,7 +18,7 @@
             <v-list-item
               two-line
               class="float-left py-0 pl-0"
-              style="width: 500px;"
+              style="width: 515px;"
             >
               <v-list-item-content class="py-0">
                 <v-list-item-title
