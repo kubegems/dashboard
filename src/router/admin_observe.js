@@ -263,7 +263,7 @@ export const adminObserve = [
             },
           },
           {
-            path: `config/detail/servicemonitor/:name`,
+            path: `monitor/config/detail/servicemonitor/:name`,
             name: `${prefix}-servicemonitor-detail`,
             component: () => import('@/views/observe/monitor/config/servicemonitor/detail'),
             meta: {
@@ -276,7 +276,7 @@ export const adminObserve = [
             },
           },
           {
-            path: `config/detail/prometheus-rule/:name`,
+            path: `monitor/config/detail/prometheus-rule/:name`,
             name: `${prefix}-prometheusrule-detail`,
             component: () => import('@/views/observe/monitor/config/prometheusrule/detail'),
             meta: {
@@ -304,7 +304,7 @@ export const adminObserve = [
           },
 
           {
-            path: `config/flow-detail/:kind/:name`,
+            path: `log/config/flow-detail/:kind/:name`,
             name: `${prefix}-log-flow-detail`,
             component: () => import('@/views/observe/log/config/flow/detail'),
             meta: {
@@ -318,7 +318,7 @@ export const adminObserve = [
             },
           },
           {
-            path: `config/output-detail/:kind/:name`,
+            path: `log/config/output-detail/:kind/:name`,
             name: `${prefix}-log-output-detail`,
             component: () => import('@/views/observe/log/config/output/detail'),
             meta: {

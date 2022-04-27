@@ -256,7 +256,7 @@ export default {
         doFunc: async (param) => {
           await deleteCluster(param.item.ID)
           this.$store.commit('CLEAR_CLUSTER')
-          await this.$store.dispatch('UPDATE_CLUSTER_DATA')
+          this.$store.dispatch('UPDATE_CLUSTER_DATA')
           this.$router.push({ name: 'cluster-center' })
         },
       })

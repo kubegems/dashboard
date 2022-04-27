@@ -259,7 +259,7 @@ export default {
         doFunc: async (param) => {
           await deleteCluster(param.item.ID)
           this.$store.commit('CLEAR_CLUSTER')
-          await this.$store.dispatch('UPDATE_VIRTUALSPACE_DATA')
+          this.$store.dispatch('UPDATE_VIRTUALSPACE_DATA')
           this.clusterList()
         },
       })

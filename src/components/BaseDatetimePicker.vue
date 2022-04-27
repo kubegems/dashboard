@@ -335,30 +335,30 @@ export default {
       let time = ''
       switch (true) {
         // 验证1~2位数字格式(1、12)
-        case /^([0-9]|[0-1][0-9]|2[0-3])$/.test(value): {
+        case new RegExp('^([0-9]|[0-1][0-9]|2[0-3])$').test(value): {
           time = `${value.padStart(2, '0')}:00:00`
           break
         }
         // 验证4位数字格式(1230)
-        case /^([0-9]|[0-1][0-9]|2[0-3])?[0-5][0-9]$/.test(value): {
+        case new RegExp('^([0-9]|[0-1][0-9]|2[0-3])?[0-5][0-9]$').test(value): {
           const str = value.padStart(4, '0')
           time = `${str.slice(0, 2)}:${str.slice(2, 4)}:00`
           break
         }
         // 验证6位数字(123034)
-        case /^([0-9]|[0-1][0-9]|2[0-3])?([0-5][0-9]){2}$/.test(value): {
+        case new RegExp('^([0-9]|[0-1][0-9]|2[0-3])?([0-5][0-9]){2}$').test(value): {
           const str = value.padStart(6, '0')
           time = `${str.slice(0, 2)}:${str.slice(2, 4)}:${str.slice(4, 6)}`
           break
         }
         // 验证时分格式(12:30)
-        case /^([0-9]|[0-1][0-9]|2[0-3])?:[0-5][0-9]$/.test(value): {
+        case new RegExp('^([0-9]|[0-1][0-9]|2[0-3])?:[0-5][0-9]$').test(value): {
           const str = value.padStart(5, '0')
           time = `${str}:00`
           break
         }
         // 验证时分秒格式(12:30:30)
-        case /^([0-9]|[0-1][0-9]|2[0-3])?(:[0-5][0-9]){2}$/.test(value): {
+        case new RegExp('^([0-9]|[0-1][0-9]|2[0-3])?(:[0-5][0-9]){2}$').test(value): {
           time = value.padStart(8, '0')
           break
         }

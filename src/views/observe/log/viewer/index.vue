@@ -207,7 +207,7 @@ export default {
   },
   computed: {
     ...mapState(['Progress', 'JWT', 'User', 'AdminViewport']),
-    ...mapGetters(['Tenant', 'Cluster']),
+    ...mapGetters(['Cluster']),
     dateTimestamp () {
       return this.date.map(d => `${d}000000`)
     },
@@ -270,12 +270,6 @@ export default {
           color: 'warning',
         })
         return
-      }
-
-      // 补充租户信息
-      if (!this.AdminViewport && !new RegExp('tenant="([\\u4e00-\\u9fa5\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)"', 'g').test(this.params.logQL)) {
-        const index = this.params.logQL.indexOf('{')
-        this.params.logQL = this.params.logQL.substr(0, index + 1) + `tenant="${this.Tenant().TenantName}",` + this.params.logQL.substr(index + 1)
       }
 
       this.$refs.dateRangePicker.refresh(false)
@@ -483,7 +477,7 @@ export default {
 
     handleShowContext (item) {
       const query = Object.keys(item.stream).filter(l => {
-        return ['container', 'image', 'pod', 'namespace', 'project'].includes(l)
+        return ['container', 'image', 'pod', 'namespace'].includes(l)
       }).reduce((pre, current) => `${pre}${current}="${item.stream[current]}",`, '{').slice(0, -1) + '}'
       this.$refs.logContext.showContext(item, {
         ClusterID: this.cluster.value,

@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 import EllipsisText from './EllipsisText'
 
 export default {
@@ -104,11 +104,12 @@ export default {
     return {
       selectedMap: {},
       tags: [],
+      layer: [],
+      keyArr: ['app', 'pod', 'container', 'stream', 'node', 'image'],
     }
   },
   computed: {
     ...mapState(['Progress', 'JWT', 'User', 'AdminViewport']),
-    ...mapGetters(['Tenant']),
     cols () {
       return this.tags
     },
@@ -117,6 +118,9 @@ export default {
     value: {
       handler (newValue) {
         this.selectedMap = newValue
+        if (JSON.stringify(this.selectedMap) === '{}') {
+          this.layer = []
+        }
       },
       deep: true,
       immediate: true,
@@ -145,15 +149,50 @@ export default {
       } else {
         this.$set(this.selectedMap, key, [value])
       }
+      const hasValue = Object.keys(this.selectedMap).some(k => { return this.selectedMap[k].length > 0 })
+      if (hasValue) {
+        if (this.layer.length < 2 && !this.layer.includes(key)) { this.layer.push(key) }
+      } else {
+        this.layer = []
+      }
+      this.handleSetTags()
       this.handleEmit()
     },
     handleSetTags () {
-      const keyArr = ['app', 'pod', 'container', 'host', 'stream', 'image']
       const s = this.series || []
       const tagMap = {}
+
       for (let i = 0, len = s.length; i < len; i++) {
+        let flag = true
+        for (const key in this.selectedMap) {
+          if (this.selectedMap[key]?.length === 0) {
+            continue
+          }
+          if (!this.selectedMap[key].includes(s[i][key])) {
+            flag = false
+            break
+          }
+        }
         for (const key in s[i]) {
-          if (!keyArr.includes(key)) continue
+          // 两级过滤判断
+          if (!flag) {
+            if (
+              this.layer &&
+              this.layer[0] === key
+            ) {
+              //
+            } else if (
+              this.layer.length > 1 &&
+              this.layer[1] === key &&
+              this.selectedMap[this.layer[0]].includes(s[i][this.layer[0]])
+            ) {
+              //
+            } else {
+              continue
+            }
+          }
+
+          if (!this.keyArr.includes(key)) continue
           if (!tagMap[key]) {
             tagMap[key] = {}
           }
@@ -161,7 +200,8 @@ export default {
         }
       }
       const labels = Object.keys(tagMap)
-      this.tags = labels.map(key => {
+      const orderLabels = this.keyArr.filter(k => { return labels.includes(k) })
+      this.tags = orderLabels.map(key => {
         return {
           key,
           search: '',
