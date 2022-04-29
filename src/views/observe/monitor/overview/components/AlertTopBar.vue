@@ -44,77 +44,81 @@ export default {
     },
   },
   data () {
-    this.options = {
-      colors: this.$LINE_THEME_COLORS,
-      chart: {
-        type: 'bar',
-        zoom: {
-          enabled: false,
-        },
-        toolbar: {
-          show: false,
-        },
-        animations: {
-          animateGradually: {
-            enabled: false,
-          },
-        },
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      stroke: {
-        curve: 'straight',
-        width: 1,
-      },
-      grid: {
-        borderColor: 'rgba(0, 0, 0, .3)',
-        strokeDashArray: 5,
-        xaxis: {
-          lines: {
-            show: false,
-          },
-        },
-        yaxis: {
-          lines: {
-            show: true,
-          },
-        },
-      },
-      legend: {
-        show: false,
-      },
-      yaxis: {
-        labels: {
-          formatter: (v) => toFixed(v, 3),
-        },
-      },
-      xaxis: {
-        type: 'category',
-        labels: {
-          style: {
-            cssClass: 'grey--text lighten-2--text fill-color',
-          },
-        },
-        tooltip: {
-          enabled: false,
-        },
-      },
-      tooltip: {
-        theme: 'dark',
-      },
-      noData: {
-        text: '暂无数据',
-        offsetY: -15,
-      },
-    }
     return {
       series: [],
       date: [],
+      categories: [],
     }
   },
   computed: {
     ...mapState(['Scale']),
+    options() {
+      return {
+        colors: this.$LINE_THEME_COLORS,
+        chart: {
+          type: 'bar',
+          zoom: {
+            enabled: false,
+          },
+          toolbar: {
+            show: false,
+          },
+          animations: {
+            animateGradually: {
+              enabled: false,
+            },
+          },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          curve: 'straight',
+          width: 1,
+        },
+        grid: {
+          borderColor: 'rgba(0, 0, 0, .3)',
+          strokeDashArray: 5,
+          xaxis: {
+            lines: {
+              show: false,
+            },
+          },
+          yaxis: {
+            lines: {
+              show: true,
+            },
+          },
+        },
+        legend: {
+          show: false,
+        },
+        yaxis: {
+          labels: {
+            formatter: (v) => toFixed(v, 3),
+          },
+        },
+        xaxis: {
+          type: 'category',
+          categories: this.categories,
+          labels: {
+            style: {
+              cssClass: 'grey--text lighten-2--text fill-color',
+            },
+          },
+          tooltip: {
+            enabled: false,
+          },
+        },
+        tooltip: {
+          theme: 'dark',
+        },
+        noData: {
+          text: '暂无数据',
+          offsetY: -15,
+        },
+      }
+    },
   },
   watch: {
     tenant: {
@@ -132,15 +136,13 @@ export default {
         start: this.$moment(parseInt(this.date[0])).utc().format(),
         end: this.$moment(parseInt(this.date[1])).utc().format(),
       })
-      this.series = data.map(d => {
-        return {
-          name: "数量",
-          data: [{
-            x: d.groupValue,
-            y: [d.count],
-          }],
-        }
-      })
+      this.categories = data.map(d => { return [d.groupValue] })
+      this.series = [{
+        name: '数量',
+        data: data.map(d => {
+          return d.count
+        }),
+      }]
     },
     onDatetimeChange() {
       this.alertGroupMetrics()

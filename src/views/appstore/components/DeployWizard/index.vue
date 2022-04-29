@@ -54,7 +54,6 @@
                 bottom: true,
                 left: true,
                 origin: `top center`,
-                transition: `scale-transition`,
               }"
               @focus="onTenantProjectSelectFocus"
             >
@@ -75,7 +74,6 @@
                 bottom: true,
                 left: true,
                 origin: `top center`,
-                transition: `scale-transition`,
               }"
               :items="versions"
               color="primary"
@@ -109,7 +107,6 @@
                 bottom: true,
                 left: true,
                 origin: `top center`,
-                transition: `scale-transition`,
               }"
               @focus="onEnvSelectFocus"
             >

@@ -345,6 +345,7 @@
 import { mapGetters, mapState } from 'vuex'
 import {
   getSystemConfigData,
+  getMyConfigData,
   getMetricsQueryrange,
   getProjectList,
   getProjectEnvironmentList,
@@ -622,7 +623,7 @@ export default {
       if (this.AdminViewport) {
         data = await getSystemConfigData('Monitor')
       } else {
-        //
+        data = await getMyConfigData('Monitor')
       }
 
       this.config = data?.content || {}
