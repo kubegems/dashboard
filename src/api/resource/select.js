@@ -12,7 +12,6 @@ export const tenantProjectSelectData = (tenantid, query = {}) =>
     params: Object.assign(query, {
       size: 1000,
       preload: 'Tenant',
-      noprocessing: true,
     }),
   })
 export const projectEnvironmentSelectData = (projectid, query = {}) =>
@@ -20,7 +19,6 @@ export const projectEnvironmentSelectData = (projectid, query = {}) =>
     params: Object.assign(query, {
       preload: 'Cluster',
       size: 1000,
-      noprocessing: true,
     }),
   })
 export const clusterSelectData = (query = {}) =>

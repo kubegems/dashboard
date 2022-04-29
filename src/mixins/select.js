@@ -162,16 +162,12 @@ const select = {
       })
       this.m_select_tenantProjectItems = tenantProjectSelect
     },
-    async m_select_projectEnvironmentSelectData(projectid, virtualspace = false) {
+    async m_select_projectEnvironmentSelectData(projectid, virtualspace = false, noprocessing = true) {
       if (!projectid) {
-        this.$store.commit('SET_SNACKBAR', {
-          text: '请先选择项目',
-          color: 'warning',
-        })
         return
       }
       const data = await projectEnvironmentSelectData(projectid, {
-        noprocessing: true,
+        noprocessing: noprocessing,
       })
       const projectEnvironmentSelect = []
       data.List.forEach((ns) => {
@@ -437,13 +433,13 @@ const select = {
       })
       this.m_select_gatewayItems = gatewaySelect
     },
-    async m_select_projectSelectData() {
+    async m_select_projectSelectData(noprocessing = false) {
       let data = null
       if (this.Admin && this.AdminViewport) {
-        data = await projectSelectData({ noprocessing: true })
+        data = await projectSelectData({ noprocessing: noprocessing })
       } else {
         data = await tenantProjectSelectData(this.Tenant().ID, {
-          noprocessing: true,
+          noprocessing: noprocessing,
         })
       }
       const projectSelect = []
@@ -505,17 +501,9 @@ const select = {
     },
     async m_select_appSelectData(tenantid, projectid, environmentid) {
       if (!projectid) {
-        this.$store.commit('SET_SNACKBAR', {
-          text: '请先选择项目',
-          color: 'warning',
-        })
         return
       }
       if (!environmentid) {
-        this.$store.commit('SET_SNACKBAR', {
-          text: '请先选择环境',
-          color: 'warning',
-        })
         return
       }
       const data = await appSelectData(tenantid, projectid, environmentid)

@@ -44,7 +44,6 @@
                 bottom: true,
                 left: true,
                 origin: `top center`,
-                transition: `scale-transition`,
               }"
               @focus="onTenantProjectSelectFocus"
             >
@@ -71,7 +70,6 @@
                 bottom: true,
                 left: true,
                 origin: `top center`,
-                transition: `scale-transition`,
               }"
               @focus="
                 onAppSelectFocus(Tenant().ID, obj.ProjectId, obj.EnvironmentId)
@@ -97,7 +95,6 @@
                 bottom: true,
                 left: true,
                 origin: `top center`,
-                transition: `scale-transition`,
               }"
             >
               <template #selection="{ item }">
@@ -124,7 +121,6 @@
                 bottom: true,
                 left: true,
                 origin: `top center`,
-                transition: `scale-transition`,
               }"
               @focus="onEnvironmentSelectFocus"
             >
@@ -144,7 +140,6 @@
                 bottom: true,
                 left: true,
                 origin: `top center`,
-                transition: `scale-transition`,
               }"
               :items="versions"
               color="primary"

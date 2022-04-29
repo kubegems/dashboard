@@ -18,7 +18,7 @@
         flat
         hide-details
         no-data-text="暂无数据"
-        @focus="m_select_projectSelectData"
+        @focus="m_select_projectSelectData(true)"
         @change="onProjectChange"
       >
         <template #selection="{ item }">
@@ -181,7 +181,7 @@ export default {
     this.$nextTick(async () => {
       if (this.$route.query.project) {
         this.project = this.$route.query.project
-        await this.m_select_projectSelectData()
+        await this.m_select_projectSelectData(true)
         if (this.$route.query.environment) {
           this.environment = this.$route.query.environment
           await this.m_select_projectEnvironmentSelectData(this.projectid)

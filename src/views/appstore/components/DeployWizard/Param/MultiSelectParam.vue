@@ -20,7 +20,6 @@
         bottom: true,
         left: true,
         origin: `top center`,
-        transition: `scale-transition`,
       }"
       @change="onChange($event)"
     >

@@ -45,17 +45,6 @@ const router = new Router({
     .concat(userCenter), // 用户中心
 })
 
-router.onError((error) => {
-  const pattern = new RegExp('Loading chunk (\\d)+ failed', 'g')
-  const isChunkLoadFailed = error.message.match(pattern)
-  if (router.history.pending) {
-    const targetPath = router.history.pending.fullPath
-    if (isChunkLoadFailed) {
-      router.replace(targetPath)
-    }
-  }
-})
-
 router.beforeEach(async function (to, from, next) {
   if (to.name === null) {
     next({ name: '404' })

@@ -165,13 +165,14 @@ export default {
       order: '-CreatedAt',
     },
     yaml: '',
+    userItems: [],
   }),
   computed: {
     ...mapState(['JWT', 'Admin', 'AdminViewport']),
     ...mapGetters(['Tenant']),
     filters() {
       const userItems = []
-      this.m_select_tenantUserItems.forEach((user) => {
+      this.userItems.forEach((user) => {
         userItems.push({
           text: user.text,
           value: user.text,
@@ -231,8 +232,12 @@ export default {
       this.$router.replace({ query: { ...this.$route.query, ...this.params } })
     },
     async generateSelectData() {
-      if (this.JWT) {
+      if (this.AdminViewport) {
+        await this.m_select_userSelectData()
+        this.userItems = this.m_select_userItems
+      } else {
         await this.m_select_tenantUserSelectData()
+        this.userItems = this.m_select_tenantUserItems
       }
     },
     async onDatetimeChange() {

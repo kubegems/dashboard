@@ -21,14 +21,6 @@
         <slot name="header"></slot>
       </v-flex>
       <div class="float-right">
-        <div v-if="Progress" :style="{ float: 'left' }">
-          <v-progress-circular
-            size="20"
-            width="3"
-            indeterminate
-            color="white"
-          ></v-progress-circular>
-        </div>
         <v-btn
           color="white"
           text
@@ -40,6 +32,14 @@
         </v-btn>
       </div>
       <div class="float-right">
+        <div v-if="Progress" :style="{ float: 'left' }">
+          <v-progress-circular
+            size="20"
+            width="3"
+            indeterminate
+            color="white"
+          ></v-progress-circular>
+        </div>
         <slot name="action"></slot>
       </div>
       <div class="kubegems__clear-float"></div>

@@ -464,10 +464,6 @@ export default {
     if (this.JWT) {
       this.$nextTick(() => {
         if (!this.AdminViewport && this.Project().ID === 0) {
-          this.$store.commit('SET_SNACKBAR', {
-            text: '请先选择项目',
-            color: 'warning',
-          })
           return
         }
         this.m_table_generateParams()
