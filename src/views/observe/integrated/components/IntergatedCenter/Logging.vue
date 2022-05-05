@@ -239,11 +239,32 @@ export default {
       await this.addLoggingFlow()
     },
     onSampleModeChange() {
-      if (this.env) {
-        this.toggleLoggingNsFlow()
-      } else {
-        this.sampleMode = !this.sampleMode
+      if (!this.env) {
+        this.$store.commit('SET_SNACKBAR', {
+          text: '请先选择项目环境',
+          color: 'warning',
+        })
+        const vue = this
+        const timeout = setTimeout(() => {
+          vue.sampleMode = !vue.sampleMode
+          clearTimeout(timeout)
+        }, 200)
+        return
       }
+      this.$store.commit('SET_CONFIRM', {
+        title: '精简模式',
+        content: {
+          text: `${this.sampleMode ? '开启' : '关闭'} 精简模式`,
+          type: 'confirm',
+        },
+        param: { },
+        doFunc: async () => {
+          this.toggleLoggingNsFlow()
+        },
+        doClose: () => {
+          this.sampleMode = !this.sampleMode
+        },
+      })
     },
     async toggleLoggingNsFlow() {
       await putLoggingNsFlow(this.env.clusterName, this.env.namespace, { enable: this.sampleMode })

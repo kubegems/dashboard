@@ -2020,7 +2020,12 @@ ansi-html-community@^0.0.8:
   resolved "https://registry.npmmirror.com/ansi-html-community/-/ansi-html-community-0.0.8.tgz#69fbc4d6ccbe383f9736934ae34c3f8290f1bf41"
   integrity sha512-1APHAyr3+PCamwNw3bXCPp4HFLONZt/yIH0sZp0/469KWNTEy+qN5jQ3GVX6DMZ1UXAi34yVwtTeaG/HpBuuzw==
 
-ansi-regex@^3.0.1:
+ansi-regex@^2.0.0:
+  version "2.1.1"
+  resolved "https://registry.npmmirror.com/ansi-regex/-/ansi-regex-2.1.1.tgz#c3b33ab5ee360d86e0e628f0468ae7ef27d654df"
+  integrity sha512-TIGnTpdo+E3+pCyAluZvtED5p5wCqLdezCyhPZzKPcxvFplEt4i+W7OONCKgeZFT3+y5NZZfOOS/Bdcanm1MYA==
+
+ansi-regex@^3.0.0:
   version "3.0.1"
   resolved "https://registry.npmmirror.com/ansi-regex/-/ansi-regex-3.0.1.tgz#123d6479e92ad45ad897d4054e3c7ca7db4944e1"
   integrity sha512-+O9Jct8wf++lXxxFc4hc8LsjaSq0HFzzL7cVsw8pRDIPdjKD2mT4ytDZlLuSBZ4cLKZFXIrMGO7DbQCtMJJMKw==
@@ -4592,7 +4597,7 @@ highlight.js@11.2.0:
   resolved "https://registry.npmmirror.com/highlight.js/-/highlight.js-11.2.0.tgz#a7e3b8c1fdc4f0538b93b2dc2ddd53a40c6ab0f0"
   integrity sha512-JOySjtOEcyG8s4MLR2MNbLUyaXqUunmSnL2kdV/KuGJOmHZuAR5xC54Ko7goAXBWNhf09Vy3B+U7vR62UZ/0iw==
 
-highlight.js@^10.4.1, highlight.js@^10.7.1:
+highlight.js@^10.7.1:
   version "10.7.3"
   resolved "https://registry.npmmirror.com/highlight.js/-/highlight.js-10.7.3.tgz#697272e3991356e40c3cac566a74eef681756531"
   integrity sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==
@@ -4601,6 +4606,11 @@ highlight.js@^11.3.1:
   version "11.5.0"
   resolved "https://registry.npmmirror.com/highlight.js/-/highlight.js-11.5.0.tgz#00abb7ed926491adbdabc93a4f3fd2b88b451b4a"
   integrity sha512-SM6WDj5/C+VfIY8pZ6yW6Xa0Fm1tniYVYWYW1Q/DcMnISZFrC3aQAZZZFAAZtybKNrGId3p/DNbFTtcTXXgYBw==
+
+highlight.js@^9.18.5:
+  version "9.18.5"
+  resolved "https://registry.npmmirror.com/highlight.js/-/highlight.js-9.18.5.tgz#d18a359867f378c138d6819edfc2a8acd5f29825"
+  integrity sha512-a5bFyofd/BHCX52/8i8uJkjr9DYwXIPnM/plwI6W7ezItLGqzt7X2G2nXuYSfsIJdkwwj/g9DG1LkcGJI/dDoA==
 
 hogan.js@3.0.2:
   version "3.0.2"
@@ -5806,7 +5816,12 @@ minimist-options@4.1.0:
     is-plain-obj "^1.1.0"
     kind-of "^6.0.3"
 
-minimist@1.2.6, minimist@^1.2.5, minimist@^1.2.6:
+minimist@1.2.5:
+  version "1.2.5"
+  resolved "https://registry.npmmirror.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
+  integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
+
+minimist@^1.2.0, minimist@^1.2.5:
   version "1.2.6"
   resolved "https://registry.npmmirror.com/minimist/-/minimist-1.2.6.tgz#8637a5b759ea0d6e98702cfb3a9283323c93af44"
   integrity sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==
@@ -8442,10 +8457,10 @@ vuetify-loader@^1.7.3:
     file-loader "^6.2.0"
     loader-utils "^2.0.0"
 
-vuetify@2.6.1:
-  version "2.6.1"
-  resolved "https://registry.npmmirror.com/vuetify/-/vuetify-2.6.1.tgz#5cdd26c51980618b0b92625a2829cd4956813eaa"
-  integrity sha512-WtqarqEIJlhiwl1TShtkq58xtfbHpn4BjkuQtsL7mAs2eHCo7QjA3tUm7Dx/NmDc4wa2ghUUth36jTdG+CCWRg==
+vuetify@2.6.5:
+  version "2.6.5"
+  resolved "https://registry.npmmirror.com/vuetify/-/vuetify-2.6.5.tgz#9db2a6660427ca34d5555c45934eaa151f74314d"
+  integrity sha512-3T7huTujf33PLPgVhUY1y+8YD7K6d8qsk3UGcG6RL6qWc7QcUDczLcri0KNXeX2BeyESXMFhU0jwiNbMbNX+Tg==
 
 vuex@^3.5.1:
   version "3.6.2"
