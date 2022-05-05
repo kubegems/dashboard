@@ -293,6 +293,8 @@ export default {
         query: {
           cluster: this.params.cluster,
           namespace: item.metadata.namespace,
+          proj: this.$route.query.proj,
+          env: this.$route.query.env,
         },
       })
     },

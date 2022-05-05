@@ -56,10 +56,14 @@ export const getPrometheusAlertHistory = (
     },
   )
 // 搜索告警
-export const getPrometheusAletrsSearch = (query = {}) => axios.get('alerts/search', { params: query })
+export const getPrometheusAletrsSearch = (tenantId, query = {}) =>
+  axios.get(`alerts/tenant/${tenantId}/search`, { params: query })
 // 告警黑名单列表
-export const getPrometheusBlackList = (query = {}) => axios.get('alerts/blacklist', { params: query })
+export const getPrometheusBlackList = (query = {}) =>
+  axios.get('alerts/blacklist', { params: query })
 // 加入/更新告警黑名单
-export const postAddPrometheusBlacklist = (body = {}) => axios.post('alerts/blacklist', body)
+export const postAddPrometheusBlacklist = (body = {}) =>
+  axios.post('alerts/blacklist', body)
 // 移除告警黑名单
-export const deletePrometheusBlacklist = fingerprint => axios.delete(`alerts/blacklist/${fingerprint}`)
+export const deletePrometheusBlacklist = fingerprint =>
+  axios.delete(`alerts/blacklist/${fingerprint}`)

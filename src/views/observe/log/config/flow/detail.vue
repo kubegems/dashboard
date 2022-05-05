@@ -2,51 +2,65 @@
   <v-container fluid>
     <BaseBreadcrumb :breadcrumb="breadcrumb">
       <template #extend>
-        <v-menu
-          v-if="AdminViewport"
-          left
-        >
-          <template #activator="{ on }">
-            <v-btn
-              icon
-              class="float-right"
+        <v-flex class="kubegems__full-right">
+          <v-btn
+            text
+            small
+            class="primary--text"
+            @click="resourceYaml"
+          >
+            <v-icon
+              left
+              small
             >
-              <v-icon
-                x-small
-                color="primary"
-                v-on="on"
-              >
-                fas fa-ellipsis-v
-              </v-icon>
-            </v-btn>
-          </template>
-          <v-card class="pa-2">
-            <div>
-              <v-btn
-                color="primary"
-                text
-                small
-                @click="onSave"
-              >
-                保存
+              fas fa-code
+            </v-icon>
+            Yaml
+          </v-btn>
+          <v-menu
+            v-if="m_permisson_resourceAllow"
+            left
+          >
+            <template #activator="{ on }">
+              <v-btn icon>
+                <v-icon
+                  x-small
+                  color="primary"
+                  v-on="on"
+                >
+                  fas fa-ellipsis-v
+                </v-icon>
               </v-btn>
-            </div>
-            <div>
-              <v-btn
-                color="error"
-                text
-                small
-                @click="onDelete"
-              >
-                删除
-              </v-btn>
-            </div>
-          </v-card>
-        </v-menu>
+            </template>
+            <v-card>
+              <v-card-text class="pa-2">
+                <v-flex>
+                  <v-btn
+                    color="primary"
+                    text
+                    small
+                  >
+                    编辑
+                  </v-btn>
+                </v-flex>
+                <v-flex>
+                  <v-btn
+                    color="error"
+                    text
+                    small
+                    @click="removeFlow"
+                  >
+                    删除
+                  </v-btn>
+                </v-flex>
+              </v-card-text>
+            </v-card>
+          </v-menu>
+        </v-flex>
       </template>
     </BaseBreadcrumb>
     <v-row
-      v-if="flowData"
+      v-if="flow"
       class="mt-0"
     >
       <!-- 基本信息 -->
@@ -54,7 +68,7 @@
         cols="2"
         class="pt-0"
       >
-        <SideDetail :data="flowData" />
+        <BasicResourceInfo :item="flow" />
       </v-col>
       <!-- 基本信息 -->
 
@@ -78,33 +92,31 @@
               }}
             </v-tab>
           </v-tabs>
-          <v-form
-            ref="form"
-            v-model="valid"
-            lazy-validation
-            class="pa-4"
+          <v-tabs-items
+            v-model="tab"
+            class="overflow-visible"
           >
-            <v-tabs-items
-              v-model="tab"
-              class="overflow-visible"
+            <v-tab-item
+              v-for="item in tabItems"
+              :key="item.value"
+              transition="none"
             >
-              <v-tab-item
-                v-for="item in tabItems"
-                :key="item.value"
-                transition="none"
-              >
-                <component
-                  :is="item.value"
-                  :ref="`configComponent${item.value}`"
-                  :data.sync="flowData"
-                />
-              </v-tab-item>
-            </v-tabs-items>
-          </v-form>
+              <component
+                :is="item.value"
+                :ref="`configComponent${item.value}`"
+                :data.sync="flow"
+              />
+            </v-tab-item>
+          </v-tabs-items>
         </v-card>
       </v-col>
       <!-- 配置 -->
     </v-row>
+
+    <ResourceYaml
+      ref="resourceYaml"
+      :item="flow"
+    />
   </v-container>
 </template>
 
@@ -113,26 +125,22 @@ import { mapState } from 'vuex'
 import {
   getFlowDetailData,
   getClusterFlowDetailData,
-  deleteFlowData,
   deleteClusterFlowData,
-  patchFlowData,
-  patchClusterFlowData,
+  deleteFlowData,
 } from '@/api'
-import SideDetail from '@/views/observe/log/operator/components/SideDetail'
-import InputForm from './components/InputForm'
-import FilterForm from './components/FilterForm'
-import OutputForm from './components/OutputForm'
-import YamlForm from '@/views/observe/log/operator/components/YamlForm'
+import ResourceYaml from '@/views/resource/components/common/ResourceYaml'
+import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo'
+import ResourceInfo from './components/ResourceInfo'
+import BasePermission from '@/mixins/permission'
 
 export default {
   name: 'FlowDetail',
   components: {
-    SideDetail,
-    InputForm,
-    FilterForm,
-    OutputForm,
-    YamlForm,
+    ResourceYaml,
+    BasicResourceInfo,
+    ResourceInfo,
   },
+  mixins: [BasePermission],
   data () {
     this.breadcrumb = {
       title: '日志采集器',
@@ -141,15 +149,11 @@ export default {
     }
 
     this.tabItems = [
-      { text: 'Input', value: 'InputForm' },
-      { text: 'Filter', value: 'FilterForm' },
-      { text: 'Output', value: 'OutputForm' },
-      { text: 'Yaml', value: 'YamlForm' },
+      { text: '资源信息', value: 'ResourceInfo' },
     ]
 
     return {
-      valid: false,
-      flowData: null,
+      flow: null,
       tab: 0,
     }
   },
@@ -167,43 +171,44 @@ export default {
     this.getFlowDetail()
   },
   methods: {
-    onDelete() {
-      if (!this.flowData) return
-      const { cluster } = this.$route.query
-      const { namespace, name } = this.outputData.metadata
-      this.$store.commit('SET_CONFIRM', {
-        title: `删除采集器`,
-        content: {
-          text: `删除采集器 ${name}`,
-          type: 'delete',
-          name,
-        },
-        doFunc: async () => {
-          const action = this.flowData.kind === 'Flow' ? deleteFlowData : deleteClusterFlowData
-          await action(cluster, namespace, name)
-          this.$router.push({ name: 'admin-log-flow' })
-        },
-      })
-    },
-    async onSave() {
-      if (this.$refs.form.validate(true)) {
-        this.$refs[`configComponent${this.tabItems[this.tab].value}`][0].onUpdateData()
-        const action = this.flowData.kind === 'Flow' ? patchFlowData : patchClusterFlowData
-        const { namespace, name } = this.flowData.metadata
-        await action(this.$route.query.cluster, namespace, name, this.flowData)
-        this.getFlowDetail()
-      } else {
-        this.$store.commit('SET_SNACKBAR', {
-          text: '请根据要求完成配置',
-          color: 'error',
-        })
-      }
-    },
     async getFlowDetail() {
       const { cluster, namespace } = this.$route.query
       const { name, kind } = this.$route.params
       const action = kind === 'Flow' ? getFlowDetailData : getClusterFlowDetailData
-      this.flowData = await action(cluster, namespace, name)
+      this.flow = await action(cluster, namespace, name)
+    },
+    resourceYaml() {
+      this.$refs.resourceYaml.open()
+    },
+    removeFlow() {
+      const item = this.flow
+      this.$store.commit('SET_CONFIRM', {
+        title: `删除日志采集器`,
+        content: {
+          text: `删除日志采集器 ${item.metadata.name}`,
+          type: 'delete',
+          name: item.metadata.name,
+        },
+        param: { item },
+        doFunc: async (param) => {
+          const action = item.kind === 'Flow' ? deleteFlowData : deleteClusterFlowData
+          await action(
+            this.$route.query.cluster,
+            this.$route.query.namespace,
+            param.item.metadata.name,
+          )
+          this.$router.push({
+            name: this.AdminViewport ? 'admin-log-config' : 'log-config',
+            query: {
+              cluster: this.$route.query.cluster,
+              namespace: this.$route.query.namespace,
+              proj: this.$route.query.proj,
+              env: this.$route.query.env,
+              tab: 'flow',
+            },
+          })
+        },
+      })
     },
   },
 }

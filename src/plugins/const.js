@@ -93,6 +93,7 @@ export const APP_MENIFEST_TAG = {
   PeerAuthentication: { value: 'pa', form: false },
   AuthorizationPolicy: { value: 'ap', form: false },
   HorizontalPodAutoscaler: { value: 'hpa', form: false },
+  Error: { value: 'error', form: false },
 }
 const ARGO_STATUS_COLOR = {
   Degraded: '#ff5252',

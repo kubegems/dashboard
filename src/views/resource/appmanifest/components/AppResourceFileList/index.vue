@@ -32,7 +32,7 @@
                     : item.kind
                 }}
               </v-flex>
-              <v-flex class="float-left ml-2">
+              <v-flex class="float-left ml-2 mt-n1">
                 <v-icon
                   v-if="!item.completed"
                   small
@@ -257,6 +257,13 @@ export default {
                 completed: this.ThisAppEnvironmentID
                   ? this.m_resource_checkManifestCompleteness(djson)
                   : true,
+              })
+            } else {
+              files.push({
+                name: d.name,
+                kind: 'Error',
+                manifest: d.content,
+                completed: false,
               })
             }
           }

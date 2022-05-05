@@ -2,49 +2,65 @@
   <v-container fluid>
     <BaseBreadcrumb :breadcrumb="breadcrumb">
       <template #extend>
-        <v-menu
-          v-if="editable"
-          left
-        >
-          <template #activator="{ on }">
-            <v-btn
-              icon
-              class="float-right"
-            >
-              <v-icon
-                x-small
-                color="primary"
-                v-on="on"
-              >
-                fas fa-ellipsis-v
-              </v-icon>
-            </v-btn>
-          </template>
-          <v-card class="pa-2">
-            <v-btn
-              color="primary"
-              text
-              block
+        <v-flex class="kubegems__full-right">
+          <v-btn
+            text
+            small
+            class="primary--text"
+            @click="resourceYaml"
+          >
+            <v-icon
+              left
               small
-              @click="onSave"
             >
-              保存
-            </v-btn>
-            <v-btn
-              color="error"
-              text
-              block
-              small
-              @click="onDelete"
-            >
-              删除
-            </v-btn>
-          </v-card>
-        </v-menu>
+              fas fa-code
+            </v-icon>
+            Yaml
+          </v-btn>
+          <v-menu
+            v-if="m_permisson_resourceAllow"
+            left
+          >
+            <template #activator="{ on }">
+              <v-btn icon>
+                <v-icon
+                  x-small
+                  color="primary"
+                  v-on="on"
+                >
+                  fas fa-ellipsis-v
+                </v-icon>
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-text class="pa-2">
+                <v-flex>
+                  <v-btn
+                    color="primary"
+                    text
+                    small
+                  >
+                    编辑
+                  </v-btn>
+                </v-flex>
+                <v-flex>
+                  <v-btn
+                    color="error"
+                    text
+                    small
+                    @click="removeOutput"
+                  >
+                    删除
+                  </v-btn>
+                </v-flex>
+              </v-card-text>
+            </v-card>
+          </v-menu>
+        </v-flex>
       </template>
     </BaseBreadcrumb>
     <v-row
-      v-if="outputData"
+      v-if="output"
       class="mt-0"
     >
       <!-- 基本信息 -->
@@ -52,7 +68,7 @@
         cols="2"
         class="pt-0"
       >
-        <OutputInfoPanel :data="outputData" />
+        <BasicResourceInfo :item="output" />
       </v-col>
       <!-- 基本信息 -->
 
@@ -74,34 +90,33 @@
               {{ item.text }}
             </v-tab>
           </v-tabs>
-          <v-form
-            ref="form"
-            v-model="valid"
-            lazy-validation
-            class="pa-4"
+
+          <v-tabs-items
+            v-model="tab"
+            class="overflow-visible"
           >
-            <v-tabs-items
-              v-model="tab"
-              class="overflow-visible"
+            <v-tab-item
+              v-for="item in tabItems"
+              :key="item.value"
+              transition="none"
             >
-              <v-tab-item
-                v-for="item in tabItems"
-                :key="item.value"
-                transition="none"
-              >
-                <component
-                  :is="item.value"
-                  :ref="`configComponent${item.value}`"
-                  :data.sync="outputData"
-                  title="Output"
-                />
-              </v-tab-item>
-            </v-tabs-items>
-          </v-form>
+              <component
+                :is="item.value"
+                :ref="`configComponent${item.value}`"
+                :data.sync="output"
+                title="Output"
+              />
+            </v-tab-item>
+          </v-tabs-items>
         </v-card>
       </v-col>
       <!-- 配置 -->
     </v-row>
+
+    <ResourceYaml
+      ref="resourceYaml"
+      :item="output"
+    />
   </v-container>
 </template>
 
@@ -110,26 +125,22 @@ import { mapState } from 'vuex'
 import {
   getOutputDetailData,
   getClusterOutputDetailData,
-  deleteOutputData,
   deleteClusterOutputData,
-  patchOutputData,
-  patchClusterOutputData,
+  deleteOutputData,
 } from '@/api'
-import OutputInfoPanel from './components/OutputInfoPanel'
-import LokiForm from './components/LokiForm'
-import ElasticsearchForm from './components/ElasticsearchForm'
-import KafkaForm from './components/KafkaForm'
-import YamlForm from '@/views/observe/log/operator/components/YamlForm'
+import ResourceYaml from '@/views/resource/components/common/ResourceYaml'
+import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo'
+import ResourceInfo from './components/ResourceInfo'
+import BasePermission from '@/mixins/permission'
 
 export default {
   name: 'OutputDetail',
   components: {
-    OutputInfoPanel,
-    LokiForm,
-    ElasticsearchForm,
-    KafkaForm,
-    YamlForm,
+    ResourceYaml,
+    BasicResourceInfo,
+    ResourceInfo,
   },
+  mixins: [BasePermission],
   data() {
     this.breadcrumb = {
       title: '日志路由器',
@@ -137,24 +148,17 @@ export default {
       icon: 'mdi-router-wireless',
     }
 
+    this.tabItems = [
+      { text: '资源信息', value: 'ResourceInfo' },
+    ]
+
     return {
-      valid: true,
-      outputData: null,
+      output: null,
       tab: 0,
     }
   },
   computed: {
     ...mapState(['AdminViewport']),
-    editable () {
-      if (!this.outputData) return false
-      return this.outputData.kind === 'Output' || this.AdminViewport
-    },
-    tabItems() {
-      const type = this.getPluginType()
-      return (
-        type === 'Other' ? [] : [{ text: '插件配置', value: `${type}Form` }]
-      ).concat([{ text: 'Yaml', value: 'YamlForm' }])
-    },
   },
   watch: {
     tab(newValue, oldValue) {
@@ -165,58 +169,44 @@ export default {
     this.getOutputDetail()
   },
   methods: {
-    getPluginType() {
-      const item = this.outputData
-      if (!item) return 'Loki'
-      switch (true) {
-        case !!item.spec?.loki:
-          return 'Loki'
-        case !!item.spec?.elasticsearch:
-          return 'Elasticsearch'
-        case !!item.spec?.kafka:
-          return 'Kafka'
-        default:
-          return 'Other'
-      }
-    },
-    onDelete() {
-      if (!this.outputData) return
-      const { cluster } = this.$route.query
-      const { namespace, name } = this.outputData.metadata
-      this.$store.commit('SET_CONFIRM', {
-        title: `删除路由器`,
-        content: {
-          text: `删除路由器 ${name}`,
-          type: 'delete',
-          name,
-        },
-        doFunc: async () => {
-          const action = this.outputData.kind === 'Output' ? deleteOutputData : deleteClusterOutputData
-          await action(cluster, namespace, name)
-          this.$router.push({ name: 'admin-log-output' })
-        },
-      })
-    },
-    async onSave() {
-      if (this.$refs.form.validate(true)) {
-        this.$refs[`configComponent${this.tabItems[this.tab].value}`][0].onUpdateData()
-        const action = this.outputData.kind === 'Output' ? patchOutputData : patchClusterOutputData
-        const { cluster } = this.$route.query
-        const { namespace, name } = this.outputData.metadata
-        await action(cluster, namespace, name, this.outputData)
-        this.getOutputDetail()
-      } else {
-        this.$store.commit('SET_SNACKBAR', {
-          text: '请根据要求完成配置',
-          color: 'error',
-        })
-      }
-    },
     async getOutputDetail() {
       const { cluster, namespace } = this.$route.query
       const { name, kind } = this.$route.params
       const action = kind === 'Output' ? getOutputDetailData : getClusterOutputDetailData
-      this.outputData = await action(cluster, namespace, name)
+      this.output = await action(cluster, namespace, name)
+    },
+    resourceYaml() {
+      this.$refs.resourceYaml.open()
+    },
+    removeOutput() {
+      const item = this.output
+      this.$store.commit('SET_CONFIRM', {
+        title: `删除日志路由器`,
+        content: {
+          text: `删除日志路由器 ${item.metadata.name}`,
+          type: 'delete',
+          name: item.metadata.name,
+        },
+        param: { item },
+        doFunc: async (param) => {
+          const action = item.kind === 'Output' ? deleteOutputData : deleteClusterOutputData
+          await action(
+            this.$route.query.cluster,
+            this.$route.query.namespace,
+            param.item.metadata.name,
+          )
+          this.$router.push({
+            name: this.AdminViewport ? 'admin-log-config' : 'log-config',
+            query: {
+              cluster: this.$route.query.cluster,
+              namespace: this.$route.query.namespace,
+              proj: this.$route.query.proj,
+              env: this.$route.query.env,
+              tab: 'output',
+            },
+          })
+        },
+      })
     },
   },
 }

@@ -76,23 +76,23 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import MetricsLineChart from "./MetricsLineChart";
-import { debounce } from "@/utils/helpers";
+import { mapState } from 'vuex'
+import MetricsLineChart from './MetricsLineChart'
+import { debounce } from '@/utils/helpers'
 
 export default {
-  name: "MetricsItem",
+  name: 'MetricsItem',
   components: {
     MetricsLineChart,
   },
   props: {
     title: {
       type: String,
-      default: "",
+      default: '',
     },
     unit: {
       type: String,
-      default: "",
+      default: '',
     },
     data: {
       type: Object,
@@ -108,87 +108,87 @@ export default {
     },
   },
   data() {
-    this._onResize = debounce(this.onResize, 200);
+    this._onResize = debounce(this.onResize, 200)
 
     return {
       size: {
         width: 0,
         height: 0,
       },
-    };
+    }
   },
   computed: {
-    ...mapState(["Scale"]),
+    ...mapState(['Scale']),
     labels() {
-      return Object.values(this.labelObject);
+      return Object.values(this.labelObject)
     },
     series() {
       return this.data.data.map((item) => {
-        const m = item.metric;
+        const m = item.metric
         return {
           name: Object.keys(m).reduce(
-            (pre, current) => pre + `${current}="${m[current]}" `,
-            "",
+            (pre, current) => pre + `${current}='${m[current]}' `,
+            '',
           ),
           data: item.values,
-        };
-      });
+        }
+      })
     },
   },
   mounted() {
     this.$nextTick(() => {
-      this.onResize();
-    });
-    window.addEventListener("resize", this._onResize);
+      this.onResize()
+    })
+    window.addEventListener('resize', this._onResize)
   },
   beforeDestroy() {
-    window.removeEventListener("resize", this._onResize);
+    window.removeEventListener('resize', this._onResize)
   },
   methods: {
     onResize() {
       this.size = {
         width: this.$refs.container.offsetWidth,
         height: this.$refs.container.offsetHeight,
-      };
+      }
     },
     setAlert() {
-      const { resource, rule, unit, environment } = this.data._$origin;
-      const labelpairs = {};
+      const { resource, rule, unit, environment } = this.data._$origin
+      const labelpairs = {}
       for (const key in this.labelpairs) {
         if (this.labelpairs[key] && this.labelpairs[key].length) {
           labelpairs[key] = this.labelpairs[key].reduce(
             (pre, current, index, arr) =>
-              pre + current + `${index === arr.length - 1 ? "" : "|"}`,
-            "",
-          );
+              pre + current + `${index === arr.length - 1 ? '' : '|'}`,
+            '',
+          )
         }
       }
 
-      this.$emit("alert", {
-        name: "",
+      this.$emit('alert', {
+        name: '',
         cluster: environment?.Cluster.ClusterName,
         namespace: environment?.Namespace,
-        for: "1m",
+        for: '1m',
         resource: resource._$value,
         rule: rule._$value,
         unit: unit?._$value,
         labelpairs,
         alertLevels: [],
         receivers: [],
-      });
+      })
     },
     onLoadLabelFocus(label) {
-      this.$emit("loadLabel", label);
+      this.$emit('loadLabel', label)
     },
     onLabelChange(value, label) {
-      this.$emit("change", { label, value });
+      this.$emit('change', { label, value })
     },
     // eslint-disable-next-line vue/no-unused-properties
     onRefresh() {
-      this.$emit("refresh");
+      this.$emit('refresh')
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
