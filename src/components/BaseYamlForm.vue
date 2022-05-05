@@ -53,7 +53,8 @@ export default {
   },
   methods: {
     // eslint-disable-next-line vue/no-unused-properties
-    init() {},
+    init() {
+    },
     // eslint-disable-next-line vue/no-unused-properties
     validate() {
       return this.$refs.form.validate(true)

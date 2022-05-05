@@ -260,7 +260,7 @@ export default {
       this.app = deepCopy(app)
       this.file = deepCopy(file)
       this.item = deepCopy(this.$yamlload(file.manifest))
-      if (!this.$APP_MENIFEST_TAG[this.item.kind].form) {
+      if (!this.$APP_MENIFEST_TAG[this.item?.kind]?.form) {
         this.$store.commit('SET_SNACKBAR', {
           text: '暂时不支持该资源类型，请直接编辑yaml文件',
           color: 'warning',
@@ -269,7 +269,11 @@ export default {
         this.formComponent = 'BaseYamlForm'
       }
       this.$nextTick(() => {
-        this.$refs[this.formComponent].init(this.item, true)
+        if (this.formComponent === 'BaseYamlForm') {
+          this.$refs[this.formComponent].setYaml(file.manifest)
+        } else {
+          this.$refs[this.formComponent].init(this.item, true)
+        }
       })
     },
     reset() {
