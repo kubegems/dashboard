@@ -11,11 +11,12 @@
       <!-- </template>
       </BasePluginPass> -->
       <Tool v-if="Admin" />
+
+      <Sidebar
+        :key="SidebarKey"
+        :expand-on-hover.sync="expandOnHover"
+      />
     </v-main>
-    <Sidebar
-      :key="SidebarKey"
-      :expand-on-hover.sync="expandOnHover"
-    />
   </v-app>
 </template>
 
