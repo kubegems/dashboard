@@ -82,11 +82,11 @@ export default {
           data = this.$refs[this.formComponent].kubeyaml
           data = this.$yamlload(data)
           if (!this.checkDataWithNS(data, this.item.metadata.namespace)) return
-          if (!this.validateJsonSchema(this.schema, data)) {
+          if (!this.m_resource_validateJsonSchema(this.schema, data)) {
             return
           }
         } else if (this.formComponent === 'ServiceMonitorBaseForm') {
-          data = this.$refs[this.formComponent].obj
+          data = this.$refs[this.formComponent].getData()
         }
         await patchUpdateServiceMonitor(
           this.$route.query.cluster,
@@ -110,7 +110,7 @@ export default {
     },
     onYamlSwitchChange() {
       if (this.yaml) {
-        const data = this.$refs[this.formComponent].obj
+        const data = this.$refs[this.formComponent].getData()
         this.formComponent = 'BaseYamlForm'
         this.$nextTick(() => {
           this.$refs[this.formComponent].setYaml(this.$yamldump(data))
@@ -118,7 +118,7 @@ export default {
       } else {
         const yaml = this.$refs[this.formComponent].kubeyaml
         const data = this.$yamlload(yaml)
-        if (!this.validateJsonSchema(this.schema, data)) {
+        if (!this.m_resource_validateJsonSchema(this.schema, data)) {
           this.yaml = true
           this.switchKey = randomString(6)
           return

@@ -39,6 +39,7 @@
                     color="primary"
                     text
                     small
+                    @click="updateFlow"
                   >
                     编辑
                   </v-btn>
@@ -81,7 +82,7 @@
           <v-tabs
             v-model="tab"
             height="40"
-            class="rounded-t pl-4 pt-4"
+            class="rounded-t pl-2 pt-2"
           >
             <v-tab
               v-for="item in tabItems"
@@ -92,22 +93,12 @@
               }}
             </v-tab>
           </v-tabs>
-          <v-tabs-items
-            v-model="tab"
-            class="overflow-visible"
-          >
-            <v-tab-item
-              v-for="item in tabItems"
-              :key="item.value"
-              transition="none"
-            >
-              <component
-                :is="item.value"
-                :ref="`configComponent${item.value}`"
-                :data.sync="flow"
-              />
-            </v-tab-item>
-          </v-tabs-items>
+
+          <component
+            :is="tabItems[tab].value"
+            :ref="tabItems[tab].value"
+            :item="flow"
+          />
         </v-card>
       </v-col>
       <!-- 配置 -->
@@ -116,6 +107,11 @@
     <ResourceYaml
       ref="resourceYaml"
       :item="flow"
+    />
+
+    <UpdateFlow
+      ref="updateFlow"
+      @refresh="getFlowDetail"
     />
   </v-container>
 </template>
@@ -131,6 +127,8 @@ import {
 import ResourceYaml from '@/views/resource/components/common/ResourceYaml'
 import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo'
 import ResourceInfo from './components/ResourceInfo'
+import Metadata from '@/views/resource/components/metadata/Metadata'
+import UpdateFlow from './components/UpdateFlow'
 import BasePermission from '@/mixins/permission'
 
 export default {
@@ -139,6 +137,8 @@ export default {
     ResourceYaml,
     BasicResourceInfo,
     ResourceInfo,
+    Metadata,
+    UpdateFlow,
   },
   mixins: [BasePermission],
   data () {
@@ -150,6 +150,7 @@ export default {
 
     this.tabItems = [
       { text: '资源信息', value: 'ResourceInfo' },
+      { text: '元数据', value: 'Metadata' },
     ]
 
     return {
@@ -159,13 +160,6 @@ export default {
   },
   computed: {
     ...mapState(['AdminViewport']),
-  },
-  watch: {
-    tab(newValue, oldValue) {
-      this.$refs[
-        `configComponent${this.tabItems[oldValue].value}`
-      ][0].onUpdateData()
-    },
   },
   mounted() {
     this.getFlowDetail()
@@ -179,6 +173,10 @@ export default {
     },
     resourceYaml() {
       this.$refs.resourceYaml.open()
+    },
+    updateFlow() {
+      this.$refs.updateFlow.init(this.flow)
+      this.$refs.updateFlow.open()
     },
     removeFlow() {
       const item = this.flow

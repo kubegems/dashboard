@@ -258,7 +258,6 @@ export default {
     loadData() {
       this.$nextTick(() => {
         if (!this.item) {
-          this.obj = this.$options.data().obj
           this.$refs.form.resetValidation()
         } else {
           this.obj = deepCopy(this.item)
@@ -420,6 +419,7 @@ export default {
       if (this.$refs.annotationForm) this.$refs.annotationForm.closeCard()
       this.$refs.ingressRuleForm.closeCard()
       this.$refs.form.reset()
+      this.obj = this.$options.data().obj
     },
     help() {
       window.open(

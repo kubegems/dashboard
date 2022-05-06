@@ -202,14 +202,16 @@ export default {
     if (this.JWT) {
       this.$nextTick(() => {
         if (this.Tenant().ID > 0) {
-          this.tenantResourceQuotaList()
+          this.tenantResourceQuotaList(false)
         }
       })
     }
   },
   methods: {
-    async tenantResourceQuotaList() {
-      const data = await getTenantResourceQuotaList(this.Tenant().ID)
+    async tenantResourceQuotaList(noprocessing = true) {
+      const data = await getTenantResourceQuotaList(this.Tenant().ID, Object.assign(this.params, {
+        noprocessing: noprocessing,
+      }))
       data.List.forEach((item, index) => {
         this.tenantResourceQuota(item, index)
       })

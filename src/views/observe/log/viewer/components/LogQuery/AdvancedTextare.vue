@@ -12,7 +12,18 @@
       @blur.stop="blurInput"
       @keyup="onSuggestionInput"
       @click:clear="clearInput"
-    />
+    >
+      <template #append>
+        <v-btn
+          small
+          color="primary"
+          text
+          @click.stop
+        >
+          生成告警
+        </v-btn>
+      </template>
+    </v-textarea>
     <v-data-table
       v-if="suggestShow"
       disable-sort

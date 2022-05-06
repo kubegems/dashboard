@@ -8,7 +8,7 @@
         <BaseFilter
           :filters="filters"
           :default="filters[0]"
-          @refresh="onStaticFilter"
+          @refresh="frontFilter"
         />
         <v-spacer />
         <v-menu left>
@@ -28,9 +28,9 @@
               text
               block
               color="primary"
-              @click="onCreate"
+              @click="addFlow"
             >
-              <v-icon left>mdi-plus</v-icon>
+              <v-icon left>mdi-plus-box</v-icon>
               创建采集器
             </v-btn>
           </v-card>
@@ -49,7 +49,7 @@
           <template #[`item.name`]="{ item }">
             <a
               class="text-subtitle-2"
-              @click="onDetail(item)"
+              @click="flowDetail(item)"
             >
               {{ item.metadata.name }}
             </a>
@@ -103,16 +103,29 @@
                 </v-btn>
               </template>
               <v-card class="pa-2">
-                <v-btn
-                  color="error"
-                  block
-                  text
-                  small
-                  :disabled="item.kind === 'ClusterFlow' && !AdminViewport"
-                  @click="onDelete(item)"
-                >
-                  删除
-                </v-btn>
+                <v-flex>
+                  <v-btn
+                    color="primary"
+                    text
+                    small
+                    :disabled="item.kind === 'ClusterFlow' && !AdminViewport"
+                    @click="updateFlow(item)"
+                  >
+                    编辑
+                  </v-btn>
+                </v-flex>
+                <v-flex>
+                  <v-btn
+                    color="error"
+                    block
+                    text
+                    small
+                    :disabled="item.kind === 'ClusterFlow' && !AdminViewport"
+                    @click="removeFlow(item)"
+                  >
+                    删除
+                  </v-btn>
+                </v-flex>
               </v-card>
             </v-menu>
           </template>
@@ -122,18 +135,21 @@
           v-model="params.page"
           :page-count="pageCount"
           :size="params.size"
-          @loaddata="onStaticFilter"
+          @loaddata="frontFilter"
           @changesize="onPageSizeChange"
           @changepage="onPageIndexChange"
         />
       </v-card-text>
     </v-card>
 
-    <FlowBaseForm
-      ref="flowBaseForm"
-      :cluster="params.cluster"
-      :namespace-items="namespaceItems"
-      @finishSubmit="getFlowList"
+    <AddFlow
+      ref="addFlow"
+      @refresh="getFlowList"
+    />
+
+    <UpdateFlow
+      ref="updateFlow"
+      @refresh="getFlowList"
     />
   </v-container>
 </template>
@@ -143,16 +159,17 @@ import { mapGetters, mapState } from 'vuex'
 import {
   getClusterFlowsData,
   getFlowsData,
-  // getFlowsDataByTenant,
   deleteFlowData,
   deleteClusterFlowData,
 } from '@/api'
-import FlowBaseForm from './components/FlowBaseForm'
+import AddFlow from './components/AddFlow'
+import UpdateFlow from './components/UpdateFlow'
 
 export default {
   name: 'LogFlow',
   components: {
-    FlowBaseForm,
+    AddFlow,
+    UpdateFlow,
   },
   data() {
     this.breadcrumb = {
@@ -184,7 +201,6 @@ export default {
 
     return {
       items: [],
-      namespaceItems: [],
       pageCount: 0,
       params: {
         page: 1,
@@ -211,7 +227,7 @@ export default {
         if (needRefresh) {
           this.getFlowList()
         } else {
-          this.onStaticFilter()
+          this.frontFilter()
         }
       },
       deep: true,
@@ -232,9 +248,9 @@ export default {
       this.cacheAll = list.sort(
         (a, b) => Date.parse(b.metadata.creationTimestamp) - Date.parse(a.metadata.creationTimestamp),
       )
-      this.onStaticFilter()
+      this.frontFilter()
     },
-    onStaticFilter (params) {
+    frontFilter (params) {
       if (params) {
         this.params.name = params.name
         this.params.kind = params.kind
@@ -252,16 +268,20 @@ export default {
     onPageSizeChange(size) {
       this.params.page = 1
       this.params.size = size
-      this.onStaticFilter()
+      this.frontFilter()
     },
     onPageIndexChange(page) {
       this.params.page = page
-      this.onStaticFilter()
+      this.frontFilter()
     },
-    onCreate() {
-      this.$refs.flowBaseForm.create()
+    addFlow() {
+      this.$refs.addFlow.open()
     },
-    onDelete(item) {
+    updateFlow(item) {
+      this.$refs.updateFlow.init(item)
+      this.$refs.updateFlow.open()
+    },
+    removeFlow(item) {
       this.$store.commit('SET_CONFIRM', {
         title: `删除采集器`,
         content: {
@@ -283,7 +303,7 @@ export default {
         },
       })
     },
-    onDetail(item) {
+    flowDetail(item) {
       this.$router.push({
         name: this.AdminViewport ? 'admin-log-flow-detail' : 'log-flow-detail',
         params: {

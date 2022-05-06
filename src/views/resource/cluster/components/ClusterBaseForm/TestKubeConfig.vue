@@ -122,7 +122,7 @@ export default {
       const data = await postValidateClusterKubeConfig({
         kubeconfig: JSON.stringify(this.$yamlload(this.obj.KubeConfig)),
       })
-      this.obj.extend.storageClasses = data.storageClasses
+      this.obj.extend.storageClasses = data.storageClasses || []
       this.obj.extend.validate = data.connectable ? 'success' : 'error'
       this.obj.extend.clusterName = data.clusterName
       this.obj.extend.existInstaller = data.existInstaller

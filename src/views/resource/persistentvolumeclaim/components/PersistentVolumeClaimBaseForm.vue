@@ -321,7 +321,6 @@ export default {
     loadData() {
       this.$nextTick(() => {
         if (!this.item) {
-          this.obj = this.$options.data().obj
           this.$refs.form.resetValidation()
         } else {
           this.obj = deepCopy(this.item)
@@ -394,6 +393,7 @@ export default {
       this.$refs.labelForm.closeCard()
       this.$refs.annotationForm.closeCard()
       this.$refs.form.reset()
+      this.obj = this.$options.data().obj
     },
     // eslint-disable-next-line vue/no-unused-properties
     init(data) {

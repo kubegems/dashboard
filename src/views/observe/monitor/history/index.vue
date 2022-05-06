@@ -44,7 +44,7 @@
         hide-default-footer
         show-expand
         single-expand
-        item-key="Fingerprint"
+        item-key="ID"
         disable-sort
         @click:row="onRowClick"
       >

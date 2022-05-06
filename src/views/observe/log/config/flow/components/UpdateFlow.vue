@@ -2,15 +2,17 @@
   <BaseDialog
     v-model="dialog"
     :width="1000"
-    title="创建采集器"
-    icon="mdi-eyedropper"
+    title="更新采集器"
+    icon="mdi-arrange-send-backward"
     @reset="reset"
   >
     <template #content>
       <component
         :is="formComponent"
         :ref="formComponent"
-        title="ServiceMonitor"
+        :item="item"
+        :edit="true"
+        title="Flow/ClusterFlow"
       />
     </template>
     <template #action>
@@ -19,7 +21,7 @@
         color="primary"
         text
         :loading="Circular"
-        @click="addServiceMonitor"
+        @click="updateFlow"
       >
         确定
       </v-btn>
@@ -46,22 +48,28 @@
 
 <script>
 import { mapState } from 'vuex'
-import { postAddServiceMonitor } from '@/api'
-import ServiceMonitorBaseForm from './ServiceMonitorBaseForm'
+import {
+  patchFlowData,
+  patchClusterFlowData,
+  getFlowDetailData,
+  getClusterFlowDetailData,
+} from '@/api'
+import FlowBaseForm from './FlowBaseForm'
 import BaseResource from '@/mixins/resource'
-import ServiceMonitorSchema from '../mixins/schema'
-import { randomString } from '@/utils/helpers'
+import FlowSchema from '../mixins/schema'
+import { randomString, deepCopy } from '@/utils/helpers'
 
 export default {
-  name: 'AddServiceMonitor',
+  name: 'UpdateFlow',
   components: {
-    ServiceMonitorBaseForm,
+    FlowBaseForm,
   },
-  mixins: [BaseResource, ServiceMonitorSchema],
+  mixins: [BaseResource, FlowSchema],
   data: () => ({
     dialog: false,
     yaml: false,
-    formComponent: 'ServiceMonitorBaseForm',
+    item: null,
+    formComponent: 'FlowBaseForm',
     switchKey: '',
   }),
   computed: {
@@ -72,27 +80,43 @@ export default {
     open() {
       this.dialog = true
     },
-    async addServiceMonitor() {
+    // eslint-disable-next-line vue/no-unused-properties
+    async init(item) {
+      this.item = null
+      const action = item.kind === 'Flow' ? getFlowDetailData : getClusterFlowDetailData
+      const data = await action(
+        this.$route.query.cluster,
+        item.metadata.namespace,
+        item.metadata.name,
+      )
+      this.item = deepCopy(data)
+    },
+    async updateFlow() {
+      if (!this.$refs[this.formComponent]) {
+        return
+      }
+      if (!this.$refs[this.formComponent].checkSaved()) {
+        this.$store.commit('SET_SNACKBAR', {
+          text: '请保存数据',
+          color: 'warning',
+        })
+        return
+      }
       if (this.$refs[this.formComponent].$refs.form.validate(true)) {
         let data = ''
         if (this.formComponent === 'BaseYamlForm') {
           data = this.$refs[this.formComponent].kubeyaml
           data = this.$yamlload(data)
-          if (
-            !this.checkDataWithNS(
-              data,
-              this.$route.query.namespace,
-            )
-          ) {
-            return
-          }
           if (!this.m_resource_validateJsonSchema(this.schema, data)) {
             return
           }
-        } else if (this.formComponent === 'ServiceMonitorBaseForm') {
-          data = this.$refs[this.formComponent].getData()
+          data = this.m_resource_beautifyData(data)
+        } else if (this.formComponent === 'FlowBaseForm') {
+          data = this.$refs[this.formComponent].obj
+          data = this.m_resource_beautifyData(data)
         }
-        await postAddServiceMonitor(
+        const action = data.kind === 'Flow' ? patchFlowData : patchClusterFlowData
+        await action(
           this.$route.query.cluster,
           this.$route.query.namespace,
           data.metadata.name,
@@ -104,7 +128,11 @@ export default {
     },
     onYamlSwitchChange() {
       if (this.yaml) {
-        const data = this.$refs[this.formComponent].getData()
+        const data = this.$refs[this.formComponent].obj
+        this.m_resource_addNsToData(
+          data,
+          this.$route.query.namespace,
+        )
         this.formComponent = 'BaseYamlForm'
         this.$nextTick(() => {
           this.$refs[this.formComponent].setYaml(this.$yamldump(data))
@@ -112,12 +140,16 @@ export default {
       } else {
         const yaml = this.$refs[this.formComponent].kubeyaml
         const data = this.$yamlload(yaml)
+        this.m_resource_addNsToData(
+          data,
+          this.$route.query.namespace,
+        )
         if (!this.m_resource_validateJsonSchema(this.schema, data)) {
           this.yaml = true
           this.switchKey = randomString(6)
           return
         }
-        this.formComponent = 'ServiceMonitorBaseForm'
+        this.formComponent = 'FlowBaseForm'
         this.$nextTick(() => {
           this.$refs[this.formComponent].setData(data)
         })
@@ -125,13 +157,8 @@ export default {
     },
     reset() {
       this.dialog = false
-      this.formComponent = 'ServiceMonitorBaseForm'
-      if (
-        this.$refs[this.formComponent] &&
-        this.$refs[this.formComponent].reset
-      ) {
-        this.$refs[this.formComponent].reset()
-      }
+      this.$refs[this.formComponent].reset()
+      this.formComponent = 'FlowBaseForm'
       this.yaml = false
     },
   },

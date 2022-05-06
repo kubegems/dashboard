@@ -56,17 +56,9 @@ export default {
         this.$refs[this.formComponent].$refs.form.validate(true) &&
         this.$refs[this.formComponent].validate()
       ) {
-        let data = this.$refs[this.formComponent].obj
+        let data = this.$refs[this.formComponent].getData()
         data = this.m_resource_beautifyData(data)
-        if (!this.AdminViewport) {
-          await postAddReceiver(this.$route.query.cluster, this.$route.query.namespace, data)
-        } else {
-          await postAddReceiver(
-            this.$route.query.cluster,
-            this.$refs[this.formComponent].namespace,
-            data,
-          )
-        }
+        await postAddReceiver(this.$route.query.cluster, this.$route.query.namespace, data)
         this.reset()
         this.$emit('refresh')
       }

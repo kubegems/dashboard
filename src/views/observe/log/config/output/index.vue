@@ -8,7 +8,7 @@
         <BaseFilter
           :filters="filters"
           :default="filters[0]"
-          @refresh="onStaticFilter"
+          @refresh="frontFilter"
         />
         <v-spacer />
         <v-menu left>
@@ -28,9 +28,9 @@
               text
               block
               color="primary"
-              @click="onCreate"
+              @click="addOutput"
             >
-              <v-icon left>mdi-plus</v-icon>
+              <v-icon left>mdi-plus-box</v-icon>
               创建路由器
             </v-btn>
           </v-card>
@@ -49,7 +49,7 @@
           <template #[`item.name`]="{ item }">
             <a
               class="text-subtitle-2"
-              @click="onDetail(item)"
+              @click="outputDetail(item)"
             >
               {{ item.metadata.name }}
             </a>
@@ -100,15 +100,27 @@
                 </v-btn>
               </template>
               <v-card class="pa-2">
-                <v-btn
-                  color="error"
-                  block
-                  text
-                  small
-                  @click="onDelete(item)"
-                >
-                  删除
-                </v-btn>
+                <v-flex>
+                  <v-btn
+                    color="primary"
+                    text
+                    small
+                    @click="updateOutput(item)"
+                  >
+                    编辑
+                  </v-btn>
+                </v-flex>
+                <v-flex>
+                  <v-btn
+                    color="error"
+                    block
+                    text
+                    small
+                    @click="removeOutput(item)"
+                  >
+                    删除
+                  </v-btn>
+                </v-flex>
               </v-card>
             </v-menu>
           </template>
@@ -118,18 +130,20 @@
           v-model="params.page"
           :page-count="pageCount"
           :size="params.size"
-          @loaddata="onStaticFilter"
+          @loaddata="frontFilter"
           @changesize="onPageSizeChange"
           @changepage="onPageIndexChange"
         />
       </v-card-text>
     </v-card>
 
-    <OutputBaseForm
-      ref="outputBaseForm"
-      :cluster="params.cluster"
-      :namespace-items="namespaceItems"
-      @finishSubmit="getOutputList"
+    <AddOutput
+      ref="addOutput"
+      @refresh="getOutputList"
+    />
+    <UpdateOutput
+      ref="updateOutput"
+      @refresh="getOutputList"
     />
   </v-container>
 </template>
@@ -139,16 +153,17 @@ import { mapState, mapGetters } from 'vuex'
 import {
   getClusterOutputsData,
   getOutputsData,
-  // getOutputsDataByTenant,
   deleteOutputData,
   deleteClusterOutputData,
 } from '@/api'
-import OutputBaseForm from './components/OutputBaseForm'
+import AddOutput from './components/AddOutput'
+import UpdateOutput from './components/UpdateOutput'
 
 export default {
   name: 'LogFlow',
   components: {
-    OutputBaseForm,
+    AddOutput,
+    UpdateOutput,
   },
   data() {
     this.breadcrumb = {
@@ -185,7 +200,6 @@ export default {
 
     return {
       items: [],
-      namespaceItems: [],
       pageCount: 0,
       params: {
         page: 1,
@@ -213,7 +227,7 @@ export default {
         if (needRefresh) {
           this.getOutputList()
         } else {
-          this.onStaticFilter()
+          this.frontFilter()
         }
       },
       deep: true,
@@ -234,9 +248,9 @@ export default {
       this.cacheAll = list.sort(
         (a, b) => Date.parse(b.metadata.creationTimestamp) - Date.parse(a.metadata.creationTimestamp),
       )
-      this.onStaticFilter()
+      this.frontFilter()
     },
-    onStaticFilter(params) {
+    frontFilter(params) {
       if (params) {
         this.params.name = params.name
         this.params.kind = params.kind
@@ -253,8 +267,12 @@ export default {
       this.pageCount = Math.ceil(this.cacheFilter.length / size)
       this.items = this.cacheFilter.slice((page - 1) * size, page * size)
     },
-    onCreate() {
-      this.$refs.outputBaseForm.create()
+    addOutput() {
+      this.$refs.addOutput.open()
+    },
+    updateOutput(item) {
+      this.$refs.updateOutput.init(item)
+      this.$refs.updateOutput.open()
     },
     onPageSizeChange(size) {
       this.params.page = 1
@@ -263,11 +281,11 @@ export default {
     onPageIndexChange(page) {
       this.params.page = page
     },
-    onDelete(item) {
+    removeOutput(item) {
       this.$store.commit('SET_CONFIRM', {
-        title: `删除采集器`,
+        title: `删除日志路由器`,
         content: {
-          text: `删除采集器 ${item.metadata.name}`,
+          text: `删除日志路由器 ${item.metadata.name}`,
           type: 'delete',
           name: item.metadata.name,
         },
@@ -282,7 +300,7 @@ export default {
         },
       })
     },
-    onDetail(item) {
+    outputDetail(item) {
       this.$router.push({
         name: this.AdminViewport ? 'admin-log-output-detail' : 'log-output-detail',
         params: {

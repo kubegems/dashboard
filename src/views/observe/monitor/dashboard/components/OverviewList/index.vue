@@ -5,6 +5,37 @@
         v-model="project"
         :tenant="tenant"
       />
+      <v-spacer />
+
+      <v-menu
+        v-if="m_permisson_resourceAllow"
+        left
+      >
+        <template #activator="{ on }">
+          <v-btn icon>
+            <v-icon
+              small
+              color="primary"
+              v-on="on"
+            >
+              fas fa-ellipsis-v
+            </v-icon>
+          </v-btn>
+        </template>
+        <v-card>
+          <v-card-text class="pa-2">
+            <v-flex>
+              <v-btn
+                color="primary"
+                text
+              >
+                <v-icon left>mdi-plus-box</v-icon>
+                创建监控大盘
+              </v-btn>
+            </v-flex>
+          </v-card-text>
+        </v-card>
+      </v-menu>
     </div>
 
     <v-data-table
@@ -35,13 +66,14 @@
 <script>
 import ProjectSelect from './ProjectSelect'
 import BaseSelect from '@/mixins/select'
+import BasePermission from '@/mixins/permission'
 
 export default {
   name: 'OverviewList',
   components: {
     ProjectSelect,
   },
-  mixins: [BaseSelect],
+  mixins: [BaseSelect, BasePermission],
   props: {
     tenant: {
       type: Object,

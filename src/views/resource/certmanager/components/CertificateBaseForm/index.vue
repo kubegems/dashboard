@@ -250,7 +250,7 @@ export default {
   methods: {
     loadData() {
       this.$nextTick(() => {
-        this.obj = deepCopy(this.item)
+        if (this.item) { this.obj = deepCopy(this.item) }
 
         if (this.AdminViewport) {
           this.m_select_namespaceSelectData(this.ThisCluster)

@@ -11,7 +11,7 @@
       <v-card-text class="pa-2">
         <v-row>
           <v-col
-            v-if="AdminViewport"
+            v-if="AdminViewport && obj.spec.tenant !== 'notenant'"
             cols="6"
           >
             <v-autocomplete
@@ -255,7 +255,6 @@ export default {
     async loadData() {
       this.$nextTick(() => {
         if (!this.item) {
-          this.obj = this.$options.data().obj
           this.$refs.form.resetValidation()
         } else {
           this.obj = deepCopy(this.item)
@@ -313,6 +312,7 @@ export default {
     reset() {
       this.$refs.dataForm.closeCard()
       this.$refs.form.reset()
+      this.obj = this.$options.data().obj
     },
     setDomain(obj) {
       obj.spec.baseDomain = `*.kubegems.io`
