@@ -113,25 +113,7 @@
               ]
             };`"
           />
-          <span
-            v-if="
-              !(
-                item.metadata.annotations &&
-                item.metadata.annotations[`storage.kubegems.io/in-use`]
-              )
-            "
-          >
-            未知
-          </span>
-          <span
-            v-else-if="
-              item.metadata.annotations &&
-                item.metadata.annotations[`storage.kubegems.io/in-use`] === 'true'
-            "
-          >
-            已挂载
-          </span>
-          <span v-else> 未挂载 </span>
+          <span> {{ getMountStatus(item) }} </span>
         </template>
         <template #[`item.accessMode`]="{ item }">
           {{ item.spec.accessModes[0] }}
@@ -443,6 +425,15 @@ export default {
     },
     onPageIndexChange(page) {
       this.params.page = page
+    },
+    getMountStatus(item) {
+      if (item.metadata.annotations && item.metadata.annotations[`storage.kubegems.io/in-use`] === 'true') {
+        return '已挂载'
+      }
+      if (item.metadata.annotations && item.metadata.annotations[`storage.kubegems.io/in-use`] === 'false') {
+        return '未挂载'
+      }
+      return '未知'
     },
   },
 }

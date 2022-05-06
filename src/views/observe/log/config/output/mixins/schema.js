@@ -27,15 +27,10 @@ const schema = {
             $id: '#/properties/metadata',
             type: 'object',
             default: {},
-            required: ['name', 'namespace'],
+            required: ['name'],
             properties: {
               name: {
                 $id: '#/properties/metadata/properties/name',
-                type: 'string',
-                default: '',
-              },
-              namespace: {
-                $id: '#/properties/metadata/properties/namespace',
                 type: 'string',
                 default: '',
               },

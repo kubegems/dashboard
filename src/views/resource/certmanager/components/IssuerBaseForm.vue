@@ -211,7 +211,7 @@ export default {
   methods: {
     loadData() {
       this.$nextTick(() => {
-        this.obj = deepCopy(this.item)
+        if (this.item) { this.obj = deepCopy(this.item) }
         if (this.obj.spec.acme) {
           this.issuer = 'acme'
           if (

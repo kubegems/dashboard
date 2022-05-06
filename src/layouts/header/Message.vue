@@ -12,7 +12,6 @@
       :close-on-content-click="false"
       max-width="300px"
       min-width="300px"
-      @input="onMenuChange"
     >
       <template #activator="{ on }">
         <v-btn
@@ -413,16 +412,6 @@ export default {
           clearTimeout(this.messageTimeout)
           this.messageTimeout = null
         }, 100)
-      }
-    },
-    onMenuChange() {
-      if (this.menu) {
-        const tabsSliderWrappers = document.querySelectorAll(
-          '.v-tabs-slider-wrapper',
-        )
-        if (tabsSliderWrappers.length > 0) {
-          tabsSliderWrappers[0].style.width = `150px`
-        }
       }
     },
   },

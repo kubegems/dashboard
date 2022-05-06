@@ -307,7 +307,7 @@
                 class="mt-4"
                 @click="onAddQuery"
               >
-                <v-icon>mdi-plus</v-icon>
+                <v-icon>mdi-plus-box</v-icon>
                 添加查询
               </v-btn>
             </v-col>
@@ -491,8 +491,8 @@ export default {
       this.$delete(this.metricsObject, id)
     },
     onAddAlert(data) {
-      this.$refs.AddPrometheusRule.open()
-      this.$refs.AddPrometheusRule.init(data)
+      this.$refs.addPrometheusRule.open()
+      this.$refs.addPrometheusRule.init(data)
     },
     // 设置各项独立的ruleItems
     setRuleItems(index) {
@@ -645,7 +645,7 @@ export default {
       if (query) {
         const params = this.getParams(query)
         params.label = label
-        const data = await getMetricsLabelValues(params)
+        const data = await getMetricsLabelValues(Object.assign(params, {noprocessing: true}))
         this.$set(this.labelObject[id][label], 'items', data)
         this.$set(this.labelObject[id][label], 'request', true)
       }

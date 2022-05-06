@@ -43,7 +43,7 @@
                   @change="onRequireTLSChange"
                 >
                   <template #label>
-                    <span style="margin-bottom: 10px;">TLS</span>
+                    <span style="margin-bottom: 8px;">TLS</span>
                   </template>
                 </v-switch>
               </template>
@@ -272,7 +272,7 @@ export default {
     },
     onEmailChange() {
       const emailToSelected = this.emailToSelected.filter((email) => {
-        return email !== '' && typeof email === 'object'
+        return email !== ''
       })
       this.emailToSelected = emailToSelected
     },

@@ -123,7 +123,7 @@ export default {
         if (ports) {
           return ports.map(p => {
             return {
-              text: p.name,
+              text: `${p.name} (${p.port})`,
               value: p.name,
             }
           })

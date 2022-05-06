@@ -28,7 +28,6 @@ Vue.component('VueSlider', VueSlider)
 
 moment.locale('zh-cn')
 Vue.prototype.$moment = moment
-Vue.prototype.$yaml = yaml
 Vue.prototype.$yamlload = (data) => {
   try {
     const d = yaml.load(data)

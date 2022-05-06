@@ -10,13 +10,12 @@
         设置告警
       </v-btn>
     </h3>
-    <v-row
-      no-gutters
-      class="metrics-item__filter"
-    >
+    <v-row :style="{ maxHeight: `${maxHeight}px` }">
       <v-col
-        v-for="(label, index) in labels"
+        v-for="(label) in labels"
         :key="label.text"
+        cols="4"
+        class="py-1 px-4"
       >
         <v-autocomplete
           :value="labelpairs[label.text]"
@@ -26,7 +25,7 @@
           flat
           multiple
           solo
-          :class="{ 'ml-4': index !== 0 }"
+          class="my-1"
           attach
           hide-selected
           hide-details
@@ -134,6 +133,13 @@ export default {
         }
       })
     },
+    maxHeight() {
+      if (this.labels.length % 3 === 0) {
+        return 48 * this.labels.length / 3
+      } else {
+        return 48 * parseInt(this.labels.length / 3 + 1)
+      }
+    },
   },
   mounted() {
     this.$nextTick(() => {
@@ -203,10 +209,6 @@ export default {
     display: flex;
     justify-content: space-between;
     margin-bottom: 24px;
-  }
-
-  &__filter {
-    max-height: 48px;
   }
 
   &__chart {

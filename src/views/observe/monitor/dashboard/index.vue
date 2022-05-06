@@ -33,5 +33,6 @@ export default {
       icon: 'mdi-gauge',
     }
     return {}
-}}
+  },
+}
 </script>
