@@ -2,15 +2,17 @@
   <BaseDialog
     v-model="dialog"
     :width="1000"
-    title="创建istio认证策略"
-    icon="mdi-key"
+    title="更新istio服务入口"
+    icon="mdi-login-variant"
     @reset="reset"
   >
     <template #content>
       <component
         :is="formComponent"
         :ref="formComponent"
-        title="AuthorizationPolicy"
+        :item="item"
+        :edit="true"
+        title="ServiceEntry"
       />
     </template>
     <template #action>
@@ -19,7 +21,7 @@
         color="primary"
         text
         :loading="Circular"
-        @click="addIstioAuthorizationPolicy"
+        @click="updateIstioServiceEntry"
       >
         确定
       </v-btn>
@@ -28,48 +30,55 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
-import { postAddIstioAuthorizationPolicy } from '@/api'
-import IstioAuthorizationPolicySchema from '@/views/microservice/istio/authorization-policy/mixins/schema'
+import { mapState } from 'vuex'
+import { patchUpdateIstioServiceEntry, getIstioServiceEntryDetail } from '@/api'
 import BaseResource from '@/mixins/resource'
+import IstioServiceEntrySchema from '@/views/microservice/istio/service_entry/mixins/schema'
+import { deepCopy } from '@/utils/helpers'
 
 export default {
-  name: 'AddIstioAuthorizationPolicy',
-  mixins: [BaseResource, IstioAuthorizationPolicySchema],
+  name: 'UpdateServiceEntry',
+  mixins: [BaseResource, IstioServiceEntrySchema],
   data: () => ({
     dialog: false,
+    item: null,
     formComponent: 'BaseYamlForm',
   }),
   computed: {
     ...mapState(['Circular', 'EnvironmentFilter']),
-    ...mapGetters(['VirtualSpace']),
   },
   methods: {
     // eslint-disable-next-line vue/no-unused-properties
     open() {
       this.dialog = true
     },
-    async addIstioAuthorizationPolicy() {
+    async updateIstioServiceEntry() {
       if (this.$refs[this.formComponent].$refs.form.validate(true)) {
         let data = ''
         if (this.formComponent === 'BaseYamlForm') {
           data = this.$refs[this.formComponent].kubeyaml
           data = this.$yamlload(data)
-          if (!this.m_resource_validateJsonSchema(this.schema, data)) {
-            return
-          }
           if (!this.m_resource_checkDataWithOutNS(data)) return
           data = this.m_resource_beautifyData(data)
         }
-        await postAddIstioAuthorizationPolicy(
+        await patchUpdateIstioServiceEntry(
           this.EnvironmentFilter.cluster,
-          this.EnvironmentFilter.namespace,
-          data.metadata.name,
+          this.item.metadata.namespace,
+          this.item.metadata.name,
           data,
         )
         this.reset()
         this.$emit('refresh')
       }
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    async init(item) {
+      const data = await getIstioServiceEntryDetail(
+        this.EnvironmentFilter.cluster,
+        item.metadata.namespace,
+        item.metadata.name,
+      )
+      this.item = deepCopy(data)
     },
     reset() {
       this.dialog = false

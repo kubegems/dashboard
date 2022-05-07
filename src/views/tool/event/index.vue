@@ -359,7 +359,7 @@ export default {
           // TODO 获取新的起始时间
         }
         this.items = []
-        let query = `{container="gems-eventer"}|__error__=""|json`
+        let query = `{container="gems-eventer"}|json|__error__=""`
         if (this.params.tenant) {
           await this.m_select_environmentSelectData(
             this.getTenantIDByName(this.params.tenant),

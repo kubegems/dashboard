@@ -36,7 +36,7 @@ import {
   getIstioAuthorizationPolicyDetail,
 } from '@/api'
 import BaseResource from '@/mixins/resource'
-import IstioAuthorizationPolicySchema from '@/views/microservice/istio/authorization-policy/mixins/schema'
+import IstioAuthorizationPolicySchema from '@/views/microservice/istio/authorization_policy/mixins/schema'
 import { deepCopy } from '@/utils/helpers'
 
 export default {

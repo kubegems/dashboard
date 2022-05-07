@@ -31,7 +31,7 @@
 import { mapGetters, mapState } from 'vuex'
 import { postAddIstioPeerAuthentication } from '@/api'
 import BaseResource from '@/mixins/resource'
-import IstioAuthorizationPolicySchema from '@/views/microservice/istio/peer-authentication/mixins/schema'
+import IstioAuthorizationPolicySchema from '@/views/microservice/istio/peer_authentication/mixins/schema'
 
 export default {
   name: 'AddPeerAuthentication',

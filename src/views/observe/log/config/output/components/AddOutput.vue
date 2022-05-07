@@ -83,7 +83,7 @@ export default {
         })
         return
       }
-      if (this.$refs[this.formComponent].$refs.form.validate(true)) {
+      if (this.$refs[this.formComponent].validate()) {
         let data = ''
         if (this.formComponent === 'BaseYamlForm') {
           data = this.$refs[this.formComponent].kubeyaml

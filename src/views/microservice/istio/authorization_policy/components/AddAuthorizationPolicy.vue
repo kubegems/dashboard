@@ -2,17 +2,15 @@
   <BaseDialog
     v-model="dialog"
     :width="1000"
-    title="更新istio端点认证"
-    icon="mdi-vector-point"
+    title="创建istio认证策略"
+    icon="mdi-key"
     @reset="reset"
   >
     <template #content>
       <component
         :is="formComponent"
         :ref="formComponent"
-        :item="item"
-        :edit="true"
-        title="PeerAuthentication"
+        title="AuthorizationPolicy"
       />
     </template>
     <template #action>
@@ -21,7 +19,7 @@
         color="primary"
         text
         :loading="Circular"
-        @click="updateIstioPeerAuthentication"
+        @click="addIstioAuthorizationPolicy"
       >
         确定
       </v-btn>
@@ -30,58 +28,48 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import {
-  patchUpdateIstioPeerAuthentication,
-  getIstioPeerAuthenticationDetail,
-} from '@/api'
+import { mapGetters, mapState } from 'vuex'
+import { postAddIstioAuthorizationPolicy } from '@/api'
+import IstioAuthorizationPolicySchema from '@/views/microservice/istio/authorization_policy/mixins/schema'
 import BaseResource from '@/mixins/resource'
-import IstioPeerAuthenticationSchema from '@/views/microservice/istio/peer-authentication/mixins/schema'
-import { deepCopy } from '@/utils/helpers'
 
 export default {
-  name: 'UpdatePeerAuthentication',
-  mixins: [BaseResource, IstioPeerAuthenticationSchema],
+  name: 'AddIstioAuthorizationPolicy',
+  mixins: [BaseResource, IstioAuthorizationPolicySchema],
   data: () => ({
     dialog: false,
-    item: null,
     formComponent: 'BaseYamlForm',
   }),
   computed: {
     ...mapState(['Circular', 'EnvironmentFilter']),
+    ...mapGetters(['VirtualSpace']),
   },
   methods: {
     // eslint-disable-next-line vue/no-unused-properties
     open() {
       this.dialog = true
     },
-    async updateIstioPeerAuthentication() {
+    async addIstioAuthorizationPolicy() {
       if (this.$refs[this.formComponent].$refs.form.validate(true)) {
         let data = ''
         if (this.formComponent === 'BaseYamlForm') {
           data = this.$refs[this.formComponent].kubeyaml
           data = this.$yamlload(data)
+          if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+            return
+          }
           if (!this.m_resource_checkDataWithOutNS(data)) return
           data = this.m_resource_beautifyData(data)
         }
-        await patchUpdateIstioPeerAuthentication(
+        await postAddIstioAuthorizationPolicy(
           this.EnvironmentFilter.cluster,
-          this.item.metadata.namespace,
-          this.item.metadata.name,
+          this.EnvironmentFilter.namespace,
+          data.metadata.name,
           data,
         )
         this.reset()
         this.$emit('refresh')
       }
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    async init(item) {
-      const data = await getIstioPeerAuthenticationDetail(
-        this.EnvironmentFilter.cluster,
-        item.metadata.namespace,
-        item.metadata.name,
-      )
-      this.item = deepCopy(data)
     },
     reset() {
       this.dialog = false

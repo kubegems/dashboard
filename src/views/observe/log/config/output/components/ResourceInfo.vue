@@ -1,17 +1,25 @@
 <template>
-  <div />
+  <v-sheet>
+    <v-sheet class="pa-2">
+      <BaseListItemForDetail title="Output">
+        <template #content>
+          <BaseCollapseChips
+            v-if="output && output.spec"
+            :chips="Object.keys(output.spec) || []"
+            single-line
+            icon="mdi-router-wireless"
+          />
+        </template>
+      </BaseListItemForDetail>
+    </v-sheet>
+  </v-sheet>
 </template>
 
 <script>
-import BaseResource from '@/mixins/resource'
 import { deepCopy } from '@/utils/helpers'
 
 export default {
   name: 'ResourceInfo',
-  components: {
-
-  },
-  mixins: [BaseResource],
   props: {
     item: {
       type: Object,
