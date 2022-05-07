@@ -31,7 +31,7 @@
 import { mapGetters, mapState } from 'vuex'
 import { postAddIstioServiceEntry } from '@/api'
 import BaseResource from '@/mixins/resource'
-import IstioServiceEntrySchema from '@/views/microservice/istio/service-entry/mixins/schema'
+import IstioServiceEntrySchema from '@/views/microservice/istio/service_entry/mixins/schema'
 
 export default {
   name: 'AddServiceEntry',

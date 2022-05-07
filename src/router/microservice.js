@@ -209,7 +209,7 @@ export const microService = [
             path: `${prefix}/authorizationpolicys`,
             name: 'authorizationpolicy-list',
             component: () =>
-              import('@/views/microservice/istio/authorization-policy/index'),
+              import('@/views/microservice/istio/authorization_policy/index'),
             meta: {
               requireAuth: true,
               title: '认证策略',
@@ -238,7 +238,7 @@ export const microService = [
             path: `${prefix}/peerauthentications`,
             name: 'peerauthentication-list',
             component: () =>
-              import('@/views/microservice/istio/peer-authentication/index'),
+              import('@/views/microservice/istio/peer_authentication/index'),
             meta: {
               requireAuth: true,
               title: '端点认证',
@@ -252,7 +252,7 @@ export const microService = [
           {
             path: `${prefix}/serviceentrys`,
             name: 'serviceentry-list',
-            component: () => import('@/views/microservice/istio/service-entry/index'),
+            component: () => import('@/views/microservice/istio/service_entry/index'),
             meta: {
               requireAuth: true,
               title: '服务入口',
