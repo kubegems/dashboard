@@ -13,6 +13,7 @@ server {
   location ~* \.(css|js|png|jpg|jpeg|gif|gz|svg|mp4|ogg|ogv|webm|htc|xml|woff)$ {
     root   /usr/src/app/dist/;
     add_header Cache-Control "public, max-age=86400";
+    gzip on;
   }
 
   location ~* index\.html$ {
