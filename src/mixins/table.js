@@ -115,7 +115,7 @@ const table = {
         return
       }
       this.$store.commit('SET_CONFIRM', {
-        title: `删除${title}`,
+        title: `批量删除${title}`,
         content: {
           text: `${Object.values(this.m_table_batchResources)
             .filter((c) => {
@@ -169,7 +169,7 @@ const table = {
         return
       }
       this.$store.commit('SET_CONFIRM', {
-        title: `删除${title}`,
+        title: `批量删除${title}`,
         content: {
           text: `${Object.values(this.m_table_batchResources)
             .filter((c) => {

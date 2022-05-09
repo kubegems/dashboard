@@ -81,7 +81,7 @@
             class="my-0"
             :rules="confirmBacthDataRule"
             required
-            label="请输入 确认删除"
+            label="请输入 “确认删除”"
             @keydown.enter="confirm"
           >
           </v-text-field>
