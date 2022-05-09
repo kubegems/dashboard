@@ -65,7 +65,6 @@
                     <template v-if="plugin.enabled && !plugin.status.healthy">
                       <v-progress-circular
                         size="16"
-                        width="3"
                         indeterminate
                         color="warning"
                       />
@@ -95,9 +94,8 @@
                       版本：{{ plugin.details.version }}
                       <v-menu
                         v-if="
-                          innerPlugins.indexOf(plugin.name) > -1 &&
-                            apiVersion &&
-                            apiVersion.GitVersion !== plugin.details.version
+                          innerPlugins[plugin.name] &&
+                            innerPlugins[plugin.name] !== plugin.details.version
                         "
                         top
                         right
@@ -156,7 +154,7 @@
                                       class="text-caption kubegems__detail kubegems__break-all"
                                     >
                                       {{
-                                        apiVersion ? apiVersion.GitVersion : ''
+                                        innerPlugins[plugin.name]
                                       }}
                                     </v-list-item-content>
                                   </v-list-item-content>
@@ -242,8 +240,8 @@ export default {
     ],
     pluginDict: {},
     interval: null,
-    innerPlugins: ['gems_agent', 'gems_msgbus', 'gems_service', 'gems_worker'],
     apiVersion: null,
+    uiVersion: null,
   }),
   computed: {
     ...mapState(['JWT', 'AdminViewport']),
@@ -255,6 +253,13 @@ export default {
         return this.pluginDict.kubernetes || {}
       }
       return {}
+    },
+    innerPlugins() {
+      return {
+        kubegems_centrol: this.apiVersion,
+        kubegems_dashboard: this.uiVersion,
+        kubegems_local: this.apiVersion,
+      }
     },
   },
   mounted() {
@@ -351,7 +356,8 @@ export default {
     },
     async platformVersion() {
       const data = await getPlatformVersion({ noprocessing: true })
-      this.apiVersion = data
+      this.apiVersion = data?.GitVersion
+      this.uiVersion = process.env.VUE_APP_RELEASE
     },
   },
 }

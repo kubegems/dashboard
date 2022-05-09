@@ -18,6 +18,7 @@
 import ProjectEnvironmentLayout from '@/views/observe/components/ProjectEnvironmentLayout'
 import Flow from './flow'
 import Output from './output'
+import Receiver from './receiver'
 
 export default {
   name: 'MonitorConfig',
@@ -25,6 +26,7 @@ export default {
     ProjectEnvironmentLayout,
     Flow,
     Output,
+    Receiver,
   },
   data () {
     this.tabs = [
@@ -39,6 +41,12 @@ export default {
         text: '日志路由器',
         component: 'Output',
         tab: 'output',
+      },
+      {
+        icon: 'mdi-call-received',
+        text: '告警接收器',
+        component: 'Receiver',
+        tab: 'receiver',
       },
     ]
 

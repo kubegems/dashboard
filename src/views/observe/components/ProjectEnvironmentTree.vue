@@ -1,37 +1,51 @@
 <template>
-  <v-treeview
-    :items="items"
-    :active.sync="active"
-    :open.sync="open"
-    item-key="treeId"
-    activatable
-    open-on-click
-    dense
-    transition
-    color="primary"
-    return-object
-    :load-children="environmentList"
-  >
-    <template #prepend="{ item }">
-      <v-icon
-        v-if="item.type === 'project'"
-        small
-        left
-        color="primary"
-      >
-        fas fa-cube
-      </v-icon>
+  <div>
+    <v-text-field
+      v-model="search"
+      hide-details
+      clearable
+      solo
+      flat
+      dense
+      label="搜索"
+      prepend-inner-icon="mdi-magnify"
+      class="search"
+    />
+    <v-treeview
+      :items="items"
+      :active.sync="active"
+      :open.sync="open"
+      :search="search"
+      item-key="treeId"
+      activatable
+      open-on-click
+      dense
+      transition
+      color="primary"
+      return-object
+      :load-children="environmentList"
+    >
+      <template #prepend="{ item }">
+        <v-icon
+          v-if="item.type === 'project'"
+          small
+          left
+          color="primary"
+        >
+          fas fa-cube
+        </v-icon>
 
-      <v-icon
-        v-else
-        small
-        left
-        color="primary"
-      >
-        fas fa-cloud
-      </v-icon>
-    </template>
-  </v-treeview>
+        <v-icon
+          v-else
+          small
+          left
+          color="primary"
+        >
+          fas fa-cloud
+        </v-icon>
+      </template>
+    </v-treeview>
+  </div>
 </template>
 
 <script>
@@ -51,6 +65,7 @@ export default {
       items: [],
       active: [],
       open: [],
+      search: '',
     }
   },
   computed: {
@@ -129,3 +144,10 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.search {
+  padding-top: 6px;
+  margin-bottom: 4px;
+}
+</style>

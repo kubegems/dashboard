@@ -54,7 +54,7 @@
           v-if="tooltip"
           right
           open-on-hover
-          offset-x="24"
+          nudge-right="24px"
         >
           <template #activator="{ on }">
             <v-btn
@@ -66,7 +66,7 @@
               <v-icon>mdi-tooltip-text-outline</v-icon>
             </v-btn>
           </template>
-          <v-card class="pa-4">
+          <v-card class="pa-0">
             <slot name="tooltip"></slot>
           </v-card>
         </v-menu>

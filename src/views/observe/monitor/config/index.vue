@@ -38,7 +38,7 @@ export default {
       },
       {
         icon: 'mdi-ruler',
-        text: '告警规则',
+        text: '监控告警规则',
         component: 'PrometheusRule',
         tab: 'prometheusrule',
       },
