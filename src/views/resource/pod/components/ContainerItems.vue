@@ -412,7 +412,7 @@ export default {
       const item = {
         namespace: pod.metadata.namespace,
         name: pod.metadata.name,
-        containers: pod.spec.containers,
+        containers: pod.status.containerStatuses,
       }
       this.$refs.terminal.init(container, item, 'shell')
       this.$refs.terminal.open()
