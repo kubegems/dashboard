@@ -1,14 +1,18 @@
 <template>
-  <div class="pa-4">
+  <div class="pa-2">
+    <BaseSubTitle title="日志采集配置" />
     <v-form
       ref="form"
       v-model="valid"
       lazy-validation
       @submit.prevent
     >
-      <ProjectEnvSelect v-model="env" />
+      <ProjectEnvSelect
+        v-model="env"
+        class="px-2 mt-0"
+      />
 
-      <v-row>
+      <v-row class="px-2">
         <v-col cols="12">
           <v-switch
             v-model="sampleMode"
@@ -18,7 +22,14 @@
             @change="onSampleModeChange"
           />
         </v-col>
+      </v-row>
 
+      <BaseSubTitle
+        class="mt-4"
+        title="自定义配置"
+      />
+
+      <v-row class="mt-0 px-2">
         <v-col cols="6">
           <v-autocomplete
             v-model="application"

@@ -20,7 +20,7 @@
             :key="item[itemValue]"
             :color="color"
             small
-            class="mr-2"
+            class="mr-2 my-1"
           >
             <v-icon v-if="icon" small left> {{ icon }} </v-icon>
             <strong v-if="dataType === 'object'" class="mr-1">
@@ -31,6 +31,7 @@
 
           <v-chip
             v-if="items.length > 1"
+            class="my-1"
             small
             :color="color"
           >

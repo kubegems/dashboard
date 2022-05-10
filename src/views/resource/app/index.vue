@@ -230,6 +230,7 @@
                   };`"
                 />
                 {{ item.runtime.status ? item.runtime.status : '' }}
+                {{ getStatus(item) }}
               </template>
             </AppEventTip>
           </template>
@@ -627,6 +628,16 @@ export default {
     },
     onPageIndexChange(page) {
       this.params.page = page
+    },
+    getStatus(item) {
+      const status = []
+      if (!['Synced', 'OutOfSync'].includes(item?.runtime?.raw?.status?.sync?.status)) {
+        status.push(`Sync: ${item?.runtime?.raw?.status?.sync?.status || '未知'}`)
+      }
+      if (item?.runtime?.raw?.status?.operationState?.phase !== 'Succeeded') {
+        status.push(`Operation: ${item?.runtime?.raw?.status?.operationState?.phase || '未知'}`)
+      }
+      return status.length > 0 ? `( ${status.join(', ')} ) ` : ''
     },
   },
 }

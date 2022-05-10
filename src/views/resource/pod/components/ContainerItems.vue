@@ -257,6 +257,7 @@
                         : '未知'
                     }}
                   </span>
+                  <span v-else>暂无</span>
                 </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1">
                   Age
@@ -412,7 +413,7 @@ export default {
       const item = {
         namespace: pod.metadata.namespace,
         name: pod.metadata.name,
-        containers: pod.spec.containers,
+        containers: pod.status.containerStatuses,
       }
       this.$refs.terminal.init(container, item, 'shell')
       this.$refs.terminal.open()

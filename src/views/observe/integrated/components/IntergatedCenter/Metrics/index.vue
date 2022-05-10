@@ -1,12 +1,17 @@
 <template>
-  <div class="pa-4">
+  <div class="pa-2">
+    <BaseSubTitle title="监控采集配置" />
     <v-form
       ref="form"
       v-model="valid"
+      class="px-2"
       lazy-validation
       @submit.prevent
     >
-      <ProjectEnvSelect v-model="env" />
+      <ProjectEnvSelect
+        v-model="env"
+        class="mt-0"
+      />
 
       <v-row>
         <v-col cols="6">
@@ -78,11 +83,8 @@
       </v-row>
     </v-form>
 
-    <BaseSubTitle
-      title="指标"
-      :divider="false"
-    />
-    <MetricsList :env="env" />
+    <BaseSubTitle title="指标" />
+    <MetricsList />
   </div>
 </template>
 

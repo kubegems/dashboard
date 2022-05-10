@@ -95,7 +95,7 @@ export default {
         query: this.params.query,
         start: startTime,
         end: endTime,
-        limit: 10,
+        limit: 11,
         noprocessing: true,
         direction: direction,
       }
@@ -107,8 +107,9 @@ export default {
       this.loading.preview = true
       const timestamp = (this.items.preview.length ? this.items.preview[0].timestamp : this.params.timestamp).toString()
       const start = new Date(parseInt(timestamp.substr(0, 13)) - 1000 * 60 * 60 * 3).getTime() + '000000'
-      const end = (parseInt(timestamp) - 100000).toString()
+      const end = parseInt(timestamp).toString()
       const data = await this.getLogContext(start, end, 'backward')
+      data.shift()
       this.items.preview = [...data, ...this.items.preview]
       this.loading.preview = false
     },
@@ -117,9 +118,10 @@ export default {
       const timestamp = (this.items.next.length
         ? this.items.next[this.items.next.length - 1].timestamp
         : this.params.timestamp).toString()
-      const start = (parseInt(timestamp) + 100000).toString()
+      const start = parseInt(timestamp).toString()
       const end = new Date(parseInt(timestamp.substr(0, 13)) + 1000 * 60 * 60 * 3).getTime() + '000000'
       const data = await this.getLogContext(start, end, 'forward')
+      data.shift()
       this.items.next = [...this.items.next, ...data]
       this.loading.next = false
     },
