@@ -31,6 +31,7 @@ export const adminWorkspace = [
               icon: 'mdi-server',
               show: true,
               rootName: 'admin-workspace',
+              tip: 'cluster',
             },
           },
           {
@@ -44,6 +45,7 @@ export const adminWorkspace = [
               icon: 'mdi-server',
               show: false,
               rootName: 'admin-workspace',
+              tip: 'cluster',
             },
           },
           // plugin
@@ -58,6 +60,7 @@ export const adminWorkspace = [
               icon: 'mdi-power-plug',
               show: true,
               rootName: 'admin-workspace',
+              tip: 'plugin',
             },
           },
         ],
@@ -85,6 +88,7 @@ export const adminWorkspace = [
               icon: 'mdi-lan-connect',
               show: true,
               rootName: 'admin-workspace',
+              tip: 'node',
             },
           },
           {
@@ -98,6 +102,7 @@ export const adminWorkspace = [
               icon: 'mdi-lan-connect',
               show: false,
               rootName: 'admin-workspace',
+              tip: 'node',
             },
           },
         ],
@@ -125,6 +130,7 @@ export const adminWorkspace = [
               icon: 'mdi-vector-arrange-above',
               show: true,
               rootName: 'admin-workspace',
+              tip: 'workload',
             },
           },
           {
@@ -138,6 +144,7 @@ export const adminWorkspace = [
               icon: 'mdi-vector-arrange-above',
               show: false,
               rootName: 'admin-workspace',
+              tip: 'workload',
             },
           },
           // pod
@@ -152,6 +159,7 @@ export const adminWorkspace = [
               icon: 'mdi-microsoft',
               show: true,
               rootName: 'admin-workspace',
+              tip: 'pod',
             },
           },
           {
@@ -165,6 +173,7 @@ export const adminWorkspace = [
               icon: 'mdi-microsoft',
               show: false,
               rootName: 'admin-workspace',
+              tip: 'pod',
             },
           },
           // service
@@ -179,6 +188,7 @@ export const adminWorkspace = [
               icon: 'mdi-dns',
               show: true,
               rootName: 'admin-workspace',
+              tip: 'service',
             },
           },
           {
@@ -192,6 +202,7 @@ export const adminWorkspace = [
               icon: 'mdi-dns',
               show: false,
               rootName: 'admin-workspace',
+              tip: 'service',
             },
           },
           // ingress
@@ -206,6 +217,7 @@ export const adminWorkspace = [
               icon: 'mdi-network',
               show: true,
               rootName: 'admin-workspace',
+              tip: 'ingress',
             },
           },
           {
@@ -219,6 +231,7 @@ export const adminWorkspace = [
               icon: 'mdi-network',
               show: false,
               rootName: 'admin-workspace',
+              tip: 'ingress',
             },
           },
           // gateway
@@ -233,6 +246,7 @@ export const adminWorkspace = [
               icon: 'mdi-gate',
               show: true,
               rootName: 'admin-workspace',
+              tip: 'gateway',
             },
           },
           {
@@ -246,6 +260,7 @@ export const adminWorkspace = [
               icon: 'mdi-gate',
               show: false,
               rootName: 'admin-workspace',
+              tip: 'gateway',
             },
           },
         ],
@@ -272,6 +287,7 @@ export const adminWorkspace = [
               icon: 'mdi-repeat-once',
               show: true,
               rootName: 'admin-workspace',
+              tip: 'job',
             },
           },
           {
@@ -285,6 +301,7 @@ export const adminWorkspace = [
               icon: 'mdi-repeat-once',
               show: false,
               rootName: 'admin-workspace',
+              tip: 'job',
             },
           },
           // cronjob
@@ -299,6 +316,7 @@ export const adminWorkspace = [
               icon: 'mdi-calendar-clock',
               show: true,
               rootName: 'admin-workspace',
+              tip: 'cronjob',
             },
           },
           {
@@ -312,6 +330,7 @@ export const adminWorkspace = [
               icon: 'mdi-calendar-clock',
               show: false,
               rootName: 'admin-workspace',
+              tip: 'cronjob',
             },
           },
         ],
@@ -338,6 +357,7 @@ export const adminWorkspace = [
               icon: 'mdi-wrench',
               show: true,
               rootName: 'admin-workspace',
+              tip: 'configmap',
             },
           },
           {
@@ -351,6 +371,7 @@ export const adminWorkspace = [
               icon: 'mdi-wrench',
               show: false,
               rootName: 'admin-workspace',
+              tip: 'configmap',
             },
           },
           // secret
@@ -365,6 +386,7 @@ export const adminWorkspace = [
               icon: 'mdi-key-variant',
               show: true,
               rootName: 'admin-workspace',
+              tip: 'secret',
             },
           },
           {
@@ -378,6 +400,7 @@ export const adminWorkspace = [
               icon: 'mdi-key-variant',
               show: false,
               rootName: 'admin-workspace',
+              tip: 'secret',
             },
           },
           // certmanager
@@ -392,6 +415,7 @@ export const adminWorkspace = [
               icon: 'mdi-book-open',
               show: true,
               rootName: 'admin-workspace',
+              tip: 'certmanager',
             },
           },
           {
@@ -405,6 +429,7 @@ export const adminWorkspace = [
               icon: 'mdi-book-open',
               show: false,
               rootName: 'admin-workspace',
+              tip: 'certmanager',
             },
           },
         ],
@@ -431,6 +456,7 @@ export const adminWorkspace = [
               icon: 'mdi-collage',
               show: true,
               rootName: 'admin-workspace',
+              tip: 'crd',
             },
           },
           {
@@ -444,6 +470,7 @@ export const adminWorkspace = [
               icon: 'mdi-collage',
               show: false,
               rootName: 'admin-workspace',
+              tip: 'crd',
             },
           },
         ],
@@ -472,6 +499,7 @@ export const adminWorkspace = [
               show: true,
               rootName: 'admin-workspace',
               dependencies: ['local_path'],
+              tip: 'persistentvolumeclaim',
             },
           },
           {
@@ -487,6 +515,7 @@ export const adminWorkspace = [
               show: false,
               rootName: 'admin-workspace',
               dependencies: ['local_path'],
+              tip: 'persistentvolumeclaim',
             },
           },
           // volumesnapshot
@@ -501,6 +530,7 @@ export const adminWorkspace = [
               show: true,
               rootName: 'admin-workspace',
               dependencies: ['local_path'],
+              tip: 'volumesnapshot',
             },
           },
           // storageclass
@@ -516,6 +546,7 @@ export const adminWorkspace = [
               show: true,
               rootName: 'admin-workspace',
               dependencies: ['local_path'],
+              tip: 'storageclass',
             },
           },
         ],

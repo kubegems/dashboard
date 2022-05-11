@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <span class="text-body-2 kubegems__role">
@@ -110,11 +110,6 @@ export default {
   },
   mixins: [BasePermission, BaseResource],
   data: () => ({
-    breadcrumb: {
-      title: '租户资源',
-      tip: '租户容器服务提供了安全隔离的、具有访问权限控制的工作平台。这里您可以看到当前租户内资源运行的概况。',
-      icon: 'mdi-view-dashboard',
-    },
     statistics: null,
   }),
   computed: {

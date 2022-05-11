@@ -17,6 +17,7 @@ import 'vue-okr-tree/dist/vue-okr-tree.css'
 import 'vue-slider-component/theme/default.css'
 import './assets/styles/index.scss'
 import c from '@/plugins/const'
+import t from '@/plugins/tip'
 
 // 自定义指令
 import directives from './directives'
@@ -79,6 +80,7 @@ Vue.use(VuePageTitle, {
 })
 Vue.use(directives)
 Vue.use(c)
+Vue.use(t)
 
 // eslint-disable-next-line vue/require-name-property
 new Vue({

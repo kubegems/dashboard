@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-btn
@@ -161,11 +161,6 @@ export default {
   },
   mixins: [BaseSelect, BaseResource],
   data: () => ({
-    breadcrumb: {
-      title: '集群详情',
-      tip: '对多集群以及每个集群的基础资源，服务组件和应用资源等统一管理。',
-      icon: 'mdi-view-dashboard',
-    },
     cluster: null,
     quota: null,
     workload: null,

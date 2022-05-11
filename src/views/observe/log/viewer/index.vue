@@ -3,7 +3,7 @@
     id="log-viewer"
     fluid
   >
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <BaseDatetimePicker
@@ -178,12 +178,6 @@ export default {
     LogLine,
   },
   data () {
-    this.breadcrumb = {
-      title: '日志查询问器',
-      tip: '基于Loki的日志查看面板，可进行日志实时查询，快照，过滤等等',
-      icon: 'mdi-format-list-bulleted',
-    }
-
     return {
       cluster: {},
       date: [],

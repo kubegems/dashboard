@@ -166,12 +166,6 @@ export default {
     UpdateOutput,
   },
   data() {
-    this.breadcrumb = {
-      title: '日志路由器',
-      tip: '',
-      icon: 'mdi-router-wireless',
-    }
-
     this.filters = [
       { text: '名称', value: 'name', items: [] },
       { text: '类型', value: 'kind', items: [

@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
       <v-card-title class="py-2">
         <BaseFilter
@@ -180,20 +180,17 @@ export default {
     UpdateVirtualSpace,
   },
   mixins: [BasePermission, BaseFilter, BaseResource, BaseTable],
-  data: () => ({
-    breadcrumb: {
-      title: '虚拟空间',
-      tip: '虚拟空间(virtualspace)是一组环境的聚合',
-      icon: 'mdi-cloud-outline',
-    },
-    items: [],
-    pageCount: 0,
-    params: {
-      page: 1,
-      size: 10,
-    },
-    filters: [{ text: '虚拟空间名称', value: 'search', items: [] }],
-  }),
+  data () {
+    return {
+      items: [],
+      pageCount: 0,
+      params: {
+        page: 1,
+        size: 10,
+      },
+      filters: [{ text: '虚拟空间名称', value: 'search', items: [] }],
+    }
+  },
   computed: {
     ...mapState(['JWT', 'Admin']),
     headers() {

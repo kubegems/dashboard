@@ -4,7 +4,7 @@
       v-if="!AdminViewport"
       :environmented="Environment().ID > 0"
     />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
       <v-card-title class="py-2">
         <BaseFilter
@@ -319,11 +319,6 @@ export default {
   },
   mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
-    breadcrumb: {
-      title: '应用',
-      tip: '应用(Application)是来自应用编排与应用商店部署下的应用运行时',
-      icon: 'mdi-apps',
-    },
     items: [],
     pageCount: 0,
     params: {

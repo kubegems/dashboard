@@ -4,7 +4,7 @@
       v-if="!AdminViewport"
       :environmented="Environment().ID > 0"
     />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
       <v-card-title class="py-2">
         <BaseFilter
@@ -180,11 +180,6 @@ export default {
   },
   mixins: [BaseFilter, BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '应用编排',
-      tip: '应用编排(AppManifest)是一组工作负载，配置，密钥等资源的描述文件集合。',
-      icon: 'mdi-apps',
-    },
     items: [],
     pageCount: 0,
     params: {

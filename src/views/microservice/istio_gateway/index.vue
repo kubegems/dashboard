@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseMicroServiceHeader />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
       <v-card-title class="py-2">
         <BaseFilter
@@ -187,11 +187,6 @@ export default {
   },
   mixins: [BasePermission, BaseFilter],
   data: () => ({
-    breadcrumb: {
-      title: 'Istio网关实例',
-      tip: 'Istio网关实例(IngressGateway)',
-      icon: 'mdi-gate',
-    },
     items: [],
     filters: [{ text: '网关实例名称', value: 'search', items: [] }],
     params: {},

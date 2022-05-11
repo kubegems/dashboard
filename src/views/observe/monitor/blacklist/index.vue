@@ -3,7 +3,7 @@
     fluid
     class="alert-history"
   >
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card class="mt-4 pa-4">
       <div class="mb-4">
         <ClusterSelect
@@ -107,12 +107,6 @@ export default {
   },
   mixins: [BaseSelect],
   data() {
-    this.breadcrumb = {
-      title: '告警黑名单',
-      tip: '告警置于黑名单后将不会再产生告警提示',
-      icon: 'mdi-playlist-remove',
-    }
-
     this.headers = [
       { text: '摘要', value: 'summary', align: 'start' },
       { text: '命名空间', value: 'namespace', align: 'start' },

@@ -10,7 +10,7 @@
             <div class="d-flex align-center pa-10">
               <div class="text-center">
                 <h2 class="text-h4 primary--text font-weight-medium">
-                  您的租户暂未分配任何集群资源
+                  您的租户暂未分配任何集群资源！
                 </h2>
                 <h6
                   class="

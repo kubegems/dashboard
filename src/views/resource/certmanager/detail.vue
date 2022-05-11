@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader :selectable="false" />
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-btn
@@ -134,11 +134,6 @@ export default {
   },
   mixins: [BaseFilter, BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '证书',
-      tip: '证书 (Certificate)，在创建证书时，证书管理器将创建相应的CertificateRequest资源，其中包含编码的X.509证书请求、颁发者引用和基于证书资源规范的其他选项。',
-      icon: 'mdi-book-open',
-    },
     certificate: null,
     tab: 0,
     tabItems: [

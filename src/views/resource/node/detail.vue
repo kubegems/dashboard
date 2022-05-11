@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader :selectable="false" />
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-btn
@@ -248,11 +248,6 @@ export default {
   },
   mixins: [BaseResource],
   data: () => ({
-    breadcrumb: {
-      title: '节点',
-      tip: '节点(node)提供了当前集群下节点的运行状态。',
-      icon: 'mdi-desktop-tower',
-    },
     tab: 0,
     node: null,
   }),

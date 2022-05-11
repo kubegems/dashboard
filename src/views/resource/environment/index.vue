@@ -4,7 +4,7 @@
       v-if="!AdminViewport"
       :selectable="false"
     />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
       <v-card-title class="py-2">
         <BaseFilter
@@ -212,11 +212,6 @@ export default {
   mixins: [BaseSelect, BaseResource, BasePermission, BaseFilter, BaseTable],
   inject: ['reload'],
   data: () => ({
-    breadcrumb: {
-      title: '环境',
-      tip: '环境(environment)是具体应用，负载，存储等资源的边界，通常来说是一个命名空间(namespace)。',
-      icon: 'mdi-cloud',
-    },
     items: [],
     tenant: -1,
     params: {},

@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseMicroServiceHeader :selectable="false" />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
 
     <v-card flat>
       <v-card-text class="pa-0">
@@ -52,11 +52,6 @@ export default {
   },
   mixins: [BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '工作负载',
-      tip: '工作负载 (Workload) 通常是访问服务的载体, 是对一组容器组 (Pod) 的抽象。',
-      icon: 'mdi-vector-arrange-above',
-    },
     tab: 0,
     tabItems: [
       { text: '概览', value: 'ResourceInfo' },

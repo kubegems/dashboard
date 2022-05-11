@@ -13,6 +13,8 @@ export const modelstore = [
           requireAuth: true,
           smallTitle: '模型商店',
           title: '模型商店',
+          icon: 'mdi-shopping',
+          tip: 'modelstore',
         },
       },
       {
@@ -23,6 +25,8 @@ export const modelstore = [
           requireAuth: true,
           smallTitle: '模型商店',
           title: '模型商店',
+          icon: 'mdi-shopping',
+          tip: 'modelstore',
         },
       },
     ],

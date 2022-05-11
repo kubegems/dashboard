@@ -30,6 +30,7 @@ export const observe = [
               icon: 'mdi-home',
               show: true,
               rootName: 'observe',
+              tip: 'observe',
             },
           },
         ],
@@ -60,6 +61,7 @@ export const observe = [
               icon: 'mdi-widgets',
               show: true,
               rootName: 'observe',
+              tip: 'integrated',
             },
           },
         ],
@@ -90,6 +92,7 @@ export const observe = [
               icon: 'mdi-gauge',
               show: true,
               rootName: 'observe',
+              tip: 'dash-overview',
             },
           },
           {
@@ -103,6 +106,7 @@ export const observe = [
               icon: 'mdi-feature-search-outline',
               show: true,
               rootName: 'observe',
+              tip: 'dash-metrics',
             },
           },
           {
@@ -117,6 +121,7 @@ export const observe = [
               show: true,
               rootName: 'observe',
               dependencies: ['logging'],
+              tip: 'dash-log',
             },
           },
           {
@@ -131,6 +136,7 @@ export const observe = [
               show: true,
               rootName: 'observe',
               dependencies: ['logging'],
+              tip: 'dash-log-snapshot',
             },
           },
           {
@@ -145,6 +151,7 @@ export const observe = [
               show: true,
               rootName: 'observe',
               dependencies: ['jaeger'],
+              tip: 'dash-trace',
             },
           },
           {
@@ -159,6 +166,7 @@ export const observe = [
               show: true,
               rootName: 'observe',
               dependencies: ['jaeger'],
+              tip: 'dash-trace',
             },
           },
         ],
@@ -189,6 +197,7 @@ export const observe = [
               icon: 'mdi-monitor-dashboard',
               show: true,
               rootName: 'observe',
+              tip: 'alert-overview',
             },
           },
           {
@@ -202,6 +211,7 @@ export const observe = [
               icon: 'mdi-alarm-multiple',
               show: true,
               rootName: 'observe',
+              tip: 'alert-living',
             },
           },
           {
@@ -216,6 +226,7 @@ export const observe = [
               show: true,
               rootName: 'observe',
               dependencies: ['monitoring'],
+              tip: 'alert-history',
             },
           },
           {
@@ -230,6 +241,7 @@ export const observe = [
               show: true,
               rootName: 'observe',
               dependencies: ['monitoring'],
+              tip: 'alert-blacklist',
             },
           },
         ],
@@ -260,6 +272,7 @@ export const observe = [
               icon: 'mdi-format-list-bulleted',
               show: true,
               rootName: 'observe',
+              tip: 'config-monitor',
             },
           },
           {
@@ -273,6 +286,7 @@ export const observe = [
               icon: 'mdi-eyedropper',
               show: false,
               rootName: 'observe',
+              tip: 'service-monitor',
             },
           },
           {
@@ -286,6 +300,7 @@ export const observe = [
               icon: 'mdi-ruler',
               show: false,
               rootName: 'observe',
+              tip: 'prometheus-rule',
             },
           },
           {
@@ -300,6 +315,7 @@ export const observe = [
               show: true,
               rootName: 'observe',
               dependencies: ['logging'],
+              tip: 'log-monitor',
             },
           },
           {
@@ -314,6 +330,7 @@ export const observe = [
               show: false,
               rootName: 'observe',
               dependencies: ['logging'],
+              tip: 'flow',
             },
           },
           {
@@ -328,6 +345,7 @@ export const observe = [
               show: false,
               rootName: 'observe',
               dependencies: ['logging'],
+              tip: 'output',
             },
           },
         ],

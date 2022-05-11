@@ -36,14 +36,19 @@
 export default {
   name: 'BaseBreadcrumb',
   props: {
-    breadcrumb: {
-      type: Object,
-      default: () => {},
-    },
     flat: {
       type: Boolean,
       default: () => false,
     }
+  },
+  computed: {
+    breadcrumb() {
+      return {
+        title: this.$route.meta.title,
+        tip: this.$TIP[this.$route.meta.tip],
+        icon: this.$route.meta.icon,
+      }
+    },
   },
 }
 </script>

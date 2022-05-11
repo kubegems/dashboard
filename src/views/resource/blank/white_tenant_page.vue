@@ -10,7 +10,7 @@
             <div class="d-flex align-center pa-10">
               <div class="text-center">
                 <h2 class="text-h4 primary--text font-weight-medium">
-                  您已退出当前租户，请重新选择租户
+                  您已退出当前租户，请重新选择租户！
                 </h2>
                 <h6
                   class="

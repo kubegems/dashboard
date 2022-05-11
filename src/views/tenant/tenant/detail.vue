@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-menu left>
@@ -443,11 +443,6 @@ export default {
   },
   mixins: [BaseFilter, BaseSelect],
   data: () => ({
-    breadcrumb: {
-      title: '租户',
-      tip: '租户(tenant)是一个组织您的项目和 DevOps 工程、管理资源访问权限以及在团队内部共享资源等的逻辑单元，可以作为团队工作的独立工作空间。',
-      icon: 'mdi-account-switch',
-    },
     tenant: null,
     userItems: [],
     userHeaders: [

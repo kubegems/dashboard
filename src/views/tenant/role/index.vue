@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
       <v-data-table
         class="mx-4"
@@ -23,11 +23,6 @@ export default {
   components: {},
   mixins: [BaseFilter],
   data: () => ({
-    breadcrumb: {
-      title: '角色',
-      tip: '系统所有角色(Role)与操作权限的描述。',
-      icon: 'mdi-ticket-account',
-    },
     items: [
       {
         id: 1,

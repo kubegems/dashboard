@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
 
     <template v-for="item in items">
       <v-flex
@@ -77,11 +77,6 @@ export default {
   },
   mixins: [BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '接入中心',
-      tip: '配置应用/中间件的链路追踪，指标监控，日志以获得可观测性功能。',
-      icon: 'mdi-widgets',
-    },
     items: {
       app: {
         name: '应用类型',

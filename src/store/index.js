@@ -358,7 +358,7 @@ export default new Vuex.Store({
       if (!state.PluginsInterval && state.JWT) {
         const r = await doFunc()
         if (r) {
-          state.PluginsInterval = setInterval(doFunc, 1000 * 60)
+          state.PluginsInterval = setInterval(doFunc, 1000 * 120)
         }
       }
     },

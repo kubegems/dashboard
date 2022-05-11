@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader :selectable="false" />
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-btn
@@ -180,11 +180,6 @@ export default {
   },
   mixins: [BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '存储卷',
-      tip: ' 存储卷(persistentVolumeClaim)供用户创建的工作负载使用，是将工作负载数据持久化的一种资源对象。',
-      icon: 'mdi-database',
-    },
     pvc: null,
     tab: 0,
     tabItems: [

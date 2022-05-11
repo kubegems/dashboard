@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-btn
@@ -140,12 +140,6 @@ export default {
   },
   mixins: [BasePermission],
   data() {
-    this.breadcrumb = {
-      title: '日志路由器',
-      tip: '',
-      icon: 'mdi-router-wireless',
-    }
-
     this.tabItems = [
       { text: '资源信息', value: 'ResourceInfo' },
       { text: '元数据', value: 'Metadata' },

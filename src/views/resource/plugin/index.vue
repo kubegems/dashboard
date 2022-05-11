@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
       <v-card-text class="pa-2">
         <v-tabs
@@ -228,11 +228,6 @@ export default {
   name: 'Plugin',
   mixins: [BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '组件管理',
-      tip: '服务组件提供Kubernetes集群内各项服务组件的健康状态，启用状态等管理。',
-      icon: 'mdi-power-plug',
-    },
     tab: 0,
     tabItems: [
       { text: '核心组件', value: 'Core' },
