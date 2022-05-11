@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseMicroServiceHeader />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
       <v-card-title class="py-2">
         <BaseFilter
@@ -198,11 +198,6 @@ export default {
   },
   mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
-    breadcrumb: {
-      title: '端点认证',
-      tip: '端点认证 (PeerAuthentication) 定义了流量将如何通过隧道（或不通过）传输到 sidecar。',
-      icon: 'mdi-vector-point',
-    },
     items: [],
     pageCount: 0,
     params: {

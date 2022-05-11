@@ -13,6 +13,8 @@ export const appStore = [
           requireAuth: true,
           smallTitle: '应用商店',
           title: '应用商店',
+          icon: 'mdi-shopping',
+          tip: 'appstore',
         },
       },
       {
@@ -23,6 +25,8 @@ export const appStore = [
           requireAuth: true,
           smallTitle: '应用商店',
           title: '应用商店',
+          icon: 'mdi-shopping',
+          tip: 'appstore',
         },
       },
     ],

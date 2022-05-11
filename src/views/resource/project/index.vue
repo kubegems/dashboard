@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
       <v-card-title class="py-2">
         <BaseFilter
@@ -227,11 +227,6 @@ export default {
   },
   mixins: [BaseFilter, BaseSelect, BasePermission, BaseResource, BaseTable],
   data: () => ({
-    breadcrumb: {
-      title: '项目',
-      tip: '项目(project)是一组环境，应用以及镜像仓库的抽象组合。',
-      icon: 'mdi-cube-outline',
-    },
     items: [],
     tenant: -1,
     pageCount: 0,

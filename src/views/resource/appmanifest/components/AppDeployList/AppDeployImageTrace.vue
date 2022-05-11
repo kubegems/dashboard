@@ -66,6 +66,7 @@
           v-model="params.page"
           :page-count="pageCount"
           :size="params.size"
+          :show-size="false"
           @loaddata="deployEnvironmentAppImageTrace"
           @changesize="onPageSizeChange"
           @changepage="onPageIndexChange"

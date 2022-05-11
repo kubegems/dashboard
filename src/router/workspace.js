@@ -29,6 +29,7 @@ export const workspace = [
               icon: 'mdi-cube',
               show: true,
               rootName: 'workspace',
+              tip: 'environment',
             },
           },
         ],
@@ -55,6 +56,7 @@ export const workspace = [
               icon: 'mdi-apps',
               show: true,
               rootName: 'workspace',
+              tip: 'app',
             },
           },
           {
@@ -67,6 +69,7 @@ export const workspace = [
               icon: 'mdi-apps',
               show: false,
               rootName: 'workspace',
+              tip: 'app',
             },
           },
           {
@@ -79,6 +82,7 @@ export const workspace = [
               icon: 'mdi-apps',
               show: false,
               rootName: 'workspace',
+              tip: 'deploy',
             },
           },
         ],
@@ -106,6 +110,7 @@ export const workspace = [
               icon: 'mdi-vector-arrange-above',
               show: true,
               rootName: 'workspace',
+              tip: 'workload',
             },
           },
           {
@@ -119,6 +124,7 @@ export const workspace = [
               icon: 'mdi-vector-arrange-above',
               show: false,
               rootName: 'workspace',
+              tip: 'workload',
             },
           },
           // pod
@@ -133,6 +139,7 @@ export const workspace = [
               icon: 'mdi-microsoft',
               show: true,
               rootName: 'workspace',
+              tip: 'pod',
             },
           },
           {
@@ -146,6 +153,7 @@ export const workspace = [
               icon: 'mdi-microsoft',
               show: false,
               rootName: 'workspace',
+              tip: 'pod',
             },
           },
           // service
@@ -160,6 +168,7 @@ export const workspace = [
               icon: 'mdi-dns',
               show: true,
               rootName: 'workspace',
+              tip: 'service',
             },
           },
           {
@@ -173,6 +182,7 @@ export const workspace = [
               icon: 'mdi-dns',
               show: false,
               rootName: 'workspace',
+              tip: 'service',
             },
           },
           // ingress
@@ -187,6 +197,8 @@ export const workspace = [
               icon: 'mdi-network',
               show: true,
               rootName: 'workspace',
+              tip: 'ingress',
+
             },
           },
           {
@@ -200,6 +212,7 @@ export const workspace = [
               icon: 'mdi-network',
               show: false,
               rootName: 'workspace',
+              tip: 'ingress',
             },
           },
           // gateway
@@ -214,6 +227,7 @@ export const workspace = [
               icon: 'mdi-gate',
               show: true,
               rootName: 'workspace',
+              tip: 'gateway',
             },
           },
           {
@@ -227,6 +241,7 @@ export const workspace = [
               icon: 'mdi-gate',
               show: false,
               rootName: 'workspace',
+              tip: 'gateway',
             },
           },
         ],
@@ -253,6 +268,7 @@ export const workspace = [
               icon: 'mdi-repeat-once',
               show: true,
               rootName: 'workspace',
+              tip: 'job',
             },
           },
           {
@@ -266,6 +282,7 @@ export const workspace = [
               icon: 'mdi-repeat-once',
               show: false,
               rootName: 'workspace',
+              tip: 'job',
             },
           },
           // cronjob
@@ -280,6 +297,7 @@ export const workspace = [
               icon: 'mdi-calendar-clock',
               show: true,
               rootName: 'workspace',
+              tip: 'cronjob',
             },
           },
           {
@@ -293,6 +311,7 @@ export const workspace = [
               icon: 'mdi-calendar-clock',
               show: false,
               rootName: 'workspace',
+              tip: 'cronjob',
             },
           },
         ],
@@ -319,6 +338,7 @@ export const workspace = [
               icon: 'mdi-wrench',
               show: true,
               rootName: 'workspace',
+              tip: 'configmap',
             },
           },
           {
@@ -332,6 +352,7 @@ export const workspace = [
               icon: 'mdi-wrench',
               show: false,
               rootName: 'workspace',
+              tip: 'configmap',
             },
           },
           // secret
@@ -346,6 +367,7 @@ export const workspace = [
               icon: 'mdi-key-variant',
               show: true,
               rootName: 'workspace',
+              tip: 'secret',
             },
           },
           {
@@ -359,6 +381,7 @@ export const workspace = [
               icon: 'mdi-key-variant',
               show: false,
               rootName: 'workspace',
+              tip: 'secret',
             },
           },
           // certmanager
@@ -373,6 +396,7 @@ export const workspace = [
               icon: 'mdi-book-open',
               show: true,
               rootName: 'workspace',
+              tip: 'certmanager',
             },
           },
           {
@@ -386,6 +410,7 @@ export const workspace = [
               icon: 'mdi-book-open',
               show: false,
               rootName: 'workspace',
+              tip: 'certmanager',
             },
           },
         ],
@@ -414,6 +439,7 @@ export const workspace = [
               show: true,
               rootName: 'workspace',
               dependencies: ['local_path'],
+              tip: 'persistentvolumeclaim',
             },
           },
           {
@@ -429,6 +455,7 @@ export const workspace = [
               show: false,
               rootName: 'workspace',
               dependencies: ['local_path'],
+              tip: 'persistentvolumeclaim',
             },
           },
           // volumesnapshot
@@ -444,6 +471,7 @@ export const workspace = [
               show: true,
               rootName: 'workspace',
               dependencies: ['local_path'],
+              tip: 'volumesnapshot',
             },
           },
         ],

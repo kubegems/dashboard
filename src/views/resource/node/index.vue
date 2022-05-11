@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
       <v-card-title class="py-2">
         <BaseFilter
@@ -292,11 +292,6 @@ export default {
   },
   mixins: [BaseFilter, BaseResource],
   data: () => ({
-    breadcrumb: {
-      title: '集群节点',
-      tip: '节点(node)提供了当前集群下节点的运行状态。',
-      icon: 'mdi-lan-connect',
-    },
     items: [],
     headers: [
       { text: '主机名', value: 'name', align: 'start' },

@@ -4,7 +4,7 @@
       v-if="!AdminViewport"
       :environmented="false"
     />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
       <v-card-title class="py-2">
         <BaseFilter
@@ -185,11 +185,6 @@ export default {
   },
   mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
-    breadcrumb: {
-      title: '镜像仓库',
-      tip: '镜像仓库(registry)是一种存储库（或存储库集合），用于存储Kubernetes、DevOps 和基于容器的应用开发的容器镜像。',
-      icon: 'mdi-database',
-    },
     items: [],
     pageCount: 0,
     params: {

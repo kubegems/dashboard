@@ -4,7 +4,7 @@
     class="queryer"
   >
     <BaseBreadcrumb
-      :breadcrumb="breadcrumb"
+
       class="queryer__header"
     >
       <template #extend>
@@ -367,12 +367,6 @@ export default {
   },
   mixins: [BaseSelect],
   data() {
-    this.breadcrumb = {
-      title: '指标查询器',
-      tip: '查询系统监控指标，并支持生成告警',
-      icon: 'mdi-feature-search-outline',
-    }
-
     this.fieldRules = {
       cluster: (index) => {
         return [
@@ -705,12 +699,9 @@ export default {
     }
 
     &-inner {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
+      position: inherit;
       overflow: auto;
+      padding-bottom: 8px;
     }
   }
 

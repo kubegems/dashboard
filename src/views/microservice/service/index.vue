@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseMicroServiceHeader />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
       <v-card-title class="py-2">
         <BaseFilter
@@ -369,11 +369,6 @@ export default {
   },
   mixins: [BasePermission, BaseFilter],
   data: () => ({
-    breadcrumb: {
-      title: '服务',
-      tip: '服务 (Service) 是定义了一类容器组的逻辑集合和一个用于访问它们的策略。',
-      icon: 'mdi-network',
-    },
     items: [],
     valids: {},
     pageCount: 0,

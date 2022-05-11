@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader :selectable="false" />
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-btn
@@ -126,11 +126,6 @@ export default {
   },
   mixins: [BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '容器组',
-      tip: '容器组 (Pod) 是 Kubernetes 应用程序的基本执行单元，是您创建或部署的 Kubernetes 对象模型中最小和最简单的单元。',
-      icon: 'mdi-microsoft',
-    },
     pod: null,
     tab: 0,
     tabItems: [

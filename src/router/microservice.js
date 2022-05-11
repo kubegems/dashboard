@@ -31,6 +31,7 @@ export const microService = [
               show: true,
               rootName: 'microservice',
               dependencies: ['istio'],
+              tip: 'v-dashboard',
             },
           },
         ],
@@ -58,6 +59,7 @@ export const microService = [
               show: true,
               rootName: 'microservice',
               dependencies: ['istio'],
+              tip: 'dag',
             },
           },
           // microworkload
@@ -72,6 +74,7 @@ export const microService = [
               show: true,
               rootName: 'microservice',
               dependencies: ['istio'],
+              tip: 'v-workload',
             },
           },
           {
@@ -85,6 +88,7 @@ export const microService = [
               show: false,
               rootName: 'microservice',
               dependencies: ['istio'],
+              tip: 'v-workload',
             },
           },
           // service
@@ -99,6 +103,7 @@ export const microService = [
               show: true,
               rootName: 'microservice',
               dependencies: ['istio'],
+              tip: 'v-service',
             },
           },
           {
@@ -112,6 +117,7 @@ export const microService = [
               show: false,
               rootName: 'microservice',
               dependencies: ['istio'],
+              tip: 'v-service',
             },
           },
         ],
@@ -138,6 +144,7 @@ export const microService = [
               show: true,
               rootName: 'microservice',
               dependencies: ['istio'],
+              tip: 'v-configmap',
             },
           },
           {
@@ -151,6 +158,7 @@ export const microService = [
               show: false,
               rootName: 'microservice',
               dependencies: ['istio'],
+              tip: 'v-configmap',
             },
           },
         ],
@@ -172,11 +180,12 @@ export const microService = [
             component: () => import('@/views/microservice/istio_gateway/index'),
             meta: {
               requireAuth: true,
-              title: '微服务网关',
+              title: '微服务网关实例',
               icon: 'mdi-gate',
               show: true,
               rootName: 'microservice',
               dependencies: ['istio'],
+              tip: 'v-gateway-instance',
             },
           },
           {
@@ -190,6 +199,7 @@ export const microService = [
               show: false,
               rootName: 'microservice',
               dependencies: ['istio'],
+              tip: 'v-gateway-instance',
             },
           },
         ],
@@ -217,6 +227,7 @@ export const microService = [
               show: true,
               rootName: 'microservice',
               dependencies: ['istio'],
+              tip: 'v-authorization-policy',
             },
           },
           // gateways
@@ -231,6 +242,7 @@ export const microService = [
               show: true,
               rootName: 'microservice',
               dependencies: ['istio'],
+              tip: 'v-gateway',
             },
           },
           // peerauthentication
@@ -246,6 +258,7 @@ export const microService = [
               show: true,
               rootName: 'microservice',
               dependencies: ['istio'],
+              tip: 'v-peer-authentication',
             },
           },
           // serviceentry
@@ -260,6 +273,7 @@ export const microService = [
               show: true,
               rootName: 'microservice',
               dependencies: ['istio'],
+              tip: 'v-service-entry',
             },
           },
           // sidecar
@@ -274,6 +288,7 @@ export const microService = [
               show: true,
               rootName: 'microservice',
               dependencies: ['istio'],
+              tip: 'v-sidecar',
             },
           },
         ],

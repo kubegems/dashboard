@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
       <v-card-title class="py-2">
         <BaseFilter
@@ -254,11 +254,6 @@ export default {
   },
   mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
-    breadcrumb: {
-      title: '存储卷',
-      tip: '存储卷(persistentVolumeClaim)供用户创建的工作负载使用，是将工作负载数据持久化的一种资源对象。',
-      icon: 'mdi-database',
-    },
     items: [],
     pageCount: 0,
     params: {

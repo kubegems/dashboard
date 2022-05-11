@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right align-center">
           <v-sheet class="text-body-2 text--darken-1">
@@ -140,11 +140,6 @@ export default {
   name: 'Event',
   mixins: [BaseFilter, BaseSelect],
   data: () => ({
-    breadcrumb: {
-      title: '事件通知',
-      tip: '事件通知为容器云事件驱动器提供，代表资源在集群内的状态历史。',
-      icon: 'mdi-bell',
-    },
     items: [],
     headers: [
       { text: '来源组件', value: 'component', align: 'start', width: 150 },

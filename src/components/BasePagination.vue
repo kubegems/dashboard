@@ -10,7 +10,7 @@
           @input="onPageInput"
         ></v-pagination>
         <v-sheet
-          v-if="pageCount * size > 10"
+          v-if="pageCount * size > 10 && showSize"
           class="text-body-1 float-left ml-2 mt-2"
         >
           每页条目数
@@ -102,6 +102,10 @@ export default {
       type: Boolean,
       default: () => false,
     },
+    showSize: {
+      type: Boolean,
+      default: () => true,
+    }
   },
   computed: {
     height() {

@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader :selectable="false" />
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-btn
@@ -138,11 +138,6 @@ export default {
   },
   mixins: [BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '定时任务',
-      tip: '定时任务 (CronJob) 管理基于时间的任务，例如在给定时间点只运行一次，或周期性地在给定时间点运行。',
-      icon: 'mdi-calendar-clock',
-    },
     cronjob: null,
     tab: 0,
     tabItems: [

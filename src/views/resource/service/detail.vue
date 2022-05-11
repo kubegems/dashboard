@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader :selectable="false" />
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-btn
@@ -136,11 +136,6 @@ export default {
   },
   mixins: [BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '服务',
-      tip: '服务 (Service) 是定义了一类容器组的逻辑集合和一个用于访问它们的策略。',
-      icon: 'mdi-dns',
-    },
     service: null,
     tab: 0,
   }),

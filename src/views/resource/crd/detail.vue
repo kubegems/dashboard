@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader :selectable="false" />
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-btn
@@ -124,11 +124,6 @@ export default {
   },
   mixins: [BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: 'CRD',
-      tip: '自定义资源 (CRD) 是一种 Kubernetes 实现自定义资源类型的扩展方式，用户可以如同操作内置资源对象一样操作 CRD 对象。',
-      icon: 'mdi-collage',
-    },
     crd: null,
     tab: 0,
     tabItems: [

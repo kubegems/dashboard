@@ -28,6 +28,7 @@ export const projectWorkspace = [
               icon: 'mdi-view-dashboard',
               show: true,
               rootName: 'project',
+              tip: 'project',
             },
           },
         ],
@@ -53,6 +54,7 @@ export const projectWorkspace = [
               icon: 'mdi-apps',
               show: true,
               rootName: 'project',
+              tip: 'appmanifest',
             },
           },
           {
@@ -65,6 +67,7 @@ export const projectWorkspace = [
               icon: 'mdi-apps',
               show: false,
               rootName: 'project',
+              tip: 'appmanifest',
             },
           },
           // registry
@@ -78,6 +81,7 @@ export const projectWorkspace = [
               icon: 'mdi-database',
               show: true,
               rootName: 'project',
+              tip: 'registry',
             },
           },
         ],

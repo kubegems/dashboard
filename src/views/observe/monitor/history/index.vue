@@ -3,7 +3,7 @@
     fluid
     class="alert-history"
   >
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template
         v-if="AdminViewport"
         #extend
@@ -186,12 +186,6 @@ export default {
   },
   mixins: [BaseSelect],
   data() {
-    this.breadcrumb = {
-      title: '告警历史',
-      tip: '产生告警的历史信息汇总',
-      icon: 'mdi-history',
-    }
-
     this.filters = [
       { items: [], text: '名称', value: 'name' },
       { items: [], text: '资源', value: 'name' },

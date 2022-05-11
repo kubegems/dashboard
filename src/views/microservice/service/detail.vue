@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseMicroServiceHeader :selectable="false" />
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex
           v-if="service && service.istioSidecar"
@@ -211,11 +211,6 @@ export default {
   },
   mixins: [BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '服务',
-      tip: '服务 (Service) 是定义了一类容器组的逻辑集合和一个用于访问它们的策略。',
-      icon: 'mdi-network',
-    },
     tab: 0,
     service: null,
     vs: null,

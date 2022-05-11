@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-sheet class="text-body-2 text--darken-1 d-flex align-center mx-1">
@@ -164,10 +164,6 @@ export default {
   name: 'AppStoreCenter',
   components: { AppStoreCard },
   data: () => ({
-    breadcrumb: {
-      title: '应用商店',
-      tip: '应用商店(helmChart)是一个描述Kubernetes相关资源的文件集合，单个应用可以用来部署某些复杂的HTTP服务器以及web全栈应用、数据库、缓存等',
-    },
     items: [],
     all: [],
     types: [],

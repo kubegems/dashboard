@@ -13,6 +13,8 @@ export const userCenter = [
           requireAuth: true,
           smallTitle: '用户中心',
           title: '用户中心',
+          icon: 'mdi-account',
+          tip: 'user-center',
         },
       },
     ],

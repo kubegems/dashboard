@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-row class="mt-0">
       <v-col
         v-for="(item, index) in items"
@@ -177,11 +177,6 @@ export default {
   },
   mixins: [BaseSelect, BaseResource],
   data: () => ({
-    breadcrumb: {
-      title: '集群列表',
-      tip: '对多集群以及每个集群的基础资源，服务组件和应用资源等统一管理。',
-      icon: 'mdi-server',
-    },
     items: [],
     interval: null,
     hasControllerCluster: false,

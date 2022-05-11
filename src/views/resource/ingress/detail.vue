@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader :selectable="false" />
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-btn
@@ -137,11 +137,6 @@ export default {
   },
   mixins: [BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '路由',
-      tip: '路由(ingress)提供一种聚合服务的方式，您可以将集群的内部服务通过一个外部可访问的 IP 地址暴露给集群外部。',
-      icon: 'mdi-network',
-    },
     ingress: null,
     gateway: null,
     tab: 0,

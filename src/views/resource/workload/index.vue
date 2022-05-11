@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
       <v-card-title class="py-2">
         <BaseFilter
@@ -288,11 +288,6 @@ export default {
   },
   mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
-    breadcrumb: {
-      title: '工作负载',
-      tip: '工作负载 (Workload) 通常是访问服务的载体, 是对一组容器组 (Pod) 的抽象。',
-      icon: 'mdi-vector-arrange-above',
-    },
     filters: [{ text: '负载名称', value: 'search', items: [] }],
     tab: 0,
     tabItems: [

@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
       <v-card-title class="py-2">
         <BaseFilter
@@ -222,11 +222,6 @@ export default {
   },
   mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
-    breadcrumb: {
-      title: '路由',
-      tip: '路由(ingress)提供一种聚合服务的方式，您可以将集群的内部服务通过一个外部可访问的 IP 地址暴露给集群外部。',
-      icon: 'mdi-network',
-    },
     items: [],
     pageCount: 0,
     params: {

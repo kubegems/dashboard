@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader :selectable="false" />
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <template v-if="m_permisson_projectAllow">
@@ -346,11 +346,6 @@ export default {
   },
   mixins: [BaseSelect, BasePermission, BaseResource],
   data: () => ({
-    breadcrumb: {
-      title: '环境资源',
-      tip: '环境(environment)是具体应用，负载，存储等资源的边界，通常来说是一个命名空间(namespace)。',
-      icon: 'mdi-cloud',
-    },
     quota: null,
     environment: null,
     podUsageMode: 'cpuavg',

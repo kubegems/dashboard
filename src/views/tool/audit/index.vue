@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-sheet class="text-body-2 text--darken-1">
@@ -136,11 +136,6 @@ export default {
   components: {},
   mixins: [BaseFilter, BaseSelect],
   data: () => ({
-    breadcrumb: {
-      title: '审计',
-      tip: '针对项目空间，环境空间，资源等多维度操作审计查询。',
-      icon: 'mdi-history',
-    },
     items: [],
     headers: [
       { text: '时间', value: 'createdAt', align: 'start', width: 220 },

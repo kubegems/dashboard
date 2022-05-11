@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
 
     <v-row class="mt-0">
       <v-col
@@ -98,11 +98,6 @@ export default {
     ConfigAuthSource,
   },
   data: () => ({
-    breadcrumb: {
-      title: '认证',
-      tip: '基于 oauth2.0/ldap 的第三方认证集成, 用户可进行多种方式登录',
-      icon: 'mdi-star',
-    },
     items: [{
       name: 'Kubegems (default)',
       kind: 'kubegems',

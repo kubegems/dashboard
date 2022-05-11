@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseMicroServiceHeader />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
       <v-card-title class="py-2">
         <BaseFilter
@@ -193,11 +193,6 @@ export default {
   },
   mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
-    breadcrumb: {
-      title: '认证策略',
-      tip: '认证策略 (AuthorizationPolicy) 支持对网格中工作负载的访问控制',
-      icon: 'mdi-key',
-    },
     items: [],
     pageCount: 0,
     params: {

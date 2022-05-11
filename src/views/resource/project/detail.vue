@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <span class="text-body-2 mx-2">
@@ -156,11 +156,6 @@ export default {
   },
   mixins: [BaseResource, BaseSelect, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '项目资源',
-      tip: '项目(project)是一组环境，应用以及镜像仓库的抽象组合。',
-      icon: 'mdi-cube-outline',
-    },
     resources: [],
     quota: {},
     basic: {},

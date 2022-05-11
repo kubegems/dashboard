@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseMicroServiceHeader />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
       <v-card-title class="py-2">
         <BaseFilter
@@ -196,11 +196,6 @@ export default {
   },
   mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
-    breadcrumb: {
-      title: '网关',
-      tip: '网关 (Gateway) 描述了在网格边缘运行的负载均衡器，用于接收传入或传出的 HTTP/TCP 连接。',
-      icon: 'mdi-network',
-    },
     items: [],
     pageCount: 0,
     params: {

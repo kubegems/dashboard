@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template
         v-if="AdminViewport"
         #extend
@@ -30,12 +30,6 @@ export default {
     TenantSelect,
   },
   data () {
-    this.breadcrumb = {
-      title: '可观测性',
-      tip: '提供日志采集，查看，告警/监控指标采集，告警/告警中心，历史/链路追踪等所有功能',
-      icon: 'mdi-view-dashboard',
-    }
-
     return {
       tenant: null,
     }

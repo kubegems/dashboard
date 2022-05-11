@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
       <v-card-title class="py-2">
         <BaseFilter
@@ -220,11 +220,6 @@ export default {
   },
   mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
-    breadcrumb: {
-      title: '任务',
-      tip: '任务 (Job) 负责批量处理短暂的一次性任务，即仅执行一次的任务，它保证批处理任务的一个或多个容器组成功结束。',
-      icon: 'mdi-repeat-once',
-    },
     items: [],
     pageCount: 0,
     params: {

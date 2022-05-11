@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
       <v-card-title class="py-2">
         <BaseFilter
@@ -260,11 +260,6 @@ export default {
     BaseTable,
   ],
   data: () => ({
-    breadcrumb: {
-      title: '容器组',
-      tip: '容器组 (Pod) 是 Kubernetes 应用程序的基本执行单元，是您创建或部署的 Kubernetes 对象模型中最小和最简单的单元。',
-      icon: 'mdi-microsoft',
-    },
     items: [],
     pageCount: 0,
     params: {

@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template
         v-if="AdminViewport"
         #extend
@@ -68,12 +68,6 @@ export default {
   },
   mixins: [BaseSelect],
   data() {
-    this.breadcrumb = {
-      title: '监控中心',
-      tip: '监控指标告警大盘统计',
-      icon: 'mdi-monitor-dashboard',
-    }
-
     return {
       tenant: null,
       alert: null,

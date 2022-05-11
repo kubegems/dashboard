@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseMicroServiceHeader />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
       <v-card-title class="py-2">
         <BaseFilter
@@ -203,11 +203,6 @@ export default {
   },
   mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
-    breadcrumb: {
-      title: '服务入口',
-      tip: '服务入口 (ServiceEntry) 允许在 Istio 的内部服务注册表中添加额外的条目，以便网格中自动发现的服务可以访问/路由到这些手动指定的服务。',
-      icon: 'mdi-login-variant',
-    },
     items: [],
     pageCount: 0,
     params: {

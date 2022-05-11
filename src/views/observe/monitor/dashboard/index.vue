@@ -4,7 +4,6 @@
     class="queryer"
   >
     <BaseBreadcrumb
-      :breadcrumb="breadcrumb"
       class="queryer__header"
     />
 
@@ -27,11 +26,6 @@ export default {
     OverviewList,
   },
   data() {
-    this.breadcrumb = {
-      title: '监控大盘',
-      tip: '',
-      icon: 'mdi-gauge',
-    }
     return {}
   },
 }

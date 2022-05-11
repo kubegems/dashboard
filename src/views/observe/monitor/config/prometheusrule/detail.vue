@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <BaseDatetimePicker
@@ -109,11 +109,6 @@ export default {
   },
   mixins: [BaseResource, BasePermission, BaseAlert],
   data: () => ({
-    breadcrumb: {
-      title: '告警规则详情',
-      tip: '告警规则 (PrometheusRule) 通常是针对监控指标设置的Prometheus告警规则。',
-      icon: 'mdi-ruler',
-    },
     date: [],
     prometheusRule: null,
     yaml: '',
