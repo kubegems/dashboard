@@ -17,6 +17,7 @@
           hide-selected
           class="my-0"
           no-data-text="暂无可选数据"
+          :readonly="edit"
           @change="onVolumeChange"
         >
           <template #selection="{ item }">
@@ -85,6 +86,10 @@ export default {
       default: () => null,
     },
     manifest: {
+      type: Boolean,
+      default: () => false,
+    },
+    edit: {
       type: Boolean,
       default: () => false,
     },

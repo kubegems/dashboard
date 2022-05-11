@@ -176,7 +176,7 @@ const resource = {
       for (var item in data) {
         if (data[item] === null) continue
         if (
-          ['pause', 'selfSigned'].indexOf(item) > -1 &&
+          ['pause', 'selfSigned', 'emptyDir'].indexOf(item) > -1 &&
           JSON.stringify(data[item]) === '{}'
         ) {
           newdata[item] = {}
@@ -225,7 +225,7 @@ const resource = {
             })
           }
         } else if (data[item] instanceof Object) {
-          if (JSON.stringify(data[item]) === '{}') continue
+          // if (JSON.stringify(data[item]) === '{}') continue
           if (
             [
               'annotations',

@@ -129,6 +129,7 @@
               :volume-mount-name="volumeMountName"
               :volume="volume"
               :manifest="manifest"
+              :edit="componentEdit"
             />
           </v-form>
         </v-card-text>
@@ -174,6 +175,7 @@ import ConfigMapMount from './volume_section/ConfigMapMount'
 import HostPathMount from './volume_section/HostPathMount'
 import SecretMount from './volume_section/SecretMount'
 import PersistentVolumeClaimMount from './volume_section/PersistentVolumeClaimMount'
+import EmptyDirMount from './volume_section/EmptyDirMount'
 import StorageMountItem from './StorageMountItem'
 import VolumeClaimTemplateItem from './VolumeClaimTemplateItem'
 import VolumeClaimTemplateMount from './volume_section/VolumeClaimTemplateMount'
@@ -187,6 +189,7 @@ export default {
     HostPathMount,
     SecretMount,
     PersistentVolumeClaimMount,
+    EmptyDirMount,
     StorageMountItem,
     VolumeClaimTemplateItem,
     VolumeClaimTemplateMount,
@@ -210,6 +213,7 @@ export default {
         { text: 'HostPath', value: 'HostPath' },
         { text: '配置', value: 'ConfigMap' },
         { text: '密钥', value: 'Secret' },
+        { text: 'EmptyDir', value: 'EmptyDir' },
       ],
       volumeType: null,
       volumeMountName: null,
@@ -410,6 +414,11 @@ export default {
         this.volumeMountName = volume.name
         this.volume = deepCopy(volume)
         this.volumeType = 'HostPath'
+        this.expandCard(true)
+      } else if (volume.emptyDir) {
+        this.volumeMountName = volume.name
+        this.volume = deepCopy(volume)
+        this.volumeType = 'EmptyDir'
         this.expandCard(true)
       } else {
         this.$store.commit('SET_SNACKBAR', {

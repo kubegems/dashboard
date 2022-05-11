@@ -175,7 +175,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { getSystemConfigData } from '@/api'
+import { getSystemConfigData, getMyConfigData } from '@/api'
 import AlertLevelItem from './AlertLevelItem'
 import AlertLevelForm from './AlertLevelForm'
 import RuleLabelpairs from './RuleLabelpairs'
@@ -384,7 +384,12 @@ export default {
       this.$set(this.obj, 'labelpairs', { ...labelpairs, ...mergeLabelpairs })
     },
     async getMonitorConfig() {
-      const data = await getSystemConfigData('Monitor')
+      let data = null
+      if (this.AdminViewport) {
+        data = await getSystemConfigData('Monitor')
+      } else {
+        data = await getMyConfigData('Monitor')
+      }
       this.metricsConfig = data.content || {}
       this.setLabelpairs(this.obj.labelpairs) // 此处确保配置项加载完后更新labelpairs列表
     },
