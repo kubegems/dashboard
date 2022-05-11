@@ -325,7 +325,6 @@ export default {
         this.$route.params.name,
         {
           kind: 'Service',
-          noprocessing: true,
         },
       )
       data.forEach((v) => {

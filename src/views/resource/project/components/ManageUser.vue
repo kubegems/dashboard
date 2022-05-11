@@ -200,7 +200,6 @@ export default {
     async tenantUserList() {
       const data = await getTenantUserList(this.Tenant().ID, {
         size: 1000,
-        noprocessing: true,
       })
       this.allUsers = data.List.filter((d) => {
         return !this.users.find((u) => {
@@ -212,7 +211,6 @@ export default {
     async projectUserList() {
       const data = await getProjectUserList(this.Project().ID, {
         size: 1000,
-        noprocessing: true,
       })
       this.users = data.List
       this.usersCopy = JSON.parse(JSON.stringify(this.users))

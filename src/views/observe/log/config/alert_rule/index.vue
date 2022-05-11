@@ -71,28 +71,12 @@
                 <v-btn
                   text
                   color="primary"
-                  @click="addPrometheusRule"
+                  @click="addAlertRule"
                 >
                   <v-icon left>mdi-plus-box</v-icon>
                   创建告警规则
                 </v-btn>
               </v-flex>
-              <!-- <v-flex>
-                <v-btn
-                  text
-                  color="error"
-                  @click="
-                    batchRemoveResource(
-                      '告警规则',
-                      'PrometheusRule',
-                      prometheusRuleList,
-                    )
-                  "
-                >
-                  <v-icon left>mdi-minus-box</v-icon>
-                  删除告警规则
-                </v-btn>
-              </v-flex> -->
             </v-card-text>
           </v-card>
         </v-menu>
@@ -136,7 +120,7 @@
             <v-flex style="display: flex;">
               <a
                 class="text-subtitle-2"
-                @click.stop="prometheusRuleDetail(item)"
+                @click.stop="alertRuleDetail(item)"
               >
                 {{ item.name }}
               </a>
@@ -267,7 +251,7 @@
                       color="primary"
                       text
                       small
-                      @click.stop="updatePrometheusRule(item)"
+                      @click.stop="updateAlertRule(item)"
                     >
                       编辑
                     </v-btn>
@@ -287,7 +271,7 @@
                       color="error"
                       text
                       small
-                      @click.stop="removePrometheusRule(item)"
+                      @click.stop="removeAlertRule(item)"
                     >
                       删除
                     </v-btn>
@@ -303,19 +287,21 @@
           :front-page="true"
           :page-count="pageCount"
           :size="itemsPerPage"
-          @loaddata="prometheusRuleList"
+          @loaddata="alertRuleList"
           @changesize="onPageSizeChange"
           @changepage="onPageIndexChange"
         />
       </v-card-text>
     </v-card>
-    <AddPrometheusRule
-      ref="addPrometheusRule"
-      @refresh="prometheusRuleList"
+    <AddAlertRule
+      ref="addAlertRule"
+      mode="log"
+      @refresh="alertRuleList"
     />
-    <UpdatePrometheusRule
-      ref="updatePrometheusRule"
-      @refresh="prometheusRuleList"
+    <UpdateAlertRule
+      ref="updateAlertRule"
+      mode="log"
+      @refresh="alertRuleList"
     />
   </v-container>
 </template>
@@ -323,13 +309,13 @@
 <script>
 import { mapGetters, mapState } from 'vuex'
 import {
-  getPrometheusRuleList,
+  getLogAlertRuleList,
   deletePrometheusRule,
-  postDisablePrometheusRule,
-  postEnablePrometheusRule,
+  postDisableLogAlertRule,
+  postEnableLogAlertRule,
 } from '@/api'
-import AddPrometheusRule from './components/AddPrometheusRule'
-import UpdatePrometheusRule from './components/UpdatePrometheusRule'
+import AddAlertRule from '@/views/observe/monitor/config/prometheusrule/components/AddPrometheusRule'
+import UpdateAlertRule from '@/views/observe/monitor/config/prometheusrule/components/UpdatePrometheusRule'
 import BaseFilter from '@/mixins/base_filter'
 import BaseResource from '@/mixins/resource'
 import BasePermission from '@/mixins/permission'
@@ -337,10 +323,10 @@ import BaseTable from '@/mixins/table'
 import { deepCopy } from '@/utils/helpers'
 
 export default {
-  name: 'PrometheusRule',
+  name: 'AlertRule',
   components: {
-    AddPrometheusRule,
-    UpdatePrometheusRule,
+    AddAlertRule,
+    UpdateAlertRule,
   },
   mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
@@ -371,7 +357,7 @@ export default {
     headers() {
       const items = [
         { text: '名称', value: 'name', align: 'start' },
-        { text: '指标', value: 'promql', align: 'start', width: 500 },
+        { text: '指标', value: 'expr', align: 'start', width: 500 },
         { text: '评估时间', value: 'for', align: 'start' },
         { text: '接收器', value: 'receivers', align: 'start', width: 200 },
         { text: '使用状态', value: 'open', align: 'start', width: 100 },
@@ -398,7 +384,7 @@ export default {
         const needRefresh = cluster !== newCluster || namespace !== newNamespace
         if (needRefresh) {
           this.m_table_generateParams()
-          this.prometheusRuleList()
+          this.alertRuleList()
         }
       },
       deep: true,
@@ -435,14 +421,14 @@ export default {
       })
       // this.m_table_generateSelectResource()
     },
-    async prometheusRuleList() {
+    async alertRuleList() {
       this.params.isAdmin = this.AdminViewport
       const { cluster, namespace } = this.$route.query
       this.cluster = cluster
       this.namespace = namespace
       if (!this.cluster || !this.namespace) return
 
-      const data = await getPrometheusRuleList(
+      const data = await getLogAlertRuleList(
         this.cluster,
         this.namespace,
         this.params,
@@ -478,9 +464,9 @@ export default {
       })
       this.stateFilter()
     },
-    prometheusRuleDetail(item) {
+    alertRuleDetail(item) {
       this.$router.push({
-        name: 'prometheusrule-detail',
+        name: 'log-alert-detail',
         params: {
           namespace: item.namespace,
           name: item.name,
@@ -491,15 +477,15 @@ export default {
         },
       })
     },
-    addPrometheusRule() {
-      this.$refs.addPrometheusRule.open()
-      this.$refs.addPrometheusRule.init()
+    addAlertRule() {
+      this.$refs.addAlertRule.open()
+      this.$refs.addAlertRule.init()
     },
-    updatePrometheusRule(item) {
-      this.$refs.updatePrometheusRule.open()
-      this.$refs.updatePrometheusRule.init(item)
+    updateAlertRule(item) {
+      this.$refs.updateAlertRule.open()
+      this.$refs.updateAlertRule.init(item)
     },
-    removePrometheusRule(item) {
+    removeAlertRule(item) {
       this.$store.commit('SET_CONFIRM', {
         title: `删除告警规则`,
         content: {
@@ -514,7 +500,7 @@ export default {
             param.item.namespace,
             param.item.name,
           )
-          this.prometheusRuleList()
+          this.alertRuleList()
         },
       })
     },
@@ -525,12 +511,12 @@ export default {
           content: { text: `禁用告警规则 ${item.name}`, type: 'confirm' },
           param: { item },
           doFunc: async (param) => {
-            await postDisablePrometheusRule(
+            await postDisableLogAlertRule(
               this.cluster,
               param.item.namespace,
               param.item.name,
             )
-            this.prometheusRuleList()
+            this.alertRuleList()
           },
         })
       } else {
@@ -539,12 +525,12 @@ export default {
           content: { text: `启用告警规则 ${item.name}`, type: 'confirm' },
           param: { item },
           doFunc: async (param) => {
-            await postEnablePrometheusRule(
+            await postEnableLogAlertRule(
               this.cluster,
               param.item.namespace,
               param.item.name,
             )
-            this.prometheusRuleList()
+            this.alertRuleList()
           },
         })
       }

@@ -11,7 +11,8 @@
         :is="formComponent"
         :ref="formComponent"
         :step="step"
-        title="PrometheusRule"
+        :mode="mode"
+        :title="`${mode==='metrics'?'PrometheusRule':'LogRule'}`"
       />
     </template>
     <template #action>
@@ -60,6 +61,12 @@ export default {
     PrometheusRuleBaseForm,
   },
   mixins: [BaseResource],
+  props: {
+    mode: {
+      type: String,
+      default: () => 'metrics',
+    },
+  },
   data: () => ({
     dialog: false,
     formComponent: 'PrometheusRuleBaseForm',

@@ -186,7 +186,6 @@ export default {
   methods: {
     async virtualSpaceEnvironmentUser() {
       const data = await getVirtualSpaceEnvironmentUser(this.EnvironmentID, {
-        noprocessing: true,
       })
       this.allUsers = data.List.filter((d) => {
         return !this.users.find((u) => {
@@ -198,7 +197,6 @@ export default {
     async virtualSpaceUserList() {
       const data = await getVirtualSpaceUserList(this.obj.ID, {
         size: 1000,
-        noprocessing: true,
       })
       this.users = data.List
       this.usersCopy = JSON.parse(JSON.stringify(this.users))

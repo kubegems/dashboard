@@ -18,15 +18,6 @@
           @keyup="onVolumeNameInput"
         />
       </v-flex>
-      <v-flex class="float-left ml-2 kubegems__form-width">
-        <v-text-field
-          v-model="volumeObj.hostPath.path"
-          class="my-0"
-          required
-          label="HostPath"
-          :rules="volumeRules.pathRule"
-        />
-      </v-flex>
       <div class="kubegems__clear-float" />
     </v-sheet>
     <VolumeMount
@@ -44,7 +35,7 @@ import BaseResource from '@/mixins/resource'
 import { required } from '@/utils/rules'
 
 export default {
-  name: 'HostPathMount',
+  name: 'EmptyDirMount',
   components: { VolumeMount },
   mixins: [BaseResource],
   props: {
@@ -70,14 +61,10 @@ export default {
       valid: false,
       volumeObj: {
         name: '',
-        hostPath: {
-          path: '',
-          type: 'Directory',
-        },
+        emptyDir: {},
       },
       volumeRules: {
         nameRule: [required],
-        pathRule: [required],
       },
     }
   },
@@ -105,10 +92,7 @@ export default {
             volumeMount: data,
             volume: {
               name: this.volumeObj.name,
-              hostPath: {
-                path: this.volumeObj.hostPath.path,
-                type: 'Directory',
-              },
+              emptyDir: {},
             },
           }
         }

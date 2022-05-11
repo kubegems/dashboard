@@ -19,6 +19,7 @@ import ProjectEnvironmentLayout from '@/views/observe/components/ProjectEnvironm
 import Flow from './flow'
 import Output from './output'
 import Receiver from './receiver'
+import AlertRule from './alert_rule'
 
 export default {
   name: 'MonitorConfig',
@@ -27,6 +28,7 @@ export default {
     Flow,
     Output,
     Receiver,
+    AlertRule,
   },
   data () {
     this.tabs = [
@@ -43,6 +45,12 @@ export default {
         tab: 'output',
       },
       {
+        icon: 'mdi-ruler',
+        text: '日志告警规则',
+        component: 'AlertRule',
+        tab: 'alert',
+      },
+      {
         icon: 'mdi-call-received',
         text: '告警接收器',
         component: 'Receiver',
@@ -53,6 +61,8 @@ export default {
     this.tabMap = {
       flow: 0,
       output: 1,
+      alert: 2,
+      receiver: 3,
     }
 
     return {

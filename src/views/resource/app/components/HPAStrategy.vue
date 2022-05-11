@@ -208,7 +208,6 @@ export default {
         this.Project().ID,
         this.Environment().ID,
         this.$route.params.name,
-        { noprocessing: true },
       )
       if (data.cpu > 0 && data.memory) {
         this.obj = Object.assign(this.obj, data)
