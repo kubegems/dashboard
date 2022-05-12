@@ -17,6 +17,7 @@
           hide-selected
           class="my-0"
           no-data-text="暂无可选数据"
+          :readonly="edit"
           @change="onVolumeChange"
         >
           <template #selection="{ item }">
@@ -127,6 +128,10 @@ export default {
       type: Boolean,
       default: () => false,
     },
+    edit: {
+      type: Boolean,
+      default: () => false,
+    },
   },
   data() {
     return {
@@ -191,14 +196,12 @@ export default {
           this.$route.params.name,
           {
             kind: 'Secret',
-            noprocessing: true,
           },
         )
         this.items = data
       } else {
         data = await getSecretList(this.ThisCluster, this.namespace || this.$route.query.namespace, {
           size: 1000,
-          noprocessing: true,
         })
         this.items = data.List
       }
@@ -212,7 +215,6 @@ export default {
         this.ThisCluster,
         this.namespace || this.$route.query.namespace,
         this.volumeName,
-        { noprocessing: true },
       )
       if (data.data) {
         for (const item in data.data) {

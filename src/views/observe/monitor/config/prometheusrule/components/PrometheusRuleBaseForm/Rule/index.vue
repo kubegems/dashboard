@@ -21,82 +21,117 @@
           </v-col>
 
           <!-- 资源 -->
-          <v-col cols="6">
-            <v-autocomplete
-              v-model="obj.resource"
-              color="primary"
-              :items="resourceItems"
-              :rules="objRules.resourceRule"
-              label="资源"
-              hide-selected
-              class="my-0"
-              no-data-text="暂无可选数据"
-              @change="onResourceChange"
-            >
-              <template #selection="{ item }">
-                <v-chip
-                  color="primary"
-                  small
-                  class="mx-1"
-                >
-                  {{ item['text'] }}
-                </v-chip>
-              </template>
-            </v-autocomplete>
-          </v-col>
-          <!-- 资源 -->
+          <template v-if="mode === 'metrics'">
+            <v-col cols="6">
+              <v-autocomplete
+                v-model="obj.resource"
+                color="primary"
+                :items="resourceItems"
+                :rules="objRules.resourceRule"
+                label="资源"
+                hide-selected
+                class="my-0"
+                no-data-text="暂无可选数据"
+                @change="onResourceChange"
+              >
+                <template #selection="{ item }">
+                  <v-chip
+                    color="primary"
+                    small
+                    class="mx-1"
+                  >
+                    {{ item['text'] }}
+                  </v-chip>
+                </template>
+              </v-autocomplete>
+            </v-col>
+            <!-- 资源 -->
 
-          <!-- 规则 -->
-          <v-col cols="6">
-            <v-autocomplete
-              v-model="obj.rule"
-              color="primary"
-              :items="ruleItems"
-              :rules="objRules.ruleRule"
-              :disabled="!obj.resource"
-              label="规则"
-              hide-selected
-              class="my-0"
-              no-data-text="暂无可选数据"
-              @change="onRuleChange"
-            >
-              <template #selection="{ item }">
-                <v-chip
-                  color="primary"
-                  small
-                  class="mx-1"
-                >
-                  {{ item['text'] }}
-                </v-chip>
-              </template>
-            </v-autocomplete>
-          </v-col>
-          <!-- 规则 -->
+            <!-- 规则 -->
+            <v-col cols="6">
+              <v-autocomplete
+                v-model="obj.rule"
+                color="primary"
+                :items="ruleItems"
+                :rules="objRules.ruleRule"
+                :disabled="!obj.resource"
+                label="规则"
+                hide-selected
+                class="my-0"
+                no-data-text="暂无可选数据"
+                @change="onRuleChange"
+              >
+                <template #selection="{ item }">
+                  <v-chip
+                    color="primary"
+                    small
+                    class="mx-1"
+                  >
+                    {{ item['text'] }}
+                  </v-chip>
+                </template>
+              </v-autocomplete>
+            </v-col>
+            <!-- 规则 -->
 
-          <!-- 单位 -->
-          <v-col cols="6">
-            <v-autocomplete
-              v-model="obj.unit"
-              color="primary"
-              label="单位"
-              class="my-0"
-              no-data-text="暂无可选数据"
-              hide-selected
-              :items="unitItems"
-              :rules="unitItems.length ? objRules.unitRule : undefined"
-              :disabled="!obj.rule || !unitItems.length"
-            >
-              <template #selection="{ item }">
-                <v-chip
-                  color="primary"
-                  small
-                  class="mx-1"
-                >
-                  {{ item['text'] }}
-                </v-chip>
-              </template>
-            </v-autocomplete>
-          </v-col>
+            <!-- 单位 -->
+            <v-col cols="6">
+              <v-autocomplete
+                v-model="obj.unit"
+                color="primary"
+                label="单位"
+                class="my-0"
+                no-data-text="暂无可选数据"
+                hide-selected
+                :items="unitItems"
+                :rules="unitItems.length ? objRules.unitRule : undefined"
+                :disabled="!obj.rule || !unitItems.length"
+              >
+                <template #selection="{ item }">
+                  <v-chip
+                    color="primary"
+                    small
+                    class="mx-1"
+                  >
+                    {{ item['text'] }}
+                  </v-chip>
+                </template>
+              </v-autocomplete>
+            </v-col>
+          </template>
+          <template v-if="mode === 'log'">
+            <v-col cols="12">
+              <v-textarea
+                v-model="obj.expr"
+                label="LogQL"
+                :rules="objRules.exprRule"
+              />
+            </v-col>
+            <v-col col="12">
+              <v-autocomplete
+                v-model="obj.inhibitLabels"
+                color="primary"
+                label="抑制标签"
+                class="my-0"
+                no-data-text="暂无可选数据"
+                :search-input.sync="inhibitLabelText"
+                hide-selected
+                multiple
+                :items="inhibitLabelItems"
+                @keydown.enter="createInhibitLabel"
+              >
+                <template #selection="{ item }">
+                  <v-chip
+                    color="primary"
+                    small
+                    class="mx-1"
+                  >
+                    {{ item['text'] }}
+                  </v-chip>
+                </template>
+              </v-autocomplete>
+            </v-col>
+          </template>
           <!-- 单位 -->
 
           <!-- 评估时间 -->
@@ -146,7 +181,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { getSystemConfigData } from '@/api'
+import { getSystemConfigData, getMyConfigData } from '@/api'
 import AlertLevelItem from './AlertLevelItem'
 import AlertLevelForm from './AlertLevelForm'
 import RuleLabelpairs from './RuleLabelpairs'
@@ -172,23 +207,29 @@ export default {
       type: Boolean,
       default: () => false,
     },
+    mode: {
+      type: String,
+      default: () => 'metrics',
+    },
   },
   data() {
+    this.obj = {
+      name: '',
+      namespace: this.$route?.query.namespace,
+      for: '1m',
+      resource: '',
+      rule: '',
+      unit: '',
+      labelpairs: {},
+      alertLevels: [],
+      receivers: [],
+    }
     return {
       valid: false,
       expand: false,
-      obj: {
-        name: '',
-        namespace: '',
-        for: '1m',
-        resource: '',
-        rule: '',
-        unit: '',
-        labelpairs: {},
-        alertLevels: [],
-        receivers: [],
-      },
       metricsConfig: {}, // 指标配置
+      inhibitLabelText: '',
+      inhibitLabelItems: [],
     }
   },
   computed: {
@@ -209,6 +250,7 @@ export default {
         compareRule: [required],
         severityRule: [required],
         thresholdValueRule: [required],
+        exprRule: [required],
       }
     },
     resourceItems() {
@@ -244,7 +286,23 @@ export default {
   },
   mounted() {
     this.obj = this.$_.merge(this.obj, deepCopy(this.item))
-    this.getMonitorConfig()
+    if (this.mode === 'metrics') {
+      if (!this.obj.rule) { this.obj.rule = '' }
+      if (!this.obj.resource) { this.obj.resource = '' }
+      if (!this.obj.unit) { this.obj.unit = '' }
+      if (!this.obj.labelpairs) { this.obj.labelpairs = {} }
+      this.$delete(this.obj, 'expr')
+      this.$delete(this.obj, 'inhibitLabels')
+      this.getMonitorConfig()
+    } else if (this.mode === 'log') {
+      if (!this.obj.expr) { this.obj.expr = '' }
+      if (!this.obj.inhibitLabels) { this.obj.inhibitLabels = [] }
+      this.$delete(this.obj, 'rule')
+      this.$delete(this.obj, 'resource')
+      this.$delete(this.obj, 'unit')
+      this.$delete(this.obj, 'labelpairs')
+    }
+    this.$refs.form.resetValidation()
   },
   methods: {
     // eslint-disable-next-line vue/no-unused-properties
@@ -298,6 +356,9 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     setData(data) {
       this.obj = data
+      if (this.mode === 'log') {
+        this.inhibitLabelItems = this.obj.inhibitLabels.map(l => { return {text: l, value: l} })
+      }
     },
     closeExpand() {
       this.expand = false
@@ -305,18 +366,8 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     reset() {
       this.$refs.alertLevelForm.closeCard()
-      this.obj = {
-        name: '',
-        namespace: '',
-        for: '1m',
-        resource: '',
-        rule: '',
-        unit: '',
-        labelpairs: {},
-        alertLevels: [],
-        receivers: [],
-      }
-      this.$refs.form.reset()
+      this.$refs.form.resetValidation()
+      this.obj = this.$options.data().obj
     },
     onResourceChange() {
       // resource选择变更时需要重置rule值
@@ -341,9 +392,24 @@ export default {
       this.$set(this.obj, 'labelpairs', { ...labelpairs, ...mergeLabelpairs })
     },
     async getMonitorConfig() {
-      const data = await getSystemConfigData('Monitor')
+      let data = {}
+      if (this.AdminViewport) {
+        data = await getSystemConfigData('Monitor')
+      } else {
+        data = await getMyConfigData('Monitor')
+      }
       this.metricsConfig = data.content || {}
       this.setLabelpairs(this.obj.labelpairs) // 此处确保配置项加载完后更新labelpairs列表
+    },
+    createInhibitLabel() {
+      if (!this.inhibitLabelText) return
+      if (!this.inhibitLabelItems.some((l) => { return l.value === this.inhibitLabelText })) {
+        this.inhibitLabelItems.push({text: this.inhibitLabelText, value: this.inhibitLabelText})
+      }
+      if (!this.obj.inhibitLabels.includes(this.inhibitLabelText)) {
+        this.obj.inhibitLabels.push(this.inhibitLabelText)
+      }
+      this.inhibitLabelText = ''
     },
   },
 }

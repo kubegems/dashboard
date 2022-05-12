@@ -202,7 +202,6 @@ export default {
     async appImageTags(image) {
       const data = await getAppImageTags(this.Tenant().ID, this.Project().ID, {
         image: image,
-        noprocessing: true,
       })
       const tags = data.map((d) => {
         return {

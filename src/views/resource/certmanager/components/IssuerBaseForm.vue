@@ -246,7 +246,6 @@ export default {
         this.ThisCluster,
         this.obj.metadata.namespace,
         {
-          noprocessing: true,
           size: 1000,
         },
       )

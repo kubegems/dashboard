@@ -696,14 +696,12 @@ export default {
           this.$route.params.name,
           {
             kind: 'Secret',
-            noprocessing: true,
           },
         )
         this.items = data
       } else {
         data = await getSecretList(this.ThisCluster, this.namespace, {
           size: 1000,
-          noprocessing: true,
         })
         this.items = data.List
       }
@@ -728,14 +726,12 @@ export default {
           this.$route.params.name,
           {
             kind: 'ConfigMap',
-            noprocessing: true,
           },
         )
         this.items = data
       } else {
         data = await getConfigMapList(this.ThisCluster, this.namespace, {
           size: 1000,
-          noprocessing: true,
         })
         this.items = data.List
       }

@@ -378,7 +378,6 @@ export default {
           : this.ThisAppEnvironmentID
           ? this.ThisAppEnvironmentID
           : this.environmentID,
-        { noprocessing: true },
       )
       const items = data.map((d, index) => {
         return { index: index, ...d }
@@ -397,7 +396,6 @@ export default {
       this.tags = []
       const data = await getAppImageTags(this.Tenant().ID, this.Project().ID, {
         image: image,
-        noprocessing: true,
       })
       this.tags = data
     },

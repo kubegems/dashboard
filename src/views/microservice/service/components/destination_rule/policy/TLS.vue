@@ -237,7 +237,6 @@ export default {
         this.EnvironmentFilter.namespace,
         {
           size: 1000,
-          noprocessing: true,
         },
       )
       this.items = data.List.filter((s) => {

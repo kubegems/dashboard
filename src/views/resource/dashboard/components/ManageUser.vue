@@ -177,9 +177,7 @@ export default {
       this.dialog = true
     },
     async userList() {
-      const data = await userSelectData({
-        noprocessing: true,
-      })
+      const data = await userSelectData()
       this.allUsers = data.List.filter((d) => {
         return !this.users.find((u) => {
           return u.Username === d.Username
@@ -190,7 +188,6 @@ export default {
     async tenantUserList() {
       const data = await getTenantUserList(this.Tenant().ID, {
         size: 1000,
-        noprocessing: true,
       })
       this.users = data.List
       this.usersCopy = JSON.parse(JSON.stringify(this.users))

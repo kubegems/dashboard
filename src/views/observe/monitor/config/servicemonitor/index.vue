@@ -247,8 +247,12 @@ export default {
       deep: true,
     },
     '$route.query': {
-      handler: function () {
-        if (this.JWT) {
+      handler(newValue) {
+        const { cluster, namespace } = this.params
+        const { cluster: newCluster, namespace: newNamespace } = newValue
+        const needRefresh = cluster !== newCluster || namespace !== newNamespace
+        if (needRefresh) {
+          this.m_table_generateParams()
           this.serviceMonitorList()
         }
       },

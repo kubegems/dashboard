@@ -283,7 +283,6 @@ export default {
         'gemcloud-gateway-system',
         {
           size: 1000,
-          noprocessing: true,
         },
       )
       this.secretItems = data.List.filter((s) => {

@@ -140,7 +140,6 @@ export default {
       const data = await getReceiverList(
         this.$route.query.cluster,
         this.$route.query.namespace,
-        { noprocessing: true },
       )
       this.receiverSelect = data.map((item) => {
         return {

@@ -61,7 +61,6 @@ export default {
     async appManifestList() {
       const data = await getManifestList(this.Tenant().ID, this.Project().ID, {
         size: 1000,
-        noprocessing: true,
       })
       const apps = []
       data.List.forEach((app) => {

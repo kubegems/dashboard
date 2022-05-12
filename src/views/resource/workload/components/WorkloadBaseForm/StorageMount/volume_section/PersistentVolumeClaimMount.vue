@@ -17,6 +17,7 @@
           hide-selected
           class="my-0"
           no-data-text="暂无可选数据"
+          :readonly="edit"
           @change="onVolumeChange"
         >
           <template #selection="{ item }">
@@ -88,6 +89,10 @@ export default {
       type: Boolean,
       default: () => false,
     },
+    edit: {
+      type: Boolean,
+      default: () => false,
+    },
   },
   data() {
     return {
@@ -134,7 +139,6 @@ export default {
           this.$route.params.name,
           {
             kind: 'PersistentVolumeClaim',
-            noprocessing: true,
           },
         )
         this.items = data
@@ -144,7 +148,6 @@ export default {
           this.namespace || this.$route.query.namespace,
           {
             size: 1000,
-            noprocessing: true,
           },
         )
         this.items = data.List
