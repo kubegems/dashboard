@@ -40,7 +40,7 @@
               <v-list-item
                 two-line
                 class="float-left px-0"
-                style="width: 200px;"
+                style="width: 296px;"
               >
                 <v-list-item-content class="py-0">
                   <v-list-item-title class="text-subtitle-2 py-1">
@@ -78,7 +78,7 @@
               <v-list-item
                 two-line
                 class="float-left px-0"
-                style="width: 200px;"
+                style="width: 150px;"
               >
                 <v-list-item-content class="py-0">
                   <v-list-item-title class="text-subtitle-2 py-1">
@@ -121,7 +121,7 @@
               <v-list-item
                 two-line
                 class="float-left px-0"
-                style="width: 200px;"
+                style="width: 296px;"
               >
                 <v-list-item-content class="py-0">
                   <v-list-item-title class="text-subtitle-2 py-1">
@@ -154,7 +154,7 @@
               <v-list-item
                 two-line
                 class="float-left px-0"
-                style="width: 200px;"
+                style="width: 296px;"
               >
                 <v-list-item-content class="py-0">
                   <v-list-item-title class="text-subtitle-2 py-1">
@@ -187,7 +187,7 @@
               <v-list-item
                 two-line
                 class="float-left px-0"
-                style="width: 200px;"
+                style="width: 296px;"
               >
                 <v-list-item-content class="py-0">
                   <v-list-item-title class="text-subtitle-2 py-1">
@@ -209,6 +209,25 @@
                   </v-list-item-title>
                   <v-list-item-subtitle class="text-body-2 py-1">
                     路径
+                  </v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-flex>
+            <v-flex
+              v-else-if="item.emptyDir"
+              class="float-left"
+            >
+              <v-list-item
+                two-line
+                class="float-left px-0"
+                style="width: 296px;"
+              >
+                <v-list-item-content class="py-0">
+                  <v-list-item-title class="text-subtitle-2 py-1">
+                    emptyDir
+                  </v-list-item-title>
+                  <v-list-item-subtitle class="text-body-2 py-1">
+                    类型
                   </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
