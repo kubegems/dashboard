@@ -311,8 +311,8 @@ import { mapGetters, mapState } from 'vuex'
 import {
   getLogAlertRuleList,
   deletePrometheusRule,
-  postDisableLogAlertRule,
-  postEnableLogAlertRule,
+  postDisableAlertRule,
+  postEnableAlertRule,
 } from '@/api'
 import AddAlertRule from '@/views/observe/monitor/config/prometheusrule/components/AddPrometheusRule'
 import UpdateAlertRule from '@/views/observe/monitor/config/prometheusrule/components/UpdatePrometheusRule'
@@ -511,7 +511,7 @@ export default {
           content: { text: `禁用告警规则 ${item.name}`, type: 'confirm' },
           param: { item },
           doFunc: async (param) => {
-            await postDisableLogAlertRule(
+            await postDisableAlertRule(
               this.cluster,
               param.item.namespace,
               param.item.name,
@@ -525,7 +525,7 @@ export default {
           content: { text: `启用告警规则 ${item.name}`, type: 'confirm' },
           param: { item },
           doFunc: async (param) => {
-            await postEnableLogAlertRule(
+            await postEnableAlertRule(
               this.cluster,
               param.item.namespace,
               param.item.name,

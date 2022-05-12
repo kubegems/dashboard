@@ -21,22 +21,7 @@
       :page.sync="page"
       :items-per-page="itemsPerPage"
       no-results-text="暂无结果"
-    >
-      <template #[`item.units`]="{ item }">
-        <BaseCollapseChips
-          :chips="item.units || []"
-          single-line
-          icon="mdi-pound-box"
-        />
-      </template>
-      <template #[`item.labels`]="{ item }">
-        <BaseCollapseChips
-          :chips="item.labels || []"
-          single-line
-          icon="mdi-label"
-        />
-      </template>
-    </v-data-table>
+    />
     <BasePagination
       v-if="pageCount >= 1"
       v-model="page"
@@ -64,8 +49,7 @@ export default {
         { text: '名称', value: 'name', align: 'start' },
         { text: '规则', value: 'showName', align: 'start' },
         { text: '表达式', value: 'expr', align: 'start' },
-        { text: '单位', value: 'units', align: 'start', width: 100 },
-        { text: '标签', value: 'labels', align: 'start', width: 100 },
+        { text: '单位', value: 'units', align: 'start' },
       ],
       items: [],
       total: 0,

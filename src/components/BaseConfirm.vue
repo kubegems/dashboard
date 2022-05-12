@@ -81,7 +81,7 @@
             class="my-0"
             :rules="confirmBacthDataRule"
             required
-            label="请输入 “确认删除”"
+            :label="`${Confirm.content.one?'确认资源名称':'请输入 “确认删除”'}`"
             @keydown.enter="confirm"
           >
           </v-text-field>
@@ -140,10 +140,17 @@ export default {
       ]
     },
     confirmBacthDataRule() {
-      return [
-        required,
-        (v) => !!(v === '确认删除') || '输入不匹配',
-      ]
+      if (this.Confirm.content.one) {
+        return [
+          required,
+          (v) => !!(v === this.Confirm.content.one) || '名称不匹配',
+        ]
+      }else{
+        return [
+          required,
+          (v) => !!(v === '确认删除') || '输入不匹配',
+        ]
+      }
     },
   },
   methods: {

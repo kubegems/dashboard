@@ -94,9 +94,7 @@ export default {
   },
   methods: {
     async alertTodayMetrics() {
-      this.alert = await getAlertToday({
-        tenant: this.tenant.TenantName,
-      })
+      this.alert = await getAlertToday(this.tenant.ID)
     },
   },
 }

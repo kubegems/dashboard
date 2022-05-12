@@ -33,7 +33,7 @@
       </template>
     </BaseBreadcrumb>
     <v-card>
-      <v-card-title class="py-2">
+      <v-card-title class="py-4">
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '检索', value: 'search' }"

@@ -224,7 +224,9 @@ export default {
     page: 1,
     pageCount: 0,
     itemsPerPage: 10,
-    params: {},
+    params: {
+      scope: 'monitor',
+    },
   }),
   computed: {
     ...mapState(['JWT', 'AdminViewport']),
@@ -330,6 +332,7 @@ export default {
             this.$route.query.cluster,
             param.item.namespace,
             param.item.name,
+            {scope: 'monitor'},
           )
           this.receiverList()
         },

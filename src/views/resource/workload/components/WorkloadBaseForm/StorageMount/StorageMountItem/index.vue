@@ -1,7 +1,7 @@
 <template>
   <v-flex>
     <v-sheet
-      v-for="(item, index) in templates"
+      v-for="(item, index) in volumes"
       :key="index"
       class="grey lighten-4 rounded mb-2"
     >
@@ -22,76 +22,56 @@
                     :close-delay="200"
                   >
                     <template #activator="{ on }">
-                      <span v-on="on">{{ item.metadata.name }}</span>
+                      <span v-on="on">{{ item.name }}</span>
                     </template>
                     <v-card>
                       <v-card-text class="pa-2">
-                        {{ item.metadata.name }}
+                        {{ item.name }}
                       </v-card-text>
                     </v-card>
                   </v-menu>
                 </v-list-item-title>
               </v-list-item>
             </v-flex>
-            <v-flex class="float-left">
-              <v-list-item
-                two-line
-                class="float-left px-0"
-                style="width: 200px;"
-              >
-                <v-list-item-content class="py-0">
-                  <v-list-item-title class="text-subtitle-2 py-1">
-                    {{ item.spec.storageClassName }}&nbsp;
-                  </v-list-item-title>
-                  <v-list-item-subtitle class="text-body-2 py-1">
-                    类型
-                  </v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item
-                two-line
-                class="float-left"
-                style="width: 200px;"
-              >
-                <v-list-item-content class="py-0">
-                  <v-list-item-title class="text-subtitle-2 py-1">
-                    {{ item.spec.resources.requests.storage }}&nbsp;
-                  </v-list-item-title>
-                  <v-list-item-subtitle class="text-body-2 py-1">
-                    容量
-                  </v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item
-                two-line
-                class="float-left px-0"
-                style="width: 200px;"
-              >
-                <v-list-item-content class="py-0">
-                  <v-list-item-title class="text-subtitle-2 py-1">
-                    {{ item.spec.accessModes[0] }}&nbsp;
-                  </v-list-item-title>
-                  <v-list-item-subtitle class="text-body-2 py-1">
-                    访问模式
-                  </v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-flex>
+
+            <PersistentVolumeClaim
+              v-if="item.persistentVolumeClaim"
+              :pvcs="pvcs"
+              :item="item"
+            />
+
+            <Configmap
+              v-else-if="item.configMap"
+              :item="item"
+            />
+
+            <Secret
+              v-else-if="item.secret"
+              :item="item"
+            />
+
+            <HostPath
+              v-else-if="item.hostPath"
+              :item="item"
+            />
+
+            <EmptyDir v-else-if="item.emptyDir" />
+
             <div class="kubegems__clear-float" />
           </v-list-item-subtitle>
           <v-list-item-content
             v-for="(container, i) in containers"
-            :key="`containerT${i}`"
+            :key="`container${i}`"
             class="pb-4"
           >
             <v-row
               v-if="
                 container.volumeMounts &&
-                  containerMap[container.name][item.metadata.name]
+                  containerMap[container.name][item.name]
               "
             >
               <v-col
-                cols="2"
+                :cols="containerMap[container.name][item.name].subPath ? 3 : 4"
                 class="py-1"
               >
                 <span class="text-body-2">容器:</span>
@@ -105,32 +85,30 @@
               >
                 <span class="text-body-2">挂载:</span>
                 <span class="text-subtitle-2 ml-2">
-                  {{
-                    containerMap[container.name][item.metadata.name].mountPath
-                  }}
+                  {{ containerMap[container.name][item.name].mountPath }}
                 </span>
                 <span class="text-subtitle-2 ml-2">
                   ({{
-                    containerMap[container.name][item.metadata.name].readOnly
+                    containerMap[container.name][item.name].readOnly
                       ? '只读'
                       : '读写'
                   }})
                 </span>
               </v-col>
               <v-col
-                v-if="containerMap[container.name][item.metadata.name].subPath"
-                cols="4"
+                v-if="containerMap[container.name][item.name].subPath"
+                cols="3"
                 class="py-1"
               >
                 <span class="text-body-2">子路径:</span>
                 <span class="text-subtitle-2 ml-2">
-                  {{ containerMap[container.name][item.metadata.name].subPath }}
+                  {{ containerMap[container.name][item.name].subPath }}
                 </span>
               </v-col>
             </v-row>
             <v-row v-else>
               <v-col
-                cols="2"
+                cols="4"
                 class="py-1"
               >
                 <span class="text-body-2">容器:</span>
@@ -155,7 +133,7 @@
           right
           x-small
           color="primary"
-          @click="updateVolumeTemplateData(index)"
+          @click="updateData(index)"
         >
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
@@ -166,7 +144,7 @@
           right
           x-small
           color="error"
-          @click="removeVolumeTemplateData(index)"
+          @click="removeData(index)"
         >
           <v-icon>mdi-delete</v-icon>
         </v-btn>
@@ -179,7 +157,7 @@
             <v-btn
               text
               color="primary"
-              @click="expandTemplateCard"
+              @click="expandCard"
             >
               <v-icon
                 left
@@ -187,7 +165,7 @@
               >
                 mdi-plus
               </v-icon>
-              添加卷挂载模版
+              添加卷挂载
             </v-btn>
           </v-list-item-subtitle>
         </v-list-item-content>
@@ -197,13 +175,25 @@
 </template>
 
 <script>
+import Configmap from './Configmap'
+import EmptyDir from './EmptyDir'
+import HostPath from './HostPath'
+import PersistentVolumeClaim from './PersistentVolumeClaim'
+import Secret from './Secret'
 import BaseResource from '@/mixins/resource'
 
 export default {
-  name: 'VolumeClaimTemplateItem',
+  name: 'StorageMountItem',
+  components: {
+    Configmap,
+    EmptyDir,
+    HostPath,
+    PersistentVolumeClaim,
+    Secret,
+  },
   mixins: [BaseResource],
   props: {
-    templates: {
+    volumes: {
       type: Array,
       default: () => [],
     },
@@ -211,11 +201,14 @@ export default {
       type: Array,
       default: () => [],
     },
+    pvcs: {
+      type: Object,
+      default: () => {},
+    },
   },
   data() {
     return {
       containerMap: {},
-      initContainerMap: {},
     }
   },
   watch: {
@@ -229,26 +222,16 @@ export default {
         }
       })
     },
-    initContainers() {
-      this.initContainers.forEach((c) => {
-        this.initContainerMap[c.name] = {}
-        if (c.volumeMounts) {
-          c.volumeMounts.forEach((v) => {
-            this.initContainerMap[c.name][v.name] = v
-          })
-        }
-      })
-    },
   },
   methods: {
-    updateVolumeTemplateData(index) {
-      this.$emit('updateVolumeTemplateData', index)
+    updateData(index) {
+      this.$emit('updateData', index)
     },
-    removeVolumeTemplateData(index) {
-      this.$emit('removeVolumeTemplateData', index)
+    removeData(index) {
+      this.$emit('removeData', index)
     },
-    expandTemplateCard() {
-      this.$emit('expandTemplateCard')
+    expandCard() {
+      this.$emit('expandCard')
     },
   },
 }

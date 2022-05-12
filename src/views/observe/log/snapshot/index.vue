@@ -20,7 +20,7 @@
       </v-card-text>
     </v-card>
     <v-card>
-      <v-card-title class="py-2">
+      <v-card-title class="py-4">
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '日志快照名称', value: 'search' }"

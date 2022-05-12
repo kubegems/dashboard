@@ -31,7 +31,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { putUpdateReceiver, putUpdateLogReceiver } from '@/api'
+import { putUpdateReceiver } from '@/api'
 import ReceiverBaseForm from './ReceiverBaseForm'
 import BaseResource from '@/mixins/resource'
 import BaseSelect from '@/mixins/select'
@@ -73,21 +73,13 @@ export default {
       ) {
         let data = this.$refs[this.formComponent].getData()
         data = this.m_resource_beautifyData(data)
-        if (this.mode === 'monitor') {
-          await putUpdateReceiver(
-            this.$route.query.cluster,
-            this.$route.query.namespace,
-            data.name,
-            data,
-          )
-        } else if (this.mode === 'logging') {
-          await putUpdateLogReceiver(
-            this.$route.query.cluster,
-            this.$route.query.namespace,
-            data.name,
-            data,
-          )
-        }
+        await putUpdateReceiver(
+          this.$route.query.cluster,
+          this.$route.query.namespace,
+          data.name,
+          {scope: this.mode},
+          data,
+        )
 
         this.reset()
         this.$emit('refresh')

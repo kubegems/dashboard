@@ -167,7 +167,7 @@
 <script>
 import { mapGetters, mapState } from 'vuex'
 import {
-  getPrometheusAletrsSearch,
+  getPrometheusAlertSearch,
   postAddPrometheusBlacklist,
   deletePrometheusBlacklist,
 } from '@/api'
@@ -299,7 +299,7 @@ export default {
       //   return
       // }
 
-      const data = await getPrometheusAletrsSearch(this.tenant.ID, params)
+      const data = await getPrometheusAlertSearch(this.tenant.ID, params)
       this.pageCount = Math.ceil(data.Total / this.params.size)
       this.params.page = data.CurrentPage
       this.items = data.List || []

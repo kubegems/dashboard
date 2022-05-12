@@ -227,332 +227,31 @@
       class="grey lighten-4 rounded ma-2"
     >
       <v-list-item two-line>
-        <v-list-item-content
+        <KeyValue
           v-if="!item.valueFrom"
-          class="py-2"
-        >
-          <v-list-item-subtitle class="text-body-2 py-0">
-            <v-list-item
-              two-line
-              class="float-left pa-0 kubegems__middle-width"
-            >
-              <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1">
-                  <span> 键值对 </span>
-                </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1">
-                  类型
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item
-              two-line
-              class="float-left pa-0 kubegems__container-width"
-            >
-              <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1">
-                  <span>
-                    {{ item.name }}
-                  </span>
-                </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1">
-                  名称
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item
-              two-line
-              class="float-left pa-0 kubegems__container-width"
-            >
-              <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1">
-                  <span>
-                    {{ item.value }}
-                  </span>
-                </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1">
-                  值
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-item-subtitle>
-          <div class="kubegems__clear-float" />
-        </v-list-item-content>
-        <v-list-item-content
+          :item="item"
+        />
+
+        <Secret
           v-else-if="item.valueFrom && item.valueFrom.secretKeyRef"
-          class="py-2"
-        >
-          <v-list-item-subtitle class="text-body-2 py-0">
-            <v-list-item
-              two-line
-              class="float-left pa-0 kubegems__middle-width"
-            >
-              <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1">
-                  <span> 密钥 </span>
-                </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1">
-                  类型
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item
-              two-line
-              class="float-left pa-0 kubegems__container-width"
-            >
-              <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1">
-                  <span>
-                    {{ item.name }}
-                  </span>
-                </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1">
-                  名称
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item
-              two-line
-              class="float-left pa-0 kubegems__container-width"
-            >
-              <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1">
-                  <span>
-                    {{ item.valueFrom.secretKeyRef.name }}
-                  </span>
-                </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1">
-                  密钥
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item
-              two-line
-              class="float-left pa-0 kubegems__container-width"
-            >
-              <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1">
-                  <span>
-                    {{ item.valueFrom.secretKeyRef.key }}
-                  </span>
-                </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1">
-                  键
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-item-subtitle>
-          <div class="kubegems__clear-float" />
-        </v-list-item-content>
-        <v-list-item-content
+          :item="item"
+        />
+
+        <Configmap
           v-else-if="item.valueFrom && item.valueFrom.configMapKeyRef"
-          class="py-2"
-        >
-          <v-list-item-subtitle class="text-body-2 py-0">
-            <v-list-item
-              two-line
-              class="float-left pa-0 kubegems__middle-width"
-            >
-              <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1">
-                  <span> 配置 </span>
-                </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1">
-                  类型
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item
-              two-line
-              class="float-left pa-0 kubegems__container-width"
-            >
-              <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1">
-                  <span>
-                    {{ item.name }}
-                  </span>
-                </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1">
-                  名称
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item
-              two-line
-              class="float-left pa-0 kubegems__container-width"
-            >
-              <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1">
-                  <span>
-                    {{ item.valueFrom.configMapKeyRef.name }}
-                  </span>
-                </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1">
-                  密钥
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item
-              two-line
-              class="float-left pa-0 kubegems__container-width"
-            >
-              <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1">
-                  <span>
-                    {{ item.valueFrom.configMapKeyRef.key }}
-                  </span>
-                </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1">
-                  键
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-item-subtitle>
-          <div class="kubegems__clear-float" />
-        </v-list-item-content>
-        <v-list-item-content
+          :item="item"
+        />
+
+        <DownwardPod
           v-else-if="item.valueFrom && item.valueFrom.fieldRef"
-          class="py-2"
-        >
-          <v-list-item-subtitle class="text-body-2 py-0">
-            <v-list-item
-              two-line
-              class="float-left pa-0 kubegems__middle-width"
-            >
-              <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1">
-                  <span> Downward API </span>
-                </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1">
-                  类型
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item
-              two-line
-              class="float-left pa-0 kubegems__container-width"
-            >
-              <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1">
-                  <span>
-                    {{ item.name }}
-                  </span>
-                </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1">
-                  名称
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item
-              two-line
-              class="float-left pa-0 kubegems__container-width"
-            >
-              <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1">
-                  <span> Pod </span>
-                </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1">
-                  方式
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item
-              two-line
-              class="float-left pa-0 kubegems__container-width"
-            >
-              <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1">
-                  <span>
-                    {{ item.valueFrom.fieldRef.fieldPath }}
-                  </span>
-                </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1">
-                  fieldPath
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-item-subtitle>
-          <div class="kubegems__clear-float" />
-        </v-list-item-content>
-        <v-list-item-content
+          :item="item"
+        />
+
+        <DownwardContainer
           v-else-if="item.valueFrom && item.valueFrom.resourceFieldRef"
-          class="py-2"
-        >
-          <v-list-item-subtitle class="text-body-2 py-0">
-            <v-list-item
-              two-line
-              class="float-left pa-0 kubegems__middle-width"
-            >
-              <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1">
-                  <span> Downward API </span>
-                </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1">
-                  类型
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item
-              two-line
-              class="float-left pa-0 kubegems__container-width"
-            >
-              <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1">
-                  <span>
-                    {{ item.name }}
-                  </span>
-                </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1">
-                  名称
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item
-              two-line
-              class="float-left pa-0 kubegems__container-width"
-            >
-              <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1">
-                  <span> Container </span>
-                </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1">
-                  方式
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item
-              two-line
-              class="float-left pa-0 kubegems__container-width"
-            >
-              <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1">
-                  <span>
-                    {{ item.valueFrom.resourceFieldRef.containerName }}
-                  </span>
-                </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1">
-                  容器
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item
-              two-line
-              class="float-left pa-0 kubegems__container-width"
-            >
-              <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1">
-                  <span>
-                    {{ item.valueFrom.resourceFieldRef.resource }}
-                  </span>
-                </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1">
-                  resource
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-item-subtitle>
-          <div class="kubegems__clear-float" />
-        </v-list-item-content>
+          :item="item"
+        />
+
         <v-btn
           dark
           text
@@ -603,12 +302,24 @@
 
 <script>
 import { getSecretList, getConfigMapList, getAppResourceFileMetas } from '@/api'
+import Configmap from './Configmap'
+import DownwardContainer from './DownwardContainer'
+import DownwardPod from './DownwardPod'
+import KeyValue from './KeyValue'
+import Secret from './Secret'
 import BaseResource from '@/mixins/resource'
 import { deepCopy } from '@/utils/helpers'
 import { required } from '@/utils/rules'
 
 export default {
   name: 'ContainerEnv',
+  components: {
+    Configmap,
+    DownwardContainer,
+    DownwardPod,
+    KeyValue,
+    Secret,
+  },
   mixins: [BaseResource],
   props: {
     container: {

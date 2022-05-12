@@ -3,7 +3,7 @@
     <BaseViewportHeader />
     <BaseBreadcrumb />
     <v-card>
-      <v-card-text class="pa-2">
+      <v-card-text class="pa-3">
         <v-tabs
           v-model="tab"
           height="40"

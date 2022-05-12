@@ -1,6 +1,6 @@
 <template>
   <v-flex>
-    <v-card-title class="py-2">
+    <v-card-title class="py-4">
       <v-flex>
         <v-flex class="float-right">
           <v-sheet class="text-body-2 text--darken-1">

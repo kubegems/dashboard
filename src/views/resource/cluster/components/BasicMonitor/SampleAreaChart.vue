@@ -146,7 +146,7 @@ export default {
           },
         },
         noData: {
-          text: '暂无监控数据',
+          text: '暂无数据',
           offsetX: -30,
           offsetY: 0,
           style: {

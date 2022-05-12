@@ -184,6 +184,7 @@ const resource = {
         if (JSON.stringify(data[item]) === '[]') continue
         if (data[item] === '') continue
         if (typeof data[item] === 'string') {
+          data[item] = data[item].trim()
           if (
             data[item] !== '' &&
             !isNaN(data[item]) &&
