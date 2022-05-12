@@ -33,7 +33,7 @@
       </v-flex>
       <v-flex
         v-if="volumeObj"
-        class="ml-2 pt-4"
+        class="pt-5"
       >
         <span class="text-body-2 mx-1">
           类型:{{ volumeObj.spec.storageClassName }}
