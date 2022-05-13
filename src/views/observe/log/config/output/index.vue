@@ -297,10 +297,10 @@ export default {
     outputDetail(item) {
       this.$router.push({
         name: this.AdminViewport ? 'admin-log-output-detail' : 'log-output-detail',
-        params: {
+        params: Object.assign(this.$route.params, {
           kind: item.kind,
           name: item.metadata.name,
-        },
+        }),
         query: {
           cluster: this.params.cluster,
           namespace: item.metadata.namespace,

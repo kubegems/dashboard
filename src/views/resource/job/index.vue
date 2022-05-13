@@ -367,9 +367,9 @@ export default {
     jobDetail(item) {
       this.$router.push({
         name: 'job-detail',
-        params: {
+        params: Object.assign(this.$route.params, {
           name: item.metadata.name,
-        },
+        }),
         query: {
           namespace: item.metadata.namespace,
         },

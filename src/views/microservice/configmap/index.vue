@@ -280,9 +280,9 @@ export default {
     configMapDetail(item) {
       this.$router.push({
         name: 'microconfigmap-detail',
-        params: {
+        params: Object.assign(this.$route.params, {
           name: item.metadata.name,
-        },
+        }),
         query: {
           namespace: item.metadata.namespace,
           cluster: this.$route.query.cluster,

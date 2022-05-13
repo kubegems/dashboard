@@ -378,7 +378,7 @@ export default {
     openOnBlankTab() {
       const routeData = this.$router.resolve({
         name: this.AdminViewport ? 'admin-terminal-viewer' : 'terminal-viewer',
-        params: { name: this.item.name },
+        params: Object.assign(this.$route.params, { name: this.item.name }),
         query: {
           type: 'shell',
           namespace: this.item.namespace,

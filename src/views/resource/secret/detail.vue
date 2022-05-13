@@ -220,7 +220,7 @@ export default {
             this.$route.query.namespace,
             param.item.metadata.name,
           )
-          this.$router.push({ name: 'secret-list' })
+          this.$router.push({ name: 'secret-list', params: this.$route.params })
         },
       })
     },

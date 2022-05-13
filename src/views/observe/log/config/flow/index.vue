@@ -300,10 +300,10 @@ export default {
     flowDetail(item) {
       this.$router.push({
         name: this.AdminViewport ? 'admin-log-flow-detail' : 'log-flow-detail',
-        params: {
+        params: Object.assign(this.$route.params, {
           kind: item.kind,
           name: item.metadata.name,
-        },
+        }),
         query: {
           cluster: this.params.cluster,
           namespace: item.metadata.namespace,

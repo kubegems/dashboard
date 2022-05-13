@@ -306,6 +306,7 @@ export default {
       })
       this.$router.push({
         name: 'pod-list',
+        params: this.$route.params,
         query: { namespace: plugin.namespace },
       })
     },

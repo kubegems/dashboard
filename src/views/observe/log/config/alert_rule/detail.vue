@@ -170,7 +170,7 @@ export default {
           await deleteLogAlertRule(this.Environment().ID, {
             name: param.item.name,
           })
-          this.$router.push({ name: 'prometheusrule-list' })
+          this.$router.push({ name: 'log-config', params: this.$route.params, query: this.$route.query })
         },
       })
     },

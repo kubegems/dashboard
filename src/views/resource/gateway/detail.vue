@@ -236,7 +236,7 @@ export default {
             this.ThisClusterID,
             param.item.metadata.name,
           )
-          this.$router.push({ name: 'gateway-list' })
+          this.$router.push({ name: 'gateway-list', params: this.$route.params })
         },
       })
     },

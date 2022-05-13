@@ -405,9 +405,9 @@ export default {
     certificateDetail(item) {
       this.$router.push({
         name: 'certificate-detail',
-        params: {
+        params: Object.assign(this.$route.params, {
           name: item.metadata.name,
-        },
+        }),
         query: {
           namespace: item.metadata.namespace,
         },

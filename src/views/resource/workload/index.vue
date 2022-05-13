@@ -538,9 +538,9 @@ export default {
     workloadDetail(item) {
       this.$router.push({
         name: 'workload-detail',
-        params: {
+        params: Object.assign(this.$route.params, {
           name: item.metadata.name,
-        },
+        }),
         query: {
           type: this.tabItems[this.tab].value,
           namespace: item.metadata.namespace,

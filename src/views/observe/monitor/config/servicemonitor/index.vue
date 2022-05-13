@@ -283,13 +283,10 @@ export default {
     serviceMonitorDetail(item) {
       this.$router.push({
         name: 'servicemonitor-detail',
-        params: {
+        params: Object.assign(this.$route.params, {
           name: item.metadata.name,
-        },
-        query: {
-          namespace: item.metadata.namespace,
-          cluster: this.cluster,
-        },
+        }),
+        query: this.$route.query,
       })
     },
     addServiceMonitor() {

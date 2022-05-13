@@ -191,6 +191,7 @@ export default {
           )
           this.$router.push({
             name: this.AdminViewport ? 'admin-log-config' : 'log-config',
+            params: this.$route.params,
             query: {
               cluster: this.$route.query.cluster,
               namespace: this.$route.query.namespace,

@@ -162,7 +162,7 @@ export default {
           cronJob.Content.metadata.name === this.cronjob.metadata.name
         ) {
           if (cronJob.EventKind === 'delete') {
-            this.$router.push({ name: 'cronjob-list' })
+            this.$router.push({ name: 'cronjob-list', params: this.$route.params })
           } else {
             this.cronjob = cronJob.Content
           }
@@ -226,7 +226,7 @@ export default {
             this.$route.query.namespace,
             param.item.metadata.name,
           )
-          this.$router.push({ name: 'cronjob-list' })
+          this.$router.push({ name: 'cronjob-list', params: this.$route.params })
         },
       })
     },

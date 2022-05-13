@@ -441,7 +441,7 @@ export default {
     kialiServiceDetail(item) {
       this.$router.push({
         name: 'microservice-detail',
-        params: { name: item.name },
+        params: Object.assign(this.$route.params, { name: item.name }),
         query: {
           type: 'Service',
           namespace: this.EnvironmentFilter.namespace,

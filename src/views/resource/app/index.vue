@@ -572,7 +572,7 @@ export default {
       }
       this.$router.push({
         name: 'app-detail',
-        params: { name: item.name },
+        params: Object.assign(this.$route.params, { name: item.name }),
         query: {
           projectid: this.Project().ID,
           tenantid: this.Tenant().ID,

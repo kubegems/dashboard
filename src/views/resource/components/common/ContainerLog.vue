@@ -389,7 +389,7 @@ export default {
     openOnBlankTab() {
       const routeData = this.$router.resolve({
         name: this.AdminViewport ? 'admin-container-log-viewer' : 'container-log-viewer',
-        params: { name: this.item.name },
+        params: Object.assign(this.$route.params, { name: this.item.name }),
         query: {
           namespace: this.item.namespace,
           cluster: this.ThisCluster,

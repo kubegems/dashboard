@@ -229,7 +229,7 @@ export default {
           app.Content.AppName === this.app.AppName
         ) {
           if (app.EventKind === 'delete') {
-            this.$router.push({ name: 'app-list' })
+            this.$router.push({ name: 'app-list', params: this.$route.params })
           } else {
             this.app.runtime.raw = app.Content
           }
@@ -303,7 +303,7 @@ export default {
     advancedDeploy() {
       this.$router.push({
         name: 'app-deploy',
-        params: { name: this.app.name },
+        params: Object.assign(this.$route.params, { name: this.app.name }),
         query: {
           projectid: this.Project().ID,
           tenantid: this.Tenant().ID,
@@ -344,7 +344,7 @@ export default {
               this.app.name,
             )
           }
-          this.$router.push({ name: 'app-list' })
+          this.$router.push({ name: 'app-list', params: this.$route.params })
         },
       })
     },

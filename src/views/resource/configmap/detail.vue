@@ -173,7 +173,7 @@ export default {
             this.$route.query.namespace,
             param.item.metadata.name,
           )
-          this.$router.push({ name: 'configmap-list' })
+          this.$router.push({ name: 'configmap-list', params: this.$route.params })
         },
       })
     },

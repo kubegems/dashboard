@@ -234,9 +234,9 @@ export default {
     crdDetail(item) {
       this.$router.push({
         name: 'crd-detail',
-        params: {
+        params: Object.assign(this.$route.params, {
           name: item.metadata.name,
-        },
+        }),
       })
     },
     removeCRD(item) {

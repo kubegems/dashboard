@@ -545,6 +545,7 @@ export default {
           this.$store.commit('CLEAR_RESOURCE')
           this.$router.push({
             name: 'resource-dashboard',
+            params: this.$route.params,
           })
         },
       })

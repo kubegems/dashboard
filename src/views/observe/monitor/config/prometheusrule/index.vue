@@ -482,14 +482,11 @@ export default {
     prometheusRuleDetail(item) {
       this.$router.push({
         name: 'prometheusrule-detail',
-        params: {
+        params: Object.assign(this.$route.params, {
           namespace: item.namespace,
           name: item.name,
-        },
-        query: {
-          cluster: this.cluster,
-          namespace: item.namespace,
-        },
+        }),
+        query: this.$route.query,
       })
     },
     addPrometheusRule() {

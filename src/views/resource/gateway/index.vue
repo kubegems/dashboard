@@ -243,7 +243,7 @@ export default {
     gatewayDetail(item) {
       this.$router.push({
         name: 'gateway-detail',
-        params: { name: item.metadata.name },
+        params: Object.assign(this.$route.params, { name: item.metadata.name }),
       })
     },
     removeGateway(item) {

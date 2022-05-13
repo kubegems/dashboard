@@ -468,14 +468,11 @@ export default {
     alertRuleDetail(item) {
       this.$router.push({
         name: 'log-alert-detail',
-        params: {
+        params: Object.assign(this.$route.params, {
           namespace: item.namespace,
           name: item.name,
-        },
-        query: {
-          cluster: this.cluster,
-          namespace: item.namespace,
-        },
+        }),
+        query: this.$route.query,
       })
     },
     addAlertRule() {

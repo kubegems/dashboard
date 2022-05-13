@@ -245,7 +245,7 @@ export default {
     istioGatewayDetail(item) {
       this.$router.push({
         name: 'istiogateway-detail',
-        params: { name: item.Name },
+        params: Object.assign(this.$route.params, { name: item.Name }),
         query: {
           namespace: this.EnvironmentFilter.namespace,
           cluster: this.EnvironmentFilter.cluster,

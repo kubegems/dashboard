@@ -162,7 +162,7 @@ export default {
           job.Content.metadata.name === this.job.metadata.name
         ) {
           if (job.EventKind === 'delete') {
-            this.$router.push({ name: 'job-list' })
+            this.$router.push({ name: 'job-list', params: this.$route.params })
           } else {
             this.job = job.Content
           }
@@ -226,7 +226,7 @@ export default {
             this.$route.query.namespace,
             param.item.metadata.name,
           )
-          this.$router.push({ name: 'job-list' })
+          this.$router.push({ name: 'job-list', params: this.$route.params })
         },
       })
     },

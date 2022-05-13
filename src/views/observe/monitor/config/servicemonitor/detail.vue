@@ -191,7 +191,7 @@ export default {
             this.$route.query.namespace,
             param.item.metadata.name,
           )
-          this.$router.push({ name: 'servicemonitor-list' })
+          this.$router.push({ name: 'observe-monitor-config', params: this.$route.params, query: this.$route.query})
         },
       })
     },
