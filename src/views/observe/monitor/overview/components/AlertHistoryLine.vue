@@ -103,7 +103,6 @@ export default {
       },
       noData: {
         text: '暂无数据',
-        offsetY: -12,
       },
     }
     return {
@@ -123,8 +122,7 @@ export default {
   },
   methods: {
     async alertGraphMetrics() {
-      const data = await getAlertGraph({
-        tenant: this.tenant.TenantName,
+      const data = await getAlertGraph(this.tenant.ID, {
         start: this.$moment().utc().add(-30, 'days').format(),
         end: this.$moment().utc().format(),
       })

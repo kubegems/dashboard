@@ -347,36 +347,25 @@ export default {
       })
       this.messageList()
       if (message.MessageType === 'alert') {
-        if (message.Content.EnvironmentID === 0) {
-          this.$store.commit('SET_ADMIN_VIEWPORT', true)
-          this.$router.push({
-            name: 'admin-prometheusrule-detail',
-            params: {
-              name: message.Content.AlertName,
-            },
-            query: {
-              namespace: message.Content.Namespace,
-              createAt: message.CreatedAt,
-              cluster: message.Content.ClusterName,
-            },
-          })
-        } else {
-          this.$store.commit('SET_ADMIN_VIEWPORT', false)
-          this.$router.push({
-            name: 'prometheusrule-detail',
-            params: {
+        const admin = message.Content.EnvironmentID === 0
+        this.$store.commit('SET_ADMIN_VIEWPORT', admin)
+        const params = admin ? {
+            name: message.Content.AlertName,
+          } : {
               name: message.Content.AlertName,
               tenant: message.Content.TenantName,
               project: message.Content.ProjectName,
               environment: message.Content.EnvironmentName,
-            },
-            query: {
-              namespace: message.Content.Namespace,
-              createAt: message.CreatedAt,
-              cluster: message.Content.ClusterName,
-            },
-          })
-        }
+            }
+        this.$router.push({
+          name: message?.Content?.From === 'monitor' ? `${admin ? 'admin-' : ''}prometheusrule-detail` : `${admin ? 'admin-' : ''}log-alert-detail`,
+          params: params,
+          query: {
+            namespace: message.Content.Namespace,
+            createAt: message.CreatedAt,
+            cluster: message.Content.ClusterName,
+          },
+        })
         this.menu = false
       }
     },

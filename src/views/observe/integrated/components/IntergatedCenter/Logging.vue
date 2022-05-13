@@ -24,99 +24,112 @@
         </v-col>
       </v-row>
 
-      <BaseSubTitle
-        class="mt-4"
-        title="自定义配置"
-      />
-
-      <v-row class="mt-0 px-2">
-        <v-col cols="6">
-          <v-autocomplete
-            v-model="application"
-            :items="applicationItems"
-            :rules="objRules.appRules"
-            color="primary"
-            label="关联应用"
-            hide-selected
-            class="my-0"
-            no-data-text="暂无可选数据"
-            @change="onApplicationChange"
-          >
-            <template #selection="{ item }">
-              <v-chip
-                color="primary"
-                small
-                class="mx-1"
-              >
-                {{ item['text'] }}
-              </v-chip>
-            </template>
-          </v-autocomplete>
-        </v-col>
-
-        <v-col cols="6">
-          <v-autocomplete
-            v-model="outputName"
-            :items="outputItems"
-            :rules="objRules.outputRules"
-            color="primary"
-            label="关联日志路由"
-            hide-selected
-            class="my-0"
-            no-data-text="暂无可选数据"
-            multiple
-            :menu-props="{
-              bottom: true,
-              left: true,
-              origin: `top center`,
-            }"
-            @change="onOutputChange"
-          >
-            <template #selection="{ item }">
-              <v-chip
-                color="primary"
-                small
-                class="mx-1"
-                :disabled="item.disabled"
-              >
-                {{ item['text'] }}
-              </v-chip>
-            </template>
-          </v-autocomplete>
-        </v-col>
-
+      <v-row class="px-2">
         <v-col cols="12">
           <v-switch
-            v-model="throttle"
+            v-model="customConfig"
             class="mt-5"
-            label="启用限速"
-            hide-details
-          />
-        </v-col>
-
-        <v-col
-          v-if="throttle"
-          cols="6"
-        >
-          <v-text-field
-            v-model.number="obj.throttle"
-            :rules="objRules.throttleRules"
-            class="my-0"
-            required
-            label="限速"
-            type="number"
-          />
-        </v-col>
-
-        <v-col cols="12">
-          <v-switch
-            v-model="obj.enableMetrics"
-            class="mt-5"
-            label="启用日志状态监控"
+            label="自定义配置"
             hide-details
           />
         </v-col>
       </v-row>
+
+      <template v-if="customConfig">
+        <BaseSubTitle
+          class="mt-6"
+          title="自定义配置"
+        />
+
+        <v-row class="mt-0 px-2">
+          <v-col cols="6">
+            <v-autocomplete
+              v-model="application"
+              :items="applicationItems"
+              :rules="objRules.appRules"
+              color="primary"
+              label="关联应用"
+              hide-selected
+              class="my-0"
+              no-data-text="暂无可选数据"
+              @change="onApplicationChange"
+            >
+              <template #selection="{ item }">
+                <v-chip
+                  color="primary"
+                  small
+                  class="mx-1"
+                >
+                  {{ item['text'] }}
+                </v-chip>
+              </template>
+            </v-autocomplete>
+          </v-col>
+
+          <v-col cols="6">
+            <v-autocomplete
+              v-model="outputName"
+              :items="outputItems"
+              :rules="objRules.outputRules"
+              color="primary"
+              label="关联日志路由"
+              hide-selected
+              class="my-0"
+              no-data-text="暂无可选数据"
+              multiple
+              :menu-props="{
+                bottom: true,
+                left: true,
+                origin: `top center`,
+              }"
+              @change="onOutputChange"
+            >
+              <template #selection="{ item }">
+                <v-chip
+                  color="primary"
+                  small
+                  class="mx-1"
+                  :disabled="item.disabled"
+                >
+                  {{ item['text'] }}
+                </v-chip>
+              </template>
+            </v-autocomplete>
+          </v-col>
+
+          <v-col cols="12">
+            <v-switch
+              v-model="throttle"
+              class="mt-5"
+              label="启用限速"
+              hide-details
+            />
+          </v-col>
+
+          <v-col
+            v-if="throttle"
+            cols="6"
+          >
+            <v-text-field
+              v-model.number="obj.throttle"
+              :rules="objRules.throttleRules"
+              class="my-0"
+              required
+              label="限速"
+              type="number"
+            />
+          </v-col>
+
+          <v-col cols="12">
+            <v-switch
+              v-model="obj.enableMetrics"
+              class="mt-5"
+              label="启用日志状态监控"
+              hide-details
+            />
+          </v-col>
+        </v-row>
+      </template>
     </v-form>
   </div>
 </template>
@@ -145,6 +158,7 @@ export default {
       env: undefined,
       throttle: false,
       sampleMode: false,
+      customConfig: false,
       outputItems: [],
       outputName: undefined,
       applicationItems: [],

@@ -205,7 +205,7 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex'
-import { getLogReceiverList, deleteLogReceiver } from '@/api'
+import { getReceiverList, deleteReceiver } from '@/api'
 import AddReceiver from '@/views/observe/monitor/config/receiver/components/AddReceiver'
 import UpdateReceiver from '@/views/observe/monitor/config/receiver/components/UpdateReceiver'
 import BaseFilter from '@/mixins/base_filter'
@@ -226,7 +226,9 @@ export default {
     page: 1,
     pageCount: 0,
     itemsPerPage: 10,
-    params: {},
+    params: {
+      scope: 'logging',
+    },
   }),
   computed: {
     ...mapState(['JWT', 'AdminViewport']),
@@ -280,7 +282,7 @@ export default {
       if (!this.$route.query.cluster || !this.$route.query.namespace) {
         return
       }
-      const data = await getLogReceiverList(
+      const data = await getReceiverList(
         this.$route.query.cluster,
         this.$route.query.namespace,
         this.params,
@@ -328,10 +330,11 @@ export default {
         },
         param: { item },
         doFunc: async (param) => {
-          await deleteLogReceiver(
+          await deleteReceiver(
             this.$route.query.cluster,
             param.item.namespace,
             param.item.name,
+            {scope: 'logging'},
           )
           this.receiverList()
         },

@@ -100,7 +100,6 @@ export default {
         },
         noData: {
           text: '暂无数据',
-          offsetY: -18,
         },
       }
     },

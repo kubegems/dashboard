@@ -141,11 +141,7 @@ export default {
   height: 100%;
 
   &__main {
-    position: absolute;
-    top: 86px;
-    right: 12px;
-    bottom: 12px;
-    left: 12px;
+    position: relative;
   }
 
   &__header {

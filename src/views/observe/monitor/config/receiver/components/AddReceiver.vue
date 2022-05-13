@@ -29,7 +29,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { postAddReceiver, postAddLogReceiver } from '@/api'
+import { postAddReceiver } from '@/api'
 import ReceiverBaseForm from './ReceiverBaseForm'
 import BaseResource from '@/mixins/resource'
 
@@ -64,11 +64,7 @@ export default {
       ) {
         let data = this.$refs[this.formComponent].getData()
         data = this.m_resource_beautifyData(data)
-        if (this.mode === 'monitor') {
-          await postAddReceiver(this.$route.query.cluster, this.$route.query.namespace, data)
-        } else if (this.mode === 'logging') {
-          await postAddLogReceiver(this.$route.query.cluster, this.$route.query.namespace, data)
-        }
+        await postAddReceiver(this.$route.query.cluster, this.$route.query.namespace, {scope: this.mode}, data)
         this.reset()
         this.$emit('refresh')
       }

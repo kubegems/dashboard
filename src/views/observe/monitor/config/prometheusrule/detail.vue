@@ -147,7 +147,7 @@ export default {
           isAdmin: this.AdminViewport,
         },
       )
-      this.yaml = this.$yamldump(data.origin.rules)
+      this.yaml = data.origin
       this.prometheusRule = data
     },
     updatePrometheusRule() {

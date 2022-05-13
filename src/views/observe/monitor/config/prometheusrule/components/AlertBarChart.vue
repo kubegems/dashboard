@@ -151,7 +151,6 @@ export default {
         },
         noData: {
           text: '暂无告警数据',
-          offsetY: -26,
         },
       }
     },

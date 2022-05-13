@@ -114,18 +114,19 @@ const table = {
         })
         return
       }
+      const resources = Object.values(this.m_table_batchResources)
+        .filter((c) => {
+          return c.checked
+        })
+        .map((c) => {
+          return c.name
+        })
       this.$store.commit('SET_CONFIRM', {
         title: `批量删除${title}`,
         content: {
-          text: `${Object.values(this.m_table_batchResources)
-            .filter((c) => {
-              return c.checked
-            })
-            .map((c) => {
-              return c.name
-            })
-            .join(',')}`,
+          text: `${resources.join(',')}`,
           type: 'batch_delete',
+          one: resources.length === 1 ? resources[0] : undefined,
           status: {},
         },
         param: {},
@@ -168,18 +169,19 @@ const table = {
         })
         return
       }
+      const resources = Object.values(this.m_table_batchResources)
+        .filter((c) => {
+          return c.checked
+        })
+        .map((c) => {
+          return c.name
+        })
       this.$store.commit('SET_CONFIRM', {
         title: `批量删除${title}`,
         content: {
-          text: `${Object.values(this.m_table_batchResources)
-            .filter((c) => {
-              return c.checked
-            })
-            .map((c) => {
-              return c.name
-            })
-            .join(',')}`,
+          text: `${resources.join(',')}`,
           type: 'batch_delete',
+          one: resources.length === 1 ? resources[0] : undefined,
           status: {},
         },
         param: {},

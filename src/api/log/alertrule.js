@@ -28,13 +28,13 @@ export const putUpdateLogAlertRule = (clusterName, namespace, name, body = {}) =
     body,
   )
 // 禁用日志告警规则
-export const postDisableLogAlertRule = (clusterName, namespace, name, body = {}) =>
+export const postDisableAlertRule = (clusterName, namespace, name, body = {}) =>
   axios.post(
     `observability/cluster/${clusterName}/namespaces/${namespace}/alerts/${name}/actions/disable`,
     body,
   )
 // 启用日志告警规则
-export const postEnableLogAlertRule = (clusterName, namespace, name, body = {}) =>
+export const postEnableAlertRule = (clusterName, namespace, name, body = {}) =>
   axios.post(
     `observability/cluster/${clusterName}/namespaces/${namespace}/alerts/${name}/actions/enable`,
     body,

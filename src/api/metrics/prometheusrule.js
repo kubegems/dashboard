@@ -2,34 +2,24 @@ import axios from 'axios'
 
 // 告警规则列表
 export const getPrometheusRuleList = (clusterName, namespace, query = {}) =>
-  axios(`alerts/cluster/${clusterName}/namespaces/${namespace}/alert`, {
+  axios(`observability/cluster/${clusterName}/namespaces/${namespace}/monitor/alerts`, {
     params: query,
   })
 // 添加告警规则
 export const postAddPrometheusRule = (clusterName, namespace, body = {}) =>
   axios.post(
-    `alerts/cluster/${clusterName}/namespaces/${namespace}/alert`,
+    `observability/cluster/${clusterName}/namespaces/${namespace}/monitor/alerts`,
     body,
-  )
-// 禁用告警规则
-export const postDisablePrometheusRule = (clusterName, namespace, name) =>
-  axios.post(
-    `alerts/cluster/${clusterName}/namespaces/${namespace}/alert/${name}/actions/disable`,
-  )
-// 启用告警规则
-export const postEnablePrometheusRule = (clusterName, namespace, name) =>
-  axios.post(
-    `alerts/cluster/${clusterName}/namespaces/${namespace}/alert/${name}/actions/enable`,
   )
 // 删除告警规则
 export const deletePrometheusRule = (clusterName, namespace, name) =>
   axios.delete(
-    `alerts/cluster/${clusterName}/namespaces/${namespace}/alert/${name}`,
+    `observability/cluster/${clusterName}/namespaces/${namespace}/monitor/alerts/${name}`,
   )
 // 更新告警规则
 export const putUpdatePrometheusRule = (clusterName, namespace, name, body = {}) =>
   axios.put(
-    `alerts/cluster/${clusterName}/namespaces/${namespace}/alert/${name}`,
+    `observability/cluster/${clusterName}/namespaces/${namespace}/monitor/alerts/${name}`,
     body,
   )
 // 告警规则详情
@@ -39,7 +29,7 @@ export const getPrometheusRuleDetail = (
   name,
   query = {},
 ) =>
-  axios(`alerts/cluster/${clusterName}/namespaces/${namespace}/alert/${name}`, {
+  axios(`observability/cluster/${clusterName}/namespaces/${namespace}/monitor/alerts/${name}`, {
     params: query,
   })
 // 告警规则历史
@@ -50,14 +40,14 @@ export const getPrometheusAlertHistory = (
   query = {},
 ) =>
   axios(
-    `alerts/cluster/${clusterName}/namespaces/${namespace}/alert/${name}/history`,
+    `observability/cluster/${clusterName}/namespaces/${namespace}/alerts/${name}/history`,
     {
       params: Object.assign(query, {}),
     },
   )
 // 搜索告警
-export const getPrometheusAletrsSearch = (tenantId, query = {}) =>
-  axios.get(`alerts/tenant/${tenantId}/search`, { params: query })
+export const getPrometheusAlertSearch = (tenantId, query = {}) =>
+  axios.get(`observability/tenant/${tenantId}/alerts/search`, { params: query })
 // 告警黑名单列表
 export const getPrometheusBlackList = (query = {}) =>
   axios.get('alerts/blacklist', { params: query })

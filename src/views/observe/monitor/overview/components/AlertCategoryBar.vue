@@ -115,7 +115,6 @@ export default {
         },
         noData: {
           text: '暂无数据',
-          offsetY: -15,
         },
       }
     },
@@ -130,8 +129,7 @@ export default {
   },
   methods: {
     async alertGroupMetrics() {
-      const data = await getAlertGroup({
-        tenant: this.tenant.TenantName,
+      const data = await getAlertGroup(this.tenant.ID, {
         groupby: 'alert_type',
         start: this.$moment(parseInt(this.date[0])).utc().format(),
         end: this.$moment(parseInt(this.date[1])).utc().format(),
