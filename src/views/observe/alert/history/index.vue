@@ -36,6 +36,7 @@
     </v-card>
     <v-card class="mt-4 pa-4">
       <v-data-table
+        class="kubegems__table-row-pointer"
         :headers="headers"
         :items="items"
         :page.sync="params.page"

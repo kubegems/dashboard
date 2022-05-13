@@ -243,20 +243,27 @@ export default {
     UpdateIssuer,
   },
   mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
-  data: () => ({
-    items: [],
-    pageCount: 0,
-    params: {
-      page: 1,
-      size: 10,
-    },
-    filters: [{ text: '名称', value: 'search', items: [] }],
-    tab: 0,
-    tabItems: [
-      { text: '证书', value: 'Certificate' },
-      { text: '颁发机构', value: 'Issue' },
-    ],
-  }),
+  data () {
+    this.tabMap = {
+      certificate: 0,
+      issue: 1,
+    }
+
+    return {
+      items: [],
+      pageCount: 0,
+      params: {
+        page: 1,
+        size: 10,
+      },
+      filters: [{ text: '名称', value: 'search', items: [] }],
+      tab: this.tabMap[this.$route.query.tab] || 0,
+      tabItems: [
+        { text: '证书', value: 'Certificate', tab: 'certificate' },
+        { text: '颁发机构', value: 'Issue', tab: 'issue' },
+      ],
+    }
+  },
   computed: {
     ...mapState(['JWT', 'AdminViewport']),
     headers() {
@@ -386,7 +393,7 @@ export default {
       this.items = data.List
       this.pageCount = Math.ceil(data.Total / this.params.size)
       this.params.page = data.CurrentPage
-      this.$router.replace({ query: { ...this.$route.query, ...this.params } })
+      this.$router.replace({ query: { ...this.$route.query, ...this.params, tab: this.tabItems[this.tab].tab } })
       this.m_table_generateSelectResource()
     },
     async onTabChange() {

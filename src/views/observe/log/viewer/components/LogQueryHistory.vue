@@ -199,6 +199,7 @@ export default {
             query: item.LogQL,
             project: env.projectName,
             environment: env.text,
+            cluster: env.clusterName,
             namespace: this.namespace,
             filters: item.FilterJSON,
           },

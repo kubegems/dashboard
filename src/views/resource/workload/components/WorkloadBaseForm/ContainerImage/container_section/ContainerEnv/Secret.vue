@@ -5,7 +5,7 @@
     <v-list-item-subtitle class="text-body-2 py-0">
       <v-list-item
         two-line
-        class="float-left pa-0 kubegems__container-width"
+        class="float-left pa-0 secret__item"
       >
         <v-list-item-content class="py-0">
           <v-list-item-title class="text-subtitle-2 py-1">
@@ -18,7 +18,7 @@
       </v-list-item>
       <v-list-item
         two-line
-        class="float-left pa-0 kubegems__container-width"
+        class="float-left pa-0 secret__item"
       >
         <v-list-item-content class="py-0">
           <v-list-item-title class="text-subtitle-2 py-1">
@@ -33,7 +33,7 @@
       </v-list-item>
       <v-list-item
         two-line
-        class="float-left pa-0 kubegems__container-width"
+        class="float-left pa-0 secret__item"
       >
         <v-list-item-content class="py-0">
           <v-list-item-title class="text-subtitle-2 py-1">
@@ -48,7 +48,7 @@
       </v-list-item>
       <v-list-item
         two-line
-        class="float-left pa-0 kubegems__container-width"
+        class="float-left pa-0 secret__item"
       >
         <v-list-item-content class="py-0">
           <v-list-item-title class="text-subtitle-2 py-1">
@@ -77,3 +77,11 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.secret__item {
+  width: 200px;
+  word-break: break-all;
+  white-space: break-spaces;
+}
+</style>

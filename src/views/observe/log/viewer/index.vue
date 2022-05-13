@@ -332,6 +332,7 @@ export default {
             ...this.$route.query,
             project: projectName,
             environment: environmentName,
+            cluster: this.cluster.text,
             start: this.dateTimestamp[0]?.substr(0, 13),
             end: this.dateTimestamp[1]?.substr(0, 13),
             query: this.params.logQL,

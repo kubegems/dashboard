@@ -3,7 +3,7 @@
     <BaseMicroServiceHeader />
     <BaseBreadcrumb />
     <v-card>
-      <v-card-title class="pa-2">
+      <v-card-title class="py-4 px-2">
         <EnvironmentFilter :ml="6" />
         <v-spacer />
       </v-card-title>

@@ -99,6 +99,7 @@
       </v-card-title>
       <v-card-text class="px-0">
         <v-data-table
+          class="kubegems__table-row-pointer"
           disable-sort
           disable-filtering
           :headers="headers"
@@ -551,7 +552,7 @@ export default {
     },
     onPageSizeChange(size) {
       this.params.page = 1
-      this.params.size = size
+      this.itemsPerPage = size
     },
     onPageIndexChange(page) {
       this.params.page = page

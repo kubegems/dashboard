@@ -138,6 +138,7 @@
         :log-q-l="logQL"
         :cluster="cluster"
         @setQl="setQl"
+        @replaceUrl="replaceUrl"
       />
     </div>
 
@@ -236,6 +237,11 @@ export default {
           }
         })
         this.selected = selected
+      } else {
+        this.$router.replace({
+          name: this.$route.name,
+        })
+        return
       }
       if (this.$route.query.filters) {
         this.filter = typeof this.$route.query.filters === 'string' ? [this.$route.query.filters] : this.$route.query.filters
@@ -347,6 +353,18 @@ export default {
         })
       }
       return filterList
+    },
+
+    // 生成日志告警
+    replaceUrl() {
+      this.$router.replace({
+        name: this.$route.name,
+        query: {
+          ...this.$route.query,
+          cluster: this.cluster.text,
+          namespace: this.namespace,
+        },
+      })
     },
 
     search() {

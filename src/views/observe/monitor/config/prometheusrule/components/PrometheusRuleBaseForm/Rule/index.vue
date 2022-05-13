@@ -99,7 +99,7 @@
               </v-autocomplete>
             </v-col>
           </template>
-          <template v-if="mode === 'log'">
+          <template v-if="mode === 'logging'">
             <v-col cols="12">
               <v-textarea
                 v-model="obj.expr"
@@ -211,25 +211,29 @@ export default {
       type: String,
       default: () => 'metrics',
     },
+    expr: {
+      type: String,
+      default: () => '',
+    },
   },
   data() {
-    this.obj = {
-      name: '',
-      namespace: this.$route?.query.namespace,
-      for: '1m',
-      resource: '',
-      rule: '',
-      unit: '',
-      labelpairs: {},
-      alertLevels: [],
-      receivers: [],
-    }
     return {
       valid: false,
       expand: false,
       metricsConfig: {}, // 指标配置
       inhibitLabelText: '',
       inhibitLabelItems: [],
+      obj: {
+        name: '',
+        namespace: '',
+        for: '1m',
+        resource: '',
+        rule: '',
+        unit: '',
+        labelpairs: {},
+        alertLevels: [],
+        receivers: [],
+      },
     }
   },
   computed: {
@@ -284,6 +288,17 @@ export default {
       return []
     },
   },
+  watch: {
+    expr: {
+      handler(newValue) {
+        if (newValue) {
+          this.obj.expr = newValue
+        }
+      },
+      deep: true,
+      immediate: true,
+    },
+  },
   mounted() {
     this.obj = this.$_.merge(this.obj, deepCopy(this.item))
     if (this.mode === 'metrics') {
@@ -294,7 +309,7 @@ export default {
       this.$delete(this.obj, 'expr')
       this.$delete(this.obj, 'inhibitLabels')
       this.getMonitorConfig()
-    } else if (this.mode === 'log') {
+    } else if (this.mode === 'logging') {
       if (!this.obj.expr) { this.obj.expr = '' }
       if (!this.obj.inhibitLabels) { this.obj.inhibitLabels = [] }
       this.$delete(this.obj, 'rule')
@@ -303,6 +318,7 @@ export default {
       this.$delete(this.obj, 'labelpairs')
     }
     this.$refs.form.resetValidation()
+    this.obj.namespace = this.$route?.query.namespace
   },
   methods: {
     // eslint-disable-next-line vue/no-unused-properties
@@ -356,7 +372,7 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     setData(data) {
       this.obj = data
-      if (this.mode === 'log') {
+      if (this.mode === 'logging') {
         this.inhibitLabelItems = this.obj.inhibitLabels.map(l => { return {text: l, value: l} })
       }
     },
@@ -367,7 +383,7 @@ export default {
     reset() {
       this.$refs.alertLevelForm.closeCard()
       this.$refs.form.resetValidation()
-      this.obj = this.$options.data().obj
+      this.obj = deepCopy(this.$options.data().obj)
     },
     onResourceChange() {
       // resource选择变更时需要重置rule值

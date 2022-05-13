@@ -13,6 +13,7 @@
         :step="step"
         :mode="mode"
         :title="`${mode==='metrics'?'PrometheusRule':'LogRule'}`"
+        :expr="expr"
       />
     </template>
     <template #action>
@@ -50,7 +51,7 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex'
-import { postAddPrometheusRule } from '@/api'
+import { postAddPrometheusRule, postAddLogAlertRule } from '@/api'
 import PrometheusRuleBaseForm from './PrometheusRuleBaseForm'
 import BaseResource from '@/mixins/resource'
 import { deepCopy } from '@/utils/helpers'
@@ -65,6 +66,10 @@ export default {
     mode: {
       type: String,
       default: () => 'metrics',
+    },
+    expr: {
+      type: String,
+      default: () => '',
     },
   },
   data: () => ({
@@ -98,18 +103,26 @@ export default {
       if (this.$refs[this.formComponent].validate(true)) {
         const obj = deepCopy(this.$refs[this.formComponent].obj)
 
-        // 移除labelpairs中的空值
-        for (const key in obj.labelpairs) {
-          if (!obj.labelpairs[key]) {
-            delete obj.labelpairs[key]
+        if (this.mode === 'metrics') {
+          // 移除labelpairs中的空值
+          for (const key in obj.labelpairs) {
+            if (!obj.labelpairs[key]) {
+              delete obj.labelpairs[key]
+            }
           }
-        }
 
-        await postAddPrometheusRule(
-          this.$route.query.cluster,
-          this.$route.query.namespace,
-          obj,
-        )
+          await postAddPrometheusRule(
+            this.$route.query.cluster,
+            this.$route.query.namespace,
+            obj,
+          )
+        } else if (this.mode === 'logging') {
+          await postAddLogAlertRule(
+            this.$route.query.cluster,
+            this.$route.query.namespace,
+            obj,
+          )
+        }
         this.reset()
         this.$emit('refresh')
       }

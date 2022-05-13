@@ -10,6 +10,7 @@
       :item="item"
       :edit="edit"
       :mode="mode"
+      :expr="expr"
     />
   </v-form>
 </template>
@@ -40,6 +41,10 @@ export default {
     mode: {
       type: String,
       default: () => 'metrics',
+    },
+    expr: {
+      type: String,
+      default: () => '',
     },
   },
   data: () => ({

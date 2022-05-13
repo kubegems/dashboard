@@ -18,7 +18,7 @@
           small
           color="primary"
           text
-          @click.stop
+          @click.stop="addAlertRule"
         >
           生成告警
         </v-btn>
@@ -47,14 +47,24 @@
         {{ item.value }}
       </template>
     </v-data-table>
+
+    <AddAlertRule
+      ref="addAlertRule"
+      mode="logging"
+      :expr="ql"
+    />
   </div>
 </template>
 
 <script>
 import { getLogLabels } from '@/api'
+import AddAlertRule from '@/views/observe/monitor/config/prometheusrule/components/AddPrometheusRule'
 
 export default {
   name: 'AdvancedTextarea',
+  components: {
+    AddAlertRule,
+  },
   props: {
     logQL: {
       type: String,
@@ -322,6 +332,10 @@ export default {
         typeof item.value === 'string' &&
         item.value.toString().indexOf(search) !== -1
       )
+    },
+    addAlertRule() {
+      this.$emit('replaceUrl')
+      this.$refs.addAlertRule.open()
     },
   },
 }
