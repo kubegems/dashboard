@@ -331,7 +331,7 @@ export default {
     tenantDetail(item) {
       this.$router.push({
         name: 'tenant-detail',
-        params: { name: item.TenantName },
+        params: Object.assign(this.$route.params, { name: item.TenantName }),
         query: { id: item.ID },
       })
     },

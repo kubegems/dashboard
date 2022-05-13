@@ -151,7 +151,7 @@ export default {
           pod.Content.metadata.name === this.pod.metadata.name
         ) {
           if (pod.EventKind === 'delete') {
-            this.$router.push({ name: 'pod-list' })
+            this.$router.push({ name: 'pod-list', params: this.$route.params })
           } else {
             this.pod = pod.Content
           }
@@ -211,7 +211,7 @@ export default {
             this.$route.query.namespace,
             param.item.metadata.name,
           )
-          this.$router.push({ name: 'pod-list' })
+          this.$router.push({ name: 'pod-list', params: this.$route.params })
         },
       })
     },

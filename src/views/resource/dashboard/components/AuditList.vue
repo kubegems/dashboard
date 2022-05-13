@@ -135,9 +135,9 @@ export default {
     toAudit() {
       this.$router.push({
         name: 'audit-list',
-        params: {
+        params: Object.assign(this.$route.params, {
           tenant: this.Tenant().TenantName,
-        },
+        }),
       })
     },
   },

@@ -311,9 +311,9 @@ export default {
     serviceDetail(item) {
       this.$router.push({
         name: 'service-detail',
-        params: {
+        params: Object.assign(this.$route.params, {
           name: item.metadata.name,
-        },
+        }),
         query: {
           namespace: item.metadata.namespace,
         },

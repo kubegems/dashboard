@@ -1,4 +1,4 @@
-const prefix = 'virtualspaces/:virtualspace'
+const prefix = 'virtualspaces/:virtualspace?'
 
 export const microService = [
   {

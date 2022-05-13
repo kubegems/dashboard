@@ -443,7 +443,7 @@ export default {
     nodeDetail(item) {
       this.$router.push({
         name: 'node-detail',
-        params: { name: item.metadata.name },
+        params: Object.assign(this.$route.params, { name: item.metadata.name }),
       })
     },
     stopSchedule(item) {

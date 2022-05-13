@@ -337,7 +337,7 @@ export default {
           workload.Content.metadata.name === this.workload.metadata.name
         ) {
           if (workload.EventKind === 'delete') {
-            this.$router.push({ name: 'workload-list' })
+            this.$router.push({ name: 'workload-list', params: this.$route.params })
           } else {
             this.workload = workload.Content
           }
@@ -495,7 +495,7 @@ export default {
               this.$route.query.namespace,
               param.item.metadata.name,
             )
-            this.$router.push({ name: 'workload-list' })
+            this.$router.push({ name: 'workload-list', params: this.$route.params })
           },
         })
       } else if (this.$route.query.type === 'StatefulSet') {
@@ -513,7 +513,7 @@ export default {
               this.$route.query.namespace,
               param.item.metadata.name,
             )
-            this.$router.push({ name: 'workload-list' })
+            this.$router.push({ name: 'workload-list', params: this.$route.params })
           },
         })
       } else if (this.$route.query.type === 'Deployment') {
@@ -531,7 +531,7 @@ export default {
               this.$route.query.namespace,
               param.item.metadata.name,
             )
-            this.$router.push({ name: 'workload-list' })
+            this.$router.push({ name: 'workload-list', params: this.$route.params })
           },
         })
       }

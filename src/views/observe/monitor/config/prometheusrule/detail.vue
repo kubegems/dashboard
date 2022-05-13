@@ -168,7 +168,7 @@ export default {
           await deletePrometheusRule(this.Environment().ID, {
             name: param.item.name,
           })
-          this.$router.push({ name: 'prometheusrule-list' })
+          this.$router.push({ name: 'observe-monitor-config', params: this.$route.params, query: this.$route.query })
         },
       })
     },

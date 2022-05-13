@@ -1,4 +1,4 @@
-const prefix = 'tenants/:tenant/projects/:project/environments/:environment'
+const prefix = 'tenants/:tenant?/projects/:project?/environments/:environment?'
 
 export const workspace = [
   {

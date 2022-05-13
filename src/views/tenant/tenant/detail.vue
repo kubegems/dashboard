@@ -655,7 +655,7 @@ export default {
           await deleteTenant(param.item.ID)
           this.$store.commit('CLEAR_TENANT')
           this.$store.dispatch('UPDATE_TENANT_DATA')
-          this.$router.push({ name: 'tenant-list' })
+          this.$router.push({ name: 'tenant-list', params: this.$route.params })
         },
       })
     },

@@ -162,7 +162,7 @@ export default {
         param: { item },
         doFunc: async (param) => {
           await deleteCRD(this.ThisCluster, param.item.metadata.name)
-          this.$router.push({ name: 'crd-list' })
+          this.$router.push({ name: 'crd-list', params: this.$route.params })
         },
       })
     },

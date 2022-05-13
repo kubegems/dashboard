@@ -453,7 +453,7 @@ export default {
     returnAppDetail() {
       this.$router.push({
         name: 'app-detail',
-        params: { name: this.$route.params.name },
+        params: Object.assign(this.$route.params, { name: this.$route.params.name }),
         query: {
           projectid: this.$route.query.projectid,
           tenantid: this.$route.query.tenantid,

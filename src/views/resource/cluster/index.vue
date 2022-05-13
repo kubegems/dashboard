@@ -227,7 +227,7 @@ export default {
     clusterDetail(item) {
       this.$router.push({
         name: 'cluster-detail',
-        params: { name: item.ClusterName },
+        params: Object.assign(this.$route.params, { name: item.ClusterName }),
         query: { id: item.ID },
       })
     },

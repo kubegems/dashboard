@@ -522,7 +522,7 @@ export default {
     microAppWorkoladDetail(item) {
       this.$router.push({
         name: 'microworkload-detail',
-        params: { name: item.name },
+        params: Object.assign(this.$route.params, { name: item.name }),
         query: {
           type: this.tabItems[this.tab].value,
           namespace: this.EnvironmentFilter.namespace,

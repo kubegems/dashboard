@@ -253,18 +253,18 @@ export default {
                 }
               } else if (message.Content.ResourceType === 'project') {
                 if (this.Project().ID === message.Content.ResourceID) {
-                  this.$router.push({ name: 'resource-dashboard' })
+                  this.$router.push({ name: 'resource-dashboard', params: {tenant: this.Tenant().TenantName} })
                 }
               } else if (message.Content.ResourceType === 'environment') {
                 if (this.Environment().ID === message.Content.ResourceID) {
-                  this.$router.push({ name: 'resource-dashboard' })
+                  this.$router.push({ name: 'resource-dashboard', params: {tenant: this.Tenant().TenantName} })
                 }
               } else if (message.Content.ResourceType === 'cluster') {
                 this.$store.commit('CLEAR_CLUSTER')
-                this.$router.push({ name: 'resource-dashboard' })
+                this.$router.push({ name: 'resource-dashboard', params: {tenant: this.Tenant().TenantName} })
               } else if (message.Content.ResourceType === 'application') {
                 if (this.$route.path.indexOf('apps') > -1) {
-                  this.$router.push({ name: 'app-list' })
+                  this.$router.push({ name: 'app-list', params: this.$route.params, query: this.$route.query })
                 }
               }
             } else if (message.EventKind === 'update') {
@@ -273,7 +273,7 @@ export default {
                   message.Content.ResourceType,
                 ) > -1
               ) {
-                this.$router.push({ name: 'resource-dashboard' })
+                this.$router.push({ name: 'resource-dashboard', params: {tenant: this.Tenant().TenantName} })
               }
             }
           }
@@ -352,11 +352,11 @@ export default {
         const params = admin ? {
             name: message.Content.AlertName,
           } : {
-              name: message.Content.AlertName,
-              tenant: message.Content.TenantName,
-              project: message.Content.ProjectName,
-              environment: message.Content.EnvironmentName,
-            }
+            name: message.Content.AlertName,
+            tenant: message.Content.TenantName,
+            project: message.Content.ProjectName,
+            environment: message.Content.EnvironmentName,
+          }
         this.$router.push({
           name: message?.Content?.From === 'monitor' ? `${admin ? 'admin-' : ''}prometheusrule-detail` : `${admin ? 'admin-' : ''}log-alert-detail`,
           params: params,

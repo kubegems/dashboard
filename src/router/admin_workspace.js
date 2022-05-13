@@ -1,4 +1,4 @@
-const prefix = 'clusters/:cluster'
+const prefix = 'clusters/:cluster?'
 const namePrefix = 'admin'
 
 export const adminWorkspace = [

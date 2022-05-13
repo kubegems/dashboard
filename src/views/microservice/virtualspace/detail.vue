@@ -161,6 +161,7 @@ export default {
           this.$store.commit('CLEAR_VIRTUAL_SPACE')
           this.$router.push({
             name: 'virtualspace-list',
+            params: this.$route.params,
           })
         },
       })
@@ -169,6 +170,7 @@ export default {
       this.$store.commit('CLEAR_VIRTUAL_SPACE')
       this.$router.push({
         name: 'virtualspace-list',
+        params: this.$route.params,
       })
     },
     manageUser() {

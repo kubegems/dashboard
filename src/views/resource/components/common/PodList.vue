@@ -514,9 +514,9 @@ export default {
     podDetail(item) {
       this.$router.push({
         name: 'pod-detail',
-        params: {
+        params: Object.assign(this.$route.params, {
           name: item.metadata.name,
-        },
+        }),
         query: {
           namespace: item.metadata.namespace,
         },

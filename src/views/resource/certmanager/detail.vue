@@ -195,6 +195,7 @@ export default {
           )
           this.$router.push({
             name: 'certificate-list',
+            params: this.$route.params,
           })
         },
       })

@@ -163,7 +163,7 @@ export default {
             param.item.ProjectID,
             param.item.name,
           )
-          this.$router.push({ name: 'app-list' })
+          this.$router.push({ name: 'app-list', params: this.$route.params })
         },
       })
     },
