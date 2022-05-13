@@ -62,11 +62,6 @@
   width: 80px;
   word-break: break-all;
 }
-.kubegems__container-width {
-  width: 200px;
-  word-break: break-all;
-  white-space: break-spaces;
-}
 .kubegems__word-all-break {
   word-break: break-all;
   white-space: break-spaces;
@@ -216,4 +211,8 @@ $i: 24;
     width: (100% / 24) * $i;
   }
   $i: $i - 1;
+}
+
+.kubegems__table-row-pointer tbody tr {
+  cursor: pointer;
 }

@@ -76,13 +76,13 @@
         <BaseSubTitle title="告警列表" />
         <AlertList
           ref="alertList"
-          mode="log"
+          mode="logging"
         />
       </v-card-text>
     </v-card>
     <UpdateAlertRule
       ref="updateAlertRule"
-      mode="log"
+      mode="logging"
       @refresh="alertRuleDetail"
     />
   </v-container>

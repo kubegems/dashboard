@@ -45,7 +45,7 @@ const router = new Router({
     .concat(userCenter), // 用户中心
 })
 
-router.beforeEach(async function (to, from, next) {
+router.beforeEach(async (to, from, next) => {
   if (to.name === null) {
     next({ name: '404' })
     return

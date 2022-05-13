@@ -203,7 +203,7 @@ export const observe = [
           {
             path: `${prefix}/overview`,
             name: 'observe-monitor-overview',
-            component: () => import('@/views/observe/monitor/overview'),
+            component: () => import('@/views/observe/alert/dashboard'),
             meta: {
               requireAuth: true,
               title: '概览',
@@ -218,7 +218,7 @@ export const observe = [
           {
             path: `${prefix}/living`,
             name: `observe-monitor-alert`,
-            component: () => import('@/views/observe/monitor/alert'),
+            component: () => import('@/views/observe/alert/living'),
             meta: {
               requireAuth: true,
               title: '实时告警',
@@ -232,7 +232,7 @@ export const observe = [
           {
             path: `${prefix}/history`,
             name: 'observe-alert-history',
-            component: () => import('@/views/observe/monitor/history'),
+            component: () => import('@/views/observe/alert/history'),
             meta: {
               requireAuth: true,
               title: '告警历史',
@@ -247,7 +247,7 @@ export const observe = [
           {
             path: `${prefix}/blacklist`,
             name: 'observe-alert-blacklist',
-            component: () => import('@/views/observe/monitor/blacklist'),
+            component: () => import('@/views/observe/alert/blacklist'),
             meta: {
               requireAuth: true,
               title: '告警黑名单',

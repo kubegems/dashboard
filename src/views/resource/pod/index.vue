@@ -43,7 +43,7 @@
         </v-menu>
       </v-card-title>
       <v-data-table
-        class="mx-4"
+        class="mx-4 kubegems__table-row-pointer"
         :headers="headers"
         :items="items"
         :page.sync="params.page"

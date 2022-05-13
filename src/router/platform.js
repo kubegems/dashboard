@@ -53,6 +53,7 @@ export const platform = [
               icon: 'mdi-account-switch',
               show: true,
               rootName: 'platform',
+              tip: 'tenant',
             },
           },
           {
@@ -123,6 +124,7 @@ export const platform = [
               icon: 'mdi-cube-outline',
               show: true,
               rootName: 'platform',
+              tip: 'project',
             },
           },
           // environment
@@ -137,6 +139,7 @@ export const platform = [
               icon: 'mdi-cloud',
               show: true,
               rootName: 'platform',
+              tip: 'environment',
             },
           },
         ],

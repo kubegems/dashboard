@@ -287,22 +287,30 @@ export default {
     ResourceLimit,
   },
   mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
-  data: () => ({
-    filters: [{ text: '负载名称', value: 'search', items: [] }],
-    tab: 0,
-    tabItems: [
-      { text: '无状态服务', value: 'Deployment' },
-      { text: '有状态服务', value: 'StatefulSet' },
-      { text: '守护进程服务', value: 'DaemonSet' },
-    ],
-    items: [],
-    pageCount: 0,
-    params: {
-      page: 1,
-      size: 10,
-    },
-    adviseItems: {},
-  }),
+  data() {
+    this.tabMap = {
+      deployment: 0,
+      statefulset: 1,
+      daemonset: 2,
+    }
+
+    return {
+      filters: [{ text: '负载名称', value: 'search', items: [] }],
+      tab: this.tabMap[this.$route.query.tab] || 0,
+      tabItems: [
+        { text: '无状态服务', value: 'Deployment', tab: 'deployment' },
+        { text: '有状态服务', value: 'StatefulSet', tab: 'statefulset' },
+        { text: '守护进程服务', value: 'DaemonSet', tab: 'daemonset' },
+      ],
+      items: [],
+      pageCount: 0,
+      params: {
+        page: 1,
+        size: 10,
+      },
+      adviseItems: {},
+    }
+  },
   computed: {
     ...mapState(['JWT', 'AdminViewport', 'MessageStreamWS']),
     ...mapGetters(['Environment']),
@@ -463,7 +471,7 @@ export default {
       this.items = workloads
       this.pageCount = Math.ceil(data.Total / this.params.size)
       this.params.page = data.CurrentPage
-      this.$router.replace({ query: { ...this.$route.query, ...this.params } })
+      this.$router.replace({ query: { ...this.$route.query, ...this.params, tab: this.tabItems[this.tab].tab } })
       this.adviseList()
       this.watchWorkloadList()
       this.items = this.items.map((workload) => {

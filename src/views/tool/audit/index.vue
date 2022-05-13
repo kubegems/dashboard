@@ -41,7 +41,7 @@
         />
       </v-card-title>
       <v-data-table
-        class="mx-4"
+        class="mx-4 kubegems__table-row-pointer"
         disable-sort
         :headers="headers"
         :items="items"
