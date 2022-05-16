@@ -30,10 +30,8 @@
               {{ item.metadata.name }}
             </v-flex>
             <v-flex
-              v-if="
-                Plugins && Plugins.gpu_manager &&
-                  item.metadata.labels['tencent.com/vcuda'] &&
-                  item.metadata.labels['tencent.com/vcuda'] === 'true'
+              v-if="item.metadata.labels['tencent.com/vcuda'] &&
+                item.metadata.labels['tencent.com/vcuda'] === 'true'
               "
               class="float-left ml-2"
             >
@@ -54,10 +52,8 @@
               </v-menu>
             </v-flex>
             <v-flex
-              v-if="
-                Plugins && Plugins.nvidia_device_plugin &&
-                  item.metadata.labels['nvidia.com/gpu'] &&
-                  item.metadata.labels['nvidia.com/gpu'] === 'true'
+              v-if="item.metadata.labels['nvidia.com/gpu'] &&
+                item.metadata.labels['nvidia.com/gpu'] === 'true'
               "
               class="float-left ml-2"
             >
