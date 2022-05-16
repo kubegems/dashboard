@@ -70,12 +70,10 @@
             {{ node ? node.metadata.name : '' }}
 
             <template
-              v-if="
-                Plugins && Plugins.gpu_manager &&
-                  node &&
-                  node.metadata &&
-                  node.metadata.labels['tencent.com/vcuda'] &&
-                  node.metadata.labels['tencent.com/vcuda'] === 'true'
+              v-if="node &&
+                node.metadata &&
+                node.metadata.labels['tencent.com/vcuda'] &&
+                node.metadata.labels['tencent.com/vcuda'] === 'true'
               "
             >
               <v-menu
@@ -97,12 +95,10 @@
               </v-menu>
             </template>
             <template
-              v-if="
-                Plugins && Plugins.nvidia_device_plugin &&
-                  node &&
-                  node.metadata &&
-                  node.metadata.labels['nvidia.com/gpu'] &&
-                  node.metadata.labels['nvidia.com/gpu'] === 'true'
+              v-if="node &&
+                node.metadata &&
+                node.metadata.labels['nvidia.com/gpu'] &&
+                node.metadata.labels['nvidia.com/gpu'] === 'true'
               "
             >
               <v-menu
