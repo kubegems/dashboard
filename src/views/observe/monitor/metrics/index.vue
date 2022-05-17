@@ -700,7 +700,6 @@ export default {
 
     &-inner {
       position: inherit;
-      overflow: auto;
       padding-bottom: 8px;
     }
   }

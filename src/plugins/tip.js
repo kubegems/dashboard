@@ -1,6 +1,6 @@
 const TIP = {
   // 微服务
-  virtualspace: '虚拟空间(virtualspace)是一组环境的聚合。',
+  virtualspace: '虚拟空间(Virtualspace)是一组环境的聚合。',
   dag: '服务调用图 (DAG) 是一个或多个命名空间下的所有负载服务调用链路关系图。',
   dns: 'DNS(DNSDomain)。',
   'v-dashboard': '租户容器服务提供了安全隔离的、具有访问权限控制的工作平台。这里您可以看到当前租户内资源运行的概况。',
@@ -15,11 +15,11 @@ const TIP = {
   'v-sidecar': '边车 (Sidecar) 描述代理的配置，该代理将入站和出站通信调解到它所附加的工作负载实例。',
 
   // 应用商店
-  appstore: '应用商店(helmChart)是一个描述Kubernetes相关资源的文件集合，单个应用可以用来部署某些复杂的HTTP服务器以及web全栈应用、数据库、缓存等。',
+  appstore: '应用商店(HelmChart)是一个描述Kubernetes相关资源的文件集合，单个应用可以用来部署某些复杂的HTTP服务器以及web全栈应用、数据库、缓存等。',
   'appstore-registry': 'chart仓库是chart包存放的位置, 被应用商店和部署所使用。',
 
   // 模型商店
-  modelstore: '模型商店(ormb)通过镜像仓库来分发模型，可以帮助用户更好的管理他们的机器学习 / 深度学习模型。通过 Ormb，模型能更易于创建、版本化、共享以及发布。',
+  modelstore: '模型商店(Ormb)通过镜像仓库来分发模型，可以帮助用户更好的管理他们的机器学习 / 深度学习模型。通过 Ormb，模型能更易于创建、版本化、共享以及发布。',
 
   // 设置
   'base-setting': '平台基本配置, 包括平台审计, 平台组件等。',
@@ -32,9 +32,9 @@ const TIP = {
   user: '平台所有用户(user)，包括系统管理员与普通成员。',
 
   // 工具箱
-  audit: '针对项目空间，环境空间，资源等多维度操作审计查询。',
-  event: '事件通知为容器云事件驱动器提供，代表资源在集群内的状态历史。',
-  'user-center': '用户消息，审计，个人设置等。',
+  audit: '审计(Audit)针对项目空间，环境空间，资源等多维度操作审计查询。',
+  event: '事件通知(Event)为容器云事件驱动器提供，代表资源在集群内的状态历史。',
+  'user-center': '用户中心(User Center)提供用户消息，审计，个人设置等。',
 
   // 资源
   dashboard: '租户容器服务提供了安全隔离的、具有访问权限控制的工作平台。这里您可以看到当前租户内资源运行的概况。',
@@ -63,19 +63,19 @@ const TIP = {
   storageclass: '存储类型 (StorageClass) 是由集群管理员配置存储服务端参数，并按类型提供存储给集群用户使用。',
 
   // 可观测性
-  observe: '提供日志采集，查看，告警/监控指标采集，告警/告警中心，历史/链路追踪等所有功能。',
-  integrated: '配置应用/中间件的链路追踪，指标监控，日志以获得可观测性功能。',
-  'dash-overview': '监控大盘统计。',
-  'dash-metrics': '查询系统监控指标，并支持生成告警。',
-  'dash-log': '基于Loki的日志查看面板，可进行日志实时查询，快照，过滤等。',
-  'dash-log-snapshot': '用户保存的快照文件，用来复盘某个时刻的日志历史。',
-  'dash-trace': '链路查询器(jaeger)是端到端分布式跟踪监控系统。',
-  'alert-overview': '监控指标告警大盘统计。',
+  observe: '可观测性(Observability)提供日志采集，查看，告警/监控指标采集，告警/告警中心，历史/链路追踪等所有功能。',
+  integrated: '接入中心(Intergate Center)允许您配置应用/中间件的链路追踪，指标监控，日志以获得可观测性功能。',
+  'dash-overview': '监控大盘(Monitor Dashboard)允许您查询、可视化了解您的指标。',
+  'dash-metrics': '指标查询(Metrics)允许您查询系统监控指标，并生成相关告警。',
+  'dash-log': '日志(Log)基于Loki的日志查看面板，可进行日志实时查询，快照，过滤等。',
+  'dash-log-snapshot': '日志快照(Log Snapshot)允许您保存的指定节点的日志文件，用来复盘某个时刻的日志历史。',
+  'dash-trace': '链路查询器(Jaeger)是端到端分布式跟踪监控系统。',
+  'alert-overview': '告警大盘(Alert Dashboard)允许您查看最近告警趋势，告警指标汇总及对比值。',
   'alert-living': '',
-  'alert-history': '产生告警的历史信息汇总。',
-  'alert-blacklist': '告警置于黑名单后将不会再产生告警提示。',
-  'config-monitor': '监控采集配置中心，提供采集器，告警配置，接收器等。',
-  'log-monitor': '日采集配置中心，提供采集器，告警配置，接收器等。',
+  'alert-history': '告警历史(Alert History)允许您按照条件查看告警的历史信息。',
+  'alert-blacklist': '告警黑名单(Alert Blacklist)允许您将部分不需要接收的告警进行静默。',
+  'config-monitor': '监控采集配置中心(Monitor Config Center)允许您进行采集器，告警，接收器等监控指标相关的配置。',
+  'log-monitor': '日志采集配置中心(Log Config Center)允许您进行日志采集器，告警，接收器等日志指标相关的配置以及日志流转过滤等配置。',
   'service-monitor': '采集器 (ServiceMonitor) 为一组服务定义监控, 自动被Prometheus发现, 成为其指标拉取目标Target。',
   'prometheus-rule': '告警规则 (PrometheusRule) 通常是针对监控指标设置的Prometheus告警规则。',
   flow: '日志采集器 (Flow/ClusterFlow) 定义了一个带有过滤器和输出的日志流。',

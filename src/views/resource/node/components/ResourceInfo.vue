@@ -6,7 +6,7 @@
       class="mt-2 pl-4"
     />
     <v-row class="mt-2">
-      <v-col :cols="cols">
+      <v-col cols="4">
         <VueApexCharts
           type="radialBar"
           height="300"
@@ -14,41 +14,7 @@
           :series="cpuSeries"
         />
       </v-col>
-      <v-col
-        v-if="
-          Plugins && Plugins.gpu_manager &&
-            item &&
-            item.metadata &&
-            item.metadata.labels['tencent.com/vcuda'] &&
-            item.metadata.labels['tencent.com/vcuda'] === 'true'
-        "
-        :cols="cols"
-      >
-        <VueApexCharts
-          type="radialBar"
-          height="300"
-          :options="gpuTkeOptions"
-          :series="gpuTkeSeries"
-        />
-      </v-col>
-      <v-col
-        v-if="
-          Plugins && Plugins.nvidia_device_plugin &&
-            item &&
-            item.metadata &&
-            item.metadata.labels['nvidia.com/gpu'] &&
-            item.metadata.labels['nvidia.com/gpu'] === 'true'
-        "
-        :cols="cols"
-      >
-        <VueApexCharts
-          type="radialBar"
-          height="300"
-          :options="gpuNvidiaOptions"
-          :series="gpuNvidiaSeries"
-        />
-      </v-col>
-      <v-col :cols="cols">
+      <v-col cols="4">
         <VueApexCharts
           type="radialBar"
           height="300"
@@ -56,24 +22,7 @@
           :series="memorySeries"
         />
       </v-col>
-      <v-col
-        v-if="
-          Plugins && Plugins.gpu_manager &&
-            item &&
-            item.metadata &&
-            item.metadata.labels['tencent.com/vcuda'] &&
-            item.metadata.labels['tencent.com/vcuda'] === 'true'
-        "
-        :cols="cols"
-      >
-        <VueApexCharts
-          type="radialBar"
-          height="300"
-          :options="gpuTkeMemoryOptions"
-          :series="gpuTkeMemorySeries"
-        />
-      </v-col>
-      <v-col :cols="cols">
+      <v-col cols="4">
         <VueApexCharts
           type="radialBar"
           height="300"
@@ -82,6 +31,70 @@
         />
       </v-col>
     </v-row>
+
+    <v-row
+      v-if="showMore &&
+        item &&
+        item.metadata &&
+        item.metadata.labels['tencent.com/vcuda'] &&
+        item.metadata.labels['tencent.com/vcuda'] === 'true'
+      "
+    >
+      <v-col cols="4">
+        <VueApexCharts
+          type="radialBar"
+          height="300"
+          :options="gpuTkeOptions"
+          :series="gpuTkeSeries"
+        />
+      </v-col>
+      <v-col cols="4">
+        <VueApexCharts
+          type="radialBar"
+          height="300"
+          :options="gpuTkeMemoryOptions"
+          :series="gpuTkeMemorySeries"
+        />
+      </v-col>
+    </v-row>
+
+    <v-row
+      v-if="showMore &&
+        item &&
+        item.metadata &&
+        item.metadata.labels['nvidia.com/gpu'] &&
+        item.metadata.labels['nvidia.com/gpu'] === 'true'
+      "
+    >
+      <v-col cols="4">
+        <VueApexCharts
+          type="radialBar"
+          height="300"
+          :options="gpuNvidiaOptions"
+          :series="gpuNvidiaSeries"
+        />
+      </v-col>
+    </v-row>
+
+    <div
+      v-if="item &&
+        item.metadata &&
+        ((item.metadata.labels['tencent.com/vcuda'] &&
+          item.metadata.labels['tencent.com/vcuda'] === 'true') ||
+          (item.metadata.labels['nvidia.com/gpu'] &&
+            item.metadata.labels['nvidia.com/gpu'] === 'true'))
+      "
+      class="mb-2 text-center"
+    >
+      <v-btn
+        text
+        small
+        color="primary"
+        @click="showMore=!showMore"
+      >
+        {{ showMore ? '折叠GPU' : '显示更多' }}
+      </v-btn>
+    </div>
 
     <BaseDivider />
 
@@ -249,7 +262,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import { vector, getNodeResourceAllocated } from '@/api'
 import VueApexCharts from 'vue-apexcharts'
 import BaseResource from '@/mixins/resource'
@@ -274,42 +286,9 @@ export default {
     totalRequests: {},
     podCount: 0,
     node: null,
+    showMore: false,
   }),
   computed: {
-    ...mapState(['Plugins']),
-    cols() {
-      if (
-        this.item &&
-        this.item.metadata &&
-        this.Plugins?.gpu_manager &&
-        this.item.metadata.labels['tencent.com/vcuda'] &&
-        this.item.metadata.labels['tencent.com/vcuda'] === 'true' &&
-        this.Plugins?.nvidia_device_plugin &&
-        this.item.metadata.labels['nvidia.com/gpu'] &&
-        this.item.metadata.labels['nvidia.com/gpu'] === 'true'
-      ) {
-        return 2
-      }
-      if (
-        this.item &&
-        this.item.metadata &&
-        this.Plugins?.gpu_manager &&
-        this.item.metadata.labels['tencent.com/vcuda'] &&
-        this.item.metadata.labels['tencent.com/vcuda'] === 'true'
-      ) {
-        return 2.5
-      }
-      if (
-        this.item &&
-        this.item.metadata &&
-        this.Plugins?.nvidia_device_plugin &&
-        this.item.metadata.labels['nvidia.com/gpu'] &&
-        this.item.metadata.labels['nvidia.com/gpu'] === 'true'
-      ) {
-        return 3
-      }
-      return 4
-    },
     cpuSeries() {
       return this.totalRequests['cpu'] && this.item.status.capacity['cpu']
         ? [

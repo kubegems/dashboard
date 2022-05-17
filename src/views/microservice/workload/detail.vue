@@ -8,7 +8,7 @@
         <v-tabs
           v-model="tab"
           height="40"
-          class="rounded-t pa-2"
+          class="rounded-t pa-4"
         >
           <v-tab
             v-for="item in tabItems"
