@@ -49,7 +49,7 @@
                   <v-list-item
                     v-for="(virtualspace, index) in item.values"
                     :key="index"
-                    class="text-body-2 text-center font-weight-medium"
+                    class="text-body-2 text-center font-weight-medium px-2"
                     link
                     :style="
                       virtualspace.text === VirtualSpace().VirtualSpaceName
@@ -58,8 +58,11 @@
                     "
                     @click="setVirtualSpace(virtualspace)"
                   >
-                    <v-list-item-content class="text-body-2 font-weight-medium">
-                      <span>{{ virtualspace.text }}</span>
+                    <v-list-item-content class="text-body-2 font-weight-medium text-start">
+                      <div>
+                        <v-icon left small color="primary">fab fa-cloud</v-icon>
+                        {{ virtualspace.text }}
+                      </div>
                     </v-list-item-content>
                   </v-list-item>
                 </v-list>

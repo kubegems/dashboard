@@ -106,7 +106,7 @@
       >
         <v-progress-circular
           size="20"
-          width="3"
+          :width="3"
           indeterminate
           color="primary"
         />

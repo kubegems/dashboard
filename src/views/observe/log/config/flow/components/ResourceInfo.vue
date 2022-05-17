@@ -63,10 +63,13 @@ export default {
   },
   computed: {
     matchs() {
-      return this.flow.spec.match.length > 1 ? this.flow.spec.match.reduce((m1, m2) => {
-          return Array.isArray(m1) ? m1.concat([m2.select.labels.app])
-          : [m1.select.labels.app].concat([m2.select.labels.app])
-        }) : this.flow.spec.match.map(m => { return m.select.labels.app })
+      if (this.flow.spec.match) {
+        return this.flow.spec.match.length > 1 ? this.flow.spec.match.reduce((m1, m2) => {
+            return Array.isArray(m1) ? m1.concat([m2.select.labels.app])
+            : [m1.select.labels.app].concat([m2.select.labels.app])
+          }) : this.flow.spec.match.map(m => { return m.select.labels.app })
+      }
+      return []
     },
     filters() {
       return this.flow.spec.filters.length > 1 ? this.flow.spec.filters.reduce((f1, f2) => {

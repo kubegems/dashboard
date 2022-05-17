@@ -134,7 +134,7 @@ export default {
         start: this.$moment(parseInt(this.date[0])).utc().format(),
         end: this.$moment(parseInt(this.date[1])).utc().format(),
       })
-      this.categories = data.map(d => { return [d.groupValue] })
+      this.categories = data.map(d => { return [d.groupValue ? d.groupValue : '未知'] })
       this.series = [{
         name: '数量',
         data: data.map(d => {

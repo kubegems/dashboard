@@ -49,7 +49,7 @@
                   <v-list-item
                     v-for="(project, index) in item.values"
                     :key="index"
-                    class="text-body-2 text-center font-weight-medium"
+                    class="text-body-2 text-center font-weight-medium px-2"
                     link
                     :style="
                       project.text === Project().ProjectName
@@ -58,8 +58,11 @@
                     "
                     @click="setProject(project)"
                   >
-                    <v-list-item-content class="text-body-2 font-weight-medium">
-                      <span>{{ project.text }}</span>
+                    <v-list-item-content class="text-body-2 font-weight-medium text-start">
+                      <div>
+                        <v-icon left small color="primary">fas fa-cube</v-icon>
+                        {{ project.text }}
+                      </div>
                     </v-list-item-content>
                   </v-list-item>
                 </v-list>
@@ -127,7 +130,7 @@
                     <v-list-item
                       v-for="(environment, index) in item.values"
                       :key="index"
-                      class="text-body-2 text-center font-weight-medium"
+                      class="text-body-2 text-center font-weight-medium px-2"
                       link
                       :style="
                         environment.text === Environment().EnvironmentName
@@ -137,9 +140,12 @@
                       @click="setEnvironment(environment)"
                     >
                       <v-list-item-content
-                        class="text-body-2 font-weight-medium"
+                        class="text-body-2 font-weight-medium text-start"
                       >
-                        <span>{{ environment.text }}</span>
+                        <div>
+                          <v-icon left small color="primary">fas fa-cloud</v-icon>
+                          {{ environment.text }}
+                        </div>
                       </v-list-item-content>
                     </v-list-item>
                   </v-list>
