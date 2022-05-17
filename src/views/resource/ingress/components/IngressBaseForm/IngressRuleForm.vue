@@ -309,8 +309,6 @@ export default {
     obj: {
       handler: function (data) {
         if (
-          data?.metadata?.namespace &&
-          data?.metadata?.namespace !== '' &&
           data?.metadata?.namespace !== this.objCopy.metadata.namespace
         ) {
           this.m_select_serviceSelectData(this.ThisCluster, data?.metadata?.namespace)
