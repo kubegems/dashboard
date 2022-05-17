@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - "main"
+      - "develop"
     tags:
       - "v*.*.*"
     paths-ignore:
@@ -20,6 +21,7 @@ on:
       - "feat/*"
       - "fix/*"
       - "enhancement/*"
+      - "develop"
     paths-ignore:
       [
         "**/*.md",

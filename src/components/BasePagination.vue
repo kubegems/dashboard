@@ -1,6 +1,6 @@
 <template>
   <v-flex class="text-center pa-4">
-    <v-flex class="pagination-height">
+    <v-flex class="pagination__height">
       <v-flex class="pagination" id="pagesize">
         <v-pagination
           class="float-left"
@@ -146,11 +146,9 @@ export default {
   position: absolute;
   left: 50%;
   transform: translate(-50%, 0%);
-}
-.pagination-height {
-  height: 40px;
-}
-.pagination-size {
-  top: auto !important;
+
+  &__height {
+    height: 40px;
+  }
 }
 </style>

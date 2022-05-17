@@ -206,7 +206,7 @@
             <v-tabs
               v-model="tab"
               height="40"
-              class="rounded-t pl-2 pt-2"
+              class="rounded-t pl-4 pt-4"
             >
               <v-tab
                 v-for="item in tabItems"

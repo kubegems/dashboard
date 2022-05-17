@@ -109,7 +109,7 @@
           <v-card-text class="pa-0">
             <v-tabs
               v-model="tab"
-              class="rounded-t pl-2 pt-2"
+              class="rounded-t pl-4 pt-4"
             >
               <v-tab
                 v-for="item in tabItems"

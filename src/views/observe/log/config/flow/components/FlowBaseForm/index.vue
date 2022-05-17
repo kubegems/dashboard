@@ -325,7 +325,16 @@ export default {
             break
           case 'parser':
             filters.push({
-              parser: {},
+              parser: {
+                key_name: 'log',
+                reserve_data: true,
+                remove_key_name_field: true,
+                parse: {
+                  type: 'json',
+                  time_key: 'time',
+                  time_format: '%Y-%m-%dT%H:%M:%S.%L%z',
+                },
+              },
             })
             break
         }
