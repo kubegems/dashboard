@@ -49,7 +49,7 @@
                   <v-list-item
                     v-for="(cluster, index) in item.values"
                     :key="index"
-                    class="text-body-2 text-center font-weight-medium"
+                    class="text-body-2 text-center font-weight-medium px-2"
                     link
                     :style="
                       cluster.text === Cluster().ClusterName
@@ -58,8 +58,11 @@
                     "
                     @click="setCluster(cluster)"
                   >
-                    <v-list-item-content class="text-body-2 font-weight-medium">
-                      <span>{{ cluster.text }}</span>
+                    <v-list-item-content class="text-body-2 font-weight-medium text-start">
+                      <div>
+                        <v-icon left small color="primary">fab fa-docker</v-icon>
+                        {{ cluster.text }}
+                      </div>
                     </v-list-item-content>
                   </v-list-item>
                 </v-list>

@@ -218,13 +218,17 @@ export default {
         } else {
           this.obj = deepCopy(this.item)
         }
+
         this.filters = this.obj.spec.filters.length > 1 ? this.obj.spec.filters.reduce((f1, f2) => {
           return Array.isArray(f1) ? f1.concat(Object.keys(f2)) : Object.keys(f1).concat(Object.keys(f2))
         }) : this.obj.spec.filters.map(f => { return Object.keys(f) }).flat()
-        this.matchs = this.obj.spec.match.length > 1 ? this.obj.spec.match.reduce((m1, m2) => {
-          return Array.isArray(m1) ? m1.concat([m2.select.labels.app])
-          : [m1.select.labels.app].concat([m2.select.labels.app])
-        }) : this.obj.spec.match.map(m => { return m.select.labels.app })
+
+        if (this.obj.spec.match) {
+          this.matchs = this.obj.spec.match.length > 1 ? this.obj.spec.match.reduce((m1, m2) => {
+            return Array.isArray(m1) ? m1.concat([m2.select.labels.app])
+            : [m1.select.labels.app].concat([m2.select.labels.app])
+          }) : this.obj.spec.match.map(m => { return m.select.labels.app })
+        }
       })
     },
     async outputList() {
