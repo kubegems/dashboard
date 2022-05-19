@@ -252,7 +252,7 @@ export default {
           await deleteCluster(param.item.ID)
           this.$store.commit('CLEAR_CLUSTER')
           this.$store.dispatch('UPDATE_CLUSTER_DATA')
-          this.$router.push({ name: 'cluster-center', params: this.$route.params })
+          this.$router.push({ name: 'cluster-center' })
         },
       })
     },

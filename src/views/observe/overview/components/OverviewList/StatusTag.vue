@@ -11,8 +11,8 @@
         <v-chip
           small
           label
-          :color="setColor(item.key)"
-          :class="{ 'ml-2': i > 0 }"
+          :color="setColor(item.status)"
+          :class="{ 'ml-2': i > 0, 'kubegems__detail': !item.status }"
           :style="{ fontFamily: 'kubegems-sample' }"
           v-on="on"
         >
@@ -21,7 +21,7 @@
       </template>
       <v-card>
         <v-card-text class="pa-2">
-          {{ isRunning ? item.text : item.notext }}
+          {{ item.status ? item.text : item.notext }}
         </v-card-text>
       </v-card>
     </v-menu>
@@ -45,35 +45,36 @@ export default {
       default: false,
     },
   },
-  data () {
-    return {
-      items: [
+  computed: {
+    items() {
+      return [
         {
           key: 'm',
           name: 'Metrics',
           text: '已启用监控',
           notext: '未启用监控',
+          status: this.m,
         },
         {
           key: 'l',
           name: 'Log',
           text: '已启用日志',
           notext: '未启用日志',
+          status: this.l,
         },
         {
           key: 's',
           name: 'Mesh',
           text: '已启用服务网格',
           notext: '未启用服务网格',
+          status: this.s,
         },
-      ],
-      isRunning: false,
-    }
+      ]
+    },
   },
   methods: {
-    setColor (key) {
-      this.isRunning = !!this[key]
-      return this.isRunning ? 'success' : ''
+    setColor (status) {
+      return status ? 'success' : ''
     },
   },
 }

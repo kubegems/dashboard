@@ -275,7 +275,7 @@ export default {
         }
       } else {
         this.$store.commit('SET_SNACKBAR', {
-          text: `请创建或加入租户`,
+          text: `暂无租户`,
           color: 'warning',
         })
       }

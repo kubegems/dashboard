@@ -1,7 +1,7 @@
 <template>
   <VueApexCharts
     ref="vueApexCharts"
-    type="area"
+    :type="chartType"
     :width="`${width}%`"
     :height="height"
     :options="getOptions(title, id)"
@@ -19,6 +19,10 @@ export default {
     VueApexCharts,
   },
   props: {
+    chartType: {
+      type: String,
+      default: () => 'area',
+    },
     id: {
       type: String,
       default: () => '',

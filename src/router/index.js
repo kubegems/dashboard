@@ -74,9 +74,6 @@ router.beforeEach(async (to, from, next) => {
           await store.dispatch('UPDATE_CLUSTER_DATA')
         }
         store.commit('SET_LATEST_CLUSTER', { cluster: to.params.cluster })
-      } else {
-        next({ name: '403' })
-        return
       }
     }
     let currentTenant = null

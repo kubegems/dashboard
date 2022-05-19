@@ -11,7 +11,7 @@
         />
         <v-spacer />
         <v-menu
-          v-if="m_permisson_resourceAllow"
+          v-if="m_permisson_resourceAllow($route.query.env)"
           left
         >
           <template #activator="{ on }">
@@ -217,7 +217,7 @@ export default {
         { text: '采集路径', value: 'path', align: 'start', sortable: false },
         { text: '创建时间', value: 'createAt', align: 'center' },
       ]
-      if (this.m_permisson_resourceAllow) {
+      if (this.m_permisson_resourceAllow(this.$route.query.env)) {
         items.push({
           text: '',
           value: 'action',

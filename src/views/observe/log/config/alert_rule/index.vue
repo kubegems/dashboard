@@ -51,7 +51,7 @@
         </v-chip-group>
         <v-spacer />
         <v-menu
-          v-if="m_permisson_resourceAllow"
+          v-if="m_permisson_resourceAllow($route.query.env)"
           left
         >
           <template #activator="{ on }">
@@ -171,7 +171,7 @@
             #[`item.namespace`]="{ item }"
           >
             <v-menu
-              v-if="item.namespace === 'gemcloud-monitoring-system'"
+              v-if="item.namespace === SERVICE_MONITOR_NS"
               top
               open-on-hover
               :close-delay="200"
@@ -322,6 +322,7 @@ import BaseResource from '@/mixins/resource'
 import BasePermission from '@/mixins/permission'
 import BaseTable from '@/mixins/table'
 import { deepCopy } from '@/utils/helpers'
+import { SERVICE_MONITOR_NS } from '@/utils/namespace'
 
 export default {
   name: 'AlertRule',
@@ -363,7 +364,7 @@ export default {
         { text: '接收器', value: 'receivers', align: 'start', width: 200 },
         { text: '使用状态', value: 'open', align: 'start', width: 100 },
       ]
-      if (this.m_permisson_resourceAllow) {
+      if (this.m_permisson_resourceAllow(this.$route.query.env)) {
         items.push({ text: '', value: 'action', align: 'center', width: 20 })
       }
       if (this.AdminViewport) {
@@ -376,6 +377,7 @@ export default {
       items.push({ text: '', value: 'data-table-expand' })
       return items
     },
+    SERVICE_MONITOR_NS() { return SERVICE_MONITOR_NS },
   },
   watch: {
     '$route.query': {
@@ -534,11 +536,11 @@ export default {
       }
     },
     onPageSizeChange(size) {
-      this.params.page = 1
+      this.page = 1
       this.itemsPerPage = size
     },
     onPageIndexChange(page) {
-      this.params.page = page
+      this.page = page
     },
     onRowClick(item, { expand, isExpanded }) {
       expand(!isExpanded)

@@ -162,6 +162,7 @@ export default {
     init(data) {
       this.alertLevel = data
       this.expand = true
+      this.$refs.form.resetValidation()
     },
     addData() {
       if (this.$refs.form.validate(true)) {
