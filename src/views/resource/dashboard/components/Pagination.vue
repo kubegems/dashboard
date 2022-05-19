@@ -68,21 +68,21 @@ export default {
 </script>
 
 <style lang="scss">
-.pagination {
+#smallpagination {
   position: absolute;
   right: 10px;
   transform: translate(0%, 0%);
 }
+
 .pagination-height {
   height: 40px;
 }
-.pagination-size {
-  top: auto !important;
-}
+
 #smallpagination .v-pagination__navigation {
   width: 24px;
   height: 24px;
 }
+
 #smallpagination .v-pagination__item {
   width: 24px;
   height: 24px;
