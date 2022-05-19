@@ -1,13 +1,31 @@
 import axios from 'axios';
 
-// 指标查询
-export const getMetricsQueryrange = (query = {}) => axios.get('/metrics/queryrange', { params: query })
+// // 指标查询
+// export const getMetricsQueryrange = (query = {}) => axios.get('/metrics/queryrange', { params: query })
 
-// 监控标签值
-export const getMetricsLabelValues = (query = {}) => axios.get('/metrics/labelvalues', { params: query })
+// // 监控标签值
+// export const getMetricsLabelValues = (query = {}) => axios.get('/metrics/labelvalues', { params: query })
 
 // 获取个人监控配置
 export const getMyConfigData = (name, query = {}) => axios.get(
   `my/config/${name}`,
+  { params: query },
+)
+
+// 指标查询
+export const getMetricsQueryrange = (clusterName, namespace, query = {}) => axios.get(
+  `observability/cluster/${clusterName}/namespaces/${namespace}/monitor/metrics/queryrange`,
+  { params: query },
+)
+
+// 获取指标标签列表
+export const getMetricsLabels = (clusterName, namespace, query = {}) => axios.get(
+  `observability/cluster/${clusterName}/namespaces/${namespace}/monitor/metrics/labelnames`,
+  { params: query },
+)
+
+// 获取指标标签值列表
+export const getMetricsLabelValues = (clusterName, namespace, query = {}) => axios.get(
+  `observability/cluster/${clusterName}/namespaces/${namespace}/monitor/metrics/labelvalues`,
   { params: query },
 )

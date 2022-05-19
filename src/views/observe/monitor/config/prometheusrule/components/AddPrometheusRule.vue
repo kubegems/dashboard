@@ -65,7 +65,7 @@ export default {
   props: {
     mode: {
       type: String,
-      default: () => 'metrics',
+      default: () => 'monitor',
     },
     expr: {
       type: String,
@@ -90,20 +90,16 @@ export default {
     // 增加初始值
     // eslint-disable-next-line vue/no-unused-properties
     init(initData) {
-      if (initData) {
-        this.$nextTick(() => {
-          this.$refs[this.formComponent].$refs.Rule.obj = initData
-          this.$refs[this.formComponent].$refs.Rule.setLabelpairs(
-            initData.labelpairs,
-          )
-        })
-      }
+      this.$nextTick(() => {
+        this.$refs[this.formComponent].$refs.Rule.setData(initData)
+        this.$refs[this.formComponent].$refs.Rule.getInhibitLabels()
+      })
     },
     async addPrometheusRule() {
       if (this.$refs[this.formComponent].validate(true)) {
         const obj = deepCopy(this.$refs[this.formComponent].obj)
 
-        if (this.mode === 'metrics') {
+        if (this.mode === 'monitor') {
           // 移除labelpairs中的空值
           for (const key in obj.labelpairs) {
             if (!obj.labelpairs[key]) {

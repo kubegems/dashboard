@@ -51,9 +51,11 @@
 <script>
 import { mapGetters, mapState } from 'vuex'
 import { getProjectList, getProjectEnvironmentList, getAllProjectList } from '@/api'
+import BaseSelect from '@/mixins/select'
 
 export default {
   name: 'ProjectEnvironmentTree',
+  mixins: [BaseSelect],
   props: {
     value: {
       type: [Object],
@@ -106,10 +108,40 @@ export default {
         name: item.ProjectName,
         children: [],
       }))
+      if (this.AdminViewport) {
+        this.items.push({
+          type: 'project',
+          treeId: `proj-system`,
+          id: 0,
+          name: 'system(平台全局)',
+          children: [],
+        })
+      }
       this.defaultActiveByQuery()
     },
     async environmentList (proj) {
-      const data = await getProjectEnvironmentList(proj.id, { size: 999, noprocessing: true })
+      let data = {}
+      if (proj.id === 0) {
+        await this.m_select_clusterSelectData()
+        data.List = []
+        data.List = this.m_select_clusterItems.map(c => {
+          return {
+            ID: 0,
+            EnvironmentName: c.text,
+            Cluster: {
+              ClusterName: c.text,
+            },
+            ClusterID: c.value,
+            ProjectID: 0,
+            Project: {
+              ProjectName: 'system',
+            },
+            Namespace: 'gemcloud-monitoring-system',
+          }
+        })
+      } else {
+        data = await getProjectEnvironmentList(proj.id, { size: 999, noprocessing: true })
+      }
       const children = data.List.map(item => ({
         type: 'environment',
         treeId: `env-${item.EnvironmentName}`,

@@ -126,7 +126,7 @@ export default {
   props: {
     mode: {
       type: String,
-      default: () => 'metrics',
+      default: () => 'monitor',
     },
   },
   data() {
@@ -190,7 +190,7 @@ export default {
     init() {
       this.$nextTick(() => {
         this.tab === 0
-          ? this.mode === 'metrics' ? this.prometheusRuleDetail() : this.alertRuleDetail()
+          ? this.mode === 'monitor' ? this.prometheusRuleDetail() : this.alertRuleDetail()
           : this.prometheusAlertHistory()
       })
     },

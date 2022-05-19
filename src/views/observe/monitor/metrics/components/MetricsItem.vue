@@ -158,7 +158,7 @@ export default {
       }
     },
     setAlert() {
-      const { resource, rule, unit, environment } = this.data._$origin
+      const { resource, rule, unit, cluster, namespace, environment, ql, expr } = this.data._$origin
       const labelpairs = {}
       for (const key in this.labelpairs) {
         if (this.labelpairs[key] && this.labelpairs[key].length) {
@@ -169,19 +169,35 @@ export default {
           )
         }
       }
+      let params = {}
+      if (ql) {
+        params = {expr: expr }
+      } else {
+        params = {promqlGenerator: {
+            resource: resource._$value,
+            rule: rule._$value,
+            unit: unit?._$value,
+          },
+        }
+      }
+      this.$emit('alert', Object.assign({
+          name: '',
+          for: '1m',
+          promqlGenerator: {
+            resource: resource._$value,
+            rule: rule._$value,
+            unit: unit?._$value,
+          },
+          labelpairs,
+          alertLevels: [],
+          receivers: [],
+        }, params),
+      )
 
-      this.$emit('alert', {
-        name: '',
-        cluster: environment?.Cluster.ClusterName,
-        namespace: environment?.Namespace,
-        for: '1m',
-        resource: resource._$value,
-        rule: rule._$value,
-        unit: unit?._$value,
-        labelpairs,
-        alertLevels: [],
-        receivers: [],
-      })
+      this.$router.replace({query: {
+        cluster: environment?.Cluster.ClusterName || cluster?.text,
+        namespace: namespace || 'gemcloud-monitoring-system',
+      }})
     },
     onLoadLabelFocus(label) {
       this.$emit('loadLabel', label)
