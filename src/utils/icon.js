@@ -22,9 +22,7 @@ export function getIconName(name) {
   if (name.indexOf('vault') > -1) return 'logos:vault-icon'
   if (name.indexOf('vmware') > -1) return 'carbon:logo-vmware'
   if (name.indexOf('tempo') > -1) return 'logos:grafana'
-  if (name.indexOf('apm-server') > -1) {
-    return 'vscode-icons:file-type-elastic'
-  }
+  if (name.indexOf('apm-server') > -1) { return 'vscode-icons:file-type-elastic' }
   if (name.indexOf('apisix') > -1) return 'img:apisix.png'
   if (name.indexOf('nacos') > -1) return 'img:nacos.jpeg'
   if (name.indexOf('minio') > -1) return 'img:minio.png'

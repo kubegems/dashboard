@@ -108,7 +108,7 @@ export default {
   mounted() {
     this.$nextTick(async() => {
       await this.m_select_tenantSelectData()
-      if (this.tenants) {
+      if (this.tenants?.length > 0) {
         const t = this.tenants[0]
         this.tenant = {
           ID: t.value,

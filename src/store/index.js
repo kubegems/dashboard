@@ -90,6 +90,7 @@ export default new Vuex.Store({
     PluginsInterval: null,
     DialogActive: false,
     PanelActive: false,
+    FullDialogActive: false,
   },
   mutations: {
     SET_PLUGINS(state, payload) {
@@ -101,6 +102,9 @@ export default new Vuex.Store({
     },
     SET_PANEL(state, payload) {
       state.PanelActive = payload
+    },
+    SET_FULL_DIALOG(state, payload) {
+      state.FullDialogActive = payload
     },
     SET_STORE(state, payload) {
       state.Store = payload
@@ -358,7 +362,7 @@ export default new Vuex.Store({
       if (!state.PluginsInterval && state.JWT) {
         const r = await doFunc()
         if (r) {
-          state.PluginsInterval = setInterval(doFunc, 1000 * 120)
+          state.PluginsInterval = setInterval(doFunc, 1000 * 60)
         }
       }
     },

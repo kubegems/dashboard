@@ -14,7 +14,7 @@
               <div class="d-flex align-center pa-10">
                 <div class="text-center">
                   <h2 class="text-h5 primary--text font-weight-medium">
-                    您暂时还未启用 {{ $route.meta.dependencies.join(',') }} 插件，请启用后继续操作！
+                    您暂时还未启用 {{ $route.meta.dependencies.join(', ') }} 插件或插件状态异常！
                   </h2>
                   <h6
                     class="
@@ -25,7 +25,7 @@
                       font-weight-regular
                     "
                   >
-                    您可以联系平台管理员启用该插件
+                    您可以联系平台管理员启用/查看该插件
                   </h6>
                 </div>
               </div>

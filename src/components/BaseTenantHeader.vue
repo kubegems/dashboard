@@ -22,7 +22,7 @@
               small
               dark
               v-on="on"
-              @click="m_select_tenantProjectSelectData"
+              @click.stop="getProject"
             >
               <v-icon left>fas fa-cube</v-icon>
               {{ Project().ProjectName }}
@@ -40,7 +40,7 @@
               </v-card>
             </template>
             <template #default="props">
-              <v-card v-for="item in props.items" :key="item.text">
+              <v-card v-for="item in props.items" :key="item.text" :loading="loadingPro">
                 <v-list dense>
                   <v-flex class="text-subtitle-2 text-center ma-2">
                     <span>项目</span>
@@ -103,7 +103,7 @@
                 small
                 dark
                 v-on="on"
-                @click.stop="m_select_projectEnvironmentSelectData(Project().ID)"
+                @click.stop="getEnvironment"
               >
                 <v-icon left>fas fa-cloud</v-icon>
                 {{ Environment().EnvironmentName }}
@@ -121,7 +121,7 @@
                 </v-card>
               </template>
               <template #default="props">
-                <v-card v-for="item in props.items" :key="item.text">
+                <v-card v-for="item in props.items" :key="item.text" :loading="loadingEnv">
                   <v-list dense>
                     <v-flex class="text-subtitle-2 text-center ma-2">
                       <span>环境</span>
@@ -213,6 +213,8 @@ export default {
   data: () => ({
     projectMenu: false,
     environmentMenu: false,
+    loadingPro: false,
+    loadingEnv: false
   }),
   computed: {
     ...mapState(['AdminViewport']),
@@ -270,6 +272,16 @@ export default {
           project: this.Project().ProjectName,
         },
       })
+    },
+    async getProject() {
+      this.loadingPro = true
+      await this.m_select_tenantProjectSelectData()
+      this.loadingPro = false
+    },
+    async getEnvironment() {
+      this.loadingEnv = true
+      await this.m_select_projectEnvironmentSelectData(this.Project().ID)
+      this.loadingEnv = false
     },
   },
 }

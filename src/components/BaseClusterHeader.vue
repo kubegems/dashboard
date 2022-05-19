@@ -22,7 +22,7 @@
               small
               dark
               v-on="on"
-              @click="m_select_clusterSelectData(null)"
+              @click.stop="getCluster"
             >
               <v-icon left>fab fa-docker</v-icon>
               {{ Cluster().ClusterName }}
@@ -40,7 +40,7 @@
               </v-card>
             </template>
             <template #default="props">
-              <v-card v-for="item in props.items" :key="item.text">
+              <v-card v-for="item in props.items" :key="item.text" :loading="loading">
                 <v-list dense>
                   <v-flex class="text-subtitle-2 text-center ma-2">
                     <span>集群</span>
@@ -98,6 +98,7 @@ export default {
   },
   data: () => ({
     clusterMenu: false,
+    loading: false,
   }),
   computed: {
     ...mapGetters(['Cluster']),
@@ -115,6 +116,11 @@ export default {
       })
       await this.$store.dispatch('UPDATE_CLUSTER_DATA')
       this.reload()
+    },
+    async getCluster() {
+      this.loading = true
+      await this.m_select_clusterSelectData(null)
+      this.loading = false
     },
   },
 }

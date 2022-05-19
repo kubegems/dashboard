@@ -7,33 +7,7 @@
         :key="index"
         cols="3"
       >
-        <v-card
-          v-if="item.add"
-          class="kubegems__full-height"
-          min-height="168"
-        >
-          <v-card-text class="pa-0 kubegems__full-height">
-            <v-list-item
-              three-line
-              class="kubegems__full-height"
-            >
-              <v-list-item-content>
-                <v-btn
-                  text
-                  block
-                  color="primary"
-                  class="text-h6"
-                  @click="addCluster"
-                >
-                  <v-icon left>mdi-plus-box</v-icon>
-                  添加集群
-                </v-btn>
-              </v-list-item-content>
-            </v-list-item>
-          </v-card-text>
-        </v-card>
         <v-hover
-          v-else
           #default="{ hover }"
         >
           <v-card
@@ -144,6 +118,32 @@
           </v-card>
         </v-hover>
       </v-col>
+      <v-col cols="3">
+        <v-card
+          class="kubegems__full-height"
+          min-height="168"
+        >
+          <v-card-text class="pa-0 kubegems__full-height">
+            <v-list-item
+              three-line
+              class="kubegems__full-height"
+            >
+              <v-list-item-content>
+                <v-btn
+                  text
+                  block
+                  color="primary"
+                  class="text-h6"
+                  @click="addCluster"
+                >
+                  <v-icon left>mdi-plus-box</v-icon>
+                  添加集群
+                </v-btn>
+              </v-list-item-content>
+            </v-list-item>
+          </v-card-text>
+        </v-card>
+      </v-col>
     </v-row>
 
     <AddCluster
@@ -195,23 +195,33 @@ export default {
     }
   },
   methods: {
-    async clusterList() {
+    async clusterList(del = false) {
       const data = await getClusterList({ noprocessing: true })
       this.items = data.List
-      this.items.push({ add: true })
       this.hasControllerCluster = this.items.some((c) => {
         return c.Primary
       })
-      this.$router.replace({
-        name: this.$route.name,
-        params: { ...this.$route.params },
-        query: { ...this.$route.query, timestamp: Date.parse(new Date()) },
-      })
+      this.updateClusterUrl(del)
       this.clusterStatus(false)
       if (this.interval) clearInterval(this.interval)
       this.interval = setInterval(() => {
         this.clusterStatus(true)
       }, 30 * 1000)
+    },
+    updateClusterUrl(del = false) {
+      let params = {}
+      if (this.items?.length > 0) {
+        if (this.$route.params?.cluster && !del) {
+          params = this.$route.params
+        } else {
+          params = { cluster: this.items[0].ClusterName }
+        }
+      }
+      this.$router.replace({
+        name: this.$route.name,
+        params: params,
+        query: { ...this.$route.query, timestamp: Date.parse(new Date()) },
+      })
     },
     async clusterStatus(noprocess = false) {
       const data = await getClusterStatus({
@@ -255,7 +265,7 @@ export default {
           await deleteCluster(param.item.ID)
           this.$store.commit('CLEAR_CLUSTER')
           this.$store.dispatch('UPDATE_VIRTUALSPACE_DATA')
-          this.clusterList()
+          this.clusterList(true)
         },
       })
     },

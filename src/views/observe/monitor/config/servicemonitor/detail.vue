@@ -18,7 +18,7 @@
             Yaml
           </v-btn>
           <v-menu
-            v-if="m_permisson_resourceAllow"
+            v-if="m_permisson_resourceAllow($route.query.env)"
             left
           >
             <template #activator="{ on }">

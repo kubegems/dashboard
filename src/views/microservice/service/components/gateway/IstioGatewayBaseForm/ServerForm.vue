@@ -204,6 +204,7 @@ import { mapState } from 'vuex'
 import { getSecretList } from '@/api'
 import { deepCopy } from '@/utils/helpers'
 import { required } from '@/utils/rules'
+import { SERVICE_GATEWAY_NS } from '@/utils/namespace'
 
 export default {
   name: 'ServerForm',
@@ -280,7 +281,7 @@ export default {
     async secretList() {
       const data = await getSecretList(
         this.EnvironmentFilter.cluster,
-        'gemcloud-gateway-system',
+        SERVICE_GATEWAY_NS,
         {
           size: 1000,
         },

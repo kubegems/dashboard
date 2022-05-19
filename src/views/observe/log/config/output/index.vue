@@ -11,7 +11,10 @@
           @refresh="frontFilter"
         />
         <v-spacer />
-        <v-menu left>
+        <v-menu
+          v-if="m_permisson_resourceAllow($route.query.env)"
+          left
+        >
           <template #activator="{ on }">
             <v-btn icon>
               <v-icon
@@ -158,6 +161,7 @@ import {
 } from '@/api'
 import AddOutput from './components/AddOutput'
 import UpdateOutput from './components/UpdateOutput'
+import BasePermission from '@/mixins/permission'
 
 export default {
   name: 'LogFlow',
@@ -165,6 +169,7 @@ export default {
     AddOutput,
     UpdateOutput,
   },
+  mixins: [BasePermission],
   data() {
     this.filters = [
       { text: '名称', value: 'name', items: [] },
@@ -177,16 +182,6 @@ export default {
         { text: 'Elasticsearch', value: 'Elasticsearch', parent: 'plugin' },
         { text: 'Loki', value: 'Loki', parent: 'plugin' },
       ] },
-    ]
-
-    this.headers = [
-      { text: '名称', value: 'name', align: 'start' },
-      { text: '类型', value: 'kind', align: 'start' },
-      { text: '插件', value: 'plugin', align: 'start' },
-      { text: '命名空间', value: 'namespace', align: 'start' },
-      { text: '创建时间', value: 'createAt', align: 'start', width: 200 },
-      { text: '状态', value: 'status', align: 'start', width: 100 },
-      { text: '', value: 'action', align: 'center', width: 20 },
     ]
 
     this.cacheAll = []
@@ -209,6 +204,22 @@ export default {
   computed: {
     ...mapState(['AdminViewport']),
     ...mapGetters(['Tenant']),
+    headers() {
+      const items = [
+        { text: '名称', value: 'name', align: 'start' },
+        { text: '类型', value: 'kind', align: 'start' },
+        { text: '插件', value: 'plugin', align: 'start' },
+        { text: '命名空间', value: 'namespace', align: 'start' },
+        { text: '创建时间', value: 'createAt', align: 'start', width: 200 },
+        { text: '状态', value: 'status', align: 'start', width: 100 },
+      ]
+
+      if (this.m_permisson_resourceAllow(this.$route.query.env)) {
+        items.push({ text: '', value: 'action', align: 'center', width: 20 })
+      }
+
+      return items
+    },
   },
   watch: {
     '$route.query': {

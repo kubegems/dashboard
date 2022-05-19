@@ -41,6 +41,14 @@
         </div>
         <v-flex class="float-right">
           <v-flex class="float-left mt-1">
+            <div v-if="Progress" :style="{ float: 'left' }">
+              <v-progress-circular
+                size="20"
+                width="3"
+                indeterminate
+                color="white"
+              ></v-progress-circular>
+            </div>
             <slot name="action"></slot>
           </v-flex>
           <v-flex class="float-left">
@@ -67,6 +75,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'BaseFullScreenDialog',
   model: {
@@ -91,7 +101,16 @@ export default {
       default: () => false,
     },
   },
+  watch: {
+    dialog: {
+      handler(newValue) {
+        this.$store.commit('SET_FULL_DIALOG', newValue)
+      },
+      deep: true
+    }
+  },
   computed: {
+    ...mapState(['Progress']),
     clickListeners: function () {
       var vm = this
       return Object.assign({}, this.$listeners, {
