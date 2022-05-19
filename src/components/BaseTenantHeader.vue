@@ -223,7 +223,7 @@ export default {
           })
           return
         } else {
-          this.$router.replace({
+          await this.$router.replace({
             params: {
               tenant: this.Tenant().TenantName,
               project: item.text,
@@ -232,28 +232,24 @@ export default {
           })
         }
       } else {
-        this.$router.replace({
+        await this.$router.replace({
           params: {
             tenant: this.Tenant().TenantName,
             project: item.text,
           },
         })
       }
-      window.setTimeout(() => {
-        this.reload()
-      }, 800)
+      this.reload()
     },
     async setEnvironment(item) {
-      this.$router.replace({
+      await this.$router.replace({
         params: {
           tenant: this.Tenant().TenantName,
           project: this.Project().ProjectName,
           environment: item.text,
         },
       })
-      window.setTimeout(() => {
-        this.reload()
-      }, 800)
+      this.reload()
     },
     toProject() {
       this.$store.commit('CLEAR_RESOURCEIRONMENT')

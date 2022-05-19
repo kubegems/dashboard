@@ -102,7 +102,7 @@ export default {
   methods: {
     async setCluster(item) {
       this.$store.commit('SET_NAMESPACE_FILTER', null)
-      this.$router.replace({
+      await this.$router.replace({
         params: { cluster: item.text },
         query: {
           ...this.$route.query,
@@ -111,9 +111,7 @@ export default {
         },
       })
       await this.$store.dispatch('UPDATE_CLUSTER_DATA')
-      window.setTimeout(() => {
-        this.reload()
-      }, 800)
+      this.reload()
     },
   },
 }
