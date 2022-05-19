@@ -52,6 +52,7 @@
 import { mapGetters, mapState } from 'vuex'
 import { getProjectList, getProjectEnvironmentList, getAllProjectList } from '@/api'
 import BaseSelect from '@/mixins/select'
+import { SERVICE_MONITOR_NS } from '@/utils/namespace'
 
 export default {
   name: 'ProjectEnvironmentTree',
@@ -136,7 +137,7 @@ export default {
             Project: {
               ProjectName: 'system',
             },
-            Namespace: 'gemcloud-monitoring-system',
+            Namespace: SERVICE_MONITOR_NS,
           }
         })
       } else {

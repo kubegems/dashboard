@@ -22,7 +22,7 @@
               small
               dark
               v-on="on"
-              @click="m_select_virtualSpaceSelectData"
+              @click.stop="getVirtualspace"
             >
               <v-icon left>fas fa-cloud</v-icon>
               {{ VirtualSpace().VirtualSpaceName }}
@@ -40,7 +40,7 @@
               </v-card>
             </template>
             <template #default="props">
-              <v-card v-for="item in props.items" :key="item.text">
+              <v-card v-for="item in props.items" :key="item.text" :loading="loading">
                 <v-list dense>
                   <v-flex class="text-subtitle-2 text-center ma-2">
                     <span>虚拟空间</span>
@@ -60,7 +60,7 @@
                   >
                     <v-list-item-content class="text-body-2 font-weight-medium text-start">
                       <div>
-                        <v-icon left small color="primary">fab fa-cloud</v-icon>
+                        <v-icon left small color="primary">fas fa-cloud</v-icon>
                         {{ virtualspace.text }}
                       </div>
                     </v-list-item-content>
@@ -130,6 +130,7 @@ export default {
   },
   data: () => ({
     virtualSpaceMenu: false,
+    loading: false,
   }),
   computed: {
     ...mapGetters(['VirtualSpace']),
@@ -151,6 +152,11 @@ export default {
       this.$router.push({
         name: 'virtualspace-list',
       })
+    },
+    async getVirtualspace() {
+      this.loading = true
+      await this.m_select_virtualSpaceSelectData()
+      this.loading = false
     },
   },
 }

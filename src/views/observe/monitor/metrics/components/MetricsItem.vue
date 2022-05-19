@@ -78,6 +78,7 @@
 import { mapState } from 'vuex'
 import MetricsLineChart from './MetricsLineChart'
 import { debounce } from '@/utils/helpers'
+import { SERVICE_MONITOR_NS } from '@/utils/namespace'
 
 export default {
   name: 'MetricsItem',
@@ -196,7 +197,7 @@ export default {
 
       this.$router.replace({query: {
         cluster: environment?.Cluster.ClusterName || cluster?.text,
-        namespace: namespace || 'gemcloud-monitoring-system',
+        namespace: namespace || SERVICE_MONITOR_NS,
       }})
     },
     onLoadLabelFocus(label) {

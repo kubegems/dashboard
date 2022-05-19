@@ -20,6 +20,7 @@
       <v-card-title class="py-4">
         <ProjectEnvSelect @refreshEnvironemnt="refreshEnvironemnt" />
       </v-card-title>
+
       <v-card-text
         id="monitor__dashboard"
         class="pa-0"
@@ -27,7 +28,7 @@
         <v-tabs
           v-model="tab"
           height="40"
-          class="rounded-t pl-4 pr-12"
+          class="rounded-t pl-4 pr-12 pb-2"
         >
           <v-tab
             v-for="item in items"
@@ -37,6 +38,7 @@
           </v-tab>
         </v-tabs>
         <v-menu
+          v-if="environment && m_permisson_resourceAllow(environment.text)"
           :attach="`#monitor__dashboard`"
           left
         >
@@ -79,39 +81,87 @@
             </v-card-text>
           </v-card>
         </v-menu>
+      </v-card-text>
+    </v-card>
 
-        <v-row
-          v-if="items.length > 0"
-          class="mt-2 mx-4"
+    <v-row
+      v-if="items.length > 0"
+      class="mt-2"
+    >
+      <v-col
+        v-for="(graph, index) in items[tab].graphs"
+        :key="index"
+        cols="3"
+        class="dash__col"
+      >
+        <v-card
+          class="kubegems__full-height"
         >
-          <v-col
-            v-for="(graph, index) in items[tab].graphs"
-            :key="index"
-            cols="3"
-          >
+          <v-card-text class="pa-1 kubegems__full-height">
+            <v-btn
+              small
+              icon
+              class="dash__btn"
+              @click.stop="openPanelInMaxScreen(graph)"
+            >
+              <v-icon
+                small
+                color="primary"
+              >
+                mdi-magnify-plus
+              </v-icon>
+            </v-btn>
             <BaseApexAreaChart
               :id="`c${index}`"
               :title="graph.name"
               :metrics="metrics[`c${index}`]"
-              :extend-height="280"
+              :extend-height="250"
               label="pod"
               type=""
               :label-show="false"
               :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
             />
-          </v-col>
-        </v-row>
-
-        <div
-          v-else
-          class="text-h6 text-center dash__tip primary--text"
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col cols="3">
+        <v-card
+          class="kubegems__full-height"
         >
-          <span class="kubegems__full-center">请先创建监控大盘</span>
-        </div>
-      </v-card-text>
-    </v-card>
+          <v-card-text class="pa-0 kubegems__full-height">
+            <v-list-item
+              three-line
+              class="kubegems__full-height"
+            >
+              <v-list-item-content>
+                <v-btn
+                  text
+                  block
+                  color="primary"
+                  class="text-h6"
+                >
+                  <v-icon left>mdi-plus-box</v-icon>
+                  添加面板
+                </v-btn>
+              </v-list-item-content>
+            </v-list-item>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+
+    <div
+      v-else
+      class="text-h6 text-center dash__tip primary--text"
+    >
+      <span class="kubegems__full-center">请先创建监控大盘</span>
+    </div>
 
     <AddPanel ref="addPanel" />
+    <PanelMax
+      ref="panelMax"
+      :environment="environment"
+    />
   </v-container>
 </template>
 
@@ -125,6 +175,8 @@ import {
 import AddPanel from './components/AddPanel'
 import TenantSelect from '../../components/TenantSelect'
 import ProjectEnvSelect from './components/ProjectEnvSelect'
+import PanelMax from './components/PanelMax'
+import BasePermission from '@/mixins/permission'
 
 export default {
   name: 'MonitorDashboard',
@@ -132,7 +184,9 @@ export default {
     TenantSelect,
     ProjectEnvSelect,
     AddPanel,
+    PanelMax,
   },
+  mixins: [BasePermission],
   data() {
     return {
       tab: 0,
@@ -172,10 +226,14 @@ export default {
     },
     refreshEnvironemnt(env) {
       this.environment = env
-      // this.dashboardList()
+      this.dashboardList()
     },
     addPanel() {
       this.$refs.addPanel.open()
+    },
+    openPanelInMaxScreen(graph) {
+      this.$refs.panelMax.init(graph)
+      this.$refs.panelMax.open()
     },
     removePanel() {
       const item = this.items[this.tab]
@@ -211,6 +269,17 @@ export default {
   &__tip {
     height: 460px;
     position: relative;
+  }
+
+  &__col {
+    position: relative;
+  }
+
+  &__btn {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    z-index: 10;
   }
 }
 </style>

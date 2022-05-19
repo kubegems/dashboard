@@ -11,7 +11,10 @@
           @refresh="filterList"
         />
         <v-spacer />
-        <v-menu left>
+        <v-menu
+          v-if="m_permisson_resourceAllow($route.query.env)"
+          left
+        >
           <template #activator="{ on }">
             <v-btn icon>
               <v-icon
@@ -236,7 +239,7 @@ export default {
         { text: '名称', value: 'name', align: 'start' },
         { text: '渠道', value: 'channel', align: 'start' },
       ]
-      if (this.m_permisson_resourceAllow) {
+      if (this.m_permisson_resourceAllow(this.$route.query.env)) {
         items.push({ text: '', value: 'action', align: 'center', width: 20 })
       }
       if (this.AdminViewport) {

@@ -87,6 +87,7 @@ import {
   ISTIO_INGRESS_GATEWAY_DOWNSTREAM_443_RESPONSE_DURATION_PROMQL,
   ISTIO_INGRESS_GATEWAY_DOWNSTREAM_80_RESPONSE_DURATION_PROMQL,
 } from '@/utils/prometheus'
+import { SERVICE_GATEWAY_NS } from '@/utils/namespace'
 
 export default {
   name: 'GatewayMonitor',
@@ -156,7 +157,7 @@ export default {
         this.$route.query.cluster,
         Object.assign(this.params, {
           query: ISTIO_INGRESS_GATEWAY_QPS_PROMQL
-            .replaceAll('$1', 'gemcloud-gateway-system')
+            .replaceAll('$1', SERVICE_GATEWAY_NS)
             .replaceAll('$2', this.gateway ? this.gateway.Name : ''),
           noprocessing: true,
         }),
@@ -168,7 +169,7 @@ export default {
         this.$route.query.cluster,
         Object.assign(this.params, {
           query: ISTIO_INGRESS_GATEWAY_DOWNSTREAM_80_QPS_PROMQL
-            .replaceAll('$1', 'gemcloud-gateway-system')
+            .replaceAll('$1', SERVICE_GATEWAY_NS)
             .replaceAll('$2', this.gateway ? this.gateway.Name : ''),
           noprocessing: true,
         }),
@@ -180,7 +181,7 @@ export default {
         this.$route.query.cluster,
         Object.assign(this.params, {
           query: ISTIO_INGRESS_GATEWAY_DOWNSTREAM_443_QPS_PROMQL
-            .replaceAll('$1', 'gemcloud-gateway-system')
+            .replaceAll('$1', SERVICE_GATEWAY_NS)
             .replaceAll('$2', this.gateway ? this.gateway.Name : ''),
           noprocessing: true,
         }),
@@ -192,7 +193,7 @@ export default {
         this.$route.query.cluster,
         Object.assign(this.params, {
           query: ISTIO_INGRESS_GATEWAY_REPONSE_DURATION_PROMQL
-            .replaceAll('$1', 'gemcloud-gateway-system')
+            .replaceAll('$1', SERVICE_GATEWAY_NS)
             .replaceAll('$2', this.gateway ? this.gateway.Name : ''),
           noprocessing: true,
         }),
@@ -204,7 +205,7 @@ export default {
         this.$route.query.cluster,
         Object.assign(this.params, {
           query: ISTIO_INGRESS_GATEWAY_DOWNSTREAM_80_RESPONSE_DURATION_PROMQL
-            .replaceAll('$1', 'gemcloud-gateway-system')
+            .replaceAll('$1', SERVICE_GATEWAY_NS)
             .replaceAll('$2', this.gateway ? this.gateway.Name : ''),
           noprocessing: true,
         }),
@@ -216,7 +217,7 @@ export default {
         this.$route.query.cluster,
         Object.assign(this.params, {
           query: ISTIO_INGRESS_GATEWAY_DOWNSTREAM_443_RESPONSE_DURATION_PROMQL
-            .replaceAll('$1', 'gemcloud-gateway-system')
+            .replaceAll('$1', SERVICE_GATEWAY_NS)
             .replaceAll('$2', this.gateway ? this.gateway.Name : ''),
           noprocessing: true,
         }),
