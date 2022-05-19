@@ -10,26 +10,6 @@
       <template #extend>
         <div class="float-right">
           <ButtonInput
-            v-model="topk"
-            label="Topk:"
-            empty-value-placeholder="auto"
-            class="mr-2"
-          >
-            <v-text-field
-              v-model="topk"
-              dense
-              solo
-              flat
-              hide-details
-              type="number"
-              :rules="fieldRules.topk"
-              placeholder="Topk"
-              :style="{ width: '100px' }"
-              @change="_handleRefresh(undefined)"
-            />
-          </ButtonInput>
-
-          <ButtonInput
             v-model="step"
             label="Step:"
             empty-value-placeholder="auto"
@@ -133,72 +113,87 @@
                   lazy-validation
                   @submit.prevent="onSearch(item._$id)"
                 >
-                  <!-- 集群 -->
-                  <template v-if="AdminViewport">
-                    <BaseSubTitle
-                      title="集群"
-                      class="mb-3"
-                    />
-                    <v-select
-                      v-model="queryList[index].cluster"
-                      :items="m_select_clusterItems"
-                      item-text="text"
-                      item-value="value"
-                      label="集群"
-                      dense
-                      solo
-                      flat
-                      return-object
-                      no-data-text="暂无可选数据"
-                      :rules="fieldRules.cluster(index)"
-                      @change="onClusterChange(index)"
-                    />
-                  </template>
-
                   <!-- 项目环境 -->
                   <BaseSubTitle
-                    title="项目环境"
+                    :title="queryList[index].isCluster?'集群':'项目环境'"
                     class="mb-3"
-                  />
+                  >
+                    <template #action>
+                      <v-switch
+                        v-if="AdminViewport"
+                        v-model="queryList[index].isCluster"
+                        class="ma-0 px-2 ml-2 mt-0"
+                        style="margin-top: 2px !important;"
+                        color="primary"
+                        hide-details
+                      >
+                        <template #label>
+                          <span class="text-body-2 font-weight-medium">
+                            {{ !queryList[index].isCluster?'集群维度':'项目环境维度' }}
+                          </span>
+                        </template>
+                      </v-switch>
+                    </template>
+                  </BaseSubTitle>
                   <v-row>
-                    <v-col :cols="6">
-                      <v-select
-                        v-model="queryList[index].project"
-                        :items="queryList[index].projectItems"
-                        item-text="text"
-                        item-value="value"
-                        label="项目"
-                        dense
-                        solo
-                        flat
-                        no-data-text="暂无可选数据"
-                        return-object
-                        :loading="projectListLoading"
-                        :rules="AdminViewport ? [] : fieldRules.required"
-                        @change="onProjectChange(index)"
-                      />
-                    </v-col>
-                    <v-col :cols="6">
-                      <v-select
-                        v-model="queryList[index].environment"
-                        :items="queryList[index].environmentItems"
-                        item-text="EnvironmentName"
-                        item-value="ID"
-                        label="环境"
-                        dense
-                        solo
-                        flat
-                        return-object
-                        no-data-text="暂无可选数据"
-                        :loading="queryList[index].environmentItemsLoading"
-                        :disabled="!queryList[index].project"
-                        :rules="
-                          !queryList[index].project && AdminViewport
-                            ? []
-                            : fieldRules.required
-                        "
-                      />
-                    </v-col>
+                    <template v-if="queryList[index].isCluster">
+                      <v-col :cols="12">
+                        <v-autocomplete
+                          v-model="queryList[index].cluster"
+                          class="px-2"
+                          :items="m_select_clusterItems"
+                          item-text="text"
+                          item-value="value"
+                          label="集群"
+                          dense
+                          solo
+                          flat
+                          return-object
+                          no-data-text="暂无可选数据"
+                          :rules="fieldRules.required"
+                          @change="onClusterChange(index)"
+                        />
+                      </v-col>
+                    </template>
+
+                    <template v-else>
+                      <v-col :cols="6">
+                        <v-autocomplete
+                          v-model="queryList[index].project"
+                          class="pl-2"
+                          :items="queryList[index].projectItems"
+                          item-text="text"
+                          item-value="value"
+                          label="项目"
+                          dense
+                          solo
+                          flat
+                          no-data-text="暂无可选数据"
+                          return-object
+                          :loading="projectListLoading"
+                          :rules="fieldRules.required"
+                          @change="onProjectChange(index)"
+                        />
+                      </v-col>
+                      <v-col :cols="6">
+                        <v-autocomplete
+                          v-model="queryList[index].environment"
+                          class="pr-2"
+                          :items="queryList[index].environmentItems"
+                          item-text="EnvironmentName"
+                          item-value="ID"
+                          label="环境"
+                          dense
+                          solo
+                          flat
+                          return-object
+                          no-data-text="暂无可选数据"
+                          :loading="queryList[index].environmentItemsLoading"
+                          :disabled="!queryList[index].project"
+                          :rules="fieldRules.required"
+                        />
+                      </v-col>
+                    </template>
                   </v-row>
                   <!-- 项目环境 -->
 
@@ -206,64 +201,95 @@
                   <BaseSubTitle
                     title="资源规则"
                     class="mb-3"
-                  />
-                  <v-select
-                    v-model="queryList[index].resource"
-                    :items="resourceItems"
-                    item-text="showName"
-                    item-value="_$value"
-                    label="资源"
-                    dense
-                    solo
-                    flat
-                    return-object
-                    :rules="fieldRules.required"
-                    no-data-text="暂无可选数据"
-                    @change="setRuleItems(index)"
-                  />
-                  <v-row>
-                    <v-col :cols="6">
-                      <v-select
-                        v-model="queryList[index].rule"
-                        :items="queryList[index].ruleItems"
-                        item-text="showName"
-                        item-value="_$value"
-                        label="规则"
-                        dense
-                        solo
-                        flat
-                        return-object
-                        no-data-text="暂无可选数据"
-                        :disabled="!queryList[index].resource"
-                        :rules="fieldRules.required"
-                        @change="setUnitItems(index)"
-                      />
-                    </v-col>
+                  >
+                    <template #action>
+                      <v-switch
+                        v-model="queryList[index].ql"
+                        class="ma-0 px-2 ml-2 mt-0"
+                        style="margin-top: 2px !important;"
+                        color="primary"
+                        hide-details
+                      >
+                        <template #label>
+                          <span class="text-body-2 font-weight-medium">
+                            PromQl
+                          </span>
+                        </template>
+                      </v-switch>
+                    </template>
+                  </BaseSubTitle>
 
-                    <v-col :cols="6">
-                      <v-select
-                        v-model="queryList[index].unit"
-                        :items="queryList[index].unitItems"
-                        label="单位"
-                        item-value="_$value"
-                        item-text="text"
-                        dense
-                        solo
-                        flat
-                        return-object
-                        no-data-text="暂无可选数据"
-                        :disabled="
-                          !queryList[index].rule ||
-                            !queryList[index].unitItems.length
-                        "
-                        :rules="
-                          queryList[index].unitItems.length
-                            ? fieldRules.required
-                            : undefined
-                        "
-                      />
-                    </v-col>
-                  </v-row>
+                  <template v-if="queryList[index].ql">
+                    <v-textarea
+                      v-model="queryList[index].expr"
+                      class="px-2"
+                      solo
+                      flat
+                      dense
+                      auto-grow
+                      label="查询语句"
+                      :rules="fieldRules.required"
+                    />
+                  </template>
+
+                  <template v-else>
+                    <v-autocomplete
+                      v-model="queryList[index].resource"
+                      class="px-2"
+                      :items="resourceItems"
+                      item-text="showName"
+                      item-value="_$value"
+                      label="资源"
+                      dense
+                      solo
+                      flat
+                      return-object
+                      :rules="fieldRules.required"
+                      no-data-text="暂无可选数据"
+                      @change="setRuleItems(index)"
+                    />
+
+                    <v-autocomplete
+                      v-model="queryList[index].rule"
+                      class="px-2"
+                      :items="queryList[index].ruleItems"
+                      item-text="showName"
+                      item-value="_$value"
+                      label="规则"
+                      dense
+                      solo
+                      flat
+                      return-object
+                      no-data-text="暂无可选数据"
+                      :disabled="!queryList[index].resource"
+                      :rules="fieldRules.required"
+                      @change="setUnitItems(index)"
+                    />
+
+                    <v-autocomplete
+                      v-model="queryList[index].unit"
+                      class="px-2"
+                      :items="queryList[index].unitItems"
+                      label="单位"
+                      item-value="_$value"
+                      item-text="text"
+                      dense
+                      solo
+                      flat
+                      return-object
+                      no-data-text="暂无可选数据"
+                      :disabled="
+                        !queryList[index].rule ||
+                          !queryList[index].unitItems.length
+                      "
+                      :rules="
+                        queryList[index].unitItems.length
+                          ? fieldRules.required
+                          : undefined
+                      "
+                    />
+                  </template>
+
                   <!-- 资源规则 -->
 
                   <!-- 查询 -->
@@ -384,26 +410,27 @@ export default {
           !!new RegExp('^\\d+$').test(v) ||
           '格式错误(示例:整数)',
       ],
-      topk: [
-        (v) => !v || !!new RegExp('^\\d+$').test(v) || '格式错误(示例:整数)',
-      ],
     }
 
     this.defaultParams = {
       _$id: `0-${Date.now()}`,
       cluster: undefined,
+      namespace: undefined,
       resource: undefined,
       project: undefined,
       environment: undefined,
       rule: undefined,
       unit: undefined,
       labelpairs: undefined,
+      expr: undefined,
       projectItems: [],
       environmentItems: [],
       environmentItemsLoading: false,
       ruleItems: [],
       unitItems: [],
       _$origin: undefined,
+      ql: false,
+      isCluster: false,
     }
 
     this._handleRefresh = debounce(this.onRefresh, 500)
@@ -413,7 +440,6 @@ export default {
       queryList: [{ ...this.defaultParams }],
       date: [],
       step: 'auto',
-      topk: 20,
       allProjectList: [],
       projectListLoading: false,
       config: {},
@@ -437,10 +463,10 @@ export default {
         return {
           _$value: id,
           _$index: index,
-          _$unit: query._$origin?.unit?.text,
-          _$title: `${index + 1}-${query._$origin?.resource.showName}-${
+          _$unit: query._$origin?.unit?.text || ``,
+          _$title: query._$origin?.resource ? `${index + 1}-${query._$origin?.resource.showName}-${
             query._$origin?.rule.showName
-          }`,
+          }` : `${index + 1}-${query._$origin.expr}`,
           _$origin: query._$origin,
           data: this.metricsObject[id],
         }
@@ -520,18 +546,24 @@ export default {
 
     // 获取格式化后的params
     getParams(params) {
-      const newParams = {
-        ...params,
-        cluster:
-          params.cluster?.text || params.environment?.Cluster.ClusterName,
-        namespace: params.environment?.Namespace,
-        resource: params.resource._$value,
-        rule: params.rule._$value,
-        unit: params.unit?._$value,
-        topk: this.topk,
+      let newParams = {
+        cluster: params.cluster?.text || params.environment?.Cluster.ClusterName,
+        namespace: params.environment?.Namespace || '_all',
         start: this.$moment(this.date[0]).utc().format(),
         end: this.$moment(this.date[1]).utc().format(),
-        step: this.step === 'auto' ? undefined : this.step,
+        step: this.step === 'auto' ? null : this.step,
+      }
+
+      if (params.ql) {
+        newParams = Object.assign(newParams, {
+          expr: params.expr,
+        })
+      } else {
+        newParams = Object.assign(newParams, {
+          resource: params.resource._$value,
+          rule: params.rule._$value,
+          unit: params.unit?._$value || null,
+        })
       }
 
       // 设置labelpairs值
@@ -546,21 +578,6 @@ export default {
         }
       }
 
-      // 移除空值
-      for (const key in newParams) {
-        if (!newParams[key]) delete newParams[key]
-      }
-
-      // 移除标记值
-      delete newParams.project
-      delete newParams.environment
-      delete newParams.environmentItems
-      delete newParams.environmentItemsLoading
-      delete newParams.ruleItems
-      delete newParams.unitItems
-      delete newParams.projectItems
-      delete newParams._$id
-      delete newParams._$origin
       return newParams
     },
     // 设置labelObject
@@ -639,7 +656,11 @@ export default {
       if (query) {
         const params = this.getParams(query)
         params.label = label
-        const data = await getMetricsLabelValues(Object.assign(params, {noprocessing: true}))
+        const data = await getMetricsLabelValues(
+          params.cluster,
+          params.namespace,
+          Object.assign(params, {noprocessing: true}),
+        )
         this.$set(this.labelObject[id][label], 'items', data)
         this.$set(this.labelObject[id][label], 'request', true)
       }
@@ -652,7 +673,21 @@ export default {
         // 重置labelpairs
         reset && this.setLabelObject(query)
         const params = this.getParams(query)
-        const data = await getMetricsQueryrange(params)
+        if (!params.cluster || !params.namespace) {
+          this.$store.commit('SET_SNACKBAR', {
+            text: '请选择项目环境',
+            color: 'warning',
+          })
+          return
+        }
+        let data = await getMetricsQueryrange(params.cluster, params.namespace, params)
+        if (data?.length > 30) {
+          this.$store.commit('SET_SNACKBAR', {
+            text: '结果数量过多，截取30条',
+            color: 'warning',
+          })
+          data = data.slice(0, 30)
+        }
         const origin = deepCopy(query)
         delete origin._$origin
 

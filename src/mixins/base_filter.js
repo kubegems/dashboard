@@ -6,7 +6,9 @@ const basefilter = {
       const tab = this.$route.query.tab || null
       Object.assign(this.params, params)
       await this.$router.replace({
-        name: this.$route.name, query: Object.assign(params, { tab: tab }),
+        params: this.$route.params,
+        name: this.$route.name,
+        query: Object.assign({ tab: tab, ...this.$route.query }, params),
       })
       if (reload) {
         this.reload()

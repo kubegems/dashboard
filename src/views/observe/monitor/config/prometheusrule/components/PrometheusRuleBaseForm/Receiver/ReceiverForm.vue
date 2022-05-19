@@ -94,7 +94,7 @@ export default {
     },
     mode: {
       type: String,
-      default: () => 'metrics',
+      default: () => 'monitor',
     },
   },
   data() {

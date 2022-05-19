@@ -139,12 +139,10 @@ export default {
       this.$store.commit('SET_NAMESPACE_FILTER', null)
       this.$store.commit('SET_ENVIRONMENT_FILTER', null)
       await this.$store.dispatch('UPDATE_VIRTUALSPACE_DATA')
-      this.$router.replace({
+      await this.$router.replace({
         params: { virtualspace: item.text },
       })
-      window.setTimeout(() => {
-        this.reload()
-      }, 800)
+      this.reload()
     },
     returnVirtualSpace() {
       this.$store.commit('CLEAR_VIRTUAL_SPACE')

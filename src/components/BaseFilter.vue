@@ -186,7 +186,11 @@ export default {
           params[c.value] = kv[1]
         }
       })
-      return params
+      const defaultParams = {}
+      this.items.forEach((i) => {
+        defaultParams[i.value] = null
+      })
+      return Object.assign(defaultParams, params)
     },
     onFilterConditionBlur(){
       this.resetFilterCondition()

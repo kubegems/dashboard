@@ -66,7 +66,7 @@ export default {
   props: {
     mode: {
       type: String,
-      default: () => 'metrics',
+      default: () => 'monitor',
     },
   },
   data: () => ({
@@ -88,7 +88,7 @@ export default {
       if (this.$refs[this.formComponent].validate(true)) {
         const obj = deepCopy(this.$refs[this.formComponent].obj)
 
-        if (this.mode === 'metrics') {
+        if (this.mode === 'monitor') {
           // 移除labelpairs中的空值
           for (const key in obj.labelpairs) {
             if (!obj.labelpairs[key]) {

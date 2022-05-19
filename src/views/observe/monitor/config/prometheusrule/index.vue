@@ -372,7 +372,7 @@ export default {
     headers() {
       const items = [
         { text: '名称', value: 'name', align: 'start' },
-        { text: '指标', value: 'promql', align: 'start', width: 500 },
+        { text: '指标', value: 'expr', align: 'start', width: 500 },
         { text: '评估时间', value: 'for', align: 'start' },
         { text: '接收器', value: 'receivers', align: 'start', width: 200 },
         { text: '使用状态', value: 'open', align: 'start', width: 100 },
@@ -548,11 +548,11 @@ export default {
       }
     },
     onPageSizeChange(size) {
-      this.params.page = 1
+      this.page = 1
       this.itemsPerPage = size
     },
     onPageIndexChange(page) {
-      this.params.page = page
+      this.page = page
     },
     onRowClick(item, { expand, isExpanded }) {
       expand(!isExpanded)
