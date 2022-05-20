@@ -231,7 +231,7 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex'
-import { getPodList, deletePod, matrix } from '@/api'
+import { getPodList, deletePod } from '@/api'
 import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter'
 import EventTip from '@/views/resource/components/common/EventTip'
 import ContainerItems from './components/ContainerItems'
@@ -473,7 +473,7 @@ export default {
               })
               .join('|'),
           )
-        const data = await matrix(this.ThisCluster, {
+        const data = await this.m_permission_matrix(this.ThisCluster, {
           query: query,
           start: this.$moment(
             new Date(new Date().setMinutes(new Date().getMinutes() - 15)),
@@ -533,7 +533,7 @@ export default {
               })
               .join('|'),
           )
-        const data = await matrix(this.ThisCluster, {
+        const data = await this.m_permission_matrix(this.ThisCluster, {
           query: query,
           start: this.$moment(
             new Date(new Date().setMinutes(new Date().getMinutes() - 15)),

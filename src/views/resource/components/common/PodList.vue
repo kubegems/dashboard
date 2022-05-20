@@ -198,7 +198,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { getPodList, matrix } from '@/api'
+import { getPodList } from '@/api'
 import ContainerLog from './ContainerLog'
 import Terminal from './Terminal'
 import EventTip from './EventTip'
@@ -370,7 +370,7 @@ export default {
               })
               .join('|'),
           )
-        const data = await matrix(this.ThisCluster, {
+        const data = await this.m_permission_matrix(this.ThisCluster, {
           query: query,
           start: this.$moment(
             new Date(new Date().setMinutes(new Date().getMinutes() - 15)),
@@ -430,7 +430,7 @@ export default {
               })
               .join('|'),
           )
-        const data = await matrix(this.ThisCluster, {
+        const data = await this.m_permission_matrix(this.ThisCluster, {
           query: query,
           start: this.$moment(
             new Date(new Date().setMinutes(new Date().getMinutes() - 15)),

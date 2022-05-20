@@ -188,16 +188,16 @@ const select = {
       })
       this.m_select_projectEnvironmentItems = projectEnvironmentSelect
     },
-    async m_select_clusterSelectData(TenantID = null) {
+    async m_select_clusterSelectData(TenantID = null, noprocessing = true) {
       let data = null
       if (this.Admin && !TenantID) {
-        data = await clusterSelectData({ noprocessing: true })
+        data = await clusterSelectData({ noprocessing: noprocessing })
       } else {
         if (TenantID) {
-          data = await tenantClusterSelectData(TenantID, { noprocessing: true })
+          data = await tenantClusterSelectData(TenantID, { noprocessing: noprocessing })
         } else {
           data = await tenantClusterSelectData(this.Tenant().ID, {
-            noprocessing: true,
+            noprocessing: noprocessing,
           })
         }
         data.List.forEach((n) => {
@@ -236,18 +236,18 @@ const select = {
       })
       this.m_select_namespaceItems = namespaceSelect
     },
-    async m_select_environmentSelectData(TenantID = null) {
+    async m_select_environmentSelectData(TenantID = null, noprocessing = true) {
       let data = null
       if (this.Admin && this.AdminViewport && !TenantID) {
-        data = await environmentSelectData({ noprocessing: true })
+        data = await environmentSelectData({ noprocessing: noprocessing })
       } else {
         if (TenantID) {
           data = await tenantEnvironmentSelectData(TenantID, {
-            noprocessing: true,
+            noprocessing: noprocessing,
           })
         } else {
           data = await tenantEnvironmentSelectData(this.Tenant().ID, {
-            noprocessing: true,
+            noprocessing: noprocessing,
           })
         }
       }

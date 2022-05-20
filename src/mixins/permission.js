@@ -1,8 +1,9 @@
 import { mapGetters, mapState } from 'vuex'
+import { matrix, vector } from '@/api'
 
 const permission = {
   computed: {
-    ...mapState(['Auth', 'Admin']),
+    ...mapState(['Auth', 'Admin', 'Plugins']),
     ...mapGetters(['VirtualSpace', 'Tenant', 'Project', 'Environment']),
     m_permisson_resourceRole() {
       if (this.Admin) return 'sys'
@@ -98,6 +99,20 @@ const permission = {
           }
         }) > -1 || this.Admin
       )
+    },
+    async m_permission_matrix(cluster, query = {}) {
+      if (this.Plugins['monitoring']) {
+        const data = await matrix(cluster, query)
+        return data
+      }
+      return []
+    },
+    async m_permission_vector(cluster, query = {}) {
+      if (this.Plugins['monitoring']) {
+        const data = await vector(cluster, query)
+        return data
+      }
+      return []
     },
   },
 }

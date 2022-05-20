@@ -35,6 +35,7 @@
             :metrics="cpu"
             type="cpu"
             label="tenant"
+            :extend-height="280"
           />
 
           <BaseApexAreaChart
@@ -43,6 +44,7 @@
             :metrics="memory"
             type="memory"
             label="tenant"
+            :extend-height="280"
           />
         </v-card-text>
       </v-card>
@@ -52,8 +54,8 @@
 
 <script>
 import { mapState } from 'vuex'
-import { matrix } from '@/api'
 import BaseResource from '@/mixins/resource'
+import BasePermission from '@/mixins/permission'
 import {
   TENANT_CPU_USAGE_PROMQL,
   TENANT_MEMORY_USAGE_PROMQL,
@@ -62,7 +64,7 @@ import { deepCopy } from '@/utils/helpers'
 
 export default {
   name: 'TenantMonitor',
-  mixins: [BaseResource],
+  mixins: [BaseResource, BasePermission],
   data: () => ({
     panel: false,
     cpu: [],
@@ -120,7 +122,7 @@ export default {
         '$1',
         this.item.Tenant.TenantName,
       )
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.item.Cluster.ClusterName,
         Object.assign(this.params, { query: query }),
       )
@@ -131,7 +133,7 @@ export default {
         '$1',
         this.item.Tenant.TenantName,
       )
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.item.Cluster.ClusterName,
         Object.assign(this.params, { query: query }),
       )

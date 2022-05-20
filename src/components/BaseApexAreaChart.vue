@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import VueApexCharts from 'vue-apexcharts'
 import moment from 'moment'
 
@@ -29,7 +30,7 @@ export default {
     },
     extendHeight: {
       type: Number,
-      default: () => 250,
+      default: () => 280,
     },
     width: {
       type: Number,
@@ -59,6 +60,10 @@ export default {
       type: Boolean,
       default: () => false,
     },
+    noDataOffsetY: {
+      type: Number,
+      default: () => -18,
+    },
   },
   data: () => ({
     series: [],
@@ -78,6 +83,9 @@ export default {
       trace: ['us', 'ms', 's'],
     },
   }),
+  computed: {
+    ...mapState(['Plugins']),
+  },
   watch: {
     metrics: {
       handler() {
@@ -289,7 +297,8 @@ export default {
           showForNullSeries: false,
         },
         noData: {
-          text: '暂无数据',
+          text: this.Plugins['monitoring'] ? '暂无数据' : '插件minitor未启用或状态异常',
+          offsetY: this.noDataOffsetY,
         },
       }
     },

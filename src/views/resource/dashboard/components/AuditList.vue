@@ -25,9 +25,11 @@
     <v-card-text>
       <v-flex
         v-if="auditItems.length === 0"
-        class="text-subtitle-2 text-center"
+        :style="{ position: 'relative', height: '300px' }"
       >
-        暂无数据
+        <span class="kubegems__full-center kubegems__detail">
+          暂无数据
+        </span>
       </v-flex>
       <div class="align-items-center">
         <div class="vs-scrollable">
