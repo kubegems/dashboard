@@ -61,8 +61,8 @@
 
 <script>
 import { mapState } from 'vuex'
-import { matrix } from '@/api'
 import BaseResource from '@/mixins/resource'
+import BasePermission from '@/mixins/permission'
 import {
   CONTAINER_CPU_USAGE_PROMQL,
   CONTAINER_MEMORY_USAGE_PROMQL,
@@ -72,7 +72,7 @@ import {
 
 export default {
   name: 'PodMonitor',
-  mixins: [BaseResource],
+  mixins: [BaseResource, BasePermission],
   props: {
     item: {
       type: Object,
@@ -140,7 +140,7 @@ export default {
           .replaceAll('$1', containers.join('|'))
           .replaceAll('$2', this.item.metadata.name)
           .replaceAll('$3', this.item.metadata.namespace)
-        const data = await matrix(
+        const data = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, { query: query }),
         )
@@ -157,7 +157,7 @@ export default {
           .replaceAll('$1', containers.join('|'))
           .replaceAll('$2', this.item.metadata.name)
           .replaceAll('$3', this.item.metadata.namespace)
-        const data = await matrix(
+        const data = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, { query: query }),
         )
@@ -169,7 +169,7 @@ export default {
         const query = POD_NETWORK_IN_PROMQL
           .replaceAll('$1', this.item.metadata.name)
           .replaceAll('$2', this.item.metadata.namespace)
-        const data = await matrix(
+        const data = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, { query: query }),
         )
@@ -181,7 +181,7 @@ export default {
         const query = POD_NETWORK_OUT_PROMQL
           .replaceAll('$1', this.item.metadata.name)
           .replaceAll('$2', this.item.metadata.namespace)
-        const data = await matrix(
+        const data = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, { query: query }),
         )

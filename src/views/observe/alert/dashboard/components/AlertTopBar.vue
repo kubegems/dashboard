@@ -74,7 +74,7 @@ export default {
         },
         stroke: {
           curve: 'straight',
-          width: 1,
+          width: 0,
         },
         grid: {
           borderColor: 'rgba(0, 0, 0, .3)',
@@ -115,6 +115,7 @@ export default {
         },
         noData: {
           text: '暂无数据',
+          offsetY: -13,
         },
       }
     },

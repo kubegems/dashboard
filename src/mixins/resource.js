@@ -75,9 +75,7 @@ const resource = {
       return null
     },
     async m_resource_clusterQuota(clusterid, item) {
-      const data = await getClusterQuota(clusterid, {
-        noprocessing: true,
-      })
+      const data = await getClusterQuota(clusterid)
       const quota = {}
       if (data.resources) {
         quota.CpuRatio = data.oversoldConfig ? data.oversoldConfig.cpu : 1

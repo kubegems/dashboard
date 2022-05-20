@@ -262,9 +262,10 @@
 </template>
 
 <script>
-import { vector, getNodeResourceAllocated } from '@/api'
+import { getNodeResourceAllocated } from '@/api'
 import VueApexCharts from 'vue-apexcharts'
 import BaseResource from '@/mixins/resource'
+import BasePermission from '@/mixins/permission'
 import { NODE_ONE_POD_RUNNING_COUNT_PROMQL } from '@/utils/prometheus'
 import { sizeOfStorage, sizeOfCpu, deepCopy } from '@/utils/helpers'
 import { generateRadialBarChartOptions } from '@/utils/chart'
@@ -274,7 +275,7 @@ export default {
   components: {
     VueApexCharts,
   },
-  mixins: [BaseResource],
+  mixins: [BaseResource, BasePermission],
   props: {
     item: {
       type: Object,
@@ -438,7 +439,7 @@ export default {
       this.totalRequests = data.TotalRequests
     },
     async nodePodCountOne() {
-      const data = await vector(this.ThisCluster, {
+      const data = await this.m_permission_vector(this.ThisCluster, {
         query: NODE_ONE_POD_RUNNING_COUNT_PROMQL.replaceAll(
           '$1',
           this.item.metadata.name,
@@ -446,7 +447,7 @@ export default {
         noprocessing: true,
       })
       data.forEach((d) => {
-        this.podCount = parseInt(d.value[1])
+        this.podCount = parseInt(d?.value[1] || 0)
       })
     },
   },

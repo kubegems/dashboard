@@ -242,7 +242,7 @@ export default {
       this.quota = null
     },
     onClusterSelectFocus() {
-      this.m_select_clusterSelectData(null)
+      this.m_select_clusterSelectData(null, false)
     },
   },
 }

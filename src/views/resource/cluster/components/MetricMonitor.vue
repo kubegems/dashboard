@@ -6,6 +6,7 @@
     <v-tabs
       v-model="tab"
       fixed-tabs
+      height="40px"
       @change="onTabChange"
     >
       <v-tab
@@ -29,13 +30,15 @@
       :label="tabItems[tab].label"
       :type="tabItems[tab].type"
       :extend-height="280"
+      :no-data-offset-y="-24"
     />
   </v-card>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-import { matrix } from '@/api'
+import BaseResource from '@/mixins/resource'
+import BasePermission from '@/mixins/permission'
 import {
   CLUSTER_ETCD_RT_PROMQL,
   CLUSTER_API_SERVER_RT_PROMQL,
@@ -46,11 +49,10 @@ import {
   CLUSTER_DISK_USAGE_PROMQL,
   CLUSTER_POD_RUNNING_COUNT_PROMQL,
 } from '@/utils/prometheus'
-import BaseResource from '@/mixins/resource'
 
 export default {
   name: 'MetricMonitor',
-  mixins: [BaseResource],
+  mixins: [BaseResource, BasePermission],
   props: {
     params: {
       type: Object,
@@ -184,7 +186,7 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     async clusterEtcdRT(timeParam) {
       const query = CLUSTER_ETCD_RT_PROMQL
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.$route.params.name,
         Object.assign(timeParam, {
           query: escape(query),
@@ -198,7 +200,7 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     async clusterApiServerRT(timeParam) {
       const query = CLUSTER_API_SERVER_RT_PROMQL
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.$route.params.name,
         Object.assign(timeParam, {
           query: escape(query),
@@ -218,30 +220,30 @@ export default {
     },
     // eslint-disable-next-line vue/no-unused-properties
     async clusterApiServerQps(timeParam) {
-      const data1 = await matrix(
+      const data1 = await this.m_permission_matrix(
         this.$route.params.name,
         Object.assign(timeParam, {
           query: escape(CLUSTER_API_SERVER_QPS_PROMQL.replaceAll('$1', '2.*')),
           noprocessing: true,
         }),
       )
-      if (data1) data1[0].metric['name'] = 'ApiServerQPS2XX'
-      const data2 = await matrix(
+      if (data1?.length > 0) data1[0].metric['name'] = 'ApiServerQPS2XX'
+      const data2 = await this.m_permission_matrix(
         this.$route.params.name,
         Object.assign(timeParam, {
           query: escape(CLUSTER_API_SERVER_QPS_PROMQL.replaceAll('$1', '4.*')),
           noprocessing: true,
         }),
       )
-      if (data2) data2[0].metric['name'] = 'ApiServerQPS4XX'
-      const data3 = await matrix(
+      if (data2?.length > 0) data2[0].metric['name'] = 'ApiServerQPS4XX'
+      const data3 = await this.m_permission_matrix(
         this.$route.params.name,
         Object.assign(timeParam, {
           query: escape(CLUSTER_API_SERVER_QPS_PROMQL.replaceAll('$1', '5.*')),
           noprocessing: true,
         }),
       )
-      if (data3) data3[0].metric['name'] = 'ApiServerQPS5XX'
+      if (data3?.length > 0) data3[0].metric['name'] = 'ApiServerQPS5XX'
 
       let data = []
       if (data1) data = data.concat(data1)
@@ -251,7 +253,7 @@ export default {
     },
     // eslint-disable-next-line vue/no-unused-properties
     async clusterEtcdQps(timeParam) {
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.$route.params.name,
         Object.assign(timeParam, {
           query: escape(CLUSTER_ETCD_QPS_PROMQL),
@@ -265,7 +267,7 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     async clusterCPUUsage(timeParam) {
       const query = CLUSTER_CPU_USAGE_PROMQL
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.$route.params.name,
         Object.assign(timeParam, {
           query: escape(query),
@@ -279,7 +281,7 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     async clusterMemoryUsage(timeParam) {
       const query = CLUSTER_MEMORY_USAGE_PROMQL
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.$route.params.name,
         Object.assign(timeParam, {
           query: escape(query),
@@ -293,7 +295,7 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     async clusterDiskSize(timeParam) {
       const query = CLUSTER_DISK_USAGE_PROMQL
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.$route.params.name,
         Object.assign(timeParam, {
           query: escape(query),
@@ -307,7 +309,7 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     async clusterPodUsage(timeParam) {
       const query = CLUSTER_POD_RUNNING_COUNT_PROMQL
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.$route.params.name,
         Object.assign(timeParam, {
           query: escape(query),

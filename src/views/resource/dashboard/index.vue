@@ -32,35 +32,10 @@
       >
         <DashboardCard :statistics="statistics" />
 
-        <v-card class="mt-1">
-          <BaseSubTitle
-            title="项目"
-            :divider="false"
-          >
-            <template #action>
-              <v-btn
-                v-if="m_permisson_tenantAllow"
-                small
-                text
-                color="primary"
-                class="float-right mr-2"
-                @click="addProject"
-              >
-                <v-icon
-                  left
-                  small
-                >
-                  mdi-cube-outline
-                </v-icon>
-                创建项目
-              </v-btn>
-            </template>
-          </BaseSubTitle>
-          <ProjectList
-            ref="projectList"
-            @refreshTenantStatistics="tenantStatistics"
-          />
-        </v-card>
+        <ProjectList
+          class="mt-1"
+          @refresh="tenantStatistics"
+        />
 
         <ResourceList />
       </v-col>
@@ -77,10 +52,6 @@
       ref="manageUser"
       @refresh="tenantStatistics"
     />
-    <AddProject
-      ref="addProject"
-      @refresh="refreshProjectList"
-    />
   </v-container>
 </template>
 
@@ -89,7 +60,6 @@ import { mapGetters, mapState } from 'vuex'
 import { getTenantStatistics } from '@/api'
 import ProjectList from './components/ProjectList'
 import ManageUser from './components/ManageUser'
-import AddProject from '@/views/resource/project/components/AddProject'
 import DashboardCard from './components/DashboardCard'
 import ResourceList from './components/ResourceList'
 import AuditList from './components/AuditList'
@@ -102,7 +72,6 @@ export default {
   components: {
     ProjectList,
     ManageUser,
-    AddProject,
     DashboardCard,
     ResourceList,
     AuditList,
@@ -130,21 +99,6 @@ export default {
     }
   },
   methods: {
-    refreshProjectList() {
-      this.$refs.projectList.projectList()
-      this.tenantStatistics()
-    },
-    addProject() {
-      if (this.Tenant().ID > 0) {
-        this.$refs.addProject.open()
-        this.$refs.addProject.init()
-      } else {
-        this.$store.commit('SET_SNACKBAR', {
-          text: `请创建或加入租户`,
-          color: 'warning',
-        })
-      }
-    },
     async manageUser() {
       if (this.Tenant().ID > 0) {
         await this.$refs.manageUser.init()

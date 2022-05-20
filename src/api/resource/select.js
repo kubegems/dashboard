@@ -25,7 +25,6 @@ export const clusterSelectData = (query = {}) =>
   axios(`cluster`, {
     params: Object.assign(query, {
       size: 1000,
-      noprocessing: true,
     }),
   })
 export const namespaceSelectData = (clusterName, query = {}) =>

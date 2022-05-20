@@ -41,8 +41,8 @@
 
 <script>
 import { mapState } from 'vuex'
-import { matrix } from '@/api'
 import BaseResource from '@/mixins/resource'
+import BasePermission from '@/mixins/permission'
 import {
   PVC_USAGE_PROMQL,
   PVC_USAGE_INODE_PROMQL,
@@ -50,7 +50,7 @@ import {
 
 export default {
   name: 'PersistentVolumeClaimMonitor',
-  mixins: [BaseResource],
+  mixins: [BaseResource, BasePermission],
   props: {
     item: {
       type: Object,
@@ -108,7 +108,7 @@ export default {
       const query = PVC_USAGE_PROMQL
         .replaceAll('$1', this.item.metadata.namespace)
         .replaceAll('$2', this.item.metadata.name)
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.ThisCluster,
         Object.assign(this.params, { query: query, noprocessing: true }),
       )
@@ -118,7 +118,7 @@ export default {
       const query = PVC_USAGE_INODE_PROMQL
         .replaceAll('$1', this.item.metadata.namespace)
         .replaceAll('$2', this.item.metadata.name)
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.ThisCluster,
         Object.assign(this.params, { query: query, noprocessing: true }),
       )

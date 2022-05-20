@@ -1,214 +1,255 @@
 <template>
-  <v-flex class="px-2">
-    <v-expansion-panels
-      v-model="expand"
-      focusable
-      accordion
-      class="project-panel"
+  <v-card>
+    <BaseSubTitle
+      title="项目"
+      :divider="false"
     >
-      <v-expansion-panel
-        v-for="(item, index) in projectItems"
-        :key="index"
-      >
-        <v-expansion-panel-header @click="projectEnvironmentList(item)">
-          <v-flex class="text-subtitle-1">
-            {{ item.ProjectName }}
-            <span class="text-body-2 ml-3">别名：{{ item.ProjectAlias }}</span>
-            <span class="text-body-2 ml-3">备注：{{ item.Remark }}</span>
-            <v-btn
-              v-if="m_permisson_projectAllow"
-              color="primary"
-              small
-              text
-              depressed
-              class="float-right"
-              @click.stop="addEnvironment(item)"
-            >
-              <v-icon
-                left
-                small
-              >
-                mdi-cube
-              </v-icon>
-              创建环境
-            </v-btn>
-            <v-btn
-              color="primary"
-              small
-              text
-              depressed
-              class="float-right"
-              @click.stop="projectDetail(item)"
-            >
-              <v-icon
-                left
-                small
-              >
-                mdi-login-variant
-              </v-icon>
-              进入项目
-            </v-btn>
-          </v-flex>
-        </v-expansion-panel-header>
-        <v-expansion-panel-content>
-          <v-data-table
-            disable-sort
-            :headers="headers"
-            :items="environmentItems"
-            no-data-text="暂无数据"
-            hide-default-footer
+      <template #action>
+        <v-btn
+          v-if="m_permisson_tenantAllow"
+          small
+          text
+          color="primary"
+          class="float-right mr-2"
+          @click="addProject"
+        >
+          <v-icon
+            left
+            small
           >
-            <template #[`item.environmentName`]="{ item }">
-              <BaseMarquee
-                :speed="20"
-                :content="item.EnvironmentName"
+            mdi-cube-outline
+          </v-icon>
+          创建项目
+        </v-btn>
+      </template>
+    </BaseSubTitle>
+    <v-flex class="px-2">
+      <v-expansion-panels
+        v-if="pageCount > 0"
+        v-model="expand"
+        focusable
+        accordion
+        class="project-panel"
+      >
+        <v-expansion-panel
+          v-for="(item, index) in projectItems"
+          :key="index"
+        >
+          <v-expansion-panel-header @click="projectEnvironmentList(item)">
+            <v-flex class="text-subtitle-1">
+              {{ item.ProjectName }}
+              <span class="text-body-2 ml-3">别名：{{ item.ProjectAlias }}</span>
+              <span class="text-body-2 ml-3">备注：{{ item.Remark }}</span>
+              <v-btn
+                v-if="m_permisson_projectAllow"
+                color="primary"
+                small
+                text
+                depressed
+                class="float-right"
+                @click.stop="addEnvironment(item)"
               >
-                <a
-                  class="font-weight-medium"
-                  @click="environmentDetail(item)"
+                <v-icon
+                  left
+                  small
                 >
-                  {{ item.EnvironmentName }}
-                </a>
-              </BaseMarquee>
-            </template>
-            <template #[`item.type`]="{ item }">
-              <v-chip
-                x-small
-                label
-                :color="
-                  $METATYPE_CN[item.MetaType] && $METATYPE_CN[item.MetaType].color
-                    ? $METATYPE_CN[item.MetaType].color
-                    : 'grey'
-                "
+                  mdi-cube
+                </v-icon>
+                创建环境
+              </v-btn>
+              <v-btn
+                color="primary"
+                small
+                text
+                depressed
+                class="float-right"
+                @click.stop="projectDetail(item)"
               >
-                {{ $METATYPE_CN[item.MetaType].cn }}
-              </v-chip>
-            </template>
-            <template #[`item.workload`]="{ item }">
-              {{ item.Workload ? item.Workload : 0 }}
-            </template>
-            <template #[`item.job`]="{ item }">
-              {{ item.Job ? item.Job : 0 }}
-            </template>
-            <template #[`item.configMap`]="{ item }">
-              {{ item.ConfigMap ? item.ConfigMap : 0 }}
-            </template>
-            <template #[`item.secret`]="{ item }">
-              {{ item.Secret ? item.Secret : 0 }}
-            </template>
-            <template #[`item.service`]="{ item }">
-              {{ item.Service ? item.Service : 0 }}
-            </template>
-            <template #[`item.persistentvolumeclaims`]="{ item }">
-              {{
-                item.Persistentvolumeclaims ? item.Persistentvolumeclaims : 0
-              }}
-            </template>
-            <template #[`item.ingress`]="{ item }">
-              {{ item.Ingress ? item.Ingress : 0 }}
-            </template>
-            <template #[`item.pod`]="{ item }">
-              {{ item.Pod ? item.Pod : 0 }}
-            </template>
-            <template #[`item.cpu`]="{ item }">
-              <v-flex>
-                {{ item.LatestCpu ? item.LatestCpu : 0 }}
-              </v-flex>
-              <v-sparkline
-                :value="item.CpuUsed ? item.CpuUsed : []"
-                type="trend"
-                auto-draw
-                auto-line-width
-                smooth
-                :line-width="5"
-                fill
-                :auto-draw-duration="200"
-                color="rgba(29, 136, 229, 0.6)"
-              />
-            </template>
-            <template #[`item.memory`]="{ item }">
-              <v-flex>
-                {{ item.LatestMemory ? item.LatestMemory : 0 }}
-              </v-flex>
-              <v-sparkline
-                :value="item.MemoryUsed ? item.MemoryUsed : []"
-                type="trend"
-                auto-draw
-                auto-line-width
-                smooth
-                :line-width="5"
-                fill
-                :auto-draw-duration="200"
-                color="rgba(29, 136, 229, 0.6)"
-              />
-            </template>
-            <template #[`item.in`]="{ item }">
-              <v-flex>
-                {{ item.LatestNetwokrIn ? item.LatestNetwokrIn : 0 }}
-              </v-flex>
-              <v-sparkline
-                :value="item.NetworkInUsed ? item.NetworkInUsed : []"
-                type="trend"
-                auto-draw
-                auto-line-width
-                smooth
-                :line-width="5"
-                fill
-                :auto-draw-duration="200"
-                color="rgba(29, 136, 229, 0.6)"
-              />
-            </template>
-            <template #[`item.out`]="{ item }">
-              <v-flex>
-                {{ item.LatestNetwokrOut ? item.LatestNetwokrOut : 0 }}
-              </v-flex>
-              <v-sparkline
-                :value="item.NetwokrOutUsed ? item.NetwokrOutUsed : []"
-                type="trend"
-                auto-draw
-                auto-line-width
-                smooth
-                :line-width="5"
-                fill
-                :auto-draw-duration="200"
-                color="rgba(29, 136, 229, 0.6)"
-              />
-            </template>
-            <template #[`item.action`]="{ item }">
-              <span class="pa-2">
-                <v-btn
-                  color="primary"
-                  text
+                <v-icon
+                  left
+                  small
+                >
+                  mdi-login-variant
+                </v-icon>
+                进入项目
+              </v-btn>
+            </v-flex>
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <v-data-table
+              disable-sort
+              :headers="headers"
+              :items="environmentItems"
+              no-data-text="暂无数据"
+              hide-default-footer
+            >
+              <template #[`item.environmentName`]="{ item }">
+                <BaseMarquee
+                  :speed="20"
+                  :content="item.EnvironmentName"
+                >
+                  <a
+                    class="font-weight-medium"
+                    @click="environmentDetail(item)"
+                  >
+                    {{ item.EnvironmentName }}
+                  </a>
+                </BaseMarquee>
+              </template>
+              <template #[`item.type`]="{ item }">
+                <v-chip
                   x-small
-                  @click="environmentDetail(item)"
+                  label
+                  :color="
+                    $METATYPE_CN[item.MetaType] && $METATYPE_CN[item.MetaType].color
+                      ? $METATYPE_CN[item.MetaType].color
+                      : 'grey'
+                  "
                 >
-                  <v-icon
-                    left
-                    small
-                  >mdi-login-variant</v-icon>
-                  进入环境
-                </v-btn>
-              </span>
-            </template>
-          </v-data-table>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-    </v-expansion-panels>
+                  {{ $METATYPE_CN[item.MetaType].cn }}
+                </v-chip>
+              </template>
+              <template #[`item.workload`]="{ item }">
+                {{ item.Workload ? item.Workload : 0 }}
+              </template>
+              <template #[`item.job`]="{ item }">
+                {{ item.Job ? item.Job : 0 }}
+              </template>
+              <template #[`item.configMap`]="{ item }">
+                {{ item.ConfigMap ? item.ConfigMap : 0 }}
+              </template>
+              <template #[`item.secret`]="{ item }">
+                {{ item.Secret ? item.Secret : 0 }}
+              </template>
+              <template #[`item.service`]="{ item }">
+                {{ item.Service ? item.Service : 0 }}
+              </template>
+              <template #[`item.persistentvolumeclaims`]="{ item }">
+                {{
+                  item.Persistentvolumeclaims ? item.Persistentvolumeclaims : 0
+                }}
+              </template>
+              <template #[`item.ingress`]="{ item }">
+                {{ item.Ingress ? item.Ingress : 0 }}
+              </template>
+              <template #[`item.pod`]="{ item }">
+                {{ item.Pod ? item.Pod : 0 }}
+              </template>
+              <template #[`item.cpu`]="{ item }">
+                <v-flex>
+                  {{ item.LatestCpu ? item.LatestCpu : 0 }}
+                </v-flex>
+                <v-sparkline
+                  :value="item.CpuUsed ? item.CpuUsed : []"
+                  type="trend"
+                  auto-draw
+                  auto-line-width
+                  smooth
+                  :line-width="5"
+                  fill
+                  :auto-draw-duration="200"
+                  color="rgba(29, 136, 229, 0.6)"
+                />
+              </template>
+              <template #[`item.memory`]="{ item }">
+                <v-flex>
+                  {{ item.LatestMemory ? item.LatestMemory : 0 }}
+                </v-flex>
+                <v-sparkline
+                  :value="item.MemoryUsed ? item.MemoryUsed : []"
+                  type="trend"
+                  auto-draw
+                  auto-line-width
+                  smooth
+                  :line-width="5"
+                  fill
+                  :auto-draw-duration="200"
+                  color="rgba(29, 136, 229, 0.6)"
+                />
+              </template>
+              <template #[`item.in`]="{ item }">
+                <v-flex>
+                  {{ item.LatestNetwokrIn ? item.LatestNetwokrIn : 0 }}
+                </v-flex>
+                <v-sparkline
+                  :value="item.NetworkInUsed ? item.NetworkInUsed : []"
+                  type="trend"
+                  auto-draw
+                  auto-line-width
+                  smooth
+                  :line-width="5"
+                  fill
+                  :auto-draw-duration="200"
+                  color="rgba(29, 136, 229, 0.6)"
+                />
+              </template>
+              <template #[`item.out`]="{ item }">
+                <v-flex>
+                  {{ item.LatestNetwokrOut ? item.LatestNetwokrOut : 0 }}
+                </v-flex>
+                <v-sparkline
+                  :value="item.NetwokrOutUsed ? item.NetwokrOutUsed : []"
+                  type="trend"
+                  auto-draw
+                  auto-line-width
+                  smooth
+                  :line-width="5"
+                  fill
+                  :auto-draw-duration="200"
+                  color="rgba(29, 136, 229, 0.6)"
+                />
+              </template>
+              <template #[`item.action`]="{ item }">
+                <span class="pa-2">
+                  <v-btn
+                    color="primary"
+                    text
+                    x-small
+                    @click="environmentDetail(item)"
+                  >
+                    <v-icon
+                      left
+                      small
+                    >mdi-login-variant</v-icon>
+                    进入环境
+                  </v-btn>
+                </span>
+              </template>
+            </v-data-table>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
 
-    <Pagination
-      v-if="pageCount >= 1"
-      v-model="pageParams.page"
-      :page-count="pageCount"
-      :size="pageParams.size"
-      @loaddata="projectList"
-      @changepage="onPageIndexChange"
-    />
+      <div
+        v-else
+        class="text-body-2"
+        :style="{ position: 'relative', height: '300px' }"
+      >
+        <span class="kubegems__full-center kubegems__detail">
+          暂无数据
+        </span>
+      </div>
 
-    <AddEnvironment
-      ref="addEnvironment"
-      @refresh="refreshEnvironmentList"
-    />
-  </v-flex>
+      <Pagination
+        v-if="pageCount >= 1"
+        v-model="pageParams.page"
+        :page-count="pageCount"
+        :size="pageParams.size"
+        @loaddata="projectList"
+        @changepage="onPageIndexChange"
+      />
+
+      <AddEnvironment
+        ref="addEnvironment"
+        @refresh="refreshEnvironmentList"
+      />
+
+      <AddProject
+        ref="addProject"
+        @refresh="refreshProjectList"
+      />
+    </v-flex>
+  </v-card>
 </template>
 
 <script>
@@ -217,9 +258,9 @@ import {
   getProjectList,
   getProjectEnvironmentList,
   getProjectEnvironmentQuotaList,
-  matrix,
 } from '@/api'
 import AddEnvironment from '@/views/resource/environment/components/AddEnvironment'
+import AddProject from '@/views/resource/project/components/AddProject'
 import Pagination from '../Pagination'
 import BaseSelect from '@/mixins/select'
 import BaseResource from '@/mixins/resource'
@@ -239,6 +280,7 @@ import {
 export default {
   name: 'ProjectList',
   components: {
+    AddProject,
     AddEnvironment,
     Pagination,
   },
@@ -343,7 +385,7 @@ export default {
     },
     refreshEnvironmentList(item) {
       this.projectEnvironmentList(item)
-      this.$emit('refreshTenantStatistics')
+      this.$emit('refresh')
     },
     async projectEnvironmentQuotaList(item) {
       const data = await getProjectEnvironmentQuotaList(item.ID, {
@@ -423,7 +465,7 @@ export default {
       })
     },
     async environmentCPUUsage(cluster, environments) {
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         cluster,
         Object.assign(this.params, {
           query: ENVIRONMENT_CPU_USAGE_PROMQL.replaceAll('$1', environments),
@@ -448,7 +490,7 @@ export default {
       })
     },
     async environmentMemoryUsage(cluster, environments) {
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         cluster,
         Object.assign(this.params, {
           query: ENVIRONMENT_MEMORY_USAGE_PROMQL.replaceAll(
@@ -478,7 +520,7 @@ export default {
       })
     },
     async environmentNetworkIn(cluster, environments) {
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         cluster,
         Object.assign(this.params, {
           query: ENVIRONMENT_NETWORK_IN_PROMQL.replaceAll('$1', environments),
@@ -505,7 +547,7 @@ export default {
       })
     },
     async environmentNetworkOut(cluster, environments) {
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         cluster,
         Object.assign(this.params, {
           query: ENVIRONMENT_NETWORK_OUT_PROMQL.replaceAll(
@@ -533,6 +575,21 @@ export default {
           this.$set(this.environmentItems, index, item)
         }
       })
+    },
+    addProject() {
+      if (this.Tenant().ID > 0) {
+        this.$refs.addProject.open()
+        this.$refs.addProject.init()
+      } else {
+        this.$store.commit('SET_SNACKBAR', {
+          text: `请创建或加入租户`,
+          color: 'warning',
+        })
+      }
+    },
+    refreshProjectList() {
+      this.projectList()
+      this.$emit('refresh')
     },
   },
 }

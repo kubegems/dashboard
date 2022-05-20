@@ -19,7 +19,7 @@
 
     <VueApexCharts
       :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-      height="240px"
+      height="260px"
       :options="options"
       :series="series"
     />
@@ -74,7 +74,7 @@ export default {
         },
         stroke: {
           curve: 'straight',
-          width: 1,
+          width: 0,
         },
         grid: {
           borderColor: 'rgba(0, 0, 0, .3)',
@@ -115,6 +115,7 @@ export default {
         },
         noData: {
           text: '暂无数据',
+          offsetY: -13,
         },
       }
     },
