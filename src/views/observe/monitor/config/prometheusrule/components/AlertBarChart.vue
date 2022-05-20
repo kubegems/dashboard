@@ -96,7 +96,7 @@ export default {
             style: {
               cssClass: 'grey--text lighten-2--text fill-color',
             },
-            rotate: -30,
+            rotate: -50,
             rotateAlways: true,
           },
           tooltip: {
@@ -150,7 +150,8 @@ export default {
           showForNullSeries: false,
         },
         noData: {
-          text: '暂无告警数据',
+          text: '暂无数据',
+          offsetY: -30,
         },
       }
     },

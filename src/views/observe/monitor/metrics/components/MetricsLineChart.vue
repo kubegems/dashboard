@@ -55,8 +55,8 @@ export default {
           enabled: false,
         },
         stroke: {
-          curve: 'straight',
-          width: 1,
+          curve: 'smooth',
+          width: 2,
         },
         grid: {
           borderColor: 'rgba(0, 0, 0, .3)',
@@ -100,6 +100,7 @@ export default {
         },
         noData: {
           text: '暂无数据',
+          offsetY: -15,
         },
       }
     },

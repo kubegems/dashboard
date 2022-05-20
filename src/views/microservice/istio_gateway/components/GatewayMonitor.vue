@@ -77,8 +77,8 @@
 
 <script>
 import { mapState } from 'vuex'
-import { matrix } from '@/api'
 import BaseResource from '@/mixins/resource'
+import BasePermission from '@/mixins/permission'
 import {
   ISTIO_INGRESS_GATEWAY_QPS_PROMQL,
   ISTIO_INGRESS_GATEWAY_DOWNSTREAM_80_QPS_PROMQL,
@@ -91,7 +91,7 @@ import { SERVICE_GATEWAY_NS } from '@/utils/namespace'
 
 export default {
   name: 'GatewayMonitor',
-  mixins: [BaseResource],
+  mixins: [BaseResource, BasePermission],
   props: {
     gateway: {
       type: Object,
@@ -153,7 +153,7 @@ export default {
       this.ingressGatewayDownstream443ResponseDuration()
     },
     async ingressGatewayQPS() {
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.$route.query.cluster,
         Object.assign(this.params, {
           query: ISTIO_INGRESS_GATEWAY_QPS_PROMQL
@@ -165,7 +165,7 @@ export default {
       if (data) this.qpsMetrics = data
     },
     async ingressGatewayDownstream80QPS() {
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.$route.query.cluster,
         Object.assign(this.params, {
           query: ISTIO_INGRESS_GATEWAY_DOWNSTREAM_80_QPS_PROMQL
@@ -177,7 +177,7 @@ export default {
       if (data) this.downstream80QpsMetrics = data
     },
     async ingressGatewayDownstream443QPS() {
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.$route.query.cluster,
         Object.assign(this.params, {
           query: ISTIO_INGRESS_GATEWAY_DOWNSTREAM_443_QPS_PROMQL
@@ -189,7 +189,7 @@ export default {
       if (data) this.downstream443QpsMetrics = data
     },
     async ingressGatewayResponseDuration() {
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.$route.query.cluster,
         Object.assign(this.params, {
           query: ISTIO_INGRESS_GATEWAY_REPONSE_DURATION_PROMQL
@@ -201,7 +201,7 @@ export default {
       if (data) this.responseDurationMetrics = data
     },
     async ingressGatewayDownstream80ResponseDuration() {
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.$route.query.cluster,
         Object.assign(this.params, {
           query: ISTIO_INGRESS_GATEWAY_DOWNSTREAM_80_RESPONSE_DURATION_PROMQL
@@ -213,7 +213,7 @@ export default {
       if (data) this.downstream80ResponseDurationMetrics = data
     },
     async ingressGatewayDownstream443ResponseDuration() {
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.$route.query.cluster,
         Object.assign(this.params, {
           query: ISTIO_INGRESS_GATEWAY_DOWNSTREAM_443_RESPONSE_DURATION_PROMQL

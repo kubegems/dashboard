@@ -115,7 +115,6 @@
               :id="`c${index}`"
               :title="graph.name"
               :metrics="metrics[`c${index}`]"
-              :extend-height="250"
               label="pod"
               type=""
               :label-show="false"

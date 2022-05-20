@@ -265,7 +265,6 @@ import {
   deleteDaemonSet,
   deleteStatefulSet,
   deleteDeployment,
-  vector,
 } from '@/api'
 import ResourceInfo from './components/ResourceInfo'
 import Metadata from '@/views/resource/components/metadata/Metadata'
@@ -411,7 +410,7 @@ export default {
       }
     },
     async cpuUsed(trend = true) {
-      const data = await vector(this.ThisCluster, {
+      const data = await this.m_permission_vector(this.ThisCluster, {
         query: WORKLOAD_CPU_USAGE_PROMQL
           .replaceAll('$1', `${this.workload.metadata.namespace}`)
           .replaceAll(
@@ -436,7 +435,7 @@ export default {
       }
     },
     async memoryUsed(trend = true) {
-      const data = await vector(this.ThisCluster, {
+      const data = await this.m_permission_vector(this.ThisCluster, {
         query: WORKLOAD_MEMORY_USAGE_PROMQL
           .replaceAll('$1', `${this.workload.metadata.namespace}`)
           .replaceAll(

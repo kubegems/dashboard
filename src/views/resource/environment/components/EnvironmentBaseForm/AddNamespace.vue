@@ -99,7 +99,7 @@ export default {
     },
   },
   async mounted() {
-    await this.m_select_clusterSelectData()
+    await this.m_select_clusterSelectData(null, false)
   },
   methods: {
     async addData() {

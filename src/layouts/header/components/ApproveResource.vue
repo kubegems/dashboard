@@ -126,7 +126,7 @@
 <script>
 import { mapState } from 'vuex'
 import { postApprovePass, postApproveReject, getTenantResourceQuota } from '@/api'
-import ResourceChart from '@/views/tenant/tenant/components/ResourceChart'
+import ResourceChart from '@/views/tenant/tenant/components/ResourceList/ResourceChart'
 import BaseResource from '@/mixins/resource'
 import { deepCopy, sizeOfCpu, sizeOfStorage } from '@/utils/helpers'
 import { required } from '@/utils/rules'

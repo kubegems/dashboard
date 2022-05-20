@@ -76,6 +76,7 @@
       <v-col
         cols="12"
         lg="4"
+        class="pb-2"
       >
         <BasicMonitor
           :params="params"
@@ -90,6 +91,7 @@
       <v-col
         cols="12"
         lg="8"
+        class="pb-2"
       >
         <MetricMonitor :params="params" />
       </v-col>
@@ -97,7 +99,7 @@
         v-for="(key, index) in resources"
         :key="index"
         cols="2"
-        class="mb-2 down-top-padding"
+        class="down-top-padding pt-1 pb-2"
       >
         <v-card>
           <v-card-text class="pa-5">
@@ -136,7 +138,7 @@
 </template>
 <script>
 import { mapGetters, mapState } from 'vuex'
-import { deleteCluster, getClusterDetail, getClusterQuota, vector } from '@/api'
+import { deleteCluster, getClusterDetail, getClusterQuota } from '@/api'
 import ResourceChart from './components/ResourceChart'
 import Terminal from '@/views/resource/components/common/Terminal'
 import UpdateCluster from './components/UpdateCluster'
@@ -146,6 +148,7 @@ import MetricMonitor from './components/MetricMonitor'
 import OverScaleResource from './components/OverScaleResource'
 import BaseSelect from '@/mixins/select'
 import BaseResource from '@/mixins/resource'
+import BasePermission from '@/mixins/permission'
 import { CLUSTER_POD_CAPACITY_PROMQL } from '@/utils/prometheus'
 
 export default {
@@ -159,7 +162,7 @@ export default {
     MetricMonitor,
     OverScaleResource,
   },
-  mixins: [BaseSelect, BaseResource],
+  mixins: [BaseSelect, BaseResource, BasePermission],
   data: () => ({
     cluster: null,
     quota: null,
@@ -212,12 +215,12 @@ export default {
         noprocessing: false,
       })
       const query = CLUSTER_POD_CAPACITY_PROMQL
-      const pods = await vector(this.cluster.ClusterName, {
+      const pods = await this.m_permission_vector(this.cluster.ClusterName, {
         query: escape(query),
         noprocessing: true,
       })
       if (data.resources) {
-        data.resources.capacity.pods = pods ? pods && pods.length ? parseInt(pods[0].value[1]) : 0 : 0
+        data.resources.capacity.pods = pods ? pods && pods.length ? parseInt(pods[0]?.value[1] || 0) : 0 : 0
         data.resources.used.pods = data.workloads.pods
 
         this.quota = data.resources
