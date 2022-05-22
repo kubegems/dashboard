@@ -10,11 +10,11 @@ server {
   access_log  /var/log/nginx/host.access.log  main;
   error_log  /var/log/nginx/error.log  error;
   
-  location ~* ^(?!/api/).*\.(css|js|png|jpg|jpeg|gif|gz|svg|mp4|ogg|ogv|webm|htc|xml|woff)$ {
-    root   /usr/src/app/dist/;
-    add_header Cache-Control "public, max-age=86400";
-    gzip on;
-  }
+  #location ~* ^(?!/api/).*\.(css|js|png|jpg|jpeg|gif|gz|svg|mp4|ogg|ogv|webm|htc|xml|woff)$ {
+  #  root   /usr/src/app/dist/;
+  #  add_header Cache-Control "public, max-age=86400";
+  #  gzip on;
+  #}
 
   location ~* index\.html$ {
     add_header Cache-Control 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0';
