@@ -300,6 +300,74 @@
               </v-col>
             </v-row>
           </v-list-item-content>
+          <template v-if="initContainers">
+            <v-list-item-content
+              v-for="(container, i) in initContainers"
+              :key="`initcontainer${i}`"
+              class="pb-4"
+            >
+              <v-row
+                v-if="
+                  container.volumeMounts &&
+                    initContainerMap[container.name][item.name]
+                "
+              >
+                <v-col
+                  :cols="initContainerMap[container.name][item.name].subPath ? 3 : 4"
+                  class="py-1"
+                >
+                  <span class="text-body-2">容器:</span>
+                  <span class="text-subtitle-2 ml-2">
+                    {{ container.name }}(init)
+                  </span>
+                </v-col>
+                <v-col
+                  cols="5"
+                  class="py-1"
+                >
+                  <span class="text-body-2">挂载:</span>
+                  <span class="text-subtitle-2 ml-2">
+                    {{ initContainerMap[container.name][item.name].mountPath }}
+                  </span>
+                  <span class="text-subtitle-2 ml-2">
+                    ({{
+                      initContainerMap[container.name][item.name].readOnly
+                        ? '只读'
+                        : '读写'
+                    }})
+                  </span>
+                </v-col>
+                <v-col
+                  v-if="initContainerMap[container.name][item.name].subPath"
+                  cols="3"
+                  class="py-1"
+                >
+                  <span class="text-body-2">子路径:</span>
+                  <span class="text-subtitle-2 ml-2">
+                    {{ initContainerMap[container.name][item.name].subPath }}
+                  </span>
+                </v-col>
+              </v-row>
+              <v-row v-else>
+                <v-col
+                  cols="4"
+                  class="py-1"
+                >
+                  <span class="text-body-2">容器:</span>
+                  <span class="text-subtitle-2 ml-2">
+                    {{ container.name }}(init)
+                  </span>
+                </v-col>
+                <v-col
+                  cols="5"
+                  class="py-1"
+                >
+                  <span class="text-body-2">挂载:</span>
+                  <span class="text-subtitle-2 ml-2">不挂载</span>
+                </v-col>
+              </v-row>
+            </v-list-item-content>
+          </template>
         </v-list-item-content>
         <v-btn
           dark
@@ -364,6 +432,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    initContainers: {
+      type: Array,
+      default: () => [],
+    },
     pvcs: {
       type: Object,
       default: () => {},
@@ -372,6 +444,7 @@ export default {
   data() {
     return {
       containerMap: {},
+      initContainerMap: {},
     }
   },
   watch: {
@@ -381,6 +454,16 @@ export default {
         if (c.volumeMounts) {
           c.volumeMounts.forEach((v) => {
             this.containerMap[c.name][v.name] = v
+          })
+        }
+      })
+    },
+    initContainers() {
+      this.initContainers.forEach((c) => {
+        this.initContainerMap[c.name] = {}
+        if (c.volumeMounts) {
+          c.volumeMounts.forEach((v) => {
+            this.initContainerMap[c.name][v.name] = v
           })
         }
       })

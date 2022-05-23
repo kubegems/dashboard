@@ -93,22 +93,37 @@
       :volume-mount-name="volumeMountName"
       :volume="volume"
     />
+    <VolumeMountForInitContainer
+      v-if="initContainers && initContainers.length > 0"
+      ref="volumeMountForInitContainer"
+      :init-containers="initContainers"
+      :volume-mount-name="volumeMountName"
+      :volume="volume"
+    />
   </v-form>
 </template>
 
 <script>
 import { getSecretList, getSecretDetail, getAppResourceFileMetas } from '@/api'
 import VolumeMount from './VolumeMount'
+import VolumeMountForInitContainer from './VolumeMountForInitContainer'
 import BaseResource from '@/mixins/resource'
 import { deepCopy } from '@/utils/helpers'
 import { required } from '@/utils/rules'
 
 export default {
   name: 'SecretMount',
-  components: { VolumeMount },
+  components: {
+    VolumeMount,
+    VolumeMountForInitContainer,
+  },
   mixins: [BaseResource],
   props: {
     containers: {
+      type: Array,
+      default: () => [],
+    },
+    initContainers: {
       type: Array,
       default: () => [],
     },
@@ -149,7 +164,7 @@ export default {
   computed: {
     volumeObj() {
       const index = this.items.findIndex((v) => {
-        return v.metadata.name === this.volumeName
+        return v.value === this.volumeName
       })
       if (index > -1) return this.items[index]
       return null
@@ -181,7 +196,7 @@ export default {
   methods: {
     loadData() {
       if (this.volume) {
-        this.volumeName = this.volume.secret.secretName
+        this.volumeName = this.volume.secret.secretName.replaceAll('.', '-')
         this.volumeCopy = deepCopy(this.volume)
         if (this.namespace.length > 0) { this.secretDetail() }
       }
@@ -209,14 +224,14 @@ export default {
       }
       this.items.forEach((v) => {
         v.text = v.secret ? v.secret.metadata.name : v.metadata.name
-        v.value = v.secret ? v.secret.metadata.name : v.metadata.name
+        v.value = v.secret ? v.secret.metadata.name.replaceAll('.', '-') : v.metadata.name.replaceAll('.', '-')
       })
     },
     async secretDetail() {
       const data = await getSecretDetail(
         this.ThisCluster,
         this.namespace || this.$route.query.namespace,
-        this.volumeName,
+        this.volume?.secret?.secretName || this.volumeName,
         { noprocessing: true },
       )
       if (data.data) {
@@ -230,6 +245,9 @@ export default {
     },
     onVolumeChange() {
       this.$refs.volumeMount.initVolumeMount(this.volumeName)
+      if (this.$refs.volumeMountForInitContainer) {
+        this.$refs.volumeMountForInitContainer.initVolumeMount(this.volumeName)
+      }
     },
     // eslint-disable-next-line vue/no-unused-properties
     generateData() {
@@ -241,12 +259,25 @@ export default {
             volume: {
               name: this.volume ? this.volume.name : this.volumeName,
               secret: {
-                secretName: this.volumeObj.metadata.name,
+                secretName: this.volumeObj.text,
                 items: this.volumeCopy.secret.items
                   ? this.volumeCopy.secret.items
                   : [],
               },
             },
+          }
+        }
+        return null
+      }
+      return null
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    generateInitData() {
+      if (this.$refs.form.validate(true)) {
+        const data = this.$refs.volumeMountForInitContainer.generateData()
+        if (data) {
+          return {
+            init: data,
           }
         }
         return null
