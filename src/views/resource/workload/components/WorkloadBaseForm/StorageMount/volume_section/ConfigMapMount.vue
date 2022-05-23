@@ -164,7 +164,7 @@ export default {
   computed: {
     volumeObj() {
       const index = this.items.findIndex((v) => {
-        return v.metadata.name === this.volumeName
+        return v.value === this.volumeName
       })
       if (index > -1) return this.items[index]
       return null
@@ -196,7 +196,7 @@ export default {
   methods: {
     loadData() {
       if (this.volume && this.volume.configMap) {
-        this.volumeName = this.volume.configMap.name
+        this.volumeName = this.volume.configMap.name.replaceAll('.', '-')
         this.volumeCopy = deepCopy(this.volume)
         if (this.namespace.length > 0) { this.configMapDetail() }
       }
@@ -224,14 +224,14 @@ export default {
       }
       this.items.forEach((v) => {
         v.text = v.metadata.name
-        v.value = v.metadata.name
+        v.value = v.metadata.name.replaceAll('.', '-')
       })
     },
     async configMapDetail() {
       const data = await getConfigMapDetail(
         this.ThisCluster,
         this.namespace || this.$route.query.namespace,
-        this.volumeName,
+        this.volume?.configMap?.name || this.volumeName,
         { noprocessing: true },
       )
       if (data.data) {
@@ -259,7 +259,7 @@ export default {
             volume: {
               name: this.volume ? this.volume.name : this.volumeName,
               configMap: {
-                name: this.volumeObj.metadata.name,
+                name: this.volumeObj.text,
                 defaultMode: 420,
                 items: this.volumeCopy.configMap.items
                   ? this.volumeCopy.configMap.items
