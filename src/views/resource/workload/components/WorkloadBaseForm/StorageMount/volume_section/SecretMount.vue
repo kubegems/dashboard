@@ -93,22 +93,37 @@
       :volume-mount-name="volumeMountName"
       :volume="volume"
     />
+    <VolumeMountForInitContainer
+      v-if="initContainers && initContainers.length > 0"
+      ref="volumeMountForInitContainer"
+      :init-containers="initContainers"
+      :volume-mount-name="volumeMountName"
+      :volume="volume"
+    />
   </v-form>
 </template>
 
 <script>
 import { getSecretList, getSecretDetail, getAppResourceFileMetas } from '@/api'
 import VolumeMount from './VolumeMount'
+import VolumeMountForInitContainer from './VolumeMountForInitContainer'
 import BaseResource from '@/mixins/resource'
 import { deepCopy } from '@/utils/helpers'
 import { required } from '@/utils/rules'
 
 export default {
   name: 'SecretMount',
-  components: { VolumeMount },
+  components: {
+    VolumeMount,
+    VolumeMountForInitContainer,
+  },
   mixins: [BaseResource],
   props: {
     containers: {
+      type: Array,
+      default: () => [],
+    },
+    initContainers: {
       type: Array,
       default: () => [],
     },
@@ -230,6 +245,9 @@ export default {
     },
     onVolumeChange() {
       this.$refs.volumeMount.initVolumeMount(this.volumeName)
+      if (this.$refs.volumeMountForInitContainer) {
+        this.$refs.volumeMountForInitContainer.initVolumeMount(this.volumeName)
+      }
     },
     // eslint-disable-next-line vue/no-unused-properties
     generateData() {
@@ -247,6 +265,19 @@ export default {
                   : [],
               },
             },
+          }
+        }
+        return null
+      }
+      return null
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    generateInitData() {
+      if (this.$refs.form.validate(true)) {
+        const data = this.$refs.volumeMountForInitContainer.generateData()
+        if (data) {
+          return {
+            init: data,
           }
         }
         return null
