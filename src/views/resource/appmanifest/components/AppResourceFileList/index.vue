@@ -247,7 +247,10 @@ export default {
         this.items = []
         const files = []
         data.forEach((d) => {
-          if (d.name !== 'kustomization.yaml' && d.name !== 'kustomize.yaml') {
+          if (
+            !['kustomization.yaml', 'kustomize.yaml', 'kustomization.yml', 'kustomize.yml'].includes(d.name) &&
+            (d.name.endsWith('.yaml') || d.name.endsWith('.yml'))
+          ) {
             const djson = this.$yamlload(d.content)
             if (djson && djson.kind) {
               files.push({

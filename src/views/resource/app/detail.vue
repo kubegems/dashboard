@@ -14,7 +14,7 @@
                 app.kind === 'Deployment' &&
                 m_permisson_resourceAllow &&
                 $route.query.kind === 'app' &&
-                Plugins['argo_rollouts']
+                Plugins['argo-rollouts']
             "
             text
             small

@@ -8,33 +8,7 @@
         :key="index"
         cols="3"
       >
-        <v-card
-          v-if="item.add"
-          class="kubegems__full-height"
-          min-height="156"
-        >
-          <v-card-text class="pa-0 kubegems__full-height">
-            <v-list-item
-              three-line
-              class="kubegems__full-height"
-            >
-              <v-list-item-content>
-                <v-btn
-                  text
-                  block
-                  color="primary"
-                  class="text-h6"
-                  @click="addStorageClass"
-                >
-                  <v-icon left>mdi-plus-box</v-icon>
-                  创建存储类型
-                </v-btn>
-              </v-list-item-content>
-            </v-list-item>
-          </v-card-text>
-        </v-card>
         <v-hover
-          v-else
           #default="{ hover }"
         >
           <v-card
@@ -123,6 +97,32 @@
           </v-card>
         </v-hover>
       </v-col>
+      <v-col cols="3">
+        <v-card
+          class="kubegems__full-height"
+          min-height="156"
+        >
+          <v-card-text class="pa-0 kubegems__full-height">
+            <v-list-item
+              three-line
+              class="kubegems__full-height"
+            >
+              <v-list-item-content>
+                <v-btn
+                  text
+                  block
+                  color="primary"
+                  class="text-h6"
+                  @click="addStorageClass"
+                >
+                  <v-icon left>mdi-plus-box</v-icon>
+                  创建存储类型
+                </v-btn>
+              </v-list-item-content>
+            </v-list-item>
+          </v-card-text>
+        </v-card>
+      </v-col>
     </v-row>
 
     <AddStorageClass
@@ -178,7 +178,6 @@ export default {
         size: 1000,
       })
       this.items = data.List
-      this.items.push({ add: true })
     },
     addStorageClass() {
       this.$refs.addStorageClass.open()

@@ -248,7 +248,7 @@ export default {
     node: null,
   }),
   computed: {
-    ...mapState(['JWT', 'Plugins']),
+    ...mapState(['JWT']),
     ...mapGetters(['Cluster']),
     tabItems() {
       const items = [
@@ -257,10 +257,8 @@ export default {
         { text: '亲和性', value: 'Taint' },
         { text: '容器组', value: 'PodList' },
         { text: '事件', value: 'EventList' },
+        { text: '监控', value: 'NodeMonitor' },
       ]
-      if (this.Plugins?.node_exporter) {
-        items.splice(5, 0, { text: '监控', value: 'NodeMonitor' })
-      }
       return items
     },
   },

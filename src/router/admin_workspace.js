@@ -436,7 +436,7 @@ export const adminWorkspace = [
               show: true,
               rootName: 'admin-workspace',
               tip: 'certmanager',
-              dependencies: ['kubegems-local', 'cert-manager'],
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -451,7 +451,7 @@ export const adminWorkspace = [
               show: false,
               rootName: 'admin-workspace',
               tip: 'certmanager',
-              dependencies: ['kubegems-local', 'cert-manager'],
+              dependencies: ['kubegems-local'],
             },
           },
         ],
@@ -553,7 +553,7 @@ export const adminWorkspace = [
               show: true,
               rootName: 'admin-workspace',
               tip: 'volumesnapshot',
-              dependencies: ['kubegems-local', 'external-snapshotter'],
+              dependencies: ['kubegems-local'],
             },
           },
           // storageclass

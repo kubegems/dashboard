@@ -22,33 +22,7 @@
         :key="index"
         cols="3"
       >
-        <v-card
-          v-if="item.add"
-          class="kubegems__full-height"
-          min-height="156"
-        >
-          <v-card-text class="pa-0 kubegems__full-height">
-            <v-list-item
-              three-line
-              class="kubegems__full-height"
-            >
-              <v-list-item-content>
-                <v-btn
-                  text
-                  block
-                  color="primary"
-                  class="text-h6"
-                  @click="addIstioGatewayInstance"
-                >
-                  <v-icon left>mdi-plus-box</v-icon>
-                  创建网关实例
-                </v-btn>
-              </v-list-item-content>
-            </v-list-item>
-          </v-card-text>
-        </v-card>
         <v-hover
-          v-else
           #default="{ hover }"
         >
           <v-card
@@ -155,6 +129,35 @@
           </v-card>
         </v-hover>
       </v-col>
+      <v-col
+        v-if="m_permisson_virtualSpaceAllow"
+        cols="3"
+      >
+        <v-card
+          class="kubegems__full-height"
+          min-height="156"
+        >
+          <v-card-text class="pa-0 kubegems__full-height">
+            <v-list-item
+              three-line
+              class="kubegems__full-height"
+            >
+              <v-list-item-content>
+                <v-btn
+                  text
+                  block
+                  color="primary"
+                  class="text-h6"
+                  @click="addIstioGatewayInstance"
+                >
+                  <v-icon left>mdi-plus-box</v-icon>
+                  创建网关实例
+                </v-btn>
+              </v-list-item-content>
+            </v-list-item>
+          </v-card-text>
+        </v-card>
+      </v-col>
     </v-row>
 
     <AddIstioGateway
@@ -229,9 +232,6 @@ export default {
         this.params,
       )
       this.items = data
-      if (this.m_permisson_virtualSpaceAllow) {
-        this.items.push({ add: true })
-      }
       this.itemsCopy = deepCopy(this.items)
       this.customFilter()
     },

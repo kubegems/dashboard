@@ -182,7 +182,7 @@ export const platform = [
               show: true,
               rootName: 'platform',
               tip: 'event',
-              dependencies: ['logging-operator'],
+              dependencies: ['logging'],
             },
           },
         ],

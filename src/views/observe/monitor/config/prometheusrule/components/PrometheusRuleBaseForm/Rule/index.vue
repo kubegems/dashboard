@@ -131,6 +131,7 @@
             <v-col cols="12">
               <v-textarea
                 v-model="obj.expr"
+                auto-grow
                 label="查询语句"
                 :rules="objRules.exprRule"
               />
