@@ -13,7 +13,8 @@
         :item="item"
         :step="step"
         :edit="true"
-        title="PrometheusRule"
+        :mode="mode"
+        :title="`${mode==='metrics'?'PrometheusRule':'LogRule'}`"
       />
     </template>
     <template #action>
@@ -51,7 +52,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { putUpdatePrometheusRule } from '@/api'
+import { putUpdatePrometheusRule, putUpdateLogAlertRule } from '@/api'
 import PrometheusRuleBaseForm from './PrometheusRuleBaseForm'
 import BaseResource from '@/mixins/resource'
 import { deepCopy } from '@/utils/helpers'
@@ -62,6 +63,12 @@ export default {
     PrometheusRuleBaseForm,
   },
   mixins: [BaseResource],
+  props: {
+    mode: {
+      type: String,
+      default: () => 'monitor',
+    },
+  },
   data: () => ({
     dialog: false,
     formComponent: 'PrometheusRuleBaseForm',
@@ -81,19 +88,28 @@ export default {
       if (this.$refs[this.formComponent].validate(true)) {
         const obj = deepCopy(this.$refs[this.formComponent].obj)
 
-        // 移除labelpairs中的空值
-        for (const key in obj.labelpairs) {
-          if (!obj.labelpairs[key]) {
-            delete obj.labelpairs[key]
+        if (this.mode === 'monitor') {
+          // 移除labelpairs中的空值
+          for (const key in obj.labelpairs) {
+            if (!obj.labelpairs[key]) {
+              delete obj.labelpairs[key]
+            }
           }
-        }
 
-        await putUpdatePrometheusRule(
-          this.$route.query.cluster,
-          this.$route.query.namespace,
-          obj.name,
-          obj,
-        )
+          await putUpdatePrometheusRule(
+            this.$route.query.cluster,
+            this.$route.query.namespace,
+            obj.name,
+            obj,
+          )
+        } else if (this.mode === 'logging') {
+          await putUpdateLogAlertRule(
+            this.$route.query.cluster,
+            this.$route.query.namespace,
+            obj.name,
+            obj,
+          )
+        }
 
         this.reset()
         this.$emit('refresh')

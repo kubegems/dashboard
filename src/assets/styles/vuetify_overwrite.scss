@@ -110,3 +110,9 @@
 .theme--light.v-expansion-panels.v-expansion-panels--focusable .v-expansion-panel-header--active::before {
   opacity: 0 !important;
 }
+
+.v-data-table__empty-wrapper {
+  color: rgba(0, 0, 0, 0.7) !important;
+  font-weight: initial !important;
+  height: 210px !important;
+}

@@ -1,9 +1,9 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
-      <v-card-title class="py-2">
+      <v-card-title class="py-4">
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '模型名称', value: 'search' }"
@@ -49,11 +49,6 @@ export default {
   },
   mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
-    breadcrumb: {
-      title: 'AI模型',
-      tip: 'AI模型(ormb)通过镜像仓库来分发模型，可以帮助用户更好的管理他们的机器学习 / 深度学习模型。通过 Ormb，模型能更易于创建、版本化、共享以及发布。',
-      icon: 'mdi-cube-unfolded',
-    },
     items: [],
     pageCount: 0,
     params: {

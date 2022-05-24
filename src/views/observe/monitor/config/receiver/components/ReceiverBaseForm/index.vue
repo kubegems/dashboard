@@ -190,6 +190,10 @@ export default {
         return true
       }
     },
+    // eslint-disable-next-line vue/no-unused-properties
+    getData() {
+      return this.obj
+    },
   },
 }
 </script>

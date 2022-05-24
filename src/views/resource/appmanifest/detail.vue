@@ -5,7 +5,7 @@
       :environmented="Environment().ID > 0"
       :selectable="false"
     />
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-menu left>
@@ -112,11 +112,6 @@ export default {
   },
   mixins: [BaseResource],
   data: () => ({
-    breadcrumb: {
-      title: '应用编排',
-      tip: '应用编排(AppManifest)是一组工作负载，配置，密钥等资源的描述文件集合。',
-      icon: 'mdi-apps',
-    },
     tab: 0,
     tabItems: [
       { text: '资源编排', value: 'AppResourceFileList' },
@@ -168,7 +163,7 @@ export default {
             param.item.ProjectID,
             param.item.name,
           )
-          this.$router.push({ name: 'app-list' })
+          this.$router.push({ name: 'app-list', params: this.$route.params })
         },
       })
     },

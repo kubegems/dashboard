@@ -1,8 +1,8 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
-      <v-card-title class="py-2">
+      <v-card-title class="py-4">
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '应用商店仓库名称', value: 'search' }"
@@ -166,11 +166,6 @@ export default {
   components: { RepositoryInfo },
   mixins: [BaseFilter, BaseSelect, BaseResource, BaseTable],
   data: () => ({
-    breadcrumb: {
-      title: '应用商店仓库',
-      tip: 'chart仓库是chart包存放的位置, 被应用商店和部署所使用。',
-      icon: 'mdi-hexagon-multiple',
-    },
     items: [],
     headers: [
       { text: '仓库名', value: 'chartRepoName', align: 'start' },

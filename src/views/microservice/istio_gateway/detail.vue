@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseMicroServiceHeader :selectable="false" />
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-menu
@@ -125,7 +125,7 @@
             <v-tabs
               v-model="tab"
               height="40"
-              class="rounded-t pl-2 pt-2"
+              class="rounded-t pl-4 pt-4"
             >
               <v-tab
                 v-for="item in tabItems"
@@ -174,11 +174,6 @@ export default {
   },
   mixins: [BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: 'Istio网关实例',
-      tip: 'Istio网关实例(IngressGateway)',
-      icon: 'mdi-gate',
-    },
     gateway: null,
     tab: 0,
     tabItems: [

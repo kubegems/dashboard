@@ -157,7 +157,9 @@ const bindTerminal = (term, websocket, bidirectional) => {
   // 心跳
   const heartBeatTimer = setInterval(function () {
     var msg = { type: 'heartbeat', input: '' }
-    websocket.send(JSON.stringify(msg))
+    if (websocket && websocket.readyState === 1) {
+      websocket.send(JSON.stringify(msg))
+    }
   }, 20 * 1000)
 
   // 发数据
@@ -378,7 +380,7 @@ export default {
     openOnBlankTab() {
       const routeData = this.$router.resolve({
         name: this.AdminViewport ? 'admin-terminal-viewer' : 'terminal-viewer',
-        params: { name: this.item.name },
+        params: Object.assign(this.$route.params, { name: this.item.name }),
         query: {
           type: 'shell',
           namespace: this.item.namespace,

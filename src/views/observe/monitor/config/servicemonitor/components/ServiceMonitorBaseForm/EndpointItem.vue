@@ -12,7 +12,7 @@
               v-if="item.port"
               two-line
               class="float-left py-0 pl-0"
-              style="width: 200px;"
+              style="width: 220px;"
             >
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1 primary--text">
@@ -27,7 +27,7 @@
               v-if="item.targetPort"
               two-line
               class="float-left py-0 pl-0"
-              style="width: 200px;"
+              style="width: 220px;"
             >
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1 primary--text">
@@ -41,7 +41,7 @@
             <v-list-item
               two-line
               class="float-left py-0 pl-0"
-              style="width: 200px;"
+              style="width: 220px;"
             >
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1 primary--text">
@@ -55,7 +55,7 @@
             <v-list-item
               two-line
               class="float-left py-0 pl-0"
-              style="width: 200px;"
+              style="width: 220px;"
             >
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1 primary--text">

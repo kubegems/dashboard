@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader :selectable="false" />
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <span class="text-subtitle-2 mx-2">
@@ -206,7 +206,7 @@
             <v-tabs
               v-model="tab"
               height="40"
-              class="rounded-t pl-2 pt-2"
+              class="rounded-t pl-4 pt-4"
             >
               <v-tab
                 v-for="item in tabItems"
@@ -265,7 +265,6 @@ import {
   deleteDaemonSet,
   deleteStatefulSet,
   deleteDeployment,
-  vector,
 } from '@/api'
 import ResourceInfo from './components/ResourceInfo'
 import Metadata from '@/views/resource/components/metadata/Metadata'
@@ -308,11 +307,6 @@ export default {
   },
   mixins: [BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '工作负载',
-      tip: '工作负载 (Workload) 通常是访问服务的载体,是对一组容器组 (Pod) 的抽象。',
-      icon: 'mdi-vector-arrange-above',
-    },
     workload: null,
     tab: 0,
     tabItems: [
@@ -342,7 +336,7 @@ export default {
           workload.Content.metadata.name === this.workload.metadata.name
         ) {
           if (workload.EventKind === 'delete') {
-            this.$router.push({ name: 'workload-list' })
+            this.$router.push({ name: 'workload-list', params: this.$route.params })
           } else {
             this.workload = workload.Content
           }
@@ -416,7 +410,7 @@ export default {
       }
     },
     async cpuUsed(trend = true) {
-      const data = await vector(this.ThisCluster, {
+      const data = await this.m_permission_vector(this.ThisCluster, {
         query: WORKLOAD_CPU_USAGE_PROMQL
           .replaceAll('$1', `${this.workload.metadata.namespace}`)
           .replaceAll(
@@ -441,7 +435,7 @@ export default {
       }
     },
     async memoryUsed(trend = true) {
-      const data = await vector(this.ThisCluster, {
+      const data = await this.m_permission_vector(this.ThisCluster, {
         query: WORKLOAD_MEMORY_USAGE_PROMQL
           .replaceAll('$1', `${this.workload.metadata.namespace}`)
           .replaceAll(
@@ -500,7 +494,7 @@ export default {
               this.$route.query.namespace,
               param.item.metadata.name,
             )
-            this.$router.push({ name: 'workload-list' })
+            this.$router.push({ name: 'workload-list', params: this.$route.params })
           },
         })
       } else if (this.$route.query.type === 'StatefulSet') {
@@ -518,7 +512,7 @@ export default {
               this.$route.query.namespace,
               param.item.metadata.name,
             )
-            this.$router.push({ name: 'workload-list' })
+            this.$router.push({ name: 'workload-list', params: this.$route.params })
           },
         })
       } else if (this.$route.query.type === 'Deployment') {
@@ -536,7 +530,7 @@ export default {
               this.$route.query.namespace,
               param.item.metadata.name,
             )
-            this.$router.push({ name: 'workload-list' })
+            this.$router.push({ name: 'workload-list', params: this.$route.params })
           },
         })
       }

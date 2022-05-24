@@ -9,6 +9,8 @@
       :ref="steps[step]"
       :item="item"
       :edit="edit"
+      :mode="mode"
+      :expr="expr"
     />
   </v-form>
 </template>
@@ -35,6 +37,14 @@ export default {
     step: {
       type: Number,
       default: () => 0,
+    },
+    mode: {
+      type: String,
+      default: () => 'monitor',
+    },
+    expr: {
+      type: String,
+      default: () => '',
     },
   },
   data: () => ({

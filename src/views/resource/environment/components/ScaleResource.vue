@@ -168,7 +168,6 @@ export default {
       this.obj.statistics = await this.m_resource_tenantResourceQuota(
         this.ThisCluster,
         this.Tenant().TenantName,
-        { noprocessing: true },
       )
       this.obj.statistics.AllocatedPod = this.obj.data.ResourceQuota[
         'count/pods'
@@ -197,7 +196,6 @@ export default {
       this.obj.statistics = await this.m_resource_tenantResourceQuota(
         this.ThisCluster,
         this.Tenant().TenantName,
-        { noprocessing: true },
       )
       this.closeResourceExpaned()
     },

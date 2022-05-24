@@ -301,7 +301,7 @@ export default {
         this.dialog = false
         this.$router.push({
           name: 'app-detail',
-          params: { name: this.$route.params.name },
+          params: Object.assign(this.$route.params, { name: this.$route.params.name }),
           query: {
             projectid: this.Project().ID,
             tenantid: this.Tenant().ID,
@@ -325,7 +325,6 @@ export default {
         this.$route.params.name,
         {
           kind: 'Service',
-          noprocessing: true,
         },
       )
       data.forEach((v) => {

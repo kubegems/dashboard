@@ -1,9 +1,9 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
-      <v-card-title class="py-2">
+      <v-card-title class="py-4">
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '证书名称', value: 'search' }"
@@ -243,25 +243,27 @@ export default {
     UpdateIssuer,
   },
   mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
-  data: () => ({
-    breadcrumb: {
-      title: '证书',
-      tip: '证书 (Certificate)，在创建证书时，证书管理器将创建相应的CertificateRequest资源，其中包含编码的X.509证书请求、颁发者引用和基于证书资源规范的其他选项。',
-      icon: 'mdi-book-open',
-    },
-    items: [],
-    pageCount: 0,
-    params: {
-      page: 1,
-      size: 10,
-    },
-    filters: [{ text: '名称', value: 'search', items: [] }],
-    tab: 0,
-    tabItems: [
-      { text: '证书', value: 'Certificate' },
-      { text: '颁发机构', value: 'Issue' },
-    ],
-  }),
+  data () {
+    this.tabMap = {
+      certificate: 0,
+      issue: 1,
+    }
+
+    return {
+      items: [],
+      pageCount: 0,
+      params: {
+        page: 1,
+        size: 10,
+      },
+      filters: [{ text: '名称', value: 'search', items: [] }],
+      tab: this.tabMap[this.$route.query.tab] || 0,
+      tabItems: [
+        { text: '证书', value: 'Certificate', tab: 'certificate' },
+        { text: '颁发机构', value: 'Issue', tab: 'issue' },
+      ],
+    }
+  },
   computed: {
     ...mapState(['JWT', 'AdminViewport']),
     headers() {
@@ -391,7 +393,7 @@ export default {
       this.items = data.List
       this.pageCount = Math.ceil(data.Total / this.params.size)
       this.params.page = data.CurrentPage
-      this.$router.replace({ query: { ...this.$route.query, ...this.params } })
+      this.$router.replace({ query: { ...this.$route.query, ...this.params, tab: this.tabItems[this.tab].tab } })
       this.m_table_generateSelectResource()
     },
     async onTabChange() {
@@ -403,9 +405,9 @@ export default {
     certificateDetail(item) {
       this.$router.push({
         name: 'certificate-detail',
-        params: {
+        params: Object.assign(this.$route.params, {
           name: item.metadata.name,
-        },
+        }),
         query: {
           namespace: item.metadata.namespace,
         },

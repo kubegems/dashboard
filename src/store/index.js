@@ -52,11 +52,11 @@ export default new Vuex.Store({
     },
     Circular: false,
     Admin:
-      [true, 'true'].indexOf(window.localStorage.getItem(Admin)) > -1,
+      [true, 'true'].includes(window.localStorage.getItem(Admin)),
     AdminViewport:
-      [true, 'true'].indexOf(
+      [true, 'true'].includes(
         window.localStorage.getItem(AdminViewport),
-      ) > -1,
+      ),
     NamespaceFilter: null,
     SidebarKey: '',
     MessageStreamWS: null,
@@ -90,6 +90,7 @@ export default new Vuex.Store({
     PluginsInterval: null,
     DialogActive: false,
     PanelActive: false,
+    FullDialogActive: false,
   },
   mutations: {
     SET_PLUGINS(state, payload) {
@@ -101,6 +102,9 @@ export default new Vuex.Store({
     },
     SET_PANEL(state, payload) {
       state.PanelActive = payload
+    },
+    SET_FULL_DIALOG(state, payload) {
+      state.FullDialogActive = payload
     },
     SET_STORE(state, payload) {
       state.Store = payload
@@ -350,7 +354,11 @@ export default new Vuex.Store({
             simple: true,
             noprocessing: true,
           })
-          commit('SET_PLUGINS', data)
+          const pluginsStatus = {}
+          Object.keys(data).forEach(k => {
+            pluginsStatus[k] = data[k].enabled && data[k].healthy
+          })
+          commit('SET_PLUGINS', pluginsStatus)
           return true
         }
         return false
@@ -358,7 +366,7 @@ export default new Vuex.Store({
       if (!state.PluginsInterval && state.JWT) {
         const r = await doFunc()
         if (r) {
-          state.PluginsInterval = setInterval(doFunc, 1000 * 60)
+          state.PluginsInterval = setInterval(doFunc, 1000 * 30)
         }
       }
     },

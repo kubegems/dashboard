@@ -1,9 +1,9 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
-      <v-card-title class="py-2">
+      <v-card-title class="py-4">
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '节点名称', value: 'search' }"
@@ -30,10 +30,8 @@
               {{ item.metadata.name }}
             </v-flex>
             <v-flex
-              v-if="
-                Plugins && Plugins.gpu_manager &&
-                  item.metadata.labels['tencent.com/vcuda'] &&
-                  item.metadata.labels['tencent.com/vcuda'] === 'true'
+              v-if="item.metadata.labels['tencent.com/vcuda'] &&
+                item.metadata.labels['tencent.com/vcuda'] === 'true'
               "
               class="float-left ml-2"
             >
@@ -41,22 +39,21 @@
                 top
                 open-on-hover
                 :close-delay="200"
+                nudge-bottom="7px"
               >
                 <template #activator="{ on }">
                   <span v-on="on">
-                    <BaseLogo icon-name="gpu_manager" />
+                    <BaseLogo icon-name="tke" />
                   </span>
                 </template>
                 <v-card>
-                  <v-card-text class="pa-2"> gpu_manager </v-card-text>
+                  <v-card-text class="pa-2"> tke </v-card-text>
                 </v-card>
               </v-menu>
             </v-flex>
             <v-flex
-              v-if="
-                Plugins && Plugins.nvidia_device_plugin &&
-                  item.metadata.labels['nvidia.com/gpu'] &&
-                  item.metadata.labels['nvidia.com/gpu'] === 'true'
+              v-if="item.metadata.labels['nvidia.com/gpu'] &&
+                item.metadata.labels['nvidia.com/gpu'] === 'true'
               "
               class="float-left ml-2"
             >
@@ -64,14 +61,15 @@
                 top
                 open-on-hover
                 :close-delay="200"
+                nudge-bottom="7px"
               >
                 <template #activator="{ on }">
                   <span v-on="on">
-                    <BaseLogo icon-name="nvidia_device_plugin" />
+                    <BaseLogo icon-name="nvidia" />
                   </span>
                 </template>
                 <v-card>
-                  <v-card-text class="pa-2"> nvidia_device_plugin </v-card-text>
+                  <v-card-text class="pa-2"> nvidia </v-card-text>
                 </v-card>
               </v-menu>
             </v-flex>
@@ -214,7 +212,7 @@
             <v-card>
               <v-card-text class="pa-2 text-center">
                 <v-flex
-                  v-if="Plugins && (Plugins.gpu_manager || Plugins.nvidia_device_plugin)"
+                  v-if="Plugins && (Plugins['gpu-manager'] || Plugins.gpu)"
                 >
                   <v-btn
                     color="primary"
@@ -271,10 +269,11 @@
 
 <script>
 import { mapState } from 'vuex'
-import { getNodeList, patchCordonNode, vector } from '@/api'
+import { getNodeList, patchCordonNode } from '@/api'
 import GpuScheduleForm from './components/GpuScheduleForm'
 import BaseFilter from '@/mixins/base_filter'
 import BaseResource from '@/mixins/resource'
+import BasePermission from '@/mixins/permission'
 import {
   NODE_LOAD_PROMQL,
   NODE_ALL_CPU_USAGE_PROMQL,
@@ -288,13 +287,8 @@ export default {
   components: {
     GpuScheduleForm,
   },
-  mixins: [BaseFilter, BaseResource],
+  mixins: [BaseFilter, BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '集群节点',
-      tip: '节点(node)提供了当前集群下节点的运行状态。',
-      icon: 'mdi-lan-connect',
-    },
     items: [],
     headers: [
       { text: '主机名', value: 'name', align: 'start' },
@@ -365,7 +359,7 @@ export default {
       }, 1000 * 60)
     },
     async nodeLoad5(noprocess = false) {
-      const data = await vector(this.ThisCluster, {
+      const data = await this.m_permission_vector(this.ThisCluster, {
         query: NODE_LOAD_PROMQL,
         noprocessing: noprocess,
       })
@@ -375,13 +369,13 @@ export default {
         })
         if (index > -1) {
           const item = this.items[index]
-          item.load = parseFloat(d.value[1]).toFixed(1)
+          item.load = parseFloat(d?.value[1]).toFixed(1)
           this.$set(this.items, index, item)
         }
       })
     },
     async nodeCPUUsage(noprocess = false) {
-      const data = await vector(this.ThisCluster, {
+      const data = await this.m_permission_vector(this.ThisCluster, {
         query: NODE_ALL_CPU_USAGE_PROMQL,
         noprocessing: noprocess,
       })
@@ -392,16 +386,16 @@ export default {
         if (index > -1) {
           const item = this.items[index]
           item.cpu = (
-            (parseFloat(d.value[1]) * item.status.capacity.cpu) /
+            (parseFloat(d?.value[1]) * item.status.capacity.cpu) /
             100
           ).toFixed(1)
-          item.cpuPercentage = parseFloat(d.value[1]).toFixed(1)
+          item.cpuPercentage = parseFloat(d?.value[1]).toFixed(1)
           this.$set(this.items, index, item)
         }
       })
     },
     async nodeMemoryUsage(noprocess = false) {
-      const data = await vector(this.ThisCluster, {
+      const data = await this.m_permission_vector(this.ThisCluster, {
         query: NODE_ALL_MEMORY_USAGE_PROMQL,
         noprocessing: noprocess,
       })
@@ -412,19 +406,19 @@ export default {
         if (index > -1) {
           const item = this.items[index]
           item.memory = (
-            (parseFloat(d.value[1]) *
+            (parseFloat(d?.value[1]) *
               sizeOfStorage(item.status.capacity.memory, 'Ki')) /
             1024 /
             1024 /
             100
           ).toFixed(1)
-          item.memoryPercentage = parseFloat(d.value[1]).toFixed(1)
+          item.memoryPercentage = parseFloat(d?.value[1]).toFixed(1)
           this.$set(this.items, index, item)
         }
       })
     },
     async nodePodCount(noprocess = false) {
-      const data = await vector(this.ThisCluster, {
+      const data = await this.m_permission_vector(this.ThisCluster, {
         query: NODE_POD_RUNNING_COUNT_PROMQL,
         noprocessing: noprocess,
       })
@@ -434,9 +428,9 @@ export default {
         })
         if (index > -1) {
           const item = this.items[index]
-          item.podcount = parseInt(d.value[1])
+          item.podcount = parseInt(d?.value[1])
           item.podPercentage = (
-            (parseInt(d.value[1]) / item.status.capacity.pods) *
+            (parseInt(d?.value[1]) / item.status.capacity.pods) *
             100
           ).toFixed(1)
           this.$set(this.items, index, item)
@@ -446,7 +440,7 @@ export default {
     nodeDetail(item) {
       this.$router.push({
         name: 'node-detail',
-        params: { name: item.metadata.name },
+        params: Object.assign(this.$route.params, { name: item.metadata.name }),
       })
     },
     stopSchedule(item) {

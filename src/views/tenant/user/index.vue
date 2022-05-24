@@ -1,8 +1,8 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
-      <v-card-title class="py-2">
+      <v-card-title class="py-4">
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '用户名称', value: 'search' }"
@@ -233,11 +233,6 @@ export default {
   },
   mixins: [BaseFilter, BaseResource, BaseTable],
   data: () => ({
-    breadcrumb: {
-      title: '用户',
-      tip: '平台所有用户(user)，包括系统管理员与普通成员。',
-      icon: 'mdi-account',
-    },
     items: [],
     headers: [
       { text: '名称', value: 'username', align: 'start' },

@@ -4,6 +4,7 @@
       v-for="item in labels"
       :key="item.label"
       class="py-0"
+      cols="4"
     >
       <v-text-field
         :value="item.value"

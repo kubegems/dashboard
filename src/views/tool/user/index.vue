@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-row class="mt-0">
       <v-col
         cols="3"
@@ -88,7 +88,7 @@
             <v-tabs
               v-model="tab"
               height="40"
-              class="rounded-t pl-2 pt-2"
+              class="rounded-t pl-4 pt-4"
             >
               <v-tab
                 v-for="item in tabItems"
@@ -125,11 +125,6 @@ export default {
     OwnerSetting,
   },
   data: () => ({
-    breadcrumb: {
-      title: '用户中心',
-      tip: '用户消息，审计，个人设置等',
-      icon: 'fas fa-user',
-    },
     tab: 0,
     tabItems: [
       { text: '消息盒子', value: 'MessageBox' },

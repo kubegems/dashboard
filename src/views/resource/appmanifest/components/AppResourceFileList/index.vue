@@ -32,7 +32,7 @@
                     : item.kind
                 }}
               </v-flex>
-              <v-flex class="float-left ml-2">
+              <v-flex class="float-left ml-2 mt-n1">
                 <v-icon
                   v-if="!item.completed"
                   small
@@ -247,7 +247,10 @@ export default {
         this.items = []
         const files = []
         data.forEach((d) => {
-          if (d.name !== 'kustomization.yaml' && d.name !== 'kustomize.yaml') {
+          if (
+            !['kustomization.yaml', 'kustomize.yaml', 'kustomization.yml', 'kustomize.yml'].includes(d.name) &&
+            (d.name.endsWith('.yaml') || d.name.endsWith('.yml'))
+          ) {
             const djson = this.$yamlload(d.content)
             if (djson && djson.kind) {
               files.push({
@@ -257,6 +260,13 @@ export default {
                 completed: this.ThisAppEnvironmentID
                   ? this.m_resource_checkManifestCompleteness(djson)
                   : true,
+              })
+            } else {
+              files.push({
+                name: d.name,
+                kind: 'Error',
+                manifest: d.content,
+                completed: false,
               })
             }
           }

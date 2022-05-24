@@ -1,45 +1,62 @@
 <template>
-  <v-treeview
-    :items="items"
-    :active.sync="active"
-    :open.sync="open"
-    item-key="treeId"
-    activatable
-    open-on-click
-    dense
-    transition
-    color="primary"
-    return-object
-    :load-children="environmentList"
-  >
-    <template #prepend="{ item }">
-      <v-icon
-        v-if="item.type === 'project'"
-        small
-        left
-        color="primary"
-      >
-        fas fa-cube
-      </v-icon>
+  <div>
+    <v-text-field
+      v-model="search"
+      hide-details
+      clearable
+      solo
+      flat
+      dense
+      label="搜索"
+      prepend-inner-icon="mdi-magnify"
+      class="search"
+    />
+    <v-treeview
+      :items="items"
+      :active.sync="active"
+      :open.sync="open"
+      :search="search"
+      item-key="treeId"
+      activatable
+      open-on-click
+      dense
+      transition
+      color="primary"
+      return-object
+      :load-children="environmentList"
+    >
+      <template #prepend="{ item }">
+        <v-icon
+          v-if="item.type === 'project'"
+          small
+          left
+          color="primary"
+        >
+          fas fa-cube
+        </v-icon>
 
-      <v-icon
-        v-else
-        small
-        left
-        color="primary"
-      >
-        fas fa-cloud
-      </v-icon>
-    </template>
-  </v-treeview>
+        <v-icon
+          v-else
+          small
+          left
+          color="primary"
+        >
+          fas fa-cloud
+        </v-icon>
+      </template>
+    </v-treeview>
+  </div>
 </template>
 
 <script>
 import { mapGetters, mapState } from 'vuex'
 import { getProjectList, getProjectEnvironmentList, getAllProjectList } from '@/api'
+import BaseSelect from '@/mixins/select'
+import { SERVICE_MONITOR_NS } from '@/utils/namespace'
 
 export default {
   name: 'ProjectEnvironmentTree',
+  mixins: [BaseSelect],
   props: {
     value: {
       type: [Object],
@@ -51,6 +68,7 @@ export default {
       items: [],
       active: [],
       open: [],
+      search: '',
     }
   },
   computed: {
@@ -91,10 +109,40 @@ export default {
         name: item.ProjectName,
         children: [],
       }))
+      if (this.AdminViewport) {
+        this.items.push({
+          type: 'project',
+          treeId: `proj-system`,
+          id: 0,
+          name: 'system(平台全局)',
+          children: [],
+        })
+      }
       this.defaultActiveByQuery()
     },
     async environmentList (proj) {
-      const data = await getProjectEnvironmentList(proj.id, { size: 999, noprocessing: true })
+      let data = {}
+      if (proj.id === 0) {
+        await this.m_select_clusterSelectData()
+        data.List = []
+        data.List = this.m_select_clusterItems.map(c => {
+          return {
+            ID: 0,
+            EnvironmentName: c.text,
+            Cluster: {
+              ClusterName: c.text,
+            },
+            ClusterID: c.value,
+            ProjectID: 0,
+            Project: {
+              ProjectName: 'system',
+            },
+            Namespace: SERVICE_MONITOR_NS,
+          }
+        })
+      } else {
+        data = await getProjectEnvironmentList(proj.id, { size: 999, noprocessing: true })
+      }
       const children = data.List.map(item => ({
         type: 'environment',
         treeId: `env-${item.EnvironmentName}`,
@@ -129,3 +177,10 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.search {
+  padding-top: 6px;
+  margin-bottom: 4px;
+}
+</style>

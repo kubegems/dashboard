@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card flat>
       <v-card-text class="pl-4 py-1">
         <v-row class="my-1 pa-1">
@@ -20,7 +20,7 @@
       </v-card-text>
     </v-card>
     <v-card>
-      <v-card-title class="py-2">
+      <v-card-title class="py-4">
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '日志快照名称', value: 'search' }"
@@ -121,11 +121,6 @@ export default {
   components: { ClusterSelect },
   mixins: [BaseFilter],
   data: () => ({
-    breadcrumb: {
-      title: '日志快照',
-      tip: '用户保存的快照文件，用来复盘某个时刻的日志历史',
-      icon: 'mdi-camera',
-    },
     items: [],
     headers: [
       { text: '快照名称', value: 'snapshotName', align: 'start' },

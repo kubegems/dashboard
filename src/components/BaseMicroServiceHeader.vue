@@ -22,7 +22,7 @@
               small
               dark
               v-on="on"
-              @click="m_select_virtualSpaceSelectData"
+              @click.stop="getVirtualspace"
             >
               <v-icon left>fas fa-cloud</v-icon>
               {{ VirtualSpace().VirtualSpaceName }}
@@ -40,7 +40,7 @@
               </v-card>
             </template>
             <template #default="props">
-              <v-card v-for="item in props.items" :key="item.text">
+              <v-card v-for="item in props.items" :key="item.text" :loading="loading">
                 <v-list dense>
                   <v-flex class="text-subtitle-2 text-center ma-2">
                     <span>虚拟空间</span>
@@ -49,7 +49,7 @@
                   <v-list-item
                     v-for="(virtualspace, index) in item.values"
                     :key="index"
-                    class="text-body-2 text-center font-weight-medium"
+                    class="text-body-2 text-center font-weight-medium px-2"
                     link
                     :style="
                       virtualspace.text === VirtualSpace().VirtualSpaceName
@@ -58,8 +58,11 @@
                     "
                     @click="setVirtualSpace(virtualspace)"
                   >
-                    <v-list-item-content class="text-body-2 font-weight-medium">
-                      <span>{{ virtualspace.text }}</span>
+                    <v-list-item-content class="text-body-2 font-weight-medium text-start">
+                      <div>
+                        <v-icon left small color="primary">fas fa-cloud</v-icon>
+                        {{ virtualspace.text }}
+                      </div>
                     </v-list-item-content>
                   </v-list-item>
                 </v-list>
@@ -127,6 +130,7 @@ export default {
   },
   data: () => ({
     virtualSpaceMenu: false,
+    loading: false,
   }),
   computed: {
     ...mapGetters(['VirtualSpace']),
@@ -136,12 +140,10 @@ export default {
       this.$store.commit('SET_NAMESPACE_FILTER', null)
       this.$store.commit('SET_ENVIRONMENT_FILTER', null)
       await this.$store.dispatch('UPDATE_VIRTUALSPACE_DATA')
-      this.$router.replace({
+      await this.$router.replace({
         params: { virtualspace: item.text },
       })
-      window.setTimeout(() => {
-        this.reload()
-      }, 800)
+      this.reload()
     },
     returnVirtualSpace() {
       this.$store.commit('CLEAR_VIRTUAL_SPACE')
@@ -150,6 +152,11 @@ export default {
       this.$router.push({
         name: 'virtualspace-list',
       })
+    },
+    async getVirtualspace() {
+      this.loading = true
+      await this.m_select_virtualSpaceSelectData()
+      this.loading = false
     },
   },
 }

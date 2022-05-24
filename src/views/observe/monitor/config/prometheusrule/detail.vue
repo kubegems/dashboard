@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <BaseDatetimePicker
@@ -9,7 +9,7 @@
             @change="onDatetimeChange"
           />
           <v-menu
-            v-if="m_permisson_resourceAllow"
+            v-if="m_permisson_resourceAllow($route.query.env)"
             left
           >
             <template #activator="{ on }">
@@ -109,11 +109,6 @@ export default {
   },
   mixins: [BaseResource, BasePermission, BaseAlert],
   data: () => ({
-    breadcrumb: {
-      title: '告警规则详情',
-      tip: '告警规则 (PrometheusRule) 通常是针对监控指标设置的Prometheus告警规则。',
-      icon: 'mdi-ruler',
-    },
     date: [],
     prometheusRule: null,
     yaml: '',
@@ -152,7 +147,7 @@ export default {
           isAdmin: this.AdminViewport,
         },
       )
-      this.yaml = this.$yamldump(data.origin.rules)
+      this.yaml = data.origin
       this.prometheusRule = data
     },
     updatePrometheusRule() {
@@ -173,7 +168,7 @@ export default {
           await deletePrometheusRule(this.Environment().ID, {
             name: param.item.name,
           })
-          this.$router.push({ name: 'prometheusrule-list' })
+          this.$router.push({ name: 'observe-monitor-config', params: this.$route.params, query: this.$route.query })
         },
       })
     },

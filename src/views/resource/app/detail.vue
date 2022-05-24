@@ -5,7 +5,7 @@
       :environmented="Environment().ID > 0"
       :selectable="false"
     />
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-btn
@@ -14,7 +14,7 @@
                 app.kind === 'Deployment' &&
                 m_permisson_resourceAllow &&
                 $route.query.kind === 'app' &&
-                Plugins['argo_rollouts']
+                Plugins['argo-rollouts']
             "
             text
             small
@@ -197,11 +197,6 @@ export default {
   },
   mixins: [BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '应用',
-      tip: '应用(Application)是来自应用编排与应用商店部署下的应用运行时',
-      icon: 'mdi-apps',
-    },
     tab: 0,
     app: null,
   }),
@@ -234,7 +229,7 @@ export default {
           app.Content.AppName === this.app.AppName
         ) {
           if (app.EventKind === 'delete') {
-            this.$router.push({ name: 'app-list' })
+            this.$router.push({ name: 'app-list', params: this.$route.params })
           } else {
             this.app.runtime.raw = app.Content
           }
@@ -308,7 +303,7 @@ export default {
     advancedDeploy() {
       this.$router.push({
         name: 'app-deploy',
-        params: { name: this.app.name },
+        params: Object.assign(this.$route.params, { name: this.app.name }),
         query: {
           projectid: this.Project().ID,
           tenantid: this.Tenant().ID,
@@ -349,7 +344,7 @@ export default {
               this.app.name,
             )
           }
-          this.$router.push({ name: 'app-list' })
+          this.$router.push({ name: 'app-list', params: this.$route.params })
         },
       })
     },

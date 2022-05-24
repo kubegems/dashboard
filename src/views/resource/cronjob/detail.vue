@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader :selectable="false" />
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-btn
@@ -77,7 +77,7 @@
             <v-tabs
               v-model="tab"
               height="40"
-              class="rounded-t pl-2 pt-2"
+              class="rounded-t pl-4 pt-4"
             >
               <v-tab
                 v-for="item in tabItems"
@@ -138,11 +138,6 @@ export default {
   },
   mixins: [BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '定时任务',
-      tip: '定时任务 (CronJob) 管理基于时间的任务，例如在给定时间点只运行一次，或周期性地在给定时间点运行。',
-      icon: 'mdi-calendar-clock',
-    },
     cronjob: null,
     tab: 0,
     tabItems: [
@@ -167,7 +162,7 @@ export default {
           cronJob.Content.metadata.name === this.cronjob.metadata.name
         ) {
           if (cronJob.EventKind === 'delete') {
-            this.$router.push({ name: 'cronjob-list' })
+            this.$router.push({ name: 'cronjob-list', params: this.$route.params })
           } else {
             this.cronjob = cronJob.Content
           }
@@ -231,7 +226,7 @@ export default {
             this.$route.query.namespace,
             param.item.metadata.name,
           )
-          this.$router.push({ name: 'cronjob-list' })
+          this.$router.push({ name: 'cronjob-list', params: this.$route.params })
         },
       })
     },

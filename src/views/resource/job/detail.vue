@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader :selectable="false" />
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-btn
@@ -77,7 +77,7 @@
             <v-tabs
               v-model="tab"
               height="40"
-              class="rounded-t pl-2 pt-2"
+              class="rounded-t pl-4 pt-4"
             >
               <v-tab
                 v-for="item in tabItems"
@@ -138,11 +138,6 @@ export default {
   },
   mixins: [BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '任务',
-      tip: '任务 (Job) 负责批量处理短暂的一次性任务，即仅执行一次的任务，它保证批处理任务的一个或多个容器组成功结束。',
-      icon: 'mdi-repeat-once',
-    },
     job: null,
     tab: 0,
     tabItems: [
@@ -167,7 +162,7 @@ export default {
           job.Content.metadata.name === this.job.metadata.name
         ) {
           if (job.EventKind === 'delete') {
-            this.$router.push({ name: 'job-list' })
+            this.$router.push({ name: 'job-list', params: this.$route.params })
           } else {
             this.job = job.Content
           }
@@ -231,7 +226,7 @@ export default {
             this.$route.query.namespace,
             param.item.metadata.name,
           )
-          this.$router.push({ name: 'job-list' })
+          this.$router.push({ name: 'job-list', params: this.$route.params })
         },
       })
     },

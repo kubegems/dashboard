@@ -1,8 +1,8 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
-      <v-card-title class="py-2">
+      <v-card-title class="py-4">
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '项目名称', value: 'search' }"
@@ -227,11 +227,6 @@ export default {
   },
   mixins: [BaseFilter, BaseSelect, BasePermission, BaseResource, BaseTable],
   data: () => ({
-    breadcrumb: {
-      title: '项目',
-      tip: '项目(project)是一组环境，应用以及镜像仓库的抽象组合。',
-      icon: 'mdi-cube-outline',
-    },
     items: [],
     tenant: -1,
     pageCount: 0,
@@ -288,7 +283,7 @@ export default {
         })
       } else {
         this.$store.commit('SET_SNACKBAR', {
-          text: `请创建或加入租户`,
+          text: `暂无租户`,
           color: 'warning',
         })
       }

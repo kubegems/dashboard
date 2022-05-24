@@ -198,7 +198,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { getPodList, matrix } from '@/api'
+import { getPodList } from '@/api'
 import ContainerLog from './ContainerLog'
 import Terminal from './Terminal'
 import EventTip from './EventTip'
@@ -370,7 +370,7 @@ export default {
               })
               .join('|'),
           )
-        const data = await matrix(this.ThisCluster, {
+        const data = await this.m_permission_matrix(this.ThisCluster, {
           query: query,
           start: this.$moment(
             new Date(new Date().setMinutes(new Date().getMinutes() - 15)),
@@ -430,7 +430,7 @@ export default {
               })
               .join('|'),
           )
-        const data = await matrix(this.ThisCluster, {
+        const data = await this.m_permission_matrix(this.ThisCluster, {
           query: query,
           start: this.$moment(
             new Date(new Date().setMinutes(new Date().getMinutes() - 15)),
@@ -486,7 +486,7 @@ export default {
       if (item.spec.containers && item.spec.containers.length > 0) {
         container = item.spec.containers[0].name
       }
-      this.$refs.terminal.init(container, itemCopy, 'Debug')
+      this.$refs.terminal.init(container, itemCopy, 'debug')
       this.$refs.terminal.open()
     },
     containerShell(item) {
@@ -499,7 +499,7 @@ export default {
       if (item.spec.containers && item.spec.containers.length > 0) {
         container = item.spec.containers[0].name
       }
-      this.$refs.terminal.init(container, itemCopy, 'Shell')
+      this.$refs.terminal.init(container, itemCopy, 'shell')
       this.$refs.terminal.open()
     },
     getRestart(containerStatuses) {
@@ -514,9 +514,9 @@ export default {
     podDetail(item) {
       this.$router.push({
         name: 'pod-detail',
-        params: {
+        params: Object.assign(this.$route.params, {
           name: item.metadata.name,
-        },
+        }),
         query: {
           namespace: item.metadata.namespace,
         },

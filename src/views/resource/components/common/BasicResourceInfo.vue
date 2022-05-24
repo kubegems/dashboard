@@ -4,7 +4,7 @@
       {{ item ? item.metadata.name : '' }}
       <template
         v-if="
-          Plugins && Plugins.gpu_manager &&
+          Plugins && Plugins['gpu-manager'] &&
             item &&
             item.kind === 'Pod' &&
             item.spec &&
@@ -25,17 +25,17 @@
               class="mt-1 mr-2"
               v-on="on"
             >
-              <BaseLogo icon-name="gpu_manager" />
+              <BaseLogo icon-name="tke" />
             </span>
           </template>
           <v-card>
-            <v-card-text class="pa-2">gpu_manager </v-card-text>
+            <v-card-text class="pa-2">tke </v-card-text>
           </v-card>
         </v-menu>
       </template>
       <template
         v-if="
-          Plugins && Plugins.nvidia_device_plugin &&
+          Plugins && Plugins.gpu &&
             item &&
             item.kind === 'Pod' &&
             item.spec &&
@@ -55,11 +55,11 @@
               class="mt-1 mr-2"
               v-on="on"
             >
-              <BaseLogo icon-name="nvidia_device_plugin" />
+              <BaseLogo icon-name="nvidia" />
             </span>
           </template>
           <v-card>
-            <v-card-text class="pa-2"> nvidia_device_plugin </v-card-text>
+            <v-card-text class="pa-2"> nvidia </v-card-text>
           </v-card>
         </v-menu>
       </template>

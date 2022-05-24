@@ -5,7 +5,7 @@
       :environmented="Environment().ID > 0"
       :selectable="false"
     />
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <span class="text-subtitle-2 mx-2 deploy-line-height">
@@ -335,11 +335,6 @@ export default {
   },
   mixins: [BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '应用',
-      tip: '应用(Application)是来自应用编排与应用商店部署下的应用运行时',
-      icon: 'mdi-apps',
-    },
     runtime: null,
     statusSSE: null,
     taskStatus: '',
@@ -458,7 +453,7 @@ export default {
     returnAppDetail() {
       this.$router.push({
         name: 'app-detail',
-        params: { name: this.$route.params.name },
+        params: Object.assign(this.$route.params, { name: this.$route.params.name }),
         query: {
           projectid: this.$route.query.projectid,
           tenantid: this.$route.query.tenantid,

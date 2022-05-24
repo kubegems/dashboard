@@ -8,7 +8,7 @@
       v-else
       :selectable="false"
     />
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-btn
@@ -126,11 +126,6 @@ export default {
   },
   mixins: [BaseFilter, BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '配置',
-      tip: '配置集 (ConfigMap) 常用于存储工作负载所需的配置信息，许多应用程序会从配置文件、命令行参数或环境变量中读取配置信息。',
-      icon: 'mdi-wrench',
-    },
     configmap: null,
   }),
   computed: {
@@ -178,7 +173,7 @@ export default {
             this.$route.query.namespace,
             param.item.metadata.name,
           )
-          this.$router.push({ name: 'configmap-list' })
+          this.$router.push({ name: 'configmap-list', params: this.$route.params })
         },
       })
     },

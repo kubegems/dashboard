@@ -20,18 +20,21 @@
             />
           </v-col>
 
-          <!-- 资源 -->
-          <v-col cols="6">
+          <v-col
+            v-if="mode === 'monitor'"
+            cols="6"
+          >
             <v-autocomplete
-              v-model="obj.resource"
+              v-model="mod"
               color="primary"
-              :items="resourceItems"
-              :rules="objRules.resourceRule"
-              label="资源"
+              :items="modeItems"
+              :rules="objRules.modRule"
+              label="模式"
               hide-selected
               class="my-0"
               no-data-text="暂无可选数据"
-              @change="onResourceChange"
+              :readonly="edit"
+              @change="onModChange"
             >
               <template #selection="{ item }">
                 <v-chip
@@ -44,47 +47,109 @@
               </template>
             </v-autocomplete>
           </v-col>
-          <!-- 资源 -->
 
-          <!-- 规则 -->
-          <v-col cols="6">
-            <v-autocomplete
-              v-model="obj.rule"
-              color="primary"
-              :items="ruleItems"
-              :rules="objRules.ruleRule"
-              :disabled="!obj.resource"
-              label="规则"
-              hide-selected
-              class="my-0"
-              no-data-text="暂无可选数据"
-              @change="onRuleChange"
-            >
-              <template #selection="{ item }">
-                <v-chip
-                  color="primary"
-                  small
-                  class="mx-1"
-                >
-                  {{ item['text'] }}
-                </v-chip>
-              </template>
-            </v-autocomplete>
-          </v-col>
-          <!-- 规则 -->
+          <!-- 资源 -->
+          <template v-if="mod === 'template' && mode === 'monitor'">
+            <v-col cols="6">
+              <v-autocomplete
+                v-model="obj.promqlGenerator.resource"
+                color="primary"
+                :items="resourceItems"
+                :rules="objRules.resourceRule"
+                label="资源"
+                hide-selected
+                class="my-0"
+                no-data-text="暂无可选数据"
+                @change="onResourceChange"
+              >
+                <template #selection="{ item }">
+                  <v-chip
+                    color="primary"
+                    small
+                    class="mx-1"
+                  >
+                    {{ item['text'] }}
+                  </v-chip>
+                </template>
+              </v-autocomplete>
+            </v-col>
+            <!-- 资源 -->
 
+            <!-- 规则 -->
+            <v-col cols="6">
+              <v-autocomplete
+                v-model="obj.promqlGenerator.rule"
+                color="primary"
+                :items="ruleItems"
+                :rules="objRules.ruleRule"
+                :disabled="!obj.promqlGenerator.resource"
+                label="规则"
+                hide-selected
+                class="my-0"
+                no-data-text="暂无可选数据"
+                @change="onRuleChange"
+              >
+                <template #selection="{ item }">
+                  <v-chip
+                    color="primary"
+                    small
+                    class="mx-1"
+                  >
+                    {{ item['text'] }}
+                  </v-chip>
+                </template>
+              </v-autocomplete>
+            </v-col>
+            <!-- 规则 -->
+
+            <!-- 单位 -->
+            <v-col cols="6">
+              <v-autocomplete
+                v-model="obj.promqlGenerator.unit"
+                color="primary"
+                label="单位"
+                class="my-0"
+                no-data-text="暂无可选数据"
+                hide-selected
+                :items="unitItems"
+                :rules="unitItems.length ? objRules.unitRule : undefined"
+                :disabled="!obj.promqlGenerator.rule || !unitItems.length"
+              >
+                <template #selection="{ item }">
+                  <v-chip
+                    color="primary"
+                    small
+                    class="mx-1"
+                  >
+                    {{ item['text'] }}
+                  </v-chip>
+                </template>
+              </v-autocomplete>
+            </v-col>
+          </template>
+          <template v-if="mod === 'ql' || mode === 'logging'">
+            <v-col cols="12">
+              <v-textarea
+                v-model="obj.expr"
+                auto-grow
+                label="查询语句"
+                :rules="objRules.exprRule"
+              />
+            </v-col>
+          </template>
           <!-- 单位 -->
-          <v-col cols="6">
+
+          <v-col col="12">
             <v-autocomplete
-              v-model="obj.unit"
+              v-model="obj.inhibitLabels"
               color="primary"
-              label="单位"
+              label="抑制标签"
               class="my-0"
               no-data-text="暂无可选数据"
               hide-selected
-              :items="unitItems"
-              :rules="unitItems.length ? objRules.unitRule : undefined"
-              :disabled="!obj.rule || !unitItems.length"
+              multiple
+              :items="inhibitLabelItems"
+              @focus="getInhibitLabels"
             >
               <template #selection="{ item }">
                 <v-chip
@@ -97,7 +162,6 @@
               </template>
             </v-autocomplete>
           </v-col>
-          <!-- 单位 -->
 
           <!-- 评估时间 -->
           <v-col cols="6">
@@ -115,7 +179,7 @@
 
       <!-- 标签筛选 -->
       <div
-        v-if="obj.rule"
+        v-if="mode === 'monitor'"
         class="mb-4"
       >
         <BaseSubTitle title="标签筛选" />
@@ -146,7 +210,11 @@
 
 <script>
 import { mapState } from 'vuex'
-import { getSystemConfigData } from '@/api'
+import {
+  getSystemConfigData,
+  getMyConfigData,
+  getMetricsLabels,
+} from '@/api'
 import AlertLevelItem from './AlertLevelItem'
 import AlertLevelForm from './AlertLevelForm'
 import RuleLabelpairs from './RuleLabelpairs'
@@ -172,23 +240,40 @@ export default {
       type: Boolean,
       default: () => false,
     },
+    mode: {
+      type: String,
+      default: () => 'monitor',
+    },
+    expr: {
+      type: String,
+      default: () => '',
+    },
   },
   data() {
     return {
       valid: false,
       expand: false,
+      metricsConfig: {}, // 指标配置
+      inhibitLabelItems: [],
       obj: {
         name: '',
         namespace: '',
         for: '1m',
-        resource: '',
-        rule: '',
-        unit: '',
         labelpairs: {},
         alertLevels: [],
         receivers: [],
+        inhibitLabels: [],
+        promqlGenerator: {
+          resource: '',
+          rule: '',
+          unit: '',
+        },
       },
-      metricsConfig: {}, // 指标配置
+      mod: 'template',
+      modeItems: [
+        {text: '由模版生成', value: 'template'},
+        {text: '由PromQl生成', value: 'ql'},
+      ],
     }
   },
   computed: {
@@ -209,6 +294,8 @@ export default {
         compareRule: [required],
         severityRule: [required],
         thresholdValueRule: [required],
+        exprRule: [required],
+        modRule: [required],
       }
     },
     resourceItems() {
@@ -219,8 +306,8 @@ export default {
       }))
     },
     ruleItems() {
-      if (this.metricsConfig.resources && this.obj.resource) {
-        const rulesObj = this.metricsConfig.resources[this.obj.resource].rules
+      if (this.metricsConfig.resources && this.obj.promqlGenerator.resource) {
+        const rulesObj = this.metricsConfig.resources[this.obj.promqlGenerator.resource].rules
         return Object.keys(rulesObj).map((key) => ({
           text: rulesObj[key].showName,
           value: key,
@@ -230,9 +317,9 @@ export default {
       return []
     },
     unitItems() {
-      if (this.metricsConfig.resources && this.obj.resource && this.obj.rule) {
+      if (this.metricsConfig.resources && this.obj.promqlGenerator.resource && this.obj.promqlGenerator.rule) {
         const units =
-          this.metricsConfig.resources[this.obj.resource].rules[this.obj.rule]
+          this.metricsConfig.resources[this.obj.promqlGenerator.resource].rules[this.obj.promqlGenerator.rule]
             .units || []
         return units.map((unit) => ({
           text: this.metricsConfig.units[unit],
@@ -242,21 +329,54 @@ export default {
       return []
     },
   },
+  watch: {
+    expr: {
+      handler(newValue) {
+        if (newValue) {
+          this.obj.expr = newValue
+        }
+      },
+      deep: true,
+      immediate: true,
+    },
+  },
   mounted() {
     this.obj = this.$_.merge(this.obj, deepCopy(this.item))
-    this.getMonitorConfig()
+    this.load()
+    this.$refs.form.resetValidation()
+    this.obj.namespace = this.$route?.query.namespace
+    this.getInhibitLabels()
   },
   methods: {
+    load() {
+      if (this.mod === 'template' && this.mode === 'monitor') {
+        if (!this.obj.promqlGenerator) {
+          this.obj.promqlGenerator = {
+            resource: '',
+            rule: '',
+            unit: '',
+          }
+        }
+        this.$delete(this.obj, 'expr')
+        this.getMonitorConfig()
+        this.setLabelpairs()
+      } else if (this.mod === 'ql' || this.mode === 'logging') {
+        if (!this.obj.expr) { this.obj.expr = '' }
+        this.$delete(this.obj, 'promqlGenerator')
+        this.$delete(this.obj, 'labelpairs')
+      }
+      this.$refs.form.resetValidation()
+    },
     // eslint-disable-next-line vue/no-unused-properties
     init(data) {
       this.$nextTick(() => {
-        this.obj = this.$_.merge(this.obj, deepCopy(data))
+        this.setData(data)
       })
     },
     // eslint-disable-next-line vue/no-unused-properties
     back(data) {
       this.$nextTick(() => {
-        this.obj = deepCopy(data)
+        this.setData(data)
       })
     },
     addData(data) {
@@ -297,7 +417,8 @@ export default {
     },
     // eslint-disable-next-line vue/no-unused-properties
     setData(data) {
-      this.obj = data
+      this.obj = deepCopy(data)
+      if (!this.obj.promqlGenerator && this.mode === 'monitor') { this.mod = 'ql' }
     },
     closeExpand() {
       this.expand = false
@@ -305,31 +426,27 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     reset() {
       this.$refs.alertLevelForm.closeCard()
-      this.obj = {
-        name: '',
-        namespace: '',
-        for: '1m',
-        resource: '',
-        rule: '',
-        unit: '',
-        labelpairs: {},
-        alertLevels: [],
-        receivers: [],
-      }
-      this.$refs.form.reset()
+      this.$refs.form.resetValidation()
+      this.obj = deepCopy(this.$options.data().obj)
     },
     onResourceChange() {
       // resource选择变更时需要重置rule值
-      this.obj.rule = ''
-      this.obj.unit = ''
+      this.obj.promqlGenerator.rule = ''
+      this.obj.promqlGenerator.unit = ''
     },
     onRuleChange() {
-      this.obj.unit = ''
+      this.obj.promqlGenerator.unit = ''
       this.setLabelpairs()
+    },
+    onModChange() {
+      this.load()
+      this.obj.labelpairs = {}
+      this.obj.inhibitLabels = []
+      this.inhibitLabelItems = []
     },
     // mergeLabelpairs 点击编辑时数据labelpairs与全值合并
     setLabelpairs(mergeLabelpairs = {}) {
-      const { resource, rule } = this.obj
+      const { resource, rule } = this.obj?.promqlGenerator || {resource: '', rule: ''}
       const labelpairs = {}
       if (resource && rule && this.metricsConfig) {
         const labels =
@@ -339,11 +456,38 @@ export default {
         })
       }
       this.$set(this.obj, 'labelpairs', { ...labelpairs, ...mergeLabelpairs })
+      this.inhibitLabelItems = Object.keys(this.obj.labelpairs).map(l => {
+        return {text: l, value: l}
+      })
     },
     async getMonitorConfig() {
-      const data = await getSystemConfigData('Monitor')
+      let data = {}
+      if (this.AdminViewport) {
+        data = await getSystemConfigData('Monitor')
+      } else {
+        data = await getMyConfigData('Monitor')
+      }
       this.metricsConfig = data.content || {}
       this.setLabelpairs(this.obj.labelpairs) // 此处确保配置项加载完后更新labelpairs列表
+    },
+    async getInhibitLabels() {
+      let data = []
+      if (this.mode === 'monitor' && this.mod === 'ql' && this.obj.expr) {
+        data = await getMetricsLabels(
+          this.$route.query.cluster || this.obj.cluster,
+          this.$route.query.namespace || this.obj.namespace,
+          {
+            expr: this.obj.expr,
+          },
+        )
+        this.obj.labelpairs = {}
+        this.inhibitLabelItems = data.map(l => {
+          if (l !== '__name__') {
+            this.obj.labelpairs[l] = ""
+            return {text: l, valeu: l}
+          }
+        })
+      }
     },
   },
 }

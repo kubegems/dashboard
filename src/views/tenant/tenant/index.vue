@@ -1,8 +1,8 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
-      <v-card-title class="py-2">
+      <v-card-title class="py-4">
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '租户名称', value: 'search' }"
@@ -257,11 +257,6 @@ export default {
   },
   mixins: [BaseFilter, BaseSelect, BaseResource, BaseTable],
   data: () => ({
-    breadcrumb: {
-      title: '租户',
-      tip: '租户(tenant)是一个组织您的项目和 DevOps 工程、管理资源访问权限以及在团队内部共享资源等的逻辑单元，可以作为团队工作的独立工作空间。',
-      icon: 'mdi-account-switch',
-    },
     items: [],
     headers: [
       { text: '名称', value: 'tenantName', align: 'start' },
@@ -336,7 +331,7 @@ export default {
     tenantDetail(item) {
       this.$router.push({
         name: 'tenant-detail',
-        params: { name: item.TenantName },
+        params: Object.assign(this.$route.params, { name: item.TenantName }),
         query: { id: item.ID },
       })
     },
@@ -374,7 +369,7 @@ export default {
         doFunc: async (param) => {
           await deleteTenant(param.item.ID)
           this.$store.commit('CLEAR_TENANT')
-          await this.$store.dispatch('UPDATE_TENANT_DATA')
+          this.$store.dispatch('UPDATE_TENANT_DATA')
           this.tenantList()
         },
       })

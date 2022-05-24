@@ -1,4 +1,4 @@
-const prefix = ':tenant'
+const prefix = ':tenant?'
 
 export const tool = [
   {
@@ -15,6 +15,8 @@ export const tool = [
           requireAuth: true,
           smallTitle: '审计',
           title: '审计中心',
+          icon: 'mdi-history',
+          tip: 'audit',
         },
       },
       {
@@ -25,6 +27,8 @@ export const tool = [
           requireAuth: true,
           smallTitle: '事件',
           title: '事件中心',
+          icon: 'mdi-bell',
+          tip: 'event',
         },
       },
     ],

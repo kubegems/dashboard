@@ -1,9 +1,9 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
-      <v-card-text class="pa-2">
+      <v-card-text class="pa-3">
         <v-tabs
           v-model="tab"
           height="40"
@@ -55,23 +55,23 @@
                     </a>
                   </v-list-item-title>
                   <v-list-item-subtitle class="text-body-2 text--lighten-4">
-                    简介：{{ plugin.details.description }}
+                    简介：{{ plugin.description }}
                   </v-list-item-subtitle>
                   <v-list-item-subtitle
                     v-if="!plugin.skip && plugin.enabled"
                     class="text-body-2 text--lighten-4"
                   >
                     状态：
-                    <template v-if="plugin.enabled && !plugin.status.healthy">
+                    <template v-if="plugin.enabled && !plugin.healthy">
                       <v-progress-circular
                         size="16"
-                        width="3"
+                        :width="3"
                         indeterminate
                         color="warning"
                       />
                     </template>
                     <v-icon
-                      v-else-if="plugin.status.healthy"
+                      v-else-if="plugin.healthy"
                       small
                       color="success"
                     >
@@ -92,12 +92,11 @@
                 <v-list-item :id="plugin.name">
                   <v-list-item-content>
                     <v-list-item-subtitle class="text-body-2 text--lighten-4">
-                      版本：{{ plugin.details.version }}
+                      版本：{{ plugin.version }}
                       <v-menu
                         v-if="
-                          innerPlugins.indexOf(plugin.name) > -1 &&
-                            apiVersion &&
-                            apiVersion.GitVersion !== plugin.details.version
+                          innerPlugins[plugin.name] &&
+                            innerPlugins[plugin.name] !== plugin.version
                         "
                         top
                         right
@@ -156,7 +155,7 @@
                                       class="text-caption kubegems__detail kubegems__break-all"
                                     >
                                       {{
-                                        apiVersion ? apiVersion.GitVersion : ''
+                                        innerPlugins[plugin.name]
                                       }}
                                     </v-list-item-content>
                                   </v-list-item-content>
@@ -174,10 +173,10 @@
                     v-if="plugin.enabled"
                     small
                     :color="getStatus(plugin).color"
-                    :disabled="plugin.enabled && plugin.status.required"
+                    :disabled="plugin.enabled && plugin.required"
                     :text="
-                      !plugin.status.required ||
-                        (plugin.enabled && !plugin.status.healthy)
+                      !plugin.required ||
+                        (plugin.enabled && !plugin.healthy)
                     "
                     @click="disablePlugin(plugin)"
                   >
@@ -197,11 +196,11 @@
               </v-card-actions>
 
               <v-flex
-                v-if="plugin.status.required"
+                v-if="plugin.required"
                 class="plugins-watermark-bg"
               />
               <v-flex
-                v-if="plugin.status.required"
+                v-if="plugin.required"
                 class="plugins-watermark font-weight-medium"
               >
                 内置组件
@@ -230,11 +229,6 @@ export default {
   name: 'Plugin',
   mixins: [BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '组件管理',
-      tip: '服务组件提供Kubernetes集群内各项服务组件的健康状态，启用状态等管理。',
-      icon: 'mdi-power-plug',
-    },
     tab: 0,
     tabItems: [
       { text: '核心组件', value: 'Core' },
@@ -242,8 +236,8 @@ export default {
     ],
     pluginDict: {},
     interval: null,
-    innerPlugins: ['gems_agent', 'gems_msgbus', 'gems_service', 'gems_worker'],
     apiVersion: null,
+    uiVersion: null,
   }),
   computed: {
     ...mapState(['JWT', 'AdminViewport']),
@@ -255,6 +249,12 @@ export default {
         return this.pluginDict.kubernetes || {}
       }
       return {}
+    },
+    innerPlugins() {
+      return {
+        'kubegems': this.apiVersion,
+        'kubegems-local': this.apiVersion,
+      }
     },
   },
   mounted() {
@@ -306,6 +306,7 @@ export default {
       })
       this.$router.push({
         name: 'pod-list',
+        params: this.$route.params,
         query: { namespace: plugin.namespace },
       })
     },
@@ -323,7 +324,7 @@ export default {
       })
     },
     disablePlugin(plugin) {
-      if (plugin.enabled && !plugin.status.healthy) {
+      if (plugin.enabled && !plugin.healthy) {
         return
       }
       this.$store.commit('SET_CONFIRM', {
@@ -339,9 +340,9 @@ export default {
       })
     },
     getStatus(plugin) {
-      if (plugin.enabled && !plugin.status.healthy) {
+      if (plugin.enabled && !plugin.healthy) {
         return { text: '部署中', color: 'warning' }
-      } else if (plugin.enabled && plugin.status.required) {
+      } else if (plugin.enabled && plugin.required) {
         return { text: '已安装', color: '' }
       } else if (plugin.enabled) {
         return { text: '卸载', color: 'error' }
@@ -351,7 +352,8 @@ export default {
     },
     async platformVersion() {
       const data = await getPlatformVersion({ noprocessing: true })
-      this.apiVersion = data
+      this.apiVersion = data?.GitVersion
+      this.uiVersion = process.env.VUE_APP_RELEASE
     },
   },
 }

@@ -110,7 +110,7 @@ export default {
       { text: '环境', value: 'environmentName', align: 'start' },
       { text: '标签', value: 'labels', align: 'start' },
       { text: '状态', value: 'status', align: 'start' },
-      { text: '容灾重启(次)', value: 'containerRestartTotal', align: 'start' },
+      { text: '容器重启(次)', value: 'containerRestartTotal', align: 'start' },
       { text: 'CPU', value: 'cpu', align: 'start' },
       { text: 'Mem', value: 'memory', align: 'start' },
       { text: '指标采集器', value: 'monitorCollectorCount', align: 'start' },

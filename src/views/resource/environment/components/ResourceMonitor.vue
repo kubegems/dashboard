@@ -65,8 +65,8 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex'
-import { matrix } from '@/api'
 import BaseResource from '@/mixins/resource'
+import BasePermission from '@/mixins/permission'
 import {
   ENVIRONMENT_CPU_USAGE_PROMQL,
   ENVIRONMENT_MEMORY_USAGE_PROMQL,
@@ -76,7 +76,7 @@ import {
 
 export default {
   name: 'ResourceMonitor',
-  mixins: [BaseResource],
+  mixins: [BaseResource, BasePermission],
   props: {
     ready: {
       type: Boolean,
@@ -137,7 +137,7 @@ export default {
       this.environmentNetworkOut()
     },
     async environmentCPUUsage() {
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.ThisCluster,
         Object.assign(this.params, {
           query: ENVIRONMENT_CPU_USAGE_PROMQL.replaceAll(
@@ -150,7 +150,7 @@ export default {
       if (data) this.cpu = data
     },
     async environmentMemoryUsage() {
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.ThisCluster,
         Object.assign(this.params, {
           query: ENVIRONMENT_MEMORY_USAGE_PROMQL.replaceAll(
@@ -163,7 +163,7 @@ export default {
       if (data) this.memory = data
     },
     async environmentNetworkIn() {
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.ThisCluster,
         Object.assign(this.params, {
           query: ENVIRONMENT_NETWORK_IN_PROMQL.replaceAll(
@@ -176,7 +176,7 @@ export default {
       if (data) this.networkin = data
     },
     async environmentNetworkOut() {
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.ThisCluster,
         Object.assign(this.params, {
           query: ENVIRONMENT_NETWORK_OUT_PROMQL.replaceAll(

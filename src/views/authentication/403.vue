@@ -10,7 +10,7 @@
             <div class="d-flex align-center pa-10">
               <div class="text-center">
                 <h2 class="text-h4 primary--text font-weight-medium">
-                  您暂时无权查看该资源
+                  您暂时无权查看该资源！
                 </h2>
                 <h6
                   class="

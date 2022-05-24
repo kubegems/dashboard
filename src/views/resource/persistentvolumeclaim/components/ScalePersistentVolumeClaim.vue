@@ -82,7 +82,7 @@ export default {
             !!new RegExp('(^\\d+[K|M|G|T]i$)|(^0$)').test(v) ||
             '格式错误(示例:1Ki,1Mi,1Gi,1Ti)',
           (v) =>
-            !!(sizeOfStorage(v, 'Mi') > sizeOfStorage(this.storage, 'Mi')) ||
+            !!(sizeOfStorage(v, 'Mi') >= sizeOfStorage(this.storage, 'Mi')) ||
             '小于当前值',
         ],
       }
@@ -112,7 +112,8 @@ export default {
     },
     reset() {
       this.dialog = false
-      this.$refs.form.reset()
+      this.$refs.form.resetValidation()
+      this.obj = this.$options.data().obj
     },
   },
 }

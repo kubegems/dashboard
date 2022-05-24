@@ -116,13 +116,19 @@
 
 <script>
 import { mapState } from 'vuex'
-import { getPrometheusRuleDetail, getPrometheusAlertHistory } from '@/api'
+import { getPrometheusRuleDetail, getPrometheusAlertHistory, getLogAlertRuleDetail } from '@/api'
 import BaseAlert from '../mixins/alert'
 import BaseResource from '@/mixins/resource'
 
 export default {
   name: 'AlertList',
   mixins: [BaseResource, BaseAlert],
+  props: {
+    mode: {
+      type: String,
+      default: () => 'monitor',
+    },
+  },
   data() {
     return {
       items: [],
@@ -184,7 +190,7 @@ export default {
     init() {
       this.$nextTick(() => {
         this.tab === 0
-          ? this.prometheusRuleDetail()
+          ? this.mode === 'monitor' ? this.prometheusRuleDetail() : this.alertRuleDetail()
           : this.prometheusAlertHistory()
       })
     },
@@ -198,6 +204,21 @@ export default {
     async prometheusRuleDetail() {
       this.items = []
       const data = await getPrometheusRuleDetail(
+        this.$route.query.cluster,
+        this.$route.query.namespace,
+        this.$route.params.name,
+        { noprocessing: true, isAdmin: this.AdminViewport },
+      )
+      if (data) {
+        this.items = (data.realTimeAlerts || []).map((item, index) => ({
+          ...item,
+          index,
+        }))
+      }
+    },
+    async alertRuleDetail() {
+      this.items = []
+      const data = await getLogAlertRuleDetail(
         this.$route.query.cluster,
         this.$route.query.namespace,
         this.$route.params.name,

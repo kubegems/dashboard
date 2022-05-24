@@ -159,7 +159,7 @@
                 transition="scale-transition"
                 nudge-bottom="5px"
                 :close-on-content-click="false"
-                content-class="tag-menu"
+                content-class="tag__menu"
               >
                 <template #activator="{ on }">
                   <v-chip
@@ -378,7 +378,6 @@ export default {
           : this.ThisAppEnvironmentID
           ? this.ThisAppEnvironmentID
           : this.environmentID,
-        { noprocessing: true },
       )
       const items = data.map((d, index) => {
         return { index: index, ...d }
@@ -397,7 +396,6 @@ export default {
       this.tags = []
       const data = await getAppImageTags(this.Tenant().ID, this.Project().ID, {
         image: image,
-        noprocessing: true,
       })
       this.tags = data
     },
@@ -525,7 +523,7 @@ export default {
   min-width: 150px;
   max-width: 200px;
 }
-.tag-menu {
+.tag__menu {
   min-height: 60px !important;
 }
 </style>

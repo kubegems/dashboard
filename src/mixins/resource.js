@@ -75,9 +75,7 @@ const resource = {
       return null
     },
     async m_resource_clusterQuota(clusterid, item) {
-      const data = await getClusterQuota(clusterid, {
-        noprocessing: true,
-      })
+      const data = await getClusterQuota(clusterid)
       const quota = {}
       if (data.resources) {
         quota.CpuRatio = data.oversoldConfig ? data.oversoldConfig.cpu : 1
@@ -176,7 +174,7 @@ const resource = {
       for (var item in data) {
         if (data[item] === null) continue
         if (
-          ['pause', 'selfSigned'].indexOf(item) > -1 &&
+          ['pause', 'selfSigned', 'emptyDir'].indexOf(item) > -1 &&
           JSON.stringify(data[item]) === '{}'
         ) {
           newdata[item] = {}
@@ -184,6 +182,7 @@ const resource = {
         if (JSON.stringify(data[item]) === '[]') continue
         if (data[item] === '') continue
         if (typeof data[item] === 'string') {
+          data[item] = data[item].trim()
           if (
             data[item] !== '' &&
             !isNaN(data[item]) &&
@@ -225,7 +224,7 @@ const resource = {
             })
           }
         } else if (data[item] instanceof Object) {
-          if (JSON.stringify(data[item]) === '{}') continue
+          // if (JSON.stringify(data[item]) === '{}') continue
           if (
             [
               'annotations',

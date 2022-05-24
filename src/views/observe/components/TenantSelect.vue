@@ -1,7 +1,7 @@
 <template>
   <v-flex class="kubegems__full-right">
     <v-sheet class="text-body-2 text--darken-1 d-flex align-center mx-1">
-      <span class="text-body-2 mt-1 mr-1">租户</span>
+      <span class="text-body-2 mt-0 mr-1">租户</span>
       <v-menu
         v-model="tenantMenu"
         bottom
@@ -108,7 +108,7 @@ export default {
   mounted() {
     this.$nextTick(async() => {
       await this.m_select_tenantSelectData()
-      if (this.tenants) {
+      if (this.tenants?.length > 0) {
         const t = this.tenants[0]
         this.tenant = {
           ID: t.value,

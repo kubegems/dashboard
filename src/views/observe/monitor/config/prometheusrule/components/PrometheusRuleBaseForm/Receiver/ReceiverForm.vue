@@ -92,6 +92,10 @@ export default {
       type: Array,
       default: () => null,
     },
+    mode: {
+      type: String,
+      default: () => 'monitor',
+    },
   },
   data() {
     return {
@@ -140,7 +144,7 @@ export default {
       const data = await getReceiverList(
         this.$route.query.cluster,
         this.$route.query.namespace,
-        { noprocessing: true },
+        {scope: this.mode},
       )
       this.receiverSelect = data.map((item) => {
         return {

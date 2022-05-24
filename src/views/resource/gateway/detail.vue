@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader :selectable="false" />
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-btn
@@ -115,7 +115,7 @@
             <v-tabs
               v-model="tab"
               height="40"
-              class="rounded-t pl-2 pt-2"
+              class="rounded-t pl-4 pt-4"
             >
               <v-tab
                 v-for="item in tabItems"
@@ -181,11 +181,6 @@ export default {
   },
   mixins: [BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '网关',
-      tip: '网关(Gateway)是用来转发其他服务器通信数据',
-      icon: 'mdi-gate',
-    },
     gateway: null,
     tab: 0,
     tabItems: [
@@ -241,7 +236,7 @@ export default {
             this.ThisClusterID,
             param.item.metadata.name,
           )
-          this.$router.push({ name: 'gateway-list' })
+          this.$router.push({ name: 'gateway-list', params: this.$route.params })
         },
       })
     },

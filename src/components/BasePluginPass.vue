@@ -1,35 +1,39 @@
 <template>
-  <div>
-    <v-card
-      v-if="!pluginPass($route.meta.dependencies)"
-      class="my-7 mx-4"
-      height="400px"
-    >
-      <v-row class="plugin-height">
-        <v-col class="d-none d-md-flex align-center justify-center">
-          <div class="d-none d-sm-block">
-            <div class="d-flex align-center pa-10">
-              <div class="text-center">
-                <h2 class="text-h5 primary--text font-weight-medium">
-                  暂时未启用 {{ $route.meta.dependencies.join(',') }} 插件，请启用后查看
-                </h2>
-                <h6
-                  class="
-                    text-subtitle-1
-                    mt-4
-                    primary--text
-                    op-5
-                    font-weight-regular
-                  "
-                >
-                  您可以联系平台管理员启用该插件
-                </h6>
+  <div class="pass">
+    <template v-if="!pluginPass($route.meta.dependencies)">
+      <div class="container container--fluid">
+        <BaseBreadcrumb  />
+      </div>
+      <v-card
+        class="mx-3"
+        height="400px"
+      >
+        <v-row class="pass__row">
+          <v-col class="d-none d-md-flex align-center justify-center">
+            <div class="d-none d-sm-block">
+              <div class="d-flex align-center pa-10">
+                <div class="text-center">
+                  <h2 class="text-h5 primary--text font-weight-medium">
+                    您暂时还未启用 {{ $route.meta.dependencies.join(', ') }} 插件或插件状态异常！
+                  </h2>
+                  <h6
+                    class="
+                      text-subtitle-1
+                      mt-4
+                      primary--text
+                      op-5
+                      font-weight-regular
+                    "
+                  >
+                    您可以联系平台管理员启用/查看该插件
+                  </h6>
+                </div>
               </div>
             </div>
-          </div>
-        </v-col>
-      </v-row>
-    </v-card>
+          </v-col>
+        </v-row>
+      </v-card>
+    </template>
     <slot v-else />
   </div>
 </template>
@@ -41,6 +45,13 @@ export default {
   name: 'BasePluginPass',
   computed: {
     ...mapState(['Plugins']),
+    breadcrumb() {
+      return {
+        title: this.$route.meta.title,
+        tip: this.$TIP[this.$route.meta.tip],
+        icon: this.$route.meta.icon,
+      }
+    },
   },
   methods: {
     pluginPass(dependencies) {
@@ -59,7 +70,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.plugin-height {
-  height: 400px;
+.pass {
+  position: relative;
+
+  &__row {
+    height: 400px;
+  }
 }
 </style>

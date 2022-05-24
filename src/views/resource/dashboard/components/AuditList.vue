@@ -25,9 +25,11 @@
     <v-card-text>
       <v-flex
         v-if="auditItems.length === 0"
-        class="text-subtitle-2 text-center"
+        :style="{ position: 'relative', height: '300px' }"
       >
-        暂无数据
+        <span class="kubegems__full-center kubegems__detail">
+          暂无数据
+        </span>
       </v-flex>
       <div class="align-items-center">
         <div class="vs-scrollable">
@@ -43,7 +45,7 @@
                   size="45"
                 >
                   <span class="white--text text-h6">
-                    {{ item.Username[0].toLocaleUpperCase() }}
+                    {{ item.Username ? item.Username[0].toLocaleUpperCase() : 'N' }}
                   </span>
                 </v-avatar>
               </div>
@@ -135,9 +137,9 @@ export default {
     toAudit() {
       this.$router.push({
         name: 'audit-list',
-        params: {
+        params: Object.assign(this.$route.params, {
           tenant: this.Tenant().TenantName,
-        },
+        }),
       })
     },
   },

@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader :selectable="false" />
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-btn
@@ -70,12 +70,10 @@
             {{ node ? node.metadata.name : '' }}
 
             <template
-              v-if="
-                Plugins && Plugins.gpu_manager &&
-                  node &&
-                  node.metadata &&
-                  node.metadata.labels['tencent.com/vcuda'] &&
-                  node.metadata.labels['tencent.com/vcuda'] === 'true'
+              v-if="node &&
+                node.metadata &&
+                node.metadata.labels['tencent.com/vcuda'] &&
+                node.metadata.labels['tencent.com/vcuda'] === 'true'
               "
             >
               <v-menu
@@ -88,21 +86,19 @@
                     class="mt-1 mr-2"
                     v-on="on"
                   >
-                    <BaseLogo icon-name="gpu_manager" />
+                    <BaseLogo icon-name="tke" />
                   </span>
                 </template>
                 <v-card>
-                  <v-card-text class="pa-2"> gpu_manager </v-card-text>
+                  <v-card-text class="pa-2"> tke </v-card-text>
                 </v-card>
               </v-menu>
             </template>
             <template
-              v-if="
-                Plugins && Plugins.nvidia_device_plugin &&
-                  node &&
-                  node.metadata &&
-                  node.metadata.labels['nvidia.com/gpu'] &&
-                  node.metadata.labels['nvidia.com/gpu'] === 'true'
+              v-if="node &&
+                node.metadata &&
+                node.metadata.labels['nvidia.com/gpu'] &&
+                node.metadata.labels['nvidia.com/gpu'] === 'true'
               "
             >
               <v-menu
@@ -115,11 +111,11 @@
                     class="mt-1 mr-2"
                     v-on="on"
                   >
-                    <BaseLogo icon-name="nvidia_device_plugin" />
+                    <BaseLogo icon-name="nvidia" />
                   </span>
                 </template>
                 <v-card>
-                  <v-card-text class="pa-2"> nvidia_device_plugin </v-card-text>
+                  <v-card-text class="pa-2"> nvidia </v-card-text>
                 </v-card>
               </v-menu>
             </template>
@@ -189,7 +185,7 @@
             <v-tabs
               v-model="tab"
               height="40"
-              class="rounded-t pl-2 pt-2"
+              class="rounded-t pl-4 pt-4"
             >
               <v-tab
                 v-for="item in tabItems"
@@ -248,16 +244,11 @@ export default {
   },
   mixins: [BaseResource],
   data: () => ({
-    breadcrumb: {
-      title: '节点',
-      tip: '节点(node)提供了当前集群下节点的运行状态。',
-      icon: 'mdi-desktop-tower',
-    },
     tab: 0,
     node: null,
   }),
   computed: {
-    ...mapState(['JWT', 'Plugins']),
+    ...mapState(['JWT']),
     ...mapGetters(['Cluster']),
     tabItems() {
       const items = [
@@ -266,10 +257,8 @@ export default {
         { text: '亲和性', value: 'Taint' },
         { text: '容器组', value: 'PodList' },
         { text: '事件', value: 'EventList' },
+        { text: '监控', value: 'NodeMonitor' },
       ]
-      if (this.Plugins?.node_exporter) {
-        items.splice(5, 0, { text: '监控', value: 'NodeMonitor' })
-      }
       return items
     },
   },

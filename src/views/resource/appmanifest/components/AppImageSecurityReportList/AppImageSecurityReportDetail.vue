@@ -155,7 +155,6 @@ export default {
         this.app.ProjectID,
         {
           image: this.item.image,
-          noprocessing: true,
         },
       )
       if (data.vulnerabilities) {

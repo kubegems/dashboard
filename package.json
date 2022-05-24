@@ -1,6 +1,6 @@
 {
   "name": "kubegems-dashboard",
-  "version": "1.20.0-beta2",
+  "version": "1.21.0",
   "private": true,
   "license": "Apache-2.0",
   "scripts": {
@@ -33,12 +33,10 @@
     ]
   },
   "dependencies": {
-    "@sentry/tracing": "^6.16.0",
-    "@sentry/vue": "^6.16.0",
     "@mdi/js": "^5.6.55",
     "ajv": "^8.6.3",
-    "apexcharts": "^3.33.1",
-    "axios": "^0.21.4",
+    "apexcharts": "^3.35.2",
+    "axios": "^0.27.2",
     "core-js": "^3.6.5",
     "fast-json-patch": "^3.0.0-1",
     "github-markdown-css": "^4.0.0",
@@ -48,7 +46,7 @@
     "markdown-it": "^12.0.6",
     "markdown-it-highlightjs": "^3.5.0",
     "moment": "^2.29.2",
-    "vue": "^2.6.12",
+    "vue": "^2.6.14",
     "vue-apexcharts": "^1.6.2",
     "vue-code-diff": "^1.2.0",
     "vue-form-wizard": "0.8.4",
@@ -57,8 +55,8 @@
     "vue-router": "^3.4.4",
     "vue-slider-component": "^3.2.14",
     "vue2-ace-editor": "^0.0.15",
-    "vuetify": "2.6.1",
-    "vuex": "^3.5.1",
+    "vuetify": "2.6.6",
+    "vuex": "^3.6.2",
     "xterm": "^3.14.5"
   },
   "devDependencies": {

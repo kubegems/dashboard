@@ -2,7 +2,7 @@
   <v-container fluid>
     <BaseSplitContainer title="类型">
       <BaseBreadcrumb
-        :breadcrumb="breadcrumb"
+
         flat
       >
         <template #extend>
@@ -153,11 +153,6 @@ export default {
     UpdateTemplate,
   },
   data: () => ({
-    breadcrumb: {
-      title: 'Prometheus 查询模版',
-      tip: '配置 Prometheus Recording rules 来提升监控查询效率',
-      icon: 'mdi-file-powerpoint-box',
-    },
     metricTypeItems: [],
     selected: 0,
     items: [],

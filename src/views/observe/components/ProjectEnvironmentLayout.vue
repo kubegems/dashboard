@@ -14,11 +14,44 @@
       <div
         v-if="!!env"
         slot="tooltip"
+        class="text-caption"
       >
-        <div>集群：{{ env.clusterName }}</div>
-        <div>项目：{{ env.projectName }}</div>
-        <div>环境：{{ env.name }}</div>
-        <div>命名空间：{{ env.namespace }}</div>
+        <v-list
+          dense
+          class="pa-0"
+          max-width="180px"
+        >
+          <v-flex class="text-body-2 text-center primary white--text py-2">
+            <v-icon
+              color="white"
+              left
+              small
+            >
+              mdi-cloud
+            </v-icon>
+            <span>环境信息</span>
+          </v-flex>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>集群</v-list-item-title>
+              <v-list-item-content class="text-caption kubegems__detail">
+                {{ env.clusterName }}
+              </v-list-item-content>
+              <v-list-item-title>项目</v-list-item-title>
+              <v-list-item-content class="text-caption kubegems__detail">
+                {{ env.projectName }}
+              </v-list-item-content>
+              <v-list-item-title>环境</v-list-item-title>
+              <v-list-item-content class="text-caption kubegems__detail my-0">
+                {{ env.name }}
+              </v-list-item-content>
+              <v-list-item-title>命名空间</v-list-item-title>
+              <v-list-item-content class="text-caption kubegems__detail my-0">
+                {{ env.namespace }}
+              </v-list-item-content>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
       </div>
       <EmptyOverlay :visible="!env" />
 

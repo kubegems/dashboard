@@ -3,21 +3,22 @@
     id="log-viewer"
     fluid
   >
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb>
+      <template #extend>
+        <v-flex class="kubegems__full-right">
+          <BaseDatetimePicker
+            ref="dateRangePicker"
+            v-model="date"
+            :default-value="30"
+            default-value-for-query
+            query-start-time-key="start"
+            query-end-time-key="end"
+            @change="onDateChange"
+          />
+        </v-flex>
+      </template>
+    </BaseBreadcrumb>
     <v-card>
-      <div class="d-flex justify-space-between pa-3">
-        <v-spacer />
-        <BaseDatetimePicker
-          ref="dateRangePicker"
-          v-model="date"
-          :default-value="30"
-          default-value-for-query
-          query-start-time-key="start"
-          query-end-time-key="end"
-          @change="onDateChange"
-        />
-      </div>
-
       <LogQuery
         ref="logQuery"
         :date-timestamp="dateTimestamp"
@@ -141,7 +142,9 @@
       <v-icon small>mdi-apple-keyboard-control</v-icon>
     </v-btn>
 
-    <LogContext ref="logContext" />
+    <LogContext
+      ref="logContext"
+    />
     <LogSaveSnapshot ref="logSaveSnapshot" />
     <LogQueryHistory
       ref="logQueryHistory"
@@ -175,12 +178,6 @@ export default {
     LogLine,
   },
   data () {
-    this.breadcrumb = {
-      title: '日志查看器',
-      tip: '基于Loki的日志查看面板，可进行日志实时查询，快照，过滤等等',
-      icon: 'mdi-format-list-bulleted',
-    }
-
     return {
       cluster: {},
       date: [],
@@ -204,7 +201,7 @@ export default {
   },
   computed: {
     ...mapState(['Progress', 'JWT', 'User', 'AdminViewport']),
-    ...mapGetters(['Tenant', 'Cluster']),
+    ...mapGetters(['Cluster']),
     dateTimestamp () {
       return this.date.map(d => `${d}000000`)
     },
@@ -244,7 +241,7 @@ export default {
   methods: {
     onDateChange () {
       if (this.cluster.value) {
-        this.$refs.logQuery.getSeriesList(this.cluster.text)
+        this.$refs.logQuery.getSeriesList()
         this.$refs.logQuery.search()
       }
     },
@@ -269,12 +266,6 @@ export default {
         return
       }
 
-      // 补充租户信息
-      if (!this.AdminViewport && !new RegExp('tenant="([\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)"', 'g').test(this.params.logQL)) {
-        const index = this.params.logQL.indexOf('{')
-        this.params.logQL = this.params.logQL.substr(0, index + 1) + `tenant="${this.Tenant().TenantName}",` + this.params.logQL.substr(index + 1)
-      }
-
       this.$refs.dateRangePicker.refresh(false)
       const params = {
         ClusterID: this.cluster.value,
@@ -283,7 +274,7 @@ export default {
         end: this.dateTimestamp[1],
         limit: this.params.limit,
         direction: this.params.direction,
-        filters: this.params.regexp ? this.params.regexp.match(new RegExp('`([\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)`', 'g')).map(reg => { return reg.replaceAll('`', '') }) : '',
+        filters: this.params.regexp ? this.params.regexp.split('|~').filter(reg => { return reg.trim() }).map(reg => { return reg.trim().replaceAll('`', '').trim() }) : '',
         query: encodeURIComponent(this.params.logQL),
         step: this.step,
       }
@@ -341,6 +332,7 @@ export default {
             ...this.$route.query,
             project: projectName,
             environment: environmentName,
+            cluster: this.cluster.text,
             start: this.dateTimestamp[0]?.substr(0, 13),
             end: this.dateTimestamp[1]?.substr(0, 13),
             query: this.params.logQL,
@@ -480,7 +472,7 @@ export default {
 
     handleShowContext (item) {
       const query = Object.keys(item.stream).filter(l => {
-        return ['container', 'image', 'pod', 'namespace', 'project'].includes(l)
+        return ['container', 'image', 'pod', 'namespace'].includes(l)
       }).reduce((pre, current) => `${pre}${current}="${item.stream[current]}",`, '{').slice(0, -1) + '}'
       this.$refs.logContext.showContext(item, {
         ClusterID: this.cluster.value,
@@ -554,6 +546,26 @@ export default {
       position: relative;
       top: 3px;
     }
+  }
+}
+
+#log-viewer {
+  height: 100vh;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    display: block !important;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    width: 10px;
+    border-radius: 5px;
+    background: grey;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  }
+
+  &::-webkit-scrollbar:vertical {
+    width: 10px;
   }
 }
 </style>

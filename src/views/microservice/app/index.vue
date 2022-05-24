@@ -1,9 +1,9 @@
 <template>
   <v-container fluid>
     <BaseMicroServiceHeader />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
-      <v-card-title class="pa-2">
+      <v-card-title class="py-4 px-2">
         <EnvironmentFilter :ml="6" />
         <v-spacer />
       </v-card-title>
@@ -34,11 +34,6 @@ export default {
   },
   data() {
     return {
-      breadcrumb: {
-        title: '服务调用图',
-        tip: '服务调用图 (DAG) 是一个或多个命名空间下的所有负载服务调用链路关系图。',
-        icon: 'mdi-vector-polyline',
-      },
       timeinterval: null,
     }
   },

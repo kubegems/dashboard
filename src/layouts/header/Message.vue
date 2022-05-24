@@ -253,18 +253,18 @@ export default {
                 }
               } else if (message.Content.ResourceType === 'project') {
                 if (this.Project().ID === message.Content.ResourceID) {
-                  this.$router.push({ name: 'resource-dashboard' })
+                  this.$router.push({ name: 'resource-dashboard', params: {tenant: this.Tenant().TenantName} })
                 }
               } else if (message.Content.ResourceType === 'environment') {
                 if (this.Environment().ID === message.Content.ResourceID) {
-                  this.$router.push({ name: 'resource-dashboard' })
+                  this.$router.push({ name: 'resource-dashboard', params: {tenant: this.Tenant().TenantName} })
                 }
               } else if (message.Content.ResourceType === 'cluster') {
                 this.$store.commit('CLEAR_CLUSTER')
-                this.$router.push({ name: 'resource-dashboard' })
+                this.$router.push({ name: 'resource-dashboard', params: {tenant: this.Tenant().TenantName} })
               } else if (message.Content.ResourceType === 'application') {
                 if (this.$route.path.indexOf('apps') > -1) {
-                  this.$router.push({ name: 'app-list' })
+                  this.$router.push({ name: 'app-list', params: this.$route.params, query: this.$route.query })
                 }
               }
             } else if (message.EventKind === 'update') {
@@ -273,7 +273,7 @@ export default {
                   message.Content.ResourceType,
                 ) > -1
               ) {
-                this.$router.push({ name: 'resource-dashboard' })
+                this.$router.push({ name: 'resource-dashboard', params: {tenant: this.Tenant().TenantName} })
               }
             }
           }
@@ -331,7 +331,7 @@ export default {
     async refreshUserAuth() {
       const data = await getLoginUserAuth()
       this.$store.commit('SET_USER_AUTH', data)
-      this.$store.commit('SET_ADMIN', data.isSystemAdmin)
+      this.$store.commit('SET_ADMIN', data.systemRole === 'sysadmin')
     },
     async setRead(data) {
       if (this.tabItems[this.tab].value === 'message') {
@@ -347,36 +347,25 @@ export default {
       })
       this.messageList()
       if (message.MessageType === 'alert') {
-        if (message.Content.EnvironmentID === 0) {
-          this.$store.commit('SET_ADMIN_VIEWPORT', true)
-          this.$router.push({
-            name: 'admin-prometheusrule-detail',
-            params: {
-              name: message.Content.AlertName,
-            },
-            query: {
-              namespace: message.Content.Namespace,
-              createAt: message.CreatedAt,
-              cluster: message.Content.ClusterName,
-            },
-          })
-        } else {
-          this.$store.commit('SET_ADMIN_VIEWPORT', false)
-          this.$router.push({
-            name: 'prometheusrule-detail',
-            params: {
-              name: message.Content.AlertName,
-              tenant: message.Content.TenantName,
-              project: message.Content.ProjectName,
-              environment: message.Content.EnvironmentName,
-            },
-            query: {
-              namespace: message.Content.Namespace,
-              createAt: message.CreatedAt,
-              cluster: message.Content.ClusterName,
-            },
-          })
-        }
+        const admin = message.Content.EnvironmentID === 0
+        this.$store.commit('SET_ADMIN_VIEWPORT', admin)
+        const params = admin ? {
+            name: message.Content.AlertName,
+          } : {
+            name: message.Content.AlertName,
+            tenant: message.Content.TenantName,
+            project: message.Content.ProjectName,
+            environment: message.Content.EnvironmentName,
+          }
+        this.$router.push({
+          name: message?.Content?.From === 'monitor' ? `${admin ? 'admin-' : ''}prometheusrule-detail` : `${admin ? 'admin-' : ''}log-alert-detail`,
+          params: params,
+          query: {
+            namespace: message.Content.Namespace,
+            createAt: message.CreatedAt,
+            cluster: message.Content.ClusterName,
+          },
+        })
         this.menu = false
       }
     },

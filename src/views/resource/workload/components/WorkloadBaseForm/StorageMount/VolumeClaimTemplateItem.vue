@@ -8,7 +8,7 @@
       <v-list-item two-line>
         <v-list-item-content class="py-0">
           <v-list-item-subtitle class="text-subtitle-2 py-1 primary--text">
-            <v-flex class="kubegems__mount-width">
+            <v-flex>
               <v-list-item
                 two-line
                 class="pl-0 list-item-height"

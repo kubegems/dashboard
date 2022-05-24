@@ -11,7 +11,7 @@
         />
         <v-spacer />
         <v-menu
-          v-if="m_permisson_resourceAllow"
+          v-if="m_permisson_resourceAllow($route.query.env)"
           left
         >
           <template #activator="{ on }">
@@ -217,7 +217,7 @@ export default {
         { text: '采集路径', value: 'path', align: 'start', sortable: false },
         { text: '创建时间', value: 'createAt', align: 'center' },
       ]
-      if (this.m_permisson_resourceAllow) {
+      if (this.m_permisson_resourceAllow(this.$route.query.env)) {
         items.push({
           text: '',
           value: 'action',
@@ -247,8 +247,12 @@ export default {
       deep: true,
     },
     '$route.query': {
-      handler: function () {
-        if (this.JWT) {
+      handler(newValue) {
+        const { cluster, namespace } = this.params
+        const { cluster: newCluster, namespace: newNamespace } = newValue
+        const needRefresh = cluster !== newCluster || namespace !== newNamespace
+        if (needRefresh) {
+          this.m_table_generateParams()
           this.serviceMonitorList()
         }
       },
@@ -279,13 +283,10 @@ export default {
     serviceMonitorDetail(item) {
       this.$router.push({
         name: 'servicemonitor-detail',
-        params: {
+        params: Object.assign(this.$route.params, {
           name: item.metadata.name,
-        },
-        query: {
-          namespace: item.metadata.namespace,
-          cluster: this.cluster,
-        },
+        }),
+        query: this.$route.query,
       })
     },
     addServiceMonitor() {

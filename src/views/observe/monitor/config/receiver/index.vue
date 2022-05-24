@@ -11,7 +11,10 @@
           @refresh="filterList"
         />
         <v-spacer />
-        <v-menu left>
+        <v-menu
+          v-if="m_permisson_resourceAllow($route.query.env)"
+          left
+        >
           <template #activator="{ on }">
             <v-btn icon>
               <v-icon
@@ -133,7 +136,7 @@
             </td>
           </template>
           <template #[`item.action`]="{ item }">
-            <template v-if="item.name !== 'gemcloud-default-webhook'">
+            <template v-if="!item.name.endsWith('default-webhook')">
               <v-flex :id="`r${item.index}`" />
               <v-menu
                 left
@@ -224,7 +227,9 @@ export default {
     page: 1,
     pageCount: 0,
     itemsPerPage: 10,
-    params: {},
+    params: {
+      scope: 'monitor',
+    },
   }),
   computed: {
     ...mapState(['JWT', 'AdminViewport']),
@@ -234,7 +239,7 @@ export default {
         { text: '名称', value: 'name', align: 'start' },
         { text: '渠道', value: 'channel', align: 'start' },
       ]
-      if (this.m_permisson_resourceAllow) {
+      if (this.m_permisson_resourceAllow(this.$route.query.env)) {
         items.push({ text: '', value: 'action', align: 'center', width: 20 })
       }
       if (this.AdminViewport) {
@@ -260,8 +265,11 @@ export default {
       deep: true,
     },
     '$route.query': {
-      handler: function () {
-        if (this.JWT) {
+      handler(newValue) {
+        const { cluster, namespace } = this.params
+        const { cluster: newCluster, namespace: newNamespace } = newValue
+        const needRefresh = cluster !== newCluster || namespace !== newNamespace
+        if (needRefresh) {
           this.m_table_generateParams()
           this.receiverList()
         }
@@ -327,6 +335,7 @@ export default {
             this.$route.query.cluster,
             param.item.namespace,
             param.item.name,
+            {scope: 'monitor'},
           )
           this.receiverList()
         },

@@ -12,7 +12,18 @@
       @blur.stop="blurInput"
       @keyup="onSuggestionInput"
       @click:clear="clearInput"
-    />
+    >
+      <template #append>
+        <v-btn
+          small
+          color="primary"
+          text
+          @click.stop="addAlertRule"
+        >
+          生成告警
+        </v-btn>
+      </template>
+    </v-textarea>
     <v-data-table
       v-if="suggestShow"
       disable-sort
@@ -36,14 +47,24 @@
         {{ item.value }}
       </template>
     </v-data-table>
+
+    <AddAlertRule
+      ref="addAlertRule"
+      mode="logging"
+      :expr="ql"
+    />
   </div>
 </template>
 
 <script>
 import { getLogLabels } from '@/api'
+import AddAlertRule from '@/views/observe/monitor/config/prometheusrule/components/AddPrometheusRule'
 
 export default {
   name: 'AdvancedTextarea',
+  components: {
+    AddAlertRule,
+  },
   props: {
     logQL: {
       type: String,
@@ -113,7 +134,7 @@ export default {
       this.loading = true
       const res = await getLogLabels(this.cluster.text, { noprocessing: true })
       this.originLabels = []
-      const keyArr = ['app', 'pod', 'container', 'host', 'stream', 'image']
+      const keyArr = ['app', 'pod', 'container', 'node', 'stream', 'image']
       res.forEach((item) => {
         if (keyArr.indexOf(item) > -1) {
           this.originLabels.push({
@@ -311,6 +332,10 @@ export default {
         typeof item.value === 'string' &&
         item.value.toString().indexOf(search) !== -1
       )
+    },
+    addAlertRule() {
+      this.$emit('replaceUrl')
+      this.$refs.addAlertRule.open()
     },
   },
 }

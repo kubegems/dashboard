@@ -22,6 +22,7 @@
         :data="obj.receivers"
         :cluster="obj.cluster"
         :namespace="obj.namespace"
+        :mode="mode"
         @addData="addData"
         @closeOverlay="closeExpand"
       />
@@ -54,6 +55,10 @@ export default {
     item: {
       type: Object,
       default: () => null,
+    },
+    mode: {
+      type: String,
+      default: () => 'monitor',
     },
   },
   data() {

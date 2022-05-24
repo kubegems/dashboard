@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-btn
@@ -151,10 +151,6 @@ export default {
     UpdateAiModel,
   },
   data: () => ({
-    breadcrumb: {
-      title: '模型商店',
-      tip: '模型商店(ormb)通过镜像仓库来分发模型，可以帮助用户更好的管理他们的机器学习 / 深度学习模型。通过 Ormb，模型能更易于创建、版本化、共享以及发布。',
-    },
     model: {
       id: 1,
       name: 'asr-speech-bokan-v2',

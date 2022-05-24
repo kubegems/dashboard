@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader :selectable="false" />
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-btn
@@ -64,8 +64,8 @@
                   v-if="
                     pvc &&
                       pvc.metadata.annotations &&
-                      pvc.metadata.annotations['gemcloud.io/allow-snapshot'] &&
-                      pvc.metadata.annotations['gemcloud.io/allow-snapshot'] ===
+                      pvc.metadata.annotations['storage.kubegems.io/allow-snapshot'] &&
+                      pvc.metadata.annotations['storage.kubegems.io/allow-snapshot'] ===
                       'true'
                   "
                 >
@@ -109,7 +109,7 @@
           <v-card-text class="pa-0">
             <v-tabs
               v-model="tab"
-              class="rounded-t pl-2 pt-2"
+              class="rounded-t pl-4 pt-4"
             >
               <v-tab
                 v-for="item in tabItems"
@@ -180,11 +180,6 @@ export default {
   },
   mixins: [BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '存储卷',
-      tip: ' 存储卷(persistentVolumeClaim)供用户创建的工作负载使用，是将工作负载数据持久化的一种资源对象。',
-      icon: 'mdi-database',
-    },
     pvc: null,
     tab: 0,
     tabItems: [
@@ -262,7 +257,7 @@ export default {
             this.$route.query.namespace,
             param.item.metadata.name,
           )
-          this.$router.push({ name: 'persistentvolumeclaim-list' })
+          this.$router.push({ name: 'persistentvolumeclaim-list', params: this.$route.params })
         },
       })
     },

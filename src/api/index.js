@@ -89,7 +89,7 @@ axios.interceptors.response.use(
         ['put', 'post', 'patch', 'delete'].indexOf(response.config.method) > -1
       ) {
         store.commit('SET_CIRCULAR', false)
-        if (['cluster/validate-kubeconfig', 'logqueryhistory'].indexOf(response.config.url) === -1) {
+        if (!new RegExp('^(cluster/validate-kubeconfig)$|^(logqueryhistory)$|^(message/\\d+)$').test(response.config.url)) {
           store.commit('SET_SNACKBAR', {
             text: '操作成功',
             color: 'success',
@@ -241,5 +241,5 @@ export * from './resource'
 export * from './system'
 export * from './microservice'
 export * from './metrics'
-export * from './monitor'
-export * from './observability'
+export * from './visualization'
+export * from './integrated'

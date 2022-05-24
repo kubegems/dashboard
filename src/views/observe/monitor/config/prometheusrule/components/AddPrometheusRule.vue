@@ -11,7 +11,9 @@
         :is="formComponent"
         :ref="formComponent"
         :step="step"
-        title="PrometheusRule"
+        :mode="mode"
+        :title="`${mode==='metrics'?'PrometheusRule':'LogRule'}`"
+        :expr="expr"
       />
     </template>
     <template #action>
@@ -49,7 +51,7 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex'
-import { postAddPrometheusRule } from '@/api'
+import { postAddPrometheusRule, postAddLogAlertRule } from '@/api'
 import PrometheusRuleBaseForm from './PrometheusRuleBaseForm'
 import BaseResource from '@/mixins/resource'
 import { deepCopy } from '@/utils/helpers'
@@ -60,6 +62,16 @@ export default {
     PrometheusRuleBaseForm,
   },
   mixins: [BaseResource],
+  props: {
+    mode: {
+      type: String,
+      default: () => 'monitor',
+    },
+    expr: {
+      type: String,
+      default: () => '',
+    },
+  },
   data: () => ({
     dialog: false,
     formComponent: 'PrometheusRuleBaseForm',
@@ -78,31 +90,35 @@ export default {
     // 增加初始值
     // eslint-disable-next-line vue/no-unused-properties
     init(initData) {
-      if (initData) {
-        this.$nextTick(() => {
-          this.$refs[this.formComponent].$refs.Rule.obj = initData
-          this.$refs[this.formComponent].$refs.Rule.setLabelpairs(
-            initData.labelpairs,
-          )
-        })
-      }
+      this.$nextTick(() => {
+        this.$refs[this.formComponent].$refs.Rule.setData(initData)
+        this.$refs[this.formComponent].$refs.Rule.getInhibitLabels()
+      })
     },
     async addPrometheusRule() {
       if (this.$refs[this.formComponent].validate(true)) {
         const obj = deepCopy(this.$refs[this.formComponent].obj)
 
-        // 移除labelpairs中的空值
-        for (const key in obj.labelpairs) {
-          if (!obj.labelpairs[key]) {
-            delete obj.labelpairs[key]
+        if (this.mode === 'monitor') {
+          // 移除labelpairs中的空值
+          for (const key in obj.labelpairs) {
+            if (!obj.labelpairs[key]) {
+              delete obj.labelpairs[key]
+            }
           }
-        }
 
-        await postAddPrometheusRule(
-          this.$route.query.cluster,
-          this.$route.query.namespace,
-          obj,
-        )
+          await postAddPrometheusRule(
+            this.$route.query.cluster,
+            this.$route.query.namespace,
+            obj,
+          )
+        } else if (this.mode === 'logging') {
+          await postAddLogAlertRule(
+            this.$route.query.cluster,
+            this.$route.query.namespace,
+            obj,
+          )
+        }
         this.reset()
         this.$emit('refresh')
       }

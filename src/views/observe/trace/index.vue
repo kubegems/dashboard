@@ -3,7 +3,7 @@
     fluid
     class="search"
   >
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card class="search__main">
       <div class="search__header">
         <ClusterSelect
@@ -51,12 +51,6 @@ export default {
     ClusterSelect,
   },
   data() {
-    this.breadcrumb = {
-      title: '链路追踪',
-      tip: '链路追踪(jaeger)是端到端分布式跟踪监控系统',
-      icon: 'mdi-text-search',
-    }
-
     return {
       cluster: undefined,
       location: 'search',
@@ -144,15 +138,11 @@ export default {
 
 <style lang="scss" scoped>
 .search {
-  position: relative;
   height: 100%;
 
   &__main {
-    position: absolute;
-    top: 86px;
-    right: 12px;
-    bottom: 12px;
-    left: 12px;
+    position: relative;
+    height: 93vh;
   }
 
   &__header {

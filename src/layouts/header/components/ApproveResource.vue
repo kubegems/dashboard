@@ -105,7 +105,7 @@
         class="float-right"
         color="primary"
         text
-        :loading="Circular"
+        :loading="passLoading"
         @click="approvePass"
       >
         通过
@@ -114,7 +114,7 @@
         class="float-right"
         color="error"
         text
-        :loading="Circular"
+        :loading="cancelLoading"
         @click="approveReject"
       >
         拒绝
@@ -126,7 +126,7 @@
 <script>
 import { mapState } from 'vuex'
 import { postApprovePass, postApproveReject, getTenantResourceQuota } from '@/api'
-import ResourceChart from '@/views/tenant/tenant/components/ResourceChart'
+import ResourceChart from '@/views/tenant/tenant/components/ResourceList/ResourceChart'
 import BaseResource from '@/mixins/resource'
 import { deepCopy, sizeOfCpu, sizeOfStorage } from '@/utils/helpers'
 import { required } from '@/utils/rules'
@@ -151,6 +151,8 @@ export default {
         'requests.storage': '',
       },
     },
+    passLoading: false,
+    cancelLoading: false,
   }),
   computed: {
     ...mapState(['Circular']),
@@ -188,6 +190,7 @@ export default {
     },
     async approvePass() {
       if (this.$refs.form.validate(true)) {
+        this.passLoading = true
         const data = {
           Content: {},
         }
@@ -197,12 +200,15 @@ export default {
           this.obj.Content[`requests.storage`]
         }Gi`
         await postApprovePass(this.item.ID, data)
+        this.passLoading = false
         this.reset()
         this.$emit('refresh')
       }
     },
     async approveReject() {
+      this.cancelLoading = true
       await postApproveReject(this.item.ID)
+      this.cancelLoading = false
       this.reset()
       this.$emit('refresh')
     },

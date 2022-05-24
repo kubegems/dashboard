@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader :selectable="false" />
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-btn
@@ -67,7 +67,7 @@
             <v-tabs
               v-model="tab"
               height="40"
-              class="rounded-t pl-2 pt-2"
+              class="rounded-t pl-4 pt-4"
             >
               <v-tab
                 v-for="item in tabItems"
@@ -126,11 +126,6 @@ export default {
   },
   mixins: [BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '容器组',
-      tip: '容器组 (Pod) 是 Kubernetes 应用程序的基本执行单元，是您创建或部署的 Kubernetes 对象模型中最小和最简单的单元。',
-      icon: 'mdi-microsoft',
-    },
     pod: null,
     tab: 0,
     tabItems: [
@@ -156,7 +151,7 @@ export default {
           pod.Content.metadata.name === this.pod.metadata.name
         ) {
           if (pod.EventKind === 'delete') {
-            this.$router.push({ name: 'pod-list' })
+            this.$router.push({ name: 'pod-list', params: this.$route.params })
           } else {
             this.pod = pod.Content
           }
@@ -216,7 +211,7 @@ export default {
             this.$route.query.namespace,
             param.item.metadata.name,
           )
-          this.$router.push({ name: 'pod-list' })
+          this.$router.push({ name: 'pod-list', params: this.$route.params })
         },
       })
     },

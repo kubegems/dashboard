@@ -296,9 +296,7 @@ export default {
       this.clusterQuota()
     },
     async clusterQuota() {
-      const data = await getClusterQuota(this.item.ID, {
-        noprocessing: true,
-      })
+      const data = await getClusterQuota(this.item.ID)
       this.quota = {
         Cpu: sizeOfCpu(data.resources.capacity['cpu']),
         UsedCpu: sizeOfCpu(data.resources.used['cpu']),

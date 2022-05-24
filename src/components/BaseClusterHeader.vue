@@ -22,7 +22,7 @@
               small
               dark
               v-on="on"
-              @click="m_select_clusterSelectData(null)"
+              @click.stop="getCluster"
             >
               <v-icon left>fab fa-docker</v-icon>
               {{ Cluster().ClusterName }}
@@ -40,7 +40,7 @@
               </v-card>
             </template>
             <template #default="props">
-              <v-card v-for="item in props.items" :key="item.text">
+              <v-card v-for="item in props.items" :key="item.text" :loading="loading">
                 <v-list dense>
                   <v-flex class="text-subtitle-2 text-center ma-2">
                     <span>集群</span>
@@ -49,7 +49,7 @@
                   <v-list-item
                     v-for="(cluster, index) in item.values"
                     :key="index"
-                    class="text-body-2 text-center font-weight-medium"
+                    class="text-body-2 text-center font-weight-medium px-2"
                     link
                     :style="
                       cluster.text === Cluster().ClusterName
@@ -58,8 +58,11 @@
                     "
                     @click="setCluster(cluster)"
                   >
-                    <v-list-item-content class="text-body-2 font-weight-medium">
-                      <span>{{ cluster.text }}</span>
+                    <v-list-item-content class="text-body-2 font-weight-medium text-start">
+                      <div>
+                        <v-icon left small color="primary">fab fa-docker</v-icon>
+                        {{ cluster.text }}
+                      </div>
                     </v-list-item-content>
                   </v-list-item>
                 </v-list>
@@ -95,6 +98,7 @@ export default {
   },
   data: () => ({
     clusterMenu: false,
+    loading: false,
   }),
   computed: {
     ...mapGetters(['Cluster']),
@@ -102,7 +106,7 @@ export default {
   methods: {
     async setCluster(item) {
       this.$store.commit('SET_NAMESPACE_FILTER', null)
-      this.$router.replace({
+      await this.$router.replace({
         params: { cluster: item.text },
         query: {
           ...this.$route.query,
@@ -111,9 +115,12 @@ export default {
         },
       })
       await this.$store.dispatch('UPDATE_CLUSTER_DATA')
-      window.setTimeout(() => {
-        this.reload()
-      }, 800)
+      this.reload()
+    },
+    async getCluster() {
+      this.loading = true
+      await this.m_select_clusterSelectData(null)
+      this.loading = false
     },
   },
 }

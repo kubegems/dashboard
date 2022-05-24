@@ -1,9 +1,9 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
-      <v-card-title class="py-2">
+      <v-card-title class="py-4">
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '服务名称', value: 'search' }"
@@ -196,11 +196,6 @@ export default {
   },
   mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
-    breadcrumb: {
-      title: '服务',
-      tip: '服务 (Service) 是定义了一类容器组的逻辑集合和一个用于访问它们的策略。',
-      icon: 'mdi-dns',
-    },
     items: [],
     pageCount: 0,
     params: {
@@ -296,13 +291,15 @@ export default {
       )
       data.List = data.List.map((d) => {
         const services = []
-        d.spec.ports.forEach((s) => {
-          if (s.nodePort !== undefined) {
-            services.push(`${s.port}:${s.nodePort} ｜ ${s.protocol}`)
-          } else {
-            services.push(`${s.port} ｜ ${s.protocol}`)
-          }
-        })
+        if (d.spec?.ports) {
+          d.spec.ports.forEach((s) => {
+            if (s.nodePort !== undefined) {
+              services.push(`${s.port}:${s.nodePort} ｜ ${s.protocol}`)
+            } else {
+              services.push(`${s.port} ｜ ${s.protocol}`)
+            }
+          })
+        }
         return { ...d, services: services }
       })
       this.items = data.List
@@ -314,9 +311,9 @@ export default {
     serviceDetail(item) {
       this.$router.push({
         name: 'service-detail',
-        params: {
+        params: Object.assign(this.$route.params, {
           name: item.metadata.name,
-        },
+        }),
         query: {
           namespace: item.metadata.namespace,
         },

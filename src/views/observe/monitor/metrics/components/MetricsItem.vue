@@ -10,13 +10,12 @@
         设置告警
       </v-btn>
     </h3>
-    <v-row
-      no-gutters
-      class="metrics-item__filter"
-    >
+    <v-row :style="{ maxHeight: `${maxHeight}px` }">
       <v-col
-        v-for="(label, index) in labels"
+        v-for="(label) in labels"
         :key="label.text"
+        cols="4"
+        class="py-1 px-4"
       >
         <v-autocomplete
           :value="labelpairs[label.text]"
@@ -26,8 +25,9 @@
           flat
           multiple
           solo
-          :class="{ 'ml-4': index !== 0 }"
+          class="my-1"
           attach
+          hide-selected
           hide-details
           no-data-text="暂无可选数据"
           @focus="onLoadLabelFocus(label.text)"
@@ -78,6 +78,7 @@
 import { mapState } from 'vuex'
 import MetricsLineChart from './MetricsLineChart'
 import { debounce } from '@/utils/helpers'
+import { SERVICE_MONITOR_NS } from '@/utils/namespace'
 
 export default {
   name: 'MetricsItem',
@@ -126,12 +127,19 @@ export default {
         const m = item.metric
         return {
           name: Object.keys(m).reduce(
-            (pre, current) => pre + `${current}="${m[current]}" `,
+            (pre, current) => pre + `${current}='${m[current]}' `,
             '',
           ),
           data: item.values,
         }
       })
+    },
+    maxHeight() {
+      if (this.labels.length % 3 === 0) {
+        return 48 * this.labels.length / 3
+      } else {
+        return 48 * parseInt(this.labels.length / 3 + 1)
+      }
     },
   },
   mounted() {
@@ -151,7 +159,7 @@ export default {
       }
     },
     setAlert() {
-      const { resource, rule, unit, environment } = this.data._$origin
+      const { resource, rule, unit, cluster, namespace, environment, ql, expr } = this.data._$origin
       const labelpairs = {}
       for (const key in this.labelpairs) {
         if (this.labelpairs[key] && this.labelpairs[key].length) {
@@ -162,19 +170,35 @@ export default {
           )
         }
       }
+      let params = {}
+      if (ql) {
+        params = {expr: expr }
+      } else {
+        params = {promqlGenerator: {
+            resource: resource._$value,
+            rule: rule._$value,
+            unit: unit?._$value,
+          },
+        }
+      }
+      this.$emit('alert', Object.assign({
+          name: '',
+          for: '1m',
+          promqlGenerator: {
+            resource: resource._$value,
+            rule: rule._$value,
+            unit: unit?._$value,
+          },
+          labelpairs,
+          alertLevels: [],
+          receivers: [],
+        }, params),
+      )
 
-      this.$emit('alert', {
-        name: '',
-        cluster: environment?.Cluster.ClusterName,
-        namespace: environment?.Namespace,
-        for: '1m',
-        resource: resource._$value,
-        rule: rule._$value,
-        unit: unit?._$value,
-        labelpairs,
-        alertLevels: [],
-        receivers: [],
-      })
+      this.$router.replace({query: {
+        cluster: environment?.Cluster.ClusterName || cluster?.text,
+        namespace: namespace || SERVICE_MONITOR_NS,
+      }})
     },
     onLoadLabelFocus(label) {
       this.$emit('loadLabel', label)
@@ -202,10 +226,6 @@ export default {
     display: flex;
     justify-content: space-between;
     margin-bottom: 24px;
-  }
-
-  &__filter {
-    max-height: 48px;
   }
 
   &__chart {

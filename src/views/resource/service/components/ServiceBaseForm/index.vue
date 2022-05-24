@@ -334,7 +334,6 @@ export default {
     async loadData() {
       this.$nextTick(async () => {
         if (!this.item) {
-          this.obj = this.$options.data().obj
           this.$refs.form.resetValidation()
         } else {
           this.obj = deepCopy(this.item)
@@ -525,6 +524,7 @@ export default {
       this.$refs.servicePortForm.closeCard()
       this.$refs.form.reset()
       this.selector = ''
+      this.obj = this.$options.data().obj
     },
     // eslint-disable-next-line vue/no-unused-properties
     init(data) {

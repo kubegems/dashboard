@@ -4,9 +4,9 @@
       v-if="!AdminViewport"
       :environmented="false"
     />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
-      <v-card-title class="py-2">
+      <v-card-title class="py-4">
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '镜像仓库名称', value: 'search' }"
@@ -185,11 +185,6 @@ export default {
   },
   mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
-    breadcrumb: {
-      title: '镜像仓库',
-      tip: '镜像仓库(registry)是一种存储库（或存储库集合），用于存储Kubernetes、DevOps 和基于容器的应用开发的容器镜像。',
-      icon: 'mdi-database',
-    },
     items: [],
     pageCount: 0,
     params: {
@@ -227,10 +222,6 @@ export default {
     if (this.JWT) {
       this.$nextTick(() => {
         if (!this.AdminViewport && this.Project().ID === 0) {
-          this.$store.commit('SET_SNACKBAR', {
-            text: '请先选择项目',
-            color: 'warning',
-          })
           return
         }
         Object.assign(this.params, convertStrToNum(this.$route.query))

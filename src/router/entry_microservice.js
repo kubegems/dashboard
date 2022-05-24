@@ -30,6 +30,7 @@ export const entryMicroService = [
               show: true,
               rootName: 'entry-microservice',
               dependencies: ['istio'],
+              tip: 'virtualspace',
             },
           },
           // dnsdomain
@@ -44,6 +45,7 @@ export const entryMicroService = [
               show: true,
               rootName: 'entry-microservice',
               dependencies: ['istio'],
+              tip: 'dns',
             },
           },
         ],

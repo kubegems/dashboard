@@ -23,7 +23,6 @@
         hide-details
         multiple
         full-width
-        @keydown.enter.native="search"
       >
         <template #prepend-inner>
           <v-chip
@@ -121,8 +120,11 @@
       <div class="my-2 kubegems__detail text-body-2">项目环境</div>
       <ProjectEnvSelect
         :series="series"
+        :loading="loading"
         @setEnvironment="handleSetEnvironment"
         @clearProject="handleClearProject"
+        @clear="handlerClear"
+        @refresh="handlerRefresh"
       />
       <div class="my-2 kubegems__detail text-body-2">{{ queryType === 'tag' ? '选择标签' : '查询语句' }}</div>
       <LabelSelector
@@ -136,6 +138,7 @@
         :log-q-l="logQL"
         :cluster="cluster"
         @setQl="setQl"
+        @replaceUrl="replaceUrl"
       />
     </div>
 
@@ -144,7 +147,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 import { getLogSeries } from '@/api'
 import LabelSelector from './LabelSelector'
 import AdvancedTextare from './AdvancedTextare'
@@ -163,7 +166,7 @@ export default {
       default: () => [],
     },
   },
-  data () {
+  data() {
     return {
       expand: false,
       queryType: 'tag',
@@ -179,12 +182,13 @@ export default {
 
       projectName: '',
       environmentName: '',
+      namespace: '',
+      loading: false,
     }
   },
   computed: {
     ...mapState(['AdminViewport', 'JWT']),
-    ...mapGetters(['Tenant']),
-    comboboxTags () {
+    comboboxTags() {
       const tags = []
       Object.keys(this.selected).forEach(k => {
         this.selected[k].forEach(v => {
@@ -194,10 +198,17 @@ export default {
       return tags
     },
     regexQL() {
-      return this.filter ? this.filter.map(reg => { return ` |~ \`${reg}\`` }).join('') : ''
+      let filterQl = ''
+      if (this.filter) {
+        filterQl = this.filter.map(reg => { return ` |~ \`${reg}\`` }).join('')
+      }
+      if (this.advancedQl) {
+        filterQl = this.advancedQl.split('|~').filter((reg, index) => { return index > 0 }).map(reg => { return ` |~ \`${reg.replaceAll('`', '').trim()}\`` }).join('')
+      }
+      return filterQl
     },
-    logQL () {
-      const pe = this.projectName && this.environmentName ? `project="${this.projectName}", environment="${this.environmentName}"` : ''
+    logQL() {
+      const pe = this.namespace ? `namespace="${this.namespace}"` : ''
       const obj = this.selected || {}
       const keys = Object.keys(obj).filter(k => obj[k] && obj[k].length)
       const match = keys.reduce((pre, key) => pre + `,${key}=~"${obj[key].join('|')}"`, '')
@@ -214,8 +225,8 @@ export default {
   mounted() {
     this.$nextTick(() => {
       if (this.$route.query.query) {
-        const keyArr = ['app', 'pod', 'container', 'host', 'stream', 'image']
-        const reg = new RegExp('(\\w+)=~?"([\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/\|]+)"', 'g')
+        const keyArr = ['app', 'pod', 'container', 'stream', 'node', 'image']
+        const reg = new RegExp('([\\u4e00-\\u9fa5\\w]+)=~?"([\\u4e00-\\u9fa5\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/\|]+)"', 'g')
         const selected = {}
         this.$route.query.query.match(reg).map(s => {
           const l = s.split('=')
@@ -226,6 +237,11 @@ export default {
           }
         })
         this.selected = selected
+      } else {
+        this.$router.replace({
+          name: this.$route.name,
+        })
+        return
       }
       if (this.$route.query.filters) {
         this.filter = typeof this.$route.query.filters === 'string' ? [this.$route.query.filters] : this.$route.query.filters
@@ -234,17 +250,15 @@ export default {
   },
   methods: {
     // 获取Series并设置集群按钮徽标值
-    async getSeriesList (clusterName) {
-      const match = this.AdminViewport
-        ? `{ project="${this.projectName}", environment="${this.environmentName}" }`
-        : `{ project="${this.projectName}", environment="${this.environmentName}",tenant=~"^${this.Tenant().TenantName}$" }`
-
-      const data = await getLogSeries(clusterName, {
-        match,
+    async getSeriesList() {
+      this.loading = true
+      const data = await getLogSeries(this.cluster.text, {
+        match: `{ namespace="${this.namespace}" }`,
         start: this.dateTimestamp[0],
         end: this.dateTimestamp[1],
         noprocessing: true,
       })
+      this.loading = false
       this.series = data
     },
 
@@ -252,6 +266,7 @@ export default {
       this.cluster = {}
       this.projectName = ''
       this.environmentName = ''
+      this.namespace = ''
       this.selected = {}
       this.$emit('setCluster', this.cluster)
     },
@@ -263,8 +278,9 @@ export default {
         }
         this.projectName = projectName
         this.environmentName = env.environmentName
-        await this.getSeriesList(env.clusterName)
+        this.namespace = env.namespace
         this.$emit('setCluster', this.cluster)
+        await this.getSeriesList()
         if (triggerQuery) {
           this.search()
         } else {
@@ -273,30 +289,30 @@ export default {
       }
     },
 
-    handleExpand () {
+    handleExpand() {
       this.expand = !this.expand
     },
 
-    handleRemoveRegexp (item) {
+    handleRemoveRegexp(item) {
       const index = this.filter.indexOf(item)
       this.filter.splice(index, 1)
-      this.search()
+      // this.search()
     },
 
-    handleRemoveTag (key, value) {
+    handleRemoveTag(key, value) {
       this.$set(this.selected, key, this.selected[key].filter(v => v !== value))
     },
 
-    handleSaveSnapshot () {
+    handleSaveSnapshot() {
       this.$emit('saveSnapshot')
     },
 
-    handleHistory () {
+    handleHistory() {
       this.$emit('showHistroy')
     },
 
     // eslint-disable-next-line vue/no-unused-properties
-    handleParseLabel (input) {
+    handleParseLabel(input) {
       const labelMatchArr = input.match(new RegExp('{(.*)}'))
       if (labelMatchArr && labelMatchArr.length > 1) {
         const labelArr = labelMatchArr[1].split(',')
@@ -322,7 +338,7 @@ export default {
     },
 
     // eslint-disable-next-line vue/no-unused-properties
-    handleParseFilter (input) {
+    handleParseFilter(input) {
       const filterList = []
       const matchedArr = input.match(new RegExp('{.*}(.*)'))
       if (matchedArr && matchedArr.length > 1) {
@@ -339,22 +355,42 @@ export default {
       return filterList
     },
 
-    search () {
+    // 生成日志告警
+    replaceUrl() {
+      this.$router.replace({
+        name: this.$route.name,
+        query: {
+          ...this.$route.query,
+          cluster: this.cluster.text,
+          namespace: this.namespace,
+        },
+      })
+    },
+
+    search() {
       // 保证logQL和regexp 获取到最新值
       this.$nextTick(() => {
         this.expand = false
-        this.$emit('search', { logQL: this.advancedQl || this.logQL, regexp: this.regexQL, projectName: this.projectName, environmentName: this.environmentName })
+        const _v = this
+        window.setTimeout(() => {
+          _v.$emit('search', {
+            logQL: this.advancedQl || this.logQL,
+            regexp: this.regexQL,
+            projectName: this.projectName,
+            environmentName: this.environmentName,
+          })
+        }, 100)
       })
     },
 
     // eslint-disable-next-line vue/no-unused-properties
-    clear () {
+    clear() {
       this.selected = {}
       this.regexp = undefined
     },
 
     // eslint-disable-next-line vue/no-unused-properties
-    setSelectedValue (key, value, switchValue = false) {
+    setSelectedValue(key, value, switchValue = false) {
       if (this.selected[key]) {
         if (this.selected[key].includes(value)) {
           switchValue && this.handleRemoveTag(key, value)
@@ -367,7 +403,7 @@ export default {
     },
 
     // eslint-disable-next-line vue/no-unused-properties
-    setRegexp (value) {
+    setRegexp(value) {
       this.regexp = value
     },
 
@@ -402,13 +438,7 @@ export default {
       }
     },
     constructParams() {
-      let ql = this.advancedQl || this.logQL
-
-      // 补充租户信息
-      if (!this.AdminViewport && !new RegExp('tenant="([\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)"', 'g').test(ql)) {
-        const index = ql.indexOf('{')
-        ql = ql.substr(0, index + 1) + `tenant="${this.Tenant().TenantName}",` + ql.substr(index + 1)
-      }
+      const ql = this.advancedQl || this.logQL
 
       const data = {
         start: Date.parse(new Date()).toString() + '000000',
@@ -466,6 +496,15 @@ export default {
         this.advancedQl = ''
         this.expand = false
       }
+    },
+
+    handlerClear() {
+      this.selected = {}
+    },
+
+    handlerRefresh() {
+      this.selected = {}
+      this.getSeriesList()
     },
   },
 }

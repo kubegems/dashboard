@@ -4,9 +4,9 @@
       v-if="!AdminViewport"
       :environmented="Environment().ID > 0"
     />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
-      <v-card-title class="py-2">
+      <v-card-title class="py-4">
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '应用名称', value: 'search' }"
@@ -230,6 +230,7 @@
                   };`"
                 />
                 {{ item.runtime.status ? item.runtime.status : '' }}
+                {{ getStatus(item) }}
               </template>
             </AppEventTip>
           </template>
@@ -318,11 +319,6 @@ export default {
   },
   mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
-    breadcrumb: {
-      title: '应用',
-      tip: '应用(Application)是来自应用编排与应用商店部署下的应用运行时',
-      icon: 'mdi-apps',
-    },
     items: [],
     pageCount: 0,
     params: {
@@ -464,10 +460,6 @@ export default {
     if (this.JWT) {
       this.$nextTick(() => {
         if (!this.AdminViewport && this.Project().ID === 0) {
-          this.$store.commit('SET_SNACKBAR', {
-            text: '请先选择项目',
-            color: 'warning',
-          })
           return
         }
         this.m_table_generateParams()
@@ -580,7 +572,7 @@ export default {
       }
       this.$router.push({
         name: 'app-detail',
-        params: { name: item.name },
+        params: Object.assign(this.$route.params, { name: item.name }),
         query: {
           projectid: this.Project().ID,
           tenantid: this.Tenant().ID,
@@ -631,6 +623,16 @@ export default {
     },
     onPageIndexChange(page) {
       this.params.page = page
+    },
+    getStatus(item) {
+      const status = []
+      if (!['Synced', 'OutOfSync'].includes(item?.runtime?.raw?.status?.sync?.status)) {
+        status.push(`Sync: ${item?.runtime?.raw?.status?.sync?.status || '未知'}`)
+      }
+      if (item?.runtime?.raw?.status?.operationState?.phase !== 'Succeeded') {
+        status.push(`Operation: ${item?.runtime?.raw?.status?.operationState?.phase || '未知'}`)
+      }
+      return status.length > 0 ? `( ${status.join(', ')} ) ` : ''
     },
   },
 }

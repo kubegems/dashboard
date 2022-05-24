@@ -13,26 +13,22 @@ on:
         "*.md",
         ".dockerignore",
         ".gitignore",
-        "**/ci.yml",
         ".vscode/*",
-        "*.png",
-        "*.jpg",
-        "*.jpeg",
       ]
   pull_request:
     branches:
       - "main"
+      - "feat/*"
+      - "fix/*"
+      - "enhancement/*"
+      - "develop"
     paths-ignore:
       [
         "**/*.md",
         "*.md",
         ".dockerignore",
         ".gitignore",
-        "**/ci.yml",
         ".vscode/*",
-        "*.png",
-        "*.jpg",
-        "*.jpeg",
       ]
 
 env:

@@ -22,7 +22,7 @@
               small
               dark
               v-on="on"
-              @click="m_select_tenantProjectSelectData"
+              @click.stop="getProject"
             >
               <v-icon left>fas fa-cube</v-icon>
               {{ Project().ProjectName }}
@@ -40,7 +40,7 @@
               </v-card>
             </template>
             <template #default="props">
-              <v-card v-for="item in props.items" :key="item.text">
+              <v-card v-for="item in props.items" :key="item.text" :loading="loadingPro">
                 <v-list dense>
                   <v-flex class="text-subtitle-2 text-center ma-2">
                     <span>项目</span>
@@ -49,7 +49,7 @@
                   <v-list-item
                     v-for="(project, index) in item.values"
                     :key="index"
-                    class="text-body-2 text-center font-weight-medium"
+                    class="text-body-2 text-center font-weight-medium px-2"
                     link
                     :style="
                       project.text === Project().ProjectName
@@ -58,8 +58,11 @@
                     "
                     @click="setProject(project)"
                   >
-                    <v-list-item-content class="text-body-2 font-weight-medium">
-                      <span>{{ project.text }}</span>
+                    <v-list-item-content class="text-body-2 font-weight-medium text-start">
+                      <div>
+                        <v-icon left small color="primary">fas fa-cube</v-icon>
+                        {{ project.text }}
+                      </div>
                     </v-list-item-content>
                   </v-list-item>
                 </v-list>
@@ -100,7 +103,7 @@
                 small
                 dark
                 v-on="on"
-                @click.stop="m_select_projectEnvironmentSelectData(Project().ID)"
+                @click.stop="getEnvironment"
               >
                 <v-icon left>fas fa-cloud</v-icon>
                 {{ Environment().EnvironmentName }}
@@ -118,7 +121,7 @@
                 </v-card>
               </template>
               <template #default="props">
-                <v-card v-for="item in props.items" :key="item.text">
+                <v-card v-for="item in props.items" :key="item.text" :loading="loadingEnv">
                   <v-list dense>
                     <v-flex class="text-subtitle-2 text-center ma-2">
                       <span>环境</span>
@@ -127,7 +130,7 @@
                     <v-list-item
                       v-for="(environment, index) in item.values"
                       :key="index"
-                      class="text-body-2 text-center font-weight-medium"
+                      class="text-body-2 text-center font-weight-medium px-2"
                       link
                       :style="
                         environment.text === Environment().EnvironmentName
@@ -137,9 +140,12 @@
                       @click="setEnvironment(environment)"
                     >
                       <v-list-item-content
-                        class="text-body-2 font-weight-medium"
+                        class="text-body-2 font-weight-medium text-start"
                       >
-                        <span>{{ environment.text }}</span>
+                        <div>
+                          <v-icon left small color="primary">fas fa-cloud</v-icon>
+                          {{ environment.text }}
+                        </div>
                       </v-list-item-content>
                     </v-list-item>
                   </v-list>
@@ -207,6 +213,8 @@ export default {
   data: () => ({
     projectMenu: false,
     environmentMenu: false,
+    loadingPro: false,
+    loadingEnv: false
   }),
   computed: {
     ...mapState(['AdminViewport']),
@@ -223,7 +231,7 @@ export default {
           })
           return
         } else {
-          this.$router.replace({
+          await this.$router.replace({
             params: {
               tenant: this.Tenant().TenantName,
               project: item.text,
@@ -232,28 +240,27 @@ export default {
           })
         }
       } else {
-        this.$router.replace({
+        await this.$router.replace({
           params: {
             tenant: this.Tenant().TenantName,
             project: item.text,
           },
         })
       }
-      window.setTimeout(() => {
-        this.reload()
-      }, 800)
+      this.reload()
     },
     async setEnvironment(item) {
-      this.$router.replace({
+      await this.$router.replace({
         params: {
           tenant: this.Tenant().TenantName,
           project: this.Project().ProjectName,
           environment: item.text,
         },
+        query: {
+          timestamp: Date.parse(new Date())
+        }
       })
-      window.setTimeout(() => {
-        this.reload()
-      }, 800)
+      this.reload()
     },
     toProject() {
       this.$store.commit('CLEAR_RESOURCEIRONMENT')
@@ -265,6 +272,16 @@ export default {
           project: this.Project().ProjectName,
         },
       })
+    },
+    async getProject() {
+      this.loadingPro = true
+      await this.m_select_tenantProjectSelectData()
+      this.loadingPro = false
+    },
+    async getEnvironment() {
+      this.loadingEnv = true
+      await this.m_select_projectEnvironmentSelectData(this.Project().ID)
+      this.loadingEnv = false
     },
   },
 }

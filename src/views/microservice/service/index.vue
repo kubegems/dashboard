@@ -1,9 +1,9 @@
 <template>
   <v-container fluid>
     <BaseMicroServiceHeader />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
-      <v-card-title class="py-2">
+      <v-card-title class="py-4">
         <BaseFilter
           :filters="filters"
           :reload="false"
@@ -369,11 +369,6 @@ export default {
   },
   mixins: [BasePermission, BaseFilter],
   data: () => ({
-    breadcrumb: {
-      title: '服务',
-      tip: '服务 (Service) 是定义了一类容器组的逻辑集合和一个用于访问它们的策略。',
-      icon: 'mdi-network',
-    },
     items: [],
     valids: {},
     pageCount: 0,
@@ -446,7 +441,7 @@ export default {
     kialiServiceDetail(item) {
       this.$router.push({
         name: 'microservice-detail',
-        params: { name: item.name },
+        params: Object.assign(this.$route.params, { name: item.name }),
         query: {
           type: 'Service',
           namespace: this.EnvironmentFilter.namespace,

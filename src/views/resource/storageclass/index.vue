@@ -1,40 +1,14 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-row class="mt-0">
       <v-col
         v-for="(item, index) in items"
         :key="index"
         cols="3"
       >
-        <v-card
-          v-if="item.add"
-          class="kubegems__full-height"
-          min-height="156"
-        >
-          <v-card-text class="pa-0 kubegems__full-height">
-            <v-list-item
-              three-line
-              class="kubegems__full-height"
-            >
-              <v-list-item-content>
-                <v-btn
-                  text
-                  block
-                  color="primary"
-                  class="text-h6"
-                  @click="addStorageClass"
-                >
-                  <v-icon left>mdi-plus-box</v-icon>
-                  创建存储类型
-                </v-btn>
-              </v-list-item-content>
-            </v-list-item>
-          </v-card-text>
-        </v-card>
         <v-hover
-          v-else
           #default="{ hover }"
         >
           <v-card
@@ -123,6 +97,32 @@
           </v-card>
         </v-hover>
       </v-col>
+      <v-col cols="3">
+        <v-card
+          class="kubegems__full-height"
+          min-height="156"
+        >
+          <v-card-text class="pa-0 kubegems__full-height">
+            <v-list-item
+              three-line
+              class="kubegems__full-height"
+            >
+              <v-list-item-content>
+                <v-btn
+                  text
+                  block
+                  color="primary"
+                  class="text-h6"
+                  @click="addStorageClass"
+                >
+                  <v-icon left>mdi-plus-box</v-icon>
+                  创建存储类型
+                </v-btn>
+              </v-list-item-content>
+            </v-list-item>
+          </v-card-text>
+        </v-card>
+      </v-col>
     </v-row>
 
     <AddStorageClass
@@ -153,11 +153,6 @@ export default {
   },
   mixins: [BaseFilter, BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '存储类型',
-      tip: '存储类型 (StorageClass) 是由集群管理员配置存储服务端参数，并按类型提供存储给集群用户使用',
-      icon: 'mdi-database',
-    },
     items: [],
   }),
   computed: {
@@ -183,7 +178,6 @@ export default {
         size: 1000,
       })
       this.items = data.List
-      this.items.push({ add: true })
     },
     addStorageClass() {
       this.$refs.addStorageClass.open()

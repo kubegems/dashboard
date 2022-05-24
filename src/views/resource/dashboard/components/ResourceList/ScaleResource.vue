@@ -117,7 +117,7 @@
 <script>
 import { mapState } from 'vuex'
 import { postTenantResourceApply, getTenantResourceApplyDetail } from '@/api'
-import ResourceChart from '@/views/tenant/tenant/components/ResourceChart'
+import ResourceChart from '@/views/tenant/tenant/components/ResourceList/ResourceChart'
 import BaseResource from '@/mixins/resource'
 import { deepCopy } from '@/utils/helpers'
 import { required } from '@/utils/rules'

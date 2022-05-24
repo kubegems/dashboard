@@ -87,14 +87,16 @@
 </template>
 
 <script>
-import ClusterSelect from '@/views/observe/components/ClusterSelect'
 import { getLogQueryHistoryList, deleteLogQueryHistory } from '@/api'
+import ClusterSelect from '@/views/observe/components/ClusterSelect'
+import BaseSelect from '@/mixins/select'
 
 export default {
   name: 'LogHistory',
   components: {
     ClusterSelect,
   },
+  mixins: [BaseSelect],
   inject: ['reload'],
   data () {
     this.headers = [
@@ -111,12 +113,20 @@ export default {
       visible: false,
       cluster: {},
       items: [],
+      namespace: '',
     }
+  },
+  computed: {
+    env() {
+      const env = this.m_select_environmentItems.find(e => { return e.value === this.namespace })
+      return env
+    },
   },
   methods: {
     // eslint-disable-next-line vue/no-unused-properties
     show () {
       this.visible = true
+      this.m_select_environmentSelectData()
     },
 
     async getHistoryList () {
@@ -177,27 +187,30 @@ export default {
     },
 
     handleQuery (item) {
-      let [projectName, environmentName] = ['', '']
-      const project = new RegExp('project="([\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)"', 'g').exec(item.LogQL)
-      if (project) {
-        projectName = project[1]
+      const ns = new RegExp('namespace="([\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)"', 'g').exec(item.LogQL)
+      if (ns) {
+        this.namespace = ns[1]
       }
+      const env = this.env
 
-      const environment = new RegExp('environment="([\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)"', 'g').exec(item.LogQL)
-      if (environment) {
-        environmentName = environment[1]
-      }
-      if (project && environment) {
+      if (this.namespace && env) {
         this.$router.replace({
           query: {
             query: item.LogQL,
-            project: projectName,
-            environment: environmentName,
+            project: env.projectName,
+            environment: env.text,
+            cluster: env.clusterName,
+            namespace: this.namespace,
             filters: item.FilterJSON,
           },
         })
         this.visible = false
         this.reload()
+      } else {
+        this.$store.commit('SET_SNACKBAR', {
+          text: '无法解析namespace标签',
+          color: 'warning',
+        })
       }
     },
 

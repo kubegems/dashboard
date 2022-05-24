@@ -229,7 +229,6 @@
 
 <script>
 import { mapState } from 'vuex'
-import { matrix } from '@/api'
 import ContainerLog from '@/views/resource/components/common/ContainerLog'
 import Terminal from '@/views/resource/components/common/Terminal'
 import BasePermission from '@/mixins/permission'
@@ -319,7 +318,7 @@ export default {
           .replaceAll('$1', containers.join('|'))
           .replaceAll('$2', this.item.metadata.name)
           .replaceAll('$3', this.item.metadata.namespace)
-        const data = await matrix(this.ThisCluster, {
+        const data = await this.m_permission_matrix(this.ThisCluster, {
           query: query,
           start: this.$moment(
             new Date(new Date().setMinutes(new Date().getMinutes() - 15)),
@@ -364,7 +363,7 @@ export default {
           .replaceAll('$1', containers.join('|'))
           .replaceAll('$2', this.item.metadata.name)
           .replaceAll('$3', this.item.metadata.namespace)
-        const data = await matrix(this.ThisCluster, {
+        const data = await this.m_permission_matrix(this.ThisCluster, {
           query: query,
           start: this.$moment(
             new Date(new Date().setMinutes(new Date().getMinutes() - 15)),

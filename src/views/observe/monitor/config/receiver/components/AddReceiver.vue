@@ -39,6 +39,12 @@ export default {
     ReceiverBaseForm,
   },
   mixins: [BaseResource],
+  props: {
+    mode: {
+      type: String,
+      default: () => 'monitor',
+    },
+  },
   data: () => ({
     dialog: false,
     formComponent: 'ReceiverBaseForm',
@@ -56,17 +62,9 @@ export default {
         this.$refs[this.formComponent].$refs.form.validate(true) &&
         this.$refs[this.formComponent].validate()
       ) {
-        let data = this.$refs[this.formComponent].obj
+        let data = this.$refs[this.formComponent].getData()
         data = this.m_resource_beautifyData(data)
-        if (!this.AdminViewport) {
-          await postAddReceiver(this.$route.query.cluster, this.$route.query.namespace, data)
-        } else {
-          await postAddReceiver(
-            this.$route.query.cluster,
-            this.$refs[this.formComponent].namespace,
-            data,
-          )
-        }
+        await postAddReceiver(this.$route.query.cluster, this.$route.query.namespace, {scope: this.mode}, data)
         this.reset()
         this.$emit('refresh')
       }

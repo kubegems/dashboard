@@ -45,18 +45,7 @@ const router = new Router({
     .concat(userCenter), // 用户中心
 })
 
-router.onError((error) => {
-  const pattern = new RegExp('Loading chunk (\\d)+ failed', 'g')
-  const isChunkLoadFailed = error.message.match(pattern)
-  if (router.history.pending) {
-    const targetPath = router.history.pending.fullPath
-    if (isChunkLoadFailed) {
-      router.replace(targetPath)
-    }
-  }
-})
-
-router.beforeEach(async function (to, from, next) {
+router.beforeEach(async (to, from, next) => {
   if (to.name === null) {
     next({ name: '404' })
     return
@@ -85,9 +74,6 @@ router.beforeEach(async function (to, from, next) {
           await store.dispatch('UPDATE_CLUSTER_DATA')
         }
         store.commit('SET_LATEST_CLUSTER', { cluster: to.params.cluster })
-      } else {
-        next({ name: '403' })
-        return
       }
     }
     let currentTenant = null

@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-btn
@@ -18,7 +18,7 @@
             Yaml
           </v-btn>
           <v-menu
-            v-if="m_permisson_resourceAllow"
+            v-if="m_permisson_resourceAllow($route.query.env)"
             left
           >
             <template #activator="{ on }">
@@ -76,7 +76,7 @@
             <v-tabs
               v-model="tab"
               height="40"
-              class="rounded-t pl-2 pt-2"
+              class="rounded-t pl-4 pt-4"
             >
               <v-tab
                 v-for="item in tabItems"
@@ -132,11 +132,6 @@ export default {
   },
   mixins: [BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '采集器',
-      tip: '采集器 (ServiceMonitor) 为一组服务定义监控, 自动被Prometheus发现, 成为其指标拉取目标Target。',
-      icon: 'mdi-eyedropper',
-    },
     serviceMonitor: null,
     tab: 0,
     tabItems: [
@@ -196,7 +191,7 @@ export default {
             this.$route.query.namespace,
             param.item.metadata.name,
           )
-          this.$router.push({ name: 'servicemonitor-list' })
+          this.$router.push({ name: 'observe-monitor-config', params: this.$route.params, query: this.$route.query})
         },
       })
     },

@@ -10,5 +10,6 @@ module.exports = {
     'declaration-colon-newline-after': null,
     'font-family-no-missing-generic-family-keyword': null,
     'at-rule-no-unknown': [true, { 'ignoreAtRules': ['while'] }],
+
   },
 }

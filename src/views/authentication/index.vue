@@ -14,12 +14,7 @@
             />
           </v-flex>
           <v-flex
-            class="float-left ml-2"
-            style="
-              line-height: 58px;
-              font-weight: bold;
-              font-family: Yuanti SC, YouYuan, Microsoft Yahei !important;
-"
+            class="float-left ml-2 font"
           >
             容器云平台
           </v-flex>
@@ -45,6 +40,7 @@
               cols="12"
               lg="9"
               xl="6"
+              class="login"
             >
               <h2 class="font-weight-bold mt-4 blue-grey--text text--darken-2">
                 用户登录
@@ -275,7 +271,7 @@ export default {
 <style lang="scss" scoped>
 .copyright {
   position: absolute;
-  bottom: 0;
+  bottom: 10px;
   left: 0;
   right: 0;
   text-align: center;
@@ -307,5 +303,15 @@ export default {
 
 .divide::after {
   margin-left: 0.25rem;
+}
+
+.login {
+  margin: auto;
+}
+
+.font {
+  line-height: 58px;
+  font-weight: bold;
+  font-family: Yuanti SC, YouYuan, Microsoft Yahei !important;
 }
 </style>
