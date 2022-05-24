@@ -26,20 +26,35 @@
       :volume-mount-name="volumeMountName"
       :volume="volume"
     />
+    <VolumeMountForInitContainer
+      v-if="initContainers && initContainers.length > 0"
+      ref="volumeMountForInitContainer"
+      :init-containers="initContainers"
+      :volume-mount-name="volumeMountName"
+      :volume="volume"
+    />
   </v-form>
 </template>
 
 <script>
 import VolumeMount from './VolumeMount'
+import VolumeMountForInitContainer from './VolumeMountForInitContainer'
 import BaseResource from '@/mixins/resource'
 import { required } from '@/utils/rules'
 
 export default {
   name: 'EmptyDirMount',
-  components: { VolumeMount },
+  components: {
+    VolumeMount,
+    VolumeMountForInitContainer,
+  },
   mixins: [BaseResource],
   props: {
     containers: {
+      type: Array,
+      default: () => [],
+    },
+    initContainers: {
       type: Array,
       default: () => [],
     },
@@ -100,8 +115,24 @@ export default {
       }
       return null
     },
+    // eslint-disable-next-line vue/no-unused-properties
+    generateInitData() {
+      if (this.$refs.form.validate(true)) {
+        const data = this.$refs.volumeMountForInitContainer.generateData()
+        if (data) {
+          return {
+            init: data,
+          }
+        }
+        return null
+      }
+      return null
+    },
     onVolumeNameInput() {
       this.$refs.volumeMount.initVolumeMount(this.volumeObj.name)
+      if (this.$refs.volumeMountForInitContainer) {
+        this.$refs.volumeMountForInitContainer.initVolumeMount(this.volumeObj.name)
+      }
     },
   },
 }

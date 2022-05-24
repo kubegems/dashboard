@@ -32,7 +32,7 @@ export const SIDEBAR_ITEMS = [
     sidebar: 'microservice',
     value: 'microservice',
     icon: 'file-icons:service-fabric',
-    dependencies: ['istio'],
+    dependencies: ['istio-operator'],
     admin: 'all',
   },
   {
@@ -41,7 +41,7 @@ export const SIDEBAR_ITEMS = [
     value: 'microservice',
     icon: 'file-icons:service-fabric',
     required: ['virtualspace'],
-    dependencies: ['istio'],
+    dependencies: ['istio-operator'],
   },
   {
     text: '可观测性',

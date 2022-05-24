@@ -5,6 +5,7 @@
         <v-flex class="kubegems__full-right">
           <v-sheet class="text-body-2 text--darken-1">
             <BaseDatetimePicker
+              ref="datetimePicker"
               v-model="date"
               :default-value="30"
               default-value-for-query
@@ -263,6 +264,7 @@ export default {
       this.auditList()
     },
     refresh() {
+      this.$refs.datetimePicker.refresh()
       this.onDatetimeChange()
     },
     toYaml({ item, value }) {

@@ -125,6 +125,7 @@
               v-if="volumeType"
               :ref="volumeType + 'Mount'"
               :containers="obj.spec.template.spec.containers"
+              :init-containers="obj.spec.template.spec.initContainers"
               :namespace="obj.metadata.namespace ? obj.metadata.namespace : ''"
               :volume-mount-name="volumeMountName"
               :volume="volume"
@@ -160,6 +161,7 @@
       <StorageMountItem
         :volumes="obj.spec.template.spec.volumes"
         :containers="obj.spec.template.spec.containers"
+        :init-containers="obj.spec.template.spec.initContainers"
         :pvcs="pvcs"
         @updateData="updateData"
         @removeData="removeData"
@@ -297,6 +299,10 @@ export default {
     addData() {
       if (this.volumeType) {
         const data = this.$refs[`${this.volumeType}Mount`].generateData()
+        if (this.obj.spec.template.spec.initContainers?.length > 0) {
+          const initData = this.$refs[`${this.volumeType}Mount`].generateInitData()
+          data.volumeMount = {...data.volumeMount, ...initData}
+        }
         if (!this.obj.spec.template.spec.volumes) {
           this.obj.spec.template.spec.volumes = []
         }
@@ -315,6 +321,7 @@ export default {
           this.$set(this.obj.spec.template.spec.volumes, vIndex, data.volume)
         }
 
+        // containers
         this.obj.spec.template.spec.containers.forEach((c, i) => {
           if (!c.volumeMounts) c.volumeMounts = []
           const mIndex = c.volumeMounts.findIndex((v) => {
@@ -345,6 +352,40 @@ export default {
             }
           }
         })
+
+        // initContainers
+        if (this.obj.spec.template.spec.initContainers?.length > 0) {
+          this.obj.spec.template.spec.initContainers.forEach((c, i) => {
+            if (!c.volumeMounts) c.volumeMounts = []
+            const mIndex = c.volumeMounts.findIndex((v) => {
+              return v.name === data.volumeMount.init[c.name].name
+            })
+            if (mIndex === -1 || this.volume === null) {
+              if (
+                data.volumeMount.init[c.name] &&
+                data.volumeMount.init[c.name].mountPath &&
+                data.volumeMount.init[c.name].mountPath.trim().length > 0
+              ) {
+                c.volumeMounts.push(data.volumeMount.init[c.name])
+                this.$set(this.obj.spec.template.spec.initContainers, i, c)
+              }
+            } else {
+              if (data.volumeMount.init[c.name].readOnly !== null) {
+                if (
+                  data.volumeMount.init[c.name] &&
+                  data.volumeMount.init[c.name].mountPath &&
+                  data.volumeMount.init[c.name].mountPath.trim().length > 0
+                ) {
+                  c.volumeMounts[mIndex] = data.volumeMount.init[c.name]
+                  this.$set(this.obj.spec.template.spec.initContainers, i, c)
+                }
+              } else {
+                this.$delete(c.volumeMounts, mIndex)
+                this.$set(this.obj.spec.template.spec.initContainers, i, c)
+              }
+            }
+          })
+        }
         this.persistentVolumeClaimDetail()
         this.closeCard()
       }
@@ -440,6 +481,18 @@ export default {
           }
         }
       })
+      if (this.obj.spec.template.spec.initContainers?.length > 0) {
+        this.obj.spec.template.spec.initContainers.forEach((c) => {
+          if (c.volumeMounts) {
+            const vindex = c.volumeMounts.findIndex((v) => {
+              return v.name === volume.name
+            })
+            if (vindex > -1) {
+              this.$delete(c.volumeMounts, vindex)
+            }
+          }
+        })
+      }
     },
     updateVolumeTemplateData(index) {
       this.editIndex = index

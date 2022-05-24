@@ -24,7 +24,6 @@
             type="cpu"
             :label-show="false"
             label="environment"
-            :no-data-offset-y="-23"
           />
         </v-col>
         <v-col cols="6">
@@ -35,7 +34,6 @@
             type="memory"
             :label-show="false"
             label="environment"
-            :no-data-offset-y="-23"
           />
         </v-col>
       </v-row>
@@ -48,7 +46,6 @@
             type="network"
             :label-show="false"
             label="environment"
-            :no-data-offset-y="-23"
           />
         </v-col>
         <v-col cols="6">
@@ -59,7 +56,6 @@
             type="network"
             :label-show="false"
             label="environment"
-            :no-data-offset-y="-23"
           />
         </v-col>
       </v-row>
