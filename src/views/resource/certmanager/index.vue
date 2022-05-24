@@ -133,6 +133,24 @@
                 : ''
             }}
           </template>
+          <template #[`item.status`]="{ item, index }">
+            <v-flex :id="`e${item.metadata.resourceVersion}`" />
+            <EventTip
+              kind="Certificate"
+              :item="item"
+              :top="
+                params.size - index <= 5 || (items.length <= 5 && index >= 1)
+              "
+            >
+              <template #trigger>
+                <span>
+                  {{
+                    getStatus(item.status ? item.status.conditions : null).join(',')
+                  }}
+                </span>
+              </template>
+            </EventTip>
+          </template>
           <template #[`item.createAt`]="{ item }">
             {{
               item.metadata.creationTimestamp
@@ -228,6 +246,7 @@ import AddCertificate from './components/AddCertificate'
 import UpdateCertificate from './components/UpdateCertificate'
 import AddIssuer from './components/AddIssuer'
 import UpdateIssuer from './components/UpdateIssuer'
+import EventTip from '@/views/resource/components/common/EventTip'
 import BaseResource from '@/mixins/resource'
 import BasePermission from '@/mixins/permission'
 import BaseFilter from '@/mixins/base_filter'
@@ -241,6 +260,7 @@ export default {
     NamespaceFilter,
     AddIssuer,
     UpdateIssuer,
+    EventTip,
   },
   mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
@@ -270,6 +290,7 @@ export default {
         items = [
           { text: '证书名', value: 'name', align: 'start' },
           { text: '颁发者', value: 'issuer', align: 'start', sortable: false },
+          { text: '状态', value: 'status', align: 'start', sortable: false },
           {
             text: '到期时间',
             value: 'expireAt',
@@ -473,6 +494,33 @@ export default {
     },
     onPageIndexChange(page) {
       this.params.page = page
+    },
+    getStatus(conditions) {
+      const tmpConditions = []
+      if (conditions && conditions.length === 0) return ['Unknown']
+      conditions.forEach((con) => {
+        if (con.type === 'Ready') {
+          if (con.status === 'True') {
+            tmpConditions.push(con.type)
+            return tmpConditions
+          } else if (con.status === 'Unknown') {
+            tmpConditions.push('Unknown')
+          } else {
+            tmpConditions.push('NotReady')
+          }
+        } else {
+          if (con.status === 'True') {
+            tmpConditions.push(con.type)
+          }
+        }
+      })
+
+      if (tmpConditions.length > 1 && tmpConditions.indexOf('Ready') > -1) {
+        const index = tmpConditions.indexOf('Ready')
+        tmpConditions.splice(index, 1)
+      }
+
+      return tmpConditions
     },
   },
 }
