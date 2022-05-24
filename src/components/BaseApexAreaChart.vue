@@ -297,7 +297,7 @@ export default {
           showForNullSeries: false,
         },
         noData: {
-          text: this.Plugins['kube-prometheus-stack'] ? '暂无数据' : '插件kube-prometheus-stack未启用或状态异常',
+          text: this.Plugins['monitoring'] ? '暂无数据' : '插件monitoring未启用或状态异常',
           offsetY: this.noDataOffsetY,
           style: {
             fontSize: '13px',

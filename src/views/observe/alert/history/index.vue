@@ -41,7 +41,7 @@
         :items="items"
         :page.sync="params.page"
         :items-per-page="params.size"
-        no-data-text=""
+        no-data-text="暂无数据"
         hide-default-footer
         show-expand
         single-expand

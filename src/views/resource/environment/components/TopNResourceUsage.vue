@@ -82,7 +82,7 @@
       </template>
     </BaseSubTitle>
     <v-card-text>
-      <template v-if="Plugins['kube-prometheus-stack']">
+      <template v-if="Plugins['monitoring']">
         <v-flex
           v-if="topN.length === 0"
           class="text-body-2"
@@ -134,7 +134,7 @@
           :style="{ position: 'relative', height: '400px' }"
         >
           <span class="kubegems__full-center kubegems__detail">
-            插件kube-prometheus-stack未启用或状态异常
+            插件monitoring未启用或状态异常
           </span>
         </div>
       </template>

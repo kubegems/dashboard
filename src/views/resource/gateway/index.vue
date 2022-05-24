@@ -8,33 +8,7 @@
         :key="index"
         cols="3"
       >
-        <v-card
-          v-if="item.add"
-          class="full-height"
-          min-height="211"
-        >
-          <v-card-text class="pa-0 full-height">
-            <v-list-item
-              three-line
-              class="full-height"
-            >
-              <v-list-item-content>
-                <v-btn
-                  text
-                  block
-                  color="primary"
-                  class="text-h6"
-                  @click="addGateway"
-                >
-                  <v-icon left>mdi-plus-box</v-icon>
-                  创建网关
-                </v-btn>
-              </v-list-item-content>
-            </v-list-item>
-          </v-card-text>
-        </v-card>
         <v-hover
-          v-else
           #default="{ hover }"
         >
           <v-card
@@ -171,6 +145,35 @@
           </v-card>
         </v-hover>
       </v-col>
+      <v-col
+        v-if="m_permisson_resourceAllow"
+        cols="3"
+      >
+        <v-card
+          class="full-height"
+          min-height="211"
+        >
+          <v-card-text class="pa-0 full-height">
+            <v-list-item
+              three-line
+              class="full-height"
+            >
+              <v-list-item-content>
+                <v-btn
+                  text
+                  block
+                  color="primary"
+                  class="text-h6"
+                  @click="addGateway"
+                >
+                  <v-icon left>mdi-plus-box</v-icon>
+                  创建网关
+                </v-btn>
+              </v-list-item-content>
+            </v-list-item>
+          </v-card-text>
+        </v-card>
+      </v-col>
     </v-row>
 
     <AddGateway
@@ -229,9 +232,6 @@ export default {
         },
       )
       this.items = data
-      if (this.m_permisson_tenantAllow) {
-        this.items.push({ add: true })
-      }
     },
     addGateway() {
       this.$refs.addGateway.open()

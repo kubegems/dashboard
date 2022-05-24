@@ -55,14 +55,14 @@
                     </a>
                   </v-list-item-title>
                   <v-list-item-subtitle class="text-body-2 text--lighten-4">
-                    简介：{{ plugin.details.description }}
+                    简介：{{ plugin.description }}
                   </v-list-item-subtitle>
                   <v-list-item-subtitle
                     v-if="!plugin.skip && plugin.enabled"
                     class="text-body-2 text--lighten-4"
                   >
                     状态：
-                    <template v-if="plugin.enabled && !plugin.status.healthy">
+                    <template v-if="plugin.enabled && !plugin.healthy">
                       <v-progress-circular
                         size="16"
                         :width="3"
@@ -71,7 +71,7 @@
                       />
                     </template>
                     <v-icon
-                      v-else-if="plugin.status.healthy"
+                      v-else-if="plugin.healthy"
                       small
                       color="success"
                     >
@@ -92,11 +92,11 @@
                 <v-list-item :id="plugin.name">
                   <v-list-item-content>
                     <v-list-item-subtitle class="text-body-2 text--lighten-4">
-                      版本：{{ plugin.details.version }}
+                      版本：{{ plugin.version }}
                       <v-menu
                         v-if="
                           innerPlugins[plugin.name] &&
-                            innerPlugins[plugin.name] !== plugin.details.version
+                            innerPlugins[plugin.name] !== plugin.version
                         "
                         top
                         right
@@ -173,10 +173,10 @@
                     v-if="plugin.enabled"
                     small
                     :color="getStatus(plugin).color"
-                    :disabled="plugin.enabled && plugin.status.required"
+                    :disabled="plugin.enabled && plugin.required"
                     :text="
-                      !plugin.status.required ||
-                        (plugin.enabled && !plugin.status.healthy)
+                      !plugin.required ||
+                        (plugin.enabled && !plugin.healthy)
                     "
                     @click="disablePlugin(plugin)"
                   >
@@ -196,11 +196,11 @@
               </v-card-actions>
 
               <v-flex
-                v-if="plugin.status.required"
+                v-if="plugin.required"
                 class="plugins-watermark-bg"
               />
               <v-flex
-                v-if="plugin.status.required"
+                v-if="plugin.required"
                 class="plugins-watermark font-weight-medium"
               >
                 内置组件
@@ -324,7 +324,7 @@ export default {
       })
     },
     disablePlugin(plugin) {
-      if (plugin.enabled && !plugin.status.healthy) {
+      if (plugin.enabled && !plugin.healthy) {
         return
       }
       this.$store.commit('SET_CONFIRM', {
@@ -340,9 +340,9 @@ export default {
       })
     },
     getStatus(plugin) {
-      if (plugin.enabled && !plugin.status.healthy) {
+      if (plugin.enabled && !plugin.healthy) {
         return { text: '部署中', color: 'warning' }
-      } else if (plugin.enabled && plugin.status.required) {
+      } else if (plugin.enabled && plugin.required) {
         return { text: '已安装', color: '' }
       } else if (plugin.enabled) {
         return { text: '卸载', color: 'error' }

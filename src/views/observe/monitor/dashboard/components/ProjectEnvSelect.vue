@@ -128,18 +128,22 @@ export default {
       await this.m_select_projectSelectData(true)
       if (this.m_select_projectItems?.length > 0) {
         this.project = this.m_select_projectItems[0].projectName
-        await this.m_select_projectEnvironmentSelectData(this.projectid)
-        if (this.m_select_projectEnvironmentItems?.length > 0) {
-          this.environment = this.m_select_projectEnvironmentItems[0].environmentName
-          this.$emit('refreshEnvironemnt', this.environemtObj)
-        }
+        this.loadEnvironment()
       }
     })
   },
   methods: {
+    async loadEnvironment() {
+      await this.m_select_projectEnvironmentSelectData(this.projectid)
+      if (this.m_select_projectEnvironmentItems?.length > 0) {
+        this.environment = this.m_select_projectEnvironmentItems[0].environmentName
+        this.$emit('refreshEnvironemnt', this.environemtObj)
+      }
+    },
     onProjectChange() {
       this.environment = ''
       this.m_select_projectEnvironmentItems = []
+      this.loadEnvironment()
     },
     onEnvironmentChange() {
       if (this.environment) {

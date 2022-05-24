@@ -108,19 +108,44 @@
           class="kubegems__full-height"
         >
           <v-card-text class="pa-1 kubegems__full-height">
-            <v-btn
-              small
-              icon
-              class="dash__btn"
-              @click.stop="openGraphInMaxScreen(graph)"
-            >
-              <v-icon
+            <div class="dash__btn">
+              <v-btn
                 small
-                color="primary"
+                icon
+                @click.stop="updateGraph(graph)"
               >
-                mdi-magnify-plus
-              </v-icon>
-            </v-btn>
+                <v-icon
+                  small
+                  color="primary"
+                >
+                  mdi-upload
+                </v-icon>
+              </v-btn>
+              <v-btn
+                small
+                icon
+                @click.stop="openGraphInMaxScreen(graph)"
+              >
+                <v-icon
+                  small
+                  color="primary"
+                >
+                  mdi-magnify-plus
+                </v-icon>
+                <v-btn
+                  small
+                  icon
+                  @click.stop="removeGraph(graph)"
+                >
+                  <v-icon
+                    small
+                    color="error"
+                  >
+                    mdi-minus
+                  </v-icon>
+                </v-btn>
+              </v-btn>
+            </div>
             <BaseApexAreaChart
               :id="`c${index}`"
               :title="graph.name"
@@ -148,6 +173,7 @@
                   block
                   color="primary"
                   class="text-h6"
+                  @click="addGraph"
                 >
                   <v-icon left>mdi-plus-box</v-icon>
                   添加面板
@@ -180,6 +206,8 @@
       ref="graphMax"
       :environment="environment"
     />
+    <AddGraph ref="addGraph" />
+    <UpdateGraph ref="updateGraph" />
   </v-container>
 </template>
 
@@ -192,6 +220,8 @@ import {
 } from '@/api'
 import AddDashboard from './components/AddDashboard'
 import UpdateDashboard from './components/UpdateDashboard'
+import AddGraph from './components/AddGraph'
+import UpdateGraph from './components/UpdateGraph'
 import TenantSelect from '../../components/TenantSelect'
 import ProjectEnvSelect from './components/ProjectEnvSelect'
 import GraphMax from './components/GraphMax'
@@ -205,6 +235,8 @@ export default {
     AddDashboard,
     UpdateDashboard,
     GraphMax,
+    AddGraph,
+    UpdateGraph,
   },
   mixins: [BasePermission],
   data() {
@@ -251,11 +283,18 @@ export default {
     addDashboard() {
       this.$refs.addDashboard.open()
     },
+    addGraph() {
+      this.$refs.addGraph.open()
+    },
     updateDashboard() {
       if (this.items?.length > 0) {
         this.$refs.updateDashboard.init(this.items[this.tab])
         this.$refs.updateDashboard.open()
       }
+    },
+    updateGraph(item) {
+      this.$refs.updateGraph.init(item)
+      this.$refs.updateGraph.open()
     },
     openGraphInMaxScreen(graph) {
       this.$refs.graphMax.init(graph)
@@ -267,6 +306,24 @@ export default {
         title: `删除监控大盘`,
         content: {
           text: `删除监控大盘 ${item.name}`,
+          type: 'delete',
+          name: item.name,
+        },
+        param: { item },
+        doFunc: async (param) => {
+          await deleteMonitorDashboard(
+            this.environment.value,
+            param.item.id,
+          )
+          this.dashboardList()
+        },
+      })
+    },
+    removeGraph(item) {
+      this.$store.commit('SET_CONFIRM', {
+        title: `删除监控面板`,
+        content: {
+          text: `删除监控面板 ${item.name}`,
           type: 'delete',
           name: item.name,
         },

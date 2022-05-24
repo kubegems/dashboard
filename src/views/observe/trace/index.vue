@@ -142,6 +142,7 @@ export default {
 
   &__main {
     position: relative;
+    height: 93vh;
   }
 
   &__header {

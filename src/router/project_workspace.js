@@ -55,7 +55,7 @@ export const projectWorkspace = [
               show: true,
               rootName: 'project',
               tip: 'appmanifest',
-              dependencies: ['argocd'],
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -69,7 +69,7 @@ export const projectWorkspace = [
               show: false,
               rootName: 'project',
               tip: 'appmanifest',
-              dependencies: ['argocd'],
+              dependencies: ['kubegems-local'],
             },
           },
           // registry
