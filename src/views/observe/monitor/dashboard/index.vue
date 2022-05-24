@@ -62,10 +62,20 @@
                 <v-btn
                   text
                   color="primary"
-                  @click="addPanel"
+                  @click="addDashboard"
                 >
                   <v-icon left>mdi-plus-box</v-icon>
                   创建监控大盘
+                </v-btn>
+              </v-flex>
+              <v-flex>
+                <v-btn
+                  text
+                  color="primary"
+                  @click="updateDashboard"
+                >
+                  <v-icon left>mdi-upload</v-icon>
+                  更新监控大盘
                 </v-btn>
               </v-flex>
               <v-flex>
@@ -102,7 +112,7 @@
               small
               icon
               class="dash__btn"
-              @click.stop="openPanelInMaxScreen(graph)"
+              @click.stop="openGraphInMaxScreen(graph)"
             >
               <v-icon
                 small
@@ -151,14 +161,23 @@
 
     <div
       v-else
-      class="text-h6 text-center dash__tip primary--text"
+      class="text-h6 text-center dash__tip primary--text white"
     >
       <span class="kubegems__full-center">请先创建监控大盘</span>
     </div>
 
-    <AddPanel ref="addPanel" />
-    <PanelMax
-      ref="panelMax"
+    <AddDashboard
+      ref="addDashboard"
+      :environment="environment"
+      @refresh="dashboardList"
+    />
+    <UpdateDashboard
+      ref="updateDashboard"
+      :environment="environment"
+      @refresh="dashboardList"
+    />
+    <GraphMax
+      ref="graphMax"
       :environment="environment"
     />
   </v-container>
@@ -171,10 +190,11 @@ import {
   getMetricsQueryrange,
   deleteMonitorDashboard,
 } from '@/api'
-import AddPanel from './components/AddPanel'
+import AddDashboard from './components/AddDashboard'
+import UpdateDashboard from './components/UpdateDashboard'
 import TenantSelect from '../../components/TenantSelect'
 import ProjectEnvSelect from './components/ProjectEnvSelect'
-import PanelMax from './components/PanelMax'
+import GraphMax from './components/GraphMax'
 import BasePermission from '@/mixins/permission'
 
 export default {
@@ -182,8 +202,9 @@ export default {
   components: {
     TenantSelect,
     ProjectEnvSelect,
-    AddPanel,
-    PanelMax,
+    AddDashboard,
+    UpdateDashboard,
+    GraphMax,
   },
   mixins: [BasePermission],
   data() {
@@ -206,7 +227,7 @@ export default {
       const data = await getMonitorDashboardList(this.environment.value)
       this.items = data
       this.metrics = {}
-      if (this.items[this.tab].graphs) {
+      if (this.items?.length > 0 && this.items[this.tab].graphs) {
         this.items[this.tab].graphs.forEach((item, index) => {
           this.getMetrics(item, index)
         })
@@ -227,12 +248,18 @@ export default {
       this.environment = env
       this.dashboardList()
     },
-    addPanel() {
-      this.$refs.addPanel.open()
+    addDashboard() {
+      this.$refs.addDashboard.open()
     },
-    openPanelInMaxScreen(graph) {
-      this.$refs.panelMax.init(graph)
-      this.$refs.panelMax.open()
+    updateDashboard() {
+      if (this.items?.length > 0) {
+        this.$refs.updateDashboard.init(this.items[this.tab])
+        this.$refs.updateDashboard.open()
+      }
+    },
+    openGraphInMaxScreen(graph) {
+      this.$refs.graphMax.init(graph)
+      this.$refs.graphMax.open()
     },
     removePanel() {
       const item = this.items[this.tab]
@@ -246,7 +273,7 @@ export default {
         param: { item },
         doFunc: async (param) => {
           await deleteMonitorDashboard(
-            this.environmentId,
+            this.environment.value,
             param.item.id,
           )
           this.dashboardList()

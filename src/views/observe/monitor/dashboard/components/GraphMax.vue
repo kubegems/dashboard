@@ -24,7 +24,7 @@ import { mapState } from 'vuex'
 import { getMetricsQueryrange } from '@/api'
 
 export default {
-  name: 'PanelMax',
+  name: 'GraphMax',
   props: {
     environment: {
       type: Object,

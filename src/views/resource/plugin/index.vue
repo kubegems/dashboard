@@ -252,9 +252,8 @@ export default {
     },
     innerPlugins() {
       return {
-        kubegems_centrol: this.apiVersion,
-        kubegems_dashboard: this.uiVersion,
-        kubegems_local: this.apiVersion,
+        'kubegems': this.apiVersion,
+        'kubegems-local': this.apiVersion,
       }
     },
   },
