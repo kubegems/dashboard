@@ -316,6 +316,7 @@ export default {
         case 'DnsName':
           this.$refs.dnsNameForm.expandCard()
           this.$refs.dnsNameForm.init(this.obj.spec.dnsNames, index)
+          this.expand = true
           break
       }
     },

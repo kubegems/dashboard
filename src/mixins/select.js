@@ -433,12 +433,12 @@ const select = {
       })
       this.m_select_gatewayItems = gatewaySelect
     },
-    async m_select_projectSelectData(noprocessing = false) {
+    async m_select_projectSelectData(tenantId = null, noprocessing = false) {
       let data = null
       if (this.Admin && this.AdminViewport) {
         data = await projectSelectData({ noprocessing: noprocessing })
       } else {
-        data = await tenantProjectSelectData(this.Tenant().ID, {
+        data = await tenantProjectSelectData(tenantId || this.Tenant().ID, {
           noprocessing: noprocessing,
         })
       }

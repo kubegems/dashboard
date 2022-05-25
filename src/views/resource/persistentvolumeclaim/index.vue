@@ -276,8 +276,8 @@ export default {
           sortable: false,
         },
         { text: '容量', value: 'storage', align: 'start', sortable: false },
-        { text: '挂载', value: 'mount', align: 'start', sortable: false },
-        { text: '创建时间', value: 'createAt', align: 'start' },
+        { text: '挂载', value: 'mount', align: 'start', sortable: false, width: 120 },
+        { text: '创建时间', value: 'createAt', align: 'start', width: 200 },
       ]
       if (this.m_permisson_resourceAllow) {
         items.push({
@@ -294,6 +294,7 @@ export default {
           value: 'namespace',
           align: 'start',
           sortable: false,
+          width: 300,
         })
       }
       return items

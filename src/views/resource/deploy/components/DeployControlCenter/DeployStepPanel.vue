@@ -246,13 +246,13 @@ export default {
           'namespace-selector',
         ).parentNode
       if (namespace) {
-        namespace.parentElement.removeChild(namespace)
+        namespace.parentElement?.removeChild(namespace)
       }
       const splits =
         iframe.contentWindow.document.getElementsByClassName('fr78t9r')
       if (splits && splits.length > 0) {
         const split = splits[0]
-        split.parentElement.removeChild(split)
+        split.parentElement?.removeChild(split)
       }
       const fpomfbys =
         iframe.contentWindow.document.getElementsByClassName('fpomfby')
@@ -260,13 +260,13 @@ export default {
         const fpomfby = fpomfbys[0]
         fpomfby.style.marginLeft = '0px'
         const fpomfby2 = fpomfbys[1]
-        fpomfby2.parentElement.removeChild(fpomfby2)
+        fpomfby2.parentElement?.removeChild(fpomfby2)
       }
       const toolbars =
         iframe.contentWindow.document.getElementsByClassName('f1ct87rs')
       if (toolbars && toolbars.length > 0) {
         const toolbar = toolbars[0]
-        toolbar.parentElement.removeChild(toolbar)
+        toolbar.parentElement?.removeChild(toolbar)
       }
       const secondBars =
         iframe.contentWindow.document.getElementsByClassName('f1ocs92y')
@@ -288,13 +288,13 @@ export default {
           'global-namespace-selector',
         )
         header.style.marginBottom = '15px'
-        secondBar.parentElement.removeChild(secondBar)
+        secondBar.parentElement?.removeChild(secondBar)
       }
       const backBtns =
         iframe.contentWindow.document.getElementsByClassName('pf-m-link')
       if (backBtns && backBtns.length > 1) {
         const backBtn = backBtns[1]
-        backBtn.parentElement.removeChild(backBtn)
+        backBtn.parentElement?.removeChild(backBtn)
       }
     },
     dispose() {

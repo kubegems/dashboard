@@ -88,13 +88,20 @@
         <template #[`item.namespace`]="{ item }">
           {{ item.metadata.namespace }}
         </template>
-        <template #[`item.clusterIp`]="{ item }">
+        <template #[`item.externalip`]="{ item }">
           {{
-            item.spec.clusterIP !== 'None' ? item.spec.clusterIP : 'Headless'
+            getExternalIp(item)
           }}
         </template>
         <template #[`item.clusterType`]="{ item }">
-          {{ item.spec.type }}
+          <div>
+            {{ item.spec.type }}
+          </div>
+          <div class="text-caption kubegems__detail">
+            {{
+              item.spec.clusterIP !== 'None' ? item.spec.clusterIP : 'Headless'
+            }}
+          </div>
         </template>
         <template #[`item.ports`]="{ item }">
           <BaseCollapseChips
@@ -210,14 +217,14 @@ export default {
       const items = [
         { text: '服务名', value: 'name', align: 'start' },
         {
-          text: '服务地址',
-          value: 'clusterIp',
+          text: '服务类型',
+          value: 'clusterType',
           align: 'start',
           sortable: false,
         },
         {
-          text: '服务类型',
-          value: 'clusterType',
+          text: 'ExternalIP/LoadBalancerIP',
+          value: 'externalip',
           align: 'start',
           sortable: false,
         },
@@ -353,6 +360,13 @@ export default {
     },
     onPageIndexChange(page) {
       this.params.page = page
+    },
+    getExternalIp(item) {
+      if (item.spec.externalName) return item.spec.externalName
+      if (item.spec.externalIPs) return item.spec.externalIPs
+      if (item.status?.loadBalancer?.ingress) return item.status?.loadBalancer?.ingress?.map(i => { return i.ip })
+      if (item.spec.loadBalancerIP) return item.spec.loadBalancerIP
+      return 'None'
     },
   },
 }
