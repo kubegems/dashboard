@@ -131,7 +131,7 @@ export default {
         iframe.contentWindow.document.getElementsByClassName('u-tx-inherit')
       if (links && links.length > 0) {
         const link = links[0]
-        link.parentElement.removeChild(link)
+        link.parentElement?.removeChild(link)
       }
 
       const searchs =
@@ -140,7 +140,7 @@ export default {
         )
       if (searchs && searchs.length > 0) {
         const search = searchs[0]
-        search.parentElement.removeChild(search)
+        search.parentElement?.removeChild(search)
       }
     },
     refreshLimit(limit) {

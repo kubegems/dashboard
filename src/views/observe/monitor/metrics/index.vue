@@ -126,6 +126,7 @@
                         style="margin-top: 2px !important;"
                         color="primary"
                         hide-details
+                        @change="onLatitudeChange(index)"
                       >
                         <template #label>
                           <span class="text-body-2 font-weight-medium">
@@ -236,7 +237,7 @@
                     <v-autocomplete
                       v-model="queryList[index].resource"
                       class="px-2"
-                      :items="resourceItems"
+                      :items="queryList[index].resourceItems"
                       item-text="showName"
                       item-value="_$value"
                       label="资源"
@@ -426,6 +427,7 @@ export default {
       projectItems: [],
       environmentItems: [],
       environmentItemsLoading: false,
+      resourceItems: [],
       ruleItems: [],
       unitItems: [],
       _$origin: undefined,
@@ -452,10 +454,6 @@ export default {
   computed: {
     ...mapGetters(['Tenant']),
     ...mapState(['AdminViewport', 'Scale']),
-    resourceItems() {
-      return this.formatObject2Array(this.config.resources || {})
-        .filter(item => this.AdminViewport || item.namespaced)
-    },
     metricsItems() {
       return Object.keys(this.metricsObject).map((id) => {
         const index = this.queryList.findIndex((item) => item._$id === id)
@@ -599,6 +597,12 @@ export default {
       this.$set(this.labelpairs[id], data.label, data.value)
       this.onSearch(id, false)
     },
+    onLatitudeChange(index) {
+      const query = this.queryList[index]
+      const items = this.formatObject2Array(this.config.resources || {})
+        .filter(item => query.isCluster || item.namespaced)
+      this.$set(query, 'resourceItems', items)
+    },
     onClusterChange(index) {
       const query = this.queryList[index]
       const items = query.cluster
@@ -638,6 +642,7 @@ export default {
       }
 
       this.config = data?.content || {}
+      this.onLatitudeChange(0)
     },
     async getProjectList() {
       this.projectListLoading = true

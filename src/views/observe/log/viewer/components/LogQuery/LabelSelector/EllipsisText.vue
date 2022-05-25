@@ -53,7 +53,7 @@ export default {
       this.$refs.span.appendChild(this.hiddenSpan)
       this.$nextTick(() => {
         this.showTootip = this.hiddenSpan.offsetWidth > this.$refs.span.offsetWidth
-        this.$refs.span.removeChild(this.hiddenSpan)
+        this.$refs.span?.removeChild(this.hiddenSpan)
         this.hiddenSpan = null
       })
     },

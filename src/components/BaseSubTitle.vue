@@ -1,7 +1,7 @@
 <template>
   <v-sheet
     :height="height"
-    :class="`py-1 pl-2 text-subtitle-1 primary--text rounded-t ${color}`"
+    :class="`py-1 px-2 text-subtitle-1 primary--text rounded-t ${color}`"
   >
     <span
       :class="`float-left subtitle font-weight-regular ${
@@ -24,7 +24,7 @@
       <slot name="selector"></slot>
     </span>
     <div class="subtitle-clear"></div>
-    <v-divider v-if="divider" class="mr-2" />
+    <v-divider v-if="divider" />
   </v-sheet>
 </template>
 

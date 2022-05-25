@@ -52,13 +52,13 @@
         :key="switchKey"
         v-model="yaml"
         class="ma-0 pl-2 ml-2 mt-1"
-        style="margin-top: 6px !important;"
-        color="primary"
+        style="margin-top: 8px !important;"
+        color="white"
         hide-details
         @change="onYamlSwitchChange"
       >
         <template #label>
-          <span class="text-subject-1 primary--text font-weight-medium">
+          <span class="text-subject-1 white--text font-weight-medium">
             Yaml
           </span>
         </template>

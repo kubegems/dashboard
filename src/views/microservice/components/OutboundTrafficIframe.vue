@@ -64,11 +64,11 @@ export default {
         iframe.contentWindow.document.getElementsByClassName('pf-c-breadcrumb')
       if (headers && headers.length > 0) {
         const header = headers[0]
-        header.parentElement.removeChild(header)
+        header.parentElement?.removeChild(header)
       }
       const tab = iframe.contentWindow.document.getElementById('basic-tabs')
       if (tab) {
-        tab.parentElement.removeChild(tab)
+        tab.parentElement?.removeChild(tab)
       }
       const session = iframe.contentWindow.document.querySelector(
         '#pf-tab-section-4-basic-tabs div',

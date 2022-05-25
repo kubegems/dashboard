@@ -24,7 +24,7 @@
       </v-btn>
     </template>
     <template #header-action>
-      <div class="text-h6 ml-2 primary--text mt-1">Yaml</div>
+      <div class="text-h6 ml-2 white--text mt-1">Yaml</div>
     </template>
   </BaseDialog>
 </template>

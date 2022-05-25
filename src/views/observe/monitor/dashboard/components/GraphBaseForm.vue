@@ -132,6 +132,27 @@
               :rules="objRules.exprRule"
             />
           </v-col>
+          <v-col cols="6">
+            <v-autocomplete
+              v-model="obj.unit"
+              color="primary"
+              label="单位"
+              class="my-0"
+              no-data-text="暂无可选数据"
+              hide-selected
+              :items="unitAllItems"
+            >
+              <template #selection="{ item }">
+                <v-chip
+                  color="primary"
+                  small
+                  class="mx-1"
+                >
+                  {{ item['text'] }}
+                </v-chip>
+              </template>
+            </v-autocomplete>
+          </v-col>
         </template>
       </v-row>
     </v-card-text>
@@ -170,6 +191,7 @@ export default {
           unit: '',
         },
         expr: '',
+        unit: '',
       },
       objRules: {
         nameRule: [required],
@@ -219,6 +241,14 @@ export default {
       }
       return []
     },
+    unitAllItems() {
+      const units =
+        this.metricsConfig.units || {}
+      return Object.keys(units).map((unit) => ({
+        text: this.metricsConfig.units[unit],
+        value: unit,
+      }))
+    },
   },
   watch: {
     item: {
@@ -229,6 +259,7 @@ export default {
         }
       },
       deep: true,
+      immediate: true,
     },
   },
   mounted() {
@@ -254,9 +285,11 @@ export default {
           unit: '',
         }
         this.obj.expr = null
+        this.obj.unit = null
       } else if (this.mode === 'ql') {
         this.obj.promqlGenerator = null
         this.obj.expr = ''
+        this.obj.unit = ''
       }
     },
     onResourceChange() {
@@ -278,6 +311,7 @@ export default {
     reset() {
       this.$refs.form.resetValidation()
       this.obj = this.$options.data().obj
+      this.mode = 'template'
     },
   },
 }
