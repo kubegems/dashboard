@@ -129,6 +129,7 @@
               hide-selected
               class="my-0"
               no-data-text="暂无可选数据"
+              @change="onTypeChange"
             >
               <template #selection="{ item }">
                 <v-chip
@@ -140,6 +141,18 @@
                 </v-chip>
               </template>
             </v-autocomplete>
+          </v-col>
+          <v-col
+            v-if="obj.spec.type === 'ExternalName'"
+            cols="6"
+          >
+            <v-text-field
+              v-model="obj.spec.externalName"
+              class="my-0"
+              required
+              label="ExternalName"
+              :rules="objRules.externalNameRule"
+            />
           </v-col>
           <v-col
             v-if="
@@ -162,21 +175,23 @@
         </v-row>
       </v-card-text>
 
-      <ServicePortForm
-        ref="servicePortForm"
-        :data="obj.spec.ports"
-        @addData="addPortData"
-        @closeOverlay="closeExpand"
-      />
-      <BaseSubTitle title="端口配置" />
-      <v-card-text class="pa-2">
-        <ServicePortItem
-          :ports="obj.spec.ports"
-          @updatePort="updatePort"
-          @removePort="removePort"
-          @expandCard="expandCard"
+      <template v-if="obj.spec.type !== 'ExternalName'">
+        <ServicePortForm
+          ref="servicePortForm"
+          :data="obj.spec.ports"
+          @addData="addPortData"
+          @closeOverlay="closeExpand"
         />
-      </v-card-text>
+        <BaseSubTitle title="端口配置" />
+        <v-card-text class="pa-2">
+          <ServicePortItem
+            :ports="obj.spec.ports"
+            @updatePort="updatePort"
+            @removePort="removePort"
+            @expandCard="expandCard"
+          />
+        </v-card-text>
+      </template>
 
       <LabelForm
         ref="labelForm"
@@ -281,6 +296,7 @@ export default {
     externaltypes: [
       { text: 'LoadBalancer', value: 'LoadBalancer' },
       { text: 'NodePort', value: 'NodePort' },
+      { text: 'ExternalName', value: 'ExternalName' },
       { text: '禁止访问', value: 'ClusterIP' },
     ],
     obj: {
@@ -318,6 +334,7 @@ export default {
         selectorRule: [required],
         typeRule: [required],
         kindRule: [required],
+        externalNameRule: [required],
       }
     },
   },
@@ -372,6 +389,13 @@ export default {
           { text: '通过服务后端EndpointIP访问(Headless)', value: 'None' },
         ]
       })
+    },
+    onTypeChange() {
+      if (this.obj.spec.type === 'ExternalName') {
+        this.obj.spec.externalName = this.item?.spec?.externalName
+      } else {
+        this.$delete(this.obj.spec, 'externalName')
+      }
     },
     addLabelData(data) {
       this.obj.metadata.labels = data
@@ -517,7 +541,9 @@ export default {
     reset() {
       this.$refs.labelForm.closeCard()
       this.$refs.annotationForm.closeCard()
-      this.$refs.servicePortForm.closeCard()
+      if (this.$refs.servicePortForm) {
+        this.$refs.servicePortForm.closeCard()
+      }
       this.$refs.form.reset()
     },
     // eslint-disable-next-line vue/no-unused-properties
@@ -542,7 +568,7 @@ export default {
       if (this.$refs.annotationForm.expand) {
         return !this.$refs.annotationForm.expand
       }
-      if (this.$refs.servicePortForm.expand) {
+      if (this.$refs.servicePortForm && this.$refs.servicePortForm.expand) {
         return !this.$refs.servicePortForm.expand
       }
       return true

@@ -104,7 +104,8 @@ export default {
         }
         if (
           (!data.spec.ports || data.spec.ports.length === 0) &&
-          data.spec.clusterIP !== 'None'
+          data.spec.clusterIP !== 'None' &&
+          data.spec.type !== 'ExternalName'
         ) {
           this.$store.commit('SET_SNACKBAR', {
             text: '请添加端口配置',
