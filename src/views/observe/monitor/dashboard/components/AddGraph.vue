@@ -28,8 +28,9 @@
 
 <script>
 import { mapState } from 'vuex'
-import { postAddMonitorDashboardGraph } from '@/api'
+import { putUpdateMonitorDashboard } from '@/api'
 import GraphBaseForm from './GraphBaseForm'
+import { deepCopy } from '@/utils/helpers'
 
 export default {
   name: 'AddGraph',
@@ -41,15 +42,30 @@ export default {
       type: Object,
       default: () => {},
     },
+    dashboard: {
+      type: Object,
+      default: () => null,
+    },
   },
   data() {
     return {
       dialog: false,
       formComponent: 'GraphBaseForm',
+      dashboardCopy: null,
     }
   },
   computed: {
     ...mapState(['Circular']),
+  },
+  watch: {
+    dashboard: {
+      handler(newValue) {
+        if (newValue) {
+          this.dashboardCopy = deepCopy(newValue)
+        }
+      },
+      deep: true,
+    },
   },
   methods: {
     // eslint-disable-next-line vue/no-unused-properties
@@ -65,10 +81,17 @@ export default {
         let data = ''
         if (this.formComponent === 'GraphBaseForm') {
           data = this.$refs[this.formComponent].getData()
+          if (!this.dashboardCopy.graphs) {
+            this.dashboardCopy.graphs = []
+          }
+          if (!this.dashboardCopy.graphs.some(g => { return g.name === data.name })) {
+            this.dashboardCopy.graphs.push(data)
+          }
         }
-        await postAddMonitorDashboardGraph(
+        await putUpdateMonitorDashboard(
           this.environment.value,
-          data,
+          this.dashboardCopy.id,
+          this.dashboardCopy,
         )
         this.reset()
         this.$emit('refresh')

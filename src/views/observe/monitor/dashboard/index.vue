@@ -18,7 +18,10 @@
       flat
     >
       <v-card-title class="py-4">
-        <ProjectEnvSelect @refreshEnvironemnt="refreshEnvironemnt" />
+        <ProjectEnvSelect
+          :tenant="tenant"
+          @refreshEnvironemnt="refreshEnvironemnt"
+        />
       </v-card-title>
 
       <v-card-text
@@ -96,31 +99,20 @@
 
     <v-row
       v-if="items.length > 0"
-      class="mt-2"
+      class="mt-0"
     >
       <v-col
         v-for="(graph, index) in items[tab].graphs"
         :key="index"
-        cols="3"
+        :cols="3"
         class="dash__col"
       >
         <v-card
           class="kubegems__full-height"
+          height="260"
         >
           <v-card-text class="pa-1 kubegems__full-height">
             <div class="dash__btn">
-              <v-btn
-                small
-                icon
-                @click.stop="updateGraph(graph)"
-              >
-                <v-icon
-                  small
-                  color="primary"
-                >
-                  mdi-upload
-                </v-icon>
-              </v-btn>
               <v-btn
                 small
                 icon
@@ -132,28 +124,42 @@
                 >
                   mdi-magnify-plus
                 </v-icon>
-                <v-btn
+              </v-btn>
+              <v-btn
+                small
+                icon
+                @click.stop="updateGraph(graph, index)"
+              >
+                <v-icon
                   small
-                  icon
-                  @click.stop="removeGraph(graph)"
+                  color="primary"
                 >
-                  <v-icon
-                    small
-                    color="error"
-                  >
-                    mdi-minus
-                  </v-icon>
-                </v-btn>
+                  mdi-upload
+                </v-icon>
+              </v-btn>
+              <v-btn
+                small
+                icon
+                @click.stop="removeGraph(graph, index)"
+              >
+                <v-icon
+                  small
+                  color="error"
+                >
+                  mdi-minus-box
+                </v-icon>
               </v-btn>
             </div>
             <BaseApexAreaChart
               :id="`c${index}`"
               :title="graph.name"
               :metrics="metrics[`c${index}`]"
+              :unit="graph.promqlGenerator?graph.promqlGenerator.unit:graph.unit"
               label="pod"
               type=""
               :label-show="false"
               :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
+              :extend-height="240"
             />
           </v-card-text>
         </v-card>
@@ -161,6 +167,7 @@
       <v-col cols="3">
         <v-card
           class="kubegems__full-height"
+          min-height="200"
         >
           <v-card-text class="pa-0 kubegems__full-height">
             <v-list-item
@@ -176,7 +183,7 @@
                   @click="addGraph"
                 >
                   <v-icon left>mdi-plus-box</v-icon>
-                  添加面板
+                  添加图表
                 </v-btn>
               </v-list-item-content>
             </v-list-item>
@@ -206,17 +213,30 @@
       ref="graphMax"
       :environment="environment"
     />
-    <AddGraph ref="addGraph" />
-    <UpdateGraph ref="updateGraph" />
+    <AddGraph
+      ref="addGraph"
+      :environment="environment"
+      :dashboard="items.length>0?items[tab]:null"
+      @refresh="dashboardList"
+    />
+    <UpdateGraph
+      ref="updateGraph"
+      :environment="environment"
+      :dashboard="items.length>0?items[tab]:null"
+      @refresh="dashboardList"
+    />
   </v-container>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import {
   getMonitorDashboardList,
   getMetricsQueryrange,
   deleteMonitorDashboard,
+  putUpdateMonitorDashboard,
+  getSystemConfigData,
+  getMyConfigData,
 } from '@/api'
 import AddDashboard from './components/AddDashboard'
 import UpdateDashboard from './components/UpdateDashboard'
@@ -246,17 +266,38 @@ export default {
       items: [],
       metrics: {},
       environment: undefined,
+      timeinterval: null,
+      resourceNamespaced: {},
     }
   },
   computed: {
     ...mapState(['AdminViewport', 'Scale']),
+    ...mapGetters(['Tenant']),
   },
   mounted() {
-
+    this.$nextTick(() => {
+      if (!this.AdminViewport) {
+        this.tenant = this.Tenant()
+      }
+    })
+  },
+  destroyed() {
+    this.clearInterval()
   },
   methods: {
-    async dashboardList() {
-      const data = await getMonitorDashboardList(this.environment.value)
+    async loadMetrics() {
+      this.clearInterval()
+      await this.getMonitorConfig()
+      this.dashboardList()
+      this.timeinterval = setInterval(() => {
+        this.dashboardList(true)
+      }, 1000 * 30)
+    },
+    clearInterval() {
+      if (this.timeinterval) clearInterval(this.timeinterval)
+    },
+    async dashboardList(noprocess = false) {
+      const data = await getMonitorDashboardList(this.environment.value, {noprocessing: noprocess})
       this.items = data
       this.metrics = {}
       if (this.items?.length > 0 && this.items[this.tab].graphs) {
@@ -265,20 +306,29 @@ export default {
         })
       }
     },
+    getNamespace(item) {
+      const namespace = item.promqlGenerator
+      ? this.resourceNamespaced[item.promqlGenerator.resource]
+      ? this.environment.namespace
+      : '_all'
+      : this.environment.namespace
+      return namespace
+    },
     async getMetrics(item, index) {
       const params = item.promqlGenerator ? item.promqlGenerator : {
         expr: item.expr,
       }
+      const namespace = this.getNamespace(item)
       const data = await getMetricsQueryrange(
         this.environment.clusterName,
-        this.environment.namespace,
+        namespace,
         Object.assign(params, {noprocessing: true}),
       )
       this.$set(this.metrics, `c${index}`, data)
     },
     refreshEnvironemnt(env) {
       this.environment = env
-      this.dashboardList()
+      this.loadMetrics()
     },
     addDashboard() {
       this.$refs.addDashboard.open()
@@ -292,12 +342,13 @@ export default {
         this.$refs.updateDashboard.open()
       }
     },
-    updateGraph(item) {
-      this.$refs.updateGraph.init(item)
+    updateGraph(item, index) {
+      this.$refs.updateGraph.init(item, index)
       this.$refs.updateGraph.open()
     },
     openGraphInMaxScreen(graph) {
-      this.$refs.graphMax.init(graph)
+      const namespace = this.getNamespace(graph)
+      this.$refs.graphMax.init(graph, namespace)
       this.$refs.graphMax.open()
     },
     removePanel() {
@@ -315,11 +366,11 @@ export default {
             this.environment.value,
             param.item.id,
           )
-          this.dashboardList()
+          this.loadMetrics()
         },
       })
     },
-    removeGraph(item) {
+    removeGraph(item, index) {
       this.$store.commit('SET_CONFIRM', {
         title: `删除监控面板`,
         content: {
@@ -327,14 +378,31 @@ export default {
           type: 'delete',
           name: item.name,
         },
-        param: { item },
+        param: { index },
         doFunc: async (param) => {
-          await deleteMonitorDashboard(
+          const dashboard = this.items[this.tab]
+          this.$delete(this.items[this.tab].graphs, param.index)
+          await putUpdateMonitorDashboard(
             this.environment.value,
-            param.item.id,
+            dashboard.id,
+            dashboard,
           )
-          this.dashboardList()
+          this.loadMetrics()
         },
+      })
+    },
+    async getMonitorConfig() {
+      let data = {}
+      if (this.AdminViewport) {
+        data = await getSystemConfigData('Monitor')
+      } else {
+        data = await getMyConfigData('Monitor')
+      }
+      this.resourceNamespaced = {}
+      const resources = data.content?.resources
+      if (!resources) return
+      Object.keys(resources).forEach(r => {
+        this.resourceNamespaced[r] = resources[r].namespaced
       })
     },
   },

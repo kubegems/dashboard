@@ -17,7 +17,7 @@
     >
       <v-card
         class="mb-0"
-        height="100%"
+        height="265px"
       >
         <div class="pa-2">
           <h4 class="font-weight-regular text-title kubegems__detail mx-3">请求量</h4>
@@ -75,7 +75,7 @@
     >
       <v-card
         class="mb-0"
-        height="100%"
+        height="265px"
       >
         <div class="pa-2">
           <h4 class="font-weight-regular text-title kubegems__detail mx-3">响应时间</h4>
@@ -133,7 +133,7 @@
     >
       <v-card
         class="mb-0"
-        height="100%"
+        height="265px"
       >
         <div class="pa-2">
           <h4 class="font-weight-regular text-title kubegems__detail mx-3">
@@ -193,7 +193,7 @@
     >
       <v-card
         class="mb-0"
-        height="100%"
+        height="265px"
       >
         <div class="pa-2">
           <h4 class="font-weight-regular text-title kubegems__detail mx-3">流量</h4>

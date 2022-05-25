@@ -14,7 +14,7 @@
               <div class="d-flex align-center pa-10">
                 <div class="text-center">
                   <h2 class="text-h5 primary--text font-weight-medium">
-                    您暂时还未启用 {{ $route.meta.dependencies.join(', ') }} 插件或插件状态异常！
+                    您暂时还未启用 {{ $route.meta.dependencies.join(', ') }} 插件或该插件状态异常！
                   </h2>
                   <h6
                     class="

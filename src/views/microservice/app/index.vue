@@ -90,7 +90,7 @@ export default {
         iframe.contentWindow.document.getElementsByClassName('pf-c-breadcrumb')
       if (headers && headers.length > 0) {
         const header = headers[0]
-        header.parentElement.removeChild(header)
+        header.parentElement?.removeChild(header)
       }
     },
     removeBar() {
@@ -100,13 +100,13 @@ export default {
           'namespace-selector',
         ).parentNode
       if (namespace) {
-        namespace.parentElement.removeChild(namespace)
+        namespace.parentElement?.removeChild(namespace)
       }
       const splits =
         iframe.contentWindow.document.getElementsByClassName('fr78t9r')
       if (splits && splits.length > 0) {
         const split = splits[0]
-        split.parentElement.removeChild(split)
+        split.parentElement?.removeChild(split)
       }
       const fpomfbys =
         iframe.contentWindow.document.getElementsByClassName('fpomfby')
@@ -118,7 +118,7 @@ export default {
         iframe.contentWindow.document.getElementsByClassName('f1ct87rs')
       if (toolbars && toolbars.length > 0) {
         const toolbar = toolbars[0]
-        toolbar.parentElement.removeChild(toolbar)
+        toolbar.parentElement?.removeChild(toolbar)
       }
       const secondBars =
         iframe.contentWindow.document.getElementsByClassName('f1ocs92y')
@@ -140,7 +140,7 @@ export default {
           'global-namespace-selector',
         )
         header.style.marginBottom = '15px'
-        secondBar.parentElement.removeChild(secondBar)
+        secondBar.parentElement?.removeChild(secondBar)
       }
     },
   },

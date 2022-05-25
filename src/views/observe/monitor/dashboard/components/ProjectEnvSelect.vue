@@ -32,7 +32,6 @@
         full-width
         class="ml-2"
         :items="m_select_projectItems"
-        @focus="m_select_projectSelectData(true)"
         @change="onProjectChange"
       >
         <template #selection="{ item }">
@@ -41,7 +40,7 @@
             small
             label
           >
-            <span>项目：{{ item.projectName }}</span>
+            <span>{{ item.projectName }}</span>
           </v-chip>
         </template>
       </v-autocomplete>
@@ -89,7 +88,7 @@
             small
             label
           >
-            <span>环境：{{ item.environmentName }}</span>
+            <span>{{ item.environmentName }}</span>
           </v-chip>
         </template>
       </v-autocomplete>
@@ -105,6 +104,12 @@ import BaseSelect from '@/mixins/select'
 export default {
   name: 'ProjectEnvSelect',
   mixins: [BaseSelect],
+  props: {
+    tenant: {
+      type: Object,
+      default: () => null,
+    },
+  },
   data() {
     return {
       project: undefined,
@@ -123,14 +128,19 @@ export default {
       return null
     },
   },
-  mounted() {
-    this.$nextTick(async () => {
-      await this.m_select_projectSelectData(true)
-      if (this.m_select_projectItems?.length > 0) {
-        this.project = this.m_select_projectItems[0].projectName
-        this.loadEnvironment()
-      }
-    })
+  watch: {
+    tenant: {
+      handler: async function (newValue) {
+        if (newValue) {
+          await this.m_select_projectSelectData(newValue.ID, true)
+          if (this.m_select_projectItems?.length > 0) {
+            this.project = this.m_select_projectItems[0].projectName
+            this.loadEnvironment()
+          }
+        }
+      },
+      deep: true,
+    },
   },
   methods: {
     async loadEnvironment() {

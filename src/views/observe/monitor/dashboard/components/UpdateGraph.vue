@@ -11,6 +11,7 @@
         :is="formComponent"
         :ref="formComponent"
         :item="item"
+        :edit="true"
       />
     </template>
     <template #action>
@@ -29,8 +30,9 @@
 
 <script>
 import { mapState } from 'vuex'
-import { putUpdateMonitorDashboardGraph, getMonitorDashboardGraph } from '@/api'
+import { putUpdateMonitorDashboard } from '@/api'
 import GraphBaseForm from './GraphBaseForm'
+import { deepCopy } from '@/utils/helpers'
 
 export default {
   name: 'UpdateDashboard',
@@ -42,16 +44,32 @@ export default {
       type: Object,
       default: () => {},
     },
+    dashboard: {
+      type: Object,
+      default: () => null,
+    },
   },
   data() {
     return {
       dialog: false,
       formComponent: 'GraphBaseForm',
+      index: 0,
       item: null,
+      dashboardCopy: null,
     }
   },
   computed: {
     ...mapState(['Circular']),
+  },
+  watch: {
+    dashboard: {
+      handler(newValue) {
+        if (newValue) {
+          this.dashboardCopy = deepCopy(newValue)
+        }
+      },
+      deep: true,
+    },
   },
   methods: {
     // eslint-disable-next-line vue/no-unused-properties
@@ -59,23 +77,21 @@ export default {
       this.dialog = true
     },
     // eslint-disable-next-line vue/no-unused-properties
-    init(item) {
-      this.getMonitorGraph(item)
-    },
-    async getMonitorGraph(item) {
-      const data = await getMonitorDashboardGraph(this.environment.value, item.id)
-      this.item = data
+    init(item, index) {
+      this.index = index
+      this.item = deepCopy(item)
     },
     async updateGraph() {
       if (this.$refs[this.formComponent].validate()) {
         let data = ''
         if (this.formComponent === 'GraphBaseForm') {
           data = this.$refs[this.formComponent].getData()
+          this.dashboardCopy.graphs[this.index] = data
         }
-        await putUpdateMonitorDashboardGraph(
+        await putUpdateMonitorDashboard(
           this.environment.value,
-          data.id,
-          data,
+          this.dashboardCopy.id,
+          this.dashboardCopy,
         )
         this.reset()
         this.$emit('refresh')
@@ -84,6 +100,7 @@ export default {
     reset() {
       this.dialog = false
       this.$refs[this.formComponent].reset()
+      this.index = 0
     },
   },
 }

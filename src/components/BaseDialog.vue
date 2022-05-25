@@ -7,9 +7,9 @@
     height="100%"
   >
     <v-card>
-      <v-sheet class="px-4 py-2">
-        <div class="justify-center float-left text-h6 py-1 primary--text">
-          <v-icon left class="mt-n1 primary--text">{{ icon }}</v-icon>
+      <v-sheet class="px-4 py-2 primary">
+        <div class="justify-center float-left text-h6 py-1 white--text">
+          <v-icon left class="mt-n1 white--text">{{ icon }}</v-icon>
           {{ title }}
           <div v-if="Progress" :style="{
             position: 'absolute',
@@ -20,7 +20,7 @@
               size="20"
               width="3"
               indeterminate
-              color="primary"
+              color="white"
             ></v-progress-circular>
           </div>
         </div>

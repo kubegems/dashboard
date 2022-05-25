@@ -32,7 +32,6 @@ export const namespaceSelectData = (clusterName, query = {}) =>
     params: Object.assign(query, {
       preload: 'Cluster,Project',
       size: 1000,
-      noprocessing: true,
     }),
   })
 export const namespaceSelectDataFilter = (clusterName, query = {}) =>

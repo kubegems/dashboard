@@ -48,6 +48,10 @@ export default {
       type: String,
       default: () => null,
     },
+    unit: {
+      type: String,
+      default: () => null,
+    },
     label: {
       type: String,
       default: () => null,
@@ -62,7 +66,7 @@ export default {
     },
     noDataOffsetY: {
       type: Number,
-      default: () => -18,
+      default: () => -17,
     },
   },
   data: () => ({
@@ -71,6 +75,7 @@ export default {
     height: 250,
     allUnit: {
       cpu: ['n', 'u', 'm', 'core', 'k'],
+      cpucore: ['ncore', 'ucore', 'mcore', 'core', 'kcore'],
       memory: ['B', 'Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei', 'Zi'],
       storage: ['B', 'Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei', 'Zi'],
       network: ['bps', 'Kbps', 'Mbps', 'Gbps'],
@@ -123,6 +128,9 @@ export default {
       const timeout = setTimeout(() => {
         if (this.$refs.vueApexCharts) {
           this.$refs.vueApexCharts.updateSeries(series, false, true)
+          if(!this.labelShow) {
+            return
+          }
           const chartDiv = document.getElementById(`apexcharts${this.id}`)
           if (chartDiv) {
             const legends = chartDiv.getElementsByClassName('apexcharts-legend')
@@ -163,12 +171,16 @@ export default {
         clearTimeout(timeout)
       }, 200)
     },
-    formatter(value) {
-      if (value === 0) return '0'
-      if (isNaN(value)) return '0'
-      if (!value) return ''
-      let scaleNum = 1024
-      switch (this.type) {
+    getType() {
+      return Object.keys(this.allUnit).find(u => {
+        const inUnit = this.allUnit[u].some(n => {
+          return n.toLocaleLowerCase() === this.unit
+        })
+        return inUnit
+      })
+    },
+    unitBase(scaleNum, unitType, value) {
+      switch (unitType) {
         case 'memory':
         case 'storage':
         case 'network':
@@ -180,6 +192,7 @@ export default {
         case 'msgrate':
         case 'cpu':
         case 'timecost':
+        case 'cpucore':
           scaleNum = 1000
           break
         case 'seconds':
@@ -189,20 +202,36 @@ export default {
           return `${value.toFixed(2)} %`
           break
         default:
-          return `${value.toFixed(2)} ${this.type}`
+          if(this.unit) {
+            unitType = this.getType()
+            if (unitType) {
+              return this.unitBase(scaleNum, unitType, value)
+            } else {
+              return { scaleNum: `${value.toFixed(2)} ${this.unit}`, unitType: null }
+            }
+          }
+          return { scaleNum: `${value.toFixed(2)} ${unitType}`, unitType: null }
       }
+      return { scaleNum: scaleNum, unitType: unitType }
+    },
+    formatter(value) {
+      if (value === 0) return '0'
+      if (isNaN(value)) return '0'
+      if (!value) return ''
+      const { scaleNum, unitType } = this.unitBase(0, this.type, value)
+      if(!unitType) { return scaleNum }
       if (value / Math.pow(scaleNum, 3) >= 1) {
         return `${(value / Math.pow(scaleNum, 3)).toFixed(2)} ${
-          this.allUnit[this.type][3]
+          this.allUnit[unitType][3]
         }`
       } else if (value / Math.pow(scaleNum, 2) >= 1) {
         return `${(value / Math.pow(scaleNum, 2)).toFixed(2)} ${
-          this.allUnit[this.type][2]
+          this.allUnit[unitType][2]
         }`
       } else if (value / scaleNum >= 1) {
-        return `${(value / scaleNum).toFixed(2)} ${this.allUnit[this.type][1]}`
+        return `${(value / scaleNum).toFixed(2)} ${this.allUnit[unitType][1]}`
       } else {
-        return `${value.toFixed(2)} ${this.allUnit[this.type][0]}`
+        return `${value.toFixed(2)} ${this.allUnit[unitType][0]}`
       }
     },
     getOptions(title, id) {

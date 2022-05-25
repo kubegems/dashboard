@@ -149,7 +149,9 @@ export default {
             metadata: {
               labels: {},
             },
-            spec: {},
+            spec: {
+              containers: [],
+            },
           },
           selector: {
             matchLabels: {},
