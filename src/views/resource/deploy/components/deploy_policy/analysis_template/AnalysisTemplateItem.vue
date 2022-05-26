@@ -62,7 +62,7 @@
     </v-flex>
     <v-flex
       v-else
-      class="grey lighten-4 rounded-0"
+      class="grey lighten-4 rounded"
     >
       <v-list-item two-line>
         <v-list-item-content class="py-2">

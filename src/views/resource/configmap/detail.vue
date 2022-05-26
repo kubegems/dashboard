@@ -84,7 +84,7 @@
           :key="key"
           class="mb-4"
         >
-          <v-card-text class="pa-0">
+          <v-card-text class="pa-4">
             <BaseSubTitle
               :title="key"
               color="primary"

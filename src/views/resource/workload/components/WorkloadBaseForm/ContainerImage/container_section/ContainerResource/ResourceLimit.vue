@@ -1,5 +1,5 @@
 <template>
-  <v-sheet class="grey lighten-4 rounded-0 ma-2">
+  <v-sheet class="grey lighten-4 rounded ma-2">
     <v-list-item two-line>
       <v-list-item-content class="py-2">
         <v-list-item-subtitle class="text-body-2 py-0">

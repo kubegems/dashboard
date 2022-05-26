@@ -1,5 +1,5 @@
 <template>
-  <v-simple-table class="mx-2 pa-2">
+  <v-simple-table class="mx-2 pa-2 pb-3">
     <template #default>
       <thead>
         <tr>

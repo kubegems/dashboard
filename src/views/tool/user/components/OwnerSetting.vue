@@ -1,5 +1,5 @@
 <template>
-  <v-flex>
+  <div>
     <v-card flat>
       <v-card-text class="px-6">
         <v-form
@@ -39,8 +39,11 @@
         </v-form>
       </v-card-text>
     </v-card>
-    <BaseDivider />
-    <v-card flat>
+
+    <v-card
+      flat
+      class="mt-3"
+    >
       <v-card-text class="px-6">
         <v-form
           ref="pwdForm"
@@ -97,7 +100,7 @@
         </v-form>
       </v-card-text>
     </v-card>
-  </v-flex>
+  </div>
 </template>
 
 <script>

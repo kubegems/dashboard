@@ -1,264 +1,267 @@
 <template>
-  <v-sheet>
-    <BaseSubTitle
-      title="资源统计"
-      :divider="false"
-      class="mt-2 pl-4"
-    />
-    <v-row class="mt-2">
-      <v-col cols="4">
-        <VueApexCharts
-          type="radialBar"
-          height="300"
-          :options="cpuOptions"
-          :series="cpuSeries"
-        />
-      </v-col>
-      <v-col cols="4">
-        <VueApexCharts
-          type="radialBar"
-          height="300"
-          :options="memoryOptions"
-          :series="memorySeries"
-        />
-      </v-col>
-      <v-col cols="4">
-        <VueApexCharts
-          type="radialBar"
-          height="300"
-          :options="podOptions"
-          :series="podSeries"
-        />
-      </v-col>
-    </v-row>
+  <div>
+    <v-card>
+      <BaseSubTitle
+        title="资源统计"
+        :divider="false"
+        class="pt-2"
+      />
+      <v-row class="mt-2">
+        <v-col cols="4">
+          <VueApexCharts
+            type="radialBar"
+            height="300"
+            :options="cpuOptions"
+            :series="cpuSeries"
+          />
+        </v-col>
+        <v-col cols="4">
+          <VueApexCharts
+            type="radialBar"
+            height="300"
+            :options="memoryOptions"
+            :series="memorySeries"
+          />
+        </v-col>
+        <v-col cols="4">
+          <VueApexCharts
+            type="radialBar"
+            height="300"
+            :options="podOptions"
+            :series="podSeries"
+          />
+        </v-col>
+      </v-row>
 
-    <v-row
-      v-if="showMore &&
-        item &&
-        item.metadata &&
-        item.metadata.labels['tencent.com/vcuda'] &&
-        item.metadata.labels['tencent.com/vcuda'] === 'true'
-      "
-    >
-      <v-col cols="4">
-        <VueApexCharts
-          type="radialBar"
-          height="300"
-          :options="gpuTkeOptions"
-          :series="gpuTkeSeries"
-        />
-      </v-col>
-      <v-col cols="4">
-        <VueApexCharts
-          type="radialBar"
-          height="300"
-          :options="gpuTkeMemoryOptions"
-          :series="gpuTkeMemorySeries"
-        />
-      </v-col>
-    </v-row>
-
-    <v-row
-      v-if="showMore &&
-        item &&
-        item.metadata &&
-        item.metadata.labels['nvidia.com/gpu'] &&
-        item.metadata.labels['nvidia.com/gpu'] === 'true'
-      "
-    >
-      <v-col cols="4">
-        <VueApexCharts
-          type="radialBar"
-          height="300"
-          :options="gpuNvidiaOptions"
-          :series="gpuNvidiaSeries"
-        />
-      </v-col>
-    </v-row>
-
-    <div
-      v-if="item &&
-        item.metadata &&
-        ((item.metadata.labels['tencent.com/vcuda'] &&
-          item.metadata.labels['tencent.com/vcuda'] === 'true') ||
-          (item.metadata.labels['nvidia.com/gpu'] &&
-            item.metadata.labels['nvidia.com/gpu'] === 'true'))
-      "
-      class="mb-2 text-center"
-    >
-      <v-btn
-        text
-        small
-        color="primary"
-        @click="showMore=!showMore"
+      <v-row
+        v-if="showMore &&
+          item &&
+          item.metadata &&
+          item.metadata.labels['tencent.com/vcuda'] &&
+          item.metadata.labels['tencent.com/vcuda'] === 'true'
+        "
       >
-        {{ showMore ? '折叠GPU' : '显示更多' }}
-      </v-btn>
-    </div>
+        <v-col cols="4">
+          <VueApexCharts
+            type="radialBar"
+            height="300"
+            :options="gpuTkeOptions"
+            :series="gpuTkeSeries"
+          />
+        </v-col>
+        <v-col cols="4">
+          <VueApexCharts
+            type="radialBar"
+            height="300"
+            :options="gpuTkeMemoryOptions"
+            :series="gpuTkeMemorySeries"
+          />
+        </v-col>
+      </v-row>
 
-    <BaseDivider />
-
-    <v-sheet class="pa-2">
-      <BaseListItemForDetail
-        title="架构"
-        class="pt-0"
+      <v-row
+        v-if="showMore &&
+          item &&
+          item.metadata &&
+          item.metadata.labels['nvidia.com/gpu'] &&
+          item.metadata.labels['nvidia.com/gpu'] === 'true'
+        "
       >
-        <template #content>
-          {{ node ? node.status.nodeInfo.architecture : '' }}
+        <v-col cols="4">
+          <VueApexCharts
+            type="radialBar"
+            height="300"
+            :options="gpuNvidiaOptions"
+            :series="gpuNvidiaSeries"
+          />
+        </v-col>
+      </v-row>
+
+      <div
+        v-if="item &&
+          item.metadata &&
+          ((item.metadata.labels['tencent.com/vcuda'] &&
+            item.metadata.labels['tencent.com/vcuda'] === 'true') ||
+            (item.metadata.labels['nvidia.com/gpu'] &&
+              item.metadata.labels['nvidia.com/gpu'] === 'true'))
+        "
+        class="mb-2 text-center"
+      >
+        <v-btn
+          text
+          small
+          color="primary"
+          @click="showMore=!showMore"
+        >
+          {{ showMore ? '折叠GPU' : '显示更多' }}
+        </v-btn>
+      </div>
+    </v-card>
+
+    <v-card class="mt-6">
+      <v-sheet class="pa-2">
+        <BaseListItemForDetail
+          title="架构"
+          class="pt-0"
+          :mt="0"
+        >
+          <template #content>
+            {{ node ? node.status.nodeInfo.architecture : '' }}
+          </template>
+        </BaseListItemForDetail>
+
+        <BaseListItemForDetail title="bootID">
+          <template #content>
+            {{ node ? node.status.nodeInfo.bootID : '' }}
+          </template>
+        </BaseListItemForDetail>
+
+        <BaseListItemForDetail title="容器运行时版本">
+          <template #content>
+            {{ node ? node.status.nodeInfo.containerRuntimeVersion : '' }}
+          </template>
+        </BaseListItemForDetail>
+
+        <BaseListItemForDetail title="内核版本">
+          <template #content>
+            {{ node ? node.status.nodeInfo.kernelVersion : '' }}
+          </template>
+        </BaseListItemForDetail>
+
+        <BaseListItemForDetail title="kubeProxy版本">
+          <template #content>
+            {{ node ? node.status.nodeInfo.kubeProxyVersion : '' }}
+          </template>
+        </BaseListItemForDetail>
+
+        <BaseListItemForDetail title="kubelet版本">
+          <template #content>
+            {{ node ? node.status.nodeInfo.kubeletVersion : '' }}
+          </template>
+        </BaseListItemForDetail>
+
+        <BaseListItemForDetail title="machineID">
+          <template #content>
+            {{ node ? node.status.nodeInfo.machineID : '' }}
+          </template>
+        </BaseListItemForDetail>
+
+        <BaseListItemForDetail title="操作系统">
+          <template #content>
+            {{ node ? node.status.nodeInfo.operatingSystem : '' }}
+          </template>
+        </BaseListItemForDetail>
+
+        <BaseListItemForDetail title="操作系统版本">
+          <template #content>
+            {{ node ? node.status.nodeInfo.osImage : '' }}
+          </template>
+        </BaseListItemForDetail>
+
+        <BaseListItemForDetail title="系统UUID">
+          <template #content>
+            {{ node ? node.status.nodeInfo.systemUUID : '' }}
+          </template>
+        </BaseListItemForDetail>
+
+        <BaseListItemForDetail title="镜像数量">
+          <template #content>
+            {{ node && node.status.images ? node.status.images.length : 0 }}
+          </template>
+        </BaseListItemForDetail>
+
+        <BaseListItemForDetail title="podCIDR">
+          <template #content>
+            <v-chip
+              color="success"
+              text-color="white"
+              class="mx-1 font-weight-medium"
+              small
+            >
+              {{ node ? node.spec.podCIDR : '' }}
+            </v-chip>
+          </template>
+        </BaseListItemForDetail>
+
+        <BaseListItemForDetail title="podCIDRs">
+          <template #content>
+            <v-chip
+              v-for="(item, index) in node ? node.spec.podCIDRs : []"
+              :key="index"
+              color="success"
+              text-color="white"
+              class="mx-1 font-weight-medium"
+              small
+            >
+              {{ item }}
+            </v-chip>
+          </template>
+        </BaseListItemForDetail>
+
+        <BaseListItemForDetail title="卷">
+          <template #content>
+            attached :
+            {{
+              node && node.status.volumesAttached
+                ? node.status.volumesAttached.length
+                : 0
+            }}/ inuse :
+            {{
+              node && node.status.volumesInUse
+                ? node.status.volumesInUse.length
+                : 0
+            }}
+          </template>
+        </BaseListItemForDetail>
+      </v-sheet>
+    </v-card>
+
+    <v-card class="mt-3">
+      <BaseSubTitle
+        title="状况"
+        :divider="false"
+        class="pt-2"
+      />
+      <v-simple-table class="mx-2 pa-2 pb-3">
+        <template #default>
+          <thead>
+            <tr>
+              <th class="text-left">Reason</th>
+              <th class="text-left">状态</th>
+              <th class="text-left">Type</th>
+              <th class="text-left">Message</th>
+              <th class="text-left">上次更新时间</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="item in node ? node.status.conditions : []"
+              :key="item.type"
+            >
+              <td>{{ item.reason }}</td>
+              <td>
+                <span v-if="item.status === 'True'">
+                  <v-icon
+                    small
+                    color="primary"
+                  > fas fa-check-circle </v-icon>
+                </span>
+                <span v-else>
+                  <v-icon
+                    small
+                    color="error"
+                  >fas fa-minus-circle</v-icon>
+                </span>
+              </td>
+              <td>{{ item.type }}</td>
+              <td>{{ item.message }}</td>
+              <td>{{ $moment(item.lastUpdateTime).format('lll') }}</td>
+            </tr>
+          </tbody>
         </template>
-      </BaseListItemForDetail>
-
-      <BaseListItemForDetail title="bootID">
-        <template #content>
-          {{ node ? node.status.nodeInfo.bootID : '' }}
-        </template>
-      </BaseListItemForDetail>
-
-      <BaseListItemForDetail title="容器运行时版本">
-        <template #content>
-          {{ node ? node.status.nodeInfo.containerRuntimeVersion : '' }}
-        </template>
-      </BaseListItemForDetail>
-
-      <BaseListItemForDetail title="内核版本">
-        <template #content>
-          {{ node ? node.status.nodeInfo.kernelVersion : '' }}
-        </template>
-      </BaseListItemForDetail>
-
-      <BaseListItemForDetail title="kubeProxy版本">
-        <template #content>
-          {{ node ? node.status.nodeInfo.kubeProxyVersion : '' }}
-        </template>
-      </BaseListItemForDetail>
-
-      <BaseListItemForDetail title="kubelet版本">
-        <template #content>
-          {{ node ? node.status.nodeInfo.kubeletVersion : '' }}
-        </template>
-      </BaseListItemForDetail>
-
-      <BaseListItemForDetail title="machineID">
-        <template #content>
-          {{ node ? node.status.nodeInfo.machineID : '' }}
-        </template>
-      </BaseListItemForDetail>
-
-      <BaseListItemForDetail title="操作系统">
-        <template #content>
-          {{ node ? node.status.nodeInfo.operatingSystem : '' }}
-        </template>
-      </BaseListItemForDetail>
-
-      <BaseListItemForDetail title="操作系统版本">
-        <template #content>
-          {{ node ? node.status.nodeInfo.osImage : '' }}
-        </template>
-      </BaseListItemForDetail>
-
-      <BaseListItemForDetail title="系统UUID">
-        <template #content>
-          {{ node ? node.status.nodeInfo.systemUUID : '' }}
-        </template>
-      </BaseListItemForDetail>
-
-      <BaseListItemForDetail title="镜像数量">
-        <template #content>
-          {{ node && node.status.images ? node.status.images.length : 0 }}
-        </template>
-      </BaseListItemForDetail>
-
-      <BaseListItemForDetail title="podCIDR">
-        <template #content>
-          <v-chip
-            color="success"
-            text-color="white"
-            class="mx-1 font-weight-medium"
-            small
-          >
-            {{ node ? node.spec.podCIDR : '' }}
-          </v-chip>
-        </template>
-      </BaseListItemForDetail>
-
-      <BaseListItemForDetail title="podCIDRs">
-        <template #content>
-          <v-chip
-            v-for="(item, index) in node ? node.spec.podCIDRs : []"
-            :key="index"
-            color="success"
-            text-color="white"
-            class="mx-1 font-weight-medium"
-            small
-          >
-            {{ item }}
-          </v-chip>
-        </template>
-      </BaseListItemForDetail>
-
-      <BaseListItemForDetail title="卷">
-        <template #content>
-          attached :
-          {{
-            node && node.status.volumesAttached
-              ? node.status.volumesAttached.length
-              : 0
-          }}/ inuse :
-          {{
-            node && node.status.volumesInUse
-              ? node.status.volumesInUse.length
-              : 0
-          }}
-        </template>
-      </BaseListItemForDetail>
-    </v-sheet>
-
-    <BaseDivider />
-
-    <BaseSubTitle
-      title="状况"
-      :divider="false"
-      class="mt-2 pl-4"
-    />
-    <v-simple-table class="mx-2 pa-2">
-      <template #default>
-        <thead>
-          <tr>
-            <th class="text-left">Reason</th>
-            <th class="text-left">状态</th>
-            <th class="text-left">Type</th>
-            <th class="text-left">Message</th>
-            <th class="text-left">上次更新时间</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="item in node ? node.status.conditions : []"
-            :key="item.type"
-          >
-            <td>{{ item.reason }}</td>
-            <td>
-              <span v-if="item.status === 'True'">
-                <v-icon
-                  small
-                  color="primary"
-                > fas fa-check-circle </v-icon>
-              </span>
-              <span v-else>
-                <v-icon
-                  small
-                  color="error"
-                >fas fa-minus-circle</v-icon>
-              </span>
-            </td>
-            <td>{{ item.type }}</td>
-            <td>{{ item.message }}</td>
-            <td>{{ $moment(item.lastUpdateTime).format('lll') }}</td>
-          </tr>
-        </tbody>
-      </template>
-    </v-simple-table>
-  </v-sheet>
+      </v-simple-table>
+    </v-card>
+  </div>
 </template>
 
 <script>

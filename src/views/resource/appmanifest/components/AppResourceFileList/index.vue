@@ -141,7 +141,7 @@
           :class="`clear-zoom-${Scale.toString().replaceAll(
             '.',
             '-',
-          )} rounded-0`"
+          )} rounded`"
           lang="yaml"
           :options="Object.assign($aceOptions, { readOnly: true, wrap: true })"
           theme="chrome"

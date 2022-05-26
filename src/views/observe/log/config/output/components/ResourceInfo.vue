@@ -1,18 +1,23 @@
 <template>
-  <v-sheet>
-    <v-sheet class="pa-2">
-      <BaseListItemForDetail title="Output">
-        <template #content>
-          <BaseCollapseChips
-            v-if="output && output.spec"
-            :chips="Object.keys(output.spec) || []"
-            single-line
-            icon="mdi-router-wireless"
-          />
-        </template>
-      </BaseListItemForDetail>
-    </v-sheet>
-  </v-sheet>
+  <div>
+    <v-card>
+      <v-sheet class="pa-2">
+        <BaseListItemForDetail
+          title="Output"
+          :mt="0"
+        >
+          <template #content>
+            <BaseCollapseChips
+              v-if="output && output.spec"
+              :chips="Object.keys(output.spec) || []"
+              single-line
+              icon="mdi-router-wireless"
+            />
+          </template>
+        </BaseListItemForDetail>
+      </v-sheet>
+    </v-card>
+  </div>
 </template>
 
 <script>

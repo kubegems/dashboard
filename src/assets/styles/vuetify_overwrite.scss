@@ -40,9 +40,6 @@
     0 4px 5px 0 rgb(0 0 0 / 14%),
     0 1px 10px 0 rgb(0 0 0 / 12%) !important;
 }
-.v-btn {
-  text-transform: inherit !important;
-}
 
 .v-data-table > .v-data-table__wrapper tbody tr.v-data-table__expanded__content {
   box-shadow: inset 0 2px 4px -5px rgb(50 50 50 / 75%),
@@ -115,4 +112,14 @@
   color: rgba(0, 0, 0, 0.7) !important;
   font-weight: initial !important;
   height: 210px !important;
+}
+
+// 圆角处理
+.v-chip--label {
+  border-radius: 3px !important;
+}
+
+.v-btn {
+  border-radius: 3px !important;
+  text-transform: inherit !important;
 }

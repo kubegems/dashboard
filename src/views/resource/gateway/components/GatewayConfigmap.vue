@@ -1,12 +1,12 @@
 <template>
-  <v-flex class="pt-4">
+  <v-flex class="mt-3">
     <v-flex
       v-for="(d, key) in data"
       :key="key"
     >
       <v-card
         flat
-        class="pb-4"
+        class="pa-4"
       >
         <v-card-text class="pa-0">
           <BaseSubTitle
@@ -17,7 +17,6 @@
           <pre class="kubegems__data-pre rounded">{{ d }}</pre>
         </v-card-text>
       </v-card>
-      <BaseDivider />
     </v-flex>
   </v-flex>
 </template>

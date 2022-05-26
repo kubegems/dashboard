@@ -1,160 +1,165 @@
 <template>
-  <v-sheet>
-    <v-sheet class="pa-2">
-      <BaseListItemForDetail title="网关">
-        <template #content>
-          {{ gateway ? gateway.metadata.name : '' }}
-        </template>
-      </BaseListItemForDetail>
-
-      <BaseListItemForDetail title="generation">
-        <template #content>
-          {{ ingress ? ingress.metadata.generation : '' }}
-        </template>
-      </BaseListItemForDetail>
-    </v-sheet>
-
-    <BaseDivider />
-
-    <BaseSubTitle
-      title="路由规则"
-      :divider="false"
-      class="mt-2 pl-4"
-    />
-    <v-flex class="pl-4 kubegems__detail py-2 text-subtitle-1">HTTP</v-flex>
-    <v-data-table
-      class="mx-2 pa-2 no-header-table"
-      :headers="[
-        { text: 'http', value: 'http', align: 'start' },
-        { text: 'opp', value: 'opp', align: 'end' },
-        { text: '', value: 'data-table-expand', align: 'end' },
-      ]"
-      :items="
-        ingress
-          ? ingress.spec.rules.filter((item) => {
-            return getHost(item, ingress) === 'http'
-          })
-          : []
-      "
-      no-data-text="暂无数据"
-      hide-default-footer
-      hide-default-header
-      single-expand
-      show-expand
-      item-key="host"
-      @click:row="onHttpRowClick"
-    >
-      <template #[`item.http`]="{ item }">
-        <v-flex
-          v-for="(path, i) in item.http.paths"
-          :key="i"
+  <div>
+    <v-card>
+      <v-sheet class="pa-2">
+        <BaseListItemForDetail
+          title="网关"
+          :mt="0"
         >
-          http://{{ item.host }}{{ getGatewayPort('http') }}{{ path.path }}
-        </v-flex>
-      </template>
-      <template #[`item.opp`]="{ item }">
-        <v-flex
-          v-for="(path, i) in item.http.paths"
-          :key="i"
-        >
-          <v-btn
-            x-small
-            text
-            color="primary"
-            @click.stop="toAddress(item, ingress, path.path)"
-          >
-            访问
-          </v-btn>
-        </v-flex>
-      </template>
-      <template #expanded-item="{ headers, item }">
-        <td
-          :colspan="headers.length"
-          class="text-left"
-        >
-          <v-chip
+          <template #content>
+            {{ gateway ? gateway.metadata.name : '' }}
+          </template>
+        </BaseListItemForDetail>
+
+        <BaseListItemForDetail title="generation">
+          <template #content>
+            {{ ingress ? ingress.metadata.generation : '' }}
+          </template>
+        </BaseListItemForDetail>
+      </v-sheet>
+    </v-card>
+
+    <v-card class="mt-3">
+      <BaseSubTitle
+        title="路由规则"
+        :divider="false"
+        class="pt-2"
+      />
+      <v-flex class="pl-4 kubegems__detail py-2 text-subtitle-1">HTTP</v-flex>
+      <v-data-table
+        class="mx-2 pa-2 no-header-table"
+        :headers="[
+          { text: 'http', value: 'http', align: 'start' },
+          { text: 'opp', value: 'opp', align: 'end' },
+          { text: '', value: 'data-table-expand', align: 'end' },
+        ]"
+        :items="
+          ingress
+            ? ingress.spec.rules.filter((item) => {
+              return getHost(item, ingress) === 'http'
+            })
+            : []
+        "
+        no-data-text="暂无数据"
+        hide-default-footer
+        hide-default-header
+        single-expand
+        show-expand
+        item-key="host"
+        @click:row="onHttpRowClick"
+      >
+        <template #[`item.http`]="{ item }">
+          <v-flex
             v-for="(path, i) in item.http.paths"
             :key="i"
-            color="success"
-            text-color="white"
-            class="mx-1 font-weight-medium"
-            small
           >
-            {{ path.backend.serviceName }}｜{{ path.backend.servicePort }}
-          </v-chip>
-        </td>
-      </template>
-    </v-data-table>
-
-    <v-flex class="pl-4 kubegems__detail py-2 text-subtitle-1">HTTPS</v-flex>
-    <v-data-table
-      class="mx-2 pa-2 no-header-table"
-      :headers="[
-        { text: 'https', value: 'https', align: 'start' },
-        { text: 'opp', value: 'opp', align: 'end' },
-        {
-          text: '',
-          value: 'data-table-expand',
-          align: 'end',
-        },
-      ]"
-      :items="
-        ingress
-          ? ingress.spec.rules.filter((item) => {
-            return getHost(item, ingress) === 'https'
-          })
-          : []
-      "
-      no-data-text="暂无数据"
-      hide-default-footer
-      hide-default-header
-      single-expand
-      show-expand
-      item-key="host"
-      @click:row="onHttpsRowClick"
-    >
-      <template #[`item.https`]="{ item }">
-        <v-flex
-          v-for="(path, i) in item.http.paths"
-          :key="i"
-        >
-          https://{{ item.host }}{{ getGatewayPort('https') }}{{ path.path }}
-        </v-flex>
-      </template>
-      <template #[`item.opp`]="{ item }">
-        <v-flex
-          v-for="(path, i) in item.http.paths"
-          :key="i"
-        >
-          <v-btn
-            x-small
-            text
-            color="primary"
-            @click.stop="toAddress(item, ingress, path.path)"
-          >
-            访问
-          </v-btn>
-        </v-flex>
-      </template>
-      <template #expanded-item="{ headers, item }">
-        <td
-          :colspan="headers.length"
-          class="text-left"
-        >
-          <v-chip
+            http://{{ item.host }}{{ getGatewayPort('http') }}{{ path.path }}
+          </v-flex>
+        </template>
+        <template #[`item.opp`]="{ item }">
+          <v-flex
             v-for="(path, i) in item.http.paths"
             :key="i"
-            color="success"
-            text-color="white"
-            class="mx-1 font-weight-medium"
-            small
           >
-            {{ path.backend.serviceName }}｜{{ path.backend.servicePort }}
-          </v-chip>
-        </td>
-      </template>
-    </v-data-table>
-  </v-sheet>
+            <v-btn
+              x-small
+              text
+              color="primary"
+              @click.stop="toAddress(item, ingress, path.path)"
+            >
+              访问
+            </v-btn>
+          </v-flex>
+        </template>
+        <template #expanded-item="{ headers, item }">
+          <td
+            :colspan="headers.length"
+            class="text-left"
+          >
+            <v-chip
+              v-for="(path, i) in item.http.paths"
+              :key="i"
+              color="success"
+              text-color="white"
+              class="mx-1 font-weight-medium"
+              small
+            >
+              {{ path.backend.serviceName }}｜{{ path.backend.servicePort }}
+            </v-chip>
+          </td>
+        </template>
+      </v-data-table>
+
+      <v-flex class="pl-4 kubegems__detail py-2 text-subtitle-1">HTTPS</v-flex>
+      <v-data-table
+        class="mx-2 pa-2 no-header-table"
+        :headers="[
+          { text: 'https', value: 'https', align: 'start' },
+          { text: 'opp', value: 'opp', align: 'end' },
+          {
+            text: '',
+            value: 'data-table-expand',
+            align: 'end',
+          },
+        ]"
+        :items="
+          ingress
+            ? ingress.spec.rules.filter((item) => {
+              return getHost(item, ingress) === 'https'
+            })
+            : []
+        "
+        no-data-text="暂无数据"
+        hide-default-footer
+        hide-default-header
+        single-expand
+        show-expand
+        item-key="host"
+        @click:row="onHttpsRowClick"
+      >
+        <template #[`item.https`]="{ item }">
+          <v-flex
+            v-for="(path, i) in item.http.paths"
+            :key="i"
+          >
+            https://{{ item.host }}{{ getGatewayPort('https') }}{{ path.path }}
+          </v-flex>
+        </template>
+        <template #[`item.opp`]="{ item }">
+          <v-flex
+            v-for="(path, i) in item.http.paths"
+            :key="i"
+          >
+            <v-btn
+              x-small
+              text
+              color="primary"
+              @click.stop="toAddress(item, ingress, path.path)"
+            >
+              访问
+            </v-btn>
+          </v-flex>
+        </template>
+        <template #expanded-item="{ headers, item }">
+          <td
+            :colspan="headers.length"
+            class="text-left"
+          >
+            <v-chip
+              v-for="(path, i) in item.http.paths"
+              :key="i"
+              color="success"
+              text-color="white"
+              class="mx-1 font-weight-medium"
+              small
+            >
+              {{ path.backend.serviceName }}｜{{ path.backend.servicePort }}
+            </v-chip>
+          </td>
+        </template>
+      </v-data-table>
+    </v-card>
+  </div>
 </template>
 
 <script>

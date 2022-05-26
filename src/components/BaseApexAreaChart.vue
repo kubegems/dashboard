@@ -109,18 +109,24 @@ export default {
     if (this.timeinterval) clearInterval(this.timeinterval)
   },
   methods: {
+    getMetricName(metricAndValues, index) {
+      if (metricAndValues.metric) {
+        if (metricAndValues.metric['container']) {
+          return metricAndValues.metric['container']
+        }
+        if (metricAndValues.metric[this.label]) {
+          return metricAndValues.metric[this.label]
+        } 
+        return Object.values(metricAndValues.metric)[0]
+      }
+      return this.$route.params.name || `数据${index + 1}`
+    },
     async loadData() {
       let series = []
       series = series.concat(
-        this.metrics.map((metricAndValues) => {
+        this.metrics.map((metricAndValues, index) => {
           return {
-            name:
-              metricAndValues.metric &&
-              JSON.stringify(metricAndValues.metric) !== '{}'
-                ? this.label
-                  ? metricAndValues.metric[this.label]
-                  : Object.values(metricAndValues.metric)[0]
-                : this.$route.params.name,
+            name: this.getMetricName(metricAndValues, index),
             data: metricAndValues.values,
           }
         }),
@@ -128,7 +134,7 @@ export default {
       const timeout = setTimeout(() => {
         if (this.$refs.vueApexCharts) {
           this.$refs.vueApexCharts.updateSeries(series, false, true)
-          if(!this.labelShow) {
+          if (!this.labelShow) {
             return
           }
           const chartDiv = document.getElementById(`apexcharts${this.id}`)
@@ -202,23 +208,28 @@ export default {
           return `${value.toFixed(2)} %`
           break
         default:
-          if(this.unit) {
+          if (this.unit) {
             unitType = this.getType()
             if (unitType) {
               return this.unitBase(scaleNum, unitType, value)
             } else {
-              return { scaleNum: `${value.toFixed(2)} ${this.unit}`, unitType: null }
+              return { scaleNum: `${value.toFixed(2)} ${this.unit}`, unitType: null, newValue: value }
             }
           }
-          return { scaleNum: `${value.toFixed(2)} ${unitType}`, unitType: null }
+          return { scaleNum: `${value.toFixed(2)} ${unitType}`, unitType: null, newValue: value }
       }
-      return { scaleNum: scaleNum, unitType: unitType }
+      if (this.unit) {
+        const d = this.allUnit[unitType].findIndex((u) => { return u.toLocaleLowerCase() === this.unit })
+        value = value * Math.pow(scaleNum, d)
+      }
+      return { scaleNum: scaleNum, unitType: unitType, newValue: value }
     },
     formatter(value) {
       if (value === 0) return '0'
       if (isNaN(value)) return '0'
       if (!value) return ''
-      const { scaleNum, unitType } = this.unitBase(0, this.type, value)
+      const { scaleNum, unitType, newValue } = this.unitBase(0, this.type, value)
+      value = newValue
       if(!unitType) { return scaleNum }
       if (value / Math.pow(scaleNum, 3) >= 1) {
         return `${(value / Math.pow(scaleNum, 3)).toFixed(2)} ${
@@ -244,8 +255,11 @@ export default {
           id: id,
           animations: {
             animateGradually: {
-              enabled: false,
+              delay: 0,
             },
+            dynamicAnimation: {
+              speed: 500,
+            }
           },
         },
         title: {

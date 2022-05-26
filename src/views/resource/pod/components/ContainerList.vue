@@ -1,5 +1,5 @@
 <template>
-  <v-sheet class="pa-4">
+  <v-sheet class="pa-4 rounded">
     <v-data-table
       v-if="item && item.status && item.status.containerStatuses"
       disable-sort

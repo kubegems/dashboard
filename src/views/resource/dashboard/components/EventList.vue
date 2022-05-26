@@ -1,6 +1,7 @@
 <template>
   <v-card class="my-3">
     <BaseSubTitle
+      class="pt-2"
       title="事件"
       :divider="false"
     >
