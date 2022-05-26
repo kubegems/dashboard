@@ -30,7 +30,7 @@
                   <v-card
                     class="mx-auto"
                     :elevation="hover ? 5 : 0"
-                    @click="configIntergated(item.items[index*2 + innerIndex])"
+                    @click="configIntergated(item.items[index*2 + innerIndex], item.type)"
                   >
                     <v-list-item>
                       <v-list-item-avatar
@@ -80,6 +80,7 @@ export default {
     items: {
       app: {
         name: '应用类型',
+        type: 'app',
         items: [
           { name: 'c++' },
           { name: 'c#' },
@@ -97,6 +98,7 @@ export default {
       },
       middleware: {
         name: '中间件',
+        type: 'middleware',
         items: [
           { name: 'mysql' },
           { name: 'redis' },
@@ -120,8 +122,8 @@ export default {
 
   },
   methods: {
-    configIntergated(item) {
-      this.$refs.intergatedCenter.init(item)
+    configIntergated(item, type) {
+      this.$refs.intergatedCenter.init(item, type)
       this.$refs.intergatedCenter.open()
     },
   },

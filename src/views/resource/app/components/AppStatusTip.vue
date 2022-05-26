@@ -79,7 +79,7 @@ import { getAppRunningResourceDetail } from '@/api'
 import BaseResource from '@/mixins/resource'
 
 export default {
-  name: 'AppEventTip',
+  name: 'AppStatusTip',
   mixins: [BaseResource],
   props: {
     disabled: {

@@ -3,27 +3,27 @@
     <v-row class="ma-0 pa-0">
       <v-col cols="1" sm="12" class="pa-0">
         <v-card class="custom-shaodow pa-0" height="64" :flat="flat">
-          <v-card-text>
+          <v-card-text class="breadcrumb__flex">
             <v-icon v-if="breadcrumb.icon != undefined" left>
               {{ breadcrumb.icon }}
             </v-icon>
-            <span class="text-subtitle-2 kubegems__detail font-weight-medium">
+            <div class="text-subtitle-2 kubegems__detail font-weight-medium breadcrumb__font">
               {{ breadcrumb.title }}
-            </span>
+            </div>
             <v-icon
               v-if="breadcrumb.tip !== undefined"
-              class="bread__bg"
+              class="breadcrumb__bg mr-1"
               right
               small
             >
               fas fa-question-circle
             </v-icon>
-            <span
+            <div
               v-if="breadcrumb.tip !== undefined"
-              class="text-overline bread__bg font-weight-regular"
+              class="text-overline breadcrumb__bg breadcrumb__tip font-weight-regular"
             >
               {{ breadcrumb.tip }}
-            </span>
+            </div>
             <slot name="extend"></slot>
           </v-card-text>
         </v-card>
@@ -54,8 +54,28 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.bread__bg {
-  color: rgba(0, 0, 0, 0.6);
-  text-transform: capitalize !important;
+.breadcrumb {
+  &__flex {
+    display: flex;
+  }
+
+  &__font {
+    line-height: 2rem !important;
+  }
+
+  &__bg {
+    color: rgba(0, 0, 0, 0.6);
+    text-transform: capitalize !important;
+  }
+
+  &__tip {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    @media (max-width: 1000px) {
+      width: 600px;
+    }
+  }
 }
 </style>

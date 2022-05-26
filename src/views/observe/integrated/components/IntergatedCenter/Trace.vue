@@ -22,7 +22,7 @@ export default {
   name: 'Trace',
   mounted() {
     this.$nextTick(() => {
-      this.$refs.form.resetValidation()
+      this.$refs.form?.resetValidation()
     })
   },
   methods: {
