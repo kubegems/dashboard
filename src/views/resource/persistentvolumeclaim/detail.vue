@@ -109,7 +109,7 @@
           <v-card-text class="pa-0">
             <v-tabs
               v-model="tab"
-              class="rounded-t pl-4 pt-4"
+              class="rounded-t pa-3"
             >
               <v-tab
                 v-for="item in tabItems"
@@ -118,18 +118,18 @@
                 {{ item.text }}
               </v-tab>
             </v-tabs>
-
-            <component
-              :is="tabItems[tab].value"
-              :ref="tabItems[tab].value"
-              :item="pvc"
-              :selector="{
-                topkind: 'PersistentVolumeClaim',
-                topname: pvc ? pvc.metadata.name : '',
-              }"
-            />
           </v-card-text>
         </v-card>
+        <component
+          :is="tabItems[tab].value"
+          :ref="tabItems[tab].value"
+          class="mt-3"
+          :item="pvc"
+          :selector="{
+            topkind: 'PersistentVolumeClaim',
+            topname: pvc ? pvc.metadata.name : '',
+          }"
+        />
       </v-col>
     </v-row>
 

@@ -14,7 +14,6 @@
     </v-tabs>
     <v-data-table
       disable-sort
-      class="pa-2"
       :headers="headers"
       :items="items"
       hide-default-footer

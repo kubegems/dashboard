@@ -6,7 +6,7 @@
     <ACEEditor
       v-model="kubeyaml"
       lang="yaml"
-      class="rounded-0"
+      class="rounded"
       :options="Object.assign($aceOptions, { readOnly: true, wrap: true })"
       theme="chrome"
       @init="$aceinit"

@@ -61,7 +61,7 @@
       class="mt-4 pl-2"
     />
     <MatchList :matchs="vs ? vs.match : []" />
-    <BaseDivider />
+
     <BaseSubTitle
       title="Route"
       :divider="false"

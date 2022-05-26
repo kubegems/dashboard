@@ -102,7 +102,7 @@
     </v-sheet>
     <v-flex
       v-else
-      class="grey lighten-4 rounded-0 mt-0"
+      class="grey lighten-4 rounded mt-0"
     >
       <v-list-item two-line>
         <v-list-item-content class="py-2">

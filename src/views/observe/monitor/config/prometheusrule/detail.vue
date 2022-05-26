@@ -51,34 +51,49 @@
         </v-flex>
       </template>
     </BaseBreadcrumb>
-    <v-card class="mt-0">
-      <v-card-text>
-        <v-row>
-          <v-col cols="6">
-            <BaseSubTitle title="规则详情" />
-            <v-card-text>
-              <pre class="yaml-pre">{{ yaml }}</pre>
-            </v-card-text>
-          </v-col>
-          <v-col cols="6">
-            <BaseSubTitle title="告警趋势" />
-            <v-card-text class="pa-0">
-              <AlertBarChart
-                :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-                :metrics="metrics"
-                :extend-height="300"
-                title="告警次数"
-                label="name"
-              />
-            </v-card-text>
-          </v-col>
-        </v-row>
-        <BaseSubTitle title="告警列表" />
+
+    <v-row>
+      <v-col cols="6">
+        <v-card class="mt-0">
+          <BaseSubTitle
+            title="规则详情"
+            class="pl-4 py-2"
+          />
+          <v-card-text class="px-4">
+            <pre class="yaml-pre">{{ yaml }}</pre>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col cols="6">
+        <v-card class="mt-0">
+          <BaseSubTitle
+            title="告警趋势"
+            class="pl-4 py-2"
+          />
+          <v-card-text class="px-4">
+            <AlertBarChart
+              :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
+              :metrics="metrics"
+              :extend-height="300"
+              title="告警次数"
+              label="name"
+            />
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-card class="mt-3">
+      <BaseSubTitle
+        title="告警列表"
+        class="pl-4 py-2"
+      />
+      <v-card-text class="px-4">
         <AlertList
           ref="alertList"
         />
       </v-card-text>
     </v-card>
+
     <UpdatePrometheusRule
       ref="updatePrometheusRule"
       @refresh="prometheusRuleDetail"

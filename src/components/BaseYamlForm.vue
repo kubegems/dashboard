@@ -11,7 +11,7 @@
     <div class="px-2">
       <ACEEditor
         v-model="kubeyaml"
-        :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded-0`"
+        :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded`"
         lang="yaml"
         :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
         theme="chrome"

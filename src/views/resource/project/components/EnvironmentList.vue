@@ -6,6 +6,7 @@
       :class="`${index > 0 ? 'mt-3' : 'mt-6'}`"
     >
       <BaseSubTitle
+        class="pt-2"
         :title="`集群 ${cluster.ClusterName}`"
         :divider="false"
       >
@@ -29,6 +30,7 @@
       <v-card-text>
         <v-data-table
           disable-sort
+          class="px-2"
           :headers="headers"
           :items="items[cluster.ClusterName]"
           :items-per-page="100"

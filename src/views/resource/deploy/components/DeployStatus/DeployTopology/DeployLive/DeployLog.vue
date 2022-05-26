@@ -6,7 +6,7 @@
     <ACEEditor
       ref="log"
       v-model="log"
-      class="rounded-0"
+      class="rounded"
       lang="yaml"
       :options="Object.assign($aceOptions, { readOnly: true, wrap: false })"
       theme="chrome"

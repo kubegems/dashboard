@@ -313,7 +313,7 @@
           !containerCopy.readinessProbe ||
           !containerCopy.startupProbe
       "
-      class="grey lighten-4 rounded-0 ma-2"
+      class="grey lighten-4 rounded ma-2"
     >
       <v-list-item two-line>
         <v-list-item-content class="py-2">

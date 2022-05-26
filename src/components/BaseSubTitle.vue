@@ -1,12 +1,12 @@
 <template>
   <v-sheet
     :height="height"
-    :class="`py-1 px-2 text-subtitle-1 primary--text rounded-t ${color}`"
+    :class="`py-1 px-2 text-subtitle-1 primary--text rounded ${color}`"
   >
     <span
       :class="`float-left subtitle font-weight-regular ${
         color === 'primary' ? 'white--text' : 'blue-grey--text text--darken-2'
-      }`"
+      } ${ divider || 'pl-2' }`"
       style="line-height: 28px;"
     >
       {{ title }}

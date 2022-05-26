@@ -206,7 +206,7 @@
             <v-tabs
               v-model="tab"
               height="40"
-              class="rounded-t pl-4 pt-4"
+              class="rounded-t pa-3"
             >
               <v-tab
                 v-for="item in tabItems"
@@ -215,18 +215,19 @@
                 {{ item.text }}
               </v-tab>
             </v-tabs>
-
-            <component
-              :is="tabItems[tab].value"
-              :ref="tabItems[tab].value"
-              :item="workload"
-              :selector="{
-                topkind: $route.query.type,
-                topname: workload ? workload.metadata.name : '',
-              }"
-            />
           </v-card-text>
         </v-card>
+
+        <component
+          :is="tabItems[tab].value"
+          :ref="tabItems[tab].value"
+          class="mt-3"
+          :item="workload"
+          :selector="{
+            topkind: $route.query.type,
+            topname: workload ? workload.metadata.name : '',
+          }"
+        />
       </v-col>
     </v-row>
 

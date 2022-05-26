@@ -95,7 +95,7 @@
           :key="key"
           class="pa-0"
         >
-          <v-flex class="grey lighten-4 rounded-0 mt-3 mb-4 mx-3">
+          <v-flex class="grey lighten-4 rounded mt-3 mb-4 mx-3">
             <v-list-item>
               <v-list-item-content class="py-2">
                 <v-list-item-subtitle class="text-body-2 py-0">
@@ -154,7 +154,7 @@
           </v-flex>
         </v-col>
       </v-row>
-      <v-flex class="grey lighten-4 rounded-0 mt-2">
+      <v-flex class="grey lighten-4 rounded mt-2">
         <v-list-item two-line>
           <v-list-item-content class="py-2">
             <v-list-item-subtitle class="text-body-2 py-0 text-center">

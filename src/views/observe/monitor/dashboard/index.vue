@@ -19,7 +19,7 @@
     >
       <v-card-title
         id="monitor__dashboard"
-        class="py-4"
+        class="pt-4 pb-2"
       >
         <ProjectEnvSelect
           :tenant="tenant"
@@ -116,7 +116,7 @@
       >
         <v-card
           class="kubegems__full-height"
-          height="260"
+          height="250"
         >
           <v-card-text class="pa-1 kubegems__full-height">
             <div class="dash__btn">
@@ -166,7 +166,7 @@
               type=""
               :label-show="false"
               :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-              :extend-height="240"
+              :extend-height="230"
             />
           </v-card-text>
         </v-card>
@@ -174,7 +174,7 @@
       <v-col cols="3">
         <v-card
           class="kubegems__full-height"
-          min-height="200"
+          min-height="250"
         >
           <v-card-text class="pa-0 kubegems__full-height">
             <v-list-item
@@ -291,6 +291,8 @@ export default {
       if (!this.AdminViewport) {
         this.tenant = this.Tenant()
       }
+      this.params.start = this.$moment(this.date[0]).utc().format()
+      this.params.end = this.$moment(this.date[1]).utc().format()
     })
   },
   destroyed() {
@@ -299,8 +301,6 @@ export default {
   methods: {
     async loadMetrics() {
       this.clearInterval()
-      await this.getMonitorConfig()
-      this.dashboardList()
       this.timeinterval = setInterval(() => {
         this.params.start = this.$moment(this.params.start)
           .utc()
@@ -310,16 +310,20 @@ export default {
           .utc()
           .add(30, 'seconds')
           .format()
-        this.dashboardList(true)
+        if (this.items?.length > 0 && this.items[this.tab].graphs) {
+          this.items[this.tab].graphs.forEach((item, index) => {
+            this.getMetrics(item, index)
+          })
+        }
       }, 1000 * 30)
     },
     clearInterval() {
       if (this.timeinterval) clearInterval(this.timeinterval)
     },
-    async dashboardList(noprocess = false) {
+    async dashboardList() {
+      await this.getMonitorConfig()
       const data = await getMonitorDashboardList(
         this.environment.value,
-        { noprocessing: noprocess },
       )
       this.items = data
       this.metrics = {}
@@ -328,6 +332,7 @@ export default {
           this.getMetrics(item, index)
         })
       }
+      this.loadMetrics()
     },
     getNamespace(item) {
       const namespace = item.promqlGenerator
@@ -351,7 +356,7 @@ export default {
     },
     refreshEnvironemnt(env) {
       this.environment = env
-      this.loadMetrics()
+      this.dashboardList()
     },
     addDashboard() {
       this.$refs.addDashboard.open()
@@ -389,7 +394,7 @@ export default {
             this.environment.value,
             param.item.id,
           )
-          this.loadMetrics()
+          this.dashboardList()
         },
       })
     },
@@ -410,7 +415,7 @@ export default {
             dashboard.id,
             dashboard,
           )
-          this.loadMetrics()
+          this.dashboardList()
         },
       })
     },

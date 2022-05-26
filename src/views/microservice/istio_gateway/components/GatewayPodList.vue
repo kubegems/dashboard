@@ -1,5 +1,5 @@
 <template>
-  <v-flex>
+  <v-flex class="rounded">
     <v-data-table
       disable-sort
       :headers="headers"

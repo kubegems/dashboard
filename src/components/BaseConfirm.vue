@@ -18,7 +18,7 @@
           colored-border
           :color="(Confirm.content && Confirm.content.level) || 'warning'"
           elevation="1"
-          class="rounded-0 py-3"
+          class="rounded py-3"
         >
           <template
             v-if="Confirm.content && Confirm.content.type === 'batch_delete'"

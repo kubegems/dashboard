@@ -1,12 +1,13 @@
 <template>
   <v-card class="my-3">
     <BaseSubTitle
+      class="pt-2"
       title="集群"
       :divider="false"
     />
     <v-data-table
       disable-sort
-      class="px-2"
+      class="px-4"
       :headers="headers"
       :items="items"
       :page.sync="params.page"

@@ -1,5 +1,7 @@
 <template>
-  <v-card flat>
+  <v-card
+    flat
+  >
     <v-sheet class="text-body-2 primary--text pa-2">
       <v-flex
         v-if="showBtn"

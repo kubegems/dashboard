@@ -8,7 +8,7 @@
         <v-tabs
           v-model="tab"
           height="40"
-          class="rounded-t pa-4"
+          class="rounded-t pa-3"
         >
           <v-tab
             v-for="item in tabItems"
@@ -22,6 +22,7 @@
     <component
       :is="tabItems[tab].value"
       :ref="tabItems[tab].value"
+      class="mt-3"
       :item="workload"
       :services="services"
     />
