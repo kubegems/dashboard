@@ -1,26 +1,37 @@
 <template>
-  <v-sheet class="pa-4">
-    <v-data-table
-      disable-sort
-      :headers="headers"
-      :items="items"
-      :page.sync="params.page"
-      :items-per-page="params.size"
-      no-data-text="暂无数据"
-      hide-default-footer
-    >
-      <template #[`item.reason`]="{ item }">
-        {{ item.reason }}
-      </template>
-      <template #[`item.type`]="{ item }">
-        <v-badge
-          v-if="item.count > 1"
-          bordered
-          :color="$EVENT_STATUS_COLOR[item.type]"
-          :content="item.count > 99 ? '99+' : item.count"
-          overlap
-        >
+  <v-card>
+    <v-card-text>
+      <v-data-table
+        disable-sort
+        :headers="headers"
+        :items="items"
+        :page.sync="params.page"
+        :items-per-page="params.size"
+        no-data-text="暂无数据"
+        hide-default-footer
+      >
+        <template #[`item.reason`]="{ item }">
+          {{ item.reason }}
+        </template>
+        <template #[`item.type`]="{ item }">
+          <v-badge
+            v-if="item.count > 1"
+            bordered
+            :color="$EVENT_STATUS_COLOR[item.type]"
+            :content="item.count > 99 ? '99+' : item.count"
+            overlap
+          >
+            <v-chip
+              class="white--text font-weight-medium chip-width"
+              :color="$EVENT_STATUS_COLOR[item.type]"
+              small
+              label
+            >
+              <span>{{ item.type }}</span>
+            </v-chip>
+          </v-badge>
           <v-chip
+            v-else
             class="white--text font-weight-medium chip-width"
             :color="$EVENT_STATUS_COLOR[item.type]"
             small
@@ -28,50 +39,41 @@
           >
             <span>{{ item.type }}</span>
           </v-chip>
-        </v-badge>
-        <v-chip
-          v-else
-          class="white--text font-weight-medium chip-width"
-          :color="$EVENT_STATUS_COLOR[item.type]"
-          small
-          label
-        >
-          <span>{{ item.type }}</span>
-        </v-chip>
-      </template>
-      <template #[`item.kind`]="{ item }">
-        {{ item.involvedObject.kind }}
-      </template>
-      <template #[`item.firstAt`]="{ item }">
-        {{
-          item.firstTimestamp
-            ? $moment(item.firstTimestamp, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
-            : item.eventTime
-              ? $moment(item.eventTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
+        </template>
+        <template #[`item.kind`]="{ item }">
+          {{ item.involvedObject.kind }}
+        </template>
+        <template #[`item.firstAt`]="{ item }">
+          {{
+            item.firstTimestamp
+              ? $moment(item.firstTimestamp, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
+              : item.eventTime
+                ? $moment(item.eventTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
+                : ''
+          }}
+        </template>
+        <template #[`item.lastAt`]="{ item }">
+          {{
+            item.lastTimestamp
+              ? $moment(item.lastTimestamp, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
               : ''
-        }}
-      </template>
-      <template #[`item.lastAt`]="{ item }">
-        {{
-          item.lastTimestamp
-            ? $moment(item.lastTimestamp, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
-            : ''
-        }}
-      </template>
-      <template #[`item.message`]="{ item }">
-        {{ item.message }}
-      </template>
-    </v-data-table>
-    <BasePagination
-      v-if="pageCount >= 1"
-      v-model="params.page"
-      :page-count="pageCount"
-      :size="params.size"
-      @loaddata="eventList"
-      @changesize="onPageSizeChange"
-      @changepage="onPageIndexChange"
-    />
-  </v-sheet>
+          }}
+        </template>
+        <template #[`item.message`]="{ item }">
+          {{ item.message }}
+        </template>
+      </v-data-table>
+      <BasePagination
+        v-if="pageCount >= 1"
+        v-model="params.page"
+        :page-count="pageCount"
+        :size="params.size"
+        @loaddata="eventList"
+        @changesize="onPageSizeChange"
+        @changepage="onPageIndexChange"
+      />
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>

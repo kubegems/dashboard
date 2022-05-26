@@ -1,6 +1,7 @@
 <template>
   <v-card>
     <BaseSubTitle
+      class="pt-2"
       title="资源分配"
       :divider="false"
     />

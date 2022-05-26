@@ -115,7 +115,7 @@
             <v-tabs
               v-model="tab"
               height="40"
-              class="rounded-t pl-4 pt-4"
+              class="rounded-t pa-3"
             >
               <v-tab
                 v-for="item in tabItems"
@@ -124,19 +124,20 @@
                 {{ item.text }}
               </v-tab>
             </v-tabs>
-
-            <component
-              :is="tabItems[tab].value"
-              :ref="tabItems[tab].value"
-              :item="gateway"
-              :selector="{
-                topkind: 'TenantGateway',
-                topname: gateway ? gateway.metadata.name : '',
-                ingressClassName: gateway ? gateway.spec.ingressClass : '',
-              }"
-            />
           </v-card-text>
         </v-card>
+
+        <component
+          :is="tabItems[tab].value"
+          :ref="tabItems[tab].value"
+          class="mt-3"
+          :item="gateway"
+          :selector="{
+            topkind: 'TenantGateway',
+            topname: gateway ? gateway.metadata.name : '',
+            ingressClassName: gateway ? gateway.spec.ingressClass : '',
+          }"
+        />
       </v-col>
     </v-row>
 

@@ -4,11 +4,10 @@
     class="queryer"
   >
     <BaseBreadcrumb
-
       class="queryer__header"
     >
       <template #extend>
-        <div class="float-right">
+        <div class="kubegems__full-right">
           <ButtonInput
             v-model="step"
             label="Step:"

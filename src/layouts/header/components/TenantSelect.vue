@@ -7,7 +7,7 @@
     @reset="reset"
   >
     <template #content>
-      <v-flex class="grey lighten-4 rounded-0 ma-2 mt-0">
+      <v-flex class="grey lighten-4 rounded ma-2 mt-0">
         <v-list-item>
           <v-list-item-content class="kubegems__label-class-padding kubegems__break-all">
             当前租户：{{ Tenant().TenantName }}

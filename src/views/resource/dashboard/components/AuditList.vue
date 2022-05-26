@@ -1,6 +1,7 @@
 <template>
   <v-card>
     <BaseSubTitle
+      class="pt-2"
       title="审计"
       :divider="false"
     >

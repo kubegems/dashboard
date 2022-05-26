@@ -2,6 +2,7 @@
   <v-card class="mt-6">
     <v-card-text class="pa-0">
       <BaseSubTitle
+        class="pt-2"
         title="资源统计"
         :divider="false"
       />

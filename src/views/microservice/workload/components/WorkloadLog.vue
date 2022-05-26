@@ -1,5 +1,7 @@
 <template>
-  <v-card flat>
+  <v-card
+    flat
+  >
     <v-card-text class="px-0 pt-1 pb-0">
       <v-flex class="ma-1">
         <v-sheet class="text-body-2 primary--text float-right mt-n1">

@@ -1,6 +1,7 @@
 <template>
   <v-card class="mt-3">
     <BaseSubTitle
+      class="pt-2"
       title="资源监控"
       :divider="false"
     >

@@ -1,84 +1,61 @@
 <template>
-  <v-sheet>
-    <v-sheet class="pa-2">
-      <BaseListItemForDetail title="到期时间">
-        <template #content>
-          {{
-            certificate && certificate.status && certificate.status.notAfter
-              ? $moment(certificate.status.notAfter).format('lll')
-              : ''
-          }}
-        </template>
-      </BaseListItemForDetail>
+  <div>
+    <v-card>
+      <v-sheet class="pa-2">
+        <BaseListItemForDetail
+          title="到期时间"
+          :mt="0"
+        >
+          <template #content>
+            {{
+              certificate && certificate.status && certificate.status.notAfter
+                ? $moment(certificate.status.notAfter).format('lll')
+                : ''
+            }}
+          </template>
+        </BaseListItemForDetail>
 
-      <BaseListItemForDetail title="下次更新时间">
-        <template #content>
-          {{
-            certificate && certificate.status && certificate.status.renewalTime
-              ? $moment(certificate.status.renewalTime).format('lll')
-              : ''
-          }}
-        </template>
-      </BaseListItemForDetail>
+        <BaseListItemForDetail title="下次更新时间">
+          <template #content>
+            {{
+              certificate && certificate.status && certificate.status.renewalTime
+                ? $moment(certificate.status.renewalTime).format('lll')
+                : ''
+            }}
+          </template>
+        </BaseListItemForDetail>
 
-      <BaseListItemForDetail title="密钥名">
-        <template #content>
-          {{ certificate ? certificate.spec.secretName : '' }}
-        </template>
-      </BaseListItemForDetail>
+        <BaseListItemForDetail title="密钥名">
+          <template #content>
+            {{ certificate ? certificate.spec.secretName : '' }}
+          </template>
+        </BaseListItemForDetail>
 
-      <BaseListItemForDetail title="颁发者">
-        <template #content>
-          {{ certificate ? certificate.spec.issuerRef.name : '' }}
-        </template>
-      </BaseListItemForDetail>
-    </v-sheet>
+        <BaseListItemForDetail title="颁发者">
+          <template #content>
+            {{ certificate ? certificate.spec.issuerRef.name : '' }}
+          </template>
+        </BaseListItemForDetail>
+      </v-sheet>
+    </v-card>
 
-    <BaseDivider />
-
-    <BaseSubTitle
-      title="DNS名"
-      :divider="false"
-      class="mt-2 pl-4"
-    />
-    <v-simple-table class="mx-2 pa-2">
-      <template #default>
-        <thead>
-          <tr>
-            <th class="text-left">DNS</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="(item, index) in certificate
-              ? certificate.spec.dnsNames
-              : []"
-            :key="index"
-          >
-            <td>{{ item }}</td>
-          </tr>
-        </tbody>
-      </template>
-    </v-simple-table>
-    <BaseDivider />
-
-    <v-flex v-if="certificate && certificate.spec.usages">
+    <v-card class="mt-3">
       <BaseSubTitle
-        title="扩展"
+        title="DNS名"
         :divider="false"
-        class="mt-2 pl-4"
+        class="pt-2"
       />
-      <v-simple-table class="mx-2 pa-2">
+      <v-simple-table class="mx-2 pa-2 pb-3">
         <template #default>
           <thead>
             <tr>
-              <th class="text-left">公钥用法</th>
+              <th class="text-left">DNS</th>
             </tr>
           </thead>
           <tbody>
             <tr
               v-for="(item, index) in certificate
-                ? certificate.spec.usages
+                ? certificate.spec.dnsNames
                 : []"
               :key="index"
             >
@@ -87,9 +64,37 @@
           </tbody>
         </template>
       </v-simple-table>
-      <v-flex />
+    </v-card>
+
+    <v-flex v-if="certificate && certificate.spec.usages">
+      <v-card class="mt-3">
+        <BaseSubTitle
+          title="扩展"
+          :divider="false"
+          class="pt-2"
+        />
+        <v-simple-table class="mx-2 pa-2 pb-3">
+          <template #default>
+            <thead>
+              <tr>
+                <th class="text-left">公钥用法</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="(item, index) in certificate
+                  ? certificate.spec.usages
+                  : []"
+                :key="index"
+              >
+                <td>{{ item }}</td>
+              </tr>
+            </tbody>
+          </template>
+        </v-simple-table>
+      </v-card>
     </v-flex>
-  </v-sheet>
+  </div>
 </template>
 
 <script>

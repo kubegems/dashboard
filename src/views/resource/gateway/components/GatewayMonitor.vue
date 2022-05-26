@@ -1,5 +1,5 @@
 <template>
-  <v-flex>
+  <v-card>
     <v-card-title class="py-4">
       <v-flex>
         <v-flex class="float-right">
@@ -36,7 +36,7 @@
         </v-col>
       </v-row>
     </v-card-text>
-  </v-flex>
+  </v-card>
 </template>
 
 <script>

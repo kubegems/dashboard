@@ -1,199 +1,201 @@
 <template>
-  <v-flex class="pa-4">
-    <v-data-table
-      :headers="headers"
-      :items="items"
-      :page.sync="params.page"
-      :items-per-page="params.size"
-      no-data-text="暂无数据"
-      hide-default-footer
-      @update:sort-by="m_table_sortBy"
-      @update:sort-desc="m_table_sortDesc"
-    >
-      <template #[`item.name`]="{ item }">
-        <a
-          class="text-subtitle-2"
-          @click="podDetail(item)"
-        >
-          {{ item.metadata.name }}
-        </a>
-      </template>
-      <template #[`item.status`]="{ item, index }">
-        <v-flex :id="`e${item.metadata.resourceVersion}`" />
-        <EventTip
-          kind="Pod"
-          :item="item"
-          :top="params.size - index <= 5 || (items.length <= 5 && index >= 1)"
-        >
-          <template #trigger>
-            <span
-              :class="`v-avatar mr-2 ${
-                [
-                  'ContainerCreating',
-                  'Pending',
-                  'Terminating',
-                  'PodInitializing',
-                ].indexOf(m_resource_getPodStatus(item)) > -1
-                  ? 'kubegems__waiting-flashing'
-                  : ''
-              }`"
-              :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
-                $POD_STATUS_COLOR[m_resource_getPodStatus(item)] || '#ff5252'
-              };`"
-            />
-            <span> {{ m_resource_getPodStatus(item) }}</span>
-            <span>
-              ({{
-                item.status && item.status.containerStatuses
-                  ? item.status.containerStatuses.filter((c) => {
-                    return c.ready
-                  }).length
-                  : 0
-              }}/{{ item.spec.containers.length }})
-            </span>
-          </template>
-        </EventTip>
-      </template>
-      <template #[`item.ip`]="{ item }">
-        {{ item.status.podIP }}
-      </template>
-      <template #[`item.restart`]="{ item }">
-        {{ getRestart(item.status.containerStatuses) }}
-      </template>
-      <template #[`item.age`]="{ item }">
-        {{
-          item.status.startTime
-            ? $moment(item.status.startTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
-            : ''
-        }}
-      </template>
-      <template #[`item.cpu`]="{ item }">
-        <v-flex class="text-subtitle-2">
-          {{ item.LatestCpu ? item.LatestCpu : 0 }}
-        </v-flex>
-        <v-sparkline
-          :value="item.CpuUsed ? item.CpuUsed : []"
-          type="trend"
-          auto-draw
-          auto-line-width
-          smooth
-          :line-width="5"
-          fill
-          :auto-draw-duration="200"
-          color="rgba(29, 136, 229, 0.6)"
-        />
-      </template>
-      <template #[`item.memory`]="{ item }">
-        <v-flex class="text-subtitle-2">
-          {{ item.LatestMemory ? item.LatestMemory : 0 }}
-        </v-flex>
-        <v-sparkline
-          :value="item.MemoryUsed ? item.MemoryUsed : []"
-          type="trend"
-          auto-draw
-          auto-line-width
-          smooth
-          :line-width="5"
-          fill
-          :auto-draw-duration="200"
-          color="rgba(29, 136, 229, 0.6)"
-        />
-      </template>
-      <template #[`item.action`]="{ item }">
-        <v-flex :id="`r${item.metadata.resourceVersion}`" />
-        <v-menu
-          left
-          :attach="`#r${item.metadata.resourceVersion}`"
-        >
-          <template #activator="{ on }">
-            <v-btn icon>
-              <v-icon
-                x-small
-                color="primary"
-                v-on="on"
-              >
-                fas fa-ellipsis-v
-              </v-icon>
-            </v-btn>
-          </template>
-          <v-card>
-            <v-card-text class="pa-2 text-center">
-              <v-flex
-                v-if="
-                  m_permisson_resourceAllow &&
-                    item.status.phase === 'Running' &&
-                    !item.metadata.deletionTimestamp
-                "
-              >
-                <v-btn
+  <v-card>
+    <v-card-text>
+      <v-data-table
+        :headers="headers"
+        :items="items"
+        :page.sync="params.page"
+        :items-per-page="params.size"
+        no-data-text="暂无数据"
+        hide-default-footer
+        @update:sort-by="m_table_sortBy"
+        @update:sort-desc="m_table_sortDesc"
+      >
+        <template #[`item.name`]="{ item }">
+          <a
+            class="text-subtitle-2"
+            @click="podDetail(item)"
+          >
+            {{ item.metadata.name }}
+          </a>
+        </template>
+        <template #[`item.status`]="{ item, index }">
+          <v-flex :id="`e${item.metadata.resourceVersion}`" />
+          <EventTip
+            kind="Pod"
+            :item="item"
+            :top="params.size - index <= 5 || (items.length <= 5 && index >= 1)"
+          >
+            <template #trigger>
+              <span
+                :class="`v-avatar mr-2 ${
+                  [
+                    'ContainerCreating',
+                    'Pending',
+                    'Terminating',
+                    'PodInitializing',
+                  ].indexOf(m_resource_getPodStatus(item)) > -1
+                    ? 'kubegems__waiting-flashing'
+                    : ''
+                }`"
+                :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
+                  $POD_STATUS_COLOR[m_resource_getPodStatus(item)] || '#ff5252'
+                };`"
+              />
+              <span> {{ m_resource_getPodStatus(item) }}</span>
+              <span>
+                ({{
+                  item.status && item.status.containerStatuses
+                    ? item.status.containerStatuses.filter((c) => {
+                      return c.ready
+                    }).length
+                    : 0
+                }}/{{ item.spec.containers.length }})
+              </span>
+            </template>
+          </EventTip>
+        </template>
+        <template #[`item.ip`]="{ item }">
+          {{ item.status.podIP }}
+        </template>
+        <template #[`item.restart`]="{ item }">
+          {{ getRestart(item.status.containerStatuses) }}
+        </template>
+        <template #[`item.age`]="{ item }">
+          {{
+            item.status.startTime
+              ? $moment(item.status.startTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
+              : ''
+          }}
+        </template>
+        <template #[`item.cpu`]="{ item }">
+          <v-flex class="text-subtitle-2">
+            {{ item.LatestCpu ? item.LatestCpu : 0 }}
+          </v-flex>
+          <v-sparkline
+            :value="item.CpuUsed ? item.CpuUsed : []"
+            type="trend"
+            auto-draw
+            auto-line-width
+            smooth
+            :line-width="5"
+            fill
+            :auto-draw-duration="200"
+            color="rgba(29, 136, 229, 0.6)"
+          />
+        </template>
+        <template #[`item.memory`]="{ item }">
+          <v-flex class="text-subtitle-2">
+            {{ item.LatestMemory ? item.LatestMemory : 0 }}
+          </v-flex>
+          <v-sparkline
+            :value="item.MemoryUsed ? item.MemoryUsed : []"
+            type="trend"
+            auto-draw
+            auto-line-width
+            smooth
+            :line-width="5"
+            fill
+            :auto-draw-duration="200"
+            color="rgba(29, 136, 229, 0.6)"
+          />
+        </template>
+        <template #[`item.action`]="{ item }">
+          <v-flex :id="`r${item.metadata.resourceVersion}`" />
+          <v-menu
+            left
+            :attach="`#r${item.metadata.resourceVersion}`"
+          >
+            <template #activator="{ on }">
+              <v-btn icon>
+                <v-icon
+                  x-small
                   color="primary"
-                  text
-                  small
-                  @click="containerShell(item)"
+                  v-on="on"
                 >
-                  终端
-                </v-btn>
-              </v-flex>
-              <v-flex
-                v-if="
-                  m_permisson_resourceAllow &&
-                    item.status.phase === 'Running' &&
-                    !item.metadata.deletionTimestamp
-                "
-              >
-                <v-btn
-                  color="primary"
-                  text
-                  small
-                  @click="containerDebug(item)"
+                  fas fa-ellipsis-v
+                </v-icon>
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-text class="pa-2 text-center">
+                <v-flex
+                  v-if="
+                    m_permisson_resourceAllow &&
+                      item.status.phase === 'Running' &&
+                      !item.metadata.deletionTimestamp
+                  "
                 >
-                  Debug
-                </v-btn>
-              </v-flex>
-              <v-flex
-                v-if="
-                  (item.status.phase === 'Running' ||
-                    item.status.phase === 'Succeeded') &&
-                    !item.metadata.deletionTimestamp
-                "
-              >
-                <v-btn
-                  color="primary"
-                  text
-                  small
-                  @click="containerLog(item)"
+                  <v-btn
+                    color="primary"
+                    text
+                    small
+                    @click="containerShell(item)"
+                  >
+                    终端
+                  </v-btn>
+                </v-flex>
+                <v-flex
+                  v-if="
+                    m_permisson_resourceAllow &&
+                      item.status.phase === 'Running' &&
+                      !item.metadata.deletionTimestamp
+                  "
                 >
-                  日志
-                </v-btn>
-              </v-flex>
-              <v-flex
-                v-if="
-                  (item.status.phase !== 'Running' &&
-                    item.status.phase !== 'Succeeded') ||
-                    item.metadata.deletionTimestamp
-                "
-                class="pa-2"
-              >
-                不可操作
-              </v-flex>
-            </v-card-text>
-          </v-card>
-        </v-menu>
-      </template>
-    </v-data-table>
-    <BasePagination
-      v-if="pageCount >= 1"
-      v-model="params.page"
-      :page-count="pageCount"
-      :size="params.size"
-      @loaddata="podList"
-      @changesize="onPageSizeChange"
-      @changepage="onPageIndexChange"
-    />
+                  <v-btn
+                    color="primary"
+                    text
+                    small
+                    @click="containerDebug(item)"
+                  >
+                    Debug
+                  </v-btn>
+                </v-flex>
+                <v-flex
+                  v-if="
+                    (item.status.phase === 'Running' ||
+                      item.status.phase === 'Succeeded') &&
+                      !item.metadata.deletionTimestamp
+                  "
+                >
+                  <v-btn
+                    color="primary"
+                    text
+                    small
+                    @click="containerLog(item)"
+                  >
+                    日志
+                  </v-btn>
+                </v-flex>
+                <v-flex
+                  v-if="
+                    (item.status.phase !== 'Running' &&
+                      item.status.phase !== 'Succeeded') ||
+                      item.metadata.deletionTimestamp
+                  "
+                  class="pa-2"
+                >
+                  不可操作
+                </v-flex>
+              </v-card-text>
+            </v-card>
+          </v-menu>
+        </template>
+      </v-data-table>
+      <BasePagination
+        v-if="pageCount >= 1"
+        v-model="params.page"
+        :page-count="pageCount"
+        :size="params.size"
+        @loaddata="podList"
+        @changesize="onPageSizeChange"
+        @changepage="onPageIndexChange"
+      />
 
-    <ContainerLog ref="containerLog" />
-    <Terminal ref="terminal" />
-  </v-flex>
+      <ContainerLog ref="containerLog" />
+      <Terminal ref="terminal" />
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>

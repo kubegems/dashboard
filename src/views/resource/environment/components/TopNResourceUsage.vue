@@ -1,6 +1,7 @@
 <template>
   <v-card>
     <BaseSubTitle
+      class="pt-2"
       title="过去一天资源使用排名"
       :divider="false"
     >

@@ -1,54 +1,59 @@
 <template>
-  <v-flex>
-    <BaseListItemForDetail title="标签">
-      <template #content>
-        <BaseCollapseChips
-          v-if="item"
-          :chips="item.service.labels || {}"
-          single-line
-          icon="mdi-label"
-        />
-      </template>
-    </BaseListItemForDetail>
-    <BaseListItemForDetail title="类型">
-      <template #content>
-        {{ item ? item.service.type : '' }}
-      </template>
-    </BaseListItemForDetail>
-    <BaseListItemForDetail title="Endpoints">
-      <template #content>
-        <v-flex
-          v-for="(endpoint, index) in item ? item.endpoints : []"
-          :key="index"
-        >
-          <v-flex
-            v-for="(address, index) in endpoint.addresses"
-            :key="index"
-            class="mb-1"
-          >
-            {{ address.ip }}
-          </v-flex>
-        </v-flex>
-      </template>
-    </BaseListItemForDetail>
-    <BaseListItemForDetail title="Service IP">
-      <template #content>
-        {{ item ? item.service.ip : '' }}
-      </template>
-    </BaseListItemForDetail>
-    <BaseListItemForDetail title="端口">
-      <template #content>
-        <v-flex class="text-body-2">
+  <div>
+    <v-card>
+      <BaseListItemForDetail
+        title="标签"
+        :mt="0"
+      >
+        <template #content>
           <BaseCollapseChips
             v-if="item"
-            :chips="services || []"
+            :chips="item.service.labels || {}"
             single-line
-            icon="mdi-directions-fork"
+            icon="mdi-label"
           />
-        </v-flex>
-      </template>
-    </BaseListItemForDetail>
-  </v-flex>
+        </template>
+      </BaseListItemForDetail>
+      <BaseListItemForDetail title="类型">
+        <template #content>
+          {{ item ? item.service.type : '' }}
+        </template>
+      </BaseListItemForDetail>
+      <BaseListItemForDetail title="Endpoints">
+        <template #content>
+          <v-flex
+            v-for="(endpoint, index) in item ? item.endpoints : []"
+            :key="index"
+          >
+            <v-flex
+              v-for="(address, index) in endpoint.addresses"
+              :key="index"
+              class="mb-1"
+            >
+              {{ address.ip }}
+            </v-flex>
+          </v-flex>
+        </template>
+      </BaseListItemForDetail>
+      <BaseListItemForDetail title="Service IP">
+        <template #content>
+          {{ item ? item.service.ip : '' }}
+        </template>
+      </BaseListItemForDetail>
+      <BaseListItemForDetail title="端口">
+        <template #content>
+          <v-flex class="text-body-2">
+            <BaseCollapseChips
+              v-if="item"
+              :chips="services || []"
+              single-line
+              icon="mdi-directions-fork"
+            />
+          </v-flex>
+        </template>
+      </BaseListItemForDetail>
+    </v-card>
+  </div>
 </template>
 
 <script>
