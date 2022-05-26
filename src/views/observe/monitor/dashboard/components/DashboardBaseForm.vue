@@ -7,7 +7,7 @@
     <BaseSubTitle title="大盘定义" />
     <v-card-text class="pa-2">
       <v-row>
-        <v-col cols="6">
+        <v-col cols="12">
           <v-text-field
             v-model="obj.name"
             class="my-0"

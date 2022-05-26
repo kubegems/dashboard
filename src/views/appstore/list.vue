@@ -81,7 +81,25 @@
           {{ item.ChartRepoName }}
         </template>
         <template #[`item.syncStatus`]="{ item }">
-          {{ item.SyncStatus }}
+          <StatusTip :item="item">
+            <template #trigger>
+              <v-icon
+                v-if="item.SyncStatus==='success'"
+                small
+                color="success"
+              >
+                fas fa-check-circle
+              </v-icon>
+              <v-icon
+                v-else
+                small
+                color="error"
+              >
+                fas fa-minus-circle
+              </v-icon>
+              {{ item.SyncStatus }}
+            </template>
+          </StatusTip>
         </template>
         <template #[`item.url`]="{ item }">
           {{ item.URL }}
@@ -155,6 +173,7 @@
 import { mapGetters, mapState } from 'vuex'
 import { getRepositoryList, deleteRepository, postSyncRepository } from '@/api'
 import RepositoryInfo from './components/RepositoryInfo'
+import StatusTip from './components/StatusTip'
 import BaseFilter from '@/mixins/base_filter'
 import BaseSelect from '@/mixins/select'
 import BaseResource from '@/mixins/resource'
@@ -163,7 +182,10 @@ import { deepCopy } from '@/utils/helpers'
 
 export default {
   name: 'RepositoryList',
-  components: { RepositoryInfo },
+  components: {
+    RepositoryInfo,
+    StatusTip,
+  },
   mixins: [BaseFilter, BaseSelect, BaseResource, BaseTable],
   data: () => ({
     items: [],

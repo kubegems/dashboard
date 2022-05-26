@@ -354,11 +354,7 @@ export default new Vuex.Store({
             simple: true,
             noprocessing: true,
           })
-          const pluginsStatus = {}
-          Object.keys(data).forEach(k => {
-            pluginsStatus[k] = data[k].enabled && data[k].healthy
-          })
-          commit('SET_PLUGINS', pluginsStatus)
+          commit('SET_PLUGINS', data)
           return true
         }
         return false

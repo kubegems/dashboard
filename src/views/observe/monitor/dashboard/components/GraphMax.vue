@@ -5,6 +5,14 @@
     icon="fas fa-chart-area"
     @dispose="dispose"
   >
+    <template #action>
+      <BaseDatetimePicker
+        v-model="date"
+        :default-value="30"
+        color="primary"
+        @change="onDatetimeChange(undefined)"
+      />
+    </template>
     <template #content>
       <BaseApexAreaChart
         id="max"
@@ -39,6 +47,11 @@ export default {
     namespace: '',
     metrics: [],
     timeinterval: null,
+    date: [],
+    params: {
+      start: null,
+      end: null,
+    },
   }),
   computed: {
     ...mapState(['JWT', 'Scale']),
@@ -64,6 +77,14 @@ export default {
       this.clearInterval()
       this.getMetrics()
       this.timeinterval = setInterval(() => {
+        this.params.start = this.$moment(this.params.start)
+          .utc()
+          .add(30, 'seconds')
+          .format()
+        this.params.end = this.$moment(this.params.end)
+          .utc()
+          .add(30, 'seconds')
+          .format()
         this.getMetrics()
       }, 1000 * 30)
     },
@@ -82,9 +103,14 @@ export default {
       const data = await getMetricsQueryrange(
         this.environment.clusterName,
         this.namespace,
-        params,
+        Object.assign(this.params, params),
       )
       this.metrics = data
+    },
+    onDatetimeChange() {
+      this.params.start = this.$moment(this.date[0]).utc().format()
+      this.params.end = this.$moment(this.date[1]).utc().format()
+      this.loadMetrics()
     },
   },
 }

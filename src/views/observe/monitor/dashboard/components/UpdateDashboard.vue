@@ -1,7 +1,7 @@
 <template>
   <BaseDialog
     v-model="dialog"
-    :width="1000"
+    :width="500"
     title="更新监控大盘"
     icon="mdi-chart-areaspline"
     @reset="reset"
