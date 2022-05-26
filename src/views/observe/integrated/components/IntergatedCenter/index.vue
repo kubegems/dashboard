@@ -29,27 +29,35 @@
               :width="72"
             />
           </v-list-item-avatar>
-          <span class="text-subtitle-1 kubegems__detail">{{ `配置 ${item.name} 应用/中间件的Trace, Metrics, Logging` }}</span>
+          <span class="text-subtitle-1 kubegems__detail">
+            {{
+              type === 'app' ?
+                `配置 ${item.name} 应用的Trace, Metrics, Logging` :
+                `配置 ${item.name} 中间件的Metrics, Logging`
+            }}
+          </span>
         </v-list-item>
         <v-divider />
-        <v-tabs
-          v-model="tab"
-          height="45"
-          class="rounded-t pa-0"
-          fixed-tabs
-        >
-          <v-tab
-            v-for="item in tabItems"
-            :key="item.value"
+        <template v-if="type">
+          <v-tabs
+            v-model="tab"
+            height="45"
+            class="rounded-t pa-0"
+            fixed-tabs
           >
-            {{ item.text }}
-          </v-tab>
-        </v-tabs>
+            <v-tab
+              v-for="item in tabItems"
+              :key="item.value"
+            >
+              {{ item.text }}
+            </v-tab>
+          </v-tabs>
 
-        <component
-          :is="tabItems[tab].value"
-          :ref="tabItems[tab].value"
-        />
+          <component
+            :is="tabItems[tab].value"
+            :ref="tabItems[tab].value"
+          />
+        </template>
       </v-card-text>
     </template>
   </BasePanel>
@@ -74,16 +82,20 @@ export default {
     panel: false,
     tab: 0,
     item: {},
+    type: undefined,
   }),
   computed: {
     ...mapState(['Scale']),
     ...mapGetters(['Tenant']),
     tabItems() {
-      return [
-        { text: 'Trace', value: 'Trace' },
+      const items = [
         { text: 'Metrics', value: 'Metrics' },
         { text: 'Logging', value: 'Logging' },
       ]
+      if (this.type === 'app') {
+        items.splice(0, 0, { text: 'Trace', value: 'Trace' })
+      }
+      return items
     },
   },
   methods: {
@@ -92,11 +104,13 @@ export default {
       this.panel = true
     },
     // eslint-disable-next-line vue/no-unused-properties
-    init(item) {
+    init(item, type) {
       this.item = deepCopy(item)
+      this.type = type
     },
     dispose() {
       this.tab = 0
+      this.type = undefined
     },
     addData() {
       this.$refs[this.tabItems[this.tab].value].addData()

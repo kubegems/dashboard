@@ -205,7 +205,7 @@
           :style="{ position: 'relative', height: '300px' }"
         >
           <span class="kubegems__full-center kubegems__detail">
-            插件logging未启用或状态异常
+            插件logging未启用
           </span>
         </div>
       </template>

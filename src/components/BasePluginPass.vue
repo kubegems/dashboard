@@ -9,25 +9,23 @@
         height="400px"
       >
         <v-row class="pass__row">
-          <v-col class="d-none d-md-flex align-center justify-center">
-            <div class="d-none d-sm-block">
-              <div class="d-flex align-center pa-10">
-                <div class="text-center">
-                  <h2 class="text-h5 primary--text font-weight-medium">
-                    您暂时还未启用 {{ $route.meta.dependencies.join(', ') }} 插件或该插件状态异常！
-                  </h2>
-                  <h6
-                    class="
-                      text-subtitle-1
-                      mt-4
-                      primary--text
-                      op-5
-                      font-weight-regular
-                    "
-                  >
-                    您可以联系平台管理员启用/查看该插件
-                  </h6>
-                </div>
+          <v-col class="d-flex align-center justify-center">
+            <div class="d-flex align-center pa-10">
+              <div class="text-center">
+                <h2 class="text-h5 primary--text font-weight-medium">
+                  您暂时还未启用 {{ $route.meta.dependencies.join(', ') }} 插件！
+                </h2>
+                <h6
+                  class="
+                    text-subtitle-1
+                    mt-4
+                    primary--text
+                    op-5
+                    font-weight-regular
+                  "
+                >
+                  您可以联系平台管理员启用该插件
+                </h6>
               </div>
             </div>
           </v-col>

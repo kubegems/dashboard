@@ -148,7 +148,7 @@ export default {
   mounted() {
     this.$nextTick(() => {
       this.obj = this.$options.data().obj
-      this.$refs.form.resetValidation()
+      this.$refs.form?.resetValidation()
     })
   },
   methods: {

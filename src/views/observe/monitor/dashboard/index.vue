@@ -17,29 +17,20 @@
     <v-card
       flat
     >
-      <v-card-title class="py-4">
+      <v-card-title
+        id="monitor__dashboard"
+        class="py-4"
+      >
         <ProjectEnvSelect
           :tenant="tenant"
           @refreshEnvironemnt="refreshEnvironemnt"
         />
-      </v-card-title>
-
-      <v-card-text
-        id="monitor__dashboard"
-        class="pa-0"
-      >
-        <v-tabs
-          v-model="tab"
-          height="40"
-          class="rounded-t pl-4 pr-12 pb-2"
-        >
-          <v-tab
-            v-for="item in items"
-            :key="item.id"
-          >
-            {{ item.name }}
-          </v-tab>
-        </v-tabs>
+        <v-spacer />
+        <BaseDatetimePicker
+          v-model="date"
+          :default-value="30"
+          @change="onDatetimeChange(undefined)"
+        />
         <v-menu
           v-if="environment && m_permisson_resourceAllow(environment.text)"
           :attach="`#monitor__dashboard`"
@@ -47,7 +38,6 @@
         >
           <template #activator="{ on, attrs }">
             <v-btn
-              class="dash__menu"
               text
               color="primary"
               icon
@@ -94,6 +84,23 @@
             </v-card-text>
           </v-card>
         </v-menu>
+      </v-card-title>
+
+      <v-card-text
+        class="pa-0"
+      >
+        <v-tabs
+          v-model="tab"
+          height="40"
+          class="rounded-t pl-4 pr-12 pb-2"
+        >
+          <v-tab
+            v-for="item in items"
+            :key="item.id"
+          >
+            {{ item.name }}
+          </v-tab>
+        </v-tabs>
       </v-card-text>
     </v-card>
 
@@ -268,6 +275,11 @@ export default {
       environment: undefined,
       timeinterval: null,
       resourceNamespaced: {},
+      date: [],
+      params: {
+        start: null,
+        end: null,
+      },
     }
   },
   computed: {
@@ -290,6 +302,14 @@ export default {
       await this.getMonitorConfig()
       this.dashboardList()
       this.timeinterval = setInterval(() => {
+        this.params.start = this.$moment(this.params.start)
+          .utc()
+          .add(30, 'seconds')
+          .format()
+        this.params.end = this.$moment(this.params.end)
+          .utc()
+          .add(30, 'seconds')
+          .format()
         this.dashboardList(true)
       }, 1000 * 30)
     },
@@ -297,7 +317,10 @@ export default {
       if (this.timeinterval) clearInterval(this.timeinterval)
     },
     async dashboardList(noprocess = false) {
-      const data = await getMonitorDashboardList(this.environment.value, {noprocessing: noprocess})
+      const data = await getMonitorDashboardList(
+        this.environment.value,
+        { noprocessing: noprocess },
+      )
       this.items = data
       this.metrics = {}
       if (this.items?.length > 0 && this.items[this.tab].graphs) {
@@ -322,7 +345,7 @@ export default {
       const data = await getMetricsQueryrange(
         this.environment.clusterName,
         namespace,
-        Object.assign(params, {noprocessing: true}),
+        Object.assign(params, {noprocessing: true, ...this.params}),
       )
       this.$set(this.metrics, `c${index}`, data)
     },
@@ -372,9 +395,9 @@ export default {
     },
     removeGraph(item, index) {
       this.$store.commit('SET_CONFIRM', {
-        title: `删除监控面板`,
+        title: `删除监控图表`,
         content: {
-          text: `删除监控面板 ${item.name}`,
+          text: `删除监控图表 ${item.name}`,
           type: 'delete',
           name: item.name,
         },
@@ -405,18 +428,17 @@ export default {
         this.resourceNamespaced[r] = resources[r].namespaced
       })
     },
+    onDatetimeChange() {
+      this.params.start = this.$moment(this.date[0]).utc().format()
+      this.params.end = this.$moment(this.date[1]).utc().format()
+      this.loadMetrics()
+    },
   },
 }
 </script>
 
 <style lang="scss" scoped>
 .dash {
-  &__menu {
-    position: absolute;
-    right: 16px;
-    top: 16px;
-  }
-
   &__tip {
     height: 460px;
     position: relative;
@@ -430,7 +452,7 @@ export default {
     position: absolute;
     right: 5px;
     top: 5px;
-    z-index: 10;
+    z-index: 1;
   }
 }
 </style>
