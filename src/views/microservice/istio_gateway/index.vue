@@ -16,11 +16,12 @@
       </v-card-title>
     </v-card>
 
-    <v-row class="mt-0">
+    <v-row class="mt-3">
       <v-col
         v-for="(item, index) in items"
         :key="index"
         cols="3"
+        class="pt-0"
       >
         <v-hover
           #default="{ hover }"
@@ -132,6 +133,7 @@
       <v-col
         v-if="m_permisson_virtualSpaceAllow"
         cols="3"
+        class="pt-0"
       >
         <v-card
           class="kubegems__full-height"

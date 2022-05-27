@@ -98,7 +98,7 @@
             <v-list-item-title class="text-body-2 font-weight-medium kubegems__detail">
               租户
               <v-flex
-                class="float-right white--text blue-grey lighten-2 px-1 rounded label"
+                class="float-right white--text blue-grey lighten-2 px-1 user-chip label"
               >
                 {{ Tenant().TenantName }}
               </v-flex>
@@ -118,9 +118,9 @@
             <v-list-item-title class="text-body-2 font-weight-medium kubegems__detail">
               用户中心
               <v-flex
-                class="float-right white--text blue-grey lighten-2 px-1 rounded label"
+                class="float-right white--text blue-grey lighten-2 px-1 user-chip label"
               >
-                {{ Admin ? '管理员' : '普通成员' }}
+                {{ Admin ? '管理员' : '普通用户' }}
               </v-flex>
               <div class="kubegems__clear-float" />
             </v-list-item-title>
@@ -238,5 +238,10 @@ export default {
 <style lang="scss" scoped>
 .label {
   line-height: 22px;
+}
+.user-chip {
+  border-radius: 3px;
+  min-width: 80px;
+  text-align: center;
 }
 </style>

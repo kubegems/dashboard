@@ -1,5 +1,5 @@
 <template>
-  <v-sheet class="pt-0">
+  <v-card>
     <v-data-table
       class="mx-4"
       disable-sort
@@ -234,7 +234,7 @@
     />
 
     <AppImageSecurityReportDetail ref="appImageSecurityReportDetail" />
-  </v-sheet>
+  </v-card>
 </template>
 
 <script>

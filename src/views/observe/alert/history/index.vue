@@ -34,7 +34,7 @@
         @search="onSearch"
       />
     </v-card>
-    <v-card class="mt-4 pa-4">
+    <v-card class="mt-3 pa-4">
       <v-data-table
         class="kubegems__table-row-pointer"
         :headers="headers"

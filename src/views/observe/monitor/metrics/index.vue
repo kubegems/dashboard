@@ -152,15 +152,25 @@
                           no-data-text="暂无可选数据"
                           :rules="fieldRules.required"
                           @change="onClusterChange(index)"
-                        />
+                        >
+                          <template #selection="{ item }">
+                            <v-chip
+                              color="primary"
+                              small
+                              label
+                            >
+                              <span>{{ item.text }}</span>
+                            </v-chip>
+                          </template>
+                        </v-autocomplete>
                       </v-col>
                     </template>
 
                     <template v-else>
-                      <v-col :cols="6">
+                      <v-col :cols="12">
                         <v-autocomplete
                           v-model="queryList[index].project"
-                          class="pl-2"
+                          class="px-2"
                           :items="queryList[index].projectItems"
                           item-text="text"
                           item-value="value"
@@ -173,12 +183,21 @@
                           :loading="projectListLoading"
                           :rules="fieldRules.required"
                           @change="onProjectChange(index)"
-                        />
-                      </v-col>
-                      <v-col :cols="6">
+                        >
+                          <template #selection="{ item }">
+                            <v-chip
+                              color="primary"
+                              small
+                              label
+                            >
+                              <span>{{ item.text }}</span>
+                            </v-chip>
+                          </template>
+                        </v-autocomplete>
+
                         <v-autocomplete
                           v-model="queryList[index].environment"
-                          class="pr-2"
+                          class="px-2"
                           :items="queryList[index].environmentItems"
                           item-text="EnvironmentName"
                           item-value="ID"
@@ -191,7 +210,17 @@
                           :loading="queryList[index].environmentItemsLoading"
                           :disabled="!queryList[index].project"
                           :rules="fieldRules.required"
-                        />
+                        >
+                          <template #selection="{ item }">
+                            <v-chip
+                              color="primary"
+                              small
+                              label
+                            >
+                              <span>{{ item.EnvironmentName }}</span>
+                            </v-chip>
+                          </template>
+                        </v-autocomplete>
                       </v-col>
                     </template>
                   </v-row>
@@ -247,7 +276,17 @@
                       :rules="fieldRules.required"
                       no-data-text="暂无可选数据"
                       @change="setRuleItems(index)"
-                    />
+                    >
+                      <template #selection="{ item }">
+                        <v-chip
+                          color="primary"
+                          small
+                          label
+                        >
+                          <span>{{ item.showName }}</span>
+                        </v-chip>
+                      </template>
+                    </v-autocomplete>
 
                     <v-autocomplete
                       v-model="queryList[index].rule"
@@ -264,7 +303,17 @@
                       :disabled="!queryList[index].resource"
                       :rules="fieldRules.required"
                       @change="setUnitItems(index)"
-                    />
+                    >
+                      <template #selection="{ item }">
+                        <v-chip
+                          color="primary"
+                          small
+                          label
+                        >
+                          <span>{{ item.showName }}</span>
+                        </v-chip>
+                      </template>
+                    </v-autocomplete>
 
                     <v-autocomplete
                       v-model="queryList[index].unit"
@@ -287,7 +336,17 @@
                           ? fieldRules.required
                           : undefined
                       "
-                    />
+                    >
+                      <template #selection="{ item }">
+                        <v-chip
+                          color="primary"
+                          small
+                          label
+                        >
+                          <span>{{ item.text }}</span>
+                        </v-chip>
+                      </template>
+                    </v-autocomplete>
                   </template>
 
                   <!-- 资源规则 -->

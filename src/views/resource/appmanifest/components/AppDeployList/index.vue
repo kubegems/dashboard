@@ -1,5 +1,5 @@
 <template>
-  <v-sheet class="pt-0">
+  <v-card>
     <v-data-table
       class="mx-4"
       disable-sort
@@ -80,7 +80,7 @@
     />
 
     <AppDeployImageTrace ref="appDeployImageTrace" />
-  </v-sheet>
+  </v-card>
 </template>
 
 <script>

@@ -130,10 +130,11 @@
         class="pt-0"
       >
         <v-card flat>
-          <v-card-text class="pa-0 pl-2 py-2">
+          <v-card-text class="pa-0">
             <v-tabs
               v-model="tab"
               height="40"
+              class="rounded-t pa-3"
             >
               <v-tab
                 v-for="item in tabItems"
@@ -147,6 +148,7 @@
         <component
           :is="tabItems[tab].value"
           :ref="tabItems[tab].value"
+          class="mt-3"
           :app="app"
         />
       </v-col>

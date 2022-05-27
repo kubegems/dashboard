@@ -1,6 +1,9 @@
 <template>
   <v-row>
-    <v-col cols="3">
+    <v-col
+      cols="3"
+      class="pt-0"
+    >
       <v-card height="100%">
         <v-card-text class="pa-5">
           <div class="d-flex align-center">
@@ -25,7 +28,10 @@
         </v-card-text>
       </v-card>
     </v-col>
-    <v-col cols="3">
+    <v-col
+      cols="3"
+      class="pt-0"
+    >
       <v-card height="100%">
         <v-card-text class="pa-5">
           <div class="d-flex align-center">
@@ -50,7 +56,10 @@
         </v-card-text>
       </v-card>
     </v-col>
-    <v-col cols="3">
+    <v-col
+      cols="3"
+      class="pt-0"
+    >
       <v-card height="100%">
         <v-card-text class="pa-5">
           <div class="d-flex align-center">
@@ -76,7 +85,10 @@
         </v-card-text>
       </v-card>
     </v-col>
-    <v-col cols="3">
+    <v-col
+      cols="3"
+      class="pt-0"
+    >
       <v-card height="100%">
         <v-card-text class="pa-5">
           <div class="d-flex align-center">

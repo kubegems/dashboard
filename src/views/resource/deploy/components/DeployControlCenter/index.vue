@@ -1,9 +1,11 @@
 <template>
   <div>
     <v-row>
-      <v-col cols="3">
+      <v-col
+        cols="3"
+      >
         <v-card
-          class="mx-auto status-pos my-3"
+          class="mx-auto status-pos mb-3"
           height="102px"
         >
           <v-list-item three-line>

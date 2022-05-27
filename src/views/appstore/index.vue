@@ -78,8 +78,7 @@
       </template>
     </BaseBreadcrumb>
     <v-row
-      lass="pt-0 mt-0"
-      style="margin-top: 0;"
+      class="mt-0"
     >
       <v-col
         cols="2"
@@ -90,7 +89,7 @@
             <BaseSubTitle
               title="应用类型"
               :divider="false"
-              class="mt-2 mb-1"
+              class="pt-2 mb-1"
             />
             <v-text-field
               v-model="search"
@@ -137,7 +136,7 @@
         cols="10"
         class="pt-0"
       >
-        <v-row class="mt-2">
+        <v-row class="mt-0">
           <v-col
             v-for="(app, index) in items"
             :key="index"

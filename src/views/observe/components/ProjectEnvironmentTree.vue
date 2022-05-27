@@ -21,6 +21,7 @@
       open-on-click
       dense
       transition
+      rounded
       color="primary"
       return-object
       :load-children="environmentList"

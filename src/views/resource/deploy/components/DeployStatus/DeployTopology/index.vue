@@ -86,7 +86,7 @@ export default {
   },
   computed: {
     height() {
-      return window.innerHeight - 265
+      return window.innerHeight - 300
     },
     ...mapState(['Scale']),
     ...mapGetters(['Tenant', 'Project', 'Environment']),

@@ -7,6 +7,7 @@
         v-for="(item, index) in items"
         :key="index"
         cols="3"
+        class="pt-0"
       >
         <v-hover
           #default="{ hover }"
@@ -148,6 +149,7 @@
       <v-col
         v-if="m_permisson_resourceAllow"
         cols="3"
+        class="pt-0"
       >
         <v-card
           class="full-height"
