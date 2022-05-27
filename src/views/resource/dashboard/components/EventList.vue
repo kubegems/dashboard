@@ -206,7 +206,7 @@
           :style="{ position: 'relative', height: '300px' }"
         >
           <span class="kubegems__full-center kubegems__detail">
-            插件logging未启用
+            插件logging,eventer未启用
           </span>
         </div>
       </template>
@@ -251,7 +251,7 @@ export default {
         simple: true,
         noprocessing: true,
       })
-      this.pluginPass = data['logging']
+      this.pluginPass = data['logging'] && data['eventer']
       if (this.pluginPass) {
         this.eventList()
       }

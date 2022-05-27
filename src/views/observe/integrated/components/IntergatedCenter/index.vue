@@ -41,8 +41,8 @@
         <template v-if="type">
           <v-tabs
             v-model="tab"
-            height="45"
-            class="rounded-t pa-0"
+            height="40"
+            class="rounded-t pa-0 v-tabs--default"
             fixed-tabs
           >
             <v-tab

@@ -28,6 +28,7 @@ export const tool = [
           smallTitle: '事件',
           title: '事件中心',
           icon: 'mdi-bell',
+          dependencies: ['logging', 'eventer'],
           tip: 'event',
         },
       },

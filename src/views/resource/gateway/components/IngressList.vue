@@ -17,8 +17,14 @@
           {{ item.metadata.namespace }}
         </template>
         <template #[`item.address`]="{ item }">
-          <template v-for="(rule, index) in item.spec.rules">
-            <template v-for="(path, i) in rule.http.paths">
+          <div
+            v-for="(rule, index) in item.spec.rules"
+            :key="index"
+          >
+            <div
+              v-for="(path, i) in rule.http.paths"
+              :key="i"
+            >
               <v-chip
                 v-for="(rule, index) in item.spec.rules"
                 :key="`c${index}http${i}`"
@@ -49,8 +55,8 @@
                   mdi-open-in-new
                 </v-icon>
               </v-btn>
-            </template>
-          </template>
+            </div>
+          </div>
         </template>
         <template #[`item.createAt`]="{ item }">
           {{
