@@ -4,7 +4,7 @@
       lg="7"
       class="info d-none d-md-flex align-center justify-start"
     >
-      <div class="px-12">
+      <div :style="{ paddingLeft: '100px' }">
         <h2 class="text-h4 white--text font-weight-medium">
           <v-flex class="float-left">
             <v-img

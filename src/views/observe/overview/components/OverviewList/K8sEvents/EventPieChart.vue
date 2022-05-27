@@ -116,6 +116,9 @@ export default {
         },
         noData: {
           text: '暂无数据',
+          style: {
+            fontSize: '13px',
+          },
         },
         labels: this.labels,
       }

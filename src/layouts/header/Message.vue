@@ -34,11 +34,12 @@
       </template>
 
       <v-card>
-        <v-card-text class="pa-0">
+        <v-card-text class="pa-2">
           <v-tabs
             v-model="tab"
             height="52"
             fixed-tabs
+            class="v-tabs--default"
           >
             <v-tab
               v-for="(item, index) in tabItems"

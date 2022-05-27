@@ -152,6 +152,9 @@ export default {
         noData: {
           text: '暂无数据',
           offsetY: -30,
+          style: {
+            fontSize: '13px',
+          },
         },
       }
     },

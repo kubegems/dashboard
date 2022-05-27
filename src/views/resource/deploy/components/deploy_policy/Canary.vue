@@ -121,7 +121,7 @@
             <BaseSubTitle title="灰度配置" />
             <v-tabs
               v-model="tab"
-              class="px-2 mt-2"
+              class="px-2 mt-2 v-tabs--default"
               height="45"
               fixed-tabs
               @change="onTabChange"

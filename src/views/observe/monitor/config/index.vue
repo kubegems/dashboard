@@ -1,6 +1,9 @@
 <template>
   <ProjectEnvironmentLayout>
-    <v-tabs v-model="currentTab">
+    <v-tabs
+      v-model="currentTab"
+      :height="40"
+    >
       <v-tab
         v-for="item in tabs"
         :key="item.component"

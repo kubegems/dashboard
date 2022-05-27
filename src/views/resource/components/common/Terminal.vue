@@ -253,8 +253,8 @@ export default {
     dispose() {
       if (this.websock && this.websock.readyState === 1) {
         this.websock.send(JSON.stringify({ type: 'close' }))
-        this.websock = null
       }
+      this.websock = null
       this.doClose()
       if (window.opener) window.close()
     },

@@ -377,10 +377,10 @@ export default {
       this.log += e.data
     },
     dispose() {
-      if (this.logWebsocket) {
+      if (this.logWebsocket && this.logWebsocket.readyState === 1) {
         this.logWebsocket.close()
-        this.logWebsocket = null
       }
+      this.logWebsocket = null
       this.log = ''
       this.stream = false
       this.linenotbreak = false

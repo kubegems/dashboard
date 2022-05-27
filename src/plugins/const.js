@@ -72,7 +72,10 @@ export const RESOURCE_SHORT_CN = {
   Job: '任务',
   CronJob: '定时任务',
 }
-export const ANNOTATION_IGNORE_ARRAY = ['kubectl.kubernetes.io/last-applied-configuration']
+export const ANNOTATION_IGNORE_ARRAY = [
+  'kubectl.kubernetes.io/last-applied-configuration',
+  'banzaicloud.com/last-applied',
+]
 export const APP_MENIFEST_TAG = {
   ConfigMap: { value: 'cm', form: true },
   PersistentVolumeClaim: { value: 'pvc', form: true },

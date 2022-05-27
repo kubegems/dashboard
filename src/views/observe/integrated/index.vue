@@ -2,9 +2,12 @@
   <v-container fluid>
     <BaseBreadcrumb />
 
-    <template v-for="item in items">
+    <div
+      v-for="item in items"
+      :key="`${item.name}`"
+    >
       <v-flex
-        :key="`${item.name}t`"
+
         class="kubegems__role text-subtitle-1 mt-3 font-weight-medium"
       >
         {{ item.name }}
@@ -59,7 +62,7 @@
           </v-row>
         </v-col>
       </v-row>
-    </template>
+    </div>
 
     <IntergatedCenter ref="intergatedCenter" />
   </v-container>
