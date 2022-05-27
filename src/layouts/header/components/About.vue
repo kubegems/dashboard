@@ -18,10 +18,10 @@
           <div class="kubegems__clear-float" />
         </div>
         <v-divider />
-        <h6 class="text-subtitle-1 ma-4 font-weight-regular">
-          KubeGems 是在Kubernetes
-          之上构建的面向云原生应用的操作平台，支持多云与多集群管理，提供全栈的IT
-          自动化运维能力，简化DevOps 工作流。
+        <h6 class="text-subtitle-2 ma-4 font-weight-medium">
+          KubeGems 是一款开源的企业级多租户容器云平台。围绕云原生社区，
+          KubeGems 提供了多 Kubernetes 集群接入能力，并具备丰富的组件管理和资源成本分析功能，
+          能够帮助企业快速的构建和打造一个本地化、功能强大且低成本的云管理平台。
         </h6>
 
         <v-flex
@@ -31,7 +31,7 @@
         >
           <h6
             class="
-              text-subtitle-2
+              text-body-2
               grey--text
               text--darken-1
               font-weight-regular

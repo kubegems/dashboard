@@ -112,9 +112,9 @@
                 <h2 class="text-h5">
                   {{ workload[key] }}
                 </h2>
-                <h5 class="text-subtitle-2 font-weight-regular">
+                <div class="text-subtitle-2 font-weight-regular cluster__resource__div">
                   {{ $RESOURCE_CN[key] }}
-                </h5>
+                </div>
               </div>
             </div>
           </v-card-text>
@@ -282,5 +282,10 @@ export default {
     padding-bottom: 0;
     padding-left: 20;
   }
+}
+.cluster__resource__div {
+  min-height: 44px;
+  max-height: 44px;
+  overflow: scroll;
 }
 </style>
