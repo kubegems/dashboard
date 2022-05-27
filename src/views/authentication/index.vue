@@ -2,14 +2,14 @@
   <v-row :style="`height: ${height}px !important`">
     <v-col
       lg="7"
-      class="info d-none d-md-flex align-center justify-center"
+      class="info d-none d-md-flex align-center justify-start"
     >
-      <div>
+      <div class="px-12">
         <h2 class="text-h4 white--text font-weight-medium">
           <v-flex class="float-left">
             <v-img
               src="/logo.svg"
-              width="220"
+              width="250"
               contain
             />
           </v-flex>
@@ -20,11 +20,14 @@
           </v-flex>
           <div class="kubegems__clear-float" />
         </h2>
-        <h6 class="text-subtitle-1 mt-4 white--text font-weight-regular">
-          在Kubernetes
-          之上构建的面向云原生应用的操作平台，支持多云与多集群管理，提供全栈的IT
-          自动化运维能力，简化DevOps 工作流。
-        </h6>
+        <div
+          class="mt-4 white--text"
+          :style="{ width: '700px', lineHeight: '1.5', fontSize: '1.1rem' }"
+        >
+          KubeGems 是一款开源的企业级多租户容器云平台。围绕云原生社区，
+          KubeGems 提供了多 Kubernetes 集群接入能力，并具备丰富的组件管理和资源成本分析功能，
+          能够帮助企业快速的构建和打造一个本地化、功能强大且低成本的云管理平台。
+        </div>
       </div>
     </v-col>
     <v-col
@@ -124,7 +127,7 @@
             </v-col>
           </v-row>
         </div>
-        <h6 class="px-12 text-subtitle-1 mt-4 copyright">
+        <h6 class="px-12 text-body-2 mt-4 copyright font-weight-medium kubegems__detail">
           © 2021 — KubeGems by Kubegems.io
         </h6>
       </v-container>
@@ -310,7 +313,7 @@ export default {
 }
 
 .font {
-  line-height: 58px;
+  line-height: 66px;
   font-weight: bold;
   font-family: Yuanti SC, YouYuan, Microsoft Yahei !important;
 }

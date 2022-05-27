@@ -206,25 +206,31 @@ export default {
   methods: {
     async loggingAppList() {
       const data = await getLoggingAppList(this.env.clusterName, this.env.namespace)
-      this.applicationItems = Object.keys(data).map(d => { return { text: `${d}${data[d].collectedBy ? '(已添加采集)' : ''}`, value: d, disabled: data[d].collectedBy } })
+      this.applicationItems = Object.keys(data).map(d => {
+        return {
+          text: `${d}${data[d].collectedBy ? '(已添加采集)' : ''}`,
+          value: d,
+          disabled: data[d].collectedBy,
+          }
+      })
       this.applicationStatus = data
     },
     async logOutputList() {
       let list = []
       let res = []
-      if (this.AdminViewport) {
-        const params = [this.env.clusterName, '_all', { page: 1, size: 1000 }]
-        res = await Promise.all([
-          getOutputsData(...params),
-          getClusterOutputsData(...params),
-        ])
-        list = res.reduce((pre, current) => pre.concat(current.List), [])
-      } else {
-        res = await Promise.all([
-          getOutputsDataByTenant(this.env.clusterName, this.Tenant().TenantName),
-        ])
-        list = [...res[0]]
-      }
+      const params = [this.env.clusterName, '_all', { page: 1, size: 1000 }]
+      const outputFunc = this.AdminViewport
+        ? getOutputsData
+        : getOutputsDataByTenant
+      const funcParams = this.AdminViewport
+        ? params
+        : [this.env.clusterName, this.Tenant().TenantName]
+      res = await Promise.all([
+        outputFunc(...funcParams),
+        getClusterOutputsData(...params),
+      ])
+      list = res.reduce((pre, current) => pre.concat(current.List || current), [])
+
       this.outputItems = list.map(op => {
         return {
           text: `${op.metadata.name} (${this.getOutputKind(op.spec)})`,
@@ -245,7 +251,7 @@ export default {
       }
     },
     onApplicationChange() {
-      this.obj.apps = this.applicationStatus[this.application]
+      this.obj.apps[this.application] = this.applicationStatus[this.application]?.appLabel
     },
     onOutputChange() {
       if (this.output?.kind === 'Output') {
