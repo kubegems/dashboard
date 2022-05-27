@@ -296,7 +296,7 @@ export default {
       { text: '状态', value: 'status', align: 'start', width: 150 },
       { text: '角色', value: 'role', align: 'start' },
       { text: '污点', value: 'taint', align: 'start' },
-      { text: '5分钟负载', value: 'load', align: 'start' },
+      { text: '5分钟负载', value: 'load', align: 'start', width: 100 },
       { text: 'CPU', value: 'cpu', align: 'start', width: 150 },
       { text: '内存', value: 'memory', align: 'start', width: 150 },
       { text: 'Pods', value: 'pod', align: 'start', width: 150 },

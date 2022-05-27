@@ -2,15 +2,16 @@
   <v-container fluid>
     <BaseBreadcrumb />
     <v-card>
-      <v-data-table
-        class="mx-4"
-        disable-sort
-        :headers="headers"
-        :items="items"
-        :items-per-page="100"
-        no-data-text="暂无数据"
-        hide-default-footer
-      />
+      <v-card-text>
+        <v-data-table
+          disable-sort
+          :headers="headers"
+          :items="items"
+          :items-per-page="100"
+          no-data-text="暂无数据"
+          hide-default-footer
+        />
+      </v-card-text>
     </v-card>
   </v-container>
 </template>

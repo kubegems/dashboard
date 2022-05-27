@@ -40,7 +40,7 @@ export default {
   computed: {
     ...mapState(['Scale']),
     height() {
-      return window.innerHeight - 220 * this.Scale - 1
+      return window.innerHeight - 250 * this.Scale - 1
     },
     src() {
       return `/api/v1/service-proxy/cluster/${this.$route.query.cluster}/namespace/istio-system/service/kiali/port/20001/kiali/console/graph/namespaces?graphType=workload&injectServiceNodes=true&namespaces=${this.$route.query.namespace}&edges=trafficRate%2Cthroughput%2CthroughputRequest&traffic=grpc%2CgrpcRequest%2Chttp%2ChttpRequest%2Ctcp%2CtcpSent&idleNodes=false&duration=60&refresh=30000&operationNodes=false&idleEdges=false&layout=dagre&boxNamespace=true&animation=true&badgeSecurity=true&kiosk=true`

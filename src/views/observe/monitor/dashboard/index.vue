@@ -106,13 +106,13 @@
 
     <v-row
       v-if="items.length > 0"
-      class="mt-0"
+      class="mt-3"
     >
       <v-col
         v-for="(graph, index) in items[tab].graphs"
         :key="index"
         :cols="3"
-        class="dash__col"
+        class="dash__col pt-0"
       >
         <v-card
           class="kubegems__full-height"
@@ -171,7 +171,10 @@
           </v-card-text>
         </v-card>
       </v-col>
-      <v-col cols="3">
+      <v-col
+        cols="3"
+        class="pt-0"
+      >
         <v-card
           class="kubegems__full-height"
           min-height="250"

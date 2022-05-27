@@ -82,7 +82,7 @@
     <v-flex class="mx-2">
       <v-row v-if="JSON.stringify(labelsCopy) !== '{}'">
         <v-col class="pa-0">
-          <v-flex class="grey lighten-4 rounded mt-2 mx-3">
+          <v-flex class="grey lighten-4 rounded mt-3 mx-3">
             <v-list-item>
               <v-list-item-content class="py-2">
                 <v-list-item-subtitle class="text-body-2 py-0">

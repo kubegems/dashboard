@@ -1,61 +1,63 @@
 <template>
-  <v-flex class="rounded">
-    <v-data-table
-      disable-sort
-      :headers="headers"
-      :items="items"
-      no-data-text="暂无数据"
-      :items-per-page="500"
-      hide-default-footer
-      class="pb-4"
-    >
-      <template #[`item.name`]="{ item }">
-        {{ item.metadata.name }}
-      </template>
-      <template #[`item.status`]="{ item }">
-        <v-flex :id="`e${item.metadata.resourceVersion}`" />
+  <v-card>
+    <v-card-text>
+      <v-data-table
+        disable-sort
+        :headers="headers"
+        :items="items"
+        no-data-text="暂无数据"
+        :items-per-page="500"
+        hide-default-footer
+        class="pb-4"
+      >
+        <template #[`item.name`]="{ item }">
+          {{ item.metadata.name }}
+        </template>
+        <template #[`item.status`]="{ item }">
+          <v-flex :id="`e${item.metadata.resourceVersion}`" />
 
-        <span
-          :class="`v-avatar mr-2 ${
-            [
-              'ContainerCreating',
-              'Pending',
-              'Terminating',
-              'PodInitializing',
-            ].indexOf(m_resource_getPodStatus(item)) > -1
-              ? 'kubegems__waiting-flashing'
+          <span
+            :class="`v-avatar mr-2 ${
+              [
+                'ContainerCreating',
+                'Pending',
+                'Terminating',
+                'PodInitializing',
+              ].indexOf(m_resource_getPodStatus(item)) > -1
+                ? 'kubegems__waiting-flashing'
+                : ''
+            }`"
+            :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
+              $POD_STATUS_COLOR[m_resource_getPodStatus(item)] || '#ff5252'
+            };`"
+          />
+          <span> {{ m_resource_getPodStatus(item) }}</span>
+          <span>
+            ({{
+              item.status && item.status.containerStatuses
+                ? item.status.containerStatuses.filter((c) => {
+                  return c.ready
+                }).length
+                : 0
+            }}/{{ item.spec.containers.length }})
+          </span>
+        </template>
+        <template #[`item.ip`]="{ item }">
+          {{ item.status.podIP }}
+        </template>
+        <template #[`item.restart`]="{ item }">
+          {{ getRestart(item.status.containerStatuses) }}
+        </template>
+        <template #[`item.age`]="{ item }">
+          {{
+            item.status.startTime
+              ? $moment(item.status.startTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
               : ''
-          }`"
-          :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
-            $POD_STATUS_COLOR[m_resource_getPodStatus(item)] || '#ff5252'
-          };`"
-        />
-        <span> {{ m_resource_getPodStatus(item) }}</span>
-        <span>
-          ({{
-            item.status && item.status.containerStatuses
-              ? item.status.containerStatuses.filter((c) => {
-                return c.ready
-              }).length
-              : 0
-          }}/{{ item.spec.containers.length }})
-        </span>
-      </template>
-      <template #[`item.ip`]="{ item }">
-        {{ item.status.podIP }}
-      </template>
-      <template #[`item.restart`]="{ item }">
-        {{ getRestart(item.status.containerStatuses) }}
-      </template>
-      <template #[`item.age`]="{ item }">
-        {{
-          item.status.startTime
-            ? $moment(item.status.startTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
-            : ''
-        }}
-      </template>
-    </v-data-table>
-  </v-flex>
+          }}
+        </template>
+      </v-data-table>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>

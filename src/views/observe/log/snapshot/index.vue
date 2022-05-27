@@ -19,7 +19,7 @@
         </v-row>
       </v-card-text>
     </v-card>
-    <v-card>
+    <v-card class="mt-3">
       <v-card-title class="py-4">
         <BaseFilter
           :filters="filters"

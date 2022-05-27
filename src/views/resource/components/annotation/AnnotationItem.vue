@@ -8,7 +8,7 @@
           class="pa-0"
           cols="6"
         >
-          <v-flex class="grey lighten-4 rounded mt-2 mx-3">
+          <v-flex class="grey lighten-4 rounded mt-3 mx-3">
             <v-list-item>
               <v-list-item-content class="kubegems__label-class-padding kubegems__break-all">
                 <strong class="mr-2 primary--text py-1"> {{ key }} </strong>

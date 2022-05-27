@@ -6,6 +6,7 @@
         v-for="(item, index) in items"
         :key="index"
         cols="3"
+        class="pt-0"
       >
         <v-hover
           #default="{ hover }"
@@ -118,7 +119,10 @@
           </v-card>
         </v-hover>
       </v-col>
-      <v-col cols="3">
+      <v-col
+        cols="3"
+        class="pt-0"
+      >
         <v-card
           class="kubegems__full-height"
           min-height="168"
