@@ -138,3 +138,39 @@
 .v-btn--icon.v-size--default {
   border-radius: 36px;
 }
+
+.v-tabs .v-tab::before {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.v-tabs .v-tab--active {
+  background-color: #1e88e5;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  color: white !important;
+}
+
+.v-tabs--vertical .v-tab::before {
+  border-top-left-radius: 0;
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.v-tabs--vertical .v-tab--active {
+  background-color: #1e88e5;
+  border-top-left-radius: 0;
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
+  color: white !important;
+}
+
+.v-tabs--default .v-tab::before {
+  border-radius: 0 !important;
+}
+
+.v-tabs--default .v-tab--active {
+  border-radius: 0 !important;
+  background: none !important;
+  color: #1e88e5 !important;
+}

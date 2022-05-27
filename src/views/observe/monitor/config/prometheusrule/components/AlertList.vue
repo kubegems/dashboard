@@ -2,6 +2,7 @@
   <v-card flat>
     <v-tabs
       v-model="tab"
+      :height="40"
       class="ml-2"
       @change="onTabChange"
     >

@@ -61,64 +61,64 @@
       <BaseSubTitle title="即将发布" />
       <v-card-text class="pa-2">
         <v-row>
-          <template v-for="(image, index) in publishImages">
-            <v-col
-              :key="`${index}0`"
-              cols="12"
-              class="py-4"
+          <v-col
+            v-for="(image, index) in publishImages"
+            :key="index"
+            cols="12"
+            class="py-4"
+          >
+            <v-sheet
+              :min-width="650"
+              :width="650"
+              class="float-left"
             >
-              <v-sheet
-                :min-width="650"
-                :width="650"
-                class="float-left"
+              <v-text-field
+                class="my-0"
+                required
+                label="镜像"
+                readonly
+                :value="image"
+                :rules="baseRules.publishRuler[image]"
+                full-width
+                dense
+              />
+            </v-sheet>
+            <v-sheet
+              :min-width="300"
+              :width="300"
+              class="float-right"
+            >
+              <v-autocomplete
+                v-model="base.images[image].tag"
+                :items="tags[image]"
+                color="primary"
+                hide-selected
+                class="my-0 py-0"
+                no-data-text="暂无可选数据"
+                hide-details
+                solo
+                dense
+                flat
+                full-width
+                :search-input.sync="base.images[image].tagtext"
+                @change="onTagChange(image)"
+                @keyup.enter="createImageTag(image)"
               >
-                <v-text-field
-                  class="my-0"
-                  required
-                  label="镜像"
-                  readonly
-                  :value="image"
-                  :rules="baseRules.publishRuler[image]"
-                  full-width
-                  dense
-                />
-              </v-sheet>
-              <v-sheet
-                :min-width="300"
-                :width="300"
-                class="float-right"
-              >
-                <v-autocomplete
-                  v-model="base.images[image].tag"
-                  :items="tags[image]"
-                  color="primary"
-                  hide-selected
-                  class="my-0 py-0"
-                  no-data-text="暂无可选数据"
-                  hide-details
-                  solo
-                  dense
-                  flat
-                  full-width
-                  :search-input.sync="base.images[image].tagtext"
-                  @change="onTagChange(image)"
-                  @keyup.enter="createImageTag(image)"
-                >
-                  <template #selection="{ item, disabled }">
-                    <v-chip
-                      color="primary"
-                      small
-                      class="ma-1"
-                      :disabled="disabled"
-                    >
-                      {{ item['text'] }}
-                    </v-chip>
-                  </template>
-                </v-autocomplete>
-              </v-sheet>
-              <div class="kubegems__clear-float" />
-            </v-col>
-          </template>
+                <template #selection="{ item, disabled }">
+                  <v-chip
+                    color="primary"
+                    small
+                    class="ma-1"
+                    :disabled="disabled"
+                  >
+                    {{ item['text'] }}
+                  </v-chip>
+                </template>
+              </v-autocomplete>
+            </v-sheet>
+            <div class="kubegems__clear-float" />
+          </v-col>
+
           <v-col cols="6">
             <v-text-field
               v-model="base.istioVersion"

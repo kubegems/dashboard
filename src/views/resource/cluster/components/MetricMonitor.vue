@@ -1,12 +1,12 @@
 <template>
   <v-card
-    class="pa-1 ma-0"
+    class="pa-2 ma-0"
     flat
   >
     <v-tabs
       v-model="tab"
       fixed-tabs
-      height="40px"
+      :height="40"
       @change="onTabChange"
     >
       <v-tab
