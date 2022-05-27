@@ -245,7 +245,7 @@ export default {
       }
     },
     onApplicationChange() {
-      this.obj.apps = this.applicationStatus[this.application]
+      this.obj.apps[this.application] = this.applicationStatus[this.application].appLabel
     },
     onOutputChange() {
       if (this.output?.kind === 'Output') {
