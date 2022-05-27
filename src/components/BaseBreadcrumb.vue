@@ -61,6 +61,10 @@ export default {
 
   &__font {
     line-height: 2rem !important;
+
+    @media (max-width: 1000px) {
+      min-width: 75px;
+    }
   }
 
   &__bg {

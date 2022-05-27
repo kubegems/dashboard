@@ -136,4 +136,10 @@ export default {
   display: block;
   z-index: 10;
 }
+
+#panel {
+  @media (max-width: 1300px) {
+    width: 700px !important;
+  }
+}
 </style>

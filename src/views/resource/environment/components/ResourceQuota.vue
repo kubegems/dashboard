@@ -15,7 +15,7 @@
         >
           <VueApexCharts
             type="radialBar"
-            height="250"
+            height="230"
             :options="cpuOptions"
             :series="cpuSeries"
           />
@@ -26,7 +26,7 @@
         >
           <VueApexCharts
             type="radialBar"
-            height="250"
+            height="230"
             :options="memoryOptions"
             :series="memorySeries"
           />
@@ -37,7 +37,7 @@
         >
           <VueApexCharts
             type="radialBar"
-            height="250"
+            height="230"
             :options="storageOptions"
             :series="storageSeries"
           />
@@ -48,7 +48,7 @@
         >
           <VueApexCharts
             type="radialBar"
-            height="250"
+            height="230"
             :options="podOptions"
             :series="podSeries"
           />

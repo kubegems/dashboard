@@ -6,7 +6,7 @@
           <v-sheet>
             <VueApexCharts
               type="radialBar"
-              height="300"
+              height="250"
               :options="cpuOptions"
               :series="cpuSeries"
             />
@@ -69,7 +69,7 @@
           <v-sheet>
             <VueApexCharts
               type="radialBar"
-              height="300"
+              height="250"
               :options="memoryOptions"
               :series="memorySeries"
             />
@@ -136,7 +136,7 @@
           <v-sheet>
             <VueApexCharts
               type="radialBar"
-              height="300"
+              height="250"
               :options="storageOptions"
               :series="storageSeries"
             />
@@ -203,7 +203,7 @@
           <v-sheet>
             <VueApexCharts
               type="radialBar"
-              height="300"
+              height="250"
               :options="podOptions"
               :series="podSeries"
             />
