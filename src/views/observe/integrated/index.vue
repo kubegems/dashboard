@@ -12,12 +12,13 @@
 
       <v-row
         :key="`${item.name}i`"
-        class="mt-0 mb-3"
+        class="mt-3"
       >
         <v-col
           v-for="index in item.harfItems"
           :key="index"
           :cols="3"
+          class="pt-0"
         >
           <v-row>
             <v-col

@@ -4,7 +4,7 @@
     class="alert-history"
   >
     <BaseBreadcrumb />
-    <v-card class="mt-4 pa-4">
+    <v-card class="mt-3 pa-4">
       <div class="mb-4">
         <ClusterSelect
           v-model="params.cluster"

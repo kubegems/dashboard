@@ -3,7 +3,7 @@
     <v-sheet
       v-for="(item, index) in containers"
       :key="`container${index}`"
-      class="grey lighten-4 rounded mb-2"
+      class="grey lighten-4 rounded mb-3"
     >
       <v-list-item two-line>
         <v-list-item-content class="py-2">
@@ -125,7 +125,7 @@
     <v-sheet
       v-for="(item, index) in initContainers"
       :key="`initcontainer${index}`"
-      class="grey lighten-4 rounded mb-2"
+      class="grey lighten-4 rounded mb-3"
     >
       <v-list-item two-line>
         <v-list-item-content class="py-2">

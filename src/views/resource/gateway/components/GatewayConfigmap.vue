@@ -1,12 +1,12 @@
 <template>
-  <v-flex class="mt-3">
+  <div>
     <v-flex
       v-for="(d, key) in data"
       :key="key"
     >
       <v-card
         flat
-        class="pa-4"
+        class="pa-4 mt-3"
       >
         <v-card-text class="pa-0">
           <BaseSubTitle
@@ -18,7 +18,7 @@
         </v-card-text>
       </v-card>
     </v-flex>
-  </v-flex>
+  </div>
 </template>
 
 <script>

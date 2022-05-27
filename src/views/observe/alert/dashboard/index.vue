@@ -9,8 +9,11 @@
       </template>
     </BaseBreadcrumb>
 
-    <v-row class="kubegems__h-24 mt-1">
-      <v-col cols="4">
+    <v-row class="kubegems__h-24 mt-0">
+      <v-col
+        cols="4"
+        class="pt-0"
+      >
         <ValueCard
           name="今日告警"
           :value="alert ? alert.total.todayCount : 0"
@@ -18,7 +21,10 @@
           icon="mdi-bell"
         />
       </v-col>
-      <v-col cols="4">
+      <v-col
+        cols="4"
+        class="pt-0"
+      >
         <ValueCard
           name="已消除"
           :value="alert ? alert.resolved.todayCount : 0"
@@ -26,7 +32,10 @@
           icon="mdi-fire-extinguisher"
         />
       </v-col>
-      <v-col cols="4">
+      <v-col
+        cols="4"
+        class="pt-0"
+      >
         <ValueCard
           name="正在告警"
           :value="alert ? alert.firing.todayCount : 0"
@@ -34,13 +43,22 @@
           icon="mdi-fire-alert"
         />
       </v-col>
-      <v-col cols="12">
+      <v-col
+        cols="12"
+        class="pt-0"
+      >
         <AlertHistoryLine :tenant="tenant" />
       </v-col>
-      <v-col cols="6">
+      <v-col
+        cols="6"
+        class="pt-0"
+      >
         <AlertCategoryBar :tenant="tenant" />
       </v-col>
-      <v-col cols="6">
+      <v-col
+        cols="6"
+        class="pt-0"
+      >
         <AlertTopBar :tenant="tenant" />
       </v-col>
     </v-row>

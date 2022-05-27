@@ -1,6 +1,6 @@
 <template>
-  <v-sheet class="pt-4 pl-2">
-    <v-row>
+  <v-card class="pl-2">
+    <v-row class="mt-3">
       <v-col
         cols="4"
         class="col-position"
@@ -16,6 +16,7 @@
           open-on-click
           :open="[app ? app.name : '']"
           class="text-body-2"
+          rounded
           @update:active="showManifest"
         >
           <template #prepend="{ item }">
@@ -160,7 +161,7 @@
       ref="updateResourceFile"
       @refresh="refresh"
     />
-  </v-sheet>
+  </v-card>
 </template>
 
 <script>

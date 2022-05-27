@@ -120,6 +120,21 @@
 }
 
 .v-btn {
-  border-radius: 3px !important;
+  border-radius: 3px;
   text-transform: inherit !important;
+}
+.v-input__control {
+  border-radius: 3px !important;
+}
+.v-btn--fab.v-size--small {
+  border-radius: 40px;
+}
+.v-btn--fab.v-size--x-small {
+  border-radius: 32px;
+}
+.v-btn--icon.v-size--small {
+  border-radius: 28px;
+}
+.v-btn--icon.v-size--default {
+  border-radius: 36px;
 }

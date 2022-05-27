@@ -25,7 +25,10 @@
         </template>
       </BaseBreadcrumb>
       <template #side>
-        <v-list dense>
+        <v-list
+          dense
+          rounded
+        >
           <v-list-item-group
             v-model="selected"
             color="primary"

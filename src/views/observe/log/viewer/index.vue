@@ -139,7 +139,7 @@
       style="bottom: 65px !important;"
       @click="handleScrollTo"
     >
-      <v-icon small>mdi-apple-keyboard-control</v-icon>
+      <v-icon small>mdi-arrow-up-bold</v-icon>
     </v-btn>
 
     <LogContext

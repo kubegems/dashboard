@@ -26,11 +26,12 @@
       <v-flex class="kubegems__role text-subtitle-1 mt-3 font-weight-medium">
         {{ key }}
       </v-flex>
-      <v-row class="mt-0">
+      <v-row class="mt-3">
         <v-col
           v-for="(plugin, index) in plugins"
           :key="index"
           cols="3"
+          class="pt-0"
         >
           <v-hover #default="{ hover }">
             <v-card

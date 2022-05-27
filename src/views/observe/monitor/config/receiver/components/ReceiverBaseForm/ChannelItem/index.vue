@@ -3,7 +3,7 @@
     <v-sheet
       v-for="(item, index) in items"
       :key="index"
-      class="grey lighten-4 rounded mb-2"
+      class="grey lighten-4 rounded mb-3"
     >
       <components
         :is="itemMap[item.type]"

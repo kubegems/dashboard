@@ -10,7 +10,7 @@
     </BaseBreadcrumb>
     <IntroSteps />
     <OverviewList
-      class="mt-4"
+      class="mt-3"
       :tenant="tenant"
     />
   </v-container>
