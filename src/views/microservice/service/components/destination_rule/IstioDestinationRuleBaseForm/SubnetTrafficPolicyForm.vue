@@ -45,7 +45,7 @@
           <v-tabs
             v-model="tab"
             class="px-2 v-tabs--default"
-            height="50"
+            height="40"
             fixed-tabs
           >
             <v-tab

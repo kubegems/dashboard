@@ -58,7 +58,7 @@
       <v-card-text>
         <v-tabs
           v-model="tab"
-          height="40"
+          height="30"
           class="rounded-t"
           @change="onTabChange"
         >

@@ -91,7 +91,7 @@
       >
         <v-tabs
           v-model="tab"
-          height="40"
+          height="30"
           class="rounded-t pl-4 pr-12 pb-2"
         >
           <v-tab

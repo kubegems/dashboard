@@ -76,7 +76,7 @@
           <v-card-text class="pa-0">
             <v-tabs
               v-model="tab"
-              height="40"
+              height="30"
               class="rounded-t pa-3"
             >
               <v-tab

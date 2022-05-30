@@ -73,7 +73,7 @@
       >
         <v-card>
           <v-card-text>
-            <v-tabs height="40">
+            <v-tabs height="30">
               <v-tab
                 v-for="item in [{ text: '模型详情', value: 'detail' }]"
                 :key="item.value"
