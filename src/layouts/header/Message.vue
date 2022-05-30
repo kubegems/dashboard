@@ -37,7 +37,7 @@
         <v-card-text class="pa-2">
           <v-tabs
             v-model="tab"
-            height="52"
+            height="45"
             fixed-tabs
             class="v-tabs--default"
           >

@@ -6,7 +6,7 @@
     <v-tabs
       v-model="tab"
       fixed-tabs
-      :height="40"
+      :height="30"
       @change="onTabChange"
     >
       <v-tab

@@ -63,7 +63,7 @@
       <v-card-text class="py-0">
         <v-tabs
           v-model="tab"
-          height="40"
+          height="30"
           class="rounded-t"
           @change="onTabChange"
         >
