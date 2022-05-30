@@ -92,7 +92,7 @@
       <v-card-text class="ma-0 pa-0">
         <v-tabs
           v-model="tab"
-          height="40"
+          height="30"
           class="rounded-t pa-0 v-tabs--default"
           fixed-tabs
         >

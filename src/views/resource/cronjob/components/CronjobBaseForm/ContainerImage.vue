@@ -28,7 +28,7 @@
           <v-tabs
             v-model="tab"
             class="px-2"
-            height="50"
+            height="40"
             fixed-tabs
             @change="onTabChange"
           >

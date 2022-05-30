@@ -2,7 +2,7 @@
   <ProjectEnvironmentLayout>
     <v-tabs
       v-model="currentTab"
-      :height="40"
+      :height="30"
     >
       <v-tab
         v-for="item in tabs"
