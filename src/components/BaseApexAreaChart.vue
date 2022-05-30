@@ -87,6 +87,31 @@ export default {
       bitrate: ['bit/s', 'kbit/s', 'mbit/s', 'gbit/s'],
       trace: ['us', 'ms', 's'],
     },
+    unitCn: {
+      // cpu
+      n: '纳核',
+      u: '微核',
+      m: '毫核',
+      core: '核',
+      k: '千核',
+      ncore: '纳核',
+      ucore: '微核',
+      mcore: '毫核',
+      kcore: '千核',
+      
+      count: '个',
+      d: '天',
+      h: '小时',
+      lines: '行',
+      m: '分钟',
+      ms: '毫秒',
+      ops: '次/s',
+      percent: '%',
+      s: '秒',
+      times: '次',
+      us: '微秒',
+      w: '周',
+    },
   }),
   computed: {
     ...mapState(['Plugins']),
@@ -213,7 +238,7 @@ export default {
             if (unitType) {
               return this.unitBase(scaleNum, unitType, value)
             } else {
-              return { scaleNum: `${value.toFixed(2)} ${this.unit}`, unitType: null, newValue: value }
+              return { scaleNum: `${value.toFixed(2)} ${this.unitCn[this.unit]||this.unit}`, unitType: null, newValue: value }
             }
           }
           return { scaleNum: `${value.toFixed(2)} ${unitType}`, unitType: null, newValue: value }
@@ -232,15 +257,14 @@ export default {
       value = newValue
       if(!unitType) { return scaleNum }
       if (value / Math.pow(scaleNum, 3) >= 1) {
-        return `${(value / Math.pow(scaleNum, 3)).toFixed(2)} ${
-          this.allUnit[unitType][3]
-        }`
+        const unit = this.unitCn[this.allUnit[unitType][3]] || this.allUnit[unitType][3]
+        return `${(value / Math.pow(scaleNum, 3)).toFixed(2)} ${unit}`
       } else if (value / Math.pow(scaleNum, 2) >= 1) {
-        return `${(value / Math.pow(scaleNum, 2)).toFixed(2)} ${
-          this.allUnit[unitType][2]
-        }`
+        const unit = this.unitCn[this.allUnit[unitType][2]] || this.allUnit[unitType][2]
+        return `${(value / Math.pow(scaleNum, 2)).toFixed(2)} ${unit}`
       } else if (value / scaleNum >= 1) {
-        return `${(value / scaleNum).toFixed(2)} ${this.allUnit[unitType][1]}`
+        const unit = this.unitCn[this.allUnit[unitType][1]] || this.allUnit[unitType][1]
+        return `${(value / scaleNum).toFixed(2)} ${unit}`
       } else {
         return `${value.toFixed(2)} ${this.allUnit[unitType][0]}`
       }

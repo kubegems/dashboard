@@ -1,7 +1,7 @@
 <template>
   <v-card class="metrics-item">
-    <h3 class="metrics-item__title">
-      <span>{{ title }}</span>
+    <div class="metrics-item__title">
+      <span class="text-body-1 kubegems__detail">{{ title }}</span>
       <v-btn
         small
         color="primary"
@@ -9,7 +9,7 @@
       >
         设置告警
       </v-btn>
-    </h3>
+    </div>
     <v-row :style="{ maxHeight: `${maxHeight}px` }">
       <v-col
         v-for="(label) in labels"

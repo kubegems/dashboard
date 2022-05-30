@@ -1,9 +1,8 @@
 <template>
-  <v-card flat>
+  <div>
     <v-tabs
       v-model="tab"
       :height="30"
-      class="ml-2"
       @change="onTabChange"
     >
       <v-tab
@@ -14,6 +13,7 @@
       </v-tab>
     </v-tabs>
     <v-data-table
+      class="kubegems__table-row-pointer"
       disable-sort
       :headers="headers"
       :items="items"
@@ -111,7 +111,7 @@
       @changesize="onPageSizeChange"
       @changepage="onPageIndexChange"
     />
-  </v-card>
+  </div>
 </template>
 
 <script>
@@ -150,9 +150,9 @@ export default {
     ...mapState(['JWT', 'AdminViewport']),
     headers() {
       const items = [
-        { text: '消息', value: 'message', align: 'start', width: 800 },
-        { text: '级别', value: 'severity', align: 'start', width: 200 },
-        { text: '状态', value: 'status', align: 'start', width: 200 },
+        { text: '消息', value: 'message', align: 'start' },
+        { text: '级别', value: 'severity', align: 'start', width: 100 },
+        { text: '状态', value: 'status', align: 'start', width: 100 },
         { text: '首次触发时间', value: 'activeAt', align: 'start', width: 200 },
         { text: '', value: 'data-table-expand' },
       ]
@@ -180,7 +180,6 @@ export default {
           text: '告警数量',
           value: 'count',
           align: 'start',
-          width: 100,
         })
       }
       return items

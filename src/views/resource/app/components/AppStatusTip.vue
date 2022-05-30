@@ -4,7 +4,7 @@
     :disabled="disabled"
     left
     transition="scale-transition"
-    max-width="300px"
+    max-width="200px"
     max-height="300px"
     :close-on-content-click="false"
     nudge-bottom="5px"

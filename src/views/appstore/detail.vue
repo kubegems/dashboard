@@ -47,7 +47,7 @@
           <v-card-text>
             <v-tabs
               v-model="tab"
-              height="30"
+              height="40"
             >
               <v-tab
                 v-for="item in tabItems"

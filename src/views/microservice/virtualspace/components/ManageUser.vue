@@ -13,7 +13,7 @@
           <v-tabs
             v-model="tab"
             class="pa-2"
-            height="80px"
+            height="60px"
             vertical
             @change="onTabChange"
           >

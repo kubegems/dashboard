@@ -13,6 +13,7 @@
           nudge-bottom="5px"
           content-class="micro-service-header__bg"
           max-height="300px"
+          max-width="220px"
         >
           <template #activator="{ on }">
             <v-btn
@@ -41,30 +42,32 @@
             </template>
             <template #default="props">
               <v-card v-for="item in props.items" :key="item.text" :loading="loading">
-                <v-list dense>
+                <v-list dense class="pb-3">
                   <v-flex class="text-subtitle-2 text-center ma-2">
                     <span>虚拟空间</span>
                   </v-flex>
                   <v-divider class="mx-2"></v-divider>
-                  <v-list-item
-                    v-for="(virtualspace, index) in item.values"
-                    :key="index"
-                    class="text-body-2 text-center font-weight-medium px-2"
-                    link
-                    :style="
-                      virtualspace.text === VirtualSpace().VirtualSpaceName
-                        ? `color: #1e88e5 !important;`
-                        : ``
-                    "
-                    @click="setVirtualSpace(virtualspace)"
-                  >
-                    <v-list-item-content class="text-body-2 font-weight-medium text-start">
-                      <div>
-                        <v-icon left small color="primary">fas fa-cloud</v-icon>
-                        {{ virtualspace.text }}
-                      </div>
-                    </v-list-item-content>
-                  </v-list-item>
+                  <div class="header__list">
+                    <v-list-item
+                      v-for="(virtualspace, index) in item.values"
+                      :key="index"
+                      class="text-body-2 text-center font-weight-medium px-2"
+                      link
+                      :style="
+                        virtualspace.text === VirtualSpace().VirtualSpaceName
+                          ? `color: #1e88e5 !important;`
+                          : ``
+                      "
+                      @click="setVirtualSpace(virtualspace)"
+                    >
+                      <v-list-item-content class="text-body-2 font-weight-medium text-start">
+                        <div class="kubegems__break-all">
+                          <v-icon left small color="primary">fas fa-cloud</v-icon>
+                          {{ virtualspace.text }}
+                        </div>
+                      </v-list-item-content>
+                    </v-list-item>
+                  </div>
                 </v-list>
               </v-card>
             </template>
@@ -165,5 +168,10 @@ export default {
 <style lang="scss" scoped>
 .micro-service-header__bg {
   z-index: auto !important;
+}
+
+.header__list {
+  max-height: 250px;
+  overflow-y: auto;
 }
 </style>

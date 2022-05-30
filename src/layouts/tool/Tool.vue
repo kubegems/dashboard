@@ -19,7 +19,7 @@
         small
         color="primary"
         v-bind="attrs"
-        style="bottom: 15px; z-index: 15;"
+        class="tool__btn"
         v-on="on"
       >
         <v-icon small>fas fa-wrench</v-icon>
@@ -86,3 +86,15 @@ export default {
 }
 </script>
 
+<style lang="scss" scoped>
+.tool {
+  &__btn {
+    bottom: 20px;
+    right: 20px;
+    z-index: 15;
+    height: 45px;
+    width: 45px;
+    border-radius: 45px;
+  }
+}
+</style>

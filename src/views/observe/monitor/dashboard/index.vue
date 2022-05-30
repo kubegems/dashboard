@@ -87,7 +87,7 @@
       </v-card-title>
 
       <v-card-text
-        class="pa-0"
+        class="pa-0 py-1"
       >
         <v-tabs
           v-model="tab"
@@ -204,7 +204,7 @@
 
     <div
       v-else
-      class="text-h6 text-center dash__tip primary--text white"
+      class="text-center dash__tip primary--text white"
     >
       <span class="kubegems__full-center">请先创建监控大盘</span>
     </div>
@@ -450,6 +450,8 @@ export default {
   &__tip {
     height: 460px;
     position: relative;
+    font-size: 1.2rem;
+    font-weight: 600;
   }
 
   &__col {

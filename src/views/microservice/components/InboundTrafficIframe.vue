@@ -2,7 +2,7 @@
   <v-card
     flat
   >
-    <v-card-text class="pa-2">
+    <v-card-text class="pa-2 px-3">
       <iframe
         id="inbound"
         :src="src"
@@ -35,7 +35,7 @@ export default {
   computed: {
     ...mapState(['Scale']),
     height() {
-      return window.innerHeight - 255 * this.Scale - 1 + 300
+      return parseInt((window.innerHeight - 284) / this.Scale)
     },
     src() {
       return `/api/v1/service-proxy/cluster/${

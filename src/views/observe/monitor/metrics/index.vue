@@ -557,6 +557,7 @@ export default {
         projectItems: this.allProjectList,
         _$id: `${this.queryList.length}-${Date.now()}`,
       })
+      this.onLatitudeChange(this.queryList.length - 1)
       this.expand = this.queryList.length - 1
     },
     onRemove(id) {

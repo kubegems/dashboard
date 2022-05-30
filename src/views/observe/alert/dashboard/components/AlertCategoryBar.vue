@@ -19,7 +19,7 @@
 
     <VueApexCharts
       :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-      height="280px"
+      height="290px"
       :options="options"
       :series="series"
     />

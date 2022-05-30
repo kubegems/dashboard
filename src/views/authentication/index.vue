@@ -111,7 +111,7 @@
                     left
                     width="40"
                     min-width="40"
-                    height="30"
+                    height="40"
                     class="mr-3 kubegems__pointer"
                     @click="oauth(item)"
                   >

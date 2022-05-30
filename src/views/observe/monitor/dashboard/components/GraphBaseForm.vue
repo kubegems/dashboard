@@ -213,10 +213,14 @@ export default {
     ...mapState(['AdminViewport']),
     resourceItems() {
       const resourcesObj = this.metricsConfig.resources || {}
-      return Object.keys(resourcesObj).map((key) => ({
-        text: resourcesObj[key].showName,
-        value: key,
-      }))
+      return Object.keys(resourcesObj).map((key) => {
+        if (resourcesObj[key].namespaced) {
+          return {
+            text: resourcesObj[key].showName,
+            value: key,
+          }
+        }
+      })
     },
     ruleItems() {
       if (this.metricsConfig.resources && this.obj.promqlGenerator.resource) {
