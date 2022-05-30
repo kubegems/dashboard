@@ -515,13 +515,20 @@ export default {
       } else this.obj.spec.selector = {}
     },
     getWorkloadSelectIndex() {
+      if (JSON.stringify(this.obj.spec.selector) === '{}') return -1
       let index = -1
-      this.workloads.forEach((w, i) => {
+      this.workloads.forEach((w) => {
         if (w && w.labels) {
-          const workload = JSON.stringify(w.labels).split('').sort().join('')
-          const service = JSON.stringify(this.obj.spec.selector).split('').sort().join('')
-          if (workload === service) {
-            index = i
+          const keyin = Object.keys(this.obj.spec.selector).every(k => {
+            return Object.keys(w.labels).indexOf(k) > -1
+          })
+
+          const valuein = Object.values(this.obj.spec.selector).every(v => {
+            return Object.values(w.labels).indexOf(v) > -1
+          })
+
+          if (keyin && valuein) {
+            index = w.value
             return
           }
         }
