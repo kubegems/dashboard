@@ -14,7 +14,7 @@
             v-model="tab"
             class="pa-2"
             vertical
-            height="80px"
+            height="60px"
             @change="onTabChange"
           >
             <v-tab

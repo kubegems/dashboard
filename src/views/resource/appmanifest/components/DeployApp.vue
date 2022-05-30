@@ -108,7 +108,7 @@
         />
         <v-data-table
           disable-sort
-          class="mt-2"
+          class="mt-2 deploy__table"
           :headers="headers"
           :items="items"
           :items-per-page="500"
@@ -525,5 +525,9 @@ export default {
 }
 .tag__menu {
   min-height: 60px !important;
+}
+
+.deploy__table .v-data-table__wrapper {
+  max-height: 500px;
 }
 </style>

@@ -126,8 +126,7 @@
         @showContext="handleShowContext"
       />
     </v-card>
-
-    <v-btn
+    <!-- <v-btn
       fab
       color="primary"
       fixed
@@ -140,7 +139,7 @@
       @click="handleScrollTo"
     >
       <v-icon small>mdi-arrow-up-bold</v-icon>
-    </v-btn>
+    </v-btn> -->
 
     <LogContext
       ref="logContext"
@@ -517,13 +516,13 @@ export default {
       }, 5)
     },
 
-    handleScrollTo() {
-      const container = document.getElementById('log-viewer')
-      container.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-      })
-    },
+    // handleScrollTo() {
+    //   const container = document.getElementById('log-viewer')
+    //   container.scrollTo({
+    //     top: 0,
+    //     behavior: 'smooth',
+    //   })
+    // },
 
     handleSetCluster(cluster) {
       this.cluster = cluster
@@ -549,23 +548,23 @@ export default {
   }
 }
 
-#log-viewer {
-  height: 100vh;
-  overflow: auto;
+// #log-viewer {
+//   height: 100vh;
+//   overflow: auto;
 
-  &::-webkit-scrollbar {
-    display: block !important;
-  }
+//   &::-webkit-scrollbar {
+//     display: block !important;
+//   }
 
-  &::-webkit-scrollbar-thumb {
-    width: 10px;
-    border-radius: 5px;
-    background: grey;
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  }
+//   &::-webkit-scrollbar-thumb {
+//     width: 10px;
+//     border-radius: 5px;
+//     background: grey;
+//     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+//   }
 
-  &::-webkit-scrollbar:vertical {
-    width: 10px;
-  }
-}
+//   &::-webkit-scrollbar:vertical {
+//     width: 10px;
+//   }
+// }
 </style>

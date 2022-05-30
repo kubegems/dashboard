@@ -85,11 +85,11 @@ export default {
     }
   },
   computed: {
-    height() {
-      return window.innerHeight - 300
-    },
     ...mapState(['Scale']),
     ...mapGetters(['Tenant', 'Project', 'Environment']),
+    height() {
+      return window.innerHeight - parseInt(302 * this.Scale) - 13
+    },
   },
   watch: {
     tree: {

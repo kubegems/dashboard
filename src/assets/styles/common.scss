@@ -7,6 +7,15 @@
 /**
  * 公共全局样式
  */
+html {
+  overflow: -moz-scrollbars-none;
+  -ms-overflow-style: none;
+  scrollbar-width: 0 !important;
+}
+
+html::-webkit-scrollbar {
+  width: 0 !important;
+}
 
 .kubegems__full-right {
   position: absolute;
@@ -37,10 +46,6 @@
 
 .kubegems__clear-float {
   clear: both;
-}
-
-::-webkit-scrollbar {
-  display: none;
 }
 
 .kubegems__form-width {

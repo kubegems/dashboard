@@ -10,7 +10,7 @@
       nudge-bottom="15px"
       z-index="1000"
       :close-on-content-click="false"
-      max-width="300px"
+      max-width="200px"
       min-width="300px"
     >
       <template #activator="{ on }">

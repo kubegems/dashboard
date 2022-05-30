@@ -12,7 +12,7 @@
           transition="scale-transition"
           nudge-bottom="5px"
           content-class="tenant-header__bg"
-          max-height="300px"
+          max-width="220px"
         >
           <template #activator="{ on }">
             <v-btn
@@ -40,31 +40,36 @@
               </v-card>
             </template>
             <template #default="props">
-              <v-card v-for="item in props.items" :key="item.text" :loading="loadingPro">
-                <v-list dense>
+              <v-card v-for="item in props.items" 
+                :key="item.text" 
+                :loading="loadingPro"
+              >
+                <v-list dense class="pb-3">
                   <v-flex class="text-subtitle-2 text-center ma-2">
                     <span>项目</span>
                   </v-flex>
                   <v-divider class="mx-2"></v-divider>
-                  <v-list-item
-                    v-for="(project, index) in item.values"
-                    :key="index"
-                    class="text-body-2 text-center font-weight-medium px-2"
-                    link
-                    :style="
-                      project.text === Project().ProjectName
-                        ? `color: #1e88e5 !important;`
-                        : ``
-                    "
-                    @click="setProject(project)"
-                  >
-                    <v-list-item-content class="text-body-2 font-weight-medium text-start">
-                      <div>
-                        <v-icon left small color="primary">fas fa-cube</v-icon>
-                        {{ project.text }}
-                      </div>
-                    </v-list-item-content>
-                  </v-list-item>
+                  <div class="header__list">
+                    <v-list-item
+                      v-for="(project, index) in item.values"
+                      :key="index"
+                      class="text-body-2 text-center font-weight-medium px-2"
+                      link
+                      :style="
+                        project.text === Project().ProjectName
+                          ? `color: #1e88e5 !important;`
+                          : ``
+                      "
+                      @click="setProject(project)"
+                    >
+                      <v-list-item-content class="text-body-2 font-weight-medium text-start">
+                        <div class="kubegems__break-all">
+                          <v-icon left small color="primary">fas fa-cube</v-icon>
+                          {{ project.text }}
+                        </div>
+                      </v-list-item-content>
+                    </v-list-item>
+                  </div>
                 </v-list>
               </v-card>
             </template>
@@ -94,6 +99,7 @@
             nudge-bottom="5px"
             content-class="z-index-bg"
             max-height="300px"
+            max-width="220px"
           >
             <template #activator="{ on }">
               <v-btn
@@ -122,32 +128,34 @@
               </template>
               <template #default="props">
                 <v-card v-for="item in props.items" :key="item.text" :loading="loadingEnv">
-                  <v-list dense>
+                  <v-list dense class="pb-3">
                     <v-flex class="text-subtitle-2 text-center ma-2">
                       <span>环境</span>
                     </v-flex>
                     <v-divider class="mx-2"></v-divider>
-                    <v-list-item
-                      v-for="(environment, index) in item.values"
-                      :key="index"
-                      class="text-body-2 text-center font-weight-medium px-2"
-                      link
-                      :style="
-                        environment.text === Environment().EnvironmentName
-                          ? `color: #1e88e5 !important;`
-                          : ``
-                      "
-                      @click="setEnvironment(environment)"
-                    >
-                      <v-list-item-content
-                        class="text-body-2 font-weight-medium text-start"
+                    <div class="header__list">
+                      <v-list-item
+                        v-for="(environment, index) in item.values"
+                        :key="index"
+                        class="text-body-2 text-center font-weight-medium px-2"
+                        link
+                        :style="
+                          environment.text === Environment().EnvironmentName
+                            ? `color: #1e88e5 !important;`
+                            : ``
+                        "
+                        @click="setEnvironment(environment)"
                       >
-                        <div>
-                          <v-icon left small color="primary">fas fa-cloud</v-icon>
-                          {{ environment.text }}
-                        </div>
-                      </v-list-item-content>
-                    </v-list-item>
+                        <v-list-item-content
+                          class="text-body-2 font-weight-medium text-start"
+                        >
+                          <div class="kubegems__break-all">
+                            <v-icon left small color="primary">fas fa-cloud</v-icon>
+                            {{ environment.text }}
+                          </div>
+                        </v-list-item-content>
+                      </v-list-item>
+                    </div>
                   </v-list>
                 </v-card>
               </template>
@@ -290,5 +298,10 @@ export default {
 <style lang="scss" scoped>
 .tenant-header__bg {
   z-index: auto !important;
+}
+
+.header__list {
+  max-height: 250px;
+  overflow-y: auto;
 }
 </style>

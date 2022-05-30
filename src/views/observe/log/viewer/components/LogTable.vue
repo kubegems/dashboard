@@ -18,6 +18,7 @@
       :item-key="mode === 'context' ? 'info.timestamp' : 'info.index'"
       :no-data-text="mode === 'context' ? '' : '暂无数据'"
       loading-text="接收数据中..."
+      :height="height"
     >
       <template #[`item.info`]="{ item }">
         <div
@@ -79,6 +80,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'LogTable',
   props: {
@@ -114,6 +117,7 @@ export default {
     }
   },
   computed: {
+    ...mapState(['Scale']),
     headers () {
       if (this.mode === 'normal') {
         return [
@@ -125,6 +129,9 @@ export default {
           { text: '', value: 'info', align: 'start' },
         ]
       }
+    },
+    height() {
+      return parseInt((window.innerHeight - 320) / this.Scale)
     },
   },
   methods: {

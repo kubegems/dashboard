@@ -20,7 +20,7 @@
         </template>
       </BaseSubTitle>
 
-      <v-card-text class="pa-2">
+      <v-card-text class="pa-3">
         <v-data-table
           disable-sort
           :headers="headers"
@@ -149,7 +149,7 @@ export default {
       this.$router.push({
         name: 'microworkload-list',
         params: {
-          name: this.VirtualSpace().VirtualSpaceName,
+          virtualspace: this.VirtualSpace().VirtualSpaceName,
         },
       })
     },

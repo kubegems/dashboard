@@ -76,7 +76,7 @@
         class="float-right mx-2"
         color="primary"
         text
-        :loading="Circular"
+        :loading="publishLoading"
         @click="setAppHPAStrategyAndPublish"
       >
         确定并发布
@@ -85,7 +85,7 @@
         class="float-right"
         color="primary"
         text
-        :loading="Circular"
+        :loading="loading"
         @click="setAppHPAStrategy"
       >
         确定
@@ -95,8 +95,13 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
-import { postAppHPAStrategy, getAppRunningHPA, deleteHPAStrategy, postSyncAppResource } from '@/api'
+import { mapGetters } from 'vuex'
+import {
+  postAppHPAStrategy,
+  getAppRunningHPA,
+  deleteHPAStrategy,
+  postSyncAppResource,
+} from '@/api'
 import BaseResource from '@/mixins/resource'
 
 export default {
@@ -115,9 +120,10 @@ export default {
       memory: '',
       min_replicas: 0,
     },
+    loading: false,
+    publishLoading: false,
   }),
   computed: {
-    ...mapState(['Circular']),
     ...mapGetters(['Tenant', 'Project', 'Environment']),
     objRules() {
       return {
@@ -169,8 +175,16 @@ export default {
       this.dialog = true
     },
     async setAppHPAStrategyAndPublish() {
-      await this.setAppHPAStrategy()
+      this.publishLoading = true
+      await this._setAppHPAStrategy()
       await this.syncAppResource()
+      this.publishLoading = false
+      this.reset()
+    },
+    async setAppHPAStrategy() {
+      this.loading = true
+      await this._setAppHPAStrategy()
+      this.loading = false
       this.reset()
     },
     async syncAppResource() {
@@ -181,7 +195,7 @@ export default {
         this.$route.params.name,
       )
     },
-    async setAppHPAStrategy() {
+    async _setAppHPAStrategy() {
       if (this.$refs.form.validate(true)) {
         this.obj.cpu = this.obj.cpu !== '' ? parseInt(this.obj.cpu) : null
         this.obj.memory =

@@ -364,6 +364,7 @@ export default {
   },
 }
 </script>
+
 <style lang="scss">
 #main-sidebar {
   box-shadow: 1px 0 20px rgba(0, 0, 0, 0.08);
@@ -382,6 +383,13 @@ export default {
       width: 20px;
     }
   }
+  ::-webkit-scrollbar {
+    width: 0 !important;
+  }
+
+  overflow: -moz-scrollbars-none;
+  -ms-overflow-style: none;
+  scrollbar-width: 0 !important;
 }
 .v-menu-full-content {
   left: 0 !important;
