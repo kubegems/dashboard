@@ -54,27 +54,39 @@
 
     <v-row>
       <v-col cols="6">
-        <v-card class="mt-0">
+        <v-card
+          class="mt-0"
+        >
           <BaseSubTitle
             title="规则详情"
-            class="pl-4 py-2"
+            class="pa-2"
+            :divider="false"
           />
-          <v-card-text class="px-4">
+          <v-card-text
+            class="px-6 pt-0"
+            :style="{ overflowY: 'auto', height: '320px' }"
+          >
             <pre class="yaml-pre">{{ yaml }}</pre>
           </v-card-text>
         </v-card>
       </v-col>
       <v-col cols="6">
-        <v-card class="mt-0">
+        <v-card
+          class="mt-0"
+        >
           <BaseSubTitle
             title="告警趋势"
-            class="pl-4 py-2"
+            class="pa-2"
+            :divider="false"
           />
-          <v-card-text class="px-4">
+          <v-card-text
+            class="px-6 pt-0"
+            :style="{ height: '320px' }"
+          >
             <AlertBarChart
               :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
               :metrics="metrics"
-              :extend-height="300"
+              :extend-height="270"
               title="告警次数"
               label="name"
             />
@@ -83,11 +95,7 @@
       </v-col>
     </v-row>
     <v-card class="mt-3">
-      <BaseSubTitle
-        title="告警列表"
-        class="pl-4 py-2"
-      />
-      <v-card-text class="px-4">
+      <v-card-text class="px-4 py-3">
         <AlertList
           ref="alertList"
         />

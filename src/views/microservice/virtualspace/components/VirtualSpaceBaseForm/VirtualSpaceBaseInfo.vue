@@ -60,7 +60,10 @@ export default {
     ...mapState(['AdminViewport']),
     objRules() {
       return {
-        virtualSpaceNameRule: [required],
+        virtualSpaceNameRule: [
+          required,
+          (v) => !!(v && v.length <= 20) || '超出20字符限制',
+        ],
       }
     },
   },

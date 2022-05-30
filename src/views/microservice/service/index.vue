@@ -235,7 +235,7 @@
             nudge-bottom="-5px"
             :attach="`#v${item.name}`"
             open-on-hover
-            max-width="300px"
+            max-width="200px"
             :close-delay="200"
           >
             <template #activator="{ on }">

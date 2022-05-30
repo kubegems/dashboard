@@ -130,7 +130,10 @@
           </v-btn>
         </v-flex>
       </v-col>
-      <v-col cols="8">
+      <v-col
+        cols="8"
+        class="pr-6"
+      >
         <AppResourceFileHistory
           v-if="historyView"
           :app="app"
@@ -203,7 +206,7 @@ export default {
     ...mapState(['Scale']),
     ...mapGetters(['Project', 'Tenant', 'Environment']),
     height() {
-      return window.innerHeight - 320
+      return window.innerHeight - parseInt(302 * this.Scale) - 12
     },
     manifest() {
       if (this.items.length > 0) {

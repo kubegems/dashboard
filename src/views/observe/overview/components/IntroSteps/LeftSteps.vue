@@ -16,7 +16,7 @@
           edit-icon="mdi-check"
           complete-icon="mdi-check"
         >
-          {{ item.name }}
+          <span class="kubegems__detail">{{ item.name }}</span>
           <small
             class="mt-2"
             style="font-size: 1rem;"

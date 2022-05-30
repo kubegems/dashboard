@@ -52,7 +52,7 @@
           <div class="time-label">
             起止时间(格式：1、12、12:30、12:30:30、1230、123030)
           </div>
-          <v-divider class="mb-2" />
+          <v-divider class="mb-3" />
           <div class="d-flex align-center">
             <v-combobox
               v-model="time[0]"

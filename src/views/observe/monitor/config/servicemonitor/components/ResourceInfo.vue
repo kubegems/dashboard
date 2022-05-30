@@ -55,7 +55,7 @@
 
     <v-card class="mt-3">
       <BaseSubTitle
-        title="端点集"
+        title="端点"
         :divider="false"
         class="pt-2"
       />

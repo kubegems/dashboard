@@ -150,6 +150,7 @@ export default {
         environmentid: data.ID,
       })
       this.$refs.linkEnvironmentForm.expandCard()
+      this.expand = true
     },
     async removeEnvironment(index) {
       if (this.edit) {

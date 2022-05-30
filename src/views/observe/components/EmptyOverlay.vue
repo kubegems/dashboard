@@ -31,12 +31,12 @@ export default {
   align-items: center;
   justify-content: center;
   position: absolute;
-  top: 50px;
+  top: 45px;
   right: 0;
   bottom: 0;
   left: 0;
   z-index: 1;
-  background-color: rgba(#ffffff, 0.95);
+  background-color: rgba(#ffffff, 1);
   backdrop-filter: blur(2px);
   color: $primary;
   font-size: 1.2rem;

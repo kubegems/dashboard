@@ -1,5 +1,5 @@
 <template>
-  <div>收集日志指标</div>
+  <div class="kubegems__detail">收集日志指标</div>
 </template>
 
 <script>

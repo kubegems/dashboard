@@ -21,7 +21,9 @@
           vertical
           non-linear
         >
-          <template v-for="(stage, index) in stages">
+          <template
+            v-for="(stage, index) in stages"
+          >
             <v-stepper-step
               :key="`s${index}`"
               :complete="
@@ -168,7 +170,7 @@
       </v-flex>
       <v-flex
         v-else
-        class="grey lighten-4 rounded ma-2"
+        class="grey lighten-4 rounded ma-2 mt-3"
       >
         <v-list-item two-line>
           <v-list-item-content class="py-2">

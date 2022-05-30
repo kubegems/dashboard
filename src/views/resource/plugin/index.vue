@@ -90,9 +90,10 @@
                 </v-list-item-content>
               </v-list-item>
               <v-card-actions class="plugins-action-pos">
-                <v-list-item :id="plugin.name">
+                <v-list-item>
                   <v-list-item-content>
                     <v-list-item-subtitle class="text-body-2 text--lighten-4">
+                      <v-flex :id="`${plugin.name}-${index}`" />
                       版本：{{ plugin.version }}
                       <v-menu
                         v-if="
@@ -105,7 +106,7 @@
                         origin="bottom center"
                         transition="scale-transition"
                         nudge-bottom="-5px"
-                        :attach="`#${plugin.name}`"
+                        :attach="`#${plugin.name}-${index}`"
                         open-on-hover
                         :close-delay="200"
                         max-width="250px"
@@ -255,6 +256,7 @@ export default {
       return {
         'kubegems': this.apiVersion,
         'kubegems-local': this.apiVersion,
+        'kubegems-installer': this.apiVersion,
       }
     },
   },
