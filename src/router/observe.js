@@ -312,7 +312,7 @@ export const observe = [
             component: () => import('@/views/observe/monitor/config/prometheusrule/detail'),
             meta: {
               requireAuth: true,
-              title: '告警规则',
+              title: '指标告警规则',
               upToAdmin: true,
               icon: 'mdi-ruler',
               show: false,
@@ -372,7 +372,7 @@ export const observe = [
             component: () => import('@/views/observe/log/config/alert_rule/detail'),
             meta: {
               requireAuth: true,
-              title: '告警规则',
+              title: '日志告警规则',
               upToAdmin: true,
               icon: 'mdi-ruler',
               show: false,

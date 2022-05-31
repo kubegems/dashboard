@@ -6,7 +6,7 @@
     <ACEEditor
       v-model="kubeyaml"
       lang="yaml"
-      class="rounded"
+      class="rounded-0"
       :options="Object.assign($aceOptions, { readOnly: true, wrap: true })"
       theme="chrome"
       @init="$aceinit"
@@ -32,7 +32,7 @@ export default {
   computed: {
     ...mapState(['Scale']),
     height() {
-      return window.innerHeight - 64 * this.Scale - 1 - 40 * this.Scale
+      return window.innerHeight - 64 * this.Scale - 1 - 45 * this.Scale
     },
   },
   watch: {

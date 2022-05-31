@@ -5,6 +5,7 @@
     persistent
     scrollable
     height="100%"
+    :overlay-opacity="0.3"
   >
     <v-card>
       <v-sheet class="px-4 py-2 primary">

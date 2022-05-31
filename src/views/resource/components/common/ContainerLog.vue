@@ -112,7 +112,7 @@
         实时
         <v-switch
           v-model="stream"
-          class="pl-2 white--text float-right switch-mt"
+          class="pl-2 white--text float-right"
           color="white"
           hide-details
           dense
@@ -123,7 +123,7 @@
         折行
         <v-switch
           v-model="linenotbreak"
-          class="pl-2 white--text float-right switch-mt"
+          class="pl-2 white--text float-right"
           color="white"
           hide-details
           dense
@@ -407,10 +407,6 @@ export default {
 <style lang="scss" scoped>
 .v-input--selection-controls {
   margin-top: 0 !important;
-}
-
-.switch-mt {
-  margin-top: 2px !important;
 }
 </style>
 

@@ -1,5 +1,5 @@
 <template>
-  <v-overlay :value="Progress && !DialogActive && !PanelActive && !FullDialogActive">
+  <v-overlay :opacity="0.3" :value="Progress && !DialogActive && !PanelActive && !FullDialogActive">
     <!-- <v-progress-circular indeterminate size="64" :width="5"></v-progress-circular> -->
     <v-card class="progress__light" width="130px" height="100px">
       <v-card-text>

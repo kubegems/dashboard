@@ -9,6 +9,7 @@
     height="100%"
     class="rounded-0"
     id="panel"
+    :overlay-opacity="0.3"
   >
     <v-flex class="px-4 py-4 primary white--text panel__header">
       <v-flex class="float-left white--text">

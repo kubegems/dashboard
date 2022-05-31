@@ -8,7 +8,7 @@
 
     <template v-if="$route.query.type === 'Service'">
       <ServiceInfo
-        class="px-2 pb-2"
+        class="pb-2"
         :item="item"
       />
     </template>

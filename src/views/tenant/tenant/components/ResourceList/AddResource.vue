@@ -41,11 +41,15 @@
               </v-autocomplete>
             </v-col>
           </v-row>
-          <ResourceChart :quota="quota" />
+          <ResourceChart
+            :quota="quota"
+            :nvidia="nvidia"
+            :tke="tke"
+          />
         </v-card-text>
 
-        <BaseSubTitle title="资源限制值" />
-        <v-card-text class="px-0 pb-0">
+        <BaseSubTitle title="资源限制" />
+        <v-card-text class="px-0 pb-2">
           <v-row class="mx-0">
             <v-col
               cols="4"
@@ -113,6 +117,81 @@
             </v-col>
           </v-row>
         </v-card-text>
+
+        <template v-if="nvidia || tke">
+          <BaseSubTitle title="GPU资源限制" />
+          <v-card-text class="px-0 pb-2">
+            <v-row class="mx-0">
+              <v-col
+                v-if="nvidia"
+                cols="4"
+                class="px-0 py-0"
+              >
+                <v-sheet class="px-2">
+                  <v-flex class="text-subtitle-1">
+                    可用nvidia CPU
+                    <span class="text-subtitle-2 primary--text">
+                      {{ quota ? quota.AllocatedCpu.toFixed(1) : 0 }} core
+                    </span>
+                  </v-flex>
+                  <v-text-field
+                    v-model="obj.Content['nvidia.com/gpu']"
+                    class="my-0"
+                    required
+                    label="nvidia GPU扩容后限制值"
+                    suffix="core"
+                    :rules="objRules.cpuRules"
+                  />
+                </v-sheet>
+              </v-col>
+              <template v-if="tke">
+                <v-col
+                  cols="4"
+                  class="pa-0"
+                >
+                  <v-sheet class="px-2">
+                    <v-flex class="text-subtitle-1">
+                      可用tke vcuda
+                      <span class="text-subtitle-2 primary--text">
+                        {{ quota ? quota.AllocatedMemory.toFixed(1) : 0 }} core
+                      </span>
+                    </v-flex>
+                    <v-text-field
+                      v-model="obj.Content['tencent.com/vcuda-core']"
+                      class="my-0"
+                      required
+                      label="tke vcuda扩容后限制值"
+                      suffix="core"
+                      :rules="objRules.memoryRules"
+                    />
+                  </v-sheet>
+                </v-col>
+                <v-col
+                  cols="4"
+                  class="px-0 py-0"
+                >
+                  <v-sheet class="px-2">
+                    <v-flex class="text-subtitle-1">
+                      可用tke显存
+                      <span class="text-subtitle-2 primary--text">
+                        {{ quota ? quota.AllocatedStorage.toFixed(1) : 0 }}
+                        Gi
+                      </span>
+                    </v-flex>
+                    <v-text-field
+                      v-model="obj.Content[`tencent.com/vcuda-memory`]"
+                      class="my-0"
+                      required
+                      label="tke显存扩容后限制值"
+                      suffix="Gi"
+                      :rules="objRules.storageRules"
+                    />
+                  </v-sheet>
+                </v-col>
+              </template>
+            </v-row>
+          </v-card-text>
+        </template>
       </v-form>
     </template>
     <template #action>
@@ -131,7 +210,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { postAddTenantResourceQuota } from '@/api'
+import { postAddTenantResourceQuota, getClusterPluginsList } from '@/api'
 import ResourceChart from './ResourceChart'
 import BaseSelect from '@/mixins/select'
 import BaseResource from '@/mixins/resource'
@@ -162,8 +241,13 @@ export default {
         'limits.cpu': '',
         'limits.memory': '',
         'requests.storage': '',
+        // 'nvidia.com/gpu': '',
+        // 'tencent.com/vcuda-core': '',
+        // 'tencent.com/vcuda-memory': '',
       },
     },
+    nvidia: false,
+    tke: false,
   }),
   computed: {
     ...mapState(['Circular']),
@@ -203,7 +287,7 @@ export default {
       if (this.$refs.form.validate(true)) {
         const data = deepCopy(this.obj)
         if (
-          this.clusters.find((c) => {
+          this.clusters.some((c) => {
             return c.ClusterID === data.ClusterID
           })
         ) {
@@ -234,6 +318,10 @@ export default {
           NowMemory: 0,
           NowStorage: 0,
         })
+        const cluster = this.m_select_clusterItems.find(c => { return c.value === this.obj.ClusterID })
+        if (cluster) {
+          this.loadPlugins(cluster.text)
+        }
       }
     },
     reset() {
@@ -243,6 +331,14 @@ export default {
     },
     onClusterSelectFocus() {
       this.m_select_clusterSelectData(null, false)
+    },
+    async loadPlugins(cluster) {
+      const data = await getClusterPluginsList(cluster, {
+        simple: true,
+        noprocessing: true,
+      })
+      this.nvidia = data['gpu'] || false
+      this.tke = data['tke'] || false
     },
   },
 }

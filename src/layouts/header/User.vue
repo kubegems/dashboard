@@ -85,7 +85,7 @@
         </v-list-item-content>
       </v-list-item>
       <v-divider class="mb-2" />
-      <v-list class="pt-0">
+      <v-list class="pt-0 px-2">
         <v-list-item @click="showTenantSelect">
           <v-list-item-avatar
             height="25"

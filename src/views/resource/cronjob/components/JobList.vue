@@ -9,7 +9,6 @@
         :items-per-page="params.size"
         no-data-text="暂无数据"
         hide-default-footer
-        class="pt-4"
       >
         <template #[`item.name`]="{ item }">
           {{ item.metadata.name }}
