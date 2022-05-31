@@ -12,7 +12,7 @@
         <ResourceChart :quota="quota" />
       </v-card-text>
 
-      <BaseSubTitle title="资源调整目标值" />
+      <BaseSubTitle title="资源限制调整" />
       <v-form
         ref="form"
         v-model="valid"

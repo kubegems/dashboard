@@ -448,7 +448,7 @@ export default {
 .org-chart-node-label-inner {
   height: 80px !important;
   padding: 5px 8px !important;
-  border-radius: 3px;
+  border-radius: 8px;
   box-shadow: 0 0 1px 0 rgb(27 19 19 / 10%);
 }
 .resource {

@@ -3,6 +3,7 @@
     <v-card-text>
       <BaseSubTitle
         title="资源分配"
+        :pl="0"
         :divider="false"
       >
         <template #header>

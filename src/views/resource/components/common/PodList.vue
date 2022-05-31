@@ -315,7 +315,7 @@ export default {
   methods: {
     async podList() {
       const data = await getPodList(
-        this.ThisCluster,
+        this.$route.query.cluster || this.ThisCluster,
         this.$route.query.namespace || '_all',
         Object.assign(
           this.selector,
@@ -372,7 +372,7 @@ export default {
               })
               .join('|'),
           )
-        const data = await this.m_permission_matrix(this.ThisCluster, {
+        const data = await this.m_permission_matrix(this.$route.query.cluster || this.ThisCluster, {
           query: query,
           start: this.$moment(
             new Date(new Date().setMinutes(new Date().getMinutes() - 15)),
@@ -432,7 +432,7 @@ export default {
               })
               .join('|'),
           )
-        const data = await this.m_permission_matrix(this.ThisCluster, {
+        const data = await this.m_permission_matrix(this.$route.query.cluster || this.ThisCluster, {
           query: query,
           start: this.$moment(
             new Date(new Date().setMinutes(new Date().getMinutes() - 15)),

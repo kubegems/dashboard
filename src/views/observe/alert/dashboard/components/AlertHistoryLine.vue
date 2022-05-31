@@ -97,6 +97,7 @@ export default {
         tooltip: {
           enabled: false,
         },
+        tickAmount: 10,
       },
       tooltip: {
         theme: 'dark',

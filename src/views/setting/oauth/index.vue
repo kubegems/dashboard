@@ -7,6 +7,7 @@
         v-for="(item, index) in items"
         :key="index"
         cols="12"
+        class="pt-0 pb-3"
       >
         <v-hover
           #default="{ hover }"

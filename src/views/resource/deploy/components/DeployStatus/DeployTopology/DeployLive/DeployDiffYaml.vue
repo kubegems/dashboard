@@ -31,7 +31,7 @@ export default {
   computed: {
     ...mapState(['Scale']),
     height() {
-      return window.innerHeight - 64 * this.Scale - 1 - 40 * this.Scale
+      return window.innerHeight - 64 * this.Scale - 1 - 45 * this.Scale
     },
   },
   watch: {

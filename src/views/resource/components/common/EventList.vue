@@ -124,7 +124,7 @@ export default {
   methods: {
     async eventList() {
       const data = await getEventList(
-        this.ThisCluster,
+        this.$route.query.cluster || this.ThisCluster,
         this.$route.query.namespace || '_all',
         Object.assign(this.selector, this.params),
       )

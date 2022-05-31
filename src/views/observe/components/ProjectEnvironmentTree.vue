@@ -182,6 +182,6 @@ export default {
 <style lang="scss" scoped>
 .search {
   padding-top: 6px;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 }
 </style>
