@@ -335,12 +335,12 @@ export default {
     },
     gpuTkeSeries() {
       return this.totalRequests['tencent.com/vcuda-core'] &&
-        this.totalLimits['tencent.com/vcuda-core']
+        this.item.status.capacity['tencent.com/vcuda-core']
         ? [
-            parseInt(this.totalLimits['tencent.com/vcuda-core']) === 0
+            parseInt(this.item.status.capacity['tencent.com/vcuda-core']) === 0
               ? 0
               : (parseInt(this.totalRequests['tencent.com/vcuda-core']) /
-                  parseInt(this.totalLimits['tencent.com/vcuda-core'])) *
+                  parseInt(this.item.status.capacity['tencent.com/vcuda-core'])) *
                 100,
           ]
         : [0]
@@ -350,7 +350,7 @@ export default {
         'TKE vcuda',
         ['TKE vcuda'],
         this.totalRequests['tencent.com/vcuda-core']
-          ? parseInt(this.totalLimits['tencent.com/vcuda-core'])
+          ? parseInt(this.item.status.capacity['tencent.com/vcuda-core'])
           : 0,
         '',
       )
@@ -379,12 +379,12 @@ export default {
     },
     gpuTkeMemorySeries() {
       return this.totalRequests['tencent.com/vcuda-memory'] &&
-        this.totalLimits['tencent.com/vcuda-memory']
+        this.item.status.capacity['tencent.com/vcuda-memory']
         ? [
-            parseInt(this.totalLimits['tencent.com/vcuda-memory']) === 0
+            parseInt(this.item.status.capacity['tencent.com/vcuda-memory']) === 0
               ? 0
               : (parseInt(this.totalRequests['tencent.com/vcuda-memory']) /
-                  parseInt(this.totalLimits['tencent.com/vcuda-memory'])) *
+                  parseInt(this.item.status.capacity['tencent.com/vcuda-memory'])) *
                 100,
           ]
         : [0]
@@ -394,7 +394,7 @@ export default {
         'TKE显存',
         ['TKE显存'],
         this.totalRequests['tencent.com/vcuda-memory']
-          ? parseInt(this.totalLimits['tencent.com/vcuda-memory'])
+          ? parseInt(this.item.status.capacity['tencent.com/vcuda-memory'])
           : 0,
         '',
       )

@@ -5,11 +5,12 @@
       :key="item.key"
       top
       open-on-hover
-      nudge-top="32px"
+      nudge-top="22px"
     >
       <template #activator="{ on }">
-        <v-chip
-          small
+        <v-btn
+          depressed
+          x-small
           label
           :color="setColor(item.status)"
           :class="{ 'ml-2': i > 0, 'kubegems__detail': !item.status }"
@@ -17,7 +18,7 @@
           v-on="on"
         >
           {{ item.name }}
-        </v-chip>
+        </v-btn>
       </template>
       <v-card>
         <v-card-text class="pa-2">

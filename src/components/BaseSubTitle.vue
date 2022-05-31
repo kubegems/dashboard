@@ -6,7 +6,7 @@
     <span
       :class="`float-left subtitle font-weight-regular ${
         color === 'primary' ? 'white--text' : 'blue-grey--text text--darken-2'
-      } ${ divider || 'pl-2' }`"
+      } ${ divider || `pl-${pl}` }`"
       style="line-height: 28px;"
     >
       {{ title }}
@@ -48,6 +48,10 @@ export default {
       type: String,
       default: () => '',
     },
+    pl: {
+      type: Number,
+      default: () => 2,
+    }
   },
 }
 </script>

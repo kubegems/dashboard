@@ -51,35 +51,58 @@
         </v-flex>
       </template>
     </BaseBreadcrumb>
-    <v-card class="mt-0">
-      <v-card-text>
-        <v-row>
-          <v-col cols="6">
-            <BaseSubTitle title="规则详情" />
-            <v-card-text>
-              <pre class="yaml-pre">{{ yaml }}</pre>
-            </v-card-text>
-          </v-col>
-          <v-col cols="6">
-            <BaseSubTitle title="告警趋势" />
-            <v-card-text class="pa-0">
-              <AlertBarChart
-                :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-                :metrics="metrics"
-                :extend-height="300"
-                title="告警次数"
-                label="name"
-              />
-            </v-card-text>
-          </v-col>
-        </v-row>
-        <BaseSubTitle title="告警列表" />
+
+    <v-row>
+      <v-col cols="6">
+        <v-card
+          class="mt-0"
+        >
+          <BaseSubTitle
+            title="规则详情"
+            class="pa-2"
+            :divider="false"
+          />
+          <v-card-text
+            class="px-6 pt-0"
+            :style="{ overflowY: 'auto', height: '320px' }"
+          >
+            <pre class="yaml-pre">{{ yaml }}</pre>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col cols="6">
+        <v-card
+          class="mt-0"
+        >
+          <BaseSubTitle
+            title="告警趋势"
+            class="pa-2"
+            :divider="false"
+          />
+          <v-card-text
+            class="px-6 pt-0"
+            :style="{ height: '320px' }"
+          >
+            <AlertBarChart
+              :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
+              :metrics="metrics"
+              :extend-height="270"
+              title="告警次数"
+              label="name"
+            />
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-card class="mt-3">
+      <v-card-text class="px-4 py-3">
         <AlertList
           ref="alertList"
           mode="logging"
         />
       </v-card-text>
     </v-card>
+
     <UpdateAlertRule
       ref="updateAlertRule"
       mode="logging"

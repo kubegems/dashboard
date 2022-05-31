@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card>
+    <v-card class="px-2">
       <BaseListItemForDetail
         title="标签"
         :mt="0"

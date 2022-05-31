@@ -12,7 +12,7 @@
       </span>
     </template>
     <template #content>
-      <v-card-text class="mt-1 pa-2">
+      <v-card-text class="mt-1 py-0 px-2">
         <v-data-table
           disable-sort
           :headers="headers"
@@ -61,16 +61,6 @@
             </v-icon>
           </template>
         </v-data-table>
-        <BasePagination
-          v-if="pageCount >= 1"
-          v-model="params.page"
-          :page-count="pageCount"
-          :size="params.size"
-          :show-size="false"
-          @loaddata="deployEnvironmentAppImageTrace"
-          @changesize="onPageSizeChange"
-          @changepage="onPageIndexChange"
-        />
       </v-card-text>
     </template>
   </BasePanel>
@@ -100,14 +90,14 @@ export default {
     pageCount: 0,
     params: {
       page: 1,
-      size: 10,
+      size: 1000,
     },
   }),
   computed: {
     ...mapState(['Scale']),
     ...mapGetters(['Tenant', 'Project', 'Environment']),
     height() {
-      return window.innerHeight - 64 * this.Scale - 1
+      return parseInt((window.innerHeight - 64) / this.Scale)
     },
   },
   methods: {
@@ -137,13 +127,6 @@ export default {
     },
     dispose() {
       this.items = []
-    },
-    onPageSizeChange(size) {
-      this.params.page = 1
-      this.params.size = size
-    },
-    onPageIndexChange(page) {
-      this.params.page = page
     },
   },
 }

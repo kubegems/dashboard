@@ -3,6 +3,7 @@
     <v-card-text>
       <BaseSubTitle
         title="租户成员"
+        :pl="0"
         :divider="false"
       >
         <template #header>

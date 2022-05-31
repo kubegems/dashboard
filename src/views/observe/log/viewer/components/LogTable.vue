@@ -18,7 +18,8 @@
       :item-key="mode === 'context' ? 'info.timestamp' : 'info.index'"
       :no-data-text="mode === 'context' ? '' : '暂无数据'"
       loading-text="接收数据中..."
-      :height="height"
+      :class="mode === 'context' ? 'log-table__data' : ''"
+      :style="{ maxHeight: `${height}px`, overflowY: 'auto' }"
     >
       <template #[`item.info`]="{ item }">
         <div
@@ -234,6 +235,11 @@ export default {
   &__highlight {
     color: #1976d2;
     font-weight: 600;
+  }
+
+  &__data {
+    max-height: none !important;
+    overflow-y: auto !important;
   }
 }
 </style>
