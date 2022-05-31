@@ -205,9 +205,10 @@ export default {
     ...mapGetters(['Tenant', 'Project']),
   },
   methods: {
-    logout() {
+    async logout() {
       this.$store.commit('CLEARALL')
-      this.$router.push({ name: 'login' })
+      await this.$router.push({ name: 'login' })
+      this.$store.commit('SET_VERSION', process.env.VUE_APP_RELEASE)
     },
     showAbout() {
       this.$refs.about.init()

@@ -1,6 +1,6 @@
 <template>
   <div class="pass">
-    <template v-if="!pluginPass($route.meta.dependencies)">
+    <template v-if="!pluginPass">
       <div class="container container--fluid">
         <BaseBreadcrumb  />
       </div>
@@ -13,7 +13,7 @@
             <div class="d-flex align-center pa-10">
               <div class="text-center">
                 <h2 class="text-h5 primary--text font-weight-medium">
-                  您暂时还未启用 {{ $route.meta.dependencies.join(', ') }} 插件！
+                  您暂时还未启用 {{ noPermisionPlugins.join(', ') }} 插件！
                 </h2>
                 <h6
                   class="
@@ -41,6 +41,11 @@ import { mapState } from 'vuex'
 
 export default {
   name: 'BasePluginPass',
+  data () {
+    return {
+      noPermisionPlugins: [],
+    }
+  },
   computed: {
     ...mapState(['Plugins']),
     breadcrumb() {
@@ -50,13 +55,14 @@ export default {
         icon: this.$route.meta.icon,
       }
     },
-  },
-  methods: {
-    pluginPass(dependencies) {
+    pluginPass() {
       let pass = true
+      this.noPermisionPlugins = []
+      const dependencies = this.$route.meta.dependencies
       if (dependencies === undefined) return pass
       dependencies.forEach(d => {
         if (!this.Plugins[d]) {
+          this.noPermisionPlugins.push(d)
           pass = false
           return
         }
