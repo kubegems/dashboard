@@ -427,7 +427,7 @@ export default {
 }
 .messagetip {
   position: absolute;
-  top: 0;
+  top: 10px;
   left: 100px;
   display: none !important;
   z-index: 15;

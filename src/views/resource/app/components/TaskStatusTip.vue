@@ -56,22 +56,22 @@
           > 执行失败 </span>
         </template>
         <v-card flat>
+          <v-flex
+            class="text-body-2 text-center primary white--text py-2"
+          >
+            <v-icon
+              color="white"
+              left
+              small
+            >
+              mdi-alert
+            </v-icon>
+            <span>错误信息</span>
+          </v-flex>
           <v-list
             dense
-            class="pa-0"
+            class="pa-0 kubegems__tip"
           >
-            <v-flex
-              class="text-body-2 text-center primary white--text py-2"
-            >
-              <v-icon
-                color="white"
-                left
-                small
-              >
-                mdi-alert
-              </v-icon>
-              <span>错误信息</span>
-            </v-flex>
             <v-list-item>
               <v-list-item-content>
                 <v-list-item
