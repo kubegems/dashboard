@@ -5,7 +5,6 @@
     left
     transition="scale-transition"
     max-width="200px"
-    max-height="300px"
     :close-on-content-click="false"
     nudge-bottom="5px"
     :top="top"
@@ -27,21 +26,23 @@
       flat
       :loading="eventLoad"
     >
+      <v-flex class="text-body-2 text-center primary white--text py-2">
+        <v-icon
+          color="white"
+          left
+          small
+        >
+          mdi-bell-ring
+        </v-icon>
+        <span>事件</span>
+      </v-flex>
       <v-list
         dense
-        class="pa-0"
+        class="pa-0 kubegems__tip"
       >
-        <v-flex class="text-body-2 text-center primary white--text py-2">
-          <v-icon
-            color="white"
-            left
-            small
-          >
-            mdi-bell-ring
-          </v-icon>
-          <span>事件</span>
-        </v-flex>
-        <v-list-item v-if="events.length > 0">
+        <v-list-item
+          v-if="events.length > 0"
+        >
           <v-list-item-content>
             <v-list-item
               two-line
@@ -137,7 +138,7 @@ export default {
             ),
           )
         }
-        if (data && data.liveState && data.liveState.status.resources) {
+        if (data?.liveState?.status?.resources) {
           this.events = this.events.concat(
             data.liveState.status.resources
               .map((r) => {
@@ -150,6 +151,13 @@ export default {
                 return r.health && r.health.status !== 'Healthy'
               }),
           )
+        }
+        if (data?.liveState?.status?.operationState) {
+          this.events = this.events.concat([
+            {
+              message: data?.liveState?.status?.operationState?.message,
+            },
+          ])
         }
         this.eventLoad = false
         clearTimeout(this.timeout)

@@ -70,7 +70,7 @@
         cols="2"
         class="pt-0"
       >
-        <v-card height="100%">
+        <v-card>
           <v-card-title class="text-h6 primary--text">
             {{ tenant ? tenant.TenantName : '' }}
           </v-card-title>

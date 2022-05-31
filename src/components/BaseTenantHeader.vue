@@ -13,6 +13,7 @@
           nudge-bottom="5px"
           content-class="tenant-header__bg"
           max-width="220px"
+          min-width="120px"
         >
           <template #activator="{ on }">
             <v-btn
@@ -49,7 +50,7 @@
                     <span>项目</span>
                   </v-flex>
                   <v-divider class="mx-2"></v-divider>
-                  <div class="header__list">
+                  <div class="header__list px-2">
                     <v-list-item
                       v-for="(project, index) in item.values"
                       :key="index"
@@ -100,6 +101,7 @@
             content-class="z-index-bg"
             max-height="300px"
             max-width="220px"
+            min-width="120px"
           >
             <template #activator="{ on }">
               <v-btn
@@ -133,7 +135,7 @@
                       <span>环境</span>
                     </v-flex>
                     <v-divider class="mx-2"></v-divider>
-                    <div class="header__list">
+                    <div class="header__list px-2">
                       <v-list-item
                         v-for="(environment, index) in item.values"
                         :key="index"

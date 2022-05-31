@@ -221,3 +221,8 @@ $i: 24;
 .kubegems__table-row-pointer tbody tr {
   cursor: pointer;
 }
+
+.kubegems__tip {
+  max-height: 300px;
+  overflow-y: auto;
+}

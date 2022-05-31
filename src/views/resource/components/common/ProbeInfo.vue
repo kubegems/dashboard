@@ -3,7 +3,6 @@
     <v-menu
       open-on-hover
       bottom
-      max-height="320px"
       max-width="200px"
       offset-y
       origin="top center"
@@ -24,20 +23,20 @@
         </span>
       </template>
       <v-card flat>
+        <v-flex class="text-body-2 text-center primary white--text py-2">
+          <v-icon
+            color="white"
+            left
+            small
+          >
+            mdi-eyedropper
+          </v-icon>
+          <span>{{ title }}</span>
+        </v-flex>
         <v-list
           dense
-          class="pa-0"
+          class="pa-0 kubegems__tip"
         >
-          <v-flex class="text-body-2 text-center primary white--text py-2">
-            <v-icon
-              color="white"
-              left
-              small
-            >
-              mdi-eyedropper
-            </v-icon>
-            <span>{{ title }}</span>
-          </v-flex>
           <v-list-item>
             <v-list-item-content>
               <template v-if="item.httpGet">

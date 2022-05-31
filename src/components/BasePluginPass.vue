@@ -6,9 +6,9 @@
       </div>
       <v-card
         class="mx-3"
-        height="400px"
+        :height="`${height}px`"
       >
-        <v-row class="pass__row">
+        <v-row :style="{ height: `${height}px` }">
           <v-col class="d-flex align-center justify-center">
             <div class="d-flex align-center pa-10">
               <div class="text-center">
@@ -47,7 +47,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['Plugins']),
+    ...mapState(['Plugins', 'Scale']),
     breadcrumb() {
       return {
         title: this.$route.meta.title,
@@ -69,6 +69,9 @@ export default {
       })
       return pass
     },
+    height() {
+      return parseInt((window.innerHeight - 128) / this.Scale) - 24
+    },
   },
 }
 </script>
@@ -76,9 +79,5 @@ export default {
 <style lang="scss" scoped>
 .pass {
   position: relative;
-
-  &__row {
-    height: 400px;
-  }
 }
 </style>

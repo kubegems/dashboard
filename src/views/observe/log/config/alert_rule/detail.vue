@@ -64,7 +64,7 @@
           />
           <v-card-text
             class="px-6 pt-0"
-            :style="{ overflowY: 'auto', height: '320px' }"
+            :style="{ overflowY: 'auto', height: '330px' }"
           >
             <pre class="yaml-pre">{{ yaml }}</pre>
           </v-card-text>
@@ -81,12 +81,12 @@
           />
           <v-card-text
             class="px-6 pt-0"
-            :style="{ height: '320px' }"
+            :style="{ height: '330px' }"
           >
             <AlertBarChart
               :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
               :metrics="metrics"
-              :extend-height="270"
+              :extend-height="280"
               title="告警次数"
               label="name"
             />

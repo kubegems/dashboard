@@ -47,6 +47,7 @@
             <v-card
               v-for="item in props.items"
               :key="item.text"
+              min-width="120"
             >
               <v-list dense>
                 <v-flex class="text-subtitle-2 text-center ma-2">
@@ -56,7 +57,7 @@
                 <v-list-item
                   v-for="(ten, index) in item.values"
                   :key="index"
-                  class="text-body-2 text-center font-weight-medium kubegems__detail"
+                  class="text-body-2 text-center font-weight-medium kubegems__detail mx-2"
                   link
                   :style="
                     ten.text === tenant.TenantName
