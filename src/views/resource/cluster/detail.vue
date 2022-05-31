@@ -88,6 +88,7 @@
           :cluster="cluster"
         />
       </v-col>
+
       <v-col
         cols="12"
         lg="8"
@@ -95,6 +96,7 @@
       >
         <MetricMonitor :params="params" />
       </v-col>
+
       <v-col
         v-for="(key, index) in resources"
         :key="index"
@@ -102,13 +104,13 @@
         class="down-top-padding pt-1 pb-2"
       >
         <v-card>
-          <v-card-text class="pa-5">
+          <v-card-text class="py-5 pl-8">
             <div class="d-flex align-center">
               <Icon
                 :icon="$RESOURCE_ICON[key]"
                 class="mr-6 primary--text icon--large"
               />
-              <div class="ml-4 mr-1">
+              <div class="ml-2 mr-1">
                 <h2 class="text-h5">
                   {{ workload[key] }}
                 </h2>
@@ -284,7 +286,6 @@ export default {
   }
 }
 .cluster__resource__div {
-  min-height: 44px;
   max-height: 44px;
   overflow: scroll;
 }

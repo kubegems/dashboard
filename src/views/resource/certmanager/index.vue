@@ -11,7 +11,6 @@
         />
         <NamespaceFilter />
         <v-spacer />
-        <v-spacer />
         <v-menu
           v-if="m_permisson_resourceAllow"
           left

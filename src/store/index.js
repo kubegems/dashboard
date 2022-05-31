@@ -31,6 +31,7 @@ const LatestProject = 'latestproject'
 const LatestEnvironment = 'latestenvironment'
 const LatestCluster = 'latestcluster'
 const Store = 'store'
+const Version = 'version'
 
 export default new Vuex.Store({
   state: {
@@ -91,6 +92,7 @@ export default new Vuex.Store({
     DialogActive: false,
     PanelActive: false,
     FullDialogActive: false,
+    Version: window.localStorage.getItem(Version) || '',
   },
   mutations: {
     SET_PLUGINS(state, payload) {
@@ -99,6 +101,10 @@ export default new Vuex.Store({
     },
     SET_DIALOG(state, payload) {
       state.DialogActive = payload
+    },
+    SET_VERSION(state, payload) {
+      state.Version = payload
+      window.localStorage.setItem(Version, payload)
     },
     SET_PANEL(state, payload) {
       state.PanelActive = payload
