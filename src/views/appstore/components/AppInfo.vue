@@ -68,10 +68,14 @@
                       :key="item.text"
                       dense
                     >
+                      <v-flex class="text-subtitle-2 text-center ma-2">
+                        <span>版本</span>
+                      </v-flex>
+                      <v-divider class="mx-2" />
                       <v-list-item
                         v-for="(version, index) in item.values"
                         :key="index"
-                        class="text-body-2 text-center font-weight-medium"
+                        class="text-body-2 text-center font-weight-medium mx-2"
                         link
                         :style="
                           version === selectVersionBind

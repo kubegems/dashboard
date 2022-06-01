@@ -58,10 +58,14 @@
                   :key="item.text"
                 >
                   <v-list dense>
+                    <v-flex class="text-subtitle-2 text-center ma-2">
+                      <span>资源使用</span>
+                    </v-flex>
+                    <v-divider class="mx-2" />
                     <v-list-item
                       v-for="(select, index) in item.values"
                       :key="index"
-                      class="text-body-2 text-center"
+                      class="text-body-2 text-center mx-2"
                       link
                       :style="
                         select.value === podUsageMode

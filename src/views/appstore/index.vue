@@ -50,12 +50,17 @@
                   <v-card
                     v-for="item in props.items"
                     :key="item.text"
+                    min-height="100"
                   >
                     <v-list dense>
+                      <v-flex class="text-subtitle-2 text-center ma-2">
+                        <span>仓库</span>
+                      </v-flex>
+                      <v-divider class="mx-2" />
                       <v-list-item
                         v-for="(repo, index) in item.values"
                         :key="index"
-                        class="text-body-2 text-center font-weight-medium"
+                        class="text-body-2 text-center font-weight-medium mx-2"
                         link
                         :style="
                           repo === selectRepo

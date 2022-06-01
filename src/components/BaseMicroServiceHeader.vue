@@ -14,6 +14,7 @@
           content-class="micro-service-header__bg"
           max-height="300px"
           max-width="220px"
+          min-width="120px"
         >
           <template #activator="{ on }">
             <v-btn
@@ -47,7 +48,7 @@
                     <span>虚拟空间</span>
                   </v-flex>
                   <v-divider class="mx-2"></v-divider>
-                  <div class="header__list">
+                  <div class="header__list px-2">
                     <v-list-item
                       v-for="(virtualspace, index) in item.values"
                       :key="index"

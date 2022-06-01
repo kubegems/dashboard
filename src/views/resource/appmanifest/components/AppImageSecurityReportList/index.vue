@@ -19,7 +19,7 @@
           origin="top left"
           transition="scale-transition"
           nudge-bottom="5px"
-          max-width="150"
+          max-width="200"
           :close-delay="200"
         >
           <template #activator="{ on }">
@@ -64,20 +64,20 @@
             flat
             width="100%"
           >
+            <v-flex class="text-body-2 text-center primary white--text py-2">
+              <v-icon
+                color="white"
+                left
+                small
+              >
+                mdi-chart-bar
+              </v-icon>
+              <span>漏洞统计</span>
+            </v-flex>
             <v-list
               dense
-              class="pa-0"
+              class="pa-0 kubegems__tip"
             >
-              <v-flex class="text-body-2 text-center primary white--text py-2">
-                <v-icon
-                  color="white"
-                  left
-                  small
-                >
-                  mdi-chart-bar
-                </v-icon>
-                <span>漏洞统计</span>
-              </v-flex>
               <v-list-item>
                 <v-list-item-content>
                   <v-list-item
