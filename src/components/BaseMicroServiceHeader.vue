@@ -99,7 +99,7 @@
       <v-spacer />
 
       <v-sheet>
-        <span class="text-body-2 kubegems__role">
+        <span class="text-body-2 kubegems__text">
           虚拟空间角色:
           {{
             $VIRTUALSPACE_ROLE[m_permisson_virtualSpaceRole]

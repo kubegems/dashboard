@@ -104,7 +104,7 @@
                 :key="`webhook${index}`"
                 class="text-body-2 break-word my-1"
               >
-                <div class="text-subtitle-2 kubegems__detail">
+                <div class="text-subtitle-2 kubegems__text">
                   {{ `Webhook${index + 1}: ` }}
                 </div>
                 <a class="ml-2">{{ webhook.url }}</a>
@@ -115,7 +115,7 @@
                 :key="`email${index}`"
                 class="text-body-2 break-word my-1"
               >
-                <div class="text-subtitle-2 kubegems__detail">
+                <div class="text-subtitle-2 kubegems__text">
                   {{ `邮箱${index + 1}: ` }}
                 </div>
                 <v-flex class="ml-2">

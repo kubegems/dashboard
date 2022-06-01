@@ -87,7 +87,7 @@
                     <v-list-item-content class="py-0">
                       <v-list-item-title> 严重 </v-list-item-title>
                       <v-list-item-content
-                        class="text-caption kubegems__detail kubegems__break-all"
+                        class="text-caption kubegems__text kubegems__break-all"
                       >
                         {{
                           item && item.report ? item.report.summary.Critical : 0
@@ -102,7 +102,7 @@
                     <v-list-item-content class="py-0">
                       <v-list-item-title> 高 </v-list-item-title>
                       <v-list-item-content
-                        class="text-caption kubegems__detail kubegems__break-all"
+                        class="text-caption kubegems__text kubegems__break-all"
                       >
                         {{ item && item.report ? item.report.summary.High : 0 }}
                       </v-list-item-content>
@@ -115,7 +115,7 @@
                     <v-list-item-content class="py-0">
                       <v-list-item-title> 中等 </v-list-item-title>
                       <v-list-item-content
-                        class="text-caption kubegems__detail kubegems__break-all"
+                        class="text-caption kubegems__text kubegems__break-all"
                       >
                         {{
                           item && item.report ? item.report.summary.Medium : 0
@@ -130,7 +130,7 @@
                     <v-list-item-content class="py-0">
                       <v-list-item-title> 低 </v-list-item-title>
                       <v-list-item-content
-                        class="text-caption kubegems__detail kubegems__break-all"
+                        class="text-caption kubegems__text kubegems__break-all"
                       >
                         {{ item && item.report ? item.report.summary.Low : 0 }}
                       </v-list-item-content>
@@ -143,7 +143,7 @@
                     <v-list-item-content class="py-0">
                       <v-list-item-title> 可修复 </v-list-item-title>
                       <v-list-item-content
-                        class="text-caption kubegems__detail kubegems__break-all"
+                        class="text-caption kubegems__text kubegems__break-all"
                       >
                         {{ item && item.report ? item.report.fixable : 0 }}
                       </v-list-item-content>

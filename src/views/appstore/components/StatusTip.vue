@@ -43,7 +43,7 @@
               <v-list-item-content class="py-0">
                 <v-list-item-title> 错误信息 </v-list-item-title>
                 <v-list-item-content
-                  class="text-caption kubegems__detail kubegems__break-all"
+                  class="text-caption kubegems__text kubegems__break-all"
                 >
                   {{ item.SyncMessage ? item.SyncMessage : '' }}
                 </v-list-item-content>

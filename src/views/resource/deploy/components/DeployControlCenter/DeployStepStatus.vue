@@ -43,7 +43,7 @@
                   : []
               "
               :step="`${index + 1}`"
-              class="text-subtitle-1 kubegems__role font-weight-medium"
+              class="text-subtitle-1 kubegems__text font-weight-medium"
               edit-icon="mdi-check"
               error-icon="mdi-close-circle"
             >

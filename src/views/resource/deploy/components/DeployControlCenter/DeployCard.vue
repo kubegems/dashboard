@@ -20,7 +20,7 @@
               <v-flex class="text-body-2">
                 过去24小时: {{ requestsSumOverTime ? requestsSumOverTime : 0 }}
               </v-flex>
-              <h5 class="text-subtitle-2 font-weight-regular kubegems__detail">
+              <h5 class="text-subtitle-2 font-weight-regular kubegems__text">
                 总请求
               </h5>
             </div>
@@ -48,7 +48,7 @@
               <v-flex class="text-body-2">
                 p95: {{ avgresponsetimeP95 ? avgresponsetimeP95 : 0 }} ms
               </v-flex>
-              <h5 class="text-subtitle-2 font-weight-regular kubegems__detail">
+              <h5 class="text-subtitle-2 font-weight-regular kubegems__text">
                 响应时间
               </h5>
             </div>
@@ -77,7 +77,7 @@
                 过去24小时:
                 {{ errrequestsSumOverTime ? errrequestsSumOverTime : 0 }}
               </v-flex>
-              <h5 class="text-subtitle-2 font-weight-regular kubegems__detail">
+              <h5 class="text-subtitle-2 font-weight-regular kubegems__text">
                 异常请求数
               </h5>
             </div>
@@ -105,7 +105,7 @@
               <v-flex class="text-body-2">
                 出: {{ networkEgress ? networkEgress : 0 }} Kbps
               </v-flex>
-              <h5 class="text-subtitle-2 font-weight-regular kubegems__detail">流量</h5>
+              <h5 class="text-subtitle-2 font-weight-regular kubegems__text">流量</h5>
             </div>
           </div>
         </v-card-text>

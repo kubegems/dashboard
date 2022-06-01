@@ -144,7 +144,7 @@
                       >
                         <v-list-item-content class="py-0">
                           <v-list-item-title
-                            class="text-subtitle-2 py-1 kubegems__detail font-weight-regular"
+                            class="text-subtitle-2 py-1 kubegems__text font-weight-regular"
                           >
                             <v-icon
                               left
@@ -168,7 +168,7 @@
                       >
                         <v-list-item-content class="py-0">
                           <v-list-item-title
-                            class="text-subtitle-2 py-1 kubegems__detail font-weight-regular"
+                            class="text-subtitle-2 py-1 kubegems__text font-weight-regular"
                           >
                             <span
                               :class="`v-avatar mr-2 ${
@@ -210,7 +210,7 @@
                       >
                         <v-list-item-content class="py-0">
                           <v-list-item-title
-                            class="text-subtitle-2 py-1 kubegems__detail font-weight-regular"
+                            class="text-subtitle-2 py-1 kubegems__text font-weight-regular"
                           >
                             {{ getRestart(pod.status.containerStatuses) }}
                           </v-list-item-title>
@@ -226,7 +226,7 @@
                       >
                         <v-list-item-content class="py-0">
                           <v-list-item-title
-                            class="text-subtitle-2 py-1 kubegems__detail font-weight-regular"
+                            class="text-subtitle-2 py-1 kubegems__text font-weight-regular"
                           >
                             {{
                               pod.status.startTime
@@ -249,7 +249,7 @@
                       >
                         <v-list-item-content class="py-0">
                           <v-list-item-title
-                            class="text-subtitle-2 py-1 kubegems__detail font-weight-regular"
+                            class="text-subtitle-2 py-1 kubegems__text font-weight-regular"
                           >
                             {{ pod.status.podIP }}
                           </v-list-item-title>
@@ -265,7 +265,7 @@
                       >
                         <v-list-item-content class="py-0">
                           <v-list-item-title
-                            class="text-subtitle-2 py-1 kubegems__detail font-weight-regular"
+                            class="text-subtitle-2 py-1 kubegems__text font-weight-regular"
                           >
                             {{ pod.status.hostIP }}
                           </v-list-item-title>

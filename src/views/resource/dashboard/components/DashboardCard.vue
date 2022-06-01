@@ -17,7 +17,7 @@
               <h2 class="text-h5">
                 {{ statistics ? statistics['count.clusters'] : 0 }}
               </h2>
-              <div class="text-subtitle-2 font-weight-regular dashboard__div__font">集群</div>
+              <div class="text-subtitle-2 font-weight-regular dashboard__resource__div">集群</div>
             </div>
           </div>
         </v-card-text>
@@ -40,7 +40,7 @@
               <h2 class="text-h5">
                 {{ statistics ? statistics['count.projects'] : 0 }}
               </h2>
-              <div class="text-subtitle-2 font-weight-regular dashboard__div__font">项目</div>
+              <div class="text-subtitle-2 font-weight-regular dashboard__resource__div">项目</div>
             </div>
           </div>
         </v-card-text>
@@ -63,7 +63,7 @@
               <h2 class="text-h5">
                 {{ statistics ? statistics['count.environments'] : 0 }}
               </h2>
-              <div class="text-subtitle-2 font-weight-regular dashboard__div__font">环境</div>
+              <div class="text-subtitle-2 font-weight-regular dashboard__resource__div">环境</div>
             </div>
           </div>
         </v-card-text>
@@ -86,7 +86,7 @@
               <h2 class="text-h5">
                 {{ statistics ? statistics['count.workloads'] : 0 }}
               </h2>
-              <div class="text-subtitle-2 font-weight-regular dashboard__div__font">工作负载</div>
+              <div class="text-subtitle-2 font-weight-regular dashboard__resource__div">工作负载</div>
             </div>
           </div>
         </v-card-text>
@@ -132,7 +132,7 @@
               <h2 class="text-h5">
                 {{ statistics ? statistics['count.users'] : 0 }}
               </h2>
-              <div class="text-subtitle-2 font-weight-regular dashboard__div__font">用户</div>
+              <div class="text-subtitle-2 font-weight-regular dashboard__resource__div">用户</div>
             </div>
           </div>
         </v-card-text>

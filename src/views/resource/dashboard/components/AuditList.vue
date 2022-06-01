@@ -28,7 +28,7 @@
         v-if="auditItems.length === 0"
         :style="{ position: 'relative', height: '300px' }"
       >
-        <span class="kubegems__full-center kubegems__detail">
+        <span class="kubegems__full-center kubegems__text">
           暂无数据
         </span>
       </v-flex>

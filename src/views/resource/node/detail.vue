@@ -121,7 +121,7 @@
             </template>
           </v-card-title>
           <v-list-item two-line>
-            <v-list-item-content class="kubegems__detail">
+            <v-list-item-content class="kubegems__text">
               <v-list-item-title class="text-subtitle-2">
                 集群
               </v-list-item-title>
@@ -131,7 +131,7 @@
             </v-list-item-content>
           </v-list-item>
           <v-list-item two-line>
-            <v-list-item-content class="kubegems__detail">
+            <v-list-item-content class="kubegems__text">
               <v-list-item-title class="text-subtitle-2">
                 IP
               </v-list-item-title>
@@ -141,7 +141,7 @@
             </v-list-item-content>
           </v-list-item>
           <v-list-item two-line>
-            <v-list-item-content class="kubegems__detail">
+            <v-list-item-content class="kubegems__text">
               <v-list-item-title class="text-subtitle-2">
                 Hostname
               </v-list-item-title>
@@ -151,7 +151,7 @@
             </v-list-item-content>
           </v-list-item>
           <v-list-item two-line>
-            <v-list-item-content class="kubegems__detail">
+            <v-list-item-content class="kubegems__text">
               <v-list-item-title class="text-subtitle-2">
                 OS
               </v-list-item-title>
@@ -161,7 +161,7 @@
             </v-list-item-content>
           </v-list-item>
           <v-list-item two-line>
-            <v-list-item-content class="kubegems__detail">
+            <v-list-item-content class="kubegems__text">
               <v-list-item-title class="text-subtitle-2">
                 创建时间
               </v-list-item-title>

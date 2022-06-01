@@ -23,7 +23,7 @@
       v-for="(plugins, key) in pluginGroup"
       :key="key"
     >
-      <v-flex class="kubegems__role text-subtitle-1 mt-3 font-weight-medium">
+      <v-flex class="kubegems__text text-subtitle-1 mt-3 font-weight-medium">
         {{ key }}
       </v-flex>
       <v-row class="mt-3">
@@ -154,7 +154,7 @@
                                       最新版本
                                     </v-list-item-title>
                                     <v-list-item-content
-                                      class="text-caption kubegems__detail kubegems__break-all"
+                                      class="text-caption kubegems__text kubegems__break-all"
                                     >
                                       {{
                                         innerPlugins[plugin.name]

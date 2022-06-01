@@ -287,7 +287,7 @@ export default {
                       <div class="v-card__text pa-2">{node.data.name}</div>
                     </div>
                   </div>
-                  <span class="kubegems__detail font-weight-medium">
+                  <span class="kubegems__text font-weight-medium">
                     {node.data.name}
                   </span>
                 </span>
@@ -315,7 +315,7 @@ export default {
                       </div>
                     </div>
                   </div>
-                  <span class="kubegems__detail font-weight-medium">
+                  <span class="kubegems__text font-weight-medium">
                     {node.data.createdAt
                       ? this.$moment(
                           node.data.createdAt,
@@ -325,7 +325,7 @@ export default {
                   </span>
                 </span>
               ) : (
-                <span class="kubegems__detail font-weight-medium">
+                <span class="kubegems__text font-weight-medium">
                   {node.data.createdAt
                     ? this.$moment(
                         node.data.createdAt,

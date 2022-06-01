@@ -21,7 +21,7 @@
         @refreshLimit="refreshLimit"
       />
       <v-flex class="float-right">
-        <span class="kubegems__detail text-subtitle-2 font-weight-medium">
+        <span class="kubegems__text text-subtitle-2 font-weight-medium">
           起止时间
         </span>
         <BaseDatetimePicker

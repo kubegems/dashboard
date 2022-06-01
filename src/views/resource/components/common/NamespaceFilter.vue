@@ -8,7 +8,7 @@
           mr-2
           float-left
           font-weight-medium
-          kubegems__detail
+          kubegems__text
           font-line-height
           ns__tip
         "

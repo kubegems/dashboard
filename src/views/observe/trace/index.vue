@@ -4,7 +4,10 @@
     class="search"
   >
     <BaseBreadcrumb />
-    <v-card class="search__main">
+    <v-card
+      class="search__main"
+      :height="height"
+    >
       <div class="search__header">
         <ClusterSelect
           v-model="cluster"
@@ -43,6 +46,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import ClusterSelect from '@/views/observe/components/ClusterSelect'
 
 export default {
@@ -59,8 +63,12 @@ export default {
     }
   },
   computed: {
+    ...mapState(['Scale']),
     src() {
       return `/api/v1/service-proxy/cluster/${this.cluster}/namespace/observability/service/jaeger-query/port/16686/search`
+    },
+    height() {
+      return parseInt((window.innerHeight - 152) / this.Scale)
     },
   },
   watch: {
@@ -142,7 +150,6 @@ export default {
 
   &__main {
     position: relative;
-    height: 93vh;
   }
 
   &__header {

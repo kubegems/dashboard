@@ -65,7 +65,7 @@
       </template>
     </v-card-title>
     <v-list-item two-line>
-      <v-list-item-content class="kubegems__detail">
+      <v-list-item-content class="kubegems__text">
         <v-list-item-title class="text-subtitle-2"> 集群 </v-list-item-title>
         <v-list-item-subtitle class="text-body-2">
           {{ item ? ThisCluster : '' }}
@@ -76,7 +76,7 @@
       v-if="project"
       two-line
     >
-      <v-list-item-content class="kubegems__detail">
+      <v-list-item-content class="kubegems__text">
         <v-list-item-title class="text-subtitle-2"> 项目 </v-list-item-title>
         <v-list-item-subtitle class="text-body-2">
           {{
@@ -93,7 +93,7 @@
       v-if="environment"
       two-line
     >
-      <v-list-item-content class="kubegems__detail">
+      <v-list-item-content class="kubegems__text">
         <v-list-item-title class="text-subtitle-2"> 环境 </v-list-item-title>
         <v-list-item-subtitle class="text-body-2">
           {{
@@ -107,7 +107,7 @@
       </v-list-item-content>
     </v-list-item>
     <v-list-item two-line>
-      <v-list-item-content class="kubegems__detail">
+      <v-list-item-content class="kubegems__text">
         <v-list-item-title class="text-subtitle-2">
           创建时间
         </v-list-item-title>

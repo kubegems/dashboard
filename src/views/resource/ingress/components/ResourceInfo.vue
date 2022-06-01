@@ -25,7 +25,7 @@
         :divider="false"
         class="pt-2"
       />
-      <v-flex class="pl-4 kubegems__detail py-2 text-subtitle-1">HTTP</v-flex>
+      <v-flex class="pl-4 kubegems__text py-2 text-subtitle-1">HTTP</v-flex>
       <v-data-table
         class="mx-2 pa-2 no-header-table"
         :headers="[
@@ -90,7 +90,7 @@
         </template>
       </v-data-table>
 
-      <v-flex class="pl-4 kubegems__detail py-2 text-subtitle-1">HTTPS</v-flex>
+      <v-flex class="pl-4 kubegems__text py-2 text-subtitle-1">HTTPS</v-flex>
       <v-data-table
         class="mx-2 pa-2 no-header-table"
         :headers="[

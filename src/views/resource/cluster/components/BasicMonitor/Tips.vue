@@ -39,7 +39,7 @@
               >
                 <v-list-item-content class="py-0">
                   <v-list-item-title> 事件 {{ index + 1 }} </v-list-item-title>
-                  <v-list-item-content class="text-caption kubegems__detail">
+                  <v-list-item-content class="text-caption kubegems__text">
                     {{ msg }}
                   </v-list-item-content>
                 </v-list-item-content>

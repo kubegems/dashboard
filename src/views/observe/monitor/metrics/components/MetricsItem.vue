@@ -1,7 +1,7 @@
 <template>
   <v-card class="metrics-item">
     <div class="metrics-item__title">
-      <span class="text-body-1 kubegems__detail">{{ title }}</span>
+      <span class="text-body-1 kubegems__text">{{ title }}</span>
       <v-btn
         small
         color="primary"

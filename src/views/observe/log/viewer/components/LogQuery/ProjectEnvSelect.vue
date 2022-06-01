@@ -115,7 +115,7 @@
 
     <v-flex :style="{ display: 'inline-flex !important', float: 'right' }">
       <v-sheet
-        class="text-body-2 tip ml-6 kubegems__detail"
+        class="text-body-2 tip ml-6 kubegems__text"
       >
         集群:
         <span class="text-body-2 font-weight-medium">
@@ -123,7 +123,7 @@
         </span>
       </v-sheet>
       <v-sheet
-        class="text-body-2 tip ml-4 kubegems__detail"
+        class="text-body-2 tip ml-4 kubegems__text"
       >
         命名空间:
         <span class="text-body-2 font-weight-medium">
@@ -132,7 +132,7 @@
       </v-sheet>
 
       <v-sheet
-        class="text-body-2 tip ml-4 kubegems__detail"
+        class="text-body-2 tip ml-4 kubegems__text"
       >
         series:
         <span class="text-body-2 font-weight-medium">

@@ -124,7 +124,7 @@
                       <v-list-item-content
                         v-for="(pod, index) in podItems"
                         :key="index"
-                        class="text-caption kubegems__detail kubegems__break-all"
+                        class="text-caption kubegems__text kubegems__break-all"
                       >
                         <span class="text-caption">
                           容器{{ index + 1 }}：{{ pod.metadata.name }}

@@ -7,192 +7,11 @@
     @reset="reset"
   >
     <template #content>
-      <v-form
-        ref="form"
-        v-model="valid"
-        lazy-validation
-        @submit.prevent
-      >
-        <BaseSubTitle title="集群定义" />
-        <v-card-text class="pa-2">
-          <v-row>
-            <v-col cols="6">
-              <v-autocomplete
-                v-model="obj.ClusterID"
-                class="my-0"
-                :items="m_select_clusterItems"
-                :rules="objRules.clusterIDRules"
-                color="primary"
-                hide-selected
-                label="集群"
-                no-data-text="暂无可选数据"
-                @focus="onClusterSelectFocus"
-                @change="onClusterChange"
-              >
-                <template #selection="{ item }">
-                  <v-chip
-                    color="primary"
-                    class="mx-1"
-                    small
-                  >
-                    {{ item['text'] }}
-                  </v-chip>
-                </template>
-              </v-autocomplete>
-            </v-col>
-          </v-row>
-          <ResourceChart
-            :quota="quota"
-            :nvidia="nvidia"
-            :tke="tke"
-          />
-        </v-card-text>
-
-        <BaseSubTitle title="资源限制" />
-        <v-card-text class="px-0 pb-2">
-          <v-row class="mx-0">
-            <v-col
-              cols="4"
-              class="px-0 py-0"
-            >
-              <v-sheet class="px-2">
-                <v-flex class="text-subtitle-1">
-                  可用CPU
-                  <span class="text-subtitle-2 primary--text">
-                    {{ quota ? quota.AllocatedCpu.toFixed(1) : 0 }} core
-                  </span>
-                </v-flex>
-                <v-text-field
-                  v-model="obj.Content['limits.cpu']"
-                  class="my-0"
-                  required
-                  label="CPU扩容后限制值"
-                  suffix="core"
-                  :rules="objRules.cpuRules"
-                />
-              </v-sheet>
-            </v-col>
-            <v-col
-              cols="4"
-              class="pa-0"
-            >
-              <v-sheet class="px-2">
-                <v-flex class="text-subtitle-1">
-                  可用内存
-                  <span class="text-subtitle-2 primary--text">
-                    {{ quota ? quota.AllocatedMemory.toFixed(1) : 0 }} Gi
-                  </span>
-                </v-flex>
-                <v-text-field
-                  v-model="obj.Content['limits.memory']"
-                  class="my-0"
-                  required
-                  label="内存扩容后限制值"
-                  suffix="Gi"
-                  :rules="objRules.memoryRules"
-                />
-              </v-sheet>
-            </v-col>
-            <v-col
-              cols="4"
-              class="px-0 py-0"
-            >
-              <v-sheet class="px-2">
-                <v-flex class="text-subtitle-1">
-                  可用存储
-                  <span class="text-subtitle-2 primary--text">
-                    {{ quota ? quota.AllocatedStorage.toFixed(1) : 0 }}
-                    Gi
-                  </span>
-                </v-flex>
-                <v-text-field
-                  v-model="obj.Content[`requests.storage`]"
-                  class="my-0"
-                  required
-                  label="存储扩容后限制值"
-                  suffix="Gi"
-                  :rules="objRules.storageRules"
-                />
-              </v-sheet>
-            </v-col>
-          </v-row>
-        </v-card-text>
-
-        <template v-if="nvidia || tke">
-          <BaseSubTitle title="GPU资源限制" />
-          <v-card-text class="px-0 pb-2">
-            <v-row class="mx-0">
-              <v-col
-                v-if="nvidia"
-                cols="4"
-                class="px-0 py-0"
-              >
-                <v-sheet class="px-2">
-                  <v-flex class="text-subtitle-1">
-                    可用nvidia CPU
-                    <span class="text-subtitle-2 primary--text">
-                      {{ quota ? quota.AllocatedCpu.toFixed(1) : 0 }} core
-                    </span>
-                  </v-flex>
-                  <v-text-field
-                    v-model="obj.Content['nvidia.com/gpu']"
-                    class="my-0"
-                    required
-                    label="nvidia GPU扩容后限制值"
-                    suffix="core"
-                    :rules="objRules.cpuRules"
-                  />
-                </v-sheet>
-              </v-col>
-              <template v-if="tke">
-                <v-col
-                  cols="4"
-                  class="pa-0"
-                >
-                  <v-sheet class="px-2">
-                    <v-flex class="text-subtitle-1">
-                      可用tke vcuda
-                      <span class="text-subtitle-2 primary--text">
-                        {{ quota ? quota.AllocatedMemory.toFixed(1) : 0 }} core
-                      </span>
-                    </v-flex>
-                    <v-text-field
-                      v-model="obj.Content['tencent.com/vcuda-core']"
-                      class="my-0"
-                      required
-                      label="tke vcuda扩容后限制值"
-                      suffix="core"
-                      :rules="objRules.memoryRules"
-                    />
-                  </v-sheet>
-                </v-col>
-                <v-col
-                  cols="4"
-                  class="px-0 py-0"
-                >
-                  <v-sheet class="px-2">
-                    <v-flex class="text-subtitle-1">
-                      可用tke显存
-                      <span class="text-subtitle-2 primary--text">
-                        {{ quota ? quota.AllocatedStorage.toFixed(1) : 0 }}
-                        Gi
-                      </span>
-                    </v-flex>
-                    <v-text-field
-                      v-model="obj.Content[`tencent.com/vcuda-memory`]"
-                      class="my-0"
-                      required
-                      label="tke显存扩容后限制值"
-                      suffix="Gi"
-                      :rules="objRules.storageRules"
-                    />
-                  </v-sheet>
-                </v-col>
-              </template>
-            </v-row>
-          </v-card-text>
-        </template>
-      </v-form>
+      <ResourceBaseForm
+        ref="resource"
+        :quota="quota"
+        @clusterChange="onClusterChange"
+      />
     </template>
     <template #action>
       <v-btn
@@ -210,19 +29,17 @@
 
 <script>
 import { mapState } from 'vuex'
-import { postAddTenantResourceQuota, getClusterPluginsList } from '@/api'
-import ResourceChart from './ResourceChart'
-import BaseSelect from '@/mixins/select'
+import { postAddTenantResourceQuota } from '@/api'
+import ResourceBaseForm from './ResourceBaseForm'
 import BaseResource from '@/mixins/resource'
 import { deepCopy } from '@/utils/helpers'
-import { required } from '@/utils/rules'
 
 export default {
   name: 'AddResource',
   components: {
-    ResourceChart,
+    ResourceBaseForm,
   },
-  mixins: [BaseSelect, BaseResource],
+  mixins: [BaseResource],
   props: {
     clusters: {
       type: Array,
@@ -231,52 +48,11 @@ export default {
   },
   data: () => ({
     dialog: false,
-    valid: false,
     item: null,
     quota: null,
-    obj: {
-      ClusterID: null,
-      TenantID: null,
-      Content: {
-        'limits.cpu': '',
-        'limits.memory': '',
-        'requests.storage': '',
-        // 'nvidia.com/gpu': '',
-        // 'tencent.com/vcuda-core': '',
-        // 'tencent.com/vcuda-memory': '',
-      },
-    },
-    nvidia: false,
-    tke: false,
   }),
   computed: {
     ...mapState(['Circular']),
-    objRules() {
-      return {
-        clusterIDRules: [required],
-        cpuRules: [
-          required,
-          (v) => !!new RegExp('^\\d+$').test(v) || '格式错误(示例:整数)',
-          (v) =>
-            parseInt(v) <= (this.quota ? this.quota.AllocatedCpu : 0) ||
-            '超出最大限制',
-        ],
-        memoryRules: [
-          required,
-          (v) => !!new RegExp('^\\d+$').test(v) || '格式错误(示例:整数)',
-          (v) =>
-            parseInt(v) <= (this.quota ? this.quota.AllocatedMemory : 0) ||
-            '超出最大限制',
-        ],
-        storageRules: [
-          required,
-          (v) => !!new RegExp('^\\d+$').test(v) || '格式错误(示例:整数)',
-          (v) =>
-            parseInt(v) <= (this.quota ? this.quota.AllocatedStorage : 0) ||
-            '超出最大限制',
-        ],
-      }
-    },
   },
   methods: {
     // eslint-disable-next-line vue/no-unused-properties
@@ -284,8 +60,8 @@ export default {
       this.dialog = true
     },
     async addTenantResourceQuota() {
-      if (this.$refs.form.validate(true)) {
-        const data = deepCopy(this.obj)
+      if (this.$refs.resource.validate()) {
+        const data = deepCopy(this.$refs.resource.getData())
         if (
           this.clusters.some((c) => {
             return c.ClusterID === data.ClusterID
@@ -311,34 +87,17 @@ export default {
     async init(item) {
       this.item = deepCopy(item)
     },
-    async onClusterChange() {
-      if (this.obj.ClusterID) {
-        this.quota = await this.m_resource_clusterQuota(this.obj.ClusterID, {
-          NowCpu: 0,
-          NowMemory: 0,
-          NowStorage: 0,
-        })
-        const cluster = this.m_select_clusterItems.find(c => { return c.value === this.obj.ClusterID })
-        if (cluster) {
-          this.loadPlugins(cluster.text)
-        }
-      }
+    async onClusterChange(clusterId) {
+      this.quota = await this.m_resource_clusterQuota(clusterId, {
+        NowCpu: 0,
+        NowMemory: 0,
+        NowStorage: 0,
+      })
     },
     reset() {
       this.dialog = false
-      this.$refs.form.reset()
+      this.$refs.resource.reset()
       this.quota = null
-    },
-    onClusterSelectFocus() {
-      this.m_select_clusterSelectData(null, false)
-    },
-    async loadPlugins(cluster) {
-      const data = await getClusterPluginsList(cluster, {
-        simple: true,
-        noprocessing: true,
-      })
-      this.nvidia = data['gpu'] || false
-      this.tke = data['tke'] || false
     },
   },
 }

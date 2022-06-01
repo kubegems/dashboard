@@ -78,7 +78,7 @@
     </template>
     <template #content>
       <template v-if="status && status.strategy === 'Canary'">
-        <v-flex class="px-4 pt-2 text-subtitle-1 kubegems__detail">步骤</v-flex>
+        <v-flex class="px-4 pt-2 text-subtitle-1 kubegems__text">步骤</v-flex>
         <v-stepper
           v-if="status && status.step"
           :value="getNowStep(status.step) + 1"
@@ -128,7 +128,7 @@
         </v-stepper>
       </template>
 
-      <v-flex class="px-4 py-2 text-subtitle-1 kubegems__detail">流量拓扑</v-flex>
+      <v-flex class="px-4 py-2 text-subtitle-1 kubegems__text">流量拓扑</v-flex>
       <v-progress-linear
         v-if="progress"
         indeterminate

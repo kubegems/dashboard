@@ -21,7 +21,7 @@
       <v-card class="pa-2">
         <template v-if="singleLine">
           <div v-for="item in items" :key="item[itemValue]">
-            <v-flex small class="ma-1 text-caption kubegems__detail">
+            <v-flex small class="ma-1 text-caption kubegems__text">
               <v-icon v-if="icon" :color="color" small left> {{ icon }} </v-icon>
               <strong v-if="dataType === 'object'" class="mr-1">
                 {{ item[itemValue] }}

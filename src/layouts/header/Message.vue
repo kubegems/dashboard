@@ -127,7 +127,7 @@
                     </div>
                     <div>
                       <h4
-                        class="font-weight-medium kubegems__detail mb-2"
+                        class="font-weight-medium kubegems__text mb-2"
                         :style="getStatusColor(data)"
                       >
                         {{
