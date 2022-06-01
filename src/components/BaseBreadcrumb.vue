@@ -7,7 +7,7 @@
             <v-icon v-if="breadcrumb.icon != undefined" left>
               {{ breadcrumb.icon }}
             </v-icon>
-            <div class="text-subtitle-2 kubegems__detail font-weight-medium breadcrumb__font">
+            <div class="text-subtitle-2 kubegems__text font-weight-medium breadcrumb__font">
               {{ breadcrumb.title }}
             </div>
             <v-icon

@@ -43,7 +43,7 @@
           </v-avatar>
         </v-list-item-avatar>
         <v-list-item-content>
-          <v-list-item-title class="text-h6 white--text kubegems__detail">
+          <v-list-item-title class="text-h6 white--text kubegems__text">
             {{ User.Username }}
             <v-chip
               pill
@@ -69,7 +69,7 @@
                   />
                 </v-btn>
               </v-avatar>
-              <span class="font-weight-medium primary--text kubegems__detail">
+              <span class="font-weight-medium primary--text kubegems__text">
                 {{ $VENDOR[User.SourceVendor] || 'Selfhosted' }}
               </span>
             </v-chip>
@@ -95,7 +95,7 @@
             <v-icon color="primary">mdi-account-multiple</v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title class="text-body-2 font-weight-medium kubegems__detail">
+            <v-list-item-title class="text-body-2 font-weight-medium kubegems__text">
               租户
               <v-flex
                 class="float-right white--text blue-grey lighten-2 px-1 user-chip label"
@@ -115,7 +115,7 @@
             <v-icon color="primary">mdi-account</v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title class="text-body-2 font-weight-medium kubegems__detail">
+            <v-list-item-title class="text-body-2 font-weight-medium kubegems__text">
               用户中心
               <v-flex
                 class="float-right white--text blue-grey lighten-2 px-1 user-chip label"
@@ -135,7 +135,7 @@
             <v-icon color="primary">mdi-book-open-variant</v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title class="text-body-2 font-weight-medium kubegems__detail">
+            <v-list-item-title class="text-body-2 font-weight-medium kubegems__text">
               产品手册
             </v-list-item-title>
           </v-list-item-content>
@@ -149,7 +149,7 @@
             <v-icon color="primary">mdi-vimeo</v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title class="text-body-2 font-weight-medium kubegems__detail">
+            <v-list-item-title class="text-body-2 font-weight-medium kubegems__text">
               关于
             </v-list-item-title>
           </v-list-item-content>
@@ -169,7 +169,7 @@
           >
             fas fa-sign-out-alt
           </v-icon>
-          <span class="font-weight-medium kubegems__detail">退出</span>
+          <span class="font-weight-medium kubegems__text">退出</span>
         </v-btn>
         <v-spacer />
       </v-card-actions>

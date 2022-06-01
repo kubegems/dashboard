@@ -8,7 +8,7 @@
     >
       <v-flex
 
-        class="kubegems__role text-subtitle-1 mt-3 font-weight-medium"
+        class="kubegems__text text-subtitle-1 mt-3 font-weight-medium"
       >
         {{ item.name }}
       </v-flex>
@@ -52,7 +52,7 @@
                         />
                       </v-list-item-avatar>
                     </v-list-item>
-                    <div class="text-center text-body-1 pb-2 kubegems__detail font-weight-medium">
+                    <div class="text-center text-body-1 pb-2 kubegems__text font-weight-medium">
                       {{ item.items[index*2 + innerIndex].name }}
                     </div>
                   </v-card>

@@ -98,17 +98,17 @@
       </div>
       <v-divider />
       <div class="py-5">
-        <h5 class="text-subtitle-1 kubegems__detail">仓库</h5>
+        <h5 class="text-subtitle-1 kubegems__text">仓库</h5>
         <h6 class="text-body-2 mb-3">
           {{ selectRepo }}
         </h6>
-        <h5 class="text-subtitle-1 kubegems__detail">应用版本</h5>
+        <h5 class="text-subtitle-1 kubegems__text">应用版本</h5>
         <h6 class="text-body-2 mb-2">{{ currentApp.appVersion }}</h6>
-        <h5 class="text-subtitle-1 kubegems__detail">描述</h5>
+        <h5 class="text-subtitle-1 kubegems__text">描述</h5>
         <h6 class="text-body-2 mb-3">
           {{ currentApp.description }}
         </h6>
-        <h5 class="text-subtitle-1 kubegems__detail">创建时间</h5>
+        <h5 class="text-subtitle-1 kubegems__text">创建时间</h5>
         <h6 class="text-body-2 mb-3">
           {{
             currentApp.created ? $moment(currentApp.created).format('lll') : ''
@@ -117,7 +117,7 @@
         <template
           v-if="currentApp.maintainers && currentApp.maintainers.length > 0"
         >
-          <h5 class="text-subtitle-1 kubegems__detail">维护者</h5>
+          <h5 class="text-subtitle-1 kubegems__text">维护者</h5>
           <h6 class="text-body-2 mb-3">
             <div
               v-for="(maintainer, index) in currentApp.maintainers"

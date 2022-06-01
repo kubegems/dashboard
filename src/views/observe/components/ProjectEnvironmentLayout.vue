@@ -34,19 +34,19 @@
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title>集群</v-list-item-title>
-              <v-list-item-content class="text-caption kubegems__detail">
+              <v-list-item-content class="text-caption kubegems__text">
                 {{ env.clusterName }}
               </v-list-item-content>
               <v-list-item-title>项目</v-list-item-title>
-              <v-list-item-content class="text-caption kubegems__detail">
+              <v-list-item-content class="text-caption kubegems__text">
                 {{ env.projectName }}
               </v-list-item-content>
               <v-list-item-title>环境</v-list-item-title>
-              <v-list-item-content class="text-caption kubegems__detail my-0">
+              <v-list-item-content class="text-caption kubegems__text my-0">
                 {{ env.name }}
               </v-list-item-content>
               <v-list-item-title>命名空间</v-list-item-title>
-              <v-list-item-content class="text-caption kubegems__detail my-0">
+              <v-list-item-content class="text-caption kubegems__text my-0">
                 {{ env.namespace }}
               </v-list-item-content>
             </v-list-item-content>

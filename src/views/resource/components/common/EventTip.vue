@@ -49,7 +49,7 @@
             >
               <v-list-item-content class="py-0">
                 <v-list-item-title> 最新事件 </v-list-item-title>
-                <v-list-item-content class="text-caption kubegems__detail kubegems__break-all">
+                <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
                   {{ event.message }}
                 </v-list-item-content>
               </v-list-item-content>
@@ -60,7 +60,7 @@
             >
               <v-list-item-content class="py-0">
                 <v-list-item-title> 发生时间 </v-list-item-title>
-                <v-list-item-content class="text-caption kubegems__detail kubegems__break-all">
+                <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
                   {{
                     event.metadata.creationTimestamp
                       ? $moment(
@@ -75,7 +75,7 @@
           </v-list-item-content>
           <v-flex
             v-else
-            class="text-caption kubegems__detail text-center"
+            class="text-caption kubegems__text text-center"
           >
             暂无事件
           </v-flex>

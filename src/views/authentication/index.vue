@@ -127,7 +127,7 @@
             </v-col>
           </v-row>
         </div>
-        <h6 class="px-12 text-body-2 mt-4 copyright font-weight-medium kubegems__detail">
+        <h6 class="px-12 text-body-2 mt-4 copyright font-weight-medium kubegems__text">
           © 2021 — KubeGems by Kubegems.io
         </h6>
       </v-container>

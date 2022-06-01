@@ -57,7 +57,7 @@
                 <v-list-item
                   v-for="(ten, index) in item.values"
                   :key="index"
-                  class="text-body-2 text-center font-weight-medium kubegems__detail mx-2"
+                  class="text-body-2 text-center font-weight-medium kubegems__text mx-2"
                   link
                   :style="
                     ten.text === tenant.TenantName

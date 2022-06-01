@@ -48,6 +48,7 @@
             <v-tabs
               v-model="tab"
               height="40"
+              class="pb-3"
             >
               <v-tab
                 v-for="item in tabItems"
@@ -60,7 +61,6 @@
               :is="tabItems[tab].value"
               :ref="tabItems[tab].value"
               :item="item"
-              class="py-2"
             />
           </v-card-text>
         </v-card>

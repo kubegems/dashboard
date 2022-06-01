@@ -94,7 +94,7 @@
           >
             <v-chip
               v-if="$ANNOTATION_IGNORE_ARRAY.indexOf(key) === -1"
-              class="my-1 kubegems__role"
+              class="my-1 kubegems__text"
               color="gray"
               small
               :close="!readonly"

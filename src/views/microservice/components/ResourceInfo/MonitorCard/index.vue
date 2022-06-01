@@ -20,7 +20,7 @@
         height="265px"
       >
         <div class="pa-2">
-          <h4 class="font-weight-regular text-title kubegems__detail mx-3">请求量</h4>
+          <h4 class="font-weight-regular text-title kubegems__text mx-3">请求量</h4>
           <div class="d-flex align-center mt-2">
             <div class="border-right px-3 py-2">
               <h6
@@ -78,7 +78,7 @@
         height="265px"
       >
         <div class="pa-2">
-          <h4 class="font-weight-regular text-title kubegems__detail mx-3">响应时间</h4>
+          <h4 class="font-weight-regular text-title kubegems__text mx-3">响应时间</h4>
           <div class="d-flex align-center mt-2">
             <div class="border-right px-3 py-2">
               <h6
@@ -136,7 +136,7 @@
         height="265px"
       >
         <div class="pa-2">
-          <h4 class="font-weight-regular text-title kubegems__detail mx-3">
+          <h4 class="font-weight-regular text-title kubegems__text mx-3">
             异常请求数
           </h4>
           <div class="d-flex align-center mt-2">
@@ -196,7 +196,7 @@
         height="265px"
       >
         <div class="pa-2">
-          <h4 class="font-weight-regular text-title kubegems__detail mx-3">流量</h4>
+          <h4 class="font-weight-regular text-title kubegems__text mx-3">流量</h4>
           <div class="d-flex align-center mt-2">
             <div class="border-right px-3 py-2">
               <h6

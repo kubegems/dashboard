@@ -8,12 +8,12 @@
           font-weight-regular
           text--darken-2
           pl-0
-          kubegems__detail
+          kubegems__text
         "
       >
         {{ title }}
       </v-list-item-title>
-      <v-list-item-subtitle class="kubegems__detail pl-2">
+      <v-list-item-subtitle class="kubegems__text pl-2">
         <slot name="content"></slot>
       </v-list-item-subtitle>
     </v-list-item-content>
@@ -26,7 +26,7 @@ export default {
   props: {
     mt: {
       type: Number,
-      default: () => 4,
+      default: () => 1,
     },
     title: {
       type: String,
