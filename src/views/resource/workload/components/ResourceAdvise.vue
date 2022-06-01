@@ -41,27 +41,27 @@
                 忽略
               </v-btn>
             </v-list-item-title>
-            <v-list-item-content class="text-caption kubegems__detail">
+            <v-list-item-content class="text-caption kubegems__text">
               {{ containerName }}
             </v-list-item-content>
             <template v-if="container.CPUStatus !== null">
               <v-list-item-title>CPU</v-list-item-title>
-              <v-list-item-content class="text-caption kubegems__detail">
+              <v-list-item-content class="text-caption kubegems__text">
                 {{ showAdvise(container.CPUStatus, 'CPU') }}
               </v-list-item-content>
             </template>
             <template v-if="container.MemoryStatus !== null">
               <v-list-item-title>内存</v-list-item-title>
-              <v-list-item-content class="text-caption kubegems__detail">
+              <v-list-item-content class="text-caption kubegems__text">
                 {{ showAdvise(container.MemoryStatus, '内存') }}
               </v-list-item-content>
             </template>
             <v-list-item-title>Pods(建议调整)</v-list-item-title>
-            <v-list-item-content class="text-caption kubegems__detail my-0">
+            <v-list-item-content class="text-caption kubegems__text my-0">
               <v-flex
                 v-for="(pod, podIndex) in container.Pods"
                 :key="podIndex"
-                class="text-caption kubegems__detail"
+                class="text-caption kubegems__text"
               >
                 {{ pod }}
               </v-flex>

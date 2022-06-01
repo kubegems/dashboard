@@ -51,7 +51,7 @@
                 "
               >
                 <v-list-item-title> 通用名称 </v-list-item-title>
-                <v-list-item-content class="text-caption kubegems__detail">
+                <v-list-item-content class="text-caption kubegems__text">
                   {{ item['tls.crt'].subject.common_name }}
                 </v-list-item-content>
               </template>
@@ -63,7 +63,7 @@
                 "
               >
                 <v-list-item-title> 组织 </v-list-item-title>
-                <v-list-item-content class="text-caption kubegems__detail">
+                <v-list-item-content class="text-caption kubegems__text">
                   {{ item['tls.crt'].subject.organization }}
                 </v-list-item-content>
               </template>
@@ -75,32 +75,32 @@
                 "
               >
                 <v-list-item-title> 部门 </v-list-item-title>
-                <v-list-item-content class="text-caption kubegems__detail">
+                <v-list-item-content class="text-caption kubegems__text">
                   {{ item['tls.crt'].subject.organizational_unit }}
                 </v-list-item-content>
               </template>
               <template v-if="item['tls.crt'] && item['tls.crt'].sigalg">
                 <v-list-item-title> 签名算法 </v-list-item-title>
-                <v-list-item-content class="text-caption kubegems__detail">
+                <v-list-item-content class="text-caption kubegems__text">
                   {{ item['tls.crt'].sigalg }}
                 </v-list-item-content>
               </template>
               <template v-if="item['tls.crt'] && item['tls.crt'].not_before">
                 <v-list-item-title> 颁发时间 </v-list-item-title>
-                <v-list-item-content class="text-caption kubegems__detail">
+                <v-list-item-content class="text-caption kubegems__text">
                   {{ $moment(item['tls.crt'].not_before).format('lll') }}
                 </v-list-item-content>
               </template>
               <template v-if="item['tls.crt'] && item['tls.crt'].not_after">
                 <v-list-item-title> 过期时间 </v-list-item-title>
-                <v-list-item-content class="text-caption kubegems__detail">
+                <v-list-item-content class="text-caption kubegems__text">
                   {{ $moment(item['tls.crt'].not_after).format('lll') }}
                 </v-list-item-content>
               </template>
               <template v-if="item['tls.crt'] && item['tls.crt'].serial_number">
                 <v-list-item-title> 序列号 </v-list-item-title>
                 <v-list-item-content
-                  class="text-caption kubegems__detail v-list-item__content"
+                  class="text-caption kubegems__text v-list-item__content"
                 >
                   {{ item['tls.crt'].serial_number }}
                 </v-list-item-content>

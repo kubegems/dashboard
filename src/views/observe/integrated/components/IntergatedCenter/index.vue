@@ -29,7 +29,7 @@
               :width="72"
             />
           </v-list-item-avatar>
-          <span class="text-subtitle-1 kubegems__detail">
+          <span class="text-subtitle-1 kubegems__text">
             {{
               type === 'app' ?
                 `配置 ${item.name} 应用的Trace, Metrics, Logging` :

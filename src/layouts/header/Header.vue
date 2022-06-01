@@ -27,7 +27,7 @@
       <div
         class="pl-2 text-h6 float-left header-line-height"
         style="
-          font-family: Yuanti SC, YouYuan, Microsoft Yahei !important;
+          font-family: Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important;
           font-weight: bold;
           font-size: 1.1rem !important;
           margin-left: 140px;
@@ -56,7 +56,7 @@
       </v-icon>
       <span
         style="
-          font-family: Yuanti SC, YouYuan, Microsoft Yahei !important;
+          font-family: Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important;
           font-weight: bold;
 "
         class="header-span-line-height"
@@ -80,7 +80,7 @@
       </v-icon>
       <span
         style="
-          font-family: Yuanti SC, YouYuan, Microsoft Yahei !important;
+          font-family: Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important;
           font-weight: bold;
 "
         class="header-span-line-height"

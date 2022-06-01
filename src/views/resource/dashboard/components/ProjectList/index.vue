@@ -226,7 +226,7 @@
         class="text-body-2"
         :style="{ position: 'relative', height: '300px' }"
       >
-        <span class="kubegems__full-center kubegems__detail">
+        <span class="kubegems__full-center kubegems__text">
           暂无数据
         </span>
       </div>
@@ -291,7 +291,7 @@ export default {
     projectItems: [],
     environmentItems: [],
     headers: [
-      { text: '环境', value: 'environmentName', align: 'start', width: 120 },
+      { text: '环境', value: 'environmentName', align: 'start', width: 100 },
       { text: '类型', value: 'type', align: 'start' },
       { text: '工作负载', value: 'workload', align: 'start' },
       { text: '任务', value: 'job', align: 'start' },
@@ -301,10 +301,10 @@ export default {
       { text: '服务', value: 'service', align: 'start' },
       { text: '路由', value: 'ingress', align: 'start' },
       { text: '容器组', value: 'pod', align: 'start' },
-      { text: 'CPU', value: 'cpu', align: 'start', width: 120 },
-      { text: '内存', value: 'memory', align: 'start', width: 120 },
-      { text: '流量in', value: 'in', align: 'start', width: 120 },
-      { text: '流量out', value: 'out', align: 'start', width: 120 },
+      { text: 'CPU', value: 'cpu', align: 'start', width: 100 },
+      { text: '内存', value: 'memory', align: 'start', width: 100 },
+      { text: '流量in', value: 'in', align: 'start', width: 100 },
+      { text: '流量out', value: 'out', align: 'start', width: 100 },
       { text: '操作', value: 'action', align: 'center', width: 100 },
     ],
     pageCount: 0,

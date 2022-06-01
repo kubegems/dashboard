@@ -53,7 +53,7 @@
                   <v-list-item-title :key="`t${index}`"> 事件 {{ index + 1 }} </v-list-item-title>
                   <v-list-item-content
                     :key="index"
-                    class="text-caption kubegems__detail kubegems__break-all"
+                    class="text-caption kubegems__text kubegems__break-all"
                   >
                     {{ event.kind }} {{ item.name }} :
                     {{ event.message }}
@@ -65,7 +65,7 @@
         </v-list-item>
         <v-flex
           v-else
-          class="text-caption kubegems__detail text-center pa-2"
+          class="text-caption kubegems__text text-center pa-2"
         >
           暂无事件
         </v-flex>

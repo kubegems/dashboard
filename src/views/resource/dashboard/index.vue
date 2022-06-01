@@ -3,7 +3,7 @@
     <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
-          <span class="text-body-2 kubegems__role">
+          <span class="text-body-2 kubegems__text">
             租户角色:
             {{ $TENANT_ROLE[m_permisson_tenantRole] ? $TENANT_ROLE[m_permisson_tenantRole] : '暂无' }}
           </span>

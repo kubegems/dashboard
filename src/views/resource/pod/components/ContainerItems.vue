@@ -25,7 +25,7 @@
                   class="
                             text-subtitle-2
                             py-1
-                            kubegems__detail
+                            kubegems__text
                             font-weight-regular
                           "
                 >
@@ -131,7 +131,7 @@
                   class="
                             text-subtitle-2
                             py-1
-                            kubegems__detail
+                            kubegems__text
                             font-weight-regular
                           "
                 >
@@ -170,7 +170,7 @@
                   class="
                             text-subtitle-2
                             py-1
-                            kubegems__detail
+                            kubegems__text
                             font-weight-regular
                           "
                 >
@@ -212,7 +212,7 @@
                   class="
                             text-subtitle-2
                             py-1
-                            kubegems__detail
+                            kubegems__text
                             font-weight-regular
                           "
                 >
@@ -233,7 +233,7 @@
                   class="
                             text-subtitle-2
                             py-1
-                            kubegems__detail
+                            kubegems__text
                             font-weight-regular
                           "
                 >
@@ -274,7 +274,7 @@
                   class="
                             text-subtitle-2
                             py-1
-                            kubegems__detail
+                            kubegems__text
                             font-weight-regular
                           "
                 >
@@ -295,7 +295,7 @@
                   class="
                             text-subtitle-2
                             py-1
-                            kubegems__detail
+                            kubegems__text
                             font-weight-regular
                           "
                 >

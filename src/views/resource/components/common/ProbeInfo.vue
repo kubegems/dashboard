@@ -46,7 +46,7 @@
                 >
                   <v-list-item-content class="py-0">
                     <v-list-item-title> HTTP请求检查 </v-list-item-title>
-                    <v-list-item-content class="text-caption kubegems__detail">
+                    <v-list-item-content class="text-caption kubegems__text">
                       初始延迟{{ item.initialDelaySeconds }}s&nbsp;超时{{
                         item.timeoutSeconds
                       }}s&nbsp;频率{{ item.periodSeconds }}s
@@ -59,7 +59,7 @@
                 >
                   <v-list-item-content class="py-0">
                     <v-list-item-title> 类型 </v-list-item-title>
-                    <v-list-item-content class="text-caption kubegems__detail">
+                    <v-list-item-content class="text-caption kubegems__text">
                       {{ item.httpGet.scheme }}
                     </v-list-item-content>
                   </v-list-item-content>
@@ -70,7 +70,7 @@
                 >
                   <v-list-item-content class="py-0">
                     <v-list-item-title> 路径 </v-list-item-title>
-                    <v-list-item-content class="text-caption kubegems__detail">
+                    <v-list-item-content class="text-caption kubegems__text">
                       {{ item.httpGet.path }}
                     </v-list-item-content>
                   </v-list-item-content>
@@ -81,7 +81,7 @@
                 >
                   <v-list-item-content class="py-0">
                     <v-list-item-title> 端口 </v-list-item-title>
-                    <v-list-item-content class="text-caption kubegems__detail">
+                    <v-list-item-content class="text-caption kubegems__text">
                       {{ item.httpGet.port }}
                     </v-list-item-content>
                   </v-list-item-content>
@@ -94,7 +94,7 @@
                 >
                   <v-list-item-content class="py-0">
                     <v-list-item-title> 执行命令检查 </v-list-item-title>
-                    <v-list-item-content class="text-caption kubegems__detail">
+                    <v-list-item-content class="text-caption kubegems__text">
                       初始延迟{{ item.initialDelaySeconds }}s&nbsp;超时{{
                         item.timeoutSeconds
                       }}s&nbsp;频率{{ item.periodSeconds }}s
@@ -108,7 +108,7 @@
                   <v-list-item-content class="py-0">
                     <v-list-item-title> 命令 </v-list-item-title>
                     <v-list-item-content
-                      class="text-caption kubegems__detail kubegems__break-all"
+                      class="text-caption kubegems__text kubegems__break-all"
                     >
                       <template v-for="command in item.exec.command">
                         {{ command }}
@@ -124,7 +124,7 @@
                 >
                   <v-list-item-content class="py-0">
                     <v-list-item-title> TCP端口检查 </v-list-item-title>
-                    <v-list-item-content class="text-caption kubegems__detail">
+                    <v-list-item-content class="text-caption kubegems__text">
                       初始延迟{{ item.initialDelaySeconds }}s&nbsp;超时{{
                         item.timeoutSeconds
                       }}s&nbsp;频率{{ item.periodSeconds }}s
@@ -137,7 +137,7 @@
                 >
                   <v-list-item-content class="py-0">
                     <v-list-item-title> 端口 </v-list-item-title>
-                    <v-list-item-content class="text-caption kubegems__detail">
+                    <v-list-item-content class="text-caption kubegems__text">
                       {{ item.tcpSocket.port }}
                     </v-list-item-content>
                   </v-list-item-content>

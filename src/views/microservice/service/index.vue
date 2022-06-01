@@ -273,7 +273,7 @@
                       <v-list-item-content class="py-0">
                         <v-list-item-title> 警告 </v-list-item-title>
                         <v-list-item-content
-                          class="text-caption kubegems__detail kubegems__break-all"
+                          class="text-caption kubegems__text kubegems__break-all"
                         >
                           {{
                             valids[item.name] &&

@@ -5,7 +5,7 @@
           text-subtitle-2
           float-left
           font-weight-medium
-          kubegems__detail
+          kubegems__text
           sheet__line
         "
     >
@@ -52,7 +52,7 @@
           ml-4
           float-left
           font-weight-medium
-          kubegems__detail
+          kubegems__text
           sheet__line
         "
     >

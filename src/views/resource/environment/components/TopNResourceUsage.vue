@@ -93,7 +93,7 @@
           class="text-body-2"
           :style="{ position: 'relative', height: '400px' }"
         >
-          <span class="kubegems__full-center kubegems__detail">
+          <span class="kubegems__full-center kubegems__text">
             暂无数据
           </span>
         </v-flex>
@@ -138,7 +138,7 @@
           class="text-body-2"
           :style="{ position: 'relative', height: '400px' }"
         >
-          <span class="kubegems__full-center kubegems__detail">
+          <span class="kubegems__full-center kubegems__text">
             插件monitoring未启用
           </span>
         </div>

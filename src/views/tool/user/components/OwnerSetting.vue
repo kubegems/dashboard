@@ -17,7 +17,7 @@
             >
               <v-row class="mt-0">
                 <v-col cols="12">
-                  <v-flex class="text-subtitle-2 kubegems__detail"> 邮箱 </v-flex>
+                  <v-flex class="text-subtitle-2 kubegems__text"> 邮箱 </v-flex>
                   <v-text-field
                     v-model="objInfo.Email"
                     :rules="objInfoRules.emailRules"
@@ -28,7 +28,7 @@
                   />
                 </v-col>
                 <v-col cols="12">
-                  <v-flex class="text-subtitle-2 kubegems__detail"> 手机号 </v-flex>
+                  <v-flex class="text-subtitle-2 kubegems__text"> 手机号 </v-flex>
                   <v-text-field
                     v-model="objInfo.Phone"
                     :rules="objInfoRules.phoneRules"
@@ -68,7 +68,7 @@
             >
               <v-row class="mt-0">
                 <v-col cols="12">
-                  <v-flex class="text-subtitle-2 kubegems__detail"> 原密码 </v-flex>
+                  <v-flex class="text-subtitle-2 kubegems__text"> 原密码 </v-flex>
                   <v-text-field
                     v-model="objPwd.origin"
                     class="my-0"
@@ -82,7 +82,7 @@
                   />
                 </v-col>
                 <v-col cols="12">
-                  <v-flex class="text-subtitle-2 kubegems__detail"> 新密码 </v-flex>
+                  <v-flex class="text-subtitle-2 kubegems__text"> 新密码 </v-flex>
                   <v-text-field
                     v-model="objPwd.new1"
                     class="my-0"
@@ -96,7 +96,7 @@
                   />
                 </v-col>
                 <v-col cols="12">
-                  <v-flex class="text-subtitle-2 kubegems__detail"> 确认新密码 </v-flex>
+                  <v-flex class="text-subtitle-2 kubegems__text"> 确认新密码 </v-flex>
                   <v-text-field
                     v-model="objPwd.new2"
                     class="my-0"

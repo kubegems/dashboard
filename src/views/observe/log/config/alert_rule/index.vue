@@ -222,7 +222,7 @@
               :colspan="headers.length"
               class="my-2 py-2"
             >
-              <span class="text-subtitle-2 kubegems__detail">消息模版：</span>
+              <span class="text-subtitle-2 kubegems__text">消息模版：</span>
               <v-flex class="text-body-2 break-word">
                 {{ item.message }}
               </v-flex>

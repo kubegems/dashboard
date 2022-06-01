@@ -175,7 +175,7 @@
       <v-spacer />
 
       <v-sheet>
-        <span v-if="environmented" class="text-body-2 kubegems__role">
+        <span v-if="environmented" class="text-body-2 kubegems__text">
           环境角色:
           {{
             $RESOURCE_ROLE[m_permisson_resourceRole] ? $RESOURCE_ROLE[m_permisson_resourceRole] : '暂无'
@@ -191,7 +191,7 @@
           <span class="ml-4">集群: {{ Environment().ClusterName }}</span>
           <span class="ml-4">命名空间: {{ Environment().Namespace }}</span>
         </span>
-        <span v-else class="text-body-2 kubegems__role">
+        <span v-else class="text-body-2 kubegems__text">
           项目角色:
           {{ $PROJECT_ROLE[m_permisson_projectRole] ? $PROJECT_ROLE[m_permisson_projectRole] : '暂无' }}
         </span>

@@ -119,7 +119,7 @@
           <v-sheet
             :class="`text-subtitle-2 ${getLoadColor(
               item,
-            )} rounded text-center py-2 kubegems__detail`"
+            )} rounded text-center py-2 kubegems__text`"
           >
             {{ item.load ? item.load : 0 }}
           </v-sheet>

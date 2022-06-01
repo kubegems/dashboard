@@ -5,7 +5,7 @@
     <v-card-text class="px-0 py-3">
       <v-flex class="ma-1 mx-3 pb-2 pt-1">
         <v-sheet class="text-body-2 primary--text float-right mt-n1">
-          <span class="kubegems__detail"> 容器 </span>
+          <span class="kubegems__text"> 容器 </span>
           <v-menu
             v-model="containerMenu"
             bottom
@@ -82,7 +82,7 @@
           </v-menu>
         </v-sheet>
         <v-sheet class="text-body-2 primary--text float-right mt-n1">
-          <span class="kubegems__detail"> 容器组 </span>
+          <span class="kubegems__text"> 容器组 </span>
           <v-menu
             v-model="podMenu"
             bottom
@@ -160,7 +160,7 @@
         </v-sheet>
 
         <v-flex class="text-subtitle-2 float-right primary--text">
-          <span class="kubegems__detail"> 实时 </span>
+          <span class="kubegems__text"> 实时 </span>
           <v-switch
             v-model="stream"
             class="pl-2 primary--text float-right switch-mt"

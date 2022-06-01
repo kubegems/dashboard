@@ -13,7 +13,7 @@
           x-small
           label
           :color="setColor(item.status)"
-          :class="{ 'ml-2': i > 0, 'kubegems__detail': !item.status }"
+          :class="{ 'ml-2': i > 0, 'kubegems__text': !item.status }"
           :style="{ fontFamily: 'kubegems-sample' }"
           v-on="on"
         >

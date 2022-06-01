@@ -117,7 +117,7 @@
       v-show="expand"
       class="mt-3"
     >
-      <div class="my-2 kubegems__detail text-body-2">项目环境</div>
+      <div class="my-2 kubegems__text text-body-2">项目环境</div>
       <ProjectEnvSelect
         :series="series"
         :loading="loading"
@@ -126,7 +126,7 @@
         @clear="handlerClear"
         @refresh="handlerRefresh"
       />
-      <div class="my-2 kubegems__detail text-body-2">{{ queryType === 'tag' ? '选择标签' : '查询语句' }}</div>
+      <div class="my-2 kubegems__text text-body-2">{{ queryType === 'tag' ? '选择标签' : '查询语句' }}</div>
       <LabelSelector
         v-if="queryType === 'tag'"
         v-model="selected"
