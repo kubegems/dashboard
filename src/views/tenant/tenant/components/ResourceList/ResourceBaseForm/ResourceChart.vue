@@ -145,47 +145,47 @@ export default {
     },
     nvidiaSeries() {
       return this.quota
-        ? this.quota.UsedStorage === 0
+        ? this.quota.UsedNvidiaGpu === 0
           ? [0]
-          : [(this.quota.UsedStorage / this.quota.Storage) * 100]
+          : [(this.quota.UsedNvidiaGpu / this.quota.NvidiaGpu) * 100]
         : [0]
     },
     nvidiaOptions() {
       return generateRadialBarChartOptions(
         'nvidia gpu',
         ['nvidia gpu'],
-        this.quota ? this.quota.Storage : 0,
-        'Gi',
+        this.quota ? this.quota.NvidiaGpu : 0,
+        'gpu',
       )
     },
     tkeSeries() {
       return this.quota
-        ? this.quota.UsedStorage === 0
+        ? this.quota.UsedTkeGpu === 0
           ? [0]
-          : [(this.quota.UsedStorage / this.quota.Storage) * 100]
+          : [(this.quota.UsedTkeGpu / this.quota.TkeGpu) * 100]
         : [0]
     },
     tkeOptions() {
       return generateRadialBarChartOptions(
-        'tke vcuda',
-        ['tke vcuda'],
-        this.quota ? this.quota.Storage : 0,
-        'Gi',
+        'tke gpu',
+        ['tke gpu'],
+        this.quota ? this.quota.TkeGpu : 0,
+        '',
       )
     },
     tkeMemorySeries() {
       return this.quota
-        ? this.quota.UsedStorage === 0
+        ? this.quota.UsedTkeMemory === 0
           ? [0]
-          : [(this.quota.UsedStorage / this.quota.Storage) * 100]
+          : [(this.quota.UsedTkeMemory / this.quota.TkeMemory) * 100]
         : [0]
     },
     tkeMemoryOptions() {
       return generateRadialBarChartOptions(
         'tke 显存',
         ['tke 显存'],
-        this.quota ? this.quota.Storage : 0,
-        'Gi',
+        this.quota ? this.quota.TkeMemory : 0,
+        '',
       )
     },
   },

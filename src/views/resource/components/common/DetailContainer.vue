@@ -35,19 +35,19 @@
           <td>{{ item.image }}</td>
           <td>
             <template v-if="item.livenessProbe">
-              <ProbeInfo
+              <ProbeTip
                 title="存活探针"
                 :item="item.livenessProbe"
               />
             </template>
             <template v-if="item.readinessProbe">
-              <ProbeInfo
+              <ProbeTip
                 title="就绪探针"
                 :item="item.readinessProbe"
               />
             </template>
             <template v-if="item.startupProbe">
-              <ProbeInfo
+              <ProbeTip
                 title="启动探针"
                 :item="item.startupProbe"
               />
@@ -89,12 +89,12 @@
 </template>
 
 <script>
-import ProbeInfo from './ProbeInfo'
+import ProbeTip from './ProbeTip'
 
 export default {
   name: 'DetailContainer',
   components: {
-    ProbeInfo,
+    ProbeTip,
   },
   props: {
     containers: {

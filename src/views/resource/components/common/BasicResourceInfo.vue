@@ -4,8 +4,7 @@
       {{ item ? item.metadata.name : '' }}
       <template
         v-if="
-          Plugins && Plugins['gpu-manager'] &&
-            item &&
+          item &&
             item.kind === 'Pod' &&
             item.spec &&
             item.spec.nodeSelector &&
@@ -35,8 +34,7 @@
       </template>
       <template
         v-if="
-          Plugins && Plugins.gpu &&
-            item &&
+          item &&
             item.kind === 'Pod' &&
             item.spec &&
             item.spec.nodeSelector &&
@@ -122,7 +120,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import BaseResource from '@/mixins/resource'
 
 export default {
@@ -141,9 +138,6 @@ export default {
       type: Boolean,
       default: () => true,
     },
-  },
-  computed: {
-    ...mapState(['Plugins']),
   },
 }
 </script>

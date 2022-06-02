@@ -85,12 +85,24 @@ export default {
       this.item.NowCpu = item.Cpu
       this.item.NowMemory = item.Memory
       this.item.NowStorage = item.Storage
+      if (item.NvidiaGpu) { this.item.NowNvidiaGpu = item.NvidiaGpu }
+      if (item.TkeGpu) { this.item.NowTkeGpu = item.TkeGpu }
+      if (item.TkeMemory) { this.item.NowTkeMemory = item.TkeMemory }
       this.quota = await this.m_resource_clusterQuota(this.item.ClusterID, this.item)
-      this.$refs.resource.setContent({
+      let content = {
         'limits.cpu': item.Cpu,
         'limits.memory': item.Memory,
         'requests.storage': item.Storage,
-      })
+      }
+      if (item.NvidiaGpu) {
+        content['limits.nvidia.com/gpu'] = item.NowNvidiaGpu
+      }
+      if (item.TkeGpu) {
+        content['tencent.com/vcuda-core'] = item.TkeGpu
+      }
+      if (item.TkeMemory) {
+        content['tencent.com/vcuda-memory'] = item.TkeMemory
+      }
       if (
         this.item.TenantResourceQuotaApply &&
         this.item.TenantResourceQuotaApply.Status === 'pending'
@@ -99,15 +111,25 @@ export default {
           this.item.TenantID,
           this.item.TenantResourceQuotaApplyID,
         )
-        this.$refs.resource.setContent({
+        content = {
           'limits.cpu': data.Content[`limits.cpu`],
           'limits.memory': data.Content[`limits.memory`].replaceAll('Gi', ''),
           'requests.storage': data.Content[`requests.storage`].replaceAll(
             'Gi',
             '',
           ),
-        })
+        }
+        if (item.NvidiaGpu) {
+          content['limits.nvidia.com/gpu'] = data.Content[`limits.nvidia.com/gpu`]
+        }
+        if (item.TkeGpu) {
+          content['tencent.com/vcuda-core'] = data.Content[`tencent.com/vcuda-core`]
+        }
+        if (item.TkeMemory) {
+          content['tencent.com/vcuda-memory'] = data.Content[`tencent.com/vcuda-memory`]
+        }
       }
+      this.$refs.resource.setContent(content)
     },
     reset() {
       this.dialog = false

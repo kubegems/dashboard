@@ -53,7 +53,58 @@
             :series="podSeries"
           />
         </v-col>
+
+        <v-col
+          v-if="nvidia && showMore"
+          cols="3"
+          class="py-0"
+        >
+          <VueApexCharts
+            type="radialBar"
+            height="230"
+            :options="nvidiaGpuOptions"
+            :series="nvidiaGpuSeries"
+          />
+        </v-col>
+        <template v-if="tke && showMore">
+          <v-col
+            cols="3"
+            class="py-0"
+          >
+            <VueApexCharts
+              type="radialBar"
+              height="230"
+              :options="tkeGpuOptions"
+              :series="tkeGpuSeries"
+            />
+          </v-col>
+          <v-col
+            cols="3"
+            class="py-0"
+          >
+            <VueApexCharts
+              type="radialBar"
+              height="230"
+              :options="tkeMemoryOptions"
+              :series="tkeMemorySeries"
+            />
+          </v-col>
+        </template>
       </v-row>
+
+      <div
+        v-if="tke || nvidia"
+        class="mb-2 text-center"
+      >
+        <v-btn
+          text
+          small
+          color="primary"
+          @click="showMore=!showMore"
+        >
+          {{ showMore ? '折叠GPU' : '显示GPU' }}
+        </v-btn>
+      </div>
     </v-card-text>
   </v-card>
 </template>
@@ -80,6 +131,9 @@ export default {
   data() {
     return {
       quota: null,
+      nvidia: false,
+      tke: false,
+      showMore: false,
     }
   },
   computed: {
@@ -153,6 +207,60 @@ export default {
         '',
       )
     },
+
+    nvidiaGpuSeries() {
+      return this.quota
+        ? [
+            this.quota.NvidiaGpu === 0
+              ? 0
+              : (this.quota.UsedNvidiaGpu / this.quota.NvidiaGpu) * 100,
+          ]
+        : [0]
+    },
+    nvidiaGpuOptions() {
+      return generateRadialBarChartOptions(
+        'Nvidia CPU',
+        ['Nvidia CPU'],
+        this.quota ? this.quota.NvidiaGpu : 0,
+        'gpu',
+      )
+    },
+
+    tkeGpuSeries() {
+      return this.quota
+        ? [
+            this.quota.TkeGpu === 0
+              ? 0
+              : (this.quota.UsedTkeGpu / this.quota.TkeGpu) * 100,
+          ]
+        : [0]
+    },
+    tkeGpuOptions() {
+      return generateRadialBarChartOptions(
+        'Tke GPU',
+        ['Tke GPU'],
+        this.quota ? this.quota.TkeGpu : 0,
+        '',
+      )
+    },
+
+    tkeMemorySeries() {
+      return this.quota
+        ? [
+            this.quota.TkeMemory === 0
+              ? 0
+              : (this.quota.UsedTkeMemory / this.quota.TkeMemory) * 100,
+          ]
+        : [0]
+    },
+    tkeMemoryOptions() {
+      return generateRadialBarChartOptions(
+        'Tke显存',
+        ['Tke显存'],
+        this.quota ? this.quota.TkeMemory : 0,
+        '',
+      )
+    },
   },
   mounted() {
     this.$nextTick(() => {
@@ -198,7 +306,31 @@ export default {
           UsedPod: data.quota.status.used.pods
             ? parseFloat(data.quota.status.used.pods)
             : 0,
+
+          NvidiaGpu: data.quota.status.hard['limits.nvidia.com/gpu']
+            ? parseFloat(data.quota.status.hard['limits.nvidia.com/gpu'])
+            : 0,
+          UsedNvidiaGpu: data.quota.status.used['limits.nvidia.com/gpu']
+            ? parseFloat(data.quota.status.used['limits.nvidia.com/gpu'])
+            : 0,
+
+          TkeGpu: data.quota.status.hard['tencent.com/vcuda-core']
+            ? parseFloat(data.quota.status.hard['tencent.com/vcuda-core'])
+            : 0,
+          UsedTkeGpu: data.quota.status.used['tencent.com/vcuda-core']
+            ? parseFloat(data.quota.status.used['tencent.com/vcuda-core'])
+            : 0,
+
+          TkeMemory: data.quota.status.hard['tencent.com/vcuda-memory']
+            ? parseFloat(data.quota.status.hard['tencent.com/vcuda-memory'])
+            : 0,
+          UsedTkeMemory: data.quota.status.used['tencent.com/vcuda-memory']
+            ? parseFloat(data.quota.status.used['tencent.com/vcuda-memory'])
+            : 0,
         }
+        this.nvidia = Object.prototype.hasOwnProperty.call(data.quota.status.hard, 'limits.nvidia.com/gpu')
+        this.tke = Object.prototype.hasOwnProperty.call(data.quota.status.hard, 'tencent.com/vcuda-core') ||
+          Object.prototype.hasOwnProperty.call(data.quota.status.hard, 'tencent.com/vcuda-memory')
       } else {
         this.quota = {
           Cpu: 0,
@@ -209,6 +341,12 @@ export default {
           UsedMemory: 0,
           UsedStorage: 0,
           UsedPod: 0,
+          NvidiaGpu: 0,
+          UsedNvidiaGpu: 0,
+          TkeGpu: 0,
+          UsedTkeGpu: 0,
+          TkeMemory: 0,
+          UsedTkeMemory: 0,
         }
       }
       this.$emit('ready')

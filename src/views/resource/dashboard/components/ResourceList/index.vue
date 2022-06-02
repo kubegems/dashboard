@@ -16,24 +16,51 @@
       hide-default-footer
     >
       <template #[`item.clusterName`]="{ item }">
-        {{ item.Cluster.ClusterName }}
+        <v-flex
+          class="float-left resource__tr"
+        >
+          {{ item.Cluster.ClusterName }}
+        </v-flex>
+        <v-flex
+          v-if="item.TkeGpu"
+          class="float-left ml-2 resource__icon"
+        >
+          <GpuTip
+            type="tke"
+            :item="item"
+          />
+        </v-flex>
+        <v-flex
+          v-if="item.NvidiaGpu"
+          class="float-left ml-2 resource__icon"
+        >
+          <GpuTip
+            type="nvidia"
+            :item="item"
+          />
+        </v-flex>
         <template
           v-if="
             item.TenantResourceQuotaApply &&
               item.TenantResourceQuotaApply.Status === 'pending'
           "
         >
-          <v-icon
-            color="warning"
-            small
-            right
+          <v-flex
+            class="float-left ml-2 resource__tr"
           >
-            mdi-alert-circle
-          </v-icon>
-          <span class="warning--text text-caption font-weight-medium">
-            资源申请中
-          </span>
+            <v-icon
+              color="warning"
+              small
+              right
+            >
+              mdi-alert-circle
+            </v-icon>
+            <span class="warning--text text-caption font-weight-medium">
+              资源申请中
+            </span>
+          </v-flex>
         </template>
+        <div class="kubegems__clear-float" />
       </template>
       <template #[`item.cpu`]="{ item }">
         {{ item.Cpu ? item.Cpu : 0 }} core
@@ -142,6 +169,7 @@ import { mapGetters, mapState } from 'vuex'
 import { getTenantResourceQuotaList, getTenantResourceQuota } from '@/api'
 import ScaleResource from './ScaleResource'
 import Pagination from '../Pagination'
+import GpuTip from '@/views/resource/components/common/GpuTip'
 import BasePermission from '@/mixins/permission'
 import { sizeOfCpu, sizeOfStorage } from '@/utils/helpers'
 
@@ -150,6 +178,7 @@ export default {
   components: {
     ScaleResource,
     Pagination,
+    GpuTip,
   },
   mixins: [BasePermission],
   data: () => ({
@@ -254,6 +283,27 @@ export default {
         item.Storage > 0
           ? ((item.AllocatedStorage / item.Storage) * 100).toFixed(1)
           : 0
+
+      if (Object.prototype.hasOwnProperty.call(data.spec.hard, 'limits.nvidia.com/gpu')) {
+        item.NvidiaGpu = parseFloat(data.spec.hard['limits.nvidia.com/gpu'])
+        item.AllocatedNvidiaGpu = parseFloat(data.status.allocated['limits.nvidia.com/gpu'])
+        item.NvidiaGpuPercentage =
+          item.NvidiaGpu > 0 ? ((item.AllocatedNvidiaGpu / item.NvidiaGpu) * 100).toFixed(1) : 0
+      }
+
+      if (Object.prototype.hasOwnProperty.call(data.spec.hard, 'tencent.com/vcuda-core' ||
+        Object.prototype.hasOwnProperty.call(data.spec.hard, 'tencent.com/vcuda-memory'))) {
+        item.TkeGpu = parseFloat(data.spec.hard['tencent.com/vcuda-core'])
+        item.AllocatedTkeGpu = parseFloat(data.status.allocated['tencent.com/vcuda-core'])
+        item.TkeGpuPercentage =
+          item.TkeGpu > 0 ? ((item.AllocatedTkeGpu / item.TkeGpu) * 100).toFixed(1) : 0
+
+        item.TkeMemory = parseFloat(data.spec.hard['tencent.com/vcuda-memory'])
+        item.AllocatedTkeMemory = parseFloat(data.status.allocated['tencent.com/vcuda-memory'])
+        item.TkeMemoryPercentage =
+          item.TkeMemory > 0 ? ((item.AllocatedTkeMemory / item.TkeMemory) * 100).toFixed(1) : 0
+      }
+
       this.$set(this.items, index, item)
     },
     scaleResource(item) {
@@ -263,4 +313,16 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.resource {
+  &__tr {
+    line-height: 48px;
+  }
+
+  &__icon {
+    margin-top: 10px;
+  }
+}
+</style>
 
