@@ -16,9 +16,9 @@
             active-class="primary--text"
           >
             <v-list-item
-              v-if="Plugins && Plugins['gpu-manager']"
+              v-if="Plugins && Plugins['tke-gpu']"
               link
-              class="my-1"
+              class="mb-3"
             >
               <template #default="{ active }">
                 <v-list-item-action>
@@ -41,7 +41,7 @@
             <v-list-item
               v-if="Plugins && Plugins.gpu"
               link
-              class="my-1"
+              class="mb-3"
             >
               <template #default="{ active }">
                 <v-list-item-action>
@@ -122,7 +122,7 @@ export default {
       }
     },
     async gpuSchedule() {
-      if (this.Plugins['gpu-manager']) {
+      if (this.Plugins['tke-gpu']) {
         if (this.gpuSelected.indexOf(0) > -1) {
           this.item.metadata.labels['tencent.com/vcuda'] = 'true'
         } else {
@@ -130,7 +130,7 @@ export default {
         }
       }
       if (this.Plugins.gpu) {
-        if (this.Plugins['gpu-manager']) {
+        if (this.Plugins['tke-gpu']) {
           if (this.gpuSelected.indexOf(1) > -1) {
             this.item.metadata.labels['nvidia.com/gpu'] = 'true'
           } else {

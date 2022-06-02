@@ -116,8 +116,11 @@ export default {
       this.item.NowStorage = parseFloat(
         sizeOfStorage(data.spec.hard[`requests.storage`]),
       )
+      if (item.NvidiaGpu) { this.item.NowNvidiaGpu = data.spec.hard['limits.nvidia.com/gpu'] }
+      if (item.TkeGpu) { this.item.NowTkeGpu = data.spec.hard['tencent.com/vcuda-core'] }
+      if (item.TkeMemory) { this.item.NowTkeMemory = data.spec.hard['tencent.com/vcuda-memory'] }
       this.quota = await this.m_resource_clusterQuota(this.item.ClusterID, this.item)
-      this.$refs.resource.setContent({
+      const content = {
         'limits.cpu': this.item.Content[`limits.cpu`],
         'limits.memory': this.item.Content[`limits.memory`].replaceAll(
           'Gi',
@@ -127,7 +130,17 @@ export default {
           'Gi',
           '',
         ),
-      })
+      }
+      if (item.NvidiaGpu) {
+        content['limits.nvidia.com/gpu'] = this.item.Content[`limits.nvidia.com/gpu`]
+      }
+      if (item.TkeGpu) {
+        content['tencent.com/vcuda-core'] = this.item.Content[`tencent.com/vcuda-core`]
+      }
+      if (item.TkeMemory) {
+        content['tencent.com/vcuda-memory'] = this.item.Content[`tencent.com/vcuda-memory`]
+      }
+      this.$refs.resource.setContent(content)
     },
     reset() {
       this.dialog = false

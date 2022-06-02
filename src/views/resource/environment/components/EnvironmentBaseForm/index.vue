@@ -558,6 +558,9 @@ export default {
         NowCpu: this.obj.statistics.Cpu,
         NowMemory: this.obj.statistics.Memory,
         NowStorage: this.obj.statistics.Storage,
+        NowNvidiaGpu: this.obj.statistics.NvidiaGpu,
+        NowTkeGpu: this.obj.statistics.TkeGpu,
+        NowTkeMemory: this.obj.statistics.TkeMemory,
       })
       await this.m_select_tenantClusterSelectData(this.Tenant().ID)
       await this.onClusterChange(this.obj.data.ClusterID)
