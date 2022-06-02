@@ -212,7 +212,7 @@
             <v-card>
               <v-card-text class="pa-2 text-center">
                 <v-flex
-                  v-if="Plugins && (Plugins['gpu-manager'] || Plugins.gpu)"
+                  v-if="Plugins && (Plugins['tke-gpu'] || Plugins.gpu)"
                 >
                   <v-btn
                     color="primary"

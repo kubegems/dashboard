@@ -192,6 +192,7 @@ export default {
           source: this.source,
         })
         this.$store.commit('SET_JWT', data.token)
+        this.$store.commit('SET_VERSION', process.env.VUE_APP_RELEASE)
         await this.loadData()
         this.$store.commit('SET_SNACKBAR', {
           text: '登录成功',

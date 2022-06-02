@@ -57,7 +57,7 @@
                 v-model="obj.Content['limits.cpu']"
                 class="my-0"
                 required
-                label="CPU扩容后限制值"
+                :label="edit?'CPU扩容后限制值':'CPU限制值'"
                 suffix="core"
                 :rules="objRules.cpuRules"
               />
@@ -78,7 +78,7 @@
                 v-model="obj.Content['limits.memory']"
                 class="my-0"
                 required
-                label="内存扩容后限制值"
+                :label="edit?'内存扩容后限制值':'内存限制值'"
                 suffix="Gi"
                 :rules="objRules.memoryRules"
               />
@@ -100,7 +100,7 @@
                 v-model="obj.Content[`requests.storage`]"
                 class="my-0"
                 required
-                label="存储扩容后限制值"
+                :label="edit?'存储扩容后限制值':'存储限制值'"
                 suffix="Gi"
                 :rules="objRules.storageRules"
               />
@@ -122,15 +122,15 @@
                 <v-flex class="text-subtitle-1">
                   可用nvidia CPU
                   <span class="text-subtitle-2 primary--text">
-                    {{ quota ? quota.AllocatedCpu.toFixed(1) : 0 }} core
+                    {{ quota ? quota.AllocatedNvidiaGpu.toFixed(1) : 0 }} Gpu
                   </span>
                 </v-flex>
                 <v-text-field
-                  v-model="obj.Content['nvidia.com/gpu']"
+                  v-model="obj.Content['limits.nvidia.com/gpu']"
                   class="my-0"
                   required
-                  label="nvidia GPU扩容后限制值"
-                  suffix="core"
+                  :label="edit?'nvidia GPU扩容后限制值':'nvidia GPU限制值'"
+                  suffix="Gpu"
                   :rules="objRules.nvidiaRules"
                 />
               </v-sheet>
@@ -142,17 +142,17 @@
               >
                 <v-sheet class="px-2">
                   <v-flex class="text-subtitle-1">
-                    可用tke vcuda
+                    可用tke GPU
                     <span class="text-subtitle-2 primary--text">
-                      {{ quota ? quota.AllocatedMemory.toFixed(1) : 0 }} core
+                      {{ quota ? quota.AllocatedTkeGpu.toFixed(1) : 0 }} 单位 (1单位=0.01 Gpu)
                     </span>
                   </v-flex>
                   <v-text-field
                     v-model="obj.Content['tencent.com/vcuda-core']"
                     class="my-0"
                     required
-                    label="tke vcuda扩容后限制值"
-                    suffix="core"
+                    :label="edit?'tke GPU扩容后限制值':'tke GPU限制值'"
+                    :suffix="`${parseInt(obj.Content['tencent.com/vcuda-core']||0)/100} Gpu`"
                     :rules="objRules.tkeVcudaRules"
                   />
                 </v-sheet>
@@ -165,16 +165,15 @@
                   <v-flex class="text-subtitle-1">
                     可用tke显存
                     <span class="text-subtitle-2 primary--text">
-                      {{ quota ? quota.AllocatedStorage.toFixed(1) : 0 }}
-                      Gi
+                      {{ quota ? quota.AllocatedTkeMemory.toFixed(1) : 0 }} 单位 (1单位=256Mi)
                     </span>
                   </v-flex>
                   <v-text-field
                     v-model="obj.Content[`tencent.com/vcuda-memory`]"
                     class="my-0"
                     required
-                    label="tke显存扩容后限制值"
-                    suffix="Gi"
+                    :label="edit?'tke显存扩容后限制值':'tke显存限制值'"
+                    :suffix="`${parseInt(obj.Content['tencent.com/vcuda-memory']||0)*256/1024}Gi`"
                     :rules="objRules.tkeVcudaMemoryRules"
                   />
                 </v-sheet>
@@ -224,18 +223,22 @@ export default {
           'limits.cpu': '',
           'limits.memory': '',
           'requests.storage': '',
-          // 'nvidia.com/gpu': '',
-          // 'tencent.com/vcuda-core': '',
-          // 'tencent.com/vcuda-memory': '',
         },
       },
     }
   },
   computed: {
     nvidia() {
+      if (this.quota) {
+        return Object.prototype.hasOwnProperty.call(this.quota, 'NvidiaGpu')
+      }
       return false
     },
     tke() {
+      if (this.quota) {
+        return Object.prototype.hasOwnProperty.call(this.quota, 'TkeGpu') ||
+          Object.prototype.hasOwnProperty.call(this.quota, 'TkeMemory')
+      }
       return false
     },
     objRules() {
@@ -265,16 +268,44 @@ export default {
         nvidiaRules: [
           required,
           integer,
+          (v) =>
+            parseInt(v) <= (this.quota ? this.quota.AllocatedNvidiaGpu : 0) ||
+            '超出最大限制',
         ],
         tkeVcudaRules: [
           required,
           integer,
+          (v) =>
+            parseInt(v) <= (this.quota ? this.quota.AllocatedTkeGpu : 0) ||
+            '超出最大限制',
         ],
         tkeVcudaMemoryRules: [
           required,
           integer,
+          (v) =>
+            parseInt(v) <= (this.quota ? this.quota.AllocatedTkeMemory : 0) ||
+            '超出最大限制',
         ],
       }
+    },
+  },
+  watch: {
+    nvidia: {
+      handler(newValue) {
+        if (newValue && !this.edit) {
+          this.obj.Content['limits.nvidia.com/gpu'] = ''
+        }
+      },
+      deep: true,
+    },
+    tke: {
+      handler(newValue) {
+        if (newValue && !this.edit) {
+          this.obj.Content['tencent.com/vcuda-core'] = ''
+          this.obj.Content['tencent.com/vcuda-memory'] = ''
+        }
+      },
+      deep: true,
     },
   },
   methods: {

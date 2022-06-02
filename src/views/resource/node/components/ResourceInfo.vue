@@ -93,7 +93,7 @@
           color="primary"
           @click="showMore=!showMore"
         >
-          {{ showMore ? '折叠GPU' : '显示更多' }}
+          {{ showMore ? '折叠GPU' : '显示GPU' }}
         </v-btn>
       </div>
     </v-card>

@@ -53,7 +53,31 @@
         hide-default-footer
       >
         <template #[`item.clusterName`]="{ item }">
-          {{ item.Cluster.ClusterName }}
+          <v-flex
+            class="float-left resource__tr"
+          >
+            {{ item.Cluster.ClusterName }}
+          </v-flex>
+          <v-flex
+            v-if="item.TkeGpu"
+            class="float-left ml-2 resource__icon"
+          >
+            <GpuTip
+              type="tke"
+              :item="item"
+              :allocated="false"
+            />
+          </v-flex>
+          <v-flex
+            v-if="item.NvidiaGpu"
+            class="float-left ml-2 resource__icon"
+          >
+            <GpuTip
+              type="nvidia"
+              :item="item"
+              :allocated="false"
+            />
+          </v-flex>
         </template>
         <template #[`item.cpu`]="{ item }"> {{ item.Cpu }} core </template>
         <template #[`item.memory`]="{ item }">
@@ -148,6 +172,7 @@ import {
 import AddResource from './AddResource'
 import TenantMonitor from './TenantMonitor'
 import ScaleResource from './ScaleResource'
+import GpuTip from '@/views/resource/components/common/GpuTip'
 import { sizeOfCpu, sizeOfStorage } from '@/utils/helpers'
 
 export default {
@@ -156,6 +181,7 @@ export default {
     AddResource,
     TenantMonitor,
     ScaleResource,
+    GpuTip,
   },
   props: {
     tenant: {
@@ -212,6 +238,16 @@ export default {
           ? sizeOfStorage(item.Content['requests.storage'])
           : 0
 
+        if (item.Content['limits.nvidia.com/gpu']) {
+          item.NvidiaGpu = sizeOfStorage(item.Content['limits.nvidia.com/gpu'])
+        }
+        if (item.Content['tencent.com/vcuda-core']) {
+          item.TkeGpu = parseInt(item.Content['tencent.com/vcuda-core'])
+        }
+        if (item.Content['tencent.com/vcuda-memory']) {
+          item.TkeMemory = parseInt(item.Content['tencent.com/vcuda-memory'])
+        }
+
         this.allCpu += item.Cpu
         this.allMem += item.Memory
         this.allStorage += item.Storage
@@ -261,3 +297,14 @@ export default {
 }
 </script>
 
+<style lang="scss" scoped>
+.resource {
+  &__tr {
+    line-height: 48px;
+  }
+
+  &__icon {
+    margin-top: 10px;
+  }
+}
+</style>

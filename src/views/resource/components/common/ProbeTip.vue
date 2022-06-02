@@ -153,7 +153,7 @@
 
 <script>
 export default {
-  name: 'ProbInfo',
+  name: 'ProbeTip',
   props: {
     item: {
       type: Object,

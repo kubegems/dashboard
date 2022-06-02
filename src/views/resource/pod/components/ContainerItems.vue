@@ -42,8 +42,7 @@
                   </v-flex>
                   <v-flex
                     v-if="
-                      Plugins && Plugins['gpu-manager'] &&
-                        item &&
+                      item &&
                         item.spec &&
                         item.spec.nodeSelector &&
                         item.spec.nodeSelector['tencent.com/vcuda'] ===
@@ -66,8 +65,7 @@
                   </v-flex>
                   <v-flex
                     v-if="
-                      Plugins && Plugins.gpu &&
-                        item &&
+                      item &&
                         item.spec &&
                         item.spec.nodeSelector &&
                         item.spec.nodeSelector['nvidia.com/gpu'] ===
@@ -182,7 +180,7 @@
                     :key="index"
                     class="float-left mr-2"
                   >
-                    <ProbeInfo
+                    <ProbeTip
                       :title="probe.title"
                       :item="probe.probe"
                     />
@@ -319,7 +317,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import ProbeInfo from '@/views/resource/components/common/ProbeInfo'
+import ProbeTip from '@/views/resource/components/common/ProbeTip'
 import ContainerLog from '@/views/resource/components/common/ContainerLog'
 import Terminal from '@/views/resource/components/common/Terminal'
 import BasePermission from '@/mixins/permission'
@@ -329,7 +327,7 @@ import { deepCopy } from '@/utils/helpers'
 export default {
   name: 'ContainerItems',
   components: {
-    ProbeInfo,
+    ProbeTip,
     ContainerLog,
     Terminal,
   },
@@ -354,7 +352,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['Plugins', 'AdminViewport']),
+    ...mapState(['AdminViewport']),
   },
   watch: {
     containerStatuses: {
