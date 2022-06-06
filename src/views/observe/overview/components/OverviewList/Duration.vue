@@ -59,7 +59,7 @@
                 <v-list-item
                   v-for="(dur, index) in item.values"
                   :key="index"
-                  class="text-caption text-center font-weight-medium"
+                  class="text-caption text-center font-weight-medium mx-2"
                   link
                   :style="
                     dur.value === duration

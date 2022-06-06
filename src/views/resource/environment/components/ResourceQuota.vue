@@ -328,9 +328,12 @@ export default {
             ? parseFloat(data.quota.status.used['tencent.com/vcuda-memory'])
             : 0,
         }
-        this.nvidia = Object.prototype.hasOwnProperty.call(data.quota.status.hard, 'limits.nvidia.com/gpu')
-        this.tke = Object.prototype.hasOwnProperty.call(data.quota.status.hard, 'tencent.com/vcuda-core') ||
-          Object.prototype.hasOwnProperty.call(data.quota.status.hard, 'tencent.com/vcuda-memory')
+        this.nvidia = Object.prototype.hasOwnProperty.call(data.quota.status.hard, 'limits.nvidia.com/gpu') &&
+          parseInt(data.quota.status.hard['limits.nvidia.com/gpu']) > 0
+        this.tke = (Object.prototype.hasOwnProperty.call(data.quota.status.hard, 'tencent.com/vcuda-core') &&
+          parseInt(data.quota.status.hard['tencent.com/vcuda-core']) > 0) ||
+          (Object.prototype.hasOwnProperty.call(data.quota.status.hard, 'tencent.com/vcuda-memory') &&
+          parseInt(data.quota.status.hard['tencent.com/vcuda-memory']) > 0)
       } else {
         this.quota = {
           Cpu: 0,

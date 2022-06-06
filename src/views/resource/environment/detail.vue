@@ -94,7 +94,10 @@
         cols="9"
         class="py-0"
       >
-        <ResourceQuota @ready="ready=true" />
+        <ResourceQuota
+          ref="resourceQuota"
+          @ready="ready=true"
+        />
 
         <ResourceMonitor :ready="ready" />
       </v-col>
@@ -109,7 +112,7 @@
 
     <ScaleResource
       ref="scaleResource"
-      @refresh="environmentDetail"
+      @refresh="environmentQuota"
     />
     <ManageUser ref="manageUser" />
     <UpdateEnvironment
@@ -213,6 +216,9 @@ export default {
     resourceUsage() {
       this.$refs.resourceUseList.init()
       this.$refs.resourceUseList.open()
+    },
+    environmentQuota() {
+      this.$refs.resourceQuota.environmentQuota()
     },
   },
 }

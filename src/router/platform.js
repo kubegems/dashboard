@@ -26,7 +26,6 @@ export const platform = [
               icon: 'mdi-brightness-7',
               show: true,
               rootName: 'platform',
-              dependencies: ['kubegems-installer'],
               tip: 'base-setting',
             },
           },

@@ -27,7 +27,7 @@
           >
             mdi-memory
           </v-icon>
-          <span :style="{ textTransform: 'capitalize' }">{{ type }} Gpu</span>
+          <span>{{ type === 'tke' ? 'Tencent Vcuda' : 'Nvidia Gpu' }}</span>
         </v-flex>
         <v-list
           dense
