@@ -6,6 +6,7 @@
 
     <v-menu
       v-if="items.length"
+      :close-on-content-click="false"
       open-on-hover
       :close-delay="200"
       :max-width="maxWidth"
