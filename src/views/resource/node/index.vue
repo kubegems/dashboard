@@ -102,15 +102,7 @@
             class="rounded font-weight-medium"
             :value="item.podPercentage"
             height="15"
-            :color="
-              item.podPercentage
-                ? item.podPercentage < 60
-                  ? 'primary'
-                  : item.podPercentage < 80
-                    ? 'warning'
-                    : 'red darken-1'
-                : 'primary'
-            "
+            :color="getColor(item.podPercentage)"
           >
             <span class="white--text"> {{ item.podPercentage }}% </span>
           </v-progress-linear>
@@ -132,13 +124,7 @@
             class="rounded font-weight-medium"
             :value="item.cpuPercentage"
             height="15"
-            :color="
-              item.cpuPercentage < 60
-                ? 'primary'
-                : item.cpuPercentage < 80
-                  ? 'warning'
-                  : 'red darken-1'
-            "
+            :color="getColor(item.cpuPercentage)"
           >
             <span class="white--text"> {{ item.cpuPercentage }}% </span>
           </v-progress-linear>
@@ -151,13 +137,7 @@
             class="rounded font-weight-medium"
             :value="item.memoryPercentage"
             height="15"
-            :color="
-              item.memoryPercentage < 60
-                ? 'primary'
-                : item.memoryPercentage < 80
-                  ? 'warning'
-                  : 'red darken-1'
-            "
+            :color="getColor(item.memoryPercentage)"
           >
             <span class="white--text"> {{ item.memoryPercentage }}% </span>
           </v-progress-linear>
@@ -212,7 +192,7 @@
             <v-card>
               <v-card-text class="pa-2 text-center">
                 <v-flex
-                  v-if="Plugins && (Plugins['tke-gpu'] || Plugins.gpu)"
+                  v-if="Plugins && (Plugins['tke-gpu-manager'] || Plugins['nvidia-device-plugin'])"
                 >
                   <v-btn
                     color="primary"
@@ -530,6 +510,15 @@ export default {
     },
     onPageIndexChange(page) {
       this.params.page = page
+    },
+    getColor(percentage) {
+      return percentage
+        ? percentage < 60
+          ? 'primary'
+          : percentage < 80
+            ? 'warning'
+            : 'red darken-1'
+        : 'primary'
     },
   },
 }

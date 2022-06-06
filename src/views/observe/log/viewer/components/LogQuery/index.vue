@@ -371,9 +371,9 @@ export default {
       // 保证logQL和regexp 获取到最新值
       this.$nextTick(() => {
         this.expand = false
-        const _v = this
-        window.setTimeout(() => {
-          _v.$emit('search', {
+        const _vue = this
+        setTimeout(() => {
+          _vue.$emit('search', {
             logQL: this.advancedQl || this.logQL,
             regexp: this.regexQL,
             projectName: this.projectName,

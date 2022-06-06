@@ -86,8 +86,8 @@ export default {
         name: '应用类型',
         type: 'app',
         items: [
-          { name: 'c++' },
-          { name: 'c#' },
+          { name: 'c++', value: 'cplusplus' },
+          { name: 'c#', value: 'csharp' },
           { name: 'golang' },
           { name: 'erlang' },
           { name: 'python' },
@@ -96,6 +96,7 @@ export default {
           { name: 'rust' },
           { name: 'java' },
           { name: 'javascript' },
+          { name: 'nodejs' },
           { name: 'php' },
         ],
         harfItems: [...new Array(6).keys()],

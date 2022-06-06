@@ -227,7 +227,7 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     init() {
       this.showDeployStepStatus()
-      const interval = window.setInterval(() => {
+      const interval = setInterval(() => {
         const eles = document.getElementsByClassName('v-stepper__wrapper')
         if (eles && eles.length > 0) {
           clearInterval(interval)

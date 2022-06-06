@@ -41,21 +41,22 @@
         <template v-if="type">
           <v-tabs
             v-model="tab"
-            height="40"
+            height="45"
             class="rounded-t pa-0 v-tabs--default"
             fixed-tabs
           >
             <v-tab
-              v-for="item in tabItems"
-              :key="item.value"
+              v-for="t in tabItems"
+              :key="t.value"
             >
-              {{ item.text }}
+              {{ t.text }}
             </v-tab>
           </v-tabs>
 
           <component
             :is="tabItems[tab].value"
             :ref="tabItems[tab].value"
+            :v="item.value || item.name"
           />
         </template>
       </v-card-text>

@@ -96,15 +96,7 @@
             class="rounded font-weight-medium"
             :value="item.CpuPercentage"
             height="15"
-            :color="
-              item.CpuPercentage
-                ? item.CpuPercentage < 60
-                  ? 'primary'
-                  : item.CpuPercentage < 80
-                    ? 'warning'
-                    : 'red darken-1'
-                : 'primary'
-            "
+            :color="getColor(item.CpuPercentage)"
           >
             <span class="white--text"> {{ item.CpuPercentage }}% </span>
           </v-progress-linear>
@@ -115,15 +107,7 @@
             class="rounded font-weight-medium"
             :value="item.MemoryPercentage"
             height="15"
-            :color="
-              item.MemoryPercentage
-                ? item.MemoryPercentage < 60
-                  ? 'primary'
-                  : item.MemoryPercentage < 80
-                    ? 'warning'
-                    : 'red darken-1'
-                : 'primary'
-            "
+            :color="getColor(item.MemoryPercentage)"
           >
             <span class="white--text"> {{ item.MemoryPercentage }}% </span>
           </v-progress-linear>
@@ -134,15 +118,7 @@
             class="rounded font-weight-medium"
             :value="item.StoragePercentage"
             height="15"
-            :color="
-              item.StoragePercentage
-                ? item.StoragePercentage < 60
-                  ? 'primary'
-                  : item.StoragePercentage < 80
-                    ? 'warning'
-                    : 'red darken-1'
-                : 'primary'
-            "
+            :color="getColor(item.StoragePercentage)"
           >
             <span class="white--text"> {{ item.StoragePercentage }}% </span>
           </v-progress-linear>
@@ -411,6 +387,15 @@ export default {
     },
     onTenantSelectFocus() {
       this.m_select_tenantSelectData()
+    },
+    getColor(percentage) {
+      return percentage
+        ? percentage < 60
+          ? 'primary'
+          : percentage < 80
+            ? 'warning'
+            : 'red darken-1'
+        : 'primary'
     },
   },
 }
