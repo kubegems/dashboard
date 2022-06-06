@@ -104,7 +104,7 @@
       </template>
     </BaseSubTitle>
     <v-card-text>
-      <template v-if="pluginPass">
+      <template v-if="pluginPass.length === 0">
         <v-flex
           v-if="eventItems.length === 0"
           class="text-body-2"
@@ -207,7 +207,7 @@
           :style="{ position: 'relative', height: '300px' }"
         >
           <span class="kubegems__full-center kubegems__text">
-            插件logging,eventer未启用
+            插件{{ pluginPass.join(',') }}未启用
           </span>
         </div>
       </template>
@@ -229,7 +229,7 @@ export default {
     clusterName: '',
     messageClass: ['event--collapse', 'event--collapse', 'event--collapse', 'event--collapse', 'event--collapse'],
     eventMenu: false,
-    pluginPass: true,
+    pluginPass: [],
   }),
   computed: {
     ...mapState(['JWT', 'Admin']),
@@ -252,8 +252,13 @@ export default {
         simple: true,
         noprocessing: true,
       })
-      this.pluginPass = data['logging'] && data['eventer']
-      if (this.pluginPass) {
+      if (!data['logging']) {
+        this.pluginPass.push('logging')
+      }
+      if (!data['eventer']) {
+        this.pluginPass.push('eventer')
+      }
+      if (this.pluginPass.length === 0) {
         this.eventList()
       }
     },

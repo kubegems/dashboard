@@ -52,6 +52,8 @@
         <!-- tooltip -->
         <v-menu
           v-if="tooltip"
+          :close-on-content-click="false"
+          :close-delay="200"
           right
           open-on-hover
           nudge-right="24px"

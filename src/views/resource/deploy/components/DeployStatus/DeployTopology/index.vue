@@ -176,7 +176,7 @@ export default {
       }
     },
     hideMenu() {
-      const timeout = window.setTimeout(() => {
+      const timeout = setTimeout(() => {
         const menus = document.getElementsByClassName('resourceMenu')
         if (menus && menus.length > 0) {
           const menu = menus[0]

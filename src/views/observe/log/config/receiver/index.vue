@@ -56,6 +56,7 @@
       </v-card-title>
       <v-card-text class="px-0">
         <v-data-table
+          class="kubegems__table-row-pointer"
           disable-sort
           :headers="headers"
           :items="items"

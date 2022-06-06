@@ -120,7 +120,7 @@ export default {
   methods: {
     async getLatestEvent() {
       this.event = null
-      this.timeout = window.setTimeout(async () => {
+      this.timeout = setTimeout(async () => {
         this.eventLoad = true
         const data = await getEventList(
           this.ThisCluster,

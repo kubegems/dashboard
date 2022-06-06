@@ -227,15 +227,6 @@ export default {
           if (!this.obj.ResourceQuota['count/pods']) {
             this.obj.ResourceQuota['count/pods'] = 5120
           }
-          if (!this.obj.ResourceQuota['limits.nvidia.com/gpu']) {
-            this.obj.ResourceQuota['limits.nvidia.com/gpu'] = 0
-          }
-          if (!this.obj.ResourceQuota['tencent.com/vcuda-core']) {
-            this.obj.ResourceQuota['tencent.com/vcuda-core'] = 0
-          }
-          if (!this.obj.ResourceQuota['tencent.com/vcuda-memory']) {
-            this.obj.ResourceQuota['tencent.com/vcuda-memory'] = 0
-          }
           this.removeUnit()
           if (this.edit) {
             this.now = deepCopy(this.obj.ResourceQuota)
@@ -252,10 +243,15 @@ export default {
           if (!this.edit) {
             if (newValue.NvidiaGpu) {
               this.obj.ResourceQuota['limits.nvidia.com/gpu'] = 0
+            } else {
+              delete this.obj.ResourceQuota['limits.nvidia.com/gpu']
             }
             if (newValue.TkeGpu || newValue.TkeMemory) {
               this.obj.ResourceQuota['tencent.com/vcuda-core'] = 0
               this.obj.ResourceQuota['tencent.com/vcuda-memory'] = 0
+            } else {
+              delete this.obj.ResourceQuota['tencent.com/vcuda-core']
+              delete this.obj.ResourceQuota['tencent.com/vcuda-memory']
             }
           }
         }

@@ -282,7 +282,7 @@ export default {
             param.item.TenantID,
             param.item.ClusterID,
           )
-          this.tenantDetail()
+          this.tenantResourceQuotaList()
         },
       })
     },

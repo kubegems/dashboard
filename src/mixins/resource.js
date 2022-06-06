@@ -70,7 +70,8 @@ const resource = {
             ),
           ApplyPod: 0,
         }
-        if (data.spec.hard[`limits.nvidia.com/gpu`]) {
+        if (data.spec.hard[`limits.nvidia.com/gpu`] &&
+          parseInt(data.spec.hard[`limits.nvidia.com/gpu`]) > 0) {
           item.NvidiaGpu = parseFloat(sizeOfCpu(data.spec.hard['limits.nvidia.com/gpu']))
           item.AllocatedNvidiaGpu = parseFloat(
             data.status.allocated['limits.nvidia.com/gpu'] || 0,
@@ -78,7 +79,10 @@ const resource = {
           item.ApplyNvidiaGpu = parseFloat(data.spec.hard['limits.nvidia.com/gpu']) -
             parseFloat(data.status.allocated['limits.nvidia.com/gpu'] || 0)
         }
-        if (data.spec.hard[`tencent.com/vcuda-core`] || data.spec.hard[`tencent.com/vcuda-memory`]) {
+        if ((data.spec.hard[`tencent.com/vcuda-core`] &&
+          parseInt(data.spec.hard[`tencent.com/vcuda-core`]) > 0) ||
+          (data.spec.hard[`tencent.com/vcuda-memory`] &&
+            parseInt(data.spec.hard[`tencent.com/vcuda-memory`]) > 0)) {
           item.TkeGpu = parseFloat(data.spec.hard['tencent.com/vcuda-core'])
           item.AllocatedTkeGpu = parseFloat(
             (data.status.allocated['tencent.com/vcuda-core'] || 0),
@@ -129,7 +133,8 @@ const resource = {
         quota.AllocatedStorage =
           quota.Storage - quota.UsedStorage + item.NowStorage
 
-        if (data.resources.capacity['limits.nvidia.com/gpu']) {
+        if (data.resources.capacity['limits.nvidia.com/gpu'] &&
+          parseInt(data.resources.capacity[`limits.nvidia.com/gpu`]) > 0) {
           quota.NvidiaGpu =
             parseFloat(data.resources.capacity['limits.nvidia.com/gpu'])
           quota.UsedNvidiaGpu = parseFloat(
@@ -138,7 +143,10 @@ const resource = {
           quota.AllocatedNvidiaGpu = quota.NvidiaGpu - quota.UsedNvidiaGpu + (item.NowNvidiaGpu || 0)
         }
 
-        if (data.resources.capacity['tencent.com/vcuda-device']) {
+        if ((data.resources.capacity['tencent.com/vcuda-core'] &&
+          parseInt(data.resources.capacity[`tencent.com/vcuda-core`]) > 0) ||
+          (data.resources.capacity['tencent.com/vcuda-memory'] &&
+            parseInt(data.resources.capacity[`tencent.com/vcuda-memory`]) > 0)) {
           quota.TkeGpu =
             parseFloat(data.resources.capacity['tencent.com/vcuda-core'])
           quota.UsedTkeGpu = parseFloat(

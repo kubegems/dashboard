@@ -1,4 +1,6 @@
 export function getIconName(name) {
+  if (name.indexOf('node-problem-detector') > -1) return 'logos:kubernetes'
+  if (name.indexOf('node-local-dns') > -1) return 'logos:kubernetes'
   if (name.indexOf('mysql') > -1) return 'logos:mysql'
   if (name.indexOf('redis') > -1) return 'logos:redis'
   if (name.indexOf('nginx') > -1) return 'logos:nginx'
@@ -78,7 +80,6 @@ export function getIconName(name) {
   if (name.indexOf('flannel') > -1) return 'img:flannel.png'
   if (name.indexOf('kube_ovn') > -1) return 'img:ovn.jpeg'
   if (name.indexOf('nvidia') > -1) return 'img:nvidia.png'
-  if (name.indexOf('gpu') > -1) return 'img:nvidia.png'
   if (name.indexOf('log_agent') > -1) return 'img:fluentd.jpeg'
   if (name.indexOf('alertmanager') > -1) return 'logos:prometheus'
   if (name.indexOf('monitoring') > -1) return 'logos:prometheus'
@@ -131,6 +132,8 @@ export function getIconName(name) {
   if (name.indexOf('rust') > -1) return 'logos:rust'
   if (name.indexOf('swift') > -1) return 'logos:swift'
   if (name.indexOf('kubevela') > -1) return 'img:kubevela.png'
+  if (name.indexOf('gateway') > -1) return 'logos:nginx'
+  if (name.indexOf('observability') > -1) return 'img:kubegems.jpg'
   // if (name.indexOf('selfhosted') > -1) return 'bx:bxl-kubernetes'
   return 'logos:kubernetes'
 }

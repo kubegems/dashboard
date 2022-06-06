@@ -110,7 +110,7 @@ export default {
     async getLatestEvent() {
       if (!this.item.runtime.raw) return
       this.events = []
-      this.timeout = window.setTimeout(async () => {
+      this.timeout = setTimeout(async () => {
         this.eventLoad = true
         const data = await getAppRunningResourceDetail(
           this.Tenant().ID,
