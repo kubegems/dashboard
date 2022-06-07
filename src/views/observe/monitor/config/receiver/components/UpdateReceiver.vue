@@ -44,10 +44,6 @@ export default {
   },
   mixins: [BaseResource, BaseSelect],
   props: {
-    mode: {
-      type: String,
-      default: () => 'monitor',
-    },
   },
   data: () => ({
     dialog: false,
@@ -77,7 +73,6 @@ export default {
           this.$route.query.cluster,
           this.$route.query.namespace,
           data.name,
-          {scope: this.mode},
           data,
         )
 

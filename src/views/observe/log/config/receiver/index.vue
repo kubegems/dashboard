@@ -338,7 +338,7 @@ export default {
             this.$route.query.cluster,
             param.item.namespace,
             param.item.name,
-            {scope: 'logging'},
+            {source: 'kubegems-default-logging-alert-rule'},
           )
           this.receiverList()
         },

@@ -63,8 +63,13 @@ export default {
         this.$refs[this.formComponent].validate()
       ) {
         let data = this.$refs[this.formComponent].getData()
+        if (this.mode === "monitor") {
+          data.source = "kubegems-default-monitor-alert-rule"
+        } else {
+          data.source = "kubegems-default-logging-alert-rule"
+        }
         data = this.m_resource_beautifyData(data)
-        await postAddReceiver(this.$route.query.cluster, this.$route.query.namespace, {scope: this.mode}, data)
+        await postAddReceiver(this.$route.query.cluster, this.$route.query.namespace, data)
         this.reset()
         this.$emit('refresh')
       }
