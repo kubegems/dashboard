@@ -1,9 +1,12 @@
 import axios from 'axios'
 
+const apiResources = window.localStorage.getItem('api-resources') || {}
+const apiVersion = apiResources['issuer'] || 'cert-manager.io/v1'
+
 // 颁发者列表
 export const getIssuerList = (clusterName, namespace, query = {}) =>
   axios(
-    `proxy/cluster/${clusterName}/cert-manager.io/v1/namespaces/${namespace}/issuers`,
+    `proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/issuers`,
     {
       params: query,
     },
@@ -11,22 +14,22 @@ export const getIssuerList = (clusterName, namespace, query = {}) =>
 // 颁发者详情
 export const getIssuerDetail = (clusterName, namespace, name) =>
   axios(
-    `proxy/cluster/${clusterName}/cert-manager.io/v1/namespaces/${namespace}/issuers/${name}`,
+    `proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/issuers/${name}`,
   )
 // 添加颁发者
 export const postAddIssuer = (clusterName, namespace, name, body = {}) =>
   axios.post(
-    `proxy/cluster/${clusterName}/cert-manager.io/v1/namespaces/${namespace}/issuers/${name}`,
+    `proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/issuers/${name}`,
     body,
   )
 // 更新颁发者
 export const patchUpdateIssuer = (clusterName, namespace, name, body = {}) =>
   axios.patch(
-    `proxy/cluster/${clusterName}/cert-manager.io/v1/namespaces/${namespace}/issuers/${name}`,
+    `proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/issuers/${name}`,
     body,
   )
 // 删除颁发者
 export const deleteIssuer = (clusterName, namespace, name) =>
   axios.delete(
-    `proxy/cluster/${clusterName}/cert-manager.io/v1/namespaces/${namespace}/issuers/${name}`,
+    `proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/issuers/${name}`,
   )

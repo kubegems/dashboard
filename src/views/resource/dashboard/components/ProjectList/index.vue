@@ -211,7 +211,9 @@
                     <v-icon
                       left
                       small
-                    >mdi-login-variant</v-icon>
+                    >
+                      mdi-login-variant
+                    </v-icon>
                     进入环境
                   </v-btn>
                 </span>

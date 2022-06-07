@@ -179,6 +179,7 @@ const select = {
           value: ns.ID,
           environmentName: ns.EnvironmentName,
           clusterName: ns.Cluster.ClusterName,
+          version: ns.Cluster.Version,
           namespace: ns.Namespace,
           clusterid: ns.ClusterID,
           type: ns.MetaType,

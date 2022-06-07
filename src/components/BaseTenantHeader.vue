@@ -241,11 +241,12 @@ export default {
           })
           return
         } else {
+          const env =this.m_select_projectEnvironmentItems[0]
           await this.$router.replace({
             params: {
               tenant: this.Tenant().TenantName,
               project: item.text,
-              environment: this.m_select_projectEnvironmentItems[0].text,
+              environment: env.text,
             },
           })
         }

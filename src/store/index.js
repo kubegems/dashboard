@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import router from '@/router'
 import { getCookie, delAllCookie } from '@/utils/cookie'
 import { sleep } from '@/utils/helpers'
-import { getClusterPluginsList } from '@/api'
+import { getClusterPluginsList, getRESTMapping } from '@/api'
 import {
   getVirtualSpaceSelectData,
   getClusterSelectData,
@@ -32,6 +32,7 @@ const LatestEnvironment = 'latestenvironment'
 const LatestCluster = 'latestcluster'
 const Store = 'store'
 const Version = 'version'
+const ApiResources = 'api-resources'
 
 export default new Vuex.Store({
   state: {
@@ -82,6 +83,7 @@ export default new Vuex.Store({
       JSON.parse(window.localStorage.getItem(LatestEnvironment)) ||
       {
         environment: '',
+        cluster: '',
       },
     LatestCluster: JSON.parse(window.localStorage.getItem(LatestCluster)) || {
       cluster: '',
@@ -93,6 +95,7 @@ export default new Vuex.Store({
     PanelActive: false,
     FullDialogActive: false,
     Version: window.localStorage.getItem(Version) || '',
+    ApiResources: JSON.parse(window.localStorage.getItem(ApiResources)) || {},
   },
   mutations: {
     SET_PLUGINS(state, payload) {
@@ -210,6 +213,10 @@ export default new Vuex.Store({
       state.JWT = jwt
       window.localStorage.setItem(JWTName, jwt)
     },
+    SET_API_RESOURCES(state, payload) {
+      state.ApiResources = payload
+      window.localStorage.setItem(ApiResources, JSON.stringify(payload))
+    },
     CLEARALL(state) {
       delAllCookie()
       window.localStorage.clear()
@@ -233,6 +240,7 @@ export default new Vuex.Store({
       state.LatestEnvoronment = { environment: '' }
       state.LatestCluster = { cluster: '' }
       state.Store = 'app'
+      state.ApiResources = {}
     },
     CLEAR_PLUGINS_INTERVAL(state) {
       clearInterval(state.PluginsInterval)
@@ -401,6 +409,17 @@ export default new Vuex.Store({
         }
       }
     },
+    async LOAD_RESTMAPPING_RESOURCES({ commit }, payload) {
+      if (!payload.clusterName) return
+      const data = await getRESTMapping(payload.clusterName)
+      const resource = {}
+      data.forEach(d => {
+        d?.resources?.forEach(r => {
+          resource[r.kind.toLocaleLowerCase()] = d.groupVersion === 'v1' ? 'core/v1' : d.groupVersion
+        })
+      })
+      commit('SET_API_RESOURCES', resource)
+    },
   },
   getters: {
     VirtualSpace: (state) => () => {
@@ -466,6 +485,7 @@ export default new Vuex.Store({
               return {
                 ID: 0,
                 ClusterName: '',
+                Version: '',
               }
             }
           }
@@ -473,6 +493,7 @@ export default new Vuex.Store({
         return {
           ID: 0,
           ClusterName: '',
+          Version: '',
         }
       } else if (store.length > 0) {
         return store[0]
@@ -480,6 +501,7 @@ export default new Vuex.Store({
       return {
         ID: 0,
         ClusterName: '',
+        Version: '',
       }
     },
     Tenant: (state) => () => {
@@ -554,6 +576,7 @@ export default new Vuex.Store({
           ClusterName: '',
           ClusterID: 0,
           Type: '',
+          Version: '',
         }
       }
       return {
@@ -563,6 +586,7 @@ export default new Vuex.Store({
         ClusterName: '',
         ClusterID: 0,
         Type: '',
+        Version: '',
       }
     },
   },
