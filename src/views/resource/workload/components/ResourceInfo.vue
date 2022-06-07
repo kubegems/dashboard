@@ -101,6 +101,17 @@
 
     <v-card class="mt-3">
       <BaseSubTitle
+        title="环境变量"
+        :divider="false"
+        class="pt-2"
+      />
+      <DetailEnv
+        :containers="workload ? workload.spec.template.spec.containers : []"
+      />
+    </v-card>
+
+    <v-card class="mt-3">
+      <BaseSubTitle
         title="状况"
         :divider="false"
         class="pt-2"
@@ -150,12 +161,17 @@
 <script>
 import DetailContainer from '@/views/resource/components/common/DetailContainer'
 import DetailVolume from '@/views/resource/components/common/DetailVolume'
+import DetailEnv from '@/views/resource/components/common/DetailEnv'
 import BaseResource from '@/mixins/resource'
 import { deepCopy } from '@/utils/helpers'
 
 export default {
   name: 'ResourceInfo',
-  components: { DetailContainer, DetailVolume },
+  components: {
+    DetailContainer,
+    DetailVolume,
+    DetailEnv,
+  },
   mixins: [BaseResource],
   props: {
     item: {

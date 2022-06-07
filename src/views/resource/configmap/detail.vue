@@ -23,7 +23,7 @@
             >
               fas fa-code
             </v-icon>
-            Yaml
+            YAML
           </v-btn>
           <v-menu
             v-if="m_permisson_resourceAllow"
@@ -68,21 +68,21 @@
         </v-flex>
       </template>
     </BaseBreadcrumb>
-    <v-row class="mt-0">
+    <v-row class="my-0">
       <v-col
         cols="2"
-        class="pt-0"
+        class="py-0"
       >
         <BasicResourceInfo :item="configmap" />
       </v-col>
       <v-col
         cols="10"
-        class="pt-0"
+        class="py-0"
       >
         <v-card
           v-for="(data, key) in configmap ? configmap.data : {}"
           :key="key"
-          class="mb-4"
+          class="mb-3"
         >
           <v-card-text class="pa-4">
             <BaseSubTitle
@@ -90,7 +90,11 @@
               color="primary"
               :divider="false"
             />
-            <pre class="kubegems__data-pre rounded">{{ configmap.data[key] }}</pre>
+            <div
+              :style="{ maxHeight: `${height}px`, overflowY: 'auto' }"
+            >
+              <pre class="kubegems__data-pre rounded">{{ configmap.data[key] }}</pre>
+            </div>
           </v-card-text>
         </v-card>
       </v-col>
@@ -129,9 +133,12 @@ export default {
     configmap: null,
   }),
   computed: {
-    ...mapState(['JWT']),
+    ...mapState(['JWT', 'Scale']),
     module() {
       return window.location.href.match(new RegExp('\\/(\\w+)\\/'))[1]
+    },
+    height() {
+      return parseInt((window.innerHeight - 276) / this.Scale)
     },
   },
   mounted() {
@@ -180,3 +187,4 @@ export default {
   },
 }
 </script>
+

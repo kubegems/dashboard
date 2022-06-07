@@ -61,7 +61,7 @@
       >
         <template #label>
           <span class="text-subject-1 white--text font-weight-medium">
-            Yaml
+            YAML
           </span>
         </template>
       </v-switch>
