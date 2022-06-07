@@ -142,7 +142,7 @@ export default {
         'requests.memory': 0,
         'limits.memory': 0,
         'requests.storage': 0,
-        'count/pods': 100,
+        'count/pods': 5120,
         'limits.nvidia.com/gpu': 0,
         'tencent.com/vcuda-core': 0,
         'tencent.com/vcuda-memory': 0,

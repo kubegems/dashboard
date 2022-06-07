@@ -66,7 +66,7 @@ export default {
     },
     noDataOffsetY: {
       type: Number,
-      default: () => -17,
+      default: () => -22,
     },
   },
   data: () => ({
