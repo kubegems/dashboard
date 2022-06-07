@@ -2,19 +2,19 @@ import axios from 'axios'
 
 // 获取所有系统配置
 export const getSystemAllConfigData = (query = {}) => axios.get(
-  'system/config',
+  'my/config',
   { params: query },
 )
 
 // 获取系统配置
 export const getSystemConfigData = (name, query = {}) => axios.get(
-  `system/config/${name}`,
+  `my/config/${name}`,
   { params: query },
 )
 
 // 修改系统配置
 export const putSystemConfigData = (name, body = {}) => axios.put(
-  `system/config/${name}`,
+  `my/config/${name}`,
   body,
 )
 
