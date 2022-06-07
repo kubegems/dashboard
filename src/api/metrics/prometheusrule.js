@@ -12,10 +12,11 @@ export const postAddPrometheusRule = (clusterName, namespace, body = {}) =>
     body,
   )
 // 删除告警规则
-export const deletePrometheusRule = (clusterName, namespace, name) =>
+export const deletePrometheusRule = (clusterName, namespace, name, query = {}) =>
   axios.delete(
-    `observability/cluster/${clusterName}/namespaces/${namespace}/monitor/alerts/${name}`,
-  )
+    `observability/cluster/${clusterName}/namespaces/${namespace}/monitor/alerts/${name}`, {
+    params: query,
+  })
 // 更新告警规则
 export const putUpdatePrometheusRule = (clusterName, namespace, name, body = {}) =>
   axios.put(

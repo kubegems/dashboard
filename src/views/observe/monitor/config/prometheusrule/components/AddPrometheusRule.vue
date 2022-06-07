@@ -100,6 +100,7 @@ export default {
         const obj = deepCopy(this.$refs[this.formComponent].obj)
 
         if (this.mode === 'monitor') {
+          obj.source = 'kubegems-default-monitor-alert-rule'
           // 移除labelpairs中的空值
           for (const key in obj.labelpairs) {
             if (!obj.labelpairs[key]) {
@@ -113,6 +114,7 @@ export default {
             obj,
           )
         } else if (this.mode === 'logging') {
+          obj.source = 'kubegems-default-logging-alert-rule'
           await postAddLogAlertRule(
             this.$route.query.cluster,
             this.$route.query.namespace,

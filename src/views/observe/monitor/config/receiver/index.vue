@@ -336,7 +336,7 @@ export default {
             this.$route.query.cluster,
             param.item.namespace,
             param.item.name,
-            {scope: 'monitor'},
+            {source: 'kubegems-default-monitor-alert-rule'},
           )
           this.receiverList()
         },

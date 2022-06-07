@@ -499,6 +499,7 @@ export default {
             this.cluster,
             param.item.namespace,
             param.item.name,
+            {source: 'kubegems-default-logging-alert-rule'},
           )
           this.alertRuleList()
         },
