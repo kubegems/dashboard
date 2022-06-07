@@ -1,7 +1,7 @@
 <template>
   <BasePanel
     v-model="panel"
-    title="Yaml"
+    title="YAML"
     :width="`50%`"
     icon="fas fa-code"
     @dispose="dispose"

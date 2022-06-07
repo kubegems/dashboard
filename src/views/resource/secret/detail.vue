@@ -16,7 +16,7 @@
             >
               fas fa-code
             </v-icon>
-            Yaml
+            YAML
           </v-btn>
           <v-menu
             v-if="m_permisson_resourceAllow"
@@ -61,21 +61,21 @@
         </v-flex>
       </template>
     </BaseBreadcrumb>
-    <v-row class="mt-0">
+    <v-row class="my-0">
       <v-col
         cols="2"
-        class="pt-0"
+        class="py-0"
       >
         <BasicResourceInfo :item="secret" />
       </v-col>
       <v-col
         cols="10"
-        class="pt-0"
+        class="py-0"
       >
         <v-card
           v-for="item in datas"
           :key="item.key"
-          class="mb-4"
+          class="mb-3"
         >
           <v-card-text>
             <BaseSubTitle
@@ -119,7 +119,11 @@
                 </v-btn>
               </template>
             </BaseSubTitle>
-            <pre class="kubegems__data-pre rounded">{{ item.value }}</pre>
+            <div
+              :style="{ maxHeight: `${height}px`, overflowY: 'auto' }"
+            >
+              <pre class="kubegems__data-pre rounded">{{ item.value }}</pre>
+            </div>
           </v-card-text>
         </v-card>
       </v-col>
@@ -161,7 +165,10 @@ export default {
     datas: [],
   }),
   computed: {
-    ...mapState(['JWT']),
+    ...mapState(['JWT', 'Scale']),
+    height() {
+      return parseInt((window.innerHeight - 276) / this.Scale)
+    },
   },
   mounted() {
     if (this.JWT) {

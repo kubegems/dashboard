@@ -16,7 +16,7 @@
             >
               fas fa-code
             </v-icon>
-            Yaml
+            YAML
           </v-btn>
           <v-menu
             v-if="m_permisson_resourceAllow"

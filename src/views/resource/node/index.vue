@@ -30,7 +30,8 @@
               {{ item.metadata.name }}
             </v-flex>
             <v-flex
-              v-if="item.metadata.labels['tencent.com/vcuda'] &&
+              v-if="item.metadata.labels &&
+                item.metadata.labels['tencent.com/vcuda'] &&
                 item.metadata.labels['tencent.com/vcuda'] === 'true'
               "
               class="float-left ml-2"
@@ -52,7 +53,8 @@
               </v-menu>
             </v-flex>
             <v-flex
-              v-if="item.metadata.labels['nvidia.com/gpu'] &&
+              v-if="item.metadata.labels &&
+                item.metadata.labels['nvidia.com/gpu'] &&
                 item.metadata.labels['nvidia.com/gpu'] === 'true'
               "
               class="float-left ml-2"

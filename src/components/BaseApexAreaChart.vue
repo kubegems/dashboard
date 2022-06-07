@@ -89,11 +89,6 @@ export default {
     },
     unitCn: {
       // cpu
-      n: '纳核',
-      u: '微核',
-      m: '毫核',
-      core: '核',
-      k: '千核',
       ncore: '纳核',
       ucore: '微核',
       mcore: '毫核',
@@ -103,8 +98,6 @@ export default {
       d: '天',
       h: '小时',
       lines: '行',
-      m: '分钟',
-      ms: '毫秒',
       ops: '次/s',
       percent: '%',
       s: '秒',
@@ -142,7 +135,9 @@ export default {
         if (metricAndValues.metric[this.label]) {
           return metricAndValues.metric[this.label]
         } 
-        return Object.values(metricAndValues.metric)[0]
+        if (Object.values(metricAndValues.metric).length > 0) {
+          return Object.values(metricAndValues.metric)[0]
+        }
       }
       return this.$route.params.name || `数据${index + 1}`
     },
@@ -279,10 +274,11 @@ export default {
           id: id,
           animations: {
             animateGradually: {
+              enabled: false,
               delay: 0,
             },
             dynamicAnimation: {
-              speed: 500,
+              speed: 50,
             }
           },
         },

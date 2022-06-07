@@ -304,6 +304,12 @@ export default {
   methods: {
     async loadMetrics() {
       this.clearInterval()
+      this.metrics = {}
+      if (this.items?.length > 0 && this.items[this.tab].graphs) {
+        this.items[this.tab].graphs.forEach((item, index) => {
+          this.getMetrics(item, index)
+        })
+      }
       this.timeinterval = setInterval(() => {
         this.params.start = this.$moment(this.params.start)
           .utc()
@@ -329,12 +335,6 @@ export default {
         this.environment.value,
       )
       this.items = data
-      this.metrics = {}
-      if (this.items?.length > 0 && this.items[this.tab].graphs) {
-        this.items[this.tab].graphs.forEach((item, index) => {
-          this.getMetrics(item, index)
-        })
-      }
       this.loadMetrics()
     },
     getNamespace(item) {
