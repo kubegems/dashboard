@@ -34,12 +34,7 @@
       </v-row>
 
       <v-row
-        v-if="showMore &&
-          item &&
-          item.metadata &&
-          item.metadata.labels['tencent.com/vcuda'] &&
-          item.metadata.labels['tencent.com/vcuda'] === 'true'
-        "
+        v-if="showMore && tke"
       >
         <v-col cols="4">
           <VueApexCharts
@@ -60,12 +55,7 @@
       </v-row>
 
       <v-row
-        v-if="showMore &&
-          item &&
-          item.metadata &&
-          item.metadata.labels['nvidia.com/gpu'] &&
-          item.metadata.labels['nvidia.com/gpu'] === 'true'
-        "
+        v-if="showMore && nvidia"
       >
         <v-col cols="4">
           <VueApexCharts
@@ -78,13 +68,7 @@
       </v-row>
 
       <div
-        v-if="item &&
-          item.metadata &&
-          ((item.metadata.labels['tencent.com/vcuda'] &&
-            item.metadata.labels['tencent.com/vcuda'] === 'true') ||
-            (item.metadata.labels['nvidia.com/gpu'] &&
-              item.metadata.labels['nvidia.com/gpu'] === 'true'))
-        "
+        v-if="tke || nvidia"
         class="mb-2 text-center"
       >
         <v-btn
@@ -293,6 +277,18 @@ export default {
     showMore: false,
   }),
   computed: {
+    tke() {
+      if (this.item?.metadata?.labels) {
+        return this.item?.metadata?.labels['tencent.com/vcuda'] === 'true'
+      }
+      return false
+    },
+    nvidia() {
+      if (this.item?.metadata?.labels) {
+        return this.item?.metadata?.labels['nvidia.com/gpu'] === 'true'
+      }
+      return false
+    },
     cpuSeries() {
       return this.totalRequests['cpu'] && this.item.status.capacity['cpu']
         ? [

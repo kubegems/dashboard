@@ -5,14 +5,7 @@
       <template
         v-if="
           item &&
-            item.kind === 'Pod' &&
-            item.spec &&
-            item.spec.nodeSelector &&
-            item.spec.nodeSelector['tencent.com/vcuda'] === 'true' &&
-            container.resources.requests &&
-            container.resources.requests['tencent.com/vcuda-core'] &&
-            container.resources.requests['tencent.com/vcuda-memory']
-        "
+            item.kind === 'Pod' && tke"
       >
         <v-menu
           top
@@ -35,13 +28,7 @@
       <template
         v-if="
           item &&
-            item.kind === 'Pod' &&
-            item.spec &&
-            item.spec.nodeSelector &&
-            item.spec.nodeSelector['nvidia.com/gpu'] === 'true' &&
-            container.resources.requests &&
-            container.resources.requests['nvidia.com/gpu']
-        "
+            item.kind === 'Pod' && nvidia"
       >
         <v-menu
           top
@@ -137,6 +124,20 @@ export default {
     environment: {
       type: Boolean,
       default: () => true,
+    },
+  },
+  computed: {
+    tke() {
+      if (this?.item?.spec?.nodeSelector) {
+        return this.item.spec.nodeSelector['tencent.com/vcuda'] === 'true'
+      }
+      return false
+    },
+    nvidia() {
+      if (this?.item?.spec?.nodeSelector) {
+        return this.item.spec.nodeSelector['nvidia.com/gpu'] === 'true'
+      }
+      return false
     },
   },
 }

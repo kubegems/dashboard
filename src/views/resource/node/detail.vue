@@ -16,7 +16,7 @@
             >
               fas fa-code
             </v-icon>
-            Yaml
+            YAML
           </v-btn>
           <v-menu left>
             <template #activator="{ on }">
@@ -70,11 +70,7 @@
             {{ node ? node.metadata.name : '' }}
 
             <template
-              v-if="node &&
-                node.metadata &&
-                node.metadata.labels['tencent.com/vcuda'] &&
-                node.metadata.labels['tencent.com/vcuda'] === 'true'
-              "
+              v-if="tke"
             >
               <v-menu
                 top
@@ -95,11 +91,7 @@
               </v-menu>
             </template>
             <template
-              v-if="node &&
-                node.metadata &&
-                node.metadata.labels['nvidia.com/gpu'] &&
-                node.metadata.labels['nvidia.com/gpu'] === 'true'
-              "
+              v-if="nvidia"
             >
               <v-menu
                 top
@@ -260,6 +252,18 @@ export default {
         { text: '监控', value: 'NodeMonitor' },
       ]
       return items
+    },
+    tke() {
+      if (this?.node?.metadata?.labels) {
+        return this.node.metadata.labels['tencent.com/vcuda'] === 'true'
+      }
+      return false
+    },
+    nvidia() {
+      if (this?.node?.metadata?.labels) {
+        return this.node.metadata.labels['nvidia.com/gpu'] === 'true'
+      }
+      return false
     },
   },
   mounted() {

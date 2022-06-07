@@ -41,21 +41,7 @@
                     {{ container.name }}
                   </v-flex>
                   <v-flex
-                    v-if="
-                      item &&
-                        item.spec &&
-                        item.spec.nodeSelector &&
-                        item.spec.nodeSelector['tencent.com/vcuda'] ===
-                        'true' &&
-                        container.resources &&
-                        container.resources.requests &&
-                        container.resources.requests[
-                          'tencent.com/vcuda-core'
-                        ] &&
-                        container.resources.requests[
-                          'tencent.com/vcuda-memory'
-                        ]
-                    "
+                    v-if="tke"
                     class="float-left mt-1 ml-2 icon-height"
                   >
                     <BaseLogo
@@ -64,16 +50,7 @@
                     />
                   </v-flex>
                   <v-flex
-                    v-if="
-                      item &&
-                        item.spec &&
-                        item.spec.nodeSelector &&
-                        item.spec.nodeSelector['nvidia.com/gpu'] ===
-                        'true' &&
-                        container.resources &&
-                        container.resources.requests &&
-                        container.resources.requests['nvidia.com/gpu']
-                    "
+                    v-if="nvidia"
                     class="float-left mt-1 ml-2 icon-height"
                   >
                     <BaseLogo
@@ -353,6 +330,18 @@ export default {
   },
   computed: {
     ...mapState(['AdminViewport']),
+    tke() {
+      if (this?.item?.spec?.nodeSelector) {
+        return this.item.spec.nodeSelector['tencent.com/vcuda'] === 'true'
+      }
+      return false
+    },
+    nvidia() {
+      if (this?.item?.spec?.nodeSelector) {
+        return this.item.spec.nodeSelector['nvidia.com/gpu'] === 'true'
+      }
+      return false
+    },
   },
   watch: {
     containerStatuses: {

@@ -49,6 +49,7 @@ export default {
         },
         animations: {
           animateGradually: {
+            enabled: false,
             delay: 0,
           },
         },
