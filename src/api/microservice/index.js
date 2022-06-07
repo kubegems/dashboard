@@ -1,5 +1,4 @@
 export * from './select.js'
-export * from './app.js'
 export * from './dnsdomain.js'
 export * from './istio_gateway.js'
 export * from './service.js'

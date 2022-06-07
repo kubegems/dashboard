@@ -89,7 +89,7 @@
       </template>
     </BaseBreadcrumb>
 
-    <v-row class="my-3">
+    <v-row class="mt-3 mb-0">
       <v-col
         cols="9"
         class="py-0"
