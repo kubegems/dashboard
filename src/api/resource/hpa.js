@@ -1,5 +1,8 @@
 import axios from 'axios'
 
+const apiResources = window.localStorage.getItem('api-resources') || {}
+const apiVersion = apiResources['horizontalpodautoscaler'] || 'autoscaling/v2beta2'
+
 // hpa详情
 export const getHpaDetail = (clusterName, namespace, query = {}) =>
   axios(`noproxy/${clusterName}/${namespace}/hpa`, {
@@ -11,5 +14,5 @@ export const postSetHpa = (clusterName, namespace, body = {}) =>
 // 删除hpa
 export const deleteHpa = (clusterName, namespace, name) =>
   axios.delete(
-    `proxy/cluster/${clusterName}/autoscaling/v2beta2/namespaces/${namespace}/horizontalpodautoscaler/${name}`,
+    `proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/horizontalpodautoscaler/${name}`,
   )

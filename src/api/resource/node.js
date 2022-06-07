@@ -1,13 +1,16 @@
 import axios from 'axios'
 
+const apiResources = window.localStorage.getItem('api-resources') || {}
+const apiVersion = apiResources['node'] || 'core/v1'
+
 // 节点列表
 export const getNodeList = (clusterName, query = {}) =>
-  axios(`proxy/cluster/${clusterName}/core/v1/nodes`, {
+  axios(`proxy/cluster/${clusterName}/${apiVersion}/nodes`, {
     params: query,
   })
 // 节点详情
 export const getNodeDetail = (clusterName, name, query = {}) =>
-  axios(`proxy/cluster/${clusterName}/core/v1/nodes/${name}`, {
+  axios(`proxy/cluster/${clusterName}/${apiVersion}/nodes/${name}`, {
     params: query,
   })
 // 节点资源分配
