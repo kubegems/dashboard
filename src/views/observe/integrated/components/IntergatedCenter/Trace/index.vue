@@ -80,3 +80,8 @@ export default {
 }
 </script>
 
+<style lang="scss">
+.hljs {
+  background-color: rgba(0, 0, 0, 0) !important;
+}
+</style>
