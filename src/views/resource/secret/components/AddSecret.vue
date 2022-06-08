@@ -83,17 +83,17 @@ export default {
         })
         return
       }
-      if (this.$refs[this.formComponent].$refs.form.validate(true)) {
+      if (this.$refs[this.formComponent].validate()) {
         let data = ''
         if (this.formComponent === 'BaseYamlForm') {
-          data = this.$refs[this.formComponent].kubeyaml
+          data = this.$refs[this.formComponent].getYaml()
           data = this.$yamlload(data)
           if (!this.m_resource_validateJsonSchema(this.schema, data)) {
             return
           }
           data = this.m_resource_beautifyData(data)
         } else if (this.formComponent === 'SecretBaseForm') {
-          data = this.$refs[this.formComponent].obj
+          data = this.$refs[this.formComponent].getData()
           data = this.m_resource_beautifyData(data)
         }
         const namespace = this.AdminViewport
@@ -109,7 +109,7 @@ export default {
     },
     onYamlSwitchChange() {
       if (this.yaml) {
-        const data = this.$refs[this.formComponent].obj
+        const data = this.$refs[this.formComponent].getData()
         this.m_resource_addNsToData(
           data,
           this.AdminViewport ? data?.metadata?.namespace : this.ThisNamespace,
@@ -119,7 +119,7 @@ export default {
           this.$refs[this.formComponent].setYaml(this.$yamldump(data))
         })
       } else {
-        const yaml = this.$refs[this.formComponent].kubeyaml
+        const yaml = this.$refs[this.formComponent].getYaml()
         const data = this.$yamlload(yaml)
         this.m_resource_addNsToData(
           data,

@@ -263,6 +263,10 @@ export default {
     expandCard() {
       this.expand = true
     },
+    // eslint-disable-next-line vue/no-unused-properties
+    setPortSelector(data) {
+      this.portSelector = data
+    },
   },
 }
 </script>

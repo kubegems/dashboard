@@ -105,14 +105,14 @@ export default {
       if (this.$refs[this.formComponent].validate()) {
         let data = ''
         if (this.formComponent === 'BaseYamlForm') {
-          data = this.$refs[this.formComponent].kubeyaml
+          data = this.$refs[this.formComponent].getYaml()
           data = this.$yamlload(data)
           if (!this.m_resource_validateJsonSchema(this.schema, data)) {
             return
           }
           data = this.m_resource_beautifyData(data)
         } else if (this.formComponent === 'OutputBaseForm') {
-          data = this.$refs[this.formComponent].obj
+          data = this.$refs[this.formComponent].getData()
           data = this.m_resource_beautifyData(data)
         }
         const action = data.kind === 'Output' ? patchOutputData : patchClusterOutputData
@@ -128,7 +128,7 @@ export default {
     },
     onYamlSwitchChange() {
       if (this.yaml) {
-        const data = this.$refs[this.formComponent].obj
+        const data = this.$refs[this.formComponent].getData()
         this.m_resource_addNsToData(
           data,
           this.$route.query.namespace,
@@ -138,7 +138,7 @@ export default {
           this.$refs[this.formComponent].setYaml(this.$yamldump(data))
         })
       } else {
-        const yaml = this.$refs[this.formComponent].kubeyaml
+        const yaml = this.$refs[this.formComponent].getYaml()
         const data = this.$yamlload(yaml)
         this.m_resource_addNsToData(
           data,

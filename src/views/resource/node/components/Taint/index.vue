@@ -130,7 +130,7 @@ export default {
       })
     },
     addTaint() {
-      this.$refs.addTaint.item = this.item
+      this.$refs.addTaint.setItem(this.item)
       this.$refs.addTaint.open()
     },
     refreshTaint() {

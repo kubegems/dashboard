@@ -123,6 +123,10 @@ export default {
       this.$refs.form.reset()
       this.taints = []
     },
+    // eslint-disable-next-line vue/no-unused-properties
+    setItem(data) {
+      this.item = data
+    },
   },
 }
 </script>

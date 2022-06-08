@@ -121,8 +121,8 @@ export default {
       this.$nextTick(() => {
         this.item = deepCopy(item)
         // 提前加载命名空间
-        this.$refs[this.formComponent].$refs.Rule.setData(this.item)
-        this.$refs[this.formComponent].$refs.Rule.setLabelpairs(
+        this.$refs[this.formComponent].setData(this.item)
+        this.$refs[this.formComponent].setLabelpairs(
           this.item.labelpairs,
         )
       })

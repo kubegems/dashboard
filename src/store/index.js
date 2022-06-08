@@ -30,7 +30,6 @@ const LatestTenant = 'latesttenant'
 const LatestProject = 'latestproject'
 const LatestEnvironment = 'latestenvironment'
 const LatestCluster = 'latestcluster'
-const Store = 'store'
 const Version = 'version'
 const ApiResources = 'api-resources'
 
@@ -89,7 +88,6 @@ export default new Vuex.Store({
       cluster: '',
     },
     ReconnectCount: 0,
-    Store: window.localStorage.getItem(Store) || 'app',
     PluginsInterval: null,
     DialogActive: false,
     PanelActive: false,
@@ -114,10 +112,6 @@ export default new Vuex.Store({
     },
     SET_FULL_DIALOG(state, payload) {
       state.FullDialogActive = payload
-    },
-    SET_STORE(state, payload) {
-      state.Store = payload
-      window.localStorage.setItem(Store, payload)
     },
     SET_SIDEBAR_DRAWER(state, payload) {
       state.SidebarDrawer = payload
@@ -239,7 +233,6 @@ export default new Vuex.Store({
       state.LatestProject = { project: '' }
       state.LatestEnvoronment = { environment: '' }
       state.LatestCluster = { cluster: '' }
-      state.Store = 'app'
       state.ApiResources = {}
     },
     CLEAR_PLUGINS_INTERVAL(state) {

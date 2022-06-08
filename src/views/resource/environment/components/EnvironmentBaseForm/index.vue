@@ -681,6 +681,18 @@ export default {
     onTenantClusterSelectFocus(tenantid) {
       this.m_select_tenantClusterSelectData(tenantid)
     },
+    // eslint-disable-next-line vue/no-unused-properties
+    validate() {
+      return this.$refs.form.validate(true)
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    getData() {
+      return this.obj
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    generateUnit() {
+      return this.$refs.resourceQuota.generateUnit()
+    },
   },
 }
 </script>

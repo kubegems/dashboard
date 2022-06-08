@@ -194,6 +194,10 @@ export default {
     expandCard() {
       this.expand = true
     },
+    // eslint-disable-next-line vue/no-unused-properties
+    setAlertLevel(data) {
+      this.alertLevel = Object.assign(this.alertLevel, data)
+    },
   },
 }
 </script>

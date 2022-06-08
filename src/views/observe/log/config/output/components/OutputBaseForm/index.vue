@@ -172,7 +172,7 @@ export default {
       return this.$refs.form &&
         this.$refs.form.validate(true) &&
         this.$refs[this.formComponent] &&
-        this.$refs[this.formComponent].$refs.form.validate(true)
+        this.$refs[this.formComponent].validate()
     },
     onPluginChange(value) {
       this.pluginItems.forEach((plugin) => {
@@ -192,6 +192,10 @@ export default {
     setData(data) {
       this.obj = data
       this.getPlugin()
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    getData() {
+      return this.obj
     },
     getPlugin() {
       if (this.obj.spec.loki) {

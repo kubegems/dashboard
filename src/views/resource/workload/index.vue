@@ -421,7 +421,7 @@ export default {
     addWorkload() {
       this.$nextTick(() => {
         this.$refs.addWorkload.init()
-        this.$refs.addWorkload.kind = this.tabItems[this.tab].value
+        this.$refs.addWorkload.setKind(this.tabItems[this.tab].value)
         this.$refs.addWorkload.open()
       })
     },

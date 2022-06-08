@@ -185,10 +185,14 @@ export default {
           text: '请添加告警渠道',
           color: 'warning',
         })
-        return false
+        return false && this.$refs.form.validate(true)
       } else {
-        return true
+        return true && this.$refs.form.validate(true)
       }
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    setData(data) {
+      this.obj = data
     },
     // eslint-disable-next-line vue/no-unused-properties
     getData() {

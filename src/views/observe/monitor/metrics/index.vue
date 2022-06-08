@@ -180,7 +180,6 @@
                           flat
                           no-data-text="暂无可选数据"
                           return-object
-                          :loading="projectListLoading"
                           :rules="fieldRules.required"
                           @change="onProjectChange(index)"
                         >
@@ -207,7 +206,6 @@
                           flat
                           return-object
                           no-data-text="暂无可选数据"
-                          :loading="queryList[index].environmentItemsLoading"
                           :disabled="!queryList[index].project"
                           :rules="fieldRules.required"
                         >
@@ -484,7 +482,6 @@ export default {
       expr: undefined,
       projectItems: [],
       environmentItems: [],
-      environmentItemsLoading: false,
       resourceItems: [],
       ruleItems: [],
       unitItems: [],
@@ -501,7 +498,6 @@ export default {
       date: [],
       step: 'auto',
       allProjectList: [],
-      projectListLoading: false,
       config: {},
       labelObject: {},
       metricsObject: {},
@@ -680,7 +676,6 @@ export default {
       let envItems = []
       this.$refs[`${query._$id}-form`][0].validate()
       if (query.project) {
-        this.$set(query, 'environmentItemsLoading', true)
         const data = await getProjectEnvironmentList(query.project.value, {
           noprocessing: true,
         })
@@ -690,7 +685,6 @@ export default {
       }
       this.$set(query, 'environment', undefined)
       this.$set(query, 'environmentItems', envItems)
-      this.$set(query, 'environmentItemsLoading', false)
     },
     async getMonitorConfig() {
       let data = null
@@ -704,7 +698,6 @@ export default {
       this.onLatitudeChange(0)
     },
     async getProjectList() {
-      this.projectListLoading = true
       const data = await getProjectList(this.Tenant().ID, { noprocessing: true })
       this.allProjectList = data.List.map((item) => ({
         value: item.ID,
@@ -712,7 +705,6 @@ export default {
         environments: item.Environments,
       }))
       this.onClusterChange(0)
-      this.projectListLoading = false
     },
     async getLabelItems(label, id) {
       if (this.labelObject[id][label]?.request) return
