@@ -33,9 +33,10 @@
     ]
   },
   "dependencies": {
+    "@mdi/js": "^5.6.55",
     "@sentry/tracing": "^6.16.0",
     "@sentry/vue": "^6.16.0",
-    "@mdi/js": "^5.6.55",
+    "@vue/composition-api": "^1.6.2",
     "ajv": "^8.6.3",
     "apexcharts": "^3.33.1",
     "axios": "^0.21.4",
@@ -48,6 +49,7 @@
     "markdown-it": "^12.0.6",
     "markdown-it-highlightjs": "^3.5.0",
     "moment": "^2.29.0",
+    "v-code-diff": "^0.3.11",
     "vue": "^2.6.12",
     "vue-apexcharts": "^1.6.2",
     "vue-code-diff": "^1.2.0",
