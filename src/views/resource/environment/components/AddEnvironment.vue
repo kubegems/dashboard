@@ -84,7 +84,7 @@ export default {
         })
         return
       }
-      if (this.$refs[this.formComponent].$refs.form.validate(true)) {
+      if (this.$refs[this.formComponent].validate()) {
         this.step += 1
       }
     },
@@ -105,8 +105,8 @@ export default {
         })
         return
       }
-      if (this.$refs[this.formComponent].$refs.form.validate(true)) {
-        const data = this.$refs[this.formComponent].obj.data
+      if (this.$refs[this.formComponent].validate()) {
+        const data = this.$refs[this.formComponent].getData().data
         const resdata = await postAddEnvironment(
           this.AdminViewport
             ? data.ProjectID
@@ -127,7 +127,7 @@ export default {
             Remark: data.Remark,
             CreatorID: this.User.ID,
             ResourceQuota:
-              this.$refs[this.formComponent].$refs.resourceQuota.generateUnit(),
+              this.$refs[this.formComponent].generateUnit(),
             LimitRange: data.LimitRange,
           },
         )
@@ -153,6 +153,10 @@ export default {
       this.dialog = false
       this.step = 0
       this.$refs[this.formComponent].reset()
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    setProjectId(id) {
+      this.projectid = id
     },
   },
 }

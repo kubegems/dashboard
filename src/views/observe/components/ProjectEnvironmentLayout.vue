@@ -2,7 +2,7 @@
   <v-container fluid>
     <BaseSplitContainer
       title="项目环境"
-      side-width="300px"
+      side-width="250px"
       :tooltip="!!env"
     >
       <ProjectEnvironmentTree

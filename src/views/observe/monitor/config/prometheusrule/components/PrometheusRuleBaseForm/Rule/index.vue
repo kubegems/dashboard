@@ -392,9 +392,10 @@ export default {
         severity: alertLevel.severity,
       }
 
-      this.$refs.alertLevelForm.alertLevel.compareSelector =
-        alertLevel.compareOp
-      this.$refs.alertLevelForm.alertLevel.severity = alertLevel.severity
+      this.$refs.alertLevelForm.setAlertLevel({
+        compareSelector: alertLevel.compareOp,
+        severity: alertLevel.severity,
+      })
       this.$nextTick(() => {
         this.$refs.alertLevelForm.init(data)
         this.expand = true
@@ -404,12 +405,12 @@ export default {
       this.$delete(this.obj.alertLevels, index)
     },
     expandCard() {
-      this.$refs.alertLevelForm.alertLevel = {
+      this.$refs.alertLevelForm.setAlertLevel({
         index: -1,
         compareOp: '>',
         compareValue: '',
         severity: 'error',
-      }
+      })
       this.$nextTick(() => {
         this.$refs.alertLevelForm.expandCard()
         this.expand = true
@@ -488,6 +489,10 @@ export default {
           }
         })
       }
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    validate() {
+      return this.$refs.form.validate(true)
     },
   },
 }

@@ -71,11 +71,23 @@ export default {
     },
     // eslint-disable-next-line vue/no-unused-properties
     validate() {
-      return this.$refs[this.steps[this.step]].$refs.form.validate(true)
+      return this.$refs[this.steps[this.step]].validate()
     },
     // eslint-disable-next-line vue/no-unused-properties
     reset() {
       this.$refs[this.steps[this.step]].reset()
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    setData(data) {
+      this.$refs[this.steps[this.step]].setData(data)
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    getInhibitLabels() {
+      return this.$refs[this.steps[this.step]].getInhibitLabels()
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    setLabelpairs(data) {
+      this.$refs[this.steps[this.step]].setLabelpairs(data)
     },
   },
 }

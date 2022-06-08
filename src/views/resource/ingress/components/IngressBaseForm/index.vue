@@ -436,6 +436,14 @@ export default {
     onGatewaySelectFocus(clusterName) {
       this.m_select_gatewaySelectData(clusterName)
     },
+    // eslint-disable-next-line vue/no-unused-properties
+    validate() {
+      return this.$refs.form.validate(true)
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    getData() {
+      return this.obj
+    },
   },
 }
 </script>

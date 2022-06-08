@@ -560,6 +560,21 @@ export default {
     reset() {
       this.$refs.form.reset()
     },
+    // eslint-disable-next-line vue/no-unused-properties
+    validate() {
+      return this.$refs.form.validate(true)
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    getData() {
+      return this.obj
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    checkSaved() {
+      if (Object.prototype.hasOwnProperty.call(this, 'expand')) {
+        return !this.expand
+      }
+      return true
+    },
   },
 }
 </script>

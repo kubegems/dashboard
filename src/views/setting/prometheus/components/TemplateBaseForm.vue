@@ -164,11 +164,6 @@ export default {
     },
   },
   methods: {
-    // eslint-disable-next-line vue/no-unused-properties
-    generateData() {
-      this.obj.labels = this.labels.map(l => { return l.text })
-      return this.obj
-    },
     onLabelChange() {
       const labels = this.labels.filter((label) => {
         return label !== '' && typeof label === 'object'
@@ -208,6 +203,15 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     setData(data) {
       this.obj = data
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    getData() {
+      this.obj.labels = this.labels.map(l => { return l.text })
+      return this.obj
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    validate() {
+      return this.$refs.form.validate(true)
     },
   },
 }

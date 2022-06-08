@@ -1,6 +1,9 @@
 <template>
   <v-container fluid>
-    <BaseSplitContainer title="类型">
+    <BaseSplitContainer
+      title="类型"
+      side-width="250px"
+    >
       <BaseBreadcrumb
 
         flat

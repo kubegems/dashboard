@@ -252,6 +252,14 @@ export default {
     onNamespaceSelectFocus(clusterName) {
       this.m_select_namespaceSelectData(clusterName)
     },
+    // eslint-disable-next-line vue/no-unused-properties
+    getData() {
+      return this.obj
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    validate() {
+      return this.$refs.form.validate(true)
+    },
   },
 }
 </script>

@@ -237,11 +237,11 @@ export default {
       this.m_table_generateSelectResourceNoK8s('ChartRepoName')
     },
     addRepository() {
-      this.$refs.repositoryInfo.title = '添加仓库'
+      this.$refs.repositoryInfo.setTitle('添加仓库')
       this.$refs.repositoryInfo.open()
     },
     updateRepository(item) {
-      this.$refs.repositoryInfo.title = '更新仓库'
+      this.$refs.repositoryInfo.setTitle('更新仓库')
       this.$refs.repositoryInfo.init(item)
       this.$refs.repositoryInfo.open()
     },

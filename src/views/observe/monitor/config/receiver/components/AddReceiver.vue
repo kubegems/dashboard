@@ -58,10 +58,7 @@ export default {
       this.dialog = true
     },
     async addReceiver() {
-      if (
-        this.$refs[this.formComponent].$refs.form.validate(true) &&
-        this.$refs[this.formComponent].validate()
-      ) {
+      if (this.$refs[this.formComponent].validate()) {
         let data = this.$refs[this.formComponent].getData()
         data = this.m_resource_beautifyData(data)
         await postAddReceiver(this.$route.query.cluster, this.$route.query.namespace, {scope: this.mode}, data)

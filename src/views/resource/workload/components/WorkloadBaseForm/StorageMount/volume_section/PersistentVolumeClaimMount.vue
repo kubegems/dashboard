@@ -221,7 +221,7 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     reset() {
       this.$refs.form.reset()
-      this.$refs.volumeMount.$refs.form.reset()
+      this.$refs.volumeMount.reset()
     },
   },
 }

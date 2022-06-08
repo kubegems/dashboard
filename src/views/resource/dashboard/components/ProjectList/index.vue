@@ -441,7 +441,7 @@ export default {
       }
     },
     addEnvironment(item) {
-      this.$refs.addEnvironment.projectid = item.ID
+      this.$refs.addEnvironment.setProjectId(item.ID)
       this.$refs.addEnvironment.open()
       this.$refs.addEnvironment.init(item.ID)
     },

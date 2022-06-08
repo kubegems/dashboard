@@ -280,7 +280,7 @@ export default {
     },
     async strategyDeployEnvironmentApps() {
       if (
-        this.$refs.baseDeployInfoForm.$refs.form.validate(true) &&
+        this.$refs.baseDeployInfoForm.validate() &&
         this.$refs.form.validate(true) &&
         (!this.$refs[this.tabItems[this.tab].value] ||
           (this.$refs[this.tabItems[this.tab].value] &&
@@ -288,7 +288,7 @@ export default {
               true,
             )))
       ) {
-        this.obj = Object.assign(this.obj, this.$refs.baseDeployInfoForm.base)
+        this.obj = Object.assign(this.obj, this.$refs.baseDeployInfoForm.getData())
         await postStrategyDeployEnvironmentApps(
           this.Tenant().ID,
           this.Project().ID,

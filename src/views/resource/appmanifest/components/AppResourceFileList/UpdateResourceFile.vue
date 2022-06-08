@@ -106,7 +106,7 @@ export default {
       if (this.$refs[this.formComponent].validate()) {
         let data = ''
         if (this.formComponent === 'BaseYamlForm') {
-          data = this.$refs[this.formComponent].kubeyaml
+          data = this.$refs[this.formComponent].getYaml()
           const jsondata = this.$yamlload(data)
           if (this.kind) {
             const mixinjson = require(`@/views/resource/${
@@ -127,7 +127,7 @@ export default {
           }
           data = this.$yamldump(this.m_resource_beautifyData(jsondata))
         } else if (this.formComponent === 'AppResourceBaseForm') {
-          data = this.$refs[this.formComponent].obj
+          data = this.$refs[this.formComponent].getData()
           data = this.$yamldump(this.m_resource_beautifyData(data))
         }
         await patchAppResourceFile(
@@ -146,7 +146,7 @@ export default {
     },
     onYamlSwitchChange() {
       if (this.yaml) {
-        const data = this.$refs[this.formComponent].obj
+        const data = this.$refs[this.formComponent].getData()
         this.formComponent = 'BaseYamlForm'
         this.$nextTick(() => {
           this.$refs[this.formComponent].setYaml(this.$yamldump(data))
@@ -190,7 +190,7 @@ export default {
         return
       }
       if (this.step > 0) {
-        const data = this.$refs[this.formComponent].obj
+        const data = this.$refs[this.formComponent].getData()
         this.step -= 1
         this.$nextTick(() => {
           this.$refs[this.formComponent].back(data)
@@ -212,7 +212,7 @@ export default {
         this.step < this.totalStep - 1 &&
         this.$refs[this.formComponent].validate()
       ) {
-        const data = this.$refs[this.formComponent].obj
+        const data = this.$refs[this.formComponent].getData()
         if (
           ['DaemonSet', 'Deployment', 'StatefulSet', 'Job'].indexOf(data.kind) >
             -1 &&

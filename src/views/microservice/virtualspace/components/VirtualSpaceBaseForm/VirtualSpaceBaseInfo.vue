@@ -83,7 +83,8 @@ export default {
     },
     // eslint-disable-next-line vue/no-unused-properties
     reset() {
-      this.$refs.form.reset()
+      this.$refs.form.resetValidation()
+      this.obj = this.$options.data().obj
     },
     // eslint-disable-next-line vue/no-unused-properties
     init(data) {
@@ -96,6 +97,15 @@ export default {
       this.$nextTick(() => {
         this.obj = deepCopy(data)
       })
+    },
+
+    // eslint-disable-next-line vue/no-unused-properties
+    validate() {
+      return this.$refs.form.validate(true)
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    getData() {
+      return this.obj
     },
   },
 }
