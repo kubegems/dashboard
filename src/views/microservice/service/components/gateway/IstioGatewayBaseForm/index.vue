@@ -111,7 +111,7 @@ export default {
     },
   }),
   computed: {
-    ...mapState(['EnvironmentFilter']),
+    ...mapState(['EnvironmentFilter', 'ApiResources']),
     ...mapGetters(['VirtualSpace']),
     objRules() {
       return {
@@ -126,6 +126,7 @@ export default {
   watch: {
     item() {
       this.$nextTick(() => {
+        this.obj.apiVersion = this.ApiResources['gateway'] || 'networking.istio.io/v1beta1'
         this.obj = deepCopy(this.item)
         this.obj.metadata.namespace = this.EnvironmentFilter.namespace
         this.loaddata()

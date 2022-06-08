@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const apiResources = window.localStorage.getItem('api-resources') || {}
-const apiVersion = apiResources['istiogateway'] || 'networking.istio.io/v1beta1'
+const apiVersion = apiResources['gateway'] || 'networking.istio.io/v1beta1'
 
 // 网关实例列表
 export const getIstioGatewayInstanceList = (

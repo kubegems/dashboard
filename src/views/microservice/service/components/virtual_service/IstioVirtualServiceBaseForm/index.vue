@@ -230,7 +230,7 @@ export default {
     hostText: '',
   }),
   computed: {
-    ...mapState(['EnvironmentFilter']),
+    ...mapState(['EnvironmentFilter', 'ApiResources']),
     objRules() {
       return {
         nameRule: [
@@ -243,6 +243,7 @@ export default {
   watch: {
     item() {
       this.$nextTick(() => {
+        this.obj.apiVersion = this.ApiResources['virtualservice'] || 'networking.istio.io/v1beta1'
         this.obj = deepCopy(this.item)
         this.obj.metadata.namespace = this.EnvironmentFilter.namespace
         this.loaddata()

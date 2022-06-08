@@ -222,7 +222,7 @@ export default {
     },
   }),
   computed: {
-    ...mapState(['AdminViewport']),
+    ...mapState(['AdminViewport', 'ApiResources']),
     ...mapGetters(['Tenant']),
     objRules() {
       return {
@@ -238,13 +238,11 @@ export default {
         imageRule: [v => !v || !!new RegExp('^([\\w|/|\\.|-]+)[:|@]([\\w|\\.|-]+)$').test(v) || '格式错误（不符合镜像格式）'],
       }
     },
-    apiVersion() {
-      return `gems.kubegems.io/v1beta1`
-    },
   },
   watch: {
     item: {
       handler() {
+        this.obj.apiVersion = this.ApiResources['tenantgateway'] || 'gems.kubegems.io/v1beta1'
         this.loadData()
       },
       deep: true,
@@ -259,7 +257,6 @@ export default {
         } else {
           this.obj = deepCopy(this.item)
         }
-        this.obj.apiVersion = this.apiVersion
 
         if (!this.AdminViewport) {
           this.obj.spec.tenant = this.Tenant().TenantName

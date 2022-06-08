@@ -129,7 +129,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['AdminViewport']),
+    ...mapState(['AdminViewport', 'ApiResources']),
     typeItems() {
       return [{ text: 'Output', value: 'Output' }].concat(
         this.AdminViewport
@@ -144,6 +144,7 @@ export default {
   watch: {
     item: {
       handler() {
+        this.obj.apiVersion = this.ApiResources['output'] || 'logging.banzaicloud.io/v1beta1'
         this.loadData()
       },
       deep: true,

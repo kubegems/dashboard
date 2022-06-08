@@ -408,7 +408,7 @@ export default new Vuex.Store({
       const resource = {}
       data.forEach(d => {
         d?.resources?.forEach(r => {
-          resource[r.kind.toLocaleLowerCase()] = d.groupVersion === 'v1' ? 'core/v1' : d.groupVersion
+          resource[r.kind.toLocaleLowerCase()] = d.groupVersion
         })
       })
       commit('SET_API_RESOURCES', resource)

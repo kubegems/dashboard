@@ -5,14 +5,7 @@
   >
     <BaseBreadcrumb
       class="dash__header"
-    >
-      <template
-        v-if="AdminViewport"
-        #extend
-      >
-        <TenantSelect v-model="tenant" />
-      </template>
-    </BaseBreadcrumb>
+    />
 
     <v-card
       flat
@@ -252,7 +245,6 @@ import AddDashboard from './components/AddDashboard'
 import UpdateDashboard from './components/UpdateDashboard'
 import AddGraph from './components/AddGraph'
 import UpdateGraph from './components/UpdateGraph'
-import TenantSelect from '../../components/TenantSelect'
 import ProjectEnvSelect from './components/ProjectEnvSelect'
 import GraphMax from './components/GraphMax'
 import BasePermission from '@/mixins/permission'
@@ -260,7 +252,6 @@ import BasePermission from '@/mixins/permission'
 export default {
   name: 'MonitorDashboard',
   components: {
-    TenantSelect,
     ProjectEnvSelect,
     AddDashboard,
     UpdateDashboard,
@@ -291,9 +282,14 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      if (!this.AdminViewport) {
-        this.tenant = this.Tenant()
+      if (!this.Tenant().ID) {
+        this.$store.commit('SET_SNACKBAR', {
+          text: '暂未选择租户',
+          color: 'warning',
+        })
+        return
       }
+      this.tenant = this.Tenant()
       this.params.start = this.$moment(this.date[0]).utc().format()
       this.params.end = this.$moment(this.date[1]).utc().format()
     })

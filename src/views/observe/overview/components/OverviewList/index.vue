@@ -114,7 +114,7 @@ export default {
       { text: 'CPU', value: 'cpu', align: 'start' },
       { text: 'Mem', value: 'memory', align: 'start' },
       { text: '指标采集器', value: 'monitorCollectorCount', align: 'start' },
-      { text: '告警规则', value: 'alertRuleCount', align: 'start', width: 70 },
+      { text: '告警规则', value: 'alertRuleCount', align: 'start', width: 80 },
       { text: '实时告警', value: 'alertLiving', align: 'start' },
       { text: '日志采集器', value: 'loggingCollectorCount', align: 'start' },
       { text: '错误日志', value: 'errorLogCount', align: 'start' },

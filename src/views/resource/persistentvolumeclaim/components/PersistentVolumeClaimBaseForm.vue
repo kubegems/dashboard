@@ -238,7 +238,7 @@ export default {
     },
   }),
   computed: {
-    ...mapState(['Admin', 'AdminViewport']),
+    ...mapState(['Admin', 'AdminViewport', 'ApiResources']),
     ...mapGetters(['Tenant', 'Cluster', 'Environment']),
     objRules() {
       return {
@@ -311,6 +311,7 @@ export default {
   watch: {
     item: {
       handler() {
+        this.obj.apiVersion = this.ApiResources['persistentvolumeclaim'] || 'v1'
         this.loadData()
       },
       deep: true,
