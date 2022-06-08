@@ -222,7 +222,7 @@ export default {
     },
   }),
   computed: {
-    ...mapState(['Admin', 'AdminViewport']),
+    ...mapState(['Admin', 'AdminViewport', 'ApiResources']),
     ...mapGetters(['Tenant', 'Cluster']),
     objRules() {
       return {
@@ -248,6 +248,7 @@ export default {
   watch: {
     item: {
       handler() {
+        this.obj.apiVersion = this.ApiResources['ingress'] || 'networking.k8s.io/v1beta1'
         this.loadData()
       },
       deep: true,

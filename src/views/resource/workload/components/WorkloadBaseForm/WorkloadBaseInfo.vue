@@ -161,7 +161,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['AdminViewport']),
+    ...mapState(['AdminViewport', 'ApiResources']),
     objRules() {
       return {
         nameRule: [
@@ -180,6 +180,7 @@ export default {
   watch: {
     item: {
       handler() {
+        this.obj.apiVersion = this.ApiResources[this.$route.query.type?.toLocaleLowerCase()] || 'apps/v1'
         this.loadData()
       },
       deep: true,

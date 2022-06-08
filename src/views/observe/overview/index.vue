@@ -1,13 +1,6 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb>
-      <template
-        v-if="AdminViewport"
-        #extend
-      >
-        <TenantSelect v-model="tenant" />
-      </template>
-    </BaseBreadcrumb>
+    <BaseBreadcrumb />
     <IntroSteps />
     <OverviewList
       class="mt-3"
@@ -20,14 +13,12 @@
 import { mapGetters, mapState } from 'vuex'
 import IntroSteps from './components/IntroSteps'
 import OverviewList from './components/OverviewList'
-import TenantSelect from '../components/TenantSelect'
 
 export default {
   name: 'Observe',
   components: {
     IntroSteps,
     OverviewList,
-    TenantSelect,
   },
   data () {
     return {
@@ -40,9 +31,14 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      if (!this.AdminViewport) {
-        this.tenant = this.Tenant()
+      if (!this.Tenant().ID) {
+        this.$store.commit('SET_SNACKBAR', {
+          text: '暂未选择租户',
+          color: 'warning',
+        })
+        return
       }
+      this.tenant = this.Tenant()
     })
   },
   methods: {

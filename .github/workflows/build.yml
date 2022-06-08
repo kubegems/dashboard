@@ -8,13 +8,7 @@ on:
     tags:
       - "v*.*.*"
     paths-ignore:
-      [
-        "**/*.md",
-        "*.md",
-        ".dockerignore",
-        ".gitignore",
-        ".vscode/*",
-      ]
+      ["**/*.md", "*.md", ".dockerignore", ".gitignore", ".vscode/*"]
   pull_request:
     branches:
       - "main"
@@ -23,13 +17,7 @@ on:
       - "enhancement/*"
       - "develop"
     paths-ignore:
-      [
-        "**/*.md",
-        "*.md",
-        ".dockerignore",
-        ".gitignore",
-        ".vscode/*",
-      ]
+      ["**/*.md", "*.md", ".dockerignore", ".gitignore", ".vscode/*"]
 
 env:
   ALI_REGISTRY: ${{ secrets.ALI_RSY_HOST }}
@@ -65,17 +53,19 @@ jobs:
             fi
           elif [[ $GITHUB_REF == refs/pull/* ]]; then
             VERSION=pr-${{ github.event.number }}
+          elif [[ $GITHUB_REF == refs/heads/main ]]; then
+            VERSION=main
           fi
           TAGS="${VERSION}"
           echo ::set-output name=version::${VERSION}
           echo ::set-output name=tags::${TAGS}
           echo ::set-output name=created::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16'
-      
+          node-version: "16"
+
       - name: Build dashboard dist
         env:
           VUE_APP_DATE: ${{ steps.prepare.outputs.created }}

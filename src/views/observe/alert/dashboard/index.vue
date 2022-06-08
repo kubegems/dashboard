@@ -1,13 +1,6 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb>
-      <template
-        v-if="AdminViewport"
-        #extend
-      >
-        <TenantSelect v-model="tenant" />
-      </template>
-    </BaseBreadcrumb>
+    <BaseBreadcrumb />
 
     <v-row class="kubegems__h-24 mt-0">
       <v-col
@@ -72,7 +65,6 @@ import ValueCard from './components/ValueCard'
 import AlertHistoryLine from './components/AlertHistoryLine'
 import AlertCategoryBar from './components/AlertCategoryBar'
 import AlertTopBar from './components/AlertTopBar'
-import TenantSelect from '../../components/TenantSelect'
 import BaseSelect from '@/mixins/select'
 
 export default {
@@ -82,7 +74,6 @@ export default {
     AlertHistoryLine,
     AlertCategoryBar,
     AlertTopBar,
-    TenantSelect,
   },
   mixins: [BaseSelect],
   data() {
@@ -105,9 +96,14 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      if (!this.AdminViewport) {
-        this.tenant = this.Tenant()
+      if (!this.Tenant().ID) {
+        this.$store.commit('SET_SNACKBAR', {
+          text: '暂未选择租户',
+          color: 'warning',
+        })
+        return
       }
+      this.tenant = this.Tenant()
     })
   },
   methods: {

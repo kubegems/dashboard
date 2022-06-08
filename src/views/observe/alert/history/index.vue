@@ -3,14 +3,7 @@
     fluid
     class="alert-history"
   >
-    <BaseBreadcrumb>
-      <template
-        v-if="AdminViewport"
-        #extend
-      >
-        <TenantSelect v-model="tenant" />
-      </template>
-    </BaseBreadcrumb>
+    <BaseBreadcrumb />
     <v-card>
       <div class="d-flex justify-space-between pa-3">
         <ClusterSelect
@@ -173,7 +166,6 @@ import {
   deletePrometheusBlacklist,
 } from '@/api'
 import ClusterSelect from '@/views/observe/components/ClusterSelect'
-import TenantSelect from '@/views/observe/components/TenantSelect'
 import HistorySearch from './components/HistorySearch'
 import BaseSelect from '@/mixins/select'
 import { deleteEmpty } from '@/utils/helpers'
@@ -183,7 +175,6 @@ export default {
   components: {
     ClusterSelect,
     HistorySearch,
-    TenantSelect,
   },
   mixins: [BaseSelect],
   data() {
@@ -272,9 +263,14 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      if (!this.AdminViewport) {
-        this.tenant = this.Tenant()
+      if (!this.Tenant().ID) {
+        this.$store.commit('SET_SNACKBAR', {
+          text: '暂未选择租户',
+          color: 'warning',
+        })
+        return
       }
+      this.tenant = this.Tenant()
     })
   },
   methods: {
