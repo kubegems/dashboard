@@ -184,7 +184,7 @@ export default {
     ingressItems: [],
   }),
   computed: {
-    ...mapState(['Admin', 'AdminViewport']),
+    ...mapState(['Admin', 'AdminViewport', 'ApiResources']),
     ...mapGetters(['Cluster']),
     objRules() {
       return {
@@ -202,6 +202,7 @@ export default {
   watch: {
     item: {
       handler() {
+        this.obj.apiVersion = this.ApiResources['issuer'] || 'cert-manager.io/v1'
         this.loadData()
       },
       deep: true,

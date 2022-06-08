@@ -152,7 +152,7 @@ export default {
     formComponent: 'DataForm',
   }),
   computed: {
-    ...mapState(['Admin', 'AdminViewport']),
+    ...mapState(['Admin', 'AdminViewport', 'ApiResources']),
     objRules() {
       return {
         nameRule: [
@@ -167,6 +167,7 @@ export default {
   watch: {
     item: {
       handler() {
+        this.obj.apiVersion = this.ApiResources['configmap'] || 'v1'
         this.loadData()
       },
       deep: true,

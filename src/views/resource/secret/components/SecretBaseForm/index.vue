@@ -193,7 +193,7 @@ export default {
     formComponent: 'SecretDataForm',
   }),
   computed: {
-    ...mapState(['Admin', 'AdminViewport']),
+    ...mapState(['Admin', 'AdminViewport', 'ApiResources']),
     ...mapGetters(['Cluster']),
     objRules() {
       return {
@@ -210,6 +210,7 @@ export default {
   watch: {
     item: {
       handler() {
+        this.obj.apiVersion = this.ApiResources['secret'] || 'v1'
         this.loadData()
       },
       deep: true,
