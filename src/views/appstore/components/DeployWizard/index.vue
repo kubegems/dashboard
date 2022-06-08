@@ -23,7 +23,7 @@
       :before-change="validateBaseInfo"
     >
       <v-form
-        ref="baseInfoForm"
+        ref="form"
         v-model="valid"
         lazy-validation
         class="wizard-form-content"
@@ -362,12 +362,12 @@ export default {
   },
   methods: {
     validateBaseInfo() {
-      const ret = this.$refs.baseInfoForm.validate(true)
+      const ret = this.$refs.form.validate(true)
       this.currentStep = ret ? 2 : 1
       return ret
     },
     validateJsonSchema() {
-      return this.$refs.jsonSchema.$refs.form.validate(true)
+      return this.$refs.jsonSchema.validate()
     },
     async parseFiles() {
       this.readme = this.filesCopy['README.md'] || {}
@@ -586,11 +586,11 @@ export default {
     },
     // eslint-disable-next-line vue/no-unused-properties
     reset() {
-      if (this.$refs.baseInfoForm) {
-        this.$refs.baseInfoForm.reset()
+      if (this.$refs.form) {
+        this.$refs.form?.reset()
       }
-      if (this.$refs.jsonSchema && this.$refs.jsonSchema.$refs.form) {
-        this.$refs.jsonSchema.$refs.form.reset()
+      if (this.$refs.jsonSchema) {
+        this.$refs.jsonSchema?.reset()
       }
     },
     async nextStep(props) {
@@ -630,6 +630,10 @@ export default {
     },
     onTenantProjectSelectFocus() {
       this.m_select_tenantProjectSelectData()
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    setData(data) {
+      this.obj = Object.assign(this.obj, data)
     },
   },
 }

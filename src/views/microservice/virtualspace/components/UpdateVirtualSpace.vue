@@ -79,8 +79,8 @@ export default {
       this.dialog = true
     },
     async updateVirtualSpace() {
-      if (this.$refs[this.formComponent].$refs.form.validate(true)) {
-        const data = this.$refs[this.formComponent].obj
+      if (this.$refs[this.formComponent].validate()) {
+        const data = this.$refs[this.formComponent].getData()
         await putUpdateVirtualSpace(data.ID, {
           VirtualSpaceName: data.VirtualSpaceName,
         })
@@ -90,7 +90,7 @@ export default {
     },
     lastStep() {
       if (this.step > 0) {
-        const data = this.$refs[this.formComponent].obj
+        const data = this.$refs[this.formComponent].getData()
         this.step -= 1
         this.$nextTick(() => {
           this.$refs[this.formComponent].back(data)
@@ -112,7 +112,7 @@ export default {
         this.step < this.totalStep - 1 &&
         this.$refs[this.formComponent].validate()
       ) {
-        const data = this.$refs[this.formComponent].obj
+        const data = this.$refs[this.formComponent].getData()
         this.step += 1
         this.$nextTick(() => {
           this.$refs[this.formComponent].init(data)

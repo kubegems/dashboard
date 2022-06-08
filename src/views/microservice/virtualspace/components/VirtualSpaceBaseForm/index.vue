@@ -48,7 +48,7 @@ export default {
   computed: {
     // eslint-disable-next-line vue/no-unused-properties
     obj() {
-      return this.$refs[this.steps[this.step]].obj
+      return this.$refs[this.steps[this.step]].getData()
     },
   },
   methods: {
@@ -62,14 +62,18 @@ export default {
     },
     // eslint-disable-next-line vue/no-unused-properties
     validate() {
-      return this.$refs[this.steps[this.step]].$refs.form.validate(true)
+      return this.$refs[this.steps[this.step]].validate()
     },
     // eslint-disable-next-line vue/no-unused-properties
     reset() {
-      this.$refs[this.steps[this.step]].$refs.form.reset()
+      this.$refs[this.steps[this.step]].reset()
     },
     refresh() {
       this.$emit('refresh')
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    getData() {
+      return this.obj
     },
   },
 }

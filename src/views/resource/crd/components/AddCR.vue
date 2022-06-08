@@ -54,8 +54,8 @@ export default {
       this.dialog = true
     },
     async addCR() {
-      if (this.$refs.yamlForm.$refs.form.validate(true)) {
-        let data = this.$refs.yamlForm.kubeyaml
+      if (this.$refs.yamlForm.validate()) {
+        let data = this.$refs.yamlForm.getYaml()
         data = this.$yamlload(data)
         let namespace = ''
         if (this.crd.spec.scope === 'Cluster') {

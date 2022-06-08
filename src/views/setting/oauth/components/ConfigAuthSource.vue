@@ -111,7 +111,7 @@ export default {
       }
     },
     async updateAuthSource() {
-      if (this.$refs.form.validate(true) && this.$refs[this.formComponent].$refs.form.validate(true)) {
+      if (this.$refs.form.validate(true) && this.$refs[this.formComponent].validate()) {
         if (this.formComponent === 'OauthBaseForm' || this.formComponent === 'OpenLdapBaseForm') {
           const data = Object.assign(this.obj, this.$refs[this.formComponent].getData())
           if (this.edit) {

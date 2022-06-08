@@ -306,7 +306,7 @@ export default {
       this.items = data.List || []
     },
     onClusterChange() {
-      this.clusterId = this.$refs.ClusterSelect.items.find(
+      this.clusterId = this.$refs.ClusterSelect.getItems().find(
         (cluster) => cluster.text === this.params.cluster,
       )?.value
     },

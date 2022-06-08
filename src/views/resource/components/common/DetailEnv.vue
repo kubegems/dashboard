@@ -41,7 +41,9 @@ export default {
       handler(newValue) {
         this.envs = []
         newValue.forEach(c => {
-          this.envs = this.envs.concat(c.env.map(e => { return {...e, containerName: c.name} }))
+          if (c.env) {
+            this.envs = this.envs.concat(c.env.map(e => { return {...e, containerName: c.name} }))
+          }
         })
       },
       deep: true,

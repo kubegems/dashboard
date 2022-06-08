@@ -247,7 +247,7 @@ export default {
   },
   methods: {
     // eslint-disable-next-line vue/no-unused-properties
-    validated() {
+    validate() {
       return this.$refs.form.validate(true)
     },
     // eslint-disable-next-line vue/no-unused-properties
@@ -375,6 +375,10 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     setData(data) {
       this.obj = data
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    getData() {
+      return this.obj
     },
   },
 }

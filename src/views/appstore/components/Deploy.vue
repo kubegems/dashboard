@@ -96,8 +96,10 @@ export default {
     },
     // eslint-disable-next-line vue/no-unused-properties
     async init() {
-      this.$refs.deployWizard.obj.selectVersion = this.selectVersion
-      this.$refs.deployWizard.obj.app = this.currentApp.name
+      this.$refs.deployWizard.setData({
+        selectVersion: this.selectVersion,
+        app: this.currentApp.name,
+      })
       await this.$refs.deployWizard.parseFiles()
     },
     dispose() {

@@ -58,10 +58,7 @@ export default {
       this.dialog = true
     },
     async addReceiver() {
-      if (
-        this.$refs[this.formComponent].$refs.form.validate(true) &&
-        this.$refs[this.formComponent].validate()
-      ) {
+      if (this.$refs[this.formComponent].validate()) {
         let data = this.$refs[this.formComponent].getData()
         if (this.mode === "monitor") {
           data.source = "kubegems-default-monitor-alert-rule"

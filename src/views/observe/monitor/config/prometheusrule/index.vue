@@ -244,11 +244,11 @@
               </v-flex>
             </td>
           </template>
-          <template #[`item.action`]="{ item }">
-            <v-flex :id="`r${item.metadata.resourceVersion}`" />
+          <template #[`item.action`]="{ item, index }">
+            <v-flex :id="`r${index}`" />
             <v-menu
               left
-              :attach="`#r${item.metadata.resourceVersion}`"
+              :attach="`#r${index}`"
             >
               <template #activator="{ on }">
                 <v-btn icon>
@@ -373,10 +373,10 @@ export default {
     headers() {
       const items = [
         { text: '名称', value: 'name', align: 'start' },
-        { text: '指标', value: 'expr', align: 'start', width: 500 },
+        { text: '指标', value: 'expr', align: 'start', width: 300 },
         { text: '评估时间', value: 'for', align: 'start' },
-        { text: '接收器', value: 'receivers', align: 'start', width: 200 },
-        { text: '使用状态', value: 'open', align: 'start', width: 100 },
+        { text: '接收器', value: 'receivers', align: 'start', width: 150 },
+        { text: '使用状态', value: 'open', align: 'start', width: 80 },
       ]
       if (this.m_permisson_resourceAllow(this.$route.query.env)) {
         items.push({ text: '', value: 'action', align: 'center', width: 20 })

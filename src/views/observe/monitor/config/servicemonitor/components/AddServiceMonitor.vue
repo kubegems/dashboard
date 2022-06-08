@@ -73,10 +73,10 @@ export default {
       this.dialog = true
     },
     async addServiceMonitor() {
-      if (this.$refs[this.formComponent].$refs.form.validate(true)) {
+      if (this.$refs[this.formComponent].validate()) {
         let data = ''
         if (this.formComponent === 'BaseYamlForm') {
-          data = this.$refs[this.formComponent].kubeyaml
+          data = this.$refs[this.formComponent].getYaml()
           data = this.$yamlload(data)
           if (
             !this.checkDataWithNS(
@@ -110,7 +110,7 @@ export default {
           this.$refs[this.formComponent].setYaml(this.$yamldump(data))
         })
       } else {
-        const yaml = this.$refs[this.formComponent].kubeyaml
+        const yaml = this.$refs[this.formComponent].getYaml()
         const data = this.$yamlload(yaml)
         if (!this.m_resource_validateJsonSchema(this.schema, data)) {
           this.yaml = true
@@ -126,11 +126,8 @@ export default {
     reset() {
       this.dialog = false
       this.formComponent = 'ServiceMonitorBaseForm'
-      if (
-        this.$refs[this.formComponent] &&
-        this.$refs[this.formComponent].reset
-      ) {
-        this.$refs[this.formComponent].reset()
+      if (this.$refs[this.formComponent]) {
+        this.$refs[this.formComponent]?.reset()
       }
       this.yaml = false
     },

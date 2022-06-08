@@ -59,8 +59,8 @@ export default {
       this.dialog = true
     },
     async updateCR() {
-      if (this.$refs.yamlForm.$refs.form.validate(true)) {
-        let data = this.$refs.yamlForm.kubeyaml
+      if (this.$refs.yamlForm.validate()) {
+        let data = this.$refs.yamlForm.getYaml()
         data = this.$yamlload(data)
         const namespace = this.AdminViewport
           ? data?.metadata?.namespace

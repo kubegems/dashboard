@@ -76,10 +76,10 @@ export default {
       this.dialog = true
     },
     async updateServiceMonitor() {
-      if (this.$refs[this.formComponent].$refs.form.validate(true)) {
+      if (this.$refs[this.formComponent].validate()) {
         let data = ''
         if (this.formComponent === 'BaseYamlForm') {
-          data = this.$refs[this.formComponent].kubeyaml
+          data = this.$refs[this.formComponent].getYaml()
           data = this.$yamlload(data)
           if (!this.checkDataWithNS(data, this.item.metadata.namespace)) return
           if (!this.m_resource_validateJsonSchema(this.schema, data)) {
@@ -116,7 +116,7 @@ export default {
           this.$refs[this.formComponent].setYaml(this.$yamldump(data))
         })
       } else {
-        const yaml = this.$refs[this.formComponent].kubeyaml
+        const yaml = this.$refs[this.formComponent].getYaml()
         const data = this.$yamlload(yaml)
         if (!this.m_resource_validateJsonSchema(this.schema, data)) {
           this.yaml = true

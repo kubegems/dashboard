@@ -56,10 +56,10 @@ export default {
       this.dialog = true
     },
     async updateIstioAuthorizationPolicy() {
-      if (this.$refs[this.formComponent].$refs.form.validate(true)) {
+      if (this.$refs[this.formComponent].validate()) {
         let data = ''
         if (this.formComponent === 'BaseYamlForm') {
-          data = this.$refs[this.formComponent].kubeyaml
+          data = this.$refs[this.formComponent].getYaml()
           data = this.$yamlload(data)
           if (!this.m_resource_checkDataWithOutNS(data)) return
           data = this.m_resource_beautifyData(data)

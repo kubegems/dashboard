@@ -196,10 +196,10 @@ export default {
       })
     },
     async updateRule() {
-      this.$refs.alertList.timeParams = {
+      this.$refs.alertList.setParams({
         CreatedAt_gte: this.$moment(this.date[0]).format(),
         CreatedAt_lte: this.$moment(this.date[1]).format(),
-      }
+      })
       this.$refs.alertList.init()
       this.generateDateArray()
       this.prometheusRuleChart()

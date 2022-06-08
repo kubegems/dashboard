@@ -73,6 +73,10 @@ export default {
     setYaml(data) {
       this.kubeyaml = data
     },
+    // eslint-disable-next-line vue/no-unused-properties
+    getYaml() {
+      return this.kubeyaml
+    },
   },
 }
 </script>

@@ -195,10 +195,10 @@ export default {
       }
       if (endpoint.port) {
         data.port = endpoint.port
-        this.$refs.endpointForm.portSelector = 'port'
+        this.$refs.endpointForm.setPortSelector('port')
       } else {
         data.targetPort = endpoint.targetPort
-        this.$refs.endpointForm.portSelector = 'targetPort'
+        this.$refs.endpointForm.setPortSelector('targetPort')
       }
       this.$refs.endpointForm.endpoint.honorLabels = endpoint.honorLabels
       this.$nextTick(() => {
@@ -226,7 +226,7 @@ export default {
     },
 
     expandCard() {
-      this.$refs.endpointForm.portSelector = 'port'
+      this.$refs.endpointForm.setPortSelector('port')
       // 重置后不能赋初值,会触发校验
       this.$nextTick(() => {
         this.$refs.endpointForm.expandCard()
@@ -249,6 +249,10 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     getData() {
       return this.obj
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    validate() {
+      return this.$refs.form.validate(true)
     },
   },
 }

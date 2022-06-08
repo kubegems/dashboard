@@ -91,8 +91,8 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     init(initData) {
       this.$nextTick(() => {
-        this.$refs[this.formComponent].$refs.Rule.setData(initData)
-        this.$refs[this.formComponent].$refs.Rule.getInhibitLabels()
+        this.$refs[this.formComponent].setData(initData)
+        this.$refs[this.formComponent].getInhibitLabels()
       })
     },
     async addPrometheusRule() {

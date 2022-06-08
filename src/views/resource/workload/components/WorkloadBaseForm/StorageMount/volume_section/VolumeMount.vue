@@ -145,6 +145,10 @@ export default {
       }
       return null
     },
+    // eslint-disable-next-line vue/no-unused-properties
+    reset() {
+      this.$refs.form.reset()
+    },
   },
 }
 </script>

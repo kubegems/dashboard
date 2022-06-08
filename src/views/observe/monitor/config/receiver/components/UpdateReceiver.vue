@@ -63,10 +63,7 @@ export default {
       this.item = deepCopy(item)
     },
     async updateReceiver() {
-      if (
-        this.$refs[this.formComponent].$refs.form.validate(true) &&
-        this.$refs[this.formComponent].validate()
-      ) {
+      if (this.$refs[this.formComponent].validate()) {
         let data = this.$refs[this.formComponent].getData()
         data = this.m_resource_beautifyData(data)
         await putUpdateReceiver(
