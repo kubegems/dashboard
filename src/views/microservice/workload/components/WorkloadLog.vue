@@ -1,9 +1,11 @@
 <template>
-  <v-card flat>
-    <v-card-text class="px-0 pt-1 pb-0">
-      <v-flex class="ma-1">
+  <v-card
+    flat
+  >
+    <v-card-text class="px-0 py-3">
+      <v-flex class="ma-1 mx-3 pb-2 pt-1">
         <v-sheet class="text-body-2 primary--text float-right mt-n1">
-          <span class="kubegems__detail"> 容器 </span>
+          <span class="kubegems__text"> 容器 </span>
           <v-menu
             v-model="containerMenu"
             bottom
@@ -80,7 +82,7 @@
           </v-menu>
         </v-sheet>
         <v-sheet class="text-body-2 primary--text float-right mt-n1">
-          <span class="kubegems__detail"> 容器组 </span>
+          <span class="kubegems__text"> 容器组 </span>
           <v-menu
             v-model="podMenu"
             bottom
@@ -158,7 +160,7 @@
         </v-sheet>
 
         <v-flex class="text-subtitle-2 float-right primary--text">
-          <span class="kubegems__detail"> 实时 </span>
+          <span class="kubegems__text"> 实时 </span>
           <v-switch
             v-model="stream"
             class="pl-2 primary--text float-right switch-mt"
@@ -173,7 +175,7 @@
       <ACEEditor
         ref="log"
         v-model="log"
-        :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded-0`"
+        :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded mx-3`"
         lang="yaml"
         :options="
           Object.assign($aceOptions, {
@@ -182,7 +184,10 @@
           })
         "
         theme="chrome"
-        :style="`height: ${height}px !important`"
+        :style="{
+          height: `${height}px !important`,
+          width: 'auto',
+        }"
         @init="$aceinit"
         @keydown.stop
       />
@@ -218,7 +223,7 @@ export default {
   computed: {
     ...mapState(['JWT', 'Scale']),
     height() {
-      return window.innerHeight - 64 * this.Scale - 1
+      return window.innerHeight - parseInt(350 * this.Scale) - 12
     },
   },
   watch: {
@@ -338,10 +343,10 @@ export default {
       this.log += e.data
     },
     dispose() {
-      if (this.logWebsocket) {
+      if (this.logWebsocket && this.logWebsocket.readyState === 1) {
         this.logWebsocket.close()
-        this.logWebsocket = null
       }
+      this.logWebsocket = null
       this.log = ''
       this.stream = false
       this.linenotbreak = false

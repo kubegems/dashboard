@@ -4,13 +4,15 @@
       v-if="!AdminViewport"
       :selectable="false"
     />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
-      <v-card-title class="py-2">
+      <v-card-title class="py-4">
         <BaseFilter
           :filters="filters"
+          :reload="false"
           :default="{ items: [], text: '环境名称', value: 'search' }"
           @refresh="m_filter_list"
+          @filter="customFilter"
         />
         <v-sheet class="text-subtitle-2 ml-4">租户</v-sheet>
         <v-sheet width="350">
@@ -53,9 +55,11 @@
           disable-sort
           :headers="headers"
           :items="items"
-          :items-per-page="500"
+          :page.sync="page"
+          :items-per-page="itemsPerPage"
           no-data-text="暂无数据"
           hide-default-footer
+          @page-count="pageCount = $event"
         >
           <template #[`item.environmentName`]="{ item }">
             {{ item.EnvironmentName }}
@@ -88,15 +92,7 @@
               class="rounded font-weight-medium"
               :value="item.CpuPercentage"
               height="15"
-              :color="
-                item.CpuPercentage
-                  ? item.CpuPercentage < 60
-                    ? 'primary'
-                    : item.CpuPercentage < 80
-                      ? 'warning'
-                      : 'red darken-1'
-                  : 'primary'
-              "
+              :color="getColor(item.CpuPercentage)"
             >
               <span class="white--text"> {{ item.CpuPercentage }}% </span>
             </v-progress-linear>
@@ -107,15 +103,7 @@
               class="rounded font-weight-medium"
               :value="item.MemoryPercentage"
               height="15"
-              :color="
-                item.MemoryPercentage
-                  ? item.MemoryPercentage < 60
-                    ? 'primary'
-                    : item.MemoryPercentage < 80
-                      ? 'warning'
-                      : 'red darken-1'
-                  : 'primary'
-              "
+              :color="getColor(item.MemoryPercentage)"
             >
               <span class="white--text"> {{ item.MemoryPercentage }}% </span>
             </v-progress-linear>
@@ -126,15 +114,7 @@
               class="rounded font-weight-medium"
               :value="item.StoragePercentage"
               height="15"
-              :color="
-                item.StoragePercentage
-                  ? item.StoragePercentage < 60
-                    ? 'primary'
-                    : item.StoragePercentage < 80
-                      ? 'warning'
-                      : 'red darken-1'
-                  : 'primary'
-              "
+              :color="getColor(item.StoragePercentage)"
             >
               <span class="white--text"> {{ item.StoragePercentage }}% </span>
             </v-progress-linear>
@@ -183,6 +163,17 @@
             </v-menu>
           </template>
         </v-data-table>
+
+        <BasePagination
+          v-if="pageCount >= 1"
+          v-model="page"
+          :front-page="true"
+          :page-count="pageCount"
+          :size="itemsPerPage"
+          @loaddata="environmentTenantResourceQuota(tenant)"
+          @changesize="onPageSizeChange"
+          @changepage="onPageIndexChange"
+        />
       </v-card-text>
     </v-card>
 
@@ -203,6 +194,7 @@ import BasePermission from '@/mixins/permission'
 import BaseFilter from '@/mixins/base_filter'
 import BaseTable from '@/mixins/table'
 import { sizeOfStorage, sizeOfCpu } from '@/utils/helpers'
+import { deepCopy } from '@/utils/helpers'
 
 export default {
   name: 'Environment',
@@ -212,14 +204,13 @@ export default {
   mixins: [BaseSelect, BaseResource, BasePermission, BaseFilter, BaseTable],
   inject: ['reload'],
   data: () => ({
-    breadcrumb: {
-      title: '环境',
-      tip: '环境(environment)是具体应用，负载，存储等资源的边界，通常来说是一个命名空间(namespace)。',
-      icon: 'mdi-cloud',
-    },
     items: [],
+    itemsCopy: [],
     tenant: -1,
     params: {},
+    page: 1,
+    pageCount: 0,
+    itemsPerPage: 10,
     filters: [{ text: '环境名称', value: 'search', items: [] }],
   }),
   computed: {
@@ -260,13 +251,28 @@ export default {
         }
       } else {
         this.$store.commit('SET_SNACKBAR', {
-          text: `请创建或加入租户`,
+          text: `暂无租户`,
           color: 'warning',
         })
       }
     }
   },
   methods: {
+    customFilter() {
+      if (this.$route.query.search && this.$route.query.search.length > 0) {
+        this.items = this.itemsCopy.filter((item) => {
+          return (
+            item.EnvironmentName &&
+            item.EnvironmentName
+              .toLocaleLowerCase()
+              .indexOf(this.$route.query.search.toLocaleLowerCase()) > -1
+          )
+        })
+      } else {
+        this.items = this.itemsCopy
+      }
+      // this.m_table_generateSelectResource()
+    },
     async environmentTenantResourceQuota(tenantid) {
       const data = await getEnvironmentTenantResourceQuota(tenantid, this.params)
       this.items = data
@@ -313,6 +319,8 @@ export default {
         e.StoragePercentage =
           e.Storage > 0 ? ((e.UsedStorage / e.Storage) * 100).toFixed(1) : 0
       })
+      this.itemsCopy = deepCopy(this.items)
+      if (this.$route.query.search) this.customFilter()
     },
     onTenantSelectChange() {
       if (this.tenant) this.environmentTenantResourceQuota(this.tenant)
@@ -346,6 +354,7 @@ export default {
           this.$store.commit('CLEAR_RESOURCE')
           this.$router.push({
             name: 'resource-dashboard',
+            params: this.$route.params,
           })
           this.environmentTenantResourceQuota(this.tenant)
         },
@@ -353,6 +362,22 @@ export default {
     },
     onTenantSelectFocus() {
       this.m_select_tenantSelectData()
+    },
+    onPageSizeChange(size) {
+      this.page = 1
+      this.itemsPerPage = size
+    },
+    onPageIndexChange(page) {
+      this.page = page
+    },
+    getColor(percentage) {
+      return percentage
+        ? percentage < 60
+          ? 'primary'
+          : percentage < 80
+            ? 'warning'
+            : 'red darken-1'
+        : 'primary'
     },
   },
 }

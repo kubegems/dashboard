@@ -8,7 +8,7 @@
       v-else
       :selectable="false"
     />
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-btn
@@ -23,7 +23,7 @@
             >
               fas fa-code
             </v-icon>
-            Yaml
+            YAML
           </v-btn>
           <v-menu
             v-if="m_permisson_resourceAllow"
@@ -68,29 +68,33 @@
         </v-flex>
       </template>
     </BaseBreadcrumb>
-    <v-row class="mt-0">
+    <v-row class="my-0">
       <v-col
         cols="2"
-        class="pt-0"
+        class="py-0"
       >
         <BasicResourceInfo :item="configmap" />
       </v-col>
       <v-col
         cols="10"
-        class="pt-0"
+        class="py-0"
       >
         <v-card
           v-for="(data, key) in configmap ? configmap.data : {}"
           :key="key"
-          class="mb-4"
+          class="mb-3"
         >
-          <v-card-text class="pa-0">
+          <v-card-text class="pa-4">
             <BaseSubTitle
               :title="key"
               color="primary"
               :divider="false"
             />
-            <pre class="kubegems__data-pre rounded">{{ configmap.data[key] }}</pre>
+            <div
+              :style="{ maxHeight: `${height}px`, overflowY: 'auto' }"
+            >
+              <pre class="kubegems__data-pre rounded">{{ configmap.data[key] }}</pre>
+            </div>
           </v-card-text>
         </v-card>
       </v-col>
@@ -126,17 +130,15 @@ export default {
   },
   mixins: [BaseFilter, BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '配置',
-      tip: '配置集 (ConfigMap) 常用于存储工作负载所需的配置信息，许多应用程序会从配置文件、命令行参数或环境变量中读取配置信息。',
-      icon: 'mdi-wrench',
-    },
     configmap: null,
   }),
   computed: {
-    ...mapState(['JWT']),
+    ...mapState(['JWT', 'Scale']),
     module() {
       return window.location.href.match(new RegExp('\\/(\\w+)\\/'))[1]
+    },
+    height() {
+      return parseInt((window.innerHeight - 276) / this.Scale)
     },
   },
   mounted() {
@@ -178,10 +180,11 @@ export default {
             this.$route.query.namespace,
             param.item.metadata.name,
           )
-          this.$router.push({ name: 'configmap-list' })
+          this.$router.push({ name: 'configmap-list', params: this.$route.params })
         },
       })
     },
   },
 }
 </script>
+

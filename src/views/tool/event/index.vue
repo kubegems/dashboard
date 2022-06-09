@@ -1,10 +1,11 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right align-center">
           <v-sheet class="text-body-2 text--darken-1">
-            <BaseDatetimePicker2
+            <BaseDatetimePicker
+              ref="datetimePicker"
               v-model="date"
               :default-value="30"
               default-value-for-query
@@ -32,98 +33,106 @@
       </template>
     </BaseBreadcrumb>
     <v-card flat>
-      <v-card-title class="py-2 pl-3">
+      <v-card-title class="py-4">
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '消息', value: 'message' }"
           @refresh="filterList"
         />
       </v-card-title>
-      <v-card
-        class="overflow-y-auto pa-0 ma-0"
-        flat
+      <v-data-table
+        class="mx-4 kubegems__table-row-pointer"
+        disable-sort
+        :headers="headers"
+        :items="items"
+        no-data-text="暂无数据"
+        hide-default-footer
+        single-expand
+        show-expand
+        item-key="index"
+        :page.sync="page"
+        :items-per-page="itemsPerPage"
+        @page-count="pageCount = $event"
+        @click:row="onRowClick"
       >
-        <v-data-table
-          class="mx-4"
-          disable-sort
-          :headers="headers"
-          :items="items"
-          :items-per-page="-1"
-          no-data-text="暂无数据"
-          hide-default-footer
-          single-expand
-          show-expand
-          item-key="index"
-          @click:row="onRowClick"
-        >
-          <template #[`item.reason`]="{ item }">
-            {{ item.stream.reason }}
-          </template>
-          <template #[`item.type`]="{ item }">
-            <v-chip
-              :color="item.stream.type === 'Normal' ? 'success' : 'warning'"
-              small
-              class="font-weight-medium chip-width"
-            >
-              <span>{{ item.stream.type }}</span>
-            </v-chip>
-          </template>
-          <template #[`item.count`]="{ item }">
-            {{ item.stream.count }}
-          </template>
-          <template #[`item.namespace`]="{ item }">
-            {{
-              item.stream.metadata_namespace
-                ? item.stream.metadata_namespace
+        <template #[`item.reason`]="{ item }">
+          {{ item.stream.reason }}
+        </template>
+        <template #[`item.type`]="{ item }">
+          <v-chip
+            :color="item.stream.type === 'Normal' ? 'success' : 'warning'"
+            small
+            class="font-weight-medium chip-width"
+          >
+            <span>{{ item.stream.type }}</span>
+          </v-chip>
+        </template>
+        <template #[`item.count`]="{ item }">
+          {{ item.stream.count }}
+        </template>
+        <template #[`item.namespace`]="{ item }">
+          {{
+            item.stream.metadata_namespace
+              ? item.stream.metadata_namespace
+              : ''
+          }}
+        </template>
+        <template #[`item.name`]="{ item }">
+          {{ item.stream.metadata_name ? item.stream.metadata_name : '' }}
+        </template>
+        <template #[`item.component`]="{ item }">
+          {{
+            item.stream.source_component ? item.stream.source_component : ''
+          }}
+        </template>
+        <template #[`item.host`]="{ item }">
+          {{ item.stream.source_host ? item.stream.source_host : '' }}
+        </template>
+        <template #[`item.firstAt`]="{ item }">
+          {{
+            item.stream.firstTimestamp
+              ? $moment(item.stream.firstTimestamp).format('lll')
+              : item.stream.metadata_creationTimestamp
+                ? $moment(item.stream.metadata_creationTimestamp).format('lll')
                 : ''
-            }}
-          </template>
-          <template #[`item.name`]="{ item }">
-            {{ item.stream.metadata_name ? item.stream.metadata_name : '' }}
-          </template>
-          <template #[`item.component`]="{ item }">
-            {{
-              item.stream.source_component ? item.stream.source_component : ''
-            }}
-          </template>
-          <template #[`item.host`]="{ item }">
-            {{ item.stream.source_host ? item.stream.source_host : '' }}
-          </template>
-          <template #[`item.firstAt`]="{ item }">
-            {{
-              item.stream.firstTimestamp
-                ? $moment(item.stream.firstTimestamp).format('lll')
-                : item.stream.metadata_creationTimestamp
-                  ? $moment(item.stream.metadata_creationTimestamp).format('lll')
-                  : ''
-            }}
-          </template>
-          <template #[`item.lastAt`]="{ item }">
-            {{
-              item.stream.lastTimestamp
-                ? $moment(item.stream.lastTimestamp).format('lll')
-                : item.stream.metadata_creationTimestamp
-                  ? $moment(item.stream.metadata_creationTimestamp).format('lll')
-                  : ''
-            }}
-          </template>
-          <template #[`item.message`]="{ item }">
-            {{
-              item.stream.message.length > 100
-                ? item.stream.message.substr(0, 100) + '......'
-                : item.stream.message
-            }}
-          </template>
-          <template #expanded-item="{ headers, item }">
-            <td
-              :colspan="headers.length"
-              class="text-left"
-            >
-              <pre class="kubegems__word-all-break">{{ item.stream.message }}</pre>
-            </td>
-          </template>
-        </v-data-table>
-      </v-card>
+          }}
+        </template>
+        <template #[`item.lastAt`]="{ item }">
+          {{
+            item.stream.lastTimestamp
+              ? $moment(item.stream.lastTimestamp).format('lll')
+              : item.stream.metadata_creationTimestamp
+                ? $moment(item.stream.metadata_creationTimestamp).format('lll')
+                : ''
+          }}
+        </template>
+        <template #[`item.message`]="{ item }">
+          {{
+            item.stream.message.length > 100
+              ? item.stream.message.substr(0, 100) + '......'
+              : item.stream.message
+          }}
+        </template>
+        <template #expanded-item="{ headers, item }">
+          <td
+            :colspan="headers.length"
+            class="text-left"
+          >
+            <pre class="kubegems__word-all-break">{{ item.stream.message }}</pre>
+          </td>
+        </template>
+      </v-data-table>
+
+      <BasePagination
+        v-if="pageCount >= 1"
+        v-model="page"
+        :front-page="true"
+        :page-count="pageCount"
+        :size="itemsPerPage"
+        @loaddata="onDatetimeChange"
+        @changesize="onPageSizeChange"
+        @changepage="onPageIndexChange"
+      />
     </v-card>
     <!-- </v-card> -->
   </v-container>
@@ -140,11 +149,6 @@ export default {
   name: 'Event',
   mixins: [BaseFilter, BaseSelect],
   data: () => ({
-    breadcrumb: {
-      title: '事件通知',
-      tip: '事件通知为容器云事件驱动器提供，代表资源在集群内的状态历史。',
-      icon: 'mdi-bell',
-    },
     items: [],
     headers: [
       { text: '来源组件', value: 'component', align: 'start', width: 150 },
@@ -167,6 +171,9 @@ export default {
       start: null,
       end: null,
     },
+    page: 1,
+    itemsPerPage: 10,
+    pageCount: 0,
     filters: [
       { text: '集群', value: 'clustername', items: [] },
       { text: '消息', value: 'message', items: [] },
@@ -338,6 +345,7 @@ export default {
       this.eventList()
     },
     refresh() {
+      this.$refs.datetimePicker.refresh()
       this.onDatetimeChange()
     },
     async eventList(loadMore = false) {
@@ -359,7 +367,7 @@ export default {
           // TODO 获取新的起始时间
         }
         this.items = []
-        let query = `{container="gems-eventer"}|__error__=""|json`
+        let query = `{container="gems-eventer"}|json|__error__=""`
         if (this.params.tenant) {
           await this.m_select_environmentSelectData(
             this.getTenantIDByName(this.params.tenant),
@@ -409,6 +417,13 @@ export default {
     },
     onRowClick(item, { expand, isExpanded }) {
       expand(!isExpanded)
+    },
+    onPageSizeChange(size) {
+      this.page = 1
+      this.itemsPerPage = size
+    },
+    onPageIndexChange(page) {
+      this.page = page
     },
   },
 }

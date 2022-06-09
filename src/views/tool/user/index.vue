@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-row class="mt-0">
       <v-col
         cols="3"
@@ -37,7 +37,7 @@
                         />
                       </v-btn>
                     </v-avatar>
-                    <span class="font-weight-medium kubegems__detail">
+                    <span class="font-weight-medium kubegems__text">
                       {{ $VENDOR[User.SourceVendor] || 'Selfhosted' }}
                     </span>
                   </v-chip>
@@ -49,7 +49,7 @@
             </div>
             <v-divider />
             <div class="py-5">
-              <h5 class="text-subtitle-1 kubegems__detail">邮箱</h5>
+              <h5 class="text-subtitle-1 kubegems__text">邮箱</h5>
               <h6 class="text-body-2 mb-3">
                 {{
                   User && User.Email && User.Email.length === 0
@@ -57,17 +57,17 @@
                     : User.Email
                 }}
               </h6>
-              <h5 class="text-subtitle-1 kubegems__detail">手机号</h5>
+              <h5 class="text-subtitle-1 kubegems__text">手机号</h5>
               <h6 class="text-body-2 mb-3">
                 {{ User.Phone ? User.Phone : '暂无' }}
               </h6>
-              <h5 class="text-subtitle-1 kubegems__detail">注册时间</h5>
+              <h5 class="text-subtitle-1 kubegems__text">注册时间</h5>
               <h6 class="text-body-2 mb-3">
                 {{
                   User.CreatedAt ? $moment(User.CreatedAt).format('lll') : ''
                 }}
               </h6>
-              <h5 class="text-subtitle-1 kubegems__detail">上次登录</h5>
+              <h5 class="text-subtitle-1 kubegems__text">上次登录</h5>
               <h6 class="text-body-2 mb-3">
                 {{
                   User.LastLoginAt
@@ -87,8 +87,8 @@
           <v-card-text class="pa-0">
             <v-tabs
               v-model="tab"
-              height="40"
-              class="rounded-t pl-2 pt-2"
+              height="30"
+              class="rounded-t pa-3"
             >
               <v-tab
                 v-for="item in tabItems"
@@ -97,14 +97,13 @@
                 {{ item.text }}
               </v-tab>
             </v-tabs>
-
-            <component
-              :is="tabItems[tab].value"
-              :ref="tabItems[tab].value"
-              class="py-2"
-            />
           </v-card-text>
         </v-card>
+        <component
+          :is="tabItems[tab].value"
+          :ref="tabItems[tab].value"
+          class="mt-3"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -125,11 +124,6 @@ export default {
     OwnerSetting,
   },
   data: () => ({
-    breadcrumb: {
-      title: '用户中心',
-      tip: '用户消息，审计，个人设置等',
-      icon: 'fas fa-user',
-    },
     tab: 0,
     tabItems: [
       { text: '消息盒子', value: 'MessageBox' },

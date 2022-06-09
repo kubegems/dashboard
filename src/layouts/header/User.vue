@@ -43,7 +43,7 @@
           </v-avatar>
         </v-list-item-avatar>
         <v-list-item-content>
-          <v-list-item-title class="text-h6 white--text kubegems__detail">
+          <v-list-item-title class="text-h6 white--text kubegems__text">
             {{ User.Username }}
             <v-chip
               pill
@@ -69,7 +69,7 @@
                   />
                 </v-btn>
               </v-avatar>
-              <span class="font-weight-medium primary--text kubegems__detail">
+              <span class="font-weight-medium primary--text kubegems__text">
                 {{ $VENDOR[User.SourceVendor] || 'Selfhosted' }}
               </span>
             </v-chip>
@@ -85,7 +85,7 @@
         </v-list-item-content>
       </v-list-item>
       <v-divider class="mb-2" />
-      <v-list class="pt-0">
+      <v-list class="pt-0 px-2">
         <v-list-item @click="showTenantSelect">
           <v-list-item-avatar
             height="25"
@@ -95,10 +95,10 @@
             <v-icon color="primary">mdi-account-multiple</v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title class="text-body-2 font-weight-medium kubegems__detail">
+            <v-list-item-title class="text-body-2 font-weight-medium kubegems__text">
               租户
               <v-flex
-                class="float-right white--text blue-grey lighten-2 px-1 rounded label"
+                class="float-right white--text blue-grey lighten-2 px-1 user-chip label"
               >
                 {{ Tenant().TenantName }}
               </v-flex>
@@ -115,12 +115,12 @@
             <v-icon color="primary">mdi-account</v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title class="text-body-2 font-weight-medium kubegems__detail">
+            <v-list-item-title class="text-body-2 font-weight-medium kubegems__text">
               用户中心
               <v-flex
-                class="float-right white--text blue-grey lighten-2 px-1 rounded label"
+                class="float-right white--text blue-grey lighten-2 px-1 user-chip label"
               >
-                {{ Admin ? '管理员' : '普通成员' }}
+                {{ Admin ? '管理员' : '普通用户' }}
               </v-flex>
               <div class="kubegems__clear-float" />
             </v-list-item-title>
@@ -135,7 +135,7 @@
             <v-icon color="primary">mdi-book-open-variant</v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title class="text-body-2 font-weight-medium kubegems__detail">
+            <v-list-item-title class="text-body-2 font-weight-medium kubegems__text">
               产品手册
             </v-list-item-title>
           </v-list-item-content>
@@ -149,7 +149,7 @@
             <v-icon color="primary">mdi-vimeo</v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title class="text-body-2 font-weight-medium kubegems__detail">
+            <v-list-item-title class="text-body-2 font-weight-medium kubegems__text">
               关于
             </v-list-item-title>
           </v-list-item-content>
@@ -169,7 +169,7 @@
           >
             fas fa-sign-out-alt
           </v-icon>
-          <span class="font-weight-medium kubegems__detail">退出</span>
+          <span class="font-weight-medium kubegems__text">退出</span>
         </v-btn>
         <v-spacer />
       </v-card-actions>
@@ -205,9 +205,10 @@ export default {
     ...mapGetters(['Tenant', 'Project']),
   },
   methods: {
-    logout() {
+    async logout() {
       this.$store.commit('CLEARALL')
-      this.$router.push({ name: 'login' })
+      await this.$router.push({ name: 'login' })
+      this.$store.commit('SET_VERSION', process.env.VUE_APP_RELEASE)
     },
     showAbout() {
       this.$refs.about.init()
@@ -220,7 +221,7 @@ export default {
       this.closeUserMenu()
     },
     toBook() {
-      window.open(`https://docs.${process.env.VUE_APP_DOMAIN}`)
+      window.open(`https://www.kubegems.io/docs/concepts/what-is-kubegems`)
       this.closeUserMenu()
     },
     toUserCenter() {
@@ -238,5 +239,10 @@ export default {
 <style lang="scss" scoped>
 .label {
   line-height: 22px;
+}
+.user-chip {
+  border-radius: 3px;
+  min-width: 80px;
+  text-align: center;
 }
 </style>

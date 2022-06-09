@@ -26,6 +26,7 @@ export const platform = [
               icon: 'mdi-brightness-7',
               show: true,
               rootName: 'platform',
+              tip: 'base-setting',
             },
           },
         ],
@@ -52,6 +53,7 @@ export const platform = [
               icon: 'mdi-account-switch',
               show: true,
               rootName: 'platform',
+              tip: 'tenant',
             },
           },
           {
@@ -65,6 +67,7 @@ export const platform = [
               icon: 'mdi-account-switch',
               show: false,
               rootName: 'platform',
+              tip: 'tenant',
             },
           },
           // user
@@ -79,6 +82,7 @@ export const platform = [
               icon: 'mdi-account',
               show: true,
               rootName: 'platform',
+              tip: 'user',
             },
           },
           // role
@@ -93,6 +97,7 @@ export const platform = [
               icon: 'mdi-ticket-account',
               show: true,
               rootName: 'platform',
+              tip: 'role',
             },
           },
         ],
@@ -119,6 +124,7 @@ export const platform = [
               icon: 'mdi-cube-outline',
               show: true,
               rootName: 'platform',
+              tip: 'project',
             },
           },
           // environment
@@ -133,6 +139,7 @@ export const platform = [
               icon: 'mdi-cloud',
               show: true,
               rootName: 'platform',
+              tip: 'environment',
             },
           },
         ],
@@ -159,6 +166,7 @@ export const platform = [
               icon: 'mdi-history',
               show: true,
               rootName: 'platform',
+              tip: 'audit',
             },
           },
           // 事件
@@ -173,7 +181,8 @@ export const platform = [
               icon: 'mdi-bell',
               show: true,
               rootName: 'platform',
-              dependencies: ['eventer'],
+              tip: 'event',
+              dependencies: ['logging', 'eventer'],
             },
           },
         ],
@@ -199,6 +208,7 @@ export const platform = [
               icon: 'mdi-star',
               show: true,
               rootName: 'platform',
+              tip: 'auth-setting',
             },
           },
           // 应用仓库
@@ -212,6 +222,7 @@ export const platform = [
               icon: 'mdi-shopping',
               show: true,
               rootName: 'platform',
+              tip: 'appstore-registry',
             },
           },
           // prometheus
@@ -225,6 +236,7 @@ export const platform = [
               icon: 'mdi-file-powerpoint-box',
               show: true,
               rootName: 'platform',
+              tip: 'prometheus-setting',
             },
           },
         ],

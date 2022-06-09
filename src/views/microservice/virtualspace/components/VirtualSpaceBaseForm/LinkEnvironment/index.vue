@@ -81,7 +81,8 @@ export default {
     },
     // eslint-disable-next-line vue/no-unused-properties
     reset() {
-      this.$refs.form.reset()
+      this.$refs.form.resetValidation()
+      this.obj = this.$options.data().obj
     },
     // eslint-disable-next-line vue/no-unused-properties
     init(data) {
@@ -150,6 +151,7 @@ export default {
         environmentid: data.ID,
       })
       this.$refs.linkEnvironmentForm.expandCard()
+      this.expand = true
     },
     async removeEnvironment(index) {
       if (this.edit) {
@@ -158,6 +160,15 @@ export default {
       }
       this.$delete(this.obj.Environments, index)
       this.$emit('refresh')
+    },
+
+    // eslint-disable-next-line vue/no-unused-properties
+    validate() {
+      return this.$refs.form.validate(true)
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    getData() {
+      return this.obj
     },
   },
 }

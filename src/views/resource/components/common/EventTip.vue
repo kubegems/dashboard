@@ -4,8 +4,7 @@
     :disabled="disabled"
     left
     transition="scale-transition"
-    max-width="250px"
-    max-height="300px"
+    max-width="200px"
     :close-on-content-click="false"
     nudge-bottom="5px"
     :top="top"
@@ -28,20 +27,20 @@
       :loading="eventLoad"
       width="100%"
     >
+      <v-flex class="text-body-2 text-center primary white--text py-2">
+        <v-icon
+          color="white"
+          left
+          small
+        >
+          mdi-bell-ring
+        </v-icon>
+        <span>事件</span>
+      </v-flex>
       <v-list
         dense
-        class="pa-0"
+        class="pa-0 kubegems__tip"
       >
-        <v-flex class="text-body-2 text-center primary white--text py-2">
-          <v-icon
-            color="white"
-            left
-            small
-          >
-            mdi-bell-ring
-          </v-icon>
-          <span>事件</span>
-        </v-flex>
         <v-list-item>
           <v-list-item-content v-if="event">
             <v-list-item
@@ -50,7 +49,7 @@
             >
               <v-list-item-content class="py-0">
                 <v-list-item-title> 最新事件 </v-list-item-title>
-                <v-list-item-content class="text-caption kubegems__detail kubegems__break-all">
+                <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
                   {{ event.message }}
                 </v-list-item-content>
               </v-list-item-content>
@@ -61,7 +60,7 @@
             >
               <v-list-item-content class="py-0">
                 <v-list-item-title> 发生时间 </v-list-item-title>
-                <v-list-item-content class="text-caption kubegems__detail kubegems__break-all">
+                <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
                   {{
                     event.metadata.creationTimestamp
                       ? $moment(
@@ -76,7 +75,7 @@
           </v-list-item-content>
           <v-flex
             v-else
-            class="text-caption kubegems__detail text-center"
+            class="text-caption kubegems__text text-center"
           >
             暂无事件
           </v-flex>
@@ -121,7 +120,7 @@ export default {
   methods: {
     async getLatestEvent() {
       this.event = null
-      this.timeout = window.setTimeout(async () => {
+      this.timeout = setTimeout(async () => {
         this.eventLoad = true
         const data = await getEventList(
           this.ThisCluster,

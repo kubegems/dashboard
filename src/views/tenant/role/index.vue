@@ -1,16 +1,17 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
-      <v-data-table
-        class="mx-4"
-        disable-sort
-        :headers="headers"
-        :items="items"
-        :items-per-page="100"
-        no-data-text="暂无数据"
-        hide-default-footer
-      />
+      <v-card-text>
+        <v-data-table
+          disable-sort
+          :headers="headers"
+          :items="items"
+          :items-per-page="100"
+          no-data-text="暂无数据"
+          hide-default-footer
+        />
+      </v-card-text>
     </v-card>
   </v-container>
 </template>
@@ -23,11 +24,6 @@ export default {
   components: {},
   mixins: [BaseFilter],
   data: () => ({
-    breadcrumb: {
-      title: '角色',
-      tip: '系统所有角色(Role)与操作权限的描述。',
-      icon: 'mdi-ticket-account',
-    },
     items: [
       {
         id: 1,

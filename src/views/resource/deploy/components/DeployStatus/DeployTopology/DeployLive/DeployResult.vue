@@ -1,5 +1,5 @@
 <template>
-  <v-flex>
+  <v-flex class="px-2">
     <v-data-table
       disable-sort
       :headers="headers"
@@ -8,6 +8,7 @@
       :items-per-page="params.size"
       no-data-text="暂无数据"
       hide-default-footer
+      :height="height"
     >
       <template #[`item.kind`]="{ item }">
         {{ item.kind }}
@@ -29,6 +30,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import BaseResource from '@/mixins/resource'
 
 export default {
@@ -54,6 +56,12 @@ export default {
       size: 1000,
     },
   }),
+  computed: {
+    ...mapState(['Scale']),
+    height() {
+      return parseInt((window.innerHeight - 64 - 45) / this.Scale)
+    },
+  },
   watch: {
     resource: {
       handler: function () {

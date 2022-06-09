@@ -283,7 +283,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['AdminViewport']),
+    ...mapState(['AdminViewport', 'ApiResources']),
     objRules() {
       return {
         nameRule: [
@@ -297,12 +297,14 @@ export default {
     },
   },
   watch: {
-    item() {
-      this.loadData()
+    item: {
+      handler() {
+        this.obj.apiVersion = this.ApiResources['cronjob'] || 'batch/v1beta1'
+        this.loadData()
+      },
+      deep: true,
+      immediate: true,
     },
-  },
-  mounted() {
-    this.loadData()
   },
   methods: {
     async loadData() {
@@ -324,7 +326,8 @@ export default {
     },
     // eslint-disable-next-line vue/no-unused-properties
     reset() {
-      this.$refs.form.reset()
+      this.$refs.form.resetValidation()
+      this.obj = this.$options.data().obj
     },
     // eslint-disable-next-line vue/no-unused-properties
     init(data) {
@@ -343,6 +346,21 @@ export default {
     },
     onNamespaceSelectFocus(clusterName) {
       this.m_select_namespaceSelectData(clusterName)
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    validate() {
+      return this.$refs.form.validate(true)
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    checkSaved() {
+      if (Object.prototype.hasOwnProperty.call(this, 'expand')) {
+        return !this.expand
+      }
+      return true
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    getData() {
+      return this.obj
     },
   },
 }

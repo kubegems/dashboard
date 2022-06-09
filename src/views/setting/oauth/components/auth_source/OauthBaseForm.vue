@@ -172,9 +172,9 @@ export default {
   watch: {
     item() {
       this.obj = deepCopy(this.item)
-      this.scopes = this.obj.config.scopes.map((scope, index) => {
+      this.scopes = this.obj.config.scopes?.map((scope, index) => {
         return { text: scope, value: index }
-      })
+      }) || []
       const reg = new RegExp('((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}', 'g')
       const matchDomain = this.obj.config.authURL.match(reg)
       if (matchDomain && matchDomain.length > 0) {
@@ -196,12 +196,12 @@ export default {
         return scope !== '' && typeof scope === 'object'
       })
       this.scopes = scopes
-      this.obj.config.scopes = scopes.map(scope => { return scope.text })
+      this.obj.config.scopes = scopes.map(scope => { return scope.text }) || []
     },
     async scopeList() {
       const data = await getOAuthScopeList({ vendor: this.vendor })
       this.obj.config = Object.assign(this.obj.config, data)
-      this.scopes = this.obj.config.scopes.map((scope, index) => {
+      this.scopes = this.obj.config.scopes?.map((scope, index) => {
         return { text: scope, value: index }
       })
     },
@@ -236,6 +236,10 @@ export default {
     getData() {
       if (this.vendor === 'gitlab') { this.replaceDomain() }
       return this.obj
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    validate() {
+      return this.$refs.form.validate(true)
     },
   },
 }

@@ -162,16 +162,12 @@ const select = {
       })
       this.m_select_tenantProjectItems = tenantProjectSelect
     },
-    async m_select_projectEnvironmentSelectData(projectid, virtualspace = false) {
+    async m_select_projectEnvironmentSelectData(projectid, virtualspace = false, noprocessing = true) {
       if (!projectid) {
-        this.$store.commit('SET_SNACKBAR', {
-          text: '请先选择项目',
-          color: 'warning',
-        })
         return
       }
       const data = await projectEnvironmentSelectData(projectid, {
-        noprocessing: true,
+        noprocessing: noprocessing,
       })
       const projectEnvironmentSelect = []
       data.List.forEach((ns) => {
@@ -183,6 +179,7 @@ const select = {
           value: ns.ID,
           environmentName: ns.EnvironmentName,
           clusterName: ns.Cluster.ClusterName,
+          version: ns.Cluster.Version,
           namespace: ns.Namespace,
           clusterid: ns.ClusterID,
           type: ns.MetaType,
@@ -192,16 +189,16 @@ const select = {
       })
       this.m_select_projectEnvironmentItems = projectEnvironmentSelect
     },
-    async m_select_clusterSelectData(TenantID = null) {
+    async m_select_clusterSelectData(TenantID = null, noprocessing = true) {
       let data = null
       if (this.Admin && !TenantID) {
-        data = await clusterSelectData({ noprocessing: true })
+        data = await clusterSelectData({ noprocessing: noprocessing })
       } else {
         if (TenantID) {
-          data = await tenantClusterSelectData(TenantID, { noprocessing: true })
+          data = await tenantClusterSelectData(TenantID, { noprocessing: noprocessing })
         } else {
           data = await tenantClusterSelectData(this.Tenant().ID, {
-            noprocessing: true,
+            noprocessing: noprocessing,
           })
         }
         data.List.forEach((n) => {
@@ -220,7 +217,7 @@ const select = {
       })
       this.m_select_clusterItems = clusterSelect
     },
-    async m_select_namespaceSelectData(Cluster) {
+    async m_select_namespaceSelectData(Cluster, params = { noprocessing: false }) {
       if (!Cluster) {
         this.$store.commit('SET_SNACKBAR', {
           text: '请先选择集群',
@@ -228,10 +225,9 @@ const select = {
         })
         return
       }
-      const data = await namespaceSelectData(Cluster, {
+      const data = await namespaceSelectData(Cluster, Object.assign({
         size: 200,
-        noprocessing: true,
-      })
+      }, params))
       const namespaceSelect = []
       data.List.forEach((ns) => {
         namespaceSelect.push({
@@ -241,18 +237,18 @@ const select = {
       })
       this.m_select_namespaceItems = namespaceSelect
     },
-    async m_select_environmentSelectData(TenantID = null) {
+    async m_select_environmentSelectData(TenantID = null, noprocessing = true) {
       let data = null
       if (this.Admin && this.AdminViewport && !TenantID) {
-        data = await environmentSelectData({ noprocessing: true })
+        data = await environmentSelectData({ noprocessing: noprocessing })
       } else {
         if (TenantID) {
           data = await tenantEnvironmentSelectData(TenantID, {
-            noprocessing: true,
+            noprocessing: noprocessing,
           })
         } else {
           data = await tenantEnvironmentSelectData(this.Tenant().ID, {
-            noprocessing: true,
+            noprocessing: noprocessing,
           })
         }
       }
@@ -263,11 +259,12 @@ const select = {
             text: e.EnvironmentName,
             value: e.Namespace,
             clusterName: e.Cluster.ClusterName,
+            projectName: e.Project.ProjectName,
           })
         })
       }
     },
-    async m_select_storageClassSelectData(Cluster) {
+    async m_select_storageClassSelectData(Cluster, params = { noprocessing: false }) {
       if (!Cluster) {
         this.$store.commit('SET_SNACKBAR', {
           text: '请先选择集群',
@@ -275,7 +272,7 @@ const select = {
         })
         return
       }
-      const data = await storageClassSelectData(Cluster, { noprocessing: true })
+      const data = await storageClassSelectData(Cluster, params)
       const storageClassSelect = []
       data.List.forEach((sc) => {
         storageClassSelect.push({
@@ -297,34 +294,30 @@ const select = {
       let data = []
       const ds = await getDaemonSetList(Cluster, Namespace, {
         size: 1000,
-        noprocessing: true,
       })
       const deploy = await getDeploymentList(Cluster, Namespace, {
         size: 1000,
-        noprocessing: true,
       })
       const sts = await getStatefulSetList(Cluster, Namespace, {
         size: 1000,
-        noprocessing: true,
       })
       data = data.concat(ds.List).concat(deploy.List).concat(sts.List)
       const workloadSelect = []
       data.forEach((workload, index) => {
         let selector = {}
         if (
-          workload.spec.template.metadata &&
-          workload.spec.template.metadata.labels
+          workload?.spec?.template?.metadata?.labels
         ) {
           selector = workload.spec.template.metadata.labels
           if (Object.prototype.hasOwnProperty.call(selector, 'version')) {
             delete selector['version']
           }
+          workloadSelect.push({
+            text: workload.metadata.name,
+            labels: selector,
+            value: index,
+          })
         }
-        workloadSelect.push({
-          text: workload.metadata.name,
-          labels: selector,
-          value: index,
-        })
       })
       this.m_select_workloadSelectItems = workloadSelect
     },
@@ -343,9 +336,7 @@ const select = {
         })
         return
       }
-      const data = await secretSelectData(Cluster, Namespace, {
-        noprocessing: true,
-      })
+      const data = await secretSelectData(Cluster, Namespace)
       const secretSelect = []
       if (type) {
         data.List = data.List.filter((d) => {
@@ -375,9 +366,7 @@ const select = {
         })
         return
       }
-      const data = await serviceSelectData(Cluster, Namespace, {
-        noprocessing: true,
-      })
+      const data = await serviceSelectData(Cluster, Namespace)
       const serviceSelect = []
       data.List.forEach((s) => {
         const ports = []
@@ -434,9 +423,6 @@ const select = {
       const data = await gatewaySelectData(
         this.Tenant().ID,
         this.AdminViewport ? this.Cluster().ID : this.Environment().ClusterID,
-        {
-          noprocessing: true,
-        },
       )
       const gatewaySelect = []
       data.forEach((ns) => {
@@ -448,13 +434,13 @@ const select = {
       })
       this.m_select_gatewayItems = gatewaySelect
     },
-    async m_select_projectSelectData() {
+    async m_select_projectSelectData(tenantId = null, noprocessing = false) {
       let data = null
       if (this.Admin && this.AdminViewport) {
-        data = await projectSelectData({ noprocessing: true })
+        data = await projectSelectData({ noprocessing: noprocessing })
       } else {
-        data = await tenantProjectSelectData(this.Tenant().ID, {
-          noprocessing: true,
+        data = await tenantProjectSelectData(tenantId || this.Tenant().ID, {
+          noprocessing: noprocessing,
         })
       }
       const projectSelect = []
@@ -474,11 +460,9 @@ const select = {
     async m_select_registrySelectData() {
       let data = null
       if (this.AdminViewport) {
-        data = await registrySelectData({ noprocessing: true })
+        data = await registrySelectData()
       } else {
-        data = await projectRegistrySelectData(this.Project().ID, {
-          noprocessing: true,
-        })
+        data = await projectRegistrySelectData(this.Project().ID)
       }
       const registrySelect = []
       data.List.forEach((r) => {
@@ -518,17 +502,9 @@ const select = {
     },
     async m_select_appSelectData(tenantid, projectid, environmentid) {
       if (!projectid) {
-        this.$store.commit('SET_SNACKBAR', {
-          text: '请先选择项目',
-          color: 'warning',
-        })
         return
       }
       if (!environmentid) {
-        this.$store.commit('SET_SNACKBAR', {
-          text: '请先选择环境',
-          color: 'warning',
-        })
         return
       }
       const data = await appSelectData(tenantid, projectid, environmentid)

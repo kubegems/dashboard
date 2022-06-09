@@ -13,6 +13,8 @@
           nudge-bottom="5px"
           content-class="micro-service-header__bg"
           max-height="300px"
+          max-width="220px"
+          min-width="120px"
         >
           <template #activator="{ on }">
             <v-btn
@@ -22,7 +24,7 @@
               small
               dark
               v-on="on"
-              @click="m_select_virtualSpaceSelectData"
+              @click.stop="getVirtualspace"
             >
               <v-icon left>fas fa-cloud</v-icon>
               {{ VirtualSpace().VirtualSpaceName }}
@@ -40,28 +42,33 @@
               </v-card>
             </template>
             <template #default="props">
-              <v-card v-for="item in props.items" :key="item.text">
-                <v-list dense>
+              <v-card v-for="item in props.items" :key="item.text" :loading="loading">
+                <v-list dense class="pb-3">
                   <v-flex class="text-subtitle-2 text-center ma-2">
                     <span>虚拟空间</span>
                   </v-flex>
                   <v-divider class="mx-2"></v-divider>
-                  <v-list-item
-                    v-for="(virtualspace, index) in item.values"
-                    :key="index"
-                    class="text-body-2 text-center font-weight-medium"
-                    link
-                    :style="
-                      virtualspace.text === VirtualSpace().VirtualSpaceName
-                        ? `color: #1e88e5 !important;`
-                        : ``
-                    "
-                    @click="setVirtualSpace(virtualspace)"
-                  >
-                    <v-list-item-content class="text-body-2 font-weight-medium">
-                      <span>{{ virtualspace.text }}</span>
-                    </v-list-item-content>
-                  </v-list-item>
+                  <div class="header__list px-2">
+                    <v-list-item
+                      v-for="(virtualspace, index) in item.values"
+                      :key="index"
+                      class="text-body-2 text-center font-weight-medium px-2"
+                      link
+                      :style="
+                        virtualspace.text === VirtualSpace().VirtualSpaceName
+                          ? `color: #1e88e5 !important;`
+                          : ``
+                      "
+                      @click="setVirtualSpace(virtualspace)"
+                    >
+                      <v-list-item-content class="text-body-2 font-weight-medium text-start">
+                        <div class="kubegems__break-all">
+                          <v-icon left small color="primary">fas fa-cloud</v-icon>
+                          {{ virtualspace.text }}
+                        </div>
+                      </v-list-item-content>
+                    </v-list-item>
+                  </div>
                 </v-list>
               </v-card>
             </template>
@@ -92,7 +99,7 @@
       <v-spacer />
 
       <v-sheet>
-        <span class="text-body-2 kubegems__role">
+        <span class="text-body-2 kubegems__text">
           虚拟空间角色:
           {{
             $VIRTUALSPACE_ROLE[m_permisson_virtualSpaceRole]
@@ -127,6 +134,7 @@ export default {
   },
   data: () => ({
     virtualSpaceMenu: false,
+    loading: false,
   }),
   computed: {
     ...mapGetters(['VirtualSpace']),
@@ -136,12 +144,10 @@ export default {
       this.$store.commit('SET_NAMESPACE_FILTER', null)
       this.$store.commit('SET_ENVIRONMENT_FILTER', null)
       await this.$store.dispatch('UPDATE_VIRTUALSPACE_DATA')
-      this.$router.replace({
+      await this.$router.replace({
         params: { virtualspace: item.text },
       })
-      window.setTimeout(() => {
-        this.reload()
-      }, 800)
+      this.reload()
     },
     returnVirtualSpace() {
       this.$store.commit('CLEAR_VIRTUAL_SPACE')
@@ -151,6 +157,11 @@ export default {
         name: 'virtualspace-list',
       })
     },
+    async getVirtualspace() {
+      this.loading = true
+      await this.m_select_virtualSpaceSelectData()
+      this.loading = false
+    },
   },
 }
 </script>
@@ -158,5 +169,10 @@ export default {
 <style lang="scss" scoped>
 .micro-service-header__bg {
   z-index: auto !important;
+}
+
+.header__list {
+  max-height: 250px;
+  overflow-y: auto;
 }
 </style>

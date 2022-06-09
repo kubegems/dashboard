@@ -1,8 +1,8 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
-      <v-card-title class="py-2">
+      <v-card-title class="py-4">
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '项目名称', value: 'search' }"
@@ -96,15 +96,7 @@
             class="rounded font-weight-medium"
             :value="item.CpuPercentage"
             height="15"
-            :color="
-              item.CpuPercentage
-                ? item.CpuPercentage < 60
-                  ? 'primary'
-                  : item.CpuPercentage < 80
-                    ? 'warning'
-                    : 'red darken-1'
-                : 'primary'
-            "
+            :color="getColor(item.CpuPercentage)"
           >
             <span class="white--text"> {{ item.CpuPercentage }}% </span>
           </v-progress-linear>
@@ -115,15 +107,7 @@
             class="rounded font-weight-medium"
             :value="item.MemoryPercentage"
             height="15"
-            :color="
-              item.MemoryPercentage
-                ? item.MemoryPercentage < 60
-                  ? 'primary'
-                  : item.MemoryPercentage < 80
-                    ? 'warning'
-                    : 'red darken-1'
-                : 'primary'
-            "
+            :color="getColor(item.MemoryPercentage)"
           >
             <span class="white--text"> {{ item.MemoryPercentage }}% </span>
           </v-progress-linear>
@@ -134,15 +118,7 @@
             class="rounded font-weight-medium"
             :value="item.StoragePercentage"
             height="15"
-            :color="
-              item.StoragePercentage
-                ? item.StoragePercentage < 60
-                  ? 'primary'
-                  : item.StoragePercentage < 80
-                    ? 'warning'
-                    : 'red darken-1'
-                : 'primary'
-            "
+            :color="getColor(item.StoragePercentage)"
           >
             <span class="white--text"> {{ item.StoragePercentage }}% </span>
           </v-progress-linear>
@@ -227,11 +203,6 @@ export default {
   },
   mixins: [BaseFilter, BaseSelect, BasePermission, BaseResource, BaseTable],
   data: () => ({
-    breadcrumb: {
-      title: '项目',
-      tip: '项目(project)是一组环境，应用以及镜像仓库的抽象组合。',
-      icon: 'mdi-cube-outline',
-    },
     items: [],
     tenant: -1,
     pageCount: 0,
@@ -288,7 +259,7 @@ export default {
         })
       } else {
         this.$store.commit('SET_SNACKBAR', {
-          text: `请创建或加入租户`,
+          text: `暂无租户`,
           color: 'warning',
         })
       }
@@ -416,6 +387,15 @@ export default {
     },
     onTenantSelectFocus() {
       this.m_select_tenantSelectData()
+    },
+    getColor(percentage) {
+      return percentage
+        ? percentage < 60
+          ? 'primary'
+          : percentage < 80
+            ? 'warning'
+            : 'red darken-1'
+        : 'primary'
     },
   },
 }

@@ -25,7 +25,7 @@ export function formatDatetime(date = new Date(), format = 'yyyy-MM-dd hh:mm:ss'
     's+': d.getSeconds(),
     'S+': d.getMilliseconds(),
   }
-  if (/(y+)/.test(format)) format = format.replace(RegExp.$1, (d.getFullYear() + '').substr(4 - RegExp.$1.length))
+  if (new RegExp('(y+)').test(format)) format = format.replace(RegExp.$1, (d.getFullYear() + '').substr(4 - RegExp.$1.length))
   for (const k in opts) {
     if (new RegExp('(' + k + ')').test(format)) {
       const t = opts[k].toString()

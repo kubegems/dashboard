@@ -82,22 +82,11 @@ export default {
               namespace: childrenTree.namespace,
               version: childrenTree.version,
               health: childrenTree.health,
-              sync: childrenTree.liveState
-                ? childrenTree.liveState.status.sync.status
-                : null,
-              syncState:
-                childrenTree.liveState &&
-                childrenTree.liveState.status &&
-                childrenTree.liveState.status.operationState
-                  ? childrenTree.liveState.status.operationState.phase
-                  : null,
+              sync: childrenTree?.liveState?.status?.sync?.status,
+              syncState: childrenTree?.liveState?.status?.operationState?.phase,
               createdAt: childrenTree.createdAt,
               children: childrenTree.children,
-              conditions: childrenTree.liveState
-                ? childrenTree.liveState.status.conditions
-                  ? childrenTree.liveState.status.conditions
-                  : []
-                : [],
+              conditions: childrenTree?.liveState?.status?.conditions,
             }
             vue.statusTree = [treeData]
           }

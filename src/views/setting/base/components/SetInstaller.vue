@@ -56,10 +56,10 @@ export default {
       this.dialog = true
     },
     async updateSystemConfig() {
-      if (this.$refs[this.formComponent].$refs.form.validate(true)) {
+      if (this.$refs[this.formComponent].validate()) {
         let data = ''
         if (this.formComponent === 'BaseYamlForm') {
-          data = this.$refs[this.formComponent].kubeyaml
+          data = this.$refs[this.formComponent].getYaml()
           data = this.$yamlload(data)
           data = this.m_resource_beautifyData(data)
           this.installer.content.installer_yaml = data

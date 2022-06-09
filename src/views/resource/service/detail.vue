@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader :selectable="false" />
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-btn
@@ -16,7 +16,7 @@
             >
               fas fa-code
             </v-icon>
-            Yaml
+            YAML
           </v-btn>
           <v-menu
             v-if="m_permisson_resourceAllow"
@@ -77,8 +77,8 @@
             <template v-if="service">
               <v-tabs
                 v-model="tab"
-                height="40"
-                class="rounded-t pl-2 pt-2"
+                height="30"
+                class="rounded-t pa-3"
               >
                 <v-tab
                   v-for="item in tabItems"
@@ -87,15 +87,17 @@
                   {{ item.text }}
                 </v-tab>
               </v-tabs>
-              <component
-                :is="tabItems[tab].value"
-                :ref="tabItems[tab].value"
-                :item="service"
-                :selector="selector"
-              />
             </template>
           </v-card-text>
         </v-card>
+
+        <component
+          :is="tabItems[tab].value"
+          :ref="tabItems[tab].value"
+          class="mt-3"
+          :item="service"
+          :selector="selector"
+        />
       </v-col>
     </v-row>
 
@@ -136,11 +138,6 @@ export default {
   },
   mixins: [BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '服务',
-      tip: '服务 (Service) 是定义了一类容器组的逻辑集合和一个用于访问它们的策略。',
-      icon: 'mdi-dns',
-    },
     service: null,
     tab: 0,
   }),
@@ -214,7 +211,7 @@ export default {
             this.$route.query.namespace,
             param.item.metadata.name,
           )
-          this.$router.push({ name: 'service-list' })
+          this.$router.push({ name: 'service-list', params: this.$route.params })
         },
       })
     },

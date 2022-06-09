@@ -9,6 +9,7 @@
     height="100%"
     class="rounded-0"
     id="panel"
+    :overlay-opacity="0.3"
   >
     <v-flex class="px-4 py-4 primary white--text panel__header">
       <v-flex class="float-left white--text">
@@ -32,6 +33,14 @@
         </v-btn>
       </div>
       <div class="float-right">
+        <div v-if="Progress" :style="{ float: 'left' }">
+          <v-progress-circular
+            size="20"
+            width="3"
+            indeterminate
+            color="white"
+          ></v-progress-circular>
+        </div>
         <slot name="action"></slot>
       </div>
       <div class="kubegems__clear-float"></div>
@@ -44,6 +53,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'BasePanel',
   model: {
@@ -69,6 +80,7 @@ export default {
     },
   },
   computed: {
+    ...mapState(['Progress']),
     clickListeners: function () {
       var vm = this
       return Object.assign({}, this.$listeners, {
@@ -80,20 +92,23 @@ export default {
     },
   },
   watch: {
-    panel() {
-      if (this.panel === true) {
-        this.$nextTick(() => {
+    panel: {
+      handler(newValue) {
+        this.$store.commit('SET_PANEL', newValue)
+        if (this.panel === true) {
+          this.$nextTick(() => {
+            const timeout = setTimeout(() => {
+              document.getElementById('panel').style.display = 'flex'
+              clearTimeout(timeout)
+            }, 300)
+          })
+        } else {
           const timeout = setTimeout(() => {
-            document.getElementById('panel').style.display = 'flex'
+            document.getElementById('panel').style.display = 'block'
             clearTimeout(timeout)
           }, 300)
-        })
-      } else {
-        const timeout = setTimeout(() => {
-          document.getElementById('panel').style.display = 'block'
-          clearTimeout(timeout)
-        }, 300)
-      }
+        }
+      },
     },
   },
   destroyed() {
@@ -121,5 +136,11 @@ export default {
 .v-navigation-drawer {
   display: block;
   z-index: 10;
+}
+
+#panel {
+  @media (max-width: 1300px) {
+    width: 700px !important;
+  }
 }
 </style>

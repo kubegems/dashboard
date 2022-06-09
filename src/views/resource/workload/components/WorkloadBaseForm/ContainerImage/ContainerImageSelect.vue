@@ -168,12 +168,8 @@ export default {
   },
   watch: {
     container: {
-      handler: function () {
-        this.$nextTick(async () => {
-          if (this.container) {
-            this.init()
-          }
-        })
+      handler() {
+        this.init()
       },
       deep: true,
     },
@@ -189,11 +185,9 @@ export default {
   methods: {
     init() {
       if (!this.container) {
-        this.obj = {
-          name: '',
-          imagePullPolicy: 'IfNotPresent',
-          image: '',
-        }
+        this.$refs.form.resetValidation()
+        this.containerType = 'worker'
+        this.obj = deepCopy(this.$options.data().obj)
       } else {
         this.obj = this.$_.mergeWith(
           this.obj,
@@ -217,10 +211,18 @@ export default {
     reset() {
       this.$refs.form.resetValidation()
       this.containerType = 'worker'
-      this.obj = this.$options.data().obj
+      this.obj = deepCopy(this.$options.data().obj)
     },
     onRegistrySelectFocus() {
       this.m_select_registrySelectData()
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    validate() {
+      return this.$refs.form.validate(true)
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    getData() {
+      return this.obj
     },
   },
 }

@@ -207,7 +207,7 @@ export default {
     expand: false,
     resourceKind: '',
     obj: {
-      apiVersion: 'extensions/v1beta1',
+      apiVersion: 'networking.k8s.io/v1beta1',
       kind: 'Ingress',
       metadata: {
         name: '',
@@ -222,7 +222,7 @@ export default {
     },
   }),
   computed: {
-    ...mapState(['Admin', 'AdminViewport']),
+    ...mapState(['Admin', 'AdminViewport', 'ApiResources']),
     ...mapGetters(['Tenant', 'Cluster']),
     objRules() {
       return {
@@ -246,35 +246,35 @@ export default {
     },
   },
   watch: {
-    item() {
-      this.loadData(true)
+    item: {
+      handler() {
+        this.obj.apiVersion = this.ApiResources['ingress'] || 'networking.k8s.io/v1beta1'
+        this.loadData()
+      },
+      deep: true,
+      immediate: true,
     },
   },
-  mounted() {
-    this.loadData(false)
-  },
   methods: {
-    loadData(cover = false) {
+    loadData() {
       this.$nextTick(() => {
-        if (cover) {
-          if (!this.item) {
-            this.obj = this.$options.data().obj
-            this.$refs.form.resetValidation()
-          } else {
-            this.obj = deepCopy(this.item)
-          }
+        if (!this.item) {
+          this.$refs.form.resetValidation()
         } else {
-          if (!this.manifest) {
-            if (this.AdminViewport) {
-              this.m_select_namespaceSelectData(this.ThisCluster)
-            } else {
-              this.obj.metadata.namespace = this.ThisNamespace
-            }
-            this.m_select_gatewaySelectData(this.ThisCluster)
-          } else {
-            this.obj.metadata.name = `${this.app.ApplicationName}`
-          }
+          this.obj = deepCopy(this.item)
         }
+
+        if (!this.manifest) {
+          if (this.AdminViewport) {
+            this.m_select_namespaceSelectData(this.ThisCluster)
+          } else {
+            this.obj.metadata.namespace = this.ThisNamespace
+          }
+          this.m_select_gatewaySelectData(this.ThisCluster)
+        } else {
+          this.obj.metadata.name = `${this.app.ApplicationName}`
+        }
+
         if (!this.obj.metadata.annotations) {
           this.obj.metadata.annotations = {}
         }
@@ -420,6 +420,7 @@ export default {
       if (this.$refs.annotationForm) this.$refs.annotationForm.closeCard()
       this.$refs.ingressRuleForm.closeCard()
       this.$refs.form.reset()
+      this.obj = this.$options.data().obj
     },
     help() {
       window.open(
@@ -435,6 +436,14 @@ export default {
     },
     onGatewaySelectFocus(clusterName) {
       this.m_select_gatewaySelectData(clusterName)
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    validate() {
+      return this.$refs.form.validate(true)
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    getData() {
+      return this.obj
     },
   },
 }

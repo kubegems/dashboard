@@ -48,8 +48,8 @@
         <v-text-field
           v-if="mounts[container.name].readOnly !== null"
           v-model="mounts[container.name].subPath"
-          required
           label="子路径"
+          :rules="mountRules[container.name].subPathRule"
         />
       </v-flex>
       <div class="kubegems__clear-float" />
@@ -103,6 +103,7 @@ export default {
       this.containers.forEach((c) => {
         const rules = {}
         rules['mountPathRule'] = [required]
+        rules['subPathRule'] = [v => !new RegExp('^/').test(v) || '相对路径']
         mountRules[c.name] = rules
       })
       return mountRules
@@ -143,6 +144,10 @@ export default {
         return this.mounts
       }
       return null
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    reset() {
+      this.$refs.form.reset()
     },
   },
 }

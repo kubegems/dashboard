@@ -12,7 +12,8 @@
           transition="scale-transition"
           nudge-bottom="5px"
           content-class="tenant-header__bg"
-          max-height="300px"
+          max-width="220px"
+          min-width="120px"
         >
           <template #activator="{ on }">
             <v-btn
@@ -22,7 +23,7 @@
               small
               dark
               v-on="on"
-              @click="m_select_tenantProjectSelectData"
+              @click.stop="getProject"
             >
               <v-icon left>fas fa-cube</v-icon>
               {{ Project().ProjectName }}
@@ -40,28 +41,36 @@
               </v-card>
             </template>
             <template #default="props">
-              <v-card v-for="item in props.items" :key="item.text">
-                <v-list dense>
+              <v-card v-for="item in props.items" 
+                :key="item.text" 
+                :loading="loadingPro"
+              >
+                <v-list dense class="pb-3">
                   <v-flex class="text-subtitle-2 text-center ma-2">
                     <span>项目</span>
                   </v-flex>
                   <v-divider class="mx-2"></v-divider>
-                  <v-list-item
-                    v-for="(project, index) in item.values"
-                    :key="index"
-                    class="text-body-2 text-center font-weight-medium"
-                    link
-                    :style="
-                      project.text === Project().ProjectName
-                        ? `color: #1e88e5 !important;`
-                        : ``
-                    "
-                    @click="setProject(project)"
-                  >
-                    <v-list-item-content class="text-body-2 font-weight-medium">
-                      <span>{{ project.text }}</span>
-                    </v-list-item-content>
-                  </v-list-item>
+                  <div class="header__list px-2">
+                    <v-list-item
+                      v-for="(project, index) in item.values"
+                      :key="index"
+                      class="text-body-2 text-center font-weight-medium px-2"
+                      link
+                      :style="
+                        project.text === Project().ProjectName
+                          ? `color: #1e88e5 !important;`
+                          : ``
+                      "
+                      @click="setProject(project)"
+                    >
+                      <v-list-item-content class="text-body-2 font-weight-medium text-start">
+                        <div class="kubegems__break-all">
+                          <v-icon left small color="primary">fas fa-cube</v-icon>
+                          {{ project.text }}
+                        </div>
+                      </v-list-item-content>
+                    </v-list-item>
+                  </div>
                 </v-list>
               </v-card>
             </template>
@@ -91,6 +100,8 @@
             nudge-bottom="5px"
             content-class="z-index-bg"
             max-height="300px"
+            max-width="220px"
+            min-width="120px"
           >
             <template #activator="{ on }">
               <v-btn
@@ -100,7 +111,7 @@
                 small
                 dark
                 v-on="on"
-                @click.stop="m_select_projectEnvironmentSelectData(Project().ID)"
+                @click.stop="getEnvironment"
               >
                 <v-icon left>fas fa-cloud</v-icon>
                 {{ Environment().EnvironmentName }}
@@ -118,30 +129,35 @@
                 </v-card>
               </template>
               <template #default="props">
-                <v-card v-for="item in props.items" :key="item.text">
-                  <v-list dense>
+                <v-card v-for="item in props.items" :key="item.text" :loading="loadingEnv">
+                  <v-list dense class="pb-3">
                     <v-flex class="text-subtitle-2 text-center ma-2">
                       <span>环境</span>
                     </v-flex>
                     <v-divider class="mx-2"></v-divider>
-                    <v-list-item
-                      v-for="(environment, index) in item.values"
-                      :key="index"
-                      class="text-body-2 text-center font-weight-medium"
-                      link
-                      :style="
-                        environment.text === Environment().EnvironmentName
-                          ? `color: #1e88e5 !important;`
-                          : ``
-                      "
-                      @click="setEnvironment(environment)"
-                    >
-                      <v-list-item-content
-                        class="text-body-2 font-weight-medium"
+                    <div class="header__list px-2">
+                      <v-list-item
+                        v-for="(environment, index) in item.values"
+                        :key="index"
+                        class="text-body-2 text-center font-weight-medium px-2"
+                        link
+                        :style="
+                          environment.text === Environment().EnvironmentName
+                            ? `color: #1e88e5 !important;`
+                            : ``
+                        "
+                        @click="setEnvironment(environment)"
                       >
-                        <span>{{ environment.text }}</span>
-                      </v-list-item-content>
-                    </v-list-item>
+                        <v-list-item-content
+                          class="text-body-2 font-weight-medium text-start"
+                        >
+                          <div class="kubegems__break-all">
+                            <v-icon left small color="primary">fas fa-cloud</v-icon>
+                            {{ environment.text }}
+                          </div>
+                        </v-list-item-content>
+                      </v-list-item>
+                    </div>
                   </v-list>
                 </v-card>
               </template>
@@ -159,7 +175,7 @@
       <v-spacer />
 
       <v-sheet>
-        <span v-if="environmented" class="text-body-2 kubegems__role">
+        <span v-if="environmented" class="text-body-2 kubegems__text">
           环境角色:
           {{
             $RESOURCE_ROLE[m_permisson_resourceRole] ? $RESOURCE_ROLE[m_permisson_resourceRole] : '暂无'
@@ -175,7 +191,7 @@
           <span class="ml-4">集群: {{ Environment().ClusterName }}</span>
           <span class="ml-4">命名空间: {{ Environment().Namespace }}</span>
         </span>
-        <span v-else class="text-body-2 kubegems__role">
+        <span v-else class="text-body-2 kubegems__text">
           项目角色:
           {{ $PROJECT_ROLE[m_permisson_projectRole] ? $PROJECT_ROLE[m_permisson_projectRole] : '暂无' }}
         </span>
@@ -207,6 +223,8 @@ export default {
   data: () => ({
     projectMenu: false,
     environmentMenu: false,
+    loadingPro: false,
+    loadingEnv: false
   }),
   computed: {
     ...mapState(['AdminViewport']),
@@ -223,37 +241,37 @@ export default {
           })
           return
         } else {
-          this.$router.replace({
+          const env =this.m_select_projectEnvironmentItems[0]
+          await this.$router.replace({
             params: {
               tenant: this.Tenant().TenantName,
               project: item.text,
-              environment: this.m_select_projectEnvironmentItems[0].text,
+              environment: env.text,
             },
           })
         }
       } else {
-        this.$router.replace({
+        await this.$router.replace({
           params: {
             tenant: this.Tenant().TenantName,
             project: item.text,
           },
         })
       }
-      window.setTimeout(() => {
-        this.reload()
-      }, 800)
+      this.reload()
     },
     async setEnvironment(item) {
-      this.$router.replace({
+      await this.$router.replace({
         params: {
           tenant: this.Tenant().TenantName,
           project: this.Project().ProjectName,
           environment: item.text,
         },
+        query: {
+          timestamp: Date.parse(new Date())
+        }
       })
-      window.setTimeout(() => {
-        this.reload()
-      }, 800)
+      this.reload()
     },
     toProject() {
       this.$store.commit('CLEAR_RESOURCEIRONMENT')
@@ -266,6 +284,16 @@ export default {
         },
       })
     },
+    async getProject() {
+      this.loadingPro = true
+      await this.m_select_tenantProjectSelectData()
+      this.loadingPro = false
+    },
+    async getEnvironment() {
+      this.loadingEnv = true
+      await this.m_select_projectEnvironmentSelectData(this.Project().ID)
+      this.loadingEnv = false
+    },
   },
 }
 </script>
@@ -273,5 +301,10 @@ export default {
 <style lang="scss" scoped>
 .tenant-header__bg {
   z-index: auto !important;
+}
+
+.header__list {
+  max-height: 250px;
+  overflow-y: auto;
 }
 </style>

@@ -27,8 +27,8 @@
           <BaseSubTitle title="高级配置" />
           <v-tabs
             v-model="tab"
-            class="px-2"
-            height="50"
+            class="px-2 v-tabs--default"
+            height="40"
             fixed-tabs
             @change="onTabChange"
           >
@@ -267,9 +267,9 @@ export default {
     },
     addData() {
       if (this.checkData()) {
-        if (this.$refs.containerImageSelect.$refs.form.validate(true)) {
+        if (this.$refs.containerImageSelect.validate()) {
           if (
-            this.updateComponentData(this.$refs.containerImageSelect.obj, false)
+            this.updateComponentData(this.$refs.containerImageSelect.getData(), false)
           ) {
             this.generateImagePullSecret()
             this.closeCard()
@@ -348,6 +348,21 @@ export default {
             this.$set(this.obj.spec.template.spec, 'initContainers', containers)
           }
         }
+      }
+      return true
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    validate() {
+      return this.$refs.form.validate(true)
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    getData() {
+      return this.obj
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    checkSaved() {
+      if (Object.prototype.hasOwnProperty.call(this, 'expand')) {
+        return !this.expand
       }
       return true
     },

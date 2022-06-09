@@ -1,16 +1,15 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
-      <v-card-title class="py-2">
+      <v-card-title class="py-4">
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '路由名称', value: 'search' }"
           @refresh="m_filter_list"
         />
         <NamespaceFilter />
-        <v-spacer />
         <v-spacer />
         <v-menu
           v-if="m_permisson_resourceAllow"
@@ -90,7 +89,9 @@
         </template>
         <template #[`item.address`]="{ item }">
           <template v-for="(rule, index) in item.spec.rules">
-            <template v-for="(path, i) in rule.http.paths">
+            <template
+              v-for="(path, i) in rule.http.paths"
+            >
               <v-flex
                 :key="`c${index}http${i}`"
                 class="mx-1"
@@ -220,11 +221,6 @@ export default {
   },
   mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
-    breadcrumb: {
-      title: '路由',
-      tip: '路由(ingress)提供一种聚合服务的方式，您可以将集群的内部服务通过一个外部可访问的 IP 地址暴露给集群外部。',
-      icon: 'mdi-network',
-    },
     items: [],
     pageCount: 0,
     params: {
@@ -324,9 +320,9 @@ export default {
     ingressDetail(item) {
       this.$router.push({
         name: 'ingress-detail',
-        params: {
+        params: Object.assign(this.$route.params, {
           name: item.metadata.name,
-        },
+        }),
         query: {
           namespace: item.metadata.namespace,
         },

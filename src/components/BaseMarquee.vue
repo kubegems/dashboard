@@ -107,8 +107,8 @@ export default {
   z-index: 9;
   top: -4px;
   left: 70px;
-  max-width: 300px;
-  min-width: 120px;
+  max-width: 400px;
+  width: max-content;
   white-space: nowrap;
   display: none;
 }

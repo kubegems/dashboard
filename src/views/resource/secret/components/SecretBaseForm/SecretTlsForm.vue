@@ -24,7 +24,7 @@
                 :class="`clear-zoom-${Scale.toString().replaceAll(
                   '.',
                   '-',
-                )} rounded-0`"
+                )} rounded`"
                 lang="yaml"
                 :options="
                   Object.assign($aceOptions, { readOnly: false, wrap: true })
@@ -49,7 +49,7 @@
                 :class="`clear-zoom-${Scale.toString().replaceAll(
                   '.',
                   '-',
-                )} rounded-0 mb-4`"
+                )} rounded mb-4`"
                 lang="yaml"
                 :options="
                   Object.assign($aceOptions, { readOnly: false, wrap: true })

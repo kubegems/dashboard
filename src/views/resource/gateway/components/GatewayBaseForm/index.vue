@@ -11,7 +11,7 @@
       <v-card-text class="pa-2">
         <v-row>
           <v-col
-            v-if="AdminViewport"
+            v-if="AdminViewport && obj.spec.tenant !== 'notenant'"
             cols="6"
           >
             <v-autocomplete
@@ -222,7 +222,7 @@ export default {
     },
   }),
   computed: {
-    ...mapState(['AdminViewport']),
+    ...mapState(['AdminViewport', 'ApiResources']),
     ...mapGetters(['Tenant']),
     objRules() {
       return {
@@ -238,30 +238,26 @@ export default {
         imageRule: [v => !v || !!new RegExp('^([\\w|/|\\.|-]+)[:|@]([\\w|\\.|-]+)$').test(v) || '格式错误（不符合镜像格式）'],
       }
     },
-    apiVersion() {
-      return `gems.${process.env.VUE_APP_DOMAIN}/v1beta1`
-    },
   },
   watch: {
-    item() {
-      this.loadData(true)
+    item: {
+      handler() {
+        this.obj.apiVersion = this.ApiResources['tenantgateway'] || 'gems.kubegems.io/v1beta1'
+        this.loadData()
+      },
+      deep: true,
+      immediate: true,
     },
   },
-  mounted() {
-    this.loadData(false)
-  },
   methods: {
-    async loadData(cover = false) {
+    async loadData() {
       this.$nextTick(() => {
-        if (cover) {
-          if (!this.item) {
-            this.obj = this.$options.data().obj
-            this.$refs.form.resetValidation()
-          } else {
-            this.obj = deepCopy(this.item)
-          }
-          this.obj.apiVersion = this.apiVersion
+        if (!this.item) {
+          this.$refs.form.resetValidation()
+        } else {
+          this.obj = deepCopy(this.item)
         }
+
         if (!this.AdminViewport) {
           this.obj.spec.tenant = this.Tenant().TenantName
         }
@@ -313,9 +309,10 @@ export default {
     reset() {
       this.$refs.dataForm.closeCard()
       this.$refs.form.reset()
+      this.obj = this.$options.data().obj
     },
     setDomain(obj) {
-      obj.spec.baseDomain = `*.${process.env.VUE_APP_DOMAIN}`
+      obj.spec.baseDomain = `*.kubegems.io`
     },
     help() {
       window.open(
@@ -369,6 +366,10 @@ export default {
         return ''
       }
       return ''
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    validate() {
+      return this.$refs.form.validate(true)
     },
   },
 }

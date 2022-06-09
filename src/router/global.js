@@ -68,6 +68,7 @@ export const global = [
         meta: {
           requireAuth: true,
           title: '暂无租户',
+          smallTitle: '租户工作台',
         },
       },
       {
@@ -77,6 +78,7 @@ export const global = [
         meta: {
           requireAuth: true,
           title: '暂无租户',
+          smallTitle: '租户工作台',
         },
       },
     ],
@@ -94,6 +96,7 @@ export const global = [
         meta: {
           requireAuth: true,
           title: '暂无集群',
+          smallTitle: '管理员',
         },
       },
     ],

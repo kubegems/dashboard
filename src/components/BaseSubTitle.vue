@@ -1,12 +1,12 @@
 <template>
   <v-sheet
     :height="height"
-    :class="`py-1 pl-2 text-subtitle-1 primary--text rounded-t ${color}`"
+    :class="`py-1 px-2 text-subtitle-1 primary--text rounded ${color}`"
   >
     <span
       :class="`float-left subtitle font-weight-regular ${
         color === 'primary' ? 'white--text' : 'blue-grey--text text--darken-2'
-      }`"
+      } ${ divider || `pl-${pl}` }`"
       style="line-height: 28px;"
     >
       {{ title }}
@@ -24,7 +24,7 @@
       <slot name="selector"></slot>
     </span>
     <div class="subtitle-clear"></div>
-    <v-divider v-if="divider" class="mr-2" />
+    <v-divider v-if="divider" />
   </v-sheet>
 </template>
 
@@ -48,6 +48,10 @@ export default {
       type: String,
       default: () => '',
     },
+    pl: {
+      type: Number,
+      default: () => 2,
+    }
   },
 }
 </script>

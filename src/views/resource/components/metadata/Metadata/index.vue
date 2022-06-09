@@ -1,7 +1,8 @@
 <template>
-  <v-sheet class="pt-4">
-    <v-flex class="px-4">
+  <div>
+    <v-card>
       <BaseSubTitle
+        class="pt-2"
         title="标签"
         :divider="false"
       >
@@ -26,41 +27,41 @@
           </v-btn>
         </template>
       </BaseSubTitle>
-      <v-flex class="pb-4">
-        <v-sheet
-          v-for="(value, key) in metadata ? metadata.labels : []"
-          :key="key"
-          class="ml-2"
-        >
-          <v-chip
-            class="my-1"
-            color="success"
-            text-color="white"
-            small
-            :close="!readonly"
-            close-icon="mdi-delete"
-            @click:close="removeMetadata(key, 'label')"
+      <v-flex class="px-4">
+        <v-flex class="pb-4">
+          <v-sheet
+            v-for="(value, key) in metadata ? metadata.labels : []"
+            :key="key"
+            class="ml-2"
           >
-            <v-icon
+            <v-chip
+              class="my-1"
+              color="success"
+              text-color="white"
               small
-              left
+              :close="!readonly"
+              close-icon="mdi-delete"
+              @click:close="removeMetadata(key, 'label')"
             >
-              mdi-label
-            </v-icon>
-            <strong class="mx-1"> {{ key }} </strong>
-            {{ value }}
-          </v-chip>
-          <div class="kubegems__clear-float" />
-        </v-sheet>
+              <v-icon
+                small
+                left
+              >
+                mdi-label
+              </v-icon>
+              <strong class="mx-1"> {{ key }} </strong>
+              {{ value }}
+            </v-chip>
+            <div class="kubegems__clear-float" />
+          </v-sheet>
+        </v-flex>
       </v-flex>
-    </v-flex>
+    </v-card>
 
-    <BaseDivider />
-
-    <v-flex class="px-4 pb-4">
+    <v-card class="mt-3">
       <BaseSubTitle
+        class="pt-2"
         title="注解"
-        class="mt-4"
         :divider="false"
       >
         <template
@@ -84,34 +85,36 @@
           </v-btn>
         </template>
       </BaseSubTitle>
-      <v-flex>
-        <v-sheet
-          v-for="(value, key) in metadata ? metadata.annotations : []"
-          :key="key"
-          class="ml-2"
-        >
-          <v-chip
-            v-if="$ANNOTATION_IGNORE_ARRAY.indexOf(key) === -1"
-            class="my-1 kubegems__role"
-            color="gray"
-            small
-            :close="!readonly"
-            close-icon="mdi-delete"
-            @click:close="removeMetadata(key, 'annotation')"
+      <v-flex class="px-4 pb-4">
+        <v-flex>
+          <v-sheet
+            v-for="(value, key) in metadata ? metadata.annotations : []"
+            :key="key"
+            class="ml-2"
           >
-            <v-icon
+            <v-chip
+              v-if="$ANNOTATION_IGNORE_ARRAY.indexOf(key) === -1"
+              class="my-1 kubegems__text"
+              color="gray"
               small
-              left
+              :close="!readonly"
+              close-icon="mdi-delete"
+              @click:close="removeMetadata(key, 'annotation')"
             >
-              mdi-label
-            </v-icon>
-            <strong class="mx-1"> {{ key }} </strong>
-            {{ value }}
-          </v-chip>
-          <div class="kubegems__clear-float" />
-        </v-sheet>
+              <v-icon
+                small
+                left
+              >
+                mdi-label
+              </v-icon>
+              <strong class="mx-1"> {{ key }} </strong>
+              {{ value }}
+            </v-chip>
+            <div class="kubegems__clear-float" />
+          </v-sheet>
+        </v-flex>
       </v-flex>
-    </v-flex>
+    </v-card>
 
     <AddLabel
       v-if="!readonly"
@@ -125,7 +128,7 @@
       :item="item"
       @refresh="refreshMetadata"
     />
-  </v-sheet>
+  </div>
 </template>
 <script>
 import { mapGetters, mapState } from 'vuex'

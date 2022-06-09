@@ -1,6 +1,6 @@
 // Globals
-$body-font-family: "ZCOOL QingKe HuangYou, PingFang SC, Microsoft YaHei, Monaco, Menlo, Consolas, system-ui, sans-serif", display !default;
-$border-radius-root: 3px;
+$body-font-family: ZCOOL QingKe HuangYou, Microsoft YaHei, PingFang SC !default;
+$border-radius-root: 8px;
 
 // Custom variables
 $subtitle-color: #a1aab2;
@@ -34,6 +34,10 @@ $stepper-elevation: 0 !default;
 
 $expansion-panel-header-padding: 8px 24px !default;
 
-$treeview-node-level-width: 5px !default;
+$treeview-node-level-width: 24px !default;
 
 $tabs-item-max-width: 540px !default;
+
+$data-table-border-radius: 0;
+
+$stepper-border-radius: 0;

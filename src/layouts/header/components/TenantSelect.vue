@@ -1,13 +1,13 @@
 <template>
   <BaseDialog
     v-model="dialog"
-    :width="800"
+    :width="600"
     title="选择租户"
     icon="mdi-account-multiple"
     @reset="reset"
   >
     <template #content>
-      <v-flex class="grey lighten-4 rounded-0 ma-2 mt-0">
+      <v-flex class="grey lighten-4 rounded ma-2 mt-0">
         <v-list-item>
           <v-list-item-content class="kubegems__label-class-padding kubegems__break-all">
             当前租户：{{ Tenant().TenantName }}
@@ -22,7 +22,7 @@
         prepend-inner-icon="mdi-magnify"
       />
 
-      <v-sheet max-height="300px">
+      <v-sheet>
         <v-data-table
           :headers="headers"
           :items="m_select_tenantItems"
@@ -33,7 +33,7 @@
           no-results-text="暂无匹配租户"
           hide-default-footer
           item-key="value"
-          class="px-2"
+          class="px-2 tenant__table"
         >
           <template #[`item.isActive`]="{ item }">
             <span v-if="item.isActive">
@@ -81,7 +81,7 @@ export default {
     dialog: false,
     headers: [
       { text: '租户', value: 'text', align: 'start' },
-      { text: 'ID', value: 'value', align: 'start' },
+      // { text: 'ID', value: 'value', align: 'start' },
       { text: '状态', value: 'isActive', align: 'start' },
       { text: '', value: 'action', align: 'end' },
     ],
@@ -126,3 +126,9 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+.tenant__table .v-data-table__wrapper {
+  max-height: 350px;
+}
+</style>

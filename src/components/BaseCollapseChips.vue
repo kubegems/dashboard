@@ -7,6 +7,7 @@
     <v-menu
       v-if="items.length"
       open-on-hover
+      :close-on-content-click="false"
       :close-delay="200"
       :max-width="maxWidth"
       :disabled="items.length === 1"
@@ -20,7 +21,7 @@
             :key="item[itemValue]"
             :color="color"
             small
-            class="mr-2"
+            class="mr-2 my-1"
           >
             <v-icon v-if="icon" small left> {{ icon }} </v-icon>
             <strong v-if="dataType === 'object'" class="mr-1">
@@ -31,6 +32,7 @@
 
           <v-chip
             v-if="items.length > 1"
+            class="my-1"
             small
             :color="color"
           >
@@ -42,7 +44,7 @@
       <v-card class="pa-2">
         <template v-if="singleLine">
           <div v-for="item in items" :key="item[itemValue]">
-            <v-flex small class="ma-1 text-caption kubegems__detail">
+            <v-flex small class="ma-1 text-caption kubegems__text">
               <v-icon v-if="icon" :color="color" small left> {{ icon }} </v-icon>
               <strong v-if="dataType === 'object'" class="mr-1">
                 {{ item[itemValue] }}

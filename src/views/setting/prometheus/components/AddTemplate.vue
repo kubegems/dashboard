@@ -61,10 +61,10 @@ export default {
       this.dialog = true
     },
     async addTemplate() {
-      if (this.$refs[this.formComponent].$refs.form.validate(true)) {
+      if (this.$refs[this.formComponent].validate()) {
         let data = ''
         if (this.formComponent === 'TemplateBaseForm') {
-          data = this.$refs[this.formComponent].generateData()
+          data = this.$refs[this.formComponent].getData()
           const ruleName = data.name
           delete data.name
           await postPrometheusTemplate(this.resourceName, ruleName, data)

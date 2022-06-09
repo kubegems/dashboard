@@ -1,9 +1,9 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
-      <v-card-title class="py-2">
+      <v-card-title class="py-4">
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: 'crd名称', value: 'search' }"
@@ -156,11 +156,6 @@ export default {
   components: {},
   mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
-    breadcrumb: {
-      title: 'CRD',
-      tip: '自定义资源 (CRD) 是一种 Kubernetes 实现自定义资源类型的扩展方式，用户可以如同操作内置资源对象一样操作 CRD 对象。',
-      icon: 'mdi-collage',
-    },
     items: [],
     pageCount: 0,
     params: {
@@ -239,9 +234,9 @@ export default {
     crdDetail(item) {
       this.$router.push({
         name: 'crd-detail',
-        params: {
+        params: Object.assign(this.$route.params, {
           name: item.metadata.name,
-        },
+        }),
       })
     },
     removeCRD(item) {

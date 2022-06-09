@@ -1,5 +1,5 @@
 <template>
-  <v-simple-table class="mx-2 pa-2">
+  <v-simple-table class="mx-2 pa-2 pb-3">
     <template #default>
       <thead>
         <tr>
@@ -44,6 +44,7 @@ export default {
       if (item.configMap) return 'configMap'
       if (item.secret) return 'secret'
       if (item.persistentVolumeClaim) return 'persistentVolumeClaim'
+      if (item.projected) return 'projected'
     },
     getVolumeKey(item) {
       if (item.emptyDir) return ''
@@ -51,6 +52,7 @@ export default {
       if (item.configMap) return item.configMap.name
       if (item.secret) return item.secret.secretName
       if (item.persistentVolumeClaim) return item.persistentVolumeClaim.name
+      if (item.projected) return '投射卷请从YAML中查看'
     },
   },
 }

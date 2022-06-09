@@ -1,16 +1,15 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
-      <v-card-title class="py-2">
+      <v-card-title class="py-4">
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '服务名称', value: 'search' }"
           @refresh="m_filter_list"
         />
         <NamespaceFilter />
-        <v-spacer />
         <v-spacer />
         <v-menu
           v-if="m_permisson_resourceAllow"
@@ -88,13 +87,20 @@
         <template #[`item.namespace`]="{ item }">
           {{ item.metadata.namespace }}
         </template>
-        <template #[`item.clusterIp`]="{ item }">
+        <template #[`item.externalip`]="{ item }">
+          <div>
+            {{ item.spec.type !== 'clusterIP' ? item.spec.type : '' }}
+          </div>
+          <div class="text-caption kubegems__text">
+            {{
+              getExternalIp(item)
+            }}
+          </div>
+        </template>
+        <template #[`item.clusterIP`]="{ item }">
           {{
             item.spec.clusterIP !== 'None' ? item.spec.clusterIP : 'Headless'
           }}
-        </template>
-        <template #[`item.clusterType`]="{ item }">
-          {{ item.spec.type }}
         </template>
         <template #[`item.ports`]="{ item }">
           <BaseCollapseChips
@@ -196,11 +202,6 @@ export default {
   },
   mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
-    breadcrumb: {
-      title: '服务',
-      tip: '服务 (Service) 是定义了一类容器组的逻辑集合和一个用于访问它们的策略。',
-      icon: 'mdi-dns',
-    },
     items: [],
     pageCount: 0,
     params: {
@@ -215,14 +216,14 @@ export default {
       const items = [
         { text: '服务名', value: 'name', align: 'start' },
         {
-          text: '服务地址',
-          value: 'clusterIp',
+          text: 'ClusterIP',
+          value: 'clusterIP',
           align: 'start',
           sortable: false,
         },
         {
-          text: '服务类型',
-          value: 'clusterType',
+          text: '服务类型(ExternalIp/LoadBalancerIp)',
+          value: 'externalip',
           align: 'start',
           sortable: false,
         },
@@ -296,13 +297,15 @@ export default {
       )
       data.List = data.List.map((d) => {
         const services = []
-        d.spec.ports.forEach((s) => {
-          if (s.nodePort !== undefined) {
-            services.push(`${s.port}:${s.nodePort} ｜ ${s.protocol}`)
-          } else {
-            services.push(`${s.port} ｜ ${s.protocol}`)
-          }
-        })
+        if (d.spec?.ports) {
+          d.spec.ports.forEach((s) => {
+            if (s.nodePort !== undefined) {
+              services.push(`${s.port}:${s.nodePort} ｜ ${s.protocol}`)
+            } else {
+              services.push(`${s.port} ｜ ${s.protocol}`)
+            }
+          })
+        }
         return { ...d, services: services }
       })
       this.items = data.List
@@ -314,9 +317,9 @@ export default {
     serviceDetail(item) {
       this.$router.push({
         name: 'service-detail',
-        params: {
+        params: Object.assign(this.$route.params, {
           name: item.metadata.name,
-        },
+        }),
         query: {
           namespace: item.metadata.namespace,
         },
@@ -356,6 +359,13 @@ export default {
     },
     onPageIndexChange(page) {
       this.params.page = page
+    },
+    getExternalIp(item) {
+      if (item.spec.externalName) return item.spec.externalName
+      if (item.spec.externalIPs) return item.spec.externalIPs?.join(',')
+      if (item.status?.loadBalancer?.ingress) return item.status?.loadBalancer?.ingress?.map(i => { return i.ip })?.join(',')
+      if (item.spec.loadBalancerIP) return item.spec.loadBalancerIP
+      return 'None'
     },
   },
 }

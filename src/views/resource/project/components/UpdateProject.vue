@@ -74,11 +74,11 @@ export default {
       this.dialog = true
     },
     check() {
-      if (this.$refs[this.formComponent].validated()) this.step = 1
+      if (this.$refs[this.formComponent].validate()) this.step = 1
     },
     async updateProject() {
-      if (this.$refs[this.formComponent].$refs.form.validate(true)) {
-        const data = this.$refs[this.formComponent].obj
+      if (this.$refs[this.formComponent].validate()) {
+        const data = this.$refs[this.formComponent].getData()
         await putUpdateProject(data.ProjectID, {
           ProjectID: data.ProjectID,
           ProjectName: data.ProjectName,

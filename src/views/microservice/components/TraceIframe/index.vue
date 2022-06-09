@@ -1,5 +1,7 @@
 <template>
-  <v-card flat>
+  <v-card
+    flat
+  >
     <v-sheet class="text-body-2 primary--text pa-2">
       <v-flex
         v-if="showBtn"
@@ -19,10 +21,10 @@
         @refreshLimit="refreshLimit"
       />
       <v-flex class="float-right">
-        <span class="kubegems__detail text-subtitle-2 font-weight-medium">
+        <span class="kubegems__text text-subtitle-2 font-weight-medium">
           起止时间
         </span>
-        <BaseDatetimePicker2
+        <BaseDatetimePicker
           v-model="date"
           :default-value="30"
           @change="onDatetimeChange(undefined)"
@@ -131,7 +133,7 @@ export default {
         iframe.contentWindow.document.getElementsByClassName('u-tx-inherit')
       if (links && links.length > 0) {
         const link = links[0]
-        link.parentElement.removeChild(link)
+        link.parentElement?.removeChild(link)
       }
 
       const searchs =
@@ -140,7 +142,7 @@ export default {
         )
       if (searchs && searchs.length > 0) {
         const search = searchs[0]
-        search.parentElement.removeChild(search)
+        search.parentElement?.removeChild(search)
       }
     },
     refreshLimit(limit) {

@@ -70,14 +70,39 @@ const resource = {
             ),
           ApplyPod: 0,
         }
+        if (data.spec.hard[`limits.nvidia.com/gpu`] &&
+          parseInt(data.spec.hard[`limits.nvidia.com/gpu`]) > 0) {
+          item.NvidiaGpu = parseFloat(sizeOfCpu(data.spec.hard['limits.nvidia.com/gpu']))
+          item.AllocatedNvidiaGpu = parseFloat(
+            data.status.allocated['limits.nvidia.com/gpu'] || 0,
+          )
+          item.ApplyNvidiaGpu = parseFloat(data.spec.hard['limits.nvidia.com/gpu']) -
+            parseFloat(data.status.allocated['limits.nvidia.com/gpu'] || 0)
+        }
+        if ((data.spec.hard[`tencent.com/vcuda-core`] &&
+          parseInt(data.spec.hard[`tencent.com/vcuda-core`]) > 0) ||
+          (data.spec.hard[`tencent.com/vcuda-memory`] &&
+            parseInt(data.spec.hard[`tencent.com/vcuda-memory`]) > 0)) {
+          item.TkeGpu = parseFloat(data.spec.hard['tencent.com/vcuda-core'])
+          item.AllocatedTkeGpu = parseFloat(
+            (data.status.allocated['tencent.com/vcuda-core'] || 0),
+          )
+          item.ApplyTkeGpu = parseFloat(data.spec.hard['tencent.com/vcuda-core']) -
+            (parseFloat(data.status.allocated['tencent.com/vcuda-core']) || 0)
+
+          item.TkeMemory = parseFloat(data.spec.hard['tencent.com/vcuda-memory'])
+          item.AllocatedTkeMemory = parseFloat(
+            (data.status.allocated['tencent.com/vcuda-memory'] || 0),
+          )
+          item.ApplyTkeMemory = parseFloat(data.spec.hard['tencent.com/vcuda-memory']) -
+            (parseFloat(data.status.allocated['tencent.com/vcuda-memory']) || 0)
+        }
         return item
       }
       return null
     },
     async m_resource_clusterQuota(clusterid, item) {
-      const data = await getClusterQuota(clusterid, {
-        noprocessing: true,
-      })
+      const data = await getClusterQuota(clusterid)
       const quota = {}
       if (data.resources) {
         quota.CpuRatio = data.oversoldConfig ? data.oversoldConfig.cpu : 1
@@ -107,6 +132,35 @@ const resource = {
         )
         quota.AllocatedStorage =
           quota.Storage - quota.UsedStorage + item.NowStorage
+
+        if (data.resources.capacity['limits.nvidia.com/gpu'] &&
+          parseInt(data.resources.capacity[`limits.nvidia.com/gpu`]) > 0) {
+          quota.NvidiaGpu =
+            parseFloat(data.resources.capacity['limits.nvidia.com/gpu'])
+          quota.UsedNvidiaGpu = parseFloat(
+            data.resources.tenantAllocated['limits.nvidia.com/gpu'] || 0,
+          )
+          quota.AllocatedNvidiaGpu = quota.NvidiaGpu - quota.UsedNvidiaGpu + (item.NowNvidiaGpu || 0)
+        }
+
+        if ((data.resources.capacity['tencent.com/vcuda-core'] &&
+          parseInt(data.resources.capacity[`tencent.com/vcuda-core`]) > 0) ||
+          (data.resources.capacity['tencent.com/vcuda-memory'] &&
+            parseInt(data.resources.capacity[`tencent.com/vcuda-memory`]) > 0)) {
+          quota.TkeGpu =
+            parseFloat(data.resources.capacity['tencent.com/vcuda-core'])
+          quota.UsedTkeGpu = parseFloat(
+            data.resources.tenantAllocated['tencent.com/vcuda-core'] || 0,
+          )
+          quota.AllocatedTkeGpu = quota.TkeGpu - quota.UsedTkeGpu + (item.NowTkeGpu || 0)
+
+          quota.TkeMemory =
+            parseFloat(data.resources.capacity['tencent.com/vcuda-memory'])
+          quota.UsedTkeMemory = parseFloat(
+            data.resources.tenantAllocated['tencent.com/vcuda-memory'] || 0,
+          )
+          quota.AllocatedTkeMemory = quota.TkeMemory - quota.UsedTkeMemory + (item.NowTkeMemory || 0)
+        }
         return quota
       }
       return null
@@ -176,7 +230,7 @@ const resource = {
       for (var item in data) {
         if (data[item] === null) continue
         if (
-          ['pause', 'selfSigned'].indexOf(item) > -1 &&
+          ['pause', 'selfSigned', 'emptyDir'].indexOf(item) > -1 &&
           JSON.stringify(data[item]) === '{}'
         ) {
           newdata[item] = {}
@@ -184,6 +238,7 @@ const resource = {
         if (JSON.stringify(data[item]) === '[]') continue
         if (data[item] === '') continue
         if (typeof data[item] === 'string') {
+          data[item] = data[item].trim()
           if (
             data[item] !== '' &&
             !isNaN(data[item]) &&
@@ -225,7 +280,7 @@ const resource = {
             })
           }
         } else if (data[item] instanceof Object) {
-          if (JSON.stringify(data[item]) === '{}') continue
+          // if (JSON.stringify(data[item]) === '{}') continue
           if (
             [
               'annotations',

@@ -1,16 +1,15 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
-      <v-card-title class="py-2">
+      <v-card-title class="py-4">
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '存储卷名称', value: 'search' }"
           @refresh="m_filter_list"
         />
         <NamespaceFilter />
-        <v-spacer />
         <v-spacer />
         <v-menu
           v-if="m_permisson_resourceAllow"
@@ -108,30 +107,12 @@
             :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
               $PVC_STATUS_COLOR[
                 item.metadata.annotations
-                  ? item.metadata.annotations[`storage.${$DOMAIN}/in-use`]
+                  ? item.metadata.annotations[`storage.kubegems.io/in-use`]
                   : 'undefined'
               ]
             };`"
           />
-          <span
-            v-if="
-              !(
-                item.metadata.annotations &&
-                item.metadata.annotations[`storage.${$DOMAIN}/in-use`]
-              )
-            "
-          >
-            未知
-          </span>
-          <span
-            v-else-if="
-              item.metadata.annotations &&
-                item.metadata.annotations[`storage.${$DOMAIN}/in-use`] === 'true'
-            "
-          >
-            已挂载
-          </span>
-          <span v-else> 未挂载 </span>
+          <span> {{ getMountStatus(item) }} </span>
         </template>
         <template #[`item.accessMode`]="{ item }">
           {{ item.spec.accessModes[0] }}
@@ -189,10 +170,10 @@
                   v-if="
                     item.metadata.annotations &&
                       item.metadata.annotations[
-                        `storage.${$DOMAIN}/allow-snapshot`
+                        `storage.kubegems.io/allow-snapshot`
                       ] &&
                       item.metadata.annotations[
-                        `storage.${$DOMAIN}/allow-snapshot`
+                        `storage.kubegems.io/allow-snapshot`
                       ] === 'true'
                   "
                 >
@@ -272,11 +253,6 @@ export default {
   },
   mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
-    breadcrumb: {
-      title: '存储卷',
-      tip: '存储卷(persistentVolumeClaim)供用户创建的工作负载使用，是将工作负载数据持久化的一种资源对象。',
-      icon: 'mdi-database',
-    },
     items: [],
     pageCount: 0,
     params: {
@@ -299,8 +275,8 @@ export default {
           sortable: false,
         },
         { text: '容量', value: 'storage', align: 'start', sortable: false },
-        { text: '挂载', value: 'mount', align: 'start', sortable: false },
-        { text: '创建时间', value: 'createAt', align: 'start' },
+        { text: '挂载', value: 'mount', align: 'start', sortable: false, width: 120 },
+        { text: '创建时间', value: 'createAt', align: 'start', width: 200 },
       ]
       if (this.m_permisson_resourceAllow) {
         items.push({
@@ -317,6 +293,7 @@ export default {
           value: 'namespace',
           align: 'start',
           sortable: false,
+          width: 300,
         })
       }
       return items
@@ -376,9 +353,9 @@ export default {
     persistentVolumeClaimDetail(item) {
       this.$router.push({
         name: 'persistentvolumeclaim-detail',
-        params: {
+        params: Object.assign(this.$route.params, {
           name: item.metadata.name,
-        },
+        }),
         query: {
           namespace: item.metadata.namespace,
         },
@@ -443,6 +420,15 @@ export default {
     },
     onPageIndexChange(page) {
       this.params.page = page
+    },
+    getMountStatus(item) {
+      if (item.metadata.annotations && item.metadata.annotations[`storage.kubegems.io/in-use`] === 'true') {
+        return '已挂载'
+      }
+      if (item.metadata.annotations && item.metadata.annotations[`storage.kubegems.io/in-use`] === 'false') {
+        return '未挂载'
+      }
+      return '未知'
     },
   },
 }

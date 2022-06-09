@@ -10,7 +10,7 @@
       label="文件"
       hide-selected
       hide-details
-      class="mb-2"
+      class="mb-3"
       no-data-text="暂无可选数据"
       style="width: 500px;"
       @change="onFileChange"
@@ -47,7 +47,7 @@ export default {
   computed: {
     ...mapState(['Scale']),
     height() {
-      return window.innerHeight
+      return window.innerHeight - 300 * this.Scale
     },
   },
   watch: {

@@ -28,7 +28,7 @@
           <v-tabs
             v-model="tab"
             class="px-2"
-            height="50"
+            height="40"
             fixed-tabs
             @change="onTabChange"
           >
@@ -274,8 +274,8 @@ export default {
     },
     addData() {
       if (this.checkData()) {
-        if (this.$refs.containerImageSelect.$refs.form.validate(true)) {
-          this.updateComponentData(this.$refs.containerImageSelect.obj, false)
+        if (this.$refs.containerImageSelect.validate()) {
+          this.updateComponentData(this.$refs.containerImageSelect.getData(), false)
           this.closeCard()
         }
       }
@@ -380,6 +380,21 @@ export default {
           }
         }
       }
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    validate() {
+      return this.$refs.form.validate(true)
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    checkSaved() {
+      if (Object.prototype.hasOwnProperty.call(this, 'expand')) {
+        return !this.expand
+      }
+      return true
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    getData() {
+      return this.obj
     },
   },
 }

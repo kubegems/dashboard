@@ -52,8 +52,8 @@ export default {
       this.dialog = true
     },
     async addIstioGatewayInstance() {
-      if (this.$refs[this.formComponent].$refs.form.validate(true)) {
-        const data = this.$refs[this.formComponent].obj
+      if (this.$refs[this.formComponent].validate()) {
+        const data = this.$refs[this.formComponent].getData()
         await postAddIstioGatewayInstance(
           this.VirtualSpace().ID,
           this.$route.query.clusterid,

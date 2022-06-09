@@ -1,103 +1,129 @@
 <template>
-  <v-flex>
-    <v-card flat>
-      <v-card-text class="px-6">
-        <v-form
-          ref="infoForm"
-          v-model="validInfo"
-          lazy-validation
-          @submit.prevent
-        >
-          <v-row>
-            <v-col cols="12">
-              <v-flex class="text-subtitle-2 kubegems__detail"> 邮箱 </v-flex>
-              <v-text-field
-                v-model="objInfo.Email"
-                :rules="objInfoRules.emailRules"
-                dense
-                class="pt-0"
-              />
-            </v-col>
-            <v-col cols="12">
-              <v-flex class="text-subtitle-2 kubegems__detail"> 手机号 </v-flex>
-              <v-text-field
-                v-model="objInfo.Phone"
-                :rules="objInfoRules.phoneRules"
-                dense
-                class="pt-0"
-              />
-            </v-col>
-          </v-row>
-          <v-btn
-            color="primary"
-            small
-            class="my-4"
-            @click="updateUser"
-          >
-            更新个人信息
-          </v-btn>
-        </v-form>
-      </v-card-text>
-    </v-card>
-    <BaseDivider />
-    <v-card flat>
-      <v-card-text class="px-6">
-        <v-form
-          ref="pwdForm"
-          v-model="validPwd"
-          lazy-validation
-          @submit.prevent
-        >
-          <v-row>
-            <v-col cols="12">
-              <v-flex class="text-subtitle-2 kubegems__detail"> 原密码 </v-flex>
-              <v-text-field
-                v-model="objPwd.origin"
-                class="my-0"
-                :rules="objPwdRules.originRules"
-                dense
-                :append-icon="showOrigin ? 'mdi-eye' : 'mdi-eye-off'"
-                :type="showOrigin ? 'text' : 'password'"
-                @click:append="showOrigin = !showOrigin"
-              />
-            </v-col>
-            <v-col cols="12">
-              <v-flex class="text-subtitle-2 kubegems__detail"> 新密码 </v-flex>
-              <v-text-field
-                v-model="objPwd.new1"
-                class="my-0"
-                :rules="objPwdRules.new1Rules"
-                dense
-                :append-icon="showNew1 ? 'mdi-eye' : 'mdi-eye-off'"
-                :type="showNew1 ? 'text' : 'password'"
-                @click:append="showNew1 = !showNew1"
-              />
-            </v-col>
-            <v-col cols="12">
-              <v-flex class="text-subtitle-2 kubegems__detail"> 确认新密码 </v-flex>
-              <v-text-field
-                v-model="objPwd.new2"
-                class="my-0"
-                :rules="objPwdRules.new2Rules"
-                dense
-                :append-icon="showNew2 ? 'mdi-eye' : 'mdi-eye-off'"
-                :type="showNew2 ? 'text' : 'password'"
-                @click:append="showNew2 = !showNew2"
-              />
-            </v-col>
-          </v-row>
-          <v-btn
-            color="primary"
-            small
-            class="my-4"
-            @click="resetPassword"
-          >
-            更新密码
-          </v-btn>
-        </v-form>
-      </v-card-text>
-    </v-card>
-  </v-flex>
+  <div>
+    <v-row>
+      <v-col cols="6">
+        <v-card flat>
+          <v-card-text class="pa-2">
+            <BaseSubTitle
+              title="个人信息"
+              :divider="false"
+            />
+            <v-form
+              ref="infoForm"
+              v-model="validInfo"
+              class="px-4"
+              lazy-validation
+              @submit.prevent
+            >
+              <v-row class="mt-0">
+                <v-col cols="12">
+                  <v-flex class="text-subtitle-2 kubegems__text"> 邮箱 </v-flex>
+                  <v-text-field
+                    v-model="objInfo.Email"
+                    :rules="objInfoRules.emailRules"
+                    dense
+                    solo
+                    flat
+                    class="pt-0"
+                  />
+                </v-col>
+                <v-col cols="12">
+                  <v-flex class="text-subtitle-2 kubegems__text"> 手机号 </v-flex>
+                  <v-text-field
+                    v-model="objInfo.Phone"
+                    :rules="objInfoRules.phoneRules"
+                    dense
+                    solo
+                    flat
+                    class="pt-0"
+                  />
+                </v-col>
+              </v-row>
+              <v-btn
+                color="primary"
+                small
+                class="my-4"
+                @click="updateUser"
+              >
+                更新个人信息
+              </v-btn>
+            </v-form>
+          </v-card-text>
+        </v-card>
+      </v-col>
+
+      <v-col cols="6">
+        <v-card flat>
+          <v-card-text class="pa-2">
+            <BaseSubTitle
+              title="密码"
+              :divider="false"
+            />
+            <v-form
+              ref="pwdForm"
+              v-model="validPwd"
+              class="px-4"
+              lazy-validation
+              @submit.prevent
+            >
+              <v-row class="mt-0">
+                <v-col cols="12">
+                  <v-flex class="text-subtitle-2 kubegems__text"> 原密码 </v-flex>
+                  <v-text-field
+                    v-model="objPwd.origin"
+                    class="my-0"
+                    :rules="objPwdRules.originRules"
+                    dense
+                    solo
+                    flat
+                    :append-icon="showOrigin ? 'mdi-eye' : 'mdi-eye-off'"
+                    :type="showOrigin ? 'text' : 'password'"
+                    @click:append="showOrigin = !showOrigin"
+                  />
+                </v-col>
+                <v-col cols="12">
+                  <v-flex class="text-subtitle-2 kubegems__text"> 新密码 </v-flex>
+                  <v-text-field
+                    v-model="objPwd.new1"
+                    class="my-0"
+                    :rules="objPwdRules.new1Rules"
+                    dense
+                    solo
+                    flat
+                    :append-icon="showNew1 ? 'mdi-eye' : 'mdi-eye-off'"
+                    :type="showNew1 ? 'text' : 'password'"
+                    @click:append="showNew1 = !showNew1"
+                  />
+                </v-col>
+                <v-col cols="12">
+                  <v-flex class="text-subtitle-2 kubegems__text"> 确认新密码 </v-flex>
+                  <v-text-field
+                    v-model="objPwd.new2"
+                    class="my-0"
+                    :rules="objPwdRules.new2Rules"
+                    dense
+                    solo
+                    flat
+                    :append-icon="showNew2 ? 'mdi-eye' : 'mdi-eye-off'"
+                    :type="showNew2 ? 'text' : 'password'"
+                    @click:append="showNew2 = !showNew2"
+                  />
+                </v-col>
+              </v-row>
+              <v-btn
+                color="primary"
+                small
+                class="my-4"
+                @click="resetPassword"
+              >
+                更新密码
+              </v-btn>
+            </v-form>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>

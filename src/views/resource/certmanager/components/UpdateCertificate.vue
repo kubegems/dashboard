@@ -31,14 +31,14 @@
         :key="switchKey"
         v-model="yaml"
         class="ma-0 pl-2 ml-2 mt-1"
-        style="margin-top: 6px !important;"
-        color="primary"
+        style="margin-top: 8px !important;"
+        color="white"
         hide-details
         @change="onYamlSwitchChange"
       >
         <template #label>
-          <span class="text-subject-1 primary--text font-weight-medium">
-            Yaml
+          <span class="text-subject-1 white--text font-weight-medium">
+            YAML
           </span>
         </template>
       </v-switch>
@@ -76,8 +76,9 @@ export default {
       this.dialog = true
     },
     async updateCertificate() {
-      if (this.$refs[this.formComponent].$refs.form.validate(true)) {
-        if (this.$refs[this.formComponent].obj.spec.dnsNames.length === 0) {
+      if (this.$refs[this.formComponent].validate()) {
+        const hasDns = this.$refs[this.formComponent].getData()?.spec?.dnsNames?.length > 0
+        if (!hasDns) {
           this.$store.commit('SET_SNACKBAR', {
             text: '请添加域名',
             color: 'warning',
@@ -86,14 +87,14 @@ export default {
         }
         let data = ''
         if (this.formComponent === 'BaseYamlForm') {
-          data = this.$refs[this.formComponent].kubeyaml
+          data = this.$refs[this.formComponent].getYaml()
           data = this.$yamlload(data)
           if (!this.m_resource_validateJsonSchema(this.schema, data)) {
             return
           }
           data = this.m_resource_beautifyData(data)
         } else if (this.formComponent === 'CertificateBaseForm') {
-          data = this.$refs[this.formComponent].obj
+          data = this.$refs[this.formComponent].getData()
           data = this.m_resource_beautifyData(data)
         }
         const namespace = this.AdminViewport
@@ -123,7 +124,7 @@ export default {
     },
     onYamlSwitchChange() {
       if (this.yaml) {
-        const data = this.$refs[this.formComponent].obj
+        const data = this.$refs[this.formComponent].getData()
         this.m_resource_addNsToData(
           data,
           this.AdminViewport
@@ -135,7 +136,7 @@ export default {
           this.$refs[this.formComponent].setYaml(this.$yamldump(data))
         })
       } else {
-        const yaml = this.$refs[this.formComponent].kubeyaml
+        const yaml = this.$refs[this.formComponent].getYaml()
         const data = this.$yamlload(yaml)
         this.m_resource_addNsToData(
           data,

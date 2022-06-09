@@ -86,7 +86,6 @@ export default {
         this.Project().ID,
         this.Environment().ID,
         this.$route.params.name,
-        { noprocessing: true },
       )
       this.replicas = data.replicas
       this.obj.replicas = data.replicas

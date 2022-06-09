@@ -2,8 +2,7 @@
   <div>
     <v-menu
       open-on-hover
-      max-height="400px"
-      max-width="250px"
+      max-width="200px"
       right
       :close-on-content-click="false"
       :top="top"
@@ -28,20 +27,20 @@
         </span>
       </template>
       <v-card>
+        <v-flex class="text-body-2 text-center primary white--text py-2">
+          <v-icon
+            color="white"
+            left
+            small
+          >
+            mdi-certificate
+          </v-icon>
+          <span>证书信息</span>
+        </v-flex>
         <v-list
           dense
-          class="pa-0"
+          class="pa-0 kubegems__tip"
         >
-          <v-flex class="text-body-2 text-center primary white--text py-2">
-            <v-icon
-              color="white"
-              left
-              small
-            >
-              mdi-certificate
-            </v-icon>
-            <span>证书信息</span>
-          </v-flex>
           <v-list-item>
             <v-list-item-content>
               <template
@@ -52,7 +51,7 @@
                 "
               >
                 <v-list-item-title> 通用名称 </v-list-item-title>
-                <v-list-item-content class="text-caption kubegems__detail">
+                <v-list-item-content class="text-caption kubegems__text">
                   {{ item['tls.crt'].subject.common_name }}
                 </v-list-item-content>
               </template>
@@ -64,7 +63,7 @@
                 "
               >
                 <v-list-item-title> 组织 </v-list-item-title>
-                <v-list-item-content class="text-caption kubegems__detail">
+                <v-list-item-content class="text-caption kubegems__text">
                   {{ item['tls.crt'].subject.organization }}
                 </v-list-item-content>
               </template>
@@ -76,32 +75,32 @@
                 "
               >
                 <v-list-item-title> 部门 </v-list-item-title>
-                <v-list-item-content class="text-caption kubegems__detail">
+                <v-list-item-content class="text-caption kubegems__text">
                   {{ item['tls.crt'].subject.organizational_unit }}
                 </v-list-item-content>
               </template>
               <template v-if="item['tls.crt'] && item['tls.crt'].sigalg">
                 <v-list-item-title> 签名算法 </v-list-item-title>
-                <v-list-item-content class="text-caption kubegems__detail">
+                <v-list-item-content class="text-caption kubegems__text">
                   {{ item['tls.crt'].sigalg }}
                 </v-list-item-content>
               </template>
               <template v-if="item['tls.crt'] && item['tls.crt'].not_before">
                 <v-list-item-title> 颁发时间 </v-list-item-title>
-                <v-list-item-content class="text-caption kubegems__detail">
+                <v-list-item-content class="text-caption kubegems__text">
                   {{ $moment(item['tls.crt'].not_before).format('lll') }}
                 </v-list-item-content>
               </template>
               <template v-if="item['tls.crt'] && item['tls.crt'].not_after">
                 <v-list-item-title> 过期时间 </v-list-item-title>
-                <v-list-item-content class="text-caption kubegems__detail">
+                <v-list-item-content class="text-caption kubegems__text">
                   {{ $moment(item['tls.crt'].not_after).format('lll') }}
                 </v-list-item-content>
               </template>
               <template v-if="item['tls.crt'] && item['tls.crt'].serial_number">
                 <v-list-item-title> 序列号 </v-list-item-title>
                 <v-list-item-content
-                  class="text-caption kubegems__detail v-list-item__content"
+                  class="text-caption kubegems__text v-list-item__content"
                 >
                   {{ item['tls.crt'].serial_number }}
                 </v-list-item-content>

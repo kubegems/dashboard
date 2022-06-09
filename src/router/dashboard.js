@@ -1,4 +1,4 @@
-const prefix = 'tenants/:tenant'
+const prefix = 'tenants/:tenant?'
 
 export const dashboard = [
   {
@@ -29,6 +29,7 @@ export const dashboard = [
               icon: 'mdi-view-dashboard',
               show: true,
               rootName: 'dashboard',
+              tip: 'dashboard',
             },
           },
         ],
@@ -55,6 +56,7 @@ export const dashboard = [
               icon: 'mdi-cube-outline',
               show: true,
               rootName: 'dashboard',
+              tip: 'project',
             },
           },
         ],

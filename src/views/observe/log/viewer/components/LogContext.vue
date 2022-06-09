@@ -1,273 +1,161 @@
 <template>
   <BaseFullScreenDialog
-    v-model="panel"
+    v-model="visible"
     title="日志上下文"
     icon="mdi-note-text"
-    @dispose="dispose"
+    @dispose="handleDispose"
   >
     <template #content>
-      <v-card
-        id="log-context"
-        :style="`height: ${height}px; overflow: auto;`"
-      >
-        <v-card-title class="pa-1">
-          <v-spacer />
+      <v-card class="log-context">
+        <div class="text-center py-3">
           <v-btn
             text
             x-small
-            :loading="loadingPreview"
             color="primary"
-            @click="loadPreview"
+            :loading="loading.preview"
+            @click="handleLoadPreview"
           >
             向前加载10条数据
           </v-btn>
-          <v-spacer />
-        </v-card-title>
-        <v-data-table
-          disable-sort
-          :headers="headers"
-          :items="itemsPreview"
-          loading-text="载入中..."
-          item-key="info.timestamp"
-          disable-pagination
-          hide-default-header
-          hide-default-footer
-          no-data-text="暂无数据"
-          dense
-        >
-          <template #[`item.info`]="{ item }">
-            <div
-              :class="'v-list-item-html v-list-item-' + item.level"
-              v-html="item.message"
-            />
-          </template>
-        </v-data-table>
-        <v-data-table
-          disable-sort
-          :headers="headers"
-          :items="items"
-          item-key="info.timestamp"
-          disable-pagination
-          hide-default-header
-          hide-default-footer
-          no-data-text="无数据"
-          dense
-        >
-          <template #[`item.info`]="{ item }">
-            <div
-              :class="'v-list-item-html v-list-item-' + item.level"
-              style="color: #1976d2 !important;"
-              v-html="item.message"
-            />
-          </template>
-        </v-data-table>
-        <v-data-table
-          disable-sort
-          :headers="headers"
-          :items="itemsNext"
-          loading-text="载入中..."
-          item-key="info.timestamp"
-          disable-pagination
-          hide-default-header
-          hide-default-footer
-          no-data-text="暂无数据"
-          dense
-        >
-          <template #[`item.info`]="{ item }">
-            <div
-              :class="'v-list-item-html v-list-item-' + item.level"
-              v-html="item.message"
-            />
-          </template>
-        </v-data-table>
-        <v-card-title class="pa-1">
-          <v-spacer />
+        </div>
+
+        <LogTable
+          :items="items.preview"
+          mode="context"
+        />
+
+        <LogTable
+          :items="items.current"
+          highlight
+          mode="context"
+        />
+
+        <LogTable
+          :items="items.next"
+          mode="context"
+        />
+
+        <div class="text-center py-3">
           <v-btn
             text
             x-small
-            :loading="loadingNext"
             color="primary"
-            @click="loadNext"
+            :loading="loading.next"
+            @click="handleLoadNext"
           >
             向后加载10条数据
           </v-btn>
-          <v-spacer />
-        </v-card-title>
+        </div>
       </v-card>
     </template>
   </BaseFullScreenDialog>
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import { getLogContext } from '@/api'
+import LogTable from './LogTable'
 
 export default {
-  name: 'LogViewerContext',
-  props: {
-    currentCluster: {
-      type: Object,
-      default: () => null,
-    },
+  name: 'LogContext',
+  components: {
+    LogTable,
   },
-  data: () => ({
-    timestamp: '',
-    logQL: '',
-    panel: false,
-    loadingPreview: false,
-    loadingNext: false,
-    itemsPreview: [],
-    itemsNext: [],
-    items: [],
-    headers: [{ text: '', value: 'info', align: 'start' }],
-  }),
-  computed: {
-    ...mapState(['Scale']),
-    height() {
-      return (window.innerHeight - 64) / this.Scale
-    },
+  data () {
+    return {
+      visible: false,
+      items: {
+        current: [],
+        preview: [],
+        next: [],
+      },
+      loading: {
+        next: false,
+        preview: false,
+      },
+      params: {},
+    }
   },
   methods: {
     // eslint-disable-next-line vue/no-unused-properties
-    open() {
-      this.panel = true
+    showContext (item, params) {
+      this.visible = true
+      this.items.current = [{
+        message: item.info.message,
+        timestamp: item.info.timestamp,
+        level: item.info.level,
+      }]
+      this.params = params
+      this.handleLoadPreview()
+      this.handleLoadNext()
     },
-    async logContext(getdata) {
-      const data = await getLogContext(
-        getdata.ClusterName,
-        Object.assign(getdata, { noprocessing: true }),
-      )
-      if (getdata.direction === 'backward') {
-        data.sort((a, b) => {
-          return a.timestamp - b.timestamp
-        })
-        if (getdata.append) {
-          data.reverse()
-          this.itemsPreview.reverse()
-          data.forEach((item) => {
-            this.itemsPreview.push(item)
-          })
-          this.itemsPreview.reverse()
-        } else {
-          this.itemsPreview = data
-        }
-      } else if (getdata.direction === 'forward') {
-        data.sort((a, b) => {
-          return a.timestamp - b.timestamp
-        })
-        if (getdata.append) {
-          data.forEach((item) => {
-            this.itemsNext.push(item)
-          })
-        } else {
-          this.itemsNext = data
-        }
+    async getLogContext (startTime, endTime, direction) {
+      const params = {
+        ClusterID: this.params.ClusterID,
+        ClusterName: this.params.ClusterName,
+        query: this.params.query,
+        start: startTime,
+        end: endTime,
+        limit: 11,
+        noprocessing: true,
+        direction: direction,
       }
+      const data = await getLogContext(this.params.ClusterName, params)
+      data.sort((a, b) => a.timestamp - b.timestamp)
+      return await data
     },
-    async loadPreview() {
-      this.loadingPreview = true
-      let timestamp = (' ' + this.timestamp).slice(1)
-      if (this.itemsPreview.length > 0) {
-        timestamp = (' ' + this.itemsPreview[0].timestamp).slice(1)
-      }
-      const previewStart =
-        Date.parse(
-          new Date(
-            new Date(parseInt(timestamp.substr(0, 13))).setHours(
-              new Date(parseInt(timestamp.substr(0, 13))).getHours() - 3,
-            ),
-          ),
-        ) + '000000'
-      const previewEnd = (parseInt(timestamp) - 100000).toString()
-      await this.logContext({
-        ClusterID: this.currentCluster.value,
-        ClusterName: this.currentCluster.text,
-        query: this.logQL,
-        direction: 'backward',
-        start: previewStart,
-        end: previewEnd,
-        append: true,
-        limit: 20,
-      })
-      this.loadingPreview = false
+    async handleLoadPreview () {
+      this.loading.preview = true
+      const timestamp = (this.items.preview.length ? this.items.preview[0].timestamp : this.params.timestamp).toString()
+      const start = new Date(parseInt(timestamp.substr(0, 13)) - 1000 * 60 * 60 * 3).getTime() + '000000'
+      const end = parseInt(timestamp).toString()
+      const data = await this.getLogContext(start, end, 'backward')
+      data.shift()
+      this.items.preview = [...data, ...this.items.preview]
+      this.loading.preview = false
     },
-    async loadNext() {
-      this.loadingNext = true
-      let timestamp = (' ' + this.timestamp).slice(1)
-      if (this.itemsNext.length > 0) {
-        timestamp = (
-          ' ' + this.itemsNext[this.itemsNext.length - 1].timestamp
-        ).slice(1)
-      }
-      const nextStart = (parseInt(timestamp) + 100000).toString()
-      const nextEnd =
-        Date.parse(
-          new Date(
-            new Date(parseInt(timestamp.substr(0, 13))).setHours(
-              new Date(parseInt(timestamp.substr(0, 13))).getHours() + 3,
-            ),
-          ),
-        ) + '000000'
-      await this.logContext({
-        ClusterID: this.currentCluster.value,
-        ClusterName: this.currentCluster.text,
-        query: this.logQL,
-        direction: 'forward',
-        start: nextStart,
-        end: nextEnd,
-        append: true,
-        limit: 20,
-      })
-      this.loadingNext = false
+    async handleLoadNext () {
+      this.loading.next = true
+      const timestamp = (this.items.next.length
+        ? this.items.next[this.items.next.length - 1].timestamp
+        : this.params.timestamp).toString()
+      const start = parseInt(timestamp).toString()
+      const end = new Date(parseInt(timestamp.substr(0, 13)) + 1000 * 60 * 60 * 3).getTime() + '000000'
+      const data = await this.getLogContext(start, end, 'forward')
+      data.shift()
+      this.items.next = [...this.items.next, ...data]
+      this.loading.next = false
     },
-    dispose() {
-      this.itemsPreview = []
-      this.itemsNext = []
+    handleDispose () {
+      this.items.current = []
+      this.items.preview = []
+      this.items.next = []
+      this.loading.preview = false
+      this.loading.next = false
     },
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.v-list-item-html {
-  font-size: 13px;
-  font-weight: normal;
-  padding: 1px 10px;
-  margin: 2px 0;
-  line-height: 1.2 !important;
-  word-break: break-all;
-  min-height: 0 !important;
-}
-.v-list-item-warn {
-  border-left: 3px solid #fb8c00 !important;
-}
-.v-list-item-info {
-  border-left: 3px solid #00bcd4 !important;
-}
-.v-list-item-debug {
-  border-left: 3px solid #1e88e5 !important;
-}
-.v-list-item-error {
-  border-left: 3px solid #ff5252 !important;
-}
-.v-list-item-unknown {
-  border-left: 3px solid #607d8b !important;
-}
-.v-list--dense .v-list-item,
-.v-list-item--dense {
-  min-height: 0 !important;
-}
+.log-context {
+  position: absolute;
+  top: 64px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: auto;
 
-#log-context::-webkit-scrollbar {
-  display: block !important;
-}
-#log-context::-webkit-scrollbar-thumb {
-  width: 10px;
-  border-radius: 5px;
-  background: grey;
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-}
-#log-context::-webkit-scrollbar:vertical {
-  width: 10px;
+  &::-webkit-scrollbar {
+    display: block !important;
+  }
+  &::-webkit-scrollbar-thumb {
+    width: 10px;
+    border-radius: 5px;
+    background: grey;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  }
+  &::-webkit-scrollbar:vertical {
+    width: 10px;
+  }
 }
 </style>

@@ -1,10 +1,11 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-sheet class="text-body-2 text--darken-1">
-            <BaseDatetimePicker2
+            <BaseDatetimePicker
+              ref="datetimePicker"
               v-model="date"
               :default-value="30"
               default-value-for-query
@@ -33,15 +34,15 @@
       </template>
     </BaseBreadcrumb>
     <v-card>
-      <v-card-title class="py-2">
+      <v-card-title class="py-4">
         <BaseFilter
           :filters="filters"
-          :default="{ items: [], text: '审计对象名称', value: 'search' }"
+          :default="{ items: [], text: '检索', value: 'search' }"
           @refresh="filterList"
         />
       </v-card-title>
       <v-data-table
-        class="mx-4"
+        class="mx-4 kubegems__table-row-pointer"
         disable-sort
         :headers="headers"
         :items="items"
@@ -136,11 +137,6 @@ export default {
   components: {},
   mixins: [BaseFilter, BaseSelect],
   data: () => ({
-    breadcrumb: {
-      title: '审计',
-      tip: '针对项目空间，环境空间，资源等多维度操作审计查询。',
-      icon: 'mdi-history',
-    },
     items: [],
     headers: [
       { text: '时间', value: 'createdAt', align: 'start', width: 220 },
@@ -165,13 +161,14 @@ export default {
       order: '-CreatedAt',
     },
     yaml: '',
+    userItems: [],
   }),
   computed: {
     ...mapState(['JWT', 'Admin', 'AdminViewport']),
     ...mapGetters(['Tenant']),
     filters() {
       const userItems = []
-      this.m_select_tenantUserItems.forEach((user) => {
+      this.userItems.forEach((user) => {
         userItems.push({
           text: user.text,
           value: user.text,
@@ -179,7 +176,7 @@ export default {
         })
       })
       return [
-        { text: '审计对象名称', value: 'search', items: [] },
+        { text: '检索', value: 'search', items: [] },
         {
           text: '用户',
           value: 'Username',
@@ -231,8 +228,12 @@ export default {
       this.$router.replace({ query: { ...this.$route.query, ...this.params } })
     },
     async generateSelectData() {
-      if (this.JWT) {
+      if (this.AdminViewport) {
+        await this.m_select_userSelectData()
+        this.userItems = this.m_select_userItems
+      } else {
         await this.m_select_tenantUserSelectData()
+        this.userItems = this.m_select_tenantUserItems
       }
     },
     async onDatetimeChange() {
@@ -263,6 +264,7 @@ export default {
       this.auditList()
     },
     refresh() {
+      this.$refs.datetimePicker.refresh()
       this.onDatetimeChange()
     },
     toYaml({ item, value }) {

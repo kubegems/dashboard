@@ -52,8 +52,8 @@ export default {
       this.dialog = true
     },
     async updateDNSDomain() {
-      if (this.$refs[this.formComponent].$refs.form.validate(true)) {
-        const data = this.$refs[this.formComponent].obj
+      if (this.$refs[this.formComponent].validate()) {
+        const data = this.$refs[this.formComponent].getData()
         await putUpdateDNSDomain(data.ID, data)
         this.reset()
         this.$emit('refresh')
@@ -62,10 +62,10 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     async init(item) {
       const data = await getDnsDomainDetail(item.ID)
-      this.$refs.DNSDomainBaseForm.obj = {
+      this.$refs.DNSDomainBaseForm.setData({
         ...data,
         VirtualDomainID: data.ID,
-      }
+      })
     },
     reset() {
       this.dialog = false

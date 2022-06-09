@@ -22,7 +22,7 @@
               border="left"
               colored-border
               rounded="0"
-              class="mt-1 mx-2 text-body-2 py-4"
+              class="mt-3 mx-2 text-body-2 py-4"
               :color="`${adviseItem.Color === 'red' ? 'error' : 'warning'}`"
               elevation="1"
             >
@@ -146,7 +146,7 @@ export default {
         this.item &&
         this.item.metadata &&
         this.item.metadata.annotations &&
-        this.item.metadata.annotations[`gems.${process.env.VUE_APP_DOMAIN}/ref`]
+        this.item.metadata.annotations[`gems.kubegems.io/ref`]
       )
     },
   },

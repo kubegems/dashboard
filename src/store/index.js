@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import router from '@/router'
 import { getCookie, delAllCookie } from '@/utils/cookie'
 import { sleep } from '@/utils/helpers'
-import { getClusterPluginsList } from '@/api'
+import { getClusterPluginsList, getRESTMapping } from '@/api'
 import {
   getVirtualSpaceSelectData,
   getClusterSelectData,
@@ -30,7 +30,8 @@ const LatestTenant = 'latesttenant'
 const LatestProject = 'latestproject'
 const LatestEnvironment = 'latestenvironment'
 const LatestCluster = 'latestcluster'
-const Store = 'store'
+const Version = 'version'
+const ApiResources = 'api-resources'
 
 export default new Vuex.Store({
   state: {
@@ -52,11 +53,11 @@ export default new Vuex.Store({
     },
     Circular: false,
     Admin:
-      [true, 'true'].indexOf(window.localStorage.getItem(Admin)) > -1,
+      [true, 'true'].includes(window.localStorage.getItem(Admin)),
     AdminViewport:
-      [true, 'true'].indexOf(
+      [true, 'true'].includes(
         window.localStorage.getItem(AdminViewport),
-      ) > -1,
+      ),
     NamespaceFilter: null,
     SidebarKey: '',
     MessageStreamWS: null,
@@ -81,22 +82,36 @@ export default new Vuex.Store({
       JSON.parse(window.localStorage.getItem(LatestEnvironment)) ||
       {
         environment: '',
+        cluster: '',
       },
     LatestCluster: JSON.parse(window.localStorage.getItem(LatestCluster)) || {
       cluster: '',
     },
     ReconnectCount: 0,
-    Store: window.localStorage.getItem(Store) || 'app',
     PluginsInterval: null,
+    DialogActive: false,
+    PanelActive: false,
+    FullDialogActive: false,
+    Version: window.localStorage.getItem(Version) || '',
+    ApiResources: JSON.parse(window.localStorage.getItem(ApiResources)) || {},
   },
   mutations: {
     SET_PLUGINS(state, payload) {
       state.Plugins = payload
       window.localStorage.setItem(Plugins, JSON.stringify(payload))
     },
-    SET_STORE(state, payload) {
-      state.Store = payload
-      window.localStorage.setItem(Store, payload)
+    SET_DIALOG(state, payload) {
+      state.DialogActive = payload
+    },
+    SET_VERSION(state, payload) {
+      state.Version = payload
+      window.localStorage.setItem(Version, payload)
+    },
+    SET_PANEL(state, payload) {
+      state.PanelActive = payload
+    },
+    SET_FULL_DIALOG(state, payload) {
+      state.FullDialogActive = payload
     },
     SET_SIDEBAR_DRAWER(state, payload) {
       state.SidebarDrawer = payload
@@ -192,6 +207,10 @@ export default new Vuex.Store({
       state.JWT = jwt
       window.localStorage.setItem(JWTName, jwt)
     },
+    SET_API_RESOURCES(state, payload) {
+      state.ApiResources = payload
+      window.localStorage.setItem(ApiResources, JSON.stringify(payload))
+    },
     CLEARALL(state) {
       delAllCookie()
       window.localStorage.clear()
@@ -214,7 +233,7 @@ export default new Vuex.Store({
       state.LatestProject = { project: '' }
       state.LatestEnvoronment = { environment: '' }
       state.LatestCluster = { cluster: '' }
-      state.Store = 'app'
+      state.ApiResources = {}
     },
     CLEAR_PLUGINS_INTERVAL(state) {
       clearInterval(state.PluginsInterval)
@@ -350,7 +369,7 @@ export default new Vuex.Store({
       if (!state.PluginsInterval && state.JWT) {
         const r = await doFunc()
         if (r) {
-          state.PluginsInterval = setInterval(doFunc, 1000 * 60)
+          state.PluginsInterval = setInterval(doFunc, 1000 * 30)
         }
       }
     },
@@ -382,6 +401,17 @@ export default new Vuex.Store({
           }
         }
       }
+    },
+    async LOAD_RESTMAPPING_RESOURCES({ commit }, payload) {
+      if (!payload.clusterName) return
+      const data = await getRESTMapping(payload.clusterName)
+      const resource = {}
+      data.forEach(d => {
+        d?.resources?.forEach(r => {
+          resource[r.kind.toLocaleLowerCase()] = d.groupVersion
+        })
+      })
+      commit('SET_API_RESOURCES', resource)
     },
   },
   getters: {
@@ -448,6 +478,7 @@ export default new Vuex.Store({
               return {
                 ID: 0,
                 ClusterName: '',
+                Version: '',
               }
             }
           }
@@ -455,6 +486,7 @@ export default new Vuex.Store({
         return {
           ID: 0,
           ClusterName: '',
+          Version: '',
         }
       } else if (store.length > 0) {
         return store[0]
@@ -462,6 +494,7 @@ export default new Vuex.Store({
       return {
         ID: 0,
         ClusterName: '',
+        Version: '',
       }
     },
     Tenant: (state) => () => {
@@ -536,6 +569,7 @@ export default new Vuex.Store({
           ClusterName: '',
           ClusterID: 0,
           Type: '',
+          Version: '',
         }
       }
       return {
@@ -545,6 +579,7 @@ export default new Vuex.Store({
         ClusterName: '',
         ClusterID: 0,
         Type: '',
+        Version: '',
       }
     },
   },

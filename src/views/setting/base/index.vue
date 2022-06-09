@@ -1,8 +1,8 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
-      <v-card-title class="py-2 kubegems__detail text-subtitle-1">Installer Operator设置</v-card-title>
+      <v-card-title class="py-2 kubegems__text text-subtitle-1">Installer Operator设置</v-card-title>
       <v-form
         class="pa-4"
         lazy-validation
@@ -106,11 +106,6 @@ export default {
     SetInstallImage,
   },
   data: () => ({
-    breadcrumb: {
-      title: '基本配置',
-      tip: '平台基本配置, 包括平台审计, 平台组件等',
-      icon: 'mdi-brightness-7',
-    },
     installer: null,
   }),
   mounted() {

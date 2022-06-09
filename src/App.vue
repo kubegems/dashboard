@@ -23,16 +23,19 @@ export default {
     }
   },
   data() {
+    this.latestVersion = process.env.VUE_APP_RELEASE
     return {
       isReloadAlive: true,
     }
   },
   computed: {
-    ...mapState(['SnackBar', 'Scale']),
+    ...mapState(['SnackBar', 'Scale', 'Version']),
   },
   mounted() {
     // 初始化缩放
     this.initScale()
+    // 版本迭代清理本地缓存
+    this.clearLocalStorage()
   },
   methods: {
     reload() {
@@ -54,6 +57,17 @@ export default {
       }
       document.getElementsByTagName('body')[0].style.zoom = scale
       this.$store.commit('SET_SCALE', scale)
+    },
+    async clearLocalStorage() {
+      if (this.Version && this.Version !== this.latestVersion) {
+        this.$store.commit('CLEARALL')
+        await this.$router.push({ name: 'login' })
+        this.$store.commit('SET_SNACKBAR', {
+          text: `版本 ${this.latestVersion} 已发布，请重新登录`,
+          color: 'warning',
+        })
+        this.$store.commit('SET_VERSION', this.latestVersion)
+      }
     },
   },
 }

@@ -44,8 +44,8 @@
           <BaseSubTitle title="流量策略" />
           <v-tabs
             v-model="tab"
-            class="px-2"
-            height="50"
+            class="px-2 v-tabs--default"
+            height="40"
             fixed-tabs
           >
             <v-tab

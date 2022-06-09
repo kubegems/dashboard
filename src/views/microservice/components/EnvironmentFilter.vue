@@ -2,7 +2,7 @@
   <v-sheet>
     <v-sheet>
       <v-sheet
-        :class="`text-subtitle-2 ml-${ml} mt-2 float-left kubegems__detail font-weight-medium`"
+        :class="`text-subtitle-2 ml-${ml} mt-2 float-left kubegems__text font-weight-medium`"
       >
         应用环境
       </v-sheet>

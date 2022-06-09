@@ -111,7 +111,7 @@ export default {
     },
   }),
   computed: {
-    ...mapState(['EnvironmentFilter']),
+    ...mapState(['EnvironmentFilter', 'ApiResources']),
     ...mapGetters(['VirtualSpace']),
     objRules() {
       return {
@@ -126,6 +126,7 @@ export default {
   watch: {
     item() {
       this.$nextTick(() => {
+        this.obj.apiVersion = this.ApiResources['gateway'] || 'networking.istio.io/v1beta1'
         this.obj = deepCopy(this.item)
         this.obj.metadata.namespace = this.EnvironmentFilter.namespace
         this.loaddata()
@@ -141,9 +142,9 @@ export default {
   },
   methods: {
     loaddata() {
-      if (this.obj.spec.selector[`gems.${process.env.VUE_APP_DOMAIN}/istioGateway`]) {
+      if (this.obj.spec.selector[`gems.kubegems.io/istioGateway`]) {
         this.ingressgateway =
-          this.obj.spec.selector[`gems.${process.env.VUE_APP_DOMAIN}/istioGateway`]
+          this.obj.spec.selector[`gems.kubegems.io/istioGateway`]
       }
     },
     async istioGatewayInstanceList() {
@@ -164,9 +165,9 @@ export default {
     },
     onIngressgatewayChange() {
       this.obj.spec.selector = {}
-      this.obj.spec.selector[`gems.${process.env.VUE_APP_DOMAIN}/istioGateway`] =
+      this.obj.spec.selector[`gems.kubegems.io/istioGateway`] =
         this.ingressgateway
-      this.obj.spec.selector[`gems.${process.env.VUE_APP_DOMAIN}/virtualSpace`] =
+      this.obj.spec.selector[`gems.kubegems.io/virtualSpace`] =
         this.VirtualSpace().VirtualSpaceName
     },
     addServerData(data) {
@@ -201,6 +202,14 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     setData(data) {
       this.obj = data
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    getData() {
+      return this.obj
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    validate() {
+      return this.$refs.form.validate(true)
     },
   },
 }

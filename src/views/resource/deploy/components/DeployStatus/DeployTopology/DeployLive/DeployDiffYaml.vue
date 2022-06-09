@@ -31,7 +31,7 @@ export default {
   computed: {
     ...mapState(['Scale']),
     height() {
-      return window.innerHeight - 64 * this.Scale - 1 - 40 * this.Scale
+      return window.innerHeight - 64 * this.Scale - 1 - 45 * this.Scale
     },
   },
   watch: {
@@ -61,8 +61,8 @@ export default {
 .theme--light.v-application code {
   background-color: rgba(0, 0, 0, 0) !important;
   color: currentColor;
-  font-size: 12px;
-  line-height: 12px !important;
+  font-size: 13px;
+  line-height: 13px !important;
   font-family: Monaco, Menlo, Consolas, Courier New, monospace;
 }
 

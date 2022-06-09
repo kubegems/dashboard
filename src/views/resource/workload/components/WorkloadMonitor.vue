@@ -1,10 +1,10 @@
 <template>
-  <v-flex class="px-2">
+  <v-card>
     <v-card-title class="py-1">
       <v-flex>
         <v-flex class="float-right">
           <v-sheet class="text-body-2 text--darken-1">
-            <BaseDatetimePicker2
+            <BaseDatetimePicker
               v-model="date"
               :default-value="30"
               @change="onDatetimeChange(undefined)"
@@ -56,13 +56,13 @@
         </v-col>
       </v-row>
     </v-card-text>
-  </v-flex>
+  </v-card>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-import { matrix } from '@/api'
 import BaseResource from '@/mixins/resource'
+import BasePermission from '@/mixins/permission'
 import {
   WORKLOAD_CPU_USAGE_CORE_PROMQL,
   WORKLOAD_MEMORY_USAGE_BYTE_PROMQL,
@@ -72,7 +72,7 @@ import {
 
 export default {
   name: 'WorkloadMonitor',
-  mixins: [BaseResource],
+  mixins: [BaseResource, BasePermission],
   props: {
     item: {
       type: Object,
@@ -129,7 +129,7 @@ export default {
       const query = WORKLOAD_CPU_USAGE_CORE_PROMQL
         .replaceAll('$1', `${this.item.kind}:${this.item.metadata.name}`)
         .replaceAll('$2', this.item.metadata.namespace)
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.ThisCluster,
         Object.assign(this.params, { query: query }),
       )
@@ -139,7 +139,7 @@ export default {
       const query = WORKLOAD_MEMORY_USAGE_BYTE_PROMQL
         .replaceAll('$1', `${this.item.kind}:${this.item.metadata.name}`)
         .replaceAll('$2', this.item.metadata.namespace)
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.ThisCluster,
         Object.assign(this.params, { query: query }),
       )
@@ -149,7 +149,7 @@ export default {
       const query = WORKLOAD_NETWORK_IN_PROMQL
         .replaceAll('$1', `${this.item.kind}:${this.item.metadata.name}`)
         .replaceAll('$2', this.item.metadata.namespace)
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.ThisCluster,
         Object.assign(this.params, { query: query }),
       )
@@ -159,7 +159,7 @@ export default {
       const query = WORKLOAD_NETWORK_OUT_PROMQL
         .replaceAll('$1', `${this.item.kind}:${this.item.metadata.name}`)
         .replaceAll('$2', this.item.metadata.namespace)
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.ThisCluster,
         Object.assign(this.params, { query: query }),
       )

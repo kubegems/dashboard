@@ -23,7 +23,7 @@
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title>建议:</v-list-item-title>
-            <v-list-item-content class="text-body-2 kubegems__detail">
+            <v-list-item-content class="text-body-2 kubegems__text">
               {{ msg }}
             </v-list-item-content>
           </v-list-item-content>

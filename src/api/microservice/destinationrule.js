@@ -1,9 +1,12 @@
 import axios from 'axios'
 
+const apiResources = window.localStorage.getItem('api-resources') || {}
+const apiVersion = apiResources['destinationrule'] || 'networking.istio.io/v1beta1'
+
 // 流量规则详情
 export const getIstioDestinationRuleDetail = (clusterName, namespace, name) =>
   axios(
-    `proxy/cluster/${clusterName}/networking.istio.io/v1beta1/namespaces/${namespace}/destinationrule/${name}`,
+    `proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/destinationrule/${name}`,
   )
 // 添加流量规则
 export const postAddIstioDestinationRule = (
@@ -13,7 +16,7 @@ export const postAddIstioDestinationRule = (
   body = {},
 ) =>
   axios.post(
-    `proxy/cluster/${clusterName}/networking.istio.io/v1beta1/namespaces/${namespace}/destinationrule/${name}`,
+    `proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/destinationrule/${name}`,
     body,
   )
 // 更新流量规则
@@ -24,11 +27,11 @@ export const patchUpdateIstioDestinationRule = (
   body = {},
 ) =>
   axios.patch(
-    `proxy/cluster/${clusterName}/networking.istio.io/v1beta1/namespaces/${namespace}/destinationrule/${name}`,
+    `proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/destinationrule/${name}`,
     body,
   )
 // 删除流量规则
 export const deleteIstioDestinationRule = (clusterName, namespace, name) =>
   axios.delete(
-    `proxy/cluster/${clusterName}/networking.istio.io/v1beta1/namespaces/${namespace}/destinationrule/${name}`,
+    `proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/destinationrule/${name}`,
   )

@@ -1,39 +1,14 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-row class="mt-0">
       <v-col
         v-for="(item, index) in items"
         :key="index"
         cols="3"
+        class="pt-0"
       >
-        <v-card
-          v-if="item.add"
-          class="kubegems__full-height"
-          min-height="168"
-        >
-          <v-card-text class="pa-0 kubegems__full-height">
-            <v-list-item
-              three-line
-              class="kubegems__full-height"
-            >
-              <v-list-item-content>
-                <v-btn
-                  text
-                  block
-                  color="primary"
-                  class="text-h6"
-                  @click="addCluster"
-                >
-                  <v-icon left>mdi-plus-box</v-icon>
-                  添加集群
-                </v-btn>
-              </v-list-item-content>
-            </v-list-item>
-          </v-card-text>
-        </v-card>
         <v-hover
-          v-else
           #default="{ hover }"
         >
           <v-card
@@ -69,6 +44,7 @@
                   <template v-if="!item.Status">
                     <v-progress-circular
                       size="16"
+                      width="3"
                       indeterminate
                       color="warning"
                     />
@@ -143,6 +119,35 @@
           </v-card>
         </v-hover>
       </v-col>
+      <v-col
+        cols="3"
+        class="pt-0"
+      >
+        <v-card
+          class="kubegems__full-height"
+          min-height="168"
+        >
+          <v-card-text class="pa-0 kubegems__full-height">
+            <v-list-item
+              three-line
+              class="kubegems__full-height"
+            >
+              <v-list-item-content>
+                <v-btn
+                  text
+                  block
+                  color="primary"
+                  class="text-h6"
+                  @click="addCluster"
+                >
+                  <v-icon left>mdi-plus-box</v-icon>
+                  添加集群
+                </v-btn>
+              </v-list-item-content>
+            </v-list-item>
+          </v-card-text>
+        </v-card>
+      </v-col>
     </v-row>
 
     <AddCluster
@@ -176,11 +181,6 @@ export default {
   },
   mixins: [BaseSelect, BaseResource],
   data: () => ({
-    breadcrumb: {
-      title: '集群列表',
-      tip: '对多集群以及每个集群的基础资源，服务组件和应用资源等统一管理。',
-      icon: 'mdi-server',
-    },
     items: [],
     interval: null,
     hasControllerCluster: false,
@@ -199,23 +199,33 @@ export default {
     }
   },
   methods: {
-    async clusterList() {
+    async clusterList(del = false) {
       const data = await getClusterList({ noprocessing: true })
       this.items = data.List
-      this.items.push({ add: true })
       this.hasControllerCluster = this.items.some((c) => {
         return c.Primary
       })
-      this.$router.replace({
-        name: this.$route.name,
-        params: { ...this.$route.params },
-        query: { ...this.$route.query, timestamp: Date.parse(new Date()) },
-      })
+      this.updateClusterUrl(del)
       this.clusterStatus(false)
       if (this.interval) clearInterval(this.interval)
       this.interval = setInterval(() => {
         this.clusterStatus(true)
       }, 30 * 1000)
+    },
+    updateClusterUrl(del = false) {
+      let params = {}
+      if (this.items?.length > 0) {
+        if (this.$route.params?.cluster && !del) {
+          params = this.$route.params
+        } else {
+          params = { cluster: this.items[0].ClusterName }
+        }
+      }
+      this.$router.replace({
+        name: this.$route.name,
+        params: params,
+        query: { ...this.$route.query, timestamp: Date.parse(new Date()) },
+      })
     },
     async clusterStatus(noprocess = false) {
       const data = await getClusterStatus({
@@ -231,7 +241,7 @@ export default {
     clusterDetail(item) {
       this.$router.push({
         name: 'cluster-detail',
-        params: { name: item.ClusterName },
+        params: Object.assign(this.$route.params, { name: item.ClusterName }),
         query: { id: item.ID },
       })
     },
@@ -258,8 +268,8 @@ export default {
         doFunc: async (param) => {
           await deleteCluster(param.item.ID)
           this.$store.commit('CLEAR_CLUSTER')
-          await this.$store.dispatch('UPDATE_VIRTUALSPACE_DATA')
-          this.clusterList()
+          this.$store.dispatch('UPDATE_VIRTUALSPACE_DATA')
+          this.clusterList(true)
         },
       })
     },

@@ -75,7 +75,6 @@ export default {
         this.app.name,
         {
           hash: this.commit.hash,
-          noprocessing: true,
         },
       )
       this.diff = data

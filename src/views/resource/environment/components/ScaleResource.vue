@@ -42,6 +42,7 @@
             ref="resourceQuota"
             :data="obj.data"
             :statistics="obj.statistics"
+            edit
           />
         </v-card-text>
 
@@ -168,7 +169,6 @@ export default {
       this.obj.statistics = await this.m_resource_tenantResourceQuota(
         this.ThisCluster,
         this.Tenant().TenantName,
-        { noprocessing: true },
       )
       this.obj.statistics.AllocatedPod = this.obj.data.ResourceQuota[
         'count/pods'
@@ -181,6 +181,9 @@ export default {
         NowCpu: this.obj.statistics.Cpu,
         NowMemory: this.obj.statistics.Memory,
         NowStorage: this.obj.statistics.Storage,
+        NowNvidiaGpu: this.obj.statistics.NvidiaGpu,
+        NowTkeGpu: this.obj.statistics.TkeGpu,
+        NowTkeMemory: this.obj.statistics.TkeMemory,
       })
       this.$refs.form.validate(true)
     },
@@ -197,7 +200,6 @@ export default {
       this.obj.statistics = await this.m_resource_tenantResourceQuota(
         this.ThisCluster,
         this.Tenant().TenantName,
-        { noprocessing: true },
       )
       this.closeResourceExpaned()
     },

@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseMicroServiceHeader :selectable="false" />
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-menu
@@ -57,7 +57,7 @@
             {{ gateway ? gateway.Name : '' }}
           </v-card-title>
           <v-list-item two-line>
-            <v-list-item-content class="kubegems__detail">
+            <v-list-item-content class="kubegems__text">
               <v-list-item-title class="text-subtitle-2">
                 集群
               </v-list-item-title>
@@ -67,7 +67,7 @@
             </v-list-item-content>
           </v-list-item>
           <v-list-item two-line>
-            <v-list-item-content class="kubegems__detail">
+            <v-list-item-content class="kubegems__text">
               <v-list-item-title class="text-subtitle-2">
                 应用环境
               </v-list-item-title>
@@ -77,7 +77,7 @@
             </v-list-item-content>
           </v-list-item>
           <v-list-item two-line>
-            <v-list-item-content class="kubegems__detail">
+            <v-list-item-content class="kubegems__text">
               <v-list-item-title class="text-subtitle-2">
                 状态
               </v-list-item-title>
@@ -124,8 +124,8 @@
           <v-card-text class="pa-0">
             <v-tabs
               v-model="tab"
-              height="40"
-              class="rounded-t pl-2 pt-2"
+              height="30"
+              class="rounded-t pa-3"
             >
               <v-tab
                 v-for="item in tabItems"
@@ -134,14 +134,14 @@
                 {{ item.text }}
               </v-tab>
             </v-tabs>
-
-            <component
-              :is="tabItems[tab].value"
-              :ref="tabItems[tab].value"
-              :gateway="gateway"
-            />
           </v-card-text>
         </v-card>
+        <component
+          :is="tabItems[tab].value"
+          :ref="tabItems[tab].value"
+          class="mt-3"
+          :gateway="gateway"
+        />
       </v-col>
     </v-row>
 
@@ -174,11 +174,6 @@ export default {
   },
   mixins: [BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: 'Istio网关实例',
-      tip: 'Istio网关实例(IngressGateway)',
-      icon: 'mdi-gate',
-    },
     gateway: null,
     tab: 0,
     tabItems: [

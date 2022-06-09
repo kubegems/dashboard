@@ -159,7 +159,7 @@ export default {
     exportToText: '',
   }),
   computed: {
-    ...mapState(['EnvironmentFilter']),
+    ...mapState(['EnvironmentFilter', 'ApiResources']),
     objRules() {
       return {
         nameRule: [
@@ -173,6 +173,7 @@ export default {
   watch: {
     item() {
       this.$nextTick(() => {
+        this.obj.apiVersion = this.ApiResources['destinationrule'] || 'networking.istio.io/v1beta1'
         this.obj = deepCopy(this.item)
         this.obj.metadata.namespace = this.EnvironmentFilter.namespace
         this.loaddata()
@@ -277,6 +278,14 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     setData(data) {
       this.obj = data
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    getData() {
+      return this.obj
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    validate() {
+      return this.$refs.form.validate(true)
     },
   },
 }

@@ -3,7 +3,7 @@
     fluid
     class="trace"
   >
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card class="pa-4">
       <ClusterSelect
         v-model="cluster"
@@ -56,12 +56,6 @@ export default {
     ClusterSelect,
   },
   data() {
-    this.breadcrumb = {
-      title: 'TraceId',
-      tip: '根据TraceId查询相关链路详细信息',
-      icon: 'mdi-details',
-    }
-
     return {
       traceId: undefined,
       cluster: undefined,

@@ -13,8 +13,9 @@
     </template>
     <template #content>
       <v-card>
-        <v-card-text class="mt-1 pa-2">
+        <v-card-text class="my-0 py-0 px-2">
           <v-data-table
+            class="kubegems__table-row-pointer"
             disable-sort
             :headers="headers"
             :items="items"
@@ -135,7 +136,7 @@ export default {
     ...mapState(['Scale']),
     ...mapGetters(['Tenant', 'Project']),
     height() {
-      return window.innerHeight - 64 * this.Scale - 1
+      return parseInt((window.innerHeight - 64) / this.Scale)
     },
   },
   methods: {
@@ -155,7 +156,6 @@ export default {
         this.app.ProjectID,
         {
           image: this.item.image,
-          noprocessing: true,
         },
       )
       if (data.vulnerabilities) {

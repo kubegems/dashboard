@@ -17,6 +17,7 @@
           hide-selected
           class="my-0"
           no-data-text="暂无可选数据"
+          :readonly="edit"
           @change="onVolumeChange"
         >
           <template #selection="{ item }">
@@ -92,22 +93,37 @@
       :volume-mount-name="volumeMountName"
       :volume="volume"
     />
+    <VolumeMountForInitContainer
+      v-if="initContainers && initContainers.length > 0"
+      ref="volumeMountForInitContainer"
+      :init-containers="initContainers"
+      :volume-mount-name="volumeMountName"
+      :volume="volume"
+    />
   </v-form>
 </template>
 
 <script>
 import { getConfigMapList, getConfigMapDetail, getAppResourceFileMetas } from '@/api'
 import VolumeMount from './VolumeMount'
+import VolumeMountForInitContainer from './VolumeMountForInitContainer'
 import BaseResource from '@/mixins/resource'
 import { deepCopy } from '@/utils/helpers'
 import { required } from '@/utils/rules'
 
 export default {
   name: 'ConfigMapMount',
-  components: { VolumeMount },
+  components: {
+    VolumeMount,
+    VolumeMountForInitContainer,
+  },
   mixins: [BaseResource],
   props: {
     containers: {
+      type: Array,
+      default: () => [],
+    },
+    initContainers: {
       type: Array,
       default: () => [],
     },
@@ -124,6 +140,10 @@ export default {
       default: () => null,
     },
     manifest: {
+      type: Boolean,
+      default: () => false,
+    },
+    edit: {
       type: Boolean,
       default: () => false,
     },
@@ -144,7 +164,7 @@ export default {
   computed: {
     volumeObj() {
       const index = this.items.findIndex((v) => {
-        return v.metadata.name === this.volumeName
+        return v.value === this.volumeName
       })
       if (index > -1) return this.items[index]
       return null
@@ -176,7 +196,7 @@ export default {
   methods: {
     loadData() {
       if (this.volume && this.volume.configMap) {
-        this.volumeName = this.volume.configMap.name
+        this.volumeName = this.volume.configMap.name.replaceAll('.', '-')
         this.volumeCopy = deepCopy(this.volume)
         if (this.namespace.length > 0) { this.configMapDetail() }
       }
@@ -191,28 +211,25 @@ export default {
           this.$route.params.name,
           {
             kind: 'ConfigMap',
-            noprocessing: true,
           },
         )
         this.items = data
       } else {
         data = await getConfigMapList(this.ThisCluster, this.namespace || this.$route.query.namespace, {
           size: 1000,
-          noprocessing: true,
         })
         this.items = data.List
       }
       this.items.forEach((v) => {
         v.text = v.metadata.name
-        v.value = v.metadata.name
+        v.value = v.metadata.name.replaceAll('.', '-')
       })
     },
     async configMapDetail() {
       const data = await getConfigMapDetail(
         this.ThisCluster,
         this.namespace || this.$route.query.namespace,
-        this.volumeName,
-        { noprocessing: true },
+        this.volume?.configMap?.name || this.volumeName,
       )
       if (data.data) {
         for (const item in data.data) {
@@ -225,6 +242,9 @@ export default {
     },
     onVolumeChange() {
       this.$refs.volumeMount.initVolumeMount(this.volumeName)
+      if (this.$refs.volumeMountForInitContainer) {
+        this.$refs.volumeMountForInitContainer.initVolumeMount(this.volumeName)
+      }
     },
     // eslint-disable-next-line vue/no-unused-properties
     generateData() {
@@ -236,13 +256,26 @@ export default {
             volume: {
               name: this.volume ? this.volume.name : this.volumeName,
               configMap: {
-                name: this.volumeObj.metadata.name,
+                name: this.volumeObj.text,
                 defaultMode: 420,
                 items: this.volumeCopy.configMap.items
                   ? this.volumeCopy.configMap.items
                   : [],
               },
             },
+          }
+        }
+        return null
+      }
+      return null
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    generateInitData() {
+      if (this.$refs.form.validate(true)) {
+        const data = this.$refs.volumeMountForInitContainer.generateData()
+        if (data) {
+          return {
+            init: data,
           }
         }
         return null

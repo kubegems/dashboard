@@ -1,66 +1,67 @@
 <template>
-  <v-flex class="pa-4">
-    <v-data-table
-      disable-sort
-      :headers="headers"
-      :items="items"
-      :page.sync="params.page"
-      :items-per-page="params.size"
-      no-data-text="暂无数据"
-      hide-default-footer
-      class="pt-4"
-    >
-      <template #[`item.name`]="{ item }">
-        {{ item.metadata.name }}
-      </template>
-      <template #[`item.status`]="{ item }">
-        <span v-if="item.status.succeeded !== undefined">
-          <v-icon
-            small
-            color="primary"
-          > fas fa-check-circle </v-icon>
-          成功
-        </span>
-        <span v-else-if="item.status.failed !== undefined">
-          <v-icon
-            small
-            color="error"
-          >fas fa-minus-circle</v-icon>
-          失败
-        </span>
-        <span v-else-if="item.status.active !== undefined">
-          <v-icon
-            small
-            color="success"
-          >fas fa-dot-circle</v-icon>
-          进行中
-        </span>
-      </template>
-      <template #[`item.startAt`]="{ item }">
-        {{
-          item.status.startTime
-            ? $moment(item.status.startTime).format('lll')
-            : ''
-        }}
-      </template>
-      <template #[`item.endAt`]="{ item }">
-        {{
-          item.status.completionTime
-            ? $moment(item.status.completionTime).format('lll')
-            : ''
-        }}
-      </template>
-    </v-data-table>
-    <BasePagination
-      v-if="pageCount >= 1"
-      v-model="params.page"
-      :page-count="pageCount"
-      :size="params.size"
-      @loaddata="jobList"
-      @changesize="onPageSizeChange"
-      @changepage="onPageIndexChange"
-    />
-  </v-flex>
+  <v-card>
+    <v-card-text>
+      <v-data-table
+        disable-sort
+        :headers="headers"
+        :items="items"
+        :page.sync="params.page"
+        :items-per-page="params.size"
+        no-data-text="暂无数据"
+        hide-default-footer
+      >
+        <template #[`item.name`]="{ item }">
+          {{ item.metadata.name }}
+        </template>
+        <template #[`item.status`]="{ item }">
+          <span v-if="item.status.succeeded !== undefined">
+            <v-icon
+              small
+              color="primary"
+            > fas fa-check-circle </v-icon>
+            成功
+          </span>
+          <span v-else-if="item.status.failed !== undefined">
+            <v-icon
+              small
+              color="error"
+            >fas fa-minus-circle</v-icon>
+            失败
+          </span>
+          <span v-else-if="item.status.active !== undefined">
+            <v-icon
+              small
+              color="success"
+            >fas fa-dot-circle</v-icon>
+            进行中
+          </span>
+        </template>
+        <template #[`item.startAt`]="{ item }">
+          {{
+            item.status.startTime
+              ? $moment(item.status.startTime).format('lll')
+              : ''
+          }}
+        </template>
+        <template #[`item.endAt`]="{ item }">
+          {{
+            item.status.completionTime
+              ? $moment(item.status.completionTime).format('lll')
+              : ''
+          }}
+        </template>
+      </v-data-table>
+      <BasePagination
+        v-if="pageCount >= 1"
+        v-model="params.page"
+        :page-count="pageCount"
+        :size="params.size"
+        @loaddata="jobList"
+        @changesize="onPageSizeChange"
+        @changepage="onPageIndexChange"
+      />
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>

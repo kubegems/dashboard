@@ -1,8 +1,8 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
-      <v-card-title class="py-2">
+      <v-card-title class="py-4">
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: 'DNS', value: 'search' }"
@@ -143,11 +143,6 @@ export default {
   },
   mixins: [BasePermission, BaseFilter, BaseResource, BaseTable],
   data: () => ({
-    breadcrumb: {
-      title: 'DNS',
-      tip: 'DNS(DNSDomain)',
-      icon: 'mdi-dns',
-    },
     items: [],
     pageCount: 0,
     params: {

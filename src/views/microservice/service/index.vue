@@ -1,9 +1,9 @@
 <template>
   <v-container fluid>
     <BaseMicroServiceHeader />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
-      <v-card-title class="py-2">
+      <v-card-title class="py-4">
         <BaseFilter
           :filters="filters"
           :reload="false"
@@ -235,7 +235,7 @@
             nudge-bottom="-5px"
             :attach="`#v${item.name}`"
             open-on-hover
-            max-width="300px"
+            max-width="200px"
             :close-delay="200"
           >
             <template #activator="{ on }">
@@ -273,7 +273,7 @@
                       <v-list-item-content class="py-0">
                         <v-list-item-title> 警告 </v-list-item-title>
                         <v-list-item-content
-                          class="text-caption kubegems__detail kubegems__break-all"
+                          class="text-caption kubegems__text kubegems__break-all"
                         >
                           {{
                             valids[item.name] &&
@@ -369,11 +369,6 @@ export default {
   },
   mixins: [BasePermission, BaseFilter],
   data: () => ({
-    breadcrumb: {
-      title: '服务',
-      tip: '服务 (Service) 是定义了一类容器组的逻辑集合和一个用于访问它们的策略。',
-      icon: 'mdi-network',
-    },
     items: [],
     valids: {},
     pageCount: 0,
@@ -446,7 +441,7 @@ export default {
     kialiServiceDetail(item) {
       this.$router.push({
         name: 'microservice-detail',
-        params: { name: item.name },
+        params: Object.assign(this.$route.params, { name: item.name }),
         query: {
           type: 'Service',
           namespace: this.EnvironmentFilter.namespace,

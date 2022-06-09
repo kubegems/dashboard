@@ -193,7 +193,7 @@ export default {
     formComponent: 'SecretDataForm',
   }),
   computed: {
-    ...mapState(['Admin', 'AdminViewport']),
+    ...mapState(['Admin', 'AdminViewport', 'ApiResources']),
     ...mapGetters(['Cluster']),
     objRules() {
       return {
@@ -208,34 +208,34 @@ export default {
     },
   },
   watch: {
-    item() {
-      this.loadData(true)
+    item: {
+      handler() {
+        this.obj.apiVersion = this.ApiResources['secret'] || 'v1'
+        this.loadData()
+      },
+      deep: true,
+      immediate: true,
     },
   },
-  mounted() {
-    this.loadData(false)
-  },
   methods: {
-    loadData(cover = false) {
+    loadData() {
       this.$nextTick(() => {
-        if (cover) {
-          if (!this.item) {
-            this.obj = this.$options.data().obj
-            this.$refs.form.resetValidation()
+        if (!this.item) {
+          this.$refs.form.resetValidation()
+        } else {
+          this.obj = deepCopy(this.item)
+        }
+
+        if (!this.manifest) {
+          if (this.AdminViewport) {
+            this.m_select_namespaceSelectData(this.ThisCluster)
           } else {
-            this.obj = deepCopy(this.item)
+            this.obj.metadata.namespace = this.ThisNamespace
           }
         } else {
-          if (!this.manifest) {
-            if (this.AdminViewport) {
-              this.m_select_namespaceSelectData(this.ThisCluster)
-            } else {
-              this.obj.metadata.namespace = this.ThisNamespace
-            }
-          } else {
-            this.obj.metadata.name = `${this.app.ApplicationName}`
-          }
+          this.obj.metadata.name = `${this.app.ApplicationName}`
         }
+
         this.resourceKind = this.kind
         this.obj.kind = this.kind
         if (
@@ -351,6 +351,7 @@ export default {
     reset() {
       this.$refs[this.formComponent].closeCard()
       this.$refs.form.reset()
+      this.obj = this.$options.data().obj
     },
     // eslint-disable-next-line vue/no-unused-properties
     init(data) {
@@ -377,6 +378,14 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     setData(data) {
       this.obj = data
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    getData() {
+      return this.obj
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    validate() {
+      return this.$refs.form.validate(true)
     },
     onNamespaceSelectFocus(clusterName) {
       this.m_select_namespaceSelectData(clusterName)

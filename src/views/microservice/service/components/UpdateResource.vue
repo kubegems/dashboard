@@ -26,7 +26,7 @@ m
       </v-btn>
     </template>
     <template #header-action>
-      <div class="text-h6 ml-2 primary--text mt-1">Yaml</div>
+      <div class="text-h6 ml-2 white--text mt-1">Yaml</div>
     </template>
   </BaseDialog>
 </template>
@@ -59,8 +59,8 @@ export default {
       this.dialog = true
     },
     async updateCR() {
-      if (this.$refs.yamlForm.$refs.form.validate(true)) {
-        let data = this.$refs.yamlForm.kubeyaml
+      if (this.$refs.yamlForm.validate()) {
+        let data = this.$refs.yamlForm.getYaml()
         data = this.$yamlload(data)
         const namespace = this.AdminViewport
           ? data?.metadata?.namespace

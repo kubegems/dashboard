@@ -40,7 +40,7 @@
         color="primary"
         text
         :loading="Circular"
-        @click="addRepository"
+        @click="recreateRepository"
       >
         确定
       </v-btn>
@@ -79,7 +79,7 @@ export default {
     open() {
       this.dialog = true
     },
-    async addRepository() {
+    async recreateRepository() {
       if (this.$refs.form.validate(true)) {
         await postAddRepository(this.obj)
         this.reset()
@@ -94,6 +94,10 @@ export default {
     reset() {
       this.dialog = false
       this.$refs.form.reset()
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    setTitle(data) {
+      this.title = data
     },
   },
 }

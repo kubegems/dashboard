@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template
         v-if="Object.keys(item.files).length > 0"
         #extend
@@ -48,6 +48,7 @@
             <v-tabs
               v-model="tab"
               height="40"
+              class="pb-3"
             >
               <v-tab
                 v-for="item in tabItems"
@@ -60,7 +61,6 @@
               :is="tabItems[tab].value"
               :ref="tabItems[tab].value"
               :item="item"
-              class="py-2"
             />
           </v-card-text>
         </v-card>
@@ -99,10 +99,6 @@ export default {
     ConfigFile,
   },
   data: () => ({
-    breadcrumb: {
-      title: '应用',
-      tip: '应用商店(helmChart)是一个描述Kubernetes相关资源的文件集合，单个应用可以用来部署某些复杂的HTTP服务器以及web全栈应用、数据库、缓存等',
-    },
     allApps: [],
     currentApp: {},
     versions: [],
@@ -119,7 +115,7 @@ export default {
   computed: {
     ...mapState(['Scale']),
     reponame() {
-      return this.selectRepo === 'gemscloud' ? '' : this.selectRepo
+      return this.selectRepo === 'kubegems' ? '' : this.selectRepo
     },
   },
   mounted() {

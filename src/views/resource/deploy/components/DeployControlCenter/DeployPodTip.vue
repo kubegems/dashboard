@@ -52,15 +52,15 @@
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title>名称</v-list-item-title>
-            <v-list-item-content class="text-caption kubegems__detail">
+            <v-list-item-content class="text-caption kubegems__text">
               {{ pod.objectMeta.name }}
             </v-list-item-content>
             <v-list-item-title>状态</v-list-item-title>
-            <v-list-item-content class="text-caption kubegems__detail">
+            <v-list-item-content class="text-caption kubegems__text">
               {{ pod.status }}
             </v-list-item-content>
             <v-list-item-title>容器</v-list-item-title>
-            <v-list-item-content class="text-caption kubegems__detail my-0">
+            <v-list-item-content class="text-caption kubegems__text my-0">
               {{ pod.ready }}
             </v-list-item-content>
           </v-list-item-content>

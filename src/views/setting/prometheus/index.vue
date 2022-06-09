@@ -1,8 +1,11 @@
 <template>
   <v-container fluid>
-    <BaseSplitContainer title="类型">
+    <BaseSplitContainer
+      title="类型"
+      side-width="250px"
+    >
       <BaseBreadcrumb
-        :breadcrumb="breadcrumb"
+
         flat
       >
         <template #extend>
@@ -25,7 +28,10 @@
         </template>
       </BaseBreadcrumb>
       <template #side>
-        <v-list dense>
+        <v-list
+          dense
+          rounded
+        >
           <v-list-item-group
             v-model="selected"
             color="primary"
@@ -153,11 +159,6 @@ export default {
     UpdateTemplate,
   },
   data: () => ({
-    breadcrumb: {
-      title: 'Prometheus 查询模版',
-      tip: '配置 Prometheus Recording rules 来提升监控查询效率',
-      icon: 'mdi-file-powerpoint-box',
-    },
     metricTypeItems: [],
     selected: 0,
     items: [],

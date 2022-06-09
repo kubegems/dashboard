@@ -35,6 +35,7 @@
               hide-selected
               class="my-0"
               no-data-text="暂无可选数据"
+              @focus="m_select_namespaceSelectData(ThisCluster)"
               @change="onNamespaceChange"
             >
               <template #selection="{ item }">
@@ -183,7 +184,7 @@ export default {
     ingressItems: [],
   }),
   computed: {
-    ...mapState(['Admin', 'AdminViewport']),
+    ...mapState(['Admin', 'AdminViewport', 'ApiResources']),
     ...mapGetters(['Cluster']),
     objRules() {
       return {
@@ -199,38 +200,39 @@ export default {
     },
   },
   watch: {
-    item() {
-      this.loadData(true)
+    item: {
+      handler() {
+        this.obj.apiVersion = this.ApiResources['issuer'] || 'cert-manager.io/v1'
+        this.loadData()
+      },
+      deep: true,
+      immediate: true,
     },
   },
-  mounted() {
-    this.loadData(false)
-  },
   methods: {
-    loadData(cover = false) {
+    loadData() {
       this.$nextTick(() => {
-        if (cover) {
-          this.obj = deepCopy(this.item)
-          if (this.obj.spec.acme) {
-            this.issuer = 'acme'
-            if (
-              !this.serverItems.find((s) => {
-                return s.value === this.obj.spec.acme.server
-              })
-            ) {
-              this.serverItems.push({
-                text: this.obj.spec.acme.server,
-                value: this.obj.spec.acme.server,
-              })
-            }
-          }
-        } else {
-          if (this.AdminViewport) {
-            this.m_select_namespaceSelectData(this.ThisCluster)
-          } else {
-            this.obj.metadata.namespace = this.ThisNamespace
+        if (this.item) { this.obj = deepCopy(this.item) }
+        if (this.obj.spec.acme) {
+          this.issuer = 'acme'
+          if (
+            !this.serverItems.find((s) => {
+              return s.value === this.obj.spec.acme.server
+            })
+          ) {
+            this.serverItems.push({
+              text: this.obj.spec.acme.server,
+              value: this.obj.spec.acme.server,
+            })
           }
         }
+
+        if (this.AdminViewport) {
+          this.m_select_namespaceSelectData(this.ThisCluster)
+        } else {
+          this.obj.metadata.namespace = this.ThisNamespace
+        }
+
         if (this.obj.metadata.namespace) this.ingressList()
       })
     },
@@ -245,7 +247,6 @@ export default {
         this.ThisCluster,
         this.obj.metadata.namespace,
         {
-          noprocessing: true,
           size: 1000,
         },
       )
@@ -303,6 +304,14 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     setData(data) {
       this.obj = data
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    getData() {
+      return this.obj
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    validate() {
+      return this.$refs.form.validate(true)
     },
   },
 }

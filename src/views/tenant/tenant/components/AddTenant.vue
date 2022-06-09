@@ -90,6 +90,7 @@ export default {
         await postAddTenant(this.obj)
         this.reset()
         this.$emit('refresh')
+        this.$store.dispatch('UPDATE_TENANT_DATA')
       }
     },
     reset() {

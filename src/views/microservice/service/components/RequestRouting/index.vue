@@ -66,10 +66,10 @@ export default {
       this.dialog = true
     },
     async addRequestRouting() {
-      if (this.$refs[this.formComponent].$refs.form.validate(true)) {
+      if (this.$refs[this.formComponent].validate()) {
         let data = ''
         if (this.formComponent === 'RequestRoutingBaseForm') {
-          data = this.$refs[this.formComponent].obj
+          data = this.$refs[this.formComponent].getData()
           data = this.m_resource_beautifyData(data)
         }
         await postAddRequestRouting(
