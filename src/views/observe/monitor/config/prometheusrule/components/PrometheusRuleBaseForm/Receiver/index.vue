@@ -140,6 +140,10 @@ export default {
     validate() {
       return this.$refs.form.validate(true)
     },
+    // eslint-disable-next-line vue/no-unused-properties
+    getData() {
+      return this.obj
+    },
   },
 }
 </script>

@@ -3,7 +3,28 @@
     fluid
     class="search"
   >
-    <BaseBreadcrumb />
+    <BaseBreadcrumb>
+      <template #extend>
+        <v-flex
+          class="kubegems__full-right"
+          :style="{ width:`${traceIdSearchWidth}px` }"
+        >
+          <div class="float-left search__label">TraceId</div>
+          <v-text-field
+            v-model="traceid"
+            solo
+            dense
+            hide-details
+            flat
+            prepend-inner-icon="mdi-magnify"
+            full-width
+            @focus="traceIdSearchWidth=500"
+            @blur="traceIdSearchWidth=250"
+            @keyup.enter="onTraceIdSearch"
+          />
+        </v-flex>
+      </template>
+    </BaseBreadcrumb>
     <v-card
       class="search__main"
       :height="height"
@@ -60,12 +81,20 @@ export default {
       location: 'search',
       iframeKey: Date.now(),
       show: false,
+
+      isTraceId: false,
+      traceid: '',
+      traceIdSearchWidth: 250,
     }
   },
   computed: {
     ...mapState(['Scale']),
     src() {
-      return `/api/v1/service-proxy/cluster/${this.cluster}/namespace/observability/service/jaeger-query/port/16686/search`
+      if (this.isTraceId) {
+        return `/api/v1/service-proxy/cluster/${this.cluster}/namespace/observability/service/jaeger-query/port/16686/trace/${this.traceid}?uiEmbed=v0`
+      } else {
+        return `/api/v1/service-proxy/cluster/${this.cluster}/namespace/observability/service/jaeger-query/port/16686/search`
+      }
     },
     height() {
       return parseInt((window.innerHeight - 152) / this.Scale)
@@ -91,6 +120,9 @@ export default {
       this.$store.commit('SET_PROGRESS', false)
       clearTimeout(this.timer)
       this.setLocation()
+    },
+    onTraceIdSearch() {
+      this.isTraceId = true
     },
     // 样式覆盖
     onOverwriteStyle() {
@@ -162,6 +194,11 @@ export default {
     width: 100%;
     height: calc(100% - 44px);
     border: none;
+  }
+
+  &__label {
+    line-height: 38px;
+    margin-right: 8px;
   }
 }
 </style>

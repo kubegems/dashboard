@@ -257,6 +257,14 @@
                       label="查询语句"
                       :rules="fieldRules.required"
                     />
+                    <MetricsSuggestion
+                      :cluster="queryList[index].environment?
+                        queryList[index].environment.Cluster.ClusterName:
+                        queryList[index].cluster.text"
+                      :expr="queryList[index].expr"
+                      :index="index"
+                      @insertMetrics="insertMetrics"
+                    />
                   </template>
 
                   <template v-else>
@@ -436,6 +444,7 @@ import {
 } from '@/api'
 import ButtonInput from './components/ButtonInput'
 import MetricsItem from './components/MetricsItem'
+import MetricsSuggestion from './components/MetricsSuggestion'
 import AddPrometheusRule from '@/views/observe/monitor/config/prometheusrule/components/AddPrometheusRule'
 import BaseSelect from '@/mixins/select'
 import { deepCopy, debounce } from '@/utils/helpers'
@@ -447,6 +456,7 @@ export default {
     MetricsItem,
     AddPrometheusRule,
     ButtonInput,
+    MetricsSuggestion,
   },
   mixins: [BaseSelect],
   data() {
@@ -755,6 +765,10 @@ export default {
     async onRefresh(id) {
       const ids = id ? [id] : this.queryList.map((item) => item._$id)
       await Promise.all(ids.map((i) => this.onSearch(i)))
+    },
+    insertMetrics(metrics, index) {
+      const query = this.queryList[index]
+      this.$set(query, 'expr', metrics)
     },
   },
 }

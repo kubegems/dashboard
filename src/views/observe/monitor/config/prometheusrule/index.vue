@@ -493,7 +493,6 @@ export default {
     },
     addPrometheusRule() {
       this.$refs.addPrometheusRule.open()
-      this.$refs.addPrometheusRule.init()
     },
     updatePrometheusRule(item) {
       this.$refs.updatePrometheusRule.open()

@@ -479,7 +479,6 @@ export default {
     },
     addAlertRule() {
       this.$refs.addAlertRule.open()
-      this.$refs.addAlertRule.init()
     },
     updateAlertRule(item) {
       this.$refs.updateAlertRule.open()

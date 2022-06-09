@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-// // 指标查询
-// export const getMetricsQueryrange = (query = {}) => axios.get('/metrics/queryrange', { params: query })
+// 指标查询
+export const getMetrics = (clusterName, query = {}) =>
+  axios.get(`proxy/cluster/${clusterName}/custom/prometheus/v1/labelvalues`, { params: query })
 
 // // 监控标签值
 // export const getMetricsLabelValues = (query = {}) => axios.get('/metrics/labelvalues', { params: query })

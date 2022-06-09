@@ -134,6 +134,14 @@
                 auto-grow
                 label="查询语句"
                 :rules="objRules.exprRule"
+                @keyup="onExprInput"
+              />
+              <MetricsSuggestion
+                v-if="mode === 'monitor'"
+                :cluster="$route.query.cluster"
+                :expr="obj.expr"
+                :top="250"
+                @insertMetrics="insertMetrics"
               />
             </v-col>
           </template>
@@ -218,6 +226,7 @@ import {
 import AlertLevelItem from './AlertLevelItem'
 import AlertLevelForm from './AlertLevelForm'
 import RuleLabelpairs from './RuleLabelpairs'
+import MetricsSuggestion from '@/views/observe/monitor/metrics/components/MetricsSuggestion'
 import BaseSelect from '@/mixins/select'
 import BaseResource from '@/mixins/resource'
 import { deepCopy } from '@/utils/helpers'
@@ -229,6 +238,7 @@ export default {
     AlertLevelItem,
     AlertLevelForm,
     RuleLabelpairs,
+    MetricsSuggestion,
   },
   mixins: [BaseSelect, BaseResource],
   props: {
@@ -341,7 +351,9 @@ export default {
     },
   },
   mounted() {
-    this.obj = this.$_.merge(this.obj, deepCopy(this.item))
+    if (this.item) {
+      this.obj = deepCopy(this.item)
+    }
     this.load()
     this.$refs.form.resetValidation()
     this.obj.namespace = this.$route?.query.namespace
@@ -493,6 +505,17 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     validate() {
       return this.$refs.form.validate(true)
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    getData() {
+      return this.obj
+    },
+    insertMetrics(metrics) {
+      this.$set(this.obj, 'expr', metrics)
+      this.$forceUpdate()
+    },
+    onExprInput() {
+      this.$forceUpdate()
     },
   },
 }
