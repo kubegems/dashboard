@@ -37,7 +37,7 @@
                   </th>
                   <th
                     class="text-end"
-                    width="170"
+                    width="230"
                   />
                 </tr>
               </thead>
@@ -65,41 +65,16 @@
                           </v-btn>
                         </v-col>
                         <v-col>
-                          <v-flex :id="`rh${item.rev}`" />
-                          <v-menu
-                            left
-                            :attach="`#rh${item.rev}`"
+                          <v-btn
+                            small
+                            text
+                            color="primary"
+                            class="ma-md-2"
+                            @click="rollback(item)"
                           >
-                            <template #activator="{ on }">
-                              <v-btn
-                                small
-                                icon
-                                class="mt-2"
-                              >
-                                <v-icon
-                                  x-small
-                                  color="primary"
-                                  v-on="on"
-                                >
-                                  fas fa-ellipsis-v
-                                </v-icon>
-                              </v-btn>
-                            </template>
-                            <v-card>
-                              <v-card-text class="pa-2">
-                                <v-flex>
-                                  <v-btn
-                                    small
-                                    text
-                                    color="primary"
-                                    @click="rollback(item)"
-                                  >
-                                    回滚
-                                  </v-btn>
-                                </v-flex>
-                              </v-card-text>
-                            </v-card>
-                          </v-menu>
+                            <v-icon small>mdi-backup-restore</v-icon>
+                            回滚
+                          </v-btn>
                         </v-col>
                       </v-row>
                       <v-row v-else> <span> 当前应用的配置 </span></v-row>

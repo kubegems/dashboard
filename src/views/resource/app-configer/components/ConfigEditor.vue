@@ -34,7 +34,7 @@
             @submit.prevent
           >
             <v-row>
-              <v-col col="6">
+              <v-col col="5">
                 <v-text-field
                   v-model="editItem.application"
                   label="应用"
@@ -42,12 +42,21 @@
                   :rules="applicationRules"
                 />
               </v-col>
-              <v-col cols="6">
+              <v-col cols="5">
                 <v-text-field
                   v-model="editItem.key"
                   label="key"
                   :readonly="!isCreate"
                   :rules="keyRules"
+                  @keyup="onKeyInput"
+                />
+              </v-col>
+              <v-col cols="2">
+                <v-autocomplete
+                  v-model="suffix"
+                  :items="suffixItems"
+                  label="类型"
+                  :readonly="!isCreate"
                 />
               </v-col>
             </v-row>
@@ -109,6 +118,14 @@ export default {
         key: "",
         value: "",
       },
+      suffix: '',
+      suffixItems: [
+        {text: 'json', value: 'json'},
+        {text: 'xml', value: 'xml'},
+        {text: 'yaml', value: 'yaml'},
+        {text: 'html', value: 'html'},
+        {text: 'ini', value: 'ini'},
+      ],
     }
   },
   computed: {
@@ -139,6 +156,7 @@ export default {
         key: this.item.key,
         value: this.item.value,
       }
+      this.matchSuffix()
     },
   },
   methods: {
@@ -147,11 +165,27 @@ export default {
     },
     submit() {
       if (this.$refs.form.validate(true)) {
+        if (this.suffix && this.editItem.key.indexOf('.') === -1) {
+          this.editItem.key = `${this.editItem.key}.${this.suffix}`
+        }
         this.$emit("submit", this.editItem, this.isCreate)
+        this.reset()
       }
     },
     reset() {
       this.close()
+      this.$refs.form.reset()
+    },
+    matchSuffix() {
+      if (this.editItem.key.indexOf('.') > -1) {
+        const suffix = this.editItem.key.split('.').pop().toLowerCase()
+        if (this.suffixItems.some(s => { return s.value === suffix })) {
+          this.suffix = suffix
+        }
+      }
+    },
+    onKeyInput() {
+      this.matchSuffix()
     },
   },
 }

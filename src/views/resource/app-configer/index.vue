@@ -2,7 +2,15 @@
   <v-container fluid>
     <BaseViewportHeader />
 
-    <BaseBreadcrumb />
+    <BaseBreadcrumb>
+      <template #extend>
+        <v-flex class="kubegems__full-right mr-3">
+          <span class="text-body-2 kubegems__text">
+            nacos信息
+          </span>
+        </v-flex>
+      </template>
+    </BaseBreadcrumb>
 
     <v-card>
       <v-card-title class="py-4">
@@ -177,7 +185,7 @@ export default {
       itemsCopy: [],
       headers: [
         { text: 'app', value: 'application', align: 'start' },
-        { text: 'key', value: 'key', align: 'start' },
+        { text: 'dataid', value: 'key', align: 'start' },
         { text: '', value: 'action', align: 'center', width: 20, sortable: false },
       ],
       pageCount: 0,
@@ -307,7 +315,7 @@ export default {
       if (isCreate) {
         this.items.push(res)
       } else {
-        this.items[this.editor.editIdx].value = res.value
+        this.items[this.editor.editIdx].value = editItem.value
       }
       this.closeEditDialog()
     },
