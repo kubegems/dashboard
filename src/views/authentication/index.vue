@@ -316,6 +316,6 @@ export default {
 .font {
   line-height: 66px;
   font-weight: bold;
-  font-family: Yuanti SC, YouYuan, Microsoft Yahei !important;
+  font-family: Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important;
 }
 </style>

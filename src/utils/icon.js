@@ -1,6 +1,7 @@
 export function getIconName(name) {
   if (name.indexOf('node-problem-detector') > -1) return 'logos:kubernetes'
   if (name.indexOf('node-local-dns') > -1) return 'logos:kubernetes'
+  if (name.indexOf('prometheus') > -1) return 'logos:prometheus'
   if (name.indexOf('mysql') > -1) return 'logos:mysql'
   if (name.indexOf('redis') > -1) return 'logos:redis'
   if (name.indexOf('nginx') > -1) return 'logos:nginx'
@@ -44,7 +45,6 @@ export function getIconName(name) {
   if (name.indexOf('joomla') > -1) return 'logos:joomla'
   if (name.indexOf('phabricator') > -1) return 'fa-brands:phabricator'
   if (name.indexOf('wildfly') > -1) return 'logos:wildfly'
-  if (name.indexOf('prometheus') > -1) return 'logos:prometheus'
   if (name.indexOf('exporter') > -1) return 'logos:prometheus'
   if (name.indexOf('node_local_dns') > -1) return 'img:coredns.png'
   if (name.indexOf('node_problem_detector') > -1) return 'logos:kubernetes'

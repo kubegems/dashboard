@@ -85,8 +85,8 @@ export default {
       this.dialog = true
     },
     async updatePrometheusRule() {
-      if (this.$refs[this.formComponent].validate(true)) {
-        const obj = deepCopy(this.$refs[this.formComponent].obj)
+      if (this.$refs[this.formComponent].validate()) {
+        const obj = deepCopy(this.$refs[this.formComponent].getData())
 
         if (this.mode === 'monitor') {
           // 移除labelpairs中的空值
@@ -130,7 +130,7 @@ export default {
 
     lastStep() {
       if (this.step > 0) {
-        const data = this.$refs[this.formComponent].obj
+        const data = this.$refs[this.formComponent].getData()
         this.step -= 1
         this.$nextTick(() => {
           this.$refs[this.formComponent].back(data)
@@ -142,7 +142,7 @@ export default {
         this.step < this.totalStep - 1 &&
         this.$refs[this.formComponent].validate()
       ) {
-        const data = this.$refs[this.formComponent].obj
+        const data = this.$refs[this.formComponent].getData()
         if (
           !data.alertLevels ||
           (data.alertLevels && data.alertLevels.length === 0)
