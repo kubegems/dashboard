@@ -73,30 +73,57 @@
               @change="onLogQuery"
             />
           </div>
+          <div class="d-inline-block ml-3">
+            图表
+            <v-switch
+              v-model="view.chartShow"
+              hide-details
+              class="log-viewer__toolbar-switch"
+            />
+          </div>
         </div>
 
         <div style="margin-left: auto;">
-          <v-btn
-            text
-            small
-            color="primary"
-            :disabled="view.resultType !== 'streams'"
-            @click="handleDownloadLog"
+          <v-menu
+            left
           >
-            <v-icon left>mdi-download</v-icon>
-            下载日志
-          </v-btn>
-          <v-btn
-            color="primary"
-            small
-            text
-            @click="handleSwitchView('chartShow')"
-          >
-            图表
-            <v-icon right>
-              {{ view.chartShow ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
-            </v-icon>
-          </v-btn>
+            <template #activator="{ on }">
+              <v-btn icon>
+                <v-icon
+                  small
+                  color="primary"
+                  v-on="on"
+                >
+                  fas fa-ellipsis-v
+                </v-icon>
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-text class="pa-2">
+                <v-flex>
+                  <v-btn
+                    text
+                    small
+                    color="primary"
+                    :disabled="view.resultType !== 'streams'"
+                    @click="handleDownloadLog"
+                  >
+                    下载日志
+                  </v-btn>
+                </v-flex>
+                <v-flex>
+                  <v-btn
+                    text
+                    small
+                    color="primary"
+                    @click="handleShowSnapshot"
+                  >
+                    查看快照
+                  </v-btn>
+                </v-flex>
+              </v-card-text>
+            </v-card>
+          </v-menu>
         </div>
       </div>
 
@@ -149,6 +176,9 @@
       ref="logQueryHistory"
       @queryHistory="handleQueryHistroy"
     />
+    <LogSnapshot
+      ref="logSnapshot"
+    />
   </v-container>
 </template>
 
@@ -163,6 +193,7 @@ import LogSaveSnapshot from './components/LogSaveSnapshot'
 import LogQueryHistory from './components/LogQueryHistory'
 import LogBar from './components/LogBar'
 import LogLine from './components/LogLine'
+import LogSnapshot from './components/LogSnapshot'
 
 export default {
   name: 'LogViewer',
@@ -175,6 +206,7 @@ export default {
     LogQueryHistory,
     LogBar,
     LogLine,
+    LogSnapshot,
   },
   data () {
     return {
@@ -243,10 +275,6 @@ export default {
         this.$refs.logQuery.getSeriesList()
         this.$refs.logQuery.search()
       }
-    },
-
-    handleSwitchView (type) {
-      this.view[type] = !this.view[type]
     },
 
     handleSearch ({ logQL, regexp, projectName, environmentName }) {
@@ -465,6 +493,10 @@ export default {
       this.$refs.logQueryHistory.show()
     },
 
+    handleShowSnapshot () {
+      this.$refs.logSnapshot.show()
+    },
+
     handleQueryHistroy () {
       this.$refs.logQuery.getValuesByPathQuery()
     },
@@ -527,6 +559,7 @@ export default {
     handleSetCluster(cluster) {
       this.cluster = cluster
     },
+
   },
 }
 </script>
@@ -547,24 +580,4 @@ export default {
     }
   }
 }
-
-// #log-viewer {
-//   height: 100vh;
-//   overflow: auto;
-
-//   &::-webkit-scrollbar {
-//     display: block !important;
-//   }
-
-//   &::-webkit-scrollbar-thumb {
-//     width: 10px;
-//     border-radius: 5px;
-//     background: grey;
-//     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-//   }
-
-//   &::-webkit-scrollbar:vertical {
-//     width: 10px;
-//   }
-// }
 </style>

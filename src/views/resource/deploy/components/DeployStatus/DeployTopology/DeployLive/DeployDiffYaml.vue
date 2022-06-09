@@ -63,11 +63,11 @@ export default {
   color: currentColor;
   font-size: 13px;
   line-height: 13px !important;
-  font-family: Monaco, Menlo, Consolas, Courier New, monospace;
+  font-family: Monaco, Menlo, Consolas, Courier New, monospace, PingFang SC;
 }
 
 .hljs {
-  height: 16px !important;
+  height: 22px !important;
 }
 
 .d2h-code-line {

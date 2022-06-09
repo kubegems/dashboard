@@ -54,7 +54,7 @@ export default {
   computed: {
     // eslint-disable-next-line vue/no-unused-properties
     obj() {
-      return this.$refs[this.steps[this.step]].obj
+      return this.$refs[this.steps[this.step]].getData()
     },
   },
   watch: {
@@ -88,6 +88,10 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     setLabelpairs(data) {
       this.$refs[this.steps[this.step]].setLabelpairs(data)
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    getData() {
+      return this.obj
     },
   },
 }

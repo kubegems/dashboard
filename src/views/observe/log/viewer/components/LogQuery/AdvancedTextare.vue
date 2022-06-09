@@ -35,12 +35,13 @@
       :style="`top: ${suggestTop}px;`"
       loading-text="载入中..."
       item-key="item.value"
+      dense
       disable-pagination
       hide-default-header
       hide-default-footer
-      no-data-text="无提示"
+      no-data-text="暂无提示"
       no-results-text="无匹配"
-      class="suggestion-table"
+      class="suggestion-table kubegems__table-row-pointer"
       @click:row="selectComplete"
     >
       <template #[`item.item`]="{ item }">
@@ -340,15 +341,17 @@ export default {
   },
 }
 </script>
+
 <style lang="scss" scoped>
 .suggestion-table {
   min-width: 200px !important;
-  box-shadow: 2px 3px 3px gray !important;
+  box-shadow: 1px 2px 2px gray !important;
   position: absolute;
   z-index: 1;
   left: 20px;
   max-height: 300px;
   overflow-y: auto;
   font-weight: normal;
+  border-radius: 8px;
 }
 </style>
