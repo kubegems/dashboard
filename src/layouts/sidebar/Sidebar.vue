@@ -168,6 +168,7 @@
 <script>
 import { mapGetters, mapState } from 'vuex'
 import { SIDEBAR_ITEMS } from './sidebar_items.js'
+import { menuFilter } from './sidebar_filter.js'
 
 export default {
   name: 'Sidebar',
@@ -207,10 +208,7 @@ export default {
         return this.$route.meta.rootName &&
         r.name === this.$route.meta.rootName
       })
-      if (sidebarItem) {
-        return sidebarItem.children
-      }
-      return []
+      return sidebarItem ? menuFilter(sidebarItem) : []
     },
     height() {
       return window.innerHeight / this.Scale
