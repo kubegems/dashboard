@@ -67,9 +67,10 @@ export const workspace = [
             meta: {
               requireAuth: true,
               title: '应用配置',
-              icon: 'mdi-apps',
+              icon: 'mdi-wrench',
               show: true,
               rootName: 'workspace',
+              tip: 'appconfig',
             },
           },
           {

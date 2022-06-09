@@ -74,7 +74,7 @@ router.beforeEach(async (to, from, next) => {
           await store.dispatch('UPDATE_CLUSTER_DATA')
         }
         if (to.params.cluster !== store.state.LatestCluster.cluster) {
-          await store.dispatch('LOAD_RESTMAPPING_RESOURCES', { clusterName: to.params.cluster })
+          store.dispatch('LOAD_RESTMAPPING_RESOURCES', { clusterName: to.params.cluster })
         }
         store.commit('SET_LATEST_CLUSTER', { cluster: to.params.cluster })
       }
@@ -136,7 +136,7 @@ router.beforeEach(async (to, from, next) => {
         return
       }
       if (environment.ClusterName !== store.state.LatestEnvironment.cluster) {
-        await store.dispatch('LOAD_RESTMAPPING_RESOURCES', { clusterName: environment?.ClusterName })
+        store.dispatch('LOAD_RESTMAPPING_RESOURCES', { clusterName: environment?.ClusterName })
       }
       store.commit('SET_LATEST_ENVIRONMENT', {
         environment: environment.EnvironmentName,

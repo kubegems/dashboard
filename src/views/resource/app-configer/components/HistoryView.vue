@@ -1,65 +1,21 @@
 <template>
-  <div class="text-center">
-    <v-dialog
-      v-model="show"
-      fullscreen
-      persistent
-    >
-      <v-card>
-        <v-toolbar
-          dark
-          color="primary"
-        >
-          <v-toolbar-title> 配置项历史 </v-toolbar-title>
-          <v-spacer />
-          <v-toolbar-items>
-            <v-btn
-              text
-              @click="close"
-            >
-              关闭
-            </v-btn>
-          </v-toolbar-items>
-        </v-toolbar>
-        <v-card-title class="text-h5 blue lighten-5">
-          <v-row>
-            <v-col>
-              <v-text-field
-                label="租户"
-                :value="historyItem.tenant"
-                disabled
-              />
-            </v-col>
-            <v-col>
-              <v-text-field
-                label="项目"
-                :value="historyItem.project"
-                disabled
-              />
-            </v-col>
-            <v-col>
-              <v-text-field
-                label="环境"
-                :value="historyItem.environment"
-                disabled
-              />
-            </v-col>
-            <v-col>
-              <v-text-field
-                :value="historyItem.application"
-                label="应用"
-                disabled
-              />
-            </v-col>
-            <v-col>
-              <v-text-field
-                :value="historyItem.key"
-                label="key"
-                disabled
-              />
-            </v-col>
-          </v-row>
-        </v-card-title>
+  <BaseFullScreenDialog
+    v-model="dialog"
+    title="配置项历史"
+    icon="fas fa-list-ol"
+    @dispose="dispose"
+  >
+    <template #header>
+      <div>
+        租户: {{ historyItem.tenant }}
+        项目: {{ historyItem.project }}
+        环境: {{ historyItem.environment }}
+        应用: {{ historyItem.application }}
+        Key: {{ historyItem.key }}
+      </div>
+    </template>
+    <template #content>
+      <v-card class="px-3">
         <v-data-iterator
           :items="history"
           disable-pagination
@@ -67,16 +23,22 @@
           hide-default-footer
         >
           <template #default="props">
-            <v-simple-table>
+            <v-simple-table :height="height">
               <thead>
                 <tr>
-                  <th class="text-left">
-                    rev
+                  <th
+                    class="text-center"
+                    width="200"
+                  >
+                    版本号
                   </th>
                   <th class="text-left">
-                    update time
+                    更新时间
                   </th>
-                  <th class="text-left" />
+                  <th
+                    class="text-end"
+                    width="170"
+                  />
                 </tr>
               </thead>
               <tbody>
@@ -84,8 +46,8 @@
                   v-for="(item, idx) in props.items"
                 >
                   <tr :key="idx">
-                    <td>{{ item.rev }} </td>
-                    <td>{{ item.last_update_time }}</td>
+                    <td class="text-center">{{ item.rev }} </td>
+                    <td>{{ $moment(item.last_update_time).format('lll') }}</td>
                     <td>
                       <v-row
                         v-if="idx !== 0"
@@ -93,22 +55,51 @@
                         <v-col>
                           <v-btn
                             small
+                            text
                             :color=" item.expanded ? 'green' : 'primary'"
                             class="ma-md-2"
                             @click="expandItem(idx)"
                           >
-                            {{ item.expanded ? "hide diff" : "show diff" }}
+                            <v-icon small>mdi-vector-difference</v-icon>
+                            diff
                           </v-btn>
                         </v-col>
                         <v-col>
-                          <v-btn
-                            small
-                            color="primary"
-                            class="ma-md-2"
-                            @click="rollback(item)"
+                          <v-flex :id="`rh${item.rev}`" />
+                          <v-menu
+                            left
+                            :attach="`#rh${item.rev}`"
                           >
-                            回滚
-                          </v-btn>
+                            <template #activator="{ on }">
+                              <v-btn
+                                small
+                                icon
+                                class="mt-2"
+                              >
+                                <v-icon
+                                  x-small
+                                  color="primary"
+                                  v-on="on"
+                                >
+                                  fas fa-ellipsis-v
+                                </v-icon>
+                              </v-btn>
+                            </template>
+                            <v-card>
+                              <v-card-text class="pa-2">
+                                <v-flex>
+                                  <v-btn
+                                    small
+                                    text
+                                    color="primary"
+                                    @click="rollback(item)"
+                                  >
+                                    回滚
+                                  </v-btn>
+                                </v-flex>
+                              </v-card-text>
+                            </v-card>
+                          </v-menu>
                         </v-col>
                       </v-row>
                       <v-row v-else> <span> 当前应用的配置 </span></v-row>
@@ -118,7 +109,10 @@
                     v-show="item.expanded"
                     :key="idx + 'content'"
                   >
-                    <td colspan="3">
+                    <td
+                      colspan="3"
+                      class="px-0"
+                    >
                       <CodeDiff
                         output-format="side-by-side"
                         is-show-no-change
@@ -134,11 +128,12 @@
           </template>
         </v-data-iterator>
       </v-card>
-    </v-dialog>
-  </div>
+    </template>
+  </BaseFullScreenDialog>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import { itemHistory, itemDetail, pubConfigItems } from '../api/index.js';
 
 import { CodeDiff } from 'v-code-diff'
@@ -169,17 +164,23 @@ export default {
   },
   data() {
     return {
-      show: false,
+      dialog: false,
       history: [],
       latestContent: "",
     }
   },
+  computed: {
+    ...mapState(['JWT', 'Scale']),
+    height() {
+      return parseInt((window.innerHeight - 64) / this.Scale)
+    },
+  },
   watch: {
     showHistoryDialog(val) {
       if (val) {
-        this.show = true
+        this.dialog = true
       } else {
-        this.show = false
+        this.dialog = false
       }
     },
     historyItem() {
@@ -244,7 +245,6 @@ export default {
       if (!content || content.length === 0) {
         content = await this.getHistoryDetail(item.rev)
       }
-      console.log(content)
       this.$store.commit('SET_CONFIRM', {
         title: `确认回滚配置项到版本 ${item.rev} ?`,
         content: {
@@ -275,6 +275,20 @@ export default {
         },
       })
     },
+    dispose() {
+      this.close()
+    },
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.card {
+  &__title {
+    background-color: #f6f6f6;
+  }
+}
+td {
+  position: relative;
+}
+</style>

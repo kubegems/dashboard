@@ -61,6 +61,7 @@ const TIP = {
   persistentvolumeclaim: '存储卷(PersistentVolumeClaim)供用户创建的工作负载使用，是将工作负载数据持久化的一种资源对象。',
   volumesnapshot: '存储卷快照(VolumeSnapshot)表示存储卷的时间点副本。快照可用于配置新卷（预先填充快照数据）或将现有存储卷还原到先前状态（由快照表示）。',
   storageclass: '存储类型 (StorageClass) 是由集群管理员配置存储服务端参数，并按类型提供存储给集群用户使用。',
+  appconfig: '应用配置 (Nacos) 可以提供外部的动态配置服务给应用',
 
   // 可观测性
   observe: '可观测性(Observability)提供日志采集，查看，告警/监控指标采集，告警/告警中心，历史/链路追踪等所有功能。',
