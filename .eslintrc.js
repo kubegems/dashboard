@@ -14,7 +14,7 @@ module.exports = defineConfig({
       jsx: true,
     },
   },
-  extends: ['plugin:vue/recommended', 'prettier', 'plugin:vuetify/base', 'plugin:prettier/recommended'],
+  extends: ['plugin:vue/recommended', 'plugin:vuetify/base', 'plugin:prettier/recommended'],
   plugins: ['vue'],
   rules: {
     'vue/script-setup-uses-vars': 'error',
