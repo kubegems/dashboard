@@ -1,4 +1,4 @@
-const prefix = ':tenant?'
+const prefix = ':tenant?';
 
 export const observe = [
   {
@@ -355,4 +355,4 @@ export const observe = [
       },
     ],
   },
-]
+];

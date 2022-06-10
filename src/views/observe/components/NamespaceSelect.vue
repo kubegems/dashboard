@@ -14,15 +14,11 @@
       attach
       hide-details
       hide-selected
-      style="width: 360px;"
+      style="width: 360px"
       @change="onSelectChange"
     >
       <template #selection="{ item }">
-        <v-chip
-          color="primary"
-          small
-          label
-        >
+        <v-chip color="primary" small label>
           {{ item['text'] }}
         </v-chip>
       </template>
@@ -31,70 +27,70 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
-import getNamespaceItems from '@/views/observe/utils/namespace'
+  import { mapGetters, mapState } from 'vuex';
+  import getNamespaceItems from '@/views/observe/utils/namespace';
 
-export default {
-  name: 'NamespaceSelect',
-  props: {
-    value: {
-      type: String,
-      default: undefined,
-    },
-    cluster: {
-      type: String,
-      default: '',
-    },
-    autoSelectFirst: {
-      type: Boolean,
-      default: false,
-    },
-    emptyValue: {
-      type: String,
-      default: '_all',
-    },
-  },
-  data() {
-    return {
-      namespace: this.value,
-      items: [],
-    }
-  },
-  computed: {
-    ...mapState(['AdminViewport']),
-    ...mapGetters(['Tenant']),
-  },
-  watch: {
-    value(newValue) {
-      this.namespace = newValue
-    },
-    cluster: {
-      handler(value) {
-        if (!value) return
-        this.getNamespaceItems()
+  export default {
+    name: 'NamespaceSelect',
+    props: {
+      value: {
+        type: String,
+        default: undefined,
       },
-      immediate: true,
+      cluster: {
+        type: String,
+        default: '',
+      },
+      autoSelectFirst: {
+        type: Boolean,
+        default: false,
+      },
+      emptyValue: {
+        type: String,
+        default: '_all',
+      },
     },
-  },
-  methods: {
-    async getNamespaceItems() {
-      this.items = await getNamespaceItems(this.AdminViewport, this.cluster, this.Tenant().ID)
-      if (this.autoSelectFirst && this.items.length && !this.value) {
-        this.onSelectChange(this.items[0].value)
-      }
-      this.$emit('updateItems', [...this.items])
+    data() {
+      return {
+        namespace: this.value,
+        items: [],
+      };
     },
-    onSelectChange(value) {
-      value = value || this.emptyValue
-      this.$router.replace({
-        query: {
-          ...this.$route.query,
-          namespace: value,
+    computed: {
+      ...mapState(['AdminViewport']),
+      ...mapGetters(['Tenant']),
+    },
+    watch: {
+      value(newValue) {
+        this.namespace = newValue;
+      },
+      cluster: {
+        handler(value) {
+          if (!value) return;
+          this.getNamespaceItems();
         },
-      })
-      this.$emit('input', value)
-      this.$emit('change', value)
+        immediate: true,
+      },
     },
-  },
-}
+    methods: {
+      async getNamespaceItems() {
+        this.items = await getNamespaceItems(this.AdminViewport, this.cluster, this.Tenant().ID);
+        if (this.autoSelectFirst && this.items.length && !this.value) {
+          this.onSelectChange(this.items[0].value);
+        }
+        this.$emit('updateItems', [...this.items]);
+      },
+      onSelectChange(value) {
+        value = value || this.emptyValue;
+        this.$router.replace({
+          query: {
+            ...this.$route.query,
+            namespace: value,
+          },
+        });
+        this.$emit('input', value);
+        this.$emit('change', value);
+      },
+    },
+  };
 </script>

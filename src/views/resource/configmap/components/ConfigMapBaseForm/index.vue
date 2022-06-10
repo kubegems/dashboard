@@ -1,11 +1,6 @@
 <template>
   <v-flex>
-    <v-form
-      ref="form"
-      v-model="valid"
-      lazy-validation
-      @submit.prevent
-    >
+    <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
       <v-flex :class="expand ? 'kubegems__overlay' : ''" />
       <BaseSubTitle title="配置定义" />
       <v-card-text class="pa-2">
@@ -24,11 +19,7 @@
               @change="onKindChange"
             >
               <template #selection="{ item }">
-                <v-chip
-                  color="primary"
-                  small
-                  class="mx-1"
-                >
+                <v-chip color="primary" small class="mx-1">
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -61,11 +52,7 @@
               @focus="onNamespaceSelectFocus(ThisCluster)"
             >
               <template #selection="{ item }">
-                <v-chip
-                  color="primary"
-                  small
-                  class="mx-1"
-                >
+                <v-chip color="primary" small class="mx-1">
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -95,172 +82,169 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import DataForm from '@/views/resource/components/common/DataForm'
-import ConfigMapDataItem from './ConfigMapDataItem'
-import BaseSelect from '@/mixins/select'
-import BaseResource from '@/mixins/resource'
-import { deepCopy } from '@/utils/helpers'
-import { k8sName, required } from '@/utils/rules'
+  import { mapState } from 'vuex';
+  import DataForm from '@/views/resource/components/common/DataForm';
+  import ConfigMapDataItem from './ConfigMapDataItem';
+  import BaseSelect from '@/mixins/select';
+  import BaseResource from '@/mixins/resource';
+  import { deepCopy } from '@/utils/helpers';
+  import { k8sName, required } from '@/utils/rules';
 
-export default {
-  name: 'ConfigMapBaseForm',
-  components: {
-    DataForm,
-    ConfigMapDataItem,
-  },
-  mixins: [BaseSelect, BaseResource],
-  props: {
-    item: {
-      type: Object,
-      default: () => null,
+  export default {
+    name: 'ConfigMapBaseForm',
+    components: {
+      DataForm,
+      ConfigMapDataItem,
     },
-    edit: {
-      type: Boolean,
-      default: () => false,
-    },
-    kind: {
-      type: String,
-      default: () => 'ConfigMap',
-    },
-    manifest: {
-      type: Boolean,
-      default: () => false,
-    },
-    kinds: {
-      type: Array,
-      default: () => [],
-    },
-    app: {
-      type: Object,
-      default: () => {},
-    },
-  },
-  data: () => ({
-    valid: false,
-    expand: false,
-    resourceKind: '',
-    obj: {
-      apiVersion: 'v1',
-      kind: 'ConfigMap',
-      metadata: {
-        name: '',
-        namespace: null,
+    mixins: [BaseSelect, BaseResource],
+    props: {
+      item: {
+        type: Object,
+        default: () => null,
       },
-      data: {},
-    },
-    formComponent: 'DataForm',
-  }),
-  computed: {
-    ...mapState(['Admin', 'AdminViewport', 'ApiResources']),
-    objRules() {
-      return {
-        nameRule: [
-          required,
-          k8sName,
-        ],
-        namespaceRule: [required],
-        kindRule: [required],
-      }
-    },
-  },
-  watch: {
-    item: {
-      handler() {
-        this.obj.apiVersion = this.ApiResources['configmap'] || 'v1'
-        this.loadData()
+      edit: {
+        type: Boolean,
+        default: () => false,
       },
-      deep: true,
-      immediate: true,
+      kind: {
+        type: String,
+        default: () => 'ConfigMap',
+      },
+      manifest: {
+        type: Boolean,
+        default: () => false,
+      },
+      kinds: {
+        type: Array,
+        default: () => [],
+      },
+      app: {
+        type: Object,
+        default: () => {},
+      },
     },
-  },
-  methods: {
-    loadData() {
-      this.$nextTick(() => {
-        if (!this.item) {
-          this.$refs.form.resetValidation()
-        } else {
-          this.obj = deepCopy(this.item)
-        }
-
-        if (!this.manifest) {
-          if (this.AdminViewport) {
-            this.m_select_namespaceSelectData(this.ThisCluster)
+    data: () => ({
+      valid: false,
+      expand: false,
+      resourceKind: '',
+      obj: {
+        apiVersion: 'v1',
+        kind: 'ConfigMap',
+        metadata: {
+          name: '',
+          namespace: null,
+        },
+        data: {},
+      },
+      formComponent: 'DataForm',
+    }),
+    computed: {
+      ...mapState(['Admin', 'AdminViewport', 'ApiResources']),
+      objRules() {
+        return {
+          nameRule: [required, k8sName],
+          namespaceRule: [required],
+          kindRule: [required],
+        };
+      },
+    },
+    watch: {
+      item: {
+        handler() {
+          this.obj.apiVersion = this.ApiResources['configmap'] || 'v1';
+          this.loadData();
+        },
+        deep: true,
+        immediate: true,
+      },
+    },
+    methods: {
+      loadData() {
+        this.$nextTick(() => {
+          if (!this.item) {
+            this.$refs.form.resetValidation();
           } else {
-            this.obj.metadata.namespace = this.ThisNamespace
+            this.obj = deepCopy(this.item);
           }
-        } else {
-          this.obj.metadata.name = `${this.app.ApplicationName}`
-        }
 
-        this.resourceKind = this.kind
-        this.obj.kind = this.kind
-      })
+          if (!this.manifest) {
+            if (this.AdminViewport) {
+              this.m_select_namespaceSelectData(this.ThisCluster);
+            } else {
+              this.obj.metadata.namespace = this.ThisNamespace;
+            }
+          } else {
+            this.obj.metadata.name = `${this.app.ApplicationName}`;
+          }
+
+          this.resourceKind = this.kind;
+          this.obj.kind = this.kind;
+        });
+      },
+      addData(data) {
+        this.obj.data = data;
+        this.$refs[this.formComponent].closeCard();
+      },
+      updateData(key) {
+        const data = { key: key, value: this.obj.data[key] };
+        this.$refs[this.formComponent].init(data);
+        this.expand = true;
+      },
+      removeData(key) {
+        this.$delete(this.obj.data, key);
+      },
+      expandCard() {
+        this.$nextTick(() => {
+          this.$refs[this.formComponent].expand = true;
+          this.expand = true;
+        });
+      },
+      closeExpand() {
+        this.expand = false;
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      reset() {
+        this.$refs[this.formComponent].closeCard();
+        this.$refs.form.reset();
+        this.obj = this.$options.data().obj;
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      init(data) {
+        this.$nextTick(() => {
+          this.obj = deepCopy(data);
+        });
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      back(data) {
+        this.$nextTick(() => {
+          this.obj = deepCopy(data);
+        });
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      checkSaved() {
+        if (this.$refs[this.formComponent].expand) {
+          return !this.$refs[this.formComponent].expand;
+        }
+        return true;
+      },
+      onKindChange() {
+        this.$emit('change', this.resourceKind);
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      setData(data) {
+        this.obj = data;
+      },
+      onNamespaceSelectFocus(clusterName) {
+        this.m_select_namespaceSelectData(clusterName);
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      getData() {
+        return this.obj;
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      validate() {
+        return this.$refs.form.validate(true);
+      },
     },
-    addData(data) {
-      this.obj.data = data
-      this.$refs[this.formComponent].closeCard()
-    },
-    updateData(key) {
-      const data = { key: key, value: this.obj.data[key] }
-      this.$refs[this.formComponent].init(data)
-      this.expand = true
-    },
-    removeData(key) {
-      this.$delete(this.obj.data, key)
-    },
-    expandCard() {
-      this.$nextTick(() => {
-        this.$refs[this.formComponent].expand = true
-        this.expand = true
-      })
-    },
-    closeExpand() {
-      this.expand = false
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    reset() {
-      this.$refs[this.formComponent].closeCard()
-      this.$refs.form.reset()
-      this.obj = this.$options.data().obj
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    init(data) {
-      this.$nextTick(() => {
-        this.obj = deepCopy(data)
-      })
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    back(data) {
-      this.$nextTick(() => {
-        this.obj = deepCopy(data)
-      })
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    checkSaved() {
-      if (this.$refs[this.formComponent].expand) {
-        return !this.$refs[this.formComponent].expand
-      }
-      return true
-    },
-    onKindChange() {
-      this.$emit('change', this.resourceKind)
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    setData(data) {
-      this.obj = data
-    },
-    onNamespaceSelectFocus(clusterName) {
-      this.m_select_namespaceSelectData(clusterName)
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    getData() {
-      return this.obj
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    validate() {
-      return this.$refs.form.validate(true)
-    },
-  },
-}
+  };
 </script>

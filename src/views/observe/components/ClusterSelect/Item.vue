@@ -14,33 +14,33 @@
 </template>
 
 <script>
-export default {
-  name: 'ClusterSelectItem',
-  props: {
-    active: {
-      type: Boolean,
-      default: false,
+  export default {
+    name: 'ClusterSelectItem',
+    props: {
+      active: {
+        type: Boolean,
+        default: false,
+      },
+      disabled: {
+        type: Boolean,
+        default: false,
+      },
     },
-    disabled: {
-      type: Boolean,
-      default: false,
+    methods: {
+      onClick() {
+        this.$emit('click');
+      },
     },
-  },
-  methods: {
-    onClick () {
-      this.$emit('click')
-    },
-  },
-}
+  };
 </script>
 
 <style lang="scss" scoped>
-.item {
-  position: relative;
-  background-color: #f0f4f7;
+  .item {
+    position: relative;
+    background-color: #f0f4f7;
 
-  &--active {
-    background-color: #bbdefb;
+    &--active {
+      background-color: #bbdefb;
+    }
   }
-}
 </style>

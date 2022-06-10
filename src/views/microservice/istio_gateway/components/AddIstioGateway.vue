@@ -1,25 +1,10 @@
 <template>
-  <BaseDialog
-    v-model="dialog"
-    :width="500"
-    title="创建网关实例"
-    icon="mdi-gateway"
-    @reset="reset"
-  >
+  <BaseDialog v-model="dialog" :width="500" title="创建网关实例" icon="mdi-gateway" @reset="reset">
     <template #content>
-      <component
-        :is="formComponent"
-        :ref="formComponent"
-      />
+      <component :is="formComponent" :ref="formComponent" />
     </template>
     <template #action>
-      <v-btn
-        class="float-right"
-        color="primary"
-        text
-        :loading="Circular"
-        @click="addIstioGatewayInstance"
-      >
+      <v-btn class="float-right" color="primary" text :loading="Circular" @click="addIstioGatewayInstance">
         确定
       </v-btn>
     </template>
@@ -27,46 +12,42 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
-import { postAddIstioGatewayInstance } from '@/api'
-import IstioGatewayBaseForm from './IstioGatewayBaseForm'
-import BaseResource from '@/mixins/resource'
+  import { mapGetters, mapState } from 'vuex';
+  import { postAddIstioGatewayInstance } from '@/api';
+  import IstioGatewayBaseForm from './IstioGatewayBaseForm';
+  import BaseResource from '@/mixins/resource';
 
-export default {
-  name: 'AddIstioGateway',
-  components: {
-    IstioGatewayBaseForm,
-  },
-  mixins: [BaseResource],
-  data: () => ({
-    dialog: false,
-    formComponent: 'IstioGatewayBaseForm',
-  }),
-  computed: {
-    ...mapState(['Circular']),
-    ...mapGetters(['VirtualSpace']),
-  },
-  methods: {
-    // eslint-disable-next-line vue/no-unused-properties
-    open() {
-      this.dialog = true
+  export default {
+    name: 'AddIstioGateway',
+    components: {
+      IstioGatewayBaseForm,
     },
-    async addIstioGatewayInstance() {
-      if (this.$refs[this.formComponent].validate()) {
-        const data = this.$refs[this.formComponent].getData()
-        await postAddIstioGatewayInstance(
-          this.VirtualSpace().ID,
-          this.$route.query.clusterid,
-          data,
-        )
-        this.reset()
-        this.$emit('refresh')
-      }
+    mixins: [BaseResource],
+    data: () => ({
+      dialog: false,
+      formComponent: 'IstioGatewayBaseForm',
+    }),
+    computed: {
+      ...mapState(['Circular']),
+      ...mapGetters(['VirtualSpace']),
     },
-    reset() {
-      this.dialog = false
-      this.$refs[this.formComponent].reset()
+    methods: {
+      // eslint-disable-next-line vue/no-unused-properties
+      open() {
+        this.dialog = true;
+      },
+      async addIstioGatewayInstance() {
+        if (this.$refs[this.formComponent].validate()) {
+          const data = this.$refs[this.formComponent].getData();
+          await postAddIstioGatewayInstance(this.VirtualSpace().ID, this.$route.query.clusterid, data);
+          this.reset();
+          this.$emit('refresh');
+        }
+      },
+      reset() {
+        this.dialog = false;
+        this.$refs[this.formComponent].reset();
+      },
     },
-  },
-}
+  };
 </script>

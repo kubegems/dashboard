@@ -20,41 +20,41 @@
 </template>
 
 <script>
-import { required } from '@/utils/rules'
+  import { required } from '@/utils/rules';
 
-export default {
-  name: 'TextFieldParam',
-  props: {
-    label: {
-      type: String,
-      default: () => '',
+  export default {
+    name: 'TextFieldParam',
+    props: {
+      label: {
+        type: String,
+        default: () => '',
+      },
+      param: {
+        type: Object,
+        default: () => {},
+      },
+      id: {
+        type: String,
+        default: () => '',
+      },
     },
-    param: {
-      type: Object,
-      default: () => {},
+    data() {
+      return {
+        textareaRule: [required],
+      };
     },
-    id: {
-      type: String,
-      default: () => '',
+    computed: {
+      pathLevel() {
+        return this.param.path.split('/').length;
+      },
     },
-  },
-  data() {
-    return {
-      textareaRule: [required],
-    }
-  },
-  computed: {
-    pathLevel() {
-      return this.param.path.split('/').length
+    mounted() {
+      this.onChange(this.param.value);
     },
-  },
-  mounted() {
-    this.onChange(this.param.value)
-  },
-  methods: {
-    onChange(event) {
-      this.$emit('changeBasicFormParam', this.param, event)
+    methods: {
+      onChange(event) {
+        this.$emit('changeBasicFormParam', this.param, event);
+      },
     },
-  },
-}
+  };
 </script>

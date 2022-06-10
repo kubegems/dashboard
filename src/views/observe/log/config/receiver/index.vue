@@ -1,8 +1,5 @@
 <template>
-  <v-container
-    fluid
-    class="pa-0"
-  >
+  <v-container fluid class="pa-0">
     <v-card flat>
       <v-card-title class="px-0">
         <BaseFilter
@@ -11,29 +8,16 @@
           @refresh="filterList"
         />
         <v-spacer />
-        <v-menu
-          v-if="m_permisson_resourceAllow($route.query.env)"
-          left
-        >
+        <v-menu v-if="m_permisson_resourceAllow($route.query.env)" left>
           <template #activator="{ on }">
             <v-btn icon>
-              <v-icon
-                small
-                color="primary"
-                v-on="on"
-              >
-                fas fa-ellipsis-v
-              </v-icon>
+              <v-icon small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
             </v-btn>
           </template>
           <v-card>
             <v-card-text class="pa-2">
               <v-flex>
-                <v-btn
-                  text
-                  color="primary"
-                  @click="addReceiver"
-                >
+                <v-btn text color="primary" @click="addReceiver">
                   <v-icon left>mdi-plus-box</v-icon>
                   创建接收器
                 </v-btn>
@@ -72,21 +56,11 @@
         >
           <template #[`item.data-table-select`]="{ item, index }">
             <v-checkbox
-              v-model="
-                m_table_batchResources[
-                  `${item.metadata.name}-${index + itemsPerPage * (page - 1)}`
-                ].checked
-              "
+              v-model="m_table_batchResources[`${item.metadata.name}-${index + itemsPerPage * (page - 1)}`].checked"
               color="primary"
               hide-details
               @click.stop
-              @change="
-                onResourceChange(
-                  $event,
-                  item,
-                  `${index + itemsPerPage * (page - 1)}`,
-                )
-              "
+              @change="onResourceChange($event, item, `${index + itemsPerPage * (page - 1)}`)"
             />
           </template>
           <template #[`item.member`]="{ item }">
@@ -96,10 +70,7 @@
             <span>{{ getChannel(item) }}</span>
           </template>
           <template #expanded-item="{ headers, item }">
-            <td
-              :colspan="headers.length"
-              class="my-2 py-2"
-            >
+            <td :colspan="headers.length" class="my-2 py-2">
               <v-flex
                 v-for="(webhook, index) in item.webhookConfigs"
                 :key="`webhook${index}`"
@@ -123,13 +94,7 @@
                   <div>{{ `发件人:` }}{{ email.from }}</div>
                   <div>{{ `SMTP服务器:` }}{{ email.smtpServer }}</div>
                   <span>{{ `收件人:` }}</span>
-                  <v-chip
-                    v-for="(item, key) in email.to.split(',')"
-                    :key="key"
-                    class="mx-1"
-                    small
-                    color="success"
-                  >
+                  <v-chip v-for="(item, key) in email.to.split(',')" :key="key" class="mx-1" small color="success">
                     {{ item }}
                   </v-chip>
                 </v-flex>
@@ -139,42 +104,19 @@
           <template #[`item.action`]="{ item }">
             <template v-if="!item.name.endsWith('default-webhook')">
               <v-flex :id="`r${item.index}`" />
-              <v-menu
-                left
-                :attach="`#r${item.index}`"
-              >
+              <v-menu left :attach="`#r${item.index}`">
                 <template #activator="{ on }">
                   <v-btn icon>
-                    <v-icon
-                      x-small
-                      color="primary"
-                      v-on="on"
-                    >
-                      fas fa-ellipsis-v
-                    </v-icon>
+                    <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
                   </v-btn>
                 </template>
                 <v-card>
                   <v-card-text class="pa-2">
                     <v-flex>
-                      <v-btn
-                        color="primary"
-                        text
-                        small
-                        @click.stop="updateReceiver(item)"
-                      >
-                        编辑
-                      </v-btn>
+                      <v-btn color="primary" text small @click.stop="updateReceiver(item)"> 编辑 </v-btn>
                     </v-flex>
                     <v-flex>
-                      <v-btn
-                        color="error"
-                        text
-                        small
-                        @click.stop="removeReceiver(item)"
-                      >
-                        删除
-                      </v-btn>
+                      <v-btn color="error" text small @click.stop="removeReceiver(item)"> 删除 </v-btn>
                     </v-flex>
                   </v-card-text>
                 </v-card>
@@ -194,176 +136,161 @@
         />
       </v-card-text>
     </v-card>
-    <AddReceiver
-      ref="addReceiver"
-      mode="logging"
-      @refresh="receiverList"
-    />
-    <UpdateReceiver
-      ref="updateReceiver"
-      mode="logging"
-      @refresh="receiverList"
-    />
+    <AddReceiver ref="addReceiver" mode="logging" @refresh="receiverList" />
+    <UpdateReceiver ref="updateReceiver" mode="logging" @refresh="receiverList" />
   </v-container>
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
-import { getReceiverList, deleteReceiver } from '@/api'
-import AddReceiver from '@/views/observe/monitor/config/receiver/components/AddReceiver'
-import UpdateReceiver from '@/views/observe/monitor/config/receiver/components/UpdateReceiver'
-import BaseFilter from '@/mixins/base_filter'
-import BaseResource from '@/mixins/resource'
-import BasePermission from '@/mixins/permission'
-import BaseTable from '@/mixins/table'
+  import { mapGetters, mapState } from 'vuex';
+  import { getReceiverList, deleteReceiver } from '@/api';
+  import AddReceiver from '@/views/observe/monitor/config/receiver/components/AddReceiver';
+  import UpdateReceiver from '@/views/observe/monitor/config/receiver/components/UpdateReceiver';
+  import BaseFilter from '@/mixins/base_filter';
+  import BaseResource from '@/mixins/resource';
+  import BasePermission from '@/mixins/permission';
+  import BaseTable from '@/mixins/table';
 
-export default {
-  name: 'Receiver',
-  components: {
-    AddReceiver,
-    UpdateReceiver,
-  },
-  mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
-  data: () => ({
-    filters: [{ text: '接收器名称', value: 'search', items: [] }],
-    items: [],
-    page: 1,
-    pageCount: 0,
-    itemsPerPage: 10,
-    params: {
-      scope: 'logging',
+  export default {
+    name: 'Receiver',
+    components: {
+      AddReceiver,
+      UpdateReceiver,
     },
-  }),
-  computed: {
-    ...mapState(['JWT', 'AdminViewport']),
-    ...mapGetters(['Environment']),
-    headers() {
-      const items = [
-        { text: '名称', value: 'name', align: 'start' },
-        { text: '渠道', value: 'channel', align: 'start' },
-      ]
-      if (this.m_permisson_resourceAllow(this.$route.query.env)) {
-        items.push({ text: '', value: 'action', align: 'center', width: 20 })
-      }
-      if (this.AdminViewport) {
-        items.splice(1, 0, {
-          text: '命名空间',
-          value: 'namespace',
-          align: 'start',
-        })
-      }
-      items.push({ text: '', value: 'data-table-expand' })
-      return items
-    },
-  },
-  watch: {
-    '$store.state.NamespaceFilter': {
-      handler: function (namespace) {
-        if (namespace && !namespace.Mounted) {
-          this.params.page = 1
-          this.params.namespace = namespace.Namespace
-          this.receiverList()
-        }
+    mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
+    data: () => ({
+      filters: [{ text: '接收器名称', value: 'search', items: [] }],
+      items: [],
+      page: 1,
+      pageCount: 0,
+      itemsPerPage: 10,
+      params: {
+        scope: 'logging',
       },
-      deep: true,
-    },
-    '$route.query': {
-      handler (newValue) {
-        const { cluster, namespace } = this.params
-        const { cluster: newCluster, namespace: newNamespace } = newValue
-        const needRefresh = cluster !== newCluster || namespace !== newNamespace
-        if (needRefresh) {
-          this.m_table_generateParams()
-          this.receiverList()
+    }),
+    computed: {
+      ...mapState(['JWT', 'AdminViewport']),
+      ...mapGetters(['Environment']),
+      headers() {
+        const items = [
+          { text: '名称', value: 'name', align: 'start' },
+          { text: '渠道', value: 'channel', align: 'start' },
+        ];
+        if (this.m_permisson_resourceAllow(this.$route.query.env)) {
+          items.push({ text: '', value: 'action', align: 'center', width: 20 });
         }
+        if (this.AdminViewport) {
+          items.splice(1, 0, {
+            text: '命名空间',
+            value: 'namespace',
+            align: 'start',
+          });
+        }
+        items.push({ text: '', value: 'data-table-expand' });
+        return items;
       },
-      deep: true,
-      immediate: true,
     },
-  },
-  methods: {
-    async receiverList() {
-      if (!this.$route.query.cluster || !this.$route.query.namespace) {
-        return
-      }
-      const data = await getReceiverList(
-        this.$route.query.cluster,
-        this.$route.query.namespace,
-        this.params,
-      )
-      this.items = data
-      this.items = this.items.map((d, index) => {
-        return {
-          metadata: {
-            name: d.name,
-            namespace: d.namespace,
+    watch: {
+      '$store.state.NamespaceFilter': {
+        handler: function (namespace) {
+          if (namespace && !namespace.Mounted) {
+            this.params.page = 1;
+            this.params.namespace = namespace.Namespace;
+            this.receiverList();
+          }
+        },
+        deep: true,
+      },
+      '$route.query': {
+        handler(newValue) {
+          const { cluster, namespace } = this.params;
+          const { cluster: newCluster, namespace: newNamespace } = newValue;
+          const needRefresh = cluster !== newCluster || namespace !== newNamespace;
+          if (needRefresh) {
+            this.m_table_generateParams();
+            this.receiverList();
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
+    },
+    methods: {
+      async receiverList() {
+        if (!this.$route.query.cluster || !this.$route.query.namespace) {
+          return;
+        }
+        const data = await getReceiverList(this.$route.query.cluster, this.$route.query.namespace, this.params);
+        this.items = data;
+        this.items = this.items.map((d, index) => {
+          return {
+            metadata: {
+              name: d.name,
+              namespace: d.namespace,
+            },
+            index: index,
+            ...d,
+          };
+        });
+      },
+      filterList(params) {
+        const defaultparams = {
+          search: '',
+        };
+        for (const key in defaultparams) {
+          if (params[key]) {
+            defaultparams[key] = this.params[key];
+          }
+        }
+        Object.assign(defaultparams, params);
+        this.params = defaultparams;
+        this.$router.replace({ query: { ...this.$route.query, ...this.params } });
+        this.receiverList();
+      },
+      addReceiver() {
+        this.$refs.addReceiver.open();
+      },
+      updateReceiver(item) {
+        this.$refs.updateReceiver.init(item);
+        this.$refs.updateReceiver.open();
+      },
+      removeReceiver(item) {
+        this.$store.commit('SET_CONFIRM', {
+          title: `删除接收器`,
+          content: {
+            text: `删除接收器 ${item.name}`,
+            type: 'delete',
+            name: item.name,
           },
-          index: index,
-          ...d,
+          param: { item },
+          doFunc: async (param) => {
+            await deleteReceiver(this.$route.query.cluster, param.item.namespace, param.item.name, {
+              scope: 'logging',
+            });
+            this.receiverList();
+          },
+        });
+      },
+      getChannel(item) {
+        let counter = 0;
+        if (item.emailConfigs && item.emailConfigs.length > 0) {
+          counter++;
         }
-      })
-    },
-    filterList(params) {
-      const defaultparams = {
-        search: '',
-      }
-      for (const key in defaultparams) {
-        if (params[key]) {
-          defaultparams[key] = this.params[key]
+        if (item.webhookConfigs && item.webhookConfigs.length > 0) {
+          counter++;
         }
-      }
-      Object.assign(defaultparams, params)
-      this.params = defaultparams
-      this.$router.replace({ query: { ...this.$route.query, ...this.params } })
-      this.receiverList()
+        return counter;
+      },
+      onPageSizeChange(size) {
+        this.params.page = 1;
+        this.params.size = size;
+      },
+      onPageIndexChange(page) {
+        this.params.page = page;
+      },
+      onRowClick(item, { expand, isExpanded }) {
+        expand(!isExpanded);
+      },
     },
-    addReceiver() {
-      this.$refs.addReceiver.open()
-    },
-    updateReceiver(item) {
-      this.$refs.updateReceiver.init(item)
-      this.$refs.updateReceiver.open()
-    },
-    removeReceiver(item) {
-      this.$store.commit('SET_CONFIRM', {
-        title: `删除接收器`,
-        content: {
-          text: `删除接收器 ${item.name}`,
-          type: 'delete',
-          name: item.name,
-        },
-        param: { item },
-        doFunc: async (param) => {
-          await deleteReceiver(
-            this.$route.query.cluster,
-            param.item.namespace,
-            param.item.name,
-            {scope: 'logging'},
-          )
-          this.receiverList()
-        },
-      })
-    },
-    getChannel(item) {
-      let counter = 0
-      if (item.emailConfigs && item.emailConfigs.length > 0) {
-        counter++
-      }
-      if (item.webhookConfigs && item.webhookConfigs.length > 0) {
-        counter++
-      }
-      return counter
-    },
-    onPageSizeChange(size) {
-      this.params.page = 1
-      this.params.size = size
-    },
-    onPageIndexChange(page) {
-      this.params.page = page
-    },
-    onRowClick(item, { expand, isExpanded }) {
-      expand(!isExpanded)
-    },
-  },
-}
+  };
 </script>

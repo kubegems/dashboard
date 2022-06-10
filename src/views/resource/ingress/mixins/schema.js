@@ -12,11 +12,7 @@ const schema = {
             $id: '#/properties/apiVersion',
             type: 'string',
             default: '',
-            enum: [
-              'extensions/v1beta1',
-              'networking.k8s.io/v1beta1',
-              'networking.k8s.io/v1',
-            ],
+            enum: ['extensions/v1beta1', 'networking.k8s.io/v1beta1', 'networking.k8s.io/v1'],
           },
           kind: {
             $id: '#/properties/kind',
@@ -71,8 +67,8 @@ const schema = {
         },
         additionalProperties: true,
       },
-    }
+    };
   },
-}
+};
 
-export default schema
+export default schema;

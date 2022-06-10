@@ -20,56 +20,56 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+  import { mapState } from 'vuex';
 
-export default {
-  name: 'BaseProgress',
-  computed: {
-    ...mapState(['Progress', 'DialogActive', 'PanelActive', 'FullDialogActive']),
-  },
-}
+  export default {
+    name: 'BaseProgress',
+    computed: {
+      ...mapState(['Progress', 'DialogActive', 'PanelActive', 'FullDialogActive']),
+    },
+  };
 </script>
 
 <style lang="scss" scoped>
-.v-progress-linear-position {
-  top: 64px !important;
-  z-index: 20;
-}
-
-.v-overlay {
-  z-index: 20 !important;
-}
-
-.progress {
-  &__light {
-    background-color: #ffffff !important;
-    border-color: #ffffff !important;
-    color: rgba(0, 0, 0, 0.87) !important;
+  .v-progress-linear-position {
+    top: 64px !important;
+    z-index: 20;
   }
 
-  &__loading {
-    font-family: 'kubegems-sample';
-    font-size: 20px;
-    position: relative;
+  .v-overlay {
+    z-index: 20 !important;
+  }
 
-    &__span {
-      animation-name: loading;
-      animation-duration: 0.5s;
-      animation-timing-function: linear;
-      animation-delay: 0s;
-      animation-iteration-count: infinite;
-      animation-direction: alternate;
-      position: absolute;
+  .progress {
+    &__light {
+      background-color: #ffffff !important;
+      border-color: #ffffff !important;
+      color: rgba(0, 0, 0, 0.87) !important;
+    }
+
+    &__loading {
+      font-family: 'kubegems-sample';
+      font-size: 20px;
+      position: relative;
+
+      &__span {
+        animation-name: loading;
+        animation-duration: 0.5s;
+        animation-timing-function: linear;
+        animation-delay: 0s;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+        position: absolute;
+      }
     }
   }
-}
 
-@keyframes loading {
-  0% {
-    top: 0;
+  @keyframes loading {
+    0% {
+      top: 0;
+    }
+    100% {
+      top: 20px;
+    }
   }
-  100% {
-    top: 20px;
-  }
-}
 </style>

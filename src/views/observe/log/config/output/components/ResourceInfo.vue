@@ -2,10 +2,7 @@
   <div>
     <v-card>
       <v-sheet class="pa-2">
-        <BaseListItemForDetail
-          title="Output"
-          :mt="0"
-        >
+        <BaseListItemForDetail title="Output" :mt="0">
           <template #content>
             <BaseCollapseChips
               v-if="output && output.spec"
@@ -21,28 +18,28 @@
 </template>
 
 <script>
-import { deepCopy } from '@/utils/helpers'
+  import { deepCopy } from '@/utils/helpers';
 
-export default {
-  name: 'ResourceInfo',
-  props: {
-    item: {
-      type: Object,
-      default: () => null,
+  export default {
+    name: 'ResourceInfo',
+    props: {
+      item: {
+        type: Object,
+        default: () => null,
+      },
     },
-  },
-  data() {
-    return {
-      output: null,
-    }
-  },
-  watch: {
-    item() {
-      this.output = deepCopy(this.item)
+    data() {
+      return {
+        output: null,
+      };
     },
-  },
-  mounted() {
-    if (this.item) this.output = deepCopy(this.item)
-  },
-}
+    watch: {
+      item() {
+        this.output = deepCopy(this.item);
+      },
+    },
+    mounted() {
+      if (this.item) this.output = deepCopy(this.item);
+    },
+  };
 </script>

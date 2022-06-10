@@ -2,15 +2,10 @@
   <div>
     <v-card>
       <v-sheet class="pa-2">
-        <BaseListItemForDetail
-          title="实例数"
-          :mt="0"
-        >
+        <BaseListItemForDetail title="实例数" :mt="0">
           <template #content>
             {{ gateway ? gateway.status.availableReplicas : 0 }} 个实例可用，{{
-              gateway
-                ? gateway.spec.replicas - gateway.status.availableReplicas
-                : 0
+              gateway ? gateway.spec.replicas - gateway.status.availableReplicas : 0
             }}
             个实例不可用
           </template>
@@ -58,11 +53,7 @@
     </v-card>
 
     <v-card class="mt-3">
-      <BaseSubTitle
-        title="网关端口"
-        :divider="false"
-        class="pt-2"
-      />
+      <BaseSubTitle title="网关端口" :divider="false" class="pt-2" />
       <v-simple-table class="mx-2 pa-2 pb-3">
         <template #default>
           <thead>
@@ -73,27 +64,14 @@
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="(item, index) in gateway ? gateway.status.ports : []"
-              :key="index"
-            >
+            <tr v-for="(item, index) in gateway ? gateway.status.ports : []" :key="index">
               <td>
-                <v-chip
-                  color="success"
-                  text-color="white"
-                  class="ma-1 font-weight-medium"
-                  small
-                >
+                <v-chip color="success" text-color="white" class="ma-1 font-weight-medium" small>
                   {{ item.targetPort }}｜{{ item.protocol }}
                 </v-chip>
               </td>
               <td>
-                <v-chip
-                  color="success"
-                  text-color="white"
-                  class="ma-1 font-weight-medium"
-                  small
-                >
+                <v-chip color="success" text-color="white" class="ma-1 font-weight-medium" small>
                   {{ item.port }}｜{{ item.protocol }}
                 </v-chip>
               </td>
@@ -105,51 +83,30 @@
     </v-card>
 
     <v-card class="mt-3">
-      <BaseSubTitle
-        title="网关地址"
-        :divider="false"
-        class="pt-2"
-      />
+      <BaseSubTitle title="网关地址" :divider="false" class="pt-2" />
       <v-flex class="pl-4 kubegems__text py-2 text-subtitle-1">HTTP</v-flex>
       <v-simple-table class="mx-2 pa-2 rounded">
         <template #default>
           <tbody>
             <tr
               v-for="(item, index) in addresses.filter((a) => {
-                return a.Addr.indexOf('http://') > -1
+                return a.Addr.indexOf('http://') > -1;
               })"
               :key="index"
             >
-              <td style="width: 50%;">{{ item.Addr }}</td>
-              <td style="width: 45%;">
+              <td style="width: 50%">{{ item.Addr }}</td>
+              <td style="width: 45%">
                 <template v-if="item.Ready">
-                  <v-icon
-                    small
-                    color="primary"
-                  >
-                    fas fa-check-circle
-                  </v-icon>
+                  <v-icon small color="primary"> fas fa-check-circle </v-icon>
                   正常
                 </template>
                 <template v-else>
-                  <v-icon
-                    small
-                    color="error"
-                  >
-                    fas fa-times-circle
-                  </v-icon>
+                  <v-icon small color="error"> fas fa-times-circle </v-icon>
                   异常
                 </template>
               </td>
-              <td style="text-align: end;">
-                <v-btn
-                  x-small
-                  text
-                  color="primary"
-                  @click="toAddress(item.Addr)"
-                >
-                  访问
-                </v-btn>
+              <td style="text-align: end">
+                <v-btn x-small text color="primary" @click="toAddress(item.Addr)"> 访问 </v-btn>
               </td>
             </tr>
           </tbody>
@@ -162,40 +119,23 @@
           <tbody>
             <tr
               v-for="(item, index) in addresses.filter((a) => {
-                return a.Addr.indexOf('https://') > -1
+                return a.Addr.indexOf('https://') > -1;
               })"
               :key="index"
             >
-              <td style="width: 50%;">{{ item.Addr }}</td>
-              <td style="width: 45%;">
+              <td style="width: 50%">{{ item.Addr }}</td>
+              <td style="width: 45%">
                 <template v-if="item.Ready">
-                  <v-icon
-                    small
-                    color="primary"
-                  >
-                    fas fa-check-circle
-                  </v-icon>
+                  <v-icon small color="primary"> fas fa-check-circle </v-icon>
                   正常
                 </template>
                 <template v-else>
-                  <v-icon
-                    small
-                    color="error"
-                  >
-                    fas fa-times-circle
-                  </v-icon>
+                  <v-icon small color="error"> fas fa-times-circle </v-icon>
                   异常
                 </template>
               </td>
-              <td style="text-align: end;">
-                <v-btn
-                  x-small
-                  text
-                  color="primary"
-                  @click="toAddress(item.Addr)"
-                >
-                  访问
-                </v-btn>
+              <td style="text-align: end">
+                <v-btn x-small text color="primary" @click="toAddress(item.Addr)"> 访问 </v-btn>
               </td>
             </tr>
           </tbody>
@@ -206,65 +146,59 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
-import { getGatewayDetail, getGatewayAddressList } from '@/api'
-import BaseResource from '@/mixins/resource'
-import { deepCopy } from '@/utils/helpers'
+  import { mapGetters, mapState } from 'vuex';
+  import { getGatewayDetail, getGatewayAddressList } from '@/api';
+  import BaseResource from '@/mixins/resource';
+  import { deepCopy } from '@/utils/helpers';
 
-export default {
-  name: 'ResourceInfo',
-  mixins: [BaseResource],
-  props: {
-    item: {
-      type: Object,
-      default: () => null,
+  export default {
+    name: 'ResourceInfo',
+    mixins: [BaseResource],
+    props: {
+      item: {
+        type: Object,
+        default: () => null,
+      },
     },
-  },
-  data() {
-    return {
-      gateway: null,
-      addresses: [],
-    }
-  },
-  computed: {
-    ...mapState(['JWT']),
-    ...mapGetters(['Tenant']),
-  },
-  watch: {
-    item() {
-      this.gateway = deepCopy(this.item)
-      this.gatewayDetail()
+    data() {
+      return {
+        gateway: null,
+        addresses: [],
+      };
     },
-  },
-  mounted() {
-    if (this.item) {
-      this.gateway = deepCopy(this.item)
-      this.gatewayDetail()
-    }
-  },
-  methods: {
-    async gatewayDetail() {
-      const data = await getGatewayDetail(
-        this.Tenant().ID,
-        this.ThisClusterID,
-        this.$route.params.name,
-        { noprocessing: true },
-      )
-      this.gateway = data
-      this.gatewayAddressList()
+    computed: {
+      ...mapState(['JWT']),
+      ...mapGetters(['Tenant']),
     },
-    async gatewayAddressList() {
-      const data = await getGatewayAddressList(
-        this.Tenant().ID,
-        this.ThisClusterID,
-        this.$route.params.name,
-        { noprocessing: true },
-      )
-      this.addresses = data || []
+    watch: {
+      item() {
+        this.gateway = deepCopy(this.item);
+        this.gatewayDetail();
+      },
     },
-    toAddress(address) {
-      window.open(address)
+    mounted() {
+      if (this.item) {
+        this.gateway = deepCopy(this.item);
+        this.gatewayDetail();
+      }
     },
-  },
-}
+    methods: {
+      async gatewayDetail() {
+        const data = await getGatewayDetail(this.Tenant().ID, this.ThisClusterID, this.$route.params.name, {
+          noprocessing: true,
+        });
+        this.gateway = data;
+        this.gatewayAddressList();
+      },
+      async gatewayAddressList() {
+        const data = await getGatewayAddressList(this.Tenant().ID, this.ThisClusterID, this.$route.params.name, {
+          noprocessing: true,
+        });
+        this.addresses = data || [];
+      },
+      toAddress(address) {
+        window.open(address);
+      },
+    },
+  };
 </script>

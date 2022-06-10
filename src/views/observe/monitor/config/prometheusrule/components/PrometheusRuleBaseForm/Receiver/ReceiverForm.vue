@@ -1,21 +1,10 @@
 <template>
-  <v-form
-    ref="form"
-    v-model="valid"
-    lazy-validation
-    class="my-2"
-  >
+  <v-form ref="form" v-model="valid" lazy-validation class="my-2">
     <v-expand-transition>
-      <v-card
-        v-show="expand"
-        class="my-2 pa-2 kubegems__expand-transition"
-        :elevation="4"
-      >
+      <v-card v-show="expand" class="my-2 pa-2 kubegems__expand-transition" :elevation="4">
         <v-card-text class="pa-0">
           <v-sheet class="pt-2 px-2">
-            <v-flex
-              class="float-left text-subtitle-2 pt-6 primary--text kubegems__min-width"
-            >
+            <v-flex class="float-left text-subtitle-2 pt-6 primary--text kubegems__min-width">
               <span>接收器定义</span>
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
@@ -30,45 +19,22 @@
                 @focus="onReceiverSelectFocus"
               >
                 <template #selection="{ item }">
-                  <v-chip
-                    color="primary"
-                    small
-                    class="mx-1"
-                  >
+                  <v-chip color="primary" small class="mx-1">
                     {{ item['text'] }}
                   </v-chip>
                 </template>
               </v-autocomplete>
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
-              <v-text-field
-                v-model="receiver.interval"
-                required
-                label="发送间隔"
-                :rules="receiverRules.intervalRule"
-              />
+              <v-text-field v-model="receiver.interval" required label="发送间隔" :rules="receiverRules.intervalRule" />
             </v-flex>
             <div class="kubegems__clear-float" />
           </v-sheet>
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn
-            text
-            small
-            color="error"
-            @click="closeCard"
-          >
-            取消
-          </v-btn>
-          <v-btn
-            text
-            small
-            color="primary"
-            @click="addData"
-          >
-            保存
-          </v-btn>
+          <v-btn text small color="error" @click="closeCard"> 取消 </v-btn>
+          <v-btn text small color="primary" @click="addData"> 保存 </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -76,114 +42,108 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
-import { getReceiverList } from '@/api'
-import BaseFilter from '@/mixins/base_filter'
-import BaseResource from '@/mixins/resource'
-import BasePermission from '@/mixins/permission'
-import { deepCopy } from '@/utils/helpers'
-import { required } from '@/utils/rules'
+  import { mapGetters, mapState } from 'vuex';
+  import { getReceiverList } from '@/api';
+  import BaseFilter from '@/mixins/base_filter';
+  import BaseResource from '@/mixins/resource';
+  import BasePermission from '@/mixins/permission';
+  import { deepCopy } from '@/utils/helpers';
+  import { required } from '@/utils/rules';
 
-export default {
-  name: 'ReceiverForm',
-  mixins: [BaseFilter, BaseResource, BasePermission],
-  props: {
-    data: {
-      type: Array,
-      default: () => null,
-    },
-    mode: {
-      type: String,
-      default: () => 'monitor',
-    },
-  },
-  data() {
-    return {
-      valid: false,
-      expand: false,
-      receiverCopy: {},
-      receiver: {
-        index: -1,
-        name: '',
-        interval: '',
+  export default {
+    name: 'ReceiverForm',
+    mixins: [BaseFilter, BaseResource, BasePermission],
+    props: {
+      data: {
+        type: Array,
+        default: () => null,
       },
-      receiverRules: {
-        nameRule: [required],
-        intervalRule: [
-          (v) =>
-            !!new RegExp('(^\\d+[s|m|h]$)').test(v) ||
-            '格式错误(示例:30s,1m,1h)',
-        ],
+      mode: {
+        type: String,
+        default: () => 'monitor',
       },
-      receiverSelect: [],
-    }
-  },
-  computed: {
-    ...mapState(['JWT', 'AdminViewport']),
-    ...mapGetters(['Project', 'Environment']),
-  },
-  watch: {
+    },
     data() {
-      this.receiverCopy = deepCopy(this.data)
+      return {
+        valid: false,
+        expand: false,
+        receiverCopy: {},
+        receiver: {
+          index: -1,
+          name: '',
+          interval: '',
+        },
+        receiverRules: {
+          nameRule: [required],
+          intervalRule: [(v) => !!new RegExp('(^\\d+[s|m|h]$)').test(v) || '格式错误(示例:30s,1m,1h)'],
+        },
+        receiverSelect: [],
+      };
     },
-  },
-  mounted() {
-    if (this.data) {
-      this.receiverCopy = deepCopy(this.data)
-    }
-  },
-  methods: {
-    // 编辑时调用
-    // eslint-disable-next-line vue/no-unused-properties
-    async init(data) {
-      this.receiver = data
-      await this.receiverList()
-      this.expand = true
+    computed: {
+      ...mapState(['JWT', 'AdminViewport']),
+      ...mapGetters(['Project', 'Environment']),
     },
-    async receiverList() {
-      const data = await getReceiverList(
-        this.$route.query.cluster,
-        this.$route.query.namespace,
-        {scope: this.mode},
-      )
-      this.receiverSelect = data.map((item) => {
-        return {
-          text: item.name,
-          value: item.name,
-        }
-      })
+    watch: {
+      data() {
+        this.receiverCopy = deepCopy(this.data);
+      },
     },
-    onReceiverSelectFocus() {
-      this.receiverList()
-    },
-    addData() {
-      if (this.$refs.form.validate(true)) {
-        if (this.receiver.index === -1) {
-          const receiver = {
-            name: this.receiver.name,
-            interval: this.receiver.interval,
-          }
-          this.receiverCopy.push(receiver)
-        } else {
-          const receiver = this.receiverCopy[this.receiver.index]
-          receiver.name = this.receiver.name
-          receiver.interval = this.receiver.interval
-          this.$set(this.receiverCopy, this.receiver.index, receiver)
-        }
-        this.$emit('addData', this.receiverCopy)
-        this.closeCard()
+    mounted() {
+      if (this.data) {
+        this.receiverCopy = deepCopy(this.data);
       }
     },
-    closeCard() {
-      this.expand = false
-      this.$refs.form.reset()
-      this.receiver.index = -1
-      this.$emit('closeOverlay')
+    methods: {
+      // 编辑时调用
+      // eslint-disable-next-line vue/no-unused-properties
+      async init(data) {
+        this.receiver = data;
+        await this.receiverList();
+        this.expand = true;
+      },
+      async receiverList() {
+        const data = await getReceiverList(this.$route.query.cluster, this.$route.query.namespace, {
+          scope: this.mode,
+        });
+        this.receiverSelect = data.map((item) => {
+          return {
+            text: item.name,
+            value: item.name,
+          };
+        });
+      },
+      onReceiverSelectFocus() {
+        this.receiverList();
+      },
+      addData() {
+        if (this.$refs.form.validate(true)) {
+          if (this.receiver.index === -1) {
+            const receiver = {
+              name: this.receiver.name,
+              interval: this.receiver.interval,
+            };
+            this.receiverCopy.push(receiver);
+          } else {
+            const receiver = this.receiverCopy[this.receiver.index];
+            receiver.name = this.receiver.name;
+            receiver.interval = this.receiver.interval;
+            this.$set(this.receiverCopy, this.receiver.index, receiver);
+          }
+          this.$emit('addData', this.receiverCopy);
+          this.closeCard();
+        }
+      },
+      closeCard() {
+        this.expand = false;
+        this.$refs.form.reset();
+        this.receiver.index = -1;
+        this.$emit('closeOverlay');
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      expandCard() {
+        this.expand = true;
+      },
     },
-    // eslint-disable-next-line vue/no-unused-properties
-    expandCard() {
-      this.expand = true
-    },
-  },
-}
+  };
 </script>

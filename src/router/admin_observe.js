@@ -1,4 +1,4 @@
-const prefix = 'admin'
+const prefix = 'admin';
 
 export const adminObserve = [
   {
@@ -357,4 +357,4 @@ export const adminObserve = [
       },
     ],
   },
-]
+];

@@ -1,2 +1,2 @@
-export * from './auth.js'
-export * from './select.js'
+export * from './auth.js';
+export * from './select.js';

@@ -22,39 +22,19 @@
         <slot name="trigger" />
       </span>
     </template>
-    <v-card
-      flat
-      :loading="eventLoad"
-    >
+    <v-card flat :loading="eventLoad">
       <v-flex class="text-body-2 text-center primary white--text py-2">
-        <v-icon
-          color="white"
-          left
-          small
-        >
-          mdi-bell-ring
-        </v-icon>
+        <v-icon color="white" left small> mdi-bell-ring </v-icon>
         <span>事件</span>
       </v-flex>
-      <v-list
-        dense
-        class="pa-0 kubegems__tip"
-      >
-        <v-list-item
-          v-if="events.length > 0"
-        >
+      <v-list dense class="pa-0 kubegems__tip">
+        <v-list-item v-if="events.length > 0">
           <v-list-item-content>
-            <v-list-item
-              two-line
-              class="float-left pa-0"
-            >
+            <v-list-item two-line class="float-left pa-0">
               <v-list-item-content class="py-0">
                 <template v-for="(event, index) in events">
                   <v-list-item-title :key="`t${index}`"> 事件 {{ index + 1 }} </v-list-item-title>
-                  <v-list-item-content
-                    :key="index"
-                    class="text-caption kubegems__text kubegems__break-all"
-                  >
+                  <v-list-item-content :key="index" class="text-caption kubegems__text kubegems__break-all">
                     {{ event.kind }} {{ item.name }} :
                     {{ event.message }}
                   </v-list-item-content>
@@ -63,109 +43,100 @@
             </v-list-item>
           </v-list-item-content>
         </v-list-item>
-        <v-flex
-          v-else
-          class="text-caption kubegems__text text-center pa-2"
-        >
-          暂无事件
-        </v-flex>
+        <v-flex v-else class="text-caption kubegems__text text-center pa-2"> 暂无事件 </v-flex>
       </v-list>
     </v-card>
   </v-menu>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { getAppRunningResourceDetail } from '@/api'
-import BaseResource from '@/mixins/resource'
+  import { mapGetters } from 'vuex';
+  import { getAppRunningResourceDetail } from '@/api';
+  import BaseResource from '@/mixins/resource';
 
-export default {
-  name: 'AppStatusTip',
-  mixins: [BaseResource],
-  props: {
-    disabled: {
-      type: Boolean,
-      default: () => false,
+  export default {
+    name: 'AppStatusTip',
+    mixins: [BaseResource],
+    props: {
+      disabled: {
+        type: Boolean,
+        default: () => false,
+      },
+      item: {
+        type: Object,
+        default: () => {},
+      },
+      top: {
+        type: Boolean,
+        default: () => false,
+      },
     },
-    item: {
-      type: Object,
-      default: () => {},
+    data() {
+      return {
+        events: [],
+        eventLoad: false,
+        timeout: null,
+      };
     },
-    top: {
-      type: Boolean,
-      default: () => false,
+    computed: {
+      ...mapGetters(['Tenant', 'Project', 'Environment']),
     },
-  },
-  data() {
-    return {
-      events: [],
-      eventLoad: false,
-      timeout: null,
-    }
-  },
-  computed: {
-    ...mapGetters(['Tenant', 'Project', 'Environment']),
-  },
-  methods: {
-    async getLatestEvent() {
-      if (!this.item.runtime.raw) return
-      this.events = []
-      this.timeout = setTimeout(async () => {
-        this.eventLoad = true
-        const data = await getAppRunningResourceDetail(
-          this.Tenant().ID,
-          this.Project().ID,
-          this.Environment().ID,
-          this.item.name,
-          {
-            group: 'argoproj.io',
-            version: 'v1alpha1',
-            kind: 'Application',
-            namespace: this.item.runtime.raw.metadata.namespace,
-            name: this.item.name,
-            noprocessing: true,
-          },
-        )
-        this.events = []
-        if (
-          data?.liveState?.status?.operationState?.syncResult?.resources
-        ) {
-          this.events = this.events.concat(
-            data.liveState.status.operationState.syncResult.resources.filter(
-              (s) => {
-                return s.status !== 'Synced'
-              },
-            ),
-          )
-        }
-        if (data?.liveState?.status?.resources) {
-          this.events = this.events.concat(
-            data.liveState.status.resources
-              .map((r) => {
-                return {
-                  ...r,
-                  message: r.health ? r.health.message : '',
-                }
-              })
-              .filter((r) => {
-                return r.health && r.health.status !== 'Healthy'
-              }),
-          )
-        }
-        if (data?.liveState?.status?.operationState) {
-          this.events = this.events.concat([
+    methods: {
+      async getLatestEvent() {
+        if (!this.item.runtime.raw) return;
+        this.events = [];
+        this.timeout = setTimeout(async () => {
+          this.eventLoad = true;
+          const data = await getAppRunningResourceDetail(
+            this.Tenant().ID,
+            this.Project().ID,
+            this.Environment().ID,
+            this.item.name,
             {
-              message: data?.liveState?.status?.operationState?.message,
+              group: 'argoproj.io',
+              version: 'v1alpha1',
+              kind: 'Application',
+              namespace: this.item.runtime.raw.metadata.namespace,
+              name: this.item.name,
+              noprocessing: true,
             },
-          ])
-        }
-        this.eventLoad = false
-        clearTimeout(this.timeout)
-      }, 200)
+          );
+          this.events = [];
+          if (data?.liveState?.status?.operationState?.syncResult?.resources) {
+            this.events = this.events.concat(
+              data.liveState.status.operationState.syncResult.resources.filter((s) => {
+                return s.status !== 'Synced';
+              }),
+            );
+          }
+          if (data?.liveState?.status?.resources) {
+            this.events = this.events.concat(
+              data.liveState.status.resources
+                .map((r) => {
+                  return {
+                    ...r,
+                    message: r.health ? r.health.message : '',
+                  };
+                })
+                .filter((r) => {
+                  return r.health && r.health.status !== 'Healthy';
+                }),
+            );
+          }
+          if (data?.liveState?.status?.operationState) {
+            this.events = this.events.concat([
+              {
+                message: data?.liveState?.status?.operationState?.message,
+              },
+            ]);
+          }
+          this.eventLoad = false;
+          clearTimeout(this.timeout);
+        }, 200);
+      },
+      removeEvent() {
+        if (this.timeout) clearTimeout(this.timeout);
+      },
     },
-    removeEvent() {
-      if (this.timeout) clearTimeout(this.timeout)
-    },
-  },
-}
+  };
 </script>

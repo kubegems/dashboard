@@ -22,52 +22,52 @@
 </template>
 
 <script>
-import { required } from '@/utils/rules'
+  import { required } from '@/utils/rules';
 
-export default {
-  name: 'MinMaxParam',
-  props: {
-    label: {
-      type: String,
-      default: () => '',
+  export default {
+    name: 'MinMaxParam',
+    props: {
+      label: {
+        type: String,
+        default: () => '',
+      },
+      param: {
+        type: Object,
+        default: () => {},
+      },
+      id: {
+        type: String,
+        default: () => '',
+      },
     },
-    param: {
-      type: Object,
-      default: () => {},
+    data: () => ({
+      sliderVal: 0,
+    }),
+    computed: {
+      pathLevel() {
+        return this.param.path.split('/').length;
+      },
+      rules() {
+        return [
+          required,
+          (v) => v >= this.param.sliderMin || '小于最小值',
+          (v) => v <= this.param.sliderMax || '大于最大值',
+        ];
+      },
     },
-    id: {
-      type: String,
-      default: () => '',
-    },
-  },
-  data: () => ({
-    sliderVal: 0,
-  }),
-  computed: {
-    pathLevel() {
-      return this.param.path.split('/').length
-    },
-    rules() {
-      return [
-        required,
-        (v) => v >= this.param.sliderMin || '小于最小值',
-        (v) => v <= this.param.sliderMax || '大于最大值',
-      ]
-    },
-  },
 
-  mounted() {
-    this.sliderVal = parseInt(this.param.value.match(/\d/g).join(''))
-    this.onSliderChange(this.sliderVal)
-  },
-  methods: {
-    change(event) {
-      this.$emit('changeBasicFormParam', this.param, event)
+    mounted() {
+      this.sliderVal = parseInt(this.param.value.match(/\d/g).join(''));
+      this.onSliderChange(this.sliderVal);
     },
-    onSliderChange(val) {
-      const value = val + this.param.sliderUnit
-      this.change(value)
+    methods: {
+      change(event) {
+        this.$emit('changeBasicFormParam', this.param, event);
+      },
+      onSliderChange(val) {
+        const value = val + this.param.sliderUnit;
+        this.change(value);
+      },
     },
-  },
-}
+  };
 </script>
