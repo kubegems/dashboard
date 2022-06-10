@@ -28,7 +28,7 @@
         return parseInt((window.innerHeight - 284) / this.Scale);
       },
       src() {
-        return `/api/v1/service-proxy/cluster/${this.$route.query.cluster}/namespace/istio-system/service/kiali/port/20001/kiali/console/graph/node/namespaces/${this.$route.query.namespace}/${this.type}/${this.$route.params.name}?edges=responseTime%2Crt95%2Cthroughput%2CthroughputRequest%2CtrafficDistribution%2CtrafficRate&layout=dagre&idleEdges=false&idleNodes=false&injectServiceNodes=true&traffic=grpc%2CgrpcRequest%2Chttp%2ChttpRequest%2Ctcp%2CtcpSent&graphType=workload&duration=60&operationNodes=false&refresh=30000&namespaces=${this.$route.query.namespace}&boxNamespace=true&animation=true&badgeSecurity=true&kiosk=true`;
+        return `/api/v1/service-proxy/cluster/${this.$route.query.cluster}/namespace/istio-system/service/kiali/port/20001/kiali/?kiosk=true#/graph/node/namespaces/${this.$route.query.namespace}/${this.type}/${this.$route.params.name}?edges=responseTime%2Crt95%2Cthroughput%2CthroughputRequest%2CtrafficDistribution%2CtrafficRate&layout=dagre&idleEdges=false&idleNodes=false&injectServiceNodes=true&traffic=grpc%2CgrpcRequest%2Chttp%2ChttpRequest%2Ctcp%2CtcpSent&graphType=workload&duration=60&operationNodes=false&refresh=30000&namespaces=${this.$route.query.namespace}&boxNamespace=true&animation=true&badgeSecurity=true`;
       },
     },
     destroyed() {

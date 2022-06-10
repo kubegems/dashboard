@@ -30,11 +30,11 @@
       src() {
         return `/api/v1/service-proxy/cluster/${
           this.$route.query.cluster
-        }/namespace/istio-system/service/kiali/port/20001/kiali/console/namespaces/${this.$route.query.namespace}/${
-          this.type
-        }/${this.$route.params.name}?tab=${
+        }/namespace/istio-system/service/kiali/port/20001/kiali/?kiosk=true#/namespaces/${
+          this.$route.query.namespace
+        }/${this.type}/${this.$route.params.name}?tab=${
           this.type === 'workloads' ? 'in_metrics' : 'metrics'
-        }&rangeDuration=1800&refresh=60000&kiosk=true`;
+        }&rangeDuration=1800&refresh=60000`;
       },
     },
     destroyed() {

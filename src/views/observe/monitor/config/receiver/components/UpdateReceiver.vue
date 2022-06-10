@@ -23,12 +23,6 @@
       ReceiverBaseForm,
     },
     mixins: [BaseResource, BaseSelect],
-    props: {
-      mode: {
-        type: String,
-        default: () => 'monitor',
-      },
-    },
     data: () => ({
       dialog: false,
       formComponent: 'ReceiverBaseForm',
@@ -54,7 +48,6 @@
             this.$route.query.cluster,
             this.$route.query.namespace,
             data.name,
-            { scope: this.mode },
             data,
           );
 
