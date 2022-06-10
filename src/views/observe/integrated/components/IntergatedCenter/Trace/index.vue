@@ -53,7 +53,7 @@
     methods: {
       // eslint-disable-next-line vue/no-unused-properties
       async addData() {
-        //
+        this.$emit('close');
       },
       loadFile(name) {
         const xhr = new XMLHttpRequest();

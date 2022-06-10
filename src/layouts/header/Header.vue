@@ -16,7 +16,7 @@
           font-weight: bold;
           font-size: 1.1rem !important;
           margin-left: 140px;
-"
+        "
       >
         {{ smallTitle }}
       </div>
@@ -29,7 +29,7 @@
     <v-btn depressed color="primary" dark @click="toAppStore">
       <v-icon left small class="header-icon-line-height"> fas fa-shopping-bag </v-icon>
       <span
-        style="font-family: Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important; font-weight: bold;"
+        style="font-family: Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important; font-weight: bold"
         class="header-span-line-height"
       >
         应用商店
@@ -39,7 +39,7 @@
     <v-btn depressed color="primary" dark @click="toWorkspace">
       <v-icon left small class="header-icon-line-height"> fas fa-th </v-icon>
       <span
-        style="font-family: Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important; font-weight: bold;"
+        style="font-family: Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important; font-weight: bold"
         class="header-span-line-height"
       >
         工作台

@@ -21,13 +21,13 @@
             </v-tab>
           </v-tabs>
 
-          <component :is="tabItems[tab].value" :ref="tabItems[tab].value" :v="item.value || item.name" />
+          <component :is="tabItems[tab].value" :ref="tabItems[tab].value" :v="item.value || item.name" @close="close" />
         </template>
         <template v-else-if="type === 'middleware'">
-          <MiddlewareMetrics ref="middlewareMetrics" :chart="item.chart" />
+          <MiddlewareMetrics ref="middlewareMetrics" :chart-name="item.chart" @close="close" />
         </template>
         <template v-else>
-          <Logging ref="logging" />
+          <Logging ref="logging" @close="close" />
         </template>
       </v-card-text>
     </template>
@@ -79,21 +79,23 @@
         this.tab = 0;
         this.type = undefined;
       },
-      addData() {
+      async addData() {
         if (this.type === 'app') {
-          this.$refs[this.tabItems[this.tab].value].addData();
+          await this.$refs[this.tabItems[this.tab].value].addData();
         } else if (this.type === 'middleware') {
-          this.$refs.middlewareMetrics.addData();
+          await this.$refs.middlewareMetrics.addData();
         } else if (this.type === 'logging') {
-          this.$refs.logging.addData();
+          await this.$refs.logging.addData();
         }
+      },
+      close() {
         this.panel = false;
       },
       getTitle(item) {
         if (this.type === 'app') {
           return `配置 ${item.name} 应用的Trace, Metrics`;
         } else if (this.type === 'middleware') {
-          return `配置 ${item.name} 中间件的Metrics`;
+          return `配置 ${item.name} 中间件的Exporter`;
         } else if (this.type === 'logging') {
           return `配置 ${item.name} 中间件的Logging`;
         }

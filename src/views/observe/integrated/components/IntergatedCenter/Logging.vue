@@ -1,6 +1,6 @@
 <template>
-  <div class="pa-2">
-    <BaseSubTitle title="日志采集配置" color="grey lighten-3" class="my-0 mt-1" :divider="false" />
+  <div class="pa-3">
+    <BaseSubTitle title="日志采集配置" color="grey lighten-3" class="my-0" :divider="false" />
 
     <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
       <ProjectEnvSelect v-model="env" class="px-2 mt-0" />
@@ -221,6 +221,7 @@
       async addLoggingFlow() {
         if (this.$refs.form.validate(true)) {
           await postLoggingFlow(this.env.clusterName, this.env.namespace, this.obj);
+          this.$emit('close');
         }
       },
       // eslint-disable-next-line vue/no-unused-properties
