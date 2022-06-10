@@ -236,10 +236,10 @@ export default {
     },
     async strategyDeployEnvironmentApps() {
       if (
-        this.$refs.baseDeployInfoForm.$refs.form.validate(true) &&
+        this.$refs.baseDeployInfoForm.validate() &&
         this.$refs.form.validate(true)
       ) {
-        this.obj = Object.assign(this.obj, this.$refs.baseDeployInfoForm.base)
+        this.obj = Object.assign(this.obj, this.$refs.baseDeployInfoForm.getData())
         await postStrategyDeployEnvironmentApps(
           this.Tenant().ID,
           this.Project().ID,
@@ -252,7 +252,7 @@ export default {
         this.dialog = false
         this.$router.push({
           name: 'app-detail',
-          params: { name: this.$route.params.name },
+          params: Object.assign(this.$route.params, { name: this.$route.params.name }),
           query: {
             projectid: this.Project().ID,
             tenantid: this.Tenant().ID,
@@ -273,7 +273,6 @@ export default {
         this.$route.params.name,
         {
           kind: 'Service',
-          noprocessing: true,
         },
       )
       data.forEach((v) => {

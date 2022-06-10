@@ -2,34 +2,32 @@
   <v-row :style="`height: ${height}px !important`">
     <v-col
       lg="7"
-      class="info d-none d-md-flex align-center justify-center"
+      class="info d-none d-md-flex align-center justify-start"
     >
-      <div>
+      <div :style="{ paddingLeft: '100px' }">
         <h2 class="text-h4 white--text font-weight-medium">
           <v-flex class="float-left">
             <v-img
               src="/logo.svg"
-              width="220"
+              width="250"
               contain
             />
           </v-flex>
           <v-flex
-            class="float-left ml-2"
-            style="
-              line-height: 58px;
-              font-weight: bold;
-              font-family: Yuanti SC, YouYuan, Microsoft Yahei !important;
-"
+            class="float-left ml-2 font"
           >
             容器云平台
           </v-flex>
           <div class="kubegems__clear-float" />
         </h2>
-        <h6 class="text-subtitle-1 mt-4 white--text font-weight-regular">
-          在Kubernetes
-          之上构建的面向云原生应用的操作平台，支持多云与多集群管理，提供全栈的IT
-          自动化运维能力，简化DevOps 工作流。
-        </h6>
+        <div
+          class="mt-4 white--text"
+          :style="{ width: '700px', lineHeight: '1.5', fontSize: '1.1rem' }"
+        >
+          KubeGems 是一款开源的企业级多租户容器云平台。围绕云原生社区，
+          KubeGems 提供了多 Kubernetes 集群接入能力，并具备丰富的组件管理和资源成本分析功能，
+          能够帮助企业快速的构建和打造一个本地化、功能强大且低成本的云管理平台。
+        </div>
       </div>
     </v-col>
     <v-col
@@ -45,6 +43,7 @@
               cols="12"
               lg="9"
               xl="6"
+              class="login"
             >
               <h2 class="font-weight-bold mt-4 blue-grey--text text--darken-2">
                 用户登录
@@ -128,7 +127,7 @@
             </v-col>
           </v-row>
         </div>
-        <h6 class="px-12 text-subtitle-1 mt-4 copyright">
+        <h6 class="px-12 text-body-2 mt-4 copyright font-weight-medium kubegems__text">
           © 2021 — KubeGems by Kubegems.io
         </h6>
       </v-container>
@@ -193,6 +192,7 @@ export default {
           source: this.source,
         })
         this.$store.commit('SET_JWT', data.token)
+        this.$store.commit('SET_VERSION', process.env.VUE_APP_RELEASE)
         await this.loadData()
         this.$store.commit('SET_SNACKBAR', {
           text: '登录成功',
@@ -275,7 +275,7 @@ export default {
 <style lang="scss" scoped>
 .copyright {
   position: absolute;
-  bottom: 0;
+  bottom: 10px;
   left: 0;
   right: 0;
   text-align: center;
@@ -307,5 +307,15 @@ export default {
 
 .divide::after {
   margin-left: 0.25rem;
+}
+
+.login {
+  margin: auto;
+}
+
+.font {
+  line-height: 66px;
+  font-weight: bold;
+  font-family: Yuanti SC, YouYuan, Microsoft Yahei !important;
 }
 </style>

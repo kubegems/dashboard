@@ -238,7 +238,7 @@ export default {
     },
   }),
   computed: {
-    ...mapState(['Admin', 'AdminViewport']),
+    ...mapState(['Admin', 'AdminViewport', 'ApiResources']),
     ...mapGetters(['Tenant', 'Cluster', 'Environment']),
     objRules() {
       return {
@@ -281,12 +281,12 @@ export default {
         this.storageClass.metadata &&
         this.storageClass.metadata.annotations &&
         this.storageClass.metadata.annotations[
-          `storageclass.${process.env.VUE_APP_DOMAIN}/supported-access-modes`
+          `storageclass.kubegems.io/supported-access-modes`
         ]
       ) {
         const modes =
           this.storageClass.metadata.annotations[
-            `storageclass.${process.env.VUE_APP_DOMAIN}/supported-access-modes`
+            `storageclass.kubegems.io/supported-access-modes`
           ].split(',')
         const accessModes = []
         modes.forEach((mode) => {
@@ -309,35 +309,35 @@ export default {
     },
   },
   watch: {
-    item() {
-      this.loadData(true)
+    item: {
+      handler() {
+        this.obj.apiVersion = this.ApiResources['persistentvolumeclaim'] || 'v1'
+        this.loadData()
+      },
+      deep: true,
+      immediate: true,
     },
   },
-  mounted() {
-    this.loadData(false)
-  },
   methods: {
-    loadData(cover = false) {
+    loadData() {
       this.$nextTick(() => {
-        if (cover) {
-          if (!this.item) {
-            this.obj = this.$options.data().obj
-            this.$refs.form.resetValidation()
+        if (!this.item) {
+          this.$refs.form.resetValidation()
+        } else {
+          this.obj = deepCopy(this.item)
+        }
+
+        if (!this.manifest) {
+          if (this.AdminViewport) {
+            this.m_select_storageClassSelectData(this.ThisCluster)
+            this.m_select_namespaceSelectData(this.ThisCluster)
           } else {
-            this.obj = deepCopy(this.item)
+            this.obj.metadata.namespace = this.ThisNamespace
           }
         } else {
-          if (!this.manifest) {
-            if (this.AdminViewport) {
-              this.m_select_storageClassSelectData(this.ThisCluster)
-              this.m_select_namespaceSelectData(this.ThisCluster)
-            } else {
-              this.obj.metadata.namespace = this.ThisNamespace
-            }
-          } else {
-            this.obj.metadata.name = `${this.app.ApplicationName}`
-          }
+          this.obj.metadata.name = `${this.app.ApplicationName}`
         }
+
         this.resourceKind = this.kind
         this.obj.kind = this.kind
         if (!this.obj.metadata.labels) {
@@ -394,6 +394,7 @@ export default {
       this.$refs.labelForm.closeCard()
       this.$refs.annotationForm.closeCard()
       this.$refs.form.reset()
+      this.obj = this.$options.data().obj
     },
     // eslint-disable-next-line vue/no-unused-properties
     init(data) {
@@ -426,6 +427,14 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     setData(data) {
       this.obj = data
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    getData() {
+      return this.obj
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    validate() {
+      return this.$refs.form.validate(true)
     },
     onNamespaceSelectFocus(clusterName) {
       this.m_select_namespaceSelectData(clusterName)

@@ -6,10 +6,13 @@
       max-width="800"
     >
       <v-card>
-        <v-card-title class="text-h5">
+        <v-card-title class="text-h5 error--text">
           删除配置项 {{ item.key }}
         </v-card-title>
-        <v-card-text> 确认删除 租户「{{ item.tenant }}」/项目「{{ item.project }}」/环境「{{ item.environment }}」 下的配置项 {{ item.key }} ? </v-card-text>
+        <v-divider />
+        <v-card-text class="text-subtitle-1 kubegems__text pt-3">
+          确认删除 租户「{{ item.tenant }}」/项目「{{ item.project }}」/环境「{{ item.environment }}」 下的配置项 {{ item.key }} ?
+        </v-card-text>
         <v-card-actions>
           <v-spacer />
           <v-btn

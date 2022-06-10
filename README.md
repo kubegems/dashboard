@@ -19,7 +19,7 @@
 
 ## Introduction
 
-KubeGems is a full-stack application platform for Kubernetes automated operation, maintenance, operation and manufacturing. It supports multi-cluster management, provides cloud computing stack capabilities, and provides IT DevOps workflows and workflows.
+KubeGems is a full-stack application platform for Kubernetes automated operation, maintenance, operation and manufacturing. It supports multi-cluster management, provides cloud computing stack capabilities, and provides IT DevOps workflows.
 
 KubeGems Dashboard is the web interface for [KubeGems](https://github.com/kubegems/kubegems).
 
@@ -52,7 +52,7 @@ yarn serve
 
 ## Documentation
 
-To check out [live demo](http://47.108.158.85/) and docs, visit [kubegems.io](https://kubegems.io).
+To check out [live demo](https://demo.kubegems.io/) and docs, visit [kubegems.io](https://kubegems.io).
 
 ## Issues
 

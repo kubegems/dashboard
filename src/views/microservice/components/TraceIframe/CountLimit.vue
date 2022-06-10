@@ -1,5 +1,5 @@
 <template>
-  <div class="kubegems__detail text-subtitle-2 font-weight-medium">
+  <div class="kubegems__text text-subtitle-2 font-weight-medium">
     <span> 限制条数 </span>
     <v-menu
       v-model="limitMenu"

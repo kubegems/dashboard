@@ -1,67 +1,69 @@
 <template>
-  <v-flex>
+  <div>
     <MonitorCard
       v-if="$route.query.type !== 'Service'"
       ref="dashboardCard"
-      class="mb-0 mt-4"
+      class="mb-0 mt-3"
     />
-    <v-sheet class="pa-0 px-0">
-      <template v-if="$route.query.type === 'Service'">
-        <ServiceInfo
-          class="px-2 pb-2"
-          :item="item"
-        />
-      </template>
 
-      <template v-for="(traffics, key) in traffic">
-        <BaseDivider :key="`${key}1`" />
-        <BaseSubTitle
-          :key="`${key}2`"
-          :title="`${trafficCn[key]}`"
-          :divider="false"
-          class="mt-2 pl-4"
-        />
-        <v-data-table
-          :key="`${key}3`"
-          class="mx-4"
-          disable-sort
-          :headers="headers"
-          :items="traffics"
-          no-data-text="暂无数据"
-          hide-default-footer
-        >
-          <template #[`item.name`]="{ item }">
-            <v-chip
-              small
-              color="success"
-            >
-              {{ item.NodeType }}
-            </v-chip>
-            {{ item.Name }}
-          </template>
-          <template #[`item.rate`]="{ item }">
-            {{ item.Rate }}
-          </template>
-          <template #[`item.percentSuccess`]="{ item }">
-            {{ item.PercentSuccess }}
-          </template>
-          <template #[`item.protocol`]="{ item }">
-            {{ item.Protocol }}
-          </template>
-        </v-data-table>
-      </template>
+    <template v-if="$route.query.type === 'Service'">
+      <ServiceInfo
+        class="pb-2"
+        :item="item"
+      />
+    </template>
 
-      <template v-if="$route.query.type === 'Service'">
-        <BaseDivider />
-        <BaseSubTitle
-          title="工作负载"
-          :divider="false"
-          class="mt-2 pl-4"
-        />
-        <WorkloadList :workloads="item ? item.workloads : []" />
-      </template>
-    </v-sheet>
-  </v-flex>
+    <v-card
+      v-for="(traffics, key) in traffic"
+      :key="`${key}`"
+      class="mt-3"
+    >
+      <BaseSubTitle
+        :title="`${trafficCn[key]}`"
+        :divider="false"
+        class="pt-2"
+      />
+      <v-data-table
+        class="mx-4"
+        disable-sort
+        :headers="headers"
+        :items="traffics"
+        no-data-text="暂无数据"
+        hide-default-footer
+      >
+        <template #[`item.name`]="{ item }">
+          <v-chip
+            small
+            color="success"
+          >
+            {{ item.NodeType }}
+          </v-chip>
+          {{ item.Name }}
+        </template>
+        <template #[`item.rate`]="{ item }">
+          {{ item.Rate }}
+        </template>
+        <template #[`item.percentSuccess`]="{ item }">
+          {{ item.PercentSuccess }}
+        </template>
+        <template #[`item.protocol`]="{ item }">
+          {{ item.Protocol }}
+        </template>
+      </v-data-table>
+    </v-card>
+
+    <v-card
+      v-if="$route.query.type === 'Service'"
+      class="mt-3"
+    >
+      <BaseSubTitle
+        title="工作负载"
+        :divider="false"
+        class="pt-2"
+      />
+      <WorkloadList :workloads="item ? item.workloads : []" />
+    </v-card>
+  </div>
 </template>
 
 <script>

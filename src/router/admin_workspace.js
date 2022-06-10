@@ -1,4 +1,4 @@
-const prefix = 'clusters/:cluster'
+const prefix = 'clusters/:cluster?'
 const namePrefix = 'admin'
 
 export const adminWorkspace = [
@@ -31,6 +31,7 @@ export const adminWorkspace = [
               icon: 'mdi-server',
               show: true,
               rootName: 'admin-workspace',
+              tip: 'cluster',
             },
           },
           {
@@ -44,6 +45,7 @@ export const adminWorkspace = [
               icon: 'mdi-server',
               show: false,
               rootName: 'admin-workspace',
+              tip: 'cluster',
             },
           },
           // plugin
@@ -58,6 +60,7 @@ export const adminWorkspace = [
               icon: 'mdi-power-plug',
               show: true,
               rootName: 'admin-workspace',
+              tip: 'plugin',
             },
           },
         ],
@@ -85,6 +88,8 @@ export const adminWorkspace = [
               icon: 'mdi-lan-connect',
               show: true,
               rootName: 'admin-workspace',
+              tip: 'node',
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -98,6 +103,8 @@ export const adminWorkspace = [
               icon: 'mdi-lan-connect',
               show: false,
               rootName: 'admin-workspace',
+              tip: 'node',
+              dependencies: ['kubegems-local'],
             },
           },
         ],
@@ -125,6 +132,8 @@ export const adminWorkspace = [
               icon: 'mdi-vector-arrange-above',
               show: true,
               rootName: 'admin-workspace',
+              tip: 'workload',
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -138,6 +147,8 @@ export const adminWorkspace = [
               icon: 'mdi-vector-arrange-above',
               show: false,
               rootName: 'admin-workspace',
+              tip: 'workload',
+              dependencies: ['kubegems-local'],
             },
           },
           // pod
@@ -152,6 +163,8 @@ export const adminWorkspace = [
               icon: 'mdi-microsoft',
               show: true,
               rootName: 'admin-workspace',
+              tip: 'pod',
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -165,6 +178,8 @@ export const adminWorkspace = [
               icon: 'mdi-microsoft',
               show: false,
               rootName: 'admin-workspace',
+              tip: 'pod',
+              dependencies: ['kubegems-local'],
             },
           },
           // service
@@ -179,6 +194,8 @@ export const adminWorkspace = [
               icon: 'mdi-dns',
               show: true,
               rootName: 'admin-workspace',
+              tip: 'service',
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -192,6 +209,8 @@ export const adminWorkspace = [
               icon: 'mdi-dns',
               show: false,
               rootName: 'admin-workspace',
+              tip: 'service',
+              dependencies: ['kubegems-local'],
             },
           },
           // ingress
@@ -206,6 +225,8 @@ export const adminWorkspace = [
               icon: 'mdi-network',
               show: true,
               rootName: 'admin-workspace',
+              tip: 'ingress',
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -219,6 +240,8 @@ export const adminWorkspace = [
               icon: 'mdi-network',
               show: false,
               rootName: 'admin-workspace',
+              tip: 'ingress',
+              dependencies: ['kubegems-local'],
             },
           },
           // gateway
@@ -233,6 +256,8 @@ export const adminWorkspace = [
               icon: 'mdi-gate',
               show: true,
               rootName: 'admin-workspace',
+              tip: 'gateway',
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -246,6 +271,8 @@ export const adminWorkspace = [
               icon: 'mdi-gate',
               show: false,
               rootName: 'admin-workspace',
+              tip: 'gateway',
+              dependencies: ['kubegems-local'],
             },
           },
         ],
@@ -272,6 +299,8 @@ export const adminWorkspace = [
               icon: 'mdi-repeat-once',
               show: true,
               rootName: 'admin-workspace',
+              tip: 'job',
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -285,6 +314,8 @@ export const adminWorkspace = [
               icon: 'mdi-repeat-once',
               show: false,
               rootName: 'admin-workspace',
+              tip: 'job',
+              dependencies: ['kubegems-local'],
             },
           },
           // cronjob
@@ -299,6 +330,8 @@ export const adminWorkspace = [
               icon: 'mdi-calendar-clock',
               show: true,
               rootName: 'admin-workspace',
+              tip: 'cronjob',
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -312,6 +345,8 @@ export const adminWorkspace = [
               icon: 'mdi-calendar-clock',
               show: false,
               rootName: 'admin-workspace',
+              tip: 'cronjob',
+              dependencies: ['kubegems-local'],
             },
           },
         ],
@@ -338,6 +373,8 @@ export const adminWorkspace = [
               icon: 'mdi-wrench',
               show: true,
               rootName: 'admin-workspace',
+              tip: 'configmap',
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -351,6 +388,8 @@ export const adminWorkspace = [
               icon: 'mdi-wrench',
               show: false,
               rootName: 'admin-workspace',
+              tip: 'configmap',
+              dependencies: ['kubegems-local'],
             },
           },
           // secret
@@ -365,6 +404,8 @@ export const adminWorkspace = [
               icon: 'mdi-key-variant',
               show: true,
               rootName: 'admin-workspace',
+              tip: 'secret',
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -378,6 +419,8 @@ export const adminWorkspace = [
               icon: 'mdi-key-variant',
               show: false,
               rootName: 'admin-workspace',
+              tip: 'secret',
+              dependencies: ['kubegems-local'],
             },
           },
           // certmanager
@@ -392,6 +435,8 @@ export const adminWorkspace = [
               icon: 'mdi-book-open',
               show: true,
               rootName: 'admin-workspace',
+              tip: 'certmanager',
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -405,6 +450,8 @@ export const adminWorkspace = [
               icon: 'mdi-book-open',
               show: false,
               rootName: 'admin-workspace',
+              tip: 'certmanager',
+              dependencies: ['kubegems-local'],
             },
           },
         ],
@@ -431,6 +478,8 @@ export const adminWorkspace = [
               icon: 'mdi-collage',
               show: true,
               rootName: 'admin-workspace',
+              tip: 'crd',
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -444,6 +493,8 @@ export const adminWorkspace = [
               icon: 'mdi-collage',
               show: false,
               rootName: 'admin-workspace',
+              tip: 'crd',
+              dependencies: ['kubegems-local'],
             },
           },
         ],
@@ -453,7 +504,6 @@ export const adminWorkspace = [
         meta: {
           title: '存储中心',
           icon: 'mdi-database',
-          dependencies: ['local_path'],
           required: ['cluster'],
         },
         component: () => import('@/layouts/Container'),
@@ -471,7 +521,8 @@ export const adminWorkspace = [
               icon: 'mdi-database',
               show: true,
               rootName: 'admin-workspace',
-              dependencies: ['local_path'],
+              tip: 'persistentvolumeclaim',
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -486,7 +537,8 @@ export const adminWorkspace = [
               icon: 'mdi-database',
               show: false,
               rootName: 'admin-workspace',
-              dependencies: ['local_path'],
+              tip: 'persistentvolumeclaim',
+              dependencies: ['kubegems-local'],
             },
           },
           // volumesnapshot
@@ -500,7 +552,8 @@ export const adminWorkspace = [
               icon: 'mdi-camera',
               show: true,
               rootName: 'admin-workspace',
-              dependencies: ['local_path'],
+              tip: 'volumesnapshot',
+              dependencies: ['kubegems-local'],
             },
           },
           // storageclass
@@ -515,93 +568,8 @@ export const adminWorkspace = [
               icon: 'mdi-database',
               show: true,
               rootName: 'admin-workspace',
-              dependencies: ['local_path'],
-            },
-          },
-        ],
-      },
-      {
-        path: '',
-        meta: {
-          title: '监控中心',
-          icon: 'mdi-chart-bar',
-          dependencies: ['monitoring'],
-          required: ['cluster'],
-        },
-        component: () => import('@/layouts/Container'),
-        redirect: { name: `${namePrefix}-servicemonitor-list` },
-        children: [
-          // servicemonitor
-          {
-            path: `${prefix}/servicemonitors`,
-            name: `${namePrefix}-servicemonitor-list`,
-            component: () => import('@/views/resource/servicemonitor/index'),
-            meta: {
-              requireAuth: true,
-              title: '监控采集器',
-              admin: true,
-              icon: 'mdi-eyedropper',
-              show: true,
-              rootName: 'admin-workspace',
-              dependencies: ['monitoring'],
-            },
-          },
-          {
-            path: `${prefix}/servicemonitors/:name`,
-            name: `${namePrefix}-servicemonitor-detail`,
-            component: () => import('@/views/resource/servicemonitor/detail'),
-            meta: {
-              requireAuth: true,
-              title: '监控采集器',
-              admin: true,
-              icon: 'mdi-eyedropper',
-              show: false,
-              rootName: 'admin-workspace',
-              dependencies: ['monitoring'],
-            },
-          },
-          // prometheusrule
-          {
-            path: `${prefix}/prometheusrules`,
-            name: `${namePrefix}-prometheusrule-list`,
-            component: () => import('@/views/resource/prometheusrule/index'),
-            meta: {
-              requireAuth: true,
-              title: '告警规则',
-              admin: true,
-              icon: 'mdi-ruler',
-              show: true,
-              rootName: 'admin-workspace',
-              dependencies: ['monitoring'],
-            },
-          },
-          {
-            path: `${prefix}/prometheusrules/:name`,
-            name: `${namePrefix}-prometheusrule-detail`,
-            component: () => import('@/views/resource/prometheusrule/detail'),
-            meta: {
-              requireAuth: true,
-              title: '告警规则',
-              admin: true,
-              icon: 'mdi-ruler',
-              show: false,
-              rootName: 'admin-workspace',
-              dependencies: ['monitoring'],
-            },
-          },
-          // receivers
-          {
-            path: `${prefix}/receivers`,
-            name: `${namePrefix}-receiver-list`,
-            component: () => import('@/views/resource/receiver/index'),
-            meta: {
-              requireAuth: true,
-              title: '告警接收器',
-              admin: true,
-              icon: 'mdi-call-received',
-              show: true,
-              rootName: 'admin-workspace',
-              dependencies: ['monitoring'],
+              tip: 'storageclass',
+              dependencies: ['kubegems-local'],
             },
           },
         ],

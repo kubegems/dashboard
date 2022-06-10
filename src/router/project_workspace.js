@@ -1,4 +1,4 @@
-const prefix = 'tenants/:tenant/projects/:project'
+const prefix = 'tenants/:tenant?/projects/:project?'
 
 export const projectWorkspace = [
   {
@@ -28,6 +28,7 @@ export const projectWorkspace = [
               icon: 'mdi-view-dashboard',
               show: true,
               rootName: 'project',
+              tip: 'project',
             },
           },
         ],
@@ -53,6 +54,8 @@ export const projectWorkspace = [
               icon: 'mdi-apps',
               show: true,
               rootName: 'project',
+              tip: 'appmanifest',
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -65,6 +68,8 @@ export const projectWorkspace = [
               icon: 'mdi-apps',
               show: false,
               rootName: 'project',
+              tip: 'appmanifest',
+              dependencies: ['kubegems-local'],
             },
           },
           // registry
@@ -78,6 +83,7 @@ export const projectWorkspace = [
               icon: 'mdi-database',
               show: true,
               rootName: 'project',
+              tip: 'registry',
             },
           },
         ],

@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader :selectable="false" />
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-btn
@@ -16,7 +16,7 @@
             >
               fas fa-code
             </v-icon>
-            Yaml
+            YAML
           </v-btn>
           <v-menu
             v-if="m_permisson_resourceAllow"
@@ -71,7 +71,7 @@
             {{ gateway ? gateway.metadata.name : '' }}
           </v-card-title>
           <v-list-item two-line>
-            <v-list-item-content class="kubegems__detail">
+            <v-list-item-content class="kubegems__text">
               <v-list-item-title class="text-subtitle-2">
                 集群
               </v-list-item-title>
@@ -81,7 +81,7 @@
             </v-list-item-content>
           </v-list-item>
           <v-list-item two-line>
-            <v-list-item-content class="kubegems__detail">
+            <v-list-item-content class="kubegems__text">
               <v-list-item-title class="text-subtitle-2">
                 租户
               </v-list-item-title>
@@ -91,7 +91,7 @@
             </v-list-item-content>
           </v-list-item>
           <v-list-item two-line>
-            <v-list-item-content class="kubegems__detail">
+            <v-list-item-content class="kubegems__text">
               <v-list-item-title class="text-subtitle-2">
                 创建时间
               </v-list-item-title>
@@ -114,8 +114,8 @@
           <v-card-text class="pa-0">
             <v-tabs
               v-model="tab"
-              height="40"
-              class="rounded-t pl-2 pt-2"
+              height="30"
+              class="rounded-t pa-3"
             >
               <v-tab
                 v-for="item in tabItems"
@@ -124,19 +124,20 @@
                 {{ item.text }}
               </v-tab>
             </v-tabs>
-
-            <component
-              :is="tabItems[tab].value"
-              :ref="tabItems[tab].value"
-              :item="gateway"
-              :selector="{
-                topkind: 'TenantGateway',
-                topname: gateway ? gateway.metadata.name : '',
-                ingressClassName: gateway ? gateway.spec.ingressClass : '',
-              }"
-            />
           </v-card-text>
         </v-card>
+
+        <component
+          :is="tabItems[tab].value"
+          :ref="tabItems[tab].value"
+          class="mt-3"
+          :item="gateway"
+          :selector="{
+            topkind: 'TenantGateway',
+            topname: gateway ? gateway.metadata.name : '',
+            ingressClassName: gateway ? gateway.spec.ingressClass : '',
+          }"
+        />
       </v-col>
     </v-row>
 
@@ -181,11 +182,6 @@ export default {
   },
   mixins: [BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '网关',
-      tip: '网关(Gateway)是用来转发其他服务器通信数据',
-      icon: 'mdi-gate',
-    },
     gateway: null,
     tab: 0,
     tabItems: [
@@ -241,7 +237,7 @@ export default {
             this.ThisClusterID,
             param.item.metadata.name,
           )
-          this.$router.push({ name: 'gateway-list' })
+          this.$router.push({ name: 'gateway-list', params: this.$route.params })
         },
       })
     },

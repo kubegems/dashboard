@@ -51,8 +51,8 @@ export default {
       this.dialog = true
     },
     async updateRegistry() {
-      if (this.$refs[this.formComponent].$refs.form.validate(true)) {
-        const data = this.$refs[this.formComponent].generateData()
+      if (this.$refs[this.formComponent].validate()) {
+        const data = this.$refs[this.formComponent].getData()
         await putUpdateRegistry(
           { projectid: data.ProjectID, registryid: data.RegistryID },
           data,

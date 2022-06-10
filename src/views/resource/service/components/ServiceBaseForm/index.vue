@@ -129,6 +129,7 @@
               hide-selected
               class="my-0"
               no-data-text="暂无可选数据"
+              @change="onTypeChange"
             >
               <template #selection="{ item }">
                 <v-chip
@@ -142,6 +143,18 @@
             </v-autocomplete>
           </v-col>
           <v-col
+            v-if="obj.spec.type === 'ExternalName'"
+            cols="6"
+          >
+            <v-text-field
+              v-model="obj.spec.externalName"
+              class="my-0"
+              required
+              label="ExternalName"
+              :rules="objRules.externalNameRule"
+            />
+          </v-col>
+          <v-col
             v-if="
               Object.prototype.hasOwnProperty.call(
                 obj.spec,
@@ -151,7 +164,7 @@
             cols="6"
           >
             <v-text-field
-              v-if="obj.spec.sessionAffinityConfig"
+              v-if="obj.spec.sessionAffinityConfig && obj.spec.sessionAffinityConfig.clientIP"
               v-model="obj.spec.sessionAffinityConfig.clientIP.timeoutSeconds"
               class="my-0"
               required
@@ -162,21 +175,23 @@
         </v-row>
       </v-card-text>
 
-      <ServicePortForm
-        ref="servicePortForm"
-        :data="obj.spec.ports"
-        @addData="addPortData"
-        @closeOverlay="closeExpand"
-      />
-      <BaseSubTitle title="端口配置" />
-      <v-card-text class="pa-2">
-        <ServicePortItem
-          :ports="obj.spec.ports"
-          @updatePort="updatePort"
-          @removePort="removePort"
-          @expandCard="expandCard"
+      <template v-if="obj.spec.type !== 'ExternalName'">
+        <ServicePortForm
+          ref="servicePortForm"
+          :data="obj.spec.ports"
+          @addData="addPortData"
+          @closeOverlay="closeExpand"
         />
-      </v-card-text>
+        <BaseSubTitle title="端口配置" />
+        <v-card-text class="pa-2">
+          <ServicePortItem
+            :ports="obj.spec.ports"
+            @updatePort="updatePort"
+            @removePort="removePort"
+            @expandCard="expandCard"
+          />
+        </v-card-text>
+      </template>
 
       <LabelForm
         ref="labelForm"
@@ -281,6 +296,7 @@ export default {
     externaltypes: [
       { text: 'LoadBalancer', value: 'LoadBalancer' },
       { text: 'NodePort', value: 'NodePort' },
+      { text: 'ExternalName', value: 'ExternalName' },
       { text: '禁止访问', value: 'ClusterIP' },
     ],
     obj: {
@@ -306,7 +322,7 @@ export default {
     },
   }),
   computed: {
-    ...mapState(['Admin', 'AdminViewport']),
+    ...mapState(['Admin', 'AdminViewport', 'ApiResources']),
     ...mapGetters(['Cluster']),
     objRules() {
       return {
@@ -318,38 +334,39 @@ export default {
         selectorRule: [required],
         typeRule: [required],
         kindRule: [required],
+        externalNameRule: [required],
       }
     },
   },
   watch: {
-    async item() {
-      await this.loadData(true)
+    item: {
+      handler() {
+        this.obj.apiVersion = this.ApiResources['service'] || 'v1'
+        this.loadData()
+      },
+      deep: true,
+      immediate: true,
     },
   },
-  async mounted() {
-    await this.loadData(false)
-  },
   methods: {
-    async loadData(cover = false) {
+    async loadData() {
       this.$nextTick(async () => {
-        if (cover) {
-          if (!this.item) {
-            this.obj = this.$options.data().obj
-            this.$refs.form.resetValidation()
+        if (!this.item) {
+          this.$refs.form.resetValidation()
+        } else {
+          this.obj = deepCopy(this.item)
+        }
+
+        if (!this.manifest) {
+          if (this.AdminViewport) {
+            this.m_select_namespaceSelectData(this.ThisCluster)
           } else {
-            this.obj = deepCopy(this.item)
+            this.obj.metadata.namespace = this.ThisNamespace
           }
         } else {
-          if (!this.manifest) {
-            if (this.AdminViewport) {
-              this.m_select_namespaceSelectData(this.ThisCluster)
-            } else {
-              this.obj.metadata.namespace = this.ThisNamespace
-            }
-          } else {
-            this.obj.metadata.name = `${this.app.ApplicationName}`
-          }
+          this.obj.metadata.name = `${this.app.ApplicationName}`
         }
+
         if (!this.obj.metadata.labels) {
           this.obj.metadata.labels = {}
         }
@@ -372,6 +389,13 @@ export default {
           { text: '通过服务后端EndpointIP访问(Headless)', value: 'None' },
         ]
       })
+    },
+    onTypeChange() {
+      if (this.obj.spec.type === 'ExternalName') {
+        this.obj.spec.externalName = this.item?.spec?.externalName
+      } else {
+        this.$delete(this.obj.spec, 'externalName')
+      }
     },
     addLabelData(data) {
       this.obj.metadata.labels = data
@@ -444,26 +468,24 @@ export default {
           this.$route.params.name,
           {
             kind: kind,
-            noprocessing: true,
           },
         )
         const workloadSelect = []
         data.forEach((workload, index) => {
           let selector = {}
           if (
-            workload.spec.template.metadata &&
-            workload.spec.template.metadata.labels
+            workload?.spec?.template?.metadata?.labels
           ) {
             selector = workload.spec.template.metadata.labels
             if (Object.prototype.hasOwnProperty.call(selector, 'version')) {
               delete selector['version']
             }
+            workloadSelect.push({
+              text: workload.metadata.name,
+              labels: selector,
+              value: index,
+            })
           }
-          workloadSelect.push({
-            text: workload.metadata.name,
-            labels: selector,
-            value: index,
-          })
         })
         this.workloads = workloadSelect
         if (this.workloads.length > 0 && !this.edit) {
@@ -491,13 +513,20 @@ export default {
       } else this.obj.spec.selector = {}
     },
     getWorkloadSelectIndex() {
+      if (JSON.stringify(this.obj.spec.selector) === '{}') return -1
       let index = -1
-      this.workloads.forEach((w, i) => {
+      this.workloads.forEach((w) => {
         if (w && w.labels) {
-          const workload = JSON.stringify(w.labels).split('').sort().join('')
-          const service = JSON.stringify(this.obj.spec.selector).split('').sort().join('')
-          if (workload === service) {
-            index = i
+          const keyin = Object.keys(this.obj.spec.selector).every(k => {
+            return Object.keys(w.labels).indexOf(k) > -1
+          })
+
+          const valuein = Object.values(this.obj.spec.selector).every(v => {
+            return Object.values(w.labels).indexOf(v) > -1
+          })
+
+          if (keyin && valuein) {
+            index = w.value
             return
           }
         }
@@ -517,8 +546,12 @@ export default {
     reset() {
       this.$refs.labelForm.closeCard()
       this.$refs.annotationForm.closeCard()
-      this.$refs.servicePortForm.closeCard()
+      if (this.$refs.servicePortForm) {
+        this.$refs.servicePortForm.closeCard()
+      }
       this.$refs.form.reset()
+      this.selector = ''
+      this.obj = this.$options.data().obj
     },
     // eslint-disable-next-line vue/no-unused-properties
     init(data) {
@@ -542,7 +575,7 @@ export default {
       if (this.$refs.annotationForm.expand) {
         return !this.$refs.annotationForm.expand
       }
-      if (this.$refs.servicePortForm.expand) {
+      if (this.$refs.servicePortForm && this.$refs.servicePortForm.expand) {
         return !this.$refs.servicePortForm.expand
       }
       return true
@@ -553,6 +586,14 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     setData(data) {
       this.obj = data
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    getData() {
+      return this.obj
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    validate() {
+      return this.$refs.form.validate(true)
     },
     onNamespaceSelectFocus(clusterName) {
       this.m_select_namespaceSelectData(clusterName)

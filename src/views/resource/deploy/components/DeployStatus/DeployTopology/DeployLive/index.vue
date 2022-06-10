@@ -61,6 +61,7 @@
               <v-card
                 v-for="item in props.items"
                 :key="item.text"
+                min-width="120"
               >
                 <v-list dense>
                   <v-flex class="text-subtitle-2 text-center ma-2">
@@ -70,7 +71,7 @@
                   <v-list-item
                     v-for="(con, index) in item.values"
                     :key="index"
-                    class="text-body-2 text-center"
+                    class="text-body-2 text-center mx-2"
                     link
                     :style="
                       con.text === container ? `color: #1e88e5 !important;` : ``
@@ -92,8 +93,8 @@
       <v-card-text class="ma-0 pa-0">
         <v-tabs
           v-model="tab"
-          height="40"
-          class="rounded-t pa-0"
+          height="45"
+          class="rounded-t pa-0 v-tabs--default"
           fixed-tabs
         >
           <v-tab

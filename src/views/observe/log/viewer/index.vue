@@ -3,38 +3,39 @@
     id="log-viewer"
     fluid
   >
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb>
+      <template #extend>
+        <v-flex class="kubegems__full-right">
+          <BaseDatetimePicker
+            ref="dateRangePicker"
+            v-model="date"
+            :default-value="30"
+            default-value-for-query
+            query-start-time-key="start"
+            query-end-time-key="end"
+            @change="onDateChange"
+          />
+        </v-flex>
+      </template>
+    </BaseBreadcrumb>
     <v-card>
-      <div class="d-flex justify-space-between pa-3">
-        <ClusterSelect
-          v-model="cluster"
-          auto-select-first
-          object-value
-          :badge-values="clusterBadge"
-          mode="badge"
-          @change="onClusterChange"
-        />
-        <BaseDatetimePicker2
-          ref="dateRangePicker"
-          v-model="date"
-          :default-value="30"
-          @change="onDateChange"
-        />
-      </div>
-
       <LogQuery
         ref="logQuery"
-        :cluster="cluster"
-        :series="series"
+        :date-timestamp="dateTimestamp"
         @search="handleSearch"
         @saveSnapshot="handleSaveSnapshot"
         @showHistroy="handleShowHistroy"
+        @stopLogStream="handleStopLogStream"
+        @receiveMessage="handleReceiveMessage"
+        @initLoading="handleInitLoading"
+        @removeLoading="handleRemoveLoading"
+        @setCluster="handleSetCluster"
       />
     </v-card>
 
     <v-card class="pa-3 mt-3">
       <div class="log-viewer__toolbar">
-        <div>
+        <div v-if="view.resultType === 'streams'">
           <div class="d-inline-block">
             限制:
             <v-text-field
@@ -74,7 +75,7 @@
           </div>
         </div>
 
-        <div>
+        <div style="margin-left: auto;">
           <v-btn
             text
             small
@@ -89,27 +90,60 @@
             color="primary"
             small
             text
-            @click="handleSwitchView('chart')"
+            @click="handleSwitchView('chartShow')"
           >
             图表
             <v-icon right>
-              {{ view.chart ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
+              {{ view.chartShow ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
             </v-icon>
           </v-btn>
         </div>
       </div>
 
+      <v-flex>
+        <v-expand-transition>
+          <v-flex v-show="view.chartShow">
+            <v-flex v-if="view.resultType === 'streams'">
+              <LogBar
+                :chart="view.chart"
+                class="pb-1"
+              />
+            </v-flex>
+            <v-flex v-else-if="view.resultType === 'matrix'">
+              <LogLine :chart="view.chart" />
+            </v-flex>
+          </v-flex>
+        </v-expand-transition>
+      </v-flex>
+
       <LogTable
         v-if="view.resultType === 'streams'"
         :items="ItemsFilterByLevel"
+        :loading="loading"
         :timestamp="view.timestamp"
         :context="!!(params.regexp || params.levels.length)"
         @clickPod="handleAddPod"
         @showContext="handleShowContext"
       />
     </v-card>
+    <!-- <v-btn
+      fab
+      color="primary"
+      fixed
+      right
+      bottom
+      small
+      direction="left"
+      transition="slide-x-reverse-transition"
+      style="bottom: 65px !important;"
+      @click="handleScrollTo"
+    >
+      <v-icon small>mdi-arrow-up-bold</v-icon>
+    </v-btn> -->
 
-    <LogContext ref="logContext" />
+    <LogContext
+      ref="logContext"
+    />
     <LogSaveSnapshot ref="logSaveSnapshot" />
     <LogQueryHistory
       ref="logQueryHistory"
@@ -120,42 +154,34 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
-import { getLogSeries, getLogQueryRange, getLogExport } from '@/api'
-import ClusterSelect from '@/views/observe/components/ClusterSelect'
-import LogQuery from './components2/LogQuery.vue'
-import LogLevelSelector from './components2/LogLevelSelector.vue'
-import LogTable from './components2/LogTable.vue'
-import LogContext from './components2/LogContext.vue'
-import LogSaveSnapshot from './components2/LogSaveSnapshot.vue'
-import LogQueryHistory from './components2/LogQueryHistory.vue'
+import { getLogQueryRange, getLogExport, postAddLogQueryHistory } from '@/api'
+import LogQuery from './components/LogQuery'
+import LogLevelSelector from './components/LogLevelSelector'
+import LogTable from './components/LogTable'
+import LogContext from './components/LogContext'
+import LogSaveSnapshot from './components/LogSaveSnapshot'
+import LogQueryHistory from './components/LogQueryHistory'
+import LogBar from './components/LogBar'
+import LogLine from './components/LogLine'
 
 export default {
   name: 'LogViewer',
   components: {
-    ClusterSelect,
     LogQuery,
     LogLevelSelector,
     LogTable,
     LogContext,
     LogSaveSnapshot,
     LogQueryHistory,
+    LogBar,
+    LogLine,
   },
   data () {
-    this.LABEL_CLUSTER_KEY = process.env.VUE_APP_LOG_LABEL_CLUSTER_KEY
-
-    this.breadcrumb = {
-      title: '日志查看器',
-      tip: '基于Loki的日志查看面板，可进行日志实时查询，快照，过滤等等',
-      icon: 'mdi-format-list-bulleted',
-    }
-
     return {
       cluster: {},
-      clusterBadge: {},
-      series: [],
       date: [],
       params: {
-        limit: 500,
+        limit: 1000,
         direction: 'backward',
         levels: [],
         logQL: '',
@@ -165,14 +191,16 @@ export default {
       items: [],
       view: {
         timestamp: false,
-        chart: false,
+        chart: null,
+        chartShow: false,
         resultType: 'streams',
       },
+      loading: false,
     }
   },
   computed: {
     ...mapState(['Progress', 'JWT', 'User', 'AdminViewport']),
-    ...mapGetters(['Tenant', 'Cluster']),
+    ...mapGetters(['Cluster']),
     dateTimestamp () {
       return this.date.map(d => `${d}000000`)
     },
@@ -210,66 +238,33 @@ export default {
     },
   },
   methods: {
-    // 获取Series并设置集群按钮徽标值
-    async getSeriesList () {
-      const { text: clusterName } = this.cluster
-      const match = this.AdminViewport
-        ? `{${this.LABEL_CLUSTER_KEY}="${clusterName}"}`
-        : `{${this.LABEL_CLUSTER_KEY}="${clusterName}",tenant=~"^${this.Tenant().TenantName}$"}`
-
-      const data = await getLogSeries(clusterName, {
-        match,
-        start: this.dateTimestamp[0],
-        end: this.dateTimestamp[1],
-        noprocessing: true,
-      })
-      this.series = data
-      this.handleSetClusterBadge(clusterName, data.length)
-    },
-
-    onClusterChange () {
-      this.$refs.dateRangePicker.refresh(false)
-      this.getSeriesList()
-    },
     onDateChange () {
-      this.getSeriesList()
-    },
-    handleSetClusterBadge (cluster, total) {
-      this.$set(this.clusterBadge, cluster, total > 5000 ? '5000+' : total.toString())
-    },
-
-    // 判断是否显示上下文
-    // eslint-disable-next-line vue/no-unused-properties
-    handleSetContext () {
-
+      if (this.cluster.value) {
+        this.$refs.logQuery.getSeriesList()
+        this.$refs.logQuery.search()
+      }
     },
 
-    handleSwitchView (type, value) {
-      this.view[type] === value ?? !this.view[type]
+    handleSwitchView (type) {
+      this.view[type] = !this.view[type]
     },
 
-    handleSearch ({ logQL, regexp }) {
+    handleSearch ({ logQL, regexp, projectName, environmentName }) {
       this.params.logQL = logQL
       this.params.regexp = regexp
-      this.onLogQuery()
+      this.onLogQuery(projectName, environmentName)
     },
 
     // 查询
-    async onLogQuery() {
-      if (!this.params.logQL) {
+    async onLogQuery(projectName = '', environmentName = '') {
+      if (!this.params.logQL || this.params.logQL === '{  }') {
         this.$store.commit('SET_SNACKBAR', {
           text: '请输入查询条件',
           color: 'warning',
         })
         return
       }
-      // if (this.params.limit > 50000) {
-      //   this.$store.commit('SET_SNACKBAR', {
-      //     text: '最大支持单次50000条日志输出',
-      //     color: 'warning',
-      //   })
-      //   return
-      // }
+
       this.$refs.dateRangePicker.refresh(false)
       const params = {
         ClusterID: this.cluster.value,
@@ -278,7 +273,7 @@ export default {
         end: this.dateTimestamp[1],
         limit: this.params.limit,
         direction: this.params.direction,
-        filters: this.params.regexp ? [this.params.regexp] : '',
+        filters: this.params.regexp ? this.params.regexp.split('|~').filter(reg => { return reg.trim() }).map(reg => { return reg.trim().replaceAll('`', '').trim() }) : '',
         query: encodeURIComponent(this.params.logQL),
         step: this.step,
       }
@@ -295,7 +290,6 @@ export default {
         return
       }
 
-      // this.queryed = true
       this.items = (data.query || []).sort((a, b) => {
         if (this.params.direction === 'backward') {
           return b.info.timestamp - a.info.timestamp
@@ -306,9 +300,10 @@ export default {
       this.view.resultType = data.resultType
       this.chartData = data.chart
 
-      // 自动展开图表
-      if (this.view.resultType !== 'streams') {
-        this.view.chart = data.chart['xAxis-data'].length > 0 || this.view.chart
+      // 填充图表数据
+      this.view.chart = data.chart
+      if (this.view.resultType === 'matrix') {
+         this.view.chartShow = true
       }
 
       // 数据过多提示
@@ -326,6 +321,34 @@ export default {
       }
 
       // 保存值查询历史
+      this.saveLogQueryHistory()
+
+      // 填充url
+      if (this.view.resultType === 'streams') {
+        this.$router.replace({
+          name: this.$route.name,
+          query: {
+            ...this.$route.query,
+            project: projectName,
+            environment: environmentName,
+            cluster: this.cluster.text,
+            start: this.dateTimestamp[0]?.substr(0, 13),
+            end: this.dateTimestamp[1]?.substr(0, 13),
+            query: this.params.logQL,
+            filters: params.filters,
+          },
+        })
+      }
+    },
+
+    async saveLogQueryHistory() {
+      await postAddLogQueryHistory({
+        LogQL: this.params.logQL,
+        CreateAt: new Date(),
+        ClusterName: this.cluster.text,
+        CreatorID: this.User.ID,
+        ClusterID: this.cluster.value,
+      })
     },
 
     async handleGetLogFilename () {
@@ -374,8 +397,8 @@ export default {
       const filename = await this.handleGetLogFilename()
       if (filename) {
         this.$refs.logSaveSnapshot.show({
-          StartTime: this.dateTimestamp[0].slice(0, 13),
-          EndTime: this.dateTimestamp[1].slice(0, 13),
+          StartTime: new Date(parseInt(this.dateTimestamp[0].slice(0, 13))),
+          EndTime: new Date(parseInt(this.dateTimestamp[1].slice(0, 13))),
           SourceFile: filename,
           SnapshotName: '',
           ClusterName: this.cluster.text,
@@ -385,8 +408,8 @@ export default {
     },
 
     // eslint-disable-next-line vue/no-unused-properties
-    async handle(saving) {
-      if (this.logqlIncomplete) {
+    async handleDownloadLog() {
+      if (!this.params.logQL) {
         this.$store.commit('SET_SNACKBAR', {
           text: '请输入查询条件',
           color: 'warning',
@@ -398,14 +421,14 @@ export default {
       }
 
       const getdata = {
-        ClusterID: this.currentCluster.value,
-        ClusterName: this.currentCluster.text,
-        start: this.dateRangeTimestamp[0],
-        end: this.dateRangeTimestamp[1],
-        level: this.level.join(','),
+        ClusterID: this.cluster.value,
+        ClusterName: this.cluster.text,
+        start: this.dateTimestamp[0],
+        end: this.dateTimestamp[1],
+        level: this.params.levels.join(','),
         pod: this.params.pod,
         direction: this.params.direction,
-        query: encodeURIComponent(this.logQL),
+        query: encodeURIComponent(this.params.logQL),
       }
       const data = await getLogExport(getdata.ClusterName, getdata)
       if (data === null) {
@@ -413,9 +436,6 @@ export default {
       }
       if (data.exist) {
         const filename = data.filename
-        if (saving) {
-          return filename
-        }
         const link = document.createElement('a')
         link.addEventListener('click', function () {
           link.download = filename
@@ -426,7 +446,7 @@ export default {
         link.dispatchEvent(e)
         this.$store.commit('SET_SNACKBAR', {
           text: '导出成功',
-          color: 'warning',
+          color: 'success',
         })
       } else {
         this.$store.commit('SET_SNACKBAR', {
@@ -435,10 +455,6 @@ export default {
         })
         return null
       }
-    },
-
-    handleDownloadLog () {
-
     },
 
     handleAddPod (pod) {
@@ -454,13 +470,62 @@ export default {
     },
 
     handleShowContext (item) {
-      const query = Object.keys(item.stream).reduce((pre, current) => `${pre}${current}="${item.stream[current]}",`, '{').slice(0, -1) + '}'
+      const query = Object.keys(item.stream).filter(l => {
+        return ['container', 'image', 'pod', 'namespace'].includes(l)
+      }).reduce((pre, current) => `${pre}${current}="${item.stream[current]}",`, '{').slice(0, -1) + '}'
       this.$refs.logContext.showContext(item, {
         ClusterID: this.cluster.value,
         ClusterName: this.cluster.text,
         query: encodeURIComponent(query),
         timestamp: item.info.timestamp,
       })
+    },
+
+    handleInitLoading() {
+      this.loading = true
+    },
+
+    handleRemoveLoading() {
+      this.loading = false
+    },
+
+    handleStopLogStream() {
+      this.items.forEach((item) => {
+        if (item.info !== undefined) item.info.animation = ''
+      })
+      this.loading = false
+    },
+
+    handleReceiveMessage(data) {
+      data.sort((a, b) => {
+        return a.info.timestamp - b.info.timestamp
+      })
+      const instance = this
+      data.forEach((item) => {
+        this.items.unshift(item)
+        if (this.items.length > this.limit) {
+          this.items.pop()
+        }
+      })
+      this.timeoutTimer = setTimeout(() => {
+        for (var index = 0; index < data.length; index++) {
+          instance.items[index].info.animation =
+            'transition: background-color 2s;'
+        }
+        clearTimeout(this.timeoutTimer)
+      }, 5)
+    },
+
+    // handleScrollTo() {
+    //   const container = document.getElementById('log-viewer')
+    //   container.scrollTo({
+    //     top: 0,
+    //     behavior: 'smooth',
+    //   })
+    // },
+
+    handleSetCluster(cluster) {
+      this.cluster = cluster
     },
   },
 }
@@ -482,4 +547,24 @@ export default {
     }
   }
 }
+
+// #log-viewer {
+//   height: 100vh;
+//   overflow: auto;
+
+//   &::-webkit-scrollbar {
+//     display: block !important;
+//   }
+
+//   &::-webkit-scrollbar-thumb {
+//     width: 10px;
+//     border-radius: 5px;
+//     background: grey;
+//     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+//   }
+
+//   &::-webkit-scrollbar:vertical {
+//     width: 10px;
+//   }
+// }
 </style>

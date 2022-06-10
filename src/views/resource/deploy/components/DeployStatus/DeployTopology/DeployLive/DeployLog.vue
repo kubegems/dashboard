@@ -40,7 +40,7 @@ export default {
   computed: {
     ...mapState(['JWT', 'Scale']),
     height() {
-      return window.innerHeight - 64 * this.Scale - 1 - 40 * this.Scale
+      return window.innerHeight - 64 * this.Scale - 1 - 45 * this.Scale
     },
   },
   watch: {
@@ -83,10 +83,10 @@ export default {
       this.log += e.data
     },
     dispose() {
-      if (this.logWebsocket) {
+      if (this.logWebsocket && this.logWebsocket.readyState === 1) {
         this.logWebsocket.close()
-        this.logWebsocket = null
       }
+      this.logWebsocket = null
       this.log = ''
     },
     // eslint-disable-next-line vue/no-unused-properties

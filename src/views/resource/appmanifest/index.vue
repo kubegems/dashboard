@@ -4,9 +4,9 @@
       v-if="!AdminViewport"
       :environmented="Environment().ID > 0"
     />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
-      <v-card-title class="py-2">
+      <v-card-title class="py-4">
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '应用编排名称', value: 'search' }"
@@ -180,11 +180,6 @@ export default {
   },
   mixins: [BaseFilter, BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '应用编排',
-      tip: '应用编排(AppManifest)是一组工作负载，配置，密钥等资源的描述文件集合。',
-      icon: 'mdi-apps',
-    },
     items: [],
     pageCount: 0,
     params: {
@@ -222,10 +217,6 @@ export default {
     if (this.JWT) {
       this.$nextTick(() => {
         if (!this.AdminViewport && this.Project().ID === 0) {
-          this.$store.commit('SET_SNACKBAR', {
-            text: '请先选择项目',
-            color: 'warning',
-          })
           return
         }
         Object.assign(this.params, convertStrToNum(this.$route.query))
@@ -266,7 +257,7 @@ export default {
     appDetail(item) {
       this.$router.push({
         name: 'appmanifest-detail',
-        params: { name: item.name },
+        params: Object.assign(this.$route.params, { name: item.name }),
         query: {
           projectid: this.Project().ID,
           tenantid: this.Tenant().ID,

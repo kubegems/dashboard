@@ -45,18 +45,7 @@ const router = new Router({
     .concat(userCenter), // 用户中心
 })
 
-router.onError((error) => {
-  const pattern = new RegExp('Loading chunk (\\d)+ failed', 'g')
-  const isChunkLoadFailed = error.message.match(pattern)
-  if (router.history.pending) {
-    const targetPath = router.history.pending.fullPath
-    if (isChunkLoadFailed) {
-      router.replace(targetPath)
-    }
-  }
-})
-
-router.beforeEach(async function (to, from, next) {
+router.beforeEach(async (to, from, next) => {
   if (to.name === null) {
     next({ name: '404' })
     return
@@ -84,10 +73,10 @@ router.beforeEach(async function (to, from, next) {
         if (store.state.ClusterStore.length === 0) {
           await store.dispatch('UPDATE_CLUSTER_DATA')
         }
+        if (to.params.cluster !== store.state.LatestCluster.cluster) {
+          store.dispatch('LOAD_RESTMAPPING_RESOURCES', { clusterName: to.params.cluster })
+        }
         store.commit('SET_LATEST_CLUSTER', { cluster: to.params.cluster })
-      } else {
-        next({ name: '403' })
-        return
       }
     }
     let currentTenant = null
@@ -146,8 +135,12 @@ router.beforeEach(async function (to, from, next) {
         next({ name: '403' })
         return
       }
+      if (environment.ClusterName !== store.state.LatestEnvironment.cluster) {
+        store.dispatch('LOAD_RESTMAPPING_RESOURCES', { clusterName: environment?.ClusterName })
+      }
       store.commit('SET_LATEST_ENVIRONMENT', {
         environment: environment.EnvironmentName,
+        cluster: environment.ClusterName,
       })
     }
     store.dispatch('INIT_PLUGINS')

@@ -1,5 +1,5 @@
 <template>
-  <v-flex>
+  <v-flex class="px-2">
     <v-data-table
       disable-sort
       :headers="headers"

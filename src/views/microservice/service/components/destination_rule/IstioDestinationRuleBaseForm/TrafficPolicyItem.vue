@@ -2,7 +2,7 @@
   <v-flex>
     <v-sheet
       v-if="trafficPolicy && JSON.stringify(trafficPolicy) !== '{}'"
-      class="grey lighten-4 rounded mb-2"
+      class="grey lighten-4 rounded mb-3"
     >
       <v-list-item two-line>
         <v-list-item-content class="py-2">
@@ -127,7 +127,7 @@
     </v-sheet>
     <v-flex
       v-else
-      class="grey lighten-4 rounded-0"
+      class="grey lighten-4 rounded"
     >
       <v-list-item two-line>
         <v-list-item-content class="py-2">

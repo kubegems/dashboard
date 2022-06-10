@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader :selectable="false" />
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-btn
@@ -16,7 +16,7 @@
             >
               fas fa-code
             </v-icon>
-            Yaml
+            YAML
           </v-btn>
           <v-menu
             v-if="m_permisson_resourceAllow"
@@ -76,8 +76,8 @@
           <v-card-text class="pa-0">
             <v-tabs
               v-model="tab"
-              height="40"
-              class="rounded-t pl-2 pt-2"
+              height="30"
+              class="rounded-t pa-3"
             >
               <v-tab
                 v-for="item in tabItems"
@@ -86,18 +86,19 @@
                 {{ item.text }}
               </v-tab>
             </v-tabs>
-
-            <component
-              :is="tabItems[tab].value"
-              :ref="tabItems[tab].value"
-              :item="job"
-              :selector="{
-                topkind: 'Job',
-                topname: job ? job.metadata.name : '',
-              }"
-            />
           </v-card-text>
         </v-card>
+
+        <component
+          :is="tabItems[tab].value"
+          :ref="tabItems[tab].value"
+          class="mt-3"
+          :item="job"
+          :selector="{
+            topkind: 'Job',
+            topname: job ? job.metadata.name : '',
+          }"
+        />
       </v-col>
     </v-row>
 
@@ -138,11 +139,6 @@ export default {
   },
   mixins: [BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '任务',
-      tip: '任务 (Job) 负责批量处理短暂的一次性任务，即仅执行一次的任务，它保证批处理任务的一个或多个容器组成功结束。',
-      icon: 'mdi-repeat-once',
-    },
     job: null,
     tab: 0,
     tabItems: [
@@ -167,7 +163,7 @@ export default {
           job.Content.metadata.name === this.job.metadata.name
         ) {
           if (job.EventKind === 'delete') {
-            this.$router.push({ name: 'job-list' })
+            this.$router.push({ name: 'job-list', params: this.$route.params })
           } else {
             this.job = job.Content
           }
@@ -231,7 +227,7 @@ export default {
             this.$route.query.namespace,
             param.item.metadata.name,
           )
-          this.$router.push({ name: 'job-list' })
+          this.$router.push({ name: 'job-list', params: this.$route.params })
         },
       })
     },

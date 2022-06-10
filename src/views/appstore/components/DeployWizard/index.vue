@@ -23,7 +23,7 @@
       :before-change="validateBaseInfo"
     >
       <v-form
-        ref="baseInfoForm"
+        ref="form"
         v-model="valid"
         lazy-validation
         class="wizard-form-content"
@@ -138,7 +138,7 @@
     >
       <v-tabs
         v-model="tab"
-        height="40"
+        height="30"
         rounded-t
         @change="onTabChange"
       >
@@ -148,7 +148,7 @@
         >
           {{ item.text }}
           <Tips
-            v-if="tab === 0 && selectRepo !== 'gemscloud'"
+            v-if="tab === 0 && selectRepo !== 'kubegems'"
             msg="第三方仓库,建议使用values.yaml配置"
             class="mx-1"
           />
@@ -237,7 +237,7 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex'
-import { postDeployAppStore } from '@/api'
+import { postDeployAppStore, getAppStoreFiles } from '@/api'
 import Tips from './Tips'
 import AppStoreDeployLoading from './AppStoreDeployLoading'
 import AppStoreComplete from './AppStoreComplete'
@@ -246,9 +246,11 @@ import BaseResource from '@/mixins/resource'
 import BasePermission from '@/mixins/permission'
 import { YamlMixin } from '@/views/appstore/mixins/yaml'
 import { k8sName, required } from '@/utils/rules'
+import { deepCopy } from '@/utils/helpers'
 
 import { FormWizard, TabContent } from 'vue-form-wizard'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
+import { Base64 } from 'js-base64'
 
 export default {
   name: 'DeployWizard',
@@ -303,6 +305,7 @@ export default {
       { text: '表单', value: 'DeployForm' },
       { text: 'Values', value: 'DeployFrom' },
     ],
+    filesCopy: {},
   }),
   computed: {
     ...mapState([
@@ -339,9 +342,17 @@ export default {
     },
     showForm() {
       return (
-        this.files['values.schema.json'] !== undefined &&
-        this.files['values.schema.json'] !== null
+        this.filesCopy['values.schema.json'] !== undefined &&
+        this.filesCopy['values.schema.json'] !== null
       )
+    },
+  },
+  watch: {
+    files: {
+      handler(newValue) {
+        this.filesCopy = deepCopy(newValue)
+      },
+      deep: true,
     },
   },
   destroyed() {
@@ -351,21 +362,21 @@ export default {
   },
   methods: {
     validateBaseInfo() {
-      const ret = this.$refs.baseInfoForm.validate(true)
+      const ret = this.$refs.form.validate(true)
       this.currentStep = ret ? 2 : 1
       return ret
     },
     validateJsonSchema() {
-      return this.$refs.jsonSchema.$refs.form.validate(true)
+      return this.$refs.jsonSchema.validate()
     },
     async parseFiles() {
-      this.readme = this.files['README.md'] || {}
-      if (this.files['values.schema.json']) {
-        this.schemaJson = JSON.parse(this.files['values.schema.json'])
+      this.readme = this.filesCopy['README.md'] || {}
+      if (this.filesCopy['values.schema.json']) {
+        this.schemaJson = JSON.parse(this.filesCopy['values.schema.json'])
       }
-      if (this.files['values.yaml']) {
-        this.appValues = this.$yamlload(this.files['values.yaml'])
-        this.appValuesOrigin = this.$yamlload(this.files['values.yaml'])
+      if (this.filesCopy['values.yaml']) {
+        this.appValues = this.$yamlload(this.filesCopy['values.yaml'])
+        this.appValuesOrigin = this.$yamlload(this.filesCopy['values.yaml'])
         this.appValuesYaml = this.$yamldump(this.appValuesOrigin)
       }
       if (Object.keys(this.appValues).length === 0) {
@@ -575,11 +586,11 @@ export default {
     },
     // eslint-disable-next-line vue/no-unused-properties
     reset() {
-      if (this.$refs.baseInfoForm) {
-        this.$refs.baseInfoForm.reset()
+      if (this.$refs.form) {
+        this.$refs.form?.reset()
       }
-      if (this.$refs.jsonSchema && this.$refs.jsonSchema.$refs.form) {
-        this.$refs.jsonSchema.$refs.form.reset()
+      if (this.$refs.jsonSchema) {
+        this.$refs.jsonSchema?.reset()
       }
     },
     async nextStep(props) {
@@ -590,12 +601,24 @@ export default {
         this.tab = 0
       }
     },
-    onAppVersionChange() {
+    async onAppVersionChange() {
       if (this.obj.selectVersion) {
-        this.$emit('onAppVersionChange', this.obj.selectVersion)
+        await this.appStoreFiles()
         this.parseFiles()
         this.onAppNameChange()
       }
+    },
+    async appStoreFiles() {
+      const res = await getAppStoreFiles({
+        name: this.currentApp.name,
+        version: this.obj.selectVersion,
+        reponame: this.selectRepo,
+      })
+      const files = res.files || {}
+      Object.keys(files).forEach((name) => {
+        files[name] = Base64.decode(files[name])
+      })
+      this.filesCopy = files
     },
     onTabChange() {
       if (this.tab === 0) {
@@ -607,6 +630,10 @@ export default {
     },
     onTenantProjectSelectFocus() {
       this.m_select_tenantProjectSelectData()
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    setData(data) {
+      this.obj = Object.assign(this.obj, data)
     },
   },
 }

@@ -6,7 +6,7 @@ export const CLUSTER_CPU_TOTAL_PROMQL = `sum(gems_node_cpu_total_cores)`
 export const CLUSTER_MEMORY_TOTAL_PROMQL = `sum(gems_node_memory_total_bytes)`
 export const CLUSTER_DISK_TOTAL_PROMQL = `sum(gems_node_disk_total_bytes)`
 export const CLUSTER_POD_CAPACITY_PROMQL = `sum(kube_node_status_capacity{resource="pods"})`
-export const CLUSTER_API_SERVER_SUCCESS_RATE_PROMQL = `round((sum(gems_cluster_apiserver_qps{code!~"5.*"}) / sum(gems_cluster_apiserver_qps)) * 100, 0.01)`
+export const CLUSTER_API_SERVER_SUCCESS_RATE_PROMQL = `round((sum(gems_cluster_apiserver_qps{code!~"5.*"}) / sum(gems_cluster_apiserver_qps)) * 100, 0.01) or vector(0)`
 export const CLUSTER_API_SERVER_RT_PROMQL = `gems_cluster_apiserver_response_duration_seconds{verb!~"WATCH|CONNECT"} * 1000 * 1000`
 export const CLUSTER_API_SERVER_QPS_PROMQL = `sum(gems_cluster_apiserver_qps{code=~"$1"})`
 export const CLUSTER_ETCD_RT_PROMQL = `gems_cluster_etcd_response_duration_seconds * 1000 * 1000`

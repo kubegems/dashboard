@@ -84,6 +84,7 @@
               <v-card
                 v-for="item in props.items"
                 :key="item.text"
+                min-width="120"
               >
                 <v-list dense>
                   <v-flex class="text-subtitle-2 text-center ma-2">
@@ -93,7 +94,7 @@
                   <v-list-item
                     v-for="(con, index) in item.values"
                     :key="index"
-                    class="text-body-2 text-center"
+                    class="text-body-2 text-center mx-2"
                     link
                     :style="
                       con.text === container ? `color: #1e88e5 !important;` : ``
@@ -157,7 +158,9 @@ const bindTerminal = (term, websocket, bidirectional) => {
   // 心跳
   const heartBeatTimer = setInterval(function () {
     var msg = { type: 'heartbeat', input: '' }
-    websocket.send(JSON.stringify(msg))
+    if (websocket && websocket.readyState === 1) {
+      websocket.send(JSON.stringify(msg))
+    }
   }, 20 * 1000)
 
   // 发数据
@@ -251,8 +254,8 @@ export default {
     dispose() {
       if (this.websock && this.websock.readyState === 1) {
         this.websock.send(JSON.stringify({ type: 'close' }))
-        this.websock = null
       }
+      this.websock = null
       this.doClose()
       if (window.opener) window.close()
     },
@@ -378,7 +381,7 @@ export default {
     openOnBlankTab() {
       const routeData = this.$router.resolve({
         name: this.AdminViewport ? 'admin-terminal-viewer' : 'terminal-viewer',
-        params: { name: this.item.name },
+        params: Object.assign(this.$route.params, { name: this.item.name }),
         query: {
           type: 'shell',
           namespace: this.item.namespace,

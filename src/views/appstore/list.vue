@@ -1,8 +1,8 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
-      <v-card-title class="py-2">
+      <v-card-title class="py-4">
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '应用商店仓库名称', value: 'search' }"
@@ -81,7 +81,25 @@
           {{ item.ChartRepoName }}
         </template>
         <template #[`item.syncStatus`]="{ item }">
-          {{ item.SyncStatus }}
+          <StatusTip :item="item">
+            <template #trigger>
+              <v-icon
+                v-if="item.SyncStatus==='success'"
+                small
+                color="success"
+              >
+                fas fa-check-circle
+              </v-icon>
+              <v-icon
+                v-else
+                small
+                color="error"
+              >
+                fas fa-minus-circle
+              </v-icon>
+              {{ item.SyncStatus }}
+            </template>
+          </StatusTip>
         </template>
         <template #[`item.url`]="{ item }">
           {{ item.URL }}
@@ -155,6 +173,7 @@
 import { mapGetters, mapState } from 'vuex'
 import { getRepositoryList, deleteRepository, postSyncRepository } from '@/api'
 import RepositoryInfo from './components/RepositoryInfo'
+import StatusTip from './components/StatusTip'
 import BaseFilter from '@/mixins/base_filter'
 import BaseSelect from '@/mixins/select'
 import BaseResource from '@/mixins/resource'
@@ -163,14 +182,12 @@ import { deepCopy } from '@/utils/helpers'
 
 export default {
   name: 'RepositoryList',
-  components: { RepositoryInfo },
+  components: {
+    RepositoryInfo,
+    StatusTip,
+  },
   mixins: [BaseFilter, BaseSelect, BaseResource, BaseTable],
   data: () => ({
-    breadcrumb: {
-      title: '应用商店仓库',
-      tip: 'chart仓库是chart包存放的位置, 被应用商店和部署所使用。',
-      icon: 'mdi-hexagon-multiple',
-    },
     items: [],
     headers: [
       { text: '仓库名', value: 'chartRepoName', align: 'start' },
@@ -220,11 +237,11 @@ export default {
       this.m_table_generateSelectResourceNoK8s('ChartRepoName')
     },
     addRepository() {
-      this.$refs.repositoryInfo.title = '添加仓库'
+      this.$refs.repositoryInfo.setTitle('添加仓库')
       this.$refs.repositoryInfo.open()
     },
     updateRepository(item) {
-      this.$refs.repositoryInfo.title = '更新仓库'
+      this.$refs.repositoryInfo.setTitle('更新仓库')
       this.$refs.repositoryInfo.init(item)
       this.$refs.repositoryInfo.open()
     },

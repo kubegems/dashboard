@@ -1,4 +1,4 @@
-const prefix = 'virtualspaces/:virtualspace'
+const prefix = 'virtualspaces/:virtualspace?'
 
 export const microService = [
   {
@@ -31,6 +31,7 @@ export const microService = [
               show: true,
               rootName: 'microservice',
               dependencies: ['istio'],
+              tip: 'v-dashboard',
             },
           },
         ],
@@ -57,7 +58,8 @@ export const microService = [
               icon: 'mdi-vector-polyline',
               show: true,
               rootName: 'microservice',
-              dependencies: ['istio'],
+              dependencies: ['istio', 'observability'],
+              tip: 'dag',
             },
           },
           // microworkload
@@ -72,6 +74,7 @@ export const microService = [
               show: true,
               rootName: 'microservice',
               dependencies: ['istio'],
+              tip: 'v-workload',
             },
           },
           {
@@ -84,7 +87,8 @@ export const microService = [
               icon: 'mdi-vector-arrange-above',
               show: false,
               rootName: 'microservice',
-              dependencies: ['istio'],
+              dependencies: ['istio', 'observability'],
+              tip: 'v-workload',
             },
           },
           // service
@@ -99,6 +103,7 @@ export const microService = [
               show: true,
               rootName: 'microservice',
               dependencies: ['istio'],
+              tip: 'v-service',
             },
           },
           {
@@ -111,7 +116,8 @@ export const microService = [
               icon: 'mdi-network',
               show: false,
               rootName: 'microservice',
-              dependencies: ['istio'],
+              dependencies: ['istio', 'observability'],
+              tip: 'v-service',
             },
           },
         ],
@@ -138,6 +144,7 @@ export const microService = [
               show: true,
               rootName: 'microservice',
               dependencies: ['istio'],
+              tip: 'v-configmap',
             },
           },
           {
@@ -151,6 +158,7 @@ export const microService = [
               show: false,
               rootName: 'microservice',
               dependencies: ['istio'],
+              tip: 'v-configmap',
             },
           },
         ],
@@ -172,11 +180,12 @@ export const microService = [
             component: () => import('@/views/microservice/istio_gateway/index'),
             meta: {
               requireAuth: true,
-              title: '微服务网关',
+              title: '微服务网关实例',
               icon: 'mdi-gate',
               show: true,
               rootName: 'microservice',
               dependencies: ['istio'],
+              tip: 'v-gateway-instance',
             },
           },
           {
@@ -190,6 +199,7 @@ export const microService = [
               show: false,
               rootName: 'microservice',
               dependencies: ['istio'],
+              tip: 'v-gateway-instance',
             },
           },
         ],
@@ -209,7 +219,7 @@ export const microService = [
             path: `${prefix}/authorizationpolicys`,
             name: 'authorizationpolicy-list',
             component: () =>
-              import('@/views/microservice/istio/authorization-policy/index'),
+              import('@/views/microservice/istio/authorization_policy/index'),
             meta: {
               requireAuth: true,
               title: '认证策略',
@@ -217,6 +227,7 @@ export const microService = [
               show: true,
               rootName: 'microservice',
               dependencies: ['istio'],
+              tip: 'v-authorization-policy',
             },
           },
           // gateways
@@ -231,6 +242,7 @@ export const microService = [
               show: true,
               rootName: 'microservice',
               dependencies: ['istio'],
+              tip: 'v-gateway',
             },
           },
           // peerauthentication
@@ -238,7 +250,7 @@ export const microService = [
             path: `${prefix}/peerauthentications`,
             name: 'peerauthentication-list',
             component: () =>
-              import('@/views/microservice/istio/peer-authentication/index'),
+              import('@/views/microservice/istio/peer_authentication/index'),
             meta: {
               requireAuth: true,
               title: '端点认证',
@@ -246,13 +258,14 @@ export const microService = [
               show: true,
               rootName: 'microservice',
               dependencies: ['istio'],
+              tip: 'v-peer-authentication',
             },
           },
           // serviceentry
           {
             path: `${prefix}/serviceentrys`,
             name: 'serviceentry-list',
-            component: () => import('@/views/microservice/istio/service-entry/index'),
+            component: () => import('@/views/microservice/istio/service_entry/index'),
             meta: {
               requireAuth: true,
               title: '服务入口',
@@ -260,6 +273,7 @@ export const microService = [
               show: true,
               rootName: 'microservice',
               dependencies: ['istio'],
+              tip: 'v-service-entry',
             },
           },
           // sidecar
@@ -274,6 +288,7 @@ export const microService = [
               show: true,
               rootName: 'microservice',
               dependencies: ['istio'],
+              tip: 'v-sidecar',
             },
           },
         ],

@@ -5,17 +5,19 @@
         class="
           text-subtitle-2
           ml-4
+          mr-2
           float-left
           font-weight-medium
-          kubegems__detail
+          kubegems__text
           font-line-height
+          ns__tip
         "
       >
         命名空间
       </v-sheet>
       <v-sheet
-        class="float-left"
-        width="350"
+        class="float-left ns__combox"
+        width="400"
       >
         <v-combobox
           v-model="namespaceFilter"
@@ -30,7 +32,6 @@
           flat
           no-data-text="无数据"
           full-width
-          class="ml-2"
           :items="m_select_namespaceItems"
           @focus="onNamespaceSelectFocus(Cluster().ClusterName)"
           @change="onNamespaceFilterChange"
@@ -134,7 +135,7 @@ export default {
       this.reload()
     },
     onNamespaceSelectFocus(clusterName) {
-      this.m_select_namespaceSelectData(clusterName)
+      this.m_select_namespaceSelectData(clusterName, { noprocessing: true })
     },
   },
 }
@@ -143,5 +144,20 @@ export default {
 <style lang="scss" scoped>
 .font-line-height {
   line-height: 40px;
+}
+
+.ns__tip {
+  display: block;
+
+  @media (max-width: 1300px) {
+    display: none;
+  }
+}
+
+.ns__combox {
+  @media (max-width: 1300px) {
+    margin-top: 4px;
+    width: 700px;
+  }
 }
 </style>

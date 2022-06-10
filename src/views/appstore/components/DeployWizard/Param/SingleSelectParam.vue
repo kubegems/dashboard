@@ -19,7 +19,6 @@
         bottom: true,
         left: true,
         origin: `top center`,
-        transition: `scale-transition`,
       }"
       @change="onChange($event)"
       @focus="onStorageClassSelectFocus"
@@ -80,7 +79,7 @@ export default {
           this.param.name === 'storageClass') &&
         this.clusterName !== ''
       ) {
-        this.m_select_storageClassSelectData(this.clusterName)
+        this.m_select_storageClassSelectData(this.clusterName, { noprocessing: true })
         this.items = this.m_select_storageClassItems
       }
     },
@@ -103,7 +102,7 @@ export default {
           this.param.name === 'storageClass') &&
         this.clusterName !== ''
       ) {
-        await this.m_select_storageClassSelectData(this.clusterName)
+        await this.m_select_storageClassSelectData(this.clusterName, { noprocessing: true })
         this.items = this.m_select_storageClassItems
       }
     },

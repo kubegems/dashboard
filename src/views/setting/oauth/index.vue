@@ -1,12 +1,13 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
 
     <v-row class="mt-0">
       <v-col
         v-for="(item, index) in items"
         :key="index"
         cols="12"
+        class="pt-0 pb-3"
       >
         <v-hover
           #default="{ hover }"
@@ -98,11 +99,6 @@ export default {
     ConfigAuthSource,
   },
   data: () => ({
-    breadcrumb: {
-      title: '认证',
-      tip: '基于 oauth2.0/ldap 的第三方认证集成, 用户可进行多种方式登录',
-      icon: 'mdi-star',
-    },
     items: [{
       name: 'Kubegems (default)',
       kind: 'kubegems',

@@ -1,25 +1,25 @@
 <template>
-  <v-simple-table class="mx-2 pa-2">
+  <v-simple-table class="mx-2 pa-2 pb-3">
     <template #default>
       <thead>
         <tr>
           <th class="text-left">容器名</th>
           <th
             class="text-left"
-            style="width: 400px;"
+            style="width: 300px;"
           >
             镜像
           </th>
           <th
             class="text-left"
-            style="width: 110px;"
+            style="width: 120px;"
           >
             探针
           </th>
           <th class="text-left">容器端口</th>
           <th
             class="text-left"
-            style="width: 250px;"
+            style="width: 220px;"
           >
             卷
           </th>
@@ -35,19 +35,19 @@
           <td>{{ item.image }}</td>
           <td>
             <template v-if="item.livenessProbe">
-              <ProbeInfo
+              <ProbeTip
                 title="存活探针"
                 :item="item.livenessProbe"
               />
             </template>
             <template v-if="item.readinessProbe">
-              <ProbeInfo
+              <ProbeTip
                 title="就绪探针"
                 :item="item.readinessProbe"
               />
             </template>
             <template v-if="item.startupProbe">
-              <ProbeInfo
+              <ProbeTip
                 title="启动探针"
                 :item="item.startupProbe"
               />
@@ -67,7 +67,7 @@
               :key="index"
               class="py-1"
             >
-              {{ volume.name }}
+              <div class="table__volume__height">{{ volume.name }}</div>
             </v-flex>
           </td>
           <td>
@@ -76,10 +76,12 @@
               :key="index"
               class="py-1"
             >
-              <span>{{ volume.mountPath }}</span>
-              <span v-if="volume.subPath">
-                ｜子路径 : {{ volume.subPath }}
-              </span>
+              <div class="table__volume__height">
+                <span>{{ volume.mountPath }}</span>
+                <span v-if="volume.subPath">
+                  ｜子路径 : {{ volume.subPath }}
+                </span>
+              </div>
             </v-flex>
           </td>
         </tr>
@@ -89,12 +91,12 @@
 </template>
 
 <script>
-import ProbeInfo from './ProbeInfo'
+import ProbeTip from './ProbeTip'
 
 export default {
   name: 'DetailContainer',
   components: {
-    ProbeInfo,
+    ProbeTip,
   },
   props: {
     containers: {
@@ -122,3 +124,16 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.table {
+  &__volume {
+    &__height {
+      height: 24px;
+      overflow: auto;
+      word-break: break-all;
+      white-space: break-spaces;
+    }
+  }
+}
+</style>

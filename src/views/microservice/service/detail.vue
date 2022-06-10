@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseMicroServiceHeader :selectable="false" />
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex
           v-if="service && service.istioSidecar"
@@ -125,8 +125,8 @@
       <v-card-text class="pa-0">
         <v-tabs
           v-model="tab"
-          height="40"
-          class="rounded-t pa-2"
+          height="30"
+          class="rounded-t pa-3"
         >
           <v-tab
             v-for="item in tabItems"
@@ -135,16 +135,17 @@
             {{ item.text }}
           </v-tab>
         </v-tabs>
-        <component
-          :is="tabItems[tab].value"
-          :ref="tabItems[tab].value"
-          type="services"
-          :item="service"
-          :vs="vs"
-          :mode="mode"
-        />
       </v-card-text>
     </v-card>
+    <component
+      :is="tabItems[tab].value"
+      :ref="tabItems[tab].value"
+      class="mt-3"
+      type="services"
+      :item="service"
+      :vs="vs"
+      :mode="mode"
+    />
 
     <FaultInjection
       ref="faultInjection"
@@ -211,11 +212,6 @@ export default {
   },
   mixins: [BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '服务',
-      tip: '服务 (Service) 是定义了一类容器组的逻辑集合和一个用于访问它们的策略。',
-      icon: 'mdi-network',
-    },
     tab: 0,
     service: null,
     vs: null,

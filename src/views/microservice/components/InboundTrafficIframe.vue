@@ -1,6 +1,8 @@
 <template>
-  <v-card flat>
-    <v-card-text class="pa-2">
+  <v-card
+    flat
+  >
+    <v-card-text class="pa-2 px-3">
       <iframe
         id="inbound"
         :src="src"
@@ -33,16 +35,16 @@ export default {
   computed: {
     ...mapState(['Scale']),
     height() {
-      return window.innerHeight - 255 * this.Scale - 1 + 300
+      return parseInt((window.innerHeight - 284) / this.Scale)
     },
     src() {
       return `/api/v1/service-proxy/cluster/${
         this.$route.query.cluster
-      }/namespace/istio-system/service/kiali/port/20001/kiali/console/namespaces/${
+      }/namespace/istio-system/service/kiali/port/20001/kiali/?kiosk=true#/namespaces/${
         this.$route.query.namespace
       }/${this.type}/${this.$route.params.name}?tab=${
         this.type === 'workloads' ? 'in_metrics' : 'metrics'
-      }&rangeDuration=1800&refresh=60000&kiosk=true`
+      }&rangeDuration=1800&refresh=60000`
     },
   },
   destroyed() {
@@ -70,11 +72,11 @@ export default {
         iframe.contentWindow.document.getElementsByClassName('pf-c-breadcrumb')
       if (headers && headers.length > 0) {
         const header = headers[0]
-        header.parentElement.removeChild(header)
+        header.parentElement?.removeChild(header)
       }
       const tab = iframe.contentWindow.document.getElementById('basic-tabs')
       if (tab) {
-        tab.parentElement.removeChild(tab)
+        tab.parentElement?.removeChild(tab)
       }
       const session = iframe.contentWindow.document.querySelector(
         this.type === 'workloads'

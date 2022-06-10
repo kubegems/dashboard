@@ -1,16 +1,15 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
-      <v-card-title class="py-2">
+      <v-card-title class="py-4">
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '配置名称', value: 'search' }"
           @refresh="m_filter_list"
         />
         <NamespaceFilter />
-        <v-spacer />
         <v-spacer />
         <v-menu
           v-if="m_permisson_resourceAllow"
@@ -191,11 +190,6 @@ export default {
   },
   mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
-    breadcrumb: {
-      title: '配置',
-      tip: '配置集 (ConfigMap) 常用于存储工作负载所需的配置信息，许多应用程序会从配置文件、命令行参数或环境变量中读取配置信息。',
-      icon: 'mdi-wrench',
-    },
     items: [],
     pageCount: 0,
     params: {
@@ -299,9 +293,9 @@ export default {
     configMapDetail(item) {
       this.$router.push({
         name: 'configmap-detail',
-        params: {
+        params: Object.assign(this.$route.params, {
           name: item.metadata.name,
-        },
+        }),
         query: {
           namespace: item.metadata.namespace,
         },

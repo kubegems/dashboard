@@ -54,14 +54,14 @@
         :key="switchKey"
         v-model="yaml"
         class="ma-0 pl-2 ml-2 mt-1"
-        style="margin-top: 6px !important;"
-        color="primary"
+        style="margin-top: 8px !important;"
+        color="white"
         hide-details
         @change="onYamlSwitchChange"
       >
         <template #label>
-          <span class="text-subject-1 primary--text font-weight-medium">
-            Yaml
+          <span class="text-subject-1 white--text font-weight-medium">
+            YAML
           </span>
         </template>
       </v-switch>
@@ -106,7 +106,7 @@ export default {
       if (this.$refs[this.formComponent].validate()) {
         let data = ''
         if (this.formComponent === 'BaseYamlForm') {
-          data = this.$refs[this.formComponent].kubeyaml
+          data = this.$refs[this.formComponent].getYaml()
           const jsondata = this.$yamlload(data)
           if (this.kind) {
             const mixinjson = require(`@/views/resource/${
@@ -127,7 +127,7 @@ export default {
           }
           data = this.$yamldump(this.m_resource_beautifyData(jsondata))
         } else if (this.formComponent === 'AppResourceBaseForm') {
-          data = this.$refs[this.formComponent].obj
+          data = this.$refs[this.formComponent].getData()
           data = this.$yamldump(this.m_resource_beautifyData(data))
         }
         await patchAppResourceFile(
@@ -146,7 +146,7 @@ export default {
     },
     onYamlSwitchChange() {
       if (this.yaml) {
-        const data = this.$refs[this.formComponent].obj
+        const data = this.$refs[this.formComponent].getData()
         this.formComponent = 'BaseYamlForm'
         this.$nextTick(() => {
           this.$refs[this.formComponent].setYaml(this.$yamldump(data))
@@ -190,7 +190,7 @@ export default {
         return
       }
       if (this.step > 0) {
-        const data = this.$refs[this.formComponent].obj
+        const data = this.$refs[this.formComponent].getData()
         this.step -= 1
         this.$nextTick(() => {
           this.$refs[this.formComponent].back(data)
@@ -212,7 +212,7 @@ export default {
         this.step < this.totalStep - 1 &&
         this.$refs[this.formComponent].validate()
       ) {
-        const data = this.$refs[this.formComponent].obj
+        const data = this.$refs[this.formComponent].getData()
         if (
           ['DaemonSet', 'Deployment', 'StatefulSet', 'Job'].indexOf(data.kind) >
             -1 &&
@@ -247,6 +247,7 @@ export default {
     },
     onKindChange(kind, totalStep, init, data) {
       this.kind = kind
+      this.item = deepCopy(data)
       this.totalStep = totalStep
       if (init) {
         this.$nextTick(() => {
@@ -260,7 +261,7 @@ export default {
       this.app = deepCopy(app)
       this.file = deepCopy(file)
       this.item = deepCopy(this.$yamlload(file.manifest))
-      if (!this.$APP_MENIFEST_TAG[this.item.kind].form) {
+      if (!this.$APP_MENIFEST_TAG[this.item?.kind]?.form) {
         this.$store.commit('SET_SNACKBAR', {
           text: '暂时不支持该资源类型，请直接编辑yaml文件',
           color: 'warning',
@@ -269,7 +270,11 @@ export default {
         this.formComponent = 'BaseYamlForm'
       }
       this.$nextTick(() => {
-        this.$refs[this.formComponent].init(this.item, true)
+        if (this.formComponent === 'BaseYamlForm') {
+          this.$refs[this.formComponent].setYaml(file.manifest)
+        } else {
+          this.$refs[this.formComponent].init(this.item, true)
+        }
       })
     },
     reset() {

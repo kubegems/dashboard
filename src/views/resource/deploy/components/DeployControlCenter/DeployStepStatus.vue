@@ -21,7 +21,9 @@
           vertical
           non-linear
         >
-          <template v-for="(stage, index) in stages">
+          <template
+            v-for="(stage, index) in stages"
+          >
             <v-stepper-step
               :key="`s${index}`"
               :complete="
@@ -41,7 +43,7 @@
                   : []
               "
               :step="`${index + 1}`"
-              class="text-subtitle-1 kubegems__role font-weight-medium"
+              class="text-subtitle-1 kubegems__text font-weight-medium"
               edit-icon="mdi-check"
               error-icon="mdi-close-circle"
             >
@@ -168,7 +170,7 @@
       </v-flex>
       <v-flex
         v-else
-        class="grey lighten-4 rounded-0 ma-2"
+        class="grey lighten-4 rounded ma-2 mt-3"
       >
         <v-list-item two-line>
           <v-list-item-content class="py-2">
@@ -225,7 +227,7 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     init() {
       this.showDeployStepStatus()
-      const interval = window.setInterval(() => {
+      const interval = setInterval(() => {
         const eles = document.getElementsByClassName('v-stepper__wrapper')
         if (eles && eles.length > 0) {
           clearInterval(interval)

@@ -85,11 +85,11 @@ export default {
     }
   },
   computed: {
-    height() {
-      return window.innerHeight - 265
-    },
     ...mapState(['Scale']),
     ...mapGetters(['Tenant', 'Project', 'Environment']),
+    height() {
+      return window.innerHeight - parseInt(302 * this.Scale) - 13
+    },
   },
   watch: {
     tree: {
@@ -176,7 +176,7 @@ export default {
       }
     },
     hideMenu() {
-      const timeout = window.setTimeout(() => {
+      const timeout = setTimeout(() => {
         const menus = document.getElementsByClassName('resourceMenu')
         if (menus && menus.length > 0) {
           const menu = menus[0]
@@ -287,7 +287,7 @@ export default {
                       <div class="v-card__text pa-2">{node.data.name}</div>
                     </div>
                   </div>
-                  <span class="kubegems__detail font-weight-medium">
+                  <span class="kubegems__text font-weight-medium">
                     {node.data.name}
                   </span>
                 </span>
@@ -315,7 +315,7 @@ export default {
                       </div>
                     </div>
                   </div>
-                  <span class="kubegems__detail font-weight-medium">
+                  <span class="kubegems__text font-weight-medium">
                     {node.data.createdAt
                       ? this.$moment(
                           node.data.createdAt,
@@ -325,7 +325,7 @@ export default {
                   </span>
                 </span>
               ) : (
-                <span class="kubegems__detail font-weight-medium">
+                <span class="kubegems__text font-weight-medium">
                   {node.data.createdAt
                     ? this.$moment(
                         node.data.createdAt,
@@ -427,7 +427,7 @@ export default {
 }
 .messagetip {
   position: absolute;
-  top: 0;
+  top: 10px;
   left: 100px;
   display: none !important;
   z-index: 15;
@@ -448,7 +448,7 @@ export default {
 .org-chart-node-label-inner {
   height: 80px !important;
   padding: 5px 8px !important;
-  border-radius: 3px;
+  border-radius: 8px;
   box-shadow: 0 0 1px 0 rgb(27 19 19 / 10%);
 }
 .resource {

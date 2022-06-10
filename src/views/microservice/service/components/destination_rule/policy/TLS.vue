@@ -158,7 +158,7 @@
     </v-sheet>
     <v-flex
       v-else
-      class="grey lighten-4 rounded-0 ma-2"
+      class="grey lighten-4 rounded ma-2"
     >
       <v-list-item two-line>
         <v-list-item-content class="py-2">
@@ -237,7 +237,6 @@ export default {
         this.EnvironmentFilter.namespace,
         {
           size: 1000,
-          noprocessing: true,
         },
       )
       this.items = data.List.filter((s) => {

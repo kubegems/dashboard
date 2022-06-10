@@ -72,7 +72,10 @@ export const RESOURCE_SHORT_CN = {
   Job: '任务',
   CronJob: '定时任务',
 }
-export const ANNOTATION_IGNORE_ARRAY = ['kubectl.kubernetes.io/last-applied-configuration']
+export const ANNOTATION_IGNORE_ARRAY = [
+  'kubectl.kubernetes.io/last-applied-configuration',
+  'banzaicloud.com/last-applied',
+]
 export const APP_MENIFEST_TAG = {
   ConfigMap: { value: 'cm', form: true },
   PersistentVolumeClaim: { value: 'pvc', form: true },
@@ -93,6 +96,7 @@ export const APP_MENIFEST_TAG = {
   PeerAuthentication: { value: 'pa', form: false },
   AuthorizationPolicy: { value: 'ap', form: false },
   HorizontalPodAutoscaler: { value: 'hpa', form: false },
+  Error: { value: 'error', form: false },
 }
 const ARGO_STATUS_COLOR = {
   Degraded: '#ff5252',
@@ -166,18 +170,18 @@ const METATYPE_CN = {
 }
 
 const LINE_THEME_COLORS = [
-  'rgba(0,188,212,.6)',
-  'rgba(0,188,212,.2)',
-  'rgba(0,185,215,.8)',
-  'rgba(0,185,215,.2)',
-  'rgba(0,188,218,.8)',
-  'rgba(0,188,218,.2)',
-  'rgba(0,185,212,.8)',
-  'rgba(0,185,212,.2)',
-  'rgba(0,182,212,.8)',
-  'rgba(0,182,212,.2)',
-  'rgba(0,178,212,.8)',
-  'rgba(0,178,212,.2)',
+  'rgba(0,188,212,.8)',
+  'rgba(0,188,212,.5)',
+  'rgba(0,184,220,.8)',
+  'rgba(0,184,220,.5)',
+  'rgba(0,188,206,.8)',
+  'rgba(0,188,206,.5)',
+  'rgba(0,184,216,.8)',
+  'rgba(0,184,216,.5)',
+  'rgba(0,180,222,.8)',
+  'rgba(0,180,222,.5)',
+  'rgba(0,176,212,.8)',
+  'rgba(0,176,212,.5)',
 ]
 
 const PROJECT_ROLE = {
@@ -238,7 +242,6 @@ export default {
     Vue.prototype.$EVENT_STATUS_COLOR = EVENT_STATUS_COLOR
     Vue.prototype.$METATYPE_CN = METATYPE_CN
     Vue.prototype.$LINE_THEME_COLORS = LINE_THEME_COLORS
-    Vue.prototype.$DOMAIN = process.env.VUE_APP_DOMAIN
     Vue.prototype.$PROJECT_ROLE = PROJECT_ROLE
     Vue.prototype.$RESOURCE_ROLE = RESOURCE_ROLE
     Vue.prototype.$TENANT_ROLE = TENANT_ROLE

@@ -10,10 +10,10 @@
     />
     <div class="py-3 px-2">
       <div
-        v-for="(val, index) in chartData['table-data']"
+        v-for="(val, index) in chart ? chart['table-data'] : []"
         :key="index"
-        class="ma-1"
-        :style="'border-left: 3px solid ' + $LINE_THEME_COLORS[index % 11]"
+        class="ma-1 pa-1"
+        :style="`border-left: 3px solid ${$LINE_THEME_COLORS[index % 11]};font-size: 0.85rem;`"
       >
         <span class="pl-2">
           {{ index }}
@@ -33,20 +33,25 @@ export default {
   components: {
     VueApexCharts,
   },
-  data: () => ({
-    chartData: {
-      'xAxis-data': [],
-      'yAxis-data': {},
+  props: {
+    chart: {
+      type: Object,
+      default: () => {
+        return {
+          'xAxis-data': [],
+          'yAxis-data': {},
+        }
+      },
     },
-  }),
+  },
   computed: {
     ...mapState(['Scale']),
     chartOptions() {
       const series = []
-      for (const key in this.chartData['yAxis-data']) {
+      for (const key in this.chart ? this.chart['yAxis-data'] : {}) {
         series.push({
           name: key,
-          data: this.chartData['yAxis-data'][key],
+          data: this.chart['yAxis-data'][key],
         })
       }
       const options = {
@@ -58,9 +63,15 @@ export default {
           toolbar: {
             show: false,
           },
+          animations: {
+            animateGradually: {
+              enabled: false,
+              delay: 0,
+            },
+          },
         },
         xaxis: {
-          categories: this.chartData['xAxis-data'],
+          categories: this.chart ? this.chart['xAxis-data'].map(d => { return parseInt(`${d}000`) }) : [],
           labels: {
             style: {
               cssClass: 'grey--text lighten-2--text fill-color',

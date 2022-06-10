@@ -112,7 +112,7 @@
         实时
         <v-switch
           v-model="stream"
-          class="pl-2 white--text float-right switch-mt"
+          class="pl-2 white--text float-right"
           color="white"
           hide-details
           dense
@@ -123,7 +123,7 @@
         折行
         <v-switch
           v-model="linenotbreak"
-          class="pl-2 white--text float-right switch-mt"
+          class="pl-2 white--text float-right"
           color="white"
           hide-details
           dense
@@ -367,13 +367,20 @@ export default {
       })
     },
     onWebsocketMessage(e) {
+      if (this.$refs.log?.editor?.session.getLength() > 10000) {
+        this.log = ''
+        this.$store.commit('SET_SNACKBAR', {
+          text: `达到行数上限，进行重新计数行数`,
+          color: 'warning',
+        })
+      }
       this.log += e.data
     },
     dispose() {
-      if (this.logWebsocket) {
+      if (this.logWebsocket && this.logWebsocket.readyState === 1) {
         this.logWebsocket.close()
-        this.logWebsocket = null
       }
+      this.logWebsocket = null
       this.log = ''
       this.stream = false
       this.linenotbreak = false
@@ -382,7 +389,7 @@ export default {
     openOnBlankTab() {
       const routeData = this.$router.resolve({
         name: this.AdminViewport ? 'admin-container-log-viewer' : 'container-log-viewer',
-        params: { name: this.item.name },
+        params: Object.assign(this.$route.params, { name: this.item.name }),
         query: {
           namespace: this.item.namespace,
           cluster: this.ThisCluster,
@@ -400,10 +407,6 @@ export default {
 <style lang="scss" scoped>
 .v-input--selection-controls {
   margin-top: 0 !important;
-}
-
-.switch-mt {
-  margin-top: 2px !important;
 }
 </style>
 

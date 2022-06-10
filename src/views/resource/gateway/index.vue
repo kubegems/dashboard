@@ -1,40 +1,15 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-row class="mt-0">
       <v-col
         v-for="(item, index) in items"
         :key="index"
         cols="3"
+        class="pt-0"
       >
-        <v-card
-          v-if="item.add"
-          class="full-height"
-          min-height="211"
-        >
-          <v-card-text class="pa-0 full-height">
-            <v-list-item
-              three-line
-              class="full-height"
-            >
-              <v-list-item-content>
-                <v-btn
-                  text
-                  block
-                  color="primary"
-                  class="text-h6"
-                  @click="addGateway"
-                >
-                  <v-icon left>mdi-plus-box</v-icon>
-                  创建网关
-                </v-btn>
-              </v-list-item-content>
-            </v-list-item>
-          </v-card-text>
-        </v-card>
         <v-hover
-          v-else
           #default="{ hover }"
         >
           <v-card
@@ -171,6 +146,36 @@
           </v-card>
         </v-hover>
       </v-col>
+      <v-col
+        v-if="m_permisson_resourceAllow"
+        cols="3"
+        class="pt-0"
+      >
+        <v-card
+          class="full-height"
+          min-height="211"
+        >
+          <v-card-text class="pa-0 full-height">
+            <v-list-item
+              three-line
+              class="full-height"
+            >
+              <v-list-item-content>
+                <v-btn
+                  text
+                  block
+                  color="primary"
+                  class="text-h6"
+                  @click="addGateway"
+                >
+                  <v-icon left>mdi-plus-box</v-icon>
+                  创建网关
+                </v-btn>
+              </v-list-item-content>
+            </v-list-item>
+          </v-card-text>
+        </v-card>
+      </v-col>
     </v-row>
 
     <AddGateway
@@ -201,11 +206,6 @@ export default {
   },
   mixins: [BaseFilter, BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '网关',
-      tip: '网关(Gateway)是用来转发其他服务器通信数据',
-      icon: 'mdi-gate',
-    },
     items: [],
   }),
   computed: {
@@ -234,9 +234,6 @@ export default {
         },
       )
       this.items = data
-      if (this.m_permisson_tenantAllow) {
-        this.items.push({ add: true })
-      }
     },
     addGateway() {
       this.$refs.addGateway.open()
@@ -248,7 +245,7 @@ export default {
     gatewayDetail(item) {
       this.$router.push({
         name: 'gateway-detail',
-        params: { name: item.metadata.name },
+        params: Object.assign(this.$route.params, { name: item.metadata.name }),
       })
     },
     removeGateway(item) {

@@ -1,5 +1,8 @@
 import axios from 'axios'
 
+const apiResources = window.localStorage.getItem('api-resources') || {}
+const apiVersion = apiResources['persistentvolumeclaim'] || 'core/v1'
+
 // 存储卷列表
 export const getPersistentVolumeClaimList = (clusterName, namespace, query = {}) =>
   axios(
@@ -27,7 +30,7 @@ export const postAddPersistentVolumeClaim = (
   body = {},
 ) =>
   axios.post(
-    `proxy/cluster/${clusterName}/core/v1/namespaces/${namespace}/persistentvolumeclaims/${name}`,
+    `proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/persistentvolumeclaims/${name}`,
     body,
   )
 // 更新存储卷
@@ -38,11 +41,11 @@ export const patchUpdatePersistentVolumeClaim = (
   body = {},
 ) =>
   axios.patch(
-    `proxy/cluster/${clusterName}/core/v1/namespaces/${namespace}/persistentvolumeclaims/${name}`,
+    `proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/persistentvolumeclaims/${name}`,
     body,
   )
 // 删除存储卷
 export const deletePersistentVolumeClaim = (clusterName, namespace, name) =>
   axios.delete(
-    `proxy/cluster/${clusterName}/core/v1/namespaces/${namespace}/persistentvolumeclaims/${name}`,
+    `proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/persistentvolumeclaims/${name}`,
   )

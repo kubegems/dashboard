@@ -1,6 +1,6 @@
 <template>
   <v-flex class="text-center pa-4">
-    <v-flex class="pagination-height">
+    <v-flex class="pagination__height">
       <v-flex class="pagination" id="pagesize">
         <v-pagination
           class="float-left"
@@ -10,7 +10,7 @@
           @input="onPageInput"
         ></v-pagination>
         <v-sheet
-          v-if="pageCount * size > 10"
+          v-if="pageCount * size > 10 && showSize"
           class="text-body-1 float-left ml-2 mt-2"
         >
           每页条目数
@@ -102,6 +102,10 @@ export default {
       type: Boolean,
       default: () => false,
     },
+    showSize: {
+      type: Boolean,
+      default: () => true,
+    }
   },
   computed: {
     height() {
@@ -142,11 +146,9 @@ export default {
   position: absolute;
   left: 50%;
   transform: translate(-50%, 0%);
-}
-.pagination-height {
-  height: 40px;
-}
-.pagination-size {
-  top: auto !important;
+
+  &__height {
+    height: 40px;
+  }
 }
 </style>

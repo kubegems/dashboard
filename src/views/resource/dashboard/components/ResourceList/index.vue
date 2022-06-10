@@ -1,12 +1,13 @@
 <template>
   <v-card class="my-3">
     <BaseSubTitle
+      class="pt-2"
       title="集群"
       :divider="false"
     />
     <v-data-table
       disable-sort
-      class="px-2 pb-2 cluster-table"
+      class="px-4"
       :headers="headers"
       :items="items"
       :page.sync="params.page"
@@ -15,24 +16,51 @@
       hide-default-footer
     >
       <template #[`item.clusterName`]="{ item }">
-        {{ item.Cluster.ClusterName }}
+        <v-flex
+          class="float-left resource__tr"
+        >
+          {{ item.Cluster.ClusterName }}
+        </v-flex>
+        <v-flex
+          v-if="item.TkeGpu"
+          class="float-left ml-2 resource__icon"
+        >
+          <GpuTip
+            type="tke"
+            :item="item"
+          />
+        </v-flex>
+        <v-flex
+          v-if="item.NvidiaGpu"
+          class="float-left ml-2 resource__icon"
+        >
+          <GpuTip
+            type="nvidia"
+            :item="item"
+          />
+        </v-flex>
         <template
           v-if="
             item.TenantResourceQuotaApply &&
               item.TenantResourceQuotaApply.Status === 'pending'
           "
         >
-          <v-icon
-            color="warning"
-            small
-            right
+          <v-flex
+            class="float-left ml-2 resource__tr"
           >
-            mdi-alert-circle
-          </v-icon>
-          <span class="warning--text text-caption font-weight-medium">
-            资源申请中
-          </span>
+            <v-icon
+              color="warning"
+              small
+              right
+            >
+              mdi-alert-circle
+            </v-icon>
+            <span class="warning--text text-caption font-weight-medium">
+              资源申请中
+            </span>
+          </v-flex>
         </template>
+        <div class="kubegems__clear-float" />
       </template>
       <template #[`item.cpu`]="{ item }">
         {{ item.Cpu ? item.Cpu : 0 }} core
@@ -50,15 +78,7 @@
             class="rounded font-weight-medium"
             :value="item.CpuPercentage"
             height="15"
-            :color="
-              item.CpuPercentage
-                ? item.CpuPercentage < 60
-                  ? 'primary'
-                  : item.CpuPercentage < 80
-                    ? 'warning'
-                    : 'red darken-1'
-                : 'primary'
-            "
+            :color="getColor(item.CpuPercentage)"
           >
             <span class="white--text">{{ item.CpuPercentage }}% </span>
           </v-progress-linear>
@@ -71,15 +91,7 @@
             class="rounded font-weight-medium"
             :value="item.MemoryPercentage"
             height="15"
-            :color="
-              item.MemoryPercentage
-                ? item.MemoryPercentage < 60
-                  ? 'primary'
-                  : item.MemoryPercentage < 80
-                    ? 'warning'
-                    : 'red darken-1'
-                : 'primary'
-            "
+            :color="getColor(item.MemoryPercentage)"
           >
             <span class="white--text">{{ item.MemoryPercentage }}% </span>
           </v-progress-linear>
@@ -92,15 +104,7 @@
             class="rounded font-weight-medium"
             :value="item.StoragePercentage"
             height="15"
-            :color="
-              item.StoragePercentage
-                ? item.StoragePercentage < 60
-                  ? 'primary'
-                  : item.StoragePercentage < 80
-                    ? 'warning'
-                    : 'red darken-1'
-                : 'primary'
-            "
+            :color="getColor(item.StoragePercentage)"
           >
             <span class="white--text">{{ item.StoragePercentage }}% </span>
           </v-progress-linear>
@@ -120,6 +124,15 @@
       </template>
     </v-data-table>
 
+    <Pagination
+      v-if="pageCount >= 1"
+      v-model="params.page"
+      :page-count="pageCount"
+      :size="params.size"
+      @loaddata="tenantResourceQuotaList"
+      @changepage="onPageIndexChange"
+    />
+
     <ScaleResource
       ref="scaleResource"
       @refresh="tenantResourceQuotaList"
@@ -131,6 +144,8 @@
 import { mapGetters, mapState } from 'vuex'
 import { getTenantResourceQuotaList, getTenantResourceQuota } from '@/api'
 import ScaleResource from './ScaleResource'
+import Pagination from '../Pagination'
+import GpuTip from '@/views/resource/components/common/GpuTip'
 import BasePermission from '@/mixins/permission'
 import { sizeOfCpu, sizeOfStorage } from '@/utils/helpers'
 
@@ -138,6 +153,8 @@ export default {
   name: 'ResourceList',
   components: {
     ScaleResource,
+    Pagination,
+    GpuTip,
   },
   mixins: [BasePermission],
   data: () => ({
@@ -145,7 +162,7 @@ export default {
     pageCount: 0,
     params: {
       page: 1,
-      size: 1000,
+      size: 5,
     },
   }),
   computed: {
@@ -191,20 +208,25 @@ export default {
     if (this.JWT) {
       this.$nextTick(() => {
         if (this.Tenant().ID > 0) {
-          this.tenantResourceQuotaList()
+          this.tenantResourceQuotaList(false)
         }
       })
     }
   },
   methods: {
-    async tenantResourceQuotaList() {
-      const data = await getTenantResourceQuotaList(this.Tenant().ID)
+    async tenantResourceQuotaList(noprocessing = true) {
+      const data = await getTenantResourceQuotaList(this.Tenant().ID, Object.assign(this.params, {
+        noprocessing: noprocessing,
+      }))
       data.List.forEach((item, index) => {
         this.tenantResourceQuota(item, index)
       })
       this.items = data.List
       this.pageCount = Math.ceil(data.Total / this.params.size)
       this.params.page = data.CurrentPage
+    },
+    onPageIndexChange(page) {
+      this.params.page = page
     },
     async tenantResourceQuota(resourceQuota, index) {
       const data = await getTenantResourceQuota(
@@ -237,19 +259,55 @@ export default {
         item.Storage > 0
           ? ((item.AllocatedStorage / item.Storage) * 100).toFixed(1)
           : 0
+
+      if (Object.prototype.hasOwnProperty.call(data.spec.hard, 'limits.nvidia.com/gpu')) {
+        item.NvidiaGpu = parseFloat(data.spec.hard['limits.nvidia.com/gpu'])
+        item.AllocatedNvidiaGpu = parseFloat(data.status.allocated['limits.nvidia.com/gpu'])
+        item.NvidiaGpuPercentage =
+          item.NvidiaGpu > 0 ? ((item.AllocatedNvidiaGpu / item.NvidiaGpu) * 100).toFixed(1) : 0
+      }
+
+      if (Object.prototype.hasOwnProperty.call(data.spec.hard, 'tencent.com/vcuda-core' ||
+        Object.prototype.hasOwnProperty.call(data.spec.hard, 'tencent.com/vcuda-memory'))) {
+        item.TkeGpu = parseFloat(data.spec.hard['tencent.com/vcuda-core'])
+        item.AllocatedTkeGpu = parseFloat(data.status.allocated['tencent.com/vcuda-core'])
+        item.TkeGpuPercentage =
+          item.TkeGpu > 0 ? ((item.AllocatedTkeGpu / item.TkeGpu) * 100).toFixed(1) : 0
+
+        item.TkeMemory = parseFloat(data.spec.hard['tencent.com/vcuda-memory'])
+        item.AllocatedTkeMemory = parseFloat(data.status.allocated['tencent.com/vcuda-memory'])
+        item.TkeMemoryPercentage =
+          item.TkeMemory > 0 ? ((item.AllocatedTkeMemory / item.TkeMemory) * 100).toFixed(1) : 0
+      }
+
       this.$set(this.items, index, item)
     },
     scaleResource(item) {
       this.$refs.scaleResource.init(item)
       this.$refs.scaleResource.open()
     },
+    getColor(percentage) {
+      return percentage
+        ? percentage < 60
+          ? 'primary'
+          : percentage < 80
+            ? 'warning'
+            : 'red darken-1'
+        : 'primary'
+    },
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.cluster-table {
-  max-height: 250px;
-  overflow: auto;
+.resource {
+  &__tr {
+    line-height: 48px;
+  }
+
+  &__icon {
+    margin-top: 10px;
+  }
 }
 </style>
+

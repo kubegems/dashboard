@@ -78,7 +78,7 @@
     </template>
     <template #content>
       <template v-if="status && status.strategy === 'Canary'">
-        <v-flex class="px-4 pt-2 text-subtitle-1 kubegems__detail">步骤</v-flex>
+        <v-flex class="px-4 pt-2 text-subtitle-1 kubegems__text">步骤</v-flex>
         <v-stepper
           v-if="status && status.step"
           :value="getNowStep(status.step) + 1"
@@ -128,7 +128,7 @@
         </v-stepper>
       </template>
 
-      <v-flex class="px-4 py-2 text-subtitle-1 kubegems__detail">流量拓扑</v-flex>
+      <v-flex class="px-4 py-2 text-subtitle-1 kubegems__text">流量拓扑</v-flex>
       <v-progress-linear
         v-if="progress"
         indeterminate
@@ -172,7 +172,7 @@ export default {
     ...mapState(['Scale']),
     ...mapGetters(['Project', 'Tenant', 'Environment']),
     src() {
-      return `/api/v1/service-proxy/cluster/${this.ThisCluster}/namespace/istio-system/service/kiali/port/20001/kiali/console/graph/node/namespaces/${this.$route.query.namespace}/applications/${this.$route.params.name}?edges=responseTime%2Crt95%2Cthroughput%2CthroughputRequest%2CtrafficDistribution%2CtrafficRate&layout=dagre&idleEdges=false&idleNodes=false&injectServiceNodes=true&traffic=grpc%2CgrpcRequest%2Chttp%2ChttpRequest%2Ctcp%2CtcpSent&graphType=versionedApp&duration=60&operationNodes=false&refresh=30000&namespaces=${this.$route.query.namespace}&boxNamespace=true&animation=true&badgeSecurity=true&kiosk=true`
+      return `/api/v1/service-proxy/cluster/${this.ThisCluster}/namespace/istio-system/service/kiali/port/20001/kiali/?kiosk=true#/graph/node/namespaces/${this.$route.query.namespace}/applications/${this.$route.params.name}?edges=responseTime%2Crt95%2Cthroughput%2CthroughputRequest%2CtrafficDistribution%2CtrafficRate&layout=dagre&idleEdges=false&idleNodes=false&injectServiceNodes=true&traffic=grpc%2CgrpcRequest%2Chttp%2ChttpRequest%2Ctcp%2CtcpSent&graphType=versionedApp&duration=60&operationNodes=false&refresh=30000&namespaces=${this.$route.query.namespace}&boxNamespace=true&animation=true&badgeSecurity=true`
     },
   },
   watch: {
@@ -246,13 +246,13 @@ export default {
           'namespace-selector',
         ).parentNode
       if (namespace) {
-        namespace.parentElement.removeChild(namespace)
+        namespace.parentElement?.removeChild(namespace)
       }
       const splits =
         iframe.contentWindow.document.getElementsByClassName('fr78t9r')
       if (splits && splits.length > 0) {
         const split = splits[0]
-        split.parentElement.removeChild(split)
+        split.parentElement?.removeChild(split)
       }
       const fpomfbys =
         iframe.contentWindow.document.getElementsByClassName('fpomfby')
@@ -260,13 +260,13 @@ export default {
         const fpomfby = fpomfbys[0]
         fpomfby.style.marginLeft = '0px'
         const fpomfby2 = fpomfbys[1]
-        fpomfby2.parentElement.removeChild(fpomfby2)
+        fpomfby2.parentElement?.removeChild(fpomfby2)
       }
       const toolbars =
         iframe.contentWindow.document.getElementsByClassName('f1ct87rs')
       if (toolbars && toolbars.length > 0) {
         const toolbar = toolbars[0]
-        toolbar.parentElement.removeChild(toolbar)
+        toolbar.parentElement?.removeChild(toolbar)
       }
       const secondBars =
         iframe.contentWindow.document.getElementsByClassName('f1ocs92y')
@@ -288,13 +288,13 @@ export default {
           'global-namespace-selector',
         )
         header.style.marginBottom = '15px'
-        secondBar.parentElement.removeChild(secondBar)
+        secondBar.parentElement?.removeChild(secondBar)
       }
       const backBtns =
         iframe.contentWindow.document.getElementsByClassName('pf-m-link')
       if (backBtns && backBtns.length > 1) {
         const backBtn = backBtns[1]
-        backBtn.parentElement.removeChild(backBtn)
+        backBtn.parentElement?.removeChild(backBtn)
       }
     },
     dispose() {

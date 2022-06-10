@@ -1,9 +1,9 @@
 <template>
   <v-container fluid>
     <BaseMicroServiceHeader />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
-      <v-card-title class="py-2">
+      <v-card-title class="py-4">
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '边车名称', value: 'search' }"
@@ -204,11 +204,6 @@ export default {
   },
   mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
   data: () => ({
-    breadcrumb: {
-      title: '边车',
-      tip: '边车 (Sidecar) 描述代理的配置，该代理将入站和出站通信调解到它所附加的工作负载实例。',
-      icon: 'mdi-motorbike',
-    },
     items: [],
     pageCount: 0,
     params: {

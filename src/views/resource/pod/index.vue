@@ -1,9 +1,9 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
-      <v-card-title class="py-2">
+      <v-card-title class="py-4">
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '容器组名称', value: 'search' }"
@@ -43,7 +43,7 @@
         </v-menu>
       </v-card-title>
       <v-data-table
-        class="mx-4"
+        class="mx-4 kubegems__table-row-pointer"
         :headers="headers"
         :items="items"
         :page.sync="params.page"
@@ -231,7 +231,7 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex'
-import { getPodList, deletePod, matrix } from '@/api'
+import { getPodList, deletePod } from '@/api'
 import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter'
 import EventTip from '@/views/resource/components/common/EventTip'
 import ContainerItems from './components/ContainerItems'
@@ -260,11 +260,6 @@ export default {
     BaseTable,
   ],
   data: () => ({
-    breadcrumb: {
-      title: '容器组',
-      tip: '容器组 (Pod) 是 Kubernetes 应用程序的基本执行单元，是您创建或部署的 Kubernetes 对象模型中最小和最简单的单元。',
-      icon: 'mdi-microsoft',
-    },
     items: [],
     pageCount: 0,
     params: {
@@ -278,7 +273,7 @@ export default {
     ...mapGetters(['Environment']),
     headers() {
       const items = [
-        { text: '容器组', value: 'name', align: 'start' },
+        { text: '容器组', value: 'name', align: 'start', width: 358},
         { text: '状态', value: 'status', align: 'start', width: 250 },
         { text: '容器数', value: 'container', align: 'start', sortable: false },
         { text: '重启次数', value: 'restart', align: 'start', sortable: false },
@@ -315,7 +310,10 @@ export default {
           value: 'namespace',
           align: 'start',
           sortable: false,
+          width: 120,
         })
+      } else {
+        items[0].width = 478
       }
       items.push({ text: '', value: 'data-table-expand' })
       return items
@@ -475,7 +473,7 @@ export default {
               })
               .join('|'),
           )
-        const data = await matrix(this.ThisCluster, {
+        const data = await this.m_permission_matrix(this.ThisCluster, {
           query: query,
           start: this.$moment(
             new Date(new Date().setMinutes(new Date().getMinutes() - 15)),
@@ -535,7 +533,7 @@ export default {
               })
               .join('|'),
           )
-        const data = await matrix(this.ThisCluster, {
+        const data = await this.m_permission_matrix(this.ThisCluster, {
           query: query,
           start: this.$moment(
             new Date(new Date().setMinutes(new Date().getMinutes() - 15)),
@@ -571,9 +569,9 @@ export default {
     podDetail(item) {
       this.$router.push({
         name: 'pod-detail',
-        params: {
+        params: Object.assign(this.$route.params, {
           name: item.metadata.name,
-        },
+        }),
         query: {
           namespace: item.metadata.namespace,
         },

@@ -13,6 +13,8 @@
           nudge-bottom="5px"
           content-class="cluster-header__bg"
           max-height="300px"
+          max-width="220px"
+          min-width="120px"
         >
           <template #activator="{ on }">
             <v-btn
@@ -22,7 +24,7 @@
               small
               dark
               v-on="on"
-              @click="m_select_clusterSelectData(null)"
+              @click.stop="getCluster"
             >
               <v-icon left>fab fa-docker</v-icon>
               {{ Cluster().ClusterName }}
@@ -40,28 +42,33 @@
               </v-card>
             </template>
             <template #default="props">
-              <v-card v-for="item in props.items" :key="item.text">
-                <v-list dense>
+              <v-card v-for="item in props.items" :key="item.text" :loading="loading">
+                <v-list dense class="pb-3">
                   <v-flex class="text-subtitle-2 text-center ma-2">
                     <span>集群</span>
                   </v-flex>
                   <v-divider class="mx-2"></v-divider>
-                  <v-list-item
-                    v-for="(cluster, index) in item.values"
-                    :key="index"
-                    class="text-body-2 text-center font-weight-medium"
-                    link
-                    :style="
-                      cluster.text === Cluster().ClusterName
-                        ? `color: #1e88e5 !important;`
-                        : ``
-                    "
-                    @click="setCluster(cluster)"
-                  >
-                    <v-list-item-content class="text-body-2 font-weight-medium">
-                      <span>{{ cluster.text }}</span>
-                    </v-list-item-content>
-                  </v-list-item>
+                  <div class="header__list px-2">
+                    <v-list-item
+                      v-for="(cluster, index) in item.values"
+                      :key="index"
+                      class="text-body-2 text-center font-weight-medium px-2"
+                      link
+                      :style="
+                        cluster.text === Cluster().ClusterName
+                          ? `color: #1e88e5 !important;`
+                          : ``
+                      "
+                      @click="setCluster(cluster)"
+                    >
+                      <v-list-item-content class="text-body-2 font-weight-medium text-start">
+                        <div class="kubegems__break-all">
+                          <v-icon left small color="primary">fab fa-docker</v-icon>
+                          {{ cluster.text }}
+                        </div>
+                      </v-list-item-content>
+                    </v-list-item>
+                  </div>
                 </v-list>
               </v-card>
             </template>
@@ -95,6 +102,7 @@ export default {
   },
   data: () => ({
     clusterMenu: false,
+    loading: false,
   }),
   computed: {
     ...mapGetters(['Cluster']),
@@ -102,7 +110,7 @@ export default {
   methods: {
     async setCluster(item) {
       this.$store.commit('SET_NAMESPACE_FILTER', null)
-      this.$router.replace({
+      await this.$router.replace({
         params: { cluster: item.text },
         query: {
           ...this.$route.query,
@@ -111,9 +119,12 @@ export default {
         },
       })
       await this.$store.dispatch('UPDATE_CLUSTER_DATA')
-      window.setTimeout(() => {
-        this.reload()
-      }, 800)
+      this.reload()
+    },
+    async getCluster() {
+      this.loading = true
+      await this.m_select_clusterSelectData(null)
+      this.loading = false
     },
   },
 }
@@ -122,5 +133,10 @@ export default {
 <style lang="scss" scoped>
 .cluster-header__bg {
   z-index: auto !important;
+}
+
+.header__list {
+  max-height: 250px;
+  overflow-y: auto;
 }
 </style>

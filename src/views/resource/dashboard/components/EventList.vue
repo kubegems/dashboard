@@ -1,6 +1,7 @@
 <template>
   <v-card class="my-3">
     <BaseSubTitle
+      class="pt-2"
       title="事件"
       :divider="false"
     >
@@ -54,6 +55,7 @@
                 <v-card
                   v-for="item in props.items"
                   :key="item.text"
+                  min-width="100px"
                 >
                   <v-list dense>
                     <v-flex class="text-subtitle-2 text-center ma-2">
@@ -63,7 +65,7 @@
                     <v-list-item
                       v-for="(cluster, index) in item.values"
                       :key="index"
-                      class="text-body-2 text-center font-weight-medium"
+                      class="text-body-2 text-center font-weight-medium mx-2"
                       link
                       :style="
                         cluster.text === clusterName
@@ -102,105 +104,120 @@
       </template>
     </BaseSubTitle>
     <v-card-text>
-      <v-flex
-        v-if="eventItems.length === 0"
-        class="text-subtitle-2 text-center"
-      >
-        暂无数据
-      </v-flex>
-      <div class="align-items-center">
-        <div class="vs-scrollable">
-          <div
-            v-for="(item, index) in eventItems"
-            :key="index"
-            class="comment-widgets position-relative"
-          >
-            <div class="d-flex flex-row comment-row mt-0 py-1">
-              <div class="pa-2">
-                <v-badge
-                  v-if="item.stream.count > 1"
-                  bordered
-                  :color="$EVENT_STATUS_COLOR[item.stream.type]"
-                  :content="
-                    item.stream.count >= 100 ? '99+' : item.stream.count
-                  "
-                  overlap
-                >
+      <template v-if="pluginPass.length === 0">
+        <v-flex
+          v-if="eventItems.length === 0"
+          class="text-body-2"
+          :style="{ position: 'relative', height: '300px' }"
+        >
+          <span class="kubegems__full-center kubegems__text">
+            暂无数据
+          </span>
+        </v-flex>
+        <div class="align-items-center">
+          <div class="vs-scrollable">
+            <div
+              v-for="(item, index) in eventItems"
+              :key="index"
+              class="comment-widgets position-relative"
+            >
+              <div class="d-flex flex-row comment-row mt-0 py-1">
+                <div class="pa-2">
+                  <v-badge
+                    v-if="item.stream.count > 1"
+                    bordered
+                    :color="$EVENT_STATUS_COLOR[item.stream.type]"
+                    :content="
+                      item.stream.count >= 100 ? '99+' : item.stream.count
+                    "
+                    overlap
+                  >
+                    <v-avatar
+                      :color="$EVENT_STATUS_COLOR[item.stream.type]"
+                      size="45"
+                    >
+                      <span class="white--text text-h6">
+                        {{ item.stream.type[0].toLocaleUpperCase() }}
+                      </span>
+                    </v-avatar>
+                  </v-badge>
                   <v-avatar
+                    v-else
                     :color="$EVENT_STATUS_COLOR[item.stream.type]"
                     size="45"
                   >
-                    <span class="white--text text-h6">
-                      {{ item.stream.type[0].toLocaleUpperCase() }}
-                    </span>
+                    <span class="white--text text-h6">{{
+                      item.stream.type[0].toLocaleUpperCase()
+                    }}</span>
                   </v-avatar>
-                </v-badge>
-                <v-avatar
-                  v-else
-                  :color="$EVENT_STATUS_COLOR[item.stream.type]"
-                  size="45"
-                >
-                  <span class="white--text text-h6">{{
-                    item.stream.type[0].toLocaleUpperCase()
-                  }}</span>
-                </v-avatar>
-              </div>
-              <div class="comment-text pl-5">
-                <h3 class="font-weight-regular mb-2">
-                  {{ item.stream.reason }}
-                </h3>
-                <span
-                  :class="`d-block my-0 text-subtitle-2 font-weight-regular kubegems__break-all ${messageClass[index]}`"
-                  @mouseover="$set(messageClass, index, 'event--show')"
-                  @mouseout="$set(messageClass, index, 'event--collapse')"
-                >
-                  {{ item.stream.message }}
-                </span>
-                <div class="comment-footer">
-                  <span class="text-muted mr-2">
-                    {{
-                      item.stream.lastTimestamp
-                        ? $moment(
-                          item.stream.lastTimestamp,
-                          'YYYY-MM-DDTHH:mm:ssZ',
-                        ).fromNow()
-                        : item.stream.eventTime
+                </div>
+                <div class="comment-text pl-5">
+                  <h3 class="font-weight-regular mb-2">
+                    {{ item.stream.reason }}
+                  </h3>
+                  <span
+                    :class="`d-block my-0 text-subtitle-2 font-weight-regular kubegems__break-all ${messageClass[index]}`"
+                    @mouseover="$set(messageClass, index, 'event--show')"
+                    @mouseout="$set(messageClass, index, 'event--collapse')"
+                  >
+                    {{ item.stream.message }}
+                  </span>
+                  <div class="comment-footer">
+                    <span class="text-muted mr-2">
+                      {{
+                        item.stream.lastTimestamp
                           ? $moment(
-                            item.stream.eventTime,
+                            item.stream.lastTimestamp,
                             'YYYY-MM-DDTHH:mm:ssZ',
                           ).fromNow()
-                          : ''
-                    }}
-                  </span>
+                          : item.stream.eventTime
+                            ? $moment(
+                              item.stream.eventTime,
+                              'YYYY-MM-DDTHH:mm:ssZ',
+                            ).fromNow()
+                            : ''
+                      }}
+                    </span>
 
-                  <v-chip
-                    class="mx-1 white--text component-chip"
-                    color="grey"
-                    x-small
-                    label
-                  >
-                    <v-icon
-                      left
+                    <v-chip
+                      class="mx-1 white--text component-chip"
+                      color="grey"
                       x-small
+                      label
                     >
-                      mdi-label
-                    </v-icon>
-                    {{ item.stream.source_component }}
-                  </v-chip>
+                      <v-icon
+                        left
+                        x-small
+                      >
+                        mdi-label
+                      </v-icon>
+                      {{ item.stream.source_component }}
+                    </v-chip>
+                  </div>
                 </div>
               </div>
+              <v-divider class="mb-2 mt-2" />
             </div>
-            <v-divider class="mb-2 mt-2" />
           </div>
         </div>
-      </div>
+      </template>
+      <template v-else>
+        <div
+          class="text-body-2"
+          :style="{ position: 'relative', height: '300px' }"
+        >
+          <span class="kubegems__full-center kubegems__text">
+            插件{{ pluginPass.join(',') }}未启用
+          </span>
+        </div>
+      </template>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
 import { mapGetters, mapState } from 'vuex'
-import { getEventListFromLoki } from '@/api'
+import { getEventListFromLoki, getClusterPluginsList } from '@/api'
 import BaseSelect from '@/mixins/select'
 import BaseResource from '@/mixins/resource'
 
@@ -212,6 +229,7 @@ export default {
     clusterName: '',
     messageClass: ['event--collapse', 'event--collapse', 'event--collapse', 'event--collapse', 'event--collapse'],
     eventMenu: false,
+    pluginPass: [],
   }),
   computed: {
     ...mapState(['JWT', 'Admin']),
@@ -223,12 +241,27 @@ export default {
         await this.m_select_clusterSelectData(this.Tenant().ID)
         if (this.m_select_clusterItems.length > 0) {
           this.clusterName = this.m_select_clusterItems[0].text
-          this.eventList()
+          this.loadPluginPass()
         }
       }
     }
   },
   methods: {
+    async loadPluginPass() {
+      const data = await getClusterPluginsList(this.clusterName, {
+        simple: true,
+        noprocessing: true,
+      })
+      if (!data['logging']) {
+        this.pluginPass.push('logging')
+      }
+      if (!data['eventer']) {
+        this.pluginPass.push('eventer')
+      }
+      if (this.pluginPass.length === 0) {
+        this.eventList()
+      }
+    },
     async eventList() {
       let query = '{container="gems-eventer"} | json | __error__=``'
       await this.m_select_environmentSelectData(this.Tenant().ID)
@@ -256,7 +289,7 @@ export default {
     setCluster(cluster) {
       if (cluster.text !== this.clusterName) {
         this.clusterName = cluster.text
-        this.eventList()
+        this.loadPluginPass()
       }
     },
     toEvent() {

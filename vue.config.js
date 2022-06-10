@@ -21,7 +21,8 @@ module.exports = {
     },
     devServer: {
       static: {
-        directory: path.join(__dirname, 'public'),
+        directory: path.join(__dirname, 'md'),
+        publicPath: '/md',
       },
       compress: false,
       hot: true,
@@ -31,21 +32,21 @@ module.exports = {
       proxy: {
         '/api/v1/': {
           // target: 'http://172.16.23.119:8020',
-          target: 'http://localhost:8020',
+          target: 'http://10.12.32.134:8020',
           changeOrigin: true,
           pathRewrite: {
             '^/api/v1/': '/v1/',
           },
         },
         '/realtime/': {
-          target: 'http://localhost:8080',
+          target: 'http://10.12.32.134:8080',
           changeOrigin: true,
           pathRewrite: {
             '^/realtime/': '/',
           },
         },
         '/api/lokiExport/': {
-          target: 'http://localhost:8020',
+          target: 'http://10.12.32.134:8020',
           changeOrigin: true,
           pathRewrite: {
             '^/api/lokiExport/': '/lokiExport/',

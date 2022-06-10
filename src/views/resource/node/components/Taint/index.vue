@@ -1,70 +1,72 @@
 <template>
-  <v-sheet class="pt-4 px-4">
-    <BaseSubTitle
-      title="污点"
-      :divider="false"
-    >
-      <template #action>
-        <v-btn
-          small
-          text
-          color="primary"
-          class="float-right mr-2"
-          @click="addTaint"
-        >
-          <v-icon
-            left
-            small
-          >
-            mdi-tag-plus
-          </v-icon>
-          添加污点
-        </v-btn>
-      </template>
-    </BaseSubTitle>
-    <v-flex class="pb-4">
-      <v-sheet
-        v-for="(t, index) in taint.spec.taints"
-        :key="index"
-        class="ml-2"
+  <v-card>
+    <v-card-text class="pa-0 pt-1">
+      <BaseSubTitle
+        title="污点"
+        :divider="false"
       >
-        <v-chip
-          small
-          class="my-1"
-          color="success"
-          text-color="white"
-          close
-          close-icon="mdi-delete"
-          @click:close="removeTaint(t)"
-        >
-          <v-icon
+        <template #action>
+          <v-btn
             small
-            left
+            text
+            color="primary"
+            class="float-right mr-2"
+            @click="addTaint"
           >
-            mdi-asterisk
-          </v-icon>
-          <span class="mr-2">
-            <strong class="mx-1"> key </strong>
-            {{ t.key }}
-          </span>
-          <span class="mr-2">
-            <strong class="mx-1"> value </strong>
-            {{ t.value }}
-          </span>
-          <span class="mr-2">
-            <strong class="mx-1"> effect </strong>
-            {{ t.effect }}
-          </span>
-        </v-chip>
-        <div class="kubegems__clear-float" />
-      </v-sheet>
-    </v-flex>
+            <v-icon
+              left
+              small
+            >
+              mdi-tag-plus
+            </v-icon>
+            添加污点
+          </v-btn>
+        </template>
+      </BaseSubTitle>
+      <v-flex class="pb-4">
+        <v-sheet
+          v-for="(t, index) in taint.spec.taints"
+          :key="index"
+          class="ml-2"
+        >
+          <v-chip
+            small
+            class="my-1"
+            color="success"
+            text-color="white"
+            close
+            close-icon="mdi-delete"
+            @click:close="removeTaint(t)"
+          >
+            <v-icon
+              small
+              left
+            >
+              mdi-asterisk
+            </v-icon>
+            <span class="mr-2">
+              <strong class="mx-1"> key </strong>
+              {{ t.key }}
+            </span>
+            <span class="mr-2">
+              <strong class="mx-1"> value </strong>
+              {{ t.value }}
+            </span>
+            <span class="mr-2">
+              <strong class="mx-1"> effect </strong>
+              {{ t.effect }}
+            </span>
+          </v-chip>
+          <div class="kubegems__clear-float" />
+        </v-sheet>
+      </v-flex>
 
-    <AddTaint
-      ref="addTaint"
-      @refresh="refreshTaint"
-    />
-  </v-sheet>
+      <AddTaint
+        ref="addTaint"
+        @refresh="refreshTaint"
+      />
+    </v-card-text>
+  </v-card>
 </template>
 <script>
 import { mapGetters } from 'vuex'
@@ -128,7 +130,7 @@ export default {
       })
     },
     addTaint() {
-      this.$refs.addTaint.item = this.item
+      this.$refs.addTaint.setItem(this.item)
       this.$refs.addTaint.open()
     },
     refreshTaint() {

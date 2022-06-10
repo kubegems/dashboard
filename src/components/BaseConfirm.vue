@@ -18,12 +18,12 @@
           colored-border
           :color="(Confirm.content && Confirm.content.level) || 'warning'"
           elevation="1"
-          class="rounded-0 py-3"
+          class="rounded py-3"
         >
           <template
             v-if="Confirm.content && Confirm.content.type === 'batch_delete'"
           >
-            <div class="text-subtitle-1 kubegems__detail">
+            <div class="text-subtitle-1 kubegems__text">
               请确认以下需要删除的资源！
             </div>
             <div
@@ -31,7 +31,7 @@
                 ? Confirm.content.text.split(',')
                 : []"
               :key="index"
-              class="text-subtitle-1 kubegems__detail kubegems__break-all"
+              class="text-subtitle-1 kubegems__text kubegems__break-all"
             >
               {{ content }}
               <template
@@ -59,7 +59,7 @@
                 ? Confirm.content.text.split(',')
                 : []"
               :key="index"
-              class="text-subtitle-1 kubegems__detail kubegems__break-all"
+              class="text-subtitle-1 kubegems__text kubegems__break-all"
               v-html="content"
             ></div>
           </template>
@@ -81,7 +81,7 @@
             class="my-0"
             :rules="confirmBacthDataRule"
             required
-            label="请输入 确认删除"
+            :label="`${Confirm.content.one?'确认资源名称':'请输入 “确认删除”'}`"
             @keydown.enter="confirm"
           >
           </v-text-field>
@@ -89,7 +89,7 @@
       </v-sheet>
       <v-sheet v-else-if="Confirm.content" class="px-4 py-4 confirm-size">
         <v-flex
-          class="text-subtitle-1 kubegems__detail kubegems__break-all"
+          class="text-subtitle-1 kubegems__text kubegems__break-all"
           v-html="Confirm.content.text"
         >
         </v-flex>
@@ -140,10 +140,17 @@ export default {
       ]
     },
     confirmBacthDataRule() {
-      return [
-        required,
-        (v) => !!(v === '确认删除') || '输入不匹配',
-      ]
+      if (this.Confirm.content.one) {
+        return [
+          required,
+          (v) => !!(v === this.Confirm.content.one) || '名称不匹配',
+        ]
+      }else{
+        return [
+          required,
+          (v) => !!(v === '确认删除') || '输入不匹配',
+        ]
+      }
     },
   },
   methods: {

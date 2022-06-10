@@ -9,8 +9,9 @@
     mini-variant-width="64"
     clipped
     :expand-on-hover="expandOnHover"
-    app
+    :mini-variant.sync="mini"
     width="200"
+    app
     height="100%"
     @transitionend="transitionend"
     @update:mini-variant="updateSidebar"
@@ -183,6 +184,7 @@ export default {
     expand: false,
     mouseovered: false,
     hide: false,
+    mini: false,
   }),
   computed: {
     ...mapState(['SidebarColor', 'SidebarBg', 'AdminViewport', 'Scale', 'Plugins']),
@@ -228,6 +230,10 @@ export default {
       },
       deep: true,
       immediate: true,
+    },
+    expandOnHover() {
+      this.mini = this.expandOnHover
+      this.hide = this.expandOnHover
     },
   },
   methods: {
@@ -349,11 +355,14 @@ export default {
     },
     transitionend() {
       this.mouseovered = this.$refs.sidebar.$el.style.width === '200px'
-      if (this.mouseovered) this.hide = false
+      if (this.mouseovered) {
+        this.hide = false
+      }
     },
   },
 }
 </script>
+
 <style lang="scss">
 #main-sidebar {
   box-shadow: 1px 0 20px rgba(0, 0, 0, 0.08);
@@ -372,6 +381,13 @@ export default {
       width: 20px;
     }
   }
+  ::-webkit-scrollbar {
+    width: 0 !important;
+  }
+
+  overflow: -moz-scrollbars-none;
+  -ms-overflow-style: none;
+  scrollbar-width: 0 !important;
 }
 .v-menu-full-content {
   left: 0 !important;

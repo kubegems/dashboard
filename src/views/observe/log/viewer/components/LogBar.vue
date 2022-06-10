@@ -21,41 +21,46 @@ export default {
   components: {
     VueApexCharts,
   },
-  data: () => ({
-    chartData: {
-      'xAxis-data': [],
-      'yAxis-data': {
-        info: [],
-        debug: [],
-        error: [],
-        warn: [],
-        unknown: [],
+  props: {
+    chart: {
+      type: Object,
+      default: () => {
+        return {
+          'xAxis-data': [],
+          'yAxis-data': {
+            info: [],
+            debug: [],
+            error: [],
+            warn: [],
+            unknown: [],
+          },
+        }
       },
     },
-  }),
+  },
   computed: {
     ...mapState(['Scale']),
     series() {
       return [
         {
           name: 'Info',
-          data: this.chartData['yAxis-data'].info,
+          data: this.chart ? this.chart['yAxis-data'].info : [],
         },
         {
           name: 'Debug',
-          data: this.chartData['yAxis-data'].debug,
+          data: this.chart ? this.chart['yAxis-data'].debug : [],
         },
         {
           name: 'Warn',
-          data: this.chartData['yAxis-data'].warn,
+          data: this.chart ? this.chart['yAxis-data'].warn : [],
         },
         {
           name: 'Error',
-          data: this.chartData['yAxis-data'].error,
+          data: this.chart ? this.chart['yAxis-data'].error : [],
         },
         {
           name: 'Unknown',
-          data: this.chartData['yAxis-data'].unknown,
+          data: this.chart ? this.chart['yAxis-data'].unknown : [],
         },
       ]
     },
@@ -65,6 +70,12 @@ export default {
         chart: {
           toolbar: {
             show: false,
+          },
+          animations: {
+            animateGradually: {
+              enabled: false,
+              delay: 0,
+            },
           },
         },
         legend: {
@@ -78,7 +89,7 @@ export default {
           width: 2,
         },
         xaxis: {
-          categories: this.chartData['xAxis-data'],
+          categories: this.chart ? this.chart['xAxis-data'] : [],
           labels: {
             style: {
               cssClass: 'grey--text lighten-2--text fill-color',

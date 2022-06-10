@@ -1,164 +1,203 @@
 <template>
-  <div class="text-center">
-    <v-dialog
-      v-model="show"
-      persistent
-      fullscreen
-    >
+  <BaseDialog
+    v-model="dialog"
+    :width="1000"
+    title="创建应用"
+    icon="mdi-wrench"
+    @reset="reset"
+  >
+    <template #action>
+      <v-btn
+        class="float-right"
+        color="primary"
+        text
+        @click="submit"
+      >
+        确定
+      </v-btn>
+    </template>
+    <template #header-action>
+      <div class="white--text header ml-3">
+        租户:{{ editItem.tenant }}
+        项目:{{ editItem.project }}
+        环境:{{ editItem.environment }}
+      </div>
+    </template>
+    <template #content>
       <v-card>
-        <v-toolbar
-          dark
-          color="primary"
-        >
-          <v-toolbar-title> {{ isCreate ? "创建配置项" : "编辑配置项" }} </v-toolbar-title>
-          <v-spacer />
-          <v-toolbar-items>
-            <v-btn
-              text
-              @click="close"
-            >
-              取消
-            </v-btn>
-            <v-spacer />
-            <v-spacer />
-            <v-btn
-              text
-              @click="submit"
-            >
-              {{ isCreate ? "创建" : "保存" }}
-            </v-btn>
-          </v-toolbar-items>
-        </v-toolbar>
-
-        <v-card-title class="text-h5 blue lighten-5">
-          <v-row>
-            <v-col>
-              <v-text-field
-                label="租户"
-                :value="editItem.tenant"
-                disabled
-              />
-            </v-col>
-            <v-col>
-              <v-text-field
-                label="项目"
-                :value="editItem.project"
-                disabled
-              />
-            </v-col>
-            <v-col>
-              <v-text-field
-                label="环境"
-                :value="editItem.environment"
-                disabled
-              />
-            </v-col>
-            <v-col>
-              <v-text-field
-                v-model="editItem.application"
-                label="应用"
-                :disabled="!isCreate"
-              />
-            </v-col>
-            <v-col>
-              <v-text-field
-                v-model="editItem.key"
-                label="key"
-                :disabled="!isCreate"
-              />
-            </v-col>
-          </v-row>
-        </v-card-title>
+        <v-card-text class="text-h5 card__title">
+          <v-form
+            ref="form"
+            v-model="valid"
+            class="pa-0"
+            lazy-validation
+            @submit.prevent
+          >
+            <v-row>
+              <v-col col="5">
+                <v-text-field
+                  v-model="editItem.application"
+                  label="应用"
+                  :readonly="!isCreate"
+                  :rules="applicationRules"
+                />
+              </v-col>
+              <v-col cols="5">
+                <v-text-field
+                  v-model="editItem.key"
+                  label="key"
+                  :readonly="!isCreate"
+                  :rules="keyRules"
+                  @keyup="onKeyInput"
+                />
+              </v-col>
+              <v-col cols="2">
+                <v-autocomplete
+                  v-model="suffix"
+                  :items="suffixItems"
+                  label="类型"
+                  :readonly="!isCreate"
+                />
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-card-text>
         <ACEEditor
           v-model="editItem.value"
-          class="rounded-0 mb-4"
+          class="rounded-b mb-4"
           :lang="format"
-          :height="1000"
+          :height="600"
           @init="$aceinit"
           @keydown.stop
         />
       </v-card>
-    </v-dialog>
-  </div>
+    </template>
+  </BaseDialog>
 </template>
 
 <script>
-  export default {
-    name: 'ConfigeEditor',
-    props: {
-      item: {
-        type: Object,
-        default: () => {
-          return {
-            tenant: "",
-            project: "",
-            environment: "",
-            application: "",
-            key: "",
-            value: "",
-          }
-        },
-      },
-      showEditDialog: {
-        type: Boolean,
-        default: false,
-      },
-      isCreate: {
-        type: Boolean,
-        default: false,
-      },
-    },
-    data() {
-      return {
-        show: false,
-        editItem: {
+import { required } from '@/utils/rules'
+
+export default {
+  name: 'ConfigeEditor',
+  props: {
+    item: {
+      type: Object,
+      default: () => {
+        return {
           tenant: "",
           project: "",
           environment: "",
           application: "",
           key: "",
           value: "",
-        },
+        }
+      },
+    },
+    showEditDialog: {
+      type: Boolean,
+      default: false,
+    },
+    isCreate: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  data() {
+    this.applicationRules = [required]
+    this.keyRules = [required]
+
+    return {
+      dialog: false,
+      valid: false,
+      editItem: {
+        tenant: "",
+        project: "",
+        environment: "",
+        application: "",
+        key: "",
+        value: "",
+      },
+      suffix: '',
+      suffixItems: [
+        {text: 'json', value: 'json'},
+        {text: 'xml', value: 'xml'},
+        {text: 'yaml', value: 'yaml'},
+        {text: 'html', value: 'html'},
+        {text: 'ini', value: 'ini'},
+      ],
+    }
+  },
+  computed: {
+    format() {
+      const seps = this.editItem.key.split(".")
+      if (seps.length === 1) {
+        return "text"
+      } else {
+        const f = seps[seps.length - 1]
+        if (["json", "xml", "yaml", "html", "properties", "ini"].includes(f.toLowerCase())) {
+          return f
+        } else {
+          return "text"
+        }
       }
     },
-    computed: {
-      format() {
-        const seps = this.editItem.key.split(".")
-        if (seps.length === 1) {
-          return "text"
-        } else {
-          const f = seps[seps.length - 1]
-          if (["json", "xml", "yaml", "html", "properties", "ini"].includes(f.toLowerCase())) {
-            return f
-          } else {
-            return "text"
-          }
-        }
-      },
+  },
+  watch: {
+    showEditDialog(val) {
+      this.dialog = val
     },
-    watch: {
-      showEditDialog(val) {
-        this.show = val
-      },
-      item() {
-        this.editItem = {
-          tenant: this.item.tenant,
-          project: this.item.project,
-          environment: this.item.environment,
-          application: this.item.application,
-          key: this.item.key,
-          value: this.item.value,
-        }
-      },
+    item() {
+      this.editItem = {
+        tenant: this.item.tenant,
+        project: this.item.project,
+        environment: this.item.environment,
+        application: this.item.application,
+        key: this.item.key,
+        value: this.item.value,
+      }
+      this.matchSuffix()
     },
-    methods: {
-      close () {
-        this.$emit("close")
-      },
-      submit() {
+  },
+  methods: {
+    close () {
+      this.$emit("close")
+    },
+    submit() {
+      if (this.$refs.form.validate(true)) {
+        if (this.suffix && this.editItem.key.indexOf('.') === -1) {
+          this.editItem.key = `${this.editItem.key}.${this.suffix}`
+        }
         this.$emit("submit", this.editItem, this.isCreate)
-      },
+        this.reset()
+      }
     },
-  }
+    reset() {
+      this.close()
+      this.$refs.form.reset()
+    },
+    matchSuffix() {
+      if (this.editItem.key.indexOf('.') > -1) {
+        const suffix = this.editItem.key.split('.').pop().toLowerCase()
+        if (this.suffixItems.some(s => { return s.value === suffix })) {
+          this.suffix = suffix
+        }
+      }
+    },
+    onKeyInput() {
+      this.matchSuffix()
+    },
+  },
+}
 </script>
 
+<style lang="scss" scoped>
+.card {
+  &__title {
+    background-color: #f6f6f6;
+  }
+}
+.header {
+  line-height: 40px;
+}
+</style>

@@ -1,4 +1,4 @@
-const prefix = 'tenants/:tenant/projects/:project/environments/:environment'
+const prefix = 'tenants/:tenant?/projects/:project?/environments/:environment?'
 
 export const workspace = [
   {
@@ -29,6 +29,7 @@ export const workspace = [
               icon: 'mdi-cube',
               show: true,
               rootName: 'workspace',
+              tip: 'environment',
             },
           },
         ],
@@ -55,6 +56,8 @@ export const workspace = [
               icon: 'mdi-apps',
               show: true,
               rootName: 'workspace',
+              tip: 'app',
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -64,9 +67,10 @@ export const workspace = [
             meta: {
               requireAuth: true,
               title: '应用配置',
-              icon: 'mdi-apps',
+              icon: 'mdi-wrench',
               show: true,
               rootName: 'workspace',
+              tip: 'appconfig',
             },
           },
           {
@@ -79,6 +83,8 @@ export const workspace = [
               icon: 'mdi-apps',
               show: false,
               rootName: 'workspace',
+              tip: 'app',
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -91,6 +97,8 @@ export const workspace = [
               icon: 'mdi-apps',
               show: false,
               rootName: 'workspace',
+              tip: 'deploy',
+              dependencies: ['kubegems-local', 'argo-rollouts'],
             },
           },
         ],
@@ -118,6 +126,8 @@ export const workspace = [
               icon: 'mdi-vector-arrange-above',
               show: true,
               rootName: 'workspace',
+              tip: 'workload',
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -131,6 +141,8 @@ export const workspace = [
               icon: 'mdi-vector-arrange-above',
               show: false,
               rootName: 'workspace',
+              tip: 'workload',
+              dependencies: ['kubegems-local'],
             },
           },
           // pod
@@ -145,6 +157,8 @@ export const workspace = [
               icon: 'mdi-microsoft',
               show: true,
               rootName: 'workspace',
+              tip: 'pod',
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -158,6 +172,8 @@ export const workspace = [
               icon: 'mdi-microsoft',
               show: false,
               rootName: 'workspace',
+              tip: 'pod',
+              dependencies: ['kubegems-local'],
             },
           },
           // service
@@ -172,6 +188,8 @@ export const workspace = [
               icon: 'mdi-dns',
               show: true,
               rootName: 'workspace',
+              tip: 'service',
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -185,6 +203,8 @@ export const workspace = [
               icon: 'mdi-dns',
               show: false,
               rootName: 'workspace',
+              tip: 'service',
+              dependencies: ['kubegems-local'],
             },
           },
           // ingress
@@ -199,6 +219,9 @@ export const workspace = [
               icon: 'mdi-network',
               show: true,
               rootName: 'workspace',
+              tip: 'ingress',
+              dependencies: ['kubegems-local'],
+
             },
           },
           {
@@ -212,6 +235,8 @@ export const workspace = [
               icon: 'mdi-network',
               show: false,
               rootName: 'workspace',
+              tip: 'ingress',
+              dependencies: ['kubegems-local'],
             },
           },
           // gateway
@@ -226,6 +251,8 @@ export const workspace = [
               icon: 'mdi-gate',
               show: true,
               rootName: 'workspace',
+              tip: 'gateway',
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -239,6 +266,8 @@ export const workspace = [
               icon: 'mdi-gate',
               show: false,
               rootName: 'workspace',
+              tip: 'gateway',
+              dependencies: ['kubegems-local'],
             },
           },
         ],
@@ -265,6 +294,8 @@ export const workspace = [
               icon: 'mdi-repeat-once',
               show: true,
               rootName: 'workspace',
+              tip: 'job',
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -278,6 +309,8 @@ export const workspace = [
               icon: 'mdi-repeat-once',
               show: false,
               rootName: 'workspace',
+              tip: 'job',
+              dependencies: ['kubegems-local'],
             },
           },
           // cronjob
@@ -292,6 +325,8 @@ export const workspace = [
               icon: 'mdi-calendar-clock',
               show: true,
               rootName: 'workspace',
+              tip: 'cronjob',
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -305,6 +340,8 @@ export const workspace = [
               icon: 'mdi-calendar-clock',
               show: false,
               rootName: 'workspace',
+              tip: 'cronjob',
+              dependencies: ['kubegems-local'],
             },
           },
         ],
@@ -331,6 +368,8 @@ export const workspace = [
               icon: 'mdi-wrench',
               show: true,
               rootName: 'workspace',
+              tip: 'configmap',
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -344,6 +383,8 @@ export const workspace = [
               icon: 'mdi-wrench',
               show: false,
               rootName: 'workspace',
+              tip: 'configmap',
+              dependencies: ['kubegems-local'],
             },
           },
           // secret
@@ -358,6 +399,8 @@ export const workspace = [
               icon: 'mdi-key-variant',
               show: true,
               rootName: 'workspace',
+              tip: 'secret',
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -371,6 +414,8 @@ export const workspace = [
               icon: 'mdi-key-variant',
               show: false,
               rootName: 'workspace',
+              tip: 'secret',
+              dependencies: ['kubegems-local'],
             },
           },
           // certmanager
@@ -385,6 +430,8 @@ export const workspace = [
               icon: 'mdi-book-open',
               show: true,
               rootName: 'workspace',
+              tip: 'certmanager',
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -398,6 +445,8 @@ export const workspace = [
               icon: 'mdi-book-open',
               show: false,
               rootName: 'workspace',
+              tip: 'certmanager',
+              dependencies: ['kubegems-local'],
             },
           },
         ],
@@ -407,7 +456,6 @@ export const workspace = [
         meta: {
           title: '存储中心',
           icon: 'mdi-database',
-          dependencies: ['local_path'],
           required: ['tenant'],
         },
         component: () => import('@/layouts/Container'),
@@ -425,7 +473,8 @@ export const workspace = [
               icon: 'mdi-database',
               show: true,
               rootName: 'workspace',
-              dependencies: ['local_path'],
+              tip: 'persistentvolumeclaim',
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -440,7 +489,8 @@ export const workspace = [
               icon: 'mdi-database',
               show: false,
               rootName: 'workspace',
-              dependencies: ['local_path'],
+              tip: 'persistentvolumeclaim',
+              dependencies: ['kubegems-local'],
             },
           },
           // volumesnapshot
@@ -455,93 +505,8 @@ export const workspace = [
               icon: 'mdi-camera',
               show: true,
               rootName: 'workspace',
-              dependencies: ['local_path'],
-            },
-          },
-        ],
-      },
-      {
-        path: '',
-        meta: {
-          title: '监控中心',
-          icon: 'mdi-chart-bar',
-          dependencies: ['monitoring'],
-          required: ['tenant'],
-        },
-        component: () => import('@/layouts/Container'),
-        redirect: { name: `servicemonitor-list` },
-        children: [
-          // servicemonitor
-          {
-            path: `${prefix}/servicemonitors`,
-            name: 'servicemonitor-list',
-            component: () => import('@/views/resource/servicemonitor/index'),
-            meta: {
-              requireAuth: true,
-              title: '监控采集器',
-              upToAdmin: true,
-              icon: 'mdi-eyedropper',
-              show: true,
-              rootName: 'workspace',
-              dependencies: ['monitoring'],
-            },
-          },
-          {
-            path: `${prefix}/servicemonitors/:name`,
-            name: 'servicemonitor-detail',
-            component: () => import('@/views/resource/servicemonitor/detail'),
-            meta: {
-              requireAuth: true,
-              title: '监控采集器',
-              upToAdmin: true,
-              icon: 'mdi-eyedropper',
-              show: false,
-              rootName: 'workspace',
-              dependencies: ['monitoring'],
-            },
-          },
-          // prometheusrule
-          {
-            path: `${prefix}/prometheusrules`,
-            name: 'prometheusrule-list',
-            component: () => import('@/views/resource/prometheusrule/index'),
-            meta: {
-              requireAuth: true,
-              title: '告警规则',
-              upToAdmin: true,
-              icon: 'mdi-ruler',
-              show: true,
-              rootName: 'workspace',
-              dependencies: ['monitoring'],
-            },
-          },
-          {
-            path: `${prefix}/prometheusrules/:name`,
-            name: 'prometheusrule-detail',
-            component: () => import('@/views/resource/prometheusrule/detail'),
-            meta: {
-              requireAuth: true,
-              title: '告警规则',
-              upToAdmin: true,
-              icon: 'mdi-ruler',
-              show: false,
-              rootName: 'workspace',
-              dependencies: ['monitoring'],
-            },
-          },
-          // receivers
-          {
-            path: `${prefix}/receivers`,
-            name: 'receiver-list',
-            component: () => import('@/views/resource/receiver/index'),
-            meta: {
-              requireAuth: true,
-              title: '告警接收器',
-              upToAdmin: true,
-              icon: 'mdi-call-received',
-              show: true,
-              rootName: 'workspace',
-              dependencies: ['monitoring'],
+              tip: 'volumesnapshot',
+              dependencies: ['kubegems-local'],
             },
           },
         ],

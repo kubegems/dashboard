@@ -1,10 +1,10 @@
 <template>
-  <v-flex>
-    <v-card-title class="py-2">
+  <v-card>
+    <v-card-title class="py-4">
       <v-flex>
         <v-flex class="float-right">
           <v-sheet class="text-body-2 text--darken-1">
-            <BaseDatetimePicker2
+            <BaseDatetimePicker
               v-model="date"
               :default-value="30"
               @change="onDatetimeChange(undefined)"
@@ -36,13 +36,13 @@
         </v-col>
       </v-row>
     </v-card-text>
-  </v-flex>
+  </v-card>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-import { matrix } from '@/api'
 import BaseResource from '@/mixins/resource'
+import BasePermission from '@/mixins/permission'
 import {
   GATEWAY_QPS_PROMQL,
   GATEWAY_CONNECTIONS_PROMQL,
@@ -50,7 +50,7 @@ import {
 
 export default {
   name: 'GatewayMonitor',
-  mixins: [BaseResource],
+  mixins: [BaseResource, BasePermission],
   props: {
     item: {
       type: Object,
@@ -108,7 +108,7 @@ export default {
       this.gatewayConnections()
     },
     async gatewayQPS() {
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.ThisCluster,
         Object.assign(this.params, {
           query: GATEWAY_QPS_PROMQL.replaceAll(
@@ -121,7 +121,7 @@ export default {
       if (data) this.qps = data
     },
     async gatewayConnections() {
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.ThisCluster,
         Object.assign(this.params, {
           query: GATEWAY_CONNECTIONS_PROMQL.replaceAll(

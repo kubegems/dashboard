@@ -1,5 +1,8 @@
 import axios from 'axios'
 
+const apiResources = window.localStorage.getItem('api-resources') || {}
+const apiVersion = apiResources['peerauthentication'] || 'security.istio.io/v1beta1'
+
 // 端点认证列表
 export const getIstioPeerAuthenticationList = (
   clusterName,
@@ -7,13 +10,13 @@ export const getIstioPeerAuthenticationList = (
   query = {},
 ) =>
   axios(
-    `proxy/cluster/${clusterName}/security.istio.io/v1beta1/namespaces/${namespace}/peerauthentication`,
+    `proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/peerauthentication`,
     { params: query },
   )
 // 端点认证详情
 export const getIstioPeerAuthenticationDetail = (clusterName, namespace, name) =>
   axios(
-    `proxy/cluster/${clusterName}/security.istio.io/v1beta1/namespaces/${namespace}/peerauthentication/${name}`,
+    `proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/peerauthentication/${name}`,
   )
 // 添加端点认证
 export const postAddIstioPeerAuthentication = (
@@ -23,7 +26,7 @@ export const postAddIstioPeerAuthentication = (
   body = {},
 ) =>
   axios.post(
-    `proxy/cluster/${clusterName}/security.istio.io/v1beta1/namespaces/${namespace}/peerauthentication/${name}`,
+    `proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/peerauthentication/${name}`,
     body,
   )
 // 更新端点认证
@@ -34,11 +37,11 @@ export const patchUpdateIstioPeerAuthentication = (
   body = {},
 ) =>
   axios.patch(
-    `proxy/cluster/${clusterName}/security.istio.io/v1beta1/namespaces/${namespace}/peerauthentication/${name}`,
+    `proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/peerauthentication/${name}`,
     body,
   )
 // 删除端点认证
 export const deleteIstioPeerAuthentication = (clusterName, namespace, name) =>
   axios.delete(
-    `proxy/cluster/${clusterName}/security.istio.io/v1beta1/namespaces/${namespace}/peerauthentication/${name}`,
+    `proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/peerauthentication/${name}`,
   )

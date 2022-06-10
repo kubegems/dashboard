@@ -61,7 +61,6 @@ export default {
     async appManifestList() {
       const data = await getManifestList(this.Tenant().ID, this.Project().ID, {
         size: 1000,
-        noprocessing: true,
       })
       const apps = []
       data.List.forEach((app) => {
@@ -72,6 +71,14 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     reset() {
       this.$refs.form.reset()
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    getData() {
+      return this.obj
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    validate() {
+      return this.$refs.form.validate(true)
     },
     onAppSelectFocus() {
       this.appManifestList()

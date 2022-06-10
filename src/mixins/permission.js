@@ -1,42 +1,10 @@
 import { mapGetters, mapState } from 'vuex'
+import { matrix, vector } from '@/api'
 
 const permission = {
   computed: {
-    ...mapState(['Auth', 'Admin']),
+    ...mapState(['Auth', 'Admin', 'Plugins']),
     ...mapGetters(['VirtualSpace', 'Tenant', 'Project', 'Environment']),
-    m_permisson_resourceAllow() {
-      return (
-        this.Auth.environments.findIndex((t) => {
-          return t.id === this.Environment().ID && t.isAdmin
-        }) > -1 ||
-        this.Admin ||
-        this.m_permisson_projectAllow ||
-        this.m_permisson_tenantAllow
-      )
-    },
-    m_permisson_projectAllow() {
-      return (
-        this.Auth.projects.findIndex((t) => {
-          return t.id === this.Project().ID && (t.isAdmin || t.role === 'ops')
-        }) > -1 ||
-        this.Admin ||
-        this.m_permisson_tenantAllow
-      )
-    },
-    m_permisson_tenantAllow() {
-      return (
-        this.Auth.tenant.findIndex((t) => {
-          return t.id === this.Tenant().ID && t.isAdmin
-        }) > -1 || this.Admin
-      )
-    },
-    m_permisson_virtualSpaceAllow() {
-      return (
-        this.Auth.virtualSpaces.findIndex((t) => {
-          return t.isAdmin && t.id === this.VirtualSpace().ID
-        }) > -1 || this.Admin
-      )
-    },
     m_permisson_resourceRole() {
       if (this.Admin) return 'sys'
       if (this.m_permisson_tenantRole === 'admin') return 'tenantadmin'
@@ -80,6 +48,71 @@ const permission = {
         return role.role
       }
       return 'normal'
+    },
+  },
+  methods: {
+    m_permisson_resourceAllow(env = undefined) {
+      return (
+        this.Auth.environments.findIndex((t) => {
+          if (env) {
+            return t.name === env && t.isAdmin
+          } else {
+            return t.id === this.Environment().ID && t.isAdmin
+          }
+        }) > -1 ||
+        this.Admin ||
+        this.m_permisson_projectAllow ||
+        this.m_permisson_tenantAllow
+      )
+    },
+    m_permisson_projectAllow(project = undefined) {
+      return (
+        this.Auth.projects.findIndex((t) => {
+          if (project) {
+            return t.name === project && (t.isAdmin || t.role === 'ops')
+          } else {
+            return t.id === this.Project().ID && (t.isAdmin || t.role === 'ops')
+          }
+        }) > -1 ||
+        this.Admin ||
+        this.m_permisson_tenantAllow
+      )
+    },
+    m_permisson_tenantAllow(tenant = undefined) {
+      return (
+        this.Auth.tenant.findIndex((t) => {
+          if (tenant) {
+            return t.name === tenant && t.isAdmin
+          } else {
+            return t.id === this.Tenant().ID && t.isAdmin
+          }
+        }) > -1 || this.Admin
+      )
+    },
+    m_permisson_virtualSpaceAllow(virtualspace = undefined) {
+      return (
+        this.Auth.virtualSpaces.findIndex((t) => {
+          if (virtualspace) {
+            return t.isAdmin && t.name === virtualspace
+          } else {
+            return t.isAdmin && t.id === this.VirtualSpace().ID
+          }
+        }) > -1 || this.Admin
+      )
+    },
+    async m_permission_matrix(cluster, query = {}) {
+      if (this.Plugins['monitoring']) {
+        const data = await matrix(cluster, query)
+        return data
+      }
+      return []
+    },
+    async m_permission_vector(cluster, query = {}) {
+      if (this.Plugins['monitoring']) {
+        const data = await vector(cluster, query)
+        return data
+      }
+      return []
     },
   },
 }

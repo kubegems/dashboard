@@ -22,10 +22,11 @@ export async function getVirtualSpaceSelectData() {
 export async function getClusterSelectData() {
   const data = await clusterSelectData({ noprocessing: true })
   const clusterSelect = []
-  data.List.forEach((ns) => {
+  data.List.forEach((c) => {
     clusterSelect.push({
-      ClusterName: ns.ClusterName,
-      ID: ns.ID,
+      ClusterName: c.ClusterName,
+      Version: c.Version,
+      ID: c.ID,
     })
   })
   return clusterSelect
@@ -82,6 +83,7 @@ export async function getEnvironmentSelectData(projectid) {
       ClusterName: ns.Cluster.ClusterName,
       ClusterID: ns.ClusterID,
       Type: ns.MetaType,
+      Version: ns.Cluster.Version,
     })
   })
   return projectEnvironmentSelect

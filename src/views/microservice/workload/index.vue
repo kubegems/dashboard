@@ -1,9 +1,9 @@
 <template>
   <v-container fluid>
     <BaseMicroServiceHeader />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
-      <v-card-title class="py-2">
+      <v-card-title class="py-4">
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '负载名称', value: 'search' }"
@@ -14,7 +14,7 @@
       <v-card-text class="py-0">
         <v-tabs
           v-model="tab"
-          height="40"
+          height="30"
           class="rounded-t"
           @change="onTabChange"
         >
@@ -26,6 +26,7 @@
           </v-tab>
         </v-tabs>
         <v-data-table
+          class="kubegems__table-row-pointer"
           disable-sort
           :headers="headers"
           :items="items"
@@ -143,7 +144,7 @@
                       >
                         <v-list-item-content class="py-0">
                           <v-list-item-title
-                            class="text-subtitle-2 py-1 kubegems__detail font-weight-regular"
+                            class="text-subtitle-2 py-1 kubegems__text font-weight-regular"
                           >
                             <v-icon
                               left
@@ -167,7 +168,7 @@
                       >
                         <v-list-item-content class="py-0">
                           <v-list-item-title
-                            class="text-subtitle-2 py-1 kubegems__detail font-weight-regular"
+                            class="text-subtitle-2 py-1 kubegems__text font-weight-regular"
                           >
                             <span
                               :class="`v-avatar mr-2 ${
@@ -209,7 +210,7 @@
                       >
                         <v-list-item-content class="py-0">
                           <v-list-item-title
-                            class="text-subtitle-2 py-1 kubegems__detail font-weight-regular"
+                            class="text-subtitle-2 py-1 kubegems__text font-weight-regular"
                           >
                             {{ getRestart(pod.status.containerStatuses) }}
                           </v-list-item-title>
@@ -225,7 +226,7 @@
                       >
                         <v-list-item-content class="py-0">
                           <v-list-item-title
-                            class="text-subtitle-2 py-1 kubegems__detail font-weight-regular"
+                            class="text-subtitle-2 py-1 kubegems__text font-weight-regular"
                           >
                             {{
                               pod.status.startTime
@@ -248,7 +249,7 @@
                       >
                         <v-list-item-content class="py-0">
                           <v-list-item-title
-                            class="text-subtitle-2 py-1 kubegems__detail font-weight-regular"
+                            class="text-subtitle-2 py-1 kubegems__text font-weight-regular"
                           >
                             {{ pod.status.podIP }}
                           </v-list-item-title>
@@ -264,7 +265,7 @@
                       >
                         <v-list-item-content class="py-0">
                           <v-list-item-title
-                            class="text-subtitle-2 py-1 kubegems__detail font-weight-regular"
+                            class="text-subtitle-2 py-1 kubegems__text font-weight-regular"
                           >
                             {{ pod.status.hostIP }}
                           </v-list-item-title>
@@ -357,26 +358,28 @@ export default {
     EnvironmentFilter,
   },
   mixins: [BasePermission, BaseFilter, BaseResource, BaseSelect],
-  data: () => ({
-    breadcrumb: {
-      title: '工作负载',
-      tip: '工作负载 (Workload) 通常是访问服务的载体, 是对一组容器组 (Pod) 的抽象。',
-      icon: 'mdi-vector-arrange-above',
-    },
-    tab: 0,
-    tabItems: [
-      { text: '无状态服务', value: 'Deployment' },
-      { text: '有状态服务', value: 'StatefulSet' },
-    ],
-    items: [],
-    pageCount: 0,
-    params: {
-      page: 1,
-      size: 10,
-    },
-    filters: [{ text: '负载名称', value: 'search', items: [] }],
-    podItems: [],
-  }),
+  data() {
+    this.tabMap = {
+      deployment: 0,
+      statefulset: 1,
+    }
+
+    return {
+      tab: this.tabMap[this.$route.query.tab] || 0,
+      tabItems: [
+        { text: '无状态服务', value: 'Deployment', tab: 'deployment' },
+        { text: '有状态服务', value: 'StatefulSet', tab: 'statefulset' },
+      ],
+      items: [],
+      pageCount: 0,
+      params: {
+        page: 1,
+        size: 10,
+      },
+      filters: [{ text: '负载名称', value: 'search', items: [] }],
+      podItems: [],
+    }
+  },
   computed: {
     ...mapState(['JWT', 'MessageStreamWS', 'EnvironmentFilter']),
     ...mapGetters(['VirtualSpace', 'Environment']),
@@ -443,6 +446,14 @@ export default {
       },
       deep: true,
       immediate: true,
+    },
+    tab() {
+      this.$router.replace({
+        query: {
+          ...this.$route.query,
+          tab: this.tabItems[this.tab].tab,
+        },
+      })
     },
   },
   methods: {
@@ -511,7 +522,7 @@ export default {
     microAppWorkoladDetail(item) {
       this.$router.push({
         name: 'microworkload-detail',
-        params: { name: item.name },
+        params: Object.assign(this.$route.params, { name: item.name }),
         query: {
           type: this.tabItems[this.tab].value,
           namespace: this.EnvironmentFilter.namespace,

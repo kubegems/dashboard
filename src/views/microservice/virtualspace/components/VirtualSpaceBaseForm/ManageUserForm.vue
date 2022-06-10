@@ -10,7 +10,7 @@
       <v-tabs
         v-model="tab"
         class="pa-2"
-        height="80px"
+        height="60px"
         vertical
         @change="onTabChange"
       >
@@ -186,7 +186,6 @@ export default {
   methods: {
     async virtualSpaceEnvironmentUser() {
       const data = await getVirtualSpaceEnvironmentUser(this.EnvironmentID, {
-        noprocessing: true,
       })
       this.allUsers = data.List.filter((d) => {
         return !this.users.find((u) => {
@@ -198,7 +197,6 @@ export default {
     async virtualSpaceUserList() {
       const data = await getVirtualSpaceUserList(this.obj.ID, {
         size: 1000,
-        noprocessing: true,
       })
       this.users = data.List
       this.usersCopy = JSON.parse(JSON.stringify(this.users))
@@ -252,7 +250,8 @@ export default {
     },
     // eslint-disable-next-line vue/no-unused-properties
     reset() {
-      this.$refs.form.reset()
+      this.$refs.form.resetValidation()
+      this.obj = this.$options.data().obj
     },
     // eslint-disable-next-line vue/no-unused-properties
     async init(data) {
@@ -302,6 +301,15 @@ export default {
           )
         })
       }
+    },
+
+    // eslint-disable-next-line vue/no-unused-properties
+    validate() {
+      return this.$refs.form.validate(true)
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    getData() {
+      return this.obj
     },
   },
 }

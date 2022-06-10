@@ -1,5 +1,5 @@
 <template>
-  <v-flex class="pa-2">
+  <v-flex>
     <BaseSubTitle :title="title" />
     <v-form
       ref="form"
@@ -8,16 +8,18 @@
       class="mt-2 rounded-t mx-2"
       @submit.prevent
     />
-    <ACEEditor
-      v-model="kubeyaml"
-      :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded-0 mx-2`"
-      lang="yaml"
-      :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
-      theme="chrome"
-      height="600"
-      @init="$aceinit"
-      @keydown.stop
-    />
+    <div class="px-2">
+      <ACEEditor
+        v-model="kubeyaml"
+        :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded`"
+        lang="yaml"
+        :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
+        theme="chrome"
+        height="600"
+        @init="$aceinit"
+        @keydown.stop
+      />
+    </div>
   </v-flex>
 </template>
 
@@ -70,6 +72,10 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     setYaml(data) {
       this.kubeyaml = data
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    getYaml() {
+      return this.kubeyaml
     },
   },
 }

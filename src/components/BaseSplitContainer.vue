@@ -52,8 +52,11 @@
         <!-- tooltip -->
         <v-menu
           v-if="tooltip"
+          :close-on-content-click="false"
+          :close-delay="200"
           right
           open-on-hover
+          nudge-right="24px"
         >
           <template #activator="{ on }">
             <v-btn
@@ -65,7 +68,7 @@
               <v-icon>mdi-tooltip-text-outline</v-icon>
             </v-btn>
           </template>
-          <v-card class="pa-4">
+          <v-card class="pa-0">
             <slot name="tooltip"></slot>
           </v-card>
         </v-menu>
@@ -179,6 +182,7 @@ export default {
 
   &__side,
   &__main {
+    position: relative;
     transition: width 0.5s ease;
   }
 

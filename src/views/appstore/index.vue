@@ -1,10 +1,10 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-sheet class="text-body-2 text--darken-1 d-flex align-center mx-1">
-            <span class="text-body-2 mt-1 mr-1">仓库</span>
+            <span class="text-body-2 mr-1">仓库</span>
             <v-menu
               v-model="repoMenu"
               bottom
@@ -50,12 +50,17 @@
                   <v-card
                     v-for="item in props.items"
                     :key="item.text"
+                    min-height="100"
                   >
                     <v-list dense>
+                      <v-flex class="text-subtitle-2 text-center ma-2">
+                        <span>仓库</span>
+                      </v-flex>
+                      <v-divider class="mx-2" />
                       <v-list-item
                         v-for="(repo, index) in item.values"
                         :key="index"
-                        class="text-body-2 text-center font-weight-medium"
+                        class="text-body-2 text-center font-weight-medium mx-2"
                         link
                         :style="
                           repo === selectRepo
@@ -78,8 +83,7 @@
       </template>
     </BaseBreadcrumb>
     <v-row
-      lass="pt-0 mt-0"
-      style="margin-top: 0;"
+      class="mt-0"
     >
       <v-col
         cols="2"
@@ -90,7 +94,7 @@
             <BaseSubTitle
               title="应用类型"
               :divider="false"
-              class="mt-2 mb-1"
+              class="pt-2 mb-1"
             />
             <v-text-field
               v-model="search"
@@ -137,7 +141,7 @@
         cols="10"
         class="pt-0"
       >
-        <v-row class="mt-2">
+        <v-row class="mt-0">
           <v-col
             v-for="(app, index) in items"
             :key="index"
@@ -164,10 +168,6 @@ export default {
   name: 'AppStoreCenter',
   components: { AppStoreCard },
   data: () => ({
-    breadcrumb: {
-      title: '应用商店',
-      tip: '应用商店(helmChart)是一个描述Kubernetes相关资源的文件集合，单个应用可以用来部署某些复杂的HTTP服务器以及web全栈应用、数据库、缓存等',
-    },
     items: [],
     all: [],
     types: [],
@@ -181,7 +181,7 @@ export default {
     },
     repos: [],
     chartsNum: 0,
-    selectRepo: 'gemscloud',
+    selectRepo: 'kubegems',
     repoMenu: false,
   }),
   computed: {
@@ -193,13 +193,13 @@ export default {
   mounted() {
     this.selectRepo = this.$route.query.reponame
       ? this.$route.query.reponame
-      : 'gemscloud'
+      : 'kubegems'
     this.appStoreList()
     this.repositoryList()
   },
   methods: {
     async appStoreList() {
-      if (this.selectRepo === 'gemscloud') {
+      if (this.selectRepo === 'kubegems') {
         this.params.reponame = ''
       } else {
         this.params.reponame = this.selectRepo
@@ -211,17 +211,19 @@ export default {
       this.generatTypes()
     },
     setRepo(repo) {
-      this.selectRepo = repo
-      this.params.reponame = repo
-      this.$router.replace({ query: { reponame: repo } })
-      this.appStoreList()
+      if (repo !== this.selectRepo) {
+        this.selectRepo = repo
+        this.params.reponame = repo
+        this.$router.replace({ query: { reponame: repo } })
+        this.appStoreList()
+      }
     },
     async repositoryList() {
       const data = await getRepositoryList({ noprocessing: true })
       this.repos = data.map((repo) => {
         return repo.ChartRepoName
       })
-      this.repos.unshift('gemscloud')
+      this.repos.unshift('kubegems')
     },
     generatTypes() {
       this.types = []

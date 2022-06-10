@@ -3,7 +3,6 @@
     open-on-hover
     :top="top"
     right
-    max-height="400px"
     :max-width="`${maxWidth}px`"
     :min-width="`${minWidth}px`"
     offset-y
@@ -18,11 +17,11 @@
       </span>
     </template>
     <v-card flat>
-      <v-list dense class="pa-0">
-        <v-flex class="text-body-2 text-center primary white--text py-2">
-          <v-icon color="white" left small>{{ icon }}</v-icon>
-          <span>{{ title }}</span>
-        </v-flex>
+      <v-flex class="text-body-2 text-center primary white--text py-2">
+        <v-icon color="white" left small>{{ icon }}</v-icon>
+        <span>{{ title }}</span>
+      </v-flex>
+      <v-list dense class="pa-0 kubegems__tip">
         <slot name="content"></slot>
       </v-list>
     </v-card>
@@ -51,7 +50,7 @@ export default {
     },
     maxWidth:{
       type:Number,
-      default:() => 250,
+      default:() => 200,
     }
   },
 }

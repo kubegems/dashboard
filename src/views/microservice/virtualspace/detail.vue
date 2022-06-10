@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <span class="text-body-2 mx-2">
@@ -126,11 +126,6 @@ export default {
   },
   mixins: [BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '虚拟空间',
-      tip: '虚拟空间(virtualspace)是一组环境的聚合',
-      icon: 'mdi-cloud-outline',
-    },
     virtualspace: null,
   }),
   computed: {
@@ -166,6 +161,7 @@ export default {
           this.$store.commit('CLEAR_VIRTUAL_SPACE')
           this.$router.push({
             name: 'virtualspace-list',
+            params: this.$route.params,
           })
         },
       })
@@ -174,6 +170,7 @@ export default {
       this.$store.commit('CLEAR_VIRTUAL_SPACE')
       this.$router.push({
         name: 'virtualspace-list',
+        params: this.$route.params,
       })
     },
     manageUser() {

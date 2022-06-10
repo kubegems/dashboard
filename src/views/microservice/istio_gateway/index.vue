@@ -1,9 +1,9 @@
 <template>
   <v-container fluid>
     <BaseMicroServiceHeader />
-    <BaseBreadcrumb :breadcrumb="breadcrumb" />
+    <BaseBreadcrumb />
     <v-card>
-      <v-card-title class="py-2">
+      <v-card-title class="py-4">
         <BaseFilter
           :filters="filters"
           :default="{ items: [], text: '网关实例名称', value: 'search' }"
@@ -16,39 +16,14 @@
       </v-card-title>
     </v-card>
 
-    <v-row class="mt-0">
+    <v-row class="mt-3">
       <v-col
         v-for="(item, index) in items"
         :key="index"
         cols="3"
+        class="pt-0"
       >
-        <v-card
-          v-if="item.add"
-          class="kubegems__full-height"
-          min-height="156"
-        >
-          <v-card-text class="pa-0 kubegems__full-height">
-            <v-list-item
-              three-line
-              class="kubegems__full-height"
-            >
-              <v-list-item-content>
-                <v-btn
-                  text
-                  block
-                  color="primary"
-                  class="text-h6"
-                  @click="addIstioGatewayInstance"
-                >
-                  <v-icon left>mdi-plus-box</v-icon>
-                  创建网关实例
-                </v-btn>
-              </v-list-item-content>
-            </v-list-item>
-          </v-card-text>
-        </v-card>
         <v-hover
-          v-else
           #default="{ hover }"
         >
           <v-card
@@ -155,6 +130,36 @@
           </v-card>
         </v-hover>
       </v-col>
+      <v-col
+        v-if="m_permisson_virtualSpaceAllow"
+        cols="3"
+        class="pt-0"
+      >
+        <v-card
+          class="kubegems__full-height"
+          min-height="156"
+        >
+          <v-card-text class="pa-0 kubegems__full-height">
+            <v-list-item
+              three-line
+              class="kubegems__full-height"
+            >
+              <v-list-item-content>
+                <v-btn
+                  text
+                  block
+                  color="primary"
+                  class="text-h6"
+                  @click="addIstioGatewayInstance"
+                >
+                  <v-icon left>mdi-plus-box</v-icon>
+                  创建网关实例
+                </v-btn>
+              </v-list-item-content>
+            </v-list-item>
+          </v-card-text>
+        </v-card>
+      </v-col>
     </v-row>
 
     <AddIstioGateway
@@ -187,11 +192,6 @@ export default {
   },
   mixins: [BasePermission, BaseFilter],
   data: () => ({
-    breadcrumb: {
-      title: 'Istio网关实例',
-      tip: 'Istio网关实例(IngressGateway)',
-      icon: 'mdi-gate',
-    },
     items: [],
     filters: [{ text: '网关实例名称', value: 'search', items: [] }],
     params: {},
@@ -234,9 +234,6 @@ export default {
         this.params,
       )
       this.items = data
-      if (this.m_permisson_virtualSpaceAllow) {
-        this.items.push({ add: true })
-      }
       this.itemsCopy = deepCopy(this.items)
       this.customFilter()
     },
@@ -250,7 +247,7 @@ export default {
     istioGatewayDetail(item) {
       this.$router.push({
         name: 'istiogateway-detail',
-        params: { name: item.Name },
+        params: Object.assign(this.$route.params, { name: item.Name }),
         query: {
           namespace: this.EnvironmentFilter.namespace,
           cluster: this.EnvironmentFilter.cluster,

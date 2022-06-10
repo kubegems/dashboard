@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader :selectable="false" />
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-btn
@@ -16,7 +16,7 @@
             >
               fas fa-code
             </v-icon>
-            Yaml
+            YAML
           </v-btn>
           <v-menu
             v-if="m_permisson_resourceAllow"
@@ -61,21 +61,21 @@
         </v-flex>
       </template>
     </BaseBreadcrumb>
-    <v-row class="mt-0">
+    <v-row class="my-0">
       <v-col
         cols="2"
-        class="pt-0"
+        class="py-0"
       >
         <BasicResourceInfo :item="secret" />
       </v-col>
       <v-col
         cols="10"
-        class="pt-0"
+        class="py-0"
       >
         <v-card
           v-for="item in datas"
           :key="item.key"
-          class="mb-4"
+          class="mb-3"
         >
           <v-card-text>
             <BaseSubTitle
@@ -119,7 +119,11 @@
                 </v-btn>
               </template>
             </BaseSubTitle>
-            <pre class="kubegems__data-pre rounded">{{ item.value }}</pre>
+            <div
+              :style="{ maxHeight: `${height}px`, overflowY: 'auto' }"
+            >
+              <pre class="kubegems__data-pre rounded">{{ item.value }}</pre>
+            </div>
           </v-card-text>
         </v-card>
       </v-col>
@@ -157,16 +161,14 @@ export default {
   },
   mixins: [BaseFilter, BaseResource, BasePermission],
   data: () => ({
-    breadcrumb: {
-      title: '密钥',
-      tip: '密钥 (Secret) 是一种包含少量敏感信息的资源对象，例如密码、token、秘钥等，以键/值对形式保存并且可以在容器组中使用。',
-      icon: 'mdi-key-variant',
-    },
     secret: null,
     datas: [],
   }),
   computed: {
-    ...mapState(['JWT']),
+    ...mapState(['JWT', 'Scale']),
+    height() {
+      return parseInt((window.innerHeight - 276) / this.Scale)
+    },
   },
   mounted() {
     if (this.JWT) {
@@ -225,7 +227,7 @@ export default {
             this.$route.query.namespace,
             param.item.metadata.name,
           )
-          this.$router.push({ name: 'secret-list' })
+          this.$router.push({ name: 'secret-list', params: this.$route.params })
         },
       })
     },

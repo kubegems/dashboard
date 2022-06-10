@@ -1,17 +1,19 @@
 <template>
-  <div>
-    <v-card
-      v-if="!pluginPass($route.meta.dependencies)"
-      class="my-7 mx-4"
-      height="400px"
-    >
-      <v-row class="plugin-height">
-        <v-col class="d-none d-md-flex align-center justify-center">
-          <div class="d-none d-sm-block">
+  <div class="pass">
+    <template v-if="!pluginPass">
+      <div class="container container--fluid">
+        <BaseBreadcrumb  />
+      </div>
+      <v-card
+        class="mx-3"
+        :height="`${height}px`"
+      >
+        <v-row :style="{ height: `${height}px` }">
+          <v-col class="d-flex align-center justify-center">
             <div class="d-flex align-center pa-10">
               <div class="text-center">
                 <h2 class="text-h5 primary--text font-weight-medium">
-                  暂时未启用 {{ $route.meta.dependencies.join(',') }} 插件，请启用后查看
+                  您暂时还未启用 {{ noPermisionPlugins.join(', ') }} 插件！
                 </h2>
                 <h6
                   class="
@@ -26,10 +28,10 @@
                 </h6>
               </div>
             </div>
-          </div>
-        </v-col>
-      </v-row>
-    </v-card>
+          </v-col>
+        </v-row>
+      </v-card>
+    </template>
     <slot v-else />
   </div>
 </template>
@@ -39,27 +41,43 @@ import { mapState } from 'vuex'
 
 export default {
   name: 'BasePluginPass',
-  computed: {
-    ...mapState(['Plugins']),
+  data () {
+    return {
+      noPermisionPlugins: [],
+    }
   },
-  methods: {
-    pluginPass(dependencies) {
+  computed: {
+    ...mapState(['Plugins', 'Scale']),
+    breadcrumb() {
+      return {
+        title: this.$route.meta.title,
+        tip: this.$TIP[this.$route.meta.tip],
+        icon: this.$route.meta.icon,
+      }
+    },
+    pluginPass() {
       let pass = true
+      this.noPermisionPlugins = []
+      const dependencies = this.$route.meta.dependencies
       if (dependencies === undefined) return pass
       dependencies.forEach(d => {
         if (!this.Plugins[d]) {
+          this.noPermisionPlugins.push(d)
           pass = false
           return
         }
       })
       return pass
     },
+    height() {
+      return parseInt((window.innerHeight - 128) / this.Scale) - 24
+    },
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.plugin-height {
-  height: 400px;
+.pass {
+  position: relative;
 }
 </style>

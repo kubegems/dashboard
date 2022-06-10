@@ -123,7 +123,6 @@ export default {
         this.$route.query.namespace,
         this.$route.query.type,
         this.item.metadata.name,
-        {},
       )
       data.map((d) => {
         if (!d.current) {

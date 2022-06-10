@@ -1,6 +1,6 @@
 <template>
-  <v-sheet class="pt-4 pl-2">
-    <v-row>
+  <v-card class="pl-2">
+    <v-row class="mt-3">
       <v-col
         cols="4"
         class="col-position"
@@ -16,6 +16,7 @@
           open-on-click
           :open="[app ? app.name : '']"
           class="text-body-2"
+          rounded
           @update:active="showManifest"
         >
           <template #prepend="{ item }">
@@ -32,7 +33,7 @@
                     : item.kind
                 }}
               </v-flex>
-              <v-flex class="float-left ml-2">
+              <v-flex class="float-left ml-2 mt-n1">
                 <v-icon
                   v-if="!item.completed"
                   small
@@ -129,7 +130,10 @@
           </v-btn>
         </v-flex>
       </v-col>
-      <v-col cols="8">
+      <v-col
+        cols="8"
+        class="pr-6"
+      >
         <AppResourceFileHistory
           v-if="historyView"
           :app="app"
@@ -141,7 +145,7 @@
           :class="`clear-zoom-${Scale.toString().replaceAll(
             '.',
             '-',
-          )} rounded-0`"
+          )} rounded`"
           lang="yaml"
           :options="Object.assign($aceOptions, { readOnly: true, wrap: true })"
           theme="chrome"
@@ -160,7 +164,7 @@
       ref="updateResourceFile"
       @refresh="refresh"
     />
-  </v-sheet>
+  </v-card>
 </template>
 
 <script>
@@ -202,7 +206,7 @@ export default {
     ...mapState(['Scale']),
     ...mapGetters(['Project', 'Tenant', 'Environment']),
     height() {
-      return window.innerHeight - 320
+      return window.innerHeight - parseInt(302 * this.Scale) - 12
     },
     manifest() {
       if (this.items.length > 0) {
@@ -247,7 +251,10 @@ export default {
         this.items = []
         const files = []
         data.forEach((d) => {
-          if (d.name !== 'kustomization.yaml' && d.name !== 'kustomize.yaml') {
+          if (
+            !['kustomization.yaml', 'kustomize.yaml', 'kustomization.yml', 'kustomize.yml'].includes(d.name) &&
+            (d.name.endsWith('.yaml') || d.name.endsWith('.yml'))
+          ) {
             const djson = this.$yamlload(d.content)
             if (djson && djson.kind) {
               files.push({
@@ -257,6 +264,13 @@ export default {
                 completed: this.ThisAppEnvironmentID
                   ? this.m_resource_checkManifestCompleteness(djson)
                   : true,
+              })
+            } else {
+              files.push({
+                name: d.name,
+                kind: 'Error',
+                manifest: d.content,
+                completed: false,
               })
             }
           }

@@ -5,7 +5,7 @@
       :environmented="Environment().ID > 0"
       :selectable="false"
     />
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-menu left>
@@ -60,11 +60,11 @@
         class="pt-0"
       >
         <v-card>
-          <v-card-text class="pa-0 pl-2 pt-2">
+          <v-card-text class="pa-0">
             <v-tabs
               v-model="tab"
-              height="40"
-              class="rounded-t"
+              height="30"
+              class="rounded-t pa-3"
             >
               <v-tab
                 v-for="item in tabItems"
@@ -73,14 +73,14 @@
                 {{ item.text }}
               </v-tab>
             </v-tabs>
-
-            <component
-              :is="tabItems[tab].value"
-              :ref="tabItems[tab].value"
-              :app="app"
-            />
           </v-card-text>
         </v-card>
+        <component
+          :is="tabItems[tab].value"
+          :ref="tabItems[tab].value"
+          class="mt-3"
+          :app="app"
+        />
       </v-col>
     </v-row>
 
@@ -112,11 +112,6 @@ export default {
   },
   mixins: [BaseResource],
   data: () => ({
-    breadcrumb: {
-      title: '应用编排',
-      tip: '应用编排(AppManifest)是一组工作负载，配置，密钥等资源的描述文件集合。',
-      icon: 'mdi-apps',
-    },
     tab: 0,
     tabItems: [
       { text: '资源编排', value: 'AppResourceFileList' },
@@ -168,7 +163,7 @@ export default {
             param.item.ProjectID,
             param.item.name,
           )
-          this.$router.push({ name: 'app-list' })
+          this.$router.push({ name: 'app-list', params: this.$route.params })
         },
       })
     },

@@ -73,6 +73,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    tenant: {
+      type: Boolean,
+      default: false,
+    },
+    tid: {
+      type: Number,
+      default: 0,
+    },
     mode: {
       type: String,
       default: 'default',
@@ -101,23 +109,33 @@ export default {
       },
       immediate: true,
     },
+    tid: {
+      handler(oldValue, newValue) {
+        if (oldValue !== newValue) {
+          this.getClusters()
+        }
+      },
+      deep: true,
+    },
   },
   mounted() {
-    this.getClusters()
+    if (!this.tenant) {
+      this.getClusters()
+    }
   },
   methods: {
     async getClusters() {
       let data = null
-      if (this.Admin) {
+      if (this.AdminViewport && !this.tenant) {
         data = await clusterSelectData({ noprocessing: true })
       } else {
-        data = await tenantClusterSelectData(this.Tenant().ID, {
+        data = await tenantClusterSelectData(this.tid || this.Tenant().ID, {
           noprocessing: true,
         })
       }
       this.items = data.List.map((item) => ({
-        text: item.ClusterName,
-        value: item.ID,
+        text: item?.Cluster?.ClusterName || item.ClusterName,
+        value: item.ClusterID || item.ID,
       }))
       if (!this.current && this.autoSelectFirst && this.items.length) {
         this.onSelect(this.items[0])
@@ -138,6 +156,10 @@ export default {
         this.current = value[this.valueKey]
         this.onEmit(value)
       }
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    getItems() {
+      return this.items
     },
   },
 }

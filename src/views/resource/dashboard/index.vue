@@ -1,9 +1,9 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb :breadcrumb="breadcrumb">
+    <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
-          <span class="text-body-2 kubegems__role">
+          <span class="text-body-2 kubegems__text">
             租户角色:
             {{ $TENANT_ROLE[m_permisson_tenantRole] ? $TENANT_ROLE[m_permisson_tenantRole] : '暂无' }}
           </span>
@@ -32,35 +32,10 @@
       >
         <DashboardCard :statistics="statistics" />
 
-        <v-card class="mt-2">
-          <BaseSubTitle
-            title="项目"
-            :divider="false"
-          >
-            <template #action>
-              <v-btn
-                v-if="m_permisson_tenantAllow"
-                small
-                text
-                color="primary"
-                class="float-right mr-2"
-                @click="addProject"
-              >
-                <v-icon
-                  left
-                  small
-                >
-                  mdi-cube-outline
-                </v-icon>
-                创建项目
-              </v-btn>
-            </template>
-          </BaseSubTitle>
-          <ProjectList
-            ref="projectList"
-            @refreshTenantStatistics="tenantStatistics"
-          />
-        </v-card>
+        <ProjectList
+          class="mt-1"
+          @refresh="tenantStatistics"
+        />
 
         <ResourceList />
       </v-col>
@@ -77,10 +52,6 @@
       ref="manageUser"
       @refresh="tenantStatistics"
     />
-    <AddProject
-      ref="addProject"
-      @refresh="refreshProjectList"
-    />
   </v-container>
 </template>
 
@@ -89,7 +60,6 @@ import { mapGetters, mapState } from 'vuex'
 import { getTenantStatistics } from '@/api'
 import ProjectList from './components/ProjectList'
 import ManageUser from './components/ManageUser'
-import AddProject from '@/views/resource/project/components/AddProject'
 import DashboardCard from './components/DashboardCard'
 import ResourceList from './components/ResourceList'
 import AuditList from './components/AuditList'
@@ -102,7 +72,6 @@ export default {
   components: {
     ProjectList,
     ManageUser,
-    AddProject,
     DashboardCard,
     ResourceList,
     AuditList,
@@ -110,11 +79,6 @@ export default {
   },
   mixins: [BasePermission, BaseResource],
   data: () => ({
-    breadcrumb: {
-      title: '租户资源',
-      tip: '租户容器服务提供了安全隔离的、具有访问权限控制的工作平台。这里您可以看到当前租户内资源运行的概况。',
-      icon: 'mdi-view-dashboard',
-    },
     statistics: null,
   }),
   computed: {
@@ -135,21 +99,6 @@ export default {
     }
   },
   methods: {
-    refreshProjectList() {
-      this.$refs.projectList.projectList()
-      this.tenantStatistics()
-    },
-    addProject() {
-      if (this.Tenant().ID > 0) {
-        this.$refs.addProject.open()
-        this.$refs.addProject.init()
-      } else {
-        this.$store.commit('SET_SNACKBAR', {
-          text: `请创建或加入租户`,
-          color: 'warning',
-        })
-      }
-    },
     async manageUser() {
       if (this.Tenant().ID > 0) {
         await this.$refs.manageUser.init()

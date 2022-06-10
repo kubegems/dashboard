@@ -49,3 +49,10 @@ export const getProjectEnvironmentAggregation = (projectid, query = {}) =>
   axios(`project/${projectid}/agg_environment`, {
     params: Object.assign(query, { preload: 'Creator,Project' }),
   })
+// 所有项目
+export const getAllProjectList = (query = {}) =>
+  axios(`project`, {
+    params: Object.assign(query, {
+      preload: 'Tenant',
+    }),
+  })

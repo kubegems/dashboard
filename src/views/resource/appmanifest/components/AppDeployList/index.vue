@@ -1,6 +1,7 @@
 <template>
-  <v-sheet class="pt-4">
+  <v-card>
     <v-data-table
+      class="mx-4"
       disable-sort
       :headers="headers"
       :items="items"
@@ -79,7 +80,7 @@
     />
 
     <AppDeployImageTrace ref="appDeployImageTrace" />
-  </v-sheet>
+  </v-card>
 </template>
 
 <script>

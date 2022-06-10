@@ -10,7 +10,7 @@
             <div class="d-flex align-center pa-10">
               <div class="text-center">
                 <h2 class="text-h4 primary--text font-weight-medium">
-                  您访问的页面不存在
+                  您访问的页面不存在！
                 </h2>
                 <h6
                   class="

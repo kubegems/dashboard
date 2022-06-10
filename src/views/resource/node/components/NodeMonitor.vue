@@ -1,10 +1,10 @@
 <template>
-  <v-flex class="px-2">
-    <v-card-title class="py-2">
+  <v-card>
+    <v-card-title class="py-4">
       <v-flex>
         <v-flex class="float-right">
           <v-sheet class="text-body-2 text--darken-1">
-            <BaseDatetimePicker2
+            <BaseDatetimePicker
               v-model="date"
               :default-value="30"
               @change="onDatetimeChange(undefined)"
@@ -76,13 +76,13 @@
         </v-col>
       </v-row>
     </v-card-text>
-  </v-flex>
+  </v-card>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-import { matrix } from '@/api'
 import BaseResource from '@/mixins/resource'
+import BasePermission from '@/mixins/permission'
 import {
   NODE_LOAD1_PROMQL,
   NODE_LOAD5_PROMQL,
@@ -98,7 +98,7 @@ import {
 
 export default {
   name: 'NodeMonitor',
-  mixins: [BaseResource],
+  mixins: [BaseResource, BasePermission],
   props: {
     item: {
       type: Object,
@@ -161,21 +161,21 @@ export default {
       this.nodeDiskIOPS()
     },
     async nodeLoadRange() {
-      const data1 = await matrix(
+      const data1 = await this.m_permission_matrix(
         this.ThisCluster,
         Object.assign(this.params, {
           query: NODE_LOAD1_PROMQL.replaceAll('$1', this.item.metadata.name),
         }),
       )
-      if (data1) data1[0].metric['name'] = '1分钟负载'
-      const data2 = await matrix(
+      if (data1?.length > 0) data1[0].metric['name'] = '1分钟负载'
+      const data2 = await this.m_permission_matrix(
         this.ThisCluster,
         Object.assign(this.params, {
           query: NODE_LOAD5_PROMQL.replaceAll('$1', this.item.metadata.name),
         }),
       )
-      if (data2) data2[0].metric['name'] = '5分钟负载'
-      const data3 = await matrix(
+      if (data2?.length > 0) data2[0].metric['name'] = '5分钟负载'
+      const data3 = await this.m_permission_matrix(
         this.ThisCluster,
         Object.assign(this.params, {
           query: NODE_LOAD15_PROMQL.replaceAll(
@@ -184,7 +184,7 @@ export default {
           ),
         }),
       )
-      if (data3) data3[0].metric['name'] = '15分钟负载'
+      if (data3?.length > 0) data3[0].metric['name'] = '15分钟负载'
       let data = []
       if (data1) data = data.concat(data1)
       if (data2) data = data.concat(data2)
@@ -192,7 +192,7 @@ export default {
       this.load = data
     },
     async nodeCPUUsage() {
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.ThisCluster,
         Object.assign(this.params, {
           query: NODE_CPU_USAGE_PROMQL.replaceAll(
@@ -204,7 +204,7 @@ export default {
       if (data) this.cpu = data
     },
     async nodeMemoryUsage() {
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.ThisCluster,
         Object.assign(this.params, {
           query: NODE_MEMORY_USAGE_PROMQL.replaceAll(
@@ -216,7 +216,7 @@ export default {
       if (data) this.memory = data
     },
     async nodeNetworkUsage() {
-      const data1 = await matrix(
+      const data1 = await this.m_permission_matrix(
         this.ThisCluster,
         Object.assign(this.params, {
           query: NODE_NETWORK_IN_PROMQL.replaceAll(
@@ -225,8 +225,8 @@ export default {
           ),
         }),
       )
-      if (data1) data1[0].metric['name'] = '入口流量'
-      const data2 = await matrix(
+      if (data1?.length > 0) data1[0].metric['name'] = '入口流量'
+      const data2 = await this.m_permission_matrix(
         this.ThisCluster,
         Object.assign(this.params, {
           query: NODE_NETWORK_OUT_PROMQL.replaceAll(
@@ -235,14 +235,14 @@ export default {
           ),
         }),
       )
-      if (data2) data2[0].metric['name'] = '出口流量'
+      if (data2?.length > 0) data2[0].metric['name'] = '出口流量'
       let data = []
       if (data1) data = data.concat(data1)
       if (data2) data = data.concat(data2)
       this.network = data
     },
     async nodeDiskSize() {
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.ThisCluster,
         Object.assign(this.params, {
           query: NODE_DISK_AVAILABLE_SIZE_PROMQL.replaceAll(
@@ -254,7 +254,7 @@ export default {
       if (data) this.disk = data
     },
     async nodeDiskIOPS() {
-      const data1 = await matrix(
+      const data1 = await this.m_permission_matrix(
         this.ThisCluster,
         Object.assign(this.params, {
           query: NODE_DISK_WRITE_IOPS_PROMQL.replaceAll(
@@ -263,8 +263,8 @@ export default {
           ),
         }),
       )
-      if (data1) data1[0].metric['name'] = '写入IOPS'
-      const data2 = await matrix(
+      if (data1?.length > 0) data1[0].metric['name'] = '写入IOPS'
+      const data2 = await this.m_permission_matrix(
         this.ThisCluster,
         Object.assign(this.params, {
           query: NODE_DISK_READ_IOPS_PROMQL.replaceAll(
@@ -273,7 +273,7 @@ export default {
           ),
         }),
       )
-      if (data2) data2[0].metric['name'] = '读取IOPS'
+      if (data2?.length > 0) data2[0].metric['name'] = '读取IOPS'
       let data = []
       if (data1) data = data.concat(data1)
       if (data2) data = data.concat(data2)

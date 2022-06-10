@@ -1,10 +1,10 @@
 <template>
-  <v-flex>
+  <v-card>
     <v-card-title class="pt-2 pb-0">
       <v-flex>
         <v-flex class="float-right">
           <v-sheet class="text-body-2 text--darken-1">
-            <BaseDatetimePicker2
+            <BaseDatetimePicker
               v-model="date"
               :default-value="30"
               @change="onDatetimeChange(undefined)"
@@ -72,13 +72,13 @@
         </v-col>
       </v-row>
     </v-card-text>
-  </v-flex>
+  </v-card>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-import { matrix } from '@/api'
 import BaseResource from '@/mixins/resource'
+import BasePermission from '@/mixins/permission'
 import {
   ISTIO_INGRESS_GATEWAY_QPS_PROMQL,
   ISTIO_INGRESS_GATEWAY_DOWNSTREAM_80_QPS_PROMQL,
@@ -87,10 +87,11 @@ import {
   ISTIO_INGRESS_GATEWAY_DOWNSTREAM_443_RESPONSE_DURATION_PROMQL,
   ISTIO_INGRESS_GATEWAY_DOWNSTREAM_80_RESPONSE_DURATION_PROMQL,
 } from '@/utils/prometheus'
+import { SERVICE_GATEWAY_NS } from '@/utils/namespace'
 
 export default {
   name: 'GatewayMonitor',
-  mixins: [BaseResource],
+  mixins: [BaseResource, BasePermission],
   props: {
     gateway: {
       type: Object,
@@ -152,11 +153,11 @@ export default {
       this.ingressGatewayDownstream443ResponseDuration()
     },
     async ingressGatewayQPS() {
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.$route.query.cluster,
         Object.assign(this.params, {
           query: ISTIO_INGRESS_GATEWAY_QPS_PROMQL
-            .replaceAll('$1', 'gemcloud-gateway-system')
+            .replaceAll('$1', SERVICE_GATEWAY_NS)
             .replaceAll('$2', this.gateway ? this.gateway.Name : ''),
           noprocessing: true,
         }),
@@ -164,11 +165,11 @@ export default {
       if (data) this.qpsMetrics = data
     },
     async ingressGatewayDownstream80QPS() {
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.$route.query.cluster,
         Object.assign(this.params, {
           query: ISTIO_INGRESS_GATEWAY_DOWNSTREAM_80_QPS_PROMQL
-            .replaceAll('$1', 'gemcloud-gateway-system')
+            .replaceAll('$1', SERVICE_GATEWAY_NS)
             .replaceAll('$2', this.gateway ? this.gateway.Name : ''),
           noprocessing: true,
         }),
@@ -176,11 +177,11 @@ export default {
       if (data) this.downstream80QpsMetrics = data
     },
     async ingressGatewayDownstream443QPS() {
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.$route.query.cluster,
         Object.assign(this.params, {
           query: ISTIO_INGRESS_GATEWAY_DOWNSTREAM_443_QPS_PROMQL
-            .replaceAll('$1', 'gemcloud-gateway-system')
+            .replaceAll('$1', SERVICE_GATEWAY_NS)
             .replaceAll('$2', this.gateway ? this.gateway.Name : ''),
           noprocessing: true,
         }),
@@ -188,11 +189,11 @@ export default {
       if (data) this.downstream443QpsMetrics = data
     },
     async ingressGatewayResponseDuration() {
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.$route.query.cluster,
         Object.assign(this.params, {
           query: ISTIO_INGRESS_GATEWAY_REPONSE_DURATION_PROMQL
-            .replaceAll('$1', 'gemcloud-gateway-system')
+            .replaceAll('$1', SERVICE_GATEWAY_NS)
             .replaceAll('$2', this.gateway ? this.gateway.Name : ''),
           noprocessing: true,
         }),
@@ -200,11 +201,11 @@ export default {
       if (data) this.responseDurationMetrics = data
     },
     async ingressGatewayDownstream80ResponseDuration() {
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.$route.query.cluster,
         Object.assign(this.params, {
           query: ISTIO_INGRESS_GATEWAY_DOWNSTREAM_80_RESPONSE_DURATION_PROMQL
-            .replaceAll('$1', 'gemcloud-gateway-system')
+            .replaceAll('$1', SERVICE_GATEWAY_NS)
             .replaceAll('$2', this.gateway ? this.gateway.Name : ''),
           noprocessing: true,
         }),
@@ -212,11 +213,11 @@ export default {
       if (data) this.downstream80ResponseDurationMetrics = data
     },
     async ingressGatewayDownstream443ResponseDuration() {
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.$route.query.cluster,
         Object.assign(this.params, {
           query: ISTIO_INGRESS_GATEWAY_DOWNSTREAM_443_RESPONSE_DURATION_PROMQL
-            .replaceAll('$1', 'gemcloud-gateway-system')
+            .replaceAll('$1', SERVICE_GATEWAY_NS)
             .replaceAll('$2', this.gateway ? this.gateway.Name : ''),
           noprocessing: true,
         }),

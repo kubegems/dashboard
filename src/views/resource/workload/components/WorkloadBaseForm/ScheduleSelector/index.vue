@@ -278,7 +278,23 @@ export default {
       this.$refs.annotationForm.closeCard()
       this.$refs.selectorForm.closeCard()
       this.$refs.dnsConfigForm.closeCard()
-      this.$refs.form.reset()
+      this.$refs.form.resetValidation()
+      this.obj = this.$options.data().obj
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    validate() {
+      return this.$refs.form.validate(true)
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    getData() {
+      return this.obj
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    checkSaved() {
+      if (Object.prototype.hasOwnProperty.call(this, 'expand')) {
+        return !this.expand
+      }
+      return true
     },
   },
 }

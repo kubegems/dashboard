@@ -58,8 +58,7 @@
           open-on-hover
           bottom
           right
-          max-height="400px"
-          max-width="220px"
+          max-width="200px"
           offset-y
           origin="top center"
           transition="scale-transition"
@@ -100,20 +99,20 @@
           </template>
 
           <v-card flat>
+            <v-flex class="text-body-2 text-center primary white--text py-2">
+              <v-icon
+                color="white"
+                left
+                small
+              >
+                mdi-cube
+              </v-icon>
+              <span>容器组</span>
+            </v-flex>
             <v-list
               dense
-              class="pa-0"
+              class="pa-0 kubegems__tip"
             >
-              <v-flex class="text-body-2 text-center primary white--text py-2">
-                <v-icon
-                  color="white"
-                  left
-                  small
-                >
-                  mdi-cube
-                </v-icon>
-                <span>容器组</span>
-              </v-flex>
               <v-list-item v-if="podItems.length > 0">
                 <v-list-item-content>
                   <v-list-item
@@ -125,7 +124,7 @@
                       <v-list-item-content
                         v-for="(pod, index) in podItems"
                         :key="index"
-                        class="text-caption kubegems__detail kubegems__break-all"
+                        class="text-caption kubegems__text kubegems__break-all"
                       >
                         <span class="text-caption">
                           容器{{ index + 1 }}：{{ pod.metadata.name }}

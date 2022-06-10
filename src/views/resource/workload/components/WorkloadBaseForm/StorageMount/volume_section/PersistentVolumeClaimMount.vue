@@ -17,6 +17,7 @@
           hide-selected
           class="my-0"
           no-data-text="暂无可选数据"
+          :readonly="edit"
           @change="onVolumeChange"
         >
           <template #selection="{ item }">
@@ -32,7 +33,7 @@
       </v-flex>
       <v-flex
         v-if="volumeObj"
-        class="ml-2 pt-4"
+        class="pt-5"
       >
         <span class="text-body-2 mx-1">
           类型:{{ volumeObj.spec.storageClassName }}
@@ -52,12 +53,20 @@
       :volume-mount-name="volumeMountName"
       :volume="volume"
     />
+    <VolumeMountForInitContainer
+      v-if="initContainers && initContainers.length > 0"
+      ref="volumeMountForInitContainer"
+      :init-containers="initContainers"
+      :volume-mount-name="volumeMountName"
+      :volume="volume"
+    />
   </v-form>
 </template>
 
 <script>
 import { getPersistentVolumeClaimList, getAppResourceFileMetas } from '@/api'
 import VolumeMount from './VolumeMount'
+import VolumeMountForInitContainer from './VolumeMountForInitContainer'
 import BaseResource from '@/mixins/resource'
 import { required } from '@/utils/rules'
 
@@ -65,10 +74,15 @@ export default {
   name: 'PersistentVolumeClaimMount',
   components: {
     VolumeMount,
+    VolumeMountForInitContainer,
   },
   mixins: [BaseResource],
   props: {
     containers: {
+      type: Array,
+      default: () => [],
+    },
+    initContainers: {
       type: Array,
       default: () => [],
     },
@@ -85,6 +99,10 @@ export default {
       default: () => null,
     },
     manifest: {
+      type: Boolean,
+      default: () => false,
+    },
+    edit: {
       type: Boolean,
       default: () => false,
     },
@@ -134,7 +152,6 @@ export default {
           this.$route.params.name,
           {
             kind: 'PersistentVolumeClaim',
-            noprocessing: true,
           },
         )
         this.items = data
@@ -144,7 +161,6 @@ export default {
           this.namespace || this.$route.query.namespace,
           {
             size: 1000,
-            noprocessing: true,
           },
         )
         this.items = data.List
@@ -153,7 +169,7 @@ export default {
         .filter((v) => {
           return !(
             v.metadata.annotations &&
-            v.metadata.annotations[`pvc.${process.env.VUE_APP_DOMAIN}/in-use`] === 'true' &&
+            v.metadata.annotations[`pvc.kubegems.io/in-use`] === 'true' &&
             v.spec.accessModes.join('') === 'ReadWriteOnce')
         })
         .map((v) => {
@@ -166,6 +182,9 @@ export default {
     },
     onVolumeChange() {
       this.$refs.volumeMount.initVolumeMount(this.volumeName)
+      if (this.$refs.volumeMountForInitContainer) {
+        this.$refs.volumeMountForInitContainer.initVolumeMount(this.volumeName)
+      }
     },
     // eslint-disable-next-line vue/no-unused-properties
     generateData() {
@@ -187,9 +206,22 @@ export default {
       return null
     },
     // eslint-disable-next-line vue/no-unused-properties
+    generateInitData() {
+      if (this.$refs.form.validate(true)) {
+        const data = this.$refs.volumeMountForInitContainer.generateData()
+        if (data) {
+          return {
+            init: data,
+          }
+        }
+        return null
+      }
+      return null
+    },
+    // eslint-disable-next-line vue/no-unused-properties
     reset() {
       this.$refs.form.reset()
-      this.$refs.volumeMount.$refs.form.reset()
+      this.$refs.volumeMount.reset()
     },
   },
 }

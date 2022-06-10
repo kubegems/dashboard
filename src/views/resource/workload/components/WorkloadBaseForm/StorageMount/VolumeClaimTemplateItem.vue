@@ -3,12 +3,12 @@
     <v-sheet
       v-for="(item, index) in templates"
       :key="index"
-      class="grey lighten-4 rounded mb-2"
+      class="grey lighten-4 rounded mb-3"
     >
       <v-list-item two-line>
         <v-list-item-content class="py-0">
           <v-list-item-subtitle class="text-subtitle-2 py-1 primary--text">
-            <v-flex class="kubegems__mount-width">
+            <v-flex>
               <v-list-item
                 two-line
                 class="pl-0 list-item-height"
@@ -172,7 +172,7 @@
         </v-btn>
       </v-list-item>
     </v-sheet>
-    <v-flex class="grey lighten-4 rounded-0">
+    <v-flex class="grey lighten-4 rounded">
       <v-list-item two-line>
         <v-list-item-content class="py-2">
           <v-list-item-subtitle class="text-body-2 py-0 text-center">

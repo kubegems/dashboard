@@ -212,12 +212,6 @@ export default {
     this.obj.CreatorID = this.User.ID
   },
   methods: {
-    // eslint-disable-next-line vue/no-unused-properties
-    generateData() {
-      const obj = deepCopy(this.obj)
-      obj.RegistryAddress = `${this.scheme}://${obj.RegistryAddress}`
-      return obj
-    },
     setScheme(scheme) {
       this.scheme = scheme
       this.prefixscheme = false
@@ -229,6 +223,16 @@ export default {
     // eslint-disable-next-line vue/no-unused-properties
     setData(data) {
       this.obj = data
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    getData() {
+      const obj = deepCopy(this.obj)
+      obj.RegistryAddress = `${this.scheme}://${obj.RegistryAddress}`
+      return obj
+    },
+    // eslint-disable-next-line vue/no-unused-properties
+    validate() {
+      return this.$refs.form.validate(true)
     },
     onProjectSelectFocus() {
       this.m_select_projectSelectData()

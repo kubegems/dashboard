@@ -201,10 +201,11 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex'
-import { matrix, getClusterComponentStatus, getClusterCertInfo } from '@/api'
+import { getClusterComponentStatus, getClusterCertInfo } from '@/api'
 import Tips from './Tips'
 import SampleAreaChart from './SampleAreaChart'
 import BaseResource from '@/mixins/resource'
+import BasePermission from '@/mixins/permission'
 import { CLUSTER_API_SERVER_SUCCESS_RATE_PROMQL } from '@/utils/prometheus'
 
 export default {
@@ -213,7 +214,7 @@ export default {
     Tips,
     SampleAreaChart,
   },
-  mixins: [BaseResource],
+  mixins: [BaseResource, BasePermission],
 
   props: {
     cluster: {
@@ -279,7 +280,7 @@ export default {
       this.clusterApiServerSuccessRate()
     },
     async clusterApiServerSuccessRate() {
-      const data = await matrix(
+      const data = await this.m_permission_matrix(
         this.$route.params.name,
         Object.assign(this.params, {
           noprocessing: true,

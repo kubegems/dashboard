@@ -18,14 +18,14 @@
             <v-list-item
               two-line
               class="float-left py-0 pl-0"
-              style="width: 500px;"
+              style="width: 515px;"
             >
               <v-list-item-content class="py-0">
                 <v-list-item-title
                   class="
                             text-subtitle-2
                             py-1
-                            kubegems__detail
+                            kubegems__text
                             font-weight-regular
                           "
                 >
@@ -41,46 +41,21 @@
                     {{ container.name }}
                   </v-flex>
                   <v-flex
-                    v-if="
-                      Plugins && Plugins.gpu_manager &&
-                        item &&
-                        item.spec &&
-                        item.spec.nodeSelector &&
-                        item.spec.nodeSelector['tencent.com/vcuda'] ===
-                        'true' &&
-                        container.resources &&
-                        container.resources.requests &&
-                        container.resources.requests[
-                          'tencent.com/vcuda-core'
-                        ] &&
-                        container.resources.requests[
-                          'tencent.com/vcuda-memory'
-                        ]
-                    "
+                    v-if="tke"
                     class="float-left mt-1 ml-2 icon-height"
                   >
                     <BaseLogo
                       :width="16"
-                      icon-name="gpu_manager"
+                      icon-name="tke"
                     />
                   </v-flex>
                   <v-flex
-                    v-if="
-                      Plugins && Plugins.nvidia_device_plugin &&
-                        item &&
-                        item.spec &&
-                        item.spec.nodeSelector &&
-                        item.spec.nodeSelector['nvidia.com/gpu'] ===
-                        'true' &&
-                        container.resources &&
-                        container.resources.requests &&
-                        container.resources.requests['nvidia.com/gpu']
-                    "
+                    v-if="nvidia"
                     class="float-left mt-1 ml-2 icon-height"
                   >
                     <BaseLogo
                       :width="16"
-                      icon-name="nvidia_device_plugin"
+                      icon-name="nvidia"
                     />
                   </v-flex>
                   <v-icon
@@ -124,14 +99,14 @@
             <v-list-item
               two-line
               class="float-left py-0 pl-0"
-              style="width: 250px;"
+              style="width: 200px;"
             >
               <v-list-item-content class="py-0">
                 <v-list-item-title
                   class="
                             text-subtitle-2
                             py-1
-                            kubegems__detail
+                            kubegems__text
                             font-weight-regular
                           "
                 >
@@ -163,14 +138,14 @@
             <v-list-item
               two-line
               class="float-left py-0 pl-0"
-              style="width: 300px;"
+              style="width: 200px;"
             >
               <v-list-item-content class="py-0">
                 <v-list-item-title
                   class="
                             text-subtitle-2
                             py-1
-                            kubegems__detail
+                            kubegems__text
                             font-weight-regular
                           "
                 >
@@ -182,7 +157,7 @@
                     :key="index"
                     class="float-left mr-2"
                   >
-                    <ProbeInfo
+                    <ProbeTip
                       :title="probe.title"
                       :item="probe.probe"
                     />
@@ -205,14 +180,14 @@
             <v-list-item
               two-line
               class="float-left py-0 pl-0"
-              style="width: 200px;"
+              style="width: 150px;"
             >
               <v-list-item-content class="py-0">
                 <v-list-item-title
                   class="
                             text-subtitle-2
                             py-1
-                            kubegems__detail
+                            kubegems__text
                             font-weight-regular
                           "
                 >
@@ -226,14 +201,14 @@
             <v-list-item
               two-line
               class="float-left py-0 pl-0"
-              style="width: 200px;"
+              style="width: 150px;"
             >
               <v-list-item-content class="py-0">
                 <v-list-item-title
                   class="
                             text-subtitle-2
                             py-1
-                            kubegems__detail
+                            kubegems__text
                             font-weight-regular
                           "
                 >
@@ -257,9 +232,52 @@
                         : '未知'
                     }}
                   </span>
+                  <span v-else>暂无</span>
                 </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1">
                   Age
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item
+              two-line
+              class="float-left py-0 pl-0"
+              style="width: 150px;"
+            >
+              <v-list-item-content class="py-0">
+                <v-list-item-title
+                  class="
+                            text-subtitle-2
+                            py-1
+                            kubegems__text
+                            font-weight-regular
+                          "
+                >
+                  {{ container.resources && container.resources.limits ? container.resources.limits.cpu : '无限制' }}
+                </v-list-item-title>
+                <v-list-item-subtitle class="text-body-2 py-1">
+                  limits.cpu
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item
+              two-line
+              class="float-left py-0 pl-0"
+              style="width: 150px;"
+            >
+              <v-list-item-content class="py-0">
+                <v-list-item-title
+                  class="
+                            text-subtitle-2
+                            py-1
+                            kubegems__text
+                            font-weight-regular
+                          "
+                >
+                  {{ container.resources && container.resources.limits ? container.resources.limits.memory : '无限制' }}
+                </v-list-item-title>
+                <v-list-item-subtitle class="text-body-2 py-1">
+                  limits.memory
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
@@ -276,7 +294,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import ProbeInfo from '@/views/resource/components/common/ProbeInfo'
+import ProbeTip from '@/views/resource/components/common/ProbeTip'
 import ContainerLog from '@/views/resource/components/common/ContainerLog'
 import Terminal from '@/views/resource/components/common/Terminal'
 import BasePermission from '@/mixins/permission'
@@ -286,7 +304,7 @@ import { deepCopy } from '@/utils/helpers'
 export default {
   name: 'ContainerItems',
   components: {
-    ProbeInfo,
+    ProbeTip,
     ContainerLog,
     Terminal,
   },
@@ -311,7 +329,19 @@ export default {
     }
   },
   computed: {
-    ...mapState(['Plugins', 'AdminViewport']),
+    ...mapState(['AdminViewport']),
+    tke() {
+      if (this?.item?.spec?.nodeSelector) {
+        return this.item.spec.nodeSelector['tencent.com/vcuda'] === 'true'
+      }
+      return false
+    },
+    nvidia() {
+      if (this?.item?.spec?.nodeSelector) {
+        return this.item.spec.nodeSelector['nvidia.com/gpu'] === 'true'
+      }
+      return false
+    },
   },
   watch: {
     containerStatuses: {
@@ -322,6 +352,7 @@ export default {
           if (index > -1) {
             const container = this.containerStatusesCopy[index]
             container.image = c.image
+            container.resources = c.resources
             this.$set(this.containerStatusesCopy, index, container)
           }
         })
@@ -369,7 +400,7 @@ export default {
       const item = {
         namespace: pod.metadata.namespace,
         name: pod.metadata.name,
-        containers: pod.spec.containers,
+        containers: pod.status.containerStatuses,
       }
       this.$refs.terminal.init(container, item, 'shell')
       this.$refs.terminal.open()
