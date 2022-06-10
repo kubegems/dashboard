@@ -1,11 +1,7 @@
 <template>
   <div>
     <BaseSubTitle title="基本配置" />
-    <v-form
-      ref="form"
-      v-model="valid"
-      lazy-validation
-    >
+    <v-form ref="form" v-model="valid" lazy-validation>
       <v-row class="px-2 mt-0">
         <v-col cols="6">
           <v-autocomplete
@@ -20,11 +16,7 @@
             :rules="objRules.kindRules"
           >
             <template #selection="{ item }">
-              <v-chip
-                color="primary"
-                small
-                class="mx-1"
-              >
+              <v-chip color="primary" small class="mx-1">
                 {{ item['text'] }}
               </v-chip>
             </template>
@@ -55,11 +47,7 @@
             @change="onPluginChange"
           >
             <template #selection="{ item }">
-              <v-chip
-                color="primary"
-                small
-                class="mx-1"
-              >
+              <v-chip color="primary" small class="mx-1">
                 {{ item['text'] }}
               </v-chip>
             </template>
@@ -67,146 +55,143 @@
         </v-col>
       </v-row>
 
-      <component
-        :is="formComponent"
-        :ref="formComponent"
-        :item="obj"
-        :edit="true"
-      />
+      <component :is="formComponent" :ref="formComponent" :item="obj" :edit="true" />
     </v-form>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import Loki from './Loki'
-import Kafka from './Kafka'
-import Elasticsearch from './Elasticsearch'
-import { deepCopy } from '@/utils/helpers'
-import { required } from '@/utils/rules'
+  import { mapState } from 'vuex';
+  import Loki from './Loki';
+  import Kafka from './Kafka';
+  import Elasticsearch from './Elasticsearch';
+  import { deepCopy } from '@/utils/helpers';
+  import { required } from '@/utils/rules';
 
-export default {
-  name: 'OutputBaseForm',
-  components: {
-    Loki,
-    Kafka,
-    Elasticsearch,
-  },
-  props: {
-    item: {
-      type: Object,
-      default: () => null,
+  export default {
+    name: 'OutputBaseForm',
+    components: {
+      Loki,
+      Kafka,
+      Elasticsearch,
     },
-    edit: {
-      type: Boolean,
-      default: () => false,
+    props: {
+      item: {
+        type: Object,
+        default: () => null,
+      },
+      edit: {
+        type: Boolean,
+        default: () => false,
+      },
     },
-  },
-  data() {
-    this.pluginItems = [
-      { text: 'Loki', value: 'loki' },
-      { text: 'Kafka', value: 'kafka' },
-      { text: 'Elasticsearch', value: 'elasticsearch' },
-    ]
+    data() {
+      this.pluginItems = [
+        { text: 'Loki', value: 'loki' },
+        { text: 'Kafka', value: 'kafka' },
+        { text: 'Elasticsearch', value: 'elasticsearch' },
+      ];
 
-    return {
-      valid: false,
-      obj: {
-        apiVersion: 'logging.banzaicloud.io/v1beta1',
-        kind: 'Output',
-        metadata: {
-          name: '',
-          labels: {},
+      return {
+        valid: false,
+        obj: {
+          apiVersion: 'logging.banzaicloud.io/v1beta1',
+          kind: 'Output',
+          metadata: {
+            name: '',
+            labels: {},
+          },
+          spec: {},
         },
-        spec: {},
-      },
-      plugin: undefined,
-      objRules: {
-        kindRules: [required],
-        nameRules: [required],
-        pluginRules: [required],
-      },
-    }
-  },
-  computed: {
-    ...mapState(['AdminViewport', 'ApiResources']),
-    typeItems() {
-      return [{ text: 'Output', value: 'Output' }].concat(
-        this.AdminViewport
-          ? [{ text: 'ClusterOutput', value: 'ClusterOutput' }]
-          : [],
-      )
+        plugin: undefined,
+        objRules: {
+          kindRules: [required],
+          nameRules: [required],
+          pluginRules: [required],
+        },
+      };
     },
-    formComponent() {
-      return this.pluginItems.find(p => { return p.value === this.plugin })?.text
-    },
-  },
-  watch: {
-    item: {
-      handler() {
-        this.obj.apiVersion = this.ApiResources['output'] || 'logging.banzaicloud.io/v1beta1'
-        this.loadData()
+    computed: {
+      ...mapState(['AdminViewport', 'ApiResources']),
+      typeItems() {
+        return [{ text: 'Output', value: 'Output' }].concat(
+          this.AdminViewport ? [{ text: 'ClusterOutput', value: 'ClusterOutput' }] : [],
+        );
       },
-      deep: true,
-      immediate: true,
+      formComponent() {
+        return this.pluginItems.find((p) => {
+          return p.value === this.plugin;
+        })?.text;
+      },
     },
-  },
-  methods: {
-    loadData() {
-      this.$nextTick(() => {
-        if (!this.item) {
-          this.$refs.form.resetValidation()
-        } else {
-          this.obj = deepCopy(this.item)
-          this.getPlugin()
+    watch: {
+      item: {
+        handler() {
+          this.obj.apiVersion = this.ApiResources['output'] || 'logging.banzaicloud.io/v1beta1';
+          this.loadData();
+        },
+        deep: true,
+        immediate: true,
+      },
+    },
+    methods: {
+      loadData() {
+        this.$nextTick(() => {
+          if (!this.item) {
+            this.$refs.form.resetValidation();
+          } else {
+            this.obj = deepCopy(this.item);
+            this.getPlugin();
+          }
+        });
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      reset() {
+        this.$refs.form && this.$refs.form.resetValidation();
+        this.$refs[this.formComponent] && this.$refs[this.formComponent].reset();
+        this.obj = this.$options.data().obj;
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      validate() {
+        return (
+          this.$refs.form &&
+          this.$refs.form.validate(true) &&
+          this.$refs[this.formComponent] &&
+          this.$refs[this.formComponent].validate()
+        );
+      },
+      onPluginChange(value) {
+        this.pluginItems.forEach((plugin) => {
+          delete this.obj.spec[plugin.value];
+        });
+        this.obj.spec[value] = {};
+        if (value === 'kafka') {
+          this.obj.spec[value].brokers = '';
+          this.obj.spec[value].format = { type: 'json' };
         }
-      })
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      checkSaved() {
+        return true;
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      setData(data) {
+        this.obj = data;
+        this.getPlugin();
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      getData() {
+        return this.obj;
+      },
+      getPlugin() {
+        if (this.obj.spec.loki) {
+          this.plugin = 'loki';
+        } else if (this.obj.spec.kafka) {
+          this.plugin = 'kafka';
+        } else if (this.obj.spec.elasticsearch) {
+          this.plugin = 'elasticsearch';
+        }
+      },
     },
-    // eslint-disable-next-line vue/no-unused-properties
-    reset() {
-      this.$refs.form && this.$refs.form.resetValidation()
-      this.$refs[this.formComponent] && this.$refs[this.formComponent].reset()
-      this.obj = this.$options.data().obj
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    validate() {
-      return this.$refs.form &&
-        this.$refs.form.validate(true) &&
-        this.$refs[this.formComponent] &&
-        this.$refs[this.formComponent].validate()
-    },
-    onPluginChange(value) {
-      this.pluginItems.forEach((plugin) => {
-        delete this.obj.spec[plugin.value]
-      })
-      this.obj.spec[value] = {}
-      if (value === 'kafka') {
-        this.obj.spec[value].brokers = ''
-        this.obj.spec[value].format = { type: 'json' }
-      }
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    checkSaved() {
-      return true
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    setData(data) {
-      this.obj = data
-      this.getPlugin()
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    getData() {
-      return this.obj
-    },
-    getPlugin() {
-      if (this.obj.spec.loki) {
-        this.plugin = 'loki'
-      } else if (this.obj.spec.kafka) {
-        this.plugin = 'kafka'
-      } else if (this.obj.spec.elasticsearch) {
-        this.plugin = 'elasticsearch'
-      }
-    },
-  },
-}
+  };
 </script>

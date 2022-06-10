@@ -1,7 +1,7 @@
-import { mapGetters, mapState } from 'vuex'
-import { getTenantResourceQuota, getClusterQuota } from '@/api'
-import { sizeOfCpu, sizeOfStorage } from '@/utils/helpers'
-import Ajv from 'ajv'
+import { mapGetters, mapState } from 'vuex';
+import { getTenantResourceQuota, getClusterQuota } from '@/api';
+import { sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
+import Ajv from 'ajv';
 
 const resource = {
   computed: {
@@ -9,9 +9,7 @@ const resource = {
     ...mapGetters(['Cluster', 'Environment']),
     // 当前集群，特殊命名
     ThisCluster() {
-      return this.AdminViewport
-        ? this.Cluster().ClusterName || ''
-        : this.Environment().ClusterName || ''
+      return this.AdminViewport ? this.Cluster().ClusterName || '' : this.Environment().ClusterName || '';
     },
     // 当前命名空间，特殊命名
     ThisNamespace() {
@@ -19,43 +17,35 @@ const resource = {
         ? this.NamespaceFilter && this.NamespaceFilter.Namespace
           ? this.NamespaceFilter.Namespace
           : '_all'
-        : this.Environment().Namespace || ''
+        : this.Environment().Namespace || '';
     },
     // 当前集群ID，特殊命名
     ThisClusterID() {
-      return this.AdminViewport
-        ? this.Cluster().ID || ''
-        : this.Environment().ClusterID || ''
+      return this.AdminViewport ? this.Cluster().ID || '' : this.Environment().ClusterID || '';
     },
     // 当前环境ID，特殊命名
     ThisAppEnvironmentID() {
-      let EnvironmentID = null
+      let EnvironmentID = null;
       if (this.Environment().ID > 0) {
-        EnvironmentID = this.Environment().ID
+        EnvironmentID = this.Environment().ID;
       }
-      return EnvironmentID
+      return EnvironmentID;
     },
   },
   methods: {
     async m_resource_tenantResourceQuota(ClusterName, TenantName) {
       const data = await getTenantResourceQuota(ClusterName, TenantName, {
         noprocessing: true,
-      })
+      });
       if (data.spec.hard && data.status.allocated) {
         const item = {
           Cpu: parseFloat(sizeOfCpu(data.spec.hard['limits.cpu'])),
           Memory: parseFloat(sizeOfStorage(data.spec.hard['limits.memory'])),
-          Storage: parseFloat(
-            sizeOfStorage(data.spec.hard[`requests.storage`]),
-          ),
+          Storage: parseFloat(sizeOfStorage(data.spec.hard[`requests.storage`])),
           Pod: 5120,
-          AllocatedCpu: parseFloat(
-            sizeOfCpu(data.status.allocated['limits.cpu']),
-          ),
+          AllocatedCpu: parseFloat(sizeOfCpu(data.status.allocated['limits.cpu'])),
           AllocatedMemory: parseFloat(data.status.allocated['limits.memory']),
-          AllocatedStorage: parseFloat(
-            sizeOfStorage(data.status.allocated[`requests.storage`]),
-          ),
+          AllocatedStorage: parseFloat(sizeOfStorage(data.status.allocated[`requests.storage`])),
           AllocatedPod: 0,
           ApplyCpu:
             parseFloat(sizeOfCpu(data.spec.hard['limits.cpu'])) -
@@ -65,129 +55,103 @@ const resource = {
             parseFloat(data.status.allocated['limits.memory']),
           ApplyStorage:
             parseFloat(sizeOfStorage(data.spec.hard[`requests.storage`])) -
-            parseFloat(
-              sizeOfStorage(data.status.allocated[`requests.storage`]),
-            ),
+            parseFloat(sizeOfStorage(data.status.allocated[`requests.storage`])),
           ApplyPod: 0,
+        };
+        if (data.spec.hard[`limits.nvidia.com/gpu`] && parseInt(data.spec.hard[`limits.nvidia.com/gpu`]) > 0) {
+          item.NvidiaGpu = parseFloat(sizeOfCpu(data.spec.hard['limits.nvidia.com/gpu']));
+          item.AllocatedNvidiaGpu = parseFloat(data.status.allocated['limits.nvidia.com/gpu'] || 0);
+          item.ApplyNvidiaGpu =
+            parseFloat(data.spec.hard['limits.nvidia.com/gpu']) -
+            parseFloat(data.status.allocated['limits.nvidia.com/gpu'] || 0);
         }
-        if (data.spec.hard[`limits.nvidia.com/gpu`] &&
-          parseInt(data.spec.hard[`limits.nvidia.com/gpu`]) > 0) {
-          item.NvidiaGpu = parseFloat(sizeOfCpu(data.spec.hard['limits.nvidia.com/gpu']))
-          item.AllocatedNvidiaGpu = parseFloat(
-            data.status.allocated['limits.nvidia.com/gpu'] || 0,
-          )
-          item.ApplyNvidiaGpu = parseFloat(data.spec.hard['limits.nvidia.com/gpu']) -
-            parseFloat(data.status.allocated['limits.nvidia.com/gpu'] || 0)
-        }
-        if ((data.spec.hard[`tencent.com/vcuda-core`] &&
-          parseInt(data.spec.hard[`tencent.com/vcuda-core`]) > 0) ||
-          (data.spec.hard[`tencent.com/vcuda-memory`] &&
-            parseInt(data.spec.hard[`tencent.com/vcuda-memory`]) > 0)) {
-          item.TkeGpu = parseFloat(data.spec.hard['tencent.com/vcuda-core'])
-          item.AllocatedTkeGpu = parseFloat(
-            (data.status.allocated['tencent.com/vcuda-core'] || 0),
-          )
-          item.ApplyTkeGpu = parseFloat(data.spec.hard['tencent.com/vcuda-core']) -
-            (parseFloat(data.status.allocated['tencent.com/vcuda-core']) || 0)
+        if (
+          (data.spec.hard[`tencent.com/vcuda-core`] && parseInt(data.spec.hard[`tencent.com/vcuda-core`]) > 0) ||
+          (data.spec.hard[`tencent.com/vcuda-memory`] && parseInt(data.spec.hard[`tencent.com/vcuda-memory`]) > 0)
+        ) {
+          item.TkeGpu = parseFloat(data.spec.hard['tencent.com/vcuda-core']);
+          item.AllocatedTkeGpu = parseFloat(data.status.allocated['tencent.com/vcuda-core'] || 0);
+          item.ApplyTkeGpu =
+            parseFloat(data.spec.hard['tencent.com/vcuda-core']) -
+            (parseFloat(data.status.allocated['tencent.com/vcuda-core']) || 0);
 
-          item.TkeMemory = parseFloat(data.spec.hard['tencent.com/vcuda-memory'])
-          item.AllocatedTkeMemory = parseFloat(
-            (data.status.allocated['tencent.com/vcuda-memory'] || 0),
-          )
-          item.ApplyTkeMemory = parseFloat(data.spec.hard['tencent.com/vcuda-memory']) -
-            (parseFloat(data.status.allocated['tencent.com/vcuda-memory']) || 0)
+          item.TkeMemory = parseFloat(data.spec.hard['tencent.com/vcuda-memory']);
+          item.AllocatedTkeMemory = parseFloat(data.status.allocated['tencent.com/vcuda-memory'] || 0);
+          item.ApplyTkeMemory =
+            parseFloat(data.spec.hard['tencent.com/vcuda-memory']) -
+            (parseFloat(data.status.allocated['tencent.com/vcuda-memory']) || 0);
         }
-        return item
+        return item;
       }
-      return null
+      return null;
     },
     async m_resource_clusterQuota(clusterid, item) {
-      const data = await getClusterQuota(clusterid)
-      const quota = {}
+      const data = await getClusterQuota(clusterid);
+      const quota = {};
       if (data.resources) {
-        quota.CpuRatio = data.oversoldConfig ? data.oversoldConfig.cpu : 1
-        quota.MemoryRatio = data.oversoldConfig ? data.oversoldConfig.memory : 1
-        quota.StorageRatio = data.oversoldConfig
-          ? data.oversoldConfig.storage
-          : 1
-        quota.Cpu =
-          parseFloat(sizeOfCpu(data.resources.capacity.cpu)) * quota.CpuRatio
-        quota.UsedCpu = parseFloat(
-          sizeOfCpu(data.resources.tenantAllocated['limits.cpu']),
-        )
-        quota.AllocatedCpu = quota.Cpu - quota.UsedCpu + item.NowCpu
-        quota.Memory =
-          parseFloat(sizeOfStorage(data.resources.capacity.memory)) *
-          quota.MemoryRatio
-        quota.UsedMemory = parseFloat(
-          sizeOfStorage(data.resources.tenantAllocated['limits.memory']),
-        )
-        quota.AllocatedMemory = quota.Memory - quota.UsedMemory + item.NowMemory
-        quota.Storage =
-          parseFloat(
-            sizeOfStorage(data.resources.capacity['ephemeral-storage']),
-          ) * quota.StorageRatio
-        quota.UsedStorage = parseFloat(
-          sizeOfStorage(data.resources.tenantAllocated['requests.storage']),
-        )
-        quota.AllocatedStorage =
-          quota.Storage - quota.UsedStorage + item.NowStorage
+        quota.CpuRatio = data.oversoldConfig ? data.oversoldConfig.cpu : 1;
+        quota.MemoryRatio = data.oversoldConfig ? data.oversoldConfig.memory : 1;
+        quota.StorageRatio = data.oversoldConfig ? data.oversoldConfig.storage : 1;
+        quota.Cpu = parseFloat(sizeOfCpu(data.resources.capacity.cpu)) * quota.CpuRatio;
+        quota.UsedCpu = parseFloat(sizeOfCpu(data.resources.tenantAllocated['limits.cpu']));
+        quota.AllocatedCpu = quota.Cpu - quota.UsedCpu + item.NowCpu;
+        quota.Memory = parseFloat(sizeOfStorage(data.resources.capacity.memory)) * quota.MemoryRatio;
+        quota.UsedMemory = parseFloat(sizeOfStorage(data.resources.tenantAllocated['limits.memory']));
+        quota.AllocatedMemory = quota.Memory - quota.UsedMemory + item.NowMemory;
+        quota.Storage = parseFloat(sizeOfStorage(data.resources.capacity['ephemeral-storage'])) * quota.StorageRatio;
+        quota.UsedStorage = parseFloat(sizeOfStorage(data.resources.tenantAllocated['requests.storage']));
+        quota.AllocatedStorage = quota.Storage - quota.UsedStorage + item.NowStorage;
 
-        if (data.resources.capacity['limits.nvidia.com/gpu'] &&
-          parseInt(data.resources.capacity[`limits.nvidia.com/gpu`]) > 0) {
-          quota.NvidiaGpu =
-            parseFloat(data.resources.capacity['limits.nvidia.com/gpu'])
-          quota.UsedNvidiaGpu = parseFloat(
-            data.resources.tenantAllocated['limits.nvidia.com/gpu'] || 0,
-          )
-          quota.AllocatedNvidiaGpu = quota.NvidiaGpu - quota.UsedNvidiaGpu + (item.NowNvidiaGpu || 0)
+        if (
+          data.resources.capacity['limits.nvidia.com/gpu'] &&
+          parseInt(data.resources.capacity[`limits.nvidia.com/gpu`]) > 0
+        ) {
+          quota.NvidiaGpu = parseFloat(data.resources.capacity['limits.nvidia.com/gpu']);
+          quota.UsedNvidiaGpu = parseFloat(data.resources.tenantAllocated['limits.nvidia.com/gpu'] || 0);
+          quota.AllocatedNvidiaGpu = quota.NvidiaGpu - quota.UsedNvidiaGpu + (item.NowNvidiaGpu || 0);
         }
 
-        if ((data.resources.capacity['tencent.com/vcuda-core'] &&
-          parseInt(data.resources.capacity[`tencent.com/vcuda-core`]) > 0) ||
+        if (
+          (data.resources.capacity['tencent.com/vcuda-core'] &&
+            parseInt(data.resources.capacity[`tencent.com/vcuda-core`]) > 0) ||
           (data.resources.capacity['tencent.com/vcuda-memory'] &&
-            parseInt(data.resources.capacity[`tencent.com/vcuda-memory`]) > 0)) {
-          quota.TkeGpu =
-            parseFloat(data.resources.capacity['tencent.com/vcuda-core'])
-          quota.UsedTkeGpu = parseFloat(
-            data.resources.tenantAllocated['tencent.com/vcuda-core'] || 0,
-          )
-          quota.AllocatedTkeGpu = quota.TkeGpu - quota.UsedTkeGpu + (item.NowTkeGpu || 0)
+            parseInt(data.resources.capacity[`tencent.com/vcuda-memory`]) > 0)
+        ) {
+          quota.TkeGpu = parseFloat(data.resources.capacity['tencent.com/vcuda-core']);
+          quota.UsedTkeGpu = parseFloat(data.resources.tenantAllocated['tencent.com/vcuda-core'] || 0);
+          quota.AllocatedTkeGpu = quota.TkeGpu - quota.UsedTkeGpu + (item.NowTkeGpu || 0);
 
-          quota.TkeMemory =
-            parseFloat(data.resources.capacity['tencent.com/vcuda-memory'])
-          quota.UsedTkeMemory = parseFloat(
-            data.resources.tenantAllocated['tencent.com/vcuda-memory'] || 0,
-          )
-          quota.AllocatedTkeMemory = quota.TkeMemory - quota.UsedTkeMemory + (item.NowTkeMemory || 0)
+          quota.TkeMemory = parseFloat(data.resources.capacity['tencent.com/vcuda-memory']);
+          quota.UsedTkeMemory = parseFloat(data.resources.tenantAllocated['tencent.com/vcuda-memory'] || 0);
+          quota.AllocatedTkeMemory = quota.TkeMemory - quota.UsedTkeMemory + (item.NowTkeMemory || 0);
         }
-        return quota
+        return quota;
       }
-      return null
+      return null;
     },
     m_resource_checkDataWithNS(data, ns) {
       if (!(data && data.metadata)) {
         this.$store.commit('SET_SNACKBAR', {
           text: '缺少元数据',
           color: 'warning',
-        })
-        return false
+        });
+        return false;
       }
       if (!data.metadata.name) {
         this.$store.commit('SET_SNACKBAR', {
           text: '缺少名称',
           color: 'warning',
-        })
-        return false
+        });
+        return false;
       }
       if (!data?.metadata?.namespace) {
-        data.metadata.namespace = ns
+        data.metadata.namespace = ns;
       }
-      return true
+      return true;
     },
     m_resource_addNsToData(data, ns) {
       if (!data?.metadata?.namespace) {
-        data.metadata.namespace = ns
+        data.metadata.namespace = ns;
       }
     },
     m_resource_checkDataWithOutNS(data) {
@@ -195,50 +159,41 @@ const resource = {
         this.$store.commit('SET_SNACKBAR', {
           text: '缺少元数据',
           color: 'warning',
-        })
-        return false
+        });
+        return false;
       }
       if (!data.metadata.name) {
         this.$store.commit('SET_SNACKBAR', {
           text: '缺少名称',
           color: 'warning',
-        })
-        return false
+        });
+        return false;
       }
-      return true
+      return true;
     },
     m_resource_checkManifestCompleteness(djson) {
       if (djson.kind === 'PersistentVolumeClaim') {
-        if (
-          !djson.spec.storageClassName ||
-          (djson.spec.storageClassName && djson.spec.storageClassName === '')
-        ) {
-          return false
+        if (!djson.spec.storageClassName || (djson.spec.storageClassName && djson.spec.storageClassName === '')) {
+          return false;
         }
       } else if (djson.kind === 'Ingress') {
-        if (
-          !djson.spec.ingressClassName ||
-          (djson.spec.ingressClassName && djson.spec.ingressClassName === '')
-        ) {
-          return false
+        if (!djson.spec.ingressClassName || (djson.spec.ingressClassName && djson.spec.ingressClassName === '')) {
+          return false;
         }
       }
-      return true
+      return true;
     },
     m_resource_beautifyData(data) {
-      const newdata = {}
+      const newdata = {};
       for (var item in data) {
-        if (data[item] === null) continue
-        if (
-          ['pause', 'selfSigned', 'emptyDir'].indexOf(item) > -1 &&
-          JSON.stringify(data[item]) === '{}'
-        ) {
-          newdata[item] = {}
+        if (data[item] === null) continue;
+        if (['pause', 'selfSigned', 'emptyDir'].indexOf(item) > -1 && JSON.stringify(data[item]) === '{}') {
+          newdata[item] = {};
         }
-        if (JSON.stringify(data[item]) === '[]') continue
-        if (data[item] === '') continue
+        if (JSON.stringify(data[item]) === '[]') continue;
+        if (data[item] === '') continue;
         if (typeof data[item] === 'string') {
-          data[item] = data[item].trim()
+          data[item] = data[item].trim();
           if (
             data[item] !== '' &&
             !isNaN(data[item]) &&
@@ -252,56 +207,45 @@ const resource = {
               'prefix',
             ].indexOf(item) === -1
           ) {
-            newdata[item] = parseFloat(data[item])
+            newdata[item] = parseFloat(data[item]);
           } else {
             if (data[item] === 'true') {
-              newdata[item] = true
+              newdata[item] = true;
             } else if (data[item] === 'false') {
-              newdata[item] = false
+              newdata[item] = false;
             } else {
-              newdata[item] = data[item]
+              newdata[item] = data[item];
             }
           }
         } else if (data[item] instanceof Array) {
-          if (
-            ['env', 'command', 'args', 'finalizers', 'managedFields'].indexOf(
-              item,
-            ) > -1
-          ) {
-            newdata[item] = data[item]
+          if (['env', 'command', 'args', 'finalizers', 'managedFields'].indexOf(item) > -1) {
+            newdata[item] = data[item];
           } else {
-            newdata[item] = []
+            newdata[item] = [];
             data[item].forEach((d) => {
               if (typeof d === 'object') {
-                newdata[item].push(this.m_resource_beautifyData(d))
+                newdata[item].push(this.m_resource_beautifyData(d));
               } else {
-                newdata[item].push(d)
+                newdata[item].push(d);
               }
-            })
+            });
           }
         } else if (data[item] instanceof Object) {
           // if (JSON.stringify(data[item]) === '{}') continue
           if (
-            [
-              'annotations',
-              'labels',
-              'matchLabels',
-              'data',
-              'status',
-              'selector',
-              'nodeSelector',
-              'dnsConfig',
-            ].indexOf(item) === -1
+            ['annotations', 'labels', 'matchLabels', 'data', 'status', 'selector', 'nodeSelector', 'dnsConfig'].indexOf(
+              item,
+            ) === -1
           ) {
-            newdata[item] = this.m_resource_beautifyData(data[item])
+            newdata[item] = this.m_resource_beautifyData(data[item]);
           } else {
-            newdata[item] = data[item]
+            newdata[item] = data[item];
           }
         } else {
-          newdata[item] = data[item]
+          newdata[item] = data[item];
         }
       }
-      return newdata
+      return newdata;
     },
     m_resource_getPodStatus(podItem) {
       /*
@@ -310,62 +254,55 @@ const resource = {
       以上，容器真实状态判断函数如下
       */
       if (podItem.metadata.deletionTimestamp) {
-        return 'Terminating'
+        return 'Terminating';
       }
       if (!podItem.status.containerStatuses) {
-        return podItem.status.reason
-          ? podItem.status.reason
-          : podItem.status.phase
+        return podItem.status.reason ? podItem.status.reason : podItem.status.phase;
       }
-      let st = 'Running'
+      let st = 'Running';
       podItem.status.containerStatuses.forEach((con) => {
         if (con.state.waiting) {
-          st = con.state.waiting.reason
+          st = con.state.waiting.reason;
         } else if (con.state.terminated) {
-          st = con.state.terminated.reason
+          st = con.state.terminated.reason;
         }
-      })
-      return st
+      });
+      return st;
     },
     m_resource_getWorkloadStatus(kind, item) {
-      if (!item) return ''
+      if (!item) return '';
       if (kind !== 'DaemonSet') {
-        if (
-          (item.status.availableReplicas || item.status.readyReplicas || 0) <
-          item.spec.replicas
-        ) {
-          return 'pending'
+        if ((item.status.availableReplicas || item.status.readyReplicas || 0) < item.spec.replicas) {
+          return 'pending';
         } else {
-          return 'ready'
+          return 'ready';
         }
       } else {
-        if (
-          (item.status.numberReady || 0) < item.status.currentNumberScheduled
-        ) {
-          return 'pending'
+        if ((item.status.numberReady || 0) < item.status.currentNumberScheduled) {
+          return 'pending';
         } else {
-          return 'ready'
+          return 'ready';
         }
       }
     },
     m_resource_validateJsonSchema(schema, data) {
-      const ajv = new Ajv()
-      const validate = ajv.compile(schema)
-      const valid = validate(data)
+      const ajv = new Ajv();
+      const validate = ajv.compile(schema);
+      const valid = validate(data);
       if (!valid) {
         this.$store.commit('SET_SNACKBAR', {
           text: `不是正确的K8S yaml格式，请补充必要字段或填写正确的数据格式，错误提示：${validate.errors
             .map((err) => {
-              return `路径${err.instancePath} ${err.message}`
+              return `路径${err.instancePath} ${err.message}`;
             })
             .join(',')}`,
           color: 'warning',
-        })
-        return false
+        });
+        return false;
       }
-      return true
+      return true;
     },
   },
-}
+};
 
-export default resource
+export default resource;

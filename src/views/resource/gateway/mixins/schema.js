@@ -66,8 +66,8 @@ const schema = {
         },
         additionalProperties: true,
       },
-    }
+    };
   },
-}
+};
 
-export default schema
+export default schema;

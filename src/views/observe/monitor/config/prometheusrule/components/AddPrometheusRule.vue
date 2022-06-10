@@ -1,18 +1,12 @@
 <template>
-  <BaseDialog
-    v-model="dialog"
-    :width="1000"
-    title="创建告警规则"
-    icon="mdi-ruler"
-    @reset="reset"
-  >
+  <BaseDialog v-model="dialog" :width="1000" title="创建告警规则" icon="mdi-ruler" @reset="reset">
     <template #content>
       <component
         :is="formComponent"
         :ref="formComponent"
         :step="step"
         :mode="mode"
-        :title="`${mode==='metrics'?'PrometheusRule':'LogRule'}`"
+        :title="`${mode === 'metrics' ? 'PrometheusRule' : 'LogRule'}`"
         :expr="expr"
       />
     </template>
@@ -27,22 +21,10 @@
       >
         确定
       </v-btn>
-      <v-btn
-        v-if="step >= 0 && step < totalStep - 1"
-        class="float-right mx-2"
-        color="primary"
-        text
-        @click="nextStep"
-      >
+      <v-btn v-if="step >= 0 && step < totalStep - 1" class="float-right mx-2" color="primary" text @click="nextStep">
         下一步
       </v-btn>
-      <v-btn
-        v-if="step > 0 && step <= totalStep - 1"
-        class="float-right mx-2"
-        color="primary"
-        text
-        @click="lastStep"
-      >
+      <v-btn v-if="step > 0 && step <= totalStep - 1" class="float-right mx-2" color="primary" text @click="lastStep">
         上一步
       </v-btn>
     </template>
@@ -50,117 +32,103 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
-import { postAddPrometheusRule, postAddLogAlertRule } from '@/api'
-import PrometheusRuleBaseForm from './PrometheusRuleBaseForm'
-import BaseResource from '@/mixins/resource'
-import { deepCopy } from '@/utils/helpers'
+  import { mapGetters, mapState } from 'vuex';
+  import { postAddPrometheusRule, postAddLogAlertRule } from '@/api';
+  import PrometheusRuleBaseForm from './PrometheusRuleBaseForm';
+  import BaseResource from '@/mixins/resource';
+  import { deepCopy } from '@/utils/helpers';
 
-export default {
-  name: 'PrometheusRule',
-  components: {
-    PrometheusRuleBaseForm,
-  },
-  mixins: [BaseResource],
-  props: {
-    mode: {
-      type: String,
-      default: () => 'monitor',
+  export default {
+    name: 'PrometheusRule',
+    components: {
+      PrometheusRuleBaseForm,
     },
-    expr: {
-      type: String,
-      default: () => '',
+    mixins: [BaseResource],
+    props: {
+      mode: {
+        type: String,
+        default: () => 'monitor',
+      },
+      expr: {
+        type: String,
+        default: () => '',
+      },
     },
-  },
-  data: () => ({
-    dialog: false,
-    formComponent: 'PrometheusRuleBaseForm',
-    step: 0,
-    totalStep: 2,
-  }),
-  computed: {
-    ...mapState(['Circular', 'AdminViewport']),
-    ...mapGetters(['Project', 'Environment']),
-  },
-  methods: {
-    // eslint-disable-next-line vue/no-unused-properties
-    open() {
-      this.dialog = true
+    data: () => ({
+      dialog: false,
+      formComponent: 'PrometheusRuleBaseForm',
+      step: 0,
+      totalStep: 2,
+    }),
+    computed: {
+      ...mapState(['Circular', 'AdminViewport']),
+      ...mapGetters(['Project', 'Environment']),
     },
-    // 增加初始值
-    // eslint-disable-next-line vue/no-unused-properties
-    init(initData) {
-      this.$nextTick(() => {
-        this.$refs[this.formComponent].setData(initData)
-        this.$refs[this.formComponent].getInhibitLabels()
-      })
-    },
-    async addPrometheusRule() {
-      if (this.$refs[this.formComponent].validate()) {
-        const obj = deepCopy(this.$refs[this.formComponent].getData())
+    methods: {
+      // eslint-disable-next-line vue/no-unused-properties
+      open() {
+        this.dialog = true;
+      },
+      // 增加初始值
+      // eslint-disable-next-line vue/no-unused-properties
+      init(initData) {
+        this.$nextTick(() => {
+          this.$refs[this.formComponent].setData(initData);
+          this.$refs[this.formComponent].getInhibitLabels();
+        });
+      },
+      async addPrometheusRule() {
+        if (this.$refs[this.formComponent].validate()) {
+          const obj = deepCopy(this.$refs[this.formComponent].getData());
 
-        if (this.mode === 'monitor') {
-          // 移除labelpairs中的空值
-          for (const key in obj.labelpairs) {
-            if (!obj.labelpairs[key]) {
-              delete obj.labelpairs[key]
+          if (this.mode === 'monitor') {
+            // 移除labelpairs中的空值
+            for (const key in obj.labelpairs) {
+              if (!obj.labelpairs[key]) {
+                delete obj.labelpairs[key];
+              }
             }
+
+            await postAddPrometheusRule(this.$route.query.cluster, this.$route.query.namespace, obj);
+          } else if (this.mode === 'logging') {
+            await postAddLogAlertRule(this.$route.query.cluster, this.$route.query.namespace, obj);
           }
-
-          await postAddPrometheusRule(
-            this.$route.query.cluster,
-            this.$route.query.namespace,
-            obj,
-          )
-        } else if (this.mode === 'logging') {
-          await postAddLogAlertRule(
-            this.$route.query.cluster,
-            this.$route.query.namespace,
-            obj,
-          )
+          this.reset();
+          this.$emit('refresh');
         }
-        this.reset()
-        this.$emit('refresh')
-      }
-    },
+      },
 
-    lastStep() {
-      if (this.step > 0) {
-        const data = this.$refs[this.formComponent].getData()
-        this.step -= 1
-        this.$nextTick(() => {
-          this.$refs[this.formComponent].back(data)
-        })
-      }
-    },
-    nextStep() {
-      if (
-        this.step < this.totalStep - 1 &&
-        this.$refs[this.formComponent].validate()
-      ) {
-        const data = this.$refs[this.formComponent].getData()
-        if (
-          !data.alertLevels ||
-          (data.alertLevels && data.alertLevels.length === 0)
-        ) {
-          this.$store.commit('SET_SNACKBAR', {
-            text: '请添加告警级别',
-            color: 'warning',
-          })
-          return
+      lastStep() {
+        if (this.step > 0) {
+          const data = this.$refs[this.formComponent].getData();
+          this.step -= 1;
+          this.$nextTick(() => {
+            this.$refs[this.formComponent].back(data);
+          });
         }
-        this.step += 1
-        this.$nextTick(() => {
-          this.$refs[this.formComponent].init(data)
-        })
-      }
+      },
+      nextStep() {
+        if (this.step < this.totalStep - 1 && this.$refs[this.formComponent].validate()) {
+          const data = this.$refs[this.formComponent].getData();
+          if (!data.alertLevels || (data.alertLevels && data.alertLevels.length === 0)) {
+            this.$store.commit('SET_SNACKBAR', {
+              text: '请添加告警级别',
+              color: 'warning',
+            });
+            return;
+          }
+          this.step += 1;
+          this.$nextTick(() => {
+            this.$refs[this.formComponent].init(data);
+          });
+        }
+      },
+      reset() {
+        this.dialog = false;
+        this.$refs[this.formComponent].reset();
+        this.step = 0;
+        this.formComponent = 'PrometheusRuleBaseForm';
+      },
     },
-    reset() {
-      this.dialog = false
-      this.$refs[this.formComponent].reset()
-      this.step = 0
-      this.formComponent = 'PrometheusRuleBaseForm'
-    },
-  },
-}
+  };
 </script>

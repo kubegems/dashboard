@@ -32,10 +32,7 @@
               <v-icon v-else right>fas fa-angle-down</v-icon>
             </v-btn>
           </template>
-          <v-data-iterator
-            :items="[{ text: '集群', values: m_select_clusterItems }]"
-            hide-default-footer
-          >
+          <v-data-iterator :items="[{ text: '集群', values: m_select_clusterItems }]" hide-default-footer>
             <template #no-data>
               <v-card>
                 <v-card-text> 暂无集群 </v-card-text>
@@ -54,11 +51,7 @@
                       :key="index"
                       class="text-body-2 text-center font-weight-medium px-2"
                       link
-                      :style="
-                        cluster.text === Cluster().ClusterName
-                          ? `color: #1e88e5 !important;`
-                          : ``
-                      "
+                      :style="cluster.text === Cluster().ClusterName ? `color: #1e88e5 !important;` : ``"
                       @click="setCluster(cluster)"
                     >
                       <v-list-item-content class="text-body-2 font-weight-medium text-start">
@@ -86,57 +79,57 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import BaseResource from '@/mixins/resource'
-import BaseSelect from '@/mixins/select'
+  import { mapGetters } from 'vuex';
+  import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
 
-export default {
-  name: 'BaseClusterHeader',
-  mixins: [BaseSelect, BaseResource],
-  inject: ['reload'],
-  props: {
-    selectable: {
-      type: Boolean,
-      default: () => true,
+  export default {
+    name: 'BaseClusterHeader',
+    mixins: [BaseSelect, BaseResource],
+    inject: ['reload'],
+    props: {
+      selectable: {
+        type: Boolean,
+        default: () => true,
+      },
     },
-  },
-  data: () => ({
-    clusterMenu: false,
-    loading: false,
-  }),
-  computed: {
-    ...mapGetters(['Cluster']),
-  },
-  methods: {
-    async setCluster(item) {
-      this.$store.commit('SET_NAMESPACE_FILTER', null)
-      await this.$router.replace({
-        params: { cluster: item.text },
-        query: {
-          ...this.$route.query,
-          ...{ namespace: null },
-          ...{ page: 1 },
-        },
-      })
-      await this.$store.dispatch('UPDATE_CLUSTER_DATA')
-      this.reload()
+    data: () => ({
+      clusterMenu: false,
+      loading: false,
+    }),
+    computed: {
+      ...mapGetters(['Cluster']),
     },
-    async getCluster() {
-      this.loading = true
-      await this.m_select_clusterSelectData(null)
-      this.loading = false
+    methods: {
+      async setCluster(item) {
+        this.$store.commit('SET_NAMESPACE_FILTER', null);
+        await this.$router.replace({
+          params: { cluster: item.text },
+          query: {
+            ...this.$route.query,
+            ...{ namespace: null },
+            ...{ page: 1 },
+          },
+        });
+        await this.$store.dispatch('UPDATE_CLUSTER_DATA');
+        this.reload();
+      },
+      async getCluster() {
+        this.loading = true;
+        await this.m_select_clusterSelectData(null);
+        this.loading = false;
+      },
     },
-  },
-}
+  };
 </script>
 
 <style lang="scss" scoped>
-.cluster-header__bg {
-  z-index: auto !important;
-}
+  .cluster-header__bg {
+    z-index: auto !important;
+  }
 
-.header__list {
-  max-height: 250px;
-  overflow-y: auto;
-}
+  .header__list {
+    max-height: 250px;
+    overflow-y: auto;
+  }
 </style>

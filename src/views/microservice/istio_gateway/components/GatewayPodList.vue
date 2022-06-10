@@ -18,12 +18,9 @@
 
           <span
             :class="`v-avatar mr-2 ${
-              [
-                'ContainerCreating',
-                'Pending',
-                'Terminating',
-                'PodInitializing',
-              ].indexOf(m_resource_getPodStatus(item)) > -1
+              ['ContainerCreating', 'Pending', 'Terminating', 'PodInitializing'].indexOf(
+                m_resource_getPodStatus(item),
+              ) > -1
                 ? 'kubegems__waiting-flashing'
                 : ''
             }`"
@@ -36,8 +33,8 @@
             ({{
               item.status && item.status.containerStatuses
                 ? item.status.containerStatuses.filter((c) => {
-                  return c.ready
-                }).length
+                    return c.ready;
+                  }).length
                 : 0
             }}/{{ item.spec.containers.length }})
           </span>
@@ -49,11 +46,7 @@
           {{ getRestart(item.status.containerStatuses) }}
         </template>
         <template #[`item.age`]="{ item }">
-          {{
-            item.status.startTime
-              ? $moment(item.status.startTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
-              : ''
-          }}
+          {{ item.status.startTime ? $moment(item.status.startTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() : '' }}
         </template>
       </v-data-table>
     </v-card-text>
@@ -61,51 +54,50 @@
 </template>
 
 <script>
-import BaseResource from '@/mixins/resource'
+  import BaseResource from '@/mixins/resource';
 
-export default {
-  name: 'GatewayPodList',
-  mixins: [BaseResource],
-  props: {
-    gateway: {
-      type: Object,
-      default: () => null,
-    },
-  },
-  data() {
-    return {
-      items: [],
-      headers: [
-        { text: '容器组', value: 'name', align: 'start' },
-        { text: '状态', value: 'status', align: 'start', width: 250 },
-        { text: '重启次数', value: 'restart', align: 'start', sortable: false },
-        { text: 'Age', value: 'age', align: 'start' },
-        { text: 'Pod IP', value: 'ip', align: 'start', sortable: false },
-      ],
-    }
-  },
-  watch: {
-    gateway: {
-      handler() {
-        if (this.gateway) {
-          this.items = this.gateway.Pods
-        }
+  export default {
+    name: 'GatewayPodList',
+    mixins: [BaseResource],
+    props: {
+      gateway: {
+        type: Object,
+        default: () => null,
       },
-      deep: true,
-      immediate: true,
     },
-  },
-  methods: {
-    getRestart(containerStatuses) {
-      let sum = 0
-      if (containerStatuses) {
-        containerStatuses.forEach((con) => {
-          sum += con.restartCount
-        })
-      }
-      return sum
+    data() {
+      return {
+        items: [],
+        headers: [
+          { text: '容器组', value: 'name', align: 'start' },
+          { text: '状态', value: 'status', align: 'start', width: 250 },
+          { text: '重启次数', value: 'restart', align: 'start', sortable: false },
+          { text: 'Age', value: 'age', align: 'start' },
+          { text: 'Pod IP', value: 'ip', align: 'start', sortable: false },
+        ],
+      };
     },
-  },
-}
+    watch: {
+      gateway: {
+        handler() {
+          if (this.gateway) {
+            this.items = this.gateway.Pods;
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
+    },
+    methods: {
+      getRestart(containerStatuses) {
+        let sum = 0;
+        if (containerStatuses) {
+          containerStatuses.forEach((con) => {
+            sum += con.restartCount;
+          });
+        }
+        return sum;
+      },
+    },
+  };
 </script>
-

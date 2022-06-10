@@ -1,43 +1,23 @@
 <template>
-  <BaseDialog
-    v-model="dialog"
-    :width="1000"
-    title="创建密钥"
-    icon="mdi-key-variant"
-    @reset="reset"
-  >
+  <BaseDialog v-model="dialog" :width="1000" title="创建密钥" icon="mdi-key-variant" @reset="reset">
     <template #content>
-      <component
-        :is="formComponent"
-        :ref="formComponent"
-        title="Secret"
-      />
+      <component :is="formComponent" :ref="formComponent" title="Secret" />
     </template>
     <template #action>
-      <v-btn
-        class="float-right"
-        color="primary"
-        text
-        :loading="Circular"
-        @click="addSecret"
-      >
-        确定
-      </v-btn>
+      <v-btn class="float-right" color="primary" text :loading="Circular" @click="addSecret"> 确定 </v-btn>
     </template>
     <template #header-action>
       <v-switch
         :key="switchKey"
         v-model="yaml"
         class="ma-0 pl-2 ml-2 mt-1"
-        style="margin-top: 8px !important;"
+        style="margin-top: 8px !important"
         color="white"
         hide-details
         @change="onYamlSwitchChange"
       >
         <template #label>
-          <span class="text-subject-1 white--text font-weight-medium">
-            YAML
-          </span>
+          <span class="text-subject-1 white--text font-weight-medium"> YAML </span>
         </template>
       </v-switch>
     </template>
@@ -45,103 +25,95 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import { postAddSecret } from '@/api'
-import SecretBaseForm from './SecretBaseForm'
-import BaseResource from '@/mixins/resource'
-import SecretSchema from '@/views/resource/secret/mixins/schema'
-import { randomString } from '@/utils/helpers'
+  import { mapState } from 'vuex';
+  import { postAddSecret } from '@/api';
+  import SecretBaseForm from './SecretBaseForm';
+  import BaseResource from '@/mixins/resource';
+  import SecretSchema from '@/views/resource/secret/mixins/schema';
+  import { randomString } from '@/utils/helpers';
 
-export default {
-  name: 'AddSecret',
-  components: {
-    SecretBaseForm,
-  },
-  mixins: [BaseResource, SecretSchema],
-  data: () => ({
-    dialog: false,
-    yaml: false,
-    formComponent: 'SecretBaseForm',
-    switchKey: '',
-  }),
-  computed: {
-    ...mapState(['Circular', 'AdminViewport']),
-  },
-  methods: {
-    // eslint-disable-next-line vue/no-unused-properties
-    open() {
-      this.dialog = true
+  export default {
+    name: 'AddSecret',
+    components: {
+      SecretBaseForm,
     },
-    async addSecret() {
-      if (!this.$refs[this.formComponent]) {
-        return
-      }
-      if (!this.$refs[this.formComponent].checkSaved()) {
-        this.$store.commit('SET_SNACKBAR', {
-          text: '请保存数据',
-          color: 'warning',
-        })
-        return
-      }
-      if (this.$refs[this.formComponent].validate()) {
-        let data = ''
-        if (this.formComponent === 'BaseYamlForm') {
-          data = this.$refs[this.formComponent].getYaml()
-          data = this.$yamlload(data)
-          if (!this.m_resource_validateJsonSchema(this.schema, data)) {
-            return
+    mixins: [BaseResource, SecretSchema],
+    data: () => ({
+      dialog: false,
+      yaml: false,
+      formComponent: 'SecretBaseForm',
+      switchKey: '',
+    }),
+    computed: {
+      ...mapState(['Circular', 'AdminViewport']),
+    },
+    methods: {
+      // eslint-disable-next-line vue/no-unused-properties
+      open() {
+        this.dialog = true;
+      },
+      async addSecret() {
+        if (!this.$refs[this.formComponent]) {
+          return;
+        }
+        if (!this.$refs[this.formComponent].checkSaved()) {
+          this.$store.commit('SET_SNACKBAR', {
+            text: '请保存数据',
+            color: 'warning',
+          });
+          return;
+        }
+        if (this.$refs[this.formComponent].validate()) {
+          let data = '';
+          if (this.formComponent === 'BaseYamlForm') {
+            data = this.$refs[this.formComponent].getYaml();
+            data = this.$yamlload(data);
+            if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+              return;
+            }
+            data = this.m_resource_beautifyData(data);
+          } else if (this.formComponent === 'SecretBaseForm') {
+            data = this.$refs[this.formComponent].getData();
+            data = this.m_resource_beautifyData(data);
           }
-          data = this.m_resource_beautifyData(data)
-        } else if (this.formComponent === 'SecretBaseForm') {
-          data = this.$refs[this.formComponent].getData()
-          data = this.m_resource_beautifyData(data)
+          const namespace = this.AdminViewport ? data?.metadata?.namespace : this.ThisNamespace;
+          if (!this.m_resource_checkDataWithNS(data, namespace)) {
+            return;
+          }
+          await postAddSecret(this.ThisCluster, namespace, data.metadata.name, data);
+          this.reset();
+          this.$emit('refresh');
         }
-        const namespace = this.AdminViewport
-          ? data?.metadata?.namespace
-          : this.ThisNamespace
-        if (!this.m_resource_checkDataWithNS(data, namespace)) {
-          return
+      },
+      onYamlSwitchChange() {
+        if (this.yaml) {
+          const data = this.$refs[this.formComponent].getData();
+          this.m_resource_addNsToData(data, this.AdminViewport ? data?.metadata?.namespace : this.ThisNamespace);
+          this.formComponent = 'BaseYamlForm';
+          this.$nextTick(() => {
+            this.$refs[this.formComponent].setYaml(this.$yamldump(data));
+          });
+        } else {
+          const yaml = this.$refs[this.formComponent].getYaml();
+          const data = this.$yamlload(yaml);
+          this.m_resource_addNsToData(data, this.AdminViewport ? data?.metadata?.namespace : this.ThisNamespace);
+          if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+            this.yaml = true;
+            this.switchKey = randomString(6);
+            return;
+          }
+          this.formComponent = 'SecretBaseForm';
+          this.$nextTick(() => {
+            this.$refs[this.formComponent].setData(data);
+          });
         }
-        await postAddSecret(this.ThisCluster, namespace, data.metadata.name, data)
-        this.reset()
-        this.$emit('refresh')
-      }
+      },
+      reset() {
+        this.dialog = false;
+        this.$refs[this.formComponent].reset();
+        this.formComponent = 'SecretBaseForm';
+        this.yaml = false;
+      },
     },
-    onYamlSwitchChange() {
-      if (this.yaml) {
-        const data = this.$refs[this.formComponent].getData()
-        this.m_resource_addNsToData(
-          data,
-          this.AdminViewport ? data?.metadata?.namespace : this.ThisNamespace,
-        )
-        this.formComponent = 'BaseYamlForm'
-        this.$nextTick(() => {
-          this.$refs[this.formComponent].setYaml(this.$yamldump(data))
-        })
-      } else {
-        const yaml = this.$refs[this.formComponent].getYaml()
-        const data = this.$yamlload(yaml)
-        this.m_resource_addNsToData(
-          data,
-          this.AdminViewport ? data?.metadata?.namespace : this.ThisNamespace,
-        )
-        if (!this.m_resource_validateJsonSchema(this.schema, data)) {
-          this.yaml = true
-          this.switchKey = randomString(6)
-          return
-        }
-        this.formComponent = 'SecretBaseForm'
-        this.$nextTick(() => {
-          this.$refs[this.formComponent].setData(data)
-        })
-      }
-    },
-    reset() {
-      this.dialog = false
-      this.$refs[this.formComponent].reset()
-      this.formComponent = 'SecretBaseForm'
-      this.yaml = false
-    },
-  },
-}
+  };
 </script>

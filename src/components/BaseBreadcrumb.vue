@@ -10,12 +10,7 @@
             <div class="text-subtitle-2 kubegems__text font-weight-medium breadcrumb__font">
               {{ breadcrumb.title }}
             </div>
-            <v-icon
-              v-if="breadcrumb.tip !== undefined"
-              class="breadcrumb__bg mr-1"
-              right
-              small
-            >
+            <v-icon v-if="breadcrumb.tip !== undefined" class="breadcrumb__bg mr-1" right small>
               fas fa-question-circle
             </v-icon>
             <div
@@ -33,53 +28,53 @@
 </template>
 
 <script>
-export default {
-  name: 'BaseBreadcrumb',
-  props: {
-    flat: {
-      type: Boolean,
-      default: () => false,
-    }
-  },
-  computed: {
-    breadcrumb() {
-      return {
-        title: this.$route.meta.title,
-        tip: this.$TIP[this.$route.meta.tip],
-        icon: this.$route.meta.icon,
-      }
+  export default {
+    name: 'BaseBreadcrumb',
+    props: {
+      flat: {
+        type: Boolean,
+        default: () => false,
+      },
     },
-  },
-}
+    computed: {
+      breadcrumb() {
+        return {
+          title: this.$route.meta.title,
+          tip: this.$TIP[this.$route.meta.tip],
+          icon: this.$route.meta.icon,
+        };
+      },
+    },
+  };
 </script>
 
 <style lang="scss" scoped>
-.breadcrumb {
-  &__flex {
-    display: flex;
-  }
+  .breadcrumb {
+    &__flex {
+      display: flex;
+    }
 
-  &__font {
-    line-height: 2rem !important;
+    &__font {
+      line-height: 2rem !important;
 
-    @media (max-width: 1000px) {
-      min-width: 75px;
+      @media (max-width: 1000px) {
+        min-width: 75px;
+      }
+    }
+
+    &__bg {
+      color: rgba(0, 0, 0, 0.6);
+      text-transform: capitalize !important;
+    }
+
+    &__tip {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      @media (max-width: 1000px) {
+        width: 600px;
+      }
     }
   }
-
-  &__bg {
-    color: rgba(0, 0, 0, 0.6);
-    text-transform: capitalize !important;
-  }
-
-  &__tip {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    @media (max-width: 1000px) {
-      width: 600px;
-    }
-  }
-}
 </style>

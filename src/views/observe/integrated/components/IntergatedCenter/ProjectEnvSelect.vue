@@ -18,11 +18,7 @@
         @change="onProjectChange"
       >
         <template #selection="{ item }">
-          <v-chip
-            color="primary"
-            small
-            class="mx-1"
-          >
+          <v-chip color="primary" small class="mx-1">
             {{ item['projectName'] }}
           </v-chip>
         </template>
@@ -46,11 +42,7 @@
         @change="onEnvironmentChange"
       >
         <template #selection="{ item }">
-          <v-chip
-            color="primary"
-            small
-            class="mx-1"
-          >
+          <v-chip color="primary" small class="mx-1">
             {{ item['text'] }}
           </v-chip>
         </template>
@@ -60,41 +52,42 @@
 </template>
 
 <script>
-import BaseSelect from '@/mixins/select'
+  import BaseSelect from '@/mixins/select';
 
-export default {
-  name: 'ProjectEnvSelect',
-  mixins: [BaseSelect],
-  data() {
-    return {
-      projectId: undefined,
-      environmentId: undefined,
-      env: undefined,
-    }
-  },
-  watch: {
-    value: {
-      handler(newValue) {
-        this.env = newValue
+  export default {
+    name: 'ProjectEnvSelect',
+    mixins: [BaseSelect],
+    data() {
+      return {
+        projectId: undefined,
+        environmentId: undefined,
+        env: undefined,
+      };
+    },
+    watch: {
+      value: {
+        handler(newValue) {
+          this.env = newValue;
+        },
+        deep: true,
       },
-      deep: true,
     },
-  },
-  mounted() {
-    this.$nextTick(() => {
-      this.m_select_projectSelectData()
-    })
-  },
-  methods: {
-    onProjectChange() {
-      this.m_select_projectEnvironmentSelectData(this.projectId, false, false)
+    mounted() {
+      this.$nextTick(() => {
+        this.m_select_projectSelectData();
+      });
     },
-    onEnvironmentChange() {
-      this.env = this.m_select_projectEnvironmentItems.find(e => { return e.value === this.environmentId })
-      this.$emit('input', this.env)
-      this.$emit('change', this.env)
+    methods: {
+      onProjectChange() {
+        this.m_select_projectEnvironmentSelectData(this.projectId, false, false);
+      },
+      onEnvironmentChange() {
+        this.env = this.m_select_projectEnvironmentItems.find((e) => {
+          return e.value === this.environmentId;
+        });
+        this.$emit('input', this.env);
+        this.$emit('change', this.env);
+      },
     },
-  },
-}
+  };
 </script>
-

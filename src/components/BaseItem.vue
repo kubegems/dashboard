@@ -17,30 +17,30 @@
 </template>
 
 <script>
-import Themeable from 'vuetify/lib/mixins/themeable'
+  import Themeable from 'vuetify/lib/mixins/themeable';
 
-export default {
-  name: 'BaseItem',
-  mixins: [Themeable],
-  props: {
-    item: {
-      type: Object,
-      default: () => ({
-        href: undefined,
-        icon: undefined,
-        title: undefined,
-        to: undefined,
-      }),
+  export default {
+    name: 'BaseItem',
+    mixins: [Themeable],
+    props: {
+      item: {
+        type: Object,
+        default: () => ({
+          href: undefined,
+          icon: undefined,
+          title: undefined,
+          to: undefined,
+        }),
+      },
+      text: {
+        type: Boolean,
+        default: false,
+      },
     },
-    text: {
-      type: Boolean,
-      default: false,
+    computed: {
+      href() {
+        return this.item.href || (!this.item.to ? '#' : undefined);
+      },
     },
-  },
-  computed: {
-    href() {
-      return this.item.href || (!this.item.to ? '#' : undefined)
-    },
-  },
-}
+  };
 </script>

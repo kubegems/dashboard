@@ -1,33 +1,15 @@
 <template>
   <v-flex>
-    <v-sheet
-      v-for="(item, index) in items"
-      :key="index"
-      class="grey lighten-4 rounded mb-3"
-    >
-      <components
-        :is="itemMap[item.type]"
-        :item="item"
-        @updateConfig="updateConfig"
-        @removeConfig="removeConfig"
-      />
+    <v-sheet v-for="(item, index) in items" :key="index" class="grey lighten-4 rounded mb-3">
+      <components :is="itemMap[item.type]" :item="item" @updateConfig="updateConfig" @removeConfig="removeConfig" />
     </v-sheet>
     <v-flex>
       <v-flex class="grey lighten-4 rounded">
         <v-list-item two-line>
           <v-list-item-content class="py-2">
             <v-list-item-subtitle class="text-body-2 py-0 text-center">
-              <v-btn
-                text
-                color="primary"
-                @click="expandCard"
-              >
-                <v-icon
-                  left
-                  small
-                >
-                  mdi-plus
-                </v-icon>
+              <v-btn text color="primary" @click="expandCard">
+                <v-icon left small> mdi-plus </v-icon>
                 添加告警渠道
               </v-btn>
             </v-list-item-subtitle>
@@ -39,58 +21,58 @@
 </template>
 
 <script>
-import EmailItem from './EmailItem'
-import WebhookItem from './WebhookItem'
+  import EmailItem from './EmailItem';
+  import WebhookItem from './WebhookItem';
 
-export default {
-  name: 'ChannelItem',
-  components: { WebhookItem, EmailItem },
-  props: {
-    obj: {
-      type: Object,
-      default: () => null,
+  export default {
+    name: 'ChannelItem',
+    components: { WebhookItem, EmailItem },
+    props: {
+      obj: {
+        type: Object,
+        default: () => null,
+      },
     },
-  },
-  data: () => ({
-    itemMap: { Email: 'EmailItem', Webhook: 'WebhookItem' },
-  }),
-  computed: {
-    items() {
-      let arr = []
-      if (this.obj.emailConfigs) {
-        arr = arr.concat(
-          this.obj.emailConfigs.map((item, index) => {
-            return { ...item, type: 'Email', index: index }
-          }),
-        )
-      }
-      if (this.obj.webhookConfigs) {
-        arr = arr.concat(
-          this.obj.webhookConfigs.map((item, index) => {
-            return { ...item, type: 'Webhook', index: index }
-          }),
-        )
-      }
-      return arr
+    data: () => ({
+      itemMap: { Email: 'EmailItem', Webhook: 'WebhookItem' },
+    }),
+    computed: {
+      items() {
+        let arr = [];
+        if (this.obj.emailConfigs) {
+          arr = arr.concat(
+            this.obj.emailConfigs.map((item, index) => {
+              return { ...item, type: 'Email', index: index };
+            }),
+          );
+        }
+        if (this.obj.webhookConfigs) {
+          arr = arr.concat(
+            this.obj.webhookConfigs.map((item, index) => {
+              return { ...item, type: 'Webhook', index: index };
+            }),
+          );
+        }
+        return arr;
+      },
     },
-  },
-  methods: {
-    updateConfig(type, index) {
-      this.$emit('updateConfig', type, index)
+    methods: {
+      updateConfig(type, index) {
+        this.$emit('updateConfig', type, index);
+      },
+      removeConfig(type, index) {
+        this.$emit('removeConfig', type, index);
+      },
+      expandCard() {
+        this.$emit('expandCard', 'channelForm');
+      },
     },
-    removeConfig(type, index) {
-      this.$emit('removeConfig', type, index)
-    },
-    expandCard() {
-      this.$emit('expandCard', 'channelForm')
-    },
-  },
-}
+  };
 </script>
 
 <style lang="scss" scoped>
-.white-space {
-  white-space: normal;
-}
+  .white-space {
+    white-space: normal;
+  }
 </style>
 >

@@ -1,46 +1,28 @@
 <template>
-  <v-flex
-    class="float-left"
-  >
-    <v-list-item
-      two-line
-      class="float-left px-0"
-      style="width: 296px;"
-    >
+  <v-flex class="float-left">
+    <v-list-item two-line class="float-left px-0" style="width: 296px">
       <v-list-item-content class="py-0">
-        <v-list-item-title class="text-subtitle-2 py-1">
-          配置
-        </v-list-item-title>
-        <v-list-item-subtitle class="text-body-2 py-1">
-          类型
-        </v-list-item-subtitle>
+        <v-list-item-title class="text-subtitle-2 py-1"> 配置 </v-list-item-title>
+        <v-list-item-subtitle class="text-body-2 py-1"> 类型 </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
-    <v-list-item
-      two-line
-      class="float-left px-0"
-      style="width: 300px;"
-    >
+    <v-list-item two-line class="float-left px-0" style="width: 300px">
       <v-list-item-content class="py-0">
-        <v-list-item-title class="text-subtitle-2 py-1">
-          {{ item.configMap.name }}&nbsp;
-        </v-list-item-title>
-        <v-list-item-subtitle class="text-body-2 py-1">
-          配置
-        </v-list-item-subtitle>
+        <v-list-item-title class="text-subtitle-2 py-1"> {{ item.configMap.name }}&nbsp; </v-list-item-title>
+        <v-list-item-subtitle class="text-body-2 py-1"> 配置 </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
   </v-flex>
 </template>
 
 <script>
-export default {
-  name: 'Configmap',
-  props: {
-    item: {
-      type: Object,
-      default: () => {},
+  export default {
+    name: 'Configmap',
+    props: {
+      item: {
+        type: Object,
+        default: () => {},
+      },
     },
-  },
-}
+  };
 </script>

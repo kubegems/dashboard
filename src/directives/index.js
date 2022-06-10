@@ -1,9 +1,9 @@
-import transferDom from './transfer_dom'
+import transferDom from './transfer_dom';
 
-const directives = {}
+const directives = {};
 
 directives.install = function (Vue) {
-  Vue.directive('transfer-dom', transferDom)
-}
+  Vue.directive('transfer-dom', transferDom);
+};
 
-export default directives
+export default directives;

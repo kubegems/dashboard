@@ -1,11 +1,6 @@
 <template>
   <v-flex>
-    <v-form
-      ref="form"
-      v-model="valid"
-      lazy-validation
-      @submit.prevent
-    >
+    <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
       <v-flex :class="expand ? 'kubegems__overlay' : ''" />
       <BaseSubTitle title="存储卷定义" />
       <v-card-text class="pa-2">
@@ -24,11 +19,7 @@
               @change="onKindChange"
             >
               <template #selection="{ item }">
-                <v-chip
-                  color="primary"
-                  small
-                  class="mx-1"
-                >
+                <v-chip color="primary" small class="mx-1">
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -46,10 +37,7 @@
               :readonly="edit"
             />
           </v-col>
-          <v-col
-            v-if="AdminViewport && !manifest"
-            cols="6"
-          >
+          <v-col v-if="AdminViewport && !manifest" cols="6">
             <v-autocomplete
               v-model="obj.metadata.namespace"
               color="primary"
@@ -63,20 +51,13 @@
               @focus="onNamespaceSelectFocus(ThisCluster)"
             >
               <template #selection="{ item }">
-                <v-chip
-                  color="primary"
-                  small
-                  class="mx-1"
-                >
+                <v-chip color="primary" small class="mx-1">
                   {{ item['text'] }}
                 </v-chip>
               </template>
             </v-autocomplete>
           </v-col>
-          <v-col
-            v-if="!manifest || ThisAppEnvironmentID"
-            cols="6"
-          >
+          <v-col v-if="!manifest || ThisAppEnvironmentID" cols="6">
             <v-autocomplete
               v-model="obj.spec.storageClassName"
               :items="m_select_storageClassItems"
@@ -89,11 +70,7 @@
               @focus="onStorageClassSelectFocus(ThisCluster)"
             >
               <template #selection="{ item }">
-                <v-chip
-                  color="primary"
-                  small
-                  class="mx-1"
-                >
+                <v-chip color="primary" small class="mx-1">
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -112,11 +89,7 @@
               @change="onAccessModeChange"
             >
               <template #selection="{ item }">
-                <v-chip
-                  color="primary"
-                  small
-                  class="mx-1"
-                >
+                <v-chip color="primary" small class="mx-1">
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -134,12 +107,7 @@
         </v-row>
       </v-card-text>
 
-      <LabelForm
-        ref="labelForm"
-        :data="obj.metadata.labels"
-        @addData="addLabelData"
-        @closeOverlay="closeExpand"
-      />
+      <LabelForm ref="labelForm" :data="obj.metadata.labels" @addData="addLabelData" @closeOverlay="closeExpand" />
       <BaseSubTitle title="标签" />
       <v-card-text class="pa-2">
         <LabelItem
@@ -172,276 +140,264 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
-import LabelItem from '@/views/resource/components/label/LabelItem'
-import AnnotationItem from '@/views/resource/components/annotation/AnnotationItem'
-import LabelForm from '@/views/resource/components/label/LabelForm'
-import AnnotationForm from '@/views/resource/components/annotation/AnnotationForm'
-import BaseSelect from '@/mixins/select'
-import BaseResource from '@/mixins/resource'
-import { deepCopy } from '@/utils/helpers'
-import { k8sName, required } from '@/utils/rules'
+  import { mapGetters, mapState } from 'vuex';
+  import LabelItem from '@/views/resource/components/label/LabelItem';
+  import AnnotationItem from '@/views/resource/components/annotation/AnnotationItem';
+  import LabelForm from '@/views/resource/components/label/LabelForm';
+  import AnnotationForm from '@/views/resource/components/annotation/AnnotationForm';
+  import BaseSelect from '@/mixins/select';
+  import BaseResource from '@/mixins/resource';
+  import { deepCopy } from '@/utils/helpers';
+  import { k8sName, required } from '@/utils/rules';
 
-export default {
-  name: 'PersistentVolumeClaimBaseForm',
-  components: { LabelItem, AnnotationItem, LabelForm, AnnotationForm },
-  mixins: [BaseSelect, BaseResource],
-  props: {
-    item: {
-      type: Object,
-      default: () => null,
-    },
-    edit: {
-      type: Boolean,
-      default: () => false,
-    },
-    kind: {
-      type: String,
-      default: () => 'PersistentVolumeClaim',
-    },
-    manifest: {
-      type: Boolean,
-      default: () => false,
-    },
-    kinds: {
-      type: Array,
-      default: () => [],
-    },
-    app: {
-      type: Object,
-      default: () => {},
-    },
-  },
-  data: () => ({
-    valid: false,
-    expand: false,
-    resourceKind: '',
-    accessMode: '',
-    obj: {
-      apiVersion: 'v1',
-      kind: 'PersistentVolumeClaim',
-      metadata: {
-        name: '',
-        namespace: null,
-        labels: {},
-        annotations: {},
+  export default {
+    name: 'PersistentVolumeClaimBaseForm',
+    components: { LabelItem, AnnotationItem, LabelForm, AnnotationForm },
+    mixins: [BaseSelect, BaseResource],
+    props: {
+      item: {
+        type: Object,
+        default: () => null,
       },
-      spec: {
-        accessModes: [],
-        resources: {
-          requests: {
-            storage: '',
-          },
+      edit: {
+        type: Boolean,
+        default: () => false,
+      },
+      kind: {
+        type: String,
+        default: () => 'PersistentVolumeClaim',
+      },
+      manifest: {
+        type: Boolean,
+        default: () => false,
+      },
+      kinds: {
+        type: Array,
+        default: () => [],
+      },
+      app: {
+        type: Object,
+        default: () => {},
+      },
+    },
+    data: () => ({
+      valid: false,
+      expand: false,
+      resourceKind: '',
+      accessMode: '',
+      obj: {
+        apiVersion: 'v1',
+        kind: 'PersistentVolumeClaim',
+        metadata: {
+          name: '',
+          namespace: null,
+          labels: {},
+          annotations: {},
         },
-        storageClassName: '',
+        spec: {
+          accessModes: [],
+          resources: {
+            requests: {
+              storage: '',
+            },
+          },
+          storageClassName: '',
+        },
       },
-    },
-  }),
-  computed: {
-    ...mapState(['Admin', 'AdminViewport', 'ApiResources']),
-    ...mapGetters(['Tenant', 'Cluster', 'Environment']),
-    objRules() {
-      return {
-        nameRule: [
-          required,
-          k8sName,
-        ],
-        namespaceRule: [required],
-        accessModesRule: [required],
-        storageRule: [
-          required,
-          (v) =>
-            !!new RegExp('(^\\d+[K|M|G|T]i$)|(^0$)').test(v) ||
-            '格式错误(示例:1Ki,1Mi,1Gi,1Ti)',
-        ],
-        storageClassNameRule: [required],
-        kindRule: [required],
-      }
-    },
-    storageClass() {
-      if (
-        this.obj.spec.storageClassName &&
-        this.obj.spec.storageClassName !== ''
-      ) {
-        const sc = this.m_select_storageClassItems.find((sc) => {
-          return sc.value === this.obj.spec.storageClassName
-        })
-        if (sc) {
-          return sc.storageClass
-        } else {
-          return null
-        }
-      } else {
-        return null
-      }
-    },
-    accessModes() {
-      if (
-        this.storageClass &&
-        this.storageClass.metadata &&
-        this.storageClass.metadata.annotations &&
-        this.storageClass.metadata.annotations[
-          `storageclass.kubegems.io/supported-access-modes`
-        ]
-      ) {
-        const modes =
-          this.storageClass.metadata.annotations[
-            `storageclass.kubegems.io/supported-access-modes`
-          ].split(',')
-        const accessModes = []
-        modes.forEach((mode) => {
-          if (mode === 'rwo') {
-            accessModes.push({ text: '单节点读写', value: 'ReadWriteOnce' })
-          } else if (mode === 'rox') {
-            accessModes.push({ text: '多节点只读', value: 'ReadOnlyMany' })
-          } else if (mode === 'rwx') {
-            accessModes.push({ text: '多节点读写', value: 'ReadWriteMany' })
-          }
-        })
-        return accessModes
-      } else {
-        return [
-          { text: '单节点读写', value: 'ReadWriteOnce' },
-          { text: '多节点只读', value: 'ReadOnlyMany' },
-          { text: '多节点读写', value: 'ReadWriteMany' },
-        ]
-      }
-    },
-  },
-  watch: {
-    item: {
-      handler() {
-        this.obj.apiVersion = this.ApiResources['persistentvolumeclaim'] || 'v1'
-        this.loadData()
+    }),
+    computed: {
+      ...mapState(['Admin', 'AdminViewport', 'ApiResources']),
+      ...mapGetters(['Tenant', 'Cluster', 'Environment']),
+      objRules() {
+        return {
+          nameRule: [required, k8sName],
+          namespaceRule: [required],
+          accessModesRule: [required],
+          storageRule: [
+            required,
+            (v) => !!new RegExp('(^\\d+[K|M|G|T]i$)|(^0$)').test(v) || '格式错误(示例:1Ki,1Mi,1Gi,1Ti)',
+          ],
+          storageClassNameRule: [required],
+          kindRule: [required],
+        };
       },
-      deep: true,
-      immediate: true,
-    },
-  },
-  methods: {
-    loadData() {
-      this.$nextTick(() => {
-        if (!this.item) {
-          this.$refs.form.resetValidation()
-        } else {
-          this.obj = deepCopy(this.item)
-        }
-
-        if (!this.manifest) {
-          if (this.AdminViewport) {
-            this.m_select_storageClassSelectData(this.ThisCluster)
-            this.m_select_namespaceSelectData(this.ThisCluster)
+      storageClass() {
+        if (this.obj.spec.storageClassName && this.obj.spec.storageClassName !== '') {
+          const sc = this.m_select_storageClassItems.find((sc) => {
+            return sc.value === this.obj.spec.storageClassName;
+          });
+          if (sc) {
+            return sc.storageClass;
           } else {
-            this.obj.metadata.namespace = this.ThisNamespace
+            return null;
           }
         } else {
-          this.obj.metadata.name = `${this.app.ApplicationName}`
+          return null;
         }
+      },
+      accessModes() {
+        if (
+          this.storageClass &&
+          this.storageClass.metadata &&
+          this.storageClass.metadata.annotations &&
+          this.storageClass.metadata.annotations[`storageclass.kubegems.io/supported-access-modes`]
+        ) {
+          const modes =
+            this.storageClass.metadata.annotations[`storageclass.kubegems.io/supported-access-modes`].split(',');
+          const accessModes = [];
+          modes.forEach((mode) => {
+            if (mode === 'rwo') {
+              accessModes.push({ text: '单节点读写', value: 'ReadWriteOnce' });
+            } else if (mode === 'rox') {
+              accessModes.push({ text: '多节点只读', value: 'ReadOnlyMany' });
+            } else if (mode === 'rwx') {
+              accessModes.push({ text: '多节点读写', value: 'ReadWriteMany' });
+            }
+          });
+          return accessModes;
+        } else {
+          return [
+            { text: '单节点读写', value: 'ReadWriteOnce' },
+            { text: '多节点只读', value: 'ReadOnlyMany' },
+            { text: '多节点读写', value: 'ReadWriteMany' },
+          ];
+        }
+      },
+    },
+    watch: {
+      item: {
+        handler() {
+          this.obj.apiVersion = this.ApiResources['persistentvolumeclaim'] || 'v1';
+          this.loadData();
+        },
+        deep: true,
+        immediate: true,
+      },
+    },
+    methods: {
+      loadData() {
+        this.$nextTick(() => {
+          if (!this.item) {
+            this.$refs.form.resetValidation();
+          } else {
+            this.obj = deepCopy(this.item);
+          }
 
-        this.resourceKind = this.kind
-        this.obj.kind = this.kind
-        if (!this.obj.metadata.labels) {
-          this.obj.metadata.labels = {}
+          if (!this.manifest) {
+            if (this.AdminViewport) {
+              this.m_select_storageClassSelectData(this.ThisCluster);
+              this.m_select_namespaceSelectData(this.ThisCluster);
+            } else {
+              this.obj.metadata.namespace = this.ThisNamespace;
+            }
+          } else {
+            this.obj.metadata.name = `${this.app.ApplicationName}`;
+          }
+
+          this.resourceKind = this.kind;
+          this.obj.kind = this.kind;
+          if (!this.obj.metadata.labels) {
+            this.obj.metadata.labels = {};
+          }
+          if (!this.obj.metadata.annotations) {
+            this.obj.metadata.annotations = {};
+          }
+          if (this.obj.spec.accessModes.length > 0) {
+            this.accessMode = this.obj.spec.accessModes[0];
+          }
+        });
+      },
+      addLabelData(data) {
+        this.obj.metadata.labels = data;
+      },
+      addAnnotationData(data) {
+        this.obj.metadata.annotations = data;
+      },
+      onAccessModeChange() {
+        this.obj.spec.accessModes = [this.accessMode];
+      },
+      removeLabels(key) {
+        this.$delete(this.obj.metadata.labels, key);
+      },
+      removeAnnotations(key) {
+        this.$delete(this.obj.metadata.annotations, key);
+      },
+      updateLabels(key) {
+        const data = { key: key, value: this.obj.metadata.labels[key] };
+        this.$nextTick(() => {
+          this.$refs.labelForm.init(data);
+          this.expand = true;
+        });
+      },
+      updateAnnotations(key) {
+        const data = { key: key, value: this.obj.metadata.annotations[key] };
+        this.$nextTick(() => {
+          this.$refs.annotationForm.init(data);
+          this.expand = true;
+        });
+      },
+      expandCard(formComponent) {
+        this.$nextTick(() => {
+          this.$refs[formComponent].expand = true;
+          this.expand = true;
+        });
+      },
+      closeExpand() {
+        this.expand = false;
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      reset() {
+        this.$refs.labelForm.closeCard();
+        this.$refs.annotationForm.closeCard();
+        this.$refs.form.reset();
+        this.obj = this.$options.data().obj;
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      init(data) {
+        this.$nextTick(() => {
+          this.obj = deepCopy(data);
+          if (!this.manifest) {
+            this.m_select_storageClassSelectData(this.ThisCluster);
+          }
+        });
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      back(data) {
+        this.$nextTick(() => {
+          this.obj = deepCopy(data);
+        });
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      checkSaved() {
+        if (this.$refs.labelForm.expand) {
+          return !this.$refs.labelForm.expand;
         }
-        if (!this.obj.metadata.annotations) {
-          this.obj.metadata.annotations = {}
+        if (this.$refs.annotationForm.expand) {
+          return !this.$refs.annotationForm.expand;
         }
-        if (this.obj.spec.accessModes.length > 0) {
-          this.accessMode = this.obj.spec.accessModes[0]
-        }
-      })
+        return true;
+      },
+      onKindChange() {
+        this.$emit('change', this.resourceKind);
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      setData(data) {
+        this.obj = data;
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      getData() {
+        return this.obj;
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      validate() {
+        return this.$refs.form.validate(true);
+      },
+      onNamespaceSelectFocus(clusterName) {
+        this.m_select_namespaceSelectData(clusterName);
+      },
+      onStorageClassSelectFocus(clusterName) {
+        this.m_select_storageClassSelectData(clusterName);
+      },
     },
-    addLabelData(data) {
-      this.obj.metadata.labels = data
-    },
-    addAnnotationData(data) {
-      this.obj.metadata.annotations = data
-    },
-    onAccessModeChange() {
-      this.obj.spec.accessModes = [this.accessMode]
-    },
-    removeLabels(key) {
-      this.$delete(this.obj.metadata.labels, key)
-    },
-    removeAnnotations(key) {
-      this.$delete(this.obj.metadata.annotations, key)
-    },
-    updateLabels(key) {
-      const data = { key: key, value: this.obj.metadata.labels[key] }
-      this.$nextTick(() => {
-        this.$refs.labelForm.init(data)
-        this.expand = true
-      })
-    },
-    updateAnnotations(key) {
-      const data = { key: key, value: this.obj.metadata.annotations[key] }
-      this.$nextTick(() => {
-        this.$refs.annotationForm.init(data)
-        this.expand = true
-      })
-    },
-    expandCard(formComponent) {
-      this.$nextTick(() => {
-        this.$refs[formComponent].expand = true
-        this.expand = true
-      })
-    },
-    closeExpand() {
-      this.expand = false
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    reset() {
-      this.$refs.labelForm.closeCard()
-      this.$refs.annotationForm.closeCard()
-      this.$refs.form.reset()
-      this.obj = this.$options.data().obj
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    init(data) {
-      this.$nextTick(() => {
-        this.obj = deepCopy(data)
-        if (!this.manifest) {
-          this.m_select_storageClassSelectData(this.ThisCluster)
-        }
-      })
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    back(data) {
-      this.$nextTick(() => {
-        this.obj = deepCopy(data)
-      })
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    checkSaved() {
-      if (this.$refs.labelForm.expand) {
-        return !this.$refs.labelForm.expand
-      }
-      if (this.$refs.annotationForm.expand) {
-        return !this.$refs.annotationForm.expand
-      }
-      return true
-    },
-    onKindChange() {
-      this.$emit('change', this.resourceKind)
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    setData(data) {
-      this.obj = data
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    getData() {
-      return this.obj
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    validate() {
-      return this.$refs.form.validate(true)
-    },
-    onNamespaceSelectFocus(clusterName) {
-      this.m_select_namespaceSelectData(clusterName)
-    },
-    onStorageClassSelectFocus(clusterName) {
-      this.m_select_storageClassSelectData(clusterName)
-    },
-  },
-}
+  };
 </script>

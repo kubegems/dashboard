@@ -20,50 +20,50 @@
 </template>
 
 <script>
-import { required } from '@/utils/rules'
+  import { required } from '@/utils/rules';
 
-export default {
-  name: 'TextFieldParam',
-  props: {
-    inputType: {
-      type: String,
-      default: () => '',
+  export default {
+    name: 'TextFieldParam',
+    props: {
+      inputType: {
+        type: String,
+        default: () => '',
+      },
+      label: {
+        type: String,
+        default: () => '',
+      },
+      param: {
+        type: Object,
+        default: () => {},
+      },
+      id: {
+        type: String,
+        default: () => '',
+      },
     },
-    label: {
-      type: String,
-      default: () => '',
+    data() {
+      return {
+        textRule: [required],
+      };
     },
-    param: {
-      type: Object,
-      default: () => {},
+    computed: {
+      pathLevel() {
+        return this.param.path.split('/').length;
+      },
     },
-    id: {
-      type: String,
-      default: () => '',
+    mounted() {
+      this.onChange(this.param.value);
     },
-  },
-  data () {
-    return {
-      textRule: [required],
-    }
-  },
-  computed: {
-    pathLevel() {
-      return this.param.path.split('/').length
+    methods: {
+      onChange(value) {
+        if (this.inputType === 'number' && value) {
+          value = parseFloat(value, 10);
+        }
+        if (value) {
+          this.$emit('changeBasicFormParam', this.param, value);
+        }
+      },
     },
-  },
-  mounted() {
-    this.onChange(this.param.value)
-  },
-  methods: {
-    onChange(value) {
-      if (this.inputType === 'number' && value) {
-        value = parseFloat(value, 10)
-      }
-      if (value) {
-        this.$emit('changeBasicFormParam', this.param, value)
-      }
-    },
-  },
-}
+  };
 </script>

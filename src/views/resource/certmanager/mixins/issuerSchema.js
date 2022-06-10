@@ -43,8 +43,8 @@ const issuerSchema = {
         },
         additionalProperties: true,
       },
-    }
+    };
   },
-}
+};
 
-export default issuerSchema
+export default issuerSchema;

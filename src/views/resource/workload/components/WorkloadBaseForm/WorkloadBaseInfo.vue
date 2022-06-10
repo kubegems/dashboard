@@ -1,10 +1,5 @@
 <template>
-  <v-form
-    ref="form"
-    v-model="valid"
-    lazy-validation
-    @submit.prevent
-  >
+  <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
     <BaseSubTitle title="工作负载定义" />
     <v-card-text class="pa-2">
       <v-row v-if="manifest">
@@ -22,11 +17,7 @@
             @change="onKindChange"
           >
             <template #selection="{ item }">
-              <v-chip
-                color="primary"
-                small
-                class="mx-1"
-              >
+              <v-chip color="primary" small class="mx-1">
                 {{ item['text'] }}
               </v-chip>
             </template>
@@ -46,10 +37,7 @@
             @input="onWorkloadNameInput"
           />
         </v-col>
-        <v-col
-          v-if="AdminViewport && !manifest"
-          cols="6"
-        >
+        <v-col v-if="AdminViewport && !manifest" cols="6">
           <v-autocomplete
             v-model="obj.metadata.namespace"
             color="primary"
@@ -63,11 +51,7 @@
             @focus="onNamespaceSelectFocus(ThisCluster)"
           >
             <template #selection="{ item }">
-              <v-chip
-                color="primary"
-                small
-                class="mx-1"
-              >
+              <v-chip color="primary" small class="mx-1">
                 {{ item['text'] }}
               </v-chip>
             </template>
@@ -97,156 +81,150 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import BaseSelect from '@/mixins/select'
-import BaseResource from '@/mixins/resource'
-import { deepCopy } from '@/utils/helpers'
-import { k8sName, required, positiveInteger } from '@/utils/rules'
+  import { mapState } from 'vuex';
+  import BaseSelect from '@/mixins/select';
+  import BaseResource from '@/mixins/resource';
+  import { deepCopy } from '@/utils/helpers';
+  import { k8sName, required, positiveInteger } from '@/utils/rules';
 
-export default {
-  name: 'WorkloadBaseInfo',
-  mixins: [BaseSelect, BaseResource],
-  props: {
-    item: {
-      type: Object,
-      default: () => null,
-    },
-    edit: {
-      type: Boolean,
-      default: () => false,
-    },
-    kind: {
-      type: String,
-      default: () => '',
-    },
-    manifest: {
-      type: Boolean,
-      default: () => false,
-    },
-    kinds: {
-      type: Array,
-      default: () => [],
-    },
-    app: {
-      type: Object,
-      default: () => {},
-    },
-  },
-  data() {
-    return {
-      valid: false,
-      resourceKind: '',
-      obj: {
-        apiVersion: 'apps/v1',
-        kind: '',
-        metadata: {
-          name: '',
-          namespace: null,
-          labels: {},
-        },
-        spec: {
-          template: {
-            metadata: {
-              labels: {},
-            },
-            spec: {
-              containers: [],
-            },
-          },
-          selector: {
-            matchLabels: {},
-          },
-        },
+  export default {
+    name: 'WorkloadBaseInfo',
+    mixins: [BaseSelect, BaseResource],
+    props: {
+      item: {
+        type: Object,
+        default: () => null,
       },
-    }
-  },
-  computed: {
-    ...mapState(['AdminViewport', 'ApiResources']),
-    objRules() {
+      edit: {
+        type: Boolean,
+        default: () => false,
+      },
+      kind: {
+        type: String,
+        default: () => '',
+      },
+      manifest: {
+        type: Boolean,
+        default: () => false,
+      },
+      kinds: {
+        type: Array,
+        default: () => [],
+      },
+      app: {
+        type: Object,
+        default: () => {},
+      },
+    },
+    data() {
       return {
-        nameRule: [
-          required,
-          k8sName,
-        ],
-        namespaceRule: [required],
-        replicasRule: [
-          positiveInteger,
-          (v) => parseInt(v) >= 0 || '副本数小于0',
-        ],
-        kindRule: [required],
-      }
+        valid: false,
+        resourceKind: '',
+        obj: {
+          apiVersion: 'apps/v1',
+          kind: '',
+          metadata: {
+            name: '',
+            namespace: null,
+            labels: {},
+          },
+          spec: {
+            template: {
+              metadata: {
+                labels: {},
+              },
+              spec: {
+                containers: [],
+              },
+            },
+            selector: {
+              matchLabels: {},
+            },
+          },
+        },
+      };
     },
-  },
-  watch: {
-    item: {
-      handler() {
-        this.obj.apiVersion = this.ApiResources[this.$route.query.type?.toLocaleLowerCase()] || 'apps/v1'
-        this.loadData()
+    computed: {
+      ...mapState(['AdminViewport', 'ApiResources']),
+      objRules() {
+        return {
+          nameRule: [required, k8sName],
+          namespaceRule: [required],
+          replicasRule: [positiveInteger, (v) => parseInt(v) >= 0 || '副本数小于0'],
+          kindRule: [required],
+        };
       },
-      deep: true,
-      immediate: true,
     },
-  },
-  methods: {
-    async loadData() {
-      this.$nextTick(() => {
-        if (!this.manifest) {
-          if (this.AdminViewport) {
-            this.m_select_namespaceSelectData(this.ThisCluster)
+    watch: {
+      item: {
+        handler() {
+          this.obj.apiVersion = this.ApiResources[this.$route.query.type?.toLocaleLowerCase()] || 'apps/v1';
+          this.loadData();
+        },
+        deep: true,
+        immediate: true,
+      },
+    },
+    methods: {
+      async loadData() {
+        this.$nextTick(() => {
+          if (!this.manifest) {
+            if (this.AdminViewport) {
+              this.m_select_namespaceSelectData(this.ThisCluster);
+            } else {
+              this.obj.metadata.namespace = this.ThisNamespace;
+            }
           } else {
-            this.obj.metadata.namespace = this.ThisNamespace
+            this.obj.metadata.name = `${this.app.ApplicationName}`;
           }
-        } else {
-          this.obj.metadata.name = `${this.app.ApplicationName}`
+          this.obj = this.$_.merge(this.obj, deepCopy(this.item));
+          this.resourceKind = this.kind;
+          this.obj.kind = this.kind;
+        });
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      reset() {
+        this.$refs.form.resetValidation();
+        this.obj = this.$options.data().obj;
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      init(data) {
+        this.$nextTick(() => {
+          this.obj = this.$_.merge(this.obj, deepCopy(data));
+        });
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      back(data) {
+        this.$nextTick(() => {
+          this.obj = deepCopy(data);
+        });
+      },
+      onWorkloadNameInput() {
+        this.obj.metadata.labels['app'] = this.obj.metadata.name;
+        this.obj.spec.template.metadata.labels['app'] = this.obj.metadata.name;
+        this.obj.spec.selector.matchLabels['app'] = this.obj.metadata.name;
+      },
+      onKindChange() {
+        this.$emit('change', this.resourceKind);
+      },
+      onNamespaceSelectFocus(clusterName) {
+        this.m_select_namespaceSelectData(clusterName);
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      validate() {
+        return this.$refs.form.validate(true);
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      getData() {
+        return this.obj;
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      checkSaved() {
+        if (Object.prototype.hasOwnProperty.call(this, 'expand')) {
+          return !this.expand;
         }
-        this.obj = this.$_.merge(this.obj, deepCopy(this.item))
-        this.resourceKind = this.kind
-        this.obj.kind = this.kind
-      })
+        return true;
+      },
     },
-    // eslint-disable-next-line vue/no-unused-properties
-    reset() {
-      this.$refs.form.resetValidation()
-      this.obj = this.$options.data().obj
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    init(data) {
-      this.$nextTick(() => {
-        this.obj = this.$_.merge(this.obj, deepCopy(data))
-      })
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    back(data) {
-      this.$nextTick(() => {
-        this.obj = deepCopy(data)
-      })
-    },
-    onWorkloadNameInput() {
-      this.obj.metadata.labels['app'] = this.obj.metadata.name
-      this.obj.spec.template.metadata.labels['app'] = this.obj.metadata.name
-      this.obj.spec.selector.matchLabels['app'] = this.obj.metadata.name
-    },
-    onKindChange() {
-      this.$emit('change', this.resourceKind)
-    },
-    onNamespaceSelectFocus(clusterName) {
-      this.m_select_namespaceSelectData(clusterName)
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    validate() {
-      return this.$refs.form.validate(true)
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    getData() {
-      return this.obj
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    checkSaved() {
-      if (Object.prototype.hasOwnProperty.call(this, 'expand')) {
-        return !this.expand
-      }
-      return true
-    },
-  },
-}
+  };
 </script>

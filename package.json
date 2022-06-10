@@ -65,15 +65,18 @@
     "@vue/cli-plugin-eslint": "^5.0.4",
     "@vue/cli-service": "^5.0.4",
     "babel-core": "^6.26.3",
-    "babel-eslint": "^10.0.3",
     "babel-loader": "^7.1.5",
     "commitizen": "^4.2.4",
     "commitlint": "^13.2.0",
     "conventional-changelog-cli": "^2.1.1",
     "cross-env": "^7.0.3",
     "eslint": "^7.27.0",
+    "vue-eslint-parser": "^9.0.2",
     "eslint-plugin-vue": "^8.4.1",
     "eslint-plugin-vuetify": "^1.1.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-define-config": "^1.5.1",
+    "eslint-plugin-prettier": "^4.0.0",
     "husky": "^7.0.2",
     "lint-staged": "^11.0.0",
     "right-pad": "^1.0.1",
@@ -86,21 +89,8 @@
     "vue-cli-plugin-vuetify": "^2.0.7",
     "vue-cli-plugin-yaml": "^1.0.2",
     "vue-template-compiler": "^2.6.12",
-    "vuetify-loader": "^1.7.3"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {}
+    "vuetify-loader": "^1.7.3",
+    "prettier": "^2.6.2"
   },
   "browserslist": [
     "> 1%",
