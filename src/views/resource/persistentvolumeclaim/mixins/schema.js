@@ -55,15 +55,13 @@ const schema = {
                 required: ['requests'],
                 properties: {
                   requests: {
-                    $id:
-                      '#/properties/spec/properties/resources/properties/requests',
+                    $id: '#/properties/spec/properties/resources/properties/requests',
                     type: 'object',
                     default: {},
                     required: ['storage'],
                     properties: {
                       storage: {
-                        $id:
-                          '#/properties/spec/properties/resources/properties/requests/properties/storage',
+                        $id: '#/properties/spec/properties/resources/properties/requests/properties/storage',
                         type: 'string',
                         default: '',
                       },
@@ -84,8 +82,8 @@ const schema = {
         },
         additionalProperties: true,
       },
-    }
+    };
   },
-}
+};
 
-export default schema
+export default schema;

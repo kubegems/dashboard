@@ -33,19 +33,9 @@
         </v-list-item>
       </template>
       <template #selection="{ item }">
-        <v-chip
-          small
-          dense
-          color="success"
-          class="ma-1"
-        >
+        <v-chip small dense color="success" class="ma-1">
           {{ item }}
-          <v-icon
-            small
-            @click="removeCommand(item)"
-          >
-            mdi-close
-          </v-icon>
+          <v-icon small @click="removeCommand(item)"> mdi-close </v-icon>
         </v-chip>
       </template>
       <template #append-outer><v-flex :id="id" /></template>
@@ -54,63 +44,59 @@
 </template>
 
 <script>
-import BaseSelect from '@/mixins/select'
-import BaseResource from '@/mixins/resource'
+  import BaseSelect from '@/mixins/select';
+  import BaseResource from '@/mixins/resource';
 
-export default {
-  name: 'MultiSelectParamParam',
-  mixins: [BaseSelect, BaseResource],
-  props: {
-    label: {
-      type: String,
-      default: () => '',
+  export default {
+    name: 'MultiSelectParamParam',
+    mixins: [BaseSelect, BaseResource],
+    props: {
+      label: {
+        type: String,
+        default: () => '',
+      },
+      param: {
+        type: Object,
+        default: () => {},
+      },
+      id: {
+        type: String,
+        default: () => '',
+      },
     },
-    param: {
-      type: Object,
-      default: () => {},
+    data: () => ({
+      items: [],
+      selectedItems: [],
+      search: null,
+    }),
+    computed: {
+      pathLevel() {
+        return this.param.path.split('/').length;
+      },
     },
-    id: {
-      type: String,
-      default: () => '',
+    mounted() {
+      // yaml seq 序列转json的array
+      if (this.param.items && this.param.items.enum && this.param.items.enum.length > 0) {
+        const enums = this.param.items.enum;
+        // 去重
+        this.items = [...new Set(enums)];
+      }
+      if (this.param.default && this.param.default.length > 0) {
+        this.selectedItems = this.param.default;
+      }
+      this.onChange(this.selectedItems);
     },
-  },
-  data: () => ({
-    items: [],
-    selectedItems: [],
-    search: null,
-  }),
-  computed: {
-    pathLevel() {
-      return this.param.path.split('/').length
+    methods: {
+      onChange(event) {
+        this.$emit('changeBasicFormParam', this.param, event);
+      },
+      removeCommand(item) {
+        const tmp = this.selectedItems.filter((selectItem) => {
+          return selectItem !== item;
+        });
+        this.selectedItems = tmp;
+        this.$emit('changeBasicFormParam', this.param, this.selectedItems);
+      },
     },
-  },
-  mounted() {
-    // yaml seq 序列转json的array
-    if (
-      this.param.items &&
-      this.param.items.enum &&
-      this.param.items.enum.length > 0
-    ) {
-      const enums = this.param.items.enum
-      // 去重
-      this.items = [...new Set(enums)]
-    }
-    if (this.param.default && this.param.default.length > 0) {
-      this.selectedItems = this.param.default
-    }
-    this.onChange(this.selectedItems)
-  },
-  methods: {
-    onChange(event) {
-      this.$emit('changeBasicFormParam', this.param, event)
-    },
-    removeCommand(item) {
-      const tmp = this.selectedItems.filter((selectItem) => {
-        return selectItem !== item
-      })
-      this.selectedItems = tmp
-      this.$emit('changeBasicFormParam', this.param, this.selectedItems)
-    },
-  },
-}
+  };
 </script>

@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from 'axios';
 
 // 审计列表
 export const getAuditList = (query = {}) =>
@@ -6,4 +6,4 @@ export const getAuditList = (query = {}) =>
     params: Object.assign(query, {
       preload: 'Tenant',
     }),
-  })
+  });

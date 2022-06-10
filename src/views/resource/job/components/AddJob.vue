@@ -1,19 +1,7 @@
 <template>
-  <BaseDialog
-    v-model="dialog"
-    :width="1000"
-    title="创建任务"
-    icon="mdi-repeat-once"
-    @reset="reset"
-  >
+  <BaseDialog v-model="dialog" :width="1000" title="创建任务" icon="mdi-repeat-once" @reset="reset">
     <template #content>
-      <component
-        :is="formComponent"
-        :ref="formComponent"
-        :step="step"
-        title="Job"
-        kind="Job"
-      />
+      <component :is="formComponent" :ref="formComponent" :step="step" title="Job" kind="Job" />
     </template>
     <template #action>
       <v-btn
@@ -50,15 +38,13 @@
         :key="switchKey"
         v-model="yaml"
         class="ma-0 pl-2 ml-2 mt-1"
-        style="margin-top: 8px !important;"
+        style="margin-top: 8px !important"
         color="white"
         hide-details
         @change="onYamlSwitchChange"
       >
         <template #label>
-          <span class="text-subject-1 white--text font-weight-medium">
-            YAML
-          </span>
+          <span class="text-subject-1 white--text font-weight-medium"> YAML </span>
         </template>
       </v-switch>
     </template>
@@ -66,149 +52,137 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import { postAddJob } from '@/api'
-import JobBaseForm from './JobBaseForm'
-import BaseResource from '@/mixins/resource'
-import JobSchema from '@/views/resource/job/mixins/schema'
-import { randomString } from '@/utils/helpers'
+  import { mapState } from 'vuex';
+  import { postAddJob } from '@/api';
+  import JobBaseForm from './JobBaseForm';
+  import BaseResource from '@/mixins/resource';
+  import JobSchema from '@/views/resource/job/mixins/schema';
+  import { randomString } from '@/utils/helpers';
 
-export default {
-  name: 'AddJob',
-  components: {
-    JobBaseForm,
-  },
-  mixins: [BaseResource, JobSchema],
-  data: () => ({
-    dialog: false,
-    yaml: false,
-    formComponent: 'JobBaseForm',
-    step: 0,
-    totalStep: 4,
-    switchKey: '',
-  }),
-  computed: {
-    ...mapState(['Circular']),
-  },
-  methods: {
-    // eslint-disable-next-line vue/no-unused-properties
-    open() {
-      this.dialog = true
+  export default {
+    name: 'AddJob',
+    components: {
+      JobBaseForm,
     },
-    async addJob() {
-      if (this.$refs[this.formComponent].validate()) {
-        let data = ''
-        if (this.formComponent === 'BaseYamlForm') {
-          data = this.$refs[this.formComponent].getYaml()
-          data = this.$yamlload(data)
-          if (!this.m_resource_validateJsonSchema(this.schema, data)) {
-            return
+    mixins: [BaseResource, JobSchema],
+    data: () => ({
+      dialog: false,
+      yaml: false,
+      formComponent: 'JobBaseForm',
+      step: 0,
+      totalStep: 4,
+      switchKey: '',
+    }),
+    computed: {
+      ...mapState(['Circular']),
+    },
+    methods: {
+      // eslint-disable-next-line vue/no-unused-properties
+      open() {
+        this.dialog = true;
+      },
+      async addJob() {
+        if (this.$refs[this.formComponent].validate()) {
+          let data = '';
+          if (this.formComponent === 'BaseYamlForm') {
+            data = this.$refs[this.formComponent].getYaml();
+            data = this.$yamlload(data);
+            if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+              return;
+            }
+            data = this.m_resource_beautifyData(data);
+          } else if (this.formComponent === 'JobBaseForm') {
+            data = this.$refs[this.formComponent].getData();
+            data = this.m_resource_beautifyData(data);
           }
-          data = this.m_resource_beautifyData(data)
-        } else if (this.formComponent === 'JobBaseForm') {
-          data = this.$refs[this.formComponent].getData()
-          data = this.m_resource_beautifyData(data)
+          const namespace = this.AdminViewport ? data?.metadata?.namespace : this.ThisNamespace;
+          if (!this.m_resource_checkDataWithNS(data, namespace)) {
+            return;
+          }
+          await postAddJob(this.ThisCluster, namespace, data.metadata.name, data);
+          this.reset();
+          this.$emit('refresh');
         }
-        const namespace = this.AdminViewport
-          ? data?.metadata?.namespace
-          : this.ThisNamespace
-        if (!this.m_resource_checkDataWithNS(data, namespace)) {
-          return
+      },
+      onYamlSwitchChange() {
+        if (this.yaml) {
+          const data = this.$refs[this.formComponent].getData();
+          this.m_resource_addNsToData(data, this.AdminViewport ? data?.metadata?.namespace : this.ThisNamespace);
+          this.formComponent = 'BaseYamlForm';
+          this.$nextTick(() => {
+            this.$refs[this.formComponent].setYaml(this.$yamldump(data));
+          });
+        } else {
+          const yaml = this.$refs[this.formComponent].getYaml();
+          const data = this.$yamlload(yaml);
+          this.m_resource_addNsToData(data, this.AdminViewport ? data?.metadata?.namespace : this.ThisNamespace);
+          if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+            this.yaml = true;
+            this.switchKey = randomString(6);
+            return;
+          }
+          this.formComponent = 'JobBaseForm';
+          this.$nextTick(() => {
+            this.$refs[this.formComponent].init(data);
+          });
         }
-        await postAddJob(this.ThisCluster, namespace, data.metadata.name, data)
-        this.reset()
-        this.$emit('refresh')
-      }
-    },
-    onYamlSwitchChange() {
-      if (this.yaml) {
-        const data = this.$refs[this.formComponent].getData()
-        this.m_resource_addNsToData(
-          data,
-          this.AdminViewport ? data?.metadata?.namespace : this.ThisNamespace,
-        )
-        this.formComponent = 'BaseYamlForm'
-        this.$nextTick(() => {
-          this.$refs[this.formComponent].setYaml(this.$yamldump(data))
-        })
-      } else {
-        const yaml = this.$refs[this.formComponent].getYaml()
-        const data = this.$yamlload(yaml)
-        this.m_resource_addNsToData(
-          data,
-          this.AdminViewport ? data?.metadata?.namespace : this.ThisNamespace,
-        )
-        if (!this.m_resource_validateJsonSchema(this.schema, data)) {
-          this.yaml = true
-          this.switchKey = randomString(6)
-          return
+      },
+      lastStep() {
+        if (!this.$refs[this.formComponent]) {
+          return;
         }
-        this.formComponent = 'JobBaseForm'
-        this.$nextTick(() => {
-          this.$refs[this.formComponent].init(data)
-        })
-      }
-    },
-    lastStep() {
-      if (!this.$refs[this.formComponent]) {
-        return
-      }
-      if (!this.$refs[this.formComponent].checkSaved()) {
-        this.$store.commit('SET_SNACKBAR', {
-          text: '请保存数据',
-          color: 'warning',
-        })
-        return
-      }
-      if (this.step > 0) {
-        const data = this.$refs[this.formComponent].getData()
-        this.step -= 1
-        this.$nextTick(() => {
-          this.$refs[this.formComponent].back(data)
-        })
-      }
-    },
-    nextStep() {
-      if (!this.$refs[this.formComponent]) {
-        return
-      }
-      if (!this.$refs[this.formComponent].checkSaved()) {
-        this.$store.commit('SET_SNACKBAR', {
-          text: '请保存数据',
-          color: 'warning',
-        })
-        return
-      }
-      if (
-        this.step < this.totalStep - 1 &&
-        this.$refs[this.formComponent].validate()
-      ) {
-        const data = this.$refs[this.formComponent].getData()
-        if (
-          this.step === 1 &&
-          (!data.spec.template.spec.containers ||
-            (data.spec.template.spec.containers &&
-              data.spec.template.spec.containers.length === 0))
-        ) {
+        if (!this.$refs[this.formComponent].checkSaved()) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请添加容器镜像',
+            text: '请保存数据',
             color: 'warning',
-          })
-          return
+          });
+          return;
         }
-        this.step += 1
-        this.$nextTick(() => {
-          this.$refs[this.formComponent].init(data)
-        })
-      }
+        if (this.step > 0) {
+          const data = this.$refs[this.formComponent].getData();
+          this.step -= 1;
+          this.$nextTick(() => {
+            this.$refs[this.formComponent].back(data);
+          });
+        }
+      },
+      nextStep() {
+        if (!this.$refs[this.formComponent]) {
+          return;
+        }
+        if (!this.$refs[this.formComponent].checkSaved()) {
+          this.$store.commit('SET_SNACKBAR', {
+            text: '请保存数据',
+            color: 'warning',
+          });
+          return;
+        }
+        if (this.step < this.totalStep - 1 && this.$refs[this.formComponent].validate()) {
+          const data = this.$refs[this.formComponent].getData();
+          if (
+            this.step === 1 &&
+            (!data.spec.template.spec.containers ||
+              (data.spec.template.spec.containers && data.spec.template.spec.containers.length === 0))
+          ) {
+            this.$store.commit('SET_SNACKBAR', {
+              text: '请添加容器镜像',
+              color: 'warning',
+            });
+            return;
+          }
+          this.step += 1;
+          this.$nextTick(() => {
+            this.$refs[this.formComponent].init(data);
+          });
+        }
+      },
+      reset() {
+        this.dialog = false;
+        this.$refs[this.formComponent].reset();
+        this.step = 0;
+        this.formComponent = 'JobBaseForm';
+        this.yaml = false;
+      },
     },
-    reset() {
-      this.dialog = false
-      this.$refs[this.formComponent].reset()
-      this.step = 0
-      this.formComponent = 'JobBaseForm'
-      this.yaml = false
-    },
-  },
-}
+  };
 </script>

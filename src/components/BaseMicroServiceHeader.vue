@@ -32,10 +32,7 @@
               <v-icon v-else right>fas fa-angle-down</v-icon>
             </v-btn>
           </template>
-          <v-data-iterator
-            :items="[{ text: '虚拟空间', values: m_select_virtualSpaceItems }]"
-            hide-default-footer
-          >
+          <v-data-iterator :items="[{ text: '虚拟空间', values: m_select_virtualSpaceItems }]" hide-default-footer>
             <template #no-data>
               <v-card>
                 <v-card-text> 暂无虚拟空间 </v-card-text>
@@ -54,11 +51,7 @@
                       :key="index"
                       class="text-body-2 text-center font-weight-medium px-2"
                       link
-                      :style="
-                        virtualspace.text === VirtualSpace().VirtualSpaceName
-                          ? `color: #1e88e5 !important;`
-                          : ``
-                      "
+                      :style="virtualspace.text === VirtualSpace().VirtualSpaceName ? `color: #1e88e5 !important;` : ``"
                       @click="setVirtualSpace(virtualspace)"
                     >
                       <v-list-item-content class="text-body-2 font-weight-medium text-start">
@@ -102,9 +95,7 @@
         <span class="text-body-2 kubegems__text">
           虚拟空间角色:
           {{
-            $VIRTUALSPACE_ROLE[m_permisson_virtualSpaceRole]
-              ? $VIRTUALSPACE_ROLE[m_permisson_virtualSpaceRole]
-              : '暂无'
+            $VIRTUALSPACE_ROLE[m_permisson_virtualSpaceRole] ? $VIRTUALSPACE_ROLE[m_permisson_virtualSpaceRole] : '暂无'
           }}
         </span>
         <v-btn text small class="primary--text" @click="returnVirtualSpace">
@@ -117,62 +108,62 @@
 </template>
 
 <script>
-import BaseSelect from '@/mixins/select'
-import { mapGetters } from 'vuex'
-import BaseResource from '@/mixins/resource'
-import BasePermission from '@/mixins/permission'
+  import BaseSelect from '@/mixins/select';
+  import { mapGetters } from 'vuex';
+  import BaseResource from '@/mixins/resource';
+  import BasePermission from '@/mixins/permission';
 
-export default {
-  name: 'BaseMicroServiceHeader',
-  mixins: [BaseSelect, BaseResource, BasePermission],
-  inject: ['reload'],
-  props: {
-    selectable: {
-      type: Boolean,
-      default: () => true,
+  export default {
+    name: 'BaseMicroServiceHeader',
+    mixins: [BaseSelect, BaseResource, BasePermission],
+    inject: ['reload'],
+    props: {
+      selectable: {
+        type: Boolean,
+        default: () => true,
+      },
     },
-  },
-  data: () => ({
-    virtualSpaceMenu: false,
-    loading: false,
-  }),
-  computed: {
-    ...mapGetters(['VirtualSpace']),
-  },
-  methods: {
-    async setVirtualSpace(item) {
-      this.$store.commit('SET_NAMESPACE_FILTER', null)
-      this.$store.commit('SET_ENVIRONMENT_FILTER', null)
-      await this.$store.dispatch('UPDATE_VIRTUALSPACE_DATA')
-      await this.$router.replace({
-        params: { virtualspace: item.text },
-      })
-      this.reload()
+    data: () => ({
+      virtualSpaceMenu: false,
+      loading: false,
+    }),
+    computed: {
+      ...mapGetters(['VirtualSpace']),
     },
-    returnVirtualSpace() {
-      this.$store.commit('CLEAR_VIRTUAL_SPACE')
-      this.$store.commit('SET_NAMESPACE_FILTER', null)
-      this.$store.commit('SET_ENVIRONMENT_FILTER', null)
-      this.$router.push({
-        name: 'virtualspace-list',
-      })
+    methods: {
+      async setVirtualSpace(item) {
+        this.$store.commit('SET_NAMESPACE_FILTER', null);
+        this.$store.commit('SET_ENVIRONMENT_FILTER', null);
+        await this.$store.dispatch('UPDATE_VIRTUALSPACE_DATA');
+        await this.$router.replace({
+          params: { virtualspace: item.text },
+        });
+        this.reload();
+      },
+      returnVirtualSpace() {
+        this.$store.commit('CLEAR_VIRTUAL_SPACE');
+        this.$store.commit('SET_NAMESPACE_FILTER', null);
+        this.$store.commit('SET_ENVIRONMENT_FILTER', null);
+        this.$router.push({
+          name: 'virtualspace-list',
+        });
+      },
+      async getVirtualspace() {
+        this.loading = true;
+        await this.m_select_virtualSpaceSelectData();
+        this.loading = false;
+      },
     },
-    async getVirtualspace() {
-      this.loading = true
-      await this.m_select_virtualSpaceSelectData()
-      this.loading = false
-    },
-  },
-}
+  };
 </script>
 
 <style lang="scss" scoped>
-.micro-service-header__bg {
-  z-index: auto !important;
-}
+  .micro-service-header__bg {
+    z-index: auto !important;
+  }
 
-.header__list {
-  max-height: 250px;
-  overflow-y: auto;
-}
+  .header__list {
+    max-height: 250px;
+    overflow-y: auto;
+  }
 </style>

@@ -45,18 +45,13 @@ const schema = {
                 type: 'array',
                 default: [],
                 items: {
-                  $id:
-                    '#/properties/spec/properties/endpoints/items',
+                  $id: '#/properties/spec/properties/endpoints/items',
                   anyOf: [
                     {
-                      $id:
-                        '#/properties/spec/properties/endpoints/items/anyOf/0',
+                      $id: '#/properties/spec/properties/endpoints/items/anyOf/0',
                       type: 'object',
                       default: {},
-                      oneOf: [
-                        {"required": ["port"]},
-                        {"required": ["targetPort"]},
-                      ],
+                      oneOf: [{ required: ['port'] }, { required: ['targetPort'] }],
                       properties: {
                         port: {
                           $id: '#/properties/spec/properties/endpoints/items/anyOf/0/properties/port',
@@ -99,13 +94,11 @@ const schema = {
                 required: ['matchNames'],
                 properties: {
                   matchNames: {
-                    $id:
-                      '#/properties/spec/properties/namespaceSelector/properties/matchNames',
+                    $id: '#/properties/spec/properties/namespaceSelector/properties/matchNames',
                     type: 'array',
                     default: [],
                     items: {
-                      $id:
-                        '#/properties/spec/properties/namespaceSelector/properties/matchNames/items',
+                      $id: '#/properties/spec/properties/namespaceSelector/properties/matchNames/items',
                     },
                   },
                 },
@@ -118,8 +111,7 @@ const schema = {
                 required: ['matchLabels'],
                 properties: {
                   matchLabels: {
-                    $id:
-                      '#/properties/spec/properties/selector/properties/matchLabels',
+                    $id: '#/properties/spec/properties/selector/properties/matchLabels',
                     type: 'object',
                     default: {},
                     required: [],
@@ -134,8 +126,8 @@ const schema = {
         },
         additionalProperties: true,
       },
-    }
+    };
   },
-}
+};
 
-export default schema
+export default schema;

@@ -16,12 +16,7 @@
     </template>
 
     <template v-for="(child, i) in children">
-      <BaseItemSubGroup
-        v-if="child.children"
-        :key="`sub-group-${i}`"
-        :item="child"
-        class="second-dd"
-      />
+      <BaseItemSubGroup v-if="child.children" :key="`sub-group-${i}`" :item="child" class="second-dd" />
 
       <BaseItem v-else-if="child.meta.show" :key="`item-${i}`" :item="child" text />
     </template>
@@ -29,65 +24,67 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+  import { mapState } from 'vuex';
 
-export default {
-  name: 'BaseItemGroup',
+  export default {
+    name: 'BaseItemGroup',
 
-  inheritAttrs: false,
+    inheritAttrs: false,
 
-  props: {
-    item: {
-      type: Object,
-      default: () => ({
-        avatar: undefined,
-        group: undefined,
-        title: undefined,
-        children: [],
-      }),
-    },
-    subGroup: {
-      type: Boolean,
-      default: false,
-    },
-    text: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  computed: {
-    ...mapState(['Plugins']),
-    children() {
-      return this.item.children
-        .filter(item => {
-          return !item.children && item.meta.show || item.children
-        })
-        .map((item) => ({
-          ...item,
-          to: this.$router.resolve({ name: item.name, params: { ...this.$route.params } }).href,
-      }))
-    },
-    open: {
-      get() {
-        return this.genGroup(this.item.children)
+    props: {
+      item: {
+        type: Object,
+        default: () => ({
+          avatar: undefined,
+          group: undefined,
+          title: undefined,
+          children: [],
+        }),
       },
-      set(val) {
+      subGroup: {
+        type: Boolean,
+        default: false,
+      },
+      text: {
+        type: Boolean,
+        default: false,
       },
     },
-  },
-
-  methods: {
-    genGroup(children) { 
-      return children
-        .map((item) => {
-          let group = `${item.name}`
-
-          if (item.children) {
-            group = `${group}|${this.genGroup(item.children)}`
-          }
-          return group
-        }).indexOf(this.$route.name) > -1
+    computed: {
+      ...mapState(['Plugins']),
+      children() {
+        return this.item.children
+          .filter((item) => {
+            return (!item.children && item.meta.show) || item.children;
+          })
+          .map((item) => ({
+            ...item,
+            to: this.$router.resolve({ name: item.name, params: { ...this.$route.params } }).href,
+          }));
+      },
+      open: {
+        get() {
+          return this.genGroup(this.item.children);
+        },
+        set(val) {},
+      },
     },
-  },
-}
+
+    methods: {
+      genGroup(children) {
+        return (
+          children
+            .map((item) => {
+              let group = `${item.name}`;
+
+              if (item.children) {
+                group = `${group}|${this.genGroup(item.children)}`;
+              }
+              return group;
+            })
+            .indexOf(this.$route.name) > -1
+        );
+      },
+    },
+  };
 </script>

@@ -9,31 +9,15 @@
   >
     <template #[`item.name`]="{ item, index }">
       <v-flex :id="`r${index}`" />
-      <a
-        class="text-subtitle-2"
-        @click="microAppWorkoladDetail(item)"
-      >
+      <a class="text-subtitle-2" @click="microAppWorkoladDetail(item)">
         <v-flex class="float-left">
           {{ item.name }}
         </v-flex>
-        <v-flex
-          v-if="item.istioSidecar"
-          class="float-left ml-2"
-        >
-          <v-menu
-            :attach="`#r${index}`"
-            top
-            open-on-hover
-            :close-delay="200"
-          >
+        <v-flex v-if="item.istioSidecar" class="float-left ml-2">
+          <v-menu :attach="`#r${index}`" top open-on-hover :close-delay="200">
             <template #activator="{ on }">
               <span v-on="on">
-                <Icon
-                  icon="simple-icons:istio"
-                  class="mr-2 primary--text"
-                  width="18px"
-                  height="18px"
-                />
+                <Icon icon="simple-icons:istio" class="mr-2 primary--text" width="18px" height="18px" />
               </span>
             </template>
             <v-card>
@@ -46,12 +30,7 @@
       </a>
     </template>
     <template #[`item.labels`]="{ item }">
-      <BaseCollapseChips
-        v-if="item"
-        :chips="item.labels || {}"
-        single-line
-        icon="mdi-label"
-      />
+      <BaseCollapseChips v-if="item" :chips="item.labels || {}" single-line icon="mdi-label" />
     </template>
     <template #[`item.createdAt`]="{ item }">
       {{ item.createdAt ? $moment(item.createdAt).format('lll') : '' }}
@@ -60,47 +39,47 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
-import BaseResource from '@/mixins/resource'
+  import { mapGetters, mapState } from 'vuex';
+  import BaseResource from '@/mixins/resource';
 
-export default {
-  name: 'WorkloadList',
-  mixins: [BaseResource],
-  props: {
-    workloads: {
-      type: Array,
-      default: () => [],
+  export default {
+    name: 'WorkloadList',
+    mixins: [BaseResource],
+    props: {
+      workloads: {
+        type: Array,
+        default: () => [],
+      },
     },
-  },
-  data() {
-    return {
-      headers: [
-        { text: '名称', value: 'name', align: 'start' },
-        { text: '类型', value: 'type', align: 'start' },
-        { text: '容器组数量', value: 'podCount', align: 'start' },
-        { text: '标签', value: 'labels', align: 'start', width: 500 },
-        { text: '创建时间', value: 'createdAt', align: 'start' },
-      ],
-    }
-  },
-  computed: {
-    ...mapState(['JWT']),
-    ...mapGetters(['VirtualSpace']),
-  },
-  methods: {
-    microAppWorkoladDetail(item) {
-      this.$router.push({
-        name: 'microworkload-detail',
-        params: { name: item.name },
-        query: {
-          type: item.type,
-          namespace: this.$route.query.namespace,
-          cluster: this.$route.query.cluster,
-          environment: this.$route.query.environment,
-          environmentid: this.$route.query.environmentid,
-        },
-      })
+    data() {
+      return {
+        headers: [
+          { text: '名称', value: 'name', align: 'start' },
+          { text: '类型', value: 'type', align: 'start' },
+          { text: '容器组数量', value: 'podCount', align: 'start' },
+          { text: '标签', value: 'labels', align: 'start', width: 500 },
+          { text: '创建时间', value: 'createdAt', align: 'start' },
+        ],
+      };
     },
-  },
-}
+    computed: {
+      ...mapState(['JWT']),
+      ...mapGetters(['VirtualSpace']),
+    },
+    methods: {
+      microAppWorkoladDetail(item) {
+        this.$router.push({
+          name: 'microworkload-detail',
+          params: { name: item.name },
+          query: {
+            type: item.type,
+            namespace: this.$route.query.namespace,
+            cluster: this.$route.query.cluster,
+            environment: this.$route.query.environment,
+            environmentid: this.$route.query.environmentid,
+          },
+        });
+      },
+    },
+  };
 </script>

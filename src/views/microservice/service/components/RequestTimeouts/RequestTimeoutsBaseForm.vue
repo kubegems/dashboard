@@ -1,11 +1,6 @@
 <template>
   <v-flex>
-    <v-form
-      ref="form"
-      v-model="valid"
-      lazy-validation
-      @submit.prevent
-    >
+    <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
       <v-flex :class="expand ? 'kubegems__overlay' : ''" />
       <BaseSubTitle title="请求超时定义" />
       <v-card-text class="pa-2">
@@ -21,10 +16,7 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col
-            v-if="timeout"
-            cols="6"
-          >
+          <v-col v-if="timeout" cols="6">
             <v-text-field
               v-model="obj.timeout"
               class="my-0"
@@ -72,100 +64,92 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
-import BaseSelect from '@/mixins/select'
-import BaseResource from '@/mixins/resource'
-import { deepCopy } from '@/utils/helpers'
-import { required } from '@/utils/rules'
+  import { mapGetters, mapState } from 'vuex';
+  import BaseSelect from '@/mixins/select';
+  import BaseResource from '@/mixins/resource';
+  import { deepCopy } from '@/utils/helpers';
+  import { required } from '@/utils/rules';
 
-export default {
-  name: 'RequestTimeoutsBaseForm',
-  mixins: [BaseSelect, BaseResource],
-  props: {
-    vs: {
-      type: Object,
-      default: () => null,
-    },
-  },
-  data: () => ({
-    valid: false,
-    expand: false,
-    retries: false,
-    timeout: false,
-    retriesDefault: {
-      attempts: 3,
-      perTryTimeout: '2s',
-    },
-    timeoutDefault: '2s',
-    obj: {},
-  }),
-  computed: {
-    ...mapState(['Admin', 'AdminViewport']),
-    ...mapGetters(['Cluster']),
-    objRules() {
-      return {
-        timeoutInputRule: [
-          required,
-          (v) =>
-            !!new RegExp('^\\d+(s|h|m|ms)$').test(v) || '格式错误(示例:整数)',
-        ],
-        perTryTimeoutRule: [
-          required,
-          (v) =>
-            !!new RegExp('^\\d+(s|h|m|ms)$').test(v) || '格式错误(示例:整数)',
-        ],
-        attemptsRule: [required],
-      }
-    },
-  },
-  watch: {
-    vs: {
-      handler: function () {
-        if (this.vs) this.loadData(true)
+  export default {
+    name: 'RequestTimeoutsBaseForm',
+    mixins: [BaseSelect, BaseResource],
+    props: {
+      vs: {
+        type: Object,
+        default: () => null,
       },
-      deep: true,
-      immediate: true,
     },
-  },
-  methods: {
-    loadData(cover = false) {
-      this.$nextTick(() => {
-        if (cover) {
-          this.obj = deepCopy(this.vs)
-          if (this.obj.timeout) this.timeout = true
-          if (this.obj.retries) this.retries = true
+    data: () => ({
+      valid: false,
+      expand: false,
+      retries: false,
+      timeout: false,
+      retriesDefault: {
+        attempts: 3,
+        perTryTimeout: '2s',
+      },
+      timeoutDefault: '2s',
+      obj: {},
+    }),
+    computed: {
+      ...mapState(['Admin', 'AdminViewport']),
+      ...mapGetters(['Cluster']),
+      objRules() {
+        return {
+          timeoutInputRule: [required, (v) => !!new RegExp('^\\d+(s|h|m|ms)$').test(v) || '格式错误(示例:整数)'],
+          perTryTimeoutRule: [required, (v) => !!new RegExp('^\\d+(s|h|m|ms)$').test(v) || '格式错误(示例:整数)'],
+          attemptsRule: [required],
+        };
+      },
+    },
+    watch: {
+      vs: {
+        handler: function () {
+          if (this.vs) this.loadData(true);
+        },
+        deep: true,
+        immediate: true,
+      },
+    },
+    methods: {
+      loadData(cover = false) {
+        this.$nextTick(() => {
+          if (cover) {
+            this.obj = deepCopy(this.vs);
+            if (this.obj.timeout) this.timeout = true;
+            if (this.obj.retries) this.retries = true;
+          }
+        });
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      reset() {
+        this.$refs.form.resetValidation();
+        this.timeout = false;
+        this.retries = false;
+        this.obj = deepCopy(this.$options.data().obj);
+      },
+      onTimeoutChange() {
+        if (this.timeout) {
+          this.obj.timeout = this.timeoutDefault;
+        } else {
+          this.$delete(this.obj, 'timeout');
         }
-      })
+      },
+      onRetriesChange() {
+        if (this.retries) {
+          this.obj.retries = this.retriesDefault;
+        } else {
+          this.$delete(this.obj, 'retries');
+        }
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      getData() {
+        return this.obj;
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      validate() {
+        return this.$refs.form.validate(true);
+      },
     },
-    // eslint-disable-next-line vue/no-unused-properties
-    reset() {
-      this.$refs.form.resetValidation()
-      this.timeout = false
-      this.retries = false
-      this.obj = deepCopy(this.$options.data().obj)
-    },
-    onTimeoutChange() {
-      if (this.timeout) {
-        this.obj.timeout = this.timeoutDefault
-      } else {
-        this.$delete(this.obj, 'timeout')
-      }
-    },
-    onRetriesChange() {
-      if (this.retries) {
-        this.obj.retries = this.retriesDefault
-      } else {
-        this.$delete(this.obj, 'retries')
-      }
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    getData() {
-      return this.obj
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    validate() {
-      return this.$refs.form.validate(true)
-    },
-  },
-}
+  };
 </script>

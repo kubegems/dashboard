@@ -1,4 +1,3 @@
-
 const RESOURCE_CN = {
   applications: '应用',
   node: '节点',
@@ -12,7 +11,7 @@ const RESOURCE_CN = {
   'count/configmaps': '配置',
   'count/secrets': '密钥',
   'count/persistentvolumeclaims': '存储卷',
-}
+};
 const RESOURCE_ICON = {
   applications: 'icon-park-outline:all-application',
   node: 'bx:bxs-server',
@@ -29,7 +28,7 @@ const RESOURCE_ICON = {
   cpu: 'whh:cpualt',
   storage: 'icon-park-outline:cloud-storage',
   memory: 'bx:bxs-memory-card',
-}
+};
 const K8S_RESOURCE_ICON = {
   Node: 'node',
   Deployment: 'deploy',
@@ -64,18 +63,18 @@ const K8S_RESOURCE_ICON = {
   RoleBinding: 'rb',
   EndpointSlice: 'es',
   ControllerRevision: 'controllerrevision',
-}
+};
 export const RESOURCE_SHORT_CN = {
   Deployment: '无状态服务',
   StatefulSet: '有状态服务',
   Daemonset: '守护进程服务',
   Job: '任务',
   CronJob: '定时任务',
-}
+};
 export const ANNOTATION_IGNORE_ARRAY = [
   'kubectl.kubernetes.io/last-applied-configuration',
   'banzaicloud.com/last-applied',
-]
+];
 export const APP_MENIFEST_TAG = {
   ConfigMap: { value: 'cm', form: true },
   PersistentVolumeClaim: { value: 'pvc', form: true },
@@ -97,7 +96,7 @@ export const APP_MENIFEST_TAG = {
   AuthorizationPolicy: { value: 'ap', form: false },
   HorizontalPodAutoscaler: { value: 'hpa', form: false },
   Error: { value: 'error', form: false },
-}
+};
 const ARGO_STATUS_COLOR = {
   Degraded: '#ff5252',
   Unknown: '#607D8B',
@@ -106,21 +105,21 @@ const ARGO_STATUS_COLOR = {
   Suspended: '#4CAF50',
   Missing: '#9E9E9E',
   NoArgoApp: '#607D8B',
-}
+};
 const APP_TASK_STATUS_COLOR = {
   Pending: '#fb8c00',
   Running: '#fb8c00',
   Success: '#4CAF50',
   Error: '#ff5252',
   Unknown: '#607D8B',
-}
+};
 const ARGO_ROLLOUT_STATUS_COLOR = {
   Unknown: '#607D8B',
   Progressing: '#fb8c00',
   Degraded: '#ff5252',
   Healthy: '#00BCD4',
   Paused: '#4CAF50',
-}
+};
 const POD_STATUS_COLOR = {
   Running: '#00BCD4',
   Completed: '#4CAF50',
@@ -136,38 +135,38 @@ const POD_STATUS_COLOR = {
   ErrImageNeverPull: '#ff5252',
   Error: '#ff5252',
   CreateContainerConfigError: '#ff5252',
-}
+};
 const CONTAINER_STATUS_COLOR = {
   Running: '#00BCD4',
   Waiting: '#fb8c00',
   Terminated: '#607D8B',
   Failed: '#ff5252',
-}
+};
 const NODE_STATUS_COLOR = {
   Ready: '#00BCD4',
   DiskPressure: '#fb8c00',
   MemoryPressure: '#fb8c00',
   PIDPressure: '#fb8c00',
   NetworkUnavailable: '#fb8c00',
-}
+};
 const PVC_STATUS_COLOR = {
   true: '#00BCD4',
   false: '#607D8B',
   undefined: '#ff5252',
-}
+};
 const WORKLOAD_STATUS_COLOR = {
   ready: '#00BCD4',
   pending: '#fb8c00',
-}
+};
 const EVENT_STATUS_COLOR = {
   Normal: 'success',
   Warning: 'warning',
-}
+};
 const METATYPE_CN = {
   dev: { cn: '开发', color: 'primary' },
   test: { cn: '测试', color: 'warning' },
   prod: { cn: '生产', color: 'success' },
-}
+};
 
 const LINE_THEME_COLORS = [
   'rgba(0,188,212,.8)',
@@ -182,7 +181,7 @@ const LINE_THEME_COLORS = [
   'rgba(0,180,222,.5)',
   'rgba(0,176,212,.8)',
   'rgba(0,176,212,.5)',
-]
+];
 
 const PROJECT_ROLE = {
   dev: '研发',
@@ -191,7 +190,7 @@ const PROJECT_ROLE = {
   admin: '管理员',
   sys: '系统管理员',
   tenantadmin: '租户管理员',
-}
+};
 
 const RESOURCE_ROLE = {
   operator: '操作成员',
@@ -200,19 +199,19 @@ const RESOURCE_ROLE = {
   tenantadmin: '租户管理员',
   projectadmin: '项目管理员',
   projectops: '项目运维',
-}
+};
 
 const TENANT_ROLE = {
   ordinary: '普通成员',
   admin: '管理员',
   sys: '系统管理员',
-}
+};
 
 const VIRTUALSPACE_ROLE = {
   normal: '普通成员',
   admin: '管理员',
   sys: '系统管理员',
-}
+};
 
 const VENDOR = {
   kubegems: 'Kubegems',
@@ -221,31 +220,31 @@ const VENDOR = {
   gitlab: 'GitLab',
   github: 'GitHub',
   selfhosted: 'Selfhosted',
-}
+};
 
 export default {
   install(Vue) {
-    Vue.prototype.$RESOURCE_CN = RESOURCE_CN
-    Vue.prototype.$RESOURCE_ICON = RESOURCE_ICON
-    Vue.prototype.$K8S_RESOURCE_ICON = K8S_RESOURCE_ICON
-    Vue.prototype.$RESOURCE_SHORT_CN = RESOURCE_SHORT_CN
-    Vue.prototype.$ANNOTATION_IGNORE_ARRAY = ANNOTATION_IGNORE_ARRAY
-    Vue.prototype.$APP_MENIFEST_TAG = APP_MENIFEST_TAG
-    Vue.prototype.$ARGO_STATUS_COLOR = ARGO_STATUS_COLOR
-    Vue.prototype.$APP_TASK_STATUS_COLOR = APP_TASK_STATUS_COLOR
-    Vue.prototype.$ARGO_ROLLOUT_STATUS_COLOR = ARGO_ROLLOUT_STATUS_COLOR
-    Vue.prototype.$POD_STATUS_COLOR = POD_STATUS_COLOR
-    Vue.prototype.$CONTAINER_STATUS_COLOR = CONTAINER_STATUS_COLOR
-    Vue.prototype.$NODE_STATUS_COLOR = NODE_STATUS_COLOR
-    Vue.prototype.$PVC_STATUS_COLOR = PVC_STATUS_COLOR
-    Vue.prototype.$WORKLOAD_STATUS_COLOR = WORKLOAD_STATUS_COLOR
-    Vue.prototype.$EVENT_STATUS_COLOR = EVENT_STATUS_COLOR
-    Vue.prototype.$METATYPE_CN = METATYPE_CN
-    Vue.prototype.$LINE_THEME_COLORS = LINE_THEME_COLORS
-    Vue.prototype.$PROJECT_ROLE = PROJECT_ROLE
-    Vue.prototype.$RESOURCE_ROLE = RESOURCE_ROLE
-    Vue.prototype.$TENANT_ROLE = TENANT_ROLE
-    Vue.prototype.$VIRTUALSPACE_ROLE = VIRTUALSPACE_ROLE
-    Vue.prototype.$VENDOR = VENDOR
+    Vue.prototype.$RESOURCE_CN = RESOURCE_CN;
+    Vue.prototype.$RESOURCE_ICON = RESOURCE_ICON;
+    Vue.prototype.$K8S_RESOURCE_ICON = K8S_RESOURCE_ICON;
+    Vue.prototype.$RESOURCE_SHORT_CN = RESOURCE_SHORT_CN;
+    Vue.prototype.$ANNOTATION_IGNORE_ARRAY = ANNOTATION_IGNORE_ARRAY;
+    Vue.prototype.$APP_MENIFEST_TAG = APP_MENIFEST_TAG;
+    Vue.prototype.$ARGO_STATUS_COLOR = ARGO_STATUS_COLOR;
+    Vue.prototype.$APP_TASK_STATUS_COLOR = APP_TASK_STATUS_COLOR;
+    Vue.prototype.$ARGO_ROLLOUT_STATUS_COLOR = ARGO_ROLLOUT_STATUS_COLOR;
+    Vue.prototype.$POD_STATUS_COLOR = POD_STATUS_COLOR;
+    Vue.prototype.$CONTAINER_STATUS_COLOR = CONTAINER_STATUS_COLOR;
+    Vue.prototype.$NODE_STATUS_COLOR = NODE_STATUS_COLOR;
+    Vue.prototype.$PVC_STATUS_COLOR = PVC_STATUS_COLOR;
+    Vue.prototype.$WORKLOAD_STATUS_COLOR = WORKLOAD_STATUS_COLOR;
+    Vue.prototype.$EVENT_STATUS_COLOR = EVENT_STATUS_COLOR;
+    Vue.prototype.$METATYPE_CN = METATYPE_CN;
+    Vue.prototype.$LINE_THEME_COLORS = LINE_THEME_COLORS;
+    Vue.prototype.$PROJECT_ROLE = PROJECT_ROLE;
+    Vue.prototype.$RESOURCE_ROLE = RESOURCE_ROLE;
+    Vue.prototype.$TENANT_ROLE = TENANT_ROLE;
+    Vue.prototype.$VIRTUALSPACE_ROLE = VIRTUALSPACE_ROLE;
+    Vue.prototype.$VENDOR = VENDOR;
   },
-}
+};

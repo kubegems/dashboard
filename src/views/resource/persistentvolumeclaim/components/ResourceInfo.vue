@@ -1,10 +1,7 @@
 <template>
   <v-card>
     <v-sheet class="pa-2">
-      <BaseListItemForDetail
-        title="存储类型"
-        :mt="0"
-      >
+      <BaseListItemForDetail title="存储类型" :mt="0">
         <template #content>
           {{ pvc ? pvc.spec.storageClassName : '' }}
         </template>
@@ -43,22 +40,12 @@
       <BaseListItemForDetail title="挂载">
         <template #content>
           <span
-            v-if="
-              pvc &&
-                pvc.metadata.annotations &&
-                pvc.metadata.annotations[`storage.kubegems.io/in-use`] === 'true'
-            "
+            v-if="pvc && pvc.metadata.annotations && pvc.metadata.annotations[`storage.kubegems.io/in-use`] === 'true'"
           >
-            <v-icon
-              small
-              color="primary"
-            > fas fa-check-circle </v-icon>
+            <v-icon small color="primary"> fas fa-check-circle </v-icon>
           </span>
           <span v-else>
-            <v-icon
-              small
-              color="error"
-            >fas fa-minus-circle</v-icon>
+            <v-icon small color="error">fas fa-minus-circle</v-icon>
           </span>
         </template>
       </BaseListItemForDetail>
@@ -68,21 +55,14 @@
           <span
             v-if="
               pvc &&
-                pvc.metadata.annotations &&
-                pvc.metadata.annotations[`storage.kubegems.io/allow-snapshot`] ===
-                'true'
+              pvc.metadata.annotations &&
+              pvc.metadata.annotations[`storage.kubegems.io/allow-snapshot`] === 'true'
             "
           >
-            <v-icon
-              small
-              color="primary"
-            > fas fa-check-circle </v-icon>
+            <v-icon small color="primary"> fas fa-check-circle </v-icon>
           </span>
           <span v-else>
-            <v-icon
-              small
-              color="error"
-            >fas fa-minus-circle</v-icon>
+            <v-icon small color="error">fas fa-minus-circle</v-icon>
           </span>
         </template>
       </BaseListItemForDetail>
@@ -91,30 +71,30 @@
 </template>
 
 <script>
-import BaseResource from '@/mixins/resource'
-import { deepCopy } from '@/utils/helpers'
+  import BaseResource from '@/mixins/resource';
+  import { deepCopy } from '@/utils/helpers';
 
-export default {
-  name: 'ResourceInfo',
-  mixins: [BaseResource],
-  props: {
-    item: {
-      type: Object,
-      default: () => null,
+  export default {
+    name: 'ResourceInfo',
+    mixins: [BaseResource],
+    props: {
+      item: {
+        type: Object,
+        default: () => null,
+      },
     },
-  },
-  data() {
-    return {
-      pvc: null,
-    }
-  },
-  watch: {
-    item() {
-      this.pvc = deepCopy(this.item)
+    data() {
+      return {
+        pvc: null,
+      };
     },
-  },
-  mounted() {
-    if (this.item) this.pvc = deepCopy(this.item)
-  },
-}
+    watch: {
+      item() {
+        this.pvc = deepCopy(this.item);
+      },
+    },
+    mounted() {
+      if (this.item) this.pvc = deepCopy(this.item);
+    },
+  };
 </script>

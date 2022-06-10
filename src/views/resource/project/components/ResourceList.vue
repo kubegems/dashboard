@@ -1,11 +1,7 @@
 <template>
   <v-card class="mt-6">
     <v-card-text class="pa-0">
-      <BaseSubTitle
-        class="pt-2"
-        title="资源统计"
-        :divider="false"
-      />
+      <BaseSubTitle class="pt-2" title="资源统计" :divider="false" />
       <div class="kubegems__clear-float" />
       <v-row class="pa-3 mt-2">
         <v-col
@@ -17,12 +13,7 @@
           align="center"
         >
           <div class="d-flex align-center justify-center">
-            <Icon
-              :icon="$RESOURCE_ICON[key]"
-              class="mr-6 primary--text"
-              width="40px"
-              height="40px"
-            />
+            <Icon :icon="$RESOURCE_ICON[key]" class="mr-6 primary--text" width="40px" height="40px" />
             <div class="mx-2 text-width">
               <h2 class="text-h5">
                 {{ quota[key] }}
@@ -39,26 +30,26 @@
 </template>
 
 <script>
-import BaseResource from '@/mixins/resource'
+  import BaseResource from '@/mixins/resource';
 
-export default {
-  name: 'ResourceList',
-  mixins: [BaseResource],
-  props: {
-    resources: {
-      type: Array,
-      default: () => [],
+  export default {
+    name: 'ResourceList',
+    mixins: [BaseResource],
+    props: {
+      resources: {
+        type: Array,
+        default: () => [],
+      },
+      quota: {
+        type: Object,
+        default: () => {},
+      },
     },
-    quota: {
-      type: Object,
-      default: () => {},
-    },
-  },
-}
+  };
 </script>
 
 <style lang="scss" scoped>
-.text-width {
-  width: 100px;
-}
+  .text-width {
+    width: 100px;
+  }
 </style>
