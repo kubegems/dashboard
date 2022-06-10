@@ -2,7 +2,7 @@
   <BaseDialog
     v-model="dialog"
     :width="1000"
-    title="创建应用"
+    :title="isCreate ? `创建配置项`: `编辑配置项` "
     icon="mdi-wrench"
     @reset="reset"
   >
@@ -65,7 +65,7 @@
         <ACEEditor
           v-model="editItem.value"
           class="rounded-b mb-4"
-          :lang="format"
+          :lang="suffix"
           :height="600"
           @init="$aceinit"
           @keydown.stop
@@ -120,28 +120,15 @@ export default {
       },
       suffix: '',
       suffixItems: [
+        {text: 'text', value: 'text'},
         {text: 'json', value: 'json'},
         {text: 'xml', value: 'xml'},
         {text: 'yaml', value: 'yaml'},
         {text: 'html', value: 'html'},
         {text: 'ini', value: 'ini'},
+        {text: 'properties', value: 'properties'},
       ],
     }
-  },
-  computed: {
-    format() {
-      const seps = this.editItem.key.split(".")
-      if (seps.length === 1) {
-        return "text"
-      } else {
-        const f = seps[seps.length - 1]
-        if (["json", "xml", "yaml", "html", "properties", "ini"].includes(f.toLowerCase())) {
-          return f
-        } else {
-          return "text"
-        }
-      }
-    },
   },
   watch: {
     showEditDialog(val) {
@@ -169,7 +156,6 @@ export default {
           this.editItem.key = `${this.editItem.key}.${this.suffix}`
         }
         this.$emit("submit", this.editItem, this.isCreate)
-        this.reset()
       }
     },
     reset() {

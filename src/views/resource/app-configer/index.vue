@@ -6,7 +6,8 @@
       <template #extend>
         <v-flex class="kubegems__full-right mr-3">
           <span class="text-body-2 kubegems__text">
-            nacos信息
+            Nacos namespace <b> {{ Tenant().TenantName }}_{{ Project().ProjectName }} </b>
+            Nacos group <b> {{ Environment().EnvironmentName }} </b>
           </span>
         </v-flex>
       </template>
@@ -17,7 +18,7 @@
         <BaseFilter
           :filters="filters"
           :reload="false"
-          :default="{ items: [], text: '密钥名称', value: 'search' }"
+          :default="{ items: [], text: '配置项', value: 'search' }"
           @refresh="m_filter_list"
           @filter="customFilter"
         />
@@ -63,6 +64,12 @@
         hide-default-footer
         @page-count="pageCount = $event"
       >
+        <template #[`item.createdTime`]="{ item }">
+          <span> {{ item.createdTime ? $moment(item.createdTime).format('lll') : '' }} </span>
+        </template>
+        <template #[`item.lastModifiedTime`]="{ item }">
+          <span> {{ item.lastModifiedTime ? $moment(item.lastModifiedTime).format('lll') : '' }} </span>
+        </template>
         <template #[`item.action`]="{ item, index }">
           <v-flex :id="`r${index}`" />
           <v-menu
@@ -87,7 +94,7 @@
                     color="primary"
                     text
                     small
-                    @click="openEditDialog(item, index)"
+                    @click="openEditDialog(item)"
                   >
                     编辑/查看
                   </v-btn>
@@ -171,10 +178,16 @@ export default {
   data () {
     return {
       editor: {
-        currentEditItem: {},
+        currentEditItem: {
+          tenant: "",
+          project: "",
+          environment: "",
+          application: "",
+          key: "",
+          value: "",
+        },
         showEditDialog: false,
         isCreate: false,
-        editIdx: -1,
         showDeleteDialog: false,
         currentDeleteItem: {},
         deleteIdx: -1,
@@ -186,6 +199,9 @@ export default {
       headers: [
         { text: 'app', value: 'application', align: 'start' },
         { text: 'dataid', value: 'key', align: 'start' },
+        { text: 'create', value: 'createdTime', align: 'center', width: 260, sortable: false },
+        { text: 'update', value: 'lastModifiedTime', align: 'center', width: 260, sortable: false },
+        { text: 'operator', value: 'lastUpdateUser', align: 'center', width: 160, sortable: false },
         { text: '', value: 'action', align: 'center', width: 20, sortable: false },
       ],
       pageCount: 0,
@@ -234,8 +250,7 @@ export default {
     onPageIndexChange(page) {
       this.params.page = page
     },
-    openEditDialog (item, idx) {
-      this.editor.editIdx = idx
+    openEditDialog (item) {
       this.editor.currentEditItem = {
         tenant: (this.Tenant() || { TenantName: "" }).TenantName,
         project: (this.Project() || { ProjectName: "" }).ProjectName,
@@ -246,7 +261,6 @@ export default {
       this.editor.showEditDialog = true
     },
     openCreateDialog () {
-      this.editor.editIdx = -1
       this.editor.currentEditItem = {
         tenant: (this.Tenant() || { TenantName: "" }).TenantName,
         project: (this.Project() || { ProjectName: "" }).ProjectName,
@@ -265,7 +279,6 @@ export default {
     },
     closeEditDialog() {
       this.editor.showEditDialog = false
-      this.editor.editIdx = -1
       this.editor.currentEditItem = {
         tenant: (this.Tenant() || { TenantName: "" }).TenantName,
         project: (this.Project() || { ProjectName: "" }).ProjectName,
@@ -315,7 +328,13 @@ export default {
       if (isCreate) {
         this.items.push(res)
       } else {
-        this.items[this.editor.editIdx].value = editItem.value
+        const citem = this.items.find((item) => {
+          return item.key === editItem.key
+        })
+        citem.value = editItem.Value
+        citem.lastModifiedTime = res.lastModifiedTime
+        citem.createdTime = res.createdTime
+        citem.lastUpdateUser = res.lastUpdateUser
       }
       this.closeEditDialog()
     },
