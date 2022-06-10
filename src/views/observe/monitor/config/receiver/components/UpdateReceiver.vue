@@ -44,12 +44,7 @@
         if (this.$refs[this.formComponent].validate()) {
           let data = this.$refs[this.formComponent].getData();
           data = this.m_resource_beautifyData(data);
-          await putUpdateReceiver(
-            this.$route.query.cluster,
-            this.$route.query.namespace,
-            data.name,
-            data,
-          );
+          await putUpdateReceiver(this.$route.query.cluster, this.$route.query.namespace, data.name, data);
 
           this.reset();
           this.$emit('refresh');

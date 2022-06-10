@@ -1,21 +1,12 @@
 import axios from 'axios';
 
-export const getSystemAllConfigData = (query = {}) => axios.get(
-  'my/config',
-  { params: query },
-);
+export const getSystemAllConfigData = (query = {}) => axios.get('my/config', { params: query });
 
 // 获取系统配置
-export const getSystemConfigData = (name, query = {}) => axios.get(
-  `my/config/${name}`,
-  { params: query },
-);
+export const getSystemConfigData = (name, query = {}) => axios.get(`my/config/${name}`, { params: query });
 
 // 修改系统配置
-export const putSystemConfigData = (name, body = {}) => axios.put(
-  `my/config/${name}`,
-  body,
-);
+export const putSystemConfigData = (name, body = {}) => axios.put(`my/config/${name}`, body);
 
 // 创建/更新prometheus模版配置
 export const postPrometheusTemplate = (resourceName, ruleName, body = {}) =>
