@@ -49,9 +49,7 @@
                     <td class="text-center">{{ item.rev }} </td>
                     <td>{{ $moment(item.last_update_time).format('lll') }}</td>
                     <td>
-                      <v-row
-                        v-if="idx !== 0"
-                      >
+                      <v-row>
                         <v-col>
                           <v-btn
                             small
@@ -77,7 +75,6 @@
                           </v-btn>
                         </v-col>
                       </v-row>
-                      <v-row v-else> <span> 当前应用的配置 </span></v-row>
                     </td>
                   </tr>
                   <tr
@@ -179,18 +176,8 @@ export default {
           item.value = ""
           item.expanded = false
         })
+        this.latestContent = this.historyItem.value
         this.history = histories
-        if (this.history.length > 0) {
-          const detail = await itemDetail(
-            this.historyItem.tenant,
-            this.historyItem.project,
-            this.historyItem.application,
-            this.historyItem.environment,
-            this.historyItem.key,
-            this.history[0].rev,
-          )
-          this.latestContent = detail.value
-        }
       } else {
         this.history = []
       }
@@ -246,6 +233,7 @@ export default {
               text: '回滚完成',
               color: 'green',
             })
+            this.$emit("rollback", res)
           }
         },
       })

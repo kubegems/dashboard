@@ -154,6 +154,7 @@
       :show-history-dialog="editor.showHistoryDialog"
       :history-item="editor.currentHistoryItem"
       @close="closeHistoryDialog"
+      @rollback="rollbackHistory"
     />
   </v-container>
 </template>
@@ -312,6 +313,15 @@ export default {
       this.items.splice(idx, 1)
       this.closeDeleteDialog()
     },
+    rollbackHistory(ritem) {
+      const citem = this.items.find((item) => {
+        return item.key === ritem.key
+      })
+      citem.value = ritem.value
+      citem.lastModifiedTime = ritem.lastModifiedTime
+      citem.createdTime = ritem.createdTime
+      citem.lastUpdateUser = ritem.lastUpdateUser
+    },
     async submitEditContent(editItem, isCreate) {
       if (editItem.value === this.editor.currentEditItem.value) {
         this.closeEditDialog()
@@ -331,7 +341,7 @@ export default {
         const citem = this.items.find((item) => {
           return item.key === editItem.key
         })
-        citem.value = editItem.Value
+        citem.value = editItem.value
         citem.lastModifiedTime = res.lastModifiedTime
         citem.createdTime = res.createdTime
         citem.lastUpdateUser = res.lastUpdateUser
