@@ -11,8 +11,8 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { postAddTrafficShifting } from '@/api';
   import TrafficShiftingBaseForm from './TrafficShiftingBaseForm';
+  import { postAddTrafficShifting } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {

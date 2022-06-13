@@ -28,8 +28,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { postAddPersistentVolumeClaim } from '@/api';
   import PersistentVolumeClaimBaseForm from './PersistentVolumeClaimBaseForm';
+  import { postAddPersistentVolumeClaim } from '@/api';
   import BaseResource from '@/mixins/resource';
   import PersistentVolumeClaimSchema from '@/views/resource/persistentvolumeclaim/mixins/schema';
   import { randomString } from '@/utils/helpers';

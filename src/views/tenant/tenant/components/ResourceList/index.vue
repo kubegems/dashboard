@@ -93,10 +93,10 @@
 </template>
 
 <script>
-  import { getTenantResourceQuotaList, deleteTenantResourceQuota } from '@/api';
   import AddResource from './AddResource';
   import TenantMonitor from './TenantMonitor';
   import ScaleResource from './ScaleResource';
+  import { getTenantResourceQuotaList, deleteTenantResourceQuota } from '@/api';
   import GpuTip from '@/views/resource/components/common/GpuTip';
   import { sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
 

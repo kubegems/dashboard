@@ -93,9 +93,9 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { getTenantResourceQuotaList, getTenantResourceQuota } from '@/api';
   import ScaleResource from './ScaleResource';
   import Pagination from '../Pagination';
+  import { getTenantResourceQuotaList, getTenantResourceQuota } from '@/api';
   import GpuTip from '@/views/resource/components/common/GpuTip';
   import BasePermission from '@/mixins/permission';
   import { sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
@@ -190,16 +190,22 @@
         item.Cpu = parseFloat(sizeOfCpu(data.spec.hard['limits.cpu']));
         item.Memory = parseFloat(sizeOfStorage(data.spec.hard['limits.memory']));
         item.Storage = parseFloat(sizeOfStorage(data.spec.hard[`requests.storage`]));
-        item.AllocatedCpu = parseFloat(sizeOfCpu(data.status.allocated['limits.cpu']));
-        item.AllocatedMemory = parseFloat(sizeOfStorage(data.status.allocated['limits.memory']));
-        item.AllocatedStorage = parseFloat(sizeOfStorage(data.status.allocated[`requests.storage`]));
+        item.AllocatedCpu = parseFloat(sizeOfCpu(data.status.allocated ? data.status.allocated['limits.cpu'] : 0));
+        item.AllocatedMemory = parseFloat(
+          sizeOfStorage(data.status.allocated ? data.status.allocated['limits.memory'] : 0),
+        );
+        item.AllocatedStorage = parseFloat(
+          sizeOfStorage(data.status.allocated ? data.status.allocated[`requests.storage`] : 0),
+        );
         item.CpuPercentage = item.Cpu > 0 ? ((item.AllocatedCpu / item.Cpu) * 100).toFixed(1) : 0;
         item.MemoryPercentage = item.Memory > 0 ? ((item.AllocatedMemory / item.Memory) * 100).toFixed(1) : 0;
         item.StoragePercentage = item.Storage > 0 ? ((item.AllocatedStorage / item.Storage) * 100).toFixed(1) : 0;
 
         if (Object.prototype.hasOwnProperty.call(data.spec.hard, 'limits.nvidia.com/gpu')) {
           item.NvidiaGpu = parseFloat(data.spec.hard['limits.nvidia.com/gpu']);
-          item.AllocatedNvidiaGpu = parseFloat(data.status.allocated['limits.nvidia.com/gpu']);
+          item.AllocatedNvidiaGpu = parseFloat(
+            (data.status.allocated && data.status.allocated['limits.nvidia.com/gpu']) || 0,
+          );
           item.NvidiaGpuPercentage =
             item.NvidiaGpu > 0 ? ((item.AllocatedNvidiaGpu / item.NvidiaGpu) * 100).toFixed(1) : 0;
         }
@@ -212,11 +218,15 @@
           )
         ) {
           item.TkeGpu = parseFloat(data.spec.hard['tencent.com/vcuda-core']);
-          item.AllocatedTkeGpu = parseFloat(data.status.allocated['tencent.com/vcuda-core']);
+          item.AllocatedTkeGpu = parseFloat(
+            (data.status.allocated && data.status.allocated['tencent.com/vcuda-core']) || 0,
+          );
           item.TkeGpuPercentage = item.TkeGpu > 0 ? ((item.AllocatedTkeGpu / item.TkeGpu) * 100).toFixed(1) : 0;
 
           item.TkeMemory = parseFloat(data.spec.hard['tencent.com/vcuda-memory']);
-          item.AllocatedTkeMemory = parseFloat(data.status.allocated['tencent.com/vcuda-memory']);
+          item.AllocatedTkeMemory = parseFloat(
+            (data.status.allocated && data.status.allocated['tencent.com/vcuda-memory']) || 0,
+          );
           item.TkeMemoryPercentage =
             item.TkeMemory > 0 ? ((item.AllocatedTkeMemory / item.TkeMemory) * 100).toFixed(1) : 0;
         }

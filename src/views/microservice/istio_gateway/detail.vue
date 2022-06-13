@@ -89,15 +89,15 @@
 </template>
 
 <script>
-  import { getIstioGatewayInstanceDetail, deleteIstioGatewayInstance } from '@/api';
-  import UpdateIstioGateway from './components/UpdateIstioGateway';
-  import BaseResource from '@/mixins/resource';
-  import BasePermission from '@/mixins/permission';
   import { mapGetters, mapState } from 'vuex';
+  import UpdateIstioGateway from './components/UpdateIstioGateway';
   import GatewayList from './components/GatewayList';
   import GatewayPodList from './components/GatewayPodList';
   import GatewayMonitor from './components/GatewayMonitor';
   import VirtualServiceList from './components/VirtualServiceList';
+  import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
+  import { getIstioGatewayInstanceDetail, deleteIstioGatewayInstance } from '@/api';
 
   export default {
     name: 'IstioGatewayDetail',

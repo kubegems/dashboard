@@ -11,8 +11,8 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { putUpdateEnvironment, getEnvironmentDetail } from '@/api';
   import EnvironmentBaseForm from './EnvironmentBaseForm';
+  import { putUpdateEnvironment, getEnvironmentDetail } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
 

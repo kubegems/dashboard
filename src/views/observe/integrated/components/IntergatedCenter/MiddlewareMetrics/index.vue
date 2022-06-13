@@ -1,5 +1,5 @@
 <template>
-  <div class="pa-2">
+  <div class="pa-2" :style="{ height: `${height}px`, overflowY: 'auto' }">
     <BaseSubTitle title="监控采集配置" color="grey lighten-3" class="mx-2 mt-1" :divider="false" />
 
     <v-form v-model="valid" lazy-validation @submit.prevent>
@@ -17,13 +17,12 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex';
-  import { postDeployAppStore, getChartSchema } from '@/api';
+  import { mapGetters, mapState } from 'vuex';
+  import { Base64 } from 'js-base64';
   import ProjectEnvSelect from '../ProjectEnvSelect';
+  import { postDeployAppStore, getChartSchema } from '@/api';
   import JsonSchema from '@/views/appstore/components/DeployWizard/JsonSchema';
   import { YamlMixin } from '@/views/appstore/mixins/yaml';
-
-  import { Base64 } from 'js-base64';
 
   export default {
     name: 'MiddlewareMetrics',
@@ -50,6 +49,10 @@
     },
     computed: {
       ...mapGetters(['Tenant']),
+      ...mapState(['Scale']),
+      height() {
+        return parseInt((window.innerHeight - 152) / this.Scale);
+      },
     },
     watch: {
       chartName: {

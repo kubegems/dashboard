@@ -173,10 +173,12 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { postDeployAppStore, getAppStoreFiles } from '@/api';
+  import { FormWizard, TabContent } from 'vue-form-wizard';
+  import { Base64 } from 'js-base64';
   import Tips from './Tips';
   import AppStoreDeployLoading from './AppStoreDeployLoading';
   import AppStoreComplete from './AppStoreComplete';
+  import { postDeployAppStore, getAppStoreFiles } from '@/api';
   import BaseSelect from '@/mixins/select';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
@@ -184,9 +186,7 @@
   import { k8sName, required } from '@/utils/rules';
   import { deepCopy } from '@/utils/helpers';
 
-  import { FormWizard, TabContent } from 'vue-form-wizard';
   import 'vue-form-wizard/dist/vue-form-wizard.min.css';
-  import { Base64 } from 'js-base64';
 
   export default {
     name: 'DeployWizard',

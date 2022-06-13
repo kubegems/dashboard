@@ -248,11 +248,11 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { getStrategyDeployEnvironmentAppsDetail, postSwitchDeployAppStrategy } from '@/api';
   import Recreate from './components/deploy_policy/Recreate';
   import RollingUpdate from './components/deploy_policy/RollingUpdate';
   import BlueGreen from './components/deploy_policy/BlueGreen';
   import Canary from './components/deploy_policy/Canary';
+  import { getStrategyDeployEnvironmentAppsDetail, postSwitchDeployAppStrategy } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
 

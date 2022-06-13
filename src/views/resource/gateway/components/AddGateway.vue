@@ -26,8 +26,8 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { postAddGateway } from '@/api';
   import GatewayBaseForm from './GatewayBaseForm';
+  import { postAddGateway } from '@/api';
   import BaseResource from '@/mixins/resource';
   import GatewaySchema from '@/views/resource/gateway/mixins/schema';
   import { randomString } from '@/utils/helpers';

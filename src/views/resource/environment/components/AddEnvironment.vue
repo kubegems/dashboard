@@ -22,8 +22,8 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { postAddEnvironment, postAddEnvironmentUser } from '@/api';
   import EnvironmentBaseForm from './EnvironmentBaseForm';
+  import { postAddEnvironment, postAddEnvironmentUser } from '@/api';
   import BaseSelect from '@/mixins/select';
 
   export default {

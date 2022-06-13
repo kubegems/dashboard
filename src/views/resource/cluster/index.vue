@@ -69,9 +69,9 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { getClusterList, deleteCluster, getClusterStatus } from '@/api';
   import AddCluster from './components/AddCluster';
   import UpdateCluster from './components/UpdateCluster';
+  import { getClusterList, deleteCluster, getClusterStatus } from '@/api';
   import Terminal from '@/views/resource/components/common/Terminal';
   import BaseSelect from '@/mixins/select';
   import BaseResource from '@/mixins/resource';

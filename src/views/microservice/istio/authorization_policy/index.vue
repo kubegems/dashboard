@@ -117,10 +117,10 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getIstioAuthorizationPolicyList, deleteIstioAuthorizationPolicy } from '@/api';
-  import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
   import AddAuthorizationPolicy from './components/AddAuthorizationPolicy';
   import UpdateAuthorizationPolicy from './components/UpdateAuthorizationPolicy';
+  import { getIstioAuthorizationPolicyList, deleteIstioAuthorizationPolicy } from '@/api';
+  import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
   import BaseFilter from '@/mixins/base_filter';

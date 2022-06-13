@@ -23,8 +23,8 @@
 </template>
 
 <script>
-  import { getLogContext } from '@/api';
   import LogTable from './LogTable';
+  import { getLogContext } from '@/api';
 
   export default {
     name: 'LogContext',

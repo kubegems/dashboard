@@ -95,9 +95,9 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { getGatewayList, deleteGateway } from '@/api';
   import AddGateway from './components/AddGateway';
   import UpdateGateway from './components/UpdateGateway';
+  import { getGatewayList, deleteGateway } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';

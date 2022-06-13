@@ -53,9 +53,9 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { getIstioGatewayInstanceList } from '@/api';
   import ServerItem from './ServerItem';
   import ServerForm from './ServerForm';
+  import { getIstioGatewayInstanceList } from '@/api';
   import BaseSelect from '@/mixins/select';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';

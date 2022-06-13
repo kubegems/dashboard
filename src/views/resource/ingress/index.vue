@@ -132,10 +132,10 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getIngressList, deleteIngress, getGatewayList } from '@/api';
-  import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
   import AddIngress from './components/AddIngress';
   import UpdateIngress from './components/UpdateIngress';
+  import { getIngressList, deleteIngress, getGatewayList } from '@/api';
+  import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
   import BaseFilter from '@/mixins/base_filter';

@@ -121,8 +121,8 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { getMessageList, getLoginUserAuth, putReadMessage, getApproveList } from '@/api';
   import ApproveResource from './components/ApproveResource';
+  import { getMessageList, getLoginUserAuth, putReadMessage, getApproveList } from '@/api';
   import BaseSelect from '@/mixins/select';
 
   export default {

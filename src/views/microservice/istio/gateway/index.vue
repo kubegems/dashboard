@@ -113,10 +113,10 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getIstioGatewayList, deleteIstioGateway } from '@/api';
-  import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
   import AddGateway from './components/AddGateway';
   import UpdateGateway from './components/UpdateGateway';
+  import { getIstioGatewayList, deleteIstioGateway } from '@/api';
+  import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
   import BaseFilter from '@/mixins/base_filter';

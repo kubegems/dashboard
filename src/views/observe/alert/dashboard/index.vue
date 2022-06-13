@@ -42,11 +42,11 @@
 
 <script>
   import { mapState, mapGetters } from 'vuex';
-  import { getAlertToday } from '@/api';
   import ValueCard from './components/ValueCard';
   import AlertHistoryLine from './components/AlertHistoryLine';
   import AlertCategoryBar from './components/AlertCategoryBar';
   import AlertTopBar from './components/AlertTopBar';
+  import { getAlertToday } from '@/api';
   import BaseSelect from '@/mixins/select';
 
   export default {

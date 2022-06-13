@@ -129,12 +129,12 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+  import AppStatusTip from './components/AppStatusTip';
+  import TaskStatusTip from './components/TaskStatusTip';
   import { getAppRunningList, getAppStoreRunningList, deleteApp, deleteAppStoreApp, getAppTaskList } from '@/api';
   import LinkApp from '@/views/resource/appmanifest/components/LinkApp';
   import DeployApp from '@/views/resource/appmanifest/components/DeployApp';
   import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
-  import AppStatusTip from './components/AppStatusTip';
-  import TaskStatusTip from './components/TaskStatusTip';
   import BaseFilter from '@/mixins/base_filter';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';

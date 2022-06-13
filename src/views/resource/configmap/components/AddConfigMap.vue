@@ -26,8 +26,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { postAddConfigMap } from '@/api';
   import ConfigMapBaseForm from './ConfigMapBaseForm';
+  import { postAddConfigMap } from '@/api';
   import BaseResource from '@/mixins/resource';
   import ConfigmapSchema from '@/views/resource/configmap/mixins/schema';
   import { randomString } from '@/utils/helpers';

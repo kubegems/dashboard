@@ -49,9 +49,9 @@
 </template>
 
 <script>
-  import { getSystemConfigData } from '@/api';
   import SetInstaller from './components/SetInstaller';
   import SetInstallImage from './components/SetInstallerImage';
+  import { getSystemConfigData } from '@/api';
 
   export default {
     name: 'BaseSetting',

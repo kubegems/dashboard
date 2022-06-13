@@ -61,6 +61,7 @@
 
 <script>
   import { mapState } from 'vuex';
+  import WorkloadBaseForm from './WorkloadBaseForm';
   import {
     patchUpdateDaemonSet,
     patchUpdateDeployment,
@@ -69,7 +70,6 @@
     getDeploymentDetail,
     getStatefulSetDetail,
   } from '@/api';
-  import WorkloadBaseForm from './WorkloadBaseForm';
   import WorkloadSchema from '@/views/resource/workload/mixins/schema';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';

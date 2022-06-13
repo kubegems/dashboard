@@ -3,9 +3,9 @@
 </template>
 
 <script>
-  import { toFixed } from '@/utils/helpers';
   import VueApexCharts from 'vue-apexcharts';
   import moment from 'moment';
+  import { toFixed } from '@/utils/helpers';
 
   export default {
     name: 'MetricsLineChart',

@@ -15,8 +15,8 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { postAddProject, postAddProjectUser } from '@/api';
   import ProjectBaseForm from './ProjectBaseForm';
+  import { postAddProject, postAddProjectUser } from '@/api';
   import BaseSelect from '@/mixins/select';
 
   export default {

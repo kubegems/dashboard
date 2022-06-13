@@ -120,9 +120,9 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getServiceMonitorList, deleteServiceMonitor } from '@/api';
   import AddServiceMonitor from './components/AddServiceMonitor';
   import UpdateServiceMonitor from './components/UpdateServiceMonitor';
+  import { getServiceMonitorList, deleteServiceMonitor } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
   import BaseFilter from '@/mixins/base_filter';

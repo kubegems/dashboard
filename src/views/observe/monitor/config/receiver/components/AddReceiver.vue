@@ -11,8 +11,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { postAddReceiver } from '@/api';
   import ReceiverBaseForm from './ReceiverBaseForm';
+  import { postAddReceiver } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {

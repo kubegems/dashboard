@@ -75,10 +75,10 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { getTenantDetail, putForbideTenant, putActiveTenant, deleteTenant } from '@/api';
   import UserList from './components/UserList';
   import ResourceList from './components/ResourceList';
   import UpdateTenant from './components/UpdateTenant';
+  import { getTenantDetail, putForbideTenant, putActiveTenant, deleteTenant } from '@/api';
   import BaseSelect from '@/mixins/select';
   import BaseFilter from '@/mixins/base_filter';
 

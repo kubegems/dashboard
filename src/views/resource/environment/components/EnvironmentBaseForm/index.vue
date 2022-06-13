@@ -229,12 +229,12 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+  import AddNamespace from './AddNamespace';
   import { getEnvironmentUserList, deleteEnvironmentUser, postAddEnvironmentUser, getProjectUserList } from '@/api';
   import ResourceChart from '@/views/resource/environment/components/base/ResourceChart';
   import LimitRange from '@/views/resource/environment/components/base/LimitRange';
   import LimitRangeCard from '@/views/resource/environment/components/base/LimitRangeCard';
   import ResourceQuota from '@/views/resource/environment/components/base/ResourceQuota';
-  import AddNamespace from './AddNamespace';
   import BaseSelect from '@/mixins/select';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';

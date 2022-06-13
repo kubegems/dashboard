@@ -13,8 +13,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { patchUpdateIstioDestinationRule, getIstioDestinationRuleDetail } from '@/api';
   import IstioDestinationRuleBaseForm from './IstioDestinationRuleBaseForm';
+  import { patchUpdateIstioDestinationRule, getIstioDestinationRuleDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import IstioDestinationRuleSchema from '@/views/microservice/service/mixins/schema';
   import { deepCopy } from '@/utils/helpers';

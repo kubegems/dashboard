@@ -11,8 +11,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { putUpdateReceiver } from '@/api';
   import ReceiverBaseForm from './ReceiverBaseForm';
+  import { putUpdateReceiver } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';

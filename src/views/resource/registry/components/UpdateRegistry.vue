@@ -11,8 +11,8 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { putUpdateRegistry, getRegistryDetail } from '@/api';
   import RegistryBaseForm from './RegistryBaseForm';
+  import { putUpdateRegistry, getRegistryDetail } from '@/api';
 
   export default {
     name: 'UpdateRegistry',

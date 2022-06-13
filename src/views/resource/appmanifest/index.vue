@@ -113,10 +113,10 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { getAllManifest, getManifestList, deleteManifest } from '@/api';
   import AddApp from './components/AddApp';
-  import BaseResource from '@/mixins/resource';
   import UpdateApp from './components/UpdateApp';
+  import { getAllManifest, getManifestList, deleteManifest } from '@/api';
+  import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
   import BaseFilter from '@/mixins/base_filter';
   import { convertStrToNum } from '@/utils/helpers';

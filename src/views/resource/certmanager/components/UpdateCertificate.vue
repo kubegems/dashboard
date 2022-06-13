@@ -26,8 +26,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { patchUpdateCertificate, getCertificateDetail } from '@/api';
   import CertificateBaseForm from './CertificateBaseForm';
+  import { patchUpdateCertificate, getCertificateDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import CertmanagerSchema from '@/views/resource/certmanager/mixins/schema';
   import { deepCopy, randomString } from '@/utils/helpers';

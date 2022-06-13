@@ -26,8 +26,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { postAddService } from '@/api';
   import ServiceBaseForm from './ServiceBaseForm';
+  import { postAddService } from '@/api';
   import ServiceSchema from '@/views/resource/service/mixins/schema';
   import BaseResource from '@/mixins/resource';
   import { randomString } from '@/utils/helpers';

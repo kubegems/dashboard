@@ -52,10 +52,10 @@
 
 <script>
   import { mapState } from 'vuex';
+  import UpdateConfigMap from './components/UpdateConfigMap';
   import { getConfigMapDetail, deleteConfigMap } from '@/api';
   import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
   import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
-  import UpdateConfigMap from './components/UpdateConfigMap';
   import BaseFilter from '@/mixins/base_filter';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';

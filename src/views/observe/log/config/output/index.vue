@@ -92,9 +92,9 @@
 
 <script>
   import { mapState, mapGetters } from 'vuex';
-  import { getClusterOutputsData, getOutputsData, deleteOutputData, deleteClusterOutputData } from '@/api';
   import AddOutput from './components/AddOutput';
   import UpdateOutput from './components/UpdateOutput';
+  import { getClusterOutputsData, getOutputsData, deleteOutputData, deleteClusterOutputData } from '@/api';
   import BasePermission from '@/mixins/permission';
 
   export default {

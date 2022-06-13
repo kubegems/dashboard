@@ -13,8 +13,8 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { putUpdateIstioGatewayInstance, getIstioGatewayInstanceDetail } from '@/api';
   import IstioGatewayBaseForm from './IstioGatewayBaseForm';
+  import { putUpdateIstioGatewayInstance, getIstioGatewayInstanceDetail } from '@/api';
 
   export default {
     name: 'UpdateIstioGateway',

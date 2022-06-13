@@ -26,8 +26,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { patchUpdateSecret, getSecretDetail } from '@/api';
   import SecretBaseForm from './SecretBaseForm';
+  import { patchUpdateSecret, getSecretDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import SecretSchema from '@/views/resource/secret/mixins/schema';
   import { deepCopy, randomString } from '@/utils/helpers';

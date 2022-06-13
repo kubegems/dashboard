@@ -45,12 +45,12 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { putUpdateEnvironment } from '@/api';
   import ResourceChart from './base/ResourceChart';
   import LimitRange from './base/LimitRange';
   import ResourceApply from './base/ResourceApply';
   import LimitRangeCard from './base/LimitRangeCard';
   import ResourceQuota from './base/ResourceQuota';
+  import { putUpdateEnvironment } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';

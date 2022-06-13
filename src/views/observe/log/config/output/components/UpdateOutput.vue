@@ -26,10 +26,10 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { patchOutputData, patchClusterOutputData, getClusterOutputDetailData, getOutputDetailData } from '@/api';
   import OutputBaseForm from './OutputBaseForm';
-  import BaseResource from '@/mixins/resource';
   import OutputSchema from '../mixins/schema';
+  import { patchOutputData, patchClusterOutputData, getClusterOutputDetailData, getOutputDetailData } from '@/api';
+  import BaseResource from '@/mixins/resource';
   import { randomString, deepCopy } from '@/utils/helpers';
 
   export default {

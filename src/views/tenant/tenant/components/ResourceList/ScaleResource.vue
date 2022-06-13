@@ -13,8 +13,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { putUpdateTenantResourceQuota } from '@/api';
   import ResourceBaseForm from './ResourceBaseForm';
+  import { putUpdateTenantResourceQuota } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 

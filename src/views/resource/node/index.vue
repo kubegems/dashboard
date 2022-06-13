@@ -197,8 +197,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getNodeList, patchCordonNode } from '@/api';
   import GpuScheduleForm from './components/GpuScheduleForm';
+  import { getNodeList, patchCordonNode } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';

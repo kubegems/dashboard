@@ -56,12 +56,12 @@
 
 <script>
   import { mapState } from 'vuex';
+  import ResourceInfo from './components/ResourceInfo';
+  import UpdateFlow from './components/UpdateFlow';
   import { getFlowDetailData, getClusterFlowDetailData, deleteClusterFlowData, deleteFlowData } from '@/api';
   import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
   import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
-  import ResourceInfo from './components/ResourceInfo';
   import Metadata from '@/views/resource/components/metadata/Metadata';
-  import UpdateFlow from './components/UpdateFlow';
   import BasePermission from '@/mixins/permission';
 
   export default {

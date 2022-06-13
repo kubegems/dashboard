@@ -48,12 +48,12 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { deleteManifest, getManifestDetail } from '@/api';
   import UpdateApp from './components/UpdateApp';
   import ResourceInfo from './components/ResourceInfo';
   import AppResourceFileList from './components/AppResourceFileList';
   import AppDeployList from './components/AppDeployList';
   import AppImageSecurityReportList from './components/AppImageSecurityReportList';
+  import { deleteManifest, getManifestDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {

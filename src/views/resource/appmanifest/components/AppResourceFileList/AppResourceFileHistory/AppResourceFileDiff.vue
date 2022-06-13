@@ -20,11 +20,10 @@
 
 <script>
   import { mapState } from 'vuex';
+  import CodeDiff from 'vue-code-diff';
   import { getAppResourceFileDiff } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
-
-  import CodeDiff from 'vue-code-diff';
 
   export default {
     name: 'AppResourceFileDiff',

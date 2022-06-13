@@ -140,10 +140,10 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getUserList, deleteUser } from '@/api';
   import UpdateRole from './components/UpdateRole';
   import AddUser from './components/AddUser';
   import ResetPassword from './components/ResetPassword';
+  import { getUserList, deleteUser } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BaseResource from '@/mixins/resource';
   import BaseTable from '@/mixins/table';

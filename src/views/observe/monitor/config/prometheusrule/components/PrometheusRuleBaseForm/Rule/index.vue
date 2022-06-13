@@ -182,10 +182,10 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getSystemConfigData, getMyConfigData, getMetricsLabels } from '@/api';
   import AlertLevelItem from './AlertLevelItem';
   import AlertLevelForm from './AlertLevelForm';
   import RuleLabelpairs from './RuleLabelpairs';
+  import { getSystemConfigData, getMyConfigData, getMetricsLabels } from '@/api';
   import MetricsSuggestion from '@/views/observe/monitor/metrics/components/MetricsSuggestion';
   import BaseSelect from '@/mixins/select';
   import BaseResource from '@/mixins/resource';

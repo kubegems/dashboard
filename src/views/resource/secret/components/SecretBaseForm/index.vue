@@ -99,6 +99,7 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+  import { Base64 } from 'js-base64';
   import SecretDataItem from './SecretDataItem';
   import SecretDataForm from './SecretDataForm';
   import SecretTlsForm from './SecretTlsForm';
@@ -107,8 +108,6 @@
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
   import { k8sName, required } from '@/utils/rules';
-
-  import { Base64 } from 'js-base64';
 
   export default {
     name: 'SecretBaseForm',

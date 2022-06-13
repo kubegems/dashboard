@@ -62,14 +62,14 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getServiceDetail, deleteService } from '@/api';
   import ResourceInfo from './components/ResourceInfo';
+  import UpdateService from './components/UpdateService';
+  import { getServiceDetail, deleteService } from '@/api';
   import Metadata from '@/views/resource/components/metadata/Metadata';
   import PodList from '@/views/resource/components/common/PodList';
   import EventList from '@/views/resource/components/common/EventList';
   import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
   import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
-  import UpdateService from './components/UpdateService';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
 

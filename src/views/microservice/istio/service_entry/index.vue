@@ -120,10 +120,10 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getIstioServiceEntryList, deleteIstioServiceEntry } from '@/api';
-  import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
   import AddServiceEntry from './components/AddServiceEntry';
   import UpdateServiceEntry from './components/UpdateServiceEntry';
+  import { getIstioServiceEntryList, deleteIstioServiceEntry } from '@/api';
+  import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
   import BaseFilter from '@/mixins/base_filter';

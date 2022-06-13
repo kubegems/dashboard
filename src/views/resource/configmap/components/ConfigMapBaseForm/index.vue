@@ -83,8 +83,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import DataForm from '@/views/resource/components/common/DataForm';
   import ConfigMapDataItem from './ConfigMapDataItem';
+  import DataForm from '@/views/resource/components/common/DataForm';
   import BaseSelect from '@/mixins/select';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';

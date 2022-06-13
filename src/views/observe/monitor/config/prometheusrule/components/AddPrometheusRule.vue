@@ -33,8 +33,8 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { postAddPrometheusRule, postAddLogAlertRule } from '@/api';
   import PrometheusRuleBaseForm from './PrometheusRuleBaseForm';
+  import { postAddPrometheusRule, postAddLogAlertRule } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 
