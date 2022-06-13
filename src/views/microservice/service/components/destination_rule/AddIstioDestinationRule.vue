@@ -1,10 +1,10 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="创建istio流量规则" icon="mdi-ruler" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-ruler" title="创建istio流量规则" :width="1000" @reset="reset">
     <template #content>
       <component :is="formComponent" :ref="formComponent" title="DestinationRule" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="addIstioDestinationRule">
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addIstioDestinationRule">
         确定
       </v-btn>
     </template>
@@ -13,7 +13,9 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import IstioDestinationRuleBaseForm from './IstioDestinationRuleBaseForm';
+
   import { postAddIstioDestinationRule } from '@/api';
   import BaseResource from '@/mixins/resource';
   import IstioDestinationRuleSchema from '@/views/microservice/service/mixins/schema';

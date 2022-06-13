@@ -5,8 +5,8 @@
         v-for="item in items"
         :key="item.value"
         :active="current === item[valueKey]"
-        :disabled="disabled"
         class="mr-3"
+        :disabled="disabled"
         @click="onSelect(item)"
       >
         集群{{ item.text }}
@@ -16,13 +16,13 @@
       <v-badge
         v-for="item in items"
         :key="item.value"
-        :value="badgeValues[item[valueKey]] !== undefined"
-        :content="badgeValues[item[valueKey]]"
         bordered
+        class="mr-3"
+        color="success"
+        :content="badgeValues[item[valueKey]]"
         overlap
         small
-        color="success"
-        class="mr-3"
+        :value="badgeValues[item[valueKey]] !== undefined"
       >
         <ClusterSelectItem :active="current === item[valueKey]" :disabled="disabled" @click="onSelect(item)">
           集群{{ item.text }}
@@ -34,7 +34,9 @@
 
 <script>
   import { mapState, mapGetters } from 'vuex';
+
   import ClusterSelectItem from './Item';
+
   import { clusterSelectData, tenantClusterSelectData } from '@/api';
   import { deepCopy } from '@/utils/helpers';
 
@@ -44,20 +46,15 @@
       ClusterSelectItem,
     },
     props: {
-      value: {
-        type: [Number, String, Object],
-        default: undefined,
-      },
-      valueKey: {
-        type: String,
-        default: 'text',
-        validator: (v) => ['text', 'value'].includes(v),
-      },
       autoSelectFirst: {
         type: Boolean,
         default: false,
       },
-      objectValue: {
+      badgeValues: {
+        type: Object,
+        default: () => ({}),
+      },
+      clearable: {
         type: Boolean,
         default: false,
       },
@@ -65,7 +62,12 @@
         type: Boolean,
         default: false,
       },
-      clearable: {
+      mode: {
+        type: String,
+        default: 'default',
+        validator: (v) => ['default', 'badge'].includes(v),
+      },
+      objectValue: {
         type: Boolean,
         default: false,
       },
@@ -77,14 +79,14 @@
         type: Number,
         default: 0,
       },
-      mode: {
-        type: String,
-        default: 'default',
-        validator: (v) => ['default', 'badge'].includes(v),
+      value: {
+        type: [Number, String, Object],
+        default: undefined,
       },
-      badgeValues: {
-        type: Object,
-        default: () => ({}),
+      valueKey: {
+        type: String,
+        default: 'text',
+        validator: (v) => ['text', 'value'].includes(v),
       },
     },
     data() {

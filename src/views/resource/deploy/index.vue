@@ -6,20 +6,20 @@
         <v-flex class="kubegems__full-right">
           <span class="text-subtitle-2 mx-2 deploy-line-height">
             <template v-if="taskStatus === 'Running' || taskStatus === 'Pending'">
-              <v-icon color="warning" class="icon-font waiting-circle-flashing"> mdi-autorenew </v-icon>
+              <v-icon class="icon-font waiting-circle-flashing" color="warning"> mdi-autorenew </v-icon>
               <span class="warning--text">
                 {{ deploy ? '应用部署中' : '策略变更中' }}
               </span>
             </template>
             <template v-else-if="taskStatus === 'Success' && deploy">
-              <v-icon color="success" class="icon-font"> mdi-check-circle </v-icon>
+              <v-icon class="icon-font" color="success"> mdi-check-circle </v-icon>
               <span class="success--text"> 应用已部署 </span>
             </template>
             <template v-else-if="taskStatus === 'Error'">
-              <v-menu top open-on-hover :close-delay="200" nudge-bottom="10px">
+              <v-menu :close-delay="200" nudge-bottom="10px" open-on-hover top>
                 <template #activator="{ on }">
                   <span class="error--text" style="cursor: pointer" v-on="on">
-                    <v-icon color="error" class="icon-font"> mdi-close-circle </v-icon>
+                    <v-icon class="icon-font" color="error"> mdi-close-circle </v-icon>
                     {{ deploy ? '应用部署失败' : '策略变更失败' }}
                   </span>
                 </template>
@@ -29,7 +29,7 @@
               </v-menu>
             </template>
           </span>
-          <v-btn text small class="primary--text" @click="returnAppDetail">
+          <v-btn class="primary--text" small text @click="returnAppDetail">
             <v-icon left small> fas fa-share-square </v-icon>
             返回
           </v-btn>
@@ -43,7 +43,6 @@
             <span class="text-subtitle-1 kubegems__text"> 滚动更新 </span>
             <v-spacer />
             <v-btn
-              small
               color="primary"
               :disabled="
                 (runtime &&
@@ -52,6 +51,7 @@
                 taskStatus === 'Running' ||
                 taskStatus === 'Pending'
               "
+              small
               @click="deployRollingUpdate"
             >
               部署
@@ -73,7 +73,6 @@
             <span class="text-subtitle-1 kubegems__text"> 重建 </span>
             <v-spacer />
             <v-btn
-              small
               color="primary"
               :disabled="
                 (runtime &&
@@ -82,6 +81,7 @@
                 taskStatus === 'Running' ||
                 taskStatus === 'Pending'
               "
+              small
               @click="deployRecreate"
             >
               部署
@@ -102,7 +102,6 @@
             <span class="text-subtitle-1 kubegems__text"> 蓝绿发布 </span>
             <v-spacer />
             <v-btn
-              small
               color="primary"
               :disabled="
                 (runtime &&
@@ -112,6 +111,7 @@
                 taskStatus === 'Running' ||
                 taskStatus === 'Pending'
               "
+              small
               @click="deployBlueGreen"
             >
               部署
@@ -132,7 +132,6 @@
             <span class="text-subtitle-1 kubegems__text"> 金丝雀发布（灰度） </span>
             <v-spacer />
             <v-btn
-              small
               color="primary"
               :disabled="
                 (runtime &&
@@ -142,6 +141,7 @@
                 taskStatus === 'Running' ||
                 taskStatus === 'Pending'
               "
+              small
               @click="deployCanary"
             >
               部署
@@ -180,8 +180,8 @@
       >
         <v-flex class="deploy-switch-btn">
           <v-btn
-            :disabled="taskStatus === 'Running' || taskStatus === 'Pending'"
             color="primary"
+            :disabled="taskStatus === 'Running' || taskStatus === 'Pending'"
             @click="
               switchDeployMode(
                 runtime &&
@@ -220,8 +220,8 @@
       >
         <v-flex class="deploy-switch-btn">
           <v-btn
-            :disabled="taskStatus === 'Running' || taskStatus === 'Pending'"
             color="primary"
+            :disabled="taskStatus === 'Running' || taskStatus === 'Pending'"
             @click="
               switchDeployMode(
                 runtime &&
@@ -248,23 +248,25 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import Recreate from './components/deploy_policy/Recreate';
-  import RollingUpdate from './components/deploy_policy/RollingUpdate';
+
   import BlueGreen from './components/deploy_policy/BlueGreen';
   import Canary from './components/deploy_policy/Canary';
+  import Recreate from './components/deploy_policy/Recreate';
+  import RollingUpdate from './components/deploy_policy/RollingUpdate';
+
   import { getStrategyDeployEnvironmentAppsDetail, postSwitchDeployAppStrategy } from '@/api';
-  import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'AppDeployCenter',
     components: {
-      Recreate,
-      RollingUpdate,
       BlueGreen,
       Canary,
+      Recreate,
+      RollingUpdate,
     },
-    mixins: [BaseResource, BasePermission],
+    mixins: [BasePermission, BaseResource],
     data: () => ({
       runtime: null,
       statusSSE: null,

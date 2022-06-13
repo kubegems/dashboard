@@ -2,12 +2,12 @@
   <v-flex>
     <v-switch
       :id="id"
-      :input-value="param.value === true ? true : false"
-      dense
-      :label="pathLevel === 1 ? label : label"
-      hide-details
-      color="primary"
       class="ma-2 float-left"
+      color="primary"
+      dense
+      hide-details
+      :input-value="param.value === true ? true : false"
+      :label="pathLevel === 1 ? label : label"
       @change="onChange($event)"
       @click="click"
     />
@@ -19,6 +19,10 @@
   export default {
     name: 'BooleanParam',
     props: {
+      id: {
+        type: String,
+        default: () => '',
+      },
       label: {
         type: String,
         default: () => '',
@@ -26,10 +30,6 @@
       param: {
         type: Object,
         default: () => {},
-      },
-      id: {
-        type: String,
-        default: () => '',
       },
     },
     data: () => ({

@@ -1,17 +1,19 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="请求路由" icon="mdi-source-branch" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-source-branch" title="请求路由" :width="1000" @reset="reset">
     <template #content>
-      <component :is="formComponent" :ref="formComponent" :service="service" :vs="vs" title="RequestRouting" />
+      <component :is="formComponent" :ref="formComponent" :service="service" title="RequestRouting" :vs="vs" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="addRequestRouting"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addRequestRouting"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import RequestRoutingBaseForm from './RequestRoutingBaseForm';
+
   import { postAddRequestRouting } from '@/api';
   import BaseResource from '@/mixins/resource';
 

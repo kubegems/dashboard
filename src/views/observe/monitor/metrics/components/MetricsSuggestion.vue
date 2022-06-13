@@ -1,22 +1,22 @@
 <template>
   <v-data-table
     v-if="suggestShow"
+    class="table kubegems__table-row-pointer"
+    :custom-filter="filterKeyword"
+    dense
+    disable-pagination
     disable-sort
     :headers="headers"
+    hide-default-footer
+    hide-default-header
+    item-key="item.value"
     :items="items"
     :loading="loading"
-    :search="keyword"
-    :custom-filter="filterKeyword"
-    :style="{ top: `${top}px`, left: `${left}px` }"
     loading-text="载入中..."
-    item-key="item.value"
-    disable-pagination
-    dense
-    hide-default-header
-    hide-default-footer
     no-data-text="暂无指标"
     no-results-text="无匹配"
-    class="table kubegems__table-row-pointer"
+    :search="keyword"
+    :style="{ top: `${top}px`, left: `${left}px` }"
     @click:row="selectedItem"
   >
     <template #[`item.item`]="{ item }">

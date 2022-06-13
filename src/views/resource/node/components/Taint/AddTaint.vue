@@ -1,24 +1,24 @@
 <template>
-  <BaseDialog v-model="dialog" :width="500" title="添加污点" icon="mdi-tag-plus" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-tag-plus" title="添加污点" :width="500" @reset="reset">
     <template #content>
       <BaseSubTitle title="污点信息" />
       <v-card-text class="pa-2">
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
           <v-sheet>
-            <v-text-field v-model="obj.key" class="my-0" required label="键" :rules="objRules.keyRules" />
-            <v-text-field v-model="obj.value" class="my-0" required label="值" :rules="objRules.valueRules" />
+            <v-text-field v-model="obj.key" class="my-0" label="键" required :rules="objRules.keyRules" />
+            <v-text-field v-model="obj.value" class="my-0" label="值" required :rules="objRules.valueRules" />
             <v-autocomplete
               v-model="obj.effect"
-              color="primary"
-              label="策略"
-              hide-selected
               class="my-0"
-              no-data-text="暂无可选数据"
+              color="primary"
+              hide-selected
               :items="effectSelect"
+              label="策略"
+              no-data-text="暂无可选数据"
               :rules="objRules.effectRules"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -28,13 +28,14 @@
       </v-card-text>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="addTaint"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addTaint"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapState } from 'vuex';
+
   import { patchTaintNode } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';

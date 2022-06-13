@@ -6,17 +6,17 @@
         <v-col cols="6">
           <v-autocomplete
             v-model="strategy"
-            color="primary"
-            :items="updateStrategys"
-            :rules="dataRules.updateStrategyRule"
-            label="更新方式"
-            hide-selected
             class="my-0"
+            color="primary"
+            hide-selected
+            :items="updateStrategys"
+            label="更新方式"
             no-data-text="暂无可选数据"
+            :rules="dataRules.updateStrategyRule"
             @change="onUpdateStrategyDataInput"
           >
             <template #selection="{ item }">
-              <v-chip color="primary" small class="mx-1">
+              <v-chip class="mx-1" color="primary" small>
                 {{ item['text'] }}
               </v-chip>
             </template>
@@ -27,8 +27,8 @@
             <v-text-field
               v-model="data.maxUnavailable"
               class="my-0"
-              required
               label="容器组最大不可用数量"
+              required
               :rules="dataRules.maxUnavailableRule"
               @keyup="onUpdateStrategyDataInput"
             />
@@ -37,8 +37,8 @@
             <v-text-field
               v-model="data.minReadySeconds"
               class="my-0"
-              required
               label="最小就绪时间 (MinReadySeconds)"
+              required
               type="number"
               @keyup="onUpdateStrategyDataInput"
             />
@@ -50,8 +50,8 @@
             <v-text-field
               v-model="data.maxUnavailable"
               class="my-0"
-              required
               label="容器组最大不可用数量"
+              required
               :rules="dataRules.maxUnavailableRule"
               @keyup="onUpdateStrategyDataInput"
             />
@@ -60,8 +60,8 @@
             <v-text-field
               v-model="data.maxSurge"
               class="my-0"
-              required
               label="容器组最大超出数量"
+              required
               :rules="dataRules.maxSurgeRule"
               @keyup="onUpdateStrategyDataInput"
             />
@@ -73,8 +73,8 @@
             <v-text-field
               v-model="data.partition"
               class="my-0"
-              required
               label="Partition"
+              required
               :rules="dataRules.partitionRule"
               @keyup="onUpdateStrategyDataInput"
             />
@@ -89,17 +89,17 @@
         <v-col cols="6">
           <v-autocomplete
             v-model="affinity"
-            color="primary"
-            :items="affinitys"
-            :rules="dataRules.affinityRule"
-            label="部署模式"
-            hide-selected
             class="my-0"
+            color="primary"
+            hide-selected
+            :items="affinitys"
+            label="部署模式"
             no-data-text="暂无可选数据"
+            :rules="dataRules.affinityRule"
             @change="onAffinityChange"
           >
             <template #selection="{ item }">
-              <v-chip color="primary" small class="mx-1">
+              <v-chip class="mx-1" color="primary" small>
                 {{ item['text'] }}
               </v-chip>
             </template>

@@ -1,17 +1,19 @@
 <template>
-  <BaseDialog v-model="dialog" :width="500" title="关联应用" icon="mdi-link" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-link" title="关联应用" :width="500" @reset="reset">
     <template #content>
       <component :is="formComponent" :ref="formComponent" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="addApp"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addApp"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import LinkAppBaseForm from './LinkAppBaseForm';
+
   import { postAddApp } from '@/api';
 
   export default {

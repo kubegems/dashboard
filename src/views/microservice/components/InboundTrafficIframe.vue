@@ -1,7 +1,7 @@
 <template>
   <v-card flat>
     <v-card-text class="pa-2 px-3">
-      <iframe id="inbound" :src="src" allow width="100%" :height="height" class="iframe" @load="loadDataComplete" />
+      <iframe id="inbound" allow class="iframe" :height="height" :src="src" width="100%" @load="loadDataComplete" />
     </v-card-text>
   </v-card>
 </template>

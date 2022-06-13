@@ -1,15 +1,15 @@
 <template>
-  <BaseFullScreenDialog v-model="visible" title="查询历史" icon="mdi-history" @dispose="handleDispose">
+  <BaseFullScreenDialog v-model="visible" icon="mdi-camera" title="查看快照" @dispose="handleDispose">
     <template #content>
       <v-card flat>
         <v-card-text class="pl-4 py-1">
           <v-row class="my-1 pa-1">
-            <v-col cols="12" class="pa-1 pl-2">
+            <v-col class="pa-1 pl-2" cols="12">
               <ClusterSelect
                 v-model="cluster"
                 auto-select-first
-                object-value
                 mode="default"
+                object-value
                 @change="onClusterChange"
               />
             </v-col>
@@ -18,14 +18,14 @@
       </v-card>
       <v-card class="mt-3">
         <v-data-table
+          class="px-4"
           disable-sort
           :headers="headers"
+          hide-default-footer
           :items="items"
-          :page.sync="params.page"
           :items-per-page="params.size"
           no-data-text="暂无数据"
-          hide-default-footer
-          class="px-4"
+          :page.sync="params.page"
         >
           <template #[`item.snapshotName`]="{ item }">{{ item.SnapshotName }}</template>
           <template #[`item.snapshotCount`]="{ item }">{{ item.SnapshotCount }}</template>
@@ -39,25 +39,25 @@
             item.CreateAt ? $moment(item.CreateAt).format('lll') : ''
           }}</template>
           <template #[`item.downloadURL`]="{ item }">
-            <v-btn text color="primary" class="font-weight-medium" small @click="previewLogQuerySnapshot(item)">
+            <v-btn class="font-weight-medium" color="primary" small text @click="previewLogQuerySnapshot(item)">
               {{ item.DownloadURL }}
             </v-btn>
           </template>
           <template #[`item.action`]="{ item }">
             <v-flex :id="`r${item.ID}`" />
-            <v-menu left :attach="`#r${item.ID}`">
+            <v-menu :attach="`#r${item.ID}`" left>
               <template #activator="{ on }">
                 <v-btn icon>
-                  <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                  <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
                 </v-btn>
               </template>
               <v-card>
                 <v-card-text class="pa-2">
                   <v-flex>
-                    <v-btn color="primary" text small @click="downloadLogQuerySnapshot(item)"> 下载 </v-btn>
+                    <v-btn color="primary" small text @click="downloadLogQuerySnapshot(item)"> 下载 </v-btn>
                   </v-flex>
                   <v-flex>
-                    <v-btn color="error" text small @click="removeLogQuerySnapshot(item)"> 删除 </v-btn>
+                    <v-btn color="error" small text @click="removeLogQuerySnapshot(item)"> 删除 </v-btn>
                   </v-flex>
                 </v-card-text>
               </v-card>
@@ -69,9 +69,9 @@
           v-model="params.page"
           :page-count="pageCount"
           :size="params.size"
-          @loaddata="logQuerySnapshotList"
-          @changesize="onPageSizeChange"
           @changepage="onPageIndexChange"
+          @changesize="onPageSizeChange"
+          @loaddata="logQuerySnapshotList"
         />
       </v-card>
     </template>
@@ -80,13 +80,16 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import { getLogQuerySnapshotList, deleteLogQuerySnapshot } from '@/api';
-  import ClusterSelect from '@/views/observe/components/ClusterSelect';
   import BaseSelect from '@/mixins/select';
+  import ClusterSelect from '@/views/observe/components/ClusterSelect';
 
   export default {
     name: 'LogSnapshot',
-    components: { ClusterSelect },
+    components: {
+      ClusterSelect,
+    },
     mixins: [BaseSelect],
     data: () => ({
       visible: false,

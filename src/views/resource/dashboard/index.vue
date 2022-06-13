@@ -7,7 +7,7 @@
             租户角色:
             {{ $TENANT_ROLE[m_permisson_tenantRole] ? $TENANT_ROLE[m_permisson_tenantRole] : '暂无' }}
           </span>
-          <v-btn v-if="m_permisson_tenantAllow" text small class="primary--text mt-n1" @click="manageUser">
+          <v-btn v-if="m_permisson_tenantAllow" class="primary--text mt-n1" small text @click="manageUser">
             <v-icon left small> fas fa-user-md </v-icon>
             租户成员
           </v-btn>
@@ -15,14 +15,14 @@
       </template>
     </BaseBreadcrumb>
     <v-row class="mt-3">
-      <v-col cols="9" class="py-0">
+      <v-col class="py-0" cols="9">
         <DashboardCard :statistics="statistics" />
 
         <ProjectList class="mt-1" @refresh="tenantStatistics" />
 
         <ResourceList />
       </v-col>
-      <v-col cols="3" class="py-0">
+      <v-col class="py-0" cols="3">
         <AuditList />
         <EventList />
       </v-col>
@@ -34,12 +34,14 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import ProjectList from './components/ProjectList';
-  import ManageUser from './components/ManageUser';
-  import DashboardCard from './components/DashboardCard';
-  import ResourceList from './components/ResourceList';
+
   import AuditList from './components/AuditList';
+  import DashboardCard from './components/DashboardCard';
   import EventList from './components/EventList';
+  import ManageUser from './components/ManageUser';
+  import ProjectList from './components/ProjectList';
+  import ResourceList from './components/ResourceList';
+
   import { getTenantStatistics } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -47,12 +49,12 @@
   export default {
     name: 'Dashboard',
     components: {
-      ProjectList,
-      ManageUser,
-      DashboardCard,
-      ResourceList,
       AuditList,
+      DashboardCard,
       EventList,
+      ManageUser,
+      ProjectList,
+      ResourceList,
     },
     mixins: [BasePermission, BaseResource],
     data: () => ({

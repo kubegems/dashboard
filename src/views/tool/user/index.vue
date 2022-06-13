@@ -2,22 +2,22 @@
   <v-container fluid>
     <BaseBreadcrumb />
     <v-row class="mt-0">
-      <v-col cols="3" class="pt-0">
+      <v-col class="pt-0" cols="3">
         <v-card>
           <v-card-text class="pa-7">
             <div class="d-flex justify-center my-3">
               <div class="text-center">
-                <Icon icon="carbon:user-filled" width="120px" height="120px" style="color: #1e88e5" />
+                <Icon height="120px" icon="carbon:user-filled" style="color: #1e88e5" width="120px" />
                 <h3 class="mt-2 text-h6 font-weight-regular">
                   {{ User.Username }}
-                  <v-chip pill class="mr-1 mt-n1" small>
+                  <v-chip class="mr-1 mt-n1" pill small>
                     <v-avatar left>
-                      <v-btn color="grey lighten-4" class="white--text" small>
+                      <v-btn class="white--text" color="grey lighten-4" small>
                         <BaseLogo
                           class="primary--text logo-margin mt-1"
                           :icon-name="User.SourceVendor ? User.SourceVendor.toLowerCase() : 'kubegems'"
-                          :width="20"
                           :ml="0"
+                          :width="20"
                         />
                       </v-btn>
                     </v-avatar>
@@ -53,10 +53,10 @@
           </v-card-text>
         </v-card>
       </v-col>
-      <v-col cols="9" class="pt-0">
+      <v-col class="pt-0" cols="9">
         <v-card flat>
           <v-card-text class="pa-0">
-            <v-tabs v-model="tab" height="30" class="rounded-t pa-3">
+            <v-tabs v-model="tab" class="rounded-t pa-3" height="30">
               <v-tab v-for="item in tabItems" :key="item.value">
                 {{ item.text }}
               </v-tab>
@@ -71,9 +71,11 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import AuditList from './components/AuditList';
   import MessageBox from './components/MessageBox';
   import OwnerSetting from './components/OwnerSetting';
+
   import { getLoginUserInfo } from '@/api';
 
   export default {

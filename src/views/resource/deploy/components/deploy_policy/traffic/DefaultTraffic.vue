@@ -5,10 +5,10 @@
         <v-col cols="6">
           <v-text-field
             v-model="obj.strategy.canary.steps[0].setWeight"
-            :rules="canaryRules.setWeightRule"
             class="my-0"
-            required
             label="灰度流量比例"
+            required
+            :rules="canaryRules.setWeightRule"
             suffix="%"
             type="number"
             @keyup="onWeightInput"

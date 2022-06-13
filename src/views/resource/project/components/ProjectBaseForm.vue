@@ -8,19 +8,19 @@
             <v-text-field
               v-model="obj.ProjectName"
               class="my-0"
-              :rules="objRules.projectNameRules"
-              required
               label="名称"
               :readonly="edit"
+              required
+              :rules="objRules.projectNameRules"
             />
           </v-col>
           <v-col cols="6">
-            <v-text-field v-model="obj.ProjectAlias" class="my-0" required label="别名" />
+            <v-text-field v-model="obj.ProjectAlias" class="my-0" label="别名" required />
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="6">
-            <v-textarea v-model="obj.Remark" class="my-0" auto-grow required label="说明" />
+            <v-textarea v-model="obj.Remark" auto-grow class="my-0" label="说明" required />
           </v-col>
         </v-row>
       </v-card-text>
@@ -28,28 +28,28 @@
     <template v-else-if="step === 1">
       <BaseSubTitle title="项目成员角色" />
       <v-card-text class="pa-0">
-        <v-tabs v-model="tab" class="pa-2" vertical height="120px" @change="onTabChange">
+        <v-tabs v-model="tab" class="pa-2" height="120px" vertical @change="onTabChange">
           <v-tab v-for="item in tabItems" :key="item.value">
             {{ item.text }}
           </v-tab>
           <v-tab-item v-for="item in tabItems" :key="item.tab" :reverse-transition="false" :transition="false">
             <v-row class="pa-0 ma-0">
-              <v-col cols="6" class="py-1">
+              <v-col class="py-1" cols="6">
                 <v-card elevation="2" height="550px">
                   <v-card-text>
                     <v-flex class="px-1 mb-2">租户成员</v-flex>
                     <v-text-field
                       v-model="searchAllUser"
                       class="mx-1"
-                      prepend-inner-icon="mdi-magnify"
                       dense
                       hide-details
+                      prepend-inner-icon="mdi-magnify"
                       @keyup="onAllUsernameInput"
                     />
                     <v-list dense height="450px" style="overflow-y: auto">
                       <v-list-item v-for="(user, index) in allUsers" :key="index" link @click="setRole(user, index)">
                         <v-list-item-avatar class="my-1">
-                          <v-avatar :size="32" color="primary" class="white--text font-weight-medium">
+                          <v-avatar class="white--text font-weight-medium" color="primary" :size="32">
                             {{ user.Username[0].toLocaleUpperCase() }}
                           </v-avatar>
                         </v-list-item-avatar>
@@ -61,7 +61,7 @@
                   </v-card-text>
                 </v-card>
               </v-col>
-              <v-col cols="6" class="py-1">
+              <v-col class="py-1" cols="6">
                 <v-card elevation="2" height="550px">
                   <v-card-text>
                     <v-flex class="px-1 mb-2">
@@ -70,9 +70,9 @@
                     <v-text-field
                       v-model="searchRoleUser"
                       class="mx-1"
-                      prepend-inner-icon="mdi-magnify"
                       dense
                       hide-details
+                      prepend-inner-icon="mdi-magnify"
                       @keyup="onRoleUsernameInput"
                     />
                     <v-list dense height="450px" style="overflow-y: auto">
@@ -83,7 +83,7 @@
                         @click="removeRole(user, index)"
                       >
                         <v-list-item-avatar class="my-1">
-                          <v-avatar :size="32" color="primary" class="white--text font-weight-medium">
+                          <v-avatar class="white--text font-weight-medium" color="primary" :size="32">
                             {{ user.Username[0].toLocaleUpperCase() }}
                           </v-avatar>
                         </v-list-item-avatar>
@@ -105,15 +105,16 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import { getTenantUserList, getProjectUserList, deleteProjectUser, postAddProjectUser } from '@/api';
-  import BaseSelect from '@/mixins/select';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
   import { k8sLabel, required } from '@/utils/rules';
 
   export default {
     name: 'ProjectBaseForm',
-    mixins: [BaseSelect, BasePermission, BaseResource],
+    mixins: [BasePermission, BaseResource, BaseSelect],
     props: {
       edit: {
         type: Boolean,

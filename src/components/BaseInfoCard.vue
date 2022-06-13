@@ -16,6 +16,14 @@
   export default {
     name: 'BaseInfoCard',
     props: {
+      flat: {
+        type: Boolean,
+        default: () => false,
+      },
+      icon: {
+        type: String,
+        default: () => '',
+      },
       num: {
         type: Number,
         default: () => 0,
@@ -24,17 +32,9 @@
         type: String,
         default: () => '',
       },
-      icon: {
-        type: String,
-        default: () => '',
-      },
       unit: {
         type: String,
         default: () => '',
-      },
-      flat: {
-        type: Boolean,
-        default: () => false,
       },
     },
   };

@@ -2,7 +2,7 @@
   <v-card flat>
     <v-sheet class="text-body-2 primary--text pa-2">
       <v-flex v-if="showBtn" class="float-left ml-2">
-        <v-btn small text color="primary" @click="returnIframePage"> 返回 </v-btn>
+        <v-btn color="primary" small text @click="returnIframePage"> 返回 </v-btn>
       </v-flex>
       <CountLimit class="float-right ml-2" @refreshLimit="refreshLimit" />
       <v-flex class="float-right">
@@ -16,11 +16,11 @@
         v-if="show"
         id="trace"
         :key="iframeKey"
-        :src="src"
         allow
-        width="100%"
-        :height="height"
         class="iframe"
+        :height="height"
+        :src="src"
+        width="100%"
         @load="loadDataComplete"
       />
     </v-card-text>
@@ -29,7 +29,9 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import CountLimit from './CountLimit';
+
   import { randomString } from '@/utils/helpers';
 
   export default {
@@ -38,13 +40,13 @@
       CountLimit,
     },
     props: {
-      type: {
-        type: String,
-        default: () => 'workloads',
-      },
       services: {
         type: Array,
         default: () => [],
+      },
+      type: {
+        type: String,
+        default: () => 'workloads',
       },
     },
     data() {

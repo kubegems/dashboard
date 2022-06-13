@@ -2,29 +2,29 @@
   <v-flex>
     <BaseSubTitle
       v-if="pathLevel === 1"
-      :title="label"
-      :color="pathLevel === 1 ? 'grey lighten-3' : ''"
       class="mb-4"
+      :color="pathLevel === 1 ? 'grey lighten-3' : ''"
       :divider="false"
+      :title="label"
     />
     <v-autocomplete
       :id="id"
-      :items="items"
-      hide-selected
-      :label="pathLevel === 1 ? '' : label"
       class="my-2"
-      :value="param.value"
-      :rules="titleRule"
+      hide-selected
+      :items="items"
+      :label="pathLevel === 1 ? '' : label"
       :menu-props="{
         bottom: true,
         left: true,
         origin: `top center`,
       }"
+      :rules="titleRule"
+      :value="param.value"
       @change="onChange($event)"
       @focus="onStorageClassSelectFocus"
     >
       <template #selection="{ item }">
-        <v-chip color="primary" small class="mx-1">
+        <v-chip class="mx-1" color="primary" small>
           {{ item['text'] }}
         </v-chip>
       </template>
@@ -33,14 +33,22 @@
 </template>
 
 <script>
-  import BaseSelect from '@/mixins/select';
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'SingleSelectParam',
-    mixins: [BaseSelect, BaseResource],
+    mixins: [BaseResource, BaseSelect],
     props: {
+      clusterName: {
+        type: String,
+        default: () => '',
+      },
+      id: {
+        type: String,
+        default: () => '',
+      },
       label: {
         type: String,
         default: () => '',
@@ -48,14 +56,6 @@
       param: {
         type: Object,
         default: () => {},
-      },
-      id: {
-        type: String,
-        default: () => '',
-      },
-      clusterName: {
-        type: String,
-        default: () => '',
       },
     },
     data: () => ({

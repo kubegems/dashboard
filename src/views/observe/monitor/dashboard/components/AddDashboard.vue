@@ -1,17 +1,19 @@
 <template>
-  <BaseDialog v-model="dialog" :width="500" title="创建监控大盘" icon="mdi-chart-areaspline" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-chart-areaspline" title="创建监控大盘" :width="500" @reset="reset">
     <template #content>
       <component :is="formComponent" :ref="formComponent" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="addDashboard"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addDashboard"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapState } from 'vuex';
+
   import DashboardBaseForm from './DashboardBaseForm';
+
   import { postAddMonitorDashboard } from '@/api';
 
   export default {

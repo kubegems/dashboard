@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <BaseSplitContainer title="项目环境" side-width="250px" :tooltip="!!env">
+    <BaseSplitContainer side-width="250px" title="项目环境" :tooltip="!!env">
       <ProjectEnvironmentTree slot="side" v-model="env" @change="onEnvChange" />
 
       <div v-if="!!env" slot="tooltip" class="text-caption" :style="{ maxWidth: '200px' }">
@@ -8,7 +8,7 @@
           <v-icon color="white" left small> mdi-cloud </v-icon>
           <span>环境信息</span>
         </v-flex>
-        <v-list dense class="pa-0 kubegems__tip">
+        <v-list class="pa-0 kubegems__tip" dense>
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title>集群</v-list-item-title>
@@ -39,14 +39,14 @@
 </template>
 
 <script>
-  import ProjectEnvironmentTree from '@/views/observe/components/ProjectEnvironmentTree';
   import EmptyOverlay from '@/views/observe/components/EmptyOverlay';
+  import ProjectEnvironmentTree from '@/views/observe/components/ProjectEnvironmentTree';
 
   export default {
     name: 'ProjectEnvironmentLayout',
     components: {
-      ProjectEnvironmentTree,
       EmptyOverlay,
+      ProjectEnvironmentTree,
     },
     data() {
       return {

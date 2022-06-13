@@ -3,18 +3,19 @@
     :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
     :style="`height: ${height}px !important;overflow: auto;`"
   >
-    <CodeDiff :old-string="normalizedLiveState" :new-string="predictedLiveState" />
+    <CodeDiff :new-string="predictedLiveState" :old-string="normalizedLiveState" />
   </v-flex>
 </template>
 
 <script>
-  import { mapState } from 'vuex';
-
   import CodeDiff from 'vue-code-diff';
+  import { mapState } from 'vuex';
 
   export default {
     name: 'DeployDiffYaml',
-    components: { CodeDiff },
+    components: {
+      CodeDiff,
+    },
     props: {
       resource: {
         type: Object,

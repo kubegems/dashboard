@@ -1,19 +1,19 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="更新采集器" icon="mdi-arrange-send-backward" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-arrange-send-backward" title="更新采集器" :width="1000" @reset="reset">
     <template #content>
-      <component :is="formComponent" :ref="formComponent" :item="item" :edit="true" title="Flow/ClusterFlow" />
+      <component :is="formComponent" :ref="formComponent" :edit="true" :item="item" title="Flow/ClusterFlow" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="updateFlow"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateFlow"> 确定 </v-btn>
     </template>
     <template #header-action>
       <v-switch
         :key="switchKey"
         v-model="yaml"
         class="ma-0 pl-2 ml-2 mt-1"
-        style="margin-top: 8px !important"
         color="white"
         hide-details
+        style="margin-top: 8px !important"
         @change="onYamlSwitchChange"
       >
         <template #label>
@@ -26,8 +26,10 @@
 
 <script>
   import { mapState } from 'vuex';
-  import FlowBaseForm from './FlowBaseForm';
+
   import FlowSchema from '../mixins/schema';
+  import FlowBaseForm from './FlowBaseForm';
+
   import { patchFlowData, patchClusterFlowData, getFlowDetailData, getClusterFlowDetailData } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { randomString, deepCopy } from '@/utils/helpers';

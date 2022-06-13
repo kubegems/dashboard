@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form" v-model="valid" lazy-validation class="my-2" @submit.prevent>
+  <v-form ref="form" v-model="valid" class="my-2" lazy-validation @submit.prevent>
     <v-expand-transition>
       <v-card v-show="expand" class="my-2 pa-2 kubegems__expand-transition" :elevation="4">
         <v-card-text class="pa-0">
@@ -8,10 +8,10 @@
               <span>名称</span>
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
-              <v-text-field v-model="http.name" class="my-0" required label="name" />
+              <v-text-field v-model="http.name" class="my-0" label="name" required />
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
-              <v-text-field v-model="http.timeout" class="my-0" required label="timeout" />
+              <v-text-field v-model="http.timeout" class="my-0" label="timeout" required />
             </v-flex>
             <div class="kubegems__clear-float" />
           </v-sheet>
@@ -22,10 +22,10 @@
                 <span>redirect</span>
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
-                <v-text-field v-model="http.redirect.uri" class="my-0" required label="uri" />
+                <v-text-field v-model="http.redirect.uri" class="my-0" label="uri" required />
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
-                <v-text-field v-model="http.redirect.authority" class="my-0" required label="authority" />
+                <v-text-field v-model="http.redirect.authority" class="my-0" label="authority" required />
               </v-flex>
               <div class="kubegems__clear-float" />
             </v-sheet>
@@ -37,9 +37,9 @@
                 <v-text-field
                   v-model="http.redirect.redirectCode"
                   class="my-0"
+                  label="redirectCode"
                   required
                   type="number"
-                  label="redirectCode"
                 />
               </v-flex>
               <div class="kubegems__clear-float" />
@@ -52,10 +52,10 @@
                 <span>delegate</span>
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
-                <v-text-field v-model="http.delegate.name" class="my-0" required label="name" />
+                <v-text-field v-model="http.delegate.name" class="my-0" label="name" required />
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
-                <v-text-field v-model="http.delegate.namespace" class="my-0" required label="namespace" />
+                <v-text-field v-model="http.delegate.namespace" class="my-0" label="namespace" required />
               </v-flex>
               <div class="kubegems__clear-float" />
             </v-sheet>
@@ -67,10 +67,10 @@
                 <span>rewrite</span>
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
-                <v-text-field v-model="http.rewrite.uri" class="my-0" required label="uri" />
+                <v-text-field v-model="http.rewrite.uri" class="my-0" label="uri" required />
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
-                <v-text-field v-model="http.rewrite.authority" class="my-0" required label="authority" />
+                <v-text-field v-model="http.rewrite.authority" class="my-0" label="authority" required />
               </v-flex>
               <div class="kubegems__clear-float" />
             </v-sheet>
@@ -82,10 +82,10 @@
                 <span>retries</span>
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
-                <v-text-field v-model="http.retries.attempts" class="my-0" required label="attempts" />
+                <v-text-field v-model="http.retries.attempts" class="my-0" label="attempts" required />
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
-                <v-text-field v-model="http.retries.perTryTimeout" class="my-0" required label="perTryTimeout" />
+                <v-text-field v-model="http.retries.perTryTimeout" class="my-0" label="perTryTimeout" required />
               </v-flex>
               <div class="kubegems__clear-float" />
             </v-sheet>
@@ -94,14 +94,14 @@
                 <span />
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
-                <v-text-field v-model="http.retries.retryOn" class="my-0" required label="retryOn" />
+                <v-text-field v-model="http.retries.retryOn" class="my-0" label="retryOn" required />
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-text-field
                   v-model="http.retries.retryRemoteLocalities"
                   class="my-0"
-                  required
                   label="retryRemoteLocalities"
+                  required
                 />
               </v-flex>
               <div class="kubegems__clear-float" />
@@ -114,10 +114,10 @@
                 <span>mirror</span>
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
-                <v-text-field v-model="http.mirror.host" class="my-0" required label="host" />
+                <v-text-field v-model="http.mirror.host" class="my-0" label="host" required />
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
-                <v-text-field v-model="http.mirror.subset" class="my-0" required label="subset" />
+                <v-text-field v-model="http.mirror.subset" class="my-0" label="subset" required />
               </v-flex>
               <div class="kubegems__clear-float" />
             </v-sheet>
@@ -126,7 +126,7 @@
                 <span />
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
-                <v-text-field v-model="http.mirror.port" class="my-0" required type="number" label="port" />
+                <v-text-field v-model="http.mirror.port" class="my-0" label="port" required type="number" />
               </v-flex>
               <div class="kubegems__clear-float" />
             </v-sheet>
@@ -140,8 +140,8 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn text small color="error" @click="closeCard"> 取消 </v-btn>
-          <v-btn text small color="primary" @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
+          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -149,15 +149,15 @@
 </template>
 
 <script>
-  import HTTPRouteDestinationForm from '@/views/microservice/service/components/virtual_service/route/HTTPRouteDestinationForm';
-  import HTTPMatchRequestForm from '@/views/microservice/service/components/virtual_service/match/HTTPMatchRequestForm';
   import { deepCopy } from '@/utils/helpers';
+  import HTTPMatchRequestForm from '@/views/microservice/service/components/virtual_service/match/HTTPMatchRequestForm';
+  import HTTPRouteDestinationForm from '@/views/microservice/service/components/virtual_service/route/HTTPRouteDestinationForm';
 
   export default {
     name: 'HttpForm',
     components: {
-      HTTPRouteDestinationForm,
       HTTPMatchRequestForm,
+      HTTPRouteDestinationForm,
     },
     props: {
       data: {

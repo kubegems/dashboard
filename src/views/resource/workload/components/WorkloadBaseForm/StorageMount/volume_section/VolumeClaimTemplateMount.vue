@@ -5,7 +5,7 @@
         <span>模版定义</span>
       </v-flex>
       <v-flex class="float-left ml-2 kubegems__form-width">
-        <v-text-field v-model="obj.metadata.name" class="my-0" required label="卷名称" :rules="objRules.nameRule" />
+        <v-text-field v-model="obj.metadata.name" class="my-0" label="卷名称" required :rules="objRules.nameRule" />
       </v-flex>
       <div class="kubegems__clear-float" />
     </v-sheet>
@@ -15,17 +15,17 @@
         <v-autocomplete
           v-if="$route.params.environment || $route.params.cluster"
           v-model="obj.spec.storageClassName"
-          :items="storageClasses"
-          :rules="objRules.storageClassNameRule"
-          color="primary"
-          label="存储类型"
-          hide-selected
           class="my-0"
+          color="primary"
+          hide-selected
+          :items="storageClasses"
+          label="存储类型"
           no-data-text="暂无可选数据"
+          :rules="objRules.storageClassNameRule"
           @focus="onStorageClassSelectFocus"
         >
           <template #selection="{ item }">
-            <v-chip color="primary" small class="mx-1">
+            <v-chip class="mx-1" color="primary" small>
               {{ item['text'] }}
             </v-chip>
           </template>
@@ -38,16 +38,16 @@
       <v-flex class="float-left ml-2 kubegems__form-width">
         <v-autocomplete
           v-model="obj.spec.accessModes[0]"
-          :items="accessModes"
-          :rules="objRules.accessModeRule"
-          color="primary"
-          label="访问模式"
-          hide-selected
           class="my-0"
+          color="primary"
+          hide-selected
+          :items="accessModes"
+          label="访问模式"
           no-data-text="暂无可选数据"
+          :rules="objRules.accessModeRule"
         >
           <template #selection="{ item }">
-            <v-chip color="primary" small class="mx-1">
+            <v-chip class="mx-1" color="primary" small>
               {{ item['text'] }}
             </v-chip>
           </template>
@@ -57,8 +57,8 @@
         <v-text-field
           v-model="obj.spec.resources.requests.storage"
           class="my-0"
-          required
           label="容量"
+          required
           :rules="objRules.storageRule"
         />
       </v-flex>
@@ -67,15 +67,16 @@
     <VolumeMount
       ref="volumeMount"
       :containers="data.spec.template.spec.containers"
-      :volume-mount-name="volumeMountName"
-      :volume="volume"
       type="VolumeClaimTemplate"
+      :volume="volume"
+      :volume-mount-name="volumeMountName"
     />
   </v-form>
 </template>
 
 <script>
   import VolumeMount from './VolumeMount';
+
   import { getStorageClassList } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
@@ -83,23 +84,25 @@
 
   export default {
     name: 'VolumeClaimTemplateMount',
-    components: { VolumeMount },
+    components: {
+      VolumeMount,
+    },
     mixins: [BaseResource],
     props: {
       data: {
         type: Object,
         default: () => {},
       },
-      volumeMountName: {
-        type: String,
+      template: {
+        type: Object,
         default: () => null,
       },
       volume: {
         type: Object,
         default: () => null,
       },
-      template: {
-        type: Object,
+      volumeMountName: {
+        type: String,
         default: () => null,
       },
     },

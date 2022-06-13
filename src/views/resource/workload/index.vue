@@ -5,8 +5,8 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :filters="filters"
           :default="{ items: [], text: '负载名称', value: 'search' }"
+          :filters="filters"
           @refresh="m_filter_list"
         />
         <NamespaceFilter />
@@ -14,21 +14,21 @@
         <v-menu v-if="m_permisson_resourceAllow" left>
           <template #activator="{ on }">
             <v-btn icon>
-              <v-icon small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+              <v-icon color="primary" small v-on="on"> fas fa-ellipsis-v </v-icon>
             </v-btn>
           </template>
           <v-card>
             <v-card-text class="pa-2">
               <v-flex>
-                <v-btn text color="primary" @click="addWorkload">
+                <v-btn color="primary" text @click="addWorkload">
                   <v-icon left>mdi-plus-box</v-icon>
                   创建工作负载
                 </v-btn>
               </v-flex>
               <v-flex>
                 <v-btn
-                  text
                   color="error"
+                  text
                   @click="
                     m_table_batchRemoveResource(
                       tabItems[tab].value === 'DaemonSet'
@@ -50,30 +50,30 @@
         </v-menu>
       </v-card-title>
       <v-card-text class="py-0">
-        <v-tabs v-model="tab" height="30" class="rounded-t" @change="onTabChange">
+        <v-tabs v-model="tab" class="rounded-t" height="30" @change="onTabChange">
           <v-tab v-for="item in tabItems" :key="item.value">
             {{ item.text }}
           </v-tab>
         </v-tabs>
         <v-data-table
           :headers="headers"
+          hide-default-footer
           :items="items"
-          :page.sync="params.page"
           :items-per-page="params.size"
           no-data-text="暂无数据"
-          hide-default-footer
+          :page.sync="params.page"
           show-select
+          @toggle-select-all="m_table_onResourceToggleSelect"
           @update:sort-by="m_table_sortBy"
           @update:sort-desc="m_table_sortDesc"
-          @toggle-select-all="m_table_onResourceToggleSelect"
         >
           <template #[`item.data-table-select`]="{ item, index }">
             <v-checkbox
               v-model="m_table_batchResources[`${item.metadata.name}-${index}`].checked"
-              hide-details
               color="primary"
-              @click.stop
+              hide-details
               @change="m_table_onResourceChange($event, item, index)"
+              @click.stop
             />
           </template>
           <template #[`item.name`]="{ item, index }">
@@ -83,10 +83,10 @@
             </a>
             <ResourceAdvise
               v-if="item.hasOwnProperty('advise')"
-              :item="item.workload"
-              :top="params.size - index <= 5 || (items.length <= 5 && index >= 1)"
-              :kind="tabItems[tab].value"
               :advise-item="adviseItems[`${item.workload.metadata.name}/${item.workload.metadata.namespace}`]"
+              :item="item.workload"
+              :kind="tabItems[tab].value"
+              :top="params.size - index <= 5 || (items.length <= 5 && index >= 1)"
               @clearAdvise="clearAdvise"
               @scaleResourceLimit="scaleResourceLimit"
             />
@@ -97,8 +97,8 @@
           <template #[`item.status`]="{ item, index }">
             <v-flex :id="`e${item.workload.metadata.resourceVersion}`" />
             <EventTip
-              :kind="tabItems[tab].value"
               :item="item.workload"
+              :kind="tabItems[tab].value"
               :top="params.size - index <= 5 || (items.length <= 5 && index >= 1)"
             >
               <template #trigger>
@@ -138,19 +138,19 @@
 
           <template #[`item.action`]="{ item }">
             <v-flex :id="`r${item.workload.metadata.resourceVersion}`" />
-            <v-menu left :attach="`#r${item.workload.metadata.resourceVersion}`">
+            <v-menu :attach="`#r${item.workload.metadata.resourceVersion}`" left>
               <template #activator="{ on }">
                 <v-btn icon>
-                  <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                  <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
                 </v-btn>
               </template>
               <v-card>
                 <v-card-text class="pa-2">
                   <v-flex>
-                    <v-btn color="primary" text small @click="updateWorkload(item.workload)"> 编辑 </v-btn>
+                    <v-btn color="primary" small text @click="updateWorkload(item.workload)"> 编辑 </v-btn>
                   </v-flex>
                   <v-flex>
-                    <v-btn color="error" text small @click="removeWorkload(item.workload)"> 删除 </v-btn>
+                    <v-btn color="error" small text @click="removeWorkload(item.workload)"> 删除 </v-btn>
                   </v-flex>
                 </v-card-text>
               </v-card>
@@ -162,9 +162,9 @@
           v-model="params.page"
           :page-count="pageCount"
           :size="params.size"
-          @loaddata="workloadList"
-          @changesize="onPageSizeChange"
           @changepage="onPageIndexChange"
+          @changesize="onPageSizeChange"
+          @loaddata="workloadList"
         />
       </v-card-text>
     </v-card>
@@ -176,12 +176,12 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import ResourceLimit from './components/ResourceLimit';
+
   import AddWorkload from './components/AddWorkload';
-  import UpdateWorkload from './components/UpdateWorkload';
   import ResourceAdvise from './components/ResourceAdvise';
-  import EventTip from '@/views/resource/components/common/EventTip';
-  import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
+  import ResourceLimit from './components/ResourceLimit';
+  import UpdateWorkload from './components/UpdateWorkload';
+
   import {
     getDaemonSetList,
     getStatefulSetList,
@@ -192,22 +192,24 @@
     getWorkloadResourcesList,
     deleteWorkloadResourceAdvise,
   } from '@/api';
-  import BaseResource from '@/mixins/resource';
-  import BasePermission from '@/mixins/permission';
   import BaseFilter from '@/mixins/base_filter';
+  import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
   import BaseTable from '@/mixins/table';
+  import EventTip from '@/views/resource/components/common/EventTip';
+  import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
 
   export default {
     name: 'Workload',
     components: {
       AddWorkload,
-      UpdateWorkload,
+      EventTip,
       NamespaceFilter,
       ResourceAdvise,
-      EventTip,
       ResourceLimit,
+      UpdateWorkload,
     },
-    mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
+    mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],
     data() {
       this.tabMap = {
         deployment: 0,

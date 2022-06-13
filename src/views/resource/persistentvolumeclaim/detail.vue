@@ -4,24 +4,24 @@
     <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
-          <v-btn v-if="m_permisson_resourceAllow" text small class="primary--text" @click="scalePersistentVolumeClaim">
+          <v-btn v-if="m_permisson_resourceAllow" class="primary--text" small text @click="scalePersistentVolumeClaim">
             <v-icon left small> fas fa-arrows-alt-v </v-icon>
             扩容存储卷
           </v-btn>
-          <v-btn text small class="primary--text" @click="resourceYaml">
+          <v-btn class="primary--text" small text @click="resourceYaml">
             <v-icon left small> fas fa-code </v-icon>
             YAML
           </v-btn>
           <v-menu v-if="m_permisson_resourceAllow" left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
               </v-btn>
             </template>
             <v-card>
               <v-card-text class="pa-2 text-center">
                 <v-flex>
-                  <v-btn color="primary" text small @click="updatePersistentVolumeClaim"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updatePersistentVolumeClaim"> 编辑 </v-btn>
                 </v-flex>
                 <v-flex
                   v-if="
@@ -31,10 +31,10 @@
                     pvc.metadata.annotations['storage.kubegems.io/allow-snapshot'] === 'true'
                   "
                 >
-                  <v-btn color="primary" text small @click="addVolumeSnapshot"> 创建快照 </v-btn>
+                  <v-btn color="primary" small text @click="addVolumeSnapshot"> 创建快照 </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" text small @click="removePersistentVolumeClaim"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removePersistentVolumeClaim"> 删除 </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -43,13 +43,13 @@
       </template>
     </BaseBreadcrumb>
     <v-row class="mt-0">
-      <v-col cols="2" class="pt-0">
+      <v-col class="pt-0" cols="2">
         <BasicResourceInfo :item="pvc" />
       </v-col>
-      <v-col cols="10" class="pt-0">
+      <v-col class="pt-0" cols="10">
         <v-card>
           <v-card-text class="pa-0">
-            <v-tabs v-model="tab" height="30" class="rounded-t pa-3">
+            <v-tabs v-model="tab" class="rounded-t pa-3" height="30">
               <v-tab v-for="item in tabItems" :key="item.value">
                 {{ item.text }}
               </v-tab>
@@ -77,31 +77,33 @@
 
 <script>
   import { mapState } from 'vuex';
-  import ScalePersistentVolumeClaim from './components/ScalePersistentVolumeClaim';
+
   import PersistentVolumeClaimMonitor from './components/PersistentVolumeClaimMonitor';
   import ResourceInfo from './components/ResourceInfo';
+  import ScalePersistentVolumeClaim from './components/ScalePersistentVolumeClaim';
   import UpdatePersistentVolumeClaim from './components/UpdatePersistentVolumeClaim';
+
   import { getPersistentVolumeClaimDetail, deletePersistentVolumeClaim, postAddVolumeSnapshot } from '@/api';
-  import Metadata from '@/views/resource/components/metadata/Metadata';
+  import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
+  import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
   import EventList from '@/views/resource/components/common/EventList';
   import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
-  import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
-  import BaseResource from '@/mixins/resource';
-  import BasePermission from '@/mixins/permission';
+  import Metadata from '@/views/resource/components/metadata/Metadata';
 
   export default {
     name: 'PersistentVolumeClaimDetail',
     components: {
+      BasicResourceInfo,
+      EventList,
+      Metadata,
       PersistentVolumeClaimMonitor,
       ResourceInfo,
-      Metadata,
-      EventList,
       ResourceYaml,
-      BasicResourceInfo,
-      UpdatePersistentVolumeClaim,
       ScalePersistentVolumeClaim,
+      UpdatePersistentVolumeClaim,
     },
-    mixins: [BaseResource, BasePermission],
+    mixins: [BasePermission, BaseResource],
     data: () => ({
       pvc: null,
       tab: 0,

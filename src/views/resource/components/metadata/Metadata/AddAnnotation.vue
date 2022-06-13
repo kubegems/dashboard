@@ -1,24 +1,25 @@
 <template>
-  <BaseDialog v-model="dialog" :width="500" title="添加注解" icon="mdi-tag-plus" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-tag-plus" title="添加注解" :width="500" @reset="reset">
     <template #content>
       <BaseSubTitle title="注解定义" />
       <v-card-text class="pa-2">
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
           <v-sheet>
-            <v-text-field v-model="obj.key" class="my-0" required label="键" :rules="objRules.keyRule" />
-            <v-text-field v-model="obj.value" class="my-0" required label="值" :rules="objRules.valueRule" />
+            <v-text-field v-model="obj.key" class="my-0" label="键" required :rules="objRules.keyRule" />
+            <v-text-field v-model="obj.value" class="my-0" label="值" required :rules="objRules.valueRule" />
           </v-sheet>
         </v-form>
       </v-card-text>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="addAnnotation"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addAnnotation"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapState } from 'vuex';
+
   import { patchMetadataNode } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { k8sAnnotation, required } from '@/utils/rules';

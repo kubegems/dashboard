@@ -1,5 +1,5 @@
 <template>
-  <BasePanel v-model="panel" title="实时状态" :width="`50%`" icon="fas fa-spinner" @dispose="dispose">
+  <BasePanel v-model="panel" icon="fas fa-spinner" title="实时状态" :width="`50%`" @dispose="dispose">
     <template #header>
       <span class="ml-2"> {{ resource ? resource.kind : '' }}/{{ resource ? resource.name : '' }} </span>
     </template>
@@ -9,19 +9,19 @@
           v-model="containerMenu"
           bottom
           left
+          nudge-bottom="5px"
           offset-y
           origin="top center"
           transition="scale-transition"
-          nudge-bottom="5px"
         >
           <template #activator="{ on }">
-            <v-btn depressed color="white" class="white--text primary" dark v-on="on">
+            <v-btn class="white--text primary" color="white" dark depressed v-on="on">
               {{ container }}
               <v-icon v-if="containerMenu" right> fas fa-angle-up </v-icon>
               <v-icon v-else right> fas fa-angle-down </v-icon>
             </v-btn>
           </template>
-          <v-data-iterator :items="[{ text: '容器', values: containers }]" hide-default-footer>
+          <v-data-iterator hide-default-footer :items="[{ text: '容器', values: containers }]">
             <template #no-data>
               <v-card>
                 <v-card-text> 暂无容器 </v-card-text>
@@ -55,13 +55,13 @@
     </template>
     <template #content>
       <v-card-text class="ma-0 pa-0">
-        <v-tabs v-model="tab" height="45" class="rounded-t pa-0 v-tabs--default" fixed-tabs>
+        <v-tabs v-model="tab" class="rounded-t pa-0 v-tabs--default" fixed-tabs height="45">
           <v-tab v-for="item in tabItems" :key="item.value">
             {{ item.text }}
           </v-tab>
         </v-tabs>
 
-        <component :is="tabItems[tab].value" :ref="tabItems[tab].value" :resource="resource" :container="container" />
+        <component :is="tabItems[tab].value" :ref="tabItems[tab].value" :container="container" :resource="resource" />
       </v-card-text>
     </template>
   </BasePanel>
@@ -69,11 +69,13 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import DeployLiveYaml from './DeployLiveYaml';
+
   import DeployDiffYaml from './DeployDiffYaml';
   import DeployEvent from './DeployEvent';
+  import DeployLiveYaml from './DeployLiveYaml';
   import DeployLog from './DeployLog';
   import DeployResult from './DeployResult';
+
   import { getPodDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
@@ -81,9 +83,9 @@
   export default {
     name: 'DeployLive',
     components: {
-      DeployLiveYaml,
       DeployDiffYaml,
       DeployEvent,
+      DeployLiveYaml,
       DeployLog,
       DeployResult,
     },

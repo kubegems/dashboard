@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="金丝雀部署" icon="mdi-send" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-send" title="金丝雀部署" :width="1000" @reset="reset">
     <template #content>
       <v-flex>
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
@@ -12,17 +12,17 @@
               <v-col cols="6">
                 <v-autocomplete
                   v-model="trafficRouting"
-                  color="primary"
-                  :items="trafficRoutingItems"
-                  :rules="canaryRules.trafficRoutingRule"
-                  label="流量路由"
-                  hide-selected
                   class="my-0"
+                  color="primary"
+                  hide-selected
+                  :items="trafficRoutingItems"
+                  label="流量路由"
                   no-data-text="暂无可选数据"
+                  :rules="canaryRules.trafficRoutingRule"
                   @change="onTraffRoutingRuleChange"
                 >
                   <template #selection="{ item }">
-                    <v-chip color="primary" small class="mx-1">
+                    <v-chip class="mx-1" color="primary" small>
                       {{ item['text'] }}
                     </v-chip>
                   </template>
@@ -31,10 +31,10 @@
               <v-col v-if="trafficRouting === 'default'" cols="6">
                 <v-text-field
                   v-model="obj.strategy.canary.steps[0].setWeight"
-                  :rules="canaryRules.setWeightRule"
                   class="my-0"
-                  required
                   label="灰度流量比例"
+                  required
+                  :rules="canaryRules.setWeightRule"
                   suffix="%"
                   type="number"
                 />
@@ -45,19 +45,19 @@
                 <v-col cols="6">
                   <v-autocomplete
                     v-model="obj.strategy.canary.canaryService"
-                    :rules="canaryRules.canaryServiceRule"
-                    :items="canaryServiceItems"
-                    color="primary"
-                    label="灰度服务"
-                    hide-selected
                     class="my-0"
+                    color="primary"
+                    hide-selected
+                    :items="canaryServiceItems"
+                    label="灰度服务"
                     no-data-text="暂无可选数据"
+                    :rules="canaryRules.canaryServiceRule"
                     :search-input.sync="canaryServiceText"
-                    @keyup.enter="createCanaryService"
                     @change="onTrafficDataChange"
+                    @keyup.enter="createCanaryService"
                   >
                     <template #selection="{ item }">
-                      <v-chip color="primary" small class="mx-1">
+                      <v-chip class="mx-1" color="primary" small>
                         {{ item['text'] }}
                       </v-chip>
                     </template>
@@ -66,19 +66,19 @@
                 <v-col cols="6">
                   <v-autocomplete
                     v-model="obj.strategy.canary.stableService"
-                    :rules="canaryRules.stableServiceRule"
-                    :items="stableServiceItems"
-                    color="primary"
-                    label="线上服务"
-                    hide-selected
                     class="my-0"
+                    color="primary"
+                    hide-selected
+                    :items="stableServiceItems"
+                    label="线上服务"
                     no-data-text="暂无可选数据"
+                    :rules="canaryRules.stableServiceRule"
                     :search-input.sync="stableServiceText"
-                    @keyup.enter="createStableService"
                     @change="onTrafficDataChange"
+                    @keyup.enter="createStableService"
                   >
                     <template #selection="{ item }">
-                      <v-chip color="primary" small class="mx-1">
+                      <v-chip class="mx-1" color="primary" small>
                         {{ item['text'] }}
                       </v-chip>
                     </template>
@@ -90,7 +90,7 @@
 
           <template v-if="trafficRouting === 'istio'">
             <BaseSubTitle title="灰度配置" />
-            <v-tabs v-model="tab" class="px-2 mt-2 v-tabs--default" height="40" fixed-tabs @change="onTabChange">
+            <v-tabs v-model="tab" class="px-2 mt-2 v-tabs--default" fixed-tabs height="40" @change="onTabChange">
               <v-tab v-for="item in tabItems" :key="item.value">
                 {{ item.text }}
               </v-tab>
@@ -117,16 +117,16 @@
               ref="analysisTemplateItem"
               :obj="obj.strategy.canary.analysis"
               title="应用分析"
-              @updateAnalysis="updateAnalysis"
-              @removeAnalysis="removeAnalysis"
               @expandCard="expandCard"
+              @removeAnalysis="removeAnalysis"
+              @updateAnalysis="updateAnalysis"
             />
           </v-card-text>
         </v-form>
       </v-flex>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="strategyDeployEnvironmentApps">
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="strategyDeployEnvironmentApps">
         确定
       </v-btn>
     </template>
@@ -135,29 +135,31 @@
 
 <script>
   import { mapState } from 'vuex';
+
+  import AnalysisTemplateForm from './analysis_template/AnalysisTemplateForm';
+  import AnalysisTemplateItem from './analysis_template/AnalysisTemplateItem';
   import BaseDeployInfoForm from './base/BaseDeployInfoForm';
   import DefaultTraffic from './traffic/DefaultTraffic';
   import HeaderTraffic from './traffic/HeaderTraffic';
   import UriTraffic from './traffic/UriTraffic';
-  import AnalysisTemplateItem from './analysis_template/AnalysisTemplateItem';
-  import AnalysisTemplateForm from './analysis_template/AnalysisTemplateForm';
+
   import { postStrategyDeployEnvironmentApps, getAppResourceFileMetas } from '@/api';
-  import StrategyDeploy from '@/views/resource/deploy/mixins/deploy';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
   import { required, positiveInteger } from '@/utils/rules';
+  import StrategyDeploy from '@/views/resource/deploy/mixins/deploy';
 
   export default {
     name: 'Canary',
     components: {
-      AnalysisTemplateItem,
       AnalysisTemplateForm,
+      AnalysisTemplateItem,
       BaseDeployInfoForm,
       DefaultTraffic,
       HeaderTraffic,
       UriTraffic,
     },
-    mixins: [StrategyDeploy, BaseResource],
+    mixins: [BaseResource, StrategyDeploy],
     data() {
       return {
         dialog: false,

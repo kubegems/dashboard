@@ -16,6 +16,7 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import Header from './header/Header';
   import Sidebar from './sidebar/Sidebar';
   import Tool from './tool/Tool';

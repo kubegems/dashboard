@@ -7,19 +7,19 @@
         <v-autocomplete
           v-if="AdminViewport"
           v-model="obj.ProjectID"
-          color="primary"
-          :items="m_select_projectItems"
-          :rules="objRules.projectRule"
-          label="项目"
-          hide-selected
           class="my-0"
+          color="primary"
+          hide-selected
+          :items="m_select_projectItems"
+          label="项目"
           no-data-text="暂无可选数据"
           :readonly="edit"
-          @focus="onProjectSelectFocus"
+          :rules="objRules.projectRule"
           @change="onProjectChange"
+          @focus="onProjectSelectFocus"
         >
           <template #selection="{ item }">
-            <v-chip color="primary" small class="mx-1">
+            <v-chip class="mx-1" color="primary" small>
               {{ item['text'] }}
             </v-chip>
           </template>
@@ -29,26 +29,26 @@
             <v-text-field
               v-model="obj.name"
               class="my-0"
-              :rules="objRules.nameRules"
-              required
               label="名称"
               :readonly="edit"
+              required
+              :rules="objRules.nameRules"
             />
           </v-col>
           <v-col cols="6">
             <v-autocomplete
               v-model="obj.kind"
-              color="primary"
-              :items="kindItems"
-              :rules="objRules.kindRule"
-              label="应用类型"
-              hide-selected
               class="my-0"
+              color="primary"
+              hide-selected
+              :items="kindItems"
+              label="应用类型"
               no-data-text="暂无可选数据"
               :readonly="edit && obj.kind && obj.kind.length > 0"
+              :rules="objRules.kindRule"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -60,11 +60,11 @@
           <v-col cols="6">
             <v-textarea
               v-model="obj.description"
-              class="my-0"
-              :rules="objRules.descriptionRules"
               auto-grow
-              required
+              class="my-0"
               label="说明"
+              required
+              :rules="objRules.descriptionRules"
             />
           </v-col>
         </v-row>
@@ -81,9 +81,9 @@
       <v-card-text class="pa-2">
         <LabelItem
           :labels="obj.labels"
-          @updateLabels="updateLabels"
-          @removeLabels="removeLabels"
           @expandCard="expandCard"
+          @removeLabels="removeLabels"
+          @updateLabels="updateLabels"
         />
         <div class="kubegems__clear-float" />
       </v-card-text>
@@ -93,16 +93,20 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import LabelItem from '@/views/resource/components/label/LabelItem';
-  import LabelForm from '@/views/resource/components/label/LabelForm';
-  import BaseSelect from '@/mixins/select';
+
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
   import { k8sLabel, required } from '@/utils/rules';
+  import LabelForm from '@/views/resource/components/label/LabelForm';
+  import LabelItem from '@/views/resource/components/label/LabelItem';
 
   export default {
     name: 'AppBaseForm',
-    components: { LabelItem, LabelForm },
-    mixins: [BaseSelect, BaseResource],
+    components: {
+      LabelForm,
+      LabelItem,
+    },
+    mixins: [BaseResource, BaseSelect],
     props: {
       edit: {
         type: Boolean,

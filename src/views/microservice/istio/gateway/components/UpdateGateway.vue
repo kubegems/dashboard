@@ -1,20 +1,21 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="更新istio网关" icon="mdi-network" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-network" title="更新istio网关" :width="1000" @reset="reset">
     <template #content>
-      <component :is="formComponent" :ref="formComponent" :item="item" :edit="true" title="Gateway" />
+      <component :is="formComponent" :ref="formComponent" :edit="true" :item="item" title="Gateway" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="updateIstioGateway"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateIstioGateway"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapState } from 'vuex';
+
   import { patchUpdateIstioGateway, getIstioGatewayDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
-  import IstioGatewaySchema from '@/views/microservice/istio/gateway/mixins/schema';
   import { deepCopy } from '@/utils/helpers';
+  import IstioGatewaySchema from '@/views/microservice/istio/gateway/mixins/schema';
 
   export default {
     name: 'UpdateGateway',

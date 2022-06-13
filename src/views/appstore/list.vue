@@ -4,17 +4,17 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :filters="filters"
           :default="{ items: [], text: '应用商店仓库名称', value: 'search' }"
+          :filters="filters"
           :reload="false"
-          @refresh="m_filter_list"
           @filter="customFilter"
+          @refresh="m_filter_list"
         />
         <v-spacer />
         <v-menu left>
           <template #activator="{ on }">
             <v-btn icon>
-              <v-icon small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+              <v-icon color="primary" small v-on="on"> fas fa-ellipsis-v </v-icon>
             </v-btn>
           </template>
           <v-card>
@@ -27,8 +27,8 @@
               </v-flex>
               <v-flex>
                 <v-btn
-                  text
                   color="error"
+                  text
                   @click="m_table_batchRemoveNotK8SResource('仓库', 'Repository', repositoryList)"
                 >
                   <v-icon left>mdi-minus-box</v-icon>
@@ -43,10 +43,10 @@
         class="mx-4"
         disable-sort
         :headers="headers"
+        hide-default-footer
         :items="items"
         :items-per-page="500"
         no-data-text="暂无数据"
-        hide-default-footer
         show-select
         @toggle-select-all="m_table_onNotK8SResourceToggleSelect($event, 'ChartRepoName')"
       >
@@ -55,8 +55,8 @@
             v-model="m_table_batchResources[item.ID].checked"
             color="primary"
             hide-details
-            @click.stop
             @change="m_table_onNotK8SResourceChange($event, item, 'ChartRepoName')"
+            @click.stop
           />
         </template>
         <template #[`item.chartRepoName`]="{ item }">
@@ -65,8 +65,8 @@
         <template #[`item.syncStatus`]="{ item }">
           <StatusTip :item="item">
             <template #trigger>
-              <v-icon v-if="item.SyncStatus === 'success'" small color="success"> fas fa-check-circle </v-icon>
-              <v-icon v-else small color="error"> fas fa-minus-circle </v-icon>
+              <v-icon v-if="item.SyncStatus === 'success'" color="success" small> fas fa-check-circle </v-icon>
+              <v-icon v-else color="error" small> fas fa-minus-circle </v-icon>
               {{ item.SyncStatus }}
             </template>
           </StatusTip>
@@ -79,22 +79,22 @@
         </template>
         <template #[`item.action`]="{ item }">
           <v-flex :id="`r${item.ID}`" />
-          <v-menu left :attach="`#r${item.ID}`">
+          <v-menu :attach="`#r${item.ID}`" left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
               </v-btn>
             </template>
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" text small @click.stop="syncRepository(item)"> 同步 </v-btn>
+                  <v-btn color="primary" small text @click.stop="syncRepository(item)"> 同步 </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="primary" text small @click.stop="updateRepository(item)"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click.stop="updateRepository(item)"> 编辑 </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" text small @click.stop="removeRepository(item)"> 删除 </v-btn>
+                  <v-btn color="error" small text @click.stop="removeRepository(item)"> 删除 </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -108,12 +108,14 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import RepositoryInfo from './components/RepositoryInfo';
   import StatusTip from './components/StatusTip';
+
   import { getRepositoryList, deleteRepository, postSyncRepository } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
-  import BaseSelect from '@/mixins/select';
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
   import BaseTable from '@/mixins/table';
   import { deepCopy } from '@/utils/helpers';
 
@@ -123,7 +125,7 @@
       RepositoryInfo,
       StatusTip,
     },
-    mixins: [BaseFilter, BaseSelect, BaseResource, BaseTable],
+    mixins: [BaseFilter, BaseResource, BaseSelect, BaseTable],
     data: () => ({
       items: [],
       headers: [

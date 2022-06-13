@@ -1,34 +1,37 @@
 <template>
   <VueApexCharts
     ref="vueApexCharts"
-    type="bar"
-    width="100%"
     :height="height"
     :options="getOptions()"
     :series="series"
+    type="bar"
+    width="100%"
   />
 </template>
 
 <script>
-  import VueApexCharts from 'vue-apexcharts';
   import moment from 'moment';
+  import VueApexCharts from 'vue-apexcharts';
+
   import { toFixed } from '@/utils/helpers';
 
   export default {
     name: 'AlertBarChart',
-    components: { VueApexCharts },
+    components: {
+      VueApexCharts,
+    },
     props: {
       extendHeight: {
         type: Number,
         default: () => 250,
       },
-      metrics: {
-        type: Array,
-        default: () => [],
-      },
       label: {
         type: String,
         default: () => null,
+      },
+      metrics: {
+        type: Array,
+        default: () => [],
       },
     },
     data: () => ({

@@ -3,11 +3,11 @@
     <BaseBreadcrumb />
 
     <v-row class="mt-0">
-      <v-col v-for="(item, index) in items" :key="index" cols="12" class="pt-0 pb-3">
+      <v-col v-for="(item, index) in items" :key="index" class="pt-0 pb-3" cols="12">
         <v-hover #default="{ hover }">
-          <v-card class="mx-auto oauth-pos" height="100%" :elevation="hover ? 5 : 0">
+          <v-card class="mx-auto oauth-pos" :elevation="hover ? 5 : 0" height="100%">
             <v-list-item three-line>
-              <v-list-item-avatar class="primary--text" tile size="80">
+              <v-list-item-avatar class="primary--text" size="80" tile>
                 <BaseLogo class="mr-6 mt-1" :icon-name="item.vendor.toLowerCase()" :width="60" />
               </v-list-item-avatar>
               <v-list-item-content>
@@ -25,12 +25,12 @@
 
             <v-card-actions v-if="!item.forbid" class="btn-position">
               <v-spacer />
-              <v-btn depressed text color="primary" @click="configAuthSource(item)"> 配置 </v-btn>
+              <v-btn color="primary" depressed text @click="configAuthSource(item)"> 配置 </v-btn>
               <v-btn
                 v-if="Object.prototype.hasOwnProperty.call(item, 'enabled')"
+                :color="item.enabled ? `error` : `primary`"
                 depressed
                 text
-                :color="item.enabled ? `error` : `primary`"
                 @click="operateAuthSource(item)"
               >
                 {{ item.enabled ? '停止' : '启用' }}
@@ -50,6 +50,7 @@
 
 <script>
   import ConfigAuthSource from './components/ConfigAuthSource';
+
   import { getAuthSourceConfigList, putAuthSourceConfig } from '@/api';
   import { deepCopy } from '@/utils/helpers';
 

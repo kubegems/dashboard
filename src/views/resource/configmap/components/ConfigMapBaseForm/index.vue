@@ -8,18 +8,18 @@
           <v-col cols="6">
             <v-autocomplete
               v-model="resourceKind"
-              color="primary"
-              :items="kinds"
-              :rules="objRules.kindRule"
-              :readonly="edit"
-              label="资源"
-              hide-selected
               class="my-0"
+              color="primary"
+              hide-selected
+              :items="kinds"
+              label="资源"
               no-data-text="暂无可选数据"
+              :readonly="edit"
+              :rules="objRules.kindRule"
               @change="onKindChange"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -31,28 +31,28 @@
             <v-text-field
               v-model="obj.metadata.name"
               class="my-0"
-              required
               label="名称"
-              :rules="objRules.nameRule"
               :readonly="edit"
+              required
+              :rules="objRules.nameRule"
             />
           </v-col>
           <v-col cols="6">
             <v-autocomplete
               v-if="AdminViewport && !manifest"
               v-model="obj.metadata.namespace"
-              color="primary"
-              :items="m_select_namespaceItems"
-              :rules="objRules.namespaceRule"
-              :readonly="edit"
-              label="命名空间"
-              hide-selected
               class="my-0"
+              color="primary"
+              hide-selected
+              :items="m_select_namespaceItems"
+              label="命名空间"
               no-data-text="暂无可选数据"
+              :readonly="edit"
+              :rules="objRules.namespaceRule"
               @focus="onNamespaceSelectFocus(ThisCluster)"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -72,9 +72,9 @@
       <v-card-text class="pa-2">
         <ConfigMapDataItem
           :data="obj.data"
-          @updateData="updateData"
-          @removeData="removeData"
           @expandCard="expandCard"
+          @removeData="removeData"
+          @updateData="updateData"
         />
       </v-card-text>
     </v-form>
@@ -83,44 +83,46 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import ConfigMapDataItem from './ConfigMapDataItem';
-  import DataForm from '@/views/resource/components/common/DataForm';
-  import BaseSelect from '@/mixins/select';
+
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
   import { k8sName, required } from '@/utils/rules';
+  import DataForm from '@/views/resource/components/common/DataForm';
 
   export default {
     name: 'ConfigMapBaseForm',
     components: {
-      DataForm,
       ConfigMapDataItem,
+      DataForm,
     },
-    mixins: [BaseSelect, BaseResource],
+    mixins: [BaseResource, BaseSelect],
     props: {
-      item: {
+      app: {
         type: Object,
-        default: () => null,
+        default: () => {},
       },
       edit: {
         type: Boolean,
         default: () => false,
       },
+      item: {
+        type: Object,
+        default: () => null,
+      },
       kind: {
         type: String,
         default: () => 'ConfigMap',
-      },
-      manifest: {
-        type: Boolean,
-        default: () => false,
       },
       kinds: {
         type: Array,
         default: () => [],
       },
-      app: {
-        type: Object,
-        default: () => {},
+      manifest: {
+        type: Boolean,
+        default: () => false,
       },
     },
     data: () => ({

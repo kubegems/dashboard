@@ -12,17 +12,17 @@
               <v-flex class="float-left ml-2 kubegems__long-width">
                 <v-autocomplete
                   v-model="analysisTemplate"
-                  color="primary"
-                  :items="analysisTemplateItems"
-                  :rules="objRules.analysisTemplateRule"
-                  label="分析模版"
-                  hide-selected
                   class="my-0"
+                  color="primary"
+                  hide-selected
+                  :items="analysisTemplateItems"
+                  label="分析模版"
                   no-data-text="暂无可选数据"
+                  :rules="objRules.analysisTemplateRule"
                   @change="onAnalysisTemplateChange"
                 >
                   <template #selection="{ item }">
-                    <v-chip color="primary" small class="mx-1">
+                    <v-chip class="mx-1" color="primary" small>
                       {{ item['text'] }}
                     </v-chip>
                   </template>
@@ -37,16 +37,16 @@
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-autocomplete
                   v-model="clusterScope"
-                  color="primary"
-                  :items="clusterScopeItems"
-                  :rules="objRules.clusterScopeRule"
-                  label="模版范围"
-                  hide-selected
                   class="my-0"
+                  color="primary"
+                  hide-selected
+                  :items="clusterScopeItems"
+                  label="模版范围"
                   no-data-text="暂无可选数据"
+                  :rules="objRules.clusterScopeRule"
                 >
                   <template #selection="{ item }">
-                    <v-chip color="primary" small class="mx-1">
+                    <v-chip class="mx-1" color="primary" small>
                       {{ item['text'] }}
                     </v-chip>
                   </template>
@@ -60,17 +60,17 @@
             <v-card-text class="pa-2">
               <ArgsItem
                 :args="obj.args"
-                @updateArgs="updateArgs"
-                @removeArgs="removeArgs"
                 @expandCard="expandArgsCard"
+                @removeArgs="removeArgs"
+                @updateArgs="updateArgs"
               />
               <div class="kubegems__clear-float" />
             </v-card-text>
           </v-card-text>
           <v-card-actions class="pa-0">
             <v-spacer />
-            <v-btn text small color="error" @click="closeCard"> 取消 </v-btn>
-            <v-btn text small color="primary" @click="addData"> 保存 </v-btn>
+            <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
+            <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
           </v-card-actions>
         </v-card>
       </v-expand-transition>
@@ -80,8 +80,10 @@
 
 <script>
   import { mapGetters } from 'vuex';
+
   import ArgsForm from './ArgsForm';
   import ArgsItem from './ArgsItem';
+
   import { getStrategyDeployEnvironmentAppsAnalysisTempalte } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
@@ -90,8 +92,8 @@
   export default {
     name: 'AnalysisTemplateForm',
     components: {
-      ArgsItem,
       ArgsForm,
+      ArgsItem,
     },
     mixins: [BaseResource],
     props: {

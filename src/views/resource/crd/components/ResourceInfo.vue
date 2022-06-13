@@ -2,7 +2,7 @@
   <div>
     <v-card>
       <v-sheet class="pa-2">
-        <BaseListItemForDetail title="generation" :mt="0">
+        <BaseListItemForDetail :mt="0" title="generation">
           <template #content>
             {{ crd ? crd.metadata.generation : '' }}
           </template>
@@ -23,7 +23,7 @@
     </v-card>
 
     <v-card class="mt-3">
-      <BaseSubTitle title="状况" :divider="false" class="pt-2" />
+      <BaseSubTitle class="pt-2" :divider="false" title="状况" />
       <v-simple-table class="mx-2 pa-2 pb-3">
         <template #default>
           <thead>
@@ -40,10 +40,10 @@
               <td>{{ item.reason }}</td>
               <td>
                 <span v-if="item.status === 'True'">
-                  <v-icon small color="primary"> fas fa-check-circle </v-icon>
+                  <v-icon color="primary" small> fas fa-check-circle </v-icon>
                 </span>
                 <span v-else>
-                  <v-icon small color="error">fas fa-minus-circle</v-icon>
+                  <v-icon color="error" small>fas fa-minus-circle</v-icon>
                 </span>
               </td>
               <td>{{ item.type }}</td>

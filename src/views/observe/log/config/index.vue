@@ -12,20 +12,21 @@
 </template>
 
 <script>
+  import AlertRule from './alert_rule';
   import Flow from './flow';
   import Output from './output';
   import Receiver from './receiver';
-  import AlertRule from './alert_rule';
+
   import ProjectEnvironmentLayout from '@/views/observe/components/ProjectEnvironmentLayout';
 
   export default {
     name: 'MonitorConfig',
     components: {
-      ProjectEnvironmentLayout,
+      AlertRule,
       Flow,
       Output,
+      ProjectEnvironmentLayout,
       Receiver,
-      AlertRule,
     },
     data() {
       this.tabs = [

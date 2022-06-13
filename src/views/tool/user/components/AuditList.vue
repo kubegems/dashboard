@@ -1,15 +1,15 @@
 <template>
-  <v-card flat class="pa-2">
+  <v-card class="pa-2" flat>
     <v-card-title class="pa-0">
-      <v-chip-group v-model="action" column class="ml-2 align-center" @change="onActionStatusChange">
+      <v-chip-group v-model="action" class="ml-2 align-center" column @change="onActionStatusChange">
         <v-chip
           v-for="(item, index) in actionItems"
           :key="index"
-          label
-          small
-          :outlined="action !== index"
-          :color="item.color"
           class="font-weight-medium"
+          :color="item.color"
+          label
+          :outlined="action !== index"
+          small
           :text-color="`${action !== index ? item.color : 'white'}`"
         >
           {{ item.text }}
@@ -20,16 +20,16 @@
       class="mx-2"
       disable-sort
       :headers="headers"
+      hide-default-footer
+      item-key="ID"
       :items="items"
-      :page.sync="params.page"
       :items-per-page="params.size"
       no-data-text="暂无数据"
-      hide-default-footer
-      single-expand
+      :page.sync="params.page"
       show-expand
-      item-key="ID"
-      @item-expanded="convertYaml"
+      single-expand
       @click:row="onRowClick"
+      @item-expanded="convertYaml"
     >
       <template #[`item.createdAt`]="{ item }">
         {{ item.CreatedAt ? $moment(item.CreatedAt).format('lll') : '' }}
@@ -62,9 +62,9 @@
         <v-chip
           v-for="(value, key) in item ? item.Labels : {}"
           :key="key"
-          small
           class="ma-1"
           color="success"
+          small
           text-color="white"
         >
           <strong class="mx-1"> {{ key }} </strong>
@@ -77,15 +77,16 @@
       v-model="params.page"
       :page-count="pageCount"
       :size="params.size"
-      @loaddata="auditList"
-      @changesize="onPageSizeChange"
       @changepage="onPageIndexChange"
+      @changesize="onPageSizeChange"
+      @loaddata="auditList"
     />
   </v-card>
 </template>
 
 <script>
   import { mapState } from 'vuex';
+
   import { getAuditList } from '@/api';
 
   export default {

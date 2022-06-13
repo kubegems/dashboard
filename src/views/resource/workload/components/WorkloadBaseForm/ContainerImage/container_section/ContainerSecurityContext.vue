@@ -1,5 +1,5 @@
 <template>
-  <v-form v-model="valid" lazy-validation class="my-2" @submit.prevent>
+  <v-form v-model="valid" class="my-2" lazy-validation @submit.prevent>
     <v-flex :class="expand ? 'kubegems__overlay' : ''" />
     <v-expand-transition>
       <v-card v-show="expand" class="my-2 pa-2 kubegems__expand-transition" :elevation="4">
@@ -12,17 +12,17 @@
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-autocomplete
                   v-model="securityContext"
-                  :rules="objRules.securityContextRule"
-                  :items="modes"
+                  class="my-0"
                   color="primary"
+                  hide-selected
+                  :items="modes"
                   label="访问控制"
                   multiple
-                  hide-selected
-                  class="my-0"
                   no-data-text="暂无可选数据"
+                  :rules="objRules.securityContextRule"
                 >
                   <template #selection="{ item }">
-                    <v-chip color="primary" small class="ma-1">
+                    <v-chip class="ma-1" color="primary" small>
                       {{ item['text'] }}
                     </v-chip>
                   </template>
@@ -34,8 +34,8 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn text small color="error" @click="closeCard"> 取消 </v-btn>
-          <v-btn text small color="primary" @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
+          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -61,10 +61,10 @@
           </v-list-item-subtitle>
           <div class="kubegems__clear-float" />
         </v-list-item-content>
-        <v-btn dark text fab right x-small color="primary" @click="updateData">
+        <v-btn color="primary" dark fab right text x-small @click="updateData">
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
-        <v-btn dark text fab right x-small color="error" @click="removeData">
+        <v-btn color="error" dark fab right text x-small @click="removeData">
           <v-icon>mdi-delete</v-icon>
         </v-btn>
       </v-list-item>
@@ -73,7 +73,7 @@
       <v-list-item two-line>
         <v-list-item-content class="py-2">
           <v-list-item-subtitle class="text-body-2 py-0 text-center">
-            <v-btn text color="primary" @click="expandCard">
+            <v-btn color="primary" text @click="expandCard">
               <v-icon left small> mdi-plus </v-icon>
               添加安全设置
             </v-btn>

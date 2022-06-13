@@ -1,19 +1,19 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="创建密钥" icon="mdi-key-variant" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-key-variant" title="创建密钥" :width="1000" @reset="reset">
     <template #content>
       <component :is="formComponent" :ref="formComponent" title="Secret" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="addSecret"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addSecret"> 确定 </v-btn>
     </template>
     <template #header-action>
       <v-switch
         :key="switchKey"
         v-model="yaml"
         class="ma-0 pl-2 ml-2 mt-1"
-        style="margin-top: 8px !important"
         color="white"
         hide-details
+        style="margin-top: 8px !important"
         @change="onYamlSwitchChange"
       >
         <template #label>
@@ -26,11 +26,13 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import SecretBaseForm from './SecretBaseForm';
+
   import { postAddSecret } from '@/api';
   import BaseResource from '@/mixins/resource';
-  import SecretSchema from '@/views/resource/secret/mixins/schema';
   import { randomString } from '@/utils/helpers';
+  import SecretSchema from '@/views/resource/secret/mixins/schema';
 
   export default {
     name: 'AddSecret',

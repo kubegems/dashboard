@@ -1,16 +1,16 @@
 <template>
-  <BaseFullScreenDialog v-model="dialog" title="终端" icon="fas fa-terminal" @dispose="dispose">
+  <BaseFullScreenDialog v-model="dialog" icon="fas fa-terminal" title="终端" @dispose="dispose">
     <template #header>
       <v-flex class="ml-2 text-h6 mt-n1">
         {{ item ? item.name : '' }}
-        <v-btn v-if="terminalType !== 'kubectl'" depressed color="white" icon @click="openOnBlankTab">
-          <v-icon small color="white"> mdi-open-in-new </v-icon>
+        <v-btn v-if="terminalType !== 'kubectl'" color="white" depressed icon @click="openOnBlankTab">
+          <v-icon color="white" small> mdi-open-in-new </v-icon>
         </v-btn>
       </v-flex>
     </template>
     <template #action>
       <v-sheet v-if="terminalType !== 'kubectl'" class="text-subtitle-2 primary white--text">
-        <v-btn color="white" class="mx-2" icon text @click="restartContainer">
+        <v-btn class="mx-2" color="white" icon text @click="restartContainer">
           <v-icon>mdi-refresh</v-icon>
         </v-btn>
         容器
@@ -18,19 +18,19 @@
           v-model="containerMenu"
           bottom
           left
+          nudge-bottom="5px"
           offset-y
           origin="top center"
           transition="scale-transition"
-          nudge-bottom="5px"
         >
           <template #activator="{ on }">
-            <v-btn depressed color="primary" class="white--text mt-n1" dark v-on="on">
+            <v-btn class="white--text mt-n1" color="primary" dark depressed v-on="on">
               {{ container }}
               <v-icon v-if="containerMenu" right> fas fa-angle-up </v-icon>
               <v-icon v-else right> fas fa-angle-down </v-icon>
             </v-btn>
           </template>
-          <v-data-iterator :items="[{ text: '容器', values: containers }]" hide-default-footer>
+          <v-data-iterator hide-default-footer :items="[{ text: '容器', values: containers }]">
             <template #no-data>
               <v-card>
                 <v-card-text> 暂无容器 </v-card-text>
@@ -73,8 +73,9 @@
   import 'xterm/dist/xterm.css';
   import { Terminal } from 'xterm';
   import * as fit from 'xterm/lib/addons/fit/fit';
-  import * as webLinks from 'xterm/lib/addons/webLinks/webLinks';
   import * as search from 'xterm/lib/addons/search/search';
+  import * as webLinks from 'xterm/lib/addons/webLinks/webLinks';
+
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 

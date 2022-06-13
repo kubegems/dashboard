@@ -8,19 +8,19 @@
           <v-col v-if="AdminViewport && obj.spec.tenant !== 'notenant'" cols="6">
             <v-autocomplete
               v-model="obj.spec.tenant"
-              :items="m_select_tenantItems"
-              :rules="objRules.tenantRule"
-              color="primary"
-              label="租户"
-              hide-selected
               class="my-0"
-              no-data-text="暂无可选数据"
+              color="primary"
+              hide-selected
               item-value="text"
+              :items="m_select_tenantItems"
+              label="租户"
+              no-data-text="暂无可选数据"
               :readonly="edit"
+              :rules="objRules.tenantRule"
               @focus="onTenantSelectFocus"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="ma-1" :disabled="item.disabled">
+                <v-chip class="ma-1" color="primary" :disabled="item.disabled" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -30,25 +30,25 @@
             <v-text-field
               v-model="obj.metadata.name"
               class="my-0"
-              required
               label="网关名称"
-              :rules="objRules.nameRule"
               :readonly="edit"
+              required
+              :rules="objRules.nameRule"
             />
           </v-col>
           <v-col cols="6">
             <v-autocomplete
               v-model="obj.spec.type"
-              :items="gatewayTypes"
-              :rules="objRules.gatewayTypeRule"
-              color="primary"
-              label="网关类型"
-              hide-selected
               class="my-0"
+              color="primary"
+              hide-selected
+              :items="gatewayTypes"
+              label="网关类型"
               no-data-text="暂无可选数据"
+              :rules="objRules.gatewayTypeRule"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="ma-1">
+                <v-chip class="ma-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -57,17 +57,17 @@
           <v-col cols="6">
             <v-autocomplete
               v-model="protocol"
-              :items="protocolTypes"
-              :rules="objRules.protocolTypeRule"
-              color="primary"
-              label="协议"
-              hide-selected
               class="my-0"
+              color="primary"
+              hide-selected
+              :items="protocolTypes"
+              label="协议"
               no-data-text="暂无可选数据"
+              :rules="objRules.protocolTypeRule"
               @change="onProtocolChange"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="ma-1">
+                <v-chip class="ma-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -77,10 +77,10 @@
             <v-text-field
               v-model="obj.spec.replicas"
               class="my-0"
-              required
               label="副本数"
-              type="number"
+              required
               :rules="objRules.replicasRule"
+              type="number"
             />
           </v-col>
 
@@ -88,18 +88,18 @@
             <v-text-field
               v-model="obj.spec.baseDomain"
               class="my-0"
-              required
               label="默认域名"
+              required
               :rules="objRules.baseDomainRule"
             >
               <template #append>
-                <v-btn small text color="primary" class="my-0" @click="setDomain(obj)"> 使用默认域名 </v-btn>
+                <v-btn class="my-0" color="primary" small text @click="setDomain(obj)"> 使用默认域名 </v-btn>
               </template>
             </v-text-field>
           </v-col>
 
           <v-col cols="6">
-            <v-text-field v-model="image" class="my-0" required label="镜像" :rules="objRules.imageRule" />
+            <v-text-field v-model="image" class="my-0" label="镜像" required :rules="objRules.imageRule" />
           </v-col>
         </v-row>
       </v-card-text>
@@ -107,7 +107,7 @@
       <DataForm ref="dataForm" :data="obj.spec.configMapData" @addData="addData" @closeOverlay="closeExpand" />
       <BaseSubTitle title="配置项">
         <template #tips>
-          <v-icon small right color="warning" class="mt-n1 kubegems__pointer" @click="help">
+          <v-icon class="mt-n1 kubegems__pointer" color="warning" right small @click="help">
             mdi-information-variant
           </v-icon>
         </template>
@@ -115,9 +115,9 @@
       <v-card-text class="pa-2">
         <GatewayDataItem
           :data="obj.spec.configMapData"
-          @updateData="updateData"
-          @removeData="removeData"
           @expandCard="expandCard"
+          @removeData="removeData"
+          @updateData="updateData"
         />
       </v-card-text>
     </v-form>
@@ -126,25 +126,30 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import GatewayDataItem from './GatewayDataItem';
-  import BaseSelect from '@/mixins/select';
+
   import BaseResource from '@/mixins/resource';
-  import DataForm from '@/views/resource/components/common/DataForm';
+  import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
   import { required, positiveInteger } from '@/utils/rules';
+  import DataForm from '@/views/resource/components/common/DataForm';
 
   export default {
     name: 'GatewayBaseForm',
-    components: { GatewayDataItem, DataForm },
-    mixins: [BaseSelect, BaseResource],
+    components: {
+      DataForm,
+      GatewayDataItem,
+    },
+    mixins: [BaseResource, BaseSelect],
     props: {
-      item: {
-        type: Object,
-        default: () => null,
-      },
       edit: {
         type: Boolean,
         default: () => false,
+      },
+      item: {
+        type: Object,
+        default: () => null,
       },
     },
     data: () => ({

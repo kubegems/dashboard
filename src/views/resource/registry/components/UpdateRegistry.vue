@@ -1,17 +1,19 @@
 <template>
-  <BaseDialog v-model="dialog" :width="500" title="更新镜像仓库" icon="mdi-database" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-database" title="更新镜像仓库" :width="500" @reset="reset">
     <template #content>
       <component :is="formComponent" :ref="formComponent" :edit="true" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="updateRegistry"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateRegistry"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import RegistryBaseForm from './RegistryBaseForm';
+
   import { putUpdateRegistry, getRegistryDetail } from '@/api';
 
   export default {

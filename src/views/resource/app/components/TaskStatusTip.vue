@@ -20,16 +20,16 @@
     </template>
     <template v-else-if="item.task && item.task.status.status === 'Error'">
       <v-menu
-        open-on-hover
         bottom
-        left
-        transition="scale-transition"
-        max-width="200px"
         :close-on-content-click="false"
+        left
+        max-width="200px"
         nudge-bottom="5px"
-        :top="size - index <= 5 || (items.length <= 5 && index >= 1)"
         offset-y
+        open-on-hover
         :origin="`${size - index <= 5 || (items.length <= 5 && index >= 1) ? 'bottom center' : 'top center'}`"
+        :top="size - index <= 5 || (items.length <= 5 && index >= 1)"
+        transition="scale-transition"
       >
         <template #activator="{ on }">
           <span style="cursor: pointer" v-on="on"> 执行失败 </span>
@@ -39,10 +39,10 @@
             <v-icon color="white" left small> mdi-alert </v-icon>
             <span>错误信息</span>
           </v-flex>
-          <v-list dense class="pa-0 kubegems__tip">
+          <v-list class="pa-0 kubegems__tip" dense>
             <v-list-item>
               <v-list-item-content>
-                <v-list-item two-line class="float-left pa-0">
+                <v-list-item class="float-left pa-0" two-line>
                   <v-list-item-content class="py-0">
                     <v-list-item-title> 错误信息 </v-list-item-title>
                     <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
@@ -64,6 +64,10 @@
   export default {
     name: 'TaskStatusTip',
     props: {
+      index: {
+        type: Number,
+        default: () => 1,
+      },
       item: {
         type: Object,
         default: () => {},
@@ -71,10 +75,6 @@
       size: {
         type: Number,
         default: () => 10,
-      },
-      index: {
-        type: Number,
-        default: () => 1,
       },
     },
   };

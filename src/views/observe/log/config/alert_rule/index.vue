@@ -1,31 +1,31 @@
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0" fluid>
     <v-card flat>
       <v-card-title class="px-0">
         <BaseFilter
+          :default="{ items: [], text: '告警规则名称', value: 'search' }"
           :filters="filters"
           :reload="false"
-          :default="{ items: [], text: '告警规则名称', value: 'search' }"
-          @refresh="m_filter_list"
           @filter="customFilter"
+          @refresh="m_filter_list"
         />
-        <v-chip-group v-model="amenities" column multiple class="ml-2 align-center" @change="onAlertStateChange">
+        <v-chip-group v-model="amenities" class="ml-2 align-center" column multiple @change="onAlertStateChange">
           <v-badge
             v-for="(item, index) in alertStateArr"
             :key="index"
-            :color="item[Object.keys(item)[0]]"
-            small
-            overlap
             bordered
             :class="`zoom-${Scale.toString().replaceAll('.', '-')} mx-3 mt-1`"
+            :color="item[Object.keys(item)[0]]"
             :content="alertStatus[Object.keys(item)[0]] === 0 ? '0' : alertStatus[Object.keys(item)[0]]"
+            overlap
+            small
           >
             <v-chip
-              label
-              small
-              :outlined="amenities.indexOf(index) === -1"
-              :color="item[Object.keys(item)[0]]"
               class="font-weight-medium"
+              :color="item[Object.keys(item)[0]]"
+              label
+              :outlined="amenities.indexOf(index) === -1"
+              small
               :text-color="`${amenities.indexOf(index) === -1 ? item[Object.keys(item)[0]] : 'white'}`"
             >
               {{ Object.keys(item)[0] }}
@@ -36,13 +36,13 @@
         <v-menu v-if="m_permisson_resourceAllow($route.query.env)" left>
           <template #activator="{ on }">
             <v-btn icon>
-              <v-icon small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+              <v-icon color="primary" small v-on="on"> fas fa-ellipsis-v </v-icon>
             </v-btn>
           </template>
           <v-card>
             <v-card-text class="pa-2">
               <v-flex>
-                <v-btn text color="primary" @click="addAlertRule">
+                <v-btn color="primary" text @click="addAlertRule">
                   <v-icon left>mdi-plus-box</v-icon>
                   创建告警规则
                 </v-btn>
@@ -54,27 +54,27 @@
       <v-card-text class="px-0">
         <v-data-table
           class="kubegems__table-row-pointer"
-          disable-sort
           disable-filtering
+          disable-sort
           :headers="headers"
-          :items="items"
-          no-data-text="暂无数据"
           hide-default-footer
-          :page.sync="page"
-          :items-per-page="itemsPerPage"
-          single-expand
-          show-expand
           item-key="index"
-          @page-count="pageCount = $event"
+          :items="items"
+          :items-per-page="itemsPerPage"
+          no-data-text="暂无数据"
+          :page.sync="page"
+          show-expand
+          single-expand
           @click:row="onRowClick"
+          @page-count="pageCount = $event"
         >
           <template #[`item.data-table-select`]="{ item, index }">
             <v-checkbox
               v-model="m_table_batchResources[`${item.metadata.name}-${index + itemsPerPage * (page - 1)}`].checked"
               color="primary"
               hide-details
-              @click.stop
               @change="onResourceChange($event, item, `${index + itemsPerPage * (page - 1)}`)"
+              @click.stop
             />
           </template>
           <template #[`item.name`]="{ item }">
@@ -83,24 +83,24 @@
                 {{ item.name }}
               </a>
               <span v-if="item.state === 'inactive'" class="px-2">
-                <v-chip small color="success" text-color="white" class="font-weight-medium">
+                <v-chip class="font-weight-medium" color="success" small text-color="white">
                   {{ item.state }}
                 </v-chip>
               </span>
               <span v-else-if="item.state === 'firing'" class="px-2">
-                <v-chip small color="error" text-color="white" class="font-weight-medium">
+                <v-chip class="font-weight-medium" color="error" small text-color="white">
                   {{ item.state }}
                 </v-chip>
               </span>
               <span v-else class="px-2">
-                <v-chip small color="warning" text-color="white" class="font-weight-medium">
+                <v-chip class="font-weight-medium" color="warning" small text-color="white">
                   {{ item.state }}
                 </v-chip>
               </span>
             </v-flex>
           </template>
           <template v-if="AdminViewport" #[`item.namespace`]="{ item }">
-            <v-menu v-if="item.namespace === SERVICE_MONITOR_NS" top open-on-hover :close-delay="200">
+            <v-menu v-if="item.namespace === SERVICE_MONITOR_NS" :close-delay="200" open-on-hover top>
               <template #activator="{ on, attrs }">
                 <span v-bind="attrs" v-on="on">
                   {{ item.namespace }}
@@ -123,16 +123,16 @@
           </template>
           <template #[`item.open`]="{ item }">
             <span v-if="item.isOpen">
-              <v-icon small color="primary"> fas fa-check-circle </v-icon>
+              <v-icon color="primary" small> fas fa-check-circle </v-icon>
               启用
             </span>
             <span v-else>
-              <v-icon small color="error"> fas fa-minus-circle </v-icon>
+              <v-icon color="error" small> fas fa-minus-circle </v-icon>
               禁用
             </span>
           </template>
           <template #expanded-item="{ headers, item }">
-            <td :colspan="headers.length" class="my-2 py-2">
+            <td class="my-2 py-2" :colspan="headers.length">
               <span class="text-subtitle-2 kubegems__text">消息模版：</span>
               <v-flex class="text-body-2 break-word">
                 {{ item.message }}
@@ -141,24 +141,24 @@
           </template>
           <template #[`item.action`]="{ item, index }">
             <v-flex :id="`r${index}`" />
-            <v-menu left :attach="`#r${index}`">
+            <v-menu :attach="`#r${index}`" left>
               <template #activator="{ on }">
                 <v-btn icon>
-                  <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                  <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
                 </v-btn>
               </template>
               <v-card>
                 <v-card-text class="pa-2">
                   <v-flex>
-                    <v-btn color="primary" text small @click.stop="updateAlertRule(item)"> 编辑 </v-btn>
+                    <v-btn color="primary" small text @click.stop="updateAlertRule(item)"> 编辑 </v-btn>
                   </v-flex>
                   <v-flex>
-                    <v-btn color="primary" text small @click.stop="switchBlackList(item)">
+                    <v-btn color="primary" small text @click.stop="switchBlackList(item)">
                       {{ item.isOpen ? '禁用' : '启用' }}
                     </v-btn>
                   </v-flex>
                   <v-flex>
-                    <v-btn color="error" text small @click.stop="removeAlertRule(item)"> 删除 </v-btn>
+                    <v-btn color="error" small text @click.stop="removeAlertRule(item)"> 删除 </v-btn>
                   </v-flex>
                 </v-card-text>
               </v-card>
@@ -171,9 +171,9 @@
           :front-page="true"
           :page-count="pageCount"
           :size="itemsPerPage"
-          @loaddata="alertRuleList"
-          @changesize="onPageSizeChange"
           @changepage="onPageIndexChange"
+          @changesize="onPageSizeChange"
+          @loaddata="alertRuleList"
         />
       </v-card-text>
     </v-card>
@@ -184,15 +184,16 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import { getLogAlertRuleList, deletePrometheusRule, postDisableAlertRule, postEnableAlertRule } from '@/api';
-  import AddAlertRule from '@/views/observe/monitor/config/prometheusrule/components/AddPrometheusRule';
-  import UpdateAlertRule from '@/views/observe/monitor/config/prometheusrule/components/UpdatePrometheusRule';
   import BaseFilter from '@/mixins/base_filter';
-  import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
   import BaseTable from '@/mixins/table';
   import { deepCopy } from '@/utils/helpers';
   import { SERVICE_MONITOR_NS } from '@/utils/namespace';
+  import AddAlertRule from '@/views/observe/monitor/config/prometheusrule/components/AddPrometheusRule';
+  import UpdateAlertRule from '@/views/observe/monitor/config/prometheusrule/components/UpdatePrometheusRule';
 
   export default {
     name: 'AlertRule',
@@ -200,7 +201,7 @@
       AddAlertRule,
       UpdateAlertRule,
     },
-    mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
+    mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],
     data: () => ({
       filters: [{ text: '告警规则名称', value: 'search', items: [] }],
       items: [],

@@ -13,10 +13,10 @@
     <v-card-text :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
       <v-row>
         <v-col cols="6">
-          <BaseApexAreaChart id="qps" title="QPS" :metrics="qps" label="pod" type="" />
+          <BaseApexAreaChart id="qps" label="pod" :metrics="qps" title="QPS" type="" />
         </v-col>
         <v-col cols="6">
-          <BaseApexAreaChart id="connection" title="连接数" :metrics="connections" label="pod" type="" />
+          <BaseApexAreaChart id="connection" label="pod" :metrics="connections" title="连接数" type="" />
         </v-col>
       </v-row>
     </v-card-text>
@@ -25,13 +25,14 @@
 
 <script>
   import { mapState } from 'vuex';
-  import BaseResource from '@/mixins/resource';
+
   import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
   import { GATEWAY_QPS_PROMQL, GATEWAY_CONNECTIONS_PROMQL } from '@/utils/prometheus';
 
   export default {
     name: 'GatewayMonitor',
-    mixins: [BaseResource, BasePermission],
+    mixins: [BasePermission, BaseResource],
     props: {
       item: {
         type: Object,

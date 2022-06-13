@@ -8,12 +8,12 @@
           <v-list-item two-line>
             <v-list-item-content class="py-1">
               <v-list-item-subtitle class="text-body-2 py-0">
-                <v-list-item two-line class="float-left pa-0">
+                <v-list-item class="float-left pa-0" two-line>
                   <v-list-item-content class="py-0">
                     <v-list-item-title class="text-subtitle-2 py-1">
                       <v-icon small> mdi-cube </v-icon>
                       {{ installer ? installer.content.operator_image : '' }}
-                      <v-btn class="mx-1" depressed small color="primary" @click="updateInstallerImage"> 修改 </v-btn>
+                      <v-btn class="mx-1" color="primary" depressed small @click="updateInstallerImage"> 修改 </v-btn>
                     </v-list-item-title>
                     <v-list-item-subtitle class="text-body-2 py-1"> 镜像 </v-list-item-subtitle>
                   </v-list-item-content>
@@ -25,12 +25,12 @@
           <v-list-item two-line>
             <v-list-item-content class="py-1">
               <v-list-item-subtitle class="text-body-2 py-0">
-                <v-list-item two-line class="float-left pa-0">
+                <v-list-item class="float-left pa-0" two-line>
                   <v-list-item-content class="py-0">
                     <v-list-item-title class="text-subtitle-2 py-1">
                       <v-icon small> mdi-file-document </v-icon>
                       {{ installer ? installer.content.installer_yaml.metadata.name : '' }}
-                      <v-btn class="mx-1" depressed small color="primary" @click="updateInstaller"> 修改 </v-btn>
+                      <v-btn class="mx-1" color="primary" depressed small @click="updateInstaller"> 修改 </v-btn>
                     </v-list-item-title>
                     <v-list-item-subtitle class="text-body-2 py-1"> 默认Install资源 </v-list-item-subtitle>
                   </v-list-item-content>
@@ -51,6 +51,7 @@
 <script>
   import SetInstaller from './components/SetInstaller';
   import SetInstallImage from './components/SetInstallerImage';
+
   import { getSystemConfigData } from '@/api';
 
   export default {

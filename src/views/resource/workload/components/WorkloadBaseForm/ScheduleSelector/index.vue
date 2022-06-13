@@ -32,9 +32,9 @@
                 : {}
               : {}
           "
-          @updateSelectors="updateSelectors"
-          @removeSelectors="removeSelectors"
           @expandCard="expandCard"
+          @removeSelectors="removeSelectors"
+          @updateSelectors="updateSelectors"
         />
         <div class="kubegems__clear-float" />
       </v-card-text>
@@ -45,9 +45,9 @@
     <v-card-text class="pa-2">
       <LabelItem
         :labels="obj.metadata.labels"
-        @updateLabels="updateLabels"
-        @removeLabels="removeLabels"
         @expandCard="expandCard"
+        @removeLabels="removeLabels"
+        @updateLabels="updateLabels"
       />
       <div class="kubegems__clear-float" />
     </v-card-text>
@@ -62,9 +62,9 @@
     <v-card-text class="pa-2">
       <AnnotationItem
         :annotations="obj.metadata.annotations"
-        @updateAnnotations="updateAnnotations"
-        @removeAnnotations="removeAnnotations"
         @expandCard="expandCard"
+        @removeAnnotations="removeAnnotations"
+        @updateAnnotations="updateAnnotations"
       />
     </v-card-text>
 
@@ -78,37 +78,38 @@
     <v-card-text class="pa-2">
       <DNSConfigItem
         :dns-config="obj.spec && obj.spec.template.spec.dnsConfig ? obj.spec.template.spec.dnsConfig : null"
-        @updateDNSConfig="updateDNSConfig"
-        @removeDNSConfig="removeDNSConfig"
         @expandCard="expandCard"
+        @removeDNSConfig="removeDNSConfig"
+        @updateDNSConfig="updateDNSConfig"
       />
     </v-card-text>
   </v-form>
 </template>
 
 <script>
-  import SelectorItem from './SelectorItem';
-  import SelectorForm from './SelectorForm';
-  import DNSConfigItem from './DNSConfigItem';
   import DNSConfigForm from './DNSConfigForm';
-  import LabelItem from '@/views/resource/components/label/LabelItem';
-  import AnnotationItem from '@/views/resource/components/annotation/AnnotationItem';
-  import LabelForm from '@/views/resource/components/label/LabelForm';
-  import AnnotationForm from '@/views/resource/components/annotation/AnnotationForm';
+  import DNSConfigItem from './DNSConfigItem';
+  import SelectorForm from './SelectorForm';
+  import SelectorItem from './SelectorItem';
+
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
+  import AnnotationForm from '@/views/resource/components/annotation/AnnotationForm';
+  import AnnotationItem from '@/views/resource/components/annotation/AnnotationItem';
+  import LabelForm from '@/views/resource/components/label/LabelForm';
+  import LabelItem from '@/views/resource/components/label/LabelItem';
 
   export default {
     name: 'ScheduleSelector',
     components: {
-      LabelItem,
-      AnnotationItem,
-      LabelForm,
       AnnotationForm,
-      SelectorItem,
-      SelectorForm,
-      DNSConfigItem,
+      AnnotationItem,
       DNSConfigForm,
+      DNSConfigItem,
+      LabelForm,
+      LabelItem,
+      SelectorForm,
+      SelectorItem,
     },
     mixins: [BaseResource],
     props: {

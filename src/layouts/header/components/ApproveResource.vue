@@ -1,21 +1,22 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="资源调整" icon="mdi-scale" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-scale" title="资源调整" :width="1000" @reset="reset">
     <template #content>
-      <ResourceBaseForm ref="resource" :quota="quota" :cluster="cluster" edit />
+      <ResourceBaseForm ref="resource" :cluster="cluster" edit :quota="quota" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="passLoading" @click="approvePass"> 通过 </v-btn>
-      <v-btn class="float-right" color="error" text :loading="cancelLoading" @click="approveReject"> 拒绝 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="passLoading" text @click="approvePass"> 通过 </v-btn>
+      <v-btn class="float-right" color="error" :loading="cancelLoading" text @click="approveReject"> 拒绝 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapState } from 'vuex';
+
   import { postApprovePass, postApproveReject, getTenantResourceQuota } from '@/api';
-  import ResourceBaseForm from '@/views/tenant/tenant/components/ResourceList/ResourceBaseForm';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
+  import ResourceBaseForm from '@/views/tenant/tenant/components/ResourceList/ResourceBaseForm';
 
   export default {
     name: 'ApproveResource',

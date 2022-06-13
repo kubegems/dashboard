@@ -5,9 +5,9 @@
         <v-list-item-content class="py-0">
           <v-list-item-subtitle class="text-subtitle-2 py-1 primary--text">
             <v-flex>
-              <v-list-item two-line class="pl-0 list-item-height">
+              <v-list-item class="pl-0 list-item-height" two-line>
                 <v-list-item-title class="text-subtitle-1 py-1 primary--text font-weight-medium">
-                  <v-menu top open-on-hover :close-delay="200">
+                  <v-menu :close-delay="200" open-on-hover top>
                     <template #activator="{ on }">
                       <span v-on="on">{{ item.name }}</span>
                     </template>
@@ -21,7 +21,7 @@
               </v-list-item>
             </v-flex>
 
-            <PersistentVolumeClaim v-if="item.persistentVolumeClaim" :pvcs="pvcs" :item="item" />
+            <PersistentVolumeClaim v-if="item.persistentVolumeClaim" :item="item" :pvcs="pvcs" />
 
             <Configmap v-else-if="item.configMap" :item="item" />
 
@@ -35,13 +35,13 @@
           </v-list-item-subtitle>
           <v-list-item-content v-for="(container, i) in containers" :key="`container${i}`" class="pb-4">
             <v-row v-if="container.volumeMounts && containerMap[container.name][item.name]">
-              <v-col :cols="containerMap[container.name][item.name].subPath ? 3 : 4" class="py-1">
+              <v-col class="py-1" :cols="containerMap[container.name][item.name].subPath ? 3 : 4">
                 <span class="text-body-2">容器:</span>
                 <span class="text-subtitle-2 ml-2">
                   {{ container.name }}
                 </span>
               </v-col>
-              <v-col cols="5" class="py-1">
+              <v-col class="py-1" cols="5">
                 <span class="text-body-2">挂载:</span>
                 <span class="text-subtitle-2 ml-2">
                   {{ containerMap[container.name][item.name].mountPath }}
@@ -50,7 +50,7 @@
                   ({{ containerMap[container.name][item.name].readOnly ? '只读' : '读写' }})
                 </span>
               </v-col>
-              <v-col v-if="containerMap[container.name][item.name].subPath" cols="3" class="py-1">
+              <v-col v-if="containerMap[container.name][item.name].subPath" class="py-1" cols="3">
                 <span class="text-body-2">子路径:</span>
                 <span class="text-subtitle-2 ml-2">
                   {{ containerMap[container.name][item.name].subPath }}
@@ -58,13 +58,13 @@
               </v-col>
             </v-row>
             <v-row v-else>
-              <v-col cols="4" class="py-1">
+              <v-col class="py-1" cols="4">
                 <span class="text-body-2">容器:</span>
                 <span class="text-subtitle-2 ml-2">
                   {{ container.name }}
                 </span>
               </v-col>
-              <v-col cols="5" class="py-1">
+              <v-col class="py-1" cols="5">
                 <span class="text-body-2">挂载:</span>
                 <span class="text-subtitle-2 ml-2">不挂载</span>
               </v-col>
@@ -73,11 +73,11 @@
           <template v-if="initContainers">
             <v-list-item-content v-for="(container, i) in initContainers" :key="`initcontainer${i}`" class="pb-4">
               <v-row v-if="container.volumeMounts && initContainerMap[container.name][item.name]">
-                <v-col :cols="initContainerMap[container.name][item.name].subPath ? 3 : 4" class="py-1">
+                <v-col class="py-1" :cols="initContainerMap[container.name][item.name].subPath ? 3 : 4">
                   <span class="text-body-2">容器:</span>
                   <span class="text-subtitle-2 ml-2"> {{ container.name }}(init) </span>
                 </v-col>
-                <v-col cols="5" class="py-1">
+                <v-col class="py-1" cols="5">
                   <span class="text-body-2">挂载:</span>
                   <span class="text-subtitle-2 ml-2">
                     {{ initContainerMap[container.name][item.name].mountPath }}
@@ -86,7 +86,7 @@
                     ({{ initContainerMap[container.name][item.name].readOnly ? '只读' : '读写' }})
                   </span>
                 </v-col>
-                <v-col v-if="initContainerMap[container.name][item.name].subPath" cols="3" class="py-1">
+                <v-col v-if="initContainerMap[container.name][item.name].subPath" class="py-1" cols="3">
                   <span class="text-body-2">子路径:</span>
                   <span class="text-subtitle-2 ml-2">
                     {{ initContainerMap[container.name][item.name].subPath }}
@@ -94,11 +94,11 @@
                 </v-col>
               </v-row>
               <v-row v-else>
-                <v-col cols="4" class="py-1">
+                <v-col class="py-1" cols="4">
                   <span class="text-body-2">容器:</span>
                   <span class="text-subtitle-2 ml-2"> {{ container.name }}(init) </span>
                 </v-col>
-                <v-col cols="5" class="py-1">
+                <v-col class="py-1" cols="5">
                   <span class="text-body-2">挂载:</span>
                   <span class="text-subtitle-2 ml-2">不挂载</span>
                 </v-col>
@@ -106,10 +106,10 @@
             </v-list-item-content>
           </template>
         </v-list-item-content>
-        <v-btn dark text fab right x-small color="primary" @click="updateData(index)">
+        <v-btn color="primary" dark fab right text x-small @click="updateData(index)">
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
-        <v-btn dark text fab right x-small color="error" @click="removeData(index)">
+        <v-btn color="error" dark fab right text x-small @click="removeData(index)">
           <v-icon>mdi-delete</v-icon>
         </v-btn>
       </v-list-item>
@@ -118,7 +118,7 @@
       <v-list-item two-line>
         <v-list-item-content class="py-2">
           <v-list-item-subtitle class="text-body-2 py-0 text-center">
-            <v-btn text color="primary" @click="expandCard">
+            <v-btn color="primary" text @click="expandCard">
               <v-icon left small> mdi-plus </v-icon>
               添加卷挂载
             </v-btn>
@@ -135,6 +135,7 @@
   import HostPath from './HostPath';
   import PersistentVolumeClaim from './PersistentVolumeClaim';
   import Secret from './Secret';
+
   import BaseResource from '@/mixins/resource';
 
   export default {
@@ -148,10 +149,6 @@
     },
     mixins: [BaseResource],
     props: {
-      volumes: {
-        type: Array,
-        default: () => [],
-      },
       containers: {
         type: Array,
         default: () => [],
@@ -163,6 +160,10 @@
       pvcs: {
         type: Object,
         default: () => {},
+      },
+      volumes: {
+        type: Array,
+        default: () => [],
       },
     },
     data() {

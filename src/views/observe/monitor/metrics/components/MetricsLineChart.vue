@@ -1,31 +1,34 @@
 <template>
-  <VueApexCharts type="line" :width="width" :height="height" :options="options" :series="series" />
+  <VueApexCharts :height="height" :options="options" :series="series" type="line" :width="width" />
 </template>
 
 <script>
-  import VueApexCharts from 'vue-apexcharts';
   import moment from 'moment';
+  import VueApexCharts from 'vue-apexcharts';
+
   import { toFixed } from '@/utils/helpers';
 
   export default {
     name: 'MetricsLineChart',
-    components: { VueApexCharts },
+    components: {
+      VueApexCharts,
+    },
     props: {
-      width: {
-        type: Number,
-        default: 0,
-      },
       height: {
         type: Number,
         default: 0,
+      },
+      series: {
+        type: Array,
+        default: () => [],
       },
       unit: {
         type: String,
         default: '',
       },
-      series: {
-        type: Array,
-        default: () => [],
+      width: {
+        type: Number,
+        default: 0,
       },
     },
     computed: {

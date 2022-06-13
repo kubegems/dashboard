@@ -2,34 +2,34 @@
   <div>
     <v-text-field
       v-model="search"
-      hide-details
+      class="search"
       clearable
-      solo
-      flat
       dense
+      flat
+      hide-details
       label="搜索"
       prepend-inner-icon="mdi-magnify"
-      class="search"
+      solo
     />
     <v-treeview
-      :items="items"
-      :active.sync="active"
-      :open.sync="open"
-      :search="search"
-      item-key="treeId"
       activatable
-      open-on-click
-      dense
-      transition
-      rounded
+      :active.sync="active"
       color="primary"
-      return-object
+      dense
+      item-key="treeId"
+      :items="items"
       :load-children="environmentList"
+      :open.sync="open"
+      open-on-click
+      return-object
+      rounded
+      :search="search"
+      transition
     >
       <template #prepend="{ item }">
-        <v-icon v-if="item.type === 'project'" small left color="primary"> fas fa-cube </v-icon>
+        <v-icon v-if="item.type === 'project'" color="primary" left small> fas fa-cube </v-icon>
 
-        <v-icon v-else small left color="primary"> fas fa-cloud </v-icon>
+        <v-icon v-else color="primary" left small> fas fa-cloud </v-icon>
       </template>
     </v-treeview>
   </div>
@@ -37,6 +37,7 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import { getProjectList, getProjectEnvironmentList, getAllProjectList } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { SERVICE_MONITOR_NS } from '@/utils/namespace';

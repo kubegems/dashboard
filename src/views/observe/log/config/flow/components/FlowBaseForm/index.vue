@@ -4,17 +4,17 @@
       <v-col cols="6">
         <v-autocomplete
           v-model="obj.kind"
-          :items="typeItems"
-          color="primary"
-          label="类型"
-          hide-selected
           class="my-0"
+          color="primary"
+          hide-selected
+          :items="typeItems"
+          label="类型"
           no-data-text="暂无可选数据"
           :readonly="edit"
           :rules="objRules.kindRules"
         >
           <template #selection="{ item }">
-            <v-chip color="primary" small class="mx-1">
+            <v-chip class="mx-1" color="primary" small>
               {{ item['text'] }}
             </v-chip>
           </template>
@@ -25,25 +25,25 @@
           v-model="obj.metadata.name"
           class="my-0"
           label="名称"
-          required
           :readonly="edit"
+          required
           :rules="objRules.nameRules"
         />
       </v-col>
       <v-col cols="6">
         <v-autocomplete
           v-model="obj.spec.localOutputRefs"
-          :items="localOutputRefsItems"
+          class="my-0"
           color="primary"
+          hide-selected
+          :items="localOutputRefsItems"
           label="路由器(Output)"
           multiple
-          hide-selected
-          class="my-0"
           no-data-text="暂无可选数据"
           @change="onFilterChange"
         >
           <template #selection="{ item }">
-            <v-chip color="primary" small class="mx-1">
+            <v-chip class="mx-1" color="primary" small>
               {{ item['text'] }}
             </v-chip>
           </template>
@@ -52,17 +52,17 @@
       <v-col cols="6">
         <v-autocomplete
           v-model="obj.spec.globalOutputRefs"
-          :items="globalOutputRefsItems"
+          class="my-0"
           color="primary"
+          hide-selected
+          :items="globalOutputRefsItems"
           label="路由器(ClusterOutput)"
           multiple
-          hide-selected
-          class="my-0"
           no-data-text="暂无可选数据"
           @change="onFilterChange"
         >
           <template #selection="{ item }">
-            <v-chip color="primary" small class="mx-1">
+            <v-chip class="mx-1" color="primary" small>
               {{ item['text'] }}
             </v-chip>
           </template>
@@ -71,17 +71,17 @@
       <v-col cols="12">
         <v-autocomplete
           v-model="matchs"
-          :items="matchItems"
+          class="my-0"
           color="primary"
+          hide-selected
+          :items="matchItems"
           label="匹配应用"
           multiple
-          hide-selected
-          class="my-0"
           no-data-text="暂无可选数据"
           @change="onMatchChange"
         >
           <template #selection="{ item }">
-            <v-chip color="primary" small class="mx-1">
+            <v-chip class="mx-1" color="primary" small>
               {{ item['text'] }}
             </v-chip>
           </template>
@@ -90,17 +90,17 @@
       <v-col cols="12">
         <v-autocomplete
           v-model="filters"
-          :items="filtersItems"
+          class="my-0"
           color="primary"
+          hide-selected
+          :items="filtersItems"
           label="过滤器"
           multiple
-          hide-selected
-          class="my-0"
           no-data-text="暂无可选数据"
           @change="onFilterChange"
         >
           <template #selection="{ item }">
-            <v-chip color="primary" small class="mx-1">
+            <v-chip class="mx-1" color="primary" small>
               {{ item['text'] }}
             </v-chip>
           </template>
@@ -112,6 +112,7 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import { getClusterOutputsData, getOutputsData } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
@@ -121,13 +122,13 @@
     name: 'FlowBaseForm',
     mixins: [BaseSelect],
     props: {
-      item: {
-        type: Object,
-        default: () => null,
-      },
       edit: {
         type: Boolean,
         default: () => false,
+      },
+      item: {
+        type: Object,
+        default: () => null,
       },
     },
     data() {

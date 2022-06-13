@@ -1,17 +1,19 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="更新环境" icon="mdi-cube" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-cube" title="更新环境" :width="1000" @reset="reset">
     <template #content>
-      <component :is="formComponent" :ref="formComponent" :step="step" :edit="true" />
+      <component :is="formComponent" :ref="formComponent" :edit="true" :step="step" />
     </template>
     <template #action>
-      <v-btn class="float-right mx-2" color="primary" text :loading="Circular" @click="updateEnvironment"> 确定 </v-btn>
+      <v-btn class="float-right mx-2" color="primary" :loading="Circular" text @click="updateEnvironment"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import EnvironmentBaseForm from './EnvironmentBaseForm';
+
   import { putUpdateEnvironment, getEnvironmentDetail } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';

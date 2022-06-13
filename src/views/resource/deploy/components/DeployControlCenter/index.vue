@@ -12,7 +12,7 @@
                 状态：
                 <span class="text-body-2 deploy-line-height">
                   <template v-if="taskStatus === 'Running' || taskStatus === 'Pending'">
-                    <v-icon color="warning" class="kubegems__waiting-circle-flashing icon-font-status">
+                    <v-icon class="kubegems__waiting-circle-flashing icon-font-status" color="warning">
                       mdi-autorenew
                     </v-icon>
                     <span class="warning--text">
@@ -20,16 +20,16 @@
                     </span>
                   </template>
                   <template v-else-if="taskStatus === 'Success'">
-                    <v-icon color="success" class="icon-font-status"> mdi-check-circle </v-icon>
+                    <v-icon class="icon-font-status" color="success"> mdi-check-circle </v-icon>
                     <span class="success--text">
                       {{ taskType === 'switch-strategy' ? '策略变更完成' : '部署任务已完成' }}
                     </span>
                   </template>
                   <template v-else-if="taskStatus === 'Error'">
-                    <v-menu top open-on-hover :close-delay="200" nudge-bottom="8px">
+                    <v-menu :close-delay="200" nudge-bottom="8px" open-on-hover top>
                       <template #activator="{ on }">
                         <span class="error--text" style="cursor: pointer" v-on="on">
-                          <v-icon color="error" class="icon-font-status"> mdi-close-circle </v-icon>
+                          <v-icon class="icon-font-status" color="error"> mdi-close-circle </v-icon>
                           {{ taskType === 'switch-strategy' ? '策略变更失败' : '部署任务执行失败' }}
                         </span>
                       </template>
@@ -142,7 +142,7 @@
                   class="ml-4 pr-2"
                   style="overflow: hidden"
                 >
-                  <v-chip small color="primary">
+                  <v-chip color="primary" small>
                     {{ port.port }}
                     <span v-if="port.nodePort"> : {{ port.nodePort }}</span>
                     | {{ port.protocol }}
@@ -157,7 +157,7 @@
                   class="ml-4 pr-2"
                   style="overflow: hidden"
                 >
-                  <v-chip small color="primary"> {{ ingress.host }} | {{ ingress.ingressPort }} </v-chip>
+                  <v-chip color="primary" small> {{ ingress.host }} | {{ ingress.ingressPort }} </v-chip>
                 </v-flex>
               </v-list-item-subtitle>
             </v-list-item-content>
@@ -171,8 +171,8 @@
           <v-col
             v-for="(replicaSet, index) in status ? status.replicaSets : []"
             :key="index"
-            :cols="4"
             class="my-0 py-1"
+            :cols="4"
           >
             <v-card class="mx-auto status-pos" height="100%">
               <v-list-item three-line>
@@ -213,9 +213,9 @@
                 <v-card-actions class="pt-0 status-action-pos">
                   <v-spacer />
                   <v-btn
-                    text
-                    small
                     color="primary"
+                    small
+                    text
                     @click="
                       deployControll('回滚版本', 'undo', {
                         revision: `${replicaSet.revision}`,
@@ -244,10 +244,12 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import DeployCard from './DeployCard';
+  import DeployPodTip from './DeployPodTip';
   import DeployStepPanel from './DeployStepPanel';
   import DeployStepStatus from './DeployStepStatus';
-  import DeployPodTip from './DeployPodTip';
+
   import { postStrategyDeployEnvironmentAppsControl, getAppRelatedServices } from '@/api';
   import BaseResource from '@/mixins/resource';
 
@@ -255,9 +257,9 @@
     name: 'DeployControlCenter',
     components: {
       DeployCard,
+      DeployPodTip,
       DeployStepPanel,
       DeployStepStatus,
-      DeployPodTip,
     },
     mixins: [BaseResource],
     props: {

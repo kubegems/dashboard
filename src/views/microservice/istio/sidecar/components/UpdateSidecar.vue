@@ -1,20 +1,21 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="更新istio边车" icon="mdi-motorbike" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-motorbike" title="更新istio边车" :width="1000" @reset="reset">
     <template #content>
-      <component :is="formComponent" :ref="formComponent" :item="item" :edit="true" title="Sidecar" />
+      <component :is="formComponent" :ref="formComponent" :edit="true" :item="item" title="Sidecar" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="updateIstioSidecar"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateIstioSidecar"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapState } from 'vuex';
+
   import { patchUpdateIstioSidecar, getIstioSidecarDetail } from '@/api';
-  import IstioSidecarSchema from '@/views/microservice/istio/sidecar/mixins/schema';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
+  import IstioSidecarSchema from '@/views/microservice/istio/sidecar/mixins/schema';
 
   export default {
     name: 'UpdateSidecar',

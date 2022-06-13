@@ -1,7 +1,7 @@
 <template>
   <v-list-item-content class="py-2">
     <v-list-item-subtitle class="text-body-2 py-0">
-      <v-list-item two-line class="float-left pa-0 downward__item">
+      <v-list-item class="float-left pa-0 downward__item" two-line>
         <v-list-item-content class="py-0">
           <v-list-item-title class="text-subtitle-2 py-1">
             <span> Downward API </span>
@@ -9,7 +9,7 @@
           <v-list-item-subtitle class="text-body-2 py-1"> 类型 </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item two-line class="float-left pa-0 downward__item">
+      <v-list-item class="float-left pa-0 downward__item" two-line>
         <v-list-item-content class="py-0">
           <v-list-item-title class="text-subtitle-2 py-1">
             <span>
@@ -19,7 +19,7 @@
           <v-list-item-subtitle class="text-body-2 py-1"> 名称 </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item two-line class="float-left pa-0 downward__item">
+      <v-list-item class="float-left pa-0 downward__item" two-line>
         <v-list-item-content class="py-0">
           <v-list-item-title class="text-subtitle-2 py-1">
             <span> Container </span>
@@ -27,7 +27,7 @@
           <v-list-item-subtitle class="text-body-2 py-1"> 方式 </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item two-line class="float-left pa-0 downward__item">
+      <v-list-item class="float-left pa-0 downward__item" two-line>
         <v-list-item-content class="py-0">
           <v-list-item-title class="text-subtitle-2 py-1">
             <span>
@@ -37,7 +37,7 @@
           <v-list-item-subtitle class="text-body-2 py-1"> 容器 </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item two-line class="float-left pa-0 downward__item">
+      <v-list-item class="float-left pa-0 downward__item" two-line>
         <v-list-item-content class="py-0">
           <v-list-item-title class="text-subtitle-2 py-1">
             <span>

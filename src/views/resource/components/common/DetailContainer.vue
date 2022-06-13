@@ -17,17 +17,17 @@
           <td>{{ item.image }}</td>
           <td>
             <template v-if="item.livenessProbe">
-              <ProbeTip title="存活探针" :item="item.livenessProbe" />
+              <ProbeTip :item="item.livenessProbe" title="存活探针" />
             </template>
             <template v-if="item.readinessProbe">
-              <ProbeTip title="就绪探针" :item="item.readinessProbe" />
+              <ProbeTip :item="item.readinessProbe" title="就绪探针" />
             </template>
             <template v-if="item.startupProbe">
-              <ProbeTip title="启动探针" :item="item.startupProbe" />
+              <ProbeTip :item="item.startupProbe" title="启动探针" />
             </template>
           </td>
           <td>
-            <BaseCollapseChips v-if="item" :chips="ports[item.name] || []" single-line icon="mdi-directions-fork" />
+            <BaseCollapseChips v-if="item" :chips="ports[item.name] || []" icon="mdi-directions-fork" single-line />
           </td>
           <td>
             <v-flex v-for="(volume, index) in item.volumeMounts" :key="index" class="py-1">

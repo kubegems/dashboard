@@ -4,11 +4,11 @@
       <v-card>
         <v-card-text>
           <v-sheet>
-            <VueApexCharts type="radialBar" height="250" :options="cpuOptions" :series="cpuSeries" />
+            <VueApexCharts height="250" :options="cpuOptions" :series="cpuSeries" type="radialBar" />
           </v-sheet>
           <v-sheet>
             <v-sheet>
-              <v-avatar style="background-color: #00bcd4" class="mr-2" size="10">
+              <v-avatar class="mr-2" size="10" style="background-color: #00bcd4">
                 <span class="white--text text-h5" />
               </v-avatar>
               <span>
@@ -18,7 +18,7 @@
               </span>
             </v-sheet>
             <v-sheet>
-              <v-avatar style="background-color: #1e88e5" class="mr-2" size="10">
+              <v-avatar class="mr-2" size="10" style="background-color: #1e88e5">
                 <span class="white--text text-h5" />
               </v-avatar>
               <span>
@@ -28,7 +28,7 @@
               </span>
             </v-sheet>
             <v-sheet>
-              <v-avatar style="background-color: #fb8c00" class="mr-2" size="10">
+              <v-avatar class="mr-2" size="10" style="background-color: #fb8c00">
                 <span class="white--text text-h5" />
               </v-avatar>
               <span>
@@ -46,11 +46,11 @@
       <v-card>
         <v-card-text>
           <v-sheet>
-            <VueApexCharts type="radialBar" height="250" :options="memoryOptions" :series="memorySeries" />
+            <VueApexCharts height="250" :options="memoryOptions" :series="memorySeries" type="radialBar" />
           </v-sheet>
           <v-sheet>
             <v-sheet>
-              <v-avatar style="background-color: #00bcd4" class="mr-2" size="10">
+              <v-avatar class="mr-2" size="10" style="background-color: #00bcd4">
                 <span class="white--text text-h5" />
               </v-avatar>
               <span>
@@ -60,7 +60,7 @@
               </span>
             </v-sheet>
             <v-sheet>
-              <v-avatar style="background-color: #1e88e5" class="mr-2" size="10">
+              <v-avatar class="mr-2" size="10" style="background-color: #1e88e5">
                 <span class="white--text text-h5" />
               </v-avatar>
               <span>
@@ -70,7 +70,7 @@
               </span>
             </v-sheet>
             <v-sheet>
-              <v-avatar style="background-color: #fb8c00" class="mr-2" size="10">
+              <v-avatar class="mr-2" size="10" style="background-color: #fb8c00">
                 <span class="white--text text-h5" />
               </v-avatar>
               <span>
@@ -88,11 +88,11 @@
       <v-card>
         <v-card-text>
           <v-sheet>
-            <VueApexCharts type="radialBar" height="250" :options="storageOptions" :series="storageSeries" />
+            <VueApexCharts height="250" :options="storageOptions" :series="storageSeries" type="radialBar" />
           </v-sheet>
           <v-sheet>
             <v-sheet>
-              <v-avatar style="background-color: #00bcd4" class="mr-2" size="10">
+              <v-avatar class="mr-2" size="10" style="background-color: #00bcd4">
                 <span class="white--text text-h5" />
               </v-avatar>
               <span>
@@ -102,7 +102,7 @@
               </span>
             </v-sheet>
             <v-sheet>
-              <v-avatar style="background-color: #1e88e5" class="mr-2" size="10">
+              <v-avatar class="mr-2" size="10" style="background-color: #1e88e5">
                 <span class="white--text text-h5" />
               </v-avatar>
               <span>
@@ -112,7 +112,7 @@
               </span>
             </v-sheet>
             <v-sheet>
-              <v-avatar style="background-color: #607d8b" class="mr-2" size="0">
+              <v-avatar class="mr-2" size="0" style="background-color: #607d8b">
                 <span class="white--text text-h5" />
               </v-avatar>
               <span />
@@ -126,11 +126,11 @@
       <v-card>
         <v-card-text>
           <v-sheet>
-            <VueApexCharts type="radialBar" height="250" :options="podOptions" :series="podSeries" />
+            <VueApexCharts height="250" :options="podOptions" :series="podSeries" type="radialBar" />
           </v-sheet>
           <v-sheet>
             <v-sheet>
-              <v-avatar style="background-color: #00bcd4" class="mr-2" size="10">
+              <v-avatar class="mr-2" size="10" style="background-color: #00bcd4">
                 <span class="white--text text-h5" />
               </v-avatar>
               <span>
@@ -139,13 +139,13 @@
               </span>
             </v-sheet>
             <v-sheet>
-              <v-avatar style="background-color: #00bcd4" class="mr-2" size="0">
+              <v-avatar class="mr-2" size="0" style="background-color: #00bcd4">
                 <span class="white--text text-h5" />
               </v-avatar>
               <span />
             </v-sheet>
             <v-sheet>
-              <v-avatar style="background-color: #607d8b" class="mr-2" size="0">
+              <v-avatar class="mr-2" size="0" style="background-color: #607d8b">
                 <span class="white--text text-h5" />
               </v-avatar>
               <span />
@@ -159,8 +159,9 @@
 </template>
 
 <script>
-  import { mapGetters, mapState } from 'vuex';
   import VueApexCharts from 'vue-apexcharts';
+  import { mapGetters, mapState } from 'vuex';
+
   import { generateRadialBarChartOptions } from '@/utils/chart';
   import { sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
 

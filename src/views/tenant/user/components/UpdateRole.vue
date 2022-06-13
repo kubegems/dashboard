@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog v-model="dialog" :width="500" title="用户系统角色" icon="mdi-account-edit" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-account-edit" title="用户系统角色" :width="500" @reset="reset">
     <template #content>
       <BaseSubTitle title="用户角色" />
       <v-card-text class="pa-2 mt-2">
@@ -8,24 +8,24 @@
             <v-text-field
               v-model="obj.Username"
               class="my-0"
-              :rules="objRules.userIDRules"
-              required
-              readonly
               label="用户"
+              readonly
+              required
+              :rules="objRules.userIDRules"
             />
             <v-autocomplete
               v-model="obj.SystemRoleID"
               class="my-0"
-              :items="m_select_systemRoleItems"
-              :rules="objRules.systemRoleRules"
               color="primary"
               hide-selected
+              :items="m_select_systemRoleItems"
               label="角色"
               no-data-text="暂无可选数据"
+              :rules="objRules.systemRoleRules"
               @focus="onSystemRoleSelectFocus"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" class="mx-1" small>
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -35,13 +35,14 @@
       </v-card-text>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="changeUserRole"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="changeUserRole"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapState } from 'vuex';
+
   import { putChangeUserRole } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { required } from '@/utils/rules';

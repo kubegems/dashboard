@@ -1,12 +1,13 @@
 <template>
   <v-flex :class="`pa-0 clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
-    <VueApexCharts class="px-0" type="bar" height="180" width="100%" :options="chartOptions" :series="series" />
+    <VueApexCharts class="px-0" height="180" :options="chartOptions" :series="series" type="bar" width="100%" />
   </v-flex>
 </template>
 
 <script>
-  import { mapState } from 'vuex';
   import VueApexCharts from 'vue-apexcharts';
+  import { mapState } from 'vuex';
+
   import { THEME_COLORS } from '@/utils/chart';
 
   export default {

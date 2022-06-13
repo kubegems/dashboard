@@ -1,11 +1,11 @@
 m
 <template>
-  <BaseDialog v-model="dialog" :width="1000" :title="title" icon="mdi-collage" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-collage" :title="title" :width="1000" @reset="reset">
     <template #content>
       <BaseYamlForm ref="yamlForm" :item="item" :title="item ? item.kind : ''" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="updateCR"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateCR"> 确定 </v-btn>
     </template>
     <template #header-action>
       <div class="text-h6 ml-2 white--text mt-1">Yaml</div>
@@ -15,6 +15,7 @@ m
 
 <script>
   import { mapState } from 'vuex';
+
   import { patchUpdateCR, getCrDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';

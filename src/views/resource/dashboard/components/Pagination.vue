@@ -16,17 +16,17 @@
       prop: 'page',
     },
     props: {
-      pageCount: {
-        type: Number,
-        default: () => 0,
+      frontPage: {
+        type: Boolean,
+        default: () => false,
       },
       page: {
         type: Number,
         default: () => 1,
       },
-      frontPage: {
-        type: Boolean,
-        default: () => false,
+      pageCount: {
+        type: Number,
+        default: () => 0,
       },
     },
     data() {

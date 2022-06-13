@@ -5,18 +5,18 @@
       <v-flex class="float-left ml-2 kubegems__form-width">
         <v-autocomplete
           v-model="volumeName"
-          :items="items"
-          :rules="volumeRules"
-          color="primary"
-          label="存储卷"
-          hide-selected
           class="my-0"
+          color="primary"
+          hide-selected
+          :items="items"
+          label="存储卷"
           no-data-text="暂无可选数据"
           :readonly="edit"
+          :rules="volumeRules"
           @change="onVolumeChange"
         >
           <template #selection="{ item }">
-            <v-chip color="primary" small class="mx-1">
+            <v-chip class="mx-1" color="primary" small>
               {{ item['text'] }}
             </v-chip>
           </template>
@@ -29,13 +29,13 @@
       </v-flex>
       <div class="kubegems__clear-float" />
     </v-sheet>
-    <VolumeMount ref="volumeMount" :containers="containers" :volume-mount-name="volumeMountName" :volume="volume" />
+    <VolumeMount ref="volumeMount" :containers="containers" :volume="volume" :volume-mount-name="volumeMountName" />
     <VolumeMountForInitContainer
       v-if="initContainers && initContainers.length > 0"
       ref="volumeMountForInitContainer"
       :init-containers="initContainers"
-      :volume-mount-name="volumeMountName"
       :volume="volume"
+      :volume-mount-name="volumeMountName"
     />
   </v-form>
 </template>
@@ -43,6 +43,7 @@
 <script>
   import VolumeMount from './VolumeMount';
   import VolumeMountForInitContainer from './VolumeMountForInitContainer';
+
   import { getPersistentVolumeClaimList, getAppResourceFileMetas } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { required } from '@/utils/rules';
@@ -59,6 +60,10 @@
         type: Array,
         default: () => [],
       },
+      edit: {
+        type: Boolean,
+        default: () => false,
+      },
       initContainers: {
         type: Array,
         default: () => [],
@@ -67,21 +72,17 @@
         type: String,
         default: () => '',
       },
-      volumeMountName: {
-        type: String,
-        default: () => null,
+      manifest: {
+        type: Boolean,
+        default: () => false,
       },
       volume: {
         type: Object,
         default: () => null,
       },
-      manifest: {
-        type: Boolean,
-        default: () => false,
-      },
-      edit: {
-        type: Boolean,
-        default: () => false,
+      volumeMountName: {
+        type: String,
+        default: () => null,
       },
     },
     data() {

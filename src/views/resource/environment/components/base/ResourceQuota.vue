@@ -1,71 +1,71 @@
 <template>
   <v-flex>
     <v-row>
-      <v-col cols="3" class="pb-0 pt-6">
+      <v-col class="pb-0 pt-6" cols="3">
         <v-text-field
           v-model="obj.ResourceQuota['limits.cpu']"
           label="CPU限制值"
+          :rules="resourceQuotaRules['limits.cpu']"
           suffix="core"
           type="number"
-          :rules="resourceQuotaRules['limits.cpu']"
         />
       </v-col>
-      <v-col cols="3" class="pb-0 pt-6">
+      <v-col class="pb-0 pt-6" cols="3">
         <v-text-field
           v-model="obj.ResourceQuota['limits.memory']"
           label="内存限制值"
+          :rules="resourceQuotaRules['limits.memory']"
           suffix="Gi"
           type="number"
-          :rules="resourceQuotaRules['limits.memory']"
         />
       </v-col>
-      <v-col cols="3" class="pb-0 pt-6">
+      <v-col class="pb-0 pt-6" cols="3">
         <v-text-field
           v-model="obj.ResourceQuota['requests.storage']"
           label="存储限制值"
+          :rules="resourceQuotaRules['requests.storage']"
           suffix="Gi"
           type="number"
-          :rules="resourceQuotaRules['requests.storage']"
         />
       </v-col>
-      <v-col cols="3" class="pb-0 pt-6">
+      <v-col class="pb-0 pt-6" cols="3">
         <v-text-field
           v-model="obj.ResourceQuota['count/pods']"
           label="容器组限制值"
+          :rules="resourceQuotaRules['count/pods']"
           suffix=""
           type="number"
-          :rules="resourceQuotaRules['count/pods']"
         />
       </v-col>
 
-      <v-col v-if="nvidia" cols="3" class="py-0">
+      <v-col v-if="nvidia" class="py-0" cols="3">
         <v-text-field
           v-model="obj.ResourceQuota['limits.nvidia.com/gpu']"
           label="Nvidia Gpu限制值"
+          :rules="resourceQuotaRules['limits.nvidia.com/gpu']"
           suffix="Gpu"
           type="number"
-          :rules="resourceQuotaRules['limits.nvidia.com/gpu']"
         />
       </v-col>
 
       <template v-if="tke">
-        <v-col cols="3" class="py-0">
+        <v-col class="py-0" cols="3">
           <v-text-field
             v-model="obj.ResourceQuota['tencent.com/vcuda-core']"
             label="Tke Gpu限制值"
+            :rules="resourceQuotaRules['tencent.com/vcuda-core']"
             :suffix="`${parseInt(obj.ResourceQuota['tencent.com/vcuda-core'] || 0) / 100}Gpu`"
             type="number"
-            :rules="resourceQuotaRules['tencent.com/vcuda-core']"
           />
         </v-col>
 
-        <v-col cols="3" class="py-0">
+        <v-col class="py-0" cols="3">
           <v-text-field
             v-model="obj.ResourceQuota['tencent.com/vcuda-memory']"
             label="Tke显存限制值"
+            :rules="resourceQuotaRules['tencent.com/vcuda-memory']"
             :suffix="`${(parseInt(obj.ResourceQuota['tencent.com/vcuda-memory'] || 0) * 256) / 1024}Gi`"
             type="number"
-            :rules="resourceQuotaRules['tencent.com/vcuda-memory']"
           />
         </v-col>
       </template>
@@ -84,13 +84,13 @@
         type: Object,
         default: () => null,
       },
-      statistics: {
-        type: Object,
-        default: () => null,
-      },
       edit: {
         type: Boolean,
         default: () => false,
+      },
+      statistics: {
+        type: Object,
+        default: () => null,
       },
     },
     data() {

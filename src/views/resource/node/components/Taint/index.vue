@@ -1,9 +1,9 @@
 <template>
   <v-card>
     <v-card-text class="pa-0 pt-1">
-      <BaseSubTitle title="污点" :divider="false">
+      <BaseSubTitle :divider="false" title="污点">
         <template #action>
-          <v-btn small text color="primary" class="float-right mr-2" @click="addTaint">
+          <v-btn class="float-right mr-2" color="primary" small text @click="addTaint">
             <v-icon left small> mdi-tag-plus </v-icon>
             添加污点
           </v-btn>
@@ -12,15 +12,15 @@
       <v-flex class="pb-4">
         <v-sheet v-for="(t, index) in taint.spec.taints" :key="index" class="ml-2">
           <v-chip
-            small
             class="my-1"
-            color="success"
-            text-color="white"
             close
             close-icon="mdi-delete"
+            color="success"
+            small
+            text-color="white"
             @click:close="removeTaint(t)"
           >
-            <v-icon small left> mdi-asterisk </v-icon>
+            <v-icon left small> mdi-asterisk </v-icon>
             <span class="mr-2">
               <strong class="mx-1"> key </strong>
               {{ t.key }}
@@ -44,7 +44,9 @@
 </template>
 <script>
   import { mapGetters } from 'vuex';
+
   import AddTaint from './AddTaint';
+
   import { patchTaintNode, getNodeDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';

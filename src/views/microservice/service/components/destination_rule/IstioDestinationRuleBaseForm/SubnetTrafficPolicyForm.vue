@@ -6,7 +6,7 @@
         <v-card-text class="pa-2">
           <v-row class="my-1 mx-0">
             <v-col cols="6">
-              <v-text-field v-model="obj.name" class="my-0" required label="名称" :rules="objRules.nameRule" />
+              <v-text-field v-model="obj.name" class="my-0" label="名称" required :rules="objRules.nameRule" />
             </v-col>
           </v-row>
 
@@ -15,15 +15,15 @@
           <v-card-text class="pa-2">
             <LabelItem
               :labels="obj.labels"
-              @updateLabels="updateLabels"
-              @removeLabels="removeLabels"
               @expandCard="expandLabelCard"
+              @removeLabels="removeLabels"
+              @updateLabels="updateLabels"
             />
             <div class="kubegems__clear-float" />
           </v-card-text>
 
           <BaseSubTitle title="流量策略" />
-          <v-tabs v-model="tab" class="px-2 v-tabs--default" height="40" fixed-tabs>
+          <v-tabs v-model="tab" class="px-2 v-tabs--default" fixed-tabs height="40">
             <v-tab v-for="item in tabItems" :key="item.value">
               {{ item.text }}
             </v-tab>
@@ -38,8 +38,8 @@
         </v-card-text>
         <v-card-actions class="pa-2">
           <v-spacer />
-          <v-btn text small color="error" @click="closeCard"> 取消 </v-btn>
-          <v-btn text small color="primary" @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
+          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -47,26 +47,26 @@
 </template>
 
 <script>
-  import LoadBalancer from '@/views/microservice/service/components/destination_rule/policy/LoadBalancer';
-  import ConnectionPool from '@/views/microservice/service/components/destination_rule/policy/ConnectionPool';
-  import OutlierDetection from '@/views/microservice/service/components/destination_rule/policy/OutlierDetection';
-  import TLS from '@/views/microservice/service/components/destination_rule/policy/TLS';
-  import PortLevelSettings from '@/views/microservice/service/components/destination_rule/policy/PortLevelSettings';
-  import LabelItem from '@/views/resource/components/label/LabelItem';
-  import LabelForm from '@/views/resource/components/label/LabelForm';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
+  import ConnectionPool from '@/views/microservice/service/components/destination_rule/policy/ConnectionPool';
+  import LoadBalancer from '@/views/microservice/service/components/destination_rule/policy/LoadBalancer';
+  import OutlierDetection from '@/views/microservice/service/components/destination_rule/policy/OutlierDetection';
+  import PortLevelSettings from '@/views/microservice/service/components/destination_rule/policy/PortLevelSettings';
+  import TLS from '@/views/microservice/service/components/destination_rule/policy/TLS';
+  import LabelForm from '@/views/resource/components/label/LabelForm';
+  import LabelItem from '@/views/resource/components/label/LabelItem';
 
   export default {
     name: 'SubnetTrafficPolicyForm',
     components: {
-      LoadBalancer,
       ConnectionPool,
-      OutlierDetection,
-      TLS,
-      PortLevelSettings,
-      LabelItem,
+      LoadBalancer,
       LabelForm,
+      LabelItem,
+      OutlierDetection,
+      PortLevelSettings,
+      TLS,
     },
     data() {
       return {

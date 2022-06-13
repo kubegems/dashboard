@@ -1,10 +1,10 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="更新项目" icon="mdi-cube-outline" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-cube-outline" title="更新项目" :width="1000" @reset="reset">
     <template #content>
       <component :is="formComponent" :ref="formComponent" :edit="true" :step="step" />
     </template>
     <template #action>
-      <v-btn v-if="step === 1" class="float-right mx-2" color="primary" text :loading="Circular" @click="updateProject">
+      <v-btn v-if="step === 1" class="float-right mx-2" color="primary" :loading="Circular" text @click="updateProject">
         确定
       </v-btn>
       <v-btn v-if="step === 1" class="float-right mx-2" color="primary" text @click="step = 0"> 上一步 </v-btn>
@@ -15,7 +15,9 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import ProjectBaseForm from './ProjectBaseForm';
+
   import { getProjectDetail, putUpdateProject } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';

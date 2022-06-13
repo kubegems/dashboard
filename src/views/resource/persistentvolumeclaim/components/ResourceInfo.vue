@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-sheet class="pa-2">
-      <BaseListItemForDetail title="存储类型" :mt="0">
+      <BaseListItemForDetail :mt="0" title="存储类型">
         <template #content>
           {{ pvc ? pvc.spec.storageClassName : '' }}
         </template>
@@ -42,10 +42,10 @@
           <span
             v-if="pvc && pvc.metadata.annotations && pvc.metadata.annotations[`storage.kubegems.io/in-use`] === 'true'"
           >
-            <v-icon small color="primary"> fas fa-check-circle </v-icon>
+            <v-icon color="primary" small> fas fa-check-circle </v-icon>
           </span>
           <span v-else>
-            <v-icon small color="error">fas fa-minus-circle</v-icon>
+            <v-icon color="error" small>fas fa-minus-circle</v-icon>
           </span>
         </template>
       </BaseListItemForDetail>
@@ -59,10 +59,10 @@
               pvc.metadata.annotations[`storage.kubegems.io/allow-snapshot`] === 'true'
             "
           >
-            <v-icon small color="primary"> fas fa-check-circle </v-icon>
+            <v-icon color="primary" small> fas fa-check-circle </v-icon>
           </span>
           <span v-else>
-            <v-icon small color="error">fas fa-minus-circle</v-icon>
+            <v-icon color="error" small>fas fa-minus-circle</v-icon>
           </span>
         </template>
       </BaseListItemForDetail>

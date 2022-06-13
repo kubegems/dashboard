@@ -9,12 +9,12 @@
               v-model="date"
               :default-value="30"
               default-value-for-query
-              value-change-to-query
-              query-start-time-key="start"
               query-end-time-key="end"
+              query-start-time-key="start"
+              value-change-to-query
               @change="onDatetimeChange(undefined)"
             />
-            <v-btn text small class="primary--text" @click="refresh">
+            <v-btn class="primary--text" small text @click="refresh">
               <v-icon left small> fas fa-redo </v-icon>
               刷新
             </v-btn>
@@ -24,31 +24,31 @@
     </BaseBreadcrumb>
     <v-card flat>
       <v-card-title class="py-4">
-        <BaseFilter :filters="filters" :default="{ items: [], text: '消息', value: 'message' }" @refresh="filterList" />
+        <BaseFilter :default="{ items: [], text: '消息', value: 'message' }" :filters="filters" @refresh="filterList" />
       </v-card-title>
       <v-data-table
         class="mx-4 kubegems__table-row-pointer"
         disable-sort
         :headers="headers"
-        :items="items"
-        no-data-text="暂无数据"
         hide-default-footer
-        single-expand
-        show-expand
         item-key="index"
-        :page.sync="page"
+        :items="items"
         :items-per-page="itemsPerPage"
-        @page-count="pageCount = $event"
+        no-data-text="暂无数据"
+        :page.sync="page"
+        show-expand
+        single-expand
         @click:row="onRowClick"
+        @page-count="pageCount = $event"
       >
         <template #[`item.reason`]="{ item }">
           {{ item.stream.reason }}
         </template>
         <template #[`item.type`]="{ item }">
           <v-chip
+            class="font-weight-medium chip-width"
             :color="item.stream.type === 'Normal' ? 'success' : 'warning'"
             small
-            class="font-weight-medium chip-width"
           >
             <span>{{ item.stream.type }}</span>
           </v-chip>
@@ -90,7 +90,7 @@
           {{ item.stream.message.length > 100 ? item.stream.message.substr(0, 100) + '......' : item.stream.message }}
         </template>
         <template #expanded-item="{ headers, item }">
-          <td :colspan="headers.length" class="text-left">
+          <td class="text-left" :colspan="headers.length">
             <pre class="kubegems__word-all-break">{{ item.stream.message }}</pre>
           </td>
         </template>
@@ -102,9 +102,9 @@
         :front-page="true"
         :page-count="pageCount"
         :size="itemsPerPage"
-        @loaddata="onDatetimeChange"
-        @changesize="onPageSizeChange"
         @changepage="onPageIndexChange"
+        @changesize="onPageSizeChange"
+        @loaddata="onDatetimeChange"
       />
     </v-card>
     <!-- </v-card> -->
@@ -113,6 +113,7 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import { getEventListFromLoki } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BaseSelect from '@/mixins/select';

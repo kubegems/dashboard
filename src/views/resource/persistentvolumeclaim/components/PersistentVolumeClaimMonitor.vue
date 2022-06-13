@@ -13,15 +13,15 @@
     <v-card-text :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
       <v-row>
         <v-col cols="6">
-          <BaseApexAreaChart id="used" title="使用量" :metrics="used" type="storage" label="persistentvolumeclaim" />
+          <BaseApexAreaChart id="used" label="persistentvolumeclaim" :metrics="used" title="使用量" type="storage" />
         </v-col>
         <v-col cols="6">
           <BaseApexAreaChart
             id="inode"
-            title="Inode使用率"
-            :metrics="inodeused"
-            type=""
             label="persistentvolumeclaim"
+            :metrics="inodeused"
+            title="Inode使用率"
+            type=""
           />
         </v-col>
       </v-row>
@@ -31,13 +31,14 @@
 
 <script>
   import { mapState } from 'vuex';
-  import BaseResource from '@/mixins/resource';
+
   import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
   import { PVC_USAGE_PROMQL, PVC_USAGE_INODE_PROMQL } from '@/utils/prometheus';
 
   export default {
     name: 'PersistentVolumeClaimMonitor',
-    mixins: [BaseResource, BasePermission],
+    mixins: [BasePermission, BaseResource],
     props: {
       item: {
         type: Object,

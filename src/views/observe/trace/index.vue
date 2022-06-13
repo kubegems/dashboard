@@ -1,19 +1,19 @@
 <template>
-  <v-container fluid class="search">
+  <v-container class="search" fluid>
     <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right" :style="{ width: `${traceIdSearchWidth}px` }">
           <div class="float-left search__label">TraceId</div>
           <v-text-field
             v-model="traceid"
-            solo
             dense
-            hide-details
             flat
-            prepend-inner-icon="mdi-magnify"
             full-width
-            @focus="traceIdSearchWidth = 500"
+            hide-details
+            prepend-inner-icon="mdi-magnify"
+            solo
             @blur="traceIdSearchWidth = 250"
+            @focus="traceIdSearchWidth = 500"
             @keyup.enter="onTraceIdSearch"
           />
         </v-flex>
@@ -22,7 +22,7 @@
     <v-card class="search__main" :height="height">
       <div class="search__header">
         <ClusterSelect v-model="cluster" auto-select-first />
-        <v-btn v-if="location === 'trace'" small text color="primary" class="float-right" @click="onBack">
+        <v-btn v-if="location === 'trace'" class="float-right" color="primary" small text @click="onBack">
           <v-icon left small> fas fa-share-square </v-icon>
           返回
         </v-btn>
@@ -31,11 +31,11 @@
       <iframe
         v-if="cluster"
         v-show="show"
-        ref="iframe"
         :key="iframeKey"
-        :src="src"
+        ref="iframe"
         allow
         class="search__iframe"
+        :src="src"
         @load="onLoad"
       />
     </v-card>
@@ -44,6 +44,7 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import ClusterSelect from '@/views/observe/components/ClusterSelect';
 
   export default {

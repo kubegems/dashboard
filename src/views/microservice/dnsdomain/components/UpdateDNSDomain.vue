@@ -1,17 +1,19 @@
 <template>
-  <BaseDialog v-model="dialog" :width="500" title="更新DNS" icon="mdi-dns" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-dns" title="更新DNS" :width="500" @reset="reset">
     <template #content>
       <component :is="formComponent" :ref="formComponent" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="updateDNSDomain"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateDNSDomain"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import DNSDomainBaseForm from './DNSDomainBaseForm';
+
   import { putUpdateDNSDomain, getDnsDomainDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
 

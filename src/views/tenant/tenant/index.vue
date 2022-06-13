@@ -4,15 +4,15 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :filters="filters"
           :default="{ items: [], text: '租户名称', value: 'search' }"
+          :filters="filters"
           @refresh="m_filter_list"
         />
         <v-spacer />
         <v-menu left>
           <template #activator="{ on }">
             <v-btn icon>
-              <v-icon small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+              <v-icon color="primary" small v-on="on"> fas fa-ellipsis-v </v-icon>
             </v-btn>
           </template>
           <v-card>
@@ -31,11 +31,11 @@
         class="mx-4"
         disable-sort
         :headers="headers"
+        hide-default-footer
         :items="items"
-        :page.sync="params.page"
         :items-per-page="params.size"
         no-data-text="暂无数据"
-        hide-default-footer
+        :page.sync="params.page"
       >
         <template #[`item.tenantName`]="{ item }">
           <a class="text-subtitle-2" @click="tenantDetail(item)">
@@ -44,11 +44,11 @@
         </template>
         <template #[`item.isActive`]="{ item }">
           <span v-if="item.IsActive">
-            <v-icon small color="primary"> fas fa-check-circle </v-icon>
+            <v-icon color="primary" small> fas fa-check-circle </v-icon>
             启用
           </span>
           <span v-else>
-            <v-icon small color="error"> fas fa-minus-circle </v-icon>
+            <v-icon color="error" small> fas fa-minus-circle </v-icon>
             禁用
           </span>
         </template>
@@ -60,9 +60,9 @@
           <span class="text-subtitle-2">
             <v-progress-linear
               class="rounded font-weight-medium"
-              :value="item.CpuPercentage"
-              height="15"
               :color="getColor(item.CpuPercentage)"
+              height="15"
+              :value="item.CpuPercentage"
             >
               <span class="white--text">{{ item.CpuPercentage }}% </span>
             </v-progress-linear>
@@ -73,9 +73,9 @@
           <span class="text-subtitle-2">
             <v-progress-linear
               class="rounded font-weight-medium"
-              :value="item.MemoryPercentage"
-              height="15"
               :color="getColor(item.MemoryPercentage)"
+              height="15"
+              :value="item.MemoryPercentage"
             >
               <span class="white--text">{{ item.MemoryPercentage }}% </span>
             </v-progress-linear>
@@ -86,9 +86,9 @@
           <span class="text-subtitle-2">
             <v-progress-linear
               class="rounded font-weight-medium"
-              :value="item.StoragePercentage"
-              height="15"
               :color="getColor(item.StoragePercentage)"
+              height="15"
+              :value="item.StoragePercentage"
             >
               <span class="white--text">{{ item.StoragePercentage }}% </span>
             </v-progress-linear>
@@ -105,25 +105,25 @@
         </template>
         <template #[`item.action`]="{ item }">
           <v-flex :id="`r${item.ID}`" />
-          <v-menu left :attach="`#r${item.ID}`">
+          <v-menu :attach="`#r${item.ID}`" left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
               </v-btn>
             </template>
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" text small @click="updateTenant(item)"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateTenant(item)"> 编辑 </v-btn>
                 </v-flex>
                 <v-flex v-if="item.IsActive">
-                  <v-btn color="error" text small @click="forbidTenant(item)"> 禁用 </v-btn>
+                  <v-btn color="error" small text @click="forbidTenant(item)"> 禁用 </v-btn>
                 </v-flex>
                 <v-flex v-else>
-                  <v-btn color="primary" text small @click="activeTenant(item)"> 激活 </v-btn>
+                  <v-btn color="primary" small text @click="activeTenant(item)"> 激活 </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" text small @click="removeTenant(item)"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeTenant(item)"> 删除 </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -135,9 +135,9 @@
         v-model="params.page"
         :page-count="pageCount"
         :size="params.size"
-        @loaddata="tenantList"
-        @changesize="onPageSizeChange"
         @changepage="onPageIndexChange"
+        @changesize="onPageSizeChange"
+        @loaddata="tenantList"
       />
     </v-card>
 
@@ -148,12 +148,14 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import AddTenant from './components/AddTenant';
   import UpdateTenant from './components/UpdateTenant';
+
   import { getTenantList, putActiveTenant, putForbideTenant, deleteTenant } from '@/api';
-  import BaseSelect from '@/mixins/select';
   import BaseFilter from '@/mixins/base_filter';
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
   import BaseTable from '@/mixins/table';
   import { sizeOfStorage, sizeOfCpu, convertStrToNum } from '@/utils/helpers';
 
@@ -163,7 +165,7 @@
       AddTenant,
       UpdateTenant,
     },
-    mixins: [BaseFilter, BaseSelect, BaseResource, BaseTable],
+    mixins: [BaseFilter, BaseResource, BaseSelect, BaseTable],
     data: () => ({
       items: [],
       headers: [

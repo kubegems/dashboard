@@ -3,7 +3,7 @@
     <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
-          <v-btn color="primary" text small @click="overScaleResource">
+          <v-btn color="primary" small text @click="overScaleResource">
             <v-icon left small> mdi-scale </v-icon>
             资源超分
           </v-btn>
@@ -11,19 +11,19 @@
           <v-menu left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
               </v-btn>
             </template>
             <v-card>
               <v-card-text class="pa-2 text-center">
                 <v-flex>
-                  <v-btn color="primary" text small @click="kuberCtl"> Kubectl </v-btn>
+                  <v-btn color="primary" small text @click="kuberCtl"> Kubectl </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="primary" text small @click="updateCluster"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateCluster"> 编辑 </v-btn>
                 </v-flex>
                 <v-flex v-if="cluster && !cluster.Primary">
-                  <v-btn color="error" text small @click="removeCluster"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeCluster"> 删除 </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -32,20 +32,20 @@
       </template>
     </BaseBreadcrumb>
     <v-row>
-      <v-col cols="12" lg="4" class="pb-2">
-        <BasicMonitor :params="params" :cluster="cluster" />
-        <ResourceInfo :quota="quota" :workload="workload" :cluster="cluster" />
+      <v-col class="pb-2" cols="12" lg="4">
+        <BasicMonitor :cluster="cluster" :params="params" />
+        <ResourceInfo :cluster="cluster" :quota="quota" :workload="workload" />
       </v-col>
 
-      <v-col cols="12" lg="8" class="pb-2">
+      <v-col class="pb-2" cols="12" lg="8">
         <MetricMonitor :params="params" />
       </v-col>
 
-      <v-col v-for="(key, index) in resources" :key="index" cols="2" class="down-top-padding pt-1 pb-2">
+      <v-col v-for="(key, index) in resources" :key="index" class="down-top-padding pt-1 pb-2" cols="2">
         <v-card>
           <v-card-text class="py-5 pl-8">
             <div class="d-flex align-center">
-              <Icon :icon="$RESOURCE_ICON[key]" class="mr-6 primary--text icon--large" />
+              <Icon class="mr-6 primary--text icon--large" :icon="$RESOURCE_ICON[key]" />
               <div class="ml-2 mr-1">
                 <h2 class="text-h5">
                   {{ workload[key] }}
@@ -59,7 +59,7 @@
         </v-card>
       </v-col>
     </v-row>
-    <ResourceChart :quota="quota" :cluster="cluster" />
+    <ResourceChart :cluster="cluster" :quota="quota" />
     <Terminal ref="terminal" />
     <UpdateCluster ref="updateCluster" @refresh="clusterDetail" />
     <OverScaleResource ref="overScaleResource" @refresh="clusterDetail" />
@@ -67,31 +67,33 @@
 </template>
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import ResourceChart from './components/ResourceChart';
-  import UpdateCluster from './components/UpdateCluster';
+
   import BasicMonitor from './components/BasicMonitor';
-  import ResourceInfo from './components/ResourceInfo';
   import MetricMonitor from './components/MetricMonitor';
   import OverScaleResource from './components/OverScaleResource';
-  import Terminal from '@/views/resource/components/common/Terminal';
+  import ResourceChart from './components/ResourceChart';
+  import ResourceInfo from './components/ResourceInfo';
+  import UpdateCluster from './components/UpdateCluster';
+
   import { deleteCluster, getClusterDetail, getClusterQuota } from '@/api';
-  import BaseSelect from '@/mixins/select';
-  import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
   import { CLUSTER_POD_CAPACITY_PROMQL } from '@/utils/prometheus';
+  import Terminal from '@/views/resource/components/common/Terminal';
 
   export default {
     name: 'ClusterDetail',
     components: {
-      ResourceChart,
-      Terminal,
-      UpdateCluster,
       BasicMonitor,
-      ResourceInfo,
       MetricMonitor,
       OverScaleResource,
+      ResourceChart,
+      ResourceInfo,
+      Terminal,
+      UpdateCluster,
     },
-    mixins: [BaseSelect, BaseResource, BasePermission],
+    mixins: [BasePermission, BaseResource, BaseSelect],
     data: () => ({
       cluster: null,
       quota: null,

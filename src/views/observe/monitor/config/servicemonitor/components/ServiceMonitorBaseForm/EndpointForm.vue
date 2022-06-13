@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form" v-model="valid" lazy-validation class="my-2">
+  <v-form ref="form" v-model="valid" class="my-2" lazy-validation>
     <v-expand-transition>
       <v-card v-show="expand" class="my-2 pa-2 kubegems__expand-transition" :elevation="4">
         <v-card-text class="pa-0">
@@ -10,18 +10,18 @@
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-autocomplete
                 v-model="portSelector"
-                color="primary"
-                :items="portSelect"
-                :rules="endpointRules.typeRule"
-                required
-                value="port"
-                label="端口类型"
-                hide-selected
                 class="my-0"
+                color="primary"
+                hide-selected
+                :items="portSelect"
+                label="端口类型"
                 no-data-text="暂无可选数据"
+                required
+                :rules="endpointRules.typeRule"
+                value="port"
               >
                 <template #selection="{ item }">
-                  <v-chip color="primary" small class="mx-1">
+                  <v-chip class="mx-1" color="primary" small>
                     {{ item['text'] }}
                   </v-chip>
                 </template>
@@ -36,8 +36,8 @@
               <v-text-field
                 v-model="endpoint.port"
                 class="my-0"
-                required
                 label="端口名(port)"
+                required
                 :rules="endpointRules.portRules"
               />
             </v-flex>
@@ -45,22 +45,22 @@
               <v-text-field
                 v-model="endpoint.targetPort"
                 class="my-0"
-                required
                 label="端口号(targetPort)"
-                type="number"
+                required
                 :rules="endpointRules.targetPortRules"
+                type="number"
               />
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
-              <v-text-field v-model="endpoint.path" class="my-0" required label="路径" />
+              <v-text-field v-model="endpoint.path" class="my-0" label="路径" required />
             </v-flex>
             <v-flex class="float-left text-subtitle-2 py-1 primary--text kubegems__min-width" />
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-text-field
                 v-model="endpoint.interval"
                 class="my-0"
-                required
                 label="间隔"
+                required
                 :rules="endpointRules.intervalRule"
               />
             </v-flex>
@@ -68,8 +68,8 @@
               <v-text-field
                 v-model="endpoint.scrapeTimeout"
                 class="my-0"
-                required
                 label="超时"
+                required
                 :rules="endpointRules.scrapeTimeoutRule"
               />
             </v-flex>
@@ -77,8 +77,8 @@
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-switch
                 v-model="honorLabel"
-                hide-details
                 class="mt-4"
+                hide-details
                 label="指标标签优先"
                 @change="onHonorLabelChange"
               />
@@ -88,8 +88,8 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn text small color="error" @click="closeCard"> 取消 </v-btn>
-          <v-btn text small color="primary" @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
+          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>

@@ -8,18 +8,18 @@
       <v-list-item two-line>
         <v-list-item-content class="py-0">
           <v-list-item-subtitle class="text-body-2 py-0">
-            <v-list-item two-line class="float-left py-0 pl-0" style="width: 515px">
+            <v-list-item class="float-left py-0 pl-0" style="width: 515px" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
-                  <v-icon left small color="primary" class="float-left mt-1"> mdi-cube </v-icon>
+                  <v-icon class="float-left mt-1" color="primary" left small> mdi-cube </v-icon>
                   <v-flex class="float-left">
                     {{ container.name }}
                   </v-flex>
                   <v-flex v-if="tke" class="float-left mt-1 ml-2 icon-height">
-                    <BaseLogo :width="16" icon-name="tke" />
+                    <BaseLogo icon-name="tke" :width="16" />
                   </v-flex>
                   <v-flex v-if="nvidia" class="float-left mt-1 ml-2 icon-height">
-                    <BaseLogo :width="16" icon-name="nvidia" />
+                    <BaseLogo icon-name="nvidia" :width="16" />
                   </v-flex>
                   <v-icon
                     v-if="
@@ -27,20 +27,20 @@
                       (item.metadata.deletionTimestamp ? 'Terminating' : item.status.phase) === 'Succeeded' ||
                       (container.state && container.state.waiting)
                     "
-                    small
-                    right
-                    color="primary float-left"
                     class="kubegems__pointer"
+                    color="primary float-left"
+                    right
+                    small
                     @click="containerLog(container.name, item)"
                   >
                     mdi-file-document
                   </v-icon>
                   <v-icon
                     v-if="m_permisson_resourceAllow && container.state && container.state.running !== undefined"
-                    small
-                    right
-                    color="primary float-left"
                     class="kubegems__pointer"
+                    color="primary float-left"
+                    right
+                    small
                     @click="containerShell(container.name, item)"
                   >
                     mdi-console
@@ -52,7 +52,7 @@
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item two-line class="float-left py-0 pl-0" style="width: 200px">
+            <v-list-item class="float-left py-0 pl-0" style="width: 200px" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
                   <span
@@ -72,7 +72,7 @@
                 <v-list-item-subtitle class="text-body-2 py-1"> 状态 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item two-line class="float-left py-0 pl-0" style="width: 200px">
+            <v-list-item class="float-left py-0 pl-0" style="width: 200px" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
                   <v-flex
@@ -80,7 +80,7 @@
                     :key="index"
                     class="float-left mr-2"
                   >
-                    <ProbeTip :title="probe.title" :item="probe.probe" />
+                    <ProbeTip :item="probe.probe" :title="probe.title" />
                   </v-flex>
                   <v-flex v-if="getContainerProbes(item, container).length === 0" class="float-left mr-1">
                     暂无探针
@@ -90,7 +90,7 @@
                 <v-list-item-subtitle class="text-body-2 py-1"> 探针 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item two-line class="float-left py-0 pl-0" style="width: 150px">
+            <v-list-item class="float-left py-0 pl-0" style="width: 150px" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
                   {{ container.restartCount }}
@@ -98,7 +98,7 @@
                 <v-list-item-subtitle class="text-body-2 py-1"> 重启次数 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item two-line class="float-left py-0 pl-0" style="width: 150px">
+            <v-list-item class="float-left py-0 pl-0" style="width: 150px" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
                   <span v-if="container.state.running">
@@ -120,7 +120,7 @@
                 <v-list-item-subtitle class="text-body-2 py-1"> Age </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item two-line class="float-left py-0 pl-0" style="width: 150px">
+            <v-list-item class="float-left py-0 pl-0" style="width: 150px" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
                   {{ container.resources && container.resources.limits ? container.resources.limits.cpu : '无限制' }}
@@ -128,7 +128,7 @@
                 <v-list-item-subtitle class="text-body-2 py-1"> limits.cpu </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item two-line class="float-left py-0 pl-0" style="width: 150px">
+            <v-list-item class="float-left py-0 pl-0" style="width: 150px" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
                   {{ container.resources && container.resources.limits ? container.resources.limits.memory : '无限制' }}
@@ -149,27 +149,28 @@
 
 <script>
   import { mapState } from 'vuex';
-  import ProbeTip from '@/views/resource/components/common/ProbeTip';
-  import ContainerLog from '@/views/resource/components/common/ContainerLog';
-  import Terminal from '@/views/resource/components/common/Terminal';
+
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
+  import ContainerLog from '@/views/resource/components/common/ContainerLog';
+  import ProbeTip from '@/views/resource/components/common/ProbeTip';
+  import Terminal from '@/views/resource/components/common/Terminal';
 
   export default {
     name: 'ContainerItems',
     components: {
-      ProbeTip,
       ContainerLog,
+      ProbeTip,
       Terminal,
     },
     mixins: [BasePermission, BaseResource],
     props: {
-      containerStatuses: {
+      containers: {
         type: Array,
         default: () => [],
       },
-      containers: {
+      containerStatuses: {
         type: Array,
         default: () => [],
       },

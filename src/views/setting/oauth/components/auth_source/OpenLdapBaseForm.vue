@@ -5,32 +5,32 @@
         <v-col cols="6">
           <v-text-field
             v-model="obj.config.ldapaddr"
-            :rules="objRules.ldapaddrRule"
             class="my-0"
-            required
             label="Ldap地址"
+            required
+            :rules="objRules.ldapaddrRule"
           />
         </v-col>
         <v-col cols="6">
-          <v-text-field v-model="obj.config.basedn" :rules="objRules.basednRule" class="my-0" required label="BaseDN" />
+          <v-text-field v-model="obj.config.basedn" class="my-0" label="BaseDN" required :rules="objRules.basednRule" />
         </v-col>
         <v-col cols="6">
           <v-text-field
             v-model="obj.config.binduser"
-            :rules="objRules.binduserRule"
             class="my-0"
-            required
             label="Username"
+            required
+            :rules="objRules.binduserRule"
           />
         </v-col>
         <v-col cols="6">
           <v-text-field
             v-model="obj.config.password"
-            :rules="objRules.passwordRule"
-            class="my-0"
-            required
-            label="Password"
             :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+            class="my-0"
+            label="Password"
+            required
+            :rules="objRules.passwordRule"
             :type="show ? 'text' : 'password'"
             @click:append="show = !show"
           />
@@ -44,7 +44,7 @@
           />
         </v-col> -->
         <v-col cols="6">
-          <v-switch v-model="obj.config.enableTLS" hide-details class="mt-4" label="开启tls" />
+          <v-switch v-model="obj.config.enableTLS" class="mt-4" hide-details label="开启tls" />
         </v-col>
       </v-row>
     </v-card-text>

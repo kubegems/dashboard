@@ -5,21 +5,21 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :filters="filters"
           :default="{ items: [], text: '应用编排名称', value: 'search' }"
+          :filters="filters"
           @refresh="m_filter_list"
         />
         <v-spacer />
         <v-menu v-if="m_permisson_resourceAllow" left>
           <template #activator="{ on }">
             <v-btn icon>
-              <v-icon small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+              <v-icon color="primary" small v-on="on"> fas fa-ellipsis-v </v-icon>
             </v-btn>
           </template>
           <v-card>
             <v-card-text class="pa-2">
               <v-flex>
-                <v-btn text color="primary" @click="addApp">
+                <v-btn color="primary" text @click="addApp">
                   <v-icon left>mdi-plus-box</v-icon>
                   创建应用
                 </v-btn>
@@ -32,11 +32,11 @@
         <v-data-table
           disable-sort
           :headers="headers"
+          hide-default-footer
           :items="items"
-          :page.sync="params.page"
           :items-per-page="params.size"
           no-data-text="暂无数据"
-          hide-default-footer
+          :page.sync="params.page"
         >
           <template #[`item.name`]="{ item }">
             <a class="text-subtitle-2" @click="appDetail(item)">
@@ -61,10 +61,10 @@
             <v-chip
               v-for="(value, key) in item.labels"
               :key="key"
-              x-small
               class="ma-1"
               color="success"
               text-color="white"
+              x-small
             >
               <strong class="mx-1"> {{ key }} </strong>
               {{ value }}
@@ -75,19 +75,19 @@
           </template>
           <template #[`item.action`]="{ item }">
             <v-flex :id="`r${item.name}`" />
-            <v-menu left :attach="`#r${item.name}`">
+            <v-menu :attach="`#r${item.name}`" left>
               <template #activator="{ on }">
                 <v-btn icon>
-                  <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                  <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
                 </v-btn>
               </template>
               <v-card>
                 <v-card-text class="pa-2">
                   <v-flex>
-                    <v-btn color="primary" text small @click="updateApp(item)"> 编辑 </v-btn>
+                    <v-btn color="primary" small text @click="updateApp(item)"> 编辑 </v-btn>
                   </v-flex>
                   <v-flex>
-                    <v-btn color="error" text small @click="removeApp(item)"> 删除 </v-btn>
+                    <v-btn color="error" small text @click="removeApp(item)"> 删除 </v-btn>
                   </v-flex>
                 </v-card-text>
               </v-card>
@@ -99,9 +99,9 @@
           v-model="params.page"
           :page-count="pageCount"
           :size="params.size"
-          @loaddata="appManifestList"
-          @changesize="onPageSizeChange"
           @changepage="onPageIndexChange"
+          @changesize="onPageSizeChange"
+          @loaddata="appManifestList"
         />
       </v-card-text>
     </v-card>
@@ -113,12 +113,14 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import AddApp from './components/AddApp';
   import UpdateApp from './components/UpdateApp';
+
   import { getAllManifest, getManifestList, deleteManifest } from '@/api';
-  import BaseResource from '@/mixins/resource';
-  import BasePermission from '@/mixins/permission';
   import BaseFilter from '@/mixins/base_filter';
+  import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
   import { convertStrToNum } from '@/utils/helpers';
 
   export default {
@@ -127,7 +129,7 @@
       AddApp,
       UpdateApp,
     },
-    mixins: [BaseFilter, BaseResource, BasePermission],
+    mixins: [BaseFilter, BasePermission, BaseResource],
     data: () => ({
       items: [],
       pageCount: 0,

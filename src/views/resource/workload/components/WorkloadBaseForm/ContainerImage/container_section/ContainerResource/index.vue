@@ -1,5 +1,5 @@
 <template>
-  <v-form v-model="valid" lazy-validation class="my-2" @submit.prevent>
+  <v-form v-model="valid" class="my-2" lazy-validation @submit.prevent>
     <v-flex :class="expand ? 'kubegems__overlay' : ''" />
     <v-expand-transition>
       <v-card v-show="expand" class="my-2 pa-2 kubegems__expand-transition" :elevation="4">
@@ -10,10 +10,10 @@
                 <span>CPU</span>
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
-                <v-text-field v-model="obj.requests.cpu" required label="Reuqests" :rules="objRules.requestsCpuRule" />
+                <v-text-field v-model="obj.requests.cpu" label="Reuqests" required :rules="objRules.requestsCpuRule" />
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
-                <v-text-field v-model="obj.limits.cpu" required label="Limits" :rules="objRules.limitsCpuRule" />
+                <v-text-field v-model="obj.limits.cpu" label="Limits" required :rules="objRules.limitsCpuRule" />
               </v-flex>
               <div class="kubegems__clear-float" />
             </v-sheet>
@@ -24,13 +24,13 @@
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-text-field
                   v-model="obj.requests.memory"
-                  required
                   label="Requests"
+                  required
                   :rules="objRules.requestsMemoryRule"
                 />
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
-                <v-text-field v-model="obj.limits.memory" required label="Limits" :rules="objRules.limitsMemoryRule" />
+                <v-text-field v-model="obj.limits.memory" label="Limits" required :rules="objRules.limitsMemoryRule" />
               </v-flex>
               <div class="kubegems__clear-float" />
             </v-sheet>
@@ -38,18 +38,19 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn text small color="error" @click="closeCard"> 取消 </v-btn>
-          <v-btn text small color="primary" @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
+          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
 
-    <ResourceLimit :container-copy="containerCopy" @updateData="updateData" @removeData="removeData" />
+    <ResourceLimit :container-copy="containerCopy" @removeData="removeData" @updateData="updateData" />
   </v-form>
 </template>
 
 <script>
   import ResourceLimit from './ResourceLimit';
+
   import { deepCopy, sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
 
   export default {

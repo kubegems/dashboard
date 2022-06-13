@@ -2,13 +2,13 @@
   <v-card>
     <v-card-text>
       <v-data-table
+        class="pb-4"
         disable-sort
         :headers="headers"
-        :items="items"
-        no-data-text="暂无数据"
-        :items-per-page="500"
         hide-default-footer
-        class="pb-4"
+        :items="items"
+        :items-per-page="500"
+        no-data-text="暂无数据"
       >
         <template #[`item.name`]="{ item }">
           {{ item.metadata.name }}

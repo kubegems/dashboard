@@ -1,12 +1,12 @@
 <template>
-  <BasePanel v-model="panel" :title="`接入配置`" :width="`50%`" icon="fas fa-link" @dispose="dispose">
+  <BasePanel v-model="panel" icon="fas fa-link" :title="`接入配置`" :width="`50%`" @dispose="dispose">
     <template #action>
-      <v-btn color="white" text class="mt-n1 ml-2" :loading="Circular" @click="addData"> 保存 </v-btn>
+      <v-btn class="mt-n1 ml-2" color="white" :loading="Circular" text @click="addData"> 保存 </v-btn>
     </template>
     <template #content>
       <v-card-text class="ma-0 pa-0">
         <v-list-item>
-          <v-list-item-avatar tile size="80" class="mb-0">
+          <v-list-item-avatar class="mb-0" size="80" tile>
             <BaseLogo :icon-name="item.name" :width="72" />
           </v-list-item-avatar>
           <span class="text-subtitle-1 kubegems__text">
@@ -15,7 +15,7 @@
         </v-list-item>
         <v-divider />
         <template v-if="type === 'app'">
-          <v-tabs v-model="tab" height="45" class="rounded-t pa-0 v-tabs--default" fixed-tabs>
+          <v-tabs v-model="tab" class="rounded-t pa-0 v-tabs--default" fixed-tabs height="45">
             <v-tab v-for="t in tabItems" :key="t.value">
               {{ t.text }}
             </v-tab>
@@ -36,19 +36,21 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import Trace from './Trace';
-  import Metrics from './Metrics';
+
   import Logging from './Logging';
+  import Metrics from './Metrics';
   import MiddlewareMetrics from './MiddlewareMetrics';
+  import Trace from './Trace';
+
   import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'DeployLive',
     components: {
-      Trace,
-      Metrics,
       Logging,
+      Metrics,
       MiddlewareMetrics,
+      Trace,
     },
     data: () => ({
       panel: false,

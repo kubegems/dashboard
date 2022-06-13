@@ -1,7 +1,10 @@
 import axios from 'axios';
 
-const apiResources = window.localStorage.getItem('api-resources') || {};
-const apiVersion = apiResources['persistentvolumeclaim'] || 'core/v1';
+import { jsonParse } from '@/utils/helpers';
+
+const apiResources = jsonParse(window.localStorage.getItem('api-resources')) || {};
+let apiVersion = apiResources['persistentvolumeclaim'] || 'core/v1';
+apiVersion = apiVersion === 'v1' ? 'core/v1' : apiVersion;
 
 // 存储卷列表
 export const getPersistentVolumeClaimList = (clusterName, namespace, query = {}) =>

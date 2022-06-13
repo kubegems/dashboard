@@ -1,5 +1,5 @@
 <template>
-  <BasePanel v-model="panel" title="变更内容" :width="`50%`" icon="fab fa-git" @dispose="dispose">
+  <BasePanel v-model="panel" icon="fab fa-git" title="变更内容" :width="`50%`" @dispose="dispose">
     <template #header>
       <span class="ml-3 text-subtitle-1">
         {{ commit ? commit.hash : '' }}
@@ -11,7 +11,7 @@
           <v-card-text class="ma-0 pa-0">
             {{ value.name }}
           </v-card-text>
-          <CodeDiff :old-string="value.from" :new-string="value.to" />
+          <CodeDiff :new-string="value.to" :old-string="value.from" />
         </v-card>
       </v-card>
     </template>
@@ -19,15 +19,18 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
   import CodeDiff from 'vue-code-diff';
+  import { mapState } from 'vuex';
+
   import { getAppResourceFileDiff } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'AppResourceFileDiff',
-    components: { CodeDiff },
+    components: {
+      CodeDiff,
+    },
     mixins: [BaseResource],
     data: () => ({
       panel: false,

@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form" v-model="valid" lazy-validation class="my-2">
+  <v-form ref="form" v-model="valid" class="my-2" lazy-validation>
     <v-expand-transition>
       <v-card v-show="expand" class="my-2 pa-2 kubegems__expand-transition" :elevation="4">
         <v-card-text class="pa-0">
@@ -11,30 +11,30 @@
               <v-autocomplete
                 v-model="receiver.name"
                 color="primary"
+                hide-selected
                 :items="receiverSelect"
                 label="接收器"
-                hide-selected
                 no-data-text="暂无可选数据"
                 :rules="receiverRules.nameRule"
                 @focus="onReceiverSelectFocus"
               >
                 <template #selection="{ item }">
-                  <v-chip color="primary" small class="mx-1">
+                  <v-chip class="mx-1" color="primary" small>
                     {{ item['text'] }}
                   </v-chip>
                 </template>
               </v-autocomplete>
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
-              <v-text-field v-model="receiver.interval" required label="发送间隔" :rules="receiverRules.intervalRule" />
+              <v-text-field v-model="receiver.interval" label="发送间隔" required :rules="receiverRules.intervalRule" />
             </v-flex>
             <div class="kubegems__clear-float" />
           </v-sheet>
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn text small color="error" @click="closeCard"> 取消 </v-btn>
-          <v-btn text small color="primary" @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
+          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -43,16 +43,17 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import { getReceiverList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
-  import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'ReceiverForm',
-    mixins: [BaseFilter, BaseResource, BasePermission],
+    mixins: [BaseFilter, BasePermission, BaseResource],
     props: {
       data: {
         type: Array,

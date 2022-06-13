@@ -1,12 +1,12 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="更新集群" icon="mdi-server-plus" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-server-plus" title="更新集群" :width="1000" @reset="reset">
     <template #content>
       <component
         :is="formComponent"
         :ref="formComponent"
-        :step="step"
-        :edit="true"
         :control="control"
+        :edit="true"
+        :step="step"
         @refresh="refresh"
       />
     </template>
@@ -15,17 +15,17 @@
         v-if="step === totalStep - 1"
         class="float-right mx-2"
         color="primary"
-        text
         :loading="Circular"
+        text
         @click="updateCluster"
       >
         确定
       </v-btn>
       <v-btn
         v-if="step >= 0 && step < totalStep - 1"
-        :disabled="step === 1 && extend.validate !== 'success'"
         class="float-right mx-2"
         color="primary"
+        :disabled="step === 1 && extend.validate !== 'success'"
         text
         @click="nextStep"
       >
@@ -40,7 +40,9 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import ClusterBaseForm from './ClusterBaseForm';
+
   import { putUpdateCluster, getClusterDetail } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BaseSelect from '@/mixins/select';

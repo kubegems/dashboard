@@ -2,7 +2,7 @@
   <div>
     <v-card>
       <v-sheet class="pa-2">
-        <BaseListItemForDetail title="实例数" :mt="0">
+        <BaseListItemForDetail :mt="0" title="实例数">
           <template #content>
             {{ gateway ? gateway.status.availableReplicas : 0 }} 个实例可用，{{
               gateway ? gateway.spec.replicas - gateway.status.availableReplicas : 0
@@ -44,8 +44,8 @@
             <BaseCollapseChips
               v-if="gateway"
               :chips="gateway.spec.workload.extraLabels || {}"
-              single-line
               icon="mdi-label"
+              single-line
             />
           </template>
         </BaseListItemForDetail>
@@ -53,7 +53,7 @@
     </v-card>
 
     <v-card class="mt-3">
-      <BaseSubTitle title="网关端口" :divider="false" class="pt-2" />
+      <BaseSubTitle class="pt-2" :divider="false" title="网关端口" />
       <v-simple-table class="mx-2 pa-2 pb-3">
         <template #default>
           <thead>
@@ -66,12 +66,12 @@
           <tbody>
             <tr v-for="(item, index) in gateway ? gateway.status.ports : []" :key="index">
               <td>
-                <v-chip color="success" text-color="white" class="ma-1 font-weight-medium" small>
+                <v-chip class="ma-1 font-weight-medium" color="success" small text-color="white">
                   {{ item.targetPort }}｜{{ item.protocol }}
                 </v-chip>
               </td>
               <td>
-                <v-chip color="success" text-color="white" class="ma-1 font-weight-medium" small>
+                <v-chip class="ma-1 font-weight-medium" color="success" small text-color="white">
                   {{ item.port }}｜{{ item.protocol }}
                 </v-chip>
               </td>
@@ -83,7 +83,7 @@
     </v-card>
 
     <v-card class="mt-3">
-      <BaseSubTitle title="网关地址" :divider="false" class="pt-2" />
+      <BaseSubTitle class="pt-2" :divider="false" title="网关地址" />
       <v-flex class="pl-4 kubegems__text py-2 text-subtitle-1">HTTP</v-flex>
       <v-simple-table class="mx-2 pa-2 rounded">
         <template #default>
@@ -97,16 +97,16 @@
               <td style="width: 50%">{{ item.Addr }}</td>
               <td style="width: 45%">
                 <template v-if="item.Ready">
-                  <v-icon small color="primary"> fas fa-check-circle </v-icon>
+                  <v-icon color="primary" small> fas fa-check-circle </v-icon>
                   正常
                 </template>
                 <template v-else>
-                  <v-icon small color="error"> fas fa-times-circle </v-icon>
+                  <v-icon color="error" small> fas fa-times-circle </v-icon>
                   异常
                 </template>
               </td>
               <td style="text-align: end">
-                <v-btn x-small text color="primary" @click="toAddress(item.Addr)"> 访问 </v-btn>
+                <v-btn color="primary" text x-small @click="toAddress(item.Addr)"> 访问 </v-btn>
               </td>
             </tr>
           </tbody>
@@ -126,16 +126,16 @@
               <td style="width: 50%">{{ item.Addr }}</td>
               <td style="width: 45%">
                 <template v-if="item.Ready">
-                  <v-icon small color="primary"> fas fa-check-circle </v-icon>
+                  <v-icon color="primary" small> fas fa-check-circle </v-icon>
                   正常
                 </template>
                 <template v-else>
-                  <v-icon small color="error"> fas fa-times-circle </v-icon>
+                  <v-icon color="error" small> fas fa-times-circle </v-icon>
                   异常
                 </template>
               </td>
               <td style="text-align: end">
-                <v-btn x-small text color="primary" @click="toAddress(item.Addr)"> 访问 </v-btn>
+                <v-btn color="primary" text x-small @click="toAddress(item.Addr)"> 访问 </v-btn>
               </td>
             </tr>
           </tbody>
@@ -147,6 +147,7 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import { getGatewayDetail, getGatewayAddressList } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';

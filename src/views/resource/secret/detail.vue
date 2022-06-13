@@ -4,23 +4,23 @@
     <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
-          <v-btn text small class="primary--text" @click="resourceYaml">
+          <v-btn class="primary--text" small text @click="resourceYaml">
             <v-icon left small> fas fa-code </v-icon>
             YAML
           </v-btn>
           <v-menu v-if="m_permisson_resourceAllow" left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
               </v-btn>
             </template>
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" text small @click="updateSecret"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateSecret"> 编辑 </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" text small @click="removeSecret"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeSecret"> 删除 </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -29,19 +29,19 @@
       </template>
     </BaseBreadcrumb>
     <v-row class="my-0">
-      <v-col cols="2" class="py-0">
+      <v-col class="py-0" cols="2">
         <BasicResourceInfo :item="secret" />
       </v-col>
-      <v-col cols="10" class="py-0">
+      <v-col class="py-0" cols="10">
         <v-card v-for="item in datas" :key="item.key" class="mb-3">
           <v-card-text>
-            <BaseSubTitle :title="item.key" color="primary" :divider="false" height="36px">
+            <BaseSubTitle color="primary" :divider="false" height="36px" :title="item.key">
               <template #action>
-                <v-btn v-if="item.hide" small text color="white" class="float-right mr-2" @click="showSecret(item)">
+                <v-btn v-if="item.hide" class="float-right mr-2" color="white" small text @click="showSecret(item)">
                   <v-icon left small> mdi-eye </v-icon>
                   显示
                 </v-btn>
-                <v-btn v-else small text color="white" class="float-right mr-2" @click="hideSecret(item)">
+                <v-btn v-else class="float-right mr-2" color="white" small text @click="hideSecret(item)">
                   <v-icon left small> mdi-eye-off </v-icon>
                   隐藏
                 </v-btn>
@@ -61,24 +61,26 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
   import { Base64 } from 'js-base64';
+  import { mapState } from 'vuex';
+
   import UpdateSecret from './components/UpdateSecret';
+
   import { getSecretDetail, deleteSecret } from '@/api';
-  import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
-  import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
-  import BaseResource from '@/mixins/resource';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
+  import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
+  import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
 
   export default {
     name: 'SecretDetail',
     components: {
-      ResourceYaml,
       BasicResourceInfo,
+      ResourceYaml,
       UpdateSecret,
     },
-    mixins: [BaseFilter, BaseResource, BasePermission],
+    mixins: [BaseFilter, BasePermission, BaseResource],
     data: () => ({
       secret: null,
       datas: [],

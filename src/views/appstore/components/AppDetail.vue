@@ -6,6 +6,7 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import Markdown from './Markdown';
 
   export default {

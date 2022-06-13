@@ -23,13 +23,13 @@
   export default {
     name: 'BaseYamlForm',
     props: {
-      title: {
-        type: String,
-        default: () => '',
-      },
       item: {
         type: Object,
         default: () => null,
+      },
+      title: {
+        type: String,
+        default: () => '',
       },
     },
     data: () => ({

@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog v-model="dialog" :width="500" title="更新租户" icon="mdi-account-multiple-plus" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-account-multiple-plus" title="更新租户" :width="500" @reset="reset">
     <template #content>
       <BaseSubTitle title="租户定义" />
       <v-card-text class="pa-2 mt-2">
@@ -8,31 +8,32 @@
             <v-text-field
               v-model="obj.TenantName"
               class="my-0"
-              :rules="objRules.tenantNameRules"
-              required
               label="名称"
               readonly
+              required
+              :rules="objRules.tenantNameRules"
             />
             <v-textarea
               v-model="obj.Remark"
-              class="my-0"
-              :rules="objRules.remarkRules"
               auto-grow
-              required
+              class="my-0"
               label="说明"
+              required
+              :rules="objRules.remarkRules"
             />
           </v-sheet>
         </v-form>
       </v-card-text>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="updateTenant"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateTenant"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import { putUpdateTenant } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';

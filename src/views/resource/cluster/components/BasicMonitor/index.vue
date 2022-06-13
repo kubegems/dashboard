@@ -1,11 +1,11 @@
 <template>
-  <v-card flat height="45%" class="rounded-b-0">
+  <v-card class="rounded-b-0" flat height="45%">
     <v-card-text class="primary pa-0" style="height: 100%">
       <div class="d-flex">
         <div class="d-flex space-and-grow">
           <div>
             <h1 class="white--text text-h4 mt-4">
-              <BaseLogo :icon-name="cluster ? cluster.Vendor : ''" :width="60" class="mx-3" />
+              <BaseLogo class="mx-3" :icon-name="cluster ? cluster.Vendor : ''" :width="60" />
             </h1>
           </div>
           <div class="ml-4 mt-2" style="flex-grow: 2">
@@ -24,10 +24,10 @@
             <SampleAreaChart
               class="pa-4 float-right"
               :extend-height="100"
-              :width="65"
-              title="API请求成功率"
               :metrics="apiServerSuccessRate"
+              title="API请求成功率"
               type=""
+              :width="65"
             />
           </div>
         </div>
@@ -39,8 +39,8 @@
             </v-icon>
             <Tips
               v-else
-              title="原因"
               :item="componentStatus.ETCD && componentStatus.ETCD.Reasons ? componentStatus.ETCD.Reasons : ['未知']"
+              title="原因"
             >
               <template #default="scopeData">
                 <v-icon class="mt-1" color="error" small v-on="scopeData.on"> mdi-heart-broken </v-icon>
@@ -54,12 +54,12 @@
             </v-icon>
             <Tips
               v-else
-              title="原因"
               :item="
                 componentStatus.Scheduler && componentStatus.Scheduler.Reasons
                   ? componentStatus.Scheduler.Reasons
                   : ['未知']
               "
+              title="原因"
             >
               <template #default="scopeData">
                 <v-icon class="mt-1" color="error" small v-on="scopeData.on"> mdi-heart-broken </v-icon>
@@ -73,12 +73,12 @@
             </v-icon>
             <Tips
               v-else
-              title="原因"
               :item="
                 componentStatus.APIServer && componentStatus.APIServer.Reasons
                   ? componentStatus.APIServer.Reasons
                   : ['未知']
               "
+              title="原因"
             >
               <template #default="scopeData">
                 <v-icon class="mt-1" color="error" small v-on="scopeData.on"> mdi-heart-broken </v-icon>
@@ -96,12 +96,12 @@
             </v-icon>
             <Tips
               v-else
-              title="原因"
               :item="
                 componentStatus.ControllerManager && componentStatus.ControllerManager.Reasons
                   ? componentStatus.ControllerManager.Reasons
                   : ['未知']
               "
+              title="原因"
             >
               <template #default="scopeData">
                 <v-icon class="mt-1" color="error" small v-on="scopeData.on"> mdi-heart-broken </v-icon>
@@ -116,20 +116,22 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import Tips from './Tips';
+
   import SampleAreaChart from './SampleAreaChart';
+  import Tips from './Tips';
+
   import { getClusterComponentStatus, getClusterCertInfo } from '@/api';
-  import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
   import { CLUSTER_API_SERVER_SUCCESS_RATE_PROMQL } from '@/utils/prometheus';
 
   export default {
     name: 'BasicMonitor',
     components: {
-      Tips,
       SampleAreaChart,
+      Tips,
     },
-    mixins: [BaseResource, BasePermission],
+    mixins: [BasePermission, BaseResource],
 
     props: {
       cluster: {

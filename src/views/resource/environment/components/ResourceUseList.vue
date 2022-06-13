@@ -1,5 +1,5 @@
 <template>
-  <BasePanel v-model="panel" :title="title" :width="`50%`" icon="mdi-view-list" @dispose="dispose">
+  <BasePanel v-model="panel" icon="mdi-view-list" :title="title" :width="`50%`" @dispose="dispose">
     <template #header>
       <span class="ml-3">
         {{ Environment().Namespace }}
@@ -15,51 +15,51 @@
     <template #content>
       <v-card-text>
         <v-card-title class="primary--text text-h6 py-2">
-          <v-icon left class="mr-2 primary--text"> mdi-memory </v-icon>
+          <v-icon class="mr-2 primary--text" left> mdi-memory </v-icon>
           CPU
         </v-card-title>
         <v-data-table
+          class="mb-8"
           disable-sort
           :headers="headersCpu"
+          hide-default-footer
           :items="itemsObj.cpuItems"
           no-data-text="暂无数据"
-          hide-default-footer
-          class="mb-8"
         />
         <v-card-title class="primary--text text-h6 py-2">
-          <v-icon left class="mr-2 primary--text"> mdi-sd </v-icon>
+          <v-icon class="mr-2 primary--text" left> mdi-sd </v-icon>
           内存
         </v-card-title>
         <v-data-table
+          class="mb-8"
           disable-sort
           :headers="headersCpu"
+          hide-default-footer
           :items="itemsObj.memoryItems"
           no-data-text="暂无数据"
-          hide-default-footer
-          class="mb-8"
         />
         <v-card-title class="primary--text text-h6 py-2">
-          <v-icon left class="mr-2 primary--text"> mdi-database </v-icon>
+          <v-icon class="mr-2 primary--text" left> mdi-database </v-icon>
           存储
         </v-card-title>
         <v-data-table
+          class="mb-8"
           disable-sort
           :headers="headersCpu"
+          hide-default-footer
           :items="itemsObj.storageItems"
           no-data-text="暂无数据"
-          hide-default-footer
-          class="mb-8"
         />
         <v-card-title class="primary--text text-h6 py-2">
-          <v-icon left class="mr-2 primary--text"> mdi-earth </v-icon>
+          <v-icon class="mr-2 primary--text" left> mdi-earth </v-icon>
           网络流量
         </v-card-title>
         <v-data-table
           disable-sort
           :headers="headersNetwork"
+          hide-default-footer
           :items="itemsObj.networkItems"
           no-data-text="暂无数据"
-          hide-default-footer
         />
       </v-card-text>
     </template>
@@ -68,6 +68,7 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import { getEnvironmentResourceUsage, getProjectResourceUsage } from '@/api';
   import { ResourceBeatifulMixin } from '@/views/resource/environment/mixins/resourcebeatiful';
 
@@ -75,11 +76,11 @@
     name: 'ResourceUseList',
     mixins: [ResourceBeatifulMixin],
     props: {
-      type: {
+      title: {
         type: String,
         default: () => '',
       },
-      title: {
+      type: {
         type: String,
         default: () => '',
       },

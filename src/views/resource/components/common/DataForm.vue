@@ -11,8 +11,8 @@
               <v-text-field
                 v-model="obj.key"
                 class="my-0"
-                required
                 label="键"
+                required
                 :rules="objRules.keyRule"
                 @keydown.enter.prevent
               />
@@ -25,10 +25,10 @@
               <ACEEditor
                 v-model="obj.value"
                 :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded mb-4`"
+                height="200"
                 lang="yaml"
                 :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
                 theme="chrome"
-                height="200"
                 @init="$aceinit"
                 @keydown.stop
               />
@@ -38,8 +38,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn text small color="error" @click="closeCard"> 取消 </v-btn>
-          <v-btn text small color="primary" @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
+          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -48,6 +48,7 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 

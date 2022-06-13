@@ -8,15 +8,15 @@
           <ContainerImageSelect
             ref="containerImageSelect"
             :container="container"
-            :type="type"
-            :image-pull-secret="imagePullSecret"
             :edit="containerEdit"
-            @updateType="updateType"
+            :image-pull-secret="imagePullSecret"
+            :type="type"
             @updateRegistry="updateRegistry"
+            @updateType="updateType"
           />
 
           <BaseSubTitle title="高级配置" />
-          <v-tabs v-model="tab" class="px-2 v-tabs--default" height="40" fixed-tabs @change="onTabChange">
+          <v-tabs v-model="tab" class="px-2 v-tabs--default" fixed-tabs height="40" @change="onTabChange">
             <v-tab v-for="item in tabItems" :key="item.value">
               {{ item.text }}
             </v-tab>
@@ -26,15 +26,15 @@
             :is="tabItems[tab].value"
             :ref="tabItems[tab].value"
             :container="container"
-            :namespace="obj.metadata.namespace"
             :manifest="manifest"
+            :namespace="obj.metadata.namespace"
             @updateComponentData="updateComponentData"
           />
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn text small color="error" @click="closeCard"> 取消 </v-btn>
-          <v-btn text small color="primary" @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
+          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -44,36 +44,37 @@
       <ContainerImageItem
         :containers="obj.spec.template.spec.containers"
         :init-containers="obj.spec.template.spec.initContainers"
-        @updateData="updateData"
-        @removeData="removeData"
         @expandCard="expandCard"
+        @removeData="removeData"
+        @updateData="updateData"
       />
     </v-card-text>
   </v-form>
 </template>
 
 <script>
+  import ContainerEnv from './container_section/ContainerEnv';
+  import ContainerHealthCheck from './container_section/ContainerHealthCheck';
+  import ContainerPort from './container_section/ContainerPort';
+  import ContainerResource from './container_section/ContainerResource';
+  import ContainerRunCommand from './container_section/ContainerRunCommand';
+  import ContainerSecurityContext from './container_section/ContainerSecurityContext';
   import ContainerImageItem from './ContainerImageItem';
   import ContainerImageSelect from './ContainerImageSelect';
-  import ContainerResource from './container_section/ContainerResource';
-  import ContainerSecurityContext from './container_section/ContainerSecurityContext';
-  import ContainerRunCommand from './container_section/ContainerRunCommand';
-  import ContainerEnv from './container_section/ContainerEnv';
-  import ContainerPort from './container_section/ContainerPort';
-  import ContainerHealthCheck from './container_section/ContainerHealthCheck';
+
   import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'ContainerImage',
     components: {
+      ContainerEnv,
+      ContainerHealthCheck,
       ContainerImageItem,
       ContainerImageSelect,
-      ContainerResource,
-      ContainerSecurityContext,
-      ContainerRunCommand,
-      ContainerEnv,
       ContainerPort,
-      ContainerHealthCheck,
+      ContainerResource,
+      ContainerRunCommand,
+      ContainerSecurityContext,
     },
     props: {
       manifest: {

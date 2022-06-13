@@ -183,7 +183,7 @@
 
   export default {
     name: 'BaseTenantHeader',
-    mixins: [BaseSelect, BasePermission, BaseResource],
+    mixins: [BasePermission, BaseResource, BaseSelect],
     inject: ['reload'],
     props: {
       environmented: {

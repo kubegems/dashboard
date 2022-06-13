@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form" v-model="valid" lazy-validation class="my-2">
+  <v-form ref="form" v-model="valid" class="my-2" lazy-validation>
     <v-expand-transition>
       <v-card v-show="expand" class="my-2 pa-2 kubegems__expand-transition" :elevation="4">
         <v-card-text class="pa-0">
@@ -10,20 +10,20 @@
             <v-flex class="float-left ml-0 kubegems__form-width">
               <v-autocomplete
                 v-model="receiverType"
-                color="primary"
-                :items="receiverTypeItems"
-                :rules="channelRule"
-                required
-                value="port"
-                label="告警渠道"
-                hide-selected
-                :readonly="type === null ? false : true"
                 class="my-0"
+                color="primary"
+                hide-selected
+                :items="receiverTypeItems"
+                label="告警渠道"
                 no-data-text="暂无可选数据"
+                :readonly="type === null ? false : true"
+                required
+                :rules="channelRule"
+                value="port"
                 @change="onReceiverTypeChange"
               >
                 <template #selection="{ item }">
-                  <v-chip color="primary" small class="mx-1">
+                  <v-chip class="mx-1" color="primary" small>
                     {{ item['text'] }}
                   </v-chip>
                 </template>
@@ -34,12 +34,12 @@
           <component
             :is="formComponent"
             :ref="formComponent"
-            :obj="obj"
-            :namespace="namespace"
-            :type="type"
             :config-index="configIndex"
-            @closeCard="closeCard"
+            :namespace="namespace"
+            :obj="obj"
+            :type="type"
             @addData="addData"
+            @closeCard="closeCard"
           />
         </v-card-text>
       </v-card>
@@ -49,30 +49,35 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import EmailForm from './EmailForm';
   import WebhookForm from './WebhookForm';
+
   import BaseResource from '@/mixins/resource';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'ChannelForm',
-    components: { EmailForm, WebhookForm },
+    components: {
+      EmailForm,
+      WebhookForm,
+    },
     mixins: [BaseResource],
     props: {
-      namespace: {
-        type: String,
-        default: () => '',
-      },
-      type: {
-        type: String,
-        default: () => null,
-      },
       configIndex: {
         type: Number,
         default: () => null,
       },
+      namespace: {
+        type: String,
+        default: () => '',
+      },
       obj: {
         type: Object,
+        default: () => null,
+      },
+      type: {
+        type: String,
         default: () => null,
       },
     },

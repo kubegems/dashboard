@@ -34,10 +34,10 @@
           <v-chip
             v-for="(value, key) in item ? item.labels : {}"
             :key="key"
-            x-small
             class="ma-1 text-body-2"
             color="success"
             text-color="white"
+            x-small
           >
             <strong class="mx-1"> {{ key }} </strong>
             {{ value }}
@@ -74,6 +74,7 @@
 
 <script>
   import { mapGetters } from 'vuex';
+
   import BaseResource from '@/mixins/resource';
 
   export default {

@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog v-model="dialog" :width="800" title="回滚" icon="fas fa-redo-alt" @reset="reset">
+  <BaseDialog v-model="dialog" icon="fas fa-redo-alt" title="回滚" :width="800" @reset="reset">
     <template #content>
       <BaseSubTitle title="版本定义" />
       <v-card-text class="px-2 pb-0">
@@ -15,18 +15,18 @@
             <v-text-field v-model="search" class="mt-2 pt-0" hide-details prepend-inner-icon="mdi-magnify" />
             <v-sheet max-height="300px">
               <v-data-table
+                class="px-0"
                 :headers="headers"
+                hide-default-footer
+                item-key="value"
                 :items="versions"
-                :page.sync="params.page"
-                :search.sync="search"
                 :items-per-page="params.size"
                 no-data-text="暂无数据"
                 no-results-text="暂无匹配版本"
-                hide-default-footer
-                item-key="value"
-                class="px-0"
-                single-select
+                :page.sync="params.page"
+                :search.sync="search"
                 show-select
+                single-select
                 @item-selected="selectVersion"
               >
                 <template #[`item.images`]="{ item }">
@@ -41,13 +41,14 @@
       </v-card-text>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="rollback"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="rollback"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapState, mapGetters } from 'vuex';
+
   import { getStrategyDeployStatus, postStrategyDeployEnvironmentAppsControl } from '@/api';
   import BaseResource from '@/mixins/resource';
 

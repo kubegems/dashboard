@@ -1,25 +1,25 @@
 <template>
   <v-card class="pl-2">
     <v-row class="mt-3">
-      <v-col cols="4" class="col-position">
+      <v-col class="col-position" cols="4">
         <v-treeview
           ref="manifestTree"
           v-model="tree"
-          :items="items"
-          :active="active"
           activatable
+          :active="active"
+          class="text-body-2"
           dense
           item-key="name"
-          open-on-click
+          :items="items"
           :open="[app ? app.name : '']"
-          class="text-body-2"
+          open-on-click
           rounded
           @update:active="showManifest"
         >
           <template #prepend="{ item }">
             <v-icon v-if="!item.kind"> mdi-apps </v-icon>
             <v-flex v-else>
-              <v-flex color="primary" class="primary white--text rounded chip float-left mt-0">
+              <v-flex class="primary white--text rounded chip float-left mt-0" color="primary">
                 {{
                   $APP_MENIFEST_TAG[item.kind] && $APP_MENIFEST_TAG[item.kind].value
                     ? $APP_MENIFEST_TAG[item.kind].value
@@ -27,7 +27,7 @@
                 }}
               </v-flex>
               <v-flex class="float-left ml-2 mt-n1">
-                <v-icon v-if="!item.completed" small color="orange"> fas fa-exclamation </v-icon>
+                <v-icon v-if="!item.completed" color="orange" small> fas fa-exclamation </v-icon>
               </v-flex>
               <div class="kubegems__clear-float" />
             </v-flex>
@@ -36,27 +36,27 @@
             <v-btn
               v-if="!item.kind && m_permisson_resourceAllow"
               color="primary"
-              text
               small
+              text
               @click.stop="addResourceFile"
             >
               添加资源
             </v-btn>
-            <v-btn v-if="!item.kind" color="primary" text small @click.stop="viewHistoryVersion"> 历史版本 </v-btn>
-            <v-btn v-if="!item.kind" color="primary" text small @click.stop="refreshResource"> 刷新 </v-btn>
+            <v-btn v-if="!item.kind" color="primary" small text @click.stop="viewHistoryVersion"> 历史版本 </v-btn>
+            <v-btn v-if="!item.kind" color="primary" small text @click.stop="refreshResource"> 刷新 </v-btn>
             <v-menu v-else-if="m_permisson_resourceAllow" left>
               <template #activator="{ on }">
                 <v-btn icon>
-                  <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                  <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
                 </v-btn>
               </template>
               <v-card>
                 <v-card-text class="pa-2">
                   <v-flex>
-                    <v-btn color="primary" text small @click="updateResourceFile(item)"> 编辑 </v-btn>
+                    <v-btn color="primary" small text @click="updateResourceFile(item)"> 编辑 </v-btn>
                   </v-flex>
                   <v-flex>
-                    <v-btn color="error" text small @click="removeResourceFile(item)"> 删除 </v-btn>
+                    <v-btn color="error" small text @click="removeResourceFile(item)"> 删除 </v-btn>
                   </v-flex>
                 </v-card-text>
               </v-card>
@@ -64,22 +64,22 @@
           </template>
         </v-treeview>
         <v-flex v-if="m_permisson_resourceAllow && Environment().ID > 0" class="sync-btn mx-3">
-          <v-btn text block color="primary" @click="syncAppResource">
+          <v-btn block color="primary" text @click="syncAppResource">
             <v-icon left>mdi-sync</v-icon>
             同步
           </v-btn>
         </v-flex>
       </v-col>
-      <v-col cols="8" class="pr-6">
+      <v-col class="pr-6" cols="8">
         <AppResourceFileHistory v-if="historyView" :app="app" @refresh="refresh" />
         <ACEEditor
           v-else
-          :value="manifest"
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded`"
+          :height="height"
           lang="yaml"
           :options="Object.assign($aceOptions, { readOnly: true, wrap: true })"
           theme="chrome"
-          :height="height"
+          :value="manifest"
           @init="$aceinit"
           @keydown.stop
         />
@@ -93,21 +93,23 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import AddResourceFile from './AddResourceFile';
-  import UpdateResourceFile from './UpdateResourceFile';
   import AppResourceFileHistory from './AppResourceFileHistory';
+  import UpdateResourceFile from './UpdateResourceFile';
+
   import { getAppResourceFiles, deleteAppResourceFile, postSyncAppResource, postRefreshAppResource } from '@/api';
-  import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'AppResourceFileList',
     components: {
       AddResourceFile,
-      UpdateResourceFile,
       AppResourceFileHistory,
+      UpdateResourceFile,
     },
-    mixins: [BaseResource, BasePermission],
+    mixins: [BasePermission, BaseResource],
     props: {
       app: {
         type: Object,

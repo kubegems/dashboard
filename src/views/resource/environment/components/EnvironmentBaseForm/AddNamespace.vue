@@ -9,17 +9,17 @@
           <v-flex class="float-left ml-2 kubegems__form-width">
             <v-autocomplete
               v-model="namespace"
-              :items="namespaceItems"
-              :rules="namespaceRule"
-              color="primary"
-              label="命名空间"
-              hide-selected
               class="my-0"
+              color="primary"
+              hide-selected
+              :items="namespaceItems"
+              label="命名空间"
               no-data-text="暂无可选数据"
+              :rules="namespaceRule"
               @focus="onNamespaceSelectFocus"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -29,8 +29,8 @@
         </v-sheet>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn text small color="error" @click="closeCard"> 取消 </v-btn>
-          <v-btn text small color="primary" @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
+          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -39,6 +39,7 @@
 
 <script>
   import { mapGetters } from 'vuex';
+
   import { namespaceSelectDataFilter } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { required } from '@/utils/rules';

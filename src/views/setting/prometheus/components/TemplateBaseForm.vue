@@ -9,38 +9,38 @@
             <v-text-field
               v-model="obj.name"
               class="my-0"
-              required
               label="名称"
-              :rules="objRules.nameRule"
               :readonly="edit"
+              required
+              :rules="objRules.nameRule"
             />
           </v-col>
           <v-col cols="6">
             <v-text-field
               v-model="obj.showName"
               class="my-0"
-              required
               label="规则描述"
+              required
               :rules="objRules.showNameRule"
             />
           </v-col>
           <v-col cols="12">
-            <v-text-field v-model="obj.expr" class="my-0" required label="expr" :rules="objRules.exprRule" />
+            <v-text-field v-model="obj.expr" class="my-0" label="expr" required :rules="objRules.exprRule" />
           </v-col>
           <v-col cols="12">
             <v-combobox
               v-model="labels"
+              height="32"
               hide-no-data
               :items="[]"
-              :search-input.sync="labelText"
-              multiple
               label="标签(回车)"
-              height="32"
+              multiple
+              :search-input.sync="labelText"
               @change="onLabelChange"
               @keydown.enter="createLabel"
             >
               <template #selection="{ item }">
-                <v-chip small color="primary" class="pa-1">
+                <v-chip class="pa-1" color="primary" small>
                   <span>
                     {{ item.text }}
                   </span>
@@ -52,17 +52,17 @@
           <v-col cols="12">
             <v-autocomplete
               v-model="obj.units"
-              color="primary"
-              :items="units"
-              :rules="objRules.unitRule"
-              multiple
-              label="单位"
-              hide-selected
               class="my-0"
+              color="primary"
+              hide-selected
+              :items="units"
+              label="单位"
+              multiple
               no-data-text="暂无可选数据"
+              :rules="objRules.unitRule"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   <span>
                     {{ item['text'] }}
                   </span>
@@ -84,6 +84,10 @@
   export default {
     name: 'TemplateBaseForm',
     props: {
+      edit: {
+        type: Boolean,
+        default: () => false,
+      },
       item: {
         type: Object,
         default: () => null,
@@ -91,10 +95,6 @@
       units: {
         type: Array,
         default: () => [],
-      },
-      edit: {
-        type: Boolean,
-        default: () => false,
       },
     },
     data: () => ({

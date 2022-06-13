@@ -5,8 +5,8 @@
         v-for="(item, index) in tabItems"
         :key="index"
         class="v-tab"
-        :transition="false"
         :reverse-transition="false"
+        :transition="false"
       >
         {{ item.text }}
       </v-tab>
@@ -17,20 +17,21 @@
       :key="key"
       :ref="`tab${tab}`"
       :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-      title=""
-      :metrics="tabItems[tab].chart"
-      :label="tabItems[tab].label"
-      :type="tabItems[tab].type"
       :extend-height="280"
+      :label="tabItems[tab].label"
+      :metrics="tabItems[tab].chart"
       :no-data-offset-y="-24"
+      title=""
+      :type="tabItems[tab].type"
     />
   </v-card>
 </template>
 
 <script>
   import { mapState } from 'vuex';
-  import BaseResource from '@/mixins/resource';
+
   import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
   import {
     CLUSTER_ETCD_RT_PROMQL,
     CLUSTER_API_SERVER_RT_PROMQL,
@@ -44,7 +45,7 @@
 
   export default {
     name: 'MetricMonitor',
-    mixins: [BaseResource, BasePermission],
+    mixins: [BasePermission, BaseResource],
     props: {
       params: {
         type: Object,

@@ -1,13 +1,13 @@
 <template>
-  <BaseDialog v-model="dialog" :width="500" title="重设用户密码" icon="mdi-account-key" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-account-key" title="重设用户密码" :width="500" @reset="reset">
     <template #content>
       <BaseSubTitle title="密码定义" />
       <v-card-text class="pa-2 mt-2">
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
           <v-sheet>
-            <v-text-field v-model="obj.password" class="my-0" :rules="objRules.passwordRules" required label="新密码">
+            <v-text-field v-model="obj.password" class="my-0" label="新密码" required :rules="objRules.passwordRules">
               <template #append>
-                <v-btn small text color="primary" class="mt-n1" @click.stop="randomPassword">
+                <v-btn class="mt-n1" color="primary" small text @click.stop="randomPassword">
                   <v-icon left small> mdi-eye </v-icon>
                   生成随机密码
                 </v-btn>
@@ -18,13 +18,14 @@
       </v-card-text>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="resetUserPassword"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="resetUserPassword"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapState } from 'vuex';
+
   import { postResetUserPassword } from '@/api';
   import { password } from '@/utils/rules';
 

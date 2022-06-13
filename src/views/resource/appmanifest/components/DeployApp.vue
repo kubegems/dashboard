@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1200" title="部署应用" icon="mdi-send" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-send" title="部署应用" :width="1200" @reset="reset">
     <template #content>
       <v-card-text class="pa-0">
         <v-flex v-if="ThisAppEnvironmentID > 0 && !AdminViewport" class="text-subtitle-2 primary--text px-0">
@@ -8,14 +8,14 @@
         <v-flex v-else>
           <template v-if="AdminViewport">
             项目:
-            <v-menu bottom right offset-y origin="top center" transition="scale-transition" nudge-bottom="5px">
+            <v-menu bottom nudge-bottom="5px" offset-y origin="top center" right transition="scale-transition">
               <template #activator="{ on }">
                 <v-btn
-                  depressed
-                  color="white"
                   class="primary--text"
-                  small
+                  color="white"
                   dark
+                  depressed
+                  small
                   v-on="on"
                   @click="m_select_projectSelectData"
                 >
@@ -24,7 +24,7 @@
                   <v-icon right>fas fa-angle-down</v-icon>
                 </v-btn>
               </template>
-              <v-data-iterator :items="[{ text: '项目', values: m_select_projectItems }]" hide-default-footer>
+              <v-data-iterator hide-default-footer :items="[{ text: '项目', values: m_select_projectItems }]">
                 <template #no-data>
                   <v-card>
                     <v-card-text> 暂无项目 </v-card-text>
@@ -58,11 +58,11 @@
           环境:
           <v-btn-toggle
             v-model="environmentIndex"
-            dense
-            color="primary"
-            mandatory
             borderless
             class="my-2"
+            color="primary"
+            dense
+            mandatory
             @change="onEnvironmentChange"
           >
             <v-btn v-for="(environment, index) in m_select_projectEnvironmentItems" :key="index" small>
@@ -72,14 +72,14 @@
         </v-flex>
         <v-text-field v-model="search" class="mt-2 pt-0" hide-details prepend-inner-icon="mdi-magnify" />
         <v-data-table
-          disable-sort
           class="mt-2 deploy__table"
+          disable-sort
           :headers="headers"
+          hide-default-footer
           :items="items"
           :items-per-page="500"
           no-data-text="暂无数据"
           no-results-text="暂无匹配应用"
-          hide-default-footer
           :search.sync="search"
           show-select
           @toggle-select-all="selectAllApp"
@@ -102,43 +102,43 @@
               <v-menu
                 v-model="tagMenus[`${item.index}-${key}`].menu"
                 bottom
-                right
-                offset-y
-                origin="top center"
-                transition="scale-transition"
-                nudge-bottom="5px"
                 :close-on-content-click="false"
                 content-class="tag__menu"
+                nudge-bottom="5px"
+                offset-y
+                origin="top center"
+                right
+                transition="scale-transition"
               >
                 <template #activator="{ on }">
                   <v-chip
-                    label
-                    color="white"
                     class="primary--text font-weight-medium"
+                    color="white"
+                    label
                     v-on="on"
                     @click="appImageTags(key)"
                   >
                     {{ splitImage(value.publish, 'tag') }}
-                    <v-icon v-if="tagMenus[`${item.index}-${key}`].menu" small right> fas fa-angle-up </v-icon>
-                    <v-icon v-else small right> fas fa-angle-down </v-icon>
+                    <v-icon v-if="tagMenus[`${item.index}-${key}`].menu" right small> fas fa-angle-up </v-icon>
+                    <v-icon v-else right small> fas fa-angle-down </v-icon>
                   </v-chip>
                 </template>
                 <v-flex>
                   <v-flex class="px-3 pt-3 white search-filter">
                     <v-text-field
                       v-model="tagMenus[`${item.index}-${key}`].search"
-                      solo
                       dense
                       flat
                       hide-details
                       label="回车创建"
+                      solo
                       @keyup.enter="createTag(`${item.index}-${key}`, key, item.name)"
                     />
                   </v-flex>
                   <v-data-iterator
-                    :items="[{ text: 'Tag', values: tags }]"
-                    hide-default-footer
                     class="iterator rounded-b"
+                    hide-default-footer
+                    :items="[{ text: 'Tag', values: tags }]"
                   >
                     <template #no-data>
                       <v-card>
@@ -175,13 +175,14 @@
       </v-card-text>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="deployEnvironmentApps"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="deployEnvironmentApps"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import { getEnvironmentAppImageList, getAppImageTags, postDeployEnvironmentAppImages } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';

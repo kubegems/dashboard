@@ -2,19 +2,19 @@
   <v-flex class="pt-4">
     <v-menu
       v-model="menu"
-      left
       :close-on-click="false"
       :close-on-content-click="false"
-      eager
       content-class="resourceMenu"
+      eager
+      left
     >
       <v-card>
         <v-card-text class="pa-2 text-center">
           <v-flex>
-            <v-btn color="primary" text small @click="syncResource"> 同步 </v-btn>
+            <v-btn color="primary" small text @click="syncResource"> 同步 </v-btn>
           </v-flex>
           <v-flex>
-            <v-btn color="error" text small @click="removeResource"> 删除 </v-btn>
+            <v-btn color="error" small text @click="removeResource"> 删除 </v-btn>
           </v-flex>
         </v-card-text>
       </v-card>
@@ -22,10 +22,10 @@
 
     <VueOkrTree
       class="resource-tree"
-      direction="horizontal"
-      :data="tree"
-      :render-content="renderContent"
       current-lable-class-name="crrent-active-class"
+      :data="tree"
+      direction="horizontal"
+      :render-content="renderContent"
       :style="`height: ${height}px`"
       @node-click="showDeployLive"
     />
@@ -35,15 +35,21 @@
 </template>
 
 <script>
+  import { VueOkrTree } from 'vue-okr-tree';
   import { mapGetters, mapState } from 'vuex';
+
   import DeployLive from './DeployLive';
+
   import { getAppRunningResourceDetail, postSyncAppResource, deleteAppResource } from '@/api';
   import BaseResource from '@/mixins/resource';
+
+  import 'vue-okr-tree/dist/vue-okr-tree.css';
 
   export default {
     name: 'DeployTopology',
     components: {
       DeployLive,
+      VueOkrTree,
     },
     mixins: [BaseResource],
     props: {

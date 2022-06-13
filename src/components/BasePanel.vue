@@ -49,10 +49,6 @@
       event: 'click',
     },
     props: {
-      title: {
-        type: String,
-        default: () => '',
-      },
       icon: {
         type: String,
         default: () => '',
@@ -60,6 +56,10 @@
       panel: {
         type: Boolean,
         default: () => false,
+      },
+      title: {
+        type: String,
+        default: () => '',
       },
       width: {
         type: String,

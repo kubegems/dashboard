@@ -2,18 +2,18 @@
   <v-flex>
     <BaseSubTitle
       v-if="pathLevel === 1"
-      :title="label"
-      :color="pathLevel === 1 ? 'grey lighten-3' : ''"
       class="mb-4"
+      :color="pathLevel === 1 ? 'grey lighten-3' : ''"
       :divider="false"
+      :title="label"
     />
     <v-textarea
       :id="id"
-      :value="param.value"
       auto-grow
-      :rules="textareaRule"
-      :label="pathLevel === 1 ? '' : label"
       class="my-2"
+      :label="pathLevel === 1 ? '' : label"
+      :rules="textareaRule"
+      :value="param.value"
       @change="onChange($event)"
     />
   </v-flex>
@@ -25,6 +25,10 @@
   export default {
     name: 'TextFieldParam',
     props: {
+      id: {
+        type: String,
+        default: () => '',
+      },
       label: {
         type: String,
         default: () => '',
@@ -32,10 +36,6 @@
       param: {
         type: Object,
         default: () => {},
-      },
-      id: {
-        type: String,
-        default: () => '',
       },
     },
     data() {

@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex, { Store } from 'vuex';
+
 import {
   getVirtualSpaceSelectData,
   getClusterSelectData,
@@ -7,10 +8,11 @@ import {
   getProjectSelectData,
   getEnvironmentSelectData,
 } from './server_data';
+
+import { getClusterPluginsList, getRESTMapping } from '@/api';
 import router from '@/router';
 import { getCookie, delAllCookie } from '@/utils/cookie';
 import { sleep } from '@/utils/helpers';
-import { getClusterPluginsList, getRESTMapping } from '@/api';
 
 Vue.use(Vuex);
 

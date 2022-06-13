@@ -9,9 +9,9 @@
             <v-text-field
               v-model="obj.name"
               class="my-0"
-              required
               label="接收器"
               :readonly="edit"
+              required
               :rules="objRules.nameRule"
             />
           </v-col>
@@ -19,14 +19,14 @@
       </v-card-text>
       <ChannelForm
         ref="channelForm"
-        :obj="obj"
-        :namespace="namespace"
-        :type="type"
-        :edit="edit"
         :config-index="configIndex"
+        :edit="edit"
+        :namespace="namespace"
+        :obj="obj"
+        :type="type"
         @addData="addData"
-        @updateData="updateData"
         @closeOverlay="closeExpand"
+        @updateData="updateData"
       />
       <BaseSubTitle title="告警渠道" />
       <v-card-text class="pa-2">
@@ -38,10 +38,12 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import ChannelForm from './ChannelForm';
   import ChannelItem from './ChannelItem';
-  import BaseSelect from '@/mixins/select';
+
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
   import { k8sName, required } from '@/utils/rules';
 
   export default {
@@ -50,15 +52,15 @@
       ChannelForm,
       ChannelItem,
     },
-    mixins: [BaseSelect, BaseResource],
+    mixins: [BaseResource, BaseSelect],
     props: {
-      item: {
-        type: Object,
-        default: () => null,
-      },
       edit: {
         type: Boolean,
         default: () => false,
+      },
+      item: {
+        type: Object,
+        default: () => null,
       },
     },
     data: () => ({

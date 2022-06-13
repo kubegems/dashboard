@@ -6,17 +6,17 @@
         <v-col cols="6">
           <v-autocomplete
             v-model="obj.kind"
-            :items="typeItems"
-            color="primary"
-            label="类型"
-            hide-selected
             class="my-0"
+            color="primary"
+            hide-selected
+            :items="typeItems"
+            label="类型"
             no-data-text="暂无可选数据"
             :readonly="edit"
             :rules="objRules.kindRules"
           >
             <template #selection="{ item }">
-              <v-chip color="primary" small class="mx-1">
+              <v-chip class="mx-1" color="primary" small>
                 {{ item['text'] }}
               </v-chip>
             </template>
@@ -27,8 +27,8 @@
             v-model="obj.metadata.name"
             class="my-0"
             label="名称"
-            required
             :readonly="edit"
+            required
             :rules="objRules.nameRules"
           />
         </v-col>
@@ -36,18 +36,18 @@
         <v-col cols="6">
           <v-select
             v-model="plugin"
-            color="primary"
-            :items="pluginItems"
-            :rules="objRules.pluginRules"
-            :readonly="edit"
-            label="插件类型"
-            hide-selected
             class="my-0"
+            color="primary"
+            hide-selected
+            :items="pluginItems"
+            label="插件类型"
             no-data-text="暂无可选数据"
+            :readonly="edit"
+            :rules="objRules.pluginRules"
             @change="onPluginChange"
           >
             <template #selection="{ item }">
-              <v-chip color="primary" small class="mx-1">
+              <v-chip class="mx-1" color="primary" small>
                 {{ item['text'] }}
               </v-chip>
             </template>
@@ -55,34 +55,36 @@
         </v-col>
       </v-row>
 
-      <component :is="formComponent" :ref="formComponent" :item="obj" :edit="true" />
+      <component :is="formComponent" :ref="formComponent" :edit="true" :item="obj" />
     </v-form>
   </div>
 </template>
 
 <script>
   import { mapState } from 'vuex';
-  import Loki from './Loki';
-  import Kafka from './Kafka';
+
   import Elasticsearch from './Elasticsearch';
+  import Kafka from './Kafka';
+  import Loki from './Loki';
+
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'OutputBaseForm',
     components: {
+      Elasticsearch,
       Loki,
       Kafka,
-      Elasticsearch,
     },
     props: {
-      item: {
-        type: Object,
-        default: () => null,
-      },
       edit: {
         type: Boolean,
         default: () => false,
+      },
+      item: {
+        type: Object,
+        default: () => null,
       },
     },
     data() {

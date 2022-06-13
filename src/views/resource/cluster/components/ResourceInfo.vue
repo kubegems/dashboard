@@ -1,14 +1,14 @@
 <template>
-  <v-card flat height="55%" class="rounded-t-0">
+  <v-card class="rounded-t-0" flat height="55%">
     <v-card-text class="d-flex pl-6 align-center flex-wrap" style="height: 100%">
       <div class="d-flex align-center justify-start my-2" style="width: 50%">
-        <Icon :icon="$RESOURCE_ICON['node']" class="mr-4 icon-large primary--text" :width="35" />
+        <Icon class="mr-4 icon-large primary--text" :icon="$RESOURCE_ICON['node']" :width="35" />
         <h6 class="text-large-size font-weight-regular">
           节点 {{ workload && workload['node'] ? workload['node'] : '' }}
         </h6>
       </div>
       <div class="d-flex align-center justify-start my-2" style="width: 50%">
-        <Icon :icon="$RESOURCE_ICON['cpu']" class="mr-4 icon-large primary--text" :width="35" />
+        <Icon class="mr-4 icon-large primary--text" :icon="$RESOURCE_ICON['cpu']" :width="35" />
         <div>
           <h5 class="text-size font-weight-regular">
             物理CPU
@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="d-flex align-center justify-start my-2" style="width: 50%">
-        <Icon :icon="$RESOURCE_ICON['storage']" class="mr-4 icon-large primary--text" :width="35" />
+        <Icon class="mr-4 icon-large primary--text" :icon="$RESOURCE_ICON['storage']" :width="35" />
         <div>
           <h5 class="text-size font-weight-regular">
             物理存储
@@ -42,7 +42,7 @@
         </div>
       </div>
       <div class="d-flex align-center justify-start my-2" style="width: 50%">
-        <Icon :icon="$RESOURCE_ICON['memory']" class="mr-4 icon-large primary--text" :width="35" />
+        <Icon class="mr-4 icon-large primary--text" :icon="$RESOURCE_ICON['memory']" :width="35" />
         <div>
           <h5 class="text-size font-weight-regular">
             物理内存
@@ -70,15 +70,15 @@
     name: 'ResourceInfo',
     mixins: [BaseResource],
     props: {
+      cluster: {
+        type: Object,
+        default: () => null,
+      },
       quota: {
         type: Object,
         default: () => null,
       },
       workload: {
-        type: Object,
-        default: () => null,
-      },
-      cluster: {
         type: Object,
         default: () => null,
       },

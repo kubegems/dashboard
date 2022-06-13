@@ -1,4 +1,5 @@
 import { mapGetters, mapState } from 'vuex';
+
 import { matrix, vector } from '@/api';
 
 const permission = {

@@ -48,6 +48,7 @@
 
 <script>
   import { mapGetters } from 'vuex';
+
   import BaseResource from '@/mixins/resource';
 
   export default {

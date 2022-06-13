@@ -4,20 +4,20 @@
       <v-menu
         v-model="durationMenu"
         bottom
+        class="mx-1 px-1"
         left
         offset-y
         origin="top center"
         transition="scale-transition"
-        class="mx-1 px-1"
       >
         <template #activator="{ on }">
-          <v-btn text small color="white" class="primary--text font-weight-medium" v-on="on">
+          <v-btn class="primary--text font-weight-medium" color="white" small text v-on="on">
             {{ durationText }}
             <v-icon v-if="durationMenu" right> fas fa-angle-up </v-icon>
             <v-icon v-else right> fas fa-angle-down </v-icon>
           </v-btn>
         </template>
-        <v-data-iterator :items="[{ text: '时间', values: durations }]" hide-default-footer class="file-iterator">
+        <v-data-iterator class="file-iterator" hide-default-footer :items="[{ text: '时间', values: durations }]">
           <template #no-data>
             <v-card>
               <v-card-text> 暂无选项 </v-card-text>

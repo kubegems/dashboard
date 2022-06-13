@@ -4,15 +4,15 @@
   <v-menu
     v-model="showMenu"
     bottom
+    :close-on-content-click="false"
     left
+    nudge-bottom="5px"
     offset-y
     origin="top center"
     transition="scale-transition"
-    nudge-bottom="5px"
-    :close-on-content-click="false"
   >
     <template #activator="{ on }">
-      <v-btn depressed color="white" class="primary--text" :class="buttonClass" small dark v-on="on">
+      <v-btn class="primary--text" :class="buttonClass" color="white" dark depressed small v-on="on">
         <span v-if="label" class="mr-2">{{ label }}</span>
         <span>{{ value2format }}</span>
         <v-icon v-if="showMenu" right> fas fa-angle-up </v-icon>
@@ -29,21 +29,21 @@
   export default {
     name: 'LabelInput',
     props: {
-      value: {
-        type: [String, Number],
+      buttonClass: {
+        type: String,
+        default: undefined,
+      },
+      emptyValuePlaceholder: {
+        type: String,
         default: '',
       },
       label: {
         type: String,
         default: '',
       },
-      emptyValuePlaceholder: {
-        type: String,
+      value: {
+        type: [String, Number],
         default: '',
-      },
-      buttonClass: {
-        type: String,
-        default: undefined,
       },
     },
     data() {

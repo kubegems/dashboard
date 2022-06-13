@@ -1,10 +1,10 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="更新istio认证策略" icon="mdi-key" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-key" title="更新istio认证策略" :width="1000" @reset="reset">
     <template #content>
-      <component :is="formComponent" :ref="formComponent" :item="item" :edit="true" title="AuthorizationPolicy" />
+      <component :is="formComponent" :ref="formComponent" :edit="true" :item="item" title="AuthorizationPolicy" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="updateIstioAuthorizationPolicy">
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateIstioAuthorizationPolicy">
         确定
       </v-btn>
     </template>
@@ -13,10 +13,11 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import { patchUpdateIstioAuthorizationPolicy, getIstioAuthorizationPolicyDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
-  import IstioAuthorizationPolicySchema from '@/views/microservice/istio/authorization_policy/mixins/schema';
   import { deepCopy } from '@/utils/helpers';
+  import IstioAuthorizationPolicySchema from '@/views/microservice/istio/authorization_policy/mixins/schema';
 
   export default {
     name: 'UpdateIstioAuthorizationPolicy',

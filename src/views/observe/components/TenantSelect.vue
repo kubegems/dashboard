@@ -5,20 +5,20 @@
       <v-menu
         v-model="tenantMenu"
         bottom
+        class="mx-1 px-1"
         left
         offset-y
         origin="top center"
         transition="scale-transition"
-        class="mx-1 px-1"
       >
         <template #activator="{ on }">
-          <v-btn text color="white" class="primary--text font-weight-medium" v-on="on">
+          <v-btn class="primary--text font-weight-medium" color="white" text v-on="on">
             {{ tenant ? tenant.TenantName : '' }}
             <v-icon v-if="tenantMenu" right> fas fa-angle-up </v-icon>
             <v-icon v-else right> fas fa-angle-down </v-icon>
           </v-btn>
         </template>
-        <v-data-iterator :items="[{ text: '租户', values: tenants }]" hide-default-footer class="file-iterator">
+        <v-data-iterator class="file-iterator" hide-default-footer :items="[{ text: '租户', values: tenants }]">
           <template #no-data>
             <v-card>
               <v-card-text> 暂无租户 </v-card-text>
@@ -54,6 +54,7 @@
 
 <script>
   import { mapGetters } from 'vuex';
+
   import BaseSelect from '@/mixins/select';
 
   export default {

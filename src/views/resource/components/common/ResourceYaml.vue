@@ -1,5 +1,5 @@
 <template>
-  <BasePanel v-model="panel" title="YAML" :width="`50%`" icon="fas fa-code" @dispose="dispose">
+  <BasePanel v-model="panel" icon="fas fa-code" title="YAML" :width="`50%`" @dispose="dispose">
     <template #header>
       <span class="ml-3">
         {{ item ? item.metadata.name : '' }}
@@ -12,8 +12,8 @@
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded-0`"
           lang="yaml"
           :options="Object.assign($aceOptions, { readOnly: true, wrap: true })"
-          theme="chrome"
           :style="`height: ${height}px !important`"
+          theme="chrome"
           @init="$aceinit"
           @keydown.stop
         />

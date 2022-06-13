@@ -4,21 +4,21 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :filters="filters"
           :default="{ items: [], text: 'DNS', value: 'search' }"
+          :filters="filters"
           @refresh="m_filter_list"
         />
         <v-spacer />
         <v-menu v-if="m_permisson_tenantAllow || m_permisson_virtualSpaceAllow" left>
           <template #activator="{ on }">
             <v-btn icon>
-              <v-icon small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+              <v-icon color="primary" small v-on="on"> fas fa-ellipsis-v </v-icon>
             </v-btn>
           </template>
           <v-card>
             <v-card-text class="pa-2">
               <v-flex>
-                <v-btn text color="primary" @click="addDNSDomain">
+                <v-btn color="primary" text @click="addDNSDomain">
                   <v-icon left>mdi-plus-box</v-icon>
                   创建DNS
                 </v-btn>
@@ -31,11 +31,11 @@
         class="mx-4"
         disable-sort
         :headers="headers"
+        hide-default-footer
         :items="items"
-        :page.sync="params.page"
         :items-per-page="params.size"
         no-data-text="暂无数据"
-        hide-default-footer
+        :page.sync="params.page"
       >
         <template #[`item.virtualDomainName`]="{ item }">
           {{ item.VirtualDomainName }}
@@ -48,19 +48,19 @@
         </template>
         <template #[`item.action`]="{ item }">
           <v-flex :id="`r${item.ID}`" />
-          <v-menu left :attach="`#r${item.ID}`">
+          <v-menu :attach="`#r${item.ID}`" left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
               </v-btn>
             </template>
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" text small @click="updateDNSDomain(item)"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateDNSDomain(item)"> 编辑 </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" text small @click="removeDNSDomain(item)"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeDNSDomain(item)"> 删除 </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -72,9 +72,9 @@
         v-model="params.page"
         :page-count="pageCount"
         :size="params.size"
-        @loaddata="dnsDomainList"
-        @changesize="onPageSizeChange"
         @changepage="onPageIndexChange"
+        @changesize="onPageSizeChange"
+        @loaddata="dnsDomainList"
       />
     </v-card>
 
@@ -85,11 +85,13 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import AddDNSDomain from './components/AddDNSDomain';
   import UpdateDNSDomain from './components/UpdateDNSDomain';
+
   import { getDnsDomainList, deleteDNSDomain } from '@/api';
-  import BasePermission from '@/mixins/permission';
   import BaseFilter from '@/mixins/base_filter';
+  import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseTable from '@/mixins/table';
 
@@ -99,7 +101,7 @@
       AddDNSDomain,
       UpdateDNSDomain,
     },
-    mixins: [BasePermission, BaseFilter, BaseResource, BaseTable],
+    mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],
     data: () => ({
       items: [],
       pageCount: 0,

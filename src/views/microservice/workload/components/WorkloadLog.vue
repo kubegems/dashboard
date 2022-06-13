@@ -8,19 +8,19 @@
             v-model="containerMenu"
             bottom
             left
+            nudge-bottom="5px"
             offset-y
             origin="top center"
             transition="scale-transition"
-            nudge-bottom="5px"
           >
             <template #activator="{ on }">
-              <v-btn depressed color="white" class="primary--text mt-n1" dark v-on="on">
+              <v-btn class="primary--text mt-n1" color="white" dark depressed v-on="on">
                 {{ container }}
                 <v-icon v-if="containerMenu" right> fas fa-angle-up </v-icon>
                 <v-icon v-else right> fas fa-angle-down </v-icon>
               </v-btn>
             </template>
-            <v-data-iterator :items="[{ text: '容器', values: containers }]" hide-default-footer>
+            <v-data-iterator hide-default-footer :items="[{ text: '容器', values: containers }]">
               <template #no-data>
                 <v-card>
                   <v-card-text> 暂无容器 </v-card-text>
@@ -59,19 +59,19 @@
             v-model="podMenu"
             bottom
             left
+            nudge-bottom="5px"
             offset-y
             origin="top center"
             transition="scale-transition"
-            nudge-bottom="5px"
           >
             <template #activator="{ on }">
-              <v-btn depressed color="white" class="primary--text mt-n1" dark v-on="on">
+              <v-btn class="primary--text mt-n1" color="white" dark depressed v-on="on">
                 {{ pod.metadata.name }}
                 <v-icon v-if="podMenu" right> fas fa-angle-up </v-icon>
                 <v-icon v-else right> fas fa-angle-down </v-icon>
               </v-btn>
             </template>
-            <v-data-iterator :items="[{ text: '容器组', values: pods }]" hide-default-footer>
+            <v-data-iterator hide-default-footer :items="[{ text: '容器组', values: pods }]">
               <template #no-data>
                 <v-card>
                   <v-card-text> 暂无容器组 </v-card-text>
@@ -111,8 +111,8 @@
             v-model="stream"
             class="pl-2 primary--text float-right switch-mt"
             color="primary"
-            hide-details
             dense
+            hide-details
             @change="onStreamSwitchChange"
           />
         </v-flex>
@@ -129,11 +129,11 @@
             wrap: false,
           })
         "
-        theme="chrome"
         :style="{
           height: `${height}px !important`,
           width: 'auto',
         }"
+        theme="chrome"
         @init="$aceinit"
         @keydown.stop
       />
@@ -142,6 +142,7 @@
 </template>
 <script>
   import { mapState } from 'vuex';
+
   import { getPodList } from '@/api';
   import BaseResource from '@/mixins/resource';
 

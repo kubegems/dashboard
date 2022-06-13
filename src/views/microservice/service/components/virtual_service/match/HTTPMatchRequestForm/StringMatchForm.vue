@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form" v-model="valid" lazy-validation class="my-2" @submit.prevent>
+  <v-form ref="form" v-model="valid" class="my-2" lazy-validation @submit.prevent>
     <v-flex :class="expand ? 'kubegems__overlay' : ''" />
     <v-expand-transition>
       <v-card v-show="expand" class="my-2 pa-2 kubegems__expand-transition" :elevation="4">
@@ -9,40 +9,40 @@
               <span>匹配规则</span>
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__three-form-width">
-              <v-text-field v-model="obj.key" class="my-0" required label="key" :rules="objRules.keyRule" />
+              <v-text-field v-model="obj.key" class="my-0" label="key" required :rules="objRules.keyRule" />
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__three-form-width">
               <v-autocomplete
                 v-model="obj.match"
+                class="my-0"
                 color="primary"
+                hide-selected
                 :items="[
                   { text: 'exact', valeu: 'exact' },
                   { text: 'prefix', valeu: 'prefix' },
                   { text: 'regex', valeu: 'regex' },
                 ]"
                 label="match"
-                hide-selected
-                class="my-0"
                 no-data-text="暂无可选数据"
                 :rules="objRules.matchRule"
               >
                 <template #selection="{ item }">
-                  <v-chip color="primary" small class="mx-1">
+                  <v-chip class="mx-1" color="primary" small>
                     {{ item['text'] }}
                   </v-chip>
                 </template>
               </v-autocomplete>
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__three-form-width">
-              <v-text-field v-model="obj.value" class="my-0" required label="value" :rules="objRules.valueRule" />
+              <v-text-field v-model="obj.value" class="my-0" label="value" required :rules="objRules.valueRule" />
             </v-flex>
             <div class="kubegems__clear-float" />
           </v-sheet>
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn text small color="error" @click="closeCard"> 取消 </v-btn>
-          <v-btn text small color="primary" @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
+          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -56,10 +56,10 @@
                 {{ getValue(value) }}
               </v-list-item-content>
 
-              <v-btn dark text fab right x-small color="primary" @click="updateLabels(key)">
+              <v-btn color="primary" dark fab right text x-small @click="updateLabels(key)">
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
-              <v-btn dark text fab right x-small color="error" @click="removeLabels(key)">
+              <v-btn color="error" dark fab right text x-small @click="removeLabels(key)">
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
             </v-list-item>
@@ -70,7 +70,7 @@
         <v-list-item two-line>
           <v-list-item-content class="py-2">
             <v-list-item-subtitle class="text-body-2 py-0 text-center">
-              <v-btn text color="primary" @click="expandCard">
+              <v-btn color="primary" text @click="expandCard">
                 <v-icon left small> mdi-tag-plus </v-icon>
                 添加匹配
               </v-btn>

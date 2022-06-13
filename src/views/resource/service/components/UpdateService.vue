@@ -1,19 +1,19 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="更新服务" icon="mdi-dns" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-dns" title="更新服务" :width="1000" @reset="reset">
     <template #content>
-      <component :is="formComponent" :ref="formComponent" :item="item" :edit="true" title="Service" />
+      <component :is="formComponent" :ref="formComponent" :edit="true" :item="item" title="Service" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="updateService"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateService"> 确定 </v-btn>
     </template>
     <template #header-action>
       <v-switch
         :key="switchKey"
         v-model="yaml"
         class="ma-0 pl-2 ml-2 mt-1"
-        style="margin-top: 8px !important"
         color="white"
         hide-details
+        style="margin-top: 8px !important"
         @change="onYamlSwitchChange"
       >
         <template #label>
@@ -26,11 +26,13 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import ServiceBaseForm from './ServiceBaseForm';
+
   import { patchUpdateService, getServiceDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
-  import ServiceSchema from '@/views/resource/service/mixins/schema';
   import { randomString, deepCopy } from '@/utils/helpers';
+  import ServiceSchema from '@/views/resource/service/mixins/schema';
 
   export default {
     name: 'UpdateService',

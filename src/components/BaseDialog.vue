@@ -47,21 +47,21 @@
       event: 'click',
     },
     props: {
-      title: {
+      dialog: {
+        type: Boolean,
+        default: () => false,
+      },
+      icon: {
         type: String,
         default: () => '',
       },
-      icon: {
+      title: {
         type: String,
         default: () => '',
       },
       width: {
         type: Number,
         default: () => 800,
-      },
-      dialog: {
-        type: Boolean,
-        default: () => false,
       },
     },
     watch: {

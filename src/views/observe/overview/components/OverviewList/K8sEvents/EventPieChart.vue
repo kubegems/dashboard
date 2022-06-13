@@ -2,10 +2,10 @@
   <div :style="{ width: width, height: height }">
     <VueApexCharts
       :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-      type="pie"
       height="80%"
       :options="options"
       :series="series"
+      type="pie"
     />
     <div v-for="(label, index) in labels" :key="index" class="text-caption ml-4">
       <v-icon small :style="{ color: $LINE_THEME_COLORS[index] }"> mdi-checkbox-blank-circle </v-icon>
@@ -15,8 +15,8 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
   import VueApexCharts from 'vue-apexcharts';
+  import { mapState } from 'vuex';
 
   export default {
     name: 'MessageLineChart',

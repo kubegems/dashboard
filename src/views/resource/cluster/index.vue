@@ -2,11 +2,11 @@
   <v-container fluid>
     <BaseBreadcrumb />
     <v-row class="mt-0">
-      <v-col v-for="(item, index) in items" :key="index" cols="3" class="pt-0">
+      <v-col v-for="(item, index) in items" :key="index" class="pt-0" cols="3">
         <v-hover #default="{ hover }">
-          <v-card class="mx-auto cluster-pos" height="100%" :elevation="hover ? 5 : 0">
+          <v-card class="mx-auto cluster-pos" :elevation="hover ? 5 : 0" height="100%">
             <v-list-item three-line>
-              <v-list-item-avatar class="primary--text" tile size="80">
+              <v-list-item-avatar class="primary--text" size="80" tile>
                 <BaseLogo :icon-name="item.Vendor" :width="70" />
               </v-list-item-avatar>
               <v-list-item-content>
@@ -24,20 +24,20 @@
                 <v-list-item-subtitle>
                   <span class="text-body-2"> 状态： </span>
                   <template v-if="!item.Status">
-                    <v-progress-circular size="16" width="3" indeterminate color="warning" />
+                    <v-progress-circular color="warning" indeterminate size="16" width="3" />
                   </template>
-                  <v-icon v-else-if="item.Status === 0" small color="error"> mdi-heart-broken </v-icon>
-                  <v-icon v-else small color="success"> mdi-heart-pulse </v-icon>
+                  <v-icon v-else-if="item.Status === 0" color="error" small> mdi-heart-broken </v-icon>
+                  <v-icon v-else color="success" small> mdi-heart-pulse </v-icon>
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
 
             <v-card-actions>
               <v-spacer />
-              <v-btn text small color="primary" :disabled="!item.Status" @click="clusterDetail(item)"> 详情 </v-btn>
-              <v-btn text small color="primary" :disabled="!item.Status" @click="updateCluster(item)"> 编辑 </v-btn>
-              <v-btn text small color="error" @click="removeCluster(item)"> 删除 </v-btn>
-              <v-btn text small color="primary" :disabled="!item.Status" @click="kuberCtl(item)"> Kubectl </v-btn>
+              <v-btn color="primary" :disabled="!item.Status" small text @click="clusterDetail(item)"> 详情 </v-btn>
+              <v-btn color="primary" :disabled="!item.Status" small text @click="updateCluster(item)"> 编辑 </v-btn>
+              <v-btn color="error" small text @click="removeCluster(item)"> 删除 </v-btn>
+              <v-btn color="primary" :disabled="!item.Status" small text @click="kuberCtl(item)"> Kubectl </v-btn>
             </v-card-actions>
 
             <v-flex v-if="item.Primary" class="cluster-watermark-bg" />
@@ -45,12 +45,12 @@
           </v-card>
         </v-hover>
       </v-col>
-      <v-col cols="3" class="pt-0">
+      <v-col class="pt-0" cols="3">
         <v-card class="kubegems__full-height" min-height="168">
           <v-card-text class="pa-0 kubegems__full-height">
-            <v-list-item three-line class="kubegems__full-height">
+            <v-list-item class="kubegems__full-height" three-line>
               <v-list-item-content>
-                <v-btn text block color="primary" class="text-h6" @click="addCluster">
+                <v-btn block class="text-h6" color="primary" text @click="addCluster">
                   <v-icon left>mdi-plus-box</v-icon>
                   添加集群
                 </v-btn>
@@ -69,21 +69,23 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import AddCluster from './components/AddCluster';
   import UpdateCluster from './components/UpdateCluster';
+
   import { getClusterList, deleteCluster, getClusterStatus } from '@/api';
-  import Terminal from '@/views/resource/components/common/Terminal';
-  import BaseSelect from '@/mixins/select';
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
+  import Terminal from '@/views/resource/components/common/Terminal';
 
   export default {
     name: 'Cluster',
     components: {
       AddCluster,
-      UpdateCluster,
       Terminal,
+      UpdateCluster,
     },
-    mixins: [BaseSelect, BaseResource],
+    mixins: [BaseResource, BaseSelect],
     data: () => ({
       items: [],
       interval: null,
