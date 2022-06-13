@@ -99,7 +99,6 @@
 
   export default {
     name: 'ManageUser',
-    components: {},
     mixins: [BaseSelect],
     props: {
       virtualspace: {

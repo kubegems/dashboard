@@ -94,7 +94,6 @@
 
   export default {
     name: 'AddUser',
-    components: {},
     mixins: [BaseSelect],
     data: () => ({
       dialog: false,

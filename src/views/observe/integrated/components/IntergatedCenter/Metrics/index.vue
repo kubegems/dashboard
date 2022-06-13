@@ -3,7 +3,7 @@
     <BaseSubTitle title="监控采集配置" color="grey lighten-3" class="my-0" :divider="false" />
 
     <v-form ref="form" v-model="valid" class="px-2" lazy-validation @submit.prevent>
-      <ProjectEnvSelect v-model="env" class="mt-0" />
+      <ProjectEnvSelect v-model="env" t="metrics" class="mt-0" />
 
       <v-row>
         <v-col cols="6">
@@ -57,7 +57,7 @@
       </v-row>
     </v-form>
 
-    <BaseSubTitle title="指标" color="grey lighten-3" class="my-0 mt-1" :divider="false" />
+    <BaseSubTitle title="指标" color="grey lighten-3" class="my-0 mt-3" :divider="false" />
     <MetricsList />
   </div>
 </template>

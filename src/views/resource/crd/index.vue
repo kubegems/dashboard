@@ -113,7 +113,6 @@
 
   export default {
     name: 'CRD',
-    components: {},
     mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
     data: () => ({
       items: [],

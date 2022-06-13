@@ -65,7 +65,6 @@
 
   export default {
     name: 'DeployEvent',
-    components: {},
     mixins: [BaseResource],
     props: {
       resource: {
