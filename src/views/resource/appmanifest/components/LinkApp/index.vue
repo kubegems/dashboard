@@ -19,7 +19,6 @@
     components: {
       LinkAppBaseForm,
     },
-    mixins: [],
     data: () => ({
       dialog: false,
       formComponent: 'LinkAppBaseForm',

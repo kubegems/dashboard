@@ -27,7 +27,6 @@
 
   export default {
     name: 'ResourceYaml',
-    components: {},
     props: {
       item: {
         type: Object,

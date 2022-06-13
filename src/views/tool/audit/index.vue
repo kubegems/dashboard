@@ -108,7 +108,6 @@
 
   export default {
     name: 'Audit',
-    components: {},
     mixins: [BaseFilter, BaseSelect],
     data: () => ({
       items: [],

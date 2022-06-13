@@ -160,11 +160,17 @@ const select = {
       });
       this.m_select_tenantProjectItems = tenantProjectSelect;
     },
-    async m_select_projectEnvironmentSelectData(projectid, virtualspace = false, noprocessing = true) {
+    async m_select_projectEnvironmentSelectData(
+      projectid,
+      virtualspace = false,
+      containNSLabels = false,
+      noprocessing = true,
+    ) {
       if (!projectid) {
         return;
       }
       const data = await projectEnvironmentSelectData(projectid, {
+        containNSLabels: containNSLabels || null,
         noprocessing: noprocessing,
       });
       const projectEnvironmentSelect = [];
@@ -180,6 +186,7 @@ const select = {
           type: ns.MetaType,
           projectid: projectid,
           disabled: ns.VirtualSpaceID > 0 && virtualspace,
+          nsLabels: ns.NSLabels,
         });
       });
       this.m_select_projectEnvironmentItems = projectEnvironmentSelect;

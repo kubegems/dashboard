@@ -19,7 +19,6 @@
     components: {
       AppBaseForm,
     },
-    mixins: [],
     data: () => ({
       dialog: false,
       formComponent: 'AppBaseForm',

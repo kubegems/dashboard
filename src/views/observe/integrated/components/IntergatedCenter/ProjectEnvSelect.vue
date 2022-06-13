@@ -42,7 +42,7 @@
         @change="onEnvironmentChange"
       >
         <template #selection="{ item }">
-          <v-chip color="primary" small class="mx-1">
+          <v-chip color="primary" small class="mx-1" :disabled="item.disabled">
             {{ item['text'] }}
           </v-chip>
         </template>
@@ -57,6 +57,12 @@
   export default {
     name: 'ProjectEnvSelect',
     mixins: [BaseSelect],
+    props: {
+      t: {
+        type: String,
+        default: () => 'trace',
+      },
+    },
     data() {
       return {
         projectId: undefined,
@@ -78,8 +84,17 @@
       });
     },
     methods: {
-      onProjectChange() {
-        this.m_select_projectEnvironmentSelectData(this.projectId, false, false);
+      async onProjectChange() {
+        await this.m_select_projectEnvironmentSelectData(this.projectId, false, true, false);
+        if (this.t === 'logging') {
+          this.m_select_projectEnvironmentItems = this.m_select_projectEnvironmentItems.map((e) => {
+            if (e.nsLabels && e.nsLabels['gems.kubegems.io/logging'] === 'enabled') {
+              e.disabled = true;
+              e.environmentName = `${e.environmentName}(已接入日志采集)`;
+            }
+            return { ...e };
+          });
+        }
       },
       onEnvironmentChange() {
         this.env = this.m_select_projectEnvironmentItems.find((e) => {

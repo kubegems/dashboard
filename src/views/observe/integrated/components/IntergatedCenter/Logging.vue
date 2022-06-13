@@ -3,7 +3,7 @@
     <BaseSubTitle title="日志采集配置" color="grey lighten-3" class="my-0" :divider="false" />
 
     <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
-      <ProjectEnvSelect v-model="env" class="px-2 mt-0" />
+      <ProjectEnvSelect v-model="env" t="logging" class="px-2 mt-0" />
 
       <v-row class="px-2">
         <v-col cols="12">

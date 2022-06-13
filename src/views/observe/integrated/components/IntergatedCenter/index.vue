@@ -1,7 +1,7 @@
 <template>
   <BasePanel v-model="panel" :title="`接入配置`" :width="`50%`" icon="fas fa-link" @dispose="dispose">
     <template #action>
-      <v-btn color="white" text class="mt-n1 ml-2" @click="addData"> 保存 </v-btn>
+      <v-btn color="white" text class="mt-n1 ml-2" :loading="Circular" @click="addData"> 保存 </v-btn>
     </template>
     <template #content>
       <v-card-text class="ma-0 pa-0">
@@ -26,7 +26,7 @@
         <template v-else-if="type === 'middleware'">
           <MiddlewareMetrics ref="middlewareMetrics" :chart-name="item.chart" @close="close" />
         </template>
-        <template v-else>
+        <template v-else-if="type === 'logging'">
           <Logging ref="logging" @close="close" />
         </template>
       </v-card-text>
@@ -50,7 +50,6 @@
       Logging,
       MiddlewareMetrics,
     },
-    mixins: [],
     data: () => ({
       panel: false,
       tab: 0,
@@ -62,7 +61,7 @@
       type: undefined,
     }),
     computed: {
-      ...mapState(['Scale']),
+      ...mapState(['Scale', 'Circular']),
       ...mapGetters(['Tenant']),
     },
     methods: {
@@ -90,6 +89,7 @@
       },
       close() {
         this.panel = false;
+        this.type = undefined;
       },
       getTitle(item) {
         if (this.type === 'app') {

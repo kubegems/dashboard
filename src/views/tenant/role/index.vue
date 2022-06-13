@@ -17,12 +17,8 @@
 </template>
 
 <script>
-  import BaseFilter from '@/mixins/base_filter';
-
   export default {
     name: 'Role',
-    components: {},
-    mixins: [BaseFilter],
     data: () => ({
       items: [
         {
