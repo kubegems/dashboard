@@ -11,8 +11,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getManifestDetail, putUpdateManifest } from '@/api';
   import AppBaseForm from './AppBaseForm';
+  import { getManifestDetail, putUpdateManifest } from '@/api';
 
   export default {
     name: 'UpdateAppManifest',

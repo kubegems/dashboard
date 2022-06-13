@@ -24,10 +24,10 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+  import WorkloadLog from './components/WorkloadLog';
   import { getMicroAppWorkoladDetail } from '@/api';
   import ResourceInfo from '@/views/microservice/components/ResourceInfo';
   import NetworkTopologyIframe from '@/views/microservice/components/NetworkTopologyIframe';
-  import WorkloadLog from './components/WorkloadLog';
   import InboundTrafficIframe from '@/views/microservice/components/InboundTrafficIframe';
   import OutboundTrafficIframe from '@/views/microservice/components/OutboundTrafficIframe';
   import TraceIframe from '@/views/microservice/components/TraceIframe';

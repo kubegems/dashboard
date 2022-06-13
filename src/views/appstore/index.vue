@@ -105,8 +105,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getAppStoreList, getRepositoryList } from '@/api';
   import AppStoreCard from './components/AppStoreCard';
+  import { getAppStoreList, getRepositoryList } from '@/api';
 
   export default {
     name: 'AppStoreCenter',

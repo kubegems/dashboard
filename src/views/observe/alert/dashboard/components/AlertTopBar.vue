@@ -19,8 +19,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getAlertGroup } from '@/api';
   import VueApexCharts from 'vue-apexcharts';
+  import { getAlertGroup } from '@/api';
   import { toFixed } from '@/utils/helpers';
 
   export default {

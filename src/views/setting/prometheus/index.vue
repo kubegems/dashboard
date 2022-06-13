@@ -83,9 +83,9 @@
 </template>
 
 <script>
-  import { getSystemConfigData, deletePrometheusTemplate } from '@/api';
   import AddTemplate from './components/AddTemplate';
   import UpdateTemplate from './components/UpdateTemplate';
+  import { getSystemConfigData, deletePrometheusTemplate } from '@/api';
 
   export default {
     name: 'PrometheusTemplate',

@@ -13,8 +13,8 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { postAddIstioGatewayInstance } from '@/api';
   import IstioGatewayBaseForm from './IstioGatewayBaseForm';
+  import { postAddIstioGatewayInstance } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {

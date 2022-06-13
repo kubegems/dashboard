@@ -122,11 +122,11 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getSecretList, deleteSecret } from '@/api';
-  import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
   import Tips from './components/Tips';
   import AddSecret from './components/AddSecret';
   import UpdateSecret from './components/UpdateSecret';
+  import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
+  import { getSecretList, deleteSecret } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
   import BaseFilter from '@/mixins/base_filter';

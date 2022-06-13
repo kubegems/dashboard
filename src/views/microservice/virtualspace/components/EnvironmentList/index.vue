@@ -63,8 +63,8 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { deleteVirtualSpaceEnvironment } from '@/api';
   import AddEnvironment from './AddEnvironment';
+  import { deleteVirtualSpaceEnvironment } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
   import BaseSelect from '@/mixins/select';

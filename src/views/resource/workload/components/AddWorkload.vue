@@ -53,8 +53,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { postAddDaemonSet, postAddDeployment, postAddStatefulSet } from '@/api';
   import WorkloadBaseForm from './WorkloadBaseForm';
+  import { postAddDaemonSet, postAddDeployment, postAddStatefulSet } from '@/api';
   import WorkloadSchema from '@/views/resource/workload/mixins/schema';
   import BaseResource from '@/mixins/resource';
   import { randomString } from '@/utils/helpers';

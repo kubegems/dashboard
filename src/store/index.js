@@ -1,9 +1,5 @@
 import Vue from 'vue';
-import Vuex from 'vuex';
-import router from '@/router';
-import { getCookie, delAllCookie } from '@/utils/cookie';
-import { sleep } from '@/utils/helpers';
-import { getClusterPluginsList, getRESTMapping } from '@/api';
+import Vuex, { Store } from 'vuex';
 import {
   getVirtualSpaceSelectData,
   getClusterSelectData,
@@ -11,6 +7,10 @@ import {
   getProjectSelectData,
   getEnvironmentSelectData,
 } from './server_data';
+import router from '@/router';
+import { getCookie, delAllCookie } from '@/utils/cookie';
+import { sleep } from '@/utils/helpers';
+import { getClusterPluginsList, getRESTMapping } from '@/api';
 
 Vue.use(Vuex);
 
@@ -33,7 +33,7 @@ const LatestCluster = 'latestcluster';
 const Version = 'version';
 const ApiResources = 'api-resources';
 
-export default new Vuex.Store({
+export default new Store({
   state: {
     SidebarDrawer: null,
     Progress: false,

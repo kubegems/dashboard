@@ -135,14 +135,14 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { getNodeDetail, patchCordonNode } from '@/api';
   import VueApexCharts from 'vue-apexcharts';
   import ResourceInfo from './components/ResourceInfo';
+  import NodeMonitor from './components/NodeMonitor';
+  import Taint from './components/Taint';
+  import { getNodeDetail, patchCordonNode } from '@/api';
   import Metadata from '@/views/resource/components/metadata/Metadata';
   import PodList from '@/views/resource/components/common/PodList';
-  import NodeMonitor from './components/NodeMonitor';
   import EventList from '@/views/resource/components/common/EventList';
-  import Taint from './components/Taint';
   import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
   import BaseResource from '@/mixins/resource';
 

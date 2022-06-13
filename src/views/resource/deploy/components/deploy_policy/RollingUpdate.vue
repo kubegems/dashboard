@@ -41,8 +41,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { postStrategyDeployEnvironmentApps } from '@/api';
   import BaseDeployInfoForm from './base/BaseDeployInfoForm';
+  import { postStrategyDeployEnvironmentApps } from '@/api';
   import StrategyDeploy from '@/views/resource/deploy/mixins/deploy';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';

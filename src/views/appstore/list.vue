@@ -108,9 +108,9 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { getRepositoryList, deleteRepository, postSyncRepository } from '@/api';
   import RepositoryInfo from './components/RepositoryInfo';
   import StatusTip from './components/StatusTip';
+  import { getRepositoryList, deleteRepository, postSyncRepository } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BaseSelect from '@/mixins/select';
   import BaseResource from '@/mixins/resource';

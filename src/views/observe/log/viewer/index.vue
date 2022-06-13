@@ -145,7 +145,6 @@
 
 <script>
   import { mapState, mapGetters } from 'vuex';
-  import { getLogQueryRange, getLogExport, postAddLogQueryHistory } from '@/api';
   import LogQuery from './components/LogQuery';
   import LogLevelSelector from './components/LogLevelSelector';
   import LogTable from './components/LogTable';
@@ -155,6 +154,7 @@
   import LogBar from './components/LogBar';
   import LogLine from './components/LogLine';
   import LogSnapshot from './components/LogSnapshot';
+  import { getLogQueryRange, getLogExport, postAddLogQueryHistory } from '@/api';
 
   export default {
     name: 'LogViewer',

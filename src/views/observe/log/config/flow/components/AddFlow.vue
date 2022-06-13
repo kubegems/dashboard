@@ -26,10 +26,10 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { postFlowData, postClusterFlowData } from '@/api';
   import FlowBaseForm from './FlowBaseForm';
-  import BaseResource from '@/mixins/resource';
   import FlowSchema from '../mixins/schema';
+  import { postFlowData, postClusterFlowData } from '@/api';
+  import BaseResource from '@/mixins/resource';
   import { randomString } from '@/utils/helpers';
 
   export default {

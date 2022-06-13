@@ -80,8 +80,8 @@
 </template>
 
 <script>
-  import { deleteTenantUser, getTenantUserList, putChangeTenantUser } from '@/api';
   import AddUser from './AddUser';
+  import { deleteTenantUser, getTenantUserList, putChangeTenantUser } from '@/api';
 
   export default {
     name: 'UserList',

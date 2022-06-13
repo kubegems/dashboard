@@ -176,6 +176,12 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+  import ResourceLimit from './components/ResourceLimit';
+  import AddWorkload from './components/AddWorkload';
+  import UpdateWorkload from './components/UpdateWorkload';
+  import ResourceAdvise from './components/ResourceAdvise';
+  import EventTip from '@/views/resource/components/common/EventTip';
+  import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
   import {
     getDaemonSetList,
     getStatefulSetList,
@@ -186,12 +192,6 @@
     getWorkloadResourcesList,
     deleteWorkloadResourceAdvise,
   } from '@/api';
-  import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
-  import EventTip from '@/views/resource/components/common/EventTip';
-  import ResourceLimit from './components/ResourceLimit';
-  import AddWorkload from './components/AddWorkload';
-  import UpdateWorkload from './components/UpdateWorkload';
-  import ResourceAdvise from './components/ResourceAdvise';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
   import BaseFilter from '@/mixins/base_filter';

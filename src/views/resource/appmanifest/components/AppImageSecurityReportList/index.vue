@@ -162,8 +162,8 @@
 
 <script>
   import { mapGetters } from 'vuex';
-  import { getAppImageSecurityReportList, putSetPublishAppImage } from '@/api';
   import AppImageSecurityReportDetail from './AppImageSecurityReportDetail';
+  import { getAppImageSecurityReportList, putSetPublishAppImage } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
 

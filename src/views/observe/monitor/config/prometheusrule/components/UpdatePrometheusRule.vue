@@ -34,8 +34,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { putUpdatePrometheusRule, putUpdateLogAlertRule } from '@/api';
   import PrometheusRuleBaseForm from './PrometheusRuleBaseForm';
+  import { putUpdatePrometheusRule, putUpdateLogAlertRule } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 

@@ -96,16 +96,16 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { getGatewayDetail, deleteGateway } from '@/api';
-  import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
   import UpdateGateway from './components/UpdateGateway';
   import ResourceInfo from './components/ResourceInfo';
-  import Metadata from '@/views/resource/components/metadata/Metadata';
-  import PodList from '@/views/resource/components/common/PodList';
-  import EventList from '@/views/resource/components/common/EventList';
   import IngressList from './components/IngressList';
   import GatewayMonitor from './components/GatewayMonitor';
   import GatewayConfigmap from './components/GatewayConfigmap';
+  import { getGatewayDetail, deleteGateway } from '@/api';
+  import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
+  import Metadata from '@/views/resource/components/metadata/Metadata';
+  import PodList from '@/views/resource/components/common/PodList';
+  import EventList from '@/views/resource/components/common/EventList';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
 

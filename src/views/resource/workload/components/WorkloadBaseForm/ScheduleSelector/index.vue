@@ -87,14 +87,14 @@
 </template>
 
 <script>
-  import LabelItem from '@/views/resource/components/label/LabelItem';
-  import AnnotationItem from '@/views/resource/components/annotation/AnnotationItem';
-  import LabelForm from '@/views/resource/components/label/LabelForm';
-  import AnnotationForm from '@/views/resource/components/annotation/AnnotationForm';
   import SelectorItem from './SelectorItem';
   import SelectorForm from './SelectorForm';
   import DNSConfigItem from './DNSConfigItem';
   import DNSConfigForm from './DNSConfigForm';
+  import LabelItem from '@/views/resource/components/label/LabelItem';
+  import AnnotationItem from '@/views/resource/components/annotation/AnnotationItem';
+  import LabelForm from '@/views/resource/components/label/LabelForm';
+  import AnnotationForm from '@/views/resource/components/annotation/AnnotationForm';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 

@@ -17,9 +17,9 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { postAddVirtualSpaceEnvironment, deleteVirtualSpaceEnvironment } from '@/api';
   import EnvironmentItem from './EnvironmentItem';
   import LinkEnvironmentForm from './LinkEnvironmentForm';
+  import { postAddVirtualSpaceEnvironment, deleteVirtualSpaceEnvironment } from '@/api';
   import BaseSelect from '@/mixins/select';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';

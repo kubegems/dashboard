@@ -12,9 +12,8 @@
 <script>
   import { mapState } from 'vuex';
   import VueApexCharts from 'vue-apexcharts';
-  import { toFixed } from '@/utils/helpers';
-
   import moment from 'moment';
+  import { toFixed } from '@/utils/helpers';
 
   export default {
     name: 'MessageBarChart',

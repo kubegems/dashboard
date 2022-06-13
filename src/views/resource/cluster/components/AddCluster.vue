@@ -33,8 +33,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { postAddCluster } from '@/api';
   import ClusterBaseForm from './ClusterBaseForm';
+  import { postAddCluster } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BaseSelect from '@/mixins/select';
 

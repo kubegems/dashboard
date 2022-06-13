@@ -52,9 +52,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { deepCopy } from '@/utils/helpers';
-
   import { Base64 } from 'js-base64';
+  import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'SecretTlsForm',

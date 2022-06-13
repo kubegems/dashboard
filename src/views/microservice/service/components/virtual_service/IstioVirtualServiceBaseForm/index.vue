@@ -116,13 +116,13 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getIstioGatewayList } from '@/api';
   import HttpItem from './HttpItem';
   import HttpForm from './HttpForm';
   import TcpItem from './TcpItem';
   import TcpForm from './TcpForm';
   import TLSItem from './TLSItem';
   import TLSForm from './TLSForm';
+  import { getIstioGatewayList } from '@/api';
   import BaseSelect from '@/mixins/select';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';

@@ -51,8 +51,8 @@
 </template>
 
 <script>
-  import { getAppResourceFileHistorys, postRollbackAppResourceFile } from '@/api';
   import AppResourceFileDiff from './AppResourceFileDiff';
+  import { getAppResourceFileHistorys, postRollbackAppResourceFile } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {

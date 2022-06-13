@@ -94,16 +94,16 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { getAppRunningDetail, deleteApp, deleteAppStoreApp } from '@/api';
   import ResourceInfo from './components/ResourceInfo';
+  import ScaleReplicas from './components/ScaleReplicas';
+  import HPAStrategy from './components/HPAStrategy';
+  import Rollingback from './components/Rollingback';
+  import { getAppRunningDetail, deleteApp, deleteAppStoreApp } from '@/api';
   import AppResourceFileList from '@/views/resource/appmanifest/components/AppResourceFileList';
   import AppDeployList from '@/views/resource/appmanifest/components/AppDeployList';
   import AppImageSecurityReportList from '@/views/resource/appmanifest/components/AppImageSecurityReportList';
   import DeployStatus from '@/views/resource/deploy/components/DeployStatus';
   import DeployControlCenter from '@/views/resource/deploy/components/DeployControlCenter';
-  import ScaleReplicas from './components/ScaleReplicas';
-  import HPAStrategy from './components/HPAStrategy';
-  import Rollingback from './components/Rollingback';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
 

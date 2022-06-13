@@ -61,8 +61,8 @@
 </template>
 
 <script>
-  import { getDeployEnvironmentAppsStatus } from '@/api';
   import AppDeployImageTrace from './AppDeployImageTrace';
+  import { getDeployEnvironmentAppsStatus } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {

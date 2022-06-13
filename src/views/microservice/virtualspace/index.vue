@@ -102,9 +102,9 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getVirtualSpaceList, deleteVirtualSpace, patchSetVirtualSpaceStatus } from '@/api';
   import AddVirtualSpace from './components/AddVirtualSpace';
   import UpdateVirtualSpace from './components/UpdateVirtualSpace';
+  import { getVirtualSpaceList, deleteVirtualSpace, patchSetVirtualSpaceStatus } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseFilter from '@/mixins/base_filter';
   import BaseResource from '@/mixins/resource';

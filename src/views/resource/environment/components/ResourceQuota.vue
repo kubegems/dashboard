@@ -40,8 +40,8 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { getEnvironmentQuota } from '@/api';
   import VueApexCharts from 'vue-apexcharts';
+  import { getEnvironmentQuota } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
   import { generateRadialBarChartOptions } from '@/utils/chart';

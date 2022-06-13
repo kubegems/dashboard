@@ -140,8 +140,8 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { getProjectList, deleteProject, getTenantProjectQuotaList } from '@/api';
   import UpdateProject from './components/UpdateProject';
+  import { getProjectList, deleteProject, getTenantProjectQuotaList } from '@/api';
   import BaseSelect from '@/mixins/select';
   import BaseResource from '@/mixins/resource';
   import BaseFilter from '@/mixins/base_filter';

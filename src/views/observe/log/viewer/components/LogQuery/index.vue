@@ -74,10 +74,10 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getLogSeries } from '@/api';
   import LabelSelector from './LabelSelector';
   import AdvancedTextare from './AdvancedTextare';
   import ProjectEnvSelect from './ProjectEnvSelect';
+  import { getLogSeries } from '@/api';
 
   export default {
     name: 'LogQuery',

@@ -204,13 +204,6 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import {
-    getMicroServiceList,
-    deleteIstioGateway,
-    deleteIstioVirtualService,
-    deleteIstioDestinationRule,
-  } from '@/api';
-  import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
   import AddVirtualService from './components/virtual_service/AddVirtualService';
   import AddIstioDestinationRule from './components/destination_rule/AddIstioDestinationRule';
   import AddIstioGateway from './components/gateway/AddIstioGateway';
@@ -218,6 +211,13 @@
   import UpdateIstioDestinationRule from './components/destination_rule/UpdateIstioDestinationRule';
   import UpdateIstioGateway from './components/gateway/UpdateIstioGateway';
   import UpdateResource from './components/UpdateResource';
+  import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
+  import {
+    getMicroServiceList,
+    deleteIstioGateway,
+    deleteIstioVirtualService,
+    deleteIstioDestinationRule,
+  } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseFilter from '@/mixins/base_filter';
 

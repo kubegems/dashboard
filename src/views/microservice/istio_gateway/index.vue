@@ -108,13 +108,13 @@
 </template>
 
 <script>
+  import { mapGetters, mapState } from 'vuex';
+  import AddIstioGateway from './components/AddIstioGateway';
+  import UpdateIstioGateway from './components/UpdateIstioGateway';
   import { getIstioGatewayInstanceList, deleteIstioGatewayInstance } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseFilter from '@/mixins/base_filter';
   import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
-  import { mapGetters, mapState } from 'vuex';
-  import AddIstioGateway from './components/AddIstioGateway';
-  import UpdateIstioGateway from './components/UpdateIstioGateway';
   import { deepCopy } from '@/utils/helpers';
 
   export default {

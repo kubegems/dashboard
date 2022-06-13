@@ -64,9 +64,9 @@
 </template>
 
 <script>
-  import { getCrList, deleteCr } from '@/api';
   import UpdateCR from './UpdateCR';
   import AddCR from './AddCR';
+  import { getCrList, deleteCr } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
 

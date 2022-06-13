@@ -44,8 +44,8 @@
 </template>
 <script>
   import { mapGetters } from 'vuex';
-  import { patchTaintNode, getNodeDetail } from '@/api';
   import AddTaint from './AddTaint';
+  import { patchTaintNode, getNodeDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 

@@ -49,8 +49,8 @@
 </template>
 
 <script>
-  import { getAuthSourceConfigList, putAuthSourceConfig } from '@/api';
   import ConfigAuthSource from './components/ConfigAuthSource';
+  import { getAuthSourceConfigList, putAuthSourceConfig } from '@/api';
   import { deepCopy } from '@/utils/helpers';
 
   export default {

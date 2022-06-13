@@ -1,7 +1,7 @@
 import { mapGetters, mapState } from 'vuex';
+import Ajv from 'ajv';
 import { getTenantResourceQuota, getClusterQuota } from '@/api';
 import { sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
-import Ajv from 'ajv';
 
 const resource = {
   computed: {
@@ -43,43 +43,53 @@ const resource = {
           Memory: parseFloat(sizeOfStorage(data.spec.hard['limits.memory'])),
           Storage: parseFloat(sizeOfStorage(data.spec.hard[`requests.storage`])),
           Pod: 5120,
-          AllocatedCpu: parseFloat(sizeOfCpu(data.status.allocated['limits.cpu'])),
-          AllocatedMemory: parseFloat(data.status.allocated['limits.memory']),
-          AllocatedStorage: parseFloat(sizeOfStorage(data.status.allocated[`requests.storage`])),
+          AllocatedCpu: parseFloat(sizeOfCpu(data.status.allocated ? data.status.allocated['limits.cpu'] : 0)),
+          AllocatedMemory: parseFloat(
+            sizeOfStorage(data.status.allocated ? data.status.allocated['limits.memory'] : 0),
+          ),
+          AllocatedStorage: parseFloat(
+            sizeOfStorage(data.status.allocated ? data.status.allocated[`requests.storage`] : 0),
+          ),
           AllocatedPod: 0,
           ApplyCpu:
             parseFloat(sizeOfCpu(data.spec.hard['limits.cpu'])) -
-            parseFloat(sizeOfCpu(data.status.allocated['limits.cpu'])),
+            parseFloat(sizeOfCpu(data.status.allocated ? data.status.allocated['limits.cpu'] : 0)),
           ApplyMemory:
             parseFloat(sizeOfStorage(data.spec.hard['limits.memory'])) -
-            parseFloat(data.status.allocated['limits.memory']),
+            parseFloat(sizeOfStorage(data.status.allocated ? data.status.allocated['limits.memory'] : 0)),
           ApplyStorage:
             parseFloat(sizeOfStorage(data.spec.hard[`requests.storage`])) -
-            parseFloat(sizeOfStorage(data.status.allocated[`requests.storage`])),
+            parseFloat(sizeOfStorage(data.status.allocated ? data.status.allocated[`requests.storage`] : 0)),
           ApplyPod: 0,
         };
         if (data.spec.hard[`limits.nvidia.com/gpu`] && parseInt(data.spec.hard[`limits.nvidia.com/gpu`]) > 0) {
           item.NvidiaGpu = parseFloat(sizeOfCpu(data.spec.hard['limits.nvidia.com/gpu']));
-          item.AllocatedNvidiaGpu = parseFloat(data.status.allocated['limits.nvidia.com/gpu'] || 0);
+          item.AllocatedNvidiaGpu = parseFloat(
+            (data.status.allocated && data.status.allocated['limits.nvidia.com/gpu']) || 0,
+          );
           item.ApplyNvidiaGpu =
             parseFloat(data.spec.hard['limits.nvidia.com/gpu']) -
-            parseFloat(data.status.allocated['limits.nvidia.com/gpu'] || 0);
+            parseFloat((data.status.allocated && data.status.allocated['limits.nvidia.com/gpu']) || 0);
         }
         if (
           (data.spec.hard[`tencent.com/vcuda-core`] && parseInt(data.spec.hard[`tencent.com/vcuda-core`]) > 0) ||
           (data.spec.hard[`tencent.com/vcuda-memory`] && parseInt(data.spec.hard[`tencent.com/vcuda-memory`]) > 0)
         ) {
           item.TkeGpu = parseFloat(data.spec.hard['tencent.com/vcuda-core']);
-          item.AllocatedTkeGpu = parseFloat(data.status.allocated['tencent.com/vcuda-core'] || 0);
+          item.AllocatedTkeGpu = parseFloat(
+            (data.status.allocated && data.status.allocated['tencent.com/vcuda-core']) || 0,
+          );
           item.ApplyTkeGpu =
             parseFloat(data.spec.hard['tencent.com/vcuda-core']) -
             (parseFloat(data.status.allocated['tencent.com/vcuda-core']) || 0);
 
           item.TkeMemory = parseFloat(data.spec.hard['tencent.com/vcuda-memory']);
-          item.AllocatedTkeMemory = parseFloat(data.status.allocated['tencent.com/vcuda-memory'] || 0);
+          item.AllocatedTkeMemory = parseFloat(
+            (data.status.allocated && data.status.allocated['tencent.com/vcuda-memory']) || 0,
+          );
           item.ApplyTkeMemory =
             parseFloat(data.spec.hard['tencent.com/vcuda-memory']) -
-            (parseFloat(data.status.allocated['tencent.com/vcuda-memory']) || 0);
+            (parseFloat(data.status.allocated && data.status.allocated['tencent.com/vcuda-memory']) || 0);
         }
         return item;
       }

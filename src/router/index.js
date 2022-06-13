@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import store from '@/store';
 
 import { global } from './global';
 import { platform } from './platform';
@@ -15,6 +14,7 @@ import { userCenter } from './user_center';
 import { projectWorkspace } from './project_workspace';
 import { entryMicroService } from './entry_microservice';
 import { dashboard } from './dashboard';
+import store from '@/store';
 
 const originalPush = Router.prototype.push;
 Router.prototype.push = function push(location) {

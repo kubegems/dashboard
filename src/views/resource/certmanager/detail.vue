@@ -59,13 +59,13 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getCertificateDetail, deleteCertificate } from '@/api';
   import ResourceInfo from './components/ResourceInfo';
+  import UpdateCertificate from './components/UpdateCertificate';
+  import { getCertificateDetail, deleteCertificate } from '@/api';
   import Metadata from '@/views/resource/components/metadata/Metadata';
   import EventList from '@/views/resource/components/common/EventList';
   import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
   import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
-  import UpdateCertificate from './components/UpdateCertificate';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
   import BaseFilter from '@/mixins/base_filter';

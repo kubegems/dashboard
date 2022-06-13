@@ -136,6 +136,7 @@ export function getIconName(name) {
   if (name.indexOf('kubevela') > -1) return 'img:kubevela.png';
   if (name.indexOf('gateway') > -1) return 'logos:nginx';
   if (name.indexOf('observability') > -1) return 'img:kubegems.jpg';
+  if (name.indexOf('日志采集') > -1) return 'img:kubegems.jpg';
   // if (name.indexOf('selfhosted') > -1) return 'bx:bxl-kubernetes'
   return 'logos:kubernetes';
 }

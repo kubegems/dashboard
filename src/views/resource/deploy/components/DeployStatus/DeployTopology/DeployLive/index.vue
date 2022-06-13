@@ -69,12 +69,12 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { getPodDetail } from '@/api';
   import DeployLiveYaml from './DeployLiveYaml';
   import DeployDiffYaml from './DeployDiffYaml';
   import DeployEvent from './DeployEvent';
   import DeployLog from './DeployLog';
   import DeployResult from './DeployResult';
+  import { getPodDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 

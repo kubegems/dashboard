@@ -98,8 +98,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getClusterQuota, putUpdateCluster } from '@/api';
   import VueApexCharts from 'vue-apexcharts';
+  import { getClusterQuota, putUpdateCluster } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { generateRadialBarChartOptions } from '@/utils/chart';
   import { deepCopy, sizeOfCpu, sizeOfStorage } from '@/utils/helpers';

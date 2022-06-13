@@ -26,8 +26,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { patchUpdateConfigMap, getConfigMapDetail } from '@/api';
   import ConfigMapBaseForm from './ConfigMapBaseForm';
+  import { patchUpdateConfigMap, getConfigMapDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import ConfigmapSchema from '@/views/resource/configmap/mixins/schema';
   import { deepCopy, randomString } from '@/utils/helpers';

@@ -53,8 +53,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { postAddJob } from '@/api';
   import JobBaseForm from './JobBaseForm';
+  import { postAddJob } from '@/api';
   import BaseResource from '@/mixins/resource';
   import JobSchema from '@/views/resource/job/mixins/schema';
   import { randomString } from '@/utils/helpers';

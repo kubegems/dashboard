@@ -85,9 +85,9 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getDnsDomainList, deleteDNSDomain } from '@/api';
   import AddDNSDomain from './components/AddDNSDomain';
   import UpdateDNSDomain from './components/UpdateDNSDomain';
+  import { getDnsDomainList, deleteDNSDomain } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseFilter from '@/mixins/base_filter';
   import BaseResource from '@/mixins/resource';

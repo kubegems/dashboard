@@ -61,8 +61,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { patchAppResourceFile } from '@/api';
   import AppResourceBaseForm from './AppResourceBaseForm';
+  import { patchAppResourceFile } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';
 

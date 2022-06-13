@@ -93,10 +93,10 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { getAppResourceFiles, deleteAppResourceFile, postSyncAppResource, postRefreshAppResource } from '@/api';
   import AddResourceFile from './AddResourceFile';
   import UpdateResourceFile from './UpdateResourceFile';
   import AppResourceFileHistory from './AppResourceFileHistory';
+  import { getAppResourceFiles, deleteAppResourceFile, postSyncAppResource, postRefreshAppResource } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
 

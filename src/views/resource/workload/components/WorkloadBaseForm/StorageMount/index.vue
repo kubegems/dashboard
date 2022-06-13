@@ -107,7 +107,6 @@
 </template>
 
 <script>
-  import { getPersistentVolumeClaimDetail, getAppResourceFileMetas } from '@/api';
   import ConfigMapMount from './volume_section/ConfigMapMount';
   import HostPathMount from './volume_section/HostPathMount';
   import SecretMount from './volume_section/SecretMount';
@@ -116,6 +115,7 @@
   import StorageMountItem from './StorageMountItem';
   import VolumeClaimTemplateItem from './VolumeClaimTemplateItem';
   import VolumeClaimTemplateMount from './volume_section/VolumeClaimTemplateMount';
+  import { getPersistentVolumeClaimDetail, getAppResourceFileMetas } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 

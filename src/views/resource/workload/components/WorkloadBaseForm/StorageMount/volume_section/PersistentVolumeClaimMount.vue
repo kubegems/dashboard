@@ -41,9 +41,9 @@
 </template>
 
 <script>
-  import { getPersistentVolumeClaimList, getAppResourceFileMetas } from '@/api';
   import VolumeMount from './VolumeMount';
   import VolumeMountForInitContainer from './VolumeMountForInitContainer';
+  import { getPersistentVolumeClaimList, getAppResourceFileMetas } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { required } from '@/utils/rules';
 

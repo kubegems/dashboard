@@ -324,6 +324,9 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+  import ButtonInput from './components/ButtonInput';
+  import MetricsItem from './components/MetricsItem';
+  import MetricsSuggestion from './components/MetricsSuggestion';
   import {
     getSystemConfigData,
     getMyConfigData,
@@ -332,9 +335,6 @@
     getProjectEnvironmentList,
     getMetricsLabelValues,
   } from '@/api';
-  import ButtonInput from './components/ButtonInput';
-  import MetricsItem from './components/MetricsItem';
-  import MetricsSuggestion from './components/MetricsSuggestion';
   import AddPrometheusRule from '@/views/observe/monitor/config/prometheusrule/components/AddPrometheusRule';
   import BaseSelect from '@/mixins/select';
   import { deepCopy, debounce } from '@/utils/helpers';

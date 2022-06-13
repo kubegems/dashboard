@@ -23,10 +23,10 @@
 </template>
 
 <script>
-  import { getEventListFromLoki } from '@/api';
+  import { mapState } from 'vuex';
   import MessageBarChart from './MessageBarChart';
   import EventPieChart from './EventPieChart';
-  import { mapState } from 'vuex';
+  import { getEventListFromLoki } from '@/api';
 
   export default {
     name: 'K8sEvents',

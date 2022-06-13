@@ -26,10 +26,10 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { patchUpdateServiceMonitor, getServiceMonitorDetail } from '@/api';
   import ServiceMonitorBaseForm from './ServiceMonitorBaseForm';
-  import BaseResource from '@/mixins/resource';
   import ServiceMonitorSchema from '../mixins/schema';
+  import { patchUpdateServiceMonitor, getServiceMonitorDetail } from '@/api';
+  import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';
 
   export default {

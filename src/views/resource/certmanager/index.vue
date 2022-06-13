@@ -156,12 +156,12 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getCertificateList, deleteCertificate, getIssuerList, deleteIssuer } from '@/api';
-  import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
   import AddCertificate from './components/AddCertificate';
   import UpdateCertificate from './components/UpdateCertificate';
   import AddIssuer from './components/AddIssuer';
   import UpdateIssuer from './components/UpdateIssuer';
+  import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
+  import { getCertificateList, deleteCertificate, getIssuerList, deleteIssuer } from '@/api';
   import EventTip from '@/views/resource/components/common/EventTip';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';

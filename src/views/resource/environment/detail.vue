@@ -60,7 +60,6 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { deleteEnvironment, getEnvironmentDetail } from '@/api';
   import ResourceMonitor from './components/ResourceMonitor';
   import ResourceUseList from './components/ResourceUseList';
   import UpdateEnvironment from './components/UpdateEnvironment';
@@ -68,6 +67,7 @@
   import ManageUser from './components/ManageUser';
   import TopNResourceUsage from './components/TopNResourceUsage';
   import ResourceQuota from './components/ResourceQuota';
+  import { deleteEnvironment, getEnvironmentDetail } from '@/api';
   import BaseSelect from '@/mixins/select';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

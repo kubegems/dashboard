@@ -183,10 +183,10 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+  import ContainerItems from './components/ContainerItems';
   import { getPodList, deletePod } from '@/api';
   import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
   import EventTip from '@/views/resource/components/common/EventTip';
-  import ContainerItems from './components/ContainerItems';
   import BaseFilter from '@/mixins/base_filter';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';

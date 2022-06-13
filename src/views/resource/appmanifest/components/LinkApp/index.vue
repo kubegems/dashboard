@@ -11,8 +11,8 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { postAddApp } from '@/api';
   import LinkAppBaseForm from './LinkAppBaseForm';
+  import { postAddApp } from '@/api';
 
   export default {
     name: 'LinkApp',

@@ -68,9 +68,9 @@
 </template>
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { patchMetadataNode } from '@/api';
   import AddLabel from './AddLabel';
   import AddAnnotation from './AddAnnotation';
+  import { patchMetadataNode } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 

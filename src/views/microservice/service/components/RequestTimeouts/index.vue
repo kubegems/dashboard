@@ -11,8 +11,8 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { postAddRequestTimeouts } from '@/api';
   import RequestTimeoutsBaseForm from './RequestTimeoutsBaseForm';
+  import { postAddRequestTimeouts } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {

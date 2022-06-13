@@ -120,6 +120,12 @@
 
 <script>
   import { mapState } from 'vuex';
+  import ResourceInfo from './components/ResourceInfo';
+  import WorkloadMonitor from './components/WorkloadMonitor';
+  import ScaleReplicas from './components/ScaleReplicas';
+  import HPAStrategy from './components/HPAStrategy';
+  import Rollingback from './components/Rollingback';
+  import UpdateWorkload from './components/UpdateWorkload';
   import {
     getDaemonSetDetail,
     getDeploymentDetail,
@@ -128,17 +134,11 @@
     deleteStatefulSet,
     deleteDeployment,
   } from '@/api';
-  import ResourceInfo from './components/ResourceInfo';
   import Metadata from '@/views/resource/components/metadata/Metadata';
   import PodList from '@/views/resource/components/common/PodList';
   import EventList from '@/views/resource/components/common/EventList';
-  import WorkloadMonitor from './components/WorkloadMonitor';
-  import ScaleReplicas from './components/ScaleReplicas';
-  import HPAStrategy from './components/HPAStrategy';
-  import Rollingback from './components/Rollingback';
   import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
   import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
-  import UpdateWorkload from './components/UpdateWorkload';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
   import { WORKLOAD_CPU_USAGE_PROMQL, WORKLOAD_MEMORY_USAGE_PROMQL } from '@/utils/prometheus';

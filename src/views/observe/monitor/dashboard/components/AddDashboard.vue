@@ -11,8 +11,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { postAddMonitorDashboard } from '@/api';
   import DashboardBaseForm from './DashboardBaseForm';
+  import { postAddMonitorDashboard } from '@/api';
 
   export default {
     name: 'AddDashboard',

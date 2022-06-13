@@ -106,17 +106,17 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { getMicroServiceDetail, postResetService } from '@/api';
-  import ResourceInfo from '@/views/microservice/components/ResourceInfo';
-  import NetworkTopologyIframe from '@/views/microservice/components/NetworkTopologyIframe';
-  import InboundTrafficIframe from '@/views/microservice/components/InboundTrafficIframe';
-  import TraceIframe from '@/views/microservice/components/TraceIframe';
   import FaultInjection from './components/FaultInjection';
   import RequestRouting from './components/RequestRouting';
   import RequestTimeouts from './components/RequestTimeouts';
   import TcpTrafficShifting from './components/TcpTrafficShifting';
   import TrafficShifting from './components/TrafficShifting';
   import VSControlInfo from './components/VSControlInfo';
+  import TraceIframe from '@/views/microservice/components/TraceIframe';
+  import InboundTrafficIframe from '@/views/microservice/components/InboundTrafficIframe';
+  import NetworkTopologyIframe from '@/views/microservice/components/NetworkTopologyIframe';
+  import ResourceInfo from '@/views/microservice/components/ResourceInfo';
+  import { getMicroServiceDetail, postResetService } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
 

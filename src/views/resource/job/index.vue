@@ -130,10 +130,10 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { getJobList, deleteJob } from '@/api';
-  import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
   import AddJob from './components/AddJob';
   import UpdateJob from './components/UpdateJob';
+  import { getJobList, deleteJob } from '@/api';
+  import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
   import BaseFilter from '@/mixins/base_filter';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';

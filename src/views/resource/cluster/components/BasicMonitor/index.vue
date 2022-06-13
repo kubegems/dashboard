@@ -116,9 +116,9 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { getClusterComponentStatus, getClusterCertInfo } from '@/api';
   import Tips from './Tips';
   import SampleAreaChart from './SampleAreaChart';
+  import { getClusterComponentStatus, getClusterCertInfo } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
   import { CLUSTER_API_SERVER_SUCCESS_RATE_PROMQL } from '@/utils/prometheus';

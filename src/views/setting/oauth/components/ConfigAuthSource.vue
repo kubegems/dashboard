@@ -21,9 +21,9 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { putAuthSourceConfig, postAuthSourceConfig } from '@/api';
   import OauthBaseForm from './auth_source/OauthBaseForm';
   import OpenLdapBaseForm from './auth_source/OpenLdapBaseForm';
+  import { putAuthSourceConfig, postAuthSourceConfig } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { required } from '@/utils/rules';
   import { deepCopy } from '@/utils/helpers';
