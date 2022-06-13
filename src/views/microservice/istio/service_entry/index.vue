@@ -5,8 +5,8 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :filters="filters"
           :default="{ items: [], text: '服务入口名称', value: 'search' }"
+          :filters="filters"
           @refresh="m_filter_list"
         />
         <EnvironmentFilter />
@@ -14,21 +14,21 @@
         <v-menu v-if="m_permisson_virtualSpaceAllow" left>
           <template #activator="{ on }">
             <v-btn icon>
-              <v-icon small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+              <v-icon color="primary" small v-on="on"> fas fa-ellipsis-v </v-icon>
             </v-btn>
           </template>
           <v-card>
             <v-card-text class="pa-2">
               <v-flex>
-                <v-btn text color="primary" @click="addServiceEntry">
+                <v-btn color="primary" text @click="addServiceEntry">
                   <v-icon left>mdi-plus-box</v-icon>
                   创建服务入口
                 </v-btn>
               </v-flex>
               <v-flex>
                 <v-btn
-                  text
                   color="error"
+                  text
                   @click="m_table_batchRemoveResource('服务入口', 'ServiceEntry', istioServiceEntryList)"
                 >
                   <v-icon left>mdi-minus-box</v-icon>
@@ -42,23 +42,23 @@
       <v-data-table
         class="mx-4"
         :headers="headers"
+        hide-default-footer
         :items="items"
-        :page.sync="params.page"
         :items-per-page="params.size"
         no-data-text="暂无数据"
-        hide-default-footer
+        :page.sync="params.page"
         show-select
+        @toggle-select-all="m_table_onResourceToggleSelect"
         @update:sort-by="m_table_sortBy"
         @update:sort-desc="m_table_sortDesc"
-        @toggle-select-all="m_table_onResourceToggleSelect"
       >
         <template #[`item.data-table-select`]="{ item, index }">
           <v-checkbox
             v-model="m_table_batchResources[`${item.metadata.name}-${index}`].checked"
             color="primary"
             hide-details
-            @click.stop
             @change="m_table_onResourceChange($event, item, index)"
+            @click.stop
           />
         </template>
         <template #[`item.name`]="{ item }">
@@ -70,10 +70,10 @@
           {{ item.metadata.namespace }}
         </template>
         <template #[`item.hosts`]="{ item }">
-          <BaseCollapseChips v-if="item" :chips="item.spec.hosts || []" single-line icon="mdi-directions-fork" />
+          <BaseCollapseChips v-if="item" :chips="item.spec.hosts || []" icon="mdi-directions-fork" single-line />
         </template>
         <template #[`item.ports`]="{ item }">
-          <BaseCollapseChips v-if="item" :chips="item.ports || []" single-line icon="mdi-directions-fork" />
+          <BaseCollapseChips v-if="item" :chips="item.ports || []" icon="mdi-directions-fork" single-line />
         </template>
         <template #[`item.resolution`]="{ item }">
           {{ item.spec.resolution }}
@@ -83,19 +83,19 @@
         </template>
         <template #[`item.action`]="{ item }">
           <v-flex :id="`r${item.metadata.resourceVersion}`" />
-          <v-menu left :attach="`#r${item.metadata.resourceVersion}`">
+          <v-menu :attach="`#r${item.metadata.resourceVersion}`" left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
               </v-btn>
             </template>
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" text small @click.stop="updateServiceEntry(item)"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click.stop="updateServiceEntry(item)"> 编辑 </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" text small @click.stop="removeIstioServiceEntry(item)"> 删除 </v-btn>
+                  <v-btn color="error" small text @click.stop="removeIstioServiceEntry(item)"> 删除 </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -107,9 +107,9 @@
         v-model="params.page"
         :page-count="pageCount"
         :size="params.size"
-        @loaddata="istioServiceEntryList"
-        @changesize="onPageSizeChange"
         @changepage="onPageIndexChange"
+        @changesize="onPageSizeChange"
+        @loaddata="istioServiceEntryList"
       />
     </v-card>
 
@@ -120,24 +120,26 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import AddServiceEntry from './components/AddServiceEntry';
   import UpdateServiceEntry from './components/UpdateServiceEntry';
+
   import { getIstioServiceEntryList, deleteIstioServiceEntry } from '@/api';
-  import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
-  import BaseResource from '@/mixins/resource';
-  import BasePermission from '@/mixins/permission';
   import BaseFilter from '@/mixins/base_filter';
+  import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
   import BaseTable from '@/mixins/table';
   import { convertStrToNum } from '@/utils/helpers';
+  import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
 
   export default {
     name: 'ServiceEntry',
     components: {
       AddServiceEntry,
-      UpdateServiceEntry,
       EnvironmentFilter,
+      UpdateServiceEntry,
     },
-    mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
+    mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],
     data: () => ({
       items: [],
       pageCount: 0,

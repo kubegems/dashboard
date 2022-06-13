@@ -1,28 +1,28 @@
 <template>
-  <BaseFullScreenDialog v-model="visible" title="查询历史" icon="mdi-history" @dispose="handleDispose">
+  <BaseFullScreenDialog v-model="visible" icon="mdi-history" title="查询历史" @dispose="handleDispose">
     <template #content>
       <v-card v-if="visible" class="log-history">
         <div class="pa-4">
-          <ClusterSelect v-model="cluster" object-value auto-select-first @change="onClusterChange" />
+          <ClusterSelect v-model="cluster" auto-select-first object-value @change="onClusterChange" />
         </div>
 
         <v-data-table
+          class="px-4"
           :headers="headers"
+          hide-default-footer
           :items="items"
           :items-per-page="-1"
           no-data-text="暂无数据"
           :sort-by="['CreateAt']"
           :sort-desc="[true]"
-          hide-default-footer
-          class="px-4"
         >
           <template #[`item.label`]="{ item }">
             <span v-for="(v, k) in item.LabelJSON" :key="k">
               <v-chip
                 v-for="(labelValue, labelIndex) in v"
                 :key="labelIndex"
-                color="success"
                 class="ma-1 font-weight-medium"
+                color="success"
                 small
               >
                 <span class="pr-2">标签({{ k }}):{{ labelValue }}</span>
@@ -31,9 +31,9 @@
             <v-chip
               v-for="(it, index) in item.FilterJSON"
               :key="it + index"
+              class="ma-1 font-weight-medium"
               color="success"
               small
-              class="ma-1 font-weight-medium"
             >
               <span class="pr-2">正则(regex):{{ it }}</span>
             </v-chip>
@@ -45,8 +45,8 @@
           <template #[`item.total`]="{ item }">{{ item.Total }}</template>
           <template #[`item.action`]="{ item }">
             <v-flex class="float-right">
-              <v-btn color="primary" class="my-1" text small @click="handleQuery(item)"> 查询 </v-btn>
-              <v-btn color="error" class="my-1" text small @click="handleDelete(item)"> 删除 </v-btn>
+              <v-btn class="my-1" color="primary" small text @click="handleQuery(item)"> 查询 </v-btn>
+              <v-btn class="my-1" color="error" small text @click="handleDelete(item)"> 删除 </v-btn>
             </v-flex>
             <div class="kubegems__clear-float" />
           </template>
@@ -58,8 +58,8 @@
 
 <script>
   import { getLogQueryHistoryList, deleteLogQueryHistory } from '@/api';
-  import ClusterSelect from '@/views/observe/components/ClusterSelect';
   import BaseSelect from '@/mixins/select';
+  import ClusterSelect from '@/views/observe/components/ClusterSelect';
 
   export default {
     name: 'LogHistory',

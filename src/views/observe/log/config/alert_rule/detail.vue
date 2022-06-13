@@ -7,16 +7,16 @@
           <v-menu v-if="m_permisson_resourceAllow($route.query.env)" left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
               </v-btn>
             </template>
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" text small @click="updateAlertRule"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateAlertRule"> 编辑 </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" text small @click="removeAlertRule"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeAlertRule"> 删除 </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -28,7 +28,7 @@
     <v-row>
       <v-col cols="6">
         <v-card class="mt-0">
-          <BaseSubTitle title="规则详情" class="pa-2" :divider="false" />
+          <BaseSubTitle class="pa-2" :divider="false" title="规则详情" />
           <v-card-text class="px-6 pt-0" :style="{ overflowY: 'auto', height: '330px' }">
             <pre class="yaml-pre">{{ yaml }}</pre>
           </v-card-text>
@@ -36,14 +36,14 @@
       </v-col>
       <v-col cols="6">
         <v-card class="mt-0">
-          <BaseSubTitle title="告警趋势" class="pa-2" :divider="false" />
+          <BaseSubTitle class="pa-2" :divider="false" title="告警趋势" />
           <v-card-text class="px-6 pt-0" :style="{ height: '330px' }">
             <AlertBarChart
               :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-              :metrics="metrics"
               :extend-height="280"
-              title="告警次数"
               label="name"
+              :metrics="metrics"
+              title="告警次数"
             />
           </v-card-text>
         </v-card>
@@ -61,22 +61,23 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import { getLogAlertRuleDetail, deleteLogAlertRule, getPrometheusAlertHistory } from '@/api';
-  import UpdateAlertRule from '@/views/observe/monitor/config/prometheusrule/components/UpdatePrometheusRule';
-  import AlertList from '@/views/observe/monitor/config/prometheusrule/components/AlertList';
-  import AlertBarChart from '@/views/observe/monitor/config/prometheusrule/components//AlertBarChart';
-  import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
+  import AlertBarChart from '@/views/observe/monitor/config/prometheusrule/components//AlertBarChart';
+  import AlertList from '@/views/observe/monitor/config/prometheusrule/components/AlertList';
+  import UpdateAlertRule from '@/views/observe/monitor/config/prometheusrule/components/UpdatePrometheusRule';
   import BaseAlert from '@/views/observe/monitor/config/prometheusrule/mixins/alert';
 
   export default {
     name: 'AlertRuleDetail',
     components: {
-      UpdateAlertRule,
-      AlertList,
       AlertBarChart,
+      AlertList,
+      UpdateAlertRule,
     },
-    mixins: [BaseResource, BasePermission, BaseAlert],
+    mixins: [BaseAlert, BasePermission, BaseResource],
     data: () => ({
       date: [],
       alertRule: null,

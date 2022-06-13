@@ -29,25 +29,25 @@
   export default {
     name: 'BaseSubTitle',
     props: {
-      title: {
+      color: {
         type: String,
         default: () => '',
-      },
-      height: {
-        type: String,
-        default: () => '36px',
       },
       divider: {
         type: Boolean,
         default: () => true,
       },
-      color: {
+      height: {
         type: String,
-        default: () => '',
+        default: () => '36px',
       },
       pl: {
         type: Number,
         default: () => 2,
+      },
+      title: {
+        type: String,
+        default: () => '',
       },
     },
   };

@@ -4,24 +4,24 @@
       <v-list-item two-line>
         <v-list-item-content class="py-2">
           <v-list-item-subtitle class="text-subtitle-2 py-1 primary--text">
-            <v-chip x-small color="primary" class="mr-2">
+            <v-chip class="mr-2" color="primary" x-small>
               {{ getProtocol(item, tls) }}
             </v-chip>
             <span>{{ item.host }}</span>
           </v-list-item-subtitle>
           <v-list-item-content v-for="(path, i) in item.http.paths" :key="i">
             <v-row>
-              <v-col cols="4" class="py-1">
+              <v-col class="py-1" cols="4">
                 <span class="text-body-2">路径:</span>
                 <span class="text-subtitle-2">{{ path.path }}</span>
               </v-col>
-              <v-col cols="4" class="py-1">
+              <v-col class="py-1" cols="4">
                 <span class="text-body-2">服务:</span>
                 <span class="text-subtitle-2">
                   {{ path.backend.serviceName }}
                 </span>
               </v-col>
-              <v-col cols="4" class="py-1">
+              <v-col class="py-1" cols="4">
                 <span class="text-body-2">端口:</span>
                 <span class="text-subtitle-2">
                   {{ path.backend.servicePort }}
@@ -30,10 +30,10 @@
             </v-row>
           </v-list-item-content>
         </v-list-item-content>
-        <v-btn dark text fab right x-small color="primary" @click="updatePort(index)">
+        <v-btn color="primary" dark fab right text x-small @click="updatePort(index)">
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
-        <v-btn dark text fab right x-small color="error" @click="removePort(index)">
+        <v-btn color="error" dark fab right text x-small @click="removePort(index)">
           <v-icon>mdi-delete</v-icon>
         </v-btn>
       </v-list-item>
@@ -42,7 +42,7 @@
       <v-list-item two-line>
         <v-list-item-content class="py-2">
           <v-list-item-subtitle class="text-body-2 py-0 text-center">
-            <v-btn text color="primary" @click="expandCard">
+            <v-btn color="primary" text @click="expandCard">
               <v-icon left small> mdi-plus </v-icon>
               添加规则
             </v-btn>

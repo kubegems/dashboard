@@ -3,11 +3,11 @@
     <v-data-table
       disable-sort
       :headers="headers"
+      hide-default-footer
       :items="items"
-      :page.sync="params.page"
       :items-per-page="params.page_size"
       no-data-text="暂无数据"
-      hide-default-footer
+      :page.sync="params.page"
     >
       <template #[`item.hash`]="{ item }">
         {{ item.hash.substr(0, 7) }}
@@ -17,19 +17,19 @@
       </template>
       <template #[`item.action`]="{ item }">
         <v-flex :id="`r${item.hash}`" />
-        <v-menu left :attach="`#r${item.hash}`">
+        <v-menu :attach="`#r${item.hash}`" left>
           <template #activator="{ on }">
             <v-btn icon>
-              <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+              <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
             </v-btn>
           </template>
           <v-card>
             <v-card-text class="pa-2 text-center">
               <v-flex>
-                <v-btn color="primary" text small @click="diff(item)"> 变更内容 </v-btn>
+                <v-btn color="primary" small text @click="diff(item)"> 变更内容 </v-btn>
               </v-flex>
               <v-flex>
-                <v-btn color="primary" text small @click="rollback(item)"> 回滚 </v-btn>
+                <v-btn color="primary" small text @click="rollback(item)"> 回滚 </v-btn>
               </v-flex>
             </v-card-text>
           </v-card>
@@ -41,9 +41,9 @@
       v-model="params.page"
       :page-count="pageCount"
       :size="params.size"
-      @loaddata="appResourceFileHistorys"
-      @changesize="onPageSizeChange"
       @changepage="onPageIndexChange"
+      @changesize="onPageSizeChange"
+      @loaddata="appResourceFileHistorys"
     />
 
     <AppResourceFileDiff ref="appResourceFileDiff" />
@@ -52,6 +52,7 @@
 
 <script>
   import AppResourceFileDiff from './AppResourceFileDiff';
+
   import { getAppResourceFileHistorys, postRollbackAppResourceFile } from '@/api';
   import BaseResource from '@/mixins/resource';
 

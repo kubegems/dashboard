@@ -1,14 +1,14 @@
 <template>
-  <BaseDialog v-model="dialog" :width="500" title="弹性伸缩设置" icon="fas fa-cogs" @reset="reset">
+  <BaseDialog v-model="dialog" icon="fas fa-cogs" title="弹性伸缩设置" :width="500" @reset="reset">
     <template #content>
       <BaseSubTitle title="弹性伸缩定义">
         <template #action>
           <v-btn
             v-if="obj.cpu > 0 && obj.memory > 0"
+            class="float-right mr-2"
+            color="primary"
             small
             text
-            color="primary"
-            class="float-right mr-2"
             @click="removeHPAStrategy"
           >
             <v-icon left small> mdi-delete </v-icon>
@@ -22,33 +22,33 @@
             <v-text-field
               v-model="obj.cpu"
               class="my-0"
-              required
               label="最大CPU使用率"
-              suffix="%"
+              required
               :rules="objRules.cpuRules"
+              suffix="%"
             />
             <v-text-field
               v-model="obj.memory"
               class="my-0"
-              required
               label="最大内存使用率"
-              suffix="%"
+              required
               :rules="objRules.memoryRules"
+              suffix="%"
             />
             <v-text-field
               v-model="obj.min_replicas"
               class="my-0"
+              label="最小副本数"
               required
               :rules="objRules.minReplicasRules"
-              label="最小副本数"
               type="number"
             />
             <v-text-field
               v-model="obj.max_replicas"
               class="my-0"
+              label="最大副本数"
               required
               :rules="objRules.maxReplicasRules"
-              label="最大副本数"
               type="number"
             />
           </v-sheet>
@@ -59,19 +59,20 @@
       <v-btn
         class="float-right mx-2"
         color="primary"
-        text
         :loading="publishLoading"
+        text
         @click="setAppHPAStrategyAndPublish"
       >
         确定并发布
       </v-btn>
-      <v-btn class="float-right" color="primary" text :loading="loading" @click="setAppHPAStrategy"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="loading" text @click="setAppHPAStrategy"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapGetters } from 'vuex';
+
   import { postAppHPAStrategy, getAppRunningHPA, deleteHPAStrategy, postSyncAppResource } from '@/api';
   import BaseResource from '@/mixins/resource';
 

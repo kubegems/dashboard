@@ -115,7 +115,7 @@
 
   export default {
     name: 'BaseMicroServiceHeader',
-    mixins: [BaseSelect, BaseResource, BasePermission],
+    mixins: [BasePermission, BaseResource, BaseSelect],
     inject: ['reload'],
     props: {
       selectable: {

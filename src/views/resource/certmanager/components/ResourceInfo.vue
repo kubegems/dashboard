@@ -2,7 +2,7 @@
   <div>
     <v-card>
       <v-sheet class="pa-2">
-        <BaseListItemForDetail title="到期时间" :mt="0">
+        <BaseListItemForDetail :mt="0" title="到期时间">
           <template #content>
             {{
               certificate && certificate.status && certificate.status.notAfter
@@ -37,7 +37,7 @@
     </v-card>
 
     <v-card class="mt-3">
-      <BaseSubTitle title="DNS名" :divider="false" class="pt-2" />
+      <BaseSubTitle class="pt-2" :divider="false" title="DNS名" />
       <v-simple-table class="mx-2 pa-2 pb-3">
         <template #default>
           <thead>
@@ -56,7 +56,7 @@
 
     <v-flex v-if="certificate && certificate.spec.usages">
       <v-card class="mt-3">
-        <BaseSubTitle title="扩展" :divider="false" class="pt-2" />
+        <BaseSubTitle class="pt-2" :divider="false" title="扩展" />
         <v-simple-table class="mx-2 pa-2 pb-3">
           <template #default>
             <thead>

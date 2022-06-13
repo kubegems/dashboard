@@ -1,14 +1,14 @@
 <template>
   <div class="d-inline-block">
-    <v-menu v-for="(item, i) in items" :key="item.key" top open-on-hover nudge-top="22px">
+    <v-menu v-for="(item, i) in items" :key="item.key" nudge-top="22px" open-on-hover top>
       <template #activator="{ on }">
         <v-btn
-          depressed
-          x-small
-          label
-          :color="setColor(item.status)"
           :class="{ 'ml-2': i > 0, kubegems__text: !item.status }"
+          :color="setColor(item.status)"
+          depressed
+          label
           :style="{ fontFamily: 'kubegems-sample' }"
+          x-small
           v-on="on"
         >
           {{ item.name }}
@@ -27,11 +27,11 @@
   export default {
     name: 'StatusTag',
     props: {
-      m: {
+      l: {
         type: Boolean,
         default: false,
       },
-      l: {
+      m: {
         type: Boolean,
         default: false,
       },

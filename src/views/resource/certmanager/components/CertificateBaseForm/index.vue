@@ -9,29 +9,29 @@
             <v-text-field
               v-model="obj.metadata.name"
               class="my-0"
-              required
               label="名称"
-              :rules="objRules.nameRule"
               :readonly="edit"
+              required
+              :rules="objRules.nameRule"
               @keyup="onCertificateNameInput"
             />
           </v-col>
           <v-col v-if="AdminViewport" cols="6">
             <v-autocomplete
               v-model="obj.metadata.namespace"
-              color="primary"
-              :items="m_select_namespaceItems"
-              :rules="objRules.namespaceRule"
-              :readonly="edit"
-              label="命名空间"
-              hide-selected
               class="my-0"
+              color="primary"
+              hide-selected
+              :items="m_select_namespaceItems"
+              label="命名空间"
               no-data-text="暂无可选数据"
-              @focus="m_select_namespaceSelectData(ThisCluster)"
+              :readonly="edit"
+              :rules="objRules.namespaceRule"
               @change="onNamespaceChange"
+              @focus="m_select_namespaceSelectData(ThisCluster)"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -40,16 +40,16 @@
           <v-col cols="6">
             <v-autocomplete
               v-model="obj.spec.issuerRef.name"
-              color="primary"
-              :items="m_select_issuerItems"
-              :rules="objRules.issuerRule"
-              label="颁发机构"
-              hide-selected
               class="my-0"
+              color="primary"
+              hide-selected
+              :items="m_select_issuerItems"
+              label="颁发机构"
               no-data-text="暂无可选数据"
+              :rules="objRules.issuerRule"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -58,16 +58,16 @@
           <v-col cols="6">
             <v-autocomplete
               v-model="obj.spec.duration"
-              color="primary"
-              :items="durationItems"
-              :rules="objRules.durationRule"
-              label="证书有效期"
-              hide-selected
               class="my-0"
+              color="primary"
+              hide-selected
+              :items="durationItems"
+              label="证书有效期"
               no-data-text="暂无可选数据"
+              :rules="objRules.durationRule"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -79,14 +79,14 @@
           <v-col cols="12">
             <v-autocomplete
               v-model="obj.spec.usages"
-              :items="keyUsage"
-              hide-selected
-              label="证书用途"
               class="my-0"
+              hide-selected
+              :items="keyUsage"
+              label="证书用途"
               multiple
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -95,7 +95,7 @@
         </v-row>
       </v-card-text>
       <BaseSubTitle title="授信域名" />
-      <DnsNameForm ref="dnsNameForm" @addData="addData" @updateData="updateData" @closeOverlay="closeExpand" />
+      <DnsNameForm ref="dnsNameForm" @addData="addData" @closeOverlay="closeExpand" @updateData="updateData" />
       <DnsNameItem
         :items="obj.spec.dnsNames"
         @expandCard="expandCard"
@@ -108,10 +108,12 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import DnsNameForm from './DnsNameForm';
   import DnsNameItem from './DnsNameItem';
-  import BaseSelect from '@/mixins/select';
+
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
   import { k8sName, required } from '@/utils/rules';
 
@@ -121,15 +123,15 @@
       DnsNameForm,
       DnsNameItem,
     },
-    mixins: [BaseSelect, BaseResource],
+    mixins: [BaseResource, BaseSelect],
     props: {
-      item: {
-        type: Object,
-        default: () => null,
-      },
       edit: {
         type: Boolean,
         default: () => false,
+      },
+      item: {
+        type: Object,
+        default: () => null,
       },
     },
     data: () => ({

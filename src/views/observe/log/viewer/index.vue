@@ -8,8 +8,8 @@
             v-model="date"
             :default-value="30"
             default-value-for-query
-            query-start-time-key="start"
             query-end-time-key="end"
+            query-start-time-key="start"
             @change="onDateChange"
           />
         </v-flex>
@@ -19,14 +19,14 @@
       <LogQuery
         ref="logQuery"
         :date-timestamp="dateTimestamp"
-        @search="handleSearch"
+        @initLoading="handleInitLoading"
+        @receiveMessage="handleReceiveMessage"
+        @removeLoading="handleRemoveLoading"
         @saveSnapshot="handleSaveSnapshot"
+        @search="handleSearch"
+        @setCluster="handleSetCluster"
         @showHistroy="handleShowHistroy"
         @stopLogStream="handleStopLogStream"
-        @receiveMessage="handleReceiveMessage"
-        @initLoading="handleInitLoading"
-        @removeLoading="handleRemoveLoading"
-        @setCluster="handleSetCluster"
       />
     </v-card>
 
@@ -37,35 +37,35 @@
             限制:
             <v-text-field
               v-model="params.limit"
-              type="number"
               class="d-inline-block"
-              style="width: 100px"
-              solo
-              flat
               dense
+              flat
               hide-details
+              solo
+              style="width: 100px"
+              type="number"
             />
           </div>
           <div class="d-inline-block ml-3">结果: {{ ItemsFilterByLevel.length }}</div>
           <LogLevelSelector v-model="params.levels" class="ml-3" />
           <div class="d-inline-block ml-4">
             时间
-            <v-switch v-model="view.timestamp" hide-details class="log-viewer__toolbar-switch" />
+            <v-switch v-model="view.timestamp" class="log-viewer__toolbar-switch" hide-details />
           </div>
           <div class="d-inline-block ml-3">
             倒序
             <v-switch
               v-model="params.direction"
+              class="log-viewer__toolbar-switch"
+              false-value="forward"
               hide-details
               true-value="backward"
-              false-value="forward"
-              class="log-viewer__toolbar-switch"
               @change="onLogQuery"
             />
           </div>
           <div class="d-inline-block ml-3">
             图表
-            <v-switch v-model="view.chartShow" hide-details class="log-viewer__toolbar-switch" />
+            <v-switch v-model="view.chartShow" class="log-viewer__toolbar-switch" hide-details />
           </div>
         </div>
 
@@ -73,24 +73,24 @@
           <v-menu left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" small v-on="on"> fas fa-ellipsis-v </v-icon>
               </v-btn>
             </template>
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
                   <v-btn
-                    text
-                    small
                     color="primary"
                     :disabled="view.resultType !== 'streams'"
+                    small
+                    text
                     @click="handleDownloadLog"
                   >
                     下载日志
                   </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn text small color="primary" @click="handleShowSnapshot"> 查看快照 </v-btn>
+                  <v-btn color="primary" small text @click="handleShowSnapshot"> 查看快照 </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -113,10 +113,10 @@
 
       <LogTable
         v-if="view.resultType === 'streams'"
+        :context="!!(params.regexp || params.levels.length)"
         :items="ItemsFilterByLevel"
         :loading="loading"
         :timestamp="view.timestamp"
-        :context="!!(params.regexp || params.levels.length)"
         @clickPod="handleAddPod"
         @showContext="handleShowContext"
       />
@@ -145,29 +145,31 @@
 
 <script>
   import { mapState, mapGetters } from 'vuex';
-  import LogQuery from './components/LogQuery';
-  import LogLevelSelector from './components/LogLevelSelector';
-  import LogTable from './components/LogTable';
-  import LogContext from './components/LogContext';
-  import LogSaveSnapshot from './components/LogSaveSnapshot';
-  import LogQueryHistory from './components/LogQueryHistory';
+
   import LogBar from './components/LogBar';
+  import LogContext from './components/LogContext';
+  import LogLevelSelector from './components/LogLevelSelector';
   import LogLine from './components/LogLine';
+  import LogQuery from './components/LogQuery';
+  import LogQueryHistory from './components/LogQueryHistory';
+  import LogSaveSnapshot from './components/LogSaveSnapshot';
   import LogSnapshot from './components/LogSnapshot';
+  import LogTable from './components/LogTable';
+
   import { getLogQueryRange, getLogExport, postAddLogQueryHistory } from '@/api';
 
   export default {
     name: 'LogViewer',
     components: {
-      LogQuery,
-      LogLevelSelector,
-      LogTable,
-      LogContext,
-      LogSaveSnapshot,
-      LogQueryHistory,
       LogBar,
+      LogContext,
+      LogLevelSelector,
       LogLine,
+      LogQuery,
+      LogQueryHistory,
+      LogSaveSnapshot,
       LogSnapshot,
+      LogTable,
     },
     data() {
       return {

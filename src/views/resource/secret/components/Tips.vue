@@ -1,18 +1,18 @@
 <template>
   <div>
     <v-menu
-      open-on-hover
-      max-width="200px"
-      right
-      :close-on-content-click="false"
-      :top="top"
-      offset-y
-      :origin="`${top ? 'bottom center' : 'top center'}`"
-      transition="scale-transition"
       :close-delay="200"
+      :close-on-content-click="false"
+      max-width="200px"
+      offset-y
+      open-on-hover
+      :origin="`${top ? 'bottom center' : 'top center'}`"
+      right
+      :top="top"
+      transition="scale-transition"
     >
       <template #activator="{ on }">
-        <v-icon small color="success" v-on="on"> mdi-information </v-icon>
+        <v-icon color="success" small v-on="on"> mdi-information </v-icon>
         <span
           class="success--text text-caption font-weight-medium kubegems__pointer kubegems__attach-position"
           v-on="on"
@@ -25,7 +25,7 @@
           <v-icon color="white" left small> mdi-certificate </v-icon>
           <span>证书信息</span>
         </v-flex>
-        <v-list dense class="pa-0 kubegems__tip">
+        <v-list class="pa-0 kubegems__tip" dense>
           <v-list-item>
             <v-list-item-content>
               <template v-if="item['tls.crt'] && item['tls.crt'].subject && item['tls.crt'].subject.common_name">

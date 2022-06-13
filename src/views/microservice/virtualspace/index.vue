@@ -4,21 +4,21 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :filters="filters"
           :default="{ items: [], text: '虚拟负载名称', value: 'search' }"
+          :filters="filters"
           @refresh="m_filter_list"
         />
         <v-spacer />
         <v-menu v-if="Admin" left>
           <template #activator="{ on }">
             <v-btn icon>
-              <v-icon small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+              <v-icon color="primary" small v-on="on"> fas fa-ellipsis-v </v-icon>
             </v-btn>
           </template>
           <v-card>
             <v-card-text class="pa-2">
               <v-flex>
-                <v-btn text color="primary" @click="addVirtualSpace">
+                <v-btn color="primary" text @click="addVirtualSpace">
                   <v-icon left>mdi-cloud-outline</v-icon>
                   创建虚拟空间
                 </v-btn>
@@ -31,11 +31,11 @@
         class="mx-4"
         disable-sort
         :headers="headers"
+        hide-default-footer
         :items="items"
-        :page.sync="params.page"
         :items-per-page="params.size"
         no-data-text="暂无数据"
-        hide-default-footer
+        :page.sync="params.page"
       >
         <template #[`item.virtualSpaceName`]="{ item }">
           <a class="text-subtitle-2" @click="virtualSpaceDetail(item)">
@@ -59,25 +59,25 @@
         </template>
         <template #[`item.action`]="{ item }">
           <v-flex :id="`r${item.ID}`" />
-          <v-menu left :attach="`#r${item.ID}`">
+          <v-menu :attach="`#r${item.ID}`" left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
               </v-btn>
             </template>
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex v-if="item.IsActive">
-                  <v-btn color="error" text small @click="setVirtualSpaceStatus(item, false)"> 关闭 </v-btn>
+                  <v-btn color="error" small text @click="setVirtualSpaceStatus(item, false)"> 关闭 </v-btn>
                 </v-flex>
                 <v-flex v-else>
-                  <v-btn color="primary" text small @click="setVirtualSpaceStatus(item, true)"> 激活 </v-btn>
+                  <v-btn color="primary" small text @click="setVirtualSpaceStatus(item, true)"> 激活 </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="primary" text small @click="updateVirtualSpace(item)"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateVirtualSpace(item)"> 编辑 </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" text small @click="removeVirtualSpace(item)"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeVirtualSpace(item)"> 删除 </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -89,9 +89,9 @@
         v-model="params.page"
         :page-count="pageCount"
         :size="params.size"
-        @loaddata="virtualSpaceList"
-        @changesize="onPageSizeChange"
         @changepage="onPageIndexChange"
+        @changesize="onPageSizeChange"
+        @loaddata="virtualSpaceList"
       />
     </v-card>
 
@@ -102,11 +102,13 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import AddVirtualSpace from './components/AddVirtualSpace';
   import UpdateVirtualSpace from './components/UpdateVirtualSpace';
+
   import { getVirtualSpaceList, deleteVirtualSpace, patchSetVirtualSpaceStatus } from '@/api';
-  import BasePermission from '@/mixins/permission';
   import BaseFilter from '@/mixins/base_filter';
+  import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseTable from '@/mixins/table';
 
@@ -116,7 +118,7 @@
       AddVirtualSpace,
       UpdateVirtualSpace,
     },
-    mixins: [BasePermission, BaseFilter, BaseResource, BaseTable],
+    mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],
     data() {
       return {
         items: [],

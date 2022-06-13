@@ -5,16 +5,16 @@
         <v-col cols="6">
           <v-autocomplete
             v-model="traffic"
+            class="my-0"
             color="primary"
+            hide-selected
             :items="trafficItems"
             label="流量比例"
-            hide-selected
-            class="my-0"
             no-data-text="暂无可选数据"
             @change="onTrafficChange"
           >
             <template #selection="{ item }">
-              <v-chip color="primary" small class="mx-1">
+              <v-chip class="mx-1" color="primary" small>
                 {{ item['text'] }}
               </v-chip>
             </template>
@@ -23,10 +23,10 @@
         <v-col v-if="traffic === 'true'" cols="6">
           <v-text-field
             v-model="obj.strategy.canary.steps[0].setWeight"
-            :rules="canaryRules.setWeightRule"
             class="my-0"
-            required
             label="灰度流量比例"
+            required
+            :rules="canaryRules.setWeightRule"
             suffix="%"
             type="number"
             @keyup="onWeightInput"
@@ -49,6 +49,7 @@
 
 <script>
   import UriMatchForm from './UriMatchForm';
+
   import { deepCopy } from '@/utils/helpers';
   import { required, positiveInteger } from '@/utils/rules';
 

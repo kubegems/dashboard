@@ -5,11 +5,11 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :filters="filters"
           :default="{ items: [], text: '网关实例名称', value: 'search' }"
+          :filters="filters"
           :reload="false"
-          @refresh="m_filter_list"
           @filter="customFilter"
+          @refresh="m_filter_list"
         />
         <EnvironmentFilter />
         <v-spacer />
@@ -17,11 +17,11 @@
     </v-card>
 
     <v-row class="mt-3">
-      <v-col v-for="(item, index) in items" :key="index" cols="3" class="pt-0">
+      <v-col v-for="(item, index) in items" :key="index" class="pt-0" cols="3">
         <v-hover #default="{ hover }">
-          <v-card class="mx-auto" height="100%" :elevation="hover ? 5 : 0">
+          <v-card class="mx-auto" :elevation="hover ? 5 : 0" height="100%">
             <v-list-item three-line>
-              <v-list-item-avatar class="primary--text" tile size="80">
+              <v-list-item-avatar class="primary--text" size="80" tile>
                 <Icon icon="simple-icons:istio" style="width: 80px; height: 80px; margin-left: 10px" />
               </v-list-item-avatar>
               <v-list-item-content>
@@ -63,21 +63,21 @@
             </v-list-item>
             <v-card-actions>
               <v-spacer />
-              <v-btn text small color="primary" @click="istioGatewayDetail(item)"> 详 情 </v-btn>
+              <v-btn color="primary" small text @click="istioGatewayDetail(item)"> 详 情 </v-btn>
               <v-btn
                 v-if="m_permisson_virtualSpaceAllow"
-                text
-                small
                 color="primary"
+                small
+                text
                 @click="updateIstioInstanceGateway(item)"
               >
                 编 辑
               </v-btn>
               <v-btn
                 v-if="m_permisson_virtualSpaceAllow"
-                text
-                small
                 color="error"
+                small
+                text
                 @click="removeIstioGatewayInstance(item)"
               >
                 删 除
@@ -86,12 +86,12 @@
           </v-card>
         </v-hover>
       </v-col>
-      <v-col v-if="m_permisson_virtualSpaceAllow" cols="3" class="pt-0">
+      <v-col v-if="m_permisson_virtualSpaceAllow" class="pt-0" cols="3">
         <v-card class="kubegems__full-height" min-height="156">
           <v-card-text class="pa-0 kubegems__full-height">
-            <v-list-item three-line class="kubegems__full-height">
+            <v-list-item class="kubegems__full-height" three-line>
               <v-list-item-content>
-                <v-btn text block color="primary" class="text-h6" @click="addIstioGatewayInstance">
+                <v-btn block class="text-h6" color="primary" text @click="addIstioGatewayInstance">
                   <v-icon left>mdi-plus-box</v-icon>
                   创建网关实例
                 </v-btn>
@@ -109,22 +109,24 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import AddIstioGateway from './components/AddIstioGateway';
   import UpdateIstioGateway from './components/UpdateIstioGateway';
+
   import { getIstioGatewayInstanceList, deleteIstioGatewayInstance } from '@/api';
-  import BasePermission from '@/mixins/permission';
   import BaseFilter from '@/mixins/base_filter';
-  import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
+  import BasePermission from '@/mixins/permission';
   import { deepCopy } from '@/utils/helpers';
+  import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
 
   export default {
     name: 'IstioGateway',
     components: {
-      EnvironmentFilter,
       AddIstioGateway,
+      EnvironmentFilter,
       UpdateIstioGateway,
     },
-    mixins: [BasePermission, BaseFilter],
+    mixins: [BaseFilter, BasePermission],
     data: () => ({
       items: [],
       filters: [{ text: '网关实例名称', value: 'search', items: [] }],

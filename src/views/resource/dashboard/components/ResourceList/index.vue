@@ -1,29 +1,29 @@
 <template>
   <v-card class="my-3">
-    <BaseSubTitle class="pt-2" title="集群" :divider="false" />
+    <BaseSubTitle class="pt-2" :divider="false" title="集群" />
     <v-data-table
-      disable-sort
       class="px-4"
+      disable-sort
       :headers="headers"
+      hide-default-footer
       :items="items"
-      :page.sync="params.page"
       :items-per-page="params.size"
       no-data-text="暂无数据"
-      hide-default-footer
+      :page.sync="params.page"
     >
       <template #[`item.clusterName`]="{ item }">
         <v-flex class="float-left resource__tr">
           {{ item.Cluster.ClusterName }}
         </v-flex>
         <v-flex v-if="item.TkeGpu" class="float-left ml-2 resource__icon">
-          <GpuTip type="tke" :item="item" />
+          <GpuTip :item="item" type="tke" />
         </v-flex>
         <v-flex v-if="item.NvidiaGpu" class="float-left ml-2 resource__icon">
-          <GpuTip type="nvidia" :item="item" />
+          <GpuTip :item="item" type="nvidia" />
         </v-flex>
         <template v-if="item.TenantResourceQuotaApply && item.TenantResourceQuotaApply.Status === 'pending'">
           <v-flex class="float-left ml-2 resource__tr">
-            <v-icon color="warning" small right> mdi-alert-circle </v-icon>
+            <v-icon color="warning" right small> mdi-alert-circle </v-icon>
             <span class="warning--text text-caption font-weight-medium"> 资源申请中 </span>
           </v-flex>
         </template>
@@ -37,9 +37,9 @@
         <span class="text-subtitle-2">
           <v-progress-linear
             class="rounded font-weight-medium"
-            :value="item.CpuPercentage"
-            height="15"
             :color="getColor(item.CpuPercentage)"
+            height="15"
+            :value="item.CpuPercentage"
           >
             <span class="white--text">{{ item.CpuPercentage }}% </span>
           </v-progress-linear>
@@ -50,9 +50,9 @@
         <span class="text-subtitle-2">
           <v-progress-linear
             class="rounded font-weight-medium"
-            :value="item.MemoryPercentage"
-            height="15"
             :color="getColor(item.MemoryPercentage)"
+            height="15"
+            :value="item.MemoryPercentage"
           >
             <span class="white--text">{{ item.MemoryPercentage }}% </span>
           </v-progress-linear>
@@ -63,9 +63,9 @@
         <span class="text-subtitle-2">
           <v-progress-linear
             class="rounded font-weight-medium"
-            :value="item.StoragePercentage"
-            height="15"
             :color="getColor(item.StoragePercentage)"
+            height="15"
+            :value="item.StoragePercentage"
           >
             <span class="white--text">{{ item.StoragePercentage }}% </span>
           </v-progress-linear>
@@ -73,7 +73,7 @@
       </template>
       <template #[`item.action`]="{ item }">
         <span class="pa-2">
-          <v-btn color="primary" text small @click="scaleResource(item)"> 申请资源 </v-btn>
+          <v-btn color="primary" small text @click="scaleResource(item)"> 申请资源 </v-btn>
         </span>
       </template>
     </v-data-table>
@@ -83,8 +83,8 @@
       v-model="params.page"
       :page-count="pageCount"
       :size="params.size"
-      @loaddata="tenantResourceQuotaList"
       @changepage="onPageIndexChange"
+      @loaddata="tenantResourceQuotaList"
     />
 
     <ScaleResource ref="scaleResource" @refresh="tenantResourceQuotaList" />
@@ -93,19 +93,21 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import ScaleResource from './ScaleResource';
+
   import Pagination from '../Pagination';
+  import ScaleResource from './ScaleResource';
+
   import { getTenantResourceQuotaList, getTenantResourceQuota } from '@/api';
-  import GpuTip from '@/views/resource/components/common/GpuTip';
   import BasePermission from '@/mixins/permission';
   import { sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
+  import GpuTip from '@/views/resource/components/common/GpuTip';
 
   export default {
     name: 'ResourceList',
     components: {
-      ScaleResource,
-      Pagination,
       GpuTip,
+      Pagination,
+      ScaleResource,
     },
     mixins: [BasePermission],
     data: () => ({

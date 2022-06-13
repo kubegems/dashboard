@@ -1,17 +1,19 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="更新监控图" icon="mdi-chart-areaspline" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-chart-areaspline" title="更新监控图" :width="1000" @reset="reset">
     <template #content>
-      <component :is="formComponent" :ref="formComponent" :item="item" :edit="true" />
+      <component :is="formComponent" :ref="formComponent" :edit="true" :item="item" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="updateGraph"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateGraph"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapState } from 'vuex';
+
   import GraphBaseForm from './GraphBaseForm';
+
   import { putUpdateMonitorDashboard } from '@/api';
   import { deepCopy } from '@/utils/helpers';
 
@@ -21,13 +23,13 @@
       GraphBaseForm,
     },
     props: {
-      environment: {
-        type: Object,
-        default: () => {},
-      },
       dashboard: {
         type: Object,
         default: () => null,
+      },
+      environment: {
+        type: Object,
+        default: () => {},
       },
     },
     data() {

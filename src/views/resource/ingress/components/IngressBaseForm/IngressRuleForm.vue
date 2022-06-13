@@ -1,10 +1,10 @@
 <template>
-  <v-form ref="form" v-model="valid" lazy-validation class="my-2" @submit.prevent>
+  <v-form ref="form" v-model="valid" class="my-2" lazy-validation @submit.prevent>
     <v-expand-transition>
       <v-card v-show="expand" class="my-2 pa-2 kubegems__expand-transition" :elevation="4">
         <BaseSubTitle :divider="false">
           <template #action>
-            <v-btn small text color="primary" class="float-right mr-2" @click="addPath">
+            <v-btn class="float-right mr-2" color="primary" small text @click="addPath">
               <v-icon left small> mdi-plus </v-icon>
               添加Path
             </v-btn>
@@ -18,7 +18,7 @@
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-text-field v-model="ruler.host" class="my-0" label="域名" :rules="rulerRules.hostRule">
                 <template #append>
-                  <v-btn small text color="primary" class="mt-n1" @click="randomHost">
+                  <v-btn class="mt-n1" color="primary" small text @click="randomHost">
                     <v-icon left small> mdi-all-inclusive </v-icon>
                     随机域名
                   </v-btn>
@@ -28,16 +28,16 @@
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-autocomplete
                 v-model="ruler.tls"
-                color="primary"
-                :items="protocols"
-                :rules="rulerRules.tlsRule"
-                label="协议"
-                hide-selected
                 class="my-0"
+                color="primary"
+                hide-selected
+                :items="protocols"
+                label="协议"
                 no-data-text="暂无可选数据"
+                :rules="rulerRules.tlsRule"
               >
                 <template #selection="{ item }">
-                  <v-chip color="primary" small class="mx-1">
+                  <v-chip class="mx-1" color="primary" small>
                     {{ item['text'] }}
                   </v-chip>
                 </template>
@@ -54,17 +54,17 @@
             >
               <v-autocomplete
                 v-model="ruler.secretName"
-                color="primary"
-                :items="m_select_secretItems"
-                :rules="rulerRules.secretName"
-                label="密钥"
-                hide-selected
                 class="my-0"
+                color="primary"
+                hide-selected
+                :items="m_select_secretItems"
+                label="密钥"
                 no-data-text="暂无可选数据"
+                :rules="rulerRules.secretName"
                 @focus="onSecretSelectFocus(ThisCluster, obj.metadata.namespace, 'kubernetes.io/tls')"
               >
                 <template #selection="{ item }">
-                  <v-chip color="primary" small class="mx-1">
+                  <v-chip class="mx-1" color="primary" small>
                     {{ item['text'] }}
                   </v-chip>
                 </template>
@@ -80,25 +80,25 @@
               <v-text-field
                 v-model="ruler.paths[index].path"
                 class="my-0"
-                required
                 label="路径"
+                required
                 :rules="rulerRules.pathsRule[index].pathRule"
               />
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-autocomplete
                 v-model="ruler.paths[index].serviceName"
-                color="primary"
-                label="服务"
-                hide-selected
                 class="my-0"
-                no-data-text="暂无可选数据"
+                color="primary"
+                hide-selected
                 :items="m_select_serviceItems"
+                label="服务"
+                no-data-text="暂无可选数据"
                 :rules="rulerRules.pathsRule[index].serviceNameRule"
                 @focus="onServiceSelectFocus(ThisCluster, obj.metadata.namespace)"
               >
                 <template #selection="{ item }">
-                  <v-chip color="primary" small class="mx-1">
+                  <v-chip class="mx-1" color="primary" small>
                     {{ item['text'] }}
                   </v-chip>
                 </template>
@@ -108,11 +108,9 @@
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-autocomplete
                 v-model="ruler.paths[index].servicePort"
-                color="primary"
-                label="端口"
-                hide-selected
                 class="my-0"
-                no-data-text="暂无可选数据"
+                color="primary"
+                hide-selected
                 :items="
                   m_select_serviceItems.find((s) => {
                     return s.text === ruler.paths[index].serviceName;
@@ -122,16 +120,18 @@
                       }).ports
                     : []
                 "
+                label="端口"
+                no-data-text="暂无可选数据"
                 :rules="rulerRules.pathsRule[index].servicePortRule"
               >
                 <template #selection="{ item }">
-                  <v-chip color="primary" small class="mx-1">
+                  <v-chip class="mx-1" color="primary" small>
                     {{ item['text'] }}
                   </v-chip>
                 </template>
               </v-autocomplete>
             </v-flex>
-            <v-btn dark text fab right x-small color="error" class="mt-4" @click="removePtah(index)">
+            <v-btn class="mt-4" color="error" dark fab right text x-small @click="removePtah(index)">
               <v-icon>mdi-delete</v-icon>
             </v-btn>
             <div class="kubegems__clear-float" />
@@ -139,8 +139,8 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn text small color="error" @click="closeCard"> 取消 </v-btn>
-          <v-btn text small color="primary" @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
+          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -148,22 +148,22 @@
 </template>
 
 <script>
-  import BaseSelect from '@/mixins/select';
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
   import { deepCopy, randomString } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'IngressRuleForm',
-    mixins: [BaseSelect, BaseResource],
+    mixins: [BaseResource, BaseSelect],
     props: {
-      obj: {
-        type: Object,
-        default: () => null,
-      },
       domain: {
         type: String,
         default: () => '',
+      },
+      obj: {
+        type: Object,
+        default: () => null,
       },
     },
     data() {

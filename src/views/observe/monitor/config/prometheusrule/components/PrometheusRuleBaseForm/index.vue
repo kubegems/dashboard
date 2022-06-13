@@ -1,39 +1,39 @@
 <template>
   <v-form ref="form" v-model="valid" lazy-validation>
-    <component :is="steps[step]" :ref="steps[step]" :item="item" :edit="edit" :mode="mode" :expr="expr" />
+    <component :is="steps[step]" :ref="steps[step]" :edit="edit" :expr="expr" :item="item" :mode="mode" />
   </v-form>
 </template>
 
 <script>
-  import Rule from './Rule';
   import Receiver from './Receiver';
+  import Rule from './Rule';
 
   export default {
     name: 'PrometheusRuleBaseForm',
     components: {
-      Rule,
       Receiver,
+      Rule,
     },
     props: {
-      item: {
-        type: Object,
-        default: () => null,
-      },
       edit: {
         type: Boolean,
         default: () => false,
       },
-      step: {
-        type: Number,
-        default: () => 0,
+      expr: {
+        type: String,
+        default: () => '',
+      },
+      item: {
+        type: Object,
+        default: () => null,
       },
       mode: {
         type: String,
         default: () => 'monitor',
       },
-      expr: {
-        type: String,
-        default: () => '',
+      step: {
+        type: Number,
+        default: () => 0,
       },
     },
     data: () => ({

@@ -3,7 +3,7 @@
     <BaseBreadcrumb>
       <template v-if="Object.keys(item.files).length > 0" #extend>
         <v-flex class="kubegems__full-right">
-          <v-btn text small class="primary--text" @click="deployAppStore">
+          <v-btn class="primary--text" small text @click="deployAppStore">
             <v-icon left small> mdi-rocket </v-icon>
             部署
           </v-btn>
@@ -11,22 +11,22 @@
       </template>
     </BaseBreadcrumb>
     <v-row class="mt-0">
-      <v-col cols="3" class="pt-0">
+      <v-col class="pt-0" cols="3">
         <AppInfo
-          :current-app="currentApp"
-          :versions="versions"
-          :select-version="selectVersion"
-          :readonly="false"
-          :show-version="true"
           :app-name="appName"
+          :current-app="currentApp"
+          :readonly="false"
           :select-repo="selectRepo"
+          :select-version="selectVersion"
+          :show-version="true"
+          :versions="versions"
           @changeAppVersion="changeAppVersion"
         />
       </v-col>
-      <v-col cols="9" class="pt-0">
+      <v-col class="pt-0" cols="9">
         <v-card>
           <v-card-text>
-            <v-tabs v-model="tab" height="40" class="pb-3">
+            <v-tabs v-model="tab" class="pb-3" height="40">
               <v-tab v-for="item in tabItems" :key="item.value">
                 {{ item.text }}
               </v-tab>
@@ -40,32 +40,34 @@
       ref="deploy"
       :current-app="currentApp"
       :files="item.files"
-      :versions="versions"
-      :select-version="selectVersion"
       :select-repo="selectRepo"
+      :select-version="selectVersion"
+      :versions="versions"
       @changeAppVersion="changeAppVersion"
     />
   </v-container>
 </template>
 
 <script>
-  import { mapState } from 'vuex';
   import { Base64 } from 'js-base64';
+  import { mapState } from 'vuex';
+
+  import AppDetail from './components/AppDetail';
+  import AppInfo from './components/AppInfo';
+  import ConfigFile from './components/ConfigFile';
   import Deploy from './components/Deploy';
   import Markdown from './components/Markdown';
-  import AppInfo from './components/AppInfo';
-  import AppDetail from './components/AppDetail';
-  import ConfigFile from './components/ConfigFile';
+
   import { getAppStoreDetail, getAppStoreFiles } from '@/api';
 
   export default {
     name: 'AppStoreDetail',
     components: {
-      Markdown,
-      Deploy,
-      AppInfo,
       AppDetail,
+      AppInfo,
       ConfigFile,
+      Deploy,
+      Markdown,
     },
     data: () => ({
       allApps: [],

@@ -1,11 +1,11 @@
 <template>
-  <v-form ref="form" v-model="valid" lazy-validation class="mb-2" @submit.prevent>
+  <v-form ref="form" v-model="valid" class="mb-2" lazy-validation @submit.prevent>
     <v-sheet class="pt-2 px-2">
       <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width">
         <span>镜像定义</span>
       </v-flex>
       <v-flex class="float-left ml-2 kubegems__long-width">
-        <v-text-field v-model="obj.image" class="my-0" required label="镜像地址" :rules="objRules.imageRule" />
+        <v-text-field v-model="obj.image" class="my-0" label="镜像地址" required :rules="objRules.imageRule" />
         <div class="kubegems__clear-float" />
       </v-flex>
       <div class="kubegems__clear-float" />
@@ -15,22 +15,22 @@
         <span />
       </v-flex>
       <v-flex class="float-left ml-2 kubegems__form-width">
-        <v-text-field v-model="obj.name" required label="容器名称" :readonly="edit" :rules="objRules.nameRule" />
+        <v-text-field v-model="obj.name" label="容器名称" :readonly="edit" required :rules="objRules.nameRule" />
       </v-flex>
       <v-flex class="float-left ml-2 kubegems__form-width">
         <v-autocomplete
           v-model="containerType"
-          :items="containerTypes"
-          :rules="objRules.containerTypeRule"
           color="primary"
-          label="容器类型"
           hide-selected
+          :items="containerTypes"
+          label="容器类型"
           no-data-text="暂无可选数据"
           :readonly="edit"
+          :rules="objRules.containerTypeRule"
           @change="onContainerTypeChange"
         >
           <template #selection="{ item }">
-            <v-chip color="primary" small class="mx-1">
+            <v-chip class="mx-1" color="primary" small>
               {{ item['text'] }}
             </v-chip>
           </template>
@@ -45,17 +45,17 @@
       <v-flex class="float-left ml-2 kubegems__form-width">
         <v-autocomplete
           v-model="imageRegistry"
-          :items="m_select_registryItems"
           color="primary"
-          label="镜像密钥"
           hide-selected
           item-text="value"
+          :items="m_select_registryItems"
+          label="镜像密钥"
           no-data-text="暂无可选数据"
-          @focus="onRegistrySelectFocus"
           @change="onRegistryChange"
+          @focus="onRegistrySelectFocus"
         >
           <template #selection="{ item }">
-            <v-chip color="primary" small class="mx-1">
+            <v-chip class="mx-1" color="primary" small>
               {{ item['value'] }}
             </v-chip>
           </template>
@@ -64,15 +64,15 @@
       <v-flex class="float-left ml-2 kubegems__form-width">
         <v-autocomplete
           v-model="obj.imagePullPolicy"
-          :items="imagePullPolicys"
-          :rules="objRules.imagePullPolicyRule"
           color="primary"
-          label="镜像策略"
           hide-selected
+          :items="imagePullPolicys"
+          label="镜像策略"
           no-data-text="暂无可选数据"
+          :rules="objRules.imagePullPolicyRule"
         >
           <template #selection="{ item }">
-            <v-chip color="primary" small class="mx-1">
+            <v-chip class="mx-1" color="primary" small>
               {{ item['text'] }}
             </v-chip>
           </template>
@@ -96,17 +96,17 @@
         type: Object,
         default: () => null,
       },
-      type: {
-        type: String,
-        default: () => 'worker',
+      edit: {
+        type: Boolean,
+        default: () => false,
       },
       imagePullSecret: {
         type: String,
         default: () => 'default',
       },
-      edit: {
-        type: Boolean,
-        default: () => false,
+      type: {
+        type: String,
+        default: () => 'worker',
       },
     },
     data() {

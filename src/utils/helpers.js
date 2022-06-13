@@ -301,8 +301,10 @@ export function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export function includes(arr1, arr2) {
-  return arr2.every((val) => {
-    arr1.includes(val);
-  });
+export function jsonParse(str) {
+  try {
+    return JSON.parse(str);
+  } catch (e) {
+    return undefined;
+  }
 }

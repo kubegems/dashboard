@@ -1,9 +1,9 @@
 <template>
   <v-flex>
     <v-card class="mt-6">
-      <BaseSubTitle title="环境" :divider="false">
+      <BaseSubTitle :divider="false" title="环境">
         <template #action>
-          <v-btn v-if="m_permisson_virtualSpaceAllow" text small color="primary" class="mr-1" @click="linkEnvironment">
+          <v-btn v-if="m_permisson_virtualSpaceAllow" class="mr-1" color="primary" small text @click="linkEnvironment">
             <v-icon left>mdi-link</v-icon>
             关联环境
           </v-btn>
@@ -14,10 +14,10 @@
         <v-data-table
           disable-sort
           :headers="headers"
-          :items="virtualspace ? virtualspace.Environments : []"
-          no-data-text="暂无数据"
           hide-default-footer
+          :items="virtualspace ? virtualspace.Environments : []"
           :items-per-page="500"
+          no-data-text="暂无数据"
         >
           <template #[`item.environmentName`]="{ item }">
             <a class="text-subtitle-2" @click="environmentDetail(item)">
@@ -38,16 +38,16 @@
           </template>
           <template #[`item.action`]="{ item }">
             <v-flex :id="`r${item.ID}`" />
-            <v-menu left :attach="`#r${item.ID}`">
+            <v-menu :attach="`#r${item.ID}`" left>
               <template #activator="{ on }">
                 <v-btn icon>
-                  <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                  <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
                 </v-btn>
               </template>
               <v-card>
                 <v-card-text class="pa-2">
                   <v-flex>
-                    <v-btn color="error" text small @click="removeVirtualSpaceEnvironment(item)"> 删除 </v-btn>
+                    <v-btn color="error" small text @click="removeVirtualSpaceEnvironment(item)"> 删除 </v-btn>
                   </v-flex>
                 </v-card-text>
               </v-card>
@@ -63,16 +63,20 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import AddEnvironment from './AddEnvironment';
+
   import { deleteVirtualSpaceEnvironment } from '@/api';
-  import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'EnvironmentList',
-    components: { AddEnvironment },
-    mixins: [BaseResource, BasePermission, BaseSelect],
+    components: {
+      AddEnvironment,
+    },
+    mixins: [BasePermission, BaseResource, BaseSelect],
     props: {
       virtualspace: {
         type: Object,

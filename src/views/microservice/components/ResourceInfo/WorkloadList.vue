@@ -3,9 +3,9 @@
     class="mx-4"
     disable-sort
     :headers="headers"
+    hide-default-footer
     :items="workloads"
     no-data-text="暂无数据"
-    hide-default-footer
   >
     <template #[`item.name`]="{ item, index }">
       <v-flex :id="`r${index}`" />
@@ -14,10 +14,10 @@
           {{ item.name }}
         </v-flex>
         <v-flex v-if="item.istioSidecar" class="float-left ml-2">
-          <v-menu :attach="`#r${index}`" top open-on-hover :close-delay="200">
+          <v-menu :attach="`#r${index}`" :close-delay="200" open-on-hover top>
             <template #activator="{ on }">
               <span v-on="on">
-                <Icon icon="simple-icons:istio" class="mr-2 primary--text" width="18px" height="18px" />
+                <Icon class="mr-2 primary--text" height="18px" icon="simple-icons:istio" width="18px" />
               </span>
             </template>
             <v-card>
@@ -30,7 +30,7 @@
       </a>
     </template>
     <template #[`item.labels`]="{ item }">
-      <BaseCollapseChips v-if="item" :chips="item.labels || {}" single-line icon="mdi-label" />
+      <BaseCollapseChips v-if="item" :chips="item.labels || {}" icon="mdi-label" single-line />
     </template>
     <template #[`item.createdAt`]="{ item }">
       {{ item.createdAt ? $moment(item.createdAt).format('lll') : '' }}
@@ -40,6 +40,7 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import BaseResource from '@/mixins/resource';
 
   export default {

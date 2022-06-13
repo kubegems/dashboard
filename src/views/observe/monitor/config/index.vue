@@ -12,18 +12,19 @@
 </template>
 
 <script>
-  import ServiceMonitor from './servicemonitor';
   import PrometheusRule from './prometheusrule';
   import Receiver from './receiver';
+  import ServiceMonitor from './servicemonitor';
+
   import ProjectEnvironmentLayout from '@/views/observe/components/ProjectEnvironmentLayout';
 
   export default {
     name: 'MonitorConfig',
     components: {
       ProjectEnvironmentLayout,
-      ServiceMonitor,
       PrometheusRule,
       Receiver,
+      ServiceMonitor,
     },
     data() {
       this.tabs = [

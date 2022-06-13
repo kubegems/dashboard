@@ -1,15 +1,15 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="创建工作负载" icon="mdi-engine" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-engine" title="创建工作负载" :width="1000" @reset="reset">
     <template #content>
-      <component :is="formComponent" :ref="formComponent" :step="step" :kind="kind" title="Workload" />
+      <component :is="formComponent" :ref="formComponent" :kind="kind" :step="step" title="Workload" />
     </template>
     <template #action>
       <v-btn
         v-if="step === totalStep - 1 || formComponent === 'BaseYamlForm'"
         class="float-right mx-2"
         color="primary"
-        text
         :loading="Circular"
+        text
         @click="addWorkload"
       >
         确定
@@ -38,9 +38,9 @@
         :key="switchKey"
         v-model="yaml"
         class="ma-0 pl-2 ml-2 mt-1"
-        style="margin-top: 8px !important"
         color="white"
         hide-details
+        style="margin-top: 8px !important"
         @change="onYamlSwitchChange"
       >
         <template #label>
@@ -53,11 +53,13 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import WorkloadBaseForm from './WorkloadBaseForm';
+
   import { postAddDaemonSet, postAddDeployment, postAddStatefulSet } from '@/api';
-  import WorkloadSchema from '@/views/resource/workload/mixins/schema';
   import BaseResource from '@/mixins/resource';
   import { randomString } from '@/utils/helpers';
+  import WorkloadSchema from '@/views/resource/workload/mixins/schema';
 
   export default {
     name: 'AddWorkload',

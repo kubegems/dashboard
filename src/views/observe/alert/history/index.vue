@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="alert-history">
+  <v-container class="alert-history" fluid>
     <BaseBreadcrumb />
     <v-card>
       <div class="d-flex justify-space-between pa-3">
@@ -12,23 +12,23 @@
           :tid="tenant ? tenant.ID : 0"
           @change="onClusterChange"
         />
-        <BaseDatetimePicker v-model="date" :default-value="180" clearable />
+        <BaseDatetimePicker v-model="date" clearable :default-value="180" />
       </div>
       <HistorySearch v-model="histroyParams" :cluster="clusterId" @search="onSearch" />
     </v-card>
     <v-card class="mt-3 pa-4">
       <v-data-table
         class="kubegems__table-row-pointer"
+        disable-sort
         :headers="headers"
+        hide-default-footer
+        item-key="ID"
         :items="items"
-        :page.sync="params.page"
         :items-per-page="params.size"
         no-data-text="暂无数据"
-        hide-default-footer
+        :page.sync="params.page"
         show-expand
         single-expand
-        item-key="ID"
-        disable-sort
         @click:row="onRowClick"
       >
         <template #[`item.name`]="{ item }">
@@ -56,8 +56,8 @@
           <v-chip
             v-else-if="item.AlertInfo.Labels.severity === 'critical'"
             color="deep-purple"
-            text-color="white"
             small
+            text-color="white"
           >
             {{ item.AlertInfo.Labels.severity }}
           </v-chip>
@@ -75,7 +75,7 @@
           {{ item.AlertInfo.SilenceCreator ? '是' : '-' }}
         </template>
         <template #expanded-item="{ headers, item }">
-          <td :colspan="headers.length" class="pa-4">
+          <td class="pa-4" :colspan="headers.length">
             <pre class="pre">{{ item.AlertInfo.Labels }}</pre>
           </td>
         </template>
@@ -83,21 +83,21 @@
           <v-menu left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
               </v-btn>
             </template>
             <v-card class="pa-2">
               <v-btn
                 v-if="item.AlertInfo.SilenceCreator"
-                color="success"
-                text
-                small
                 block
+                color="success"
+                small
+                text
                 @click.stop="onRemoveBlacklist(item)"
               >
                 移除黑名单
               </v-btn>
-              <v-btn v-else color="error" text small block @click.stop="onAddBacklist(item)"> 加入黑名单 </v-btn>
+              <v-btn v-else block color="error" small text @click.stop="onAddBacklist(item)"> 加入黑名单 </v-btn>
             </v-card>
           </v-menu>
         </template>
@@ -107,9 +107,9 @@
         v-model="params.page"
         :page-count="pageCount"
         :size="params.size"
-        @loaddata="getHistoryList"
-        @changesize="onPageSizeChange"
         @changepage="onPageIndexChange"
+        @changesize="onPageSizeChange"
+        @loaddata="getHistoryList"
       />
     </v-card>
   </v-container>
@@ -117,11 +117,13 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import HistorySearch from './components/HistorySearch';
+
   import { getPrometheusAlertSearch, postAddPrometheusBlacklist, deletePrometheusBlacklist } from '@/api';
-  import ClusterSelect from '@/views/observe/components/ClusterSelect';
   import BaseSelect from '@/mixins/select';
   import { deleteEmpty } from '@/utils/helpers';
+  import ClusterSelect from '@/views/observe/components/ClusterSelect';
 
   export default {
     name: 'AlertHistroy',

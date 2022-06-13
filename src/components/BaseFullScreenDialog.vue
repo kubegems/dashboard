@@ -66,11 +66,7 @@
       event: 'click',
     },
     props: {
-      title: {
-        type: String,
-        default: () => '',
-      },
-      isAppstore: {
+      dialog: {
         type: Boolean,
         default: () => false,
       },
@@ -78,9 +74,13 @@
         type: String,
         default: () => '',
       },
-      dialog: {
+      isAppstore: {
         type: Boolean,
         default: () => false,
+      },
+      title: {
+        type: String,
+        default: () => '',
       },
     },
     watch: {

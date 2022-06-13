@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="alert-history">
+  <v-container class="alert-history" fluid>
     <BaseBreadcrumb />
     <v-card class="mt-3 pa-4">
       <div class="mb-4">
@@ -13,16 +13,16 @@
 
       <v-data-table
         class="kubegems__table-row-pointer"
+        disable-sort
         :headers="headers"
-        :items="items"
-        :page.sync="params.page"
-        :items-per-page="params.size"
-        no-data-text="暂无数据"
         hide-default-footer
         item-key="Fingerprint"
+        :items="items"
+        :items-per-page="params.size"
+        no-data-text="暂无数据"
+        :page.sync="params.page"
         show-expand
         single-expand
-        disable-sort
         @click:row="onRowClick"
       >
         <template #[`item.summary`]="{ item }">
@@ -41,7 +41,7 @@
           {{ item.SilenceEndsAt ? $moment(item.SilenceEndsAt).format('yyyy/MM/DD hh:mm:ss') : '永久' }}
         </template>
         <template #expanded-item="{ headers, item }">
-          <td :colspan="headers.length" class="pa-4">
+          <td class="pa-4" :colspan="headers.length">
             <pre class="pre">{{ item.Labels }}</pre>
           </td>
         </template>
@@ -49,11 +49,11 @@
           <v-menu left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
               </v-btn>
             </template>
             <v-card class="pa-2">
-              <v-btn color="primary" text small @click.stop="onRemoveBlack(item)"> 移除黑名单 </v-btn>
+              <v-btn color="primary" small text @click.stop="onRemoveBlack(item)"> 移除黑名单 </v-btn>
             </v-card>
           </v-menu>
         </template>
@@ -63,9 +63,9 @@
         v-model="params.page"
         :page-count="pageCount"
         :size="params.size"
-        @loaddata="getBlackList"
-        @changesize="onPageSizeChange"
         @changepage="onPageIndexChange"
+        @changesize="onPageSizeChange"
+        @loaddata="getBlackList"
       />
     </v-card>
   </v-container>
@@ -73,10 +73,11 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import { getPrometheusBlackList, deletePrometheusBlacklist } from '@/api';
-  import ClusterSelect from '@/views/observe/components/ClusterSelect';
   import BaseSelect from '@/mixins/select';
   import { deleteEmpty } from '@/utils/helpers';
+  import ClusterSelect from '@/views/observe/components/ClusterSelect';
 
   export default {
     name: 'AlertHistroy',

@@ -11,8 +11,8 @@
               <v-text-field
                 v-model="dockerconfig.address"
                 class="my-0"
-                required
                 label="仓库地址"
+                required
                 :rules="dockerconfigRules.addressRule"
               />
             </v-flex>
@@ -22,7 +22,7 @@
           <v-sheet class="px-2">
             <v-flex class="float-left text-subtitle-2 py-1 primary--text kubegems__min-width" />
             <v-flex class="float-left ml-2 kubegems__form-width">
-              <v-text-field v-model="dockerconfig.email" class="my-0" required label="邮箱" />
+              <v-text-field v-model="dockerconfig.email" class="my-0" label="邮箱" required />
             </v-flex>
             <div class="kubegems__clear-float" />
           </v-sheet>
@@ -33,8 +33,8 @@
               <v-text-field
                 v-model="dockerconfig.username"
                 class="my-0"
-                required
                 label="用户名"
+                required
                 :rules="dockerconfigRules.usernameRule"
               />
             </v-flex>
@@ -42,8 +42,8 @@
               <v-text-field
                 v-model="dockerconfig.password"
                 class="my-0"
-                required
                 label="密码"
+                required
                 :rules="dockerconfigRules.passwordRule"
               />
             </v-flex>
@@ -52,8 +52,8 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn text small color="error" @click="closeCard"> 取消 </v-btn>
-          <v-btn text small color="primary" @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
+          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -62,6 +62,7 @@
 
 <script>
   import { Base64 } from 'js-base64';
+
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 

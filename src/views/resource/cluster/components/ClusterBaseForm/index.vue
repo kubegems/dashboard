@@ -1,35 +1,35 @@
 <template>
-  <component :is="steps[step]" :ref="steps[step]" :item="item" :edit="edit" :control="control" @refresh="refresh" />
+  <component :is="steps[step]" :ref="steps[step]" :control="control" :edit="edit" :item="item" @refresh="refresh" />
 </template>
 
 <script>
-  import ValidateKubeConfig from './ValidateKubeConfig';
-  import TestKubeConfig from './TestKubeConfig';
   import InitClusterConfig from './InitClusterConfig';
+  import TestKubeConfig from './TestKubeConfig';
+  import ValidateKubeConfig from './ValidateKubeConfig';
 
   export default {
     name: 'ClusterBaseForm',
     components: {
-      ValidateKubeConfig,
-      TestKubeConfig,
       InitClusterConfig,
+      TestKubeConfig,
+      ValidateKubeConfig,
     },
     props: {
-      item: {
-        type: Object,
-        default: () => null,
+      control: {
+        type: Boolean,
+        default: () => false,
       },
       edit: {
         type: Boolean,
         default: () => false,
       },
+      item: {
+        type: Object,
+        default: () => null,
+      },
       step: {
         type: Number,
         default: () => 0,
-      },
-      control: {
-        type: Boolean,
-        default: () => false,
       },
     },
     data: () => ({

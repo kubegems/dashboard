@@ -5,14 +5,14 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :filters="filters"
           :default="{ items: [], text: '负载名称', value: 'search' }"
+          :filters="filters"
           @refresh="m_filter_list"
         />
         <EnvironmentFilter />
       </v-card-title>
       <v-card-text class="py-0">
-        <v-tabs v-model="tab" height="30" class="rounded-t" @change="onTabChange">
+        <v-tabs v-model="tab" class="rounded-t" height="30" @change="onTabChange">
           <v-tab v-for="item in tabItems" :key="item.value">
             {{ item.text }}
           </v-tab>
@@ -21,16 +21,16 @@
           class="kubegems__table-row-pointer"
           disable-sort
           :headers="headers"
+          hide-default-footer
+          item-key="name"
           :items="items"
-          :page.sync="params.page"
           :items-per-page="params.size"
           no-data-text="暂无数据"
-          hide-default-footer
+          :page.sync="params.page"
           show-expand
           single-expand
-          item-key="name"
-          @item-expanded="podList"
           @click:row="onRowClick"
+          @item-expanded="podList"
         >
           <template #[`item.name`]="{ item }">
             <a class="text-subtitle-2" @click.stop="microAppWorkoladDetail(item)">
@@ -38,10 +38,10 @@
                 {{ item.name }}
               </v-flex>
               <v-flex v-if="item.istioInjected" class="float-left ml-2">
-                <v-menu right nudge-right="20px" nudge-top="10px" open-on-hover>
+                <v-menu nudge-right="20px" nudge-top="10px" open-on-hover right>
                   <template #activator="{ on }">
                     <span v-on="on">
-                      <Icon icon="simple-icons:istio" class="mr-2 primary--text" width="18px" height="18px" />
+                      <Icon class="mr-2 primary--text" height="18px" icon="simple-icons:istio" width="18px" />
                     </span>
                   </template>
                   <v-card>
@@ -58,7 +58,7 @@
             {{ item.namespace }}
           </template>
           <template #[`item.labels`]="{ item }">
-            <BaseCollapseChips :chips="item.Object.metadata.labels || {}" single-line icon="mdi-label" />
+            <BaseCollapseChips :chips="item.Object.metadata.labels || {}" icon="mdi-label" single-line />
           </template>
           <template #[`item.status`]="{ item }">
             <span
@@ -81,7 +81,7 @@
             </span>
           </template>
           <template #expanded-item="{ headers }">
-            <td :colspan="headers.length" class="my-2 py-2">
+            <td class="my-2 py-2" :colspan="headers.length">
               <span>容器组</span>
               <v-sheet v-if="podItems && podItems.length === 0" class="grey lighten-4 rounded my-1 py-6 text-center">
                 暂无容器组
@@ -90,10 +90,10 @@
                 <v-list-item two-line>
                   <v-list-item-content class="py-0">
                     <v-list-item-subtitle class="text-body-2 py-0">
-                      <v-list-item two-line class="float-left py-0 pl-0" style="width: 300px">
+                      <v-list-item class="float-left py-0 pl-0" style="width: 300px" two-line>
                         <v-list-item-content class="py-0">
                           <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
-                            <v-icon left small color="primary" class="float-left mt-1"> mdi-cube </v-icon>
+                            <v-icon class="float-left mt-1" color="primary" left small> mdi-cube </v-icon>
                             <v-flex class="float-left">
                               {{ pod.metadata.name }}
                             </v-flex>
@@ -101,7 +101,7 @@
                           </v-list-item-title>
                         </v-list-item-content>
                       </v-list-item>
-                      <v-list-item two-line class="float-left py-0 pl-0" style="width: 250px">
+                      <v-list-item class="float-left py-0 pl-0" style="width: 250px" two-line>
                         <v-list-item-content class="py-0">
                           <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
                             <span
@@ -132,7 +132,7 @@
                           <v-list-item-subtitle class="text-body-2 py-1"> 状态 </v-list-item-subtitle>
                         </v-list-item-content>
                       </v-list-item>
-                      <v-list-item two-line class="float-left py-0 pl-0" style="width: 200px">
+                      <v-list-item class="float-left py-0 pl-0" style="width: 200px" two-line>
                         <v-list-item-content class="py-0">
                           <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
                             {{ getRestart(pod.status.containerStatuses) }}
@@ -140,7 +140,7 @@
                           <v-list-item-subtitle class="text-body-2 py-1"> 重启次数 </v-list-item-subtitle>
                         </v-list-item-content>
                       </v-list-item>
-                      <v-list-item two-line class="float-left py-0 pl-0" style="width: 200px">
+                      <v-list-item class="float-left py-0 pl-0" style="width: 200px" two-line>
                         <v-list-item-content class="py-0">
                           <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
                             {{
@@ -152,7 +152,7 @@
                           <v-list-item-subtitle class="text-body-2 py-1"> Age </v-list-item-subtitle>
                         </v-list-item-content>
                       </v-list-item>
-                      <v-list-item two-line class="float-left py-0 pl-0" style="width: 200px">
+                      <v-list-item class="float-left py-0 pl-0" style="width: 200px" two-line>
                         <v-list-item-content class="py-0">
                           <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
                             {{ pod.status.podIP }}
@@ -160,7 +160,7 @@
                           <v-list-item-subtitle class="text-body-2 py-1"> Pod IP </v-list-item-subtitle>
                         </v-list-item-content>
                       </v-list-item>
-                      <v-list-item two-line class="float-left py-0 pl-0" style="width: 200px">
+                      <v-list-item class="float-left py-0 pl-0" style="width: 200px" two-line>
                         <v-list-item-content class="py-0">
                           <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
                             {{ pod.status.hostIP }}
@@ -177,21 +177,21 @@
           </template>
           <template #[`item.action`]="{ item }">
             <v-flex :id="`r${item.Name}`" />
-            <v-menu left :attach="`#r${item.Name}`">
+            <v-menu :attach="`#r${item.Name}`" left>
               <template #activator="{ on }">
                 <v-btn icon>
-                  <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                  <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
                 </v-btn>
               </template>
               <v-card>
                 <v-card-text class="pa-2">
                   <v-flex v-if="item.istioInjected">
-                    <v-btn color="error" text small @click.stop="injectSideCarToMicroAppWorkolad(item, false)">
+                    <v-btn color="error" small text @click.stop="injectSideCarToMicroAppWorkolad(item, false)">
                       取消注入SideCar
                     </v-btn>
                   </v-flex>
                   <v-flex v-else>
-                    <v-btn color="primary" text small @click.stop="injectSideCarToMicroAppWorkolad(item, true)">
+                    <v-btn color="primary" small text @click.stop="injectSideCarToMicroAppWorkolad(item, true)">
                       注入SideCar
                     </v-btn>
                   </v-flex>
@@ -205,9 +205,9 @@
           v-model="params.page"
           :page-count="pageCount"
           :size="params.size"
-          @loaddata="microAppWorkoladList"
-          @changesize="onPageSizeChange"
           @changepage="onPageIndexChange"
+          @changesize="onPageSizeChange"
+          @loaddata="microAppWorkoladList"
         />
       </v-card-text>
     </v-card>
@@ -216,19 +216,20 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import { getMicroAppWorkoladList, putInjectSideCarToMicroAppWorkolad, getPodList } from '@/api';
-  import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
-  import BasePermission from '@/mixins/permission';
   import BaseFilter from '@/mixins/base_filter';
+  import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
+  import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
 
   export default {
     name: 'Workload',
     components: {
       EnvironmentFilter,
     },
-    mixins: [BasePermission, BaseFilter, BaseResource, BaseSelect],
+    mixins: [BaseFilter, BasePermission, BaseResource, BaseSelect],
     data() {
       this.tabMap = {
         deployment: 0,

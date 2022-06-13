@@ -1,6 +1,6 @@
 <template>
   <v-card class="my-3">
-    <BaseSubTitle class="pt-2" title="事件" :divider="false">
+    <BaseSubTitle class="pt-2" :divider="false" title="事件">
       <template #selector>
         <v-sheet class="text-body-2 text--darken-1">
           集群
@@ -8,18 +8,18 @@
             v-model="eventMenu"
             bottom
             left
+            nudge-bottom="5px"
             offset-y
             origin="top center"
             transition="scale-transition"
-            nudge-bottom="5px"
           >
             <template #activator="{ on }">
               <v-btn
-                depressed
-                color="white"
                 class="primary--text font-weight-medium"
-                small
+                color="white"
                 dark
+                depressed
+                small
                 v-on="on"
                 @click="m_select_clusterSelectData(Tenant().ID)"
               >
@@ -28,7 +28,7 @@
                 <v-icon v-else right> fas fa-angle-down </v-icon>
               </v-btn>
             </template>
-            <v-data-iterator :items="[{ text: '集群', values: m_select_clusterItems }]" hide-default-footer>
+            <v-data-iterator hide-default-footer :items="[{ text: '集群', values: m_select_clusterItems }]">
               <template #no-data>
                 <v-card>
                   <v-card-text> 暂无集群 </v-card-text>
@@ -61,7 +61,7 @@
         </v-sheet>
       </template>
       <template #action>
-        <v-btn small text color="primary" class="float-right mr-2" @click="toEvent">
+        <v-btn class="float-right mr-2" color="primary" small text @click="toEvent">
           <v-icon left small> mdi-more </v-icon>
           更多
         </v-btn>
@@ -100,8 +100,8 @@
                   </h3>
                   <span
                     :class="`d-block my-0 text-subtitle-2 font-weight-regular kubegems__break-all ${messageClass[index]}`"
-                    @mouseover="$set(messageClass, index, 'event--show')"
                     @mouseout="$set(messageClass, index, 'event--collapse')"
+                    @mouseover="$set(messageClass, index, 'event--show')"
                   >
                     {{ item.stream.message }}
                   </span>
@@ -116,7 +116,7 @@
                       }}
                     </span>
 
-                    <v-chip class="mx-1 white--text component-chip" color="grey" x-small label>
+                    <v-chip class="mx-1 white--text component-chip" color="grey" label x-small>
                       <v-icon left x-small> mdi-label </v-icon>
                       {{ item.stream.source_component }}
                     </v-chip>
@@ -139,13 +139,14 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import { getEventListFromLoki, getClusterPluginsList } from '@/api';
-  import BaseSelect from '@/mixins/select';
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'EventList',
-    mixins: [BaseSelect, BaseResource],
+    mixins: [BaseResource, BaseSelect],
     data: () => ({
       eventItems: [],
       clusterName: '',

@@ -9,28 +9,28 @@
             <v-text-field
               v-model="obj.name"
               class="my-0"
-              required
               label="名称"
-              :rules="objRules.nameRule"
               :readonly="edit"
+              required
+              :rules="objRules.nameRule"
             />
           </v-col>
 
           <v-col v-if="mode === 'monitor'" cols="6">
             <v-autocomplete
               v-model="mod"
-              color="primary"
-              :items="modeItems"
-              :rules="objRules.modRule"
-              label="模式"
-              hide-selected
               class="my-0"
+              color="primary"
+              hide-selected
+              :items="modeItems"
+              label="模式"
               no-data-text="暂无可选数据"
               :readonly="edit"
+              :rules="objRules.modRule"
               @change="onModChange"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -42,17 +42,17 @@
             <v-col cols="6">
               <v-autocomplete
                 v-model="obj.promqlGenerator.resource"
-                color="primary"
-                :items="resourceItems"
-                :rules="objRules.resourceRule"
-                label="资源"
-                hide-selected
                 class="my-0"
+                color="primary"
+                hide-selected
+                :items="resourceItems"
+                label="资源"
                 no-data-text="暂无可选数据"
+                :rules="objRules.resourceRule"
                 @change="onResourceChange"
               >
                 <template #selection="{ item }">
-                  <v-chip color="primary" small class="mx-1">
+                  <v-chip class="mx-1" color="primary" small>
                     {{ item['text'] }}
                   </v-chip>
                 </template>
@@ -64,18 +64,18 @@
             <v-col cols="6">
               <v-autocomplete
                 v-model="obj.promqlGenerator.rule"
-                color="primary"
-                :items="ruleItems"
-                :rules="objRules.ruleRule"
-                :disabled="!obj.promqlGenerator.resource"
-                label="规则"
-                hide-selected
                 class="my-0"
+                color="primary"
+                :disabled="!obj.promqlGenerator.resource"
+                hide-selected
+                :items="ruleItems"
+                label="规则"
                 no-data-text="暂无可选数据"
+                :rules="objRules.ruleRule"
                 @change="onRuleChange"
               >
                 <template #selection="{ item }">
-                  <v-chip color="primary" small class="mx-1">
+                  <v-chip class="mx-1" color="primary" small>
                     {{ item['text'] }}
                   </v-chip>
                 </template>
@@ -87,17 +87,17 @@
             <v-col cols="6">
               <v-autocomplete
                 v-model="obj.promqlGenerator.unit"
-                color="primary"
-                label="单位"
                 class="my-0"
-                no-data-text="暂无可选数据"
+                color="primary"
+                :disabled="!obj.promqlGenerator.rule || !unitItems.length"
                 hide-selected
                 :items="unitItems"
+                label="单位"
+                no-data-text="暂无可选数据"
                 :rules="unitItems.length ? objRules.unitRule : undefined"
-                :disabled="!obj.promqlGenerator.rule || !unitItems.length"
               >
                 <template #selection="{ item }">
-                  <v-chip color="primary" small class="mx-1">
+                  <v-chip class="mx-1" color="primary" small>
                     {{ item['text'] }}
                   </v-chip>
                 </template>
@@ -127,17 +127,17 @@
           <v-col col="12">
             <v-autocomplete
               v-model="obj.inhibitLabels"
-              color="primary"
-              label="抑制标签"
               class="my-0"
-              no-data-text="暂无可选数据"
+              color="primary"
               hide-selected
-              multiple
               :items="inhibitLabelItems"
+              label="抑制标签"
+              multiple
+              no-data-text="暂无可选数据"
               @focus="getInhibitLabels"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -146,7 +146,7 @@
 
           <!-- 评估时间 -->
           <v-col cols="6">
-            <v-text-field v-model="obj.for" class="my-0" required label="评估时间" :rules="objRules.forRule" />
+            <v-text-field v-model="obj.for" class="my-0" label="评估时间" required :rules="objRules.forRule" />
           </v-col>
           <!-- 评估时间 -->
         </v-row>
@@ -171,9 +171,9 @@
       <v-card-text class="pa-2">
         <AlertLevelItem
           :alertlevels="obj.alertLevels"
-          @updateAlertLevel="updateAlertLevel"
-          @removeAlertLevel="removeAlertLevel"
           @expandCard="expandCard"
+          @removeAlertLevel="removeAlertLevel"
+          @updateAlertLevel="updateAlertLevel"
         />
       </v-card-text>
     </v-form>
@@ -182,41 +182,43 @@
 
 <script>
   import { mapState } from 'vuex';
-  import AlertLevelItem from './AlertLevelItem';
+
   import AlertLevelForm from './AlertLevelForm';
+  import AlertLevelItem from './AlertLevelItem';
   import RuleLabelpairs from './RuleLabelpairs';
+
   import { getSystemConfigData, getMyConfigData, getMetricsLabels } from '@/api';
-  import MetricsSuggestion from '@/views/observe/monitor/metrics/components/MetricsSuggestion';
-  import BaseSelect from '@/mixins/select';
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
+  import MetricsSuggestion from '@/views/observe/monitor/metrics/components/MetricsSuggestion';
 
   export default {
     name: 'Rule',
     components: {
-      AlertLevelItem,
       AlertLevelForm,
-      RuleLabelpairs,
+      AlertLevelItem,
       MetricsSuggestion,
+      RuleLabelpairs,
     },
-    mixins: [BaseSelect, BaseResource],
+    mixins: [BaseResource, BaseSelect],
     props: {
-      item: {
-        type: Object,
-        default: () => null,
-      },
       edit: {
         type: Boolean,
         default: () => false,
       },
-      mode: {
-        type: String,
-        default: () => 'monitor',
-      },
       expr: {
         type: String,
         default: () => '',
+      },
+      item: {
+        type: Object,
+        default: () => null,
+      },
+      mode: {
+        type: String,
+        default: () => 'monitor',
       },
     },
     data() {

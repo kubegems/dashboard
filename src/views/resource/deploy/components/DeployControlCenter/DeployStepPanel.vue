@@ -1,5 +1,5 @@
 <template>
-  <BasePanel v-model="panel" title="步骤&流量" :width="`1200px`" icon="fas fa-globe" @dispose="dispose">
+  <BasePanel v-model="panel" icon="fas fa-globe" title="步骤&流量" :width="`1200px`" @dispose="dispose">
     <template #header>
       <span class="ml-2">
         {{ $route.params.name }}
@@ -7,19 +7,19 @@
     </template>
     <template #action>
       <template v-if="status && (status.strategy === 'Canary' || status.strategy === 'BlueGreen')">
-        <v-btn text small class="white--text" @click="deployControll('重启应用', 'restart')">
+        <v-btn class="white--text" small text @click="deployControll('重启应用', 'restart')">
           <v-icon left small> fas fa-redo </v-icon>
           重启应用
         </v-btn>
-        <v-btn text small class="white--text" @click="deployControll('重试发布', 'retry')">
+        <v-btn class="white--text" small text @click="deployControll('重试发布', 'retry')">
           <v-icon left small> fas fa-location-arrow </v-icon>
           重试
         </v-btn>
-        <v-btn text small class="white--text" @click="deployControll('中止发布', 'pause')">
+        <v-btn class="white--text" small text @click="deployControll('中止发布', 'pause')">
           <v-icon left small> fas fa-pause </v-icon>
           中止
         </v-btn>
-        <v-btn text small class="white--text" @click="deployControll('继续发布', 'promote', { full: false })">
+        <v-btn class="white--text" small text @click="deployControll('继续发布', 'promote', { full: false })">
           <v-icon left small> fas fa-play </v-icon>
           继续
         </v-btn>
@@ -28,10 +28,10 @@
     <template #content>
       <template v-if="status && status.strategy === 'Canary'">
         <v-flex class="px-4 pt-2 text-subtitle-1 kubegems__text">步骤</v-flex>
-        <v-stepper v-if="status && status.step" :value="getNowStep(status.step) + 1" alt-labels>
+        <v-stepper v-if="status && status.step" alt-labels :value="getNowStep(status.step) + 1">
           <v-stepper-header>
             <template v-for="(step, index) in status ? status.steps : []">
-              <v-stepper-step :key="index" :step="index + 1" :complete="index < getNowStep(status.step)">
+              <v-stepper-step :key="index" :complete="index < getNowStep(status.step)" :step="index + 1">
                 <span v-for="key in Object.keys(step)" :key="key">
                   {{ key }}
                   <span v-if="key === 'setWeight'"> : {{ step['setWeight'] }} </span>
@@ -58,17 +58,17 @@
       </template>
 
       <v-flex class="px-4 py-2 text-subtitle-1 kubegems__text">流量拓扑</v-flex>
-      <v-progress-linear v-if="progress" indeterminate color="primary" />
+      <v-progress-linear v-if="progress" color="primary" indeterminate />
       <v-flex style="position: relative">
         <v-flex :class="progress ? 'kubegems__overlay' : ''" />
         <iframe
           v-if="status"
           id="graph"
-          :src="src"
           allow
-          width="100%"
-          :height="650"
           class="iframe"
+          :height="650"
+          :src="src"
+          width="100%"
           @load="loadDataComplete"
         />
       </v-flex>
@@ -78,6 +78,7 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import { postStrategyDeployEnvironmentAppsControl } from '@/api';
   import BaseResource from '@/mixins/resource';
 

@@ -1,25 +1,25 @@
 <template>
   <v-card>
-    <BaseSubTitle class="pt-2" title="过去一天资源使用排名" :divider="false">
+    <BaseSubTitle class="pt-2" :divider="false" title="过去一天资源使用排名">
       <template #selector>
         <v-sheet class="text-body-2 text--darken-1">
           <v-menu
             v-model="topMenu"
             bottom
             left
+            nudge-bottom="5px"
             offset-y
             origin="top center"
             transition="scale-transition"
-            nudge-bottom="5px"
           >
             <template #activator="{ on }">
-              <v-btn depressed color="white" class="primary--text font-weight-medium" small dark v-on="on">
+              <v-btn class="primary--text font-weight-medium" color="white" dark depressed small v-on="on">
                 {{ podUsedMode }}
                 <v-icon v-if="topMenu" right> fas fa-angle-up </v-icon>
                 <v-icon v-else right> fas fa-angle-down </v-icon>
               </v-btn>
             </template>
-            <v-data-iterator :items="[{ text: '排序', values: environmentPodUsageSelect }]" hide-default-footer>
+            <v-data-iterator hide-default-footer :items="[{ text: '排序', values: environmentPodUsageSelect }]">
               <template #no-data>
                 <v-card>
                   <v-card-text> 暂无资源 </v-card-text>
@@ -84,6 +84,7 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import { sizeOfCpu, sizeOfStorage, beautifyCpuUnit, beautifyStorageUnit } from '@/utils/helpers';
@@ -96,7 +97,7 @@
 
   export default {
     name: 'TopNResourceUsage',
-    mixins: [BaseResource, BasePermission],
+    mixins: [BasePermission, BaseResource],
     data() {
       return {
         topMenu: false,

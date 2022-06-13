@@ -9,36 +9,36 @@
             <v-text-field
               v-model="obj.metadata.name"
               class="my-0"
-              required
               label="流量规则名称"
-              :rules="objRules.nameRule"
               :readonly="edit"
+              required
+              :rules="objRules.nameRule"
             />
           </v-col>
           <v-col cols="6">
             <v-text-field
               v-model="obj.spec.host"
               class="my-0"
-              required
               label="服务名称(host)"
+              required
               :rules="objRules.hostRule"
             />
           </v-col>
           <v-col v-if="obj.spec.exportTo" cols="12">
             <v-combobox
               v-model="exportTo"
+              height="32"
               hide-no-data
               :items="[]"
-              :search-input.sync="exportToText"
-              multiple
-              small-chips
-              height="32"
               label="exportTo(回车)"
+              multiple
+              :search-input.sync="exportToText"
+              small-chips
               @change="onExportToChange"
               @keydown.enter="createExportTo"
             >
               <template #selection="{ item }">
-                <v-chip small color="primary" class="pa-1">
+                <v-chip class="pa-1" color="primary" small>
                   <span>
                     {{ item.text }}
                   </span>
@@ -61,9 +61,9 @@
         <v-card-text class="pa-2">
           <TrafficPolicyItem
             :traffic-policy="obj.spec.trafficPolicy"
-            @updateTrafficPolicy="updateTrafficPolicy"
-            @removeTrafficPolicy="removeTrafficPolicy"
             @expandCard="expandTrafficPolicyCard"
+            @removeTrafficPolicy="removeTrafficPolicy"
+            @updateTrafficPolicy="updateTrafficPolicy"
           />
         </v-card-text>
       </template>
@@ -78,9 +78,9 @@
         <v-card-text class="pa-2">
           <SubnetTrafficPolicyItem
             :subsets="obj.spec.subsets"
-            @updateSubnetTrafficPolicy="updateSubnetTrafficPolicy"
-            @removeSubnetTrafficPolicy="removeSubnetTrafficPolicy"
             @expandCard="expandSubnetTrafficPolicyCard"
+            @removeSubnetTrafficPolicy="removeSubnetTrafficPolicy"
+            @updateSubnetTrafficPolicy="updateSubnetTrafficPolicy"
           />
         </v-card-text>
       </template>
@@ -90,10 +90,12 @@
 
 <script>
   import { mapState } from 'vuex';
-  import TrafficPolicyItem from './TrafficPolicyItem';
-  import TrafficPolicyForm from './TrafficPolicyForm';
-  import SubnetTrafficPolicyItem from './SubnetTrafficPolicyItem';
+
   import SubnetTrafficPolicyForm from './SubnetTrafficPolicyForm';
+  import SubnetTrafficPolicyItem from './SubnetTrafficPolicyItem';
+  import TrafficPolicyForm from './TrafficPolicyForm';
+  import TrafficPolicyItem from './TrafficPolicyItem';
+
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
   import { k8sName, required } from '@/utils/rules';
@@ -101,20 +103,20 @@
   export default {
     name: 'IstioDestinationRuleBaseForm',
     components: {
-      TrafficPolicyItem,
-      TrafficPolicyForm,
-      SubnetTrafficPolicyItem,
       SubnetTrafficPolicyForm,
+      SubnetTrafficPolicyItem,
+      TrafficPolicyForm,
+      TrafficPolicyItem,
     },
     mixins: [BaseResource],
     props: {
-      item: {
-        type: Object,
-        default: () => null,
-      },
       edit: {
         type: Boolean,
         default: () => false,
+      },
+      item: {
+        type: Object,
+        default: () => null,
       },
     },
     data: () => ({

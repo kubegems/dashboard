@@ -1,24 +1,24 @@
 <template>
   <div class="pa-3">
-    <BaseSubTitle title="监控采集配置" color="grey lighten-3" class="my-0" :divider="false" />
+    <BaseSubTitle class="my-0" color="grey lighten-3" :divider="false" title="监控采集配置" />
 
     <v-form ref="form" v-model="valid" class="px-2" lazy-validation @submit.prevent>
-      <ProjectEnvSelect v-model="env" t="metrics" class="mt-0" />
+      <ProjectEnvSelect v-model="env" class="mt-0" t="metrics" />
 
       <v-row>
         <v-col cols="6">
           <v-autocomplete
             v-model="obj.service"
-            :items="serviceItems"
-            :rules="objRules.serviceRules"
-            color="primary"
-            label="关联服务"
-            hide-selected
             class="my-0"
+            color="primary"
+            hide-selected
+            :items="serviceItems"
+            label="关联服务"
             no-data-text="暂无可选数据"
+            :rules="objRules.serviceRules"
           >
             <template #selection="{ item }">
-              <v-chip color="primary" small class="mx-1">
+              <v-chip class="mx-1" color="primary" small>
                 {{ item['text'] }}
               </v-chip>
             </template>
@@ -35,16 +35,16 @@
         <v-col cols="6">
           <v-autocomplete
             v-model="obj.port"
-            :items="portItems"
-            :rules="objRules.portRules"
-            color="primary"
-            label="采集器端口"
-            hide-selected
             class="my-0"
+            color="primary"
+            hide-selected
+            :items="portItems"
+            label="采集器端口"
             no-data-text="暂无可选数据"
+            :rules="objRules.portRules"
           >
             <template #selection="{ item }">
-              <v-chip color="primary" small class="mx-1">
+              <v-chip class="mx-1" color="primary" small>
                 {{ item['text'] }}
               </v-chip>
             </template>
@@ -52,19 +52,20 @@
         </v-col>
 
         <v-col cols="6">
-          <v-text-field v-model="obj.path" :rules="objRules.pathRules" class="my-0" required label="请求路径" />
+          <v-text-field v-model="obj.path" class="my-0" label="请求路径" required :rules="objRules.pathRules" />
         </v-col>
       </v-row>
     </v-form>
 
-    <BaseSubTitle title="指标" color="grey lighten-3" class="my-0 mt-3" :divider="false" />
+    <BaseSubTitle class="my-0 mt-3" color="grey lighten-3" :divider="false" title="指标" />
     <MetricsList />
   </div>
 </template>
 
 <script>
-  import MetricsList from './MetricsList';
   import ProjectEnvSelect from '../ProjectEnvSelect';
+  import MetricsList from './MetricsList';
+
   import { getServiceList, postServiceMonitor } from '@/api';
   import { required } from '@/utils/rules';
 

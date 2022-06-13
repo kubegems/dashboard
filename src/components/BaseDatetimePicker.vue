@@ -103,49 +103,10 @@
   export default {
     name: 'BaseDatetimePicker',
     props: {
-      value: {
-        type: Array,
-        default: () => [],
-      },
-      // 默认值（设置默认相对时间，分钟为单位，仅在组件初始化时生效）
-      defaultValue: {
-        type: Number,
-        default: undefined,
-      },
-      // 数据格式化
-      valueFormat: {
-        type: String,
-        default: 'timestamp',
-      },
-      // 值改变时是否自动映射到query
-      valueChangeToQuery: {
-        type: Boolean,
-        default: false,
-      },
-      // 默认值从query中读取
-      defaultValueForQuery: {
-        type: Boolean,
-        default: false,
-      },
-      // 从query中读取值开始时间的key
-      queryStartTimeKey: {
-        type: String,
-        default: 'timeStart',
-      },
-      // 从query中读取值结束时间的key
-      queryEndTimeKey: {
-        type: String,
-        default: 'timeEnd',
-      },
       // 是否可清空
       clearable: {
         type: Boolean,
         default: false,
-      },
-      // 关闭卡片式还原状态
-      onCloseRestoreState: {
-        type: Boolean,
-        default: true,
       },
       // 颜色
       color: {
@@ -153,15 +114,54 @@
         default: 'white',
         validator: (v) => ['white', 'primary', 'success', 'error', 'warning'].includes(v),
       },
-      // 小尺寸
-      small: {
+      // 默认值（设置默认相对时间，分钟为单位，仅在组件初始化时生效）
+      defaultValue: {
+        type: Number,
+        default: undefined,
+      },
+      // 默认值从query中读取
+      defaultValueForQuery: {
         type: Boolean,
-        default: true,
+        default: false,
       },
       // 禁用
       disabled: {
         type: Boolean,
         default: false,
+      },
+      // 值改变时是否自动映射到query
+      valueChangeToQuery: {
+        type: Boolean,
+        default: false,
+      },
+      // 数据格式化
+      valueFormat: {
+        type: String,
+        default: 'timestamp',
+      },
+      value: {
+        type: Array,
+        default: () => [],
+      },
+      // 关闭卡片式还原状态
+      onCloseRestoreState: {
+        type: Boolean,
+        default: true,
+      },
+      // 从query中读取值结束时间的key
+      queryEndTimeKey: {
+        type: String,
+        default: 'timeEnd',
+      },
+      // 从query中读取值开始时间的key
+      queryStartTimeKey: {
+        type: String,
+        default: 'timeStart',
+      },
+      // 小尺寸
+      small: {
+        type: Boolean,
+        default: true,
       },
     },
     data() {

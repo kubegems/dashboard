@@ -1,12 +1,12 @@
 <template>
   <v-card>
     <v-card-text>
-      <BaseSubTitle title="租户成员" :pl="0" :divider="false">
+      <BaseSubTitle :divider="false" :pl="0" title="租户成员">
         <template #header>
           <span class="text-caption grey--text"> 共{{ total }}人 </span>
         </template>
         <template #action>
-          <v-btn small text color="primary" class="float-right mr-2" @click="addUser">
+          <v-btn class="float-right mr-2" color="primary" small text @click="addUser">
             <v-icon left small> mdi-account-plus </v-icon>
             添加成员
           </v-btn>
@@ -15,19 +15,19 @@
       <v-data-table
         disable-sort
         :headers="headers"
+        hide-default-footer
         :items="items"
-        :page.sync="params.page"
         :items-per-page="params.size"
         no-data-text="暂无数据"
-        hide-default-footer
+        :page.sync="params.page"
       >
         <template #[`item.isActive`]="{ item }">
           <span v-if="item.IsActive">
-            <v-icon small color="primary"> fas fa-check-circle </v-icon>
+            <v-icon color="primary" small> fas fa-check-circle </v-icon>
             正常
           </span>
           <span v-else>
-            <v-icon small color="error">fas fa-minus-circle</v-icon>
+            <v-icon color="error" small>fas fa-minus-circle</v-icon>
             禁用
           </span>
         </template>
@@ -42,22 +42,22 @@
         </template>
         <template #[`item.action`]="{ item }">
           <v-flex :id="`r${item.ID}`" />
-          <v-menu left :attach="`#r${item.ID}`">
+          <v-menu :attach="`#r${item.ID}`" left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
               </v-btn>
             </template>
             <v-card>
               <v-card-text class="pa-2 text-center">
                 <v-flex v-if="item.Role === 'ordinary'">
-                  <v-btn color="primary" text small @click="setAdmin(item)"> 设置管理员 </v-btn>
+                  <v-btn color="primary" small text @click="setAdmin(item)"> 设置管理员 </v-btn>
                 </v-flex>
                 <v-flex v-else>
-                  <v-btn color="primary" text small @click="setOrdinary(item)"> 设置普通用户 </v-btn>
+                  <v-btn color="primary" small text @click="setOrdinary(item)"> 设置普通用户 </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" text small @click="removeUser(item)"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeUser(item)"> 删除 </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -69,9 +69,9 @@
         v-model="params.page"
         :page-count="pageCount"
         :size="params.size"
-        @loaddata="tenantUserList"
-        @changesize="onUserPageSizeChange"
         @changepage="onUserPageIndexChange"
+        @changesize="onUserPageSizeChange"
+        @loaddata="tenantUserList"
       />
     </v-card-text>
 
@@ -81,6 +81,7 @@
 
 <script>
   import AddUser from './AddUser';
+
   import { deleteTenantUser, getTenantUserList, putChangeTenantUser } from '@/api';
 
   export default {

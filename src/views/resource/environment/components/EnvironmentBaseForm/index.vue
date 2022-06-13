@@ -15,27 +15,27 @@
             <v-text-field
               v-model="obj.data.EnvironmentName"
               class="my-0"
-              :rules="objRules.environmentNameRules"
-              required
               label="名称"
               :readonly="edit"
+              required
+              :rules="objRules.environmentNameRules"
             />
           </v-col>
           <v-col v-if="AdminViewport" cols="6">
             <v-autocomplete
               v-model="obj.data.ProjectID"
-              color="primary"
-              :items="m_select_projectItems"
-              :rules="objRules.projectIDRules"
-              label="项目"
-              hide-selected
               class="my-0"
+              color="primary"
+              hide-selected
+              :items="m_select_projectItems"
+              label="项目"
               no-data-text="暂无可选数据"
               :readonly="edit"
+              :rules="objRules.projectIDRules"
               @focus="onProjectSelectFocus"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -44,19 +44,19 @@
           <v-col cols="6">
             <v-autocomplete
               v-model="obj.data.ClusterID"
-              color="primary"
-              :items="m_select_tenantClusterItems"
-              :rules="objRules.clusterIDRules"
-              label="集群"
-              hide-selected
               class="my-0"
+              color="primary"
+              hide-selected
+              :items="m_select_tenantClusterItems"
+              label="集群"
               no-data-text="暂无可选数据"
               :readonly="edit"
-              @focus="onTenantClusterSelectFocus(Tenant().ID)"
+              :rules="objRules.clusterIDRules"
               @change="onClusterChange"
+              @focus="onTenantClusterSelectFocus(Tenant().ID)"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -66,13 +66,13 @@
             <v-text-field
               v-model="obj.data.Namespace"
               class="my-0"
-              :rules="objRules.namespaceRules"
-              required
               label="命名空间"
               :readonly="edit"
+              required
+              :rules="objRules.namespaceRules"
             >
               <template #append>
-                <v-btn v-if="!edit" small text color="primary" class="mt-n1" @click.stop="openExpaned('addNamespace')">
+                <v-btn v-if="!edit" class="mt-n1" color="primary" small text @click.stop="openExpaned('addNamespace')">
                   <v-icon left small> mdi-link </v-icon>
                   绑定NS
                 </v-btn>
@@ -82,16 +82,16 @@
           <v-col cols="6">
             <v-autocomplete
               v-model="obj.data.MetaType"
-              color="primary"
-              :items="m_select_environmentTypeItems"
-              :rules="objRules.metaTypeRules"
-              label="类型"
-              hide-selected
               class="my-0"
+              color="primary"
+              hide-selected
+              :items="m_select_environmentTypeItems"
+              label="类型"
               no-data-text="暂无可选数据"
+              :rules="objRules.metaTypeRules"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -100,16 +100,16 @@
           <v-col cols="6">
             <v-autocomplete
               v-model="obj.data.DeletePolicy"
-              color="primary"
-              :items="environmentDeletePolicySelect"
-              :rules="objRules.deletePolicyRules"
-              label="删除策略"
-              hide-selected
               class="my-0"
+              color="primary"
+              hide-selected
+              :items="environmentDeletePolicySelect"
+              label="删除策略"
               no-data-text="暂无可选数据"
+              :rules="objRules.deletePolicyRules"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -118,7 +118,7 @@
         </v-row>
         <v-row>
           <v-col cols="6">
-            <v-textarea v-model="obj.data.Remark" class="my-0" auto-grow required label="说明" />
+            <v-textarea v-model="obj.data.Remark" auto-grow class="my-0" label="说明" required />
           </v-col>
         </v-row>
       </v-card-text>
@@ -127,28 +127,28 @@
     <v-flex v-else-if="step === 1">
       <v-card-text class="pa-0">
         <BaseSubTitle title="环境成员角色" />
-        <v-tabs v-model="tab" class="pa-2" vertical height="60px" @change="onTabChange">
+        <v-tabs v-model="tab" class="pa-2" height="60px" vertical @change="onTabChange">
           <v-tab v-for="item in tabItems" :key="item.value">
             {{ item.text }}
           </v-tab>
           <v-tab-item v-for="item in tabItems" :key="item.tab" :reverse-transition="false" :transition="false">
             <v-row class="pa-0 ma-0">
-              <v-col cols="6" class="py-1">
+              <v-col class="py-1" cols="6">
                 <v-card elevation="2" height="550px">
                   <v-card-text>
                     <v-flex class="px-1 mb-2">项目成员</v-flex>
                     <v-text-field
                       v-model="searchAllUser"
                       class="mx-1"
-                      prepend-inner-icon="mdi-magnify"
                       dense
                       hide-details
+                      prepend-inner-icon="mdi-magnify"
                       @keyup="onAllUsernameInput"
                     />
                     <v-list dense height="450px" style="overflow-y: auto">
                       <v-list-item v-for="(user, index) in allUsers" :key="index" link @click="setRole(user, index)">
                         <v-list-item-avatar class="my-1">
-                          <v-avatar :size="32" color="primary" class="white--text font-weight-medium">
+                          <v-avatar class="white--text font-weight-medium" color="primary" :size="32">
                             {{ user.Username[0].toLocaleUpperCase() }}
                           </v-avatar>
                         </v-list-item-avatar>
@@ -160,7 +160,7 @@
                   </v-card-text>
                 </v-card>
               </v-col>
-              <v-col cols="6" class="py-1">
+              <v-col class="py-1" cols="6">
                 <v-card elevation="2" height="550px">
                   <v-card-text>
                     <v-flex class="px-1 mb-2">
@@ -169,9 +169,9 @@
                     <v-text-field
                       v-model="searchRoleUser"
                       class="mx-1"
-                      prepend-inner-icon="mdi-magnify"
                       dense
                       hide-details
+                      prepend-inner-icon="mdi-magnify"
                       @keyup="onRoleUsernameInput"
                     />
                     <v-list dense height="450px" style="overflow-y: auto">
@@ -182,7 +182,7 @@
                         @click="removeRole(user, index)"
                       >
                         <v-list-item-avatar class="my-1">
-                          <v-avatar :size="32" color="primary" class="white--text font-weight-medium">
+                          <v-avatar class="white--text font-weight-medium" color="primary" :size="32">
                             {{ user.Username[0].toLocaleUpperCase() }}
                           </v-avatar>
                         </v-list-item-avatar>
@@ -212,9 +212,9 @@
       </v-card-text>
 
       <LimitRange ref="limitRange" :data="obj" @addData="addLimitRangeData" @closeOverlay="closeExpand" />
-      <BaseSubTitle title="资源限制(LimitRange)" class="mt-4">
+      <BaseSubTitle class="mt-4" title="资源限制(LimitRange)">
         <template #action>
-          <v-btn small text color="primary" class="float-right mr-2" @click="openExpaned('limitRange')">
+          <v-btn class="float-right mr-2" color="primary" small text @click="openExpaned('limitRange')">
             <v-icon left small> mdi-pencil </v-icon>
             修改限制
           </v-btn>
@@ -229,35 +229,37 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import AddNamespace from './AddNamespace';
+
   import { getEnvironmentUserList, deleteEnvironmentUser, postAddEnvironmentUser, getProjectUserList } from '@/api';
-  import ResourceChart from '@/views/resource/environment/components/base/ResourceChart';
-  import LimitRange from '@/views/resource/environment/components/base/LimitRange';
-  import LimitRangeCard from '@/views/resource/environment/components/base/LimitRangeCard';
-  import ResourceQuota from '@/views/resource/environment/components/base/ResourceQuota';
-  import BaseSelect from '@/mixins/select';
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
   import { k8sLabel, required } from '@/utils/rules';
+  import LimitRange from '@/views/resource/environment/components/base/LimitRange';
+  import LimitRangeCard from '@/views/resource/environment/components/base/LimitRangeCard';
+  import ResourceChart from '@/views/resource/environment/components/base/ResourceChart';
+  import ResourceQuota from '@/views/resource/environment/components/base/ResourceQuota';
 
   export default {
     name: 'EnvironmentBaseForm',
     components: {
-      ResourceChart,
+      AddNamespace,
       LimitRange,
       LimitRangeCard,
+      ResourceChart,
       ResourceQuota,
-      AddNamespace,
     },
-    mixins: [BaseSelect, BaseResource],
+    mixins: [BaseResource, BaseSelect],
     props: {
-      step: {
-        type: Number,
-        default: () => 0,
-      },
       edit: {
         type: Boolean,
         default: () => false,
+      },
+      step: {
+        type: Number,
+        default: () => 0,
       },
     },
     data: () => ({

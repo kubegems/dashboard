@@ -3,11 +3,11 @@
     <v-data-table
       disable-sort
       :headers="headers"
+      hide-default-footer
       :items="items"
-      :page.sync="params.page"
       :items-per-page="params.size"
       no-data-text="暂无数据"
-      hide-default-footer
+      :page.sync="params.page"
     >
       <template #[`item.reason`]="{ item }">
         {{ item.reason }}
@@ -20,11 +20,11 @@
           :content="item.count > 99 ? '99+' : item.count"
           overlap
         >
-          <v-chip class="mx-1 white--text" :color="$EVENT_STATUS_COLOR[item.type]" small label>
+          <v-chip class="mx-1 white--text" :color="$EVENT_STATUS_COLOR[item.type]" label small>
             <span>{{ item.type }}</span>
           </v-chip>
         </v-badge>
-        <v-chip v-else class="mx-1 white--text" :color="$EVENT_STATUS_COLOR[item.type]" small label>
+        <v-chip v-else class="mx-1 white--text" :color="$EVENT_STATUS_COLOR[item.type]" label small>
           <span>{{ item.type }}</span>
         </v-chip>
       </template>
@@ -52,9 +52,9 @@
       v-model="params.page"
       :page-count="pageCount"
       :size="params.size"
-      @loaddata="eventList"
-      @changesize="onPageSizeChange"
       @changepage="onPageIndexChange"
+      @changesize="onPageSizeChange"
+      @loaddata="eventList"
     />
   </v-flex>
 </template>

@@ -2,31 +2,31 @@
   <v-card class="metrics-item">
     <div class="metrics-item__title">
       <span class="text-body-1 kubegems__text">{{ title }}</span>
-      <v-btn small color="primary" @click="setAlert"> 设置告警 </v-btn>
+      <v-btn color="primary" small @click="setAlert"> 设置告警 </v-btn>
     </div>
     <v-row :style="{ maxHeight: `${maxHeight}px` }">
-      <v-col v-for="label in labels" :key="label.text" cols="4" class="py-1 px-4">
+      <v-col v-for="label in labels" :key="label.text" class="py-1 px-4" cols="4">
         <v-autocomplete
-          :value="labelpairs[label.text]"
-          :label="label.text"
-          :items="label.items"
+          attach
+          class="my-1"
           dense
           flat
-          multiple
-          solo
-          class="my-1"
-          attach
-          hide-selected
           hide-details
+          hide-selected
+          :items="label.items"
+          :label="label.text"
+          multiple
           no-data-text="暂无可选数据"
-          @focus="onLoadLabelFocus(label.text)"
+          solo
+          :value="labelpairs[label.text]"
           @change="onLabelChange($event, label.text)"
+          @focus="onLoadLabelFocus(label.text)"
         >
           <template #selection="{ item, parent, index }">
-            <v-chip v-if="index === 0" color="primary" small class="my-1">
+            <v-chip v-if="index === 0" class="my-1" color="primary" small>
               {{ item }}
             </v-chip>
-            <v-chip v-if="index === 1" color="primary" small class="my-1"> +{{ parent.value.length - 1 }} </v-chip>
+            <v-chip v-if="index === 1" class="my-1" color="primary" small> +{{ parent.value.length - 1 }} </v-chip>
           </template>
         </v-autocomplete>
       </v-col>
@@ -34,7 +34,7 @@
 
     <div class="metrics-item__chart" :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
       <div ref="container" class="metrics-item__container">
-        <MetricsLineChart :width="size.width" :height="size.height" :series="series" :unit="unit" />
+        <MetricsLineChart :height="size.height" :series="series" :unit="unit" :width="size.width" />
       </div>
     </div>
   </v-card>
@@ -42,7 +42,9 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import MetricsLineChart from './MetricsLineChart';
+
   import { debounce } from '@/utils/helpers';
   import { SERVICE_MONITOR_NS } from '@/utils/namespace';
 
@@ -52,14 +54,6 @@
       MetricsLineChart,
     },
     props: {
-      title: {
-        type: String,
-        default: '',
-      },
-      unit: {
-        type: String,
-        default: '',
-      },
       data: {
         type: Object,
         default: () => ({}),
@@ -71,6 +65,14 @@
       labelObject: {
         type: Object,
         default: () => ({}),
+      },
+      title: {
+        type: String,
+        default: '',
+      },
+      unit: {
+        type: String,
+        default: '',
       },
     },
     data() {

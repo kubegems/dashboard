@@ -3,10 +3,10 @@
     <component
       :is="steps[step]"
       :ref="steps[step]"
-      :item="item"
+      :app="app"
       :edit="edit"
+      :item="item"
       :kind="kind"
-      :manifest="true"
       :kinds="
         app
           ? app.kind && app.kind.length > 0
@@ -17,7 +17,7 @@
             : m_select_resourceItems.concat(defaultKindItems)
           : []
       "
-      :app="app"
+      :manifest="true"
       @change="onKindChange"
     />
   </v-form>
@@ -25,46 +25,46 @@
 
 <script>
   import AppBaseInfo from './AppBaseInfo';
-  import WorkloadBaseInfo from '@/views/resource/workload/components/WorkloadBaseForm/WorkloadBaseInfo';
-  import ContaninerImage from '@/views/resource/workload/components/WorkloadBaseForm/ContainerImage';
-  import StorageMount from '@/views/resource/workload/components/WorkloadBaseForm/StorageMount';
-  import ScheduleSelector from '@/views/resource/workload/components/WorkloadBaseForm/ScheduleSelector';
-  import DeployPolicy from '@/views/resource/workload/components/WorkloadBaseForm/DeployPolicy';
 
-  import ConfigMapBaseForm from '@/views/resource/configmap/components/ConfigMapBaseForm';
-  import SecretBaseForm from '@/views/resource/secret/components/SecretBaseForm';
-  import PersistentVolumeClaimBaseForm from '@/views/resource/persistentvolumeclaim/components/PersistentVolumeClaimBaseForm';
-  import ServiceBaseForm from '@/views/resource/service/components/ServiceBaseForm';
-  import JobBaseInfo from '@/views/resource/job/components/JobBaseForm/JobBaseInfo';
-  import CronJobBaseInfo from '@/views/resource/cronjob/components/CronjobBaseForm/CronJobBaseInfo';
-  import CronJobContaninerImage from '@/views/resource/cronjob/components/CronjobBaseForm/ContainerImage';
-  import CronJobStorageMount from '@/views/resource/cronjob/components/CronjobBaseForm/StorageMount';
-  import IngressBaseForm from '@/views/resource/ingress/components/IngressBaseForm';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
+  import ConfigMapBaseForm from '@/views/resource/configmap/components/ConfigMapBaseForm';
+  import CronJobContaninerImage from '@/views/resource/cronjob/components/CronjobBaseForm/ContainerImage';
+  import CronJobBaseInfo from '@/views/resource/cronjob/components/CronjobBaseForm/CronJobBaseInfo';
+  import CronJobStorageMount from '@/views/resource/cronjob/components/CronjobBaseForm/StorageMount';
+  import IngressBaseForm from '@/views/resource/ingress/components/IngressBaseForm';
+  import JobBaseInfo from '@/views/resource/job/components/JobBaseForm/JobBaseInfo';
+  import PersistentVolumeClaimBaseForm from '@/views/resource/persistentvolumeclaim/components/PersistentVolumeClaimBaseForm';
+  import SecretBaseForm from '@/views/resource/secret/components/SecretBaseForm';
+  import ServiceBaseForm from '@/views/resource/service/components/ServiceBaseForm';
+  import ContaninerImage from '@/views/resource/workload/components/WorkloadBaseForm/ContainerImage';
+  import DeployPolicy from '@/views/resource/workload/components/WorkloadBaseForm/DeployPolicy';
+  import ScheduleSelector from '@/views/resource/workload/components/WorkloadBaseForm/ScheduleSelector';
+  import StorageMount from '@/views/resource/workload/components/WorkloadBaseForm/StorageMount';
+  import WorkloadBaseInfo from '@/views/resource/workload/components/WorkloadBaseForm/WorkloadBaseInfo';
 
   export default {
     name: 'AppResourceBaseForm',
     components: {
       AppBaseInfo,
-      WorkloadBaseInfo,
       ConfigMapBaseForm,
-      SecretBaseForm,
-      PersistentVolumeClaimBaseForm,
-      ServiceBaseForm,
-      JobBaseInfo,
-      CronJobBaseInfo,
       ContaninerImage,
-      StorageMount,
-      ScheduleSelector,
-      DeployPolicy,
+      CronJobBaseInfo,
       CronJobContaninerImage,
       CronJobStorageMount,
+      DeployPolicy,
       IngressBaseForm,
+      JobBaseInfo,
+      PersistentVolumeClaimBaseForm,
+      ScheduleSelector,
+      SecretBaseForm,
+      ServiceBaseForm,
+      StorageMount,
+      WorkloadBaseInfo,
     },
     mixins: [BaseResource, BaseSelect],
     props: {
-      item: {
+      app: {
         type: Object,
         default: () => null,
       },
@@ -72,17 +72,17 @@
         type: Boolean,
         default: () => false,
       },
-      step: {
-        type: Number,
-        default: () => 0,
+      item: {
+        type: Object,
+        default: () => null,
       },
       kind: {
         type: String,
         default: () => '',
       },
-      app: {
-        type: Object,
-        default: () => null,
+      step: {
+        type: Number,
+        default: () => 0,
       },
     },
     data: () => ({

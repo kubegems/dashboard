@@ -3,7 +3,7 @@
     <v-list-item two-line>
       <v-list-item-content class="py-2">
         <v-list-item-subtitle class="text-body-2 py-0">
-          <v-list-item two-line class="float-left pa-0 kubegems__form-width">
+          <v-list-item class="float-left pa-0 kubegems__form-width" two-line>
             <v-list-item-content class="py-0">
               <v-list-item-title class="text-subtitle-2 py-1">
                 {{
@@ -25,7 +25,7 @@
               <v-list-item-subtitle class="text-body-2 py-1"> CPU </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item two-line class="float-left pa-0 kubegems__form-width">
+          <v-list-item class="float-left pa-0 kubegems__form-width" two-line>
             <v-list-item-content class="py-0">
               <v-list-item-title class="text-subtitle-2 py-1">
                 {{
@@ -50,10 +50,10 @@
         </v-list-item-subtitle>
         <div class="kubegems__clear-float" />
       </v-list-item-content>
-      <v-btn dark text fab right x-small color="primary" @click="updateData">
+      <v-btn color="primary" dark fab right text x-small @click="updateData">
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
-      <v-btn dark text fab right x-small color="error" @click="removeData">
+      <v-btn color="error" dark fab right text x-small @click="removeData">
         <v-icon>mdi-delete</v-icon>
       </v-btn>
     </v-list-item>

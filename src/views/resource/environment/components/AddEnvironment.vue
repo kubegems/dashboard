@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="创建环境" icon="mdi-cube" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-cube" title="创建环境" :width="1000" @reset="reset">
     <template #content>
       <component :is="formComponent" :ref="formComponent" :step="step" />
     </template>
@@ -8,8 +8,8 @@
         v-if="step === 2"
         class="float-right mx-2"
         color="primary"
-        text
         :loading="Circular"
+        text
         @click="addEnvironment"
       >
         确定
@@ -22,7 +22,9 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import EnvironmentBaseForm from './EnvironmentBaseForm';
+
   import { postAddEnvironment, postAddEnvironmentUser } from '@/api';
   import BaseSelect from '@/mixins/select';
 

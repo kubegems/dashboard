@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form" v-model="valid" lazy-validation class="my-2" @submit.prevent>
+  <v-form ref="form" v-model="valid" class="my-2" lazy-validation @submit.prevent>
     <v-flex :class="expand ? 'kubegems__overlay' : ''" />
     <v-expand-transition>
       <v-card v-show="expand" class="my-2 pa-2 kubegems__expand-transition" :elevation="4">
@@ -11,18 +11,18 @@
             <v-flex class="float-left ml-2 kubegems__long-width">
               <v-combobox
                 v-model="nameservers"
+                height="32"
                 hide-no-data
                 :items="[]"
-                :search-input.sync="nameserversText"
-                multiple
-                small-chips
                 label="nameservers(回车)"
-                height="32"
+                multiple
+                :search-input.sync="nameserversText"
+                small-chips
                 @change="onNameserversChange"
                 @keydown.enter="createNameservers"
               >
                 <template #selection="{ item }">
-                  <v-chip small color="primary" class="pa-1">
+                  <v-chip class="pa-1" color="primary" small>
                     <span>
                       {{ item.text }}
                     </span>
@@ -40,18 +40,18 @@
             <v-flex class="float-left ml-2 kubegems__long-width">
               <v-combobox
                 v-model="searches"
+                height="32"
                 hide-no-data
                 :items="[]"
-                :search-input.sync="searchesText"
-                multiple
-                small-chips
                 label="searches(回车)"
-                height="32"
+                multiple
+                :search-input.sync="searchesText"
+                small-chips
                 @change="onSearchesChange"
                 @keydown.enter="createSearches"
               >
                 <template #selection="{ item }">
-                  <v-chip small color="primary" class="pa-1">
+                  <v-chip class="pa-1" color="primary" small>
                     <span>
                       {{ item.text }}
                     </span>
@@ -67,17 +67,17 @@
           <v-card-text class="pa-2">
             <DNSOptionItem
               :options="obj.options"
-              @updateOption="updateOption"
-              @removeOption="removeOption"
               @expandCard="expandCard"
+              @removeOption="removeOption"
+              @updateOption="updateOption"
             />
             <div class="kubegems__clear-float" />
           </v-card-text>
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn text small color="error" @click="closeCard"> 取消 </v-btn>
-          <v-btn text small color="primary" @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
+          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -87,6 +87,7 @@
 <script>
   import DNSOptionForm from './DNSOptionForm';
   import DNSOptionItem from './DNSOptionItem';
+
   import { deepCopy } from '@/utils/helpers';
 
   export default {

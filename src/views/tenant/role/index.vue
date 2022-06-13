@@ -6,10 +6,10 @@
         <v-data-table
           disable-sort
           :headers="headers"
+          hide-default-footer
           :items="items"
           :items-per-page="100"
           no-data-text="暂无数据"
-          hide-default-footer
         />
       </v-card-text>
     </v-card>

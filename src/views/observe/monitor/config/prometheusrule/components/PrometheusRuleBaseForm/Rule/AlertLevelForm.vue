@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form" v-model="valid" lazy-validation class="my-2">
+  <v-form ref="form" v-model="valid" class="my-2" lazy-validation>
     <v-expand-transition>
       <v-card v-show="expand" class="my-2 pa-2 kubegems__expand-transition" :elevation="4">
         <v-card-text class="pa-0">
@@ -11,14 +11,14 @@
               <v-autocomplete
                 v-model="alertLevel.severity"
                 color="primary"
+                hide-selected
                 :items="severitySelect"
                 label="告警级别"
-                hide-selected
-                :rules="alertLevelRules.severityRule"
                 no-data-text="暂无可选数据"
+                :rules="alertLevelRules.severityRule"
               >
                 <template #selection="{ item }">
-                  <v-chip color="primary" small class="mx-1">
+                  <v-chip class="mx-1" color="primary" small>
                     {{ item['text'] }}
                   </v-chip>
                 </template>
@@ -28,14 +28,14 @@
               <v-autocomplete
                 v-model="alertLevel.compareOp"
                 color="primary"
+                hide-selected
                 :items="comepareSelect"
                 label="触发条件"
-                hide-selected
                 no-data-text="暂无可选数据"
                 :rules="alertLevelRules.compareRule"
               >
                 <template #selection="{ item }">
-                  <v-chip color="primary" small class="mx-1">
+                  <v-chip class="mx-1" color="primary" small>
                     {{ item['text'] }}
                   </v-chip>
                 </template>
@@ -45,8 +45,8 @@
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-text-field
                 v-model="alertLevel.compareValue"
-                required
                 label="阈值"
+                required
                 :rules="alertLevelRules.compareValueRule"
               />
             </v-flex>
@@ -55,8 +55,8 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn text small color="error" @click="closeCard"> 取消 </v-btn>
-          <v-btn text small color="primary" @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
+          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>

@@ -1,8 +1,8 @@
 <template>
   <v-card>
-    <BaseSubTitle class="pt-2" title="审计" :divider="false">
+    <BaseSubTitle class="pt-2" :divider="false" title="审计">
       <template #action>
-        <v-btn small text color="primary" class="float-right mr-2" @click="toAudit">
+        <v-btn class="float-right mr-2" color="primary" small text @click="toAudit">
           <v-icon left small> mdi-more </v-icon>
           更多
         </v-btn>
@@ -37,8 +37,8 @@
                   <v-chip
                     class="mx-1 white--text status-chip"
                     :color="item.Success ? 'success' : 'red lighten-2'"
-                    x-small
                     label
+                    x-small
                   >
                     <v-icon left x-small>
                       {{ item.Success ? 'mdi-check-circle' : 'mdi-close-circle' }}
@@ -58,6 +58,7 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import { getAuditList } from '@/api';
 
   export default {

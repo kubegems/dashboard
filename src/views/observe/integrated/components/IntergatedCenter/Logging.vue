@@ -1,17 +1,17 @@
 <template>
   <div class="pa-3">
-    <BaseSubTitle title="日志采集配置" color="grey lighten-3" class="my-0" :divider="false" />
+    <BaseSubTitle class="my-0" color="grey lighten-3" :divider="false" title="日志采集配置" />
 
     <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
-      <ProjectEnvSelect v-model="env" t="logging" class="px-2 mt-0" />
+      <ProjectEnvSelect v-model="env" class="px-2 mt-0" t="logging" />
 
       <v-row class="px-2">
         <v-col cols="12">
           <v-switch
             v-model="sampleMode"
             class="mt-5"
-            label="一键开启（精简模式）"
             hide-details
+            label="一键开启（精简模式）"
             @change="onSampleModeChange"
           />
         </v-col>
@@ -19,7 +19,7 @@
 
       <v-row class="px-2">
         <v-col cols="12">
-          <v-switch v-model="customConfig" class="mt-5" label="自定义配置" hide-details />
+          <v-switch v-model="customConfig" class="mt-5" hide-details label="自定义配置" />
         </v-col>
       </v-row>
 
@@ -30,17 +30,17 @@
           <v-col cols="6">
             <v-autocomplete
               v-model="application"
-              :items="applicationItems"
-              :rules="objRules.appRules"
-              color="primary"
-              label="关联应用"
-              hide-selected
               class="my-0"
+              color="primary"
+              hide-selected
+              :items="applicationItems"
+              label="关联应用"
               no-data-text="暂无可选数据"
+              :rules="objRules.appRules"
               @change="onApplicationChange"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -50,23 +50,23 @@
           <v-col cols="6">
             <v-autocomplete
               v-model="outputName"
-              :items="outputItems"
-              :rules="objRules.outputRules"
-              color="primary"
-              label="关联日志路由"
-              hide-selected
               class="my-0"
-              no-data-text="暂无可选数据"
-              multiple
+              color="primary"
+              hide-selected
+              :items="outputItems"
+              label="关联日志路由"
               :menu-props="{
                 bottom: true,
                 left: true,
                 origin: `top center`,
               }"
+              multiple
+              no-data-text="暂无可选数据"
+              :rules="objRules.outputRules"
               @change="onOutputChange"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1" :disabled="item.disabled">
+                <v-chip class="mx-1" color="primary" :disabled="item.disabled" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -74,22 +74,22 @@
           </v-col>
 
           <v-col cols="12">
-            <v-switch v-model="throttle" class="mt-5" label="启用限速" hide-details />
+            <v-switch v-model="throttle" class="mt-5" hide-details label="启用限速" />
           </v-col>
 
           <v-col v-if="throttle" cols="6">
             <v-text-field
               v-model.number="obj.throttle"
-              :rules="objRules.throttleRules"
               class="my-0"
-              required
               label="限速"
+              required
+              :rules="objRules.throttleRules"
               type="number"
             />
           </v-col>
 
           <v-col cols="12">
-            <v-switch v-model="obj.enableMetrics" class="mt-5" label="启用日志状态监控" hide-details />
+            <v-switch v-model="obj.enableMetrics" class="mt-5" hide-details label="启用日志状态监控" />
           </v-col>
         </v-row>
       </template>
@@ -99,7 +99,9 @@
 
 <script>
   import { mapState, mapGetters } from 'vuex';
+
   import ProjectEnvSelect from './ProjectEnvSelect';
+
   import {
     getClusterOutputsData,
     getOutputsData,

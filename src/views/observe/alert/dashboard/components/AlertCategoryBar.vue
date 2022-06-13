@@ -1,6 +1,6 @@
 <template>
   <v-card class="kubegems__h-24">
-    <BaseSubTitle title="告警类别" :divider="false">
+    <BaseSubTitle :divider="false" title="告警类别">
       <template #selector>
         <v-sheet class="text-body-2 text--darken-1">
           <BaseDatetimePicker v-model="date" :default-value="1440" @change="onDatetimeChange(undefined)" />
@@ -18,8 +18,9 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
   import VueApexCharts from 'vue-apexcharts';
+  import { mapState } from 'vuex';
+
   import { getAlertGroup } from '@/api';
   import { toFixed } from '@/utils/helpers';
 

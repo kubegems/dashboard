@@ -9,13 +9,13 @@
               v-model="date"
               :default-value="30"
               default-value-for-query
-              value-change-to-query
-              query-start-time-key="CreatedAt_gte"
               query-end-time-key="CreatedAt_lte"
+              query-start-time-key="CreatedAt_gte"
+              value-change-to-query
               value-format="yyyy-MM-ddThh:mm:ss"
               @change="onDatetimeChange(undefined)"
             />
-            <v-btn text small class="primary--text" @click="refresh">
+            <v-btn class="primary--text" small text @click="refresh">
               <v-icon left small> fas fa-redo </v-icon>
               刷新
             </v-btn>
@@ -25,22 +25,22 @@
     </BaseBreadcrumb>
     <v-card>
       <v-card-title class="py-4">
-        <BaseFilter :filters="filters" :default="{ items: [], text: '检索', value: 'search' }" @refresh="filterList" />
+        <BaseFilter :default="{ items: [], text: '检索', value: 'search' }" :filters="filters" @refresh="filterList" />
       </v-card-title>
       <v-data-table
         class="mx-4 kubegems__table-row-pointer"
         disable-sort
         :headers="headers"
+        hide-default-footer
+        item-key="ID"
         :items="items"
-        :page.sync="params.page"
         :items-per-page="params.size"
         no-data-text="暂无数据"
-        hide-default-footer
-        single-expand
+        :page.sync="params.page"
         show-expand
-        item-key="ID"
-        @item-expanded="toYaml"
+        single-expand
         @click:row="onRowClick"
+        @item-expanded="toYaml"
       >
         <template #[`item.createdAt`]="{ item }">
           {{ item.CreatedAt ? $moment(item.CreatedAt).format('lll') : '' }}
@@ -76,9 +76,9 @@
           <v-chip
             v-for="(value, key) in item ? item.Labels : {}"
             :key="key"
-            small
             class="ma-1"
             color="success"
+            small
             text-color="white"
           >
             <strong class="mx-1"> {{ key }} </strong>
@@ -91,9 +91,9 @@
         v-model="params.page"
         :page-count="pageCount"
         :size="params.size"
-        @loaddata="auditList"
-        @changesize="onPageSizeChange"
         @changepage="onPageIndexChange"
+        @changesize="onPageSizeChange"
+        @loaddata="auditList"
       />
     </v-card>
   </v-container>
@@ -101,6 +101,7 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import { getAuditList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BaseSelect from '@/mixins/select';

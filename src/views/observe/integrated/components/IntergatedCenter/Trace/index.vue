@@ -5,10 +5,9 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
-
   import MarkdownIt from 'markdown-it';
   import hljs from 'markdown-it-highlightjs';
+  import { mapState } from 'vuex';
 
   export default {
     name: 'Trace',

@@ -4,9 +4,9 @@
       v-if="item && item.status && item.status.containerStatuses"
       disable-sort
       :headers="headers"
+      hide-default-footer
       :items="containerStatusesCopy"
       no-data-text="暂无数据"
-      hide-default-footer
     >
       <template #[`item.name`]="{ item }">
         {{ item.name }}
@@ -47,15 +47,15 @@
           {{ item.LatestCpu ? item.LatestCpu : 0 }}
         </v-flex>
         <v-sparkline
-          :value="item.CpuUsed ? item.CpuUsed : []"
-          type="trend"
           auto-draw
-          auto-line-width
-          smooth
-          :line-width="5"
-          fill
           :auto-draw-duration="200"
+          auto-line-width
           color="rgba(29, 136, 229, 0.6)"
+          fill
+          :line-width="5"
+          smooth
+          type="trend"
+          :value="item.CpuUsed ? item.CpuUsed : []"
         />
       </template>
       <template #[`item.memory`]="{ item }">
@@ -63,34 +63,34 @@
           {{ item.LatestMemory ? item.LatestMemory : 0 }}
         </v-flex>
         <v-sparkline
-          :value="item.MemoryUsed ? item.MemoryUsed : []"
-          type="trend"
           auto-draw
-          auto-line-width
-          smooth
-          :line-width="5"
-          fill
           :auto-draw-duration="200"
+          auto-line-width
           color="rgba(29, 136, 229, 0.6)"
+          fill
+          :line-width="5"
+          smooth
+          type="trend"
+          :value="item.MemoryUsed ? item.MemoryUsed : []"
         />
       </template>
       <template #[`item.action`]="{ item }">
         <v-menu left>
           <template #activator="{ on }">
             <v-btn icon>
-              <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+              <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
             </v-btn>
           </template>
           <v-card>
             <v-card-text class="pa-2 text-center">
               <v-flex v-if="m_permisson_resourceAllow && item.state.running !== undefined">
-                <v-btn color="primary" text small @click="containerShell(item.name)"> 终端 </v-btn>
+                <v-btn color="primary" small text @click="containerShell(item.name)"> 终端 </v-btn>
               </v-flex>
               <v-flex v-if="m_permisson_resourceAllow && item.state.running !== undefined">
-                <v-btn color="primary" text small @click="containerDebug(item.name)"> Debug </v-btn>
+                <v-btn color="primary" small text @click="containerDebug(item.name)"> Debug </v-btn>
               </v-flex>
               <v-flex v-if="item.state.running !== undefined || status === 'Succeeded' || item.state.waiting">
-                <v-btn color="primary" text small @click="containerLog(item.name)"> 日志 </v-btn>
+                <v-btn color="primary" small text @click="containerLog(item.name)"> 日志 </v-btn>
               </v-flex>
               <v-flex
                 v-if="item.state.running === undefined && status !== 'Succeeded' && item.state.waiting === undefined"
@@ -107,9 +107,9 @@
       v-else
       disable-sort
       :headers="headers"
+      hide-default-footer
       :items="item ? item.spec.containers : []"
       no-data-text="暂无数据"
-      hide-default-footer
     >
       <template #[`item.name`]="{ item }">
         {{ item.name }}
@@ -137,15 +137,15 @@
           {{ item.LatestCpu ? item.LatestCpu : 0 }}
         </v-flex>
         <v-sparkline
-          :value="item.CpuUsed ? item.CpuUsed : []"
-          type="trend"
           auto-draw
-          auto-line-width
-          smooth
-          :line-width="5"
-          fill
           :auto-draw-duration="200"
+          auto-line-width
           color="rgba(29, 136, 229, 0.6)"
+          fill
+          :line-width="5"
+          smooth
+          type="trend"
+          :value="item.CpuUsed ? item.CpuUsed : []"
         />
       </template>
       <template #[`item.memory`]="{ item }">
@@ -153,15 +153,15 @@
           {{ item.LatestMemory ? item.LatestMemory : 0 }}
         </v-flex>
         <v-sparkline
-          :value="item.MemoryUsed ? item.MemoryUsed : []"
-          type="trend"
           auto-draw
-          auto-line-width
-          smooth
-          :line-width="5"
-          fill
           :auto-draw-duration="200"
+          auto-line-width
           color="rgba(29, 136, 229, 0.6)"
+          fill
+          :line-width="5"
+          smooth
+          type="trend"
+          :value="item.MemoryUsed ? item.MemoryUsed : []"
         />
       </template>
     </v-data-table>
@@ -173,12 +173,13 @@
 
 <script>
   import { mapState } from 'vuex';
-  import ContainerLog from '@/views/resource/components/common/ContainerLog';
-  import Terminal from '@/views/resource/components/common/Terminal';
+
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import { beautifyCpuUnit, beautifyStorageUnit, deepCopy } from '@/utils/helpers';
   import { CONTAINER_CPU_USAGE_PROMQL, CONTAINER_MEMORY_USAGE_PROMQL } from '@/utils/prometheus';
+  import ContainerLog from '@/views/resource/components/common/ContainerLog';
+  import Terminal from '@/views/resource/components/common/Terminal';
 
   export default {
     name: 'ContainerList',

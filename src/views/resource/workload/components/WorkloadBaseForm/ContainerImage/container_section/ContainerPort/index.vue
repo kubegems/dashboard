@@ -1,5 +1,5 @@
 <template>
-  <v-form v-model="valid" lazy-validation class="my-2" @submit.prevent>
+  <v-form v-model="valid" class="my-2" lazy-validation @submit.prevent>
     <v-flex :class="expand ? 'kubegems__overlay' : ''" />
     <v-expand-transition>
       <v-card v-show="expand" class="my-2 pa-2 kubegems__expand-transition" :elevation="4">
@@ -10,16 +10,16 @@
                 <span>端口定义</span>
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
-                <v-text-field v-model="obj.name" class="my-0" required label="名称" :rules="objRules.nameRule" />
+                <v-text-field v-model="obj.name" class="my-0" label="名称" required :rules="objRules.nameRule" />
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-text-field
                   v-model="obj.containerPort"
                   class="my-0"
-                  required
                   label="端口"
-                  type="number"
+                  required
                   :rules="objRules.containerPortRule"
+                  type="number"
                 />
               </v-flex>
               <div class="kubegems__clear-float" />
@@ -28,19 +28,19 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn text small color="error" @click="closeCard"> 取消 </v-btn>
-          <v-btn text small color="primary" @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
+          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
 
-    <Port :container-copy="containerCopy" @updateData="updateData" @removeData="removeData" />
+    <Port :container-copy="containerCopy" @removeData="removeData" @updateData="updateData" />
 
     <v-flex class="grey lighten-4 rounded ma-2">
       <v-list-item two-line>
         <v-list-item-content class="py-2">
           <v-list-item-subtitle class="text-body-2 py-0 text-center">
-            <v-btn text color="primary" @click="expandCard">
+            <v-btn color="primary" text @click="expandCard">
               <v-icon left small> mdi-plus </v-icon>
               添加容器端口
             </v-btn>
@@ -53,6 +53,7 @@
 
 <script>
   import Port from './Port';
+
   import { deepCopy } from '@/utils/helpers';
   import { required, port } from '@/utils/rules';
 

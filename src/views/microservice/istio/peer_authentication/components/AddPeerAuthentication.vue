@@ -1,10 +1,10 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="创建istio端点认证" icon="mdi-vector-point" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-vector-point" title="创建istio端点认证" :width="1000" @reset="reset">
     <template #content>
       <component :is="formComponent" :ref="formComponent" title="PeerAuthentication" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="addIstioPeerAuthentication">
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addIstioPeerAuthentication">
         确定
       </v-btn>
     </template>
@@ -13,6 +13,7 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import { postAddIstioPeerAuthentication } from '@/api';
   import BaseResource from '@/mixins/resource';
   import IstioAuthorizationPolicySchema from '@/views/microservice/istio/peer_authentication/mixins/schema';

@@ -1,29 +1,29 @@
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
-    <component :is="steps[step]" :ref="steps[step]" :item="item" :edit="edit" @refresh="refresh" />
+    <component :is="steps[step]" :ref="steps[step]" :edit="edit" :item="item" @refresh="refresh" />
   </v-form>
 </template>
 
 <script>
-  import VirtualSpaceBaseInfo from './VirtualSpaceBaseInfo';
   import LinkEnvironment from './LinkEnvironment';
   import ManageUserForm from './ManageUserForm';
+  import VirtualSpaceBaseInfo from './VirtualSpaceBaseInfo';
 
   export default {
     name: 'VirtualSpaceBaseForm',
     components: {
-      VirtualSpaceBaseInfo,
       LinkEnvironment,
       ManageUserForm,
+      VirtualSpaceBaseInfo,
     },
     props: {
-      item: {
-        type: Object,
-        default: () => null,
-      },
       edit: {
         type: Boolean,
         default: () => false,
+      },
+      item: {
+        type: Object,
+        default: () => null,
       },
       step: {
         type: Number,

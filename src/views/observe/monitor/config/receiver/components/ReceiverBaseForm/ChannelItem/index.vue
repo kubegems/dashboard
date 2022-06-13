@@ -1,14 +1,14 @@
 <template>
   <v-flex>
     <v-sheet v-for="(item, index) in items" :key="index" class="grey lighten-4 rounded mb-3">
-      <components :is="itemMap[item.type]" :item="item" @updateConfig="updateConfig" @removeConfig="removeConfig" />
+      <components :is="itemMap[item.type]" :item="item" @removeConfig="removeConfig" @updateConfig="updateConfig" />
     </v-sheet>
     <v-flex>
       <v-flex class="grey lighten-4 rounded">
         <v-list-item two-line>
           <v-list-item-content class="py-2">
             <v-list-item-subtitle class="text-body-2 py-0 text-center">
-              <v-btn text color="primary" @click="expandCard">
+              <v-btn color="primary" text @click="expandCard">
                 <v-icon left small> mdi-plus </v-icon>
                 添加告警渠道
               </v-btn>
@@ -26,7 +26,10 @@
 
   export default {
     name: 'ChannelItem',
-    components: { WebhookItem, EmailItem },
+    components: {
+      EmailItem,
+      WebhookItem,
+    },
     props: {
       obj: {
         type: Object,

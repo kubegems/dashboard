@@ -1,19 +1,19 @@
 <template>
-  <BaseFullScreenDialog v-model="dialog" :title="`监控面板--${graph.name}`" icon="fas fa-chart-area" @dispose="dispose">
+  <BaseFullScreenDialog v-model="dialog" icon="fas fa-chart-area" :title="`监控面板--${graph.name}`" @dispose="dispose">
     <template #action>
-      <BaseDatetimePicker v-model="date" :default-value="30" color="primary" @change="onDatetimeChange(undefined)" />
+      <BaseDatetimePicker v-model="date" color="primary" :default-value="30" @change="onDatetimeChange(undefined)" />
     </template>
     <template #content>
       <BaseApexAreaChart
         id="max"
-        title=""
-        :metrics="metrics"
+        :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
         :extend-height="height"
         label="pod"
+        :metrics="metrics"
+        :no-data-offset-y="-24"
+        title=""
         type=""
         :unit="graph.promqlGenerator ? graph.promqlGenerator.unit : null"
-        :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-        :no-data-offset-y="-24"
       />
     </template>
   </BaseFullScreenDialog>
@@ -21,6 +21,7 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import { getMetricsQueryrange } from '@/api';
 
   export default {

@@ -6,7 +6,7 @@
         <v-flex class="kubegems__full-right">
           <span class="text-subtitle-2 mx-2">
             CPU: {{ cpu.val }}
-            <v-menu id="cpu" nudge-top="-5px" nudge-right="25px" top open-on-hover :close-delay="200">
+            <v-menu id="cpu" :close-delay="200" nudge-right="25px" nudge-top="-5px" open-on-hover top>
               <template #activator="{ on }">
                 <v-icon v-if="cpu.trend === 'up'" color="error" v-on="on"> mdi-trending-up </v-icon>
                 <v-icon v-else-if="cpu.trend === 'down'" color="success" v-on="on"> mdi-trending-down </v-icon>
@@ -19,7 +19,7 @@
           </span>
           <span class="text-subtitle-2 mx-2">
             内存: {{ memory.val }}
-            <v-menu id="memory" nudge-top="-5px" nudge-right="25px" top open-on-hover :close-delay="200">
+            <v-menu id="memory" :close-delay="200" nudge-right="25px" nudge-top="-5px" open-on-hover top>
               <template #activator="{ on }">
                 <v-icon v-if="memory.trend === 'up'" color="error" v-on="on"> mdi-trending-up </v-icon>
                 <v-icon v-else-if="memory.trend === 'down'" color="success" v-on="on"> mdi-trending-down </v-icon>
@@ -35,46 +35,46 @@
           >
             <v-btn
               v-if="$route.query.type !== 'DaemonSet' && m_permisson_resourceAllow"
-              text
-              small
               class="primary--text"
+              small
+              text
               @click="scaleReplicas"
             >
               <v-icon left small> fas fa-arrows-alt-v </v-icon>
               调整副本数
             </v-btn>
-            <v-btn v-if="m_permisson_resourceAllow" text small class="primary--text" @click="rollingback">
+            <v-btn v-if="m_permisson_resourceAllow" class="primary--text" small text @click="rollingback">
               <v-icon left small> fas fa-redo-alt </v-icon>
               回滚
             </v-btn>
             <v-btn
               v-if="$route.query.type !== 'DaemonSet' && m_permisson_resourceAllow"
-              text
-              small
               class="primary--text"
+              small
+              text
               @click="hpaStrategy"
             >
               <v-icon left small> fas fa-cogs </v-icon>
               弹性伸缩策略
             </v-btn>
           </template>
-          <v-btn text small class="primary--text" @click="resourceYaml">
+          <v-btn class="primary--text" small text @click="resourceYaml">
             <v-icon left small> fas fa-code </v-icon>
             YAML
           </v-btn>
           <v-menu v-if="m_permisson_resourceAllow" left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
               </v-btn>
             </template>
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" text small @click="updateWorkload"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateWorkload"> 编辑 </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" text small @click="removeWorkload"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeWorkload"> 删除 </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -83,13 +83,13 @@
       </template>
     </BaseBreadcrumb>
     <v-row class="mt-0">
-      <v-col cols="2" class="pt-0">
+      <v-col class="pt-0" cols="2">
         <BasicResourceInfo :item="workload" />
       </v-col>
-      <v-col cols="10" class="pt-0">
+      <v-col class="pt-0" cols="10">
         <v-card flat>
           <v-card-text class="pa-0">
-            <v-tabs v-model="tab" height="30" class="rounded-t pa-3">
+            <v-tabs v-model="tab" class="rounded-t pa-3" height="30">
               <v-tab v-for="item in tabItems" :key="item.value">
                 {{ item.text }}
               </v-tab>
@@ -120,12 +120,14 @@
 
 <script>
   import { mapState } from 'vuex';
-  import ResourceInfo from './components/ResourceInfo';
-  import WorkloadMonitor from './components/WorkloadMonitor';
-  import ScaleReplicas from './components/ScaleReplicas';
+
   import HPAStrategy from './components/HPAStrategy';
+  import ResourceInfo from './components/ResourceInfo';
   import Rollingback from './components/Rollingback';
+  import ScaleReplicas from './components/ScaleReplicas';
   import UpdateWorkload from './components/UpdateWorkload';
+  import WorkloadMonitor from './components/WorkloadMonitor';
+
   import {
     getDaemonSetDetail,
     getDeploymentDetail,
@@ -134,32 +136,32 @@
     deleteStatefulSet,
     deleteDeployment,
   } from '@/api';
-  import Metadata from '@/views/resource/components/metadata/Metadata';
-  import PodList from '@/views/resource/components/common/PodList';
-  import EventList from '@/views/resource/components/common/EventList';
-  import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
-  import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
-  import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
-  import { WORKLOAD_CPU_USAGE_PROMQL, WORKLOAD_MEMORY_USAGE_PROMQL } from '@/utils/prometheus';
+  import BaseResource from '@/mixins/resource';
   import { beautifyCpuUnit, beautifyStorageUnit, sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
+  import { WORKLOAD_CPU_USAGE_PROMQL, WORKLOAD_MEMORY_USAGE_PROMQL } from '@/utils/prometheus';
+  import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
+  import EventList from '@/views/resource/components/common/EventList';
+  import PodList from '@/views/resource/components/common/PodList';
+  import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
+  import Metadata from '@/views/resource/components/metadata/Metadata';
 
   export default {
     name: 'WorkloadDetail',
     components: {
-      ResourceInfo,
+      BasicResourceInfo,
+      EventList,
+      HPAStrategy,
       Metadata,
       PodList,
-      EventList,
-      WorkloadMonitor,
-      ScaleReplicas,
-      HPAStrategy,
+      ResourceInfo,
       ResourceYaml,
-      BasicResourceInfo,
-      UpdateWorkload,
       Rollingback,
+      ScaleReplicas,
+      UpdateWorkload,
+      WorkloadMonitor,
     },
-    mixins: [BaseResource, BasePermission],
+    mixins: [BasePermission, BaseResource],
     data: () => ({
       workload: null,
       tab: 0,

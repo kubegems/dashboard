@@ -1,7 +1,7 @@
 <template>
   <v-flex>
     <v-card v-for="(cluster, index) in clusters" :key="index" :class="`${index > 0 ? 'mt-3' : 'mt-6'}`">
-      <BaseSubTitle class="pt-2" :title="`集群 ${cluster.ClusterName}`" :divider="false">
+      <BaseSubTitle class="pt-2" :divider="false" :title="`集群 ${cluster.ClusterName}`">
         <template #action>
           <v-switch
             v-if="m_permisson_resourceAllow"
@@ -21,13 +21,13 @@
 
       <v-card-text>
         <v-data-table
-          disable-sort
           class="px-2"
+          disable-sort
           :headers="headers"
+          hide-default-footer
           :items="items[cluster.ClusterName]"
           :items-per-page="100"
           no-data-text="暂无数据"
-          hide-default-footer
         >
           <template #[`item.environmentName`]="{ item }">
             <a class="text-subtitle-2" @click="environmentDetail(item)">
@@ -36,13 +36,13 @@
           </template>
           <template #[`item.metaType`]="{ item }">
             <v-chip
-              small
-              label
               :color="
                 $METATYPE_CN[item.MetaType] && $METATYPE_CN[item.MetaType].color
                   ? $METATYPE_CN[item.MetaType].color
                   : 'grey'
               "
+              label
+              small
             >
               {{ $METATYPE_CN[item.MetaType].cn }}
             </v-chip>
@@ -60,9 +60,9 @@
             {{ item.UsedCpu.toFixed(1) }} core
             <v-progress-linear
               class="rounded font-weight-medium"
-              :value="item.CpuPercentage"
-              height="15"
               :color="getColor(item.CpuPercentage)"
+              height="15"
+              :value="item.CpuPercentage"
             >
               <span class="white--text"> {{ item.CpuPercentage }}% </span>
             </v-progress-linear>
@@ -71,9 +71,9 @@
             {{ item.UsedMemory.toFixed(1) }} Gi
             <v-progress-linear
               class="rounded font-weight-medium"
-              :value="item.MemoryPercentage"
-              height="15"
               :color="getColor(item.MemoryPercentage)"
+              height="15"
+              :value="item.MemoryPercentage"
             >
               <span class="white--text"> {{ item.MemoryPercentage }}% </span>
             </v-progress-linear>
@@ -82,9 +82,9 @@
             {{ item.UsedStorage.toFixed(1) }} Gi
             <v-progress-linear
               class="rounded font-weight-medium"
-              :value="item.StoragePercentage"
-              height="15"
               :color="getColor(item.StoragePercentage)"
+              height="15"
+              :value="item.StoragePercentage"
             >
               <span class="white--text"> {{ item.StoragePercentage }}% </span>
             </v-progress-linear>
@@ -94,8 +94,8 @@
               v-model="item.Isolation"
               class="float-right mt-0 mr-2"
               color="primary"
-              hide-details
               dense
+              hide-details
               @change="onNetworkPolicyChange(item, 'environment')"
             />
           </template>
@@ -107,21 +107,22 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import {
     getNetworkPolicyDetail,
     postUpdateEnvironmentNetworkPolicy,
     postUpdateProjectNetworkPolicy,
     getProjectEnvironmentAggregation,
   } from '@/api';
-  import BaseSelect from '@/mixins/select';
-  import BaseResource from '@/mixins/resource';
-  import BasePermission from '@/mixins/permission';
   import BaseFilter from '@/mixins/base_filter';
+  import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
   import { sizeOfStorage, sizeOfCpu } from '@/utils/helpers';
 
   export default {
     name: 'EnvironmentList',
-    mixins: [BaseSelect, BaseResource, BasePermission, BaseFilter],
+    mixins: [BaseFilter, BasePermission, BaseResource, BaseSelect],
     inject: ['reload'],
     props: {
       ready: {

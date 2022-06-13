@@ -67,23 +67,8 @@
   export default {
     name: 'BaseSplitContainer',
     props: {
-      // 侧边栏标题
-      title: {
-        type: String,
-        default: undefined,
-      },
-      // 收骑时使用tooltip展示更多信息
-      tooltip: {
-        type: Boolean,
-        default: false,
-      },
-      // 侧边栏宽度
-      sideWidth: {
-        type: String,
-        default: '300px',
-      },
-      // 隐藏side-header
-      hiddenSideHeader: {
+      // 是否允许展开收起
+      disabled: {
         type: Boolean,
         default: false,
       },
@@ -92,8 +77,23 @@
         type: Boolean,
         default: false,
       },
-      // 是否允许展开收起
-      disabled: {
+      // 隐藏side-header
+      hiddenSideHeader: {
+        type: Boolean,
+        default: false,
+      },
+      // 侧边栏宽度
+      sideWidth: {
+        type: String,
+        default: '300px',
+      },
+      // 侧边栏标题
+      title: {
+        type: String,
+        default: undefined,
+      },
+      // 收骑时使用tooltip展示更多信息
+      tooltip: {
         type: Boolean,
         default: false,
       },

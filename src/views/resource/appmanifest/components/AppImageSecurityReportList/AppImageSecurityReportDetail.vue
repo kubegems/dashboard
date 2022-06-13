@@ -1,5 +1,5 @@
 <template>
-  <BasePanel v-model="panel" title="漏洞报告" :width="`50%`" icon="fas fa-exclamation" @dispose="dispose">
+  <BasePanel v-model="panel" icon="fas fa-exclamation" title="漏洞报告" :width="`50%`" @dispose="dispose">
     <template #header>
       <span class="ml-2 text-subtitle-1">
         {{ item ? item.ImageName : '' }}
@@ -12,14 +12,14 @@
             class="kubegems__table-row-pointer"
             disable-sort
             :headers="headers"
+            :height="height"
+            hide-default-footer
+            item-key="index"
             :items="items"
             :items-per-page="1000"
-            item-key="index"
             no-data-text="暂无数据"
-            single-expand
             show-expand
-            hide-default-footer
-            :height="height"
+            single-expand
             @click:row="onRowClick"
           >
             <template #[`item.id`]="{ item }">
@@ -28,10 +28,10 @@
             <template #[`item.severity`]="{ item }">
               <v-chip
                 v-if="item.ScanStatus !== ''"
+                class="white--text"
+                :color="severityDict[item.severity] ? severityDict[item.severity].Color : ''"
                 label
                 small
-                :color="severityDict[item.severity] ? severityDict[item.severity].Color : ''"
-                class="white--text"
               >
                 {{ severityDict[item.severity] ? severityDict[item.severity].CN : '' }}
               </v-chip>
@@ -46,7 +46,7 @@
               {{ item.fix_version }}
             </template>
             <template #expanded-item="{ headers, item }">
-              <td :colspan="headers.length" class="ma-2">
+              <td class="ma-2" :colspan="headers.length">
                 <v-flex>
                   描述:
                   <pre class="kubegems__word-all-break">{{ item.description }}</pre>
@@ -54,7 +54,7 @@
                 <v-flex>
                   链接：
                   <v-flex v-for="(link, index) in item.links" :key="index">
-                    <a target="blank" :href="link">{{ link }}</a>
+                    <a :href="link" target="blank">{{ link }}</a>
                   </v-flex>
                 </v-flex>
               </td>
@@ -68,6 +68,7 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import { getAppImageSecurityReportDetail } from '@/api';
   import { deepCopy } from '@/utils/helpers';
 

@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog v-model="dialog" title="任务步骤状态" :width="1000" icon="fas fa-bullseye" @reset="reset">
+  <BaseDialog v-model="dialog" icon="fas fa-bullseye" title="任务步骤状态" :width="1000" @reset="reset">
     <template #header>
       <span class="ml-3">
         {{ $route.params.name }}
@@ -7,16 +7,19 @@
     </template>
     <template #content>
       <v-flex v-if="stages.length > 0" class="pa-1">
-        <v-stepper v-model="step" vertical non-linear>
+        <v-stepper v-model="step" non-linear vertical>
           <template v-for="(stage, index) in stages">
             <v-stepper-step
               :key="`s${index}`"
+              class="text-subtitle-1 kubegems__text font-weight-medium"
               :complete="
                 stage.data &&
                 stage.data.findIndex((s) => {
                   return s.status && s.status.status !== 'Success';
                 }) === -1
               "
+              edit-icon="mdi-check"
+              error-icon="mdi-close-circle"
               :rules="
                 stage.data
                   ? [
@@ -28,9 +31,6 @@
                   : []
               "
               :step="`${index + 1}`"
-              class="text-subtitle-1 kubegems__text font-weight-medium"
-              edit-icon="mdi-check"
-              error-icon="mdi-close-circle"
             >
               步骤{{ index + 1 }}: {{ stage.name }}
             </v-stepper-step>
@@ -39,13 +39,13 @@
                 <v-data-table
                   disable-sort
                   :headers="headers"
+                  hide-default-footer
+                  item-key="ID"
                   :items="stage.nodata ? [] : stage.data"
                   :items-per-page="100"
                   no-data-text="暂无部署数据"
-                  hide-default-footer
-                  single-expand
                   show-expand
-                  item-key="ID"
+                  single-expand
                   @click:row="onRowClick"
                 >
                   <template #[`item.task`]="{ item }">
@@ -75,7 +75,7 @@
                       执行失败
                     </template>
                     <template v-else-if="item && item.status && item.status.status === 'Running'">
-                      <v-icon color="warning" class="kubegems__waiting-circle-flashing" small> mdi-sync </v-icon>
+                      <v-icon class="kubegems__waiting-circle-flashing" color="warning" small> mdi-sync </v-icon>
                       执行中
                     </template>
                     <template v-else-if="item && item.status && item.status.status === 'Pending'">
@@ -84,7 +84,7 @@
                     </template>
                   </template>
                   <template #expanded-item="{ headers, item }">
-                    <td :colspan="headers.length" class="my-2 py-2">
+                    <td class="my-2 py-2" :colspan="headers.length">
                       <span>错误信息：</span>
                       <span>
                         {{
@@ -114,6 +114,7 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import BaseResource from '@/mixins/resource';
 
   export default {

@@ -9,22 +9,22 @@
         <v-col v-if="!obj.Primary" cols="6">
           <v-text-field
             v-model="obj.ClusterName"
-            required
             label="集群名称"
-            :rules="objRules.ClusterNameRules"
             :readonly="edit"
+            required
+            :rules="objRules.ClusterNameRules"
           />
         </v-col>
         <v-col cols="6">
           <v-autocomplete
             v-model="obj.ImageRepo"
-            :search-input.sync="imageRepoText"
-            :items="imageRepoItems"
-            :rules="objRules.ImageRepoRules"
             color="primary"
-            label="镜像仓库"
             hide-selected
+            :items="imageRepoItems"
+            label="镜像仓库"
             no-data-text="暂无可选数据"
+            :rules="objRules.ImageRepoRules"
+            :search-input.sync="imageRepoText"
             @keyup.enter="onCreateImageRepo"
           >
             <template #selection="{ item }">
@@ -37,13 +37,13 @@
         <v-col cols="6">
           <v-autocomplete
             v-model="obj.DefaultStorageClass"
-            :search-input.sync="storageClassText"
-            :items="storageClassItems"
-            :rules="objRules.StorageClassesRules"
             color="primary"
-            label="存储卷类型"
             hide-selected
+            :items="storageClassItems"
+            label="存储卷类型"
             no-data-text="暂无可选数据"
+            :rules="objRules.StorageClassesRules"
+            :search-input.sync="storageClassText"
             @keyup.enter="onCreateStorageClass"
           >
             <template #selection="{ item }">
@@ -65,11 +65,11 @@
   export default {
     name: 'InitClusterConfig',
     props: {
-      edit: {
+      control: {
         type: Boolean,
         default: () => false,
       },
-      control: {
+      edit: {
         type: Boolean,
         default: () => false,
       },

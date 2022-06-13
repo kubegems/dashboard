@@ -1,5 +1,5 @@
 <template>
-  <BasePanel v-model="panel" title="租户集群资源监控" :width="`50%`" icon="fas fa-chart-line" @dispose="dispose">
+  <BasePanel v-model="panel" icon="fas fa-chart-line" title="租户集群资源监控" :width="`50%`" @dispose="dispose">
     <template #header>
       <span class="ml-3 text-subtitle-2 primary--text">
         {{ item ? item.TenantName : '' }}
@@ -20,15 +20,15 @@
     <template #content>
       <v-card :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} mt-4`" flat>
         <v-card-text class="py-0">
-          <BaseApexAreaChart id="cpu" title="CPU使用量" :metrics="cpu" type="cpu" label="tenant" :extend-height="280" />
+          <BaseApexAreaChart id="cpu" :extend-height="280" label="tenant" :metrics="cpu" title="CPU使用量" type="cpu" />
 
           <BaseApexAreaChart
             id="memory"
-            title="内存使用量"
-            :metrics="memory"
-            type="memory"
-            label="tenant"
             :extend-height="280"
+            label="tenant"
+            :metrics="memory"
+            title="内存使用量"
+            type="memory"
           />
         </v-card-text>
       </v-card>
@@ -38,14 +38,15 @@
 
 <script>
   import { mapState } from 'vuex';
-  import BaseResource from '@/mixins/resource';
+
   import BasePermission from '@/mixins/permission';
-  import { TENANT_CPU_USAGE_PROMQL, TENANT_MEMORY_USAGE_PROMQL } from '@/utils/prometheus';
+  import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
+  import { TENANT_CPU_USAGE_PROMQL, TENANT_MEMORY_USAGE_PROMQL } from '@/utils/prometheus';
 
   export default {
     name: 'TenantMonitor',
-    mixins: [BaseResource, BasePermission],
+    mixins: [BasePermission, BaseResource],
     data: () => ({
       panel: false,
       cpu: [],

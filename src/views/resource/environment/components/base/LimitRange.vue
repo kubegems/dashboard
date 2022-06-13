@@ -10,8 +10,8 @@
             <v-text-field
               v-model="obj.LimitRange.Container.default.cpu"
               class="mt-0 pt-0"
-              :rules="objRules.container.cpuDefaultMinRule"
               label="默认值"
+              :rules="objRules.container.cpuDefaultMinRule"
               style="width: 120px"
             />
           </v-flex>
@@ -19,8 +19,8 @@
             <v-text-field
               v-model="obj.LimitRange.Container.defaultRequest.cpu"
               class="mt-0 pt-0"
-              :rules="objRules.container.cpuDefaultRequestMinRule"
               label="默认请求值"
+              :rules="objRules.container.cpuDefaultRequestMinRule"
               style="width: 120px"
             />
           </v-flex>
@@ -28,8 +28,8 @@
             <v-text-field
               v-model="obj.LimitRange.Container.max.cpu"
               class="mt-0 pt-0"
-              :rules="objRules.container.cpuMaxRule"
               label="限制值"
+              :rules="objRules.container.cpuMaxRule"
               style="width: 120px"
             />
           </v-flex>
@@ -44,8 +44,8 @@
             <v-text-field
               v-model="obj.LimitRange.Container.default.memory"
               class="mt-0 pt-0"
-              :rules="objRules.container.memoryDefaultRule"
               label="默认值"
+              :rules="objRules.container.memoryDefaultRule"
               style="width: 120px"
             />
           </v-flex>
@@ -53,8 +53,8 @@
             <v-text-field
               v-model="obj.LimitRange.Container.defaultRequest.memory"
               class="mt-0 pt-0"
-              :rules="objRules.container.memoryDefaultRequestRule"
               label="默认请求值"
+              :rules="objRules.container.memoryDefaultRequestRule"
               style="width: 120px"
             />
           </v-flex>
@@ -62,8 +62,8 @@
             <v-text-field
               v-model="obj.LimitRange.Container.max.memory"
               class="mt-0 pt-0"
-              :rules="objRules.container.memoryMaxRule"
               label="限制值"
+              :rules="objRules.container.memoryMaxRule"
               style="width: 120px"
             />
           </v-flex>
@@ -78,8 +78,8 @@
             <v-text-field
               v-model="obj.LimitRange.Pod.max.cpu"
               class="mt-0 pt-0"
-              :rules="objRules.pod.cpuMaxRule"
               label="限制值"
+              :rules="objRules.pod.cpuMaxRule"
               style="width: 120px"
             />
           </v-flex>
@@ -95,8 +95,8 @@
               <v-text-field
                 v-model="obj.LimitRange.Pod.max.memory"
                 class="mt-0 pt-0"
-                :rules="objRules.pod.memoryMaxRule"
                 label="限制值"
+                :rules="objRules.pod.memoryMaxRule"
                 style="width: 120px"
               />
             </v-flex>
@@ -115,8 +115,8 @@
             <v-text-field
               v-model="obj.LimitRange.PersistentVolumeClaim.max.storage"
               class="mt-0 pt-0"
-              :rules="objRules.persistentVolumeClaim.storageMaxRule"
               label="限制值"
+              :rules="objRules.persistentVolumeClaim.storageMaxRule"
               style="width: 120px"
             />
           </v-flex>
@@ -124,8 +124,8 @@
         </v-sheet>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn text small color="error" @click="closeCard"> 取消 </v-btn>
-          <v-btn text small color="primary" @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
+          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>

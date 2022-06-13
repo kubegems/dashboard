@@ -10,13 +10,13 @@
   export default {
     name: 'EmptyOverlay',
     props: {
-      visible: {
-        type: Boolean,
-        default: false,
-      },
       text: {
         type: String,
         default: '请选择环境',
+      },
+      visible: {
+        type: Boolean,
+        default: false,
       },
     },
   };

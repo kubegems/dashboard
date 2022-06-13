@@ -2,24 +2,24 @@
   <div>
     <v-card>
       <v-sheet class="pa-2">
-        <BaseListItemForDetail title="匹配应用" :mt="0">
+        <BaseListItemForDetail :mt="0" title="匹配应用">
           <template #content>
-            <BaseCollapseChips v-if="flow" :chips="matchs" single-line icon="mdi-apps" />
+            <BaseCollapseChips v-if="flow" :chips="matchs" icon="mdi-apps" single-line />
           </template>
         </BaseListItemForDetail>
         <BaseListItemForDetail title="过滤器">
           <template #content>
-            <BaseCollapseChips v-if="flow" :chips="filters" single-line icon="mdi-filter" />
+            <BaseCollapseChips v-if="flow" :chips="filters" icon="mdi-filter" single-line />
           </template>
         </BaseListItemForDetail>
         <BaseListItemForDetail title="路由器(Output)">
           <template #content>
-            <BaseCollapseChips v-if="flow" :chips="flow.spec.localOutputRefs" single-line icon="mdi-router-wireless" />
+            <BaseCollapseChips v-if="flow" :chips="flow.spec.localOutputRefs" icon="mdi-router-wireless" single-line />
           </template>
         </BaseListItemForDetail>
         <BaseListItemForDetail title="路由器(ClusterOutput)">
           <template #content>
-            <BaseCollapseChips v-if="flow" :chips="flow.spec.globalOutputRefs" single-line icon="mdi-router-wireless" />
+            <BaseCollapseChips v-if="flow" :chips="flow.spec.globalOutputRefs" icon="mdi-router-wireless" single-line />
           </template>
         </BaseListItemForDetail>
       </v-sheet>

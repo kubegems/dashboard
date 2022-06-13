@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form" v-model="valid" lazy-validation class="my-2" @submit.prevent>
+  <v-form ref="form" v-model="valid" class="my-2" lazy-validation @submit.prevent>
     <v-card class="my-2 pa-2" flat>
       <v-card-text class="pa-0">
         <v-sheet class="pt-2 px-0">
@@ -10,8 +10,8 @@
             <v-text-field
               v-model="webhookConfig.url"
               class="my-0"
-              required
               label="URL"
+              required
               :rules="webhookConfigRules.urlRule"
             />
           </v-flex>
@@ -20,8 +20,8 @@
       </v-card-text>
       <v-card-actions class="pa-0">
         <v-spacer />
-        <v-btn text small color="error" @click="closeCard"> 取消 </v-btn>
-        <v-btn text small color="primary" @click="addData"> 保存 </v-btn>
+        <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
+        <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
       </v-card-actions>
     </v-card>
   </v-form>
@@ -29,19 +29,20 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'WebhookForm',
     props: {
-      data: {
-        type: Object,
-        default: () => {},
-      },
       configIndex: {
         type: Number,
         default: () => null,
+      },
+      data: {
+        type: Object,
+        default: () => {},
       },
       obj: {
         type: Object,

@@ -5,9 +5,9 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
+          :default="{ items: [], text: '服务名称', value: 'search' }"
           :filters="filters"
           :reload="false"
-          :default="{ items: [], text: '服务名称', value: 'search' }"
           @refresh="m_filter_list"
         />
         <EnvironmentFilter />
@@ -15,25 +15,25 @@
         <v-menu v-if="m_permisson_virtualSpaceAllow" left>
           <template #activator="{ on }">
             <v-btn icon>
-              <v-icon small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+              <v-icon color="primary" small v-on="on"> fas fa-ellipsis-v </v-icon>
             </v-btn>
           </template>
           <v-card>
             <v-card-text class="pa-2">
               <v-flex>
-                <v-btn text color="primary" @click="addIstioVirtualService">
+                <v-btn color="primary" text @click="addIstioVirtualService">
                   <v-icon left>mdi-cloud-outline</v-icon>
                   创建istio虚拟服务
                 </v-btn>
               </v-flex>
               <v-flex>
-                <v-btn text color="primary" @click="addIstioDestinationRule">
+                <v-btn color="primary" text @click="addIstioDestinationRule">
                   <v-icon left>mdi-ruler</v-icon>
                   创建istio流量规则
                 </v-btn>
               </v-flex>
               <v-flex>
-                <v-btn text color="primary" @click="addIstioGateway">
+                <v-btn color="primary" text @click="addIstioGateway">
                   <v-icon left>mdi-gate</v-icon>
                   创建istio网关
                 </v-btn>
@@ -44,15 +44,15 @@
       </v-card-title>
       <v-data-table
         class="mx-4"
+        :custom-filter="baseFilter"
         disable-sort
-        :search.sync="$route.query.search"
         :headers="headers"
+        hide-default-footer
         :items="items"
         :items-per-page="1000"
         no-data-text="暂无数据"
         no-results-text="暂无数据"
-        hide-default-footer
-        :custom-filter="baseFilter"
+        :search.sync="$route.query.search"
       >
         <template #[`item.name`]="{ item }">
           <a class="text-subtitle-2" @click="kialiServiceDetail(item)">
@@ -60,10 +60,10 @@
               {{ item.name }}
             </v-flex>
             <v-flex v-if="item.istioSidecar && item.appLabel" class="float-left ml-2">
-              <v-menu right nudge-right="20px" nudge-top="10px" open-on-hover>
+              <v-menu nudge-right="20px" nudge-top="10px" open-on-hover right>
                 <template #activator="{ on }">
                   <span v-on="on">
-                    <Icon icon="simple-icons:istio" class="mr-2 primary--text" width="18px" height="18px" />
+                    <Icon class="mr-2 primary--text" height="18px" icon="simple-icons:istio" width="18px" />
                   </span>
                 </template>
                 <v-card>
@@ -77,7 +77,7 @@
           {{ EnvironmentFilter ? EnvironmentFilter.text : '' }}
         </template>
         <template #[`item.labels`]="{ item }">
-          <BaseCollapseChips :chips="item.labels || {}" single-line icon="mdi-label" />
+          <BaseCollapseChips :chips="item.labels || {}" icon="mdi-label" single-line />
         </template>
         <template #[`item.config`]="{ item, index }">
           <v-flex :id="`r${index}`" />
@@ -89,7 +89,7 @@
               : item.istioReferences"
             :key="i"
           >
-            <v-chip small class="ma-1" color="success" text-color="white">
+            <v-chip class="ma-1" color="success" small text-color="white">
               <strong class="mx-1"> {{ ref.objectType }} </strong>
               {{ ref.name }}
               <strong v-if="item.istioReferences.length > 1 && !item.showConfig" class="ml-2">
@@ -100,31 +100,31 @@
               <v-btn
                 v-if="item.showConfig"
                 class="cell-btn"
-                small
-                icon
-                text
                 color="primary"
+                icon
+                small
+                text
                 @click="showAllConfig(index)"
               >
                 <v-icon>mdi-chevron-double-up</v-icon>
               </v-btn>
-              <v-btn v-else class="cell-btn" small icon text color="primary" @click="showAllConfig(index)">
+              <v-btn v-else class="cell-btn" color="primary" icon small text @click="showAllConfig(index)">
                 <v-icon>mdi-chevron-double-down</v-icon>
               </v-btn>
             </template>
-            <v-menu left top :attach="`#r${index}`">
+            <v-menu :attach="`#r${index}`" left top>
               <template #activator="{ on }">
                 <v-btn icon>
-                  <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                  <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
                 </v-btn>
               </template>
               <v-card>
                 <v-card-text class="pa-2">
                   <v-flex>
-                    <v-btn color="primary" text small @click="updateIstioRecource(ref)"> 编辑 </v-btn>
+                    <v-btn color="primary" small text @click="updateIstioRecource(ref)"> 编辑 </v-btn>
                   </v-flex>
                   <v-flex>
-                    <v-btn color="error" text small @click="removeIstioResource(ref)"> 删除 </v-btn>
+                    <v-btn color="error" small text @click="removeIstioResource(ref)"> 删除 </v-btn>
                   </v-flex>
                 </v-card-text>
               </v-card>
@@ -136,29 +136,29 @@
           <v-icon v-if="valids[item.name] && valids[item.name].valid" color="success" small> mdi-check-circle </v-icon>
           <v-menu
             v-else
-            :top="params.size - index <= 5 || (items.length <= 5 && index >= 1)"
-            right
-            offset-y
-            :origin="params.size - index <= 5 || (items.length <= 5 && index >= 1) ? `bottom center` : `top center`"
-            transition="scale-transition"
-            nudge-bottom="-5px"
             :attach="`#v${item.name}`"
-            open-on-hover
-            max-width="200px"
             :close-delay="200"
+            max-width="200px"
+            nudge-bottom="-5px"
+            offset-y
+            open-on-hover
+            :origin="params.size - index <= 5 || (items.length <= 5 && index >= 1) ? `bottom center` : `top center`"
+            right
+            :top="params.size - index <= 5 || (items.length <= 5 && index >= 1)"
+            transition="scale-transition"
           >
             <template #activator="{ on }">
               <v-icon color="warning" small v-on="on"> mdi-alert-circle </v-icon>
             </template>
             <v-card>
-              <v-list dense class="pa-0">
+              <v-list class="pa-0" dense>
                 <v-flex class="text-body-2 text-center primary white--text py-2">
                   <v-icon color="white" left small> mdi-alert </v-icon>
                   <span>警告</span>
                 </v-flex>
                 <v-list-item>
                   <v-list-item-content>
-                    <v-list-item two-line class="float-left pa-0">
+                    <v-list-item class="float-left pa-0" two-line>
                       <v-list-item-content class="py-0">
                         <v-list-item-title> 警告 </v-list-item-title>
                         <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
@@ -185,9 +185,9 @@
         v-model="params.page"
         :page-count="pageCount"
         :size="params.size"
-        @loaddata="serviceList"
-        @changesize="onPageSizeChange"
         @changepage="onPageIndexChange"
+        @changesize="onPageSizeChange"
+        @loaddata="serviceList"
       />
     </v-card>
 
@@ -204,36 +204,38 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import AddVirtualService from './components/virtual_service/AddVirtualService';
+
   import AddIstioDestinationRule from './components/destination_rule/AddIstioDestinationRule';
-  import AddIstioGateway from './components/gateway/AddIstioGateway';
-  import UpdateVirtualService from './components/virtual_service/UpdateVirtualService';
   import UpdateIstioDestinationRule from './components/destination_rule/UpdateIstioDestinationRule';
+  import AddIstioGateway from './components/gateway/AddIstioGateway';
   import UpdateIstioGateway from './components/gateway/UpdateIstioGateway';
   import UpdateResource from './components/UpdateResource';
-  import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
+  import AddVirtualService from './components/virtual_service/AddVirtualService';
+  import UpdateVirtualService from './components/virtual_service/UpdateVirtualService';
+
   import {
     getMicroServiceList,
     deleteIstioGateway,
     deleteIstioVirtualService,
     deleteIstioDestinationRule,
   } from '@/api';
-  import BasePermission from '@/mixins/permission';
   import BaseFilter from '@/mixins/base_filter';
+  import BasePermission from '@/mixins/permission';
+  import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
 
   export default {
     name: 'Service',
     components: {
-      EnvironmentFilter,
-      AddVirtualService,
       AddIstioDestinationRule,
       AddIstioGateway,
-      UpdateVirtualService,
+      AddVirtualService,
+      EnvironmentFilter,
       UpdateIstioDestinationRule,
       UpdateIstioGateway,
       UpdateResource,
+      UpdateVirtualService,
     },
-    mixins: [BasePermission, BaseFilter],
+    mixins: [BaseFilter, BasePermission],
     data: () => ({
       items: [],
       valids: {},

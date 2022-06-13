@@ -8,6 +8,7 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import IntroSteps from './components/IntroSteps';
   import OverviewList from './components/OverviewList';
 

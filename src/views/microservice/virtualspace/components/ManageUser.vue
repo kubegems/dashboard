@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog v-model="dialog" :width="900" title="虚拟空间成员" icon="mdi-account-settings" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-account-settings" title="虚拟空间成员" :width="900" @reset="reset">
     <template #content>
       <v-card flat>
         <v-card-text class="pa-0">
@@ -11,16 +11,16 @@
             <v-tab-item v-for="item in tabItems" :key="item.tab" :reverse-transition="false" :transition="false">
               <v-card flat>
                 <v-row class="pa-0 ma-0">
-                  <v-col cols="6" class="py-1">
+                  <v-col class="py-1" cols="6">
                     <v-card elevation="2" height="550px">
                       <v-card-text>
                         <v-flex class="px-1 mb-2">用户</v-flex>
                         <v-text-field
                           v-model="searchAllUser"
                           class="mx-1"
-                          prepend-inner-icon="mdi-magnify"
                           dense
                           hide-details
+                          prepend-inner-icon="mdi-magnify"
                           @keyup="onAllUsernameInput"
                         />
                         <v-list dense height="450px" style="overflow-y: auto">
@@ -31,7 +31,7 @@
                             @click="setRole(user, index)"
                           >
                             <v-list-item-avatar class="my-1">
-                              <v-avatar :size="32" color="primary" class="white--text font-weight-medium">
+                              <v-avatar class="white--text font-weight-medium" color="primary" :size="32">
                                 {{ user.Username[0].toLocaleUpperCase() }}
                               </v-avatar>
                             </v-list-item-avatar>
@@ -43,7 +43,7 @@
                       </v-card-text>
                     </v-card>
                   </v-col>
-                  <v-col cols="6" class="py-1">
+                  <v-col class="py-1" cols="6">
                     <v-card elevation="2" height="550px">
                       <v-card-text>
                         <v-flex class="px-1 mb-2">
@@ -52,9 +52,9 @@
                         <v-text-field
                           v-model="searchRoleUser"
                           class="mx-1"
-                          prepend-inner-icon="mdi-magnify"
                           dense
                           hide-details
+                          prepend-inner-icon="mdi-magnify"
                           @keyup="onRoleUsernameInput"
                         />
                         <v-list dense height="450px" style="overflow-y: auto">
@@ -65,7 +65,7 @@
                             @click="removeRole(user, index)"
                           >
                             <v-list-item-avatar class="my-1">
-                              <v-avatar :size="32" color="primary" class="white--text font-weight-medium">
+                              <v-avatar class="white--text font-weight-medium" color="primary" :size="32">
                                 {{ user.Username[0].toLocaleUpperCase() }}
                               </v-avatar>
                             </v-list-item-avatar>
@@ -89,6 +89,7 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import {
     getVirtualSpaceUserList,
     deleteVirtualSpaceUser,

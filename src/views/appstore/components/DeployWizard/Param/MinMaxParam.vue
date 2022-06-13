@@ -2,19 +2,19 @@
   <v-flex>
     <BaseSubTitle
       v-if="pathLevel === 1"
-      :title="label"
-      :color="pathLevel === 1 ? 'grey lighten-3' : ''"
       class="mb-4"
+      :color="pathLevel === 1 ? 'grey lighten-3' : ''"
       :divider="false"
+      :title="label"
     />
     <v-text-field
       :id="id"
-      :value="sliderVal"
-      type="number"
-      :label="pathLevel === 1 ? '' : label"
-      :suffix="param.sliderUnit"
-      :rules="rules"
       class="my-2"
+      :label="pathLevel === 1 ? '' : label"
+      :rules="rules"
+      :suffix="param.sliderUnit"
+      type="number"
+      :value="sliderVal"
       @change="onSliderChange($event)"
     />
     <v-flex />
@@ -27,6 +27,10 @@
   export default {
     name: 'MinMaxParam',
     props: {
+      id: {
+        type: String,
+        default: () => '',
+      },
       label: {
         type: String,
         default: () => '',
@@ -34,10 +38,6 @@
       param: {
         type: Object,
         default: () => {},
-      },
-      id: {
-        type: String,
-        default: () => '',
       },
     },
     data: () => ({

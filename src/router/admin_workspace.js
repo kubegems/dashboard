@@ -436,7 +436,7 @@ export const adminWorkspace = [
               show: true,
               rootName: 'admin-workspace',
               tip: 'certmanager',
-              dependencies: ['kubegems-local'],
+              dependencies: ['kubegems-local', 'cert-manager'],
             },
           },
           {
@@ -451,7 +451,7 @@ export const adminWorkspace = [
               show: false,
               rootName: 'admin-workspace',
               tip: 'certmanager',
-              dependencies: ['kubegems-local'],
+              dependencies: ['kubegems-local', 'cert-manager'],
             },
           },
         ],

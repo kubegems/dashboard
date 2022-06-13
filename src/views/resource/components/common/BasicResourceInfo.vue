@@ -3,7 +3,7 @@
     <v-card-title class="text-h6 primary--text">
       {{ item ? item.metadata.name : '' }}
       <template v-if="item && item.kind === 'Pod' && tke">
-        <v-menu top open-on-hover :close-delay="200">
+        <v-menu :close-delay="200" open-on-hover top>
           <template #activator="{ on }">
             <span class="mt-1 mr-2" v-on="on">
               <BaseLogo icon-name="tke" />
@@ -15,7 +15,7 @@
         </v-menu>
       </template>
       <template v-if="item && item.kind === 'Pod' && nvidia">
-        <v-menu top open-on-hover :close-delay="200">
+        <v-menu :close-delay="200" open-on-hover top>
           <template #activator="{ on }">
             <span class="mt-1 mr-2" v-on="on">
               <BaseLogo icon-name="nvidia" />
@@ -69,15 +69,15 @@
     name: 'BasicResourceInfo',
     mixins: [BaseResource],
     props: {
+      environment: {
+        type: Boolean,
+        default: () => true,
+      },
       item: {
         type: Object,
         default: () => null,
       },
       project: {
-        type: Boolean,
-        default: () => true,
-      },
-      environment: {
         type: Boolean,
         default: () => true,
       },

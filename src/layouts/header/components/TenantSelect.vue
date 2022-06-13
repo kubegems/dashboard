@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog v-model="dialog" :width="600" title="选择租户" icon="mdi-account-multiple" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-account-multiple" title="选择租户" :width="600" @reset="reset">
     <template #content>
       <v-flex class="grey lighten-4 rounded ma-2 mt-0">
         <v-list-item>
@@ -13,29 +13,29 @@
 
       <v-sheet>
         <v-data-table
+          class="px-2 tenant__table"
           :headers="headers"
+          hide-default-footer
+          item-key="value"
           :items="m_select_tenantItems"
-          :page.sync="params.page"
-          :search.sync="search"
           :items-per-page="params.size"
           no-data-text="暂无数据"
           no-results-text="暂无匹配租户"
-          hide-default-footer
-          item-key="value"
-          class="px-2 tenant__table"
+          :page.sync="params.page"
+          :search.sync="search"
         >
           <template #[`item.isActive`]="{ item }">
             <span v-if="item.isActive">
-              <v-icon small color="primary"> fas fa-check-circle </v-icon>
+              <v-icon color="primary" small> fas fa-check-circle </v-icon>
               启用
             </span>
             <span v-else>
-              <v-icon small color="error">fas fa-minus-circle</v-icon>
+              <v-icon color="error" small>fas fa-minus-circle</v-icon>
               禁用
             </span>
           </template>
           <template #[`item.action`]="{ item }">
-            <v-btn v-if="!item.disabled && item.isActive" small text color="primary" @click="setTenant(item)">
+            <v-btn v-if="!item.disabled && item.isActive" color="primary" small text @click="setTenant(item)">
               进入空间
             </v-btn>
           </template>
@@ -47,8 +47,9 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { sleep } from '@/utils/helpers';
+
   import BaseSelect from '@/mixins/select';
+  import { sleep } from '@/utils/helpers';
 
   export default {
     name: 'TenantSelect',

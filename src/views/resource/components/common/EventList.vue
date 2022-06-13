@@ -4,11 +4,11 @@
       <v-data-table
         disable-sort
         :headers="headers"
+        hide-default-footer
         :items="items"
-        :page.sync="params.page"
         :items-per-page="params.size"
         no-data-text="暂无数据"
-        hide-default-footer
+        :page.sync="params.page"
       >
         <template #[`item.reason`]="{ item }">
           {{ item.reason }}
@@ -24,8 +24,8 @@
             <v-chip
               class="white--text font-weight-medium chip-width"
               :color="$EVENT_STATUS_COLOR[item.type]"
-              small
               label
+              small
             >
               <span>{{ item.type }}</span>
             </v-chip>
@@ -34,8 +34,8 @@
             v-else
             class="white--text font-weight-medium chip-width"
             :color="$EVENT_STATUS_COLOR[item.type]"
-            small
             label
+            small
           >
             <span>{{ item.type }}</span>
           </v-chip>
@@ -64,9 +64,9 @@
         v-model="params.page"
         :page-count="pageCount"
         :size="params.size"
-        @loaddata="eventList"
-        @changesize="onPageSizeChange"
         @changepage="onPageIndexChange"
+        @changesize="onPageSizeChange"
+        @loaddata="eventList"
       />
     </v-card-text>
   </v-card>

@@ -1,9 +1,9 @@
 <template>
   <div>
     <v-card>
-      <BaseSubTitle class="pt-2" title="标签" :divider="false">
+      <BaseSubTitle class="pt-2" :divider="false" title="标签">
         <template v-if="!readonly" #action>
-          <v-btn small text color="primary" class="float-right mr-2" @click="addLabel">
+          <v-btn class="float-right mr-2" color="primary" small text @click="addLabel">
             <v-icon left small> mdi-tag-plus </v-icon>
             添加标签
           </v-btn>
@@ -14,14 +14,14 @@
           <v-sheet v-for="(value, key) in metadata ? metadata.labels : []" :key="key" class="ml-2">
             <v-chip
               class="my-1"
-              color="success"
-              text-color="white"
-              small
               :close="!readonly"
               close-icon="mdi-delete"
+              color="success"
+              small
+              text-color="white"
               @click:close="removeMetadata(key, 'label')"
             >
-              <v-icon small left> mdi-label </v-icon>
+              <v-icon left small> mdi-label </v-icon>
               <strong class="mx-1"> {{ key }} </strong>
               {{ value }}
             </v-chip>
@@ -32,9 +32,9 @@
     </v-card>
 
     <v-card class="mt-3">
-      <BaseSubTitle class="pt-2" title="注解" :divider="false">
+      <BaseSubTitle class="pt-2" :divider="false" title="注解">
         <template v-if="!readonly" #action>
-          <v-btn small text color="primary" class="float-right mr-2" @click="addAnnotation">
+          <v-btn class="float-right mr-2" color="primary" small text @click="addAnnotation">
             <v-icon left small> mdi-tag-plus </v-icon>
             添加注解
           </v-btn>
@@ -46,13 +46,13 @@
             <v-chip
               v-if="$ANNOTATION_IGNORE_ARRAY.indexOf(key) === -1"
               class="my-1 kubegems__text"
-              color="gray"
-              small
               :close="!readonly"
               close-icon="mdi-delete"
+              color="gray"
+              small
               @click:close="removeMetadata(key, 'annotation')"
             >
-              <v-icon small left> mdi-label </v-icon>
+              <v-icon left small> mdi-label </v-icon>
               <strong class="mx-1"> {{ key }} </strong>
               {{ value }}
             </v-chip>
@@ -68,8 +68,10 @@
 </template>
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import AddLabel from './AddLabel';
+
   import AddAnnotation from './AddAnnotation';
+  import AddLabel from './AddLabel';
+
   import { patchMetadataNode } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
@@ -77,18 +79,18 @@
   export default {
     name: 'Metadata',
     components: {
-      AddLabel,
       AddAnnotation,
+      AddLabel,
     },
     mixins: [BaseResource],
     props: {
-      readonly: {
-        type: Boolean,
-        default: true,
-      },
       item: {
         type: Object,
         default: () => null,
+      },
+      readonly: {
+        type: Boolean,
+        default: true,
       },
     },
     data() {

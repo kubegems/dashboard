@@ -1,26 +1,26 @@
 <template>
-  <v-card :elevation="expand ? 3 : 0" class="pa-3">
+  <v-card class="pa-3" :elevation="expand ? 3 : 0">
     <div class="d-flex">
       <v-btn color="primary" text @click="onSwitchExpand">
         查询<v-icon right>mdi-chevron-{{ expand ? 'up' : 'down' }}</v-icon>
       </v-btn>
 
-      <v-combobox v-model="alertname" solo flat dense hide-details @keydown.enter="onSearch" @change="onEmitChange">
+      <v-combobox v-model="alertname" dense flat hide-details solo @change="onEmitChange" @keydown.enter="onSearch">
         <template #prepend-inner>
-          <v-chip v-for="(value, key) in tagMap" v-show="tagMap[key]" :key="key" color="primary" small label>
+          <v-chip v-for="(value, key) in tagMap" v-show="tagMap[key]" :key="key" color="primary" label small>
             <span>{{ labels[key].text }}：{{ getItemText(key, value) }}</span>
             <v-icon right small @click="onRemoveTag(key)"> mdi-close </v-icon>
           </v-chip>
         </template>
         <template #selection="{ item }">
-          <v-chip color="primary" small label>
+          <v-chip color="primary" label small>
             <span>告警名称：{{ item }}</span>
             <v-icon right small @click="onRemoveTag('alertname')"> mdi-close </v-icon>
           </v-chip>
         </template>
       </v-combobox>
 
-      <v-btn color="primary" text class="ml-4" @click="onSearch">
+      <v-btn class="ml-4" color="primary" text @click="onSearch">
         <v-icon left>mdi-magnify</v-icon>
         运行
       </v-btn>
@@ -32,12 +32,12 @@
         <v-btn
           v-for="tag in tags"
           :key="tag.value"
-          x-small
-          label
-          :outlined="!tagCols.includes(tag.value)"
           class="mr-2"
           color="primary"
           :disabled="!tag.items.length"
+          label
+          :outlined="!tagCols.includes(tag.value)"
+          x-small
           @click="onSwitchCol(tag)"
         >
           {{ tag.text }}({{ tag.items.length }})
@@ -45,8 +45,8 @@
       </div>
 
       <v-row class="ma-0">
-        <v-col v-for="col in tagCols" :key="col" cols="2" class="tags__col">
-          <v-chip color="primary" small class="mb-4">
+        <v-col v-for="col in tagCols" :key="col" class="tags__col" cols="2">
+          <v-chip class="mb-4" color="primary" small>
             {{ labels[col].text }}
           </v-chip>
           <ul class="tags__list">
@@ -71,17 +71,18 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import { getSystemConfigData, getProjectList, getProjectEnvironmentList } from '@/api';
 
   export default {
     name: 'HistorySearch',
     props: {
-      value: {
-        type: Object,
-        default: undefined,
-      },
       cluster: {
         type: Number,
+        default: undefined,
+      },
+      value: {
+        type: Object,
         default: undefined,
       },
     },

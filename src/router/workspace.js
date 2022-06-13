@@ -417,7 +417,7 @@ export const workspace = [
               show: true,
               rootName: 'workspace',
               tip: 'certmanager',
-              dependencies: ['kubegems-local'],
+              dependencies: ['kubegems-local', 'cert-manager'],
             },
           },
           {
@@ -432,7 +432,7 @@ export const workspace = [
               show: false,
               rootName: 'workspace',
               tip: 'certmanager',
-              dependencies: ['kubegems-local'],
+              dependencies: ['kubegems-local', 'cert-manager'],
             },
           },
         ],

@@ -2,7 +2,7 @@
   <div>
     <v-card>
       <v-sheet class="pa-2">
-        <BaseListItemForDetail title="IP" :mt="0">
+        <BaseListItemForDetail :mt="0" title="IP">
           <template #content>
             {{ service ? service.spec.clusterIP : '' }}
           </template>
@@ -16,14 +16,14 @@
 
         <BaseListItemForDetail title="匹配标签">
           <template #content>
-            <BaseCollapseChips v-if="service" :chips="service.spec.selector || {}" single-line icon="mdi-label" />
+            <BaseCollapseChips v-if="service" :chips="service.spec.selector || {}" icon="mdi-label" single-line />
           </template>
         </BaseListItemForDetail>
       </v-sheet>
     </v-card>
 
     <v-card class="mt-3">
-      <BaseSubTitle title="服务端口" :divider="false" class="pt-2" />
+      <BaseSubTitle class="pt-2" :divider="false" title="服务端口" />
       <v-simple-table class="mx-2 pa-2 pb-3">
         <template #default>
           <thead>
@@ -36,12 +36,12 @@
           <tbody>
             <tr v-for="(item, index) in service ? service.spec.ports : []" :key="index">
               <td>
-                <v-chip color="success" text-color="white" class="ma-1 font-weight-medium" small>
+                <v-chip class="ma-1 font-weight-medium" color="success" small text-color="white">
                   {{ item.targetPort }}｜{{ item.protocol }}
                 </v-chip>
               </td>
               <td>
-                <v-chip color="success" text-color="white" class="ma-1 font-weight-medium" small>
+                <v-chip class="ma-1 font-weight-medium" color="success" small text-color="white">
                   {{ item.port }}｜{{ item.protocol }}
                 </v-chip>
               </td>
@@ -55,8 +55,8 @@
 </template>
 
 <script>
-  import { deepCopy } from '@/utils/helpers';
   import BaseResource from '@/mixins/resource';
+  import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'ResourceInfo',

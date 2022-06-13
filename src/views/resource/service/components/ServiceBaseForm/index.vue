@@ -8,18 +8,18 @@
           <v-col cols="6">
             <v-autocomplete
               v-model="resourceKind"
-              color="primary"
-              :items="kinds"
-              :rules="objRules.kindRule"
-              :readonly="edit"
-              label="资源"
-              hide-selected
               class="my-0"
+              color="primary"
+              hide-selected
+              :items="kinds"
+              label="资源"
               no-data-text="暂无可选数据"
+              :readonly="edit"
+              :rules="objRules.kindRule"
               @change="onKindChange"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -31,27 +31,27 @@
             <v-text-field
               v-model="obj.metadata.name"
               class="my-0"
-              required
               label="名称"
-              :rules="objRules.nameRule"
               :readonly="edit"
+              required
+              :rules="objRules.nameRule"
             />
           </v-col>
           <v-col v-if="AdminViewport && !manifest" cols="6">
             <v-autocomplete
               v-model="obj.metadata.namespace"
-              color="primary"
-              :items="m_select_namespaceItems"
-              :rules="objRules.namespaceRule"
-              :readonly="edit"
-              label="命名空间"
-              hide-selected
               class="my-0"
+              color="primary"
+              hide-selected
+              :items="m_select_namespaceItems"
+              label="命名空间"
               no-data-text="暂无可选数据"
+              :readonly="edit"
+              :rules="objRules.namespaceRule"
               @focus="onNamespaceSelectFocus(ThisCluster)"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -60,18 +60,18 @@
           <v-col cols="6">
             <v-autocomplete
               v-model="selector"
-              color="primary"
-              :items="workloads"
-              :rules="objRules.selectorRule"
-              label="关联工作负载"
-              hide-selected
               class="my-0"
+              color="primary"
+              hide-selected
+              :items="workloads"
+              label="关联工作负载"
               no-data-text="暂无可选数据"
-              @focus="onRelatedWorkloadSelectFocus"
+              :rules="objRules.selectorRule"
               @change="onWorkloadSelectorChange"
+              @focus="onRelatedWorkloadSelectFocus"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -80,16 +80,16 @@
           <v-col cols="6">
             <v-autocomplete
               v-model="obj.spec.clusterIP"
-              color="primary"
-              :items="types"
-              :rules="objRules.clusterIPRule"
-              label="访问类型"
-              hide-selected
               class="my-0"
+              color="primary"
+              hide-selected
+              :items="types"
+              label="访问类型"
               no-data-text="暂无可选数据"
+              :rules="objRules.clusterIPRule"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -98,17 +98,17 @@
           <v-col cols="6">
             <v-autocomplete
               v-model="obj.spec.type"
-              color="primary"
-              :items="externaltypes"
-              :rules="objRules.typeRule"
-              label="外部访问"
-              hide-selected
               class="my-0"
+              color="primary"
+              hide-selected
+              :items="externaltypes"
+              label="外部访问"
               no-data-text="暂无可选数据"
+              :rules="objRules.typeRule"
               @change="onTypeChange"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -118,8 +118,8 @@
             <v-text-field
               v-model="obj.spec.externalName"
               class="my-0"
-              required
               label="ExternalName"
+              required
               :rules="objRules.externalNameRule"
             />
           </v-col>
@@ -128,8 +128,8 @@
               v-if="obj.spec.sessionAffinityConfig && obj.spec.sessionAffinityConfig.clientIP"
               v-model="obj.spec.sessionAffinityConfig.clientIP.timeoutSeconds"
               class="my-0"
-              required
               label="会话保持(秒)"
+              required
               :rules="objRules.sessionRule"
             />
           </v-col>
@@ -147,9 +147,9 @@
         <v-card-text class="pa-2">
           <ServicePortItem
             :ports="obj.spec.ports"
-            @updatePort="updatePort"
-            @removePort="removePort"
             @expandCard="expandCard"
+            @removePort="removePort"
+            @updatePort="updatePort"
           />
         </v-card-text>
       </template>
@@ -159,9 +159,9 @@
       <v-card-text class="pa-2">
         <LabelItem
           :labels="obj.metadata.labels"
-          @updateLabels="updateLabels"
-          @removeLabels="removeLabels"
           @expandCard="expandCard"
+          @removeLabels="removeLabels"
+          @updateLabels="updateLabels"
         />
         <div class="kubegems__clear-float" />
       </v-card-text>
@@ -177,9 +177,9 @@
         <v-card-text class="pa-2">
           <AnnotationItem
             :annotations="obj.metadata.annotations"
-            @updateAnnotations="updateAnnotations"
-            @removeAnnotations="removeAnnotations"
             @expandCard="expandCard"
+            @removeAnnotations="removeAnnotations"
+            @updateAnnotations="updateAnnotations"
           />
           <div class="kubegems__clear-float" />
         </v-card-text>
@@ -190,37 +190,47 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import ServicePortItem from './ServicePortItem';
+
   import ServicePortForm from './ServicePortForm';
+  import ServicePortItem from './ServicePortItem';
+
   import { getAppResourceFileMetas } from '@/api';
-  import LabelItem from '@/views/resource/components/label/LabelItem';
-  import AnnotationItem from '@/views/resource/components/annotation/AnnotationItem';
-  import LabelForm from '@/views/resource/components/label/LabelForm';
-  import AnnotationForm from '@/views/resource/components/annotation/AnnotationForm';
-  import BaseSelect from '@/mixins/select';
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
   import { k8sName, required } from '@/utils/rules';
+  import AnnotationForm from '@/views/resource/components/annotation/AnnotationForm';
+  import AnnotationItem from '@/views/resource/components/annotation/AnnotationItem';
+  import LabelForm from '@/views/resource/components/label/LabelForm';
+  import LabelItem from '@/views/resource/components/label/LabelItem';
 
   export default {
     name: 'ServiceBaseForm',
     components: {
-      ServicePortItem,
-      LabelItem,
+      AnnotationForm,
       AnnotationItem,
       LabelForm,
-      AnnotationForm,
+      LabelItem,
       ServicePortForm,
+      ServicePortItem,
     },
-    mixins: [BaseSelect, BaseResource],
+    mixins: [BaseResource, BaseSelect],
     props: {
-      item: {
+      app: {
         type: Object,
-        default: () => null,
+        default: () => {},
       },
       edit: {
         type: Boolean,
         default: () => false,
+      },
+      item: {
+        type: Object,
+        default: () => null,
+      },
+      kinds: {
+        type: Array,
+        default: () => [],
       },
       kind: {
         type: String,
@@ -229,14 +239,6 @@
       manifest: {
         type: Boolean,
         default: () => false,
-      },
-      kinds: {
-        type: Array,
-        default: () => [],
-      },
-      app: {
-        type: Object,
-        default: () => {},
       },
     },
     data: () => ({

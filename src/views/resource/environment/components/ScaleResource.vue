@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="调整资源限制" icon="mdi-scale" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-scale" title="调整资源限制" :width="1000" @reset="reset">
     <template #content>
       <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
         <v-flex :class="expand ? 'kubegems__overlay' : ''" />
@@ -19,14 +19,14 @@
 
         <BaseSubTitle title="资源配额(ResourceQuota)" />
         <v-card-text class="pa-2">
-          <ResourceQuota ref="resourceQuota" :data="obj.data" :statistics="obj.statistics" edit />
+          <ResourceQuota ref="resourceQuota" :data="obj.data" edit :statistics="obj.statistics" />
         </v-card-text>
 
         <LimitRange ref="limitRange" :data="obj" @addData="addLimitRangeData" @closeOverlay="closeExpand" />
 
-        <BaseSubTitle title="资源限制(LimitRange)" class="mt-4">
+        <BaseSubTitle class="mt-4" title="资源限制(LimitRange)">
           <template #action>
-            <v-btn small text color="primary" class="float-right mr-2" @click="openExpaned('limitRange')">
+            <v-btn class="float-right mr-2" color="primary" small text @click="openExpaned('limitRange')">
               <v-icon left small> mdi-pencil </v-icon>
               修改限制
             </v-btn>
@@ -38,18 +38,20 @@
       </v-form>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="updateEnvironment"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateEnvironment"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import ResourceChart from './base/ResourceChart';
+
   import LimitRange from './base/LimitRange';
-  import ResourceApply from './base/ResourceApply';
   import LimitRangeCard from './base/LimitRangeCard';
+  import ResourceApply from './base/ResourceApply';
+  import ResourceChart from './base/ResourceChart';
   import ResourceQuota from './base/ResourceQuota';
+
   import { putUpdateEnvironment } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
@@ -58,10 +60,10 @@
   export default {
     name: 'ScaleResource',
     components: {
-      ResourceChart,
       LimitRange,
-      ResourceApply,
       LimitRangeCard,
+      ResourceApply,
+      ResourceChart,
       ResourceQuota,
     },
     mixins: [BaseResource, BaseSelect],

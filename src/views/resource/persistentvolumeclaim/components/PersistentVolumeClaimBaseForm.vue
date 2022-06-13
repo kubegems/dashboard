@@ -8,18 +8,18 @@
           <v-col cols="6">
             <v-autocomplete
               v-model="resourceKind"
-              color="primary"
-              :items="kinds"
-              :rules="objRules.kindRule"
-              :readonly="edit"
-              label="资源"
-              hide-selected
               class="my-0"
+              color="primary"
+              hide-selected
+              :items="kinds"
+              label="资源"
               no-data-text="暂无可选数据"
+              :readonly="edit"
+              :rules="objRules.kindRule"
               @change="onKindChange"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -31,27 +31,27 @@
             <v-text-field
               v-model="obj.metadata.name"
               class="my-0"
-              required
               label="名称"
-              :rules="objRules.nameRule"
               :readonly="edit"
+              required
+              :rules="objRules.nameRule"
             />
           </v-col>
           <v-col v-if="AdminViewport && !manifest" cols="6">
             <v-autocomplete
               v-model="obj.metadata.namespace"
-              color="primary"
-              :items="m_select_namespaceItems"
-              :rules="objRules.namespaceRule"
-              :readonly="edit"
-              label="命名空间"
-              hide-selected
               class="my-0"
+              color="primary"
+              hide-selected
+              :items="m_select_namespaceItems"
+              label="命名空间"
               no-data-text="暂无可选数据"
+              :readonly="edit"
+              :rules="objRules.namespaceRule"
               @focus="onNamespaceSelectFocus(ThisCluster)"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -60,17 +60,17 @@
           <v-col v-if="!manifest || ThisAppEnvironmentID" cols="6">
             <v-autocomplete
               v-model="obj.spec.storageClassName"
-              :items="m_select_storageClassItems"
-              :rules="objRules.storageClassNameRule"
-              color="primary"
-              label="存储类型"
-              hide-selected
               class="my-0"
+              color="primary"
+              hide-selected
+              :items="m_select_storageClassItems"
+              label="存储类型"
               no-data-text="暂无可选数据"
+              :rules="objRules.storageClassNameRule"
               @focus="onStorageClassSelectFocus(ThisCluster)"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -79,17 +79,17 @@
           <v-col cols="6">
             <v-autocomplete
               v-model="accessMode"
-              :items="accessModes"
-              :rules="objRules.accessModesRule"
-              color="primary"
-              label="访问模式"
-              hide-selected
               class="my-0"
+              color="primary"
+              hide-selected
+              :items="accessModes"
+              label="访问模式"
               no-data-text="暂无可选数据"
+              :rules="objRules.accessModesRule"
               @change="onAccessModeChange"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -98,10 +98,10 @@
           <v-col cols="6">
             <v-text-field
               v-model="obj.spec.resources.requests.storage"
-              :rules="objRules.storageRule"
               class="my-0"
-              required
               label="容量"
+              required
+              :rules="objRules.storageRule"
             />
           </v-col>
         </v-row>
@@ -112,9 +112,9 @@
       <v-card-text class="pa-2">
         <LabelItem
           :labels="obj.metadata.labels"
-          @updateLabels="updateLabels"
-          @removeLabels="removeLabels"
           @expandCard="expandCard"
+          @removeLabels="removeLabels"
+          @updateLabels="updateLabels"
         />
         <div class="kubegems__clear-float" />
       </v-card-text>
@@ -129,9 +129,9 @@
       <v-card-text class="pa-2">
         <AnnotationItem
           :annotations="obj.metadata.annotations"
-          @updateAnnotations="updateAnnotations"
-          @removeAnnotations="removeAnnotations"
           @expandCard="expandCard"
+          @removeAnnotations="removeAnnotations"
+          @updateAnnotations="updateAnnotations"
         />
         <div class="kubegems__clear-float" />
       </v-card-text>
@@ -141,43 +141,49 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import LabelItem from '@/views/resource/components/label/LabelItem';
-  import AnnotationItem from '@/views/resource/components/annotation/AnnotationItem';
-  import LabelForm from '@/views/resource/components/label/LabelForm';
-  import AnnotationForm from '@/views/resource/components/annotation/AnnotationForm';
-  import BaseSelect from '@/mixins/select';
+
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
   import { k8sName, required } from '@/utils/rules';
+  import AnnotationForm from '@/views/resource/components/annotation/AnnotationForm';
+  import AnnotationItem from '@/views/resource/components/annotation/AnnotationItem';
+  import LabelForm from '@/views/resource/components/label/LabelForm';
+  import LabelItem from '@/views/resource/components/label/LabelItem';
 
   export default {
     name: 'PersistentVolumeClaimBaseForm',
-    components: { LabelItem, AnnotationItem, LabelForm, AnnotationForm },
-    mixins: [BaseSelect, BaseResource],
+    components: {
+      AnnotationForm,
+      AnnotationItem,
+      LabelForm,
+      LabelItem,
+    },
+    mixins: [BaseResource, BaseSelect],
     props: {
-      item: {
+      app: {
         type: Object,
-        default: () => null,
+        default: () => {},
       },
       edit: {
         type: Boolean,
         default: () => false,
       },
+      item: {
+        type: Object,
+        default: () => null,
+      },
       kind: {
         type: String,
         default: () => 'PersistentVolumeClaim',
-      },
-      manifest: {
-        type: Boolean,
-        default: () => false,
       },
       kinds: {
         type: Array,
         default: () => [],
       },
-      app: {
-        type: Object,
-        default: () => {},
+      manifest: {
+        type: Boolean,
+        default: () => false,
       },
     },
     data: () => ({

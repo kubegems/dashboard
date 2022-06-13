@@ -1,17 +1,19 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="创建集群资源" icon="mdi-server-plus" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-server-plus" title="创建集群资源" :width="1000" @reset="reset">
     <template #content>
       <ResourceBaseForm ref="resource" :quota="quota" @clusterChange="onClusterChange" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="addTenantResourceQuota"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addTenantResourceQuota"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapState } from 'vuex';
+
   import ResourceBaseForm from './ResourceBaseForm';
+
   import { postAddTenantResourceQuota } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';

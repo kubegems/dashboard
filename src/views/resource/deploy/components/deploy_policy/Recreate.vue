@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="重建部署" icon="mdi-send" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-send" title="重建部署" :width="1000" @reset="reset">
     <template #content>
       <v-flex>
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
@@ -8,7 +8,7 @@
       </v-flex>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="strategyDeployEnvironmentApps">
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="strategyDeployEnvironmentApps">
         确定
       </v-btn>
     </template>
@@ -17,10 +17,12 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import BaseDeployInfoForm from './base/BaseDeployInfoForm';
+
   import { postStrategyDeployEnvironmentApps } from '@/api';
-  import StrategyDeploy from '@/views/resource/deploy/mixins/deploy';
   import { deepCopy } from '@/utils/helpers';
+  import StrategyDeploy from '@/views/resource/deploy/mixins/deploy';
 
   export default {
     name: 'Recreate',

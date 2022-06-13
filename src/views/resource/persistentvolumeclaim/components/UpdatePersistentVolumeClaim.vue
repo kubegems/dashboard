@@ -1,10 +1,10 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="更新存储卷" icon="mdi-database-plus" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-database-plus" title="更新存储卷" :width="1000" @reset="reset">
     <template #content>
-      <component :is="formComponent" :ref="formComponent" :item="item" :edit="true" title="PersistentVolumeClaim" />
+      <component :is="formComponent" :ref="formComponent" :edit="true" :item="item" title="PersistentVolumeClaim" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="updatePersistentVolumeClaim">
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updatePersistentVolumeClaim">
         确定
       </v-btn>
     </template>
@@ -13,9 +13,9 @@
         :key="switchKey"
         v-model="yaml"
         class="ma-0 pl-2 ml-2 mt-1"
-        style="margin-top: 8px !important"
         color="white"
         hide-details
+        style="margin-top: 8px !important"
         @change="onYamlSwitchChange"
       >
         <template #label>
@@ -28,11 +28,13 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import PersistentVolumeClaimBaseForm from './PersistentVolumeClaimBaseForm';
+
   import { patchUpdatePersistentVolumeClaim, getPersistentVolumeClaimDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
-  import PersistentVolumeClaimSchema from '@/views/resource/persistentvolumeclaim/mixins/schema';
   import { deepCopy, randomString } from '@/utils/helpers';
+  import PersistentVolumeClaimSchema from '@/views/resource/persistentvolumeclaim/mixins/schema';
 
   export default {
     name: 'UpdatePersistentVolumeClaim',

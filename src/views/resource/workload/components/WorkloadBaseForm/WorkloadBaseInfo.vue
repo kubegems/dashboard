@@ -6,18 +6,18 @@
         <v-col cols="6">
           <v-autocomplete
             v-model="resourceKind"
-            color="primary"
-            :items="kinds"
-            :rules="objRules.kindRule"
-            :readonly="edit"
-            label="资源"
-            hide-selected
             class="my-0"
+            color="primary"
+            hide-selected
+            :items="kinds"
+            label="资源"
             no-data-text="暂无可选数据"
+            :readonly="edit"
+            :rules="objRules.kindRule"
             @change="onKindChange"
           >
             <template #selection="{ item }">
-              <v-chip color="primary" small class="mx-1">
+              <v-chip class="mx-1" color="primary" small>
                 {{ item['text'] }}
               </v-chip>
             </template>
@@ -30,28 +30,28 @@
           <v-text-field
             v-model="obj.metadata.name"
             class="my-0"
-            required
             label="名称"
-            :rules="objRules.nameRule"
             :readonly="edit"
+            required
+            :rules="objRules.nameRule"
             @input="onWorkloadNameInput"
           />
         </v-col>
         <v-col v-if="AdminViewport && !manifest" cols="6">
           <v-autocomplete
             v-model="obj.metadata.namespace"
-            color="primary"
-            :items="m_select_namespaceItems"
-            :rules="objRules.namespaceRule"
-            :readonly="edit"
-            label="命名空间"
-            hide-selected
             class="my-0"
+            color="primary"
+            hide-selected
+            :items="m_select_namespaceItems"
+            label="命名空间"
             no-data-text="暂无可选数据"
+            :readonly="edit"
+            :rules="objRules.namespaceRule"
             @focus="onNamespaceSelectFocus(ThisCluster)"
           >
             <template #selection="{ item }">
-              <v-chip color="primary" small class="mx-1">
+              <v-chip class="mx-1" color="primary" small>
                 {{ item['text'] }}
               </v-chip>
             </template>
@@ -68,8 +68,8 @@
             <v-text-field
               v-model="obj.spec.replicas"
               class="my-0"
-              required
               label="副本数量"
+              required
               :rules="objRules.replicasRule"
               type="number"
             />
@@ -82,38 +82,39 @@
 
 <script>
   import { mapState } from 'vuex';
-  import BaseSelect from '@/mixins/select';
+
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
   import { k8sName, required, positiveInteger } from '@/utils/rules';
 
   export default {
     name: 'WorkloadBaseInfo',
-    mixins: [BaseSelect, BaseResource],
+    mixins: [BaseResource, BaseSelect],
     props: {
-      item: {
+      app: {
         type: Object,
-        default: () => null,
+        default: () => {},
       },
       edit: {
         type: Boolean,
         default: () => false,
       },
+      item: {
+        type: Object,
+        default: () => null,
+      },
       kind: {
         type: String,
         default: () => '',
-      },
-      manifest: {
-        type: Boolean,
-        default: () => false,
       },
       kinds: {
         type: Array,
         default: () => [],
       },
-      app: {
-        type: Object,
-        default: () => {},
+      manifest: {
+        type: Boolean,
+        default: () => false,
       },
     },
     data() {

@@ -8,7 +8,7 @@
       </v-flex>
 
       <v-row :key="`${item.name}i`" class="mt-3">
-        <v-col v-for="index in item.harfItems" :key="index" :cols="3" class="pt-0">
+        <v-col v-for="index in item.harfItems" :key="index" class="pt-0" :cols="3">
           <v-row>
             <v-col v-for="innerIndex in [0, 1]" :key="innerIndex" :cols="6">
               <template v-if="item.items[index * 2 + innerIndex]">
@@ -20,13 +20,13 @@
                   >
                     <v-list-item>
                       <v-list-item-avatar
-                        tile
-                        size="80"
                         class="mb-0 text-center"
+                        size="80"
                         :style="{
                           left: '50%',
                           transform: 'translate(-55%, 0%)',
                         }"
+                        tile
                       >
                         <BaseLogo :icon-name="item.items[index * 2 + innerIndex].name" :width="70" />
                       </v-list-item-avatar>
@@ -49,16 +49,18 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import IntergatedCenter from './components/IntergatedCenter';
-  import BaseResource from '@/mixins/resource';
+
   import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'Intergated',
     components: {
       IntergatedCenter,
     },
-    mixins: [BaseResource, BasePermission],
+    mixins: [BasePermission, BaseResource],
     data: () => ({
       items: {
         app: {

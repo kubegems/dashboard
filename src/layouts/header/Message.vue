@@ -3,15 +3,15 @@
     <v-menu
       v-model="menu"
       bottom
+      :close-on-content-click="false"
       left
+      max-width="200px"
+      min-width="300px"
+      nudge-bottom="15px"
       offset-y
       origin="top right"
       transition="scale-transition"
-      nudge-bottom="15px"
       z-index="1000"
-      :close-on-content-click="false"
-      max-width="200px"
-      min-width="300px"
     >
       <template #activator="{ on }">
         <v-btn dark icon v-on="on">
@@ -28,13 +28,13 @@
 
       <v-card>
         <v-card-text class="pa-2">
-          <v-tabs v-model="tab" height="45" fixed-tabs class="v-tabs--default">
+          <v-tabs v-model="tab" class="v-tabs--default" fixed-tabs height="45">
             <v-tab v-for="(item, index) in tabItems" :key="item.value">
               <v-badge
                 class="mt-2"
-                :value="index === 0 ? messagesTotal > 0 : approves.length > 0"
                 color="success"
                 :content="index === 0 ? messagesTotal : approves.length"
+                :value="index === 0 ? messagesTotal > 0 : approves.length > 0"
               >
                 {{ item.text }}
               </v-badge>
@@ -53,7 +53,7 @@
                 {{ tabItems[tab].value === 'message' ? '未读消息' : '未处理审批' }}
               </span>
               <v-flex v-if="tabItems[tab].value === 'message'" class="float-right">
-                <v-btn small text color="warning" @click="readAllMessage"> 清除未读 </v-btn>
+                <v-btn color="warning" small text @click="readAllMessage"> 清除未读 </v-btn>
               </v-flex>
               <div class="kubegems__clear-float" />
             </v-flex>
@@ -92,8 +92,8 @@
                       <span
                         :class="`text--secondary text-body-2 descpart d-block text-truncate ${messageClass[index]}`"
                         :style="getStatusColor(data)"
-                        @mouseover="$set(messageClass, index, 'message-content-overflow')"
                         @mouseout="$set(messageClass, index, '')"
+                        @mouseover="$set(messageClass, index, 'message-content-overflow')"
                       >
                         {{ data.Title }}
                         <span v-if="tabItems[tab].value === 'approve'">
@@ -121,13 +121,17 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import ApproveResource from './components/ApproveResource';
+
   import { getMessageList, getLoginUserAuth, putReadMessage, getApproveList } from '@/api';
   import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'Message',
-    components: { ApproveResource },
+    components: {
+      ApproveResource,
+    },
     mixins: [BaseSelect],
     inject: ['reload'],
     data() {

@@ -1,5 +1,5 @@
 <template>
-  <v-form v-model="valid" lazy-validation class="my-2" @submit.prevent>
+  <v-form v-model="valid" class="my-2" lazy-validation @submit.prevent>
     <v-flex :class="expand ? 'kubegems__overlay' : ''" />
     <v-expand-transition>
       <v-card v-show="expand" class="my-2 pa-2 kubegems__expand-transition" :elevation="4">
@@ -12,16 +12,16 @@
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-autocomplete
                   v-model="obj.checkType"
-                  :items="checkTypes"
-                  :rules="objRules.checkTypeRule"
-                  color="primary"
-                  label="健康检查类型"
-                  hide-selected
                   class="my-0"
+                  color="primary"
+                  hide-selected
+                  :items="checkTypes"
+                  label="健康检查类型"
                   no-data-text="暂无可选数据"
+                  :rules="objRules.checkTypeRule"
                 >
                   <template #selection="{ item }">
-                    <v-chip color="primary" small class="mx-1">
+                    <v-chip class="mx-1" color="primary" small>
                       {{ item['text'] }}
                     </v-chip>
                   </template>
@@ -36,16 +36,16 @@
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-autocomplete
                   v-model="obj.checkMethod"
-                  :items="checkMethods"
-                  :rules="objRules.checkMethodRule"
-                  color="primary"
-                  label="健康检查方式"
-                  hide-selected
                   class="my-0"
+                  color="primary"
+                  hide-selected
+                  :items="checkMethods"
+                  label="健康检查方式"
                   no-data-text="暂无可选数据"
+                  :rules="objRules.checkMethodRule"
                 >
                   <template #selection="{ item }">
-                    <v-chip color="primary" small class="mx-1">
+                    <v-chip class="mx-1" color="primary" small>
                       {{ item['text'] }}
                     </v-chip>
                   </template>
@@ -61,19 +61,19 @@
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-autocomplete
                   v-model="obj.httpGet.scheme"
+                  class="my-0"
+                  color="primary"
+                  hide-selected
                   :items="[
                     { text: 'HTTP', value: 'HTTP' },
                     { text: 'HTTPS', value: 'HTTPS' },
                   ]"
-                  :rules="objRules.schemeRule"
-                  color="primary"
                   label="协议"
-                  hide-selected
-                  class="my-0"
                   no-data-text="暂无可选数据"
+                  :rules="objRules.schemeRule"
                 >
                   <template #selection="{ item }">
-                    <v-chip color="primary" small class="mx-1">
+                    <v-chip class="mx-1" color="primary" small>
                       {{ item['text'] }}
                     </v-chip>
                   </template>
@@ -83,8 +83,8 @@
                 <v-text-field
                   v-model="obj.httpGet.path"
                   class="my-0"
-                  required
                   label="路径"
+                  required
                   :rules="objRules.pathRule"
                 />
               </v-flex>
@@ -93,10 +93,10 @@
                 <v-text-field
                   v-model="obj.httpGet.port"
                   class="my-0"
-                  required
-                  type="number"
                   label="端口"
+                  required
                   :rules="objRules.portRule"
+                  type="number"
                 />
               </v-flex>
               <div class="kubegems__clear-float" />
@@ -109,10 +109,10 @@
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-textarea
                   v-model="obj.exec.command"
-                  class="my-0"
                   auto-grow
-                  required
+                  class="my-0"
                   label="命令"
+                  required
                   :rules="objRules.commandRule"
                 />
               </v-flex>
@@ -127,10 +127,10 @@
                 <v-text-field
                   v-model="obj.tcpSocket.port"
                   class="my-0"
-                  required
                   label="端口"
-                  type="number"
+                  required
                   :rules="objRules.portRule"
+                  type="number"
                 />
               </v-flex>
               <div class="kubegems__clear-float" />
@@ -144,20 +144,20 @@
                 <v-text-field
                   v-model="obj.initialDelaySeconds"
                   class="my-0"
-                  required
                   label="初始延迟"
-                  type="number"
+                  required
                   :rules="objRules.initialDelaySecondsRule"
+                  type="number"
                 />
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-text-field
                   v-model="obj.timeoutSeconds"
                   class="my-0"
-                  required
                   label="超时时间"
-                  type="number"
+                  required
                   :rules="objRules.timeoutSecondsRule"
+                  type="number"
                 />
               </v-flex>
               <div class="kubegems__clear-float" />
@@ -170,21 +170,21 @@
                 <v-text-field
                   v-model="obj.periodSeconds"
                   class="my-0"
-                  required
                   label="探测频率"
-                  type="number"
+                  required
                   :rules="objRules.periodSecondsRule"
+                  type="number"
                 />
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-text-field
                   v-model="obj.successThreshold"
                   class="my-0"
-                  required
                   label="健康阀值"
-                  type="number"
-                  :rules="objRules.successThresholdRule"
                   :readonly="obj.checkType === 'livenessProbe' || obj.checkType === 'startupProbe'"
+                  required
+                  :rules="objRules.successThresholdRule"
+                  type="number"
                 />
               </v-flex>
               <div class="kubegems__clear-float" />
@@ -197,10 +197,10 @@
                 <v-text-field
                   v-model="obj.failureThreshold"
                   class="my-0"
-                  required
                   label="不健康阀值"
-                  type="number"
+                  required
                   :rules="objRules.failureThresholdRule"
+                  type="number"
                 />
               </v-flex>
               <div class="kubegems__clear-float" />
@@ -209,8 +209,8 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn text small color="error" @click="closeCard"> 取消 </v-btn>
-          <v-btn text small color="primary" @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
+          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -218,22 +218,22 @@
     <LivenessProbe
       v-if="containerCopy && containerCopy.livenessProbe"
       :container-copy="containerCopy"
-      @updateData="updateData"
       @removeData="removeData"
+      @updateData="updateData"
     />
 
     <ReadinessProbe
       v-if="containerCopy && containerCopy.readinessProbe"
       :container-copy="containerCopy"
-      @updateData="updateData"
       @removeData="removeData"
+      @updateData="updateData"
     />
 
     <StartupProbe
       v-if="containerCopy && containerCopy.startupProbe"
       :container-copy="containerCopy"
-      @updateData="updateData"
       @removeData="removeData"
+      @updateData="updateData"
     />
 
     <v-flex
@@ -245,7 +245,7 @@
       <v-list-item two-line>
         <v-list-item-content class="py-2">
           <v-list-item-subtitle class="text-body-2 py-0 text-center">
-            <v-btn text color="primary" @click="expandCard">
+            <v-btn color="primary" text @click="expandCard">
               <v-icon left small> mdi-plus </v-icon>
               添加健康检查
             </v-btn>
@@ -260,6 +260,7 @@
   import LivenessProbe from './LivenessProbe';
   import ReadinessProbe from './ReadinessProbe';
   import StartupProbe from './StartupProbe';
+
   import { deepCopy } from '@/utils/helpers';
   import { required, positiveInteger, port } from '@/utils/rules';
 

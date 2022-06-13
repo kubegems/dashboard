@@ -5,8 +5,8 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :filters="filters"
           :default="{ items: [], text: '应用名称', value: 'search' }"
+          :filters="filters"
           @refresh="m_filter_list"
         />
         <NamespaceFilter />
@@ -14,19 +14,19 @@
         <v-menu v-if="m_permisson_resourceAllow && tab === 0" left>
           <template #activator="{ on }">
             <v-btn icon>
-              <v-icon small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+              <v-icon color="primary" small v-on="on"> fas fa-ellipsis-v </v-icon>
             </v-btn>
           </template>
           <v-card>
             <v-card-text class="pa-2">
               <v-flex>
-                <v-btn text color="primary" @click="linkApp">
+                <v-btn color="primary" text @click="linkApp">
                   <v-icon left>mdi-link</v-icon>
                   关联应用
                 </v-btn>
               </v-flex>
               <v-flex>
-                <v-btn text color="primary" @click="deployApp">
+                <v-btn color="primary" text @click="deployApp">
                   <v-icon left>mdi-send</v-icon>
                   部署应用
                 </v-btn>
@@ -36,7 +36,7 @@
         </v-menu>
       </v-card-title>
       <v-card-text>
-        <v-tabs v-model="tab" height="30" class="rounded-t" @change="onTabChange">
+        <v-tabs v-model="tab" class="rounded-t" height="30" @change="onTabChange">
           <v-tab v-for="item in tabItems" :key="item.value">
             {{ item.text }}
           </v-tab>
@@ -44,11 +44,11 @@
 
         <v-data-table
           :headers="headers"
+          hide-default-footer
           :items="items"
-          :page.sync="params.page"
           :items-per-page="params.size"
           no-data-text="暂无数据"
-          hide-default-footer
+          :page.sync="params.page"
           @update:sort-by="m_table_sortBy"
           @update:sort-desc="m_table_sortDesc"
         >
@@ -75,7 +75,7 @@
             {{ item.runtime.createAt ? $moment(item.runtime.createAt).format('lll') : '' }}
           </template>
           <template #[`item.taskStatus`]="{ item, index }">
-            <TaskStatusTip :item="item" :index="index" :size="params.size" />
+            <TaskStatusTip :index="index" :item="item" :size="params.size" />
           </template>
           <template #[`item.appStatus`]="{ item, index }">
             <v-flex :id="`e${item.name}`" />
@@ -94,16 +94,16 @@
           </template>
           <template #[`item.action`]="{ item }">
             <v-flex :id="`r${item.name}`" />
-            <v-menu left :attach="`#r${item.name}`">
+            <v-menu :attach="`#r${item.name}`" left>
               <template #activator="{ on }">
                 <v-btn icon>
-                  <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                  <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
                 </v-btn>
               </template>
               <v-card>
                 <v-card-text class="pa-2">
                   <v-flex>
-                    <v-btn color="error" text small @click="removeApp(item)"> 删除 </v-btn>
+                    <v-btn color="error" small text @click="removeApp(item)"> 删除 </v-btn>
                   </v-flex>
                 </v-card-text>
               </v-card>
@@ -115,9 +115,9 @@
           v-model="params.page"
           :page-count="pageCount"
           :size="params.size"
-          @loaddata="appRunningList"
-          @changesize="onPageSizeChange"
           @changepage="onPageIndexChange"
+          @changesize="onPageSizeChange"
+          @loaddata="appRunningList"
         />
       </v-card-text>
     </v-card>
@@ -129,27 +129,29 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import AppStatusTip from './components/AppStatusTip';
   import TaskStatusTip from './components/TaskStatusTip';
+
   import { getAppRunningList, getAppStoreRunningList, deleteApp, deleteAppStoreApp, getAppTaskList } from '@/api';
-  import LinkApp from '@/views/resource/appmanifest/components/LinkApp';
-  import DeployApp from '@/views/resource/appmanifest/components/DeployApp';
-  import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
   import BaseFilter from '@/mixins/base_filter';
-  import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
   import BaseTable from '@/mixins/table';
+  import DeployApp from '@/views/resource/appmanifest/components/DeployApp';
+  import LinkApp from '@/views/resource/appmanifest/components/LinkApp';
+  import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
 
   export default {
     name: 'App',
     components: {
-      LinkApp,
-      DeployApp,
-      NamespaceFilter,
       AppStatusTip,
+      DeployApp,
+      LinkApp,
+      NamespaceFilter,
       TaskStatusTip,
     },
-    mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
+    mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],
     data: () => ({
       items: [],
       pageCount: 0,

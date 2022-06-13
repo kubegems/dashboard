@@ -8,20 +8,20 @@
             <v-menu
               v-model="repoMenu"
               bottom
+              class="mx-1 px-1"
               left
               offset-y
               origin="top center"
               transition="scale-transition"
-              class="mx-1 px-1"
             >
               <template #activator="{ on }">
-                <v-btn text color="white" class="primary--text font-weight-medium" v-on="on">
+                <v-btn class="primary--text font-weight-medium" color="white" text v-on="on">
                   {{ selectRepo }}
                   <v-icon v-if="repoMenu" right> fas fa-angle-up </v-icon>
                   <v-icon v-else right> fas fa-angle-down </v-icon>
                 </v-btn>
               </template>
-              <v-data-iterator :items="[{ text: '仓库', values: repos }]" hide-default-footer class="file-iterator">
+              <v-data-iterator class="file-iterator" hide-default-footer :items="[{ text: '仓库', values: repos }]">
                 <template #no-data>
                   <v-card>
                     <v-card-text> 暂无版本 </v-card-text>
@@ -56,18 +56,18 @@
       </template>
     </BaseBreadcrumb>
     <v-row class="mt-0">
-      <v-col cols="2" class="pt-0">
+      <v-col class="pt-0" cols="2">
         <v-card>
           <v-card-text class="pa-0 pl-2 pb-2">
-            <BaseSubTitle title="应用类型" :divider="false" class="pt-2 mb-1" />
+            <BaseSubTitle class="pt-2 mb-1" :divider="false" title="应用类型" />
             <v-text-field
               v-model="search"
               class="mr-4 my-2 ml-2"
-              solo
               flat
               hide-details
-              prepend-inner-icon="mdi-magnify"
               label="应用名称"
+              prepend-inner-icon="mdi-magnify"
+              solo
               @input="onAppNameInput"
             />
             <v-list v-show="showFilter">
@@ -82,7 +82,7 @@
                   />
                 </v-list-item-subtitle>
                 <v-flex class="float-right">
-                  <v-chip small color="primary" text-color="white" class="ma-1 mt-n2">
+                  <v-chip class="ma-1 mt-n2" color="primary" small text-color="white">
                     {{ type.count }}
                   </v-chip>
                 </v-flex>
@@ -92,9 +92,9 @@
           </v-card-text>
         </v-card>
       </v-col>
-      <v-col cols="10" class="pt-0">
+      <v-col class="pt-0" cols="10">
         <v-row class="mt-0">
-          <v-col v-for="(app, index) in items" :key="index" cols="3" class="pt-0">
+          <v-col v-for="(app, index) in items" :key="index" class="pt-0" cols="3">
             <AppStoreCard :app="app" :select-repo="selectRepo" />
           </v-col>
         </v-row>
@@ -105,12 +105,16 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import AppStoreCard from './components/AppStoreCard';
+
   import { getAppStoreList, getRepositoryList } from '@/api';
 
   export default {
     name: 'AppStoreCenter',
-    components: { AppStoreCard },
+    components: {
+      AppStoreCard,
+    },
     data: () => ({
       items: [],
       all: [],

@@ -7,10 +7,10 @@
           <v-text-field
             v-model="obj.Name"
             class="my-0"
-            required
             label="网关实例"
-            :rules="objRules.nameRules"
             :readonly="edit"
+            required
+            :rules="objRules.nameRules"
           />
         </v-sheet>
       </v-form>
@@ -20,13 +20,14 @@
 
 <script>
   import { mapState } from 'vuex';
-  import BaseSelect from '@/mixins/select';
+
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'IstioGatewayBaseForm',
-    mixins: [BaseSelect, BaseResource],
+    mixins: [BaseResource, BaseSelect],
     props: {
       edit: {
         type: Boolean,

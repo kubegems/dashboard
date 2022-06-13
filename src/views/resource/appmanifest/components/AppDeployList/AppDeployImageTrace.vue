@@ -1,5 +1,5 @@
 <template>
-  <BasePanel v-model="panel" title="镜像跟踪" :width="`50%`" icon="fas fa-search" @dispose="dispose">
+  <BasePanel v-model="panel" icon="fas fa-search" title="镜像跟踪" :width="`50%`" @dispose="dispose">
     <template #header>
       <span class="primary--text ml-2 text-subtitle-2">
         {{ item ? item.ImageName : '' }}
@@ -10,12 +10,12 @@
         <v-data-table
           disable-sort
           :headers="headers"
+          :height="height"
+          hide-default-footer
           :items="items"
-          :page.sync="params.page"
           :items-per-page="params.size"
           no-data-text="暂无数据"
-          hide-default-footer
-          :height="height"
+          :page.sync="params.page"
         >
           <template #[`item.publisher`]="{ item }">
             {{ item.publisher.indexOf(' ') > -1 ? item.publisher.split(' ')[0] : item.publisher }}
@@ -24,13 +24,13 @@
             {{ item.publishAt ? $moment(item.publishAt).format('lll') : '' }}
           </template>
           <template #[`item.dev`]="{ item }">
-            <v-icon v-if="item.type === 'dev'" small color="primary"> mdi-check </v-icon>
+            <v-icon v-if="item.type === 'dev'" color="primary" small> mdi-check </v-icon>
           </template>
           <template #[`item.test`]="{ item }">
-            <v-icon v-if="item.type === 'test'" small color="primary"> mdi-check </v-icon>
+            <v-icon v-if="item.type === 'test'" color="primary" small> mdi-check </v-icon>
           </template>
           <template #[`item.prod`]="{ item }">
-            <v-icon v-if="item.type === 'prod'" small color="primary"> mdi-check </v-icon>
+            <v-icon v-if="item.type === 'prod'" color="primary" small> mdi-check </v-icon>
           </template>
         </v-data-table>
       </v-card-text>
@@ -40,6 +40,7 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import { getDeployEnvironmentAppImageTrace } from '@/api';
   import { deepCopy } from '@/utils/helpers';
 

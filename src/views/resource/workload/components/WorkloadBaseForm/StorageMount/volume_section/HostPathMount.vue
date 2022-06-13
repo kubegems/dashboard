@@ -6,10 +6,10 @@
         <v-text-field
           v-model="volumeObj.name"
           class="my-0"
-          required
           label="卷名称"
-          :rules="volumeRules.nameRule"
           :readonly="edit"
+          required
+          :rules="volumeRules.nameRule"
           @keyup="onVolumeNameInput"
         />
       </v-flex>
@@ -17,20 +17,20 @@
         <v-text-field
           v-model="volumeObj.hostPath.path"
           class="my-0"
-          required
           label="HostPath"
+          required
           :rules="volumeRules.pathRule"
         />
       </v-flex>
       <div class="kubegems__clear-float" />
     </v-sheet>
-    <VolumeMount ref="volumeMount" :containers="containers" :volume-mount-name="volumeMountName" :volume="volume" />
+    <VolumeMount ref="volumeMount" :containers="containers" :volume="volume" :volume-mount-name="volumeMountName" />
     <VolumeMountForInitContainer
       v-if="initContainers && initContainers.length > 0"
       ref="volumeMountForInitContainer"
       :init-containers="initContainers"
-      :volume-mount-name="volumeMountName"
       :volume="volume"
+      :volume-mount-name="volumeMountName"
     />
   </v-form>
 </template>
@@ -38,6 +38,7 @@
 <script>
   import VolumeMount from './VolumeMount';
   import VolumeMountForInitContainer from './VolumeMountForInitContainer';
+
   import BaseResource from '@/mixins/resource';
   import { required } from '@/utils/rules';
 
@@ -53,21 +54,21 @@
         type: Array,
         default: () => [],
       },
+      edit: {
+        type: Boolean,
+        default: () => false,
+      },
       initContainers: {
         type: Array,
         default: () => [],
-      },
-      volumeMountName: {
-        type: String,
-        default: () => null,
       },
       volume: {
         type: Object,
         default: () => null,
       },
-      edit: {
-        type: Boolean,
-        default: () => false,
+      volumeMountName: {
+        type: String,
+        default: () => null,
       },
     },
     data() {

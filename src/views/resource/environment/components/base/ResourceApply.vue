@@ -1,7 +1,7 @@
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
     <v-row class="mx-0">
-      <v-col cols="4" class="px-2 py-0">
+      <v-col class="px-2 py-0" cols="4">
         <v-sheet class="pa-2">
           <v-flex class="text-subtitle-1 mb-2">
             可用CPU
@@ -15,14 +15,14 @@
           <v-text-field
             v-model="obj.Content['limits.cpu']"
             class="my-0"
-            required
             label="CPU扩容后限制值"
-            suffix="core"
+            required
             :rules="objRules.cpuRules"
+            suffix="core"
           />
         </v-sheet>
       </v-col>
-      <v-col cols="4" class="px-2 py-0">
+      <v-col class="px-2 py-0" cols="4">
         <v-sheet class="pa-2">
           <v-flex class="text-subtitle-1 mb-2">
             可用内存
@@ -36,14 +36,14 @@
           <v-text-field
             v-model="obj.Content['limits.memory']"
             class="my-0"
-            required
             label="内存扩容后限制值"
-            suffix="Gi"
+            required
             :rules="objRules.memoryRules"
+            suffix="Gi"
           />
         </v-sheet>
       </v-col>
-      <v-col cols="4" class="px-2 py-0">
+      <v-col class="px-2 py-0" cols="4">
         <v-sheet class="pa-2">
           <v-flex class="text-subtitle-1 mb-2">
             可用存储
@@ -54,18 +54,18 @@
           <v-text-field
             v-model="obj.Content[`requests.storage`]"
             class="my-0"
-            required
             label="存储扩容后限制值"
-            suffix="Gi"
+            required
             :rules="objRules.storageRules"
+            suffix="Gi"
           />
         </v-sheet>
       </v-col>
     </v-row>
-    <v-btn absolute dark fab bottom right x-small color="error" style="right: 60px" @click="close">
+    <v-btn absolute bottom color="error" dark fab right style="right: 60px" x-small @click="close">
       <v-icon>mdi-close-box</v-icon>
     </v-btn>
-    <v-btn absolute dark fab bottom right x-small color="primary" @click="addData">
+    <v-btn absolute bottom color="primary" dark fab right x-small @click="addData">
       <v-icon>mdi-checkbox-marked</v-icon>
     </v-btn>
   </v-form>
@@ -73,6 +73,7 @@
 
 <script>
   import { mapGetters } from 'vuex';
+
   import { putUpdateTenantResourceQuota } from '@/api';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';

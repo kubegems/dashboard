@@ -1,18 +1,19 @@
 <template>
   <VueApexCharts
     :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-    type="bar"
-    :width="width"
     :height="height"
     :options="options"
     :series="series"
+    type="bar"
+    :width="width"
   />
 </template>
 
 <script>
-  import { mapState } from 'vuex';
-  import VueApexCharts from 'vue-apexcharts';
   import moment from 'moment';
+  import VueApexCharts from 'vue-apexcharts';
+  import { mapState } from 'vuex';
+
   import { toFixed } from '@/utils/helpers';
 
   export default {

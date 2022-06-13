@@ -1,15 +1,15 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="创建任务" icon="mdi-repeat-once" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-repeat-once" title="创建任务" :width="1000" @reset="reset">
     <template #content>
-      <component :is="formComponent" :ref="formComponent" :step="step" title="Job" kind="Job" />
+      <component :is="formComponent" :ref="formComponent" kind="Job" :step="step" title="Job" />
     </template>
     <template #action>
       <v-btn
         v-if="step === totalStep - 1 || formComponent === 'BaseYamlForm'"
         class="float-right mx-2"
         color="primary"
-        text
         :loading="Circular"
+        text
         @click="addJob"
       >
         确定
@@ -38,9 +38,9 @@
         :key="switchKey"
         v-model="yaml"
         class="ma-0 pl-2 ml-2 mt-1"
-        style="margin-top: 8px !important"
         color="white"
         hide-details
+        style="margin-top: 8px !important"
         @change="onYamlSwitchChange"
       >
         <template #label>
@@ -53,11 +53,13 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import JobBaseForm from './JobBaseForm';
+
   import { postAddJob } from '@/api';
   import BaseResource from '@/mixins/resource';
-  import JobSchema from '@/views/resource/job/mixins/schema';
   import { randomString } from '@/utils/helpers';
+  import JobSchema from '@/views/resource/job/mixins/schema';
 
   export default {
     name: 'AddJob',

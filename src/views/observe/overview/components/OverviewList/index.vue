@@ -6,36 +6,36 @@
     </div>
 
     <v-data-table
-      :headers="headers"
-      :items="items"
-      item-key="value"
+      class="px-2 mt-4"
       disable-sort
+      :headers="headers"
       hide-default-footer
+      item-key="value"
+      :items="items"
+      :items-per-page="params.size"
       no-data-text="暂无数据"
       no-results-text="暂无匹配租户"
-      class="px-2 mt-4"
       :page.sync="params.page"
-      :items-per-page="params.size"
     >
       <template #[`item.labels`]="{ item }">
-        <BaseCollapseChips :chips="item.labels || {}" single-line icon="mdi-label" />
+        <BaseCollapseChips :chips="item.labels || {}" icon="mdi-label" single-line />
       </template>
       <template #[`item.alertLiving`]="{ item }">
         {{ item.errorAlertCount + item.criticalAlertCount }}
         <BaseTipChips
           v-if="item.criticalAlertCount || item.errorAlertCount"
           :chips="{ error: item.errorAlertCount, critical: item.criticalAlertCount }"
-          single-line
-          :icon="item.criticalAlertCount > 0 ? 'mdi-fire-alert' : 'mdi-alert-circle'"
           :color="item.criticalAlertCount > 0 ? 'error' : 'warning'"
+          :icon="item.criticalAlertCount > 0 ? 'mdi-fire-alert' : 'mdi-alert-circle'"
+          single-line
         />
       </template>
       <template #[`item.alertRuleCount`]="{ item }">
         {{ item.alertRuleCount }}
-        <BaseTipChips :chips="item.alertResourceMap || {}" single-line icon="mdi-information" />
+        <BaseTipChips :chips="item.alertResourceMap || {}" icon="mdi-information" single-line />
       </template>
       <template #[`item.status`]="{ item }">
-        <StatusTag :m="item.monitoring" :l="item.logging" :s="item.serviceMesh" />
+        <StatusTag :l="item.logging" :m="item.monitoring" :s="item.serviceMesh" />
       </template>
       <template #[`item.eventCount`]="{ item }">
         {{ item.eventCount }}
@@ -49,8 +49,8 @@
       :front-page="true"
       :page-count="pageCount"
       :size="params.size"
-      @changesize="onPageSizeChange"
       @changepage="onPageIndexChange"
+      @changesize="onPageSizeChange"
     />
 
     <K8sEvents ref="k8sEvents" :env="env" />
@@ -58,20 +58,21 @@
 </template>
 
 <script>
+  import Duration from './Duration';
+  import K8sEvents from './K8sEvents';
   import ProjectSelect from './ProjectSelect';
   import StatusTag from './StatusTag';
-  import K8sEvents from './K8sEvents';
-  import Duration from './Duration';
+
   import { getEnvironmentObservability } from '@/api';
   import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'OverviewList',
     components: {
+      Duration,
+      K8sEvents,
       ProjectSelect,
       StatusTag,
-      K8sEvents,
-      Duration,
     },
     mixins: [BaseSelect],
     props: {

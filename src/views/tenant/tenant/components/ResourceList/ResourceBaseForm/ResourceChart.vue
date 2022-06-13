@@ -1,25 +1,25 @@
 <template>
   <v-row>
-    <v-col cols="4" class="py-0">
-      <VueApexCharts type="radialBar" height="230" :options="cpuOptions" :series="cpuSeries" />
+    <v-col class="py-0" cols="4">
+      <VueApexCharts height="230" :options="cpuOptions" :series="cpuSeries" type="radialBar" />
     </v-col>
-    <v-col cols="4" class="py-0">
-      <VueApexCharts type="radialBar" height="230" :options="memoryOptions" :series="memorySeries" />
+    <v-col class="py-0" cols="4">
+      <VueApexCharts height="230" :options="memoryOptions" :series="memorySeries" type="radialBar" />
     </v-col>
-    <v-col cols="4" class="py-0">
-      <VueApexCharts type="radialBar" height="230" :options="storageOptions" :series="storageSeries" />
+    <v-col class="py-0" cols="4">
+      <VueApexCharts height="230" :options="storageOptions" :series="storageSeries" type="radialBar" />
     </v-col>
 
-    <v-col v-if="nvidia" cols="4" class="py-0">
-      <VueApexCharts type="radialBar" height="230" :options="nvidiaOptions" :series="nvidiaSeries" />
+    <v-col v-if="nvidia" class="py-0" cols="4">
+      <VueApexCharts height="230" :options="nvidiaOptions" :series="nvidiaSeries" type="radialBar" />
     </v-col>
 
     <template v-if="tke">
-      <v-col cols="4" class="py-0">
-        <VueApexCharts type="radialBar" height="230" :options="tkeOptions" :series="tkeSeries" />
+      <v-col class="py-0" cols="4">
+        <VueApexCharts height="230" :options="tkeOptions" :series="tkeSeries" type="radialBar" />
       </v-col>
-      <v-col cols="4" class="py-0">
-        <VueApexCharts type="radialBar" height="230" :options="tkeMemoryOptions" :series="tkeMemorySeries" />
+      <v-col class="py-0" cols="4">
+        <VueApexCharts height="230" :options="tkeMemoryOptions" :series="tkeMemorySeries" type="radialBar" />
       </v-col>
     </template>
   </v-row>
@@ -27,6 +27,7 @@
 
 <script>
   import VueApexCharts from 'vue-apexcharts';
+
   import { generateRadialBarChartOptions } from '@/utils/chart';
 
   export default {
@@ -35,13 +36,13 @@
       VueApexCharts,
     },
     props: {
-      quota: {
-        type: Object,
-        default: () => null,
-      },
       nvidia: {
         type: Boolean,
         default: () => false,
+      },
+      quota: {
+        type: Object,
+        default: () => null,
       },
       tke: {
         type: Boolean,

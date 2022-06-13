@@ -1,5 +1,5 @@
 <template>
-  <v-form v-model="valid" lazy-validation class="my-2" @submit.prevent>
+  <v-form v-model="valid" class="my-2" lazy-validation @submit.prevent>
     <v-flex :class="expand ? 'kubegems__overlay' : ''" />
     <v-expand-transition>
       <v-card v-show="expand" class="my-2 pa-2 kubegems__expand-transition" :elevation="4">
@@ -12,16 +12,16 @@
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-autocomplete
                   v-model="obj.simple"
+                  class="my-0"
                   color="primary"
+                  hide-selected
                   :items="simpleItems"
                   label="simple"
-                  hide-selected
-                  class="my-0"
                   no-data-text="暂无可选数据"
                   :rules="objRules.simpleRule"
                 >
                   <template #selection="{ item }">
-                    <v-chip color="primary" small class="mx-1">
+                    <v-chip class="mx-1" color="primary" small>
                       {{ item['text'] }}
                     </v-chip>
                   </template>
@@ -30,16 +30,16 @@
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-autocomplete
                   v-model="consistentHashType"
+                  class="my-0"
                   color="primary"
+                  hide-selected
                   :items="consistentHashItems"
                   label="consistentHash"
-                  hide-selected
-                  class="my-0"
                   no-data-text="暂无可选数据"
                   @change="onConsistentHashChange"
                 >
                   <template #selection="{ item }">
-                    <v-chip color="primary" small class="mx-1">
+                    <v-chip class="mx-1" color="primary" small>
                       {{ item['text'] }}
                     </v-chip>
                   </template>
@@ -56,8 +56,8 @@
                 <v-text-field
                   v-model="obj.consistentHash.httpHeaderName"
                   class="my-0"
-                  required
                   label="httpHeaderName"
+                  required
                 />
               </v-flex>
               <div class="kubegems__clear-float" />
@@ -70,8 +70,8 @@
                 <v-text-field
                   v-model="obj.consistentHash.httpQueryParameterName"
                   class="my-0"
-                  required
                   label="httpQueryParameterName"
+                  required
                 />
               </v-flex>
               <div class="kubegems__clear-float" />
@@ -84,9 +84,9 @@
                 <v-text-field
                   v-model="obj.consistentHash.minimumRingSize"
                   class="my-0"
+                  label="minimumRingSize"
                   required
                   type="number"
-                  label="minimumRingSize"
                 />
               </v-flex>
               <div class="kubegems__clear-float" />
@@ -98,8 +98,8 @@
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-switch
                   v-model="obj.consistentHash.useSourceIp"
-                  hide-details
                   class="mt-5"
+                  hide-details
                   label="使用源IP"
                   @change="onLocalityLbSettingEnableChange"
                 />
@@ -115,8 +115,8 @@
                   <v-text-field
                     v-model="obj.consistentHash.httpCookie.name"
                     class="my-0"
-                    required
                     label="httpCookie.name"
+                    required
                     :rules="objRules.httpCookieNameRule"
                   />
                 </v-flex>
@@ -124,8 +124,8 @@
                   <v-text-field
                     v-model="obj.consistentHash.httpCookie.path"
                     class="my-0"
-                    required
                     label="httpCookie.path"
+                    required
                   />
                 </v-flex>
                 <div class="kubegems__clear-float" />
@@ -138,8 +138,8 @@
                   <v-text-field
                     v-model="obj.consistentHash.httpCookie.ttl"
                     class="my-0"
-                    required
                     label="httpCookie.ttl"
+                    required
                     :rules="objRules.httpCookieTtlRule"
                   />
                 </v-flex>
@@ -154,18 +154,18 @@
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-switch
                   v-model="obj.localityLbSetting.enabled"
-                  hide-details
                   class="mt-5"
+                  hide-details
                   label="打开localityLbSetting"
                   @change="onLocalityLbSettingEnableChange"
                 />
               </v-flex>
               <v-flex v-if="obj.localityLbSetting.enabled" class="float-left ml-2 kubegems__form-width">
-                <v-btn small text color="primary" class="mr-2 mt-4" @click="addDistribute">
+                <v-btn class="mr-2 mt-4" color="primary" small text @click="addDistribute">
                   <v-icon left small> mdi-plus </v-icon>
                   distribute
                 </v-btn>
-                <v-btn small text color="primary" class="mr-2 mt-4" @click="addFailover">
+                <v-btn class="mr-2 mt-4" color="primary" small text @click="addFailover">
                   <v-icon left small> mdi-plus </v-icon>
                   failover
                 </v-btn>
@@ -182,8 +182,8 @@
                   <v-text-field
                     v-model="obj.localityLbSetting.distribute[index].from"
                     class="my-0"
-                    required
                     label="from"
+                    required
                     :rules="objRules.distributeRule[index].from"
                   />
                 </v-flex>
@@ -196,19 +196,19 @@
                 <v-flex class="float-left ml-2 kubegems__long-width">
                   <v-combobox
                     v-model="distributeto[index]"
+                    height="32"
                     hide-no-data
                     :items="[]"
-                    :search-input.sync="distributetotext[index]"
-                    multiple
-                    small-chips
                     label="to(回车key[string]:value[int])"
-                    height="32"
+                    multiple
                     :rules="objRules.distributeRule[index].from"
+                    :search-input.sync="distributetotext[index]"
+                    small-chips
                     @change="onToChange(index)"
                     @keydown.enter="createTo(index)"
                   >
                     <template #selection="{ item }">
-                      <v-chip small color="primary" class="pa-1">
+                      <v-chip class="pa-1" color="primary" small>
                         <span>
                           {{ item.text }}
                         </span>
@@ -230,8 +230,8 @@
                   <v-text-field
                     v-model="obj.localityLbSetting.failover[index].from"
                     class="my-0"
-                    required
                     label="from"
+                    required
                     :rules="objRules.failoverRule[index].from"
                   />
                 </v-flex>
@@ -239,8 +239,8 @@
                   <v-text-field
                     v-model="obj.localityLbSetting.failover[index].to"
                     class="my-0"
-                    required
                     label="to"
+                    required
                     :rules="objRules.failoverRule[index].to"
                   />
                 </v-flex>
@@ -251,8 +251,8 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn text small color="error" @click="closeCard"> 取消 </v-btn>
-          <v-btn text small color="primary" @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
+          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -263,7 +263,7 @@
       <v-list-item two-line>
         <v-list-item-content class="py-2">
           <v-list-item-subtitle class="text-body-2 py-0">
-            <v-list-item two-line class="float-left pa-0 kubegems__three-width">
+            <v-list-item class="float-left pa-0 kubegems__three-width" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{ trafficPolicyCopy.loadBalancer.simple }}
@@ -271,7 +271,7 @@
                 <v-list-item-subtitle class="text-body-2 py-1"> simple </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item two-line class="float-left pa-0 kubegems__three-width">
+            <v-list-item class="float-left pa-0 kubegems__three-width" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{ consistentHashType }}
@@ -282,10 +282,10 @@
           </v-list-item-subtitle>
           <div class="kubegems__clear-float" />
         </v-list-item-content>
-        <v-btn dark text fab right x-small color="primary" @click="updateData">
+        <v-btn color="primary" dark fab right text x-small @click="updateData">
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
-        <v-btn dark text fab right x-small color="error" @click="removeData">
+        <v-btn color="error" dark fab right text x-small @click="removeData">
           <v-icon>mdi-delete</v-icon>
         </v-btn>
       </v-list-item>
@@ -294,7 +294,7 @@
       <v-list-item two-line>
         <v-list-item-content class="py-2">
           <v-list-item-subtitle class="text-body-2 py-0 text-center">
-            <v-btn text color="primary" @click="expandCard">
+            <v-btn color="primary" text @click="expandCard">
               <v-icon left small> mdi-plus </v-icon>
               添加负载均衡
             </v-btn>

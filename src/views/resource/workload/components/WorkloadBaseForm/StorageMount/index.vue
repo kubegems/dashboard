@@ -8,16 +8,16 @@
             :is="volumeClaimTemplateComponent"
             ref="volumeClaimTemplateMount"
             :data="obj"
-            :volume-mount-name="volumeMountName"
-            :volume="volume"
-            :template="template"
             :manifest="manifest"
+            :template="template"
+            :volume="volume"
+            :volume-mount-name="volumeMountName"
           />
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn text small color="error" @click="closeTemplateCard"> 取消 </v-btn>
-          <v-btn text small color="primary" @click="addTemplateData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeTemplateCard"> 取消 </v-btn>
+          <v-btn color="primary" small text @click="addTemplateData"> 保存 </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -25,11 +25,11 @@
       <BaseSubTitle title="存储卷模版" />
       <v-card-text class="pa-2">
         <VolumeClaimTemplateItem
-          :templates="obj.spec.volumeClaimTemplates"
           :containers="obj.spec.template.spec.containers"
-          @updateVolumeTemplateData="updateVolumeTemplateData"
-          @removeVolumeTemplateData="removeVolumeTemplateData"
+          :templates="obj.spec.volumeClaimTemplates"
           @expandTemplateCard="expandTemplateCard"
+          @removeVolumeTemplateData="removeVolumeTemplateData"
+          @updateVolumeTemplateData="updateVolumeTemplateData"
         />
       </v-card-text>
     </template>
@@ -37,7 +37,7 @@
       <v-card v-show="expand" class="my-2 pa-2 kubegems__expand-transition" :elevation="4">
         <BaseSubTitle v-if="volumeType === 'ConfigMap' || volumeType === 'Secret'" :divider="false">
           <template #action>
-            <v-btn small text color="primary" class="float-right mr-2" @click="addItem">
+            <v-btn class="float-right mr-2" color="primary" small text @click="addItem">
               <v-icon left small> mdi-plus </v-icon>
               添加特定键与路径
             </v-btn>
@@ -52,16 +52,16 @@
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-autocomplete
                   v-model="volumeType"
+                  class="my-0"
                   color="primary"
+                  hide-selected
                   :items="volumeTypes"
                   label="类型"
-                  hide-selected
-                  class="my-0"
                   no-data-text="暂无可选数据"
                   :readonly="componentEdit"
                 >
                   <template #selection="{ item }">
-                    <v-chip color="primary" small class="mx-1">
+                    <v-chip class="mx-1" color="primary" small>
                       {{ item['text'] }}
                     </v-chip>
                   </template>
@@ -74,19 +74,19 @@
               v-if="volumeType"
               :ref="volumeType + 'Mount'"
               :containers="obj.spec.template.spec.containers"
-              :init-containers="obj.spec.template.spec.initContainers"
-              :namespace="obj.metadata.namespace ? obj.metadata.namespace : ''"
-              :volume-mount-name="volumeMountName"
-              :volume="volume"
-              :manifest="manifest"
               :edit="componentEdit"
+              :init-containers="obj.spec.template.spec.initContainers"
+              :manifest="manifest"
+              :namespace="obj.metadata.namespace ? obj.metadata.namespace : ''"
+              :volume="volume"
+              :volume-mount-name="volumeMountName"
             />
           </v-form>
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn text small color="error" @click="closeCard"> 取消 </v-btn>
-          <v-btn text small color="primary" @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
+          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -94,27 +94,28 @@
     <BaseSubTitle title="存储卷" />
     <v-card-text class="pa-2">
       <StorageMountItem
-        :volumes="obj.spec.template.spec.volumes"
         :containers="obj.spec.template.spec.containers"
         :init-containers="obj.spec.template.spec.initContainers"
         :pvcs="pvcs"
-        @updateData="updateData"
-        @removeData="removeData"
+        :volumes="obj.spec.template.spec.volumes"
         @expandCard="expandCard"
+        @removeData="removeData"
+        @updateData="updateData"
       />
     </v-card-text>
   </v-form>
 </template>
 
 <script>
-  import ConfigMapMount from './volume_section/ConfigMapMount';
-  import HostPathMount from './volume_section/HostPathMount';
-  import SecretMount from './volume_section/SecretMount';
-  import PersistentVolumeClaimMount from './volume_section/PersistentVolumeClaimMount';
-  import EmptyDirMount from './volume_section/EmptyDirMount';
   import StorageMountItem from './StorageMountItem';
-  import VolumeClaimTemplateItem from './VolumeClaimTemplateItem';
+  import ConfigMapMount from './volume_section/ConfigMapMount';
+  import EmptyDirMount from './volume_section/EmptyDirMount';
+  import HostPathMount from './volume_section/HostPathMount';
+  import PersistentVolumeClaimMount from './volume_section/PersistentVolumeClaimMount';
+  import SecretMount from './volume_section/SecretMount';
   import VolumeClaimTemplateMount from './volume_section/VolumeClaimTemplateMount';
+  import VolumeClaimTemplateItem from './VolumeClaimTemplateItem';
+
   import { getPersistentVolumeClaimDetail, getAppResourceFileMetas } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
@@ -123,10 +124,10 @@
     name: 'StorageMount',
     components: {
       ConfigMapMount,
-      HostPathMount,
-      SecretMount,
-      PersistentVolumeClaimMount,
       EmptyDirMount,
+      HostPathMount,
+      PersistentVolumeClaimMount,
+      SecretMount,
       StorageMountItem,
       VolumeClaimTemplateItem,
       VolumeClaimTemplateMount,

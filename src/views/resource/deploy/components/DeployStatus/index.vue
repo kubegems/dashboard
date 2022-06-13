@@ -1,12 +1,14 @@
 <template>
-  <v-card class="pa-2" height="100%" flat>
-    <DeployTopology :tree="statusTree" :appname="appname" :app="app" @refresh="refresh" />
+  <v-card class="pa-2" flat height="100%">
+    <DeployTopology :app="app" :appname="appname" :tree="statusTree" @refresh="refresh" />
   </v-card>
 </template>
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import DeployTopology from './DeployTopology';
+
   import BaseResource from '@/mixins/resource';
 
   export default {

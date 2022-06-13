@@ -17,6 +17,20 @@
   export default {
     name: 'CompareValue',
     props: {
+      name: {
+        type: String,
+        default: '',
+      },
+      // 颜色反转
+      reverse: {
+        type: Boolean,
+        default: false,
+      },
+      type: {
+        type: String,
+        default: 'percentage',
+        validator: (v) => ['number', 'percentage'].includes(v),
+      },
       value1: {
         type: Number,
         default: 0,
@@ -24,20 +38,6 @@
       value2: {
         type: Number,
         default: 0,
-      },
-      name: {
-        type: String,
-        default: '',
-      },
-      type: {
-        type: String,
-        default: 'percentage',
-        validator: (v) => ['number', 'percentage'].includes(v),
-      },
-      // 颜色反转
-      reverse: {
-        type: Boolean,
-        default: false,
       },
     },
     data() {

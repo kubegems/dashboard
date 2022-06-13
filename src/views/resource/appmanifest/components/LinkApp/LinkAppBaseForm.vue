@@ -6,17 +6,17 @@
         <v-sheet>
           <v-autocomplete
             v-model="obj"
-            color="primary"
-            :items="items"
-            :rules="objRules.ApplicationRule"
-            label="应用"
-            hide-selected
             class="my-0"
+            color="primary"
+            hide-selected
+            :items="items"
+            label="应用"
             no-data-text="暂无可选数据"
+            :rules="objRules.ApplicationRule"
             @focus="onAppSelectFocus"
           >
             <template #selection="{ item }">
-              <v-chip color="primary" small class="mx-1">
+              <v-chip class="mx-1" color="primary" small>
                 {{ item['text'] }}
               </v-chip>
             </template>
@@ -29,6 +29,7 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import { getManifestList } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { required } from '@/utils/rules';

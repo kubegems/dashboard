@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="dash">
+  <v-container class="dash" fluid>
     <BaseBreadcrumb class="dash__header" />
 
     <v-card flat>
@@ -9,26 +9,26 @@
         <BaseDatetimePicker v-model="date" :default-value="30" @change="onDatetimeChange(undefined)" />
         <v-menu v-if="environment && m_permisson_resourceAllow(environment.text)" :attach="`#monitor__dashboard`" left>
           <template #activator="{ on, attrs }">
-            <v-btn text color="primary" icon v-bind="attrs" v-on="on">
+            <v-btn color="primary" icon text v-bind="attrs" v-on="on">
               <v-icon small> fas fa-ellipsis-v </v-icon>
             </v-btn>
           </template>
           <v-card>
             <v-card-text class="pa-2">
               <v-flex>
-                <v-btn text color="primary" @click="addDashboard">
+                <v-btn color="primary" text @click="addDashboard">
                   <v-icon left>mdi-plus-box</v-icon>
                   创建监控大盘
                 </v-btn>
               </v-flex>
               <v-flex>
-                <v-btn text color="primary" @click="updateDashboard">
+                <v-btn color="primary" text @click="updateDashboard">
                   <v-icon left>mdi-upload</v-icon>
                   更新监控大盘
                 </v-btn>
               </v-flex>
               <v-flex>
-                <v-btn text color="error" @click="removePanel">
+                <v-btn color="error" text @click="removePanel">
                   <v-icon left>mdi-minus-box</v-icon>
                   删除监控大盘
                 </v-btn>
@@ -39,7 +39,7 @@
       </v-card-title>
 
       <v-card-text class="pa-0 py-1">
-        <v-tabs v-model="tab" height="30" class="rounded-t pl-4 pr-12 pb-2">
+        <v-tabs v-model="tab" class="rounded-t pl-4 pr-12 pb-2" height="30">
           <v-tab v-for="item in items" :key="item.id">
             {{ item.name }}
           </v-tab>
@@ -48,40 +48,40 @@
     </v-card>
 
     <v-row v-if="items.length > 0" class="mt-3">
-      <v-col v-for="(graph, index) in items[tab].graphs" :key="index" :cols="3" class="dash__col pt-0">
+      <v-col v-for="(graph, index) in items[tab].graphs" :key="index" class="dash__col pt-0" :cols="3">
         <v-card class="kubegems__full-height" height="250">
           <v-card-text class="pa-1 kubegems__full-height">
             <div class="dash__btn">
-              <v-btn small icon @click.stop="openGraphInMaxScreen(graph)">
-                <v-icon small color="primary"> mdi-magnify-plus </v-icon>
+              <v-btn icon small @click.stop="openGraphInMaxScreen(graph)">
+                <v-icon color="primary" small> mdi-magnify-plus </v-icon>
               </v-btn>
-              <v-btn small icon @click.stop="updateGraph(graph, index)">
-                <v-icon small color="primary"> mdi-upload </v-icon>
+              <v-btn icon small @click.stop="updateGraph(graph, index)">
+                <v-icon color="primary" small> mdi-upload </v-icon>
               </v-btn>
-              <v-btn small icon @click.stop="removeGraph(graph, index)">
-                <v-icon small color="error"> mdi-minus-box </v-icon>
+              <v-btn icon small @click.stop="removeGraph(graph, index)">
+                <v-icon color="error" small> mdi-minus-box </v-icon>
               </v-btn>
             </div>
             <BaseApexAreaChart
               :id="`c${index}`"
-              :title="graph.name"
-              :metrics="metrics[`c${index}`]"
-              :unit="graph.promqlGenerator ? graph.promqlGenerator.unit : graph.unit"
-              label="pod"
-              type=""
-              :label-show="false"
               :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
               :extend-height="230"
+              label="pod"
+              :label-show="false"
+              :metrics="metrics[`c${index}`]"
+              :title="graph.name"
+              type=""
+              :unit="graph.promqlGenerator ? graph.promqlGenerator.unit : graph.unit"
             />
           </v-card-text>
         </v-card>
       </v-col>
-      <v-col cols="3" class="pt-0">
+      <v-col class="pt-0" cols="3">
         <v-card class="kubegems__full-height" min-height="250">
           <v-card-text class="pa-0 kubegems__full-height">
-            <v-list-item three-line class="kubegems__full-height">
+            <v-list-item class="kubegems__full-height" three-line>
               <v-list-item-content>
-                <v-btn text block color="primary" class="text-h6" @click="addGraph">
+                <v-btn block class="text-h6" color="primary" text @click="addGraph">
                   <v-icon left>mdi-plus-box</v-icon>
                   添加图表
                 </v-btn>
@@ -101,14 +101,14 @@
     <GraphMax ref="graphMax" :environment="environment" />
     <AddGraph
       ref="addGraph"
-      :environment="environment"
       :dashboard="items.length > 0 ? items[tab] : null"
+      :environment="environment"
       @refresh="dashboardList"
     />
     <UpdateGraph
       ref="updateGraph"
-      :environment="environment"
       :dashboard="items.length > 0 ? items[tab] : null"
+      :environment="environment"
       @refresh="dashboardList"
     />
   </v-container>
@@ -116,12 +116,14 @@
 
 <script>
   import { mapState, mapGetters } from 'vuex';
+
   import AddDashboard from './components/AddDashboard';
-  import UpdateDashboard from './components/UpdateDashboard';
   import AddGraph from './components/AddGraph';
-  import UpdateGraph from './components/UpdateGraph';
-  import ProjectEnvSelect from './components/ProjectEnvSelect';
   import GraphMax from './components/GraphMax';
+  import ProjectEnvSelect from './components/ProjectEnvSelect';
+  import UpdateDashboard from './components/UpdateDashboard';
+  import UpdateGraph from './components/UpdateGraph';
+
   import {
     getMonitorDashboardList,
     getMetricsQueryrange,
@@ -135,11 +137,11 @@
   export default {
     name: 'MonitorDashboard',
     components: {
-      ProjectEnvSelect,
       AddDashboard,
-      UpdateDashboard,
-      GraphMax,
       AddGraph,
+      GraphMax,
+      ProjectEnvSelect,
+      UpdateDashboard,
       UpdateGraph,
     },
     mixins: [BasePermission],

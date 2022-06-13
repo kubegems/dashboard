@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog v-model="dialog" :width="500" title="扩容存储卷" icon="fas fa-arrows-alt-v" @reset="reset">
+  <BaseDialog v-model="dialog" icon="fas fa-arrows-alt-v" title="扩容存储卷" :width="500" @reset="reset">
     <template #content>
       <BaseSubTitle title="扩容定义" />
       <v-card-text class="px-2 pb-0">
@@ -14,17 +14,17 @@
             </v-flex>
             <v-text-field
               v-model="obj.spec.resources.requests.storage"
-              :rules="objRules.StorageRules"
               class="my-0"
-              required
               label="目标容量"
+              required
+              :rules="objRules.StorageRules"
             />
           </v-sheet>
         </v-form>
       </v-card-text>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="updatePersistentVolumeClaim">
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updatePersistentVolumeClaim">
         确定
       </v-btn>
     </template>
@@ -33,6 +33,7 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import { patchUpdatePersistentVolumeClaim } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, sizeOfStorage } from '@/utils/helpers';

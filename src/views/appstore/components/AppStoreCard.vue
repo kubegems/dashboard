@@ -1,8 +1,8 @@
 <template>
   <v-hover #default="{ hover }">
-    <v-card class="mx-auto" height="100%" :elevation="hover ? 5 : 0">
+    <v-card class="mx-auto" :elevation="hover ? 5 : 0" height="100%">
       <v-list-item three-line>
-        <v-list-item-avatar tile size="80">
+        <v-list-item-avatar size="80" tile>
           <BaseLogo :icon-name="app.name" :width="60" />
         </v-list-item-avatar>
         <v-list-item-content>
@@ -23,7 +23,7 @@
           </v-list-item-content>
         </v-list-item>
         <v-spacer />
-        <v-btn text small color="primary" @click="appStoreDetail(app)"> 详情 </v-btn>
+        <v-btn color="primary" small text @click="appStoreDetail(app)"> 详情 </v-btn>
       </v-card-actions>
     </v-card>
   </v-hover>

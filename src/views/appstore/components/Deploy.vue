@@ -1,32 +1,32 @@
 <template>
-  <BaseFullScreenDialog v-model="dialog" :title="title" :is-appstore="true" @dispose="dispose">
+  <BaseFullScreenDialog v-model="dialog" :is-appstore="true" :title="title" @dispose="dispose">
     <template #content>
       <v-flex :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
         <v-row class="mt-0 ma-0">
-          <v-col cols="3" class="px-6 pa-0">
+          <v-col class="px-6 pa-0" cols="3">
             <AppInfo
-              :current-app="currentApp"
-              :versions="versions"
-              :select-version="selectVersion"
-              :readonly="true"
-              :show-version="false"
-              :class="`zoom-${Scale.toString().replaceAll('.', '-')}`"
               :app-name="currentApp.name"
+              :class="`zoom-${Scale.toString().replaceAll('.', '-')}`"
+              :current-app="currentApp"
+              :readonly="true"
               :select-repo="selectRepo"
+              :select-version="selectVersion"
+              :show-version="false"
+              :versions="versions"
             />
           </v-col>
           <v-flex class="py-2">
             <v-divider vertical />
           </v-flex>
-          <v-col cols="9" class="pa-0">
+          <v-col class="pa-0" cols="9">
             <DeployWizard
               ref="deployWizard"
               class="deploy-wizard-overflow-y"
-              :files="files"
               :current-app="currentApp"
-              :versions="versions"
-              :style="`height: ${wizardHeight}px;`"
+              :files="files"
               :select-repo="selectRepo"
+              :style="`height: ${wizardHeight}px;`"
+              :versions="versions"
               v-on="$listeners"
             />
           </v-col>
@@ -38,13 +38,18 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import AppInfo from './AppInfo';
+
   import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'Deploy',
     // 异步导入防止递归循环导入
-    components: { DeployWizard: () => import('./DeployWizard'), AppInfo },
+    components: {
+      AppInfo,
+      DeployWizard: () => import('./DeployWizard'),
+    },
     mixins: [BaseSelect],
     props: {
       currentApp: {
@@ -55,17 +60,17 @@
         type: Object,
         default: () => {},
       },
-      versions: {
-        type: Array,
-        default: () => [],
+      selectRepo: {
+        type: String,
+        default: () => '',
       },
       selectVersion: {
         type: String,
         default: () => '',
       },
-      selectRepo: {
-        type: String,
-        default: () => '',
+      versions: {
+        type: Array,
+        default: () => [],
       },
     },
     data: () => ({

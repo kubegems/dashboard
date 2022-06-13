@@ -1,5 +1,5 @@
 <template>
-  <v-data-table disable-sort :headers="headers" :items="routes" no-data-text="暂无数据" hide-default-footer>
+  <v-data-table disable-sort :headers="headers" hide-default-footer :items="routes" no-data-text="暂无数据">
     <template #[`item.destination`]="{ item }">
       {{ item.destination.host }}
     </template>

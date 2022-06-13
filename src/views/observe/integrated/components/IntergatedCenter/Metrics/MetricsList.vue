@@ -10,25 +10,25 @@
     />
     <v-data-table
       class="px-2"
-      :headers="headers"
-      :items="items"
-      item-key="value"
-      disable-sort
-      :search.sync="search"
-      hide-default-footer
-      no-data-text="暂无数据"
       :custom-filter="customFilter"
-      :page.sync="page"
+      disable-sort
+      :headers="headers"
+      hide-default-footer
+      item-key="value"
+      :items="items"
       :items-per-page="itemsPerPage"
+      no-data-text="暂无数据"
       no-results-text="暂无结果"
+      :page.sync="page"
+      :search.sync="search"
     />
     <BasePagination
       v-if="pageCount >= 1"
       v-model="page"
       :front-page="true"
       :page-count="pageCount"
-      :size="itemsPerPage"
       :show-size="false"
+      :size="itemsPerPage"
       @changepage="onPageIndexChange"
     />
   </div>
@@ -36,6 +36,7 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import { getSystemConfigData, getMyConfigData } from '@/api';
 
   export default {

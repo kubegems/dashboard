@@ -1,24 +1,24 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="添加集群" icon="mdi-server-plus" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-server-plus" title="添加集群" :width="1000" @reset="reset">
     <template #content>
-      <component :is="formComponent" :ref="formComponent" :step="step" :control="control" @refresh="refresh" />
+      <component :is="formComponent" :ref="formComponent" :control="control" :step="step" @refresh="refresh" />
     </template>
     <template #action>
       <v-btn
         v-if="step === totalStep - 1"
         class="float-right mx-2"
         color="primary"
-        text
         :loading="Circular"
+        text
         @click="addCluster"
       >
         确定
       </v-btn>
       <v-btn
         v-if="step >= 0 && step < totalStep - 1"
-        :disabled="step === 1 && extend.validate !== 'success'"
         class="float-right mx-2"
         color="primary"
+        :disabled="step === 1 && extend.validate !== 'success'"
         text
         @click="nextStep"
       >
@@ -33,7 +33,9 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import ClusterBaseForm from './ClusterBaseForm';
+
   import { postAddCluster } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BaseSelect from '@/mixins/select';

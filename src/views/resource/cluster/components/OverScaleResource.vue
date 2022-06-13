@@ -1,25 +1,25 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="资源超分" icon="mdi-scale" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-scale" title="资源超分" :width="1000" @reset="reset">
     <template #content>
       <BaseSubTitle :title="`集群${item ? item.ClusterName : ''}`" />
       <v-card-text class="px-0 pb-0 mt-2">
         <v-row>
-          <v-col cols="4" class="py-0">
-            <VueApexCharts type="radialBar" height="250" :options="cpuOptions" :series="cpuSeries" />
+          <v-col class="py-0" cols="4">
+            <VueApexCharts height="250" :options="cpuOptions" :series="cpuSeries" type="radialBar" />
           </v-col>
-          <v-col cols="4" class="py-0">
-            <VueApexCharts type="radialBar" height="250" :options="memoryOptions" :series="memorySeries" />
+          <v-col class="py-0" cols="4">
+            <VueApexCharts height="250" :options="memoryOptions" :series="memorySeries" type="radialBar" />
           </v-col>
-          <v-col cols="4" class="py-0">
-            <VueApexCharts type="radialBar" height="250" :options="storageOptions" :series="storageSeries" />
+          <v-col class="py-0" cols="4">
+            <VueApexCharts height="250" :options="storageOptions" :series="storageSeries" type="radialBar" />
           </v-col>
         </v-row>
       </v-card-text>
 
       <BaseSubTitle title="资源超分" />
-      <v-form ref="form" v-model="valid" lazy-validation class="mt-4 mx-1" @submit.prevent>
+      <v-form ref="form" v-model="valid" class="mt-4 mx-1" lazy-validation @submit.prevent>
         <v-row>
-          <v-col cols="4" class="px-2 py-0">
+          <v-col class="px-2 py-0" cols="4">
             <v-sheet class="pa-2">
               <v-flex class="text-subtitle-1">
                 超分CPU
@@ -33,15 +33,15 @@
               <v-text-field
                 v-model="obj.OversoldConfig.cpu"
                 class="my-0"
-                required
-                type="number"
                 label="CPU超分比例"
+                required
                 :rules="objRules.CpuRules"
+                type="number"
                 @keyup="onOversoldInput('cpu')"
               />
             </v-sheet>
           </v-col>
-          <v-col cols="4" class="px-2 py-0">
+          <v-col class="px-2 py-0" cols="4">
             <v-sheet class="pa-2">
               <v-flex class="text-subtitle-1">
                 超分内存
@@ -55,15 +55,15 @@
               <v-text-field
                 v-model="obj.OversoldConfig.memory"
                 class="my-0"
-                required
-                type="number"
                 label="内存超分比例"
+                required
                 :rules="objRules.MemoryRules"
+                type="number"
                 @keyup="onOversoldInput('memory')"
               />
             </v-sheet>
           </v-col>
-          <v-col cols="4" class="px-2 py-0">
+          <v-col class="px-2 py-0" cols="4">
             <v-sheet class="pa-2">
               <v-flex class="text-subtitle-1">
                 超分存储
@@ -77,10 +77,10 @@
               <v-text-field
                 v-model="obj.OversoldConfig.storage"
                 class="my-0"
-                required
-                type="number"
                 label="存储超分比例"
+                required
                 :rules="objRules.StorageRules"
+                type="number"
                 @keyup="onOversoldInput('storage')"
               />
             </v-sheet>
@@ -89,7 +89,7 @@
       </v-form>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="oversoldClusterResource">
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="oversoldClusterResource">
         确定
       </v-btn>
     </template>
@@ -97,8 +97,9 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
   import VueApexCharts from 'vue-apexcharts';
+  import { mapState } from 'vuex';
+
   import { getClusterQuota, putUpdateCluster } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { generateRadialBarChartOptions } from '@/utils/chart';

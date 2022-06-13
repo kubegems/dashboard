@@ -2,12 +2,12 @@
   <v-card>
     <v-card-text>
       <v-data-table
+        class="pb-4"
         disable-sort
         :headers="headers"
+        hide-default-footer
         :items="items"
         no-data-text="暂无数据"
-        hide-default-footer
-        class="pb-4"
       >
         <template #[`item.name`]="{ item }">
           <a class="text-subtitle-2">
@@ -18,7 +18,7 @@
           {{ item.metadata.namespace }}
         </template>
         <template #[`item.hosts`]="{ item }">
-          <BaseCollapseChips v-if="item" :chips="item.spec.hosts || []" single-line icon="mdi-directions-fork" />
+          <BaseCollapseChips v-if="item" :chips="item.spec.hosts || []" icon="mdi-directions-fork" single-line />
         </template>
         <template #[`item.createdAt`]="{ item }">
           {{ item.metadata.creationTimestamp ? $moment(item.metadata.creationTimestamp).format('lll') : '' }}

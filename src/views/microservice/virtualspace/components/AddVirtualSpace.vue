@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="创建虚拟空间" icon="mdi-cloud-outline" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-cloud-outline" title="创建虚拟空间" :width="1000" @reset="reset">
     <template #content>
       <component :is="formComponent" :ref="formComponent" :step="step" title="虚拟空间" />
     </template>
@@ -8,8 +8,8 @@
         v-if="step === totalStep - 1"
         class="float-right mx-2"
         color="primary"
-        text
         :loading="Circular"
+        text
         @click="addVirtualSpace"
       >
         确定
@@ -26,7 +26,9 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import VirtualSpaceBaseForm from './VirtualSpaceBaseForm';
+
   import { postAddVirtualSpace, postAddVirtualSpaceEnvironment, postAddVirtualSpaceUser } from '@/api';
   import BaseResource from '@/mixins/resource';
 

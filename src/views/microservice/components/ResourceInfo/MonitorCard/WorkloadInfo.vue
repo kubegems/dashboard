@@ -1,6 +1,6 @@
 <template>
-  <v-sheet max-height="400px" class="overflow">
-    <BaseListItemForDetail v-if="$route.query.type !== 'DaemonSet'" title="副本" :mt="0">
+  <v-sheet class="overflow" max-height="400px">
+    <BaseListItemForDetail v-if="$route.query.type !== 'DaemonSet'" :mt="0" title="副本">
       <template #content>
         {{ item && item.status.updatedReplicas ? item.status.updatedReplicas : 0 }}
         个副本已更新,
@@ -24,24 +24,24 @@
       </template>
     </BaseListItemForDetail>
 
-    <BaseListItemForDetail title="标签" :mt="0">
+    <BaseListItemForDetail :mt="0" title="标签">
       <template #content>
-        <BaseCollapseChips v-if="item" :chips="item.metadata.labels || {}" single-line icon="mdi-label" />
+        <BaseCollapseChips v-if="item" :chips="item.metadata.labels || {}" icon="mdi-label" single-line />
       </template>
     </BaseListItemForDetail>
 
-    <BaseListItemForDetail title="容器组" :mt="0">
+    <BaseListItemForDetail :mt="0" title="容器组">
       <template #content>
         <v-menu
-          open-on-hover
           bottom
-          right
-          max-width="200px"
-          offset-y
-          origin="top center"
-          transition="scale-transition"
-          nudge-bottom="5px"
           :close-delay="200"
+          max-width="200px"
+          nudge-bottom="5px"
+          offset-y
+          open-on-hover
+          origin="top center"
+          right
+          transition="scale-transition"
         >
           <template #activator="{ on }">
             <span v-on="on">
@@ -71,10 +71,10 @@
               <v-icon color="white" left small> mdi-cube </v-icon>
               <span>容器组</span>
             </v-flex>
-            <v-list dense class="pa-0 kubegems__tip">
+            <v-list class="pa-0 kubegems__tip" dense>
               <v-list-item v-if="podItems.length > 0">
                 <v-list-item-content>
-                  <v-list-item two-line class="float-left pa-0">
+                  <v-list-item class="float-left pa-0" two-line>
                     <v-list-item-content class="py-0">
                       <v-list-item-title> 容器组 </v-list-item-title>
                       <v-list-item-content

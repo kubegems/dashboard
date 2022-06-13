@@ -1,14 +1,14 @@
 <template>
   <v-flex class="my-1">
     <v-menu
-      open-on-hover
       bottom
+      :close-delay="200"
+      :close-on-content-click="false"
       max-width="200px"
       offset-y
+      open-on-hover
       origin="top center"
       transition="scale-transition"
-      :close-on-content-click="false"
-      :close-delay="200"
     >
       <template #activator="{ on }">
         <span class="kubegems__pointer" v-on="on">
@@ -20,11 +20,11 @@
           <v-icon color="white" left small> mdi-memory </v-icon>
           <span>{{ type === 'tke' ? 'Tencent Vcuda' : 'Nvidia Gpu' }}</span>
         </v-flex>
-        <v-list dense class="pa-0 kubegems__tip">
+        <v-list class="pa-0 kubegems__tip" dense>
           <v-list-item>
             <v-list-item-content>
               <template v-if="type === 'tke'">
-                <v-list-item two-line class="float-left pa-0">
+                <v-list-item class="float-left pa-0" two-line>
                   <v-list-item-content class="py-0">
                     <v-list-item-title> Gpu </v-list-item-title>
                     <v-list-item-content class="text-caption kubegems__text">
@@ -35,7 +35,7 @@
                     </v-list-item-content>
                   </v-list-item-content>
                 </v-list-item>
-                <v-list-item two-line class="float-left pa-0">
+                <v-list-item class="float-left pa-0" two-line>
                   <v-list-item-content class="py-0">
                     <v-list-item-title> 显存 </v-list-item-title>
                     <v-list-item-content class="text-caption kubegems__text">
@@ -50,7 +50,7 @@
                 </v-list-item>
               </template>
               <template v-if="type === 'nvidia'">
-                <v-list-item two-line class="float-left pa-0">
+                <v-list-item class="float-left pa-0" two-line>
                   <v-list-item-content class="py-0">
                     <v-list-item-title> Gpu </v-list-item-title>
                     <v-list-item-content class="text-caption kubegems__text">
@@ -76,17 +76,17 @@
   export default {
     name: 'GpuTip',
     props: {
-      type: {
-        type: String,
-        default: () => 'tke',
+      allocated: {
+        type: Boolean,
+        default: () => true,
       },
       item: {
         type: Object,
         default: () => {},
       },
-      allocated: {
-        type: Boolean,
-        default: () => true,
+      type: {
+        type: String,
+        default: () => 'tke',
       },
     },
   };

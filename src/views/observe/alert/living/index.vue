@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="queryer">
+  <v-container class="queryer" fluid>
     <BaseBreadcrumb class="queryer__header" />
   </v-container>
 </template>

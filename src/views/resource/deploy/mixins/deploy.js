@@ -1,4 +1,5 @@
 import { mapGetters, mapState } from 'vuex';
+
 import { getStrategyDeployEnvironmentAppsDetail } from '@/api';
 
 const deploy = {

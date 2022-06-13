@@ -8,18 +8,18 @@
           <v-col cols="6">
             <v-autocomplete
               v-model="resourceKind"
-              color="primary"
-              :items="kinds"
-              :rules="objRules.kindRule"
-              :readonly="edit"
-              label="资源"
-              hide-selected
               class="my-0"
+              color="primary"
+              hide-selected
+              :items="kinds"
+              label="资源"
               no-data-text="暂无可选数据"
+              :readonly="edit"
+              :rules="objRules.kindRule"
               @change="onKindChange"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -31,27 +31,27 @@
             <v-text-field
               v-model="obj.metadata.name"
               class="my-0"
-              required
               label="名称"
-              :rules="objRules.nameRule"
               :readonly="edit"
+              required
+              :rules="objRules.nameRule"
             />
           </v-col>
           <v-col v-if="AdminViewport && !manifest" cols="6">
             <v-autocomplete
               v-model="obj.metadata.namespace"
-              color="primary"
-              :items="m_select_namespaceItems"
-              :rules="objRules.namespaceRule"
-              :readonly="edit"
-              label="命名空间"
-              hide-selected
               class="my-0"
+              color="primary"
+              hide-selected
+              :items="m_select_namespaceItems"
+              label="命名空间"
               no-data-text="暂无可选数据"
+              :readonly="edit"
+              :rules="objRules.namespaceRule"
               @focus="onNamespaceSelectFocus(ThisCluster)"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -65,17 +65,17 @@
           >
             <v-autocomplete
               v-model="obj.spec.ingressClassName"
-              color="primary"
-              label="声明网关"
-              hide-selected
               class="my-0"
-              no-data-text="暂无可选数据"
+              color="primary"
+              hide-selected
               :items="m_select_gatewayItems"
+              label="声明网关"
+              no-data-text="暂无可选数据"
               :rules="objRules.ingressClassNameRule"
               @focus="onGatewaySelectFocus(ThisCluster)"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -86,20 +86,20 @@
 
       <IngressRuleForm
         ref="ingressRuleForm"
-        :obj="obj"
         :domain="baseDomain"
+        :obj="obj"
         @addData="addRulerData"
         @closeOverlay="closeExpand"
       />
       <BaseSubTitle title="路由规则" />
       <v-card-text class="pa-2">
         <IngressRuleItem
+          :obj="obj"
           :rules="obj.spec.rules"
           :tls="obj.spec.tls"
-          :obj="obj"
-          @updatePort="updatePort"
-          @removePort="removePort"
           @expandCard="expandCard"
+          @removePort="removePort"
+          @updatePort="updatePort"
         />
       </v-card-text>
 
@@ -111,7 +111,7 @@
       />
       <BaseSubTitle title="注解">
         <template #tips>
-          <v-icon small right color="warning" class="mt-n1 kubegems__pointer" @click="help">
+          <v-icon class="mt-n1 kubegems__pointer" color="warning" right small @click="help">
             mdi-information-variant
           </v-icon>
         </template>
@@ -119,9 +119,9 @@
       <v-card-text class="pa-2">
         <AnnotationItem
           :annotations="obj.metadata.annotations"
-          @updateAnnotations="updateAnnotations"
-          @removeAnnotations="removeAnnotations"
           @expandCard="expandCard"
+          @removeAnnotations="removeAnnotations"
+          @updateAnnotations="updateAnnotations"
         />
         <div class="kubegems__clear-float" />
       </v-card-text>
@@ -131,48 +131,50 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import IngressRuleItem from './IngressRuleItem';
+
   import IngressRuleForm from './IngressRuleForm';
-  import AnnotationItem from '@/views/resource/components/annotation/AnnotationItem';
-  import AnnotationForm from '@/views/resource/components/annotation/AnnotationForm';
-  import BaseSelect from '@/mixins/select';
+  import IngressRuleItem from './IngressRuleItem';
+
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
   import { k8sName, required } from '@/utils/rules';
+  import AnnotationForm from '@/views/resource/components/annotation/AnnotationForm';
+  import AnnotationItem from '@/views/resource/components/annotation/AnnotationItem';
 
   export default {
     name: 'IngressBaseForm',
     components: {
-      IngressRuleItem,
+      AnnotationForm,
       AnnotationItem,
       IngressRuleForm,
-      AnnotationForm,
+      IngressRuleItem,
     },
-    mixins: [BaseSelect, BaseResource],
+    mixins: [BaseResource, BaseSelect],
     props: {
-      item: {
+      app: {
         type: Object,
-        default: () => null,
+        default: () => {},
       },
       edit: {
         type: Boolean,
         default: () => false,
       },
+      item: {
+        type: Object,
+        default: () => null,
+      },
       kind: {
         type: String,
         default: () => 'Ingress',
-      },
-      manifest: {
-        type: Boolean,
-        default: () => false,
       },
       kinds: {
         type: Array,
         default: () => [],
       },
-      app: {
-        type: Object,
-        default: () => {},
+      manifest: {
+        type: Boolean,
+        default: () => false,
       },
     },
     data: () => ({

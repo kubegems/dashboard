@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form" v-model="valid" lazy-validation class="my-2" @submit.prevent>
+  <v-form ref="form" v-model="valid" class="my-2" lazy-validation @submit.prevent>
     <v-flex :class="expand ? 'kubegems__overlay' : ''" />
     <v-expand-transition>
       <v-card v-show="expand" class="my-2 pa-2 kubegems__expand-transition" :elevation="4">
@@ -9,18 +9,18 @@
               <span>dns option</span>
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
-              <v-text-field v-model="obj.name" class="my-0" required label="名称" :rules="objRules.nameRule" />
+              <v-text-field v-model="obj.name" class="my-0" label="名称" required :rules="objRules.nameRule" />
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
-              <v-text-field v-model="obj.value" class="my-0" required label="值" />
+              <v-text-field v-model="obj.value" class="my-0" label="值" required />
             </v-flex>
             <div class="kubegems__clear-float" />
           </v-sheet>
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn text small color="error" @click="closeCard"> 取消 </v-btn>
-          <v-btn text small color="primary" @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
+          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>

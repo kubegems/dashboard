@@ -7,23 +7,23 @@
       <v-sheet class="float-left ns__combox" width="400">
         <v-combobox
           v-model="namespaceFilter"
-          color="primary"
           chips
-          hide-selected
-          hide-details
-          label="命名空间"
-          prepend-inner-icon="mdi-cube"
+          color="primary"
           dense
-          solo
           flat
-          no-data-text="无数据"
           full-width
+          hide-details
+          hide-selected
           :items="m_select_namespaceItems"
-          @focus="onNamespaceSelectFocus(Cluster().ClusterName)"
+          label="命名空间"
+          no-data-text="无数据"
+          prepend-inner-icon="mdi-cube"
+          solo
           @change="onNamespaceFilterChange"
+          @focus="onNamespaceSelectFocus(Cluster().ClusterName)"
         >
           <template #selection="{ attrs, item, selected }">
-            <v-chip v-if="namespaceFilter" :input-value="selected" color="primary" label small v-bind="attrs">
+            <v-chip v-if="namespaceFilter" color="primary" :input-value="selected" label small v-bind="attrs">
               <span class="pr-2">{{ item.text }}</span>
               <v-icon small @click="removeNamespaceFilter"> mdi-close </v-icon>
             </v-chip>
@@ -38,6 +38,7 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import BaseSelect from '@/mixins/select';
 
   export default {

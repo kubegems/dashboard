@@ -14,18 +14,18 @@
 </template>
 
 <script>
-  import LeftSteps from './LeftSteps';
-  import Install from './Install';
-  import Collect from './Collect';
   import Analyze from './Analyze';
+  import Collect from './Collect';
+  import Install from './Install';
+  import LeftSteps from './LeftSteps';
 
   export default {
     name: 'IntroSteps',
     components: {
-      LeftSteps,
-      Install,
-      Collect,
       Analyze,
+      Collect,
+      Install,
+      LeftSteps,
     },
     data() {
       return {

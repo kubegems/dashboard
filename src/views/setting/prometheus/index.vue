@@ -1,10 +1,10 @@
 <template>
   <v-container fluid>
-    <BaseSplitContainer title="类型" side-width="250px">
+    <BaseSplitContainer side-width="250px" title="类型">
       <BaseBreadcrumb flat>
         <template #extend>
           <v-flex class="kubegems__full-right">
-            <v-btn text small class="primary--text" @click="addTemplate">
+            <v-btn class="primary--text" small text @click="addTemplate">
               <v-icon left small> fas fa-plus-square </v-icon>
               创建模版
             </v-btn>
@@ -29,36 +29,36 @@
         class="mx-4"
         disable-sort
         :headers="headers"
+        hide-default-footer
         :items="items"
-        :page.sync="params.page"
         :items-per-page="params.size"
         no-data-text="暂无数据"
-        hide-default-footer
+        :page.sync="params.page"
       >
         <template #[`item.rule`]="{ item }">
           {{ item.showName }}
         </template>
         <template #[`item.unit`]="{ item }">
-          <BaseCollapseChips :chips="item.units || []" single-line icon="mdi-pound-box" />
+          <BaseCollapseChips :chips="item.units || []" icon="mdi-pound-box" single-line />
         </template>
         <template #[`item.label`]="{ item }">
-          <BaseCollapseChips :chips="item.labels || []" single-line icon="mdi-label" />
+          <BaseCollapseChips :chips="item.labels || []" icon="mdi-label" single-line />
         </template>
         <template #[`item.action`]="{ item, index }">
           <v-flex :id="`r${index}`" />
-          <v-menu left :attach="`#r${index}`">
+          <v-menu :attach="`#r${index}`" left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
               </v-btn>
             </template>
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" text small @click="updateTemplate(item)"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateTemplate(item)"> 编辑 </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" text small @click="removeTemplate(item)"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeTemplate(item)"> 删除 </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -68,12 +68,12 @@
       <BasePagination
         v-if="pageCount >= 1"
         v-model="params.page"
-        :page-count="pageCount"
         :front-page="true"
+        :page-count="pageCount"
         :size="params.size"
-        @loaddata="prometheusTemplateList"
-        @changesize="onPageSizeChange"
         @changepage="onPageIndexChange"
+        @changesize="onPageSizeChange"
+        @loaddata="prometheusTemplateList"
       />
     </BaseSplitContainer>
 
@@ -85,6 +85,7 @@
 <script>
   import AddTemplate from './components/AddTemplate';
   import UpdateTemplate from './components/UpdateTemplate';
+
   import { getSystemConfigData, deletePrometheusTemplate } from '@/api';
 
   export default {

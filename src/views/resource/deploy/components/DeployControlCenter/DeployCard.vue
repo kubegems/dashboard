@@ -1,10 +1,10 @@
 <template>
   <v-row>
-    <v-col cols="3" class="pt-0">
+    <v-col class="pt-0" cols="3">
       <v-card height="100%">
         <v-card-text class="pa-5">
           <div class="d-flex align-center">
-            <Icon icon="clarity:network-globe-line" class="mr-3 primary--text" width="40px" height="40px" />
+            <Icon class="mr-3 primary--text" height="40px" icon="clarity:network-globe-line" width="40px" />
             <div class="ml-2 mr-1">
               <v-flex class="text-body-2"> 实时速率: {{ requestsNow ? requestsNow : 0 }} </v-flex>
               <v-flex class="text-body-2"> 过去24小时: {{ requestsSumOverTime ? requestsSumOverTime : 0 }} </v-flex>
@@ -14,11 +14,11 @@
         </v-card-text>
       </v-card>
     </v-col>
-    <v-col cols="3" class="pt-0">
+    <v-col class="pt-0" cols="3">
       <v-card height="100%">
         <v-card-text class="pa-5">
           <div class="d-flex align-center">
-            <Icon icon="fluent:timer-16-regular" class="mr-3 primary--text" width="40px" height="40px" />
+            <Icon class="mr-3 primary--text" height="40px" icon="fluent:timer-16-regular" width="40px" />
             <div class="ml-2 mr-1">
               <v-flex class="text-body-2"> p99: {{ avgresponsetimeP99 ? avgresponsetimeP99 : 0 }} ms </v-flex>
               <v-flex class="text-body-2"> p95: {{ avgresponsetimeP95 ? avgresponsetimeP95 : 0 }} ms </v-flex>
@@ -28,11 +28,11 @@
         </v-card-text>
       </v-card>
     </v-col>
-    <v-col cols="3" class="pt-0">
+    <v-col class="pt-0" cols="3">
       <v-card height="100%">
         <v-card-text class="pa-5">
           <div class="d-flex align-center">
-            <Icon icon="clarity:network-globe-outline-badged" class="mr-3 primary--text" width="40px" height="40px" />
+            <Icon class="mr-3 primary--text" height="40px" icon="clarity:network-globe-outline-badged" width="40px" />
             <div class="ml-2 mr-1">
               <v-flex class="text-body-2"> 实时: {{ errrequestsSum ? errrequestsSum : 0 }} </v-flex>
               <v-flex class="text-body-2">
@@ -45,11 +45,11 @@
         </v-card-text>
       </v-card>
     </v-col>
-    <v-col cols="3" class="pt-0">
+    <v-col class="pt-0" cols="3">
       <v-card height="100%">
         <v-card-text class="pa-5">
           <div class="d-flex align-center">
-            <Icon icon="carbon:content-delivery-network" class="mr-3 primary--text" width="40px" height="40px" />
+            <Icon class="mr-3 primary--text" height="40px" icon="carbon:content-delivery-network" width="40px" />
             <div class="ml-2 mr-1">
               <v-flex class="text-body-2"> 入: {{ networkIngress ? networkIngress : 0 }} Kbps </v-flex>
               <v-flex class="text-body-2"> 出: {{ networkEgress ? networkEgress : 0 }} Kbps </v-flex>
@@ -63,8 +63,8 @@
 </template>
 
 <script>
-  import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
   import {
     ISTIO_WORKLOAD_QPS_PROMQL,
     ISTIO_WORKLOAD_REQUEST_LAST_24H_PROMQL,
@@ -78,7 +78,7 @@
 
   export default {
     name: 'DeployCard',
-    mixins: [BaseResource, BasePermission],
+    mixins: [BasePermission, BaseResource],
     props: {
       status: {
         type: Object,

@@ -6,17 +6,17 @@
         <v-col cols="6">
           <v-autocomplete
             v-model="resourceKind"
-            color="primary"
-            :items="kinds"
-            :rules="objRules.kindRule"
-            label="资源"
-            hide-selected
             class="my-0"
+            color="primary"
+            hide-selected
+            :items="kinds"
+            label="资源"
             no-data-text="暂无可选数据"
+            :rules="objRules.kindRule"
             @change="onKindChange"
           >
             <template #selection="{ item }">
-              <v-chip color="primary" small class="mx-1">
+              <v-chip class="mx-1" color="primary" small>
                 {{ item['text'] }}
               </v-chip>
             </template>
@@ -29,14 +29,15 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import BaseSelect from '@/mixins/select';
+
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'AppBaseInfo',
-    mixins: [BaseSelect, BaseResource],
+    mixins: [BaseResource, BaseSelect],
     props: {
       kinds: {
         type: Array,
