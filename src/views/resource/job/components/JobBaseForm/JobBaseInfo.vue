@@ -6,18 +6,18 @@
         <v-col cols="6">
           <v-autocomplete
             v-model="resourceKind"
-            color="primary"
-            :items="kinds"
-            :rules="objRules.kindRule"
-            :readonly="edit"
-            label="资源"
-            hide-selected
             class="my-0"
+            color="primary"
+            hide-selected
+            :items="kinds"
+            label="资源"
             no-data-text="暂无可选数据"
+            :readonly="edit"
+            :rules="objRules.kindRule"
             @change="onKindChange"
           >
             <template #selection="{ item }">
-              <v-chip color="primary" small class="mx-1">
+              <v-chip class="mx-1" color="primary" small>
                 {{ item['text'] }}
               </v-chip>
             </template>
@@ -29,27 +29,27 @@
           <v-text-field
             v-model="obj.metadata.name"
             class="my-0"
-            required
             label="名称"
-            :rules="objRules.nameRule"
             :readonly="edit"
+            required
+            :rules="objRules.nameRule"
           />
         </v-col>
         <v-col v-if="AdminViewport && !manifest" cols="6">
           <v-autocomplete
             v-model="obj.metadata.namespace"
-            color="primary"
-            :items="m_select_namespaceItems"
-            :rules="objRules.namespaceRule"
-            :readonly="edit"
-            label="命名空间"
-            hide-selected
             class="my-0"
+            color="primary"
+            hide-selected
+            :items="m_select_namespaceItems"
+            label="命名空间"
             no-data-text="暂无可选数据"
+            :readonly="edit"
+            :rules="objRules.namespaceRule"
             @focus="onNamespaceSelectFocus(ThisCluster)"
           >
             <template #selection="{ item }">
-              <v-chip color="primary" small class="mx-1">
+              <v-chip class="mx-1" color="primary" small>
                 {{ item['text'] }}
               </v-chip>
             </template>
@@ -62,35 +62,35 @@
     <v-card-text class="pa-2">
       <v-row>
         <v-col cols="6">
-          <v-text-field v-model="obj.spec.backoffLimit" class="my-0" required label="最大重试次数" type="number" />
+          <v-text-field v-model="obj.spec.backoffLimit" class="my-0" label="最大重试次数" required type="number" />
         </v-col>
         <v-col cols="6">
-          <v-text-field v-model="obj.spec.completions" class="my-0" required label="完成数" type="number" />
+          <v-text-field v-model="obj.spec.completions" class="my-0" label="完成数" required type="number" />
         </v-col>
         <v-col cols="6">
-          <v-text-field v-model="obj.spec.parallelism" class="my-0" required label="并行数" type="number" />
+          <v-text-field v-model="obj.spec.parallelism" class="my-0" label="并行数" required type="number" />
         </v-col>
         <v-col cols="6">
           <v-text-field
             v-model="obj.spec.activeDeadlineSeconds"
             class="my-0"
-            required
             label="退出超时时限(秒)"
+            required
             type="number"
           />
         </v-col>
         <v-col cols="6">
           <v-autocomplete
             v-model="obj.spec.template.spec.restartPolicy"
+            class="my-0"
             color="primary"
+            hide-selected
             :items="restartPolicys"
             label="重启策略"
-            hide-selected
-            class="my-0"
             no-data-text="暂无可选数据"
           >
             <template #selection="{ item }">
-              <v-chip color="primary" small class="mx-1">
+              <v-chip class="mx-1" color="primary" small>
                 {{ item['text'] }}
               </v-chip>
             </template>
@@ -103,38 +103,39 @@
 
 <script>
   import { mapState } from 'vuex';
-  import BaseSelect from '@/mixins/select';
+
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
   import { k8sName, required } from '@/utils/rules';
 
   export default {
     name: 'JobBaseInfo',
-    mixins: [BaseSelect, BaseResource],
+    mixins: [BaseResource, BaseSelect],
     props: {
-      item: {
+      app: {
         type: Object,
-        default: () => null,
+        default: () => {},
       },
       edit: {
         type: Boolean,
         default: () => false,
       },
+      item: {
+        type: Object,
+        default: () => null,
+      },
       kind: {
         type: String,
         default: () => 'Job',
-      },
-      manifest: {
-        type: Boolean,
-        default: () => false,
       },
       kinds: {
         type: Array,
         default: () => [],
       },
-      app: {
-        type: Object,
-        default: () => {},
+      manifest: {
+        type: Boolean,
+        default: () => false,
       },
     },
     data() {

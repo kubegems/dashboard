@@ -7,10 +7,10 @@
           <v-text-field
             v-model="obj.name"
             class="my-0"
-            :rules="objRules.nameRule"
-            required
             label="名称"
             :readonly="edit"
+            required
+            :rules="objRules.nameRule"
           />
         </v-col>
       </v-row>
@@ -19,8 +19,8 @@
 </template>
 
 <script>
-  import { required } from '@/utils/rules';
   import { deepCopy } from '@/utils/helpers';
+  import { required } from '@/utils/rules';
 
   export default {
     name: 'DashboardBaseForm',

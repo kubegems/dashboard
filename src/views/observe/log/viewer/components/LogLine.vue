@@ -2,11 +2,11 @@
   <v-flex :class="`pa-0 clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
     <VueApexCharts
       class="px-2"
-      type="area"
       height="300"
-      width="100%"
       :options="chartOptions.options"
       :series="chartOptions.series"
+      type="area"
+      width="100%"
     />
     <div class="py-3 px-2">
       <div
@@ -25,8 +25,8 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
   import VueApexCharts from 'vue-apexcharts';
+  import { mapState } from 'vuex';
 
   export default {
     name: 'LogLine',

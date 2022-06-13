@@ -5,11 +5,11 @@
     <Subsection
       v-if="type === 'object'"
       :id="id"
+      :all-params="allParams"
+      :app-values="appValues"
+      :cluster-name="clusterName"
       :label="param.title || param.path"
       :param="param"
-      :app-values="appValues"
-      :all-params="allParams"
-      :cluster-name="clusterName"
       :path-level="pathLevel"
       v-bind="$attrs"
       v-on="$listeners"
@@ -36,9 +36,9 @@
         type === 'integer'
       "
       :id="id"
+      :input-type="getInputType"
       :label="param.title || param.path"
       :param="param"
-      :input-type="getInputType"
       v-bind="$attrs"
       v-on="$listeners"
     />
@@ -49,22 +49,22 @@
         ((param.enum && param.enum.length > 0) || param.name === 'storageClassName' || param.name === 'storageClass')
       "
       :id="id"
-      :label="param.title || param.path"
-      :param="param"
-      :input-type="getInputType"
       v-bind="$attrs"
       :cluster-name="clusterName"
+      :input-type="getInputType"
+      :label="param.title || param.path"
+      :param="param"
       v-on="$listeners"
     />
     <!-- 多选组件 -->
     <MultiSelectParam
       v-else-if="type === 'array'"
       :id="id"
-      :label="param.title || param.path"
-      :param="param"
-      :input-type="getInputType"
       v-bind="$attrs"
       :cluster-name="clusterName"
+      :input-type="getInputType"
+      :label="param.title || param.path"
+      :param="param"
       v-on="$listeners"
     />
     <!-- 滑块带范围的组件 -->
@@ -90,45 +90,46 @@
 
 <script>
   import BooleanParam from './BooleanParam';
-  import TextFieldParam from './TextFieldParam';
-  import TextAreaParam from './TextAreaParam';
   import MinMaxParam from './MinMaxParam';
-  import SingleSelectParam from './SingleSelectParam';
   import MultiSelectParam from './MultiSelectParam';
+  import SingleSelectParam from './SingleSelectParam';
+  import TextAreaParam from './TextAreaParam';
+  import TextFieldParam from './TextFieldParam';
+
   import { YamlMixin } from '@/views/appstore/mixins/yaml';
 
   export default {
     name: 'Param',
     components: {
       BooleanParam,
-      TextFieldParam,
-      TextAreaParam,
-      SingleSelectParam,
-      MultiSelectParam,
       MinMaxParam,
+      MultiSelectParam,
+      SingleSelectParam,
       Subsection: () => import('@/views/appstore/components/Subsection'),
+      TextAreaParam,
+      TextFieldParam,
     },
     mixins: [YamlMixin],
     props: {
+      allParams: {
+        type: Array,
+        default: () => [],
+      },
       appValues: {
         type: Object,
         default: () => {},
       },
-      param: {
-        type: Object,
-        default: () => {},
-      },
-      allParams: {
-        type: Array,
-        default: () => [],
+      clusterName: {
+        type: String,
+        default: () => '',
       },
       id: {
         type: String,
         default: () => '',
       },
-      clusterName: {
-        type: String,
-        default: () => '',
+      param: {
+        type: Object,
+        default: () => {},
       },
     },
     computed: {

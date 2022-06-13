@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog v-model="dialog" :width="500" title="修改Installer镜像" icon="mdi-file-document" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-file-document" title="修改Installer镜像" :width="500" @reset="reset">
     <template #content>
       <BaseSubTitle title="镜像定义" />
       <v-card-text class="pa-2 mt-2">
@@ -8,22 +8,23 @@
             <v-text-field
               v-model="obj.operatorImage"
               class="my-0"
-              :rules="objRules.operatorImageRules"
-              required
               label="镜像"
+              required
+              :rules="objRules.operatorImageRules"
             />
           </v-sheet>
         </v-form>
       </v-card-text>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="updateSystemConfig"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateSystemConfig"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapState } from 'vuex';
+
   import { getSystemConfigData, putSystemConfigData } from '@/api';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';

@@ -4,49 +4,49 @@
       class="mx-4"
       disable-sort
       :headers="headers"
+      hide-default-footer
       :items="items"
-      :page.sync="params.page"
       :items-per-page="params.size"
       no-data-text="暂无数据"
-      hide-default-footer
+      :page.sync="params.page"
     >
       <template #[`item.severity`]="{ item }">
         <v-menu
-          open-on-hover
           bottom
-          right
-          offset-y
-          origin="top left"
-          transition="scale-transition"
-          nudge-bottom="5px"
-          max-width="200"
           :close-delay="200"
+          max-width="200"
+          nudge-bottom="5px"
+          offset-y
+          open-on-hover
+          origin="top left"
+          right
+          transition="scale-transition"
         >
           <template #activator="{ on }">
-            <v-chip v-if="!item.isHarborRegistry || !item.report" label small color="blue-grey" class="white--text">
+            <v-chip v-if="!item.isHarborRegistry || !item.report" class="white--text" color="blue-grey" label small>
               -
             </v-chip>
             <v-chip
               v-else-if="item.scanStatus !== ''"
+              class="white--text"
+              :color="severityDict[item.severity] ? severityDict[item.severity].Color : ''"
               label
               small
-              :color="severityDict[item.severity] ? severityDict[item.severity].Color : ''"
-              class="white--text"
               v-on="on"
             >
               {{ severityDict[item.severity] ? severityDict[item.severity].CN : '' }}
             </v-chip>
-            <v-chip v-else label small color="blue-grey" class="white--text"> 未扫描 </v-chip>
+            <v-chip v-else class="white--text" color="blue-grey" label small> 未扫描 </v-chip>
           </template>
           <v-card flat width="100%">
             <v-flex class="text-body-2 text-center primary white--text py-2">
               <v-icon color="white" left small> mdi-chart-bar </v-icon>
               <span>漏洞统计</span>
             </v-flex>
-            <v-list dense class="pa-0 kubegems__tip">
+            <v-list class="pa-0 kubegems__tip" dense>
               <v-list-item>
                 <v-list-item-content>
-                  <v-list-item two-line class="float-left pa-0">
+                  <v-list-item class="float-left pa-0" two-line>
                     <v-list-item-content class="py-0">
                       <v-list-item-title> 严重 </v-list-item-title>
                       <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
@@ -54,7 +54,7 @@
                       </v-list-item-content>
                     </v-list-item-content>
                   </v-list-item>
-                  <v-list-item two-line class="float-left pa-0">
+                  <v-list-item class="float-left pa-0" two-line>
                     <v-list-item-content class="py-0">
                       <v-list-item-title> 高 </v-list-item-title>
                       <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
@@ -62,7 +62,7 @@
                       </v-list-item-content>
                     </v-list-item-content>
                   </v-list-item>
-                  <v-list-item two-line class="float-left pa-0">
+                  <v-list-item class="float-left pa-0" two-line>
                     <v-list-item-content class="py-0">
                       <v-list-item-title> 中等 </v-list-item-title>
                       <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
@@ -70,7 +70,7 @@
                       </v-list-item-content>
                     </v-list-item-content>
                   </v-list-item>
-                  <v-list-item two-line class="float-left pa-0">
+                  <v-list-item class="float-left pa-0" two-line>
                     <v-list-item-content class="py-0">
                       <v-list-item-title> 低 </v-list-item-title>
                       <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
@@ -78,7 +78,7 @@
                       </v-list-item-content>
                     </v-list-item-content>
                   </v-list-item>
-                  <v-list-item two-line class="float-left pa-0">
+                  <v-list-item class="float-left pa-0" two-line>
                     <v-list-item-content class="py-0">
                       <v-list-item-title> 可修复 </v-list-item-title>
                       <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
@@ -101,10 +101,10 @@
       </template>
       <template #[`item.action`]="{ item }">
         <v-flex :id="`r${item.ID}`" />
-        <v-menu left :attach="`#r${item.ID}`">
+        <v-menu :attach="`#r${item.ID}`" left>
           <template #activator="{ on }">
             <v-btn icon>
-              <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+              <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
             </v-btn>
           </template>
           <v-card>
@@ -113,8 +113,8 @@
                 <v-btn
                   v-if="item.scanStatus !== '' && item.isHarborRegistry"
                   color="primary"
-                  text
                   small
+                  text
                   @click="reportDetail(item)"
                 >
                   报告
@@ -124,8 +124,8 @@
                 <v-btn
                   v-if="!item.unpublishable && item.isHarborRegistry"
                   color="primary"
-                  text
                   small
+                  text
                   @click="labelNoPublish(item)"
                 >
                   标记不可发布
@@ -133,8 +133,8 @@
                 <v-btn
                   v-if="item.unpublishable && item.isHarborRegistry"
                   color="primary"
-                  text
                   small
+                  text
                   @click="labelPublish(item)"
                 >
                   允许发布
@@ -151,9 +151,9 @@
       v-model="params.page"
       :page-count="pageCount"
       :size="params.size"
-      @loaddata="appImageSecurityReportList"
-      @changesize="onPageSizeChange"
       @changepage="onPageIndexChange"
+      @changesize="onPageSizeChange"
+      @loaddata="appImageSecurityReportList"
     />
 
     <AppImageSecurityReportDetail ref="appImageSecurityReportDetail" />
@@ -162,15 +162,19 @@
 
 <script>
   import { mapGetters } from 'vuex';
+
   import AppImageSecurityReportDetail from './AppImageSecurityReportDetail';
+
   import { getAppImageSecurityReportList, putSetPublishAppImage } from '@/api';
-  import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'AppImageSecurityReportList',
-    components: { AppImageSecurityReportDetail },
-    mixins: [BaseResource, BasePermission],
+    components: {
+      AppImageSecurityReportDetail,
+    },
+    mixins: [BasePermission, BaseResource],
     props: {
       app: {
         type: Object,

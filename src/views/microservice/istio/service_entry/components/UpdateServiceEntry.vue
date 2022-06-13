@@ -1,10 +1,10 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="更新istio服务入口" icon="mdi-login-variant" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-login-variant" title="更新istio服务入口" :width="1000" @reset="reset">
     <template #content>
-      <component :is="formComponent" :ref="formComponent" :item="item" :edit="true" title="ServiceEntry" />
+      <component :is="formComponent" :ref="formComponent" :edit="true" :item="item" title="ServiceEntry" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="updateIstioServiceEntry">
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateIstioServiceEntry">
         确定
       </v-btn>
     </template>
@@ -13,10 +13,11 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import { patchUpdateIstioServiceEntry, getIstioServiceEntryDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
-  import IstioServiceEntrySchema from '@/views/microservice/istio/service_entry/mixins/schema';
   import { deepCopy } from '@/utils/helpers';
+  import IstioServiceEntrySchema from '@/views/microservice/istio/service_entry/mixins/schema';
 
   export default {
     name: 'UpdateServiceEntry',

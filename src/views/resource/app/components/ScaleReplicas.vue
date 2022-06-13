@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog v-model="dialog" :width="500" title="调整副本数" icon="fas fa-arrows-alt-v" @reset="reset">
+  <BaseDialog v-model="dialog" icon="fas fa-arrows-alt-v" title="调整副本数" :width="500" @reset="reset">
     <template #content>
       <BaseSubTitle title="副本定义" />
       <v-card-text class="px-2 pb-0">
@@ -13,10 +13,10 @@
             </v-flex>
             <v-text-field
               v-model="obj.replicas"
-              :rules="objRules.replicasRules"
               class="my-0"
-              required
               label="目标副本数"
+              required
+              :rules="objRules.replicasRules"
               type="number"
             />
           </v-sheet>
@@ -24,13 +24,14 @@
       </v-card-text>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="scaleAppReplicas"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="scaleAppReplicas"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import { postAppReplicasScale, getAppRunningReplicas } from '@/api';
   import BaseResource from '@/mixins/resource';
 

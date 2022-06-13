@@ -5,82 +5,82 @@
         <v-col v-if="vendor === 'gitlab'" cols="6">
           <v-text-field
             v-model="gitlabDomain"
-            :rules="objRules.gitlabDomainRule"
             class="my-0"
-            required
             label="GitLab Domain"
+            required
+            :rules="objRules.gitlabDomainRule"
           />
         </v-col>
         <v-col cols="6">
           <v-text-field
             v-model="obj.config.redirectURL"
-            :rules="objRules.redirectURLRule"
             class="my-0"
-            required
             label="Redirect URL"
+            required
+            :rules="objRules.redirectURLRule"
           />
         </v-col>
         <template v-if="vendor !== 'github' && vendor !== 'gitlab'">
           <v-col cols="6">
             <v-text-field
               v-model="obj.config.authURL"
-              :rules="objRules.authURLRule"
               class="my-0"
-              required
               label="Auth URL"
+              required
+              :rules="objRules.authURLRule"
             />
           </v-col>
           <v-col cols="6">
             <v-text-field
               v-model="obj.config.userInfoURL"
-              :rules="objRules.userInfoURLRule"
               class="my-0"
-              required
               label="UserInfo URL"
+              required
+              :rules="objRules.userInfoURLRule"
             />
           </v-col>
           <v-col cols="6">
             <v-text-field
               v-model="obj.config.tokenURL"
-              :rules="objRules.tokenURLRule"
               class="my-0"
-              required
               label="Token URL"
+              required
+              :rules="objRules.tokenURLRule"
             />
           </v-col>
         </template>
         <v-col cols="12">
           <v-text-field
             v-model="obj.config.appID"
-            :rules="objRules.appIDRule"
             class="my-0"
-            required
             label="Application ID"
+            required
+            :rules="objRules.appIDRule"
           />
         </v-col>
         <v-col cols="12">
           <v-text-field
             v-model="obj.config.appSecret"
-            :rules="objRules.appSecretRule"
             class="my-0"
-            required
             label="Secret"
+            required
+            :rules="objRules.appSecretRule"
           />
         </v-col>
         <v-col cols="6">
           <v-combobox
             v-model="scopes"
+            class="my-0"
             hide-no-data
             :items="[]"
-            :search-input.sync="scopeText"
-            multiple
             label="Scope"
-            class="my-0"
+            multiple
+            :search-input.sync="scopeText"
             @change="onScopeChange"
             @keydown.enter="createScope"
           >
             <template #selection="{ item }">
-              <v-chip color="primary" small class="ma-1">
+              <v-chip class="ma-1" color="primary" small>
                 {{ item['text'] }}
                 <v-icon small @click="removeScope(item)"> mdi-close </v-icon>
               </v-chip>
@@ -100,6 +100,10 @@
   export default {
     name: 'OauthBaseForm',
     props: {
+      edit: {
+        type: Boolean,
+        default: () => false,
+      },
       item: {
         type: Object,
         default: () => null,
@@ -107,10 +111,6 @@
       vendor: {
         type: String,
         default: () => '',
-      },
-      edit: {
-        type: Boolean,
-        default: () => false,
       },
     },
     data: () => ({

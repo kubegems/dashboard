@@ -4,13 +4,13 @@
       <v-row>
         <v-col v-for="tag in tags" :key="tag.key" cols="2">
           <v-btn
-            small
-            label
-            :outlined="!selectedMap[tag.key]"
             class="mr-2"
             color="primary"
             :disabled="!tag.children.length"
+            label
             min-width="100px"
+            :outlined="!selectedMap[tag.key]"
+            small
             @click="handleClickTag(tag)"
           >
             {{ tag.key }}({{ tag.children.length }})
@@ -25,8 +25,8 @@
       <v-col
         v-for="(col, index) in cols"
         :key="col.key"
-        cols="2"
         :class="`${index !== cols.length - 1 ? 'label-select__col' : ''}`"
+        cols="2"
       >
         <template v-if="!!selectedMap[col.key]">
           <div class="d-flex justify-content-between">
@@ -36,14 +36,14 @@
             <v-text-field
               v-if="col.children.length >= 5"
               v-model="cols[index].search"
-              solo
-              dense
-              hide-details
-              flat
+              class="label-select__search"
               clearable
               color="primary"
-              class="label-select__search"
+              dense
+              flat
+              hide-details
               label="搜索"
+              solo
             />
           </div>
 
@@ -68,6 +68,7 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import EllipsisText from './EllipsisText';
 
   export default {
@@ -76,13 +77,13 @@
       EllipsisText,
     },
     props: {
-      value: {
-        type: Object,
-        default: () => ({}),
-      },
       series: {
         type: Array,
         default: () => [],
+      },
+      value: {
+        type: Object,
+        default: () => ({}),
       },
     },
     data() {

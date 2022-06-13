@@ -3,16 +3,16 @@
     <BaseViewportHeader />
     <BaseBreadcrumb />
     <v-row class="mt-0">
-      <v-col v-for="(item, index) in items" :key="index" cols="3" class="pt-0">
+      <v-col v-for="(item, index) in items" :key="index" class="pt-0" cols="3">
         <v-hover #default="{ hover }">
-          <v-card class="mx-auto sc-pos" height="100%" :elevation="hover ? 5 : 0">
+          <v-card class="mx-auto sc-pos" :elevation="hover ? 5 : 0" height="100%">
             <v-list-item three-line>
-              <v-list-item-avatar class="primary--text" tile size="80">
+              <v-list-item-avatar class="primary--text" size="80" tile>
                 <Icon
                   v-if="getIconName(item.provisioner) && getIconName(item.provisioner).indexOf('img:') === -1"
+                  class="ml-2"
                   :icon="getIconName(item.provisioner)"
                   style="width: 60px; height: 60px"
-                  class="ml-2"
                 />
                 <img v-else class="img" :src="`/icon/${getIconName(item.provisioner).replaceAll('img:', '')}`" />
               </v-list-item-avatar>
@@ -25,8 +25,8 @@
             </v-list-item>
             <v-card-actions>
               <v-spacer />
-              <v-btn text small color="primary" @click="updateStorageClass(item)"> 编 辑 </v-btn>
-              <v-btn text small color="error" @click="removeStorageClass(item)"> 删 除 </v-btn>
+              <v-btn color="primary" small text @click="updateStorageClass(item)"> 编 辑 </v-btn>
+              <v-btn color="error" small text @click="removeStorageClass(item)"> 删 除 </v-btn>
             </v-card-actions>
             <v-flex
               v-if="
@@ -49,12 +49,12 @@
           </v-card>
         </v-hover>
       </v-col>
-      <v-col cols="3" class="pt-0">
+      <v-col class="pt-0" cols="3">
         <v-card class="kubegems__full-height" min-height="156">
           <v-card-text class="pa-0 kubegems__full-height">
-            <v-list-item three-line class="kubegems__full-height">
+            <v-list-item class="kubegems__full-height" three-line>
               <v-list-item-content>
-                <v-btn text block color="primary" class="text-h6" @click="addStorageClass">
+                <v-btn block class="text-h6" color="primary" text @click="addStorageClass">
                   <v-icon left>mdi-plus-box</v-icon>
                   创建存储类型
                 </v-btn>
@@ -72,12 +72,14 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import AddStorageClass from './components/AddStorageClass';
   import UpdateStorageClass from './components/UpdateStorageClass';
+
   import { getStorageClassList, deleteStorageClass } from '@/api';
-  import BaseResource from '@/mixins/resource';
-  import BasePermission from '@/mixins/permission';
   import BaseFilter from '@/mixins/base_filter';
+  import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'StorageClass',
@@ -85,7 +87,7 @@
       AddStorageClass,
       UpdateStorageClass,
     },
-    mixins: [BaseFilter, BaseResource, BasePermission],
+    mixins: [BaseFilter, BasePermission, BaseResource],
     data: () => ({
       items: [],
     }),

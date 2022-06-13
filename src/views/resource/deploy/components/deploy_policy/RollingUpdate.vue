@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="滚动更新部署" icon="mdi-send" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-send" title="滚动更新部署" :width="1000" @reset="reset">
     <template #content>
       <v-flex>
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
@@ -11,19 +11,19 @@
               <v-col cols="6">
                 <v-text-field
                   v-model="obj.strategy.rolling.maxUnavailable"
-                  :rules="rollingUpdateRules.maxUnavailableRules"
                   class="my-0"
-                  required
                   label="容器组最大不可用数量"
+                  required
+                  :rules="rollingUpdateRules.maxUnavailableRules"
                 />
               </v-col>
               <v-col cols="6">
                 <v-text-field
                   v-model="obj.strategy.rolling.maxSurge"
-                  :rules="rollingUpdateRules.maxSurgeRules"
                   class="my-0"
-                  required
                   label="容器组最大超出数量"
+                  required
+                  :rules="rollingUpdateRules.maxSurgeRules"
                 />
               </v-col>
             </v-row>
@@ -32,7 +32,7 @@
       </v-flex>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="strategyDeployEnvironmentApps">
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="strategyDeployEnvironmentApps">
         确定
       </v-btn>
     </template>
@@ -41,11 +41,13 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import BaseDeployInfoForm from './base/BaseDeployInfoForm';
+
   import { postStrategyDeployEnvironmentApps } from '@/api';
-  import StrategyDeploy from '@/views/resource/deploy/mixins/deploy';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
+  import StrategyDeploy from '@/views/resource/deploy/mixins/deploy';
 
   export default {
     name: 'RollingUpdate',

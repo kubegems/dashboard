@@ -15,21 +15,21 @@
           <v-col cols="6">
             <v-text-field
               class="my-0"
-              required
               label="目标负载(Destination Workload)"
-              :value="workload.name"
               readonly
+              required
+              :value="workload.name"
             />
           </v-col>
           <v-col cols="6">
             <v-text-field
               v-model="obj.route[index].weight"
               class="my-0"
-              required
               label="流量权重(Traffic Weight)"
+              required
+              :rules="objRules[index].weightRule"
               suffix="%"
               type="number"
-              :rules="objRules[index].weightRule"
             />
           </v-col>
         </v-row>
@@ -40,12 +40,13 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import StringMatchForm from '@/views/resource/deploy/components/deploy_policy/traffic/HeaderTraffic/StringMatchForm';
-  import UriMatchForm from '@/views/resource/deploy/components/deploy_policy/traffic/UriTraffic/UriMatchForm';
-  import BaseSelect from '@/mixins/select';
+
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
+  import StringMatchForm from '@/views/resource/deploy/components/deploy_policy/traffic/HeaderTraffic/StringMatchForm';
+  import UriMatchForm from '@/views/resource/deploy/components/deploy_policy/traffic/UriTraffic/UriMatchForm';
 
   export default {
     name: 'RequestRoutingBaseForm',
@@ -53,7 +54,7 @@
       StringMatchForm,
       UriMatchForm,
     },
-    mixins: [BaseSelect, BaseResource],
+    mixins: [BaseResource, BaseSelect],
     props: {
       service: {
         type: Object,

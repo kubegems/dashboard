@@ -1,15 +1,15 @@
 <template>
-  <v-form ref="form" v-model="valid" lazy-validation class="pa-0 ma-0" @submit.prevent>
+  <v-form ref="form" v-model="valid" class="pa-0 ma-0" lazy-validation @submit.prevent>
     <v-flex v-if="isRender" class="pa-0 ma-0">
       <Param
         v-for="(param, index) in params"
         :id="`p${index}`"
         :key="`p${index}`"
-        class="mt-0"
-        :app-values="appValues"
         :all-params="params"
-        :param="param"
+        :app-values="appValues"
+        class="mt-0"
         :cluster-name="clusterName"
+        :param="param"
         v-bind="$attrs"
         v-on="$listeners"
       />
@@ -19,29 +19,33 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import Param from './Param';
+
   import { getAppStoreDetail } from '@/api';
-  import BaseSelect from '@/mixins/select';
   import BaseResource from '@/mixins/resource';
-  import { YamlMixin } from '@/views/appstore/mixins/yaml';
+  import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
+  import { YamlMixin } from '@/views/appstore/mixins/yaml';
 
   export default {
     name: 'JsonSchema',
-    components: { Param },
-    mixins: [BaseSelect, BaseResource, YamlMixin],
+    components: {
+      Param,
+    },
+    mixins: [BaseResource, BaseSelect, YamlMixin],
     props: {
       appValues: {
         type: Object,
         default: () => {},
       },
-      params: {
-        type: Array,
-        default: () => [],
-      },
       clusterName: {
         type: String,
         default: () => '',
+      },
+      params: {
+        type: Array,
+        default: () => [],
       },
     },
     data() {

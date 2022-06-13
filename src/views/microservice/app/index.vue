@@ -11,11 +11,11 @@
         <iframe
           v-if="$route.query.cluster"
           id="graph"
-          :src="src"
           allow
-          width="100%"
-          :height="height"
           class="iframe"
+          :height="height"
+          :src="src"
+          width="100%"
           @load="loadDataComplete"
         />
       </v-card-text>
@@ -25,6 +25,7 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
 
   export default {

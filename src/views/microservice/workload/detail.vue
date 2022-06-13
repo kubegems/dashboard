@@ -5,7 +5,7 @@
 
     <v-card flat>
       <v-card-text class="pa-0">
-        <v-tabs v-model="tab" height="30" class="rounded-t pa-3">
+        <v-tabs v-model="tab" class="rounded-t pa-3" height="30">
           <v-tab v-for="item in tabItems" :key="item.value">
             {{ item.text }}
           </v-tab>
@@ -24,27 +24,29 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import WorkloadLog from './components/WorkloadLog';
+
   import { getMicroAppWorkoladDetail } from '@/api';
-  import ResourceInfo from '@/views/microservice/components/ResourceInfo';
-  import NetworkTopologyIframe from '@/views/microservice/components/NetworkTopologyIframe';
-  import InboundTrafficIframe from '@/views/microservice/components/InboundTrafficIframe';
-  import OutboundTrafficIframe from '@/views/microservice/components/OutboundTrafficIframe';
-  import TraceIframe from '@/views/microservice/components/TraceIframe';
-  import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
+  import InboundTrafficIframe from '@/views/microservice/components/InboundTrafficIframe';
+  import NetworkTopologyIframe from '@/views/microservice/components/NetworkTopologyIframe';
+  import OutboundTrafficIframe from '@/views/microservice/components/OutboundTrafficIframe';
+  import ResourceInfo from '@/views/microservice/components/ResourceInfo';
+  import TraceIframe from '@/views/microservice/components/TraceIframe';
 
   export default {
     name: 'WorkloadDetail',
     components: {
-      ResourceInfo,
-      NetworkTopologyIframe,
-      WorkloadLog,
       InboundTrafficIframe,
+      NetworkTopologyIframe,
       OutboundTrafficIframe,
+      ResourceInfo,
       TraceIframe,
+      WorkloadLog,
     },
-    mixins: [BaseResource, BasePermission],
+    mixins: [BasePermission, BaseResource],
     data: () => ({
       tab: 0,
       tabItems: [

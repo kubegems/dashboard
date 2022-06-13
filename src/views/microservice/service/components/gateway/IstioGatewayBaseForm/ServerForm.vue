@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form" v-model="valid" lazy-validation class="my-2" @submit.prevent>
+  <v-form ref="form" v-model="valid" class="my-2" lazy-validation @submit.prevent>
     <v-expand-transition>
       <v-card v-show="expand" class="my-2 pa-2 kubegems__expand-transition" :elevation="4">
         <v-card-text class="pa-0">
@@ -11,18 +11,18 @@
               <v-text-field
                 v-model="server.port.number"
                 class="my-0"
-                required
-                type="number"
                 label="端口"
+                required
                 :rules="serverRules.numberRule"
+                type="number"
               />
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-text-field
                 v-model="server.port.protocol"
                 class="my-0"
-                required
                 label="协议"
+                required
                 :rules="serverRules.protocolRule"
                 @keyup="onProtocolInput"
               />
@@ -35,7 +35,7 @@
               <span />
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
-              <v-text-field v-model="server.bind" class="my-0" required label="bind" />
+              <v-text-field v-model="server.bind" class="my-0" label="bind" required />
             </v-flex>
             <div class="kubegems__clear-float" />
           </v-sheet>
@@ -47,18 +47,18 @@
             <v-flex class="float-left ml-2 kubegems__long-width">
               <v-combobox
                 v-model="hosts"
+                height="32"
                 hide-no-data
                 :items="[]"
-                :search-input.sync="hostText"
-                multiple
-                small-chips
                 label="hosts(回车)"
-                height="32"
+                multiple
+                :search-input.sync="hostText"
+                small-chips
                 @change="onHostChange"
                 @keydown.enter="createHost"
               >
                 <template #selection="{ item }">
-                  <v-chip small color="primary" class="pa-1">
+                  <v-chip class="pa-1" color="primary" small>
                     <span>
                       {{ item.text }}
                     </span>
@@ -75,7 +75,7 @@
               <span>tls定义</span>
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
-              <v-switch v-model="tls" hide-details class="mt-5" label="开启tls" @change="onTLSChange" />
+              <v-switch v-model="tls" class="mt-5" hide-details label="开启tls" @change="onTLSChange" />
             </v-flex>
             <div class="kubegems__clear-float" />
           </v-sheet>
@@ -87,15 +87,15 @@
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-autocomplete
                 v-model="server.tls.mode"
+                class="my-0"
                 color="primary"
+                hide-selected
                 :items="tlsModeItems"
                 label="mode"
-                hide-selected
-                class="my-0"
                 no-data-text="暂无可选数据"
               >
                 <template #selection="{ item }">
-                  <v-chip color="primary" small class="mx-1">
+                  <v-chip class="mx-1" color="primary" small>
                     {{ item['text'] }}
                   </v-chip>
                 </template>
@@ -105,16 +105,16 @@
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-autocomplete
                 v-model="server.tls.credentialName"
+                class="my-0"
                 color="primary"
+                hide-selected
                 :items="secretItems"
                 label="credentialName"
-                hide-selected
-                class="my-0"
                 no-data-text="暂无可选数据"
                 :rules="serverRules.credentialNameRule"
               >
                 <template #selection="{ item }">
-                  <v-chip color="primary" small class="mx-1">
+                  <v-chip class="mx-1" color="primary" small>
                     {{ item['text'] }}
                   </v-chip>
                 </template>
@@ -126,8 +126,8 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn text small color="error" @click="closeCard"> 取消 </v-btn>
-          <v-btn text small color="primary" @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
+          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -136,10 +136,11 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import { getSecretList } from '@/api';
   import { deepCopy } from '@/utils/helpers';
-  import { required } from '@/utils/rules';
   import { SERVICE_GATEWAY_NS } from '@/utils/namespace';
+  import { required } from '@/utils/rules';
 
   export default {
     name: 'ServerForm',

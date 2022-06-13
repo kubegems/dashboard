@@ -2,7 +2,7 @@
   <v-list-item two-line>
     <v-list-item-content class="py-2">
       <v-list-item-subtitle class="text-body-2 py-0">
-        <v-list-item two-line class="float-left py-0 pl-0" style="width: 300px">
+        <v-list-item class="float-left py-0 pl-0" style="width: 300px" two-line>
           <v-list-item-content class="py-0">
             <v-list-item-title class="text-subtitle-2 py-1 primary--text"> 发件人 </v-list-item-title>
             <v-list-item-subtitle class="text-body-2 py-1">
@@ -12,7 +12,7 @@
         </v-list-item>
       </v-list-item-subtitle>
       <v-list-item-subtitle class="text-body-2 py-0">
-        <v-list-item two-line class="float-left py-0 pl-0">
+        <v-list-item class="float-left py-0 pl-0" two-line>
           <v-list-item-content class="py-0">
             <v-list-item-title class="text-subtitle-2 py-1 primary--text"> 收件人 </v-list-item-title>
             <v-list-item-subtitle class="text-body-2 py-1 white-space" :style="{ wordBreak: 'break-all' }">
@@ -23,10 +23,10 @@
       </v-list-item-subtitle>
       <div class="kubegems__clear-float" />
     </v-list-item-content>
-    <v-btn dark text fab right x-small color="primary" @click="updateConfig(item.type, item.index)">
+    <v-btn color="primary" dark fab right text x-small @click="updateConfig(item.type, item.index)">
       <v-icon>mdi-pencil</v-icon>
     </v-btn>
-    <v-btn dark text fab right x-small color="error" @click="removeConfig(item.type, item.index)">
+    <v-btn color="error" dark fab right text x-small @click="removeConfig(item.type, item.index)">
       <v-icon>mdi-delete</v-icon>
     </v-btn>
   </v-list-item>

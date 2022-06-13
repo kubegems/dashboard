@@ -1,20 +1,20 @@
 <template>
   <div id="log-table" class="log-table" @click="handleTableClickProxy">
     <v-data-table
+      :class="mode === 'context' ? 'log-table__data' : ''"
+      dense
+      disable-pagination
       disable-sort
       :headers="headers"
+      hide-default-footer
+      hide-default-header
+      :item-key="mode === 'context' ? 'info.timestamp' : 'info.index'"
       :items="items"
       :loading="loading"
-      hide-default-header
-      hide-default-footer
-      disable-pagination
-      single-expand
-      dense
-      :show-expand="mode === 'normal'"
-      :item-key="mode === 'context' ? 'info.timestamp' : 'info.index'"
-      :no-data-text="mode === 'context' ? '' : '暂无数据'"
       loading-text="接收数据中..."
-      :class="mode === 'context' ? 'log-table__data' : ''"
+      :no-data-text="mode === 'context' ? '' : '暂无数据'"
+      :show-expand="mode === 'normal'"
+      single-expand
       :style="{ maxHeight: `${height}px`, overflowY: 'auto' }"
     >
       <template #[`item.info`]="{ item }">
@@ -38,12 +38,12 @@
           </span>
           <span :class="{ 'log-table__highlight': highlight }" v-html="item.message" />
         </div>
-        <v-btn v-if="context && mode === 'normal'" text x-small color="primary" @click.stop="handleShowContext(item)">
+        <v-btn v-if="context && mode === 'normal'" color="primary" text x-small @click.stop="handleShowContext(item)">
           显示上下文
         </v-btn>
       </template>
       <template #expanded-item="{ headers, item }">
-        <td :colspan="headers.length" class="pa-4">
+        <td class="pa-4" :colspan="headers.length">
           <pre class="log-table__pre">{{ item.stream }}</pre>
         </td>
       </template>
@@ -57,17 +57,17 @@
   export default {
     name: 'LogTable',
     props: {
-      items: {
-        type: Array,
-        default: () => [],
-      },
-      timestamp: {
-        type: Boolean,
-        default: false,
-      },
       context: {
         type: Boolean,
         default: false,
+      },
+      highlight: {
+        type: Boolean,
+        default: false,
+      },
+      items: {
+        type: Array,
+        default: () => [],
       },
       loading: {
         type: Boolean,
@@ -78,7 +78,7 @@
         default: 'normal',
         validator: (v) => ['normal', 'context'].includes(v),
       },
-      highlight: {
+      timestamp: {
         type: Boolean,
         default: false,
       },

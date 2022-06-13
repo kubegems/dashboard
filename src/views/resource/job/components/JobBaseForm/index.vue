@@ -1,39 +1,40 @@
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
-    <component :is="steps[step]" :ref="steps[step]" :item="item" :edit="edit" :kind="kind" />
+    <component :is="steps[step]" :ref="steps[step]" :edit="edit" :item="item" :kind="kind" />
   </v-form>
 </template>
 
 <script>
   import JobBaseInfo from './JobBaseInfo';
+
   import ContaninerImage from '@/views/resource/workload/components/WorkloadBaseForm/ContainerImage';
-  import StorageMount from '@/views/resource/workload/components/WorkloadBaseForm/StorageMount';
   import ScheduleSelector from '@/views/resource/workload/components/WorkloadBaseForm/ScheduleSelector';
+  import StorageMount from '@/views/resource/workload/components/WorkloadBaseForm/StorageMount';
 
   export default {
     name: 'JobBaseForm',
     components: {
-      JobBaseInfo,
       ContaninerImage,
-      StorageMount,
+      JobBaseInfo,
       ScheduleSelector,
+      StorageMount,
     },
     props: {
-      item: {
-        type: Object,
-        default: () => null,
-      },
       edit: {
         type: Boolean,
         default: () => false,
       },
-      step: {
-        type: Number,
-        default: () => 0,
+      item: {
+        type: Object,
+        default: () => null,
       },
       kind: {
         type: String,
         default: () => '',
+      },
+      step: {
+        type: Number,
+        default: () => 0,
       },
     },
     data: () => ({

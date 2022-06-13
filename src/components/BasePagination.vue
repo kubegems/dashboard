@@ -73,25 +73,25 @@
       prop: 'page',
     },
     props: {
-      pageCount: {
-        type: Number,
-        default: () => 0,
+      frontPage: {
+        type: Boolean,
+        default: () => false,
       },
       page: {
         type: Number,
         default: () => 1,
       },
-      size: {
+      pageCount: {
         type: Number,
-        default: () => 10,
-      },
-      frontPage: {
-        type: Boolean,
-        default: () => false,
+        default: () => 0,
       },
       showSize: {
         type: Boolean,
         default: () => true,
+      },
+      size: {
+        type: Number,
+        default: () => 10,
       },
     },
     computed: {

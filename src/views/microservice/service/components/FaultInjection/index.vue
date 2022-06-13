@@ -1,17 +1,19 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="故障注入" icon="mdi-eyedropper" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-eyedropper" title="故障注入" :width="1000" @reset="reset">
     <template #content>
-      <component :is="formComponent" :ref="formComponent" :service="service" :vs="vs" title="FaultInjection" />
+      <component :is="formComponent" :ref="formComponent" :service="service" title="FaultInjection" :vs="vs" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="addFaultInjection"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addFaultInjection"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import FaultInjectionBaseForm from './FaultInjectionBaseForm';
+
   import { postAddFaultInjection } from '@/api';
   import BaseResource from '@/mixins/resource';
 

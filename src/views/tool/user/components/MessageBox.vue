@@ -1,15 +1,15 @@
 <template>
-  <v-card flat class="pa-2">
+  <v-card class="pa-2" flat>
     <v-card-title class="pa-0">
-      <v-chip-group v-model="messageType" column class="ml-2 align-center" @change="onMessageTypeChange">
+      <v-chip-group v-model="messageType" class="ml-2 align-center" column @change="onMessageTypeChange">
         <v-chip
           v-for="(item, index) in messageTypeItems"
           :key="index"
-          label
-          small
-          :outlined="messageType !== index"
-          :color="item.color"
           class="font-weight-medium"
+          :color="item.color"
+          label
+          :outlined="messageType !== index"
+          small
           :text-color="`${messageType !== index ? item.color : 'white'}`"
         >
           {{ item.text }}
@@ -17,15 +17,15 @@
       </v-chip-group>
     </v-card-title>
     <v-data-table
+      calculate-widths
       class="mx-2"
       disable-sort
       :headers="headers"
+      hide-default-footer
       :items="items"
-      :page.sync="params.page"
       :items-per-page="params.size"
       no-data-text="暂无数据"
-      hide-default-footer
-      calculate-widths
+      :page.sync="params.page"
     >
       <template #[`item.createdAt`]="{ item }">
         {{ item.CreatedAt ? $moment(item.CreatedAt).format('lll') : '' }}
@@ -42,15 +42,16 @@
       v-model="params.page"
       :page-count="pageCount"
       :size="params.size"
-      @loaddata="messageList"
-      @changesize="onPageSizeChange"
       @changepage="onPageIndexChange"
+      @changesize="onPageSizeChange"
+      @loaddata="messageList"
     />
   </v-card>
 </template>
 
 <script>
   import { mapState } from 'vuex';
+
   import { getMessageList } from '@/api';
 
   export default {

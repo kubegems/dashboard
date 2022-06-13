@@ -12,7 +12,7 @@
           </div>
         </div>
         <div class="d-flex align-center justify-center">
-          <CompareValue :value1="compareValue" :value2="value" name="较昨日" />
+          <CompareValue name="较昨日" :value1="compareValue" :value2="value" />
         </div>
       </div>
     </v-card-text>
@@ -28,14 +28,6 @@
       CompareValue,
     },
     props: {
-      name: {
-        type: String,
-        default: '今日告警',
-      },
-      value: {
-        type: Number,
-        default: 0,
-      },
       compareValue: {
         type: Number,
         default: 0,
@@ -43,6 +35,14 @@
       icon: {
         type: String,
         default: 'mdi-format-list-checkbox',
+      },
+      name: {
+        type: String,
+        default: '今日告警',
+      },
+      value: {
+        type: Number,
+        default: 0,
       },
     },
   };

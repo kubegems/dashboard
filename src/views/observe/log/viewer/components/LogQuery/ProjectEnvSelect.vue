@@ -3,23 +3,23 @@
     <v-flex class="d-flex" :style="{ display: 'inline-flex !important' }">
       <v-autocomplete
         v-model="project"
-        :items="m_select_projectItems"
-        item-text="projectName"
-        item-value="projectName"
-        style="width: 300px"
-        dense
         chips
-        small-chips
-        label="项目"
-        solo
+        dense
         flat
         hide-details
+        item-text="projectName"
+        item-value="projectName"
+        :items="m_select_projectItems"
+        label="项目"
         no-data-text="暂无数据"
-        @focus="m_select_projectSelectData(null, true)"
+        small-chips
+        solo
+        style="width: 300px"
         @change="onProjectChange"
+        @focus="m_select_projectSelectData(null, true)"
       >
         <template #selection="{ item }">
-          <v-chip color="primary" small label>
+          <v-chip color="primary" label small>
             <span>项目：{{ item.projectName }}</span>
           </v-chip>
         </template>
@@ -27,24 +27,24 @@
 
       <v-autocomplete
         v-model="environment"
-        :items="m_select_projectEnvironmentItems"
-        item-text="environmentName"
-        item-value="environmentName"
-        style="width: 300px"
+        chips
         class="ml-2"
         dense
-        chips
-        small-chips
-        label="环境"
-        solo
         flat
         hide-details
+        item-text="environmentName"
+        item-value="environmentName"
+        :items="m_select_projectEnvironmentItems"
+        label="环境"
         no-data-text="暂无数据"
-        @focus="m_select_projectEnvironmentSelectData(projectid)"
+        small-chips
+        solo
+        style="width: 300px"
         @change="onEnvironmentChange"
+        @focus="m_select_projectEnvironmentSelectData(projectid)"
       >
         <template #selection="{ item }">
-          <v-chip color="primary" small label>
+          <v-chip color="primary" label small>
             <span>环境：{{ item.environmentName }}</span>
           </v-chip>
         </template>
@@ -55,15 +55,15 @@
       </v-sheet>
 
       <v-sheet class="text-body-2 ml-2" :style="{ lineHeight: '36px' }">
-        <v-btn small bottom text color="primary" @click="handleRefresh"> 刷新 </v-btn>
+        <v-btn bottom color="primary" small text @click="handleRefresh"> 刷新 </v-btn>
       </v-sheet>
 
       <v-sheet class="text-body-2 ml-2" :style="{ lineHeight: '36px' }">
-        <v-btn small bottom text color="error" @click="handleClear"> 清空 </v-btn>
+        <v-btn bottom color="error" small text @click="handleClear"> 清空 </v-btn>
       </v-sheet>
 
       <v-sheet v-if="loading" class="tip ml-2">
-        <v-progress-circular size="20" :width="3" indeterminate color="primary" />
+        <v-progress-circular color="primary" indeterminate size="20" :width="3" />
       </v-sheet>
     </v-flex>
 
@@ -98,13 +98,13 @@
     name: 'ProjectEnvSelect',
     mixins: [BaseSelect],
     props: {
-      series: {
-        type: Array,
-        default: () => [],
-      },
       loading: {
         type: Boolean,
         default: () => false,
+      },
+      series: {
+        type: Array,
+        default: () => [],
       },
     },
     data() {

@@ -8,8 +8,8 @@
           <v-col cols="6">
             <v-switch
               v-model="timeout"
-              hide-details
               class="mt-4"
+              hide-details
               label="请求超时(Http Timeout)"
               @change="onTimeoutChange"
             />
@@ -20,8 +20,8 @@
             <v-text-field
               v-model="obj.timeout"
               class="my-0"
-              required
               label="超时时间(Timeout)"
+              required
               :rules="objRules.timeoutInputRule"
             />
           </v-col>
@@ -30,8 +30,8 @@
           <v-col cols="6">
             <v-switch
               v-model="retries"
-              hide-details
               class="mt-4"
+              hide-details
               label="请求重试(Http Retry)"
               @change="onRetriesChange"
             />
@@ -42,18 +42,18 @@
             <v-text-field
               v-model="obj.retries.attempts"
               class="my-0"
-              required
               label="重试次数(Attempts)"
-              type="number"
+              required
               :rules="objRules.attemptsRule"
+              type="number"
             />
           </v-col>
           <v-col cols="6">
             <v-text-field
               v-model="obj.retries.perTryTimeout"
               class="my-0"
-              required
               label="每次重试超时时间(Per Try Timeout)"
+              required
               :rules="objRules.perTryTimeoutRule"
             />
           </v-col>
@@ -65,14 +65,15 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import BaseSelect from '@/mixins/select';
+
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'RequestTimeoutsBaseForm',
-    mixins: [BaseSelect, BaseResource],
+    mixins: [BaseResource, BaseSelect],
     props: {
       vs: {
         type: Object,

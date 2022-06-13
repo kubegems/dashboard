@@ -8,18 +8,18 @@
           <v-col cols="6">
             <v-autocomplete
               v-model="resourceKind"
-              color="primary"
-              :items="kinds"
-              :rules="objRules.kindRule"
-              :readonly="edit"
-              label="资源"
-              hide-selected
               class="my-0"
+              color="primary"
+              hide-selected
+              :items="kinds"
+              label="资源"
               no-data-text="暂无可选数据"
+              :readonly="edit"
+              :rules="objRules.kindRule"
               @change="onKindChange"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -31,29 +31,29 @@
             <v-text-field
               v-model="obj.metadata.name"
               class="my-0"
-              required
               label="名称"
-              :rules="objRules.nameRule"
               :readonly="edit"
+              required
+              :rules="objRules.nameRule"
             />
           </v-col>
           <v-col cols="6">
             <v-autocomplete
               v-model="obj.type"
-              color="primary"
-              :items="types"
-              :rules="objRules.typeRule"
-              label="密钥类型"
-              hide-selected
               class="my-0"
+              color="primary"
+              hide-selected
+              :items="types"
+              label="密钥类型"
               no-data-text="暂无可选数据"
-              @update:search-input="syncInput"
-              @keydown.enter="customType"
-              @click:clear="clearType"
+              :rules="objRules.typeRule"
               @change="onTypeChange"
+              @click:clear="clearType"
+              @keydown.enter="customType"
+              @update:search-input="syncInput"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -62,18 +62,18 @@
           <v-col v-if="AdminViewport && !manifest" cols="6">
             <v-autocomplete
               v-model="obj.metadata.namespace"
-              color="primary"
-              :items="m_select_namespaceItems"
-              :rules="objRules.namespaceRule"
-              :readonly="edit"
-              label="命名空间"
-              hide-selected
               class="my-0"
+              color="primary"
+              hide-selected
+              :items="m_select_namespaceItems"
+              label="命名空间"
               no-data-text="暂无可选数据"
+              :readonly="edit"
+              :rules="objRules.namespaceRule"
               @focus="onNamespaceSelectFocus(ThisCluster)"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -91,57 +91,59 @@
       />
       <BaseSubTitle title="密钥项" />
       <v-card-text class="pa-2">
-        <SecretDataItem :data="obj.data" @updateData="updateData" @removeData="removeData" @expandCard="expandCard" />
+        <SecretDataItem :data="obj.data" @expandCard="expandCard" @removeData="removeData" @updateData="updateData" />
       </v-card-text>
     </v-form>
   </v-flex>
 </template>
 
 <script>
-  import { mapGetters, mapState } from 'vuex';
   import { Base64 } from 'js-base64';
-  import SecretDataItem from './SecretDataItem';
+  import { mapGetters, mapState } from 'vuex';
+
   import SecretDataForm from './SecretDataForm';
-  import SecretTlsForm from './SecretTlsForm';
+  import SecretDataItem from './SecretDataItem';
   import SecretDockerconfigForm from './SecretDockerconfigForm';
-  import BaseSelect from '@/mixins/select';
+  import SecretTlsForm from './SecretTlsForm';
+
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
   import { k8sName, required } from '@/utils/rules';
 
   export default {
     name: 'SecretBaseForm',
     components: {
-      SecretDataItem,
       SecretDataForm,
-      SecretTlsForm,
+      SecretDataItem,
       SecretDockerconfigForm,
+      SecretTlsForm,
     },
-    mixins: [BaseSelect, BaseResource],
+    mixins: [BaseResource, BaseSelect],
     props: {
-      item: {
+      app: {
         type: Object,
-        default: () => null,
+        default: () => {},
       },
       edit: {
         type: Boolean,
         default: () => false,
       },
+      item: {
+        type: Object,
+        default: () => null,
+      },
       kind: {
         type: String,
         default: () => 'Secret',
-      },
-      manifest: {
-        type: Boolean,
-        default: () => false,
       },
       kinds: {
         type: Array,
         default: () => [],
       },
-      app: {
-        type: Object,
-        default: () => {},
+      manifest: {
+        type: Boolean,
+        default: () => false,
       },
     },
     data: () => ({

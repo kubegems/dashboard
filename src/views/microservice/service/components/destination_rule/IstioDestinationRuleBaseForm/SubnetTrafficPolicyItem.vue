@@ -7,7 +7,7 @@
             {{ subset.name }}
           </v-list-item-subtitle>
           <v-list-item-subtitle class="text-body-2 py-0">
-            <v-list-item two-line class="float-left py-0 pl-0" style="width: 200px">
+            <v-list-item class="float-left py-0 pl-0" style="width: 200px" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{
@@ -19,7 +19,7 @@
                 <v-list-item-subtitle class="text-body-2 py-1"> loadBalancer </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item two-line class="float-left py-0 pl-0" style="width: 200px">
+            <v-list-item class="float-left py-0 pl-0" style="width: 200px" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{
@@ -31,7 +31,7 @@
                 <v-list-item-subtitle class="text-body-2 py-1"> connectionPool </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item two-line class="float-left py-0 pl-0" style="width: 200px">
+            <v-list-item class="float-left py-0 pl-0" style="width: 200px" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{
@@ -43,7 +43,7 @@
                 <v-list-item-subtitle class="text-body-2 py-1"> outlierDetection </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item two-line class="float-left py-0 pl-0" style="width: 200px">
+            <v-list-item class="float-left py-0 pl-0" style="width: 200px" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{ subset.trafficPolicy && JSON.stringify(subset.trafficPolicy.tls) !== '{}' ? '已设置' : '未设置' }}
@@ -51,7 +51,7 @@
                 <v-list-item-subtitle class="text-body-2 py-1"> tls </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item two-line class="float-left py-0 pl-0" style="width: 200px">
+            <v-list-item class="float-left py-0 pl-0" style="width: 200px" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{
@@ -68,10 +68,10 @@
           </v-list-item-subtitle>
           <div class="kubegems__clear-float" />
         </v-list-item-content>
-        <v-btn dark text fab right x-small color="primary" @click="updateTrafficPolicy(index)">
+        <v-btn color="primary" dark fab right text x-small @click="updateTrafficPolicy(index)">
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
-        <v-btn dark text fab right x-small color="error" @click="removeTrafficPolicy(index)">
+        <v-btn color="error" dark fab right text x-small @click="removeTrafficPolicy(index)">
           <v-icon>mdi-delete</v-icon>
         </v-btn>
       </v-list-item>
@@ -80,7 +80,7 @@
       <v-list-item two-line>
         <v-list-item-content class="py-2">
           <v-list-item-subtitle class="text-body-2 py-0 text-center">
-            <v-btn text color="primary" @click="expandCard">
+            <v-btn color="primary" text @click="expandCard">
               <v-icon left small> mdi-plus </v-icon>
               添加流量策略子集
             </v-btn>

@@ -1,16 +1,17 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="更新Installer配置" icon="mdi-file-document" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-file-document" title="更新Installer配置" :width="1000" @reset="reset">
     <template #content>
-      <component :is="formComponent" :ref="formComponent" :item="item" :edit="true" title="Installer" />
+      <component :is="formComponent" :ref="formComponent" :edit="true" :item="item" title="Installer" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="updateSystemConfig"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateSystemConfig"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapState } from 'vuex';
+
   import { getSystemConfigData, putSystemConfigData } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';

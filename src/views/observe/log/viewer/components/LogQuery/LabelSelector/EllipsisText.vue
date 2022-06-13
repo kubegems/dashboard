@@ -1,5 +1,5 @@
 <template>
-  <v-menu top open-on-hover :close-delay="200" nudge-top="25px" nudge-left="8px" :value="showTootip">
+  <v-menu :close-delay="200" nudge-left="8px" nudge-top="25px" open-on-hover top :value="showTootip">
     <template #activator="{ on, attrs }">
       <div ref="span" class="log-ellipsis-text" @mouseenter="handleShowTootip" @mouseleave="handleCloseTootip">
         {{ text }}

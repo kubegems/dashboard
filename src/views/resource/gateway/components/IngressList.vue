@@ -4,11 +4,11 @@
       <v-data-table
         disable-sort
         :headers="headers"
+        hide-default-footer
         :items="items"
-        :page.sync="params.page"
         :items-per-page="params.size"
         no-data-text="暂无数据"
-        hide-default-footer
+        :page.sync="params.page"
       >
         <template #[`item.name`]="{ item }">
           {{ item.metadata.name }}
@@ -22,20 +22,20 @@
               <v-chip
                 v-for="(rule, index) in item.spec.rules"
                 :key="`c${index}http${i}`"
-                color="success"
-                text-color="white"
                 class="mx-1"
+                color="success"
                 small
+                text-color="white"
               >
                 {{ getHost(rule, item) }}{{ getGatewayPort(getSchema(rule, item)) }}{{ path.path }}
               </v-chip>
               <v-btn
                 :key="`i${index}http${i}`"
-                small
                 icon
+                small
                 @click="toAddress(`${getHost(rule, item)}${getGatewayPort(getSchema(rule, item))}${path.path}`)"
               >
-                <v-icon small color="success"> mdi-open-in-new </v-icon>
+                <v-icon color="success" small> mdi-open-in-new </v-icon>
               </v-btn>
             </div>
           </div>
@@ -49,9 +49,9 @@
         v-model="params.page"
         :page-count="pageCount"
         :size="params.size"
-        @loaddata="ingressList"
-        @changesize="onPageSizeChange"
         @changepage="onPageIndexChange"
+        @changesize="onPageSizeChange"
+        @loaddata="ingressList"
       />
     </v-card-text>
   </v-card>

@@ -7,23 +7,23 @@
       <v-sheet class="float-left" width="350">
         <v-combobox
           v-model="environmentFilter"
-          color="primary"
           chips
-          hide-selected
-          hide-details
-          label="应用环境"
-          prepend-inner-icon="mdi-cube"
-          dense
-          solo
-          flat
-          no-data-text="无数据"
-          full-width
           class="ml-2"
+          color="primary"
+          dense
+          flat
+          full-width
+          hide-details
+          hide-selected
           :items="m_select_virtualSpaceEnvironmentItems"
+          label="应用环境"
+          no-data-text="无数据"
+          prepend-inner-icon="mdi-cube"
+          solo
           @change="onEnvironmentFilterChange"
         >
           <template #selection="{ attrs, item, selected }">
-            <v-chip v-if="environmentFilter" :input-value="selected" color="primary" label small v-bind="attrs">
+            <v-chip v-if="environmentFilter" color="primary" :input-value="selected" label small v-bind="attrs">
               <span class="pr-2">{{ item.text }}</span>
             </v-chip>
           </template>
@@ -37,6 +37,7 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import BaseSelect from '@/mixins/select';
 
   export default {

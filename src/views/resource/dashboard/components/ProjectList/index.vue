@@ -1,15 +1,15 @@
 <template>
   <v-card>
-    <BaseSubTitle class="pt-2" title="项目" :divider="false">
+    <BaseSubTitle class="pt-2" :divider="false" title="项目">
       <template #action>
-        <v-btn v-if="m_permisson_tenantAllow" small text color="primary" class="float-right mr-2" @click="addProject">
+        <v-btn v-if="m_permisson_tenantAllow" class="float-right mr-2" color="primary" small text @click="addProject">
           <v-icon left small> mdi-cube-outline </v-icon>
           创建项目
         </v-btn>
       </template>
     </BaseSubTitle>
     <v-flex class="px-2">
-      <v-expansion-panels v-if="pageCount > 0" v-model="expand" focusable accordion class="project-panel">
+      <v-expansion-panels v-if="pageCount > 0" v-model="expand" accordion class="project-panel" focusable>
         <v-expansion-panel v-for="(item, index) in projectItems" :key="index">
           <v-expansion-panel-header @click="projectEnvironmentList(item)">
             <v-flex class="text-subtitle-1">
@@ -18,17 +18,17 @@
               <span class="text-body-2 ml-3">备注：{{ item.Remark }}</span>
               <v-btn
                 v-if="m_permisson_projectAllow"
+                class="float-right"
                 color="primary"
+                depressed
                 small
                 text
-                depressed
-                class="float-right"
                 @click.stop="addEnvironment(item)"
               >
                 <v-icon left small> mdi-cube </v-icon>
                 创建环境
               </v-btn>
-              <v-btn color="primary" small text depressed class="float-right" @click.stop="projectDetail(item)">
+              <v-btn class="float-right" color="primary" depressed small text @click.stop="projectDetail(item)">
                 <v-icon left small> mdi-login-variant </v-icon>
                 进入项目
               </v-btn>
@@ -38,12 +38,12 @@
             <v-data-table
               disable-sort
               :headers="headers"
+              hide-default-footer
               :items="environmentItems"
               no-data-text="暂无数据"
-              hide-default-footer
             >
               <template #[`item.environmentName`]="{ item }">
-                <BaseMarquee :speed="20" :content="item.EnvironmentName">
+                <BaseMarquee :content="item.EnvironmentName" :speed="20">
                   <a class="font-weight-medium" @click="environmentDetail(item)">
                     {{ item.EnvironmentName }}
                   </a>
@@ -51,13 +51,13 @@
               </template>
               <template #[`item.type`]="{ item }">
                 <v-chip
-                  x-small
-                  label
                   :color="
                     $METATYPE_CN[item.MetaType] && $METATYPE_CN[item.MetaType].color
                       ? $METATYPE_CN[item.MetaType].color
                       : 'grey'
                   "
+                  label
+                  x-small
                 >
                   {{ $METATYPE_CN[item.MetaType].cn }}
                 </v-chip>
@@ -91,15 +91,15 @@
                   {{ item.LatestCpu ? item.LatestCpu : 0 }}
                 </v-flex>
                 <v-sparkline
-                  :value="item.CpuUsed ? item.CpuUsed : []"
-                  type="trend"
                   auto-draw
-                  auto-line-width
-                  smooth
-                  :line-width="5"
-                  fill
                   :auto-draw-duration="200"
+                  auto-line-width
                   color="rgba(29, 136, 229, 0.6)"
+                  fill
+                  :line-width="5"
+                  smooth
+                  type="trend"
+                  :value="item.CpuUsed ? item.CpuUsed : []"
                 />
               </template>
               <template #[`item.memory`]="{ item }">
@@ -107,15 +107,15 @@
                   {{ item.LatestMemory ? item.LatestMemory : 0 }}
                 </v-flex>
                 <v-sparkline
-                  :value="item.MemoryUsed ? item.MemoryUsed : []"
-                  type="trend"
                   auto-draw
-                  auto-line-width
-                  smooth
-                  :line-width="5"
-                  fill
                   :auto-draw-duration="200"
+                  auto-line-width
                   color="rgba(29, 136, 229, 0.6)"
+                  fill
+                  :line-width="5"
+                  smooth
+                  type="trend"
+                  :value="item.MemoryUsed ? item.MemoryUsed : []"
                 />
               </template>
               <template #[`item.in`]="{ item }">
@@ -123,15 +123,15 @@
                   {{ item.LatestNetwokrIn ? item.LatestNetwokrIn : 0 }}
                 </v-flex>
                 <v-sparkline
-                  :value="item.NetworkInUsed ? item.NetworkInUsed : []"
-                  type="trend"
                   auto-draw
-                  auto-line-width
-                  smooth
-                  :line-width="5"
-                  fill
                   :auto-draw-duration="200"
+                  auto-line-width
                   color="rgba(29, 136, 229, 0.6)"
+                  fill
+                  :line-width="5"
+                  smooth
+                  type="trend"
+                  :value="item.NetworkInUsed ? item.NetworkInUsed : []"
                 />
               </template>
               <template #[`item.out`]="{ item }">
@@ -139,15 +139,15 @@
                   {{ item.LatestNetwokrOut ? item.LatestNetwokrOut : 0 }}
                 </v-flex>
                 <v-sparkline
-                  :value="item.NetwokrOutUsed ? item.NetwokrOutUsed : []"
-                  type="trend"
                   auto-draw
-                  auto-line-width
-                  smooth
-                  :line-width="5"
-                  fill
                   :auto-draw-duration="200"
+                  auto-line-width
                   color="rgba(29, 136, 229, 0.6)"
+                  fill
+                  :line-width="5"
+                  smooth
+                  type="trend"
+                  :value="item.NetwokrOutUsed ? item.NetwokrOutUsed : []"
                 />
               </template>
               <template #[`item.action`]="{ item }">
@@ -172,8 +172,8 @@
         v-model="pageParams.page"
         :page-count="pageCount"
         :size="pageParams.size"
-        @loaddata="projectList"
         @changepage="onPageIndexChange"
+        @loaddata="projectList"
       />
 
       <AddEnvironment ref="addEnvironment" @refresh="refreshEnvironmentList" />
@@ -185,13 +185,13 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import Pagination from '../Pagination';
+
   import { getProjectList, getProjectEnvironmentList, getProjectEnvironmentQuotaList } from '@/api';
-  import AddEnvironment from '@/views/resource/environment/components/AddEnvironment';
-  import AddProject from '@/views/resource/project/components/AddProject';
-  import BaseSelect from '@/mixins/select';
-  import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
   import { beautifyCpuUnit, beautifyStorageUnit, beautifyNetworkUnit } from '@/utils/helpers';
   import {
     ENVIRONMENT_CPU_USAGE_PROMQL,
@@ -199,15 +199,17 @@
     ENVIRONMENT_NETWORK_IN_PROMQL,
     ENVIRONMENT_NETWORK_OUT_PROMQL,
   } from '@/utils/prometheus';
+  import AddEnvironment from '@/views/resource/environment/components/AddEnvironment';
+  import AddProject from '@/views/resource/project/components/AddProject';
 
   export default {
     name: 'ProjectList',
     components: {
-      AddProject,
       AddEnvironment,
+      AddProject,
       Pagination,
     },
-    mixins: [BaseSelect, BaseResource, BasePermission],
+    mixins: [BasePermission, BaseResource, BaseSelect],
     inject: ['reload'],
     data: () => ({
       projectItems: [],

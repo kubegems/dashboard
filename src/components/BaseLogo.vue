@@ -26,10 +26,6 @@
         type: String,
         default: () => '',
       },
-      width: {
-        type: Number,
-        default: () => 20,
-      },
       large: {
         type: Boolean,
         default: () => false,
@@ -37,6 +33,10 @@
       ml: {
         type: Number,
         default: () => 2,
+      },
+      width: {
+        type: Number,
+        default: () => 20,
       },
     },
     methods: {

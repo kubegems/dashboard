@@ -1,21 +1,21 @@
 <template>
-  <BaseFullScreenDialog v-model="visible" title="日志上下文" icon="mdi-note-text" @dispose="handleDispose">
+  <BaseFullScreenDialog v-model="visible" icon="mdi-note-text" title="日志上下文" @dispose="handleDispose">
     <template #content>
       <v-card class="log-context">
         <div class="text-center py-3">
-          <v-btn text x-small color="primary" :loading="loading.preview" @click="handleLoadPreview">
+          <v-btn color="primary" :loading="loading.preview" text x-small @click="handleLoadPreview">
             向前加载10条数据
           </v-btn>
         </div>
 
         <LogTable :items="items.preview" mode="context" />
 
-        <LogTable :items="items.current" highlight mode="context" />
+        <LogTable highlight :items="items.current" mode="context" />
 
         <LogTable :items="items.next" mode="context" />
 
         <div class="text-center py-3">
-          <v-btn text x-small color="primary" :loading="loading.next" @click="handleLoadNext"> 向后加载10条数据 </v-btn>
+          <v-btn color="primary" :loading="loading.next" text x-small @click="handleLoadNext"> 向后加载10条数据 </v-btn>
         </div>
       </v-card>
     </template>
@@ -24,6 +24,7 @@
 
 <script>
   import LogTable from './LogTable';
+
   import { getLogContext } from '@/api';
 
   export default {

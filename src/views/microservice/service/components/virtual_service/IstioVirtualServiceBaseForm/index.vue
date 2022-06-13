@@ -9,25 +9,25 @@
             <v-text-field
               v-model="obj.metadata.name"
               class="my-0"
-              required
               label="虚拟服务名称"
-              :rules="objRules.nameRule"
               :readonly="edit"
+              required
+              :rules="objRules.nameRule"
             />
           </v-col>
           <v-col cols="6">
             <v-autocomplete
               v-model="obj.spec.gateways"
-              color="primary"
-              :items="gateways"
-              multiple
-              label="网关"
-              hide-selected
               class="my-0"
+              color="primary"
+              hide-selected
+              :items="gateways"
+              label="网关"
+              multiple
               no-data-text="暂无可选数据"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -36,18 +36,18 @@
           <v-col cols="12">
             <v-combobox
               v-model="hosts"
+              height="32"
               hide-no-data
               :items="[]"
-              :search-input.sync="hostText"
-              multiple
-              small-chips
-              height="32"
               label="hosts(回车)"
+              multiple
+              :search-input.sync="hostText"
+              small-chips
               @change="onHostChange"
               @keydown.enter="createHost"
             >
               <template #selection="{ item }">
-                <v-chip small color="primary" class="pa-1">
+                <v-chip class="pa-1" color="primary" small>
                   <span>
                     {{ item.text }}
                   </span>
@@ -59,18 +59,18 @@
           <v-col v-if="obj.spec.exportTo" cols="12">
             <v-combobox
               v-model="exportTo"
+              height="32"
               hide-no-data
               :items="[]"
-              :search-input.sync="exportToText"
-              multiple
-              small-chips
-              height="32"
               label="exportTo(回车)"
+              multiple
+              :search-input.sync="exportToText"
+              small-chips
               @change="onExportToChange"
               @keydown.enter="createExportTo"
             >
               <template #selection="{ item }">
-                <v-chip small color="primary" class="pa-1">
+                <v-chip class="pa-1" color="primary" small>
                   <span>
                     {{ item.text }}
                   </span>
@@ -88,9 +88,9 @@
         <v-card-text class="pa-2">
           <HttpItem
             :http="obj.spec.http"
-            @updateHttp="updateHttp"
-            @removeHttp="removeHttp"
             @expandCard="expandHttpCard"
+            @removeHttp="removeHttp"
+            @updateHttp="updateHttp"
           />
         </v-card-text>
       </template>
@@ -99,7 +99,7 @@
         <TcpForm ref="tcpForm" :data="obj.spec.tcp" @addData="addTcpData" @closeOverlay="closeExpand" />
         <BaseSubTitle title="tcp流量配置" />
         <v-card-text class="pa-2">
-          <TcpItem :tcp="obj.spec.tcp" @updateTcp="updateTcp" @removeTcp="removeTcp" @expandCard="expandTcpCard" />
+          <TcpItem :tcp="obj.spec.tcp" @expandCard="expandTcpCard" @removeTcp="removeTcp" @updateTcp="updateTcp" />
         </v-card-text>
       </template>
 
@@ -107,7 +107,7 @@
         <TLSForm ref="tlsForm" :data="obj.spec.tls" @addData="addTLSData" @closeOverlay="closeExpand" />
         <BaseSubTitle title="tls流量配置" />
         <v-card-text class="pa-2">
-          <TLSItem :tls="obj.spec.tls" @updateTLS="updateTLS" @removeTLS="removeTLS" @expandCard="expandTLSCard" />
+          <TLSItem :tls="obj.spec.tls" @expandCard="expandTLSCard" @removeTLS="removeTLS" @updateTLS="updateTLS" />
         </v-card-text>
       </template>
     </v-form>
@@ -116,37 +116,39 @@
 
 <script>
   import { mapState } from 'vuex';
-  import HttpItem from './HttpItem';
+
   import HttpForm from './HttpForm';
-  import TcpItem from './TcpItem';
+  import HttpItem from './HttpItem';
   import TcpForm from './TcpForm';
-  import TLSItem from './TLSItem';
+  import TcpItem from './TcpItem';
   import TLSForm from './TLSForm';
+  import TLSItem from './TLSItem';
+
   import { getIstioGatewayList } from '@/api';
-  import BaseSelect from '@/mixins/select';
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
   import { k8sName, required } from '@/utils/rules';
 
   export default {
     name: 'IstioVirtualServiceBaseForm',
     components: {
-      HttpItem,
       HttpForm,
-      TcpItem,
+      HttpItem,
       TcpForm,
-      TLSItem,
+      TcpItem,
       TLSForm,
+      TLSItem,
     },
-    mixins: [BaseSelect, BaseResource],
+    mixins: [BaseResource, BaseSelect],
     props: {
-      item: {
-        type: Object,
-        default: () => null,
-      },
       edit: {
         type: Boolean,
         default: () => false,
+      },
+      item: {
+        type: Object,
+        default: () => null,
       },
     },
     data: () => ({

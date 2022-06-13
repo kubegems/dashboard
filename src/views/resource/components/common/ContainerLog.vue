@@ -1,10 +1,10 @@
 <template>
-  <BaseFullScreenDialog v-model="dialog" title="日志" icon="fas fa-list-ol" @dispose="dispose">
+  <BaseFullScreenDialog v-model="dialog" icon="fas fa-list-ol" title="日志" @dispose="dispose">
     <template #header>
       <v-flex class="ml-2 text-h6 mt-n1">
         {{ item ? item.name : '' }}
-        <v-btn depressed color="white" icon @click="openOnBlankTab">
-          <v-icon small color="white"> mdi-open-in-new </v-icon>
+        <v-btn color="white" depressed icon @click="openOnBlankTab">
+          <v-icon color="white" small> mdi-open-in-new </v-icon>
         </v-btn>
       </v-flex>
     </template>
@@ -15,19 +15,19 @@
           v-model="countMenu"
           bottom
           left
+          nudge-bottom="5px"
           offset-y
           origin="top center"
           transition="scale-transition"
-          nudge-bottom="5px"
         >
           <template #activator="{ on }">
-            <v-btn depressed color="primary" class="white--text mt-n1" dark v-on="on">
+            <v-btn class="white--text mt-n1" color="primary" dark depressed v-on="on">
               {{ count }}
               <v-icon v-if="countMenu" right> fas fa-angle-up </v-icon>
               <v-icon v-else right> fas fa-angle-down </v-icon>
             </v-btn>
           </template>
-          <v-data-iterator :items="[{ text: '行数', values: counts }]" hide-default-footer>
+          <v-data-iterator hide-default-footer :items="[{ text: '行数', values: counts }]">
             <template #default="props">
               <v-card v-for="item in props.items" :key="item.text">
                 <v-list dense>
@@ -52,13 +52,13 @@
                   <v-text-field
                     id="logCount"
                     v-model="countText"
-                    dense
                     class="ma-1"
-                    style="width: 120px"
-                    solo
-                    placeholder="手动输入行数"
+                    dense
                     flat
                     hide-details
+                    placeholder="手动输入行数"
+                    solo
+                    style="width: 120px"
                     @click.stop
                     @focus.stop
                     @keyup.enter="setCustomCount"
@@ -75,8 +75,8 @@
           v-model="stream"
           class="pl-2 white--text float-right"
           color="white"
-          hide-details
           dense
+          hide-details
           @change="onStreamSwitchChange"
         />
       </v-flex>
@@ -86,8 +86,8 @@
           v-model="linenotbreak"
           class="pl-2 white--text float-right"
           color="white"
-          hide-details
           dense
+          hide-details
           @change="onLinebreakSwitchChange"
         />
       </v-flex>
@@ -97,19 +97,19 @@
           v-model="containerMenu"
           bottom
           left
+          nudge-bottom="5px"
           offset-y
           origin="top center"
           transition="scale-transition"
-          nudge-bottom="5px"
         >
           <template #activator="{ on }">
-            <v-btn depressed color="primary" class="white--text mt-n1" dark v-on="on">
+            <v-btn class="white--text mt-n1" color="primary" dark depressed v-on="on">
               {{ container }}
               <v-icon v-if="containerMenu" right> fas fa-angle-up </v-icon>
               <v-icon v-else right> fas fa-angle-down </v-icon>
             </v-btn>
           </template>
-          <v-data-iterator :items="[{ text: '容器', values: containers }]" hide-default-footer>
+          <v-data-iterator hide-default-footer :items="[{ text: '容器', values: containers }]">
             <template #no-data>
               <v-card>
                 <v-card-text> 暂无容器 </v-card-text>
@@ -156,8 +156,8 @@
             wrap: false,
           })
         "
-        theme="chrome"
         :style="`height: ${height}px !important`"
+        theme="chrome"
         @init="$aceinit"
         @keydown.stop
       />
@@ -167,6 +167,7 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 

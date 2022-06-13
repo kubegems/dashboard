@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form" v-model="valid" lazy-validation class="my-2">
+  <v-form ref="form" v-model="valid" class="my-2" lazy-validation>
     <v-card class="my-2 pa-2" flat>
       <v-card-text class="pa-0">
         <v-sheet class="pt-2 px-0">
@@ -10,19 +10,19 @@
             <v-text-field
               v-model="smtpServerInput"
               class="my-0"
-              required
               label="SMTP服务器"
+              required
               :rules="emailConfigRules.smtpServerRule"
             />
           </v-flex>
           <v-flex class="float-left ml-2 kubegems__form-width">
-            <v-text-field v-model="port" class="my-0" required label="端口" :rules="emailConfigRules.portRule">
+            <v-text-field v-model="port" class="my-0" label="端口" required :rules="emailConfigRules.portRule">
               <template #append>
                 <v-switch
                   v-model="emailConfig.requireTLS"
-                  required
-                  hide-details
                   dense
+                  hide-details
+                  required
                   style="display: flex; justify-content: center"
                   @change="onRequireTLSChange"
                 >
@@ -38,8 +38,8 @@
             <v-text-field
               v-model="emailConfig.from"
               class="my-0"
-              required
               label="发件人邮箱"
+              required
               :rules="emailConfigRules.fromRule"
             />
           </v-flex>
@@ -47,11 +47,11 @@
             <v-text-field
               v-model="emailConfig.authPassword"
               :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-              :type="show ? 'text' : 'password'"
               class="my-0 ml-2"
-              required
               label="发件人邮箱密码"
+              required
               :rules="emailConfigRules.authPasswordRule"
+              :type="show ? 'text' : 'password'"
               @click:append="show = !show"
             />
           </v-flex>
@@ -63,20 +63,20 @@
           <v-flex class="float-left kubegems__long-width">
             <v-autocomplete
               v-model="emailToSelected"
+              class="my-0"
               color="primary"
+              hide-selected
               :items="emailToSelect"
+              label="收件人"
+              multiple
+              no-data-text="暂无可选数据"
               :rules="emailConfigRules.toRule"
               :search-input.sync="emailText"
-              label="收件人"
-              hide-selected
-              multiple
-              class="my-0"
-              no-data-text="暂无可选数据"
-              @keydown.13="createEmail"
               @change="onEmailChange"
+              @keydown.13="createEmail"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                   <v-icon small @click="removeEmail(item)"> mdi-close </v-icon>
                 </v-chip>
@@ -88,9 +88,9 @@
       </v-card-text>
       <v-card-actions class="pa-0">
         <v-spacer />
-        <v-btn text small color="error" @click="closeCard"> 取消 </v-btn>
-        <v-btn text small color="primary" @click="sendTestEmail"> 发送测试邮件 </v-btn>
-        <v-btn text small color="primary" @click="addData"> 保存 </v-btn>
+        <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
+        <v-btn color="primary" small text @click="sendTestEmail"> 发送测试邮件 </v-btn>
+        <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
       </v-card-actions>
     </v-card>
   </v-form>
@@ -98,6 +98,7 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import { getEnvironmentUserList, userSelectData, postSendTestEmail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
@@ -107,25 +108,25 @@
     name: 'EmailForm',
     mixins: [BaseResource],
     props: {
+      configIndex: {
+        type: Number,
+        default: () => null,
+      },
       data: {
         type: Object,
         default: () => {},
       },
-      obj: {
-        type: Object,
-        default: () => null,
+      edit: {
+        type: Boolean,
+        default: () => false,
       },
       namespace: {
         type: String,
         default: () => '',
       },
-      configIndex: {
-        type: Number,
+      obj: {
+        type: Object,
         default: () => null,
-      },
-      edit: {
-        type: Boolean,
-        default: () => false,
       },
     },
 

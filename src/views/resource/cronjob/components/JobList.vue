@@ -4,26 +4,26 @@
       <v-data-table
         disable-sort
         :headers="headers"
+        hide-default-footer
         :items="items"
-        :page.sync="params.page"
         :items-per-page="params.size"
         no-data-text="暂无数据"
-        hide-default-footer
+        :page.sync="params.page"
       >
         <template #[`item.name`]="{ item }">
           {{ item.metadata.name }}
         </template>
         <template #[`item.status`]="{ item }">
           <span v-if="item.status.succeeded !== undefined">
-            <v-icon small color="primary"> fas fa-check-circle </v-icon>
+            <v-icon color="primary" small> fas fa-check-circle </v-icon>
             成功
           </span>
           <span v-else-if="item.status.failed !== undefined">
-            <v-icon small color="error">fas fa-minus-circle</v-icon>
+            <v-icon color="error" small>fas fa-minus-circle</v-icon>
             失败
           </span>
           <span v-else-if="item.status.active !== undefined">
-            <v-icon small color="success">fas fa-dot-circle</v-icon>
+            <v-icon color="success" small>fas fa-dot-circle</v-icon>
             进行中
           </span>
         </template>
@@ -39,9 +39,9 @@
         v-model="params.page"
         :page-count="pageCount"
         :size="params.size"
-        @loaddata="jobList"
-        @changesize="onPageSizeChange"
         @changepage="onPageIndexChange"
+        @changesize="onPageSizeChange"
+        @loaddata="jobList"
       />
     </v-card-text>
   </v-card>
@@ -49,6 +49,7 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import { getJobList } from '@/api';
   import BaseResource from '@/mixins/resource';
 

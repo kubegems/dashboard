@@ -1,19 +1,19 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="创建配置" icon="mdi-wrench" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-wrench" title="创建配置" :width="1000" @reset="reset">
     <template #content>
       <component :is="formComponent" :ref="formComponent" title="ConfigMap" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="addConfigMap"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addConfigMap"> 确定 </v-btn>
     </template>
     <template #header-action>
       <v-switch
         :key="switchKey"
         v-model="yaml"
         class="ma-0 pl-2 ml-2 mt-1"
-        style="margin-top: 8px !important"
         color="white"
         hide-details
+        style="margin-top: 8px !important"
         @change="onYamlSwitchChange"
       >
         <template #label>
@@ -26,11 +26,13 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import ConfigMapBaseForm from './ConfigMapBaseForm';
+
   import { postAddConfigMap } from '@/api';
   import BaseResource from '@/mixins/resource';
-  import ConfigmapSchema from '@/views/resource/configmap/mixins/schema';
   import { randomString } from '@/utils/helpers';
+  import ConfigmapSchema from '@/views/resource/configmap/mixins/schema';
 
   export default {
     name: 'AddConfigMap',

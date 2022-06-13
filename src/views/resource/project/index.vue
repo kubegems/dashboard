@@ -4,8 +4,8 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :filters="filters"
           :default="{ items: [], text: '项目名称', value: 'search' }"
+          :filters="filters"
           @refresh="m_filter_list"
         />
         <v-sheet v-if="AdminViewport" class="text-subtitle-2 ml-4"> 租户 </v-sheet>
@@ -13,24 +13,24 @@
           <v-autocomplete
             v-if="AdminViewport"
             v-model="tenant"
-            color="primary"
             chips
-            hide-selected
-            hide-details
-            label="租户"
-            prepend-inner-icon="mdi-account-switch"
+            class="ml-2"
+            color="primary"
             dense
-            solo
             flat
             full-width
-            no-data-text="无数据"
-            class="ml-2"
+            hide-details
+            hide-selected
             :items="m_select_tenantItems"
-            @focus="onTenantSelectFocus"
+            label="租户"
+            no-data-text="无数据"
+            prepend-inner-icon="mdi-account-switch"
+            solo
             @change="onTenantSelectChange"
+            @focus="onTenantSelectFocus"
           >
             <template #selection="{ attrs, item, selected }">
-              <v-chip :input-value="selected" color="primary" label small v-bind="attrs">
+              <v-chip color="primary" :input-value="selected" label small v-bind="attrs">
                 <span class="pr-2">{{ item.text }}</span>
               </v-chip>
             </template>
@@ -42,11 +42,11 @@
         class="mx-4"
         disable-sort
         :headers="headers"
+        hide-default-footer
         :items="items"
-        :page.sync="params.page"
         :items-per-page="params.size"
         no-data-text="暂无数据"
-        hide-default-footer
+        :page.sync="params.page"
       >
         <template #[`item.projectName`]="{ item }">
           <span v-if="AdminViewport">{{ item.ProjectName }}</span>
@@ -73,9 +73,9 @@
           {{ item.UsedCpu ? item.UsedCpu.toFixed(1) : 0 }} core
           <v-progress-linear
             class="rounded font-weight-medium"
-            :value="item.CpuPercentage"
-            height="15"
             :color="getColor(item.CpuPercentage)"
+            height="15"
+            :value="item.CpuPercentage"
           >
             <span class="white--text"> {{ item.CpuPercentage }}% </span>
           </v-progress-linear>
@@ -84,9 +84,9 @@
           {{ item.UsedMemory ? item.UsedMemory.toFixed(1) : 0 }} Gi
           <v-progress-linear
             class="rounded font-weight-medium"
-            :value="item.MemoryPercentage"
-            height="15"
             :color="getColor(item.MemoryPercentage)"
+            height="15"
+            :value="item.MemoryPercentage"
           >
             <span class="white--text"> {{ item.MemoryPercentage }}% </span>
           </v-progress-linear>
@@ -95,28 +95,28 @@
           {{ item.UsedStorage ? item.UsedStorage.toFixed(1) : 0 }} Gi
           <v-progress-linear
             class="rounded font-weight-medium"
-            :value="item.StoragePercentage"
-            height="15"
             :color="getColor(item.StoragePercentage)"
+            height="15"
+            :value="item.StoragePercentage"
           >
             <span class="white--text"> {{ item.StoragePercentage }}% </span>
           </v-progress-linear>
         </template>
         <template #[`item.action`]="{ item }">
           <v-flex :id="`r${item.ID}`" />
-          <v-menu left :attach="`#r${item.ID}`">
+          <v-menu :attach="`#r${item.ID}`" left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
               </v-btn>
             </template>
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" text small @click="updateProject(item)"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateProject(item)"> 编辑 </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" text small @click="removeProject(item)"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeProject(item)"> 删除 </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -128,9 +128,9 @@
         v-model="params.page"
         :page-count="pageCount"
         :size="params.size"
-        @loaddata="projectList"
-        @changesize="onPageSizeChange"
         @changepage="onPageIndexChange"
+        @changesize="onPageSizeChange"
+        @loaddata="projectList"
       />
     </v-card>
 
@@ -140,13 +140,13 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import UpdateProject from './components/UpdateProject';
+
   import { getProjectList, deleteProject, getTenantProjectQuotaList } from '@/api';
-  import BaseSelect from '@/mixins/select';
-  import BaseResource from '@/mixins/resource';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
-  import BaseTable from '@/mixins/table';
+  import BaseSelect from '@/mixins/select';
   import { sizeOfCpu, sizeOfStorage, convertStrToNum } from '@/utils/helpers';
 
   export default {
@@ -154,7 +154,7 @@
     components: {
       UpdateProject,
     },
-    mixins: [BaseFilter, BaseSelect, BasePermission, BaseResource, BaseTable],
+    mixins: [BaseFilter, BasePermission, BaseSelect],
     data: () => ({
       items: [],
       tenant: -1,

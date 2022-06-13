@@ -13,18 +13,18 @@
     <v-card-text :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
       <v-row>
         <v-col cols="6">
-          <BaseApexAreaChart id="cpu" title="CPU使用量" :metrics="cpu" type="cpu" label="pod" />
+          <BaseApexAreaChart id="cpu" label="pod" :metrics="cpu" title="CPU使用量" type="cpu" />
         </v-col>
         <v-col cols="6">
-          <BaseApexAreaChart id="memory" title="内存使用量" :metrics="memory" type="memory" label="pod" />
+          <BaseApexAreaChart id="memory" label="pod" :metrics="memory" title="内存使用量" type="memory" />
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="6">
-          <BaseApexAreaChart id="networkin" title="网络入口流量" :metrics="networkin" type="network" label="pod" />
+          <BaseApexAreaChart id="networkin" label="pod" :metrics="networkin" title="网络入口流量" type="network" />
         </v-col>
         <v-col cols="6">
-          <BaseApexAreaChart id="networkout" title="网络出口流量" :metrics="networkout" type="network" label="pod" />
+          <BaseApexAreaChart id="networkout" label="pod" :metrics="networkout" title="网络出口流量" type="network" />
         </v-col>
       </v-row>
     </v-card-text>
@@ -33,8 +33,9 @@
 
 <script>
   import { mapState } from 'vuex';
-  import BaseResource from '@/mixins/resource';
+
   import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
   import {
     WORKLOAD_CPU_USAGE_CORE_PROMQL,
     WORKLOAD_MEMORY_USAGE_BYTE_PROMQL,
@@ -44,7 +45,7 @@
 
   export default {
     name: 'WorkloadMonitor',
-    mixins: [BaseResource, BasePermission],
+    mixins: [BasePermission, BaseResource],
     props: {
       item: {
         type: Object,

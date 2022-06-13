@@ -1,9 +1,9 @@
 <template>
-  <v-dialog v-model="dialog" :max-width="500" persistent scrollable height="100%">
+  <v-dialog v-model="dialog" height="100%" :max-width="500" persistent scrollable>
     <v-card>
       <v-card-text class="pa-0">
         <div>
-          <v-img src="/logo-about.svg" width="200" contain class="ma-2" />
+          <v-img class="ma-2" contain src="/logo-about.svg" width="200" />
           <div class="kubegems__clear-float" />
         </div>
         <v-divider />
@@ -18,7 +18,7 @@
         </v-flex>
       </v-card-text>
       <div class="pa-2">
-        <v-btn small class="float-right" color="error" text @click="dialog = false"> 关闭 </v-btn>
+        <v-btn class="float-right" color="error" small text @click="dialog = false"> 关闭 </v-btn>
       </div>
     </v-card>
   </v-dialog>

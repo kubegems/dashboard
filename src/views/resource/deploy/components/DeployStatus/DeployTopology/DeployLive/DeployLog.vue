@@ -18,19 +18,20 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'DeployLog',
     mixins: [BaseResource],
     props: {
-      resource: {
-        type: Object,
-        default: () => null,
-      },
       container: {
         type: String,
         default: () => '',
+      },
+      resource: {
+        type: Object,
+        default: () => null,
       },
     },
     data: () => ({

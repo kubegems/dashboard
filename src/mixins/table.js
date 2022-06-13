@@ -1,5 +1,5 @@
 import { mapGetters, mapState } from 'vuex';
-import { convertStrToNum } from '@/utils/helpers';
+
 import {
   deleteConfigMap,
   deleteCronJob,
@@ -30,6 +30,7 @@ import {
   deleteIstioServiceEntry,
   deleteIstioSidecar,
 } from '@/api';
+import { convertStrToNum } from '@/utils/helpers';
 
 const table = {
   data() {

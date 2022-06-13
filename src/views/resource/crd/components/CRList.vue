@@ -3,7 +3,7 @@
     <v-card class="pa-0" flat>
       <v-card-title class="pa-0">
         <v-spacer />
-        <v-btn v-if="m_permisson_resourceAllow" text small color="primary" @click="addCR">
+        <v-btn v-if="m_permisson_resourceAllow" color="primary" small text @click="addCR">
           <v-icon left>mdi-plus-box</v-icon>
           创建自定义资源
         </v-btn>
@@ -12,11 +12,11 @@
     <v-data-table
       disable-sort
       :headers="headers"
+      hide-default-footer
       :items="items"
-      :page.sync="params.page"
       :items-per-page="params.size"
       no-data-text="暂无数据"
-      hide-default-footer
+      :page.sync="params.page"
     >
       <template #[`item.name`]="{ item }">
         {{ item.metadata.name }}
@@ -29,19 +29,19 @@
       </template>
       <template #[`item.action`]="{ item }">
         <v-flex :id="`r${item.metadata.resourceVersion}`" />
-        <v-menu left :attach="`#r${item.metadata.resourceVersion}`">
+        <v-menu :attach="`#r${item.metadata.resourceVersion}`" left>
           <template #activator="{ on }">
             <v-btn icon>
-              <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+              <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
             </v-btn>
           </template>
           <v-card>
             <v-card-text class="pa-2">
               <v-flex>
-                <v-btn color="primary" text small @click="updateCR(item)"> 编辑 </v-btn>
+                <v-btn color="primary" small text @click="updateCR(item)"> 编辑 </v-btn>
               </v-flex>
               <v-flex>
-                <v-btn color="error" text small @click="removeCR(item)"> 删除 </v-btn>
+                <v-btn color="error" small text @click="removeCR(item)"> 删除 </v-btn>
               </v-flex>
             </v-card-text>
           </v-card>
@@ -53,9 +53,9 @@
       v-model="params.page"
       :page-count="pageCount"
       :size="params.size"
-      @loaddata="crList"
-      @changesize="onPageSizeChange"
       @changepage="onPageIndexChange"
+      @changesize="onPageSizeChange"
+      @loaddata="crList"
     />
 
     <AddCR ref="addCR" @refresh="crList" />
@@ -64,19 +64,20 @@
 </template>
 
 <script>
-  import UpdateCR from './UpdateCR';
   import AddCR from './AddCR';
+  import UpdateCR from './UpdateCR';
+
   import { getCrList, deleteCr } from '@/api';
-  import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'CRList',
     components: {
-      UpdateCR,
       AddCR,
+      UpdateCR,
     },
-    mixins: [BaseResource, BasePermission],
+    mixins: [BasePermission, BaseResource],
     props: {
       item: {
         type: Object,

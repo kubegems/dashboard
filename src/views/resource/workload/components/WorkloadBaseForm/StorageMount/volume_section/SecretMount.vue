@@ -5,18 +5,18 @@
       <v-flex class="float-left ml-2 kubegems__form-width">
         <v-autocomplete
           v-model="volumeName"
-          :items="items"
-          :rules="volumeRules.SecretRule"
-          color="primary"
-          label="密钥"
-          hide-selected
           class="my-0"
+          color="primary"
+          hide-selected
+          :items="items"
+          label="密钥"
           no-data-text="暂无可选数据"
           :readonly="edit"
+          :rules="volumeRules.SecretRule"
           @change="onVolumeChange"
         >
           <template #selection="{ item }">
-            <v-chip color="primary" small class="mx-1">
+            <v-chip class="mx-1" color="primary" small>
               {{ item['text'] }}
             </v-chip>
           </template>
@@ -33,17 +33,17 @@
       <v-flex class="float-left ml-2 kubegems__form-width">
         <v-autocomplete
           v-model="volumeCopy.secret.items[index].key"
-          :items="secrets"
-          :rules="volumeRules[index].KeyRule"
-          color="primary"
-          label="密钥键"
-          hide-selected
           class="my-0"
+          color="primary"
+          hide-selected
+          :items="secrets"
+          label="密钥键"
           no-data-text="暂无可选数据"
+          :rules="volumeRules[index].KeyRule"
           @focus="onSecretKeySelectFocus"
         >
           <template #selection="{ item }">
-            <v-chip color="primary" small class="mx-1">
+            <v-chip class="mx-1" color="primary" small>
               {{ item['text'] }}
             </v-chip>
           </template>
@@ -53,23 +53,23 @@
         <v-text-field
           v-model="volumeCopy.secret.items[index].path"
           class="my-0"
-          required
           label="路径"
+          required
           :rules="volumeRules[index].PathRule"
         />
       </v-flex>
-      <v-btn class="mt-4" dark text fab right x-small color="error" @click="removeKV(index)">
+      <v-btn class="mt-4" color="error" dark fab right text x-small @click="removeKV(index)">
         <v-icon>mdi-delete</v-icon>
       </v-btn>
       <div class="kubegems__clear-float" />
     </v-sheet>
-    <VolumeMount ref="volumeMount" :containers="containers" :volume-mount-name="volumeMountName" :volume="volume" />
+    <VolumeMount ref="volumeMount" :containers="containers" :volume="volume" :volume-mount-name="volumeMountName" />
     <VolumeMountForInitContainer
       v-if="initContainers && initContainers.length > 0"
       ref="volumeMountForInitContainer"
       :init-containers="initContainers"
-      :volume-mount-name="volumeMountName"
       :volume="volume"
+      :volume-mount-name="volumeMountName"
     />
   </v-form>
 </template>
@@ -77,6 +77,7 @@
 <script>
   import VolumeMount from './VolumeMount';
   import VolumeMountForInitContainer from './VolumeMountForInitContainer';
+
   import { getSecretList, getSecretDetail, getAppResourceFileMetas } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
@@ -94,6 +95,10 @@
         type: Array,
         default: () => [],
       },
+      edit: {
+        type: Boolean,
+        default: () => false,
+      },
       initContainers: {
         type: Array,
         default: () => [],
@@ -102,21 +107,17 @@
         type: String,
         default: () => '',
       },
-      volumeMountName: {
-        type: String,
-        default: () => null,
+      manifest: {
+        type: Boolean,
+        default: () => false,
       },
       volume: {
         type: Object,
         default: () => null,
       },
-      manifest: {
-        type: Boolean,
-        default: () => false,
-      },
-      edit: {
-        type: Boolean,
-        default: () => false,
+      volumeMountName: {
+        type: String,
+        default: () => null,
       },
     },
     data() {

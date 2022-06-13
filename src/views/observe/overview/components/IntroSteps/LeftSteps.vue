@@ -1,14 +1,14 @@
 <template>
   <div class="left-steps">
-    <v-stepper v-model="current" vertical class="pb-0">
+    <v-stepper v-model="current" class="pb-0" vertical>
       <template v-for="(item, index) in steps">
         <v-stepper-step
           :key="item.id"
           :complete="current > index + 1"
-          :step="index + 1"
-          editable
-          edit-icon="mdi-check"
           complete-icon="mdi-check"
+          edit-icon="mdi-check"
+          editable
+          :step="index + 1"
         >
           <span class="kubegems__text">{{ item.name }}</span>
           <small class="mt-2" style="font-size: 1rem">

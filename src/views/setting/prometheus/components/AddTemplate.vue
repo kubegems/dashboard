@@ -1,23 +1,25 @@
 <template>
   <BaseDialog
     v-model="dialog"
-    :width="1000"
-    title="创建 Prometheus 查询模版"
     icon="mdi-file-powerpoint-box"
+    title="创建 Prometheus 查询模版"
+    :width="1000"
     @reset="reset"
   >
     <template #content>
-      <component :is="formComponent" :ref="formComponent" :item="item" :units="units" title="Reocrding Rules" />
+      <component :is="formComponent" :ref="formComponent" :item="item" title="Reocrding Rules" :units="units" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="addTemplate"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addTemplate"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapState } from 'vuex';
+
   import TemplateBaseForm from './TemplateBaseForm';
+
   import { postPrometheusTemplate } from '@/api';
 
   export default {

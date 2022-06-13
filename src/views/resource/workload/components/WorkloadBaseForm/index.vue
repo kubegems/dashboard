@@ -1,41 +1,41 @@
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
-    <component :is="steps[step]" :ref="steps[step]" :item="item" :edit="edit" :kind="kind" />
+    <component :is="steps[step]" :ref="steps[step]" :edit="edit" :item="item" :kind="kind" />
   </v-form>
 </template>
 
 <script>
-  import WorkloadBaseInfo from './WorkloadBaseInfo';
   import ContaninerImage from './ContainerImage';
-  import StorageMount from './StorageMount';
-  import ScheduleSelector from './ScheduleSelector';
   import DeployPolicy from './DeployPolicy';
+  import ScheduleSelector from './ScheduleSelector';
+  import StorageMount from './StorageMount';
+  import WorkloadBaseInfo from './WorkloadBaseInfo';
 
   export default {
     name: 'WorkloadBaseForm',
     components: {
-      WorkloadBaseInfo,
       ContaninerImage,
-      StorageMount,
-      ScheduleSelector,
       DeployPolicy,
+      ScheduleSelector,
+      StorageMount,
+      WorkloadBaseInfo,
     },
     props: {
-      item: {
-        type: Object,
-        default: () => null,
-      },
       edit: {
         type: Boolean,
         default: () => false,
       },
-      step: {
-        type: Number,
-        default: () => 0,
+      item: {
+        type: Object,
+        default: () => null,
       },
       kind: {
         type: String,
         default: () => '',
+      },
+      step: {
+        type: Number,
+        default: () => 0,
       },
     },
     data: () => ({

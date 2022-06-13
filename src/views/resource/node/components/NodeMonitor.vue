@@ -13,26 +13,26 @@
     <v-card-text :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
       <v-row>
         <v-col cols="6">
-          <BaseApexAreaChart id="load" title="负载" :metrics="load" label="name" type="" />
+          <BaseApexAreaChart id="load" label="name" :metrics="load" title="负载" type="" />
         </v-col>
         <v-col cols="6">
-          <BaseApexAreaChart id="cpu" title="CPU使用率" :metrics="cpu" label="host" type="%" />
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="6">
-          <BaseApexAreaChart id="memory" title="内存使用率" :metrics="memory" label="host" type="%" />
-        </v-col>
-        <v-col cols="6">
-          <BaseApexAreaChart id="network" title="网络带宽" :metrics="network" label="name" type="network" />
+          <BaseApexAreaChart id="cpu" label="host" :metrics="cpu" title="CPU使用率" type="%" />
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="6">
-          <BaseApexAreaChart id="disk" title="磁盘剩余容量" :metrics="disk" label="host" type="storage" />
+          <BaseApexAreaChart id="memory" label="host" :metrics="memory" title="内存使用率" type="%" />
         </v-col>
         <v-col cols="6">
-          <BaseApexAreaChart id="diskiops" title="磁盘IOPS" :metrics="diskiops" label="name" type="" />
+          <BaseApexAreaChart id="network" label="name" :metrics="network" title="网络带宽" type="network" />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="6">
+          <BaseApexAreaChart id="disk" label="host" :metrics="disk" title="磁盘剩余容量" type="storage" />
+        </v-col>
+        <v-col cols="6">
+          <BaseApexAreaChart id="diskiops" label="name" :metrics="diskiops" title="磁盘IOPS" type="" />
         </v-col>
       </v-row>
     </v-card-text>
@@ -41,8 +41,9 @@
 
 <script>
   import { mapState } from 'vuex';
-  import BaseResource from '@/mixins/resource';
+
   import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
   import {
     NODE_LOAD1_PROMQL,
     NODE_LOAD5_PROMQL,
@@ -58,7 +59,7 @@
 
   export default {
     name: 'NodeMonitor',
-    mixins: [BaseResource, BasePermission],
+    mixins: [BasePermission, BaseResource],
     props: {
       item: {
         type: Object,

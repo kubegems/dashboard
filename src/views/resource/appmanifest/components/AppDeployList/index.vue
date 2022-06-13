@@ -4,11 +4,11 @@
       class="mx-4"
       disable-sort
       :headers="headers"
+      hide-default-footer
       :items="items"
-      :page.sync="params.page"
       :items-per-page="params.size"
       no-data-text="暂无数据"
-      hide-default-footer
+      :page.sync="params.page"
     >
       <template #[`item.images`]="{ item }">
         <v-flex v-for="(image, index) in item.images" :key="index">
@@ -29,16 +29,16 @@
       </template>
       <template #[`item.action`]="{ item }">
         <v-flex :id="`r${item.ID}`" />
-        <v-menu left :attach="`#r${item.ID}`">
+        <v-menu :attach="`#r${item.ID}`" left>
           <template #activator="{ on }">
             <v-btn icon>
-              <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+              <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
             </v-btn>
           </template>
           <v-card>
             <v-card-text class="pa-2">
               <v-flex v-if="item.images">
-                <v-btn color="primary" text small @click="appDeployImageTrace(item)"> 镜像跟踪 </v-btn>
+                <v-btn color="primary" small text @click="appDeployImageTrace(item)"> 镜像跟踪 </v-btn>
               </v-flex>
               <v-flex v-else> 不可操作 </v-flex>
             </v-card-text>
@@ -51,9 +51,9 @@
       v-model="params.page"
       :page-count="pageCount"
       :size="params.size"
-      @loaddata="deployEnvironmentAppsStatus"
-      @changesize="onPageSizeChange"
       @changepage="onPageIndexChange"
+      @changesize="onPageSizeChange"
+      @loaddata="deployEnvironmentAppsStatus"
     />
 
     <AppDeployImageTrace ref="appDeployImageTrace" />
@@ -62,12 +62,15 @@
 
 <script>
   import AppDeployImageTrace from './AppDeployImageTrace';
+
   import { getDeployEnvironmentAppsStatus } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'AppDeployList',
-    components: { AppDeployImageTrace },
+    components: {
+      AppDeployImageTrace,
+    },
     mixins: [BaseResource],
     props: {
       app: {

@@ -3,11 +3,11 @@
     <BaseViewportHeader />
     <BaseBreadcrumb />
     <v-row class="mt-0">
-      <v-col v-for="(item, index) in items" :key="index" cols="3" class="pt-0">
+      <v-col v-for="(item, index) in items" :key="index" class="pt-0" cols="3">
         <v-hover #default="{ hover }">
-          <v-card class="mx-auto gateway-pos" height="100%" :elevation="hover ? 5 : 0">
+          <v-card class="mx-auto gateway-pos" :elevation="hover ? 5 : 0" height="100%">
             <v-list-item three-line>
-              <v-list-item-avatar class="primary--text" tile size="80">
+              <v-list-item-avatar class="primary--text" size="80" tile>
                 <Icon icon="cib:nginx" style="width: 80px; height: 80px; margin-left: 10px" />
               </v-list-item-avatar>
               <v-list-item-content>
@@ -59,9 +59,9 @@
             </v-list-item>
             <v-card-actions>
               <v-spacer />
-              <v-btn text small color="primary" @click="gatewayDetail(item)"> 详情 </v-btn>
-              <v-btn text small color="primary" @click="updateGateway(item)"> 编 辑 </v-btn>
-              <v-btn v-if="item.spec.tenant !== 'notenant'" text small color="error" @click="removeGateway(item)">
+              <v-btn color="primary" small text @click="gatewayDetail(item)"> 详情 </v-btn>
+              <v-btn color="primary" small text @click="updateGateway(item)"> 编 辑 </v-btn>
+              <v-btn v-if="item.spec.tenant !== 'notenant'" color="error" small text @click="removeGateway(item)">
                 删 除
               </v-btn>
             </v-card-actions>
@@ -72,12 +72,12 @@
           </v-card>
         </v-hover>
       </v-col>
-      <v-col v-if="m_permisson_resourceAllow" cols="3" class="pt-0">
+      <v-col v-if="m_permisson_resourceAllow" class="pt-0" cols="3">
         <v-card class="full-height" min-height="211">
           <v-card-text class="pa-0 full-height">
-            <v-list-item three-line class="full-height">
+            <v-list-item class="full-height" three-line>
               <v-list-item-content>
-                <v-btn text block color="primary" class="text-h6" @click="addGateway">
+                <v-btn block class="text-h6" color="primary" text @click="addGateway">
                   <v-icon left>mdi-plus-box</v-icon>
                   创建网关
                 </v-btn>
@@ -95,12 +95,14 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import AddGateway from './components/AddGateway';
   import UpdateGateway from './components/UpdateGateway';
+
   import { getGatewayList, deleteGateway } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
-  import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'Gateway',
@@ -108,7 +110,7 @@
       AddGateway,
       UpdateGateway,
     },
-    mixins: [BaseFilter, BaseResource, BasePermission],
+    mixins: [BaseFilter, BasePermission, BaseResource],
     data: () => ({
       items: [],
     }),

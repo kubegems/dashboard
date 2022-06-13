@@ -2,16 +2,16 @@
   <div>
     <v-autocomplete
       v-model="mySelectFile"
-      :items="fileName"
-      color="primary"
-      solo
-      flat
-      dense
-      label="文件"
-      hide-selected
-      hide-details
       class="mb-3"
+      color="primary"
+      dense
+      flat
+      hide-details
+      hide-selected
+      :items="fileName"
+      label="文件"
       no-data-text="暂无可选数据"
+      solo
       style="width: 500px"
       @change="onFileChange"
     />
@@ -20,8 +20,8 @@
       :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded`"
       lang="yaml"
       :options="Object.assign($aceOptions, { readOnly: true, wrap: true })"
-      theme="chrome"
       :style="`height: ${height}px !important`"
+      theme="chrome"
       @init="$aceinit"
       @keydown.stop
     />

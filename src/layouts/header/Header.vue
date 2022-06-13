@@ -7,7 +7,7 @@
 
     <div>
       <div class="hidden-sm-and-down float-left">
-        <v-img src="/logo.svg" width="140" contain class="kubegems__absolute-middle" />
+        <v-img class="kubegems__absolute-middle" contain src="/logo.svg" width="140" />
       </div>
       <div
         class="pl-2 text-h6 float-left header-line-height"
@@ -26,21 +26,21 @@
 
     <v-spacer />
 
-    <v-btn depressed color="primary" dark @click="toAppStore">
-      <v-icon left small class="header-icon-line-height"> fas fa-shopping-bag </v-icon>
+    <v-btn color="primary" dark depressed @click="toAppStore">
+      <v-icon class="header-icon-line-height" left small> fas fa-shopping-bag </v-icon>
       <span
-        style="font-family: Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important; font-weight: bold"
         class="header-span-line-height"
+        style="font-family: Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important; font-weight: bold"
       >
         应用商店
       </span>
     </v-btn>
 
-    <v-btn depressed color="primary" dark @click="toWorkspace">
-      <v-icon left small class="header-icon-line-height"> fas fa-th </v-icon>
+    <v-btn color="primary" dark depressed @click="toWorkspace">
+      <v-icon class="header-icon-line-height" left small> fas fa-th </v-icon>
       <span
-        style="font-family: Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important; font-weight: bold"
         class="header-span-line-height"
+        style="font-family: Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important; font-weight: bold"
       >
         工作台
       </span>
@@ -53,10 +53,12 @@
 
 <script>
   import { mapState, mapMutations, mapGetters } from 'vuex';
+
   import Message from './Message';
   import User from './User';
-  import BaseSelect from '@/mixins/select';
+
   import BasePermission from '@/mixins/permission';
+  import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'Header',
@@ -64,13 +66,9 @@
       Message,
       User,
     },
-    mixins: [BaseSelect, BasePermission],
+    mixins: [BasePermission, BaseSelect],
     inject: ['reload'],
     props: {
-      value: {
-        type: Boolean,
-        default: false,
-      },
       showAppBarNavIcon: {
         type: Boolean,
         default: true,
@@ -78,6 +76,10 @@
       smallTitle: {
         type: String,
         default: '',
+      },
+      value: {
+        type: Boolean,
+        default: false,
       },
     },
     computed: {

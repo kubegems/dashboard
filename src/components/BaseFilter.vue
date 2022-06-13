@@ -48,21 +48,21 @@
   export default {
     name: 'BaseFilter',
     props: {
-      filters: {
-        type: Array,
-        default: () => [],
-      },
-      width: {
-        type: Number,
-        default: () => 700,
-      },
       default: {
         type: Object,
         default: () => null,
       },
+      filters: {
+        type: Array,
+        default: () => [],
+      },
       reload: {
         type: Boolean,
         default: () => true,
+      },
+      width: {
+        type: Number,
+        default: () => 700,
       },
     },
     data() {

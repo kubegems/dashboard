@@ -6,9 +6,9 @@
         <v-row class="mt-0">
           <v-col v-for="(item, index) in vendorItems" :key="index" cols="4">
             <v-hover #default="{ hover }">
-              <v-card :elevation="hover ? 5 : 1" class="kubegems__pointer vendor-pos" @click="selectVendor(item)">
+              <v-card class="kubegems__pointer vendor-pos" :elevation="hover ? 5 : 1" @click="selectVendor(item)">
                 <v-list-item three-line>
-                  <v-list-item-avatar class="primary--text" tile size="50">
+                  <v-list-item-avatar class="primary--text" size="50" tile>
                     <BaseLogo :icon-name="item.value" :width="40" />
                   </v-list-item-avatar>
                   <v-list-item-content>
@@ -37,10 +37,10 @@
       <ACEEditor
         v-model="obj.KubeConfig"
         :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded`"
+        height="500"
         lang="yaml"
         :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
         theme="chrome"
-        height="500"
         @init="$aceinit"
         @keydown.stop
       />
@@ -50,6 +50,7 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import { deepCopy } from '@/utils/helpers';
 
   export default {

@@ -3,7 +3,7 @@
     <v-card-text class="pa-7">
       <div class="d-flex justify-center my-3">
         <div class="text-center">
-          <BaseLogo :icon-name="appName" :width="100" large />
+          <BaseLogo :icon-name="appName" large :width="100" />
           <h3 class="mt-2 text-h6 font-weight-medium primary--text">
             {{ appName }}
           </h3>
@@ -13,27 +13,27 @@
               v-model="chartMenu"
               bottom
               left
+              nudge-bottom="5px"
               offset-y
               origin="top center"
               transition="scale-transition"
-              nudge-bottom="5px"
               z-index="4"
             >
               <template #activator="{ on }">
-                <v-btn text color="white" class="primary--text font-weight-medium px-2" v-on="on">
+                <v-btn class="primary--text font-weight-medium px-2" color="white" text v-on="on">
                   {{ selectVersionBind }}
                   <v-icon v-if="chartMenu" right> fas fa-angle-up </v-icon>
                   <v-icon v-else right> fas fa-angle-down </v-icon>
                 </v-btn>
               </template>
-              <v-data-iterator :items="[{ text: '版本', values: versions }]" hide-default-footer class="file-iterator">
+              <v-data-iterator class="file-iterator" hide-default-footer :items="[{ text: '版本', values: versions }]">
                 <template #no-data>
                   <v-card>
                     <v-card-text> 暂无版本 </v-card-text>
                   </v-card>
                 </template>
                 <template #default="props">
-                  <v-card max-height="300" class="app-overflow-y">
+                  <v-card class="app-overflow-y" max-height="300">
                     <v-list v-for="item in props.items" :key="item.text" dense>
                       <v-flex class="text-subtitle-2 text-center ma-2">
                         <span>版本</span>
@@ -84,7 +84,7 @@
                 {{ maintainer.name }}
               </span>
               <span v-if="maintainer.email" class="mr-2">
-                <v-icon small left>mdi-email</v-icon>
+                <v-icon left small>mdi-email</v-icon>
                 <a :href="`mailto:${maintainer.email}`">{{ maintainer.email }}</a>
               </span>
             </div>
@@ -99,19 +99,15 @@
   export default {
     name: 'AppInfo',
     props: {
+      appName: {
+        type: String,
+        default: () => '',
+      },
       currentApp: {
         type: Object,
         default: () => null,
       },
-      versions: {
-        type: Array,
-        default: () => [],
-      },
-      selectVersion: {
-        type: String,
-        default: () => '',
-      },
-      appName: {
+      selectRepo: {
         type: String,
         default: () => '',
       },
@@ -119,9 +115,13 @@
         type: Boolean,
         default: () => true,
       },
-      selectRepo: {
+      selectVersion: {
         type: String,
         default: () => '',
+      },
+      versions: {
+        type: Array,
+        default: () => [],
       },
     },
 

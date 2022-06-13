@@ -1,28 +1,28 @@
 <template>
-  <BaseDialog v-model="dialog" :width="500" title="节点GPU调度" icon="mdi-tag-plus" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-tag-plus" title="节点GPU调度" :width="500" @reset="reset">
     <template #content>
       <BaseSubTitle title="调度定义" />
       <v-card-text class="px-2 py-0">
         <v-list dense>
-          <v-list-item-group v-model="gpuSelected" multiple active-class="primary--text">
-            <v-list-item v-if="Plugins && Plugins['tke-gpu-manager']" link class="mb-3">
+          <v-list-item-group v-model="gpuSelected" active-class="primary--text" multiple>
+            <v-list-item v-if="Plugins && Plugins['tke-gpu-manager']" class="mb-3" link>
               <template #default="{ active }">
                 <v-list-item-action>
                   <v-checkbox hide-details :input-value="active" />
                 </v-list-item-action>
                 <v-list-item-icon class="mr-4">
-                  <BaseLogo :width="32" icon-name="tke" />
+                  <BaseLogo icon-name="tke" :width="32" />
                 </v-list-item-icon>
                 <v-list-item-content class="text-subtitle-1"> TKE GPU vcuda </v-list-item-content>
               </template>
             </v-list-item>
-            <v-list-item v-if="Plugins && Plugins['nvidia-device-plugin']" link class="mb-3">
+            <v-list-item v-if="Plugins && Plugins['nvidia-device-plugin']" class="mb-3" link>
               <template #default="{ active }">
                 <v-list-item-action>
                   <v-checkbox hide-details :input-value="active" />
                 </v-list-item-action>
                 <v-list-item-icon class="mr-4">
-                  <BaseLogo :width="32" icon-name="nvidia" />
+                  <BaseLogo icon-name="nvidia" :width="32" />
                 </v-list-item-icon>
                 <v-list-item-content class="text-subtitle-1"> Nvidia GPU驱动 </v-list-item-content>
               </template>
@@ -32,13 +32,14 @@
       </v-card-text>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="gpuSchedule"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="gpuSchedule"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapState } from 'vuex';
+
   import { patchMetadataNode } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';

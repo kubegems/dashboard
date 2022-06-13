@@ -3,16 +3,16 @@
     id="main-sidebar"
     ref="sidebar"
     v-model="SidebarDrawer"
-    :dark="SidebarColor !== 'white'"
-    :color="SidebarColor"
-    mobile-breakpoint="960"
-    mini-variant-width="64"
-    clipped
-    :expand-on-hover="expandOnHover"
-    :mini-variant.sync="mini"
-    width="200"
     app
+    clipped
+    :color="SidebarColor"
+    :dark="SidebarColor !== 'white'"
+    :expand-on-hover="expandOnHover"
     height="100%"
+    :mini-variant.sync="mini"
+    mini-variant-width="64"
+    mobile-breakpoint="960"
+    width="200"
     @transitionend="transitionend"
     @update:mini-variant="updateSidebar"
   >
@@ -31,10 +31,10 @@
           </v-list-item-content>
           <v-list-item-action>
             <v-btn v-if="!expand" icon>
-              <v-icon small color="primary lighten-1"> fas fa-angle-down </v-icon>
+              <v-icon color="primary lighten-1" small> fas fa-angle-down </v-icon>
             </v-btn>
             <v-btn v-else icon>
-              <v-icon small color="primary lighten-1"> fas fa-angle-up </v-icon>
+              <v-icon color="primary lighten-1" small> fas fa-angle-up </v-icon>
             </v-btn>
           </v-list-item-action>
         </v-list-item>
@@ -42,13 +42,13 @@
     </v-list>
 
     <v-expand-transition>
-      <v-list v-show="expand" id="expand_list" dense class="ma-0 pa-0">
+      <v-list v-show="expand" id="expand_list" class="ma-0 pa-0" dense>
         <v-list-item-group color="primary">
           <v-list-item
             v-for="item in modules"
             :key="item.value"
-            exact
             :class="item.value === module.value ? `px-9 primary` : `px-9`"
+            exact
             :style="item.value === module.value ? `color: white !important;` : `color: rgba(0, 0, 0, 0.7) !important;`"
             @click="switchModule(item)"
           >
@@ -65,17 +65,17 @@
 
     <v-divider />
 
-    <v-list expand nav class="mt-0" dense :style="`max-height: ${height}px;overflow-y: auto;`">
+    <v-list class="mt-0" dense expand nav :style="`max-height: ${height}px;overflow-y: auto;`">
       <template v-for="(item, i) in items">
         <template v-if="required(item.meta.required)">
           <!---If Sidebar Caption -->
           <v-row v-if="item.meta.header" :key="item.meta.header" align="center" class="py-2">
-            <v-col cols="12" class="pa-1">
+            <v-col class="pa-1" cols="12">
               <v-subheader v-if="item.meta.header && (!expandOnHover || mouseovered)" class="text-truncate">
                 {{ item.meta.header }}
               </v-subheader>
               <v-subheader v-else class="text-truncate">
-                <v-icon x-small class="dot"> mdi-stop </v-icon>
+                <v-icon class="dot" x-small> mdi-stop </v-icon>
               </v-subheader>
             </v-col>
           </v-row>
@@ -92,6 +92,7 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import { SIDEBAR_ITEMS } from './sidebar_items.js';
 
   export default {

@@ -1,6 +1,6 @@
 <template>
   <v-card class="kubegems__h-24">
-    <BaseSubTitle title="告警历史趋势" :divider="false" />
+    <BaseSubTitle :divider="false" title="告警历史趋势" />
     <div style="height: 100%; width: 100%">
       <VueApexCharts
         :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
@@ -13,12 +13,12 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
-  import VueApexCharts from 'vue-apexcharts';
   import moment from 'moment';
-  import { toFixed } from '@/utils/helpers';
+  import VueApexCharts from 'vue-apexcharts';
+  import { mapState } from 'vuex';
 
   import { getAlertGraph } from '@/api';
+  import { toFixed } from '@/utils/helpers';
 
   export default {
     name: 'AlertHistoryLine',

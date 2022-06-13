@@ -5,8 +5,8 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :filters="filters"
           :default="{ items: [], text: '容器组名称', value: 'search' }"
+          :filters="filters"
           @refresh="m_filter_list"
         />
         <NamespaceFilter />
@@ -14,13 +14,13 @@
         <v-menu v-if="m_permisson_resourceAllow" left>
           <template #activator="{ on }">
             <v-btn icon>
-              <v-icon small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+              <v-icon color="primary" small v-on="on"> fas fa-ellipsis-v </v-icon>
             </v-btn>
           </template>
           <v-card>
             <v-card-text class="pa-2">
               <v-flex>
-                <v-btn text color="error" @click="m_table_batchRemoveResource('容器组', 'Pod', podList)">
+                <v-btn color="error" text @click="m_table_batchRemoveResource('容器组', 'Pod', podList)">
                   <v-icon left>mdi-minus-box</v-icon>
                   删除容器组
                 </v-btn>
@@ -32,27 +32,27 @@
       <v-data-table
         class="mx-4 kubegems__table-row-pointer"
         :headers="headers"
+        hide-default-footer
+        item-key="metadata.uid"
         :items="items"
-        :page.sync="params.page"
         :items-per-page="params.size"
         no-data-text="暂无数据"
-        hide-default-footer
-        show-select
+        :page.sync="params.page"
         show-expand
-        item-key="metadata.name"
+        show-select
         single-expand
+        @click:row="onRowClick"
+        @toggle-select-all="m_table_onResourceToggleSelect"
         @update:sort-by="m_table_sortBy"
         @update:sort-desc="m_table_sortDesc"
-        @toggle-select-all="m_table_onResourceToggleSelect"
-        @click:row="onRowClick"
       >
         <template #[`item.data-table-select`]="{ item, index }">
           <v-checkbox
             v-model="m_table_batchResources[`${item.metadata.name}-${index}`].checked"
             color="primary"
             hide-details
-            @click.stop
             @change="m_table_onResourceChange($event, item, index)"
+            @click.stop
           />
         </template>
         <template #[`item.name`]="{ item }">
@@ -65,7 +65,7 @@
         </template>
         <template #[`item.status`]="{ item, index }">
           <v-flex :id="`e${item.metadata.resourceVersion}`" />
-          <EventTip kind="Pod" :item="item" :top="params.size - index <= 5 || (items.length <= 5 && index >= 1)">
+          <EventTip :item="item" kind="Pod" :top="params.size - index <= 5 || (items.length <= 5 && index >= 1)">
             <template #trigger>
               <span
                 :class="`v-avatar mr-2 ${
@@ -114,15 +114,15 @@
             {{ item.LatestCpu ? item.LatestCpu : 0 }}
           </v-flex>
           <v-sparkline
-            :value="item.CpuUsed ? item.CpuUsed : []"
-            type="trend"
             auto-draw
-            auto-line-width
-            smooth
-            :line-width="5"
-            fill
             :auto-draw-duration="200"
+            auto-line-width
             color="rgba(29, 136, 229, 0.6)"
+            fill
+            :line-width="5"
+            smooth
+            type="trend"
+            :value="item.CpuUsed ? item.CpuUsed : []"
           />
         </template>
         <template #[`item.memory`]="{ item }">
@@ -130,19 +130,19 @@
             {{ item.LatestMemory ? item.LatestMemory : 0 }}
           </v-flex>
           <v-sparkline
-            :value="item.MemoryUsed ? item.MemoryUsed : []"
-            type="trend"
             auto-draw
-            auto-line-width
-            smooth
-            :line-width="5"
-            fill
             :auto-draw-duration="200"
+            auto-line-width
             color="rgba(29, 136, 229, 0.6)"
+            fill
+            :line-width="5"
+            smooth
+            type="trend"
+            :value="item.MemoryUsed ? item.MemoryUsed : []"
           />
         </template>
         <template #expanded-item="{ headers, item }">
-          <td :colspan="headers.length" class="my-2 py-2">
+          <td class="my-2 py-2" :colspan="headers.length">
             <ContainerItems
               :container-statuses="item && item.status ? item.status.containerStatuses : []"
               :containers="item && item.spec.containers"
@@ -152,16 +152,16 @@
         </template>
         <template #[`item.action`]="{ item }">
           <v-flex :id="`r${item.metadata.resourceVersion}`" />
-          <v-menu left :attach="`#r${item.metadata.resourceVersion}`">
+          <v-menu :attach="`#r${item.metadata.resourceVersion}`" left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
               </v-btn>
             </template>
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="error" text small @click.stop="removePod(item)"> 删除 </v-btn>
+                  <v-btn color="error" small text @click.stop="removePod(item)"> 删除 </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -173,9 +173,9 @@
         v-model="params.page"
         :page-count="pageCount"
         :size="params.size"
-        @loaddata="podList"
-        @changesize="onPageSizeChange"
         @changepage="onPageIndexChange"
+        @changesize="onPageSizeChange"
+        @loaddata="podList"
       />
     </v-card>
   </v-container>
@@ -183,26 +183,28 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import ContainerItems from './components/ContainerItems';
+
   import { getPodList, deletePod } from '@/api';
-  import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
-  import EventTip from '@/views/resource/components/common/EventTip';
   import BaseFilter from '@/mixins/base_filter';
-  import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
   import BaseTable from '@/mixins/table';
-  import { POD_CPU_USAGE_PROMQL, POD_MEMORY_USAGE_PROMQL } from '@/utils/prometheus';
   import { beautifyCpuUnit, beautifyStorageUnit } from '@/utils/helpers';
   import { stringifySelector } from '@/utils/k8s_selector';
+  import { POD_CPU_USAGE_PROMQL, POD_MEMORY_USAGE_PROMQL } from '@/utils/prometheus';
+  import EventTip from '@/views/resource/components/common/EventTip';
+  import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
 
   export default {
     name: 'Pod',
     components: {
-      NamespaceFilter,
-      EventTip,
       ContainerItems,
+      EventTip,
+      NamespaceFilter,
     },
-    mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
+    mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],
     data: () => ({
       items: [],
       pageCount: 0,

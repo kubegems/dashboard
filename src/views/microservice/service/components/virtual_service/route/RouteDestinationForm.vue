@@ -1,5 +1,5 @@
 <template>
-  <v-form v-model="valid" lazy-validation class="my-2" @submit.prevent>
+  <v-form v-model="valid" class="my-2" lazy-validation @submit.prevent>
     <v-flex :class="expand ? 'kubegems__overlay' : ''" />
     <v-expand-transition>
       <v-card v-show="expand" class="my-2 pa-2 kubegems__expand-transition" :elevation="4">
@@ -10,14 +10,14 @@
                 <span>路由策略</span>
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
-                <v-text-field v-model="obj.weight" class="my-0" required label="weight" type="number" />
+                <v-text-field v-model="obj.weight" class="my-0" label="weight" required type="number" />
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-text-field
                   v-model="obj.destination.host"
                   class="my-0"
-                  required
                   label="host"
+                  required
                   :rules="objRules.hostRule"
                 />
               </v-flex>
@@ -29,10 +29,10 @@
                 <span />
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
-                <v-text-field v-model="obj.destination.subset" class="my-0" required label="subset" />
+                <v-text-field v-model="obj.destination.subset" class="my-0" label="subset" required />
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
-                <v-text-field v-model="obj.destination.port" class="my-0" required label="port" type="number" />
+                <v-text-field v-model="obj.destination.port" class="my-0" label="port" required type="number" />
               </v-flex>
               <div class="kubegems__clear-float" />
             </v-sheet>
@@ -40,8 +40,8 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn text small color="error" @click="closeCard"> 取消 </v-btn>
-          <v-btn text small color="primary" @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
+          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -49,7 +49,7 @@
       <v-list-item two-line>
         <v-list-item-content class="py-2">
           <v-list-item-subtitle class="text-body-2 py-0">
-            <v-list-item two-line class="float-left pa-0 kubegems__three-width">
+            <v-list-item class="float-left pa-0 kubegems__three-width" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{ route.destination.host }}
@@ -57,7 +57,7 @@
                 <v-list-item-subtitle class="text-body-2 py-1"> host </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item two-line class="float-left pa-0 kubegems__three-width">
+            <v-list-item class="float-left pa-0 kubegems__three-width" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{ route.destination.subset }}
@@ -65,7 +65,7 @@
                 <v-list-item-subtitle class="text-body-2 py-1"> subset </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item two-line class="float-left pa-0 kubegems__three-width">
+            <v-list-item class="float-left pa-0 kubegems__three-width" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{ route.destination.port ? route.destination.port.number : '' }}
@@ -73,7 +73,7 @@
                 <v-list-item-subtitle class="text-body-2 py-1"> port </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item two-line class="float-left pa-0 kubegems__three-width">
+            <v-list-item class="float-left pa-0 kubegems__three-width" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{ route.weight }}
@@ -84,10 +84,10 @@
           </v-list-item-subtitle>
           <div class="kubegems__clear-float" />
         </v-list-item-content>
-        <v-btn dark text fab right x-small color="primary" @click="updateData(index)">
+        <v-btn color="primary" dark fab right text x-small @click="updateData(index)">
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
-        <v-btn dark text fab right x-small color="error" @click="removeData(index)">
+        <v-btn color="error" dark fab right text x-small @click="removeData(index)">
           <v-icon>mdi-delete</v-icon>
         </v-btn>
       </v-list-item>
@@ -96,7 +96,7 @@
       <v-list-item two-line>
         <v-list-item-content class="py-2">
           <v-list-item-subtitle class="text-body-2 py-0 text-center">
-            <v-btn text color="primary" @click="expandCard">
+            <v-btn color="primary" text @click="expandCard">
               <v-icon left small> mdi-plus </v-icon>
               添加路由策略
             </v-btn>

@@ -1,10 +1,10 @@
 <template>
   <v-row :style="`height: ${height}px !important`">
-    <v-col lg="7" class="info d-none d-md-flex align-center justify-start">
+    <v-col class="info d-none d-md-flex align-center justify-start" lg="7">
       <div :style="{ paddingLeft: '100px' }">
         <h2 class="text-h4 white--text font-weight-medium">
           <v-flex class="float-left">
-            <v-img src="/logo.svg" width="250" contain />
+            <v-img contain src="/logo.svg" width="250" />
           </v-flex>
           <v-flex class="float-left ml-2 font"> 容器云平台 </v-flex>
           <div class="kubegems__clear-float" />
@@ -16,48 +16,48 @@
         </div>
       </div>
     </v-col>
-    <v-col cols="12" lg="5" class="d-flex align-center" style="position: relative">
+    <v-col class="d-flex align-center" cols="12" lg="5" style="position: relative">
       <v-container>
         <div class="pa-7 pa-sm-12">
           <v-row>
-            <v-col cols="12" lg="9" xl="6" class="login">
+            <v-col class="login" cols="12" lg="9" xl="6">
               <h2 class="font-weight-bold mt-4 blue-grey--text text--darken-2">
                 用户登录
-                <v-btn v-if="ldap" class="float-right mt-1" color="primary" text small @click="toDefaultLogin">
+                <v-btn v-if="ldap" class="float-right mt-1" color="primary" small text @click="toDefaultLogin">
                   返回
                 </v-btn>
                 <div class="kubegems__clear-float" />
               </h2>
-              <v-form ref="loginForm" v-model="valid" lazy-validation action="/">
+              <v-form ref="loginForm" v-model="valid" action="/" lazy-validation>
                 <v-text-field
                   v-model="username"
-                  :rules="usernameRules"
-                  label="用户名"
                   class="mt-4"
-                  required
+                  label="用户名"
                   outlined
+                  required
+                  :rules="usernameRules"
                   @keyup.enter="login(source)"
                 />
                 <v-text-field
                   v-model="password"
-                  :counter="20"
-                  :rules="passwordRules"
-                  label="密码"
-                  required
-                  outlined
                   :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                  :counter="20"
+                  label="密码"
+                  outlined
+                  required
+                  :rules="passwordRules"
                   :type="show ? 'text' : 'password'"
                   @click:append="show = !show"
                   @keyup.enter="login(source)"
                 />
 
                 <v-btn
-                  :disabled="!valid"
-                  color="info"
                   block
                   class="mr-4"
-                  submit
+                  color="info"
+                  :disabled="!valid"
                   :loading="Circular"
+                  submit
                   @click="login(source)"
                 >
                   {{ ldap ? $VENDOR[vendor] : '' }} 登录
@@ -69,18 +69,18 @@
                   <v-avatar
                     v-for="(item, index) in enableOauthItems"
                     :key="index"
-                    left
-                    width="40"
-                    min-width="40"
-                    height="40"
                     class="mr-3 kubegems__pointer"
+                    height="40"
+                    left
+                    min-width="40"
+                    width="40"
                     @click="oauth(item)"
                   >
                     <BaseLogo
                       class="primary--text logo-margin"
                       :icon-name="item.vendor.toLowerCase()"
-                      :width="40"
                       :ml="0"
+                      :width="40"
                     />
                   </v-avatar>
                 </div>
@@ -98,15 +98,16 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import { postLogin, getLoginUserInfo, getLoginUserAuth, getOauthAddr, getSystemAuthSource } from '@/api';
-  import BaseSelect from '@/mixins/select';
   import BasePermission from '@/mixins/permission';
+  import BaseSelect from '@/mixins/select';
   import { validateJWT } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'Login',
-    mixins: [BaseSelect, BasePermission],
+    mixins: [BasePermission, BaseSelect],
     data: () => ({
       valid: true,
       password: '',

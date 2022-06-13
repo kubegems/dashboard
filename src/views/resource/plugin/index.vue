@@ -4,7 +4,7 @@
     <BaseBreadcrumb />
     <v-card>
       <v-card-text class="pa-3">
-        <v-tabs v-model="tab" height="30" class="rounded-t">
+        <v-tabs v-model="tab" class="rounded-t" height="30">
           <v-tab v-for="item in tabItems" :key="item.value">
             {{ item.text }}
           </v-tab>
@@ -17,11 +17,11 @@
         {{ key }}
       </v-flex>
       <v-row class="mt-3">
-        <v-col v-for="(plugin, index) in plugins" :key="index" cols="3" class="pt-0">
+        <v-col v-for="(plugin, index) in plugins" :key="index" class="pt-0" cols="3">
           <v-hover #default="{ hover }">
-            <v-card class="mx-auto plugins-pos" height="180px" :elevation="hover ? 5 : 0">
+            <v-card class="mx-auto plugins-pos" :elevation="hover ? 5 : 0" height="180px">
               <v-list-item three-line>
-                <v-list-item-avatar tile size="80">
+                <v-list-item-avatar size="80" tile>
                   <BaseLogo :icon-name="plugin.name" :width="60" />
                 </v-list-item-avatar>
                 <v-list-item-content>
@@ -36,10 +36,10 @@
                   <v-list-item-subtitle v-if="!plugin.skip && plugin.enabled" class="text-body-2 text--lighten-4">
                     状态：
                     <template v-if="plugin.enabled && !plugin.healthy">
-                      <v-progress-circular size="16" :width="3" indeterminate color="warning" />
+                      <v-progress-circular color="warning" indeterminate size="16" :width="3" />
                     </template>
-                    <v-icon v-else-if="plugin.healthy" small color="success"> fas fa-check-circle </v-icon>
-                    <v-icon v-else small color="error"> fas fa-times-circle </v-icon>
+                    <v-icon v-else-if="plugin.healthy" color="success" small> fas fa-check-circle </v-icon>
+                    <v-icon v-else color="error" small> fas fa-times-circle </v-icon>
                     <div class="kubegems__clear-float" />
                   </v-list-item-subtitle>
                 </v-list-item-content>
@@ -52,29 +52,29 @@
                       版本：{{ plugin.version }}
                       <v-menu
                         v-if="innerPlugins[plugin.name] && innerPlugins[plugin.name] !== plugin.version"
-                        top
-                        right
-                        offset-y
-                        origin="bottom center"
-                        transition="scale-transition"
-                        nudge-bottom="-5px"
                         :attach="`#${plugin.name}-${index}`"
-                        open-on-hover
                         :close-delay="200"
                         max-width="250px"
+                        nudge-bottom="-5px"
+                        offset-y
+                        open-on-hover
+                        origin="bottom center"
+                        right
+                        top
+                        transition="scale-transition"
                       >
                         <template #activator="{ on }">
-                          <v-icon small color="warning" right v-on="on"> fas fa-arrow-alt-circle-up </v-icon>
+                          <v-icon color="warning" right small v-on="on"> fas fa-arrow-alt-circle-up </v-icon>
                         </template>
                         <v-card>
-                          <v-list dense class="pa-0">
+                          <v-list class="pa-0" dense>
                             <v-flex class="text-body-2 text-center primary white--text py-2">
                               <v-icon color="white" left small> mdi-vimeo </v-icon>
                               <span>版本</span>
                             </v-flex>
                             <v-list-item>
                               <v-list-item-content>
-                                <v-list-item two-line class="float-left pa-0">
+                                <v-list-item class="float-left pa-0" two-line>
                                   <v-list-item-content class="py-0">
                                     <v-list-item-title> 最新版本 </v-list-item-title>
                                     <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
@@ -93,15 +93,15 @@
                 <v-flex class="float-right">
                   <v-btn
                     v-if="plugin.enabled"
-                    small
                     :color="getStatus(plugin).color"
                     :disabled="plugin.enabled && plugin.required"
+                    small
                     :text="!plugin.required || (plugin.enabled && !plugin.healthy)"
                     @click="disablePlugin(plugin)"
                   >
                     {{ getStatus(plugin).text }}
                   </v-btn>
-                  <v-btn v-else-if="!plugin.skip" text small color="primary" @click="enablePlugin(plugin)">
+                  <v-btn v-else-if="!plugin.skip" color="primary" small text @click="enablePlugin(plugin)">
                     启用
                   </v-btn>
                 </v-flex>
@@ -121,13 +121,14 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import { getClusterPluginsList, postEnablePlugin, postDisablePlugin, getPlatformVersion } from '@/api';
-  import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'Plugin',
-    mixins: [BaseResource, BasePermission],
+    mixins: [BasePermission, BaseResource],
     data: () => ({
       tab: 0,
       tabItems: [

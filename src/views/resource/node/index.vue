@@ -5,8 +5,8 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :filters="filters"
           :default="{ items: [], text: '节点名称', value: 'search' }"
+          :filters="filters"
           @refresh="m_filter_list"
         />
         <v-spacer />
@@ -15,11 +15,11 @@
         class="mx-4"
         disable-sort
         :headers="headers"
+        hide-default-footer
         :items="items"
-        :page.sync="params.page"
         :items-per-page="params.size"
         no-data-text="暂无数据"
-        hide-default-footer
+        :page.sync="params.page"
       >
         <template #[`item.name`]="{ item }">
           <a class="text-subtitle-2" @click="nodeDetail(item)">
@@ -34,7 +34,7 @@
               "
               class="float-left ml-2"
             >
-              <v-menu top open-on-hover :close-delay="200" nudge-bottom="7px">
+              <v-menu :close-delay="200" nudge-bottom="7px" open-on-hover top>
                 <template #activator="{ on }">
                   <span v-on="on">
                     <BaseLogo icon-name="tke" />
@@ -53,7 +53,7 @@
               "
               class="float-left ml-2"
             >
-              <v-menu top open-on-hover :close-delay="200" nudge-bottom="7px">
+              <v-menu :close-delay="200" nudge-bottom="7px" open-on-hover top>
                 <template #activator="{ on }">
                   <span v-on="on">
                     <BaseLogo icon-name="nvidia" />
@@ -69,6 +69,8 @@
         </template>
         <template #[`item.status`]="{ item }">
           <v-avatar
+            class="mr-2"
+            size="10"
             :style="`background-color: ${
               getStatus(item.status.conditions).join(',') === 'Ready'
                 ? '#00BCD4'
@@ -76,8 +78,6 @@
                 ? '#607D8B'
                 : '#ff5252'
             };`"
-            class="mr-2"
-            size="10"
           >
             <span class="white--text text-h5" />
           </v-avatar>
@@ -91,9 +91,9 @@
           / {{ item.status.capacity.pods }}
           <v-progress-linear
             class="rounded font-weight-medium"
-            :value="item.podPercentage"
-            height="15"
             :color="getColor(item.podPercentage)"
+            height="15"
+            :value="item.podPercentage"
           >
             <span class="white--text"> {{ item.podPercentage }}% </span>
           </v-progress-linear>
@@ -109,9 +109,9 @@
           {{ item.status.capacity.cpu }}
           <v-progress-linear
             class="rounded font-weight-medium"
-            :value="item.cpuPercentage"
-            height="15"
             :color="getColor(item.cpuPercentage)"
+            height="15"
+            :value="item.cpuPercentage"
           >
             <span class="white--text"> {{ item.cpuPercentage }}% </span>
           </v-progress-linear>
@@ -122,9 +122,9 @@
           Gi
           <v-progress-linear
             class="rounded font-weight-medium"
-            :value="item.memoryPercentage"
-            height="15"
             :color="getColor(item.memoryPercentage)"
+            height="15"
+            :value="item.memoryPercentage"
           >
             <span class="white--text"> {{ item.memoryPercentage }}% </span>
           </v-progress-linear>
@@ -136,10 +136,10 @@
           <v-chip
             v-for="(val, index) in getDistinctTaints(item.spec.taints)"
             :key="index"
-            color="success"
-            text-color="white"
             class="ma-1 font-weight-medium"
+            color="success"
             small
+            text-color="white"
           >
             {{ val }}
           </v-chip>
@@ -157,22 +157,22 @@
         </template>
         <template #[`item.action`]="{ item }">
           <v-flex :id="`r${item.metadata.resourceVersion}`" />
-          <v-menu left :attach="`#r${item.metadata.resourceVersion}`">
+          <v-menu :attach="`#r${item.metadata.resourceVersion}`" left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
               </v-btn>
             </template>
             <v-card>
               <v-card-text class="pa-2 text-center">
                 <v-flex v-if="Plugins && (Plugins['tke-gpu-manager'] || Plugins['nvidia-device-plugin'])">
-                  <v-btn color="primary" text small @click="gpuSchedule(item)"> GPU调度 </v-btn>
+                  <v-btn color="primary" small text @click="gpuSchedule(item)"> GPU调度 </v-btn>
                 </v-flex>
                 <v-flex v-if="item.spec.unschedulable">
-                  <v-btn color="primary" text small @click="allowSchedule(item)"> 允许调度 </v-btn>
+                  <v-btn color="primary" small text @click="allowSchedule(item)"> 允许调度 </v-btn>
                 </v-flex>
                 <v-flex v-else>
-                  <v-btn color="error" text small @click="stopSchedule(item)"> 停止调度 </v-btn>
+                  <v-btn color="error" small text @click="stopSchedule(item)"> 停止调度 </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -185,9 +185,9 @@
         v-model="params.page"
         :page-count="pageCount"
         :size="params.size"
-        @loaddata="nodeList"
-        @changesize="onPageSizeChange"
         @changepage="onPageIndexChange"
+        @changesize="onPageSizeChange"
+        @loaddata="nodeList"
       />
     </v-card>
 
@@ -197,25 +197,27 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import GpuScheduleForm from './components/GpuScheduleForm';
+
   import { getNodeList, patchCordonNode } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
-  import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
+  import { convertStrToNum, sizeOfStorage } from '@/utils/helpers';
   import {
     NODE_LOAD_PROMQL,
     NODE_ALL_CPU_USAGE_PROMQL,
     NODE_ALL_MEMORY_USAGE_PROMQL,
     NODE_POD_RUNNING_COUNT_PROMQL,
   } from '@/utils/prometheus';
-  import { convertStrToNum, sizeOfStorage } from '@/utils/helpers';
 
   export default {
     name: 'Node',
     components: {
       GpuScheduleForm,
     },
-    mixins: [BaseFilter, BaseResource, BasePermission],
+    mixins: [BaseFilter, BasePermission, BaseResource],
     data: () => ({
       items: [],
       headers: [

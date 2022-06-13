@@ -11,10 +11,10 @@
               <ACEEditor
                 v-model="tls['tls.crt']"
                 :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded`"
+                height="200"
                 lang="yaml"
                 :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
                 theme="chrome"
-                height="200"
                 @init="$aceinit"
                 @keydown.stop
               />
@@ -29,10 +29,10 @@
               <ACEEditor
                 v-model="tls['tls.key']"
                 :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded mb-4`"
+                height="200"
                 lang="yaml"
                 :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
                 theme="chrome"
-                height="200"
                 @init="$aceinit"
                 @keydown.stop
               />
@@ -42,8 +42,8 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn text small color="error" @click="closeCard"> 取消 </v-btn>
-          <v-btn text small color="primary" @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
+          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -51,8 +51,9 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
   import { Base64 } from 'js-base64';
+  import { mapState } from 'vuex';
+
   import { deepCopy } from '@/utils/helpers';
 
   export default {

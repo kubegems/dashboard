@@ -40,39 +40,39 @@
         type: [Array, Object, String],
         default: () => [],
       },
+      color: {
+        type: String,
+        default: 'success',
+      },
       count: {
         type: Number,
         default: 1,
-      },
-      itemValue: {
-        type: String,
-        default: 'value',
-      },
-      itemText: {
-        type: String,
-        default: 'text',
       },
       delimiter: {
         type: String,
         default: ',',
       },
-      color: {
+      emptyText: {
         type: String,
-        default: 'success',
+        default: '',
+      },
+      icon: {
+        type: String,
+        default: undefined,
+      },
+      itemText: {
+        type: String,
+        default: 'text',
+      },
+      itemValue: {
+        type: String,
+        default: 'value',
       },
       maxWidth: {
         type: String,
         default: undefined,
       },
       singleLine: Boolean,
-      icon: {
-        type: String,
-        default: undefined,
-      },
-      emptyText: {
-        type: String,
-        default: '',
-      },
     },
     data() {
       return {

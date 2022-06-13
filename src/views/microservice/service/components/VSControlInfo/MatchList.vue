@@ -1,5 +1,5 @@
 <template>
-  <v-data-table disable-sort :headers="headers" :items="items" no-data-text="暂无数据" hide-default-footer>
+  <v-data-table disable-sort :headers="headers" hide-default-footer :items="items" no-data-text="暂无数据">
     <template #[`item.rule`]="{ item }">
       <v-flex v-for="(v, k) in item.rule" :key="k"> {{ k }} => {{ v }} </v-flex>
     </template>

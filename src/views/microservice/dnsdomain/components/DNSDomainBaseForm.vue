@@ -7,8 +7,8 @@
           <v-text-field
             v-model="obj.VirtualDomainName"
             class="my-0"
-            required
             label="DNS"
+            required
             :rules="objRules.virtualDomainNameRules"
           />
         </v-sheet>
@@ -19,6 +19,7 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import BaseResource from '@/mixins/resource';
   import { required } from '@/utils/rules';
 

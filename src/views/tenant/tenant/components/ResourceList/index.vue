@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-text>
-      <BaseSubTitle title="资源分配" :pl="0" :divider="false">
+      <BaseSubTitle :divider="false" :pl="0" title="资源分配">
         <template #header>
           <span>
             <span class="ma-2 text-caption grey--text">
@@ -22,7 +22,7 @@
           </span>
         </template>
         <template #action>
-          <v-btn small text color="primary" class="float-right mr-2" @click="addResource">
+          <v-btn class="float-right mr-2" color="primary" small text @click="addResource">
             <v-icon left small> mdi-server-plus </v-icon>
             添加集群资源
           </v-btn>
@@ -31,21 +31,21 @@
       <v-data-table
         disable-sort
         :headers="headers"
+        hide-default-footer
         :items="items"
-        :page.sync="params.page"
         :items-per-page="params.size"
         no-data-text="暂无数据"
-        hide-default-footer
+        :page.sync="params.page"
       >
         <template #[`item.clusterName`]="{ item }">
           <v-flex class="float-left resource__tr">
             {{ item.Cluster.ClusterName }}
           </v-flex>
           <v-flex v-if="item.TkeGpu" class="float-left ml-2 resource__icon">
-            <GpuTip type="tke" :item="item" :allocated="false" />
+            <GpuTip :allocated="false" :item="item" type="tke" />
           </v-flex>
           <v-flex v-if="item.NvidiaGpu" class="float-left ml-2 resource__icon">
-            <GpuTip type="nvidia" :item="item" :allocated="false" />
+            <GpuTip :allocated="false" :item="item" type="nvidia" />
           </v-flex>
         </template>
         <template #[`item.cpu`]="{ item }"> {{ item.Cpu }} core </template>
@@ -53,22 +53,22 @@
         <template #[`item.storage`]="{ item }"> {{ item.Storage }} Gi </template>
         <template #[`item.action`]="{ item }">
           <v-flex :id="`l${item.ID}`" />
-          <v-menu left :attach="`#l${item.ID}`">
+          <v-menu :attach="`#l${item.ID}`" left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
               </v-btn>
             </template>
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" text small @click="scaleResource(item)"> 资源调整 </v-btn>
+                  <v-btn color="primary" small text @click="scaleResource(item)"> 资源调整 </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="primary" text small @click="tenantMonitor(item)"> 资源监控 </v-btn>
+                  <v-btn color="primary" small text @click="tenantMonitor(item)"> 资源监控 </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" text small @click="recycleTenantResourceQuota(item)"> 回收集群 </v-btn>
+                  <v-btn color="error" small text @click="recycleTenantResourceQuota(item)"> 回收集群 </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -80,9 +80,9 @@
         v-model="params.page"
         :page-count="pageCount"
         :size="params.size"
-        @loaddata="tenantResourceQuotaList"
-        @changesize="onClusterPageSizeChange"
         @changepage="onClusterPageIndexChange"
+        @changesize="onClusterPageSizeChange"
+        @loaddata="tenantResourceQuotaList"
       />
     </v-card-text>
 
@@ -94,19 +94,20 @@
 
 <script>
   import AddResource from './AddResource';
-  import TenantMonitor from './TenantMonitor';
   import ScaleResource from './ScaleResource';
+  import TenantMonitor from './TenantMonitor';
+
   import { getTenantResourceQuotaList, deleteTenantResourceQuota } from '@/api';
-  import GpuTip from '@/views/resource/components/common/GpuTip';
   import { sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
+  import GpuTip from '@/views/resource/components/common/GpuTip';
 
   export default {
     name: 'ResourceList',
     components: {
       AddResource,
-      TenantMonitor,
-      ScaleResource,
       GpuTip,
+      ScaleResource,
+      TenantMonitor,
     },
     props: {
       tenant: {

@@ -3,38 +3,38 @@
     <v-textarea
       ref="advanceTextarea"
       v-model="ql"
-      dense
       auto-grow
       clearable
-      rows="5"
+      dense
       hide-details
-      @focus.stop="focusInput"
+      rows="5"
       @blur.stop="blurInput"
-      @keyup="onSuggestionInput"
       @click:clear="clearInput"
+      @focus.stop="focusInput"
+      @keyup="onSuggestionInput"
     >
       <template #append>
-        <v-btn small color="primary" text @click.stop="addAlertRule"> 生成告警 </v-btn>
+        <v-btn color="primary" small text @click.stop="addAlertRule"> 生成告警 </v-btn>
       </template>
     </v-textarea>
     <v-data-table
       v-if="suggestShow"
-      disable-sort
-      :headers="headers"
-      :items="filterItems"
-      :loading="loading"
-      :search="keyword"
+      class="suggestion-table kubegems__table-row-pointer"
       :custom-filter="filterKeyword"
-      :style="`top: ${suggestTop}px;`"
-      loading-text="载入中..."
-      item-key="item.value"
       dense
       disable-pagination
-      hide-default-header
+      disable-sort
+      :headers="headers"
       hide-default-footer
+      hide-default-header
+      item-key="item.value"
+      :items="filterItems"
+      :loading="loading"
+      loading-text="载入中..."
       no-data-text="暂无提示"
       no-results-text="无匹配"
-      class="suggestion-table kubegems__table-row-pointer"
+      :search="keyword"
+      :style="`top: ${suggestTop}px;`"
       @click:row="selectComplete"
     >
       <template #[`item.item`]="{ item }">
@@ -42,7 +42,7 @@
       </template>
     </v-data-table>
 
-    <AddAlertRule ref="addAlertRule" mode="logging" :expr="ql" />
+    <AddAlertRule ref="addAlertRule" :expr="ql" mode="logging" />
   </div>
 </template>
 
@@ -56,13 +56,13 @@
       AddAlertRule,
     },
     props: {
-      logQL: {
-        type: String,
-        default: () => '',
-      },
       cluster: {
         type: Object,
         default: () => ({}),
+      },
+      logQL: {
+        type: String,
+        default: () => '',
       },
     },
     data: () => ({

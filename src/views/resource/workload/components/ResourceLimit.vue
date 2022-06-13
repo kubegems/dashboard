@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog v-model="dialog" :width="800" :title="title" icon="mdi-rocket" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-rocket" :title="title" :width="800" @reset="reset">
     <template #content>
       <v-card v-if="adviseItem && item" flat>
         <v-card-text v-for="obj in item.spec.template.spec.containers" :key="obj.name" class="pa-0 mb-8">
@@ -7,11 +7,11 @@
             <BaseSubTitle :title="`容器:${obj.name}`" />
             <v-alert
               border="left"
-              colored-border
-              rounded="0"
               class="mt-3 mx-2 text-body-2 py-4"
               :color="`${adviseItem.Color === 'red' ? 'error' : 'warning'}`"
+              colored-border
               elevation="1"
+              rounded="0"
             >
               {{ getAdviseShow(obj) }}
             </v-alert>
@@ -21,22 +21,22 @@
                 v-if="sliderItems[obj.name]"
                 :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} pt-1 px-4 mt-6`"
               >
-                <vue-slider
+                <VueSlider
                   v-model="sliderItems[obj.name].cpu.value"
-                  :max="sliderItems[obj.name].cpu.max"
                   :adsorb="true"
                   :enable-cross="false"
-                  :tooltip="'always'"
-                  :marks="sliderItems[obj.name].cpu.marks"
-                  process-style="background-color:#3498db"
                   :interval="sliderItems[obj.name].cpu.interval"
+                  :marks="sliderItems[obj.name].cpu.marks"
+                  :max="sliderItems[obj.name].cpu.max"
+                  process-style="background-color:#3498db"
+                  :tooltip="'always'"
                 >
                   <template #tooltip="props">
                     <div class="tooltip">
                       <span>{{ getUnitValue(props.value, sliderItems[obj.name].cpu) }}</span>
                     </div>
                   </template>
-                </vue-slider>
+                </VueSlider>
               </v-card-text>
             </v-card-text>
             <p class="text-subtitle-2 px-2 primary--text mt-4">内存预留/限制</p>
@@ -44,21 +44,21 @@
               v-if="sliderItems[obj.name]"
               :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} pt-1 px-4 mt-6`"
             >
-              <vue-slider
+              <VueSlider
                 v-model="sliderItems[obj.name].memory.value"
-                :max="sliderItems[obj.name].memory.max"
                 :adsorb="true"
                 :enable-cross="false"
-                :tooltip="'always'"
                 :marks="sliderItems[obj.name].memory.marks"
+                :max="sliderItems[obj.name].memory.max"
                 process-style="background-color:#3498db"
+                :tooltip="'always'"
               >
                 <template #tooltip="props">
                   <div class="tooltip">
                     <span>{{ getUnitValue(props.value, sliderItems[obj.name].memory) }}</span>
                   </div>
                 </template>
-              </vue-slider>
+              </VueSlider>
             </v-card-text>
           </div>
         </v-card-text>
@@ -72,7 +72,9 @@
 </template>
 
 <script>
+  import VueSlider from 'vue-slider-component';
   import { mapState } from 'vuex';
+
   import {
     getDaemonSetDetail,
     getDeploymentDetail,
@@ -86,8 +88,13 @@
   import BaseSelect from '@/mixins/select';
   import { deepCopy, sizeOfCpu, sizeOfStorage, beautifyCpuUnit, beautifyStorageUnit } from '@/utils/helpers';
 
+  import 'vue-slider-component/theme/default.css';
+
   export default {
     name: 'ResourceLimit',
+    components: {
+      VueSlider,
+    },
     mixins: [BaseResource, BaseSelect],
     data: () => ({
       title: '资源限制',

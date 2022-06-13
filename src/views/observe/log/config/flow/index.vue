@@ -1,17 +1,17 @@
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0" fluid>
     <v-card flat>
       <v-card-title class="px-0">
-        <BaseFilter :filters="filters" :default="filters[0]" @refresh="frontFilter" />
+        <BaseFilter :default="filters[0]" :filters="filters" @refresh="frontFilter" />
         <v-spacer />
         <v-menu v-if="m_permisson_resourceAllow($route.query.env)" left>
           <template #activator="{ on }">
             <v-btn icon>
-              <v-icon small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+              <v-icon color="primary" small v-on="on"> fas fa-ellipsis-v </v-icon>
             </v-btn>
           </template>
           <v-card class="pa-2">
-            <v-btn text block color="primary" @click="addFlow">
+            <v-btn block color="primary" text @click="addFlow">
               <v-icon left>mdi-plus-box</v-icon>
               创建采集器
             </v-btn>
@@ -21,11 +21,11 @@
 
       <v-card-text class="px-0">
         <v-data-table
-          :headers="headers"
-          :items="items"
-          disable-sort
-          hide-default-footer
           disable-pagination
+          disable-sort
+          :headers="headers"
+          hide-default-footer
+          :items="items"
           no-data-text="暂无数据"
         >
           <template #[`item.name`]="{ item }">
@@ -62,16 +62,16 @@
             <v-menu left>
               <template #activator="{ on }">
                 <v-btn icon>
-                  <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                  <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
                 </v-btn>
               </template>
               <v-card class="pa-2">
                 <v-flex>
                   <v-btn
                     color="primary"
-                    text
-                    small
                     :disabled="item.kind === 'ClusterFlow' && !AdminViewport"
+                    small
+                    text
                     @click="updateFlow(item)"
                   >
                     编辑
@@ -79,11 +79,11 @@
                 </v-flex>
                 <v-flex>
                   <v-btn
-                    color="error"
                     block
-                    text
-                    small
+                    color="error"
                     :disabled="item.kind === 'ClusterFlow' && !AdminViewport"
+                    small
+                    text
                     @click="removeFlow(item)"
                   >
                     删除
@@ -98,9 +98,9 @@
           v-model="params.page"
           :page-count="pageCount"
           :size="params.size"
-          @loaddata="frontFilter"
-          @changesize="onPageSizeChange"
           @changepage="onPageIndexChange"
+          @changesize="onPageSizeChange"
+          @loaddata="frontFilter"
         />
       </v-card-text>
     </v-card>
@@ -113,8 +113,10 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import AddFlow from './components/AddFlow';
   import UpdateFlow from './components/UpdateFlow';
+
   import { getClusterFlowsData, getFlowsData, deleteFlowData, deleteClusterFlowData } from '@/api';
   import BasePermission from '@/mixins/permission';
 

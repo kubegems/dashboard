@@ -7,10 +7,10 @@
           <v-text-field
             v-model="obj.VirtualSpaceName"
             class="my-0"
-            required
             label="空间名称"
-            :rules="objRules.virtualSpaceNameRule"
             :readonly="edit"
+            required
+            :rules="objRules.virtualSpaceNameRule"
           />
         </v-col>
         <!-- <v-col cols="2">
@@ -23,22 +23,23 @@
 
 <script>
   import { mapState } from 'vuex';
-  import BaseSelect from '@/mixins/select';
+
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'VirtualSpaceBaseInfo',
-    mixins: [BaseSelect, BaseResource],
+    mixins: [BaseResource, BaseSelect],
     props: {
-      item: {
-        type: Object,
-        default: () => null,
-      },
       edit: {
         type: Boolean,
         default: () => false,
+      },
+      item: {
+        type: Object,
+        default: () => null,
       },
     },
     data() {

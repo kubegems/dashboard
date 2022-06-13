@@ -15,54 +15,54 @@
         <v-col cols="6">
           <BaseApexAreaChart
             id="outqps"
-            title="出口流量qps"
-            :metrics="qpsMetrics"
             label="destination_workload"
+            :metrics="qpsMetrics"
+            title="出口流量qps"
             type=""
           />
         </v-col>
         <v-col cols="6">
           <BaseApexAreaChart
             id="outTime"
-            title="出口流量响应时间"
-            :metrics="responseDurationMetrics"
             label="destination_workload"
+            :metrics="responseDurationMetrics"
+            title="出口流量响应时间"
             type="timecost"
           />
         </v-col>
         <v-col cols="6">
           <BaseApexAreaChart
             id="in80Qps"
-            title="80端口入口流量qps"
-            :metrics="downstream80QpsMetrics"
             label="pod"
+            :metrics="downstream80QpsMetrics"
+            title="80端口入口流量qps"
             type=""
           />
         </v-col>
         <v-col cols="6">
           <BaseApexAreaChart
             id="in80Time"
-            title="80端口入口流量响应时间"
-            :metrics="downstream80ResponseDurationMetrics"
             label="pod"
+            :metrics="downstream80ResponseDurationMetrics"
+            title="80端口入口流量响应时间"
             type="timecost"
           />
         </v-col>
         <v-col cols="6">
           <BaseApexAreaChart
             id="in443Qps"
-            title="443端口入口流量qps"
-            :metrics="downstream443QpsMetrics"
             label="pod"
+            :metrics="downstream443QpsMetrics"
+            title="443端口入口流量qps"
             type=""
           />
         </v-col>
         <v-col cols="6">
           <BaseApexAreaChart
             id="in443Time"
-            title="443端口入口流量响应时间"
-            :metrics="downstream443ResponseDurationMetrics"
             label="pod"
+            :metrics="downstream443ResponseDurationMetrics"
+            title="443端口入口流量响应时间"
             type="timecost"
           />
         </v-col>
@@ -73,8 +73,10 @@
 
 <script>
   import { mapState } from 'vuex';
-  import BaseResource from '@/mixins/resource';
+
   import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
+  import { SERVICE_GATEWAY_NS } from '@/utils/namespace';
   import {
     ISTIO_INGRESS_GATEWAY_QPS_PROMQL,
     ISTIO_INGRESS_GATEWAY_DOWNSTREAM_80_QPS_PROMQL,
@@ -83,11 +85,10 @@
     ISTIO_INGRESS_GATEWAY_DOWNSTREAM_443_RESPONSE_DURATION_PROMQL,
     ISTIO_INGRESS_GATEWAY_DOWNSTREAM_80_RESPONSE_DURATION_PROMQL,
   } from '@/utils/prometheus';
-  import { SERVICE_GATEWAY_NS } from '@/utils/namespace';
 
   export default {
     name: 'GatewayMonitor',
-    mixins: [BaseResource, BasePermission],
+    mixins: [BasePermission, BaseResource],
     props: {
       gateway: {
         type: Object,

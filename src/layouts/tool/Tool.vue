@@ -2,25 +2,25 @@
   <v-menu
     v-if="Admin"
     content-class="kubegems__tool-card-menu"
-    top
     left
+    min-width="350px"
     offset-y
     origin="bottom right"
+    top
     transition="scale-transition"
-    min-width="350px"
   >
     <template #activator="{ on, attrs }">
-      <v-btn fixed dark fab bottom right small color="primary" v-bind="attrs" class="tool__btn" v-on="on">
+      <v-btn bottom v-bind="attrs" class="tool__btn" color="primary" dark fab fixed right small v-on="on">
         <v-icon small>fas fa-wrench</v-icon>
       </v-btn>
     </template>
     <v-card class="pa-0">
-      <BaseSubTitle title="工具箱" :divider="false" />
+      <BaseSubTitle :divider="false" title="工具箱" />
       <v-card-text class="px-2 pt-0 pb-2">
-        <v-card v-if="Admin" hover outlined class="my-2 pa-2" @click="toAdminViewport">
+        <v-card v-if="Admin" class="my-2 pa-2" hover outlined @click="toAdminViewport">
           <v-card-text class="pa-1">
             <v-flex class="float-left">
-              <v-icon left small color="primary"> fas fa-cog </v-icon>
+              <v-icon color="primary" left small> fas fa-cog </v-icon>
             </v-flex>
             <v-flex class="text-subtitle-2 primary--text">平台管理</v-flex>
             <v-flex class="text-caption"> 以管理员身份查看操作所有资源。 </v-flex>
@@ -33,12 +33,13 @@
 </template>
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import BaseSelect from '@/mixins/select';
+
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'Tool',
-    mixins: [BaseSelect, BaseResource],
+    mixins: [BaseResource, BaseSelect],
     inject: ['reload'],
     computed: {
       ...mapState(['Admin']),

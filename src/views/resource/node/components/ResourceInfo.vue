@@ -1,36 +1,36 @@
 <template>
   <div>
     <v-card>
-      <BaseSubTitle title="资源统计" :divider="false" class="pt-2" />
+      <BaseSubTitle class="pt-2" :divider="false" title="资源统计" />
       <v-row class="mt-2">
         <v-col cols="4">
-          <VueApexCharts type="radialBar" height="300" :options="cpuOptions" :series="cpuSeries" />
+          <VueApexCharts height="300" :options="cpuOptions" :series="cpuSeries" type="radialBar" />
         </v-col>
         <v-col cols="4">
-          <VueApexCharts type="radialBar" height="300" :options="memoryOptions" :series="memorySeries" />
+          <VueApexCharts height="300" :options="memoryOptions" :series="memorySeries" type="radialBar" />
         </v-col>
         <v-col cols="4">
-          <VueApexCharts type="radialBar" height="300" :options="podOptions" :series="podSeries" />
+          <VueApexCharts height="300" :options="podOptions" :series="podSeries" type="radialBar" />
         </v-col>
       </v-row>
 
       <v-row v-if="showMore && tke">
         <v-col cols="4">
-          <VueApexCharts type="radialBar" height="300" :options="gpuTkeOptions" :series="gpuTkeSeries" />
+          <VueApexCharts height="300" :options="gpuTkeOptions" :series="gpuTkeSeries" type="radialBar" />
         </v-col>
         <v-col cols="4">
-          <VueApexCharts type="radialBar" height="300" :options="gpuTkeMemoryOptions" :series="gpuTkeMemorySeries" />
+          <VueApexCharts height="300" :options="gpuTkeMemoryOptions" :series="gpuTkeMemorySeries" type="radialBar" />
         </v-col>
       </v-row>
 
       <v-row v-if="showMore && nvidia">
         <v-col cols="4">
-          <VueApexCharts type="radialBar" height="300" :options="gpuNvidiaOptions" :series="gpuNvidiaSeries" />
+          <VueApexCharts height="300" :options="gpuNvidiaOptions" :series="gpuNvidiaSeries" type="radialBar" />
         </v-col>
       </v-row>
 
       <div v-if="tke || nvidia" class="mb-2 text-center">
-        <v-btn text small color="primary" @click="showMore = !showMore">
+        <v-btn color="primary" small text @click="showMore = !showMore">
           {{ showMore ? '折叠GPU' : '显示GPU' }}
         </v-btn>
       </div>
@@ -38,7 +38,7 @@
 
     <v-card class="mt-6">
       <v-sheet class="pa-2">
-        <BaseListItemForDetail title="架构" class="pt-0" :mt="0">
+        <BaseListItemForDetail class="pt-0" :mt="0" title="架构">
           <template #content>
             {{ node ? node.status.nodeInfo.architecture : '' }}
           </template>
@@ -106,7 +106,7 @@
 
         <BaseListItemForDetail title="podCIDR">
           <template #content>
-            <v-chip color="success" text-color="white" class="mx-1 font-weight-medium" small>
+            <v-chip class="mx-1 font-weight-medium" color="success" small text-color="white">
               {{ node ? node.spec.podCIDR : '' }}
             </v-chip>
           </template>
@@ -117,10 +117,10 @@
             <v-chip
               v-for="(item, index) in node ? node.spec.podCIDRs : []"
               :key="index"
-              color="success"
-              text-color="white"
               class="mx-1 font-weight-medium"
+              color="success"
               small
+              text-color="white"
             >
               {{ item }}
             </v-chip>
@@ -138,7 +138,7 @@
     </v-card>
 
     <v-card class="mt-3">
-      <BaseSubTitle title="状况" :divider="false" class="pt-2" />
+      <BaseSubTitle class="pt-2" :divider="false" title="状况" />
       <v-simple-table class="mx-2 pa-2 pb-3">
         <template #default>
           <thead>
@@ -155,10 +155,10 @@
               <td>{{ item.reason }}</td>
               <td>
                 <span v-if="item.status === 'True'">
-                  <v-icon small color="primary"> fas fa-check-circle </v-icon>
+                  <v-icon color="primary" small> fas fa-check-circle </v-icon>
                 </span>
                 <span v-else>
-                  <v-icon small color="error">fas fa-minus-circle</v-icon>
+                  <v-icon color="error" small>fas fa-minus-circle</v-icon>
                 </span>
               </td>
               <td>{{ item.type }}</td>
@@ -174,19 +174,20 @@
 
 <script>
   import VueApexCharts from 'vue-apexcharts';
+
   import { getNodeResourceAllocated } from '@/api';
-  import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
-  import { NODE_ONE_POD_RUNNING_COUNT_PROMQL } from '@/utils/prometheus';
-  import { sizeOfStorage, sizeOfCpu, deepCopy } from '@/utils/helpers';
+  import BaseResource from '@/mixins/resource';
   import { generateRadialBarChartOptions } from '@/utils/chart';
+  import { sizeOfStorage, sizeOfCpu, deepCopy } from '@/utils/helpers';
+  import { NODE_ONE_POD_RUNNING_COUNT_PROMQL } from '@/utils/prometheus';
 
   export default {
     name: 'ResourceInfo',
     components: {
       VueApexCharts,
     },
-    mixins: [BaseResource, BasePermission],
+    mixins: [BasePermission, BaseResource],
     props: {
       item: {
         type: Object,

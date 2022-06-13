@@ -1,15 +1,15 @@
 <template>
   <div class="d-inline-block">
     <span>级别:</span>
-    <v-menu v-for="item in legends" :key="item.value" top open-on-hover nudge-top="23px" :close-delay="200">
+    <v-menu v-for="item in legends" :key="item.value" :close-delay="200" nudge-top="23px" open-on-hover top>
       <template #activator="{ on }">
         <v-btn
-          x-small
+          class="ml-3 log-level-select__btn"
+          :class="{ 'white--text': checked.includes(item.value) }"
+          :color="item.color"
           light
           :outlined="!checked.includes(item.value)"
-          :color="item.color"
-          :class="{ 'white--text': checked.includes(item.value) }"
-          class="ml-3 log-level-select__btn"
+          x-small
           v-on="on"
           @click="handleClick(item.value)"
         >

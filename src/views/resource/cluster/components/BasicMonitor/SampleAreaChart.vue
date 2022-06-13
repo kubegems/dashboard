@@ -1,29 +1,27 @@
 <template>
   <VueApexCharts
     ref="vueApexCharts"
-    type="line"
-    :width="`${width}%`"
     :height="extendHeight"
     :options="getOptions(title)"
     :series="series"
+    type="line"
+    :width="`${width}%`"
   />
 </template>
 
 <script>
-  import VueApexCharts from 'vue-apexcharts';
   import moment from 'moment';
+  import VueApexCharts from 'vue-apexcharts';
 
   export default {
     name: 'SampleAreaChart',
-    components: { VueApexCharts },
+    components: {
+      VueApexCharts,
+    },
     props: {
       extendHeight: {
         type: Number,
         default: () => 250,
-      },
-      width: {
-        type: Number,
-        default: () => 100,
       },
       metrics: {
         type: Array,
@@ -32,6 +30,10 @@
       title: {
         type: String,
         default: () => null,
+      },
+      width: {
+        type: Number,
+        default: () => 100,
       },
     },
     data: () => ({

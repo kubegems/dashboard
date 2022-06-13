@@ -12,9 +12,9 @@
               $route.query.kind === 'app' &&
               Plugins['argo-rollouts']
             "
-            text
-            small
             class="primary--text"
+            small
+            text
             @click="advancedDeploy"
           >
             <v-icon left small> fas fa-location-arrow </v-icon>
@@ -23,9 +23,9 @@
 
           <v-btn
             v-if="app && app.kind !== 'DaemonSet' && m_permisson_resourceAllow && $route.query.kind === 'app'"
-            text
-            small
             class="primary--text"
+            small
+            text
             @click="scaleReplicas"
           >
             <v-icon left small> fas fa-arrows-alt-v </v-icon>
@@ -33,9 +33,9 @@
           </v-btn>
           <v-btn
             v-if="app && app.kind !== 'DaemonSet' && m_permisson_resourceAllow && $route.query.kind === 'app'"
-            text
-            small
             class="primary--text"
+            small
+            text
             @click="rollingback"
           >
             <v-icon left small> fas fa-redo-alt </v-icon>
@@ -43,9 +43,9 @@
           </v-btn>
           <v-btn
             v-if="app && app.kind !== 'DaemonSet' && m_permisson_resourceAllow && $route.query.kind === 'app'"
-            text
-            small
             class="primary--text"
+            small
+            text
             @click="hpaStrategy"
           >
             <v-icon left small> fas fa-cogs </v-icon>
@@ -54,13 +54,13 @@
           <v-menu left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
               </v-btn>
             </template>
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="error" text small @click="removeApp"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeApp"> 删除 </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -69,20 +69,20 @@
       </template>
     </BaseBreadcrumb>
     <v-row class="mt-0">
-      <v-col cols="2" class="pt-0">
+      <v-col class="pt-0" cols="2">
         <ResourceInfo :item="app" />
       </v-col>
-      <v-col cols="10" class="pt-0">
+      <v-col class="pt-0" cols="10">
         <v-card flat>
           <v-card-text class="pa-0">
-            <v-tabs v-model="tab" height="30" class="rounded-t pa-3">
+            <v-tabs v-model="tab" class="rounded-t pa-3" height="30">
               <v-tab v-for="item in tabItems" :key="item.value">
                 {{ item.text }}
               </v-tab>
             </v-tabs>
           </v-card-text>
         </v-card>
-        <component :is="tabItems[tab].value" :ref="tabItems[tab].value" class="mt-3" :app="app" />
+        <component :is="tabItems[tab].value" :ref="tabItems[tab].value" :app="app" class="mt-3" />
       </v-col>
     </v-row>
 
@@ -94,33 +94,35 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import ResourceInfo from './components/ResourceInfo';
-  import ScaleReplicas from './components/ScaleReplicas';
+
   import HPAStrategy from './components/HPAStrategy';
+  import ResourceInfo from './components/ResourceInfo';
   import Rollingback from './components/Rollingback';
+  import ScaleReplicas from './components/ScaleReplicas';
+
   import { getAppRunningDetail, deleteApp, deleteAppStoreApp } from '@/api';
-  import AppResourceFileList from '@/views/resource/appmanifest/components/AppResourceFileList';
+  import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
   import AppDeployList from '@/views/resource/appmanifest/components/AppDeployList';
   import AppImageSecurityReportList from '@/views/resource/appmanifest/components/AppImageSecurityReportList';
-  import DeployStatus from '@/views/resource/deploy/components/DeployStatus';
+  import AppResourceFileList from '@/views/resource/appmanifest/components/AppResourceFileList';
   import DeployControlCenter from '@/views/resource/deploy/components/DeployControlCenter';
-  import BaseResource from '@/mixins/resource';
-  import BasePermission from '@/mixins/permission';
+  import DeployStatus from '@/views/resource/deploy/components/DeployStatus';
 
   export default {
     name: 'AppDetail',
     components: {
-      ResourceInfo,
-      AppResourceFileList,
       AppDeployList,
       AppImageSecurityReportList,
-      DeployStatus,
-      ScaleReplicas,
-      HPAStrategy,
+      AppResourceFileList,
       DeployControlCenter,
+      DeployStatus,
+      HPAStrategy,
+      ResourceInfo,
       Rollingback,
+      ScaleReplicas,
     },
-    mixins: [BaseResource, BasePermission],
+    mixins: [BasePermission, BaseResource],
     data: () => ({
       tab: 0,
       app: null,

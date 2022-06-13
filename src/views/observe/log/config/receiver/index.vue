@@ -1,23 +1,23 @@
 <template>
-  <v-container fluid class="pa-0">
+  <v-container class="pa-0" fluid>
     <v-card flat>
       <v-card-title class="px-0">
         <BaseFilter
-          :filters="filters"
           :default="{ items: [], text: '接收器名称', value: 'search' }"
+          :filters="filters"
           @refresh="filterList"
         />
         <v-spacer />
         <v-menu v-if="m_permisson_resourceAllow($route.query.env)" left>
           <template #activator="{ on }">
             <v-btn icon>
-              <v-icon small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+              <v-icon color="primary" small v-on="on"> fas fa-ellipsis-v </v-icon>
             </v-btn>
           </template>
           <v-card>
             <v-card-text class="pa-2">
               <v-flex>
-                <v-btn text color="primary" @click="addReceiver">
+                <v-btn color="primary" text @click="addReceiver">
                   <v-icon left>mdi-plus-box</v-icon>
                   创建接收器
                 </v-btn>
@@ -43,24 +43,24 @@
           class="kubegems__table-row-pointer"
           disable-sort
           :headers="headers"
+          hide-default-footer
+          item-key="index"
           :items="items"
-          :page.sync="page"
           :items-per-page="itemsPerPage"
           no-data-text="暂无数据"
-          hide-default-footer
-          single-expand
+          :page.sync="page"
           show-expand
-          item-key="index"
-          @page-count="pageCount = $event"
+          single-expand
           @click:row="onRowClick"
+          @page-count="pageCount = $event"
         >
           <template #[`item.data-table-select`]="{ item, index }">
             <v-checkbox
               v-model="m_table_batchResources[`${item.metadata.name}-${index + itemsPerPage * (page - 1)}`].checked"
               color="primary"
               hide-details
-              @click.stop
               @change="onResourceChange($event, item, `${index + itemsPerPage * (page - 1)}`)"
+              @click.stop
             />
           </template>
           <template #[`item.member`]="{ item }">
@@ -70,7 +70,7 @@
             <span>{{ getChannel(item) }}</span>
           </template>
           <template #expanded-item="{ headers, item }">
-            <td :colspan="headers.length" class="my-2 py-2">
+            <td class="my-2 py-2" :colspan="headers.length">
               <v-flex
                 v-for="(webhook, index) in item.webhookConfigs"
                 :key="`webhook${index}`"
@@ -94,7 +94,7 @@
                   <div>{{ `发件人:` }}{{ email.from }}</div>
                   <div>{{ `SMTP服务器:` }}{{ email.smtpServer }}</div>
                   <span>{{ `收件人:` }}</span>
-                  <v-chip v-for="(item, key) in email.to.split(',')" :key="key" class="mx-1" small color="success">
+                  <v-chip v-for="(item, key) in email.to.split(',')" :key="key" class="mx-1" color="success" small>
                     {{ item }}
                   </v-chip>
                 </v-flex>
@@ -104,19 +104,19 @@
           <template #[`item.action`]="{ item }">
             <template v-if="!item.name.endsWith('default-webhook')">
               <v-flex :id="`r${item.index}`" />
-              <v-menu left :attach="`#r${item.index}`">
+              <v-menu :attach="`#r${item.index}`" left>
                 <template #activator="{ on }">
                   <v-btn icon>
-                    <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                    <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
                   </v-btn>
                 </template>
                 <v-card>
                   <v-card-text class="pa-2">
                     <v-flex>
-                      <v-btn color="primary" text small @click.stop="updateReceiver(item)"> 编辑 </v-btn>
+                      <v-btn color="primary" small text @click.stop="updateReceiver(item)"> 编辑 </v-btn>
                     </v-flex>
                     <v-flex>
-                      <v-btn color="error" text small @click.stop="removeReceiver(item)"> 删除 </v-btn>
+                      <v-btn color="error" small text @click.stop="removeReceiver(item)"> 删除 </v-btn>
                     </v-flex>
                   </v-card-text>
                 </v-card>
@@ -130,9 +130,9 @@
           :front-page="true"
           :page-count="pageCount"
           :size="itemsPerPage"
-          @loaddata="receiverList"
-          @changesize="onPageSizeChange"
           @changepage="onPageIndexChange"
+          @changesize="onPageSizeChange"
+          @loaddata="receiverList"
         />
       </v-card-text>
     </v-card>
@@ -143,13 +143,14 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import { getReceiverList, deleteReceiver } from '@/api';
+  import BaseFilter from '@/mixins/base_filter';
+  import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
+  import BaseTable from '@/mixins/table';
   import AddReceiver from '@/views/observe/monitor/config/receiver/components/AddReceiver';
   import UpdateReceiver from '@/views/observe/monitor/config/receiver/components/UpdateReceiver';
-  import BaseFilter from '@/mixins/base_filter';
-  import BaseResource from '@/mixins/resource';
-  import BasePermission from '@/mixins/permission';
-  import BaseTable from '@/mixins/table';
 
   export default {
     name: 'Receiver',
@@ -157,7 +158,7 @@
       AddReceiver,
       UpdateReceiver,
     },
-    mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
+    mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],
     data: () => ({
       filters: [{ text: '接收器名称', value: 'search', items: [] }],
       items: [],

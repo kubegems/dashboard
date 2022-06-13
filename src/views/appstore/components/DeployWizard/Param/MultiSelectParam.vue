@@ -2,25 +2,25 @@
   <v-flex>
     <BaseSubTitle
       v-if="pathLevel === 1"
-      :title="label"
-      :color="pathLevel === 1 ? 'grey lighten-3' : ''"
       class="mb-4"
+      :color="pathLevel === 1 ? 'grey lighten-3' : ''"
       :divider="false"
+      :title="label"
     />
     <v-combobox
       v-model="selectedItems"
-      :items="items"
       :attach="`#${id}`"
-      :search-input.sync="search"
-      :label="pathLevel === 1 ? '' : label"
-      multiple
-      hide-selected
       class="my-2"
+      hide-selected
+      :items="items"
+      :label="pathLevel === 1 ? '' : label"
       :menu-props="{
         bottom: true,
         left: true,
         origin: `top center`,
       }"
+      multiple
+      :search-input.sync="search"
       @change="onChange($event)"
     >
       <template #no-data>
@@ -33,7 +33,7 @@
         </v-list-item>
       </template>
       <template #selection="{ item }">
-        <v-chip small dense color="success" class="ma-1">
+        <v-chip class="ma-1" color="success" dense small>
           {{ item }}
           <v-icon small @click="removeCommand(item)"> mdi-close </v-icon>
         </v-chip>
@@ -44,13 +44,17 @@
 </template>
 
 <script>
-  import BaseSelect from '@/mixins/select';
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'MultiSelectParamParam',
-    mixins: [BaseSelect, BaseResource],
+    mixins: [BaseResource, BaseSelect],
     props: {
+      id: {
+        type: String,
+        default: () => '',
+      },
       label: {
         type: String,
         default: () => '',
@@ -58,10 +62,6 @@
       param: {
         type: Object,
         default: () => {},
-      },
-      id: {
-        type: String,
-        default: () => '',
       },
     },
     data: () => ({

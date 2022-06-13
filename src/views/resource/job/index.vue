@@ -5,8 +5,8 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :filters="filters"
           :default="{ items: [], text: '任务名称', value: 'search' }"
+          :filters="filters"
           @refresh="m_filter_list"
         />
         <NamespaceFilter />
@@ -14,19 +14,19 @@
         <v-menu v-if="m_permisson_resourceAllow" left>
           <template #activator="{ on }">
             <v-btn icon>
-              <v-icon small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+              <v-icon color="primary" small v-on="on"> fas fa-ellipsis-v </v-icon>
             </v-btn>
           </template>
           <v-card>
             <v-card-text class="pa-2">
               <v-flex>
-                <v-btn text color="primary" @click="addJob">
+                <v-btn color="primary" text @click="addJob">
                   <v-icon left>mdi-playlist-plus</v-icon>
                   创建任务
                 </v-btn>
               </v-flex>
               <v-flex>
-                <v-btn text color="error" @click="m_table_batchRemoveResource('任务', 'Job', jobList)">
+                <v-btn color="error" text @click="m_table_batchRemoveResource('任务', 'Job', jobList)">
                   <v-icon left>mdi-minus-box</v-icon>
                   批量删除
                 </v-btn>
@@ -38,23 +38,23 @@
       <v-data-table
         class="mx-4"
         :headers="headers"
+        hide-default-footer
         :items="items"
-        :page.sync="params.page"
         :items-per-page="params.size"
         no-data-text="暂无数据"
-        hide-default-footer
+        :page.sync="params.page"
         show-select
+        @toggle-select-all="m_table_onResourceToggleSelect"
         @update:sort-by="m_table_sortBy"
         @update:sort-desc="m_table_sortDesc"
-        @toggle-select-all="m_table_onResourceToggleSelect"
       >
         <template #[`item.data-table-select`]="{ item, index }">
           <v-checkbox
             v-model="m_table_batchResources[`${item.metadata.name}-${index}`].checked"
             color="primary"
             hide-details
-            @click.stop
             @change="m_table_onResourceChange($event, item, index)"
+            @click.stop
           />
         </template>
         <template #[`item.name`]="{ item }">
@@ -67,19 +67,19 @@
         </template>
         <template #[`item.status`]="{ item }">
           <span v-if="item.status.succeeded !== undefined">
-            <v-avatar style="background-color: #1e88e5" class="mr-2" size="10">
+            <v-avatar class="mr-2" size="10" style="background-color: #1e88e5">
               <span class="white--text text-h5" />
             </v-avatar>
             Succeeded
           </span>
           <span v-else-if="item.status.failed !== undefined">
-            <v-avatar style="background-color: #ff5252" class="mr-2" size="10">
+            <v-avatar class="mr-2" size="10" style="background-color: #ff5252">
               <span class="white--text text-h5" />
             </v-avatar>
             Failed
           </span>
           <span v-else-if="item.status.active !== undefined">
-            <v-avatar style="background-color: #00bcd4" class="mr-2" size="10">
+            <v-avatar class="mr-2" size="10" style="background-color: #00bcd4">
               <span class="white--text text-h5" />
             </v-avatar>
             Active
@@ -93,19 +93,19 @@
         </template>
         <template #[`item.action`]="{ item }">
           <v-flex :id="`r${item.metadata.resourceVersion}`" />
-          <v-menu left :attach="`#r${item.metadata.resourceVersion}`">
+          <v-menu :attach="`#r${item.metadata.resourceVersion}`" left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
               </v-btn>
             </template>
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" text small @click="updateJob(item)"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateJob(item)"> 编辑 </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" text small @click="removeJob(item)"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeJob(item)"> 删除 </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -117,9 +117,9 @@
         v-model="params.page"
         :page-count="pageCount"
         :size="params.size"
-        @loaddata="jobList"
-        @changesize="onPageSizeChange"
         @changepage="onPageIndexChange"
+        @changesize="onPageSizeChange"
+        @loaddata="jobList"
       />
     </v-card>
 
@@ -130,23 +130,25 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import AddJob from './components/AddJob';
   import UpdateJob from './components/UpdateJob';
+
   import { getJobList, deleteJob } from '@/api';
-  import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
   import BaseFilter from '@/mixins/base_filter';
-  import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
   import BaseTable from '@/mixins/table';
+  import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
 
   export default {
     name: 'Job',
     components: {
       AddJob,
-      UpdateJob,
       NamespaceFilter,
+      UpdateJob,
     },
-    mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
+    mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],
     data: () => ({
       items: [],
       pageCount: 0,

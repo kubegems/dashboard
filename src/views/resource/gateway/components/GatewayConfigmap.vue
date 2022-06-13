@@ -1,9 +1,9 @@
 <template>
   <div>
     <v-flex v-for="(d, key) in data" :key="key">
-      <v-card flat class="pa-4 mt-3">
+      <v-card class="pa-4 mt-3" flat>
         <v-card-text class="pa-0">
-          <BaseSubTitle :title="key" color="primary" :divider="false" />
+          <BaseSubTitle color="primary" :divider="false" :title="key" />
           <pre class="kubegems__data-pre rounded">{{ d }}</pre>
         </v-card-text>
       </v-card>

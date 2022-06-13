@@ -1,16 +1,17 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="创建istio网关" icon="mdi-network" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-network" title="创建istio网关" :width="1000" @reset="reset">
     <template #content>
       <component :is="formComponent" :ref="formComponent" title="Gateway" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="addIstioGateway"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addIstioGateway"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import { postAddIstioGateway } from '@/api';
   import BaseResource from '@/mixins/resource';
   import IstioGatewaySchema from '@/views/microservice/istio/gateway/mixins/schema';

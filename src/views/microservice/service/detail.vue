@@ -6,10 +6,10 @@
         <v-flex v-if="service && service.istioSidecar" class="kubegems__full-right">
           <v-btn
             v-if="m_permisson_virtualSpaceAllow"
-            text
-            small
             class="primary--text"
             :disabled="!(mode === 'request_routing' || mode === null)"
+            small
+            text
             @click="initReuqestRouting"
           >
             <v-icon left small> fas fa-code-branch </v-icon>
@@ -17,10 +17,10 @@
           </v-btn>
           <v-btn
             v-if="m_permisson_virtualSpaceAllow"
-            text
-            small
             class="primary--text"
             :disabled="!(mode === 'fault_injection' || mode === null)"
+            small
+            text
             @click="initFaultInjection"
           >
             <v-icon left small> fas fa-eye-dropper </v-icon>
@@ -28,10 +28,10 @@
           </v-btn>
           <v-btn
             v-if="m_permisson_virtualSpaceAllow"
-            text
-            small
             class="primary--text"
             :disabled="!(mode === 'traffic_shifting' || mode === null)"
+            small
+            text
             @click="initTrafficShifting"
           >
             <v-icon left small> fas fa-recycle </v-icon>
@@ -39,10 +39,10 @@
           </v-btn>
           <v-btn
             v-if="m_permisson_virtualSpaceAllow"
-            text
-            small
             class="primary--text"
             :disabled="!(mode === 'tcp_traffic_shifting' || mode === null)"
+            small
+            text
             @click="initTcpTrafficShifting"
           >
             <v-icon left small> fas fa-recycle </v-icon>
@@ -50,10 +50,10 @@
           </v-btn>
           <v-btn
             v-if="m_permisson_virtualSpaceAllow"
-            text
-            small
             class="primary--text"
             :disabled="!(mode === 'request_timeouts' || mode === null)"
+            small
+            text
             @click="initRequestTimeouts"
           >
             <v-icon left small> fas fa-clock </v-icon>
@@ -62,13 +62,13 @@
           <v-menu v-if="m_permisson_virtualSpaceAllow" left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
               </v-btn>
             </template>
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="error" text small @click="clearVS"> 清理虚拟服务 </v-btn>
+                  <v-btn color="error" small text @click="clearVS"> 清理虚拟服务 </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -79,7 +79,7 @@
 
     <v-card flat>
       <v-card-text class="pa-0">
-        <v-tabs v-model="tab" height="30" class="rounded-t pa-3">
+        <v-tabs v-model="tab" class="rounded-t pa-3" height="30">
           <v-tab v-for="item in tabItems" :key="item.value">
             {{ item.text }}
           </v-tab>
@@ -90,10 +90,10 @@
       :is="tabItems[tab].value"
       :ref="tabItems[tab].value"
       class="mt-3"
-      type="services"
       :item="service"
-      :vs="vs"
       :mode="mode"
+      type="services"
+      :vs="vs"
     />
 
     <FaultInjection ref="faultInjection" :service="service" :vs="vs" @refresh="microServiceDetail" />
@@ -106,35 +106,37 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import FaultInjection from './components/FaultInjection';
   import RequestRouting from './components/RequestRouting';
   import RequestTimeouts from './components/RequestTimeouts';
   import TcpTrafficShifting from './components/TcpTrafficShifting';
   import TrafficShifting from './components/TrafficShifting';
   import VSControlInfo from './components/VSControlInfo';
-  import TraceIframe from '@/views/microservice/components/TraceIframe';
+
+  import { getMicroServiceDetail, postResetService } from '@/api';
+  import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
   import InboundTrafficIframe from '@/views/microservice/components/InboundTrafficIframe';
   import NetworkTopologyIframe from '@/views/microservice/components/NetworkTopologyIframe';
   import ResourceInfo from '@/views/microservice/components/ResourceInfo';
-  import { getMicroServiceDetail, postResetService } from '@/api';
-  import BaseResource from '@/mixins/resource';
-  import BasePermission from '@/mixins/permission';
+  import TraceIframe from '@/views/microservice/components/TraceIframe';
 
   export default {
     name: 'ServiceDetail',
     components: {
-      ResourceInfo,
-      NetworkTopologyIframe,
-      InboundTrafficIframe,
-      TraceIframe,
       FaultInjection,
+      InboundTrafficIframe,
+      NetworkTopologyIframe,
       RequestRouting,
       RequestTimeouts,
+      ResourceInfo,
       TcpTrafficShifting,
+      TraceIframe,
       TrafficShifting,
       VSControlInfo,
     },
-    mixins: [BaseResource, BasePermission],
+    mixins: [BasePermission, BaseResource],
     data: () => ({
       tab: 0,
       service: null,

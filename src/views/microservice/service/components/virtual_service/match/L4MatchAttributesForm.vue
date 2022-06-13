@@ -1,5 +1,5 @@
 <template>
-  <v-form v-model="valid" lazy-validation class="my-2" @submit.prevent>
+  <v-form v-model="valid" class="my-2" lazy-validation @submit.prevent>
     <v-flex :class="expand ? 'kubegems__overlay' : ''" />
     <v-expand-transition>
       <v-card v-show="expand" class="my-2 pa-2 kubegems__expand-transition" :elevation="4">
@@ -12,18 +12,18 @@
               <v-flex class="float-left ml-2 kubegems__long-width">
                 <v-combobox
                   v-model="destinationSubnets"
+                  height="32"
                   hide-no-data
                   :items="[]"
-                  :search-input.sync="destinationSubnetsText"
-                  multiple
-                  small-chips
                   label="destinationSubnets(回车)"
-                  height="32"
+                  multiple
+                  :search-input.sync="destinationSubnetsText"
+                  small-chips
                   @change="onDestinationSubnetsChange"
                   @keydown.enter="createDestinationSubnets"
                 >
                   <template #selection="{ item }">
-                    <v-chip small color="primary" class="pa-1">
+                    <v-chip class="pa-1" color="primary" small>
                       <span>
                         {{ item.text }}
                       </span>
@@ -40,10 +40,10 @@
                 <span />
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
-                <v-text-field v-model="obj.port" class="my-0" required label="port" type="number" />
+                <v-text-field v-model="obj.port" class="my-0" label="port" required type="number" />
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
-                <v-text-field v-model="obj.sourceNamespace" class="my-0" required label="sourceNamespace" />
+                <v-text-field v-model="obj.sourceNamespace" class="my-0" label="sourceNamespace" required />
               </v-flex>
               <div class="kubegems__clear-float" />
             </v-sheet>
@@ -55,15 +55,15 @@
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-autocomplete
                   v-model="obj.gateways"
+                  class="my-0"
                   color="primary"
+                  hide-selected
                   :items="[]"
                   label="网关"
-                  hide-selected
-                  class="my-0"
                   no-data-text="暂无可选数据"
                 >
                   <template #selection="{ item }">
-                    <v-chip color="primary" small class="mx-1">
+                    <v-chip class="mx-1" color="primary" small>
                       {{ item['text'] }}
                     </v-chip>
                   </template>
@@ -77,9 +77,9 @@
             <v-card-text class="pa-2">
               <LabelItem
                 :labels="obj.sourceLabels"
-                @updateLabels="updateLabels"
-                @removeLabels="removeLabels"
                 @expandCard="expandLabelCard"
+                @removeLabels="removeLabels"
+                @updateLabels="updateLabels"
               />
               <div class="kubegems__clear-float" />
             </v-card-text>
@@ -87,8 +87,8 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn text small color="error" @click="closeCard"> 取消 </v-btn>
-          <v-btn text small color="primary" @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
+          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -96,7 +96,7 @@
       <v-list-item two-line>
         <v-list-item-content class="py-2">
           <v-list-item-subtitle class="text-body-2 py-0">
-            <v-list-item two-line class="float-left pa-0 kubegems__three-width">
+            <v-list-item class="float-left pa-0 kubegems__three-width" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{ match.destinationSubnets }}&nbsp;
@@ -104,7 +104,7 @@
                 <v-list-item-subtitle class="text-body-2 py-1"> destinationSubnets </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item two-line class="float-left pa-0 kubegems__three-width">
+            <v-list-item class="float-left pa-0 kubegems__three-width" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1"> {{ match.sourceNamespace }}&nbsp; </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1"> sourceNamespace </v-list-item-subtitle>
@@ -113,10 +113,10 @@
           </v-list-item-subtitle>
           <div class="kubegems__clear-float" />
         </v-list-item-content>
-        <v-btn dark text fab right x-small color="primary" @click="updateData(index)">
+        <v-btn color="primary" dark fab right text x-small @click="updateData(index)">
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
-        <v-btn dark text fab right x-small color="error" @click="removeData(index)">
+        <v-btn color="error" dark fab right text x-small @click="removeData(index)">
           <v-icon>mdi-delete</v-icon>
         </v-btn>
       </v-list-item>
@@ -125,7 +125,7 @@
       <v-list-item two-line>
         <v-list-item-content class="py-2">
           <v-list-item-subtitle class="text-body-2 py-0 text-center">
-            <v-btn text color="primary" @click="expandCard">
+            <v-btn color="primary" text @click="expandCard">
               <v-icon left small> mdi-plus </v-icon>
               添加匹配策略
             </v-btn>
@@ -137,15 +137,15 @@
 </template>
 
 <script>
-  import LabelItem from '@/views/resource/components/label/LabelItem';
-  import LabelForm from '@/views/resource/components/label/LabelForm';
   import { deepCopy } from '@/utils/helpers';
+  import LabelForm from '@/views/resource/components/label/LabelForm';
+  import LabelItem from '@/views/resource/components/label/LabelItem';
 
   export default {
     name: 'L4MatchAttributesForm',
     components: {
-      LabelItem,
       LabelForm,
+      LabelItem,
     },
     props: {
       match: {

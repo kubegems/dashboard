@@ -7,9 +7,9 @@
     <v-card-text class="pa-2">
       <EnvironmentItem
         :environments="obj.Environments"
-        @updateEnvironment="updateEnvironment"
-        @removeEnvironment="removeEnvironment"
         @expandCard="expandCard"
+        @removeEnvironment="removeEnvironment"
+        @updateEnvironment="updateEnvironment"
       />
     </v-card-text>
   </v-form>
@@ -17,11 +17,13 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import EnvironmentItem from './EnvironmentItem';
   import LinkEnvironmentForm from './LinkEnvironmentForm';
+
   import { postAddVirtualSpaceEnvironment, deleteVirtualSpaceEnvironment } from '@/api';
-  import BaseSelect from '@/mixins/select';
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
@@ -30,15 +32,15 @@
       EnvironmentItem,
       LinkEnvironmentForm,
     },
-    mixins: [BaseSelect, BaseResource],
+    mixins: [BaseResource, BaseSelect],
     props: {
-      item: {
-        type: Object,
-        default: () => null,
-      },
       edit: {
         type: Boolean,
         default: () => false,
+      },
+      item: {
+        type: Object,
+        default: () => null,
       },
     },
     data() {

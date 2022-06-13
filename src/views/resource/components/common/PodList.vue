@@ -3,11 +3,11 @@
     <v-card-text>
       <v-data-table
         :headers="headers"
+        hide-default-footer
         :items="items"
-        :page.sync="params.page"
         :items-per-page="params.size"
         no-data-text="暂无数据"
-        hide-default-footer
+        :page.sync="params.page"
         @update:sort-by="m_table_sortBy"
         @update:sort-desc="m_table_sortDesc"
       >
@@ -18,7 +18,7 @@
         </template>
         <template #[`item.status`]="{ item, index }">
           <v-flex :id="`e${item.metadata.resourceVersion}`" />
-          <EventTip kind="Pod" :item="item" :top="params.size - index <= 5 || (items.length <= 5 && index >= 1)">
+          <EventTip :item="item" kind="Pod" :top="params.size - index <= 5 || (items.length <= 5 && index >= 1)">
             <template #trigger>
               <span
                 :class="`v-avatar mr-2 ${
@@ -59,15 +59,15 @@
             {{ item.LatestCpu ? item.LatestCpu : 0 }}
           </v-flex>
           <v-sparkline
-            :value="item.CpuUsed ? item.CpuUsed : []"
-            type="trend"
             auto-draw
-            auto-line-width
-            smooth
-            :line-width="5"
-            fill
             :auto-draw-duration="200"
+            auto-line-width
             color="rgba(29, 136, 229, 0.6)"
+            fill
+            :line-width="5"
+            smooth
+            type="trend"
+            :value="item.CpuUsed ? item.CpuUsed : []"
           />
         </template>
         <template #[`item.memory`]="{ item }">
@@ -75,23 +75,23 @@
             {{ item.LatestMemory ? item.LatestMemory : 0 }}
           </v-flex>
           <v-sparkline
-            :value="item.MemoryUsed ? item.MemoryUsed : []"
-            type="trend"
             auto-draw
-            auto-line-width
-            smooth
-            :line-width="5"
-            fill
             :auto-draw-duration="200"
+            auto-line-width
             color="rgba(29, 136, 229, 0.6)"
+            fill
+            :line-width="5"
+            smooth
+            type="trend"
+            :value="item.MemoryUsed ? item.MemoryUsed : []"
           />
         </template>
         <template #[`item.action`]="{ item }">
           <v-flex :id="`r${item.metadata.resourceVersion}`" />
-          <v-menu left :attach="`#r${item.metadata.resourceVersion}`">
+          <v-menu :attach="`#r${item.metadata.resourceVersion}`" left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
               </v-btn>
             </template>
             <v-card>
@@ -101,14 +101,14 @@
                     m_permisson_resourceAllow && item.status.phase === 'Running' && !item.metadata.deletionTimestamp
                   "
                 >
-                  <v-btn color="primary" text small @click="containerShell(item)"> 终端 </v-btn>
+                  <v-btn color="primary" small text @click="containerShell(item)"> 终端 </v-btn>
                 </v-flex>
                 <v-flex
                   v-if="
                     m_permisson_resourceAllow && item.status.phase === 'Running' && !item.metadata.deletionTimestamp
                   "
                 >
-                  <v-btn color="primary" text small @click="containerDebug(item)"> Debug </v-btn>
+                  <v-btn color="primary" small text @click="containerDebug(item)"> Debug </v-btn>
                 </v-flex>
                 <v-flex
                   v-if="
@@ -116,7 +116,7 @@
                     !item.metadata.deletionTimestamp
                   "
                 >
-                  <v-btn color="primary" text small @click="containerLog(item)"> 日志 </v-btn>
+                  <v-btn color="primary" small text @click="containerLog(item)"> 日志 </v-btn>
                 </v-flex>
                 <v-flex
                   v-if="
@@ -137,9 +137,9 @@
         v-model="params.page"
         :page-count="pageCount"
         :size="params.size"
-        @loaddata="podList"
-        @changesize="onPageSizeChange"
         @changepage="onPageIndexChange"
+        @changesize="onPageSizeChange"
+        @loaddata="podList"
       />
 
       <ContainerLog ref="containerLog" />
@@ -150,24 +150,26 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import ContainerLog from './ContainerLog';
-  import Terminal from './Terminal';
   import EventTip from './EventTip';
+  import Terminal from './Terminal';
+
   import { getPodList } from '@/api';
-  import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
   import BaseTable from '@/mixins/table';
-  import { POD_CPU_USAGE_PROMQL, POD_MEMORY_USAGE_PROMQL } from '@/utils/prometheus';
   import { beautifyCpuUnit, beautifyStorageUnit } from '@/utils/helpers';
+  import { POD_CPU_USAGE_PROMQL, POD_MEMORY_USAGE_PROMQL } from '@/utils/prometheus';
 
   export default {
     name: 'PodList',
     components: {
       ContainerLog,
-      Terminal,
       EventTip,
+      Terminal,
     },
-    mixins: [BaseResource, BasePermission, BaseTable],
+    mixins: [BasePermission, BaseResource, BaseTable],
     props: {
       item: {
         type: Object,

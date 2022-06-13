@@ -1,5 +1,5 @@
 <template>
-  <v-card :elevation="expand ? 3 : 0" class="pa-3">
+  <v-card class="pa-3" :elevation="expand ? 3 : 0">
     <div class="d-flex">
       <v-btn color="primary" text @click="handleExpand">
         查询
@@ -7,15 +7,15 @@
       </v-btn>
 
       <!-- 标签查询 -->
-      <v-combobox v-if="queryType === 'tag'" v-model="filter" solo flat dense hide-details multiple full-width>
+      <v-combobox v-if="queryType === 'tag'" v-model="filter" dense flat full-width hide-details multiple solo>
         <template #prepend-inner>
-          <v-chip v-for="tag in comboboxTags" :key="tag.text + tag.value" color="primary" small label>
+          <v-chip v-for="tag in comboboxTags" :key="tag.text + tag.value" color="primary" label small>
             <span>{{ tag.text }}:{{ tag.value }}</span>
             <v-icon right small @click="handleRemoveTag(tag.text, tag.value)"> mdi-close </v-icon>
           </v-chip>
         </template>
         <template #selection="{ item }">
-          <v-chip class="my-1" color="primary" small label>
+          <v-chip class="my-1" color="primary" label small>
             <span>正则：{{ item }}</span>
             <v-icon right small @click="handleRemoveRegexp(item)"> mdi-close </v-icon>
           </v-chip>
@@ -24,15 +24,15 @@
       <!-- 标签查询 -->
 
       <div style="margin-left: auto">
-        <v-btn color="primary" text :disabled="disabled" @click="search">
+        <v-btn color="primary" :disabled="disabled" text @click="search">
           <v-icon left>mdi-magnify</v-icon>
           运行
         </v-btn>
-        <v-btn v-if="queryType === 'tag'" color="primary" text :disabled="disabled" @click="handleSaveSnapshot">
+        <v-btn v-if="queryType === 'tag'" color="primary" :disabled="disabled" text @click="handleSaveSnapshot">
           <v-icon left>mdi-content-save</v-icon>
           保存
         </v-btn>
-        <v-btn v-if="queryType === 'tag'" color="primary" text :disabled="disabled" @click="handleHistory">
+        <v-btn v-if="queryType === 'tag'" color="primary" :disabled="disabled" text @click="handleHistory">
           <v-icon left>mdi-history</v-icon>
           历史
         </v-btn>
@@ -40,7 +40,7 @@
           <v-icon left>{{ disabled ? 'mdi-stop-circle-outline' : 'mdi-play-circle-outline' }}</v-icon>
           流式传输
         </v-btn>
-        <v-btn color="primary" text :disabled="disabled" @click="handleChangeQueryType">
+        <v-btn color="primary" :disabled="disabled" text @click="handleChangeQueryType">
           <v-icon left>mdi-sync</v-icon>
           {{ queryType === 'tag' ? '高级查询' : '标签查询' }}
         </v-btn>
@@ -50,21 +50,21 @@
     <div v-show="expand" class="mt-3">
       <div class="my-2 kubegems__text text-body-2">项目环境</div>
       <ProjectEnvSelect
-        :series="series"
         :loading="loading"
-        @setEnvironment="handleSetEnvironment"
-        @clearProject="handleClearProject"
+        :series="series"
         @clear="handlerClear"
+        @clearProject="handleClearProject"
         @refresh="handlerRefresh"
+        @setEnvironment="handleSetEnvironment"
       />
       <div class="my-2 kubegems__text text-body-2">{{ queryType === 'tag' ? '选择标签' : '查询语句' }}</div>
       <LabelSelector v-if="queryType === 'tag'" v-model="selected" :cluster="cluster" :series="series" />
       <AdvancedTextare
         v-else-if="queryType === 'ql'"
-        :log-q-l="logQL"
         :cluster="cluster"
-        @setQl="setQl"
+        :log-q-l="logQL"
         @replaceUrl="replaceUrl"
+        @setQl="setQl"
       />
     </div>
 
@@ -74,16 +74,18 @@
 
 <script>
   import { mapState } from 'vuex';
-  import LabelSelector from './LabelSelector';
+
   import AdvancedTextare from './AdvancedTextare';
+  import LabelSelector from './LabelSelector';
   import ProjectEnvSelect from './ProjectEnvSelect';
+
   import { getLogSeries } from '@/api';
 
   export default {
     name: 'LogQuery',
     components: {
-      LabelSelector,
       AdvancedTextare,
+      LabelSelector,
       ProjectEnvSelect,
     },
     props: {

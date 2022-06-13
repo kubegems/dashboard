@@ -1,5 +1,5 @@
 <template>
-  <BasePanel v-model="panel" title="Kubernetes事件" icon="fas fa-bell" @dispose="dispose">
+  <BasePanel v-model="panel" icon="fas fa-bell" title="Kubernetes事件" @dispose="dispose">
     <template #action>
       <BaseDatetimePicker v-model="date" color="primary" :default-value="60" @change="onDatetimeChange(undefined)" />
     </template>
@@ -11,10 +11,10 @@
         <div class="my-8" />
         <div class="d-flex justify-space-around kubegems__h-8">
           <div class="kubegems__h-24 kubegems__w-11">
-            <EventPieChart title="事件源" :data="data" type="source_component" />
+            <EventPieChart :data="data" title="事件源" type="source_component" />
           </div>
           <div class="kubegems__h-24 kubegems__w-11">
-            <EventPieChart title="事件类型" :data="data" type="reason" />
+            <EventPieChart :data="data" title="事件类型" type="reason" />
           </div>
         </div>
       </div>
@@ -24,15 +24,17 @@
 
 <script>
   import { mapState } from 'vuex';
-  import MessageBarChart from './MessageBarChart';
+
   import EventPieChart from './EventPieChart';
+  import MessageBarChart from './MessageBarChart';
+
   import { getEventListFromLoki } from '@/api';
 
   export default {
     name: 'K8sEvents',
     components: {
-      MessageBarChart,
       EventPieChart,
+      MessageBarChart,
     },
     props: {
       env: {

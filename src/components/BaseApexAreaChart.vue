@@ -24,21 +24,33 @@
         type: String,
         default: () => 'area',
       },
-      id: {
-        type: String,
-        default: () => '',
-      },
       extendHeight: {
         type: Number,
         default: () => 280,
       },
-      width: {
-        type: Number,
-        default: () => 100,
+      id: {
+        type: String,
+        default: () => '',
+      },
+      label: {
+        type: String,
+        default: () => null,
+      },
+      labelShow: {
+        type: Boolean,
+        default: () => true,
       },
       metrics: {
         type: Array,
         default: () => [],
+      },
+      mini: {
+        type: Boolean,
+        default: () => false,
+      },
+      noDataOffsetY: {
+        type: Number,
+        default: () => -22,
       },
       title: {
         type: String,
@@ -52,21 +64,9 @@
         type: String,
         default: () => null,
       },
-      label: {
-        type: String,
-        default: () => null,
-      },
-      labelShow: {
-        type: Boolean,
-        default: () => true,
-      },
-      mini: {
-        type: Boolean,
-        default: () => false,
-      },
-      noDataOffsetY: {
+      width: {
         type: Number,
-        default: () => -22,
+        default: () => 100,
       },
     },
     data: () => ({

@@ -12,16 +12,16 @@
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-autocomplete
                   v-model="volumeType"
+                  class="my-0"
                   color="primary"
+                  hide-selected
                   :items="volumeTypes"
                   label="类型"
-                  hide-selected
-                  class="my-0"
                   no-data-text="暂无可选数据"
                   :readonly="componentEdit"
                 >
                   <template #selection="{ item }">
-                    <v-chip color="primary" small class="mx-1">
+                    <v-chip class="mx-1" color="primary" small>
                       {{ item['text'] }}
                     </v-chip>
                   </template>
@@ -35,15 +35,15 @@
               :ref="volumeType + 'Mount'"
               :containers="obj.spec.jobTemplate.spec.template.spec.containers"
               :namespace="obj.metadata.namespace ? obj.metadata.namespace : ''"
-              :volume-mount-name="volumeMountName"
               :volume="volume"
+              :volume-mount-name="volumeMountName"
             />
           </v-form>
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn text small color="error" @click="closeCard"> 取消 </v-btn>
-          <v-btn text small color="primary" @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
+          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -51,12 +51,12 @@
     <BaseSubTitle title="存储卷" />
     <v-card-text class="pa-2">
       <StorageMountItem
-        :volumes="obj.spec.jobTemplate.spec.template.spec.volumes"
         :containers="obj.spec.jobTemplate.spec.template.spec.containers"
         :pvcs="pvcs"
-        @updateData="updateData"
-        @removeData="removeData"
+        :volumes="obj.spec.jobTemplate.spec.template.spec.volumes"
         @expandCard="expandCard"
+        @removeData="removeData"
+        @updateData="updateData"
       />
     </v-card-text>
   </v-form>
@@ -64,21 +64,21 @@
 
 <script>
   import { getPersistentVolumeClaimDetail, getAppResourceFileMetas } from '@/api';
-  import ConfigMapMount from '@/views/resource/workload/components/WorkloadBaseForm/StorageMount/volume_section/ConfigMapMount';
-  import HostPathMount from '@/views/resource/workload/components/WorkloadBaseForm/StorageMount/volume_section/HostPathMount';
-  import SecretMount from '@/views/resource/workload/components/WorkloadBaseForm/StorageMount/volume_section/SecretMount';
-  import PersistentVolumeClaimMount from '@/views/resource/workload/components/WorkloadBaseForm/StorageMount/volume_section/PersistentVolumeClaimMount';
-  import StorageMountItem from '@/views/resource/workload/components/WorkloadBaseForm/StorageMount/StorageMountItem';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
+  import StorageMountItem from '@/views/resource/workload/components/WorkloadBaseForm/StorageMount/StorageMountItem';
+  import ConfigMapMount from '@/views/resource/workload/components/WorkloadBaseForm/StorageMount/volume_section/ConfigMapMount';
+  import HostPathMount from '@/views/resource/workload/components/WorkloadBaseForm/StorageMount/volume_section/HostPathMount';
+  import PersistentVolumeClaimMount from '@/views/resource/workload/components/WorkloadBaseForm/StorageMount/volume_section/PersistentVolumeClaimMount';
+  import SecretMount from '@/views/resource/workload/components/WorkloadBaseForm/StorageMount/volume_section/SecretMount';
 
   export default {
     name: 'StorageMount',
     components: {
       ConfigMapMount,
       HostPathMount,
-      SecretMount,
       PersistentVolumeClaimMount,
+      SecretMount,
       StorageMountItem,
     },
     mixins: [BaseResource],

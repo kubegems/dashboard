@@ -4,7 +4,7 @@
     <v-expand-transition>
       <v-card v-show="expand" class="my-2 pa-0 kubegems__expand-transition" :elevation="4">
         <v-card-text class="pa-2">
-          <v-tabs v-model="tab" class="px-2 v-tabs--default" height="40" fixed-tabs>
+          <v-tabs v-model="tab" class="px-2 v-tabs--default" fixed-tabs height="40">
             <v-tab v-for="item in tabItems" :key="item.value">
               {{ item.text }}
             </v-tab>
@@ -19,8 +19,8 @@
         </v-card-text>
         <v-card-actions class="pa-2">
           <v-spacer />
-          <v-btn text small color="error" @click="closeCard"> 取消 </v-btn>
-          <v-btn text small color="primary" @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
+          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -28,21 +28,21 @@
 </template>
 
 <script>
-  import LoadBalancer from '@/views/microservice/service/components/destination_rule/policy/LoadBalancer';
-  import ConnectionPool from '@/views/microservice/service/components/destination_rule/policy/ConnectionPool';
-  import OutlierDetection from '@/views/microservice/service/components/destination_rule/policy/OutlierDetection';
-  import TLS from '@/views/microservice/service/components/destination_rule/policy/TLS';
-  import PortLevelSettings from '@/views/microservice/service/components/destination_rule/policy/PortLevelSettings';
   import { deepCopy } from '@/utils/helpers';
+  import ConnectionPool from '@/views/microservice/service/components/destination_rule/policy/ConnectionPool';
+  import LoadBalancer from '@/views/microservice/service/components/destination_rule/policy/LoadBalancer';
+  import OutlierDetection from '@/views/microservice/service/components/destination_rule/policy/OutlierDetection';
+  import PortLevelSettings from '@/views/microservice/service/components/destination_rule/policy/PortLevelSettings';
+  import TLS from '@/views/microservice/service/components/destination_rule/policy/TLS';
 
   export default {
     name: 'TrafficPolicyForm',
     components: {
-      LoadBalancer,
       ConnectionPool,
+      LoadBalancer,
       OutlierDetection,
-      TLS,
       PortLevelSettings,
+      TLS,
     },
     data() {
       return {

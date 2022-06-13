@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="蓝绿部署" icon="mdi-send" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-send" title="蓝绿部署" :width="1000" @reset="reset">
     <template #content>
       <v-flex>
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
@@ -12,18 +12,18 @@
               <v-col cols="6">
                 <v-autocomplete
                   v-model="obj.strategy.blueGreen.activeService"
-                  :rules="bluegreenRules.activeServiceRules"
-                  :items="activeServiceItems"
-                  color="primary"
-                  label="主版本服务（蓝）"
-                  hide-selected
                   class="my-0"
+                  color="primary"
+                  hide-selected
+                  :items="activeServiceItems"
+                  label="主版本服务（蓝）"
                   no-data-text="暂无可选数据"
+                  :rules="bluegreenRules.activeServiceRules"
                   :search-input.sync="activeServiceText"
                   @keyup.enter="createActiveService"
                 >
                   <template #selection="{ item }">
-                    <v-chip color="primary" small class="mx-1">
+                    <v-chip class="mx-1" color="primary" small>
                       {{ item['text'] }}
                     </v-chip>
                   </template>
@@ -32,18 +32,18 @@
               <v-col cols="6">
                 <v-autocomplete
                   v-model="obj.strategy.blueGreen.previewService"
-                  :rules="bluegreenRules.previewServiceRules"
-                  :items="previewServiceItems"
-                  color="primary"
-                  label="发布版本服务（绿）"
-                  hide-selected
                   class="my-0"
+                  color="primary"
+                  hide-selected
+                  :items="previewServiceItems"
+                  label="发布版本服务（绿）"
                   no-data-text="暂无可选数据"
+                  :rules="bluegreenRules.previewServiceRules"
                   :search-input.sync="previewServiceText"
                   @keyup.enter="createPreviewService"
                 >
                   <template #selection="{ item }">
-                    <v-chip color="primary" small class="mx-1">
+                    <v-chip class="mx-1" color="primary" small>
                       {{ item['text'] }}
                     </v-chip>
                   </template>
@@ -58,17 +58,17 @@
               <v-col cols="6">
                 <v-autocomplete
                   v-model="updatePolicy"
-                  :items="updatePolicyitems"
-                  :rules="bluegreenRules.autoPromotionEnabledRules"
-                  color="primary"
-                  label="更新策略"
-                  hide-selected
                   class="my-0"
+                  color="primary"
+                  hide-selected
+                  :items="updatePolicyitems"
+                  label="更新策略"
                   no-data-text="暂无可选数据"
+                  :rules="bluegreenRules.autoPromotionEnabledRules"
                   @change="onUpdatePolicyChange"
                 >
                   <template #selection="{ item }">
-                    <v-chip color="primary" small class="ma-1">
+                    <v-chip class="ma-1" color="primary" small>
                       {{ item['text'] }}
                     </v-chip>
                   </template>
@@ -77,10 +77,10 @@
               <v-col v-if="updatePolicy === 'auto'" cols="6">
                 <v-text-field
                   v-model="obj.strategy.blueGreen.autoPromotionSeconds"
-                  :rules="bluegreenRules.autoPromotionSecondsRules"
                   class="my-0"
-                  required
                   label="延时时间"
+                  required
+                  :rules="bluegreenRules.autoPromotionSecondsRules"
                 />
               </v-col>
             </v-row>
@@ -98,25 +98,25 @@
             <AnalysisTemplateItem
               :obj="obj.strategy.blueGreen.prePromotionAnalysis"
               title="更新过程中分析"
-              @updateAnalysis="updatePreAnalysis"
-              @removeAnalysis="removePreAnalysis"
               @expandCard="expandCard('pre')"
+              @removeAnalysis="removePreAnalysis"
+              @updateAnalysis="updatePreAnalysis"
             />
 
             <AnalysisTemplateItem
               class="mt-3"
               :obj="obj.strategy.blueGreen.postPromotionAnalysis"
               title="更新完成后分析"
-              @updateAnalysis="updatePostAnalysis"
-              @removeAnalysis="removePostAnalysis"
               @expandCard="expandCard('post')"
+              @removeAnalysis="removePostAnalysis"
+              @updateAnalysis="updatePostAnalysis"
             />
           </v-card-text>
         </v-form>
       </v-flex>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="strategyDeployEnvironmentApps">
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="strategyDeployEnvironmentApps">
         确定
       </v-btn>
     </template>
@@ -125,23 +125,25 @@
 
 <script>
   import { mapState } from 'vuex';
-  import BaseDeployInfoForm from './base/BaseDeployInfoForm';
-  import AnalysisTemplateItem from './analysis_template/AnalysisTemplateItem';
+
   import AnalysisTemplateForm from './analysis_template/AnalysisTemplateForm';
+  import AnalysisTemplateItem from './analysis_template/AnalysisTemplateItem';
+  import BaseDeployInfoForm from './base/BaseDeployInfoForm';
+
   import { postStrategyDeployEnvironmentApps, getAppResourceFileMetas } from '@/api';
-  import StrategyDeploy from '@/views/resource/deploy/mixins/deploy';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
   import { required, positiveInteger } from '@/utils/rules';
+  import StrategyDeploy from '@/views/resource/deploy/mixins/deploy';
 
   export default {
     name: 'Recreate',
     components: {
-      AnalysisTemplateItem,
       AnalysisTemplateForm,
+      AnalysisTemplateItem,
       BaseDeployInfoForm,
     },
-    mixins: [StrategyDeploy, BaseResource],
+    mixins: [BaseResource, StrategyDeploy],
     data() {
       return {
         dialog: false,

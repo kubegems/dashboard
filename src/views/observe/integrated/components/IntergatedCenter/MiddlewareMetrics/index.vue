@@ -1,15 +1,15 @@
 <template>
   <div class="pa-2" :style="{ height: `${height}px`, overflowY: 'auto' }">
-    <BaseSubTitle title="监控采集配置" color="grey lighten-3" class="mx-2 mt-1" :divider="false" />
+    <BaseSubTitle class="mx-2 mt-1" color="grey lighten-3" :divider="false" title="监控采集配置" />
 
     <v-form v-model="valid" lazy-validation @submit.prevent>
-      <ProjectEnvSelect v-model="env" t="metrics" class="px-2 mt-0" />
+      <ProjectEnvSelect v-model="env" class="px-2 mt-0" t="metrics" />
       <JsonSchema
         ref="jsonSchema"
-        class="px-2"
         :app-values="appValues"
-        :params="params"
+        class="px-2"
         :cluster-name="env ? env.clusterName : ''"
+        :params="params"
         @changeBasicFormParam="changeBasicFormParam"
       />
     </v-form>
@@ -17,9 +17,11 @@
 </template>
 
 <script>
-  import { mapGetters, mapState } from 'vuex';
   import { Base64 } from 'js-base64';
+  import { mapGetters, mapState } from 'vuex';
+
   import ProjectEnvSelect from '../ProjectEnvSelect';
+
   import { postDeployAppStore, getChartSchema } from '@/api';
   import JsonSchema from '@/views/appstore/components/DeployWizard/JsonSchema';
   import { YamlMixin } from '@/views/appstore/mixins/yaml';
@@ -27,8 +29,8 @@
   export default {
     name: 'MiddlewareMetrics',
     components: {
-      ProjectEnvSelect,
       JsonSchema,
+      ProjectEnvSelect,
     },
     mixins: [YamlMixin],
     props: {

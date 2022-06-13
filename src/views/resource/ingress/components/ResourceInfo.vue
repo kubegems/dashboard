@@ -2,7 +2,7 @@
   <div>
     <v-card>
       <v-sheet class="pa-2">
-        <BaseListItemForDetail title="网关" :mt="0">
+        <BaseListItemForDetail :mt="0" title="网关">
           <template #content>
             {{ gateway ? gateway.metadata.name : '' }}
           </template>
@@ -17,7 +17,7 @@
     </v-card>
 
     <v-card class="mt-3">
-      <BaseSubTitle title="路由规则" :divider="false" class="pt-2" />
+      <BaseSubTitle class="pt-2" :divider="false" title="路由规则" />
       <v-flex class="pl-4 kubegems__text py-2 text-subtitle-1">HTTP</v-flex>
       <v-data-table
         class="mx-2 pa-2 no-header-table"
@@ -26,6 +26,9 @@
           { text: 'opp', value: 'opp', align: 'end' },
           { text: '', value: 'data-table-expand', align: 'end' },
         ]"
+        hide-default-footer
+        hide-default-header
+        item-key="host"
         :items="
           ingress
             ? ingress.spec.rules.filter((item) => {
@@ -34,11 +37,8 @@
             : []
         "
         no-data-text="暂无数据"
-        hide-default-footer
-        hide-default-header
-        single-expand
         show-expand
-        item-key="host"
+        single-expand
         @click:row="onHttpRowClick"
       >
         <template #[`item.http`]="{ item }">
@@ -48,18 +48,18 @@
         </template>
         <template #[`item.opp`]="{ item }">
           <v-flex v-for="(path, i) in item.http.paths" :key="i">
-            <v-btn x-small text color="primary" @click.stop="toAddress(item, ingress, path.path)"> 访问 </v-btn>
+            <v-btn color="primary" text x-small @click.stop="toAddress(item, ingress, path.path)"> 访问 </v-btn>
           </v-flex>
         </template>
         <template #expanded-item="{ headers, item }">
-          <td :colspan="headers.length" class="text-left">
+          <td class="text-left" :colspan="headers.length">
             <v-chip
               v-for="(path, i) in item.http.paths"
               :key="i"
-              color="success"
-              text-color="white"
               class="mx-1 font-weight-medium"
+              color="success"
               small
+              text-color="white"
             >
               {{ path.backend.serviceName }}｜{{ path.backend.servicePort }}
             </v-chip>
@@ -79,6 +79,9 @@
             align: 'end',
           },
         ]"
+        hide-default-footer
+        hide-default-header
+        item-key="host"
         :items="
           ingress
             ? ingress.spec.rules.filter((item) => {
@@ -87,11 +90,8 @@
             : []
         "
         no-data-text="暂无数据"
-        hide-default-footer
-        hide-default-header
-        single-expand
         show-expand
-        item-key="host"
+        single-expand
         @click:row="onHttpsRowClick"
       >
         <template #[`item.https`]="{ item }">
@@ -101,18 +101,18 @@
         </template>
         <template #[`item.opp`]="{ item }">
           <v-flex v-for="(path, i) in item.http.paths" :key="i">
-            <v-btn x-small text color="primary" @click.stop="toAddress(item, ingress, path.path)"> 访问 </v-btn>
+            <v-btn color="primary" text x-small @click.stop="toAddress(item, ingress, path.path)"> 访问 </v-btn>
           </v-flex>
         </template>
         <template #expanded-item="{ headers, item }">
-          <td :colspan="headers.length" class="text-left">
+          <td class="text-left" :colspan="headers.length">
             <v-chip
               v-for="(path, i) in item.http.paths"
               :key="i"
-              color="success"
-              text-color="white"
               class="mx-1 font-weight-medium"
+              color="success"
               small
+              text-color="white"
             >
               {{ path.backend.serviceName }}｜{{ path.backend.servicePort }}
             </v-chip>
@@ -131,11 +131,11 @@
     name: 'ResourceInfo',
     mixins: [BaseResource],
     props: {
-      item: {
+      gateway: {
         type: Object,
         default: () => null,
       },
-      gateway: {
+      item: {
         type: Object,
         default: () => null,
       },

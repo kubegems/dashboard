@@ -1,7 +1,7 @@
 <template>
-  <v-menu open-on-hover :nudge-width="200" offset-x>
+  <v-menu :nudge-width="200" offset-x open-on-hover>
     <template #activator="{ on, attrs }">
-      <v-icon small v-bind="attrs" color="warning" v-on="on"> mdi-alert-circle </v-icon>
+      <v-icon v-bind="attrs" color="warning" small v-on="on"> mdi-alert-circle </v-icon>
     </template>
     <v-card max-width="300">
       <v-list dense>

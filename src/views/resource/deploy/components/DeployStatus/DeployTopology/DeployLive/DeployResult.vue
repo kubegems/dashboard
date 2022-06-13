@@ -3,12 +3,12 @@
     <v-data-table
       disable-sort
       :headers="headers"
+      :height="height"
+      hide-default-footer
       :items="items"
-      :page.sync="params.page"
       :items-per-page="params.size"
       no-data-text="暂无数据"
-      hide-default-footer
-      :height="height"
+      :page.sync="params.page"
     >
       <template #[`item.kind`]="{ item }">
         {{ item.kind }}
@@ -31,6 +31,7 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import BaseResource from '@/mixins/resource';
 
   export default {

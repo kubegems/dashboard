@@ -4,9 +4,9 @@
     :class="{ 'item--active': active }"
     :color="active ? 'primary' : '#424242'"
     depressed
-    text
-    small
     :disabled="disabled"
+    small
+    text
     @click="onClick"
   >
     <slot />

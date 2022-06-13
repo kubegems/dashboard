@@ -6,7 +6,7 @@
       <v-card-text class="pa-2">
         <v-row>
           <v-col cols="6">
-            <v-switch v-model="delay" hide-details class="mt-4" label="请求延迟(Http Delay)" @change="onDelayChange" />
+            <v-switch v-model="delay" class="mt-4" hide-details label="请求延迟(Http Delay)" @change="onDelayChange" />
           </v-col>
         </v-row>
         <v-row v-if="delay">
@@ -14,25 +14,25 @@
             <v-text-field
               v-model="obj.fault.delay.percentage.value"
               class="my-0"
-              required
               label="延迟百分比(Delay Percentage)"
-              type="number"
+              required
               :rules="objRules.delayPercentageRule"
+              type="number"
             />
           </v-col>
           <v-col cols="6">
             <v-text-field
               v-model="obj.fault.delay.fixedDelay"
               class="my-0"
-              required
               label="固定延迟(Fixed Delay)"
+              required
               :rules="objRules.fixedDelayRule"
             />
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="6">
-            <v-switch v-model="abort" hide-details class="mt-4" label="请求中止(Http Abort)" @change="onAbortChange" />
+            <v-switch v-model="abort" class="mt-4" hide-details label="请求中止(Http Abort)" @change="onAbortChange" />
           </v-col>
         </v-row>
         <v-row v-if="abort">
@@ -40,20 +40,20 @@
             <v-text-field
               v-model="obj.fault.abort.percentage.value"
               class="my-0"
-              required
               label="中止百分比(Abort Percentage)"
-              type="number"
+              required
               :rules="objRules.abortPercentageRule"
+              type="number"
             />
           </v-col>
           <v-col cols="6">
             <v-text-field
               v-model="obj.fault.abort.httpStatus"
               class="my-0"
-              required
               label="状态码(HTTP Status Code)"
-              type="number"
+              required
               :rules="objRules.httpStatusRule"
+              type="number"
             />
           </v-col>
         </v-row>
@@ -64,14 +64,15 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import BaseSelect from '@/mixins/select';
+
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'FaultInjectionBaseForm',
-    mixins: [BaseSelect, BaseResource],
+    mixins: [BaseResource, BaseSelect],
     props: {
       vs: {
         type: Object,

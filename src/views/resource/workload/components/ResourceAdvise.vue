@@ -1,8 +1,8 @@
 <template>
   <div v-if="adviseItem">
-    <BaseTipWindow :top="top" icon="mdi-feather" title="资源建议">
+    <BaseTipWindow icon="mdi-feather" title="资源建议" :top="top">
       <template #header>
-        <v-icon small :color="getCondition(adviseItem).color" @click="scaleResourceLimit">
+        <v-icon :color="getCondition(adviseItem).color" small @click="scaleResourceLimit">
           {{ getCondition(adviseItem).icon }}
         </v-icon>
         <span
@@ -18,7 +18,7 @@
           <v-list-item-content>
             <v-list-item-title>
               容器
-              <v-btn v-if="index == 0" text x-small color="warning" absolute right @click="clearAdvise"> 忽略 </v-btn>
+              <v-btn v-if="index == 0" absolute color="warning" right text x-small @click="clearAdvise"> 忽略 </v-btn>
             </v-list-item-title>
             <v-list-item-content class="text-caption kubegems__text">
               {{ containerName }}
@@ -54,11 +54,11 @@
   export default {
     name: 'ResourceAdvise',
     props: {
-      item: {
+      adviseItem: {
         type: Object,
         default: () => null,
       },
-      adviseItem: {
+      item: {
         type: Object,
         default: () => null,
       },

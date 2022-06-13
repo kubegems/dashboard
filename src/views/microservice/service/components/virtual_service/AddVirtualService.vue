@@ -1,17 +1,19 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="创建istio虚拟服务" icon="mdi-cloud-outline" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-cloud-outline" title="创建istio虚拟服务" :width="1000" @reset="reset">
     <template #content>
       <component :is="formComponent" :ref="formComponent" title="VirtualService" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="addIstioVirtualService"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addIstioVirtualService"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapState } from 'vuex';
+
   import IstioVirtualServiceBaseForm from './IstioVirtualServiceBaseForm';
+
   import { postAddIstioVirtualService } from '@/api';
   import BaseResource from '@/mixins/resource';
   import IstioVirtualServiceSchema from '@/views/microservice/service/mixins/schema';

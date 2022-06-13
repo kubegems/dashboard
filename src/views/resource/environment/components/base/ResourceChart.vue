@@ -1,35 +1,35 @@
 <template>
   <div>
     <v-row>
-      <v-col cols="3" class="py-0">
-        <VueApexCharts type="radialBar" height="250" :options="cpuOptions" :series="cpuSeries" />
+      <v-col class="py-0" cols="3">
+        <VueApexCharts height="250" :options="cpuOptions" :series="cpuSeries" type="radialBar" />
       </v-col>
-      <v-col cols="3" class="py-0">
-        <VueApexCharts type="radialBar" height="250" :options="memoryOptions" :series="memorySeries" />
+      <v-col class="py-0" cols="3">
+        <VueApexCharts height="250" :options="memoryOptions" :series="memorySeries" type="radialBar" />
       </v-col>
-      <v-col cols="3" class="py-0">
-        <VueApexCharts type="radialBar" height="250" :options="storageOptions" :series="storageSeries" />
+      <v-col class="py-0" cols="3">
+        <VueApexCharts height="250" :options="storageOptions" :series="storageSeries" type="radialBar" />
       </v-col>
-      <v-col cols="3" class="py-0">
-        <VueApexCharts type="radialBar" height="250" :options="podOptions" :series="podSeries" />
+      <v-col class="py-0" cols="3">
+        <VueApexCharts height="250" :options="podOptions" :series="podSeries" type="radialBar" />
       </v-col>
 
-      <v-col v-if="nvidia && showMore" cols="3" class="py-0">
-        <VueApexCharts type="radialBar" height="250" :options="nvidiaGpuOptions" :series="nvidiaGpuSeries" />
+      <v-col v-if="nvidia && showMore" class="py-0" cols="3">
+        <VueApexCharts height="250" :options="nvidiaGpuOptions" :series="nvidiaGpuSeries" type="radialBar" />
       </v-col>
 
       <template v-if="tke && showMore">
-        <v-col cols="3" class="py-0">
-          <VueApexCharts type="radialBar" height="250" :options="tkeGpuOptions" :series="tkeGpuSeries" />
+        <v-col class="py-0" cols="3">
+          <VueApexCharts height="250" :options="tkeGpuOptions" :series="tkeGpuSeries" type="radialBar" />
         </v-col>
-        <v-col cols="3" class="py-0">
-          <VueApexCharts type="radialBar" height="250" :options="tkeMemoryOptions" :series="tkeMemorySeries" />
+        <v-col class="py-0" cols="3">
+          <VueApexCharts height="250" :options="tkeMemoryOptions" :series="tkeMemorySeries" type="radialBar" />
         </v-col>
       </template>
     </v-row>
 
     <div v-if="tke || nvidia" class="mb-2 text-center">
-      <v-btn text small color="primary" @click="showMore = !showMore">
+      <v-btn color="primary" small text @click="showMore = !showMore">
         {{ showMore ? '折叠GPU' : '显示GPU' }}
       </v-btn>
     </div>
@@ -38,6 +38,7 @@
 
 <script>
   import VueApexCharts from 'vue-apexcharts';
+
   import { generateRadialBarChartOptions } from '@/utils/chart';
 
   export default {

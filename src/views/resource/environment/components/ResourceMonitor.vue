@@ -1,6 +1,6 @@
 <template>
   <v-card class="mt-3">
-    <BaseSubTitle class="pt-2" title="资源监控" :divider="false">
+    <BaseSubTitle class="pt-2" :divider="false" title="资源监控">
       <template #selector>
         <v-sheet class="text-body-2 text--darken-1">
           <BaseDatetimePicker v-model="date" :default-value="30" @change="onDatetimeChange(undefined)" />
@@ -12,21 +12,21 @@
         <v-col cols="6">
           <BaseApexAreaChart
             id="cpu"
-            title="CPU使用量"
-            :metrics="cpu"
-            type="cpu"
-            :label-show="false"
             label="environment"
+            :label-show="false"
+            :metrics="cpu"
+            title="CPU使用量"
+            type="cpu"
           />
         </v-col>
         <v-col cols="6">
           <BaseApexAreaChart
             id="memory"
-            title="内存使用量"
-            :metrics="memory"
-            type="memory"
-            :label-show="false"
             label="environment"
+            :label-show="false"
+            :metrics="memory"
+            title="内存使用量"
+            type="memory"
           />
         </v-col>
       </v-row>
@@ -34,21 +34,21 @@
         <v-col cols="6">
           <BaseApexAreaChart
             id="networkin"
-            title="网络入口流量"
-            :metrics="networkin"
-            type="network"
-            :label-show="false"
             label="environment"
+            :label-show="false"
+            :metrics="networkin"
+            title="网络入口流量"
+            type="network"
           />
         </v-col>
         <v-col cols="6">
           <BaseApexAreaChart
             id="networkout"
-            title="网络出口流量"
-            :metrics="networkout"
-            type="network"
-            :label-show="false"
             label="environment"
+            :label-show="false"
+            :metrics="networkout"
+            title="网络出口流量"
+            type="network"
           />
         </v-col>
       </v-row>
@@ -58,8 +58,9 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import BaseResource from '@/mixins/resource';
+
   import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
   import {
     ENVIRONMENT_CPU_USAGE_PROMQL,
     ENVIRONMENT_MEMORY_USAGE_PROMQL,
@@ -69,7 +70,7 @@
 
   export default {
     name: 'ResourceMonitor',
-    mixins: [BaseResource, BasePermission],
+    mixins: [BasePermission, BaseResource],
     props: {
       ready: {
         type: Boolean,

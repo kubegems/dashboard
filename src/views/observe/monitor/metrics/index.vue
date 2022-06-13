@@ -1,18 +1,18 @@
 <template>
-  <v-container fluid class="queryer">
+  <v-container class="queryer" fluid>
     <BaseBreadcrumb class="queryer__header">
       <template #extend>
         <div class="kubegems__full-right">
-          <ButtonInput v-model="step" label="Step:" empty-value-placeholder="auto" class="mr-2">
+          <ButtonInput v-model="step" class="mr-2" empty-value-placeholder="auto" label="Step:">
             <v-combobox
               v-model="step"
-              :items="['auto']"
               dense
-              solo
               flat
               hide-details
-              :rules="fieldRules.step"
+              :items="['auto']"
               placeholder="Step"
+              :rules="fieldRules.step"
+              solo
               :style="{ width: '110px' }"
               @change="_handleRefresh(undefined)"
             />
@@ -24,7 +24,7 @@
             :default-value="30"
             @change="onRefresh(undefined)"
           />
-          <v-btn color="primary" text small @click="onRefresh(undefined)">
+          <v-btn color="primary" small text @click="onRefresh(undefined)">
             <v-icon left small> fas fa-redo </v-icon>
             刷新
           </v-btn>
@@ -40,13 +40,13 @@
               <!-- panel-header -->
               <v-expansion-panel-header disable-icon-rotate>
                 <div>
-                  <v-btn x-small depressed color="primary" class="mr-2">
+                  <v-btn class="mr-2" color="primary" depressed x-small>
                     {{ index + 1 }}
                   </v-btn>
-                  <v-btn v-if="item.resource" x-small depressed class="mr-2" color="success">
+                  <v-btn v-if="item.resource" class="mr-2" color="success" depressed x-small>
                     {{ item.resource.showName }}
                   </v-btn>
-                  <v-btn v-if="item.rule" x-small depressed color="success">
+                  <v-btn v-if="item.rule" color="success" depressed x-small>
                     {{ item.rule.showName }}
                   </v-btn>
                 </div>
@@ -61,15 +61,15 @@
               <v-expansion-panel-content>
                 <v-form :ref="`${item._$id}-form`" lazy-validation @submit.prevent="onSearch(item._$id)">
                   <!-- 项目环境 -->
-                  <BaseSubTitle :title="queryList[index].isCluster ? '集群' : '项目环境'" class="mb-3">
+                  <BaseSubTitle class="mb-3" :title="queryList[index].isCluster ? '集群' : '项目环境'">
                     <template #action>
                       <v-switch
                         v-if="AdminViewport"
                         v-model="queryList[index].isCluster"
                         class="ma-0 px-2 ml-2 mt-0"
-                        style="margin-top: 2px !important"
                         color="primary"
                         hide-details
+                        style="margin-top: 2px !important"
                         @change="onLatitudeChange(index)"
                       >
                         <template #label>
@@ -86,20 +86,20 @@
                         <v-autocomplete
                           v-model="queryList[index].cluster"
                           class="px-2"
-                          :items="m_select_clusterItems"
+                          dense
+                          flat
                           item-text="text"
                           item-value="value"
+                          :items="m_select_clusterItems"
                           label="集群"
-                          dense
-                          solo
-                          flat
-                          return-object
                           no-data-text="暂无可选数据"
+                          return-object
                           :rules="fieldRules.required"
+                          solo
                           @change="onClusterChange(index)"
                         >
                           <template #selection="{ item }">
-                            <v-chip color="primary" small label>
+                            <v-chip color="primary" label small>
                               <span>{{ item.text }}</span>
                             </v-chip>
                           </template>
@@ -112,20 +112,20 @@
                         <v-autocomplete
                           v-model="queryList[index].project"
                           class="px-2"
-                          :items="queryList[index].projectItems"
+                          dense
+                          flat
                           item-text="text"
                           item-value="value"
+                          :items="queryList[index].projectItems"
                           label="项目"
-                          dense
-                          solo
-                          flat
                           no-data-text="暂无可选数据"
                           return-object
                           :rules="fieldRules.required"
+                          solo
                           @change="onProjectChange(index)"
                         >
                           <template #selection="{ item }">
-                            <v-chip color="primary" small label>
+                            <v-chip color="primary" label small>
                               <span>{{ item.text }}</span>
                             </v-chip>
                           </template>
@@ -134,20 +134,20 @@
                         <v-autocomplete
                           v-model="queryList[index].environment"
                           class="px-2"
-                          :items="queryList[index].environmentItems"
+                          dense
+                          :disabled="!queryList[index].project"
+                          flat
                           item-text="EnvironmentName"
                           item-value="ID"
+                          :items="queryList[index].environmentItems"
                           label="环境"
-                          dense
-                          solo
-                          flat
-                          return-object
                           no-data-text="暂无可选数据"
-                          :disabled="!queryList[index].project"
+                          return-object
                           :rules="fieldRules.required"
+                          solo
                         >
                           <template #selection="{ item }">
-                            <v-chip color="primary" small label>
+                            <v-chip color="primary" label small>
                               <span>{{ item.EnvironmentName }}</span>
                             </v-chip>
                           </template>
@@ -158,14 +158,14 @@
                   <!-- 项目环境 -->
 
                   <!-- 资源规则 -->
-                  <BaseSubTitle title="资源规则" class="mb-3">
+                  <BaseSubTitle class="mb-3" title="资源规则">
                     <template #action>
                       <v-switch
                         v-model="queryList[index].ql"
                         class="ma-0 px-2 ml-2 mt-0"
-                        style="margin-top: 2px !important"
                         color="primary"
                         hide-details
+                        style="margin-top: 2px !important"
                       >
                         <template #label>
                           <span class="text-body-2 font-weight-medium"> PromQl </span>
@@ -177,13 +177,13 @@
                   <template v-if="queryList[index].ql">
                     <v-textarea
                       v-model="queryList[index].expr"
-                      class="px-2"
-                      solo
-                      flat
-                      dense
                       auto-grow
+                      class="px-2"
+                      dense
+                      flat
                       label="查询语句"
                       :rules="fieldRules.required"
+                      solo
                     />
                     <MetricsSuggestion
                       :cluster="
@@ -201,20 +201,20 @@
                     <v-autocomplete
                       v-model="queryList[index].resource"
                       class="px-2"
-                      :items="queryList[index].resourceItems"
+                      dense
+                      flat
                       item-text="showName"
                       item-value="_$value"
+                      :items="queryList[index].resourceItems"
                       label="资源"
-                      dense
-                      solo
-                      flat
+                      no-data-text="暂无可选数据"
                       return-object
                       :rules="fieldRules.required"
-                      no-data-text="暂无可选数据"
+                      solo
                       @change="setRuleItems(index)"
                     >
                       <template #selection="{ item }">
-                        <v-chip color="primary" small label>
+                        <v-chip color="primary" label small>
                           <span>{{ item.showName }}</span>
                         </v-chip>
                       </template>
@@ -223,21 +223,21 @@
                     <v-autocomplete
                       v-model="queryList[index].rule"
                       class="px-2"
-                      :items="queryList[index].ruleItems"
+                      dense
+                      :disabled="!queryList[index].resource"
+                      flat
                       item-text="showName"
                       item-value="_$value"
+                      :items="queryList[index].ruleItems"
                       label="规则"
-                      dense
-                      solo
-                      flat
-                      return-object
                       no-data-text="暂无可选数据"
-                      :disabled="!queryList[index].resource"
+                      return-object
                       :rules="fieldRules.required"
+                      solo
                       @change="setUnitItems(index)"
                     >
                       <template #selection="{ item }">
-                        <v-chip color="primary" small label>
+                        <v-chip color="primary" label small>
                           <span>{{ item.showName }}</span>
                         </v-chip>
                       </template>
@@ -246,20 +246,20 @@
                     <v-autocomplete
                       v-model="queryList[index].unit"
                       class="px-2"
+                      dense
+                      :disabled="!queryList[index].rule || !queryList[index].unitItems.length"
+                      flat
+                      item-text="text"
+                      item-value="_$value"
                       :items="queryList[index].unitItems"
                       label="单位"
-                      item-value="_$value"
-                      item-text="text"
-                      dense
-                      solo
-                      flat
-                      return-object
                       no-data-text="暂无可选数据"
-                      :disabled="!queryList[index].rule || !queryList[index].unitItems.length"
+                      return-object
                       :rules="queryList[index].unitItems.length ? fieldRules.required : undefined"
+                      solo
                     >
                       <template #selection="{ item }">
-                        <v-chip color="primary" small label>
+                        <v-chip color="primary" label small>
                           <span>{{ item.text }}</span>
                         </v-chip>
                       </template>
@@ -270,8 +270,8 @@
 
                   <!-- 查询 -->
                   <div class="queryer__panel-search">
-                    <v-btn depressed class="mr-4" @click="onRemove(item._$id)"> 移除 </v-btn>
-                    <v-btn depressed color="primary" type="submit"> 查询 </v-btn>
+                    <v-btn class="mr-4" depressed @click="onRemove(item._$id)"> 移除 </v-btn>
+                    <v-btn color="primary" depressed type="submit"> 查询 </v-btn>
                   </div>
                   <!-- 查询 -->
                 </v-form>
@@ -287,7 +287,7 @@
               </v-btn>
             </v-col>
             <v-col :cols="6">
-              <v-btn block color="primary" class="mt-4" @click="onAddQuery">
+              <v-btn block class="mt-4" color="primary" @click="onAddQuery">
                 <v-icon>mdi-plus-box</v-icon>
                 添加查询
               </v-btn>
@@ -302,16 +302,16 @@
             <MetricsItem
               v-for="item in metricsItems"
               :key="item._$value"
+              class="mb-3"
+              :data="item"
+              :label-object="labelObject[item._$value]"
+              :labelpairs="labelpairs[item._$value]"
               :title="item._$title"
               :unit="item._$unit"
-              :data="item"
-              :labelpairs="labelpairs[item._$value]"
-              :label-object="labelObject[item._$value]"
-              class="mb-3"
-              @loadLabel="getLabelItems($event, item._$value)"
-              @change="onLabelChange($event, item._$value)"
-              @refresh="onRefresh(item._$value)"
               @alert="onAddAlert"
+              @change="onLabelChange($event, item._$value)"
+              @loadLabel="getLabelItems($event, item._$value)"
+              @refresh="onRefresh(item._$value)"
             />
           </transition-group>
         </div>
@@ -324,9 +324,11 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import ButtonInput from './components/ButtonInput';
   import MetricsItem from './components/MetricsItem';
   import MetricsSuggestion from './components/MetricsSuggestion';
+
   import {
     getSystemConfigData,
     getMyConfigData,
@@ -335,17 +337,17 @@
     getProjectEnvironmentList,
     getMetricsLabelValues,
   } from '@/api';
-  import AddPrometheusRule from '@/views/observe/monitor/config/prometheusrule/components/AddPrometheusRule';
   import BaseSelect from '@/mixins/select';
   import { deepCopy, debounce } from '@/utils/helpers';
   import { required } from '@/utils/rules';
+  import AddPrometheusRule from '@/views/observe/monitor/config/prometheusrule/components/AddPrometheusRule';
 
   export default {
     name: 'MetricsIndex',
     components: {
-      MetricsItem,
       AddPrometheusRule,
       ButtonInput,
+      MetricsItem,
       MetricsSuggestion,
     },
     mixins: [BaseSelect],

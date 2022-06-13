@@ -1,17 +1,19 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="流量切换" icon="mdi-recycle" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-recycle" title="流量切换" :width="1000" @reset="reset">
     <template #content>
-      <component :is="formComponent" :ref="formComponent" :service="service" :vs="vs" title="TrafficShifting" />
+      <component :is="formComponent" :ref="formComponent" :service="service" title="TrafficShifting" :vs="vs" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="addTrafficShifting"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addTrafficShifting"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import TrafficShiftingBaseForm from './TrafficShiftingBaseForm';
+
   import { postAddTrafficShifting } from '@/api';
   import BaseResource from '@/mixins/resource';
 

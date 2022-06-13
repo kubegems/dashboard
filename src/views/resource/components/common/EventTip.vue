@@ -1,16 +1,16 @@
 <template>
   <v-menu
-    open-on-hover
+    :close-delay="200"
+    :close-on-content-click="false"
     :disabled="disabled"
     left
-    transition="scale-transition"
     max-width="200px"
-    :close-on-content-click="false"
     nudge-bottom="5px"
-    :top="top"
     offset-y
+    open-on-hover
     :origin="`${top ? 'bottom center' : 'top center'}`"
-    :close-delay="200"
+    :top="top"
+    transition="scale-transition"
   >
     <template #activator="{ on }">
       <span
@@ -27,10 +27,10 @@
         <v-icon color="white" left small> mdi-bell-ring </v-icon>
         <span>事件</span>
       </v-flex>
-      <v-list dense class="pa-0 kubegems__tip">
+      <v-list class="pa-0 kubegems__tip" dense>
         <v-list-item>
           <v-list-item-content v-if="event">
-            <v-list-item two-line class="float-left pa-0">
+            <v-list-item class="float-left pa-0" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title> 最新事件 </v-list-item-title>
                 <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
@@ -38,7 +38,7 @@
                 </v-list-item-content>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item two-line class="float-left pa-0">
+            <v-list-item class="float-left pa-0" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title> 发生时间 </v-list-item-title>
                 <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
@@ -70,13 +70,13 @@
         type: Boolean,
         default: () => false,
       },
-      kind: {
-        type: String,
-        default: () => 'Pod',
-      },
       item: {
         type: Object,
         default: () => {},
+      },
+      kind: {
+        type: String,
+        default: () => 'Pod',
       },
       top: {
         type: Boolean,

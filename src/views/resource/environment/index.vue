@@ -5,34 +5,34 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
+          :default="{ items: [], text: '环境名称', value: 'search' }"
           :filters="filters"
           :reload="false"
-          :default="{ items: [], text: '环境名称', value: 'search' }"
-          @refresh="m_filter_list"
           @filter="customFilter"
+          @refresh="m_filter_list"
         />
         <v-sheet class="text-subtitle-2 ml-4">租户</v-sheet>
         <v-sheet width="350">
           <v-autocomplete
             v-model="tenant"
-            color="primary"
             chips
-            hide-selected
-            hide-details
-            label="租户"
-            prepend-inner-icon="mdi-account-switch"
+            class="ml-2"
+            color="primary"
             dense
-            solo
             flat
             full-width
-            no-data-text="无数据"
-            class="ml-2"
+            hide-details
+            hide-selected
             :items="m_select_tenantItems"
-            @focus="onTenantSelectFocus"
+            label="租户"
+            no-data-text="无数据"
+            prepend-inner-icon="mdi-account-switch"
+            solo
             @change="onTenantSelectChange"
+            @focus="onTenantSelectFocus"
           >
             <template #selection="{ attrs, item, selected }">
-              <v-chip :input-value="selected" color="primary" label small v-bind="attrs">
+              <v-chip color="primary" :input-value="selected" label small v-bind="attrs">
                 <span class="pr-2">{{ item.text }}</span>
               </v-chip>
             </template>
@@ -45,11 +45,11 @@
           class="mx-4"
           disable-sort
           :headers="headers"
+          hide-default-footer
           :items="items"
-          :page.sync="page"
           :items-per-page="itemsPerPage"
           no-data-text="暂无数据"
-          hide-default-footer
+          :page.sync="page"
           @page-count="pageCount = $event"
         >
           <template #[`item.environmentName`]="{ item }">
@@ -57,13 +57,13 @@
           </template>
           <template #[`item.metaType`]="{ item }">
             <v-chip
-              small
-              label
               :color="
                 $METATYPE_CN[item.MetaType] && $METATYPE_CN[item.MetaType].color
                   ? $METATYPE_CN[item.MetaType].color
                   : 'grey'
               "
+              label
+              small
             >
               {{ $METATYPE_CN[item.MetaType].cn }}
             </v-chip>
@@ -81,9 +81,9 @@
             {{ item.UsedCpu.toFixed(1) }} core
             <v-progress-linear
               class="rounded font-weight-medium"
-              :value="item.CpuPercentage"
-              height="15"
               :color="getColor(item.CpuPercentage)"
+              height="15"
+              :value="item.CpuPercentage"
             >
               <span class="white--text"> {{ item.CpuPercentage }}% </span>
             </v-progress-linear>
@@ -92,9 +92,9 @@
             {{ item.UsedMemory.toFixed(1) }} Gi
             <v-progress-linear
               class="rounded font-weight-medium"
-              :value="item.MemoryPercentage"
-              height="15"
               :color="getColor(item.MemoryPercentage)"
+              height="15"
+              :value="item.MemoryPercentage"
             >
               <span class="white--text"> {{ item.MemoryPercentage }}% </span>
             </v-progress-linear>
@@ -103,28 +103,28 @@
             {{ item.UsedStorage.toFixed(1) }} Gi
             <v-progress-linear
               class="rounded font-weight-medium"
-              :value="item.StoragePercentage"
-              height="15"
               :color="getColor(item.StoragePercentage)"
+              height="15"
+              :value="item.StoragePercentage"
             >
               <span class="white--text"> {{ item.StoragePercentage }}% </span>
             </v-progress-linear>
           </template>
           <template #[`item.action`]="{ item }">
             <v-flex :id="`r${item.ID}`" />
-            <v-menu left :attach="`#r${item.ID}`">
+            <v-menu :attach="`#r${item.ID}`" left>
               <template #activator="{ on }">
                 <v-btn icon>
-                  <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                  <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
                 </v-btn>
               </template>
               <v-card>
                 <v-card-text class="pa-2">
                   <v-flex>
-                    <v-btn color="primary" text small @click="updateEnvironment(item)"> 编辑 </v-btn>
+                    <v-btn color="primary" small text @click="updateEnvironment(item)"> 编辑 </v-btn>
                   </v-flex>
                   <v-flex>
-                    <v-btn color="error" text small @click="removeEnvironment(item)"> 删除 </v-btn>
+                    <v-btn color="error" small text @click="removeEnvironment(item)"> 删除 </v-btn>
                   </v-flex>
                 </v-card-text>
               </v-card>
@@ -138,9 +138,9 @@
           :front-page="true"
           :page-count="pageCount"
           :size="itemsPerPage"
-          @loaddata="environmentTenantResourceQuota(tenant)"
-          @changesize="onPageSizeChange"
           @changepage="onPageIndexChange"
+          @changesize="onPageSizeChange"
+          @loaddata="environmentTenantResourceQuota(tenant)"
         />
       </v-card-text>
     </v-card>
@@ -151,12 +151,14 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import UpdateEnvironment from './components/UpdateEnvironment';
+
   import { deleteEnvironment, getEnvironmentTenantResourceQuota } from '@/api';
-  import BaseSelect from '@/mixins/select';
-  import BaseResource from '@/mixins/resource';
-  import BasePermission from '@/mixins/permission';
   import BaseFilter from '@/mixins/base_filter';
+  import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
   import BaseTable from '@/mixins/table';
   import { sizeOfStorage, sizeOfCpu, deepCopy } from '@/utils/helpers';
 
@@ -165,7 +167,7 @@
     components: {
       UpdateEnvironment,
     },
-    mixins: [BaseSelect, BaseResource, BasePermission, BaseFilter, BaseTable],
+    mixins: [BaseFilter, BasePermission, BaseResource, BaseSelect, BaseTable],
     inject: ['reload'],
     data: () => ({
       items: [],

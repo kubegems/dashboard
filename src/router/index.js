@@ -1,19 +1,20 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import { global } from './global';
-import { platform } from './platform';
+import { adminObserve } from './admin_observe';
 import { adminWorkspace } from './admin_workspace';
 import { appStore } from './app_store';
-import { adminObserve } from './admin_observe';
+import { dashboard } from './dashboard';
+import { entryMicroService } from './entry_microservice';
+import { global } from './global';
 import { microService } from './microservice';
-import { workspace } from './workspace';
 import { observe } from './observe';
+import { platform } from './platform';
+import { projectWorkspace } from './project_workspace';
 import { tool } from './tool';
 import { userCenter } from './user_center';
-import { projectWorkspace } from './project_workspace';
-import { entryMicroService } from './entry_microservice';
-import { dashboard } from './dashboard';
+import { workspace } from './workspace';
+
 import store from '@/store';
 
 const originalPush = Router.prototype.push;

@@ -85,7 +85,7 @@
 
   export default {
     name: 'BaseClusterHeader',
-    mixins: [BaseSelect, BaseResource],
+    mixins: [BaseResource, BaseSelect],
     inject: ['reload'],
     props: {
       selectable: {

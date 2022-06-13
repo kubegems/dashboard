@@ -1,19 +1,19 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="更新证书" icon="mdi-book-open" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-book-open" title="更新证书" :width="1000" @reset="reset">
     <template #content>
-      <component :is="formComponent" :ref="formComponent" :item="item" :edit="true" title="Certificate" />
+      <component :is="formComponent" :ref="formComponent" :edit="true" :item="item" title="Certificate" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="updateCertificate"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateCertificate"> 确定 </v-btn>
     </template>
     <template #header-action>
       <v-switch
         :key="switchKey"
         v-model="yaml"
         class="ma-0 pl-2 ml-2 mt-1"
-        style="margin-top: 8px !important"
         color="white"
         hide-details
+        style="margin-top: 8px !important"
         @change="onYamlSwitchChange"
       >
         <template #label>
@@ -26,11 +26,13 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import CertificateBaseForm from './CertificateBaseForm';
+
   import { patchUpdateCertificate, getCertificateDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
-  import CertmanagerSchema from '@/views/resource/certmanager/mixins/schema';
   import { deepCopy, randomString } from '@/utils/helpers';
+  import CertmanagerSchema from '@/views/resource/certmanager/mixins/schema';
 
   export default {
     name: 'Updatecertificate',

@@ -1,17 +1,19 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="创建应用" icon="mdi-apps" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-apps" title="创建应用" :width="1000" @reset="reset">
     <template #content>
       <component :is="formComponent" :ref="formComponent" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="addManifest"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addManifest"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapState } from 'vuex';
+
   import AppBaseForm from './AppBaseForm';
+
   import { postAddManifest } from '@/api';
 
   export default {

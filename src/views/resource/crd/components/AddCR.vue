@@ -1,11 +1,11 @@
 m
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="创建自定义资源" icon="mdi-collage" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-collage" title="创建自定义资源" :width="1000" @reset="reset">
     <template #content>
       <BaseYamlForm ref="yamlForm" :item="item" :title="crd ? crd.spec.names.kind : ''" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="addCR"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addCR"> 确定 </v-btn>
     </template>
     <template #header-action>
       <div class="text-h6 ml-2 white--text mt-1">Yaml</div>
@@ -15,6 +15,7 @@ m
 
 <script>
   import { mapState } from 'vuex';
+
   import { postAddCR } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';

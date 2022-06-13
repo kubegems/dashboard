@@ -1,52 +1,52 @@
 <template>
   <FormWizard
     ref="deploy"
+    back-button-text="上一步"
     :class="`px-8 pt-8`"
-    shape="tab"
-    title=""
-    subtitle=""
     color="#1e88e5"
     error-color="#e74c3c"
-    next-button-text="下一步"
-    back-button-text="上一步"
     finish-button-text="部署"
-    step-size="sm"
+    next-button-text="下一步"
+    shape="tab"
     :start-index="0"
+    step-size="sm"
+    subtitle=""
+    title=""
   >
     <TabContent
-      :class="`zoom-${Scale.toString().replaceAll('.', '-')} kubegems__wizard-tab-content mt-8`"
-      title="基本配置"
-      icon="ti-info-alt"
       :before-change="validateBaseInfo"
+      :class="`zoom-${Scale.toString().replaceAll('.', '-')} kubegems__wizard-tab-content mt-8`"
+      icon="ti-info-alt"
+      title="基本配置"
     >
-      <v-form ref="form" v-model="valid" lazy-validation class="wizard-form-content" @submit.prevent>
+      <v-form ref="form" v-model="valid" class="wizard-form-content" lazy-validation @submit.prevent>
         <v-row>
           <v-col class="my-2">
             <v-text-field
               v-model="obj.AppName"
               class="my-4"
-              required
-              label="应用名称"
               flat
+              label="应用名称"
+              required
               :rules="objRules.appNameRules"
               @change="onAppNameChange"
             />
             <v-autocomplete
               v-model="obj.TenantProjectId"
-              color="primary"
-              :items="m_select_tenantProjectItems"
-              :rules="objRules.tenantProjectIdRules"
-              label="项目"
-              hide-selected
               class="my-4"
+              color="primary"
+              hide-selected
               item-text="text"
-              no-data-text="暂无可选数据"
+              :items="m_select_tenantProjectItems"
+              label="项目"
               :menu-props="{
                 bottom: true,
                 left: true,
                 origin: `top center`,
                 transition: `scale-transition`,
               }"
+              no-data-text="暂无可选数据"
+              :rules="objRules.tenantProjectIdRules"
               @focus="onTenantProjectSelectFocus"
             >
               <template #selection="{ item }">
@@ -59,19 +59,19 @@
           <v-col class="my-2">
             <v-autocomplete
               v-model="obj.selectVersion"
+              class="my-4"
+              color="primary"
+              hide-selected
+              :items="versions"
+              label="版本"
               :menu-props="{
                 bottom: true,
                 left: true,
                 origin: `top center`,
                 transition: `scale-transition`,
               }"
-              :items="versions"
-              color="primary"
-              :rules="objRules.versionRules"
-              label="版本"
-              hide-selected
-              class="my-4"
               no-data-text="暂无可选数据"
+              :rules="objRules.versionRules"
               @change="onAppVersionChange"
             >
               <template #selection="{ item }">
@@ -83,23 +83,23 @@
 
             <v-autocomplete
               v-model="obj.EnvironmentId"
-              color="primary"
-              :items="m_select_projectEnvironmentItems"
-              :rules="objRules.environmentIdRules"
-              label="环境"
-              hide-selected
               class="my-4"
-              no-data-text="暂无可选数据"
+              color="primary"
+              hide-selected
+              :items="m_select_projectEnvironmentItems"
+              label="环境"
               :menu-props="{
                 bottom: true,
                 left: true,
                 origin: `top center`,
                 transition: `scale-transition`,
               }"
+              no-data-text="暂无可选数据"
+              :rules="objRules.environmentIdRules"
               @focus="onEnvSelectFocus"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -109,24 +109,24 @@
       </v-form>
     </TabContent>
     <TabContent
-      title="详细配置"
+      :class="`zoom-${Scale.toString().replaceAll('.', '-')} kubegems__wizard-tab-content mt-12`"
       icon="ti-settings"
       :lazy="false"
-      :class="`zoom-${Scale.toString().replaceAll('.', '-')} kubegems__wizard-tab-content mt-12`"
+      title="详细配置"
     >
       <v-tabs v-model="tab" height="30" rounded-t @change="onTabChange">
         <v-tab v-for="item in tabItems" :key="item.value">
           {{ item.text }}
-          <Tips v-if="tab === 0 && selectRepo !== 'kubegems'" msg="第三方仓库,建议使用values.yaml配置" class="mx-1" />
+          <Tips v-if="tab === 0 && selectRepo !== 'kubegems'" class="mx-1" msg="第三方仓库,建议使用values.yaml配置" />
         </v-tab>
       </v-tabs>
       <div v-if="tab === 0" class="py-2">
         <JsonSchema
           ref="jsonSchema"
           :app-values="appValues"
-          :params="params"
-          :cluster-name="clusterName"
           class="mt-0"
+          :cluster-name="clusterName"
+          :params="params"
           @changeBasicFormParam="changeBasicFormParam"
         />
       </div>
@@ -136,8 +136,8 @@
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded`"
           lang="yaml"
           :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
-          theme="chrome"
           :style="`height: ${height}px !important`"
+          theme="chrome"
           @init="$aceinit"
           @keydown.stop
         />
@@ -145,23 +145,23 @@
       <AppStoreDeployLoading :dialog="deployDialog" />
     </TabContent>
     <TabContent
-      title="完成"
+      :class="`zoom-${Scale.toString().replaceAll('.', '-')} kubegems__wizard-tab-content mt-12`"
       icon="ti-check"
       :lazy="false"
-      :class="`zoom-${Scale.toString().replaceAll('.', '-')} kubegems__wizard-tab-content mt-12`"
+      title="完成"
     >
       <AppStoreComplete v-if="completed" class="mt-12 pt-12" @showDeployStatus="showDeployStatus" />
     </TabContent>
     <template #footer="props">
       <v-flex class="kubegems__wizard-footer" :style="`right:${footerWidth}px;`">
-        <v-btn v-show="props.activeTabIndex > 0" text color="primary" @click.native="props.prevTab()"> 上一步 </v-btn>
-        <v-btn v-if="props.activeTabIndex === 0" text color="primary" @click.native="nextStep(props)"> 下一步 </v-btn>
+        <v-btn v-show="props.activeTabIndex > 0" color="primary" text @click.native="props.prevTab()"> 上一步 </v-btn>
+        <v-btn v-if="props.activeTabIndex === 0" color="primary" text @click.native="nextStep(props)"> 下一步 </v-btn>
 
         <v-btn
           v-if="props.activeTabIndex === 1"
-          text
           color="primary"
           :loading="Circular"
+          text
           @click.native="deployAppStore(props)"
         >
           部署
@@ -172,49 +172,51 @@
 </template>
 
 <script>
-  import { mapGetters, mapState } from 'vuex';
-  import { FormWizard, TabContent } from 'vue-form-wizard';
   import { Base64 } from 'js-base64';
-  import Tips from './Tips';
-  import AppStoreDeployLoading from './AppStoreDeployLoading';
+  import { FormWizard, TabContent } from 'vue-form-wizard';
+  import { mapGetters, mapState } from 'vuex';
+
   import AppStoreComplete from './AppStoreComplete';
+  import AppStoreDeployLoading from './AppStoreDeployLoading';
+  import Tips from './Tips';
+
   import { postDeployAppStore, getAppStoreFiles } from '@/api';
-  import BaseSelect from '@/mixins/select';
-  import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
-  import { YamlMixin } from '@/views/appstore/mixins/yaml';
-  import { k8sName, required } from '@/utils/rules';
+  import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
+  import { k8sName, required } from '@/utils/rules';
+  import { YamlMixin } from '@/views/appstore/mixins/yaml';
 
   import 'vue-form-wizard/dist/vue-form-wizard.min.css';
 
   export default {
     name: 'DeployWizard',
     components: {
+      AppStoreComplete,
+      AppStoreDeployLoading,
       FormWizard,
+      JsonSchema: () => import('./JsonSchema'),
       TabContent,
       Tips,
-      JsonSchema: () => import('./JsonSchema'),
-      AppStoreDeployLoading,
-      AppStoreComplete,
     },
-    mixins: [BaseSelect, BaseResource, YamlMixin, BasePermission],
+    mixins: [BasePermission, BaseResource, BaseSelect, YamlMixin],
     props: {
-      files: {
-        type: Object,
-        default: () => {},
-      },
       currentApp: {
         type: Object,
         default: () => {},
       },
-      versions: {
-        type: Array,
-        default: () => [],
+      files: {
+        type: Object,
+        default: () => {},
       },
       selectRepo: {
         type: String,
         default: () => '',
+      },
+      versions: {
+        type: Array,
+        default: () => [],
       },
     },
     data: () => ({

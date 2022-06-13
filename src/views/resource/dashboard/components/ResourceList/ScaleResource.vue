@@ -1,20 +1,21 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="资源调整" icon="mdi-scale" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-scale" title="资源调整" :width="1000" @reset="reset">
     <template #content>
-      <ResourceBaseForm ref="resource" :quota="quota" :cluster="cluster" edit />
+      <ResourceBaseForm ref="resource" :cluster="cluster" edit :quota="quota" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="tenantResourceApply"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="tenantResourceApply"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapState } from 'vuex';
+
   import { postTenantResourceApply, getTenantResourceApplyDetail } from '@/api';
-  import ResourceBaseForm from '@/views/tenant/tenant/components/ResourceList/ResourceBaseForm';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
+  import ResourceBaseForm from '@/views/tenant/tenant/components/ResourceList/ResourceBaseForm';
 
   export default {
     name: 'ScaleResource',

@@ -9,27 +9,27 @@
       class="kubegems__table-row-pointer"
       disable-sort
       :headers="headers"
-      :items="items"
       hide-default-footer
-      :page.sync="params.page"
+      item-key="index"
+      :items="items"
       :items-per-page="params.size"
       no-data-text="暂无告警"
-      single-expand
+      :page.sync="params.page"
       show-expand
-      item-key="index"
-      @page-count="tab === 0 ? (pageCount = $event) : null"
+      single-expand
       @click:row="onRowClick"
+      @page-count="tab === 0 ? (pageCount = $event) : null"
     >
       <template #[`item.message`]="{ item }">
         {{ tab === 0 ? item.Annotations.message : item.Message }}
       </template>
       <template #[`item.severity`]="{ item }">
         <v-chip
+          class="font-weight-medium white--text severity-chip"
           :color="
             item.Labels.severity === 'critical' ? 'deep-purple' : item.Labels.severity === 'error' ? 'red' : 'warning'
           "
           small
-          class="font-weight-medium white--text severity-chip"
         >
           <span>
             {{ item.Labels.severity }}
@@ -67,9 +67,9 @@
           <v-chip
             v-for="(value, key) in item ? (tab === 0 ? item.Labels : item.Labels) : {}"
             :key="key"
-            small
             class="ma-1 white--text"
             color="success"
+            small
           >
             <strong class="mx-1"> {{ key }} </strong>
             {{ value }}
@@ -83,22 +83,24 @@
       :front-page="tab === 0 ? true : false"
       :page-count="pageCount"
       :size="params.size"
-      @loaddata="init"
-      @changesize="onPageSizeChange"
       @changepage="onPageIndexChange"
+      @changesize="onPageSizeChange"
+      @loaddata="init"
     />
   </div>
 </template>
 
 <script>
   import { mapState } from 'vuex';
+
   import BaseAlert from '../mixins/alert';
+
   import { getPrometheusRuleDetail, getPrometheusAlertHistory, getLogAlertRuleDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'AlertList',
-    mixins: [BaseResource, BaseAlert],
+    mixins: [BaseAlert, BaseResource],
     props: {
       mode: {
         type: String,

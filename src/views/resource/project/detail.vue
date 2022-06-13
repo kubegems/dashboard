@@ -7,31 +7,31 @@
             项目角色:
             {{ $PROJECT_ROLE[m_permisson_projectRole] ? $PROJECT_ROLE[m_permisson_projectRole] : '暂无' }}
           </span>
-          <v-btn v-if="m_permisson_projectAllow" text small class="primary--text" @click="addEnvironment">
+          <v-btn v-if="m_permisson_projectAllow" class="primary--text" small text @click="addEnvironment">
             <v-icon left small> fas fa-plus-square </v-icon>
             创建环境
           </v-btn>
-          <v-btn v-if="m_permisson_projectAllow" text small class="primary--text" @click="manageUser">
+          <v-btn v-if="m_permisson_projectAllow" class="primary--text" small text @click="manageUser">
             <v-icon left small> mdi-account-settings </v-icon>
             项目成员
           </v-btn>
-          <v-btn text small class="primary--text" @click="resourceUsage">
+          <v-btn class="primary--text" small text @click="resourceUsage">
             <v-icon left small> mdi-view-list </v-icon>
             资源使用清单
           </v-btn>
           <v-menu v-if="m_permisson_tenantAllow" left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
               </v-btn>
             </template>
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" text small @click="updateProject"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateProject"> 编辑 </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" text small @click="removeProject"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeProject"> 删除 </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -42,12 +42,12 @@
 
     <DashboardCard :basic="basic" class="mt-3" />
 
-    <ResourceList :resources="resources" :quota="quota" />
+    <ResourceList :quota="quota" :resources="resources" />
 
     <EnvironmentList v-if="!AdminViewport" :ready="ready" />
 
     <UpdateProject ref="updateProject" @refresh="projectDetail" />
-    <ResourceUseList ref="resourceUseList" type="project" title="项目资源使用清单" />
+    <ResourceUseList ref="resourceUseList" title="项目资源使用清单" type="project" />
     <AddEnvironment ref="addEnvironment" />
     <ManageUser ref="manageUser" @refresh="projectQuota" />
   </v-container>
@@ -55,30 +55,32 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import UpdateProject from './components/UpdateProject';
-  import ResourceList from './components/ResourceList';
-  import EnvironmentList from './components/EnvironmentList';
+
   import DashboardCard from './components/DashboardCard';
+  import EnvironmentList from './components/EnvironmentList';
   import ManageUser from './components/ManageUser';
-  import ResourceUseList from '@/views/resource/environment/components/ResourceUseList';
-  import AddEnvironment from '@/views/resource/environment/components/AddEnvironment';
+  import ResourceList from './components/ResourceList';
+  import UpdateProject from './components/UpdateProject';
+
   import { getProjectQuota, deleteProject, getProjectDetail } from '@/api';
-  import BaseSelect from '@/mixins/select';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
+  import AddEnvironment from '@/views/resource/environment/components/AddEnvironment';
+  import ResourceUseList from '@/views/resource/environment/components/ResourceUseList';
 
   export default {
     name: 'ProjectDetail',
     components: {
-      UpdateProject,
-      EnvironmentList,
-      DashboardCard,
-      ResourceUseList,
       AddEnvironment,
+      DashboardCard,
+      EnvironmentList,
       ManageUser,
       ResourceList,
+      ResourceUseList,
+      UpdateProject,
     },
-    mixins: [BaseResource, BaseSelect, BasePermission],
+    mixins: [BasePermission, BaseResource, BaseSelect],
     data: () => ({
       resources: [],
       quota: {},

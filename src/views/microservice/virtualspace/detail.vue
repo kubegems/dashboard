@@ -15,27 +15,27 @@
                 : '暂无'
             }}
           </span>
-          <v-btn text small class="primary--text" @click="manageUser">
+          <v-btn class="primary--text" small text @click="manageUser">
             <v-icon left small> mdi-account-settings </v-icon>
             虚拟空间成员
           </v-btn>
-          <v-btn text small class="primary--text" @click="returnVirtualSpace">
+          <v-btn class="primary--text" small text @click="returnVirtualSpace">
             <v-icon left small> mdi-logout </v-icon>
             返回
           </v-btn>
           <v-menu v-if="m_permisson_tenantAllow || m_permisson_virtualSpaceAllow" left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
               </v-btn>
             </template>
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" text small @click="updateVirtualSpace"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateVirtualSpace"> 编辑 </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" text small @click="removeVirtualSpace"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeVirtualSpace"> 删除 </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -44,7 +44,7 @@
       </template>
     </BaseBreadcrumb>
 
-    <DashboardCard :virtualspace="virtualspace" class="mt-3" />
+    <DashboardCard class="mt-3" :virtualspace="virtualspace" />
     <EnvironmentList :virtualspace="virtualspace" @refresh="virtualSpaceDetail" />
     <UpdateVirtualSpace ref="updateVirtualSpace" @refresh="virtualSpaceDetail" />
     <ManageUser ref="manageUser" :virtualspace="virtualspace" @refresh="virtualSpaceDetail" />
@@ -53,10 +53,12 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import DashboardCard from './components/DashboardCard';
   import EnvironmentList from './components/EnvironmentList';
   import ManageUser from './components/ManageUser';
   import UpdateVirtualSpace from './components/UpdateVirtualSpace';
+
   import { getVirtualSpaceDetail, deleteVirtualSpace } from '@/api';
   import BasePermission from '@/mixins/permission';
 

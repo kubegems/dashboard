@@ -7,14 +7,14 @@
       <v-flex class="float-left ml-2 kubegems__form-width">
         <v-autocomplete
           v-model="mounts[container.name].readOnly"
-          :items="readModes"
           color="primary"
-          label="挂载方式"
           hide-selected
+          :items="readModes"
+          label="挂载方式"
           no-data-text="暂无可选数据"
         >
           <template #selection="{ item }">
-            <v-chip color="primary" small class="mx-1">
+            <v-chip class="mx-1" color="primary" small>
               {{ item['text'] }}
             </v-chip>
           </template>
@@ -24,8 +24,8 @@
         <v-text-field
           v-if="mounts[container.name].readOnly !== null"
           v-model="mounts[container.name].mountPath"
-          required
           label="挂载路径"
+          required
           :rules="mountRules[container.name].mountPathRule"
         />
       </v-flex>

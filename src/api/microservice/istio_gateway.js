@@ -1,7 +1,10 @@
 import axios from 'axios';
 
-const apiResources = window.localStorage.getItem('api-resources') || {};
-const apiVersion = apiResources['gateway'] || 'networking.istio.io/v1beta1';
+import { jsonParse } from '@/utils/helpers';
+
+const apiResources = jsonParse(window.localStorage.getItem('api-resources')) || {};
+let apiVersion = apiResources['gateway'] || 'networking.istio.io/v1beta1';
+apiVersion = apiVersion === 'v1' ? 'core/v1' : apiVersion;
 
 // 网关实例列表
 export const getIstioGatewayInstanceList = (virtualspaceid, clusterid, query = {}) =>

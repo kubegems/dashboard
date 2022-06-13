@@ -4,15 +4,15 @@
       <v-flex :class="expand ? 'kubegems__overlay' : ''" />
       <BaseSubTitle title="告警消息" />
       <v-card-text class="pa-2">
-        <v-textarea v-model="obj.message" class="my-0" required auto-grow label="告警消息" />
+        <v-textarea v-model="obj.message" auto-grow class="my-0" label="告警消息" required />
       </v-card-text>
 
       <ReceiverForm
         ref="receiverForm"
-        :data="obj.receivers"
         :cluster="obj.cluster"
-        :namespace="obj.namespace"
+        :data="obj.receivers"
         :mode="mode"
+        :namespace="obj.namespace"
         @addData="addData"
         @closeOverlay="closeExpand"
       />
@@ -20,9 +20,9 @@
       <v-card-text class="pa-2">
         <ReceiverItem
           :receivers="obj.receivers"
-          @updateReceiver="updateReceiver"
-          @removeReceiver="removeReceiver"
           @expandCard="expandCard"
+          @removeReceiver="removeReceiver"
+          @updateReceiver="updateReceiver"
         />
       </v-card-text>
     </v-form>
@@ -31,16 +31,21 @@
 
 <script>
   import { mapState } from 'vuex';
-  import ReceiverItem from './ReceiverItem';
+
   import ReceiverForm from './ReceiverForm';
-  import BaseSelect from '@/mixins/select';
+  import ReceiverItem from './ReceiverItem';
+
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'Receiver',
-    components: { ReceiverItem, ReceiverForm },
-    mixins: [BaseSelect, BaseResource],
+    components: {
+      ReceiverForm,
+      ReceiverItem,
+    },
+    mixins: [BaseResource, BaseSelect],
     props: {
       item: {
         type: Object,

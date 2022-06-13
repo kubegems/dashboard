@@ -1,14 +1,14 @@
 <template>
   <div class="d-flex">
     <v-menu
-      open-on-hover
       bottom
+      :close-delay="200"
+      :close-on-content-click="false"
       max-width="200px"
       offset-y
+      open-on-hover
       origin="top center"
       transition="scale-transition"
-      :close-on-content-click="false"
-      :close-delay="200"
     >
       <template #activator="{ on }">
         <!-- 暴露作用域插槽 -->
@@ -19,10 +19,10 @@
           <v-icon color="white" left small> mdi-alert </v-icon>
           <span>{{ title }}</span>
         </v-flex>
-        <v-list dense class="pa-0 kubegems__tip">
+        <v-list class="pa-0 kubegems__tip" dense>
           <v-list-item>
             <v-list-item-content>
-              <v-list-item v-for="(msg, index) in item" :key="index" two-line class="float-left pa-0">
+              <v-list-item v-for="(msg, index) in item" :key="index" class="float-left pa-0" two-line>
                 <v-list-item-content class="py-0">
                   <v-list-item-title> 事件 {{ index + 1 }} </v-list-item-title>
                   <v-list-item-content class="text-caption kubegems__text">
@@ -42,12 +42,12 @@
   export default {
     name: 'Tips',
     props: {
-      title: {
-        type: String,
-        default: () => null,
-      },
       item: {
         type: Array,
+        default: () => null,
+      },
+      title: {
+        type: String,
         default: () => null,
       },
     },

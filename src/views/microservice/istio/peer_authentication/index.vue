@@ -5,8 +5,8 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :filters="filters"
           :default="{ items: [], text: '端点认证名称', value: 'search' }"
+          :filters="filters"
           @refresh="m_filter_list"
         />
         <EnvironmentFilter />
@@ -14,21 +14,21 @@
         <v-menu v-if="m_permisson_virtualSpaceAllow" left>
           <template #activator="{ on }">
             <v-btn icon>
-              <v-icon small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+              <v-icon color="primary" small v-on="on"> fas fa-ellipsis-v </v-icon>
             </v-btn>
           </template>
           <v-card>
             <v-card-text class="pa-2">
               <v-flex>
-                <v-btn text color="primary" @click="addPeerAuthentication">
+                <v-btn color="primary" text @click="addPeerAuthentication">
                   <v-icon left>mdi-plus-box</v-icon>
                   创建端点认证
                 </v-btn>
               </v-flex>
               <v-flex>
                 <v-btn
-                  text
                   color="error"
+                  text
                   @click="m_table_batchRemoveResource('端点认证', 'PeerAuthentication', istioPeerAuthenticationList)"
                 >
                   <v-icon left>mdi-minus-box</v-icon>
@@ -42,23 +42,23 @@
       <v-data-table
         class="mx-4"
         :headers="headers"
+        hide-default-footer
         :items="items"
-        :page.sync="params.page"
         :items-per-page="params.size"
         no-data-text="暂无数据"
-        hide-default-footer
+        :page.sync="params.page"
         show-select
+        @toggle-select-all="m_table_onResourceToggleSelect"
         @update:sort-by="m_table_sortBy"
         @update:sort-desc="m_table_sortDesc"
-        @toggle-select-all="m_table_onResourceToggleSelect"
       >
         <template #[`item.data-table-select`]="{ item, index }">
           <v-checkbox
             v-model="m_table_batchResources[`${item.metadata.name}-${index}`].checked"
             color="primary"
             hide-details
-            @click.stop
             @change="m_table_onResourceChange($event, item, index)"
+            @click.stop
           />
         </template>
         <template #[`item.name`]="{ item }">
@@ -73,26 +73,26 @@
           {{ item.metadata.creationTimestamp ? $moment(item.metadata.creationTimestamp).format('lll') : '' }}
         </template>
         <template #[`item.selector`]="{ item }">
-          <BaseCollapseChips v-if="item" :chips="item.spec.selector.matchLabels || {}" single-line icon="mdi-label" />
+          <BaseCollapseChips v-if="item" :chips="item.spec.selector.matchLabels || {}" icon="mdi-label" single-line />
         </template>
         <template #[`item.mutualTLS`]="{ item }">
           {{ item.spec.mtls ? item.spec.mtls.mode : '' }}
         </template>
         <template #[`item.action`]="{ item }">
           <v-flex :id="`r${item.metadata.resourceVersion}`" />
-          <v-menu left :attach="`#r${item.metadata.resourceVersion}`">
+          <v-menu :attach="`#r${item.metadata.resourceVersion}`" left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon x-small color="primary" v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
               </v-btn>
             </template>
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" text small @click.stop="updatePeerAuthentication(item)"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click.stop="updatePeerAuthentication(item)"> 编辑 </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" text small @click.stop="removeIstioPeerAuthentication(item)"> 删除 </v-btn>
+                  <v-btn color="error" small text @click.stop="removeIstioPeerAuthentication(item)"> 删除 </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -104,9 +104,9 @@
         v-model="params.page"
         :page-count="pageCount"
         :size="params.size"
-        @loaddata="istioPeerAuthenticationList"
-        @changesize="onPageSizeChange"
         @changepage="onPageIndexChange"
+        @changesize="onPageSizeChange"
+        @loaddata="istioPeerAuthenticationList"
       />
     </v-card>
 
@@ -117,24 +117,26 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import AddPeerAuthentication from './components/AddPeerAuthentication';
   import UpdatePeerAuthentication from './components/UpdatePeerAuthentication';
+
   import { getIstioPeerAuthenticationList, deleteIstioPeerAuthentication } from '@/api';
-  import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
-  import BaseResource from '@/mixins/resource';
-  import BasePermission from '@/mixins/permission';
   import BaseFilter from '@/mixins/base_filter';
+  import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
   import BaseTable from '@/mixins/table';
   import { convertStrToNum } from '@/utils/helpers';
+  import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
 
   export default {
     name: 'PeerAuthentication',
     components: {
       AddPeerAuthentication,
-      UpdatePeerAuthentication,
       EnvironmentFilter,
+      UpdatePeerAuthentication,
     },
-    mixins: [BaseFilter, BaseResource, BasePermission, BaseTable],
+    mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],
     data: () => ({
       items: [],
       pageCount: 0,

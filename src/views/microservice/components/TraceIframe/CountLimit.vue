@@ -5,19 +5,19 @@
       v-model="limitMenu"
       bottom
       left
+      nudge-bottom="5px"
       offset-y
       origin="top center"
       transition="scale-transition"
-      nudge-bottom="5px"
     >
       <template #activator="{ on }">
-        <v-btn depressed color="white" class="primary--text" dark small v-on="on">
+        <v-btn class="primary--text" color="white" dark depressed small v-on="on">
           {{ limitObj.text }}
           <v-icon v-if="limitMenu" right> fas fa-angle-up </v-icon>
           <v-icon v-else right> fas fa-angle-down </v-icon>
         </v-btn>
       </template>
-      <v-data-iterator :items="[{ text: '条数', values: limitItems }]" hide-default-footer>
+      <v-data-iterator hide-default-footer :items="[{ text: '条数', values: limitItems }]">
         <template #no-data>
           <v-card>
             <v-card-text> 暂无条数 </v-card-text>

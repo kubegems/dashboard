@@ -1,13 +1,13 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="创建告警规则" icon="mdi-ruler" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-ruler" title="创建告警规则" :width="1000" @reset="reset">
     <template #content>
       <component
         :is="formComponent"
         :ref="formComponent"
-        :step="step"
-        :mode="mode"
-        :title="`${mode === 'metrics' ? 'PrometheusRule' : 'LogRule'}`"
         :expr="expr"
+        :mode="mode"
+        :step="step"
+        :title="`${mode === 'metrics' ? 'PrometheusRule' : 'LogRule'}`"
       />
     </template>
     <template #action>
@@ -15,8 +15,8 @@
         v-if="step === totalStep - 1"
         class="float-right mx-2"
         color="primary"
-        text
         :loading="Circular"
+        text
         @click="addPrometheusRule"
       >
         确定
@@ -33,7 +33,9 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import PrometheusRuleBaseForm from './PrometheusRuleBaseForm';
+
   import { postAddPrometheusRule, postAddLogAlertRule } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
@@ -45,13 +47,13 @@
     },
     mixins: [BaseResource],
     props: {
-      mode: {
-        type: String,
-        default: () => 'monitor',
-      },
       expr: {
         type: String,
         default: () => '',
+      },
+      mode: {
+        type: String,
+        default: () => 'monitor',
       },
     },
     data: () => ({

@@ -7,27 +7,27 @@
           <v-text-field
             v-model="obj.name"
             class="my-0"
-            :rules="objRules.nameRule"
-            required
             label="名称"
             :readonly="edit"
+            required
+            :rules="objRules.nameRule"
           />
         </v-col>
         <v-col cols="6">
           <v-autocomplete
             v-model="mode"
-            color="primary"
-            :items="modeItems"
-            :rules="objRules.modeRule"
-            label="模式"
-            hide-selected
             class="my-0"
+            color="primary"
+            hide-selected
+            :items="modeItems"
+            label="模式"
             no-data-text="暂无可选数据"
             :readonly="edit"
+            :rules="objRules.modeRule"
             @change="onModeChange"
           >
             <template #selection="{ item }">
-              <v-chip color="primary" small class="mx-1">
+              <v-chip class="mx-1" color="primary" small>
                 {{ item['text'] }}
               </v-chip>
             </template>
@@ -39,17 +39,17 @@
           <v-col cols="6">
             <v-autocomplete
               v-model="obj.promqlGenerator.resource"
-              color="primary"
-              :items="resourceItems"
-              :rules="objRules.resourceRule"
-              label="资源"
-              hide-selected
               class="my-0"
+              color="primary"
+              hide-selected
+              :items="resourceItems"
+              label="资源"
               no-data-text="暂无可选数据"
+              :rules="objRules.resourceRule"
               @change="onResourceChange"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -61,18 +61,18 @@
           <v-col cols="6">
             <v-autocomplete
               v-model="obj.promqlGenerator.rule"
-              color="primary"
-              :items="ruleItems"
-              :rules="objRules.ruleRule"
-              :disabled="!obj.promqlGenerator.resource"
-              label="规则"
-              hide-selected
               class="my-0"
+              color="primary"
+              :disabled="!obj.promqlGenerator.resource"
+              hide-selected
+              :items="ruleItems"
+              label="规则"
               no-data-text="暂无可选数据"
+              :rules="objRules.ruleRule"
               @change="onRuleChange"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -84,17 +84,17 @@
           <v-col cols="6">
             <v-autocomplete
               v-model="obj.promqlGenerator.unit"
-              color="primary"
-              label="单位"
               class="my-0"
-              no-data-text="暂无可选数据"
+              color="primary"
+              :disabled="!obj.promqlGenerator.rule || !unitItems.length"
               hide-selected
               :items="unitItems"
+              label="单位"
+              no-data-text="暂无可选数据"
               :rules="unitItems.length ? objRules.unitRule : undefined"
-              :disabled="!obj.promqlGenerator.rule || !unitItems.length"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -103,20 +103,20 @@
         </template>
         <template v-if="mode === 'ql'">
           <v-col cols="12">
-            <v-textarea v-model="obj.expr" label="查询语句" auto-grow :rules="objRules.exprRule" />
+            <v-textarea v-model="obj.expr" auto-grow label="查询语句" :rules="objRules.exprRule" />
           </v-col>
           <v-col cols="6">
             <v-autocomplete
               v-model="obj.unit"
-              color="primary"
-              label="单位"
               class="my-0"
-              no-data-text="暂无可选数据"
+              color="primary"
               hide-selected
               :items="unitAllItems"
+              label="单位"
+              no-data-text="暂无可选数据"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -130,9 +130,10 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import { getSystemConfigData, getMyConfigData } from '@/api';
-  import { required } from '@/utils/rules';
   import { deepCopy } from '@/utils/helpers';
+  import { required } from '@/utils/rules';
 
   export default {
     name: 'GraphBaseForm',

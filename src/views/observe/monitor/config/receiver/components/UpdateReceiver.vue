@@ -1,17 +1,19 @@
 <template>
-  <BaseDialog v-model="dialog" :width="1000" title="更新接收器" icon="mdi-call-received" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-call-received" title="更新接收器" :width="1000" @reset="reset">
     <template #content>
-      <component :is="formComponent" :ref="formComponent" :item="item" title="Receiver" :edit="true" />
+      <component :is="formComponent" :ref="formComponent" :edit="true" :item="item" title="Receiver" />
     </template>
     <template #action>
-      <v-btn class="float-right mx-2" color="primary" text :loading="Circular" @click="updateReceiver"> 确定 </v-btn>
+      <v-btn class="float-right mx-2" color="primary" :loading="Circular" text @click="updateReceiver"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapState } from 'vuex';
+
   import ReceiverBaseForm from './ReceiverBaseForm';
+
   import { putUpdateReceiver } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';

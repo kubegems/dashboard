@@ -2,30 +2,30 @@
   <v-menu
     v-model="menu"
     bottom
+    :close-on-content-click="false"
     left
+    max-width="320px"
+    min-width="200px"
+    nudge-bottom="15px"
     offset-y
     origin="top right"
     transition="scale-transition"
-    nudge-bottom="15px"
     z-index="1000"
-    :close-on-content-click="false"
-    min-width="200px"
-    max-width="320px"
   >
     <template #activator="{ on }">
-      <v-btn dark icon class="mr-1" v-on="on" @click="expand = false">
+      <v-btn class="mr-1" dark icon v-on="on" @click="expand = false">
         <v-icon>fas fa-user-circle</v-icon>
       </v-btn>
     </template>
 
     <v-card>
-      <v-list-item two-line class="py-2 primary white--text">
+      <v-list-item class="py-2 primary white--text" two-line>
         <v-list-item-avatar>
           <!-- <v-icon large>fas fa-user-circle</v-icon> -->
           <v-avatar
-            :size="45"
-            color="white"
             class="primary--text font-weight-medium"
+            color="white"
+            :size="45"
             style="min-width: 40px; width: 40px"
           >
             <span class="text-h5">
@@ -36,14 +36,14 @@
         <v-list-item-content>
           <v-list-item-title class="text-h6 white--text kubegems__text">
             {{ User.Username }}
-            <v-chip pill class="mr-1 primary--text mt-n1 ml-2" small color="white">
-              <v-avatar color="white" left class="mr-0">
-                <v-btn class="primary--text" small color="white">
+            <v-chip class="mr-1 primary--text mt-n1 ml-2" color="white" pill small>
+              <v-avatar class="mr-0" color="white" left>
+                <v-btn class="primary--text" color="white" small>
                   <BaseLogo
                     class="primary--text logo-margin mt-1"
                     :icon-name="User.SourceVendor ? User.SourceVendor.toLowerCase() : 'kubegems'"
-                    :width="20"
                     :ml="0"
+                    :width="20"
                   />
                 </v-btn>
               </v-avatar>
@@ -61,7 +61,7 @@
       <v-divider class="mb-2" />
       <v-list class="pt-0 px-2">
         <v-list-item @click="showTenantSelect">
-          <v-list-item-avatar height="25" width="25" min-width="25">
+          <v-list-item-avatar height="25" min-width="25" width="25">
             <v-icon color="primary">mdi-account-multiple</v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
@@ -75,7 +75,7 @@
           </v-list-item-content>
         </v-list-item>
         <v-list-item @click="toUserCenter">
-          <v-list-item-avatar height="25" width="25" min-width="25">
+          <v-list-item-avatar height="25" min-width="25" width="25">
             <v-icon color="primary">mdi-account</v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
@@ -89,7 +89,7 @@
           </v-list-item-content>
         </v-list-item>
         <v-list-item @click="toBook">
-          <v-list-item-avatar height="25" width="25" min-width="25">
+          <v-list-item-avatar height="25" min-width="25" width="25">
             <v-icon color="primary">mdi-book-open-variant</v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
@@ -97,7 +97,7 @@
           </v-list-item-content>
         </v-list-item>
         <v-list-item @click="showAbout">
-          <v-list-item-avatar height="25" width="25" min-width="25">
+          <v-list-item-avatar height="25" min-width="25" width="25">
             <v-icon color="primary">mdi-vimeo</v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
@@ -108,7 +108,7 @@
       <v-divider />
       <v-card-actions>
         <v-spacer />
-        <v-btn text color="primary" @click="logout">
+        <v-btn color="primary" text @click="logout">
           <v-icon left small> fas fa-sign-out-alt </v-icon>
           <span class="font-weight-medium kubegems__text">退出</span>
         </v-btn>
@@ -123,10 +123,12 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import About from './components/About';
   import TenantSelect from './components/TenantSelect';
-  import BaseSelect from '@/mixins/select';
+
   import BasePermission from '@/mixins/permission';
+  import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'User',
@@ -134,7 +136,7 @@
       About,
       TenantSelect,
     },
-    mixins: [BaseSelect, BasePermission],
+    mixins: [BasePermission, BaseSelect],
     data() {
       return {
         menu: false,

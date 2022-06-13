@@ -9,26 +9,26 @@
             <v-text-field
               v-model="obj.metadata.name"
               class="my-0"
-              required
               label="网关名称"
-              :rules="objRules.nameRule"
               :readonly="edit"
+              required
+              :rules="objRules.nameRule"
             />
           </v-col>
           <v-col cols="6">
             <v-autocomplete
               v-model="ingressgateway"
+              class="my-0"
               color="primary"
+              hide-selected
               :items="ingressgatewayItems"
               label="selector(网关实例)"
-              hide-selected
-              class="my-0"
               no-data-text="暂无可选数据"
               :rules="objRules.selectorRule"
               @change="onIngressgatewayChange"
             >
               <template #selection="{ item }">
-                <v-chip color="primary" small class="mx-1">
+                <v-chip class="mx-1" color="primary" small>
                   {{ item['text'] }}
                 </v-chip>
               </template>
@@ -42,9 +42,9 @@
       <v-card-text class="pa-2">
         <ServerItem
           :servers="obj.spec.servers"
-          @updateServer="updateServer"
-          @removeServer="removeServer"
           @expandCard="expandServerCard"
+          @removeServer="removeServer"
+          @updateServer="updateServer"
         />
       </v-card-text>
     </v-form>
@@ -53,29 +53,31 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import ServerItem from './ServerItem';
+
   import ServerForm from './ServerForm';
+  import ServerItem from './ServerItem';
+
   import { getIstioGatewayInstanceList } from '@/api';
-  import BaseSelect from '@/mixins/select';
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
   import { k8sName, required } from '@/utils/rules';
 
   export default {
     name: 'IstioGatewayBaseForm',
     components: {
-      ServerItem,
       ServerForm,
+      ServerItem,
     },
-    mixins: [BaseSelect, BaseResource],
+    mixins: [BaseResource, BaseSelect],
     props: {
-      item: {
-        type: Object,
-        default: () => null,
-      },
       edit: {
         type: Boolean,
         default: () => false,
+      },
+      item: {
+        type: Object,
+        default: () => null,
       },
     },
     data: () => ({

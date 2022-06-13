@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog v-model="dialog" :width="500" :title="title" icon="mdi-hexagon-multiple" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-hexagon-multiple" :title="title" :width="500" @reset="reset">
     <template #content>
       <BaseSubTitle title="仓库定义" />
       <v-card-text class="pa-2 mt-2">
@@ -8,29 +8,30 @@
             <v-text-field
               v-model="obj.ChartRepoName"
               class="my-0"
-              :rules="objRules.chartRepoNameRules"
-              required
               label="名称"
+              required
+              :rules="objRules.chartRepoNameRules"
             />
             <v-text-field
               v-model="obj.URL"
               class="my-0 kubegems__long-width"
-              :rules="objRules.urlRules"
-              required
               label="URL"
+              required
+              :rules="objRules.urlRules"
             />
           </v-sheet>
         </v-form>
       </v-card-text>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" text :loading="Circular" @click="recreateRepository"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="recreateRepository"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
   import { mapState } from 'vuex';
+
   import { postAddRepository } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';

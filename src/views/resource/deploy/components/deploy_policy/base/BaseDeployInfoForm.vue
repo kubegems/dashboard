@@ -8,7 +8,7 @@
             <v-list-item-content class="py-2">
               <v-list-item-subtitle class="text-subtitle-2 py-1 primary--text" />
               <v-list-item-subtitle class="text-body-2 py-0">
-                <v-list-item two-line class="float-left pa-0">
+                <v-list-item class="float-left pa-0" two-line>
                   <v-list-item-content class="py-0">
                     <v-list-item-title class="text-subtitle-2 py-1">
                       {{ image }}
@@ -16,7 +16,7 @@
                     <v-list-item-subtitle class="text-body-2 py-1"> 镜像 </v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
-                <v-list-item v-if="index === 0" two-line class="float-right pa-0">
+                <v-list-item v-if="index === 0" class="float-right pa-0" two-line>
                   <v-list-item-content class="py-0">
                     <v-list-item-title class="text-subtitle-2 py-1">
                       {{ runtime.istioVersion ? runtime.istioVersion : '' }}&nbsp;
@@ -36,38 +36,38 @@
       <BaseSubTitle title="即将发布" />
       <v-card-text class="pa-2">
         <v-row>
-          <v-col v-for="(image, index) in publishImages" :key="index" cols="12" class="py-4">
-            <v-sheet :min-width="650" :width="650" class="float-left">
+          <v-col v-for="(image, index) in publishImages" :key="index" class="py-4" cols="12">
+            <v-sheet class="float-left" :min-width="650" :width="650">
               <v-text-field
                 class="my-0"
-                required
+                dense
+                full-width
                 label="镜像"
                 readonly
-                :value="image"
+                required
                 :rules="baseRules.publishRuler[image]"
-                full-width
-                dense
+                :value="image"
               />
             </v-sheet>
-            <v-sheet :min-width="300" :width="300" class="float-right">
+            <v-sheet class="float-right" :min-width="300" :width="300">
               <v-autocomplete
                 v-model="base.images[image].tag"
-                :items="tags[image]"
-                color="primary"
-                hide-selected
                 class="my-0 py-0"
-                no-data-text="暂无可选数据"
-                hide-details
-                solo
+                color="primary"
                 dense
                 flat
                 full-width
+                hide-details
+                hide-selected
+                :items="tags[image]"
+                no-data-text="暂无可选数据"
                 :search-input.sync="base.images[image].tagtext"
+                solo
                 @change="onTagChange(image)"
                 @keyup.enter="createImageTag(image)"
               >
                 <template #selection="{ item, disabled }">
-                  <v-chip color="primary" small class="ma-1" :disabled="disabled">
+                  <v-chip class="ma-1" color="primary" :disabled="disabled" small>
                     {{ item['text'] }}
                   </v-chip>
                 </template>
@@ -79,13 +79,13 @@
           <v-col cols="6">
             <v-text-field
               v-model="base.istioVersion"
-              :rules="baseRules.versionRules"
               class="my-0"
-              required
               label="版本号"
+              required
+              :rules="baseRules.versionRules"
             >
               <template #append>
-                <v-btn small text color="primary" @click="generateVersion"> 自动生成版本号 </v-btn>
+                <v-btn color="primary" small text @click="generateVersion"> 自动生成版本号 </v-btn>
               </template>
             </v-text-field>
           </v-col>
@@ -97,6 +97,7 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+
   import { getAppImageTags } from '@/api';
   import { required } from '@/utils/rules';
 

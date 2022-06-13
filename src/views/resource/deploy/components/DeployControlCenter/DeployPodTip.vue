@@ -1,8 +1,8 @@
 <template>
   <v-flex>
-    <BaseTipWindow v-for="(pod, index) in pods" :key="index" top icon="mdi-cube" title="容器组" :max-width="180">
+    <BaseTipWindow v-for="(pod, index) in pods" :key="index" icon="mdi-cube" :max-width="180" title="容器组" top>
       <template #header>
-        <v-icon v-if="pod.status === 'Running'" :color="getColor(pod.ready)" class="mx-0-5 icon-font">
+        <v-icon v-if="pod.status === 'Running'" class="mx-0-5 icon-font" :color="getColor(pod.ready)">
           mdi-cube
         </v-icon>
         <v-icon
@@ -10,15 +10,15 @@
             ['ContainerCreating', 'Pending', 'PodInitializing', 'Terminating'].indexOf(pod.status) > -1 ||
             pod.status.indexOf('Init') > -1
           "
-          color="warning"
           class="mx-0-5 icon-font waiting-circle-flashing"
+          color="warning"
         >
           mdi-autorenew
         </v-icon>
-        <v-icon v-else-if="['Completed', 'Evicted'].indexOf(pod.status) > -1" color="grey" class="mx-0-5 icon-font">
+        <v-icon v-else-if="['Completed', 'Evicted'].indexOf(pod.status) > -1" class="mx-0-5 icon-font" color="grey">
           mdi-alert-box
         </v-icon>
-        <v-icon v-else color="error" class="mx-0-5 icon-font"> mdi-close-box </v-icon>
+        <v-icon v-else class="mx-0-5 icon-font" color="error"> mdi-close-box </v-icon>
       </template>
       <template #content>
         <v-list-item>

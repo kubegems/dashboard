@@ -7,17 +7,17 @@
 
   export default {
     props: {
-      selectable: {
+      clusterable: {
         type: Boolean,
-        default: () => true,
+        default: () => false,
       },
       environmented: {
         type: Boolean,
         default: () => true,
       },
-      clusterable: {
+      selectable: {
         type: Boolean,
-        default: () => false,
+        default: () => true,
       },
     },
     computed: {
