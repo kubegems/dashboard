@@ -121,10 +121,10 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getIstioSidecarList, deleteIstioSidecar } from '@/api';
-  import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
   import AddSidecar from './components/AddSidecar';
   import UpdateSidecar from './components/UpdateSidecar';
+  import { getIstioSidecarList, deleteIstioSidecar } from '@/api';
+  import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
   import BaseFilter from '@/mixins/base_filter';

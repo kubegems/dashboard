@@ -59,13 +59,13 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getPodDetail, deletePod } from '@/api';
   import ResourceInfo from './components/ResourceInfo';
+  import PodMonitor from './components/PodMonitor';
+  import ContainerList from './components/ContainerList';
+  import { getPodDetail, deletePod } from '@/api';
   import Metadata from '@/views/resource/components/metadata/Metadata';
   import PodList from '@/views/resource/components/common/PodList';
   import EventList from '@/views/resource/components/common/EventList';
-  import PodMonitor from './components/PodMonitor';
-  import ContainerList from './components/ContainerList';
   import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
   import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
   import BaseResource from '@/mixins/resource';

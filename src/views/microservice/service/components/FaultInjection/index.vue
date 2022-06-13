@@ -11,8 +11,8 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { postAddFaultInjection } from '@/api';
   import FaultInjectionBaseForm from './FaultInjectionBaseForm';
+  import { postAddFaultInjection } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {

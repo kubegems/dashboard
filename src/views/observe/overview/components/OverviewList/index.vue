@@ -58,11 +58,11 @@
 </template>
 
 <script>
-  import { getEnvironmentObservability } from '@/api';
   import ProjectSelect from './ProjectSelect';
   import StatusTag from './StatusTag';
   import K8sEvents from './K8sEvents';
   import Duration from './Duration';
+  import { getEnvironmentObservability } from '@/api';
   import BaseSelect from '@/mixins/select';
 
   export default {

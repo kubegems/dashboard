@@ -75,8 +75,8 @@
 </template>
 
 <script>
-  import { getStorageClassList } from '@/api';
   import VolumeMount from './VolumeMount';
+  import { getStorageClassList } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';

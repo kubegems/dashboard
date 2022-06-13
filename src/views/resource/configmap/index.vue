@@ -115,10 +115,10 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getConfigMapList, deleteConfigMap } from '@/api';
-  import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
   import AddConfigMap from './components/AddConfigMap';
   import UpdateConfigMap from './components/UpdateConfigMap';
+  import { getConfigMapList, deleteConfigMap } from '@/api';
+  import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
   import BaseResource from '@/mixins/resource';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';

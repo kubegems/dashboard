@@ -173,8 +173,8 @@
 </template>
 
 <script>
-  import { getNodeResourceAllocated } from '@/api';
   import VueApexCharts from 'vue-apexcharts';
+  import { getNodeResourceAllocated } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
   import { NODE_ONE_POD_RUNNING_COUNT_PROMQL } from '@/utils/prometheus';

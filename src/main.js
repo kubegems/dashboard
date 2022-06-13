@@ -1,8 +1,5 @@
 import Vue from 'vue';
-import App from './App';
-import vuetify from './plugins/vuetify';
-import router from './router';
-import store from '@/store';
+
 import moment from 'moment';
 import yaml from 'js-yaml';
 import _ from 'lodash';
@@ -11,16 +8,18 @@ import VueSlider from 'vue-slider-component';
 import VuePageTitle from 'vue-page-title';
 import { VueOkrTree } from 'vue-okr-tree';
 import { Icon } from '@iconify/vue2';
+import router from './router';
+import vuetify from './plugins/vuetify';
+import App from './App';
 import './plugins/base';
 import 'github-markdown-css/github-markdown.css';
 import 'vue-okr-tree/dist/vue-okr-tree.css';
 import 'vue-slider-component/theme/default.css';
 import './assets/styles/index.scss';
-import c from '@/plugins/const';
-import t from '@/plugins/tip';
-
-// 自定义指令
 import directives from './directives';
+import t from '@/plugins/tip';
+import c from '@/plugins/const';
+import store from '@/store';
 
 Vue.component('Icon', Icon);
 Vue.component('ACEEditor', ACEEditor);

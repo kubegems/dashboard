@@ -92,8 +92,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getPrometheusRuleDetail, getPrometheusAlertHistory, getLogAlertRuleDetail } from '@/api';
   import BaseAlert from '../mixins/alert';
+  import { getPrometheusRuleDetail, getPrometheusAlertHistory, getLogAlertRuleDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {

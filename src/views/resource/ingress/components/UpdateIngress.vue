@@ -26,8 +26,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { patchUpdateIngress, getIngressDetail } from '@/api';
   import IngressBaseForm from './IngressBaseForm';
+  import { patchUpdateIngress, getIngressDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import IngressSchema from '@/views/resource/ingress/mixins/schema';
   import { deepCopy, randomString } from '@/utils/helpers';

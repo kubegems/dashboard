@@ -273,9 +273,9 @@
 </template>
 
 <script>
+  import StringMatchForm from './StringMatchForm';
   import LabelItem from '@/views/resource/components/label/LabelItem';
   import LabelForm from '@/views/resource/components/label/LabelForm';
-  import StringMatchForm from './StringMatchForm';
   import { deepCopy } from '@/utils/helpers';
 
   export default {

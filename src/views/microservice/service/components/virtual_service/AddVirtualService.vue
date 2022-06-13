@@ -11,8 +11,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { postAddIstioVirtualService } from '@/api';
   import IstioVirtualServiceBaseForm from './IstioVirtualServiceBaseForm';
+  import { postAddIstioVirtualService } from '@/api';
   import BaseResource from '@/mixins/resource';
   import IstioVirtualServiceSchema from '@/views/microservice/service/mixins/schema';
 

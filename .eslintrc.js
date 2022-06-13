@@ -14,7 +14,12 @@ module.exports = defineConfig({
       jsx: true,
     },
   },
-  extends: ['plugin:vue/recommended', 'plugin:vuetify/base', 'plugin:prettier/recommended'],
+  extends: [
+    'plugin:vue/recommended',
+    'plugin:vuetify/base',
+    'plugin:prettier/recommended',
+    'plugin:import/recommended',
+  ],
   plugins: ['vue'],
   rules: {
     'vue/script-setup-uses-vars': 'error',
@@ -93,6 +98,14 @@ module.exports = defineConfig({
         ignoreHTMLTextContents: true,
       },
     ],
+    'import/order': [
+      'error',
+      {
+        groups: ['builtin', 'external', 'internal', 'sibling', 'parent', 'index', 'unknown'],
+      },
+    ],
+
+    'import/no-unresolved': ['off'],
 
     'vue/no-template-shadow': ['off'],
     'vue/multi-word-component-names': ['off'],

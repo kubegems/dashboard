@@ -55,14 +55,14 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { getProjectQuota, deleteProject, getProjectDetail } from '@/api';
   import UpdateProject from './components/UpdateProject';
   import ResourceList from './components/ResourceList';
   import EnvironmentList from './components/EnvironmentList';
   import DashboardCard from './components/DashboardCard';
+  import ManageUser from './components/ManageUser';
   import ResourceUseList from '@/views/resource/environment/components/ResourceUseList';
   import AddEnvironment from '@/views/resource/environment/components/AddEnvironment';
-  import ManageUser from './components/ManageUser';
+  import { getProjectQuota, deleteProject, getProjectDetail } from '@/api';
   import BaseSelect from '@/mixins/select';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

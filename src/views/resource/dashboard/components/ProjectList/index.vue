@@ -185,10 +185,10 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+  import Pagination from '../Pagination';
   import { getProjectList, getProjectEnvironmentList, getProjectEnvironmentQuotaList } from '@/api';
   import AddEnvironment from '@/views/resource/environment/components/AddEnvironment';
   import AddProject from '@/views/resource/project/components/AddProject';
-  import Pagination from '../Pagination';
   import BaseSelect from '@/mixins/select';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';

@@ -26,8 +26,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { postAddVirtualSpace, postAddVirtualSpaceEnvironment, postAddVirtualSpaceUser } from '@/api';
   import VirtualSpaceBaseForm from './VirtualSpaceBaseForm';
+  import { postAddVirtualSpace, postAddVirtualSpaceEnvironment, postAddVirtualSpaceUser } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {

@@ -132,8 +132,8 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
   import IngressRuleItem from './IngressRuleItem';
-  import AnnotationItem from '@/views/resource/components/annotation/AnnotationItem';
   import IngressRuleForm from './IngressRuleForm';
+  import AnnotationItem from '@/views/resource/components/annotation/AnnotationItem';
   import AnnotationForm from '@/views/resource/components/annotation/AnnotationForm';
   import BaseSelect from '@/mixins/select';
   import BaseResource from '@/mixins/resource';

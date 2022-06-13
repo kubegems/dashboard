@@ -200,9 +200,9 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { getPrometheusRuleList, deletePrometheusRule, postDisableAlertRule, postEnableAlertRule } from '@/api';
   import AddPrometheusRule from './components/AddPrometheusRule';
   import UpdatePrometheusRule from './components/UpdatePrometheusRule';
+  import { getPrometheusRuleList, deletePrometheusRule, postDisableAlertRule, postEnableAlertRule } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';

@@ -147,11 +147,11 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getPersistentVolumeClaimList, deletePersistentVolumeClaim, postAddVolumeSnapshot } from '@/api';
-  import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
   import ScalePersistentVolumeClaim from './components/ScalePersistentVolumeClaim';
   import AddPersistentVolumeClaim from './components/AddPersistentVolumeClaim';
   import UpdatePersistentVolumeClaim from './components/UpdatePersistentVolumeClaim';
+  import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
+  import { getPersistentVolumeClaimList, deletePersistentVolumeClaim, postAddVolumeSnapshot } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
   import BaseFilter from '@/mixins/base_filter';

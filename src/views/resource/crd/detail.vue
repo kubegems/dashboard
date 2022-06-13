@@ -58,10 +58,10 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getCrdDetail, deleteCRD } from '@/api';
   import ResourceInfo from './components/ResourceInfo';
-  import Metadata from '@/views/resource/components/metadata/Metadata';
   import CRList from './components/CRList';
+  import { getCrdDetail, deleteCRD } from '@/api';
+  import Metadata from '@/views/resource/components/metadata/Metadata';
   import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
   import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
   import BaseResource from '@/mixins/resource';

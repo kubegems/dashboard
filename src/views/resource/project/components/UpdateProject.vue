@@ -15,8 +15,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getProjectDetail, putUpdateProject } from '@/api';
   import ProjectBaseForm from './ProjectBaseForm';
+  import { getProjectDetail, putUpdateProject } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
 

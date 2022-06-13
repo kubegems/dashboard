@@ -104,9 +104,9 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { getRegistryList, deleteRegistry, getRegistryAllList, patchSetDefaultRegistry } from '@/api';
   import AddRegistry from './components/AddRegistry';
   import UpdateRegistry from './components/UpdateRegistry';
+  import { getRegistryList, deleteRegistry, getRegistryAllList, patchSetDefaultRegistry } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
   import BaseFilter from '@/mixins/base_filter';

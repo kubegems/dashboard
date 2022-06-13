@@ -71,10 +71,10 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getLoginUserInfo } from '@/api';
   import AuditList from './components/AuditList';
   import MessageBox from './components/MessageBox';
   import OwnerSetting from './components/OwnerSetting';
+  import { getLoginUserInfo } from '@/api';
 
   export default {
     name: 'UserCenter',

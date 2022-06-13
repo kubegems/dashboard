@@ -63,9 +63,9 @@
 </template>
 
 <script>
-  import { getServiceList, postServiceMonitor } from '@/api';
   import MetricsList from './MetricsList';
   import ProjectEnvSelect from '../ProjectEnvSelect';
+  import { getServiceList, postServiceMonitor } from '@/api';
   import { required } from '@/utils/rules';
 
   export default {

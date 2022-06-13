@@ -62,14 +62,14 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getCronJobDetail, deleteCronJob } from '@/api';
   import ResourceInfo from './components/ResourceInfo';
+  import JobList from './components/JobList';
+  import UpdateCronJob from './components/UpdateCronJob';
+  import { getCronJobDetail, deleteCronJob } from '@/api';
   import EventList from '@/views/resource/components/common/EventList';
   import Metadata from '@/views/resource/components/metadata/Metadata';
-  import JobList from './components/JobList';
   import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
   import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
-  import UpdateCronJob from './components/UpdateCronJob';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
 

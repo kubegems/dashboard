@@ -55,9 +55,9 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import BaseSelect from '@/mixins/select';
   import EndpointItem from './EndpointItem';
   import EndpointForm from './EndpointForm';
+  import BaseSelect from '@/mixins/select';
   import BaseResource from '@/mixins/resource';
   import { k8sName, required } from '@/utils/rules';
 

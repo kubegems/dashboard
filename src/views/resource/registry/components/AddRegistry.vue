@@ -11,8 +11,8 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { postAddRegistry } from '@/api';
   import RegistryBaseForm from './RegistryBaseForm';
+  import { postAddRegistry } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {

@@ -88,10 +88,10 @@
 </template>
 
 <script>
+  import { mapGetters, mapState } from 'vuex';
   import BaseSelect from '@/mixins/select';
 
   import { getTenantUserList, deleteTenantUser, postAddTenantUser, userSelectData } from '@/api';
-  import { mapGetters, mapState } from 'vuex';
 
   export default {
     name: 'ManageUser',

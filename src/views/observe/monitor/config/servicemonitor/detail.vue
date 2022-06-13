@@ -58,13 +58,13 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getServiceMonitorDetail, deleteServiceMonitor } from '@/api';
   import ResourceInfo from './components/ResourceInfo';
+  import UpdateServiceMonitor from './components/UpdateServiceMonitor';
+  import { getServiceMonitorDetail, deleteServiceMonitor } from '@/api';
   import Metadata from '@/views/resource/components/metadata/Metadata';
   import EventList from '@/views/resource/components/common/EventList';
   import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
   import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
-  import UpdateServiceMonitor from './components/UpdateServiceMonitor';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
 

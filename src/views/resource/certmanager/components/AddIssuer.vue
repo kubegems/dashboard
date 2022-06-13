@@ -26,8 +26,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { postAddIssuer } from '@/api';
   import IssuerBaseForm from './IssuerBaseForm';
+  import { postAddIssuer } from '@/api';
   import BaseResource from '@/mixins/resource';
   import IssuerSchema from '@/views/resource/certmanager/mixins/issuerSchema';
   import { randomString } from '@/utils/helpers';

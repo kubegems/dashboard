@@ -151,15 +151,14 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { deleteEnvironment, getEnvironmentTenantResourceQuota } from '@/api';
   import UpdateEnvironment from './components/UpdateEnvironment';
+  import { deleteEnvironment, getEnvironmentTenantResourceQuota } from '@/api';
   import BaseSelect from '@/mixins/select';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
   import BaseFilter from '@/mixins/base_filter';
   import BaseTable from '@/mixins/table';
-  import { sizeOfStorage, sizeOfCpu } from '@/utils/helpers';
-  import { deepCopy } from '@/utils/helpers';
+  import { sizeOfStorage, sizeOfCpu, deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'Environment',

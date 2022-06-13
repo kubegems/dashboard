@@ -244,11 +244,11 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { postStrategyDeployEnvironmentAppsControl, getAppRelatedServices } from '@/api';
   import DeployCard from './DeployCard';
   import DeployStepPanel from './DeployStepPanel';
   import DeployStepStatus from './DeployStepStatus';
   import DeployPodTip from './DeployPodTip';
+  import { postStrategyDeployEnvironmentAppsControl, getAppRelatedServices } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {

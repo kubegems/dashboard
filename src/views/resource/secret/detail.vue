@@ -62,15 +62,14 @@
 
 <script>
   import { mapState } from 'vuex';
+  import { Base64 } from 'js-base64';
+  import UpdateSecret from './components/UpdateSecret';
   import { getSecretDetail, deleteSecret } from '@/api';
   import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
   import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
-  import UpdateSecret from './components/UpdateSecret';
   import BaseResource from '@/mixins/resource';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
-
-  import { Base64 } from 'js-base64';
 
   export default {
     name: 'SecretDetail',

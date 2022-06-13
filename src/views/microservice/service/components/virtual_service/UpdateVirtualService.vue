@@ -13,8 +13,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { patchUpdateIstioVirtualService, getIstioVirtualServiceDetail } from '@/api';
   import IstioVirtualServiceBaseForm from './IstioVirtualServiceBaseForm';
+  import { patchUpdateIstioVirtualService, getIstioVirtualServiceDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import IstioVirtualServiceSchema from '@/views/microservice/service/mixins/schema';
   import { deepCopy } from '@/utils/helpers';

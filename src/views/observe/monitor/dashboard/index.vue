@@ -116,6 +116,12 @@
 
 <script>
   import { mapState, mapGetters } from 'vuex';
+  import AddDashboard from './components/AddDashboard';
+  import UpdateDashboard from './components/UpdateDashboard';
+  import AddGraph from './components/AddGraph';
+  import UpdateGraph from './components/UpdateGraph';
+  import ProjectEnvSelect from './components/ProjectEnvSelect';
+  import GraphMax from './components/GraphMax';
   import {
     getMonitorDashboardList,
     getMetricsQueryrange,
@@ -124,12 +130,6 @@
     getSystemConfigData,
     getMyConfigData,
   } from '@/api';
-  import AddDashboard from './components/AddDashboard';
-  import UpdateDashboard from './components/UpdateDashboard';
-  import AddGraph from './components/AddGraph';
-  import UpdateGraph from './components/UpdateGraph';
-  import ProjectEnvSelect from './components/ProjectEnvSelect';
-  import GraphMax from './components/GraphMax';
   import BasePermission from '@/mixins/permission';
 
   export default {

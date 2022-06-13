@@ -34,13 +34,13 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { getTenantStatistics } from '@/api';
   import ProjectList from './components/ProjectList';
   import ManageUser from './components/ManageUser';
   import DashboardCard from './components/DashboardCard';
   import ResourceList from './components/ResourceList';
   import AuditList from './components/AuditList';
   import EventList from './components/EventList';
+  import { getTenantStatistics } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
 

@@ -126,9 +126,9 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
+  import GatewayDataItem from './GatewayDataItem';
   import BaseSelect from '@/mixins/select';
   import BaseResource from '@/mixins/resource';
-  import GatewayDataItem from './GatewayDataItem';
   import DataForm from '@/views/resource/components/common/DataForm';
   import { deepCopy } from '@/utils/helpers';
   import { required, positiveInteger } from '@/utils/rules';

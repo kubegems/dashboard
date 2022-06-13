@@ -50,14 +50,13 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getAppStoreDetail, getAppStoreFiles } from '@/api';
+  import { Base64 } from 'js-base64';
   import Deploy from './components/Deploy';
   import Markdown from './components/Markdown';
   import AppInfo from './components/AppInfo';
   import AppDetail from './components/AppDetail';
   import ConfigFile from './components/ConfigFile';
-
-  import { Base64 } from 'js-base64';
+  import { getAppStoreDetail, getAppStoreFiles } from '@/api';
 
   export default {
     name: 'AppStoreDetail',

@@ -150,10 +150,10 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getPodList } from '@/api';
   import ContainerLog from './ContainerLog';
   import Terminal from './Terminal';
   import EventTip from './EventTip';
+  import { getPodList } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
   import BaseTable from '@/mixins/table';

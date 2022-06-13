@@ -12,10 +12,10 @@
 </template>
 
 <script>
-  import ProjectEnvironmentLayout from '@/views/observe/components/ProjectEnvironmentLayout';
   import ServiceMonitor from './servicemonitor';
   import PrometheusRule from './prometheusrule';
   import Receiver from './receiver';
+  import ProjectEnvironmentLayout from '@/views/observe/components/ProjectEnvironmentLayout';
 
   export default {
     name: 'MonitorConfig',

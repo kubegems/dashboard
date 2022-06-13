@@ -19,8 +19,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getAppStoreDetail } from '@/api';
   import Param from './Param';
+  import { getAppStoreDetail } from '@/api';
   import BaseSelect from '@/mixins/select';
   import BaseResource from '@/mixins/resource';
   import { YamlMixin } from '@/views/appstore/mixins/yaml';

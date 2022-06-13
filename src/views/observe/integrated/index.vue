@@ -97,7 +97,7 @@
         logging: {
           name: '日志',
           type: 'logging',
-          items: [{ name: 'fluent-bit' }],
+          items: [{ name: '日志采集' }],
           harfItems: [...new Array(5).keys()],
         },
       },

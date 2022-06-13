@@ -67,14 +67,14 @@
 </template>
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { deleteCluster, getClusterDetail, getClusterQuota } from '@/api';
   import ResourceChart from './components/ResourceChart';
-  import Terminal from '@/views/resource/components/common/Terminal';
   import UpdateCluster from './components/UpdateCluster';
   import BasicMonitor from './components/BasicMonitor';
   import ResourceInfo from './components/ResourceInfo';
   import MetricMonitor from './components/MetricMonitor';
   import OverScaleResource from './components/OverScaleResource';
+  import Terminal from '@/views/resource/components/common/Terminal';
+  import { deleteCluster, getClusterDetail, getClusterQuota } from '@/api';
   import BaseSelect from '@/mixins/select';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';

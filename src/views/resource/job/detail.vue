@@ -63,14 +63,14 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getJobDetail, deleteJob } from '@/api';
   import ResourceInfo from './components/ResourceInfo';
+  import UpdateJob from './components/UpdateJob';
+  import { getJobDetail, deleteJob } from '@/api';
   import EventList from '@/views/resource/components/common/EventList';
   import Metadata from '@/views/resource/components/metadata/Metadata';
   import PodList from '@/views/resource/components/common/PodList';
   import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
   import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
-  import UpdateJob from './components/UpdateJob';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
 

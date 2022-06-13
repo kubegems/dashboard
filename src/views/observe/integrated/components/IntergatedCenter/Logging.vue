@@ -99,6 +99,7 @@
 
 <script>
   import { mapState, mapGetters } from 'vuex';
+  import ProjectEnvSelect from './ProjectEnvSelect';
   import {
     getClusterOutputsData,
     getOutputsData,
@@ -107,7 +108,6 @@
     postLoggingFlow,
     putLoggingNsFlow,
   } from '@/api';
-  import ProjectEnvSelect from './ProjectEnvSelect';
   import { required, integer } from '@/utils/rules';
 
   export default {

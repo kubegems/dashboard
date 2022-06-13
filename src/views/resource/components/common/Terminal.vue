@@ -70,14 +70,13 @@
 
 <script>
   import { mapState } from 'vuex';
-  import BaseResource from '@/mixins/resource';
-  import { deepCopy } from '@/utils/helpers';
-
   import 'xterm/dist/xterm.css';
   import { Terminal } from 'xterm';
   import * as fit from 'xterm/lib/addons/fit/fit';
   import * as webLinks from 'xterm/lib/addons/webLinks/webLinks';
   import * as search from 'xterm/lib/addons/search/search';
+  import BaseResource from '@/mixins/resource';
+  import { deepCopy } from '@/utils/helpers';
 
   const bindTerminalResize = (term, websocket) => {
     const onTermResize = () => {

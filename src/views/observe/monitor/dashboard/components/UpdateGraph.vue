@@ -11,8 +11,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { putUpdateMonitorDashboard } from '@/api';
   import GraphBaseForm from './GraphBaseForm';
+  import { putUpdateMonitorDashboard } from '@/api';
   import { deepCopy } from '@/utils/helpers';
 
   export default {

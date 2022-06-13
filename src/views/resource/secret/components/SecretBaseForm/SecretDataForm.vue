@@ -41,10 +41,9 @@
 
 <script>
   import { mapState } from 'vuex';
+  import { Base64 } from 'js-base64';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
-
-  import { Base64 } from 'js-base64';
 
   export default {
     name: 'DataForm',

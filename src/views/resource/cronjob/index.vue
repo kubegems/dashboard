@@ -126,10 +126,10 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { getCronJobList, deleteCronJob } from '@/api';
-  import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
   import AddCronJob from './components/AddCronJob';
   import UpdateCronJob from './components/UpdateCronJob';
+  import { getCronJobList, deleteCronJob } from '@/api';
+  import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
   import BaseFilter from '@/mixins/base_filter';

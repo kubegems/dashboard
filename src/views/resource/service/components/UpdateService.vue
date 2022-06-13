@@ -26,8 +26,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { patchUpdateService, getServiceDetail } from '@/api';
   import ServiceBaseForm from './ServiceBaseForm';
+  import { patchUpdateService, getServiceDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import ServiceSchema from '@/views/resource/service/mixins/schema';
   import { randomString, deepCopy } from '@/utils/helpers';

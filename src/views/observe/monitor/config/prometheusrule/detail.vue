@@ -61,13 +61,13 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getPrometheusRuleDetail, deletePrometheusRule, getPrometheusAlertHistory } from '@/api';
   import UpdatePrometheusRule from './components/UpdatePrometheusRule';
   import AlertList from './components/AlertList';
   import AlertBarChart from './components/AlertBarChart';
+  import BaseAlert from './mixins/alert';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
-  import BaseAlert from './mixins/alert';
+  import { getPrometheusRuleDetail, deletePrometheusRule, getPrometheusAlertHistory } from '@/api';
 
   export default {
     name: 'PrometheusRuleDetail',

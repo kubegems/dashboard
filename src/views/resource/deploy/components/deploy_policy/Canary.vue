@@ -135,13 +135,13 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { postStrategyDeployEnvironmentApps, getAppResourceFileMetas } from '@/api';
   import BaseDeployInfoForm from './base/BaseDeployInfoForm';
   import DefaultTraffic from './traffic/DefaultTraffic';
   import HeaderTraffic from './traffic/HeaderTraffic';
   import UriTraffic from './traffic/UriTraffic';
   import AnalysisTemplateItem from './analysis_template/AnalysisTemplateItem';
   import AnalysisTemplateForm from './analysis_template/AnalysisTemplateForm';
+  import { postStrategyDeployEnvironmentApps, getAppResourceFileMetas } from '@/api';
   import StrategyDeploy from '@/views/resource/deploy/mixins/deploy';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';

@@ -72,9 +72,9 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getStorageClassList, deleteStorageClass } from '@/api';
   import AddStorageClass from './components/AddStorageClass';
   import UpdateStorageClass from './components/UpdateStorageClass';
+  import { getStorageClassList, deleteStorageClass } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BasePermission from '@/mixins/permission';
   import BaseFilter from '@/mixins/base_filter';

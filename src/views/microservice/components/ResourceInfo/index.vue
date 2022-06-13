@@ -43,10 +43,10 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { getKialiTrafficGraph } from '@/api';
   import MonitorCard from './MonitorCard';
   import WorkloadList from './WorkloadList';
   import ServiceInfo from './ServiceInfo';
+  import { getKialiTrafficGraph } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {
