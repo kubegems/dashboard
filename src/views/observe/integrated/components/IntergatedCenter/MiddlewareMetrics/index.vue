@@ -3,7 +3,7 @@
     <BaseSubTitle title="监控采集配置" color="grey lighten-3" class="mx-2 mt-1" :divider="false" />
 
     <v-form v-model="valid" lazy-validation @submit.prevent>
-      <ProjectEnvSelect v-model="env" class="px-2 mt-0" />
+      <ProjectEnvSelect v-model="env" t="metrics" class="px-2 mt-0" />
       <JsonSchema
         ref="jsonSchema"
         class="px-2"
