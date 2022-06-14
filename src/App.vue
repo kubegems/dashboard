@@ -24,7 +24,7 @@
       };
     },
     computed: {
-      ...mapState(['SnackBar', 'Scale', 'Version']),
+      ...mapState(['Scale', 'Version']),
     },
     mounted() {
       // 初始化缩放
