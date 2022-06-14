@@ -1,4 +1,3 @@
-import axios from 'axios'
+import axios from 'axios';
 
-export const userSelectData = (query = {}) =>
-  axios(`sels/users`, { params: query })
+export const userSelectData = (query = {}) => axios(`sels/users`, { params: query });

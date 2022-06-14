@@ -1,4 +1,4 @@
-const prefix = ':tenant?'
+const prefix = ':tenant?';
 
 export const tool = [
   {
@@ -34,4 +34,4 @@ export const tool = [
       },
     ],
   },
-]
+];

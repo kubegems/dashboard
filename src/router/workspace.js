@@ -1,4 +1,4 @@
-const prefix = 'tenants/:tenant?/projects/:project?/environments/:environment?'
+const prefix = 'tenants/:tenant?/projects/:project?/environments/:environment?';
 
 export const workspace = [
   {
@@ -221,7 +221,6 @@ export const workspace = [
               rootName: 'workspace',
               tip: 'ingress',
               dependencies: ['kubegems-local'],
-
             },
           },
           {
@@ -431,7 +430,7 @@ export const workspace = [
               show: true,
               rootName: 'workspace',
               tip: 'certmanager',
-              dependencies: ['kubegems-local'],
+              dependencies: ['kubegems-local', 'cert-manager'],
             },
           },
           {
@@ -446,7 +445,7 @@ export const workspace = [
               show: false,
               rootName: 'workspace',
               tip: 'certmanager',
-              dependencies: ['kubegems-local'],
+              dependencies: ['kubegems-local', 'cert-manager'],
             },
           },
         ],
@@ -480,8 +479,7 @@ export const workspace = [
           {
             path: `${prefix}/persistentvolumeclaims/:name`,
             name: 'persistentvolumeclaim-detail',
-            component: () =>
-              import('@/views/resource/persistentvolumeclaim/detail'),
+            component: () => import('@/views/resource/persistentvolumeclaim/detail'),
             meta: {
               requireAuth: true,
               title: '存储卷',
@@ -551,4 +549,4 @@ export const workspace = [
       },
     ],
   },
-]
+];

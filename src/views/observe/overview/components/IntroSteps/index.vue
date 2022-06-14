@@ -5,14 +5,8 @@
         <LeftSteps v-model="current" />
       </v-card>
     </v-col>
-    <v-col
-      cols="6"
-      style="height: 100%;"
-    >
-      <v-card
-        class="pa-4"
-        style="height: 296px;"
-      >
+    <v-col cols="6" style="height: 100%">
+      <v-card class="pa-4" style="height: 296px">
         <component :is="current" />
       </v-card>
     </v-col>
@@ -20,23 +14,23 @@
 </template>
 
 <script>
-import LeftSteps from './LeftSteps'
-import Install from './Install'
-import Collect from './Collect'
-import Analyze from './Analyze'
+  import Analyze from './Analyze';
+  import Collect from './Collect';
+  import Install from './Install';
+  import LeftSteps from './LeftSteps';
 
-export default {
-  name: 'IntroSteps',
-  components: {
-    LeftSteps,
-    Install,
-    Collect,
-    Analyze,
-  },
-  data () {
-    return {
-      current: 'install',
-    }
-  },
-}
+  export default {
+    name: 'IntroSteps',
+    components: {
+      Analyze,
+      Collect,
+      Install,
+      LeftSteps,
+    },
+    data() {
+      return {
+        current: 'install',
+      };
+    },
+  };
 </script>

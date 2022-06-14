@@ -1,4 +1,4 @@
-const prefix = 'tenants/:tenant?'
+const prefix = 'tenants/:tenant?';
 
 export const dashboard = [
   {
@@ -63,4 +63,4 @@ export const dashboard = [
       },
     ],
   },
-]
+];

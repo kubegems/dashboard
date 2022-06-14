@@ -5,7 +5,7 @@ WORKDIR /usr/src/app
 ENV MESSAGE_SERVER=kubegems-msgbus API_SERVER=kubegems-api
 
 COPY dist dist
-COPY md dist/md
+COPY docs dist/docs
 COPY nginx.conf.template /etc/nginx/templates/nginx.conf.template
 
 CMD ["nginx", "-g", "daemon off;"]

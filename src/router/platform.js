@@ -243,4 +243,4 @@ export const platform = [
       },
     ],
   },
-]
+];

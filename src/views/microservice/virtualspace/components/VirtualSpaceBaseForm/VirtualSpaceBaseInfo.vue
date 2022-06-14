@@ -1,10 +1,5 @@
 <template>
-  <v-form
-    ref="form"
-    v-model="valid"
-    lazy-validation
-    @submit.prevent
-  >
+  <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
     <BaseSubTitle title="虚拟空间定义" />
     <v-card-text class="pa-2">
       <v-row>
@@ -12,10 +7,10 @@
           <v-text-field
             v-model="obj.VirtualSpaceName"
             class="my-0"
-            required
             label="空间名称"
-            :rules="objRules.virtualSpaceNameRule"
             :readonly="edit"
+            required
+            :rules="objRules.virtualSpaceNameRule"
           />
         </v-col>
         <!-- <v-col cols="2">
@@ -27,86 +22,84 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import BaseSelect from '@/mixins/select'
-import BaseResource from '@/mixins/resource'
-import { deepCopy } from '@/utils/helpers'
-import { required } from '@/utils/rules'
+  import { mapState } from 'vuex';
 
-export default {
-  name: 'VirtualSpaceBaseInfo',
-  mixins: [BaseSelect, BaseResource],
-  props: {
-    item: {
-      type: Object,
-      default: () => null,
-    },
-    edit: {
-      type: Boolean,
-      default: () => false,
-    },
-  },
-  data() {
-    return {
-      valid: false,
-      obj: {
-        VirtualSpaceName: '',
-        Environments: [],
-        Users: [],
+  import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
+  import { deepCopy } from '@/utils/helpers';
+  import { required } from '@/utils/rules';
+
+  export default {
+    name: 'VirtualSpaceBaseInfo',
+    mixins: [BaseResource, BaseSelect],
+    props: {
+      edit: {
+        type: Boolean,
+        default: () => false,
       },
-    }
-  },
-  computed: {
-    ...mapState(['AdminViewport']),
-    objRules() {
+      item: {
+        type: Object,
+        default: () => null,
+      },
+    },
+    data() {
       return {
-        virtualSpaceNameRule: [
-          required,
-          (v) => !!(v && v.length <= 20) || '超出20字符限制',
-        ],
-      }
+        valid: false,
+        obj: {
+          VirtualSpaceName: '',
+          Environments: [],
+          Users: [],
+        },
+      };
     },
-  },
-  watch: {
-    item() {
-      this.loadData()
+    computed: {
+      ...mapState(['AdminViewport']),
+      objRules() {
+        return {
+          virtualSpaceNameRule: [required, (v) => !!(v && v.length <= 20) || '超出20字符限制'],
+        };
+      },
     },
-  },
-  mounted() {
-    this.loadData()
-  },
-  methods: {
-    async loadData() {
-      this.$nextTick(() => {
-        if (this.item) this.obj = deepCopy(this.item)
-      })
+    watch: {
+      item() {
+        this.loadData();
+      },
     },
-    // eslint-disable-next-line vue/no-unused-properties
-    reset() {
-      this.$refs.form.resetValidation()
-      this.obj = this.$options.data().obj
+    mounted() {
+      this.loadData();
     },
-    // eslint-disable-next-line vue/no-unused-properties
-    init(data) {
-      this.$nextTick(() => {
-        this.obj = this.$_.merge(this.obj, deepCopy(data))
-      })
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    back(data) {
-      this.$nextTick(() => {
-        this.obj = deepCopy(data)
-      })
-    },
+    methods: {
+      async loadData() {
+        this.$nextTick(() => {
+          if (this.item) this.obj = deepCopy(this.item);
+        });
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      reset() {
+        this.$refs.form.resetValidation();
+        this.obj = this.$options.data().obj;
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      init(data) {
+        this.$nextTick(() => {
+          this.obj = this.$_.merge(this.obj, deepCopy(data));
+        });
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      back(data) {
+        this.$nextTick(() => {
+          this.obj = deepCopy(data);
+        });
+      },
 
-    // eslint-disable-next-line vue/no-unused-properties
-    validate() {
-      return this.$refs.form.validate(true)
+      // eslint-disable-next-line vue/no-unused-properties
+      validate() {
+        return this.$refs.form.validate(true);
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      getData() {
+        return this.obj;
+      },
     },
-    // eslint-disable-next-line vue/no-unused-properties
-    getData() {
-      return this.obj
-    },
-  },
-}
+  };
 </script>

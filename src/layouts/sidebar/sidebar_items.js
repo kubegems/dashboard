@@ -63,4 +63,4 @@ export const SIDEBAR_ITEMS = [
     icon: 'cib:codesandbox',
     admin: true,
   },
-]
+];

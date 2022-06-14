@@ -1,4 +1,4 @@
-const timestamp = new Date().getTime()
+const timestamp = new Date().getTime();
 const path = require('path');
 
 module.exports = {
@@ -21,12 +21,12 @@ module.exports = {
     },
     devServer: {
       static: {
-        directory: path.join(__dirname, 'md'),
-        publicPath: '/md',
+        directory: path.join(__dirname, 'docs'),
+        publicPath: '/docs',
       },
       compress: false,
       hot: true,
-      allowedHosts: "all",
+      allowedHosts: 'all',
       port: 8080,
       host: '0.0.0.0',
       proxy: {
@@ -71,4 +71,4 @@ module.exports = {
     },
     extract: { ignoreOrder: true },
   },
-}
+};

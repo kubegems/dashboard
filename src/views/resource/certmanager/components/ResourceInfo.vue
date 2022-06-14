@@ -2,10 +2,7 @@
   <div>
     <v-card>
       <v-sheet class="pa-2">
-        <BaseListItemForDetail
-          title="到期时间"
-          :mt="0"
-        >
+        <BaseListItemForDetail :mt="0" title="到期时间">
           <template #content>
             {{
               certificate && certificate.status && certificate.status.notAfter
@@ -40,11 +37,7 @@
     </v-card>
 
     <v-card class="mt-3">
-      <BaseSubTitle
-        title="DNS名"
-        :divider="false"
-        class="pt-2"
-      />
+      <BaseSubTitle class="pt-2" :divider="false" title="DNS名" />
       <v-simple-table class="mx-2 pa-2 pb-3">
         <template #default>
           <thead>
@@ -53,12 +46,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="(item, index) in certificate
-                ? certificate.spec.dnsNames
-                : []"
-              :key="index"
-            >
+            <tr v-for="(item, index) in certificate ? certificate.spec.dnsNames : []" :key="index">
               <td>{{ item }}</td>
             </tr>
           </tbody>
@@ -68,11 +56,7 @@
 
     <v-flex v-if="certificate && certificate.spec.usages">
       <v-card class="mt-3">
-        <BaseSubTitle
-          title="扩展"
-          :divider="false"
-          class="pt-2"
-        />
+        <BaseSubTitle class="pt-2" :divider="false" title="扩展" />
         <v-simple-table class="mx-2 pa-2 pb-3">
           <template #default>
             <thead>
@@ -81,12 +65,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr
-                v-for="(item, index) in certificate
-                  ? certificate.spec.usages
-                  : []"
-                :key="index"
-              >
+              <tr v-for="(item, index) in certificate ? certificate.spec.usages : []" :key="index">
                 <td>{{ item }}</td>
               </tr>
             </tbody>
@@ -98,30 +77,30 @@
 </template>
 
 <script>
-import BaseResource from '@/mixins/resource'
-import { deepCopy } from '@/utils/helpers'
+  import BaseResource from '@/mixins/resource';
+  import { deepCopy } from '@/utils/helpers';
 
-export default {
-  name: 'ResourceInfo',
-  mixins: [BaseResource],
-  props: {
-    item: {
-      type: Object,
-      default: () => null,
+  export default {
+    name: 'ResourceInfo',
+    mixins: [BaseResource],
+    props: {
+      item: {
+        type: Object,
+        default: () => null,
+      },
     },
-  },
-  data() {
-    return {
-      certificate: null,
-    }
-  },
-  watch: {
-    item() {
-      this.certificate = deepCopy(this.item)
+    data() {
+      return {
+        certificate: null,
+      };
     },
-  },
-  mounted() {
-    if (this.item) this.certificate = deepCopy(this.item)
-  },
-}
+    watch: {
+      item() {
+        this.certificate = deepCopy(this.item);
+      },
+    },
+    mounted() {
+      if (this.item) this.certificate = deepCopy(this.item);
+    },
+  };
 </script>

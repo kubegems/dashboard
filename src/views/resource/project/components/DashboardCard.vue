@@ -1,56 +1,28 @@
 <template>
   <v-row>
-    <v-col
-      cols="3"
-      class="py-0"
-    >
-      <BaseInfoCard
-        :num="basic.environments"
-        title="环境"
-        icon="ion:cube"
-      />
+    <v-col class="py-0" cols="3">
+      <BaseInfoCard icon="ion:cube" :num="basic.environments" title="环境" />
     </v-col>
-    <v-col
-      cols="3"
-      class="py-0"
-    >
-      <BaseInfoCard
-        :num="basic.applications"
-        title="应用"
-        icon="bi:app"
-      />
+    <v-col class="py-0" cols="3">
+      <BaseInfoCard icon="bi:app" :num="basic.applications" title="应用" />
     </v-col>
-    <v-col
-      cols="3"
-      class="py-0"
-    >
-      <BaseInfoCard
-        :num="basic.person"
-        title="用户"
-        icon="mdi:account"
-      />
+    <v-col class="py-0" cols="3">
+      <BaseInfoCard icon="mdi:account" :num="basic.person" title="用户" />
     </v-col>
-    <v-col
-      cols="3"
-      class="py-0"
-    >
-      <BaseInfoCard
-        :num="4"
-        title="角色"
-        icon="mdi:account-eye"
-      />
+    <v-col class="py-0" cols="3">
+      <BaseInfoCard icon="mdi:account-eye" :num="4" title="角色" />
     </v-col>
   </v-row>
 </template>
 
 <script>
-export default {
-  name: 'DashboardCard',
-  props: {
-    basic: {
-      type: Object,
-      default: () => null,
+  export default {
+    name: 'DashboardCard',
+    props: {
+      basic: {
+        type: Object,
+        default: () => null,
+      },
     },
-  },
-}
+  };
 </script>

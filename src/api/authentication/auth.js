@@ -1,20 +1,16 @@
-import axios from 'axios'
+import axios from 'axios';
 
 // 登录
-export const postLogin = (body = {}, query = {}) =>
-  axios.post(`login`, body, { params: query })
+export const postLogin = (body = {}, query = {}) => axios.post(`login`, body, { params: query });
 // 用户信息
-export const getLoginUserInfo = () => axios(`my/info`)
+export const getLoginUserInfo = () => axios(`my/info`);
 // 用户权限
-export const getLoginUserAuth = () => axios(`my/auth`)
+export const getLoginUserAuth = () => axios(`my/auth`);
 // oauth登录地址
-export const getOauthAddr = (query = {}) => axios(`/oauth/addr`, { params: query })
+export const getOauthAddr = (query = {}) => axios(`/oauth/addr`, { params: query });
 // 登录回调
-export const getOauthCallback = (query = {}) =>
-  axios(`/oauth/callback`, { params: query })
+export const getOauthCallback = (query = {}) => axios(`/oauth/callback`, { params: query });
 // 重置密码
-export const postResetPassword = (body = {}) =>
-  axios.post(`my/reset_password`, body)
+export const postResetPassword = (body = {}) => axios.post(`my/reset_password`, body);
 // 三方登录
-export const getSystemAuthSource = (query = {}) =>
-  axios(`system/authsource`, { params: query })
+export const getSystemAuthSource = (query = {}) => axios(`system/authsource`, { params: query });

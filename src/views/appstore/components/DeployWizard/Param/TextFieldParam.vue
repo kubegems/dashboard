@@ -2,68 +2,68 @@
   <v-flex>
     <BaseSubTitle
       v-if="pathLevel === 1"
-      :title="label"
-      :color="pathLevel === 1 ? 'grey lighten-3' : ''"
       class="mb-4"
+      :color="pathLevel === 1 ? 'grey lighten-3' : ''"
       :divider="false"
+      :title="label"
     />
     <v-text-field
       :id="id"
-      :value="param.value"
-      :type="inputType ? inputType : 'text'"
-      :rules="textRule"
-      :label="pathLevel === 1 ? '' : label"
       class="my-2"
+      :label="pathLevel === 1 ? '' : label"
+      :rules="textRule"
+      :type="inputType ? inputType : 'text'"
+      :value="param.value"
       @change="onChange($event)"
     />
   </v-flex>
 </template>
 
 <script>
-import { required } from '@/utils/rules'
+  import { required } from '@/utils/rules';
 
-export default {
-  name: 'TextFieldParam',
-  props: {
-    inputType: {
-      type: String,
-      default: () => '',
+  export default {
+    name: 'TextFieldParam',
+    props: {
+      id: {
+        type: String,
+        default: () => '',
+      },
+      inputType: {
+        type: String,
+        default: () => '',
+      },
+      label: {
+        type: String,
+        default: () => '',
+      },
+      param: {
+        type: Object,
+        default: () => {},
+      },
     },
-    label: {
-      type: String,
-      default: () => '',
+    data() {
+      return {
+        textRule: [required],
+      };
     },
-    param: {
-      type: Object,
-      default: () => {},
+    computed: {
+      pathLevel() {
+        return this.param.path.split('/').length;
+      },
     },
-    id: {
-      type: String,
-      default: () => '',
+    mounted() {
+      this.onChange(this.param.value);
     },
-  },
-  data () {
-    return {
-      textRule: [required],
-    }
-  },
-  computed: {
-    pathLevel() {
-      return this.param.path.split('/').length
+    methods: {
+      onChange(value) {
+        if (this.inputType === 'number' && value) {
+          value = parseFloat(value, 10);
+        }
+        if (value) {
+          this.$emit('changeBasicFormParam', this.param, value);
+        }
+      },
     },
-  },
-  mounted() {
-    this.onChange(this.param.value)
-  },
-  methods: {
-    onChange(value) {
-      if (this.inputType === 'number' && value) {
-        value = parseFloat(value, 10)
-      }
-      if (value) {
-        this.$emit('changeBasicFormParam', this.param, value)
-      }
-    },
-  },
-}
+  };
 </script>

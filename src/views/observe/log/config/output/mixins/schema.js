@@ -18,10 +18,7 @@ const schema = {
             $id: '#/properties/kind',
             type: 'string',
             default: '',
-            enum: [
-              'Output',
-              'ClusterOutput',
-            ],
+            enum: ['Output', 'ClusterOutput'],
           },
           metadata: {
             $id: '#/properties/metadata',
@@ -40,8 +37,8 @@ const schema = {
         },
         additionalProperties: true,
       },
-    }
+    };
   },
-}
+};
 
-export default schema
+export default schema;

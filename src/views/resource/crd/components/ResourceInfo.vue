@@ -2,10 +2,7 @@
   <div>
     <v-card>
       <v-sheet class="pa-2">
-        <BaseListItemForDetail
-          title="generation"
-          :mt="0"
-        >
+        <BaseListItemForDetail :mt="0" title="generation">
           <template #content>
             {{ crd ? crd.metadata.generation : '' }}
           </template>
@@ -26,11 +23,7 @@
     </v-card>
 
     <v-card class="mt-3">
-      <BaseSubTitle
-        title="状况"
-        :divider="false"
-        class="pt-2"
-      />
+      <BaseSubTitle class="pt-2" :divider="false" title="状况" />
       <v-simple-table class="mx-2 pa-2 pb-3">
         <template #default>
           <thead>
@@ -43,23 +36,14 @@
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="item in crd ? crd.status.conditions : []"
-              :key="item.reason"
-            >
+            <tr v-for="item in crd ? crd.status.conditions : []" :key="item.reason">
               <td>{{ item.reason }}</td>
               <td>
                 <span v-if="item.status === 'True'">
-                  <v-icon
-                    small
-                    color="primary"
-                  > fas fa-check-circle </v-icon>
+                  <v-icon color="primary" small> fas fa-check-circle </v-icon>
                 </span>
                 <span v-else>
-                  <v-icon
-                    small
-                    color="error"
-                  >fas fa-minus-circle</v-icon>
+                  <v-icon color="error" small>fas fa-minus-circle</v-icon>
                 </span>
               </td>
               <td>{{ item.type }}</td>
@@ -74,30 +58,30 @@
 </template>
 
 <script>
-import BaseResource from '@/mixins/resource'
-import { deepCopy } from '@/utils/helpers'
+  import BaseResource from '@/mixins/resource';
+  import { deepCopy } from '@/utils/helpers';
 
-export default {
-  name: 'ResourceInfo',
-  mixins: [BaseResource],
-  props: {
-    item: {
-      type: Object,
-      default: () => null,
+  export default {
+    name: 'ResourceInfo',
+    mixins: [BaseResource],
+    props: {
+      item: {
+        type: Object,
+        default: () => null,
+      },
     },
-  },
-  data() {
-    return {
-      crd: null,
-    }
-  },
-  watch: {
-    item() {
-      this.crd = deepCopy(this.item)
+    data() {
+      return {
+        crd: null,
+      };
     },
-  },
-  mounted() {
-    if (this.item) this.crd = deepCopy(this.item)
-  },
-}
+    watch: {
+      item() {
+        this.crd = deepCopy(this.item);
+      },
+    },
+    mounted() {
+      if (this.item) this.crd = deepCopy(this.item);
+    },
+  };
 </script>

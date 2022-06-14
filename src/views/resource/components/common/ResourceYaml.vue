@@ -1,11 +1,5 @@
 <template>
-  <BasePanel
-    v-model="panel"
-    title="YAML"
-    :width="`50%`"
-    icon="fas fa-code"
-    @dispose="dispose"
-  >
+  <BasePanel v-model="panel" icon="fas fa-code" title="YAML" :width="`50%`" @dispose="dispose">
     <template #header>
       <span class="ml-3">
         {{ item ? item.metadata.name : '' }}
@@ -15,14 +9,11 @@
       <v-card-text class="ma-0 pa-0">
         <ACEEditor
           v-model="kubeyaml"
-          :class="`clear-zoom-${Scale.toString().replaceAll(
-            '.',
-            '-',
-          )} rounded-0`"
+          :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded-0`"
           lang="yaml"
           :options="Object.assign($aceOptions, { readOnly: true, wrap: true })"
-          theme="chrome"
           :style="`height: ${height}px !important`"
+          theme="chrome"
           @init="$aceinit"
           @keydown.stop
         />
@@ -32,43 +23,42 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+  import { mapState } from 'vuex';
 
-export default {
-  name: 'ResourceYaml',
-  components: {},
-  props: {
-    item: {
-      type: Object,
-      default: () => null,
-    },
-  },
-  data: () => ({
-    panel: false,
-    kubeyaml: '',
-  }),
-  computed: {
-    ...mapState(['Scale']),
-    height() {
-      return window.innerHeight - 64 * this.Scale - 1
-    },
-  },
-  watch: {
-    item: {
-      handler: function (value) {
-        if (value) {
-          this.kubeyaml = this.$yamldump(this.item)
-        }
+  export default {
+    name: 'ResourceYaml',
+    props: {
+      item: {
+        type: Object,
+        default: () => null,
       },
-      deep: true,
     },
-  },
-  methods: {
-    // eslint-disable-next-line vue/no-unused-properties
-    open() {
-      this.panel = true
+    data: () => ({
+      panel: false,
+      kubeyaml: '',
+    }),
+    computed: {
+      ...mapState(['Scale']),
+      height() {
+        return window.innerHeight - 64 * this.Scale - 1;
+      },
     },
-    dispose() {},
-  },
-}
+    watch: {
+      item: {
+        handler: function (value) {
+          if (value) {
+            this.kubeyaml = this.$yamldump(this.item);
+          }
+        },
+        deep: true,
+      },
+    },
+    methods: {
+      // eslint-disable-next-line vue/no-unused-properties
+      open() {
+        this.panel = true;
+      },
+      dispose() {},
+    },
+  };
 </script>

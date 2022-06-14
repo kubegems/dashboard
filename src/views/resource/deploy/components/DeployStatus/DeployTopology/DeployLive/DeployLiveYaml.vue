@@ -5,8 +5,8 @@
   >
     <ACEEditor
       v-model="kubeyaml"
-      lang="yaml"
       class="rounded-0"
+      lang="yaml"
       :options="Object.assign($aceOptions, { readOnly: true, wrap: true })"
       theme="chrome"
       @init="$aceinit"
@@ -16,39 +16,39 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+  import { mapState } from 'vuex';
 
-export default {
-  name: 'DeployLiveYaml',
-  props: {
-    resource: {
-      type: Object,
-      default: () => null,
-    },
-  },
-  data: () => ({
-    kubeyaml: '',
-  }),
-  computed: {
-    ...mapState(['Scale']),
-    height() {
-      return window.innerHeight - 64 * this.Scale - 1 - 45 * this.Scale
-    },
-  },
-  watch: {
-    resource: {
-      handler: function () {
-        if (this.resource) {
-          this.kubeyaml = this.$yamldump(this.resource.liveState)
-        }
+  export default {
+    name: 'DeployLiveYaml',
+    props: {
+      resource: {
+        type: Object,
+        default: () => null,
       },
-      deep: true,
-      immediate: true,
     },
-  },
-  methods: {
-    // eslint-disable-next-line vue/no-unused-properties
-    dispose() {},
-  },
-}
+    data: () => ({
+      kubeyaml: '',
+    }),
+    computed: {
+      ...mapState(['Scale']),
+      height() {
+        return window.innerHeight - 64 * this.Scale - 1 - 45 * this.Scale;
+      },
+    },
+    watch: {
+      resource: {
+        handler: function () {
+          if (this.resource) {
+            this.kubeyaml = this.$yamldump(this.resource.liveState);
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
+    },
+    methods: {
+      // eslint-disable-next-line vue/no-unused-properties
+      dispose() {},
+    },
+  };
 </script>

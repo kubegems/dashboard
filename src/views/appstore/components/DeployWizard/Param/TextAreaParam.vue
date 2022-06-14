@@ -2,59 +2,59 @@
   <v-flex>
     <BaseSubTitle
       v-if="pathLevel === 1"
-      :title="label"
-      :color="pathLevel === 1 ? 'grey lighten-3' : ''"
       class="mb-4"
+      :color="pathLevel === 1 ? 'grey lighten-3' : ''"
       :divider="false"
+      :title="label"
     />
     <v-textarea
       :id="id"
-      :value="param.value"
       auto-grow
-      :rules="textareaRule"
-      :label="pathLevel === 1 ? '' : label"
       class="my-2"
+      :label="pathLevel === 1 ? '' : label"
+      :rules="textareaRule"
+      :value="param.value"
       @change="onChange($event)"
     />
   </v-flex>
 </template>
 
 <script>
-import { required } from '@/utils/rules'
+  import { required } from '@/utils/rules';
 
-export default {
-  name: 'TextFieldParam',
-  props: {
-    label: {
-      type: String,
-      default: () => '',
+  export default {
+    name: 'TextFieldParam',
+    props: {
+      id: {
+        type: String,
+        default: () => '',
+      },
+      label: {
+        type: String,
+        default: () => '',
+      },
+      param: {
+        type: Object,
+        default: () => {},
+      },
     },
-    param: {
-      type: Object,
-      default: () => {},
+    data() {
+      return {
+        textareaRule: [required],
+      };
     },
-    id: {
-      type: String,
-      default: () => '',
+    computed: {
+      pathLevel() {
+        return this.param.path.split('/').length;
+      },
     },
-  },
-  data() {
-    return {
-      textareaRule: [required],
-    }
-  },
-  computed: {
-    pathLevel() {
-      return this.param.path.split('/').length
+    mounted() {
+      this.onChange(this.param.value);
     },
-  },
-  mounted() {
-    this.onChange(this.param.value)
-  },
-  methods: {
-    onChange(event) {
-      this.$emit('changeBasicFormParam', this.param, event)
+    methods: {
+      onChange(event) {
+        this.$emit('changeBasicFormParam', this.param, event);
+      },
     },
-  },
-}
+  };
 </script>

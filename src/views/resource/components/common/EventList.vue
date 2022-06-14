@@ -4,11 +4,11 @@
       <v-data-table
         disable-sort
         :headers="headers"
+        hide-default-footer
         :items="items"
-        :page.sync="params.page"
         :items-per-page="params.size"
         no-data-text="暂无数据"
-        hide-default-footer
+        :page.sync="params.page"
       >
         <template #[`item.reason`]="{ item }">
           {{ item.reason }}
@@ -24,8 +24,8 @@
             <v-chip
               class="white--text font-weight-medium chip-width"
               :color="$EVENT_STATUS_COLOR[item.type]"
-              small
               label
+              small
             >
               <span>{{ item.type }}</span>
             </v-chip>
@@ -34,8 +34,8 @@
             v-else
             class="white--text font-weight-medium chip-width"
             :color="$EVENT_STATUS_COLOR[item.type]"
-            small
             label
+            small
           >
             <span>{{ item.type }}</span>
           </v-chip>
@@ -48,16 +48,12 @@
             item.firstTimestamp
               ? $moment(item.firstTimestamp, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
               : item.eventTime
-                ? $moment(item.eventTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
-                : ''
+              ? $moment(item.eventTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
+              : ''
           }}
         </template>
         <template #[`item.lastAt`]="{ item }">
-          {{
-            item.lastTimestamp
-              ? $moment(item.lastTimestamp, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
-              : ''
-          }}
+          {{ item.lastTimestamp ? $moment(item.lastTimestamp, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() : '' }}
         </template>
         <template #[`item.message`]="{ item }">
           {{ item.message }}
@@ -68,89 +64,89 @@
         v-model="params.page"
         :page-count="pageCount"
         :size="params.size"
-        @loaddata="eventList"
-        @changesize="onPageSizeChange"
         @changepage="onPageIndexChange"
+        @changesize="onPageSizeChange"
+        @loaddata="eventList"
       />
     </v-card-text>
   </v-card>
 </template>
 
 <script>
-import { getEventList } from '@/api'
-import BaseResource from '@/mixins/resource'
+  import { getEventList } from '@/api';
+  import BaseResource from '@/mixins/resource';
 
-export default {
-  name: 'EventList',
-  mixins: [BaseResource],
-  props: {
-    item: {
-      type: Object,
-      default: () => null,
-    },
-    selector: {
-      type: Object,
-      default: () => {},
-    },
-  },
-  data: () => ({
-    items: [],
-    headers: [
-      { text: 'Reason', value: 'reason', align: 'start' },
-      { text: 'Kind', value: 'kind', align: 'start' },
-      { text: '首次发生时间', value: 'firstAt', align: 'start', width: 120 },
-      { text: '最近发生时间', value: 'lastAt', align: 'start', width: 120 },
-      { text: '类型', value: 'type', align: 'start' },
-      { text: '消息', value: 'message', align: 'start' },
-    ],
-    pageCount: 0,
-    params: {
-      page: 1,
-      size: 10,
-      noprocessing: true,
-    },
-  }),
-  watch: {
-    item: {
-      handler: function () {
-        if (this.item) {
-          this.eventList()
-        }
+  export default {
+    name: 'EventList',
+    mixins: [BaseResource],
+    props: {
+      item: {
+        type: Object,
+        default: () => null,
       },
-      deep: true,
-      immediate: true,
+      selector: {
+        type: Object,
+        default: () => {},
+      },
     },
-  },
-  methods: {
-    async eventList() {
-      const data = await getEventList(
-        this.$route.query.cluster || this.ThisCluster,
-        this.$route.query.namespace || '_all',
-        Object.assign(this.selector, this.params),
-      )
-      this.items = data.List
-      this.pageCount = Math.ceil(data.Total / this.params.size)
-      this.params.page = data.CurrentPage
+    data: () => ({
+      items: [],
+      headers: [
+        { text: 'Reason', value: 'reason', align: 'start' },
+        { text: 'Kind', value: 'kind', align: 'start' },
+        { text: '首次发生时间', value: 'firstAt', align: 'start', width: 120 },
+        { text: '最近发生时间', value: 'lastAt', align: 'start', width: 120 },
+        { text: '类型', value: 'type', align: 'start' },
+        { text: '消息', value: 'message', align: 'start' },
+      ],
+      pageCount: 0,
+      params: {
+        page: 1,
+        size: 10,
+        noprocessing: true,
+      },
+    }),
+    watch: {
+      item: {
+        handler: function () {
+          if (this.item) {
+            this.eventList();
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
     },
-    onPageSizeChange(size) {
-      this.params.page = 1
-      this.params.size = size
+    methods: {
+      async eventList() {
+        const data = await getEventList(
+          this.$route.query.cluster || this.ThisCluster,
+          this.$route.query.namespace || '_all',
+          Object.assign(this.selector, this.params),
+        );
+        this.items = data.List;
+        this.pageCount = Math.ceil(data.Total / this.params.size);
+        this.params.page = data.CurrentPage;
+      },
+      onPageSizeChange(size) {
+        this.params.page = 1;
+        this.params.size = size;
+      },
+      onPageIndexChange(page) {
+        this.params.page = page;
+      },
     },
-    onPageIndexChange(page) {
-      this.params.page = page
-    },
-  },
-}
+  };
 </script>
 
 <style lang="scss" scoped>
-.regular-width {
-  width: 70px;
-}
+  .regular-width {
+    width: 70px;
+  }
 
-.chip-width {
-  width: 70px;
-  display: block;
-  text-align: center;
-}
+  .chip-width {
+    width: 70px;
+    display: block;
+    text-align: center;
+  }
 </style>

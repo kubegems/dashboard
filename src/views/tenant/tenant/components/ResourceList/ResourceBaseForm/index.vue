@@ -1,10 +1,5 @@
 <template>
-  <v-form
-    ref="form"
-    v-model="valid"
-    lazy-validation
-    @submit.prevent
-  >
+  <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
     <BaseSubTitle :title="cluster ? `集群 ${cluster}` : `集群定义`" />
     <v-card-text class="pa-2">
       <v-row v-if="!edit">
@@ -12,40 +7,29 @@
           <v-autocomplete
             v-model="obj.ClusterID"
             class="my-0"
-            :items="m_select_clusterItems"
-            :rules="objRules.clusterIDRules"
             color="primary"
             hide-selected
+            :items="m_select_clusterItems"
             label="集群"
             no-data-text="暂无可选数据"
-            @focus="onClusterSelectFocus"
+            :rules="objRules.clusterIDRules"
             @change="onClusterChange"
+            @focus="onClusterSelectFocus"
           >
             <template #selection="{ item }">
-              <v-chip
-                color="primary"
-                class="mx-1"
-                small
-              >
+              <v-chip class="mx-1" color="primary" small>
                 {{ item['text'] }}
               </v-chip>
             </template>
           </v-autocomplete>
         </v-col>
       </v-row>
-      <ResourceChart
-        :quota="quota"
-        :nvidia="nvidia"
-        :tke="tke"
-      />
+      <ResourceChart :nvidia="nvidia" :quota="quota" :tke="tke" />
 
       <BaseSubTitle title="资源限制" />
       <v-card-text class="px-0 pb-2">
         <v-row class="mx-0">
-          <v-col
-            cols="4"
-            class="px-0 py-0"
-          >
+          <v-col class="px-0 py-0" cols="4">
             <v-sheet class="px-2">
               <v-flex class="text-subtitle-1">
                 可用CPU
@@ -56,17 +40,14 @@
               <v-text-field
                 v-model="obj.Content['limits.cpu']"
                 class="my-0"
+                :label="edit ? 'CPU扩容后限制值' : 'CPU限制值'"
                 required
-                :label="edit?'CPU扩容后限制值':'CPU限制值'"
-                suffix="core"
                 :rules="objRules.cpuRules"
+                suffix="core"
               />
             </v-sheet>
           </v-col>
-          <v-col
-            cols="4"
-            class="pa-0"
-          >
+          <v-col class="pa-0" cols="4">
             <v-sheet class="px-2">
               <v-flex class="text-subtitle-1">
                 可用内存
@@ -77,17 +58,14 @@
               <v-text-field
                 v-model="obj.Content['limits.memory']"
                 class="my-0"
+                :label="edit ? '内存扩容后限制值' : '内存限制值'"
                 required
-                :label="edit?'内存扩容后限制值':'内存限制值'"
-                suffix="Gi"
                 :rules="objRules.memoryRules"
+                suffix="Gi"
               />
             </v-sheet>
           </v-col>
-          <v-col
-            cols="4"
-            class="px-0 py-0"
-          >
+          <v-col class="px-0 py-0" cols="4">
             <v-sheet class="px-2">
               <v-flex class="text-subtitle-1">
                 可用存储
@@ -99,10 +77,10 @@
               <v-text-field
                 v-model="obj.Content[`requests.storage`]"
                 class="my-0"
+                :label="edit ? '存储扩容后限制值' : '存储限制值'"
                 required
-                :label="edit?'存储扩容后限制值':'存储限制值'"
-                suffix="Gi"
                 :rules="objRules.storageRules"
+                suffix="Gi"
               />
             </v-sheet>
           </v-col>
@@ -113,11 +91,7 @@
         <BaseSubTitle title="GPU资源限制" />
         <v-card-text class="px-0 pb-2">
           <v-row class="mx-0">
-            <v-col
-              v-if="nvidia"
-              cols="4"
-              class="px-0 py-0"
-            >
+            <v-col v-if="nvidia" class="px-0 py-0" cols="4">
               <v-sheet class="px-2">
                 <v-flex class="text-subtitle-1">
                   可用nvidia CPU
@@ -128,18 +102,15 @@
                 <v-text-field
                   v-model="obj.Content['limits.nvidia.com/gpu']"
                   class="my-0"
+                  :label="edit ? 'nvidia GPU扩容后限制值' : 'nvidia GPU限制值'"
                   required
-                  :label="edit?'nvidia GPU扩容后限制值':'nvidia GPU限制值'"
-                  suffix="Gpu"
                   :rules="objRules.nvidiaRules"
+                  suffix="Gpu"
                 />
               </v-sheet>
             </v-col>
             <template v-if="tke">
-              <v-col
-                cols="4"
-                class="pa-0"
-              >
+              <v-col class="pa-0" cols="4">
                 <v-sheet class="px-2">
                   <v-flex class="text-subtitle-1">
                     可用tke GPU
@@ -150,17 +121,14 @@
                   <v-text-field
                     v-model="obj.Content['tencent.com/vcuda-core']"
                     class="my-0"
+                    :label="edit ? 'tke GPU扩容后限制值' : 'tke GPU限制值'"
                     required
-                    :label="edit?'tke GPU扩容后限制值':'tke GPU限制值'"
-                    :suffix="`${parseInt(obj.Content['tencent.com/vcuda-core']||0)/100} Gpu`"
                     :rules="objRules.tkeVcudaRules"
+                    :suffix="`${parseInt(obj.Content['tencent.com/vcuda-core'] || 0) / 100} Gpu`"
                   />
                 </v-sheet>
               </v-col>
-              <v-col
-                cols="4"
-                class="px-0 py-0"
-              >
+              <v-col class="px-0 py-0" cols="4">
                 <v-sheet class="px-2">
                   <v-flex class="text-subtitle-1">
                     可用tke显存
@@ -171,10 +139,10 @@
                   <v-text-field
                     v-model="obj.Content[`tencent.com/vcuda-memory`]"
                     class="my-0"
+                    :label="edit ? 'tke显存扩容后限制值' : 'tke显存限制值'"
                     required
-                    :label="edit?'tke显存扩容后限制值':'tke显存限制值'"
-                    :suffix="`${parseInt(obj.Content['tencent.com/vcuda-memory']||0)*256/1024}Gi`"
                     :rules="objRules.tkeVcudaMemoryRules"
+                    :suffix="`${(parseInt(obj.Content['tencent.com/vcuda-memory'] || 0) * 256) / 1024}Gi`"
                   />
                 </v-sheet>
               </v-col>
@@ -187,151 +155,141 @@
 </template>
 
 <script>
-import ResourceChart from './ResourceChart'
-import BaseSelect from '@/mixins/select'
-import BaseResource from '@/mixins/resource'
-import { required, integer } from '@/utils/rules'
-import { deepCopy } from '@/utils/helpers'
+  import ResourceChart from './ResourceChart';
 
-export default {
-  name: 'ResourceBaseForm',
-  components: {
-    ResourceChart,
-  },
-  mixins: [BaseSelect, BaseResource],
-  props: {
-    quota: {
-      type: Object,
-      default: () => null,
+  import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
+  import { deepCopy } from '@/utils/helpers';
+  import { required, integer } from '@/utils/rules';
+
+  export default {
+    name: 'ResourceBaseForm',
+    components: {
+      ResourceChart,
     },
-    edit: {
-      type: Boolean,
-      default: () => false,
-    },
-    cluster: {
-      type: String,
-      default: () => '',
-    },
-  },
-  data() {
-    return {
-      valid: false,
-      obj: {
-        ClusterID: null,
-        TenantID: null,
-        Content: {
-          'limits.cpu': '',
-          'limits.memory': '',
-          'requests.storage': '',
-        },
+    mixins: [BaseResource, BaseSelect],
+    props: {
+      cluster: {
+        type: String,
+        default: () => '',
       },
-    }
-  },
-  computed: {
-    nvidia() {
-      if (this.quota) {
-        return Object.prototype.hasOwnProperty.call(this.quota, 'NvidiaGpu')
-      }
-      return false
+      edit: {
+        type: Boolean,
+        default: () => false,
+      },
+      quota: {
+        type: Object,
+        default: () => null,
+      },
     },
-    tke() {
-      if (this.quota) {
-        return Object.prototype.hasOwnProperty.call(this.quota, 'TkeGpu') ||
-          Object.prototype.hasOwnProperty.call(this.quota, 'TkeMemory')
-      }
-      return false
-    },
-    objRules() {
+    data() {
       return {
-        clusterIDRules: [required],
-        cpuRules: [
-          required,
-          integer,
-          (v) =>
-            parseInt(v) <= (this.quota ? this.quota.AllocatedCpu : 0) ||
-            '超出最大限制',
-        ],
-        memoryRules: [
-          required,
-          integer,
-          (v) =>
-            parseInt(v) <= (this.quota ? this.quota.AllocatedMemory : 0) ||
-            '超出最大限制',
-        ],
-        storageRules: [
-          required,
-          integer,
-          (v) =>
-            parseInt(v) <= (this.quota ? this.quota.AllocatedStorage : 0) ||
-            '超出最大限制',
-        ],
-        nvidiaRules: [
-          required,
-          integer,
-          (v) =>
-            parseInt(v) <= (this.quota ? this.quota.AllocatedNvidiaGpu : 0) ||
-            '超出最大限制',
-        ],
-        tkeVcudaRules: [
-          required,
-          integer,
-          (v) =>
-            parseInt(v) <= (this.quota ? this.quota.AllocatedTkeGpu : 0) ||
-            '超出最大限制',
-        ],
-        tkeVcudaMemoryRules: [
-          required,
-          integer,
-          (v) =>
-            parseInt(v) <= (this.quota ? this.quota.AllocatedTkeMemory : 0) ||
-            '超出最大限制',
-        ],
-      }
+        valid: false,
+        obj: {
+          ClusterID: null,
+          TenantID: null,
+          Content: {
+            'limits.cpu': '',
+            'limits.memory': '',
+            'requests.storage': '',
+          },
+        },
+      };
     },
-  },
-  watch: {
-    nvidia: {
-      handler(newValue) {
-        if (newValue && !this.edit) {
-          this.obj.Content['limits.nvidia.com/gpu'] = ''
+    computed: {
+      nvidia() {
+        if (this.quota) {
+          return Object.prototype.hasOwnProperty.call(this.quota, 'NvidiaGpu');
         }
+        return false;
       },
-      deep: true,
-    },
-    tke: {
-      handler(newValue) {
-        if (newValue && !this.edit) {
-          this.obj.Content['tencent.com/vcuda-core'] = ''
-          this.obj.Content['tencent.com/vcuda-memory'] = ''
+      tke() {
+        if (this.quota) {
+          return (
+            Object.prototype.hasOwnProperty.call(this.quota, 'TkeGpu') ||
+            Object.prototype.hasOwnProperty.call(this.quota, 'TkeMemory')
+          );
         }
+        return false;
       },
-      deep: true,
+      objRules() {
+        return {
+          clusterIDRules: [required],
+          cpuRules: [
+            required,
+            integer,
+            (v) => parseInt(v) <= (this.quota ? this.quota.AllocatedCpu : 0) || '超出最大限制',
+          ],
+          memoryRules: [
+            required,
+            integer,
+            (v) => parseInt(v) <= (this.quota ? this.quota.AllocatedMemory : 0) || '超出最大限制',
+          ],
+          storageRules: [
+            required,
+            integer,
+            (v) => parseInt(v) <= (this.quota ? this.quota.AllocatedStorage : 0) || '超出最大限制',
+          ],
+          nvidiaRules: [
+            required,
+            integer,
+            (v) => parseInt(v) <= (this.quota ? this.quota.AllocatedNvidiaGpu : 0) || '超出最大限制',
+          ],
+          tkeVcudaRules: [
+            required,
+            integer,
+            (v) => parseInt(v) <= (this.quota ? this.quota.AllocatedTkeGpu : 0) || '超出最大限制',
+          ],
+          tkeVcudaMemoryRules: [
+            required,
+            integer,
+            (v) => parseInt(v) <= (this.quota ? this.quota.AllocatedTkeMemory : 0) || '超出最大限制',
+          ],
+        };
+      },
     },
-  },
-  methods: {
-    // eslint-disable-next-line vue/no-unused-properties
-    validate() {
-      return this.$refs.form.validate(true)
+    watch: {
+      nvidia: {
+        handler(newValue) {
+          if (newValue && !this.edit) {
+            this.obj.Content['limits.nvidia.com/gpu'] = '';
+          }
+        },
+        deep: true,
+      },
+      tke: {
+        handler(newValue) {
+          if (newValue && !this.edit) {
+            this.obj.Content['tencent.com/vcuda-core'] = '';
+            this.obj.Content['tencent.com/vcuda-memory'] = '';
+          }
+        },
+        deep: true,
+      },
     },
-    // eslint-disable-next-line vue/no-unused-properties
-    getData() {
-      return this.obj
+    methods: {
+      // eslint-disable-next-line vue/no-unused-properties
+      validate() {
+        return this.$refs.form.validate(true);
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      getData() {
+        return this.obj;
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      setContent(data) {
+        this.obj.Content = deepCopy(data);
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      reset() {
+        this.$refs.form.reset();
+      },
+      onClusterSelectFocus() {
+        this.m_select_clusterSelectData(null, false);
+      },
+      onClusterChange() {
+        this.$emit('clusterChange', this.obj.ClusterID);
+      },
     },
-    // eslint-disable-next-line vue/no-unused-properties
-    setContent(data) {
-      this.obj.Content = deepCopy(data)
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    reset() {
-      this.$refs.form.reset()
-    },
-    onClusterSelectFocus() {
-      this.m_select_clusterSelectData(null, false)
-    },
-    onClusterChange() {
-      this.$emit('clusterChange', this.obj.ClusterID)
-    },
-  },
-}
+  };
 </script>
-

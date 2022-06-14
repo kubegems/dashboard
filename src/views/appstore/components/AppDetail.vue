@@ -5,25 +5,26 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import Markdown from './Markdown'
+  import { mapState } from 'vuex';
 
-export default {
-  name: 'AppDetail',
-  components: {
-    Markdown,
-  },
-  props: {
-    item: {
-      type: Object,
-      default: null,
+  import Markdown from './Markdown';
+
+  export default {
+    name: 'AppDetail',
+    components: {
+      Markdown,
     },
-  },
-  computed: {
-    ...mapState(['Scale']),
-    height() {
-      return parseInt((window.innerHeight - 224) / this.Scale)
+    props: {
+      item: {
+        type: Object,
+        default: null,
+      },
     },
-  },
-}
+    computed: {
+      ...mapState(['Scale']),
+      height() {
+        return parseInt((window.innerHeight - 224) / this.Scale);
+      },
+    },
+  };
 </script>

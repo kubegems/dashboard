@@ -12,10 +12,7 @@ const schema = {
             $id: '#/properties/apiVersion',
             type: 'string',
             default: '',
-            enum: [
-              'networking.istio.io/v1beta1',
-              'networking.istio.io/v1alpha3',
-            ],
+            enum: ['networking.istio.io/v1beta1', 'networking.istio.io/v1alpha3'],
           },
           kind: {
             $id: '#/properties/kind',
@@ -121,8 +118,8 @@ const schema = {
         },
         additionalProperties: true,
       },
-    }
+    };
   },
-}
+};
 
-export default schema
+export default schema;

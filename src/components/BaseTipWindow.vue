@@ -29,29 +29,29 @@
 </template>
 
 <script>
-export default {
-  name: 'BaseTipWindow',
-  props: {
-    icon: {
-      type: String,
-      default: () => '',
+  export default {
+    name: 'BaseTipWindow',
+    props: {
+      icon: {
+        type: String,
+        default: () => '',
+      },
+      maxWidth: {
+        type: Number,
+        default: () => 200,
+      },
+      minWidth: {
+        type: Number,
+        default: () => 150,
+      },
+      title: {
+        type: String,
+        default: () => '',
+      },
+      top: {
+        type: Boolean,
+        default: () => true,
+      },
     },
-    title: {
-      type: String,
-      default: () => '',
-    },
-    top: {
-      type: Boolean,
-      default: () => true,
-    },
-    minWidth:{
-      type:Number,
-      default:() => 150,
-    },
-    maxWidth:{
-      type:Number,
-      default:() => 200,
-    }
-  },
-}
+  };
 </script>
