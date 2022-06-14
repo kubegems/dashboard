@@ -372,9 +372,9 @@
             noprocessing: true,
           });
           this.obj.quota = await this.m_resource_clusterQuota(cluster.value, {
-            NowCpu: this.obj.statistics.Cpu,
-            NowMemory: this.obj.statistics.Memory,
-            NowStorage: this.obj.statistics.Storage,
+            NowCpu: this.obj.statistics?.Cpu || 0,
+            NowMemory: this.obj.statistics?.Memory || 0,
+            NowStorage: this.obj.statistics?.Storage || 0,
           });
         }
       },
