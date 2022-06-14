@@ -212,7 +212,7 @@
             scaleNum = 60;
             break;
           case '%':
-            return `${value.toFixed(2)} %`;
+            return { scaleNum: `${value.toFixed(2)} ${unitType}`, unitType: null, newValue: value };
             break;
           default:
             if (this.unit) {
