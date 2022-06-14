@@ -156,13 +156,20 @@ const resource = {
         return false;
       }
       if (!data?.metadata?.namespace) {
-        data.metadata.namespace = ns;
+        data.metadata.namespace = ns || this.$route.query.namespace;
+      }
+      if (!data.metadata.namespace) {
+        this.$store.commit('SET_SNACKBAR', {
+          text: '缺少命名空间',
+          color: 'warning',
+        });
+        return false;
       }
       return true;
     },
     m_resource_addNsToData(data, ns) {
       if (!data?.metadata?.namespace) {
-        data.metadata.namespace = ns;
+        data.metadata.namespace = ns || this.$route.query.namespace;
       }
     },
     m_resource_checkDataWithOutNS(data) {

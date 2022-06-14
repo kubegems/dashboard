@@ -71,6 +71,7 @@ export const workspace = [
               show: true,
               rootName: 'workspace',
               tip: 'appconfig',
+              dependencies: ['kubegems-local', 'nacos'],
             },
           },
           {

@@ -289,7 +289,9 @@
         if (this.tabItems[this.tab].value === 'message') {
           await this.setMessageRead(data);
         } else {
-          if (data.Status === 'pending') await this.toScaleResource(data);
+          if (data.Status === 'pending') {
+            await this.toScaleResource(data);
+          }
         }
       },
       async setMessageRead(message) {
