@@ -185,21 +185,6 @@ export const adminObserve = [
               tip: 'alert-overview',
             },
           },
-          // {
-          //   path: `living`,
-          //   name: `${prefix}-observe-monitor-alert`,
-          //   component: () => import('@/views/observe/alert/living'),
-          //   meta: {
-          //     requireAuth: true,
-          //     title: '实时告警',
-          //     admin: true,
-          //     icon: 'mdi-alarm-multiple',
-          //     show: true,
-          //     rootName: 'admin-observe',
-          //     dependencies: ['monitoring'],
-          //     tip: 'alert-living',
-          //   },
-          // },
           {
             path: `history`,
             name: `${prefix}-observe-alert-history`,
