@@ -163,6 +163,7 @@ module.exports = defineConfig({
         ],
       },
     ],
+    'vue/no-empty-component-block': ['error'],
     'import/order': [
       'error',
       {
