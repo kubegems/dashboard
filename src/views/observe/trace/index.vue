@@ -14,7 +14,7 @@
             solo
             @blur="traceIdSearchWidth = 250"
             @focus="traceIdSearchWidth = 500"
-            @keyup.enter="onTraceIdSearch"
+            @keyup="searchByTraceId"
           />
         </v-flex>
       </template>
@@ -98,8 +98,12 @@
         clearTimeout(this.timer);
         this.setLocation();
       },
-      onTraceIdSearch() {
-        this.isTraceId = true;
+      searchByTraceId(e) {
+        if (e.keyCode === 13) {
+          this.isTraceId = true;
+        } else {
+          this.isTraceId = false;
+        }
       },
       // 样式覆盖
       onOverwriteStyle() {
@@ -139,6 +143,8 @@
       },
       onBack() {
         window.history.back();
+        this.isTraceId = false;
+        this.traceid = '';
       },
       setLocation() {
         this.timer = setTimeout(() => {

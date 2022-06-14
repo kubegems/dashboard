@@ -1,157 +1,47 @@
 <template>
-  <div class="pa-3">
-    <BaseSubTitle class="my-0" color="grey lighten-3" :divider="false" title="监控采集配置" />
-
-    <v-form ref="form" v-model="valid" class="px-2" lazy-validation @submit.prevent>
-      <ProjectEnvSelect v-model="env" class="mt-0" t="metrics" />
-
-      <v-row>
-        <v-col cols="6">
-          <v-autocomplete
-            v-model="obj.service"
-            class="my-0"
-            color="primary"
-            hide-selected
-            :items="serviceItems"
-            label="关联服务"
-            no-data-text="暂无可选数据"
-            :rules="objRules.serviceRules"
-          >
-            <template #selection="{ item }">
-              <v-chip class="mx-1" color="primary" small>
-                {{ item['text'] }}
-              </v-chip>
-            </template>
-          </v-autocomplete>
-        </v-col>
-
-        <v-col cols="6">
-          <div :style="{ lineHeight: '66px' }">
-            <v-icon small> mdi-help-circle </v-icon>
-            没有服务？从 <a @click="toAppstore">应用商店</a> 创建exporter
-          </div>
-        </v-col>
-
-        <v-col cols="6">
-          <v-autocomplete
-            v-model="obj.port"
-            class="my-0"
-            color="primary"
-            hide-selected
-            :items="portItems"
-            label="采集器端口"
-            no-data-text="暂无可选数据"
-            :rules="objRules.portRules"
-          >
-            <template #selection="{ item }">
-              <v-chip class="mx-1" color="primary" small>
-                {{ item['text'] }}
-              </v-chip>
-            </template>
-          </v-autocomplete>
-        </v-col>
-
-        <v-col cols="6">
-          <v-text-field v-model="obj.path" class="my-0" label="请求路径" required :rules="objRules.pathRules" />
-        </v-col>
-      </v-row>
-    </v-form>
-
-    <BaseSubTitle class="my-0 mt-3" color="grey lighten-3" :divider="false" title="指标" />
-    <MetricsList />
+  <div class="pt-4">
+    <v-btn bottom class="metrics__fab" color="primary" dark fab fixed right small @click="switchComponent">
+      <v-icon small> {{ formComponent === 'MetricsBaseForm' ? 'fas fa-book' : 'fas fa-link' }} </v-icon>
+    </v-btn>
+    <component :is="formComponent" :ref="formComponent" />
   </div>
 </template>
 
 <script>
-  import ProjectEnvSelect from '../ProjectEnvSelect';
-  import MetricsList from './MetricsList';
-
-  import { getServiceList, postServiceMonitor } from '@/api';
-  import { required } from '@/utils/rules';
+  import MetricsBaseForm from './MetricsBaseForm';
+  import MetricsDocs from './MetricsDocs';
 
   export default {
     name: 'Metrics',
     components: {
-      MetricsList,
-      ProjectEnvSelect,
+      MetricsBaseForm,
+      MetricsDocs,
     },
     data() {
       return {
-        valid: false,
-        env: undefined,
-        serviceItems: [],
-        obj: {
-          path: undefined,
-          port: undefined,
-          service: undefined,
-        },
-        objRules: {
-          pathRules: [required],
-          portRules: [required],
-          serviceRules: [required],
-        },
+        formComponent: 'MetricsDocs',
       };
     },
-    computed: {
-      portItems() {
-        const service = this.serviceItems.find((s) => {
-          return s.value === this.obj.service;
-        });
-        if (service) {
-          const ports = service.model.spec?.ports;
-          if (ports) {
-            return ports.map((p) => {
-              return {
-                text: `${p.name} (${p.port})`,
-                value: p.name,
-              };
-            });
-          }
-          return [];
-        }
-        return [];
-      },
-    },
-    watch: {
-      env: {
-        handler(newValue) {
-          if (newValue) {
-            this.serviceList();
-          }
-        },
-        deep: true,
-      },
-    },
-    mounted() {
-      this.$nextTick(() => {
-        this.obj = this.$options.data().obj;
-        this.$refs.form?.resetValidation();
-      });
-    },
     methods: {
-      toAppstore() {
-        this.$router.push({ name: 'appstore-center' });
-      },
-      async serviceList() {
-        const data = await getServiceList(this.env.clusterName, this.env.namespace, { size: 1000 });
-        this.serviceItems = data.List.map((s) => {
-          return {
-            text: s.metadata.name,
-            value: s.metadata.name,
-            model: s,
-          };
-        });
-      },
-      async addMetrics() {
-        if (this.$refs.form.validate(true)) {
-          await postServiceMonitor(this.env.clusterName, this.env.namespace, this.obj);
-          this.$emit('close');
-        }
+      switchComponent() {
+        this.formComponent = this.formComponent === 'MetricsBaseForm' ? 'MetricsDocs' : 'MetricsBaseForm';
       },
       // eslint-disable-next-line vue/no-unused-properties
       async addData() {
-        await this.addMetrics();
+        this.$refs[this.formComponent].addData();
       },
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .metrics {
+    &__fab {
+      margin-bottom: 55px;
+      height: 45px;
+      width: 45px;
+      border-radius: 45px;
+      right: 20px;
+    }
+  }
+</style>
