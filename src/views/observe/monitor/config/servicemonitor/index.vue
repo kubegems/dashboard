@@ -167,14 +167,6 @@
             sortable: false,
           });
         }
-        if (this.AdminViewport) {
-          items.splice(1, 0, {
-            text: '命名空间',
-            value: 'namespace',
-            align: 'start',
-            sortable: false,
-          });
-        }
         return items;
       },
     },
