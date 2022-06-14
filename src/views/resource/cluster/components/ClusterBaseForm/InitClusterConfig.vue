@@ -25,7 +25,7 @@
             no-data-text="暂无可选数据"
             :rules="objRules.ImageRepoRules"
             :search-input.sync="imageRepoText"
-            @keyup.enter="onCreateImageRepo"
+            @keyup.enter="createImageRepo"
           >
             <template #selection="{ item }">
               <v-chip color="primary" small>
@@ -44,7 +44,7 @@
             no-data-text="暂无可选数据"
             :rules="objRules.StorageClassesRules"
             :search-input.sync="storageClassText"
-            @keyup.enter="onCreateStorageClass"
+            @keyup.enter="createStorageClass"
           >
             <template #selection="{ item }">
               <v-chip color="primary" small>
@@ -145,7 +145,7 @@
           this.obj.ClusterName = '';
         }
       },
-      onCreateStorageClass() {
+      createStorageClass() {
         const index = this.storageClassItems.findIndex((sc) => {
           return sc.value === this.storageClassText.trim();
         });
@@ -155,7 +155,7 @@
           this.storageClassText = '';
         }
       },
-      onCreateImageRepo() {
+      createImageRepo() {
         const index = this.imageRepoItems.findIndex((sc) => {
           return sc.value === this.imageRepoText.trim();
         });

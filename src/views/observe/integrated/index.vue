@@ -67,7 +67,7 @@
           name: '应用类型',
           type: 'app',
           items: [
-            { name: 'c++', value: 'cplusplus' },
+            { name: 'c++', value: 'cpp' },
             { name: 'c#', value: 'csharp' },
             { name: 'golang' },
             { name: 'erlang' },

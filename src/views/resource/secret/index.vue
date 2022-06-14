@@ -207,7 +207,6 @@
       },
     },
     mounted() {
-      console.log(222);
       if (this.JWT) {
         this.$nextTick(() => {
           if (this.ThisCluster === '') {

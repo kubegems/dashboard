@@ -8,6 +8,9 @@
   <a href="https://github.com/kubegems/dashboard/actions">
     <img src="https://github.com/kubegems/dashboard/workflows/build/badge.svg" alt="CI badge">
   </a>
+  <a href="https://cn.vuejs.org/">
+    <img src="https://img.shields.io/badge/Language-Vue-blue.svg" alt="Language">
+  </a>
   <a href="https://opensource.org/licenses/Apache-2.0">
     <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License">
   </a>
@@ -19,7 +22,7 @@
 
 ## Introduction
 
-KubeGems is a full-stack application platform for Kubernetes automated operation, maintenance, operation and manufacturing. It supports multi-cluster management, provides cloud computing stack capabilities, and provides IT DevOps workflows.
+KubeGems is an open source enterprise-grade multi-tenant container cloud platform. Around the cloud native community. KubeGems provides the ability to access multiple Kubernetes clusters, and has rich component management and resource cost analysis functions. It can help enterprises to quickly build and build a localized, powerful and low-cost cloud management platform.
 
 KubeGems Dashboard is the web interface for [KubeGems](https://github.com/kubegems/kubegems).
 
