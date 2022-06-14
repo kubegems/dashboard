@@ -149,7 +149,7 @@ export const observe = [
               icon: 'mdi-feature-search-outline',
               show: true,
               rootName: 'observe',
-              dependencies: ['observability'],
+              dependencies: ['tracing'],
               tip: 'dash-trace',
             },
           },
