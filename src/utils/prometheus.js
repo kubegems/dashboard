@@ -16,20 +16,20 @@ export const TENANT_CPU_USAGE_PROMQL = `round(sum(gems_namespace_cpu_usage_cores
 export const TENANT_MEMORY_USAGE_PROMQL = `sum(gems_namespace_memory_usage_bytes{tenant="$1"}) by (tenant)`;
 
 export const NODE_LOAD_PROMQL = `node_load5`;
-export const NODE_LOAD1_PROMQL = `node_load1{host="$1"}`;
-export const NODE_LOAD5_PROMQL = `node_load5{host="$1"}`;
-export const NODE_LOAD15_PROMQL = `node_load15{host="$1"}`;
+export const NODE_LOAD1_PROMQL = `node_load1{node="$1"}`;
+export const NODE_LOAD5_PROMQL = `node_load5{node="$1"}`;
+export const NODE_LOAD15_PROMQL = `node_load15{node="$1"}`;
 export const NODE_POD_RUNNING_COUNT_PROMQL = `sum(gems_pod_status{phase="Running"})by(node)`;
 export const NODE_ALL_CPU_USAGE_PROMQL = `gems_node_cpu_usage_percent`;
 export const NODE_ALL_MEMORY_USAGE_PROMQL = `gems_node_memory_usage_percent`;
 export const NODE_ONE_POD_RUNNING_COUNT_PROMQL = `sum(gems_pod_status{node="$1", phase="Running"})`;
-export const NODE_CPU_USAGE_PROMQL = `gems_node_cpu_usage_percent{host="$1"}`;
-export const NODE_MEMORY_USAGE_PROMQL = `gems_node_memory_usage_percent{host="$1"}`;
-export const NODE_DISK_READ_IOPS_PROMQL = `gems_node_disk_read_iops{host="$1"}`;
-export const NODE_DISK_WRITE_IOPS_PROMQL = `gems_node_disk_write_iops{host="$1"}`;
-export const NODE_NETWORK_IN_PROMQL = `gems_node_network_receive_bps{host="$1"}`;
-export const NODE_NETWORK_OUT_PROMQL = `gems_node_network_send_bps{host="$1"}`;
-export const NODE_DISK_AVAILABLE_SIZE_PROMQL = `(gems_node_disk_total_bytes{host="$1", device !~"/dev/rbd.*"} - gems_node_disk_usage_bytes{host="$1", device !~"/dev/rbd.*"})`;
+export const NODE_CPU_USAGE_PROMQL = `gems_node_cpu_usage_percent{node="$1"}`;
+export const NODE_MEMORY_USAGE_PROMQL = `gems_node_memory_usage_percent{node="$1"}`;
+export const NODE_DISK_READ_IOPS_PROMQL = `gems_node_disk_read_iops{node="$1"}`;
+export const NODE_DISK_WRITE_IOPS_PROMQL = `gems_node_disk_write_iops{node="$1"}`;
+export const NODE_NETWORK_IN_PROMQL = `gems_node_network_receive_bps{node="$1"}`;
+export const NODE_NETWORK_OUT_PROMQL = `gems_node_network_send_bps{node="$1"}`;
+export const NODE_DISK_AVAILABLE_SIZE_PROMQL = `(gems_node_disk_total_bytes{node="$1", device !~"/dev/rbd.*"} - gems_node_disk_usage_bytes{node="$1", device !~"/dev/rbd.*"})`;
 
 export const ENVIRONMENT_CPU_USAGE_PROMQL = `round(gems_namespace_cpu_usage_cores{environment=~"$1"}, 0.001) * 1000 * 1000 * 1000`;
 export const ENVIRONMENT_MEMORY_USAGE_PROMQL = `round(gems_namespace_memory_usage_bytes{environment=~"$1"}, 0.001)`;
