@@ -13,12 +13,7 @@
       <v-flex class="px-4 py-3 primary white--text full-screen__position">
         <div v-if="isAppstore" class="justify-center float-left text-h6 py-1">
           <span class="hidden-sm-and-down float-left">
-            <v-img
-              src="/logo.svg"
-              width="140"
-              contain
-              class="kubegems__absolute-middle"
-            />
+            <v-img src="/logo.svg" width="140" contain class="kubegems__absolute-middle" />
           </span>
           <span
             class="pl-2 text-h6"
@@ -42,25 +37,12 @@
         <v-flex class="float-right">
           <v-flex class="float-left mt-1">
             <div v-if="Progress" :style="{ float: 'left' }">
-              <v-progress-circular
-                size="20"
-                width="3"
-                indeterminate
-                color="white"
-              ></v-progress-circular>
+              <v-progress-circular size="20" width="3" indeterminate color="white"></v-progress-circular>
             </div>
             <slot name="action"></slot>
           </v-flex>
           <v-flex class="float-left">
-            <v-btn
-              color="white"
-              class="mx-2"
-              text
-              :dialog="dialog"
-              v-on="clickListeners"
-            >
-              关闭
-            </v-btn>
+            <v-btn color="white" class="mx-2" text :dialog="dialog" v-on="clickListeners"> 关闭 </v-btn>
           </v-flex>
           <div class="kubegems__clear-float"></div>
         </v-flex>
@@ -75,70 +57,70 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+  import { mapState } from 'vuex';
 
-export default {
-  name: 'BaseFullScreenDialog',
-  model: {
-    prop: 'dialog',
-    event: 'click',
-  },
-  props: {
-    title: {
-      type: String,
-      default: () => '',
+  export default {
+    name: 'BaseFullScreenDialog',
+    model: {
+      prop: 'dialog',
+      event: 'click',
     },
-    isAppstore: {
-      type: Boolean,
-      default: () => false,
-    },
-    icon: {
-      type: String,
-      default: () => '',
-    },
-    dialog: {
-      type: Boolean,
-      default: () => false,
-    },
-  },
-  watch: {
-    dialog: {
-      handler(newValue) {
-        this.$store.commit('SET_FULL_DIALOG', newValue)
+    props: {
+      dialog: {
+        type: Boolean,
+        default: () => false,
       },
-      deep: true
-    }
-  },
-  computed: {
-    ...mapState(['Progress']),
-    clickListeners: function () {
-      var vm = this
-      return Object.assign({}, this.$listeners, {
-        click: function () {
-          vm.$emit('click', false)
-          vm.$emit('dispose')
+      icon: {
+        type: String,
+        default: () => '',
+      },
+      isAppstore: {
+        type: Boolean,
+        default: () => false,
+      },
+      title: {
+        type: String,
+        default: () => '',
+      },
+    },
+    watch: {
+      dialog: {
+        handler(newValue) {
+          this.$store.commit('SET_FULL_DIALOG', newValue);
         },
-      })
+        deep: true,
+      },
     },
-  },
-  methods: {
-    escOccur() {
-      this.$emit('click', false)
-      this.$emit('dispose')
+    computed: {
+      ...mapState(['Progress']),
+      clickListeners: function () {
+        var vm = this;
+        return Object.assign({}, this.$listeners, {
+          click: function () {
+            vm.$emit('click', false);
+            vm.$emit('dispose');
+          },
+        });
+      },
     },
-  },
-}
+    methods: {
+      escOccur() {
+        this.$emit('click', false);
+        this.$emit('dispose');
+      },
+    },
+  };
 </script>
 
 <style lang="scss" scoped>
-.full-screen__position {
-  position: fixed;
-  z-index: 10;
-  width: 100%;
-  height: 64px;
-}
+  .full-screen__position {
+    position: fixed;
+    z-index: 10;
+    width: 100%;
+    height: 64px;
+  }
 
-.full-screen-mt {
-  margin-top: 64px;
-}
+  .full-screen-mt {
+    margin-top: 64px;
+  }
 </style>

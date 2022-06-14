@@ -12,10 +12,7 @@ const schema = {
             $id: '#/properties/apiVersion',
             type: 'string',
             default: '',
-            enum: [
-              'networking.istio.io/v1beta1',
-              'networking.istio.io/v1alpha3',
-            ],
+            enum: ['networking.istio.io/v1beta1', 'networking.istio.io/v1alpha3'],
           },
           kind: {
             $id: '#/properties/kind',
@@ -72,23 +69,19 @@ const schema = {
                       default: {},
                       properties: {
                         match: {
-                          $id:
-                            '#/properties/spec/properties/http/items/anyOf/0/properties/match',
+                          $id: '#/properties/spec/properties/http/items/anyOf/0/properties/match',
                           type: 'array',
                           default: [],
                           items: {
-                            $id:
-                              '#/properties/spec/properties/http/items/anyOf/0/properties/match/items',
+                            $id: '#/properties/spec/properties/http/items/anyOf/0/properties/match/items',
                           },
                         },
                         route: {
-                          $id:
-                            '#/properties/spec/properties/http/items/anyOf/0/properties/route',
+                          $id: '#/properties/spec/properties/http/items/anyOf/0/properties/route',
                           type: 'array',
                           default: [],
                           items: {
-                            $id:
-                              '#/properties/spec/properties/http/items/anyOf/0/properties/route/items',
+                            $id: '#/properties/spec/properties/http/items/anyOf/0/properties/route/items',
                           },
                         },
                       },
@@ -110,23 +103,19 @@ const schema = {
                       default: {},
                       properties: {
                         match: {
-                          $id:
-                            '#/properties/spec/properties/tcp/items/anyOf/0/properties/match',
+                          $id: '#/properties/spec/properties/tcp/items/anyOf/0/properties/match',
                           type: 'array',
                           default: [],
                           items: {
-                            $id:
-                              '#/properties/spec/properties/tcp/items/anyOf/0/properties/match/items',
+                            $id: '#/properties/spec/properties/tcp/items/anyOf/0/properties/match/items',
                           },
                         },
                         route: {
-                          $id:
-                            '#/properties/spec/properties/tcp/items/anyOf/0/properties/route',
+                          $id: '#/properties/spec/properties/tcp/items/anyOf/0/properties/route',
                           type: 'array',
                           default: [],
                           items: {
-                            $id:
-                              '#/properties/spec/properties/tcp/items/anyOf/0/properties/route/items',
+                            $id: '#/properties/spec/properties/tcp/items/anyOf/0/properties/route/items',
                           },
                         },
                       },
@@ -148,23 +137,19 @@ const schema = {
                       default: {},
                       properties: {
                         match: {
-                          $id:
-                            '#/properties/spec/properties/tls/items/anyOf/0/properties/match',
+                          $id: '#/properties/spec/properties/tls/items/anyOf/0/properties/match',
                           type: 'array',
                           default: [],
                           items: {
-                            $id:
-                              '#/properties/spec/properties/tls/items/anyOf/0/properties/match/items',
+                            $id: '#/properties/spec/properties/tls/items/anyOf/0/properties/match/items',
                           },
                         },
                         route: {
-                          $id:
-                            '#/properties/spec/properties/tls/items/anyOf/0/properties/route',
+                          $id: '#/properties/spec/properties/tls/items/anyOf/0/properties/route',
                           type: 'array',
                           default: [],
                           items: {
-                            $id:
-                              '#/properties/spec/properties/tls/items/anyOf/0/properties/route/items',
+                            $id: '#/properties/spec/properties/tls/items/anyOf/0/properties/route/items',
                           },
                         },
                       },
@@ -190,10 +175,7 @@ const schema = {
             $id: '#/properties/apiVersion',
             type: 'string',
             default: '',
-            enum: [
-              'networking.istio.io/v1beta1',
-              'networking.istio.io/v1alpha3',
-            ],
+            enum: ['networking.istio.io/v1beta1', 'networking.istio.io/v1alpha3'],
           },
           kind: {
             $id: '#/properties/kind',
@@ -242,27 +224,23 @@ const schema = {
                       required: ['port', 'hosts'],
                       properties: {
                         port: {
-                          $id:
-                            '#/properties/spec/properties/servers/items/anyOf/0/properties/port',
+                          $id: '#/properties/spec/properties/servers/items/anyOf/0/properties/port',
                           type: 'object',
                           default: {},
                           required: ['number', 'name', 'protocol'],
                           properties: {
                             number: {
-                              $id:
-                                '#/properties/spec/properties/servers/items/anyOf/0/properties/port/properties/number',
+                              $id: '#/properties/spec/properties/servers/items/anyOf/0/properties/port/properties/number',
                               type: 'integer',
                               default: 0,
                             },
                             name: {
-                              $id:
-                                '#/properties/spec/properties/servers/items/anyOf/0/properties/port/properties/name',
+                              $id: '#/properties/spec/properties/servers/items/anyOf/0/properties/port/properties/name',
                               type: 'string',
                               default: '',
                             },
                             protocol: {
-                              $id:
-                                '#/properties/spec/properties/servers/items/anyOf/0/properties/port/properties/protocol',
+                              $id: '#/properties/spec/properties/servers/items/anyOf/0/properties/port/properties/protocol',
                               type: 'string',
                               default: '',
                             },
@@ -270,17 +248,14 @@ const schema = {
                           additionalProperties: true,
                         },
                         hosts: {
-                          $id:
-                            '#/properties/spec/properties/servers/items/anyOf/0/properties/hosts',
+                          $id: '#/properties/spec/properties/servers/items/anyOf/0/properties/hosts',
                           type: 'array',
                           default: [],
                           items: {
-                            $id:
-                              '#/properties/spec/properties/servers/items/anyOf/0/properties/hosts/items',
+                            $id: '#/properties/spec/properties/servers/items/anyOf/0/properties/hosts/items',
                             anyOf: [
                               {
-                                $id:
-                                  '#/properties/spec/properties/servers/items/anyOf/0/properties/hosts/items/anyOf/0',
+                                $id: '#/properties/spec/properties/servers/items/anyOf/0/properties/hosts/items/anyOf/0',
                                 type: 'string',
                                 default: '',
                               },
@@ -288,8 +263,7 @@ const schema = {
                           },
                         },
                         tls: {
-                          $id:
-                            '#/properties/spec/properties/servers/items/anyOf/0/properties/tls',
+                          $id: '#/properties/spec/properties/servers/items/anyOf/0/properties/tls',
                           type: 'object',
                           default: {},
                           required: [],
@@ -318,10 +292,7 @@ const schema = {
             $id: '#/properties/apiVersion',
             type: 'string',
             default: '',
-            enum: [
-              'networking.istio.io/v1beta1',
-              'networking.istio.io/v1alpha3',
-            ],
+            enum: ['networking.istio.io/v1beta1', 'networking.istio.io/v1alpha3'],
           },
           kind: {
             $id: '#/properties/kind',
@@ -375,22 +346,19 @@ const schema = {
                       required: ['name'],
                       properties: {
                         name: {
-                          $id:
-                            '#/properties/spec/properties/subsets/items/anyOf/0/properties/name',
+                          $id: '#/properties/spec/properties/subsets/items/anyOf/0/properties/name',
                           type: 'string',
                           default: '',
                         },
                         labels: {
-                          $id:
-                            '#/properties/spec/properties/subsets/items/anyOf/0/properties/labels',
+                          $id: '#/properties/spec/properties/subsets/items/anyOf/0/properties/labels',
                           type: 'object',
                           default: {},
                           required: [],
                           additionalProperties: true,
                         },
                         trafficPolicy: {
-                          $id:
-                            '#/properties/spec/properties/subsets/items/anyOf/0/properties/trafficPolicy',
+                          $id: '#/properties/spec/properties/subsets/items/anyOf/0/properties/trafficPolicy',
                           type: 'object',
                           default: {},
                           required: [],
@@ -416,8 +384,8 @@ const schema = {
         },
         additionalProperties: true,
       },
-    }
+    };
   },
-}
+};
 
-export default schema
+export default schema;

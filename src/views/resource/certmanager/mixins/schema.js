@@ -59,8 +59,32 @@ const schema = {
                 $id: '#/properties/spec/properties/usages',
                 type: 'array',
                 items: {
-                  type: "string",
-                  enum: ['signing', 'digital signature', 'content commitment', 'key encipherment', 'key agreement', 'data encipherment', 'cert sign', 'crl sign', 'encipher only', 'decipher only', 'any', 'server auth', 'client auth', 'code signing', 'email protection', 's/mime', 'ipsec end system', 'ipsec tunnel', 'ipsec user', 'timestamping', 'ocsp signing', 'microsoft sgc', 'netscape sgc'],
+                  type: 'string',
+                  enum: [
+                    'signing',
+                    'digital signature',
+                    'content commitment',
+                    'key encipherment',
+                    'key agreement',
+                    'data encipherment',
+                    'cert sign',
+                    'crl sign',
+                    'encipher only',
+                    'decipher only',
+                    'any',
+                    'server auth',
+                    'client auth',
+                    'code signing',
+                    'email protection',
+                    's/mime',
+                    'ipsec end system',
+                    'ipsec tunnel',
+                    'ipsec user',
+                    'timestamping',
+                    'ocsp signing',
+                    'microsoft sgc',
+                    'netscape sgc',
+                  ],
                 },
               },
               secretName: {
@@ -75,15 +99,13 @@ const schema = {
                 required: ['kind', 'name'],
                 properties: {
                   kind: {
-                    $id:
-                      '#/properties/spec/properties/issuerRef/properties/kind',
+                    $id: '#/properties/spec/properties/issuerRef/properties/kind',
                     type: 'string',
                     default: '',
                     const: 'Issuer',
                   },
                   name: {
-                    $id:
-                      '#/properties/spec/properties/issuerRef/properties/name',
+                    $id: '#/properties/spec/properties/issuerRef/properties/name',
                     type: 'string',
                     default: '',
                   },
@@ -96,8 +118,8 @@ const schema = {
         },
         additionalProperties: true,
       },
-    }
+    };
   },
-}
+};
 
-export default schema
+export default schema;

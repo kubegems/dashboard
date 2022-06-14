@@ -1,63 +1,33 @@
 <template>
-  <BasePanel
-    v-model="panel"
-    :title="`接入配置`"
-    :width="`50%`"
-    icon="fas fa-link"
-    @dispose="dispose"
-  >
+  <BasePanel v-model="panel" icon="fas fa-link" :title="`接入配置`" :width="`50%`" @dispose="dispose">
     <template #action>
-      <v-btn
-        color="white"
-        text
-        class="mt-n1 ml-2"
-        @click="addData"
-      >
-        保存
-      </v-btn>
+      <v-btn class="mt-n1 ml-2" color="white" :loading="Circular" text @click="addData"> 保存 </v-btn>
     </template>
     <template #content>
       <v-card-text class="ma-0 pa-0">
         <v-list-item>
-          <v-list-item-avatar
-            tile
-            size="80"
-            class="mb-0"
-          >
-            <BaseLogo
-              :icon-name="item.name"
-              :width="72"
-            />
+          <v-list-item-avatar class="mb-0" size="80" tile>
+            <BaseLogo :icon-name="item.name" :width="72" />
           </v-list-item-avatar>
           <span class="text-subtitle-1 kubegems__text">
-            {{
-              type === 'app' ?
-                `配置 ${item.name} 应用的Trace, Metrics, Logging` :
-                `配置 ${item.name} 中间件的Metrics, Logging`
-            }}
+            {{ getTitle(item) }}
           </span>
         </v-list-item>
         <v-divider />
-        <template v-if="type">
-          <v-tabs
-            v-model="tab"
-            height="45"
-            class="rounded-t pa-0 v-tabs--default"
-            fixed-tabs
-          >
-            <v-tab
-              v-for="t in tabItems"
-              :key="t.value"
-            >
+        <template v-if="type === 'app'">
+          <v-tabs v-model="tab" class="rounded-t pa-0 v-tabs--default" fixed-tabs height="45">
+            <v-tab v-for="t in tabItems" :key="t.value">
               {{ t.text }}
             </v-tab>
           </v-tabs>
 
-          <component
-            :is="tabItems[tab].value"
-            :ref="tabItems[tab].value"
-            :v="item.value || item.name"
-          />
+          <component :is="tabItems[tab].value" :ref="tabItems[tab].value" :v="item.value || item.name" @close="close" />
+        </template>
+        <template v-else-if="type === 'middleware'">
+          <MiddlewareMetrics ref="middlewareMetrics" :chart-name="item.chart" @close="close" />
+        </template>
+        <template v-else-if="type === 'logging'">
+          <Logging ref="logging" @close="close" />
         </template>
       </v-card-text>
     </template>
@@ -65,58 +35,73 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
-import Trace from './Trace'
-import Metrics from './Metrics'
-import Logging from './Logging'
-import { deepCopy } from '@/utils/helpers'
+  import { mapGetters, mapState } from 'vuex';
 
-export default {
-  name: 'DeployLive',
-  components: {
-    Trace,
-    Metrics,
-    Logging,
-  },
-  mixins: [],
-  data: () => ({
-    panel: false,
-    tab: 0,
-    item: {},
-    type: undefined,
-  }),
-  computed: {
-    ...mapState(['Scale']),
-    ...mapGetters(['Tenant']),
-    tabItems() {
-      const items = [
+  import Logging from './Logging';
+  import Metrics from './Metrics';
+  import MiddlewareMetrics from './MiddlewareMetrics';
+  import Trace from './Trace';
+
+  import { deepCopy } from '@/utils/helpers';
+
+  export default {
+    name: 'DeployLive',
+    components: {
+      Logging,
+      Metrics,
+      MiddlewareMetrics,
+      Trace,
+    },
+    data: () => ({
+      panel: false,
+      tab: 0,
+      item: {},
+      tabItems: [
+        { text: 'Trace', value: 'Trace' },
         { text: 'Metrics', value: 'Metrics' },
-        { text: 'Logging', value: 'Logging' },
-      ]
-      if (this.type === 'app') {
-        items.splice(0, 0, { text: 'Trace', value: 'Trace' })
-      }
-      return items
+      ],
+      type: undefined,
+    }),
+    computed: {
+      ...mapState(['Scale', 'Circular']),
+      ...mapGetters(['Tenant']),
     },
-  },
-  methods: {
-    // eslint-disable-next-line vue/no-unused-properties
-    open() {
-      this.panel = true
+    methods: {
+      // eslint-disable-next-line vue/no-unused-properties
+      open() {
+        this.panel = true;
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      init(item, type) {
+        this.item = deepCopy(item);
+        this.type = type;
+      },
+      dispose() {
+        this.tab = 0;
+        this.type = undefined;
+      },
+      async addData() {
+        if (this.type === 'app') {
+          await this.$refs[this.tabItems[this.tab].value].addData();
+        } else if (this.type === 'middleware') {
+          await this.$refs.middlewareMetrics.addData();
+        } else if (this.type === 'logging') {
+          await this.$refs.logging.addData();
+        }
+      },
+      close() {
+        this.panel = false;
+        this.type = undefined;
+      },
+      getTitle(item) {
+        if (this.type === 'app') {
+          return `配置 ${item.name} 应用的Trace, Metrics`;
+        } else if (this.type === 'middleware') {
+          return `配置 ${item.name} 中间件的Exporter`;
+        } else if (this.type === 'logging') {
+          return `配置 ${item.name} 中间件的Logging`;
+        }
+      },
     },
-    // eslint-disable-next-line vue/no-unused-properties
-    init(item, type) {
-      this.item = deepCopy(item)
-      this.type = type
-    },
-    dispose() {
-      this.tab = 0
-      this.type = undefined
-    },
-    addData() {
-      this.$refs[this.tabItems[this.tab].value].addData()
-      this.panel = false
-    },
-  },
-}
+  };
 </script>

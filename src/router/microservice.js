@@ -1,4 +1,4 @@
-const prefix = 'virtualspaces/:virtualspace?'
+const prefix = 'virtualspaces/:virtualspace?';
 
 export const microService = [
   {
@@ -218,8 +218,7 @@ export const microService = [
           {
             path: `${prefix}/authorizationpolicys`,
             name: 'authorizationpolicy-list',
-            component: () =>
-              import('@/views/microservice/istio/authorization_policy/index'),
+            component: () => import('@/views/microservice/istio/authorization_policy/index'),
             meta: {
               requireAuth: true,
               title: '认证策略',
@@ -249,8 +248,7 @@ export const microService = [
           {
             path: `${prefix}/peerauthentications`,
             name: 'peerauthentication-list',
-            component: () =>
-              import('@/views/microservice/istio/peer_authentication/index'),
+            component: () => import('@/views/microservice/istio/peer_authentication/index'),
             meta: {
               requireAuth: true,
               title: '端点认证',
@@ -295,4 +293,4 @@ export const microService = [
       },
     ],
   },
-]
+];

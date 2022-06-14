@@ -1,28 +1,11 @@
 <template>
-  <v-form
-    ref="form"
-    v-model="valid"
-    lazy-validation
-    @submit.prevent
-  >
+  <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
     <v-flex :class="expand ? 'kubegems__overlay' : ''" />
     <v-expand-transition>
-      <v-card
-        v-show="expand"
-        class="my-2 pa-0 kubegems__expand-transition"
-        :elevation="4"
-      >
+      <v-card v-show="expand" class="my-2 pa-0 kubegems__expand-transition" :elevation="4">
         <v-card-text class="pa-2">
-          <v-tabs
-            v-model="tab"
-            class="px-2 v-tabs--default"
-            height="40"
-            fixed-tabs
-          >
-            <v-tab
-              v-for="item in tabItems"
-              :key="item.value"
-            >
+          <v-tabs v-model="tab" class="px-2 v-tabs--default" fixed-tabs height="40">
+            <v-tab v-for="item in tabItems" :key="item.value">
               {{ item.text }}
             </v-tab>
           </v-tabs>
@@ -36,22 +19,8 @@
         </v-card-text>
         <v-card-actions class="pa-2">
           <v-spacer />
-          <v-btn
-            text
-            small
-            color="error"
-            @click="closeCard"
-          >
-            取消
-          </v-btn>
-          <v-btn
-            text
-            small
-            color="primary"
-            @click="addData"
-          >
-            保存
-          </v-btn>
+          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
+          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -59,75 +28,73 @@
 </template>
 
 <script>
-import LoadBalancer from '@/views/microservice/service/components/destination_rule/policy/LoadBalancer'
-import ConnectionPool from '@/views/microservice/service/components/destination_rule/policy/ConnectionPool'
-import OutlierDetection from '@/views/microservice/service/components/destination_rule/policy/OutlierDetection'
-import TLS from '@/views/microservice/service/components/destination_rule/policy/TLS'
-import PortLevelSettings from '@/views/microservice/service/components/destination_rule/policy/PortLevelSettings'
-import { deepCopy } from '@/utils/helpers'
+  import { deepCopy } from '@/utils/helpers';
+  import ConnectionPool from '@/views/microservice/service/components/destination_rule/policy/ConnectionPool';
+  import LoadBalancer from '@/views/microservice/service/components/destination_rule/policy/LoadBalancer';
+  import OutlierDetection from '@/views/microservice/service/components/destination_rule/policy/OutlierDetection';
+  import PortLevelSettings from '@/views/microservice/service/components/destination_rule/policy/PortLevelSettings';
+  import TLS from '@/views/microservice/service/components/destination_rule/policy/TLS';
 
-export default {
-  name: 'TrafficPolicyForm',
-  components: {
-    LoadBalancer,
-    ConnectionPool,
-    OutlierDetection,
-    TLS,
-    PortLevelSettings,
-  },
-  data() {
-    return {
-      valid: false,
-      obj: {},
-      expand: false,
-      tab: 0,
-      tabItems: [
-        { text: '负载均衡', value: 'LoadBalancer' },
-        { text: '连接池', value: 'ConnectionPool' },
-        { text: '异常检测', value: 'OutlierDetection' },
-        { text: 'TLS', value: 'TLS' },
-        { text: '端口级别设置', value: 'PortLevelSettings' },
-      ],
-    }
-  },
-  methods: {
-    // eslint-disable-next-line vue/no-unused-properties
-    init(data) {
-      if (data) {
-        this.obj = deepCopy(data)
-      } else {
-        this.obj = {}
-      }
-      this.expandCard()
+  export default {
+    name: 'TrafficPolicyForm',
+    components: {
+      ConnectionPool,
+      LoadBalancer,
+      OutlierDetection,
+      PortLevelSettings,
+      TLS,
     },
-    reset() {
-      this.$refs.form.reset()
+    data() {
+      return {
+        valid: false,
+        obj: {},
+        expand: false,
+        tab: 0,
+        tabItems: [
+          { text: '负载均衡', value: 'LoadBalancer' },
+          { text: '连接池', value: 'ConnectionPool' },
+          { text: '异常检测', value: 'OutlierDetection' },
+          { text: 'TLS', value: 'TLS' },
+          { text: '端口级别设置', value: 'PortLevelSettings' },
+        ],
+      };
     },
-    expandCard() {
-      const tabsSliderWrappers = document.querySelectorAll(
-        '.v-tabs-slider-wrapper',
-      )
-      if (tabsSliderWrappers) {
-        for (const index in tabsSliderWrappers) {
-          if (tabsSliderWrappers[index].style) {
-            tabsSliderWrappers[index].style.width = `189px`
+    methods: {
+      // eslint-disable-next-line vue/no-unused-properties
+      init(data) {
+        if (data) {
+          this.obj = deepCopy(data);
+        } else {
+          this.obj = {};
+        }
+        this.expandCard();
+      },
+      reset() {
+        this.$refs.form.reset();
+      },
+      expandCard() {
+        const tabsSliderWrappers = document.querySelectorAll('.v-tabs-slider-wrapper');
+        if (tabsSliderWrappers) {
+          for (const index in tabsSliderWrappers) {
+            if (tabsSliderWrappers[index].style) {
+              tabsSliderWrappers[index].style.width = `189px`;
+            }
           }
         }
-      }
-      this.expand = true
+        this.expand = true;
+      },
+      closeCard() {
+        this.expand = false;
+        this.$emit('closeOverlay');
+        this.reset();
+      },
+      addData() {
+        this.$emit('addData', deepCopy(this.obj));
+        this.closeCard();
+      },
+      updateComponentData(data) {
+        this.obj = data;
+      },
     },
-    closeCard() {
-      this.expand = false
-      this.$emit('closeOverlay')
-      this.reset()
-    },
-    addData() {
-      this.$emit('addData', deepCopy(this.obj))
-      this.closeCard()
-    },
-    updateComponentData(data) {
-      this.obj = data
-    },
-  },
-}
+  };
 </script>

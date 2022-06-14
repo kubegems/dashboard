@@ -22,24 +22,11 @@
         <slot name="header"></slot>
       </v-flex>
       <div class="float-right">
-        <v-btn
-          color="white"
-          text
-          :panel="panel"
-          class="mt-n1 ml-2"
-          v-on="clickListeners"
-        >
-          关闭
-        </v-btn>
+        <v-btn color="white" text :panel="panel" class="mt-n1 ml-2" v-on="clickListeners"> 关闭 </v-btn>
       </div>
       <div class="float-right">
         <div v-if="Progress" :style="{ float: 'left' }">
-          <v-progress-circular
-            size="20"
-            width="3"
-            indeterminate
-            color="white"
-          ></v-progress-circular>
+          <v-progress-circular size="20" width="3" indeterminate color="white"></v-progress-circular>
         </div>
         <slot name="action"></slot>
       </div>
@@ -53,94 +40,94 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+  import { mapState } from 'vuex';
 
-export default {
-  name: 'BasePanel',
-  model: {
-    prop: 'panel',
-    event: 'click',
-  },
-  props: {
-    title: {
-      type: String,
-      default: () => '',
+  export default {
+    name: 'BasePanel',
+    model: {
+      prop: 'panel',
+      event: 'click',
     },
-    icon: {
-      type: String,
-      default: () => '',
+    props: {
+      icon: {
+        type: String,
+        default: () => '',
+      },
+      panel: {
+        type: Boolean,
+        default: () => false,
+      },
+      title: {
+        type: String,
+        default: () => '',
+      },
+      width: {
+        type: String,
+        default: () => '50%',
+      },
     },
-    panel: {
-      type: Boolean,
-      default: () => false,
+    computed: {
+      ...mapState(['Progress']),
+      clickListeners: function () {
+        var vm = this;
+        return Object.assign({}, this.$listeners, {
+          click: function () {
+            vm.$emit('click', false);
+            vm.$emit('dispose');
+          },
+        });
+      },
     },
-    width: {
-      type: String,
-      default: () => '50%',
-    },
-  },
-  computed: {
-    ...mapState(['Progress']),
-    clickListeners: function () {
-      var vm = this
-      return Object.assign({}, this.$listeners, {
-        click: function () {
-          vm.$emit('click', false)
-          vm.$emit('dispose')
-        },
-      })
-    },
-  },
-  watch: {
-    panel: {
-      handler(newValue) {
-        this.$store.commit('SET_PANEL', newValue)
-        if (this.panel === true) {
-          this.$nextTick(() => {
+    watch: {
+      panel: {
+        handler(newValue) {
+          this.$store.commit('SET_PANEL', newValue);
+          if (this.panel === true) {
+            this.$nextTick(() => {
+              const timeout = setTimeout(() => {
+                document.getElementById('panel').style.display = 'flex';
+                clearTimeout(timeout);
+              }, 300);
+            });
+          } else {
             const timeout = setTimeout(() => {
-              document.getElementById('panel').style.display = 'flex'
-              clearTimeout(timeout)
-            }, 300)
-          })
-        } else {
-          const timeout = setTimeout(() => {
-            document.getElementById('panel').style.display = 'block'
-            clearTimeout(timeout)
-          }, 300)
+              document.getElementById('panel').style.display = 'block';
+              clearTimeout(timeout);
+            }, 300);
+          }
+        },
+      },
+    },
+    destroyed() {
+      window.removeEventListener('keydown', this.escOccur);
+    },
+    mounted() {
+      window.addEventListener('keydown', this.escOccur);
+    },
+    methods: {
+      escOccur(e) {
+        if (e.key === 'Escape') {
+          this.$emit('click', false);
+          this.$emit('dispose');
         }
       },
     },
-  },
-  destroyed() {
-    window.removeEventListener('keydown', this.escOccur)
-  },
-  mounted() {
-    window.addEventListener('keydown', this.escOccur)
-  },
-  methods: {
-    escOccur(e) {
-      if (e.key === 'Escape') {
-        this.$emit('click', false)
-        this.$emit('dispose')
-      }
-    },
-  },
-}
+  };
 </script>
 
 <style lang="scss" scoped>
-.panel__header {
-  height: 64px;
-}
-
-.v-navigation-drawer {
-  display: block;
-  z-index: 10;
-}
-
-#panel {
-  @media (max-width: 1300px) {
-    width: 700px !important;
+  .panel__header {
+    height: 64px;
   }
-}
+
+  .v-navigation-drawer {
+    display: block;
+    z-index: 10;
+  }
+
+  #panel {
+    @media (max-width: 1300px) {
+      width: 700px !important;
+    }
+  }
 </style>

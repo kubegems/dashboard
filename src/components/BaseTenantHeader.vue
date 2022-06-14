@@ -31,20 +31,14 @@
               <v-icon v-else right>fas fa-angle-down</v-icon>
             </v-btn>
           </template>
-          <v-data-iterator
-            :items="[{ text: '项目', values: m_select_tenantProjectItems }]"
-            hide-default-footer
-          >
+          <v-data-iterator :items="[{ text: '项目', values: m_select_tenantProjectItems }]" hide-default-footer>
             <template #no-data>
               <v-card>
                 <v-card-text> 暂无项目 </v-card-text>
               </v-card>
             </template>
             <template #default="props">
-              <v-card v-for="item in props.items" 
-                :key="item.text" 
-                :loading="loadingPro"
-              >
+              <v-card v-for="item in props.items" :key="item.text" :loading="loadingPro">
                 <v-list dense class="pb-3">
                   <v-flex class="text-subtitle-2 text-center ma-2">
                     <span>项目</span>
@@ -56,11 +50,7 @@
                       :key="index"
                       class="text-body-2 text-center font-weight-medium px-2"
                       link
-                      :style="
-                        project.text === Project().ProjectName
-                          ? `color: #1e88e5 !important;`
-                          : ``
-                      "
+                      :style="project.text === Project().ProjectName ? `color: #1e88e5 !important;` : ``"
                       @click="setProject(project)"
                     >
                       <v-list-item-content class="text-body-2 font-weight-medium text-start">
@@ -119,10 +109,7 @@
                 <v-icon v-else right>fas fa-angle-down</v-icon>
               </v-btn>
             </template>
-            <v-data-iterator
-              :items="[{ text: '环境', values: m_select_projectEnvironmentItems }]"
-              hide-default-footer
-            >
+            <v-data-iterator :items="[{ text: '环境', values: m_select_projectEnvironmentItems }]" hide-default-footer>
               <template #no-data>
                 <v-card>
                   <v-card-text> 暂无环境 </v-card-text>
@@ -141,16 +128,10 @@
                         :key="index"
                         class="text-body-2 text-center font-weight-medium px-2"
                         link
-                        :style="
-                          environment.text === Environment().EnvironmentName
-                            ? `color: #1e88e5 !important;`
-                            : ``
-                        "
+                        :style="environment.text === Environment().EnvironmentName ? `color: #1e88e5 !important;` : ``"
                         @click="setEnvironment(environment)"
                       >
-                        <v-list-item-content
-                          class="text-body-2 font-weight-medium text-start"
-                        >
+                        <v-list-item-content class="text-body-2 font-weight-medium text-start">
                           <div class="kubegems__break-all">
                             <v-icon left small color="primary">fas fa-cloud</v-icon>
                             {{ environment.text }}
@@ -177,16 +158,10 @@
       <v-sheet>
         <span v-if="environmented" class="text-body-2 kubegems__text">
           环境角色:
-          {{
-            $RESOURCE_ROLE[m_permisson_resourceRole] ? $RESOURCE_ROLE[m_permisson_resourceRole] : '暂无'
-          }}
+          {{ $RESOURCE_ROLE[m_permisson_resourceRole] ? $RESOURCE_ROLE[m_permisson_resourceRole] : '暂无' }}
           <span class="ml-4">
             环境类型:
-            {{
-              $METATYPE_CN[Environment().Type]
-                ? $METATYPE_CN[Environment().Type].cn
-                : ''
-            }}
+            {{ $METATYPE_CN[Environment().Type] ? $METATYPE_CN[Environment().Type].cn : '' }}
           </span>
           <span class="ml-4">集群: {{ Environment().ClusterName }}</span>
           <span class="ml-4">命名空间: {{ Environment().Namespace }}</span>
@@ -201,110 +176,110 @@
 </template>
 
 <script>
-import BaseSelect from '@/mixins/select'
-import BasePermission from '@/mixins/permission'
-import { mapGetters, mapState } from 'vuex'
-import BaseResource from '@/mixins/resource'
+  import BaseSelect from '@/mixins/select';
+  import BasePermission from '@/mixins/permission';
+  import { mapGetters, mapState } from 'vuex';
+  import BaseResource from '@/mixins/resource';
 
-export default {
-  name: 'BaseTenantHeader',
-  mixins: [BaseSelect, BasePermission, BaseResource],
-  inject: ['reload'],
-  props: {
-    environmented: {
-      type: Boolean,
-      default: () => true,
+  export default {
+    name: 'BaseTenantHeader',
+    mixins: [BasePermission, BaseResource, BaseSelect],
+    inject: ['reload'],
+    props: {
+      environmented: {
+        type: Boolean,
+        default: () => true,
+      },
+      selectable: {
+        type: Boolean,
+        default: () => true,
+      },
     },
-    selectable: {
-      type: Boolean,
-      default: () => true,
+    data: () => ({
+      projectMenu: false,
+      environmentMenu: false,
+      loadingPro: false,
+      loadingEnv: false,
+    }),
+    computed: {
+      ...mapState(['AdminViewport']),
+      ...mapGetters(['Project', 'Environment', 'Tenant']),
     },
-  },
-  data: () => ({
-    projectMenu: false,
-    environmentMenu: false,
-    loadingPro: false,
-    loadingEnv: false
-  }),
-  computed: {
-    ...mapState(['AdminViewport']),
-    ...mapGetters(['Project', 'Environment', 'Tenant']),
-  },
-  methods: {
-    async setProject(item) {
-      if (this.environmented) {
-        await this.m_select_projectEnvironmentSelectData(item.value)
-        if (this.m_select_projectEnvironmentItems.length === 0) {
-          this.$store.commit('SET_SNACKBAR', {
-            text: '该项目下没有环境，请重新选择项目或添加环境',
-            color: 'warning',
-          })
-          return
+    methods: {
+      async setProject(item) {
+        if (this.environmented) {
+          await this.m_select_projectEnvironmentSelectData(item.value);
+          if (this.m_select_projectEnvironmentItems.length === 0) {
+            this.$store.commit('SET_SNACKBAR', {
+              text: '该项目下没有环境，请重新选择项目或添加环境',
+              color: 'warning',
+            });
+            return;
+          } else {
+            const env = this.m_select_projectEnvironmentItems[0];
+            await this.$router.replace({
+              params: {
+                tenant: this.Tenant().TenantName,
+                project: item.text,
+                environment: env.text,
+              },
+            });
+          }
         } else {
-          const env =this.m_select_projectEnvironmentItems[0]
           await this.$router.replace({
             params: {
               tenant: this.Tenant().TenantName,
               project: item.text,
-              environment: env.text,
             },
-          })
+          });
         }
-      } else {
+        this.reload();
+      },
+      async setEnvironment(item) {
         await this.$router.replace({
           params: {
             tenant: this.Tenant().TenantName,
-            project: item.text,
+            project: this.Project().ProjectName,
+            environment: item.text,
           },
-        })
-      }
-      this.reload()
+          query: {
+            timestamp: Date.parse(new Date()),
+          },
+        });
+        this.reload();
+      },
+      toProject() {
+        this.$store.commit('CLEAR_RESOURCEIRONMENT');
+        this.$router.push({
+          name: 'project-detail',
+          params: {
+            name: this.Project().ProjectName,
+            tenant: this.Tenant().TenantName,
+            project: this.Project().ProjectName,
+          },
+        });
+      },
+      async getProject() {
+        this.loadingPro = true;
+        await this.m_select_tenantProjectSelectData();
+        this.loadingPro = false;
+      },
+      async getEnvironment() {
+        this.loadingEnv = true;
+        await this.m_select_projectEnvironmentSelectData(this.Project().ID);
+        this.loadingEnv = false;
+      },
     },
-    async setEnvironment(item) {
-      await this.$router.replace({
-        params: {
-          tenant: this.Tenant().TenantName,
-          project: this.Project().ProjectName,
-          environment: item.text,
-        },
-        query: {
-          timestamp: Date.parse(new Date())
-        }
-      })
-      this.reload()
-    },
-    toProject() {
-      this.$store.commit('CLEAR_RESOURCEIRONMENT')
-      this.$router.push({
-        name: 'project-detail',
-        params: {
-          name: this.Project().ProjectName,
-          tenant: this.Tenant().TenantName,
-          project: this.Project().ProjectName,
-        },
-      })
-    },
-    async getProject() {
-      this.loadingPro = true
-      await this.m_select_tenantProjectSelectData()
-      this.loadingPro = false
-    },
-    async getEnvironment() {
-      this.loadingEnv = true
-      await this.m_select_projectEnvironmentSelectData(this.Project().ID)
-      this.loadingEnv = false
-    },
-  },
-}
+  };
 </script>
 
 <style lang="scss" scoped>
-.tenant-header__bg {
-  z-index: auto !important;
-}
+  .tenant-header__bg {
+    z-index: auto !important;
+  }
 
-.header__list {
-  max-height: 250px;
-  overflow-y: auto;
-}
+  .header__list {
+    max-height: 250px;
+    overflow-y: auto;
+  }
 </style>

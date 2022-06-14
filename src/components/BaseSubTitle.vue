@@ -1,12 +1,9 @@
 <template>
-  <v-sheet
-    :height="height"
-    :class="`py-1 px-2 text-subtitle-1 primary--text rounded ${color}`"
-  >
+  <v-sheet :height="height" :class="`py-1 px-2 text-subtitle-1 primary--text rounded ${color}`">
     <span
       :class="`float-left subtitle font-weight-regular ${
         color === 'primary' ? 'white--text' : 'blue-grey--text text--darken-2'
-      } ${ divider || `pl-${pl}` }`"
+      } ${divider || `pl-${pl}`}`"
       style="line-height: 28px;"
     >
       {{ title }}
@@ -29,38 +26,38 @@
 </template>
 
 <script>
-export default {
-  name: 'BaseSubTitle',
-  props: {
-    title: {
-      type: String,
-      default: () => '',
+  export default {
+    name: 'BaseSubTitle',
+    props: {
+      color: {
+        type: String,
+        default: () => '',
+      },
+      divider: {
+        type: Boolean,
+        default: () => true,
+      },
+      height: {
+        type: String,
+        default: () => '36px',
+      },
+      pl: {
+        type: Number,
+        default: () => 2,
+      },
+      title: {
+        type: String,
+        default: () => '',
+      },
     },
-    height: {
-      type: String,
-      default: () => '36px',
-    },
-    divider: {
-      type: Boolean,
-      default: () => true,
-    },
-    color: {
-      type: String,
-      default: () => '',
-    },
-    pl: {
-      type: Number,
-      default: () => 2,
-    }
-  },
-}
+  };
 </script>
 
 <style lang="scss" scoped>
-.subtitle-clear {
-  clear: both;
-}
-.subtitle-line-height {
-  line-height: 28px !important;
-}
+  .subtitle-clear {
+    clear: both;
+  }
+  .subtitle-line-height {
+    line-height: 28px !important;
+  }
 </style>

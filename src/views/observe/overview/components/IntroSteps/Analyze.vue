@@ -3,7 +3,7 @@
 </template>
 
 <script>
-export default {
-  name: 'IntroStepsAnalyze',
-}
+  export default {
+    name: 'IntroStepsAnalyze',
+  };
 </script>

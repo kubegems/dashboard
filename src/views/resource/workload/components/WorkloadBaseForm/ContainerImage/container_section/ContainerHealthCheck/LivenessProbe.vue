@@ -1,173 +1,99 @@
 <template>
-  <v-sheet
-    class="grey lighten-4 rounded ma-2"
-  >
+  <v-sheet class="grey lighten-4 rounded ma-2">
     <v-list-item two-line>
       <v-list-item-content class="py-2">
         <v-list-item-subtitle class="text-body-2 py-0">
-          <v-list-item
-            two-line
-            class="float-left pa-0"
-          >
+          <v-list-item class="float-left pa-0" two-line>
             <v-list-item-content class="py-0">
-              <v-list-item-title class="text-subtitle-2 py-1">
-                存活检查
-              </v-list-item-title>
-              <v-list-item-subtitle class="text-body-2 py-1">
-                类型
-              </v-list-item-subtitle>
+              <v-list-item-title class="text-subtitle-2 py-1"> 存活检查 </v-list-item-title>
+              <v-list-item-subtitle class="text-body-2 py-1"> 类型 </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
           <template v-if="containerCopy.livenessProbe.httpGet">
-            <v-list-item
-              two-line
-              class="float-left pa-0 kubegems__three-width"
-            >
+            <v-list-item class="float-left pa-0 kubegems__three-width" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
-                  初始延迟{{
-                    containerCopy.livenessProbe.initialDelaySeconds
-                  }}s&nbsp;超时{{
+                  初始延迟{{ containerCopy.livenessProbe.initialDelaySeconds }}s&nbsp;超时{{
                     containerCopy.livenessProbe.timeoutSeconds
                   }}s
                 </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1">
-                  HTTP请求检查
-                </v-list-item-subtitle>
+                <v-list-item-subtitle class="text-body-2 py-1"> HTTP请求检查 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item
-              two-line
-              class="float-left pa-0"
-            >
+            <v-list-item class="float-left pa-0" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{ containerCopy.livenessProbe.httpGet.scheme }}
                 </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1">
-                  类型
-                </v-list-item-subtitle>
+                <v-list-item-subtitle class="text-body-2 py-1"> 类型 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item
-              two-line
-              class="float-left pa-0 kubegems__three-width"
-            >
+            <v-list-item class="float-left pa-0 kubegems__three-width" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{ containerCopy.livenessProbe.httpGet.path }}
                 </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1">
-                  路径
-                </v-list-item-subtitle>
+                <v-list-item-subtitle class="text-body-2 py-1"> 路径 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item
-              two-line
-              class="float-left pa-0"
-            >
+            <v-list-item class="float-left pa-0" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{ containerCopy.livenessProbe.httpGet.port }}
                 </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1">
-                  端口
-                </v-list-item-subtitle>
+                <v-list-item-subtitle class="text-body-2 py-1"> 端口 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </template>
           <template v-else-if="containerCopy.livenessProbe.exec">
-            <v-list-item
-              two-line
-              class="float-left pa-0 kubegems__three-width"
-            >
+            <v-list-item class="float-left pa-0 kubegems__three-width" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
-                  初始延迟{{
-                    containerCopy.livenessProbe.initialDelaySeconds
-                  }}s&nbsp;超时{{
+                  初始延迟{{ containerCopy.livenessProbe.initialDelaySeconds }}s&nbsp;超时{{
                     containerCopy.livenessProbe.timeoutSeconds
                   }}s
                 </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1">
-                  执行命令检查
-                </v-list-item-subtitle>
+                <v-list-item-subtitle class="text-body-2 py-1"> 执行命令检查 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item
-              two-line
-              class="float-left pa-0"
-            >
+            <v-list-item class="float-left pa-0" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1 kubegems__break-all">
-                  <template
-                    v-for="command in containerCopy.livenessProbe.exec
-                      .command"
-                  >
+                  <template v-for="command in containerCopy.livenessProbe.exec.command">
                     {{ command }}
                   </template>
                 </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1">
-                  命令
-                </v-list-item-subtitle>
+                <v-list-item-subtitle class="text-body-2 py-1"> 命令 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </template>
           <template v-else-if="containerCopy.livenessProbe.tcpSocket">
-            <v-list-item
-              two-line
-              class="float-left pa-0 kubegems__three-width"
-            >
+            <v-list-item class="float-left pa-0 kubegems__three-width" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
-                  初始延迟{{
-                    containerCopy.livenessProbe.initialDelaySeconds
-                  }}s&nbsp;超时{{
+                  初始延迟{{ containerCopy.livenessProbe.initialDelaySeconds }}s&nbsp;超时{{
                     containerCopy.livenessProbe.timeoutSeconds
                   }}s
                 </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1">
-                  TCP端口检查
-                </v-list-item-subtitle>
+                <v-list-item-subtitle class="text-body-2 py-1"> TCP端口检查 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item
-              two-line
-              class="float-left pa-0"
-            >
+            <v-list-item class="float-left pa-0" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{ containerCopy.livenessProbe.tcpSocket.port }}
                 </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1">
-                  端口
-                </v-list-item-subtitle>
+                <v-list-item-subtitle class="text-body-2 py-1"> 端口 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </template>
         </v-list-item-subtitle>
         <div class="kubegems__clear-float" />
       </v-list-item-content>
-      <v-btn
-        dark
-        text
-        fab
-        right
-        x-small
-        color="primary"
-        @click="updateData('livenessProbe')"
-      >
+      <v-btn color="primary" dark fab right text x-small @click="updateData('livenessProbe')">
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
-      <v-btn
-        dark
-        text
-        fab
-        right
-        x-small
-        color="error"
-        @click="removeData('livenessProbe')"
-      >
+      <v-btn color="error" dark fab right text x-small @click="removeData('livenessProbe')">
         <v-icon>mdi-delete</v-icon>
       </v-btn>
     </v-list-item>
@@ -175,21 +101,21 @@
 </template>
 
 <script>
-export default {
-  name: 'LivenessProbe',
-  props: {
-    containerCopy: {
-      type: Object,
-      default: () => {},
+  export default {
+    name: 'LivenessProbe',
+    props: {
+      containerCopy: {
+        type: Object,
+        default: () => {},
+      },
     },
-  },
-  methods: {
-    updateData(type) {
-      this.$emit('updateData', type)
+    methods: {
+      updateData(type) {
+        this.$emit('updateData', type);
+      },
+      removeData(type) {
+        this.$emit('removeData', type);
+      },
     },
-    removeData(type) {
-      this.$emit('removeData', type)
-    },
-  },
-}
+  };
 </script>

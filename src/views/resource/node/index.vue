@@ -5,8 +5,8 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :filters="filters"
           :default="{ items: [], text: '节点名称', value: 'search' }"
+          :filters="filters"
           @refresh="m_filter_list"
         />
         <v-spacer />
@@ -15,33 +15,26 @@
         class="mx-4"
         disable-sort
         :headers="headers"
+        hide-default-footer
         :items="items"
-        :page.sync="params.page"
         :items-per-page="params.size"
         no-data-text="暂无数据"
-        hide-default-footer
+        :page.sync="params.page"
       >
         <template #[`item.name`]="{ item }">
-          <a
-            class="text-subtitle-2"
-            @click="nodeDetail(item)"
-          >
+          <a class="text-subtitle-2" @click="nodeDetail(item)">
             <v-flex class="float-left">
               {{ item.metadata.name }}
             </v-flex>
             <v-flex
-              v-if="item.metadata.labels &&
+              v-if="
+                item.metadata.labels &&
                 item.metadata.labels['tencent.com/vcuda'] &&
                 item.metadata.labels['tencent.com/vcuda'] === 'true'
               "
               class="float-left ml-2"
             >
-              <v-menu
-                top
-                open-on-hover
-                :close-delay="200"
-                nudge-bottom="7px"
-              >
+              <v-menu :close-delay="200" nudge-bottom="7px" open-on-hover top>
                 <template #activator="{ on }">
                   <span v-on="on">
                     <BaseLogo icon-name="tke" />
@@ -53,18 +46,14 @@
               </v-menu>
             </v-flex>
             <v-flex
-              v-if="item.metadata.labels &&
+              v-if="
+                item.metadata.labels &&
                 item.metadata.labels['nvidia.com/gpu'] &&
                 item.metadata.labels['nvidia.com/gpu'] === 'true'
               "
               class="float-left ml-2"
             >
-              <v-menu
-                top
-                open-on-hover
-                :close-delay="200"
-                nudge-bottom="7px"
-              >
+              <v-menu :close-delay="200" nudge-bottom="7px" open-on-hover top>
                 <template #activator="{ on }">
                   <span v-on="on">
                     <BaseLogo icon-name="nvidia" />
@@ -80,15 +69,15 @@
         </template>
         <template #[`item.status`]="{ item }">
           <v-avatar
+            class="mr-2"
+            size="10"
             :style="`background-color: ${
               getStatus(item.status.conditions).join(',') === 'Ready'
                 ? '#00BCD4'
                 : getStatus(item.status.conditions).join(',') === 'Unknown'
-                  ? '#607D8B'
-                  : '#ff5252'
+                ? '#607D8B'
+                : '#ff5252'
             };`"
-            class="mr-2"
-            size="10"
           >
             <span class="white--text text-h5" />
           </v-avatar>
@@ -102,19 +91,15 @@
           / {{ item.status.capacity.pods }}
           <v-progress-linear
             class="rounded font-weight-medium"
-            :value="item.podPercentage"
-            height="15"
             :color="getColor(item.podPercentage)"
+            height="15"
+            :value="item.podPercentage"
           >
             <span class="white--text"> {{ item.podPercentage }}% </span>
           </v-progress-linear>
         </template>
         <template #[`item.load`]="{ item }">
-          <v-sheet
-            :class="`text-subtitle-2 ${getLoadColor(
-              item,
-            )} rounded text-center py-2 kubegems__text`"
-          >
+          <v-sheet :class="`text-subtitle-2 ${getLoadColor(item)} rounded text-center py-2 kubegems__text`">
             {{ item.load ? item.load : 0 }}
           </v-sheet>
         </template>
@@ -124,9 +109,9 @@
           {{ item.status.capacity.cpu }}
           <v-progress-linear
             class="rounded font-weight-medium"
-            :value="item.cpuPercentage"
-            height="15"
             :color="getColor(item.cpuPercentage)"
+            height="15"
+            :value="item.cpuPercentage"
           >
             <span class="white--text"> {{ item.cpuPercentage }}% </span>
           </v-progress-linear>
@@ -137,28 +122,24 @@
           Gi
           <v-progress-linear
             class="rounded font-weight-medium"
-            :value="item.memoryPercentage"
-            height="15"
             :color="getColor(item.memoryPercentage)"
+            height="15"
+            :value="item.memoryPercentage"
           >
             <span class="white--text"> {{ item.memoryPercentage }}% </span>
           </v-progress-linear>
         </template>
         <template #[`item.createAt`]="{ item }">
-          {{
-            item.metadata.creationTimestamp
-              ? $moment(item.metadata.creationTimestamp).format('lll')
-              : ''
-          }}
+          {{ item.metadata.creationTimestamp ? $moment(item.metadata.creationTimestamp).format('lll') : '' }}
         </template>
         <template #[`item.taint`]="{ item }">
           <v-chip
             v-for="(val, index) in getDistinctTaints(item.spec.taints)"
             :key="index"
-            color="success"
-            text-color="white"
             class="ma-1 font-weight-medium"
+            color="success"
             small
+            text-color="white"
           >
             {{ val }}
           </v-chip>
@@ -167,7 +148,7 @@
           <span
             v-if="
               item.metadata.labels[`node-role.kubernetes.io/master`] === '' ||
-                item.metadata.labels[`kubernetes.io/role`] === 'master'
+              item.metadata.labels[`kubernetes.io/role`] === 'master'
             "
           >
             Master
@@ -176,54 +157,22 @@
         </template>
         <template #[`item.action`]="{ item }">
           <v-flex :id="`r${item.metadata.resourceVersion}`" />
-          <v-menu
-            left
-            :attach="`#r${item.metadata.resourceVersion}`"
-          >
+          <v-menu :attach="`#r${item.metadata.resourceVersion}`" left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon
-                  x-small
-                  color="primary"
-                  v-on="on"
-                >
-                  fas fa-ellipsis-v
-                </v-icon>
+                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
               </v-btn>
             </template>
             <v-card>
               <v-card-text class="pa-2 text-center">
-                <v-flex
-                  v-if="Plugins && (Plugins['tke-gpu-manager'] || Plugins['nvidia-device-plugin'])"
-                >
-                  <v-btn
-                    color="primary"
-                    text
-                    small
-                    @click="gpuSchedule(item)"
-                  >
-                    GPU调度
-                  </v-btn>
+                <v-flex v-if="Plugins && (Plugins['tke-gpu-manager'] || Plugins['nvidia-device-plugin'])">
+                  <v-btn color="primary" small text @click="gpuSchedule(item)"> GPU调度 </v-btn>
                 </v-flex>
                 <v-flex v-if="item.spec.unschedulable">
-                  <v-btn
-                    color="primary"
-                    text
-                    small
-                    @click="allowSchedule(item)"
-                  >
-                    允许调度
-                  </v-btn>
+                  <v-btn color="primary" small text @click="allowSchedule(item)"> 允许调度 </v-btn>
                 </v-flex>
                 <v-flex v-else>
-                  <v-btn
-                    color="error"
-                    text
-                    small
-                    @click="stopSchedule(item)"
-                  >
-                    停止调度
-                  </v-btn>
+                  <v-btn color="error" small text @click="stopSchedule(item)"> 停止调度 </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -236,292 +185,272 @@
         v-model="params.page"
         :page-count="pageCount"
         :size="params.size"
-        @loaddata="nodeList"
-        @changesize="onPageSizeChange"
         @changepage="onPageIndexChange"
+        @changesize="onPageSizeChange"
+        @loaddata="nodeList"
       />
     </v-card>
 
-    <GpuScheduleForm
-      ref="gpuScheduleForm"
-      @refresh="nodeList"
-    />
+    <GpuScheduleForm ref="gpuScheduleForm" @refresh="nodeList" />
   </v-container>
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import { getNodeList, patchCordonNode } from '@/api'
-import GpuScheduleForm from './components/GpuScheduleForm'
-import BaseFilter from '@/mixins/base_filter'
-import BaseResource from '@/mixins/resource'
-import BasePermission from '@/mixins/permission'
-import {
-  NODE_LOAD_PROMQL,
-  NODE_ALL_CPU_USAGE_PROMQL,
-  NODE_ALL_MEMORY_USAGE_PROMQL,
-  NODE_POD_RUNNING_COUNT_PROMQL,
-} from '@/utils/prometheus'
-import { convertStrToNum, sizeOfStorage } from '@/utils/helpers'
+  import { mapState } from 'vuex';
 
-export default {
-  name: 'Node',
-  components: {
-    GpuScheduleForm,
-  },
-  mixins: [BaseFilter, BaseResource, BasePermission],
-  data: () => ({
-    items: [],
-    headers: [
-      { text: '主机名', value: 'name', align: 'start' },
-      { text: 'Ip', value: 'ip', align: 'start' },
-      { text: '状态', value: 'status', align: 'start', width: 150 },
-      { text: '角色', value: 'role', align: 'start' },
-      { text: '污点', value: 'taint', align: 'start' },
-      { text: '5分钟负载', value: 'load', align: 'start', width: 100 },
-      { text: 'CPU', value: 'cpu', align: 'start', width: 150 },
-      { text: '内存', value: 'memory', align: 'start', width: 150 },
-      { text: 'Pods', value: 'pod', align: 'start', width: 150 },
-      { text: '加入时间', value: 'createAt', align: 'start', width: 180 },
-      { text: '', value: 'action', align: 'center', width: 20 },
-    ],
-    pageCount: 0,
-    params: {
-      page: 1,
-      size: 10,
+  import GpuScheduleForm from './components/GpuScheduleForm';
+
+  import { getNodeList, patchCordonNode } from '@/api';
+  import BaseFilter from '@/mixins/base_filter';
+  import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
+  import { convertStrToNum, sizeOfStorage } from '@/utils/helpers';
+  import {
+    NODE_LOAD_PROMQL,
+    NODE_ALL_CPU_USAGE_PROMQL,
+    NODE_ALL_MEMORY_USAGE_PROMQL,
+    NODE_POD_RUNNING_COUNT_PROMQL,
+  } from '@/utils/prometheus';
+
+  export default {
+    name: 'Node',
+    components: {
+      GpuScheduleForm,
     },
-    filters: [{ text: '节点名称', value: 'search', items: [] }],
-    interval: null,
-  }),
-  computed: {
-    ...mapState(['JWT', 'Plugins']),
-  },
-  mounted() {
-    if (this.JWT) {
-      this.$nextTick(() => {
-        if (this.ThisCluster === '') {
-          this.$store.commit('SET_SNACKBAR', {
-            text: `请创建或选择集群`,
-            color: 'warning',
-          })
-          return
-        }
-        Object.assign(
-          Object.assign(this.params, { noprocessing: false }),
-          convertStrToNum(this.$route.query),
-        )
-        this.nodeList()
-      })
-    }
-  },
-  destroyed() {
-    if (this.interval) {
-      clearInterval(this.interval)
-    }
-  },
-  methods: {
-    async nodeList(noprocess = false) {
-      const data = await getNodeList(
-        this.ThisCluster,
-        Object.assign(this.params, { noprocessing: noprocess }),
-      )
-      this.items = data.List
-      this.pageCount = Math.ceil(data.Total / this.params.size)
-      this.params.page = data.CurrentPage
-      this.$router.replace({ query: { ...this.$route.query, ...this.params } })
-      this.nodeCPUUsage(true)
-      this.nodeMemoryUsage(true)
-      this.nodeLoad5(true)
-      this.nodePodCount(true)
+    mixins: [BaseFilter, BasePermission, BaseResource],
+    data: () => ({
+      items: [],
+      headers: [
+        { text: '主机名', value: 'name', align: 'start' },
+        { text: 'Ip', value: 'ip', align: 'start' },
+        { text: '状态', value: 'status', align: 'start', width: 150 },
+        { text: '角色', value: 'role', align: 'start' },
+        { text: '污点', value: 'taint', align: 'start' },
+        { text: '5分钟负载', value: 'load', align: 'start', width: 100 },
+        { text: 'CPU', value: 'cpu', align: 'start', width: 150 },
+        { text: '内存', value: 'memory', align: 'start', width: 150 },
+        { text: 'Pods', value: 'pod', align: 'start', width: 150 },
+        { text: '加入时间', value: 'createAt', align: 'start', width: 180 },
+        { text: '', value: 'action', align: 'center', width: 20 },
+      ],
+      pageCount: 0,
+      params: {
+        page: 1,
+        size: 10,
+      },
+      filters: [{ text: '节点名称', value: 'search', items: [] }],
+      interval: null,
+    }),
+    computed: {
+      ...mapState(['JWT', 'Plugins']),
+    },
+    mounted() {
+      if (this.JWT) {
+        this.$nextTick(() => {
+          if (this.ThisCluster === '') {
+            this.$store.commit('SET_SNACKBAR', {
+              text: `请创建或选择集群`,
+              color: 'warning',
+            });
+            return;
+          }
+          Object.assign(Object.assign(this.params, { noprocessing: false }), convertStrToNum(this.$route.query));
+          this.nodeList();
+        });
+      }
+    },
+    destroyed() {
       if (this.interval) {
-        clearInterval(this.interval)
+        clearInterval(this.interval);
       }
-      this.interval = setInterval(() => {
-        this.nodeList(true)
-      }, 1000 * 60)
     },
-    async nodeLoad5(noprocess = false) {
-      const data = await this.m_permission_vector(this.ThisCluster, {
-        query: NODE_LOAD_PROMQL,
-        noprocessing: noprocess,
-      })
-      data.forEach((d) => {
-        const index = this.items.findIndex((node) => {
-          return d.metric.host === node.metadata.name
-        })
-        if (index > -1) {
-          const item = this.items[index]
-          item.load = parseFloat(d?.value[1]).toFixed(1)
-          this.$set(this.items, index, item)
+    methods: {
+      async nodeList(noprocess = false) {
+        const data = await getNodeList(this.ThisCluster, Object.assign(this.params, { noprocessing: noprocess }));
+        this.items = data.List;
+        this.pageCount = Math.ceil(data.Total / this.params.size);
+        this.params.page = data.CurrentPage;
+        this.$router.replace({ query: { ...this.$route.query, ...this.params } });
+        this.nodeCPUUsage(true);
+        this.nodeMemoryUsage(true);
+        this.nodeLoad5(true);
+        this.nodePodCount(true);
+        if (this.interval) {
+          clearInterval(this.interval);
         }
-      })
-    },
-    async nodeCPUUsage(noprocess = false) {
-      const data = await this.m_permission_vector(this.ThisCluster, {
-        query: NODE_ALL_CPU_USAGE_PROMQL,
-        noprocessing: noprocess,
-      })
-      data.forEach((d) => {
-        const index = this.items.findIndex((node) => {
-          return d.metric.host === node.metadata.name
-        })
-        if (index > -1) {
-          const item = this.items[index]
-          item.cpu = (
-            (parseFloat(d?.value[1]) * item.status.capacity.cpu) /
-            100
-          ).toFixed(1)
-          item.cpuPercentage = parseFloat(d?.value[1]).toFixed(1)
-          this.$set(this.items, index, item)
-        }
-      })
-    },
-    async nodeMemoryUsage(noprocess = false) {
-      const data = await this.m_permission_vector(this.ThisCluster, {
-        query: NODE_ALL_MEMORY_USAGE_PROMQL,
-        noprocessing: noprocess,
-      })
-      data.forEach((d) => {
-        const index = this.items.findIndex((node) => {
-          return d.metric.host === node.metadata.name
-        })
-        if (index > -1) {
-          const item = this.items[index]
-          item.memory = (
-            (parseFloat(d?.value[1]) *
-              sizeOfStorage(item.status.capacity.memory, 'Ki')) /
-            1024 /
-            1024 /
-            100
-          ).toFixed(1)
-          item.memoryPercentage = parseFloat(d?.value[1]).toFixed(1)
-          this.$set(this.items, index, item)
-        }
-      })
-    },
-    async nodePodCount(noprocess = false) {
-      const data = await this.m_permission_vector(this.ThisCluster, {
-        query: NODE_POD_RUNNING_COUNT_PROMQL,
-        noprocessing: noprocess,
-      })
-      data.forEach((d) => {
-        const index = this.items.findIndex((node) => {
-          return d.metric.node === node.metadata.name
-        })
-        if (index > -1) {
-          const item = this.items[index]
-          item.podcount = parseInt(d?.value[1])
-          item.podPercentage = (
-            (parseInt(d?.value[1]) / item.status.capacity.pods) *
-            100
-          ).toFixed(1)
-          this.$set(this.items, index, item)
-        }
-      })
-    },
-    nodeDetail(item) {
-      this.$router.push({
-        name: 'node-detail',
-        params: Object.assign(this.$route.params, { name: item.metadata.name }),
-      })
-    },
-    stopSchedule(item) {
-      this.$store.commit('SET_CONFIRM', {
-        title: '停止调度节点',
-        content: {
-          text: `停止调度节点 ${item.metadata.name}`,
-          type: 'confirm',
-        },
-        param: { item },
-        doFunc: async (param) => {
-          await patchCordonNode(this.ThisCluster, param.item.metadata.name, {
-            Unschedulable: true,
-          })
-          this.nodeList()
-        },
-      })
-    },
-    allowSchedule(item) {
-      this.$store.commit('SET_CONFIRM', {
-        title: '允许调度节点',
-        content: {
-          text: `允许调度节点 ${item.metadata.name}`,
-          type: 'confirm',
-        },
-        param: { item },
-        doFunc: async (param) => {
-          await patchCordonNode(this.ThisCluster, param.item.metadata.name, {
-            Unschedulable: false,
-          })
-          this.nodeList()
-        },
-      })
-    },
-    getStatus(conditions) {
-      const tmpConditions = []
-      if (conditions && conditions.length === 0) return ['Unknown']
-      conditions.forEach((con) => {
-        if (con.type === 'Ready') {
-          if (con.status === 'True') {
-            tmpConditions.push(con.type)
-            return tmpConditions
-          } else if (con.status === 'Unknown') {
-            tmpConditions.push('Unknown')
+        this.interval = setInterval(() => {
+          this.nodeList(true);
+        }, 1000 * 60);
+      },
+      async nodeLoad5(noprocess = false) {
+        const data = await this.m_permission_vector(this.ThisCluster, {
+          query: NODE_LOAD_PROMQL,
+          noprocessing: noprocess,
+        });
+        data.forEach((d) => {
+          const index = this.items.findIndex((node) => {
+            return d.metric.host === node.metadata.name;
+          });
+          if (index > -1) {
+            const item = this.items[index];
+            item.load = parseFloat(d?.value[1]).toFixed(1);
+            this.$set(this.items, index, item);
+          }
+        });
+      },
+      async nodeCPUUsage(noprocess = false) {
+        const data = await this.m_permission_vector(this.ThisCluster, {
+          query: NODE_ALL_CPU_USAGE_PROMQL,
+          noprocessing: noprocess,
+        });
+        data.forEach((d) => {
+          const index = this.items.findIndex((node) => {
+            return d.metric.host === node.metadata.name;
+          });
+          if (index > -1) {
+            const item = this.items[index];
+            item.cpu = ((parseFloat(d?.value[1]) * item.status.capacity.cpu) / 100).toFixed(1);
+            item.cpuPercentage = parseFloat(d?.value[1]).toFixed(1);
+            this.$set(this.items, index, item);
+          }
+        });
+      },
+      async nodeMemoryUsage(noprocess = false) {
+        const data = await this.m_permission_vector(this.ThisCluster, {
+          query: NODE_ALL_MEMORY_USAGE_PROMQL,
+          noprocessing: noprocess,
+        });
+        data.forEach((d) => {
+          const index = this.items.findIndex((node) => {
+            return d.metric.host === node.metadata.name;
+          });
+          if (index > -1) {
+            const item = this.items[index];
+            item.memory = (
+              (parseFloat(d?.value[1]) * sizeOfStorage(item.status.capacity.memory, 'Ki')) /
+              1024 /
+              1024 /
+              100
+            ).toFixed(1);
+            item.memoryPercentage = parseFloat(d?.value[1]).toFixed(1);
+            this.$set(this.items, index, item);
+          }
+        });
+      },
+      async nodePodCount(noprocess = false) {
+        const data = await this.m_permission_vector(this.ThisCluster, {
+          query: NODE_POD_RUNNING_COUNT_PROMQL,
+          noprocessing: noprocess,
+        });
+        data.forEach((d) => {
+          const index = this.items.findIndex((node) => {
+            return d.metric.node === node.metadata.name;
+          });
+          if (index > -1) {
+            const item = this.items[index];
+            item.podcount = parseInt(d?.value[1]);
+            item.podPercentage = ((parseInt(d?.value[1]) / item.status.capacity.pods) * 100).toFixed(1);
+            this.$set(this.items, index, item);
+          }
+        });
+      },
+      nodeDetail(item) {
+        this.$router.push({
+          name: 'node-detail',
+          params: Object.assign(this.$route.params, { name: item.metadata.name }),
+        });
+      },
+      stopSchedule(item) {
+        this.$store.commit('SET_CONFIRM', {
+          title: '停止调度节点',
+          content: {
+            text: `停止调度节点 ${item.metadata.name}`,
+            type: 'confirm',
+          },
+          param: { item },
+          doFunc: async (param) => {
+            await patchCordonNode(this.ThisCluster, param.item.metadata.name, {
+              Unschedulable: true,
+            });
+            this.nodeList();
+          },
+        });
+      },
+      allowSchedule(item) {
+        this.$store.commit('SET_CONFIRM', {
+          title: '允许调度节点',
+          content: {
+            text: `允许调度节点 ${item.metadata.name}`,
+            type: 'confirm',
+          },
+          param: { item },
+          doFunc: async (param) => {
+            await patchCordonNode(this.ThisCluster, param.item.metadata.name, {
+              Unschedulable: false,
+            });
+            this.nodeList();
+          },
+        });
+      },
+      getStatus(conditions) {
+        const tmpConditions = [];
+        if (conditions && conditions.length === 0) return ['Unknown'];
+        conditions.forEach((con) => {
+          if (con.type === 'Ready') {
+            if (con.status === 'True') {
+              tmpConditions.push(con.type);
+              return tmpConditions;
+            } else if (con.status === 'Unknown') {
+              tmpConditions.push('Unknown');
+            } else {
+              tmpConditions.push('NotReady');
+            }
           } else {
-            tmpConditions.push('NotReady')
+            if (con.status === 'True') {
+              tmpConditions.push(con.type);
+            }
           }
-        } else {
-          if (con.status === 'True') {
-            tmpConditions.push(con.type)
+        });
+
+        if (tmpConditions.length > 1 && tmpConditions.indexOf('Ready') > -1) {
+          const index = tmpConditions.indexOf('Ready');
+          tmpConditions.splice(index, 1);
+        }
+
+        return tmpConditions;
+      },
+      getDistinctTaints(taints) {
+        if (taints === undefined) return [];
+        const t = [];
+        taints.forEach((taint) => {
+          if (t.indexOf(taint.effect) === -1) {
+            t.push(taint.effect);
           }
+        });
+        return t;
+      },
+      getLoadColor(item) {
+        const cpu = parseFloat(item.status.capacity.cpu);
+        if (item.load > cpu) {
+          return 'red lighten-3';
         }
-      })
-
-      if (tmpConditions.length > 1 && tmpConditions.indexOf('Ready') > -1) {
-        const index = tmpConditions.indexOf('Ready')
-        tmpConditions.splice(index, 1)
-      }
-
-      return tmpConditions
+        return 'green lighten-4';
+      },
+      gpuSchedule(item) {
+        this.$refs.gpuScheduleForm.init(item);
+        this.$refs.gpuScheduleForm.open();
+      },
+      sizeOfStorage: sizeOfStorage,
+      onPageSizeChange(size) {
+        this.params.page = 1;
+        this.params.size = size;
+      },
+      onPageIndexChange(page) {
+        this.params.page = page;
+      },
+      getColor(percentage) {
+        return percentage ? (percentage < 60 ? 'primary' : percentage < 80 ? 'warning' : 'red darken-1') : 'primary';
+      },
     },
-    getDistinctTaints(taints) {
-      if (taints === undefined) return []
-      const t = []
-      taints.forEach((taint) => {
-        if (t.indexOf(taint.effect) === -1) {
-          t.push(taint.effect)
-        }
-      })
-      return t
-    },
-    getLoadColor(item) {
-      const cpu = parseFloat(item.status.capacity.cpu)
-      if (item.load > cpu) {
-        return 'red lighten-3'
-      }
-      return 'green lighten-4'
-    },
-    gpuSchedule(item) {
-      this.$refs.gpuScheduleForm.init(item)
-      this.$refs.gpuScheduleForm.open()
-    },
-    sizeOfStorage: sizeOfStorage,
-    onPageSizeChange(size) {
-      this.params.page = 1
-      this.params.size = size
-    },
-    onPageIndexChange(page) {
-      this.params.page = page
-    },
-    getColor(percentage) {
-      return percentage
-        ? percentage < 60
-          ? 'primary'
-          : percentage < 80
-            ? 'warning'
-            : 'red darken-1'
-        : 'primary'
-    },
-  },
-}
+  };
 </script>

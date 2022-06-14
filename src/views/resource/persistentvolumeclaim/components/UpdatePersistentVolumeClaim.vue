@@ -1,28 +1,10 @@
 <template>
-  <BaseDialog
-    v-model="dialog"
-    :width="1000"
-    title="更新存储卷"
-    icon="mdi-database-plus"
-    @reset="reset"
-  >
+  <BaseDialog v-model="dialog" icon="mdi-database-plus" title="更新存储卷" :width="1000" @reset="reset">
     <template #content>
-      <component
-        :is="formComponent"
-        :ref="formComponent"
-        :item="item"
-        :edit="true"
-        title="PersistentVolumeClaim"
-      />
+      <component :is="formComponent" :ref="formComponent" :edit="true" :item="item" title="PersistentVolumeClaim" />
     </template>
     <template #action>
-      <v-btn
-        class="float-right"
-        color="primary"
-        text
-        :loading="Circular"
-        @click="updatePersistentVolumeClaim"
-      >
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updatePersistentVolumeClaim">
         确定
       </v-btn>
     </template>
@@ -31,15 +13,13 @@
         :key="switchKey"
         v-model="yaml"
         class="ma-0 pl-2 ml-2 mt-1"
-        style="margin-top: 8px !important;"
         color="white"
         hide-details
+        style="margin-top: 8px !important"
         @change="onYamlSwitchChange"
       >
         <template #label>
-          <span class="text-subject-1 white--text font-weight-medium">
-            YAML
-          </span>
+          <span class="text-subject-1 white--text font-weight-medium"> YAML </span>
         </template>
       </v-switch>
     </template>
@@ -47,118 +27,110 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import { patchUpdatePersistentVolumeClaim, getPersistentVolumeClaimDetail } from '@/api'
-import PersistentVolumeClaimBaseForm from './PersistentVolumeClaimBaseForm'
-import BaseResource from '@/mixins/resource'
-import PersistentVolumeClaimSchema from '@/views/resource/persistentvolumeclaim/mixins/schema'
-import { deepCopy, randomString } from '@/utils/helpers'
+  import { mapState } from 'vuex';
 
-export default {
-  name: 'UpdatePersistentVolumeClaim',
-  components: {
-    PersistentVolumeClaimBaseForm,
-  },
-  mixins: [BaseResource, PersistentVolumeClaimSchema],
-  data: () => ({
-    dialog: false,
-    yaml: false,
-    item: null,
-    formComponent: 'PersistentVolumeClaimBaseForm',
-    switchKey: '',
-  }),
-  computed: {
-    ...mapState(['Circular']),
-  },
-  methods: {
-    // eslint-disable-next-line vue/no-unused-properties
-    open() {
-      this.dialog = true
+  import PersistentVolumeClaimBaseForm from './PersistentVolumeClaimBaseForm';
+
+  import { patchUpdatePersistentVolumeClaim, getPersistentVolumeClaimDetail } from '@/api';
+  import BaseResource from '@/mixins/resource';
+  import { deepCopy, randomString } from '@/utils/helpers';
+  import PersistentVolumeClaimSchema from '@/views/resource/persistentvolumeclaim/mixins/schema';
+
+  export default {
+    name: 'UpdatePersistentVolumeClaim',
+    components: {
+      PersistentVolumeClaimBaseForm,
     },
-    async updatePersistentVolumeClaim() {
-      if (!this.$refs[this.formComponent]) {
-        return
-      }
-      if (!this.$refs[this.formComponent].checkSaved()) {
-        this.$store.commit('SET_SNACKBAR', {
-          text: '请保存数据',
-          color: 'warning',
-        })
-        return
-      }
-      if (this.$refs[this.formComponent].validate()) {
-        let data = ''
-        if (this.formComponent === 'BaseYamlForm') {
-          data = this.$refs[this.formComponent].getYaml()
-          data = this.$yamlload(data)
-          if (!this.m_resource_checkDataWithNS(data, this.item.metadata.namespace)) return
-          if (!this.m_resource_validateJsonSchema(this.schema, data)) {
-            return
+    mixins: [BaseResource, PersistentVolumeClaimSchema],
+    data: () => ({
+      dialog: false,
+      yaml: false,
+      item: null,
+      formComponent: 'PersistentVolumeClaimBaseForm',
+      switchKey: '',
+    }),
+    computed: {
+      ...mapState(['Circular']),
+    },
+    methods: {
+      // eslint-disable-next-line vue/no-unused-properties
+      open() {
+        this.dialog = true;
+      },
+      async updatePersistentVolumeClaim() {
+        if (!this.$refs[this.formComponent]) {
+          return;
+        }
+        if (!this.$refs[this.formComponent].checkSaved()) {
+          this.$store.commit('SET_SNACKBAR', {
+            text: '请保存数据',
+            color: 'warning',
+          });
+          return;
+        }
+        if (this.$refs[this.formComponent].validate()) {
+          let data = '';
+          if (this.formComponent === 'BaseYamlForm') {
+            data = this.$refs[this.formComponent].getYaml();
+            data = this.$yamlload(data);
+            if (!this.m_resource_checkDataWithNS(data, this.item.metadata.namespace)) return;
+            if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+              return;
+            }
+            data = this.m_resource_beautifyData(data);
+          } else if (this.formComponent === 'PersistentVolumeClaimBaseForm') {
+            data = this.$refs[this.formComponent].getData();
+            data = this.m_resource_beautifyData(data);
           }
-          data = this.m_resource_beautifyData(data)
-        } else if (this.formComponent === 'PersistentVolumeClaimBaseForm') {
-          data = this.$refs[this.formComponent].getData()
-          data = this.m_resource_beautifyData(data)
+          await patchUpdatePersistentVolumeClaim(
+            this.ThisCluster,
+            this.item.metadata.namespace,
+            this.item.metadata.name,
+            data,
+          );
+          this.reset();
+          this.$emit('refresh');
         }
-        await patchUpdatePersistentVolumeClaim(
+      },
+      // eslint-disable-next-line vue/no-unused-properties
+      async init(item) {
+        this.item = null;
+        const data = await getPersistentVolumeClaimDetail(
           this.ThisCluster,
-          this.item.metadata.namespace,
-          this.item.metadata.name,
-          data,
-        )
-        this.reset()
-        this.$emit('refresh')
-      }
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    async init(item) {
-      this.item = null
-      const data = await getPersistentVolumeClaimDetail(
-        this.ThisCluster,
-        item.metadata.namespace,
-        item.metadata.name,
-      )
-      this.item = deepCopy(data)
-    },
-    onYamlSwitchChange() {
-      if (this.yaml) {
-        const data = this.$refs[this.formComponent].getData()
-        this.m_resource_addNsToData(
-          data,
-          this.AdminViewport
-            ? this.item.metadata.namespace
-            : this.ThisNamespace,
-        )
-        this.formComponent = 'BaseYamlForm'
-        this.$nextTick(() => {
-          this.$refs[this.formComponent].setYaml(this.$yamldump(data))
-        })
-      } else {
-        const yaml = this.$refs[this.formComponent].getYaml()
-        const data = this.$yamlload(yaml)
-        this.m_resource_addNsToData(
-          data,
-          this.AdminViewport
-            ? this.item.metadata.namespace
-            : this.ThisNamespace,
-        )
-        if (!this.m_resource_validateJsonSchema(this.schema, data)) {
-          this.yaml = true
-          this.switchKey = randomString(6)
-          return
+          item.metadata.namespace,
+          item.metadata.name,
+        );
+        this.item = deepCopy(data);
+      },
+      onYamlSwitchChange() {
+        if (this.yaml) {
+          const data = this.$refs[this.formComponent].getData();
+          this.m_resource_addNsToData(data, this.AdminViewport ? this.item.metadata.namespace : this.ThisNamespace);
+          this.formComponent = 'BaseYamlForm';
+          this.$nextTick(() => {
+            this.$refs[this.formComponent].setYaml(this.$yamldump(data));
+          });
+        } else {
+          const yaml = this.$refs[this.formComponent].getYaml();
+          const data = this.$yamlload(yaml);
+          this.m_resource_addNsToData(data, this.AdminViewport ? this.item.metadata.namespace : this.ThisNamespace);
+          if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+            this.yaml = true;
+            this.switchKey = randomString(6);
+            return;
+          }
+          this.formComponent = 'PersistentVolumeClaimBaseForm';
+          this.$nextTick(() => {
+            this.$refs[this.formComponent].setData(data);
+          });
         }
-        this.formComponent = 'PersistentVolumeClaimBaseForm'
-        this.$nextTick(() => {
-          this.$refs[this.formComponent].setData(data)
-        })
-      }
+      },
+      reset() {
+        this.dialog = false;
+        this.$refs[this.formComponent].reset();
+        this.formComponent = 'PersistentVolumeClaimBaseForm';
+        this.yaml = false;
+      },
     },
-    reset() {
-      this.dialog = false
-      this.$refs[this.formComponent].reset()
-      this.formComponent = 'PersistentVolumeClaimBaseForm'
-      this.yaml = false
-    },
-  },
-}
+  };
 </script>
