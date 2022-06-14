@@ -50,7 +50,7 @@
       },
       noDataOffsetY: {
         type: Number,
-        default: () => -22,
+        default: () => -17,
       },
       title: {
         type: String,

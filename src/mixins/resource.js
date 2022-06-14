@@ -38,7 +38,7 @@ const resource = {
       const data = await getTenantResourceQuota(ClusterName, TenantName, {
         noprocessing: true,
       });
-      if (data.spec.hard && data.status.allocated) {
+      if (data.spec.hard) {
         const item = {
           Cpu: parseFloat(sizeOfCpu(data.spec.hard['limits.cpu'])),
           Memory: parseFloat(sizeOfStorage(data.spec.hard['limits.memory'])),

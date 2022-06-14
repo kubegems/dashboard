@@ -180,13 +180,6 @@
         if (this.m_permisson_resourceAllow(this.$route.query.env)) {
           items.push({ text: '', value: 'action', align: 'center', width: 20 });
         }
-        if (this.AdminViewport) {
-          items.splice(1, 0, {
-            text: '命名空间',
-            value: 'namespace',
-            align: 'start',
-          });
-        }
         items.push({ text: '', value: 'data-table-expand' });
         return items;
       },
