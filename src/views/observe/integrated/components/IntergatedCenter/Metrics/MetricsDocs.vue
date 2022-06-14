@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form" class="py-4" lazy-validation @submit.prevent>
+  <v-form ref="form" class="pb-4 metrics" lazy-validation @submit.prevent>
     <div class="markdown-body px-4" :style="{ height: `${height}px`, overflowY: 'auto' }" v-html="html" />
   </v-form>
 </template>
@@ -10,13 +10,7 @@
   import { mapState } from 'vuex';
 
   export default {
-    name: 'Trace',
-    props: {
-      v: {
-        type: String,
-        default: () => '',
-      },
-    },
+    name: 'MetricsDocs',
     data() {
       return {
         md: null,
@@ -30,23 +24,13 @@
         return parseInt((window.innerHeight - 208) / this.Scale);
       },
     },
-    watch: {
-      v: {
-        handler(newValue) {
-          if (newValue) {
-            this.content = this.unicodeToUtf8(this.loadFile(`/docs/trace/${newValue}.md`));
-            this.md = new MarkdownIt();
-            this.md.use(hljs);
-            this.html = this.md.render(this.content);
-          }
-        },
-        deep: true,
-        immediate: true,
-      },
-    },
     mounted() {
       this.$nextTick(() => {
         this.$refs.form?.resetValidation();
+        this.content = this.unicodeToUtf8(this.loadFile(`/docs/metrics/metrics.md`));
+        this.md = new MarkdownIt();
+        this.md.use(hljs);
+        this.html = this.md.render(this.content);
       });
     },
     methods: {
