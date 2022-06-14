@@ -135,8 +135,9 @@ export function getIconName(name) {
   if (name.indexOf('swift') > -1) return 'logos:swift';
   if (name.indexOf('kubevela') > -1) return 'img:kubevela.png';
   if (name.indexOf('gateway') > -1) return 'logos:nginx';
-  if (name.indexOf('observability') > -1) return 'img:kubegems.jpg';
+  if (name.indexOf('tracing') > -1) return 'img:jaeger.png';
   if (name.indexOf('日志采集') > -1) return 'img:kubegems.jpg';
+  if (name.indexOf('opentelemetry') > -1) return 'logos:opentelemetry';
   // if (name.indexOf('selfhosted') > -1) return 'bx:bxl-kubernetes'
   return 'logos:kubernetes';
 }
