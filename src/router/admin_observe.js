@@ -149,7 +149,7 @@ export const adminObserve = [
               icon: 'mdi-feature-search-outline',
               show: true,
               rootName: 'admin-observe',
-              dependencies: ['observability'],
+              dependencies: ['tracing'],
               tip: 'dash-trace',
             },
           },
