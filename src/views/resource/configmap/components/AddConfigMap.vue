@@ -78,11 +78,13 @@
             data = this.$refs[this.formComponent].getData();
             data = this.m_resource_beautifyData(data);
           }
-          const namespace = this.AdminViewport ? data?.metadata?.namespace : this.ThisNamespace;
+          const namespace = this.AdminViewport
+            ? data?.metadata?.namespace
+            : this.$route.query.namespace || this.ThisNamespace;
           if (!this.m_resource_checkDataWithNS(data, namespace)) {
             return;
           }
-          await postAddConfigMap(this.$route.query.Cluster || this.ThisCluster, namespace, data.metadata.name, data);
+          await postAddConfigMap(this.$route.query.cluster || this.ThisCluster, namespace, data.metadata.name, data);
           this.reset();
           this.$emit('refresh');
         }

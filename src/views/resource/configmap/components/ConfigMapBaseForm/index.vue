@@ -173,7 +173,7 @@
             if (this.AdminViewport) {
               this.m_select_namespaceSelectData(this.ThisCluster);
             } else {
-              this.obj.metadata.namespace = this.ThisNamespace;
+              this.obj.metadata.namespace = this.ThisNamespace || this.$route.query.namespace;
             }
           } else {
             this.obj.metadata.name = `${this.app.ApplicationName}`;

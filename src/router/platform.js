@@ -3,34 +3,8 @@ export const platform = [
     path: '/platform',
     name: 'platform',
     component: () => import('@/layouts/Layout'),
-    redirect: { name: 'base-setting' },
+    redirect: { name: 'tenant-list' },
     children: [
-      {
-        path: '',
-        meta: {
-          header: '基本配置',
-          title: '基本配置',
-          icon: 'mdi-brightness-7',
-        },
-        component: () => import('@/layouts/Container'),
-        redirect: { name: `base-setting` },
-        children: [
-          {
-            path: 'base',
-            name: `base-setting`,
-            component: () => import('@/views/setting/base/index'),
-            meta: {
-              requireAuth: true,
-              admin: true,
-              title: '基本配置',
-              icon: 'mdi-brightness-7',
-              show: true,
-              rootName: 'platform',
-              tip: 'base-setting',
-            },
-          },
-        ],
-      },
       {
         path: '',
         meta: {

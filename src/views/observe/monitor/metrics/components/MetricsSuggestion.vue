@@ -63,6 +63,8 @@
         handler(newValue) {
           if (newValue) {
             this.loadMetrics();
+          } else {
+            this.suggestShow = false;
           }
         },
         deep: true,

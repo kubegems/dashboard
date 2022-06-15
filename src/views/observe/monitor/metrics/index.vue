@@ -189,7 +189,9 @@
                       :cluster="
                         queryList[index].environment
                           ? queryList[index].environment.Cluster.ClusterName
-                          : queryList[index].cluster.text
+                          : queryList[index].cluster
+                          ? queryList[index].cluster.text
+                          : undefined
                       "
                       :expr="queryList[index].expr"
                       :index="index"

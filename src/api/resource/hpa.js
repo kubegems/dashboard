@@ -1,10 +1,8 @@
 import axios from 'axios';
 
-import { jsonParse } from '@/utils/helpers';
+import { getApiVersion } from '@/utils/helpers';
 
-const apiResources = jsonParse(window.localStorage.getItem('api-resources')) || {};
-let apiVersion = apiResources['horizontalpodautoscaler'] || 'autoscaling/v2beta2';
-apiVersion = apiVersion === 'v1' ? 'core/v1' : apiVersion;
+const apiVersion = getApiVersion('horizontalpodautoscaler', 'autoscaling/v2beta2');
 
 // hpa详情
 export const getHpaDetail = (clusterName, namespace, query = {}) =>

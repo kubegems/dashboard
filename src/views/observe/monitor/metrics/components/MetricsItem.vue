@@ -124,7 +124,7 @@
         };
       },
       setAlert() {
-        const { resource, rule, unit, cluster, namespace, environment, ql, expr } = this.data._$origin;
+        const { resource, rule, unit, cluster, environment, ql, expr } = this.data._$origin;
         const labelpairs = {};
         for (const key in this.labelpairs) {
           if (this.labelpairs[key] && this.labelpairs[key].length) {
@@ -152,11 +152,7 @@
             {
               name: '',
               for: '1m',
-              promqlGenerator: {
-                resource: resource._$value,
-                rule: rule._$value,
-                unit: unit?._$value,
-              },
+              promqlGenerator: null,
               labelpairs,
               alertLevels: [],
               receivers: [],
@@ -168,7 +164,7 @@
         this.$router.replace({
           query: {
             cluster: environment?.Cluster.ClusterName || cluster?.text,
-            namespace: namespace || SERVICE_MONITOR_NS,
+            namespace: environment?.Namespace || SERVICE_MONITOR_NS,
           },
         });
       },
