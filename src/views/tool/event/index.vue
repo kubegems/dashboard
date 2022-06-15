@@ -339,7 +339,7 @@
             // TODO 获取新的起始时间
           }
           this.items = [];
-          let query = `{container="gems-eventer"}|json|__error__=""`;
+          let query = `{container="event-exporter"}|json|__error__=""`;
           if (this.params.tenant) {
             await this.m_select_environmentSelectData(this.getTenantIDByName(this.params.tenant));
             const ns = [];
