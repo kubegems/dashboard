@@ -1,10 +1,8 @@
 import axios from 'axios';
 
-import { jsonParse } from '@/utils/helpers';
+import { getApiVersion } from '@/utils/helpers';
 
-const apiResources = jsonParse(window.localStorage.getItem('api-resources')) || {};
-let apiVersion = apiResources['certificate'] || 'cert-manager.io/v1';
-apiVersion = apiVersion === 'v1' ? 'core/v1' : apiVersion;
+const apiVersion = getApiVersion('certificate', 'cert-manager.io/v1');
 
 // 证书列表
 export const getCertificateList = (clusterName, namespace, query = {}) =>

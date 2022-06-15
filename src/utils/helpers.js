@@ -308,3 +308,10 @@ export function jsonParse(str) {
     return undefined;
   }
 }
+
+export function getApiVersion(kind, defaultVersion = 'core/v1') {
+  const apiResources = jsonParse(window.localStorage.getItem('api-resources')) || {};
+  let apiVersion = apiResources[kind] || defaultVersion;
+  apiVersion = apiVersion === 'v1' ? 'core/v1' : apiVersion;
+  return apiVersion;
+}

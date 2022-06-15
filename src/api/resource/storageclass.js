@@ -1,10 +1,8 @@
 import axios from 'axios';
 
-import { jsonParse } from '@/utils/helpers';
+import { getApiVersion } from '@/utils/helpers';
 
-const apiResources = jsonParse(window.localStorage.getItem('api-resources')) || {};
-let apiVersion = apiResources['storageclass'] || 'storage.k8s.io/v1';
-apiVersion = apiVersion === 'v1' ? 'core/v1' : apiVersion;
+const apiVersion = getApiVersion('storageclass', 'storage.k8s.io/v1');
 
 // 存储类型列表
 export const getStorageClassList = (clusterName, query = {}) =>

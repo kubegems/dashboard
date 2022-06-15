@@ -1,10 +1,8 @@
 import axios from 'axios';
 
-import { jsonParse } from '@/utils/helpers';
+import { getApiVersion } from '@/utils/helpers';
 
-const apiResources = jsonParse(window.localStorage.getItem('api-resources')) || {};
-let apiVersion = apiResources['serviceentry'] || 'networking.istio.io/v1beta1';
-apiVersion = apiVersion === 'v1' ? 'core/v1' : apiVersion;
+const apiVersion = getApiVersion('serviceentry', 'networking.istio.io/v1beta1');
 
 // 服务入口列表
 export const getIstioServiceEntryList = (clusterName, namespace, query = {}) =>

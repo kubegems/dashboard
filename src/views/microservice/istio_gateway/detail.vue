@@ -157,12 +157,11 @@
           param: { item },
           doFunc: async (param) => {
             if (param.item.Name.length > 0) {
-              await deleteIstioGatewayInstance(
-                this.VirtualSpace().ID,
-                this.EnvironmentFilter.ClusterID,
-                param.item.Name,
-              );
-              this.istioGatewayInstanceDetail();
+              await deleteIstioGatewayInstance(this.VirtualSpace().ID, this.$route.query.clusterid, param.item.Name);
+              this.$router.push({
+                name: 'istiogateway-list',
+                params: this.$route.params,
+              });
             }
           },
         });

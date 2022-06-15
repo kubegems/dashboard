@@ -1,11 +1,9 @@
 import axios from 'axios';
 
 import { TENANT_NETWORK_POLICY_GROUP } from '@/utils/gvk';
-import { jsonParse } from '@/utils/helpers';
+import { getApiVersion } from '@/utils/helpers';
 
-const apiResources = jsonParse(window.localStorage.getItem('api-resources')) || {};
-let apiVersion = apiResources['tenantnetworkpolicy'] || `${TENANT_NETWORK_POLICY_GROUP}/v1beta1`;
-apiVersion = apiVersion === 'v1' ? 'core/v1' : apiVersion;
+const apiVersion = getApiVersion('tenantnetworkpolicy', `${TENANT_NETWORK_POLICY_GROUP}/v1beta1`);
 
 // 网络隔离策略详情
 export const getNetworkPolicyDetail = (clusterName, name, query = {}) =>

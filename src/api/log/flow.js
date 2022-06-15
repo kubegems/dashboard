@@ -1,10 +1,8 @@
 import axios from 'axios';
 
-import { jsonParse } from '@/utils/helpers';
+import { getApiVersion } from '@/utils/helpers';
 
-const apiResources = jsonParse(window.localStorage.getItem('api-resources')) || {};
-let apiVersion = apiResources['flow'] || 'logging.banzaicloud.io/v1beta1';
-apiVersion = apiVersion === 'v1' ? 'core/v1' : apiVersion;
+const apiVersion = getApiVersion('flow', 'logging.banzaicloud.io/v1beta1');
 
 // 添加clusterFlow
 export const postClusterFlowData = (clusterName, namespace, name, body = {}) =>

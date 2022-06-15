@@ -25,11 +25,11 @@
                 text
                 @click.stop="addEnvironment(item)"
               >
-                <v-icon left small> mdi-cube </v-icon>
+                <v-icon left small> mdi-plus-box </v-icon>
                 创建环境
               </v-btn>
               <v-btn class="float-right" color="primary" depressed small text @click.stop="projectDetail(item)">
-                <v-icon left small> mdi-login-variant </v-icon>
+                <v-icon left small> mdi-login </v-icon>
                 进入项目
               </v-btn>
             </v-flex>
@@ -153,7 +153,7 @@
               <template #[`item.action`]="{ item }">
                 <span class="pa-2">
                   <v-btn color="primary" text x-small @click="environmentDetail(item)">
-                    <v-icon left small> mdi-login-variant </v-icon>
+                    <v-icon left small> mdi-login </v-icon>
                     进入环境
                   </v-btn>
                 </span>

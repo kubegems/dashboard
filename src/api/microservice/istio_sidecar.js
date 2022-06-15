@@ -1,10 +1,8 @@
 import axios from 'axios';
 
-import { jsonParse } from '@/utils/helpers';
+import { getApiVersion } from '@/utils/helpers';
 
-const apiResources = jsonParse(window.localStorage.getItem('api-resources')) || {};
-let apiVersion = apiResources['sidecar'] || 'networking.istio.io/v1beta1';
-apiVersion = apiVersion === 'v1' ? 'core/v1' : apiVersion;
+const apiVersion = getApiVersion('sidecar', 'networking.istio.io/v1beta1');
 
 // 边车列表
 export const getIstioSidecarList = (clusterName, namespace, query = {}) =>
