@@ -142,7 +142,6 @@
   import DefaultTraffic from './traffic/DefaultTraffic';
   import HeaderTraffic from './traffic/HeaderTraffic';
   import UriTraffic from './traffic/UriTraffic';
-
   import { postStrategyDeployEnvironmentApps, getAppResourceFileMetas } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';

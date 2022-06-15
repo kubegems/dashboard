@@ -29,7 +29,6 @@
 
   import OutputSchema from '../mixins/schema';
   import OutputBaseForm from './OutputBaseForm';
-
   import { postOutputData, postClusterOutputData } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { randomString } from '@/utils/helpers';

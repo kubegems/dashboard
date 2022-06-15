@@ -21,6 +21,17 @@ module.exports = defineConfig({
     'plugin:import/recommended',
   ],
   plugins: ['vue'],
+  settings: {
+    'import/resolver': {
+      alias: {
+        map: [
+          ['@', './src'],
+          ['vue-code-diff', './node_modules/vue-code-diff/dist/vue-code-diff.js'],
+        ],
+        extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.vue', '.scss', '.css'],
+      },
+    },
+  },
   rules: {
     'vue/script-setup-uses-vars': 'error',
     'no-unused-vars': [
@@ -176,8 +187,6 @@ module.exports = defineConfig({
         },
       },
     ],
-
-    'import/no-unresolved': ['off'],
 
     'vue/no-template-shadow': ['off'],
     'vue/multi-word-component-names': ['off'],

@@ -28,7 +28,6 @@
   import { mapState } from 'vuex';
 
   import ServiceBaseForm from './ServiceBaseForm';
-
   import { postAddService } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { randomString } from '@/utils/helpers';

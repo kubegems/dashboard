@@ -115,7 +115,6 @@
   import SecretMount from './volume_section/SecretMount';
   import VolumeClaimTemplateMount from './volume_section/VolumeClaimTemplateMount';
   import VolumeClaimTemplateItem from './VolumeClaimTemplateItem';
-
   import { getPersistentVolumeClaimDetail, getAppResourceFileMetas } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';

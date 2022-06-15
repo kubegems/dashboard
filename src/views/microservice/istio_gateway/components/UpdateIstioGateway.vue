@@ -15,7 +15,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import IstioGatewayBaseForm from './IstioGatewayBaseForm';
-
   import { putUpdateIstioGatewayInstance, getIstioGatewayInstanceDetail } from '@/api';
 
   export default {

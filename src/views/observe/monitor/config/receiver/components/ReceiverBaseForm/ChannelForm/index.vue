@@ -52,7 +52,6 @@
 
   import EmailForm from './EmailForm';
   import WebhookForm from './WebhookForm';
-
   import BaseResource from '@/mixins/resource';
   import { required } from '@/utils/rules';
 

@@ -13,7 +13,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import RegistryBaseForm from './RegistryBaseForm';
-
   import { postAddRegistry } from '@/api';
   import BaseResource from '@/mixins/resource';
 

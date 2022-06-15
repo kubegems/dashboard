@@ -41,7 +41,6 @@
 
   import ChannelForm from './ChannelForm';
   import ChannelItem from './ChannelItem';
-
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { k8sName, required } from '@/utils/rules';

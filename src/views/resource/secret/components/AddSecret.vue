@@ -28,7 +28,6 @@
   import { mapState } from 'vuex';
 
   import SecretBaseForm from './SecretBaseForm';
-
   import { postAddSecret } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { randomString } from '@/utils/helpers';

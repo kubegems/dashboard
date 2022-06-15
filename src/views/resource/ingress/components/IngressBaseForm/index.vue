@@ -134,7 +134,6 @@
 
   import IngressRuleForm from './IngressRuleForm';
   import IngressRuleItem from './IngressRuleItem';
-
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';

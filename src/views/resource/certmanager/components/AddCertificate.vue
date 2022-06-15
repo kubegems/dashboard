@@ -28,7 +28,6 @@
   import { mapState } from 'vuex';
 
   import CertificateBaseForm from './CertificateBaseForm';
-
   import { postAddCertificate } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { randomString } from '@/utils/helpers';

@@ -15,7 +15,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import IstioGatewayBaseForm from './IstioGatewayBaseForm';
-
   import { postAddIstioGatewayInstance } from '@/api';
   import BaseResource from '@/mixins/resource';
 

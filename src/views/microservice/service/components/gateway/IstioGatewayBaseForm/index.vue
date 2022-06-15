@@ -56,7 +56,6 @@
 
   import ServerForm from './ServerForm';
   import ServerItem from './ServerItem';
-
   import { getIstioGatewayInstanceList } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';

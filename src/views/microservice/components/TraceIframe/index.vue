@@ -31,7 +31,6 @@
   import { mapState } from 'vuex';
 
   import CountLimit from './CountLimit';
-
   import { randomString } from '@/utils/helpers';
 
   export default {

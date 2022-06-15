@@ -102,7 +102,6 @@
   import IngressList from './components/IngressList';
   import ResourceInfo from './components/ResourceInfo';
   import UpdateGateway from './components/UpdateGateway';
-
   import { getGatewayDetail, deleteGateway } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

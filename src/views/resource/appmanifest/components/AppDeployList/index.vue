@@ -62,7 +62,6 @@
 
 <script>
   import AppDeployImageTrace from './AppDeployImageTrace';
-
   import { getDeployEnvironmentAppsStatus } from '@/api';
   import BaseResource from '@/mixins/resource';
 

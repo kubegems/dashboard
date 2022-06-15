@@ -13,7 +13,6 @@
   import { mapState } from 'vuex';
 
   import ReceiverBaseForm from './ReceiverBaseForm';
-
   import { putUpdateReceiver } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';

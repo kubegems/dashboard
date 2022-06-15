@@ -123,7 +123,6 @@
   import TcpItem from './TcpItem';
   import TLSForm from './TLSForm';
   import TLSItem from './TLSItem';
-
   import { getIstioGatewayList } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';

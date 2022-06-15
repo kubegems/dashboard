@@ -16,7 +16,7 @@
           font-weight: bold;
           font-size: 1.1rem !important;
           margin-left: 140px;
-        "
+"
       >
         {{ smallTitle }}
       </div>
@@ -30,7 +30,7 @@
       <v-icon class="header-icon-line-height" left small> fas fa-shopping-bag </v-icon>
       <span
         class="header-span-line-height"
-        style="font-family: Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important; font-weight: bold"
+        style="font-family: Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important; font-weight: bold;"
       >
         应用商店
       </span>
@@ -40,7 +40,7 @@
       <v-icon class="header-icon-line-height" left small> fas fa-th </v-icon>
       <span
         class="header-span-line-height"
-        style="font-family: Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important; font-weight: bold"
+        style="font-family: Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important; font-weight: bold;"
       >
         工作台
       </span>
@@ -56,7 +56,6 @@
 
   import Message from './Message';
   import User from './User';
-
   import BasePermission from '@/mixins/permission';
   import BaseSelect from '@/mixins/select';
 

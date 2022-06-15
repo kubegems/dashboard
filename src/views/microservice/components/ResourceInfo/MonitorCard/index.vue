@@ -140,7 +140,6 @@
   import { mapState } from 'vuex';
 
   import WorkloadInfo from './WorkloadInfo';
-
   import BasePermission from '@/mixins/permission';
   import {
     ISTIO_WORKLOAD_QPS_PROMQL,

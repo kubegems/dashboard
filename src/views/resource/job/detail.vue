@@ -66,7 +66,6 @@
 
   import ResourceInfo from './components/ResourceInfo';
   import UpdateJob from './components/UpdateJob';
-
   import { getJobDetail, deleteJob } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

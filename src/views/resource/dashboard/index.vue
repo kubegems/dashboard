@@ -41,7 +41,6 @@
   import ManageUser from './components/ManageUser';
   import ProjectList from './components/ProjectList';
   import ResourceList from './components/ResourceList';
-
   import { getTenantStatistics } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

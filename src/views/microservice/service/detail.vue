@@ -113,7 +113,6 @@
   import TcpTrafficShifting from './components/TcpTrafficShifting';
   import TrafficShifting from './components/TrafficShifting';
   import VSControlInfo from './components/VSControlInfo';
-
   import { getMicroServiceDetail, postResetService } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

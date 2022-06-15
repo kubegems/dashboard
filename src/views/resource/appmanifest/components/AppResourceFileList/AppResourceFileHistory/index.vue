@@ -52,7 +52,6 @@
 
 <script>
   import AppResourceFileDiff from './AppResourceFileDiff';
-
   import { getAppResourceFileHistorys, postRollbackAppResourceFile } from '@/api';
   import BaseResource from '@/mixins/resource';
 

@@ -28,7 +28,6 @@
   import { mapState } from 'vuex';
 
   import IssuerBaseForm from './IssuerBaseForm';
-
   import { patchUpdateIssuer, getIssuerDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';

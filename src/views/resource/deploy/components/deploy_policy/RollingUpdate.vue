@@ -43,7 +43,6 @@
   import { mapState } from 'vuex';
 
   import BaseDeployInfoForm from './base/BaseDeployInfoForm';
-
   import { postStrategyDeployEnvironmentApps } from '@/api';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';

@@ -107,7 +107,6 @@
   import { mapState } from 'vuex';
 
   import AppStoreCard from './components/AppStoreCard';
-
   import { getAppStoreList, getRepositoryList } from '@/api';
 
   export default {

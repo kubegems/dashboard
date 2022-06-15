@@ -13,7 +13,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import EnvironmentBaseForm from './EnvironmentBaseForm';
-
   import { putUpdateEnvironment, getEnvironmentDetail } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';

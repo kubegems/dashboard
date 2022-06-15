@@ -274,7 +274,6 @@
 
 <script>
   import StringMatchForm from './StringMatchForm';
-
   import { deepCopy } from '@/utils/helpers';
   import LabelForm from '@/views/resource/components/label/LabelForm';
   import LabelItem from '@/views/resource/components/label/LabelItem';

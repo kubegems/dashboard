@@ -36,7 +36,6 @@
   import { mapState } from 'vuex';
 
   import VirtualSpaceBaseForm from './VirtualSpaceBaseForm';
-
   import { getVirtualSpaceDetail, putUpdateVirtualSpace } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';

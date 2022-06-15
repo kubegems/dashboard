@@ -54,7 +54,6 @@
   import AppResourceFileList from './components/AppResourceFileList';
   import ResourceInfo from './components/ResourceInfo';
   import UpdateApp from './components/UpdateApp';
-
   import { deleteManifest, getManifestDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
 

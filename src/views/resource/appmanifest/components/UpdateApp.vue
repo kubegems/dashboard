@@ -13,7 +13,6 @@
   import { mapState } from 'vuex';
 
   import AppBaseForm from './AppBaseForm';
-
   import { getManifestDetail, putUpdateManifest } from '@/api';
 
   export default {

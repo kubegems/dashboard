@@ -29,7 +29,6 @@
 
   import FlowSchema from '../mixins/schema';
   import FlowBaseForm from './FlowBaseForm';
-
   import { patchFlowData, patchClusterFlowData, getFlowDetailData, getClusterFlowDetailData } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { randomString, deepCopy } from '@/utils/helpers';

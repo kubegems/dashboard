@@ -40,7 +40,6 @@
   import { mapState } from 'vuex';
 
   import AppInfo from './AppInfo';
-
   import BaseSelect from '@/mixins/select';
 
   export default {

@@ -135,7 +135,6 @@
   import HostPath from './HostPath';
   import PersistentVolumeClaim from './PersistentVolumeClaim';
   import Secret from './Secret';
-
   import BaseResource from '@/mixins/resource';
 
   export default {

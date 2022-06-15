@@ -65,7 +65,6 @@
   import { mapState } from 'vuex';
 
   import AppResourceBaseForm from './AppResourceBaseForm';
-
   import { patchAppResourceFile } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';

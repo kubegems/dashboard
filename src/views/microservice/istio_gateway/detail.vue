@@ -96,7 +96,6 @@
   import GatewayPodList from './components/GatewayPodList';
   import UpdateIstioGateway from './components/UpdateIstioGateway';
   import VirtualServiceList from './components/VirtualServiceList';
-
   import { getIstioGatewayInstanceDetail, deleteIstioGatewayInstance } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

@@ -105,7 +105,6 @@
 
   import AddVirtualSpace from './components/AddVirtualSpace';
   import UpdateVirtualSpace from './components/UpdateVirtualSpace';
-
   import { getVirtualSpaceList, deleteVirtualSpace, patchSetVirtualSpaceStatus } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';

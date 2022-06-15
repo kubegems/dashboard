@@ -8,7 +8,6 @@
   import ContaninerImage from './ContainerImage';
   import CronJobBaseInfo from './CronJobBaseInfo';
   import StorageMount from './StorageMount';
-
   import ScheduleSelector from '@/views/resource/workload/components/WorkloadBaseForm/ScheduleSelector';
 
   export default {

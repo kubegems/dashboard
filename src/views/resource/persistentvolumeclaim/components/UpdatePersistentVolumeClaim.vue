@@ -30,7 +30,6 @@
   import { mapState } from 'vuex';
 
   import PersistentVolumeClaimBaseForm from './PersistentVolumeClaimBaseForm';
-
   import { patchUpdatePersistentVolumeClaim, getPersistentVolumeClaimDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';

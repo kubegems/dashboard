@@ -13,7 +13,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import RequestRoutingBaseForm from './RequestRoutingBaseForm';
-
   import { postAddRequestRouting } from '@/api';
   import BaseResource from '@/mixins/resource';
 

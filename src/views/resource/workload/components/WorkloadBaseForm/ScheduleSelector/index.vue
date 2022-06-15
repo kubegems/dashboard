@@ -91,7 +91,6 @@
   import DNSConfigItem from './DNSConfigItem';
   import SelectorForm from './SelectorForm';
   import SelectorItem from './SelectorItem';
-
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
   import AnnotationForm from '@/views/resource/components/annotation/AnnotationForm';

@@ -51,7 +51,6 @@
   import ResourceApply from './base/ResourceApply';
   import ResourceChart from './base/ResourceChart';
   import ResourceQuota from './base/ResourceQuota';
-
   import { putUpdateEnvironment } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';

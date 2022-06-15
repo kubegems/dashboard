@@ -187,7 +187,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import Pagination from '../Pagination';
-
   import { getProjectList, getProjectEnvironmentList, getProjectEnvironmentQuotaList } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

@@ -34,7 +34,6 @@
 
   import ReceiverForm from './ReceiverForm';
   import ReceiverItem from './ReceiverItem';
-
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';

@@ -28,7 +28,6 @@
   import { mapState } from 'vuex';
 
   import ConfigMapBaseForm from './ConfigMapBaseForm';
-
   import { patchUpdateConfigMap, getConfigMapDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';

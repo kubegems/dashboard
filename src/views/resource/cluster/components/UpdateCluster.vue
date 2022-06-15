@@ -42,7 +42,6 @@
   import { mapState } from 'vuex';
 
   import ClusterBaseForm from './ClusterBaseForm';
-
   import { putUpdateCluster, getClusterDetail } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BaseSelect from '@/mixins/select';

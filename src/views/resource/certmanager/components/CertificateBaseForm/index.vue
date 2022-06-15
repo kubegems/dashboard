@@ -111,7 +111,6 @@
 
   import DnsNameForm from './DnsNameForm';
   import DnsNameItem from './DnsNameItem';
-
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';

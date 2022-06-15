@@ -13,7 +13,6 @@
   import { mapState } from 'vuex';
 
   import DashboardBaseForm from './DashboardBaseForm';
-
   import { postAddMonitorDashboard } from '@/api';
 
   export default {

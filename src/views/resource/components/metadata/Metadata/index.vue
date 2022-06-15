@@ -71,7 +71,6 @@
 
   import AddAnnotation from './AddAnnotation';
   import AddLabel from './AddLabel';
-
   import { patchMetadataNode } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';

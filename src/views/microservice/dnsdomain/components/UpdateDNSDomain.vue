@@ -13,7 +13,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import DNSDomainBaseForm from './DNSDomainBaseForm';
-
   import { putUpdateDNSDomain, getDnsDomainDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
 

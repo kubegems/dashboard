@@ -24,7 +24,6 @@
 
 <script>
   import LogTable from './LogTable';
-
   import { getLogContext } from '@/api';
 
   export default {

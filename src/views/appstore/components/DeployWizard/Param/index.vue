@@ -95,7 +95,6 @@
   import SingleSelectParam from './SingleSelectParam';
   import TextAreaParam from './TextAreaParam';
   import TextFieldParam from './TextFieldParam';
-
   import { YamlMixin } from '@/views/appstore/mixins/yaml';
 
   export default {

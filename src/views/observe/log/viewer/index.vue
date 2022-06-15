@@ -155,7 +155,6 @@
   import LogSaveSnapshot from './components/LogSaveSnapshot';
   import LogSnapshot from './components/LogSnapshot';
   import LogTable from './components/LogTable';
-
   import { getLogQueryRange, getLogExport, postAddLogQueryHistory } from '@/api';
 
   export default {

@@ -21,7 +21,6 @@
   import { mapState } from 'vuex';
 
   import Param from './Param';
-
   import { getAppStoreDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';

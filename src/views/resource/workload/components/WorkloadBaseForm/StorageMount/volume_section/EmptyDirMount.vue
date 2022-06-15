@@ -29,7 +29,6 @@
 <script>
   import VolumeMount from './VolumeMount';
   import VolumeMountForInitContainer from './VolumeMountForInitContainer';
-
   import BaseResource from '@/mixins/resource';
   import { required } from '@/utils/rules';
 

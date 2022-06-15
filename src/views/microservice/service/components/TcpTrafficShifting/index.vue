@@ -13,7 +13,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import TcpTrafficShiftingBaseForm from './TcpTrafficShiftingBaseForm';
-
   import { postAddTcpTrafficShifting } from '@/api';
   import BaseResource from '@/mixins/resource';
 

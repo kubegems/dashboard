@@ -78,6 +78,7 @@
     "eslint-define-config": "^1.5.1",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-import": "^2.26.0",
+    "eslint-import-resolver-alias": "^1.1.2",
     "husky": "^7.0.2",
     "lint-staged": "^11.0.0",
     "right-pad": "^1.0.1",

@@ -26,7 +26,6 @@
   import { mapState } from 'vuex';
 
   import TemplateBaseForm from './TemplateBaseForm';
-
   import { postPrometheusTemplate } from '@/api';
 
   export default {

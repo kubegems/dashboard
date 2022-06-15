@@ -87,7 +87,6 @@
 <script>
   import DNSOptionForm from './DNSOptionForm';
   import DNSOptionItem from './DNSOptionItem';
-
   import { deepCopy } from '@/utils/helpers';
 
   export default {

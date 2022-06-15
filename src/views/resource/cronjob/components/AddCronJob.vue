@@ -55,7 +55,6 @@
   import { mapState } from 'vuex';
 
   import CronjobBaseForm from './CronjobBaseForm';
-
   import { postAddCronJob } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { randomString } from '@/utils/helpers';

@@ -85,7 +85,6 @@
   import { mapState } from 'vuex';
 
   import ConfigMapDataItem from './ConfigMapDataItem';
-
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';

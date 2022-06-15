@@ -28,7 +28,6 @@
   import { mapState } from 'vuex';
 
   import CertificateBaseForm from './CertificateBaseForm';
-
   import { patchUpdateCertificate, getCertificateDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';

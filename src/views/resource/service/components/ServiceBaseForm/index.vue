@@ -193,7 +193,6 @@
 
   import ServicePortForm from './ServicePortForm';
   import ServicePortItem from './ServicePortItem';
-
   import { getAppResourceFileMetas } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';

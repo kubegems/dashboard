@@ -116,7 +116,6 @@
 
   import AddFlow from './components/AddFlow';
   import UpdateFlow from './components/UpdateFlow';
-
   import { getClusterFlowsData, getFlowsData, deleteFlowData, deleteClusterFlowData } from '@/api';
   import BasePermission from '@/mixins/permission';
 

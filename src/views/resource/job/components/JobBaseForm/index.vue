@@ -6,7 +6,6 @@
 
 <script>
   import JobBaseInfo from './JobBaseInfo';
-
   import ContaninerImage from '@/views/resource/workload/components/WorkloadBaseForm/ContainerImage';
   import ScheduleSelector from '@/views/resource/workload/components/WorkloadBaseForm/ScheduleSelector';
   import StorageMount from '@/views/resource/workload/components/WorkloadBaseForm/StorageMount';

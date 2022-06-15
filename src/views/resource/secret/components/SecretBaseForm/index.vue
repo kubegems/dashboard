@@ -105,7 +105,6 @@
   import SecretDataItem from './SecretDataItem';
   import SecretDockerconfigForm from './SecretDockerconfigForm';
   import SecretTlsForm from './SecretTlsForm';
-
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';

@@ -66,7 +66,6 @@
   import Elasticsearch from './Elasticsearch';
   import Kafka from './Kafka';
   import Loki from './Loki';
-
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 

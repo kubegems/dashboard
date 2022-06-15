@@ -61,7 +61,6 @@
   import ContainerSecurityContext from './container_section/ContainerSecurityContext';
   import ContainerImageItem from './ContainerImageItem';
   import ContainerImageSelect from './ContainerImageSelect';
-
   import { deepCopy } from '@/utils/helpers';
 
   export default {

@@ -96,7 +96,6 @@
 
   import Pagination from '../Pagination';
   import ScaleResource from './ScaleResource';
-
   import { getTenantResourceQuotaList, getTenantResourceQuota } from '@/api';
   import BasePermission from '@/mixins/permission';
   import { sizeOfCpu, sizeOfStorage } from '@/utils/helpers';

@@ -63,7 +63,6 @@
   import { mapState } from 'vuex';
 
   import JobBaseForm from './JobBaseForm';
-
   import { patchUpdateJob, getJobDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';

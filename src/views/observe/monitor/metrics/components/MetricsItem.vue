@@ -44,7 +44,6 @@
   import { mapState } from 'vuex';
 
   import MetricsLineChart from './MetricsLineChart';
-
   import { debounce } from '@/utils/helpers';
   import { SERVICE_MONITOR_NS } from '@/utils/namespace';
 

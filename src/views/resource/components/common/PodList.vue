@@ -154,7 +154,6 @@
   import ContainerLog from './ContainerLog';
   import EventTip from './EventTip';
   import Terminal from './Terminal';
-
   import { getPodList } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

@@ -20,7 +20,6 @@
 
   import EnvironmentItem from './EnvironmentItem';
   import LinkEnvironmentForm from './LinkEnvironmentForm';
-
   import { postAddVirtualSpaceEnvironment, deleteVirtualSpaceEnvironment } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';

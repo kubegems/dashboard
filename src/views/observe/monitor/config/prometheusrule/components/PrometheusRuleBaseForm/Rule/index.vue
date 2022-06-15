@@ -186,7 +186,6 @@
   import AlertLevelForm from './AlertLevelForm';
   import AlertLevelItem from './AlertLevelItem';
   import RuleLabelpairs from './RuleLabelpairs';
-
   import { getSystemConfigData, getMyConfigData, getMetricsLabels } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';

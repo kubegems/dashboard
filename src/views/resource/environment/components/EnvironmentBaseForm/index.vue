@@ -231,7 +231,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import AddNamespace from './AddNamespace';
-
   import { getEnvironmentUserList, deleteEnvironmentUser, postAddEnvironmentUser, getProjectUserList } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';

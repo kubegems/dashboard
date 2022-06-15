@@ -58,7 +58,6 @@
 
   import EndpointForm from './EndpointForm';
   import EndpointItem from './EndpointItem';
-
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { k8sName, required } from '@/utils/rules';

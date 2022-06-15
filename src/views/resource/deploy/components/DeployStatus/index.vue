@@ -8,7 +8,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import DeployTopology from './DeployTopology';
-
   import BaseResource from '@/mixins/resource';
 
   export default {

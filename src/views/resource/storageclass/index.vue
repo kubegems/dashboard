@@ -75,7 +75,6 @@
 
   import AddStorageClass from './components/AddStorageClass';
   import UpdateStorageClass from './components/UpdateStorageClass';
-
   import { getStorageClassList, deleteStorageClass } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';

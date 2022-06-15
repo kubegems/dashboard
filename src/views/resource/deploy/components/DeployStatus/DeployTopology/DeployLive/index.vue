@@ -75,7 +75,6 @@
   import DeployLiveYaml from './DeployLiveYaml';
   import DeployLog from './DeployLog';
   import DeployResult from './DeployResult';
-
   import { getPodDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';

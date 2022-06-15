@@ -25,7 +25,6 @@
 
 <script>
   import AppBaseInfo from './AppBaseInfo';
-
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import ConfigMapBaseForm from '@/views/resource/configmap/components/ConfigMapBaseForm';

@@ -82,7 +82,6 @@
   import ResourceInfo from './components/ResourceInfo';
   import ScalePersistentVolumeClaim from './components/ScalePersistentVolumeClaim';
   import UpdatePersistentVolumeClaim from './components/UpdatePersistentVolumeClaim';
-
   import { getPersistentVolumeClaimDetail, deletePersistentVolumeClaim, postAddVolumeSnapshot } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

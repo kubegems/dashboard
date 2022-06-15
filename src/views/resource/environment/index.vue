@@ -153,7 +153,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import UpdateEnvironment from './components/UpdateEnvironment';
-
   import { deleteEnvironment, getEnvironmentTenantResourceQuota } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';

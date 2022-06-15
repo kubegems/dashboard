@@ -124,7 +124,6 @@
 
   import AddSidecar from './components/AddSidecar';
   import UpdateSidecar from './components/UpdateSidecar';
-
   import { getIstioSidecarList, deleteIstioSidecar } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';

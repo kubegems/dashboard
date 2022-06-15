@@ -8,7 +8,6 @@ import {
   getProjectSelectData,
   getEnvironmentSelectData,
 } from './server_data';
-
 import { getClusterPluginsList, getRESTMapping } from '@/api';
 import router from '@/router';
 import { getCookie, delAllCookie } from '@/utils/cookie';

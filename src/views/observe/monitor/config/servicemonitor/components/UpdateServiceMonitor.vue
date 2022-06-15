@@ -29,7 +29,6 @@
 
   import ServiceMonitorSchema from '../mixins/schema';
   import ServiceMonitorBaseForm from './ServiceMonitorBaseForm';
-
   import { patchUpdateServiceMonitor, getServiceMonitorDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';

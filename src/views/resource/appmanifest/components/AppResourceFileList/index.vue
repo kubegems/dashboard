@@ -97,7 +97,6 @@
   import AddResourceFile from './AddResourceFile';
   import AppResourceFileHistory from './AppResourceFileHistory';
   import UpdateResourceFile from './UpdateResourceFile';
-
   import { getAppResourceFiles, deleteAppResourceFile, postSyncAppResource, postRefreshAppResource } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

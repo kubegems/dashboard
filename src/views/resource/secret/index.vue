@@ -126,7 +126,6 @@
   import AddSecret from './components/AddSecret';
   import Tips from './components/Tips';
   import UpdateSecret from './components/UpdateSecret';
-
   import { getSecretList, deleteSecret } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';

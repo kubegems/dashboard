@@ -63,7 +63,6 @@
   import { mapState } from 'vuex';
 
   import WorkloadBaseForm from './WorkloadBaseForm';
-
   import {
     patchUpdateDaemonSet,
     patchUpdateDeployment,

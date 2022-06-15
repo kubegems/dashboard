@@ -13,7 +13,6 @@
   import { mapState } from 'vuex';
 
   import GraphBaseForm from './GraphBaseForm';
-
   import { putUpdateMonitorDashboard } from '@/api';
   import { deepCopy } from '@/utils/helpers';
 

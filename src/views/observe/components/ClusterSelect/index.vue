@@ -36,7 +36,6 @@
   import { mapState, mapGetters } from 'vuex';
 
   import ClusterSelectItem from './Item';
-
   import { clusterSelectData, tenantClusterSelectData } from '@/api';
   import { deepCopy } from '@/utils/helpers';
 

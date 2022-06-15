@@ -41,7 +41,6 @@
   import Metrics from './Metrics';
   import MiddlewareMetrics from './MiddlewareMetrics';
   import Trace from './Trace';
-
   import { deepCopy } from '@/utils/helpers';
 
   export default {

@@ -101,7 +101,6 @@
   import { mapState, mapGetters } from 'vuex';
 
   import ProjectEnvSelect from './ProjectEnvSelect';
-
   import {
     getClusterOutputsData,
     getOutputsData,

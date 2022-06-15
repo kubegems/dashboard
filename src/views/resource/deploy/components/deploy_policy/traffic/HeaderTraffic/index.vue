@@ -44,7 +44,6 @@
 
 <script>
   import StringMatchForm from './StringMatchForm';
-
   import { deepCopy } from '@/utils/helpers';
   import { positiveInteger } from '@/utils/rules';
 

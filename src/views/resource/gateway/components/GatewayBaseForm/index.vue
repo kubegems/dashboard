@@ -128,7 +128,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import GatewayDataItem from './GatewayDataItem';
-
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';

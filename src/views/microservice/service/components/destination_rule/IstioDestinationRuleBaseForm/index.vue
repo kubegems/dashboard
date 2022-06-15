@@ -95,7 +95,6 @@
   import SubnetTrafficPolicyItem from './SubnetTrafficPolicyItem';
   import TrafficPolicyForm from './TrafficPolicyForm';
   import TrafficPolicyItem from './TrafficPolicyItem';
-
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
   import { k8sName, required } from '@/utils/rules';

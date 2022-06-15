@@ -27,7 +27,6 @@
 
   import EventPieChart from './EventPieChart';
   import MessageBarChart from './MessageBarChart';
-
   import { getEventListFromLoki } from '@/api';
 
   export default {

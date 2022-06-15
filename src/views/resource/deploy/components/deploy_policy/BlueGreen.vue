@@ -129,7 +129,6 @@
   import AnalysisTemplateForm from './analysis_template/AnalysisTemplateForm';
   import AnalysisTemplateItem from './analysis_template/AnalysisTemplateItem';
   import BaseDeployInfoForm from './base/BaseDeployInfoForm';
-
   import { postStrategyDeployEnvironmentApps, getAppResourceFileMetas } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';

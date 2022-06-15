@@ -28,7 +28,6 @@
   import { mapState } from 'vuex';
 
   import SecretBaseForm from './SecretBaseForm';
-
   import { patchUpdateSecret, getSecretDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';

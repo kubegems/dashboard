@@ -13,7 +13,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import LinkAppBaseForm from './LinkAppBaseForm';
-
   import { postAddApp } from '@/api';
 
   export default {

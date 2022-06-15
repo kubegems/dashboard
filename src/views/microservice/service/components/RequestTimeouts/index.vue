@@ -13,7 +13,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import RequestTimeoutsBaseForm from './RequestTimeoutsBaseForm';
-
   import { postAddRequestTimeouts } from '@/api';
   import BaseResource from '@/mixins/resource';
 

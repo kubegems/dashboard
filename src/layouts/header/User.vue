@@ -126,7 +126,6 @@
 
   import About from './components/About';
   import TenantSelect from './components/TenantSelect';
-
   import BasePermission from '@/mixins/permission';
   import BaseSelect from '@/mixins/select';
 
