@@ -192,7 +192,6 @@
           v.value = v.metadata.name;
         });
       },
-      // eslint-disable-next-line vue/no-unused-properties
       generateData() {
         if (this.$refs.form.validate(true)) {
           const data = this.$refs.volumeMount.generateData();

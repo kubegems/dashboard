@@ -112,11 +112,9 @@
       if (this.timeinterval) clearInterval(this.timeinterval);
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.panel = true;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       init(status) {
         this.status = status;
       },

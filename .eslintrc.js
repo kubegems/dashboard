@@ -45,7 +45,7 @@ module.exports = defineConfig({
     'vue/no-unused-properties': [
       'error',
       {
-        groups: ['props', 'data', 'computed', 'setup', 'methods'],
+        groups: ['props', 'data', 'computed', 'setup'],
         deepData: false,
         ignorePublicMembers: false,
       },

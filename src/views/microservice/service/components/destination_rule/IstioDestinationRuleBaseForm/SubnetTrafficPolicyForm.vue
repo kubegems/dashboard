@@ -92,7 +92,6 @@
       };
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       init(data) {
         this.obj = deepCopy(data);
         this.expandCard();

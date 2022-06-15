@@ -119,7 +119,6 @@
       }
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       show() {
         this.visible = true;
         this.m_select_environmentSelectData();
@@ -166,7 +165,6 @@
           color: 'success',
         });
       },
-      // eslint-disable-next-line vue/no-unused-properties
       refresh() {
         this.logQuerySnapshotList();
       },

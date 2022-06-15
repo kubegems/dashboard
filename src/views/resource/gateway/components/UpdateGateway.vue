@@ -52,7 +52,6 @@
       ...mapGetters(['Tenant']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -97,7 +96,6 @@
           });
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(name) {
         this.item = null;
         const data = await getGatewayDetail(this.Tenant().ID, this.ThisClusterID, name);

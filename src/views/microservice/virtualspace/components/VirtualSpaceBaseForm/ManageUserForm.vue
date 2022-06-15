@@ -194,12 +194,10 @@
           this.obj.Users.splice(index, 1);
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         this.$refs.form.resetValidation();
         this.obj = this.$options.data().obj;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(data) {
         this.$nextTick(async () => {
           this.obj = this.$_.merge(this.obj, deepCopy(data));
@@ -211,7 +209,6 @@
           await this.virtualSpaceEnvironmentUser();
         });
       },
-      // eslint-disable-next-line vue/no-unused-properties
       back(data) {
         this.$nextTick(() => {
           this.obj = deepCopy(data);
@@ -249,7 +246,6 @@
       validate() {
         return this.$refs.form.validate(true);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getData() {
         return this.obj;
       },

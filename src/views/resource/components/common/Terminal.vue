@@ -162,11 +162,9 @@
       if (bindTerminal.heartBeatTimer) clearInterval(bindTerminal.heartBeatTimer);
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       init(container, item, type) {
         this.terminalType = type;
         this.item = deepCopy(item);

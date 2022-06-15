@@ -104,7 +104,6 @@
       ...mapGetters(['Environment', 'Project']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.panel = true;
       },
@@ -112,7 +111,6 @@
         const queryDate = this.$moment(currentDate).format();
         this.getResourceUsage(queryDate);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init() {
         const today = new Date();
         const yesterday = new Date();

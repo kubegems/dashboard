@@ -55,11 +55,9 @@
       },
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       init(item, index) {
         this.index = index;
         this.item = deepCopy(item);

@@ -212,11 +212,9 @@
       ...mapGetters(['Environment', 'Project', 'Tenant']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init() {
         if (this.AdminViewport) {
           await this.m_select_projectSelectData();

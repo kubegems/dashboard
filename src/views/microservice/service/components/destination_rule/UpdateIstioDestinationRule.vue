@@ -37,7 +37,6 @@
       ...mapState(['Circular', 'EnvironmentFilter']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -66,7 +65,6 @@
           this.$emit('refresh');
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(item) {
         const data = await getIstioDestinationRuleDetail(this.EnvironmentFilter.cluster, item.namespace, item.name);
         this.item = deepCopy(data);

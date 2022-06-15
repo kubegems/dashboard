@@ -51,7 +51,6 @@
       ...mapState(['Circular', 'AdminViewport']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -86,7 +85,6 @@
           this.$emit('refresh');
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(item) {
         const data = await getCertificateDetail(this.ThisCluster, item.metadata.namespace, item.metadata.name);
         this.item = deepCopy(data);

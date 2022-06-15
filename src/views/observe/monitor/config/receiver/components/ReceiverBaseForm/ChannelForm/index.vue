@@ -97,7 +97,6 @@
       ...mapGetters(['Cluster']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       init() {
         if (this.type && this.configIndex != null) {
           this.receiverType = this.type;
@@ -138,7 +137,6 @@
             break;
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       expandCard() {
         this.expand = true;
       },

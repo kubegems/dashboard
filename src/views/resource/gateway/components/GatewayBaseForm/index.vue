@@ -266,7 +266,6 @@
       closeExpand() {
         this.expand = false;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         this.$refs.dataForm.closeCard();
         this.$refs.form.reset();
@@ -287,7 +286,6 @@
           this.$set(this.obj.spec.configMapData, 'http2', 'False');
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       setData(data) {
         this.obj = data;
         if (this.obj.spec.image) {
@@ -297,7 +295,6 @@
       onTenantSelectFocus() {
         this.m_select_tenantSelectData();
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getData() {
         if (this.image) {
           const repository = this.splitImage(this.image, 'image');
@@ -325,7 +322,6 @@
         }
         return '';
       },
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs.form.validate(true);
       },

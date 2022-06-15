@@ -129,7 +129,6 @@
       }
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       init(data) {
         this.obj = data;
         if (this.obj.nameservers) {

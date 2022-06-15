@@ -247,21 +247,17 @@
       removeSubnetTrafficPolicy(index) {
         this.$delete(this.obj.spec.subsets, index);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         if (this.$refs.trafficPolicyForm) this.$refs.trafficPolicyForm.closeCard();
         this.exportTo = [];
         this.$refs.form.reset();
       },
-      // eslint-disable-next-line vue/no-unused-properties
       setData(data) {
         this.obj = data;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getData() {
         return this.obj;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs.form.validate(true);
       },

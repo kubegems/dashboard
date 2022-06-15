@@ -468,7 +468,6 @@
         this.params = [];
         this.params = this.retrieveBasicFormParams(this.appValues, this.schemaJson);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         if (this.$refs.form) {
           this.$refs.form?.reset();
@@ -515,7 +514,6 @@
       onTenantProjectSelectFocus() {
         this.m_select_tenantProjectSelectData();
       },
-      // eslint-disable-next-line vue/no-unused-properties
       setData(data) {
         this.obj = Object.assign(this.obj, data);
       },

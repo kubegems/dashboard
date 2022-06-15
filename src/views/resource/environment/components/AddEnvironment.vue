@@ -45,7 +45,6 @@
       ...mapGetters(['Project']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -64,7 +63,6 @@
           this.step += 1;
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       init(projectID) {
         this.$nextTick(() => {
           this.$refs[this.formComponent].initUser(projectID);
@@ -121,7 +119,6 @@
         this.step = 0;
         this.$refs[this.formComponent].reset();
       },
-      // eslint-disable-next-line vue/no-unused-properties
       setProjectId(id) {
         this.projectid = id;
       },

@@ -125,11 +125,9 @@
       },
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.panel = true;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       init(resource) {
         this.resource = deepCopy(resource);
         if (this.resource && this.resource.kind === 'Pod') {

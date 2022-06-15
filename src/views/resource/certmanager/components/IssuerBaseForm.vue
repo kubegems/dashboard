@@ -212,7 +212,6 @@
           if (this.obj.metadata.namespace) this.ingressList();
         });
       },
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         this.issuer = 'selfSigned';
         this.$refs.form.resetValidation();
@@ -273,15 +272,12 @@
           this.$delete(this.obj.spec, 'selfSigned');
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       setData(data) {
         this.obj = data;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getData() {
         return this.obj;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs.form.validate(true);
       },

@@ -48,7 +48,6 @@
       ...mapState(['Circular', 'AdminViewport']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -100,7 +99,6 @@
           });
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       init() {
         this.formComponent = 'VirtualSpaceBaseForm';
       },

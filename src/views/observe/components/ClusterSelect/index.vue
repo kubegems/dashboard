@@ -154,7 +154,6 @@
           this.onEmit(value);
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getItems() {
         return this.items;
       },

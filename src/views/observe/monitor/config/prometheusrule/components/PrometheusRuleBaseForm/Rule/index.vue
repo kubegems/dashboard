@@ -339,13 +339,11 @@
         }
         this.$refs.form.resetValidation();
       },
-      // eslint-disable-next-line vue/no-unused-properties
       init(data) {
         this.$nextTick(() => {
           this.setData(data);
         });
       },
-      // eslint-disable-next-line vue/no-unused-properties
       back(data) {
         this.$nextTick(() => {
           this.setData(data);
@@ -388,7 +386,6 @@
           this.expand = true;
         });
       },
-      // eslint-disable-next-line vue/no-unused-properties
       setData(data) {
         this.obj = deepCopy(data);
         if (!this.obj.promqlGenerator && this.mode === 'monitor') {
@@ -398,7 +395,6 @@
       closeExpand() {
         this.expand = false;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         this.$refs.alertLevelForm.closeCard();
         this.$refs.form.resetValidation();
@@ -463,11 +459,9 @@
           });
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs.form.validate(true);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getData() {
         return this.obj;
       },

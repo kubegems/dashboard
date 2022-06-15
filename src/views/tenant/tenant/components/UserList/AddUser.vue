@@ -123,7 +123,6 @@
       });
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -173,7 +172,6 @@
         await deleteTenantUser(parseInt(this.$route.query.id), user.ID);
         this.$emit('refresh');
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init() {
         if (this.$route.query.id > 0) {
           this.searchAllUser = '';

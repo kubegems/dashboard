@@ -204,25 +204,21 @@
       closeExpand() {
         this.expand = false;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         this.$refs[this.formComponent].closeCard();
         this.$refs.form.reset();
         this.obj = this.$options.data().obj;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       init(data) {
         this.$nextTick(() => {
           this.obj = deepCopy(data);
         });
       },
-      // eslint-disable-next-line vue/no-unused-properties
       back(data) {
         this.$nextTick(() => {
           this.obj = deepCopy(data);
         });
       },
-      // eslint-disable-next-line vue/no-unused-properties
       checkSaved() {
         if (this.$refs[this.formComponent].expand) {
           return !this.$refs[this.formComponent].expand;
@@ -232,18 +228,15 @@
       onKindChange() {
         this.$emit('change', this.resourceKind);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       setData(data) {
         this.obj = data;
       },
       onNamespaceSelectFocus(clusterName) {
         this.m_select_namespaceSelectData(clusterName);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getData() {
         return this.obj;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs.form.validate(true);
       },

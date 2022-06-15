@@ -34,7 +34,6 @@
       ...mapGetters(['Cluster']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       show(params) {
         if (this.Progress) return;
         this.visible = true;

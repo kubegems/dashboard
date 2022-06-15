@@ -174,7 +174,6 @@
       onLabelChange(value, label) {
         this.$emit('change', { label, value });
       },
-      // eslint-disable-next-line vue/no-unused-properties
       onRefresh() {
         this.$emit('refresh');
       },

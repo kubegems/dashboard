@@ -30,7 +30,6 @@
       ...mapGetters(['Tenant']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -55,7 +54,6 @@
         }
         return '';
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(item) {
         const data = await getRegistryDetail({
           projectid: item.ProjectID,

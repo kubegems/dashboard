@@ -155,13 +155,11 @@
         // 重置类型选择组件只读属性
         this.type = null;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         this.$refs.channelForm.closeCard();
         this.$refs.form.reset();
         this.obj = this.$options.data().obj;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         let channelLenth = 0;
         if (this.obj.webhookConfigs && this.obj.webhookConfigs.length > 0) {
@@ -180,11 +178,9 @@
           return true && this.$refs.form.validate(true);
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       setData(data) {
         this.obj = data;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getData() {
         return this.obj;
       },

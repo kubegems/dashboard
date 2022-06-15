@@ -89,7 +89,6 @@
       loadData() {
         if (this.volume) this.volumeObj = this.volume;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       generateData() {
         if (this.$refs.form.validate(true)) {
           const data = this.$refs.volumeMount.generateData();
@@ -106,7 +105,6 @@
         }
         return null;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       generateInitData() {
         if (this.$refs.form.validate(true)) {
           const data = this.$refs.volumeMountForInitContainer.generateData();

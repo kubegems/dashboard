@@ -147,13 +147,11 @@
           }
         });
       },
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         this.$refs.form && this.$refs.form.resetValidation();
         this.$refs[this.formComponent] && this.$refs[this.formComponent].reset();
         this.obj = this.$options.data().obj;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return (
           this.$refs.form &&
@@ -172,16 +170,13 @@
           this.obj.spec[value].format = { type: 'json' };
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       checkSaved() {
         return true;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       setData(data) {
         this.obj = data;
         this.getPlugin();
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getData() {
         return this.obj;
       },

@@ -102,7 +102,6 @@
           }
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async addData() {
         await this.deployMiddlewareMetricsServiceMonitor();
       },

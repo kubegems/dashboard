@@ -184,7 +184,6 @@
       ...mapState(['Scale']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       init(workload) {
         this.workload = workload;
         this.loadMetrics();

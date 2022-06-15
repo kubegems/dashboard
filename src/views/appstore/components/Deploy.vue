@@ -84,11 +84,9 @@
       },
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init() {
         this.$refs.deployWizard.setData({
           selectVersion: this.selectVersion,

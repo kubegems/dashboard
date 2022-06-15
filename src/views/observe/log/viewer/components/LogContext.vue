@@ -48,7 +48,6 @@
       };
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       showContext(item, params) {
         this.visible = true;
         this.items.current = [

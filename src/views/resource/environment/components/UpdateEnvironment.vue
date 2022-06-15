@@ -35,7 +35,6 @@
       ...mapGetters(['Project', 'Tenant']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -73,7 +72,6 @@
           this.$emit('refresh');
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(item) {
         const data = await getEnvironmentDetail(item.ID);
         data.Users.forEach((u) => {

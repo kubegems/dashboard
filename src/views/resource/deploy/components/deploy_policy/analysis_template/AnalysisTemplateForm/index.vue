@@ -145,7 +145,6 @@
       this.strategyDeployEnvironmentAppsAnalysisTempalte();
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       init(t) {
         this.t = t;
       },
@@ -209,7 +208,6 @@
           this.expand = true;
         });
       },
-      // eslint-disable-next-line vue/no-unused-properties
       expandCard() {
         this.expand = true;
       },

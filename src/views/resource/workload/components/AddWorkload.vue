@@ -80,7 +80,6 @@
       ...mapState(['Circular', 'AdminViewport']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -186,7 +185,6 @@
           });
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       init() {
         this.formComponent = 'WorkloadBaseForm';
       },
@@ -197,7 +195,6 @@
         this.formComponent = '';
         this.yaml = false;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       setKind(kind) {
         this.kind = kind;
       },

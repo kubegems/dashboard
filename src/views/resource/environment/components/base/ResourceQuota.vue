@@ -227,7 +227,6 @@
       },
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       generateUnit() {
         const resourceQuota = deepCopy(this.obj.ResourceQuota);
         resourceQuota['requests.cpu'] = `${sizeOfCpu(resourceQuota['limits.cpu'])}`;
