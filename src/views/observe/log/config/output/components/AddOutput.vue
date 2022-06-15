@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-road-variant" title="创建路由器" :width="1000" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-road" title="创建路由器" :width="1000" @reset="reset">
     <template #content>
       <component :is="formComponent" :ref="formComponent" title="Output/ClusterOutput" />
     </template>

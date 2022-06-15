@@ -81,7 +81,7 @@
             data = this.m_resource_beautifyData(data);
           }
           await patchUpdateConfigMap(
-            this.$route.query.Cluster || this.ThisCluster,
+            this.$route.query.cluster || this.ThisCluster,
             this.item.metadata.namespace,
             this.item.metadata.name,
             data,
@@ -94,7 +94,7 @@
       async init(item) {
         this.item = null;
         const data = await getConfigMapDetail(
-          this.$route.query.Cluster || this.ThisCluster,
+          this.$route.query.cluster || this.ThisCluster,
           item.metadata.namespace,
           item.metadata.name,
         );

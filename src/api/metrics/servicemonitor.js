@@ -1,10 +1,8 @@
 import axios from 'axios';
 
-import { jsonParse } from '@/utils/helpers';
+import { getApiVersion } from '@/utils/helpers';
 
-const apiResources = jsonParse(window.localStorage.getItem('api-resources')) || {};
-let apiVersion = apiResources['servicemonitor'] || 'monitoring.coreos.com/v1';
-apiVersion = apiVersion === 'v1' ? 'core/v1' : apiVersion;
+const apiVersion = getApiVersion('servicemonitor', 'monitoring.coreos.com/v1');
 
 // 服务监控列表
 export const getServiceMonitorList = (clusterName, namespace, query = {}) =>

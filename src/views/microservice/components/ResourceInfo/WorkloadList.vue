@@ -1,6 +1,6 @@
 <template>
   <v-data-table
-    class="mx-4"
+    class="mx-4 pb-3"
     disable-sort
     :headers="headers"
     hide-default-footer

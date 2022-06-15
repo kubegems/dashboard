@@ -77,7 +77,10 @@
           this.VirtualSpace().ID,
           this.$route.query.environmentid,
           this.$route.params.name,
-          { noprocessing: true },
+          {
+            noprocessing: true,
+            kind: this.$route.query.type,
+          },
         );
         if (data) {
           this.workload = data.Object;
