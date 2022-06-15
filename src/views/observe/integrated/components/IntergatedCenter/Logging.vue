@@ -222,8 +222,15 @@
       },
       async addLoggingFlow() {
         if (this.$refs.form.validate(true)) {
-          await postLoggingFlow(this.env.clusterName, this.env.namespace, this.obj);
-          this.$emit('close');
+          if (this.env?.projectid && this.env?.value) {
+            await postLoggingFlow(this.env.clusterName, this.env.namespace, this.obj);
+            this.$emit('close');
+          } else {
+            this.$store.commit('SET_SNACKBAR', {
+              text: '请先选择项目环境',
+              color: 'warning',
+            });
+          }
         }
       },
       // eslint-disable-next-line vue/no-unused-properties

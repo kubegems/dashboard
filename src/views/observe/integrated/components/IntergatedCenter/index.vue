@@ -99,7 +99,7 @@
         } else if (this.type === 'middleware') {
           return `配置 ${item.name} 中间件的Exporter`;
         } else if (this.type === 'logging') {
-          return `配置 ${item.name} 中间件的Logging`;
+          return `配置 ${item.name} `;
         }
       },
     },
