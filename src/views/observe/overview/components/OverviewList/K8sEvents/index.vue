@@ -69,7 +69,7 @@
         this.panel = true;
       },
       async eventList() {
-        let query = '{container="gems-eventer"} | json | __error__=``';
+        let query = '{container="event-exporter"} | json | __error__=``';
         query += ` | line_format "{{.metadata_namespace}}" |= "${this.env.namespace}"`;
         const data = await getEventListFromLoki(this.env.clusterName, {
           query: query,
