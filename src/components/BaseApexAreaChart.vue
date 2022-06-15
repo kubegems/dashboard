@@ -129,11 +129,11 @@
     methods: {
       getMetricName(metricAndValues, index) {
         if (metricAndValues.metric) {
-          if (metricAndValues.metric['container']) {
-            return metricAndValues.metric['container'];
-          }
           if (metricAndValues.metric[this.label]) {
             return metricAndValues.metric[this.label];
+          }          
+          if (metricAndValues.metric['container']) {
+            return metricAndValues.metric['container'];
           }
           if (Object.values(metricAndValues.metric).length > 0) {
             return Object.values(metricAndValues.metric)[0];
