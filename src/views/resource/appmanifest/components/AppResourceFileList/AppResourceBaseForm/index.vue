@@ -25,7 +25,6 @@
 
 <script>
   import AppBaseInfo from './AppBaseInfo';
-
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import ConfigMapBaseForm from '@/views/resource/configmap/components/ConfigMapBaseForm';
@@ -104,13 +103,11 @@
       ],
     }),
     computed: {
-      // eslint-disable-next-line vue/no-unused-properties
       obj() {
         return this.$refs[this.steps[this.step]].getData();
       },
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       init(data, cyclic = false) {
         if (cyclic) {
           if (data && data.kind) {
@@ -120,19 +117,15 @@
           this.$refs[this.steps[this.step]].init(data);
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       back(data) {
         this.$refs[this.steps[this.step]].back(data);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       checkSaved() {
         return this.$refs[this.steps[this.step]].checkSaved();
       },
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs[this.steps[this.step]].validate();
       },
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         this.$refs[this.steps[this.step]].reset();
         this.$set(this, 'steps', ['AppBaseInfo']);
@@ -172,7 +165,6 @@
         }
         this.$emit('change', kind, step, init, data);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getData() {
         return this.obj;
       },

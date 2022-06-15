@@ -39,7 +39,6 @@
       },
     }),
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       init(dnsNames, index) {
         this.dnsName = dnsNames[index];
         this.edit = true;
@@ -58,7 +57,6 @@
           : this.$emit('addData', 'DnsName', this.dnsName);
         this.closeCard();
       },
-      // eslint-disable-next-line vue/no-unused-properties
       expandCard() {
         this.expand = true;
       },

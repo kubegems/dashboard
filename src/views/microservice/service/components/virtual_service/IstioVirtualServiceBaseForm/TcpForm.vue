@@ -55,7 +55,6 @@
       }
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       init(data) {
         if (data) {
           this.tcp = deepCopy(data);
@@ -93,7 +92,6 @@
         this.tcp.index = -1;
         this.$emit('closeOverlay');
       },
-      // eslint-disable-next-line vue/no-unused-properties
       expandCard() {
         this.expand = true;
       },

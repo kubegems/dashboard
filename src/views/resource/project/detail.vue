@@ -61,7 +61,6 @@
   import ManageUser from './components/ManageUser';
   import ResourceList from './components/ResourceList';
   import UpdateProject from './components/UpdateProject';
-
   import { getProjectQuota, deleteProject, getProjectDetail } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

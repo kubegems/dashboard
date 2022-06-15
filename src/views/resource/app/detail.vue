@@ -99,7 +99,6 @@
   import ResourceInfo from './components/ResourceInfo';
   import Rollingback from './components/Rollingback';
   import ScaleReplicas from './components/ScaleReplicas';
-
   import { getAppRunningDetail, deleteApp, deleteAppStoreApp } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

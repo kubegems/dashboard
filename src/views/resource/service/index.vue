@@ -124,7 +124,6 @@
 
   import AddService from './components/AddService';
   import UpdateService from './components/UpdateService';
-
   import { getServiceList, deleteService } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';

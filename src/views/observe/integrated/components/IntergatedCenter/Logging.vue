@@ -60,7 +60,6 @@
                 left: true,
                 origin: `top center`,
               }"
-              multiple
               no-data-text="暂无可选数据"
               :rules="objRules.outputRules"
               @change="onOutputChange"
@@ -79,11 +78,12 @@
 
           <v-col v-if="throttle" cols="6">
             <v-text-field
-              v-model.number="obj.throttle"
+              v-model.number="obj.pluginConfig.throttle"
               class="my-0"
               label="限速"
               required
               :rules="objRules.throttleRules"
+              suffix="条/分钟"
               type="number"
             />
           </v-col>
@@ -101,7 +101,6 @@
   import { mapState, mapGetters } from 'vuex';
 
   import ProjectEnvSelect from './ProjectEnvSelect';
-
   import {
     getClusterOutputsData,
     getOutputsData,
@@ -133,9 +132,11 @@
           apps: {},
           clusterOutputs: [],
           enableMetrics: false,
+          pluginConfig: {
+            geoIPLookupKeys: [],
+            throttle: 0,
+          },
           outputs: [],
-          geoIPLookupKeys: [],
-          throttle: 0,
         },
         objRules: {
           appRules: [required],
@@ -233,7 +234,6 @@
           }
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async addData() {
         await this.addLoggingFlow();
       },

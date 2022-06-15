@@ -13,7 +13,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import TcpTrafficShiftingBaseForm from './TcpTrafficShiftingBaseForm';
-
   import { postAddTcpTrafficShifting } from '@/api';
   import BaseResource from '@/mixins/resource';
 
@@ -43,7 +42,6 @@
       ...mapGetters(['VirtualSpace']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -64,7 +62,6 @@
           this.$emit('refresh');
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       init() {
         this.formComponent = 'TcpTrafficShiftingBaseForm';
       },

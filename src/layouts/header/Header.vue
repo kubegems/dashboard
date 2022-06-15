@@ -56,7 +56,6 @@
 
   import Message from './Message';
   import User from './User';
-
   import BasePermission from '@/mixins/permission';
   import BaseSelect from '@/mixins/select';
 

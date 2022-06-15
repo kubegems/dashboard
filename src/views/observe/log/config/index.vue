@@ -16,7 +16,6 @@
   import Flow from './flow';
   import Output from './output';
   import Receiver from './receiver';
-
   import ProjectEnvironmentLayout from '@/views/observe/components/ProjectEnvironmentLayout';
 
   export default {

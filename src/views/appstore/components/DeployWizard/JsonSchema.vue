@@ -21,7 +21,6 @@
   import { mapState } from 'vuex';
 
   import Param from './Param';
-
   import { getAppStoreDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
@@ -67,7 +66,6 @@
       ...mapState(['AdminViewport']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       changeAppVersion() {
         for (const k in this.allApps) {
           if (this.allApps[k].version === this.selectVersion) {
@@ -75,7 +73,6 @@
           }
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async appStoreDetail() {
         if (this.dialog === false) {
           return;
@@ -90,23 +87,19 @@
         }
         this.currentApp = this.allApps[0];
       },
-      // eslint-disable-next-line vue/no-unused-properties
       init(data) {
         this.$nextTick(() => {
           this.obj = this.$_.merge(this.obj, deepCopy(data));
         });
       },
-      // eslint-disable-next-line vue/no-unused-properties
       back(data) {
         this.$nextTick(() => {
           this.obj = deepCopy(data);
         });
       },
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         this.$refs.form.reset();
       },
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs.form.validate(true);
       },

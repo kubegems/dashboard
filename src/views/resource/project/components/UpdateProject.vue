@@ -17,7 +17,6 @@
   import { mapState } from 'vuex';
 
   import ProjectBaseForm from './ProjectBaseForm';
-
   import { getProjectDetail, putUpdateProject } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
@@ -37,7 +36,6 @@
       ...mapState(['Circular']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -59,7 +57,6 @@
           this.$emit('refresh');
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(project) {
         const data = await getProjectDetail(project.ID);
         const item = deepCopy(data);

@@ -15,7 +15,6 @@
   import { mapState } from 'vuex';
 
   import ResourceBaseForm from './ResourceBaseForm';
-
   import { putUpdateTenantResourceQuota } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
@@ -46,7 +45,6 @@
       },
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -62,7 +60,6 @@
           this.$emit('refresh');
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(item) {
         this.item = deepCopy(item);
         this.item.NowCpu = item.Cpu;

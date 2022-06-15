@@ -27,7 +27,6 @@
 
   import EventPieChart from './EventPieChart';
   import MessageBarChart from './MessageBarChart';
-
   import { getEventListFromLoki } from '@/api';
 
   export default {
@@ -66,7 +65,6 @@
       },
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.panel = true;
       },

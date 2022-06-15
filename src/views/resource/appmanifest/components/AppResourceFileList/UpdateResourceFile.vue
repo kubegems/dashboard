@@ -65,7 +65,6 @@
   import { mapState } from 'vuex';
 
   import AppResourceBaseForm from './AppResourceBaseForm';
-
   import { patchAppResourceFile } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';
@@ -92,7 +91,6 @@
       ...mapState(['Circular', 'AdminViewport']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -235,7 +233,6 @@
           });
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       init(app, file) {
         this.formComponent = 'AppResourceBaseForm';
         this.app = deepCopy(app);

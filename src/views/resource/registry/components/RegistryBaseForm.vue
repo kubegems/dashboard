@@ -161,21 +161,17 @@
         this.scheme = scheme;
         this.prefixscheme = false;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         this.$refs.form.reset();
       },
-      // eslint-disable-next-line vue/no-unused-properties
       setData(data) {
         this.obj = data;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getData() {
         const obj = deepCopy(this.obj);
         obj.RegistryAddress = `${this.scheme}://${obj.RegistryAddress}`;
         return obj;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs.form.validate(true);
       },

@@ -51,7 +51,6 @@
   import ResourceApply from './base/ResourceApply';
   import ResourceChart from './base/ResourceChart';
   import ResourceQuota from './base/ResourceQuota';
-
   import { putUpdateEnvironment } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
@@ -84,7 +83,6 @@
       ...mapGetters(['Tenant']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -114,7 +112,6 @@
           this.$emit('refresh');
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(item) {
         this.obj.data = deepCopy(item);
         this.obj.statistics = await this.m_resource_tenantResourceQuota(this.ThisCluster, this.Tenant().TenantName);

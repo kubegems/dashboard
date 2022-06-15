@@ -110,7 +110,6 @@
       ...mapGetters(['Project', 'Environment']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -160,7 +159,6 @@
         this.allUsers.push(user);
         await deleteEnvironmentUser(parseInt(this.Environment().ID), user.ID);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init() {
         if (this.Project().ID > 0) {
           this.searchAllUser = '';

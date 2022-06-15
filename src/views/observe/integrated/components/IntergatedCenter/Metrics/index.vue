@@ -26,7 +26,6 @@
       switchComponent() {
         this.formComponent = this.formComponent === 'MetricsBaseForm' ? 'MetricsDocs' : 'MetricsBaseForm';
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async addData() {
         this.$refs[this.formComponent].addData();
       },

@@ -231,7 +231,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import AddNamespace from './AddNamespace';
-
   import { getEnvironmentUserList, deleteEnvironmentUser, postAddEnvironmentUser, getProjectUserList } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
@@ -391,7 +390,6 @@
         this.obj.data.LimitRange = data.LimitRange;
         this.$refs.limitRange.closeCard();
       },
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         if (this.$refs.addNamespace) this.$refs.addNamespace.closeCard();
         if (this.$refs.limitRange) this.$refs.limitRange.closeCard();
@@ -407,7 +405,6 @@
         this.readerUsers = [];
         this.operatorUsers = [];
       },
-      // eslint-disable-next-line vue/no-unused-properties
       checkSaved() {
         if (this.step === 0) {
           if (this.$refs.addNamespace.expand) {
@@ -420,7 +417,6 @@
         }
         return true;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(item) {
         this.obj.data = deepCopy(item);
         this.obj.statistics = await this.m_resource_tenantResourceQuota(this.ThisCluster, this.Tenant().TenantName, {
@@ -440,7 +436,6 @@
           this.m_select_projectSelectData();
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async initUser(projectID) {
         this.searchAllUser = '';
         this.searchRoleUser = '';
@@ -553,15 +548,12 @@
       onTenantClusterSelectFocus(tenantid) {
         this.m_select_tenantClusterSelectData(tenantid);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs.form.validate(true);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getData() {
         return this.obj;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       generateUnit() {
         return this.$refs.resourceQuota.generateUnit();
       },

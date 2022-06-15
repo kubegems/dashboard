@@ -65,7 +65,6 @@
 <script>
   import ProjectEnvSelect from '../ProjectEnvSelect';
   import MetricsList from './MetricsList';
-
   import { getServiceList, postServiceMonitor } from '@/api';
   import { required } from '@/utils/rules';
 
@@ -155,7 +154,6 @@
           }
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async addData() {
         await this.addMetrics();
       },

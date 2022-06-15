@@ -37,7 +37,6 @@ m
       ...mapState(['Circular', 'EnvironmentFilter']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -64,7 +63,6 @@ m
           this.$emit('refresh');
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(item) {
         const data = await getCrDetail(
           this.EnvironmentFilter.cluster,

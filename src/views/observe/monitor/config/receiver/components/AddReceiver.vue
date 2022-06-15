@@ -13,7 +13,6 @@
   import { mapState } from 'vuex';
 
   import ReceiverBaseForm from './ReceiverBaseForm';
-
   import { postAddReceiver } from '@/api';
   import BaseResource from '@/mixins/resource';
 
@@ -37,7 +36,6 @@
       ...mapState(['Circular', 'AdminViewport']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },

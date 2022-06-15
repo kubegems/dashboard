@@ -13,7 +13,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import RegistryBaseForm from './RegistryBaseForm';
-
   import { postAddRegistry } from '@/api';
   import BaseResource from '@/mixins/resource';
 
@@ -32,7 +31,6 @@
       ...mapGetters(['Tenant']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },

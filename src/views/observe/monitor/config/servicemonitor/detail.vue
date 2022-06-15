@@ -61,7 +61,6 @@
 
   import ResourceInfo from './components/ResourceInfo';
   import UpdateServiceMonitor from './components/UpdateServiceMonitor';
-
   import { getServiceMonitorDetail, deleteServiceMonitor } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

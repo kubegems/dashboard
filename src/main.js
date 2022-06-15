@@ -9,12 +9,10 @@ import ACEEditor from 'vue2-ace-editor';
 import App from './App';
 import vuetify from './plugins/vuetify';
 import router from './router';
-
 import './plugins/base';
 import c from '@/plugins/const';
 import t from '@/plugins/tip';
 import store from '@/store';
-
 import 'github-markdown-css/github-markdown.css';
 import './assets/styles/index.scss';
 

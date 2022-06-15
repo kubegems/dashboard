@@ -120,7 +120,6 @@
 
   import AddAuthorizationPolicy from './components/AddAuthorizationPolicy';
   import UpdateAuthorizationPolicy from './components/UpdateAuthorizationPolicy';
-
   import { getIstioAuthorizationPolicyList, deleteIstioAuthorizationPolicy } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';

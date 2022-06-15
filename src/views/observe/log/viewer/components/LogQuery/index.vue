@@ -78,7 +78,6 @@
   import AdvancedTextare from './AdvancedTextare';
   import LabelSelector from './LabelSelector';
   import ProjectEnvSelect from './ProjectEnvSelect';
-
   import { getLogSeries } from '@/api';
 
   export default {

@@ -123,7 +123,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import ApproveResource from './components/ApproveResource';
-
   import { getMessageList, getLoginUserAuth, putReadMessage, getApproveList } from '@/api';
   import BaseSelect from '@/mixins/select';
 

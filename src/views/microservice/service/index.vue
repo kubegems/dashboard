@@ -212,7 +212,6 @@
   import UpdateResource from './components/UpdateResource';
   import AddVirtualService from './components/virtual_service/AddVirtualService';
   import UpdateVirtualService from './components/virtual_service/UpdateVirtualService';
-
   import {
     getMicroServiceList,
     deleteIstioGateway,

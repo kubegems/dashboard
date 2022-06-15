@@ -132,7 +132,6 @@
 
   import AppStatusTip from './components/AppStatusTip';
   import TaskStatusTip from './components/TaskStatusTip';
-
   import { getAppRunningList, getAppStoreRunningList, deleteApp, deleteAppStoreApp, getAppTaskList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';

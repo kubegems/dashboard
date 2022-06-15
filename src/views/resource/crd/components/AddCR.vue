@@ -32,7 +32,6 @@ m
       ...mapState(['Circular']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -65,7 +64,6 @@ m
           this.$emit('refresh');
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(crd) {
         this.crd = deepCopy(crd);
       },

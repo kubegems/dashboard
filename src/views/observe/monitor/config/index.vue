@@ -15,7 +15,6 @@
   import PrometheusRule from './prometheusrule';
   import Receiver from './receiver';
   import ServiceMonitor from './servicemonitor';
-
   import ProjectEnvironmentLayout from '@/views/observe/components/ProjectEnvironmentLayout';
 
   export default {

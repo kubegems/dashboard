@@ -61,10 +61,13 @@
         <v-col cols="12">
           <v-text-field
             v-model="obj.config.appSecret"
+            :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
             class="my-0"
             label="Secret"
             required
             :rules="objRules.appSecretRule"
+            :type="show ? 'text' : 'password'"
+            @click:append="show = !show"
           />
         </v-col>
         <v-col cols="6">
@@ -115,6 +118,7 @@
     },
     data: () => ({
       valid: false,
+      show: false,
       scopes: [],
       scopeText: '',
       gitlabDomain: 'gitlab.com',
@@ -214,18 +218,15 @@
           return scope.text;
         });
       },
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         this.$refs.form.reset();
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getData() {
         if (this.vendor === 'gitlab') {
           this.replaceDomain();
         }
         return this.obj;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs.form.validate(true);
       },

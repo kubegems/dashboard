@@ -119,7 +119,6 @@
       },
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -470,7 +469,6 @@
           return Math.abs(curr - target) < Math.abs(prev - target) ? curr : prev;
         });
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(item, kind, adviseItem) {
         this.type = kind;
         this.item = deepCopy(item);

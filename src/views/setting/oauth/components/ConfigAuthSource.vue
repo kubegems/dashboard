@@ -24,7 +24,6 @@
 
   import OauthBaseForm from './auth_source/OauthBaseForm';
   import OpenLdapBaseForm from './auth_source/OpenLdapBaseForm';
-
   import { putAuthSourceConfig, postAuthSourceConfig } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
@@ -65,11 +64,9 @@
       },
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       init(item, edit) {
         this.edit = edit;
         this.obj = deepCopy(item);

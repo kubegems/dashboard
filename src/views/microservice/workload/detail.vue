@@ -26,7 +26,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import WorkloadLog from './components/WorkloadLog';
-
   import { getMicroAppWorkoladDetail } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

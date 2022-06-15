@@ -185,7 +185,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import ContainerItems from './components/ContainerItems';
-
   import { getPodList, deletePod } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';

@@ -21,7 +21,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import ProjectEnvSelect from '../ProjectEnvSelect';
-
   import { postDeployAppStore, getChartSchema } from '@/api';
   import JsonSchema from '@/views/appstore/components/DeployWizard/JsonSchema';
   import { YamlMixin } from '@/views/appstore/mixins/yaml';
@@ -102,7 +101,6 @@
           }
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async addData() {
         await this.deployMiddlewareMetricsServiceMonitor();
       },

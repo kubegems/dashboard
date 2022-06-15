@@ -145,7 +145,6 @@
           }
         });
       },
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         this.serviceCopy = null;
         this.$refs.form.resetValidation();
@@ -157,11 +156,9 @@
       addUriData(data) {
         this.obj.match[0].uri = data;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getData() {
         return this.obj;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs.form.validate(true);
       },

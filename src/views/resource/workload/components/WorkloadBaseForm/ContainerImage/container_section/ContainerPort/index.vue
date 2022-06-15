@@ -53,7 +53,6 @@
 
 <script>
   import Port from './Port';
-
   import { deepCopy } from '@/utils/helpers';
   import { required, port } from '@/utils/rules';
 

@@ -60,11 +60,9 @@
       });
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(graph, namespace) {
         this.graph = graph;
         this.namespace = namespace;

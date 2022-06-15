@@ -36,7 +36,6 @@
   import { mapState } from 'vuex';
 
   import PrometheusRuleBaseForm from './PrometheusRuleBaseForm';
-
   import { putUpdatePrometheusRule, putUpdateLogAlertRule } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
@@ -64,7 +63,6 @@
       ...mapState(['Circular', 'AdminViewport']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },

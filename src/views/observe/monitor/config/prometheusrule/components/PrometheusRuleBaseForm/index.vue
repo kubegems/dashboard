@@ -41,7 +41,6 @@
       steps: ['Rule', 'Receiver'],
     }),
     computed: {
-      // eslint-disable-next-line vue/no-unused-properties
       obj() {
         return this.$refs[this.steps[this.step]].getData();
       },
@@ -50,35 +49,27 @@
       item() {},
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       init(data) {
         this.$refs[this.steps[this.step]].init(data);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       back(data) {
         this.$refs[this.steps[this.step]].back(data);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs[this.steps[this.step]].validate();
       },
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         this.$refs[this.steps[this.step]].reset();
       },
-      // eslint-disable-next-line vue/no-unused-properties
       setData(data) {
         this.$refs[this.steps[this.step]].setData(data);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getInhibitLabels() {
         return this.$refs[this.steps[this.step]].getInhibitLabels();
       },
-      // eslint-disable-next-line vue/no-unused-properties
       setLabelpairs(data) {
         this.$refs[this.steps[this.step]].setLabelpairs(data);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getData() {
         return this.obj;
       },

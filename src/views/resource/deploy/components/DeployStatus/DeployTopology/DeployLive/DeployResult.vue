@@ -79,7 +79,6 @@
         const data = this.resource?.liveState?.status?.operationState?.syncResult?.resources || [];
         this.items = data;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       dispose() {},
     },
   };

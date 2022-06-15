@@ -68,7 +68,6 @@
   import ScaleResource from './components/ScaleResource';
   import TopNResourceUsage from './components/TopNResourceUsage';
   import UpdateEnvironment from './components/UpdateEnvironment';
-
   import { deleteEnvironment, getEnvironmentDetail } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

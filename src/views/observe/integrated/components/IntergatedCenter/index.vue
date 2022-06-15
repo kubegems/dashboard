@@ -41,7 +41,6 @@
   import Metrics from './Metrics';
   import MiddlewareMetrics from './MiddlewareMetrics';
   import Trace from './Trace';
-
   import { deepCopy } from '@/utils/helpers';
 
   export default {
@@ -67,11 +66,9 @@
       ...mapGetters(['Tenant']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.panel = true;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       init(item, type) {
         this.item = deepCopy(item);
         this.type = type;

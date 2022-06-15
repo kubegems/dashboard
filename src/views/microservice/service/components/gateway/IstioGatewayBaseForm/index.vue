@@ -56,7 +56,6 @@
 
   import ServerForm from './ServerForm';
   import ServerItem from './ServerItem';
-
   import { getIstioGatewayInstanceList } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
@@ -172,20 +171,16 @@
       closeExpand() {
         this.expand = false;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         if (this.$refs.serverForm) this.$refs.serverForm.closeCard();
         this.$refs.form.reset();
       },
-      // eslint-disable-next-line vue/no-unused-properties
       setData(data) {
         this.obj = data;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getData() {
         return this.obj;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs.form.validate(true);
       },

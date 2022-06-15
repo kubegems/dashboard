@@ -57,7 +57,6 @@
       ...mapState(['Circular']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -77,7 +76,6 @@
         this.dialog = false;
         this.$refs.form.reset();
       },
-      // eslint-disable-next-line vue/no-unused-properties
       setTitle(data) {
         this.title = data;
       },

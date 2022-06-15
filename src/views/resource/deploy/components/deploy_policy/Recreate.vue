@@ -19,7 +19,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import BaseDeployInfoForm from './base/BaseDeployInfoForm';
-
   import { postStrategyDeployEnvironmentApps } from '@/api';
   import { deepCopy } from '@/utils/helpers';
   import StrategyDeploy from '@/views/resource/deploy/mixins/deploy';
@@ -52,11 +51,9 @@
       ...mapGetters(['Tenant', 'Project', 'Environment']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init() {
         await this.strategyDeployEnvironmentAppsDetail();
         if (this.runtime.strategy.type === 'Recreate') {

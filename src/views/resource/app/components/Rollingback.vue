@@ -77,11 +77,9 @@
       ...mapGetters(['Tenant', 'Project', 'Environment']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       init() {
         this.rsVersionList();
       },

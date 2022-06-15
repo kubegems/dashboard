@@ -36,7 +36,6 @@
   import { mapState } from 'vuex';
 
   import VirtualSpaceBaseForm from './VirtualSpaceBaseForm';
-
   import { getVirtualSpaceDetail, putUpdateVirtualSpace } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
@@ -58,7 +57,6 @@
       ...mapState(['Circular', 'AdminViewport']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -97,7 +95,6 @@
           });
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(item) {
         this.formComponent = 'VirtualSpaceBaseForm';
         const data = await getVirtualSpaceDetail(item.ID);

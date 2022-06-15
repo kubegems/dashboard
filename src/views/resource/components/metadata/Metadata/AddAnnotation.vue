@@ -60,7 +60,6 @@
       if (this.item) this.metadata = this.item.metadata;
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },

@@ -28,7 +28,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import GatewayBaseForm from './GatewayBaseForm';
-
   import { putUpdateGateway, getGatewayDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';
@@ -52,7 +51,6 @@
       ...mapGetters(['Tenant']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -97,7 +95,6 @@
           });
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(name) {
         this.item = null;
         const data = await getGatewayDetail(this.Tenant().ID, this.ThisClusterID, name);

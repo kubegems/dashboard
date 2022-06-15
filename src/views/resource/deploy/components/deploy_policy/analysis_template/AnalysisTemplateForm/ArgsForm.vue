@@ -71,7 +71,6 @@
       }
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       init(data) {
         this.obj = {
           name: data.name,
@@ -97,7 +96,6 @@
         this.expand = false;
         this.$refs.form.reset();
       },
-      // eslint-disable-next-line vue/no-unused-properties
       expandCard() {
         this.expand = true;
       },

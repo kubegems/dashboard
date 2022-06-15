@@ -119,7 +119,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import HistorySearch from './components/HistorySearch';
-
   import { getPrometheusAlertSearch, postAddPrometheusBlacklist, deletePrometheusBlacklist } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { deleteEmpty } from '@/utils/helpers';

@@ -330,7 +330,6 @@
   import ButtonInput from './components/ButtonInput';
   import MetricsItem from './components/MetricsItem';
   import MetricsSuggestion from './components/MetricsSuggestion';
-
   import {
     getSystemConfigData,
     getMyConfigData,

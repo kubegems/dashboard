@@ -127,7 +127,6 @@
   import ScaleReplicas from './components/ScaleReplicas';
   import UpdateWorkload from './components/UpdateWorkload';
   import WorkloadMonitor from './components/WorkloadMonitor';
-
   import {
     getDaemonSetDetail,
     getDeploymentDetail,

@@ -142,7 +142,6 @@
   import DefaultTraffic from './traffic/DefaultTraffic';
   import HeaderTraffic from './traffic/HeaderTraffic';
   import UriTraffic from './traffic/UriTraffic';
-
   import { postStrategyDeployEnvironmentApps, getAppResourceFileMetas } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
@@ -216,11 +215,9 @@
       },
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init() {
         await this.strategyDeployEnvironmentAppsDetail();
         if (this.runtime.strategy.type === 'Canary') {

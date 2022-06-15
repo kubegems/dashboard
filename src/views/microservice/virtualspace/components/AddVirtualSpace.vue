@@ -28,7 +28,6 @@
   import { mapState } from 'vuex';
 
   import VirtualSpaceBaseForm from './VirtualSpaceBaseForm';
-
   import { postAddVirtualSpace, postAddVirtualSpaceEnvironment, postAddVirtualSpaceUser } from '@/api';
   import BaseResource from '@/mixins/resource';
 
@@ -48,7 +47,6 @@
       ...mapState(['Circular', 'AdminViewport']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -100,7 +98,6 @@
           });
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       init() {
         this.formComponent = 'VirtualSpaceBaseForm';
       },

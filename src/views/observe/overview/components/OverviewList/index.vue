@@ -62,7 +62,6 @@
   import K8sEvents from './K8sEvents';
   import ProjectSelect from './ProjectSelect';
   import StatusTag from './StatusTag';
-
   import { getEnvironmentObservability } from '@/api';
   import BaseSelect from '@/mixins/select';
 

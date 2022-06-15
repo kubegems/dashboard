@@ -48,26 +48,20 @@
       if (this.item) this.kubeyaml = this.$yamldump(this.item);
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       init() {},
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs.form.validate(true);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       checkSaved() {
         return true;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         this.kubeyaml = '';
         this.$refs.form.reset();
       },
-      // eslint-disable-next-line vue/no-unused-properties
       setYaml(data) {
         this.kubeyaml = data;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getYaml() {
         return this.kubeyaml;
       },
