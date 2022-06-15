@@ -114,7 +114,7 @@
                 @keyup="onExprInput"
               />
               <MetricsSuggestion
-                v-if="mode === 'monitor'"
+                v-if="mode === 'monitor' && !obj.expr"
                 :cluster="$route.query.cluster"
                 :expr="obj.expr"
                 :top="250"
