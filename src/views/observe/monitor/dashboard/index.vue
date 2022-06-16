@@ -72,7 +72,7 @@
               :metrics="metrics[`c${index}`]"
               :title="graph.name"
               type=""
-              :unit="graph.promqlGenerator ? graph.promqlGenerator.unit : graph.unit"
+              :unit="graph.promqlGenerator ? getUnit(graph.promqlGenerator.unit) : getUnit(graph.unit)"
             />
           </v-card-text>
         </v-card>
@@ -322,6 +322,15 @@
             tab: this.items[this.tab].name,
           },
         });
+      },
+      getUnit(unit) {
+        if (unit === 'short') {
+          return 'short';
+        }
+        if (unit && unit?.indexOf('-') > -1) {
+          return unit.substr(unit.indexOf('-') + 1);
+        }
+        return unit;
       },
     },
   };

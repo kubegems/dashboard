@@ -89,12 +89,13 @@
                 v-model="obj.promqlGenerator.unit"
                 class="my-0"
                 color="primary"
-                :disabled="!obj.promqlGenerator.rule || !unitItems.length"
                 hide-selected
-                :items="unitItems"
-                label="单位"
+                :items="m_metrics_unitItems"
+                label="单位(回车可创建自定义单位)"
                 no-data-text="暂无可选数据"
-                :rules="unitItems.length ? objRules.unitRule : undefined"
+                :rules="objRules.unitRule"
+                :search-input.sync="m_metrics_unitText"
+                @keydown.enter="m_metrics_createUnit"
               >
                 <template #selection="{ item }">
                   <v-chip class="mx-1" color="primary" small>
@@ -192,6 +193,7 @@
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
   import MetricsSuggestion from '@/views/observe/monitor/metrics/components/MetricsSuggestion';
+  import Metrics from '@/views/observe/monitor/mixins/metrics';
 
   export default {
     name: 'Rule',
@@ -201,7 +203,7 @@
       MetricsSuggestion,
       RuleLabelpairs,
     },
-    mixins: [BaseResource, BaseSelect],
+    mixins: [BaseResource, BaseSelect, Metrics],
     props: {
       edit: {
         type: Boolean,
@@ -281,18 +283,6 @@
           }));
         }
 
-        return [];
-      },
-      unitItems() {
-        if (this.metricsConfig.resources && this.obj.promqlGenerator.resource && this.obj.promqlGenerator.rule) {
-          const units =
-            this.metricsConfig.resources[this.obj.promqlGenerator.resource].rules[this.obj.promqlGenerator.rule]
-              .units || [];
-          return units.map((unit) => ({
-            text: this.metricsConfig.units[unit],
-            value: unit,
-          }));
-        }
         return [];
       },
     },
