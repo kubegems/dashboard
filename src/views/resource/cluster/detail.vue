@@ -213,5 +213,7 @@
   .cluster__resource__div {
     max-height: 44px;
     overflow: scroll;
+    background: none;
+    border: none;
   }
 </style>

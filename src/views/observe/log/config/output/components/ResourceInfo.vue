@@ -6,6 +6,7 @@
           <template #content>
             <BaseCollapseChips
               v-if="output && output.spec"
+              id="r_output"
               :chips="Object.keys(output.spec) || []"
               icon="mdi-router-wireless"
               single-line

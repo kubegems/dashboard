@@ -1,5 +1,5 @@
 <template>
-  <div class="d-inline-block">
+  <div :id="id" class="d-inline-block collapse">
     <!-- 无数据显示 -->
     <span v-if="visibleItems.length === 0">{{ emptyText }}</span>
 
@@ -9,6 +9,7 @@
       :close-on-content-click="false"
       :close-delay="200"
       :max-width="maxWidth"
+      :min-width="minWidth"
       :disabled="items.length === 1"
     >
       <template #activator="{ on }">
@@ -30,7 +31,7 @@
       <v-card class="pa-2">
         <template v-if="singleLine">
           <div v-for="item in items" :key="item[itemValue]">
-            <v-flex small class="ma-1 text-caption kubegems__text">
+            <v-flex small class="ma-1 text-caption kubegems__text collapse__chip">
               <v-icon v-if="icon" :color="color" small left> {{ icon }} </v-icon>
               <strong v-if="dataType === 'object'" class="mr-1">
                 {{ item[itemValue] }}
@@ -73,6 +74,10 @@
         type: String,
         default: '-',
       },
+      id: {
+        type: String,
+        default: '',
+      },
       itemText: {
         type: String,
         default: 'text',
@@ -86,6 +91,10 @@
         default: 'value',
       },
       maxWidth: {
+        type: String,
+        default: undefined,
+      },
+      minWidth: {
         type: String,
         default: undefined,
       },
@@ -143,3 +152,13 @@
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .collapse {
+    position: relative;
+
+    &__chip {
+      word-break: break-all;
+    }
+  }
+</style>

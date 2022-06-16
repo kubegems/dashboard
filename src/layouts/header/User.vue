@@ -41,7 +41,7 @@
                 <v-btn class="primary--text" color="white" small>
                   <BaseLogo
                     class="primary--text logo-margin mt-1"
-                    :icon-name="User.SourceVendor ? User.SourceVendor.toLowerCase() : 'kubegems'"
+                    :icon-name="User.SourceVendor ? User.SourceVendor.toLocaleLowerCase() : 'kubegems'"
                     :ml="0"
                     :width="20"
                   />

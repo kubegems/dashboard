@@ -17,8 +17,14 @@
         <template #[`item.namespace`]="{ item }">
           {{ item.metadata.namespace }}
         </template>
-        <template #[`item.hosts`]="{ item }">
-          <BaseCollapseChips v-if="item" :chips="item.spec.hosts || []" icon="mdi-directions-fork" single-line />
+        <template #[`item.hosts`]="{ item, index }">
+          <BaseCollapseChips
+            v-if="item"
+            :id="`v_host_${index}`"
+            :chips="item.spec.hosts || []"
+            icon="mdi-directions-fork"
+            single-line
+          />
         </template>
         <template #[`item.createdAt`]="{ item }">
           {{ item.metadata.creationTimestamp ? $moment(item.metadata.creationTimestamp).format('lll') : '' }}

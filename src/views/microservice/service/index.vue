@@ -76,8 +76,8 @@
         <template #[`item.namespace`]>
           {{ EnvironmentFilter ? EnvironmentFilter.text : '' }}
         </template>
-        <template #[`item.labels`]="{ item }">
-          <BaseCollapseChips :chips="item.labels || {}" icon="mdi-label" single-line />
+        <template #[`item.labels`]="{ item, index }">
+          <BaseCollapseChips :id="`v_label_${index}`" :chips="item.labels || {}" icon="mdi-label" single-line />
         </template>
         <template #[`item.config`]="{ item, index }">
           <v-flex :id="`r${index}`" />

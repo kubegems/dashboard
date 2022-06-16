@@ -26,7 +26,7 @@
 
     <BaseListItemForDetail :mt="0" title="标签">
       <template #content>
-        <BaseCollapseChips v-if="item" :chips="item.metadata.labels || {}" icon="mdi-label" single-line />
+        <BaseCollapseChips v-if="item" id="w_label" :chips="item.metadata.labels || {}" icon="mdi-label" single-line />
       </template>
     </BaseListItemForDetail>
 

@@ -219,7 +219,7 @@
           param: { plugin },
           doFunc: async (param) => {
             await postEnablePlugin(this.Cluster().ClusterName, param.plugin.name, {
-              type: this.tabItems[this.tab].value.toLowerCase(),
+              type: this.tabItems[this.tab].value.toLocaleLowerCase(),
             });
             this.pluginList(true);
           },
@@ -235,7 +235,7 @@
           param: { plugin },
           doFunc: async (param) => {
             await postDisablePlugin(this.Cluster().ClusterName, param.plugin.name, {
-              type: this.tabItems[this.tab].value.toLowerCase(),
+              type: this.tabItems[this.tab].value.toLocaleLowerCase(),
             });
             this.pluginList(true);
           },

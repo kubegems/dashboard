@@ -16,7 +16,13 @@
 
         <BaseListItemForDetail title="匹配标签">
           <template #content>
-            <BaseCollapseChips v-if="service" :chips="service.spec.selector || {}" icon="mdi-label" single-line />
+            <BaseCollapseChips
+              v-if="service"
+              id="s_selector"
+              :chips="service.spec.selector || {}"
+              icon="mdi-label"
+              single-line
+            />
           </template>
         </BaseListItemForDetail>
       </v-sheet>

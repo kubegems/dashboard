@@ -32,9 +32,19 @@
       </v-col>
     </v-row>
 
-    <div class="metrics-item__chart" :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
+    <div class="metrics-item__chart">
       <div ref="container" class="metrics-item__container">
-        <MetricsLineChart :height="size.height" :series="series" :unit="unit" :width="size.width" />
+        <BaseApexAreaChart
+          chart-type="line"
+          :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
+          :extend-height="300"
+          label="pod"
+          :label-show="false"
+          :metrics="data ? data.data : []"
+          :no-data-offset-y="-25"
+          type=""
+          :unit="getUnit(unit)"
+        />
       </div>
     </div>
   </v-card>
@@ -43,15 +53,11 @@
 <script>
   import { mapState } from 'vuex';
 
-  import MetricsLineChart from './MetricsLineChart';
   import { debounce } from '@/utils/helpers';
   import { SERVICE_MONITOR_NS } from '@/utils/namespace';
 
   export default {
     name: 'MetricsItem',
-    components: {
-      MetricsLineChart,
-    },
     props: {
       data: {
         type: Object,
@@ -88,15 +94,6 @@
       ...mapState(['Scale']),
       labels() {
         return Object.values(this.labelObject);
-      },
-      series() {
-        return this.data.data.map((item) => {
-          const m = item.metric;
-          return {
-            name: Object.keys(m).reduce((pre, current) => pre + `${current}='${m[current]}' `, ''),
-            data: item.values,
-          };
-        });
       },
       maxHeight() {
         if (this.labels.length % 3 === 0) {
@@ -141,7 +138,7 @@
             promqlGenerator: {
               resource: resource._$value,
               rule: rule._$value,
-              unit: unit?._$value,
+              unit: unit?.value,
             },
           };
         }
@@ -175,6 +172,15 @@
       },
       onRefresh() {
         this.$emit('refresh');
+      },
+      getUnit(unit) {
+        if (unit === 'short') {
+          return 'short';
+        }
+        if (unit && unit.indexOf('-') > -1) {
+          return unit.substr(unit.indexOf('-') + 1);
+        }
+        return unit;
       },
     },
   };

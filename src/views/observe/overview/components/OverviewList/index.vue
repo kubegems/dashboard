@@ -17,8 +17,8 @@
       no-results-text="暂无匹配租户"
       :page.sync="params.page"
     >
-      <template #[`item.labels`]="{ item }">
-        <BaseCollapseChips :chips="item.labels || {}" icon="mdi-label" single-line />
+      <template #[`item.labels`]="{ item, index }">
+        <BaseCollapseChips :id="`o_label_${index}`" :chips="item.labels || {}" icon="mdi-label" single-line />
       </template>
       <template #[`item.alertLiving`]="{ item }">
         {{ item.errorAlertCount + item.criticalAlertCount }}

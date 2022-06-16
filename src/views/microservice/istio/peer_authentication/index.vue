@@ -72,8 +72,14 @@
         <template #[`item.createAt`]="{ item }">
           {{ item.metadata.creationTimestamp ? $moment(item.metadata.creationTimestamp).format('lll') : '' }}
         </template>
-        <template #[`item.selector`]="{ item }">
-          <BaseCollapseChips v-if="item" :chips="item.spec.selector.matchLabels || {}" icon="mdi-label" single-line />
+        <template #[`item.selector`]="{ item, index }">
+          <BaseCollapseChips
+            v-if="item"
+            :id="`e_selector_${index}`"
+            :chips="item.spec.selector.matchLabels || {}"
+            icon="mdi-label"
+            single-line
+          />
         </template>
         <template #[`item.mutualTLS`]="{ item }">
           {{ item.spec.mtls ? item.spec.mtls.mode : '' }}

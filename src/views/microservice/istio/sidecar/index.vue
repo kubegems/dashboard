@@ -65,19 +65,32 @@
         <template #[`item.namespace`]="{ item }">
           {{ item.metadata.namespace }}
         </template>
-        <template #[`item.selector`]="{ item }">
+        <template #[`item.selector`]="{ item, index }">
           <BaseCollapseChips
             v-if="item && item.spec.workloadSelector"
+            :id="`s_selector_${index}`"
             :chips="item.spec.workloadSelector.labels || {}"
             icon="mdi-label"
             single-line
           />
         </template>
-        <template #[`item.ingress`]="{ item }">
-          <BaseCollapseChips v-if="item" :chips="item.ingressHost || []" icon="mdi-directions-fork" single-line />
+        <template #[`item.ingress`]="{ item, index }">
+          <BaseCollapseChips
+            v-if="item"
+            :id="`s_ingress_${index}`"
+            :chips="item.ingressHost || []"
+            icon="mdi-directions-fork"
+            single-line
+          />
         </template>
-        <template #[`item.egress`]="{ item }">
-          <BaseCollapseChips v-if="item" :chips="item.egressHost.hosts || []" icon="mdi-directions-fork" single-line />
+        <template #[`item.egress`]="{ item, index }">
+          <BaseCollapseChips
+            v-if="item"
+            :id="`s_egress_${index}`"
+            :chips="item.egressHost.hosts || []"
+            icon="mdi-directions-fork"
+            single-line
+          />
         </template>
         <template #[`item.createAt`]="{ item }">
           {{ item.metadata.creationTimestamp ? $moment(item.metadata.creationTimestamp).format('lll') : '' }}

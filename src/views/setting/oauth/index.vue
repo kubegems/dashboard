@@ -8,7 +8,7 @@
           <v-card class="mx-auto oauth-pos" :elevation="hover ? 5 : 0" height="100%">
             <v-list-item three-line>
               <v-list-item-avatar class="primary--text" size="80" tile>
-                <BaseLogo class="mr-6 mt-1" :icon-name="item.vendor.toLowerCase()" :width="60" />
+                <BaseLogo class="mr-6 mt-1" :icon-name="item.vendor.toLocaleLowerCase()" :width="60" />
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title class="text-h6 mb-1">
