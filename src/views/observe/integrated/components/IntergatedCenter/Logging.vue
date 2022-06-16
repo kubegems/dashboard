@@ -7,23 +7,11 @@
 
       <v-row class="px-2">
         <v-col cols="12">
-          <v-switch
-            v-model="sampleMode"
-            class="mt-5"
-            hide-details
-            label="一键开启（精简模式）"
-            @change="onSampleModeChange"
-          />
+          <v-switch v-model="sampleMode" class="mt-5" hide-details label="一键开启（精简模式）" />
         </v-col>
       </v-row>
 
-      <v-row class="px-2">
-        <v-col cols="12">
-          <v-switch v-model="customConfig" class="mt-5" hide-details label="自定义配置" />
-        </v-col>
-      </v-row>
-
-      <template v-if="customConfig">
+      <template v-if="!sampleMode">
         <BaseSubTitle class="mt-6" title="自定义配置" />
 
         <v-row class="mt-0 px-2">
@@ -121,8 +109,7 @@
         valid: false,
         env: undefined,
         throttle: false,
-        sampleMode: false,
-        customConfig: false,
+        sampleMode: true,
         outputItems: [],
         outputName: undefined,
         applicationItems: [],
@@ -235,35 +222,32 @@
         }
       },
       async addData() {
-        await this.addLoggingFlow();
+        if (this.sampleMode) {
+          await this.addSampleLoggingFlow();
+        } else {
+          await this.addLoggingFlow();
+        }
       },
-      onSampleModeChange() {
-        if (!this.env) {
+      async addSampleLoggingFlow() {
+        if (this.env?.projectid && this.env?.value) {
+          this.$store.commit('SET_CONFIRM', {
+            title: '精简模式',
+            content: {
+              text: `${this.sampleMode ? '开启' : '关闭'} 精简模式`,
+              type: 'confirm',
+            },
+            param: {},
+            doFunc: async () => {
+              await this.toggleLoggingNsFlow();
+            },
+          });
+        } else {
           this.$store.commit('SET_SNACKBAR', {
             text: '请先选择项目环境',
             color: 'warning',
           });
-          const vue = this;
-          const timeout = setTimeout(() => {
-            vue.sampleMode = !vue.sampleMode;
-            clearTimeout(timeout);
-          }, 200);
           return;
         }
-        this.$store.commit('SET_CONFIRM', {
-          title: '精简模式',
-          content: {
-            text: `${this.sampleMode ? '开启' : '关闭'} 精简模式`,
-            type: 'confirm',
-          },
-          param: {},
-          doFunc: async () => {
-            this.toggleLoggingNsFlow();
-          },
-          doClose: () => {
-            this.sampleMode = !this.sampleMode;
-          },
-        });
       },
       async toggleLoggingNsFlow() {
         await putLoggingNsFlow(this.env.clusterName, this.env.namespace, {

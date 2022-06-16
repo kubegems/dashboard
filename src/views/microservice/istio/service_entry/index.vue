@@ -69,11 +69,23 @@
         <template #[`item.namespace`]="{ item }">
           {{ item.metadata.namespace }}
         </template>
-        <template #[`item.hosts`]="{ item }">
-          <BaseCollapseChips v-if="item" :chips="item.spec.hosts || []" icon="mdi-directions-fork" single-line />
+        <template #[`item.hosts`]="{ item, index }">
+          <BaseCollapseChips
+            v-if="item"
+            :id="`s_host_${index}`"
+            :chips="item.spec.hosts || []"
+            icon="mdi-directions-fork"
+            single-line
+          />
         </template>
-        <template #[`item.ports`]="{ item }">
-          <BaseCollapseChips v-if="item" :chips="item.ports || []" icon="mdi-directions-fork" single-line />
+        <template #[`item.ports`]="{ item, index }">
+          <BaseCollapseChips
+            v-if="item"
+            :id="`s_port_${index}`"
+            :chips="item.ports || []"
+            icon="mdi-directions-fork"
+            single-line
+          />
         </template>
         <template #[`item.resolution`]="{ item }">
           {{ item.spec.resolution }}

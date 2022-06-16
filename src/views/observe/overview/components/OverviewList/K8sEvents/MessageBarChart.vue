@@ -33,7 +33,7 @@
     },
     data() {
       this.options = {
-        colors: this.$LINE_THEME_COLORS,
+        colors: ['#26C6DA', '#FB8C00'],
         chart: {
           type: 'bar',
           zoom: {

@@ -65,11 +65,23 @@
         <template #[`item.namespace`]="{ item }">
           {{ item.metadata.namespace }}
         </template>
-        <template #[`item.selector`]="{ item }">
-          <BaseCollapseChips v-if="item" :chips="item.spec.selector || {}" icon="mdi-label" single-line />
+        <template #[`item.selector`]="{ item, index }">
+          <BaseCollapseChips
+            v-if="item"
+            :id="`s_selector_${index}`"
+            :chips="item.spec.selector || {}"
+            icon="mdi-label"
+            single-line
+          />
         </template>
-        <template #[`item.service`]="{ item }">
-          <BaseCollapseChips v-if="item" :chips="item.servers || []" icon="mdi-directions-fork" single-line />
+        <template #[`item.service`]="{ item, index }">
+          <BaseCollapseChips
+            v-if="item"
+            :id="`s_service_${index}`"
+            :chips="item.servers || []"
+            icon="mdi-directions-fork"
+            single-line
+          />
         </template>
         <template #[`item.createAt`]="{ item }">
           {{ item.metadata.creationTimestamp ? $moment(item.metadata.creationTimestamp).format('lll') : '' }}

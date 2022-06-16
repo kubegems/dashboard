@@ -43,6 +43,7 @@
           <template #content>
             <BaseCollapseChips
               v-if="gateway"
+              id="r_gateway"
               :chips="gateway.spec.workload.extraLabels || {}"
               icon="mdi-label"
               single-line

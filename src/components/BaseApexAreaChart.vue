@@ -131,7 +131,7 @@
         if (metricAndValues.metric) {
           if (metricAndValues.metric[this.label]) {
             return metricAndValues.metric[this.label];
-          }          
+          }
           if (metricAndValues.metric['container']) {
             return metricAndValues.metric['container'];
           }
@@ -280,6 +280,7 @@
           title: {
             text: title,
             margin: 5,
+            offsetY: 5,
             style: {
               fontSize: '11px',
               fontWeight: 'bold',
@@ -317,7 +318,7 @@
           },
           stroke: {
             curve: 'smooth',
-            width: 0,
+            width: this.chartType === 'line' ? 1 : 0,
           },
           fill: {
             type: 'solid',

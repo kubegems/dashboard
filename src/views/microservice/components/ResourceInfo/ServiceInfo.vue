@@ -3,7 +3,7 @@
     <v-card class="px-2">
       <BaseListItemForDetail :mt="0" title="标签">
         <template #content>
-          <BaseCollapseChips v-if="item" :chips="item.service.labels || {}" icon="mdi-label" single-line />
+          <BaseCollapseChips v-if="item" id="s_label" :chips="item.service.labels || {}" icon="mdi-label" single-line />
         </template>
       </BaseListItemForDetail>
       <BaseListItemForDetail title="类型">
@@ -28,7 +28,7 @@
       <BaseListItemForDetail title="端口">
         <template #content>
           <v-flex class="text-body-2">
-            <BaseCollapseChips v-if="item" :chips="services || []" icon="mdi-directions-fork" single-line />
+            <BaseCollapseChips v-if="item" id="s_port" :chips="services || []" icon="mdi-directions-fork" single-line />
           </v-flex>
         </template>
       </BaseListItemForDetail>

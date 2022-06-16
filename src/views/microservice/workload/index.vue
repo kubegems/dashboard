@@ -57,8 +57,13 @@
           <template #[`item.namespace`]="{ item }">
             {{ item.namespace }}
           </template>
-          <template #[`item.labels`]="{ item }">
-            <BaseCollapseChips :chips="item.Object.metadata.labels || {}" icon="mdi-label" single-line />
+          <template #[`item.labels`]="{ item, index }">
+            <BaseCollapseChips
+              :id="`w_label_${index}`"
+              :chips="item.Object.metadata.labels || {}"
+              icon="mdi-label"
+              single-line
+            />
           </template>
           <template #[`item.status`]="{ item }">
             <span
