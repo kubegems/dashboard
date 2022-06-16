@@ -105,13 +105,14 @@ export default {
         if (this.formComponent === 'BaseYamlForm') {
           data = this.$refs[this.formComponent].kubeyaml
           const jsondata = this.$yamlload(data)
-          const mixinjson = require(`@/views/resource/${
-            ['deployment', 'statefulset', 'daemonset'].indexOf(
-              this.kind.toLowerCase(),
-            ) > -1
-              ? 'workload'
-              : this.kind.toLowerCase()
-          }/mixins/schema.js`)
+
+          let kind = this.kind.toLocaleLowerCase();
+          if (!kind) {
+            kind = jsondata?.kind?.toLocaleLowerCase();
+          }
+          kind = ['deployment', 'statefulset', 'daemonset'].indexOf(kind) > -1 ? 'workload' : kind;
+
+          const mixinjson = require(`@/views/resource/${kind}/mixins/schema.js`)
           if (
             !this.m_resource_validateJsonSchema(mixinjson.default.data().schema, jsondata)
           ) {
