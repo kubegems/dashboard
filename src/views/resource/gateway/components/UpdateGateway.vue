@@ -100,7 +100,12 @@
         const data = await getGatewayDetail(this.Tenant().ID, this.ThisClusterID, name);
         this.item = deepCopy(data);
         this.$refs[this.formComponent].setData(deepCopy(data));
-        if (data && data.spec && data.spec.configMapData && data.spec.configMapData.http2.toLowerCase() === 'true') {
+        if (
+          data &&
+          data.spec &&
+          data.spec.configMapData &&
+          data.spec.configMapData.http2.toLocaleLowerCase() === 'true'
+        ) {
           this.$refs[this.formComponent].protocol = 'http/2';
         } else {
           this.$refs[this.formComponent].protocol = 'http/1.1';

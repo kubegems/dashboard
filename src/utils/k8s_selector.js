@@ -1,5 +1,5 @@
 function stringifyExpression(expr) {
-  const operator = expr.operator.toLowerCase();
+  const operator = expr.operator.toLocaleLowerCase();
   const key = expr.key;
   const values = expr.values;
 
