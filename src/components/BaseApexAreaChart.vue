@@ -50,7 +50,7 @@
       },
       noDataOffsetY: {
         type: Number,
-        default: () => -17,
+        default: () => -22,
       },
       title: {
         type: String,
@@ -351,7 +351,7 @@
           },
           stroke: {
             curve: 'smooth',
-            width: 1,
+            width: this.chartType === 'line' ? 2 : 1,
           },
           fill: {
             type: 'solid',
