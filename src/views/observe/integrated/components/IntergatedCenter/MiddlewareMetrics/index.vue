@@ -1,5 +1,5 @@
 <template>
-  <div class="pa-2" :style="{ height: `${height}px`, overflowY: 'auto' }">
+  <div class="pa-2" :style="{ height: `${height}px`, overflowY: 'auto', overflowX: 'hidden' }">
     <BaseSubTitle class="mx-2 mt-1" color="grey lighten-3" :divider="false" title="监控采集配置" />
 
     <v-form v-model="valid" lazy-validation @submit.prevent>

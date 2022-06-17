@@ -3528,7 +3528,7 @@ detect-node@^2.0.4:
   resolved "https://registry.npmmirror.com/detect-node/-/detect-node-2.1.0.tgz#c9c70775a49c3d03bc2c06d9a73be550f978f8b1"
   integrity sha512-T0NIuQpnTvFDATNuHN5roPwSBG83rFsuO+MXXH9/3N1eFbn4wcPjttvjMLEPWJ0RGUYgQE7cGgS3tNxbqCGM7g==
 
-diff2html@^3.3.1, diff2html@^3.4.5:
+diff2html@^3.4.5:
   version "3.4.17"
   resolved "https://registry.npmmirror.com/diff2html/-/diff2html-3.4.17.tgz#d8af6c5178797a29012234c221a1ce1645430f34"
   integrity sha512-B/H+iLRHTsRl2Ffs/7tYJ0Rg4uisXe83inIdNE8trXY83Wn7OCTslJNP7fyaUpSsLbRIzPSNgT7LqFNiIQlDyg==
@@ -3542,11 +3542,6 @@ diff@5.0.0:
   version "5.0.0"
   resolved "https://registry.npmmirror.com/diff/-/diff-5.0.0.tgz#7ed6ad76d859d030787ec35855f5b1daf31d852b"
   integrity sha512-/VTCrvm5Z0JGty/BWHljh+BAiw3IK+2j87NGMu8Nwc/f48WoDAC395uomO9ZD117ZOBaHmkX1oyLvkVM/aIT3w==
-
-diff@^3.5.0:
-  version "3.5.0"
-  resolved "https://registry.npmmirror.com/diff/-/diff-3.5.0.tgz#800c0dd1e0a8bfbc95835c202ad220fe317e5a12"
-  integrity sha512-A46qtFgd+g7pDZinpnwiRJtxbC1hpgf0uzP3iG89scHk0AUC7A1TGxf5OiiOUv/JMZR8GOt8hL900hV0bOy5xA==
 
 diff@^4.0.1:
   version "4.0.2"
@@ -4825,11 +4820,6 @@ highlight.js@^10.5.0, highlight.js@^10.7.1:
   version "10.7.3"
   resolved "https://registry.npmmirror.com/highlight.js/-/highlight.js-10.7.3.tgz#697272e3991356e40c3cac566a74eef681756531"
   integrity sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==
-
-highlight.js@^9.18.5:
-  version "9.18.5"
-  resolved "https://registry.npmmirror.com/highlight.js/-/highlight.js-9.18.5.tgz#d18a359867f378c138d6819edfc2a8acd5f29825"
-  integrity sha512-a5bFyofd/BHCX52/8i8uJkjr9DYwXIPnM/plwI6W7ezItLGqzt7X2G2nXuYSfsIJdkwwj/g9DG1LkcGJI/dDoA==
 
 hogan.js@3.0.2:
   version "3.0.2"
@@ -8632,16 +8622,6 @@ vue-cli-plugin-yaml@^1.0.2:
     json-loader "^0.5.7"
     yaml-loader "^0.6.0"
 
-vue-code-diff@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.npmmirror.com/vue-code-diff/-/vue-code-diff-1.2.0.tgz#e38013307bab9296cc3512b2e7c9afed7890ae4a"
-  integrity sha512-kgSCl1Cr3I0u0z5DyJFbqQ1Hk7s9uBl7bfGwIn1X8f1xGmWdu4eRqfeOLTS0ut06VfGslaprXdaSvgn7YGDh0Q==
-  dependencies:
-    diff "^3.5.0"
-    diff2html "^3.3.1"
-    highlight.js "^9.18.5"
-    vue "^2.6.12"
-
 vue-demi@latest:
   version "0.13.1"
   resolved "https://registry.npmmirror.com/vue-demi/-/vue-demi-0.13.1.tgz#7604904c88be338418a10abbc94d5b8caa14cb8c"
@@ -8768,7 +8748,7 @@ vue2-ace-editor@^0.0.15:
   dependencies:
     brace "^0.11.0"
 
-vue@^2.6.10, vue@^2.6.12, vue@^2.6.14:
+vue@^2.6.10, vue@^2.6.14:
   version "2.6.14"
   resolved "https://registry.npmmirror.com/vue/-/vue-2.6.14.tgz#e51aa5250250d569a3fbad3a8a5a687d6036e235"
   integrity sha512-x2284lgYvjOMj3Za7kqzRcUSxBboHqtgRE2zlos1qWaOye5yUmHn42LB1250NJBLRwEcdrB0JRwyPTEPhfQjiQ==

@@ -3,12 +3,12 @@
     :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
     :style="`height: ${height}px !important;overflow: auto;`"
   >
-    <CodeDiff :new-string="predictedLiveState" :old-string="normalizedLiveState" />
+    <CodeDiff is-show-no-change :new-string="predictedLiveState" :old-string="normalizedLiveState" />
   </v-flex>
 </template>
 
 <script>
-  import CodeDiff from 'vue-code-diff';
+  import { CodeDiff } from 'v-code-diff';
   import { mapState } from 'vuex';
 
   export default {
