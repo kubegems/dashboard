@@ -7,7 +7,13 @@
         <ProjectEnvSelect :tenant="tenant" @refreshEnvironemnt="refreshEnvironemnt" />
         <v-spacer />
         <BaseDatetimePicker v-model="date" :default-value="30" @change="onDatetimeChange(undefined)" />
-        <v-menu v-if="environment && m_permisson_resourceAllow(environment.text)" :attach="`#monitor__dashboard`" left>
+        <v-menu
+          v-if="
+            environment && m_permisson_resourceAllow(environment.text) && missingPlugins && missingPlugins.length === 0
+          "
+          :attach="`#monitor__dashboard`"
+          left
+        >
           <template #activator="{ on, attrs }">
             <v-btn color="primary" icon text v-bind="attrs" v-on="on">
               <v-icon small> fas fa-ellipsis-v </v-icon>
@@ -160,6 +166,7 @@
           start: null,
           end: null,
         },
+        missingPlugins: [],
       };
     },
     computed: {
@@ -239,9 +246,21 @@
         );
         this.$set(this.metrics, `c${index}`, data);
       },
-      refreshEnvironemnt(env) {
+      async refreshEnvironemnt(env) {
         this.environment = env;
-        this.dashboardList();
+        this.missingPlugins = await this.m_permission_plugin_pass(
+          this.environment.clusterName,
+          this.$route.meta?.dependencies || [],
+        );
+        if (this.missingPlugins?.length === 0) {
+          this.dashboardList();
+        } else {
+          this.$store.commit('SET_SNACKBAR', {
+            text: `该环境所在集群还未启用 ${this.missingPlugins.join(', ')} 插件！`,
+            color: 'warning',
+          });
+          return;
+        }
       },
       addDashboard() {
         this.$refs.addDashboard.open();

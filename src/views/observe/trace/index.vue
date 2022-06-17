@@ -45,6 +45,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import BasePermission from '@/mixins/permission';
   import ClusterSelect from '@/views/observe/components/ClusterSelect';
 
   export default {
@@ -52,6 +53,7 @@
     components: {
       ClusterSelect,
     },
+    mixins: [BasePermission],
     data() {
       return {
         cluster: undefined,
@@ -62,6 +64,7 @@
         isTraceId: false,
         traceid: '',
         traceIdSearchWidth: 250,
+        missingPlugins: [],
       };
     },
     computed: {
@@ -78,10 +81,21 @@
       },
     },
     watch: {
-      cluster() {
-        this.$store.commit('SET_PROGRESS', true);
-        this.show = false;
-        this.iframeKey = Date.now();
+      cluster: {
+        async handler() {
+          this.missingPlugins = await this.m_permission_plugin_pass(this.cluster, this.$route.meta?.dependencies || []);
+          if (this.missingPlugins?.length === 0) {
+            this.$store.commit('SET_PROGRESS', true);
+            this.show = false;
+            this.iframeKey = Date.now();
+          } else {
+            this.$store.commit('SET_SNACKBAR', {
+              text: `该集群还未启用 ${this.missingPlugins.join(', ')} 插件！`,
+              color: 'warning',
+            });
+            return;
+          }
+        },
       },
     },
     mounted() {

@@ -145,6 +145,7 @@
                           return-object
                           :rules="fieldRules.required"
                           solo
+                          @change="onEnvironmentChange(index)"
                         >
                           <template #selection="{ item }">
                             <v-chip color="primary" label small>
@@ -338,6 +339,7 @@
     getProjectEnvironmentList,
     getMetricsLabelValues,
   } from '@/api';
+  import BasePermission from '@/mixins/permission';
   import BaseSelect from '@/mixins/select';
   import { deepCopy, debounce } from '@/utils/helpers';
   import { required } from '@/utils/rules';
@@ -352,7 +354,7 @@
       MetricsItem,
       MetricsSuggestion,
     },
-    mixins: [BaseSelect, Metrics],
+    mixins: [BasePermission, BaseSelect, Metrics],
     data() {
       this.fieldRules = {
         cluster: (index) => {
@@ -402,6 +404,7 @@
         metricsObject: {},
         labelpairs: {},
         isMounted: true,
+        missingPlugins: [],
       };
     },
     computed: {
@@ -500,7 +503,6 @@
           this.$set(this.queryList[index], 'unit', items[items.length - 1]);
         }
       },
-
       // 获取格式化后的params
       getParams(params) {
         let newParams = {
@@ -570,6 +572,8 @@
         this.$set(query, 'projectItems', items);
         this.$set(query, 'project', undefined);
         this.$set(query, 'environment', undefined);
+
+        this.pluginsPass(query.cluster?.text);
       },
       async onProjectChange(index) {
         const query = this.queryList[index];
@@ -582,6 +586,10 @@
         }
         this.$set(query, 'environment', undefined);
         this.$set(query, 'environmentItems', envItems);
+      },
+      onEnvironmentChange(index) {
+        const query = this.queryList[index];
+        this.pluginsPass(query.environment?.Cluster.ClusterName);
       },
       async getMonitorConfig() {
         let data = null;
@@ -670,6 +678,19 @@
             value: [query.unitText],
           });
           this.setUnitItems(index, true);
+        }
+      },
+      async pluginsPass(cluster) {
+        if (!cluster) return;
+        this.missingPlugins = await this.m_permission_plugin_pass(cluster, this.$route.meta?.dependencies || []);
+        if (this.missingPlugins?.length === 0) {
+          //
+        } else {
+          this.$store.commit('SET_SNACKBAR', {
+            text: `该集群还未启用 ${this.missingPlugins.join(', ')} 插件！`,
+            color: 'warning',
+          });
+          return;
         }
       },
     },

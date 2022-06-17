@@ -32,6 +32,7 @@ export const microService = [
               rootName: 'microservice',
               dependencies: ['istio'],
               tip: 'v-dashboard',
+              innerCheck: true,
             },
           },
         ],
@@ -60,6 +61,7 @@ export const microService = [
               rootName: 'microservice',
               dependencies: ['istio'],
               tip: 'dag',
+              innerCheck: true,
             },
           },
           // microworkload
@@ -75,6 +77,7 @@ export const microService = [
               rootName: 'microservice',
               dependencies: ['istio'],
               tip: 'v-workload',
+              innerCheck: true,
             },
           },
           {
@@ -89,6 +92,7 @@ export const microService = [
               rootName: 'microservice',
               dependencies: ['istio'],
               tip: 'v-workload',
+              innerCheck: true,
             },
           },
           // service
@@ -104,6 +108,7 @@ export const microService = [
               rootName: 'microservice',
               dependencies: ['istio'],
               tip: 'v-service',
+              innerCheck: true,
             },
           },
           {
@@ -118,6 +123,7 @@ export const microService = [
               rootName: 'microservice',
               dependencies: ['istio'],
               tip: 'v-service',
+              innerCheck: true,
             },
           },
         ],
@@ -145,6 +151,7 @@ export const microService = [
               rootName: 'microservice',
               dependencies: ['istio'],
               tip: 'v-configmap',
+              innerCheck: true,
             },
           },
           {
@@ -159,6 +166,7 @@ export const microService = [
               rootName: 'microservice',
               dependencies: ['istio'],
               tip: 'v-configmap',
+              innerCheck: true,
             },
           },
         ],
@@ -186,6 +194,7 @@ export const microService = [
               rootName: 'microservice',
               dependencies: ['istio'],
               tip: 'v-gateway-instance',
+              innerCheck: true,
             },
           },
           {
@@ -200,6 +209,7 @@ export const microService = [
               rootName: 'microservice',
               dependencies: ['istio'],
               tip: 'v-gateway-instance',
+              innerCheck: true,
             },
           },
         ],
@@ -227,6 +237,7 @@ export const microService = [
               rootName: 'microservice',
               dependencies: ['istio'],
               tip: 'v-authorization-policy',
+              innerCheck: true,
             },
           },
           // gateways
@@ -242,6 +253,7 @@ export const microService = [
               rootName: 'microservice',
               dependencies: ['istio'],
               tip: 'v-gateway',
+              innerCheck: true,
             },
           },
           // peerauthentication
@@ -257,6 +269,7 @@ export const microService = [
               rootName: 'microservice',
               dependencies: ['istio'],
               tip: 'v-peer-authentication',
+              innerCheck: true,
             },
           },
           // serviceentry
@@ -272,6 +285,7 @@ export const microService = [
               rootName: 'microservice',
               dependencies: ['istio'],
               tip: 'v-service-entry',
+              innerCheck: true,
             },
           },
           // sidecar
@@ -287,6 +301,7 @@ export const microService = [
               rootName: 'microservice',
               dependencies: ['istio'],
               tip: 'v-sidecar',
+              innerCheck: true,
             },
           },
         ],

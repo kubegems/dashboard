@@ -135,7 +135,7 @@ router.beforeEach(async (to, from, next) => {
         cluster: environment.ClusterName,
       });
     }
-    await store.dispatch('INIT_PLUGINS');
+    store.dispatch('INIT_PLUGINS');
     if (store.state.AdminViewport && to.meta.upToAdmin) {
       next({
         name: `admin-${to.name}`,

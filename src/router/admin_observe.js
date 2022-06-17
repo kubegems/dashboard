@@ -94,6 +94,7 @@ export const adminObserve = [
               rootName: 'admin-observe',
               dependencies: ['monitoring'],
               tip: 'dash-overview',
+              innerCheck: true,
             },
           },
         ],
@@ -121,6 +122,7 @@ export const adminObserve = [
               rootName: 'admin-observe',
               tip: 'dash-metrics',
               dependencies: ['monitoring'],
+              innerCheck: true,
             },
           },
           {
@@ -136,6 +138,7 @@ export const adminObserve = [
               rootName: 'admin-observe',
               dependencies: ['logging'],
               tip: 'dash-log',
+              innerCheck: true,
             },
           },
           {
@@ -151,6 +154,7 @@ export const adminObserve = [
               rootName: 'admin-observe',
               dependencies: ['tracing'],
               tip: 'dash-trace',
+              innerCheck: true,
             },
           },
         ],
@@ -183,6 +187,7 @@ export const adminObserve = [
               rootName: 'admin-observe',
               dependencies: ['monitoring'],
               tip: 'alert-overview',
+              innerCheck: true,
             },
           },
           {
@@ -198,6 +203,7 @@ export const adminObserve = [
               rootName: 'admin-observe',
               dependencies: ['monitoring'],
               tip: 'alert-history',
+              innerCheck: true,
             },
           },
           {
@@ -213,6 +219,7 @@ export const adminObserve = [
               rootName: 'admin-observe',
               dependencies: ['monitoring'],
               tip: 'alert-blacklist',
+              innerCheck: true,
             },
           },
         ],
@@ -245,6 +252,7 @@ export const adminObserve = [
               rootName: 'admin-observe',
               dependencies: ['monitoring'],
               tip: 'config-monitor',
+              innerCheck: true,
             },
           },
           {
@@ -260,6 +268,7 @@ export const adminObserve = [
               rootName: 'admin-observe',
               dependencies: ['monitoring'],
               tip: 'service-monitor',
+              innerCheck: true,
             },
           },
           {
@@ -275,6 +284,7 @@ export const adminObserve = [
               rootName: 'admin-observe',
               dependencies: ['monitoring'],
               tip: 'prometheus-rule',
+              innerCheck: true,
             },
           },
           {
@@ -290,6 +300,7 @@ export const adminObserve = [
               rootName: 'admin-observe',
               dependencies: ['logging'],
               tip: 'log-monitor',
+              innerCheck: true,
             },
           },
 
@@ -306,6 +317,7 @@ export const adminObserve = [
               rootName: 'admin-observe',
               dependencies: ['logging'],
               tip: 'flow',
+              innerCheck: true,
             },
           },
           {
@@ -321,6 +333,7 @@ export const adminObserve = [
               rootName: 'admin-observe',
               dependencies: ['logging'],
               tip: 'output',
+              innerCheck: true,
             },
           },
           {
@@ -336,6 +349,7 @@ export const adminObserve = [
               rootName: 'admin-observe',
               dependencies: ['monitoring'],
               tip: 'prometheus-rule',
+              innerCheck: true,
             },
           },
         ],
