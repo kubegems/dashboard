@@ -22,7 +22,7 @@
           <v-list-item-content class="primary--text">
             <v-list-item-title class="text-subtitle-1 text-center title-font-weight">
               <v-flex class="float-left">
-                <Icon :icon="module.icon" style="width: 2rem; height: 2rem; font-size: 2rem;" />
+                <Icon :icon="module.icon" style="width: 2rem; height: 2rem; font-size: 2rem" />
               </v-flex>
               <v-flex v-if="!hide" class="float-left title-line-height ml-3">
                 {{ module.text }}
@@ -53,7 +53,7 @@
             @click="switchModule(item)"
           >
             <v-list-item-icon>
-              <Icon :icon="item.icon" style="width: 1.5rem; height: 1.5rem; font-size: 1.5rem;" />
+              <Icon :icon="item.icon" style="width: 1.5rem; height: 1.5rem; font-size: 1.5rem" />
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title v-text="item.text" />
