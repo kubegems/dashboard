@@ -61,6 +61,20 @@ export const workspace = [
             },
           },
           {
+            path: `${prefix}/configs`,
+            name: 'app-configer',
+            component: () => import('@/views/resource/app-configer/index'),
+            meta: {
+              requireAuth: true,
+              title: '应用配置',
+              icon: 'mdi-wrench',
+              show: false,
+              rootName: 'workspace',
+              tip: 'appconfig',
+              dependencies: ['kubegems-local', 'nacos'],
+            },
+          },
+          {
             path: `${prefix}/apps/:name`,
             name: 'app-detail',
             component: () => import('@/views/resource/app/detail'),
