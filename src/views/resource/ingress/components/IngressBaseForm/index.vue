@@ -181,7 +181,7 @@
       expand: false,
       resourceKind: '',
       obj: {
-        apiVersion: 'networking.k8s.io/v1beta1',
+        apiVersion: 'networking.k8s.io/v1',
         kind: 'Ingress',
         metadata: {
           name: '',
@@ -219,7 +219,7 @@
     watch: {
       item: {
         handler() {
-          this.obj.apiVersion = this.ApiResources['ingress'] || 'networking.k8s.io/v1beta1';
+          this.obj.apiVersion = this.ApiResources['ingress'] || 'networking.k8s.io/v1';
           this.loadData();
         },
         deep: true,

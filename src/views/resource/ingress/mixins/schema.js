@@ -11,8 +11,7 @@ const schema = {
           apiVersion: {
             $id: '#/properties/apiVersion',
             type: 'string',
-            default: '',
-            enum: ['extensions/v1beta1', 'networking.k8s.io/v1beta1', 'networking.k8s.io/v1'],
+            default: 'networking.k8s.io/v1',
           },
           kind: {
             $id: '#/properties/kind',

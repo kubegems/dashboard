@@ -126,10 +126,18 @@
         const sidebarItem = this.$router.options.routes.find((r) => {
           return this.$route.meta.rootName && r.name === this.$route.meta.rootName;
         });
-        if (sidebarItem) {
-          return sidebarItem.children;
+        // 特殊处理
+        if (sidebarItem.name === 'workspace') {
+          sidebarItem.children.forEach((child) => {
+            const c = child.children.find((c) => {
+              return c.name === 'app-configer';
+            });
+            if (c && this.Plugins && this.Plugins.nacos) {
+              c.meta.show = true;
+            }
+          });
         }
-        return [];
+        return sidebarItem.children;
       },
       height() {
         return window.innerHeight / this.Scale;

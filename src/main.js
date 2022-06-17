@@ -62,6 +62,9 @@ Vue.prototype.$aceinit = () => {
   require('brace/ext/beautify');
   require('brace/mode/yaml');
   require('brace/mode/json');
+  require('brace/mode/xml');
+  require('brace/mode/ini');
+  require('brace/mode/html');
   require('brace/mode/plain_text');
   require('brace/snippets/json');
 };

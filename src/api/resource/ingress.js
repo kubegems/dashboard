@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { getApiVersion } from '@/utils/helpers';
 
-const apiVersion = getApiVersion('ingress', 'networking.k8s.io/v1beta1');
+const apiVersion = getApiVersion('ingress', 'networking.k8s.io/v1');
 
 // 路由列表
 export const getIngressList = (clusterName, namespace, query = {}) =>
