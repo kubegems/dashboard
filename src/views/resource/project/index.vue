@@ -142,7 +142,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import UpdateProject from './components/UpdateProject';
-
   import { getProjectList, deleteProject, getTenantProjectQuotaList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';

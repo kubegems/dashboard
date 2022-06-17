@@ -8,7 +8,6 @@ import {
   getProjectSelectData,
   getEnvironmentSelectData,
 } from './server_data';
-
 import { getClusterPluginsList, getRESTMapping } from '@/api';
 import router from '@/router';
 import { getCookie, delAllCookie } from '@/utils/cookie';
@@ -333,7 +332,13 @@ export default new Store({
         }
         return false;
       };
-      if (!state.PluginsInterval && state.JWT) {
+      let refresh = false;
+      if (state.AdminViewport && state.LatestCluster.cluster !== getters.Cluster().ClusterName) {
+        refresh = true;
+      } else if (!state.AdminViewport && state.LatestEnvironment.cluster !== getters.Environment().ClusterName) {
+        refresh = true;
+      }
+      if ((!state.PluginsInterval && state.JWT) || refresh) {
         const r = await doFunc();
         if (r) {
           state.PluginsInterval = setInterval(doFunc, 1000 * 30);

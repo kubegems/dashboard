@@ -39,8 +39,9 @@
           <template #[`item.namespace`]="{ item }">
             {{ item.metadata.namespace }}
           </template>
-          <template #[`item.router`]="{ item }">
+          <template #[`item.router`]="{ item, index }">
             <BaseCollapseChips
+              :id="`s_router_${index}`"
               :chips="[...(item.spec.globalOutputRefs || []), ...(item.spec.localOutputRefs || [])]"
               :count="1"
             />
@@ -116,7 +117,6 @@
 
   import AddFlow from './components/AddFlow';
   import UpdateFlow from './components/UpdateFlow';
-
   import { getClusterFlowsData, getFlowsData, deleteFlowData, deleteClusterFlowData } from '@/api';
   import BasePermission from '@/mixins/permission';
 

@@ -16,12 +16,12 @@
           <BaseApexAreaChart id="load" label="name" :metrics="load" title="负载" type="" />
         </v-col>
         <v-col cols="6">
-          <BaseApexAreaChart id="cpu" label="host" :metrics="cpu" title="CPU使用率" type="%" />
+          <BaseApexAreaChart id="cpu" label="node" :metrics="cpu" title="CPU使用率" type="%" />
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="6">
-          <BaseApexAreaChart id="memory" label="host" :metrics="memory" title="内存使用率" type="%" />
+          <BaseApexAreaChart id="memory" label="node" :metrics="memory" title="内存使用率" type="%" />
         </v-col>
         <v-col cols="6">
           <BaseApexAreaChart id="network" label="name" :metrics="network" title="网络带宽" type="network" />
@@ -29,7 +29,7 @@
       </v-row>
       <v-row>
         <v-col cols="6">
-          <BaseApexAreaChart id="disk" label="host" :metrics="disk" title="磁盘剩余容量" type="storage" />
+          <BaseApexAreaChart id="disk" label="device" :metrics="disk" title="磁盘剩余容量" type="storage" />
         </v-col>
         <v-col cols="6">
           <BaseApexAreaChart id="diskiops" label="name" :metrics="diskiops" title="磁盘IOPS" type="" />

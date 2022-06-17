@@ -124,7 +124,6 @@
   import ConfigEditor from './components/ConfigEditor';
   import DeleteItem from './components/DeleteItem';
   import HistoryView from './components/HistoryView';
-
   import BaseFilter from '@/mixins/base_filter';
   import { deepCopy } from '@/utils/helpers';
 

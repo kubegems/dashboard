@@ -40,7 +40,7 @@
         </v-menu>
       </v-card-title>
       <v-data-table
-        class="mx-4"
+        class="mx-4 pb-4"
         disable-sort
         :headers="headers"
         hide-default-footer
@@ -111,7 +111,6 @@
 
   import RepositoryInfo from './components/RepositoryInfo';
   import StatusTip from './components/StatusTip';
-
   import { getRepositoryList, deleteRepository, postSyncRepository } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BaseResource from '@/mixins/resource';

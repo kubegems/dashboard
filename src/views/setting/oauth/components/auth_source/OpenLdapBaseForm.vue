@@ -100,15 +100,12 @@
       },
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         this.$refs.form.reset();
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getData() {
         return this.obj;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs.form.validate(true);
       },

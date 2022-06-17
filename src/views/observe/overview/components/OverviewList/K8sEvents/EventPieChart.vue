@@ -8,7 +8,7 @@
       type="pie"
     />
     <div v-for="(label, index) in labels" :key="index" class="text-caption ml-4">
-      <v-icon small :style="{ color: $LINE_THEME_COLORS[index] }"> mdi-checkbox-blank-circle </v-icon>
+      <v-icon small :style="{ color: $LINE_THEME_FUL_COLORS[index] }"> mdi-checkbox-blank-circle </v-icon>
       {{ label }}
     </div>
   </div>
@@ -49,7 +49,7 @@
       ...mapState(['Scale']),
       options() {
         return {
-          colors: this.$LINE_THEME_COLORS,
+          colors: this.$LINE_THEME_FUL_COLORS,
           chart: {
             type: 'pie',
             zoom: {

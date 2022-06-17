@@ -59,7 +59,6 @@
 
   import ResourceInfo from './components/ResourceInfo';
   import UpdateOutput from './components/UpdateOutput';
-
   import { getOutputDetailData, getClusterOutputDetailData, deleteClusterOutputData, deleteOutputData } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';

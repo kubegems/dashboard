@@ -13,7 +13,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import LinkAppBaseForm from './LinkAppBaseForm';
-
   import { postAddApp } from '@/api';
 
   export default {
@@ -30,7 +29,6 @@
       ...mapGetters(['Tenant', 'Environment', 'Project']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },

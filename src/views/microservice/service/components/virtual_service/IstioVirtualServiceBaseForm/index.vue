@@ -123,7 +123,6 @@
   import TcpItem from './TcpItem';
   import TLSForm from './TLSForm';
   import TLSItem from './TLSItem';
-
   import { getIstioGatewayList } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
@@ -358,7 +357,6 @@
       closeExpand() {
         this.expand = false;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         if (this.$refs.httpForm) this.$refs.httpForm.closeCard();
         if (this.$refs.tcpForm) this.$refs.tcpForm.closeCard();
@@ -367,15 +365,12 @@
         this.hosts = [];
         this.$refs.form.reset();
       },
-      // eslint-disable-next-line vue/no-unused-properties
       setData(data) {
         this.obj = data;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getData() {
         return this.obj;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs.form.validate(true);
       },

@@ -13,7 +13,6 @@
   import { mapState } from 'vuex';
 
   import GraphBaseForm from './GraphBaseForm';
-
   import { putUpdateMonitorDashboard } from '@/api';
   import { deepCopy } from '@/utils/helpers';
 
@@ -55,11 +54,9 @@
       },
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       init(item, index) {
         this.index = index;
         this.item = deepCopy(item);

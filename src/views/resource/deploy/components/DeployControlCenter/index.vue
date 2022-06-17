@@ -249,7 +249,6 @@
   import DeployPodTip from './DeployPodTip';
   import DeployStepPanel from './DeployStepPanel';
   import DeployStepStatus from './DeployStepStatus';
-
   import { postStrategyDeployEnvironmentAppsControl, getAppRelatedServices } from '@/api';
   import BaseResource from '@/mixins/resource';
 

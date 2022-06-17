@@ -74,7 +74,6 @@
   import ResourceChart from './components/ResourceChart';
   import ResourceInfo from './components/ResourceInfo';
   import UpdateCluster from './components/UpdateCluster';
-
   import { deleteCluster, getClusterDetail, getClusterQuota } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -214,5 +213,7 @@
   .cluster__resource__div {
     max-height: 44px;
     overflow: scroll;
+    background: none;
+    border: none;
   }
 </style>

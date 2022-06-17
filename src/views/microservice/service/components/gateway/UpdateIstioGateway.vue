@@ -13,7 +13,6 @@
   import { mapState } from 'vuex';
 
   import IstioGatewayBaseForm from './IstioGatewayBaseForm';
-
   import { patchUpdateIstioGateway, getIstioGatewayDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
@@ -35,7 +34,6 @@
       ...mapState(['Circular', 'EnvironmentFilter']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -64,7 +62,6 @@
           this.$emit('refresh');
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(item) {
         const data = await getIstioGatewayDetail(this.EnvironmentFilter.cluster, item.namespace, item.name);
         this.item = deepCopy(data);

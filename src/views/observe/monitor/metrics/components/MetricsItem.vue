@@ -32,9 +32,20 @@
       </v-col>
     </v-row>
 
-    <div class="metrics-item__chart" :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
+    <div class="metrics-item__chart">
       <div ref="container" class="metrics-item__container">
-        <MetricsLineChart :height="size.height" :series="series" :unit="unit" :width="size.width" />
+        <BaseApexAreaChart
+          v-if="data"
+          chart-type="line"
+          :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
+          :extend-height="295"
+          label="pod"
+          :label-show="false"
+          :metrics="data ? data.data : []"
+          :no-data-offset-y="-22"
+          type=""
+          :unit="getUnit(unit)"
+        />
       </div>
     </div>
   </v-card>
@@ -43,20 +54,15 @@
 <script>
   import { mapState } from 'vuex';
 
-  import MetricsLineChart from './MetricsLineChart';
-
   import { debounce } from '@/utils/helpers';
   import { SERVICE_MONITOR_NS } from '@/utils/namespace';
 
   export default {
     name: 'MetricsItem',
-    components: {
-      MetricsLineChart,
-    },
     props: {
       data: {
         type: Object,
-        default: () => ({}),
+        default: () => null,
       },
       labelpairs: {
         type: Object,
@@ -90,15 +96,6 @@
       labels() {
         return Object.values(this.labelObject);
       },
-      series() {
-        return this.data.data.map((item) => {
-          const m = item.metric;
-          return {
-            name: Object.keys(m).reduce((pre, current) => pre + `${current}='${m[current]}' `, ''),
-            data: item.values,
-          };
-        });
-      },
       maxHeight() {
         if (this.labels.length % 3 === 0) {
           return (48 * this.labels.length) / 3;
@@ -124,7 +121,7 @@
         };
       },
       setAlert() {
-        const { resource, rule, unit, cluster, namespace, environment, ql, expr } = this.data._$origin;
+        const { resource, rule, unit, cluster, environment, ql, expr } = this.data?._$origin;
         const labelpairs = {};
         for (const key in this.labelpairs) {
           if (this.labelpairs[key] && this.labelpairs[key].length) {
@@ -142,7 +139,7 @@
             promqlGenerator: {
               resource: resource._$value,
               rule: rule._$value,
-              unit: unit?._$value,
+              unit: unit?.value,
             },
           };
         }
@@ -152,11 +149,7 @@
             {
               name: '',
               for: '1m',
-              promqlGenerator: {
-                resource: resource._$value,
-                rule: rule._$value,
-                unit: unit?._$value,
-              },
+              promqlGenerator: null,
               labelpairs,
               alertLevels: [],
               receivers: [],
@@ -168,7 +161,7 @@
         this.$router.replace({
           query: {
             cluster: environment?.Cluster.ClusterName || cluster?.text,
-            namespace: namespace || SERVICE_MONITOR_NS,
+            namespace: environment?.Namespace || SERVICE_MONITOR_NS,
           },
         });
       },
@@ -178,9 +171,17 @@
       onLabelChange(value, label) {
         this.$emit('change', { label, value });
       },
-      // eslint-disable-next-line vue/no-unused-properties
       onRefresh() {
         this.$emit('refresh');
+      },
+      getUnit(unit) {
+        if (unit === 'short') {
+          return 'short';
+        }
+        if (unit && unit.indexOf('-') > -1) {
+          return unit.substr(unit.indexOf('-') + 1);
+        }
+        return unit;
       },
     },
   };

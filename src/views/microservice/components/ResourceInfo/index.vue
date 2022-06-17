@@ -9,7 +9,7 @@
     <v-card v-for="(traffics, key) in traffic" :key="`${key}`" class="mt-3">
       <BaseSubTitle class="pt-2" :divider="false" :title="`${trafficCn[key]}`" />
       <v-data-table
-        class="mx-4"
+        class="mx-4 pb-4"
         disable-sort
         :headers="headers"
         hide-default-footer
@@ -47,7 +47,6 @@
   import MonitorCard from './MonitorCard';
   import ServiceInfo from './ServiceInfo';
   import WorkloadList from './WorkloadList';
-
   import { getKialiTrafficGraph } from '@/api';
   import BaseResource from '@/mixins/resource';
 

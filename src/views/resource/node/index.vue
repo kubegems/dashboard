@@ -199,7 +199,6 @@
   import { mapState } from 'vuex';
 
   import GpuScheduleForm from './components/GpuScheduleForm';
-
   import { getNodeList, patchCordonNode } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -289,7 +288,7 @@
         });
         data.forEach((d) => {
           const index = this.items.findIndex((node) => {
-            return d.metric.host === node.metadata.name;
+            return d.metric.node === node.metadata.name;
           });
           if (index > -1) {
             const item = this.items[index];
@@ -305,7 +304,7 @@
         });
         data.forEach((d) => {
           const index = this.items.findIndex((node) => {
-            return d.metric.host === node.metadata.name;
+            return d.metric.node === node.metadata.name;
           });
           if (index > -1) {
             const item = this.items[index];
@@ -322,7 +321,7 @@
         });
         data.forEach((d) => {
           const index = this.items.findIndex((node) => {
-            return d.metric.host === node.metadata.name;
+            return d.metric.node === node.metadata.name;
           });
           if (index > -1) {
             const item = this.items[index];

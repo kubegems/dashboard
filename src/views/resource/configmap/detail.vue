@@ -51,10 +51,9 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
+  import { mapGetters, mapState } from 'vuex';
 
   import UpdateConfigMap from './components/UpdateConfigMap';
-
   import { getConfigMapDetail, deleteConfigMap } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -75,6 +74,7 @@
     }),
     computed: {
       ...mapState(['JWT', 'Scale']),
+      ...mapGetters(['VirtualSpace']),
       module() {
         return window.location.href.match(new RegExp('\\/(\\w+)\\/'))[1];
       },
@@ -92,7 +92,7 @@
     methods: {
       async configMapDetail() {
         const data = await getConfigMapDetail(
-          this.ThisCluster || this.$route.query.cluster,
+          this.$route.query.cluster || this.ThisCluster,
           this.$route.query.namespace,
           this.$route.params.name,
         );
@@ -116,8 +116,16 @@
           },
           param: { item },
           doFunc: async (param) => {
-            await deleteConfigMap(this.ThisCluster, this.$route.query.namespace, param.item.metadata.name);
-            this.$router.push({ name: 'configmap-list', params: this.$route.params });
+            await deleteConfigMap(
+              this.$route.query.cluster || this.ThisCluster,
+              this.$route.query.namespace,
+              param.item.metadata.name,
+            );
+            if (this.VirtualSpace().ID > 0) {
+              this.$router.push({ name: 'microconfigmap-list', params: this.$route.params });
+            } else {
+              this.$router.push({ name: 'configmap-list', params: this.$route.params });
+            }
           },
         });
       },

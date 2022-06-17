@@ -7,7 +7,13 @@
         <ProjectEnvSelect :tenant="tenant" @refreshEnvironemnt="refreshEnvironemnt" />
         <v-spacer />
         <BaseDatetimePicker v-model="date" :default-value="30" @change="onDatetimeChange(undefined)" />
-        <v-menu v-if="environment && m_permisson_resourceAllow(environment.text)" :attach="`#monitor__dashboard`" left>
+        <v-menu
+          v-if="
+            environment && m_permisson_resourceAllow(environment.text) && missingPlugins && missingPlugins.length === 0
+          "
+          :attach="`#monitor__dashboard`"
+          left
+        >
           <template #activator="{ on, attrs }">
             <v-btn color="primary" icon text v-bind="attrs" v-on="on">
               <v-icon small> fas fa-ellipsis-v </v-icon>
@@ -39,7 +45,7 @@
       </v-card-title>
 
       <v-card-text class="pa-0 py-1">
-        <v-tabs v-model="tab" class="rounded-t pl-4 pr-12 pb-2" height="30">
+        <v-tabs v-model="tab" class="rounded-t pl-4 pr-12 pb-2" height="30" @change="onTabChange">
           <v-tab v-for="item in items" :key="item.id">
             {{ item.name }}
           </v-tab>
@@ -48,15 +54,15 @@
     </v-card>
 
     <v-row v-if="items.length > 0" class="mt-3">
-      <v-col v-for="(graph, index) in items[tab].graphs" :key="index" class="dash__col pt-0" :cols="3">
-        <v-card class="kubegems__full-height" height="250">
+      <v-col v-for="(graph, index) in items[tab].graphs" :key="index" class="dash__col pt-0" :cols="4">
+        <v-card class="kubegems__full-height" height="330">
           <v-card-text class="pa-1 kubegems__full-height">
             <div class="dash__btn">
               <v-btn icon small @click.stop="openGraphInMaxScreen(graph)">
                 <v-icon color="primary" small> mdi-magnify-plus </v-icon>
               </v-btn>
               <v-btn icon small @click.stop="updateGraph(graph, index)">
-                <v-icon color="primary" small> mdi-upload </v-icon>
+                <v-icon color="primary" small> mdi-pencil </v-icon>
               </v-btn>
               <v-btn icon small @click.stop="removeGraph(graph, index)">
                 <v-icon color="error" small> mdi-minus-box </v-icon>
@@ -64,20 +70,22 @@
             </div>
             <BaseApexAreaChart
               :id="`c${index}`"
+              chart-type="line"
               :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-              :extend-height="230"
+              :extend-height="300"
               label="pod"
               :label-show="false"
               :metrics="metrics[`c${index}`]"
+              :no-data-offset-y="-22"
               :title="graph.name"
               type=""
-              :unit="graph.promqlGenerator ? graph.promqlGenerator.unit : graph.unit"
+              :unit="graph.promqlGenerator ? getUnit(graph.promqlGenerator.unit) : getUnit(graph.unit)"
             />
           </v-card-text>
         </v-card>
       </v-col>
-      <v-col class="pt-0" cols="3">
-        <v-card class="kubegems__full-height" min-height="250">
+      <v-col class="pt-0" cols="4">
+        <v-card class="kubegems__full-height" min-height="330">
           <v-card-text class="pa-0 kubegems__full-height">
             <v-list-item class="kubegems__full-height" three-line>
               <v-list-item-content>
@@ -123,7 +131,6 @@
   import ProjectEnvSelect from './components/ProjectEnvSelect';
   import UpdateDashboard from './components/UpdateDashboard';
   import UpdateGraph from './components/UpdateGraph';
-
   import {
     getMonitorDashboardList,
     getMetricsQueryrange,
@@ -159,6 +166,7 @@
           start: null,
           end: null,
         },
+        missingPlugins: [],
       };
     },
     computed: {
@@ -208,6 +216,12 @@
         await this.getMonitorConfig();
         const data = await getMonitorDashboardList(this.environment.value);
         this.items = data;
+        if (this.$route.query.tab) {
+          const index = this.items.findIndex((i) => {
+            return i.name === this.$route.query.tab;
+          });
+          this.tab = index > -1 ? index : 0;
+        }
         this.loadMetrics();
       },
       getNamespace(item) {
@@ -232,9 +246,21 @@
         );
         this.$set(this.metrics, `c${index}`, data);
       },
-      refreshEnvironemnt(env) {
+      async refreshEnvironemnt(env) {
         this.environment = env;
-        this.dashboardList();
+        this.missingPlugins = await this.m_permission_plugin_pass(
+          this.environment.clusterName,
+          this.$route.meta?.dependencies || [],
+        );
+        if (this.missingPlugins?.length === 0) {
+          this.dashboardList();
+        } else {
+          this.$store.commit('SET_SNACKBAR', {
+            text: `该环境所在集群还未启用 ${this.missingPlugins.join(', ')} 插件！`,
+            color: 'warning',
+          });
+          return;
+        }
       },
       addDashboard() {
         this.$refs.addDashboard.open();
@@ -309,6 +335,23 @@
         this.params.end = this.$moment(this.date[1]).utc().format();
         this.loadMetrics();
       },
+      onTabChange() {
+        this.loadMetrics();
+        this.$router.replace({
+          query: {
+            tab: this.items[this.tab].name,
+          },
+        });
+      },
+      getUnit(unit) {
+        if (unit === 'short') {
+          return 'short';
+        }
+        if (unit && unit?.indexOf('-') > -1) {
+          return unit.substr(unit.indexOf('-') + 1);
+        }
+        return unit;
+      },
     },
   };
 </script>
@@ -329,7 +372,7 @@
     &__btn {
       position: absolute;
       right: 5px;
-      top: 5px;
+      top: 6px;
       z-index: 1;
     }
   }

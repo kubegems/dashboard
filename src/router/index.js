@@ -14,7 +14,6 @@ import { projectWorkspace } from './project_workspace';
 import { tool } from './tool';
 import { userCenter } from './user_center';
 import { workspace } from './workspace';
-
 import store from '@/store';
 
 const originalPush = Router.prototype.push;

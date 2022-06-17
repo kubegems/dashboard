@@ -46,7 +46,6 @@
       },
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -73,7 +72,6 @@
         this.reset();
         this.$emit('refresh');
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(item) {
         this.item = deepCopy(item);
         const data = await getTenantResourceQuota(this.item.ClusterName, this.item.TenantName, {

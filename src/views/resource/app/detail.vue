@@ -41,7 +41,7 @@
             <v-icon left small> fas fa-redo-alt </v-icon>
             回滚
           </v-btn>
-          <v-btn
+          <!-- <v-btn
             v-if="app && app.kind !== 'DaemonSet' && m_permisson_resourceAllow && $route.query.kind === 'app'"
             class="primary--text"
             small
@@ -50,7 +50,7 @@
           >
             <v-icon left small> fas fa-cogs </v-icon>
             弹性伸缩策略
-          </v-btn>
+          </v-btn> -->
           <v-menu left>
             <template #activator="{ on }">
               <v-btn icon>
@@ -99,7 +99,6 @@
   import ResourceInfo from './components/ResourceInfo';
   import Rollingback from './components/Rollingback';
   import ScaleReplicas from './components/ScaleReplicas';
-
   import { getAppRunningDetail, deleteApp, deleteAppStoreApp } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

@@ -89,19 +89,16 @@
       ...mapState(['Scale']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       init(data) {
         this.$nextTick(() => {
           this.obj = deepCopy(data);
         });
       },
-      // eslint-disable-next-line vue/no-unused-properties
       back(data) {
         this.$nextTick(() => {
           this.obj = deepCopy(data);
         });
       },
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         this.$refs.form.resetValidation();
         this.obj = this.$options.data().obj;
@@ -110,15 +107,12 @@
         if (this.edit) return;
         this.obj.Vendor = item.value;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getData() {
         return this.obj;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getExtend() {
         return this.obj.extend;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs.form.validate(true);
       },

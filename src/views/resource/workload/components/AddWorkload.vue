@@ -55,7 +55,6 @@
   import { mapState } from 'vuex';
 
   import WorkloadBaseForm from './WorkloadBaseForm';
-
   import { postAddDaemonSet, postAddDeployment, postAddStatefulSet } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { randomString } from '@/utils/helpers';
@@ -80,7 +79,6 @@
       ...mapState(['Circular', 'AdminViewport']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -186,7 +184,6 @@
           });
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       init() {
         this.formComponent = 'WorkloadBaseForm';
       },
@@ -197,7 +194,6 @@
         this.formComponent = '';
         this.yaml = false;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       setKind(kind) {
         this.kind = kind;
       },

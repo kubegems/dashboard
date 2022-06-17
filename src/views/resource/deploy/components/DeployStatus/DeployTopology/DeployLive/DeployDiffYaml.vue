@@ -45,7 +45,6 @@
       },
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       dispose() {},
     },
   };

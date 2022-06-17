@@ -86,12 +86,12 @@
               v-model="obj.promqlGenerator.unit"
               class="my-0"
               color="primary"
-              :disabled="!obj.promqlGenerator.rule || !unitItems.length"
               hide-selected
-              :items="unitItems"
-              label="单位"
+              :items="m_metrics_unitItems"
+              label="单位(回车可创建自定义单位)"
               no-data-text="暂无可选数据"
-              :rules="unitItems.length ? objRules.unitRule : undefined"
+              :search-input.sync="m_metrics_unitText"
+              @keydown.enter="m_metrics_createUnit"
             >
               <template #selection="{ item }">
                 <v-chip class="mx-1" color="primary" small>
@@ -111,9 +111,11 @@
               class="my-0"
               color="primary"
               hide-selected
-              :items="unitAllItems"
-              label="单位"
+              :items="m_metrics_unitItems"
+              label="单位(回车可创建自定义单位)"
               no-data-text="暂无可选数据"
+              :search-input.sync="m_metrics_unitText"
+              @keydown.enter="m_metrics_createUnit"
             >
               <template #selection="{ item }">
                 <v-chip class="mx-1" color="primary" small>
@@ -134,9 +136,11 @@
   import { getSystemConfigData, getMyConfigData } from '@/api';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
+  import Metrics from '@/views/observe/monitor/mixins/metrics';
 
   export default {
     name: 'GraphBaseForm',
+    mixins: [Metrics],
     props: {
       edit: {
         type: Boolean,
@@ -164,7 +168,6 @@
           nameRule: [required],
           resourceRule: [required],
           ruleRule: [required],
-          unitRule: [required],
           exprRule: [required],
           modeRule: [required],
         },
@@ -200,25 +203,6 @@
 
         return [];
       },
-      unitItems() {
-        if (this.metricsConfig.resources && this.obj.promqlGenerator.resource && this.obj.promqlGenerator.rule) {
-          const units =
-            this.metricsConfig.resources[this.obj.promqlGenerator.resource].rules[this.obj.promqlGenerator.rule]
-              .units || [];
-          return units.map((unit) => ({
-            text: this.metricsConfig.units[unit],
-            value: unit,
-          }));
-        }
-        return [];
-      },
-      unitAllItems() {
-        const units = this.metricsConfig.units || {};
-        return Object.keys(units).map((unit) => ({
-          text: this.metricsConfig.units[unit],
-          value: unit,
-        }));
-      },
     },
     watch: {
       item: {
@@ -226,6 +210,11 @@
           if (newValue) {
             this.obj = deepCopy(newValue);
             this.mode = this.obj.promqlGenerator ? 'template' : 'ql';
+            let unit = this.obj.promqlGenerator?.unit;
+            if (!unit) {
+              unit = this.unit;
+            }
+            this.m_metrics_initItems(unit);
           }
         },
         deep: true,
@@ -269,15 +258,12 @@
       onRuleChange() {
         this.obj.promqlGenerator.unit = '';
       },
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs.form.validate(true);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getData() {
         return this.obj;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         this.$refs.form.resetValidation();
         this.obj = this.$options.data().obj;

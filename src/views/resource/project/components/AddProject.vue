@@ -17,7 +17,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import ProjectBaseForm from './ProjectBaseForm';
-
   import { postAddProject, postAddProjectUser } from '@/api';
   import BaseSelect from '@/mixins/select';
 
@@ -37,7 +36,6 @@
       ...mapGetters(['Tenant']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -66,7 +64,6 @@
           this.$emit('refresh');
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       init() {
         this.$nextTick(() => {
           this.$refs[this.formComponent].init();

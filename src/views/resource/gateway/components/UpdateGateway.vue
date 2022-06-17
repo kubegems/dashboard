@@ -28,7 +28,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import GatewayBaseForm from './GatewayBaseForm';
-
   import { putUpdateGateway, getGatewayDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';
@@ -52,7 +51,6 @@
       ...mapGetters(['Tenant']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -97,13 +95,17 @@
           });
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(name) {
         this.item = null;
         const data = await getGatewayDetail(this.Tenant().ID, this.ThisClusterID, name);
         this.item = deepCopy(data);
         this.$refs[this.formComponent].setData(deepCopy(data));
-        if (data && data.spec && data.spec.configMapData && data.spec.configMapData.http2.toLowerCase() === 'true') {
+        if (
+          data &&
+          data.spec &&
+          data.spec.configMapData &&
+          data.spec.configMapData.http2.toLocaleLowerCase() === 'true'
+        ) {
           this.$refs[this.formComponent].protocol = 'http/2';
         } else {
           this.$refs[this.formComponent].protocol = 'http/1.1';

@@ -50,7 +50,6 @@
 
 <script>
   import ResourceLimit from './ResourceLimit';
-
   import { deepCopy, sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
 
   export default {

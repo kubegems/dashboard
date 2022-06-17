@@ -57,17 +57,14 @@
       ...mapGetters(['Project']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         this.$refs.form.reset();
       },
-      // eslint-disable-next-line vue/no-unused-properties
       init(data) {
         this.$nextTick(() => {
           this.obj = this.$_.merge(this.obj, deepCopy(data));
         });
       },
-      // eslint-disable-next-line vue/no-unused-properties
       back(data) {
         this.$nextTick(() => {
           this.obj = deepCopy(data);
@@ -76,18 +73,15 @@
       onKindChange() {
         this.$emit('change', this.resourceKind);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs.form.validate(true);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       checkSaved() {
         if (Object.prototype.hasOwnProperty.call(this, 'expand')) {
           return !this.expand;
         }
         return true;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getData() {
         return this.obj;
       },

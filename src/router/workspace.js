@@ -68,7 +68,7 @@ export const workspace = [
               requireAuth: true,
               title: '应用配置',
               icon: 'mdi-wrench',
-              show: true,
+              show: false,
               rootName: 'workspace',
               tip: 'appconfig',
               dependencies: ['kubegems-local', 'nacos'],

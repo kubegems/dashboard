@@ -77,7 +77,6 @@
 <script>
   import VolumeMount from './VolumeMount';
   import VolumeMountForInitContainer from './VolumeMountForInitContainer';
-
   import { getSecretList, getSecretDetail, getAppResourceFileMetas } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
@@ -220,7 +219,6 @@
           this.$refs.volumeMountForInitContainer.initVolumeMount(this.volumeName);
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       generateData() {
         if (this.$refs.form.validate(true)) {
           const data = this.$refs.volumeMount.generateData();
@@ -240,7 +238,6 @@
         }
         return null;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       generateInitData() {
         if (this.$refs.form.validate(true)) {
           const data = this.$refs.volumeMountForInitContainer.generateData();
@@ -256,7 +253,6 @@
       removeKV(index) {
         this.$delete(this.volumeCopy.secret.items, index);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       addItem() {
         if (!this.volumeCopy.secret.items) this.volumeCopy.secret.items = [];
         this.volumeCopy.secret.items.push({ key: '', path: '' });

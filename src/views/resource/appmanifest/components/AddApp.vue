@@ -13,7 +13,6 @@
   import { mapState } from 'vuex';
 
   import AppBaseForm from './AppBaseForm';
-
   import { postAddManifest } from '@/api';
 
   export default {
@@ -29,7 +28,6 @@
       ...mapState(['Circular']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },

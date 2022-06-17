@@ -89,12 +89,13 @@
                 v-model="obj.promqlGenerator.unit"
                 class="my-0"
                 color="primary"
-                :disabled="!obj.promqlGenerator.rule || !unitItems.length"
                 hide-selected
-                :items="unitItems"
-                label="单位"
+                :items="m_metrics_unitItems"
+                label="单位(回车可创建自定义单位)"
                 no-data-text="暂无可选数据"
-                :rules="unitItems.length ? objRules.unitRule : undefined"
+                :rules="objRules.unitRule"
+                :search-input.sync="m_metrics_unitText"
+                @keydown.enter="m_metrics_createUnit"
               >
                 <template #selection="{ item }">
                   <v-chip class="mx-1" color="primary" small>
@@ -114,7 +115,7 @@
                 @keyup="onExprInput"
               />
               <MetricsSuggestion
-                v-if="mode === 'monitor'"
+                v-if="mode === 'monitor' && !obj.expr"
                 :cluster="$route.query.cluster"
                 :expr="obj.expr"
                 :top="250"
@@ -186,13 +187,13 @@
   import AlertLevelForm from './AlertLevelForm';
   import AlertLevelItem from './AlertLevelItem';
   import RuleLabelpairs from './RuleLabelpairs';
-
   import { getSystemConfigData, getMyConfigData, getMetricsLabels } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
   import MetricsSuggestion from '@/views/observe/monitor/metrics/components/MetricsSuggestion';
+  import Metrics from '@/views/observe/monitor/mixins/metrics';
 
   export default {
     name: 'Rule',
@@ -202,7 +203,7 @@
       MetricsSuggestion,
       RuleLabelpairs,
     },
-    mixins: [BaseResource, BaseSelect],
+    mixins: [BaseResource, BaseSelect, Metrics],
     props: {
       edit: {
         type: Boolean,
@@ -284,18 +285,6 @@
 
         return [];
       },
-      unitItems() {
-        if (this.metricsConfig.resources && this.obj.promqlGenerator.resource && this.obj.promqlGenerator.rule) {
-          const units =
-            this.metricsConfig.resources[this.obj.promqlGenerator.resource].rules[this.obj.promqlGenerator.rule]
-              .units || [];
-          return units.map((unit) => ({
-            text: this.metricsConfig.units[unit],
-            value: unit,
-          }));
-        }
-        return [];
-      },
     },
     watch: {
       expr: {
@@ -339,13 +328,11 @@
         }
         this.$refs.form.resetValidation();
       },
-      // eslint-disable-next-line vue/no-unused-properties
       init(data) {
         this.$nextTick(() => {
           this.setData(data);
         });
       },
-      // eslint-disable-next-line vue/no-unused-properties
       back(data) {
         this.$nextTick(() => {
           this.setData(data);
@@ -388,7 +375,6 @@
           this.expand = true;
         });
       },
-      // eslint-disable-next-line vue/no-unused-properties
       setData(data) {
         this.obj = deepCopy(data);
         if (!this.obj.promqlGenerator && this.mode === 'monitor') {
@@ -398,7 +384,6 @@
       closeExpand() {
         this.expand = false;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         this.$refs.alertLevelForm.closeCard();
         this.$refs.form.resetValidation();
@@ -463,11 +448,9 @@
           });
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs.form.validate(true);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getData() {
         return this.obj;
       },

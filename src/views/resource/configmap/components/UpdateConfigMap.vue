@@ -28,7 +28,6 @@
   import { mapState } from 'vuex';
 
   import ConfigMapBaseForm from './ConfigMapBaseForm';
-
   import { patchUpdateConfigMap, getConfigMapDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';
@@ -51,7 +50,6 @@
       ...mapState(['Circular']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -81,7 +79,7 @@
             data = this.m_resource_beautifyData(data);
           }
           await patchUpdateConfigMap(
-            this.$route.query.Cluster || this.ThisCluster,
+            this.$route.query.cluster || this.ThisCluster,
             this.item.metadata.namespace,
             this.item.metadata.name,
             data,
@@ -90,11 +88,10 @@
           this.$emit('refresh');
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(item) {
         this.item = null;
         const data = await getConfigMapDetail(
-          this.$route.query.Cluster || this.ThisCluster,
+          this.$route.query.cluster || this.ThisCluster,
           item.metadata.namespace,
           item.metadata.name,
         );

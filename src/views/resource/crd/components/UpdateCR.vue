@@ -32,7 +32,6 @@ m
       ...mapState(['Circular']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -63,7 +62,6 @@ m
           this.$emit('refresh');
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(item, crd) {
         const data = await getCrDetail(
           this.ThisCluster,

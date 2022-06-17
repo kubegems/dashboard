@@ -63,7 +63,6 @@
   import { mapState } from 'vuex';
 
   import JobBaseForm from './JobBaseForm';
-
   import { patchUpdateJob, getJobDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';
@@ -88,7 +87,6 @@
       ...mapState(['Circular']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -112,7 +110,6 @@
           this.$emit('refresh');
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(item) {
         const data = await getJobDetail(this.ThisCluster, item.metadata.namespace, item.metadata.name);
         this.formComponent = 'JobBaseForm';

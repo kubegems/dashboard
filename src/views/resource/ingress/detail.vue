@@ -67,7 +67,6 @@
 
   import ResourceInfo from './components/ResourceInfo';
   import UpdateIngress from './components/UpdateIngress';
-
   import { getIngressDetail, deleteIngress, getGatewayDetail } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

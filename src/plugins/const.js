@@ -183,6 +183,19 @@ const LINE_THEME_COLORS = [
   'rgba(0,176,212,.5)',
 ];
 
+const LINE_THEME_FUL_COLORS = [
+  '#2196F3',
+  '#4CAF50',
+  '#FB8C00',
+  '#009688',
+  '#BA68C8',
+  '#EF5350',
+  '#9575CD',
+  '#F06292',
+  '#EF5350',
+  '#607D8B',
+];
+
 const PROJECT_ROLE = {
   dev: '研发',
   test: '测试',
@@ -246,5 +259,6 @@ export default {
     Vue.prototype.$TENANT_ROLE = TENANT_ROLE;
     Vue.prototype.$VIRTUALSPACE_ROLE = VIRTUALSPACE_ROLE;
     Vue.prototype.$VENDOR = VENDOR;
+    Vue.prototype.$LINE_THEME_FUL_COLORS = LINE_THEME_FUL_COLORS;
   },
 };

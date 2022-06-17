@@ -51,7 +51,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import IntergatedCenter from './components/IntergatedCenter';
-
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
 

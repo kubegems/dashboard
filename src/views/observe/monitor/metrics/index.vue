@@ -59,7 +59,7 @@
 
               <!-- panel-content -->
               <v-expansion-panel-content>
-                <v-form :ref="`${item._$id}-form`" lazy-validation @submit.prevent="onSearch(item._$id)">
+                <v-form :ref="`${item._$id}-form`" lazy-validation @submit.prevent>
                   <!-- 项目环境 -->
                   <BaseSubTitle class="mb-3" :title="queryList[index].isCluster ? '集群' : '项目环境'">
                     <template #action>
@@ -145,6 +145,7 @@
                           return-object
                           :rules="fieldRules.required"
                           solo
+                          @change="onEnvironmentChange(index)"
                         >
                           <template #selection="{ item }">
                             <v-chip color="primary" label small>
@@ -189,7 +190,9 @@
                       :cluster="
                         queryList[index].environment
                           ? queryList[index].environment.Cluster.ClusterName
-                          : queryList[index].cluster.text
+                          : queryList[index].cluster
+                          ? queryList[index].cluster.text
+                          : undefined
                       "
                       :expr="queryList[index].expr"
                       :index="index"
@@ -234,7 +237,6 @@
                       return-object
                       :rules="fieldRules.required"
                       solo
-                      @change="setUnitItems(index)"
                     >
                       <template #selection="{ item }">
                         <v-chip color="primary" label small>
@@ -247,16 +249,17 @@
                       v-model="queryList[index].unit"
                       class="px-2"
                       dense
-                      :disabled="!queryList[index].rule || !queryList[index].unitItems.length"
                       flat
                       item-text="text"
-                      item-value="_$value"
                       :items="queryList[index].unitItems"
-                      label="单位"
+                      label="单位(回车可创建自定义单位)"
                       no-data-text="暂无可选数据"
                       return-object
-                      :rules="queryList[index].unitItems.length ? fieldRules.required : undefined"
+                      :rules="fieldRules.required"
+                      :search-input.sync="queryList[index].unitText"
                       solo
+                      @focus="setUnitItems(index)"
+                      @keydown.enter="createUnit(index)"
                     >
                       <template #selection="{ item }">
                         <v-chip color="primary" label small>
@@ -271,7 +274,7 @@
                   <!-- 查询 -->
                   <div class="queryer__panel-search">
                     <v-btn class="mr-4" depressed @click="onRemove(item._$id)"> 移除 </v-btn>
-                    <v-btn color="primary" depressed type="submit"> 查询 </v-btn>
+                    <v-btn color="primary" depressed @click="onSearch(item._$id)"> 查询 </v-btn>
                   </div>
                   <!-- 查询 -->
                 </v-form>
@@ -328,7 +331,6 @@
   import ButtonInput from './components/ButtonInput';
   import MetricsItem from './components/MetricsItem';
   import MetricsSuggestion from './components/MetricsSuggestion';
-
   import {
     getSystemConfigData,
     getMyConfigData,
@@ -337,10 +339,12 @@
     getProjectEnvironmentList,
     getMetricsLabelValues,
   } from '@/api';
+  import BasePermission from '@/mixins/permission';
   import BaseSelect from '@/mixins/select';
   import { deepCopy, debounce } from '@/utils/helpers';
   import { required } from '@/utils/rules';
   import AddPrometheusRule from '@/views/observe/monitor/config/prometheusrule/components/AddPrometheusRule';
+  import Metrics from '@/views/observe/monitor/mixins/metrics';
 
   export default {
     name: 'MetricsIndex',
@@ -350,7 +354,7 @@
       MetricsItem,
       MetricsSuggestion,
     },
-    mixins: [BaseSelect],
+    mixins: [BasePermission, BaseSelect, Metrics],
     data() {
       this.fieldRules = {
         cluster: (index) => {
@@ -381,6 +385,7 @@
         resourceItems: [],
         ruleItems: [],
         unitItems: [],
+        unitText: '',
         _$origin: undefined,
         ql: false,
         isCluster: false,
@@ -399,6 +404,7 @@
         metricsObject: {},
         labelpairs: {},
         isMounted: true,
+        missingPlugins: [],
       };
     },
     computed: {
@@ -411,7 +417,7 @@
           return {
             _$value: id,
             _$index: index,
-            _$unit: query._$origin?.unit?.text || ``,
+            _$unit: query._$origin?.unit?.value || ``,
             _$title: query._$origin?.resource
               ? `${index + 1}-${query._$origin?.resource.showName}-${query._$origin?.rule.showName}`
               : `${index + 1}-${query._$origin.expr}`,
@@ -475,19 +481,28 @@
         this.$set(this.queryList[index], 'ruleItems', items);
       },
       // 设置各项独立的unitItems
-      setUnitItems(index) {
-        const params = this.queryList[index];
-        let items = [];
-        if (params.rule) {
-          items = (params.rule.units || []).map((unit) => ({
-            _$value: unit,
-            text: this.config.units[unit],
-          }));
-        }
-        this.$set(this.queryList[index], 'unit', items.length ? items[0] : undefined);
+      setUnitItems(index, custom = false) {
+        const items = [];
+        Object.keys(this.m_metrics_units).forEach((unit) =>
+          this.m_metrics_units[unit].value.forEach((u) => {
+            if (unit === 'short') {
+              items.push({
+                text: `${this.m_metrics_units[unit].cn}`,
+                value: `${unit}`,
+              });
+            } else {
+              items.push({
+                text: `${this.m_metrics_units[unit].cn}/${u}`,
+                value: `${unit}-${u}`,
+              });
+            }
+          }),
+        );
         this.$set(this.queryList[index], 'unitItems', items);
+        if (custom) {
+          this.$set(this.queryList[index], 'unit', items[items.length - 1]);
+        }
       },
-
       // 获取格式化后的params
       getParams(params) {
         let newParams = {
@@ -506,7 +521,7 @@
           newParams = Object.assign(newParams, {
             resource: params.resource._$value,
             rule: params.rule._$value,
-            unit: params.unit?._$value || null,
+            unit: params.unit?.value || null,
           });
         }
 
@@ -557,11 +572,12 @@
         this.$set(query, 'projectItems', items);
         this.$set(query, 'project', undefined);
         this.$set(query, 'environment', undefined);
+
+        this.pluginsPass(query.cluster?.text);
       },
       async onProjectChange(index) {
         const query = this.queryList[index];
         let envItems = [];
-        this.$refs[`${query._$id}-form`][0].validate();
         if (query.project) {
           const data = await getProjectEnvironmentList(query.project.value, {
             noprocessing: true,
@@ -570,6 +586,10 @@
         }
         this.$set(query, 'environment', undefined);
         this.$set(query, 'environmentItems', envItems);
+      },
+      onEnvironmentChange(index) {
+        const query = this.queryList[index];
+        this.pluginsPass(query.environment?.Cluster.ClusterName);
       },
       async getMonitorConfig() {
         let data = null;
@@ -644,6 +664,34 @@
       insertMetrics(metrics, index) {
         const query = this.queryList[index];
         this.$set(query, 'expr', metrics);
+      },
+      createUnit(index) {
+        const query = this.queryList[index];
+        if (!query.unitText) return;
+        if (
+          !query.unitItems.some((u) => {
+            return u.value === query.unitText;
+          })
+        ) {
+          this.$set(this.m_metrics_units, 'custom', {
+            cn: '自定义',
+            value: [query.unitText],
+          });
+          this.setUnitItems(index, true);
+        }
+      },
+      async pluginsPass(cluster) {
+        if (!cluster) return;
+        this.missingPlugins = await this.m_permission_plugin_pass(cluster, this.$route.meta?.dependencies || []);
+        if (this.missingPlugins?.length === 0) {
+          //
+        } else {
+          this.$store.commit('SET_SNACKBAR', {
+            text: `该集群还未启用 ${this.missingPlugins.join(', ')} 插件！`,
+            color: 'warning',
+          });
+          return;
+        }
       },
     },
   };

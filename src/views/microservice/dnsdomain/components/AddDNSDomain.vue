@@ -13,7 +13,6 @@
   import { mapState } from 'vuex';
 
   import DNSDomainBaseForm from './DNSDomainBaseForm';
-
   import { postAddDNSDomain } from '@/api';
   import BaseResource from '@/mixins/resource';
 
@@ -31,7 +30,6 @@
       ...mapState(['Circular']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },

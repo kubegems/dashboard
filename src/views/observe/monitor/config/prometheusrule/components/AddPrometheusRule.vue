@@ -35,7 +35,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import PrometheusRuleBaseForm from './PrometheusRuleBaseForm';
-
   import { postAddPrometheusRule, postAddLogAlertRule } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
@@ -67,7 +66,6 @@
       ...mapGetters(['Project', 'Environment']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },

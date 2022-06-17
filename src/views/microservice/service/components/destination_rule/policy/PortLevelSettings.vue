@@ -123,7 +123,6 @@
   import LoadBalancer from './LoadBalancer';
   import OutlierDetection from './OutlierDetection';
   import TLS from './TLS';
-
   import { deepCopy } from '@/utils/helpers';
   import { port } from '@/utils/rules';
 

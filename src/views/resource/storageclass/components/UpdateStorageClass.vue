@@ -30,7 +30,6 @@
       ...mapState(['Circular']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -45,7 +44,6 @@
           this.$emit('refresh');
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(item) {
         const data = await getStorageClassDetail(this.ThisCluster, item.metadata.name);
         this.item = deepCopy(data);

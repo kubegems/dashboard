@@ -36,7 +36,6 @@
   import { mapState, mapGetters } from 'vuex';
 
   import ClusterSelectItem from './Item';
-
   import { clusterSelectData, tenantClusterSelectData } from '@/api';
   import { deepCopy } from '@/utils/helpers';
 
@@ -154,7 +153,6 @@
           this.onEmit(value);
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getItems() {
         return this.items;
       },

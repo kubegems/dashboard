@@ -151,7 +151,6 @@
   import AddPersistentVolumeClaim from './components/AddPersistentVolumeClaim';
   import ScalePersistentVolumeClaim from './components/ScalePersistentVolumeClaim';
   import UpdatePersistentVolumeClaim from './components/UpdatePersistentVolumeClaim';
-
   import { getPersistentVolumeClaimList, deletePersistentVolumeClaim, postAddVolumeSnapshot } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';

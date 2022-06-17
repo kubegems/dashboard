@@ -23,6 +23,9 @@
           :class="`log-table__item log-table__item--${item.info.level}`"
           :style="item.info.animation"
         >
+          <v-btn color="success" icon small @click="showPodMonitor(item)">
+            <v-icon small>mdi-chart-areaspline</v-icon>
+          </v-btn>
           <span v-if="timestamp" class="success--text log-table__timestamp">{{ item.info.timestampstr }}</span>
           <span class="v-chip v-size--small log-table__pod" :data-pod="item.stream.pod">
             {{ item.stream.pod }}
@@ -48,14 +51,21 @@
         </td>
       </template>
     </v-data-table>
+
+    <LogPodMonitor ref="logPodMonitor" />
   </div>
 </template>
 
 <script>
   import { mapState } from 'vuex';
 
+  import LogPodMonitor from './LogPodMonitor';
+
   export default {
     name: 'LogTable',
+    components: {
+      LogPodMonitor,
+    },
     props: {
       context: {
         type: Boolean,
@@ -106,20 +116,24 @@
       handleShowContext(item) {
         this.$emit('showContext', item);
       },
-
       // 表格点击代理
       handleTableClickProxy(e) {
         if (this.mode !== 'normal') return;
-
         // 查询pod标签
         if (e.target.dataset.pod) {
           this.$emit('clickPod', e.target.dataset.pod);
           // this.$refs.logLabelFilter.setLabelValue('pod', e.target.dataset.pod) && this.logQueryRange()
         }
       },
-
-      // eslint-disable-next-line vue/no-unused-properties
-      goTo() {},
+      showPodMonitor(item) {
+        this.$refs.logPodMonitor.init({
+          cluster: item.stream?.cluster,
+          namespace: item.stream?.namespace,
+          pod: item.stream?.pod,
+          container: item.stream?.container,
+        });
+        this.$refs.logPodMonitor.open();
+      },
     },
   };
 </script>

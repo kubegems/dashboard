@@ -58,7 +58,6 @@
 
   import EndpointForm from './EndpointForm';
   import EndpointItem from './EndpointItem';
-
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { k8sName, required } from '@/utils/rules';
@@ -222,21 +221,17 @@
       closeExpand() {
         this.expand = false;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         this.$refs.endpointForm.closeCard();
         this.$refs.form.reset();
         this.obj = this.$options.data().obj;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       setData(data) {
         this.obj = data;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getData() {
         return this.obj;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs.form.validate(true);
       },

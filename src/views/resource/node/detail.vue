@@ -140,7 +140,6 @@
   import NodeMonitor from './components/NodeMonitor';
   import ResourceInfo from './components/ResourceInfo';
   import Taint from './components/Taint';
-
   import { getNodeDetail, patchCordonNode } from '@/api';
   import BaseResource from '@/mixins/resource';
   import EventList from '@/views/resource/components/common/EventList';

@@ -56,16 +56,16 @@
         if (Object.prototype.hasOwnProperty.call(item, 'value')) {
           return 'key-value';
         }
-        if (item.valueFrom.secretKeyRef) {
+        if (item?.valueFrom?.secretKeyRef) {
           return 'secret';
         }
-        if (item.valueFrom.configMapKeyRef) {
+        if (item?.valueFrom?.configMapKeyRef) {
           return 'configmap';
         }
-        if (item.valueFrom.fieldRef) {
+        if (item?.valueFrom?.fieldRef) {
           return 'downward (pod)';
         }
-        if (item.valueFrom.resourceFieldRef) {
+        if (item?.valueFrom?.resourceFieldRef) {
           return 'downward (container)';
         }
         return 'unknown';
@@ -74,16 +74,16 @@
         if (Object.prototype.hasOwnProperty.call(item, 'value')) {
           return item.value;
         }
-        if (item.valueFrom.secretKeyRef) {
+        if (item?.valueFrom?.secretKeyRef) {
           return `${item.valueFrom.secretKeyRef?.name} (${item.valueFrom.secretKeyRef?.key})`;
         }
-        if (item.valueFrom.configMapKeyRef) {
+        if (item?.valueFrom?.configMapKeyRef) {
           return `${item.valueFrom.configMapKeyRef?.name} (${item.valueFrom.configMapKeyRef?.key})`;
         }
-        if (item.valueFrom.fieldRef) {
+        if (item?.valueFrom?.fieldRef) {
           return item.valueFrom.fieldRef?.fieldPath;
         }
-        if (item.valueFrom.resourceFieldRef) {
+        if (item?.valueFrom?.resourceFieldRef) {
           return `${item.valueFrom.resourceFieldRef?.containerName} (${item.valueFrom.resourceFieldRef?.resource})`;
         }
         return 'unknown';

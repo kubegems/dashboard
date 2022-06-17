@@ -15,7 +15,6 @@
   import { mapState } from 'vuex';
 
   import IstioVirtualServiceBaseForm from './IstioVirtualServiceBaseForm';
-
   import { patchUpdateIstioVirtualService, getIstioVirtualServiceDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
@@ -37,7 +36,6 @@
       ...mapState(['Circular', 'EnvironmentFilter']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -66,7 +64,6 @@
           this.$emit('refresh');
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(item) {
         const data = await getIstioVirtualServiceDetail(this.EnvironmentFilter.cluster, item.namespace, item.name);
         this.item = deepCopy(data);

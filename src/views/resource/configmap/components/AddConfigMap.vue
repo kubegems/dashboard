@@ -28,7 +28,6 @@
   import { mapState } from 'vuex';
 
   import ConfigMapBaseForm from './ConfigMapBaseForm';
-
   import { postAddConfigMap } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { randomString } from '@/utils/helpers';
@@ -50,7 +49,6 @@
       ...mapState(['Circular', 'AdminViewport']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -78,11 +76,13 @@
             data = this.$refs[this.formComponent].getData();
             data = this.m_resource_beautifyData(data);
           }
-          const namespace = this.AdminViewport ? data?.metadata?.namespace : this.ThisNamespace;
+          const namespace = this.AdminViewport
+            ? data?.metadata?.namespace
+            : this.$route.query.namespace || this.ThisNamespace;
           if (!this.m_resource_checkDataWithNS(data, namespace)) {
             return;
           }
-          await postAddConfigMap(this.$route.query.Cluster || this.ThisCluster, namespace, data.metadata.name, data);
+          await postAddConfigMap(this.$route.query.cluster || this.ThisCluster, namespace, data.metadata.name, data);
           this.reset();
           this.$emit('refresh');
         }

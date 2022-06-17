@@ -15,7 +15,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import IstioGatewayBaseForm from './IstioGatewayBaseForm';
-
   import { postAddIstioGatewayInstance } from '@/api';
   import BaseResource from '@/mixins/resource';
 
@@ -34,7 +33,6 @@
       ...mapGetters(['VirtualSpace']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },

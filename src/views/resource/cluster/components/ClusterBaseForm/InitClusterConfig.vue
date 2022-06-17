@@ -113,28 +113,23 @@
       },
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       init(data) {
         this.$nextTick(() => {
           this.obj = deepCopy(data);
         });
       },
-      // eslint-disable-next-line vue/no-unused-properties
       back(data) {
         this.$nextTick(() => {
           this.obj = deepCopy(data);
         });
       },
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         this.$refs.form.resetValidation();
         this.obj = this.$options.data().obj;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getData() {
         return this.obj;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getExtend() {
         return this.obj.extend;
       },
@@ -165,7 +160,6 @@
           this.imageRepoText = '';
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs.form.validate(true);
       },

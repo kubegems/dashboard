@@ -3,7 +3,7 @@
     <v-btn bottom class="metrics__fab" color="primary" dark fab fixed right small @click="switchComponent">
       <v-icon small> {{ formComponent === 'MetricsBaseForm' ? 'fas fa-book' : 'fas fa-link' }} </v-icon>
     </v-btn>
-    <component :is="formComponent" :ref="formComponent" />
+    <component :is="formComponent" :ref="formComponent" @close="close" />
   </div>
 </template>
 
@@ -26,9 +26,11 @@
       switchComponent() {
         this.formComponent = this.formComponent === 'MetricsBaseForm' ? 'MetricsDocs' : 'MetricsBaseForm';
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async addData() {
         this.$refs[this.formComponent].addData();
+      },
+      close() {
+        this.$emit('close');
       },
     },
   };

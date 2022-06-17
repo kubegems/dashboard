@@ -3,7 +3,7 @@
     <BaseSubTitle class="pt-2" :divider="false" title="项目">
       <template #action>
         <v-btn v-if="m_permisson_tenantAllow" class="float-right mr-2" color="primary" small text @click="addProject">
-          <v-icon left small> mdi-cube-outline </v-icon>
+          <v-icon left small> mdi-plus-box </v-icon>
           创建项目
         </v-btn>
       </template>
@@ -25,11 +25,11 @@
                 text
                 @click.stop="addEnvironment(item)"
               >
-                <v-icon left small> mdi-cube </v-icon>
+                <v-icon left small> mdi-plus-box </v-icon>
                 创建环境
               </v-btn>
               <v-btn class="float-right" color="primary" depressed small text @click.stop="projectDetail(item)">
-                <v-icon left small> mdi-login-variant </v-icon>
+                <v-icon left small> mdi-login </v-icon>
                 进入项目
               </v-btn>
             </v-flex>
@@ -153,7 +153,7 @@
               <template #[`item.action`]="{ item }">
                 <span class="pa-2">
                   <v-btn color="primary" text x-small @click="environmentDetail(item)">
-                    <v-icon left small> mdi-login-variant </v-icon>
+                    <v-icon left small> mdi-login </v-icon>
                     进入环境
                   </v-btn>
                 </span>
@@ -187,7 +187,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import Pagination from '../Pagination';
-
   import { getProjectList, getProjectEnvironmentList, getProjectEnvironmentQuotaList } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

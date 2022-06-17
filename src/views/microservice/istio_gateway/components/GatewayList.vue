@@ -17,11 +17,23 @@
         <template #[`item.namespace`]="{ item }">
           {{ item.metadata.namespace }}
         </template>
-        <template #[`item.selector`]="{ item }">
-          <BaseCollapseChips v-if="item" :chips="item.spec.selector || {}" icon="mdi-label" single-line />
+        <template #[`item.selector`]="{ item, index }">
+          <BaseCollapseChips
+            v-if="item"
+            :id="`g_selector_${index}`"
+            :chips="item.spec.selector || {}"
+            icon="mdi-label"
+            single-line
+          />
         </template>
-        <template #[`item.ports`]="{ item }">
-          <BaseCollapseChips v-if="item" :chips="servers || []" icon="mdi-directions-fork" single-line />
+        <template #[`item.ports`]="{ item, index }">
+          <BaseCollapseChips
+            v-if="item"
+            :id="`g_port_${index}`"
+            :chips="servers || []"
+            icon="mdi-directions-fork"
+            single-line
+          />
         </template>
         <template #[`item.createdAt`]="{ item }">
           {{ item.metadata.creationTimestamp ? $moment(item.metadata.creationTimestamp).format('lll') : '' }}

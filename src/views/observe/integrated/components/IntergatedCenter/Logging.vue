@@ -7,23 +7,11 @@
 
       <v-row class="px-2">
         <v-col cols="12">
-          <v-switch
-            v-model="sampleMode"
-            class="mt-5"
-            hide-details
-            label="一键开启（精简模式）"
-            @change="onSampleModeChange"
-          />
+          <v-switch v-model="sampleMode" class="mt-5" hide-details label="一键开启（精简模式）" />
         </v-col>
       </v-row>
 
-      <v-row class="px-2">
-        <v-col cols="12">
-          <v-switch v-model="customConfig" class="mt-5" hide-details label="自定义配置" />
-        </v-col>
-      </v-row>
-
-      <template v-if="customConfig">
+      <template v-if="!sampleMode">
         <BaseSubTitle class="mt-6" title="自定义配置" />
 
         <v-row class="mt-0 px-2">
@@ -60,7 +48,6 @@
                 left: true,
                 origin: `top center`,
               }"
-              multiple
               no-data-text="暂无可选数据"
               :rules="objRules.outputRules"
               @change="onOutputChange"
@@ -79,11 +66,12 @@
 
           <v-col v-if="throttle" cols="6">
             <v-text-field
-              v-model.number="obj.throttle"
+              v-model.number="obj.pluginConfig.throttle"
               class="my-0"
               label="限速"
               required
               :rules="objRules.throttleRules"
+              suffix="条/分钟"
               type="number"
             />
           </v-col>
@@ -101,7 +89,6 @@
   import { mapState, mapGetters } from 'vuex';
 
   import ProjectEnvSelect from './ProjectEnvSelect';
-
   import {
     getClusterOutputsData,
     getOutputsData,
@@ -122,8 +109,7 @@
         valid: false,
         env: undefined,
         throttle: false,
-        sampleMode: false,
-        customConfig: false,
+        sampleMode: true,
         outputItems: [],
         outputName: undefined,
         applicationItems: [],
@@ -133,9 +119,11 @@
           apps: {},
           clusterOutputs: [],
           enableMetrics: false,
+          pluginConfig: {
+            geoIPLookupKeys: [],
+            throttle: 0,
+          },
           outputs: [],
-          geoIPLookupKeys: [],
-          throttle: 0,
         },
         objRules: {
           appRules: [required],
@@ -222,41 +210,44 @@
       },
       async addLoggingFlow() {
         if (this.$refs.form.validate(true)) {
-          await postLoggingFlow(this.env.clusterName, this.env.namespace, this.obj);
-          this.$emit('close');
+          if (this.env?.projectid && this.env?.value) {
+            await postLoggingFlow(this.env.clusterName, this.env.namespace, this.obj);
+            this.$emit('close');
+          } else {
+            this.$store.commit('SET_SNACKBAR', {
+              text: '请先选择项目环境',
+              color: 'warning',
+            });
+          }
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async addData() {
-        await this.addLoggingFlow();
+        if (this.sampleMode) {
+          await this.addSampleLoggingFlow();
+        } else {
+          await this.addLoggingFlow();
+        }
       },
-      onSampleModeChange() {
-        if (!this.env) {
+      async addSampleLoggingFlow() {
+        if (this.env?.projectid && this.env?.value) {
+          this.$store.commit('SET_CONFIRM', {
+            title: '精简模式',
+            content: {
+              text: `${this.sampleMode ? '开启' : '关闭'} 精简模式`,
+              type: 'confirm',
+            },
+            param: {},
+            doFunc: async () => {
+              await this.toggleLoggingNsFlow();
+            },
+          });
+        } else {
           this.$store.commit('SET_SNACKBAR', {
             text: '请先选择项目环境',
             color: 'warning',
           });
-          const vue = this;
-          const timeout = setTimeout(() => {
-            vue.sampleMode = !vue.sampleMode;
-            clearTimeout(timeout);
-          }, 200);
           return;
         }
-        this.$store.commit('SET_CONFIRM', {
-          title: '精简模式',
-          content: {
-            text: `${this.sampleMode ? '开启' : '关闭'} 精简模式`,
-            type: 'confirm',
-          },
-          param: {},
-          doFunc: async () => {
-            this.toggleLoggingNsFlow();
-          },
-          doClose: () => {
-            this.sampleMode = !this.sampleMode;
-          },
-        });
       },
       async toggleLoggingNsFlow() {
         await putLoggingNsFlow(this.env.clusterName, this.env.namespace, {

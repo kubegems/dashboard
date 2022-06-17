@@ -6,6 +6,7 @@
     <template #content>
       <BaseApexAreaChart
         id="max"
+        chart-type="line"
         :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
         :extend-height="height"
         label="pod"
@@ -13,7 +14,7 @@
         :no-data-offset-y="-24"
         title=""
         type=""
-        :unit="graph.promqlGenerator ? graph.promqlGenerator.unit : null"
+        :unit="graph.promqlGenerator ? getUnit(graph.promqlGenerator.unit) : getUnit(graph.unit)"
       />
     </template>
   </BaseFullScreenDialog>
@@ -60,11 +61,9 @@
       });
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(graph, namespace) {
         this.graph = graph;
         this.namespace = namespace;
@@ -92,6 +91,7 @@
           ? this.graph.promqlGenerator
           : {
               expr: this.graph.expr,
+              unit: this.graph.unit,
             };
         const data = await getMetricsQueryrange(
           this.environment.clusterName,
@@ -104,6 +104,15 @@
         this.params.start = this.$moment(this.date[0]).utc().format();
         this.params.end = this.$moment(this.date[1]).utc().format();
         this.loadMetrics();
+      },
+      getUnit(unit) {
+        if (unit === 'short') {
+          return 'short';
+        }
+        if (unit && unit?.indexOf('-') > -1) {
+          return unit.substr(unit.indexOf('-') + 1);
+        }
+        return unit;
       },
     },
   };

@@ -1,10 +1,8 @@
 import axios from 'axios';
 
-import { jsonParse } from '@/utils/helpers';
+import { getApiVersion } from '@/utils/helpers';
 
-const apiResources = jsonParse(window.localStorage.getItem('api-resources')) || {};
-let apiVersion = apiResources['deployment'] || 'apps/v1';
-apiVersion = apiVersion === 'v1' ? 'core/v1' : apiVersion;
+const apiVersion = getApiVersion('deployment', 'apps/v1');
 
 // deploy列表
 export const getDeploymentList = (clusterName, namespace, query = {}) =>

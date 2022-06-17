@@ -65,7 +65,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import AddEnvironment from './AddEnvironment';
-
   import { deleteVirtualSpaceEnvironment } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

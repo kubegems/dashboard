@@ -44,7 +44,6 @@
 
 <script>
   import StringMatchForm from './StringMatchForm';
-
   import { deepCopy } from '@/utils/helpers';
   import { positiveInteger } from '@/utils/rules';
 
@@ -90,7 +89,6 @@
       });
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       init(data) {
         this.obj = deepCopy(data);
       },
@@ -107,11 +105,9 @@
         this.obj.strategy.canary.trafficRouting.istio.virtualService.headers = data;
         this.$emit('updateComponentData', this.obj);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         this.obj = deepCopy(this.$options.data().obj);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs.form.validate(true);
       },

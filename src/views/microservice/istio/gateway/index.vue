@@ -35,75 +35,91 @@
           </v-card>
         </v-menu>
       </v-card-title>
-      <v-data-table
-        class="mx-4"
-        :headers="headers"
-        hide-default-footer
-        :items="items"
-        :items-per-page="params.size"
-        no-data-text="暂无数据"
-        :page.sync="params.page"
-        show-select
-        @toggle-select-all="m_table_onResourceToggleSelect"
-        @update:sort-by="m_table_sortBy"
-        @update:sort-desc="m_table_sortDesc"
-      >
-        <template #[`item.data-table-select`]="{ item, index }">
-          <v-checkbox
-            v-model="m_table_batchResources[`${item.metadata.name}-${index}`].checked"
-            color="primary"
-            hide-details
-            @change="m_table_onResourceChange($event, item, index)"
-            @click.stop
+      <PluginPass v-model="pass">
+        <template #default>
+          <v-data-table
+            class="mx-4"
+            :headers="headers"
+            hide-default-footer
+            :items="items"
+            :items-per-page="params.size"
+            no-data-text="暂无数据"
+            :page.sync="params.page"
+            show-select
+            @toggle-select-all="m_table_onResourceToggleSelect"
+            @update:sort-by="m_table_sortBy"
+            @update:sort-desc="m_table_sortDesc"
+          >
+            <template #[`item.data-table-select`]="{ item, index }">
+              <v-checkbox
+                v-model="m_table_batchResources[`${item.metadata.name}-${index}`].checked"
+                color="primary"
+                hide-details
+                @change="m_table_onResourceChange($event, item, index)"
+                @click.stop
+              />
+            </template>
+            <template #[`item.name`]="{ item }">
+              <a class="text-subtitle-2">
+                {{ item.metadata.name }}
+              </a>
+            </template>
+            <template #[`item.namespace`]="{ item }">
+              {{ item.metadata.namespace }}
+            </template>
+            <template #[`item.selector`]="{ item, index }">
+              <BaseCollapseChips
+                v-if="item"
+                :id="`s_selector_${index}`"
+                :chips="item.spec.selector || {}"
+                icon="mdi-label"
+                single-line
+              />
+            </template>
+            <template #[`item.service`]="{ item, index }">
+              <BaseCollapseChips
+                v-if="item"
+                :id="`s_service_${index}`"
+                :chips="item.servers || []"
+                icon="mdi-directions-fork"
+                single-line
+              />
+            </template>
+            <template #[`item.createAt`]="{ item }">
+              {{ item.metadata.creationTimestamp ? $moment(item.metadata.creationTimestamp).format('lll') : '' }}
+            </template>
+            <template #[`item.action`]="{ item }">
+              <v-flex :id="`r${item.metadata.resourceVersion}`" />
+              <v-menu :attach="`#r${item.metadata.resourceVersion}`" left>
+                <template #activator="{ on }">
+                  <v-btn icon>
+                    <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
+                  </v-btn>
+                </template>
+                <v-card>
+                  <v-card-text class="pa-2">
+                    <v-flex>
+                      <v-btn color="primary" small text @click.stop="updateGateway(item)"> 编辑 </v-btn>
+                    </v-flex>
+                    <v-flex>
+                      <v-btn color="error" small text @click.stop="removeIstioGateway(item)"> 删除 </v-btn>
+                    </v-flex>
+                  </v-card-text>
+                </v-card>
+              </v-menu>
+            </template>
+          </v-data-table>
+          <BasePagination
+            v-if="pageCount >= 1"
+            v-model="params.page"
+            :page-count="pageCount"
+            :size="params.size"
+            @changepage="onPageIndexChange"
+            @changesize="onPageSizeChange"
+            @loaddata="istioGatewayList"
           />
         </template>
-        <template #[`item.name`]="{ item }">
-          <a class="text-subtitle-2">
-            {{ item.metadata.name }}
-          </a>
-        </template>
-        <template #[`item.namespace`]="{ item }">
-          {{ item.metadata.namespace }}
-        </template>
-        <template #[`item.selector`]="{ item }">
-          <BaseCollapseChips v-if="item" :chips="item.spec.selector || {}" icon="mdi-label" single-line />
-        </template>
-        <template #[`item.service`]="{ item }">
-          <BaseCollapseChips v-if="item" :chips="item.servers || []" icon="mdi-directions-fork" single-line />
-        </template>
-        <template #[`item.createAt`]="{ item }">
-          {{ item.metadata.creationTimestamp ? $moment(item.metadata.creationTimestamp).format('lll') : '' }}
-        </template>
-        <template #[`item.action`]="{ item }">
-          <v-flex :id="`r${item.metadata.resourceVersion}`" />
-          <v-menu :attach="`#r${item.metadata.resourceVersion}`" left>
-            <template #activator="{ on }">
-              <v-btn icon>
-                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
-              </v-btn>
-            </template>
-            <v-card>
-              <v-card-text class="pa-2">
-                <v-flex>
-                  <v-btn color="primary" small text @click.stop="updateGateway(item)"> 编辑 </v-btn>
-                </v-flex>
-                <v-flex>
-                  <v-btn color="error" small text @click.stop="removeIstioGateway(item)"> 删除 </v-btn>
-                </v-flex>
-              </v-card-text>
-            </v-card>
-          </v-menu>
-        </template>
-      </v-data-table>
-      <BasePagination
-        v-if="pageCount >= 1"
-        v-model="params.page"
-        :page-count="pageCount"
-        :size="params.size"
-        @changepage="onPageIndexChange"
-        @changesize="onPageSizeChange"
-        @loaddata="istioGatewayList"
-      />
+      </PluginPass>
     </v-card>
 
     <AddGateway ref="addGateway" @refresh="istioGatewayList" />
@@ -116,7 +132,6 @@
 
   import AddGateway from './components/AddGateway';
   import UpdateGateway from './components/UpdateGateway';
-
   import { getIstioGatewayList, deleteIstioGateway } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -124,12 +139,14 @@
   import BaseTable from '@/mixins/table';
   import { convertStrToNum } from '@/utils/helpers';
   import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
+  import PluginPass from '@/views/microservice/components/PluginPass';
 
   export default {
     name: 'Gateway',
     components: {
       AddGateway,
       EnvironmentFilter,
+      PluginPass,
       UpdateGateway,
     },
     mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],
@@ -141,6 +158,7 @@
         size: 10,
       },
       filters: [{ text: '网关名称', value: 'search', items: [] }],
+      pass: false,
     }),
     computed: {
       ...mapState(['JWT', 'EnvironmentFilter']),
@@ -178,12 +196,13 @@
         },
         deep: true,
       },
-      '$store.state.EnvironmentFilter': {
-        handler: function (env) {
-          if (env) this.istioGatewayList();
+      pass: {
+        handler(newValue) {
+          if (newValue) {
+            this.istioGatewayList();
+          }
         },
         deep: true,
-        immediate: true,
       },
     },
     mounted() {

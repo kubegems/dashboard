@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-login-variant" title="创建istio服务入口" :width="1000" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-login" title="创建istio服务入口" :width="1000" @reset="reset">
     <template #content>
       <component :is="formComponent" :ref="formComponent" title="ServiceEntry" />
     </template>
@@ -28,7 +28,6 @@
       ...mapGetters(['VirtualSpace']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },

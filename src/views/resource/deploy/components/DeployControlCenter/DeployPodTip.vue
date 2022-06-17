@@ -10,7 +10,7 @@
             ['ContainerCreating', 'Pending', 'PodInitializing', 'Terminating'].indexOf(pod.status) > -1 ||
             pod.status.indexOf('Init') > -1
           "
-          class="mx-0-5 icon-font waiting-circle-flashing"
+          class="mx-0-5 icon-font kubegems__waiting-circle-flashing"
           color="warning"
         >
           mdi-autorenew

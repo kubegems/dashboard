@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-login-variant" title="更新istio服务入口" :width="1000" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-login" title="更新istio服务入口" :width="1000" @reset="reset">
     <template #content>
       <component :is="formComponent" :ref="formComponent" :edit="true" :item="item" title="ServiceEntry" />
     </template>
@@ -31,7 +31,6 @@
       ...mapState(['Circular', 'EnvironmentFilter']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -54,7 +53,6 @@
           this.$emit('refresh');
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(item) {
         const data = await getIstioServiceEntryDetail(
           this.EnvironmentFilter.cluster,

@@ -65,9 +65,10 @@
         <template #[`item.namespace`]="{ item }">
           {{ item.metadata.namespace }}
         </template>
-        <template #[`item.data`]="{ item }">
+        <template #[`item.data`]="{ item, index }">
           <BaseCollapseChips
             v-if="item.data"
+            :id="`c_config_${index}`"
             :chips="Object.keys(item.data) || []"
             icon="mdi-brightness-7"
             single-line
@@ -118,7 +119,6 @@
 
   import AddConfigMap from './components/AddConfigMap';
   import UpdateConfigMap from './components/UpdateConfigMap';
-
   import { getConfigMapList, deleteConfigMap } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';

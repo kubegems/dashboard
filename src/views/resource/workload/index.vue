@@ -181,7 +181,6 @@
   import ResourceAdvise from './components/ResourceAdvise';
   import ResourceLimit from './components/ResourceLimit';
   import UpdateWorkload from './components/UpdateWorkload';
-
   import {
     getDaemonSetList,
     getStatefulSetList,

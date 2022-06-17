@@ -29,7 +29,6 @@
 
   import FlowSchema from '../mixins/schema';
   import FlowBaseForm from './FlowBaseForm';
-
   import { patchFlowData, patchClusterFlowData, getFlowDetailData, getClusterFlowDetailData } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { randomString, deepCopy } from '@/utils/helpers';
@@ -51,11 +50,9 @@
       ...mapState(['Circular', 'AdminViewport']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(item) {
         this.item = null;
         const action = item.kind === 'Flow' ? getFlowDetailData : getClusterFlowDetailData;

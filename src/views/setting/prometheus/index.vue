@@ -38,11 +38,11 @@
         <template #[`item.rule`]="{ item }">
           {{ item.showName }}
         </template>
-        <template #[`item.unit`]="{ item }">
-          <BaseCollapseChips :chips="item.units || []" icon="mdi-pound-box" single-line />
+        <template #[`item.unit`]="{ item, index }">
+          <BaseCollapseChips :id="`p_unit_${index}`" :chips="item.units || []" icon="mdi-pound-box" single-line />
         </template>
-        <template #[`item.label`]="{ item }">
-          <BaseCollapseChips :chips="item.labels || []" icon="mdi-label" single-line />
+        <template #[`item.label`]="{ item, index }">
+          <BaseCollapseChips :id="`p_label_${index}`" :chips="item.labels || []" icon="mdi-label" single-line />
         </template>
         <template #[`item.action`]="{ item, index }">
           <v-flex :id="`r${index}`" />
@@ -85,7 +85,6 @@
 <script>
   import AddTemplate from './components/AddTemplate';
   import UpdateTemplate from './components/UpdateTemplate';
-
   import { getSystemConfigData, deletePrometheusTemplate } from '@/api';
 
   export default {

@@ -27,7 +27,13 @@
             </template>
           </td>
           <td>
-            <BaseCollapseChips v-if="item" :chips="ports[item.name] || []" icon="mdi-directions-fork" single-line />
+            <BaseCollapseChips
+              v-if="item"
+              :id="`c_port_${i}`"
+              :chips="ports[item.name] || []"
+              icon="mdi-directions-fork"
+              single-line
+            />
           </td>
           <td>
             <v-flex v-for="(volume, index) in item.volumeMounts" :key="index" class="py-1">

@@ -76,7 +76,6 @@
       });
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.panel = true;
       },
@@ -114,7 +113,6 @@
         this.params.end = this.$moment(this.date[1]).utc().format();
         if (this.item) this.loadMetrics();
       },
-      // eslint-disable-next-line vue/no-unused-properties
       init(item) {
         this.item = deepCopy(item);
       },

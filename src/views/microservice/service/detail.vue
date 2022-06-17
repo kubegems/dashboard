@@ -3,7 +3,7 @@
     <BaseMicroServiceHeader :selectable="false" />
     <BaseBreadcrumb>
       <template #extend>
-        <v-flex v-if="service && service.istioSidecar" class="kubegems__full-right">
+        <v-flex v-if="service && service.istioSidecar && pass" class="kubegems__full-right">
           <v-btn
             v-if="m_permisson_virtualSpaceAllow"
             class="primary--text"
@@ -77,24 +77,28 @@
       </template>
     </BaseBreadcrumb>
 
-    <v-card flat>
-      <v-card-text class="pa-0">
-        <v-tabs v-model="tab" class="rounded-t pa-3" height="30">
-          <v-tab v-for="item in tabItems" :key="item.value">
-            {{ item.text }}
-          </v-tab>
-        </v-tabs>
-      </v-card-text>
-    </v-card>
-    <component
-      :is="tabItems[tab].value"
-      :ref="tabItems[tab].value"
-      class="mt-3"
-      :item="service"
-      :mode="mode"
-      type="services"
-      :vs="vs"
-    />
+    <PluginPass v-model="pass">
+      <template #default>
+        <v-card flat>
+          <v-card-text class="pa-0">
+            <v-tabs v-model="tab" class="rounded-t pa-3" height="30">
+              <v-tab v-for="item in tabItems" :key="item.value">
+                {{ item.text }}
+              </v-tab>
+            </v-tabs>
+          </v-card-text>
+        </v-card>
+        <component
+          :is="tabItems[tab].value"
+          :ref="tabItems[tab].value"
+          class="mt-3"
+          :item="service"
+          :mode="mode"
+          type="services"
+          :vs="vs"
+        />
+      </template>
+    </PluginPass>
 
     <FaultInjection ref="faultInjection" :service="service" :vs="vs" @refresh="microServiceDetail" />
     <RequestRouting ref="requestRouting" :service="service" :vs="vs" @refresh="microServiceDetail" />
@@ -113,12 +117,12 @@
   import TcpTrafficShifting from './components/TcpTrafficShifting';
   import TrafficShifting from './components/TrafficShifting';
   import VSControlInfo from './components/VSControlInfo';
-
   import { getMicroServiceDetail, postResetService } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import InboundTrafficIframe from '@/views/microservice/components/InboundTrafficIframe';
   import NetworkTopologyIframe from '@/views/microservice/components/NetworkTopologyIframe';
+  import PluginPass from '@/views/microservice/components/PluginPass';
   import ResourceInfo from '@/views/microservice/components/ResourceInfo';
   import TraceIframe from '@/views/microservice/components/TraceIframe';
 
@@ -128,6 +132,7 @@
       FaultInjection,
       InboundTrafficIframe,
       NetworkTopologyIframe,
+      PluginPass,
       RequestRouting,
       RequestTimeouts,
       ResourceInfo,
@@ -142,6 +147,7 @@
       service: null,
       vs: null,
       mode: null,
+      pass: false,
     }),
     computed: {
       ...mapState(['JWT']),
@@ -167,12 +173,15 @@
         return items;
       },
     },
-    mounted() {
-      if (this.JWT) {
-        this.$nextTick(() => {
-          this.microServiceDetail();
-        });
-      }
+    watch: {
+      pass: {
+        handler(newValue) {
+          if (newValue) {
+            this.microServiceDetail();
+          }
+        },
+        deep: true,
+      },
     },
     methods: {
       async microServiceDetail() {

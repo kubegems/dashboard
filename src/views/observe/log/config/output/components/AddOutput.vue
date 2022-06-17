@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-road-variant" title="创建路由器" :width="1000" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-road" title="创建路由器" :width="1000" @reset="reset">
     <template #content>
       <component :is="formComponent" :ref="formComponent" title="Output/ClusterOutput" />
     </template>
@@ -29,7 +29,6 @@
 
   import OutputSchema from '../mixins/schema';
   import OutputBaseForm from './OutputBaseForm';
-
   import { postOutputData, postClusterOutputData } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { randomString } from '@/utils/helpers';
@@ -50,7 +49,6 @@
       ...mapState(['Circular', 'AdminViewport']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },

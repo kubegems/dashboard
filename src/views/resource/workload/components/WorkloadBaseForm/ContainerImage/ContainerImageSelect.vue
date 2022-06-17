@@ -173,7 +173,6 @@
       onRegistryChange() {
         this.$emit('updateRegistry', this.imageRegistry);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         this.$refs.form.resetValidation();
         this.containerType = 'worker';
@@ -182,11 +181,9 @@
       onRegistrySelectFocus() {
         this.m_select_registrySelectData();
       },
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs.form.validate(true);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getData() {
         return this.obj;
       },
