@@ -13,7 +13,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import RegistryBaseForm from './RegistryBaseForm';
-
   import { putUpdateRegistry, getRegistryDetail } from '@/api';
 
   export default {
@@ -30,7 +29,6 @@
       ...mapGetters(['Tenant']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -55,7 +53,6 @@
         }
         return '';
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(item) {
         const data = await getRegistryDetail({
           projectid: item.ProjectID,

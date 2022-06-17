@@ -39,7 +39,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import DeployLive from './DeployLive';
-
   import { getAppRunningResourceDetail, postSyncAppResource, deleteAppResource } from '@/api';
   import BaseResource from '@/mixins/resource';
 

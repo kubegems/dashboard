@@ -47,6 +47,7 @@
       pluginPass() {
         let pass = true;
         this.noPermisionPlugins = [];
+        if (this.$route.meta.innerCheck) return pass;
         const dependencies = this.$route.meta.dependencies;
         if (dependencies === undefined) return pass;
         dependencies.forEach((d) => {

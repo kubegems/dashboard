@@ -63,7 +63,6 @@
   import ContainerList from './components/ContainerList';
   import PodMonitor from './components/PodMonitor';
   import ResourceInfo from './components/ResourceInfo';
-
   import { getPodDetail, deletePod } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

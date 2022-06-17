@@ -15,7 +15,6 @@
   import { mapState } from 'vuex';
 
   import IstioDestinationRuleBaseForm from './IstioDestinationRuleBaseForm';
-
   import { postAddIstioDestinationRule } from '@/api';
   import BaseResource from '@/mixins/resource';
   import IstioDestinationRuleSchema from '@/views/microservice/service/mixins/schema';
@@ -35,7 +34,6 @@
       ...mapState(['Circular', 'EnvironmentFilter']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },

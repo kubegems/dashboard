@@ -180,27 +180,22 @@
           this.obj.TenantID = this.selectProject.tenantID;
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       checkSaved() {
         if (this.$refs[this.formComponent].expand) {
           return !this.$refs[this.formComponent].expand;
         }
         return true;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         this.$refs[this.formComponent].closeCard();
         this.$refs.form.reset();
       },
-      // eslint-disable-next-line vue/no-unused-properties
       setData(data) {
         this.obj = data;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getData() {
         return this.obj;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs.form.validate(true);
       },

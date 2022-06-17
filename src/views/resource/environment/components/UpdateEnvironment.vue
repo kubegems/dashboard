@@ -13,7 +13,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import EnvironmentBaseForm from './EnvironmentBaseForm';
-
   import { putUpdateEnvironment, getEnvironmentDetail } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
@@ -35,7 +34,6 @@
       ...mapGetters(['Project', 'Tenant']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -73,7 +71,6 @@
           this.$emit('refresh');
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(item) {
         const data = await getEnvironmentDetail(item.ID);
         data.Users.forEach((u) => {

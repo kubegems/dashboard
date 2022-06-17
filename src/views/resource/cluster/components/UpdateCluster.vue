@@ -42,7 +42,6 @@
   import { mapState } from 'vuex';
 
   import ClusterBaseForm from './ClusterBaseForm';
-
   import { putUpdateCluster, getClusterDetail } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BaseSelect from '@/mixins/select';
@@ -72,7 +71,6 @@
       ...mapState(['Circular']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -91,7 +89,6 @@
           this.$emit('refresh');
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(item) {
         const data = await getClusterDetail(item.ID);
         this.item = data;

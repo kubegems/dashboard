@@ -15,7 +15,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import IstioGatewayBaseForm from './IstioGatewayBaseForm';
-
   import { putUpdateIstioGatewayInstance, getIstioGatewayInstanceDetail } from '@/api';
 
   export default {
@@ -32,7 +31,6 @@
       ...mapGetters(['VirtualSpace']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -44,7 +42,6 @@
           this.$emit('refresh');
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(item) {
         const data = await getIstioGatewayInstanceDetail(
           this.VirtualSpace().ID,

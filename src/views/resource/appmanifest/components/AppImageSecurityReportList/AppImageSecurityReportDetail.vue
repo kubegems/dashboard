@@ -118,11 +118,9 @@
       },
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.panel = true;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       init(app, item) {
         this.item = deepCopy(item);
         this.app = deepCopy(app);

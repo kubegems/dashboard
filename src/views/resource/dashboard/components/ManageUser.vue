@@ -117,7 +117,6 @@
       ...mapGetters(['Tenant']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -165,7 +164,6 @@
         this.allUsers.push(user);
         await deleteTenantUser(parseInt(this.Tenant().ID), user.ID);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init() {
         if (this.Tenant().ID > 0) {
           this.searchAllUser = '';

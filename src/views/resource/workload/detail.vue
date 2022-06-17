@@ -31,7 +31,9 @@
             </v-menu>
           </span>
           <template
-            v-if="workload && workload.metadata.annotations && !workload.metadata.annotations[`gems.kubegems.io/ref`]"
+            v-if="
+              workload && workload.metadata.annotations && !workload.metadata.annotations[`application.kubegems.io/ref`]
+            "
           >
             <v-btn
               v-if="$route.query.type !== 'DaemonSet' && m_permisson_resourceAllow"
@@ -127,7 +129,6 @@
   import ScaleReplicas from './components/ScaleReplicas';
   import UpdateWorkload from './components/UpdateWorkload';
   import WorkloadMonitor from './components/WorkloadMonitor';
-
   import {
     getDaemonSetDetail,
     getDeploymentDetail,

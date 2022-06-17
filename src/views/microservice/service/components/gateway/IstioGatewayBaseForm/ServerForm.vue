@@ -196,7 +196,6 @@
       }
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       init(data) {
         this.server = deepCopy(data);
         this.hosts = this.server.hosts.map((h, index) => {
@@ -278,7 +277,6 @@
         this.server.index = -1;
         this.$emit('closeOverlay');
       },
-      // eslint-disable-next-line vue/no-unused-properties
       expandCard() {
         this.expand = true;
       },

@@ -1,6 +1,6 @@
 import { mapGetters, mapState } from 'vuex';
 
-import { matrix, vector } from '@/api';
+import { matrix, vector, getClusterPluginsList } from '@/api';
 
 const permission = {
   computed: {
@@ -114,6 +114,16 @@ const permission = {
         return data;
       }
       return [];
+    },
+    async m_permission_plugin_pass(cluster, plugins = []) {
+      const data = await getClusterPluginsList(cluster, {
+        simple: true,
+        noprocessing: true,
+      });
+      const notPassPluins = plugins.filter((p) => {
+        return !data[p];
+      });
+      return notPassPluins;
     },
   },
 };

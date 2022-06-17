@@ -78,7 +78,7 @@
                   >
                     <BaseLogo
                       class="primary--text logo-margin"
-                      :icon-name="item.vendor.toLowerCase()"
+                      :icon-name="item.vendor.toLocaleLowerCase()"
                       :ml="0"
                       :width="40"
                     />

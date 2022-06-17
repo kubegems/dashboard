@@ -19,22 +19,22 @@
       <v-card-text class="px-2 pb-0">
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
           <v-sheet>
-            <v-text-field
-              v-model="obj.cpu"
-              class="my-0"
-              label="最大CPU使用率"
-              required
-              :rules="objRules.cpuRules"
-              suffix="%"
-            />
-            <v-text-field
-              v-model="obj.memory"
-              class="my-0"
-              label="最大内存使用率"
-              required
-              :rules="objRules.memoryRules"
-              suffix="%"
-            />
+            <v-text-field v-model="obj.cpu" class="my-0" required :rules="objRules.cpuRules" suffix="%">
+              <template #label>
+                <div>
+                  最大CPU使用率
+                  <span v-if="obj.cpu > 0 && obj.memory > 0" class="error--text">({{ getCpuTip() }})</span>
+                </div>
+              </template>
+            </v-text-field>
+            <v-text-field v-model="obj.memory" class="my-0" required :rules="objRules.memoryRules" suffix="%">
+              <template #label>
+                <div>
+                  最大内存使用率
+                  <span v-if="obj.cpu > 0 && obj.memory > 0" class="error--text">({{ getMemoryTip() }})</span>
+                </div>
+              </template>
+            </v-text-field>
             <v-text-field
               v-model="obj.min_replicas"
               class="my-0"
@@ -91,6 +91,8 @@
         max_replicas: 0,
         memory: '',
         min_replicas: 0,
+        real_cpu: 0,
+        real_memory: 0,
       },
       loading: false,
       publishLoading: false,
@@ -140,7 +142,6 @@
       },
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -197,7 +198,6 @@
           this.$refs.form.resetValidation();
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init() {
         await this.appRunningHPA();
       },
@@ -223,6 +223,22 @@
         this.dialog = false;
         this.obj = this.$options.data().obj;
         this.$refs.form.resetValidation();
+      },
+      getCpuTip() {
+        if (this.obj.real_cpu === 0) {
+          return `未设置资源的resources,该设置无法生效`;
+        }
+        if (parseFloat(this.obj.real_cpu) !== parseFloat(this.obj.cpu)) {
+          return `用户更改过资源的resources,真实值为${this.obj.real_cpu}%,请重新提交数据`;
+        }
+      },
+      getMemoryTip() {
+        if (this.obj.real_memory === 0) {
+          return `未设置资源的resources,该设置无法生效`;
+        }
+        if (parseFloat(this.obj.real_memory) !== parseFloat(this.obj.memory)) {
+          return `用户更改过资源的resources,真实值为${this.obj.real_memory}%,请重新提交数据`;
+        }
       },
     },
   };

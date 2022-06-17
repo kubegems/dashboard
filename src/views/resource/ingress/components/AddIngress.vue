@@ -28,7 +28,6 @@
   import { mapState } from 'vuex';
 
   import IngressBaseForm from './IngressBaseForm';
-
   import { postAddIngress } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { randomString } from '@/utils/helpers';
@@ -50,7 +49,6 @@
       ...mapState(['Circular', 'AdminViewport']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },

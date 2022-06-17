@@ -66,7 +66,6 @@
 <script>
   import AddCR from './AddCR';
   import UpdateCR from './UpdateCR';
-
   import { getCrList, deleteCr } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

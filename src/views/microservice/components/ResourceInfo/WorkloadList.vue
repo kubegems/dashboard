@@ -1,6 +1,6 @@
 <template>
   <v-data-table
-    class="mx-4 pb-3"
+    class="mx-4 pb-4"
     disable-sort
     :headers="headers"
     hide-default-footer
@@ -30,7 +30,7 @@
       </a>
     </template>
     <template #[`item.labels`]="{ item }">
-      <BaseCollapseChips v-if="item" :chips="item.labels || {}" icon="mdi-label" single-line />
+      <BaseCollapseChips v-if="item" id="w_label" :chips="item.labels || {}" icon="mdi-label" single-line />
     </template>
     <template #[`item.createdAt`]="{ item }">
       {{ item.createdAt ? $moment(item.createdAt).format('lll') : '' }}

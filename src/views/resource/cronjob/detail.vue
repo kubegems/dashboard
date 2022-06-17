@@ -66,7 +66,6 @@
   import JobList from './components/JobList';
   import ResourceInfo from './components/ResourceInfo';
   import UpdateCronJob from './components/UpdateCronJob';
-
   import { getCronJobDetail, deleteCronJob } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

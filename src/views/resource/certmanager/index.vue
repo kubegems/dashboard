@@ -161,7 +161,6 @@
   import AddIssuer from './components/AddIssuer';
   import UpdateCertificate from './components/UpdateCertificate';
   import UpdateIssuer from './components/UpdateIssuer';
-
   import { getCertificateList, deleteCertificate, getIssuerList, deleteIssuer } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';

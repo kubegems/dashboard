@@ -3,7 +3,7 @@
     <BaseSubTitle class="pt-2" :divider="false" title="项目">
       <template #action>
         <v-btn v-if="m_permisson_tenantAllow" class="float-right mr-2" color="primary" small text @click="addProject">
-          <v-icon left small> mdi-cube-outline </v-icon>
+          <v-icon left small> mdi-plus-box </v-icon>
           创建项目
         </v-btn>
       </template>
@@ -187,7 +187,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import Pagination from '../Pagination';
-
   import { getProjectList, getProjectEnvironmentList, getProjectEnvironmentQuotaList } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

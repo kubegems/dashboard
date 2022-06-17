@@ -76,8 +76,13 @@
         <template #[`item.clusterIP`]="{ item }">
           {{ item.spec.clusterIP !== 'None' ? item.spec.clusterIP : 'Headless' }}
         </template>
-        <template #[`item.ports`]="{ item }">
-          <BaseCollapseChips :chips="item.services || []" icon="mdi-directions-fork" single-line />
+        <template #[`item.ports`]="{ item, index }">
+          <BaseCollapseChips
+            :id="`s_port_${index}`"
+            :chips="item.services || []"
+            icon="mdi-directions-fork"
+            single-line
+          />
         </template>
         <template #[`item.createAt`]="{ item }">
           {{ item.metadata.creationTimestamp ? $moment(item.metadata.creationTimestamp).format('lll') : '' }}
@@ -124,7 +129,6 @@
 
   import AddService from './components/AddService';
   import UpdateService from './components/UpdateService';
-
   import { getServiceList, deleteService } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';

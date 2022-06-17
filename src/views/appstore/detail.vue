@@ -57,7 +57,6 @@
   import ConfigFile from './components/ConfigFile';
   import Deploy from './components/Deploy';
   import Markdown from './components/Markdown';
-
   import { getAppStoreDetail, getAppStoreFiles } from '@/api';
 
   export default {

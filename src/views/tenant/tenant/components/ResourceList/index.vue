@@ -96,7 +96,6 @@
   import AddResource from './AddResource';
   import ScaleResource from './ScaleResource';
   import TenantMonitor from './TenantMonitor';
-
   import { getTenantResourceQuotaList, deleteTenantResourceQuota } from '@/api';
   import { sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
   import GpuTip from '@/views/resource/components/common/GpuTip';

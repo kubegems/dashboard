@@ -63,7 +63,6 @@
   import { mapState } from 'vuex';
 
   import AppResourceBaseForm from './AppResourceBaseForm';
-
   import { patchAppResourceFile } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';
@@ -89,7 +88,6 @@
       ...mapState(['Circular', 'AdminViewport']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -99,11 +97,14 @@
           if (this.formComponent === 'BaseYamlForm') {
             data = this.$refs[this.formComponent].getYaml();
             const jsondata = this.$yamlload(data);
-            const mixinjson = require(`@/views/resource/${
-              ['deployment', 'statefulset', 'daemonset'].indexOf(this.kind.toLowerCase()) > -1
-                ? 'workload'
-                : this.kind.toLowerCase()
-            }/mixins/schema.js`);
+
+            let kind = this.kind.toLocaleLowerCase();
+            if (!kind) {
+              kind = jsondata?.kind?.toLocaleLowerCase();
+            }
+            kind = ['deployment', 'statefulset', 'daemonset'].indexOf(kind) > -1 ? 'workload' : kind;
+
+            const mixinjson = require(`@/views/resource/${kind}/mixins/schema.js`);
             if (!this.m_resource_validateJsonSchema(mixinjson.default.data().schema, jsondata)) {
               return;
             }
@@ -139,9 +140,9 @@
       getFileName(data) {
         if (data.kind) {
           if (data.metadata && data.metadata.name) {
-            return `${data.kind.toLowerCase()}-${data.metadata.name}.yaml`;
+            return `${data.kind.toLocaleLowerCase()}-${data.metadata.name}.yaml`;
           } else {
-            return `${data.kind.toLowerCase()}-${new Date().toJSON()}.yaml`;
+            return `${data.kind.toLocaleLowerCase()}-${new Date().toJSON()}.yaml`;
           }
         }
       },
@@ -156,9 +157,9 @@
           const yaml = this.$refs[this.formComponent].getYaml();
           const data = this.$yamlload(yaml);
           const mixinjson = require(`@/views/resource/${
-            ['deployment', 'statefulset', 'daemonset'].indexOf(this.kind.toLowerCase()) > -1
+            ['deployment', 'statefulset', 'daemonset'].indexOf(this.kind.toLocaleLowerCase()) > -1
               ? 'workload'
-              : this.kind.toLowerCase()
+              : this.kind.toLocaleLowerCase()
           }/mixins/schema.js`);
           if (!this.m_resource_validateJsonSchema(mixinjson.default.data().schema, data)) {
             this.yaml = true;
@@ -242,7 +243,6 @@
           });
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       init(app) {
         var p = deepCopy(app);
         this.app = Object.assign(p, {

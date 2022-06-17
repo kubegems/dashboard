@@ -151,7 +151,6 @@
 
   import AddTenant from './components/AddTenant';
   import UpdateTenant from './components/UpdateTenant';
-
   import { getTenantList, putActiveTenant, putForbideTenant, deleteTenant } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BaseResource from '@/mixins/resource';

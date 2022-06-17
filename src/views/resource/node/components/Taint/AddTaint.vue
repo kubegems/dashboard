@@ -69,7 +69,6 @@
       ...mapState(['Circular']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -89,7 +88,6 @@
         this.$refs.form.reset();
         this.taints = [];
       },
-      // eslint-disable-next-line vue/no-unused-properties
       setItem(data) {
         this.item = data;
       },

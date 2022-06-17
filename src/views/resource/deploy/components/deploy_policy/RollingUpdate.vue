@@ -43,7 +43,6 @@
   import { mapState } from 'vuex';
 
   import BaseDeployInfoForm from './base/BaseDeployInfoForm';
-
   import { postStrategyDeployEnvironmentApps } from '@/api';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
@@ -81,11 +80,9 @@
       ...mapState(['Circular']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init() {
         await this.strategyDeployEnvironmentAppsDetail();
         if (this.runtime.strategy.type === 'RollingUpdate') {

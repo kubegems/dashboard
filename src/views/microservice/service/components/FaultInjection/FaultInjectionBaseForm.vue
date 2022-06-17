@@ -137,7 +137,6 @@
           }
         });
       },
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         this.$refs.form.resetValidation();
         this.abort = false;
@@ -158,11 +157,9 @@
           this.$delete(this.obj.fault, 'abort');
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getData() {
         return this.obj;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs.form.validate(true);
       },

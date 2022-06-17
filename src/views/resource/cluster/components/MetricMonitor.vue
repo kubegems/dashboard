@@ -176,7 +176,6 @@
         }
         this.tabItems[this.tab].callBack(this, timeParam);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async clusterEtcdRT(timeParam) {
         const query = CLUSTER_ETCD_RT_PROMQL;
         const data = await this.m_permission_matrix(
@@ -190,7 +189,6 @@
           this.tabItems[this.tab].chart = data;
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async clusterApiServerRT(timeParam) {
         const query = CLUSTER_API_SERVER_RT_PROMQL;
         const data = await this.m_permission_matrix(
@@ -211,7 +209,6 @@
           this.tabItems[this.tab].chart = data;
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async clusterApiServerQps(timeParam) {
         const data1 = await this.m_permission_matrix(
           this.$route.params.name,
@@ -244,7 +241,6 @@
         if (data3) data = data.concat(data3);
         this.tabItems[this.tab].chart = data;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async clusterEtcdQps(timeParam) {
         const data = await this.m_permission_matrix(
           this.$route.params.name,
@@ -257,7 +253,6 @@
           this.tabItems[this.tab].chart = data;
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async clusterCPUUsage(timeParam) {
         const query = CLUSTER_CPU_USAGE_PROMQL;
         const data = await this.m_permission_matrix(
@@ -271,7 +266,6 @@
           this.tabItems[this.tab].chart = data;
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async clusterMemoryUsage(timeParam) {
         const query = CLUSTER_MEMORY_USAGE_PROMQL;
         const data = await this.m_permission_matrix(
@@ -285,7 +279,6 @@
           this.tabItems[this.tab].chart = data;
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async clusterDiskSize(timeParam) {
         const query = CLUSTER_DISK_USAGE_PROMQL;
         const data = await this.m_permission_matrix(
@@ -299,7 +292,6 @@
           this.tabItems[this.tab].chart = data;
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async clusterPodUsage(timeParam) {
         const query = CLUSTER_POD_RUNNING_COUNT_PROMQL;
         const data = await this.m_permission_matrix(

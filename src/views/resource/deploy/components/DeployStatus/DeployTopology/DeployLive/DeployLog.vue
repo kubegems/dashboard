@@ -90,7 +90,6 @@
         this.logWebsocket = null;
         this.log = '';
       },
-      // eslint-disable-next-line vue/no-unused-properties
       refresh() {
         this.dispose();
         this.initWebSocket();

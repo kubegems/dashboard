@@ -36,27 +36,21 @@
       steps: ['ValidateKubeConfig', 'TestKubeConfig', 'InitClusterConfig'],
     }),
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       init(data) {
         this.$refs[this.steps[this.step]].init(data);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       back(data) {
         this.$refs[this.steps[this.step]].back(data);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs[this.steps[this.step]].validate();
       },
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         this.$refs[this.steps[this.step]].reset();
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getData() {
         return this.$refs[this.steps[this.step]].getData();
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getExtend() {
         return this.$refs[this.steps[this.step]].getExtend();
       },

@@ -38,6 +38,7 @@
           <template #content>
             <BaseCollapseChips
               v-if="workload"
+              id="w_selector"
               :chips="workload.spec.selector.matchLabels || {}"
               icon="mdi-label"
               single-line

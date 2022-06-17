@@ -61,7 +61,7 @@
               <v-btn class="white--text" color="grey lighten-4" small>
                 <BaseLogo
                   class="primary--text logo-margin mt-1"
-                  :icon-name="item.SourceVendor ? item.SourceVendor.toLowerCase() : 'kubegems'"
+                  :icon-name="item.SourceVendor ? item.SourceVendor.toLocaleLowerCase() : 'kubegems'"
                   :ml="0"
                   :width="20"
                 />
@@ -144,7 +144,6 @@
   import AddUser from './components/AddUser';
   import ResetPassword from './components/ResetPassword';
   import UpdateRole from './components/UpdateRole';
-
   import { getUserList, deleteUser } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BaseResource from '@/mixins/resource';

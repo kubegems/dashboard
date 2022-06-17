@@ -111,7 +111,6 @@
         this.pageCount = Math.ceil(data.Total / this.params.size);
         this.params.page = data.CurrentPage;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       dispose() {},
       onPageSizeChange(size) {
         this.params.page = 1;

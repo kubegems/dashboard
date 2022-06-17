@@ -78,8 +78,8 @@
   import AdvancedTextare from './AdvancedTextare';
   import LabelSelector from './LabelSelector';
   import ProjectEnvSelect from './ProjectEnvSelect';
-
   import { getLogSeries } from '@/api';
+  import BasePermission from '@/mixins/permission';
 
   export default {
     name: 'LogQuery',
@@ -88,6 +88,7 @@
       LabelSelector,
       ProjectEnvSelect,
     },
+    mixins: [BasePermission],
     props: {
       dateTimestamp: {
         type: Array,
@@ -112,6 +113,7 @@
         environmentName: '',
         namespace: '',
         loading: false,
+        missingPlugins: [],
       };
     },
     computed: {
@@ -224,11 +226,24 @@
           this.environmentName = env.environmentName;
           this.namespace = env.namespace;
           this.$emit('setCluster', this.cluster);
-          await this.getSeriesList();
-          if (triggerQuery) {
-            this.search();
+
+          this.missingPlugins = await this.m_permission_plugin_pass(
+            env.clusterName,
+            this.$route.meta?.dependencies || [],
+          );
+          if (this.missingPlugins?.length === 0) {
+            await this.getSeriesList();
+            if (triggerQuery) {
+              this.search();
+            } else {
+              this.selected = {};
+            }
           } else {
-            this.selected = {};
+            this.$store.commit('SET_SNACKBAR', {
+              text: `该环境所在集群还未启用 ${this.missingPlugins.join(', ')} 插件！`,
+              color: 'warning',
+            });
+            return;
           }
         }
       },

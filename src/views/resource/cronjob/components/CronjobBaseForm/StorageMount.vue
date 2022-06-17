@@ -116,14 +116,12 @@
       };
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       async init(data) {
         this.$nextTick(async () => {
           this.obj = this.$_.merge(deepCopy(data), this.obj);
           await this.persistentVolumeClaimDetail();
         });
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async back(data) {
         this.$nextTick(async () => {
           this.obj = deepCopy(data);
@@ -286,18 +284,15 @@
       reset() {
         this.$refs.form.reset();
       },
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs.form.validate(true);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       checkSaved() {
         if (Object.prototype.hasOwnProperty.call(this, 'expand')) {
           return !this.expand;
         }
         return true;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getData() {
         return this.obj;
       },

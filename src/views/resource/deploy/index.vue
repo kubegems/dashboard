@@ -253,7 +253,6 @@
   import Canary from './components/deploy_policy/Canary';
   import Recreate from './components/deploy_policy/Recreate';
   import RollingUpdate from './components/deploy_policy/RollingUpdate';
-
   import { getStrategyDeployEnvironmentAppsDetail, postSwitchDeployAppStrategy } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

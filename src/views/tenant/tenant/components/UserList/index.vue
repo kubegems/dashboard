@@ -81,7 +81,6 @@
 
 <script>
   import AddUser from './AddUser';
-
   import { deleteTenantUser, getTenantUserList, putChangeTenantUser } from '@/api';
 
   export default {

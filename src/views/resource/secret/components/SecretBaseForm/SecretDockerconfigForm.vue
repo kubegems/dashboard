@@ -103,7 +103,6 @@
       }
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       init(data) {
         this.dockerconfig = {
           username: data.username,

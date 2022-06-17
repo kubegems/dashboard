@@ -13,7 +13,6 @@
   import { mapState } from 'vuex';
 
   import IstioVirtualServiceBaseForm from './IstioVirtualServiceBaseForm';
-
   import { postAddIstioVirtualService } from '@/api';
   import BaseResource from '@/mixins/resource';
   import IstioVirtualServiceSchema from '@/views/microservice/service/mixins/schema';
@@ -33,7 +32,6 @@
       ...mapState(['Circular', 'EnvironmentFilter']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },

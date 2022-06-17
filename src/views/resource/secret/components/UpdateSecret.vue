@@ -28,7 +28,6 @@
   import { mapState } from 'vuex';
 
   import SecretBaseForm from './SecretBaseForm';
-
   import { patchUpdateSecret, getSecretDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';
@@ -51,7 +50,6 @@
       ...mapState(['Circular']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -85,7 +83,6 @@
           this.$emit('refresh');
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(item) {
         this.item = null;
         const data = await getSecretDetail(this.ThisCluster, item.metadata.namespace, item.metadata.name);

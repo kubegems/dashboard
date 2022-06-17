@@ -29,7 +29,6 @@
 
   import FlowSchema from '../mixins/schema';
   import FlowBaseForm from './FlowBaseForm';
-
   import { postFlowData, postClusterFlowData } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { randomString } from '@/utils/helpers';
@@ -50,7 +49,6 @@
       ...mapState(['Circular', 'AdminViewport']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },

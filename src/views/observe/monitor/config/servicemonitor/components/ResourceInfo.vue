@@ -28,6 +28,7 @@
           <template #content>
             <BaseCollapseChips
               v-if="serviceMonitor && serviceMonitor.spec.selector"
+              id="r_label"
               :chips="serviceMonitor.spec.selector.matchLabels || {}"
               icon="mdi-label"
               single-line
@@ -39,6 +40,7 @@
           <template #content>
             <BaseCollapseChips
               v-if="serviceMonitor && serviceMonitor.spec.namespaceSelector"
+              id="r_match_label"
               :chips="serviceMonitor.spec.namespaceSelector.matchNames || {}"
               icon="mdi-label"
               single-line

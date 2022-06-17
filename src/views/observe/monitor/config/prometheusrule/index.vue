@@ -203,7 +203,6 @@
 
   import AddPrometheusRule from './components/AddPrometheusRule';
   import UpdatePrometheusRule from './components/UpdatePrometheusRule';
-
   import { getPrometheusRuleList, deletePrometheusRule, postDisableAlertRule, postEnableAlertRule } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';

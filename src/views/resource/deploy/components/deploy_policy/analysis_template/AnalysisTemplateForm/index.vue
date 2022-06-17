@@ -83,7 +83,6 @@
 
   import ArgsForm from './ArgsForm';
   import ArgsItem from './ArgsItem';
-
   import { getStrategyDeployEnvironmentAppsAnalysisTempalte } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
@@ -145,7 +144,6 @@
       this.strategyDeployEnvironmentAppsAnalysisTempalte();
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       init(t) {
         this.t = t;
       },
@@ -209,7 +207,6 @@
           this.expand = true;
         });
       },
-      // eslint-disable-next-line vue/no-unused-properties
       expandCard() {
         this.expand = true;
       },

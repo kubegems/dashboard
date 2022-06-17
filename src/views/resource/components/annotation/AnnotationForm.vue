@@ -74,7 +74,6 @@
       }
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       init(data) {
         this.obj = {
           key: data.key,

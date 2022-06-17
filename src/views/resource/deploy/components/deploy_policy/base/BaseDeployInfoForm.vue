@@ -230,7 +230,6 @@
           }
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         this.runningImages = [];
         this.publishImages = [];
@@ -238,11 +237,9 @@
         this.base = this.$options.data().base;
         this.$refs.form.resetValidation();
       },
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs.form.validate(true);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getData() {
         return this.base;
       },

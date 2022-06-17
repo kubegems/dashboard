@@ -164,7 +164,6 @@
   import { mapGetters } from 'vuex';
 
   import AppImageSecurityReportDetail from './AppImageSecurityReportDetail';
-
   import { getAppImageSecurityReportList, putSetPublishAppImage } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

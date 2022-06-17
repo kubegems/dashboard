@@ -35,7 +35,6 @@
   import { mapState } from 'vuex';
 
   import ClusterBaseForm from './ClusterBaseForm';
-
   import { postAddCluster } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BaseSelect from '@/mixins/select';
@@ -63,7 +62,6 @@
       ...mapState(['Circular']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },

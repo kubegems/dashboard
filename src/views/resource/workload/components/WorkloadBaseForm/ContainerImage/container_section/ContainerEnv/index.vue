@@ -198,7 +198,6 @@
   import DownwardPod from './DownwardPod';
   import KeyValue from './KeyValue';
   import Secret from './Secret';
-
   import { getSecretList, getConfigMapList, getAppResourceFileMetas } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';

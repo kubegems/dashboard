@@ -62,7 +62,6 @@
 
   import ResourceInfo from './components/ResourceInfo';
   import UpdateCertificate from './components/UpdateCertificate';
-
   import { getCertificateDetail, deleteCertificate } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';

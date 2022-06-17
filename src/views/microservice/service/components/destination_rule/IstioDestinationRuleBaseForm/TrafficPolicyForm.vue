@@ -60,7 +60,6 @@
       };
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       init(data) {
         if (data) {
           this.obj = deepCopy(data);

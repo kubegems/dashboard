@@ -24,7 +24,6 @@
 
 <script>
   import LogTable from './LogTable';
-
   import { getLogContext } from '@/api';
 
   export default {
@@ -48,7 +47,6 @@
       };
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       showContext(item, params) {
         this.visible = true;
         this.items.current = [

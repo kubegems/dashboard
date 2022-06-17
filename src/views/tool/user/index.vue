@@ -15,7 +15,7 @@
                       <v-btn class="white--text" color="grey lighten-4" small>
                         <BaseLogo
                           class="primary--text logo-margin mt-1"
-                          :icon-name="User.SourceVendor ? User.SourceVendor.toLowerCase() : 'kubegems'"
+                          :icon-name="User.SourceVendor ? User.SourceVendor.toLocaleLowerCase() : 'kubegems'"
                           :ml="0"
                           :width="20"
                         />
@@ -75,7 +75,6 @@
   import AuditList from './components/AuditList';
   import MessageBox from './components/MessageBox';
   import OwnerSetting from './components/OwnerSetting';
-
   import { getLoginUserInfo } from '@/api';
 
   export default {

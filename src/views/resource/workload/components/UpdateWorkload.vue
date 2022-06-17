@@ -63,7 +63,6 @@
   import { mapState } from 'vuex';
 
   import WorkloadBaseForm from './WorkloadBaseForm';
-
   import {
     patchUpdateDaemonSet,
     patchUpdateDeployment,
@@ -102,7 +101,6 @@
       ...mapState(['Circular']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -148,7 +146,6 @@
           this.$emit('refresh');
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(item, kind) {
         let data = null;
         this.kind = kind;

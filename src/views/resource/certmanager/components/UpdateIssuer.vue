@@ -28,7 +28,6 @@
   import { mapState } from 'vuex';
 
   import IssuerBaseForm from './IssuerBaseForm';
-
   import { patchUpdateIssuer, getIssuerDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';
@@ -51,7 +50,6 @@
       ...mapState(['Circular', 'AdminViewport']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -78,7 +76,6 @@
           this.$emit('refresh');
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(item) {
         const data = await getIssuerDetail(this.ThisCluster, item.metadata.namespace, item.metadata.name);
         this.item = deepCopy(data);

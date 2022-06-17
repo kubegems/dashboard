@@ -13,7 +13,6 @@
   import { mapState } from 'vuex';
 
   import AppBaseForm from './AppBaseForm';
-
   import { getManifestDetail, putUpdateManifest } from '@/api';
 
   export default {
@@ -29,7 +28,6 @@
       ...mapState(['Circular']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -51,7 +49,6 @@
           this.$emit('refresh');
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init(item) {
         const data = await getManifestDetail(item.TenantID, item.ProjectID, item.name);
         this.$refs[this.formComponent].setData(

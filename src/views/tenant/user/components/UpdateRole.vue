@@ -70,7 +70,6 @@
       this.m_select_systemRoleSelectData();
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -81,7 +80,6 @@
           this.$emit('refresh');
         }
       },
-      // eslint-disable-next-line vue/no-unused-properties
       init(item) {
         this.obj = {
           Username: item.Username,

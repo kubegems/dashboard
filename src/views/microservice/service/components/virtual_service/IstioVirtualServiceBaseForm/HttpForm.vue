@@ -184,7 +184,6 @@
       }
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       init(data) {
         if (data) {
           this.http = deepCopy(data);
@@ -248,7 +247,6 @@
         this.http.index = -1;
         this.$emit('closeOverlay');
       },
-      // eslint-disable-next-line vue/no-unused-properties
       expandCard() {
         this.expand = true;
       },

@@ -28,7 +28,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import GatewayBaseForm from './GatewayBaseForm';
-
   import { postAddGateway } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { randomString } from '@/utils/helpers';
@@ -51,7 +50,6 @@
       ...mapGetters(['Tenant']),
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },

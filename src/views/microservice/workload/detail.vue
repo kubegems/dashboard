@@ -3,22 +3,26 @@
     <BaseMicroServiceHeader :selectable="false" />
     <BaseBreadcrumb />
 
-    <v-card flat>
-      <v-card-text class="pa-0">
-        <v-tabs v-model="tab" class="rounded-t pa-3" height="30">
-          <v-tab v-for="item in tabItems" :key="item.value">
-            {{ item.text }}
-          </v-tab>
-        </v-tabs>
-      </v-card-text>
-    </v-card>
-    <component
-      :is="tabItems[tab].value"
-      :ref="tabItems[tab].value"
-      class="mt-3"
-      :item="workload"
-      :services="services"
-    />
+    <PluginPass v-model="pass">
+      <template #default>
+        <v-card flat>
+          <v-card-text class="pa-0">
+            <v-tabs v-model="tab" class="rounded-t pa-3" height="30">
+              <v-tab v-for="item in tabItems" :key="item.value">
+                {{ item.text }}
+              </v-tab>
+            </v-tabs>
+          </v-card-text>
+        </v-card>
+        <component
+          :is="tabItems[tab].value"
+          :ref="tabItems[tab].value"
+          class="mt-3"
+          :item="workload"
+          :services="services"
+        />
+      </template>
+    </PluginPass>
   </v-container>
 </template>
 
@@ -26,13 +30,13 @@
   import { mapGetters, mapState } from 'vuex';
 
   import WorkloadLog from './components/WorkloadLog';
-
   import { getMicroAppWorkoladDetail } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import InboundTrafficIframe from '@/views/microservice/components/InboundTrafficIframe';
   import NetworkTopologyIframe from '@/views/microservice/components/NetworkTopologyIframe';
   import OutboundTrafficIframe from '@/views/microservice/components/OutboundTrafficIframe';
+  import PluginPass from '@/views/microservice/components/PluginPass';
   import ResourceInfo from '@/views/microservice/components/ResourceInfo';
   import TraceIframe from '@/views/microservice/components/TraceIframe';
 
@@ -42,6 +46,7 @@
       InboundTrafficIframe,
       NetworkTopologyIframe,
       OutboundTrafficIframe,
+      PluginPass,
       ResourceInfo,
       TraceIframe,
       WorkloadLog,
@@ -59,17 +64,21 @@
       ],
       workload: null,
       services: null,
+      pass: false,
     }),
     computed: {
       ...mapState(['JWT', 'EnvironmentFilter']),
       ...mapGetters(['VirtualSpace']),
     },
-    mounted() {
-      if (this.JWT) {
-        this.$nextTick(() => {
-          this.microAppWorkoladDetail();
-        });
-      }
+    watch: {
+      pass: {
+        handler(newValue) {
+          if (newValue) {
+            this.microAppWorkoladDetail();
+          }
+        },
+        deep: true,
+      },
     },
     methods: {
       async microAppWorkoladDetail() {

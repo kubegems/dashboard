@@ -119,7 +119,6 @@
       }
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       init(data) {
         this.alertLevel = data;
         this.expand = true;
@@ -151,11 +150,9 @@
         this.alertLevel.index = -1;
         this.$emit('closeOverlay');
       },
-      // eslint-disable-next-line vue/no-unused-properties
       expandCard() {
         this.expand = true;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       setAlertLevel(data) {
         this.alertLevel = Object.assign(this.alertLevel, data);
       },

@@ -89,7 +89,6 @@
       }
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       init(data) {
         this.tls = {
           'tls.crt': data['tls.crt'],

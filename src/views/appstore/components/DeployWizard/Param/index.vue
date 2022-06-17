@@ -95,7 +95,6 @@
   import SingleSelectParam from './SingleSelectParam';
   import TextAreaParam from './TextAreaParam';
   import TextFieldParam from './TextFieldParam';
-
   import { YamlMixin } from '@/views/appstore/mixins/yaml';
 
   export default {
@@ -183,7 +182,10 @@
         if (this.type === 'integer') {
           inputType = 'number';
         }
-        if (this.type === 'string' && (this.param.render === 'password' || label.toLowerCase().includes('password'))) {
+        if (
+          this.type === 'string' &&
+          (this.param.render === 'password' || label.toLocaleLowerCase().includes('password'))
+        ) {
           inputType = 'password';
         }
         return inputType;

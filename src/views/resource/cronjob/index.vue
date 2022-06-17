@@ -129,7 +129,6 @@
 
   import AddCronJob from './components/AddCronJob';
   import UpdateCronJob from './components/UpdateCronJob';
-
   import { getCronJobList, deleteCronJob } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';

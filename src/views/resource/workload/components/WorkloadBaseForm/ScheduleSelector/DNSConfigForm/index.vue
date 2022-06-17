@@ -87,7 +87,6 @@
 <script>
   import DNSOptionForm from './DNSOptionForm';
   import DNSOptionItem from './DNSOptionItem';
-
   import { deepCopy } from '@/utils/helpers';
 
   export default {
@@ -129,7 +128,6 @@
       }
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       init(data) {
         this.obj = data;
         if (this.obj.nameservers) {

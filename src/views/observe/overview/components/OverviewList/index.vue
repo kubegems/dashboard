@@ -17,8 +17,8 @@
       no-results-text="暂无匹配租户"
       :page.sync="params.page"
     >
-      <template #[`item.labels`]="{ item }">
-        <BaseCollapseChips :chips="item.labels || {}" icon="mdi-label" single-line />
+      <template #[`item.labels`]="{ item, index }">
+        <BaseCollapseChips :id="`o_label_${index}`" :chips="item.labels || {}" icon="mdi-label" single-line />
       </template>
       <template #[`item.alertLiving`]="{ item }">
         {{ item.errorAlertCount + item.criticalAlertCount }}
@@ -62,7 +62,6 @@
   import K8sEvents from './K8sEvents';
   import ProjectSelect from './ProjectSelect';
   import StatusTag from './StatusTag';
-
   import { getEnvironmentObservability } from '@/api';
   import BaseSelect from '@/mixins/select';
 

@@ -136,7 +136,6 @@
       },
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       open() {
         this.dialog = true;
       },
@@ -186,7 +185,6 @@
         await deleteVirtualSpaceUser(parseInt(this.VirtualSpace().ID), user.ID);
         this.$emit('refresh');
       },
-      // eslint-disable-next-line vue/no-unused-properties
       async init() {
         if (this.VirtualSpace().ID > 0) {
           this.searchAllUser = '';

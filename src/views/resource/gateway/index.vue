@@ -98,7 +98,6 @@
 
   import AddGateway from './components/AddGateway';
   import UpdateGateway from './components/UpdateGateway';
-
   import { getGatewayList, deleteGateway } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';

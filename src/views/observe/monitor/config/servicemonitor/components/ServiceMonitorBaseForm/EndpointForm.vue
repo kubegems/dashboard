@@ -164,7 +164,6 @@
       }
     },
     methods: {
-      // eslint-disable-next-line vue/no-unused-properties
       init(data) {
         this.endpoint = data;
         this.honorLabel = this.endpoint.honorLabels;
@@ -213,11 +212,9 @@
       onHonorLabelChange() {
         this.$set(this.endpoint, 'honorLabels', this.honorLabel);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       expandCard() {
         this.expand = true;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       setPortSelector(data) {
         this.portSelector = data;
       },

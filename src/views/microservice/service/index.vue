@@ -42,153 +42,159 @@
           </v-card>
         </v-menu>
       </v-card-title>
-      <v-data-table
-        class="mx-4"
-        :custom-filter="baseFilter"
-        disable-sort
-        :headers="headers"
-        hide-default-footer
-        :items="items"
-        :items-per-page="1000"
-        no-data-text="暂无数据"
-        no-results-text="暂无数据"
-        :search.sync="$route.query.search"
-      >
-        <template #[`item.name`]="{ item }">
-          <a class="text-subtitle-2" @click="kialiServiceDetail(item)">
-            <v-flex class="float-left">
-              {{ item.name }}
-            </v-flex>
-            <v-flex v-if="item.istioSidecar && item.appLabel" class="float-left ml-2">
-              <v-menu nudge-right="20px" nudge-top="10px" open-on-hover right>
+      <PluginPass v-model="pass">
+        <template #default>
+          <v-data-table
+            class="mx-4"
+            :custom-filter="baseFilter"
+            disable-sort
+            :headers="headers"
+            hide-default-footer
+            :items="items"
+            :items-per-page="1000"
+            no-data-text="暂无数据"
+            no-results-text="暂无数据"
+            :search.sync="$route.query.search"
+          >
+            <template #[`item.name`]="{ item }">
+              <a class="text-subtitle-2" @click="kialiServiceDetail(item)">
+                <v-flex class="float-left">
+                  {{ item.name }}
+                </v-flex>
+                <v-flex v-if="item.istioSidecar && item.appLabel" class="float-left ml-2">
+                  <v-menu nudge-right="20px" nudge-top="10px" open-on-hover right>
+                    <template #activator="{ on }">
+                      <span v-on="on">
+                        <Icon class="mr-2 primary--text" height="18px" icon="simple-icons:istio" width="18px" />
+                      </span>
+                    </template>
+                    <v-card>
+                      <v-card-text class="pa-2"> 自动注入 </v-card-text>
+                    </v-card>
+                  </v-menu>
+                </v-flex>
+              </a>
+            </template>
+            <template #[`item.namespace`]>
+              {{ EnvironmentFilter ? EnvironmentFilter.text : '' }}
+            </template>
+            <template #[`item.labels`]="{ item, index }">
+              <BaseCollapseChips :id="`v_label_${index}`" :chips="item.labels || {}" icon="mdi-label" single-line />
+            </template>
+            <template #[`item.config`]="{ item, index }">
+              <v-flex :id="`r${index}`" />
+              <v-flex
+                v-for="(ref, i) in item.istioReferences.length > 1
+                  ? item.showConfig
+                    ? item.istioReferences
+                    : item.istioReferences.slice(0, 1)
+                  : item.istioReferences"
+                :key="i"
+              >
+                <v-chip class="ma-1" color="success" small text-color="white">
+                  <strong class="mx-1"> {{ ref.objectType }} </strong>
+                  {{ ref.name }}
+                  <strong v-if="item.istioReferences.length > 1 && !item.showConfig" class="ml-2">
+                    {{ `+${item.istioReferences.length - 1}` }}
+                  </strong>
+                </v-chip>
+                <template v-if="item.istioReferences.length > 1 && i === 0">
+                  <v-btn
+                    v-if="item.showConfig"
+                    class="cell-btn"
+                    color="primary"
+                    icon
+                    small
+                    text
+                    @click="showAllConfig(index)"
+                  >
+                    <v-icon>mdi-chevron-double-up</v-icon>
+                  </v-btn>
+                  <v-btn v-else class="cell-btn" color="primary" icon small text @click="showAllConfig(index)">
+                    <v-icon>mdi-chevron-double-down</v-icon>
+                  </v-btn>
+                </template>
+                <v-menu :attach="`#r${index}`" left top>
+                  <template #activator="{ on }">
+                    <v-btn icon>
+                      <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
+                    </v-btn>
+                  </template>
+                  <v-card>
+                    <v-card-text class="pa-2">
+                      <v-flex>
+                        <v-btn color="primary" small text @click="updateIstioRecource(ref)"> 编辑 </v-btn>
+                      </v-flex>
+                      <v-flex>
+                        <v-btn color="error" small text @click="removeIstioResource(ref)"> 删除 </v-btn>
+                      </v-flex>
+                    </v-card-text>
+                  </v-card>
+                </v-menu>
+              </v-flex>
+            </template>
+            <template #[`item.valid`]="{ item, index }">
+              <v-flex :id="`v${item.name}`" />
+              <v-icon v-if="valids[item.name] && valids[item.name].valid" color="success" small>
+                mdi-check-circle
+              </v-icon>
+              <v-menu
+                v-else
+                :attach="`#v${item.name}`"
+                :close-delay="200"
+                max-width="200px"
+                nudge-bottom="-5px"
+                offset-y
+                open-on-hover
+                :origin="params.size - index <= 5 || (items.length <= 5 && index >= 1) ? `bottom center` : `top center`"
+                right
+                :top="params.size - index <= 5 || (items.length <= 5 && index >= 1)"
+                transition="scale-transition"
+              >
                 <template #activator="{ on }">
-                  <span v-on="on">
-                    <Icon class="mr-2 primary--text" height="18px" icon="simple-icons:istio" width="18px" />
-                  </span>
+                  <v-icon color="warning" small v-on="on"> mdi-alert-circle </v-icon>
                 </template>
                 <v-card>
-                  <v-card-text class="pa-2"> 自动注入 </v-card-text>
-                </v-card>
-              </v-menu>
-            </v-flex>
-          </a>
-        </template>
-        <template #[`item.namespace`]>
-          {{ EnvironmentFilter ? EnvironmentFilter.text : '' }}
-        </template>
-        <template #[`item.labels`]="{ item }">
-          <BaseCollapseChips :chips="item.labels || {}" icon="mdi-label" single-line />
-        </template>
-        <template #[`item.config`]="{ item, index }">
-          <v-flex :id="`r${index}`" />
-          <v-flex
-            v-for="(ref, i) in item.istioReferences.length > 1
-              ? item.showConfig
-                ? item.istioReferences
-                : item.istioReferences.slice(0, 1)
-              : item.istioReferences"
-            :key="i"
-          >
-            <v-chip class="ma-1" color="success" small text-color="white">
-              <strong class="mx-1"> {{ ref.objectType }} </strong>
-              {{ ref.name }}
-              <strong v-if="item.istioReferences.length > 1 && !item.showConfig" class="ml-2">
-                {{ `+${item.istioReferences.length - 1}` }}
-              </strong>
-            </v-chip>
-            <template v-if="item.istioReferences.length > 1 && i === 0">
-              <v-btn
-                v-if="item.showConfig"
-                class="cell-btn"
-                color="primary"
-                icon
-                small
-                text
-                @click="showAllConfig(index)"
-              >
-                <v-icon>mdi-chevron-double-up</v-icon>
-              </v-btn>
-              <v-btn v-else class="cell-btn" color="primary" icon small text @click="showAllConfig(index)">
-                <v-icon>mdi-chevron-double-down</v-icon>
-              </v-btn>
-            </template>
-            <v-menu :attach="`#r${index}`" left top>
-              <template #activator="{ on }">
-                <v-btn icon>
-                  <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
-                </v-btn>
-              </template>
-              <v-card>
-                <v-card-text class="pa-2">
-                  <v-flex>
-                    <v-btn color="primary" small text @click="updateIstioRecource(ref)"> 编辑 </v-btn>
-                  </v-flex>
-                  <v-flex>
-                    <v-btn color="error" small text @click="removeIstioResource(ref)"> 删除 </v-btn>
-                  </v-flex>
-                </v-card-text>
-              </v-card>
-            </v-menu>
-          </v-flex>
-        </template>
-        <template #[`item.valid`]="{ item, index }">
-          <v-flex :id="`v${item.name}`" />
-          <v-icon v-if="valids[item.name] && valids[item.name].valid" color="success" small> mdi-check-circle </v-icon>
-          <v-menu
-            v-else
-            :attach="`#v${item.name}`"
-            :close-delay="200"
-            max-width="200px"
-            nudge-bottom="-5px"
-            offset-y
-            open-on-hover
-            :origin="params.size - index <= 5 || (items.length <= 5 && index >= 1) ? `bottom center` : `top center`"
-            right
-            :top="params.size - index <= 5 || (items.length <= 5 && index >= 1)"
-            transition="scale-transition"
-          >
-            <template #activator="{ on }">
-              <v-icon color="warning" small v-on="on"> mdi-alert-circle </v-icon>
-            </template>
-            <v-card>
-              <v-list class="pa-0" dense>
-                <v-flex class="text-body-2 text-center primary white--text py-2">
-                  <v-icon color="white" left small> mdi-alert </v-icon>
-                  <span>警告</span>
-                </v-flex>
-                <v-list-item>
-                  <v-list-item-content>
-                    <v-list-item class="float-left pa-0" two-line>
-                      <v-list-item-content class="py-0">
-                        <v-list-item-title> 警告 </v-list-item-title>
-                        <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
-                          {{
-                            valids[item.name] &&
-                            valids[item.name].checks
-                              .map((c) => {
-                                return c.message;
-                              })
-                              .join(',')
-                          }}
-                        </v-list-item-content>
+                  <v-list class="pa-0" dense>
+                    <v-flex class="text-body-2 text-center primary white--text py-2">
+                      <v-icon color="white" left small> mdi-alert </v-icon>
+                      <span>警告</span>
+                    </v-flex>
+                    <v-list-item>
+                      <v-list-item-content>
+                        <v-list-item class="float-left pa-0" two-line>
+                          <v-list-item-content class="py-0">
+                            <v-list-item-title> 警告 </v-list-item-title>
+                            <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
+                              {{
+                                valids[item.name] &&
+                                valids[item.name].checks
+                                  .map((c) => {
+                                    return c.message;
+                                  })
+                                  .join(',')
+                              }}
+                            </v-list-item-content>
+                          </v-list-item-content>
+                        </v-list-item>
                       </v-list-item-content>
                     </v-list-item>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list>
-            </v-card>
-          </v-menu>
+                  </v-list>
+                </v-card>
+              </v-menu>
+            </template>
+          </v-data-table>
+          <BasePagination
+            v-if="pageCount >= 1"
+            v-model="params.page"
+            :page-count="pageCount"
+            :size="params.size"
+            @changepage="onPageIndexChange"
+            @changesize="onPageSizeChange"
+            @loaddata="serviceList"
+          />
         </template>
-      </v-data-table>
-      <BasePagination
-        v-if="pageCount >= 1"
-        v-model="params.page"
-        :page-count="pageCount"
-        :size="params.size"
-        @changepage="onPageIndexChange"
-        @changesize="onPageSizeChange"
-        @loaddata="serviceList"
-      />
+      </PluginPass>
     </v-card>
 
     <AddVirtualService ref="addVirtualService" @refresh="serviceList" />
@@ -212,7 +218,6 @@
   import UpdateResource from './components/UpdateResource';
   import AddVirtualService from './components/virtual_service/AddVirtualService';
   import UpdateVirtualService from './components/virtual_service/UpdateVirtualService';
-
   import {
     getMicroServiceList,
     deleteIstioGateway,
@@ -222,6 +227,7 @@
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
+  import PluginPass from '@/views/microservice/components/PluginPass';
 
   export default {
     name: 'Service',
@@ -230,6 +236,7 @@
       AddIstioGateway,
       AddVirtualService,
       EnvironmentFilter,
+      PluginPass,
       UpdateIstioDestinationRule,
       UpdateIstioGateway,
       UpdateResource,
@@ -245,6 +252,7 @@
         size: 10,
       },
       filters: [{ text: '服务名称', value: 'search', items: [] }],
+      pass: false,
     }),
     computed: {
       ...mapState(['JWT', 'EnvironmentFilter']),
@@ -261,12 +269,13 @@
       },
     },
     watch: {
-      '$store.state.EnvironmentFilter': {
-        handler: function (env) {
-          if (env) this.serviceList();
+      pass: {
+        handler(newValue) {
+          if (newValue) {
+            this.serviceList();
+          }
         },
         deep: true,
-        immediate: true,
       },
     },
     methods: {

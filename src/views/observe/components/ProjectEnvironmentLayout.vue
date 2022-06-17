@@ -33,12 +33,29 @@
       </div>
       <EmptyOverlay :visible="!env" />
 
-      <slot />
+      <slot v-if="missingPlugins.length === 0" />
+      <v-card v-else class="mx-3" flat :height="`400px`">
+        <v-row :style="{ height: `400px` }">
+          <v-col class="d-flex align-center justify-center">
+            <div class="d-flex align-center pa-10">
+              <div class="text-center">
+                <h2 class="text-h5 primary--text font-weight-medium">
+                  该环境所在集群暂时还未启用 {{ missingPlugins.join(', ') }} 插件！
+                </h2>
+                <h6 class="text-subtitle-1 mt-4 primary--text op-5 font-weight-regular">
+                  您可以联系平台管理员启用该插件
+                </h6>
+              </div>
+            </div>
+          </v-col>
+        </v-row>
+      </v-card>
     </BaseSplitContainer>
   </v-container>
 </template>
 
 <script>
+  import BasePermission from '@/mixins/permission';
   import EmptyOverlay from '@/views/observe/components/EmptyOverlay';
   import ProjectEnvironmentTree from '@/views/observe/components/ProjectEnvironmentTree';
 
@@ -48,22 +65,35 @@
       EmptyOverlay,
       ProjectEnvironmentTree,
     },
+    mixins: [BasePermission],
     data() {
       return {
         env: undefined,
+        missingPlugins: [],
       };
     },
     methods: {
-      onEnvChange(env) {
-        this.$router.replace({
-          query: {
-            ...this.$route.query,
-            proj: env?.projectName,
-            env: env?.name,
-            cluster: env?.clusterName,
-            namespace: env?.namespace,
-          },
-        });
+      async onEnvChange(env) {
+        if (env?.clusterName) {
+          this.missingPlugins = await this.m_permission_plugin_pass(
+            env?.clusterName,
+            this.$route.meta?.dependencies || [],
+          );
+        } else {
+          this.missingPlugins = [];
+        }
+
+        if (this.missingPlugins?.length === 0) {
+          this.$router.replace({
+            query: {
+              ...this.$route.query,
+              proj: env?.projectName,
+              env: env?.name,
+              cluster: env?.clusterName,
+              namespace: env?.namespace,
+            },
+          });
+        }
       },
     },
   };

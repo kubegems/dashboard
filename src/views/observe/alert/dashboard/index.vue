@@ -47,7 +47,6 @@
   import AlertHistoryLine from './components/AlertHistoryLine';
   import AlertTopBar from './components/AlertTopBar';
   import ValueCard from './components/ValueCard';
-
   import { getAlertToday } from '@/api';
   import BaseSelect from '@/mixins/select';
 

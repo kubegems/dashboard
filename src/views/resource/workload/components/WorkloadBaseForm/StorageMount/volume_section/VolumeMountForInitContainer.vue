@@ -124,7 +124,6 @@
         });
         this.mounts = mounts;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       generateData() {
         if (this.$refs.form.validate(true)) {
           return this.mounts;

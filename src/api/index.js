@@ -30,8 +30,10 @@ axios.interceptors.request.use(function (config) {
   }
   if (
     new RegExp('undefined|//', 'g').test(config.url) ||
-    (config.method.toLowerCase() === 'get' && config.params && Object.values(config.params).indexOf(undefined) > -1) ||
-    (config.method.toLowerCase() in ['post', 'patch', 'put', 'delete'] &&
+    (config.method.toLocaleLowerCase() === 'get' &&
+      config.params &&
+      Object.values(config.params).indexOf(undefined) > -1) ||
+    (config.method.toLocaleLowerCase() in ['post', 'patch', 'put', 'delete'] &&
       config.data &&
       Object.values(config.data).indexOf(undefined) > -1)
   ) {
@@ -42,11 +44,11 @@ axios.interceptors.request.use(function (config) {
     });
     return new Promise(() => {});
   }
-  if (config.method.toLowerCase() === 'get' && config.url.indexOf('callback') === -1) {
+  if (config.method.toLocaleLowerCase() === 'get' && config.url.indexOf('callback') === -1) {
     if (!(config.params && config.params.noprocessing)) {
       store.commit('SET_PROGRESS', true);
     }
-  } else if (['post', 'patch', 'put', 'delete'].indexOf(config.method.toLowerCase()) > -1) {
+  } else if (['post', 'patch', 'put', 'delete'].indexOf(config.method.toLocaleLowerCase()) > -1) {
     store.commit('SET_CIRCULAR', true);
   }
   if (store.state.Csrftoken) {
@@ -55,7 +57,7 @@ axios.interceptors.request.use(function (config) {
   if (store.state.JWT) {
     config.headers.Authorization = `Bearer ${store.state.JWT}`;
   }
-  if (config.method.toLowerCase() in ['post', 'patch', 'put', 'delete']) {
+  if (config.method.toLocaleLowerCase() in ['post', 'patch', 'put', 'delete']) {
     config.headers['Content-type'] = 'application/json;charset=utf-8';
   }
   return config;

@@ -134,7 +134,6 @@
 
   import IngressRuleForm from './IngressRuleForm';
   import IngressRuleItem from './IngressRuleItem';
-
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
@@ -359,7 +358,6 @@
       closeExpand() {
         this.expand = false;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       checkSaved() {
         if (this.$refs.annotationForm.expand) {
           return !this.$refs.annotationForm.expand;
@@ -369,13 +367,11 @@
         }
         return true;
       },
-      // eslint-disable-next-line vue/no-unused-properties
       init(data) {
         this.$nextTick(() => {
           this.obj = deepCopy(data);
         });
       },
-      // eslint-disable-next-line vue/no-unused-properties
       back(data) {
         this.$nextTick(() => {
           this.obj = deepCopy(data);
@@ -384,7 +380,6 @@
       onKindChange() {
         this.$emit('change', this.resourceKind);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       reset() {
         if (this.$refs.annotationForm) this.$refs.annotationForm.closeCard();
         this.$refs.ingressRuleForm.closeCard();
@@ -396,7 +391,6 @@
           'https://docs.nginx.com/nginx-ingress-controller/configuration/ingress-resources/advanced-configuration-with-annotations',
         );
       },
-      // eslint-disable-next-line vue/no-unused-properties
       setData(data) {
         this.obj = data;
       },
@@ -406,11 +400,9 @@
       onGatewaySelectFocus(clusterName) {
         this.m_select_gatewaySelectData(clusterName);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs.form.validate(true);
       },
-      // eslint-disable-next-line vue/no-unused-properties
       getData() {
         return this.obj;
       },
