@@ -17,7 +17,7 @@
                     </v-list-item-title>
                     <v-list-item-subtitle>
                       <span class="text-body-2"> 支持版本： </span>
-                      v1.18.0 -- v1.20.18
+                      v1.20+
                     </v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
