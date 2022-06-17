@@ -168,7 +168,6 @@
 <script>
 import { mapGetters, mapState } from 'vuex'
 import { SIDEBAR_ITEMS } from './sidebar_items.js'
-import { menuFilter } from './sidebar_filter.js'
 
 export default {
   name: 'Sidebar',
@@ -208,7 +207,18 @@ export default {
         return this.$route.meta.rootName &&
         r.name === this.$route.meta.rootName
       })
-      return sidebarItem ? menuFilter(sidebarItem) : []
+      if (sidebarItem.name === 'workspace') {
+        sidebarItem.children.forEach(child => {
+          if (child.name === 'app-configer') {
+            if (this.Plugins && this.Plugins.nacos) {
+              child.meta.show = true
+            } else {
+              child.meta.show = false
+            }
+          }
+        })
+      }
+      return sidebarItem.children
     },
     height() {
       return window.innerHeight / this.Scale
