@@ -20,12 +20,7 @@
           <v-form ref="form" v-model="valid" class="pa-0" lazy-validation @submit.prevent>
             <v-row>
               <v-col col="5">
-                <v-text-field
-                  v-model="editItem.application"
-                  label="应用"
-                  :readonly="!isCreate"
-                  :rules="applicationRules"
-                />
+                <v-text-field v-model="editItem.application" label="应用" :readonly="!isCreate" />
               </v-col>
               <v-col cols="5">
                 <v-text-field

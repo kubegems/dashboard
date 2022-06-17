@@ -22,7 +22,7 @@
           <v-list-item-content class="primary--text">
             <v-list-item-title class="text-subtitle-1 text-center title-font-weight">
               <v-flex class="float-left">
-                <Icon :icon="module.icon" style="width: 2rem; height: 2rem; font-size: 2rem" />
+                <Icon :icon="module.icon" style="width: 2rem; height: 2rem; font-size: 2rem;" />
               </v-flex>
               <v-flex v-if="!hide" class="float-left title-line-height ml-3">
                 {{ module.text }}
@@ -53,7 +53,7 @@
             @click="switchModule(item)"
           >
             <v-list-item-icon>
-              <Icon :icon="item.icon" style="width: 1.5rem; height: 1.5rem; font-size: 1.5rem" />
+              <Icon :icon="item.icon" style="width: 1.5rem; height: 1.5rem; font-size: 1.5rem;" />
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title v-text="item.text" />
@@ -126,14 +126,14 @@
         const sidebarItem = this.$router.options.routes.find((r) => {
           return this.$route.meta.rootName && r.name === this.$route.meta.rootName;
         });
+        // 特殊处理
         if (sidebarItem.name === 'workspace') {
           sidebarItem.children.forEach((child) => {
-            if (child.name === 'app-configer') {
-              if (this.Plugins && this.Plugins.nacos) {
-                child.meta.show = true;
-              } else {
-                child.meta.show = false;
-              }
+            const c = child.children.find((c) => {
+              return c.name === 'app-configer';
+            });
+            if (c && this.Plugins && this.Plugins.nacos) {
+              c.meta.show = true;
             }
           });
         }
