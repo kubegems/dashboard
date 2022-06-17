@@ -35,13 +35,14 @@
     <div class="metrics-item__chart">
       <div ref="container" class="metrics-item__container">
         <BaseApexAreaChart
+          v-if="data"
           chart-type="line"
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-          :extend-height="300"
+          :extend-height="295"
           label="pod"
           :label-show="false"
           :metrics="data ? data.data : []"
-          :no-data-offset-y="-25"
+          :no-data-offset-y="-22"
           type=""
           :unit="getUnit(unit)"
         />
@@ -61,7 +62,7 @@
     props: {
       data: {
         type: Object,
-        default: () => ({}),
+        default: () => null,
       },
       labelpairs: {
         type: Object,
@@ -120,7 +121,7 @@
         };
       },
       setAlert() {
-        const { resource, rule, unit, cluster, environment, ql, expr } = this.data._$origin;
+        const { resource, rule, unit, cluster, environment, ql, expr } = this.data?._$origin;
         const labelpairs = {};
         for (const key in this.labelpairs) {
           if (this.labelpairs[key] && this.labelpairs[key].length) {

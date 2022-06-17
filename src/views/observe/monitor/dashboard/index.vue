@@ -70,6 +70,7 @@
               label="pod"
               :label-show="false"
               :metrics="metrics[`c${index}`]"
+              :no-data-offset-y="-22"
               :title="graph.name"
               type=""
               :unit="graph.promqlGenerator ? getUnit(graph.promqlGenerator.unit) : getUnit(graph.unit)"

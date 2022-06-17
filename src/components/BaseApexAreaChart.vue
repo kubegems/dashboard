@@ -92,10 +92,13 @@
     },
     watch: {
       metrics: {
-        handler() {
-          this.loadData();
+        handler(newValue) {
+          if (newValue && newValue?.length > 0) {
+            this.loadData();
+          }
         },
         deep: true,
+        immediate: true,
       },
       extendHeight: {
         handler() {
