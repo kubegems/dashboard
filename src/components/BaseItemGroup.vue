@@ -18,7 +18,12 @@
     <template v-for="(child, i) in children">
       <BaseItemSubGroup v-if="child.children" :key="`sub-group-${i}`" :item="child" class="second-dd" />
 
-      <BaseItem v-else-if="child.meta.show" :key="`item-${i}`" :item="child" text />
+      <BaseItem
+        v-else-if="child.meta.show || (pluginPass(child.meta.dependencies) && child.meta.pluginOpenShow)"
+        :key="`item-${i}`"
+        :item="child"
+        text
+      />
     </template>
   </v-list-group>
 </template>
@@ -55,7 +60,11 @@
       children() {
         return this.item.children
           .filter((item) => {
-            return (!item.children && item.meta.show) || item.children;
+            return (
+              (!item.children &&
+                (item.meta.show || (this.pluginPass(item.meta.dependencies) && item.meta.pluginOpenShow))) ||
+              item.children
+            );
           })
           .map((item) => ({
             ...item,
@@ -84,6 +93,17 @@
             })
             .indexOf(this.$route.name) > -1
         );
+      },
+      pluginPass(dependencies) {
+        let pass = true;
+        if (dependencies === undefined) return pass;
+        dependencies.forEach((d) => {
+          if (!this.Plugins[d]) {
+            pass = false;
+            return;
+          }
+        });
+        return pass;
       },
     },
   };

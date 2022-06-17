@@ -11,7 +11,7 @@
           <v-card-text class="ma-0 pa-0">
             {{ value.name }}
           </v-card-text>
-          <CodeDiff :new-string="value.to" :old-string="value.from" />
+          <CodeDiff is-show-no-change :new-string="value.to" :old-string="value.from" />
         </v-card>
       </v-card>
     </template>
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-  import CodeDiff from 'vue-code-diff';
+  import { CodeDiff } from 'v-code-diff';
   import { mapState } from 'vuex';
 
   import { getAppResourceFileDiff } from '@/api';

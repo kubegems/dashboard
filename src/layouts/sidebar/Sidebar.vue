@@ -83,7 +83,13 @@
         <!---If Sidebar Caption -->
         <BaseItemGroup v-if="item.children && required(item.meta.required)" :key="`group-${i}`" :item="item" />
 
-        <BaseItem v-else-if="!item.children && item.mata.show" :key="`item-${i}`" :item="item" />
+        <BaseItem
+          v-else-if="
+            !item.children && (item.mata.show || (pluginPass(item.meta.dependencies) && item.meta.pluginOpenShow))
+          "
+          :key="`item-${i}`"
+          :item="item"
+        />
       </template>
       <!---Sidebar Items -->
     </v-list>
@@ -126,17 +132,7 @@
         const sidebarItem = this.$router.options.routes.find((r) => {
           return this.$route.meta.rootName && r.name === this.$route.meta.rootName;
         });
-        // 特殊处理
-        if (sidebarItem.name === 'workspace') {
-          sidebarItem.children.forEach((child) => {
-            const c = child.children.find((c) => {
-              return c.name === 'app-configer';
-            });
-            if (c && this.Plugins && this.Plugins.nacos) {
-              c.meta.show = true;
-            }
-          });
-        }
+
         return sidebarItem.children;
       },
       height() {
@@ -192,17 +188,17 @@
         });
         return pass;
       },
-      // pluginPass(dependencies) {
-      //   let pass = true
-      //   if (dependencies === undefined) return pass
-      //   dependencies.forEach(d => {
-      //     if (!this.Plugins[d]) {
-      //       pass = false
-      //       return
-      //     }
-      //   })
-      //   return pass
-      // },
+      pluginPass(dependencies) {
+        let pass = true;
+        if (dependencies === undefined) return pass;
+        dependencies.forEach((d) => {
+          if (!this.Plugins[d]) {
+            pass = false;
+            return;
+          }
+        });
+        return pass;
+      },
       reloadSidebar() {
         try {
           const module = this.$route.path.split('/')[1];

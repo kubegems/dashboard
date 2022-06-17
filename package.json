@@ -50,7 +50,6 @@
     "moment": "^2.29.2",
     "vue": "^2.6.14",
     "vue-apexcharts": "^1.6.2",
-    "vue-code-diff": "^1.2.0",
     "vue-form-wizard": "0.8.4",
     "vue-okr-tree": "^1.0.9",
     "vue-page-title": "^1.2.10",
