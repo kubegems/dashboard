@@ -7,18 +7,22 @@
         <EnvironmentFilter :ml="6" />
         <v-spacer />
       </v-card-title>
-      <v-card-text class="pa-2">
-        <iframe
-          v-if="$route.query.cluster"
-          id="graph"
-          allow
-          class="iframe"
-          :height="height"
-          :src="src"
-          width="100%"
-          @load="loadDataComplete"
-        />
-      </v-card-text>
+      <PluginPass v-model="pass">
+        <template #default>
+          <v-card-text class="pa-2">
+            <iframe
+              v-if="$route.query.cluster"
+              id="graph"
+              allow
+              class="iframe"
+              :height="height"
+              :src="src"
+              width="100%"
+              @load="loadDataComplete"
+            />
+          </v-card-text>
+        </template>
+      </PluginPass>
     </v-card>
   </v-container>
 </template>
@@ -27,15 +31,18 @@
   import { mapState } from 'vuex';
 
   import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
+  import PluginPass from '@/views/microservice/components/PluginPass';
 
   export default {
     name: 'Graph',
     components: {
       EnvironmentFilter,
+      PluginPass,
     },
     data() {
       return {
         timeinterval: null,
+        pass: false,
       };
     },
     computed: {
@@ -48,14 +55,13 @@
       },
     },
     watch: {
-      '$store.state.EnvironmentFilter': {
-        handler: function (env) {
-          if (env) {
+      pass: {
+        handler(newValue) {
+          if (newValue) {
             this.$store.commit('SET_PROGRESS', true);
           }
         },
         deep: true,
-        immediate: true,
       },
     },
     destroyed() {

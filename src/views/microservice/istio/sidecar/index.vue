@@ -35,96 +35,100 @@
           </v-card>
         </v-menu>
       </v-card-title>
-      <v-data-table
-        class="mx-4"
-        :headers="headers"
-        hide-default-footer
-        :items="items"
-        :items-per-page="params.size"
-        no-data-text="暂无数据"
-        :page.sync="params.page"
-        show-select
-        @toggle-select-all="m_table_onResourceToggleSelect"
-        @update:sort-by="m_table_sortBy"
-        @update:sort-desc="m_table_sortDesc"
-      >
-        <template #[`item.data-table-select`]="{ item, index }">
-          <v-checkbox
-            v-model="m_table_batchResources[`${item.metadata.name}-${index}`].checked"
-            color="primary"
-            hide-details
-            @change="m_table_onResourceChange($event, item, index)"
-            @click.stop
-          />
-        </template>
-        <template #[`item.name`]="{ item }">
-          <a class="text-subtitle-2">
-            {{ item.metadata.name }}
-          </a>
-        </template>
-        <template #[`item.namespace`]="{ item }">
-          {{ item.metadata.namespace }}
-        </template>
-        <template #[`item.selector`]="{ item, index }">
-          <BaseCollapseChips
-            v-if="item && item.spec.workloadSelector"
-            :id="`s_selector_${index}`"
-            :chips="item.spec.workloadSelector.labels || {}"
-            icon="mdi-label"
-            single-line
-          />
-        </template>
-        <template #[`item.ingress`]="{ item, index }">
-          <BaseCollapseChips
-            v-if="item"
-            :id="`s_ingress_${index}`"
-            :chips="item.ingressHost || []"
-            icon="mdi-directions-fork"
-            single-line
-          />
-        </template>
-        <template #[`item.egress`]="{ item, index }">
-          <BaseCollapseChips
-            v-if="item"
-            :id="`s_egress_${index}`"
-            :chips="item.egressHost.hosts || []"
-            icon="mdi-directions-fork"
-            single-line
-          />
-        </template>
-        <template #[`item.createAt`]="{ item }">
-          {{ item.metadata.creationTimestamp ? $moment(item.metadata.creationTimestamp).format('lll') : '' }}
-        </template>
-        <template #[`item.action`]="{ item }">
-          <v-flex :id="`r${item.metadata.resourceVersion}`" />
-          <v-menu :attach="`#r${item.metadata.resourceVersion}`" left>
-            <template #activator="{ on }">
-              <v-btn icon>
-                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
-              </v-btn>
+      <PluginPass v-model="pass">
+        <template #default>
+          <v-data-table
+            class="mx-4"
+            :headers="headers"
+            hide-default-footer
+            :items="items"
+            :items-per-page="params.size"
+            no-data-text="暂无数据"
+            :page.sync="params.page"
+            show-select
+            @toggle-select-all="m_table_onResourceToggleSelect"
+            @update:sort-by="m_table_sortBy"
+            @update:sort-desc="m_table_sortDesc"
+          >
+            <template #[`item.data-table-select`]="{ item, index }">
+              <v-checkbox
+                v-model="m_table_batchResources[`${item.metadata.name}-${index}`].checked"
+                color="primary"
+                hide-details
+                @change="m_table_onResourceChange($event, item, index)"
+                @click.stop
+              />
             </template>
-            <v-card>
-              <v-card-text class="pa-2">
-                <v-flex>
-                  <v-btn color="primary" small text @click.stop="updateSidecar(item)"> 编辑 </v-btn>
-                </v-flex>
-                <v-flex>
-                  <v-btn color="error" small text @click.stop="removeIstioSidecar(item)"> 删除 </v-btn>
-                </v-flex>
-              </v-card-text>
-            </v-card>
-          </v-menu>
+            <template #[`item.name`]="{ item }">
+              <a class="text-subtitle-2">
+                {{ item.metadata.name }}
+              </a>
+            </template>
+            <template #[`item.namespace`]="{ item }">
+              {{ item.metadata.namespace }}
+            </template>
+            <template #[`item.selector`]="{ item, index }">
+              <BaseCollapseChips
+                v-if="item && item.spec.workloadSelector"
+                :id="`s_selector_${index}`"
+                :chips="item.spec.workloadSelector.labels || {}"
+                icon="mdi-label"
+                single-line
+              />
+            </template>
+            <template #[`item.ingress`]="{ item, index }">
+              <BaseCollapseChips
+                v-if="item"
+                :id="`s_ingress_${index}`"
+                :chips="item.ingressHost || []"
+                icon="mdi-directions-fork"
+                single-line
+              />
+            </template>
+            <template #[`item.egress`]="{ item, index }">
+              <BaseCollapseChips
+                v-if="item"
+                :id="`s_egress_${index}`"
+                :chips="item.egressHost.hosts || []"
+                icon="mdi-directions-fork"
+                single-line
+              />
+            </template>
+            <template #[`item.createAt`]="{ item }">
+              {{ item.metadata.creationTimestamp ? $moment(item.metadata.creationTimestamp).format('lll') : '' }}
+            </template>
+            <template #[`item.action`]="{ item }">
+              <v-flex :id="`r${item.metadata.resourceVersion}`" />
+              <v-menu :attach="`#r${item.metadata.resourceVersion}`" left>
+                <template #activator="{ on }">
+                  <v-btn icon>
+                    <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
+                  </v-btn>
+                </template>
+                <v-card>
+                  <v-card-text class="pa-2">
+                    <v-flex>
+                      <v-btn color="primary" small text @click.stop="updateSidecar(item)"> 编辑 </v-btn>
+                    </v-flex>
+                    <v-flex>
+                      <v-btn color="error" small text @click.stop="removeIstioSidecar(item)"> 删除 </v-btn>
+                    </v-flex>
+                  </v-card-text>
+                </v-card>
+              </v-menu>
+            </template>
+          </v-data-table>
+          <BasePagination
+            v-if="pageCount >= 1"
+            v-model="params.page"
+            :page-count="pageCount"
+            :size="params.size"
+            @changepage="onPageIndexChange"
+            @changesize="onPageSizeChange"
+            @loaddata="istioSidecarList"
+          />
         </template>
-      </v-data-table>
-      <BasePagination
-        v-if="pageCount >= 1"
-        v-model="params.page"
-        :page-count="pageCount"
-        :size="params.size"
-        @changepage="onPageIndexChange"
-        @changesize="onPageSizeChange"
-        @loaddata="istioSidecarList"
-      />
+      </PluginPass>
     </v-card>
 
     <AddSidecar ref="addSidecar" @refresh="istioSidecarList" />
@@ -144,12 +148,14 @@
   import BaseTable from '@/mixins/table';
   import { convertStrToNum } from '@/utils/helpers';
   import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
+  import PluginPass from '@/views/microservice/components/PluginPass';
 
   export default {
     name: 'Sidecar',
     components: {
       AddSidecar,
       EnvironmentFilter,
+      PluginPass,
       UpdateSidecar,
     },
     mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],
@@ -161,6 +167,7 @@
         size: 10,
       },
       filters: [{ text: '边车名称', value: 'search', items: [] }],
+      pass: false,
     }),
     computed: {
       ...mapState(['JWT', 'EnvironmentFilter']),
@@ -199,12 +206,13 @@
         },
         deep: true,
       },
-      '$store.state.EnvironmentFilter': {
-        handler: function (env) {
-          if (env) this.istioSidecarList();
+      pass: {
+        handler(newValue) {
+          if (newValue) {
+            this.istioSidecarList();
+          }
         },
         deep: true,
-        immediate: true,
       },
     },
     mounted() {
