@@ -254,8 +254,8 @@
                       :items="queryList[index].unitItems"
                       label="单位(回车可创建自定义单位)"
                       no-data-text="暂无可选数据"
+                      :readonly="!queryList[index].ql"
                       return-object
-                      :rules="fieldRules.required"
                       :search-input.sync="queryList[index].unitText"
                       solo
                       @focus="setUnitItems(index)"

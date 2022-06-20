@@ -93,7 +93,7 @@
                 :items="m_metrics_unitItems"
                 label="单位(回车可创建自定义单位)"
                 no-data-text="暂无可选数据"
-                :rules="objRules.unitRule"
+                :readonly="mod === 'template'"
                 :search-input.sync="m_metrics_unitText"
                 @keydown.enter="m_metrics_createUnit"
               >
@@ -257,7 +257,6 @@
           namespaceRule: [required],
           resourceRule: [required],
           ruleRule: [required],
-          unitRule: [required],
           metricRule: [required],
           forRule: [(v) => !!new RegExp('(^\\d+[s|m|h]$)').test(v) || '格式错误(示例:30s,1m,1h)'],
           compareRule: [required],

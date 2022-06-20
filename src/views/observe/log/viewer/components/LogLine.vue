@@ -25,6 +25,7 @@
 </template>
 
 <script>
+  import moment from 'moment';
   import VueApexCharts from 'vue-apexcharts';
   import { mapState } from 'vuex';
 
@@ -73,7 +74,7 @@
           xaxis: {
             categories: this.chart
               ? this.chart['xAxis-data'].map((d) => {
-                  return parseInt(`${d}000`);
+                  return moment(new Date(parseInt(`${d}000`))).format('MM-DD HH:mm:ss');
                 })
               : [],
             labels: {

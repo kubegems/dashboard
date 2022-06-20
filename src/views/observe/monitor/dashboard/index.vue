@@ -1,51 +1,55 @@
 <template>
   <v-container class="dash" fluid>
-    <BaseBreadcrumb class="dash__header" />
+    <BaseBreadcrumb class="dash__header">
+      <template #extend>
+        <v-flex class="kubegems__full-right">
+          <ProjectEnvSelect :tenant="tenant" @filterPod="filterPod" @refreshEnvironemnt="refreshEnvironemnt" />
+
+          <BaseDatetimePicker v-model="date" :default-value="30" @change="onDatetimeChange(undefined)" />
+          <v-menu
+            v-if="
+              environment &&
+              m_permisson_resourceAllow(environment.text) &&
+              missingPlugins &&
+              missingPlugins.length === 0
+            "
+            left
+          >
+            <template #activator="{ on, attrs }">
+              <v-btn color="primary" icon text v-bind="attrs" v-on="on">
+                <v-icon small> fas fa-ellipsis-v </v-icon>
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-text class="pa-2">
+                <v-flex>
+                  <v-btn color="primary" text @click="addDashboard">
+                    <v-icon left>mdi-plus-box</v-icon>
+                    创建监控大盘
+                  </v-btn>
+                </v-flex>
+                <v-flex>
+                  <v-btn color="primary" text @click="updateDashboard">
+                    <v-icon left>mdi-upload</v-icon>
+                    更新监控大盘
+                  </v-btn>
+                </v-flex>
+                <v-flex>
+                  <v-btn color="error" text @click="removePanel">
+                    <v-icon left>mdi-minus-box</v-icon>
+                    删除监控大盘
+                  </v-btn>
+                </v-flex>
+              </v-card-text>
+            </v-card>
+          </v-menu>
+        </v-flex>
+      </template>
+    </BaseBreadcrumb>
 
     <v-card flat>
-      <v-card-title id="monitor__dashboard" class="pt-4 pb-2">
-        <ProjectEnvSelect :tenant="tenant" @refreshEnvironemnt="refreshEnvironemnt" />
-        <v-spacer />
-        <BaseDatetimePicker v-model="date" :default-value="30" @change="onDatetimeChange(undefined)" />
-        <v-menu
-          v-if="
-            environment && m_permisson_resourceAllow(environment.text) && missingPlugins && missingPlugins.length === 0
-          "
-          :attach="`#monitor__dashboard`"
-          left
-        >
-          <template #activator="{ on, attrs }">
-            <v-btn color="primary" icon text v-bind="attrs" v-on="on">
-              <v-icon small> fas fa-ellipsis-v </v-icon>
-            </v-btn>
-          </template>
-          <v-card>
-            <v-card-text class="pa-2">
-              <v-flex>
-                <v-btn color="primary" text @click="addDashboard">
-                  <v-icon left>mdi-plus-box</v-icon>
-                  创建监控大盘
-                </v-btn>
-              </v-flex>
-              <v-flex>
-                <v-btn color="primary" text @click="updateDashboard">
-                  <v-icon left>mdi-upload</v-icon>
-                  更新监控大盘
-                </v-btn>
-              </v-flex>
-              <v-flex>
-                <v-btn color="error" text @click="removePanel">
-                  <v-icon left>mdi-minus-box</v-icon>
-                  删除监控大盘
-                </v-btn>
-              </v-flex>
-            </v-card-text>
-          </v-card>
-        </v-menu>
-      </v-card-title>
-
       <v-card-text class="pa-0 py-1">
-        <v-tabs v-model="tab" class="rounded-t pl-4 pr-12 pb-2" height="30" @change="onTabChange">
+        <v-tabs v-model="tab" class="rounded-t pl-4 py-2" height="35" @change="onTabChange">
           <v-tab v-for="item in items" :key="item.id">
             {{ item.name }}
           </v-tab>
@@ -261,6 +265,9 @@
           });
           return;
         }
+      },
+      async filterPod(pod) {
+        this.dashboardList(pod.podName);
       },
       addDashboard() {
         this.$refs.addDashboard.open();

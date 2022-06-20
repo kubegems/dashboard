@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form" v-model="valid" lazy-validation>
+  <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
     <BaseSubTitle title="大盘定义" />
     <v-card-text class="pa-2">
       <v-row>
