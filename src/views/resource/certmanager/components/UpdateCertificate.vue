@@ -55,14 +55,6 @@
       },
       async updateCertificate() {
         if (this.$refs[this.formComponent].validate()) {
-          const hasDns = this.$refs[this.formComponent].getData()?.spec?.dnsNames?.length > 0;
-          if (!hasDns) {
-            this.$store.commit('SET_SNACKBAR', {
-              text: '请添加域名',
-              color: 'warning',
-            });
-            return;
-          }
           let data = '';
           if (this.formComponent === 'BaseYamlForm') {
             data = this.$refs[this.formComponent].getYaml();

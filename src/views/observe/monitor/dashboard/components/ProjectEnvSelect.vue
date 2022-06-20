@@ -1,69 +1,159 @@
 <template>
-  <div>
+  <div class="float-left">
     <v-sheet class="text-subtitle-2 float-left font-weight-medium kubegems__text sheet__line"> 项目 </v-sheet>
-    <v-sheet class="float-left" width="350">
-      <v-autocomplete
-        v-model="project"
-        chips
-        class="ml-2"
-        color="primary"
-        dense
-        flat
-        full-width
-        hide-details
-        hide-selected
-        item-text="projectName"
-        item-value="projectName"
-        :items="m_select_projectItems"
-        label="项目"
-        no-data-text="无数据"
-        prepend-inner-icon="mdi-cube"
-        solo
-        @change="onProjectChange"
+    <v-sheet class="text-body-2 float-left text--darken-1 sheet__menu__line">
+      <v-menu
+        v-model="projectMenu"
+        bottom
+        left
+        nudge-bottom="5px"
+        offset-y
+        origin="top center"
+        transition="scale-transition"
       >
-        <template #selection="{ item }">
-          <v-chip color="primary" label small>
-            <span>{{ item.projectName }}</span>
-          </v-chip>
+        <template #activator="{ on }">
+          <v-btn class="primary--text font-weight-medium" color="white" dark depressed small v-on="on">
+            {{ projectName }}
+            <v-icon v-if="projectMenu" right> fas fa-angle-up </v-icon>
+            <v-icon v-else right> fas fa-angle-down </v-icon>
+          </v-btn>
         </template>
-      </v-autocomplete>
+        <v-data-iterator hide-default-footer :items="[{ text: '项目', values: m_select_projectItems }]">
+          <template #no-data>
+            <v-card>
+              <v-card-text> 暂无项目 </v-card-text>
+            </v-card>
+          </template>
+          <template #default="props">
+            <v-card v-for="item in props.items" :key="item.text" min-width="100px">
+              <v-list dense>
+                <v-flex class="text-subtitle-2 text-center ma-2">
+                  <span>项目</span>
+                </v-flex>
+                <v-divider class="mx-2" />
+                <v-list-item
+                  v-for="(project, index) in item.values"
+                  :key="index"
+                  class="text-body-2 text-center font-weight-medium mx-2"
+                  link
+                  :style="project.projectName === projectName ? `color: #1e88e5 !important;` : ``"
+                  @click="setProject(project)"
+                >
+                  <v-list-item-content>
+                    <span>{{ project.projectName }}</span>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list>
+            </v-card>
+          </template>
+        </v-data-iterator>
+      </v-menu>
     </v-sheet>
 
     <v-sheet class="text-subtitle-2 ml-4 float-left font-weight-medium kubegems__text sheet__line"> 环境 </v-sheet>
-    <v-sheet class="float-left" width="350">
-      <v-autocomplete
-        v-model="environment"
-        chips
-        class="ml-2"
-        color="primary"
-        dense
-        flat
-        full-width
-        hide-details
-        hide-selected
-        item-text="environmentName"
-        item-value="environmentName"
-        :items="m_select_projectEnvironmentItems"
-        label="环境"
-        no-data-text="无数据"
-        prepend-inner-icon="mdi-cloud"
-        solo
-        @change="onEnvironmentChange"
-        @focus="m_select_projectEnvironmentSelectData(projectid)"
+    <v-sheet class="text-body-2 float-left text--darken-1 sheet__menu__line">
+      <v-menu
+        v-model="environmentMenu"
+        bottom
+        left
+        nudge-bottom="5px"
+        offset-y
+        origin="top center"
+        transition="scale-transition"
       >
-        <template #selection="{ item }">
-          <v-chip color="primary" label small>
-            <span>{{ item.environmentName }}</span>
-          </v-chip>
+        <template #activator="{ on }">
+          <v-btn class="primary--text font-weight-medium" color="white" dark depressed small v-on="on">
+            {{ environmentName }}
+            <v-icon v-if="environmentMenu" right> fas fa-angle-up </v-icon>
+            <v-icon v-else right> fas fa-angle-down </v-icon>
+          </v-btn>
         </template>
-      </v-autocomplete>
+        <v-data-iterator hide-default-footer :items="[{ text: '环境', values: m_select_projectEnvironmentItems }]">
+          <template #no-data>
+            <v-card>
+              <v-card-text> 暂无环境 </v-card-text>
+            </v-card>
+          </template>
+          <template #default="props">
+            <v-card v-for="item in props.items" :key="item.text" min-width="100px">
+              <v-list dense>
+                <v-flex class="text-subtitle-2 text-center ma-2">
+                  <span>环境</span>
+                </v-flex>
+                <v-divider class="mx-2" />
+                <v-list-item
+                  v-for="(environment, index) in item.values"
+                  :key="index"
+                  class="text-body-2 text-center font-weight-medium mx-2"
+                  link
+                  :style="environment.environmentName === environmentName ? `color: #1e88e5 !important;` : ``"
+                  @click="setEnvironment(environment)"
+                >
+                  <v-list-item-content>
+                    <span>{{ environment.environmentName }}</span>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list>
+            </v-card>
+          </template>
+        </v-data-iterator>
+      </v-menu>
     </v-sheet>
 
-    <div class="kubegems__clear-float" />
+    <v-sheet class="text-subtitle-2 ml-4 float-left font-weight-medium kubegems__text sheet__line"> 容器 </v-sheet>
+    <v-sheet class="text-body-2 float-left text--darken-1 sheet__menu__line">
+      <v-menu
+        v-model="podMenu"
+        bottom
+        left
+        nudge-bottom="5px"
+        offset-y
+        origin="top center"
+        transition="scale-transition"
+      >
+        <template #activator="{ on }">
+          <v-btn class="primary--text font-weight-medium" color="white" dark depressed small v-on="on">
+            {{ podName }}
+            <v-icon v-if="podMenu" right> fas fa-angle-up </v-icon>
+            <v-icon v-else right> fas fa-angle-down </v-icon>
+          </v-btn>
+        </template>
+        <v-data-iterator hide-default-footer :items="[{ text: '容器', values: podItems }]">
+          <template #no-data>
+            <v-card>
+              <v-card-text> 暂无容器 </v-card-text>
+            </v-card>
+          </template>
+          <template #default="props">
+            <v-card v-for="item in props.items" :key="item.text" min-width="100px">
+              <v-list dense>
+                <v-flex class="text-subtitle-2 text-center ma-2">
+                  <span>容器</span>
+                </v-flex>
+                <v-divider class="mx-2" />
+                <v-list-item
+                  v-for="(pod, index) in item.values"
+                  :key="index"
+                  class="text-body-2 text-center font-weight-medium mx-2"
+                  link
+                  :style="pod.podName === podName ? `color: #1e88e5 !important;` : ``"
+                  @click="setPod(pod)"
+                >
+                  <v-list-item-content>
+                    <span>{{ pod.podName }}</span>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list>
+            </v-card>
+          </template>
+        </v-data-iterator>
+      </v-menu>
+    </v-sheet>
   </div>
 </template>
 
 <script>
+  import { getPodList } from '@/api';
   import BaseSelect from '@/mixins/select';
 
   export default {
@@ -78,24 +168,17 @@
     data() {
       return {
         project: undefined,
+        projectName: '',
+        projectMenu: false,
         environment: undefined,
+        environmentName: '',
+        environmentMenu: false,
+        pod: undefined,
+        podName: '',
+        podMenu: false,
+
+        podItems: [],
       };
-    },
-    computed: {
-      projectid() {
-        const p = this.m_select_projectItems.find((p) => {
-          return p.projectName === this.project;
-        });
-        if (p) return p.value;
-        return null;
-      },
-      environemtObj() {
-        const e = this.m_select_projectEnvironmentItems.find((p) => {
-          return p.environmentName === this.environment;
-        });
-        if (e) return e;
-        return null;
-      },
     },
     watch: {
       tenant: {
@@ -103,7 +186,8 @@
           if (newValue) {
             await this.m_select_projectSelectData(newValue.ID, true);
             if (this.m_select_projectItems?.length > 0) {
-              this.project = this.m_select_projectItems[0].projectName;
+              this.project = this.m_select_projectItems[0];
+              this.projectName = this.project.projectName;
               this.loadEnvironment();
             }
           }
@@ -113,21 +197,44 @@
     },
     methods: {
       async loadEnvironment() {
-        await this.m_select_projectEnvironmentSelectData(this.projectid);
+        await this.m_select_projectEnvironmentSelectData(this.project.value);
         if (this.m_select_projectEnvironmentItems?.length > 0) {
-          this.environment = this.m_select_projectEnvironmentItems[0].environmentName;
-          this.$emit('refreshEnvironemnt', this.environemtObj);
+          this.environment = this.m_select_projectEnvironmentItems[0];
+          this.environmentName = this.environment.environmentName;
+          this.$emit('refreshEnvironemnt', this.environment);
+          this.pod = undefined;
+          this.loadPod();
         }
       },
-      onProjectChange() {
-        this.environment = '';
+      async loadPod() {
+        const data = await getPodList(this.environment?.clusterName, this.environment?.namespace, {
+          noprocessing: true,
+        });
+        this.podItems = data.List.map((d) => {
+          return {
+            podName: d.metadata.name,
+            value: d.metadata.name,
+          };
+        });
+      },
+      setProject(project) {
+        this.project = project;
+        this.environment = undefined;
         this.m_select_projectEnvironmentItems = [];
         this.loadEnvironment();
       },
-      onEnvironmentChange() {
-        if (this.environment) {
-          this.$emit('refreshEnvironemnt', this.environemtObj);
+      setEnvironment(environment) {
+        if (environment && environment.environmentName !== this.environmentName) {
+          this.environmentName = this.environment.environmentName;
+          this.$emit('refreshEnvironemnt', this.environment);
+          this.pod = undefined;
+          this.loadPod();
         }
+      },
+      setPod(pod) {
+        this.pod = pod;
+        this.podName = pod.podName;
+        this.$emit('filterPod', this.pod);
       },
     },
   };
@@ -137,6 +244,11 @@
   .sheet {
     &__line {
       line-height: 40px;
+    }
+    &__menu {
+      &__line {
+        line-height: 34px;
+      }
     }
   }
 </style>
