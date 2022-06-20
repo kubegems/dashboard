@@ -23,11 +23,13 @@
           :class="`log-table__item log-table__item--${item.info.level}`"
           :style="item.info.animation"
         >
-          <v-btn color="success" icon small @click="showPodMonitor(item)">
-            <v-icon small>mdi-chart-areaspline</v-icon>
-          </v-btn>
-          <span v-if="timestamp" class="success--text log-table__timestamp">{{ item.info.timestampstr }}</span>
+          <span v-if="timestamp" class="success--text log-table__timestamp">
+            {{ item.info.timestampstr }}
+          </span>
           <span class="v-chip v-size--small log-table__pod" :data-pod="item.stream.pod">
+            <v-btn class="log-table__btn" icon small @click="showPodMonitor(item)">
+              <v-icon small>mdi-chart-areaspline</v-icon>
+            </v-btn>
             {{ item.stream.pod }}
           </span>
           <span v-html="item.info.message" />
@@ -130,7 +132,6 @@
           cluster: item.stream?.cluster,
           namespace: item.stream?.namespace,
           pod: item.stream?.pod,
-          container: item.stream?.container,
         });
         this.$refs.logPodMonitor.open();
       },
@@ -204,6 +205,10 @@
       margin-top: -2px;
       padding: 0 8px;
       color: #000000;
+    }
+
+    &__btn {
+      color: rgba($primary, 0.3);
     }
 
     &__pre {

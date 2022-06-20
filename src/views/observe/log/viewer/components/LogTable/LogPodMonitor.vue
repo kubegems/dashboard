@@ -65,8 +65,8 @@
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
   import {
-    CONTAINER_CPU_USAGE_PROMQL,
-    CONTAINER_MEMORY_USAGE_PROMQL,
+    POD_CPU_USAGE_BY_CONTAINER_PROMQL,
+    POD_MEMORY_BY_CONTAINER_USAGE_PROMQL,
     POD_NETWORK_IN_PROMQL,
     POD_NETWORK_OUT_PROMQL,
   } from '@/utils/prometheus';
@@ -90,7 +90,6 @@
         cluster: '',
         namespace: '',
         pod: '',
-        container: '',
       },
     }),
     computed: {
@@ -138,9 +137,10 @@
         this.podNetworkOut();
       },
       async podCPUUsage() {
-        const query = CONTAINER_CPU_USAGE_PROMQL.replaceAll('$1', this.promqlParams.container)
-          .replaceAll('$2', this.promqlParams.pod)
-          .replaceAll('$3', this.promqlParams.namespace);
+        const query = POD_CPU_USAGE_BY_CONTAINER_PROMQL.replaceAll('$1', this.promqlParams.pod).replaceAll(
+          '$2',
+          this.promqlParams.namespace,
+        );
         const data = await this.m_permission_matrix(
           this.promqlParams.cluster,
           Object.assign(this.params, { query: query }),
@@ -148,9 +148,10 @@
         if (data) this.cpu = data;
       },
       async podMemoryUsage() {
-        const query = CONTAINER_MEMORY_USAGE_PROMQL.replaceAll('$1', this.promqlParams.container)
-          .replaceAll('$2', this.promqlParams.pod)
-          .replaceAll('$3', this.promqlParams.namespace);
+        const query = POD_MEMORY_BY_CONTAINER_USAGE_PROMQL.replaceAll('$1', this.promqlParams.pod).replaceAll(
+          '$2',
+          this.promqlParams.namespace,
+        );
         const data = await this.m_permission_matrix(
           this.promqlParams.cluster,
           Object.assign(this.params, { query: query }),
