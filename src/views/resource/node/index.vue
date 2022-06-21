@@ -264,12 +264,7 @@
       }
     },
     methods: {
-      async nodeList(noprocess = false) {
-        const data = await getNodeList(this.ThisCluster, Object.assign(this.params, { noprocessing: noprocess }));
-        this.items = data.List;
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
-        this.$router.replace({ query: { ...this.$route.query, ...this.params } });
+      loadMetrics() {
         this.nodeCPUUsage(true);
         this.nodeMemoryUsage(true);
         this.nodeLoad5(true);
@@ -278,8 +273,16 @@
           clearInterval(this.interval);
         }
         this.interval = setInterval(() => {
-          this.nodeList(true);
+          this.loadMetrics();
         }, 1000 * 60);
+      },
+      async nodeList(noprocess = false) {
+        const data = await getNodeList(this.ThisCluster, Object.assign(this.params, { noprocessing: noprocess }));
+        this.items = data.List;
+        this.pageCount = Math.ceil(data.Total / this.params.size);
+        this.params.page = data.CurrentPage;
+        this.$router.replace({ query: { ...this.$route.query, ...this.params } });
+        this.loadMetrics();
       },
       async nodeLoad5(noprocess = false) {
         const data = await this.m_permission_vector(this.ThisCluster, {

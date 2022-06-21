@@ -37,7 +37,7 @@ export const ENVIRONMENT_NETWORK_IN_PROMQL = `gems_namespace_network_receive_bps
 export const ENVIRONMENT_NETWORK_OUT_PROMQL = `gems_namespace_network_send_bps{environment=~"$1"}`;
 
 export const POD_CPU_USAGE_PROMQL = `round(sum(gems_container_cpu_usage_cores{pod=~"$1", namespace=~"$2"})without(container), 0.001) * 1000 * 1000 * 1000`;
-export const POD_MEMORY_USAGE_PROMQL = `sum(gems_container_memory_usage_bytes{pod=~"$1", namespace=~"$2"})group by(container)`;
+export const POD_MEMORY_USAGE_PROMQL = `sum(gems_container_memory_usage_bytes{pod=~"$1", namespace=~"$2"})without(container)`;
 export const POD_NETWORK_IN_PROMQL = `round(gems_container_network_receive_bps{pod=~"$1", namespace=~"$2"}, 0.001)`;
 export const POD_NETWORK_OUT_PROMQL = `round(gems_container_network_send_bps{pod=~"$1", namespace=~"$2"}, 0.001)`;
 export const POD_CPU_USAGE_BY_CONTAINER_PROMQL = `round(gems_container_cpu_usage_cores{pod=~"$1", namespace=~"$2", container!=""}, 0.001) * 1000 * 1000 * 1000`;
