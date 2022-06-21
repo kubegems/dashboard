@@ -40,7 +40,7 @@
     data() {
       return {
         width: '100%',
-        height: '100%',
+        height: '300px',
         series: [],
         labels: [],
       };
@@ -119,19 +119,22 @@
     watch: {
       data: {
         handler(newValue) {
-          const s = {};
-          newValue.forEach((d) => {
-            if (Object.prototype.hasOwnProperty.call(s, d?.stream[this.type])) {
-              s[d?.stream[this.type]] += 1;
-            } else {
-              s[d?.stream[this.type]] = 1;
-            }
-          });
+          if (newValue) {
+            const s = {};
+            newValue.forEach((d) => {
+              if (Object.prototype.hasOwnProperty.call(s, d?.stream[this.type])) {
+                s[d?.stream[this.type]] += 1;
+              } else {
+                s[d?.stream[this.type]] = 1;
+              }
+            });
 
-          this.labels = Object.keys(s);
-          this.series = Object.values(s);
+            this.labels = Object.keys(s);
+            this.series = Object.values(s);
+          }
         },
         deep: true,
+        immediate: true,
       },
     },
   };

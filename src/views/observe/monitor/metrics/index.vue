@@ -237,6 +237,7 @@
                       return-object
                       :rules="fieldRules.required"
                       solo
+                      @change="setUnitItem(index)"
                     >
                       <template #selection="{ item }">
                         <v-chip color="primary" label small>
@@ -479,6 +480,11 @@
         }
         this.$set(this.queryList[index], 'rule', undefined);
         this.$set(this.queryList[index], 'ruleItems', items);
+      },
+      setUnitItem(index) {
+        const params = this.queryList[index];
+        this.setUnitItems(index);
+        this.$set(this.queryList[index], 'unit', params.rule.unit);
       },
       // 设置各项独立的unitItems
       setUnitItems(index, custom = false) {

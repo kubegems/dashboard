@@ -1,27 +1,44 @@
 <!DOCTYPE html>
 <html lang="zh-hans">
-
-<head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=0.8" />
-  <meta name="description" content="KubeGems 是一款开源的企业级多租户容器云平台。围绕云原生社区，
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=0.8" />
+    <meta
+      name="description"
+      content="KubeGems 是一款开源的企业级多租户容器云平台。围绕云原生社区，
           KubeGems 提供了多 Kubernetes 集群接入能力，并具备丰富的组件管理和资源成本分析功能，
-          能够帮助企业快速的构建和打造一个本地化、功能强大且低成本的云管理平台。" />
-  <title>KubeGems</title>
-  <link rel="stylesheet" href="/css/fonts.googleapis.com.css?family=ZCOOL QingKe HuangYou:300,400,500,600,700" />
-  <link rel="stylesheet" href="/css/materialdesignicons.min.css" />
-</head>
+          能够帮助企业快速的构建和打造一个本地化、功能强大且低成本的云管理平台。"
+    />
+    <title>KubeGems</title>
+    <link rel="stylesheet" href="/css/skeleton.css" />
+    <link rel="stylesheet" href="/css/fonts.googleapis.com.css?family=ZCOOL QingKe HuangYou:300,400,500,600,700" />
+    <link rel="stylesheet" href="/css/materialdesignicons.min.css" />
+  </head>
 
-<body>
-  <noscript>
-    <strong>We're sorry but KubeGems - vuetify powerfull admin template made with
-      vuejs doesn't work properly without JavaScript enabled. Please enable it
-      to continue.
-    </strong>
-  </noscript>
-  <div id="app"></div>
-  <!-- built files will be auto injected -->
-</body>
-
+  <body>
+    <noscript>
+      <strong
+        >We're sorry but KubeGems - vuetify powerfull admin template made with vuejs doesn't work properly without
+        JavaScript enabled. Please enable it to continue.
+      </strong>
+    </noscript>
+    <div id="app">
+      <!-- skeleton -->
+      <div class="skeleton skeleton__bg">
+        <div class="skeleton__title skeleton__flash">
+          <img class="skeleton__img skeleton__img__flash" />
+          <div class="skeleton__loading">
+            <div class="skeleton__loading__left__box">
+              <div class="skeleton__loading__left skeleton__loading__left__ani"></div>
+            </div>
+            <div class="skeleton__loading__right__box">
+              <div class="skeleton__loading__right skeleton__loading__right__ani"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- built files will be auto injected -->
+  </body>
 </html>

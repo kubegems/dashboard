@@ -90,6 +90,7 @@
               :items="m_metrics_unitItems"
               label="单位(回车可创建自定义单位)"
               no-data-text="暂无可选数据"
+              readonly
               :search-input.sync="m_metrics_unitText"
               @keydown.enter="m_metrics_createUnit"
             >
@@ -198,6 +199,7 @@
           return Object.keys(rulesObj).map((key) => ({
             text: rulesObj[key].showName,
             value: key,
+            unit: rulesObj[key].unit,
           }));
         }
 
@@ -257,6 +259,12 @@
       },
       onRuleChange() {
         this.obj.promqlGenerator.unit = '';
+        const rule = this.ruleItems.find((r) => {
+          return r.value === this.obj.promqlGenerator.rule;
+        });
+        if (rule) {
+          this.obj.promqlGenerator.unit = rule.unit;
+        }
       },
       validate() {
         return this.$refs.form.validate(true);

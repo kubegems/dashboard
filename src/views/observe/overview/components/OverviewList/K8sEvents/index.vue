@@ -4,19 +4,13 @@
       <BaseDatetimePicker v-model="date" color="primary" :default-value="60" @change="onDatetimeChange(undefined)" />
     </template>
     <template #content>
-      <div class="d-flex flex-column mt-2" :style="{ height: `${height}px` }">
-        <div class="kubegems__h-8">
-          <MessageBarChart :data="data" :date="date" />
-        </div>
-        <div class="my-8" />
-        <div class="d-flex justify-space-around kubegems__h-8">
-          <div class="kubegems__h-24 kubegems__w-11">
-            <EventPieChart :data="data" title="事件源" type="source_component" />
-          </div>
-          <div class="kubegems__h-24 kubegems__w-11">
-            <EventPieChart :data="data" title="事件类型" type="reason" />
-          </div>
-        </div>
+      <v-tabs v-model="tab" class="rounded-t pa-0 v-tabs--default" fixed-tabs height="45">
+        <v-tab v-for="t in tabItems" :key="t.value">
+          {{ t.text }}
+        </v-tab>
+      </v-tabs>
+      <div class="d-flex flex-column mt-0" :style="{ height: `${height}px` }">
+        <component :is="tabItems[tab].value" :data="data" :date="date" @loadData="eventList" />
       </div>
     </template>
   </BasePanel>
@@ -25,15 +19,15 @@
 <script>
   import { mapState } from 'vuex';
 
-  import EventPieChart from './EventPieChart';
-  import MessageBarChart from './MessageBarChart';
+  import Chart from './Chart';
+  import EventList from './EventList';
   import { getEventListFromLoki } from '@/api';
 
   export default {
     name: 'K8sEvents',
     components: {
-      EventPieChart,
-      MessageBarChart,
+      Chart,
+      EventList,
     },
     props: {
       env: {
@@ -46,12 +40,17 @@
         panel: false,
         data: null,
         date: [],
+        tab: 0,
+        tabItems: [
+          { text: '事件图表', value: 'Chart' },
+          { text: '事件列表', value: 'EventList' },
+        ],
       };
     },
     computed: {
       ...mapState(['Scale']),
       height() {
-        return window.innerHeight - 64 * this.Scale - 1;
+        return parseInt((window.innerHeight - 109) / this.Scale);
       },
     },
     watch: {

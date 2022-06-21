@@ -31,22 +31,21 @@ module.exports = {
       host: '0.0.0.0',
       proxy: {
         '/api/v1/': {
-          // target: 'http://172.16.23.119:8020',
-          target: 'http://127.0.0.1:8020',
+          target: 'http://local.kubegems.io:8020',
           changeOrigin: true,
           pathRewrite: {
             '^/api/v1/': '/v1/',
           },
         },
         '/realtime/': {
-          target: 'http://127.0.0.1:8080',
+          target: 'http://local.kubegems.io:8080',
           changeOrigin: true,
           pathRewrite: {
             '^/realtime/': '/',
           },
         },
         '/api/lokiExport/': {
-          target: 'http://127.0.0.1:8020',
+          target: 'http://local.kubegems.io:8020',
           changeOrigin: true,
           pathRewrite: {
             '^/api/lokiExport/': '/lokiExport/',

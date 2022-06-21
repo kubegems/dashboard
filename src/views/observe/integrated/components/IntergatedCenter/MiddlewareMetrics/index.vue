@@ -22,6 +22,7 @@
 
   import ProjectEnvSelect from '../ProjectEnvSelect';
   import { postDeployAppStore, getChartSchema } from '@/api';
+  import { randomString } from '@/utils/helpers';
   import JsonSchema from '@/views/appstore/components/DeployWizard/JsonSchema';
   import { YamlMixin } from '@/views/appstore/mixins/yaml';
 
@@ -82,7 +83,7 @@
         if (this.$refs.jsonSchema.validate()) {
           if (this.env?.projectid && this.env?.value) {
             const data = {
-              name: this.chartName,
+              name: `${this.chartName}-${randomString(4)}`,
               project_id: this.env?.projectid,
               environment_id: this.env?.value,
               repoURL: this.chart.repo || 'kubegems_online_store',
