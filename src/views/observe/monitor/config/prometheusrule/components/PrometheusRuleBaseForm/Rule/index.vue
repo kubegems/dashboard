@@ -16,7 +16,7 @@
             />
           </v-col>
 
-          <v-col v-if="mode === 'monitor'" cols="6">
+          <v-col cols="6">
             <v-autocomplete
               v-model="mod"
               class="my-0"
@@ -105,7 +105,46 @@
               </v-autocomplete>
             </v-col>
           </template>
-          <template v-if="mod === 'ql' || mode === 'logging'">
+
+          <template v-if="mod === 'template' && mode === 'logging'">
+            <v-col cols="6">
+              <v-autocomplete
+                v-model="obj.logqlGenerator.labelpairs.container"
+                class="my-0"
+                color="primary"
+                hide-selected
+                :items="containerItems"
+                label="容器"
+                no-data-text="暂无可选数据"
+              >
+                <template #selection="{ item }">
+                  <v-chip class="mx-1" color="primary" small>
+                    {{ item['text'] }}
+                  </v-chip>
+                </template>
+              </v-autocomplete>
+            </v-col>
+            <v-col cols="6">
+              <v-text-field
+                v-model="obj.logqlGenerator.match"
+                class="my-0"
+                label="匹配(match)"
+                required
+                :rules="objRules.matchRule"
+              />
+            </v-col>
+            <v-col cols="6">
+              <v-text-field
+                v-model="obj.logqlGenerator.duration"
+                class="my-0"
+                label="间隔(duration)"
+                required
+                :rules="objRules.durationRule"
+              />
+            </v-col>
+          </template>
+
+          <template v-if="mod === 'ql'">
             <v-col cols="12">
               <v-textarea
                 v-model="obj.expr"
@@ -187,7 +226,7 @@
   import AlertLevelForm from './AlertLevelForm';
   import AlertLevelItem from './AlertLevelItem';
   import RuleLabelpairs from './RuleLabelpairs';
-  import { getSystemConfigData, getMyConfigData, getMetricsLabels } from '@/api';
+  import { getSystemConfigData, getMyConfigData, getMetricsLabels, getPodList } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
@@ -241,16 +280,33 @@
             rule: '',
             unit: '',
           },
+          logqlGenerator: {
+            match: '',
+            duration: '',
+            labelpairs: {
+              container: '',
+            },
+          },
         },
         mod: 'template',
-        modeItems: [
-          { text: '由模版生成', value: 'template' },
-          { text: '由PromQl生成', value: 'ql' },
-        ],
+        containerItems: [],
       };
     },
     computed: {
       ...mapState(['AdminViewport']),
+      modeItems() {
+        if (this.mode === 'monitor')
+          return [
+            { text: '由模版生成', value: 'template' },
+            { text: '由PromQl生成', value: 'ql' },
+          ];
+        if (this.mode === 'logging')
+          return [
+            { text: '由模版生成', value: 'template' },
+            { text: '由LogQl生成', value: 'ql' },
+          ];
+        return [];
+      },
       objRules() {
         return {
           nameRule: [required],
@@ -264,6 +320,8 @@
           thresholdValueRule: [required],
           exprRule: [required],
           modRule: [required],
+          matchRule: [required],
+          durationRule: [(v) => !!new RegExp('(^\\d+[s|m|h]$)').test(v) || '格式错误(示例:30s,1m,1h)'],
         };
       },
       resourceItems() {
@@ -318,12 +376,29 @@
           this.$delete(this.obj, 'expr');
           this.getMonitorConfig();
           this.setLabelpairs();
-        } else if (this.mod === 'ql' || this.mode === 'logging') {
+        } else if (this.mod === 'ql' && this.mode === 'monitor') {
+          if (!this.obj.expr) {
+            this.obj.expr = '';
+          }
+          this.$delete(this.obj, 'logqlGenerator');
+        } else if (this.mod === 'ql' && this.mode === 'logging') {
           if (!this.obj.expr) {
             this.obj.expr = '';
           }
           this.$delete(this.obj, 'promqlGenerator');
           this.$delete(this.obj, 'labelpairs');
+        } else if (this.mod === 'template' && this.mode === 'logging') {
+          if (!this.obj.logqlGenerator) {
+            this.obj.logqlGenerator = {
+              match: '',
+              duration: '',
+              labelpairs: {
+                container: '',
+              },
+            };
+          }
+          this.getContainers();
+          this.$delete(this.obj, 'expr');
         }
         this.$refs.form.resetValidation();
       },
@@ -378,6 +453,12 @@
         this.obj = deepCopy(data);
         if (!this.obj.promqlGenerator && this.mode === 'monitor') {
           this.mod = 'ql';
+        } else if (this.obj.promqlGenerator && this.mode === 'monitor') {
+          this.mod = 'template';
+        } else if (!this.obj.logqlGenerator && this.mode === 'logging') {
+          this.mod = 'ql';
+        } else if (this.obj.logqlGenerator && this.mode === 'logging') {
+          this.mod = 'template';
         }
       },
       closeExpand() {
@@ -459,6 +540,38 @@
       },
       onExprInput() {
         this.$forceUpdate();
+      },
+      async getContainers() {
+        const data = await getPodList(
+          this.$route.query.cluster || this.obj.cluster,
+          this.$route.query.namespace || this.obj.namespace,
+          {
+            size: 1000,
+          },
+        );
+        if (data) {
+          this.containerItems = data.List.reduce((f1, f2) => {
+            return Array.isArray(f1)
+              ? f1.concat(
+                  f2.spec.containers.map((c) => {
+                    return c.name;
+                  }),
+                )
+              : f1.spec.containers
+                  .map((c) => {
+                    return c.name;
+                  })
+                  .concat(
+                    f2.spec.containers.map((c) => {
+                      return c.name;
+                    }),
+                  );
+          });
+          this.containerItems = Array.from(new Set(this.containerItems));
+          this.containerItems = this.containerItems.map((c) => {
+            return { text: c, value: c };
+          });
+        }
       },
     },
   };

@@ -76,10 +76,13 @@ Vue.use(VuePageTitle, {
 Vue.use(c);
 Vue.use(t);
 
-// eslint-disable-next-line vue/require-name-property
-new Vue({
-  vuetify,
-  store,
-  router,
-  render: (h) => h(App),
-}).$mount('#app');
+const timeout = window.setTimeout(() => {
+  // eslint-disable-next-line vue/require-name-property
+  new Vue({
+    vuetify,
+    store,
+    router,
+    render: (h) => h(App),
+  }).$mount('#app');
+  clearTimeout(timeout);
+}, 1500);

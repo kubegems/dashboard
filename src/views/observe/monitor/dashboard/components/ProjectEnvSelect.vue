@@ -100,7 +100,7 @@
       </v-menu>
     </v-sheet>
 
-    <v-sheet class="text-subtitle-2 ml-4 float-left font-weight-medium kubegems__text sheet__line"> 容器 </v-sheet>
+    <v-sheet class="text-subtitle-2 ml-4 float-left font-weight-medium kubegems__text sheet__line"> 容器组 </v-sheet>
     <v-sheet class="text-body-2 float-left text--darken-1 sheet__menu__line">
       <v-menu
         v-model="podMenu"
@@ -118,17 +118,17 @@
             <v-icon v-else right> fas fa-angle-down </v-icon>
           </v-btn>
         </template>
-        <v-data-iterator hide-default-footer :items="[{ text: '容器', values: podItems }]">
+        <v-data-iterator hide-default-footer :items="[{ text: '容器组', values: podItems }]">
           <template #no-data>
             <v-card>
-              <v-card-text> 暂无容器 </v-card-text>
+              <v-card-text> 暂无容器组 </v-card-text>
             </v-card>
           </template>
           <template #default="props">
             <v-card v-for="item in props.items" :key="item.text" min-width="100px">
               <v-list dense>
                 <v-flex class="text-subtitle-2 text-center ma-2">
-                  <span>容器</span>
+                  <span>容器组</span>
                 </v-flex>
                 <v-divider class="mx-2" />
                 <v-list-item
@@ -209,13 +209,16 @@
       async loadPod() {
         const data = await getPodList(this.environment?.clusterName, this.environment?.namespace, {
           noprocessing: true,
+          size: 1000,
         });
-        this.podItems = data.List.map((d) => {
-          return {
-            podName: d.metadata.name,
-            value: d.metadata.name,
-          };
-        });
+        if (data?.List) {
+          this.podItems = data.List.map((d) => {
+            return {
+              podName: d.metadata.name,
+              value: d.metadata.name,
+            };
+          });
+        }
       },
       setProject(project) {
         this.project = project;

@@ -195,12 +195,12 @@
       this.clearInterval();
     },
     methods: {
-      async loadMetrics() {
+      async loadMetrics(pod = null) {
         this.clearInterval();
         this.metrics = {};
         if (this.items?.length > 0 && this.items[this.tab].graphs) {
           this.items[this.tab].graphs.forEach((item, index) => {
-            this.getMetrics(item, index);
+            this.getMetrics(item, index, pod);
           });
         }
         this.timeinterval = setInterval(() => {
@@ -208,7 +208,7 @@
           this.params.end = this.$moment(this.params.end).utc().add(30, 'seconds').format();
           if (this.items?.length > 0 && this.items[this.tab].graphs) {
             this.items[this.tab].graphs.forEach((item, index) => {
-              this.getMetrics(item, index);
+              this.getMetrics(item, index, pod);
             });
           }
         }, 1000 * 30);
@@ -216,7 +216,7 @@
       clearInterval() {
         if (this.timeinterval) clearInterval(this.timeinterval);
       },
-      async dashboardList() {
+      async dashboardList(pod = null) {
         await this.getMonitorConfig();
         const data = await getMonitorDashboardList(this.environment.value);
         this.items = data;
@@ -226,7 +226,7 @@
           });
           this.tab = index > -1 ? index : 0;
         }
-        this.loadMetrics();
+        this.loadMetrics(pod);
       },
       getNamespace(item) {
         const namespace = item.promqlGenerator
@@ -236,18 +236,23 @@
           : this.environment.namespace;
         return namespace;
       },
-      async getMetrics(item, index) {
+      async getMetrics(item, index, pod = null) {
         const params = item.promqlGenerator
           ? item.promqlGenerator
           : {
               expr: item.expr,
             };
         const namespace = this.getNamespace(item);
-        const data = await getMetricsQueryrange(
+        let data = await getMetricsQueryrange(
           this.environment.clusterName,
           namespace,
           Object.assign(params, { noprocessing: true, ...this.params }),
         );
+        if (pod) {
+          data = data.filter((d) => {
+            return d.metric?.pod === pod;
+          });
+        }
         this.$set(this.metrics, `c${index}`, data);
       },
       async refreshEnvironemnt(env) {

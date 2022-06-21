@@ -1,99 +1,101 @@
 <template>
-  <v-row :style="`height: ${height}px !important`">
-    <v-col class="info d-none d-md-flex align-center justify-start" lg="7">
-      <div :style="{ paddingLeft: '100px' }">
-        <h2 class="text-h4 white--text font-weight-medium">
-          <v-flex class="float-left">
-            <v-img contain src="/logo.svg" width="250" />
-          </v-flex>
-          <v-flex class="float-left ml-2 font"> 容器云平台 </v-flex>
-          <div class="kubegems__clear-float" />
-        </h2>
-        <div class="mt-4 white--text" :style="{ width: '700px', lineHeight: '1.5', fontSize: '1.1rem' }">
-          KubeGems 是一款开源的企业级多租户容器云平台。围绕云原生社区， KubeGems 提供了多 Kubernetes
-          集群接入能力，并具备丰富的组件管理和资源成本分析功能，
-          能够帮助企业快速的构建和打造一个本地化、功能强大且低成本的云管理平台。
+  <transition appear name="move">
+    <v-row :style="`height: ${height}px !important`">
+      <v-col class="info d-none d-md-flex align-center justify-start" lg="7">
+        <div :style="{ paddingLeft: '100px' }">
+          <h2 class="text-h4 white--text font-weight-medium">
+            <v-flex class="float-left">
+              <v-img contain src="/logo.svg" width="250" />
+            </v-flex>
+            <v-flex class="float-left ml-2 font"> 容器云平台 </v-flex>
+            <div class="kubegems__clear-float" />
+          </h2>
+          <div class="mt-4 white--text" :style="{ width: '700px', lineHeight: '1.5', fontSize: '1.1rem' }">
+            KubeGems 是一款开源的企业级多租户容器云平台。围绕云原生社区， KubeGems 提供了多 Kubernetes
+            集群接入能力，并具备丰富的组件管理和资源成本分析功能，
+            能够帮助企业快速的构建和打造一个本地化、功能强大且低成本的云管理平台。
+          </div>
         </div>
-      </div>
-    </v-col>
-    <v-col class="d-flex align-center" cols="12" lg="5" style="position: relative">
-      <v-container>
-        <div class="pa-7 pa-sm-12">
-          <v-row>
-            <v-col class="login" cols="12" lg="9" xl="6">
-              <h2 class="font-weight-bold mt-4 blue-grey--text text--darken-2">
-                用户登录
-                <v-btn v-if="ldap" class="float-right mt-1" color="primary" small text @click="toDefaultLogin">
-                  返回
-                </v-btn>
-                <div class="kubegems__clear-float" />
-              </h2>
-              <v-form ref="loginForm" v-model="valid" action="/" lazy-validation>
-                <v-text-field
-                  v-model="username"
-                  class="mt-4"
-                  label="用户名"
-                  outlined
-                  required
-                  :rules="usernameRules"
-                  @keyup.enter="login(source)"
-                />
-                <v-text-field
-                  v-model="password"
-                  :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-                  :counter="20"
-                  label="密码"
-                  outlined
-                  required
-                  :rules="passwordRules"
-                  :type="show ? 'text' : 'password'"
-                  @click:append="show = !show"
-                  @keyup.enter="login(source)"
-                />
+      </v-col>
+      <v-col class="d-flex align-center" cols="12" lg="5" style="position: relative">
+        <v-container>
+          <div class="pa-7 pa-sm-12">
+            <v-row>
+              <v-col class="login" cols="12" lg="9" xl="6">
+                <h2 class="font-weight-bold mt-4 blue-grey--text text--darken-2">
+                  用户登录
+                  <v-btn v-if="ldap" class="float-right mt-1" color="primary" small text @click="toDefaultLogin">
+                    返回
+                  </v-btn>
+                  <div class="kubegems__clear-float" />
+                </h2>
+                <v-form ref="loginForm" v-model="valid" action="/" lazy-validation>
+                  <v-text-field
+                    v-model="username"
+                    class="mt-4"
+                    label="用户名"
+                    outlined
+                    required
+                    :rules="usernameRules"
+                    @keyup.enter="login(source)"
+                  />
+                  <v-text-field
+                    v-model="password"
+                    :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                    :counter="20"
+                    label="密码"
+                    outlined
+                    required
+                    :rules="passwordRules"
+                    :type="show ? 'text' : 'password'"
+                    @click:append="show = !show"
+                    @keyup.enter="login(source)"
+                  />
 
-                <v-btn
-                  block
-                  class="mr-4"
-                  color="info"
-                  :disabled="!valid"
-                  :loading="Circular"
-                  submit
-                  @click="login(source)"
-                >
-                  {{ ldap ? $VENDOR[vendor] : '' }} 登录
-                </v-btn>
-              </v-form>
-              <div v-if="enableOauthItems && enableOauthItems.length > 0 && !ldap" class="mt-5">
-                <div class="divide">其他登录方式</div>
-                <div class="mt-4 text-center">
-                  <v-avatar
-                    v-for="(item, index) in enableOauthItems"
-                    :key="index"
-                    class="mr-3 kubegems__pointer"
-                    height="40"
-                    left
-                    min-width="40"
-                    width="40"
-                    @click="oauth(item)"
+                  <v-btn
+                    block
+                    class="mr-4"
+                    color="info"
+                    :disabled="!valid"
+                    :loading="Circular"
+                    submit
+                    @click="login(source)"
                   >
-                    <BaseLogo
-                      class="primary--text logo-margin"
-                      :icon-name="item.vendor.toLocaleLowerCase()"
-                      :ml="0"
-                      :width="40"
-                    />
-                  </v-avatar>
+                    {{ ldap ? $VENDOR[vendor] : '' }} 登录
+                  </v-btn>
+                </v-form>
+                <div v-if="enableOauthItems && enableOauthItems.length > 0 && !ldap" class="mt-5">
+                  <div class="divide">其他登录方式</div>
+                  <div class="mt-4 text-center">
+                    <v-avatar
+                      v-for="(item, index) in enableOauthItems"
+                      :key="index"
+                      class="mr-3 kubegems__pointer"
+                      height="40"
+                      left
+                      min-width="40"
+                      width="40"
+                      @click="oauth(item)"
+                    >
+                      <BaseLogo
+                        class="primary--text logo-margin"
+                        :icon-name="item.vendor.toLocaleLowerCase()"
+                        :ml="0"
+                        :width="40"
+                      />
+                    </v-avatar>
+                  </div>
                 </div>
-              </div>
-            </v-col>
-          </v-row>
-        </div>
-        <h6 class="px-12 text-body-2 mt-4 copyright font-weight-medium kubegems__text">
-          © 2021 — KubeGems by Kubegems.io
-        </h6>
-      </v-container>
-    </v-col>
-  </v-row>
+              </v-col>
+            </v-row>
+          </div>
+          <h6 class="px-12 text-body-2 mt-4 copyright font-weight-medium kubegems__text">
+            © 2021 — KubeGems by Kubegems.io
+          </h6>
+        </v-container>
+      </v-col>
+    </v-row>
+  </transition>
 </template>
 
 <script>
@@ -141,7 +143,7 @@
     },
     methods: {
       async authSource() {
-        const data = await getSystemAuthSource();
+        const data = await getSystemAuthSource({ noprocessing: true });
         this.oauthItems = data;
       },
       async login() {
@@ -276,5 +278,15 @@
     line-height: 66px;
     font-weight: bold;
     font-family: Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important;
+  }
+
+  .move-enter-active,
+  .move-leave-active {
+    transition: all 0.5s linear;
+    transform: translate3d(0, 0, 0);
+  }
+  .move-enter,
+  .move-leave {
+    transform: translate3d(100%, 0, 0);
   }
 </style>

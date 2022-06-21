@@ -94,6 +94,7 @@ export const observe = [
               rootName: 'observe',
               dependencies: ['monitoring'],
               tip: 'dash-overview',
+              innerCheck: true,
             },
           },
         ],

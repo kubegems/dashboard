@@ -44,7 +44,7 @@
             >
               <template #[`item.environmentName`]="{ item }">
                 <BaseMarquee :content="item.EnvironmentName" :speed="20">
-                  <a class="font-weight-medium" @click="environmentDetail(item)">
+                  <a class="font-weight-medium" @click.stop="environmentDetail(item)">
                     {{ item.EnvironmentName }}
                   </a>
                 </BaseMarquee>
@@ -152,7 +152,7 @@
               </template>
               <template #[`item.action`]="{ item }">
                 <span class="pa-2">
-                  <v-btn color="primary" text x-small @click="environmentDetail(item)">
+                  <v-btn color="primary" text x-small @click.stop="environmentDetail(item)">
                     <v-icon left small> mdi-login </v-icon>
                     进入环境
                   </v-btn>

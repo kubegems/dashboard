@@ -1,0 +1,161 @@
+.skeleton {
+  background-color: white;
+  height: 100vh;
+  position: relative;
+}
+
+.skeleton__bg {
+  animation-name: bg;
+  animation-duration: 0.1s;
+  animation-timing-function: cubic-bezier(0.5);
+  animation-delay: 1.2s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes bg {
+  0% {
+    background-color: white;
+  }
+  100% {
+    background-color: #1e88e5;
+  }
+}
+
+.skeleton__bg__out {
+  animation-name: bg-out;
+  animation-duration: 0.2s;
+  animation-timing-function: linear;
+  animation-delay: 0;
+  animation-fill-mode: forwards;
+}
+
+@keyframes bg-out {
+  0% {
+    width: 100%;
+  }
+  100% {
+    width: 0;
+  }
+}
+
+.skeleton__title {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.skeleton__flash {
+  animation-name: flash-title;
+  animation-duration: 1.2s;
+  animation-timing-function: cubic-bezier(0.5);
+  animation-delay: 0s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes flash-title {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: 50%;
+  }
+}
+
+.skeleton__img {
+  width: 400px;
+  content: url(/logo-about.svg);
+}
+
+.skeleton__img__flash {
+  animation-name: flash-img;
+  animation-duration: 0.1s;
+  animation-timing-function: cubic-bezier(0.5);
+  animation-delay: 1.2s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes flash-img {
+  0% {
+    content: url(/logo-about.svg);
+  }
+  100% {
+    content: url(/logo.svg);
+  }
+}
+
+.skeleton__loading {
+  text-align: center;
+}
+
+.skeleton__loading__left {
+  width: 10px;
+  height: 10px;
+  background-color: white;
+  border-radius: 10px;
+  opacity: 0;
+}
+
+.skeleton__loading__right {
+  width: 10px;
+  height: 10px;
+  background-color: white;
+  border-radius: 10px;
+  opacity: 0;
+}
+
+.skeleton__loading__left__box {
+  float: left;
+  position: relative;
+  width: 50%;
+}
+
+.skeleton__loading__left__ani {
+  animation-name: loading-left;
+  animation-duration: 0.7s;
+  animation-timing-function: ease-in-out;
+  animation-delay: 1.3s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  position: absolute;
+  right: 0;
+}
+
+.skeleton__loading__right__box {
+  float: right;
+  position: relative;
+  width: 50%;
+}
+
+.skeleton__loading__right__ani {
+  animation-name: loading-right;
+  animation-duration: 0.7s;
+  animation-timing-function: ease-in-out;
+  animation-delay: 1.3s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  position: absolute;
+  left: 0;
+}
+
+@keyframes loading-left {
+  0% {
+    right: 0;
+    opacity: 1;
+  }
+  100% {
+    right: 30px;
+    opacity: 1;
+  }
+}
+
+@keyframes loading-right {
+  0% {
+    left: 0;
+    opacity: 1;
+  }
+  100% {
+    left: 30px;
+    opacity: 1;
+  }
+}
