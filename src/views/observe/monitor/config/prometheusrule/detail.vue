@@ -135,7 +135,7 @@
           },
           param: { item },
           doFunc: async (param) => {
-            await deletePrometheusRule(this.Environment().ID, {
+            await deletePrometheusRule(this.$route.query.envid, {
               name: param.item.name,
             });
             this.$router.push({

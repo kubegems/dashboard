@@ -223,11 +223,7 @@ export default new Store({
       state.EnvironmentFilter = null;
     },
     CLEAR_RESOURCE(state) {
-      window.localStorage.removeItem(ProjectStore);
-      window.localStorage.removeItem(EnvironmentStore);
       window.localStorage.removeItem(LatestCluster);
-      state.ProjectStore = [];
-      state.EnvironmentStore = [];
       clearInterval(state.PluginsInterval);
       state.PluginsInterval = null;
       state.LatestCluster = { cluster: '' };

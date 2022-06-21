@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :style="{ height: `${height}px`, overflowY: `auto`, position: `relative` }">
     <v-data-table
       class="mx-4 kubegems__table-row-pointer"
       disable-sort
@@ -83,6 +83,8 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex';
+
   export default {
     name: 'EventList',
     props: {
@@ -111,6 +113,12 @@
         itemsPerPage: 10,
         pageCount: 0,
       };
+    },
+    computed: {
+      ...mapState(['Scale']),
+      height() {
+        return parseInt((window.innerHeight - 110) / this.Scale);
+      },
     },
     watch: {
       data: {

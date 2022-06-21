@@ -135,7 +135,7 @@
           },
           param: { item },
           doFunc: async (param) => {
-            await deleteLogAlertRule(this.Environment().ID, {
+            await deleteLogAlertRule(this.$route.query.envid, {
               name: param.item.name,
             });
             this.$router.push({
