@@ -99,7 +99,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import { getEnvironmentUserList, userSelectData, postSendTestEmail } from '@/api';
+  import { getEnvironmentUserList, postSendTestEmail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
@@ -115,10 +115,6 @@
       data: {
         type: Object,
         default: () => {},
-      },
-      edit: {
-        type: Boolean,
-        default: () => false,
       },
       namespace: {
         type: String,
@@ -174,7 +170,7 @@
     },
     mounted() {
       this.$nextTick(() => {
-        if (!this.edit) this.useEmailList();
+        this.useEmailList();
       });
     },
     methods: {
@@ -203,16 +199,9 @@
         this.$emit('closeCard');
       },
       async useEmailList() {
-        // 普通用户视图
-        let data = {};
-        if (!this.AdminViewport) {
-          data = await getEnvironmentUserList(this.Environment().ID, {
-            size: 500,
-          });
-        } else {
-          // 管理员
-          data = await userSelectData();
-        }
+        const data = await getEnvironmentUserList(this.$route.query.envid, {
+          size: 500,
+        });
         this.emailToSelect = data.List.filter((user) => {
           return user.Email && user.Email && user.Email.length > 0;
         }).map((user) => {

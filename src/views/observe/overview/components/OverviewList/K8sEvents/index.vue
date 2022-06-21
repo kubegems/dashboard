@@ -9,7 +9,7 @@
           {{ t.text }}
         </v-tab>
       </v-tabs>
-      <div class="d-flex flex-column mt-0" :style="{ height: `${height}px` }">
+      <div class="d-flex flex-column mt-0">
         <component :is="tabItems[tab].value" :data="data" :date="date" @loadData="eventList" />
       </div>
     </template>
@@ -17,8 +17,6 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
-
   import Chart from './Chart';
   import EventList from './EventList';
   import { getEventListFromLoki } from '@/api';
@@ -46,12 +44,6 @@
           { text: '事件列表', value: 'EventList' },
         ],
       };
-    },
-    computed: {
-      ...mapState(['Scale']),
-      height() {
-        return parseInt((window.innerHeight - 109) / this.Scale);
-      },
     },
     watch: {
       env: {

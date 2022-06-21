@@ -89,6 +89,8 @@
               ...this.$route.query,
               proj: env?.projectName,
               env: env?.name,
+              envid: env?.id,
+              projid: env?.projectId,
               cluster: env?.clusterName,
               namespace: env?.namespace,
             },
