@@ -1,20 +1,16 @@
 <template>
   <v-container class="alert-history" fluid>
-    <BaseBreadcrumb />
+    <BaseBreadcrumb>
+      <template #extend>
+        <v-flex class="kubegems__full-right">
+          <ProjectEnvSelect :tenant="tenant" @refreshEnvironemnt="refreshEnvironemnt" />
+          <BaseDatetimePicker v-model="date" clearable :default-value="180" :offset-y="1" @change="onDatetimeChange" />
+          <div />
+        </v-flex>
+      </template>
+    </BaseBreadcrumb>
     <v-card>
-      <div class="d-flex justify-space-between pa-3">
-        <ClusterSelect
-          ref="ClusterSelect"
-          v-model="params.cluster"
-          :auto-select-first="!AdminViewport"
-          :clearable="AdminViewport"
-          tenant
-          :tid="tenant ? tenant.ID : 0"
-          @change="onClusterChange"
-        />
-        <BaseDatetimePicker v-model="date" clearable :default-value="180" />
-      </div>
-      <HistorySearch v-model="histroyParams" :cluster="clusterId" @search="onSearch" />
+      <HistorySearch v-model="histroyParams" :cluster="cluster" @search="onSearch" />
     </v-card>
     <v-card class="mt-3 pa-4">
       <v-data-table
@@ -119,12 +115,12 @@
   import { getPrometheusAlertSearch, postAddPrometheusBlacklist, deletePrometheusBlacklist } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { deleteEmpty } from '@/utils/helpers';
-  import ClusterSelect from '@/views/observe/components/ClusterSelect';
+  import ProjectEnvSelect from '@/views/observe/components/ProjectEnvSelect';
 
   export default {
     name: 'AlertHistroy',
     components: {
-      ClusterSelect,
+      ProjectEnvSelect,
       HistorySearch,
     },
     mixins: [BaseSelect],
@@ -176,20 +172,18 @@
       return {
         items: [],
         pageCount: 0,
-        clusterId: undefined,
+        cluster: undefined,
         histroyParams: {
-          namespace: this.$route.query.namespace,
-          alertname: this.$route.query.alertname,
-          project: this.$route.query.project,
-          resource: this.$route.query.resource,
-          rule: this.$route.query.rule,
-          status: this.$route.query.status,
+          alertname: null,
+          resource: null,
+          rule: null,
+          status: null,
         },
         params: {
-          cluster: this.$route.query.cluster,
+          cluster: null,
           labelpairs: undefined,
-          start: this.$route.query.start,
-          end: this.$route.query.end,
+          start: null,
+          end: null,
           page: 1,
           size: 10,
         },
@@ -200,16 +194,6 @@
     computed: {
       ...mapState(['AdminViewport']),
       ...mapGetters(['Tenant']),
-    },
-    watch: {
-      tenant: {
-        handler(newValue) {
-          if (newValue) {
-            this.getHistoryList();
-          }
-        },
-        deep: true,
-      },
     },
     mounted() {
       this.$nextTick(() => {
@@ -231,26 +215,17 @@
           start: this.date[0] ? this.$moment(this.date[0]).utc().format() : undefined,
           end: this.date[1] ? this.$moment(this.date[1]).utc().format() : undefined,
         });
-        this.$router.replace({ query: { ...params } });
-        delete params.project;
-
-        // if (!this.AdminViewport && !params.namespace) {
-        //   this.$store.commit('SET_SNACKBAR', {
-        //     text: '请选择项目和环境',
-        //     color: 'warning',
-        //   })
-        //   return
-        // }
 
         const data = await getPrometheusAlertSearch(this.tenant.ID, params);
         this.pageCount = Math.ceil(data.Total / this.params.size);
         this.params.page = data.CurrentPage;
         this.items = data.List || [];
       },
-      onClusterChange() {
-        this.clusterId = this.$refs.ClusterSelect.getItems().find(
-          (cluster) => cluster.text === this.params.cluster,
-        )?.value;
+      refreshEnvironemnt(env) {
+        this.params.cluster = env.clusterName;
+        this.params.environment = env.environmentName;
+        this.cluster = env.clusterName;
+        this.onDatetimeChange();
       },
       onSearch() {
         this.params.page = 1;
@@ -262,6 +237,11 @@
       },
       onPageIndexChange(page) {
         this.params.page = page;
+      },
+      onDatetimeChange() {
+        this.params.start = this.$moment(this.date[0]).utc().format();
+        this.params.end = this.$moment(this.date[1]).utc().format();
+        this.getHistoryList();
       },
       onAddBacklist(item) {
         this.$store.commit('SET_CONFIRM', {

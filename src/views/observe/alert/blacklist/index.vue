@@ -1,16 +1,13 @@
 <template>
   <v-container class="alert-history" fluid>
-    <BaseBreadcrumb />
+    <BaseBreadcrumb>
+      <template #extend>
+        <v-flex class="kubegems__full-right">
+          <ProjectEnvSelect :tenant="tenant" @refreshEnvironemnt="refreshEnvironemnt" />
+        </v-flex>
+      </template>
+    </BaseBreadcrumb>
     <v-card class="mt-3 pa-4">
-      <div class="mb-4">
-        <ClusterSelect
-          v-model="params.cluster"
-          :auto-select-first="!AdminViewport"
-          :clearable="AdminViewport"
-          @change="onSearchChange"
-        />
-      </div>
-
       <v-data-table
         class="kubegems__table-row-pointer"
         disable-sort
@@ -72,17 +69,17 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
+  import { mapGetters, mapState } from 'vuex';
 
   import { getPrometheusBlackList, deletePrometheusBlacklist } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { deleteEmpty } from '@/utils/helpers';
-  import ClusterSelect from '@/views/observe/components/ClusterSelect';
+  import ProjectEnvSelect from '@/views/observe/components/ProjectEnvSelect';
 
   export default {
     name: 'AlertHistroy',
     components: {
-      ClusterSelect,
+      ProjectEnvSelect,
     },
     mixins: [BaseSelect],
     data() {
@@ -99,9 +96,10 @@
       return {
         items: [],
         pageCount: 0,
+        tenant: null,
         params: {
-          cluster: this.$route.query.cluster,
-          namespace: this.$route.query.namespace,
+          cluster: '',
+          namespace: '',
           page: 1,
           size: 10,
         },
@@ -109,9 +107,12 @@
     },
     computed: {
       ...mapState(['AdminViewport']),
+      ...mapGetters(['Tenant']),
     },
     mounted() {
-      if (this.AdminViewport) this.getBlackList();
+      this.$nextTick(() => {
+        this.tenant = this.Tenant();
+      });
     },
     methods: {
       async getBlackList() {
@@ -128,8 +129,9 @@
       onPageIndexChange(page) {
         this.params.page = page;
       },
-      onSearchChange() {
-        this.params.page = 1;
+      refreshEnvironemnt(env) {
+        this.params.cluster = env.clusterName;
+        this.params.namespace = env.namespace;
         this.getBlackList();
       },
       onRemoveBlack(item) {

@@ -1,5 +1,5 @@
 <template>
-  <ProjectEnvironmentLayout>
+  <ProjectEnvironmentLayout v-model="pass">
     <v-tabs v-model="currentTab" :height="30">
       <v-tab v-for="item in tabs" :key="item.component">
         <v-icon class="mr-4">{{ item.icon }}</v-icon>
@@ -7,7 +7,7 @@
       </v-tab>
     </v-tabs>
 
-    <component :is="currentComponent" />
+    <component :is="currentComponent" :pass="pass" />
   </ProjectEnvironmentLayout>
 </template>
 
@@ -56,6 +56,7 @@
       return {
         currentTab: this.tabMap[this.$route.query.tab] || 0,
         tabs: this.tabs,
+        pass: false,
       };
     },
     computed: {

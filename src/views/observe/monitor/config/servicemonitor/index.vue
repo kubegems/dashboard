@@ -136,6 +136,12 @@
       UpdateServiceMonitor,
     },
     mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],
+    props: {
+      pass: {
+        type: Boolean,
+        default: () => false,
+      },
+    },
     data: () => ({
       items: [],
       pageCount: 0,
@@ -182,7 +188,7 @@
         handler(newValue) {
           const { cluster, namespace } = this.params;
           const { cluster: newCluster, namespace: newNamespace } = newValue;
-          const needRefresh = cluster !== newCluster || namespace !== newNamespace;
+          const needRefresh = (cluster !== newCluster || namespace !== newNamespace) && this.pass;
           if (needRefresh) {
             this.m_table_generateParams();
             this.serviceMonitorList();

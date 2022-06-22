@@ -127,6 +127,12 @@
       UpdateFlow,
     },
     mixins: [BasePermission],
+    props: {
+      pass: {
+        type: Boolean,
+        default: () => false,
+      },
+    },
     data() {
       this.filters = [
         { text: '名称', value: 'name', items: [] },
@@ -180,7 +186,7 @@
         handler(newValue) {
           const { cluster, namespace } = this.params;
           const { cluster: newCluster, namespace: newNamespace } = newValue;
-          const needRefresh = cluster !== newCluster || namespace !== newNamespace;
+          const needRefresh = (cluster !== newCluster || namespace !== newNamespace) && this.pass;
           this.params = { ...this.params, ...newValue };
           this.params.namespace = this.params.namespace || '_all';
           if (needRefresh) {

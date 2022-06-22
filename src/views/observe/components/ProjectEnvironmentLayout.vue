@@ -70,7 +70,17 @@
       return {
         env: undefined,
         missingPlugins: [],
+        pass: false,
       };
+    },
+    watch: {
+      value: {
+        handler(newValue) {
+          this.value = newValue;
+        },
+        deep: true,
+        immediate: true,
+      },
     },
     methods: {
       async onEnvChange(env) {
@@ -95,6 +105,9 @@
               namespace: env?.namespace,
             },
           });
+          this.pass = true;
+          this.$emit('input', this.pass);
+          this.$emit('change', this.pass);
         }
       },
     },

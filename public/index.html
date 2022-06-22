@@ -14,16 +14,42 @@
     <link rel="stylesheet" href="/css/skeleton.css" />
     <link rel="stylesheet" href="/css/fonts.googleapis.com.css?family=ZCOOL QingKe HuangYou:300,400,500,600,700" />
     <link rel="stylesheet" href="/css/materialdesignicons.min.css" />
+    <script>
+      document.addEventListener(
+        'DOMContentLoaded',
+        function () {
+          document.removeEventListener('DOMContentLoaded', arguments.callee, false);
+          if (window.location.href.indexOf('/login') === -1) {
+            document.getElementById('skeleton').style.display = 'block';
+          }
+        },
+        false,
+      );
+    </script>
   </head>
 
   <body>
     <noscript>
-      <strong
-        >We're sorry but KubeGems - vuetify powerfull admin template made with vuejs doesn't work properly without
+      <strong>
+        We're sorry but KubeGems - vuetify powerfull admin template made with vuejs doesn't work properly without
         JavaScript enabled. Please enable it to continue.
       </strong>
     </noscript>
-    <div id="app"> </div>
+    <div id="app">
+      <div id="skeleton" class="skeleton skeleton__max">
+        <div class="skeleton__title">
+          <img class="skeleton__img" src="/logo-about.svg" />
+          <div class="skeleton__loading">
+            <div class="skeleton__loading__left__box">
+              <div class="skeleton__loading__left skeleton__loading__color skeleton__loading__left__ani_start"></div>
+            </div>
+            <div class="skeleton__loading__right__box">
+              <div class="skeleton__loading__right skeleton__loading__color skeleton__loading__right__ani_start"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- built files will be auto injected -->
   </body>
 </html>
