@@ -32,16 +32,13 @@
         @click:row="onRowClick"
       >
         <template #[`item.name`]="{ item }">
-          {{ item.AlertInfo.Labels.gems_alertname }}
+          {{ item.AlertInfo.Name }}
         </template>
         <template #[`item.namespace`]="{ item }">
-          {{ item.AlertInfo.Labels.gems_namespace }}
+          {{ item.AlertInfo.Namespace }}
         </template>
         <template #[`item.message`]="{ item }">
           {{ item.Message }}
-        </template>
-        <template #[`item.count`]="{ item }">
-          {{ item.Count }}
         </template>
         <template #[`item.type`]="{ item }">
           <span v-if="item.AlertInfo.Labels.gems_alert_resource && item.AlertInfo.Labels.gems_alert_rule">
@@ -159,7 +156,6 @@
         },
         { text: '详情', value: 'message', align: 'start' },
         { text: '级别', value: 'severity', align: 'start' },
-        { text: '告警次数', value: 'count', align: 'start', width: 90 },
         {
           text: '上次开始时间',
           value: 'startsAt',
