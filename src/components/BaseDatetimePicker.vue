@@ -15,7 +15,7 @@
       <v-btn
         depressed
         :color="color"
-        :class="color === 'white' ? 'primary--text' : `white--text`"
+        :class="color === 'white' ? `primary--text mt-${offsetY}` : `white--text  mt-${offsetY}`"
         :small="small"
         dark
         v-on="on"
@@ -162,6 +162,10 @@
       small: {
         type: Boolean,
         default: true,
+      },
+      offsetY: {
+        type: Number,
+        default: 0,
       },
     },
     data() {

@@ -6,6 +6,11 @@
   width: 50%;
 }
 
+.skeleton__max {
+  width: 100%;
+  display: none;
+}
+
 .skeleton__bg {
   animation-name: bg;
   animation-duration: 0.1s;
@@ -106,6 +111,10 @@
   opacity: 0;
 }
 
+.skeleton__loading__color {
+  background-color: #1e88e5;
+}
+
 .skeleton__loading__left__box {
   float: left;
   position: relative;
@@ -123,6 +132,17 @@
   right: 0;
 }
 
+.skeleton__loading__left__ani_start {
+  animation-name: loading-left;
+  animation-duration: 0.7s;
+  animation-timing-function: ease-in-out;
+  animation-delay: 0s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  position: absolute;
+  right: 0;
+}
+
 .skeleton__loading__right__box {
   float: right;
   position: relative;
@@ -134,6 +154,17 @@
   animation-duration: 0.7s;
   animation-timing-function: ease-in-out;
   animation-delay: 1.3s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  position: absolute;
+  left: 0;
+}
+
+.skeleton__loading__right__ani_start {
+  animation-name: loading-right;
+  animation-duration: 0.7s;
+  animation-timing-function: ease-in-out;
+  animation-delay: 0s;
   animation-iteration-count: infinite;
   animation-direction: alternate;
   position: absolute;

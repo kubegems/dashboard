@@ -166,6 +166,7 @@
 
           <v-col col="12">
             <v-autocomplete
+              v-if="mode === 'monitor'"
               v-model="obj.inhibitLabels"
               class="my-0"
               color="primary"
@@ -175,6 +176,26 @@
               multiple
               no-data-text="暂无可选数据"
               @focus="getInhibitLabels"
+            >
+              <template #selection="{ item }">
+                <v-chip class="mx-1" color="primary" small>
+                  {{ item['text'] }}
+                </v-chip>
+              </template>
+            </v-autocomplete>
+            <v-autocomplete
+              v-else
+              v-model="obj.inhibitLabels"
+              class="my-0"
+              color="primary"
+              hide-selected
+              :items="inhibitLabelItems"
+              label="抑制标签(回车创建)"
+              multiple
+              no-data-text="暂无可选数据"
+              :search-input.sync="inhibitLabelText"
+              @focus="getInhibitLabels"
+              @keyup.enter="createInhibitLabel"
             >
               <template #selection="{ item }">
                 <v-chip class="mx-1" color="primary" small>
@@ -290,6 +311,7 @@
         },
         mod: 'template',
         containerItems: [],
+        inhibitLabelText: '',
       };
     },
     computed: {
@@ -523,9 +545,26 @@
           this.inhibitLabelItems = data.map((l) => {
             if (l !== '__name__') {
               this.obj.labelpairs[l] = '';
-              return { text: l, valeu: l };
+              return { text: l, value: l };
             }
           });
+        } else if (this.mode === 'logging' && this.mod === 'template') {
+          this.inhibitLabelItems = [
+            { text: 'pod', value: 'pod' },
+            { text: 'container', value: 'container' },
+          ];
+        }
+        this.inhibitLabelItems = this.inhibitLabelItems.concat(...(this.obj.inhibitLabels || []));
+      },
+      createInhibitLabel() {
+        if (
+          !this.inhibitLabelItems.some((l) => {
+            return l.value === this.inhibitLabelText;
+          })
+        ) {
+          this.inhibitLabelItems.push({ text: this.inhibitLabelText, value: this.inhibitLabelText });
+          this.obj.inhibitLabels.push(this.inhibitLabelText);
+          this.inhibitLabelText = '';
         }
       },
       validate() {

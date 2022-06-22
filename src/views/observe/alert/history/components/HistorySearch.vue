@@ -72,13 +72,13 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import { getSystemConfigData, getProjectList, getProjectEnvironmentList } from '@/api';
+  import { getSystemConfigData } from '@/api';
 
   export default {
     name: 'HistorySearch',
     props: {
       cluster: {
-        type: Number,
+        type: String,
         default: undefined,
       },
       value: {
@@ -87,21 +87,9 @@
       },
     },
     data() {
-      this.cache = {
-        namespace: {},
-      };
-
       return {
         expand: false,
         labels: {
-          project: {
-            text: '项目',
-            items: [],
-          },
-          namespace: {
-            text: '环境',
-            items: [],
-          },
           resource: {
             text: '资源',
             items: [],
@@ -121,7 +109,6 @@
         tagCols: [],
         tagMap: {},
         alertname: undefined,
-        projectList: [],
         metricsConfig: {},
       };
     },
@@ -137,16 +124,16 @@
       },
     },
     watch: {
-      cluster() {
-        this.onClear();
-        this.setProjectItems();
+      cluster: {
+        handler() {
+          this.onClear();
+        },
+        deep: true,
       },
       value: {
         handler(newValue) {
           const v = newValue || {};
           this.tagMap = {
-            project: v.project,
-            namespace: v.namespace,
             resource: v.resource,
             rule: v.rule,
             status: v.status,
@@ -155,7 +142,6 @@
           this.tagCols = Object.keys(this.tagMap)
             .filter((key) => !!this.tagMap[key])
             .map((key) => key);
-          if (v.project) this.onProjectChange(v.project, false);
         },
         immediate: true,
         deep: true,
@@ -163,7 +149,6 @@
     },
     mounted() {
       this.getMonitorConfig();
-      this.getProjectList();
     },
     methods: {
       onSwitchExpand() {
@@ -182,18 +167,12 @@
         } else {
           this.$delete(this.tagMap, key);
         }
-        // if (key === 'project') this.onProjectChange(tag.value)
         if (key === 'resource') this.onResourceChange(tag.value);
         this.onEmitChange();
       },
       onRemoveTag(key) {
         this.$delete(this.tagMap, key);
         this.tagCols = this.tagCols.filter((item) => item !== key);
-        if (key === 'project') {
-          this.tagCols = this.tagCols.filter((item) => item !== 'namespace');
-          this.$delete(this.tagMap, 'namespace');
-          this.$set(this.labels.namespace, 'items', []);
-        }
         if (key === 'resource') {
           this.tagCols = this.tagCols.filter((item) => item !== 'rule');
           this.$delete(this.tagMap, 'rule');
@@ -205,7 +184,6 @@
       onClear() {
         this.tagCols = [];
         this.tagMap = {};
-        this.onProjectChange();
         this.onResourceChange();
         this.onEmitChange();
       },
@@ -242,31 +220,13 @@
       },
       onSearch() {
         this.expand = false;
-        this.$emit('search', this.format2value());
-      },
-      setProjectItems() {
-        const items = this.projectList.filter(
-          (pro) => !this.cluster || pro.environments.some((env) => env.ClusterID === this.cluster),
-        );
-        this.$set(this.labels.project, 'items', items);
-      },
-      async onProjectChange(value, deleteNamespace = true) {
-        let items = [];
-        if (this.tagMap.project) {
-          if (!this.cache.namespace[value]) {
-            const data = await getProjectEnvironmentList(value, { noprocessing: true });
-            this.cache.namespace[value] = data.List.map((item) => ({
-              text: item.EnvironmentName,
-              value: item.Namespace,
-              ClusterID: item.ClusterID,
-            }));
-          }
-          items = this.cache.namespace[value].filter((pro) => !this.cluster || pro.ClusterID === this.cluster);
-        } else {
-          this.tagCols = this.tagCols.filter((item) => item !== 'namespace');
-        }
-        if (deleteNamespace) this.$delete(this.tagMap, 'namespace');
-        this.$set(this.labels.namespace, 'items', items);
+        const value = this.format2value();
+        this.$emit('input', value);
+        this.$emit('change', value);
+        const timeout = setTimeout(() => {
+          this.$emit('search');
+          clearTimeout(timeout);
+        }, 100);
       },
       async getMonitorConfig() {
         const data = await getSystemConfigData('Monitor');
@@ -281,15 +241,6 @@
         );
         this.metricsConfig = config;
         if (this.tagMap.resource) this.onResourceChange(this.tagMap.resource, false);
-      },
-      async getProjectList() {
-        const data = await getProjectList(this.Tenant().ID, { noprocessing: true });
-        this.projectList = data.List.map((item) => ({
-          value: item.ID.toString(),
-          text: item.ProjectName,
-          environments: item.Environments,
-        }));
-        this.setProjectItems();
       },
     },
   };

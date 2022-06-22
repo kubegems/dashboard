@@ -3,9 +3,9 @@
     <BaseBreadcrumb class="dash__header">
       <template #extend>
         <v-flex class="kubegems__full-right">
-          <ProjectEnvSelect :tenant="tenant" @filterPod="filterPod" @refreshEnvironemnt="refreshEnvironemnt" />
+          <ProjectEnvSelect show-pod :tenant="tenant" @filterPod="filterPod" @refreshEnvironemnt="refreshEnvironemnt" />
 
-          <BaseDatetimePicker v-model="date" :default-value="30" @change="onDatetimeChange(undefined)" />
+          <BaseDatetimePicker v-model="date" :default-value="30" :offset-y="1" @change="onDatetimeChange(undefined)" />
           <v-menu
             v-if="
               environment &&
@@ -132,7 +132,6 @@
   import AddDashboard from './components/AddDashboard';
   import AddGraph from './components/AddGraph';
   import GraphMax from './components/GraphMax';
-  import ProjectEnvSelect from './components/ProjectEnvSelect';
   import UpdateDashboard from './components/UpdateDashboard';
   import UpdateGraph from './components/UpdateGraph';
   import {
@@ -144,6 +143,7 @@
     getMyConfigData,
   } from '@/api';
   import BasePermission from '@/mixins/permission';
+  import ProjectEnvSelect from '@/views/observe/components/ProjectEnvSelect';
 
   export default {
     name: 'MonitorDashboard',
