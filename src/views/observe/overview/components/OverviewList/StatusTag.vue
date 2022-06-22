@@ -69,7 +69,7 @@
     },
     methods: {
       setColor(status) {
-        return status ? 'success' : '';
+        return status ? 'primary' : '';
       },
     },
   };

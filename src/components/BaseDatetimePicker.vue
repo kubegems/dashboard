@@ -15,8 +15,9 @@
       <v-btn
         depressed
         :color="color"
-        :class="color === 'white' ? `primary--text mt-${offsetY}` : `white--text  mt-${offsetY}`"
+        :class="color === 'white' ? `primary--text` : `white--text`"
         :small="small"
+        :style="{ marginTop: `${offsetY}px` }"
         dark
         v-on="on"
       >

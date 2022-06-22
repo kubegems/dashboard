@@ -32,7 +32,7 @@
       </template>
       <template #[`item.alertRuleCount`]="{ item }">
         {{ item.alertRuleCount }}
-        <BaseTipChips :chips="item.alertResourceMap || {}" icon="mdi-information" single-line />
+        <BaseTipChips :chips="item.alertResourceMap || {}" color="primary" icon="mdi-information" single-line />
       </template>
       <template #[`item.status`]="{ item }">
         <StatusTag :l="item.logging" :m="item.monitoring" :s="item.serviceMesh" />

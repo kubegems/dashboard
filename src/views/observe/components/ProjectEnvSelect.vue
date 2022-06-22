@@ -6,6 +6,9 @@
         v-model="projectMenu"
         bottom
         left
+        max-height="300px"
+        max-width="220px"
+        min-width="120px"
         nudge-bottom="5px"
         offset-y
         origin="top center"
@@ -56,6 +59,9 @@
         v-model="environmentMenu"
         bottom
         left
+        max-height="300px"
+        max-width="220px"
+        min-width="120px"
         nudge-bottom="5px"
         offset-y
         origin="top center"
@@ -107,6 +113,9 @@
           v-model="podMenu"
           bottom
           left
+          max-height="300px"
+          max-width="220px"
+          min-width="120px"
           nudge-bottom="5px"
           offset-y
           origin="top center"

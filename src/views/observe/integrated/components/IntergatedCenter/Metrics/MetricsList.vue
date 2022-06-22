@@ -47,7 +47,7 @@
           { text: '名称', value: 'name', align: 'start' },
           { text: '规则', value: 'showName', align: 'start' },
           { text: '表达式', value: 'expr', align: 'start' },
-          { text: '单位', value: 'units', align: 'start' },
+          { text: '单位', value: 'unit', align: 'start' },
         ],
         items: [],
         total: 0,

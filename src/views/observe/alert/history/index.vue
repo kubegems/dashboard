@@ -4,7 +4,7 @@
       <template #extend>
         <v-flex class="kubegems__full-right">
           <ProjectEnvSelect :tenant="tenant" @refreshEnvironemnt="refreshEnvironemnt" />
-          <BaseDatetimePicker v-model="date" clearable :default-value="180" :offset-y="1" @change="onDatetimeChange" />
+          <BaseDatetimePicker v-model="date" clearable :default-value="180" :offset-y="4" @change="onDatetimeChange" />
           <div />
         </v-flex>
       </template>
