@@ -16,7 +16,7 @@
           </v-row>
         </v-card-text>
       </v-card>
-      <v-card class="mt-3">
+      <v-card class="mt-3" flat>
         <v-data-table
           class="px-4"
           disable-sort

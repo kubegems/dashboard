@@ -30,6 +30,7 @@ export const tool = [
           icon: 'mdi-bell',
           dependencies: ['logging', 'eventer'],
           tip: 'event',
+          innerCheck: true,
         },
       },
     ],

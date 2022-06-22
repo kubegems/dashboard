@@ -157,6 +157,7 @@ export const platform = [
               rootName: 'platform',
               tip: 'event',
               dependencies: ['logging', 'eventer'],
+              innerCheck: true,
             },
           },
         ],
