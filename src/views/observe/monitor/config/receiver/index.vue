@@ -159,6 +159,12 @@
       UpdateReceiver,
     },
     mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],
+    props: {
+      pass: {
+        type: Boolean,
+        default: () => false,
+      },
+    },
     data: () => ({
       filters: [{ text: '接收器名称', value: 'search', items: [] }],
       items: [],
@@ -185,21 +191,11 @@
       },
     },
     watch: {
-      '$store.state.NamespaceFilter': {
-        handler: function (namespace) {
-          if (namespace && !namespace.Mounted) {
-            this.params.page = 1;
-            this.params.namespace = namespace.Namespace;
-            this.receiverList();
-          }
-        },
-        deep: true,
-      },
       '$route.query': {
         handler(newValue) {
           const { cluster, namespace } = this.params;
           const { cluster: newCluster, namespace: newNamespace } = newValue;
-          const needRefresh = cluster !== newCluster || namespace !== newNamespace;
+          const needRefresh = (cluster !== newCluster || namespace !== newNamespace) && this.pass;
           if (needRefresh) {
             this.m_table_generateParams();
             this.receiverList();
