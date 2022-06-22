@@ -351,9 +351,7 @@
           },
           param: { item },
           doFunc: async (param) => {
-            await deleteLogAlertRule(this.cluster, param.item.namespace, param.item.name, {
-              source: 'kubegems-default-logging-alert-rule',
-            });
+            await deleteLogAlertRule(this.cluster, param.item.namespace, param.item.name);
             this.alertRuleList();
           },
         });

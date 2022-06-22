@@ -135,8 +135,8 @@
           },
           param: { item },
           doFunc: async (param) => {
-            await deletePrometheusRule(this.$route.query.envid, {
-              name: param.item.name,
+            await deletePrometheusRule(this.$route.query.cluster, param.item.namespace, param.item.name, {
+              source: param.item.source,
             });
             this.$router.push({
               name: 'observe-monitor-config',

@@ -368,7 +368,7 @@
           param: { item },
           doFunc: async (param) => {
             await deletePrometheusRule(this.cluster, param.item.namespace, param.item.name, {
-              source: 'kubegems-default-monitor-alert-rule',
+              source: param.item.source,
             });
             this.prometheusRuleList();
           },
