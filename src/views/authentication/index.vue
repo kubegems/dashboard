@@ -1,13 +1,27 @@
 <template>
-  <transition appear name="move">
-    <v-row :style="`height: ${height}px !important`">
+  <div :class="{ page: true, page__ani: !SelfOut }">
+    <div v-show="!SelfOut" class="skeleton skeleton__bg" :style="{ height: `${height - 12}px !important` }">
+      <div class="skeleton__title skeleton__flash">
+        <img class="skeleton__img skeleton__img__flash" />
+        <div class="skeleton__loading">
+          <div class="skeleton__loading__left__box">
+            <div class="skeleton__loading__left skeleton__loading__left__ani" />
+          </div>
+          <div class="skeleton__loading__right__box">
+            <div class="skeleton__loading__right skeleton__loading__right__ani" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <v-row class="login__row" :style="{ height: `${height + 12}px !important` }">
       <v-col class="info d-none d-md-flex align-center justify-start" lg="7">
         <div :style="{ paddingLeft: '100px' }">
           <h2 class="text-h4 white--text font-weight-medium">
             <v-flex class="float-left">
               <v-img contain src="/logo.svg" width="250" />
             </v-flex>
-            <v-flex class="float-left ml-2 font"> 容器云平台 </v-flex>
+            <v-flex class="float-left ml-2 login__font"> 容器云平台 </v-flex>
             <div class="kubegems__clear-float" />
           </h2>
           <div class="mt-4 white--text" :style="{ width: '700px', lineHeight: '1.5', fontSize: '1.1rem' }">
@@ -65,7 +79,7 @@
                   </v-btn>
                 </v-form>
                 <div v-if="enableOauthItems && enableOauthItems.length > 0 && !ldap" class="mt-5">
-                  <div class="divide">其他登录方式</div>
+                  <div class="login__divide">其他登录方式</div>
                   <div class="mt-4 text-center">
                     <v-avatar
                       v-for="(item, index) in enableOauthItems"
@@ -78,7 +92,7 @@
                       @click="oauth(item)"
                     >
                       <BaseLogo
-                        class="primary--text logo-margin"
+                        class="primary--text logo__logo"
                         :icon-name="item.vendor.toLocaleLowerCase()"
                         :ml="0"
                         :width="40"
@@ -89,13 +103,13 @@
               </v-col>
             </v-row>
           </div>
-          <h6 class="px-12 text-body-2 mt-4 copyright font-weight-medium kubegems__text">
+          <h6 class="px-12 text-body-2 mt-4 pb-4 login__copyright font-weight-medium kubegems__text">
             © 2021 — KubeGems by Kubegems.io
           </h6>
         </v-container>
       </v-col>
     </v-row>
-  </transition>
+  </div>
 </template>
 
 <script>
@@ -123,7 +137,7 @@
       vendor: '',
     }),
     computed: {
-      ...mapState(['JWT', 'Circular', 'Admin', 'AdminViewport', 'Scale']),
+      ...mapState(['JWT', 'Circular', 'Admin', 'AdminViewport', 'Scale', 'SelfOut']),
       ...mapGetters(['Environment', 'Project', 'Tenant', 'Cluster']),
       height() {
         return window.innerHeight / this.Scale + 12;
@@ -234,59 +248,78 @@
 </script>
 
 <style lang="scss" scoped>
-  .copyright {
+  .page {
+    width: 200%;
     position: absolute;
-    bottom: 10px;
     left: 0;
-    right: 0;
-    text-align: center;
-  }
+    overflow: hidden;
 
-  .logo-margin {
-    margin-left: 0 !important;
-    margin-top: 5px !important;
-  }
-
-  .divide {
-    display: flex;
-    align-items: center;
-    font-size: 0.9rem;
-    color: grey;
-  }
-
-  .divide::before,
-  .divide::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: #cccccc;
-  }
-
-  .divide::before {
-    margin-right: 0.25rem;
-  }
-
-  .divide::after {
-    margin-left: 0.25rem;
+    &__ani {
+      animation-name: slide-out;
+      animation-duration: 0.8s;
+      animation-timing-function: cubic-bezier(0.5);
+      animation-delay: 3s;
+      animation-fill-mode: forwards;
+    }
   }
 
   .login {
     margin: auto;
+
+    &__row {
+      float: left;
+      width: 50%;
+    }
+
+    &__logo {
+      margin-left: 0 !important;
+      margin-top: 5px !important;
+    }
+
+    &__font {
+      line-height: 66px;
+      font-weight: bold;
+      font-family: Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important;
+    }
+
+    &__copyright {
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+      right: 0;
+      text-align: center;
+    }
+
+    &__divide {
+      display: flex;
+      align-items: center;
+      font-size: 0.9rem;
+      color: grey;
+
+      &::before,
+      &::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: #cccccc;
+      }
+
+      &::before {
+        margin-right: 0.25rem;
+      }
+
+      &::after {
+        margin-left: 0.25rem;
+      }
+    }
   }
 
-  .font {
-    line-height: 66px;
-    font-weight: bold;
-    font-family: Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important;
-  }
-
-  .move-enter-active,
-  .move-leave-active {
-    transition: all 0.5s linear;
-    transform: translate3d(0, 0, 0);
-  }
-  .move-enter,
-  .move-leave {
-    transform: translate3d(100%, 0, 0);
+  @keyframes slide-out {
+    0% {
+      left: 0;
+    }
+    100% {
+      left: -100%;
+    }
   }
 </style>

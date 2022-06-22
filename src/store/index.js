@@ -87,6 +87,7 @@ export default new Store({
     FullDialogActive: false,
     Version: window.localStorage.getItem(Version) || '',
     ApiResources: JSON.parse(window.localStorage.getItem(ApiResources)) || {},
+    SelfOut: false,
   },
   mutations: {
     SET_PLUGINS(state, payload) {
@@ -212,6 +213,7 @@ export default new Store({
       state.LatestEnvoronment = { environment: '' };
       state.LatestCluster = { cluster: '' };
       state.ApiResources = {};
+      state.SelfOut = true;
     },
     CLEAR_PLUGINS_INTERVAL(state) {
       clearInterval(state.PluginsInterval);
