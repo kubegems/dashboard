@@ -85,4 +85,4 @@ const timeout = window.setTimeout(() => {
     render: (h) => h(App),
   }).$mount('#app');
   clearTimeout(timeout);
-}, 1500);
+}, 0);

@@ -2,6 +2,8 @@
   background-color: white;
   height: 100vh;
   position: relative;
+  float: left;
+  width: 50%;
 }
 
 .skeleton__bg {
