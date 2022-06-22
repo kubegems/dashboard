@@ -108,13 +108,22 @@
 
           <template v-if="mod === 'template' && mode === 'logging'">
             <v-col cols="6">
+              <v-text-field
+                v-model="obj.logqlGenerator.match"
+                class="my-0"
+                label="匹配的字符串(支持正则)"
+                required
+                :rules="objRules.matchRule"
+              />
+            </v-col>
+            <v-col cols="3">
               <v-autocomplete
                 v-model="obj.logqlGenerator.labelpairs.container"
                 class="my-0"
                 color="primary"
                 hide-selected
                 :items="containerItems"
-                label="容器"
+                label="目标容器"
                 no-data-text="暂无可选数据"
               >
                 <template #selection="{ item }">
@@ -124,20 +133,11 @@
                 </template>
               </v-autocomplete>
             </v-col>
-            <v-col cols="6">
-              <v-text-field
-                v-model="obj.logqlGenerator.match"
-                class="my-0"
-                label="匹配(match)"
-                required
-                :rules="objRules.matchRule"
-              />
-            </v-col>
-            <v-col cols="6">
+            <v-col cols="3">
               <v-text-field
                 v-model="obj.logqlGenerator.duration"
                 class="my-0"
-                label="间隔(duration)"
+                label="时长"
                 required
                 :rules="objRules.durationRule"
               />
