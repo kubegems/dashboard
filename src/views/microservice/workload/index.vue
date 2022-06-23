@@ -340,14 +340,18 @@
     },
     methods: {
       async microAppWorkoladList(noprocess = false) {
-        const data = await getMicroAppWorkoladList(this.VirtualSpace().ID, this.EnvironmentFilter.value, {
-          ...this.params,
-          ...{
-            search: this.$route.query.search ? this.$route.query.search : null,
+        const data = await getMicroAppWorkoladList(
+          this.VirtualSpace().ID,
+          this.EnvironmentFilter?.value || this.$route.query?.environmentid,
+          {
+            ...this.params,
+            ...{
+              search: this.$route.query.search ? this.$route.query.search : null,
+            },
+            kind: this.tabItems[this.tab].value,
+            noprocessing: noprocess,
           },
-          kind: this.tabItems[this.tab].value,
-          noprocessing: noprocess,
-        });
+        );
         this.items = data.List;
         this.pageCount = Math.ceil(data.Total / this.params.size);
         this.params.page = data.CurrentPage;
