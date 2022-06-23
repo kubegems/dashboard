@@ -16,7 +16,7 @@
     no-data-text="暂无指标"
     no-results-text="无匹配"
     :search="keyword"
-    :style="{ top: `${top}px`, left: `${left}px` }"
+    :style="{ top: `${top + topOffset}px`, left: `${left}px` }"
     @click:row="selectedItem"
   >
     <template #[`item.item`]="{ item }">
@@ -43,9 +43,17 @@
         type: Number,
         default: () => 0,
       },
+      left: {
+        type: Number,
+        default: () => 35,
+      },
+      newline: {
+        type: Number,
+        default: () => 43,
+      },
       top: {
         type: Number,
-        default: () => 290,
+        default: () => 320,
       },
     },
     data() {
@@ -54,7 +62,7 @@
         items: [],
         loading: false,
         keyword: '',
-        left: 80,
+        topOffset: 0,
         headers: [{ text: '', value: 'item', align: 'start' }],
       };
     },
@@ -73,7 +81,11 @@
       expr: {
         handler(newValue) {
           if (newValue) {
-            this.left = 80 + newValue.length;
+            if (newValue.length >= this.newline) {
+              this.topOffset = (24 * newValue.length) / this.newline;
+            } else {
+              this.topOffset = 0;
+            }
           } else {
             this.suggestShow = true;
           }

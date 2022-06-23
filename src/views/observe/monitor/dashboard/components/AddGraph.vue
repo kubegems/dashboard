@@ -1,7 +1,7 @@
 <template>
   <BaseDialog v-model="dialog" icon="mdi-chart-areaspline" title="创建监控图" :width="1000" @reset="reset">
     <template #content>
-      <component :is="formComponent" :ref="formComponent" />
+      <component :is="formComponent" :ref="formComponent" :environment="environment" />
     </template>
     <template #action>
       <v-btn class="float-right" color="primary" :loading="Circular" text @click="addGraph"> 确定 </v-btn>

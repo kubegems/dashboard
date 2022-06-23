@@ -1,114 +1,135 @@
 <template>
-  <div :class="{ page: true, page__ani: !SelfOut }">
-    <div v-show="!SelfOut" class="skeleton skeleton__bg" :style="{ height: `${height - 12}px !important` }">
-      <div class="skeleton__title skeleton__flash">
-        <img class="skeleton__img skeleton__img__flash" />
+  <div
+    :class="`page clear-zoom-${Scale.toString().replaceAll('.', '-')} ${SelfOut || vertical ? '' : 'page__ani'}`"
+    :style="{ height: `${height}px !important`, left: `${SelfOut ? '-40vw' : 0}`, width: `${vertical ? '100vw' : ''}` }"
+  >
+    <div v-show="!SelfOut && !vertical" class="skeleton" :style="{ height: `${height}px !important` }">
+      <div class="skeleton__title">
+        <img class="skeleton__img" />
         <div class="skeleton__loading">
           <div class="skeleton__loading__left__box">
-            <div class="skeleton__loading__left skeleton__loading__left__ani" />
+            <div class="skeleton__loading__left skeleton__loading__color skeleton__loading__left__ani_start" />
           </div>
           <div class="skeleton__loading__right__box">
-            <div class="skeleton__loading__right skeleton__loading__right__ani" />
+            <div class="skeleton__loading__right skeleton__loading__color skeleton__loading__right__ani_start" />
           </div>
         </div>
       </div>
     </div>
 
-    <v-row class="login__row" :style="{ height: `${height + 12}px !important` }">
-      <v-col class="info d-none d-md-flex align-center justify-start" lg="7">
-        <div :style="{ paddingLeft: '100px' }">
-          <h2 class="text-h4 white--text font-weight-medium">
-            <v-flex class="float-left">
-              <v-img contain src="/logo.svg" width="250" />
-            </v-flex>
-            <v-flex class="float-left ml-2 login__font"> 容器云平台 </v-flex>
-            <div class="kubegems__clear-float" />
-          </h2>
-          <div class="mt-4 white--text" :style="{ width: '700px', lineHeight: '1.5', fontSize: '1.1rem' }">
-            KubeGems 是一款开源的企业级多租户容器云平台。围绕云原生社区， KubeGems 提供了多 Kubernetes
-            集群接入能力，并具备丰富的组件管理和资源成本分析功能，
-            能够帮助企业快速的构建和打造一个本地化、功能强大且低成本的云管理平台。
-          </div>
+    <div
+      class="login__second d-flex primary"
+      :style="{ height: `${height}px !important`, display: `${vertical ? 'none !important' : ''}` }"
+    >
+      <div class="info align-center justify-start">
+        <div
+          :class="{ login__second__logo: true, login__second__logo__ani: !SelfOut }"
+          :style="{
+            top: `${SelfOut ? '40%' : ''}`,
+            left: `${SelfOut ? '43%' : ''}`,
+            transform: `${SelfOut ? 'none' : ''}`,
+          }"
+        >
+          <v-img
+            :class="{ login__second__logo__img__ani: !SelfOut }"
+            contain
+            src="/logo.svg"
+            :width="`${SelfOut ? '250px' : '400px'}`"
+          />
         </div>
-      </v-col>
-      <v-col class="d-flex align-center" cols="12" lg="5" style="position: relative">
-        <v-container>
-          <div class="pa-7 pa-sm-12">
-            <v-row>
-              <v-col class="login" cols="12" lg="9" xl="6">
-                <h2 class="font-weight-bold mt-4 blue-grey--text text--darken-2">
-                  用户登录
-                  <v-btn v-if="ldap" class="float-right mt-1" color="primary" small text @click="toDefaultLogin">
-                    返回
-                  </v-btn>
-                  <div class="kubegems__clear-float" />
-                </h2>
-                <v-form ref="loginForm" v-model="valid" action="/" lazy-validation>
-                  <v-text-field
-                    v-model="username"
-                    class="mt-4"
-                    label="用户名"
-                    outlined
-                    required
-                    :rules="usernameRules"
-                    @keyup.enter="login(source)"
-                  />
-                  <v-text-field
-                    v-model="password"
-                    :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-                    :counter="20"
-                    label="密码"
-                    outlined
-                    required
-                    :rules="passwordRules"
-                    :type="show ? 'text' : 'password'"
-                    @click:append="show = !show"
-                    @keyup.enter="login(source)"
-                  />
+        <!-- <v-flex class="float-left ml-2 login__font"> 容器云平台 </v-flex> -->
 
-                  <v-btn
-                    block
-                    class="mr-4"
-                    color="info"
-                    :disabled="!valid"
-                    :loading="Circular"
-                    submit
-                    @click="login(source)"
+        <div
+          :class="{ 'mt-4': true, 'white--text': true, login__second__desc: true, login__second__desc__ani: !SelfOut }"
+          :style="{ opacity: `${SelfOut ? 1 : 0}` }"
+        >
+          KubeGems 是一款开源的企业级多租户容器云平台。围绕云原生社区， KubeGems 提供了多 Kubernetes
+          集群接入能力，并具备丰富的组件管理和资源成本分析功能，
+          能够帮助企业快速的构建和打造一个本地化、功能强大且低成本的云管理平台。
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="login__third d-flex align-center"
+      :style="{ height: `${height}px !important`, width: `${vertical ? '100vw' : ''}` }"
+    >
+      <v-container>
+        <div class="pa-7 pa-sm-12">
+          <v-row>
+            <v-col class="login" cols="12" lg="9" xl="6">
+              <h2 class="font-weight-bold mt-4 blue-grey--text text--darken-2">
+                用户登录
+                <v-btn v-if="ldap" class="float-right mt-1" color="primary" small text @click="toDefaultLogin">
+                  返回
+                </v-btn>
+                <div class="kubegems__clear-float" />
+              </h2>
+              <v-form ref="loginForm" v-model="valid" action="/" lazy-validation>
+                <v-text-field
+                  v-model="username"
+                  class="mt-4"
+                  label="用户名"
+                  outlined
+                  required
+                  :rules="usernameRules"
+                  @keyup.enter="login(source)"
+                />
+                <v-text-field
+                  v-model="password"
+                  :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                  :counter="20"
+                  label="密码"
+                  outlined
+                  required
+                  :rules="passwordRules"
+                  :type="show ? 'text' : 'password'"
+                  @click:append="show = !show"
+                  @keyup.enter="login(source)"
+                />
+
+                <v-btn
+                  block
+                  class="mr-4"
+                  color="info"
+                  :disabled="!valid"
+                  :loading="Circular"
+                  submit
+                  @click="login(source)"
+                >
+                  {{ ldap ? $VENDOR[vendor] : '' }} 登录
+                </v-btn>
+              </v-form>
+              <div v-if="enableOauthItems && enableOauthItems.length > 0 && !ldap" class="mt-5">
+                <div class="login__divide">其他登录方式</div>
+                <div class="mt-4 text-center">
+                  <v-avatar
+                    v-for="(item, index) in enableOauthItems"
+                    :key="index"
+                    class="mr-3 kubegems__pointer"
+                    height="40"
+                    left
+                    min-width="40"
+                    width="40"
+                    @click="oauth(item)"
                   >
-                    {{ ldap ? $VENDOR[vendor] : '' }} 登录
-                  </v-btn>
-                </v-form>
-                <div v-if="enableOauthItems && enableOauthItems.length > 0 && !ldap" class="mt-5">
-                  <div class="login__divide">其他登录方式</div>
-                  <div class="mt-4 text-center">
-                    <v-avatar
-                      v-for="(item, index) in enableOauthItems"
-                      :key="index"
-                      class="mr-3 kubegems__pointer"
-                      height="40"
-                      left
-                      min-width="40"
-                      width="40"
-                      @click="oauth(item)"
-                    >
-                      <BaseLogo
-                        class="primary--text logo__logo"
-                        :icon-name="item.vendor.toLocaleLowerCase()"
-                        :ml="0"
-                        :width="40"
-                      />
-                    </v-avatar>
-                  </div>
+                    <BaseLogo
+                      class="primary--text logo__logo"
+                      :icon-name="item.vendor.toLocaleLowerCase()"
+                      :ml="0"
+                      :width="40"
+                    />
+                  </v-avatar>
                 </div>
-              </v-col>
-            </v-row>
-          </div>
-          <h6 class="px-12 text-body-2 mt-4 pb-4 login__copyright font-weight-medium kubegems__text">
-            © 2021 — KubeGems by Kubegems.io
-          </h6>
-        </v-container>
-      </v-col>
-    </v-row>
+              </div>
+            </v-col>
+          </v-row>
+        </div>
+      </v-container>
+      <h6 class="px-12 text-body-2 mt-4 login__copyright font-weight-medium kubegems__text">
+        © 2021 — KubeGems by Kubegems.io
+      </h6>
+    </div>
   </div>
 </template>
 
@@ -140,12 +161,15 @@
       ...mapState(['JWT', 'Circular', 'Admin', 'AdminViewport', 'Scale', 'SelfOut']),
       ...mapGetters(['Environment', 'Project', 'Tenant', 'Cluster']),
       height() {
-        return window.innerHeight / this.Scale + 12;
+        return window.innerHeight;
       },
       enableOauthItems() {
         return this.oauthItems.filter((item) => {
           return item.enabled;
         });
+      },
+      vertical() {
+        return window.innerHeight > window.innerWidth;
       },
     },
     mounted() {
@@ -249,26 +273,121 @@
 
 <style lang="scss" scoped>
   .page {
-    width: 200%;
+    width: 240vw;
     position: absolute;
     left: 0;
     overflow: hidden;
 
     &__ani {
       animation-name: slide-out;
-      animation-duration: 0.8s;
+      animation-duration: 1.5s;
       animation-timing-function: cubic-bezier(0.5);
-      animation-delay: 3s;
+      animation-delay: 2s;
       animation-fill-mode: forwards;
+    }
+  }
+
+  @keyframes slide-out {
+    0% {
+      left: 0;
+    }
+    50% {
+      left: -100vw;
+    }
+    75% {
+      left: -100vw;
+    }
+    100% {
+      left: -140vw;
+    }
+  }
+
+  @keyframes position-small {
+    0% {
+      top: 50%;
+      left: 50%;
+    }
+    100% {
+      top: 40%;
+      left: 43%;
+      transform: none;
+    }
+  }
+
+  @keyframes img-small {
+    0% {
+      width: 400px;
+    }
+    100% {
+      width: 250px;
+    }
+  }
+
+  @keyframes desc-show {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
     }
   }
 
   .login {
     margin: auto;
 
-    &__row {
+    &__second {
       float: left;
-      width: 50%;
+      width: 100vw;
+      position: relative;
+
+      &__logo {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+
+        &__ani {
+          animation-name: position-small;
+          animation-duration: 0.5s;
+          animation-timing-function: cubic-bezier(0.5);
+          animation-delay: 3.1s;
+          animation-fill-mode: forwards;
+        }
+
+        &__img {
+          &__ani {
+            animation-name: img-small;
+            animation-duration: 0.5s;
+            animation-timing-function: cubic-bezier(0.5);
+            animation-delay: 3.1s;
+            animation-fill-mode: forwards;
+          }
+        }
+      }
+
+      &__desc {
+        width: 55%;
+        line-height: 1.5;
+        font-size: 1rem;
+        position: absolute;
+        left: 43%;
+        top: 48%;
+        opacity: 0;
+
+        &__ani {
+          animation-name: desc-show;
+          animation-duration: 0.5s;
+          animation-timing-function: cubic-bezier(0.5);
+          animation-delay: 3.1s;
+          animation-fill-mode: forwards;
+        }
+      }
+    }
+
+    &__third {
+      float: left;
+      width: 40vw;
+      position: relative;
     }
 
     &__logo {
@@ -311,15 +430,6 @@
       &::after {
         margin-left: 0.25rem;
       }
-    }
-  }
-
-  @keyframes slide-out {
-    0% {
-      left: 0;
-    }
-    100% {
-      left: -100%;
     }
   }
 </style>

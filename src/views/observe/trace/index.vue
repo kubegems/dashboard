@@ -2,8 +2,9 @@
   <v-container class="search" fluid>
     <BaseBreadcrumb>
       <template #extend>
-        <v-flex class="kubegems__full-right" :style="{ width: `${traceIdSearchWidth}px` }">
-          <div class="float-left search__label">TraceId</div>
+        <v-flex class="kubegems__full-right">
+          <ProjectEnvSelect :tenant="tenant" @refreshEnvironemnt="refreshEnvironemnt" />
+          <div class="text-subtitle-2 float-left font-weight-medium kubegems__text search__label">TraceId</div>
           <v-text-field
             v-model="traceid"
             dense
@@ -12,6 +13,7 @@
             hide-details
             prepend-inner-icon="mdi-magnify"
             solo
+            :style="{ width: `${traceIdSearchWidth}px` }"
             @blur="traceIdSearchWidth = 250"
             @focus="traceIdSearchWidth = 500"
             @keyup="searchByTraceId"
@@ -21,7 +23,6 @@
     </BaseBreadcrumb>
     <v-card class="search__main" :height="height">
       <div class="search__header">
-        <ClusterSelect v-model="cluster" auto-select-first />
         <v-btn v-if="location === 'trace'" class="float-right" color="primary" small text @click="onBack">
           <v-icon left small> fas fa-share-square </v-icon>
           返回
@@ -43,15 +44,15 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
+  import { mapGetters, mapState } from 'vuex';
 
   import BasePermission from '@/mixins/permission';
-  import ClusterSelect from '@/views/observe/components/ClusterSelect';
+  import ProjectEnvSelect from '@/views/observe/components/ProjectEnvSelect';
 
   export default {
     name: 'TraceSearch',
     components: {
-      ClusterSelect,
+      ProjectEnvSelect,
     },
     mixins: [BasePermission],
     data() {
@@ -65,10 +66,12 @@
         traceid: '',
         traceIdSearchWidth: 250,
         missingPlugins: [],
+        tenant: null,
       };
     },
     computed: {
       ...mapState(['Scale']),
+      ...mapGetters(['Tenant']),
       src() {
         if (this.isTraceId) {
           return `/api/v1/service-proxy/cluster/${this.cluster}/namespace/observability/service/jaeger-query/port/16686/trace/${this.traceid}?uiEmbed=v0`;
@@ -99,7 +102,16 @@
       },
     },
     mounted() {
-      this.$store.commit('SET_PROGRESS', true);
+      this.$nextTick(() => {
+        if (!this.Tenant().ID) {
+          this.$store.commit('SET_SNACKBAR', {
+            text: '暂未选择租户',
+            color: 'warning',
+          });
+          return;
+        }
+        this.tenant = this.Tenant();
+      });
     },
     beforeDestroy() {
       clearTimeout(this.timer);
@@ -111,6 +123,9 @@
         this.$store.commit('SET_PROGRESS', false);
         clearTimeout(this.timer);
         this.setLocation();
+      },
+      refreshEnvironemnt(env) {
+        this.cluster = env.clusterName;
       },
       searchByTraceId(e) {
         if (e.keyCode === 13) {

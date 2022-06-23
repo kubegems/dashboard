@@ -389,7 +389,7 @@
             showForNullSeries: false,
           },
           noData: {
-            text: this.Plugins['monitoring'] ? '暂无数据' : '插件monitoring未启用',
+            text: '暂无数据',
             offsetY: this.noDataOffsetY,
             style: {
               fontSize: '13px',
