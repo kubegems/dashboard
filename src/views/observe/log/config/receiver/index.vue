@@ -144,7 +144,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import { getReceiverList, deleteReceiver } from '@/api';
+  import { deleteReceiver, getReceiverList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

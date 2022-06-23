@@ -37,7 +37,7 @@
 <script>
   import { mapState } from 'vuex';
 
-  import { getSystemConfigData, getMyConfigData } from '@/api';
+  import { getMyConfigData, getSystemConfigData } from '@/api';
 
   export default {
     name: 'MetricsList',

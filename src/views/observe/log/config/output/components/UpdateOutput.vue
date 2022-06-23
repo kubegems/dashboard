@@ -29,9 +29,9 @@
 
   import OutputSchema from '../mixins/schema';
   import OutputBaseForm from './OutputBaseForm';
-  import { patchOutputData, patchClusterOutputData, getClusterOutputDetailData, getOutputDetailData } from '@/api';
+  import { getClusterOutputDetailData, getOutputDetailData, patchClusterOutputData, patchOutputData } from '@/api';
   import BaseResource from '@/mixins/resource';
-  import { randomString, deepCopy } from '@/utils/helpers';
+  import { deepCopy, randomString } from '@/utils/helpers';
 
   export default {
     name: 'UpdateOutput',

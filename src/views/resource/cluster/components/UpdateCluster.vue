@@ -42,7 +42,7 @@
   import { mapState } from 'vuex';
 
   import ClusterBaseForm from './ClusterBaseForm';
-  import { putUpdateCluster, getClusterDetail } from '@/api';
+  import { getClusterDetail, putUpdateCluster } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';

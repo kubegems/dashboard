@@ -90,7 +90,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import { getTenantUserList, deleteTenantUser, postAddTenantUser, userSelectData } from '@/api';
+  import { deleteTenantUser, getTenantUserList, postAddTenantUser, userSelectData } from '@/api';
   import BaseSelect from '@/mixins/select';
 
   export default {

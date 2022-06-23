@@ -71,7 +71,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import { getPrometheusBlackList, deletePrometheusBlacklist } from '@/api';
+  import { deletePrometheusBlacklist, getPrometheusBlackList } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { deleteEmpty } from '@/utils/helpers';
   import ProjectEnvSelect from '@/views/observe/components/ProjectEnvSelect';

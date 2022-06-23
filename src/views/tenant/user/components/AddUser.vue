@@ -29,7 +29,7 @@
   import { mapState } from 'vuex';
 
   import { postAddUser } from '@/api';
-  import { required, email, password } from '@/utils/rules';
+  import { email, password, required } from '@/utils/rules';
 
   export default {
     name: 'AddUser',

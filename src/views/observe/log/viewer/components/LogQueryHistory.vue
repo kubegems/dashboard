@@ -58,7 +58,7 @@
 <script>
   import { mapGetters } from 'vuex';
 
-  import { getLogQueryHistoryList, deleteLogQueryHistory } from '@/api';
+  import { deleteLogQueryHistory, getLogQueryHistoryList } from '@/api';
   import BaseSelect from '@/mixins/select';
   import ProjectEnvSelect from '@/views/observe/components/ProjectEnvSelect';
 

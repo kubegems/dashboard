@@ -130,7 +130,7 @@
 
   import AddPeerAuthentication from './components/AddPeerAuthentication';
   import UpdatePeerAuthentication from './components/UpdatePeerAuthentication';
-  import { getIstioPeerAuthenticationList, deleteIstioPeerAuthentication } from '@/api';
+  import { deleteIstioPeerAuthentication, getIstioPeerAuthenticationList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

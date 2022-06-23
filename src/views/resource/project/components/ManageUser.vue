@@ -83,7 +83,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import { getTenantUserList, getProjectUserList, deleteProjectUser, postAddProjectUser } from '@/api';
+  import { deleteProjectUser, getProjectUserList, getTenantUserList, postAddProjectUser } from '@/api';
   import BaseSelect from '@/mixins/select';
 
   export default {

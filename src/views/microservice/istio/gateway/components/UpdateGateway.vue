@@ -12,7 +12,7 @@
 <script>
   import { mapState } from 'vuex';
 
-  import { patchUpdateIstioGateway, getIstioGatewayDetail } from '@/api';
+  import { getIstioGatewayDetail, patchUpdateIstioGateway } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
   import IstioGatewaySchema from '@/views/microservice/istio/gateway/mixins/schema';

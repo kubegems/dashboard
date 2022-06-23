@@ -24,10 +24,7 @@ module.exports = defineConfig({
   settings: {
     'import/resolver': {
       alias: {
-        map: [
-          ['@', './src'],
-          ['vue-code-diff', './node_modules/vue-code-diff/dist/vue-code-diff.js'],
-        ],
+        map: [['@', './src']],
         extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.vue', '.scss', '.css'],
       },
     },
@@ -187,6 +184,7 @@ module.exports = defineConfig({
         },
       },
     ],
+    'sort-vars': ['error'],
 
     'vue/no-template-shadow': ['off'],
     'vue/multi-word-component-names': ['off'],

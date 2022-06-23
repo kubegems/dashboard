@@ -15,7 +15,7 @@
 <script>
   import { mapState } from 'vuex';
 
-  import { patchUpdateStorageClass, getStorageClassDetail } from '@/api';
+  import { getStorageClassDetail, patchUpdateStorageClass } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 

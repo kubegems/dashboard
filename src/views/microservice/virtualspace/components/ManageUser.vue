@@ -91,10 +91,10 @@
   import { mapGetters, mapState } from 'vuex';
 
   import {
-    getVirtualSpaceUserList,
     deleteVirtualSpaceUser,
-    postAddVirtualSpaceUser,
     getVirtualSpaceEnvironmentUser,
+    getVirtualSpaceUserList,
+    postAddVirtualSpaceUser,
   } from '@/api';
   import BaseSelect from '@/mixins/select';
 

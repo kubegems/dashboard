@@ -116,7 +116,7 @@
 
   import AddApp from './components/AddApp';
   import UpdateApp from './components/UpdateApp';
-  import { getAllManifest, getManifestList, deleteManifest } from '@/api';
+  import { deleteManifest, getAllManifest, getManifestList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

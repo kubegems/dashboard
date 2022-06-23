@@ -229,7 +229,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import { getMicroAppWorkoladList, putInjectSideCarToMicroAppWorkolad, getPodList } from '@/api';
+  import { getMicroAppWorkoladList, getPodList, putInjectSideCarToMicroAppWorkolad } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

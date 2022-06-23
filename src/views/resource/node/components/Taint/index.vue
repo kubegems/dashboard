@@ -46,7 +46,7 @@
   import { mapGetters } from 'vuex';
 
   import AddTaint from './AddTaint';
-  import { patchTaintNode, getNodeDetail } from '@/api';
+  import { getNodeDetail, patchTaintNode } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 

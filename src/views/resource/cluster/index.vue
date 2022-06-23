@@ -72,7 +72,7 @@
 
   import AddCluster from './components/AddCluster';
   import UpdateCluster from './components/UpdateCluster';
-  import { getClusterList, deleteCluster, getClusterStatus } from '@/api';
+  import { deleteCluster, getClusterList, getClusterStatus } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import Terminal from '@/views/resource/components/common/Terminal';

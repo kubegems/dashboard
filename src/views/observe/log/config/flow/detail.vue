@@ -59,7 +59,7 @@
 
   import ResourceInfo from './components/ResourceInfo';
   import UpdateFlow from './components/UpdateFlow';
-  import { getFlowDetailData, getClusterFlowDetailData, deleteClusterFlowData, deleteFlowData } from '@/api';
+  import { deleteClusterFlowData, deleteFlowData, getClusterFlowDetailData, getFlowDetailData } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
   import ResourceYaml from '@/views/resource/components/common/ResourceYaml';

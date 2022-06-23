@@ -13,7 +13,7 @@
 <script>
   import { mapState } from 'vuex';
 
-  import { postApprovePass, postApproveReject, getTenantResourceQuota } from '@/api';
+  import { getTenantResourceQuota, postApprovePass, postApproveReject } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
   import ResourceBaseForm from '@/views/tenant/tenant/components/ResourceList/ResourceBaseForm';

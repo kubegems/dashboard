@@ -65,7 +65,7 @@
 
   import ResourceInfo from './components/ResourceInfo';
   import UpdateService from './components/UpdateService';
-  import { getServiceDetail, deleteService } from '@/api';
+  import { deleteService, getServiceDetail } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';

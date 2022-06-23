@@ -159,7 +159,7 @@
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import BaseTable from '@/mixins/table';
-  import { sizeOfStorage, sizeOfCpu, deepCopy } from '@/utils/helpers';
+  import { deepCopy, sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
 
   export default {
     name: 'Environment',

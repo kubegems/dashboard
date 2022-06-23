@@ -123,7 +123,7 @@
 
   import AddServiceMonitor from './components/AddServiceMonitor';
   import UpdateServiceMonitor from './components/UpdateServiceMonitor';
-  import { getServiceMonitorList, deleteServiceMonitor } from '@/api';
+  import { deleteServiceMonitor, getServiceMonitorList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

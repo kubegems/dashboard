@@ -34,7 +34,7 @@
 
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
-  import { PVC_USAGE_PROMQL, PVC_USAGE_INODE_PROMQL } from '@/utils/prometheus';
+  import { PVC_USAGE_INODE_PROMQL, PVC_USAGE_PROMQL } from '@/utils/prometheus';
 
   export default {
     name: 'PersistentVolumeClaimMonitor',

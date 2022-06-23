@@ -12,7 +12,7 @@
 <script>
   import { mapState } from 'vuex';
 
-  import { patchUpdateIstioSidecar, getIstioSidecarDetail } from '@/api';
+  import { getIstioSidecarDetail, patchUpdateIstioSidecar } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
   import IstioSidecarSchema from '@/views/microservice/istio/sidecar/mixins/schema';

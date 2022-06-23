@@ -69,7 +69,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import { getLogQuerySnapshotList, deleteLogQuerySnapshot } from '@/api';
+  import { deleteLogQuerySnapshot, getLogQuerySnapshotList } from '@/api';
   import BaseSelect from '@/mixins/select';
   import ProjectEnvSelect from '@/views/observe/components/ProjectEnvSelect';
 

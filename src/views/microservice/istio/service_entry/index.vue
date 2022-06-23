@@ -139,7 +139,7 @@
 
   import AddServiceEntry from './components/AddServiceEntry';
   import UpdateServiceEntry from './components/UpdateServiceEntry';
-  import { getIstioServiceEntryList, deleteIstioServiceEntry } from '@/api';
+  import { deleteIstioServiceEntry, getIstioServiceEntryList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

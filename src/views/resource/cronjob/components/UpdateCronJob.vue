@@ -63,7 +63,7 @@
   import { mapState } from 'vuex';
 
   import CronjobBaseForm from './CronjobBaseForm';
-  import { patchUpdateCronJob, getCronJobDetail } from '@/api';
+  import { getCronJobDetail, patchUpdateCronJob } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';
   import CronjobSchema from '@/views/resource/cronjob/mixins/schema';

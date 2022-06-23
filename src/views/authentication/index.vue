@@ -136,7 +136,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import { postLogin, getLoginUserInfo, getLoginUserAuth, getOauthAddr, getSystemAuthSource } from '@/api';
+  import { getLoginUserAuth, getLoginUserInfo, getOauthAddr, getSystemAuthSource, postLogin } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseSelect from '@/mixins/select';
   import { validateJWT } from '@/utils/helpers';

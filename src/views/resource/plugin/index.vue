@@ -122,7 +122,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import { getClusterPluginsList, postEnablePlugin, postDisablePlugin, getPlatformVersion } from '@/api';
+  import { getClusterPluginsList, getPlatformVersion, postDisablePlugin, postEnablePlugin } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
 

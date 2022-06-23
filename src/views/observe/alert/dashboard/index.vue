@@ -41,7 +41,7 @@
 </template>
 
 <script>
-  import { mapState, mapGetters } from 'vuex';
+  import { mapGetters, mapState } from 'vuex';
 
   import AlertCategoryBar from './components/AlertCategoryBar';
   import AlertHistoryLine from './components/AlertHistoryLine';

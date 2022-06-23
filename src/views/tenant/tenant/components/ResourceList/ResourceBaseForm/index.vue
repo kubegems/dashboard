@@ -159,7 +159,7 @@
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
-  import { required, integer } from '@/utils/rules';
+  import { integer, required } from '@/utils/rules';
 
   export default {
     name: 'ResourceBaseForm',

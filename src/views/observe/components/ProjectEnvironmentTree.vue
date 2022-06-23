@@ -38,7 +38,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import { getProjectList, getProjectEnvironmentList, getAllProjectList } from '@/api';
+  import { getAllProjectList, getProjectEnvironmentList, getProjectList } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { SERVICE_MONITOR_NS } from '@/utils/namespace';
 

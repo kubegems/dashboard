@@ -47,7 +47,7 @@
 </template>
 
 <script>
-  import { mapState, mapGetters } from 'vuex';
+  import { mapGetters, mapState } from 'vuex';
 
   import { getStrategyDeployStatus, postStrategyDeployEnvironmentAppsControl } from '@/api';
   import BaseResource from '@/mixins/resource';

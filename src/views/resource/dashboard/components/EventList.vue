@@ -140,7 +140,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import { getEventListFromLoki, getClusterPluginsList } from '@/api';
+  import { getClusterPluginsList, getEventListFromLoki } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
 

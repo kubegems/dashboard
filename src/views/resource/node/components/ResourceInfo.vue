@@ -179,7 +179,7 @@
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import { generateRadialBarChartOptions } from '@/utils/chart';
-  import { sizeOfStorage, sizeOfCpu, deepCopy } from '@/utils/helpers';
+  import { deepCopy, sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
   import { NODE_ONE_POD_RUNNING_COUNT_PROMQL } from '@/utils/prometheus';
 
   export default {

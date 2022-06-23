@@ -111,7 +111,7 @@
 
   import RepositoryInfo from './components/RepositoryInfo';
   import StatusTip from './components/StatusTip';
-  import { getRepositoryList, deleteRepository, postSyncRepository } from '@/api';
+  import { deleteRepository, getRepositoryList, postSyncRepository } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';

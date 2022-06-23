@@ -74,6 +74,7 @@
             </div>
             <BaseApexAreaChart
               :id="`c${index}`"
+              :key="`c${index}${tab}`"
               chart-type="line"
               :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
               :extend-height="300"
@@ -127,7 +128,7 @@
 </template>
 
 <script>
-  import { mapState, mapGetters } from 'vuex';
+  import { mapGetters, mapState } from 'vuex';
 
   import AddDashboard from './components/AddDashboard';
   import AddGraph from './components/AddGraph';
@@ -135,12 +136,12 @@
   import UpdateDashboard from './components/UpdateDashboard';
   import UpdateGraph from './components/UpdateGraph';
   import {
-    getMonitorDashboardList,
-    getMetricsQueryrange,
     deleteMonitorDashboard,
-    putUpdateMonitorDashboard,
-    getSystemConfigData,
+    getMetricsQueryrange,
+    getMonitorDashboardList,
     getMyConfigData,
+    getSystemConfigData,
+    putUpdateMonitorDashboard,
   } from '@/api';
   import BasePermission from '@/mixins/permission';
   import ProjectEnvSelect from '@/views/observe/components/ProjectEnvSelect';

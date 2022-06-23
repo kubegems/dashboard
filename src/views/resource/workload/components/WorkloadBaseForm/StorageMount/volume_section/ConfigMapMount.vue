@@ -77,7 +77,7 @@
 <script>
   import VolumeMount from './VolumeMount';
   import VolumeMountForInitContainer from './VolumeMountForInitContainer';
-  import { getConfigMapList, getConfigMapDetail, getAppResourceFileMetas } from '@/api';
+  import { getAppResourceFileMetas, getConfigMapDetail, getConfigMapList } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';

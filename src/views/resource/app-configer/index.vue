@@ -120,7 +120,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import { listConfigItems, pubConfigItems, delConfigItems } from './api/index.js';
+  import { delConfigItems, listConfigItems, pubConfigItems } from './api/index.js';
   import ConfigEditor from './components/ConfigEditor';
   import DeleteItem from './components/DeleteItem';
   import HistoryView from './components/HistoryView';
