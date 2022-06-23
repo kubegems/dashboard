@@ -1,11 +1,10 @@
 <template>
   <BaseFullScreenDialog v-model="visible" icon="mdi-history" title="查询历史" @dispose="handleDispose">
+    <template #action>
+      <ProjectEnvSelect reverse :tenant="tenant" @refreshEnvironemnt="refreshEnvironemnt" />
+    </template>
     <template #content>
       <v-card v-if="visible" class="log-history">
-        <div class="pa-4">
-          <ClusterSelect v-model="cluster" auto-select-first object-value @change="onClusterChange" />
-        </div>
-
         <v-data-table
           class="px-4"
           :headers="headers"
@@ -57,14 +56,16 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex';
+
   import { getLogQueryHistoryList, deleteLogQueryHistory } from '@/api';
   import BaseSelect from '@/mixins/select';
-  import ClusterSelect from '@/views/observe/components/ClusterSelect';
+  import ProjectEnvSelect from '@/views/observe/components/ProjectEnvSelect';
 
   export default {
     name: 'LogHistory',
     components: {
-      ClusterSelect,
+      ProjectEnvSelect,
     },
     mixins: [BaseSelect],
     inject: ['reload'],
@@ -81,12 +82,14 @@
 
       return {
         visible: false,
-        cluster: {},
+        clusterid: undefined,
         items: [],
         namespace: '',
+        tenant: null,
       };
     },
     computed: {
+      ...mapGetters(['Tenant']),
       env() {
         const env = this.m_select_environmentItems.find((e) => {
           return e.value === this.namespace;
@@ -98,10 +101,11 @@
       show() {
         this.visible = true;
         this.m_select_environmentSelectData();
+        this.tenant = this.Tenant();
       },
 
       async getHistoryList() {
-        const data = await getLogQueryHistoryList(this.cluster.value);
+        const data = await getLogQueryHistoryList(this.clusterid);
         this.items = (data || []).map((item) => {
           return {
             ...item,
@@ -110,11 +114,10 @@
           };
         });
       },
-
-      onClusterChange() {
+      refreshEnvironemnt(env) {
+        this.clusterid = env.clusterid;
         this.getHistoryList();
       },
-
       handleParseLabel(input) {
         const labelMatchArr = input.match(new RegExp('{(.*)}'));
         if (labelMatchArr && labelMatchArr.length > 1) {

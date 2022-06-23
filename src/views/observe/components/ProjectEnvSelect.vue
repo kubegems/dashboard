@@ -1,7 +1,13 @@
 <template>
   <div class="float-left">
-    <v-sheet class="text-subtitle-2 float-left font-weight-medium kubegems__text sheet__line"> 项目 </v-sheet>
-    <v-sheet class="text-body-2 float-left text--darken-1 sheet__menu__line">
+    <v-sheet
+      :class="`text-subtitle-2 ml-4 float-left font-weight-medium ${
+        reverse ? 'sheet__reverse__line white--text primary' : 'sheet__line kubegems__text'
+      }`"
+    >
+      项目
+    </v-sheet>
+    <v-sheet :class="`text-body-2 float-left text--darken-1 ${reverse || 'sheet__menu__line'}`">
       <v-menu
         v-model="projectMenu"
         bottom
@@ -15,7 +21,14 @@
         transition="scale-transition"
       >
         <template #activator="{ on }">
-          <v-btn class="primary--text font-weight-medium" color="white" dark depressed small v-on="on">
+          <v-btn
+            :class="`${reverse ? 'white--text' : 'primary--text'} font-weight-medium`"
+            :color="reverse ? 'primary rounded-0' : 'white'"
+            dark
+            depressed
+            small
+            v-on="on"
+          >
             {{ projectName }}
             <v-icon v-if="projectMenu" right> fas fa-angle-up </v-icon>
             <v-icon v-else right> fas fa-angle-down </v-icon>
@@ -53,8 +66,14 @@
       </v-menu>
     </v-sheet>
 
-    <v-sheet class="text-subtitle-2 ml-4 float-left font-weight-medium kubegems__text sheet__line"> 环境 </v-sheet>
-    <v-sheet class="text-body-2 float-left text--darken-1 sheet__menu__line">
+    <v-sheet
+      :class="`text-subtitle-2 ml-4 float-left font-weight-medium ${
+        reverse ? 'sheet__reverse__line white--text primary' : 'sheet__line kubegems__text'
+      }`"
+    >
+      环境
+    </v-sheet>
+    <v-sheet :class="`text-body-2 float-left text--darken-1 ${reverse || 'sheet__menu__line'}`">
       <v-menu
         v-model="environmentMenu"
         bottom
@@ -68,7 +87,14 @@
         transition="scale-transition"
       >
         <template #activator="{ on }">
-          <v-btn class="primary--text font-weight-medium" color="white" dark depressed small v-on="on">
+          <v-btn
+            :class="`${reverse ? 'white--text' : 'primary--text'} font-weight-medium`"
+            :color="reverse ? 'primary rounded-0' : 'white'"
+            dark
+            depressed
+            small
+            v-on="on"
+          >
             {{ environmentName }}
             <v-icon v-if="environmentMenu" right> fas fa-angle-up </v-icon>
             <v-icon v-else right> fas fa-angle-down </v-icon>
@@ -107,8 +133,14 @@
     </v-sheet>
 
     <template v-if="showPod">
-      <v-sheet class="text-subtitle-2 ml-4 float-left font-weight-medium kubegems__text sheet__line"> 容器组 </v-sheet>
-      <v-sheet class="text-body-2 float-left text--darken-1 sheet__menu__line">
+      <v-sheet
+        :class="`text-subtitle-2 ml-4 float-left font-weight-medium ${
+          reverse ? 'sheet__reverse__line white--text primary' : 'sheet__line kubegems__text'
+        }`"
+      >
+        容器组
+      </v-sheet>
+      <v-sheet :class="`text-body-2 float-left text--darken-1 ${reverse || 'sheet__menu__line'}`">
         <v-menu
           v-model="podMenu"
           bottom
@@ -122,7 +154,14 @@
           transition="scale-transition"
         >
           <template #activator="{ on }">
-            <v-btn class="primary--text font-weight-medium" color="white" dark depressed small v-on="on">
+            <v-btn
+              :class="`${reverse ? 'white--text' : 'primary--text'} font-weight-medium`"
+              :color="reverse ? 'primary rounded-0' : 'white'"
+              dark
+              depressed
+              small
+              v-on="on"
+            >
               {{ podName }}
               <v-icon v-if="podMenu" right> fas fa-angle-up </v-icon>
               <v-icon v-else right> fas fa-angle-down </v-icon>
@@ -171,13 +210,17 @@
     name: 'ProjectEnvSelect',
     mixins: [BaseSelect],
     props: {
-      tenant: {
-        type: Object,
-        default: () => null,
+      reverse: {
+        type: Boolean,
+        default: () => false,
       },
       showPod: {
         type: Boolean,
         default: () => false,
+      },
+      tenant: {
+        type: Object,
+        default: () => null,
       },
     },
     data() {
@@ -263,6 +306,11 @@
     &__line {
       line-height: 40px;
     }
+
+    &__reverse__line {
+      line-height: 30px;
+    }
+
     &__menu {
       &__line {
         line-height: 34px;

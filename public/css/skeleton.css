@@ -3,7 +3,7 @@
   height: 100vh;
   position: relative;
   float: left;
-  width: 50%;
+  width: 100vw;
 }
 
 .skeleton__max {
@@ -121,17 +121,6 @@
   width: 50%;
 }
 
-.skeleton__loading__left__ani {
-  animation-name: loading-left;
-  animation-duration: 0.7s;
-  animation-timing-function: ease-in-out;
-  animation-delay: 1.3s;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-  position: absolute;
-  right: 0;
-}
-
 .skeleton__loading__left__ani_start {
   animation-name: loading-left;
   animation-duration: 0.7s;
@@ -147,17 +136,6 @@
   float: right;
   position: relative;
   width: 50%;
-}
-
-.skeleton__loading__right__ani {
-  animation-name: loading-right;
-  animation-duration: 0.7s;
-  animation-timing-function: ease-in-out;
-  animation-delay: 1.3s;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-  position: absolute;
-  left: 0;
 }
 
 .skeleton__loading__right__ani_start {

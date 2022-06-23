@@ -1,21 +1,9 @@
 <template>
   <BaseFullScreenDialog v-model="visible" icon="mdi-camera" title="查看快照" @dispose="handleDispose">
+    <template #action>
+      <ProjectEnvSelect reverse :tenant="tenant" @refreshEnvironemnt="refreshEnvironemnt" />
+    </template>
     <template #content>
-      <v-card flat>
-        <v-card-text class="pl-4 py-1">
-          <v-row class="my-1 pa-1">
-            <v-col class="pa-1 pl-2" cols="12">
-              <ClusterSelect
-                v-model="cluster"
-                auto-select-first
-                mode="default"
-                object-value
-                @change="onClusterChange"
-              />
-            </v-col>
-          </v-row>
-        </v-card-text>
-      </v-card>
       <v-card class="mt-3" flat>
         <v-data-table
           class="px-4"
@@ -79,16 +67,16 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
+  import { mapGetters, mapState } from 'vuex';
 
   import { getLogQuerySnapshotList, deleteLogQuerySnapshot } from '@/api';
   import BaseSelect from '@/mixins/select';
-  import ClusterSelect from '@/views/observe/components/ClusterSelect';
+  import ProjectEnvSelect from '@/views/observe/components/ProjectEnvSelect';
 
   export default {
     name: 'LogSnapshot',
     components: {
-      ClusterSelect,
+      ProjectEnvSelect,
     },
     mixins: [BaseSelect],
     data: () => ({
@@ -108,10 +96,12 @@
         page: 1,
         size: 10,
       },
-      cluster: {},
+      clusterid: undefined,
+      tenant: null,
     }),
     computed: {
       ...mapState(['Progress', 'JWT']),
+      ...mapGetters(['Tenant']),
     },
     async mounted() {
       if (this.JWT) {
@@ -121,12 +111,16 @@
     methods: {
       show() {
         this.visible = true;
-        this.m_select_environmentSelectData();
+        this.tenant = this.Tenant();
       },
       async logQuerySnapshotList() {
-        const data = await getLogQuerySnapshotList(this.cluster.value, this.params);
+        const data = await getLogQuerySnapshotList(this.clusterid, this.params);
         this.items = data.List;
         this.pageCount = Math.ceil(data.Total / data.CurrentSize);
+      },
+      refreshEnvironemnt(env) {
+        this.clusterid = env.clusterid;
+        this.logQuerySnapshotList();
       },
       removeLogQuerySnapshot(item) {
         this.$store.commit('SET_CONFIRM', {
@@ -166,9 +160,6 @@
         });
       },
       refresh() {
-        this.logQuerySnapshotList();
-      },
-      onClusterChange() {
         this.logQuerySnapshotList();
       },
       onPageSizeChange(size) {

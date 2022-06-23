@@ -130,19 +130,9 @@
         type: Boolean,
         default: false,
       },
-      // 值改变时是否自动映射到query
-      valueChangeToQuery: {
-        type: Boolean,
-        default: false,
-      },
-      // 数据格式化
-      valueFormat: {
-        type: String,
-        default: 'timestamp',
-      },
-      value: {
-        type: Array,
-        default: () => [],
+      offsetY: {
+        type: Number,
+        default: 0,
       },
       // 关闭卡片式还原状态
       onCloseRestoreState: {
@@ -164,9 +154,19 @@
         type: Boolean,
         default: true,
       },
-      offsetY: {
-        type: Number,
-        default: 0,
+      value: {
+        type: Array,
+        default: () => [],
+      },
+      // 值改变时是否自动映射到query
+      valueChangeToQuery: {
+        type: Boolean,
+        default: false,
+      },
+      // 数据格式化
+      valueFormat: {
+        type: String,
+        default: 'timestamp',
       },
     },
     data() {
