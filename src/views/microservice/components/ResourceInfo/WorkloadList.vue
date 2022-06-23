@@ -71,7 +71,7 @@
       microAppWorkoladDetail(item) {
         this.$router.push({
           name: 'microworkload-detail',
-          params: { name: item.name },
+          params: Object.assign(this.$route.params, { name: item.name }),
           query: {
             type: item.type,
             namespace: this.$route.query.namespace,

@@ -291,10 +291,14 @@
         this.microServiceList(noprocess);
       },
       async microServiceList(noprocess) {
-        const data = await getMicroServiceList(this.VirtualSpace().ID, this.EnvironmentFilter.value, {
-          ...this.params,
-          noprocessing: noprocess,
-        });
+        const data = await getMicroServiceList(
+          this.VirtualSpace().ID,
+          this.EnvironmentFilter?.value || this.$route.query?.environmentid,
+          {
+            ...this.params,
+            noprocessing: noprocess,
+          },
+        );
         data.pagedata.List = data.pagedata.List.map((s) => {
           return {
             ...s,
