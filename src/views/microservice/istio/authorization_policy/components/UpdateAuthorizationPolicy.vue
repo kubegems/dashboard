@@ -14,7 +14,7 @@
 <script>
   import { mapState } from 'vuex';
 
-  import { patchUpdateIstioAuthorizationPolicy, getIstioAuthorizationPolicyDetail } from '@/api';
+  import { getIstioAuthorizationPolicyDetail, patchUpdateIstioAuthorizationPolicy } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
   import IstioAuthorizationPolicySchema from '@/views/microservice/istio/authorization_policy/mixins/schema';

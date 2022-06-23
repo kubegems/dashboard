@@ -82,10 +82,10 @@
   import { mapGetters, mapState } from 'vuex';
 
   import {
-    getVirtualSpaceEnvironmentUser,
     deleteVirtualSpaceUser,
-    postAddVirtualSpaceUser,
+    getVirtualSpaceEnvironmentUser,
     getVirtualSpaceUserList,
+    postAddVirtualSpaceUser,
   } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';

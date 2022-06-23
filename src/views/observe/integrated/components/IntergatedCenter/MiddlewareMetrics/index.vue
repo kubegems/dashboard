@@ -21,7 +21,7 @@
   import { mapGetters, mapState } from 'vuex';
 
   import ProjectEnvSelect from '../ProjectEnvSelect';
-  import { postDeployAppStore, getChartSchema } from '@/api';
+  import { getChartSchema, postDeployAppStore } from '@/api';
   import { randomString } from '@/utils/helpers';
   import JsonSchema from '@/views/appstore/components/DeployWizard/JsonSchema';
   import { YamlMixin } from '@/views/appstore/mixins/yaml';

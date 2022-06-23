@@ -52,7 +52,7 @@
 </template>
 
 <script>
-  import { mapState, mapMutations, mapGetters } from 'vuex';
+  import { mapGetters, mapMutations, mapState } from 'vuex';
 
   import Message from './Message';
   import User from './User';

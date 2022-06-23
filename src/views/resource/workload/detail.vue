@@ -130,12 +130,12 @@
   import UpdateWorkload from './components/UpdateWorkload';
   import WorkloadMonitor from './components/WorkloadMonitor';
   import {
+    deleteDaemonSet,
+    deleteDeployment,
+    deleteStatefulSet,
     getDaemonSetDetail,
     getDeploymentDetail,
     getStatefulSetDetail,
-    deleteDaemonSet,
-    deleteStatefulSet,
-    deleteDeployment,
   } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

@@ -87,7 +87,7 @@
 
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
-  import { sizeOfCpu, sizeOfStorage, beautifyCpuUnit, beautifyStorageUnit } from '@/utils/helpers';
+  import { beautifyCpuUnit, beautifyStorageUnit, sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
   import {
     TOP_20_POD_CPU_AVG_PROMQL,
     TOP_20_POD_CPU_MAX_PROMQL,

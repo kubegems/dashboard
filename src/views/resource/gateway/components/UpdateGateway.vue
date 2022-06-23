@@ -28,7 +28,7 @@
   import { mapGetters, mapState } from 'vuex';
 
   import GatewayBaseForm from './GatewayBaseForm';
-  import { putUpdateGateway, getGatewayDetail } from '@/api';
+  import { getGatewayDetail, putUpdateGateway } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';
   import GatewaySchema from '@/views/resource/gateway/mixins/schema';

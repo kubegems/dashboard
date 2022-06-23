@@ -333,16 +333,16 @@
   import MetricsItem from './components/MetricsItem';
   import MetricsSuggestion from './components/MetricsSuggestion';
   import {
-    getSystemConfigData,
-    getMyConfigData,
-    getMetricsQueryrange,
-    getProjectList,
-    getProjectEnvironmentList,
     getMetricsLabelValues,
+    getMetricsQueryrange,
+    getMyConfigData,
+    getProjectEnvironmentList,
+    getProjectList,
+    getSystemConfigData,
   } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseSelect from '@/mixins/select';
-  import { deepCopy, debounce } from '@/utils/helpers';
+  import { debounce, deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
   import AddPrometheusRule from '@/views/observe/monitor/config/prometheusrule/components/AddPrometheusRule';
   import Metrics from '@/views/observe/monitor/mixins/metrics';

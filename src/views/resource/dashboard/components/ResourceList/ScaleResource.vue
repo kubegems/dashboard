@@ -12,7 +12,7 @@
 <script>
   import { mapState } from 'vuex';
 
-  import { postTenantResourceApply, getTenantResourceApplyDetail } from '@/api';
+  import { getTenantResourceApplyDetail, postTenantResourceApply } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
   import ResourceBaseForm from '@/views/tenant/tenant/components/ResourceList/ResourceBaseForm';

@@ -131,7 +131,7 @@
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
-  import { required, positiveInteger } from '@/utils/rules';
+  import { positiveInteger, required } from '@/utils/rules';
   import DataForm from '@/views/resource/components/common/DataForm';
 
   export default {

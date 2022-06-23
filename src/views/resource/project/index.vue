@@ -142,11 +142,11 @@
   import { mapGetters, mapState } from 'vuex';
 
   import UpdateProject from './components/UpdateProject';
-  import { getProjectList, deleteProject, getTenantProjectQuotaList } from '@/api';
+  import { deleteProject, getProjectList, getTenantProjectQuotaList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseSelect from '@/mixins/select';
-  import { sizeOfCpu, sizeOfStorage, convertStrToNum } from '@/utils/helpers';
+  import { convertStrToNum, sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
 
   export default {
     name: 'Project',

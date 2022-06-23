@@ -54,7 +54,7 @@
   import { mapGetters, mapState } from 'vuex';
 
   import UpdateConfigMap from './components/UpdateConfigMap';
-  import { getConfigMapDetail, deleteConfigMap } from '@/api';
+  import { deleteConfigMap, getConfigMapDetail } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

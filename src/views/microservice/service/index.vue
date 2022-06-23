@@ -219,10 +219,10 @@
   import AddVirtualService from './components/virtual_service/AddVirtualService';
   import UpdateVirtualService from './components/virtual_service/UpdateVirtualService';
   import {
-    getMicroServiceList,
+    deleteIstioDestinationRule,
     deleteIstioGateway,
     deleteIstioVirtualService,
-    deleteIstioDestinationRule,
+    getMicroServiceList,
   } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';

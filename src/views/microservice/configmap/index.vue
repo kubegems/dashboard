@@ -117,7 +117,7 @@
 <script>
   import { mapState } from 'vuex';
 
-  import { getConfigMapList, deleteConfigMap } from '@/api';
+  import { deleteConfigMap, getConfigMapList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

@@ -83,8 +83,8 @@
 <script>
   import { mapState } from 'vuex';
 
-  import { putUpdateUser, getLoginUserInfo, postResetPassword } from '@/api';
-  import { required, email, password, phone } from '@/utils/rules';
+  import { getLoginUserInfo, postResetPassword, putUpdateUser } from '@/api';
+  import { email, password, phone, required } from '@/utils/rules';
 
   export default {
     name: 'OwnerSetting',

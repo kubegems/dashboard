@@ -86,7 +86,7 @@
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
-  import { k8sName, required, positiveInteger } from '@/utils/rules';
+  import { k8sName, positiveInteger, required } from '@/utils/rules';
 
   export default {
     name: 'WorkloadBaseInfo',

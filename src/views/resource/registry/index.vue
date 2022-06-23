@@ -107,7 +107,7 @@
 
   import AddRegistry from './components/AddRegistry';
   import UpdateRegistry from './components/UpdateRegistry';
-  import { getRegistryList, deleteRegistry, getRegistryAllList, patchSetDefaultRegistry } from '@/api';
+  import { deleteRegistry, getRegistryAllList, getRegistryList, patchSetDefaultRegistry } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

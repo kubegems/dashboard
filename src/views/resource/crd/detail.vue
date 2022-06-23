@@ -61,7 +61,7 @@
 
   import CRList from './components/CRList';
   import ResourceInfo from './components/ResourceInfo';
-  import { getCrdDetail, deleteCRD } from '@/api';
+  import { deleteCRD, getCrdDetail } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';

@@ -2,15 +2,15 @@ import Vue from 'vue';
 import Vuex, { Store } from 'vuex';
 
 import {
-  getVirtualSpaceSelectData,
   getClusterSelectData,
-  getTenantSelectData,
-  getProjectSelectData,
   getEnvironmentSelectData,
+  getProjectSelectData,
+  getTenantSelectData,
+  getVirtualSpaceSelectData,
 } from './server_data';
 import { getClusterPluginsList, getRESTMapping } from '@/api';
 import router from '@/router';
-import { getCookie, delAllCookie } from '@/utils/cookie';
+import { delAllCookie, getCookie } from '@/utils/cookie';
 import { sleep } from '@/utils/helpers';
 
 Vue.use(Vuex);

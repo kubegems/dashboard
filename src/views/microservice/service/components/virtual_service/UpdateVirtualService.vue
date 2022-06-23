@@ -15,7 +15,7 @@
   import { mapState } from 'vuex';
 
   import IstioVirtualServiceBaseForm from './IstioVirtualServiceBaseForm';
-  import { patchUpdateIstioVirtualService, getIstioVirtualServiceDetail } from '@/api';
+  import { getIstioVirtualServiceDetail, patchUpdateIstioVirtualService } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
   import IstioVirtualServiceSchema from '@/views/microservice/service/mixins/schema';

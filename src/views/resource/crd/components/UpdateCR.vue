@@ -16,7 +16,7 @@ m
 <script>
   import { mapState } from 'vuex';
 
-  import { patchUpdateCR, getCrDetail } from '@/api';
+  import { getCrDetail, patchUpdateCR } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 

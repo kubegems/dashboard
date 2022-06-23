@@ -62,7 +62,7 @@
 <script>
   import { mapState } from 'vuex';
 
-  import { getLogAlertRuleDetail, deleteLogAlertRule, getPrometheusAlertHistory } from '@/api';
+  import { deleteLogAlertRule, getLogAlertRuleDetail, getPrometheusAlertHistory } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import AlertBarChart from '@/views/observe/monitor/config/prometheusrule/components//AlertBarChart';

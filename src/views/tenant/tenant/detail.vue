@@ -79,7 +79,7 @@
   import ResourceList from './components/ResourceList';
   import UpdateTenant from './components/UpdateTenant';
   import UserList from './components/UserList';
-  import { getTenantDetail, putForbideTenant, putActiveTenant, deleteTenant } from '@/api';
+  import { deleteTenant, getTenantDetail, putActiveTenant, putForbideTenant } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BaseSelect from '@/mixins/select';
 

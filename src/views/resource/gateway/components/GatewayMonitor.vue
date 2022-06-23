@@ -28,7 +28,7 @@
 
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
-  import { GATEWAY_QPS_PROMQL, GATEWAY_CONNECTIONS_PROMQL } from '@/utils/prometheus';
+  import { GATEWAY_CONNECTIONS_PROMQL, GATEWAY_QPS_PROMQL } from '@/utils/prometheus';
 
   export default {
     name: 'GatewayMonitor',

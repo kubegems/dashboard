@@ -50,7 +50,7 @@
 <script>
   import UriMatchForm from './UriMatchForm';
   import { deepCopy } from '@/utils/helpers';
-  import { required, positiveInteger } from '@/utils/rules';
+  import { positiveInteger, required } from '@/utils/rules';
 
   export default {
     name: 'UriTraffic',

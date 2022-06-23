@@ -182,14 +182,14 @@
   import ResourceLimit from './components/ResourceLimit';
   import UpdateWorkload from './components/UpdateWorkload';
   import {
-    getDaemonSetList,
-    getStatefulSetList,
-    getDeploymentList,
     deleteDaemonSet,
-    deleteStatefulSet,
     deleteDeployment,
-    getWorkloadResourcesList,
+    deleteStatefulSet,
     deleteWorkloadResourceAdvise,
+    getDaemonSetList,
+    getDeploymentList,
+    getStatefulSetList,
+    getWorkloadResourcesList,
   } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';

@@ -63,7 +63,7 @@
 </template>
 
 <script>
-  import { getPersistentVolumeClaimDetail, getAppResourceFileMetas } from '@/api';
+  import { getAppResourceFileMetas, getPersistentVolumeClaimDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
   import StorageMountItem from '@/views/resource/workload/components/WorkloadBaseForm/StorageMount/StorageMountItem';

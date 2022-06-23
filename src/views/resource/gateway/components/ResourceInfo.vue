@@ -149,7 +149,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import { getGatewayDetail, getGatewayAddressList } from '@/api';
+  import { getGatewayAddressList, getGatewayDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 

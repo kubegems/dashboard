@@ -205,9 +205,9 @@
   import BaseResource from '@/mixins/resource';
   import { convertStrToNum, sizeOfStorage } from '@/utils/helpers';
   import {
-    NODE_LOAD_PROMQL,
     NODE_ALL_CPU_USAGE_PROMQL,
     NODE_ALL_MEMORY_USAGE_PROMQL,
+    NODE_LOAD_PROMQL,
     NODE_POD_RUNNING_COUNT_PROMQL,
   } from '@/utils/prometheus';
 

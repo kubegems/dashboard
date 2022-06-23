@@ -179,7 +179,7 @@
   import AppStoreComplete from './AppStoreComplete';
   import AppStoreDeployLoading from './AppStoreDeployLoading';
   import Tips from './Tips';
-  import { postDeployAppStore, getAppStoreFiles } from '@/api';
+  import { getAppStoreFiles, postDeployAppStore } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';

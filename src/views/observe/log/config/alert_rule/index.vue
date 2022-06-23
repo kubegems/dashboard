@@ -185,7 +185,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import { getLogAlertRuleList, deleteLogAlertRule, postDisableAlertRule, postEnableAlertRule } from '@/api';
+  import { deleteLogAlertRule, getLogAlertRuleList, postDisableAlertRule, postEnableAlertRule } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

@@ -247,7 +247,7 @@ export function typeOf(obj) {
  * @param immediate true 表立即执行，false 表非立即执行
  */
 export const debounce = (fn, wait = 200, immediate = false) => {
-  let timeout, result;
+  let result, timeout;
 
   return function (...args) {
     if (timeout) clearTimeout(timeout);

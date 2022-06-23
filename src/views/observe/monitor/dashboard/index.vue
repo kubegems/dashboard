@@ -47,64 +47,67 @@
       </template>
     </BaseBreadcrumb>
 
-    <v-card flat>
-      <v-card-text class="pa-0 py-1">
-        <v-tabs v-model="tab" class="rounded-t pl-4 py-2" height="35" @change="onTabChange">
-          <v-tab v-for="item in items" :key="item.id">
-            {{ item.name }}
-          </v-tab>
-        </v-tabs>
-      </v-card-text>
-    </v-card>
+    <template v-if="items.length > 0">
+      <v-card flat>
+        <v-card-text class="pa-0 py-1">
+          <v-tabs v-model="tab" class="rounded-t pl-4 py-2" height="35" @change="onTabChange">
+            <v-tab v-for="item in items" :key="item.id">
+              {{ item.name }}
+            </v-tab>
+          </v-tabs>
+        </v-card-text>
+      </v-card>
 
-    <v-row v-if="items.length > 0" class="mt-3">
-      <v-col v-for="(graph, index) in items[tab].graphs" :key="index" class="dash__col pt-0" :cols="4">
-        <v-card class="kubegems__full-height" height="330">
-          <v-card-text class="pa-1 kubegems__full-height">
-            <div class="dash__btn">
-              <v-btn icon small @click.stop="openGraphInMaxScreen(graph)">
-                <v-icon color="primary" small> mdi-magnify-plus </v-icon>
-              </v-btn>
-              <v-btn icon small @click.stop="updateGraph(graph, index)">
-                <v-icon color="primary" small> mdi-pencil </v-icon>
-              </v-btn>
-              <v-btn icon small @click.stop="removeGraph(graph, index)">
-                <v-icon color="error" small> mdi-minus-box </v-icon>
-              </v-btn>
-            </div>
-            <BaseApexAreaChart
-              :id="`c${index}`"
-              chart-type="line"
-              :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-              :extend-height="300"
-              label="pod"
-              :label-show="false"
-              :metrics="metrics[`c${index}`]"
-              :no-data-offset-y="-22"
-              :title="graph.name"
-              type=""
-              :unit="graph.promqlGenerator ? getUnit(graph.promqlGenerator.unit) : getUnit(graph.unit)"
-            />
-          </v-card-text>
-        </v-card>
-      </v-col>
-      <v-col class="pt-0" cols="4">
-        <v-card class="kubegems__full-height" min-height="330">
-          <v-card-text class="pa-0 kubegems__full-height">
-            <v-list-item class="kubegems__full-height" three-line>
-              <v-list-item-content>
-                <v-btn block class="text-h6" color="primary" text @click="addGraph">
-                  <v-icon left>mdi-plus-box</v-icon>
-                  添加图表
+      <v-row class="mt-3 mb-1 pb-0">
+        <v-col v-for="(graph, index) in items[tab].graphs" :key="index" class="dash__col pt-0" :cols="4">
+          <v-card class="kubegems__full-height" height="330">
+            <v-card-text class="pa-1 kubegems__full-height">
+              <div class="dash__btn">
+                <v-btn icon small @click.stop="openGraphInMaxScreen(graph)">
+                  <v-icon color="primary" small> mdi-magnify-plus </v-icon>
                 </v-btn>
-              </v-list-item-content>
-            </v-list-item>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
+                <v-btn icon small @click.stop="updateGraph(graph, index)">
+                  <v-icon color="primary" small> mdi-pencil </v-icon>
+                </v-btn>
+                <v-btn icon small @click.stop="removeGraph(graph, index)">
+                  <v-icon color="error" small> mdi-minus-box </v-icon>
+                </v-btn>
+              </div>
+              <BaseApexAreaChart
+                :id="`c${index}`"
+                :key="`c${index}${tab}`"
+                chart-type="line"
+                :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
+                :extend-height="300"
+                label="pod"
+                :label-show="false"
+                :metrics="metrics[`c${index}`]"
+                :no-data-offset-y="-22"
+                :title="graph.name"
+                type=""
+                :unit="graph.promqlGenerator ? getUnit(graph.promqlGenerator.unit) : getUnit(graph.unit)"
+              />
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col class="pt-0" cols="4">
+          <v-card class="kubegems__full-height" min-height="330">
+            <v-card-text class="pa-0 kubegems__full-height">
+              <v-list-item class="kubegems__full-height" three-line>
+                <v-list-item-content>
+                  <v-btn block class="text-h6" color="primary" text @click="addGraph">
+                    <v-icon left>mdi-plus-box</v-icon>
+                    添加图表
+                  </v-btn>
+                </v-list-item-content>
+              </v-list-item>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </template>
 
-    <div v-else class="text-center dash__tip primary--text white">
+    <div v-else class="text-center dash__tip primary--text white rounded">
       <span class="kubegems__full-center">请先创建监控大盘</span>
     </div>
 
@@ -127,7 +130,7 @@
 </template>
 
 <script>
-  import { mapState, mapGetters } from 'vuex';
+  import { mapGetters, mapState } from 'vuex';
 
   import AddDashboard from './components/AddDashboard';
   import AddGraph from './components/AddGraph';
@@ -135,12 +138,12 @@
   import UpdateDashboard from './components/UpdateDashboard';
   import UpdateGraph from './components/UpdateGraph';
   import {
-    getMonitorDashboardList,
-    getMetricsQueryrange,
     deleteMonitorDashboard,
-    putUpdateMonitorDashboard,
-    getSystemConfigData,
+    getMetricsQueryrange,
+    getMonitorDashboardList,
     getMyConfigData,
+    getSystemConfigData,
+    putUpdateMonitorDashboard,
   } from '@/api';
   import BasePermission from '@/mixins/permission';
   import ProjectEnvSelect from '@/views/observe/components/ProjectEnvSelect';

@@ -35,7 +35,7 @@
   import { mapGetters, mapState } from 'vuex';
 
   import PrometheusRuleBaseForm from './PrometheusRuleBaseForm';
-  import { postAddPrometheusRule, postAddLogAlertRule } from '@/api';
+  import { postAddLogAlertRule, postAddPrometheusRule } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 

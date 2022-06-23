@@ -142,7 +142,7 @@
 <script>
   import { mapState } from 'vuex';
 
-  import { getSystemConfigData, getMyConfigData } from '@/api';
+  import { getMyConfigData, getSystemConfigData } from '@/api';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
   import MetricsSuggestion from '@/views/observe/monitor/metrics/components/MetricsSuggestion';

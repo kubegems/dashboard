@@ -86,18 +86,18 @@
 </template>
 
 <script>
-  import { mapState, mapGetters } from 'vuex';
+  import { mapGetters, mapState } from 'vuex';
 
   import ProjectEnvSelect from './ProjectEnvSelect';
   import {
     getClusterOutputsData,
+    getLoggingAppList,
     getOutputsData,
     getOutputsDataByTenant,
-    getLoggingAppList,
     postLoggingFlow,
     putLoggingNsFlow,
   } from '@/api';
-  import { required, integer } from '@/utils/rules';
+  import { integer, required } from '@/utils/rules';
 
   export default {
     name: 'Logging',
