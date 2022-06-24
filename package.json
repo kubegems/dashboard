@@ -65,6 +65,7 @@
     "@vue/cli-plugin-babel": "^5.0.4",
     "@vue/cli-plugin-eslint": "^5.0.4",
     "@vue/cli-service": "^5.0.4",
+    "@mdx-js/vue-loader": "^1.6.22",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
     "commitizen": "^4.2.4",
