@@ -6,8 +6,10 @@
       <template #extend>
         <v-flex class="kubegems__full-right mr-3">
           <span class="text-body-2 kubegems__text">
-            Nacos namespace <b> {{ Tenant().TenantName }}_{{ Project().ProjectName }} </b> Nacos group
-            <b> {{ Environment().EnvironmentName }} </b>
+            endpoint: <b>nacos-client.nacos:8848</b> namespace:
+            <b> {{ Tenant().TenantName }}_{{ Project().ProjectName }} </b> group:<b>
+              {{ Environment().EnvironmentName }}
+            </b>
           </span>
         </v-flex>
       </template>
@@ -69,13 +71,16 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" small text @click="openEditDialog(item)"> 编辑/查看 </v-btn>
+                  <v-btn color="primary" small text @click="editConfig(item)"> 编辑/查看 </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="primary" small text @click="openHistoryDialog(item)"> 历史 </v-btn>
+                  <v-btn color="primary" small text @click="showSDK(item)"> SDK示例 </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="openDeleteDialog(item, index)"> 删除 </v-btn>
+                  <v-btn color="primary" small text @click="showHistory(item)"> 历史 </v-btn>
+                </v-flex>
+                <v-flex>
+                  <v-btn color="error" small text @click="removeConfig(item, index)"> 删除 </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -101,6 +106,7 @@
       @close="closeEditDialog"
       @submit="submitEditContent"
     />
+    <ConfigSDK ref="configSDK" />
     <DeleteItem
       :idx="editor.deleteIdx"
       :item="editor.currentDeleteItem"
@@ -122,6 +128,7 @@
 
   import { delConfigItems, listConfigItems, pubConfigItems } from './api/index.js';
   import ConfigEditor from './components/ConfigEditor';
+  import ConfigSDK from './components/ConfigSDK';
   import DeleteItem from './components/DeleteItem';
   import HistoryView from './components/HistoryView';
   import BaseFilter from '@/mixins/base_filter';
@@ -131,6 +138,7 @@
     name: 'ConfigeUI',
     components: {
       ConfigEditor,
+      ConfigSDK,
       DeleteItem,
       HistoryView,
     },
@@ -157,8 +165,8 @@
         items: [],
         itemsCopy: [],
         headers: [
-          { text: 'app', value: 'application', align: 'start' },
           { text: 'dataid', value: 'key', align: 'start' },
+          { text: 'app', value: 'application', align: 'start' },
           { text: 'create', value: 'createdTime', align: 'center', width: 260, sortable: false },
           { text: 'update', value: 'lastModifiedTime', align: 'center', width: 260, sortable: false },
           { text: 'operator', value: 'lastUpdateUser', align: 'center', width: 160, sortable: false },
@@ -209,7 +217,7 @@
       onPageIndexChange(page) {
         this.params.page = page;
       },
-      openEditDialog(item) {
+      editConfig(item) {
         this.editor.currentEditItem = {
           tenant: (this.Tenant() || { TenantName: '' }).TenantName,
           project: (this.Project() || { ProjectName: '' }).ProjectName,
@@ -231,7 +239,7 @@
         this.editor.isCreate = true;
         this.editor.showEditDialog = true;
       },
-      openDeleteDialog(item, idx) {
+      removeConfig(item, idx) {
         this.editor.currentDeleteItem = item;
         this.editor.deleteIdx = idx;
         this.editor.showDeleteDialog = true;
@@ -256,7 +264,7 @@
         this.editor.showHistoryDialog = false;
         this.editor.currentHistoryItem = {};
       },
-      async openHistoryDialog(item) {
+      async showHistory(item) {
         this.editor.showHistoryDialog = true;
         this.editor.currentHistoryItem = item;
       },
@@ -305,6 +313,9 @@
           citem.lastUpdateUser = res.lastUpdateUser;
         }
         this.closeEditDialog();
+      },
+      showSDK() {
+        this.$refs.configSDK.open();
       },
     },
   };

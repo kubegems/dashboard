@@ -63,7 +63,7 @@ export const workspace = [
           {
             path: `${prefix}/configs`,
             name: 'app-configer',
-            component: () => import('@/views/resource/app-configer/index'),
+            component: () => import('@/views/resource/app_configer/index'),
             meta: {
               requireAuth: true,
               title: '应用配置',
