@@ -1,16 +1,43 @@
 <template>
-  <v-form ref="form" class="py-4" lazy-validation @submit.prevent>
-    <div class="markdown-body px-4" :style="{ height: `${height}px`, overflowY: 'auto' }" v-html="html" />
+  <v-form class="py-4" lazy-validation @submit.prevent>
+    <div class="markdown-body px-4" :style="{ height: `${height}px`, overflowY: 'auto' }">
+      <component :is="component" />
+    </div>
   </v-form>
 </template>
 
 <script>
-  import MarkdownIt from 'markdown-it';
-  import hljs from 'markdown-it-highlightjs';
   import { mapState } from 'vuex';
+
+  import Cpp from './docs/cpp.md';
+  import Csharp from './docs/csharp.md';
+  import Erlang from './docs/erlang.md';
+  import Golang from './docs/golang.md';
+  import Java from './docs/java.md';
+  import Javascript from './docs/javascript.md';
+  import Nodejs from './docs/nodejs.md';
+  import Php from './docs/php.md';
+  import Python from './docs/python.md';
+  import Ruby from './docs/ruby.md';
+  import Rust from './docs/rust.md';
+  import Swift from './docs/swift.md';
 
   export default {
     name: 'Trace',
+    components: {
+      Cpp,
+      Csharp,
+      Erlang,
+      Golang,
+      Java,
+      Javascript,
+      Nodejs,
+      Php,
+      Python,
+      Ruby,
+      Rust,
+      Swift,
+    },
     props: {
       v: {
         type: String,
@@ -19,9 +46,7 @@
     },
     data() {
       return {
-        md: null,
-        content: '',
-        html: '',
+        component: '',
       };
     },
     computed: {
@@ -34,36 +59,16 @@
       v: {
         handler(newValue) {
           if (newValue) {
-            this.content = this.unicodeToUtf8(this.loadFile(`/docs/trace/${newValue}.md`));
-            this.md = new MarkdownIt();
-            this.md.use(hljs);
-            this.html = this.md.render(this.content);
+            this.component = `${newValue[0].toUpperCase()}${newValue.substr(1)}`;
           }
         },
         deep: true,
         immediate: true,
       },
     },
-    mounted() {
-      this.$nextTick(() => {
-        this.$refs.form?.resetValidation();
-      });
-    },
     methods: {
       async addData() {
         this.$emit('close');
-      },
-      loadFile(name) {
-        const xhr = new XMLHttpRequest();
-        const okStatus = document.location.protocol === 'file:' ? 0 : 200;
-        xhr.open('GET', name, false);
-        xhr.overrideMimeType('text/html;charset=utf-8');
-        xhr.send(null);
-        return xhr.status === okStatus ? xhr.responseText : null;
-      },
-      unicodeToUtf8(data) {
-        data = data.replace(new RegExp('\\\\', 'g'), '%');
-        return unescape(data);
       },
     },
   };
