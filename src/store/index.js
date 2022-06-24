@@ -33,6 +33,7 @@ const LatestEnvironment = 'latestenvironment';
 const LatestCluster = 'latestcluster';
 const Version = 'version';
 const ApiResources = 'api-resources';
+const StoreMode = 'store';
 
 export default new Store({
   state: {
@@ -88,6 +89,7 @@ export default new Store({
     Version: window.localStorage.getItem(Version) || '',
     ApiResources: JSON.parse(window.localStorage.getItem(ApiResources)) || {},
     SelfOut: false,
+    StoreMode: window.localStorage.getItem(StoreMode) || 'app',
   },
   mutations: {
     SET_PLUGINS(state, payload) {
@@ -96,6 +98,10 @@ export default new Store({
     },
     SET_DIALOG(state, payload) {
       state.DialogActive = payload;
+    },
+    SET_STORE(state, payload) {
+      state.StoreMode = payload;
+      window.localStorage.setItem(StoreMode, payload);
     },
     SET_VERSION(state, payload) {
       state.Version = payload;

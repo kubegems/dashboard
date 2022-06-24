@@ -170,7 +170,7 @@ export const platform = [
           icon: 'mdi-hexagon-multiple',
         },
         component: () => import('@/layouts/Container'),
-        redirect: { name: 'repository-list' },
+        redirect: { name: 'auth-setting' },
         children: [
           // 认证
           {
@@ -188,16 +188,30 @@ export const platform = [
           },
           // 应用仓库
           {
-            path: 'repositories',
-            name: 'repository-list',
+            path: 'app/repositories',
+            name: 'app-repository-list',
             component: () => import('@/views/appstore/list'),
             meta: {
               requireAuth: true,
-              title: '应用商店仓库',
+              title: '应用商店',
               icon: 'mdi-shopping',
               show: true,
               rootName: 'platform',
               tip: 'appstore-registry',
+            },
+          },
+          // 模型商店仓库
+          {
+            path: 'model/repositories',
+            name: 'model-repository-list',
+            component: () => import('@/views/setting/model_registry/index'),
+            meta: {
+              requireAuth: true,
+              title: '模型商店',
+              icon: 'mdi-cube',
+              show: true,
+              rootName: 'platform',
+              tip: 'modelstore-registry',
             },
           },
           // prometheus

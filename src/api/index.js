@@ -223,3 +223,4 @@ export * from './microservice';
 export * from './metrics';
 export * from './visualization';
 export * from './integrated';
+export * from './modelstore';

@@ -8,6 +8,7 @@ import { dashboard } from './dashboard';
 import { entryMicroService } from './entry_microservice';
 import { global } from './global';
 import { microService } from './microservice';
+import { modelStore } from './model_store';
 import { observe } from './observe';
 import { platform } from './platform';
 import { projectWorkspace } from './project_workspace';
@@ -42,7 +43,8 @@ const router = new Router({
     .concat(microService) // 微服务工作台
     .concat(tool) // 租户工具箱
     .concat(appStore) // 应用商店
-    .concat(userCenter), // 用户中心
+    .concat(userCenter) // 用户中心
+    .concat(modelStore), //模型商店
 });
 
 router.beforeEach(async (to, from, next) => {
