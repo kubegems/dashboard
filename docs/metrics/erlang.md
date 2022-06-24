@@ -1,6 +1,6 @@
-> 注意：在使用前请联系集群管理员开启 KubeGems Observability 相关的组件，包含Monitoring、Logging、 Opentelemetry、Jaeger
-
 ### KubeGems OpenTelemetry Collector
+
+> 注意：在使用前请联系集群管理员开启 KubeGems Observability 相关的组件，包含Monitoring、Logging、 Opentelemetry、Jaeger
 
 修改应用 SDK 中的 Exporter Endpoint 地址为 opentelemetry-collector.observability:<port>。 其中， opentelemetry-collector 是 Collector 的 Service 名称，observability 是 Collector 所在命名空间，不同上报协议对应端口如下:
 
@@ -12,7 +12,7 @@
 |  jaeger   | thrift_http | 14268 |
 |  zipkin   |             | 9411  |
 
-###  erlang 应用接入
+###  erlang metrics
 
 Opentelmetry 的 erlang 暂不提供接入文档
 

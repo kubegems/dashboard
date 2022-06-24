@@ -12,8 +12,6 @@
 |  jaeger   | thrift_http | 14268 |
 |  zipkin   |             | 9411  |
 
-###  erlang 应用接入
+###  C++ Metrics
 
-Opentelmetry 的 erlang 暂不提供接入文档
-
-更多信息可参考[OpenTelemetry erlang library](https://github.com/open-telemetry/opentelemetry-erlang)
+OpenTelemetry C++ SDK 中的Metrics 尚处于实验阶段，目前并不提供接入
