@@ -1,0 +1,45 @@
+> 注意：在使用前请联系集群管理员开启 KubeGems Observability 相关的组件，包含Monitoring、Logging、 Opentelemetry、Jaeger
+
+### KubeGems OpenTelemetry Collector
+
+修改应用 SDK 中的 Exporter Endpoint 地址为 opentelemetry-collector.observability:\<port>。 其中， opentelemetry-collector 是 Collector 的 Service 名称，observability 是 Collector 所在命名空间，不同上报协议对应端口如下:
+
+| Receivers |  Protocols  | Port  |
+| :-------: | :---------: | :---: |
+|   otlp    |    gRPC     | 4317  |
+|   otlp    |    http     | 4318  |
+|  jaeger   |    gRPC     | 14250 |
+|  jaeger   | thrift_http | 14268 |
+|  zipkin   |             | 9411  |
+
+###  Nodejs Metrics
+
+Opentelmetry 的 Rust 尚处于早期阶段，暂不提供接入文档
+
+这里是官方提供的一个 SDK 初始化 counter 类型的样例
+
+- 安装依赖包
+
+```
+npm install --save @opentelemetry/sdk-metrics-base
+```
+
+- SDK的基本设置如下：
+
+```nodejs
+const opentelemetry = require('@opentelemetry/api-metrics');
+const { MeterProvider } = require('@opentelemetry/sdk-metrics-base');
+
+// To create an instrument, you first need to initialize the Meter provider.
+// NOTE: The default OpenTelemetry meter provider does not record any metric instruments.
+//       Registering a working meter provider allows the API methods to record instruments.
+opentelemetry.setGlobalMeterProvider(new MeterProvider());
+
+// To record a metric event, we used the global singleton meter to create an instrument.
+const counter = opentelemetry.getMeter('default').createCounter('foo');
+
+// record a metric event.
+counter.add(1, { attributeKey: 'attribute-value' });
+```
+
+更多信息可以参考[opentelemetry/sdk-metrics-base](https://www.npmjs.com/package/@opentelemetry/sdk-metrics-base)

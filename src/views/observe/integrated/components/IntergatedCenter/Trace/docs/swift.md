@@ -1,48 +1,131 @@
-# opentelemetry-swift
+> 注意：在使用前请联系集群管理员开启 KubeGems Observability 相关的组件，包含Monitoring、Logging、 Opentelemetry、Jaeger
 
-A swift [OpenTelemetry](https://opentelemetry.io/) client
+### KubeGems OpenTelemetry Collector
 
-## Installation
+修改应用 SDK 中的 Exporter Endpoint 地址为 opentelemetry-collector.observability:\<port>。 其中， opentelemetry-collector 是 Collector 的 Service 名称，observability 是 Collector 所在命名空间，不同上报协议对应端口如下:
 
-This package includes several libraries. The `OpenTelemetryApi` library includes protocols and no-op implementations that comprise the OpenTelemetry API following the [specification](https://github.com/open-telemetry/opentelemetry-specification). The `OpenTelemetrySdk` library is the reference implementation of the API.
+| Receivers |  Protocols  | Port  |
+| :-------: | :---------: | :---: |
+|   otlp    |    gRPC     | 4317  |
+|   otlp    |    http     | 4318  |
+|  jaeger   |    gRPC     | 14250 |
+|  jaeger   | thrift_http | 14268 |
+|  zipkin   |             | 9411  |
 
-Libraries that produce telemetry data should only depend on `OpenTelemetryApi`, and defer the choice of the SDK to the application developer. Applications may depend on `OpenTelemetrySdk` or another package that implements the API.
+###  swift 应用接入
 
-#### Adding the dependency
+Opentelmetry 的 swift 尚处于早期阶段，暂不提供接入文档
 
-opentelemetry-swift is designed for Swift 5. To depend on the opentelemetry-swift package, you need to declare your dependency in your `Package.swift`:
+以下是官网的一个 trace 接入样例
 
+```swift
+/*
+ * Copyright The OpenTelemetry Authors
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import Foundation
+import OpenTelemetryProtocolExporter
+import OpenTelemetryApi
+import OpenTelemetrySdk
+import ResourceExtension
+import StdoutExporter
+import ZipkinExporter
+import SignPostIntegration
+import GRPC
+import NIO
+import NIOSSL
+
+let sampleKey = "sampleKey"
+let sampleValue = "sampleValue"
+
+var resources = DefaultResources().get()
+
+let instrumentationLibraryName = "OTLPExporter"
+let instrumentationLibraryVersion = "semver:0.1.0"
+var instrumentationLibraryInfo = InstrumentationLibraryInfo(name: instrumentationLibraryName, version: instrumentationLibraryVersion)
+
+var tracer: TracerSdk
+tracer = OpenTelemetrySDK.instance.tracerProvider.get(instrumentationName: instrumentationLibraryName, instrumentationVersion: instrumentationLibraryVersion) as! TracerSdk
+
+let configuration = ClientConnection.Configuration(
+    target: .hostAndPort("opentelemetry-collector.observability", 4317),
+    eventLoopGroup: MultiThreadedEventLoopGroup(numberOfThreads: 1)
+)
+let client = ClientConnection(configuration: configuration)
+
+let otlpTraceExporter = OtlpTraceExporter(channel: client)
+let stdoutExporter = StdoutExporter()
+let spanExporter = MultiSpanExporter(spanExporters: [otlpTraceExporter, stdoutExporter])
+
+let spanProcessor = SimpleSpanProcessor(spanExporter: spanExporter)
+OpenTelemetrySDK.instance.tracerProvider.addSpanProcessor(spanProcessor)
+
+if #available(macOS 10.14, *) {
+    OpenTelemetrySDK.instance.tracerProvider.addSpanProcessor(SignPostIntegration())
+}
+
+func createSpans() {
+    let parentSpan1 = tracer.spanBuilder(spanName: "Main").setSpanKind(spanKind: .client).startSpan()
+    parentSpan1.setAttribute(key: sampleKey, value: sampleValue)
+    OpenTelemetry.instance.contextProvider.setActiveSpan(parentSpan1)
+    for _ in 1...3 {
+        doWork()
+    }
+    Thread.sleep(forTimeInterval: 0.5)
+    
+    let parentSpan2 = tracer.spanBuilder(spanName: "Another").setSpanKind(spanKind: .client).setActive(true).startSpan()
+    parentSpan2.setAttribute(key: sampleKey, value: sampleValue)
+    // do more Work
+    for _ in 1...3 {
+        doWork()
+    }
+    Thread.sleep(forTimeInterval: 0.5)
+    
+    parentSpan2.end()
+    parentSpan1.end()
+}
+
+func doWork() {
+    let childSpan = tracer.spanBuilder(spanName: "doWork").setSpanKind(spanKind: .client).startSpan()
+    childSpan.setAttribute(key: sampleKey, value: sampleValue)
+    Thread.sleep(forTimeInterval: Double.random(in: 0..<10)/100)
+    childSpan.end()
+}
+
+// Create a Parent span (Main) and do some Work (child Spans). Repeat for another Span.
+createSpans()
+
+//Metrics
+let otlpMetricExporter = OtlpMetricExporter(channel: client)
+let processor = MetricProcessorSdk()
+let meterProvider = MeterProviderSdk(metricProcessor: processor, metricExporter: otlpMetricExporter, metricPushInterval: 0.1)
+
+var meter = meterProvider.get(instrumentationName: "otlp_example_meter'")
+var exampleCounter = meter.createIntCounter(name: "otlp_example_counter")
+var exampleMeasure = meter.createIntMeasure(name: "otlp_example_measure")
+var exampleObserver = meter.createIntObserver(name: "otlp_example_observation") { observer in
+    var taskInfo = mach_task_basic_info()
+    var count = mach_msg_type_number_t(MemoryLayout<mach_task_basic_info>.size) / 4
+    let _: kern_return_t = withUnsafeMutablePointer(to: &taskInfo) {
+        $0.withMemoryRebound(to: integer_t.self, capacity: 1) {
+            task_info(mach_task_self_, task_flavor_t(MACH_TASK_BASIC_INFO), $0, &count)
+        }
+    }
+    labels1 = ["dim1": "value1"]
+    observer.observe(value: Int(taskInfo.resident_size), labels: labels1)
+}
+
+var labels1 = ["dim1": "value1"]
+for _ in 1...3000 {
+    exampleCounter.add(value: 1, labelset: meter.getLabelSet(labels: labels1))
+    exampleMeasure.record(value: 100, labelset: meter.getLabelSet(labels: labels1))
+    exampleMeasure.record(value: 500, labelset: meter.getLabelSet(labels: labels1))
+    exampleMeasure.record(value: 5, labelset: meter.getLabelSet(labels: labels1))
+    exampleMeasure.record(value: 750, labelset: meter.getLabelSet(labels: labels1))
+    sleep(1)
+}
 ```
-.package(url: "https://github.com/open-telemetry/opentelemetry-swift", from: "1.0.0"),
-```
 
-and to your application/library target, add `OpenTelemetryApi` or `OpenTelemetrySdk`to your `dependencies`, e.g. like this:
-
-```
-.target(name: "ExampleTelemetryProducerApp", dependencies: ["OpenTelemetryApi"]),
-```
-
-or
-
-```
-.target(name: "ExampleApp", dependencies: ["OpenTelemetrySdk"]),
-```
-
-## Current status
-
-Currently Tracing, Metrics and Baggage API's and SDK are implemented, also OpenTracing shim, for compatibility with existing Opentracing code.
-
-Implemented traces exporters: Stdout, Jaeger, Zipkin, Datadog and OpenTelemetry collector
-
-Implemented metrics exporters: Prometheus, Datadog, and OpenTelemetry collector
-
-## Examples
-
-The package includes some example projects with basic functionality:
-
-- `Datadog Sample` - Shows the Datadog exporter used with a Simple Exporter, showing how to configure for sending.
-- `Logging Tracer` - Simple api implementation of a Tracer that logs every api call
-- `Network Tracer` - Shows how to use the `URLSessionInstrumentation` instrumentation in your application
-- `Simple Exporter` - Shows the Jaeger an Stdout exporters in action using a MultiSpanExporter. Can be easily modified for other exporters
-- `Prometheus Sample` - Shows the Prometheus exporter reporting metrics to a Prometheus instance
-- `OTLP Exporter` - Shows the OTLP exporter reporting traces to Zipkin and metrics to a Prometheus via the otel-collector
+更多信息可参考[OpenTelemetry swift library](https://github.com/open-telemetry/opentelemetry-swift)
+更多样例可参考[opentelemetry-swift/examples](https://github.com/open-telemetry/opentelemetry-swift/tree/main/Examples)

@@ -1,115 +1,51 @@
-Getting started
-===============
+> 注意：在使用前请联系集群管理员开启 KubeGems Observability 相关的组件，包含Monitoring、Logging、 Opentelemetry、Jaeger
+### KubeGems OpenTelemetry Collector
 
-OpenTelemetry C++ SDK provides the reference implementation of
-OpenTelemetry C++ API, and also provides implementation for Processor,
-Sampler, and core Exporters as per the specification.
+修改应用 SDK 中的 Exporter Endpoint 地址为 opentelemetry-collector.observability:<port>。 其中， opentelemetry-collector 是 Collector 的 Service 名称，observability 是 Collector 所在命名空间，不同上报协议对应端口如下:
 
-Exporter
-========
+| Receivers |  Protocols  | Port  |
+| :-------: | :---------: | :---: |
+|   otlp    |    gRPC     | 4317  |
+|   otlp    |    http     | 4318  |
+|  jaeger   |    gRPC     | 14250 |
+|  jaeger   | thrift_http | 14268 |
+|  zipkin   |             | 9411  |
 
-An exporter is responsible for sending the telemetry data to a
-particular backend. OpenTelemetry offers six tracing exporters out of
-the box:
+###  C++ 接入
 
--   In-Memory Exporter: keeps the data in memory, useful for debugging.
--   Jaeger Exporter: prepares and sends the collected telemetry data to
-    a Jaeger backend via UDP and HTTP.
--   Zipkin Exporter: prepares and sends the collected telemetry data to
-    a Zipkin backend via the Zipkin APIs.
--   Logging Exporter: saves the telemetry data into log streams.
--   OpenTelemetry(otlp) Exporter: sends the data to the OpenTelemetry
-    Collector using protobuf/gRPC or protobuf/HTTP.
--   ETW Exporter: sends the telemetry data to Event Tracing for Windows
-    (ETW).
+OpenTelemetry C++ SDK提供了OpenTelemetry C++ API的参考实现，并根据规范为处理器、采样器和核心导出器提供实现。
+
+### 配置 exporter 
+
+导出器负责将遥测数据发送到特定的后端。OpenTelemetry 提供了六个开箱即用的跟踪导出器：
+
+- In-Memory Exporter：将数据保存在内存中，用于调试。
+- Jaeger Exporter：准备收集的遥测数据并将其通过 UDP 和 HTTP 发送到 Jaeger 后端。
+- Zipkin 导出器：准备收集的遥测数据并将其通过 Zipkin API 发送到 Zipkin 后端。
+- Logging Exporter：将遥测数据保存到日志流中。
+- OpenTelemetry(otlp) Exporter：使用 protobuf/gRPC 或 protobuf/HTTP 将数据发送到 OpenTelemetry Collector。
+- ETW 导出器：将遥测数据发送到 Windows 事件跟踪 (ETW)。
 
 ```cpp
 //namespace alias used in sample code here.
 namespace sdktrace   = opentelemetry::sdk::trace;
-
-// logging exporter
-auto ostream_exporter =
-    std::unique_ptr<sdktrace::SpanExporter>(new opentelemetry::exporter::trace::OStreamSpanExporter);
-
-// memory exporter
-auto memory_exporter =
-    std::unique_ptr<sdktrace::SpanExporter>(new opentelemetry::exporter::memory::InMemorySpanExporter);
-
-// zipkin exporter
-opentelemetry::exporter::zipkin::ZipkinExporterOptions opts;
-opts.endpoint = "http://localhost:9411/api/v2/spans" ; // or export OTEL_EXPORTER_ZIPKIN_ENDPOINT="..."
-opts.service_name = "default_service" ;
-auto zipkin_exporter =
-    std::unique_ptr<sdktrace::SpanExporter>(new opentelemetry::exporter::zipkin::ZipkinExporter(opts));
-
-// Jaeger UDP exporter
-opentelemetry::exporter::jaeger::JaegerExporterOptions opts;
-opts.endpoint = "localhost";
-opts.server_port =  6831;
-auto jaeger_udp_exporter =
-    std::unique_ptr<sdktrace::SpanExporter>(new opentelemetry::exporter::jaeger::JaegerExporter(opts));
-
-// Jaeger HTTP exporter
-opentelemetry::exporter::jaeger::JaegerExporterOptions opts;
-opts.transport_format  = opentelemetry::exporter::jaeger::TransportFormat::kThriftHttp;
-opts.endpoint = "localhost";
-opts.server_port =  6831;
-opts.headers = {{}}; // optional headers
-auto jaeger_udp_exporter =
-    std::unique_ptr<sdktrace::SpanExporter>(new opentelemetry::exporter::jaeger::JaegerExporter(opts));
-
-
 // otlp grpc exporter
 opentelemetry::exporter::otlp::OtlpGrpcExporterOptions opts;
-opts.endpoint = "localhost::4317";
-opts.use_ssl_credentials = true;
+opts.endpoint = "opentelemetry-collector.observability::4317";
+opts.use_ssl_credentials = false;
 opts.ssl_credentials_cacert_as_string = "ssl-certificate";
 auto otlp_grpc_exporter =
     std::unique_ptr<sdktrace::SpanExporter>(new opentelemetry::exporter::otlp::OtlpGrpcExporter(opts));
 
 // otlp http exporter
 opentelemetry::exporter::otlp::OtlpHttpExporterOptions opts;
-opts.url = "http://localhost:4318/v1/traces";
+opts.url = "http://opentelemetry-collector.observability:4318/v1/traces";
 auto otlp_http_exporter =
     std::unique_ptr<sdktrace::SpanExporter>(new opentelemetry::exporter::otlp::OtlpHttpExporter(opts));
 ```
 
-Span Processor
-==============
 
-Span Processor is initialised with an Exporter. Different Span
-Processors are offered by OpenTelemetry C++ SDK:
-
--   SimpleSpanProcessor: immediately forwards ended spans to the
-    exporter.
--   BatchSpanProcessor: batches the ended spans and send them to
-    exporter in bulk.
--   MultiSpanProcessor: Allows multiple span processors to be active and
-    configured at the same time.
-
-```cpp
-// simple processor
-auto simple_processor = std::unique_ptr<sdktrace::SpanProcessor>(
-    new sdktrace::SimpleSpanProcessor(std::move(ostream_exporter)));
-
-// batch processor
-sdktrace::BatchSpanProcessorOptions options{};
-auto batch_processor = std::unique_ptr<sdktrace::SpanProcessor>(
-    new sdktrace::BatchSpanProcessor(std::move(memory_exporter), options));
-
-// multi-processor
-std::vector<std::unique_ptr<SpanProcessor>>
-    processors{std::move(simple_processor), std::move(batch_processor)};
-auto multi_processor = std::unique_ptr<sdktrace::SpanProcessor>(
-    new sdktrace::MultiSpanProcessor(std::move(processors));
-```
-
-Resource
-========
-
-A Resource is an immutable representation of the entity producing
-telemetry as key-value pair. The OpenTelemetry C++ SDK allow for
-creation of Resources and for associating them with telemetry.
+### 配置资源
 
 ```cpp
 auto resource_attributes = opentelemetry::sdk::resource::ResourceAttributes
@@ -119,31 +55,9 @@ auto resource_attributes = opentelemetry::sdk::resource::ResourceAttributes
     };
 auto resource = opentelemetry::sdk::resource::Resource::Create(resource_attributes);
 auto received_attributes = resource.GetAttributes();
-// received_attributes contains
-//      - service.name = shoppingcart
-//      - service.instance.id = instance-12
-//      - telemetry.sdk.name = opentelemetry
-//      - telemetry.sdk.language = cpp
-//      - telemetry.sdk.version = <current sdk version>
 ```
 
-It is possible to define the custom resource detectors by inhering from
-[opentelemetry::sdk::Resource::ResourceDetector]{.title-ref} class.
-
-Sampler
-=======
-
-Sampling is mechanism to control/reducing the number of samples of
-traces collected and sent to the backend. OpenTelemetry C++ SDK offers
-four samplers out of the box:
-
--   AlwaysOnSampler which samples every trace regardless of upstream
-    sampling decisions.
--   AlwaysOffSampler which doesn't sample any trace, regardless of
-    upstream sampling decisions.
--   ParentBased which uses the parent span to make sampling decisions,
-    if present.
--   TraceIdRatioBased which samples a configurable percentage of traces.
+### 配置 trace 采样
 
 ```cpp
 //AlwaysOnSampler
@@ -164,85 +78,6 @@ auto always_off_sampler = std::unique_ptr<sdktrace::TraceIdRatioBasedSampler>
     (new sdktrace::TraceIdRatioBasedSampler(ratio));
 ```
 
-TracerContext
-=============
+### 更多设置
 
-SDK configuration are shared between [TracerProvider]{.title-ref} and
-all it\'s [Tracer]{.title-ref} instances through
-[TracerContext]{.title-ref}.
-
-```cpp
-auto tracer_context = std::make_shared<sdktrace::TracerContext>
-    (std::move(multi_processor), resource, std::move(always_on_sampler));
-```
-
-TracerProvider
-==============
-
-[TracerProvider]{.title-ref} instance holds the SDK configurations (
-Span Processors, Samplers, Resource). There is single global
-TracerProvider instance for an application, and it is created at the
-start of application. There are two different mechanisms to create
-TraceProvider instance
-
--   Using constructor which takes already created TracerContext shared
-    object as parameter.
--   Using consructor which takes SDK configurations as parameter.
-
-```cpp
-// Created using `TracerContext` instance
-auto tracer_provider = nostd::shared_ptr<sdktrace::TracerProvider>
-    (new sdktrace::TracerProvider(tracer_context));
-
-// Create using SDK configurations as parameter
-auto tracer_provider = nostd::shared_ptr<sdktrace::TracerProvider>
-    (std::move(simple_processor), resource, std::move(always_on_sampler));
-
-// set the global tracer TraceProvider
-opentelemetry::trace::Provider::SetTracerProvider(tracer_provider);
-```
-
-Logging and Error Handling
-==========================
-
-OpenTelemetry C++ SDK provides mechanism for application owner to add
-customer log and error handler. The default log handler is redirected to
-standard output ( using std::cout ).
-
-The logging macro supports logging using C++ stream format, and
-key-value pair. The log handler is meant to capture errors and warnings
-arising from SDK, not supposed to be used for the application errors.
-The different log levels are supported - Error, Warn, Info and Debug.
-The default log level is Warn ( to dump both Error and Warn) and it can
-be changed at compile time.
-
-```cpp
-OTEL_INTERNAL_LOG_ERROR(" Connection failed. Error string " << error_str << " Error Num: " << errorno);
-opentelemetry::sdk::common::AttributeMap error_attributes = {
-  {"url", url}, {"content-length", len}, {"content-type", type}};
-OTEL_INTERNAL_LOG_ERROR(" Connection failed." , error_attributes);
-opentelemetry::sdk::common::AttributeMap http_attributes = {
-  {"url", url}, {"content-length", len}, {"content-type", type}};
-OTEL_INTERNAL_LOG_DEBUG(" Connection Established Successfully. Headers:", http_attributes);
-```
-
-The custom log handler can be defined by inheriting from
-[opentelemetry::sdk::common::internal\_log::LogHandler]{.title-ref}
-class.
-
-```cpp
-class CustomLogHandler : public opentelemetry::sdk::common::internal_log::LogHandler
-{
-    void Handle(opentelemetry::sdk::common::internal_log::LogLevel level,
-                const char \*file,
-                int line,
-                const char \*msg,
-                const opentelemetry::sdk::common::AttributeMap &attributes) noexcept override
-
-    {
-        // add implementation here
-    }
-};
-opentelemetry::sdk::common::internal_log::GlobalLogHandler::SetLogHandler(CustomLogHandler());
-opentelemetry::sdk::common::internal_log::GlobalLogHandler::SetLogLevel(opentelemetry::sdk::common::internal_log::LogLevel::Debug);
-```
+请参考 [OpenTelemetry C++ SDK](https://opentelemetry-cpp.readthedocs.io/en/latest/sdk/GettingStarted.html)

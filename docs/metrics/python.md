@@ -12,10 +12,7 @@
 |  jaeger   | thrift_http | 14268 |
 |  zipkin   |             | 9411  |
 
-###  Python 应用接入
-
-Opentelmetry 为 Python 提供了自动化的检测和埋点。这种方法简单、容易，并且不需要很多代码更改。只需要安装几个 Python 包即可成功检测应用程序的代码
-
+###  Python Metrics
 
 ##### step 1 安装 opentelmetry 相关的库
 

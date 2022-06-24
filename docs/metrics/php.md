@@ -12,10 +12,10 @@
 |  jaeger   | thrift_http | 14268 |
 |  zipkin   |             | 9411  |
 
-###  PHP 应用接入
+###  PHP Metrics
 
 Opentelmetry 的 PHP 尚处于早期阶段，暂不提供接入文档
 
 更多信息可参考[OpenTelemetry php library](https://github.com/open-telemetry/opentelemetry-php)
 
-php 样例可参考[opentelemetry-php/examples](https://github.com/open-telemetry/opentelemetry-php/tree/main/examples)
+样例可参考[opentelemetry-php/examples](https://github.com/open-telemetry/opentelemetry-php/tree/main/examples)
