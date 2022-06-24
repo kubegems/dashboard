@@ -321,11 +321,9 @@ export default new Store({
       const data = await getEnvironmentSelectData(payload);
       commit('SET_ENVIRONMENT', data);
     },
-    async INIT_PLUGINS({ state, getters, commit }) {
+    async INIT_PLUGINS({ state, getters, commit }, payload) {
       const doFunc = async () => {
-        const cluster = state.AdminViewport
-          ? getters.Cluster().ClusterName || ''
-          : getters.Environment().ClusterName || '';
+        const cluster = payload;
         if (cluster && cluster.length > 0) {
           const data = await getClusterPluginsList(cluster, {
             simple: true,

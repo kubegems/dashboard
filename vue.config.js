@@ -4,6 +4,14 @@ const path = require('path');
 module.exports = {
   productionSourceMap: true,
   configureWebpack: {
+    module: {
+      rules: [
+        {
+          test: /\.mdx?$/,
+          use: ['babel-loader', '@mdx-js/vue-loader'],
+        },
+      ],
+    },
     output: {
       filename: `js/[name].${timestamp}.js`,
       chunkFilename: '[id].[chunkhash].js',
@@ -21,8 +29,7 @@ module.exports = {
     },
     devServer: {
       static: {
-        directory: path.join(__dirname, 'docs'),
-        publicPath: '/docs',
+        directory: path.join(__dirname, 'public'),
       },
       compress: false,
       hot: true,

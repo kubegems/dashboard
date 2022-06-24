@@ -96,7 +96,6 @@
     async mounted() {
       if (this.JWT) {
         this.$store.commit('CLEAR_PLUGINS_INTERVAL');
-        this.$store.dispatch('INIT_PLUGINS');
         this.environmentDetail();
       }
     },

@@ -65,6 +65,10 @@ Vue.prototype.$aceinit = () => {
   require('brace/mode/xml');
   require('brace/mode/ini');
   require('brace/mode/html');
+  require('brace/mode/java');
+  require('brace/mode/python');
+  require('brace/mode/golang');
+  require('brace/mode/c_cpp');
   require('brace/mode/plain_text');
   require('brace/snippets/json');
 };

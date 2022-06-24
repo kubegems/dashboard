@@ -113,6 +113,11 @@
     methods: {
       getMetricName(metricAndValues, index) {
         if (metricAndValues.metric) {
+          if (this.label === 'all') {
+            return `{${Object.keys(metricAndValues.metric).map((k) => {
+              return `${k}=${metricAndValues.metric[k]}`;
+            })}}`;
+          }
           if (metricAndValues.metric[this.label]) {
             return metricAndValues.metric[this.label];
           }
@@ -199,6 +204,8 @@
           case 'percent':
             scaleNum = 100;
             break;
+          case 'duration':
+            break;
           case '%':
             return { scaleNum: `${value.toFixed(2)} ${unitType}`, unitType: null, newValue: value };
             break;
@@ -221,15 +228,16 @@
           const d = this.allUnit[unitType].findIndex((u) => {
             return u.toLocaleLowerCase() === this.unit.toLocaleLowerCase();
           });
+
           if (unitType === 'duration') {
-            if (d < 3) {
+            if (d <= 3) {
               value = value * Math.pow(1000, d);
-            } else if (index < 5) {
-              value = value * Math.pow(1000, d) * Math.pow(1000, d - 3);
-            } else if (index < 6) {
-              value = value * Math.pow(1000, d) * Math.pow(1000, d - 3) * Math.pow(24, d - 5);
+            } else if (d <= 5) {
+              value = value * Math.pow(1000, 3) * Math.pow(60, d - 3);
+            } else if (d <= 6) {
+              value = value * Math.pow(1000, 3) * Math.pow(60, 2) * Math.pow(24, d - 5);
             } else {
-              value = value * Math.pow(1000, d) * Math.pow(1000, d - 3) * Math.pow(24, d - 5) * Math.pow(7, d - 6);
+              value = value * Math.pow(1000, 3) * Math.pow(60, 2) * Math.pow(24, 1) * Math.pow(7, d - 6);
             }
           } else if (unitType === 'short') {
             value = value * Math.pow(scaleNum, 3);
@@ -242,7 +250,7 @@
       beautifyUnit(num, sclaeNum, units = [], unitType = '', decimal = 1) {
         let result = num;
         for (const index in units) {
-          if (Math.abs(result) < sclaeNum) {
+          if (Math.abs(result) < sclaeNum || parseInt(index) === parseInt(units.length - 1)) {
             if (unitType === 'percent') {
               return `${result.toFixed(decimal)} %`;
             }
@@ -269,8 +277,7 @@
           } else {
             sclaeNum = 7;
           }
-
-          if (Math.abs(result) < sclaeNum) {
+          if (Math.abs(result) < sclaeNum || parseInt(index) === parseInt(units.length - 1)) {
             return `${result.toFixed(decimal)} ${units[index]}`;
           }
           result /= sclaeNum;

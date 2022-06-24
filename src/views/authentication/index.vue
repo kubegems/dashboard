@@ -214,32 +214,22 @@
       },
       async redirect() {
         if (this.$route.params.cluster) {
-          await this.$store.dispatch('UPDATE_CLUSTER_DATA');
           this.$store.commit('SET_ADMIN_VIEWPORT', true);
-          if (this.Admin && this.Cluster().ID > 0) {
-            if (this.$route.query.redirect !== undefined) {
-              this.$router.push({ path: this.$route.query.redirect });
-            } else {
-              this.$router.push({ name: 'cluster-center' });
-            }
+          if (this.$route.query.redirect !== undefined) {
+            this.$router.push({ path: this.$route.query.redirect });
           } else {
-            this.$router.push({ name: 'whitepage' });
+            this.$router.push({ name: 'cluster-center' });
           }
         } else {
-          await this.$store.dispatch('UPDATE_TENANT_DATA');
-          if (this.Tenant().ID > 0) {
-            if (this.$route.query.redirect !== undefined) {
-              this.$router.push({ path: this.$route.query.redirect });
-            } else {
-              this.$router.push({
-                name: 'resource-dashboard',
-                params: {
-                  tenant: this.Tenant().TenantName,
-                },
-              });
-            }
+          if (this.$route.query.redirect !== undefined) {
+            this.$router.push({ path: this.$route.query.redirect });
           } else {
-            this.$router.push({ name: 'whitepage' });
+            this.$router.push({
+              name: 'resource-dashboard',
+              params: {
+                tenant: this.Tenant().TenantName,
+              },
+            });
           }
         }
       },
