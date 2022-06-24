@@ -97,8 +97,11 @@
           this.$router.push({ name: 'whitepage' });
         }
       },
-      toWorkspace() {
+      async toWorkspace() {
         this.$store.commit('CLEAR_VIRTUAL_SPACE');
+        if (this.Tenant().ID === 0) {
+          await this.$store.dispatch('UPDATE_TENANT_DATA');
+        }
         if (this.Tenant().ID > 0 || this.Admin) {
           this.$store.commit('SET_ADMIN_VIEWPORT', false);
           this.$store.commit('CLEAR_RESOURCE');

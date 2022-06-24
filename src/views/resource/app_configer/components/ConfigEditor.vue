@@ -15,14 +15,11 @@
       </div>
     </template>
     <template #content>
-      <v-card>
+      <v-card flat>
         <v-card-text class="text-h5 card__title">
           <v-form ref="form" v-model="valid" class="pa-0" lazy-validation @submit.prevent>
             <v-row>
-              <v-col col="5">
-                <v-text-field v-model="editItem.application" label="应用" :readonly="!isCreate" />
-              </v-col>
-              <v-col cols="5">
+              <v-col cols="4">
                 <v-text-field
                   v-model="editItem.key"
                   label="key"
@@ -31,8 +28,10 @@
                   @keyup="onKeyInput"
                 />
               </v-col>
-              <v-col cols="2">
-                <v-autocomplete v-model="suffix" :items="suffixItems" label="类型" :readonly="!isCreate" />
+              <v-col cols="8">
+                <v-radio-group v-model="suffix" class="mt-6" hide-details row>
+                  <v-radio v-for="(t, index) in suffixItems" :key="index" :label="t.text" :value="t.value" />
+                </v-radio-group>
               </v-col>
             </v-row>
           </v-form>
@@ -89,7 +88,6 @@
           tenant: '',
           project: '',
           environment: '',
-          application: '',
           key: '',
           value: '',
         },
@@ -101,7 +99,7 @@
           { text: 'yaml', value: 'yaml' },
           { text: 'html', value: 'html' },
           { text: 'ini', value: 'ini' },
-          { text: 'properties', value: 'properties' },
+          { text: 'properties', value: 'text' },
         ],
       };
     },
@@ -114,7 +112,6 @@
           tenant: this.item.tenant,
           project: this.item.project,
           environment: this.item.environment,
-          application: this.item.application,
           key: this.item.key,
           value: this.item.value,
         };
@@ -127,9 +124,6 @@
       },
       submit() {
         if (this.$refs.form.validate(true)) {
-          if (this.suffix && this.editItem.key.indexOf('.') === -1) {
-            this.editItem.key = `${this.editItem.key}.${this.suffix}`;
-          }
           this.$emit('submit', this.editItem, this.isCreate);
         }
       },
