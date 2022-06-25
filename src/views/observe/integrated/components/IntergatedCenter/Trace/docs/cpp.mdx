@@ -1,7 +1,10 @@
-> 注意：在使用前请联系集群管理员开启 KubeGems Observability 相关的组件，包含Monitoring、Logging、 Opentelemetry、Jaeger
-### KubeGems OpenTelemetry Collector
+import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert';
 
-修改应用 SDK 中的 Exporter Endpoint 地址为 opentelemetry-collector.observability:<port>。 其中， opentelemetry-collector 是 Collector 的 Service 名称，observability 是 Collector 所在命名空间，不同上报协议对应端口如下:
+<Alert message="在使用前请联系集群管理员开启 KubeGems Observability 相关的组件。" />
+
+## KubeGems OpenTelemetry Collector
+
+修改应用 SDK 中的 Exporter Endpoint 地址为 opentelemetry-collector.observability: `<port>`。 其中， opentelemetry-collector 是 Collector 的 Service 名称，observability 是 Collector 所在命名空间，不同上报协议对应端口如下:
 
 | Receivers |  Protocols  | Port  |
 | :-------: | :---------: | :---: |
@@ -11,11 +14,11 @@
 |  jaeger   | thrift_http | 14268 |
 |  zipkin   |             | 9411  |
 
-###  C++ 接入
+## C++ 接入
 
-OpenTelemetry C++ SDK提供了OpenTelemetry C++ API的参考实现，并根据规范为处理器、采样器和核心导出器提供实现。
+OpenTelemetry C++ SDK 提供了 OpenTelemetry C++ API 的参考实现，并根据规范为处理器、采样器和核心导出器提供实现。
 
-### 配置 exporter 
+## 配置 exporter
 
 导出器负责将遥测数据发送到特定的后端。OpenTelemetry 提供了六个开箱即用的跟踪导出器：
 
@@ -44,8 +47,7 @@ auto otlp_http_exporter =
     std::unique_ptr<sdktrace::SpanExporter>(new opentelemetry::exporter::otlp::OtlpHttpExporter(opts));
 ```
 
-
-### 配置资源
+## 配置资源
 
 ```cpp
 auto resource_attributes = opentelemetry::sdk::resource::ResourceAttributes
@@ -57,7 +59,7 @@ auto resource = opentelemetry::sdk::resource::Resource::Create(resource_attribut
 auto received_attributes = resource.GetAttributes();
 ```
 
-### 配置 trace 采样
+## 配置 trace 采样
 
 ```cpp
 //AlwaysOnSampler
@@ -78,6 +80,6 @@ auto always_off_sampler = std::unique_ptr<sdktrace::TraceIdRatioBasedSampler>
     (new sdktrace::TraceIdRatioBasedSampler(ratio));
 ```
 
-### 更多设置
+## 更多设置
 
 请参考 [OpenTelemetry C++ SDK](https://opentelemetry-cpp.readthedocs.io/en/latest/sdk/GettingStarted.html)

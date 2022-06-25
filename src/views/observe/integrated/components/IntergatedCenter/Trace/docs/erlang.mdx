@@ -1,0 +1,21 @@
+import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert';
+
+<Alert message="在使用前请联系集群管理员开启 KubeGems Observability 相关的组件。" />
+
+## KubeGems OpenTelemetry Collector
+
+修改应用 SDK 中的 Exporter Endpoint 地址为 opentelemetry-collector.observability: `<port>`。 其中， opentelemetry-collector 是 Collector 的 Service 名称，observability 是 Collector 所在命名空间，不同上报协议对应端口如下:
+
+| Receivers |  Protocols  | Port  |
+| :-------: | :---------: | :---: |
+|   otlp    |    gRPC     | 4317  |
+|   otlp    |    http     | 4318  |
+|  jaeger   |    gRPC     | 14250 |
+|  jaeger   | thrift_http | 14268 |
+|  zipkin   |             | 9411  |
+
+## erlang 应用接入
+
+Opentelmetry 的 erlang 暂不提供接入文档
+
+更多信息可参考[OpenTelemetry erlang library](https://github.com/open-telemetry/opentelemetry-erlang)

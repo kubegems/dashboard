@@ -1,8 +1,10 @@
-> 注意：在使用前请联系集群管理员开启 KubeGems Observability 相关的组件，包含Monitoring、Logging、 Opentelemetry、Jaeger
+import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert';
 
-### KubeGems OpenTelemetry Collector
+<Alert message="在使用前请联系集群管理员开启 KubeGems Observability 相关的组件。" />
 
-修改应用 SDK 中的 Exporter Endpoint 地址为 opentelemetry-collector.observability:\<port>。 其中， opentelemetry-collector 是 Collector 的 Service 名称，observability 是 Collector 所在命名空间，不同上报协议对应端口如下:
+## KubeGems OpenTelemetry Collector
+
+修改应用 SDK 中的 Exporter Endpoint 地址为 opentelemetry-collector.observability: `<port>`。 其中， opentelemetry-collector 是 Collector 的 Service 名称，observability 是 Collector 所在命名空间，不同上报协议对应端口如下:
 
 | Receivers |  Protocols  | Port  |
 | :-------: | :---------: | :---: |
@@ -12,13 +14,13 @@
 |  jaeger   | thrift_http | 14268 |
 |  zipkin   |             | 9411  |
 
-###  Nodejs 应用接入
+## Nodejs 应用接入
 
 > 文档应用来至阿里云文档，做了适当修改，去掉了 GRPC 中 meta 信息
 
-Node.js支持在http、https、grpc、express、mysql、mongodb、redis等框架中通过引入依赖包的方式自动上传Trace数据。详细的框架列表请参见[opentelemetry-node-js-contrib](https://github.com/open-telemetry/opentelemetry-js-contrib)。此处以express为例，介绍opentelemetry 的自动接入方案。更多示例请参见[examples](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/examples)。
+Node.js 支持在 http、https、grpc、express、mysql、mongodb、redis 等框架中通过引入依赖包的方式自动上传 Trace 数据。详细的框架列表请参见[opentelemetry-node-js-contrib](https://github.com/open-telemetry/opentelemetry-js-contrib)。此处以 express 为例，介绍 opentelemetry 的自动接入方案。更多示例请参见[examples](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/examples)。
 
-##### step 1 安装依赖包
+#### step 1 安装依赖包
 
 ```nodejs
 npm install --save @opentelemetry/api
@@ -32,7 +34,7 @@ npm install --save @grpc/grpc-js
 npm install --save @opentelemetry/sdk-trace-node
 ```
 
-#####  step 2 初始化Tracer并启动express
+#### step 2 初始化 Tracer 并启动 express
 
 ```
 const opentelemetry = require("@opentelemetry/api");
