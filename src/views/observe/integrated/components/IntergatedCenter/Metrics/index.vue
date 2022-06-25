@@ -3,7 +3,7 @@
     <v-btn bottom class="metrics__fab" color="primary" dark fab fixed right small @click="switchComponent">
       <v-icon small> {{ formComponent === 'MetricsBaseForm' ? 'fas fa-book' : 'fas fa-link' }} </v-icon>
     </v-btn>
-    <component :is="formComponent" :ref="formComponent" @close="close" />
+    <component :is="formComponent" :ref="formComponent" :v="v" @close="close" />
   </div>
 </template>
 
@@ -16,6 +16,12 @@
     components: {
       MetricsBaseForm,
       MetricsDocs,
+    },
+    props: {
+      v: {
+        type: String,
+        default: () => '',
+      },
     },
     data() {
       return {

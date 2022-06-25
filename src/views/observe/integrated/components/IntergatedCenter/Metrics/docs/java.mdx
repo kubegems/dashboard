@@ -1,0 +1,40 @@
+import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert';
+
+<Alert message="在使用前请联系集群管理员开启 KubeGems Observability 相关的组件。" />
+
+## KubeGems OpenTelemetry Collector
+
+修改应用 SDK 中的 Exporter Endpoint 地址为 opentelemetry-collector.observability: `<port>`。 其中， opentelemetry-collector 是 Collector 的 Service 名称，observability 是 Collector 所在命名空间，不同上报协议对应端口如下:
+
+| Receivers |  Protocols  | Port  |
+| :-------: | :---------: | :---: |
+|   otlp    |    gRPC     | 4317  |
+|   otlp    |    http     | 4318  |
+|  jaeger   |    gRPC     | 14250 |
+|  jaeger   | thrift_http | 14268 |
+|  zipkin   |             | 9411  |
+
+## Java 应用接入
+
+#### step 1 下载 Agent
+
+[opentelemetry-javaagent.jar](https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar)
+
+#### step2 设置 java 启动参数
+
+```
+java -javaagent:<path/to/opentelemetry-javaagent.jar> \
+     -Dotel.exporter.otlp.endpoint=http://opentelemetry-collector.observability:4318 \
+     -Dotel.service.name=java-opentelemetry-otlp-instrumentation
+     -jar myapp.jar
+```
+
+> 更多 java sdk 的配置参考[open-telemetry/opentelemetry-java](https://github.com/open-telemetry/opentelemetry-java/blob/main/sdk-extensions/autoconfigure/README.md#otlp-exporter-both-span-and-metric-exporters)
+
+#### Step3 登录 kubegems 指标观测性并查看调用链接
+
+## java 手动接入
+
+请参考 opentelemetry 官方指导文档
+
+https://opentelemetry.io/docs/instrumentation/java/manual/
