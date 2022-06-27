@@ -90,7 +90,7 @@
         cluster: '',
         namespace: '',
         pod: '',
-        timestamp: 0,
+        timestamp: '',
       },
     }),
     computed: {
