@@ -90,6 +90,7 @@
         cluster: '',
         namespace: '',
         pod: '',
+        timestamp: '',
       },
     }),
     computed: {
@@ -183,6 +184,13 @@
       onDatetimeChange() {
         this.params.start = this.$moment(this.date[0]).utc().format();
         this.params.end = this.$moment(this.date[1]).utc().format();
+        if (this.params.timestamp) {
+          const timestamp = parseInt(this.params.timestamp.substr(0, 13));
+          if (this.$moment(timestamp).add(30, 'minutes') < new Date()) {
+            this.params.start = this.$moment(timestamp).utc().add(-15, 'minutes').format();
+            this.params.end = this.$moment(timestamp).utc().add(15, 'minutes').format();
+          }
+        }
         this.loadMetrics();
       },
     },
