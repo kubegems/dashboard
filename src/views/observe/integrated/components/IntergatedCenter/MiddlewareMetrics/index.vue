@@ -79,11 +79,19 @@
         }
         this.params = this.retrieveBasicFormParams(this.appValues, this.schemaJson);
       },
+
       async deployMiddlewareMetricsServiceMonitor() {
         if (this.$refs.jsonSchema.validate()) {
           if (this.env?.projectid && this.env?.value) {
+            const appName = `${this.chartName}-${randomString(4)}`;
+            if (Object.prototype.hasOwnProperty.call(this.appValues, 'nameOverride')) {
+              this.appValues.nameOverride = appName;
+            }
+            if (Object.prototype.hasOwnProperty.call(this.appValues, 'fullnameOverride')) {
+              this.appValues.fullnameOverride = appName;
+            }
             const data = {
-              name: `${this.chartName}-${randomString(4)}`,
+              name: appName,
               project_id: this.env?.projectid,
               environment_id: this.env?.value,
               repoURL: this.chart.repo || 'kubegems_online_store',
