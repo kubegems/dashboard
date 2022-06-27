@@ -1,6 +1,6 @@
 <template>
   <v-form class="py-4" lazy-validation @submit.prevent>
-    <div class="markdown-body px-4" :style="{ height: `${height}px`, overflowY: 'auto' }">
+    <div v-highlight class="markdown-body px-4" :style="{ height: `${height}px`, overflowY: 'auto' }">
       <component :is="component" />
     </div>
   </v-form>

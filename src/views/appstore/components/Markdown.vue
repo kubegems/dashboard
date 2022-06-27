@@ -1,10 +1,9 @@
 <template>
-  <div class="markdown-body" v-html="html" />
+  <div v-highlight class="markdown-body" v-html="html" />
 </template>
 
 <script>
   import MarkdownIt from 'markdown-it';
-  import hljs from 'markdown-it-highlightjs';
 
   export default {
     name: 'Markdown',
@@ -25,7 +24,6 @@
     },
     created() {
       this.md = new MarkdownIt();
-      this.md.use(hljs);
     },
   };
 </script>
