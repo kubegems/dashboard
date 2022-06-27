@@ -99,7 +99,7 @@
           { text: 'yaml', value: 'yaml' },
           { text: 'html', value: 'html' },
           { text: 'ini', value: 'ini' },
-          { text: 'properties', value: 'text' },
+          { text: 'properties', value: 'properties' },
         ],
       };
     },
