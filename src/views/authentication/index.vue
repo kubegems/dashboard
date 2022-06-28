@@ -261,7 +261,7 @@
     &__ani {
       animation-name: slide-out;
       animation-duration: 1.5s;
-      animation-timing-function: cubic-bezier(0.5);
+      animation-timing-function: cubic-bezier(0.75, 0, 0.16, 1);
       animation-delay: 2s;
       animation-fill-mode: forwards;
     }
@@ -299,7 +299,7 @@
       width: 400px;
     }
     100% {
-      width: 250px;
+      width: 15vw;
     }
   }
 
@@ -320,21 +320,23 @@
       &__ani {
         animation-name: title-slide;
         animation-duration: 1.5s;
-        animation-timing-function: cubic-bezier(0.5);
+        animation-timing-function: cubic-bezier(0.75, 0, 0.16, 1);
         animation-delay: 2s;
         animation-fill-mode: forwards;
       }
 
       &__small {
-        top: 44%;
+        top: 43%;
+        transform: none;
+        left: 45vw;
       }
     }
 
-    &loading {
+    &__loading {
       &__ani {
         animation-name: box-show;
         animation-duration: 1.5s;
-        animation-timing-function: cubic-bezier(0.5);
+        animation-timing-function: cubic-bezier(0.75, 0, 0.16, 1);
         animation-delay: 2s;
         animation-fill-mode: forwards;
       }
@@ -345,20 +347,24 @@
     0% {
       left: 50vw;
       top: 50%;
+      transform: translate(-50%, -50%);
     }
 
     45% {
       left: 150vw;
       top: 50%;
+      transform: translate(-50%, -50%);
     }
 
     75% {
       left: 150vw;
       top: 50%;
+      transform: translate(-50%, -50%);
     }
     100% {
-      left: 150vw;
-      top: 44%;
+      left: 145vw;
+      top: 43%;
+      transform: none;
     }
   }
 
@@ -394,7 +400,7 @@
         &__ani {
           animation-name: position-small;
           animation-duration: 0.5s;
-          animation-timing-function: cubic-bezier(0.5);
+          animation-timing-function: cubic-bezier(0.75, 0, 0.16, 1);
           animation-delay: 3.1s;
           animation-fill-mode: forwards;
         }
@@ -403,7 +409,7 @@
           &__ani {
             animation-name: img-small;
             animation-duration: 0.5s;
-            animation-timing-function: cubic-bezier(0.5);
+            animation-timing-function: cubic-bezier(0.75, 0, 0.16, 1);
             animation-delay: 3.1s;
             animation-fill-mode: forwards;
           }
@@ -411,18 +417,18 @@
       }
 
       &__desc {
-        width: 55%;
+        width: 45%;
         line-height: 1.5;
         font-size: 1rem;
         position: absolute;
-        left: 43%;
-        top: 48%;
+        left: 45%;
+        top: 50%;
         opacity: 0;
 
         &__ani {
           animation-name: desc-show;
           animation-duration: 0.5s;
-          animation-timing-function: cubic-bezier(0.5);
+          animation-timing-function: cubic-bezier(0.75, 0, 0.16, 1);
           animation-delay: 3.1s;
           animation-fill-mode: forwards;
         }
