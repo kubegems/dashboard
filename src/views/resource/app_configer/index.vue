@@ -4,13 +4,55 @@
 
     <BaseBreadcrumb>
       <template #extend>
-        <v-flex class="kubegems__full-right mr-3">
-          <span class="text-body-2 kubegems__text">
-            endpoint: <b>nacos-client.nacos:8848</b> namespace:
-            <b> {{ Tenant().TenantName }}_{{ Project().ProjectName }} </b> group:<b>
-              {{ Environment().EnvironmentName }}
-            </b>
-          </span>
+        <v-flex class="kubegems__full-right">
+          <div class="float-left provider mr-2">Provider:</div>
+          <div class="float-left provider__img"><img class="mt-2" height="48" src="/icon/nacos.jpeg" /></div>
+
+          <v-menu
+            bottom
+            :close-delay="200"
+            :close-on-content-click="false"
+            content-class="conf__menu"
+            max-width="200px"
+            offset-y
+            open-on-hover
+            origin="top center"
+            transition="scale-transition"
+          >
+            <template #activator="{ on }">
+              <v-btn class="kubegems__full-right" color="primary" small text v-on="on">访问信息</v-btn>
+            </template>
+            <v-card>
+              <v-flex class="text-body-2 text-center primary white--text py-2">
+                <v-icon color="white" left small> mdi-brightness-7 </v-icon>
+                <span>访问信息</span>
+              </v-flex>
+              <v-list class="pa-0 kubegems__tip" dense>
+                <v-list-item>
+                  <v-list-item-content>
+                    <v-list-item class="float-left pa-0" two-line>
+                      <v-list-item-content class="py-0">
+                        <v-list-item-title> endpoint </v-list-item-title>
+                        <v-list-item-content class="text-caption kubegems__text" />
+                      </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item class="float-left pa-0" two-line>
+                      <v-list-item-content class="py-0">
+                        <v-list-item-title> namespace </v-list-item-title>
+                        <v-list-item-content class="text-caption kubegems__text" />
+                      </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item class="float-left pa-0" two-line>
+                      <v-list-item-content class="py-0">
+                        <v-list-item-title> group </v-list-item-title>
+                        <v-list-item-content class="text-caption kubegems__text" />
+                      </v-list-item-content>
+                    </v-list-item>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list>
+            </v-card>
+          </v-menu>
         </v-flex>
       </template>
     </BaseBreadcrumb>
@@ -320,3 +362,18 @@
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .provider {
+    line-height: 64px;
+
+    &__img {
+      margin-right: 100px;
+    }
+  }
+
+  .conf__menu {
+    right: 10px !important;
+    left: auto !important;
+  }
+</style>

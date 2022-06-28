@@ -19,7 +19,7 @@
         <v-card-text class="text-h5 card__title">
           <v-form ref="form" v-model="valid" class="pa-0" lazy-validation @submit.prevent>
             <v-row>
-              <v-col cols="4">
+              <v-col class="py-0" cols="4">
                 <v-text-field
                   v-model="editItem.key"
                   label="key"
@@ -28,10 +28,16 @@
                   @keyup="onKeyInput"
                 />
               </v-col>
-              <v-col cols="8">
+              <v-col class="py-0" cols="8">
                 <v-radio-group v-model="suffix" class="mt-6" hide-details row>
                   <v-radio v-for="(t, index) in suffixItems" :key="index" :label="t.text" :value="t.value" />
                 </v-radio-group>
+              </v-col>
+              <v-col v-if="more" class="py-0" cols="4">
+                <v-text-field v-model="editItem.application" label="应用" :rules="applicationRules" />
+              </v-col>
+              <v-col class="py-0" cols="2">
+                <v-switch v-model="more" class="mt-5" label="更多配置" />
               </v-col>
             </v-row>
           </v-form>
@@ -39,7 +45,7 @@
         <ACEEditor
           v-model="editItem.value"
           :class="`rounded-b mb-4 clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-          :height="600"
+          :height="550"
           :lang="suffix"
           @init="$aceinit"
           @keydown.stop
@@ -86,10 +92,12 @@
       return {
         dialog: false,
         valid: false,
+        more: false,
         editItem: {
           tenant: '',
           project: '',
           environment: '',
+          application: '',
           key: '',
           value: '',
         },
@@ -117,9 +125,11 @@
           tenant: this.item.tenant,
           project: this.item.project,
           environment: this.item.environment,
+          application: this.item.application,
           key: this.item.key,
           value: this.item.value,
         };
+        this.more = Boolean(this.item.application);
         this.matchSuffix();
       },
     },

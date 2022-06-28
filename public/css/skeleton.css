@@ -11,40 +11,6 @@
   display: none;
 }
 
-.skeleton__bg {
-  animation-name: bg;
-  animation-duration: 0.1s;
-  animation-timing-function: cubic-bezier(0.5);
-  animation-delay: 1.2s;
-  animation-fill-mode: forwards;
-}
-
-@keyframes bg {
-  0% {
-    background-color: white;
-  }
-  100% {
-    background-color: #1e88e5;
-  }
-}
-
-.skeleton__bg__out {
-  animation-name: bg-out;
-  animation-duration: 0.2s;
-  animation-timing-function: linear;
-  animation-delay: 0;
-  animation-fill-mode: forwards;
-}
-
-@keyframes bg-out {
-  0% {
-    width: 100%;
-  }
-  100% {
-    width: 0;
-  }
-}
-
 .skeleton__title {
   position: absolute;
   left: 50%;
@@ -52,20 +18,30 @@
   transform: translate(-50%, -50%);
 }
 
-.skeleton__flash {
-  animation-name: flash-title;
-  animation-duration: 1.2s;
-  animation-timing-function: cubic-bezier(0.5);
-  animation-delay: 0s;
+.skeleton__img__ani {
+  animation-name: img-change;
+  animation-duration: 1.5s;
+  animation-timing-function: cubic-bezier(0.75, 0, 0.16, 1);
+  animation-delay: 2s;
   animation-fill-mode: forwards;
 }
 
-@keyframes flash-title {
+@keyframes img-change {
   0% {
-    left: 0;
+    content: url(/logo-about.svg);
+    width: 400px;
+  }
+  45% {
+    content: url(/logo.svg);
+    width: 400px;
+  }
+  75% {
+    content: url(/logo.svg);
+    width: 400px;
   }
   100% {
-    left: 50%;
+    content: url(/logo.svg);
+    width: 15vw;
   }
 }
 
@@ -74,21 +50,9 @@
   content: url(/logo-about.svg);
 }
 
-.skeleton__img__flash {
-  animation-name: flash-img;
-  animation-duration: 0.1s;
-  animation-timing-function: cubic-bezier(0.5);
-  animation-delay: 1.2s;
-  animation-fill-mode: forwards;
-}
-
-@keyframes flash-img {
-  0% {
-    content: url(/logo-about.svg);
-  }
-  100% {
-    content: url(/logo.svg);
-  }
+.skeleton__img__small {
+  content: url(/logo.svg);
+  width: 15vw;
 }
 
 .skeleton__loading {
