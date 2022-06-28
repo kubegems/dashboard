@@ -33,19 +33,25 @@
                     <v-list-item class="float-left pa-0" two-line>
                       <v-list-item-content class="py-0">
                         <v-list-item-title> endpoint </v-list-item-title>
-                        <v-list-item-content class="text-caption kubegems__text" />
+                        <v-list-item-content class="text-caption kubegems__text">
+                          nacos-client.nacos:8848
+                        </v-list-item-content>
                       </v-list-item-content>
                     </v-list-item>
                     <v-list-item class="float-left pa-0" two-line>
                       <v-list-item-content class="py-0">
                         <v-list-item-title> namespace </v-list-item-title>
-                        <v-list-item-content class="text-caption kubegems__text" />
+                        <v-list-item-content class="text-caption kubegems__text">
+                          {{ baseInfoData.nacos_tenant }}
+                        </v-list-item-content>
                       </v-list-item-content>
                     </v-list-item>
                     <v-list-item class="float-left pa-0" two-line>
                       <v-list-item-content class="py-0">
                         <v-list-item-title> group </v-list-item-title>
-                        <v-list-item-content class="text-caption kubegems__text" />
+                        <v-list-item-content class="text-caption kubegems__text">
+                          {{ baseInfoData.nacos_group }}
+                        </v-list-item-content>
                       </v-list-item-content>
                     </v-list-item>
                   </v-list-item-content>
@@ -122,6 +128,9 @@
                   <v-btn color="primary" small text @click="showHistory(item)"> 历史 </v-btn>
                 </v-flex>
                 <v-flex>
+                  <v-btn color="primary" small text @click="showListener(item)"> 监听查询 </v-btn>
+                </v-flex>
+                <v-flex>
                   <v-btn color="error" small text @click="removeConfig(item, index)"> 删除 </v-btn>
                 </v-flex>
               </v-card-text>
@@ -149,6 +158,7 @@
       @submit="submitEditContent"
     />
     <ConfigSDK ref="configSDK" />
+    <ConfigListener ref="configListener" />
     <DeleteItem
       :idx="editor.deleteIdx"
       :item="editor.currentDeleteItem"
@@ -168,8 +178,9 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import { delConfigItems, listConfigItems, pubConfigItems } from './api/index.js';
+  import { delConfigItems, listConfigItems, pubConfigItems, baseInfo } from './api/index.js';
   import ConfigEditor from './components/ConfigEditor';
+  import ConfigListener from './components/ConfigListener';
   import ConfigSDK from './components/ConfigSDK';
   import DeleteItem from './components/DeleteItem';
   import HistoryView from './components/HistoryView';
@@ -181,6 +192,7 @@
     components: {
       ConfigEditor,
       ConfigSDK,
+      ConfigListener,
       DeleteItem,
       HistoryView,
     },
@@ -206,6 +218,11 @@
         },
         items: [],
         itemsCopy: [],
+        baseInfoData: {
+          provider: '',
+          nacos_tenant: '',
+          nacos_group: '',
+        },
         headers: [
           { text: 'dataid', value: 'key', align: 'start' },
           { text: 'app', value: 'application', align: 'start' },
@@ -228,8 +245,18 @@
     },
     mounted() {
       this.appConfigList();
+      this.baseInfo();
     },
     methods: {
+      async baseInfo() {
+        const data = await baseInfo(
+          this.Tenant().TenantName || '',
+          this.Project().ProjectName || '',
+          this.Environment().EnvironmentName || '',
+          { noprocessing: true },
+        );
+        this.baseInfoData = data;
+      },
       async appConfigList() {
         const datas = await listConfigItems(
           this.Tenant().TenantName || '',
@@ -357,6 +384,9 @@
       },
       showSDK() {
         this.$refs.configSDK.open();
+      },
+      showListener(item) {
+        this.$refs.configListener.open(item);
       },
     },
   };
