@@ -1,0 +1,112 @@
+import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert';
+
+<Alert message="在使用前请联系集群管理员开启 KubeGems Observability 相关的组件。" />
+
+## KubeGems OpenTelemetry Collector
+
+修改应用 SDK 中的 Exporter Endpoint 地址为 opentelemetry-collector.observability: `<port>`。 其中， opentelemetry-collector 是 Collector 的 Service 名称，observability 是 Collector 所在命名空间，不同上报协议对应端口如下:
+
+| Receivers |  Protocols  | Port  |
+| :-------: | :---------: | :---: |
+|   otlp    |    gRPC     | 4317  |
+|   otlp    |    http     | 4318  |
+|  jaeger   |    gRPC     | 14250 |
+|  jaeger   | thrift_http | 14268 |
+|  zipkin   |             | 9411  |
+
+## Nodejs 应用接入
+
+> 文档应用来至阿里云文档，做了适当修改，去掉了 GRPC 中 meta 信息
+
+Node.js 支持在 http、https、grpc、express、mysql、mongodb、redis 等框架中通过引入依赖包的方式自动上传 Trace 数据。详细的框架列表请参见[opentelemetry-node-js-contrib](https://github.com/open-telemetry/opentelemetry-js-contrib)。此处以 express 为例，介绍 opentelemetry 的自动接入方案。更多示例请参见[examples](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/examples)。
+
+#### step 1 安装依赖包
+
+```nodejs
+npm install --save @opentelemetry/api
+npm install --save @opentelemetry/node
+npm install --save @opentelemetry/tracing
+npm install --save @opentelemetry/exporter-collector-grpc
+npm install --save @opentelemetry/instrumentation
+npm install --save @opentelemetry/instrumentation-express
+npm install --save @opentelemetry/instrumentation-http
+npm install --save @grpc/grpc-js
+npm install --save @opentelemetry/sdk-trace-node
+```
+
+#### step 2 初始化 Tracer 并启动 express
+
+```
+const opentelemetry = require("@opentelemetry/api");
+const { registerInstrumentations } = require("@opentelemetry/instrumentation");
+const { NodeTracerProvider } = require("@opentelemetry/sdk-trace-node");
+const { Resource } = require("@opentelemetry/resources");
+const {
+  SemanticResourceAttributes,
+} = require("@opentelemetry/semantic-conventions");
+const {
+  SimpleSpanProcessor,
+  ConsoleSpanExporter,
+} = require("@opentelemetry/tracing");
+const grpc = require("@grpc/grpc-js");
+const {
+  CollectorTraceExporter,
+} = require("@opentelemetry/exporter-collector-grpc");
+
+const {
+  ExpressInstrumentation,
+} = require("@opentelemetry/instrumentation-express");
+const { HttpInstrumentation } = require("@opentelemetry/instrumentation-http");
+
+var os = require("os");
+var hostname = os.hostname();
+
+const provider = new NodeTracerProvider({
+  resource: new Resource({
+    [SemanticResourceAttributes.SERVICE_NAME]: "your-nodejaApp",
+  }),
+});
+provider.register();
+
+registerInstrumentations({
+  instrumentations: [
+    new HttpInstrumentation(),
+    new ExpressInstrumentation({
+      ignoreLayersType: [new RegExp("middleware.*")],
+    }),
+  ],
+  tracerProvider: provider,
+});
+
+var url = "opentelemetry-collector.observability:4317";
+
+var logStdout = false;
+if (url == "stdout") {
+  logStdout = true;
+}
+const collectorOptions = {
+  url: url,
+  credentials: grpc.credentials.createSsl(),
+};
+const exporter = new CollectorTraceExporter(collectorOptions);
+
+if (!logStdout) {
+  provider.addSpanProcessor(new SimpleSpanProcessor(exporter));
+} else {
+  var stdexporter = new ConsoleSpanExporter();
+  provider.addSpanProcessor(new SimpleSpanProcessor(stdexporter));
+}
+provider.register();
+var tracer = opentelemetry.trace.getTracer("your-nodejsApp");
+
+var express = require("express");
+var app = express();
+
+app.get("/hello", function (req, res, next) {
+  res.send("success");
+});
+
+var server = app.listen(8079, function () {
+  var port = server.address().port;
+});
+```

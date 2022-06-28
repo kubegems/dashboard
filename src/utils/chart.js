@@ -29,15 +29,15 @@ export function generateRadialBarChartOptions(title, labels, total, suffix = '',
           value: {
             fontSize: '14px',
             formatter: function (val) {
-              let tl = parseFloat(total).toFixed(1);
-              if (tl[tl.length - 1] === '0') {
+              let tl = parseFloat(total).toFixed(2);
+              if (parseInt(tl) === parseFloat(tl)) {
                 tl = parseInt(tl);
               }
               if (val === 0) {
                 return `0 / ${tl} ${suffix}`;
               }
-              let used = parseFloat((val * parseFloat(tl)) / 100).toFixed(1);
-              if (used[used.length - 1] === '0') {
+              let used = parseFloat((val * parseFloat(tl)) / 100).toFixed(2);
+              if (parseInt(used) === parseFloat(used)) {
                 used = parseInt(used);
               }
 
@@ -49,8 +49,8 @@ export function generateRadialBarChartOptions(title, labels, total, suffix = '',
             show: show,
             label: `${title}`,
             formatter: function () {
-              let tl = parseFloat(total).toFixed(1);
-              if (tl[tl.length - 1] === '0') {
+              let tl = parseFloat(total).toFixed(2);
+              if (parseInt(tl) === parseFloat(tl)) {
                 tl = parseInt(tl);
               }
               return `${tl} ${suffix}`;

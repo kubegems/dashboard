@@ -59,3 +59,12 @@
 .markdown-body .highlight pre {
   border-radius: 8px !important;
 }
+
+.markdown-body table {
+  display: table !important;
+  width: 100%;
+}
+
+tbody[parentname='table'] {
+  text-align: center !important;
+}
