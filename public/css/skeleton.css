@@ -52,6 +52,33 @@
   transform: translate(-50%, -50%);
 }
 
+.skeleton__img__ani {
+  animation-name: img-change;
+  animation-duration: 1.5s;
+  animation-timing-function: cubic-bezier(0.5);
+  animation-delay: 2s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes img-change {
+  0% {
+    content: url(/logo-about.svg);
+    width: 400px;
+  }
+  45% {
+    content: url(/logo.svg);
+    width: 400px;
+  }
+  75% {
+    content: url(/logo.svg);
+    width: 400px;
+  }
+  100% {
+    content: url(/logo.svg);
+    width: 250px;
+  }
+}
+
 .skeleton__flash {
   animation-name: flash-title;
   animation-duration: 1.2s;
@@ -80,6 +107,11 @@
   animation-timing-function: cubic-bezier(0.5);
   animation-delay: 1.2s;
   animation-fill-mode: forwards;
+}
+
+.skeleton__img__small {
+  content: url(/logo.svg);
+  width: 250px;
 }
 
 @keyframes flash-img {

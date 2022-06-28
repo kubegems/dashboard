@@ -3,42 +3,31 @@
     :class="`page clear-zoom-${Scale.toString().replaceAll('.', '-')} ${SelfOut || vertical ? '' : 'page__ani'}`"
     :style="{ height: `${height}px !important`, left: `${SelfOut ? '-40vw' : 0}`, width: `${vertical ? '100vw' : ''}` }"
   >
-    <div v-show="!SelfOut && !vertical" class="skeleton" :style="{ height: `${height}px !important` }">
-      <div class="skeleton__title">
-        <img class="skeleton__img" />
-        <div class="skeleton__loading">
-          <div class="skeleton__loading__left__box">
-            <div class="skeleton__loading__left skeleton__loading__color skeleton__loading__left__ani_start" />
-          </div>
-          <div class="skeleton__loading__right__box">
-            <div class="skeleton__loading__right skeleton__loading__color skeleton__loading__right__ani_start" />
-          </div>
+    <div
+      v-show="!vertical"
+      :class="{ skeleton__title: true, skeleton__title__ani: !SelfOut, skeleton__title__small: SelfOut || vertical }"
+    >
+      <img :class="{ skeleton__img: true, skeleton__img__ani: !SelfOut, skeleton__img__small: SelfOut || vertical }" />
+      <div
+        :class="{ skeleton__loading: true, skeleton__loading__ani: !SelfOut }"
+        :style="{ opacity: SelfOut ? '0 !important' : '' }"
+      >
+        <div class="skeleton__loading__left__box">
+          <div class="skeleton__loading__left skeleton__loading__color skeleton__loading__left__ani_start" />
+        </div>
+        <div class="skeleton__loading__right__box">
+          <div class="skeleton__loading__right skeleton__loading__color skeleton__loading__right__ani_start" />
         </div>
       </div>
     </div>
+
+    <div v-show="!SelfOut && !vertical" class="skeleton" :style="{ height: `${height}px !important` }" />
 
     <div
       class="login__second d-flex primary"
       :style="{ height: `${height}px !important`, display: `${vertical ? 'none !important' : ''}` }"
     >
       <div class="info align-center justify-start">
-        <div
-          :class="{ login__second__logo: true, login__second__logo__ani: !SelfOut }"
-          :style="{
-            top: `${SelfOut ? '40%' : ''}`,
-            left: `${SelfOut ? '43%' : ''}`,
-            transform: `${SelfOut ? 'none' : ''}`,
-          }"
-        >
-          <v-img
-            :class="{ login__second__logo__img__ani: !SelfOut }"
-            contain
-            src="/logo.svg"
-            :width="`${SelfOut ? '250px' : '400px'}`"
-          />
-        </div>
-        <!-- <v-flex class="float-left ml-2 login__font"> 容器云平台 </v-flex> -->
-
         <div
           :class="{ 'mt-4': true, 'white--text': true, login__second__desc: true, login__second__desc__ani: !SelfOut }"
           :style="{ opacity: `${SelfOut ? 1 : 0}` }"
@@ -320,6 +309,71 @@
     }
     100% {
       opacity: 1;
+    }
+  }
+
+  .skeleton {
+    &__title {
+      left: 50vw;
+      z-index: 10;
+
+      &__ani {
+        animation-name: title-slide;
+        animation-duration: 1.5s;
+        animation-timing-function: cubic-bezier(0.5);
+        animation-delay: 2s;
+        animation-fill-mode: forwards;
+      }
+
+      &__small {
+        top: 44%;
+      }
+    }
+
+    &loading {
+      &__ani {
+        animation-name: box-show;
+        animation-duration: 1.5s;
+        animation-timing-function: cubic-bezier(0.5);
+        animation-delay: 2s;
+        animation-fill-mode: forwards;
+      }
+    }
+  }
+
+  @keyframes title-slide {
+    0% {
+      left: 50vw;
+      top: 50%;
+    }
+
+    45% {
+      left: 150vw;
+      top: 50%;
+    }
+
+    75% {
+      left: 150vw;
+      top: 50%;
+    }
+    100% {
+      left: 150vw;
+      top: 44%;
+    }
+  }
+
+  @keyframes box-show {
+    0% {
+      opacity: 1;
+    }
+    45% {
+      opacity: 0;
+    }
+    75% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0;
     }
   }
 
