@@ -70,7 +70,6 @@
         this.dialog = true;
       },
       // 增加初始值
-      // eslint-disable-next-line vue/no-unused-properties
       init(initData) {
         this.$nextTick(() => {
           this.$refs[this.formComponent].setData(initData);

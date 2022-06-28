@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb>
+    <Breadcrumb hub="kubegems-charts">
       <template v-if="Object.keys(item.files).length > 0" #extend>
         <v-flex class="kubegems__full-right">
           <v-btn class="primary--text" small text @click="deployAppStore">
@@ -9,7 +9,7 @@
           </v-btn>
         </v-flex>
       </template>
-    </BaseBreadcrumb>
+    </Breadcrumb>
     <v-row class="mt-0">
       <v-col class="pt-0" cols="3">
         <AppInfo
@@ -26,14 +26,14 @@
       <v-col class="pt-0" cols="9">
         <v-card>
           <v-card-text>
-            <v-tabs v-model="tab" class="pb-3" height="40">
+            <v-tabs v-model="tab" height="30">
               <v-tab v-for="item in tabItems" :key="item.value">
                 {{ item.text }}
               </v-tab>
             </v-tabs>
-            <component :is="tabItems[tab].value" :ref="tabItems[tab].value" :item="item" />
           </v-card-text>
         </v-card>
+        <component :is="tabItems[tab].value" :ref="tabItems[tab].value" :item="item" />
       </v-col>
     </v-row>
     <Deploy
@@ -58,12 +58,14 @@
   import Deploy from './components/Deploy';
   import Markdown from './components/Markdown';
   import { getAppStoreDetail, getAppStoreFiles } from '@/api';
+  import Breadcrumb from '@/views/modelstore/components/Breadcrumb';
 
   export default {
     name: 'AppStoreDetail',
     components: {
       AppDetail,
       AppInfo,
+      Breadcrumb,
       ConfigFile,
       Deploy,
       Markdown,

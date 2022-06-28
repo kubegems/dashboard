@@ -35,7 +35,7 @@
           <v-card-text class="pa-0 kubegems__full-height">
             <v-list-item class="kubegems__full-height" three-line>
               <v-list-item-content>
-                <v-btn block class="text-h6" color="primary" text>
+                <v-btn block class="text-h6" color="primary" text @click="addModelRegitry">
                   <v-icon left>mdi-plus-box</v-icon>
                   添加模型商店
                 </v-btn>
@@ -45,16 +45,29 @@
         </v-card>
       </v-col>
     </v-row>
+
+    <AddModelRegistryVue ref="addModelRegitry" @refresh="modelRegistryList" />
   </v-container>
 </template>
 
 <script>
+  import AddModelRegistryVue from './components/AddModelRegistry';
+
   export default {
     name: 'ModelRegistrySetting',
+    components: {
+      AddModelRegistryVue,
+    },
     data() {
       return {
         items: [],
       };
+    },
+    methods: {
+      modelRegistryList() {},
+      addModelRegitry() {
+        this.$refs.addModelRegitry.open();
+      },
     },
   };
 </script>

@@ -97,7 +97,6 @@
     },
     methods: {
       // 编辑时调用
-      // eslint-disable-next-line vue/no-unused-properties
       async init(data) {
         this.receiver = data;
         await this.receiverList();

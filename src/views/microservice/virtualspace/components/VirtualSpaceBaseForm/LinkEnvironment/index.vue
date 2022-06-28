@@ -145,8 +145,6 @@
         this.$delete(this.obj.Environments, index);
         this.$emit('refresh');
       },
-
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs.form.validate(true);
       },

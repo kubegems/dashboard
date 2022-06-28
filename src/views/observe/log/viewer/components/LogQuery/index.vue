@@ -273,8 +273,6 @@
       handleHistory() {
         this.$emit('showHistroy');
       },
-
-      // eslint-disable-next-line vue/no-unused-properties
       handleParseLabel(input) {
         const labelMatchArr = input.match(new RegExp('{(.*)}'));
         if (labelMatchArr && labelMatchArr.length > 1) {
@@ -294,8 +292,6 @@
           return {};
         }
       },
-
-      // eslint-disable-next-line vue/no-unused-properties
       handleParseFilter(input) {
         const filterList = [];
         const matchedArr = input.match(new RegExp('{.*}(.*)'));
@@ -340,14 +336,10 @@
           }, 100);
         });
       },
-
-      // eslint-disable-next-line vue/no-unused-properties
       clear() {
         this.selected = {};
         this.regexp = undefined;
       },
-
-      // eslint-disable-next-line vue/no-unused-properties
       setSelectedValue(key, value, switchValue = false) {
         if (this.selected[key]) {
           if (this.selected[key].includes(value)) {
@@ -359,8 +351,6 @@
           this.$set(this.selected, key, [value]);
         }
       },
-
-      // eslint-disable-next-line vue/no-unused-properties
       setRegexp(value) {
         this.regexp = value;
       },

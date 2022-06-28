@@ -202,8 +202,6 @@
           };
         });
       },
-
-      // eslint-disable-next-line vue/no-unused-properties
       handleCheckSeriesItemIsHidden(item) {
         let contain = true;
         Object.keys(this.selectedMap).forEach((k) => {
@@ -222,8 +220,6 @@
         this.$emit('change', this.selectedMap);
         this.$emit('input', this.selectedMap);
       },
-
-      // eslint-disable-next-line vue/no-unused-properties
       clear() {
         this.selectedMap = {};
         this.handleEmit();

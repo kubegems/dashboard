@@ -1,0 +1,71 @@
+> 注意：在使用前请联系集群管理员开启 KubeGems Observability 相关的组件，包含Monitoring、Logging、 Opentelemetry、Jaeger
+
+### KubeGems OpenTelemetry Collector
+
+修改应用 SDK 中的 Exporter Endpoint 地址为 opentelemetry-collector.observability:<port>。 其中， opentelemetry-collector 是 Collector 的 Service 名称，observability 是 Collector 所在命名空间，不同上报协议对应端口如下:
+
+| Receivers |  Protocols  | Port  |
+| :-------: | :---------: | :---: |
+|   otlp    |    gRPC     | 4317  |
+|   otlp    |    http     | 4318  |
+|  jaeger   |    gRPC     | 14250 |
+|  jaeger   | thrift_http | 14268 |
+|  zipkin   |             | 9411  |
+
+###  Golang Metrics 
+
+OpenTelemetry Golang SDK 中的Metrics 尚处于实验阶段.
+
+##### 初始化`Meter`
+
+```python
+from opentelemetry import _metrics
+
+meter = _metrics.get_meter("your_pythonApp")
+```
+
+- 设置 `Counter` 类型的指标
+
+计数器是一种同步仪器，用于测量加法非递减值。
+
+```
+def counter():
+    counter = meter.create_counter(name="some.prefix.counter", description="TODO")
+
+    while True:
+        counter.add(1)
+        time.sleep(1)
+```
+
+- 设置 `GaugeObserver` 类型指标
+
+```
+def gauge_observer():
+    def callback():
+        return [Measurement(random.random())]
+
+    gauge = meter.create_observable_gauge(
+        name="some.prefix.gauge_observer",
+        callback=callback,
+        description="TODO",
+    )
+```
+
+- 设置 `Histogram` 类型指标
+
+```
+def histogram():
+    histogram = meter.create_histogram(
+        name="some.prefix.histogram",
+        description="TODO",
+        unit="microseconds",
+    )
+
+    while True:
+        histogram.record(random.randint(1, 5000000), attributes={"attr1": "value1"})
+        time.sleep(1)
+```
+
+### Metrics 接入
+
+参考 trace 部分

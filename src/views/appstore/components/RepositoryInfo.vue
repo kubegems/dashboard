@@ -67,8 +67,6 @@
           this.$emit('refresh');
         }
       },
-      // 更新使用
-      // eslint-disable-next-line vue/no-unused-properties
       init(item) {
         this.obj = deepCopy(item);
       },

@@ -405,8 +405,6 @@
           });
         }
       },
-
-      // eslint-disable-next-line vue/no-unused-properties
       async handleDownloadLog() {
         if (!this.params.logQL) {
           this.$store.commit('SET_SNACKBAR', {

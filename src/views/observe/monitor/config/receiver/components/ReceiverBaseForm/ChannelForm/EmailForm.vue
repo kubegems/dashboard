@@ -175,7 +175,6 @@
     },
     methods: {
       // 更新时调用, 针对自动补全组件v-autocomplete需要提前获取items数据
-      // eslint-disable-next-line vue/no-unused-properties
       async init() {
         this.emailConfig = deepCopy(this.obj.emailConfigs[this.configIndex]);
         const emails = this.emailConfig.to.split(',');

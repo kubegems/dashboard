@@ -17,6 +17,18 @@ export const modelStore = [
           tip: 'modelstore',
         },
       },
+      {
+        path: 'models/:name',
+        name: 'modelstore-detail',
+        component: () => import('@/views/modelstore/detail'),
+        meta: {
+          requireAuth: true,
+          smallTitle: '模型商店',
+          title: '模型商店',
+          icon: 'mdi-cube',
+          tip: 'modelstore',
+        },
+      },
     ],
   },
 ];

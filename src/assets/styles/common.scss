@@ -1,4 +1,3 @@
-
 @font-face {
   font-family: 'kubegems-sample';
   src: url('../fonts/kubegems-sample.ttf');
@@ -22,6 +21,13 @@ html::-webkit-scrollbar {
   right: 12px;
   top: 50%;
   transform: translate(-0%, -50%);
+}
+
+.kubegems__top-right {
+  position: absolute;
+  right: 12px;
+  top: 0%;
+  transform: translate(-0%, -0%);
 }
 
 .kubegems__full-center {

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pa-3 white rounded mt-3">
     <v-autocomplete
       v-model="mySelectFile"
       class="mb-3"
@@ -47,7 +47,7 @@
     computed: {
       ...mapState(['Scale']),
       height() {
-        return window.innerHeight - 300 * this.Scale;
+        return window.innerHeight - 312 * this.Scale;
       },
     },
     watch: {

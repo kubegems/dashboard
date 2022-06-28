@@ -245,7 +245,7 @@
       filesCopy: {},
     }),
     computed: {
-      ...mapState(['Auth', 'Circular', 'AdminViewport', 'Scale', 'BasePermission']),
+      ...mapState(['Auth', 'Circular', 'AdminViewport', 'Scale']),
       ...mapGetters(['Tenant', 'Project', 'Environment']),
       objRules() {
         return {
