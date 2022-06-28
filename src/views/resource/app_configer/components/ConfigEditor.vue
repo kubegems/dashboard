@@ -38,7 +38,7 @@
         </v-card-text>
         <ACEEditor
           v-model="editItem.value"
-          class="rounded-b mb-4"
+          :class="`rounded-b mb-4 clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
           :height="600"
           :lang="suffix"
           @init="$aceinit"
@@ -50,6 +50,8 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex';
+
   import { required } from '@/utils/rules';
 
   export default {
@@ -102,6 +104,9 @@
           { text: 'properties', value: 'properties' },
         ],
       };
+    },
+    computed: {
+      ...mapState(['Scale']),
     },
     watch: {
       showEditDialog(val) {

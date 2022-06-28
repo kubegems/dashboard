@@ -206,15 +206,15 @@
             this.getMetrics(item, index, pod);
           });
         }
-        // this.timeinterval = setInterval(() => {
-        //   this.params.start = this.$moment(this.params.start).utc().add(30, 'seconds').format();
-        //   this.params.end = this.$moment(this.params.end).utc().add(30, 'seconds').format();
-        //   if (this.items?.length > 0 && this.items[this.tab].graphs) {
-        //     this.items[this.tab].graphs.forEach((item, index) => {
-        //       this.getMetrics(item, index, pod);
-        //     });
-        //   }
-        // }, 1000 * 30);
+        this.timeinterval = setInterval(() => {
+          this.params.start = this.$moment(this.params.start).utc().add(30, 'seconds').format();
+          this.params.end = this.$moment(this.params.end).utc().add(30, 'seconds').format();
+          if (this.items?.length > 0 && this.items[this.tab].graphs) {
+            this.items[this.tab].graphs.forEach((item, index) => {
+              this.getMetrics(item, index, pod);
+            });
+          }
+        }, 1000 * 30);
       },
       clearInterval() {
         if (this.timeinterval) clearInterval(this.timeinterval);

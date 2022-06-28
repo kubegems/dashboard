@@ -15,7 +15,7 @@
         </v-card-text>
         <ACEEditor
           v-model="sdkContent"
-          class="rounded-b mb-4"
+          :class="`rounded mb-4 clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
           :height="600"
           :lang="lang"
           :options="Object.assign($aceOptions, { readOnly: true, wrap: true })"
@@ -28,6 +28,8 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex';
+
   export default {
     name: 'ConfigSDK',
     data() {
@@ -46,6 +48,7 @@
       };
     },
     computed: {
+      ...mapState(['Scale']),
       lang() {
         return this.sdkItems.find((s) => {
           return s.value === this.sdk;

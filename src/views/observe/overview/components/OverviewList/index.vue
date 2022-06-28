@@ -21,7 +21,7 @@
         <BaseCollapseChips :id="`o_label_${index}`" :chips="item.labels || {}" icon="mdi-label" single-line />
       </template>
       <template #[`item.alertLiving`]="{ item }">
-        {{ item.errorAlertCount + item.criticalAlertCount }}
+        {{ (item.errorAlertCount || '') + (item.criticalAlertCount || '') }}
         <BaseTipChips
           v-if="item.criticalAlertCount || item.errorAlertCount"
           :chips="{ error: item.errorAlertCount, critical: item.criticalAlertCount }"
@@ -116,6 +116,7 @@
             this.items = [];
             await this.m_select_projectEnvironmentSelectData(this.project);
             this.m_select_projectEnvironmentItems.forEach((env) => {
+              this.items.push({ environmentName: env.environmentName });
               this.environmentObservability(env.value);
             });
           }
@@ -126,6 +127,7 @@
         handler() {
           this.items = [];
           this.m_select_projectEnvironmentItems.forEach((env) => {
+            this.items.push({ environmentName: env.environmentName });
             this.environmentObservability(env.value);
           });
         },
@@ -134,7 +136,12 @@
     methods: {
       async environmentObservability(envId) {
         const data = await getEnvironmentObservability(envId, { duration: this.params.duration });
-        this.items.push(data);
+        const index = this.items.findIndex((e) => {
+          return e.environmentName === data.environmentName;
+        });
+        if (index > -1) {
+          this.$set(this.items, index, data);
+        }
         this.pageCount = parseInt(this.items.length / this.params.size + 1);
       },
       onPageSizeChange(size) {

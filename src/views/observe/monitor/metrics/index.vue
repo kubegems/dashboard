@@ -333,6 +333,7 @@
   import MetricsItem from './components/MetricsItem';
   import MetricsSuggestion from './components/MetricsSuggestion';
   import {
+    getMetricsLabels,
     getMetricsLabelValues,
     getMetricsQueryrange,
     getMyConfigData,
@@ -545,9 +546,19 @@
         return newParams;
       },
       // 设置labelObject
-      setLabelObject(query) {
+      async setLabelObject(query) {
         const data = {};
-        const labels = query.rule?.labels || [];
+        let labels = query.rule?.labels || [];
+        if (query.ql) {
+          const data = await getMetricsLabels(
+            query.cluster?.text || query.environment?.Cluster.ClusterName,
+            query.environment?.Namespace || '_all',
+            { expr: query.expr, noprocessing: true },
+          );
+          labels = data?.filter((d) => {
+            return ['__name__', 'id', 'job', 'metrics_path', 'instance', 'image'].indexOf(d) === -1;
+          });
+        }
         labels.forEach((label) => {
           data[label] = {
             text: label,

@@ -221,6 +221,7 @@
             this.$router.push({ name: 'cluster-center' });
           }
         } else {
+          await this.$store.dispatch('UPDATE_TENANT_DATA');
           if (this.$route.query.redirect !== undefined) {
             this.$router.push({ path: this.$route.query.redirect });
           } else {

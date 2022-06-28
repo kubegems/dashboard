@@ -39,7 +39,7 @@
           chart-type="line"
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
           :extend-height="295"
-          label="pod"
+          label="all"
           :label-show="false"
           :metrics="data ? data.data : []"
           :no-data-offset-y="-22"
