@@ -24,6 +24,10 @@
         type: String,
         default: () => 'area',
       },
+      colorful: {
+        type: Boolean,
+        default: () => false,
+      },
       extendHeight: {
         type: Number,
         default: () => 280,
@@ -301,7 +305,7 @@
       },
       getOptions(title, id) {
         return {
-          colors: this.$LINE_THEME_COLORS,
+          colors: this.colorful ? this.$LINE_THEME_FUL_COLORS : this.$LINE_THEME_COLORS,
           chart: {
             toolbar: {
               show: false,

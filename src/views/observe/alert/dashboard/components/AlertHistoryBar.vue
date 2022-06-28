@@ -21,7 +21,7 @@
   import { toFixed } from '@/utils/helpers';
 
   export default {
-    name: 'AlertHistoryLine',
+    name: 'AlertHistoryBar',
     components: {
       VueApexCharts,
     },
@@ -35,7 +35,7 @@
       this.options = {
         colors: this.$LINE_THEME_COLORS,
         chart: {
-          type: 'line',
+          type: 'bar',
           zoom: {
             enabled: false,
           },
@@ -54,7 +54,7 @@
         },
         stroke: {
           curve: 'smooth',
-          width: 2,
+          width: 0,
         },
         grid: {
           borderColor: 'rgba(0, 0, 0, .3)',

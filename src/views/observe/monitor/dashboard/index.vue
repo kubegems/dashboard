@@ -78,6 +78,7 @@
                 :key="`c${index}${tab}`"
                 chart-type="line"
                 :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
+                colorful
                 :extend-height="300"
                 label="all"
                 :label-show="false"
@@ -239,6 +240,14 @@
           : this.environment.namespace;
         return namespace;
       },
+      avg(arr = []) {
+        if (arr?.length === 0) return 0;
+        let sum = 0;
+        arr.map((a) => {
+          sum += a;
+        });
+        return sum / arr.length;
+      },
       async getMetrics(item, index, pod = null) {
         const params = item.promqlGenerator
           ? item.promqlGenerator
@@ -256,6 +265,19 @@
             return d.metric?.pod === pod;
           });
         }
+        data = data.sort(
+          (a, b) =>
+            this.avg(
+              b.values.map((d) => {
+                return parseFloat(d[1]);
+              }),
+            ) -
+            this.avg(
+              a.values.map((d) => {
+                return parseFloat(d[1]);
+              }),
+            ),
+        );
         this.$set(this.metrics, `c${index}`, data);
       },
       async refreshEnvironemnt(env) {

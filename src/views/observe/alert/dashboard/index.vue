@@ -28,7 +28,7 @@
         />
       </v-col>
       <v-col class="pt-0" cols="12">
-        <AlertHistoryLine :tenant="tenant" />
+        <AlertHistoryBar :tenant="tenant" />
       </v-col>
       <v-col class="pt-0" cols="6">
         <AlertCategoryBar :tenant="tenant" />
@@ -44,7 +44,7 @@
   import { mapGetters, mapState } from 'vuex';
 
   import AlertCategoryBar from './components/AlertCategoryBar';
-  import AlertHistoryLine from './components/AlertHistoryLine';
+  import AlertHistoryBar from './components/AlertHistoryBar';
   import AlertTopBar from './components/AlertTopBar';
   import ValueCard from './components/ValueCard';
   import { getAlertToday } from '@/api';
@@ -54,7 +54,7 @@
     name: 'ObserveMonitor',
     components: {
       AlertCategoryBar,
-      AlertHistoryLine,
+      AlertHistoryBar,
       AlertTopBar,
       ValueCard,
     },
