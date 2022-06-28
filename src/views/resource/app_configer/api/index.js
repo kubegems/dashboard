@@ -31,3 +31,13 @@ export const itemDetail = (tenant, project, application, environment, key, rev) 
     params: { rev, application },
   });
 };
+
+export const baseInfo = (tenant, project, environment) => {
+  return axios.get(`configer/tenant/${tenant}/project/${project}/environment/${environment}/baseinfo`);
+};
+
+export const configListener = (tenant, project, application, environment, key) => {
+  return axios.get(`configer/tenant/${tenant}/project/${project}/environment/${environment}/key/${key}/listener`, {
+    params: { application },
+  });
+};

@@ -5,10 +5,9 @@
     <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right mr-3">
-          <span class="text-body-2 kubegems__text">
-            endpoint: <b>nacos-client.nacos:8848</b> namespace:
-            <b> {{ Tenant().TenantName }}_{{ Project().ProjectName }} </b> group:<b>
-              {{ Environment().EnvironmentName }}
+          <span v-if="baseInfoData.provider === 'nacos'" class="text-body-2 kubegems__text">
+            endpoint: <b>nacos-client.nacos:8848</b> namespace: <b> {{ baseInfoData.nacos_tenant }} </b> group:<b>
+              {{ baseInfoData.nacos_group }}
             </b>
           </span>
         </v-flex>
@@ -80,6 +79,9 @@
                   <v-btn color="primary" small text @click="showHistory(item)"> 历史 </v-btn>
                 </v-flex>
                 <v-flex>
+                  <v-btn color="primary" small text @click="showListener(item)"> 监听查询 </v-btn>
+                </v-flex>
+                <v-flex>
                   <v-btn color="error" small text @click="removeConfig(item, index)"> 删除 </v-btn>
                 </v-flex>
               </v-card-text>
@@ -107,6 +109,7 @@
       @submit="submitEditContent"
     />
     <ConfigSDK ref="configSDK" />
+    <ConfigListener ref="configListener" />
     <DeleteItem
       :idx="editor.deleteIdx"
       :item="editor.currentDeleteItem"
@@ -126,8 +129,9 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import { delConfigItems, listConfigItems, pubConfigItems } from './api/index.js';
+  import { delConfigItems, listConfigItems, pubConfigItems, baseInfo } from './api/index.js';
   import ConfigEditor from './components/ConfigEditor';
+  import ConfigListener from './components/ConfigListener';
   import ConfigSDK from './components/ConfigSDK';
   import DeleteItem from './components/DeleteItem';
   import HistoryView from './components/HistoryView';
@@ -139,6 +143,7 @@
     components: {
       ConfigEditor,
       ConfigSDK,
+      ConfigListener,
       DeleteItem,
       HistoryView,
     },
@@ -164,6 +169,11 @@
         },
         items: [],
         itemsCopy: [],
+        baseInfoData: {
+          provider: '',
+          nacos_tenant: '',
+          nacos_group: '',
+        },
         headers: [
           { text: 'dataid', value: 'key', align: 'start' },
           { text: 'app', value: 'application', align: 'start' },
@@ -186,8 +196,17 @@
     },
     mounted() {
       this.appConfigList();
+      this.baseInfo();
     },
     methods: {
+      async baseInfo() {
+        const data = await baseInfo(
+          this.Tenant().TenantName || '',
+          this.Project().ProjectName || '',
+          this.Environment().EnvironmentName || '',
+        );
+        this.baseInfoData = data;
+      },
       async appConfigList() {
         const datas = await listConfigItems(
           this.Tenant().TenantName || '',
@@ -316,6 +335,9 @@
       },
       showSDK() {
         this.$refs.configSDK.open();
+      },
+      showListener(item) {
+        this.$refs.configListener.open(item);
       },
     },
   };
