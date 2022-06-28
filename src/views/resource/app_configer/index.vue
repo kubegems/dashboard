@@ -5,8 +5,8 @@
     <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
-          <div class="float-left provider mr-2">Provider:</div>
-          <div class="float-left provider__img"><img class="mt-2" height="48" src="/icon/nacos.jpeg" /></div>
+          <div class="float-left provider text-body-2 kubegems__text mr-2">Provider:</div>
+          <div class="float-left provider__img"><img src="/icon/nacos.png" width="80" /></div>
 
           <v-menu
             bottom
@@ -250,7 +250,6 @@
         } else {
           this.items = this.itemsCopy;
         }
-        // this.m_table_generateSelectResource()
       },
       onPageSizeChange(size) {
         this.params.page = 1;
@@ -369,6 +368,7 @@
 
     &__img {
       margin-right: 100px;
+      margin-top: 23px;
     }
   }
 
