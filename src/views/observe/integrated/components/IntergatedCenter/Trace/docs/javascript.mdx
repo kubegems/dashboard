@@ -2,195 +2,92 @@ import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert'
 
 <Alert message="在使用前请联系集群管理员开启 KubeGems Observability 相关的组件。" />
 
-## Getting Started
+## KubeGems OpenTelemetry Collector
 
-This guide uses the example application in HTML & javascript provided below, but the steps to instrument your own application should be broadly the same.
+修改应用 SDK 中的 Exporter Endpoint 地址为 opentelemetry-collector.observability: `<port>`。 其中， opentelemetry-collector 是 Collector 的 Service 名称，observability 是 Collector 所在命名空间，不同上报协议对应端口如下:
 
-## Example Application
+| Receivers |  Protocols  | Port  |
+| :-------: | :---------: | :---: |
+|   otlp    |    gRPC     | 4317  |
+|   otlp    |    http     | 4318  |
+|  jaeger   |    gRPC     | 14250 |
+|  jaeger   | thrift_http | 14268 |
+|  zipkin   |             | 9411  |
 
-This is a very simple guide, if you'd like to see more complex examples go to [examples/tracer-web](https://github.com/open-telemetry/opentelemetry-js/tree/main/examples/tracer-web)
+## JavaScript Trace
 
-Copy the following file into an empty directory and call it `index.html`.
+#### step 1 安装依赖包
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Document Load Instrumentation Example</title>
-    <base href="/" />
-    <!--
-    https://www.w3.org/TR/trace-context/
-    Set the `traceparent` in the server's HTML template code. It should be
-    dynamically generated server side to have the server's request trace Id,
-    a parent span Id that was set on the server's request span, and the trace
-    flags to indicate the server's sampling decision
-    (01 = sampled, 00 = notsampled).
-    '{version}-{traceId}-{spanId}-{sampleDecision}'
-  -->
-    <meta name="traceparent" content="00-ab42124a3c573678d4d8b21ba52df3bf-d21f7bc17caa5aba-01" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-  </head>
-  <body>
-    Example of using Web Tracer with document load instrumentation with console exporter and collector exporter
-  </body>
-</html>
+```nodejs
+npm install --save @opentelemetry/api
+npm install --save @opentelemetry/sdk-node
+npm install --save @opentelemetry/auto-instrumentations-node
 ```
 
-### Installation
+#### step 2 初始化 Tracer
 
-To create traces in the browser, you will need `@opentelemetry/sdk-trace-web`, and the instrumentation `@opentelemetry/instrumentation-document-load`:
+```js
+// tracing.js
 
-```shell
-npm init -y
-npm install --save @opentelemetry/api @opentelemetry/sdk-trace-web @opentelemetry/instrumentation-document-load @opentelemetry/context-zone
-```
+'use strict';
 
-### Initialization and Configuration
+const process = require('process');
+const opentelemetry = require('@opentelemetry/sdk-node');
+const { getNodeAutoInstrumentations } = require('@opentelemetry/auto-instrumentations-node');
+const { ConsoleSpanExporter } = require('@opentelemetry/sdk-trace-base');
+const { Resource } = require('@opentelemetry/resources');
+const { SemanticResourceAttributes } = require('@opentelemetry/semantic-conventions');
 
-Create a empty file called `document-load.js` and add the following code to your html right before the body end tag:
-
-```html
-<script type="module" src="document-load.js"></script>
-```
-
-We will add some code that will trace the document load timings and output those as OpenTelemetry Spans.
-
-### Creating a Tracer Provider
-
-Add the following code to the `document-load.js` to create a tracer provider, which brings the instrumentaion to trace document load:
-
-```javascript
-import { WebTracerProvider } from '@opentelemetry/sdk-trace-web';
-import { DocumentLoadInstrumentation } from '@opentelemetry/instrumentation-document-load';
-import { ZoneContextManager } from '@opentelemetry/context-zone';
-import { registerInstrumentations } from '@opentelemetry/instrumentation';
-
-const provider = new WebTracerProvider();
-
-provider.register({
-  // Changing default contextManager to use ZoneContextManager - supports asynchronous operations - optional
-  contextManager: new ZoneContextManager(),
+// configure the SDK to export telemetry data to the console
+// enable all auto-instrumentations from the meta package
+const traceExporter = new ConsoleSpanExporter();
+const sdk = new opentelemetry.NodeSDK({
+  resource: new Resource({
+    [SemanticResourceAttributes.SERVICE_NAME]: 'my-service',
+  }),
+  traceExporter,
+  instrumentations: [getNodeAutoInstrumentations()],
 });
 
-// Registering instrumentations
-registerInstrumentations({
-  instrumentations: [new DocumentLoadInstrumentation()],
+// initialize the SDK and register with the OpenTelemetry API
+// this enables the API to record telemetry
+sdk
+  .start()
+  .then(() => console.log('Tracing initialized'))
+  .catch((error) => console.log('Error initializing tracing', error));
+
+// gracefully shut down the SDK on process exit
+process.on('SIGTERM', () => {
+  sdk
+    .shutdown()
+    .then(() => console.log('Tracing terminated'))
+    .catch((error) => console.log('Error terminating tracing', error))
+    .finally(() => process.exit(0));
 });
 ```
 
-In the following we will use [parcel](https://parceljs.org/) as web application bundler, but you can of course also use any other build tool.
+更多请参阅 [OpenTelemetry JavaScript SDK](https://github.com/open-telemetry/opentelemetry-js)
 
-Run
+---
 
-```shell
-npx parcel index.html
-```
+## OpenTelemetry SDK Configuration
 
-and open the development webserver (e.g. at `http://localhost:1234`) to see if your code works.
+| Environment variable | Default value | Description |
+| --- | --- | --- |
+| OTEL_SERVICE_NAME | unknown_service | 设置服务名 `service.name` |
+| OTEL_RESOURCE_ATTRIBUTES | Empty | 用作资源属性的键值对。有关更多详细信息，请参阅 [Resource SDK](https://opentelemetry.io/docs/reference/specification/resource/sdk/#specifying-resource-information-via-an-environment-variable) |
+| OTEL_TRACES_SAMPLER | parentbased_always_on | 指定 SDK 用于采样跟踪的采样器, 支持 `always_on`、`always_off`、`traceidratio`、`parentbased_always_on`、`parentbased_always_off`、`parentbased_traceidratio`、`parentbased_jaeger_remote`、`jaeger_remote` 或者 `xray` |
+| OTEL_TRACES_SAMPLER_ARG | Empty | 仅当设置 OTEL_TRACES_SAMPLER 时，才会使用指定的值。每个采样器类型都定义了自己的预期输入（如果有的话）。无效或无法识别的输入记录为错误, 请参阅[otel_traces_sampler_arg](https://opentelemetry.io/docs/concepts/sdk-configuration/general-sdk-configuration/#otel_traces_sampler_arg) |
+| OTEL_PROPAGATORS | b3 | 指定在逗号分隔列表中使用的传播器, 支持 `tracecontext`、`baggage`、`b3`、`b3multi`、`jaeger`、`xray`、`ottrace` 或者 `none` |
+| OTEL_TRACES_EXPORTER | otlp | 指定用于 trace 的 exporter |
+| OTEL_METRICS_EXPORTER | otlp | 指定用于 metrics 的 exporter,支持 `otlp`、`prometheus` 或者 `none` |
+| OTEL_LOGS_EXPORTER | otlp | 指定用于 log 的 exporter,支持 `otlp` 或者 `none` |
 
-There will be no output of traces yet, for this we need to add an exporter
+## OpenTelemetry Exporter Configuration
 
-### Creating an Exporter
-
-In the following example, we will use the `ConsoleSpanExporter` which prints all spans to the console.
-
-In order to visualize and analyze your traces, you will need to export them to a tracing backend. Follow [these instructions](../../exporters) for setting up a backend and exporter.
-
-You may also want to use the `BatchSpanProcessor` to export spans in batches in order to more efficiently use resources.
-
-To export traces to the console, modify `document-load.js` so that it matches the following code snippet:
-
-```javascript
-import { ConsoleSpanExporter, SimpleSpanProcessor } from '@opentelemetry/sdk-trace-base';
-import { WebTracerProvider } from '@opentelemetry/sdk-trace-web';
-import { DocumentLoadInstrumentation } from '@opentelemetry/instrumentation-document-load';
-import { ZoneContextManager } from '@opentelemetry/context-zone';
-import { registerInstrumentations } from '@opentelemetry/instrumentation';
-
-const provider = new WebTracerProvider();
-provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
-
-provider.register({
-  // Changing default contextManager to use ZoneContextManager - supports asynchronous operations - optional
-  contextManager: new ZoneContextManager(),
-});
-
-// Registering instrumentations
-registerInstrumentations({
-  instrumentations: [new DocumentLoadInstrumentation()],
-});
-```
-
-Now, rebuild your application and open the browser again. In the console of the developer toolbar you should see some traces being exported:
-
-```json
-{
-  "traceId": "ab42124a3c573678d4d8b21ba52df3bf",
-  "parentId": "cfb565047957cb0d",
-  "name": "documentFetch",
-  "id": "5123fc802ffb5255",
-  "kind": 0,
-  "timestamp": 1606814247811266,
-  "duration": 9390,
-  "attributes": {
-    "component": "document-load",
-    "http.response_content_length": 905
-  },
-  "status": {
-    "code": 0
-  },
-  "events": [
-    {
-      "name": "fetchStart",
-      "time": [1606814247, 811266158]
-    },
-    {
-      "name": "domainLookupStart",
-      "time": [1606814247, 811266158]
-    },
-    {
-      "name": "domainLookupEnd",
-      "time": [1606814247, 811266158]
-    },
-    {
-      "name": "connectStart",
-      "time": [1606814247, 811266158]
-    },
-    {
-      "name": "connectEnd",
-      "time": [1606814247, 811266158]
-    },
-    {
-      "name": "requestStart",
-      "time": [1606814247, 819101158]
-    },
-    {
-      "name": "responseStart",
-      "time": [1606814247, 819791158]
-    },
-    {
-      "name": "responseEnd",
-      "time": [1606814247, 820656158]
-    }
-  ]
-}
-```
-
-### Add Instrumentations
-
-If you want to instrument AJAX requests, User Interactions and others, you can register additional instrumentations for those:
-
-```javascript
-registerInstrumentations({
-  instrumentations: [new UserInteractionInstrumentation(), new XMLHttpRequestInstrumentation()],
-});
-```
-
-## Meta Packages for Web
-
-To leverage the most common instrumentations all in one you can simply use the [OpenTelemetry Meta Packages for Web](https://www.npmjs.com/package/@opentelemetry/auto-instrumentations-web)
-
-## Instrumentation with Browser Extension
-
-If you'd like to quickly preview what OpenTelemetry instrumentation would look like with your website (or any other site) installed, you can use the [OpenTelemetry Browser Extension](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages/opentelemetry-browser-extension-autoinjection)
+| Environment variable | Default value | Description |
+| --- | --- | --- |
+| OTEL_EXPORTER_OTLP_ENDPOINT | gRPC: "http://localhost:4317" <br /> HTTP: "http://localhost:4318" | 配置 OTEL Collector 地址 |
+| OTEL_EXPORTER_OTLP_PROTOCOL | 通常有 SDK 实现，通常是 `http/protobuf` 或者 `grpc` | 指定用于所有遥测数据的 OTLP 传输协议 |
+| OTEL_EXPORTER_OTLP_HEADERS | N/A | 允许您将配置为键值对以添加到的 gRPC 或 HTTP 请求头中 |
+| OTEL_EXPORTER_OTLP_TIMEOUT | 10000(10s) | 所有上报数据（traces、metrics、logs）的超时值，单位 ms |

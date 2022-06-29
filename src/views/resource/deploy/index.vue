@@ -60,7 +60,7 @@
           <v-divider class="mx-2" />
           <v-card-text>
             <v-flex class="mb-2">
-              <img src="/img/rollingupdate.png" width="100%" />
+              <img src="/img/deploy/rollingupdate.png" width="100%" />
             </v-flex>
             RollingUpdate
             慢慢的用新版本替换旧版本。随着新版本的出现，旧版本会按比例缩小，以保持应用程序的整体数量。这是Deployment对象的默认策略。
@@ -90,7 +90,7 @@
           <v-divider class="mx-2" />
           <v-card-text>
             <v-flex class="mb-2">
-              <img src="/img/recreate.png" width="100%" />
+              <img src="/img/deploy/recreate.png" width="100%" />
             </v-flex>
             重新创建部署会在启动新版本之前删除旧版本的应用程序，因此，这可以保证应用程序的两个版本永远不会同时运行，但在部署期间会出现停机间隔。
           </v-card-text>
@@ -120,7 +120,7 @@
           <v-divider class="mx-2" />
           <v-card-text>
             <v-flex class="mb-2">
-              <img src="/img/bluegreen.png" width="100%" />
+              <img src="/img/deploy/bluegreen.png" width="100%" />
             </v-flex>
             蓝绿部署（有时称为红黑）同时部署了新旧版本的应用程序，在此期间，只有旧版本的应用程序会收到生产流量，这允许开发人员在将实时流量切换到新版本之前针对新版本进行测试。
           </v-card-text>
@@ -150,7 +150,7 @@
           <v-divider class="mx-2" />
           <v-card-text>
             <v-flex class="mb-2">
-              <img src="/img/canary.png" width="100%" />
+              <img src="/img/deploy/canary.png" width="100%" />
             </v-flex>
             Canary
             部署将一部分用户暴露给新版本的应用程序，同时将其余流量提供给旧版本。新版本经验证无误后，可逐步替换旧版本。入口控制器和服务网格（例如Nginx和Istio）为金丝雀启用了比原生可用更为复杂的流量整合模式。（例如实现非常细粒度的流量拆分，或基于http

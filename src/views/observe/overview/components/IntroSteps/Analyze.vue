@@ -1,5 +1,7 @@
 <template>
-  <div class="kubegems__text">直观的分析应用运行指标以及追踪告警</div>
+  <div class="kubegems__text">
+    <img src="/img/observe/trace.svg" width="100%" />
+  </div>
 </template>
 
 <script>

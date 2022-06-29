@@ -34,7 +34,7 @@
                 </v-radio-group>
               </v-col>
               <v-col v-if="more" class="py-0" cols="4">
-                <v-text-field v-model="editItem.application" label="应用" :rules="applicationRules" />
+                <v-text-field v-model="editItem.application" label="应用" />
               </v-col>
               <v-col class="py-0" cols="2">
                 <v-switch v-model="more" class="mt-5" label="更多配置" />

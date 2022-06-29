@@ -1,7 +1,7 @@
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-wrench" title="SDK接入示例" :width="1000" @reset="reset">
+  <BasePanel v-model="panel" icon="mdi-wrench" title="SDK接入示例">
     <template #content>
-      <v-card flat>
+      <v-card class="conf rounded-0 pa-0" flat>
         <v-card-text class="text-h5 card__title">
           <v-form class="pa-0" lazy-validation @submit.prevent>
             <v-row>
@@ -15,16 +15,16 @@
         </v-card-text>
         <ACEEditor
           v-model="sdkContent"
-          :class="`rounded mb-4 clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-          :height="600"
+          :class="`rounded-0 clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
           :lang="lang"
           :options="Object.assign($aceOptions, { readOnly: true, wrap: true })"
+          :style="`height: ${height}px !important`"
           @init="$aceinit"
           @keydown.stop
         />
       </v-card>
     </template>
-  </BaseDialog>
+  </BasePanel>
 </template>
 
 <script>
@@ -34,7 +34,7 @@
     name: 'ConfigSDK',
     data() {
       return {
-        dialog: false,
+        panel: false,
         sdk: 'python',
         sdkItems: [
           { text: 'python', value: 'python', lang: 'python' },
@@ -53,6 +53,9 @@
         return this.sdkItems.find((s) => {
           return s.value === this.sdk;
         }).lang;
+      },
+      height() {
+        return window.innerHeight - 120 * this.Scale - 1;
       },
     },
     watch: {
@@ -311,10 +314,15 @@
       },
     },
     methods: {
-      reset() {},
       open() {
-        this.dialog = true;
+        this.panel = true;
       },
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .conf {
+    background-color: #f6f6f6;
+  }
+</style>

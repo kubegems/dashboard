@@ -21,18 +21,18 @@
         <BaseCollapseChips :id="`o_label_${index}`" :chips="item.labels || {}" icon="mdi-label" single-line />
       </template>
       <template #[`item.alertLiving`]="{ item }">
-        {{ (item.errorAlertCount || '') + (item.criticalAlertCount || '') }}
+        {{ (item.errorAlertCount || 0) + (item.criticalAlertCount || 0) }}
         <BaseTipChips
           v-if="item.criticalAlertCount || item.errorAlertCount"
           :chips="{ error: item.errorAlertCount, critical: item.criticalAlertCount }"
           :color="item.criticalAlertCount > 0 ? 'error' : 'warning'"
-          :icon="item.criticalAlertCount > 0 ? 'mdi-fire-alert' : 'mdi-alert-circle'"
+          icon="mdi-fire-alert"
           single-line
         />
       </template>
       <template #[`item.alertRuleCount`]="{ item }">
         {{ item.alertRuleCount }}
-        <BaseTipChips :chips="item.alertResourceMap || {}" color="primary" icon="mdi-information" single-line />
+        <BaseTipChips :chips="item.alertResourceMap || {}" color="primary" icon="mdi-ruler" single-line />
       </template>
       <template #[`item.status`]="{ item }">
         <StatusTag :l="item.logging" :m="item.monitoring" :s="item.serviceMesh" />

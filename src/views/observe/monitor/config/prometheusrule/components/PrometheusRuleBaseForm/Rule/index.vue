@@ -144,7 +144,7 @@
             </v-col>
           </template>
 
-          <template v-if="mod === 'ql'">
+          <template v-if="mod === 'ql' && mode === 'monitor'">
             <v-col cols="12">
               <v-textarea
                 v-model="obj.expr"
@@ -160,6 +160,17 @@
                 :newline="118"
                 :top="250"
                 @insertMetrics="insertMetrics"
+              />
+            </v-col>
+          </template>
+          <template v-if="mod === 'ql' && mode === 'logging'">
+            <v-col cols="12">
+              <v-textarea
+                v-model="obj.expr"
+                auto-grow
+                label="查询语句"
+                :rules="objRules.exprRule"
+                @keyup="onExprInput"
               />
             </v-col>
           </template>
@@ -215,7 +226,7 @@
       </v-card-text>
 
       <!-- 标签筛选 -->
-      <div v-if="mode === 'monitor'" class="mb-4">
+      <div v-if="mod === 'template' && mode === 'monitor'" class="mb-4">
         <BaseSubTitle title="标签筛选" />
         <br />
         <RuleLabelpairs v-model="obj.labelpairs" />
@@ -590,23 +601,16 @@
           },
         );
         if (data) {
-          this.containerItems = data.List.reduce((f1, f2) => {
-            return Array.isArray(f1)
-              ? f1.concat(
-                  f2.spec.containers.map((c) => {
-                    return c.name;
-                  }),
-                )
-              : f1.spec.containers
-                  .map((c) => {
-                    return c.name;
-                  })
-                  .concat(
-                    f2.spec.containers.map((c) => {
-                      return c.name;
-                    }),
-                  );
+          data.List.forEach((pod) => {
+            if (pod?.spec?.containers) {
+              this.containerItems = this.containerItems.concat(
+                pod.spec.containers.map((c) => {
+                  return c.name;
+                }),
+              );
+            }
           });
+
           this.containerItems = Array.from(new Set(this.containerItems));
           this.containerItems = this.containerItems.map((c) => {
             return { text: c, value: c };
