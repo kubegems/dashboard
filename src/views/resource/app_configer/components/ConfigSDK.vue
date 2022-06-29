@@ -1,7 +1,7 @@
 <template>
   <BasePanel v-model="panel" icon="mdi-wrench" title="SDK接入示例">
     <template #content>
-      <v-card flat>
+      <v-card class="conf rounded-0 pa-0" flat>
         <v-card-text class="text-h5 card__title">
           <v-form class="pa-0" lazy-validation @submit.prevent>
             <v-row>
@@ -15,7 +15,7 @@
         </v-card-text>
         <ACEEditor
           v-model="sdkContent"
-          :class="`rounded-0 mb-4 clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
+          :class="`rounded-0 clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
           :lang="lang"
           :options="Object.assign($aceOptions, { readOnly: true, wrap: true })"
           :style="`height: ${height}px !important`"
@@ -55,7 +55,7 @@
         }).lang;
       },
       height() {
-        return window.innerHeight - 132;
+        return window.innerHeight - 120 * this.Scale - 1;
       },
     },
     watch: {
@@ -320,3 +320,9 @@
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .conf {
+    background-color: #f6f6f6;
+  }
+</style>

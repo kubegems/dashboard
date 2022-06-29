@@ -1,19 +1,19 @@
 <template>
   <v-flex class="text-center pa-4">
     <v-flex class="pagination__height">
-      <v-flex class="pagination" id="pagesize">
+      <v-flex class="pagination" :id="pid">
         <v-pagination
           class="float-left"
           v-model="p"
           :length="pageCount"
-          :total-visible="6"
+          :total-visible="visibleNum"
           @input="onPageInput"
         ></v-pagination>
         <v-sheet v-if="pageCount * size > 10 && showSize" class="text-body-1 float-left ml-2 mt-2">
           每页条目数
           <v-menu
             v-model="pageMenu"
-            attach="#pagesize"
+            :attach="`#${pid}`"
             top
             left
             offset-y
@@ -85,6 +85,10 @@
         type: Number,
         default: () => 0,
       },
+      pid: {
+        type: String,
+        default: () => 'pagesize',
+      },
       showSize: {
         type: Boolean,
         default: () => true,
@@ -92,6 +96,10 @@
       size: {
         type: Number,
         default: () => 10,
+      },
+      visibleNum: {
+        type: Number,
+        default: () => 6,
       },
     },
     computed: {
