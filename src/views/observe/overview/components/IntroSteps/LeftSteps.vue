@@ -68,3 +68,9 @@
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .v-application--is-ltr .v-stepper--vertical .v-stepper__content {
+    margin: -8px -36px -21px 36px !important;
+  }
+</style>
