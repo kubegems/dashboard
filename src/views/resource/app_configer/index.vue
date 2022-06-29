@@ -5,7 +5,7 @@
     <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
-          <div class="float-left provider text-body-2 kubegems__text mr-2">Provider:</div>
+          <div class="float-left provider text-body-2 kubegems__text mr-2">Provider</div>
           <div class="float-left provider__img"><img src="/icon/nacos.png" width="80" /></div>
 
           <v-menu
@@ -13,14 +13,14 @@
             :close-delay="200"
             :close-on-content-click="false"
             content-class="conf__menu"
-            max-width="200px"
+            max-width="320px"
             offset-y
             open-on-hover
             origin="top center"
             transition="scale-transition"
           >
             <template #activator="{ on }">
-              <v-btn class="kubegems__full-right" color="primary" small text v-on="on">访问信息</v-btn>
+              <v-btn class="kubegems__full-right" color="primary" small text v-on="on">获取访问信息</v-btn>
             </template>
             <v-card>
               <v-flex class="text-body-2 text-center primary white--text py-2">
@@ -395,9 +395,10 @@
 <style lang="scss" scoped>
   .provider {
     line-height: 64px;
+    font-weight: bold !important;
 
     &__img {
-      margin-right: 100px;
+      margin-right: 120px;
       margin-top: 23px;
     }
   }
