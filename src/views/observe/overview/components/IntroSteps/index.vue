@@ -14,18 +14,18 @@
 </template>
 
 <script>
-  import Analyze from './Analyze';
-  import Collect from './Collect';
-  import Install from './Install';
+  import Metrics from './Metrics';
+  import Logs from './Logs';
+  import Traces from './Traces';
   import LeftSteps from './LeftSteps';
 
   export default {
     name: 'IntroSteps',
     components: {
-      Analyze,
-      Collect,
-      Install,
+      Metrics,
+      Logs,
       LeftSteps,
+      Traces,
     },
     data() {
       return {
