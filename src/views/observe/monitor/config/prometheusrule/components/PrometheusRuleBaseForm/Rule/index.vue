@@ -215,7 +215,7 @@
       </v-card-text>
 
       <!-- 标签筛选 -->
-      <div v-if="mode === 'monitor'" class="mb-4">
+      <div v-if="mod === 'template' && mode === 'monitor'" class="mb-4">
         <BaseSubTitle title="标签筛选" />
         <br />
         <RuleLabelpairs v-model="obj.labelpairs" />

@@ -40,7 +40,10 @@
           <span v-if="item.AlertInfo.Labels.gems_alert_resource && item.AlertInfo.Labels.gems_alert_rule">
             {{ `${item.AlertInfo.Labels.gems_alert_resource}.${item.AlertInfo.Labels.gems_alert_rule}` }}
           </span>
-          <span v-else>-</span>
+          <span v-else-if="item.AlertInfo.Labels.gems_alert_from === 'logging'">
+            {{ `${item.AlertInfo.Labels.gems_alert_from}` }}</span
+          >
+          <span v-else> {{ `raw promql` }}</span>
         </template>
         <template #[`item.severity`]="{ item }">
           <v-chip v-if="item.AlertInfo.Labels.severity === 'error'" color="error" small>
