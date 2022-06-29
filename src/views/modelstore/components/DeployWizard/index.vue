@@ -18,20 +18,24 @@
       icon="ti-info-alt"
       title="基本配置"
     >
-      <v-form v-model="valid" class="wizard-form-content" lazy-validation @submit.prevent />
+      <DeployBaseConf />
     </TabContent>
     <TabContent
       :class="`zoom-${Scale.toString().replaceAll('.', '-')} kubegems__wizard-tab-content mt-12`"
       icon="ti-settings"
       :lazy="false"
       title="详细配置"
-    />
+    >
+      <DeployAdvancedConf />
+    </TabContent>
     <TabContent
       :class="`zoom-${Scale.toString().replaceAll('.', '-')} kubegems__wizard-tab-content mt-12`"
       icon="ti-check"
       :lazy="false"
       title="完成"
-    />
+    >
+      <DeployStatus />
+    </TabContent>
     <template #footer="props">
       <v-flex class="kubegems__wizard-footer" :style="`right:${footerWidth}px;`">
         <v-btn v-show="props.activeTabIndex > 0" color="primary" text @click.native="props.prevTab()"> 上一步 </v-btn>
@@ -47,6 +51,9 @@
   import { FormWizard, TabContent } from 'vue-form-wizard';
   import { mapState } from 'vuex';
 
+  import DeployAdvancedConf from './DeployAdvancedConf';
+  import DeployBaseConf from './DeployBaseConf';
+  import DeployStatus from './DeployStatus';
   import BaseSelect from '@/mixins/select';
 
   import 'vue-form-wizard/dist/vue-form-wizard.min.css';
@@ -54,14 +61,17 @@
   export default {
     name: 'DeployWizard',
     components: {
+      DeployAdvancedConf,
+      DeployBaseConf,
+      DeployStatus,
       FormWizard,
       TabContent,
     },
     mixins: [BaseSelect],
     props: {},
-    data: () => ({
-      valid: false,
-    }),
+    data() {
+      return {};
+    },
     computed: {
       ...mapState(['AdminViewport', 'Scale']),
       footerWidth() {
@@ -73,7 +83,12 @@
         clearTimeout(this.timeout);
       }
     },
-    methods: {},
+    methods: {
+      async nextStep(props) {
+        this.tab = 1;
+        await props.nextTab();
+      },
+    },
   };
 </script>
 

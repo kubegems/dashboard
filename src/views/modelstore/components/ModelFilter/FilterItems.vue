@@ -12,18 +12,26 @@
         :label="`${title}名称`"
         prepend-inner-icon="mdi-magnify"
         solo
+        @keyup="onSearch"
       />
-      <v-chip-group active-class="primary--text" class="px-3" column>
-        <v-chip v-for="tag in tags" :key="tag" small>
+      <v-chip-group active-class="primary" class="px-3" column>
+        <v-chip v-for="tag in searchShow ? tagsCopy : shortTags" :key="tag" filter small>
           {{ tag }}
         </v-chip>
-        <v-chip small> + 16 </v-chip>
+        <v-chip v-if="tags.length > 15" color="primary" small @click="searchShow = !searchShow">
+          <span v-if="searchShow">
+            <v-icon small>mdi-chevron-double-up</v-icon>
+          </span>
+          <span v-else> + {{ tags.length - 15 }}</span>
+        </v-chip>
       </v-chip-group>
     </div>
   </div>
 </template>
 
 <script>
+  import { deepCopy } from '@/utils/helpers';
+
   export default {
     name: 'FilterItems',
     props: {
@@ -33,24 +41,40 @@
       },
       tags: {
         type: Array,
-        default: () => [
-          'Work',
-          'Home Improvement dsd dada',
-          'Vacation',
-          'Food',
-          'Drawers',
-          'Shopping',
-          'Art',
-          'Tech',
-          'Creative Writing',
-        ],
+        default: () => [],
       },
     },
     data() {
       return {
         search: '',
         searchShow: false,
+        tagsCopy: [],
       };
+    },
+    computed: {
+      shortTags() {
+        return this.tags.slice(0, 15);
+      },
+    },
+    watch: {
+      tags: {
+        handler(newValue) {
+          this.tagsCopy = deepCopy(newValue);
+        },
+        deep: true,
+        immediate: true,
+      },
+    },
+    methods: {
+      onSearch() {
+        if (this.search) {
+          this.tagsCopy = this.tagsCopy.filter((t) => {
+            return t.toLowerCase().indexOf(this.search.toLowerCase()) > -1;
+          });
+        } else {
+          this.tagsCopy = deepCopy(this.tags);
+        }
+      },
     },
   };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <Breadcrumb>
+    <Breadcrumb :hub="registry">
       <template #extend>
         <v-flex class="kubegems__full-right">
           <RegistrySelect v-model="registry" />
@@ -9,10 +9,10 @@
     </Breadcrumb>
     <v-row class="mt-0">
       <v-col class="pt-0" cols="3">
-        <ModelFilter />
+        <ModelFilter :registry="registry" @search="search" />
       </v-col>
       <v-col class="pt-0" cols="9">
-        <ModelCard />
+        <ModelCard ref="modelCard" :registry="registry" />
       </v-col>
     </v-row>
   </v-container>
@@ -36,6 +36,11 @@
       return {
         registry: '',
       };
+    },
+    methods: {
+      search(search) {
+        this.$refs.modelCard.search(search);
+      },
     },
   };
 </script>

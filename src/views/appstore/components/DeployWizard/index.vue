@@ -43,7 +43,6 @@
                 bottom: true,
                 left: true,
                 origin: `top center`,
-                transition: `scale-transition`,
               }"
               no-data-text="暂无可选数据"
               :rules="objRules.tenantProjectIdRules"
@@ -68,7 +67,6 @@
                 bottom: true,
                 left: true,
                 origin: `top center`,
-                transition: `scale-transition`,
               }"
               no-data-text="暂无可选数据"
               :rules="objRules.versionRules"
@@ -92,7 +90,6 @@
                 bottom: true,
                 left: true,
                 origin: `top center`,
-                transition: `scale-transition`,
               }"
               no-data-text="暂无可选数据"
               :rules="objRules.environmentIdRules"

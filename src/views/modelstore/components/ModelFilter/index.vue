@@ -10,30 +10,59 @@
         label="模型名称"
         prepend-inner-icon="mdi-magnify"
         solo
-        @input="onAppNameInput"
+        @keyup.enter="onSearch"
       />
-      <FilterItems title="tasks" />
-      <FilterItems title="libraries" />
-      <FilterItems title="license" />
+      <FilterItems :tags="tasks" title="tasks" />
+      <FilterItems :tags="libraryies" title="libraries" />
+      <FilterItems :tags="licenses" title="license" />
     </v-card-text>
   </v-card>
 </template>
 
 <script>
   import FilterItems from './FilterItems';
+  import { getModelStoreFilterCondition } from '@/api';
 
   export default {
     name: 'ModelFilter',
     components: {
       FilterItems,
     },
+    props: {
+      registry: {
+        type: String,
+        default: () => '',
+      },
+    },
     data() {
       return {
         search: '',
+        libraryies: [],
+        licenses: [],
+        tasks: [],
       };
     },
+    watch: {
+      registry: {
+        handler(newValue) {
+          if (newValue) {
+            this.modelStoreFilterCondition();
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
+    },
     methods: {
-      onAppNameInput() {},
+      onSearch() {
+        this.$emit('search', this.search);
+      },
+      async modelStoreFilterCondition() {
+        const data = await getModelStoreFilterCondition();
+        this.tasks = data.pipeline_tags;
+        this.libraryies = data.library_names;
+        this.licenses = data.licenses;
+      },
     },
   };
 </script>

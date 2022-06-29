@@ -37,6 +37,13 @@ module.exports = {
       port: 8080,
       host: '0.0.0.0',
       proxy: {
+        '/api/v1/huggingface/': {
+          target: 'http://model.local.kubegems.io:5001',
+          changeOrigin: true,
+          pathRewrite: {
+            '^/api/v1/huggingface/': '/huggingface/',
+          },
+        },
         '/api/v1/': {
           target: 'http://local.kubegems.io:8020',
           changeOrigin: true,

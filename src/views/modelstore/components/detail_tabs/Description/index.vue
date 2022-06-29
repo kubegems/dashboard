@@ -1,5 +1,5 @@
 <template>
-  <div class="pa-3 white rounded mt-3" :style="{ height: `${height}px`, overflowY: 'auto' }">
+  <div class="white rounded mt-3 pa-4" :style="{ height: `${height}px`, overflowY: 'auto' }">
     <Markdown :content="content" />
   </div>
 </template>
@@ -14,32 +14,32 @@
     components: {
       Markdown,
     },
+    props: {
+      item: {
+        type: Object,
+        default: () => null,
+      },
+    },
     data() {
       return {
-        content: `> 注意：在使用前请联系集群管理员开启 KubeGems Observability 相关的组件，包含Monitoring、Logging、 Opentelemetry、Jaeger
-
-  ### KubeGems OpenTelemetry Collector
-
-  修改应用 SDK 中的 Exporter Endpoint 地址为 opentelemetry-collector.observability:<port>。 其中， opentelemetry-collector 是 Collector 的 Service 名称，observability 是 Collector 所在命名空间，不同上报协议对应端口如下:
-
-  | Receivers |  Protocols  | Port  |
-  | :-------: | :---------: | :---: |
-  |   otlp    |    gRPC     | 4317  |
-  |   otlp    |    http     | 4318  |
-  |  jaeger   |    gRPC     | 14250 |
-  |  jaeger   | thrift_http | 14268 |
-  |  zipkin   |             | 9411  |
-
-  ###  C++ Metrics
-
-  OpenTelemetry C++ SDK 中的Metrics 尚处于实验阶段，目前并不提供接入
-  `,
+        content: '',
       };
     },
     computed: {
       ...mapState(['Scale']),
       height() {
         return parseInt((window.innerHeight - 214) / this.Scale);
+      },
+    },
+    watch: {
+      item: {
+        handler(newValue) {
+          if (newValue) {
+            this.content = newValue?.intro;
+          }
+        },
+        deep: true,
+        immediate: true,
       },
     },
   };

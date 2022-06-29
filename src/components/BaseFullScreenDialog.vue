@@ -11,14 +11,14 @@
   >
     <v-card class="rounded-0">
       <v-flex class="px-4 py-3 primary white--text full-screen__position">
-        <div v-if="isAppstore" class="justify-center float-left text-h6 py-1">
+        <div v-if="kubegemsLogo" class="justify-center float-left text-h6 py-1">
           <span class="hidden-sm-and-down float-left">
             <v-img src="/logo.svg" width="140" contain class="kubegems__absolute-middle" />
           </span>
           <span
             class="pl-2 text-h6"
             style="
-              font-family: Yuanti SC, YouYuan, Microsoft Yahei !important;
+              font-family: Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important;
               font-weight: bold;
               font-size: 1.1rem !important;
               margin-left: 140px;
@@ -74,7 +74,7 @@
         type: String,
         default: () => '',
       },
-      isAppstore: {
+      kubegemsLogo: {
         type: Boolean,
         default: () => false,
       },

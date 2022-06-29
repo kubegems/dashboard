@@ -23,7 +23,6 @@
             bottom: true,
             left: true,
             origin: `top center`,
-            transition: `scale-transition`,
           }"
           no-data-text="暂无可选数据"
           :rules="objRules.tenantProjectIdRules"
@@ -48,7 +47,6 @@
             bottom: true,
             left: true,
             origin: `top center`,
-            transition: `scale-transition`,
           }"
           no-data-text="暂无可选数据"
           :rules="objRules.versionRules"
@@ -72,7 +70,6 @@
             bottom: true,
             left: true,
             origin: `top center`,
-            transition: `scale-transition`,
           }"
           no-data-text="暂无可选数据"
           :rules="objRules.environmentIdRules"
@@ -107,6 +104,26 @@
           environmentIdRules: [required],
         },
       };
+    },
+    methods: {
+      onTenantProjectSelectFocus() {
+        this.m_select_tenantProjectSelectData();
+      },
+      onAppVersionChange() {},
+      async onEnvSelectFocus() {
+        await this.m_select_projectEnvironmentSelectData(this.obj.TenantProjectId);
+        this.m_select_projectEnvironmentItems = this.m_select_projectEnvironmentItems.filter((projectEnv) => {
+          return (
+            this.m_permisson_tenantAllow ||
+            this.Auth.projects.some((p) => {
+              return p.isAdmin && p.id === this.obj.TenantProjectId;
+            }) ||
+            this.Auth.environments.some((authEnv) => {
+              return authEnv.isAdmin && authEnv.name === projectEnv.text;
+            })
+          );
+        });
+      },
     },
   };
 </script>

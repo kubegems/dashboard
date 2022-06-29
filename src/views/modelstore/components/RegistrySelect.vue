@@ -27,11 +27,11 @@
                 :key="index"
                 class="text-body-2 text-center font-weight-medium mx-2"
                 link
-                :style="repo === selectRepo ? `color: #1e88e5 !important;` : ``"
+                :style="repo.value === selectRepo ? `color: #1e88e5 !important;` : ``"
                 @click="setRepo(repo)"
               >
                 <v-list-item-content>
-                  <span>{{ repo }}</span>
+                  <span>{{ repo.text }}</span>
                 </v-list-item-content>
               </v-list-item>
             </v-list>
@@ -48,21 +48,30 @@
     data() {
       return {
         repoMenu: false,
-        repoItems: [],
-        selectRepo: '',
+        repoItems: [{ text: 'huggingface', value: 'huggingface' }],
+        selectRepo: 'huggingface',
       };
     },
     watch: {
       value: {
         handler(newValue) {
-          this.selectRepo = newValue;
+          if (newValue) {
+            this.selectRepo = newValue;
+          }
         },
         deep: true,
         immediate: true,
       },
     },
+    mounted() {
+      this.$nextTick(() => {
+        this.$emit('change', this.selectRepo);
+        this.$emit('input', this.selectRepo);
+      });
+    },
     methods: {
-      setRepo() {
+      setRepo(repo) {
+        this.selectRepo = repo.value;
         this.$emit('change', this.selectRepo);
         this.$emit('input', this.selectRepo);
       },

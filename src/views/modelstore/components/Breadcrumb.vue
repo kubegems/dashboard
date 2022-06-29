@@ -37,34 +37,32 @@
     watch: {
       hub: {
         handler(newValue) {
-          if (newValue) {
-            switch (newValue) {
-              case 'hugging-face':
-                this.imgSrc = '/icon/hugging-face.png';
-                this.tip = '全球大型开源社区,专注于NLP技术。';
-                break;
-              case 'openmmlab':
-                this.imgSrc = '/icon/openmmlab.png';
-                this.tip = '深度学习时代最完整的计算机视觉开源算法体系。';
-                break;
-              case 'tensorflow':
-                this.imgSrc = '/icon/tensorflow.png';
-                this.tip = '一个核心开源库，可以帮助您开发和训练机器学习模型。';
-                break;
-              case 'kubegems-charts':
-                this.imgSrc = '/logo-about.svg';
-                this.tip =
-                  '一个描述Kubernetes相关资源的文件集合，单个应用可以用来部署某些复杂的HTTP服务器以及web全栈应用、数据库、缓存等。';
-                break;
-              case 'pytorch':
-                this.imgSrc = '/icon/pytorch.jpeg';
-                this.tip = '发现模型并将其发布到专为研究探索而设计的预训练模型存储库。';
-                break;
-              default:
-                this.imgSrc = '/logo-about.svg';
-                this.tip = 'Kubegems内置模型商店。';
-                break;
-            }
+          switch (newValue) {
+            case 'huggingface':
+              this.imgSrc = '/icon/hugging-face.png';
+              this.tip = '全球大型开源社区,专注于NLP技术。';
+              break;
+            case 'openmmlab':
+              this.imgSrc = '/icon/openmmlab.png';
+              this.tip = '深度学习时代最完整的计算机视觉开源算法体系。';
+              break;
+            case 'tensorflow':
+              this.imgSrc = '/icon/tensorflow.png';
+              this.tip = '一个核心开源库，可以帮助您开发和训练机器学习模型。';
+              break;
+            case 'kubegems-charts':
+              this.imgSrc = '/logo-about.svg';
+              this.tip =
+                '一个描述Kubernetes相关资源的文件集合，单个应用可以用来部署某些复杂的HTTP服务器以及web全栈应用、数据库、缓存等。';
+              break;
+            case 'pytorch':
+              this.imgSrc = '/icon/pytorch.jpeg';
+              this.tip = '发现模型并将其发布到专为研究探索而设计的预训练模型存储库。';
+              break;
+            default:
+              this.imgSrc = '/logo-about.svg';
+              this.tip = 'Kubegems内置模型商店。';
+              break;
           }
         },
         deep: true,

@@ -140,10 +140,6 @@
 </script>
 
 <style scoped>
-  .full-height {
-    height: 100%;
-  }
-
   .oauth-pos {
     position: relative;
     background-color: #ffffff;

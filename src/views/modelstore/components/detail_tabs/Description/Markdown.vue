@@ -4,7 +4,6 @@
 
 <script>
   import MarkdownIt from 'markdown-it';
-  import hljs from 'markdown-it-highlightjs';
 
   export default {
     name: 'Markdown',
@@ -25,7 +24,6 @@
     },
     created() {
       this.md = new MarkdownIt();
-      this.md.use(hljs);
     },
   };
 </script>

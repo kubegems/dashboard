@@ -1,9 +1,9 @@
 <template>
   <div class="mt-3 white rounded pa-4">
-    <div class="file">
+    <div v-for="(file, index) in files" :key="index" class="file text-body-2">
       <div class="float-left"> 2022-04-23 12:12:12 CST </div>
       <div class="float-left file__size">11 KiB</div>
-      <div class="float-left">80c421c23a95c9a4ccdfd3a32dfe10619dce5d72</div>
+      <div class="float-left">{{ file.filename }}</div>
       <div class="kubegems__clear-float" />
     </div>
   </div>
@@ -12,10 +12,27 @@
 <script>
   export default {
     name: 'Files',
+    props: {
+      item: {
+        type: Object,
+        default: () => null,
+      },
+    },
     data: function () {
       return {
-        // files: [],
+        files: [],
       };
+    },
+    watch: {
+      item: {
+        handler(newValue) {
+          if (newValue) {
+            this.files = newValue?.siblings;
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
     },
   };
 </script>

@@ -9,7 +9,7 @@
           :total-visible="6"
           @input="onPageInput"
         ></v-pagination>
-        <v-sheet v-if="pageCount * size > 10 && showSize" class="text-body-1 float-left ml-2 mt-2">
+        <div v-if="pageCount * size > 10 && showSize" class="text-body-2 float-left ml-2 mt-2">
           每页条目数
           <v-menu
             v-model="pageMenu"
@@ -53,7 +53,7 @@
               </template>
             </v-data-iterator>
           </v-menu>
-        </v-sheet>
+        </div>
         <div class="kubegems__clear-float"></div>
       </v-flex>
     </v-flex>

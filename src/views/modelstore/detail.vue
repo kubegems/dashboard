@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <Breadcrumb>
+    <Breadcrumb :hub="$route.query.registry">
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-btn class="primary--text" small text>
@@ -12,7 +12,7 @@
     </Breadcrumb>
     <v-row class="mt-0">
       <v-col class="pt-0" cols="3">
-        <ModelInfo />
+        <ModelInfo :item="item" />
       </v-col>
       <v-col class="pt-0" cols="9">
         <v-card>
@@ -24,11 +24,11 @@
             </v-tabs>
           </v-card-text>
         </v-card>
-        <component :is="tabItems[tab].value" :ref="tabItems[tab].value" />
+        <component :is="tabItems[tab].value" :ref="tabItems[tab].value" :item="item" />
       </v-col>
     </v-row>
 
-    <Deploy ref="deploy" />
+    <Deploy ref="deploy" :item="item" />
   </v-container>
 </template>
 
@@ -41,6 +41,7 @@
   import Files from './components/detail_tabs/Files';
   import Runtime from './components/detail_tabs/Runtime';
   import ModelInfo from './components/ModelInfo';
+  import { getModelStoreDetail } from '@/api';
 
   export default {
     name: 'ModelStoreDetail',
@@ -64,9 +65,19 @@
           { text: '运行实例', value: 'Runtime' },
           { text: '证书', value: 'Certificate' },
         ],
+        item: undefined,
       };
     },
+    mounted() {
+      this.$nextTick(() => {
+        this.modelDetail();
+      });
+    },
     methods: {
+      async modelDetail() {
+        const data = await getModelStoreDetail(this.$route.params.name);
+        this.item = data;
+      },
       deploy() {
         this.$refs.deploy.open();
       },

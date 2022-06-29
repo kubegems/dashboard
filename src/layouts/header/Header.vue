@@ -50,7 +50,7 @@
       <template #activator="{ on }">
         <v-btn color="primary" dark depressed v-on="on">
           <v-icon v-if="StoreMode === 'app'" class="header-icon-line-height" left small> fas fa-shopping-bag </v-icon>
-          <v-icon v-else class="header-icon-line-height" left small> fas fa-boxes </v-icon>
+          <v-icon v-else class="header-icon-line-height" left small> fas fa-cube </v-icon>
           <span
             class="header-span-line-height"
             style="font-family: Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important; font-weight: bold"
@@ -86,7 +86,7 @@
                       fas fa-shopping-bag
                     </v-icon>
                     <v-icon v-else :class="store.value === StoreMode ? 'header--highlight' : ''" left small>
-                      fas fa-boxes
+                      fas fa-cube
                     </v-icon>
                     {{ store.text }}
                   </span>
@@ -99,7 +99,7 @@
     </v-menu>
 
     <v-btn color="primary" dark depressed @click="toWorkspace">
-      <v-icon class="header-icon-line-height" left small> fas fa-th </v-icon>
+      <v-icon class="header-icon-line-height" left small> fas fa-home </v-icon>
       <span
         class="header-span-line-height"
         style="font-family: Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important; font-weight: bold"

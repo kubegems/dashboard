@@ -1,15 +1,17 @@
 <template>
-  <BaseFullScreenDialog v-model="dialog" :is-appstore="true" :title="title" @dispose="dispose">
+  <BaseFullScreenDialog v-model="dialog" kubegems-logo :title="title" @dispose="dispose">
     <template #content>
       <v-flex :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
         <v-row class="mt-0 ma-0">
           <v-col class="px-6 pa-0" cols="3">
-            <ModelInfo />
+            <ModelInfo :item="item" />
           </v-col>
           <v-flex class="py-2">
             <v-divider vertical />
           </v-flex>
-          <v-col class="pa-0" cols="9" />
+          <v-col class="pa-0" cols="9">
+            <DeployWizard ref="deployWizard" />
+          </v-col>
         </v-row>
       </v-flex>
     </template>
@@ -19,13 +21,20 @@
 <script>
   import { mapState } from 'vuex';
 
+  import DeployWizard from './DeployWizard';
   import ModelInfo from './ModelInfo';
 
   export default {
     name: 'Deploy',
     components: {
+      DeployWizard,
       ModelInfo,
-      // DeployWizard: () => import('./DeployWizard'),
+    },
+    props: {
+      item: {
+        type: Object,
+        default: () => null,
+      },
     },
     data: () => ({
       dialog: false,
@@ -38,13 +47,7 @@
       open() {
         this.dialog = true;
       },
-      async init() {
-        this.$refs.deployWizard.setData({
-          selectVersion: this.selectVersion,
-          app: this.currentApp.name,
-        });
-        await this.$refs.deployWizard.parseFiles();
-      },
+      async init() {},
       dispose() {
         this.$refs.deployWizard.reset();
       },
