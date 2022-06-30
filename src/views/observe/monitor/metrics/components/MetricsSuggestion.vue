@@ -53,7 +53,7 @@
       },
       top: {
         type: Number,
-        default: () => 320,
+        default: () => 250,
       },
     },
     data() {

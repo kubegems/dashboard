@@ -186,6 +186,7 @@ const select = {
           clusterid: ns.ClusterID,
           type: ns.MetaType,
           projectid: projectid,
+          projectName: ns.Project.ProjectName,
           disabled: ns.VirtualSpaceID > 0 && virtualspace,
           nsLabels: ns.NSLabels,
         });

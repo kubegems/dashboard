@@ -61,7 +61,7 @@
               <v-expansion-panel-content>
                 <v-form :ref="`${item._$id}-form`" lazy-validation @submit.prevent>
                   <!-- 项目环境 -->
-                  <BaseSubTitle class="mb-3" :title="queryList[index].isCluster ? '集群' : '项目环境'">
+                  <BaseSubTitle class="mb-3" :title="queryList[index].isCluster ? '集群' : '环境'">
                     <template #action>
                       <v-switch
                         v-if="AdminViewport"
@@ -74,7 +74,7 @@
                       >
                         <template #label>
                           <span class="text-body-2 font-weight-medium">
-                            {{ !queryList[index].isCluster ? '集群维度' : '项目环境维度' }}
+                            {{ !queryList[index].isCluster ? '集群维度' : '环境维度' }}
                           </span>
                         </template>
                       </v-switch>
@@ -109,50 +109,13 @@
 
                     <template v-else>
                       <v-col :cols="12">
-                        <v-autocomplete
-                          v-model="queryList[index].project"
-                          class="px-2"
-                          dense
-                          flat
-                          item-text="text"
-                          item-value="value"
-                          :items="queryList[index].projectItems"
-                          label="项目"
-                          no-data-text="暂无可选数据"
-                          return-object
-                          :rules="fieldRules.required"
-                          solo
-                          @change="onProjectChange(index)"
-                        >
-                          <template #selection="{ item }">
-                            <v-chip color="primary" label small>
-                              <span>{{ item.text }}</span>
-                            </v-chip>
-                          </template>
-                        </v-autocomplete>
-
-                        <v-autocomplete
-                          v-model="queryList[index].environment"
-                          class="px-2"
-                          dense
-                          :disabled="!queryList[index].project"
-                          flat
-                          item-text="EnvironmentName"
-                          item-value="ID"
-                          :items="queryList[index].environmentItems"
-                          label="环境"
-                          no-data-text="暂无可选数据"
-                          return-object
-                          :rules="fieldRules.required"
-                          solo
-                          @change="onEnvironmentChange(index)"
-                        >
-                          <template #selection="{ item }">
-                            <v-chip color="primary" label small>
-                              <span>{{ item.EnvironmentName }}</span>
-                            </v-chip>
-                          </template>
-                        </v-autocomplete>
+                        <div class="mx-2 mb-3">
+                          <ProjectEnvSelectCascade
+                            v-model="queryList[index].environment"
+                            :tenant="Tenant()"
+                            @load="load"
+                          />
+                        </div>
                       </v-col>
                     </template>
                   </v-row>
@@ -189,7 +152,7 @@
                     <MetricsSuggestion
                       :cluster="
                         queryList[index].environment
-                          ? queryList[index].environment.Cluster.ClusterName
+                          ? queryList[index].environment.clusterName
                           : queryList[index].cluster
                           ? queryList[index].cluster.text
                           : undefined
@@ -245,30 +208,29 @@
                         </v-chip>
                       </template>
                     </v-autocomplete>
-
-                    <v-autocomplete
-                      v-model="queryList[index].unit"
-                      class="px-2"
-                      dense
-                      flat
-                      item-text="text"
-                      :items="queryList[index].unitItems"
-                      label="单位(回车可创建自定义单位)"
-                      no-data-text="暂无可选数据"
-                      :readonly="!queryList[index].ql"
-                      return-object
-                      :search-input.sync="queryList[index].unitText"
-                      solo
-                      @focus="setUnitItems(index)"
-                      @keydown.enter="createUnit(index)"
-                    >
-                      <template #selection="{ item }">
-                        <v-chip color="primary" label small>
-                          <span>{{ item.text }}</span>
-                        </v-chip>
-                      </template>
-                    </v-autocomplete>
                   </template>
+
+                  <v-autocomplete
+                    v-model="queryList[index].unit"
+                    class="px-2"
+                    dense
+                    flat
+                    item-text="text"
+                    :items="queryList[index].unitItems"
+                    label="单位(回车可创建自定义单位)"
+                    no-data-text="暂无可选数据"
+                    :readonly="!queryList[index].ql"
+                    :search-input.sync="queryList[index].unitText"
+                    solo
+                    @focus="setUnitItems(index)"
+                    @keydown.enter="createUnit(index)"
+                  >
+                    <template #selection="{ item }">
+                      <v-chip color="primary" label small>
+                        <span>{{ item.text }}</span>
+                      </v-chip>
+                    </template>
+                  </v-autocomplete>
 
                   <!-- 资源规则 -->
 
@@ -337,14 +299,13 @@
     getMetricsLabelValues,
     getMetricsQueryrange,
     getMyConfigData,
-    getProjectEnvironmentList,
-    getProjectList,
     getSystemConfigData,
   } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseSelect from '@/mixins/select';
   import { debounce, deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
+  import ProjectEnvSelectCascade from '@/views/observe/components/ProjectEnvSelectCascade';
   import AddPrometheusRule from '@/views/observe/monitor/config/prometheusrule/components/AddPrometheusRule';
   import Metrics from '@/views/observe/monitor/mixins/metrics';
 
@@ -355,6 +316,7 @@
       ButtonInput,
       MetricsItem,
       MetricsSuggestion,
+      ProjectEnvSelectCascade,
     },
     mixins: [BasePermission, BaseSelect, Metrics],
     data() {
@@ -419,7 +381,7 @@
           return {
             _$value: id,
             _$index: index,
-            _$unit: query._$origin?.unit?.value || ``,
+            _$unit: query._$origin?.unit || ``,
             _$title: query._$origin?.resource
               ? `${index + 1}-${query._$origin?.resource.showName}-${query._$origin?.rule.showName}`
               : `${index + 1}-${query._$origin.expr}`,
@@ -434,7 +396,6 @@
         this.m_select_clusterSelectData();
       }
       this.getMonitorConfig();
-      this.getProjectList();
       this.isMounted = false;
     },
     methods: {
@@ -507,14 +468,14 @@
         );
         this.$set(this.queryList[index], 'unitItems', items);
         if (custom) {
-          this.$set(this.queryList[index], 'unit', items[items.length - 1]);
+          this.$set(this.queryList[index], 'unit', items[items.length - 1].value);
         }
       },
       // 获取格式化后的params
       getParams(params) {
         let newParams = {
-          cluster: params.cluster?.text || params.environment?.Cluster.ClusterName,
-          namespace: params.environment?.Namespace || '_all',
+          cluster: params.cluster?.text || params.environment.clusterName,
+          namespace: params.environment.namespace || '_all',
           start: this.$moment(this.date[0]).utc().format(),
           end: this.$moment(this.date[1]).utc().format(),
           step: this.step === 'auto' ? null : this.step,
@@ -523,12 +484,13 @@
         if (params.ql) {
           newParams = Object.assign(newParams, {
             expr: params.expr,
+            unit: params.unit || null,
           });
         } else {
           newParams = Object.assign(newParams, {
             resource: params.resource._$value,
             rule: params.rule._$value,
-            unit: params.unit?.value || null,
+            unit: params.unit || null,
           });
         }
 
@@ -551,8 +513,8 @@
         let labels = query.rule?.labels || [];
         if (query.ql) {
           const data = await getMetricsLabels(
-            query.cluster?.text || query.environment?.Cluster.ClusterName,
-            query.environment?.Namespace || '_all',
+            query.cluster?.text || query.environment.clusterName,
+            query.environment.namespace || '_all',
             { expr: query.expr, noprocessing: true },
           );
           labels = data?.filter((d) => {
@@ -592,21 +554,8 @@
 
         this.pluginsPass(query.cluster?.text);
       },
-      async onProjectChange(index) {
-        const query = this.queryList[index];
-        let envItems = [];
-        if (query.project) {
-          const data = await getProjectEnvironmentList(query.project.value, {
-            noprocessing: true,
-          });
-          envItems = query.cluster ? data.List.filter((pro) => pro.ClusterID === query.cluster.value) : data.List;
-        }
-        this.$set(query, 'environment', undefined);
-        this.$set(query, 'environmentItems', envItems);
-      },
-      onEnvironmentChange(index) {
-        const query = this.queryList[index];
-        this.pluginsPass(query.environment?.Cluster.ClusterName);
+      load(item) {
+        this.pluginsPass(item.clusterName);
       },
       async getMonitorConfig() {
         let data = null;
@@ -618,15 +567,6 @@
 
         this.config = data?.content || {};
         this.onLatitudeChange(0);
-      },
-      async getProjectList() {
-        const data = await getProjectList(this.Tenant().ID, { noprocessing: true });
-        this.allProjectList = data.List.map((item) => ({
-          value: item.ID,
-          text: item.ProjectName,
-          environments: item.Environments,
-        }));
-        this.onClusterChange(0);
       },
       async getLabelItems(label, id) {
         if (this.labelObject[id][label]?.request) return;

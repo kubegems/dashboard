@@ -131,79 +131,10 @@
         </v-data-iterator>
       </v-menu>
     </v-sheet>
-
-    <template v-if="showPod">
-      <v-sheet
-        :class="`text-subtitle-2 ml-4 float-left font-weight-medium ${
-          reverse ? 'sheet__reverse__line white--text primary' : 'sheet__line kubegems__text'
-        }`"
-      >
-        容器组
-      </v-sheet>
-      <v-sheet :class="`text-body-2 float-left text--darken-1 ${reverse || 'sheet__menu__line'}`">
-        <v-menu
-          v-model="podMenu"
-          bottom
-          left
-          max-height="300px"
-          max-width="220px"
-          min-width="120px"
-          nudge-bottom="5px"
-          offset-y
-          origin="top center"
-          transition="scale-transition"
-        >
-          <template #activator="{ on }">
-            <v-btn
-              :class="`${reverse ? 'white--text' : 'primary--text'} font-weight-medium`"
-              :color="reverse ? 'primary rounded-0' : 'white'"
-              dark
-              depressed
-              small
-              v-on="on"
-            >
-              {{ podName }}
-              <v-icon v-if="podMenu" right> fas fa-angle-up </v-icon>
-              <v-icon v-else right> fas fa-angle-down </v-icon>
-            </v-btn>
-          </template>
-          <v-data-iterator hide-default-footer :items="[{ text: '容器组', values: podItems }]">
-            <template #no-data>
-              <v-card>
-                <v-card-text> 暂无容器组 </v-card-text>
-              </v-card>
-            </template>
-            <template #default="props">
-              <v-card v-for="item in props.items" :key="item.text" min-width="100px">
-                <v-list dense>
-                  <v-flex class="text-subtitle-2 text-center ma-2">
-                    <span>容器组</span>
-                  </v-flex>
-                  <v-divider class="mx-2" />
-                  <v-list-item
-                    v-for="(pod, index) in item.values"
-                    :key="index"
-                    class="text-body-2 text-center font-weight-medium mx-2"
-                    link
-                    :style="pod.podName === podName ? `color: #1e88e5 !important;` : ``"
-                    @click="setPod(pod)"
-                  >
-                    <v-list-item-content>
-                      <span>{{ pod.podName }}</span>
-                    </v-list-item-content>
-                  </v-list-item>
-                </v-list>
-              </v-card>
-            </template>
-          </v-data-iterator>
-        </v-menu>
-      </v-sheet>
-    </template>
   </div>
 </template>
 
 <script>
-  import { getPodList } from '@/api';
   import BaseSelect from '@/mixins/select';
 
   export default {
@@ -211,10 +142,6 @@
     mixins: [BaseSelect],
     props: {
       reverse: {
-        type: Boolean,
-        default: () => false,
-      },
-      showPod: {
         type: Boolean,
         default: () => false,
       },
@@ -231,11 +158,6 @@
         environment: undefined,
         environmentName: '',
         environmentMenu: false,
-        pod: undefined,
-        podName: '',
-        podMenu: false,
-
-        podItems: [],
       };
     },
     watch: {
@@ -260,22 +182,6 @@
           this.environment = this.m_select_projectEnvironmentItems[0];
           this.environmentName = this.environment.environmentName;
           this.$emit('refreshEnvironemnt', this.environment);
-          this.pod = undefined;
-          if (this.showPod) this.loadPod();
-        }
-      },
-      async loadPod() {
-        const data = await getPodList(this.environment?.clusterName, this.environment?.namespace, {
-          noprocessing: true,
-          size: 1000,
-        });
-        if (data?.List) {
-          this.podItems = data.List.map((d) => {
-            return {
-              podName: d.metadata.name,
-              value: d.metadata.name,
-            };
-          });
         }
       },
       setProject(project) {
@@ -288,14 +194,7 @@
         if (environment && environment.environmentName !== this.environmentName) {
           this.environmentName = this.environment.environmentName;
           this.$emit('refreshEnvironemnt', this.environment);
-          this.pod = undefined;
-          if (this.showPod) this.loadPod();
         }
-      },
-      setPod(pod) {
-        this.pod = pod;
-        this.podName = pod.podName;
-        this.$emit('filterPod', this.pod);
       },
     },
   };

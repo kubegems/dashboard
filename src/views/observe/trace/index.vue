@@ -3,7 +3,7 @@
     <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
-          <ProjectEnvSelect :tenant="tenant" @refreshEnvironemnt="refreshEnvironemnt" />
+          <ProjectEnvSelectCascade v-model="env" first reverse :tenant="tenant" />
           <div class="text-subtitle-2 float-left font-weight-medium kubegems__text search__label">TraceId</div>
           <v-text-field
             v-model="traceid"
@@ -47,12 +47,12 @@
   import { mapGetters, mapState } from 'vuex';
 
   import BasePermission from '@/mixins/permission';
-  import ProjectEnvSelect from '@/views/observe/components/ProjectEnvSelect';
+  import ProjectEnvSelectCascade from '@/views/observe/components/ProjectEnvSelectCascade';
 
   export default {
     name: 'TraceSearch',
     components: {
-      ProjectEnvSelect,
+      ProjectEnvSelectCascade,
     },
     mixins: [BasePermission],
     data() {
@@ -67,6 +67,7 @@
         traceIdSearchWidth: 250,
         missingPlugins: [],
         tenant: null,
+        env: undefined,
       };
     },
     computed: {
@@ -100,6 +101,15 @@
           }
         },
       },
+      env: {
+        handler(newValue) {
+          if (newValue) {
+            this.cluster = newValue.clusterName;
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
     },
     mounted() {
       this.$nextTick(() => {
@@ -123,9 +133,6 @@
         this.$store.commit('SET_PROGRESS', false);
         clearTimeout(this.timer);
         this.setLocation();
-      },
-      refreshEnvironemnt(env) {
-        this.cluster = env.clusterName;
       },
       searchByTraceId(e) {
         if (e.keyCode === 13) {
