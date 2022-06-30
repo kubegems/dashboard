@@ -8,6 +8,7 @@
         id="max"
         chart-type="line"
         :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
+        colorful
         :extend-height="height"
         label="all"
         :metrics="metrics"

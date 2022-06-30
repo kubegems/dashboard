@@ -3,7 +3,8 @@
     <BaseBreadcrumb class="dash__header">
       <template #extend>
         <v-flex class="kubegems__full-right">
-          <ProjectEnvSelect show-pod :tenant="tenant" @filterPod="filterPod" @refreshEnvironemnt="refreshEnvironemnt" />
+          <ContainerSelect :env="env" @filterPod="filterPod" />
+          <ProjectEnvSelectCascade v-model="env" first reverse :tenant="tenant" />
 
           <BaseDatetimePicker v-model="date" :default-value="30" :offset-y="1" @change="onDatetimeChange(undefined)" />
           <v-menu
@@ -135,6 +136,7 @@
 
   import AddDashboard from './components/AddDashboard';
   import AddGraph from './components/AddGraph';
+  import ContainerSelect from './components/ContainerSelect';
   import GraphMax from './components/GraphMax';
   import UpdateDashboard from './components/UpdateDashboard';
   import UpdateGraph from './components/UpdateGraph';
@@ -147,15 +149,16 @@
     putUpdateMonitorDashboard,
   } from '@/api';
   import BasePermission from '@/mixins/permission';
-  import ProjectEnvSelect from '@/views/observe/components/ProjectEnvSelect';
+  import ProjectEnvSelectCascade from '@/views/observe/components/ProjectEnvSelectCascade';
 
   export default {
     name: 'MonitorDashboard',
     components: {
       AddDashboard,
       AddGraph,
+      ContainerSelect,
       GraphMax,
-      ProjectEnvSelect,
+      ProjectEnvSelectCascade,
       UpdateDashboard,
       UpdateGraph,
     },
@@ -175,11 +178,36 @@
           end: null,
         },
         missingPlugins: [],
+        env: undefined,
       };
     },
     computed: {
       ...mapState(['AdminViewport', 'Scale']),
       ...mapGetters(['Tenant']),
+    },
+    watch: {
+      env: {
+        handler: async function (newValue) {
+          if (newValue) {
+            this.environment = newValue;
+            this.missingPlugins = await this.m_permission_plugin_pass(
+              newValue.clusterName,
+              this.$route.meta?.dependencies || [],
+            );
+            if (this.missingPlugins?.length === 0) {
+              this.dashboardList();
+            } else {
+              this.$store.commit('SET_SNACKBAR', {
+                text: `该环境所在集群还未启用 ${this.missingPlugins.join(', ')} 插件！`,
+                color: 'warning',
+              });
+              return;
+            }
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
     },
     mounted() {
       this.$nextTick(() => {
@@ -279,22 +307,6 @@
             ),
         );
         this.$set(this.metrics, `c${index}`, data);
-      },
-      async refreshEnvironemnt(env) {
-        this.environment = env;
-        this.missingPlugins = await this.m_permission_plugin_pass(
-          this.environment.clusterName,
-          this.$route.meta?.dependencies || [],
-        );
-        if (this.missingPlugins?.length === 0) {
-          this.dashboardList();
-        } else {
-          this.$store.commit('SET_SNACKBAR', {
-            text: `该环境所在集群还未启用 ${this.missingPlugins.join(', ')} 插件！`,
-            color: 'warning',
-          });
-          return;
-        }
       },
       async filterPod(pod) {
         this.dashboardList(pod.podName);

@@ -3,7 +3,7 @@
     <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
-          <ProjectEnvSelect :tenant="tenant" @refreshEnvironemnt="refreshEnvironemnt" />
+          <ProjectEnvSelectCascade v-model="env" first reverse :tenant="tenant" />
         </v-flex>
       </template>
     </BaseBreadcrumb>
@@ -74,12 +74,12 @@
   import { deletePrometheusBlacklist, getPrometheusBlackList } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { deleteEmpty } from '@/utils/helpers';
-  import ProjectEnvSelect from '@/views/observe/components/ProjectEnvSelect';
+  import ProjectEnvSelectCascade from '@/views/observe/components/ProjectEnvSelectCascade';
 
   export default {
     name: 'AlertHistroy',
     components: {
-      ProjectEnvSelect,
+      ProjectEnvSelectCascade,
     },
     mixins: [BaseSelect],
     data() {
@@ -103,11 +103,25 @@
           page: 1,
           size: 10,
         },
+        env: undefined,
       };
     },
     computed: {
       ...mapState(['AdminViewport']),
       ...mapGetters(['Tenant']),
+    },
+    watch: {
+      env: {
+        handler(newValue) {
+          if (newValue) {
+            this.params.cluster = newValue.clusterName;
+            this.params.namespace = newValue.namespace;
+            this.getBlackList();
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
     },
     mounted() {
       this.$nextTick(() => {
@@ -128,11 +142,6 @@
       },
       onPageIndexChange(page) {
         this.params.page = page;
-      },
-      refreshEnvironemnt(env) {
-        this.params.cluster = env.clusterName;
-        this.params.namespace = env.namespace;
-        this.getBlackList();
       },
       onRemoveBlack(item) {
         this.$store.commit('SET_CONFIRM', {

@@ -97,7 +97,7 @@
     watch: {
       metrics: {
         handler(newValue) {
-          if (newValue && newValue?.length > 0) {
+          if (newValue) {
             this.loadData();
           }
         },

@@ -17,7 +17,7 @@ export const tenantProjectSelectData = (tenantid, query = {}) =>
 export const projectEnvironmentSelectData = (projectid, query = {}) =>
   axios(`project/${projectid}/environment`, {
     params: Object.assign(query, {
-      preload: 'Cluster',
+      preload: 'Cluster,Project',
       size: 1000,
     }),
   });
