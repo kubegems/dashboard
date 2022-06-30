@@ -1,12 +1,12 @@
 <template>
   <v-row>
     <v-col cols="5">
-      <v-card class="pa-4">
+      <v-card class="pa-2" height="100%">
         <LeftSteps v-model="current" />
       </v-card>
     </v-col>
-    <v-col cols="7" style="height: 100%">
-      <v-card class="pa-4" style="height: 280px">
+    <v-col cols="7">
+      <v-card class="pa-4" height="100%">
         <component :is="current" />
       </v-card>
     </v-col>
@@ -14,22 +14,22 @@
 </template>
 
 <script>
-  import Analyze from './Analyze';
-  import Collect from './Collect';
-  import Install from './Install';
   import LeftSteps from './LeftSteps';
+  import Logs from './Logs';
+  import Metrics from './Metrics';
+  import Traces from './Traces';
 
   export default {
     name: 'IntroSteps',
     components: {
-      Analyze,
-      Collect,
-      Install,
       LeftSteps,
+      Logs,
+      Metrics,
+      Traces,
     },
     data() {
       return {
-        current: 'install',
+        current: 'Metrics',
       };
     },
   };

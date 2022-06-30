@@ -1,11 +1,11 @@
 <template>
   <div class="kubegems__text">
-    <img src="/img/observe/trace.svg" width="100%" />
+    <img src="/img/observe/metrics.svg" width="100%" />
   </div>
 </template>
 
 <script>
   export default {
-    name: 'IntroStepsAnalyze',
+    name: 'Metrics',
   };
 </script>

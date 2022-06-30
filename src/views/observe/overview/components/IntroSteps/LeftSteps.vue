@@ -11,7 +11,7 @@
           :step="index + 1"
         >
           <span class="kubegems__text">{{ item.name }}</span>
-          <small class="mt-2" style="font-size: 1rem">
+          <small class="mt-2 text-body-2">
             {{ item.desc }}
           </small>
         </v-stepper-step>
@@ -33,19 +33,19 @@
     data() {
       this.steps = [
         {
-          id: 'install',
-          name: '与KubeGems Monitoring 集成',
-          desc: '安装代理或集成 Prometheus SDK',
+          id: 'metrics',
+          name: '安装 OpenTelemetry Metrics Library',
+          desc: '自定义指标可以深入了解应用实时状态,以及发现它如何影响用户体验或者业务流程',
         },
         {
-          id: 'collect',
-          name: '创建日志采集器',
-          desc: '收集日志指标',
+          id: 'traces',
+          name: '安装 OpenTelemetry Traces Library',
+          desc: '链路追踪Tracing提供了调用链路还原、链路拓扑、应用依赖分析等工具,可帮助开发者快速分析和诊断应用的性能瓶颈,提高开发诊断效率',
         },
         {
-          id: 'analyze',
-          name: '创建日志分析',
-          desc: '直观的分析应用运行指标以及追踪告警',
+          id: 'logs',
+          name: '创建采集器收集应用日志',
+          desc: '自动采集应用容器控制台(stdout/stderr)日志,可帮助开发者在故障时进行日志分析',
         },
       ];
 
@@ -72,5 +72,12 @@
 <style lang="scss" scoped>
   .v-application--is-ltr .v-stepper--vertical .v-stepper__content {
     margin: -8px -36px -21px 36px !important;
+  }
+
+  .step {
+    &__font {
+      font-size: 14px;
+      line-height: 18px;
+    }
   }
 </style>

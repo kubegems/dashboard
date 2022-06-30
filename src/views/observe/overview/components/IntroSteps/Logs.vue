@@ -6,6 +6,6 @@
 
 <script>
   export default {
-    name: 'IntroStepsCollect',
+    name: 'Logs',
   };
 </script>
