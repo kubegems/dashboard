@@ -1,6 +1,6 @@
 <template>
   <div class="kubegems__text">
-    <img src="/img/observe/logging.svg" width="100%" />
+    <img src="/img/observe/logs.svg" width="100%" />
   </div>
 </template>
 
