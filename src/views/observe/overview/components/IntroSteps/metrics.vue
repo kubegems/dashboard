@@ -6,6 +6,6 @@
 
 <script>
   export default {
-    name: 'IntroStepsInstall',
+    name: 'Metrics',
   };
 </script>

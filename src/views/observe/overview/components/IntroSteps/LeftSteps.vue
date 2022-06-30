@@ -11,7 +11,7 @@
           :step="index + 1"
         >
           <span class="kubegems__text">{{ item.name }}</span>
-          <small class="mt-2" style="font-size: 1rem">
+          <small class="mt-2 text-body-2">
             {{ item.desc }}
           </small>
         </v-stepper-step>
@@ -72,5 +72,12 @@
 <style lang="scss" scoped>
   .v-application--is-ltr .v-stepper--vertical .v-stepper__content {
     margin: -8px -36px -21px 36px !important;
+  }
+
+  .step {
+    &__font {
+      font-size: 14px;
+      line-height: 18px;
+    }
   }
 </style>

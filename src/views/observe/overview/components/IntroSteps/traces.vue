@@ -6,6 +6,6 @@
 
 <script>
   export default {
-    name: 'IntroStepsAnalyze',
+    name: 'Traces',
   };
 </script>
