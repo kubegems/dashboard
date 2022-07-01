@@ -4,7 +4,7 @@
     bottom
     :close-on-content-click="false"
     :content-class="reverse ? 'menu' : ''"
-    max-height="350px"
+    max-height="450px"
     :min-width="maxWidth"
     nudge-bottom="5px"
     offset-y
@@ -14,14 +14,8 @@
   >
     <template #activator="{ on }">
       <div v-if="reverse" class="float-left">
-        <v-sheet
-          class="text-subtitle-2 ml-4 mr-2 float-left font-weight-medium kubegems__text"
-          :style="{ lineHeight: '40px' }"
-        >
-          环境
-        </v-sheet>
         <v-btn class="mr-2 mt-1 primary--text font-weight-medium" color="white" dark depressed small v-on="on">
-          {{ env ? env.environmentName : '' }}
+          {{ env ? env.environmentName : '选择一个环境' }}
           <v-icon v-if="menu" right> fas fa-angle-up </v-icon>
           <v-icon v-else right> fas fa-angle-down </v-icon>
         </v-btn>
@@ -47,24 +41,34 @@
         </template>
       </v-combobox>
     </template>
-    <v-card class="pa-2 py-3" height="350px">
-      <div class="select__div" :style="{ width: projectIndex > -1 ? '50%' : '100%' }">
-        <div class="text-body-2">项目</div>
+    <v-card class="pa-2 py-3" flat height="450px">
+      <div class="text-subtitle-2 mx-2 kubegems__text select__title">
+        <div class="float-left"> 选择一个环境 </div>
+        <div class="float-right">
+          <v-btn color="primary" small @click="reset">重置</v-btn>
+        </div>
+        <div class="kubegems__clear-float" />
+      </div>
+      <div class="select__div" :style="{ width: show ? '50%' : '100%' }">
         <v-text-field
-          v-model="projectSearch"
+          v-model="search"
           class="mt-2"
           dense
           flat
           hide-details
           prepend-inner-icon="mdi-magnify"
           solo
-          @keyup="onProjectSearch"
+          @keyup="onSearch"
         />
-        <v-list class="px-0" dense max-height="300" rounded :style="{ overflowY: 'auto' }">
+        <div class="text-caption pa-1 mt-2">项目</div>
+        <v-divider class="mb-2" />
+        <v-list class="pa-0" dense max-height="350" nav :style="{ overflowY: 'auto' }">
           <v-list-item-group v-model="projectIndex" color="primary" @change="onProjectChange">
-            <v-list-item v-for="item in projectItems" :key="item.value" dense exact>
+            <v-list-item v-for="item in projectItems" :key="item.value" dense>
               <v-list-item-content>
-                <v-list-item-title class="select__title"> {{ item.projectName }} </v-list-item-title>
+                <v-list-item-title class="select__list__title pl-2">
+                  {{ item.projectName }}
+                </v-list-item-title>
               </v-list-item-content>
               <v-list-item-icon>
                 <v-icon>mdi-chevron-right</v-icon>
@@ -73,24 +77,15 @@
           </v-list-item-group>
         </v-list>
       </div>
-      <v-divider v-if="projectIndex > -1" class="float-left" vertical />
-      <div v-if="projectIndex > -1" class="select__div">
-        <div class="text-body-2">环境</div>
-        <v-text-field
-          v-model="environmentSearch"
-          class="mt-2"
-          dense
-          flat
-          hide-details
-          prepend-inner-icon="mdi-magnify"
-          solo
-          @keyup="onEnvironmentSearch"
-        />
-        <v-list class="px-0" dense max-height="300" rounded :style="{ overflowY: 'auto' }">
+      <v-divider v-if="show" class="float-left select__divider" vertical />
+      <div v-if="show" class="select__div">
+        <div class="text-caption pa-1">环境</div>
+        <v-divider class="mb-2" />
+        <v-list class="pa-0" dense max-height="350" nav :style="{ overflowY: 'auto' }">
           <v-list-item-group v-model="environmentIndex" color="primary" @change="onEnvironmentChange">
-            <v-list-item v-for="item in environmentItems" :key="item.value" dense exact>
+            <v-list-item v-for="item in environmentItems" :key="item.value" dense>
               <v-list-item-content>
-                <v-list-item-title class="select__title" v-text="item.environmentName" />
+                <v-list-item-title class="select__list__title pl-2" v-text="item.environmentName" />
               </v-list-item-content>
             </v-list-item>
           </v-list-item-group>
@@ -125,16 +120,20 @@
       return {
         menu: false,
         env: undefined,
-        maxWidth: 225,
+        maxWidth: 275,
         items: [],
         projectItems: [],
         environmentItems: [],
         projectIndex: undefined,
         environmentIndex: undefined,
 
-        projectSearch: '',
-        environmentSearch: '',
+        search: '',
       };
+    },
+    computed: {
+      show() {
+        return this.projectIndex > -1 || this.search || this.environmentItems.length > 0;
+      },
     },
     watch: {
       value: {
@@ -153,7 +152,7 @@
             await this.m_select_projectSelectData(newValue.ID, true);
             this.projectItems = this.m_select_projectItems;
             if (this.first && this.m_select_projectItems.length > 0) {
-              this.maxWidth = 450;
+              this.maxWidth = 550;
               this.projectIndex = 0;
               const project = this.m_select_projectItems[0];
               await this.m_select_projectEnvironmentSelectData(project.value);
@@ -167,7 +166,7 @@
                 return p.projectName === this.$route.query.project;
               });
               if (pIndex > -1) {
-                this.maxWidth = 450;
+                this.maxWidth = 550;
                 this.projectIndex = pIndex;
                 const project = this.m_select_projectItems[pIndex];
                 await this.m_select_projectEnvironmentSelectData(project.value);
@@ -191,11 +190,11 @@
       async onProjectChange() {
         if (this.projectIndex > -1) {
           const item = this.m_select_projectItems[this.projectIndex];
-          this.maxWidth = 450;
+          this.maxWidth = 550;
           await this.m_select_projectEnvironmentSelectData(item.value);
           this.environmentItems = this.m_select_projectEnvironmentItems;
         } else {
-          this.maxWidth = 225;
+          this.maxWidth = this.environmentItems.length > 0 ? 550 : 275;
         }
       },
       onEnvironmentChange(trigger = false) {
@@ -209,23 +208,23 @@
           this.menu = false;
         }
       },
-      onProjectSearch() {
-        if (this.projectSearch) {
+      onSearch() {
+        if (this.search) {
           this.projectItems = this.m_select_projectItems.filter((p) => {
-            return p.projectName.indexOf(this.projectSearch) > -1;
+            return p.projectName.indexOf(this.search) > -1;
+          });
+          this.environmentItems = this.m_select_projectEnvironmentItems.filter((e) => {
+            return e.environmentName.indexOf(this.search) > -1;
           });
         } else {
           this.projectItems = this.m_select_projectItems;
-        }
-      },
-      onEnvironmentSearch() {
-        if (this.environmentSearch) {
-          this.environmentItems = this.m_select_projectEnvironmentItems.filter((e) => {
-            return e.environmentName.indexOf(this.environmentSearch) > -1;
-          });
-        } else {
           this.environmentItems = this.m_select_projectEnvironmentItems;
         }
+      },
+      reset() {
+        this.projectIndex = undefined;
+        this.environmentIndex = undefined;
+        this.maxWidth = 275;
       },
     },
   };
@@ -240,8 +239,20 @@
     }
 
     &__title {
-      white-space: inherit !important;
-      word-break: break-all !important;
+      line-height: 28px;
+      font-weight: 500 !important;
+    }
+
+    &__divider {
+      min-height: 93%;
+      max-height: 93%;
+    }
+
+    &__list {
+      &__title {
+        white-space: inherit !important;
+        word-break: break-all !important;
+      }
     }
   }
 

@@ -10,9 +10,9 @@
     >
       <v-card>
         <v-card-text class="pa-2 text-center">
-          <v-flex>
+          <!-- <v-flex>
             <v-btn color="primary" small text @click="syncResource"> 同步 </v-btn>
-          </v-flex>
+          </v-flex> -->
           <v-flex>
             <v-btn color="error" small text @click="removeResource"> 删除 </v-btn>
           </v-flex>
