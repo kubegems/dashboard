@@ -177,7 +177,7 @@
                 });
                 if (eIndex > -1) {
                   this.environmentIndex = eIndex;
-                  this.onEnvironmentChange();
+                  this.onEnvironmentChange(true);
                 }
               }
             }
@@ -198,14 +198,14 @@
           this.maxWidth = 225;
         }
       },
-      onEnvironmentChange() {
+      onEnvironmentChange(trigger = false) {
         if (this.environmentIndex > -1) {
           const item = this.m_select_projectEnvironmentItems[this.environmentIndex];
-          this.env = item;
+          this.env = { ...item, trigger: trigger };
           this.items = [item];
-          this.$emit('change', item);
-          this.$emit('input', item);
-          this.$emit('load', item);
+          this.$emit('change', this.env);
+          this.$emit('input', this.env);
+          this.$emit('load', this.env);
           this.menu = false;
         }
       },
