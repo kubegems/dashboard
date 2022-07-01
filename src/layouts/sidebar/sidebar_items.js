@@ -47,14 +47,14 @@ export const SIDEBAR_ITEMS = [
     text: '可观测性',
     sidebar: 'observe',
     value: 'admin-observe',
-    icon: 'ic:baseline-visibility',
+    icon: 'carbon:cloud-monitoring',
     admin: true,
   },
   {
     text: '可观测性',
     sidebar: 'workspaceobserve',
     value: 'observe',
-    icon: 'ic:baseline-visibility',
+    icon: 'carbon:cloud-monitoring',
   },
   {
     text: '平台管理',

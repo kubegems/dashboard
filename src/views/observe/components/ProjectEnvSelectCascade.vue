@@ -14,8 +14,17 @@
   >
     <template #activator="{ on }">
       <div v-if="reverse" class="float-left">
-        <v-btn class="mr-2 mt-1 primary--text font-weight-medium" color="white" dark depressed small v-on="on">
-          {{ env ? env.environmentName : '选择一个环境' }}
+        <v-btn
+          :class="`mr-2 ${small ? 'mt-1' : 'mt-n1'} font-weight-medium ${
+            reverseColor ? 'white--text' : 'primary--text'
+          }`"
+          :color="reverseColor ? 'primary' : 'white'"
+          dark
+          depressed
+          :small="small"
+          v-on="on"
+        >
+          {{ env ? `环境 ${env.environmentName}` : '选择一个环境' }}
           <v-icon v-if="menu" right> fas fa-angle-up </v-icon>
           <v-icon v-else right> fas fa-angle-down </v-icon>
         </v-btn>
@@ -110,6 +119,14 @@
       reverse: {
         type: Boolean,
         default: () => false,
+      },
+      reverseColor: {
+        type: Boolean,
+        default: () => false,
+      },
+      small: {
+        type: Boolean,
+        default: () => true,
       },
       tenant: {
         type: Object,

@@ -1,7 +1,15 @@
 <template>
   <BaseFullScreenDialog v-model="visible" icon="mdi-camera" title="查看快照" @dispose="handleDispose">
     <template #action>
-      <ProjectEnvSelect reverse :tenant="tenant" @refreshEnvironemnt="refreshEnvironemnt" />
+      <ProjectEnvSelectCascade
+        :key="selectKey"
+        v-model="env"
+        first
+        reverse
+        reverse-color
+        :small="false"
+        :tenant="tenant"
+      />
     </template>
     <template #content>
       <v-card class="mt-3" flat>
@@ -71,12 +79,13 @@
 
   import { deleteLogQuerySnapshot, getLogQuerySnapshotList } from '@/api';
   import BaseSelect from '@/mixins/select';
-  import ProjectEnvSelect from '@/views/observe/components/ProjectEnvSelect';
+  import { randomString } from '@/utils/helpers';
+  import ProjectEnvSelectCascade from '@/views/observe/components/ProjectEnvSelectCascade';
 
   export default {
     name: 'LogSnapshot',
     components: {
-      ProjectEnvSelect,
+      ProjectEnvSelectCascade,
     },
     mixins: [BaseSelect],
     data: () => ({
@@ -98,10 +107,24 @@
       },
       clusterid: undefined,
       tenant: null,
+      env: undefined,
+      selectKey: '',
     }),
     computed: {
       ...mapState(['Progress', 'JWT']),
       ...mapGetters(['Tenant']),
+    },
+    watch: {
+      env: {
+        handler(newValue) {
+          if (newValue) {
+            this.clusterid = newValue.clusterid;
+            this.logQuerySnapshotList();
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
     },
     async mounted() {
       if (this.JWT) {
@@ -112,15 +135,12 @@
       show() {
         this.visible = true;
         this.tenant = this.Tenant();
+        this.selectKey = `snapshot-${randomString(4)}`;
       },
       async logQuerySnapshotList() {
         const data = await getLogQuerySnapshotList(this.clusterid, this.params);
         this.items = data.List;
         this.pageCount = Math.ceil(data.Total / data.CurrentSize);
-      },
-      refreshEnvironemnt(env) {
-        this.clusterid = env.clusterid;
-        this.logQuerySnapshotList();
       },
       removeLogQuerySnapshot(item) {
         this.$store.commit('SET_CONFIRM', {

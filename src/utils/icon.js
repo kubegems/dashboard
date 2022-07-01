@@ -138,6 +138,8 @@ export function getIconName(name) {
   if (name.indexOf('tracing') > -1) return 'img:jaeger.png';
   if (name.indexOf('日志采集') > -1) return 'img:kubegems.jpg';
   if (name.indexOf('opentelemetry') > -1) return 'logos:opentelemetry';
+  if (name.indexOf('openkruise') > -1) return 'img:openkruise.jpeg';
+  if (name.indexOf('volume-snapshoter' > -1)) return 'img:kubegems.jpg';
   // if (name.indexOf('selfhosted') > -1) return 'bx:bxl-kubernetes'
   return 'logos:kubernetes';
 }
