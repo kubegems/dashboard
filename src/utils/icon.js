@@ -1,4 +1,5 @@
 export function getIconName(name) {
+  name = name.toLowerCase();
   if (name.indexOf('node-problem-detector') > -1) return 'logos:kubernetes';
   if (name.indexOf('node-local-dns') > -1) return 'logos:kubernetes';
   if (name.indexOf('prometheus') > -1) return 'logos:prometheus';

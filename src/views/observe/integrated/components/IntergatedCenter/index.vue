@@ -1,7 +1,9 @@
 <template>
   <BasePanel v-model="panel" icon="fas fa-link" :title="`接入配置`" :width="`50%`" @dispose="dispose">
     <template #action>
-      <v-btn class="mt-n1 ml-2" color="white" :loading="Circular" text @click="addData"> 保存 </v-btn>
+      <v-btn v-if="type !== 'app'" class="mt-n1 ml-2" color="white" :loading="Circular" text @click="addData">
+        保存
+      </v-btn>
     </template>
     <template #content>
       <v-card-text class="ma-0 pa-0">
@@ -26,8 +28,14 @@
         <template v-else-if="type === 'middleware'">
           <MiddlewareMetrics ref="middlewareMetrics" :chart-name="item.chart" @close="close" />
         </template>
-        <template v-else-if="type === 'logging'">
-          <Logging ref="logging" @close="close" />
+        <template v-else-if="type === 'monitor'">
+          <Metrics
+            v-if="item.name === 'Prometheus Exporter'"
+            ref="metrics"
+            component="MetricsBaseForm"
+            @close="close"
+          />
+          <Logging v-else ref="logging" @close="close" />
         </template>
       </v-card-text>
     </template>
@@ -82,8 +90,12 @@
           await this.$refs[this.tabItems[this.tab].value].addData();
         } else if (this.type === 'middleware') {
           await this.$refs.middlewareMetrics.addData();
-        } else if (this.type === 'logging') {
-          await this.$refs.logging.addData();
+        } else if (this.type === 'monitor') {
+          if (this.$refs.logging) {
+            await this.$refs.logging.addData();
+          } else if (this.$refs.metrics) {
+            await this.$refs.metrics.addData();
+          }
         }
       },
       close() {
@@ -95,7 +107,7 @@
           return `配置 ${item.name} 应用的Trace, Metrics`;
         } else if (this.type === 'middleware') {
           return `配置 ${item.name} 中间件的Exporter`;
-        } else if (this.type === 'logging') {
+        } else if (this.type === 'monitor') {
           return `配置 ${item.name} `;
         }
       },
