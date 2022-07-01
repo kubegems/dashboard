@@ -47,7 +47,7 @@
         </template>
       </v-combobox>
     </template>
-    <v-card class="pa-2 py-3" height="300px">
+    <v-card class="pa-2 py-3" height="350px">
       <div class="select__div" :style="{ width: projectIndex > -1 ? '50%' : '100%' }">
         <div class="text-body-2">项目</div>
         <v-text-field
@@ -60,7 +60,7 @@
           solo
           @keyup="onProjectSearch"
         />
-        <v-list class="px-0" dense rounded>
+        <v-list class="px-0" dense max-height="300" rounded :style="{ overflowY: 'auto' }">
           <v-list-item-group v-model="projectIndex" color="primary" @change="onProjectChange">
             <v-list-item v-for="item in projectItems" :key="item.value" dense exact>
               <v-list-item-content>
@@ -86,7 +86,7 @@
           solo
           @keyup="onEnvironmentSearch"
         />
-        <v-list class="px-0" dense rounded>
+        <v-list class="px-0" dense max-height="300" rounded :style="{ overflowY: 'auto' }">
           <v-list-item-group v-model="environmentIndex" color="primary" @change="onEnvironmentChange">
             <v-list-item v-for="item in environmentItems" :key="item.value" dense exact>
               <v-list-item-content>
