@@ -96,9 +96,9 @@
           harfItems: [...new Array(5).keys()],
         },
         logging: {
-          name: '日志',
-          type: 'logging',
-          items: [{ name: '日志采集' }],
+          name: '监控/日志',
+          type: 'monitor',
+          items: [{ name: '日志采集' }, { name: 'Prometheus Exporter' }],
           harfItems: [...new Array(5).keys()],
         },
       },

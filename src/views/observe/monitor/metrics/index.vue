@@ -176,6 +176,7 @@
                   </template>
 
                   <v-autocomplete
+                    v-if="queryList[index].ql"
                     v-model="queryList[index].unit"
                     class="px-2"
                     dense
@@ -184,7 +185,6 @@
                     :items="queryList[index].unitItems"
                     label="单位(回车可创建自定义单位)"
                     no-data-text="暂无可选数据"
-                    :readonly="!queryList[index].ql"
                     :search-input.sync="queryList[index].unitText"
                     solo
                     @focus="setUnitItems(index)"
