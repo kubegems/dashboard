@@ -168,6 +168,7 @@
                       <ResourceSelectCascade
                         v-model="queryList[index].resourceObj"
                         :index="index"
+                        :is-cluster="queryList[index].isCluster"
                         :tenant="Tenant()"
                         @setUnit="setUnitItem"
                       />
