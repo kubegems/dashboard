@@ -188,6 +188,7 @@
             text: '应用状态',
             value: 'appStatus',
             align: 'start',
+            width: 120,
             sortable: false,
           },
           {

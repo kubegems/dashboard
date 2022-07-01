@@ -2,8 +2,13 @@
   <div class="pa-2" :style="{ height: `${height}px`, overflowY: 'auto', overflowX: 'hidden' }">
     <BaseSubTitle class="mx-2 mt-1" color="grey lighten-3" :divider="false" title="监控采集配置" />
 
-    <v-form v-model="valid" lazy-validation @submit.prevent>
+    <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
       <ProjectEnvSelect v-model="env" class="px-2 mt-0" t="metrics" />
+      <v-row class="px-2 mt-0">
+        <v-col cols="6">
+          <v-text-field v-model="obj.appName" label="名称" :rules="objRules.appNameRule" />
+        </v-col>
+      </v-row>
       <JsonSchema
         ref="jsonSchema"
         :app-values="appValues"
@@ -22,7 +27,7 @@
 
   import ProjectEnvSelect from '../ProjectEnvSelect';
   import { getChartSchema, postDeployAppStore } from '@/api';
-  import { randomString } from '@/utils/helpers';
+  import { required } from '@/utils/rules';
   import JsonSchema from '@/views/appstore/components/DeployWizard/JsonSchema';
   import { YamlMixin } from '@/views/appstore/mixins/yaml';
 
@@ -47,6 +52,12 @@
         schemaJson: {},
         params: [],
         chart: {},
+        obj: {
+          appName: '',
+        },
+        objRules: {
+          appNameRule: [required],
+        },
       };
     },
     computed: {
@@ -81,9 +92,9 @@
       },
 
       async deployMiddlewareMetricsServiceMonitor() {
-        if (this.$refs.jsonSchema.validate()) {
+        if (this.$refs.form.validate(true) && this.$refs.jsonSchema.validate()) {
           if (this.env?.projectid && this.env?.value) {
-            const appName = `${this.chartName}-${randomString(4)}`;
+            const appName = this.obj.appName;
             if (Object.prototype.hasOwnProperty.call(this.appValues, 'nameOverride')) {
               this.appValues.nameOverride = appName;
             }
