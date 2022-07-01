@@ -129,6 +129,12 @@
         deep: true,
         immediate: true,
       },
+      isCluster: {
+        handler() {
+          this.loadResources();
+        },
+        deep: true,
+      },
     },
     methods: {
       async getMonitorConfig() {
