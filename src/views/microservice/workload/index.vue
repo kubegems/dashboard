@@ -47,7 +47,7 @@
                         </span>
                       </template>
                       <v-card>
-                        <v-card-text class="pa-2"> 自动注入 </v-card-text>
+                        <v-card-text class="pa-2 text-caption"> 自动注入 </v-card-text>
                       </v-card>
                     </v-menu>
                   </v-flex>
