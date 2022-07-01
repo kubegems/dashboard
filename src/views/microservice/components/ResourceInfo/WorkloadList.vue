@@ -21,7 +21,7 @@
               </span>
             </template>
             <v-card>
-              <v-card-text class="pa-2">
+              <v-card-text class="pa-2 text-caption">
                 <span>自动注入</span>
               </v-card-text>
             </v-card>
