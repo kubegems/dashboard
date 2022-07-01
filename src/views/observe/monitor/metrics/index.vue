@@ -44,10 +44,10 @@
                     {{ index + 1 }}
                   </v-btn>
                   <v-btn v-if="item.resource" class="mr-2" color="success" depressed x-small>
-                    {{ item.resource.showName }}
+                    {{ item.resourceObj.resourceShowName }}
                   </v-btn>
                   <v-btn v-if="item.rule" color="success" depressed x-small>
-                    {{ item.rule.showName }}
+                    {{ item.resourceObj.showName }}
                   </v-btn>
                 </div>
                 <template #actions>
@@ -70,7 +70,6 @@
                         color="primary"
                         hide-details
                         style="margin-top: 2px !important"
-                        @change="onLatitudeChange(index)"
                       >
                         <template #label>
                           <span class="text-body-2 font-weight-medium">
@@ -122,7 +121,7 @@
                   <!-- 项目环境 -->
 
                   <!-- 资源规则 -->
-                  <BaseSubTitle class="mb-3" title="资源规则">
+                  <BaseSubTitle class="mb-3" title="规则模板">
                     <template #action>
                       <v-switch
                         v-model="queryList[index].ql"
@@ -130,6 +129,7 @@
                         color="primary"
                         hide-details
                         style="margin-top: 2px !important"
+                        @change="onModeChange(index)"
                       >
                         <template #label>
                           <span class="text-body-2 font-weight-medium"> PromQl </span>
@@ -164,50 +164,14 @@
                   </template>
 
                   <template v-else>
-                    <v-autocomplete
-                      v-model="queryList[index].resource"
-                      class="px-2"
-                      dense
-                      flat
-                      item-text="showName"
-                      item-value="_$value"
-                      :items="queryList[index].resourceItems"
-                      label="资源"
-                      no-data-text="暂无可选数据"
-                      return-object
-                      :rules="fieldRules.required"
-                      solo
-                      @change="setRuleItems(index)"
-                    >
-                      <template #selection="{ item }">
-                        <v-chip color="primary" label small>
-                          <span>{{ item.showName }}</span>
-                        </v-chip>
-                      </template>
-                    </v-autocomplete>
-
-                    <v-autocomplete
-                      v-model="queryList[index].rule"
-                      class="px-2"
-                      dense
-                      :disabled="!queryList[index].resource"
-                      flat
-                      item-text="showName"
-                      item-value="_$value"
-                      :items="queryList[index].ruleItems"
-                      label="规则"
-                      no-data-text="暂无可选数据"
-                      return-object
-                      :rules="fieldRules.required"
-                      solo
-                      @change="setUnitItem(index)"
-                    >
-                      <template #selection="{ item }">
-                        <v-chip color="primary" label small>
-                          <span>{{ item.showName }}</span>
-                        </v-chip>
-                      </template>
-                    </v-autocomplete>
+                    <div class="mx-2 mb-4">
+                      <ResourceSelectCascade
+                        v-model="queryList[index].resourceObj"
+                        :index="index"
+                        :tenant="Tenant()"
+                        @setUnit="setUnitItem"
+                      />
+                    </div>
                   </template>
 
                   <v-autocomplete
@@ -294,13 +258,8 @@
   import ButtonInput from './components/ButtonInput';
   import MetricsItem from './components/MetricsItem';
   import MetricsSuggestion from './components/MetricsSuggestion';
-  import {
-    getMetricsLabels,
-    getMetricsLabelValues,
-    getMetricsQueryrange,
-    getMyConfigData,
-    getSystemConfigData,
-  } from '@/api';
+  import ResourceSelectCascade from './components/ResourceSelectCascade';
+  import { getMetricsLabels, getMetricsLabelValues, getMetricsQueryrange } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseSelect from '@/mixins/select';
   import { debounce, deepCopy } from '@/utils/helpers';
@@ -317,6 +276,7 @@
       MetricsItem,
       MetricsSuggestion,
       ProjectEnvSelectCascade,
+      ResourceSelectCascade,
     },
     mixins: [BasePermission, BaseSelect, Metrics],
     data() {
@@ -337,13 +297,14 @@
         _$id: `0-${Date.now()}`,
         cluster: undefined,
         namespace: undefined,
-        resource: undefined,
+        resourceObj: undefined,
         project: undefined,
         environment: undefined,
         rule: undefined,
         unit: undefined,
         labelpairs: undefined,
         expr: undefined,
+        resource: undefined,
         projectItems: [],
         environmentItems: [],
         resourceItems: [],
@@ -362,8 +323,6 @@
         queryList: [{ ...this.defaultParams }],
         date: [],
         step: 'auto',
-        allProjectList: [],
-        config: {},
         labelObject: {},
         metricsObject: {},
         labelpairs: {},
@@ -382,8 +341,8 @@
             _$value: id,
             _$index: index,
             _$unit: query._$origin?.unit || ``,
-            _$title: query._$origin?.resource
-              ? `${index + 1}-${query._$origin?.resource.showName}-${query._$origin?.rule.showName}`
+            _$title: query._$origin?.resourceObj.resource
+              ? `${index + 1}-${query._$origin?.resourceObj.resourceShowName}-${query._$origin?.resourceObj.showName}`
               : `${index + 1}-${query._$origin.expr}`,
             _$origin: query._$origin,
             data: this.metricsObject[id],
@@ -395,7 +354,6 @@
       if (this.AdminViewport) {
         this.m_select_clusterSelectData();
       }
-      this.getMonitorConfig();
       this.isMounted = false;
     },
     methods: {
@@ -415,10 +373,8 @@
       onAddQuery() {
         this.queryList.push({
           ...this.defaultParams,
-          projectItems: this.allProjectList,
           _$id: `${this.queryList.length}-${Date.now()}`,
         });
-        this.onLatitudeChange(this.queryList.length - 1);
         this.expand = this.queryList.length - 1;
       },
       onRemove(id) {
@@ -432,21 +388,13 @@
         this.$refs.addPrometheusRule.open();
         this.$refs.addPrometheusRule.init(data);
       },
-      // 设置各项独立的ruleItems
-      setRuleItems(index) {
-        const params = this.queryList[index];
-        let items = [];
-        if (params.resource) {
-          const rulesObj = this.config.resources?.[params.resource._$value]?.rules || {};
-          items = this.formatObject2Array(rulesObj);
-        }
-        this.$set(this.queryList[index], 'rule', undefined);
-        this.$set(this.queryList[index], 'ruleItems', items);
+      onModeChange(index) {
+        this.$set(this.queryList[index], 'unit', undefined);
       },
       setUnitItem(index) {
         const params = this.queryList[index];
         this.setUnitItems(index);
-        this.$set(this.queryList[index], 'unit', params.rule.unit);
+        this.$set(this.queryList[index], 'unit', params.resourceObj.unit);
       },
       // 设置各项独立的unitItems
       setUnitItems(index, custom = false) {
@@ -474,8 +422,8 @@
       // 获取格式化后的params
       getParams(params) {
         let newParams = {
-          cluster: params.cluster?.text || params.environment.clusterName,
-          namespace: params.environment.namespace || '_all',
+          cluster: params.cluster?.text || params.environment?.clusterName,
+          namespace: params.environment?.namespace || '_all',
           start: this.$moment(this.date[0]).utc().format(),
           end: this.$moment(this.date[1]).utc().format(),
           step: this.step === 'auto' ? null : this.step,
@@ -487,9 +435,16 @@
             unit: params.unit || null,
           });
         } else {
+          if (!params.resourceObj) {
+            this.$store.commit('SET_SNACKBAR', {
+              text: '请选择规则模板',
+              color: 'warning',
+            });
+            return;
+          }
           newParams = Object.assign(newParams, {
-            resource: params.resource._$value,
-            rule: params.rule._$value,
+            resource: params.resourceObj.resource,
+            rule: params.resourceObj._$value,
             unit: params.unit || null,
           });
         }
@@ -510,7 +465,7 @@
       // 设置labelObject
       async setLabelObject(query) {
         const data = {};
-        let labels = query.rule?.labels || [];
+        let labels = query.resourceObj?.labels || [];
         if (query.ql) {
           const data = await getMetricsLabels(
             query.cluster?.text || query.environment.clusterName,
@@ -536,37 +491,12 @@
         this.$set(this.labelpairs[id], data.label, data.value);
         this.onSearch(id, false);
       },
-      onLatitudeChange(index) {
-        const query = this.queryList[index];
-        const items = this.formatObject2Array(this.config.resources || {}).filter(
-          (item) => query.isCluster || item.namespaced,
-        );
-        this.$set(query, 'resourceItems', items);
-      },
       onClusterChange(index) {
         const query = this.queryList[index];
-        const items = query.cluster
-          ? this.allProjectList.filter((pro) => pro.environments.some((env) => env.ClusterID === query.cluster.value))
-          : this.allProjectList;
-        this.$set(query, 'projectItems', items);
-        this.$set(query, 'project', undefined);
-        this.$set(query, 'environment', undefined);
-
         this.pluginsPass(query.cluster?.text);
       },
       load(item) {
         this.pluginsPass(item.clusterName);
-      },
-      async getMonitorConfig() {
-        let data = null;
-        if (this.AdminViewport) {
-          data = await getSystemConfigData('Monitor');
-        } else {
-          data = await getMyConfigData('Monitor');
-        }
-
-        this.config = data?.content || {};
-        this.onLatitudeChange(0);
       },
       async getLabelItems(label, id) {
         if (this.labelObject[id][label]?.request) return;
@@ -593,7 +523,7 @@
           const params = this.getParams(query);
           if (!params.cluster || !params.namespace) {
             this.$store.commit('SET_SNACKBAR', {
-              text: '请选择项目环境',
+              text: '请选择环境',
               color: 'warning',
             });
             return;
