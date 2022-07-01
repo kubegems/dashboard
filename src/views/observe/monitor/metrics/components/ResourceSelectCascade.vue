@@ -233,6 +233,7 @@
       reset() {
         this.resourceIndex = undefined;
         this.ruleIndex = undefined;
+        this.ruleItems = [];
         this.maxWidth = 275;
       },
     },

@@ -4,7 +4,9 @@
       <template #extend>
         <v-flex class="kubegems__full-right">
           <ProjectEnvSelectCascade v-model="env" first reverse :tenant="tenant" />
-          <div class="text-subtitle-2 float-left font-weight-medium kubegems__text search__label">TraceId</div>
+          <div class="text-subtitle-2 float-left font-weight-medium kubegems__text search__label primary--text">
+            TraceId
+          </div>
           <v-text-field
             v-model="traceid"
             dense

@@ -1,6 +1,5 @@
 <template>
   <div class="float-left">
-    <v-sheet class="text-subtitle-2 ml-4 float-left font-weight-medium sheet__line kubegems__text'"> 容器组 </v-sheet>
     <v-sheet class="text-body-2 float-left text--darken-1 sheet__menu__line">
       <v-menu
         v-model="podMenu"
@@ -16,7 +15,7 @@
       >
         <template #activator="{ on }">
           <v-btn class="primary--text font-weight-medium" color="white" dark depressed small v-on="on">
-            {{ podName }}
+            容器组 {{ podName }}
             <v-icon v-if="podMenu" right> fas fa-angle-up </v-icon>
             <v-icon v-else right> fas fa-angle-down </v-icon>
           </v-btn>

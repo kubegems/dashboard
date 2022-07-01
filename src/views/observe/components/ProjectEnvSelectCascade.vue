@@ -224,6 +224,7 @@
       reset() {
         this.projectIndex = undefined;
         this.environmentIndex = undefined;
+        this.environmentItems = [];
         this.maxWidth = 275;
       },
     },

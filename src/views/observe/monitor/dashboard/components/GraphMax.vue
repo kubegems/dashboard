@@ -4,19 +4,22 @@
       <BaseDatetimePicker v-model="date" color="primary" :default-value="30" @change="onDatetimeChange(undefined)" />
     </template>
     <template #content>
-      <BaseApexAreaChart
-        id="max"
-        chart-type="line"
-        :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-        colorful
-        :extend-height="height"
-        label="all"
-        :metrics="metrics"
-        :no-data-offset-y="-24"
-        title=""
-        type=""
-        :unit="graph.promqlGenerator ? getUnit(graph.promqlGenerator.unit) : getUnit(graph.unit)"
-      />
+      <v-card flat :height="outerHeight" :style="{ overflowY: 'auto' }">
+        <BaseApexAreaChart
+          id="max"
+          chart-type="line"
+          :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
+          colorful
+          :extend-height="height"
+          horizontal-align="left"
+          label="all"
+          :metrics="metrics"
+          :no-data-offset-y="-24"
+          title=""
+          type=""
+          :unit="graph.promqlGenerator ? getUnit(graph.promqlGenerator.unit) : getUnit(graph.unit)"
+        />
+      </v-card>
     </template>
   </BaseFullScreenDialog>
 </template>
@@ -48,6 +51,9 @@
     }),
     computed: {
       ...mapState(['JWT', 'Scale']),
+      outerHeight() {
+        return parseInt((window.innerHeight - 64) / this.Scale);
+      },
       height() {
         return window.innerHeight - 64 * this.Scale - 100;
       },
