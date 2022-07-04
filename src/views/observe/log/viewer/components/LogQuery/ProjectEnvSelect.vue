@@ -68,7 +68,6 @@
     },
     data() {
       return {
-        environment: '',
         env: undefined,
       };
     },
@@ -79,7 +78,7 @@
       env: {
         handler(newValue) {
           if (newValue) {
-            this.$emit('setEnvironment', this.env, this.env.projectName);
+            this.$emit('setEnvironment', this.env, this.env.projectName, this.env.trigger);
           }
         },
         deep: true,
@@ -92,7 +91,7 @@
       },
 
       handleRefresh() {
-        if (this.environment) {
+        if (this.env) {
           this.$emit('refresh');
         }
       },

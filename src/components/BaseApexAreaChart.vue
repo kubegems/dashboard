@@ -32,6 +32,10 @@
         type: Number,
         default: () => 280,
       },
+      horizontalAlign: {
+        type: String,
+        default: () => 'center',
+      },
       id: {
         type: String,
         default: () => '',
@@ -398,6 +402,7 @@
             show: this.labelShow,
             showForSingleSeries: true,
             showForNullSeries: false,
+            horizontalAlign: this.horizontalAlign,
           },
           noData: {
             text: '暂无数据',

@@ -1,7 +1,15 @@
 <template>
   <BaseFullScreenDialog v-model="visible" icon="mdi-history" title="查询历史" @dispose="handleDispose">
     <template #action>
-      <ProjectEnvSelect reverse :tenant="tenant" @refreshEnvironemnt="refreshEnvironemnt" />
+      <ProjectEnvSelectCascade
+        :key="selectKey"
+        v-model="environment"
+        first
+        reverse
+        reverse-color
+        :small="false"
+        :tenant="tenant"
+      />
     </template>
     <template #content>
       <v-card v-if="visible" class="log-history">
@@ -60,12 +68,13 @@
 
   import { deleteLogQueryHistory, getLogQueryHistoryList } from '@/api';
   import BaseSelect from '@/mixins/select';
-  import ProjectEnvSelect from '@/views/observe/components/ProjectEnvSelect';
+  import { randomString } from '@/utils/helpers';
+  import ProjectEnvSelectCascade from '@/views/observe/components/ProjectEnvSelectCascade';
 
   export default {
     name: 'LogHistory',
     components: {
-      ProjectEnvSelect,
+      ProjectEnvSelectCascade,
     },
     mixins: [BaseSelect],
     inject: ['reload'],
@@ -86,6 +95,8 @@
         items: [],
         namespace: '',
         tenant: null,
+        environment: undefined,
+        selectKey: '',
       };
     },
     computed: {
@@ -97,11 +108,24 @@
         return env;
       },
     },
+    watch: {
+      environment: {
+        handler(newValue) {
+          if (newValue) {
+            this.clusterid = newValue.clusterid;
+            this.getHistoryList();
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
+    },
     methods: {
       show() {
         this.visible = true;
         this.m_select_environmentSelectData();
         this.tenant = this.Tenant();
+        this.selectKey = `history-${randomString(4)}`;
       },
 
       async getHistoryList() {
@@ -113,10 +137,6 @@
             FilterJSON: this.handleParseFilter(item.LogQL),
           };
         });
-      },
-      refreshEnvironemnt(env) {
-        this.clusterid = env.clusterid;
-        this.getHistoryList();
       },
       handleParseLabel(input) {
         const labelMatchArr = input.match(new RegExp('{(.*)}'));

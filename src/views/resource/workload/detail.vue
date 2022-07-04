@@ -13,7 +13,7 @@
                 <v-icon v-else-if="cpu.trend === 'neutral'" color="primary" v-on="on"> mdi-trending-neutral </v-icon>
               </template>
               <v-card>
-                <v-card-text class="pa-2"> 间隔30s cpu实时变化 </v-card-text>
+                <v-card-text class="pa-2 text-caption"> 间隔30s cpu实时变化 </v-card-text>
               </v-card>
             </v-menu>
           </span>
@@ -26,7 +26,7 @@
                 <v-icon v-else-if="memory.trend === 'neutral'" color="primary" v-on="on"> mdi-trending-neutral </v-icon>
               </template>
               <v-card>
-                <v-card-text class="pa-2"> 间隔30s 内存实时变化 </v-card-text>
+                <v-card-text class="pa-2 text-caption"> 间隔30s 内存实时变化 </v-card-text>
               </v-card>
             </v-menu>
           </span>

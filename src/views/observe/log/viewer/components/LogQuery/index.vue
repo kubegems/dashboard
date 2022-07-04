@@ -48,7 +48,7 @@
     </div>
 
     <div v-show="expand" class="mt-3">
-      <div class="my-2 kubegems__text text-body-2">选择环境</div>
+      <div class="my-2 kubegems__text text-body-2">环境</div>
       <ProjectEnvSelect
         :loading="loading"
         :series="series"
@@ -216,7 +216,7 @@
         this.selected = {};
         this.$emit('setCluster', this.cluster);
       },
-      async handleSetEnvironment(env, projectName) {
+      async handleSetEnvironment(env, projectName, triggerQuery = false) {
         if (env) {
           this.cluster = {
             text: env.clusterName,
@@ -233,7 +233,11 @@
           );
           if (this.missingPlugins?.length === 0) {
             await this.getSeriesList();
-            this.search();
+            if (triggerQuery) {
+              this.search();
+            } else {
+              this.selected = {};
+            }
           } else {
             this.$store.commit('SET_SNACKBAR', {
               text: `该环境所在集群还未启用 ${this.missingPlugins.join(', ')} 插件！`,
