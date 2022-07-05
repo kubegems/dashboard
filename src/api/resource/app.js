@@ -25,7 +25,7 @@ export const deleteApp = (tenantid, projectid, environmentid, name) =>
   axios.delete(`tenant/${tenantid}/project/${projectid}/environment/${environmentid}/applications/${name}`);
 // 添加部署应用
 export const postAddApp = (tenantid, projectid, environmentid, body = {}) =>
-  axios.post(`tenant/${tenantid}/project/${projectid}/environment/${environmentid}/applications`, body);
+  axios.post(`tenant/${tenantid}/project/${projectid}/environment/${environmentid}/applications-batch`, body);
 // 删除应用商店应用
 export const deleteAppStoreApp = (tenantid, projectid, environmentid, name) =>
   axios.delete(`tenant/${tenantid}/project/${projectid}/environment/${environmentid}/appstoreapplications/${name}`);

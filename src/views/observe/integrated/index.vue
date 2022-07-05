@@ -63,7 +63,7 @@
     data: () => ({
       items: {
         app: {
-          name: '应用类型',
+          name: '应用',
           type: 'app',
           items: [
             { name: 'c++', value: 'cpp' },
