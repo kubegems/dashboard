@@ -11,6 +11,7 @@
             hide-selected
             :items="items"
             label="应用"
+            multiple
             no-data-text="暂无可选数据"
             :rules="objRules.ApplicationRule"
             @focus="onAppSelectFocus"
@@ -30,7 +31,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import { getManifestList } from '@/api';
+  import { getAppRunningList, getManifestList } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { required } from '@/utils/rules';
 
@@ -40,14 +41,15 @@
     data: () => ({
       valid: false,
       items: [],
-      obj: {},
+      obj: [],
       objRules: {
         ApplicationRule: [required],
       },
+      linkedAppItems: [],
     }),
     computed: {
       ...mapState(['AdminViewport']),
-      ...mapGetters(['Project', 'Tenant']),
+      ...mapGetters(['Project', 'Tenant', 'Environment']),
     },
     methods: {
       async appManifestList() {
@@ -56,9 +58,30 @@
         });
         const apps = [];
         data.List.forEach((app) => {
-          apps.push({ text: app.name, value: app });
+          if (
+            this.linkedAppItems.some((l) => {
+              return l.name === app.name;
+            })
+          ) {
+            apps.push({ text: `${app.name}(已关联)`, value: app, disabled: true });
+          } else {
+            apps.push({ text: app.name, value: app, disabled: false });
+          }
         });
         this.items = apps;
+      },
+      async appRunningList() {
+        const data = await getAppRunningList(
+          this.Tenant().ID,
+          this.Project().ID,
+          this.Environment().ID,
+          Object.assign({
+            kind: 'app',
+            noprocessing: true,
+            size: 1000,
+          }),
+        );
+        this.linkedAppItems = data.List;
       },
       reset() {
         this.$refs.form.reset();
@@ -69,7 +92,8 @@
       validate() {
         return this.$refs.form.validate(true);
       },
-      onAppSelectFocus() {
+      async onAppSelectFocus() {
+        await this.appRunningList();
         this.appManifestList();
       },
     },
