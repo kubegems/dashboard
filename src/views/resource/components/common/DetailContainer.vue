@@ -4,10 +4,10 @@
       <thead>
         <tr>
           <th class="text-left">容器名</th>
-          <th class="text-left" style="width: 300px"> 镜像 </th>
-          <th class="text-left" style="width: 120px"> 探针 </th>
+          <th class="text-left" :style="{ width: `300px` }"> 镜像 </th>
+          <th class="text-left" :style="{ width: `120px` }"> 探针 </th>
           <th class="text-left">容器端口</th>
-          <th class="text-left" style="width: 220px"> 卷 </th>
+          <th class="text-left" :style="{ width: `220px` }"> 卷 </th>
           <th class="text-left">卷挂载</th>
         </tr>
       </thead>

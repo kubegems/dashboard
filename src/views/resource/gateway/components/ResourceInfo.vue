@@ -95,8 +95,8 @@
               })"
               :key="index"
             >
-              <td style="width: 50%">{{ item.Addr }}</td>
-              <td style="width: 45%">
+              <td :style="{ width: `50%` }">{{ item.Addr }}</td>
+              <td :style="{ width: `45%` }">
                 <template v-if="item.Ready">
                   <v-icon color="primary" small> fas fa-check-circle </v-icon>
                   正常
@@ -106,7 +106,7 @@
                   异常
                 </template>
               </td>
-              <td style="text-align: end">
+              <td :style="{ textAlign: `end` }">
                 <v-btn color="primary" text x-small @click="toAddress(item.Addr)"> 访问 </v-btn>
               </td>
             </tr>
@@ -124,8 +124,8 @@
               })"
               :key="index"
             >
-              <td style="width: 50%">{{ item.Addr }}</td>
-              <td style="width: 45%">
+              <td :style="{ width: `50%` }">{{ item.Addr }}</td>
+              <td :style="{ width: `45%` }">
                 <template v-if="item.Ready">
                   <v-icon color="primary" small> fas fa-check-circle </v-icon>
                   正常
@@ -135,7 +135,7 @@
                   异常
                 </template>
               </td>
-              <td style="text-align: end">
+              <td :style="{ textAlign: `end` }">
                 <v-btn color="primary" text x-small @click="toAddress(item.Addr)"> 访问 </v-btn>
               </td>
             </tr>

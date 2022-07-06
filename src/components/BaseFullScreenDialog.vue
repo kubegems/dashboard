@@ -17,12 +17,12 @@
           </span>
           <span
             class="pl-2 text-h6"
-            style="
-              font-family: Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important;
-              font-weight: bold;
-              font-size: 1.1rem !important;
-              margin-left: 140px;
-"
+            :style="{
+              fontFamily: `Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important`,
+              fontWeight: `bold`,
+              fontSize: `1.1rem !important`,
+              marginLeft: `140px`,
+            }"
           >
             {{ title }}
           </span>

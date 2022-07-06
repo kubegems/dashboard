@@ -1,6 +1,6 @@
 <template>
   <v-card class="rounded-tr-0 rounded-tl-0 mb-3" height="60">
-    <v-card-title class="py-3 mt-n3" style="height: 60px;">
+    <v-card-title class="py-3 mt-n3" :style="{ height: `60px` }">
       <v-sheet v-if="selectable" class="text-subtitle-1">
         虚拟空间
         <v-menu

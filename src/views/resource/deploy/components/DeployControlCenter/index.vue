@@ -28,7 +28,7 @@
                   <template v-else-if="taskStatus === 'Error'">
                     <v-menu :close-delay="200" nudge-bottom="8px" open-on-hover top>
                       <template #activator="{ on }">
-                        <span class="error--text" style="cursor: pointer" v-on="on">
+                        <span class="error--text kubegems__pointer" v-on="on">
                           <v-icon class="icon-font-status" color="error"> mdi-close-circle </v-icon>
                           {{ taskType === 'switch-strategy' ? '策略变更失败' : '部署任务执行失败' }}
                         </span>
@@ -59,7 +59,7 @@
                   v-for="(image, index) in running ? running.images : []"
                   :key="index"
                   class="ml-4 pr-2"
-                  style="overflow: hidden"
+                  :style="{ overflow: `hidden` }"
                 >
                   {{ image }}
                 </v-flex>
@@ -99,7 +99,7 @@
                 实际权重：{{ status ? status.actualWeight : '' }}
               </v-list-item-subtitle>
             </template>
-            <v-list-item-subtitle class="text-body-2 text--lighten-4 pb-1" style="white-space: inherit">
+            <v-list-item-subtitle class="text-body-2 text--lighten-4 pb-1" :style="{ whiteSpace: `inherit` }">
               信息：{{ status ? status.message : '' }}
             </v-list-item-subtitle>
             <v-list-item-subtitle class="text-body-2 text--lighten-4">
@@ -140,7 +140,7 @@
                   v-for="(port, index) in service ? service.ports : []"
                   :key="index"
                   class="ml-4 pr-2"
-                  style="overflow: hidden"
+                  :style="{ overflow: `hidden` }"
                 >
                   <v-chip color="primary" small>
                     {{ port.port }}
@@ -155,7 +155,7 @@
                   v-for="(ingress, index) in service ? service.ingresses : []"
                   :key="index"
                   class="ml-4 pr-2"
-                  style="overflow: hidden"
+                  :style="{ overflow: `hidden` }"
                 >
                   <v-chip color="primary" small> {{ ingress.host }} | {{ ingress.ingressPort }} </v-chip>
                 </v-flex>
@@ -186,7 +186,7 @@
                       v-for="(image, index) in replicaSet.images"
                       :key="index"
                       class="ml-4 pr-2"
-                      style="overflow: hidden"
+                      :style="{ overflow: `hidden` }"
                     >
                       {{ image }}
                     </v-flex>

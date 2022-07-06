@@ -8,7 +8,7 @@
       <v-list-item two-line>
         <v-list-item-content class="py-0">
           <v-list-item-subtitle class="text-body-2 py-0">
-            <v-list-item class="float-left py-0 pl-0" style="width: 515px" two-line>
+            <v-list-item class="float-left py-0 pl-0" :style="{ width: `515px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
                   <v-icon class="float-left mt-1" color="primary" left small> mdi-cube </v-icon>
@@ -52,7 +52,7 @@
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item class="float-left py-0 pl-0" style="width: 200px" two-line>
+            <v-list-item class="float-left py-0 pl-0" :style="{ width: `200px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
                   <span
@@ -72,7 +72,7 @@
                 <v-list-item-subtitle class="text-body-2 py-1"> 状态 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item class="float-left py-0 pl-0" style="width: 200px" two-line>
+            <v-list-item class="float-left py-0 pl-0" :style="{ width: `200px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
                   <v-flex
@@ -90,7 +90,7 @@
                 <v-list-item-subtitle class="text-body-2 py-1"> 探针 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item class="float-left py-0 pl-0" style="width: 150px" two-line>
+            <v-list-item class="float-left py-0 pl-0" :style="{ width: `150px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
                   {{ container.restartCount }}
@@ -98,7 +98,7 @@
                 <v-list-item-subtitle class="text-body-2 py-1"> 重启次数 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item class="float-left py-0 pl-0" style="width: 150px" two-line>
+            <v-list-item class="float-left py-0 pl-0" :style="{ width: `150px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
                   <span v-if="container.state.running">
@@ -120,7 +120,7 @@
                 <v-list-item-subtitle class="text-body-2 py-1"> Age </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item class="float-left py-0 pl-0" style="width: 150px" two-line>
+            <v-list-item class="float-left py-0 pl-0" :style="{ width: `150px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
                   {{ container.resources && container.resources.limits ? container.resources.limits.cpu : '无限制' }}
@@ -128,7 +128,7 @@
                 <v-list-item-subtitle class="text-body-2 py-1"> limits.cpu </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item class="float-left py-0 pl-0" style="width: 150px" two-line>
+            <v-list-item class="float-left py-0 pl-0" :style="{ width: `150px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
                   {{ container.resources && container.resources.limits ? container.resources.limits.memory : '无限制' }}

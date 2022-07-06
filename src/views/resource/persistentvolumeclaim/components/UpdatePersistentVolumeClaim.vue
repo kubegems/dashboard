@@ -15,7 +15,7 @@
         class="ma-0 pl-2 ml-2 mt-1"
         color="white"
         hide-details
-        style="margin-top: 8px !important"
+        :style="{ marginTop: `8px !important` }"
         @change="onYamlSwitchChange"
       >
         <template #label>

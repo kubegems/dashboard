@@ -9,7 +9,6 @@
           label="应用名称"
           required
           :rules="objRules.appNameRules"
-          @change="onAppNameChange"
         />
         <v-autocomplete
           v-model="obj.TenantProjectId"
@@ -87,6 +86,8 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex';
+
   import BaseSelect from '@/mixins/select';
   import { k8sName, required } from '@/utils/rules';
 
@@ -103,7 +104,11 @@
           tenantProjectIdRules: [required],
           environmentIdRules: [required],
         },
+        versions: [],
       };
+    },
+    computed: {
+      ...mapState(['Auth']),
     },
     methods: {
       onTenantProjectSelectFocus() {

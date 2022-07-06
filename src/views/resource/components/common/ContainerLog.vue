@@ -58,7 +58,7 @@
                     hide-details
                     placeholder="手动输入行数"
                     solo
-                    style="width: 120px"
+                    :style="{ width: `120px` }"
                     @click.stop
                     @focus.stop
                     @keyup.enter="setCustomCount"

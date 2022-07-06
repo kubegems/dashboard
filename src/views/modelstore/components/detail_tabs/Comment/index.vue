@@ -1,5 +1,5 @@
 <template>
-  <div class="comment">
+  <div class="comment" :style="{ height: `${height}px` }">
     <v-card v-for="(item, index) in commentItems" :key="index" class="mt-3" flat>
       <v-card-text class="pa-0">
         <v-flex class="kubegems__top-right mt-2">
@@ -42,7 +42,7 @@
               small
               :value="item.rating"
             />
-            <div v-if="item.replyTo" class="comment__reply grey lighten-4 rounded ml-4 px-3">
+            <div v-if="item.replyTo" class="comment__reply grey lighten-4 rounded mx-4 px-3">
               <div>{{ item.replyTo.username }} 发布于 {{ $moment(item.replyTo.creationTime).format('lll') }}</div>
               “{{ item.replyTo.content }}”
             </div>
@@ -51,7 +51,7 @@
         </div>
       </v-card-text>
     </v-card>
-    <v-card class="kubegems__full-height mt-3" flat min-height="114">
+    <v-card class="kubegems__full-height mt-3" flat max-height="114" min-height="114">
       <div class="kubegems__full-center">
         <v-btn block class="text-h6" color="primary" text @click="addComment">
           <v-icon left>mdi-plus-box</v-icon>
@@ -75,6 +75,8 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex';
+
   import Reply from './Reply';
   import { getModelCommentList, deleteModelComment } from '@/api';
 
@@ -91,6 +93,12 @@
         size: 10,
       },
     }),
+    computed: {
+      ...mapState(['Scale']),
+      height() {
+        return parseInt((window.innerHeight - 214) / this.Scale);
+      },
+    },
     mounted() {
       this.$nextTick(() => {
         this.modelCommentList();
@@ -149,10 +157,10 @@
 <style lang="scss" scoped>
   .comment {
     position: relative;
+    overflow-y: auto;
 
     &__reply {
       line-height: 40px;
-      width: 1000px;
       font-style: italic;
     }
   }

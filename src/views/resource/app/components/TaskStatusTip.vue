@@ -32,7 +32,7 @@
         transition="scale-transition"
       >
         <template #activator="{ on }">
-          <span style="cursor: pointer" v-on="on"> 执行失败 </span>
+          <span class="kubegems__pointer" v-on="on"> 执行失败 </span>
         </template>
         <v-card flat>
           <v-flex class="text-body-2 text-center primary white--text py-2">

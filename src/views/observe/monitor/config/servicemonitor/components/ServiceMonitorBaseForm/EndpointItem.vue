@@ -4,7 +4,7 @@
       <v-list-item two-line>
         <v-list-item-content class="py-2">
           <v-list-item-subtitle class="text-body-2 py-0">
-            <v-list-item v-if="item.port" class="float-left py-0 pl-0" style="width: 220px" two-line>
+            <v-list-item v-if="item.port" class="float-left py-0 pl-0" :style="{ width: `220px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1 primary--text"> 端口名 </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1">
@@ -12,7 +12,7 @@
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item v-if="item.targetPort" class="float-left py-0 pl-0" style="width: 220px" two-line>
+            <v-list-item v-if="item.targetPort" class="float-left py-0 pl-0" :style="{ width: `220px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1 primary--text"> 端口号 </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1">
@@ -20,7 +20,7 @@
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item class="float-left py-0 pl-0" style="width: 220px" two-line>
+            <v-list-item class="float-left py-0 pl-0" :style="{ width: `220px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1 primary--text"> 路径 </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1">
@@ -28,7 +28,7 @@
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item class="float-left py-0 pl-0" style="width: 220px" two-line>
+            <v-list-item class="float-left py-0 pl-0" :style="{ width: `220px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1 primary--text"> 拉取间隔 </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1">
@@ -36,7 +36,7 @@
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item class="float-left py-0 pl-0" style="width: 150px" two-line>
+            <v-list-item class="float-left py-0 pl-0" :style="{ width: `150px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1 primary--text"> 超时时间 </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1">

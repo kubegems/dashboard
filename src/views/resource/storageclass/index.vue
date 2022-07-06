@@ -12,7 +12,7 @@
                   v-if="getIconName(item.provisioner) && getIconName(item.provisioner).indexOf('img:') === -1"
                   class="ml-2"
                   :icon="getIconName(item.provisioner)"
-                  style="width: 60px; height: 60px"
+                  :style="{ width: `60px`, height: `60px` }"
                 />
                 <img v-else class="img" :src="`/icon/${getIconName(item.provisioner).replaceAll('img:', '')}`" />
               </v-list-item-avatar>

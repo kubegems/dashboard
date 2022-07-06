@@ -23,11 +23,11 @@
                   dense
                   hide-details
                   required
-                  style="display: flex; justify-content: center"
+                  :style="{ display: `flex`, justifyContent: `center` }"
                   @change="onRequireTLSChange"
                 >
                   <template #label>
-                    <span style="margin-bottom: 8px">TLS</span>
+                    <span :style="{ marginBottom: `8px` }">TLS</span>
                   </template>
                 </v-switch>
               </template>

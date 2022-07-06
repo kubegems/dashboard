@@ -58,7 +58,7 @@
           <span class="kubegems__full-center kubegems__text"> 暂无数据 </span>
         </v-flex>
         <v-flex v-for="(item, index) in topN" :key="index" class="text-body-2 mt-3 mb-3">
-          <v-flex class="float-left" style="width: 80%">
+          <v-flex class="float-left" :style="{ width: `80%` }">
             {{ item.metric.pod }}
           </v-flex>
           <span class="float-right text-body-2 primary--text font-weight-medium">

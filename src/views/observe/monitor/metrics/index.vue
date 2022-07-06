@@ -69,7 +69,7 @@
                         class="ma-0 px-2 ml-2 mt-0"
                         color="primary"
                         hide-details
-                        style="margin-top: 2px !important"
+                        :style="{ marginTop: `2px !important` }"
                       >
                         <template #label>
                           <span class="text-body-2 font-weight-medium">
@@ -128,7 +128,7 @@
                         class="ma-0 px-2 ml-2 mt-0"
                         color="primary"
                         hide-details
-                        style="margin-top: 2px !important"
+                        :style="{ marginTop: `2px !important` }"
                         @change="onModeChange(index)"
                       >
                         <template #label>

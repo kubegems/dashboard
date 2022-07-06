@@ -28,7 +28,7 @@
                           prepend-inner-icon="mdi-magnify"
                           @keyup="onAllUsernameInput"
                         />
-                        <v-list dense height="450px" style="overflow-y: auto">
+                        <v-list dense height="450px" :style="{ overflowY: `auto` }">
                           <v-list-item
                             v-for="(user, index) in allUsers"
                             :key="index"
@@ -62,7 +62,7 @@
                           prepend-inner-icon="mdi-magnify"
                           @keyup="onRoleUsernameInput"
                         />
-                        <v-list dense height="450px" style="overflow-y: auto">
+                        <v-list dense height="450px" :style="{ overflowY: `auto` }">
                           <v-list-item
                             v-for="(user, index) in tab === 0 ? normalUsers : adminUsers"
                             :key="index"

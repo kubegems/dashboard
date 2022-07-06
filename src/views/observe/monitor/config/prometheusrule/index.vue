@@ -94,7 +94,7 @@
             />
           </template>
           <template #[`item.name`]="{ item }">
-            <v-flex style="display: flex">
+            <v-flex :style="{ display: `flex` }">
               <a class="text-subtitle-2" @click.stop="prometheusRuleDetail(item)">
                 {{ item.name }}
               </a>

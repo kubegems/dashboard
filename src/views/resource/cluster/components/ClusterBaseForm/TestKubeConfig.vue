@@ -1,7 +1,7 @@
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
     <BaseSubTitle title="测试集群" />
-    <v-card-text v-if="Circular" class="py-6 px-2 mt-2" style="width: 500px; margin: auto">
+    <v-card-text v-if="Circular" class="py-6 px-2 mt-2" :style="{ width: `500px`, margin: `auto` }">
       <v-progress-linear buffer-value="0" color="green" height="10" indeterminate rounded stream />
     </v-card-text>
     <v-card-text>

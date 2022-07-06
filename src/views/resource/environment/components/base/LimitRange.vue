@@ -12,7 +12,7 @@
               class="mt-0 pt-0"
               label="默认值"
               :rules="objRules.container.cpuDefaultMinRule"
-              style="width: 120px"
+              :style="{ width: `120px` }"
             />
           </v-flex>
           <v-flex class="float-left ml-2">
@@ -21,7 +21,7 @@
               class="mt-0 pt-0"
               label="默认请求值"
               :rules="objRules.container.cpuDefaultRequestMinRule"
-              style="width: 120px"
+              :style="{ width: `120px` }"
             />
           </v-flex>
           <v-flex class="float-left ml-2">
@@ -30,7 +30,7 @@
               class="mt-0 pt-0"
               label="限制值"
               :rules="objRules.container.cpuMaxRule"
-              style="width: 120px"
+              :style="{ width: `120px` }"
             />
           </v-flex>
           <div class="kubegems__clear-float" />
@@ -46,7 +46,7 @@
               class="mt-0 pt-0"
               label="默认值"
               :rules="objRules.container.memoryDefaultRule"
-              style="width: 120px"
+              :style="{ width: `120px` }"
             />
           </v-flex>
           <v-flex class="float-left ml-2">
@@ -55,7 +55,7 @@
               class="mt-0 pt-0"
               label="默认请求值"
               :rules="objRules.container.memoryDefaultRequestRule"
-              style="width: 120px"
+              :style="{ width: `120px` }"
             />
           </v-flex>
           <v-flex class="float-left ml-2">
@@ -64,7 +64,7 @@
               class="mt-0 pt-0"
               label="限制值"
               :rules="objRules.container.memoryMaxRule"
-              style="width: 120px"
+              :style="{ width: `120px` }"
             />
           </v-flex>
           <div class="kubegems__clear-float" />
@@ -80,7 +80,7 @@
               class="mt-0 pt-0"
               label="限制值"
               :rules="objRules.pod.cpuMaxRule"
-              style="width: 120px"
+              :style="{ width: `120px` }"
             />
           </v-flex>
           <div class="kubegems__clear-float" />
@@ -97,11 +97,11 @@
                 class="mt-0 pt-0"
                 label="限制值"
                 :rules="objRules.pod.memoryMaxRule"
-                style="width: 120px"
+                :style="{ width: `120px` }"
               />
             </v-flex>
             <v-flex class="float-left ml-2">
-              <v-flex style="width: 120px" />
+              <v-flex :style="{ width: `120px` }" />
             </v-flex>
           </v-flex>
           <div class="kubegems__clear-float" />
@@ -117,7 +117,7 @@
               class="mt-0 pt-0"
               label="限制值"
               :rules="objRules.persistentVolumeClaim.storageMaxRule"
-              style="width: 120px"
+              :style="{ width: `120px` }"
             />
           </v-flex>
           <div class="kubegems__clear-float" />

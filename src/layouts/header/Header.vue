@@ -11,12 +11,12 @@
       </div>
       <div
         class="pl-2 text-h6 float-left header-line-height"
-        style="
-          font-family: Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important;
-          font-weight: bold;
-          font-size: 1.1rem !important;
-          margin-left: 140px;
-        "
+        :style="{
+          fontFamily: `Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important`,
+          fontWeight: `bold`,
+          fontSize: `1.1rem !important`,
+          marginLeft: `140px`,
+        }"
       >
         {{ smallTitle }}
       </div>
@@ -30,7 +30,7 @@
       <v-icon class="header-icon-line-height" left small> fas fa-shopping-bag </v-icon>
       <span
         class="header-span-line-height"
-        style="font-family: Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important; font-weight: bold"
+        :style="{ fontFamily: `Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important`, fontWeight: `bold` }"
       >
         应用商店
       </span>
@@ -53,7 +53,7 @@
           <v-icon v-else class="header-icon-line-height" left small> fas fa-cube </v-icon>
           <span
             class="header-span-line-height"
-            style="font-family: Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important; font-weight: bold"
+            :style="{ fontFamily: `Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important;`, fontWeight: `bold` }"
           >
             {{ StoreMode === 'app' ? '应用商店' : '模型商店' }}
           </span>
@@ -102,7 +102,7 @@
       <v-icon class="header-icon-line-height" left small> fas fa-home </v-icon>
       <span
         class="header-span-line-height"
-        style="font-family: Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important; font-weight: bold"
+        :style="{ fontFamily: `Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important`, fontWeight: `bold` }"
       >
         工作台
       </span>

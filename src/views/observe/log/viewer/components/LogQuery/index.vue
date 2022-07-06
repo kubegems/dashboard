@@ -23,7 +23,7 @@
       </v-combobox>
       <!-- 标签查询 -->
 
-      <div style="margin-left: auto">
+      <div :style="{ marginLeft: `auto` }">
         <v-btn color="primary" :disabled="disabled" text @click="search">
           <v-icon left>mdi-magnify</v-icon>
           运行

@@ -10,7 +10,7 @@
     no-data-text="暂无可选数据"
     prepend-inner-icon="mdi-magnify"
     solo
-    style="max-width: 500px"
+    :style="{ maxWidth: `500px` }"
     @change="onProjectChange"
   >
     <template #selection="{ item }">

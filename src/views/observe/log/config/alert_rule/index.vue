@@ -78,7 +78,7 @@
             />
           </template>
           <template #[`item.name`]="{ item }">
-            <v-flex style="display: flex">
+            <v-flex :style="{ display: `flex` }">
               <a class="text-subtitle-2" @click.stop="alertRuleDetail(item)">
                 {{ item.name }}
               </a>

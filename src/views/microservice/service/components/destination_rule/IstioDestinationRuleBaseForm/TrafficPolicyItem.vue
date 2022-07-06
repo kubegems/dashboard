@@ -4,7 +4,7 @@
       <v-list-item two-line>
         <v-list-item-content class="py-2">
           <v-list-item-subtitle class="text-body-2 py-0">
-            <v-list-item class="float-left py-0 pl-0" style="width: 200px" two-line>
+            <v-list-item class="float-left py-0 pl-0" :style="{ width: `200px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{ JSON.stringify(trafficPolicy.loadBalancer) !== '{}' ? '已设置' : '未设置' }}
@@ -12,7 +12,7 @@
                 <v-list-item-subtitle class="text-body-2 py-1"> loadBalancer </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item class="float-left py-0 pl-0" style="width: 200px" two-line>
+            <v-list-item class="float-left py-0 pl-0" :style="{ width: `200px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{ JSON.stringify(trafficPolicy.connectionPool) !== '{}' ? '已设置' : '未设置' }}
@@ -20,7 +20,7 @@
                 <v-list-item-subtitle class="text-body-2 py-1"> connectionPool </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item class="float-left py-0 pl-0" style="width: 200px" two-line>
+            <v-list-item class="float-left py-0 pl-0" :style="{ width: `200px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{ JSON.stringify(trafficPolicy.outlierDetection) !== '{}' ? '已设置' : '未设置' }}
@@ -28,7 +28,7 @@
                 <v-list-item-subtitle class="text-body-2 py-1"> outlierDetection </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item class="float-left py-0 pl-0" style="width: 200px" two-line>
+            <v-list-item class="float-left py-0 pl-0" :style="{ width: `200px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{ JSON.stringify(trafficPolicy.tls) !== '{}' ? '已设置' : '未设置' }}
@@ -36,7 +36,7 @@
                 <v-list-item-subtitle class="text-body-2 py-1"> tls </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item class="float-left py-0 pl-0" style="width: 200px" two-line>
+            <v-list-item class="float-left py-0 pl-0" :style="{ width: `200px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{

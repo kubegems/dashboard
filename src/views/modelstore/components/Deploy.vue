@@ -1,12 +1,12 @@
 <template>
   <BaseFullScreenDialog v-model="dialog" kubegems-logo :title="title" @dispose="dispose">
     <template #content>
-      <v-flex :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
+      <v-flex>
         <v-row class="mt-0 ma-0">
           <v-col class="px-6 pa-0" cols="3">
-            <ModelInfo :item="item" />
+            <ModelInfo :item="item" no-version />
           </v-col>
-          <v-flex class="py-2">
+          <v-flex class="py-2" :style="{ height: `${height}px` }">
             <v-divider vertical />
           </v-flex>
           <v-col class="pa-0" cols="9">
@@ -42,6 +42,9 @@
     }),
     computed: {
       ...mapState(['Scale']),
+      height() {
+        return (window.innerHeight - 64) / this.Scale;
+      },
     },
     methods: {
       open() {
