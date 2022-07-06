@@ -110,15 +110,15 @@
 
   import {
     getNetworkPolicyDetail,
+    getProjectEnvironmentAggregation,
     postUpdateEnvironmentNetworkPolicy,
     postUpdateProjectNetworkPolicy,
-    getProjectEnvironmentAggregation,
   } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
-  import { sizeOfStorage, sizeOfCpu } from '@/utils/helpers';
+  import { sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
 
   export default {
     name: 'EnvironmentList',

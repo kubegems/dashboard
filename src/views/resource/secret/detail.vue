@@ -65,7 +65,7 @@
   import { mapState } from 'vuex';
 
   import UpdateSecret from './components/UpdateSecret';
-  import { getSecretDetail, deleteSecret } from '@/api';
+  import { deleteSecret, getSecretDetail } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

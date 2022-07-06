@@ -79,12 +79,12 @@ axios.interceptors.response.use(
           });
         }
       }
-      return response.data.Data;
+      return response.data.Data || response.data.data;
     } else {
       store.commit('SET_PROGRESS', false);
       store.commit('SET_CIRCULAR', false);
       store.commit('SET_SNACKBAR', {
-        text: response.data.Message,
+        text: response.data.Message || response.data.message,
         color: 'warning',
       });
     }
@@ -111,9 +111,9 @@ axios.interceptors.response.use(
         case 400:
           store.commit('SET_SNACKBAR', {
             text:
-              typeof error.response.data.ErrorData === 'string'
-                ? error.response.data.ErrorData
-                : error.response.data.Message,
+              typeof error.response.data.ErrorData === 'string' || typeof error.response.data.errorData === 'string'
+                ? error.response.data.ErrorData || error.response.data.errorData
+                : error.response.data.Message || error.response.data.data.message,
             color: 'error',
           });
           break;
@@ -173,7 +173,7 @@ axios.interceptors.response.use(
           break;
         case 422:
           store.commit('SET_SNACKBAR', {
-            text: `无法处理的请求实体, 请求结果： ${error.response.data.Message}`,
+            text: `无法处理的请求实体, 请求结果： ${error.response.data.Message || error.response.data.message}`,
             color: 'warning',
           });
           break;
@@ -223,3 +223,4 @@ export * from './microservice';
 export * from './metrics';
 export * from './visualization';
 export * from './integrated';
+export * from './modelstore';

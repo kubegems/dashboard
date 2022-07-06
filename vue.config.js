@@ -4,6 +4,14 @@ const path = require('path');
 module.exports = {
   productionSourceMap: true,
   configureWebpack: {
+    module: {
+      rules: [
+        {
+          test: /\.mdx?$/,
+          use: ['babel-loader', '@mdx-js/vue-loader'],
+        },
+      ],
+    },
     output: {
       filename: `js/[name].${timestamp}.js`,
       chunkFilename: '[id].[chunkhash].js',
@@ -21,8 +29,7 @@ module.exports = {
     },
     devServer: {
       static: {
-        directory: path.join(__dirname, 'docs'),
-        publicPath: '/docs',
+        directory: path.join(__dirname, 'public'),
       },
       compress: false,
       hot: true,
@@ -30,8 +37,15 @@ module.exports = {
       port: 8080,
       host: '0.0.0.0',
       proxy: {
+        '/api/v1/sources': {
+          target: 'http://model.local.kubegems.io:8080',
+          changeOrigin: true,
+          pathRewrite: {
+            '^/api/v1/sources': '/sources',
+          },
+        },
         '/api/v1/': {
-          target: 'http://local.kubegems.io:8020',
+          target: 'http://local.kubegems.io:31393',
           changeOrigin: true,
           pathRewrite: {
             '^/api/v1/': '/v1/',

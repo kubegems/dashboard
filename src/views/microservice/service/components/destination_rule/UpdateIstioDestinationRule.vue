@@ -15,7 +15,7 @@
   import { mapState } from 'vuex';
 
   import IstioDestinationRuleBaseForm from './IstioDestinationRuleBaseForm';
-  import { patchUpdateIstioDestinationRule, getIstioDestinationRuleDetail } from '@/api';
+  import { getIstioDestinationRuleDetail, patchUpdateIstioDestinationRule } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
   import IstioDestinationRuleSchema from '@/views/microservice/service/mixins/schema';

@@ -14,7 +14,7 @@
 <script>
   import { mapState } from 'vuex';
 
-  import { patchUpdateIstioPeerAuthentication, getIstioPeerAuthenticationDetail } from '@/api';
+  import { getIstioPeerAuthenticationDetail, patchUpdateIstioPeerAuthentication } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
   import IstioPeerAuthenticationSchema from '@/views/microservice/istio/peer_authentication/mixins/schema';

@@ -22,8 +22,8 @@ const TIP = {
   'appstore-registry': 'chart仓库是chart包存放的位置, 被应用商店和部署所使用。',
 
   // 模型商店
-  modelstore:
-    '模型商店(Ormb)通过镜像仓库来分发模型，可以帮助用户更好的管理他们的机器学习 / 深度学习模型。通过 Ormb，模型能更易于创建、版本化、共享以及发布。',
+  modelstore: '',
+  'modelstore-registry': '模型商店仓库(AI Model Registry)通过配置模型的仓库来达到模型的同步,集成于Kubegems。',
 
   // 设置
   'base-setting': '平台基本配置, 包括平台审计, 平台组件等。',

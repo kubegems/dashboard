@@ -129,7 +129,7 @@
 
   import AddService from './components/AddService';
   import UpdateService from './components/UpdateService';
-  import { getServiceList, deleteService } from '@/api';
+  import { deleteService, getServiceList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

@@ -116,7 +116,7 @@
 
   import AddIstioGateway from './components/AddIstioGateway';
   import UpdateIstioGateway from './components/UpdateIstioGateway';
-  import { getIstioGatewayInstanceList, deleteIstioGatewayInstance } from '@/api';
+  import { deleteIstioGatewayInstance, getIstioGatewayInstanceList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import { deepCopy } from '@/utils/helpers';

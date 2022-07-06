@@ -58,7 +58,7 @@
   import EnvironmentList from './components/EnvironmentList';
   import ManageUser from './components/ManageUser';
   import UpdateVirtualSpace from './components/UpdateVirtualSpace';
-  import { getVirtualSpaceDetail, deleteVirtualSpace } from '@/api';
+  import { deleteVirtualSpace, getVirtualSpaceDetail } from '@/api';
   import BasePermission from '@/mixins/permission';
 
   export default {

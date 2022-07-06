@@ -64,12 +64,12 @@
 
   import WorkloadBaseForm from './WorkloadBaseForm';
   import {
-    patchUpdateDaemonSet,
-    patchUpdateDeployment,
-    patchUpdateStatefulSet,
     getDaemonSetDetail,
     getDeploymentDetail,
     getStatefulSetDetail,
+    patchUpdateDaemonSet,
+    patchUpdateDeployment,
+    patchUpdateStatefulSet,
   } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';

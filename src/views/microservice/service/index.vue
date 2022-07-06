@@ -69,7 +69,7 @@
                       </span>
                     </template>
                     <v-card>
-                      <v-card-text class="pa-2"> 自动注入 </v-card-text>
+                      <v-card-text class="pa-2 text-caption"> 自动注入 </v-card-text>
                     </v-card>
                   </v-menu>
                 </v-flex>
@@ -219,10 +219,10 @@
   import AddVirtualService from './components/virtual_service/AddVirtualService';
   import UpdateVirtualService from './components/virtual_service/UpdateVirtualService';
   import {
-    getMicroServiceList,
+    deleteIstioDestinationRule,
     deleteIstioGateway,
     deleteIstioVirtualService,
-    deleteIstioDestinationRule,
+    getMicroServiceList,
   } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -291,10 +291,14 @@
         this.microServiceList(noprocess);
       },
       async microServiceList(noprocess) {
-        const data = await getMicroServiceList(this.VirtualSpace().ID, this.EnvironmentFilter.value, {
-          ...this.params,
-          noprocessing: noprocess,
-        });
+        const data = await getMicroServiceList(
+          this.VirtualSpace().ID,
+          this.EnvironmentFilter?.value || this.$route.query?.environmentid,
+          {
+            ...this.params,
+            noprocessing: noprocess,
+          },
+        );
         data.pagedata.List = data.pagedata.List.map((s) => {
           return {
             ...s,

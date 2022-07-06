@@ -28,9 +28,9 @@
   import { mapState } from 'vuex';
 
   import ServiceBaseForm from './ServiceBaseForm';
-  import { patchUpdateService, getServiceDetail } from '@/api';
+  import { getServiceDetail, patchUpdateService } from '@/api';
   import BaseResource from '@/mixins/resource';
-  import { randomString, deepCopy } from '@/utils/helpers';
+  import { deepCopy, randomString } from '@/utils/helpers';
   import ServiceSchema from '@/views/resource/service/mixins/schema';
 
   export default {

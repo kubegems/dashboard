@@ -32,7 +32,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import { postAppReplicasScale, getAppRunningReplicas } from '@/api';
+  import { getAppRunningReplicas, postAppReplicasScale } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {

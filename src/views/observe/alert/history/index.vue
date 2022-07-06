@@ -3,8 +3,9 @@
     <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
-          <ProjectEnvSelect :tenant="tenant" @refreshEnvironemnt="refreshEnvironemnt" />
-          <BaseDatetimePicker v-model="date" clearable :default-value="180" :offset-y="1" @change="onDatetimeChange" />
+          <ProjectEnvSelectCascade v-model="env" first reverse :tenant="tenant" />
+
+          <BaseDatetimePicker v-model="date" clearable :default-value="180" :offset-y="4" @change="onDatetimeChange" />
           <div />
         </v-flex>
       </template>
@@ -40,7 +41,10 @@
           <span v-if="item.AlertInfo.Labels.gems_alert_resource && item.AlertInfo.Labels.gems_alert_rule">
             {{ `${item.AlertInfo.Labels.gems_alert_resource}.${item.AlertInfo.Labels.gems_alert_rule}` }}
           </span>
-          <span v-else>-</span>
+          <span v-else-if="item.AlertInfo.Labels.gems_alert_from === 'logging'">
+            {{ `${item.AlertInfo.Labels.gems_alert_from}` }}</span
+          >
+          <span v-else> {{ `raw promql` }}</span>
         </template>
         <template #[`item.severity`]="{ item }">
           <v-chip v-if="item.AlertInfo.Labels.severity === 'error'" color="error" small>
@@ -112,15 +116,15 @@
   import { mapGetters, mapState } from 'vuex';
 
   import HistorySearch from './components/HistorySearch';
-  import { getPrometheusAlertSearch, postAddPrometheusBlacklist, deletePrometheusBlacklist } from '@/api';
+  import { deletePrometheusBlacklist, getPrometheusAlertSearch, postAddPrometheusBlacklist } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { deleteEmpty } from '@/utils/helpers';
-  import ProjectEnvSelect from '@/views/observe/components/ProjectEnvSelect';
+  import ProjectEnvSelectCascade from '@/views/observe/components/ProjectEnvSelectCascade';
 
   export default {
     name: 'AlertHistroy',
     components: {
-      ProjectEnvSelect,
+      ProjectEnvSelectCascade,
       HistorySearch,
     },
     mixins: [BaseSelect],
@@ -142,6 +146,7 @@
           value: 'namespace',
           align: 'start',
           cellClass: 'kubegems__table-nowrap-cell',
+          width: 80,
         },
         {
           text: '告警类型',
@@ -189,11 +194,26 @@
         },
         date: [],
         tenant: null,
+        env: undefined,
       };
     },
     computed: {
       ...mapState(['AdminViewport']),
       ...mapGetters(['Tenant']),
+    },
+    watch: {
+      env: {
+        handler(newValue) {
+          if (newValue) {
+            this.params.cluster = newValue.clusterName;
+            this.params.environment = newValue.environmentName;
+            this.cluster = newValue.clusterName;
+            this.onDatetimeChange();
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
     },
     mounted() {
       this.$nextTick(() => {
@@ -220,12 +240,6 @@
         this.pageCount = Math.ceil(data.Total / this.params.size);
         this.params.page = data.CurrentPage;
         this.items = data.List || [];
-      },
-      refreshEnvironemnt(env) {
-        this.params.cluster = env.clusterName;
-        this.params.environment = env.environmentName;
-        this.cluster = env.clusterName;
-        this.onDatetimeChange();
       },
       onSearch() {
         this.params.page = 1;

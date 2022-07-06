@@ -135,7 +135,7 @@
 
   import AddIngress from './components/AddIngress';
   import UpdateIngress from './components/UpdateIngress';
-  import { getIngressList, deleteIngress, getGatewayList } from '@/api';
+  import { deleteIngress, getGatewayList, getIngressList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

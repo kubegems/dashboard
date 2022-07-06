@@ -73,7 +73,6 @@
     },
     methods: {
       // 更新时调用
-      // eslint-disable-next-line vue/no-unused-properties
       init() {
         this.webhookConfig = deepCopy(this.obj.webhookConfigs[this.configIndex]);
       },

@@ -36,7 +36,7 @@
   import { mapState } from 'vuex';
 
   import PrometheusRuleBaseForm from './PrometheusRuleBaseForm';
-  import { putUpdatePrometheusRule, putUpdateLogAlertRule } from '@/api';
+  import { putUpdateLogAlertRule, putUpdatePrometheusRule } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 
@@ -88,7 +88,6 @@
         }
       },
       // 点击编辑后调用
-      // eslint-disable-next-line vue/no-unused-properties
       async init(item) {
         this.$nextTick(() => {
           this.item = deepCopy(item);

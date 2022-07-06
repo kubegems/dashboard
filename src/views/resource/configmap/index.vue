@@ -119,7 +119,7 @@
 
   import AddConfigMap from './components/AddConfigMap';
   import UpdateConfigMap from './components/UpdateConfigMap';
-  import { getConfigMapList, deleteConfigMap } from '@/api';
+  import { deleteConfigMap, getConfigMapList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

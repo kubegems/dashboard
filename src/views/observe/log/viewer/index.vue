@@ -144,7 +144,7 @@
 </template>
 
 <script>
-  import { mapState, mapGetters } from 'vuex';
+  import { mapGetters, mapState } from 'vuex';
 
   import LogBar from './components/LogBar';
   import LogContext from './components/LogContext';
@@ -155,7 +155,7 @@
   import LogSaveSnapshot from './components/LogSaveSnapshot';
   import LogSnapshot from './components/LogSnapshot';
   import LogTable from './components/LogTable';
-  import { getLogQueryRange, getLogExport, postAddLogQueryHistory } from '@/api';
+  import { getLogExport, getLogQueryRange, postAddLogQueryHistory } from '@/api';
 
   export default {
     name: 'LogViewer',
@@ -405,8 +405,6 @@
           });
         }
       },
-
-      // eslint-disable-next-line vue/no-unused-properties
       async handleDownloadLog() {
         if (!this.params.logQL) {
           this.$store.commit('SET_SNACKBAR', {

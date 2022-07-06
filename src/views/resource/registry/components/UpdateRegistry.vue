@@ -13,7 +13,7 @@
   import { mapGetters, mapState } from 'vuex';
 
   import RegistryBaseForm from './RegistryBaseForm';
-  import { putUpdateRegistry, getRegistryDetail } from '@/api';
+  import { getRegistryDetail, putUpdateRegistry } from '@/api';
 
   export default {
     name: 'UpdateRegistry',

@@ -45,16 +45,16 @@
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import {
+    NODE_CPU_USAGE_PROMQL,
+    NODE_DISK_AVAILABLE_SIZE_PROMQL,
+    NODE_DISK_READ_IOPS_PROMQL,
+    NODE_DISK_WRITE_IOPS_PROMQL,
+    NODE_LOAD15_PROMQL,
     NODE_LOAD1_PROMQL,
     NODE_LOAD5_PROMQL,
-    NODE_LOAD15_PROMQL,
-    NODE_CPU_USAGE_PROMQL,
     NODE_MEMORY_USAGE_PROMQL,
     NODE_NETWORK_IN_PROMQL,
     NODE_NETWORK_OUT_PROMQL,
-    NODE_DISK_AVAILABLE_SIZE_PROMQL,
-    NODE_DISK_WRITE_IOPS_PROMQL,
-    NODE_DISK_READ_IOPS_PROMQL,
   } from '@/utils/prometheus';
 
   export default {

@@ -20,7 +20,7 @@
 
   import EnvironmentItem from './EnvironmentItem';
   import LinkEnvironmentForm from './LinkEnvironmentForm';
-  import { postAddVirtualSpaceEnvironment, deleteVirtualSpaceEnvironment } from '@/api';
+  import { deleteVirtualSpaceEnvironment, postAddVirtualSpaceEnvironment } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
@@ -145,8 +145,6 @@
         this.$delete(this.obj.Environments, index);
         this.$emit('refresh');
       },
-
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs.form.validate(true);
       },

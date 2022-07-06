@@ -7,7 +7,7 @@
     </div>
     <div class="v-menu__content theme--light manuable__content__active">
       <div class="v-card v-sheet theme--light text-center">
-        <div class="v-card__text pa-2">{{ content }}</div>
+        <div class="v-card__text pa-2 text-caption">{{ content }}</div>
       </div>
     </div>
   </div>

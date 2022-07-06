@@ -24,9 +24,17 @@
         type: String,
         default: () => 'area',
       },
+      colorful: {
+        type: Boolean,
+        default: () => false,
+      },
       extendHeight: {
         type: Number,
         default: () => 280,
+      },
+      horizontalAlign: {
+        type: String,
+        default: () => 'center',
       },
       id: {
         type: String,
@@ -93,7 +101,7 @@
     watch: {
       metrics: {
         handler(newValue) {
-          if (newValue && newValue?.length > 0) {
+          if (newValue) {
             this.loadData();
           }
         },
@@ -113,6 +121,11 @@
     methods: {
       getMetricName(metricAndValues, index) {
         if (metricAndValues.metric) {
+          if (this.label === 'all') {
+            return `{${Object.keys(metricAndValues.metric).map((k) => {
+              return `${k}=${metricAndValues.metric[k]}`;
+            })}}`;
+          }
           if (metricAndValues.metric[this.label]) {
             return metricAndValues.metric[this.label];
           }
@@ -199,6 +212,8 @@
           case 'percent':
             scaleNum = 100;
             break;
+          case 'duration':
+            break;
           case '%':
             return { scaleNum: `${value.toFixed(2)} ${unitType}`, unitType: null, newValue: value };
             break;
@@ -221,15 +236,16 @@
           const d = this.allUnit[unitType].findIndex((u) => {
             return u.toLocaleLowerCase() === this.unit.toLocaleLowerCase();
           });
+
           if (unitType === 'duration') {
-            if (d < 3) {
+            if (d <= 3) {
               value = value * Math.pow(1000, d);
-            } else if (index < 5) {
-              value = value * Math.pow(1000, d) * Math.pow(1000, d - 3);
-            } else if (index < 6) {
-              value = value * Math.pow(1000, d) * Math.pow(1000, d - 3) * Math.pow(24, d - 5);
+            } else if (d <= 5) {
+              value = value * Math.pow(1000, 3) * Math.pow(60, d - 3);
+            } else if (d <= 6) {
+              value = value * Math.pow(1000, 3) * Math.pow(60, 2) * Math.pow(24, d - 5);
             } else {
-              value = value * Math.pow(1000, d) * Math.pow(1000, d - 3) * Math.pow(24, d - 5) * Math.pow(7, d - 6);
+              value = value * Math.pow(1000, 3) * Math.pow(60, 2) * Math.pow(24, 1) * Math.pow(7, d - 6);
             }
           } else if (unitType === 'short') {
             value = value * Math.pow(scaleNum, 3);
@@ -242,7 +258,7 @@
       beautifyUnit(num, sclaeNum, units = [], unitType = '', decimal = 1) {
         let result = num;
         for (const index in units) {
-          if (Math.abs(result) < sclaeNum) {
+          if (Math.abs(result) < sclaeNum || parseInt(index) === parseInt(units.length - 1)) {
             if (unitType === 'percent') {
               return `${result.toFixed(decimal)} %`;
             }
@@ -269,8 +285,7 @@
           } else {
             sclaeNum = 7;
           }
-
-          if (Math.abs(result) < sclaeNum) {
+          if (Math.abs(result) < sclaeNum || parseInt(index) === parseInt(units.length - 1)) {
             return `${result.toFixed(decimal)} ${units[index]}`;
           }
           result /= sclaeNum;
@@ -294,7 +309,7 @@
       },
       getOptions(title, id) {
         return {
-          colors: this.$LINE_THEME_COLORS,
+          colors: this.colorful ? this.$LINE_THEME_FUL_COLORS : this.$LINE_THEME_COLORS,
           chart: {
             toolbar: {
               show: false,
@@ -387,9 +402,10 @@
             show: this.labelShow,
             showForSingleSeries: true,
             showForNullSeries: false,
+            horizontalAlign: this.horizontalAlign,
           },
           noData: {
-            text: this.Plugins['monitoring'] ? '暂无数据' : '插件monitoring未启用',
+            text: '暂无数据',
             offsetY: this.noDataOffsetY,
             style: {
               fontSize: '13px',

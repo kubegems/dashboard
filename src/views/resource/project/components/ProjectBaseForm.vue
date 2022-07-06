@@ -6,7 +6,7 @@
         <v-row>
           <v-col cols="6">
             <v-text-field
-              v-model="obj.ProjectName"
+              v-model.trim="obj.ProjectName"
               class="my-0"
               label="名称"
               :readonly="edit"
@@ -106,7 +106,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import { getTenantUserList, getProjectUserList, deleteProjectUser, postAddProjectUser } from '@/api';
+  import { deleteProjectUser, getProjectUserList, getTenantUserList, postAddProjectUser } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';

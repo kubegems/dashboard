@@ -38,11 +38,12 @@
           v-if="data"
           chart-type="line"
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
+          colorful
           :extend-height="295"
-          label="pod"
+          label="all"
           :label-show="false"
           :metrics="data ? data.data : []"
-          :no-data-offset-y="-22"
+          :no-data-offset-y="-25"
           type=""
           :unit="getUnit(unit)"
         />
@@ -115,10 +116,12 @@
     },
     methods: {
       onResize() {
-        this.size = {
-          width: this.$refs.container.offsetWidth,
-          height: this.$refs.container.offsetHeight,
-        };
+        if (this.$refs.container) {
+          this.size = {
+            width: this.$refs.container.offsetWidth,
+            height: this.$refs.container.offsetHeight,
+          };
+        }
       },
       setAlert() {
         const { resource, rule, unit, cluster, environment, ql, expr } = this.data?._$origin;

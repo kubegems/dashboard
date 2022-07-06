@@ -187,11 +187,11 @@
   import { mapGetters, mapState } from 'vuex';
 
   import Pagination from '../Pagination';
-  import { getProjectList, getProjectEnvironmentList, getProjectEnvironmentQuotaList } from '@/api';
+  import { getProjectEnvironmentList, getProjectEnvironmentQuotaList, getProjectList } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
-  import { beautifyCpuUnit, beautifyStorageUnit, beautifyNetworkUnit } from '@/utils/helpers';
+  import { beautifyCpuUnit, beautifyNetworkUnit, beautifyStorageUnit } from '@/utils/helpers';
   import {
     ENVIRONMENT_CPU_USAGE_PROMQL,
     ENVIRONMENT_MEMORY_USAGE_PROMQL,

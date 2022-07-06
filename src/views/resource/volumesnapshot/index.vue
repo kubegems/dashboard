@@ -111,7 +111,7 @@
   import { mapState } from 'vuex';
 
   import RestoreVolumeSnapshot from './components/RestoreVolumeSnapshot';
-  import { getVolumeSnapshotList, deleteVolumeSnapshot } from '@/api';
+  import { deleteVolumeSnapshot, getVolumeSnapshotList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';

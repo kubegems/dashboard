@@ -119,7 +119,7 @@
 
   import SampleAreaChart from './SampleAreaChart';
   import Tips from './Tips';
-  import { getClusterComponentStatus, getClusterCertInfo } from '@/api';
+  import { getClusterCertInfo, getClusterComponentStatus } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import { CLUSTER_API_SERVER_SUCCESS_RATE_PROMQL } from '@/utils/prometheus';

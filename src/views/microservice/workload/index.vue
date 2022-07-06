@@ -47,7 +47,7 @@
                         </span>
                       </template>
                       <v-card>
-                        <v-card-text class="pa-2"> 自动注入 </v-card-text>
+                        <v-card-text class="pa-2 text-caption"> 自动注入 </v-card-text>
                       </v-card>
                     </v-menu>
                   </v-flex>
@@ -229,7 +229,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import { getMicroAppWorkoladList, putInjectSideCarToMicroAppWorkolad, getPodList } from '@/api';
+  import { getMicroAppWorkoladList, getPodList, putInjectSideCarToMicroAppWorkolad } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -340,14 +340,18 @@
     },
     methods: {
       async microAppWorkoladList(noprocess = false) {
-        const data = await getMicroAppWorkoladList(this.VirtualSpace().ID, this.EnvironmentFilter.value, {
-          ...this.params,
-          ...{
-            search: this.$route.query.search ? this.$route.query.search : null,
+        const data = await getMicroAppWorkoladList(
+          this.VirtualSpace().ID,
+          this.EnvironmentFilter?.value || this.$route.query?.environmentid,
+          {
+            ...this.params,
+            ...{
+              search: this.$route.query.search ? this.$route.query.search : null,
+            },
+            kind: this.tabItems[this.tab].value,
+            noprocessing: noprocess,
           },
-          kind: this.tabItems[this.tab].value,
-          noprocessing: noprocess,
-        });
+        );
         this.items = data.List;
         this.pageCount = Math.ceil(data.Total / this.params.size);
         this.params.page = data.CurrentPage;

@@ -203,7 +203,7 @@
 
   import AddPrometheusRule from './components/AddPrometheusRule';
   import UpdatePrometheusRule from './components/UpdatePrometheusRule';
-  import { getPrometheusRuleList, deletePrometheusRule, postDisableAlertRule, postEnableAlertRule } from '@/api';
+  import { deletePrometheusRule, getPrometheusRuleList, postDisableAlertRule, postEnableAlertRule } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -368,7 +368,7 @@
           param: { item },
           doFunc: async (param) => {
             await deletePrometheusRule(this.cluster, param.item.namespace, param.item.name, {
-              source: 'kubegems-default-monitor-alert-rule',
+              source: param.item.source,
             });
             this.prometheusRuleList();
           },

@@ -43,7 +43,6 @@
                 bottom: true,
                 left: true,
                 origin: `top center`,
-                transition: `scale-transition`,
               }"
               no-data-text="暂无可选数据"
               :rules="objRules.tenantProjectIdRules"
@@ -68,7 +67,6 @@
                 bottom: true,
                 left: true,
                 origin: `top center`,
-                transition: `scale-transition`,
               }"
               no-data-text="暂无可选数据"
               :rules="objRules.versionRules"
@@ -92,7 +90,6 @@
                 bottom: true,
                 left: true,
                 origin: `top center`,
-                transition: `scale-transition`,
               }"
               no-data-text="暂无可选数据"
               :rules="objRules.environmentIdRules"
@@ -179,7 +176,7 @@
   import AppStoreComplete from './AppStoreComplete';
   import AppStoreDeployLoading from './AppStoreDeployLoading';
   import Tips from './Tips';
-  import { postDeployAppStore, getAppStoreFiles } from '@/api';
+  import { getAppStoreFiles, postDeployAppStore } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
@@ -245,7 +242,7 @@
       filesCopy: {},
     }),
     computed: {
-      ...mapState(['Auth', 'Circular', 'AdminViewport', 'Scale', 'BasePermission']),
+      ...mapState(['Auth', 'Circular', 'AdminViewport', 'Scale']),
       ...mapGetters(['Tenant', 'Project', 'Environment']),
       objRules() {
         return {

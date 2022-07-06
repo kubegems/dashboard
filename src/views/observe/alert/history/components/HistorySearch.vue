@@ -5,7 +5,16 @@
         查询<v-icon right>mdi-chevron-{{ expand ? 'up' : 'down' }}</v-icon>
       </v-btn>
 
-      <v-combobox v-model="alertname" dense flat hide-details solo @change="onEmitChange" @keydown.enter="onSearch">
+      <v-combobox
+        v-model="search"
+        dense
+        flat
+        hide-details
+        label="模糊搜索规则和标签(多个关键字请用空格分割)"
+        solo
+        @change="onEmitChange"
+        @keydown.enter="onSearch"
+      >
         <template #prepend-inner>
           <v-chip v-for="(value, key) in tagMap" v-show="tagMap[key]" :key="key" color="primary" label small>
             <span>{{ labels[key].text }}：{{ getItemText(key, value) }}</span>
@@ -14,8 +23,8 @@
         </template>
         <template #selection="{ item }">
           <v-chip color="primary" label small>
-            <span>告警名称：{{ item }}</span>
-            <v-icon right small @click="onRemoveTag('alertname')"> mdi-close </v-icon>
+            <span>告警：{{ item }}</span>
+            <v-icon right small @click="onRemoveTag('search')"> mdi-close </v-icon>
           </v-chip>
         </template>
       </v-combobox>
@@ -108,7 +117,7 @@
         },
         tagCols: [],
         tagMap: {},
-        alertname: undefined,
+        search: undefined,
         metricsConfig: {},
       };
     },
@@ -138,7 +147,7 @@
             rule: v.rule,
             status: v.status,
           };
-          this.alertname = v.alertname;
+          this.search = v.search;
           this.tagCols = Object.keys(this.tagMap)
             .filter((key) => !!this.tagMap[key])
             .map((key) => key);
@@ -178,7 +187,7 @@
           this.$delete(this.tagMap, 'rule');
           this.$set(this.labels.rule, 'items', []);
         }
-        if (key === 'alertname') this.alertname = undefined;
+        if (key === 'search') this.search = undefined;
         this.onEmitChange();
       },
       onClear() {
@@ -192,7 +201,7 @@
         Object.keys(this.tagMap).forEach((key) => {
           value[key] = this.tagMap[key];
         });
-        value.alertname = this.alertname;
+        value.search = this.search;
         return value;
       },
       onEmitChange() {

@@ -88,8 +88,6 @@
           this.obj = deepCopy(data);
         });
       },
-
-      // eslint-disable-next-line vue/no-unused-properties
       validate() {
         return this.$refs.form.validate(true);
       },

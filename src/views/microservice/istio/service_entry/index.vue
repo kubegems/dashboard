@@ -139,7 +139,7 @@
 
   import AddServiceEntry from './components/AddServiceEntry';
   import UpdateServiceEntry from './components/UpdateServiceEntry';
-  import { getIstioServiceEntryList, deleteIstioServiceEntry } from '@/api';
+  import { deleteIstioServiceEntry, getIstioServiceEntryList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -223,8 +223,8 @@
     methods: {
       async istioServiceEntryList(noprocess = false) {
         const data = await getIstioServiceEntryList(
-          this.EnvironmentFilter.cluster,
-          this.EnvironmentFilter.namespace,
+          this.EnvironmentFilter?.cluster || this.$route.query?.cluster,
+          this.EnvironmentFilter?.namespace || this.$route.query?.namespace,
           Object.assign(this.params, {
             noprocessing: noprocess,
             sort: this.m_table_generateResourceSortParamValue(),

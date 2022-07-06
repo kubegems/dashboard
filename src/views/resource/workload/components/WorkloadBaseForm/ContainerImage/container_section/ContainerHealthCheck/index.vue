@@ -261,7 +261,7 @@
   import ReadinessProbe from './ReadinessProbe';
   import StartupProbe from './StartupProbe';
   import { deepCopy } from '@/utils/helpers';
-  import { required, positiveInteger, port } from '@/utils/rules';
+  import { port, positiveInteger, required } from '@/utils/rules';
 
   export default {
     name: 'ContainerHealthCheck',

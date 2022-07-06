@@ -132,7 +132,7 @@
 
   import AppStatusTip from './components/AppStatusTip';
   import TaskStatusTip from './components/TaskStatusTip';
-  import { getAppRunningList, getAppStoreRunningList, deleteApp, deleteAppStoreApp, getAppTaskList } from '@/api';
+  import { deleteApp, deleteAppStoreApp, getAppRunningList, getAppStoreRunningList, getAppTaskList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -188,6 +188,7 @@
             text: '应用状态',
             value: 'appStatus',
             align: 'start',
+            width: 220,
             sortable: false,
           },
           {

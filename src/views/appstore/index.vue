@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb>
+    <Breadcrumb hub="kubegems-charts">
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-sheet class="text-body-2 text--darken-1 d-flex align-center mx-1">
@@ -54,7 +54,7 @@
           </v-sheet>
         </v-flex>
       </template>
-    </BaseBreadcrumb>
+    </Breadcrumb>
     <v-row class="mt-0">
       <v-col class="pt-0" cols="2">
         <v-card>
@@ -108,11 +108,13 @@
 
   import AppStoreCard from './components/AppStoreCard';
   import { getAppStoreList, getRepositoryList } from '@/api';
+  import Breadcrumb from '@/views/modelstore/components/Breadcrumb';
 
   export default {
     name: 'AppStoreCenter',
     components: {
       AppStoreCard,
+      Breadcrumb,
     },
     data: () => ({
       items: [],

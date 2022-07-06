@@ -21,3 +21,6 @@ export const getMonitorDashboard = (environmentId, dashboardId, query = {}) =>
 // 删除监控大盘
 export const deleteMonitorDashboard = (environmentId, dashboardId, body = {}) =>
   axios.delete(`observability/environment/${environmentId}/monitor/dashboard/${dashboardId}`, body);
+
+// 监控大盘模版
+export const getMonitorDashboardTemplate = (query = {}) => axios(`observability/template/dashboard`, { params: query });

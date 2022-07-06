@@ -105,6 +105,14 @@
         <template v-if="mode === 'ql'">
           <v-col cols="12">
             <v-textarea v-model="obj.expr" auto-grow label="查询语句" :rules="objRules.exprRule" />
+            <MetricsSuggestion
+              :cluster="environment.clusterName"
+              :expr="obj.expr"
+              :left="20"
+              :newline="118"
+              :top="250"
+              @insertMetrics="insertMetrics"
+            />
           </v-col>
           <v-col cols="6">
             <v-autocomplete
@@ -134,18 +142,26 @@
 <script>
   import { mapState } from 'vuex';
 
-  import { getSystemConfigData, getMyConfigData } from '@/api';
+  import { getMyConfigData, getSystemConfigData } from '@/api';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
+  import MetricsSuggestion from '@/views/observe/monitor/metrics/components/MetricsSuggestion';
   import Metrics from '@/views/observe/monitor/mixins/metrics';
 
   export default {
     name: 'GraphBaseForm',
+    components: {
+      MetricsSuggestion,
+    },
     mixins: [Metrics],
     props: {
       edit: {
         type: Boolean,
         default: () => false,
+      },
+      environment: {
+        type: Object,
+        default: () => {},
       },
       item: {
         type: Object,
@@ -276,6 +292,10 @@
         this.$refs.form.resetValidation();
         this.obj = this.$options.data().obj;
         this.mode = 'template';
+      },
+      insertMetrics(metrics) {
+        this.$set(this.obj, 'expr', metrics);
+        this.$forceUpdate();
       },
     },
   };

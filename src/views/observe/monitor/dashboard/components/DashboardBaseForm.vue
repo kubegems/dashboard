@@ -4,21 +4,32 @@
     <v-card-text class="pa-2">
       <v-row>
         <v-col cols="12">
-          <v-text-field
-            v-model="obj.name"
-            class="my-0"
-            label="名称"
-            :readonly="edit"
-            required
-            :rules="objRules.nameRule"
-          />
+          <v-text-field v-model="obj.name" class="my-0" label="名称" required :rules="objRules.nameRule" />
         </v-col>
+        <template v-if="!edit">
+          <v-col cols="12">
+            <v-switch v-model="tamplate" hide-details label="从模版创建" />
+          </v-col>
+          <v-col v-if="tamplate" cols="12">
+            <v-autocomplete
+              v-model="obj.template"
+              class="my-0"
+              color="primary"
+              hide-selected
+              :items="templateItems"
+              label="模版"
+              no-data-text="暂无可选数据"
+              :rules="objRules.templateRule"
+            />
+          </v-col>
+        </template>
       </v-row>
     </v-card-text>
   </v-form>
 </template>
 
 <script>
+  import { getMonitorDashboardTemplate } from '@/api';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
@@ -37,11 +48,15 @@
     data() {
       return {
         valid: false,
+        tamplate: false,
+        templateItems: [],
         obj: {
           name: '',
+          template: '',
         },
         objRules: {
           nameRule: [required],
+          templateRule: [required],
         },
       };
     },
@@ -55,7 +70,20 @@
         deep: true,
       },
     },
+    mounted() {
+      this.$nextTick(() => {
+        this.monitorDashboardTemplateList();
+      });
+    },
     methods: {
+      async monitorDashboardTemplateList() {
+        const data = await getMonitorDashboardTemplate();
+        if (data) {
+          this.templateItems = data.map((d) => {
+            return { text: d.name, value: d.name };
+          });
+        }
+      },
       validate() {
         return this.$refs.form.validate(true);
       },

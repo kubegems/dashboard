@@ -73,7 +73,7 @@
 <script>
   import { mapGetters } from 'vuex';
 
-  import { postAppHPAStrategy, getAppRunningHPA, deleteHPAStrategy, postSyncAppResource } from '@/api';
+  import { deleteHPAStrategy, getAppRunningHPA, postAppHPAStrategy, postSyncAppResource } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {

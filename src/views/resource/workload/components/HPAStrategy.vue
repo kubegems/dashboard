@@ -55,7 +55,7 @@
 <script>
   import { mapState } from 'vuex';
 
-  import { postSetHpa, getHpaDetail, deleteHpa } from '@/api';
+  import { deleteHpa, getHpaDetail, postSetHpa } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {

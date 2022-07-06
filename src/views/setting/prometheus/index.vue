@@ -38,8 +38,8 @@
         <template #[`item.rule`]="{ item }">
           {{ item.showName }}
         </template>
-        <template #[`item.unit`]="{ item, index }">
-          <BaseCollapseChips :id="`p_unit_${index}`" :chips="item.units || []" icon="mdi-pound-box" single-line />
+        <template #[`item.unit`]="{ item }">
+          {{ item.unit }}
         </template>
         <template #[`item.label`]="{ item, index }">
           <BaseCollapseChips :id="`p_label_${index}`" :chips="item.labels || []" icon="mdi-label" single-line />
@@ -77,15 +77,15 @@
       />
     </BaseSplitContainer>
 
-    <AddTemplate ref="addTemplate" :units="units" @refresh="metricsConfig" />
-    <UpdateTemplate ref="updateTemplate" :units="units" @refresh="metricsConfig" />
+    <AddTemplate ref="addTemplate" @refresh="metricsConfig" />
+    <UpdateTemplate ref="updateTemplate" @refresh="metricsConfig" />
   </v-container>
 </template>
 
 <script>
   import AddTemplate from './components/AddTemplate';
   import UpdateTemplate from './components/UpdateTemplate';
-  import { getSystemConfigData, deletePrometheusTemplate } from '@/api';
+  import { deletePrometheusTemplate, getSystemConfigData } from '@/api';
 
   export default {
     name: 'PrometheusTemplate',
@@ -97,7 +97,6 @@
       metricTypeItems: [],
       selected: 0,
       items: [],
-      units: [],
       headers: [
         { text: '名称', value: 'name', align: 'start' },
         { text: '规则', value: 'rule', align: 'start' },
@@ -124,11 +123,6 @@
           !data.content.resources ||
           Object.keys(data.content.resources).map((k) => {
             return { ...data.content.resources[k], name: k };
-          });
-        this.units =
-          !data.content.units ||
-          Object.keys(data.content.units).map((k) => {
-            return { text: data.content.units[k], value: k };
           });
         this.onTypeSelectChange();
       },

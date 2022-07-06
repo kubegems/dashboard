@@ -1,22 +1,18 @@
 <template>
   <BaseFullScreenDialog v-model="visible" icon="mdi-camera" title="查看快照" @dispose="handleDispose">
+    <template #action>
+      <ProjectEnvSelectCascade
+        :key="selectKey"
+        v-model="env"
+        first
+        reverse
+        reverse-color
+        :small="false"
+        :tenant="tenant"
+      />
+    </template>
     <template #content>
-      <v-card flat>
-        <v-card-text class="pl-4 py-1">
-          <v-row class="my-1 pa-1">
-            <v-col class="pa-1 pl-2" cols="12">
-              <ClusterSelect
-                v-model="cluster"
-                auto-select-first
-                mode="default"
-                object-value
-                @change="onClusterChange"
-              />
-            </v-col>
-          </v-row>
-        </v-card-text>
-      </v-card>
-      <v-card class="mt-3">
+      <v-card class="mt-3" flat>
         <v-data-table
           class="px-4"
           disable-sort
@@ -79,16 +75,17 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
+  import { mapGetters, mapState } from 'vuex';
 
-  import { getLogQuerySnapshotList, deleteLogQuerySnapshot } from '@/api';
+  import { deleteLogQuerySnapshot, getLogQuerySnapshotList } from '@/api';
   import BaseSelect from '@/mixins/select';
-  import ClusterSelect from '@/views/observe/components/ClusterSelect';
+  import { randomString } from '@/utils/helpers';
+  import ProjectEnvSelectCascade from '@/views/observe/components/ProjectEnvSelectCascade';
 
   export default {
     name: 'LogSnapshot',
     components: {
-      ClusterSelect,
+      ProjectEnvSelectCascade,
     },
     mixins: [BaseSelect],
     data: () => ({
@@ -108,10 +105,26 @@
         page: 1,
         size: 10,
       },
-      cluster: {},
+      clusterid: undefined,
+      tenant: null,
+      env: undefined,
+      selectKey: '',
     }),
     computed: {
       ...mapState(['Progress', 'JWT']),
+      ...mapGetters(['Tenant']),
+    },
+    watch: {
+      env: {
+        handler(newValue) {
+          if (newValue) {
+            this.clusterid = newValue.clusterid;
+            this.logQuerySnapshotList();
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
     },
     async mounted() {
       if (this.JWT) {
@@ -121,10 +134,11 @@
     methods: {
       show() {
         this.visible = true;
-        this.m_select_environmentSelectData();
+        this.tenant = this.Tenant();
+        this.selectKey = `snapshot-${randomString(4)}`;
       },
       async logQuerySnapshotList() {
-        const data = await getLogQuerySnapshotList(this.cluster.value, this.params);
+        const data = await getLogQuerySnapshotList(this.clusterid, this.params);
         this.items = data.List;
         this.pageCount = Math.ceil(data.Total / data.CurrentSize);
       },
@@ -166,9 +180,6 @@
         });
       },
       refresh() {
-        this.logQuerySnapshotList();
-      },
-      onClusterChange() {
         this.logQuerySnapshotList();
       },
       onPageSizeChange(size) {

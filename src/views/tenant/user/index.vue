@@ -144,7 +144,7 @@
   import AddUser from './components/AddUser';
   import ResetPassword from './components/ResetPassword';
   import UpdateRole from './components/UpdateRole';
-  import { getUserList, deleteUser } from '@/api';
+  import { deleteUser, getUserList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BaseResource from '@/mixins/resource';
   import BaseTable from '@/mixins/table';

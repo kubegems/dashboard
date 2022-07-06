@@ -1,5 +1,5 @@
 <template>
-  <BaseFullScreenDialog v-model="dialog" :is-appstore="true" :title="title" @dispose="dispose">
+  <BaseFullScreenDialog v-model="dialog" kubegems-logo :title="title" @dispose="dispose">
     <template #content>
       <v-flex :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
         <v-row class="mt-0 ma-0">

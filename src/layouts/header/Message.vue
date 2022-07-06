@@ -123,7 +123,7 @@
   import { mapGetters, mapState } from 'vuex';
 
   import ApproveResource from './components/ApproveResource';
-  import { getMessageList, getLoginUserAuth, putReadMessage, getApproveList } from '@/api';
+  import { getApproveList, getLoginUserAuth, getMessageList, putReadMessage } from '@/api';
   import BaseSelect from '@/mixins/select';
 
   export default {
@@ -229,6 +229,10 @@
               }
             }
           } else if (message.MessageType === 'approve') {
+            this.$store.commit('SET_SNACKBAR', {
+              text: `${message.Content.Detail}`,
+              color: 'success',
+            });
             this.approveList();
           } else if (message.MessageType === 'alert') {
             this.$store.commit('SET_SNACKBAR', {

@@ -15,7 +15,7 @@
         </v-btn>
       </template>
       <v-card>
-        <v-card-text class="pa-2">
+        <v-card-text class="pa-2 text-caption">
           {{ item.status ? item.text : item.notext }}
         </v-card-text>
       </v-card>
@@ -69,7 +69,7 @@
     },
     methods: {
       setColor(status) {
-        return status ? 'success' : '';
+        return status ? 'primary' : '';
       },
     },
   };

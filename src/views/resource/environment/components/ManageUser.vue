@@ -83,7 +83,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import { getEnvironmentUserList, deleteEnvironmentUser, postAddEnvironmentUser, getProjectUserList } from '@/api';
+  import { deleteEnvironmentUser, getEnvironmentUserList, getProjectUserList, postAddEnvironmentUser } from '@/api';
   import BaseSelect from '@/mixins/select';
 
   export default {

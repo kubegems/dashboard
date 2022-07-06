@@ -24,7 +24,7 @@
 
   import OauthBaseForm from './auth_source/OauthBaseForm';
   import OpenLdapBaseForm from './auth_source/OpenLdapBaseForm';
-  import { putAuthSourceConfig, postAuthSourceConfig } from '@/api';
+  import { postAuthSourceConfig, putAuthSourceConfig } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';

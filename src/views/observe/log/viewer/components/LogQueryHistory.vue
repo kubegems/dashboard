@@ -1,11 +1,18 @@
 <template>
   <BaseFullScreenDialog v-model="visible" icon="mdi-history" title="查询历史" @dispose="handleDispose">
+    <template #action>
+      <ProjectEnvSelectCascade
+        :key="selectKey"
+        v-model="environment"
+        first
+        reverse
+        reverse-color
+        :small="false"
+        :tenant="tenant"
+      />
+    </template>
     <template #content>
       <v-card v-if="visible" class="log-history">
-        <div class="pa-4">
-          <ClusterSelect v-model="cluster" auto-select-first object-value @change="onClusterChange" />
-        </div>
-
         <v-data-table
           class="px-4"
           :headers="headers"
@@ -57,14 +64,17 @@
 </template>
 
 <script>
-  import { getLogQueryHistoryList, deleteLogQueryHistory } from '@/api';
+  import { mapGetters } from 'vuex';
+
+  import { deleteLogQueryHistory, getLogQueryHistoryList } from '@/api';
   import BaseSelect from '@/mixins/select';
-  import ClusterSelect from '@/views/observe/components/ClusterSelect';
+  import { randomString } from '@/utils/helpers';
+  import ProjectEnvSelectCascade from '@/views/observe/components/ProjectEnvSelectCascade';
 
   export default {
     name: 'LogHistory',
     components: {
-      ClusterSelect,
+      ProjectEnvSelectCascade,
     },
     mixins: [BaseSelect],
     inject: ['reload'],
@@ -81,12 +91,16 @@
 
       return {
         visible: false,
-        cluster: {},
+        clusterid: undefined,
         items: [],
         namespace: '',
+        tenant: null,
+        environment: undefined,
+        selectKey: '',
       };
     },
     computed: {
+      ...mapGetters(['Tenant']),
       env() {
         const env = this.m_select_environmentItems.find((e) => {
           return e.value === this.namespace;
@@ -94,14 +108,28 @@
         return env;
       },
     },
+    watch: {
+      environment: {
+        handler(newValue) {
+          if (newValue) {
+            this.clusterid = newValue.clusterid;
+            this.getHistoryList();
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
+    },
     methods: {
       show() {
         this.visible = true;
         this.m_select_environmentSelectData();
+        this.tenant = this.Tenant();
+        this.selectKey = `history-${randomString(4)}`;
       },
 
       async getHistoryList() {
-        const data = await getLogQueryHistoryList(this.cluster.value);
+        const data = await getLogQueryHistoryList(this.clusterid);
         this.items = (data || []).map((item) => {
           return {
             ...item,
@@ -110,11 +138,6 @@
           };
         });
       },
-
-      onClusterChange() {
-        this.getHistoryList();
-      },
-
       handleParseLabel(input) {
         const labelMatchArr = input.match(new RegExp('{(.*)}'));
         if (labelMatchArr && labelMatchArr.length > 1) {

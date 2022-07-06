@@ -1,4 +1,5 @@
 import { Icon } from '@iconify/vue2';
+import hljs from 'highlight.js';
 import yaml from 'js-yaml';
 import _ from 'lodash';
 import moment from 'moment';
@@ -13,8 +14,10 @@ import './plugins/base';
 import c from '@/plugins/const';
 import t from '@/plugins/tip';
 import store from '@/store';
+
 import 'github-markdown-css/github-markdown.css';
 import './assets/styles/index.scss';
+import 'highlight.js/styles/atom-one-dark.css';
 
 Vue.component('Icon', Icon);
 Vue.component('ACEEditor', ACEEditor);
@@ -65,6 +68,10 @@ Vue.prototype.$aceinit = () => {
   require('brace/mode/xml');
   require('brace/mode/ini');
   require('brace/mode/html');
+  require('brace/mode/java');
+  require('brace/mode/python');
+  require('brace/mode/golang');
+  require('brace/mode/c_cpp');
   require('brace/mode/plain_text');
   require('brace/snippets/json');
 };
@@ -75,6 +82,13 @@ Vue.use(VuePageTitle, {
 });
 Vue.use(c);
 Vue.use(t);
+
+Vue.directive('highlight', function (el) {
+  let blocks = el.querySelectorAll('pre code');
+  blocks.forEach((block) => {
+    hljs.highlightElement(block);
+  });
+});
 
 const timeout = window.setTimeout(() => {
   // eslint-disable-next-line vue/require-name-property

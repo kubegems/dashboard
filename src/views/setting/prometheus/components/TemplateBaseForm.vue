@@ -51,13 +51,12 @@
           </v-col>
           <v-col cols="12">
             <v-autocomplete
-              v-model="obj.units"
+              v-model="obj.unit"
               class="my-0"
               color="primary"
               hide-selected
-              :items="units"
+              :items="m_metrics_unitItems"
               label="单位"
-              multiple
               no-data-text="暂无可选数据"
               :rules="objRules.unitRule"
             >
@@ -66,7 +65,6 @@
                   <span>
                     {{ item['text'] }}
                   </span>
-                  <v-icon small @click="removeUnit(item)"> mdi-close </v-icon>
                 </v-chip>
               </template>
             </v-autocomplete>
@@ -80,9 +78,11 @@
 <script>
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
+  import Metrics from '@/views/observe/monitor/mixins/metrics';
 
   export default {
     name: 'TemplateBaseForm',
+    mixins: [Metrics],
     props: {
       edit: {
         type: Boolean,
@@ -91,10 +91,6 @@
       item: {
         type: Object,
         default: () => null,
-      },
-      units: {
-        type: Array,
-        default: () => [],
       },
     },
     data: () => ({
@@ -107,7 +103,7 @@
         showName: '',
         expr: '',
         labels: [],
-        units: [],
+        unit: [],
       },
     }),
     computed: {
@@ -155,11 +151,6 @@
           return label.value !== item.value;
         });
         this.labels = labels;
-      },
-      removeUnit(item) {
-        const val = item.value;
-        const index = this.obj.units.indexOf(val);
-        this.obj.units.splice(index, 1);
       },
       reset() {
         this.$refs.form.reset();

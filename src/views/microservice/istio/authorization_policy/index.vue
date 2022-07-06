@@ -124,7 +124,7 @@
 
   import AddAuthorizationPolicy from './components/AddAuthorizationPolicy';
   import UpdateAuthorizationPolicy from './components/UpdateAuthorizationPolicy';
-  import { getIstioAuthorizationPolicyList, deleteIstioAuthorizationPolicy } from '@/api';
+  import { deleteIstioAuthorizationPolicy, getIstioAuthorizationPolicyList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -207,8 +207,8 @@
     methods: {
       async istioAuthorizationPolicyList(noprocess = false) {
         const data = await getIstioAuthorizationPolicyList(
-          this.EnvironmentFilter.cluster,
-          this.EnvironmentFilter.namespace,
+          this.EnvironmentFilter?.cluster || this.$route.query?.cluster,
+          this.EnvironmentFilter?.namespace || this.$route.query?.namespace,
           Object.assign(this.params, {
             noprocessing: noprocess,
             sort: this.m_table_generateResourceSortParamValue(),

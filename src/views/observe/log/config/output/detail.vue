@@ -59,7 +59,7 @@
 
   import ResourceInfo from './components/ResourceInfo';
   import UpdateOutput from './components/UpdateOutput';
-  import { getOutputDetailData, getClusterOutputDetailData, deleteClusterOutputData, deleteOutputData } from '@/api';
+  import { deleteClusterOutputData, deleteOutputData, getClusterOutputDetailData, getOutputDetailData } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
   import ResourceYaml from '@/views/resource/components/common/ResourceYaml';

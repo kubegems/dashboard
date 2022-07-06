@@ -1,5 +1,5 @@
 <template>
-  <div :style="{ height: `${height}px`, overflowY: 'auto' }">
+  <div class="pa-3 white rounded mt-3" :style="{ height: `${height}px`, overflowY: 'auto' }">
     <Markdown :content="item.files['README.md'] || ''" />
   </div>
 </template>
@@ -23,7 +23,7 @@
     computed: {
       ...mapState(['Scale']),
       height() {
-        return parseInt((window.innerHeight - 224) / this.Scale);
+        return parseInt((window.innerHeight - 214) / this.Scale);
       },
     },
   };

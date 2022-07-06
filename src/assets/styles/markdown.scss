@@ -50,3 +50,21 @@
     --color-danger-fg: #cf222e;
   }
 }
+
+.theme--light.v-application code[parentname='pre'] {
+  background-color: rgba(0, 0, 0, 0) !important;
+}
+
+.markdown-body pre,
+.markdown-body .highlight pre {
+  border-radius: 8px !important;
+}
+
+.markdown-body table {
+  display: table !important;
+  width: 100%;
+}
+
+tbody[parentname='table'] {
+  text-align: center !important;
+}

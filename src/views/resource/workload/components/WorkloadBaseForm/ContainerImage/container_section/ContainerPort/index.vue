@@ -54,7 +54,7 @@
 <script>
   import Port from './Port';
   import { deepCopy } from '@/utils/helpers';
-  import { required, port } from '@/utils/rules';
+  import { port, required } from '@/utils/rules';
 
   export default {
     name: 'ContainerPort',

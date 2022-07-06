@@ -35,7 +35,7 @@
   import { mapGetters, mapState } from 'vuex';
 
   import PrometheusRuleBaseForm from './PrometheusRuleBaseForm';
-  import { postAddPrometheusRule, postAddLogAlertRule } from '@/api';
+  import { postAddLogAlertRule, postAddPrometheusRule } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 
@@ -70,7 +70,6 @@
         this.dialog = true;
       },
       // 增加初始值
-      // eslint-disable-next-line vue/no-unused-properties
       init(initData) {
         this.$nextTick(() => {
           this.$refs[this.formComponent].setData(initData);

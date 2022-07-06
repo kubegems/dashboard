@@ -81,12 +81,12 @@
     getStatefulSetDetail,
     patchUpdateDaemonSet,
     patchUpdateDeployment,
-    patchUpdateStatefulSet,
     patchUpdateDeploymentArgo,
+    patchUpdateStatefulSet,
   } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
-  import { deepCopy, sizeOfCpu, sizeOfStorage, beautifyCpuUnit, beautifyStorageUnit } from '@/utils/helpers';
+  import { beautifyCpuUnit, beautifyStorageUnit, deepCopy, sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
 
   import 'vue-slider-component/theme/default.css';
 

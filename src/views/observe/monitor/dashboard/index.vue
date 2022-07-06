@@ -3,7 +3,8 @@
     <BaseBreadcrumb class="dash__header">
       <template #extend>
         <v-flex class="kubegems__full-right">
-          <ProjectEnvSelect show-pod :tenant="tenant" @filterPod="filterPod" @refreshEnvironemnt="refreshEnvironemnt" />
+          <ContainerSelect :env="env" @filterPod="filterPod" />
+          <ProjectEnvSelectCascade v-model="env" first reverse :tenant="tenant" />
 
           <BaseDatetimePicker v-model="date" :default-value="30" :offset-y="1" @change="onDatetimeChange(undefined)" />
           <v-menu
@@ -47,64 +48,68 @@
       </template>
     </BaseBreadcrumb>
 
-    <v-card flat>
-      <v-card-text class="pa-0 py-1">
-        <v-tabs v-model="tab" class="rounded-t pl-4 py-2" height="35" @change="onTabChange">
-          <v-tab v-for="item in items" :key="item.id">
-            {{ item.name }}
-          </v-tab>
-        </v-tabs>
-      </v-card-text>
-    </v-card>
+    <template v-if="items.length > 0">
+      <v-card flat>
+        <v-card-text class="pa-0 py-1">
+          <v-tabs v-model="tab" class="rounded-t pl-4 py-2" height="35" @change="onTabChange">
+            <v-tab v-for="item in items" :key="item.id">
+              {{ item.name }}
+            </v-tab>
+          </v-tabs>
+        </v-card-text>
+      </v-card>
 
-    <v-row v-if="items.length > 0" class="mt-3">
-      <v-col v-for="(graph, index) in items[tab].graphs" :key="index" class="dash__col pt-0" :cols="4">
-        <v-card class="kubegems__full-height" height="330">
-          <v-card-text class="pa-1 kubegems__full-height">
-            <div class="dash__btn">
-              <v-btn icon small @click.stop="openGraphInMaxScreen(graph)">
-                <v-icon color="primary" small> mdi-magnify-plus </v-icon>
-              </v-btn>
-              <v-btn icon small @click.stop="updateGraph(graph, index)">
-                <v-icon color="primary" small> mdi-pencil </v-icon>
-              </v-btn>
-              <v-btn icon small @click.stop="removeGraph(graph, index)">
-                <v-icon color="error" small> mdi-minus-box </v-icon>
-              </v-btn>
-            </div>
-            <BaseApexAreaChart
-              :id="`c${index}`"
-              chart-type="line"
-              :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-              :extend-height="300"
-              label="pod"
-              :label-show="false"
-              :metrics="metrics[`c${index}`]"
-              :no-data-offset-y="-22"
-              :title="graph.name"
-              type=""
-              :unit="graph.promqlGenerator ? getUnit(graph.promqlGenerator.unit) : getUnit(graph.unit)"
-            />
-          </v-card-text>
-        </v-card>
-      </v-col>
-      <v-col class="pt-0" cols="4">
-        <v-card class="kubegems__full-height" min-height="330">
-          <v-card-text class="pa-0 kubegems__full-height">
-            <v-list-item class="kubegems__full-height" three-line>
-              <v-list-item-content>
-                <v-btn block class="text-h6" color="primary" text @click="addGraph">
-                  <v-icon left>mdi-plus-box</v-icon>
-                  添加图表
+      <v-row class="mt-3 mb-1 pb-0">
+        <v-col v-for="(graph, index) in items[tab].graphs" :key="index" class="dash__col pt-0" :cols="4">
+          <v-card class="kubegems__full-height" height="330">
+            <v-card-text class="pa-1 kubegems__full-height">
+              <div class="dash__btn">
+                <v-btn icon small @click.stop="openGraphInMaxScreen(graph)">
+                  <v-icon color="primary" small> mdi-magnify-plus </v-icon>
                 </v-btn>
-              </v-list-item-content>
-            </v-list-item>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
+                <v-btn icon small @click.stop="updateGraph(graph, index)">
+                  <v-icon color="primary" small> mdi-pencil </v-icon>
+                </v-btn>
+                <v-btn icon small @click.stop="removeGraph(graph, index)">
+                  <v-icon color="error" small> mdi-minus-box </v-icon>
+                </v-btn>
+              </div>
+              <BaseApexAreaChart
+                :id="`c${index}`"
+                :key="`c${index}${tab}`"
+                chart-type="line"
+                :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
+                colorful
+                :extend-height="300"
+                label="all"
+                :label-show="false"
+                :metrics="metrics[`c${index}`]"
+                :no-data-offset-y="-18"
+                :title="graph.name"
+                type=""
+                :unit="graph.promqlGenerator ? getUnit(graph.promqlGenerator.unit) : getUnit(graph.unit)"
+              />
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col class="pt-0" cols="4">
+          <v-card class="kubegems__full-height" min-height="330">
+            <v-card-text class="pa-0 kubegems__full-height">
+              <v-list-item class="kubegems__full-height" three-line>
+                <v-list-item-content>
+                  <v-btn block class="text-h6" color="primary" text @click="addGraph">
+                    <v-icon left>mdi-plus-box</v-icon>
+                    添加图表
+                  </v-btn>
+                </v-list-item-content>
+              </v-list-item>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </template>
 
-    <div v-else class="text-center dash__tip primary--text white">
+    <div v-else class="text-center dash__tip primary--text white rounded">
       <span class="kubegems__full-center">请先创建监控大盘</span>
     </div>
 
@@ -127,31 +132,33 @@
 </template>
 
 <script>
-  import { mapState, mapGetters } from 'vuex';
+  import { mapGetters, mapState } from 'vuex';
 
   import AddDashboard from './components/AddDashboard';
   import AddGraph from './components/AddGraph';
+  import ContainerSelect from './components/ContainerSelect';
   import GraphMax from './components/GraphMax';
   import UpdateDashboard from './components/UpdateDashboard';
   import UpdateGraph from './components/UpdateGraph';
   import {
-    getMonitorDashboardList,
-    getMetricsQueryrange,
     deleteMonitorDashboard,
-    putUpdateMonitorDashboard,
-    getSystemConfigData,
+    getMetricsQueryrange,
+    getMonitorDashboardList,
     getMyConfigData,
+    getSystemConfigData,
+    putUpdateMonitorDashboard,
   } from '@/api';
   import BasePermission from '@/mixins/permission';
-  import ProjectEnvSelect from '@/views/observe/components/ProjectEnvSelect';
+  import ProjectEnvSelectCascade from '@/views/observe/components/ProjectEnvSelectCascade';
 
   export default {
     name: 'MonitorDashboard',
     components: {
       AddDashboard,
       AddGraph,
+      ContainerSelect,
       GraphMax,
-      ProjectEnvSelect,
+      ProjectEnvSelectCascade,
       UpdateDashboard,
       UpdateGraph,
     },
@@ -171,11 +178,36 @@
           end: null,
         },
         missingPlugins: [],
+        env: undefined,
       };
     },
     computed: {
       ...mapState(['AdminViewport', 'Scale']),
       ...mapGetters(['Tenant']),
+    },
+    watch: {
+      env: {
+        handler: async function (newValue) {
+          if (newValue) {
+            this.environment = newValue;
+            this.missingPlugins = await this.m_permission_plugin_pass(
+              newValue.clusterName,
+              this.$route.meta?.dependencies || [],
+            );
+            if (this.missingPlugins?.length === 0) {
+              this.dashboardList();
+            } else {
+              this.$store.commit('SET_SNACKBAR', {
+                text: `该环境所在集群还未启用 ${this.missingPlugins.join(', ')} 插件！`,
+                color: 'warning',
+              });
+              return;
+            }
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
     },
     mounted() {
       this.$nextTick(() => {
@@ -236,6 +268,14 @@
           : this.environment.namespace;
         return namespace;
       },
+      avg(arr = []) {
+        if (arr?.length === 0) return 0;
+        let sum = 0;
+        arr.map((a) => {
+          sum += a;
+        });
+        return sum / arr.length;
+      },
       async getMetrics(item, index, pod = null) {
         const params = item.promqlGenerator
           ? item.promqlGenerator
@@ -253,23 +293,20 @@
             return d.metric?.pod === pod;
           });
         }
-        this.$set(this.metrics, `c${index}`, data);
-      },
-      async refreshEnvironemnt(env) {
-        this.environment = env;
-        this.missingPlugins = await this.m_permission_plugin_pass(
-          this.environment.clusterName,
-          this.$route.meta?.dependencies || [],
+        data = data.sort(
+          (a, b) =>
+            this.avg(
+              b.values.map((d) => {
+                return parseFloat(d[1]);
+              }),
+            ) -
+            this.avg(
+              a.values.map((d) => {
+                return parseFloat(d[1]);
+              }),
+            ),
         );
-        if (this.missingPlugins?.length === 0) {
-          this.dashboardList();
-        } else {
-          this.$store.commit('SET_SNACKBAR', {
-            text: `该环境所在集群还未启用 ${this.missingPlugins.join(', ')} 插件！`,
-            color: 'warning',
-          });
-          return;
-        }
+        this.$set(this.metrics, `c${index}`, data);
       },
       async filterPod(pod) {
         this.dashboardList(pod.podName);

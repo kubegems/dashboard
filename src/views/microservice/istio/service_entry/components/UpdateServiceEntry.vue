@@ -14,7 +14,7 @@
 <script>
   import { mapState } from 'vuex';
 
-  import { patchUpdateIstioServiceEntry, getIstioServiceEntryDetail } from '@/api';
+  import { getIstioServiceEntryDetail, patchUpdateIstioServiceEntry } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
   import IstioServiceEntrySchema from '@/views/microservice/istio/service_entry/mixins/schema';

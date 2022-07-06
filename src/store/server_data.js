@@ -1,10 +1,10 @@
 import {
-  virtualSpaceSelectData,
   clusterSelectData,
+  projectEnvironmentSelectData,
+  tenantProjectSelectData,
   tenantSelectData,
   userTenantSelectData,
-  tenantProjectSelectData,
-  projectEnvironmentSelectData,
+  virtualSpaceSelectData,
 } from '@/api';
 
 export async function getVirtualSpaceSelectData() {

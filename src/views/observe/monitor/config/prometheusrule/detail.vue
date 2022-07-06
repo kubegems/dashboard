@@ -66,7 +66,7 @@
   import AlertList from './components/AlertList';
   import UpdatePrometheusRule from './components/UpdatePrometheusRule';
   import BaseAlert from './mixins/alert';
-  import { getPrometheusRuleDetail, deletePrometheusRule, getPrometheusAlertHistory } from '@/api';
+  import { deletePrometheusRule, getPrometheusAlertHistory, getPrometheusRuleDetail } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
 
@@ -135,8 +135,8 @@
           },
           param: { item },
           doFunc: async (param) => {
-            await deletePrometheusRule(this.$route.query.envid, {
-              name: param.item.name,
+            await deletePrometheusRule(this.$route.query.cluster, param.item.namespace, param.item.name, {
+              source: param.item.source,
             });
             this.$router.push({
               name: 'observe-monitor-config',

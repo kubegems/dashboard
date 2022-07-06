@@ -183,7 +183,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import { getEnvironmentAppImageList, getAppImageTags, postDeployEnvironmentAppImages } from '@/api';
+  import { getAppImageTags, getEnvironmentAppImageList, postDeployEnvironmentAppImages } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
 

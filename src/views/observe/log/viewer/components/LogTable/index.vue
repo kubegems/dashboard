@@ -129,6 +129,7 @@
       },
       showPodMonitor(item) {
         this.$refs.logPodMonitor.init({
+          timestamp: item.timestamp,
           cluster: item.stream?.cluster,
           namespace: item.stream?.namespace,
           pod: item.stream?.pod,

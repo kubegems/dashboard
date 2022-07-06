@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-gateway" title="创建网关实例" :width="500" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-gate" title="创建网关实例" :width="500" @reset="reset">
     <template #content>
       <component :is="formComponent" :ref="formComponent" />
     </template>

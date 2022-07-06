@@ -26,86 +26,104 @@
       <v-card-title class="py-4">
         <BaseFilter :default="{ items: [], text: '消息', value: 'message' }" :filters="filters" @refresh="filterList" />
       </v-card-title>
-      <v-data-table
-        class="mx-4 kubegems__table-row-pointer"
-        disable-sort
-        :headers="headers"
-        hide-default-footer
-        item-key="index"
-        :items="items"
-        :items-per-page="itemsPerPage"
-        no-data-text="暂无数据"
-        :page.sync="page"
-        show-expand
-        single-expand
-        @click:row="onRowClick"
-        @page-count="pageCount = $event"
-      >
-        <template #[`item.reason`]="{ item }">
-          {{ item.stream.reason }}
-        </template>
-        <template #[`item.type`]="{ item }">
-          <v-chip
-            class="font-weight-medium chip-width"
-            :color="item.stream.type === 'Normal' ? 'success' : 'warning'"
-            small
-          >
-            <span>{{ item.stream.type }}</span>
-          </v-chip>
-        </template>
-        <template #[`item.count`]="{ item }">
-          {{ item.stream.count }}
-        </template>
-        <template #[`item.namespace`]="{ item }">
-          {{ item.stream.metadata_namespace ? item.stream.metadata_namespace : '' }}
-        </template>
-        <template #[`item.name`]="{ item }">
-          {{ item.stream.metadata_name ? item.stream.metadata_name : '' }}
-        </template>
-        <template #[`item.component`]="{ item }">
-          {{ item.stream.source_component ? item.stream.source_component : '' }}
-        </template>
-        <template #[`item.host`]="{ item }">
-          {{ item.stream.source_host ? item.stream.source_host : '' }}
-        </template>
-        <template #[`item.firstAt`]="{ item }">
-          {{
-            item.stream.firstTimestamp
-              ? $moment(item.stream.firstTimestamp).format('lll')
-              : item.stream.metadata_creationTimestamp
-              ? $moment(item.stream.metadata_creationTimestamp).format('lll')
-              : ''
-          }}
-        </template>
-        <template #[`item.lastAt`]="{ item }">
-          {{
-            item.stream.lastTimestamp
-              ? $moment(item.stream.lastTimestamp).format('lll')
-              : item.stream.metadata_creationTimestamp
-              ? $moment(item.stream.metadata_creationTimestamp).format('lll')
-              : ''
-          }}
-        </template>
-        <template #[`item.message`]="{ item }">
-          {{ item.stream.message.length > 100 ? item.stream.message.substr(0, 100) + '......' : item.stream.message }}
-        </template>
-        <template #expanded-item="{ headers, item }">
-          <td class="text-left" :colspan="headers.length">
-            <pre class="kubegems__word-all-break">{{ item.stream.message }}</pre>
-          </td>
-        </template>
-      </v-data-table>
+      <template v-if="pluginPass.length === 0">
+        <v-data-table
+          class="mx-4 kubegems__table-row-pointer"
+          disable-sort
+          :headers="headers"
+          hide-default-footer
+          item-key="index"
+          :items="items"
+          :items-per-page="itemsPerPage"
+          no-data-text="暂无数据"
+          :page.sync="page"
+          show-expand
+          single-expand
+          @click:row="onRowClick"
+          @page-count="pageCount = $event"
+        >
+          <template #[`item.reason`]="{ item }">
+            {{ item.stream.reason }}
+          </template>
+          <template #[`item.type`]="{ item }">
+            <v-chip
+              class="font-weight-medium chip-width"
+              :color="item.stream.type === 'Normal' ? 'success' : 'warning'"
+              small
+            >
+              <span>{{ item.stream.type }}</span>
+            </v-chip>
+          </template>
+          <template #[`item.count`]="{ item }">
+            {{ item.stream.count }}
+          </template>
+          <template #[`item.namespace`]="{ item }">
+            {{ item.stream.metadata_namespace ? item.stream.metadata_namespace : '' }}
+          </template>
+          <template #[`item.name`]="{ item }">
+            {{ item.stream.metadata_name ? item.stream.metadata_name : '' }}
+          </template>
+          <template #[`item.component`]="{ item }">
+            {{ item.stream.source_component ? item.stream.source_component : '' }}
+          </template>
+          <template #[`item.host`]="{ item }">
+            {{ item.stream.source_host ? item.stream.source_host : '' }}
+          </template>
+          <template #[`item.firstAt`]="{ item }">
+            {{
+              item.stream.firstTimestamp
+                ? $moment(item.stream.firstTimestamp).format('lll')
+                : item.stream.metadata_creationTimestamp
+                ? $moment(item.stream.metadata_creationTimestamp).format('lll')
+                : ''
+            }}
+          </template>
+          <template #[`item.lastAt`]="{ item }">
+            {{
+              item.stream.lastTimestamp
+                ? $moment(item.stream.lastTimestamp).format('lll')
+                : item.stream.metadata_creationTimestamp
+                ? $moment(item.stream.metadata_creationTimestamp).format('lll')
+                : ''
+            }}
+          </template>
+          <template #[`item.message`]="{ item }">
+            {{ item.stream.message.length > 100 ? item.stream.message.substr(0, 100) + '......' : item.stream.message }}
+          </template>
+          <template #expanded-item="{ headers, item }">
+            <td class="text-left" :colspan="headers.length">
+              <pre class="kubegems__word-all-break">{{ item.stream.message }}</pre>
+            </td>
+          </template>
+        </v-data-table>
 
-      <BasePagination
-        v-if="pageCount >= 1"
-        v-model="page"
-        :front-page="true"
-        :page-count="pageCount"
-        :size="itemsPerPage"
-        @changepage="onPageIndexChange"
-        @changesize="onPageSizeChange"
-        @loaddata="onDatetimeChange"
-      />
+        <BasePagination
+          v-if="pageCount >= 1"
+          v-model="page"
+          :front-page="true"
+          :page-count="pageCount"
+          :size="itemsPerPage"
+          @changepage="onPageIndexChange"
+          @changesize="onPageSizeChange"
+          @loaddata="onDatetimeChange"
+        />
+      </template>
+      <v-card v-else class="mx-3" flat :height="`300px`">
+        <v-row :style="{ height: `300px` }">
+          <v-col class="d-flex align-center justify-center">
+            <div class="d-flex align-center pa-10">
+              <div class="text-center">
+                <h2 class="text-h5 primary--text font-weight-medium">
+                  该集群暂时还未启用 {{ pluginPass.join(', ') }} 插件！
+                </h2>
+                <h6 class="text-subtitle-1 mt-4 primary--text op-5 font-weight-regular">
+                  您可以联系平台管理员启用该插件
+                </h6>
+              </div>
+            </div>
+          </v-col>
+        </v-row>
+      </v-card>
     </v-card>
     <!-- </v-card> -->
   </v-container>
@@ -114,7 +132,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import { getEventListFromLoki } from '@/api';
+  import { getClusterPluginsList, getEventListFromLoki } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BaseSelect from '@/mixins/select';
   import { convertStrToNum } from '@/utils/helpers';
@@ -220,6 +238,7 @@
           ],
         },
       ],
+      pluginPass: [],
     }),
     computed: {
       ...mapState(['JWT', 'Admin', 'Scale', 'AdminViewport']),
@@ -232,6 +251,21 @@
       });
     },
     methods: {
+      async loadPluginPass() {
+        const data = await getClusterPluginsList(this.params.clustername, {
+          simple: true,
+          noprocessing: true,
+        });
+        const dependencies = this.$route.meta.dependencies || [];
+        dependencies.forEach((d) => {
+          if (!data[d]) {
+            this.pluginPass.push(d);
+          }
+        });
+        if (this.pluginPass.length === 0) {
+          this.eventList();
+        }
+      },
       getTenantIDByName(name) {
         if (this.m_select_tenantItems.length > 0) {
           const tenant = this.m_select_tenantItems.find((tenantObj) => {
@@ -283,7 +317,7 @@
         this.params.start = Date.parse(this.$moment(this.date[0]).utc().format());
         this.params.end = Date.parse(this.$moment(this.date[1]).utc().format());
         this.$router.replace({ query: { ...this.$route.query, ...this.params } });
-        this.eventList();
+        this.loadPluginPass();
       },
       filterList(params) {
         const defaultparams = {
@@ -314,7 +348,7 @@
           this.$set(this.params, 'tenant', null);
         }
         this.$router.replace({ query: { ...this.$route.query, ...this.params } });
-        this.eventList();
+        this.loadPluginPass();
       },
       refresh() {
         this.$refs.datetimePicker.refresh();

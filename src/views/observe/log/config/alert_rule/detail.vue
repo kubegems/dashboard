@@ -62,7 +62,7 @@
 <script>
   import { mapState } from 'vuex';
 
-  import { getLogAlertRuleDetail, deleteLogAlertRule, getPrometheusAlertHistory } from '@/api';
+  import { deleteLogAlertRule, getLogAlertRuleDetail, getPrometheusAlertHistory } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import AlertBarChart from '@/views/observe/monitor/config/prometheusrule/components//AlertBarChart';
@@ -135,9 +135,7 @@
           },
           param: { item },
           doFunc: async (param) => {
-            await deleteLogAlertRule(this.$route.query.envid, {
-              name: param.item.name,
-            });
+            await deleteLogAlertRule(this.$route.query.cluster, param.item.namespace, param.item.name);
             this.$router.push({
               name: 'log-config',
               params: this.$route.params,

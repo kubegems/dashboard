@@ -3,7 +3,12 @@
     <template #content>
       <v-card flat>
         <v-card-text class="pa-0">
-          <BaseSubTitle title="虚拟空间成员角色" />
+          <BaseSubTitle title="虚拟空间成员角色">
+            <template #tips>
+              <v-icon class="breadcrumb__bg mr-1" right small> fas fa-question-circle </v-icon>
+              <span class="text-caption orange--text">虚拟空间用户继承于环境成员</span>
+            </template>
+          </BaseSubTitle>
           <v-tabs v-model="tab" class="pa-2" height="60px" vertical @change="onTabChange">
             <v-tab v-for="item in tabItems" :key="item.value">
               {{ item.text }}
@@ -91,10 +96,10 @@
   import { mapGetters, mapState } from 'vuex';
 
   import {
-    getVirtualSpaceUserList,
     deleteVirtualSpaceUser,
-    postAddVirtualSpaceUser,
     getVirtualSpaceEnvironmentUser,
+    getVirtualSpaceUserList,
+    postAddVirtualSpaceUser,
   } from '@/api';
   import BaseSelect from '@/mixins/select';
 

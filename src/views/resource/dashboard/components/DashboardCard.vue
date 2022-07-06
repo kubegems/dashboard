@@ -108,7 +108,7 @@
 <style lang="scss" scoped>
   .dashboard__resource__div {
     max-height: 44px;
-    overflow: scroll;
+    overflow: hidden;
     background: none;
     border: none;
   }

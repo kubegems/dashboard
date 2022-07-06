@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-gateway" title="更新网关实例" :width="500" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-gate" title="更新网关实例" :width="500" @reset="reset">
     <template #content>
       <component :is="formComponent" :ref="formComponent" :edit="true" />
     </template>
@@ -15,7 +15,7 @@
   import { mapGetters, mapState } from 'vuex';
 
   import IstioGatewayBaseForm from './IstioGatewayBaseForm';
-  import { putUpdateIstioGatewayInstance, getIstioGatewayInstanceDetail } from '@/api';
+  import { getIstioGatewayInstanceDetail, putUpdateIstioGatewayInstance } from '@/api';
 
   export default {
     name: 'UpdateIstioGateway',
