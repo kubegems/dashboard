@@ -9,7 +9,7 @@
               <span>键值对</span>
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
-              <v-text-field v-model="obj.key" class="my-0" label="键" required :rules="objRules.keyRule" />
+              <v-text-field v-model.trim="obj.key" class="my-0" label="键" required :rules="objRules.keyRule" />
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-text-field v-model="obj.value" class="my-0" label="值" required :rules="objRules.valueRule" />

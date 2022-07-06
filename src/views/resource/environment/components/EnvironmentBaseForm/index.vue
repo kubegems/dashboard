@@ -13,7 +13,7 @@
         <v-row>
           <v-col cols="6">
             <v-text-field
-              v-model="obj.data.EnvironmentName"
+              v-model.trim="obj.data.EnvironmentName"
               class="my-0"
               label="名称"
               :readonly="edit"
@@ -64,7 +64,7 @@
           </v-col>
           <v-col cols="6">
             <v-text-field
-              v-model="obj.data.Namespace"
+              v-model.trim="obj.data.Namespace"
               class="my-0"
               label="命名空间"
               :readonly="edit"

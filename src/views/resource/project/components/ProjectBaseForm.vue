@@ -6,7 +6,7 @@
         <v-row>
           <v-col cols="6">
             <v-text-field
-              v-model="obj.ProjectName"
+              v-model.trim="obj.ProjectName"
               class="my-0"
               label="名称"
               :readonly="edit"
