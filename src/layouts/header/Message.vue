@@ -229,6 +229,10 @@
               }
             }
           } else if (message.MessageType === 'approve') {
+            this.$store.commit('SET_SNACKBAR', {
+              text: `${message.Content.Detail}`,
+              color: 'success',
+            });
             this.approveList();
           } else if (message.MessageType === 'alert') {
             this.$store.commit('SET_SNACKBAR', {
