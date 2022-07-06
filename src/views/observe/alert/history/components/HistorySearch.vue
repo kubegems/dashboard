@@ -5,7 +5,16 @@
         查询<v-icon right>mdi-chevron-{{ expand ? 'up' : 'down' }}</v-icon>
       </v-btn>
 
-      <v-combobox v-model="search" dense flat hide-details solo @change="onEmitChange" @keydown.enter="onSearch">
+      <v-combobox
+        v-model="search"
+        dense
+        flat
+        hide-details
+        label="模糊搜索规则和标签(多个关键字请用空格分割)"
+        solo
+        @change="onEmitChange"
+        @keydown.enter="onSearch"
+      >
         <template #prepend-inner>
           <v-chip v-for="(value, key) in tagMap" v-show="tagMap[key]" :key="key" color="primary" label small>
             <span>{{ labels[key].text }}：{{ getItemText(key, value) }}</span>
