@@ -62,7 +62,7 @@
         </v-sheet>
       </v-col>
     </v-row>
-    <v-btn absolute bottom color="error" dark fab right style="right: 60px" x-small @click="close">
+    <v-btn absolute bottom color="error" dark fab right :style="{ right: `60px` }" x-small @click="close">
       <v-icon>mdi-close-box</v-icon>
     </v-btn>
     <v-btn absolute bottom color="primary" dark fab right x-small @click="addData">

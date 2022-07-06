@@ -116,8 +116,8 @@
 
     &__null {
       text-align: center;
-      height: 50px;
-      line-height: 50px;
+      height: 100px;
+      line-height: 100px;
     }
   }
 </style>

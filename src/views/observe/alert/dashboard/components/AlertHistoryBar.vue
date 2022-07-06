@@ -1,7 +1,7 @@
 <template>
   <v-card class="kubegems__h-24">
     <BaseSubTitle :divider="false" title="告警历史趋势" />
-    <div style="height: 100%; width: 100%">
+    <div :style="{ height: `100%`, width: `100%` }">
       <VueApexCharts
         :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
         height="290px"

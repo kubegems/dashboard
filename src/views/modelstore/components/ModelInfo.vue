@@ -7,7 +7,7 @@
           <h3 class="text-h6 font-weight-medium primary--text">
             {{ $route.params.name }}
           </h3>
-          <VersionSelect />
+          <VersionSelect v-if="!noVersion" />
         </div>
       </div>
       <v-divider />
@@ -67,6 +67,10 @@
       item: {
         type: Object,
         default: () => null,
+      },
+      noVersion: {
+        type: Boolean,
+        default: () => false,
       },
     },
     data() {

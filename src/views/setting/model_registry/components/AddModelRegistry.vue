@@ -1,7 +1,7 @@
 <template>
   <BaseDialog v-model="dialog" icon="mdi-cube" title="添加模型商店" :width="1000" @reset="reset">
     <template #content>
-      <component :is="formComponent" :ref="formComponent" :step="step" title="模型商店" />
+      <component :is="formComponent" :ref="formComponent" :step="step" title="模型商店" @changeStep="changeStep" />
     </template>
     <template #action>
       <v-btn
@@ -28,7 +28,7 @@
   import { mapState } from 'vuex';
 
   import ModelRegistryBaseForm from './ModelRegistryBaseForm';
-  import { postModelSource } from '@/api';
+  import { postModelSource, postModelStoreAdminList } from '@/api';
 
   export default {
     name: 'AddModelRegistry',
@@ -40,7 +40,7 @@
         dialog: false,
         formComponent: 'ModelRegistryBaseForm',
         step: 0,
-        totalStep: 2,
+        totalStep: 1,
       };
     },
     computed: {
@@ -54,16 +54,17 @@
         if (this.$refs[this.formComponent].validate()) {
           const data = this.$refs[this.formComponent].getData();
           const resdata = await postModelSource(data);
-          data.Users.forEach(async (user) => {
-            await postAddVirtualSpaceUser(resdata.ID, {
-              VirtualSpaceID: resdata.ID,
-              UserID: user.ID,
-              Role: user.Role,
+          if (data.users) {
+            data.users.forEach(async (username) => {
+              await postModelStoreAdminList(resdata.name, username);
             });
-          });
+          }
           this.reset();
           this.$emit('refresh');
         }
+      },
+      changeStep(totalStep) {
+        this.totalStep = totalStep;
       },
       lastStep() {
         if (this.step > 0) {

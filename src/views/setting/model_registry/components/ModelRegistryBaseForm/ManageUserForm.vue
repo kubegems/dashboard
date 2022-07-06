@@ -1,6 +1,6 @@
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
-    <BaseSubTitle title="模型商店管理成员" />
+    <BaseSubTitle title="模型商店管理员" />
     <v-card-text class="pa-2">
       <v-tabs v-model="tab" class="pa-2" height="30px" vertical @change="onTabChange">
         <v-tab v-for="item in tabItems" :key="item.value">
@@ -21,7 +21,7 @@
                       prepend-inner-icon="mdi-magnify"
                       @keyup="onAllUsernameInput"
                     />
-                    <v-list dense height="450px" style="overflow-y: auto">
+                    <v-list dense height="450px" :style="{ overflowY: `auto` }">
                       <v-list-item v-for="(user, index) in allUsers" :key="index" link @click="setRole(user, index)">
                         <v-list-item-avatar class="my-1">
                           <v-avatar class="white--text font-weight-medium" color="primary" :size="32">
@@ -48,20 +48,20 @@
                       prepend-inner-icon="mdi-magnify"
                       @keyup="onRoleUsernameInput"
                     />
-                    <v-list dense height="450px" style="overflow-y: auto">
+                    <v-list dense height="450px" :style="{ overflowY: `auto` }">
                       <v-list-item
-                        v-for="(user, index) in adminUsers"
+                        v-for="(username, index) in adminUsers"
                         :key="index"
                         link
-                        @click="removeRole(user, index)"
+                        @click="removeRole(username, index)"
                       >
                         <v-list-item-avatar class="my-1">
                           <v-avatar class="white--text font-weight-medium" color="primary" :size="32">
-                            {{ user.Username[0].toLocaleUpperCase() }}
+                            {{ username[0].toLocaleUpperCase() }}
                           </v-avatar>
                         </v-list-item-avatar>
                         <v-list-item-content class="text-subtitle-1">
-                          {{ user.Username }}
+                          {{ username }}
                         </v-list-item-content>
                       </v-list-item>
                     </v-list>
@@ -79,7 +79,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import { deleteVirtualSpaceUser, getVirtualSpaceUserList, postAddVirtualSpaceUser, userSelectData } from '@/api';
+  import { deleteModelStoreAdminList, getModelStoreAdminList, postModelStoreAdminList, userSelectData } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
 
@@ -104,72 +104,52 @@
       searchAllUser: '',
       searchRoleUser: '',
       obj: {
-        ID: 0,
-        VirtualSpaceName: '',
-        Environments: [],
-        Users: [],
+        name: '',
+        users: [],
       },
     }),
     computed: {
       ...mapState(['JWT', 'Scale']),
       ...mapGetters(['Tenant']),
-      EnvironmentID() {
-        return this.obj.Environments.map((e) => {
-          return e.ID;
-        }).join(',');
-      },
     },
     methods: {
       async userList() {
-        const data = await userSelectData(this.EnvironmentID, {});
+        const data = await userSelectData();
         this.allUsers = data.List.filter((d) => {
-          return !this.users.find((u) => {
-            return u.Username === d.Username;
+          return !this.users.find((username) => {
+            return username === d.Username;
           });
         });
-        this.allUsersCopy = JSON.parse(JSON.stringify(this.allUsers));
+        this.allUsersCopy = deepCopy(this.allUsers);
       },
       async modelStoreUserList() {
-        const data = await getVirtualSpaceUserList(this.obj.ID, {
+        const data = await getModelStoreAdminList(this.obj.name, {
           size: 1000,
         });
-        this.users = data.List;
-        this.usersCopy = JSON.parse(JSON.stringify(this.users));
-        this.adminUsers = data.List.filter((d) => {
-          return d.Role === 'admin';
-        });
+        this.users = data;
+        this.usersCopy = deepCopy(this.users);
+        this.adminUsers = data;
       },
       async setRole(user, index) {
         this.$delete(this.allUsers, index);
         this.usersCopy.push(user);
-        this.adminUsers.push(user);
+        this.adminUsers.push(user.Username);
         if (this.edit) {
-          await postAddVirtualSpaceUser(parseInt(this.obj.ID), {
-            UserID: user.ID,
-            VirtualSpaceID: parseInt(this.obj.ID),
-            Role: 'admin',
-          });
+          await postModelStoreAdminList(this.obj.name, user.Username);
         } else {
-          this.obj.Users.push({
-            ID: user.ID,
-            Role: 'admin',
-          });
+          this.obj.users.push(user.Username);
         }
       },
-      async removeRole(user, index) {
+      async removeRole(username, index) {
         this.$delete(this.adminUsers, index);
-        const i = this.usersCopy.findIndex((u) => {
-          return u.Username === user.Username;
-        });
+        const i = this.usersCopy.indexOf(username);
         this.$delete(this.usersCopy, i);
-        this.allUsers.push(user);
+        this.allUsers.push({ Username: username });
         if (this.edit) {
-          await deleteVirtualSpaceUser(parseInt(this.obj.ID), user.ID);
+          await deleteModelStoreAdminList(this.obj.name, username);
         } else {
-          const index = this.obj.Users.findIndex((i) => {
-            return i.ID === user.ID;
-          });
-          this.obj.Users.splice(index, 1);
+          const index = this.obj.users.indexOf(username);
+          this.obj.users.splice(index, 1);
         }
       },
       reset() {
@@ -209,8 +189,8 @@
         });
       },
       onRoleUsernameInput() {
-        this.adminUsers = this.usersCopy.filter((u) => {
-          return u.Username.indexOf(this.searchRoleUser) > -1 && u.Role === 'admin';
+        this.adminUsers = this.usersCopy.filter((username) => {
+          return username.indexOf(this.searchRoleUser) > -1;
         });
       },
       validate() {

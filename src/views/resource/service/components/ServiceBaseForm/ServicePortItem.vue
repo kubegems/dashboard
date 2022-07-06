@@ -7,13 +7,13 @@
             {{ item.name }}
           </v-list-item-subtitle>
           <v-list-item-subtitle class="text-body-2 py-0">
-            <v-list-item class="float-left py-0 pl-0" style="width: 250px" two-line>
+            <v-list-item class="float-left py-0 pl-0" :style="{ width: `250px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1"> {{ item.targetPort }}&nbsp; </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1"> 容器端口 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item class="float-left py-0" style="width: 250px" two-line>
+            <v-list-item class="float-left py-0" :style="{ width: `250px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{
@@ -27,7 +27,7 @@
                 <v-list-item-subtitle class="text-body-2 py-1"> 应用协议 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item class="float-left py-0" style="width: 250px" two-line>
+            <v-list-item class="float-left py-0" :style="{ width: `250px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1"> {{ item.port }}&nbsp; </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1"> 服务端口 </v-list-item-subtitle>

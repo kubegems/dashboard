@@ -1,13 +1,13 @@
 <template>
   <v-card class="rounded-t-0" flat height="55%">
-    <v-card-text class="d-flex pl-6 align-center flex-wrap" style="height: 100%">
-      <div class="d-flex align-center justify-start my-2" style="width: 50%">
+    <v-card-text class="d-flex pl-6 align-center flex-wrap" :style="{ height: `100%` }">
+      <div class="d-flex align-center justify-start my-2" :style="{ width: `50%` }">
         <Icon class="mr-4 icon-large primary--text" :icon="$RESOURCE_ICON['node']" :width="35" />
         <h6 class="text-large-size font-weight-regular">
           节点 {{ workload && workload['node'] ? workload['node'] : '' }}
         </h6>
       </div>
-      <div class="d-flex align-center justify-start my-2" style="width: 50%">
+      <div class="d-flex align-center justify-start my-2" :style="{ width: `50%` }">
         <Icon class="mr-4 icon-large primary--text" :icon="$RESOURCE_ICON['cpu']" :width="35" />
         <div>
           <h5 class="text-size font-weight-regular">
@@ -22,7 +22,7 @@
           </h5>
         </div>
       </div>
-      <div class="d-flex align-center justify-start my-2" style="width: 50%">
+      <div class="d-flex align-center justify-start my-2" :style="{ width: `50%` }">
         <Icon class="mr-4 icon-large primary--text" :icon="$RESOURCE_ICON['storage']" :width="35" />
         <div>
           <h5 class="text-size font-weight-regular">
@@ -41,7 +41,7 @@
           </h5>
         </div>
       </div>
-      <div class="d-flex align-center justify-start my-2" style="width: 50%">
+      <div class="d-flex align-center justify-start my-2" :style="{ width: `50%` }">
         <Icon class="mr-4 icon-large primary--text" :icon="$RESOURCE_ICON['memory']" :width="35" />
         <div>
           <h5 class="text-size font-weight-regular">

@@ -37,7 +37,7 @@
             :class="{
               'v-item--active v-list-item--active': shortcut === item.value,
             }"
-            style="min-height: 40px;"
+            :style="{ minHeight: `40px` }"
             color="primary"
             @click="shortcutDate(item)"
           >

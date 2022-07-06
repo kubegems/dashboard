@@ -26,7 +26,7 @@
             class="primary--text font-weight-medium"
             color="white"
             :size="45"
-            style="min-width: 40px; width: 40px"
+            :style="{ minWidth: `40px`, width: `40px` }"
           >
             <span class="text-h5">
               {{ User.Username ? User.Username[0].toLocaleUpperCase() : 'N' }}

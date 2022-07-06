@@ -8,7 +8,7 @@
           <v-card class="mx-auto gateway-pos" :elevation="hover ? 5 : 0" height="100%">
             <v-list-item three-line>
               <v-list-item-avatar class="primary--text" size="80" tile>
-                <Icon icon="cib:nginx" style="width: 80px; height: 80px; margin-left: 10px" />
+                <Icon icon="cib:nginx" :style="{ width: `80px`, height: `80px`, marginLeft: `10px` }" />
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title class="text-h6 mb-1">

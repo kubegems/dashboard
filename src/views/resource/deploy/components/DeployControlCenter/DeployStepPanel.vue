@@ -59,7 +59,7 @@
 
       <v-flex class="px-4 py-2 text-subtitle-1 kubegems__text">流量拓扑</v-flex>
       <v-progress-linear v-if="progress" color="primary" indeterminate />
-      <v-flex style="position: relative">
+      <v-flex :style="{ position: `relative` }">
         <v-flex :class="progress ? 'kubegems__overlay' : ''" />
         <iframe
           v-if="status"

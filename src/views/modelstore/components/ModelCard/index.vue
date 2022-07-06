@@ -107,6 +107,7 @@
       registry: {
         handler(newValue) {
           if (newValue) {
+            this.items = [];
             this.modelStoreList();
           }
         },

@@ -7,7 +7,7 @@
             {{ subset.name }}
           </v-list-item-subtitle>
           <v-list-item-subtitle class="text-body-2 py-0">
-            <v-list-item class="float-left py-0 pl-0" style="width: 200px" two-line>
+            <v-list-item class="float-left py-0 pl-0" :style="{ width: `200px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{
@@ -19,7 +19,7 @@
                 <v-list-item-subtitle class="text-body-2 py-1"> loadBalancer </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item class="float-left py-0 pl-0" style="width: 200px" two-line>
+            <v-list-item class="float-left py-0 pl-0" :style="{ width: `200px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{
@@ -31,7 +31,7 @@
                 <v-list-item-subtitle class="text-body-2 py-1"> connectionPool </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item class="float-left py-0 pl-0" style="width: 200px" two-line>
+            <v-list-item class="float-left py-0 pl-0" :style="{ width: `200px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{
@@ -43,7 +43,7 @@
                 <v-list-item-subtitle class="text-body-2 py-1"> outlierDetection </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item class="float-left py-0 pl-0" style="width: 200px" two-line>
+            <v-list-item class="float-left py-0 pl-0" :style="{ width: `200px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{ subset.trafficPolicy && JSON.stringify(subset.trafficPolicy.tls) !== '{}' ? '已设置' : '未设置' }}
@@ -51,7 +51,7 @@
                 <v-list-item-subtitle class="text-body-2 py-1"> tls </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item class="float-left py-0 pl-0" style="width: 200px" two-line>
+            <v-list-item class="float-left py-0 pl-0" :style="{ width: `200px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{

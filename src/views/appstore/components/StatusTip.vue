@@ -10,7 +10,7 @@
     transition="scale-transition"
   >
     <template #activator="{ on }">
-      <span style="cursor: pointer" v-on="on">
+      <span class="kubegems__pointer" v-on="on">
         <slot name="trigger" />
       </span>
     </template>

@@ -1,6 +1,6 @@
 <template>
   <v-card class="rounded-b-0" flat height="45%">
-    <v-card-text class="primary pa-0" style="height: 100%">
+    <v-card-text class="primary pa-0" :style="{ height: `100%` }">
       <div class="d-flex">
         <div class="d-flex space-and-grow">
           <div>
@@ -8,7 +8,7 @@
               <BaseLogo class="mx-3" :icon-name="cluster ? cluster.Vendor : ''" :width="60" />
             </h1>
           </div>
-          <div class="ml-4 mt-2" style="flex-grow: 2">
+          <div class="ml-4 mt-2" :style="{ flexGrow: 2 }">
             <h3 class="card-text-h4 white--text text-h5 font-weight-regular">
               {{ cluster && cluster.ClusterName ? cluster.ClusterName : '' }}
             </h3>
@@ -20,7 +20,7 @@
               certInfo && certInfo.ExpiredAt ? $moment(certInfo.ExpiredAt).format('YYYY/MM/DD h:mm') : ''
             }}</span>
           </div>
-          <div :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`" style="flex-grow: 2">
+          <div :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`" :style="{ flexGrow: 2 }">
             <SampleAreaChart
               class="pa-4 float-right"
               :extend-height="100"

@@ -12,6 +12,7 @@
             :items="registryItems"
             label="模型商店来源"
             no-data-text="暂无可选数据"
+            :readonly="edit"
             :rules="objRules.registryRules"
             @change="onRegistryChange"
           />
@@ -83,7 +84,7 @@
         objRules: {
           nameRules: [required],
           registryRules: [required],
-          imageRules: [required],
+          imageRules: [],
         },
       };
     },
@@ -92,15 +93,7 @@
         handler(newValue) {
           if (newValue) {
             this.obj = deepCopy(newValue);
-            if (
-              this.registryItems.some((r) => {
-                return r.value === this.obj.name;
-              })
-            ) {
-              this.registry = this.obj.name;
-            } else {
-              this.registry = 'modelx';
-            }
+            this.getRegistry();
           }
         },
         deep: true,
@@ -121,16 +114,33 @@
       init(data) {
         this.$nextTick(() => {
           this.obj = this.$_.merge(this.obj, deepCopy(data));
+          this.getRegistry();
         });
       },
       back(data) {
         this.$nextTick(() => {
           this.obj = deepCopy(data);
+          this.getRegistry();
         });
+      },
+      getRegistry() {
+        if (
+          this.registryItems.some((r) => {
+            return r.value === this.obj.name;
+          })
+        ) {
+          this.registry = this.obj.name;
+        } else {
+          this.registry = 'modelx';
+          this.$emit('changeStep', 2);
+        }
       },
       onRegistryChange() {
         if (this.registry !== 'modelx') {
           this.obj.name = this.registry;
+          this.$emit('changeStep', 1);
+        } else {
+          this.$emit('changeStep', 2);
         }
       },
     },

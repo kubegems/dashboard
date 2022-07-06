@@ -1,6 +1,13 @@
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
-    <component :is="steps[step]" :ref="steps[step]" :edit="edit" :item="item" @refresh="refresh" />
+    <component
+      :is="steps[step]"
+      :ref="steps[step]"
+      :edit="edit"
+      :item="item"
+      @changeStep="changeStep"
+      @refresh="refresh"
+    />
   </v-form>
 </template>
 
@@ -55,6 +62,9 @@
       },
       getData() {
         return this.obj;
+      },
+      changeStep(totalStep) {
+        this.$emit('changeStep', totalStep);
       },
     },
   };

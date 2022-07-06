@@ -3,8 +3,8 @@
     <Breadcrumb :hub="$route.query.registry">
       <template #extend>
         <v-flex class="kubegems__full-right">
-          <v-btn class="primary--text" small text>
-            <v-icon left small @click="deploy"> mdi-rocket </v-icon>
+          <v-btn class="primary--text" small text @click="deployModel">
+            <v-icon left small> mdi-rocket </v-icon>
             部署
           </v-btn>
         </v-flex>
@@ -28,7 +28,7 @@
       </v-col>
     </v-row>
 
-    <Deploy v-if="toDeploy" ref="deploy" :item="item" />
+    <Deploy ref="deploy" :item="item" />
   </v-container>
 </template>
 
@@ -66,7 +66,6 @@
           { text: '证书', value: 'Certificate' },
         ],
         item: undefined,
-        toDeploy: false,
       };
     },
     mounted() {
@@ -79,8 +78,7 @@
         const data = await getModelStoreDetail('huggingface', this.$route.params.name);
         this.item = data;
       },
-      deploy() {
-        this.toDeploy = true;
+      deployModel() {
         this.$refs.deploy.open();
       },
     },

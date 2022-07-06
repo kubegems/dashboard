@@ -3,7 +3,7 @@
     <v-card-text class="pa-5">
       <div class="d-flex justify-space-between">
         <div class="d-flex">
-          <v-icon class="primary--text mr-5" style="font-size: 40px">
+          <v-icon class="primary--text mr-5" :style="{ fontSize: `40px` }">
             {{ icon }}
           </v-icon>
           <div>

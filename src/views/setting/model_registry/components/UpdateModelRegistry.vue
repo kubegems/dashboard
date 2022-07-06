@@ -1,7 +1,15 @@
 <template>
   <BaseDialog v-model="dialog" icon="mdi-cube" title="更新模型商店" :width="1000" @reset="reset">
     <template #content>
-      <component :is="formComponent" :ref="formComponent" :edit="true" :item="item" :step="step" title="模型商店" />
+      <component
+        :is="formComponent"
+        :ref="formComponent"
+        :edit="true"
+        :item="item"
+        :step="step"
+        title="模型商店"
+        @changeStep="changeStep"
+      />
     </template>
     <template #action>
       <v-btn
@@ -41,7 +49,7 @@
         dialog: false,
         formComponent: 'ModelRegistryBaseForm',
         step: 0,
-        totalStep: 2,
+        totalStep: 1,
         item: null,
       };
     },
@@ -51,6 +59,9 @@
     methods: {
       open() {
         this.dialog = true;
+      },
+      changeStep(totalStep) {
+        this.totalStep = totalStep;
       },
       async updateModelRegistry() {
         if (this.$refs[this.formComponent].validate()) {

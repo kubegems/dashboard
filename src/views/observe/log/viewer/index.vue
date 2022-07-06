@@ -42,7 +42,7 @@
               flat
               hide-details
               solo
-              style="width: 100px"
+              :style="{ width: `100px` }"
               type="number"
             />
           </div>
@@ -69,7 +69,7 @@
           </div>
         </div>
 
-        <div style="margin-left: auto">
+        <div :style="{ marginLeft: `auto` }">
           <v-menu left>
             <template #activator="{ on }">
               <v-btn icon>
@@ -121,20 +121,6 @@
         @showContext="handleShowContext"
       />
     </v-card>
-    <!-- <v-btn
-      fab
-      color="primary"
-      fixed
-      right
-      bottom
-      small
-      direction="left"
-      transition="slide-x-reverse-transition"
-      style="bottom: 65px !important;"
-      @click="handleScrollTo"
-    >
-      <v-icon small>mdi-arrow-up-bold</v-icon>
-    </v-btn> -->
 
     <LogContext ref="logContext" />
     <LogSaveSnapshot ref="logSaveSnapshot" />

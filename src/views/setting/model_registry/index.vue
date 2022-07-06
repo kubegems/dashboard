@@ -104,7 +104,19 @@
       addModelRegitry() {
         this.$refs.addModelRegitry.open();
       },
-      syncRegistry() {},
+      syncRegistry(item) {
+        this.$store.commit('SET_CONFIRM', {
+          title: `同步模型仓库`,
+          content: {
+            text: `同步模型仓库 ${item.name}`,
+            type: 'confirm',
+          },
+          param: { item },
+          doFunc: async () => {
+            this.modelRegistryList();
+          },
+        });
+      },
       toggleActiveRegistry(item) {
         this.$store.commit('SET_CONFIRM', {
           title: item.enabled ? `禁用模型仓库` : `激活模型仓库`,

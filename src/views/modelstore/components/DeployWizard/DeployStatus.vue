@@ -24,6 +24,7 @@
     name: 'DeployStatus',
     data() {
       return {
+        dialog: false,
         deploying: true,
       };
     },

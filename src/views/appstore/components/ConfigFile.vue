@@ -12,7 +12,7 @@
       label="文件"
       no-data-text="暂无可选数据"
       solo
-      style="width: 500px"
+      :style="{ width: `500px` }"
       @change="onFileChange"
     />
     <ACEEditor

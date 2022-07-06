@@ -4,7 +4,7 @@
       <v-list-item two-line>
         <v-list-item-content class="py-2">
           <v-list-item-subtitle class="text-body-2 py-0">
-            <v-list-item class="float-left py-0 pl-0" style="width: 260px" two-line>
+            <v-list-item class="float-left py-0 pl-0" :style="{ width: `260px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{ item.EnvironmentName }}
@@ -12,7 +12,7 @@
                 <v-list-item-subtitle class="text-body-2 py-1"> 环境 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item class="float-left py-0" style="width: 260px" two-line>
+            <v-list-item class="float-left py-0" :style="{ width: `260px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{ item.clusterName || item.Cluster.ClusterName }}
@@ -20,7 +20,7 @@
                 <v-list-item-subtitle class="text-body-2 py-1"> 集群 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item class="float-left py-0" style="width: 260px" two-line>
+            <v-list-item class="float-left py-0" :style="{ width: `260px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{ item.type || item.MetaType }}

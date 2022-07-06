@@ -21,7 +21,7 @@
               </v-list-item>
             </v-flex>
             <v-flex class="float-left">
-              <v-list-item class="float-left px-0" style="width: 200px" two-line>
+              <v-list-item class="float-left px-0" :style="{ width: `200px` }" two-line>
                 <v-list-item-content class="py-0">
                   <v-list-item-title class="text-subtitle-2 py-1">
                     {{ item.spec.storageClassName }}&nbsp;
@@ -29,7 +29,7 @@
                   <v-list-item-subtitle class="text-body-2 py-1"> 类型 </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item class="float-left" style="width: 200px" two-line>
+              <v-list-item class="float-left" :style="{ width: `200px` }" two-line>
                 <v-list-item-content class="py-0">
                   <v-list-item-title class="text-subtitle-2 py-1">
                     {{ item.spec.resources.requests.storage }}&nbsp;
@@ -37,7 +37,7 @@
                   <v-list-item-subtitle class="text-body-2 py-1"> 容量 </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item class="float-left px-0" style="width: 200px" two-line>
+              <v-list-item class="float-left px-0" :style="{ width: `200px` }" two-line>
                 <v-list-item-content class="py-0">
                   <v-list-item-title class="text-subtitle-2 py-1">
                     {{ item.spec.accessModes[0] }}&nbsp;

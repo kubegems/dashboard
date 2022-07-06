@@ -7,25 +7,25 @@
             {{ item.port.name }}
           </v-list-item-subtitle>
           <v-list-item-subtitle class="text-body-2 py-0">
-            <v-list-item class="float-left py-0 pl-0" style="width: 100px" two-line>
+            <v-list-item class="float-left py-0 pl-0" :style="{ width: `100px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1"> {{ item.port.number }}&nbsp; </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1"> 端口 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item class="float-left py-0" style="width: 150px" two-line>
+            <v-list-item class="float-left py-0" :style="{ width: `150px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1"> {{ item.port.protocol }}&nbsp; </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1"> 协议 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item class="float-left py-0" style="width: 350px" two-line>
+            <v-list-item class="float-left py-0" :style="{ width: `350px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1"> {{ item.hosts }}&nbsp; </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1"> Host </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-list-item class="float-left py-0" style="width: 250px" two-line>
+            <v-list-item class="float-left py-0" :style="{ width: `250px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{ item.tls ? `${item.tls.credentialName}` : '无' }}

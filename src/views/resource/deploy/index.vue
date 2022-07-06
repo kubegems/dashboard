@@ -18,7 +18,7 @@
             <template v-else-if="taskStatus === 'Error'">
               <v-menu :close-delay="200" nudge-bottom="10px" open-on-hover top>
                 <template #activator="{ on }">
-                  <span class="error--text" style="cursor: pointer" v-on="on">
+                  <span class="error--text kubegems__pointer" v-on="on">
                     <v-icon class="icon-font" color="error"> mdi-close-circle </v-icon>
                     {{ deploy ? '应用部署失败' : '策略变更失败' }}
                   </span>

@@ -14,26 +14,16 @@
   >
     <TabContent
       :before-change="validateBaseInfo"
-      :class="`zoom-${Scale.toString().replaceAll('.', '-')} kubegems__wizard-tab-content mt-8`"
+      :class="`kubegems__wizard-tab-content mt-8`"
       icon="ti-info-alt"
       title="基本配置"
     >
       <DeployBaseConf />
     </TabContent>
-    <TabContent
-      :class="`zoom-${Scale.toString().replaceAll('.', '-')} kubegems__wizard-tab-content mt-12`"
-      icon="ti-settings"
-      :lazy="false"
-      title="详细配置"
-    >
+    <TabContent :class="`kubegems__wizard-tab-content mt-12`" icon="ti-settings" :lazy="false" title="详细配置">
       <DeployAdvancedConf />
     </TabContent>
-    <TabContent
-      :class="`zoom-${Scale.toString().replaceAll('.', '-')} kubegems__wizard-tab-content mt-12`"
-      icon="ti-check"
-      :lazy="false"
-      title="完成"
-    >
+    <TabContent :class="`kubegems__wizard-tab-content mt-12`" icon="ti-check" :lazy="false" title="完成">
       <DeployStatus />
     </TabContent>
     <template #footer="props">
@@ -75,7 +65,7 @@
     computed: {
       ...mapState(['AdminViewport', 'Scale']),
       footerWidth() {
-        return (window.innerWidth / 12) * 9 + 10;
+        return (window.innerWidth / this.Scale / 12) * 9 + 10;
       },
     },
     destroyed() {
@@ -88,6 +78,7 @@
         this.tab = 1;
         await props.nextTab();
       },
+      validateBaseInfo() {},
     },
   };
 </script>

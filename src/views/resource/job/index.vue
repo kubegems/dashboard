@@ -67,19 +67,19 @@
         </template>
         <template #[`item.status`]="{ item }">
           <span v-if="item.status.succeeded !== undefined">
-            <v-avatar class="mr-2" size="10" style="background-color: #1e88e5">
+            <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#1e88e5` }">
               <span class="white--text text-h5" />
             </v-avatar>
             Succeeded
           </span>
           <span v-else-if="item.status.failed !== undefined">
-            <v-avatar class="mr-2" size="10" style="background-color: #ff5252">
+            <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#ff5252` }">
               <span class="white--text text-h5" />
             </v-avatar>
             Failed
           </span>
           <span v-else-if="item.status.active !== undefined">
-            <v-avatar class="mr-2" size="10" style="background-color: #00bcd4">
+            <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#00bcd4` }">
               <span class="white--text text-h5" />
             </v-avatar>
             Active
