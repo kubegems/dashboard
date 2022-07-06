@@ -7,20 +7,23 @@
             <v-list-item three-line>
               <v-list-item-content>
                 <v-list-item-title class="text-subtitle-1 mb-1 card__title">
-                  <a @click="modelDetail(item)">{{ item.modelId }}</a>
+                  <a @click="modelDetail(item)">{{ item.name }}</a>
                 </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 text--lighten-4 card__desc">
-                  类型： {{ item.config.model_type }}
+                  类型： {{ item.framework }}
                 </v-list-item-subtitle>
-                <v-list-item-subtitle class="text-body-2 text--lighten-4 card__desc">
-                  更新时间： {{ $moment(item.update_at).format('lll') }}
-                </v-list-item-subtitle>
-                <v-list-item-subtitle class="text-body-2 text--lighten-4 card__desc">
-                  下载量： {{ beautifyDownload(item.downloads) }}
-                </v-list-item-subtitle>
-                <v-list-item-subtitle class="text-body-2 text--lighten-4 card__desc">
-                  热度： {{ beautifyDownload(item.likes || 0) }} <v-icon color="orange" small>mdi-heart</v-icon>
-                </v-list-item-subtitle>
+                <template v-if="item.source === 'huggingface'">
+                  <v-list-item-subtitle class="text-body-2 text--lighten-4 card__desc">
+                    更新时间： {{ $moment(item.raw.lastModified).format('lll') }}
+                  </v-list-item-subtitle>
+                  <v-list-item-subtitle class="text-body-2 text--lighten-4 card__desc">
+                    下载量： {{ beautifyDownload(item.raw.downloads) }}
+                  </v-list-item-subtitle>
+                  <v-list-item-subtitle class="text-body-2 text--lighten-4 card__desc">
+                    热度： {{ beautifyDownload(item.raw.likes || 0) }} <v-icon color="orange" small>mdi-heart</v-icon>
+                  </v-list-item-subtitle>
+                </template>
+                <!-- <template v-else-if="item.source === 'openmmlab'"> </template> -->
               </v-list-item-content>
             </v-list-item>
             <v-card-actions class="pl-0 py-0">
@@ -31,9 +34,10 @@
                       background-color="orange lighten-3"
                       color="orange"
                       dense
+                      half-increments
                       readonly
                       small
-                      :value="getRandomInt(0, 5)"
+                      :value="item.rating.rating"
                     />
                   </v-list-item-subtitle>
                 </v-list-item-content>
@@ -111,20 +115,24 @@
       },
     },
     methods: {
-      async modelStoreList(search = null) {
-        const data = await getModelStoreList(Object.assign(this.params, { search: search }));
+      async modelStoreList(search = {}) {
+        const data = await getModelStoreList(this.registry, { ...this.params, ...this.$route.query, ...search });
         this.items = data.list;
         this.pageCount = Math.ceil(data.total / this.params.size);
         this.params.page = data.page;
+        this.$router.replace({ query: { ...this.$route.query, ...search } });
       },
-      search(search) {
-        this.modelStoreList(search);
+      search(s) {
+        this.modelStoreList({ search: s });
+      },
+      filter(filter) {
+        this.modelStoreList(filter);
       },
       modelDetail(item) {
         this.$router.push({
           name: 'modelstore-detail',
           params: {
-            name: item.modelId,
+            name: item.name,
           },
           query: {
             registry: this.registry,
@@ -144,11 +152,6 @@
           result /= 1000.0;
         }
         return `${result.toFixed(decimal)} Yi`;
-      },
-      getRandomInt(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min) + min);
       },
       onPageSizeChange(size) {
         this.params.page = 1;

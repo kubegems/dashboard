@@ -55,6 +55,16 @@
               this.tip =
                 '一个描述Kubernetes相关资源的文件集合，单个应用可以用来部署某些复杂的HTTP服务器以及web全栈应用、数据库、缓存等。';
               break;
+            case 'bitnami':
+              this.imgSrc = '/icon/bitnami.png';
+              this.tip =
+                '一个描述Kubernetes相关资源的文件集合，单个应用可以用来部署某些复杂的HTTP服务器以及web全栈应用、数据库、缓存等。';
+              break;
+            case 'chartmuseum':
+              this.imgSrc = '/icon/chartmuseum.png';
+              this.tip =
+                '一个描述Kubernetes相关资源的文件集合，单个应用可以用来部署某些复杂的HTTP服务器以及web全栈应用、数据库、缓存等。';
+              break;
             case 'pytorch':
               this.imgSrc = '/icon/pytorch.jpeg';
               this.tip = '发现模型并将其发布到专为研究探索而设计的预训练模型存储库。';

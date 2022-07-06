@@ -1,10 +1,17 @@
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-cloud-outline" title="添加模型商店" :width="1000" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-cube" title="添加模型商店" :width="1000" @reset="reset">
     <template #content>
       <component :is="formComponent" :ref="formComponent" :step="step" title="模型商店" />
     </template>
     <template #action>
-      <v-btn v-if="step === totalStep - 1" class="float-right mx-2" color="primary" :loading="Circular" text>
+      <v-btn
+        v-if="step === totalStep - 1"
+        class="float-right mx-2"
+        color="primary"
+        :loading="Circular"
+        text
+        @click="addModelRegistry"
+      >
         确定
       </v-btn>
       <v-btn v-if="step >= 0 && step < totalStep - 1" class="float-right mx-2" color="primary" text @click="nextStep">
@@ -21,6 +28,7 @@
   import { mapState } from 'vuex';
 
   import ModelRegistryBaseForm from './ModelRegistryBaseForm';
+  import { postModelSource } from '@/api';
 
   export default {
     name: 'AddModelRegistry',
@@ -41,6 +49,21 @@
     methods: {
       open() {
         this.dialog = true;
+      },
+      async addModelRegistry() {
+        if (this.$refs[this.formComponent].validate()) {
+          const data = this.$refs[this.formComponent].getData();
+          const resdata = await postModelSource(data);
+          data.Users.forEach(async (user) => {
+            await postAddVirtualSpaceUser(resdata.ID, {
+              VirtualSpaceID: resdata.ID,
+              UserID: user.ID,
+              Role: user.Role,
+            });
+          });
+          this.reset();
+          this.$emit('refresh');
+        }
       },
       lastStep() {
         if (this.step > 0) {

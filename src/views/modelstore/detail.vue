@@ -28,7 +28,7 @@
       </v-col>
     </v-row>
 
-    <Deploy ref="deploy" :item="item" />
+    <Deploy v-if="toDeploy" ref="deploy" :item="item" />
   </v-container>
 </template>
 
@@ -66,6 +66,7 @@
           { text: '证书', value: 'Certificate' },
         ],
         item: undefined,
+        toDeploy: false,
       };
     },
     mounted() {
@@ -75,10 +76,11 @@
     },
     methods: {
       async modelDetail() {
-        const data = await getModelStoreDetail(this.$route.params.name);
+        const data = await getModelStoreDetail('huggingface', this.$route.params.name);
         this.item = data;
       },
       deploy() {
+        this.toDeploy = true;
         this.$refs.deploy.open();
       },
     },

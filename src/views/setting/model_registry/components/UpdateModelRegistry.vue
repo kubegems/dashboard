@@ -1,10 +1,17 @@
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-cloud-outline" title="更新模型商店" :width="1000" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-cube" title="更新模型商店" :width="1000" @reset="reset">
     <template #content>
-      <component :is="formComponent" :ref="formComponent" :edit="true" :step="step" title="模型商店" />
+      <component :is="formComponent" :ref="formComponent" :edit="true" :item="item" :step="step" title="模型商店" />
     </template>
     <template #action>
-      <v-btn v-if="step === totalStep - 1" class="float-right mx-2" color="primary" :loading="Circular" text>
+      <v-btn
+        v-if="step === totalStep - 1"
+        class="float-right mx-2"
+        color="primary"
+        :loading="Circular"
+        text
+        @click="updateModelRegistry"
+      >
         确定
       </v-btn>
       <v-btn v-if="step >= 0 && step < totalStep - 1" class="float-right mx-2" color="primary" text @click="nextStep">
@@ -21,6 +28,8 @@
   import { mapState } from 'vuex';
 
   import ModelRegistryBaseForm from './ModelRegistryBaseForm';
+  import { putModelSource, getModelSourceDetail } from '@/api';
+  import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'UpdateModelRegistry',
@@ -33,6 +42,7 @@
         formComponent: 'ModelRegistryBaseForm',
         step: 0,
         totalStep: 2,
+        item: null,
       };
     },
     computed: {
@@ -41,6 +51,14 @@
     methods: {
       open() {
         this.dialog = true;
+      },
+      async updateModelRegistry() {
+        if (this.$refs[this.formComponent].validate()) {
+          const data = this.$refs[this.formComponent].getData();
+          await putModelSource(data.name, data);
+          this.reset();
+          this.$emit('refresh');
+        }
       },
       lastStep() {
         if (this.step > 0) {
@@ -60,9 +78,9 @@
           });
         }
       },
-      async init() {
+      async init(item) {
         this.formComponent = 'ModelRegistryBaseForm';
-        // const data = await getVirtualSpaceDetail(item.ID);
+        const data = await getModelSourceDetail(item.name);
         this.item = deepCopy(data);
       },
       reset() {

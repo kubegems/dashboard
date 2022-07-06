@@ -1,9 +1,12 @@
 <template>
   <div class="mt-3 white rounded pa-4">
-    <div v-for="(file, index) in files" :key="index" class="file text-body-2">
-      <div class="float-left"> 2022-04-23 12:12:12 CST </div>
-      <div class="float-left file__size">11 KiB</div>
-      <div class="float-left">{{ file.filename }}</div>
+    <div v-for="(file, index) in files" :key="index" class="file text-subtitle-2 kubegems__text">
+      <!-- <div class="float-left"> 2022-04-23 12:12:12 CST </div>
+      <div class="float-left file__size">11 KiB</div> -->
+      <div class="float-left">
+        <v-icon color="grey darken-1" small>mdi-file</v-icon>
+        {{ file.filename }}
+      </div>
       <div class="kubegems__clear-float" />
     </div>
   </div>
@@ -27,7 +30,7 @@
       item: {
         handler(newValue) {
           if (newValue) {
-            this.files = newValue?.siblings;
+            this.files = newValue?.files;
           }
         },
         deep: true,

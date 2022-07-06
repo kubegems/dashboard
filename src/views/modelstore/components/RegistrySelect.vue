@@ -43,13 +43,15 @@
 </template>
 
 <script>
+  import { getModelSourceList } from '@/api';
+
   export default {
     name: 'RegistrySelect',
     data() {
       return {
         repoMenu: false,
-        repoItems: [{ text: 'huggingface', value: 'huggingface' }],
-        selectRepo: 'huggingface',
+        repoItems: [],
+        selectRepo: '',
       };
     },
     watch: {
@@ -65,8 +67,7 @@
     },
     mounted() {
       this.$nextTick(() => {
-        this.$emit('change', this.selectRepo);
-        this.$emit('input', this.selectRepo);
+        this.modelSourceList();
       });
     },
     methods: {
@@ -74,6 +75,21 @@
         this.selectRepo = repo.value;
         this.$emit('change', this.selectRepo);
         this.$emit('input', this.selectRepo);
+      },
+      async modelSourceList() {
+        const data = await getModelSourceList({ size: 1000, noprocessing: true });
+        this.repoItems = data.list
+          .filter((s) => {
+            return s.enabled;
+          })
+          .map((s) => {
+            return { text: s.name, value: s.name };
+          });
+        if (this.repoItems.length > 0) {
+          this.selectRepo = this.repoItems[0].value;
+          this.$emit('change', this.selectRepo);
+          this.$emit('input', this.selectRepo);
+        }
       },
     },
   };

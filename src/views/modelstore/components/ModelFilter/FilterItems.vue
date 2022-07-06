@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="filter__title">{{ title }}</div>
+    <div class="filter__title text-subtitle-2">{{ title }}</div>
     <div>
       <v-text-field
         v-if="searchShow"
@@ -14,18 +14,23 @@
         solo
         @keyup="onSearch"
       />
-      <v-chip-group active-class="primary" class="px-3" column>
-        <v-chip v-for="tag in searchShow ? tagsCopy : shortTags" :key="tag" filter small>
+
+      <v-chip v-if="tagIndex > 15" class="ml-3 kubegems__pointer" color="primary" small @click="clearSelect">
+        {{ tagHide || tagsCopy[tagIndex] }}
+      </v-chip>
+      <v-chip-group v-model="tagIndex" active-class="primary" class="px-3" column @change="onTagChange">
+        <v-chip v-for="tag in searchShow ? tagsCopy : shortTags" :key="tag" small>
           {{ tag }}
         </v-chip>
-        <v-chip v-if="tags.length > 15" color="primary" small @click="searchShow = !searchShow">
-          <span v-if="searchShow">
-            <v-icon small>mdi-chevron-double-up</v-icon>
-          </span>
-          <span v-else> + {{ tags.length - 15 }}</span>
-        </v-chip>
       </v-chip-group>
+      <v-chip v-if="tags.length > 15" color="primary mx-3" small @click="searchShow = !searchShow">
+        <span v-if="searchShow">
+          <v-icon small>mdi-chevron-double-up</v-icon>
+        </span>
+        <span v-else> + {{ tags.length - 15 }}</span>
+      </v-chip>
     </div>
+    <div v-if="!tags || tags.length === 0" class="filter__null"> 暂无数据 </div>
   </div>
 </template>
 
@@ -49,6 +54,8 @@
         search: '',
         searchShow: false,
         tagsCopy: [],
+        tagIndex: undefined,
+        tagHide: '',
       };
     },
     computed: {
@@ -60,6 +67,13 @@
       tags: {
         handler(newValue) {
           this.tagsCopy = deepCopy(newValue);
+          const tag = this.$route.query.tags;
+          const index = this.tagsCopy.findIndex((t) => {
+            return t === tag;
+          });
+          if (index > -1) {
+            this.tagIndex = index;
+          }
         },
         deep: true,
         immediate: true,
@@ -75,6 +89,19 @@
           this.tagsCopy = deepCopy(this.tags);
         }
       },
+      onTagChange() {
+        if (this.tagIndex && this.tagIndex >= 15) {
+          this.tagHide = this.tagsCopy[this.tagIndex];
+        } else {
+          this.tagHide = '';
+        }
+
+        this.$emit('search', { [this.title.toLowerCase()]: this.tagIndex > -1 ? this.tagsCopy[this.tagIndex] : null });
+      },
+      clearSelect() {
+        this.tagIndex = -1;
+        this.onTagChange();
+      },
     },
   };
 </script>
@@ -85,6 +112,12 @@
       font-size: 16px;
       margin-left: 12px;
       margin-top: 12px;
+    }
+
+    &__null {
+      text-align: center;
+      height: 50px;
+      line-height: 50px;
     }
   }
 </style>

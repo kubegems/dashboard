@@ -9,7 +9,7 @@
     </Breadcrumb>
     <v-row class="mt-0">
       <v-col class="pt-0" cols="3">
-        <ModelFilter :registry="registry" @search="search" />
+        <ModelFilter :registry="registry" @filter="filter" @search="search" />
       </v-col>
       <v-col class="pt-0" cols="9">
         <ModelCard ref="modelCard" :registry="registry" />
@@ -40,6 +40,9 @@
     methods: {
       search(search) {
         this.$refs.modelCard.search(search);
+      },
+      filter(filter) {
+        this.$refs.modelCard.filter(filter);
       },
     },
   };

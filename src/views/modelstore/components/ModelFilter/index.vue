@@ -12,9 +12,9 @@
         solo
         @keyup.enter="onSearch"
       />
-      <FilterItems :tags="tasks" title="tasks" />
-      <FilterItems :tags="libraryies" title="libraries" />
-      <FilterItems :tags="licenses" title="license" />
+      <FilterItems :tags="tags" title="Tags" @search="onFilterSeach" />
+      <FilterItems :tags="frameworks" title="Framework" @search="onFilterSeach" />
+      <FilterItems :tags="licenses" title="License" @search="onFilterSeach" />
     </v-card-text>
   </v-card>
 </template>
@@ -37,9 +37,9 @@
     data() {
       return {
         search: '',
-        libraryies: [],
+        frameworks: [],
         licenses: [],
-        tasks: [],
+        tags: [],
       };
     },
     watch: {
@@ -57,10 +57,13 @@
       onSearch() {
         this.$emit('search', this.search);
       },
+      onFilterSeach(filter) {
+        this.$emit('filter', filter);
+      },
       async modelStoreFilterCondition() {
-        const data = await getModelStoreFilterCondition();
-        this.tasks = data.pipeline_tags;
-        this.libraryies = data.library_names;
+        const data = await getModelStoreFilterCondition(this.registry);
+        this.tags = data.tags;
+        this.frameworks = data.frameworks;
         this.licenses = data.licenses;
       },
     },
