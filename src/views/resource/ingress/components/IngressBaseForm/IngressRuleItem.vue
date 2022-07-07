@@ -18,13 +18,13 @@
               <v-col class="py-1" cols="4">
                 <span class="text-body-2">服务:</span>
                 <span class="text-subtitle-2">
-                  {{ path.backend.serviceName }}
+                  {{ path.backend.service.name }}
                 </span>
               </v-col>
               <v-col class="py-1" cols="4">
                 <span class="text-body-2">端口:</span>
                 <span class="text-subtitle-2">
-                  {{ path.backend.servicePort }}
+                  {{ path.backend.service.port.name }}
                 </span>
               </v-col>
             </v-row>
