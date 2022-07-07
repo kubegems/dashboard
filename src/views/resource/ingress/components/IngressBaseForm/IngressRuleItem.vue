@@ -24,7 +24,7 @@
               <v-col class="py-1" cols="4">
                 <span class="text-body-2">端口:</span>
                 <span class="text-subtitle-2">
-                  {{ path.backend.service.port.name }}
+                  {{ path.backend.service.port.name || path.backend.service.port.number }}
                 </span>
               </v-col>
             </v-row>
