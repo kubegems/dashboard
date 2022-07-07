@@ -81,29 +81,6 @@
                 </template>
               </v-autocomplete>
             </v-col>
-            <!-- 规则 -->
-
-            <!-- 单位 -->
-            <v-col cols="6">
-              <v-autocomplete
-                v-model="obj.promqlGenerator.unit"
-                class="my-0"
-                color="primary"
-                hide-selected
-                :items="m_metrics_unitItems"
-                label="单位(回车可创建自定义单位)"
-                no-data-text="暂无可选数据"
-                :readonly="mod === 'template'"
-                :search-input.sync="m_metrics_unitText"
-                @keydown.enter="m_metrics_createUnit"
-              >
-                <template #selection="{ item }">
-                  <v-chip class="mx-1" color="primary" small>
-                    {{ item['text'] }}
-                  </v-chip>
-                </template>
-              </v-autocomplete>
-            </v-col>
           </template>
 
           <template v-if="mod === 'template' && mode === 'logging'">
@@ -369,8 +346,11 @@
         if (this.metricsConfig.resources && this.obj.promqlGenerator.resource) {
           const rulesObj = this.metricsConfig.resources[this.obj.promqlGenerator.resource].rules;
           return Object.keys(rulesObj).map((key) => ({
-            text: rulesObj[key].showName,
+            text: `${rulesObj[key].showName} (${
+              rulesObj[key]?.unit === 'short' ? '默认' : rulesObj[key]?.unit || '暂无单位'
+            })`,
             value: key,
+            unit: rulesObj[key]?.unit,
           }));
         }
 
@@ -509,7 +489,14 @@
         this.obj.promqlGenerator.unit = '';
       },
       onRuleChange() {
-        this.obj.promqlGenerator.unit = '';
+        const rule = this.ruleItems.find((r) => {
+          r.value === this.obj.promqlGenerator.rule;
+        });
+        if (rule) {
+          this.obj.promqlGenerator.unit = rule?.unit;
+        } else {
+          this.obj.promqlGenerator.unit = '';
+        }
         this.setLabelpairs();
       },
       onModChange() {
