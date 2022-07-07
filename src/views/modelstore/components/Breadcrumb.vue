@@ -58,12 +58,11 @@
             case 'bitnami':
               this.imgSrc = '/icon/bitnami.png';
               this.tip =
-                '一个描述Kubernetes相关资源的文件集合，单个应用可以用来部署某些复杂的HTTP服务器以及web全栈应用、数据库、缓存等。';
+                'Bitnami 让您可以轻松地在任何平台上启动和运行您最喜欢的开源软件，包括您的笔记本电脑、Kubernetes 和所有主要云。';
               break;
             case 'chartmuseum':
               this.imgSrc = '/icon/chartmuseum.png';
-              this.tip =
-                '一个描述Kubernetes相关资源的文件集合，单个应用可以用来部署某些复杂的HTTP服务器以及web全栈应用、数据库、缓存等。';
+              this.tip = 'ChartMuseum 是一个开源的、易于部署的、Helm Chart 存储库服务器。';
               break;
             case 'pytorch':
               this.imgSrc = '/icon/pytorch.jpeg';

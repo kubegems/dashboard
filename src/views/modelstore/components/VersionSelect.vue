@@ -1,5 +1,5 @@
 <template>
-  <v-sheet class="text-body-2 text--darken-1 mx-1 mt-1 version">
+  <v-sheet class="text-body-2 text--darken-1 mx-1 mt-4 version">
     <div>
       <span class="text-body-2 mr-1">版本</span>
       <v-menu

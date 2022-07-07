@@ -79,6 +79,7 @@
         await props.nextTab();
       },
       validateBaseInfo() {},
+      reset() {},
     },
   };
 </script>

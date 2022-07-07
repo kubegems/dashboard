@@ -41,7 +41,7 @@
   import Files from './components/detail_tabs/Files';
   import Runtime from './components/detail_tabs/Runtime';
   import ModelInfo from './components/ModelInfo';
-  import { getModelStoreDetail } from '@/api';
+  import { getModelStoreDetail, getModelRate } from '@/api';
 
   export default {
     name: 'ModelStoreDetail',
@@ -63,7 +63,7 @@
           { text: '文件', value: 'Files' },
           { text: '讨论区', value: 'Comment' },
           { text: '运行实例', value: 'Runtime' },
-          { text: '证书', value: 'Certificate' },
+          // { text: '证书', value: 'Certificate' },
         ],
         item: undefined,
       };
@@ -75,8 +75,10 @@
     },
     methods: {
       async modelDetail() {
-        const data = await getModelStoreDetail('huggingface', this.$route.params.name);
+        const data = await getModelStoreDetail(this.$route.query.registry, this.$route.params.name);
         this.item = data;
+        const ratingData = await getModelRate(this.$route.query.registry, this.$route.params.name);
+        this.item = { ...this.item, rating: { ...ratingData } };
       },
       deployModel() {
         this.$refs.deploy.open();
