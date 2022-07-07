@@ -195,6 +195,20 @@
         this.env = item;
         this.$refs.k8sEvents.open();
       },
+      // async linkToAlertRule(item) {
+      //   await this.$router.push({
+      //     name: 'observe-monitor-config',
+      //     query: {
+      //       proj: '',
+      //       env: item.environmentName,
+      //       envid: '',
+      //       projid: this.project,
+      //       cluster: item.clusterName,
+      //       namespace: item.namespace,
+      //       tab: 'prometheusrule',
+      //     },
+      //   });
+      // },
     },
   };
 </script>

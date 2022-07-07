@@ -3,7 +3,14 @@
     <!-- 无数据显示 -->
     <span v-if="visibleItems.length === 0">{{ emptyText }}</span>
 
-    <v-menu v-if="items.length" open-on-hover :close-delay="200" :max-width="maxWidth" :disabled="items.length === 0">
+    <v-menu
+      v-if="items.length"
+      open-on-hover
+      :close-delay="200"
+      :close-on-content-click="false"
+      :max-width="maxWidth"
+      :disabled="items.length === 0"
+    >
       <template #activator="{ on }">
         <v-flex v-on="on">
           <v-icon :color="color" v-if="icon" left> {{ icon }} </v-icon>
@@ -13,7 +20,10 @@
       <v-card class="pa-2">
         <template v-if="singleLine">
           <div v-for="item in items" :key="item[itemValue]">
-            <v-flex small class="ma-1 text-caption kubegems__text">
+            <v-flex
+              small
+              :class="{ 'ma-1': true, 'text-caption': true, kubegems__text: true, kubegems__pointer: linked }"
+            >
               <v-icon v-if="icon" :color="color" small left> {{ icon }} </v-icon>
               <strong v-if="dataType === 'object'" class="mr-1">
                 {{ item[itemValue] }}
@@ -67,6 +77,10 @@
       itemValue: {
         type: String,
         default: 'value',
+      },
+      linked: {
+        type: Boolean,
+        default: () => false,
       },
       maxWidth: {
         type: String,
@@ -123,6 +137,9 @@
         }
         this.visibleItems = this.items;
       },
+      // linkToPage() {
+      //   this.$emit('linkToPage');
+      // },
     },
   };
 </script>
