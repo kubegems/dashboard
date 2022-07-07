@@ -61,7 +61,7 @@
               small
               text-color="white"
             >
-              {{ path.backend.serviceName }}｜{{ path.backend.servicePort }}
+              {{ path.backend.service.name }}｜{{ path.backend.service.port.name || path.backend.service.port.number }}
             </v-chip>
           </td>
         </template>
@@ -114,7 +114,7 @@
               small
               text-color="white"
             >
-              {{ path.backend.serviceName }}｜{{ path.backend.servicePort }}
+              {{ path.backend.service.name }}｜{{ path.backend.service.port.name || path.backend.service.port.number }}
             </v-chip>
           </td>
         </template>
