@@ -79,7 +79,7 @@
         immediate: true,
       },
       expr: {
-        handler(newValue) {
+        handler: async function (newValue) {
           if (newValue) {
             if (newValue.length >= this.newline) {
               this.topOffset = (24 * newValue.length) / this.newline;
@@ -90,7 +90,10 @@
             this.suggestShow = true;
           }
           if (this.suggestShow) {
-            this.loadMetrics();
+            await this.loadMetrics();
+            if (this.items.length === 0) {
+              this.suggestShow = false;
+            }
           }
         },
         deep: true,

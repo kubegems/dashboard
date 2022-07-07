@@ -43,12 +43,14 @@
                   <v-btn class="mr-2" color="primary" depressed x-small>
                     {{ index + 1 }}
                   </v-btn>
-                  <v-btn v-if="item.resource" class="mr-2" color="success" depressed x-small>
-                    {{ item.resourceObj.resourceShowName }}
-                  </v-btn>
-                  <v-btn v-if="item.rule" color="success" depressed x-small>
-                    {{ item.resourceObj.showName }}
-                  </v-btn>
+                  <template v-if="item.resourceObj">
+                    <v-btn class="mr-2" color="success" depressed x-small>
+                      {{ item.resourceObj.resourceShowName }}
+                    </v-btn>
+                    <v-btn color="success" depressed x-small>
+                      {{ item.resourceObj.showName }}
+                    </v-btn>
+                  </template>
                 </div>
                 <template #actions>
                   <v-icon v-if="metricsObject[item._$id]" color="success"> mdi-check </v-icon>
@@ -342,7 +344,7 @@
             _$value: id,
             _$index: index,
             _$unit: query._$origin?.unit || ``,
-            _$title: query._$origin?.resourceObj.resource
+            _$title: query._$origin?.resourceObj?.resource
               ? `${index + 1}-${query._$origin?.resourceObj.resourceShowName}-${query._$origin?.resourceObj.showName}`
               : `${index + 1}-${query._$origin.expr}`,
             _$origin: query._$origin,
@@ -470,7 +472,7 @@
         if (query.ql) {
           const data = await getMetricsLabels(
             query.cluster?.text || query.environment.clusterName,
-            query.environment.namespace || '_all',
+            query.environment?.namespace || '_all',
             { expr: query.expr, noprocessing: true },
           );
           labels = data?.filter((d) => {
