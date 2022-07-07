@@ -56,12 +56,12 @@
         >
           <template #activator="{ on }">
             <span class="kubegems__pointer" v-on="on">
-              <v-icon color="error"> mdi-fire </v-icon>
+              <v-icon color="error"> mdi-alert-circle </v-icon>
             </span>
           </template>
           <v-card flat>
             <v-flex class="text-body-2 text-center primary white--text py-2">
-              <v-icon color="white" left small> mdi-fire </v-icon>
+              <v-icon color="white" left small> mdi-alert-circle </v-icon>
               <span>错误</span>
             </v-flex>
             <v-list class="pa-0 kubegems__tip" dense>
