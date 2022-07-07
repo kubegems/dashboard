@@ -320,12 +320,25 @@
         ruler.secretName = tlsDict.secretName;
         const paths = [];
         rule.http.paths.forEach((p) => {
-          paths.push({
-            path: p.path,
-            pathType: p.pathType,
-            serviceName: p.backend.service.name,
-            servicePort: p.backend.service.port.name,
-          });
+          if (p.backend.service?.port?.name) {
+            paths.push({
+              path: p.path,
+              pathType: p.pathType,
+              serviceName: p.backend.service.name,
+              servicePort: p.backend.service.port.name,
+              portType: 'name',
+              portTypeMenu: false,
+            });
+          } else {
+            paths.push({
+              path: p.path,
+              pathType: p.pathType,
+              serviceName: p.backend.service.name,
+              servicePort: p.backend.service.port.number,
+              portType: 'number',
+              portTypeMenu: false,
+            });
+          }
         });
         ruler.paths = paths;
         this.$nextTick(() => {
