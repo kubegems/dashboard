@@ -3,7 +3,7 @@
     <v-card-text class="pa-7">
       <div class="d-flex justify-center my-3">
         <div class="text-center">
-          <img class="my-4" :src="imgSrc" width="200" />
+          <BaseLogo icon-name="ai-model" large :width="100" />
           <h3 class="text-h6 font-weight-medium primary--text">
             {{ $route.params.name }}
           </h3>
@@ -16,7 +16,9 @@
           <div class="float-left model__rate">
             <h5 class="text-subtitle-1 kubegems__text">用户评分</h5>
             <h6 class="text-body-2 mb-3 model__rate__div">
-              <div class="float-left model__rate__div__fraction mr-3">{{ rateInfo.rating }}</div>
+              <div class="float-left model__rate__div__fraction mr-3">
+                {{ item && item.rating ? item.rating.rating : 0 }}
+              </div>
               <div class="float-left">
                 <v-rating
                   background-color="orange lighten-3"
@@ -26,9 +28,9 @@
                   half-increments
                   readonly
                   small
-                  :value="rateInfo.rating"
+                  :value="item && item.rating ? item.rating.rating : 0"
                 />
-                <div class="text-caption">{{ rateInfo.count }}评价</div>
+                <div class="text-caption">{{ item && item.rating ? item.rating.count : 0 }}评价</div>
               </div>
               <div class="kubegems__clear-float" />
             </h6>
@@ -36,7 +38,9 @@
           <div class="float-left model__rate">
             <h5 class="text-subtitle-1 kubegems__text">平台推荐</h5>
             <h6 class="text-body-2 mb-2">
-              <div class="float-left model__rate__div__recommend mr-3 ml-5">{{ rateInfo.total }}</div>
+              <div class="float-left model__rate__div__recommend mr-3 ml-5">
+                {{ item && item.rating ? item.rating.total : 0 }}
+              </div>
             </h6>
           </div>
           <div class="kubegems__clear-float" />
@@ -56,7 +60,6 @@
 
 <script>
   import VersionSelect from './VersionSelect';
-  import { getModelRate } from '@/api';
 
   export default {
     name: 'ModelInfo',
@@ -71,48 +74,6 @@
       noVersion: {
         type: Boolean,
         default: () => false,
-      },
-    },
-    data() {
-      return {
-        imgSrc: '',
-        rateInfo: {},
-      };
-    },
-    watch: {
-      '$route.query.registry': {
-        handler(newValue) {
-          switch (newValue) {
-            case 'huggingface':
-              this.imgSrc = '/icon/hugging-face.png';
-              break;
-            case 'openmmlab':
-              this.imgSrc = '/icon/openmmlab.png';
-              break;
-            case 'tensorflow':
-              this.imgSrc = '/icon/tensorflow.png';
-              break;
-            case 'pytorch':
-              this.imgSrc = '/icon/pytorch.jpeg';
-              break;
-            default:
-              this.imgSrc = '/logo-about.svg';
-              break;
-          }
-        },
-        deep: true,
-        immediate: true,
-      },
-    },
-    mounted() {
-      this.$nextTick(() => {
-        this.modelRate();
-      });
-    },
-    methods: {
-      async modelRate() {
-        const data = await getModelRate(this.$route.query.registry, this.$route.params.name);
-        this.rateInfo = data;
       },
     },
   };

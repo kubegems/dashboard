@@ -1,9 +1,12 @@
 <template>
   <span>
     <Icon
-      v-if="getIconName(iconName) !== 'undefined' && getIconName(iconName).indexOf('img:') === -1"
+      v-if="
+        getIconName(iconName, this.defaultLogo) !== 'undefined' &&
+        getIconName(iconName, this.defaultLogo).indexOf('img:') === -1
+      "
       :class="`ml-${ml}`"
-      :icon="getIconName(iconName)"
+      :icon="getIconName(iconName, this.defaultLogo)"
       :width="`${width}px`"
       :height="`${width}px`"
     />
@@ -11,7 +14,7 @@
       v-else
       :class="`${large ? 'logo__largeimg' : 'logo__img'} ml-${ml}`"
       :style="`width: ${width}px;height: ${width}px;`"
-      :src="`/icon/${getIconName(iconName).replaceAll('img:', '')}`"
+      :src="`/icon/${getIconName(iconName, this.defaultLogo).replaceAll('img:', '')}`"
     />
   </span>
 </template>
@@ -22,6 +25,10 @@
   export default {
     name: 'BaseLogo',
     props: {
+      defaultLogo: {
+        type: String,
+        default: () => '',
+      },
       iconName: {
         type: String,
         default: () => '',

@@ -46,7 +46,7 @@
             await postModelComment(this.$route.query.registry, this.$route.params.name, data);
           }
           this.reset();
-          this.$emit('refresh');
+          this.$emit('refresh', this.reply, data?.replyTo?.rootID);
         }
       },
       init(item, reply) {

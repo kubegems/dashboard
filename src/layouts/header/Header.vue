@@ -154,6 +154,11 @@
       ...mapState(['SidebarDrawer', 'Admin', 'User', 'JWT', 'StoreMode', 'Plugins']),
       ...mapGetters(['Tenant', 'Project']),
     },
+    mounted() {
+      this.$nextTick(() => {
+        this.$store.commit('SET_STORE', this.$route.meta.rootName === 'app-store' ? 'app' : 'model');
+      });
+    },
     methods: {
       ...mapMutations({
         setSidebarDrawer: 'SET_SIDEBAR_DRAWER',

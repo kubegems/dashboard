@@ -4,7 +4,7 @@
       <!-- <div class="float-left"> 2022-04-23 12:12:12 CST </div>
       <div class="float-left file__size">11 KiB</div> -->
       <div class="float-left">
-        <v-icon color="grey darken-1" small>mdi-file</v-icon>
+        <v-icon color="primary" small>mdi-file</v-icon>
         {{ file.filename }}
       </div>
       <div class="kubegems__clear-float" />

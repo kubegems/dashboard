@@ -87,6 +87,25 @@
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-autocomplete
+                v-model="ruler.paths[index].pathType"
+                class="my-0"
+                color="primary"
+                hide-selected
+                :items="pathTypeItems"
+                label="pathType"
+                no-data-text="暂无可选数据"
+                :rules="rulerRules.pathsRule[index].serviceNameRule"
+              >
+                <template #selection="{ item }">
+                  <v-chip class="mx-1" color="primary" small>
+                    {{ item['text'] }}
+                  </v-chip>
+                </template>
+              </v-autocomplete>
+            </v-flex>
+            <v-flex class="float-left text-subtitle-2 py-1 primary--text kubegems__min-width" />
+            <v-flex class="float-left ml-2 kubegems__form-width">
+              <v-autocomplete
                 v-model="ruler.paths[index].serviceName"
                 class="my-0"
                 color="primary"
@@ -104,7 +123,6 @@
                 </template>
               </v-autocomplete>
             </v-flex>
-            <v-flex class="float-left text-subtitle-2 py-1 primary--text kubegems__min-width" />
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-autocomplete
                 v-model="ruler.paths[index].servicePort"
@@ -117,7 +135,7 @@
                   })
                     ? m_select_serviceItems.find((s) => {
                         return s.text === ruler.paths[index].serviceName;
-                      }).ports
+                      }).portNames
                     : []
                 "
                 label="端口"
@@ -177,6 +195,11 @@
           { text: 'wss', value: 'wss' },
           { text: 'grpc', value: 'grpc' },
         ],
+        pathTypeItems: [
+          { text: 'Prefix', value: 'Prefix' },
+          { text: 'Exact', value: 'Exact' },
+          { text: 'ImplementationSpecific', value: 'ImplementationSpecific' },
+        ],
         objCopy: {
           metadata: {
             namespace: '',
@@ -187,7 +210,7 @@
           tls: '',
           secretName: '',
           host: '',
-          paths: [{ path: '', serviceName: '', servicePort: '' }],
+          paths: [{ path: '', pathType: '', serviceName: '', servicePort: '' }],
         },
       };
     },
@@ -202,6 +225,7 @@
               pathRule: [required],
               serviceNameRule: [required],
               servicePortRule: [required],
+              pathTypeRule: [required],
             },
           ],
         };
@@ -231,6 +255,7 @@
             pathRule: [required],
             serviceNameRule: [required],
             servicePortRule: [required],
+            pathTypeRule: [required],
           });
         });
         this.expand = true;
@@ -246,11 +271,12 @@
         this.ruler.host = this.domain.replace(new RegExp('\\*', 'g'), randomString(4));
       },
       addPath() {
-        this.ruler.paths.push({ path: '', serviceName: '', servicePort: '' });
+        this.ruler.paths.push({ path: '', pathType: '', serviceName: '', servicePort: '' });
         this.rulerRules.pathsRule.push({
           pathRule: [required],
           serviceNameRule: [required],
           servicePortRule: [required],
+          pathTypeRule: [required],
         });
       },
       removePtah(index) {
@@ -327,9 +353,14 @@
           this.ruler.paths.forEach((p) => {
             paths.push({
               path: p.path,
+              pathType: p.pathType,
               backend: {
-                serviceName: p.serviceName,
-                servicePort: p.servicePort,
+                service: {
+                  name: p.serviceName,
+                  port: {
+                    name: p.servicePort,
+                  },
+                },
               },
             });
           });
@@ -383,6 +414,7 @@
             pathRule: [required],
             serviceNameRule: [required],
             servicePortRule: [required],
+            pathTypeRule: [required],
           },
         ];
         this.ruler = deepCopy(this.$options.data().ruler);

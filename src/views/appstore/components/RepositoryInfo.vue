@@ -1,7 +1,7 @@
 <template>
   <BaseDialog v-model="dialog" icon="mdi-hexagon-multiple" :title="title" :width="500" @reset="reset">
     <template #content>
-      <BaseSubTitle title="仓库定义" />
+      <BaseSubTitle title="应用商店定义" />
       <v-card-text class="pa-2 mt-2">
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
           <v-sheet>

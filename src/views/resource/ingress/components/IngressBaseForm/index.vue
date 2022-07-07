@@ -322,8 +322,9 @@
         rule.http.paths.forEach((p) => {
           paths.push({
             path: p.path,
-            serviceName: p.backend.serviceName,
-            servicePort: p.backend.servicePort,
+            pathType: p.pathType,
+            serviceName: p.backend.service.name,
+            servicePort: p.backend.service.port.name,
           });
         });
         ruler.paths = paths;

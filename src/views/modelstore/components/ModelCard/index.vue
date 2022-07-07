@@ -5,6 +5,9 @@
         <v-hover #default="{ hover }">
           <v-card class="mx-auto" :elevation="hover ? 5 : 0" height="100%">
             <v-list-item three-line>
+              <v-list-item-avatar size="80" tile>
+                <BaseLogo icon-name="ai-model" :width="60" />
+              </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title class="text-subtitle-1 mb-1 card__title">
                   <a @click="modelDetail(item)">{{ item.name }}</a>
@@ -43,7 +46,7 @@
                 </v-list-item-content>
               </v-list-item>
               <v-spacer />
-              <v-btn color="primary" small text> 详情 </v-btn>
+              <v-btn color="primary" small text @click="modelDetail(item)"> 详情 </v-btn>
             </v-card-actions>
           </v-card>
         </v-hover>
@@ -108,6 +111,8 @@
         handler(newValue) {
           if (newValue) {
             this.items = [];
+            this.pageCount = 0;
+            this.page = 1;
             this.modelStoreList();
           }
         },

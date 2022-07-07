@@ -378,14 +378,19 @@ const select = {
       const serviceSelect = [];
       data.List.forEach((s) => {
         const ports = [];
+        const portNames = [];
         if (s.spec.ports) {
           s.spec.ports.forEach((p) => {
             ports.push({ text: p.port, value: p.port });
+          });
+          s.spec.ports.forEach((p) => {
+            portNames.push({ text: p.name, value: p.name });
           });
           serviceSelect.push({
             text: s.metadata.name,
             value: s.metadata.name,
             ports: ports,
+            portNames: portNames,
             labels: s.metadata.labels,
           });
         }

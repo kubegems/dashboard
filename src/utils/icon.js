@@ -1,4 +1,4 @@
-export function getIconName(name) {
+export function getIconName(name, def = 'kubernetes') {
   name = name.toLowerCase();
   if (name.indexOf('node-problem-detector') > -1) return 'logos:kubernetes';
   if (name.indexOf('node-local-dns') > -1) return 'logos:kubernetes';
@@ -115,7 +115,7 @@ export function getIconName(name) {
   if (name.indexOf('gitlab') > -1) return 'logos:gitlab';
   if (name.indexOf('oauth') > -1) return 'logos:oauth';
   if (name.indexOf('ldap') > -1) return 'img:openldap.jpeg';
-  if (name.indexOf('kubegems') > -1) return 'img:kubegems.jpg';
+  // if (name.indexOf('kubegems') > -1) return 'img:kubegems.jpg';
   if (name.indexOf('gke') > -1) return 'logos:google-cloud';
   if (name.indexOf('ack') > -1) return 'img:aliyun.png';
   if (name.indexOf('testlink') > -1) return 'img:testlink.png';
@@ -140,7 +140,17 @@ export function getIconName(name) {
   if (name.indexOf('日志采集') > -1) return 'img:kubegems.jpg';
   if (name.indexOf('opentelemetry') > -1) return 'logos:opentelemetry';
   if (name.indexOf('openkruise') > -1) return 'img:openkruise.jpeg';
-  if (name.indexOf('volume-snapshoter' > -1)) return 'img:kubegems.jpg';
+  if (name.indexOf('ai-model') > -1) return 'img:ai-model.png';
+  if (name.indexOf('transformers') > -1) return 'noto-v1:hugging-face';
+  if (name.indexOf('pytorch') > -1) return 'logos:pytorch-icon';
+  if (name.indexOf('tag') > -1) return 'logos:google-tag-manager';
+  if (name.indexOf('license') > -1) return 'twemoji:balance-scale';
   // if (name.indexOf('selfhosted') > -1) return 'bx:bxl-kubernetes'
-  return 'logos:kubernetes';
+
+  switch (def) {
+    case 'framework':
+      return 'img:framework.png';
+    default:
+      return 'logos:kubernetes';
+  }
 }
