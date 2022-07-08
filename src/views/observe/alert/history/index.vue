@@ -63,10 +63,10 @@
           </v-chip>
         </template>
         <template #[`item.startsAt`]="{ item }">
-          {{ $moment(item.StartsAt).format('yyyy/MM/DD hh:mm:ss') }}
+          {{ $moment(item.StartsAt).format('lll') }}
         </template>
         <template #[`item.createdAt`]="{ item }">
-          {{ $moment(item.CreatedAt).format('yyyy/MM/DD hh:mm:ss') }}
+          {{ $moment(item.CreatedAt).format('lll') }}
         </template>
         <template #[`item.silenceCreator`]="{ item }">
           {{ item.AlertInfo.SilenceCreator ? '是' : '-' }}
@@ -158,13 +158,13 @@
         { text: '详情', value: 'message', align: 'start' },
         { text: '级别', value: 'severity', align: 'start' },
         {
-          text: '上次开始时间',
+          text: '开始时间',
           value: 'startsAt',
           align: 'start',
           cellClass: 'kubegems__table-nowrap-cell',
         },
         {
-          text: '上次触发事件',
+          text: '触发时间',
           value: 'createdAt',
           align: 'start',
           cellClass: 'kubegems__table-nowrap-cell',
