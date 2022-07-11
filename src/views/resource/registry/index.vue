@@ -45,7 +45,7 @@
           {{ item.RegistryAddress }}
         </template>
         <template #[`item.updateAt`]="{ item }">
-          {{ item.UpdateAt ? $moment(item.UpdateAt).format('lll') : '' }}
+          {{ item.UpdateTime ? $moment(item.UpdateTime).format('lll') : '' }}
         </template>
         <template #[`item.username`]="{ item }">
           {{ item.Username }}

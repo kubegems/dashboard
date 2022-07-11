@@ -18,7 +18,27 @@
 </template>
 
 <script>
+  import { getModelRuntimePodList } from '@/api';
+
   export default {
     name: 'PodList',
+    props: {
+      item: {
+        type: Object,
+        default: () => null,
+      },
+    },
+    watch: {
+      item: {
+        handler() {},
+        deep: true,
+        immediate: true,
+      },
+    },
+    methods: {
+      async modelRuntimePodList() {
+        await getModelRuntimePodList();
+      },
+    },
   };
 </script>

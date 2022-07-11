@@ -11,13 +11,13 @@
             </template>
             <v-card>
               <v-card-text class="pa-2 text-center">
-                <v-flex>
+                <v-flex v-if="User.Username === item.username">
                   <v-btn color="primary" small text @click="editCommnet(item)"> 编辑 </v-btn>
                 </v-flex>
                 <v-flex>
                   <v-btn color="primary" small text @click="replyCommnet(item, item.id)"> 回复 </v-btn>
                 </v-flex>
-                <v-flex>
+                <v-flex v-if="User.Username === item.username">
                   <v-btn color="error" small text @click="removeComment(item)"> 删除 </v-btn>
                 </v-flex>
               </v-card-text>
@@ -38,14 +38,14 @@
             <v-rating
               v-if="!item.replyTo"
               background-color="orange lighten-3"
-              class="float-right mt-3"
+              class="float-right mt-2"
               color="orange"
               dense
               readonly
               small
               :value="item.rating"
             />
-            <div class="d-block my-2 text-subtitle-1 font-weight-regular mt-4 kubegems__text">{{ item.content }}</div>
+            <div class="d-block my-2 text-subtitle-2 font-weight-regular mt-4 kubegems__text">{{ item.content }}</div>
           </div>
         </div>
       </v-card-text>
@@ -53,7 +53,7 @@
         <v-spacer />
         <v-btn color="primary" depressed small text @click="showReply(item, index)">
           <v-icon left small>{{ item.expand ? 'mdi-chevron-double-up' : 'mdi-comment-text-outline' }}</v-icon>
-          {{ item.repliesCount }} 回复
+          {{ item.repliesCount || 0 }} 回复
         </v-btn>
       </v-card-actions>
 
@@ -70,8 +70,14 @@
                 </template>
                 <v-card>
                   <v-card-text class="pa-2 text-center">
+                    <v-flex v-if="User.Username === item.username">
+                      <v-btn color="primary" small text @click="editCommnet(reply, true)"> 编辑 </v-btn>
+                    </v-flex>
                     <v-flex>
                       <v-btn color="primary" small text @click="replyCommnet(reply, item.id)"> 回复 </v-btn>
+                    </v-flex>
+                    <v-flex v-if="User.Username === item.username">
+                      <v-btn color="error" small text @click="removeComment(reply, true, item.id)"> 删除 </v-btn>
                     </v-flex>
                   </v-card-text>
                 </v-card>
@@ -124,6 +130,7 @@
 </template>
 
 <script>
+  import { Base64 } from 'js-base64';
   import { mapState } from 'vuex';
 
   import Reply from './Reply';
@@ -147,7 +154,7 @@
       expandIndex: [],
     }),
     computed: {
-      ...mapState(['Scale']),
+      ...mapState(['Scale', 'User']),
       height() {
         return parseInt((window.innerHeight - 214) / this.Scale);
       },
@@ -159,7 +166,11 @@
     },
     methods: {
       async modelCommentList() {
-        const data = await getModelCommentList(this.$route.query.registry, this.$route.params.name, this.params);
+        const data = await getModelCommentList(
+          this.$route.query.registry,
+          Base64.encode(this.$route.params.name),
+          this.params,
+        );
         this.commentItems = data.list;
         this.commentItems = this.commentItems.map((c, index) => {
           return {
@@ -171,7 +182,7 @@
         this.params.page = data.page;
       },
       async modelReplyList(commentid) {
-        const data = await getModelCommentList(this.$route.query.registry, this.$route.params.name, {
+        const data = await getModelCommentList(this.$route.query.registry, Base64.encode(this.$route.params.name), {
           reply: commentid,
           size: 1000,
           noprocessing: true,
@@ -226,21 +237,21 @@
         }
         this.modelCommentList();
       },
-      editCommnet(item) {
-        this.$refs.reply.init(item, false);
+      editCommnet(item, reply = false) {
+        this.$refs.reply.init(item, reply);
         this.$refs.reply.open('编辑评论');
       },
-      removeComment(item) {
+      removeComment(item, reply, commentid) {
         this.$store.commit('SET_CONFIRM', {
           title: `删除评论`,
           content: {
             text: `删除该评论`,
             type: 'confirm',
           },
-          param: { item },
+          param: { item, reply, commentid },
           doFunc: async (param) => {
-            await deleteModelComment(this.$route.query.registry, this.$route.params.name, param.item.id);
-            this.modelCommentList();
+            await deleteModelComment(this.$route.query.registry, Base64.encode(this.$route.params.name), param.item.id);
+            this.refresh(param.reply, param.commentid);
           },
         });
       },

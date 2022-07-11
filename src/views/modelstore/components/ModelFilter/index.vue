@@ -12,9 +12,15 @@
         solo
         @keyup.enter="onSearch"
       />
-      <FilterItems :tags="tags" title="Tags" @search="onFilterSeach" />
-      <FilterItems :tags="frameworks" title="Framework" @search="onFilterSeach" />
-      <FilterItems :tags="licenses" title="License" @search="onFilterSeach" />
+      <div class="mt-4">
+        <FilterItems :tags="tags" title="Tags" @search="onFilterSeach" />
+      </div>
+      <div class="mt-4">
+        <FilterItems :tags="frameworks" title="Framework" @search="onFilterSeach" />
+      </div>
+      <div class="mt-4">
+        <FilterItems :tags="licenses" title="License" @search="onFilterSeach" />
+      </div>
     </v-card-text>
   </v-card>
 </template>
@@ -30,8 +36,8 @@
     },
     props: {
       registry: {
-        type: String,
-        default: () => '',
+        type: Object,
+        default: () => null,
       },
     },
     data() {
@@ -61,7 +67,7 @@
         this.$emit('filter', filter);
       },
       async modelStoreFilterCondition() {
-        const data = await getModelStoreFilterCondition(this.registry);
+        const data = await getModelStoreFilterCondition(this.registry.name);
         this.tags = data.tags;
         this.frameworks = data.frameworks;
         this.licenses = data.licenses;

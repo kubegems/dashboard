@@ -6,27 +6,31 @@
           <v-card class="mx-auto" :elevation="hover ? 5 : 0" height="100%">
             <v-list-item three-line>
               <v-list-item-avatar size="80" tile>
-                <BaseLogo icon-name="ai-model" :width="60" />
+                <BaseLogo icon-name="ai-model" :ml="0" :width="60" />
               </v-list-item-avatar>
               <v-list-item-content>
-                <v-list-item-title class="text-subtitle-1 mb-1 card__title">
+                <v-list-item-title class="text-subtitle-1 mb-3 card__title">
                   <a @click="modelDetail(item)">{{ item.name }}</a>
                 </v-list-item-title>
+
                 <v-list-item-subtitle class="text-body-2 text--lighten-4 card__desc">
                   类型： {{ item.framework }}
                 </v-list-item-subtitle>
-                <template v-if="item.source === 'huggingface'">
-                  <v-list-item-subtitle class="text-body-2 text--lighten-4 card__desc">
-                    更新时间： {{ $moment(item.raw.lastModified).format('lll') }}
-                  </v-list-item-subtitle>
-                  <v-list-item-subtitle class="text-body-2 text--lighten-4 card__desc">
-                    下载量： {{ beautifyDownload(item.raw.downloads) }}
-                  </v-list-item-subtitle>
-                  <v-list-item-subtitle class="text-body-2 text--lighten-4 card__desc">
-                    热度： {{ beautifyDownload(item.raw.likes || 0) }} <v-icon color="orange" small>mdi-heart</v-icon>
-                  </v-list-item-subtitle>
-                </template>
-                <!-- <template v-else-if="item.source === 'openmmlab'"> </template> -->
+                <v-list-item-subtitle class="text-body-2 text--lighten-4 card__desc">
+                  更新时间： {{ $moment(item.updationTime).format('lll') }}
+                </v-list-item-subtitle>
+                <v-list-item-subtitle
+                  v-if="item.downloads !== null && item.downloads !== undefined"
+                  class="text-body-2 text--lighten-4 card__desc"
+                >
+                  下载量： {{ beautifyFloatNum(item.downloads) }}
+                </v-list-item-subtitle>
+                <v-list-item-subtitle
+                  v-if="item.likes !== null && item.likes !== undefined"
+                  class="text-body-2 text--lighten-4 card__desc"
+                >
+                  热度： {{ beautifyFloatNum(item.likes || 0) }} <v-icon color="orange" small>mdi-heart</v-icon>
+                </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-card-actions class="pl-0 py-0">
@@ -92,8 +96,8 @@
     },
     props: {
       registry: {
-        type: String,
-        default: () => '',
+        type: Object,
+        default: () => null,
       },
     },
     data() {
@@ -122,7 +126,7 @@
     },
     methods: {
       async modelStoreList(search = {}) {
-        const data = await getModelStoreList(this.registry, { ...this.params, ...this.$route.query, ...search });
+        const data = await getModelStoreList(this.registry.name, { ...this.params, ...this.$route.query, ...search });
         this.items = data.list;
         this.pageCount = Math.ceil(data.total / this.params.size);
         this.params.page = data.page;
@@ -141,14 +145,15 @@
             name: item.name,
           },
           query: {
-            registry: this.registry,
+            registry: this.registry.name,
+            images: this.registry.images,
           },
         });
       },
       addModel() {
         this.$refs.addModel.open();
       },
-      beautifyDownload(num, decimal = 1) {
+      beautifyFloatNum(num, decimal = 1) {
         let result = num;
         const units = ['', 'K', 'M'];
         for (const index in units) {

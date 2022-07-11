@@ -1,7 +1,7 @@
 <template>
   <v-sheet class="text-body-2 text--darken-1 mx-1 mt-4 version">
     <div>
-      <span class="text-body-2 mr-1">版本</span>
+      <div class="text-body-2 float-left version__tip">模型版本</div>
       <v-menu
         v-model="versionMenu"
         bottom
@@ -18,7 +18,7 @@
             <v-icon v-else right> fas fa-angle-down </v-icon>
           </v-btn>
         </template>
-        <v-data-iterator class="file-iterator" hide-default-footer :items="[{ text: '版本', values: versionItems }]">
+        <v-data-iterator class="file-iterator" hide-default-footer :items="[{ text: '版本', values: versions }]">
           <template #no-data>
             <v-card>
               <v-card-text> 暂无版本 </v-card-text>
@@ -55,26 +55,43 @@
 <script>
   export default {
     name: 'VersionSelect',
+    props: {
+      versions: {
+        type: Array,
+        default: () => [],
+      },
+    },
     data() {
       return {
         versionMenu: false,
-        versionItems: [],
         selectVersion: '',
       };
     },
     watch: {
+      versions: {
+        handler(newValue) {
+          if (newValue && newValue.length > 0) {
+            this.selectVersion = newValue[0];
+            this.$emit('change', this.selectVersion);
+            this.$emit('input', this.selectVersion);
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
       value: {
         handler(newValue) {
-          this.selectRepo = newValue;
+          this.selectVersion = newValue;
         },
         deep: true,
         immediate: true,
       },
     },
     methods: {
-      setVersion() {
-        this.$emit('change', this.selectRepo);
-        this.$emit('input', this.selectRepo);
+      setVersion(ver) {
+        this.selectVersion = ver;
+        this.$emit('change', this.selectVersion);
+        this.$emit('input', this.selectVersion);
       },
     },
   };
@@ -83,5 +100,9 @@
 <style lang="scss" scoped>
   .version {
     position: relative;
+
+    &__tip {
+      line-height: 36px;
+    }
   }
 </style>

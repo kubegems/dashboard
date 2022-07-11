@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <Breadcrumb :hub="registry">
+    <Breadcrumb :hub="registry ? registry.name : ''">
       <template #extend>
         <v-flex class="kubegems__full-right">
           <RegistrySelect v-model="registry" />
@@ -34,7 +34,7 @@
     },
     data() {
       return {
-        registry: '',
+        registry: null,
       };
     },
     methods: {

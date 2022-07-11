@@ -41,7 +41,7 @@ module.exports = {
           target: 'http://model.local.kubegems.io:8080',
           changeOrigin: true,
           pathRewrite: {
-            '^/api/v1/sources': '/sources',
+            '^/api/v1/sources': '/v1/sources',
           },
         },
         '/api/v1/': {

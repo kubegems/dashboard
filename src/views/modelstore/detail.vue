@@ -33,6 +33,8 @@
 </template>
 
 <script>
+  import { Base64 } from 'js-base64';
+
   import Breadcrumb from './components/Breadcrumb';
   import Deploy from './components/Deploy';
   import Certificate from './components/detail_tabs/Certificate';
@@ -75,9 +77,9 @@
     },
     methods: {
       async modelDetail() {
-        const data = await getModelStoreDetail(this.$route.query.registry, this.$route.params.name);
+        const data = await getModelStoreDetail(this.$route.query.registry, Base64.encode(this.$route.params.name));
         this.item = data;
-        const ratingData = await getModelRate(this.$route.query.registry, this.$route.params.name);
+        const ratingData = await getModelRate(this.$route.query.registry, Base64.encode(this.$route.params.name));
         this.item = { ...this.item, rating: { ...ratingData } };
       },
       deployModel() {

@@ -10,6 +10,7 @@
 </template>
 
 <script>
+  import { Base64 } from 'js-base64';
   import { mapState } from 'vuex';
 
   import CommentBaseForm from './CommentBaseForm';
@@ -41,9 +42,9 @@
         if (this.$refs[this.formComponent].validate()) {
           const data = this.$refs[this.formComponent].getData();
           if (data.id) {
-            await putModelComment(this.$route.query.registry, this.$route.params.name, data.id, data);
+            await putModelComment(this.$route.query.registry, Base64.encode(this.$route.params.name), data.id, data);
           } else {
-            await postModelComment(this.$route.query.registry, this.$route.params.name, data);
+            await postModelComment(this.$route.query.registry, Base64.encode(this.$route.params.name), data);
           }
           this.reset();
           this.$emit('refresh', this.reply, data?.replyTo?.rootID);

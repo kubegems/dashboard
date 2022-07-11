@@ -28,18 +28,20 @@
 </template>
 
 <script>
+  import { getModelRuntimeList } from '@/api';
+
   export default {
     name: 'RuntimeList',
     data: () => ({
-      items: [{ instance: 'dist1' }],
+      items: [],
       headers: [
-        { text: '部署实例', value: 'instance', align: 'start' },
+        { text: '部署实例', value: 'name', align: 'start' },
         { text: '模型版本', value: 'version', align: 'start' },
         { text: '状态', value: 'status', align: 'start' },
         { text: '集群', value: 'cluster', align: 'start' },
         { text: '命名空间', value: 'namespace', align: 'start' },
         { text: '创建人', value: 'creator', align: 'start' },
-        { text: 'Api', value: 'api', align: 'start' },
+        { text: 'Api', value: 'url', align: 'start' },
       ],
       pageCount: 0,
       params: {
@@ -48,9 +50,15 @@
         noprocessing: true,
       },
     }),
-
+    mounted() {
+      this.$nextTick(() => {
+        this.runtimeList();
+      });
+    },
     methods: {
-      async runtimeList() {},
+      async runtimeList() {
+        await getModelRuntimeList(this.$route.query.registry, this.$route.params.name, this.params);
+      },
       onPageSizeChange(size) {
         this.params.page = 1;
         this.params.size = size;

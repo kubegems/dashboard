@@ -8,7 +8,7 @@
             {{ appName }}
           </h3>
           <div v-if="showVersion" class="mx-1">
-            <span class="text-body-2">chart版本</span>
+            <div class="text-body-2 float-left version__tip">chart版本</div>
             <v-menu
               v-model="chartMenu"
               bottom
@@ -146,5 +146,9 @@
 <style lang="scss" scoped>
   .app-overflow-y {
     overflow-y: auto;
+  }
+
+  .version__tip {
+    line-height: 36px;
   }
 </style>
