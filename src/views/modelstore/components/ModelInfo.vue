@@ -7,7 +7,7 @@
           <h3 class="text-h6 font-weight-medium primary--text">
             {{ $route.params.name }}
           </h3>
-          <VersionSelect v-if="!noVersion" />
+          <VersionSelect v-if="!noVersion" :versions="item ? item.versions : []" />
         </div>
       </div>
       <v-divider />
@@ -30,7 +30,7 @@
                   small
                   :value="item && item.rating ? item.rating.rating : 0"
                 />
-                <div class="text-caption">{{ item && item.rating ? item.rating.count : 0 }}评价</div>
+                <div class="text-caption"> {{ item && item.rating ? item.rating.count : 0 }}评价 </div>
               </div>
               <div class="kubegems__clear-float" />
             </h6>
@@ -46,11 +46,17 @@
           <div class="kubegems__clear-float" />
         </div>
         <h5 class="text-subtitle-1 kubegems__text">类型</h5>
-        <h6 class="text-body-2 mb-3">{{ item ? item.source : '' }}</h6>
+        <h6 class="text-body-2 mb-3">
+          {{ item ? item.source : '' }}
+        </h6>
         <h5 class="text-subtitle-1 kubegems__text">库</h5>
-        <h6 class="text-body-2 mb-3">{{ item ? item.framework : '' }}</h6>
+        <h6 class="text-body-2 mb-3">
+          {{ item ? item.framework : '' }}
+        </h6>
         <h5 class="text-subtitle-1 kubegems__text">协议</h5>
-        <h6 class="text-body-2 mb-3">{{ item ? item.license : '' }}</h6>
+        <h6 class="text-body-2 mb-3">
+          {{ item ? item.license : '' }}
+        </h6>
         <h5 class="text-subtitle-1 kubegems__text">发布状态</h5>
         <h6 class="text-body-2 mb-3"> <v-icon color="success" left small>mdi-check-circle</v-icon>已发布 </h6>
       </div>

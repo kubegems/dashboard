@@ -465,6 +465,7 @@
         this.params = this.retrieveBasicFormParams(this.appValues, this.schemaJson);
       },
       reset() {
+        this.$refs.deploy.reset();
         if (this.$refs.form) {
           this.$refs.form?.reset();
         }

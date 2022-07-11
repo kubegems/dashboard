@@ -215,7 +215,7 @@
 
         if (this.filterKeywords.length > 0) {
           const filterItems = [];
-          this.items.forEach((app) => {
+          this.all.forEach((app) => {
             if (app.keywords) {
               app.keywords.forEach((keyword) => {
                 if (this.filterKeywords.indexOf(keyword) > -1) {

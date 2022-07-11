@@ -1,21 +1,15 @@
 <template>
-  <v-form v-model="valid" lazy-validation @submit.prevent>
+  <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
     <v-row>
       <v-col class="my-2">
-        <v-text-field
-          v-model="obj.AppName"
-          class="my-4"
-          flat
-          label="应用名称"
-          required
-          :rules="objRules.appNameRules"
-        />
+        <v-text-field v-model="obj.name" class="my-4" flat label="模型名称" required :rules="objRules.nameRules" />
         <v-autocomplete
-          v-model="obj.TenantProjectId"
+          v-model="obj.project"
           class="my-4"
           color="primary"
           hide-selected
           item-text="text"
+          item-value="text"
           :items="m_select_tenantProjectItems"
           label="项目"
           :menu-props="{
@@ -24,7 +18,7 @@
             origin: `top center`,
           }"
           no-data-text="暂无可选数据"
-          :rules="objRules.tenantProjectIdRules"
+          :rules="objRules.tenantProjectRules"
           @focus="onTenantProjectSelectFocus"
         >
           <template #selection="{ item }">
@@ -36,11 +30,11 @@
       </v-col>
       <v-col class="my-2">
         <v-autocomplete
-          v-model="obj.selectVersion"
+          v-model="obj.version"
           class="my-4"
           color="primary"
           hide-selected
-          :items="versions"
+          :items="item ? item.versions : []"
           label="版本"
           :menu-props="{
             bottom: true,
@@ -59,10 +53,11 @@
         </v-autocomplete>
 
         <v-autocomplete
-          v-model="obj.EnvironmentId"
+          v-model="obj.environment"
           class="my-4"
           color="primary"
           hide-selected
+          item-value="environmentName"
           :items="m_select_projectEnvironmentItems"
           label="环境"
           :menu-props="{
@@ -71,7 +66,7 @@
             origin: `top center`,
           }"
           no-data-text="暂无可选数据"
-          :rules="objRules.environmentIdRules"
+          :rules="objRules.environmentRules"
           @focus="onEnvSelectFocus"
         >
           <template #selection="{ item }">
@@ -89,26 +84,60 @@
   import { mapState } from 'vuex';
 
   import BaseSelect from '@/mixins/select';
+  import { deepCopy } from '@/utils/helpers';
   import { k8sName, required } from '@/utils/rules';
 
   export default {
     name: 'DeployBaseConf',
     mixins: [BaseSelect],
+    props: {
+      base: {
+        type: Object,
+        default: () => null,
+      },
+      item: {
+        type: Object,
+        default: () => null,
+      },
+    },
     data() {
       return {
         valid: false,
-        obj: {},
-        objRules: {
-          appNameRules: [required, k8sName],
-          versionRules: [required],
-          tenantProjectIdRules: [required],
-          environmentIdRules: [required],
+        obj: {
+          name: '',
+          tenant: '',
+          project: '',
+          environment: '',
+          version: '',
         },
-        versions: [],
+        objRules: {
+          nameRules: [required, k8sName],
+          versionRules: [required],
+          tenantProjectRules: [required],
+          environmentRules: [required],
+        },
       };
     },
     computed: {
       ...mapState(['Auth']),
+      projectId() {
+        const pro = this.m_select_tenantProjectItems.find((p) => {
+          return p.text === this.obj.project;
+        });
+        if (pro) return pro.value;
+        return 0;
+      },
+    },
+    watch: {
+      base: {
+        handler(newValue) {
+          if (newValue) {
+            this.obj = deepCopy(newValue);
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
     },
     methods: {
       onTenantProjectSelectFocus() {
@@ -116,18 +145,27 @@
       },
       onAppVersionChange() {},
       async onEnvSelectFocus() {
-        await this.m_select_projectEnvironmentSelectData(this.obj.TenantProjectId);
+        await this.m_select_projectEnvironmentSelectData(this.projectId);
         this.m_select_projectEnvironmentItems = this.m_select_projectEnvironmentItems.filter((projectEnv) => {
           return (
             this.m_permisson_tenantAllow ||
             this.Auth.projects.some((p) => {
-              return p.isAdmin && p.id === this.obj.TenantProjectId;
+              return p.isAdmin && p.id === this.projectId;
             }) ||
             this.Auth.environments.some((authEnv) => {
               return authEnv.isAdmin && authEnv.name === projectEnv.text;
             })
           );
         });
+      },
+      validate() {
+        return this.$refs.form.validate(true);
+      },
+      getData() {
+        return this.obj;
+      },
+      reset() {
+        this.$refs.form.resetValidation();
       },
     },
   };

@@ -5,7 +5,7 @@
         {{ item.text }}
       </v-tab>
     </v-tabs>
-    <component :is="tabItems[tab].value" :ref="tabItems[tab].value" />
+    <component :is="tabItems[tab].value" :ref="tabItems[tab].value" :item="item" :spec="spec" />
   </div>
 </template>
 
@@ -19,14 +19,35 @@
       ModelDeploy,
       ImageDeploy,
     },
-    data: function () {
+    props: {
+      item: {
+        type: Object,
+        default: () => null,
+      },
+      spec: {
+        type: Object,
+        default: () => null,
+      },
+    },
+    data() {
       return {
         tab: 0,
         tabItems: [
           { text: '模型部署', value: 'ModelDeploy' },
-          { text: '镜像部署', value: 'ImageDeploy' },
+          // { text: '镜像部署', value: 'ImageDeploy' },
         ],
       };
+    },
+    methods: {
+      validate() {
+        return this.$refs[this.tabItems[this.tab].value].validate();
+      },
+      getData() {
+        return this.$refs[this.tabItems[this.tab].value].getData();
+      },
+      reset() {
+        this.$refs[this.tabItems[this.tab].value].reset();
+      },
     },
   };
 </script>

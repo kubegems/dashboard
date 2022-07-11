@@ -15,14 +15,14 @@
         @keyup="onSearch"
       />
 
-      <v-chip v-if="tagIndex > 15" class="ml-3 kubegems__pointer" color="primary" small @click="clearSelect">
+      <v-chip v-if="tagIndex > 15" class="ml-3 my-1 kubegems__pointer" color="primary" small @click="clearSelect">
         <v-avatar left>
           <BaseLogo class="filter__logo" :icon-name="getLogo(tag)" :ml="0" :width="18" />
         </v-avatar>
         {{ tagHide || tagsCopy[tagIndex] }}
       </v-chip>
       <v-chip-group v-model="tagIndex" active-class="primary" class="px-3" column @change="onTagChange">
-        <v-chip v-for="tag in searchShow ? tagsCopy : shortTags" :key="tag" small>
+        <v-chip v-for="tag in searchShow ? tagsCopy : shortTags" :key="tag" class="my-1" small>
           <v-avatar left>
             <BaseLogo class="filter__logo" default-logo="framework" :icon-name="getLogo(tag)" :ml="0" :width="18" />
           </v-avatar>
@@ -131,8 +131,8 @@
 
     &__null {
       text-align: center;
-      height: 100px;
-      line-height: 100px;
+      height: 130px;
+      line-height: 130px;
     }
 
     &__logo {

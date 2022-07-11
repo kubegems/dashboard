@@ -5,7 +5,7 @@
     <v-row class="mt-0">
       <v-col v-for="(item, index) in items" :key="index" class="pt-0 pb-3" cols="12">
         <v-hover #default="{ hover }">
-          <v-card class="mx-auto registry__pos" :elevation="hover ? 5 : 0" height="100%">
+          <v-card class="mx-auto" :elevation="hover ? 5 : 0" height="100%">
             <v-card-text>
               <div class="registry__title">
                 <div class="mr-4 float-left">
@@ -156,3 +156,24 @@
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .registry {
+    &__title {
+      line-height: 40px;
+    }
+
+    &__desc {
+      width: 600px;
+    }
+
+    &__stat {
+      width: 100px;
+    }
+
+    &__action,
+    &__action div {
+      line-height: 34px;
+    }
+  }
+</style>

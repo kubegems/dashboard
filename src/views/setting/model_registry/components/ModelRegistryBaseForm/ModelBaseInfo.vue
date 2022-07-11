@@ -32,14 +32,26 @@
             <v-text-field class="my-0" label="商店地址" required />
           </v-col>
         </template>
-        <v-col cols="6">
+        <v-col cols="12">
           <v-autocomplete
+            v-model="obj.images"
             class="my-0"
             color="primary"
-            label="默认镜像"
+            hide-selected
+            :items="imageItems"
+            label="默认镜像(回车创建)"
+            multiple
             no-data-text="暂无可选数据"
-            :rules="objRules.imageRules"
-          />
+            :rules="objRules.imagesRules"
+            :search-input.sync="imageText"
+            @keyup.enter="createImage"
+          >
+            <template #selection="{ item }">
+              <v-chip color="primary" small>
+                {{ item['text'] }}
+              </v-chip>
+            </template>
+          </v-autocomplete>
         </v-col>
         <template v-if="registry === 'modelx'">
           <v-col cols="6">
@@ -78,13 +90,16 @@
           { text: 'pytorch', value: 'pytorch' },
           { text: 'modelx', value: 'modelx' },
         ],
+        imageText: '',
+        imageItems: [],
         obj: {
           name: '',
+          images: [],
         },
         objRules: {
           nameRules: [required],
           registryRules: [required],
-          imageRules: [],
+          imagesRules: [required],
         },
       };
     },
@@ -93,6 +108,11 @@
         handler(newValue) {
           if (newValue) {
             this.obj = deepCopy(newValue);
+            this.imageItems = this.obj.images
+              ? this.obj.images.map((i) => {
+                  return { text: i, value: i };
+                })
+              : [];
             this.getRegistry();
           }
         },
@@ -142,6 +162,18 @@
         } else {
           this.$emit('changeStep', 2);
         }
+      },
+      createImage() {
+        if (
+          this.imageText &&
+          !this.imageItems.some((i) => {
+            return i.value === this.imageText;
+          })
+        ) {
+          this.imageItems.push({ text: this.imageText, value: this.imageText });
+          this.obj.images.push(this.imageText);
+        }
+        this.imageText = '';
       },
     },
   };

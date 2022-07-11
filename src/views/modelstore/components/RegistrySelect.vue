@@ -4,7 +4,7 @@
     <v-menu v-model="repoMenu" bottom class="mx-1 px-1" left offset-y origin="top center" transition="scale-transition">
       <template #activator="{ on }">
         <v-btn class="primary--text font-weight-medium" color="white" text v-on="on">
-          {{ selectRepo }}
+          {{ selectRepo.name }}
           <v-icon v-if="repoMenu" right> fas fa-angle-up </v-icon>
           <v-icon v-else right> fas fa-angle-down </v-icon>
         </v-btn>
@@ -27,7 +27,7 @@
                 :key="index"
                 class="text-body-2 text-center font-weight-medium mx-2"
                 link
-                :style="repo.value === selectRepo ? `color: #1e88e5 !important;` : ``"
+                :style="repo.value === selectRepo.name ? `color: #1e88e5 !important;` : ``"
                 @click="setRepo(repo)"
               >
                 <v-list-item-content>
@@ -72,7 +72,7 @@
     },
     methods: {
       setRepo(repo) {
-        this.selectRepo = repo.value;
+        this.selectRepo = repo;
         this.$emit('change', this.selectRepo);
         this.$emit('input', this.selectRepo);
       },
@@ -83,10 +83,10 @@
             return s.enabled;
           })
           .map((s) => {
-            return { text: s.name, value: s.name };
+            return { text: s.name, value: s.name, ...s };
           });
         if (this.repoItems.length > 0) {
-          this.selectRepo = this.repoItems[0].value;
+          this.selectRepo = this.repoItems[0];
           this.$emit('change', this.selectRepo);
           this.$emit('input', this.selectRepo);
         }

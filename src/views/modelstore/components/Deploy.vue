@@ -10,7 +10,7 @@
             <v-divider vertical />
           </v-flex>
           <v-col class="pa-0" cols="9">
-            <DeployWizard ref="deployWizard" />
+            <DeployWizard ref="deployWizard" :item="item" />
           </v-col>
         </v-row>
       </v-flex>

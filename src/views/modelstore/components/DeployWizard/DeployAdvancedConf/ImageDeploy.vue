@@ -20,10 +20,10 @@
         </v-col>
         <template v-if="advanced">
           <v-col cols="12">
-            <v-text-field label="模型挂载路径" />
+            <v-text-field v-model="obj.modelPath" label="模型挂载路径" />
           </v-col>
           <v-col cols="12">
-            <v-text-field label="访问域名" />
+            <v-text-field v-model="obj.host" label="访问域名" />
           </v-col>
         </template>
       </v-row>
@@ -41,9 +41,32 @@
     components: {
       ResourceConf,
     },
+    props: {
+      // item: {
+      //   type: Object,
+      //   default: () => null,
+      // },
+      // spec: {
+      //   type: Object,
+      //   default: () => null,
+      // },
+    },
     data() {
       return {
         advanced: false,
+        obj: {
+          host: '',
+          model: {
+            framework: '',
+            image: '',
+            name: '',
+            url: '',
+            version: '',
+          },
+          modelPath: '',
+          resources: {},
+          replicas: 1,
+        },
       };
     },
   };

@@ -1,5 +1,6 @@
 <template>
   <FormWizard
+    ref="wizard"
     back-button-text="上一步"
     :class="`px-8 pt-8`"
     color="#1e88e5"
@@ -18,20 +19,20 @@
       icon="ti-info-alt"
       title="基本配置"
     >
-      <DeployBaseConf />
+      <DeployBaseConf ref="baseConf" :base="obj.base" :item="item" />
     </TabContent>
     <TabContent :class="`kubegems__wizard-tab-content mt-12`" icon="ti-settings" :lazy="false" title="详细配置">
-      <DeployAdvancedConf />
+      <DeployAdvancedConf ref="advancedConf" :item="item" :spec="obj.spec" />
     </TabContent>
     <TabContent :class="`kubegems__wizard-tab-content mt-12`" icon="ti-check" :lazy="false" title="完成">
-      <DeployStatus />
+      <DeployStatus :item="item" />
     </TabContent>
     <template #footer="props">
       <v-flex class="kubegems__wizard-footer" :style="`right:${footerWidth}px;`">
         <v-btn v-show="props.activeTabIndex > 0" color="primary" text @click.native="props.prevTab()"> 上一步 </v-btn>
         <v-btn v-if="props.activeTabIndex === 0" color="primary" text @click.native="nextStep(props)"> 下一步 </v-btn>
 
-        <v-btn v-if="props.activeTabIndex === 1" color="primary" :loading="Circular" text> 部署 </v-btn>
+        <v-btn v-if="props.activeTabIndex === 1" color="primary" :loading="Circular" text @click="deploy"> 部署 </v-btn>
       </v-flex>
     </template>
   </FormWizard>
@@ -39,11 +40,12 @@
 
 <script>
   import { FormWizard, TabContent } from 'vue-form-wizard';
-  import { mapState } from 'vuex';
+  import { mapGetters, mapState } from 'vuex';
 
   import DeployAdvancedConf from './DeployAdvancedConf';
   import DeployBaseConf from './DeployBaseConf';
   import DeployStatus from './DeployStatus';
+  import { postDeployModel } from '@/api';
   import BaseSelect from '@/mixins/select';
 
   import 'vue-form-wizard/dist/vue-form-wizard.min.css';
@@ -58,12 +60,50 @@
       TabContent,
     },
     mixins: [BaseSelect],
-    props: {},
+    props: {
+      item: {
+        type: Object,
+        default: () => null,
+      },
+    },
     data() {
-      return {};
+      return {
+        obj: {
+          base: {
+            name: '',
+            tenant: '',
+            project: '',
+            environment: '',
+            version: '',
+          },
+          metadata: {
+            name: '',
+          },
+          spec: {
+            host: '',
+            model: {
+              framework: '',
+              image: '',
+              name: '',
+              url: '',
+              version: '',
+            },
+            modelPath: '',
+            resources: {
+              limits: {
+                cpu: 1,
+                memory: '2Gi',
+              },
+            },
+            source: '',
+            replicas: 1,
+          },
+        },
+      };
     },
     computed: {
-      ...mapState(['AdminViewport', 'Scale']),
+      ...mapState(['AdminViewport', 'Scale', 'Circular']),
+      ...mapGetters(['Tenant']),
       footerWidth() {
         return (window.innerWidth / this.Scale / 12) * 9 + 10;
       },
@@ -75,11 +115,39 @@
     },
     methods: {
       async nextStep(props) {
-        this.tab = 1;
         await props.nextTab();
       },
-      validateBaseInfo() {},
-      reset() {},
+      validateBaseInfo() {
+        const validate = this.$refs.baseConf.validate();
+        if (validate) {
+          const base = this.$refs.baseConf.getData();
+          this.obj.base = base;
+        }
+        return validate;
+      },
+      async deploy() {
+        if (this.$refs.advancedConf.validate()) {
+          const spec = this.$refs.advancedConf.getData();
+          this.obj.spec = spec;
+          this.obj.spec.source = this.item.source;
+          this.obj.spec.model.framework = this.item.framework;
+          this.obj.spec.model.name = this.item.name;
+          this.obj.metadata.name = this.obj.base.name;
+          this.obj.spec.model.version = this.obj.base.version;
+
+          await postDeployModel(this.Tenant().TenantName, this.obj.base.project, this.obj.base.environment, {
+            kind: '',
+            metadata: this.obj.metadata,
+            spec: this.obj.spec,
+          });
+        }
+      },
+      reset() {
+        this.$refs.wizard.reset();
+        if (this.$refs.baseConf) this.$refs.baseConf.reset();
+        if (this.$refs.advancedConf) this.$refs.advancedConf.reset();
+        this.obj = this.$options.data().obj;
+      },
     },
   };
 </script>

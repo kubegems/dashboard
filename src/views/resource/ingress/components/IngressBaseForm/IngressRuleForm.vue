@@ -124,30 +124,92 @@
               </v-autocomplete>
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
-              <v-autocomplete
-                v-model="ruler.paths[index].servicePort"
-                class="my-0"
-                color="primary"
-                hide-selected
-                :items="
-                  m_select_serviceItems.find((s) => {
-                    return s.text === ruler.paths[index].serviceName;
-                  })
-                    ? m_select_serviceItems.find((s) => {
+              <v-row>
+                <v-col class="pr-0" cols="3">
+                  <v-menu
+                    v-model="ruler.paths[index].portTypeMenu"
+                    bottom
+                    :close-on-content-click="false"
+                    content-class="tag-menu"
+                    nudge-bottom="5px"
+                    offset-y
+                    origin="top center"
+                    right
+                    transition="scale-transition"
+                  >
+                    <template #activator="{ on }">
+                      <v-chip class="primary--text float-left mt-3 font-weight-medium" color="white" label v-on="on">
+                        {{ ruler.paths[index].portType === 'name' ? '端口名' : '端口号' }}
+                        <v-icon v-if="ruler.paths[index].portTypeMenu" right small> fas fa-angle-up </v-icon>
+                        <v-icon v-else right small> fas fa-angle-down </v-icon>
+                      </v-chip>
+                    </template>
+                    <v-data-iterator
+                      hide-default-footer
+                      :items="[
+                        {
+                          text: 'portType',
+                          values: [
+                            { text: '端口名', value: 'name' },
+                            { text: '端口号', value: 'number' },
+                          ],
+                        },
+                      ]"
+                    >
+                      <template #default="props">
+                        <v-card v-for="iterdata in props.items" :key="iterdata.text">
+                          <v-list dense>
+                            <v-list-item
+                              v-for="(pType, i) in iterdata.values"
+                              :key="i"
+                              class="text-body-2 text-center"
+                              link
+                              :style="pType.value === ruler.paths[index].portType ? `color: #1e88e5 !important;` : ``"
+                              @click="setPortType(pType, index)"
+                            >
+                              <v-list-item-content>
+                                <span>
+                                  {{ pType.text }}
+                                </span>
+                              </v-list-item-content>
+                            </v-list-item>
+                          </v-list>
+                        </v-card>
+                      </template>
+                    </v-data-iterator>
+                  </v-menu>
+                </v-col>
+                <v-col class="pl-0" cols="9">
+                  <v-autocomplete
+                    v-model="ruler.paths[index].servicePort"
+                    class="my-0"
+                    color="primary"
+                    hide-selected
+                    :items="
+                      m_select_serviceItems.find((s) => {
                         return s.text === ruler.paths[index].serviceName;
-                      }).portNames
-                    : []
-                "
-                label="端口"
-                no-data-text="暂无可选数据"
-                :rules="rulerRules.pathsRule[index].servicePortRule"
-              >
-                <template #selection="{ item }">
-                  <v-chip class="mx-1" color="primary" small>
-                    {{ item['text'] }}
-                  </v-chip>
-                </template>
-              </v-autocomplete>
+                      })
+                        ? ruler.paths[index].portType === 'name'
+                          ? m_select_serviceItems.find((s) => {
+                              return s.text === ruler.paths[index].serviceName;
+                            }).portNames
+                          : m_select_serviceItems.find((s) => {
+                              return s.text === ruler.paths[index].serviceName;
+                            }).ports
+                        : []
+                    "
+                    label="端口"
+                    no-data-text="暂无可选数据"
+                    :rules="rulerRules.pathsRule[index].servicePortRule"
+                  >
+                    <template #selection="{ item }">
+                      <v-chip class="mx-1" color="primary" small>
+                        {{ item['text'] }}
+                      </v-chip>
+                    </template>
+                  </v-autocomplete>
+                </v-col>
+              </v-row>
             </v-flex>
             <v-btn class="mt-4" color="error" dark fab right text x-small @click="removePtah(index)">
               <v-icon>mdi-delete</v-icon>
@@ -210,7 +272,7 @@
           tls: '',
           secretName: '',
           host: '',
-          paths: [{ path: '', pathType: '', serviceName: '', servicePort: '' }],
+          paths: [{ path: '', pathType: '', serviceName: '', servicePort: '', portType: 'name', portTypeMenu: false }],
         },
       };
     },
@@ -271,7 +333,14 @@
         this.ruler.host = this.domain.replace(new RegExp('\\*', 'g'), randomString(4));
       },
       addPath() {
-        this.ruler.paths.push({ path: '', pathType: '', serviceName: '', servicePort: '' });
+        this.ruler.paths.push({
+          path: '',
+          pathType: '',
+          serviceName: '',
+          servicePort: '',
+          portType: 'name',
+          portTypeMenu: false,
+        });
         this.rulerRules.pathsRule.push({
           pathRule: [required],
           serviceNameRule: [required],
@@ -351,18 +420,33 @@
           const oriRuler = this.ruler.paths;
           const paths = [];
           this.ruler.paths.forEach((p) => {
-            paths.push({
-              path: p.path,
-              pathType: p.pathType,
-              backend: {
-                service: {
-                  name: p.serviceName,
-                  port: {
-                    name: p.servicePort,
+            if (p.portType === 'name') {
+              paths.push({
+                path: p.path,
+                pathType: p.pathType,
+                backend: {
+                  service: {
+                    name: p.serviceName,
+                    port: {
+                      name: p.servicePort,
+                    },
                   },
                 },
-              },
-            });
+              });
+            } else {
+              paths.push({
+                path: p.path,
+                pathType: p.pathType,
+                backend: {
+                  service: {
+                    name: p.serviceName,
+                    port: {
+                      number: p.servicePort,
+                    },
+                  },
+                },
+              });
+            }
           });
           // 域名为空时后端才会自动生成
           if (this.ruler.host === '自动生成域名') {
@@ -426,6 +510,10 @@
       },
       onSecretSelectFocus(clusterName, namespace, type) {
         this.m_select_secretSelectData(clusterName, namespace, type);
+      },
+      setPortType(portType, index) {
+        this.ruler.paths[index].portType = portType.value;
+        this.ruler.paths[index].portTypeMenu = false;
       },
     },
   };
