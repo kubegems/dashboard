@@ -33,9 +33,7 @@
           <div v-for="item in items" :key="item[itemValue]">
             <v-flex small class="ma-1 text-caption kubegems__text collapse__chip">
               <v-icon v-if="icon" :color="color" small left> {{ icon }} </v-icon>
-              <strong v-if="dataType === 'object'" class="mr-1">
-                {{ item[itemValue] }}
-              </strong>
+              <strong v-if="dataType === 'object'" class="mr-1"> {{ item[itemValue] }} </strong>
               <slot :item="item">{{ item[itemText] }}</slot>
             </v-flex>
           </div>
