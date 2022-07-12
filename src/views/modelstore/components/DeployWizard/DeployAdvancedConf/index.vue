@@ -5,7 +5,7 @@
         {{ item.text }}
       </v-tab>
     </v-tabs>
-    <component :is="tabItems[tab].value" :ref="tabItems[tab].value" :item="item" :spec="spec" />
+    <component :is="tabItems[tab].value" :ref="tabItems[tab].value" :base="base" :item="item" :spec="spec" />
   </div>
 </template>
 
@@ -20,6 +20,10 @@
       ImageDeploy,
     },
     props: {
+      base: {
+        type: Object,
+        default: () => null,
+      },
       item: {
         type: Object,
         default: () => null,

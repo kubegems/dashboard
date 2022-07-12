@@ -19,16 +19,10 @@
                 <v-list-item-subtitle class="text-body-2 text--lighten-4 card__desc">
                   更新时间： {{ $moment(item.updationTime).format('lll') }}
                 </v-list-item-subtitle>
-                <v-list-item-subtitle
-                  v-if="item.downloads !== null && item.downloads !== undefined"
-                  class="text-body-2 text--lighten-4 card__desc"
-                >
+                <v-list-item-subtitle v-if="item.downloads > -1" class="text-body-2 text--lighten-4 card__desc">
                   下载量： {{ beautifyFloatNum(item.downloads) }}
                 </v-list-item-subtitle>
-                <v-list-item-subtitle
-                  v-if="item.likes !== null && item.likes !== undefined"
-                  class="text-body-2 text--lighten-4 card__desc"
-                >
+                <v-list-item-subtitle v-if="item.likes > -1" class="text-body-2 text--lighten-4 card__desc">
                   热度： {{ beautifyFloatNum(item.likes || 0) }} <v-icon color="orange" small>mdi-heart</v-icon>
                 </v-list-item-subtitle>
               </v-list-item-content>

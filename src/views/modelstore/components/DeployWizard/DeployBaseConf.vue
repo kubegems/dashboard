@@ -67,6 +67,7 @@
           }"
           no-data-text="暂无可选数据"
           :rules="objRules.environmentRules"
+          @change="onEnvironmentChange"
           @focus="onEnvSelectFocus"
         >
           <template #selection="{ item }">
@@ -105,6 +106,7 @@
         valid: false,
         obj: {
           name: '',
+          cluster: '',
           tenant: '',
           project: '',
           environment: '',
@@ -166,6 +168,14 @@
       },
       reset() {
         this.$refs.form.resetValidation();
+      },
+      onEnvironmentChange() {
+        const env = this.m_select_projectEnvironmentItems.find((e) => {
+          return e.environmentName === this.obj.environment;
+        });
+        if (env) {
+          this.obj.cluster = env.clusterName;
+        }
       },
     },
   };

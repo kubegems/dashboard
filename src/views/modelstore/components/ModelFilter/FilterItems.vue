@@ -15,11 +15,11 @@
         @keyup="onSearch"
       />
 
-      <v-chip v-if="tagIndex > 15" class="ml-3 my-1 kubegems__pointer" color="primary" small @click="clearSelect">
+      <v-chip v-if="tagHide" class="ml-3 my-1 kubegems__pointer" color="primary" small @click="clearSelect">
         <v-avatar left>
-          <BaseLogo class="filter__logo" :icon-name="getLogo(tag)" :ml="0" :width="18" />
+          <BaseLogo class="filter__logo" :icon-name="getLogo(tagHide)" :ml="0" :width="18" />
         </v-avatar>
-        {{ tagHide || tagsCopy[tagIndex] }}
+        {{ tagHide }}
       </v-chip>
       <v-chip-group v-model="tagIndex" active-class="primary" class="px-3" column @change="onTagChange">
         <v-chip v-for="tag in searchShow ? tagsCopy : shortTags" :key="tag" class="my-1" small>
@@ -29,11 +29,11 @@
           {{ tag }}
         </v-chip>
       </v-chip-group>
-      <v-chip v-if="tags.length > 15" color="primary mx-3" small @click="searchShow = !searchShow">
+      <v-chip v-if="tags.length > 20" color="primary mx-3" small @click="searchShow = !searchShow">
         <span v-if="searchShow">
           <v-icon small>mdi-chevron-double-up</v-icon>
         </span>
-        <span v-else> + {{ tags.length - 15 }}</span>
+        <span v-else> + {{ tags.length - 20 }}</span>
       </v-chip>
     </div>
     <div v-if="!tags || tags.length === 0" class="filter__null"> 暂无数据 </div>
@@ -66,19 +66,20 @@
     },
     computed: {
       shortTags() {
-        return this.tags.slice(0, 15);
+        return this.tags.slice(0, 20);
       },
     },
     watch: {
       tags: {
         handler(newValue) {
-          this.tagsCopy = deepCopy(newValue);
+          this.tagsCopy = deepCopy(newValue.slice(0, 150));
           const tag = this.$route.query.tags;
-          const index = this.tagsCopy.findIndex((t) => {
+          const index = this.tags.findIndex((t) => {
             return t === tag;
           });
           if (index > -1) {
-            this.tagIndex = index;
+            this.tagHide = tag;
+            this.tagIndex = this.tagsCopy.indexOf(tag);
           }
         },
         deep: true,
@@ -88,21 +89,24 @@
     methods: {
       onSearch() {
         if (this.search) {
-          this.tagsCopy = this.tagsCopy.filter((t) => {
+          this.tagsCopy = this.tags.filter((t) => {
             return t.toLowerCase().indexOf(this.search.toLowerCase()) > -1;
           });
         } else {
-          this.tagsCopy = deepCopy(this.tags);
+          this.tagsCopy = deepCopy(this.tags.slice(0, 150));
         }
       },
       onTagChange() {
-        if (this.tagIndex && this.tagIndex >= 15) {
-          this.tagHide = this.tagsCopy[this.tagIndex];
+        const t = this.tagsCopy[this.tagIndex];
+        const index = this.tags.indexOf(t);
+        if (index && index >= 20) {
+          this.tagHide = this.tags[index];
+          this.tagIndex = -1;
         } else {
           this.tagHide = '';
         }
 
-        this.$emit('search', { [this.title.toLowerCase()]: this.tagIndex > -1 ? this.tagsCopy[this.tagIndex] : null });
+        this.$emit('search', { [this.title.toLowerCase()]: index > -1 ? this.tags[index] : null });
       },
       clearSelect() {
         this.tagIndex = -1;

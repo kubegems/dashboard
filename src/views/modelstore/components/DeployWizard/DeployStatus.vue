@@ -1,10 +1,10 @@
 <template>
   <v-card flat>
-    <v-dialog v-if="deploying" hide-overlay light persistent :value="dialog" width="300">
-      <v-card color="primary" dark>
-        <v-card-text class="text-center">
+    <v-dialog v-if="deploying" hide-overlay light persistent :value="processing" width="300">
+      <v-card class="pa-1" color="primary">
+        <v-card-text class="text-center white--text">
           部署中,请等待...
-          <v-progress-linear class="mb-0" color="white" indeterminate />
+          <v-progress-linear class="mb-0 mt-2" color="white" indeterminate />
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -22,11 +22,30 @@
 <script>
   export default {
     name: 'DeployStatus',
+    props: {
+      processing: {
+        type: Boolean,
+        default: () => false,
+      },
+    },
     data() {
       return {
-        dialog: false,
         deploying: true,
       };
+    },
+    watch: {
+      processing: {
+        handler(newValue) {
+          if (newValue) {
+            const _v = this;
+            setTimeout(() => {
+              _v.deploying = false;
+            }, 3000);
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
     },
     methods: {
       showDeployStatus() {

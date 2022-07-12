@@ -15,7 +15,7 @@
         <ModelInfo :item="item" />
       </v-col>
       <v-col class="pt-0" cols="9">
-        <v-card>
+        <v-card flat>
           <v-card-text>
             <v-tabs v-model="tab" height="30">
               <v-tab v-for="item in tabItems" :key="item.value">
@@ -24,7 +24,7 @@
             </v-tabs>
           </v-card-text>
         </v-card>
-        <component :is="tabItems[tab].value" :ref="tabItems[tab].value" :item="item" />
+        <component :is="currentComponent" :ref="tabItems[tab].value" :item="item" />
       </v-col>
     </v-row>
 
@@ -58,17 +58,40 @@
       Runtime,
     },
     data() {
+      this.tabMap = {
+        description: 0,
+        files: 1,
+        comment: 2,
+        runtime: 3,
+        certificate: 4,
+      };
+
       return {
-        tab: 0,
+        tab: this.tabMap[this.$route.query.tab] || 0,
         tabItems: [
-          { text: '介绍', value: 'Description' },
-          { text: '文件', value: 'Files' },
-          { text: '讨论区', value: 'Comment' },
-          { text: '运行实例', value: 'Runtime' },
-          // { text: '证书', value: 'Certificate' },
+          { text: '介绍', value: 'Description', tab: 'description' },
+          { text: '文件', value: 'Files', tab: 'files' },
+          { text: '讨论区', value: 'Comment', tab: 'comment' },
+          { text: '运行实例', value: 'Runtime', tab: 'runtime' },
+          // { text: '证书', value: 'Certificate', tab: 'certificate' },
         ],
         item: undefined,
       };
+    },
+    computed: {
+      currentComponent() {
+        return this.tabItems[this.tab].value;
+      },
+    },
+    watch: {
+      tab: {
+        handler() {
+          this.$router.replace({
+            params: { ...this.$route.params },
+            query: { ...this.$route.query, tab: this.tabItems[this.tab].tab },
+          });
+        },
+      },
     },
     mounted() {
       this.$nextTick(() => {
