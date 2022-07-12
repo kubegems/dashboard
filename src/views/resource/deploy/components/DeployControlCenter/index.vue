@@ -2,7 +2,7 @@
   <div>
     <v-row>
       <v-col cols="3">
-        <v-card class="mx-auto status-pos mb-3" height="102px">
+        <v-card class="mx-auto status-pos mb-3" flat height="102px">
           <v-list-item three-line>
             <v-list-item-content class="pb-2">
               <v-list-item-title class="text-subtitle-1 mb-1 primary--text font-weight-medium">
@@ -47,7 +47,7 @@
             </v-list-item-content>
           </v-list-item>
         </v-card>
-        <v-card class="mx-auto status-pos my-3">
+        <v-card class="mx-auto status-pos my-3" flat>
           <v-list-item three-line>
             <v-list-item-content class="pb-2">
               <v-list-item-title class="text-subtitle-1 mb-1 primary--text font-weight-medium">
@@ -125,7 +125,7 @@
             </v-list-item-subtitle>
           </v-card-text>
         </v-card>
-        <v-card class="mt-3">
+        <v-card class="mt-3" flat>
           <v-list-item three-line>
             <v-list-item-content class="pb-2">
               <v-list-item-title class="text-subtitle-1 mb-1 primary--text font-weight-medium">
@@ -174,7 +174,7 @@
             class="my-0 py-1"
             :cols="4"
           >
-            <v-card class="mx-auto status-pos" height="100%">
+            <v-card class="mx-auto status-pos" flat height="100%">
               <v-list-item three-line>
                 <v-list-item-content class="pb-2">
                   <v-list-item-title class="text-subtitle-1 mb-1 primary--text font-weight-medium">

@@ -4,7 +4,7 @@
     <v-row class="mt-0">
       <v-col v-for="(item, index) in items" :key="index" class="pt-0" cols="3">
         <v-hover #default="{ hover }">
-          <v-card class="mx-auto cluster-pos" :elevation="hover ? 5 : 0" height="100%">
+          <v-card class="mx-auto cluster-pos" :elevation="hover ? 5 : 0" flat height="100%">
             <v-list-item three-line>
               <v-list-item-avatar class="primary--text" size="80" tile>
                 <BaseLogo :icon-name="item.Vendor" :width="70" />
@@ -46,7 +46,7 @@
         </v-hover>
       </v-col>
       <v-col class="pt-0" cols="3">
-        <v-card class="kubegems__full-height" min-height="168">
+        <v-card class="kubegems__full-height" flat min-height="168">
           <v-card-text class="pa-0 kubegems__full-height">
             <v-list-item class="kubegems__full-height" three-line>
               <v-list-item-content>

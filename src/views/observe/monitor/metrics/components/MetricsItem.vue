@@ -1,5 +1,5 @@
 <template>
-  <v-card class="metrics-item">
+  <v-card class="metrics-item" flat>
     <div class="metrics-item__title">
       <span class="text-body-1 kubegems__text">{{ title }}</span>
       <v-btn color="primary" small @click="setAlert"> 设置告警 </v-btn>

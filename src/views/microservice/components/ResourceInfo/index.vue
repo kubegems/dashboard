@@ -6,7 +6,7 @@
       <ServiceInfo class="pb-2" :item="item" />
     </template>
 
-    <v-card v-for="(traffics, key) in traffic" :key="`${key}`" class="mt-3">
+    <v-card v-for="(traffics, key) in traffic" :key="`${key}`" class="mt-3" flat>
       <BaseSubTitle class="pt-2" :divider="false" :title="`${trafficCn[key]}`" />
       <v-data-table
         class="mx-4 pb-4"
@@ -34,7 +34,7 @@
       </v-data-table>
     </v-card>
 
-    <v-card v-if="$route.query.type === 'Service'" class="mt-3">
+    <v-card v-if="$route.query.type === 'Service'" class="mt-3" flat>
       <BaseSubTitle class="pt-2" :divider="false" title="工作负载" />
       <WorkloadList :workloads="item ? item.workloads : []" />
     </v-card>

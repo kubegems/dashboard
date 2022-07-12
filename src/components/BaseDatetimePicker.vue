@@ -26,7 +26,7 @@
       </v-btn>
     </template>
 
-    <v-card width="480px" class="pa-3">
+    <v-card flat width="480px" class="pa-3">
       <v-row>
         <!-- 快捷选项 -->
         <v-col cols="3">

@@ -27,7 +27,7 @@
                 </v-card>
               </template>
               <template #default="props">
-                <v-card v-for="item in props.items" :key="item.text">
+                <v-card v-for="item in props.items" :key="item.text" flat>
                   <v-list dense>
                     <v-flex class="text-subtitle-2 text-center ma-2">
                       <span>容器</span>
@@ -78,7 +78,7 @@
                 </v-card>
               </template>
               <template #default="props">
-                <v-card v-for="item in props.items" :key="item.text">
+                <v-card v-for="item in props.items" :key="item.text" flat>
                   <v-list dense>
                     <v-flex class="text-subtitle-2 text-center ma-2">
                       <span>容器组</span>

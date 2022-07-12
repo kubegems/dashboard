@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <v-card class="mt-8" height="400px">
+    <v-card class="mt-8" flat height="400px">
       <v-row class="row-height">
         <v-col class="d-none d-md-flex align-center justify-center">
           <div class="d-none d-sm-block">

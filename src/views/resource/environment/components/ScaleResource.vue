@@ -4,7 +4,7 @@
       <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
         <v-flex :class="expand ? 'kubegems__overlay' : ''" />
         <v-expand-transition>
-          <v-card v-show="resourceExpanded" class="my-2 pa-2">
+          <v-card v-show="resourceExpanded" class="my-2 pa-2" flat>
             <BaseSubTitle title="申请资源" />
             <v-card-text class="px-0">
               <component :is="resourceComponent" :data="obj" @addData="addResourceData" @close="closeResourceExpaned" />

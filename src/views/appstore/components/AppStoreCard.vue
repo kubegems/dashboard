@@ -1,6 +1,6 @@
 <template>
   <v-hover #default="{ hover }">
-    <v-card class="mx-auto" :elevation="hover ? 5 : 0" height="100%">
+    <v-card class="mx-auto" :elevation="hover ? 5 : 0" flat height="100%">
       <v-list-item three-line>
         <v-list-item-avatar size="80" tile>
           <BaseLogo :icon-name="app.name" :width="60" />

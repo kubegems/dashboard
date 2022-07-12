@@ -36,7 +36,7 @@
       </div>
     </v-card>
 
-    <v-card class="mt-6">
+    <v-card class="mt-6" flat>
       <v-sheet class="pa-2">
         <BaseListItemForDetail class="pt-0" :mt="0" title="架构">
           <template #content>
@@ -137,7 +137,7 @@
       </v-sheet>
     </v-card>
 
-    <v-card class="mt-3">
+    <v-card class="mt-3" flat>
       <BaseSubTitle class="pt-2" :divider="false" title="状况" />
       <v-simple-table class="mx-2 pa-2 pb-3">
         <template #default>

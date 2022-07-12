@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mt-6">
+  <v-card class="mt-6" flat>
     <v-card-text class="pa-0">
       <BaseSubTitle class="pt-2" :divider="false" title="资源统计" />
       <div class="kubegems__clear-float" />

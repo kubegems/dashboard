@@ -33,7 +33,7 @@
                   </v-card>
                 </template>
                 <template #default="props">
-                  <v-card class="app-overflow-y" max-height="300">
+                  <v-card class="app-overflow-y" flat max-height="300">
                     <v-list v-for="item in props.items" :key="item.text" dense>
                       <v-flex class="text-subtitle-2 text-center ma-2">
                         <span>版本</span>

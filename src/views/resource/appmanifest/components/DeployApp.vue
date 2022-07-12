@@ -31,7 +31,7 @@
                   </v-card>
                 </template>
                 <template #default="props">
-                  <v-card v-for="item in props.items" :key="item.text">
+                  <v-card v-for="item in props.items" :key="item.text" flat>
                     <v-list dense>
                       <v-flex class="text-subtitle-2 text-center ma-2">
                         <span>项目</span>
@@ -146,7 +146,7 @@
                       </v-card>
                     </template>
                     <template #default="props">
-                      <v-card v-for="iterdata in props.items" :key="iterdata.text" class="tag-card rounded-b">
+                      <v-card v-for="iterdata in props.items" :key="iterdata.text" class="tag-card rounded-b" flat>
                         <v-list dense>
                           <v-list-item
                             v-for="(tag, index) in iterdata.values"

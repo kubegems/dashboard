@@ -1,6 +1,6 @@
 <template>
   <v-flex>
-    <v-card class="mt-6">
+    <v-card class="mt-6" flat>
       <BaseSubTitle :divider="false" title="环境">
         <template #action>
           <v-btn v-if="m_permisson_virtualSpaceAllow" class="mr-1" color="primary" small text @click="linkEnvironment">

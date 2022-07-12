@@ -19,7 +19,7 @@
         <v-icon v-else right> fas fa-angle-down </v-icon>
       </v-btn>
     </template>
-    <v-card class="pa-2">
+    <v-card class="pa-2" flat>
       <slot />
     </v-card>
   </v-menu>

@@ -7,7 +7,7 @@
     </template>
     <template #content>
       <v-card>
-        <v-card v-for="value in diff" :key="value.name">
+        <v-card v-for="value in diff" :key="value.name" flat>
           <v-card-text class="ma-0 pa-0">
             {{ value.name }}
           </v-card-text>

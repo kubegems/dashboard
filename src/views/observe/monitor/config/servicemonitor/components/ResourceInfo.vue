@@ -50,7 +50,7 @@
       </v-sheet>
     </v-card>
 
-    <v-card class="mt-3">
+    <v-card class="mt-3" flat>
       <BaseSubTitle class="pt-2" :divider="false" title="端点" />
       <v-simple-table class="mx-2 pa-2 pb-3">
         <template #default>

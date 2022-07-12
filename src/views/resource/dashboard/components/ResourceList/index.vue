@@ -1,5 +1,5 @@
 <template>
-  <v-card class="my-3">
+  <v-card class="my-3" flat>
     <BaseSubTitle class="pt-2" :divider="false" title="集群" />
     <v-data-table
       class="px-4"

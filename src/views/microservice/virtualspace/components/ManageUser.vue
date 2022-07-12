@@ -17,7 +17,7 @@
               <v-card flat>
                 <v-row class="pa-0 ma-0">
                   <v-col class="py-1" cols="6">
-                    <v-card elevation="2" height="550px">
+                    <v-card elevation="2" flat height="550px">
                       <v-card-text>
                         <v-flex class="px-1 mb-2">用户</v-flex>
                         <v-text-field
@@ -49,7 +49,7 @@
                     </v-card>
                   </v-col>
                   <v-col class="py-1" cols="6">
-                    <v-card elevation="2" height="550px">
+                    <v-card elevation="2" flat height="550px">
                       <v-card-text>
                         <v-flex class="px-1 mb-2">
                           {{ tab === 0 ? '普通成员' : '管理员' }}

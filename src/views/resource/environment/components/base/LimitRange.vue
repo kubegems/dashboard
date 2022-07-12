@@ -1,7 +1,7 @@
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
     <v-expand-transition>
-      <v-card v-show="expand" class="mb-2 pa-2 kubegems__expand-transition" :elevation="4">
+      <v-card v-show="expand" class="mb-2 pa-2 kubegems__expand-transition" :elevation="4" flat>
         <v-sheet class="pt-4 px-2">
           <v-flex class="float-left text-body-2 py-2 primary--text font-weight-medium kubegems__min-width">
             <span>容器CPU</span>

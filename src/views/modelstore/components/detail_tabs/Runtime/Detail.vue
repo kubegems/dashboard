@@ -17,7 +17,7 @@
       </BaseListItemForDetail>
     </v-card>
 
-    <v-card class="mt-3">
+    <v-card class="mt-3" flat>
       <BaseSubTitle class="pt-2" :divider="false" title="实例信息" />
       <PodList :item="item" />
     </v-card>

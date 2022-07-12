@@ -1,5 +1,5 @@
 <template>
-  <v-card class="split-container" :class="{ 'split-container--hidden': !expand }">
+  <v-card flat class="split-container" :class="{ 'split-container--hidden': !expand }">
     <div class="split-container__side" :style="sideStyle">
       <div class="split-container__side-header">
         <div class="split-container__side-title">
@@ -40,7 +40,7 @@
               <v-icon>mdi-tooltip-text-outline</v-icon>
             </v-btn>
           </template>
-          <v-card class="pa-0">
+          <v-card flat class="pa-0">
             <slot name="tooltip"></slot>
           </v-card>
         </v-menu>

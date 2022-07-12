@@ -16,7 +16,7 @@
       </v-sheet>
     </v-card>
 
-    <v-card class="mt-3">
+    <v-card class="mt-3" flat>
       <BaseSubTitle class="pt-2" :divider="false" title="路由规则" />
       <v-flex class="pl-4 kubegems__text py-2 text-subtitle-1">HTTP</v-flex>
       <v-data-table

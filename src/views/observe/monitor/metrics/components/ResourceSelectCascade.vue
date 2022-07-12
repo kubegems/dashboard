@@ -31,7 +31,7 @@
         </template>
       </v-combobox>
     </template>
-    <v-card class="pa-2 py-3" height="450px">
+    <v-card class="pa-2 py-3" flat height="450px">
       <div class="text-subtitle-2 mx-2 kubegems__text select__title">
         <div class="float-left"> 选择一个模板 </div>
         <div class="float-right">

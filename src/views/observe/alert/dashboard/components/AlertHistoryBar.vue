@@ -1,5 +1,5 @@
 <template>
-  <v-card class="kubegems__h-24">
+  <v-card class="kubegems__h-24" flat>
     <BaseSubTitle :divider="false" title="告警历史趋势" />
     <div :style="{ height: `100%`, width: `100%` }">
       <VueApexCharts

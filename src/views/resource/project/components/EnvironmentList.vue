@@ -1,6 +1,6 @@
 <template>
   <v-flex>
-    <v-card v-for="(cluster, index) in clusters" :key="index" :class="`${index > 0 ? 'mt-3' : 'mt-6'}`">
+    <v-card v-for="(cluster, index) in clusters" :key="index" :class="`${index > 0 ? 'mt-3' : 'mt-6'}`" flat>
       <BaseSubTitle class="pt-2" :divider="false" :title="`集群 ${cluster.ClusterName}`">
         <template #action>
           <v-switch

@@ -2,7 +2,7 @@
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
     <v-flex :class="expand || expandTemplate ? 'kubegems__overlay' : ''" />
     <v-expand-transition>
-      <v-card v-show="expandTemplate" class="my-2 pa-2 kubegems__expand-transition" :elevation="4">
+      <v-card v-show="expandTemplate" class="my-2 pa-2 kubegems__expand-transition" :elevation="4" flat>
         <v-card-text class="pa-0">
           <component
             :is="volumeClaimTemplateComponent"
@@ -34,7 +34,7 @@
       </v-card-text>
     </template>
     <v-expand-transition>
-      <v-card v-show="expand" class="my-2 pa-2 kubegems__expand-transition" :elevation="4">
+      <v-card v-show="expand" class="my-2 pa-2 kubegems__expand-transition" :elevation="4" flat>
         <BaseSubTitle v-if="volumeType === 'ConfigMap' || volumeType === 'Secret'" :divider="false">
           <template #action>
             <v-btn class="float-right mr-2" color="primary" small text @click="addItem">

@@ -16,7 +16,7 @@
         <v-icon v-else right>fas fa-angle-down</v-icon>
       </v-btn>
     </template>
-    <v-card width="300px">
+    <v-card flat width="300px">
       <v-row>
         <v-col>
           <v-date-picker v-model="currentDate" no-title flat locale="zh-cn" @change="onDateChange"></v-date-picker>

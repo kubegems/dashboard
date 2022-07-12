@@ -6,7 +6,7 @@
         <v-row class="mt-0">
           <v-col v-for="(item, index) in vendorItems" :key="index" cols="4">
             <v-hover #default="{ hover }">
-              <v-card class="kubegems__pointer vendor-pos" :elevation="hover ? 5 : 1" @click="selectVendor(item)">
+              <v-card class="kubegems__pointer vendor-pos" :elevation="hover ? 5 : 1" flat @click="selectVendor(item)">
                 <v-list-item three-line>
                   <v-list-item-avatar class="primary--text" size="50" tile>
                     <BaseLogo :icon-name="item.value" :width="40" />

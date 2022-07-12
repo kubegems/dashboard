@@ -1,7 +1,7 @@
 <template>
   <v-card flat>
     <v-dialog v-if="deploying" hide-overlay light persistent :value="processing" width="300">
-      <v-card class="pa-1" color="primary">
+      <v-card class="pa-1" color="primary" flat>
         <v-card-text class="text-center white--text">
           部署中,请等待...
           <v-progress-linear class="mb-0 mt-2" color="white" indeterminate />

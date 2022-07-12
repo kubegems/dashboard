@@ -34,7 +34,7 @@
         <BasicResourceInfo :item="configmap" />
       </v-col>
       <v-col class="py-0" cols="10">
-        <v-card v-for="(data, key) in configmap ? configmap.data : {}" :key="key" class="mb-3">
+        <v-card v-for="(data, key) in configmap ? configmap.data : {}" :key="key" class="mb-3" flat>
           <v-card-text class="pa-4">
             <BaseSubTitle color="primary" :divider="false" :title="key" />
             <div :style="{ maxHeight: `${height}px`, overflowY: 'auto' }">

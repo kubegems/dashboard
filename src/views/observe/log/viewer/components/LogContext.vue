@@ -1,7 +1,7 @@
 <template>
   <BaseFullScreenDialog v-model="visible" icon="mdi-note-text" title="日志上下文" @dispose="handleDispose">
     <template #content>
-      <v-card class="log-context">
+      <v-card class="log-context" flat>
         <div class="text-center py-3">
           <v-btn color="primary" :loading="loading.preview" text x-small @click="handleLoadPreview">
             向前加载10条数据

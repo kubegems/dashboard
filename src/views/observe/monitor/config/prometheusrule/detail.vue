@@ -27,7 +27,7 @@
 
     <v-row>
       <v-col cols="6">
-        <v-card class="mt-0">
+        <v-card class="mt-0" flat>
           <BaseSubTitle class="pa-2" :divider="false" title="规则详情" />
           <v-card-text class="px-6 pt-0" :style="{ overflowY: 'auto', height: '330px' }">
             <pre class="yaml-pre">{{ yaml }}</pre>
@@ -35,7 +35,7 @@
         </v-card>
       </v-col>
       <v-col cols="6">
-        <v-card class="mt-0">
+        <v-card class="mt-0" flat>
           <BaseSubTitle class="pa-2" :divider="false" title="告警趋势" />
           <v-card-text class="px-6 pt-0" :style="{ height: '330px' }">
             <AlertBarChart
@@ -49,7 +49,7 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-card class="mt-3">
+    <v-card class="mt-3" flat>
       <v-card-text class="px-4 py-3">
         <AlertList ref="alertList" />
       </v-card-text>

@@ -10,7 +10,7 @@
               <v-icon color="primary" small v-on="on"> fas fa-ellipsis-v </v-icon>
             </v-btn>
           </template>
-          <v-card class="pa-2">
+          <v-card class="pa-2" flat>
             <v-btn block color="primary" text @click="addOutput">
               <v-icon left>mdi-plus-box</v-icon>
               创建路由器
@@ -62,7 +62,7 @@
                   <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
                 </v-btn>
               </template>
-              <v-card class="pa-2">
+              <v-card class="pa-2" flat>
                 <v-flex>
                   <v-btn color="primary" small text @click="updateOutput(item)"> 编辑 </v-btn>
                 </v-flex>

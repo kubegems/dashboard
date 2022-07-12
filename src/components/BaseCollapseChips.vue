@@ -28,7 +28,7 @@
         </v-flex>
       </template>
 
-      <v-card class="pa-2">
+      <v-card flat class="pa-2">
         <template v-if="singleLine">
           <div v-for="item in items" :key="item[itemValue]">
             <v-flex small class="ma-1 text-caption kubegems__text collapse__chip">

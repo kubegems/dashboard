@@ -5,7 +5,7 @@
     <v-row class="mt-0">
       <v-col v-for="(item, index) in items" :key="index" class="pt-0" cols="3">
         <v-hover #default="{ hover }">
-          <v-card class="mx-auto gateway-pos" :elevation="hover ? 5 : 0" height="100%">
+          <v-card class="mx-auto gateway-pos" :elevation="hover ? 5 : 0" flat height="100%">
             <v-list-item three-line>
               <v-list-item-avatar class="primary--text" size="80" tile>
                 <Icon icon="cib:nginx" :style="{ width: `80px`, height: `80px`, marginLeft: `10px` }" />
@@ -73,7 +73,7 @@
         </v-hover>
       </v-col>
       <v-col v-if="m_permisson_resourceAllow" class="pt-0" cols="3">
-        <v-card class="full-height" min-height="211">
+        <v-card class="full-height" flat min-height="211">
           <v-card-text class="pa-0 full-height">
             <v-list-item class="full-height" three-line>
               <v-list-item-content>

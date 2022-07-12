@@ -1,5 +1,5 @@
 <template>
-  <v-card class="my-3">
+  <v-card class="my-3" flat>
     <BaseSubTitle class="pt-2" :divider="false" title="事件">
       <template #selector>
         <v-sheet class="text-body-2 text--darken-1">
@@ -35,7 +35,7 @@
                 </v-card>
               </template>
               <template #default="props">
-                <v-card v-for="item in props.items" :key="item.text" min-width="100px">
+                <v-card v-for="item in props.items" :key="item.text" flat min-width="100px">
                   <v-list dense>
                     <v-flex class="text-subtitle-2 text-center ma-2">
                       <span>集群</span>

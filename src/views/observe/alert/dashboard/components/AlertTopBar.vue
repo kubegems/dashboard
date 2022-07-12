@@ -1,5 +1,5 @@
 <template>
-  <v-card class="kubegems__h-24">
+  <v-card class="kubegems__h-24" flat>
     <BaseSubTitle :divider="false" title="告警TOP10">
       <template #selector>
         <v-sheet class="text-body-2 text--darken-1">
