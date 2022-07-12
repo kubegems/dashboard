@@ -67,6 +67,7 @@
   import Kafka from './Kafka';
   import Loki from './Loki';
   import { deepCopy } from '@/utils/helpers';
+  import { SERVICE_LOGGING_NS } from '@/utils/namespace';
   import { required } from '@/utils/rules';
 
   export default {
@@ -116,7 +117,7 @@
       ...mapState(['AdminViewport', 'ApiResources']),
       typeItems() {
         return [{ text: 'Output', value: 'Output' }].concat(
-          this.AdminViewport ? [{ text: 'ClusterOutput', value: 'ClusterOutput' }] : [],
+          this.$route.query.namespace === SERVICE_LOGGING_NS ? [{ text: 'ClusterOutput', value: 'ClusterOutput' }] : [],
         );
       },
       formComponent() {
