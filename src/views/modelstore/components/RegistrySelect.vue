@@ -16,7 +16,7 @@
           </v-card>
         </template>
         <template #default="props">
-          <v-card v-for="item in props.items" :key="item.text" min-height="100">
+          <v-card v-for="item in props.items" :key="item.text" flat min-height="100">
             <v-list dense>
               <v-flex class="text-subtitle-2 text-center ma-2">
                 <span>在线商店</span>

@@ -19,7 +19,7 @@
       <v-row class="mt-3">
         <v-col v-for="(plugin, index) in plugins" :key="index" class="pt-0" cols="3">
           <v-hover #default="{ hover }">
-            <v-card class="mx-auto plugins-pos" :elevation="hover ? 5 : 0" height="180px">
+            <v-card class="mx-auto plugins-pos" :elevation="hover ? 5 : 0" flat height="180px">
               <v-list-item three-line>
                 <v-list-item-avatar size="80" tile>
                   <BaseLogo :icon-name="plugin.name" :width="60" />

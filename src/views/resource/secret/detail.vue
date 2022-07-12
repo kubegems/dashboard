@@ -33,7 +33,7 @@
         <BasicResourceInfo :item="secret" />
       </v-col>
       <v-col class="py-0" cols="10">
-        <v-card v-for="item in datas" :key="item.key" class="mb-3">
+        <v-card v-for="item in datas" :key="item.key" class="mb-3" flat>
           <v-card-text>
             <BaseSubTitle color="primary" :divider="false" height="36px" :title="item.key">
               <template #action>

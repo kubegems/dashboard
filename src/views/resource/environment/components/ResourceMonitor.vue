@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mt-3">
+  <v-card class="mt-3" flat>
     <BaseSubTitle class="pt-2" :divider="false" title="资源监控">
       <template #selector>
         <v-sheet class="text-body-2 text--darken-1">

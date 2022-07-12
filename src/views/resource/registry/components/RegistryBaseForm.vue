@@ -54,7 +54,7 @@
                   </template>
                   <v-data-iterator hide-default-footer :items="[{ text: 'scheme', values: ['http', 'https'] }]">
                     <template #default="props">
-                      <v-card v-for="iterdata in props.items" :key="iterdata.text">
+                      <v-card v-for="iterdata in props.items" :key="iterdata.text" flat>
                         <v-list dense>
                           <v-list-item
                             v-for="(prefixscheme, index) in iterdata.values"

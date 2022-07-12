@@ -1,12 +1,12 @@
 <template>
   <v-row>
     <v-col cols="5">
-      <v-card class="pa-2" height="100%">
+      <v-card class="pa-2" flat height="100%">
         <LeftSteps v-model="current" />
       </v-card>
     </v-col>
     <v-col cols="7">
-      <v-card class="pa-4" height="100%">
+      <v-card class="pa-4" flat height="100%">
         <component :is="current" />
       </v-card>
     </v-col>

@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="Confirm.value" max-width="500" persistent scrollable>
-    <v-card class="pa-0">
+    <v-card flat class="pa-0">
       <v-sheet class="px-4 py-2 error--text text-h6">
         {{ Confirm.title }}
       </v-sheet>

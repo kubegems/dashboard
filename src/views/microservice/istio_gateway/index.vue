@@ -21,7 +21,7 @@
         <v-row class="mt-3">
           <v-col v-for="(item, index) in items" :key="index" class="pt-0" cols="3">
             <v-hover #default="{ hover }">
-              <v-card class="mx-auto" :elevation="hover ? 5 : 0" height="100%">
+              <v-card class="mx-auto" :elevation="hover ? 5 : 0" flat height="100%">
                 <v-list-item three-line>
                   <v-list-item-avatar class="primary--text" size="80" tile>
                     <Icon icon="simple-icons:istio" :style="{ width: `80px`, height: `80px`, marginLeft: `10px` }" />
@@ -89,7 +89,7 @@
             </v-hover>
           </v-col>
           <v-col v-if="m_permisson_virtualSpaceAllow" class="pt-0" cols="3">
-            <v-card class="kubegems__full-height" min-height="156">
+            <v-card class="kubegems__full-height" flat min-height="156">
               <v-card-text class="pa-0 kubegems__full-height">
                 <v-list-item class="kubegems__full-height" three-line>
                   <v-list-item-content>

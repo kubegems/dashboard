@@ -9,7 +9,7 @@
     persistent
     no-click-animation
   >
-    <v-card class="rounded-0">
+    <v-card flat class="rounded-0">
       <v-flex class="px-4 py-3 primary white--text full-screen__position">
         <div v-if="kubegemsLogo" class="justify-center float-left text-h6 py-1">
           <span class="hidden-sm-and-down float-left">

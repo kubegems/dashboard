@@ -1,5 +1,5 @@
 <template>
-  <v-card class="rounded-tr-0 rounded-tl-0 mb-3" height="60">
+  <v-card flat class="rounded-tr-0 rounded-tl-0 mb-3" height="60">
     <v-card-title class="py-3 mt-n3" :style="{ height: `60px` }">
       <v-sheet v-if="selectable" class="text-subtitle-1">
         虚拟空间
@@ -39,7 +39,7 @@
               </v-card>
             </template>
             <template #default="props">
-              <v-card v-for="item in props.items" :key="item.text" :loading="loading">
+              <v-card flat v-for="item in props.items" :key="item.text" :loading="loading">
                 <v-list dense class="pb-3">
                   <v-flex class="text-subtitle-2 text-center ma-2">
                     <span>虚拟空间</span>

@@ -31,7 +31,7 @@
       </v-flex>
     </v-card>
 
-    <v-card class="mt-3">
+    <v-card class="mt-3" flat>
       <BaseSubTitle class="pt-2" :divider="false" title="注解">
         <template v-if="!readonly" #action>
           <v-btn class="float-right mr-2" color="primary" small text @click="addAnnotation">

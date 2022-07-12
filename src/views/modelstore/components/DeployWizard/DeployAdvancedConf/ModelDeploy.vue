@@ -17,15 +17,15 @@
           />
         </v-col>
         <v-col cols="2">
-          <v-switch v-model="loadOnline" hide-details label="在线导入模型文件" readonly />
+          <v-switch v-model="loadOnline" label="在线导入模型文件" readonly />
         </v-col>
         <v-col v-if="false" cols="4">
-          <v-checkbox hide-details label="从 kubegems modelx 导入模型文件" />
+          <v-checkbox label="从 kubegems modelx 导入模型文件" />
         </v-col>
       </v-row>
     </v-card-text>
 
-    <ResourceConf ref="resourceConf" :spec="spec" />
+    <ResourceConf ref="resourceConf" :base="base" :spec="spec" />
   </v-form>
 </template>
 
@@ -39,6 +39,10 @@
       ResourceConf,
     },
     props: {
+      base: {
+        type: Object,
+        default: () => null,
+      },
       item: {
         type: Object,
         default: () => null,

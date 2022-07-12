@@ -3,7 +3,7 @@
     <template #activator="{ on, attrs }">
       <v-icon v-bind="attrs" color="warning" small v-on="on"> mdi-alert-circle </v-icon>
     </template>
-    <v-card max-width="300">
+    <v-card flat max-width="300">
       <v-list dense>
         <v-flex class="text-subtitle-2 text-center ma-2">
           <span>第三方仓库</span>

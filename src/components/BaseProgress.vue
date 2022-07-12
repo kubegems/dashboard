@@ -1,7 +1,7 @@
 <template>
   <v-overlay :opacity="0.3" :value="Progress && !DialogActive && !PanelActive && !FullDialogActive">
     <!-- <v-progress-circular indeterminate size="64" :width="5"></v-progress-circular> -->
-    <v-card class="progress__light" width="130px" height="100px">
+    <v-card flat class="progress__light" width="130px" height="100px">
       <v-card-text>
         <div class="text-center primary--text progress__loading" :style="{ fontFamily: 'kubegems-sample' }">
           <span class="progress__loading__span" :style="{ animationDelay: '0ms', left: '0px' }">K</span>

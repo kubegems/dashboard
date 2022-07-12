@@ -61,7 +61,7 @@
 
       <v-row class="mt-3 mb-1 pb-0">
         <v-col v-for="(graph, index) in items[tab].graphs" :key="index" class="dash__col pt-0" :cols="4">
-          <v-card class="kubegems__full-height" height="330">
+          <v-card class="kubegems__full-height" flat height="330">
             <v-card-text class="pa-1 kubegems__full-height">
               <div class="dash__btn">
                 <v-btn icon small @click.stop="openGraphInMaxScreen(graph)">
@@ -93,7 +93,7 @@
           </v-card>
         </v-col>
         <v-col class="pt-0" cols="4">
-          <v-card class="kubegems__full-height" min-height="330">
+          <v-card class="kubegems__full-height" flat min-height="330">
             <v-card-text class="pa-0 kubegems__full-height">
               <v-list-item class="kubegems__full-height" three-line>
                 <v-list-item-content>

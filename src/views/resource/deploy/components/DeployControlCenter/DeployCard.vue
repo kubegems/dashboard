@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col class="pt-0" cols="3">
-      <v-card height="100%">
+      <v-card flat height="100%">
         <v-card-text class="pa-5">
           <div class="d-flex align-center">
             <Icon class="mr-3 primary--text" height="40px" icon="clarity:network-globe-line" width="40px" />
@@ -15,7 +15,7 @@
       </v-card>
     </v-col>
     <v-col class="pt-0" cols="3">
-      <v-card height="100%">
+      <v-card flat height="100%">
         <v-card-text class="pa-5">
           <div class="d-flex align-center">
             <Icon class="mr-3 primary--text" height="40px" icon="fluent:timer-16-regular" width="40px" />
@@ -29,7 +29,7 @@
       </v-card>
     </v-col>
     <v-col class="pt-0" cols="3">
-      <v-card height="100%">
+      <v-card flat height="100%">
         <v-card-text class="pa-5">
           <div class="d-flex align-center">
             <Icon class="mr-3 primary--text" height="40px" icon="clarity:network-globe-outline-badged" width="40px" />
@@ -46,7 +46,7 @@
       </v-card>
     </v-col>
     <v-col class="pt-0" cols="3">
-      <v-card height="100%">
+      <v-card flat height="100%">
         <v-card-text class="pa-5">
           <div class="d-flex align-center">
             <Icon class="mr-3 primary--text" height="40px" icon="carbon:content-delivery-network" width="40px" />

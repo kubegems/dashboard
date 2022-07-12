@@ -38,7 +38,7 @@
     </BaseBreadcrumb>
     <v-row class="mt-n3 deploy-pos">
       <v-col cols="3">
-        <v-card height="100%">
+        <v-card flat height="100%">
           <v-card-title>
             <span class="text-subtitle-1 kubegems__text"> 滚动更新 </span>
             <v-spacer />
@@ -68,7 +68,7 @@
         </v-card>
       </v-col>
       <v-col cols="3">
-        <v-card height="100%">
+        <v-card flat height="100%">
           <v-card-title>
             <span class="text-subtitle-1 kubegems__text"> 重建 </span>
             <v-spacer />
@@ -97,7 +97,7 @@
         </v-card>
       </v-col>
       <v-col cols="3">
-        <v-card height="100%">
+        <v-card flat height="100%">
           <v-card-title>
             <span class="text-subtitle-1 kubegems__text"> 蓝绿发布 </span>
             <v-spacer />
@@ -127,7 +127,7 @@
         </v-card>
       </v-col>
       <v-col cols="3">
-        <v-card height="100%">
+        <v-card flat height="100%">
           <v-card-title>
             <span class="text-subtitle-1 kubegems__text"> 金丝雀发布（灰度） </span>
             <v-spacer />

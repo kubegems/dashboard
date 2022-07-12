@@ -3,7 +3,7 @@
     <v-row class="mt-0">
       <v-col v-for="(item, index) in items" :key="index" class="pt-0" cols="3">
         <v-hover #default="{ hover }">
-          <v-card class="mx-auto" :elevation="hover ? 5 : 0" height="100%">
+          <v-card class="mx-auto" :elevation="hover ? 5 : 0" flat height="100%">
             <v-list-item three-line>
               <v-list-item-avatar size="80" tile>
                 <BaseLogo icon-name="ai-model" :ml="0" :width="60" />
@@ -19,16 +19,10 @@
                 <v-list-item-subtitle class="text-body-2 text--lighten-4 card__desc">
                   更新时间： {{ $moment(item.updationTime).format('lll') }}
                 </v-list-item-subtitle>
-                <v-list-item-subtitle
-                  v-if="item.downloads !== null && item.downloads !== undefined"
-                  class="text-body-2 text--lighten-4 card__desc"
-                >
+                <v-list-item-subtitle v-if="item.downloads > -1" class="text-body-2 text--lighten-4 card__desc">
                   下载量： {{ beautifyFloatNum(item.downloads) }}
                 </v-list-item-subtitle>
-                <v-list-item-subtitle
-                  v-if="item.likes !== null && item.likes !== undefined"
-                  class="text-body-2 text--lighten-4 card__desc"
-                >
+                <v-list-item-subtitle v-if="item.likes > -1" class="text-body-2 text--lighten-4 card__desc">
                   热度： {{ beautifyFloatNum(item.likes || 0) }} <v-icon color="orange" small>mdi-heart</v-icon>
                 </v-list-item-subtitle>
               </v-list-item-content>
@@ -56,7 +50,7 @@
         </v-hover>
       </v-col>
       <v-col v-if="false" class="pt-0 pb-3" cols="3">
-        <v-card class="kubegems__full-height" min-height="227">
+        <v-card class="kubegems__full-height" flat min-height="227">
           <v-card-text class="pa-0 kubegems__full-height">
             <v-list-item class="kubegems__full-height" three-line>
               <v-list-item-content>

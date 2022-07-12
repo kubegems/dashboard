@@ -14,10 +14,10 @@
         <v-icon small>fas fa-wrench</v-icon>
       </v-btn>
     </template>
-    <v-card class="pa-0">
+    <v-card class="pa-0" flat>
       <BaseSubTitle :divider="false" title="工具箱" />
       <v-card-text class="px-2 pt-0 pb-2">
-        <v-card v-if="Admin" class="my-2 pa-2" hover outlined @click="toAdminViewport">
+        <v-card v-if="Admin" class="my-2 pa-2" flat hover outlined @click="toAdminViewport">
           <v-card-text class="pa-1">
             <v-flex class="float-left">
               <v-icon color="primary" left small> fas fa-cog </v-icon>

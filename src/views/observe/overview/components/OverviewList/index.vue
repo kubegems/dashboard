@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pa-4">
+  <v-card class="pa-4" flat>
     <div class="d-flex justify-space-between align-center">
       <ProjectSelect v-model="project" :tenant="tenant" />
       <Duration v-model="params.duration" />

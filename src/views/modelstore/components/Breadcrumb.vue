@@ -2,7 +2,7 @@
   <v-flex class="mb-3">
     <v-row class="ma-0 pa-0">
       <v-col class="pa-0" cols="1" sm="12">
-        <v-card class="custom-shaodow pa-0" height="64">
+        <v-card class="custom-shaodow pa-0" flat height="64">
           <v-card-text class="breadcrumb__flex">
             <div class="text-subtitle-2 kubegems__text font-weight-medium breadcrumb__font">
               <img height="32" :src="imgSrc" />

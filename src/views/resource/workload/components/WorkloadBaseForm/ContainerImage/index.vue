@@ -2,7 +2,7 @@
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
     <v-flex :class="expand ? 'kubegems__overlay' : ''" />
     <v-expand-transition>
-      <v-card v-show="expand" class="my-2 pa-2 kubegems__expand-transition" :elevation="4">
+      <v-card v-show="expand" class="my-2 pa-2 kubegems__expand-transition" :elevation="4" flat>
         <v-card-text class="pa-2">
           <BaseSubTitle title="镜像" />
           <ContainerImageSelect

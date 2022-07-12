@@ -7,7 +7,7 @@
       </div>
     </template>
     <template #content>
-      <v-card class="px-3">
+      <v-card class="px-3" flat>
         <v-data-iterator disable-filtering disable-pagination hide-default-footer :items="history">
           <template #default="props">
             <v-simple-table :height="height">

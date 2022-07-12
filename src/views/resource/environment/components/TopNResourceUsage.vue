@@ -26,7 +26,7 @@
                 </v-card>
               </template>
               <template #default="props">
-                <v-card v-for="item in props.items" :key="item.text">
+                <v-card v-for="item in props.items" :key="item.text" flat>
                   <v-list dense>
                     <v-flex class="text-subtitle-2 text-center ma-2">
                       <span>资源使用</span>

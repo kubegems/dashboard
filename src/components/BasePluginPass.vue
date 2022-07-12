@@ -4,7 +4,7 @@
       <div class="container container--fluid">
         <BaseBreadcrumb />
       </div>
-      <v-card class="mx-3" :height="`${height}px`">
+      <v-card flat class="mx-3" :height="`${height}px`">
         <v-row :style="{ height: `${height}px` }">
           <v-col class="d-flex align-center justify-center">
             <div class="d-flex align-center pa-10">

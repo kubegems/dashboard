@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pl-2">
+  <v-card class="pl-2" flat>
     <v-row class="mt-3">
       <v-col class="col-position" cols="4">
         <v-treeview

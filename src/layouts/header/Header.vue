@@ -63,7 +63,7 @@
       </template>
       <v-data-iterator hide-default-footer :items="[{ text: '', values: stores }]">
         <template #default="props">
-          <v-card v-for="item in props.items" :key="item.text">
+          <v-card v-for="item in props.items" :key="item.text" flat>
             <v-list dense>
               <v-list-item
                 v-for="(store, index) in item.values"

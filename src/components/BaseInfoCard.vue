@@ -1,5 +1,5 @@
 <template>
-  <v-card :flat="flat">
+  <v-card flat :flat="flat">
     <v-card-text class="pa-5">
       <div class="d-flex align-center justify-left">
         <Icon :icon="icon" class="mr-4 primary--text" width="50px" height="50px" />

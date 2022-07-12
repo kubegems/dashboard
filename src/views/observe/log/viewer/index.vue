@@ -30,7 +30,7 @@
       />
     </v-card>
 
-    <v-card class="pa-3 mt-3">
+    <v-card class="pa-3 mt-3" flat>
       <div class="log-viewer__toolbar">
         <div v-if="view.resultType === 'streams'">
           <div class="d-inline-block">

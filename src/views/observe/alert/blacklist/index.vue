@@ -7,7 +7,7 @@
         </v-flex>
       </template>
     </BaseBreadcrumb>
-    <v-card class="mt-3 pa-4">
+    <v-card class="mt-3 pa-4" flat>
       <v-data-table
         class="kubegems__table-row-pointer"
         disable-sort
@@ -49,7 +49,7 @@
                 <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
               </v-btn>
             </template>
-            <v-card class="pa-2">
+            <v-card class="pa-2" flat>
               <v-btn color="primary" small text @click.stop="onRemoveBlack(item)"> 移除黑名单 </v-btn>
             </v-card>
           </v-menu>

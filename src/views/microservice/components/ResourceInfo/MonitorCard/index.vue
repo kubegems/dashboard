@@ -1,12 +1,12 @@
 <template>
   <v-row>
     <v-col class="py-0" :cols="4">
-      <v-card class="mb-0 px-2 pt-1" height="100%">
+      <v-card class="mb-0 px-2 pt-1" flat height="100%">
         <WorkloadInfo :item="workload" />
       </v-card>
     </v-col>
     <v-col class="py-0" :cols="2">
-      <v-card class="mb-0" height="265px">
+      <v-card class="mb-0" flat height="265px">
         <div class="pa-2">
           <h4 class="font-weight-regular text-title kubegems__text mx-3">请求量</h4>
           <div class="d-flex align-center mt-2">
@@ -42,7 +42,7 @@
       </v-card>
     </v-col>
     <v-col class="py-0" :cols="2">
-      <v-card class="mb-0" height="265px">
+      <v-card class="mb-0" flat height="265px">
         <div class="pa-2">
           <h4 class="font-weight-regular text-title kubegems__text mx-3">响应时间</h4>
           <div class="d-flex align-center mt-2">
@@ -70,7 +70,7 @@
       </v-card>
     </v-col>
     <v-col class="py-0" :cols="2">
-      <v-card class="mb-0" height="265px">
+      <v-card class="mb-0" flat height="265px">
         <div class="pa-2">
           <h4 class="font-weight-regular text-title kubegems__text mx-3"> 异常请求数 </h4>
           <div class="d-flex align-center mt-2">
@@ -102,7 +102,7 @@
       </v-card>
     </v-col>
     <v-col class="py-0" :cols="2">
-      <v-card class="mb-0" height="265px">
+      <v-card class="mb-0" flat height="265px">
         <div class="pa-2">
           <h4 class="font-weight-regular text-title kubegems__text mx-3">流量</h4>
           <div class="d-flex align-center mt-2">

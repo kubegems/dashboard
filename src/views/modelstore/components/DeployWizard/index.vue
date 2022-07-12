@@ -22,10 +22,10 @@
       <DeployBaseConf ref="baseConf" :base="obj.base" :item="item" />
     </TabContent>
     <TabContent :class="`kubegems__wizard-tab-content mt-12`" icon="ti-settings" :lazy="false" title="详细配置">
-      <DeployAdvancedConf ref="advancedConf" :item="item" :spec="obj.spec" />
+      <DeployAdvancedConf ref="advancedConf" :base="obj.base" :item="item" :spec="obj.spec" />
     </TabContent>
     <TabContent :class="`kubegems__wizard-tab-content mt-12`" icon="ti-check" :lazy="false" title="完成">
-      <DeployStatus :item="item" />
+      <DeployStatus :item="item" :processing="processing" />
     </TabContent>
     <template #footer="props">
       <v-flex class="kubegems__wizard-footer" :style="`right:${footerWidth}px;`">
@@ -87,6 +87,7 @@
               name: '',
               url: '',
               version: '',
+              source: '',
             },
             modelPath: '',
             resources: {
@@ -95,10 +96,10 @@
                 memory: '2Gi',
               },
             },
-            source: '',
             replicas: 1,
           },
         },
+        processing: false,
       };
     },
     computed: {
@@ -129,24 +130,33 @@
         if (this.$refs.advancedConf.validate()) {
           const spec = this.$refs.advancedConf.getData();
           this.obj.spec = spec;
-          this.obj.spec.source = this.item.source;
+          this.obj.spec.model.source = this.item.source;
           this.obj.spec.model.framework = this.item.framework;
           this.obj.spec.model.name = this.item.name;
           this.obj.metadata.name = this.obj.base.name;
           this.obj.spec.model.version = this.obj.base.version;
 
           await postDeployModel(this.Tenant().TenantName, this.obj.base.project, this.obj.base.environment, {
-            kind: '',
             metadata: this.obj.metadata,
             spec: this.obj.spec,
           });
+          this.$refs.wizard.nextTab();
+          this.processing = true;
         }
       },
       reset() {
         this.$refs.wizard.reset();
+        this.processing = false;
         if (this.$refs.baseConf) this.$refs.baseConf.reset();
         if (this.$refs.advancedConf) this.$refs.advancedConf.reset();
         this.obj = this.$options.data().obj;
+      },
+      showDeployStatus() {
+        this.$emit('dispose');
+        this.$router.replace({
+          params: { ...this.$route.params },
+          query: { ...this.$route.query, tab: 'runtime' },
+        });
       },
     },
   };

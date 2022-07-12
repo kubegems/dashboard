@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pa-3" :elevation="expand ? 3 : 0">
+  <v-card class="pa-3" :elevation="expand ? 3 : 0" flat>
     <div class="d-flex">
       <v-btn color="primary" text @click="onSwitchExpand">
         查询<v-icon right>mdi-chevron-{{ expand ? 'up' : 'down' }}</v-icon>

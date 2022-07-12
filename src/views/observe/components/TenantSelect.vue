@@ -25,7 +25,7 @@
             </v-card>
           </template>
           <template #default="props">
-            <v-card v-for="item in props.items" :key="item.text" min-width="120">
+            <v-card v-for="item in props.items" :key="item.text" flat min-width="120">
               <v-list dense>
                 <v-flex class="text-subtitle-2 text-center ma-2">
                   <span>租户</span>

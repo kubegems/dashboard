@@ -1,7 +1,7 @@
 <template>
   <v-form ref="form" v-model="valid" class="my-2" lazy-validation @submit.prevent>
     <v-expand-transition>
-      <v-card v-show="expand" class="my-2 pa-2 kubegems__expand-transition" :elevation="4">
+      <v-card v-show="expand" class="my-2 pa-2 kubegems__expand-transition" :elevation="4" flat>
         <BaseSubTitle :divider="false">
           <template #action>
             <v-btn class="float-right mr-2" color="primary" small text @click="addPath">
@@ -157,7 +157,7 @@
                       ]"
                     >
                       <template #default="props">
-                        <v-card v-for="iterdata in props.items" :key="iterdata.text">
+                        <v-card v-for="iterdata in props.items" :key="iterdata.text" flat>
                           <v-list dense>
                             <v-list-item
                               v-for="(pType, i) in iterdata.values"

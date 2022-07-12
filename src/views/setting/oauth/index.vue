@@ -5,7 +5,7 @@
     <v-row class="mt-0">
       <v-col v-for="(item, index) in items" :key="index" class="pt-0 pb-3" cols="12">
         <v-hover #default="{ hover }">
-          <v-card class="mx-auto oauth-pos" :elevation="hover ? 5 : 0" height="100%">
+          <v-card class="mx-auto oauth-pos" :elevation="hover ? 5 : 0" flat height="100%">
             <v-list-item three-line>
               <v-list-item-avatar class="primary--text" size="80" tile>
                 <BaseLogo class="mr-6 mt-1" :icon-name="item.vendor.toLocaleLowerCase()" :width="60" />

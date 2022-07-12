@@ -30,7 +30,7 @@
             </template>
             <v-data-iterator :items="[{ text: '页数', values: [10, 20, 50, 100] }]" hide-default-footer>
               <template #default="props">
-                <v-card v-for="item in props.items" :key="item.text">
+                <v-card flat v-for="item in props.items" :key="item.text">
                   <v-list dense>
                     <v-flex class="text-body-2 text-center ma-2">
                       <span>条目数</span>

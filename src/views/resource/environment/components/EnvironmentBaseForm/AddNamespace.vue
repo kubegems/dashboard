@@ -1,7 +1,7 @@
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
     <v-expand-transition>
-      <v-card v-show="expand" class="mb-2 pa-2 kubegems__expand-transition" :elevation="4">
+      <v-card v-show="expand" class="mb-2 pa-2 kubegems__expand-transition" :elevation="4" flat>
         <v-sheet class="pt-2 px-2">
           <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width">
             <span>命名空间</span>

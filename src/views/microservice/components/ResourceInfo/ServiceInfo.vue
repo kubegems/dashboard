@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="px-2">
+    <v-card class="px-2" flat>
       <BaseListItemForDetail :mt="0" title="标签">
         <template #content>
           <BaseCollapseChips v-if="item" id="s_label" :chips="item.service.labels || {}" icon="mdi-label" single-line />

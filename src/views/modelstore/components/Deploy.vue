@@ -10,7 +10,7 @@
             <v-divider vertical />
           </v-flex>
           <v-col class="pa-0" cols="9">
-            <DeployWizard ref="deployWizard" :item="item" />
+            <DeployWizard ref="deployWizard" :item="item" @dispose="dispose" />
           </v-col>
         </v-row>
       </v-flex>
@@ -53,6 +53,7 @@
       async init() {},
       dispose() {
         this.$refs.deployWizard.reset();
+        this.dialog = false;
       },
     },
   };

@@ -12,7 +12,7 @@
       />
     </template>
     <template #content>
-      <v-card v-if="visible" class="log-history">
+      <v-card v-if="visible" class="log-history" flat>
         <v-data-table
           class="px-4"
           :headers="headers"
