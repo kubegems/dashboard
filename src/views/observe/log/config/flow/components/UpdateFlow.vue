@@ -32,6 +32,7 @@
   import { getClusterFlowDetailData, getFlowDetailData, patchClusterFlowData, patchFlowData } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';
+  import { SERVICE_LOGGING_NS } from '@/utils/namespace';
 
   export default {
     name: 'UpdateFlow',
@@ -84,7 +85,12 @@
             data = this.m_resource_beautifyData(data);
           }
           const action = data.kind === 'Flow' ? patchFlowData : patchClusterFlowData;
-          await action(this.$route.query.cluster, this.$route.query.namespace, data.metadata.name, data);
+          await action(
+            this.$route.query.cluster,
+            data.spec.globalOutputRefs?.length > 0 ? SERVICE_LOGGING_NS : this.$route.query.namespace,
+            data.metadata.name,
+            data,
+          );
           this.reset();
           this.$emit('refresh');
         }
