@@ -1,13 +1,13 @@
 <template>
   <v-card>
     <v-card-text class="pa-0 pl-2 pb-2">
-      <BaseSubTitle class="pt-2 mb-1" :divider="false" title="模型" />
+      <BaseSubTitle class="pt-2 mb-1" :divider="false" title="算法模型" />
       <v-text-field
         v-model="search"
         class="mr-4 my-2 ml-2"
         flat
         hide-details
-        label="模型名称"
+        label="算法模型名称"
         prepend-inner-icon="mdi-magnify"
         solo
         @keyup.enter="onSearch"

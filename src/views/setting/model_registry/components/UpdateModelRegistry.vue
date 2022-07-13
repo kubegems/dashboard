@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-cube" title="更新模型商店" :width="1000" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-cube" title="更新算法模型商店" :width="1000" @reset="reset">
     <template #content>
       <component
         :is="formComponent"

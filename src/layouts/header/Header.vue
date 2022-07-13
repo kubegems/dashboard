@@ -55,7 +55,7 @@
             class="header-span-line-height"
             :style="{ fontFamily: `Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important;`, fontWeight: `bold` }"
           >
-            {{ StoreMode === 'app' ? '应用商店' : '模型商店' }}
+            {{ StoreMode === 'app' ? '应用商店' : '算法商店' }}
           </span>
           <v-icon v-if="storeMenu" right>fas fa-angle-up</v-icon>
           <v-icon v-else right>fas fa-angle-down</v-icon>
@@ -147,7 +147,7 @@
       storeMenu: false,
       stores: [
         { text: '应用商店', value: 'app' },
-        { text: '模型商店', value: 'model' },
+        { text: '算法商店', value: 'model' },
       ],
     }),
     computed: {

@@ -75,7 +75,7 @@
                   @click="addModelRegitry"
                 >
                   <v-icon left>mdi-plus-box</v-icon>
-                  添加模型商店
+                  添加算法商店
                 </v-btn>
               </v-list-item-content>
             </v-list-item>
