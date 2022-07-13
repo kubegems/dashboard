@@ -6,11 +6,16 @@
           ? 'kubegems__waiting-flashing'
           : ''
       }`"
-      :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
-        $APP_TASK_STATUS_COLOR[item.task ? item.task.status.status : '']
-          ? $APP_TASK_STATUS_COLOR[item.task ? item.task.status.status : '']
-          : 'grey'
-      };`"
+      :style="{
+        height: '10px',
+        minWidth: '10px',
+        width: '10px',
+        backgroundColor: `${
+          $APP_TASK_STATUS_COLOR[item.task ? item.task.status.status : '']
+            ? $APP_TASK_STATUS_COLOR[item.task ? item.task.status.status : '']
+            : 'grey'
+        }`,
+      }"
     />
     <template v-if="item.task && (item.task.status.status === 'Running' || item.task.status.status === 'Pending')">
       <span> 执行中 </span>

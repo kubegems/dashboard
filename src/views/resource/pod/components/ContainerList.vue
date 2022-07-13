@@ -20,9 +20,12 @@
       <template #[`item.status`]="{ item }">
         <span
           :class="`v-avatar mr-2 ${getContainerStatus(item) === 'Waiting' ? 'kubegems__waiting-flashing' : ''}`"
-          :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
-            $CONTAINER_STATUS_COLOR[getContainerStatus(item)]
-          };`"
+          :style="{
+            height: '10px',
+            minWidth: '10px',
+            width: '10px',
+            backgroundColor: `${$CONTAINER_STATUS_COLOR[getContainerStatus(item)]}`,
+          }"
         />
         <span v-if="item.state.running"> Running </span>
         <span v-else-if="item.state.terminated"> Terminated({{ item.state.terminated.reason }}) </span>
@@ -121,9 +124,12 @@
       <template #[`item.status`]>
         <span
           :class="`v-avatar mr-2`"
-          :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
-            $CONTAINER_STATUS_COLOR[getContainerStatus(item)]
-          };`"
+          :style="{
+            height: '10px',
+            minWidth: '10px',
+            width: '10px',
+            backgroundColor: `${$CONTAINER_STATUS_COLOR[getContainerStatus(item)]}`,
+          }"
         />
         Failed
       </template>

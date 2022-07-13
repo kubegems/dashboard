@@ -16,5 +16,14 @@ export const getModelRuntimeDetail = (tenant, project, environment, name, query 
     params: query,
   });
 
+// 更新运行实例详情
+export const putModelRuntime = (tenant, project, environment, name, body = {}) =>
+  axios.put(`tenants/${tenant}/projects/${project}/environments/${environment}/modeldeployments/${name}`, body);
+
+// 删除运行实例详情
+export const deleteModelRuntime = (tenant, project, environment, name, body = {}) =>
+  axios.delete(`tenants/${tenant}/projects/${project}/environments/${environment}/modeldeployments/${name}`, body);
+
+// 部署模型
 export const postDeployModel = (tenant, project, environment, body = {}) =>
   axios.post(`tenants/${tenant}/projects/${project}/environments/${environment}/modeldeployments`, body);

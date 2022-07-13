@@ -59,6 +59,11 @@
         immediate: true,
       },
     },
+    mounted() {
+      this.$nextTick(() => {
+        this.search = this.$route.query.search || '';
+      });
+    },
     methods: {
       onSearch() {
         this.$emit('search', this.search);

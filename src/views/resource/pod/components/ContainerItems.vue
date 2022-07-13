@@ -59,9 +59,12 @@
                     :class="`v-avatar mr-2 ${
                       getContainerStatus(container) === 'Waiting' ? 'kubegems__waiting-flashing' : ''
                     }`"
-                    :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
-                      $CONTAINER_STATUS_COLOR[getContainerStatus(container)]
-                    };`"
+                    :style="{
+                      height: '10px',
+                      minWidth: '10px',
+                      width: '10px',
+                      backgroundColor: `${$CONTAINER_STATUS_COLOR[getContainerStatus(container)]}`,
+                    }"
                   />
                   <span v-if="container.state.running"> Running </span>
                   <span v-else-if="container.state.terminated">

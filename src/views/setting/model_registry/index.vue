@@ -13,17 +13,37 @@
                 </div>
                 <a class="mr-4 float-left" :href="item.address" target="_blank">{{ item.address }}</a>
                 <div class="mr-4 float-left">
-                  <v-icon color="success" small>mdi-check-circle</v-icon>
-                  同步成功:2022-12-12 11:23:12
+                  <template v-if="item.status === 'success'">
+                    <v-icon color="success" small>mdi-check-circle</v-icon>
+                    同步成功
+                  </template>
+                  <template v-else-if="item.status === 'failed'">
+                    <v-icon color="success" small>mdi-close-circle</v-icon>
+                    同步失败
+                  </template>
+                  <template v-else-if="item.status === 'running'">
+                    <span
+                      class="v-avatar mr-2 kubegems__waiting-flashing"
+                      :style="{ height: '12px', minWidth: '12px', width: '12px', backgroundColor: '#fb8c00' }"
+                    />
+                    正在同步: {{ item.progress }}
+                  </template>
+                  {{ $moment(item.startedAt).format('lll') }}
                 </div>
                 <div class="kubegems__clear-float" />
               </div>
               <div class="text-body-2 registry__action">
                 <div class="mr-4 float-left registry__desc"> {{ item.tip }} </div>
-                <div class="mr-4 float-left registry__stat text-subtitle-2">Models: {{ item.count.modelsCount }}</div>
-                <div class="mr-4 float-left registry__stat text-subtitle-2">Images: {{ item.count.imagesCount }}</div>
+                <div class="mr-4 float-left registry__stat text-subtitle-2">
+                  Models: {{ item ? item.count.modelsCount : 0 }}
+                </div>
+                <div class="mr-4 float-left registry__stat text-subtitle-2">
+                  Images: {{ item ? item.images.length : 0 }}
+                </div>
                 <div class="mr-4 float-right">
-                  <v-btn color="primary" text @click="syncRegistry(item)">同步</v-btn>
+                  <v-btn :color="item.status === 'running' ? `error` : 'primary'" text @click="syncRegistry(item)">
+                    {{ item.status === 'running' ? '终止同步' : '同步' }}
+                  </v-btn>
                   <v-btn color="primary" text @click="editRegistry(item)">编辑</v-btn>
                   <v-btn :color="item.enabled ? 'error' : 'primary'" text @click="toggleActiveRegistry(item)">
                     {{ item.enabled ? '禁用' : '激活' }}
@@ -72,7 +92,14 @@
 <script>
   import AddModelRegistry from './components/AddModelRegistry';
   import UpdateModelRegistry from './components/UpdateModelRegistry';
-  import { getModelSourceList, deleteModelSource, putModelSource } from '@/api';
+  import {
+    getModelSourceList,
+    deleteModelSource,
+    putModelSource,
+    getModelStoreSync,
+    postModelStoreSync,
+    deleteModelStoreSync,
+  } from '@/api';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
@@ -100,19 +127,28 @@
             ...this.getRegistryMeta(d),
           };
         });
+        this.items.forEach(async (item, index) => {
+          const statusData = await getModelStoreSync(item.name, { noprocessing: true });
+          this.$set(this.items, index, { ...item, ...statusData });
+        });
       },
       addModelRegitry() {
         this.$refs.addModelRegitry.open();
       },
       syncRegistry(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `同步模型仓库`,
+          title: item.status === 'running' ? `终止同步模型仓库` : `同步模型仓库`,
           content: {
-            text: `同步模型仓库 ${item.name}`,
+            text: item.status === 'running' ? `终止同步模型仓库 ${item.name}` : `同步模型仓库 ${item.name}`,
             type: 'confirm',
           },
           param: { item },
-          doFunc: async () => {
+          doFunc: async (param) => {
+            if (param.item.status === 'running') {
+              await deleteModelStoreSync(param.item.name);
+            } else {
+              await postModelStoreSync(param.item.name);
+            }
             this.modelRegistryList();
           },
         });

@@ -18,7 +18,7 @@
           :class="`rounded-0 clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
           :lang="lang"
           :options="Object.assign($aceOptions, { readOnly: true, wrap: true })"
-          :style="`height: ${height}px !important`"
+          :style="{ height: `${height}px !important` }"
           @init="$aceinit"
           @keydown.stop
         />

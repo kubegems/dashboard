@@ -51,9 +51,12 @@
                     ? 'kubegems__waiting-flashing'
                     : ''
                 }`"
-                :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
-                  $WORKLOAD_STATUS_COLOR[m_resource_getWorkloadStatus($route.query.type, item)]
-                };`"
+                :style="{
+                  height: '10px',
+                  minWidth: '10px',
+                  width: '10px',
+                  backgroundColor: `${$WORKLOAD_STATUS_COLOR[m_resource_getWorkloadStatus($route.query.type, item)]}`,
+                }"
               />
               <span>
                 {{ m_resource_getWorkloadStatus($route.query.type, item) === 'ready' ? 'Ready' : 'Pending' }}
@@ -93,9 +96,12 @@
                                 ? 'kubegems__waiting-flashing'
                                 : ''
                             } text-body-2`"
-                            :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
-                              $POD_STATUS_COLOR[m_resource_getPodStatus(pod)] || '#ff5252'
-                            };`"
+                            :style="{
+                              height: '10px',
+                              minWidth: '10px',
+                              width: '10px',
+                              backgroundColor: `${$POD_STATUS_COLOR[m_resource_getPodStatus(pod)] || '#ff5252'}`,
+                            }"
                           />
                           {{ m_resource_getPodStatus(pod) }}
                         </span>

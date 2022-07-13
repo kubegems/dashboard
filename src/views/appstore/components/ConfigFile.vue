@@ -20,7 +20,7 @@
       :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded`"
       lang="yaml"
       :options="Object.assign($aceOptions, { readOnly: true, wrap: true })"
-      :style="`height: ${height}px !important`"
+      :style="{ height: `${height}px !important` }"
       theme="chrome"
       @init="$aceinit"
       @keydown.stop

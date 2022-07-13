@@ -156,7 +156,7 @@
             wrap: false,
           })
         "
-        :style="`height: ${height}px !important`"
+        :style="{ height: `${height}px !important` }"
         theme="chrome"
         @init="$aceinit"
         @keydown.stop

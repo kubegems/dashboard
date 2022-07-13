@@ -14,7 +14,13 @@
               origin: `top center`,
             }"
             :rules="objRules.imageRules"
-          />
+          >
+            <template #selection="{ item }">
+              <v-chip color="primary" small>
+                {{ item }}
+              </v-chip>
+            </template>
+          </v-autocomplete>
         </v-col>
         <v-col cols="2">
           <v-switch v-model="loadOnline" label="在线导入模型文件" readonly />
