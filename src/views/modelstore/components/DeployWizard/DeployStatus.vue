@@ -23,6 +23,10 @@
   export default {
     name: 'DeployStatus',
     props: {
+      base: {
+        type: Object,
+        default: () => null,
+      },
       processing: {
         type: Boolean,
         default: () => false,
@@ -49,7 +53,7 @@
     },
     methods: {
       showDeployStatus() {
-        this.$emit('showDeployStatus');
+        this.$emit('showDeployStatus', this.base);
       },
     },
   };

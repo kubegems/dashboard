@@ -1,41 +1,41 @@
 <template>
   <v-flex class="text-center pa-4">
     <v-flex class="pagination__height">
-      <v-flex class="pagination" :id="pid">
+      <v-flex :id="pid" class="pagination">
         <v-pagination
-          class="float-left"
           v-model="p"
+          class="float-left"
           :length="pageCount"
           :total-visible="visibleNum"
           @input="onPageInput"
-        ></v-pagination>
+        />
         <div v-if="pageCount * size > 10 && showSize" class="text-body-2 float-left ml-2 mt-2">
           每页条目数
           <v-menu
             v-model="pageMenu"
             :attach="`#${pid}`"
-            top
             left
+            nudge-bottom="-5px"
             offset-y
             origin="bottom center"
+            top
             transition="scale-transition"
-            nudge-bottom="-5px"
           >
             <template #activator="{ on }">
-              <v-btn depressed color="white" class="primary--text" small dark v-on="on">
+              <v-btn class="primary--text" color="white" dark depressed small v-on="on">
                 {{ size }}
                 <v-icon v-if="pageMenu" right>fas fa-angle-up</v-icon>
                 <v-icon v-else right>fas fa-angle-down</v-icon>
               </v-btn>
             </template>
-            <v-data-iterator :items="[{ text: '页数', values: [10, 20, 50, 100] }]" hide-default-footer>
+            <v-data-iterator hide-default-footer :items="[{ text: '页数', values: [10, 20, 50, 100] }]">
               <template #default="props">
-                <v-card flat v-for="item in props.items" :key="item.text">
+                <v-card v-for="item in props.items" :key="item.text" flat>
                   <v-list dense>
                     <v-flex class="text-body-2 text-center ma-2">
                       <span>条目数</span>
                     </v-flex>
-                    <v-divider class="mx-2"></v-divider>
+                    <v-divider class="mx-2" />
                     <v-list-item
                       v-for="(s, index) in item.values"
                       :key="index"
@@ -54,7 +54,7 @@
             </v-data-iterator>
           </v-menu>
         </div>
-        <div class="kubegems__clear-float"></div>
+        <div class="kubegems__clear-float" />
       </v-flex>
     </v-flex>
   </v-flex>
@@ -63,12 +63,6 @@
 <script>
   export default {
     name: 'BasePagination',
-    data() {
-      return {
-        p: 1,
-        pageMenu: false,
-      };
-    },
     model: {
       prop: 'page',
     },
@@ -102,10 +96,11 @@
         default: () => 6,
       },
     },
-    computed: {
-      height() {
-        window.innerHeight;
-      },
+    data() {
+      return {
+        p: 1,
+        pageMenu: false,
+      };
     },
     watch: {
       page() {

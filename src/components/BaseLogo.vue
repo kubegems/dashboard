@@ -2,19 +2,18 @@
   <span>
     <Icon
       v-if="
-        getIconName(iconName, this.defaultLogo) !== 'undefined' &&
-        getIconName(iconName, this.defaultLogo).indexOf('img:') === -1
+        getIconName(iconName, defaultLogo) !== 'undefined' && getIconName(iconName, defaultLogo).indexOf('img:') === -1
       "
       :class="`ml-${ml}`"
-      :icon="getIconName(iconName, this.defaultLogo)"
-      :width="`${width}px`"
       :height="`${width}px`"
+      :icon="getIconName(iconName, defaultLogo)"
+      :width="`${width}px`"
     />
     <img
       v-else
       :class="`${large ? 'logo__largeimg' : 'logo__img'} ml-${ml}`"
+      :src="`/icon/${getIconName(iconName, defaultLogo).replaceAll('img:', '')}`"
       :style="`width: ${width}px;height: ${width}px;`"
-      :src="`/icon/${getIconName(iconName, this.defaultLogo).replaceAll('img:', '')}`"
     />
   </span>
 </template>

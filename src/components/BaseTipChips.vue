@@ -5,26 +5,26 @@
 
     <v-menu
       v-if="items.length"
-      open-on-hover
       :close-delay="200"
       :close-on-content-click="false"
-      :max-width="maxWidth"
       :disabled="items.length === 0"
+      :max-width="maxWidth"
+      open-on-hover
     >
       <template #activator="{ on }">
         <v-flex v-on="on">
-          <v-icon :color="color" v-if="icon" left> {{ icon }} </v-icon>
+          <v-icon v-if="icon" :color="color" left> {{ icon }} </v-icon>
         </v-flex>
       </template>
 
-      <v-card flat class="pa-2">
+      <v-card class="pa-2" flat>
         <template v-if="singleLine">
           <div v-for="item in items" :key="item[itemValue]">
             <v-flex
-              small
               :class="{ 'ma-1': true, 'text-caption': true, kubegems__text: true, kubegems__pointer: linked }"
+              small
             >
-              <v-icon v-if="icon" :color="color" small left> {{ icon }} </v-icon>
+              <v-icon v-if="icon" :color="color" left small> {{ icon }} </v-icon>
               <strong v-if="dataType === 'object'" class="mr-1">
                 {{ item[itemValue] }}
               </strong>
@@ -33,7 +33,7 @@
           </div>
         </template>
         <template v-else>
-          <v-chip v-for="item in items" :key="item[itemValue]" small :color="color" class="ma-1">
+          <v-chip v-for="item in items" :key="item[itemValue]" class="ma-1" :color="color" small>
             <slot :item="item">{{ item[itemText] }}</slot>
           </v-chip>
         </template>
@@ -53,10 +53,6 @@
       color: {
         type: String,
         default: 'success',
-      },
-      count: {
-        type: Number,
-        default: 1,
       },
       delimiter: {
         type: String,

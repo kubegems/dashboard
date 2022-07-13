@@ -1,9 +1,9 @@
 <template>
   <v-list-group
     v-model="open"
+    :active-class="`primary white--text`"
     :prepend-icon="item.meta.icon"
     :sub-group="subGroup"
-    :active-class="`primary white--text`"
   >
     <template #activator>
       <v-list-item-icon v-if="item.meta.sicon" class="sicon">
@@ -16,7 +16,7 @@
     </template>
 
     <template v-for="(child, i) in children">
-      <BaseItemSubGroup v-if="child.children" :key="`sub-group-${i}`" :item="child" class="second-dd" />
+      <BaseItemSubGroup v-if="child.children" :key="`sub-group-${i}`" class="second-dd" :item="child" />
 
       <BaseItem
         v-else-if="child.meta.show || (pluginPass(child.meta.dependencies) && child.meta.pluginOpenShow)"
@@ -50,10 +50,6 @@
         type: Boolean,
         default: false,
       },
-      text: {
-        type: Boolean,
-        default: false,
-      },
     },
     computed: {
       ...mapState(['Plugins']),
@@ -75,7 +71,7 @@
         get() {
           return this.genGroup(this.item.children);
         },
-        set(val) {},
+        set() {},
       },
     },
 

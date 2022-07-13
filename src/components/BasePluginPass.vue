@@ -4,7 +4,7 @@
       <div class="container container--fluid">
         <BaseBreadcrumb />
       </div>
-      <v-card flat class="mx-3" :height="`${height}px`">
+      <v-card class="mx-3" flat :height="`${height}px`">
         <v-row :style="{ height: `${height}px` }">
           <v-col class="d-flex align-center justify-center">
             <div class="d-flex align-center pa-10">
@@ -37,13 +37,6 @@
     },
     computed: {
       ...mapState(['Plugins', 'Scale']),
-      breadcrumb() {
-        return {
-          title: this.$route.meta.title,
-          tip: this.$TIP[this.$route.meta.tip],
-          icon: this.$route.meta.icon,
-        };
-      },
       pluginPass() {
         let pass = true;
         this.noPermisionPlugins = [];

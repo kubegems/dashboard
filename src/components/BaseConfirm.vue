@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="Confirm.value" max-width="500" persistent scrollable>
-    <v-card flat class="pa-0">
+    <v-card class="pa-0" flat>
       <v-sheet class="px-4 py-2 error--text text-h6">
         {{ Confirm.title }}
       </v-sheet>
@@ -11,10 +11,10 @@
       >
         <v-alert
           border="left"
-          colored-border
-          :color="(Confirm.content && Confirm.content.level) || 'warning'"
-          elevation="1"
           class="rounded py-3"
+          :color="(Confirm.content && Confirm.content.level) || 'warning'"
+          colored-border
+          elevation="1"
         >
           <template v-if="Confirm.content && Confirm.content.type === 'batch_delete'">
             <div class="text-subtitle-1 kubegems__text"> 请确认以下需要删除的资源！ </div>
@@ -25,8 +25,8 @@
             >
               {{ content }}
               <template v-if="Object.prototype.hasOwnProperty.call(Confirm.content.status, content)">
-                <v-icon v-if="Confirm.content.status[content]" small right color="success">mdi-check</v-icon>
-                <v-icon v-else small right color="error">mdi-close</v-icon>
+                <v-icon v-if="Confirm.content.status[content]" color="success" right small>mdi-check</v-icon>
+                <v-icon v-else color="error" right small>mdi-close</v-icon>
               </template>
             </div>
           </template>
@@ -36,7 +36,7 @@
               :key="index"
               class="text-subtitle-1 kubegems__text kubegems__break-all"
               v-html="content"
-            ></div>
+            />
           </template>
         </v-alert>
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
@@ -44,29 +44,27 @@
             v-if="Confirm.content.type === 'delete'"
             v-model="confirmData"
             class="my-0"
-            :rules="confirmDataRule"
-            required
             label="确认资源名称"
+            required
+            :rules="confirmDataRule"
             @keydown.enter="confirm"
-          >
-          </v-text-field>
+          />
           <v-text-field
             v-else-if="Confirm.content.type === 'batch_delete'"
             v-model="confirmData"
             class="my-0"
-            :rules="confirmBacthDataRule"
-            required
             :label="`${Confirm.content.one ? '确认资源名称' : '请输入 “确认删除”'}`"
+            required
+            :rules="confirmBacthDataRule"
             @keydown.enter="confirm"
-          >
-          </v-text-field>
+          />
         </v-form>
       </v-sheet>
       <v-sheet v-else-if="Confirm.content" class="px-4 py-4 confirm-size">
-        <v-flex class="text-subtitle-1 kubegems__text kubegems__break-all" v-html="Confirm.content.text"> </v-flex>
+        <v-flex class="text-subtitle-1 kubegems__text kubegems__break-all" v-html="Confirm.content.text" />
       </v-sheet>
       <div class="pb-3 pr-4">
-        <v-btn class="float-right" color="primary" small text :loading="Circular" @click="confirm"> 确定 </v-btn>
+        <v-btn class="float-right" color="primary" :loading="Circular" small text @click="confirm"> 确定 </v-btn>
         <v-btn class="float-right" color="error" small text @click="closeConfirmDialog"> 取消 </v-btn>
       </div>
     </v-card>
@@ -75,6 +73,7 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import { required } from '@/utils/rules';
 
   export default {

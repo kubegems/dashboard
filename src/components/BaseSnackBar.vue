@@ -1,28 +1,28 @@
 <template>
   <v-snackbar
     v-model="SnackBar.value"
-    top
-    right
-    :color="SnackBar.color"
-    transition="slide-x-reverse-transition"
-    text
     class="mr-1"
+    :color="SnackBar.color"
+    right
+    text
+    top
+    transition="slide-x-reverse-transition"
   >
     <v-flex>
       <v-flex class="float-left">
-        <v-icon left small :color="SnackBar.color">
+        <v-icon :color="SnackBar.color" left small>
           {{ SnackBar.icon }}
         </v-icon>
       </v-flex>
       <v-flex :class="`float-left snackbar-break ${SnackBar.collapse ? 'snackbar--collapse' : 'snackbar--show'}`">
         {{ SnackBar.text }}
       </v-flex>
-      <div class="kubegems__clear-float"></div>
+      <div class="kubegems__clear-float" />
       <v-btn
         v-if="SnackBar.text && SnackBar.text.length > 300"
+        :color="SnackBar.color"
         icon
         small
-        :color="SnackBar.color"
         @click="SnackBar.collapse = !SnackBar.collapse"
       >
         <v-icon small>
@@ -41,17 +41,6 @@
 
   export default {
     name: 'BaseSnackBar',
-    data() {
-      return {
-        icon: {
-          primary: 'fa-check-circle',
-          warning: 'fa-exclamation-circle',
-          error: 'fa-minus-circle',
-          success: 'fa-info-circle',
-          info: 'fa-info-circle',
-        },
-      };
-    },
     computed: {
       ...mapState(['SnackBar']),
     },

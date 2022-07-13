@@ -1,10 +1,10 @@
 <template>
   <v-list-item
+    :active-class="``"
     :href="href"
     :rel="href && href !== '#' ? 'noopener' : undefined"
     :target="href && href !== '#' ? '_blank' : undefined"
     :to="item.to"
-    :active-class="``"
   >
     <v-list-item-icon v-if="item.meta.icon">
       <v-icon v-text="item.meta.icon" />
@@ -31,10 +31,6 @@
           title: undefined,
           to: undefined,
         }),
-      },
-      text: {
-        type: Boolean,
-        default: false,
       },
     },
     computed: {

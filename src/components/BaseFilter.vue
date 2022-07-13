@@ -3,30 +3,30 @@
     <v-combobox
       ref="filter"
       v-model="conditions"
-      color="primary"
       chips
-      hide-selected
+      color="primary"
+      dense
+      flat
+      full-width
       hide-details
+      hide-selected
+      :items="items"
       label="输入查询条件进行过滤"
       multiple
-      prepend-inner-icon="mdi-magnify"
-      dense
-      solo
-      flat
       no-data-text="无数据"
-      :items="items"
+      prepend-inner-icon="mdi-magnify"
       :search-input.sync="filterText"
-      full-width
-      @change="onFilterConditionChange"
+      solo
       @blur="onFilterConditionBlur"
+      @change="onFilterConditionChange"
       @focus="onFilterConditionFocus"
       @keydown.enter="contructFilterTextCondition"
     >
       <template #selection="{ attrs, item, selected }">
         <v-chip
           v-if="item && item.text && (item.items.length > 0 || item.text.indexOf(':') > -1)"
-          :input-value="selected"
           color="primary"
+          :input-value="selected"
           label
           small
           v-bind="attrs"
