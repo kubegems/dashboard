@@ -28,7 +28,7 @@
           <div class="comment-text w-100 pa-4 px-6 pb-0">
             <div class="mb-2">
               <v-avatar color="primary" size="36">
-                <span class="white--text text-h6">{{ item.username[0].toUpperCase() }}</span>
+                <span class="white--text text-h6">{{ item.username ? item.username[0].toUpperCase() : '' }}</span>
               </v-avatar>
               <span class="text-subtitle-1 mx-2 font-weight-medium">{{ item.username }}</span>
               <span class="text-muted text-caption kubegems__text">
@@ -85,7 +85,7 @@
             </v-flex>
             <div class="ma-2">
               <v-avatar color="primary" size="24">
-                <span class="white--text text-body-1">{{ reply.username[0].toUpperCase() }}</span>
+                <span class="white--text text-body-1">{{ reply.username ? reply.username[0].toUpperCase() : '' }}</span>
               </v-avatar>
               <span class="text-subtitle-2 mx-2 font-weight-medium kubegems__text">{{ reply.username }}</span>
               <span class="text-muted text-caption kubegems__text">

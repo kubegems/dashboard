@@ -1,7 +1,7 @@
 <template>
   <v-flex
     :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-    :style="`height: ${height}px !important;overflow: auto;`"
+    :style="{ height: `${height}px !important`, overflow: 'auto' }"
   >
     <ACEEditor
       ref="log"

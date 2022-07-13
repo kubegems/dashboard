@@ -83,9 +83,14 @@
               <template #trigger>
                 <span
                   :class="`v-avatar mr-2 ${item.runtime.status === 'Progressing' ? 'kubegems__waiting-flashing' : ''}`"
-                  :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
-                    $ARGO_STATUS_COLOR[item.runtime.status] ? $ARGO_STATUS_COLOR[item.runtime.status] : 'grey'
-                  };`"
+                  :style="{
+                    height: '10px',
+                    minWidth: '10px',
+                    width: '10px',
+                    backgroundColor: `${
+                      $ARGO_STATUS_COLOR[item.runtime.status] ? $ARGO_STATUS_COLOR[item.runtime.status] : 'grey'
+                    }`,
+                  }"
                 />
                 {{ item.runtime.status ? item.runtime.status : '' }}
                 {{ getStatus(item) }}
@@ -104,6 +109,66 @@
                 <v-card-text class="pa-2">
                   <v-flex>
                     <v-btn color="error" small text @click="removeApp(item)"> 删除 </v-btn>
+                  </v-flex>
+                </v-card-text>
+              </v-card>
+            </v-menu>
+          </template>
+
+          <template #[`item.instanceName`]="{ item }">
+            {{ item.metadata.name }}
+          </template>
+          <template #[`item.modelName`]="{ item }">
+            {{ item.spec.model.name }}
+          </template>
+          <template #[`item.modelVersion`]="{ item }">
+            {{ item.spec.model.version }}
+          </template>
+          <template #[`item.framework`]="{ item }">
+            {{ item.spec.model.framework }}
+          </template>
+          <template #[`item.source`]="{ item }">
+            {{ item.spec.model.source }}
+          </template>
+          <template #[`item.phase`]="{ item }">
+            <span
+              :class="`v-avatar mr-2 ${
+                ['ContainerCreating', 'Pending', 'Terminating', 'PodInitializing'].indexOf(item.phase) > -1
+                  ? 'kubegems__waiting-flashing'
+                  : ''
+              }`"
+              :style="{
+                height: '10px',
+                minWidth: '10px',
+                width: '10px',
+                backgroundColor: `${$POD_STATUS_COLOR[item.status.phase] || '#ff5252'}`,
+              }"
+            />
+            <span>
+              {{ item.status.phase }}
+            </span>
+          </template>
+          <template #[`item.modelImage`]="{ item }">
+            {{ item.spec.model.image }}
+          </template>
+          <template #[`item.url`]="{ item }">
+            <a :href="`http://${item.spec.host}`" target="_blank">{{ item.spec.host }}</a>
+          </template>
+          <template #[`item.creationTimestamp`]="{ item }">
+            {{ $moment(item.metadata.creationTimestamp).format('lll') }}
+          </template>
+          <template #[`item.modelAction`]="{ item }">
+            <v-flex :id="`r${item.metadata.name}m`" />
+            <v-menu :attach="`#r${item.metadata.name}m`" left>
+              <template #activator="{ on }">
+                <v-btn icon>
+                  <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-text class="pa-2">
+                  <v-flex>
+                    <v-btn color="error" small text @click="removeModel(item)"> 删除 </v-btn>
                   </v-flex>
                 </v-card-text>
               </v-card>
@@ -132,7 +197,15 @@
 
   import AppStatusTip from './components/AppStatusTip';
   import TaskStatusTip from './components/TaskStatusTip';
-  import { deleteApp, deleteAppStoreApp, getAppRunningList, getAppStoreRunningList, getAppTaskList } from '@/api';
+  import {
+    deleteApp,
+    deleteAppStoreApp,
+    getAppRunningList,
+    getAppStoreRunningList,
+    getAppTaskList,
+    getModelRuntimePodList,
+    deleteModelRuntime,
+  } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -151,78 +224,103 @@
       TaskStatusTip,
     },
     mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],
-    data: () => ({
-      items: [],
-      pageCount: 0,
-      params: {
-        page: 1,
-        size: 10,
-      },
-      tab: 0,
-      filters: [{ text: '应用名称', value: 'search', items: [] }],
-    }),
+    data() {
+      this.tabMap = {
+        app: 0,
+        appstore: 1,
+        modelstore: 2,
+      };
+
+      return {
+        items: [],
+        pageCount: 0,
+        params: {
+          page: 1,
+          size: 10,
+        },
+        tab: this.tabMap[this.$route.query.tab] || 0,
+        filters: [{ text: '应用名称', value: 'search', items: [] }],
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Admin', 'AdminViewport', 'MessageStreamWS']),
       ...mapGetters(['Tenant', 'Environment', 'Project']),
       tabItems() {
         if (this.ThisAppEnvironmentID > 0) {
           return [
-            { text: '平台应用', value: 'AppList' },
-            { text: '应用商店应用', value: 'AppStoreList' },
+            { text: '平台应用', value: 'AppList', tab: 'app' },
+            { text: '应用商店应用', value: 'AppStoreList', tab: 'appstore' },
+            { text: '模型商店应用', value: 'ModelStoreList', tab: 'modelstore' },
           ];
         } else {
-          return [{ text: '平台应用', value: 'AppList' }];
+          return [{ text: '平台应用', value: 'AppList', tab: 'app' }];
         }
       },
       headers() {
-        const items = [
-          { text: '应用名称', value: 'name', align: 'start' },
-          { text: '应用类型', value: 'kind', align: 'start', sortable: false },
-          {
-            text: '当前镜像版本',
-            value: 'images',
-            align: 'start',
-            sortable: false,
-          },
-          {
-            text: '应用状态',
-            value: 'appStatus',
-            align: 'start',
-            width: 220,
-            sortable: false,
-          },
-          {
-            text: '发布者',
-            value: 'creator',
-            align: 'start',
-            sortable: false,
-          },
-          { text: '发布时间', value: 'createAt', align: 'start' },
-        ];
-        if (this.tabItems[this.tab].value === 'AppList') {
-          items.splice(3, 0, {
-            text: '部署任务状态',
-            value: 'taskStatus',
-            align: 'start',
-            sortable: false,
-          });
-        }
-        if (this.tabItems[this.tab].value === 'AppStoreList') {
-          items.splice(1, 0, {
-            text: 'Chart',
-            value: 'chart',
-            align: 'start',
-            sortable: false,
-          });
-        }
-        if (this.m_permisson_resourceAllow || this.AdminViewport) {
-          items.push({
-            text: '',
-            value: 'action',
-            align: 'center',
-            width: 20,
-            sortable: false,
-          });
+        let items = [];
+        if (this.tabItems[this.tab].value === 'AppList' || this.tabItems[this.tab].value === 'AppStoreList') {
+          items = [
+            { text: '应用名称', value: 'name', align: 'start' },
+            { text: '应用类型', value: 'kind', align: 'start', sortable: false },
+            {
+              text: '当前镜像版本',
+              value: 'images',
+              align: 'start',
+              sortable: false,
+            },
+            {
+              text: '应用状态',
+              value: 'appStatus',
+              align: 'start',
+              width: 220,
+              sortable: false,
+            },
+            {
+              text: '发布者',
+              value: 'creator',
+              align: 'start',
+              sortable: false,
+            },
+            { text: '发布时间', value: 'createAt', align: 'start' },
+          ];
+          if (this.tabItems[this.tab].value === 'AppList') {
+            items.splice(3, 0, {
+              text: '部署任务状态',
+              value: 'taskStatus',
+              align: 'start',
+              sortable: false,
+            });
+          }
+          if (this.tabItems[this.tab].value === 'AppStoreList') {
+            items.splice(1, 0, {
+              text: 'Chart',
+              value: 'chart',
+              align: 'start',
+              sortable: false,
+            });
+          }
+          if (this.m_permisson_resourceAllow || this.AdminViewport) {
+            items.push({
+              text: '',
+              value: 'action',
+              align: 'center',
+              width: 20,
+              sortable: false,
+            });
+          }
+        } else {
+          items = [
+            { text: '实例名称', value: 'instanceName', align: 'start', sortable: false },
+            { text: '模型名称', value: 'modelName', align: 'start', sortable: false },
+            { text: '模型版本', value: 'modelVersion', align: 'start', sortable: false },
+            { text: '模型框架', value: 'framework', align: 'start', sortable: false },
+            { text: '模型来源', value: 'source', align: 'start', sortable: false },
+            { text: '镜像', value: 'modelImage', align: 'start', sortable: false },
+            { text: '状态', value: 'phase', align: 'start', sortable: false },
+            { text: 'Api', value: 'url', align: 'start', sortable: false },
+            { text: '创建时间', value: 'creationTimestamp', align: 'start', sortable: false },
+            { text: '', value: 'modelAction', align: 'center', width: 20, sortable: false },
+          ];
         }
         return items;
       },
@@ -340,13 +438,27 @@
               sort: this.m_table_generateResourceSortParamValue(),
             }),
           );
+        } else if (this.tabItems[this.tab].value === 'ModelStoreList') {
+          kind = 'modelstore';
+          data = await getModelRuntimePodList(
+            this.Tenant().TenantName,
+            this.Project().ProjectName,
+            this.Environment().EnvironmentName,
+            Object.assign(this.params, {
+              kind: kind,
+              noprocessing: noprocess,
+              sort: this.m_table_generateResourceSortParamValue(),
+            }),
+          );
         }
-        this.items = data.List;
-        this.pageCount = Math.ceil(data.Total / this.params.size);
-        this.params.page = data.CurrentPage;
-        this.$router.replace({ query: { ...this.$route.query, ...this.params } });
-        this.watchAppList();
+        this.items = data.List || data.list;
+        this.pageCount = Math.ceil((data.Total || data.total) / this.params.size);
+        this.params.page = data.CurrentPage || data.page;
+        this.$router.replace({
+          query: { ...this.$route.query, ...this.params, ...{ tab: this.tabItems[this.tab].tab } },
+        });
         if (this.tabItems[this.tab].value === 'AppList') {
+          this.watchAppList();
           this.appTaskList();
         }
       },
@@ -446,6 +558,26 @@
           status.push(`Operation: ${item?.runtime?.raw?.status?.operationState?.phase || '未知'}`);
         }
         return status.length > 0 ? `( ${status.join(', ')} ) ` : '';
+      },
+      removeModel(item) {
+        this.$store.commit('SET_CONFIRM', {
+          title: '删除模型商店应用',
+          content: {
+            text: `删除模型商店应用 ${item.metadata.name}`,
+            type: 'delete',
+            name: item.metadata.name,
+          },
+          param: { item },
+          doFunc: async (param) => {
+            await deleteModelRuntime(
+              this.Tenant().TenantName,
+              this.Project().ProjectName,
+              this.Environment().EnvironmentName,
+              param.item.metadata.name,
+            );
+            this.appRunningList();
+          },
+        });
       },
     },
   };

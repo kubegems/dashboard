@@ -75,9 +75,12 @@
                     ? 'kubegems__waiting-flashing'
                     : ''
                 }`"
-                :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
-                  $POD_STATUS_COLOR[m_resource_getPodStatus(item)] || '#ff5252'
-                };`"
+                :style="{
+                  height: '10px',
+                  minWidth: '10px',
+                  width: '10px',
+                  backgroundColor: `${$POD_STATUS_COLOR[m_resource_getPodStatus(item)] || '#ff5252'}`,
+                }"
               />
               <span>
                 {{ m_resource_getPodStatus(item) }}

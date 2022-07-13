@@ -78,11 +78,16 @@
         <template #[`item.mount`]="{ item }">
           <span
             :class="`v-avatar mr-2`"
-            :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
-              $PVC_STATUS_COLOR[
-                item.metadata.annotations ? item.metadata.annotations[`storage.kubegems.io/in-use`] : 'undefined'
-              ]
-            };`"
+            :style="{
+              height: '10px',
+              minWidth: '10px',
+              width: '10px',
+              backgroundColor: `${
+                $PVC_STATUS_COLOR[
+                  item.metadata.annotations ? item.metadata.annotations[`storage.kubegems.io/in-use`] : 'undefined'
+                ]
+              }`,
+            }"
           />
           <span> {{ getMountStatus(item) }} </span>
         </template>

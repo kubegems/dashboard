@@ -26,7 +26,7 @@
       :data="tree"
       direction="horizontal"
       :render-content="renderContent"
-      :style="`height: ${height}px`"
+      :style="{ height: `${height}px` }"
       @node-click="showDeployLive"
     />
 

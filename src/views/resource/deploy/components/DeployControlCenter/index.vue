@@ -108,9 +108,13 @@
                 :class="`v-avatar mr-1 ${
                   status && status.status === 'Progressing' ? 'kubegems__waiting-flashing' : ''
                 }`"
-                :style="`height: 10px; min-width: 10px; width: 10px; margin-top: -2px; background-color: ${
-                  $ARGO_ROLLOUT_STATUS_COLOR[status ? status.status : '']
-                };`"
+                :style="{
+                  height: '10px',
+                  minWidth: '10px',
+                  width: '10px',
+                  marginTop: '-2px',
+                  backgroundColor: `${$ARGO_ROLLOUT_STATUS_COLOR[status ? status.status : '']}`,
+                }"
               />
               {{ status ? status.status : '' }}
               <v-btn

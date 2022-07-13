@@ -25,7 +25,7 @@
               :current-app="currentApp"
               :files="files"
               :select-repo="selectRepo"
-              :style="`height: ${wizardHeight}px;`"
+              :style="{ height: `${wizardHeight}px;` }"
               :versions="versions"
               v-on="$listeners"
             />

@@ -15,7 +15,13 @@
             :readonly="edit"
             :rules="objRules.registryRules"
             @change="onRegistryChange"
-          />
+          >
+            <template #selection="{ item }">
+              <v-chip color="primary" small>
+                {{ item.text }}
+              </v-chip>
+            </template>
+          </v-autocomplete>
         </v-col>
         <template v-if="registry === 'modelx'">
           <v-col cols="6">
@@ -29,7 +35,7 @@
             />
           </v-col>
           <v-col cols="6">
-            <v-text-field class="my-0" label="商店地址" required />
+            <v-text-field class="my-0" label="商店地址" required :rules="objRules.addressRules" />
           </v-col>
         </template>
         <v-col cols="12">
@@ -86,9 +92,9 @@
         registryItems: [
           { text: 'huggingface', value: 'huggingface' },
           { text: 'openmmlab', value: 'openmmlab' },
-          { text: 'tensorflow', value: 'tensorflow' },
-          { text: 'pytorch', value: 'pytorch' },
-          { text: 'modelx', value: 'modelx' },
+          // { text: 'tensorflow', value: 'tensorflow' },
+          // { text: 'pytorch', value: 'pytorch' },
+          // { text: 'modelx', value: 'modelx' },
         ],
         imageText: '',
         imageItems: [],
@@ -100,6 +106,7 @@
           nameRules: [required],
           registryRules: [required],
           imagesRules: [required],
+          addressRules: [required],
         },
       };
     },

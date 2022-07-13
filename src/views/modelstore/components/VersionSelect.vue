@@ -1,7 +1,7 @@
 <template>
   <v-sheet class="text-body-2 text--darken-1 mx-1 mt-4 version">
     <div>
-      <div class="text-body-2 float-left version__tip">模型版本</div>
+      <div class="text-body-2 version__tip">模型版本</div>
       <v-menu
         v-model="versionMenu"
         bottom

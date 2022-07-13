@@ -26,7 +26,7 @@
               v-on="on"
               @click.stop="getVirtualspace"
             >
-              <v-icon left>fas fa-cloud</v-icon>
+              <v-icon left>fas fa-hospital-alt</v-icon>
               {{ VirtualSpace().VirtualSpaceName }}
               <v-icon v-if="virtualSpaceMenu" right>fas fa-angle-up</v-icon>
               <v-icon v-else right>fas fa-angle-down</v-icon>
@@ -56,7 +56,7 @@
                     >
                       <v-list-item-content class="text-body-2 font-weight-medium text-start">
                         <div class="kubegems__break-all">
-                          <v-icon left small color="primary">fas fa-cloud</v-icon>
+                          <v-icon left small color="primary">fas fa-hospital-alt</v-icon>
                           {{ virtualspace.text }}
                         </div>
                       </v-list-item-content>
@@ -72,18 +72,21 @@
         <v-sheet class="text-subtitle-1">
           虚拟空间
           <span class="text-subtitle-1 ml-2 primary--text font-weight-medium">
+            <v-icon color="primary" right small>fas fa-hospital-alt</v-icon>
             {{ VirtualSpace().VirtualSpaceName }}
           </span>
         </v-sheet>
         <v-sheet class="text-subtitle-1 ml-4">
           集群
           <span class="text-subtitle-1 ml-2 primary--text font-weight-medium">
+            <v-icon color="primary" right small>fab fa-docker</v-icon>
             {{ $route.query.cluster }}
           </span>
         </v-sheet>
         <v-sheet class="text-subtitle-1 ml-4">
           环境
           <span class="text-subtitle-1 ml-2 primary--text font-weight-medium">
+            <v-icon color="primary" right small>fas fa-cloud</v-icon>
             {{ $route.query.environment }}
           </span>
         </v-sheet>

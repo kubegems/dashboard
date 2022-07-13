@@ -72,7 +72,7 @@
     watch: {
       tags: {
         handler(newValue) {
-          this.tagsCopy = deepCopy(newValue.slice(0, 150));
+          this.tagsCopy = deepCopy(newValue.slice(0, 100));
           const tag = this.$route.query.tags;
           const index = this.tags.findIndex((t) => {
             return t === tag;
@@ -93,7 +93,7 @@
             return t.toLowerCase().indexOf(this.search.toLowerCase()) > -1;
           });
         } else {
-          this.tagsCopy = deepCopy(this.tags.slice(0, 150));
+          this.tagsCopy = deepCopy(this.tags.slice(0, 100));
         }
       },
       onTagChange() {

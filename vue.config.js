@@ -37,6 +37,13 @@ module.exports = {
       port: 8080,
       host: '0.0.0.0',
       proxy: {
+        '/modeldeployments': {
+          target: 'http://model.local.kubegems.io:8080',
+          changeOrigin: true,
+          pathRewrite: {
+            '^/api/v1': '/v1',
+          },
+        },
         '/api/v1/sources': {
           target: 'http://model.local.kubegems.io:8080',
           changeOrigin: true,

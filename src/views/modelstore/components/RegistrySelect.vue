@@ -75,6 +75,7 @@
         this.selectRepo = repo;
         this.$emit('change', this.selectRepo);
         this.$emit('input', this.selectRepo);
+        this.$router.replace({ query: { ...this.$route.query, registry: this.selectRepo.name } });
       },
       async modelSourceList() {
         const data = await getModelSourceList({ size: 1000, noprocessing: true });
@@ -85,7 +86,13 @@
           .map((s) => {
             return { text: s.name, value: s.name, ...s };
           });
-        if (this.repoItems.length > 0) {
+        if (this.$route.query.registry) {
+          this.selectRepo = this.repoItems.find((r) => {
+            return r.name === this.$route.query.registry;
+          });
+          this.$emit('change', this.selectRepo);
+          this.$emit('input', this.selectRepo);
+        } else if (this.repoItems.length > 0) {
           this.selectRepo = this.repoItems[0];
           this.$emit('change', this.selectRepo);
           this.$emit('input', this.selectRepo);

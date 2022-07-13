@@ -16,12 +16,50 @@
         @click:row="onRowClick"
       >
         <template #[`item.name`]="{ item }">
-          <a class="text-subtitle-2">{{ item.name }}</a>
+          <a class="text-subtitle-2" @click.stop="toEnvironmentModelList(item)">{{ item.name }}</a>
+        </template>
+        <template #[`item.phase`]="{ item }">
+          <span
+            :class="`v-avatar mr-2 ${
+              ['ContainerCreating', 'Pending', 'Terminating', 'PodInitializing'].indexOf(item.phase) > -1
+                ? 'kubegems__waiting-flashing'
+                : ''
+            }`"
+            :style="{
+              height: '10px',
+              minWidth: '10px',
+              width: '10px',
+              backgroundColor: `${$POD_STATUS_COLOR[item.phase] || '#ff5252'}`,
+            }"
+          />
+          <span>
+            {{ item.phase }}
+          </span>
+        </template>
+        <template #[`item.url`]="{ item }">
+          <a :href="item.url" target="_blank" @click.stop>{{ item.url }}</a>
         </template>
         <template #expanded-item="{ headers }">
           <td class="my-2 py-2" :colspan="headers.length">
-            {{ expandData }}
+            <pre>{{ expandData.spec }}</pre>
           </td>
+        </template>
+        <template #[`item.action`]="{ item }">
+          <v-flex :id="`r${item.name}m`" />
+          <v-menu :attach="`#r${item.name}m`" left>
+            <template #activator="{ on }">
+              <v-btn icon>
+                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-text class="pa-2">
+                <v-flex>
+                  <v-btn color="error" small text @click.stop="removeModel(item)"> 删除 </v-btn>
+                </v-flex>
+              </v-card-text>
+            </v-card>
+          </v-menu>
         </template>
       </v-data-table>
       <BasePagination
@@ -40,7 +78,7 @@
 <script>
   import { Base64 } from 'js-base64';
 
-  import { getModelRuntimeList, getModelRuntimeDetail } from '@/api';
+  import { getModelRuntimeList, getModelRuntimeDetail, deleteModelRuntime } from '@/api';
 
   export default {
     name: 'RuntimeList',
@@ -48,12 +86,13 @@
       items: [],
       headers: [
         { text: '部署实例', value: 'name', align: 'start' },
-        { text: '模型版本', value: 'version', align: 'start' },
-        { text: '状态', value: 'status', align: 'start' },
+        { text: '模型版本', value: 'modelVersion', align: 'start' },
+        { text: '状态', value: 'phase', align: 'start' },
         { text: '集群', value: 'cluster', align: 'start' },
         { text: '命名空间', value: 'namespace', align: 'start' },
         { text: '创建人', value: 'creator', align: 'start' },
         { text: 'Api', value: 'url', align: 'start' },
+        { text: '', value: 'action', align: 'center', width: 20 },
         { text: '', value: 'data-table-expand' },
       ],
       pageCount: 0,
@@ -89,9 +128,40 @@
         this.params.page = page;
       },
       async onRowClick(item, { expand, isExpanded }) {
-        const data = await getModelRuntimeDetail(item.tenant, item.project, item.env, item.name);
+        const data = await getModelRuntimeDetail(item.tenant, item.project, item.environment, item.name, {
+          noprocessing: true,
+        });
         this.expandData = data;
         expand(!isExpanded);
+      },
+      toEnvironmentModelList(item) {
+        this.$router.push({
+          name: 'app-list',
+          params: {
+            tenant: item.tenant,
+            project: item.project,
+            environment: item.environment,
+          },
+          query: {
+            kind: 'modelstore',
+            tab: 'modelstore',
+          },
+        });
+      },
+      removeModel(item) {
+        this.$store.commit('SET_CONFIRM', {
+          title: '删除模型实例',
+          content: {
+            text: `删除模型实例 ${item.name}`,
+            type: 'delete',
+            name: item.name,
+          },
+          param: { item },
+          doFunc: async (param) => {
+            await deleteModelRuntime(param.item.tenant, param.item.project, param.item.environment, param.item.name);
+            this.runtimeList();
+          },
+        });
       },
     },
   };

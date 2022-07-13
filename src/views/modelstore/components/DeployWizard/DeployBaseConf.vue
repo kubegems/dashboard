@@ -2,7 +2,7 @@
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
     <v-row>
       <v-col class="my-2">
-        <v-text-field v-model="obj.name" class="my-4" flat label="模型名称" required :rules="objRules.nameRules" />
+        <v-text-field v-model="obj.name" class="my-4" flat label="实例名称" required :rules="objRules.nameRules" />
         <v-autocomplete
           v-model="obj.project"
           class="my-4"

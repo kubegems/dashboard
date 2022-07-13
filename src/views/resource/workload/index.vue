@@ -108,9 +108,14 @@
                       ? 'kubegems__waiting-flashing'
                       : ''
                   }`"
-                  :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
-                    $WORKLOAD_STATUS_COLOR[m_resource_getWorkloadStatus(tabItems[tab].value, item.workload)]
-                  };`"
+                  :style="{
+                    height: '10px',
+                    minWidth: '10px',
+                    width: '10px',
+                    backgroundColor: `${
+                      $WORKLOAD_STATUS_COLOR[m_resource_getWorkloadStatus(tabItems[tab].value, item.workload)]
+                    }`,
+                  }"
                 />
                 <span>
                   {{

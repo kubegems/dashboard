@@ -25,7 +25,7 @@
               v-on="on"
               @click.stop="getProject"
             >
-              <v-icon left>fas fa-cube</v-icon>
+              <v-icon left>fas fa-window-maximize</v-icon>
               {{ Project().ProjectName }}
               <v-icon v-if="projectMenu" right>fas fa-angle-up</v-icon>
               <v-icon v-else right>fas fa-angle-down</v-icon>
@@ -55,7 +55,7 @@
                     >
                       <v-list-item-content class="text-body-2 font-weight-medium text-start">
                         <div class="kubegems__break-all">
-                          <v-icon left small color="primary">fas fa-cube</v-icon>
+                          <v-icon left small color="primary">fas fa-window-maximize</v-icon>
                           {{ project.text }}
                         </div>
                       </v-list-item-content>
@@ -70,6 +70,7 @@
       <v-sheet v-else class="text-subtitle-1">
         项目
         <span class="text-subtitle-1 ml-2 primary--text font-weight-medium">
+          <v-icon color="primary" right small>fas fa-window-maximize</v-icon>
           {{ Project().ProjectName }}
         </span>
         <v-btn icon @click="toProject">
@@ -148,6 +149,7 @@
         <v-sheet v-else class="text-subtitle-1 ml-4">
           环境
           <span class="text-subtitle-1 ml-2 primary--text font-weight-medium">
+            <v-icon color="primary" right small>fas fa-cloud</v-icon>
             {{ Environment().EnvironmentName }}
           </span>
         </v-sheet>

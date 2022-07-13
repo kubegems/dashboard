@@ -71,6 +71,7 @@
       <v-sheet v-else class="text-subtitle-1">
         集群
         <span class="text-subtitle-1 ml-2 primary--text font-weight-medium">
+          <v-icon color="primary" right small>fab fa-docker</v-icon>
           {{ Cluster().ClusterName }}
         </span>
       </v-sheet>
