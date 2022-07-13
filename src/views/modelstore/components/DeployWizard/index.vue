@@ -25,7 +25,7 @@
       <DeployAdvancedConf ref="advancedConf" :base="obj.base" :item="item" :spec="obj.spec" />
     </TabContent>
     <TabContent :class="`kubegems__wizard-tab-content mt-12`" icon="ti-check" :lazy="false" title="完成">
-      <DeployStatus :item="item" :processing="processing" />
+      <DeployStatus :base="obj.base" :item="item" :processing="processing" @showDeployStatus="showDeployStatus" />
     </TabContent>
     <template #footer="props">
       <v-flex class="kubegems__wizard-footer" :style="`right:${footerWidth}px;`">
@@ -151,11 +151,20 @@
         if (this.$refs.advancedConf) this.$refs.advancedConf.reset();
         this.obj = this.$options.data().obj;
       },
-      showDeployStatus() {
+      showDeployStatus(base) {
+        console.log(base);
         this.$emit('dispose');
-        this.$router.replace({
-          params: { ...this.$route.params },
-          query: { ...this.$route.query, tab: 'runtime' },
+        this.$router.push({
+          name: 'app-list',
+          params: {
+            tenant: this.Tenant().TenantName,
+            project: base.project,
+            environment: base.environment,
+          },
+          query: {
+            kind: 'modelstore',
+            tab: 'modelstore',
+          },
         });
       },
     },

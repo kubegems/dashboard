@@ -7,6 +7,10 @@
             <v-icon left small> mdi-rocket </v-icon>
             部署
           </v-btn>
+          <v-btn class="primary--text" small text @click="returnModel">
+            <v-icon left small>mdi-reply</v-icon>
+            返回
+          </v-btn>
         </v-flex>
       </template>
     </Breadcrumb>
@@ -24,7 +28,7 @@
             </v-tabs>
           </v-card-text>
         </v-card>
-        <component :is="currentComponent" :ref="tabItems[tab].value" :item="item" />
+        <component :is="currentComponent" :ref="tabItems[tab].value" :item="item" @refresh="refresh" />
       </v-col>
     </v-row>
 
@@ -101,12 +105,22 @@
     methods: {
       async modelDetail() {
         const data = await getModelStoreDetail(this.$route.query.registry, Base64.encode(this.$route.params.name));
-        this.item = data;
         const ratingData = await getModelRate(this.$route.query.registry, Base64.encode(this.$route.params.name));
-        this.item = { ...this.item, rating: { ...ratingData } };
+        this.item = { ...data, rating: { ...ratingData } };
       },
       deployModel() {
         this.$refs.deploy.open();
+      },
+      refresh() {
+        this.modelDetail();
+      },
+      returnModel() {
+        this.$router.push({
+          name: 'modelstore-center',
+          query: {
+            registry: this.$route.query.registry,
+          },
+        });
       },
     },
   };

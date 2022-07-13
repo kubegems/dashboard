@@ -1,27 +1,27 @@
 <template>
-  <v-card flat class="rounded-tr-0 rounded-tl-0 mb-3" height="60">
+  <v-card class="rounded-tr-0 rounded-tl-0 mb-3" flat height="60">
     <v-card-title class="py-3 mt-n3" :style="{ height: `60px` }">
       <v-sheet v-if="selectable" class="text-subtitle-1">
         项目
         <v-menu
           v-model="projectMenu"
           bottom
-          right
-          offset-y
-          origin="top center"
-          transition="scale-transition"
-          nudge-bottom="5px"
           content-class="tenant-header__bg"
           max-width="220px"
           min-width="120px"
+          nudge-bottom="5px"
+          offset-y
+          origin="top center"
+          right
+          transition="scale-transition"
         >
           <template #activator="{ on }">
             <v-btn
-              depressed
-              color="white"
               class="primary--text text-subtitle-1 font-weight-medium mt-n1"
-              small
+              color="white"
               dark
+              depressed
+              small
               v-on="on"
               @click.stop="getProject"
             >
@@ -31,19 +31,19 @@
               <v-icon v-else right>fas fa-angle-down</v-icon>
             </v-btn>
           </template>
-          <v-data-iterator :items="[{ text: '项目', values: m_select_tenantProjectItems }]" hide-default-footer>
+          <v-data-iterator hide-default-footer :items="[{ text: '项目', values: m_select_tenantProjectItems }]">
             <template #no-data>
               <v-card>
                 <v-card-text> 暂无项目 </v-card-text>
               </v-card>
             </template>
             <template #default="props">
-              <v-card flat v-for="item in props.items" :key="item.text" :loading="loadingPro">
-                <v-list dense class="pb-3">
+              <v-card v-for="item in props.items" :key="item.text" flat :loading="loadingPro">
+                <v-list class="pb-3" dense>
                   <v-flex class="text-subtitle-2 text-center ma-2">
                     <span>项目</span>
                   </v-flex>
-                  <v-divider class="mx-2"></v-divider>
+                  <v-divider class="mx-2" />
                   <div class="header__list px-2">
                     <v-list-item
                       v-for="(project, index) in item.values"
@@ -55,7 +55,7 @@
                     >
                       <v-list-item-content class="text-body-2 font-weight-medium text-start">
                         <div class="kubegems__break-all">
-                          <v-icon left small color="primary">fas fa-window-maximize</v-icon>
+                          <v-icon color="primary" left small>fas fa-window-maximize</v-icon>
                           {{ project.text }}
                         </div>
                       </v-list-item-content>
@@ -74,7 +74,7 @@
           {{ Project().ProjectName }}
         </span>
         <v-btn icon @click="toProject">
-          <v-icon small color="primary"> mdi-open-in-new </v-icon>
+          <v-icon color="primary" small> mdi-open-in-new </v-icon>
         </v-btn>
       </v-sheet>
 
@@ -84,23 +84,23 @@
           <v-menu
             v-model="environmentMenu"
             bottom
-            right
-            offset-y
-            origin="top center"
-            transition="scale-transition"
-            nudge-bottom="5px"
             content-class="z-index-bg"
             max-height="300px"
             max-width="220px"
             min-width="120px"
+            nudge-bottom="5px"
+            offset-y
+            origin="top center"
+            right
+            transition="scale-transition"
           >
             <template #activator="{ on }">
               <v-btn
-                depressed
-                color="white"
                 class="primary--text text-subtitle-1 font-weight-medium mt-n1"
-                small
+                color="white"
                 dark
+                depressed
+                small
                 v-on="on"
                 @click.stop="getEnvironment"
               >
@@ -110,19 +110,19 @@
                 <v-icon v-else right>fas fa-angle-down</v-icon>
               </v-btn>
             </template>
-            <v-data-iterator :items="[{ text: '环境', values: m_select_projectEnvironmentItems }]" hide-default-footer>
+            <v-data-iterator hide-default-footer :items="[{ text: '环境', values: m_select_projectEnvironmentItems }]">
               <template #no-data>
                 <v-card>
                   <v-card-text> 暂无环境 </v-card-text>
                 </v-card>
               </template>
               <template #default="props">
-                <v-card flat v-for="item in props.items" :key="item.text" :loading="loadingEnv">
-                  <v-list dense class="pb-3">
+                <v-card v-for="item in props.items" :key="item.text" flat :loading="loadingEnv">
+                  <v-list class="pb-3" dense>
                     <v-flex class="text-subtitle-2 text-center ma-2">
                       <span>环境</span>
                     </v-flex>
-                    <v-divider class="mx-2"></v-divider>
+                    <v-divider class="mx-2" />
                     <div class="header__list px-2">
                       <v-list-item
                         v-for="(environment, index) in item.values"
@@ -134,7 +134,7 @@
                       >
                         <v-list-item-content class="text-body-2 font-weight-medium text-start">
                           <div class="kubegems__break-all">
-                            <v-icon left small color="primary">fas fa-cloud</v-icon>
+                            <v-icon color="primary" left small>fas fa-cloud</v-icon>
                             {{ environment.text }}
                           </div>
                         </v-list-item-content>
@@ -178,10 +178,11 @@
 </template>
 
 <script>
-  import BaseSelect from '@/mixins/select';
-  import BasePermission from '@/mixins/permission';
   import { mapGetters, mapState } from 'vuex';
+
+  import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'BaseTenantHeader',

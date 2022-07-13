@@ -17,14 +17,26 @@
 
       <v-chip v-if="tagHide" class="ml-3 my-1 kubegems__pointer" color="primary" small @click="clearSelect">
         <v-avatar left>
-          <BaseLogo class="filter__logo" :icon-name="getLogo(tagHide)" :ml="0" :width="18" />
+          <BaseLogo
+            class="filter__logo"
+            :default-logo="title.toLowerCase()"
+            :icon-name="getLogo(tagHide)"
+            :ml="0"
+            :width="18"
+          />
         </v-avatar>
         {{ tagHide }}
       </v-chip>
       <v-chip-group v-model="tagIndex" active-class="primary" class="px-3" column @change="onTagChange">
         <v-chip v-for="tag in searchShow ? tagsCopy : shortTags" :key="tag" class="my-1" small>
           <v-avatar left>
-            <BaseLogo class="filter__logo" default-logo="framework" :icon-name="getLogo(tag)" :ml="0" :width="18" />
+            <BaseLogo
+              class="filter__logo"
+              :default-logo="title.toLowerCase()"
+              :icon-name="getLogo(tag)"
+              :ml="0"
+              :width="18"
+            />
           </v-avatar>
           {{ tag }}
         </v-chip>
@@ -115,9 +127,6 @@
       getLogo(tag) {
         if (this.title === 'Tags') {
           return 'tag';
-        }
-        if (this.title === 'License') {
-          return 'license';
         }
         return tag;
       },

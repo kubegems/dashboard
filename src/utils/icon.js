@@ -144,12 +144,13 @@ export function getIconName(name, def = 'kubernetes') {
   if (name.indexOf('transformers') > -1) return 'icon-park:transform';
   if (name.indexOf('pytorch') > -1) return 'logos:pytorch-icon';
   if (name.indexOf('tag') > -1) return 'logos:google-tag-manager';
-  if (name.indexOf('license') > -1) return 'twemoji:balance-scale';
   // if (name.indexOf('selfhosted') > -1) return 'bx:bxl-kubernetes'
 
   switch (def) {
     case 'framework':
       return 'img:framework.png';
+    case 'license':
+      return 'twemoji:balance-scale';
     default:
       return 'logos:kubernetes';
   }

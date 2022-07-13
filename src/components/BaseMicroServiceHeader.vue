@@ -1,28 +1,28 @@
 <template>
-  <v-card flat class="rounded-tr-0 rounded-tl-0 mb-3" height="60">
+  <v-card class="rounded-tr-0 rounded-tl-0 mb-3" flat height="60">
     <v-card-title class="py-3 mt-n3" :style="{ height: `60px` }">
       <v-sheet v-if="selectable" class="text-subtitle-1">
         虚拟空间
         <v-menu
           v-model="virtualSpaceMenu"
           bottom
-          left
-          offset-y
-          origin="top center"
-          transition="scale-transition"
-          nudge-bottom="5px"
           content-class="micro-service-header__bg"
+          left
           max-height="300px"
           max-width="220px"
           min-width="120px"
+          nudge-bottom="5px"
+          offset-y
+          origin="top center"
+          transition="scale-transition"
         >
           <template #activator="{ on }">
             <v-btn
-              depressed
-              color="white"
               class="primary--text text-subtitle-1 font-weight-medium mt-n1"
-              small
+              color="white"
               dark
+              depressed
+              small
               v-on="on"
               @click.stop="getVirtualspace"
             >
@@ -32,19 +32,19 @@
               <v-icon v-else right>fas fa-angle-down</v-icon>
             </v-btn>
           </template>
-          <v-data-iterator :items="[{ text: '虚拟空间', values: m_select_virtualSpaceItems }]" hide-default-footer>
+          <v-data-iterator hide-default-footer :items="[{ text: '虚拟空间', values: m_select_virtualSpaceItems }]">
             <template #no-data>
               <v-card>
                 <v-card-text> 暂无虚拟空间 </v-card-text>
               </v-card>
             </template>
             <template #default="props">
-              <v-card flat v-for="item in props.items" :key="item.text" :loading="loading">
-                <v-list dense class="pb-3">
+              <v-card v-for="item in props.items" :key="item.text" flat :loading="loading">
+                <v-list class="pb-3" dense>
                   <v-flex class="text-subtitle-2 text-center ma-2">
                     <span>虚拟空间</span>
                   </v-flex>
-                  <v-divider class="mx-2"></v-divider>
+                  <v-divider class="mx-2" />
                   <div class="header__list px-2">
                     <v-list-item
                       v-for="(virtualspace, index) in item.values"
@@ -56,7 +56,7 @@
                     >
                       <v-list-item-content class="text-body-2 font-weight-medium text-start">
                         <div class="kubegems__break-all">
-                          <v-icon left small color="primary">fas fa-hospital-alt</v-icon>
+                          <v-icon color="primary" left small>fas fa-hospital-alt</v-icon>
                           {{ virtualspace.text }}
                         </div>
                       </v-list-item-content>
@@ -101,7 +101,7 @@
             $VIRTUALSPACE_ROLE[m_permisson_virtualSpaceRole] ? $VIRTUALSPACE_ROLE[m_permisson_virtualSpaceRole] : '暂无'
           }}
         </span>
-        <v-btn text small class="primary--text" @click="returnVirtualSpace">
+        <v-btn class="primary--text" small text @click="returnVirtualSpace">
           <v-icon left small>mdi-logout</v-icon>
           返回
         </v-btn>
@@ -111,10 +111,11 @@
 </template>
 
 <script>
-  import BaseSelect from '@/mixins/select';
   import { mapGetters } from 'vuex';
-  import BaseResource from '@/mixins/resource';
+
   import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'BaseMicroServiceHeader',

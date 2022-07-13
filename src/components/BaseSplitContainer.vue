@@ -1,18 +1,18 @@
 <template>
-  <v-card flat class="split-container" :class="{ 'split-container--hidden': !expand }">
+  <v-card class="split-container" :class="{ 'split-container--hidden': !expand }" flat>
     <div class="split-container__side" :style="sideStyle">
       <div class="split-container__side-header">
         <div class="split-container__side-title">
           <slot name="title">{{ title }}</slot>
         </div>
-        <v-btn v-if="expand" icon type="text" color="primary" x-small :disabled="disabled" @click="onToggle">
+        <v-btn v-if="expand" color="primary" :disabled="disabled" icon type="text" x-small @click="onToggle">
           <v-icon>mdi-menu</v-icon>
         </v-btn>
       </div>
       <slot name="side" />
     </div>
 
-    <v-divider vertical class="mx-4" />
+    <v-divider class="mx-4" vertical />
 
     <div class="split-container__main" :style="mainStyle">
       <slot />
@@ -29,24 +29,24 @@
         <!-- tooltip -->
         <v-menu
           v-if="tooltip"
-          :close-on-content-click="false"
           :close-delay="200"
-          right
-          open-on-hover
+          :close-on-content-click="false"
           nudge-right="24px"
+          open-on-hover
+          right
         >
           <template #activator="{ on }">
-            <v-btn icon x-small v-on="on" color="white">
+            <v-btn color="white" icon x-small v-on="on">
               <v-icon>mdi-tooltip-text-outline</v-icon>
             </v-btn>
           </template>
-          <v-card flat class="pa-0">
-            <slot name="tooltip"></slot>
+          <v-card class="pa-0" flat>
+            <slot name="tooltip" />
           </v-card>
         </v-menu>
 
         <!-- 展开按钮 -->
-        <v-btn icon x-small color="white" :disabled="disabled" @click="onToggle">
+        <v-btn color="white" :disabled="disabled" icon x-small @click="onToggle">
           <v-icon>mdi-menu</v-icon>
         </v-btn>
       </div>
@@ -74,11 +74,6 @@
       },
       // 展开与收缩是否触发window.resize
       dispatchResize: {
-        type: Boolean,
-        default: false,
-      },
-      // 隐藏side-header
-      hiddenSideHeader: {
         type: Boolean,
         default: false,
       },

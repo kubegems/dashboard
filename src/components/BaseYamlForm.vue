@@ -1,15 +1,15 @@
 <template>
   <v-flex>
     <BaseSubTitle :title="title" />
-    <v-form ref="form" v-model="valid" lazy-validation class="mt-2 rounded-t mx-2" @submit.prevent />
+    <v-form ref="form" v-model="valid" class="mt-2 rounded-t mx-2" lazy-validation @submit.prevent />
     <div class="px-2">
       <ACEEditor
         v-model="kubeyaml"
         :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded`"
+        height="600"
         lang="yaml"
         :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
         theme="chrome"
-        height="600"
         @init="$aceinit"
         @keydown.stop
       />

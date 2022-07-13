@@ -52,8 +52,8 @@
       },
       async init() {},
       dispose() {
-        this.$refs.deployWizard.reset();
         this.dialog = false;
+        this.$refs.deployWizard.reset();
       },
     },
   };

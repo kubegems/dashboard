@@ -2,7 +2,7 @@
   <div class="marquee">
     <div ref="wrap" class="wrap">
       <div ref="content" class="content" :class="animationClass" :style="contentStyle">
-        <slot></slot>
+        <slot />
       </div>
     </div>
     <div class="v-menu__content theme--light manuable__content__active">
@@ -18,6 +18,7 @@
     name: 'BaseMarquee',
     props: {
       content: {
+        type: String,
         default: '',
       },
       delay: {

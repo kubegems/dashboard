@@ -17,7 +17,7 @@
             <h5 class="text-subtitle-1 kubegems__text">用户评分</h5>
             <h6 class="text-body-2 mb-3 model__rate__div">
               <div class="float-left model__rate__div__fraction mr-3">
-                {{ item && item.rating ? item.rating.rating : 0 }}
+                {{ item && item.rating ? item.rating.rating.toFixed(1) : 0 }}
               </div>
               <div class="float-left">
                 <v-rating

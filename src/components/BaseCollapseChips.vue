@@ -5,41 +5,41 @@
 
     <v-menu
       v-if="items.length"
-      open-on-hover
-      :close-on-content-click="false"
       :close-delay="200"
+      :close-on-content-click="false"
+      :disabled="items.length === 1"
       :max-width="maxWidth"
       :min-width="minWidth"
-      :disabled="items.length === 1"
+      open-on-hover
     >
       <template #activator="{ on }">
         <v-flex v-on="on">
-          <v-chip v-for="item in visibleItems" :key="item[itemValue]" :color="color" small class="mr-2 my-1">
-            <v-icon v-if="icon" small left> {{ icon }} </v-icon>
+          <v-chip v-for="item in visibleItems" :key="item[itemValue]" class="mr-2 my-1" :color="color" small>
+            <v-icon v-if="icon" left small> {{ icon }} </v-icon>
             <strong v-if="dataType === 'object'" class="mr-1">
               {{ item[itemValue] }}
             </strong>
             <slot :item="item">{{ item[itemText] }}</slot>
           </v-chip>
 
-          <v-chip v-if="items.length > 1" class="my-1" small :color="color">
+          <v-chip v-if="items.length > 1" class="my-1" :color="color" small>
             <strong>+ {{ items.length - 1 }}</strong>
           </v-chip>
         </v-flex>
       </template>
 
-      <v-card flat class="pa-2">
+      <v-card class="pa-2" flat>
         <template v-if="singleLine">
           <div v-for="item in items" :key="item[itemValue]">
-            <v-flex small class="ma-1 text-caption kubegems__text collapse__chip">
-              <v-icon v-if="icon" :color="color" small left> {{ icon }} </v-icon>
+            <v-flex class="ma-1 text-caption kubegems__text collapse__chip" small>
+              <v-icon v-if="icon" :color="color" left small> {{ icon }} </v-icon>
               <strong v-if="dataType === 'object'" class="mr-1"> {{ item[itemValue] }} </strong>
               <slot :item="item">{{ item[itemText] }}</slot>
             </v-flex>
           </div>
         </template>
         <template v-else>
-          <v-chip v-for="item in items" :key="item[itemValue]" small :color="color" class="ma-1">
+          <v-chip v-for="item in items" :key="item[itemValue]" class="ma-1" :color="color" small>
             <slot :item="item">{{ item[itemText] }}</slot>
           </v-chip>
         </template>

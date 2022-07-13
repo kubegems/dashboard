@@ -1,18 +1,18 @@
 <template>
   <VueApexCharts
     ref="vueApexCharts"
-    :type="chartType"
-    :width="`${width}%`"
     :height="height"
     :options="getOptions(title, id)"
     :series="series"
-  ></VueApexCharts>
+    :type="chartType"
+    :width="`${width}%`"
+  />
 </template>
 
 <script>
-  import { mapState } from 'vuex';
-  import VueApexCharts from 'vue-apexcharts';
   import moment from 'moment';
+  import VueApexCharts from 'vue-apexcharts';
+  import { mapState } from 'vuex';
 
   export default {
     name: 'BaseApexAreaChart',

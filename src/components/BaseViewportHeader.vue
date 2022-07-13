@@ -1,11 +1,12 @@
 <template>
-  <component :is="component" :selectable="selectable" :environmented="environmented" />
+  <component :is="component" :environmented="environmented" :selectable="selectable" />
 </template>
 
 <script>
   import { mapState } from 'vuex';
 
   export default {
+    name: 'BaseViewportHeader',
     props: {
       clusterable: {
         type: Boolean,

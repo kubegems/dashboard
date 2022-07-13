@@ -1,5 +1,5 @@
 <template>
-  <BaseItemGroup :item="item" text :prepend-icon="item.icon" sub-group append-icon="mdi-menu-down" class="xyz" />
+  <BaseItemGroup append-icon="mdi-menu-down" class="xyz" :item="item" :prepend-icon="item.icon" sub-group text />
 </template>
 
 <script>

@@ -1,8 +1,8 @@
 <template>
   <v-flex class="mb-3">
     <v-row class="ma-0 pa-0">
-      <v-col cols="1" sm="12" class="pa-0">
-        <v-card class="custom-shaodow pa-0" height="64" :flat="flat">
+      <v-col class="pa-0" cols="1" sm="12">
+        <v-card class="custom-shaodow pa-0" :flat="flat" height="64">
           <v-card-text class="breadcrumb__flex">
             <v-icon v-if="breadcrumb.icon != undefined" left>
               {{ breadcrumb.icon }}
@@ -19,7 +19,7 @@
             >
               {{ breadcrumb.tip }}
             </div>
-            <slot name="extend"></slot>
+            <slot name="extend" />
           </v-card-text>
         </v-card>
       </v-col>

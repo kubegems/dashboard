@@ -236,6 +236,7 @@
           this.modelReplyList(commentid);
         }
         this.modelCommentList();
+        this.$emit('refresh');
       },
       editCommnet(item, reply = false) {
         this.$refs.reply.init(item, reply);
