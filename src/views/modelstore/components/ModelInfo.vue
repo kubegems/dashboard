@@ -45,6 +45,15 @@
           </div>
           <div class="kubegems__clear-float" />
         </div>
+        <h5 v-if="item && item.tags.length > 0" class="text-subtitle-1 kubegems__text">Tag</h5>
+        <h6 class="text-body-2 mb-3">
+          <v-chip v-for="(tag, index) in item ? item.tags : []" :key="index" class="ma-1" small>
+            <v-avatar left>
+              <BaseLogo class="model__logo" default-logo="tag" :icon-name="tag" :ml="0" :width="18" />
+            </v-avatar>
+            {{ tag }}
+          </v-chip>
+        </h6>
         <h5 class="text-subtitle-1 kubegems__text">类型</h5>
         <h6 class="text-body-2 mb-3">
           {{ item ? item.source : '' }}
@@ -108,6 +117,10 @@
           line-height: 20px;
         }
       }
+    }
+
+    &__logo {
+      margin-top: 2px;
     }
   }
 </style>

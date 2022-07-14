@@ -13,7 +13,7 @@
         @keyup.enter="onSearch"
       />
       <div class="mt-4">
-        <FilterItems :tags="tags" title="Tags" @search="onFilterSeach" />
+        <FilterItems :tags="tasks" title="Task" @search="onFilterSeach" />
       </div>
       <div class="mt-4">
         <FilterItems :tags="frameworks" title="Framework" @search="onFilterSeach" />
@@ -45,7 +45,7 @@
         search: '',
         frameworks: [],
         licenses: [],
-        tags: [],
+        tasks: [],
       };
     },
     watch: {
@@ -73,7 +73,7 @@
       },
       async modelStoreFilterCondition() {
         const data = await getModelStoreFilterCondition(this.registry.name);
-        this.tags = data.tags;
+        this.tasks = data.tasks;
         this.frameworks = data.frameworks;
         this.licenses = data.licenses;
       },

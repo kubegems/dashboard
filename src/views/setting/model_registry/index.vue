@@ -93,12 +93,12 @@
   import AddModelRegistry from './components/AddModelRegistry';
   import UpdateModelRegistry from './components/UpdateModelRegistry';
   import {
-    getModelSourceList,
     deleteModelSource,
-    putModelSource,
+    deleteModelStoreSync,
+    getModelSourceList,
     getModelStoreSync,
     postModelStoreSync,
-    deleteModelStoreSync,
+    putModelSource,
   } from '@/api';
   import { deepCopy } from '@/utils/helpers';
 
@@ -213,6 +213,12 @@
               imgSrc: '/icon/pytorch.jpeg',
               tip: '发现模型并将其发布到专为研究探索而设计的预训练模型存储库。',
               address: 'https://pytorch.org/',
+            };
+          case 'paddlepaddle':
+            return {
+              imgSrc: '/icon/paddlepaddle.jpg',
+              tip: '源于产业实践的开源深度学习平台。',
+              address: 'https://www.paddlepaddle.org.cn/',
             };
           default:
             return {

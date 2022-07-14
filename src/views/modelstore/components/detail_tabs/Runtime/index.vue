@@ -57,7 +57,7 @@
 <script>
   import { Base64 } from 'js-base64';
 
-  import { getModelRuntimeList, getModelRuntimeDetail } from '@/api';
+  import { getModelRuntimeDetail, getModelRuntimeList } from '@/api';
 
   export default {
     name: 'RuntimeList',

@@ -38,18 +38,18 @@
             <v-rating
               v-if="!item.replyTo"
               background-color="orange lighten-3"
-              class="float-right mt-2"
+              class="float-right mt-1"
               color="orange"
               dense
               readonly
               small
               :value="item.rating"
             />
-            <div class="d-block my-2 text-subtitle-2 font-weight-regular mt-4 kubegems__text">{{ item.content }}</div>
+            <div class="d-block text-subtitle-2 font-weight-regular mt-3 kubegems__text">{{ item.content }}</div>
           </div>
         </div>
       </v-card-text>
-      <v-card-actions class="px-4">
+      <v-card-actions class="px-4 pt-1">
         <v-spacer />
         <v-btn color="primary" depressed small text @click="showReply(item, index)">
           <v-icon left small>{{ item.expand ? 'mdi-chevron-double-up' : 'mdi-comment-text-outline' }}</v-icon>
@@ -99,14 +99,14 @@
               <div>{{ reply.replyTo.username }} 发布于 {{ $moment(reply.replyTo.creationTime).format('lll') }}</div>
               “{{ reply.replyTo.content }}”
             </div>
-            <div class="d-block my-2 text-subtitle-2 font-weight-regular mt-4 mx-2 kubegems__text">
+            <div class="d-block my-2 text-subtitle-2 font-weight-regular mt-3 mx-2 kubegems__text">
               {{ reply.content }}
             </div>
           </div>
         </div>
       </v-expand-transition>
     </v-card>
-    <v-card class="kubegems__full-height mt-3" flat max-height="142" min-height="142">
+    <v-card class="kubegems__full-height mt-3" flat max-height="126" min-height="126">
       <div class="kubegems__full-center">
         <v-btn block class="text-h6" color="primary" text @click="addComment">
           <v-icon left>mdi-plus-box</v-icon>
@@ -134,7 +134,7 @@
   import { mapState } from 'vuex';
 
   import Reply from './Reply';
-  import { getModelCommentList, deleteModelComment } from '@/api';
+  import { deleteModelComment, getModelCommentList } from '@/api';
 
   export default {
     name: 'Comment',

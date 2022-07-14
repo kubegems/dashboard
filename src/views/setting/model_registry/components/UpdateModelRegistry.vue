@@ -36,7 +36,7 @@
   import { mapState } from 'vuex';
 
   import ModelRegistryBaseForm from './ModelRegistryBaseForm';
-  import { putModelSource, getModelSourceDetail } from '@/api';
+  import { getModelSourceDetail, putModelSource } from '@/api';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
