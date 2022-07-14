@@ -23,7 +23,7 @@ const TIP = {
 
   // 模型商店
   modelstore: '',
-  'modelstore-registry': '模型商店仓库(AI Model Registry)通过配置模型的仓库来达到模型的同步,集成于Kubegems。',
+  'modelstore-registry': '算法商店仓库(AI Model Registry)通过配置模型的仓库来达到模型的同步,集成于Kubegems。',
 
   // 设置
   'base-setting': '平台基本配置, 包括平台审计, 平台组件等。',

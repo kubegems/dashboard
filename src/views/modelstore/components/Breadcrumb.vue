@@ -70,7 +70,7 @@
               break;
             default:
               this.imgSrc = '/logo-about.svg';
-              this.tip = 'Kubegems内置模型商店。';
+              this.tip = 'Kubegems内置算法模型商店。';
               break;
           }
         },

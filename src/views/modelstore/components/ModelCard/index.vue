@@ -38,7 +38,7 @@
                       half-increments
                       readonly
                       small
-                      :value="item.rating.rating"
+                      :value="item.rating ? item.rating.rating : 0"
                     />
                   </v-list-item-subtitle>
                 </v-list-item-content>

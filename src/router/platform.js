@@ -207,7 +207,7 @@ export const platform = [
             component: () => import('@/views/setting/model_registry/index'),
             meta: {
               requireAuth: true,
-              title: '模型商店',
+              title: '算法商店',
               icon: 'mdi-cube',
               show: true,
               rootName: 'platform',

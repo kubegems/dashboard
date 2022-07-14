@@ -20,11 +20,7 @@
         </template>
         <template #[`item.phase`]="{ item }">
           <span
-            :class="`v-avatar mr-2 ${
-              ['ContainerCreating', 'Pending', 'Terminating', 'PodInitializing'].indexOf(item.phase) > -1
-                ? 'kubegems__waiting-flashing'
-                : ''
-            }`"
+            :class="`v-avatar mr-2 ${['Pending'].indexOf(item.phase) > -1 ? 'kubegems__waiting-flashing' : ''}`"
             :style="{
               height: '10px',
               minWidth: '10px',
@@ -44,23 +40,6 @@
             <pre>{{ expandData.spec }}</pre>
           </td>
         </template>
-        <template #[`item.action`]="{ item }">
-          <v-flex :id="`r${item.name}m`" />
-          <v-menu :attach="`#r${item.name}m`" left>
-            <template #activator="{ on }">
-              <v-btn icon>
-                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
-              </v-btn>
-            </template>
-            <v-card>
-              <v-card-text class="pa-2">
-                <v-flex>
-                  <v-btn color="error" small text @click.stop="removeModel(item)"> 删除 </v-btn>
-                </v-flex>
-              </v-card-text>
-            </v-card>
-          </v-menu>
-        </template>
       </v-data-table>
       <BasePagination
         v-if="pageCount >= 1"
@@ -78,7 +57,7 @@
 <script>
   import { Base64 } from 'js-base64';
 
-  import { getModelRuntimeList, getModelRuntimeDetail, deleteModelRuntime } from '@/api';
+  import { getModelRuntimeList, getModelRuntimeDetail } from '@/api';
 
   export default {
     name: 'RuntimeList',
@@ -92,7 +71,6 @@
         { text: '命名空间', value: 'namespace', align: 'start' },
         { text: '创建人', value: 'creator', align: 'start' },
         { text: 'Api', value: 'url', align: 'start' },
-        { text: '', value: 'action', align: 'center', width: 20 },
         { text: '', value: 'data-table-expand' },
       ],
       pageCount: 0,
@@ -145,21 +123,6 @@
           query: {
             kind: 'modelstore',
             tab: 'modelstore',
-          },
-        });
-      },
-      removeModel(item) {
-        this.$store.commit('SET_CONFIRM', {
-          title: '删除模型实例',
-          content: {
-            text: `删除模型实例 ${item.name}`,
-            type: 'delete',
-            name: item.name,
-          },
-          param: { item },
-          doFunc: async (param) => {
-            await deleteModelRuntime(param.item.tenant, param.item.project, param.item.environment, param.item.name);
-            this.runtimeList();
           },
         });
       },

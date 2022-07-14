@@ -38,7 +38,7 @@
     },
     data: () => ({
       dialog: false,
-      title: '模型商店',
+      title: '算法商店',
     }),
     computed: {
       ...mapState(['Scale']),
