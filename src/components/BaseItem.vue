@@ -1,10 +1,10 @@
 <template>
   <v-list-item
+    :active-class="``"
     :href="href"
     :rel="href && href !== '#' ? 'noopener' : undefined"
     :target="href && href !== '#' ? '_blank' : undefined"
     :to="item.to"
-    :active-class="``"
   >
     <v-list-item-icon v-if="item.meta.icon">
       <v-icon v-text="item.meta.icon" />
@@ -17,30 +17,26 @@
 </template>
 
 <script>
-import Themeable from 'vuetify/lib/mixins/themeable'
+  import Themeable from 'vuetify/lib/mixins/themeable';
 
-export default {
-  name: 'BaseItem',
-  mixins: [Themeable],
-  props: {
-    item: {
-      type: Object,
-      default: () => ({
-        href: undefined,
-        icon: undefined,
-        title: undefined,
-        to: undefined,
-      }),
+  export default {
+    name: 'BaseItem',
+    mixins: [Themeable],
+    props: {
+      item: {
+        type: Object,
+        default: () => ({
+          href: undefined,
+          icon: undefined,
+          title: undefined,
+          to: undefined,
+        }),
+      },
     },
-    text: {
-      type: Boolean,
-      default: false,
+    computed: {
+      href() {
+        return this.item.href || (!this.item.to ? '#' : undefined);
+      },
     },
-  },
-  computed: {
-    href() {
-      return this.item.href || (!this.item.to ? '#' : undefined)
-    },
-  },
-}
+  };
 </script>

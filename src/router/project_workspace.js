@@ -1,4 +1,4 @@
-const prefix = 'tenants/:tenant?/projects/:project?'
+const prefix = 'tenants/:tenant?/projects/:project?';
 
 export const projectWorkspace = [
   {
@@ -55,7 +55,6 @@ export const projectWorkspace = [
               show: true,
               rootName: 'project',
               tip: 'appmanifest',
-              dependencies: ['argocd'],
             },
           },
           {
@@ -69,7 +68,6 @@ export const projectWorkspace = [
               show: false,
               rootName: 'project',
               tip: 'appmanifest',
-              dependencies: ['argocd'],
             },
           },
           // registry
@@ -90,4 +88,4 @@ export const projectWorkspace = [
       },
     ],
   },
-]
+];

@@ -1,11 +1,5 @@
 <template>
-  <v-data-table
-    disable-sort
-    :headers="headers"
-    :items="routes"
-    no-data-text="暂无数据"
-    hide-default-footer
-  >
+  <v-data-table disable-sort :headers="headers" hide-default-footer :items="routes" no-data-text="暂无数据">
     <template #[`item.destination`]="{ item }">
       {{ item.destination.host }}
     </template>
@@ -13,29 +7,29 @@
 </template>
 
 <script>
-import BaseResource from '@/mixins/resource'
+  import BaseResource from '@/mixins/resource';
 
-export default {
-  name: 'RouteList',
-  mixins: [BaseResource],
-  props: {
-    routes: {
-      type: Array,
-      default: () => [],
+  export default {
+    name: 'RouteList',
+    mixins: [BaseResource],
+    props: {
+      routes: {
+        type: Array,
+        default: () => [],
+      },
     },
-  },
-  data() {
-    return {
-      headers: [
-        {
-          text: '目标负载',
-          value: 'destination',
-          align: 'start',
-          width: '50%',
-        },
-        { text: '流量权重', value: 'weight', align: 'start' },
-      ],
-    }
-  },
-}
+    data() {
+      return {
+        headers: [
+          {
+            text: '目标负载',
+            value: 'destination',
+            align: 'start',
+            width: '50%',
+          },
+          { text: '流量权重', value: 'weight', align: 'start' },
+        ],
+      };
+    },
+  };
 </script>

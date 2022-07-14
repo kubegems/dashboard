@@ -1,37 +1,25 @@
 <template>
   <v-menu
     v-model="menu"
-    :close-on-content-click="false"
     bottom
+    :close-on-content-click="false"
     left
+    nudge-bottom="5px"
     offset-y
     origin="top center"
     transition="scale-transition"
-    nudge-bottom="5px"
   >
     <template #activator="{ on }">
-      <v-btn
-        depressed
-        color="primary"
-        :text="text"
-        class="white--text"
-        v-on="on"
-      >
+      <v-btn class="white--text" color="primary" depressed :text="text" v-on="on">
         {{ currentDate }}
         <v-icon v-if="menu" right>fas fa-angle-up</v-icon>
         <v-icon v-else right>fas fa-angle-down</v-icon>
       </v-btn>
     </template>
-    <v-card width="300px">
+    <v-card flat width="300px">
       <v-row>
         <v-col>
-          <v-date-picker
-            v-model="currentDate"
-            no-title
-            flat
-            locale="zh-cn"
-            @change="onDateChange"
-          ></v-date-picker>
+          <v-date-picker v-model="currentDate" flat locale="zh-cn" no-title @change="onDateChange" />
         </v-col>
       </v-row>
     </v-card>
@@ -39,46 +27,44 @@
 </template>
 
 <script>
-import moment from 'moment'
+  import moment from 'moment';
 
-export default {
-  name: 'BaseDatePicker',
-  data: () => ({
-    currentDate: '',
-    menu: false,
-  }),
-  props: {
-    text: {
-      type: Boolean,
-      default: false,
+  export default {
+    name: 'BaseDatePicker',
+    props: {
+      text: {
+        type: Boolean,
+        default: false,
+      },
+      yesterday: {
+        type: Boolean,
+        default: true,
+      },
     },
-    yesterday: {
-      type: Boolean,
-      default: true,
+    data: () => ({
+      currentDate: '',
+      menu: false,
+    }),
+    mounted() {
+      const today = new Date();
+      const yesterday = new Date();
+      yesterday.setDate(today.getDate() - 1);
+      this.currentDate = this.yesterday ? moment(yesterday).format('YYYY-MM-DD') : moment(today).format('YYYY-MM-DD');
     },
-  },
-  mounted() {
-    const today = new Date()
-    const yesterday = new Date()
-    yesterday.setDate(today.getDate() - 1)
-    this.currentDate = this.yesterday
-      ? moment(yesterday).format('YYYY-MM-DD')
-      : moment(today).format('YYYY-MM-DD')
-  },
-  methods: {
-    onDateChange() {
-      this.menu = false
-      this.$emit('date', this.currentDate)
+    methods: {
+      onDateChange() {
+        this.menu = false;
+        this.$emit('date', this.currentDate);
+      },
+      setDate(date) {
+        this.currentDate = moment(date).format('YYYY-MM-DD');
+      },
     },
-    setDate(date) {
-      this.currentDate = moment(date).format('YYYY-MM-DD')
-    },
-  },
-}
+  };
 </script>
 
 <style lang="scss" scoped>
-.v-picker--date {
-  box-shadow: none !important;
-}
+  .v-picker--date {
+    box-shadow: none !important;
+  }
 </style>

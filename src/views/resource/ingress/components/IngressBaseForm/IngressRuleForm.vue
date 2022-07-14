@@ -1,64 +1,25 @@
 <template>
-  <v-form
-    ref="form"
-    v-model="valid"
-    lazy-validation
-    class="my-2"
-    @submit.prevent
-  >
+  <v-form ref="form" v-model="valid" class="my-2" lazy-validation @submit.prevent>
     <v-expand-transition>
-      <v-card
-        v-show="expand"
-        class="my-2 pa-2 kubegems__expand-transition"
-        :elevation="4"
-      >
+      <v-card v-show="expand" class="my-2 pa-2 kubegems__expand-transition" :elevation="4" flat>
         <BaseSubTitle :divider="false">
           <template #action>
-            <v-btn
-              small
-              text
-              color="primary"
-              class="float-right mr-2"
-              @click="addPath"
-            >
-              <v-icon
-                left
-                small
-              >
-                mdi-plus
-              </v-icon>
+            <v-btn class="float-right mr-2" color="primary" small text @click="addPath">
+              <v-icon left small> mdi-plus </v-icon>
               添加Path
             </v-btn>
           </template>
         </BaseSubTitle>
         <v-card-text class="pa-0">
           <v-sheet class="pt-2 px-2">
-            <v-flex
-              class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width"
-            >
+            <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width">
               <span>规则定义</span>
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
-              <v-text-field
-                v-model="ruler.host"
-                class="my-0"
-                label="域名"
-                :rules="rulerRules.hostRule"
-              >
+              <v-text-field v-model="ruler.host" class="my-0" label="域名" :rules="rulerRules.hostRule">
                 <template #append>
-                  <v-btn
-                    small
-                    text
-                    color="primary"
-                    class="mt-n1"
-                    @click="randomHost"
-                  >
-                    <v-icon
-                      left
-                      small
-                    >
-                      mdi-all-inclusive
-                    </v-icon>
+                  <v-btn class="mt-n1" color="primary" small text @click="randomHost">
+                    <v-icon left small> mdi-all-inclusive </v-icon>
                     随机域名
                   </v-btn>
                 </template>
@@ -67,20 +28,16 @@
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-autocomplete
                 v-model="ruler.tls"
-                color="primary"
-                :items="protocols"
-                :rules="rulerRules.tlsRule"
-                label="协议"
-                hide-selected
                 class="my-0"
+                color="primary"
+                hide-selected
+                :items="protocols"
+                label="协议"
                 no-data-text="暂无可选数据"
+                :rules="rulerRules.tlsRule"
               >
                 <template #selection="{ item }">
-                  <v-chip
-                    color="primary"
-                    small
-                    class="mx-1"
-                  >
+                  <v-chip class="mx-1" color="primary" small>
                     {{ item['text'] }}
                   </v-chip>
                 </template>
@@ -90,36 +47,24 @@
           </v-sheet>
 
           <v-sheet class="px-2">
-            <v-flex
-              class="float-left text-subtitle-2 py-1 primary--text kubegems__min-width"
-            />
+            <v-flex class="float-left text-subtitle-2 py-1 primary--text kubegems__min-width" />
             <v-flex
               v-if="['https', 'wss', 'grpc'].indexOf(ruler.tls) > -1"
               class="float-left ml-2 kubegems__form-width"
             >
               <v-autocomplete
                 v-model="ruler.secretName"
-                color="primary"
-                :items="m_select_secretItems"
-                :rules="rulerRules.secretName"
-                label="密钥"
-                hide-selected
                 class="my-0"
+                color="primary"
+                hide-selected
+                :items="m_select_secretItems"
+                label="密钥"
                 no-data-text="暂无可选数据"
-                @focus="
-                  onSecretSelectFocus(
-                    ThisCluster,
-                    obj.metadata.namespace,
-                    'kubernetes.io/tls',
-                  )
-                "
+                :rules="rulerRules.secretName"
+                @focus="onSecretSelectFocus(ThisCluster, obj.metadata.namespace, 'kubernetes.io/tls')"
               >
                 <template #selection="{ item }">
-                  <v-chip
-                    color="primary"
-                    small
-                    class="mx-1"
-                  >
+                  <v-chip class="mx-1" color="primary" small>
                     {{ item['text'] }}
                   </v-chip>
                 </template>
@@ -127,91 +72,146 @@
             </v-flex>
             <div class="kubegems__clear-float" />
           </v-sheet>
-          <v-sheet
-            v-for="(item, index) in ruler.paths"
-            :key="index"
-            class="px-2"
-          >
-            <v-flex
-              class="float-left text-subtitle-2 pt-5 py-1 primary--text kubegems__min-width"
-            >
+          <v-sheet v-for="(item, index) in ruler.paths" :key="index" class="px-2">
+            <v-flex class="float-left text-subtitle-2 pt-5 py-1 primary--text kubegems__min-width">
               路径{{ index + 1 }}
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-text-field
                 v-model="ruler.paths[index].path"
                 class="my-0"
-                required
                 label="路径"
+                required
                 :rules="rulerRules.pathsRule[index].pathRule"
               />
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-autocomplete
-                v-model="ruler.paths[index].serviceName"
-                color="primary"
-                label="服务"
-                hide-selected
+                v-model="ruler.paths[index].pathType"
                 class="my-0"
+                color="primary"
+                hide-selected
+                :items="pathTypeItems"
+                label="pathType"
                 no-data-text="暂无可选数据"
+                :rules="rulerRules.pathsRule[index].serviceNameRule"
+              >
+                <template #selection="{ item }">
+                  <v-chip class="mx-1" color="primary" small>
+                    {{ item['text'] }}
+                  </v-chip>
+                </template>
+              </v-autocomplete>
+            </v-flex>
+            <v-flex class="float-left text-subtitle-2 py-1 primary--text kubegems__min-width" />
+            <v-flex class="float-left ml-2 kubegems__form-width">
+              <v-autocomplete
+                v-model="ruler.paths[index].serviceName"
+                class="my-0"
+                color="primary"
+                hide-selected
                 :items="m_select_serviceItems"
+                label="服务"
+                no-data-text="暂无可选数据"
                 :rules="rulerRules.pathsRule[index].serviceNameRule"
                 @focus="onServiceSelectFocus(ThisCluster, obj.metadata.namespace)"
               >
                 <template #selection="{ item }">
-                  <v-chip
-                    color="primary"
-                    small
-                    class="mx-1"
-                  >
+                  <v-chip class="mx-1" color="primary" small>
                     {{ item['text'] }}
                   </v-chip>
                 </template>
               </v-autocomplete>
             </v-flex>
-            <v-flex
-              class="float-left text-subtitle-2 py-1 primary--text kubegems__min-width"
-            />
             <v-flex class="float-left ml-2 kubegems__form-width">
-              <v-autocomplete
-                v-model="ruler.paths[index].servicePort"
-                color="primary"
-                label="端口"
-                hide-selected
-                class="my-0"
-                no-data-text="暂无可选数据"
-                :items="
-                  m_select_serviceItems.find((s) => {
-                    return s.text === ruler.paths[index].serviceName
-                  })
-                    ? m_select_serviceItems.find((s) => {
-                      return s.text === ruler.paths[index].serviceName
-                    }).ports
-                    : []
-                "
-                :rules="rulerRules.pathsRule[index].servicePortRule"
-              >
-                <template #selection="{ item }">
-                  <v-chip
-                    color="primary"
-                    small
-                    class="mx-1"
+              <v-row>
+                <v-col class="pr-0" cols="3">
+                  <v-menu
+                    v-model="ruler.paths[index].portTypeMenu"
+                    bottom
+                    :close-on-content-click="false"
+                    content-class="tag-menu"
+                    nudge-bottom="5px"
+                    offset-y
+                    origin="top center"
+                    right
+                    transition="scale-transition"
                   >
-                    {{ item['text'] }}
-                  </v-chip>
-                </template>
-              </v-autocomplete>
+                    <template #activator="{ on }">
+                      <v-chip class="primary--text float-left mt-3 font-weight-medium" color="white" label v-on="on">
+                        {{ ruler.paths[index].portType === 'name' ? '端口名' : '端口号' }}
+                        <v-icon v-if="ruler.paths[index].portTypeMenu" right small> fas fa-angle-up </v-icon>
+                        <v-icon v-else right small> fas fa-angle-down </v-icon>
+                      </v-chip>
+                    </template>
+                    <v-data-iterator
+                      hide-default-footer
+                      :items="[
+                        {
+                          text: 'portType',
+                          values: [
+                            { text: '端口名', value: 'name' },
+                            { text: '端口号', value: 'number' },
+                          ],
+                        },
+                      ]"
+                    >
+                      <template #default="props">
+                        <v-card v-for="iterdata in props.items" :key="iterdata.text" flat>
+                          <v-list dense>
+                            <v-list-item
+                              v-for="(pType, i) in iterdata.values"
+                              :key="i"
+                              class="text-body-2 text-center"
+                              link
+                              :style="pType.value === ruler.paths[index].portType ? `color: #1e88e5 !important;` : ``"
+                              @click="setPortType(pType, index)"
+                            >
+                              <v-list-item-content>
+                                <span>
+                                  {{ pType.text }}
+                                </span>
+                              </v-list-item-content>
+                            </v-list-item>
+                          </v-list>
+                        </v-card>
+                      </template>
+                    </v-data-iterator>
+                  </v-menu>
+                </v-col>
+                <v-col class="pl-0" cols="9">
+                  <v-autocomplete
+                    v-model="ruler.paths[index].servicePort"
+                    class="my-0"
+                    color="primary"
+                    hide-selected
+                    :items="
+                      m_select_serviceItems.find((s) => {
+                        return s.text === ruler.paths[index].serviceName;
+                      })
+                        ? ruler.paths[index].portType === 'name'
+                          ? m_select_serviceItems.find((s) => {
+                              return s.text === ruler.paths[index].serviceName;
+                            }).portNames
+                          : m_select_serviceItems.find((s) => {
+                              return s.text === ruler.paths[index].serviceName;
+                            }).ports
+                        : []
+                    "
+                    label="端口"
+                    no-data-text="暂无可选数据"
+                    :rules="rulerRules.pathsRule[index].servicePortRule"
+                  >
+                    <template #selection="{ item }">
+                      <v-chip class="mx-1" color="primary" small>
+                        {{ item['text'] }}
+                      </v-chip>
+                    </template>
+                  </v-autocomplete>
+                </v-col>
+              </v-row>
             </v-flex>
-            <v-btn
-              dark
-              text
-              fab
-              right
-              x-small
-              color="error"
-              class="mt-4"
-              @click="removePtah(index)"
-            >
+            <v-btn class="mt-4" color="error" dark fab right text x-small @click="removePtah(index)">
               <v-icon>mdi-delete</v-icon>
             </v-btn>
             <div class="kubegems__clear-float" />
@@ -219,22 +219,8 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn
-            text
-            small
-            color="error"
-            @click="closeCard"
-          >
-            取消
-          </v-btn>
-          <v-btn
-            text
-            small
-            color="primary"
-            @click="addData"
-          >
-            保存
-          </v-btn>
+          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
+          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -242,298 +228,293 @@
 </template>
 
 <script>
-import BaseSelect from '@/mixins/select'
-import BaseResource from '@/mixins/resource'
-import { deepCopy, randomString } from '@/utils/helpers'
-import { required } from '@/utils/rules'
+  import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
+  import { deepCopy, randomString } from '@/utils/helpers';
+  import { required } from '@/utils/rules';
 
-export default {
-  name: 'IngressRuleForm',
-  mixins: [BaseSelect, BaseResource],
-  props: {
-    obj: {
-      type: Object,
-      default: () => null,
+  export default {
+    name: 'IngressRuleForm',
+    mixins: [BaseResource, BaseSelect],
+    props: {
+      domain: {
+        type: String,
+        default: () => '',
+      },
+      obj: {
+        type: Object,
+        default: () => null,
+      },
     },
-    domain: {
-      type: String,
-      default: () => '',
-    },
-  },
-  data() {
-    return {
-      valid: false,
-      expand: false,
-      protocols: [
-        { text: 'http', value: 'http' },
-        { text: 'https', value: 'https' },
-        { text: 'ws', value: 'ws' },
-        { text: 'wss', value: 'wss' },
-        { text: 'grpc', value: 'grpc' },
-      ],
-      objCopy: {
-        metadata: {
-          namespace: '',
+    data() {
+      return {
+        valid: false,
+        expand: false,
+        protocols: [
+          { text: 'http', value: 'http' },
+          { text: 'https', value: 'https' },
+          { text: 'ws', value: 'ws' },
+          { text: 'wss', value: 'wss' },
+          { text: 'grpc', value: 'grpc' },
+        ],
+        pathTypeItems: [
+          { text: 'Prefix', value: 'Prefix' },
+          { text: 'Exact', value: 'Exact' },
+          { text: 'ImplementationSpecific', value: 'ImplementationSpecific' },
+        ],
+        objCopy: {
+          metadata: {
+            namespace: '',
+          },
         },
+        ruler: {
+          index: -1,
+          tls: '',
+          secretName: '',
+          host: '',
+          paths: [{ path: '', pathType: '', serviceName: '', servicePort: '', portType: 'name', portTypeMenu: false }],
+        },
+      };
+    },
+    computed: {
+      rulerRules() {
+        const rule = {
+          hostRule: [],
+          secretName: [required],
+          s: [required],
+          pathsRule: [
+            {
+              pathRule: [required],
+              serviceNameRule: [required],
+              servicePortRule: [required],
+              pathTypeRule: [required],
+            },
+          ],
+        };
+        if (['https', 'wss', 'grpc'].indexOf(this.ruler.tls) > -1) {
+          rule.hostRule = [required];
+        }
+        return rule;
       },
-      ruler: {
-        index: -1,
-        tls: '',
-        secretName: '',
-        host: '',
-        paths: [{ path: '', serviceName: '', servicePort: '' }],
+    },
+    watch: {
+      obj: {
+        handler: function (data) {
+          if (data?.metadata?.namespace !== this.objCopy.metadata.namespace && data?.metadata?.namespace) {
+            this.m_select_serviceSelectData(this.ThisCluster, data?.metadata?.namespace);
+            this.m_select_secretSelectData(this.ThisCluster, data?.metadata?.namespace, 'kubernetes.io/tls');
+          }
+          this.objCopy = deepCopy(data);
+        },
+        deep: true,
       },
-    }
-  },
-  computed: {
-    rulerRules() {
-      const rule = {
-        hostRule: [],
-        secretName: [required],
-        s: [required],
-        pathsRule: [
-          {
+    },
+    methods: {
+      init(data) {
+        this.ruler = data;
+        this.ruler.paths.forEach(() => {
+          this.rulerRules.pathsRule.push({
             pathRule: [required],
             serviceNameRule: [required],
             servicePortRule: [required],
-          },
-        ],
-      }
-      if (['https', 'wss', 'grpc'].indexOf(this.ruler.tls) > -1) {
-        rule.hostRule = [required]
-      }
-      return rule
-    },
-  },
-  watch: {
-    obj: {
-      handler: function (data) {
-        if (
-          data?.metadata?.namespace !== this.objCopy.metadata.namespace
-        ) {
-          this.m_select_serviceSelectData(this.ThisCluster, data?.metadata?.namespace)
-          this.m_select_secretSelectData(
-            this.ThisCluster,
-            data?.metadata?.namespace,
-            'kubernetes.io/tls',
-          )
-        }
-        this.objCopy = deepCopy(data)
+            pathTypeRule: [required],
+          });
+        });
+        this.expand = true;
       },
-      deep: true,
-    },
-  },
-  methods: {
-    // eslint-disable-next-line vue/no-unused-properties
-    init(data) {
-      this.ruler = data
-      this.ruler.paths.forEach(() => {
+      randomHost() {
+        if (!this.domain) {
+          this.$store.commit('SET_SNACKBAR', {
+            text: '暂无可生成的随机域名',
+            color: 'warning',
+          });
+          return;
+        }
+        this.ruler.host = this.domain.replace(new RegExp('\\*', 'g'), randomString(4));
+      },
+      addPath() {
+        this.ruler.paths.push({
+          path: '',
+          pathType: '',
+          serviceName: '',
+          servicePort: '',
+          portType: 'name',
+          portTypeMenu: false,
+        });
         this.rulerRules.pathsRule.push({
           pathRule: [required],
           serviceNameRule: [required],
           servicePortRule: [required],
-        })
-      })
-      this.expand = true
-    },
-    randomHost() {
-      if (!this.domain) {
-        this.$store.commit('SET_SNACKBAR', {
-          text: '暂无可生成的随机域名',
-          color: 'warning',
-        })
-        return
-      }
-      this.ruler.host = this.domain.replace(
-        new RegExp('\\*', 'g'),
-        randomString(4),
-      )
-    },
-    addPath() {
-      this.ruler.paths.push({ path: '', serviceName: '', servicePort: '' })
-      this.rulerRules.pathsRule.push({
-        pathRule: [required],
-        serviceNameRule: [required],
-        servicePortRule: [required],
-      })
-    },
-    removePtah(index) {
-      if (this.ruler.paths.length === 1) {
-        this.$store.commit('SET_SNACKBAR', {
-          text: '至少保留一项路由规则',
-          color: 'warning',
-        })
-        return
-      }
-      this.ruler.paths.splice(index, 1)
-      this.rulerRules.pathsRule.splice(index, 1)
-    },
-    generateAnnotation(oriRuler) {
-      if (!this.objCopy.metadata.annotations) {
-        this.objCopy.metadata.annotations = {}
-      }
-      if (
-        this.objCopy.metadata.annotations &&
-        this.objCopy.metadata.annotations['nginx.org/websocket-services']
-      ) {
-        const svcs =
-          this.objCopy.metadata.annotations[
-            'nginx.org/websocket-services'
-          ].split(',')
-        oriRuler.forEach((r) => {
-          const index = svcs.indexOf(r.serviceName)
-          if (index > -1) svcs.splice(index, 1)
-        })
-        this.objCopy.metadata.annotations['nginx.org/websocket-services'] =
-          svcs.join(',')
-        if (
-          this.objCopy.metadata.annotations['nginx.org/websocket-services'] ===
-          ''
-        ) {
-          this.$delete(
-            this.objCopy.metadata.annotations,
-            'nginx.org/websocket-services',
-          )
+          pathTypeRule: [required],
+        });
+      },
+      removePtah(index) {
+        if (this.ruler.paths.length === 1) {
+          this.$store.commit('SET_SNACKBAR', {
+            text: '至少保留一项路由规则',
+            color: 'warning',
+          });
+          return;
         }
-      }
-      if (
-        this.objCopy.metadata.annotations &&
-        this.objCopy.metadata.annotations['nginx.org/grpc-services']
-      ) {
-        const svcs =
-          this.objCopy.metadata.annotations['nginx.org/grpc-services'].split(
-            ',',
-          )
-        oriRuler.forEach((r) => {
-          const index = svcs.indexOf(r.serviceName)
-          if (index > -1) svcs.splice(index, 1)
-        })
-        this.objCopy.metadata.annotations['nginx.org/grpc-services'] =
-          svcs.join(',')
-        if (
-          this.objCopy.metadata.annotations['nginx.org/grpc-services'] === ''
-        ) {
-          this.$delete(
-            this.objCopy.metadata.annotations,
-            'nginx.org/grpc-services',
-          )
+        this.ruler.paths.splice(index, 1);
+        this.rulerRules.pathsRule.splice(index, 1);
+      },
+      generateAnnotation(oriRuler) {
+        if (!this.objCopy.metadata.annotations) {
+          this.objCopy.metadata.annotations = {};
         }
-      }
-      if (this.ruler.tls === 'ws' || this.ruler.tls === 'wss') {
-        if (
-          !this.objCopy.metadata.annotations['nginx.org/websocket-services']
-        ) {
-          this.objCopy.metadata.annotations['nginx.org/websocket-services'] = ''
-        }
-        const svcs = this.objCopy.metadata.annotations[
-          'nginx.org/websocket-services'
-        ]
-          .split(',')
-          .filter((svc) => {
-            return svc !== ''
-          })
-        this.objCopy.metadata.annotations['nginx.org/websocket-services'] = svcs
-          .concat(
-            this.ruler.paths.map((p) => {
-              return p.serviceName
-            }),
-          )
-          .join(',')
-      } else if (this.ruler.tls === 'grpc') {
-        if (!this.objCopy.metadata.annotations['nginx.org/grpc-services']) {
-          this.objCopy.metadata.annotations['nginx.org/grpc-services'] = ''
-        }
-        const svcs = this.objCopy.metadata.annotations[
-          'nginx.org/grpc-services'
-        ]
-          .split(',')
-          .filter((svc) => {
-            return svc !== ''
-          })
-        this.objCopy.metadata.annotations['nginx.org/grpc-services'] = svcs
-          .concat(
-            this.ruler.paths.map((p) => {
-              return p.serviceName
-            }),
-          )
-          .join(',')
-      }
-    },
-    addData() {
-      if (this.$refs.form.validate(true)) {
-        const oriRuler = this.ruler.paths
-        const paths = []
-        this.ruler.paths.forEach((p) => {
-          paths.push({
-            path: p.path,
-            backend: {
-              serviceName: p.serviceName,
-              servicePort: p.servicePort,
-            },
-          })
-        })
-        // 域名为空时后端才会自动生成
-        if (this.ruler.host === '自动生成域名') {
-          this.ruler.host = ''
-        }
-        if (['https', 'wss', 'grpc'].indexOf(this.ruler.tls) > -1) {
-          if (!this.objCopy.spec.tls) {
-            this.objCopy.spec.tls = []
-          }
-          this.objCopy.spec.tls.push({
-            hosts: [this.ruler.host],
-            secretName: this.ruler.secretName,
-          })
-        }
-        if (this.ruler.index === -1) {
-          this.objCopy.spec.rules.push({
-            host: this.ruler.host,
-            http: {
-              paths: paths,
-            },
-          })
-        } else {
-          this.$set(this.objCopy.spec.rules, this.ruler.index, {
-            host: this.ruler.host,
-            http: {
-              paths: paths,
-            },
-          })
-        }
-        if (['https', 'wss', 'grpc'].indexOf(this.ruler.tls) === -1) {
-          if (this.objCopy.spec.tls && this.objCopy.spec.tls.length > 0) {
-            const index = this.objCopy.spec.tls.findIndex((tls) => {
-              return tls.hosts.find((h) => {
-                return h === this.ruler.host
-              })
-            })
-            this.$delete(this.objCopy.spec.tls, index)
+        if (this.objCopy.metadata.annotations && this.objCopy.metadata.annotations['nginx.org/websocket-services']) {
+          const svcs = this.objCopy.metadata.annotations['nginx.org/websocket-services'].split(',');
+          oriRuler.forEach((r) => {
+            const index = svcs.indexOf(r.serviceName);
+            if (index > -1) svcs.splice(index, 1);
+          });
+          this.objCopy.metadata.annotations['nginx.org/websocket-services'] = svcs.join(',');
+          if (this.objCopy.metadata.annotations['nginx.org/websocket-services'] === '') {
+            this.$delete(this.objCopy.metadata.annotations, 'nginx.org/websocket-services');
           }
         }
-        this.generateAnnotation(oriRuler)
-        this.$emit('addData', this.objCopy)
-        this.closeCard()
-      }
+        if (this.objCopy.metadata.annotations && this.objCopy.metadata.annotations['nginx.org/grpc-services']) {
+          const svcs = this.objCopy.metadata.annotations['nginx.org/grpc-services'].split(',');
+          oriRuler.forEach((r) => {
+            const index = svcs.indexOf(r.serviceName);
+            if (index > -1) svcs.splice(index, 1);
+          });
+          this.objCopy.metadata.annotations['nginx.org/grpc-services'] = svcs.join(',');
+          if (this.objCopy.metadata.annotations['nginx.org/grpc-services'] === '') {
+            this.$delete(this.objCopy.metadata.annotations, 'nginx.org/grpc-services');
+          }
+        }
+        if (this.ruler.tls === 'ws' || this.ruler.tls === 'wss') {
+          if (!this.objCopy.metadata.annotations['nginx.org/websocket-services']) {
+            this.objCopy.metadata.annotations['nginx.org/websocket-services'] = '';
+          }
+          const svcs = this.objCopy.metadata.annotations['nginx.org/websocket-services'].split(',').filter((svc) => {
+            return svc !== '';
+          });
+          this.objCopy.metadata.annotations['nginx.org/websocket-services'] = svcs
+            .concat(
+              this.ruler.paths.map((p) => {
+                return p.serviceName;
+              }),
+            )
+            .join(',');
+        } else if (this.ruler.tls === 'grpc') {
+          if (!this.objCopy.metadata.annotations['nginx.org/grpc-services']) {
+            this.objCopy.metadata.annotations['nginx.org/grpc-services'] = '';
+          }
+          const svcs = this.objCopy.metadata.annotations['nginx.org/grpc-services'].split(',').filter((svc) => {
+            return svc !== '';
+          });
+          this.objCopy.metadata.annotations['nginx.org/grpc-services'] = svcs
+            .concat(
+              this.ruler.paths.map((p) => {
+                return p.serviceName;
+              }),
+            )
+            .join(',');
+        }
+      },
+      addData() {
+        if (this.$refs.form.validate(true)) {
+          const oriRuler = this.ruler.paths;
+          const paths = [];
+          this.ruler.paths.forEach((p) => {
+            if (p.portType === 'name') {
+              paths.push({
+                path: p.path,
+                pathType: p.pathType,
+                backend: {
+                  service: {
+                    name: p.serviceName,
+                    port: {
+                      name: p.servicePort,
+                    },
+                  },
+                },
+              });
+            } else {
+              paths.push({
+                path: p.path,
+                pathType: p.pathType,
+                backend: {
+                  service: {
+                    name: p.serviceName,
+                    port: {
+                      number: p.servicePort,
+                    },
+                  },
+                },
+              });
+            }
+          });
+          // 域名为空时后端才会自动生成
+          if (this.ruler.host === '自动生成域名') {
+            this.ruler.host = '';
+          }
+          if (['https', 'wss', 'grpc'].indexOf(this.ruler.tls) > -1) {
+            if (!this.objCopy.spec.tls) {
+              this.objCopy.spec.tls = [];
+            }
+            this.objCopy.spec.tls.push({
+              hosts: [this.ruler.host],
+              secretName: this.ruler.secretName,
+            });
+          }
+          if (this.ruler.index === -1) {
+            this.objCopy.spec.rules.push({
+              host: this.ruler.host,
+              http: {
+                paths: paths,
+              },
+            });
+          } else {
+            this.$set(this.objCopy.spec.rules, this.ruler.index, {
+              host: this.ruler.host,
+              http: {
+                paths: paths,
+              },
+            });
+          }
+          if (['https', 'wss', 'grpc'].indexOf(this.ruler.tls) === -1) {
+            if (this.objCopy.spec.tls && this.objCopy.spec.tls.length > 0) {
+              const index = this.objCopy.spec.tls.findIndex((tls) => {
+                return tls.hosts.find((h) => {
+                  return h === this.ruler.host;
+                });
+              });
+              this.$delete(this.objCopy.spec.tls, index);
+            }
+          }
+          this.generateAnnotation(oriRuler);
+          this.$emit('addData', this.objCopy);
+          this.closeCard();
+        }
+      },
+      closeCard() {
+        this.expand = false;
+        this.rulerRules.pathsRule = [
+          {
+            pathRule: [required],
+            serviceNameRule: [required],
+            servicePortRule: [required],
+            pathTypeRule: [required],
+          },
+        ];
+        this.ruler = deepCopy(this.$options.data().ruler);
+        this.$refs.form.resetValidation();
+        this.$emit('closeOverlay');
+      },
+      onServiceSelectFocus(clusterName, namespace) {
+        this.m_select_serviceSelectData(clusterName, namespace);
+      },
+      onSecretSelectFocus(clusterName, namespace, type) {
+        this.m_select_secretSelectData(clusterName, namespace, type);
+      },
+      setPortType(portType, index) {
+        this.ruler.paths[index].portType = portType.value;
+        this.ruler.paths[index].portTypeMenu = false;
+      },
     },
-    closeCard() {
-      this.expand = false
-      this.rulerRules.pathsRule = [
-        {
-          pathRule: [required],
-          serviceNameRule: [required],
-          servicePortRule: [required],
-        },
-      ]
-      this.ruler = deepCopy(this.$options.data().ruler)
-      this.$refs.form.resetValidation()
-      this.$emit('closeOverlay')
-    },
-    onServiceSelectFocus(clusterName, namespace) {
-      this.m_select_serviceSelectData(clusterName, namespace)
-    },
-    onSecretSelectFocus(clusterName, namespace, type) {
-      this.m_select_secretSelectData(clusterName, namespace, type)
-    },
-  },
-}
+  };
 </script>

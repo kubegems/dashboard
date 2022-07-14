@@ -1,0 +1,191 @@
+<template>
+  <FormWizard
+    ref="wizard"
+    back-button-text="上一步"
+    :class="`px-8 pt-8`"
+    color="#1e88e5"
+    error-color="#e74c3c"
+    finish-button-text="部署"
+    next-button-text="下一步"
+    shape="tab"
+    :start-index="0"
+    step-size="sm"
+    subtitle=""
+    title=""
+  >
+    <TabContent
+      :before-change="validateBaseInfo"
+      :class="`kubegems__wizard-tab-content mt-8`"
+      icon="ti-info-alt"
+      title="基本配置"
+    >
+      <DeployBaseConf ref="baseConf" :base="obj.base" :item="item" />
+    </TabContent>
+    <TabContent :class="`kubegems__wizard-tab-content mt-12`" icon="ti-settings" :lazy="false" title="详细配置">
+      <DeployAdvancedConf ref="advancedConf" :base="obj.base" :item="item" :spec="obj.spec" />
+    </TabContent>
+    <TabContent :class="`kubegems__wizard-tab-content mt-12`" icon="ti-check" :lazy="false" title="完成">
+      <DeployStatus :base="obj.base" :item="item" :processing="processing" @showDeployStatus="showDeployStatus" />
+    </TabContent>
+    <template #footer="props">
+      <v-flex class="kubegems__wizard-footer" :style="`right:${footerWidth}px;`">
+        <v-btn v-show="props.activeTabIndex > 0" color="primary" text @click.native="props.prevTab()"> 上一步 </v-btn>
+        <v-btn v-if="props.activeTabIndex === 0" color="primary" text @click.native="nextStep(props)"> 下一步 </v-btn>
+
+        <v-btn v-if="props.activeTabIndex === 1" color="primary" :loading="Circular" text @click="deploy"> 部署 </v-btn>
+      </v-flex>
+    </template>
+  </FormWizard>
+</template>
+
+<script>
+  import { FormWizard, TabContent } from 'vue-form-wizard';
+  import { mapGetters, mapState } from 'vuex';
+
+  import DeployAdvancedConf from './DeployAdvancedConf';
+  import DeployBaseConf from './DeployBaseConf';
+  import DeployStatus from './DeployStatus';
+  import { postDeployModel } from '@/api';
+  import BaseSelect from '@/mixins/select';
+
+  import 'vue-form-wizard/dist/vue-form-wizard.min.css';
+
+  export default {
+    name: 'DeployWizard',
+    components: {
+      DeployAdvancedConf,
+      DeployBaseConf,
+      DeployStatus,
+      FormWizard,
+      TabContent,
+    },
+    mixins: [BaseSelect],
+    props: {
+      item: {
+        type: Object,
+        default: () => null,
+      },
+    },
+    data() {
+      return {
+        obj: {
+          base: {
+            name: '',
+            tenant: '',
+            project: '',
+            environment: '',
+            version: '',
+          },
+          metadata: {
+            name: '',
+          },
+          spec: {
+            host: '',
+            model: {
+              framework: '',
+              image: '',
+              name: '',
+              url: '',
+              version: '',
+              source: '',
+            },
+            modelPath: '',
+            resources: {
+              limits: {
+                cpu: 1,
+                memory: '2Gi',
+              },
+            },
+            replicas: 1,
+          },
+        },
+        processing: false,
+      };
+    },
+    computed: {
+      ...mapState(['AdminViewport', 'Scale', 'Circular']),
+      ...mapGetters(['Tenant']),
+      footerWidth() {
+        return (window.innerWidth / this.Scale / 12) * 9 + 10;
+      },
+    },
+    destroyed() {
+      if (this.timeout) {
+        clearTimeout(this.timeout);
+      }
+    },
+    methods: {
+      async nextStep(props) {
+        await props.nextTab();
+      },
+      validateBaseInfo() {
+        const validate = this.$refs.baseConf.validate();
+        if (validate) {
+          const base = this.$refs.baseConf.getData();
+          this.obj.base = base;
+        }
+        return validate;
+      },
+      async deploy() {
+        if (this.$refs.advancedConf.validate()) {
+          const spec = this.$refs.advancedConf.getData();
+          this.obj.spec = spec;
+          this.obj.spec.model.source = this.item.source;
+          this.obj.spec.model.framework = this.item.framework;
+          this.obj.spec.model.name = this.item.name;
+          this.obj.metadata.name = this.obj.base.name;
+          this.obj.spec.model.version = this.obj.base.version;
+
+          await postDeployModel(this.Tenant().TenantName, this.obj.base.project, this.obj.base.environment, {
+            metadata: this.obj.metadata,
+            spec: this.obj.spec,
+          });
+          this.$refs.wizard.nextTab();
+          this.processing = true;
+        }
+      },
+      reset() {
+        this.$refs.wizard.reset();
+        this.processing = false;
+        if (this.$refs.baseConf) this.$refs.baseConf.reset();
+        if (this.$refs.advancedConf) this.$refs.advancedConf.reset();
+        this.obj = this.$options.data().obj;
+      },
+      showDeployStatus(base) {
+        this.$emit('dispose');
+        this.$router.push({
+          name: 'app-list',
+          params: {
+            tenant: this.Tenant().TenantName,
+            project: base.project,
+            environment: base.environment,
+          },
+          query: {
+            kind: 'modelstore',
+            tab: 'modelstore',
+          },
+        });
+      },
+    },
+  };
+</script>
+
+<style lang="scss">
+  /* 覆盖样式 */
+  .vue-form-wizard .wizard-tab-content {
+    padding: 0 0 0;
+  }
+  .vue-form-wizard .wizard-card-footer {
+    padding: 0 0;
+  }
+  .wizard-form-content {
+    margin-bottom: 0;
+    padding: 0;
+  }
+  .vue-form-wizard .wizard-header {
+    padding: 0;
+  }
+  .vue-form-wizard {
+    padding-bottom: 0;
+  }
+</style>

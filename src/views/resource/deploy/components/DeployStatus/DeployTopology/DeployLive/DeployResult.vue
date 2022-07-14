@@ -1,13 +1,14 @@
 <template>
-  <v-flex>
+  <v-flex class="px-2">
     <v-data-table
       disable-sort
       :headers="headers"
+      :height="height"
+      hide-default-footer
       :items="items"
-      :page.sync="params.page"
       :items-per-page="params.size"
       no-data-text="暂无数据"
-      hide-default-footer
+      :page.sync="params.page"
     >
       <template #[`item.kind`]="{ item }">
         {{ item.kind }}
@@ -29,49 +30,56 @@
 </template>
 
 <script>
-import BaseResource from '@/mixins/resource'
+  import { mapState } from 'vuex';
 
-export default {
-  name: 'DeployResult',
-  mixins: [BaseResource],
-  props: {
-    resource: {
-      type: Object,
-      default: () => null,
-    },
-  },
-  data: () => ({
-    items: [],
-    headers: [
-      { text: 'Kind', value: 'kind', align: 'start' },
-      { text: 'Namspace', value: 'namespace', align: 'start' },
-      { text: '名称', value: 'name', align: 'start' },
-      { text: '状态', value: 'status', align: 'start' },
-      { text: '消息', value: 'message', align: 'start', width: 350 },
-    ],
-    params: {
-      page: 1,
-      size: 1000,
-    },
-  }),
-  watch: {
-    resource: {
-      handler: function () {
-        if (this.resource) {
-          this.resultList()
-        }
+  import BaseResource from '@/mixins/resource';
+
+  export default {
+    name: 'DeployResult',
+    mixins: [BaseResource],
+    props: {
+      resource: {
+        type: Object,
+        default: () => null,
       },
-      deep: true,
-      immediate: true,
     },
-  },
-  methods: {
-    async resultList() {
-      const data = this.resource?.liveState?.status?.operationState?.syncResult?.resources || []
-      this.items = data
+    data: () => ({
+      items: [],
+      headers: [
+        { text: 'Kind', value: 'kind', align: 'start' },
+        { text: 'Namspace', value: 'namespace', align: 'start' },
+        { text: '名称', value: 'name', align: 'start' },
+        { text: '状态', value: 'status', align: 'start' },
+        { text: '消息', value: 'message', align: 'start', width: 350 },
+      ],
+      params: {
+        page: 1,
+        size: 1000,
+      },
+    }),
+    computed: {
+      ...mapState(['Scale']),
+      height() {
+        return parseInt((window.innerHeight - 64 - 45) / this.Scale);
+      },
     },
-    // eslint-disable-next-line vue/no-unused-properties
-    dispose() {},
-  },
-}
+    watch: {
+      resource: {
+        handler: function () {
+          if (this.resource) {
+            this.resultList();
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
+    },
+    methods: {
+      async resultList() {
+        const data = this.resource?.liveState?.status?.operationState?.syncResult?.resources || [];
+        this.items = data;
+      },
+      dispose() {},
+    },
+  };
 </script>

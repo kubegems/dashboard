@@ -39,57 +39,41 @@
     </BaseListItemForDetail>
   </v-flex>
   <v-flex v-else-if="mode === 'traffic_shifting'">
-    <BaseSubTitle
-      title="Route"
-      :divider="false"
-      class="mt-4 pl-2"
-    />
+    <BaseSubTitle class="mt-4 pl-2" :divider="false" title="Route" />
     <RouteList :routes="vs ? vs.route : []" />
   </v-flex>
   <v-flex v-else-if="mode === 'tcp_traffic_shifting'">
-    <BaseSubTitle
-      title="Route"
-      :divider="false"
-      class="mt-4 pl-2"
-    />
+    <BaseSubTitle class="mt-4 pl-2" :divider="false" title="Route" />
     <RouteList :routes="vs ? vs.route : []" />
   </v-flex>
   <v-flex v-else-if="mode === 'request_routing'">
-    <BaseSubTitle
-      title="Match"
-      :divider="false"
-      class="mt-4 pl-2"
-    />
+    <BaseSubTitle class="mt-4 pl-2" :divider="false" title="Match" />
     <MatchList :matchs="vs ? vs.match : []" />
-    <BaseDivider />
-    <BaseSubTitle
-      title="Route"
-      :divider="false"
-      class="mt-4 pl-2"
-    />
+
+    <BaseSubTitle class="mt-4 pl-2" :divider="false" title="Route" />
     <RouteList :routes="vs ? vs.route : []" />
   </v-flex>
 </template>
 
 <script>
-import RouteList from './RouteList'
-import MatchList from './MatchList'
+  import MatchList from './MatchList';
+  import RouteList from './RouteList';
 
-export default {
-  name: 'VSControlInfo',
-  components: {
-    RouteList,
-    MatchList,
-  },
-  props: {
-    vs: {
-      type: Object,
-      default: () => null,
+  export default {
+    name: 'VSControlInfo',
+    components: {
+      MatchList,
+      RouteList,
     },
-    mode: {
-      type: String,
-      default: () => null,
+    props: {
+      vs: {
+        type: Object,
+        default: () => null,
+      },
+      mode: {
+        type: String,
+        default: () => null,
+      },
     },
-  },
-}
+  };
 </script>

@@ -1,4 +1,3 @@
-
 @font-face {
   font-family: 'kubegems-sample';
   src: url('../fonts/kubegems-sample.ttf');
@@ -7,12 +6,28 @@
 /**
  * 公共全局样式
  */
+html {
+  overflow: -moz-scrollbars-none;
+  -ms-overflow-style: none;
+  scrollbar-width: 0 !important;
+}
+
+html::-webkit-scrollbar {
+  width: 0 !important;
+}
 
 .kubegems__full-right {
   position: absolute;
   right: 12px;
   top: 50%;
   transform: translate(-0%, -50%);
+}
+
+.kubegems__top-right {
+  position: absolute;
+  right: 12px;
+  top: 0%;
+  transform: translate(-0%, -0%);
 }
 
 .kubegems__full-center {
@@ -31,16 +46,12 @@
 }
 
 .kubegems__break-all {
-  word-break: break-all;
+  word-break: break-word;
   white-space: inherit;
 }
 
 .kubegems__clear-float {
   clear: both;
-}
-
-::-webkit-scrollbar {
-  display: none;
 }
 
 .kubegems__form-width {
@@ -143,11 +154,7 @@
   width: 1px;
 }
 
-.kubegems__role {
-  color: rgba(0, 0, 0, 0.6) !important;
-  font-weight: initial !important;
-}
-.kubegems__detail {
+.kubegems__text {
   color: rgba(0, 0, 0, 0.7) !important;
   font-weight: initial !important;
 }
@@ -215,4 +222,9 @@ $i: 24;
 
 .kubegems__table-row-pointer tbody tr {
   cursor: pointer;
+}
+
+.kubegems__tip {
+  max-height: 300px;
+  overflow-y: auto;
 }

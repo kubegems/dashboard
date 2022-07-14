@@ -1,29 +1,32 @@
 <template>
-  <v-container
-    fluid
-    class="search"
-  >
-    <BaseBreadcrumb />
-    <v-card class="search__main">
+  <v-container class="search" fluid>
+    <BaseBreadcrumb>
+      <template #extend>
+        <v-flex class="kubegems__full-right">
+          <ProjectEnvSelectCascade v-model="env" first reverse :tenant="tenant" />
+          <div class="text-subtitle-2 float-left font-weight-medium kubegems__text search__label primary--text">
+            TraceId
+          </div>
+          <v-text-field
+            v-model="traceid"
+            dense
+            flat
+            full-width
+            hide-details
+            prepend-inner-icon="mdi-magnify"
+            solo
+            :style="{ width: `${traceIdSearchWidth}px` }"
+            @blur="traceIdSearchWidth = 250"
+            @focus="traceIdSearchWidth = 500"
+            @keyup="searchByTraceId"
+          />
+        </v-flex>
+      </template>
+    </BaseBreadcrumb>
+    <v-card class="search__main" flat :height="height">
       <div class="search__header">
-        <ClusterSelect
-          v-model="cluster"
-          auto-select-first
-        />
-        <v-btn
-          v-if="location === 'trace'"
-          small
-          text
-          color="primary"
-          class="float-right"
-          @click="onBack"
-        >
-          <v-icon
-            left
-            small
-          >
-            fas fa-share-square
-          </v-icon>
+        <v-btn v-if="location === 'trace'" class="float-right" color="primary" small text @click="onBack">
+          <v-icon left small> fas fa-share-square </v-icon>
           返回
         </v-btn>
       </div>
@@ -31,11 +34,11 @@
       <iframe
         v-if="cluster"
         v-show="show"
-        ref="iframe"
         :key="iframeKey"
-        :src="src"
+        ref="iframe"
         allow
         class="search__iframe"
+        :src="src"
         @load="onLoad"
       />
     </v-card>
@@ -43,50 +46,106 @@
 </template>
 
 <script>
-import ClusterSelect from '@/views/observe/components/ClusterSelect'
+  import { mapGetters, mapState } from 'vuex';
 
-export default {
-  name: 'TraceSearch',
-  components: {
-    ClusterSelect,
-  },
-  data() {
-    return {
-      cluster: undefined,
-      location: 'search',
-      iframeKey: Date.now(),
-      show: false,
-    }
-  },
-  computed: {
-    src() {
-      return `/api/v1/service-proxy/cluster/${this.cluster}/namespace/observability/service/jaeger-query/port/16686/search`
+  import BasePermission from '@/mixins/permission';
+  import ProjectEnvSelectCascade from '@/views/observe/components/ProjectEnvSelectCascade';
+
+  export default {
+    name: 'TraceSearch',
+    components: {
+      ProjectEnvSelectCascade,
     },
-  },
-  watch: {
-    cluster() {
-      this.$store.commit('SET_PROGRESS', true)
-      this.show = false
-      this.iframeKey = Date.now()
+    mixins: [BasePermission],
+    data() {
+      return {
+        cluster: undefined,
+        location: 'search',
+        iframeKey: Date.now(),
+        show: false,
+
+        isTraceId: false,
+        traceid: '',
+        traceIdSearchWidth: 250,
+        missingPlugins: [],
+        tenant: null,
+        env: undefined,
+      };
     },
-  },
-  mounted() {
-    this.$store.commit('SET_PROGRESS', true)
-  },
-  beforeDestroy() {
-    clearTimeout(this.timer)
-  },
-  methods: {
-    onLoad() {
-      this.onOverwriteStyle()
-      this.show = true
-      this.$store.commit('SET_PROGRESS', false)
-      clearTimeout(this.timer)
-      this.setLocation()
+    computed: {
+      ...mapState(['Scale']),
+      ...mapGetters(['Tenant']),
+      src() {
+        if (this.isTraceId) {
+          return `/api/v1/service-proxy/cluster/${this.cluster}/namespace/observability/service/jaeger-query/port/16686/trace/${this.traceid}?uiEmbed=v0`;
+        } else {
+          return `/api/v1/service-proxy/cluster/${this.cluster}/namespace/observability/service/jaeger-query/port/16686/search`;
+        }
+      },
+      height() {
+        return parseInt((window.innerHeight - 152) / this.Scale);
+      },
     },
-    // 样式覆盖
-    onOverwriteStyle() {
-      const styleCover = `
+    watch: {
+      cluster: {
+        async handler() {
+          this.missingPlugins = await this.m_permission_plugin_pass(this.cluster, this.$route.meta?.dependencies || []);
+          if (this.missingPlugins?.length === 0) {
+            this.$store.commit('SET_PROGRESS', true);
+            this.show = false;
+            this.iframeKey = Date.now();
+          } else {
+            this.$store.commit('SET_SNACKBAR', {
+              text: `该集群还未启用 ${this.missingPlugins.join(', ')} 插件！`,
+              color: 'warning',
+            });
+            return;
+          }
+        },
+      },
+      env: {
+        handler(newValue) {
+          if (newValue) {
+            this.cluster = newValue.clusterName;
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
+    },
+    mounted() {
+      this.$nextTick(() => {
+        if (!this.Tenant().ID) {
+          this.$store.commit('SET_SNACKBAR', {
+            text: '暂未选择租户',
+            color: 'warning',
+          });
+          return;
+        }
+        this.tenant = this.Tenant();
+      });
+    },
+    beforeDestroy() {
+      clearTimeout(this.timer);
+    },
+    methods: {
+      onLoad() {
+        this.onOverwriteStyle();
+        this.show = true;
+        this.$store.commit('SET_PROGRESS', false);
+        clearTimeout(this.timer);
+        this.setLocation();
+      },
+      searchByTraceId(e) {
+        if (e.keyCode === 13) {
+          this.isTraceId = true;
+        } else {
+          this.isTraceId = false;
+        }
+      },
+      // 样式覆盖
+      onOverwriteStyle() {
+        const styleCover = `
         .Page--topNav {
           display: none;
         }
@@ -114,46 +173,53 @@ export default {
         body::-webkit-scrollbar {
           display: none;
         }
-      `
-      const ele = document.createElement('style')
-      ele.attributes.type = 'text/css'
-      ele.innerHTML = styleCover
-      this.$refs.iframe.contentWindow.document.head.appendChild(ele)
+      `;
+        const ele = document.createElement('style');
+        ele.attributes.type = 'text/css';
+        ele.innerHTML = styleCover;
+        this.$refs.iframe.contentWindow.document.head.appendChild(ele);
+      },
+      onBack() {
+        window.history.back();
+        this.isTraceId = false;
+        this.traceid = '';
+      },
+      setLocation() {
+        this.timer = setTimeout(() => {
+          if (this.$refs.iframe) {
+            const href = this.$refs.iframe.contentWindow.location.pathname;
+            this.location = href.search('/trace/') === -1 ? 'search' : 'trace';
+          }
+          this.setLocation();
+        }, 200);
+      },
     },
-    onBack() {
-      window.history.back()
-    },
-    setLocation() {
-      this.timer = setTimeout(() => {
-        if (this.$refs.iframe) {
-          const href = this.$refs.iframe.contentWindow.location.pathname
-          this.location = href.search('/trace/') === -1 ? 'search' : 'trace'
-        }
-        this.setLocation()
-      }, 200)
-    },
-  },
-}
+  };
 </script>
 
 <style lang="scss" scoped>
-.search {
-  height: 100%;
+  .search {
+    height: 100%;
 
-  &__main {
-    position: relative;
-  }
+    &__main {
+      position: relative;
+    }
 
-  &__header {
-    display: flex;
-    justify-content: space-between;
-    padding: 16px 16px 0;
-  }
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      padding: 16px 16px 0;
+    }
 
-  &__iframe {
-    width: 100%;
-    height: calc(100% - 44px);
-    border: none;
+    &__iframe {
+      width: 100%;
+      height: calc(100% - 44px);
+      border: none;
+    }
+
+    &__label {
+      line-height: 38px;
+      margin-right: 8px;
+    }
   }
-}
 </style>

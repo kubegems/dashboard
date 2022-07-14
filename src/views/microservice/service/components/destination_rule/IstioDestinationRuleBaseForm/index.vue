@@ -1,11 +1,6 @@
 <template>
   <v-flex>
-    <v-form
-      ref="form"
-      v-model="valid"
-      lazy-validation
-      @submit.prevent
-    >
+    <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
       <v-flex :class="expand ? 'kubegems__overlay' : ''" />
       <BaseSubTitle title="istio虚拟服务定义" />
       <v-card-text class="pa-2">
@@ -14,52 +9,40 @@
             <v-text-field
               v-model="obj.metadata.name"
               class="my-0"
-              required
               label="流量规则名称"
-              :rules="objRules.nameRule"
               :readonly="edit"
+              required
+              :rules="objRules.nameRule"
             />
           </v-col>
           <v-col cols="6">
             <v-text-field
               v-model="obj.spec.host"
               class="my-0"
-              required
               label="服务名称(host)"
+              required
               :rules="objRules.hostRule"
             />
           </v-col>
-          <v-col
-            v-if="obj.spec.exportTo"
-            cols="12"
-          >
+          <v-col v-if="obj.spec.exportTo" cols="12">
             <v-combobox
               v-model="exportTo"
+              height="32"
               hide-no-data
               :items="[]"
-              :search-input.sync="exportToText"
-              multiple
-              small-chips
-              height="32"
               label="exportTo(回车)"
+              multiple
+              :search-input.sync="exportToText"
+              small-chips
               @change="onExportToChange"
               @keydown.enter="createExportTo"
             >
               <template #selection="{ item }">
-                <v-chip
-                  small
-                  color="primary"
-                  class="pa-1"
-                >
+                <v-chip class="pa-1" color="primary" small>
                   <span>
                     {{ item.text }}
                   </span>
-                  <v-icon
-                    small
-                    @click="removeExportTo(item)"
-                  >
-                    mdi-close
-                  </v-icon>
+                  <v-icon small @click="removeExportTo(item)"> mdi-close </v-icon>
                 </v-chip>
               </template>
             </v-combobox>
@@ -67,9 +50,7 @@
         </v-row>
       </v-card-text>
 
-      <template
-        v-if="Object.prototype.hasOwnProperty.call(obj.spec, 'trafficPolicy')"
-      >
+      <template v-if="Object.prototype.hasOwnProperty.call(obj.spec, 'trafficPolicy')">
         <TrafficPolicyForm
           ref="trafficPolicyForm"
           :data="obj.spec.trafficPolicy"
@@ -80,16 +61,14 @@
         <v-card-text class="pa-2">
           <TrafficPolicyItem
             :traffic-policy="obj.spec.trafficPolicy"
-            @updateTrafficPolicy="updateTrafficPolicy"
-            @removeTrafficPolicy="removeTrafficPolicy"
             @expandCard="expandTrafficPolicyCard"
+            @removeTrafficPolicy="removeTrafficPolicy"
+            @updateTrafficPolicy="updateTrafficPolicy"
           />
         </v-card-text>
       </template>
 
-      <template
-        v-if="Object.prototype.hasOwnProperty.call(obj.spec, 'subsets')"
-      >
+      <template v-if="Object.prototype.hasOwnProperty.call(obj.spec, 'subsets')">
         <SubnetTrafficPolicyForm
           ref="subnetTrafficPolicyForm"
           @addData="addSubnetTrafficPolicyData"
@@ -99,9 +78,9 @@
         <v-card-text class="pa-2">
           <SubnetTrafficPolicyItem
             :subsets="obj.spec.subsets"
-            @updateSubnetTrafficPolicy="updateSubnetTrafficPolicy"
-            @removeSubnetTrafficPolicy="removeSubnetTrafficPolicy"
             @expandCard="expandSubnetTrafficPolicyCard"
+            @removeSubnetTrafficPolicy="removeSubnetTrafficPolicy"
+            @updateSubnetTrafficPolicy="updateSubnetTrafficPolicy"
           />
         </v-card-text>
       </template>
@@ -110,174 +89,177 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import TrafficPolicyItem from './TrafficPolicyItem'
-import TrafficPolicyForm from './TrafficPolicyForm'
-import SubnetTrafficPolicyItem from './SubnetTrafficPolicyItem'
-import SubnetTrafficPolicyForm from './SubnetTrafficPolicyForm'
-import BaseResource from '@/mixins/resource'
-import { deepCopy } from '@/utils/helpers'
-import { k8sName, required } from '@/utils/rules'
+  import { mapState } from 'vuex';
 
-export default {
-  name: 'IstioDestinationRuleBaseForm',
-  components: {
-    TrafficPolicyItem,
-    TrafficPolicyForm,
-    SubnetTrafficPolicyItem,
-    SubnetTrafficPolicyForm,
-  },
-  mixins: [BaseResource],
-  props: {
-    item: {
-      type: Object,
-      default: () => null,
+  import SubnetTrafficPolicyForm from './SubnetTrafficPolicyForm';
+  import SubnetTrafficPolicyItem from './SubnetTrafficPolicyItem';
+  import TrafficPolicyForm from './TrafficPolicyForm';
+  import TrafficPolicyItem from './TrafficPolicyItem';
+  import BaseResource from '@/mixins/resource';
+  import { deepCopy } from '@/utils/helpers';
+  import { k8sName, required } from '@/utils/rules';
+
+  export default {
+    name: 'IstioDestinationRuleBaseForm',
+    components: {
+      SubnetTrafficPolicyForm,
+      SubnetTrafficPolicyItem,
+      TrafficPolicyForm,
+      TrafficPolicyItem,
     },
-    edit: {
-      type: Boolean,
-      default: () => false,
-    },
-  },
-  data: () => ({
-    valid: false,
-    expand: false,
-    obj: {
-      apiVersion: 'networking.istio.io/v1beta1',
-      kind: 'DestinationRule',
-      metadata: {
-        name: '',
-        namespace: null,
+    mixins: [BaseResource],
+    props: {
+      edit: {
+        type: Boolean,
+        default: () => false,
       },
-      spec: {
-        host: '',
-        trafficPolicy: {},
-        subsets: [],
-        exportTo: [],
+      item: {
+        type: Object,
+        default: () => null,
       },
     },
-    exportTo: [],
-    exportToText: '',
-  }),
-  computed: {
-    ...mapState(['EnvironmentFilter']),
-    objRules() {
-      return {
-        nameRule: [
-          required,
-          k8sName,
-        ],
-        hostRule: [required],
-      }
+    data: () => ({
+      valid: false,
+      expand: false,
+      obj: {
+        apiVersion: 'networking.istio.io/v1beta1',
+        kind: 'DestinationRule',
+        metadata: {
+          name: '',
+          namespace: null,
+        },
+        spec: {
+          host: '',
+          trafficPolicy: {},
+          subsets: [],
+          exportTo: [],
+        },
+      },
+      exportTo: [],
+      exportToText: '',
+    }),
+    computed: {
+      ...mapState(['EnvironmentFilter', 'ApiResources']),
+      objRules() {
+        return {
+          nameRule: [required, k8sName],
+          hostRule: [required],
+        };
+      },
     },
-  },
-  watch: {
-    item() {
+    watch: {
+      item() {
+        this.$nextTick(() => {
+          this.obj.apiVersion = this.ApiResources['destinationrule'] || 'networking.istio.io/v1beta1';
+          this.obj = deepCopy(this.item);
+          this.obj.metadata.namespace = this.EnvironmentFilter.namespace;
+          this.loaddata();
+        });
+      },
+    },
+    mounted() {
       this.$nextTick(() => {
-        this.obj = deepCopy(this.item)
-        this.obj.metadata.namespace = this.EnvironmentFilter.namespace
-        this.loaddata()
-      })
+        this.obj.metadata.namespace = this.EnvironmentFilter.namespace;
+        this.loaddata();
+      });
     },
-  },
-  mounted() {
-    this.$nextTick(() => {
-      this.obj.metadata.namespace = this.EnvironmentFilter.namespace
-      this.loaddata()
-    })
-  },
-  methods: {
-    loaddata() {
-      if (this.obj.spec.exportTo) {
-        this.obj.spec.exportTo.forEach((e, index) => {
-          this.exportTo.push({
-            text: e,
-            value: index,
-          })
-        })
-      }
+    methods: {
+      loaddata() {
+        if (this.obj.spec.exportTo) {
+          this.obj.spec.exportTo.forEach((e, index) => {
+            this.exportTo.push({
+              text: e,
+              value: index,
+            });
+          });
+        }
+      },
+      onExportToChange() {
+        const exportTo = this.exportTo.filter((to) => {
+          return to !== '' && typeof to === 'object';
+        });
+        this.exportTo = exportTo;
+        this.obj.spec.exportTo = exportTo.map((to) => {
+          return to.text;
+        });
+      },
+      createExportTo() {
+        if (!this.exportToText) return;
+        const index = this.exportTo.length;
+        this.exportTo.push({
+          text: this.exportToText,
+          value: index,
+        });
+        this.exportToText = '';
+      },
+      removeExportTo(item) {
+        const exportTo = this.exportTo.filter((to) => {
+          return to.value !== item.value;
+        });
+        this.exportTo = exportTo;
+      },
+      closeExpand() {
+        this.expand = false;
+      },
+      addTrafficPolicyData(data) {
+        this.obj.spec.trafficPolicy = data;
+      },
+      expandTrafficPolicyCard() {
+        this.$nextTick(() => {
+          this.$refs.trafficPolicyForm.init();
+          this.expand = true;
+        });
+      },
+      expandSubnetTrafficPolicyCard() {
+        this.$nextTick(() => {
+          this.$refs.subnetTrafficPolicyForm.expandCard();
+          this.expand = true;
+        });
+      },
+      updateTrafficPolicy() {
+        const data = this.obj.spec.trafficPolicy;
+        this.$nextTick(() => {
+          this.$refs.trafficPolicyForm.init(data);
+          this.expand = true;
+        });
+      },
+      removeTrafficPolicy() {
+        this.$set(this.obj.spec, 'trafficPolicy', {});
+      },
+      addSubnetTrafficPolicyData(data) {
+        const obj = deepCopy(data);
+        delete obj['index'];
+        if (data.index === -1) {
+          this.obj.spec.subsets.push(obj);
+        } else {
+          this.$set(this.obj.spec.subsets, data.index, obj);
+        }
+      },
+      updateSubnetTrafficPolicy(index) {
+        const subnet = this.obj.spec.subsets[index];
+        const data = { index: index, ...subnet };
+        this.$nextTick(() => {
+          this.$refs.subnetTrafficPolicyForm.init(data);
+          this.expand = true;
+        });
+      },
+      removeSubnetTrafficPolicy(index) {
+        this.$delete(this.obj.spec.subsets, index);
+      },
+      reset() {
+        if (this.$refs.trafficPolicyForm) this.$refs.trafficPolicyForm.closeCard();
+        this.exportTo = [];
+        this.$refs.form.reset();
+      },
+      setData(data) {
+        this.obj = data;
+      },
+      getData() {
+        return this.obj;
+      },
+      validate() {
+        return this.$refs.form.validate(true);
+      },
     },
-    onExportToChange() {
-      const exportTo = this.exportTo.filter((to) => {
-        return to !== '' && typeof to === 'object'
-      })
-      this.exportTo = exportTo
-      this.obj.spec.exportTo = exportTo.map((to) => {
-        return to.text
-      })
-    },
-    createExportTo() {
-      if (!this.exportToText) return
-      const index = this.exportTo.length
-      this.exportTo.push({
-        text: this.exportToText,
-        value: index,
-      })
-      this.exportToText = ''
-    },
-    removeExportTo(item) {
-      const exportTo = this.exportTo.filter((to) => {
-        return to.value !== item.value
-      })
-      this.exportTo = exportTo
-    },
-    closeExpand() {
-      this.expand = false
-    },
-    addTrafficPolicyData(data) {
-      this.obj.spec.trafficPolicy = data
-    },
-    expandTrafficPolicyCard() {
-      this.$nextTick(() => {
-        this.$refs.trafficPolicyForm.init()
-        this.expand = true
-      })
-    },
-    expandSubnetTrafficPolicyCard() {
-      this.$nextTick(() => {
-        this.$refs.subnetTrafficPolicyForm.expandCard()
-        this.expand = true
-      })
-    },
-    updateTrafficPolicy() {
-      const data = this.obj.spec.trafficPolicy
-      this.$nextTick(() => {
-        this.$refs.trafficPolicyForm.init(data)
-        this.expand = true
-      })
-    },
-    removeTrafficPolicy() {
-      this.$set(this.obj.spec, 'trafficPolicy', {})
-    },
-    addSubnetTrafficPolicyData(data) {
-      const obj = deepCopy(data)
-      delete obj['index']
-      if (data.index === -1) {
-        this.obj.spec.subsets.push(obj)
-      } else {
-        this.$set(this.obj.spec.subsets, data.index, obj)
-      }
-    },
-    updateSubnetTrafficPolicy(index) {
-      const subnet = this.obj.spec.subsets[index]
-      const data = { index: index, ...subnet }
-      this.$nextTick(() => {
-        this.$refs.subnetTrafficPolicyForm.init(data)
-        this.expand = true
-      })
-    },
-    removeSubnetTrafficPolicy(index) {
-      this.$delete(this.obj.spec.subsets, index)
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    reset() {
-      if (this.$refs.trafficPolicyForm) this.$refs.trafficPolicyForm.closeCard()
-      this.exportTo = []
-      this.$refs.form.reset()
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    setData(data) {
-      this.obj = data
-    },
-  },
-}
+  };
 </script>

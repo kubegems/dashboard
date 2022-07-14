@@ -36,17 +36,11 @@
   line-height: 13px !important;
 }
 .v-app-bar {
-  box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%),
-    0 4px 5px 0 rgb(0 0 0 / 14%),
-    0 1px 10px 0 rgb(0 0 0 / 12%) !important;
-}
-.v-btn {
-  text-transform: inherit !important;
+  box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%), 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 10px 0 rgb(0 0 0 / 12%) !important;
 }
 
 .v-data-table > .v-data-table__wrapper tbody tr.v-data-table__expanded__content {
-  box-shadow: inset 0 2px 4px -5px rgb(50 50 50 / 75%),
-    inset 0 -2px 4px -5px rgb(50 50 50 / 75%) !important;
+  box-shadow: inset 0 2px 4px -5px rgb(50 50 50 / 75%), inset 0 -2px 4px -5px rgb(50 50 50 / 75%) !important;
 }
 
 .theme--light.v-btn.v-btn--disabled {
@@ -115,4 +109,73 @@
   color: rgba(0, 0, 0, 0.7) !important;
   font-weight: initial !important;
   height: 210px !important;
+}
+
+// 圆角处理
+.v-chip--label {
+  border-radius: 3px !important;
+}
+
+.v-btn {
+  border-radius: 3px;
+  text-transform: inherit !important;
+}
+.v-input__control {
+  border-radius: 3px !important;
+}
+.v-btn--fab.v-size--small {
+  border-radius: 40px;
+}
+.v-btn--fab.v-size--x-small {
+  border-radius: 32px;
+}
+.v-btn--icon.v-size--small {
+  border-radius: 28px;
+}
+.v-btn--icon.v-size--default {
+  border-radius: 36px;
+}
+
+.v-tabs .v-tab::before {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.v-tabs .v-tab--active {
+  background-color: #1e88e5;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  color: white !important;
+}
+
+.v-tabs--vertical .v-tab::before {
+  border-top-left-radius: 0;
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.v-tabs--vertical .v-tab--active {
+  background-color: #1e88e5;
+  border-top-left-radius: 0;
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
+  color: white !important;
+}
+
+.v-tabs--default .v-tab::before {
+  border-radius: 0 !important;
+}
+
+.v-tabs--default .v-tab--active {
+  border-radius: 0 !important;
+  background: none !important;
+  color: #1e88e5 !important;
+}
+
+.v-treeview-node__prepend .chip {
+  border-radius: 3px !important;
+}
+
+.v-treeview-node__root {
+  margin-top: 0 !important;
 }

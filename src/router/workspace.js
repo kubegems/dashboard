@@ -1,4 +1,4 @@
-const prefix = 'tenants/:tenant?/projects/:project?/environments/:environment?'
+const prefix = 'tenants/:tenant?/projects/:project?/environments/:environment?';
 
 export const workspace = [
   {
@@ -57,7 +57,22 @@ export const workspace = [
               show: true,
               rootName: 'workspace',
               tip: 'app',
-              dependencies: ['kubegems_local', 'argocd'],
+              dependencies: ['kubegems-local'],
+            },
+          },
+          {
+            path: `${prefix}/configs`,
+            name: 'app-configer',
+            component: () => import('@/views/resource/app_configer/index'),
+            meta: {
+              requireAuth: true,
+              title: '应用配置',
+              icon: 'mdi-wrench',
+              show: false,
+              pluginOpenShow: true,
+              rootName: 'workspace',
+              tip: 'appconfig',
+              dependencies: ['kubegems-local', 'nacos'],
             },
           },
           {
@@ -71,7 +86,7 @@ export const workspace = [
               show: false,
               rootName: 'workspace',
               tip: 'app',
-              dependencies: ['argocd'],
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -85,7 +100,7 @@ export const workspace = [
               show: false,
               rootName: 'workspace',
               tip: 'deploy',
-              dependencies: ['argocd', 'argo_rollouts'],
+              dependencies: ['kubegems-local', 'argo-rollouts'],
             },
           },
         ],
@@ -114,7 +129,7 @@ export const workspace = [
               show: true,
               rootName: 'workspace',
               tip: 'workload',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -129,7 +144,7 @@ export const workspace = [
               show: false,
               rootName: 'workspace',
               tip: 'workload',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           // pod
@@ -145,7 +160,7 @@ export const workspace = [
               show: true,
               rootName: 'workspace',
               tip: 'pod',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -160,7 +175,7 @@ export const workspace = [
               show: false,
               rootName: 'workspace',
               tip: 'pod',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           // service
@@ -176,7 +191,7 @@ export const workspace = [
               show: true,
               rootName: 'workspace',
               tip: 'service',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -191,7 +206,7 @@ export const workspace = [
               show: false,
               rootName: 'workspace',
               tip: 'service',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           // ingress
@@ -207,8 +222,7 @@ export const workspace = [
               show: true,
               rootName: 'workspace',
               tip: 'ingress',
-              dependencies: ['kubegems_local'],
-
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -223,7 +237,7 @@ export const workspace = [
               show: false,
               rootName: 'workspace',
               tip: 'ingress',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           // gateway
@@ -239,7 +253,7 @@ export const workspace = [
               show: true,
               rootName: 'workspace',
               tip: 'gateway',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -254,7 +268,7 @@ export const workspace = [
               show: false,
               rootName: 'workspace',
               tip: 'gateway',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
         ],
@@ -282,7 +296,7 @@ export const workspace = [
               show: true,
               rootName: 'workspace',
               tip: 'job',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -297,7 +311,7 @@ export const workspace = [
               show: false,
               rootName: 'workspace',
               tip: 'job',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           // cronjob
@@ -313,7 +327,7 @@ export const workspace = [
               show: true,
               rootName: 'workspace',
               tip: 'cronjob',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -328,7 +342,7 @@ export const workspace = [
               show: false,
               rootName: 'workspace',
               tip: 'cronjob',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
         ],
@@ -356,7 +370,7 @@ export const workspace = [
               show: true,
               rootName: 'workspace',
               tip: 'configmap',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -371,7 +385,7 @@ export const workspace = [
               show: false,
               rootName: 'workspace',
               tip: 'configmap',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           // secret
@@ -387,7 +401,7 @@ export const workspace = [
               show: true,
               rootName: 'workspace',
               tip: 'secret',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -402,7 +416,7 @@ export const workspace = [
               show: false,
               rootName: 'workspace',
               tip: 'secret',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           // certmanager
@@ -418,7 +432,7 @@ export const workspace = [
               show: true,
               rootName: 'workspace',
               tip: 'certmanager',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local', 'cert-manager'],
             },
           },
           {
@@ -433,7 +447,7 @@ export const workspace = [
               show: false,
               rootName: 'workspace',
               tip: 'certmanager',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local', 'cert-manager'],
             },
           },
         ],
@@ -461,14 +475,13 @@ export const workspace = [
               show: true,
               rootName: 'workspace',
               tip: 'persistentvolumeclaim',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           {
             path: `${prefix}/persistentvolumeclaims/:name`,
             name: 'persistentvolumeclaim-detail',
-            component: () =>
-              import('@/views/resource/persistentvolumeclaim/detail'),
+            component: () => import('@/views/resource/persistentvolumeclaim/detail'),
             meta: {
               requireAuth: true,
               title: '存储卷',
@@ -477,7 +490,7 @@ export const workspace = [
               show: false,
               rootName: 'workspace',
               tip: 'persistentvolumeclaim',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           // volumesnapshot
@@ -493,7 +506,7 @@ export const workspace = [
               show: true,
               rootName: 'workspace',
               tip: 'volumesnapshot',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
         ],
@@ -538,4 +551,4 @@ export const workspace = [
       },
     ],
   },
-]
+];

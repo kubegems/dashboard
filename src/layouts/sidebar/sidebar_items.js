@@ -47,14 +47,14 @@ export const SIDEBAR_ITEMS = [
     text: '可观测性',
     sidebar: 'observe',
     value: 'admin-observe',
-    icon: 'ic:baseline-visibility',
+    icon: 'clarity:dashboard-solid-badged',
     admin: true,
   },
   {
     text: '可观测性',
     sidebar: 'workspaceobserve',
     value: 'observe',
-    icon: 'ic:baseline-visibility',
+    icon: 'clarity:dashboard-solid-badged',
   },
   {
     text: '平台管理',
@@ -63,4 +63,4 @@ export const SIDEBAR_ITEMS = [
     icon: 'cib:codesandbox',
     admin: true,
   },
-]
+];

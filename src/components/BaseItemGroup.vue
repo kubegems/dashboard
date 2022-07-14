@@ -1,9 +1,9 @@
 <template>
   <v-list-group
     v-model="open"
+    :active-class="`primary white--text`"
     :prepend-icon="item.meta.icon"
     :sub-group="subGroup"
-    :active-class="`primary white--text`"
   >
     <template #activator>
       <v-list-item-icon v-if="item.meta.sicon" class="sicon">
@@ -16,78 +16,91 @@
     </template>
 
     <template v-for="(child, i) in children">
-      <BaseItemSubGroup
-        v-if="child.children"
-        :key="`sub-group-${i}`"
-        :item="child"
-        class="second-dd"
-      />
+      <BaseItemSubGroup v-if="child.children" :key="`sub-group-${i}`" class="second-dd" :item="child" />
 
-      <BaseItem v-else-if="child.meta.show" :key="`item-${i}`" :item="child" text />
+      <BaseItem
+        v-else-if="child.meta.show || (pluginPass(child.meta.dependencies) && child.meta.pluginOpenShow)"
+        :key="`item-${i}`"
+        :item="child"
+        text
+      />
     </template>
   </v-list-group>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+  import { mapState } from 'vuex';
 
-export default {
-  name: 'BaseItemGroup',
+  export default {
+    name: 'BaseItemGroup',
 
-  inheritAttrs: false,
+    inheritAttrs: false,
 
-  props: {
-    item: {
-      type: Object,
-      default: () => ({
-        avatar: undefined,
-        group: undefined,
-        title: undefined,
-        children: [],
-      }),
-    },
-    subGroup: {
-      type: Boolean,
-      default: false,
-    },
-    text: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  computed: {
-    ...mapState(['Plugins']),
-    children() {
-      return this.item.children
-        .filter(item => {
-          return !item.children && item.meta.show || item.children
-        })
-        .map((item) => ({
-          ...item,
-          to: this.$router.resolve({ name: item.name, params: { ...this.$route.params } }).href,
-      }))
-    },
-    open: {
-      get() {
-        return this.genGroup(this.item.children)
+    props: {
+      item: {
+        type: Object,
+        default: () => ({
+          avatar: undefined,
+          group: undefined,
+          title: undefined,
+          children: [],
+        }),
       },
-      set(val) {
+      subGroup: {
+        type: Boolean,
+        default: false,
       },
     },
-  },
+    computed: {
+      ...mapState(['Plugins']),
+      children() {
+        return this.item.children
+          .filter((item) => {
+            return (
+              (!item.children &&
+                (item.meta.show || (this.pluginPass(item.meta.dependencies) && item.meta.pluginOpenShow))) ||
+              item.children
+            );
+          })
+          .map((item) => ({
+            ...item,
+            to: this.$router.resolve({ name: item.name, params: { ...this.$route.params } }).href,
+          }));
+      },
+      open: {
+        get() {
+          return this.genGroup(this.item.children);
+        },
+        set() {},
+      },
+    },
 
-  methods: {
-    genGroup(children) { 
-      return children
-        .map((item) => {
-          let group = `${item.name}`
+    methods: {
+      genGroup(children) {
+        return (
+          children
+            .map((item) => {
+              let group = `${item.name}`;
 
-          if (item.children) {
-            group = `${group}|${this.genGroup(item.children)}`
+              if (item.children) {
+                group = `${group}|${this.genGroup(item.children)}`;
+              }
+              return group;
+            })
+            .indexOf(this.$route.name) > -1
+        );
+      },
+      pluginPass(dependencies) {
+        let pass = true;
+        if (dependencies === undefined) return pass;
+        dependencies.forEach((d) => {
+          if (!this.Plugins[d]) {
+            pass = false;
+            return;
           }
-          return group
-        }).indexOf(this.$route.name) > -1
+        });
+        return pass;
+      },
     },
-  },
-}
+  };
 </script>

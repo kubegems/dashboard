@@ -1,5 +1,5 @@
-const prefix = 'clusters/:cluster?'
-const namePrefix = 'admin'
+const prefix = 'clusters/:cluster?';
+const namePrefix = 'admin';
 
 export const adminWorkspace = [
   {
@@ -89,7 +89,7 @@ export const adminWorkspace = [
               show: true,
               rootName: 'admin-workspace',
               tip: 'node',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -104,7 +104,7 @@ export const adminWorkspace = [
               show: false,
               rootName: 'admin-workspace',
               tip: 'node',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
         ],
@@ -133,7 +133,7 @@ export const adminWorkspace = [
               show: true,
               rootName: 'admin-workspace',
               tip: 'workload',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -148,7 +148,7 @@ export const adminWorkspace = [
               show: false,
               rootName: 'admin-workspace',
               tip: 'workload',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           // pod
@@ -164,7 +164,7 @@ export const adminWorkspace = [
               show: true,
               rootName: 'admin-workspace',
               tip: 'pod',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -179,7 +179,7 @@ export const adminWorkspace = [
               show: false,
               rootName: 'admin-workspace',
               tip: 'pod',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           // service
@@ -195,7 +195,7 @@ export const adminWorkspace = [
               show: true,
               rootName: 'admin-workspace',
               tip: 'service',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -210,7 +210,7 @@ export const adminWorkspace = [
               show: false,
               rootName: 'admin-workspace',
               tip: 'service',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           // ingress
@@ -226,7 +226,7 @@ export const adminWorkspace = [
               show: true,
               rootName: 'admin-workspace',
               tip: 'ingress',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -241,7 +241,7 @@ export const adminWorkspace = [
               show: false,
               rootName: 'admin-workspace',
               tip: 'ingress',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           // gateway
@@ -257,7 +257,7 @@ export const adminWorkspace = [
               show: true,
               rootName: 'admin-workspace',
               tip: 'gateway',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -272,7 +272,7 @@ export const adminWorkspace = [
               show: false,
               rootName: 'admin-workspace',
               tip: 'gateway',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
         ],
@@ -300,7 +300,7 @@ export const adminWorkspace = [
               show: true,
               rootName: 'admin-workspace',
               tip: 'job',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -315,7 +315,7 @@ export const adminWorkspace = [
               show: false,
               rootName: 'admin-workspace',
               tip: 'job',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           // cronjob
@@ -331,7 +331,7 @@ export const adminWorkspace = [
               show: true,
               rootName: 'admin-workspace',
               tip: 'cronjob',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -346,7 +346,7 @@ export const adminWorkspace = [
               show: false,
               rootName: 'admin-workspace',
               tip: 'cronjob',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
         ],
@@ -374,7 +374,7 @@ export const adminWorkspace = [
               show: true,
               rootName: 'admin-workspace',
               tip: 'configmap',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -389,7 +389,7 @@ export const adminWorkspace = [
               show: false,
               rootName: 'admin-workspace',
               tip: 'configmap',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           // secret
@@ -405,7 +405,7 @@ export const adminWorkspace = [
               show: true,
               rootName: 'admin-workspace',
               tip: 'secret',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -420,7 +420,7 @@ export const adminWorkspace = [
               show: false,
               rootName: 'admin-workspace',
               tip: 'secret',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           // certmanager
@@ -436,7 +436,7 @@ export const adminWorkspace = [
               show: true,
               rootName: 'admin-workspace',
               tip: 'certmanager',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local', 'cert-manager'],
             },
           },
           {
@@ -451,7 +451,7 @@ export const adminWorkspace = [
               show: false,
               rootName: 'admin-workspace',
               tip: 'certmanager',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local', 'cert-manager'],
             },
           },
         ],
@@ -479,7 +479,7 @@ export const adminWorkspace = [
               show: true,
               rootName: 'admin-workspace',
               tip: 'crd',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           {
@@ -494,7 +494,7 @@ export const adminWorkspace = [
               show: false,
               rootName: 'admin-workspace',
               tip: 'crd',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
         ],
@@ -522,14 +522,13 @@ export const adminWorkspace = [
               show: true,
               rootName: 'admin-workspace',
               tip: 'persistentvolumeclaim',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           {
             path: `${prefix}/persistentvolumeclaims/:name`,
             name: `${namePrefix}-persistentvolumeclaim-detail`,
-            component: () =>
-              import('@/views/resource/persistentvolumeclaim/detail'),
+            component: () => import('@/views/resource/persistentvolumeclaim/detail'),
             meta: {
               requireAuth: true,
               title: '存储卷',
@@ -538,7 +537,7 @@ export const adminWorkspace = [
               show: false,
               rootName: 'admin-workspace',
               tip: 'persistentvolumeclaim',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           // volumesnapshot
@@ -553,7 +552,7 @@ export const adminWorkspace = [
               show: true,
               rootName: 'admin-workspace',
               tip: 'volumesnapshot',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
           // storageclass
@@ -569,7 +568,7 @@ export const adminWorkspace = [
               show: true,
               rootName: 'admin-workspace',
               tip: 'storageclass',
-              dependencies: ['kubegems_local'],
+              dependencies: ['kubegems-local'],
             },
           },
         ],
@@ -614,4 +613,4 @@ export const adminWorkspace = [
       },
     ],
   },
-]
+];

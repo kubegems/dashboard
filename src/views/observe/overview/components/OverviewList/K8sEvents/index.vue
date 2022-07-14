@@ -1,112 +1,79 @@
 <template>
-  <BasePanel
-    v-model="panel"
-    title="Kubernetes事件"
-    icon="fas fa-bell"
-    @dispose="dispose"
-  >
+  <BasePanel v-model="panel" icon="fas fa-bell" title="Kubernetes事件" @dispose="dispose">
     <template #action>
-      <BaseDatetimePicker
-        v-model="date"
-        color="primary"
-        :default-value="60"
-        @change="onDatetimeChange(undefined)"
-      />
+      <BaseDatetimePicker v-model="date" color="primary" :default-value="60" @change="onDatetimeChange(undefined)" />
     </template>
     <template #content>
-      <div
-        class="d-flex flex-column mt-2"
-        :style="{ height: `${height}px` }"
-      >
-        <div class="kubegems__h-8">
-          <MessageBarChart
-            :data="data"
-            :date="date"
-          />
-        </div>
-        <div class="my-8" />
-        <div class="d-flex justify-space-around kubegems__h-8">
-          <div class="kubegems__h-24 kubegems__w-11">
-            <EventPieChart
-              title="事件源"
-              :data="data"
-              type="source_component"
-            />
-          </div>
-          <div class="kubegems__h-24 kubegems__w-11">
-            <EventPieChart
-              title="事件类型"
-              :data="data"
-              type="reason"
-            />
-          </div>
-        </div>
+      <v-tabs v-model="tab" class="rounded-t pa-0 v-tabs--default" fixed-tabs height="45">
+        <v-tab v-for="t in tabItems" :key="t.value">
+          {{ t.text }}
+        </v-tab>
+      </v-tabs>
+      <div class="d-flex flex-column mt-0">
+        <component :is="tabItems[tab].value" :data="data" :date="date" @loadData="eventList" />
       </div>
     </template>
   </BasePanel>
 </template>
 
 <script>
-import { getEventListFromLoki } from '@/api'
-import MessageBarChart from './MessageBarChart'
-import EventPieChart from './EventPieChart'
-import { mapState } from 'vuex'
+  import Chart from './Chart';
+  import EventList from './EventList';
+  import { getEventListFromLoki } from '@/api';
 
-export default {
-  name: 'K8sEvents',
-  components: {
-    MessageBarChart,
-    EventPieChart,
-  },
-  props: {
-    env: {
-      type: Object,
-      default: () => null,
+  export default {
+    name: 'K8sEvents',
+    components: {
+      Chart,
+      EventList,
     },
-  },
-  data () {
-    return {
-      panel: false,
-      data: null,
-      date: [],
-    }
-  },
-  computed: {
-    ...mapState(['Scale']),
-    height() {
-      return window.innerHeight - 64 * this.Scale - 1
-    },
-  },
-  watch: {
-    env: {
-      handler(newValue) {
-        if (newValue) {
-          this.eventList()
-        }
+    props: {
+      env: {
+        type: Object,
+        default: () => null,
       },
-      deep: true,
     },
-  },
-  methods: {
-    // eslint-disable-next-line vue/no-unused-properties
-    open () {
-      this.panel = true
+    data() {
+      return {
+        panel: false,
+        data: null,
+        date: [],
+        tab: 0,
+        tabItems: [
+          { text: '事件图表', value: 'Chart' },
+          { text: '事件列表', value: 'EventList' },
+        ],
+      };
     },
-    async eventList() {
-      let query = '{container="gems-eventer"} | json | __error__=``'
-      query += ` | line_format "{{.metadata_namespace}}" |= "${this.env.namespace}"`
-      const data = await getEventListFromLoki(this.env.clusterName, {
-        query: query,
-        limit: 3000,
-        start: `${this.date[0]}000000`,
-        end: `${this.date[1]}000000`,
-      })
-      this.data = data || []
+    watch: {
+      env: {
+        handler(newValue) {
+          if (newValue) {
+            this.eventList();
+          }
+        },
+        deep: true,
+      },
     },
-    onDatetimeChange() {
-      this.eventList()
+    methods: {
+      open() {
+        this.panel = true;
+      },
+      async eventList() {
+        let query = '{container="event-exporter"} | json | __error__=``';
+        query += ` | line_format "{{.metadata_namespace}}" |= "${this.env.namespace}"`;
+        const data = await getEventListFromLoki(this.env.clusterName, {
+          query: query,
+          limit: 3000,
+          start: `${this.date[0]}000000`,
+          end: `${this.date[1]}000000`,
+        });
+        this.data = data || [];
+      },
+      onDatetimeChange() {
+        this.eventList();
+      },
+      dispose() {},
     },
-    dispose() {},
-  },
-}
+  };
 </script>

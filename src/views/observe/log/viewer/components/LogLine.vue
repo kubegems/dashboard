@@ -2,11 +2,11 @@
   <v-flex :class="`pa-0 clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
     <VueApexCharts
       class="px-2"
-      type="area"
       height="300"
-      width="100%"
       :options="chartOptions.options"
       :series="chartOptions.series"
+      type="area"
+      width="100%"
     />
     <div class="py-3 px-2">
       <div
@@ -25,98 +25,104 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import VueApexCharts from 'vue-apexcharts'
+  import moment from 'moment';
+  import VueApexCharts from 'vue-apexcharts';
+  import { mapState } from 'vuex';
 
-export default {
-  name: 'LogLine',
-  components: {
-    VueApexCharts,
-  },
-  props: {
-    chart: {
-      type: Object,
-      default: () => {
-        return {
-          'xAxis-data': [],
-          'yAxis-data': {},
-        }
+  export default {
+    name: 'LogLine',
+    components: {
+      VueApexCharts,
+    },
+    props: {
+      chart: {
+        type: Object,
+        default: () => {
+          return {
+            'xAxis-data': [],
+            'yAxis-data': {},
+          };
+        },
       },
     },
-  },
-  computed: {
-    ...mapState(['Scale']),
-    chartOptions() {
-      const series = []
-      for (const key in this.chart ? this.chart['yAxis-data'] : {}) {
-        series.push({
-          name: key,
-          data: this.chart['yAxis-data'][key],
-        })
-      }
-      const options = {
-        colors: this.$LINE_THEME_COLORS,
-        chart: {
-          zoom: {
-            enabled: false,
-          },
-          toolbar: {
-            show: false,
-          },
-          animations: {
-            animateGradually: {
+    computed: {
+      ...mapState(['Scale']),
+      chartOptions() {
+        const series = [];
+        for (const key in this.chart ? this.chart['yAxis-data'] : {}) {
+          series.push({
+            name: key,
+            data: this.chart['yAxis-data'][key],
+          });
+        }
+        const options = {
+          colors: this.$LINE_THEME_COLORS,
+          chart: {
+            zoom: {
               enabled: false,
             },
-          },
-        },
-        xaxis: {
-          categories: this.chart ? this.chart['xAxis-data'].map(d => { return parseInt(`${d}000`) }) : [],
-          labels: {
-            style: {
-              cssClass: 'grey--text lighten-2--text fill-color',
+            toolbar: {
+              show: false,
+            },
+            animations: {
+              animateGradually: {
+                enabled: false,
+                delay: 0,
+              },
             },
           },
-        },
-        yaxis: {
-          labels: {
-            formatter: (val) => {
-              return parseInt(val)
-            },
-          },
-        },
-        stroke: {
-          curve: 'smooth',
-          width: 2,
-        },
-        grid: {
-          show: true,
-          borderColor: 'rgba(0, 0, 0, .3)',
-          strokeDashArray: 3,
           xaxis: {
-            lines: {
-              show: true,
+            categories: this.chart
+              ? this.chart['xAxis-data'].map((d) => {
+                  return moment(new Date(parseInt(`${d}000`))).format('MM-DD HH:mm:ss');
+                })
+              : [],
+            labels: {
+              style: {
+                cssClass: 'grey--text lighten-2--text fill-color',
+              },
             },
           },
           yaxis: {
-            lines: {
-              show: true,
+            labels: {
+              formatter: (val) => {
+                return parseInt(val);
+              },
             },
           },
-        },
-        dataLabels: {
-          enabled: false,
-        },
-        tooltip: {
-          theme: 'dark',
-          y: {
-            formatter: function (val) {
-              return val
+          stroke: {
+            curve: 'smooth',
+            width: 2,
+          },
+          grid: {
+            show: true,
+            borderColor: 'rgba(0, 0, 0, .3)',
+            strokeDashArray: 3,
+            xaxis: {
+              lines: {
+                show: true,
+              },
+            },
+            yaxis: {
+              lines: {
+                show: true,
+              },
             },
           },
-        },
-      }
-      return { options, series }
+          dataLabels: {
+            enabled: false,
+          },
+          tooltip: {
+            theme: 'dark',
+            y: {
+              formatter: function (val) {
+                return val;
+              },
+            },
+          },
+        };
+        return { options, series };
+      },
     },
-  },
-}
+  };
 </script>

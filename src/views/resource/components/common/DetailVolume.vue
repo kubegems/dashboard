@@ -1,5 +1,5 @@
 <template>
-  <v-simple-table class="mx-2 pa-2">
+  <v-simple-table class="mx-2 pa-2 pb-3">
     <template #default>
       <thead>
         <tr>
@@ -9,10 +9,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr
-          v-for="item in volumes"
-          :key="item.name"
-        >
+        <tr v-for="item in volumes" :key="item.name">
           <td>{{ item.name }}</td>
           <td>
             {{ getVolumeType(item) }}
@@ -29,29 +26,31 @@
 </template>
 
 <script>
-export default {
-  name: 'DetailVolume',
-  props: {
-    volumes: {
-      type: Array,
-      default: () => [],
+  export default {
+    name: 'DetailVolume',
+    props: {
+      volumes: {
+        type: Array,
+        default: () => [],
+      },
     },
-  },
-  methods: {
-    getVolumeType(item) {
-      if (item.emptyDir) return 'emptyDir'
-      if (item.hostPath) return 'hostPath'
-      if (item.configMap) return 'configMap'
-      if (item.secret) return 'secret'
-      if (item.persistentVolumeClaim) return 'persistentVolumeClaim'
+    methods: {
+      getVolumeType(item) {
+        if (item.emptyDir) return 'emptyDir';
+        if (item.hostPath) return 'hostPath';
+        if (item.configMap) return 'configMap';
+        if (item.secret) return 'secret';
+        if (item.persistentVolumeClaim) return 'persistentVolumeClaim';
+        if (item.projected) return 'projected';
+      },
+      getVolumeKey(item) {
+        if (item.emptyDir) return '';
+        if (item.hostPath) return item.hostPath.path;
+        if (item.configMap) return item.configMap.name;
+        if (item.secret) return item.secret.secretName;
+        if (item.persistentVolumeClaim) return item.persistentVolumeClaim.name;
+        if (item.projected) return '投射卷请从YAML中查看';
+      },
     },
-    getVolumeKey(item) {
-      if (item.emptyDir) return ''
-      if (item.hostPath) return item.hostPath.path
-      if (item.configMap) return item.configMap.name
-      if (item.secret) return item.secret.secretName
-      if (item.persistentVolumeClaim) return item.persistentVolumeClaim.name
-    },
-  },
-}
+  };
 </script>

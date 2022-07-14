@@ -1,180 +1,113 @@
 <template>
-  <v-card>
+  <v-card flat>
     <v-card-text class="pa-7">
       <div class="d-flex justify-center my-3">
         <div class="text-center">
-          <img
-            class="img"
-            src="/icon/ai-model.png"
-          />
-          <h3 class="mt-2 text-h6 font-weight-medium primary--text">
-            {{ model.name }}
+          <BaseLogo icon-name="ai-model" large :width="100" />
+          <h3 class="text-h6 font-weight-medium primary--text">
+            {{ $route.params.name }}
           </h3>
-          <div
-            v-if="showVersion"
-            class="mx-1"
-          >
-            <span class="text-body-2">AI模型版本</span>
-            <v-menu
-              v-model="modelMenu"
-              bottom
-              left
-              offset-y
-              origin="top center"
-              transition="scale-transition"
-              nudge-bottom="5px"
-              z-index="4"
-            >
-              <template #activator="{ on }">
-                <v-btn
-                  text
-                  color="white"
-                  class="primary--text font-weight-medium px-2"
-                  v-on="on"
-                >
-                  {{ selectVersion }}
-                  <v-icon
-                    v-if="modelMenu"
-                    right
-                  >
-                    fas fa-angle-up
-                  </v-icon>
-                  <v-icon
-                    v-else
-                    right
-                  >
-                    fas fa-angle-down
-                  </v-icon>
-                </v-btn>
-              </template>
-              <v-data-iterator
-                :items="[{ text: '版本', values: versions }]"
-                hide-default-footer
-                class="file-iterator"
-              >
-                <template #no-data>
-                  <v-card>
-                    <v-card-text> 暂无版本 </v-card-text>
-                  </v-card>
-                </template>
-                <template #default="props">
-                  <v-card
-                    max-height="300"
-                    class="overflow-y"
-                  >
-                    <v-list
-                      v-for="item in props.items"
-                      :key="item.text"
-                      dense
-                    >
-                      <v-list-item
-                        v-for="(version, index) in item.values"
-                        :key="index"
-                        class="text-body-2 text-center font-weight-medium"
-                        link
-                        :style="
-                          version === selectVersion
-                            ? `color: #1e88e5 !important;`
-                            : ``
-                        "
-                        @click="setVersion(version)"
-                      >
-                        <v-list-item-content>
-                          <span>{{ version }}</span>
-                        </v-list-item-content>
-                      </v-list-item>
-                    </v-list>
-                  </v-card>
-                </template>
-              </v-data-iterator>
-            </v-menu>
-          </div>
+          <VersionSelect v-if="!noVersion" :versions="item ? item.versions : []" />
         </div>
       </div>
       <v-divider />
       <div class="py-5">
-        <h5 class="text-subtitle-1 kubegems__detail">模型仓库</h5>
-        <h6 class="text-body-2 mb-3">
-          {{ model.repository }}
-        </h6>
-        <h5 class="text-subtitle-1 kubegems__detail">描述</h5>
-        <h6 class="text-body-2 mb-3">
-          {{ model.description }}
-        </h6>
-        <h5 class="text-subtitle-1 kubegems__detail">创建时间</h5>
-        <h6 class="text-body-2 mb-3">
-          {{ model.createdAt ? $moment(model.createdAt).format('lll') : '' }}
-        </h6>
-        <template v-if="model.maintainers && model.maintainers.length > 0">
-          <h5 class="text-subtitle-1 kubegems__detail">维护者</h5>
-          <h6 class="text-body-2 mb-3">
-            <div
-              v-for="(maintainer, index) in model.maintainers"
-              :key="index"
-              class="mb-3"
-            >
-              <span
-                v-if="maintainer.name"
-                class="mr-2"
-              >
-                <v-icon small>mdi-account-circle</v-icon>
-                {{ maintainer.name }}
-              </span>
-              <span
-                v-if="maintainer.email"
-                class="mr-2"
-              >
-                <v-icon
+        <div>
+          <div class="float-left model__rate">
+            <h5 class="text-subtitle-1 kubegems__text">用户评分</h5>
+            <h6 class="text-body-2 mb-3 model__rate__div">
+              <div class="float-left model__rate__div__fraction mr-3">
+                {{ item && item.rating ? item.rating.rating.toFixed(1) : 0 }}
+              </div>
+              <div class="float-left">
+                <v-rating
+                  background-color="orange lighten-3"
+                  class="model__rate__div__star"
+                  color="orange"
+                  dense
+                  half-increments
+                  readonly
                   small
-                  left
-                >mdi-email</v-icon>
-                <a :href="`mailto:${maintainer.email}`">
-                  {{ maintainer.email }}
-                </a>
-              </span>
-            </div>
-          </h6>
-        </template>
+                  :value="item && item.rating ? item.rating.rating : 0"
+                />
+                <div class="text-caption"> {{ item && item.rating ? item.rating.count : 0 }}评价 </div>
+              </div>
+              <div class="kubegems__clear-float" />
+            </h6>
+          </div>
+          <div class="float-left model__rate">
+            <h5 class="text-subtitle-1 kubegems__text">平台推荐</h5>
+            <h6 class="text-body-2 mb-2">
+              <div class="float-left model__rate__div__recommend mr-3 ml-5">
+                {{ item && item.rating ? item.rating.total : 0 }}
+              </div>
+            </h6>
+          </div>
+          <div class="kubegems__clear-float" />
+        </div>
+        <h5 class="text-subtitle-1 kubegems__text">类型</h5>
+        <h6 class="text-body-2 mb-3">
+          {{ item ? item.source : '' }}
+        </h6>
+        <h5 class="text-subtitle-1 kubegems__text">库</h5>
+        <h6 class="text-body-2 mb-3">
+          {{ item ? item.framework : '' }}
+        </h6>
+        <h5 class="text-subtitle-1 kubegems__text">协议</h5>
+        <h6 class="text-body-2 mb-3">
+          {{ item ? item.license : '' }}
+        </h6>
+        <h5 class="text-subtitle-1 kubegems__text">发布状态</h5>
+        <h6 class="text-body-2 mb-3"> <v-icon color="success" left small>mdi-check-circle</v-icon>已发布 </h6>
       </div>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
-export default {
-  name: 'ModelInfo',
-  props: {
-    model: {
-      type: Object,
-      default: () => null,
+  import VersionSelect from './VersionSelect';
+
+  export default {
+    name: 'ModelInfo',
+    components: {
+      VersionSelect,
     },
-    showVersion: {
-      type: Boolean,
-      default: () => true,
+    props: {
+      item: {
+        type: Object,
+        default: () => null,
+      },
+      noVersion: {
+        type: Boolean,
+        default: () => false,
+      },
     },
-    versions: {
-      type: Array,
-      default: () => [],
-    },
-  },
-  data() {
-    return {
-      selectVersion: '',
-      modelMenu: false,
-    }
-  },
-  methods: {
-    setVersion(version) {
-      this.selectVersion = version
-    },
-  },
-}
+  };
 </script>
 
 <style lang="scss" scoped>
-.img {
-  width: 100px;
-  height: 100px;
-  margin-left: 8px;
-}
+  .model {
+    &__rate {
+      width: 50%;
+
+      &__div {
+        line-height: 40px;
+
+        &__fraction {
+          font-weight: bold;
+          font-size: 20px;
+        }
+
+        &__recommend {
+          font-weight: bold;
+          font-size: 20px;
+          line-height: 40px;
+        }
+
+        &__star {
+          line-height: 20px;
+        }
+      }
+    }
+  }
 </style>

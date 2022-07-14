@@ -1,52 +1,44 @@
 <template>
   <v-container fluid>
-    <BaseBreadcrumb>
-      <template
-        v-if="AdminViewport"
-        #extend
-      >
-        <TenantSelect v-model="tenant" />
-      </template>
-    </BaseBreadcrumb>
+    <BaseBreadcrumb />
     <IntroSteps />
-    <OverviewList
-      class="mt-4"
-      :tenant="tenant"
-    />
+    <OverviewList class="mt-3" :tenant="tenant" />
   </v-container>
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
-import IntroSteps from './components/IntroSteps'
-import OverviewList from './components/OverviewList'
-import TenantSelect from '../components/TenantSelect'
+  import { mapGetters, mapState } from 'vuex';
 
-export default {
-  name: 'Observe',
-  components: {
-    IntroSteps,
-    OverviewList,
-    TenantSelect,
-  },
-  data () {
-    return {
-      tenant: null,
-    }
-  },
-  computed: {
-    ...mapGetters(['Tenant']),
-    ...mapState(['AdminViewport']),
-  },
-  mounted() {
-    this.$nextTick(() => {
-      if (!this.AdminViewport) {
-        this.tenant = this.Tenant()
-      }
-    })
-  },
-  methods: {
+  import IntroSteps from './components/IntroSteps';
+  import OverviewList from './components/OverviewList';
 
-  },
-}
+  export default {
+    name: 'Observe',
+    components: {
+      IntroSteps,
+      OverviewList,
+    },
+    data() {
+      return {
+        tenant: null,
+      };
+    },
+    computed: {
+      ...mapGetters(['Tenant']),
+      ...mapState(['AdminViewport']),
+    },
+    mounted() {
+      this.$nextTick(() => {
+        if (!this.Tenant().ID) {
+          this.$store.commit('SET_SNACKBAR', {
+            text: '暂未选择租户',
+            color: 'warning',
+          });
+          return;
+        }
+        this.tenant = this.Tenant();
+      });
+    },
+    methods: {},
+  };
 </script>

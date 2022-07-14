@@ -1,28 +1,30 @@
 <template>
   <div class="d-inline-block">
-
     <!-- 无数据显示 -->
     <span v-if="visibleItems.length === 0">{{ emptyText }}</span>
 
     <v-menu
       v-if="items.length"
-      open-on-hover
       :close-delay="200"
-      :max-width="maxWidth"
+      :close-on-content-click="false"
       :disabled="items.length === 0"
+      :max-width="maxWidth"
+      open-on-hover
     >
       <template #activator="{ on }">
-
         <v-flex v-on="on">
-          <v-icon :color="color" v-if="icon" left> {{ icon }} </v-icon>
+          <v-icon v-if="icon" :color="color" left> {{ icon }} </v-icon>
         </v-flex>
       </template>
 
-      <v-card class="pa-2">
+      <v-card class="pa-2" flat>
         <template v-if="singleLine">
           <div v-for="item in items" :key="item[itemValue]">
-            <v-flex small class="ma-1 text-caption kubegems__detail">
-              <v-icon v-if="icon" :color="color" small left> {{ icon }} </v-icon>
+            <v-flex
+              :class="{ 'ma-1': true, 'text-caption': true, kubegems__text: true, kubegems__pointer: linked }"
+              small
+            >
+              <v-icon v-if="icon" :color="color" left small> {{ icon }} </v-icon>
               <strong v-if="dataType === 'object'" class="mr-1">
                 {{ item[itemValue] }}
               </strong>
@@ -31,13 +33,7 @@
           </div>
         </template>
         <template v-else>
-          <v-chip
-            v-for="item in items"
-            :key="item[itemValue]"
-            small
-            :color="color"
-            class="ma-1"
-          >
+          <v-chip v-for="item in items" :key="item[itemValue]" class="ma-1" :color="color" small>
             <slot :item="item">{{ item[itemText] }}</slot>
           </v-chip>
         </template>
@@ -47,96 +43,99 @@
 </template>
 
 <script>
-export default {
-  name: 'BaseTipChips',
-  props: {
-    chips: {
-      type: [Array, Object, String],
-      default: () => [],
-    },
-    count: {
-      type: Number,
-      default: 1,
-    },
-    itemValue: {
-      type: String,
-      default: 'value',
-    },
-    itemText: {
-      type: String,
-      default: 'text',
-    },
-    delimiter: {
-      type: String,
-      default: ',',
-    },
-    color: {
-      type: String,
-      default: 'success',
-    },
-    maxWidth: {
-      type: String,
-      default: undefined,
-    },
-    singleLine: Boolean,
-    icon: {
-      type: String,
-      default: undefined,
-    },
-    emptyText: {
-      type: String,
-      default: ''
-    }
-  },
-  data() {
-    return {
-      items: [],
-      visibleItems: [],
-      dataType: null,
-    }
-  },
-  watch: {
-    chips: {
-      handler() {
-        this.handleSetItems()
+  export default {
+    name: 'BaseTipChips',
+    props: {
+      chips: {
+        type: [Array, Object, String],
+        default: () => [],
       },
-      immediate: true,
+      color: {
+        type: String,
+        default: 'success',
+      },
+      delimiter: {
+        type: String,
+        default: ',',
+      },
+      emptyText: {
+        type: String,
+        default: '',
+      },
+      icon: {
+        type: String,
+        default: undefined,
+      },
+      itemText: {
+        type: String,
+        default: 'text',
+      },
+      itemValue: {
+        type: String,
+        default: 'value',
+      },
+      linked: {
+        type: Boolean,
+        default: () => false,
+      },
+      maxWidth: {
+        type: String,
+        default: undefined,
+      },
+      singleLine: Boolean,
     },
-  },
-  methods: {
-    handleSetItems() {
-      if (Array.isArray(this.chips)) {
-        this.items = this.chips.map((item) => {
-          if (typeof item === 'object') {
-            return { ...item }
-          } else {
-            return {
-              [this.itemText]: item,
-              [this.itemValue]: item,
+    data() {
+      return {
+        items: [],
+        visibleItems: [],
+        dataType: null,
+      };
+    },
+    watch: {
+      chips: {
+        handler() {
+          this.handleSetItems();
+        },
+        immediate: true,
+      },
+    },
+    methods: {
+      handleSetItems() {
+        if (Array.isArray(this.chips)) {
+          this.items = this.chips.map((item) => {
+            if (typeof item === 'object') {
+              return { ...item };
+            } else {
+              return {
+                [this.itemText]: item,
+                [this.itemValue]: item,
+              };
             }
-          }
-        })
-        this.dataType = 'array'
-      } else if (typeof this.chips === 'string') {
-        const arr = Array.from(new Set(this.chips.split(this.delimiter)))
-        this.items = arr.map((v) => {
-          return {
-            [this.itemText]: v,
-            [this.itemValue]: v,
-          }
-        })
-        this.dataType = 'string'
-      } else {
-        this.items = Object.keys(this.chips || {}).map((key) => {
-          return {
-            [this.itemText]: this.chips[key],
-            [this.itemValue]: key,
-          }
-        })
-        this.dataType = 'object'
-      }
-      this.visibleItems = this.items
+          });
+          this.dataType = 'array';
+        } else if (typeof this.chips === 'string') {
+          const arr = Array.from(new Set(this.chips.split(this.delimiter)));
+          this.items = arr.map((v) => {
+            return {
+              [this.itemText]: v,
+              [this.itemValue]: v,
+            };
+          });
+          this.dataType = 'string';
+        } else {
+          this.items = Object.keys(this.chips || {}).map((key) => {
+            return {
+              [this.itemText]: this.chips[key],
+              [this.itemValue]: key,
+            };
+          });
+          this.dataType = 'object';
+        }
+        this.visibleItems = this.items;
+      },
+      // linkToPage() {
+      //   this.$emit('linkToPage');
+      // },
     },
-  },
-}
+  };
 </script>

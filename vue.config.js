@@ -1,9 +1,17 @@
-const timestamp = new Date().getTime()
+const timestamp = new Date().getTime();
 const path = require('path');
 
 module.exports = {
   productionSourceMap: true,
   configureWebpack: {
+    module: {
+      rules: [
+        {
+          test: /\.mdx?$/,
+          use: ['babel-loader', '@mdx-js/vue-loader'],
+        },
+      ],
+    },
     output: {
       filename: `js/[name].${timestamp}.js`,
       chunkFilename: '[id].[chunkhash].js',
@@ -25,12 +33,26 @@ module.exports = {
       },
       compress: false,
       hot: true,
-      allowedHosts: "all",
+      allowedHosts: 'all',
       port: 8080,
       host: '0.0.0.0',
       proxy: {
+        '/modeldeployments': {
+          target: 'http://model.local.kubegems.io:8080',
+          changeOrigin: true,
+          pathRewrite: {
+            '^/api/v1': '/v1',
+          },
+        },
+        '/api/v1/sources': {
+          target: 'http://model.local.kubegems.io:8080',
+          changeOrigin: true,
+          pathRewrite: {
+            '^/api/v1/sources': '/v1/sources',
+          },
+        },
         '/api/v1/': {
-          target: 'http://local.kubegems.io:8020',
+          target: 'http://local.kubegems.io:31393',
           changeOrigin: true,
           pathRewrite: {
             '^/api/v1/': '/v1/',
@@ -69,4 +91,4 @@ module.exports = {
     },
     extract: { ignoreOrder: true },
   },
-}
+};

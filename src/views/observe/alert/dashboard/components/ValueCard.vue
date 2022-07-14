@@ -3,10 +3,7 @@
     <v-card-text class="pa-5">
       <div class="d-flex justify-space-between">
         <div class="d-flex">
-          <v-icon
-            class="primary--text mr-5"
-            style="font-size: 40px;"
-          >
+          <v-icon class="primary--text mr-5" :style="{ fontSize: `40px` }">
             {{ icon }}
           </v-icon>
           <div>
@@ -15,11 +12,7 @@
           </div>
         </div>
         <div class="d-flex align-center justify-center">
-          <CompareValue
-            :value1="compareValue"
-            :value2="value"
-            name="较昨日"
-          />
+          <CompareValue name="较昨日" :value1="compareValue" :value2="value" />
         </div>
       </div>
     </v-card-text>
@@ -27,30 +20,30 @@
 </template>
 
 <script>
-import CompareValue from './CompareValue'
+  import CompareValue from './CompareValue';
 
-export default {
-  name: 'ValueCard',
-  components: {
-    CompareValue,
-  },
-  props: {
-    name: {
-      type: String,
-      default: '今日告警',
+  export default {
+    name: 'ValueCard',
+    components: {
+      CompareValue,
     },
-    value: {
-      type: Number,
-      default: 0,
+    props: {
+      compareValue: {
+        type: Number,
+        default: 0,
+      },
+      icon: {
+        type: String,
+        default: 'mdi-format-list-checkbox',
+      },
+      name: {
+        type: String,
+        default: '今日告警',
+      },
+      value: {
+        type: Number,
+        default: 0,
+      },
     },
-    compareValue: {
-      type: Number,
-      default: 0,
-    },
-    icon: {
-      type: String,
-      default: 'mdi-format-list-checkbox',
-    },
-  },
-}
+  };
 </script>

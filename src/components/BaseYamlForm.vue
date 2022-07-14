@@ -1,76 +1,70 @@
 <template>
-  <v-flex class="pa-2">
+  <v-flex>
     <BaseSubTitle :title="title" />
-    <v-form
-      ref="form"
-      v-model="valid"
-      lazy-validation
-      class="mt-2 rounded-t mx-2"
-      @submit.prevent
-    />
-    <ACEEditor
-      v-model="kubeyaml"
-      :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded-0 mx-2`"
-      lang="yaml"
-      :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
-      theme="chrome"
-      height="600"
-      @init="$aceinit"
-      @keydown.stop
-    />
+    <v-form ref="form" v-model="valid" class="mt-2 rounded-t mx-2" lazy-validation @submit.prevent />
+    <div class="px-2">
+      <ACEEditor
+        v-model="kubeyaml"
+        :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded`"
+        height="600"
+        lang="yaml"
+        :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
+        theme="chrome"
+        @init="$aceinit"
+        @keydown.stop
+      />
+    </div>
   </v-flex>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+  import { mapState } from 'vuex';
 
-export default {
-  name: 'BaseYamlForm',
-  props: {
-    title: {
-      type: String,
-      default: () => '',
+  export default {
+    name: 'BaseYamlForm',
+    props: {
+      item: {
+        type: Object,
+        default: () => null,
+      },
+      title: {
+        type: String,
+        default: () => '',
+      },
     },
-    item: {
-      type: Object,
-      default: () => null,
+    data: () => ({
+      valid: false,
+      kubeyaml: '',
+    }),
+    computed: {
+      ...mapState(['Scale']),
     },
-  },
-  data: () => ({
-    valid: false,
-    kubeyaml: '',
-  }),
-  computed: {
-    ...mapState(['Scale']),
-  },
-  watch: {
-    item() {
-      this.kubeyaml = this.$yamldump(this.item)
+    watch: {
+      item() {
+        this.kubeyaml = this.$yamldump(this.item);
+      },
     },
-  },
-  mounted() {
-    if (this.item) this.kubeyaml = this.$yamldump(this.item)
-  },
-  methods: {
-    // eslint-disable-next-line vue/no-unused-properties
-    init() {},
-    // eslint-disable-next-line vue/no-unused-properties
-    validate() {
-      return this.$refs.form.validate(true)
+    mounted() {
+      if (this.item) this.kubeyaml = this.$yamldump(this.item);
     },
-    // eslint-disable-next-line vue/no-unused-properties
-    checkSaved() {
-      return true
+    methods: {
+      init() {},
+      validate() {
+        return this.$refs.form.validate(true);
+      },
+      checkSaved() {
+        return true;
+      },
+      reset() {
+        this.kubeyaml = '';
+        this.$refs.form.reset();
+      },
+      setYaml(data) {
+        this.kubeyaml = data;
+      },
+      getYaml() {
+        return this.kubeyaml;
+      },
     },
-    // eslint-disable-next-line vue/no-unused-properties
-    reset() {
-      this.kubeyaml = ''
-      this.$refs.form.reset()
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    setYaml(data) {
-      this.kubeyaml = data
-    },
-  },
-}
+  };
 </script>

@@ -2,110 +2,66 @@
   <v-flex>
     <BaseSubTitle title="镜像仓库定义" />
     <v-card-text class="pa-2">
-      <v-form
-        ref="form"
-        v-model="valid"
-        lazy-validation
-        @submit.prevent
-      >
+      <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
         <v-sheet>
-          <v-switch
-            v-model="obj.EnableExtends"
-            class="mb-4"
-            hide-details
-            label="启用镜像扫描和分析报告"
-          />
+          <v-switch v-model="obj.EnableExtends" class="mb-4" hide-details label="启用镜像扫描和分析报告" />
           <v-text-field
             v-model="obj.RegistryName"
             class="my-0"
-            required
             label="仓库名称"
-            :rules="objRules.RegistryNameRules"
             :readonly="edit"
+            required
+            :rules="objRules.RegistryNameRules"
           />
           <v-autocomplete
             v-if="AdminViewport"
             v-model="obj.ProjectID"
-            color="primary"
-            label="项目"
-            hide-selected
             class="my-0"
-            no-data-text="暂无可选数据"
+            color="primary"
+            hide-selected
             :items="m_select_projectItems"
+            label="项目"
+            no-data-text="暂无可选数据"
             :rules="objRules.ProjectRules"
             @focus="onProjectSelectFocus"
           >
             <template #selection="{ item }">
-              <v-chip
-                color="primary"
-                small
-                class="mx-1"
-              >
+              <v-chip class="mx-1" color="primary" small>
                 {{ item['text'] }}
               </v-chip>
             </template>
           </v-autocomplete>
           <v-flex>
             <v-row>
-              <v-col
-                cols="3"
-                class="pr-0"
-              >
+              <v-col class="pr-0" cols="3">
                 <v-menu
                   v-model="prefixscheme"
                   bottom
-                  right
-                  offset-y
-                  origin="top center"
-                  transition="scale-transition"
-                  nudge-bottom="5px"
                   :close-on-content-click="false"
                   content-class="tag-menu"
+                  nudge-bottom="5px"
+                  offset-y
+                  origin="top center"
+                  right
+                  transition="scale-transition"
                 >
                   <template #activator="{ on }">
-                    <v-chip
-                      label
-                      color="white"
-                      class="primary--text float-left mt-3 font-weight-medium"
-                      v-on="on"
-                    >
+                    <v-chip class="primary--text float-left mt-3 font-weight-medium" color="white" label v-on="on">
                       {{ scheme.toLocaleUpperCase() }}
-                      <v-icon
-                        v-if="prefixscheme"
-                        small
-                        right
-                      >
-                        fas fa-angle-up
-                      </v-icon>
-                      <v-icon
-                        v-else
-                        small
-                        right
-                      >
-                        fas fa-angle-down
-                      </v-icon>
+                      <v-icon v-if="prefixscheme" right small> fas fa-angle-up </v-icon>
+                      <v-icon v-else right small> fas fa-angle-down </v-icon>
                     </v-chip>
                   </template>
-                  <v-data-iterator
-                    :items="[{ text: 'scheme', values: ['http', 'https'] }]"
-                    hide-default-footer
-                  >
+                  <v-data-iterator hide-default-footer :items="[{ text: 'scheme', values: ['http', 'https'] }]">
                     <template #default="props">
-                      <v-card
-                        v-for="iterdata in props.items"
-                        :key="iterdata.text"
-                      >
+                      <v-card v-for="iterdata in props.items" :key="iterdata.text" flat>
                         <v-list dense>
                           <v-list-item
                             v-for="(prefixscheme, index) in iterdata.values"
                             :key="index"
                             class="text-body-2 text-center"
                             link
-                            :style="
-                              prefixscheme === scheme
-                                ? `color: #1e88e5 !important;`
-                                : ``
-                            "
+                            :style="prefixscheme === scheme ? `color: #1e88e5 !important;` : ``"
                             @click="setScheme(prefixscheme)"
                           >
                             <v-list-item-content>
@@ -120,32 +76,23 @@
                   </v-data-iterator>
                 </v-menu>
               </v-col>
-              <v-col
-                cols="9"
-                class="pl-0"
-              >
+              <v-col class="pl-0" cols="9">
                 <v-text-field
                   v-model="obj.RegistryAddress"
                   class="my-0"
-                  required
                   label="仓库地址"
+                  required
                   :rules="objRules.RegistryAddressRules"
                 />
               </v-col>
             </v-row>
           </v-flex>
-          <v-text-field
-            v-model="obj.Username"
-            class="my-0"
-            required
-            label="用户名"
-            :rules="objRules.UsernameRules"
-          />
+          <v-text-field v-model="obj.Username" class="my-0" label="用户名" required :rules="objRules.UsernameRules" />
           <v-text-field
             v-model="obj.Password"
             class="my-0"
-            required
             label="密码"
+            required
             :rules="objRules.PasswordRules"
             type="password"
           />
@@ -156,83 +103,81 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
-import BaseSelect from '@/mixins/select'
-import BaseResource from '@/mixins/resource'
-import { deepCopy } from '@/utils/helpers'
-import { k8sName, required } from '@/utils/rules'
+  import { mapGetters, mapState } from 'vuex';
 
-export default {
-  name: 'RegistryBaseForm',
-  mixins: [BaseSelect, BaseResource],
-  props: {
-    edit: {
-      type: Boolean,
-      default: () => false,
+  import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
+  import { deepCopy } from '@/utils/helpers';
+  import { k8sName, required } from '@/utils/rules';
+
+  export default {
+    name: 'RegistryBaseForm',
+    mixins: [BaseResource, BaseSelect],
+    props: {
+      edit: {
+        type: Boolean,
+        default: () => false,
+      },
     },
-  },
-  data: () => ({
-    valid: false,
-    prefixscheme: false,
-    scheme: 'https',
-    obj: {
-      RegistryName: '',
-      RegistryAddress: '',
-      Username: '',
-      Password: '',
-      UpdateTime: new Date(),
-      CreatorID: 0,
-      ProjectID: 0,
-      IsDefault: false,
-      EnableExtends: false,
+    data: () => ({
+      valid: false,
+      prefixscheme: false,
+      scheme: 'https',
+      obj: {
+        RegistryName: '',
+        RegistryAddress: '',
+        Username: '',
+        Password: '',
+        UpdateTime: new Date(),
+        CreatorID: 0,
+        ProjectID: 0,
+        IsDefault: false,
+        EnableExtends: false,
+      },
+    }),
+    computed: {
+      ...mapState(['Circular', 'User', 'AdminViewport']),
+      ...mapGetters(['Project']),
+      objRules() {
+        return {
+          RegistryNameRules: [required, k8sName],
+          RegistryAddressRules: [required],
+          UsernameRules: [required],
+          PasswordRules: [required],
+          ProjectRules: [required],
+        };
+      },
     },
-  }),
-  computed: {
-    ...mapState(['Circular', 'User', 'AdminViewport']),
-    ...mapGetters(['Project']),
-    objRules() {
-      return {
-        RegistryNameRules: [
-          required,
-          k8sName,
-        ],
-        RegistryAddressRules: [required],
-        UsernameRules: [required],
-        PasswordRules: [required],
-        ProjectRules: [required],
+    mounted() {
+      if (!this.AdminViewport) {
+        this.obj.ProjectID = this.Project().ID;
+      } else {
+        this.m_select_projectSelectData();
       }
+      this.obj.CreatorID = this.User.ID;
     },
-  },
-  mounted() {
-    if (!this.AdminViewport) {
-      this.obj.ProjectID = this.Project().ID
-    } else {
-      this.m_select_projectSelectData()
-    }
-    this.obj.CreatorID = this.User.ID
-  },
-  methods: {
-    // eslint-disable-next-line vue/no-unused-properties
-    generateData() {
-      const obj = deepCopy(this.obj)
-      obj.RegistryAddress = `${this.scheme}://${obj.RegistryAddress}`
-      return obj
+    methods: {
+      setScheme(scheme) {
+        this.scheme = scheme;
+        this.prefixscheme = false;
+      },
+      reset() {
+        this.$refs.form.reset();
+      },
+      setData(data) {
+        this.obj = data;
+      },
+      getData() {
+        const obj = deepCopy(this.obj);
+        obj.RegistryAddress = `${this.scheme}://${obj.RegistryAddress}`;
+        return obj;
+      },
+      validate() {
+        return this.$refs.form.validate(true);
+      },
+      onProjectSelectFocus() {
+        this.m_select_projectSelectData();
+      },
     },
-    setScheme(scheme) {
-      this.scheme = scheme
-      this.prefixscheme = false
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    reset() {
-      this.$refs.form.reset()
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    setData(data) {
-      this.obj = data
-    },
-    onProjectSelectFocus() {
-      this.m_select_projectSelectData()
-    },
-  },
-}
+  };
 </script>

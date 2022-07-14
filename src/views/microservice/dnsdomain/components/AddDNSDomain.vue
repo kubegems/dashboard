@@ -1,67 +1,50 @@
 <template>
-  <BaseDialog
-    v-model="dialog"
-    :width="500"
-    title="创建DNS"
-    icon="mdi-dns"
-    @reset="reset"
-  >
+  <BaseDialog v-model="dialog" icon="mdi-dns" title="创建DNS" :width="500" @reset="reset">
     <template #content>
-      <component
-        :is="formComponent"
-        :ref="formComponent"
-      />
+      <component :is="formComponent" :ref="formComponent" />
     </template>
     <template #action>
-      <v-btn
-        class="float-right"
-        color="primary"
-        text
-        :loading="Circular"
-        @click="addDNSDomain"
-      >
-        确定
-      </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addDNSDomain"> 确定 </v-btn>
     </template>
   </BaseDialog>
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import { postAddDNSDomain } from '@/api'
-import DNSDomainBaseForm from './DNSDomainBaseForm'
-import BaseResource from '@/mixins/resource'
+  import { mapState } from 'vuex';
 
-export default {
-  name: 'AddDNSDomain',
-  components: {
-    DNSDomainBaseForm,
-  },
-  mixins: [BaseResource],
-  data: () => ({
-    dialog: false,
-    formComponent: 'DNSDomainBaseForm',
-  }),
-  computed: {
-    ...mapState(['Circular']),
-  },
-  methods: {
-    // eslint-disable-next-line vue/no-unused-properties
-    open() {
-      this.dialog = true
+  import DNSDomainBaseForm from './DNSDomainBaseForm';
+  import { postAddDNSDomain } from '@/api';
+  import BaseResource from '@/mixins/resource';
+
+  export default {
+    name: 'AddDNSDomain',
+    components: {
+      DNSDomainBaseForm,
     },
-    async addDNSDomain() {
-      if (this.$refs[this.formComponent].$refs.form.validate(true)) {
-        const data = this.$refs[this.formComponent].obj
-        await postAddDNSDomain(data)
-        this.reset()
-        this.$emit('refresh')
-      }
+    mixins: [BaseResource],
+    data: () => ({
+      dialog: false,
+      formComponent: 'DNSDomainBaseForm',
+    }),
+    computed: {
+      ...mapState(['Circular']),
     },
-    reset() {
-      this.dialog = false
-      this.$refs[this.formComponent].reset()
+    methods: {
+      open() {
+        this.dialog = true;
+      },
+      async addDNSDomain() {
+        if (this.$refs[this.formComponent].validate()) {
+          const data = this.$refs[this.formComponent].getData();
+          await postAddDNSDomain(data);
+          this.reset();
+          this.$emit('refresh');
+        }
+      },
+      reset() {
+        this.dialog = false;
+        this.$refs[this.formComponent].reset();
+      },
     },
-  },
-}
+  };
 </script>

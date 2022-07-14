@@ -1,79 +1,62 @@
 <template>
-  <component
-    :is="steps[step]"
-    :ref="steps[step]"
-    :item="item"
-    :edit="edit"
-    :control="control"
-    @refresh="refresh"
-  />
+  <component :is="steps[step]" :ref="steps[step]" :control="control" :edit="edit" :item="item" @refresh="refresh" />
 </template>
 
 <script>
-import ValidateKubeConfig from './ValidateKubeConfig'
-import TestKubeConfig from './TestKubeConfig'
-import InitClusterConfig from './InitClusterConfig'
+  import InitClusterConfig from './InitClusterConfig';
+  import TestKubeConfig from './TestKubeConfig';
+  import ValidateKubeConfig from './ValidateKubeConfig';
 
-export default {
-  name: 'ClusterBaseForm',
-  components: {
-    ValidateKubeConfig,
-    TestKubeConfig,
-    InitClusterConfig,
-  },
-  props: {
-    item: {
-      type: Object,
-      default: () => null,
+  export default {
+    name: 'ClusterBaseForm',
+    components: {
+      InitClusterConfig,
+      TestKubeConfig,
+      ValidateKubeConfig,
     },
-    edit: {
-      type: Boolean,
-      default: () => false,
+    props: {
+      control: {
+        type: Boolean,
+        default: () => false,
+      },
+      edit: {
+        type: Boolean,
+        default: () => false,
+      },
+      item: {
+        type: Object,
+        default: () => null,
+      },
+      step: {
+        type: Number,
+        default: () => 0,
+      },
     },
-    step: {
-      type: Number,
-      default: () => 0,
+    data: () => ({
+      steps: ['ValidateKubeConfig', 'TestKubeConfig', 'InitClusterConfig'],
+    }),
+    methods: {
+      init(data) {
+        this.$refs[this.steps[this.step]].init(data);
+      },
+      back(data) {
+        this.$refs[this.steps[this.step]].back(data);
+      },
+      validate() {
+        return this.$refs[this.steps[this.step]].validate();
+      },
+      reset() {
+        this.$refs[this.steps[this.step]].reset();
+      },
+      getData() {
+        return this.$refs[this.steps[this.step]].getData();
+      },
+      getExtend() {
+        return this.$refs[this.steps[this.step]].getExtend();
+      },
+      refresh(data) {
+        this.$emit('refresh', data);
+      },
     },
-    control: {
-      type: Boolean,
-      default: () => false,
-    },
-  },
-  data: () => ({
-    steps: [
-      'ValidateKubeConfig',
-      'TestKubeConfig',
-      'InitClusterConfig',
-    ],
-  }),
-  methods: {
-    // eslint-disable-next-line vue/no-unused-properties
-    init(data) {
-      this.$refs[this.steps[this.step]].init(data)
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    back(data) {
-      this.$refs[this.steps[this.step]].back(data)
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    validate() {
-      return this.$refs[this.steps[this.step]].$refs.form.validate(true)
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    reset() {
-      this.$refs[this.steps[this.step]].reset()
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    getData() {
-      return this.$refs[this.steps[this.step]].getData()
-    },
-    // eslint-disable-next-line vue/no-unused-properties
-    getExtend() {
-      return this.$refs[this.steps[this.step]].getExtend()
-    },
-    refresh(data) {
-      this.$emit('refresh', data)
-    },
-  },
-}
+  };
 </script>

@@ -1,4 +1,4 @@
-const prefix = 'admin'
+const prefix = 'admin';
 
 export const adminObserve = [
   {
@@ -94,6 +94,7 @@ export const adminObserve = [
               rootName: 'admin-observe',
               dependencies: ['monitoring'],
               tip: 'dash-overview',
+              innerCheck: true,
             },
           },
         ],
@@ -121,6 +122,7 @@ export const adminObserve = [
               rootName: 'admin-observe',
               tip: 'dash-metrics',
               dependencies: ['monitoring'],
+              innerCheck: true,
             },
           },
           {
@@ -136,21 +138,7 @@ export const adminObserve = [
               rootName: 'admin-observe',
               dependencies: ['logging'],
               tip: 'dash-log',
-            },
-          },
-          {
-            path: `snapshot`,
-            name: `${prefix}-log-snapshot`,
-            component: () => import('@/views/observe/log/snapshot'),
-            meta: {
-              requireAuth: true,
-              title: '日志快照',
-              admin: true,
-              icon: 'mdi-camera',
-              show: true,
-              rootName: 'admin-observe',
-              dependencies: ['logging'],
-              tip: 'dash-log-snapshot',
+              innerCheck: true,
             },
           },
           {
@@ -161,26 +149,12 @@ export const adminObserve = [
               requireAuth: true,
               title: '链路查询器',
               admin: true,
-              icon: 'mdi-feature-search-outline',
+              icon: 'mdi-glasses',
               show: true,
               rootName: 'admin-observe',
-              dependencies: ['jaeger'],
+              dependencies: ['tracing'],
               tip: 'dash-trace',
-            },
-          },
-          {
-            path: `detail`,
-            name: `${prefix}-observe-trace-detail`,
-            component: () => import('@/views/observe/trace/detail'),
-            meta: {
-              requireAuth: true,
-              title: 'TraceId',
-              admin: true,
-              icon: 'mdi-details',
-              show: true,
-              rootName: 'admin-observe',
-              dependencies: ['jaeger'],
-              tip: 'dash-trace',
+              innerCheck: true,
             },
           },
         ],
@@ -213,23 +187,9 @@ export const adminObserve = [
               rootName: 'admin-observe',
               dependencies: ['monitoring'],
               tip: 'alert-overview',
+              innerCheck: true,
             },
           },
-          // {
-          //   path: `living`,
-          //   name: `${prefix}-observe-monitor-alert`,
-          //   component: () => import('@/views/observe/alert/living'),
-          //   meta: {
-          //     requireAuth: true,
-          //     title: '实时告警',
-          //     admin: true,
-          //     icon: 'mdi-alarm-multiple',
-          //     show: true,
-          //     rootName: 'admin-observe',
-          //     dependencies: ['monitoring'],
-          //     tip: 'alert-living',
-          //   },
-          // },
           {
             path: `history`,
             name: `${prefix}-observe-alert-history`,
@@ -243,6 +203,7 @@ export const adminObserve = [
               rootName: 'admin-observe',
               dependencies: ['monitoring'],
               tip: 'alert-history',
+              innerCheck: true,
             },
           },
           {
@@ -258,6 +219,7 @@ export const adminObserve = [
               rootName: 'admin-observe',
               dependencies: ['monitoring'],
               tip: 'alert-blacklist',
+              innerCheck: true,
             },
           },
         ],
@@ -290,6 +252,7 @@ export const adminObserve = [
               rootName: 'admin-observe',
               dependencies: ['monitoring'],
               tip: 'config-monitor',
+              innerCheck: true,
             },
           },
           {
@@ -303,7 +266,9 @@ export const adminObserve = [
               icon: 'mdi-eyedropper',
               show: false,
               rootName: 'admin-observe',
+              dependencies: ['monitoring'],
               tip: 'service-monitor',
+              innerCheck: true,
             },
           },
           {
@@ -312,12 +277,14 @@ export const adminObserve = [
             component: () => import('@/views/observe/monitor/config/prometheusrule/detail'),
             meta: {
               requireAuth: true,
-              title: '告警规则',
+              title: '指标告警规则',
               admin: true,
               icon: 'mdi-ruler',
               show: false,
               rootName: 'admin-observe',
+              dependencies: ['monitoring'],
               tip: 'prometheus-rule',
+              innerCheck: true,
             },
           },
           {
@@ -333,6 +300,7 @@ export const adminObserve = [
               rootName: 'admin-observe',
               dependencies: ['logging'],
               tip: 'log-monitor',
+              innerCheck: true,
             },
           },
 
@@ -349,6 +317,7 @@ export const adminObserve = [
               rootName: 'admin-observe',
               dependencies: ['logging'],
               tip: 'flow',
+              innerCheck: true,
             },
           },
           {
@@ -364,6 +333,7 @@ export const adminObserve = [
               rootName: 'admin-observe',
               dependencies: ['logging'],
               tip: 'output',
+              innerCheck: true,
             },
           },
           {
@@ -372,16 +342,18 @@ export const adminObserve = [
             component: () => import('@/views/observe/log/config/alert_rule/detail'),
             meta: {
               requireAuth: true,
-              title: '告警规则',
+              title: '日志告警规则',
               admin: true,
               icon: 'mdi-ruler',
               show: false,
               rootName: 'admin-observe',
+              dependencies: ['monitoring'],
               tip: 'prometheus-rule',
+              innerCheck: true,
             },
           },
         ],
       },
     ],
   },
-]
+];

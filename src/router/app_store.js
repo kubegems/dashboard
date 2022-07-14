@@ -14,6 +14,7 @@ export const appStore = [
           smallTitle: '应用商店',
           title: '应用商店',
           icon: 'mdi-shopping',
+          rootName: 'app-store',
           tip: 'appstore',
         },
       },
@@ -26,9 +27,10 @@ export const appStore = [
           smallTitle: '应用商店',
           title: '应用商店',
           icon: 'mdi-shopping',
+          rootName: 'app-store',
           tip: 'appstore',
         },
       },
     ],
   },
-]
+];

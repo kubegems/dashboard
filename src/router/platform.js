@@ -3,34 +3,8 @@ export const platform = [
     path: '/platform',
     name: 'platform',
     component: () => import('@/layouts/Layout'),
-    redirect: { name: 'base-setting' },
+    redirect: { name: 'tenant-list' },
     children: [
-      {
-        path: '',
-        meta: {
-          header: '基本配置',
-          title: '基本配置',
-          icon: 'mdi-brightness-7',
-        },
-        component: () => import('@/layouts/Container'),
-        redirect: { name: `base-setting` },
-        children: [
-          {
-            path: 'base',
-            name: `base-setting`,
-            component: () => import('@/views/setting/base/index'),
-            meta: {
-              requireAuth: true,
-              admin: true,
-              title: '基本配置',
-              icon: 'mdi-brightness-7',
-              show: true,
-              rootName: 'platform',
-              tip: 'base-setting',
-            },
-          },
-        ],
-      },
       {
         path: '',
         meta: {
@@ -182,7 +156,8 @@ export const platform = [
               show: true,
               rootName: 'platform',
               tip: 'event',
-              dependencies: ['eventer', 'logging'],
+              dependencies: ['logging', 'eventer'],
+              innerCheck: true,
             },
           },
         ],
@@ -195,7 +170,7 @@ export const platform = [
           icon: 'mdi-hexagon-multiple',
         },
         component: () => import('@/layouts/Container'),
-        redirect: { name: 'repository-list' },
+        redirect: { name: 'auth-setting' },
         children: [
           // 认证
           {
@@ -213,16 +188,30 @@ export const platform = [
           },
           // 应用仓库
           {
-            path: 'repositories',
-            name: 'repository-list',
+            path: 'app/repositories',
+            name: 'app-repository-list',
             component: () => import('@/views/appstore/list'),
             meta: {
               requireAuth: true,
-              title: '应用商店仓库',
+              title: '应用商店',
               icon: 'mdi-shopping',
               show: true,
               rootName: 'platform',
               tip: 'appstore-registry',
+            },
+          },
+          // 模型商店仓库
+          {
+            path: 'model/repositories',
+            name: 'model-repository-list',
+            component: () => import('@/views/setting/model_registry/index'),
+            meta: {
+              requireAuth: true,
+              title: '算法商店',
+              icon: 'mdi-cube',
+              show: true,
+              rootName: 'platform',
+              tip: 'modelstore-registry',
             },
           },
           // prometheus
@@ -243,4 +232,4 @@ export const platform = [
       },
     ],
   },
-]
+];

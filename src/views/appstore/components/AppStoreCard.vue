@@ -1,19 +1,9 @@
 <template>
   <v-hover #default="{ hover }">
-    <v-card
-      class="mx-auto"
-      height="100%"
-      :elevation="hover ? 5 : 0"
-    >
+    <v-card class="mx-auto" :elevation="hover ? 5 : 0" flat height="100%">
       <v-list-item three-line>
-        <v-list-item-avatar
-          tile
-          size="80"
-        >
-          <BaseLogo
-            :icon-name="app.name"
-            :width="60"
-          />
+        <v-list-item-avatar size="80" tile>
+          <BaseLogo :icon-name="app.name" :width="60" />
         </v-list-item-avatar>
         <v-list-item-content>
           <v-list-item-title class="text-h6 mb-1">
@@ -33,41 +23,33 @@
           </v-list-item-content>
         </v-list-item>
         <v-spacer />
-        <v-btn
-          text
-          small
-          color="primary"
-          @click="appStoreDetail(app)"
-        >
-          详情
-        </v-btn>
+        <v-btn color="primary" small text @click="appStoreDetail(app)"> 详情 </v-btn>
       </v-card-actions>
     </v-card>
   </v-hover>
 </template>
 
 <script>
-
-export default {
-  name: 'AppStoreCard',
-  props: {
-    app: {
-      type: Object,
-      default: () => {},
+  export default {
+    name: 'AppStoreCard',
+    props: {
+      app: {
+        type: Object,
+        default: () => {},
+      },
+      selectRepo: {
+        type: String,
+        default: () => '',
+      },
     },
-    selectRepo: {
-      type: String,
-      default: () => '',
+    methods: {
+      appStoreDetail(app) {
+        this.$router.push({
+          name: 'appstore-detail',
+          params: { name: app.name },
+          query: { reponame: this.selectRepo },
+        });
+      },
     },
-  },
-  methods: {
-    appStoreDetail(app) {
-      this.$router.push({
-        name: 'appstore-detail',
-        params: { name: app.name },
-        query: { reponame: this.selectRepo },
-      })
-    },
-  },
-}
+  };
 </script>

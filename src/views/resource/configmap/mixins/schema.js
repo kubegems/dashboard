@@ -6,7 +6,7 @@ const schema = {
         $id: 'http://example.com/example.json',
         type: 'object',
         default: {},
-        required: ['apiVersion', 'kind', 'metadata', 'data'],
+        required: ['apiVersion', 'kind', 'metadata'],
         properties: {
           apiVersion: {
             $id: '#/properties/apiVersion',
@@ -41,11 +41,18 @@ const schema = {
             required: [],
             additionalProperties: true,
           },
+          binaryData: {
+            $id: '#/properties/binaryData',
+            type: 'object',
+            default: {},
+            required: [],
+            additionalProperties: true,
+          },
         },
         additionalProperties: true,
       },
-    }
+    };
   },
-}
+};
 
-export default schema
+export default schema;

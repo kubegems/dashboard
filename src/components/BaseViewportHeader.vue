@@ -1,38 +1,32 @@
 <template>
-  <component
-    :is="component"
-    :selectable="selectable"
-    :environmented="environmented"
-  />
+  <component :is="component" :environmented="environmented" :selectable="selectable" />
 </template>
 
 <script>
-import { mapState } from 'vuex'
+  import { mapState } from 'vuex';
 
-export default {
-  props: {
-    selectable: {
-      type: Boolean,
-      default: () => true,
+  export default {
+    name: 'BaseViewportHeader',
+    props: {
+      clusterable: {
+        type: Boolean,
+        default: () => false,
+      },
+      environmented: {
+        type: Boolean,
+        default: () => true,
+      },
+      selectable: {
+        type: Boolean,
+        default: () => true,
+      },
     },
-    environmented: {
-      type: Boolean,
-      default: () => true,
+    computed: {
+      ...mapState(['AdminViewport']),
+      component() {
+        const component = this.AdminViewport || this.clusterable ? 'BaseClusterHeader' : 'BaseTenantHeader';
+        return component;
+      },
     },
-    clusterable: {
-      type: Boolean,
-      default: () => false,
-    },
-  },
-  computed: {
-    ...mapState(['AdminViewport']),
-    component() {
-      const component =
-        this.AdminViewport || this.clusterable
-          ? 'BaseClusterHeader'
-          : 'BaseTenantHeader'
-      return component
-    },
-  },
-}
+  };
 </script>
