@@ -19,30 +19,30 @@
                 <v-list-item-subtitle class="text-body-2 text--lighten-4 card__desc">
                   更新时间： {{ $moment(item.updationTime).format('lll') }}
                 </v-list-item-subtitle>
-                <v-list-item-subtitle v-if="item.downloads > -1" class="text-body-2 text--lighten-4 card__desc">
-                  下载量： {{ beautifyFloatNum(item.downloads) }}
-                </v-list-item-subtitle>
-                <v-list-item-subtitle v-if="item.likes > -1" class="text-body-2 text--lighten-4 card__desc">
-                  热度： {{ beautifyFloatNum(item.likes || 0) }} <v-icon color="orange" small>mdi-heart</v-icon>
+                <v-list-item-subtitle
+                  v-if="item.downloads > -1 || item.likes > -1"
+                  class="text-body-2 text--lighten-4 card__desc mt-2"
+                >
+                  <v-icon v-if="item.downloads > -1" color="grey" small>mdi-download</v-icon>
+                  {{ beautifyFloatNum(item.downloads) }}
+                  <span class="mx-2" />
+                  <v-icon v-if="item.likes > -1" color="orange" small>mdi-heart</v-icon>
+                  {{ beautifyFloatNum(item.likes || 0, 0) }}
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-card-actions class="pl-0 py-0">
-              <v-list-item>
-                <v-list-item-content class="py-0">
-                  <v-list-item-subtitle class="text-body-2 text--lighten-4">
-                    <v-rating
-                      background-color="orange lighten-3"
-                      color="orange"
-                      dense
-                      half-increments
-                      readonly
-                      small
-                      :value="item.rating ? item.rating.rating : 0"
-                    />
-                  </v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
+            <v-card-actions class="pl-4 pr-2 py-0 mb-2">
+              <div>
+                <v-rating
+                  background-color="orange lighten-3"
+                  color="orange"
+                  dense
+                  half-increments
+                  readonly
+                  small
+                  :value="item.rating ? item.rating.rating : 0"
+                />
+              </div>
               <v-spacer />
               <v-btn color="primary" small text @click="modelDetail(item)"> 详情 </v-btn>
             </v-card-actions>
