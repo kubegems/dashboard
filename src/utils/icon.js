@@ -115,7 +115,7 @@ export function getIconName(name, def = 'kubernetes') {
   if (name.indexOf('gitlab') > -1) return 'logos:gitlab';
   if (name.indexOf('oauth') > -1) return 'logos:oauth';
   if (name.indexOf('ldap') > -1) return 'img:openldap.jpeg';
-  // if (name.indexOf('kubegems') > -1) return 'img:kubegems.jpg';
+  if (name === 'kubegems') return 'img:kubegems.jpg';
   if (name.indexOf('gke') > -1) return 'logos:google-cloud';
   if (name === 'ack') return 'img:aliyun.png';
   if (name.indexOf('testlink') > -1) return 'img:testlink.png';
@@ -144,7 +144,19 @@ export function getIconName(name, def = 'kubernetes') {
   if (name.indexOf('transformers') > -1) return 'icon-park:transform';
   if (name.indexOf('pytorch') > -1) return 'logos:pytorch-icon';
   if (name.indexOf('tag') > -1) return 'logos:google-tag-manager';
-  // if (name.indexOf('selfhosted') > -1) return 'bx:bxl-kubernetes'
+  if (name.indexOf('freebsd') > -1) return 'logos:freebsd';
+  if (name.indexOf('openbsd') > -1) return 'file-icons:openbsd';
+  if (name.indexOf('netbsd') > -1) return 'simple-icons:netbsd';
+  if (name.indexOf('bsd') > -1) return 'cryptocurrency:bsd';
+  if (name.indexOf('gpl') > -1) return 'img:gpl.png';
+  if (name.indexOf('cc') > -1) return 'ooui:logo-cc';
+  if (name.indexOf('spacy') > -1) return 'simple-icons:spacy';
+  if (name.indexOf('generic') > -1) return 'cryptocurrency:generic';
+  if (name.indexOf('keras') > -1) return 'cib:keras';
+  if (name.indexOf('asteroid') > -1) return 'arcticons:asteroidossync';
+  if (name.indexOf('mit') > -1) return 'img:mit.png';
+
+  // if (name.indexOf('selfhosted') > -1) return 'img:kubegems.jpg';
 
   switch (def) {
     case 'framework':

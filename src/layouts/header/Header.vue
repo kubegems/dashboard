@@ -156,7 +156,9 @@
     },
     mounted() {
       this.$nextTick(() => {
-        this.$store.commit('SET_STORE', this.$route.meta.rootName === 'app-store' ? 'app' : 'model');
+        if (['app-store', 'model-store'].indexOf(this.$route.meta.rootName) > -1) {
+          this.$store.commit('SET_STORE', this.$route.meta.rootName === 'app-store' ? 'app' : 'model');
+        }
       });
     },
     methods: {

@@ -152,7 +152,6 @@
         this.obj = this.$options.data().obj;
       },
       showDeployStatus(base) {
-        console.log(base);
         this.$emit('dispose');
         this.$router.push({
           name: 'app-list',
