@@ -200,11 +200,11 @@
   import {
     deleteApp,
     deleteAppStoreApp,
+    deleteModelRuntime,
     getAppRunningList,
     getAppStoreRunningList,
     getAppTaskList,
     getModelRuntimePodList,
-    deleteModelRuntime,
   } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';

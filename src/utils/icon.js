@@ -54,10 +54,9 @@ export function getIconName(name, def = 'kubernetes') {
   if (name.indexOf('node') > -1) return 'logos:nodemon';
   if (name.indexOf('grafana') > -1) return 'logos:grafana';
   if (name.indexOf('phpbb') > -1) return 'whh:phpbb';
-  if (name.indexOf('pytorch') > -1) return 'logos:pytorch';
+  if (name.indexOf('pytorch') > -1) return 'logos:pytorch-icon';
   if (name.indexOf('concourse') > -1) return 'logos:concourse';
   if (name.indexOf('discourse') > -1) return 'cib:discourse';
-  if (name.indexOf('pytorch') > -1) return 'logos:pytorch';
   if (name.indexOf('spark') > -1) return 'cib:apache-spark';
   if (name.indexOf('orangehrm') > -1) return 'whh:orangehrm';
   if (name.indexOf('spring') > -1) return 'logos:spring-icon';
@@ -142,7 +141,6 @@ export function getIconName(name, def = 'kubernetes') {
   if (name.indexOf('openkruise') > -1) return 'img:openkruise.jpeg';
   if (name.indexOf('ai-model') > -1) return 'img:ai-model.png';
   if (name.indexOf('transformers') > -1) return 'icon-park:transform';
-  if (name.indexOf('pytorch') > -1) return 'logos:pytorch-icon';
   if (name.indexOf('tag') > -1) return 'logos:google-tag-manager';
   if (name.indexOf('freebsd') > -1) return 'logos:freebsd';
   if (name.indexOf('openbsd') > -1) return 'file-icons:openbsd';
@@ -155,10 +153,34 @@ export function getIconName(name, def = 'kubernetes') {
   if (name.indexOf('keras') > -1) return 'cib:keras';
   if (name.indexOf('asteroid') > -1) return 'arcticons:asteroidossync';
   if (name.indexOf('mit') > -1) return 'img:mit.png';
+  if (name.indexOf('onnx') > -1) return 'simple-icons:onnx';
+
+  if (name.indexOf('audio') > -1) return 'vscode-icons:file-type-audio';
+  if (name.indexOf('text') > -1) return 'carbon:text-color';
+  if (name.indexOf('image') > -1) return 'vscode-icons:file-type-image';
+  if (name.indexOf('translation') > -1) return 'bi:translate';
+  if (name.indexOf('voice') > -1) return 'icon-park:voice-one';
+  if (name.indexOf('recognition') > -1) return 'ri:voice-recognition-line';
+  if (name.indexOf('learning') > -1) return 'carbon:machine-learning-model';
+  if (name.indexOf('classification') > -1) return 'img:classification.png';
+  if (name.indexOf('question') > -1) return 'noto-v1:exclamation-question-mark';
+  if (name.indexOf('video') > -1) return 'vscode-icons:file-type-video';
+  if (name.indexOf('track') > -1) return 'emojione:shuffle-tracks-button';
+  if (name.indexOf('detection') > -1) return 'material-symbols:detection-and-zone';
+  if (name.indexOf('keypoint') > -1) return 'logos:google-tag-manager';
+  if (name.indexOf('segmentation') > -1) return 'logos:segment-icon';
+  if (name.indexOf('gans') > -1) return 'eos-icons:neural-network';
+  if (name.indexOf('conversation') > -1) return 'simple-icons:convertio';
+  if (name.indexOf('extract') > -1) return 'vscode-icons:file-type-api-extractor';
+  if (name.indexOf('fill-mask') > -1) return 'img:filling.png';
 
   // if (name.indexOf('selfhosted') > -1) return 'img:kubegems.jpg';
 
   switch (def) {
+    case 'tag':
+      return 'img:tag.png';
+    case 'task':
+      return 'img:tasks.png';
     case 'framework':
       return 'img:framework.png';
     case 'license':

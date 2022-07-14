@@ -41,11 +41,11 @@
           {{ tag }}
         </v-chip>
       </v-chip-group>
-      <v-chip v-if="tags.length > 20" color="primary mx-3" small @click="searchShow = !searchShow">
+      <v-chip v-if="tags.length > 15" color="primary mx-3" small @click="searchShow = !searchShow">
         <span v-if="searchShow">
           <v-icon small>mdi-chevron-double-up</v-icon>
         </span>
-        <span v-else> + {{ tags.length - 20 }}</span>
+        <span v-else> + {{ tags.length - 15 }}</span>
       </v-chip>
     </div>
     <div v-if="!tags || tags.length === 0" class="filter__null"> 暂无数据 </div>
@@ -78,7 +78,7 @@
     },
     computed: {
       shortTags() {
-        return this.tags.slice(0, 20);
+        return this.tags.slice(0, 15);
       },
     },
     watch: {
@@ -111,7 +111,7 @@
       onTagChange() {
         const t = this.tagsCopy[this.tagIndex];
         const index = this.tags.indexOf(t);
-        if (index && index >= 20) {
+        if (index && index >= 15) {
           this.tagHide = this.tags[index];
           this.tagIndex = -1;
         } else {

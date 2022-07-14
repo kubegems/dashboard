@@ -262,7 +262,7 @@
   import MetricsItem from './components/MetricsItem';
   import MetricsSuggestion from './components/MetricsSuggestion';
   import ResourceSelectCascade from './components/ResourceSelectCascade';
-  import { getMetricsLabels, getMetricsLabelValues, getMetricsQueryrange } from '@/api';
+  import { getMetricsLabelValues, getMetricsLabels, getMetricsQueryrange } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseSelect from '@/mixins/select';
   import { debounce, deepCopy } from '@/utils/helpers';
