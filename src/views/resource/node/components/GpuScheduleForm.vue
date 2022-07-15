@@ -4,28 +4,26 @@
       <BaseSubTitle title="调度定义" />
       <v-card-text class="px-2 py-0">
         <v-list dense>
-          <v-list-item-group v-model="gpuSelected" active-class="primary--text" multiple>
-            <v-list-item v-if="Plugins && Plugins['tke-gpu-manager']" class="mb-3" link>
-              <template #default="{ active }">
-                <v-list-item-action>
-                  <v-checkbox hide-details :input-value="active" />
-                </v-list-item-action>
-                <v-list-item-icon class="mr-4">
-                  <BaseLogo icon-name="tke" :width="32" />
-                </v-list-item-icon>
-                <v-list-item-content class="text-subtitle-1"> TKE GPU vcuda </v-list-item-content>
-              </template>
+          <v-list-item-group active-class="primary--text" multiple>
+            <v-list-item class="mb-3" link>
+              <v-list-item-content class="text-body-2">
+                <v-checkbox v-model="tke" class="ml-3" hide-details>
+                  <template #label>
+                    <BaseLogo icon-name="tke" :width="28" />
+                    <span class="mx-2">TKE GPU vcuda</span>
+                  </template>
+                </v-checkbox>
+              </v-list-item-content>
             </v-list-item>
-            <v-list-item v-if="Plugins && Plugins['nvidia-device-plugin']" class="mb-3" link>
-              <template #default="{ active }">
-                <v-list-item-action>
-                  <v-checkbox hide-details :input-value="active" />
-                </v-list-item-action>
-                <v-list-item-icon class="mr-4">
-                  <BaseLogo icon-name="nvidia" :width="32" />
-                </v-list-item-icon>
-                <v-list-item-content class="text-subtitle-1"> Nvidia GPU驱动 </v-list-item-content>
-              </template>
+            <v-list-item class="mb-3" link>
+              <v-list-item-content class="text-body-2">
+                <v-checkbox v-model="nvidia" class="ml-3" hide-details>
+                  <template #label>
+                    <BaseLogo icon-name="nvidia" :width="28" />
+                    <span class="mx-2"> Nvidia GPU驱动 </span>
+                  </template>
+                </v-checkbox>
+              </v-list-item-content>
             </v-list-item>
           </v-list-item-group>
         </v-list>
@@ -50,7 +48,8 @@
     data: () => ({
       dialog: false,
       item: null,
-      gpuSelected: [],
+      tke: false,
+      nvidia: false,
     }),
     computed: {
       ...mapState(['Circular', 'Plugins']),
@@ -62,39 +61,25 @@
       init(item) {
         this.item = deepCopy(item);
         if (item.metadata.labels['tencent.com/vcuda'] && item.metadata.labels['tencent.com/vcuda'] === 'true') {
-          this.gpuSelected = [0];
+          this.tke = true;
         }
         if (item.metadata.labels['nvidia.com/gpu'] && item.metadata.labels['nvidia.com/gpu'] === 'true') {
-          if (this.gpuSelected.indexOf(0) > -1) {
-            this.gpuSelected = [0, 1];
-          } else {
-            this.gpuSelected = [0];
-          }
+          this.nvidia = true;
         }
       },
       async gpuSchedule() {
-        if (this.Plugins['tke-gpu-manager']) {
-          if (this.gpuSelected.indexOf(0) > -1) {
-            this.item.metadata.labels['tencent.com/vcuda'] = 'true';
-          } else {
-            delete this.item.metadata.labels['tencent.com/vcuda'];
-          }
+        if (this.tke) {
+          this.item.metadata.labels['tencent.com/vcuda'] = 'true';
+        } else {
+          delete this.item.metadata.labels['tencent.com/vcuda'];
         }
-        if (this.Plugins['nvidia-device-plugin']) {
-          if (this.Plugins['tke-gpu-manager']) {
-            if (this.gpuSelected.indexOf(1) > -1) {
-              this.item.metadata.labels['nvidia.com/gpu'] = 'true';
-            } else {
-              delete this.item.metadata.labels['nvidia.com/gpu'];
-            }
-          } else {
-            if (this.gpuSelected.indexOf(0) > -1) {
-              this.item.metadata.labels['nvidia.com/gpu'] = 'true';
-            } else {
-              delete this.item.metadata.labels['nvidia.com/gpu'];
-            }
-          }
+
+        if (this.nvidia) {
+          this.item.metadata.labels['nvidia.com/gpu'] = 'true';
+        } else {
+          delete this.item.metadata.labels['nvidia.com/gpu'];
         }
+
         await patchMetadataNode(this.ThisCluster, this.item.metadata.name, {
           Annotations: this.item.metadata.annotations,
           Labels: this.item.metadata.labels,
@@ -104,7 +89,8 @@
       },
       reset() {
         this.dialog = false;
-        this.gpuSelected = [];
+        this.tke = false;
+        this.nvidia = false;
       },
     },
   };
