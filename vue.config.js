@@ -59,7 +59,7 @@ module.exports = {
           },
         },
         '/realtime/': {
-          target: 'http://local.kubegems.io:8080',
+          target: 'http://local.kubegems.io:8020',
           changeOrigin: true,
           pathRewrite: {
             '^/realtime/': '/',

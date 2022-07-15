@@ -84,13 +84,14 @@
 <script>
   import { mapState } from 'vuex';
 
+  import BasePermission from '@/mixins/permission';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
   import { k8sName, required } from '@/utils/rules';
 
   export default {
     name: 'DeployBaseConf',
-    mixins: [BaseSelect],
+    mixins: [BasePermission, BaseSelect],
     props: {
       base: {
         type: Object,

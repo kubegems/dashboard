@@ -77,7 +77,9 @@ server {
     proxy_cache off;
     chunked_transfer_encoding off;
 
-    proxy_pass http://${MODEL_SERVER}/$1;
+    rewrite ^/api(/.*) $1 break;
+
+    proxy_pass http://${MODEL_SERVER};
   }
 
   location ~* ^/api/(v1/sources.*) {
@@ -95,7 +97,9 @@ server {
     proxy_cache off;
     chunked_transfer_encoding off;
 
-    proxy_pass http://${MODEL_SERVER}/$1;
+    rewrite ^/api(/.*) $1 break;
+
+    proxy_pass http://${MODEL_SERVER};
   }
 
   error_page   500 502 503 504  /50x.html;
