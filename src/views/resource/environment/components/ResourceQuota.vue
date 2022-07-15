@@ -29,7 +29,7 @@
         </template>
       </v-row>
 
-      <div v-if="tke || nvidia" class="mb-2 text-center">
+      <div v-if="tke || nvidia" class="text-center">
         <v-btn color="primary" small text @click="showMore = !showMore">
           {{ showMore ? '折叠GPU' : '显示GPU' }}
         </v-btn>
