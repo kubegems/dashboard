@@ -68,6 +68,10 @@
               this.imgSrc = '/icon/pytorch.jpeg';
               this.tip = '发现模型并将其发布到专为研究探索而设计的预训练模型存储库。';
               break;
+            case 'paddlepaddle':
+              this.imgSrc = '/icon/paddlepaddle.jpg';
+              this.tip = '源于产业实践的开源深度学习平台。';
+              break;
             default:
               this.imgSrc = '/logo-about.svg';
               this.tip = 'Kubegems内置算法模型商店。';

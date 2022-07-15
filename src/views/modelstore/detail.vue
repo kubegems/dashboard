@@ -47,7 +47,7 @@
   import Files from './components/detail_tabs/Files';
   import Runtime from './components/detail_tabs/Runtime';
   import ModelInfo from './components/ModelInfo';
-  import { getModelStoreDetail, getModelRate } from '@/api';
+  import { getModelRate, getModelStoreDetail } from '@/api';
 
   export default {
     name: 'ModelStoreDetail',

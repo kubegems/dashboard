@@ -178,7 +178,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import { delConfigItems, listConfigItems, pubConfigItems, baseInfo } from './api/index.js';
+  import { baseInfo, delConfigItems, listConfigItems, pubConfigItems } from './api/index.js';
   import ConfigEditor from './components/ConfigEditor';
   import ConfigListener from './components/ConfigListener';
   import ConfigSDK from './components/ConfigSDK';

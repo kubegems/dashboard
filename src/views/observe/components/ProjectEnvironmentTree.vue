@@ -40,7 +40,7 @@
 
   import { getAllProjectList, getProjectEnvironmentList, getProjectList } from '@/api';
   import BaseSelect from '@/mixins/select';
-  import { SERVICE_MONITOR_NS, SERVICE_LOGGING_NS } from '@/utils/namespace';
+  import { SERVICE_LOGGING_NS, SERVICE_MONITOR_NS } from '@/utils/namespace';
 
   export default {
     name: 'ProjectEnvironmentTree',
