@@ -196,16 +196,20 @@
           'limits.nvidia.com/gpu': [
             positiveInteger,
             (v) =>
-              parseFloat(v) <= this.apply.ApplyNvidiaGpu + this.now['limits.nvidia.com/gpu'] || '最大值超出可用资源',
+              parseFloat(v) <= this.apply.ApplyNvidiaGpu + (this.now['limits.nvidia.com/gpu'] || 0) ||
+              '最大值超出可用资源',
           ],
           'tencent.com/vcuda-core': [
             positiveInteger,
-            (v) => parseFloat(v) <= this.apply.ApplyTkeGpu + this.now['tencent.com/vcuda-core'] || '最大值超出可用资源',
+            (v) =>
+              parseFloat(v) <= this.apply.ApplyTkeGpu + (this.now['tencent.com/vcuda-core'] || 0) ||
+              '最大值超出可用资源',
           ],
           'tencent.com/vcuda-memory': [
             positiveInteger,
             (v) =>
-              parseFloat(v) <= this.apply.ApplyTkeMemory + this.now['tencent.com/vcuda-memory'] || '最大值超出可用资源',
+              parseFloat(v) <= this.apply.ApplyTkeMemory + (this.now['tencent.com/vcuda-memory'] || 0) ||
+              '最大值超出可用资源',
           ],
         };
       },
@@ -243,6 +247,16 @@
               } else {
                 delete this.obj.ResourceQuota['tencent.com/vcuda-core'];
                 delete this.obj.ResourceQuota['tencent.com/vcuda-memory'];
+              }
+            } else {
+              if (newValue.NvidiaGpu && !this.obj.ResourceQuota['limits.nvidia.com/gpu']) {
+                this.obj.ResourceQuota['limits.nvidia.com/gpu'] = 0;
+              }
+              if (newValue.TkeGpu && !this.obj.ResourceQuota['tencent.com/vcuda-core']) {
+                this.obj.ResourceQuota['tencent.com/vcuda-core'] = 0;
+              }
+              if (newValue.TkeMemory && !this.obj.ResourceQuota['tencent.com/vcuda-memory']) {
+                this.obj.ResourceQuota['tencent.com/vcuda-memory'] = 0;
               }
             }
           }
