@@ -24,7 +24,7 @@
         </v-tab>
       </v-tabs>
 
-      <template v-if="gpuData.NvidiaGpu && tab === 0">
+      <template v-if="gpuData.NvidiaGpu">
         <BaseSubTitle class="mt-3" color="grey lighten-3" :divider="false" title="nvidia.com/gpu" />
         <v-card-text class="pa-2">
           <v-row>
@@ -46,7 +46,7 @@
         </v-card-text>
       </template>
 
-      <template v-if="(gpuData.TkeGpu || gpuData.TkeMemory) && tab === 1">
+      <template v-if="gpuData.TkeGpu || gpuData.TkeMemory">
         <BaseSubTitle class="mt-3" color="grey lighten-3" :divider="false" title="tencent.com/vcuda" />
         <v-card-text class="pa-2">
           <v-row>
@@ -59,7 +59,7 @@
               >
                 <template #append>
                   <span class="text-body-2 kubegems__text">
-                    可使用 {{ gpuData.AllocatedTkeGpu / 100 || 0 }} 核心/总共 {{ gpuData.TkeGpu / 100 || 0 }} 核心
+                    可使用 {{ gpuData.ApplyTkeGpu / 100 || 0 }} 核心/总共 {{ gpuData.TkeGpu / 100 || 0 }} 核心
                   </span>
                 </template>
               </v-text-field>
@@ -73,7 +73,7 @@
               >
                 <template #append>
                   <span class="text-body-2 kubegems__text">
-                    可使用 {{ (gpuData.AllocatedTkeMemory * 256) / 1024 || 0 }} Gi/总共
+                    可使用 {{ (gpuData.ApplyTkeMemory * 256) / 1024 || 0 }} Gi/总共
                     {{ (gpuData.TkeMemory * 256) / 1024 || 0 }} Gi
                   </span>
                 </template>
@@ -148,11 +148,11 @@
           ],
           vcudaGpuRule: [
             (v) => parseFloat(v) >= 0 || '格式错误(>=0)',
-            (v) => parseFloat(v) <= parseFloat(this.gpuData.AllocatedTkeGpu || 0) / 100 || '超出最大限制',
+            (v) => parseFloat(v) <= parseFloat(this.gpuData.ApplyTkeGpu || 0) / 100 || '超出最大限制',
           ],
           vcudaMemoryRule: [
             (v) => parseFloat(v) >= 0 || '格式错误(>=0)',
-            (v) => parseFloat(v) <= (parseFloat(this.gpuData.AllocatedTkeMemory || 0) * 256) / 1024 || '超出最大限制',
+            (v) => parseFloat(v) <= (parseFloat(this.gpuData.ApplyTkeMemory || 0) * 256) / 1024 || '超出最大限制',
           ],
         };
       },
@@ -162,10 +162,10 @@
         handler: async function (newValue) {
           if (newValue?.cluster) {
             await this.getGpu();
-            if (this.gpuData.NvidiaGpu && this.tab === 0) {
+            if (this.gpuData.NvidiaGpu) {
               this.obj.resources.limits['limits.nvidia.com/gpu'] = 0;
             }
-            if ((this.gpuData.TkeGpu || this.gpuData.TkeMemory) && this.tab === 1) {
+            if (this.gpuData.TkeGpu || this.gpuData.TkeMemory) {
               this.obj.resources.limits['tencent.com/vcuda-core'] = 0;
               this.obj.resources.limits['tencent.com/vcuda-memory'] = 0;
             }
@@ -187,12 +187,12 @@
     },
     methods: {
       onTabChange() {
-        if (this.gpuData.NvidiaGpu && this.tab === 0) {
+        if (this.gpuData.NvidiaGpu) {
           this.obj.resources.limits['limits.nvidia.com/gpu'] = 0;
           delete this.obj.resources.limits['tencent.com/vcuda-core'];
           delete this.obj.resources.limits['tencent.com/vcuda-memory'];
         }
-        if ((this.gpuData.TkeGpu || this.gpuData.TkeMemory) && this.tab === 1) {
+        if (this.gpuData.TkeGpu || this.gpuData.TkeMemory) {
           this.obj.resources.limits['tencent.com/vcuda-core'] = 0;
           this.obj.resources.limits['tencent.com/vcuda-memory'] = 0;
           delete this.obj.resources.limits['limits.nvidia.com/gpu'];
