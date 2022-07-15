@@ -43,8 +43,12 @@
                 :label="edit ? 'CPU扩容后限制值' : 'CPU限制值'"
                 required
                 :rules="objRules.cpuRules"
-                suffix="core"
-              />
+                type="number"
+              >
+                <template #append>
+                  <span class="text-body-2 kubegems__text"> core </span>
+                </template>
+              </v-text-field>
             </v-sheet>
           </v-col>
           <v-col class="pa-0" cols="4">
@@ -61,8 +65,12 @@
                 :label="edit ? '内存扩容后限制值' : '内存限制值'"
                 required
                 :rules="objRules.memoryRules"
-                suffix="Gi"
-              />
+                type="number"
+              >
+                <template #append>
+                  <span class="text-body-2 kubegems__text"> Gi </span>
+                </template>
+              </v-text-field>
             </v-sheet>
           </v-col>
           <v-col class="px-0 py-0" cols="4">
@@ -80,8 +88,12 @@
                 :label="edit ? '存储扩容后限制值' : '存储限制值'"
                 required
                 :rules="objRules.storageRules"
-                suffix="Gi"
-              />
+                type="number"
+              >
+                <template #append>
+                  <span class="text-body-2 kubegems__text"> Gi </span>
+                </template>
+              </v-text-field>
             </v-sheet>
           </v-col>
         </v-row>
@@ -105,8 +117,12 @@
                   :label="edit ? 'nvidia GPU扩容后限制值' : 'nvidia GPU限制值'"
                   required
                   :rules="objRules.nvidiaRules"
-                  suffix="Gpu"
-                />
+                  type="number"
+                >
+                  <template #append>
+                    <span class="text-body-2 kubegems__text"> Gpu </span>
+                  </template>
+                </v-text-field>
               </v-sheet>
             </v-col>
             <template v-if="tke">
@@ -124,8 +140,14 @@
                     :label="edit ? 'tke GPU扩容后限制值' : 'tke GPU限制值'"
                     required
                     :rules="objRules.tkeVcudaRules"
-                    :suffix="`${parseInt(obj.Content['tencent.com/vcuda-core'] || 0) / 100} Gpu`"
-                  />
+                    type="number"
+                  >
+                    <template #append>
+                      <span class="text-body-2 kubegems__text">
+                        {{ parseInt(obj.Content['tencent.com/vcuda-core'] || 0) / 100 }} Gpu
+                      </span>
+                    </template>
+                  </v-text-field>
                 </v-sheet>
               </v-col>
               <v-col class="px-0 py-0" cols="4">
@@ -142,8 +164,14 @@
                     :label="edit ? 'tke显存扩容后限制值' : 'tke显存限制值'"
                     required
                     :rules="objRules.tkeVcudaMemoryRules"
-                    :suffix="`${(parseInt(obj.Content['tencent.com/vcuda-memory'] || 0) * 256) / 1024}Gi`"
-                  />
+                    type="number"
+                  >
+                    <template #append>
+                      <span class="text-body-2 kubegems__text">
+                        {{ (parseInt(obj.Content['tencent.com/vcuda-memory'] || 0) * 256) / 1024 }}Gi
+                      </span>
+                    </template>
+                  </v-text-field>
                 </v-sheet>
               </v-col>
             </template>
