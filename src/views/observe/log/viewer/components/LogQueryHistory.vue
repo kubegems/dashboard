@@ -175,7 +175,7 @@
         return filterList;
       },
 
-      handleQuery(item) {
+      async handleQuery(item) {
         const ns = new RegExp('namespace="([\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)"', 'g').exec(item.LogQL);
         if (ns) {
           this.namespace = ns[1];
@@ -183,7 +183,7 @@
         const env = this.env;
 
         if (this.namespace && env) {
-          this.$router.replace({
+          await this.$router.replace({
             query: {
               query: item.LogQL,
               project: env.projectName,

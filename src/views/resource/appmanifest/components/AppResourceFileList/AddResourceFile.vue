@@ -127,7 +127,7 @@
           this.reset();
           this.$emit('refresh');
           if (['Deployment', 'DaemonSet', 'StatefulSet'].indexOf(this.kind) > -1) {
-            this.$router.replace({
+            await this.$router.replace({
               query: Object.assign({
                 ...this.$route.query,
                 ...{ type: this.kind },

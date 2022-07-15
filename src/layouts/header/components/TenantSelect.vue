@@ -49,7 +49,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import BaseSelect from '@/mixins/select';
-  import { sleep } from '@/utils/helpers';
 
   export default {
     name: 'TenantSelect',
@@ -83,18 +82,13 @@
       async setTenant(item) {
         this.$store.commit('CLEAR_RESOURCE');
         this.$store.commit('SET_ADMIN_VIEWPORT', false);
-        this.$router.push({
+        await this.$router.push({
           name: 'resource-dashboard',
           params: { tenant: item.text },
         });
         await this.$store.dispatch('UPDATE_TENANT_DATA');
-
-        // 此处暂时性解决在切换租户空间时，其他组件Tenant getters未能正确获取到最新值问题
-        this.$nextTick(async () => {
-          await sleep(200);
-          this.reload();
-          this.reset();
-        });
+        this.reset();
+        this.reload();
       },
       reset() {
         this.dialog = false;
