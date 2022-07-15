@@ -76,7 +76,7 @@ server {
     proxy_buffering off;
     proxy_cache off;
     chunked_transfer_encoding off;
-
+    
     rewrite ^/api(/.*) $1 break;
 
     proxy_pass http://${MODEL_SERVER};
@@ -96,7 +96,7 @@ server {
     proxy_buffering off;
     proxy_cache off;
     chunked_transfer_encoding off;
-
+    
     rewrite ^/api(/.*) $1 break;
 
     proxy_pass http://${MODEL_SERVER};
