@@ -12,11 +12,16 @@
       class="my-2"
       :label="pathLevel === 1 ? '' : label"
       :rules="rules"
-      :suffix="param.sliderUnit"
       type="number"
       :value="sliderVal"
       @change="onSliderChange($event)"
-    />
+    >
+      <template #append>
+        <span class="text-body-2 kubegems__text">
+          {{ param.sliderUnit }}
+        </span>
+      </template>
+    </v-text-field>
     <v-flex />
   </v-flex>
 </template>
