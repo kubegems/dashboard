@@ -17,11 +17,11 @@
                   类型： {{ item.framework }}
                 </v-list-item-subtitle>
                 <v-list-item-subtitle class="text-body-2 text--lighten-4 card__desc">
-                  更新时间： {{ $moment(item.updationTime).format('lll') }}
+                  更新时间： {{ $moment(item.updateAt || item.createAt).format('lll') }}
                 </v-list-item-subtitle>
                 <v-list-item-subtitle
                   v-if="item.downloads > -1 || item.likes > -1"
-                  class="text-body-2 text--lighten-4 card__desc mt-2"
+                  class="text-body-2 text--lighten-4 card__desc"
                 >
                   <v-icon v-if="item.downloads > -1" color="grey" small>mdi-download</v-icon>
                   {{ beautifyFloatNum(item.downloads) }}

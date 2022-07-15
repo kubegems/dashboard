@@ -156,7 +156,7 @@ export function getIconName(name, def = 'kubernetes') {
   if (name.indexOf('onnx') > -1) return 'simple-icons:onnx';
 
   if (name.indexOf('audio') > -1) return 'vscode-icons:file-type-audio';
-  if (name.indexOf('text') > -1) return 'carbon:text-color';
+  if (name.indexOf('text') > -1) return 'fluent:draw-text-24-filled';
   if (name.indexOf('image') > -1) return 'vscode-icons:file-type-image';
   if (name.indexOf('translation') > -1) return 'bi:translate';
   if (name.indexOf('voice') > -1) return 'icon-park:voice-one';
@@ -180,7 +180,7 @@ export function getIconName(name, def = 'kubernetes') {
     case 'tag':
       return 'img:tag.png';
     case 'task':
-      return 'img:tasks.png';
+      return 'img:check.png';
     case 'framework':
       return 'img:framework.png';
     case 'license':
