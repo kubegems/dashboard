@@ -98,10 +98,10 @@
           this.removeNamespaceFilter();
         }
       },
-      removeNamespaceFilter() {
+      async removeNamespaceFilter() {
         this.$store.commit('SET_NAMESPACE_FILTER', null);
         this.namespaceFilter = '';
-        this.$router.replace({
+        await this.$router.replace({
           query: {
             ...this.$route.query,
             ...{ namespace: null },
