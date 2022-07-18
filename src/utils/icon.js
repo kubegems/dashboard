@@ -173,6 +173,9 @@ export function getIconName(name, def = 'kubernetes') {
   if (name.indexOf('conversation') > -1) return 'simple-icons:convertio';
   if (name.indexOf('extract') > -1) return 'vscode-icons:file-type-api-extractor';
   if (name.indexOf('fill-mask') > -1) return 'img:filling.png';
+  if (name.indexOf('espnet') > -1) return 'img:espnet.png';
+  if (name.indexOf('stanza') > -1) return 'img:stanza.png';
+  if (name.indexOf('wtfpl') > -1) return 'img:wtfpl.png';
 
   // if (name.indexOf('selfhosted') > -1) return 'img:kubegems.jpg';
 

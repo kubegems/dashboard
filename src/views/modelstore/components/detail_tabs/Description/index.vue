@@ -35,7 +35,7 @@
       item: {
         handler(newValue) {
           if (newValue) {
-            this.content = newValue?.intro;
+            this.content = newValue?.intro || '';
           }
         },
         deep: true,
