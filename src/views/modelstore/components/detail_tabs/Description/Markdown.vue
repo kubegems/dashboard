@@ -1,5 +1,5 @@
 <template>
-  <div class="markdown-body" v-html="html" />
+  <div v-highlight class="markdown-body" v-html="html" />
 </template>
 
 <script>
@@ -19,7 +19,7 @@
     computed: {
       html: function () {
         const res = this.md.render(this.content);
-        return res;
+        return res.replaceAll('&lt;', '<').replaceAll('&gt;', '>').replaceAll('&quot;', '"');
       },
     },
     created() {
