@@ -26,7 +26,7 @@
 
     <v-spacer />
 
-    <v-btn v-if="Plugins.ModelX" color="primary" dark depressed @click="toAppStore">
+    <v-btn v-if="!GlobalPlugins['kubegems-models']" color="primary" dark depressed @click="toAppStore">
       <v-icon class="header-icon-line-height" left small> fas fa-shopping-bag </v-icon>
       <span
         class="header-span-line-height"
@@ -151,7 +151,7 @@
       ],
     }),
     computed: {
-      ...mapState(['SidebarDrawer', 'Admin', 'User', 'JWT', 'StoreMode', 'Plugins']),
+      ...mapState(['SidebarDrawer', 'Admin', 'User', 'JWT', 'StoreMode', 'GlobalPlugins']),
       ...mapGetters(['Tenant', 'Project']),
     },
     mounted() {

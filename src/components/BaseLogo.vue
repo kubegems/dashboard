@@ -1,7 +1,8 @@
 <template>
   <span>
+    <span v-if="getIconName(iconName, defaultLogo) === ''" />
     <Icon
-      v-if="
+      v-else-if="
         getIconName(iconName, defaultLogo) !== 'undefined' && getIconName(iconName, defaultLogo).indexOf('img:') === -1
       "
       :class="`ml-${ml}`"

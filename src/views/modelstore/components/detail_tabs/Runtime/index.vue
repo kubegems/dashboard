@@ -11,9 +11,6 @@
         :items-per-page="params.size"
         no-data-text="暂无数据"
         :page.sync="params.page"
-        show-expand
-        single-expand
-        @click:row="onRowClick"
       >
         <template #[`item.name`]="{ item }">
           <a class="text-subtitle-2" @click.stop="toEnvironmentModelList(item)">{{ item.name }}</a>
@@ -35,11 +32,6 @@
         <template #[`item.url`]="{ item }">
           <a :href="item.url" target="_blank" @click.stop>{{ item.url }}</a>
         </template>
-        <template #expanded-item="{ headers }">
-          <td class="my-2 py-2" :colspan="headers.length">
-            <pre>{{ expandData.spec }}</pre>
-          </td>
-        </template>
       </v-data-table>
       <BasePagination
         v-if="pageCount >= 1"
@@ -57,7 +49,7 @@
 <script>
   import { Base64 } from 'js-base64';
 
-  import { getModelRuntimeDetail, getModelRuntimeList } from '@/api';
+  import { getModelRuntimeList } from '@/api';
 
   export default {
     name: 'RuntimeList',
@@ -71,7 +63,6 @@
         { text: '命名空间', value: 'namespace', align: 'start' },
         { text: '创建人', value: 'creator', align: 'start' },
         { text: 'Api', value: 'url', align: 'start' },
-        { text: '', value: 'data-table-expand' },
       ],
       pageCount: 0,
       params: {
@@ -79,7 +70,6 @@
         size: 10,
         noprocessing: true,
       },
-      expandData: {},
     }),
     mounted() {
       this.$nextTick(() => {
@@ -104,13 +94,6 @@
       },
       onPageIndexChange(page) {
         this.params.page = page;
-      },
-      async onRowClick(item, { expand, isExpanded }) {
-        const data = await getModelRuntimeDetail(item.tenant, item.project, item.environment, item.name, {
-          noprocessing: true,
-        });
-        this.expandData = data;
-        expand(!isExpanded);
       },
       toEnvironmentModelList(item) {
         this.$router.push({

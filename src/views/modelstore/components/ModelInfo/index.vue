@@ -39,7 +39,10 @@
             <h5 class="text-subtitle-1 kubegems__text">平台推荐</h5>
             <h6 class="text-body-2 mb-2">
               <div class="float-left model__rate__div__recommend mr-3 ml-5">
-                {{ item && item.rating ? item.rating.total : 0 }}
+                {{ item ? item.recomment : 0 }}
+                <v-btn v-if="Admin" color="orange" icon @click="recommend">
+                  <v-icon small>mdi-circle-edit-outline</v-icon>
+                </v-btn>
               </div>
             </h6>
           </div>
@@ -48,7 +51,7 @@
         <h5 v-if="item && item.tags.length > 0" class="text-subtitle-1 kubegems__text">Tag</h5>
         <h6 class="text-body-2 mb-3">
           <v-chip v-for="(tag, index) in item ? item.tags : []" :key="index" class="ma-1" small>
-            <v-avatar left>
+            <v-avatar v-if="hasLogo(tag)" left>
               <BaseLogo class="model__logo" default-logo="tag" :icon-name="tag" :ml="0" :width="18" />
             </v-avatar>
             {{ tag }}
@@ -70,15 +73,21 @@
         <h6 class="text-body-2 mb-3"> <v-icon color="success" left small>mdi-check-circle</v-icon>已发布 </h6>
       </div>
     </v-card-text>
+
+    <Recommend ref="recommend" @refresh="refresh" />
   </v-card>
 </template>
 
 <script>
+  import { mapState } from 'vuex';
+
+  import Recommend from './Recommend';
   import VersionSelect from './VersionSelect';
 
   export default {
     name: 'ModelInfo',
     components: {
+      Recommend,
       VersionSelect,
     },
     props: {
@@ -89,6 +98,23 @@
       noVersion: {
         type: Boolean,
         default: () => false,
+      },
+    },
+    computed: {
+      ...mapState(['Admin']),
+    },
+    methods: {
+      hasLogo(tag) {
+        return this.$MODEL_FRAMEWORK.some((i) => {
+          return tag.indexOf(i) > -1;
+        });
+      },
+      recommend() {
+        this.$refs.recommend.init(this.item);
+        this.$refs.recommend.open();
+      },
+      refresh() {
+        this.$emit('refresh');
       },
     },
   };

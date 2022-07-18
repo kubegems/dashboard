@@ -235,6 +235,25 @@ const VENDOR = {
   selfhosted: 'Selfhosted',
 };
 
+const MODEL_FRAMEWORK = [
+  'transformers',
+  'pytorch',
+  'asteroid',
+  'flair',
+  'espnet',
+  'generic',
+  'keras',
+  'nemo',
+  'spacy',
+  'stanza',
+  'jax',
+  'fastai',
+  'diffusers',
+  'core ml',
+  'onnx',
+  'rust',
+];
+
 export default {
   install(Vue) {
     Vue.prototype.$RESOURCE_CN = RESOURCE_CN;
@@ -260,5 +279,6 @@ export default {
     Vue.prototype.$VIRTUALSPACE_ROLE = VIRTUALSPACE_ROLE;
     Vue.prototype.$VENDOR = VENDOR;
     Vue.prototype.$LINE_THEME_FUL_COLORS = LINE_THEME_FUL_COLORS;
+    Vue.prototype.$MODEL_FRAMEWORK = MODEL_FRAMEWORK;
   },
 };

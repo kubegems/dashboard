@@ -13,15 +13,19 @@
                 </div>
                 <a class="mr-4 float-left" :href="item.address" target="_blank">{{ item.address }}</a>
                 <div class="mr-4 float-left">
-                  <template v-if="item.status === 'success'">
+                  <template v-if="item.status === 'SUCCEED'">
                     <v-icon color="success" small>mdi-check-circle</v-icon>
                     同步成功
                   </template>
-                  <template v-else-if="item.status === 'failed'">
+                  <template v-else-if="item.status === 'FAILURE'">
                     <v-icon color="success" small>mdi-close-circle</v-icon>
                     同步失败
                   </template>
-                  <template v-else-if="item.status === 'running'">
+                  <template v-else-if="item.status === 'STOP'">
+                    <v-icon color="success" small>mdi-close-circle</v-icon>
+                    暂无同步
+                  </template>
+                  <template v-else-if="['INITIALIZE', 'PROGRESS'].indexOf(item.status) > -1">
                     <span
                       class="v-avatar mr-2 kubegems__waiting-flashing"
                       :style="{ height: '12px', minWidth: '12px', width: '12px', backgroundColor: '#fb8c00' }"

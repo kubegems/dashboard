@@ -1,5 +1,7 @@
 export function getIconName(name, def = 'kubernetes') {
   name = name.toLowerCase();
+  if (name.startsWith('mm')) return '';
+
   if (name.indexOf('node-problem-detector') > -1) return 'logos:kubernetes';
   if (name.indexOf('node-local-dns') > -1) return 'logos:kubernetes';
   if (name.indexOf('prometheus') > -1) return 'logos:prometheus';
@@ -25,7 +27,6 @@ export function getIconName(name, def = 'kubernetes') {
   if (name.indexOf('sonarqube') > -1) return 'simple-icons:sonarqube';
   if (name.indexOf('vault') > -1) return 'logos:vault-icon';
   if (name.indexOf('vmware') > -1) return 'carbon:logo-vmware';
-  if (name.indexOf('tempo') > -1) return 'logos:grafana';
   if (name.indexOf('apm-server') > -1) {
     return 'vscode-icons:file-type-elastic';
   }
@@ -141,41 +142,42 @@ export function getIconName(name, def = 'kubernetes') {
   if (name.indexOf('openkruise') > -1) return 'img:openkruise.jpeg';
   if (name.indexOf('ai-model') > -1) return 'img:ai-model.png';
   if (name.indexOf('transformers') > -1) return 'icon-park:transform';
-  if (name.indexOf('tag') > -1) return 'logos:google-tag-manager';
-  if (name.indexOf('freebsd') > -1) return 'logos:freebsd';
-  if (name.indexOf('openbsd') > -1) return 'file-icons:openbsd';
-  if (name.indexOf('netbsd') > -1) return 'simple-icons:netbsd';
-  if (name.indexOf('bsd') > -1) return 'cryptocurrency:bsd';
-  if (name.indexOf('gpl') > -1) return 'img:gpl.png';
-  if (name.indexOf('cc') > -1) return 'ooui:logo-cc';
-  if (name.indexOf('spacy') > -1) return 'simple-icons:spacy';
-  if (name.indexOf('generic') > -1) return 'cryptocurrency:generic';
-  if (name.indexOf('keras') > -1) return 'cib:keras';
-  if (name.indexOf('asteroid') > -1) return 'arcticons:asteroidossync';
-  if (name.indexOf('mit') > -1) return 'img:mit.png';
-  if (name.indexOf('onnx') > -1) return 'simple-icons:onnx';
 
-  if (name.indexOf('audio') > -1) return 'vscode-icons:file-type-audio';
-  if (name.indexOf('text') > -1) return 'fluent:draw-text-24-filled';
-  if (name.indexOf('image') > -1) return 'vscode-icons:file-type-image';
-  if (name.indexOf('translation') > -1) return 'bi:translate';
-  if (name.indexOf('voice') > -1) return 'icon-park:voice-one';
-  if (name.indexOf('recognition') > -1) return 'ri:voice-recognition-line';
-  if (name.indexOf('learning') > -1) return 'carbon:machine-learning-model';
-  if (name.indexOf('classification') > -1) return 'img:classification.png';
-  if (name.indexOf('question') > -1) return 'noto-v1:exclamation-question-mark';
-  if (name.indexOf('video') > -1) return 'vscode-icons:file-type-video';
-  if (name.indexOf('track') > -1) return 'emojione:shuffle-tracks-button';
-  if (name.indexOf('detection') > -1) return 'material-symbols:detection-and-zone';
-  if (name.indexOf('keypoint') > -1) return 'logos:google-tag-manager';
-  if (name.indexOf('segmentation') > -1) return 'logos:segment-icon';
-  if (name.indexOf('gans') > -1) return 'eos-icons:neural-network';
-  if (name.indexOf('conversation') > -1) return 'simple-icons:convertio';
-  if (name.indexOf('extract') > -1) return 'vscode-icons:file-type-api-extractor';
-  if (name.indexOf('fill-mask') > -1) return 'img:filling.png';
+  if (name.indexOf('spacy') > -1) return 'img:spacy.svg';
+  if (name.indexOf('generic') > -1) return 'cryptocurrency:generic';
+  if (name.indexOf('keras') > -1) return 'img:keras.svg';
+  if (name.indexOf('asteroid') > -1) return 'img:asteroid.svg';
+  if (name.indexOf('jax') > -1) return 'img:jax.svg';
+  if (name.indexOf('onnx') > -1) return 'simple-icons:onnx';
+  if (name.indexOf('flair') > -1) return 'img:flair.svg';
+  if (name.indexOf('nemo') > -1) return 'img:nvidia.png';
+  if (name.indexOf('fastai') > -1) return 'img:fastai.svg';
+  if (name.indexOf('stanza') > -1) return 'img:stanza.svg';
   if (name.indexOf('espnet') > -1) return 'img:espnet.png';
-  if (name.indexOf('stanza') > -1) return 'img:stanza.png';
-  if (name.indexOf('wtfpl') > -1) return 'img:wtfpl.png';
+  if (name.indexOf('diffusers') > -1) return 'img:diffusers.svg';
+  if (name.indexOf('core ml') > -1) return 'img:core ml.svg';
+
+  if (name.indexOf('audio') > -1) return 'mdi:microphone';
+  if (name.indexOf('text') > -1) return 'mdi:format-text-variant-outline';
+  if (name.indexOf('image') > -1) return 'mdi:image-multiple-outline';
+  if (name.indexOf('translation') > -1) return 'mdi:translate';
+  if (name.indexOf('voice') > -1) return 'mdi:voicemail';
+  if (name.indexOf('recognition') > -1) return 'mdi:text-recognition';
+  if (name.indexOf('learning') > -1) return 'mdi:robot-outline';
+  if (name.indexOf('classification') > -1) return 'mdi:layers-outline';
+  if (name.indexOf('question') > -1) return 'mdi:comment-question-outline';
+  if (name.indexOf('video') > -1) return 'mdi:video-wireless-outline';
+  if (name.indexOf('shot') > -1) return 'mdi:image-filter-center-focus-strong-outline';
+  if (name.indexOf('track') > -1) return 'mdi:track-light';
+  if (name.indexOf('detection') > -1) return 'mdi:smoke-detector-outline';
+  if (name.indexOf('keypoint') > -1) return 'mdi:hockey-sticks';
+  if (name.indexOf('segmentation') > -1) return 'mdi:segment';
+  if (name.indexOf('conversation') > -1) return 'mdi:account-convert';
+  if (name.indexOf('extract') > -1) return 'mdi:eyedropper';
+  if (name.indexOf('fill-mask') > -1) return 'mdi:basket-fill';
+  if (name.indexOf('local') > -1) return 'mdi:earth';
+
+  if (name.indexOf('tempo') > -1) return 'logos:grafana';
 
   // if (name.indexOf('selfhosted') > -1) return 'img:kubegems.jpg';
 
@@ -183,11 +185,11 @@ export function getIconName(name, def = 'kubernetes') {
     case 'tag':
       return 'img:tag.png';
     case 'task':
-      return 'img:check.png';
+      return 'mdi:alert-circle-check-outline';
     case 'framework':
-      return 'img:framework.png';
+      return '';
     case 'license':
-      return 'twemoji:balance-scale';
+      return 'fluent:building-bank-24-filled';
     default:
       return 'logos:kubernetes';
   }
