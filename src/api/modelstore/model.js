@@ -19,6 +19,9 @@ export const getModelCommentList = (source, name, query = {}) =>
 export const postModelComment = (source, name, body = {}) =>
   axios.post(`sources/${source}/models/${name}/comments`, body);
 
+// 更新模型
+export const putUpdateModel = (source, name, body = {}) => axios.put(`sources/${source}/models/${name}`, body);
+
 // 模型评论
 export const putModelComment = (source, name, id, body = {}) =>
   axios.put(`sources/${source}/models/${name}/comments/${id}`, body);

@@ -11,6 +11,17 @@
             <div v-if="tip !== undefined" class="text-overline breadcrumb__bg breadcrumb__tip font-weight-regular">
               {{ tip }}
             </div>
+            <div v-if="status" class="breadcrumb__status">
+              <template v-if="status.status === 'SUCCEED'">
+                <v-icon class="mr-1" color="success">mdi-check-circle</v-icon>上次同步
+                {{ $moment(status.startedAt).format('lll') }}
+              </template>
+              <template v-else-if="['INITIALIZE', 'PROGRESS'].indexOf(status.status) > -1">
+                <v-icon class="mr-1 kubegems__waiting-circle-flashing" color="warning"> mdi-autorenew </v-icon>
+                正在同步
+                {{ status.progress }}
+              </template>
+            </div>
             <slot name="extend" />
           </v-card-text>
         </v-card>
@@ -20,6 +31,8 @@
 </template>
 
 <script>
+  import { getModelStoreSync } from '@/api';
+
   export default {
     name: 'Breadcrumb',
     props: {
@@ -27,11 +40,16 @@
         type: String,
         default: () => 'kubegems-hub',
       },
+      syncStatus: {
+        type: Boolean,
+        default: () => false,
+      },
     },
     data() {
       return {
         imgSrc: '',
         tip: '',
+        status: null,
       };
     },
     watch: {
@@ -77,9 +95,18 @@
               this.tip = 'Kubegems内置算法模型商店。';
               break;
           }
+          if (this.syncStatus && newValue) {
+            this.registryStatus();
+          }
         },
         deep: true,
         immediate: true,
+      },
+    },
+    methods: {
+      async registryStatus() {
+        const data = await getModelStoreSync(this.$route.query.registry, { noprocessing: true });
+        this.status = data;
       },
     },
   };
@@ -112,6 +139,10 @@
       @media (max-width: 1000px) {
         width: 600px;
       }
+    }
+
+    &__status {
+      line-height: 32px;
     }
   }
 </style>

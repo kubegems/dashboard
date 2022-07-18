@@ -21,3 +21,9 @@ export const getClusterPluginsList = (clusterName, query = {}) =>
   axios(`proxy/cluster/${clusterName}/custom/${PLUGIN_GROUP}/v1beta1/installers`, {
     params: query,
   });
+
+// 全局插件
+export const getPluginsList = (query = {}) =>
+  axios(`plugins`, {
+    params: query,
+  });
