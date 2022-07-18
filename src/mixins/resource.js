@@ -113,12 +113,9 @@ const resource = {
         quota.UsedStorage = parseFloat(sizeOfStorage(data.resources.tenantAllocated['requests.storage']));
         quota.AllocatedStorage = quota.Storage - quota.UsedStorage + item.NowStorage;
 
-        if (
-          data.resources.capacity['limits.nvidia.com/gpu'] &&
-          parseInt(data.resources.capacity[`limits.nvidia.com/gpu`]) > 0
-        ) {
-          quota.NvidiaGpu = parseFloat(data.resources.capacity['limits.nvidia.com/gpu']);
-          quota.UsedNvidiaGpu = parseFloat(data.resources.tenantAllocated['limits.nvidia.com/gpu'] || 0);
+        if (data.resources.capacity['nvidia.com/gpu'] && parseInt(data.resources.capacity[`nvidia.com/gpu`]) > 0) {
+          quota.NvidiaGpu = parseFloat(data.resources.capacity['nvidia.com/gpu']);
+          quota.UsedNvidiaGpu = parseFloat(data.resources.tenantAllocated['nvidia.com/gpu'] || 0);
           quota.AllocatedNvidiaGpu = quota.NvidiaGpu - quota.UsedNvidiaGpu + (item.NowNvidiaGpu || 0);
         }
 
