@@ -1,3 +1,5 @@
+import { icons as antIconSet } from '@iconify-json/ant-design';
+import { icons as cibIconSet } from '@iconify-json/cib';
 import { icons as logosIconSet } from '@iconify-json/logos';
 import { icons as mdiIconSet } from '@iconify-json/mdi';
 import { Icon, addCollection } from '@iconify/vue2/dist/offline';
@@ -23,6 +25,8 @@ import 'highlight.js/styles/atom-one-dark.css';
 
 addCollection(logosIconSet);
 addCollection(mdiIconSet);
+addCollection(cibIconSet);
+addCollection(antIconSet);
 
 Vue.component('Icon', Icon);
 Vue.component('ACEEditor', ACEEditor);
