@@ -164,7 +164,7 @@
     }
 
     &__desc {
-      width: 600px;
+      width: 900px;
     }
 
     &__stat {

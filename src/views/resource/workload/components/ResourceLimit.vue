@@ -11,7 +11,6 @@
               :color="`${adviseItem.Color === 'red' ? 'error' : 'warning'}`"
               colored-border
               elevation="1"
-              rounded="0"
             >
               {{ getAdviseShow(obj) }}
             </v-alert>
@@ -296,7 +295,7 @@
               cpuMaxLimitWithUnit = this.getAdviseValue(c.name, 'CPUStatus');
               break;
             default:
-              cpuMaxLimitWithUnit = resourcesBackup.limits ? resourcesBackup.limits.cpu : 0;
+              cpuMaxLimitWithUnit = resourcesBackup.limits?.cpu || 0;
           }
           // 获取最靠近的值, 先转为核
           const cpuMaxLimitClosest = this.getClosest(this.cpuRange, this.getValueNoUnit(cpuMaxLimitWithUnit, 'CPU'));
@@ -348,7 +347,7 @@
               memoryMaxLimitWithUnit = this.getAdviseValue(c.name, 'MemoryStatus');
               break;
             default:
-              memoryMaxLimitWithUnit = resourcesBackup.limits.memory;
+              memoryMaxLimitWithUnit = resourcesBackup.limits?.memory || 0;
           }
           // 获取最靠近的值, 先转为核
           const memoryMaxLimitClosest = this.getClosest(

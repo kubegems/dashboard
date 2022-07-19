@@ -5,6 +5,7 @@
     left
     max-height="350px"
     max-width="200px"
+    min-width="100px"
     nudge-bottom="5px"
     open-on-hover
     transition="scale-transition"
@@ -26,7 +27,7 @@
               <v-list-item-content class="py-0">
                 <v-list-item-title> 错误信息 </v-list-item-title>
                 <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
-                  {{ item.SyncMessage ? item.SyncMessage : '' }}
+                  {{ item.SyncMessage ? item.SyncMessage : '暂无信息' }}
                 </v-list-item-content>
               </v-list-item-content>
             </v-list-item>
