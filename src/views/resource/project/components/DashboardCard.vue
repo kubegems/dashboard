@@ -1,10 +1,10 @@
 <template>
   <v-row>
     <v-col class="py-0" cols="3">
-      <BaseInfoCard icon="ion:cube" :num="basic.environments" title="环境" />
+      <BaseInfoCard icon="mdi:cube-scan" :num="basic.environments" title="环境" />
     </v-col>
     <v-col class="py-0" cols="3">
-      <BaseInfoCard icon="bi:app" :num="basic.applications" title="应用" />
+      <BaseInfoCard icon="mdi:apps" :num="basic.applications" title="应用" />
     </v-col>
     <v-col class="py-0" cols="3">
       <BaseInfoCard icon="mdi:account" :num="basic.person" title="用户" />

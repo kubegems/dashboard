@@ -2,6 +2,8 @@ export function getIconName(name, def = 'kubernetes') {
   name = name.toLowerCase();
   if (name.startsWith('mm')) return '';
 
+  if (name.indexOf('kubegems-local') > -1) return 'logos:kubernetes';
+  if (name.indexOf('volume-snapshoter') > -1) return 'logos:kubernetes';
   if (name.indexOf('node-problem-detector') > -1) return 'logos:kubernetes';
   if (name.indexOf('node-local-dns') > -1) return 'logos:kubernetes';
   if (name.indexOf('prometheus') > -1) return 'logos:prometheus';
@@ -10,7 +12,7 @@ export function getIconName(name, def = 'kubernetes') {
   if (name.indexOf('nginx') > -1) return 'logos:nginx';
   if (name.indexOf('operator') > -1) return 'img:operator.png';
   if (name.indexOf('elasticsearch') > -1) return 'logos:elasticsearch';
-  if (name.indexOf('mongodb') > -1) return 'simple-icons:mongodb';
+  if (name.indexOf('mongodb') > -1) return 'logos:mongodb';
   if (name.indexOf('postgresql') > -1) return 'logos:postgresql';
   if (name.indexOf('kibana') > -1) return 'logos:kibana';
   if (name.indexOf('cassandra') > -1) return 'logos:cassandra';
@@ -24,11 +26,11 @@ export function getIconName(name, def = 'kubernetes') {
   if (name.indexOf('influxdb') > -1) return 'logos:influxdb';
   if (name.indexOf('rabbitmq') > -1) return 'logos:rabbitmq-icon';
   if (name.indexOf('neo4j') > -1) return 'logos:neo4j';
-  if (name.indexOf('sonarqube') > -1) return 'simple-icons:sonarqube';
+  if (name.indexOf('sonarqube') > -1) return 'logos:sonarqube';
   if (name.indexOf('vault') > -1) return 'logos:vault-icon';
-  if (name.indexOf('vmware') > -1) return 'carbon:logo-vmware';
+  if (name.indexOf('vmware') > -1) return 'img:vmware.png';
   if (name.indexOf('apm-server') > -1) {
-    return 'vscode-icons:file-type-elastic';
+    return 'img:apm-server.png';
   }
   if (name.indexOf('apisix') > -1) return 'img:apisix.png';
   if (name.indexOf('nacos') > -1) return 'img:nacos.jpeg';
@@ -41,37 +43,37 @@ export function getIconName(name, def = 'kubernetes') {
   if (name.indexOf('solr') > -1) return 'logos:solr';
   if (name.indexOf('opencart') > -1) return 'logos:opencart';
   if (name.indexOf('bitnami') > -1) return 'logos:bitnami';
-  if (name.indexOf('harbor') > -1) return 'simple-icons:harbor';
+  if (name.indexOf('harbor') > -1) return 'img:harbor.png';
   if (name.indexOf('prestashop') > -1) return 'logos:prestashop';
   if (name.indexOf('wordpress') > -1) return 'logos:wordpress';
   if (name.indexOf('apache') > -1) return 'logos:apache';
   if (name.indexOf('airflow') > -1) return 'logos:airflow';
   if (name.indexOf('joomla') > -1) return 'logos:joomla';
-  if (name.indexOf('phabricator') > -1) return 'fa-brands:phabricator';
+  if (name.indexOf('phabricator') > -1) return 'img:phabricator.svg';
   if (name.indexOf('wildfly') > -1) return 'logos:wildfly';
   if (name.indexOf('exporter') > -1) return 'logos:prometheus';
   if (name.indexOf('node_local_dns') > -1) return 'img:coredns.png';
   if (name.indexOf('node_problem_detector') > -1) return 'logos:kubernetes';
   if (name.indexOf('node') > -1) return 'logos:nodemon';
   if (name.indexOf('grafana') > -1) return 'logos:grafana';
-  if (name.indexOf('phpbb') > -1) return 'whh:phpbb';
+  if (name.indexOf('phpbb') > -1) return 'logos:php';
   if (name.indexOf('pytorch') > -1) return 'logos:pytorch-icon';
   if (name.indexOf('concourse') > -1) return 'logos:concourse';
-  if (name.indexOf('discourse') > -1) return 'cib:discourse';
-  if (name.indexOf('spark') > -1) return 'cib:apache-spark';
-  if (name.indexOf('orangehrm') > -1) return 'whh:orangehrm';
+  if (name.indexOf('discourse') > -1) return 'logos:discourse';
+  if (name.indexOf('spark') > -1) return 'img:spark.png';
+  if (name.indexOf('orangehrm') > -1) return 'img:orangehrm.png';
   if (name.indexOf('spring') > -1) return 'logos:spring-icon';
-  if (name.indexOf('mediawiki') > -1) return 'file-icons:mediawiki';
+  if (name.indexOf('mediawiki') > -1) return 'img:mediawiki.png';
   if (name.indexOf('spring') > -1) return 'logos:spring-icon';
   if (name.indexOf('aspnet') > -1) return 'logos:net';
   if (name.indexOf('drupal') > -1) return 'logos:drupal-icon';
   if (name.indexOf('fluentd') > -1) return 'img:fluentd.jpeg';
-  if (name.indexOf('osclass') > -1) return 'whh:osclass';
+  if (name.indexOf('osclass') > -1) return 'img:osclass.png';
   if (name.indexOf('kong') > -1) return 'logos:kong-icon';
   if (name.indexOf('ghost') > -1) return 'logos:ghost';
   if (name.indexOf('parse') > -1) return 'logos:parse';
   if (name.indexOf('php') > -1) return 'logos:php';
-  if (name.indexOf('wiki') > -1) return 'flat-color-icons:wikipedia';
+  if (name.indexOf('wiki') > -1) return 'img:wikipedia.jpeg';
   if (name.indexOf('loki') > -1) return 'img:loki.png';
   if (name.indexOf('logging') > -1) return 'img:loki.png';
   if (name.indexOf('argo') > -1) return 'img:argo.png';
@@ -111,7 +113,7 @@ export function getIconName(name, def = 'kubernetes') {
   if (name.indexOf('jupyterhub') > -1) return 'img:jupyterhub.png';
   if (name.indexOf('jasperreports') > -1) return 'img:jasperreports.jpeg';
   if (name.indexOf('oauth2') > -1) return 'img:oauth2.png';
-  if (name.indexOf('vscode') > -1) return 'vscode-icons:file-type-vscode2';
+  if (name.indexOf('vscode') > -1) return 'img:vscode.png';
   if (name.indexOf('gitlab') > -1) return 'logos:gitlab';
   if (name.indexOf('oauth') > -1) return 'logos:oauth';
   if (name.indexOf('ldap') > -1) return 'img:openldap.jpeg';
@@ -141,14 +143,14 @@ export function getIconName(name, def = 'kubernetes') {
   if (name.indexOf('opentelemetry') > -1) return 'logos:opentelemetry';
   if (name.indexOf('openkruise') > -1) return 'img:openkruise.jpeg';
   if (name.indexOf('ai-model') > -1) return 'img:ai-model.png';
-  if (name.indexOf('transformers') > -1) return 'icon-park:transform';
+  if (name.indexOf('transformers') > -1) return 'img:transform.png';
 
   if (name.indexOf('spacy') > -1) return 'img:spacy.svg';
-  if (name.indexOf('generic') > -1) return 'cryptocurrency:generic';
+  if (name.indexOf('generic') > -1) return 'img:generic.png';
   if (name.indexOf('keras') > -1) return 'img:keras.svg';
   if (name.indexOf('asteroid') > -1) return 'img:asteroid.svg';
   if (name.indexOf('jax') > -1) return 'img:jax.svg';
-  if (name.indexOf('onnx') > -1) return 'simple-icons:onnx';
+  if (name.indexOf('onnx') > -1) return 'img:onnx.jpeg';
   if (name.indexOf('flair') > -1) return 'img:flair.svg';
   if (name.indexOf('nemo') > -1) return 'img:nvidia.png';
   if (name.indexOf('fastai') > -1) return 'img:fastai.svg';
@@ -189,7 +191,7 @@ export function getIconName(name, def = 'kubernetes') {
     case 'framework':
       return '';
     case 'license':
-      return 'fluent:building-bank-24-filled';
+      return 'mdi:bank';
     default:
       return 'logos:kubernetes';
   }

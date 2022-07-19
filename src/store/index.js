@@ -8,7 +8,7 @@ import {
   getTenantSelectData,
   getVirtualSpaceSelectData,
 } from './server_data';
-import { getClusterPluginsList, getRESTMapping, getPluginsList } from '@/api';
+import { getClusterPluginsList, getPluginsList, getRESTMapping } from '@/api';
 import router from '@/router';
 import { delAllCookie, getCookie } from '@/utils/cookie';
 import { sleep } from '@/utils/helpers';

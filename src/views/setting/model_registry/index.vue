@@ -227,7 +227,7 @@
           default:
             return {
               imgSrc: '/logo-about.svg',
-              tip: 'Kubegems内置模型商店。',
+              tip: 'Kubegems内置算法模型商店。',
               address: '',
             };
         }

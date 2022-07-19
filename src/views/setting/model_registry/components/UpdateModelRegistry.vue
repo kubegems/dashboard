@@ -7,7 +7,7 @@
         :edit="true"
         :item="item"
         :step="step"
-        title="模型商店"
+        title="算法商店"
         @changeStep="changeStep"
       />
     </template>
