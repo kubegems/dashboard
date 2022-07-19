@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <Breadcrumb :hub="$route.query.registry">
+    <Breadcrumb :hub="$route.query.registry" sync-status>
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-btn class="primary--text" small text @click="deployModel">
@@ -16,7 +16,7 @@
     </Breadcrumb>
     <v-row class="mt-0">
       <v-col class="pt-0" cols="3">
-        <ModelInfo :item="item" />
+        <ModelInfo :item="item" @refresh="refresh" />
       </v-col>
       <v-col class="pt-0" cols="9">
         <v-card flat>

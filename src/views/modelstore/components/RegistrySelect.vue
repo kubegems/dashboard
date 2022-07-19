@@ -96,6 +96,9 @@
           this.selectRepo = this.repoItems[0];
           this.$emit('change', this.selectRepo);
           this.$emit('input', this.selectRepo);
+          this.$router.replace({
+            query: { ...this.$route.query, registry: this.selectRepo.name },
+          });
         }
       },
     },

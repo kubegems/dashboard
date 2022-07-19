@@ -113,16 +113,19 @@
           environment: '',
           version: '',
         },
-        objRules: {
-          nameRules: [required, k8sName],
-          versionRules: [required],
-          tenantProjectRules: [required],
-          environmentRules: [required],
-        },
+        pluginsPass: false,
       };
     },
     computed: {
       ...mapState(['Auth']),
+      objRules() {
+        return {
+          nameRules: [required, k8sName],
+          versionRules: [required],
+          tenantProjectRules: [required],
+          environmentRules: [required, () => this.pluginsPass || '该环境所在集群还未启用  插件！'],
+        };
+      },
       projectId() {
         const pro = this.m_select_tenantProjectItems.find((p) => {
           return p.text === this.obj.project;
@@ -170,12 +173,22 @@
       reset() {
         this.$refs.form.resetValidation();
       },
-      onEnvironmentChange() {
+      async onEnvironmentChange() {
         const env = this.m_select_projectEnvironmentItems.find((e) => {
           return e.environmentName === this.obj.environment;
         });
         if (env) {
           this.obj.cluster = env.clusterName;
+          const missingPlugins = await this.m_permission_plugin_pass(env.clusterName, []);
+          if (missingPlugins?.length === 0) {
+            this.pluginsPass = true;
+          } else {
+            this.$store.commit('SET_SNACKBAR', {
+              text: `该环境所在集群还未启用 ${missingPlugins.join(', ')} 插件！`,
+              color: 'warning',
+            });
+            this.pluginsPass = false;
+          }
         }
       },
     },

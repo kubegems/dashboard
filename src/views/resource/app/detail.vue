@@ -99,7 +99,7 @@
   import ResourceInfo from './components/ResourceInfo';
   import Rollingback from './components/Rollingback';
   import ScaleReplicas from './components/ScaleReplicas';
-  import { deleteApp, deleteAppStoreApp, getAppRunningDetail } from '@/api';
+  import { deleteApp, deleteAppStoreApp, deleteModelRuntime, getAppRunningDetail, getModelRuntimeDetail } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import AppDeployList from '@/views/resource/appmanifest/components/AppDeployList';
@@ -138,9 +138,12 @@
             { text: '部署历史', value: 'AppDeployList' },
             { text: '镜像安全', value: 'AppImageSecurityReportList' },
           ];
-        } else {
+        } else if (this.$route.query.kind === 'appstore') {
           return [{ text: '资源状态', value: 'DeployStatus' }];
+        } else if (this.$route.query.kind === 'modelstore') {
+          return [];
         }
+        return [];
       },
     },
     watch: {
@@ -173,17 +176,29 @@
     },
     methods: {
       async appRunningDetail() {
-        const envid = this.$route.query.environmentid ? this.$route.query.environmentid : this.Environment().ID;
-        const data = await getAppRunningDetail(
-          this.$route.query.tenantid,
-          this.$route.query.projectid,
-          envid,
-          this.$route.params.name,
-        );
-        data.ProjectID = this.$route.query.projectid;
-        data.TenantID = this.$route.query.tenantid;
-        data.EnvironmentID = envid;
-        data.namespace = this.$route.query.namespace;
+        let data = {};
+        if (this.$route.query.kind === 'modelstore') {
+          data = await getModelRuntimeDetail(
+            this.Tenant().TenantName,
+            this.Project().ProjectName,
+            this.Environment().EnvironmentName,
+            this.$route.params.name,
+          );
+        } else {
+          const envid = this.$route.query.environmentid ? this.$route.query.environmentid : this.Environment().ID;
+          data = await getAppRunningDetail(
+            this.$route.query.tenantid,
+            this.$route.query.projectid,
+            envid,
+            this.$route.params.name,
+          );
+          data.ProjectID = this.$route.query.projectid;
+          data.TenantID = this.$route.query.tenantid;
+          data.EnvironmentID = envid;
+          data.namespace = this.$route.query.namespace;
+
+          this.watchApp();
+        }
 
         this.app = data;
         this.$router.replace({
@@ -192,7 +207,6 @@
             ...{ name: this.app.name, type: this.app.kind },
           },
         });
-        this.watchApp();
       },
       watchApp() {
         const sub = {
@@ -232,11 +246,16 @@
         });
       },
       removeApp() {
+        let title = '删除平台应用';
+        if (this.$route.query.kind === 'appstore') {
+          title = '删除应用商店应用';
+        } else if (this.$route.query.kind === 'modelstore') {
+          title = '删除算法商店应用';
+        }
         this.$store.commit('SET_CONFIRM', {
-          title: this.$route.query.kind === 'app' ? '删除平台应用' : '删除应用商店应用',
+          title: title,
           content: {
-            text:
-              this.$route.query.kind === 'app' ? `删除平台应用 ${this.app.name}` : `删除应用商店应用 ${this.app.name}`,
+            text: `${title} ${this.app.name}`,
             type: 'delete',
             name: this.app.name,
           },
@@ -244,8 +263,15 @@
           doFunc: async () => {
             if (this.$route.query.kind === 'app') {
               await deleteApp(this.Tenant().ID, this.Project().ID, this.Environment().ID, this.app.name);
-            } else {
+            } else if (this.$route.query.kind === 'appstore') {
               await deleteAppStoreApp(this.Tenant().ID, this.Project().ID, this.Environment().ID, this.app.name);
+            } else if (this.$route.query.kind === 'modelstore') {
+              await deleteModelRuntime(
+                this.Tenant().TenantName,
+                this.Project().ProjectName,
+                this.Environment().EnvironmentName,
+                this.app.name,
+              );
             }
             this.$router.push({ name: 'app-list', params: this.$route.params });
           },
