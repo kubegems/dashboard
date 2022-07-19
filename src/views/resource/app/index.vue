@@ -561,9 +561,9 @@
       },
       removeModel(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: '删除模型商店应用',
+          title: '删除算法商店应用',
           content: {
-            text: `删除模型商店应用 ${item.metadata.name}`,
+            text: `删除算法商店应用 ${item.metadata.name}`,
             type: 'delete',
             name: item.metadata.name,
           },

@@ -1,4 +1,6 @@
-import { Icon } from '@iconify/vue2';
+import { icons as logosIconSet } from '@iconify-json/logos';
+import { icons as mdiIconSet } from '@iconify-json/mdi';
+import { Icon, addCollection } from '@iconify/vue2/dist/offline';
 import hljs from 'highlight.js';
 import yaml from 'js-yaml';
 import _ from 'lodash';
@@ -18,6 +20,9 @@ import store from '@/store';
 import 'github-markdown-css/github-markdown.css';
 import './assets/styles/index.scss';
 import 'highlight.js/styles/atom-one-dark.css';
+
+addCollection(logosIconSet);
+addCollection(mdiIconSet);
 
 Vue.component('Icon', Icon);
 Vue.component('ACEEditor', ACEEditor);

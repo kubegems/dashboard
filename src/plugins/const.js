@@ -13,9 +13,9 @@ const RESOURCE_CN = {
   'count/persistentvolumeclaims': '存储卷',
 };
 const RESOURCE_ICON = {
-  applications: 'icon-park-outline:all-application',
-  node: 'bx:bxs-server',
-  'count/deployments.apps': 'el:repeat-alt',
+  applications: 'mdi:apps',
+  node: 'mdi:desktop-classic',
+  'count/deployments.apps': 'mdi:calendar-refresh',
   'count/statefulsets.apps': 'mdi:vector-arrange-above',
   'count/daemonsets.apps': 'mdi:vector-difference-ba',
   pods: 'mdi:cube',
@@ -24,10 +24,10 @@ const RESOURCE_ICON = {
   'count/cronjobs.batch': 'mdi:calendar-sync',
   'count/configmaps': 'mdi:cog-outline',
   'count/secrets': 'mdi:key',
-  'count/persistentvolumeclaims': 'fluent:database-20-filled',
-  cpu: 'whh:cpualt',
-  storage: 'icon-park-outline:cloud-storage',
-  memory: 'bx:bxs-memory-card',
+  'count/persistentvolumeclaims': 'mdi:database',
+  cpu: 'mdi:cpu-64-bit',
+  storage: 'mdi:sd',
+  memory: 'mdi:nas',
 };
 const K8S_RESOURCE_ICON = {
   Node: 'node',
