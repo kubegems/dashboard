@@ -1,6 +1,6 @@
 export function getIconName(name, def = 'kubernetes') {
   name = name.toLowerCase();
-  if (name.startsWith('mm')) return '';
+  if (name.trim().startsWith('mm')) return '';
 
   if (name.indexOf('kubegems-local') > -1) return 'logos:kubernetes';
   if (name.indexOf('volume-snapshoter') > -1) return 'logos:kubernetes';
@@ -32,12 +32,12 @@ export function getIconName(name, def = 'kubernetes') {
   if (name.indexOf('apm-server') > -1) {
     return 'img:apm-server.png';
   }
-  if (name.indexOf('apisix') > -1) return 'img:apisix.png';
+  if (name.indexOf('apisix') > -1) return 'img:apisix.svg';
   if (name.indexOf('nacos') > -1) return 'img:nacos.jpeg';
-  if (name.indexOf('minio') > -1) return 'img:minio.png';
+  if (name.indexOf('minio') > -1) return 'img:minio.svg';
   if (name.indexOf('nats') > -1) return 'logos:nats-icon';
   if (name.indexOf('zookeeper') > -1) return 'img:zookeeper.png';
-  if (name.indexOf('skywalking') > -1) return 'img:skywalking.png';
+  if (name.indexOf('skywalking') > -1) return 'img:skywalking.svg';
   if (name.indexOf('mariadb') > -1) return 'logos:mariadb-icon';
   if (name.indexOf('tensorflow') > -1) return 'logos:tensorflow';
   if (name.indexOf('solr') > -1) return 'logos:solr';
@@ -52,7 +52,6 @@ export function getIconName(name, def = 'kubernetes') {
   if (name.indexOf('phabricator') > -1) return 'img:phabricator.svg';
   if (name.indexOf('wildfly') > -1) return 'logos:wildfly';
   if (name.indexOf('exporter') > -1) return 'logos:prometheus';
-  if (name.indexOf('node_local_dns') > -1) return 'img:coredns.png';
   if (name.indexOf('node_problem_detector') > -1) return 'logos:kubernetes';
   if (name.indexOf('node') > -1) return 'logos:nodemon';
   if (name.indexOf('grafana') > -1) return 'logos:grafana';
@@ -74,43 +73,43 @@ export function getIconName(name, def = 'kubernetes') {
   if (name.indexOf('parse') > -1) return 'logos:parse';
   if (name.indexOf('php') > -1) return 'logos:php';
   if (name.indexOf('wiki') > -1) return 'logos:xwiki';
-  if (name.indexOf('loki') > -1) return 'img:loki.png';
-  if (name.indexOf('logging') > -1) return 'img:loki.png';
+  if (name.indexOf('loki') > -1) return 'img:loki.svg';
+  if (name.indexOf('logging') > -1) return 'img:loki.svg';
   if (name.indexOf('argo') > -1) return 'logos:argo-icon';
   if (name.indexOf('wavefront') > -1) return 'img:wavefront.png';
   if (name.indexOf('istio') > -1) return 'img:istio.png';
-  if (name.indexOf('jaeger') > -1) return 'img:jaeger.png';
+  if (name.indexOf('jaeger') > -1) return 'img:jaeger.svg';
   if (name.indexOf('coredns') > -1) return 'img:coredns.png';
-  if (name.indexOf('calico') > -1) return 'img:calico.png';
+  if (name.indexOf('calico') > -1) return 'img:calico.svg';
   if (name.indexOf('flannel') > -1) return 'logos:flannel';
   if (name.indexOf('kube_ovn') > -1) return 'img:ovn.jpeg';
   if (name.indexOf('nvidia') > -1) return 'img:nvidia.png';
   if (name.indexOf('log_agent') > -1) return 'img:fluentd.jpeg';
   if (name.indexOf('alertmanager') > -1) return 'logos:prometheus';
   if (name.indexOf('monitoring') > -1) return 'logos:prometheus';
-  if (name.indexOf('cert_manager') > -1) return 'img:certmanager.svg';
+  if (name.indexOf('cert_manager') > -1) return 'img:cert-manager.svg';
   if (name.indexOf('local_path') > -1) return 'logos:rancher-icon';
   if (name.indexOf('local-path') > -1) return 'logos:rancher-icon';
   if (name.indexOf('tke') > -1) return 'img:tke.png';
   if (name.indexOf('filebeat') > -1) return 'img:filebeat.png';
   if (name.indexOf('metricbeat') > -1) return 'img:metricbeat.png';
   if (name.indexOf('fluent-bit') > -1) return 'img:fluentbit.jpeg';
-  if (name.indexOf('cert-manager') > -1) return 'img:certmanager.svg';
+  if (name.indexOf('cert-manager') > -1) return 'img:cert-manager.svg';
   if (name.indexOf('haproxy') > -1) return 'img:haproxy.png';
-  if (name.indexOf('kubeapps') > -1) return 'img:kubeapps.png';
-  if (name.indexOf('keycloak') > -1) return 'img:keycloak.png';
+  if (name.indexOf('kubeapps') > -1) return 'img:kubeapps.svg';
+  if (name.indexOf('keycloak') > -1) return 'img:keycloak.svg';
   if (name.indexOf('metallb') > -1) return 'img:metallb.png';
-  if (name.indexOf('moodle') > -1) return 'img:moodle.png';
-  if (name.indexOf('ejbca') > -1) return 'img:ejbca.jpeg';
+  if (name.indexOf('moodle') > -1) return 'img:moodle.svg';
+  if (name.indexOf('ejbca') > -1) return 'img:ejbca.svg';
   if (name.indexOf('owncloud') > -1) return 'img:owncloud.png';
   if (name.indexOf('odoo') > -1) return 'img:odoo.png';
-  if (name.indexOf('thanos') > -1) return 'img:thanos.png';
-  if (name.indexOf('sugarcrm') > -1) return 'img:sugarcrm.png';
+  if (name.indexOf('thanos') > -1) return 'img:thanos.svg';
+  if (name.indexOf('sugarcrm') > -1) return 'img:sugarcrm.svg';
   if (name.indexOf('suitecrm') > -1) return 'img:suitecrm.png';
   if (name.indexOf('redmine') > -1) return 'img:redmine.jpeg';
   if (name.indexOf('mxnet') > -1) return 'img:mxnet.jpeg';
   if (name.indexOf('magento') > -1) return 'img:magento.png';
-  if (name.indexOf('jupyterhub') > -1) return 'img:jupyterhub.png';
+  if (name.indexOf('jupyterhub') > -1) return 'img:jupyter.svg';
   if (name.indexOf('jasperreports') > -1) return 'img:jasperreports.jpeg';
   if (name.indexOf('oauth2') > -1) return 'logos:oauth';
   if (name.indexOf('vscode') > -1) return 'img:vscode.png';
@@ -138,7 +137,7 @@ export function getIconName(name, def = 'kubernetes') {
   if (name.indexOf('swift') > -1) return 'logos:swift';
   if (name.indexOf('kubevela') > -1) return 'img:kubevela.png';
   if (name.indexOf('gateway') > -1) return 'logos:nginx';
-  if (name.indexOf('tracing') > -1) return 'img:jaeger.png';
+  if (name.indexOf('tracing') > -1) return 'img:jaeger.svg';
   if (name.indexOf('日志采集') > -1) return 'img:kubegems.jpg';
   if (name.indexOf('opentelemetry') > -1) return 'logos:opentelemetry';
   if (name.indexOf('openkruise') > -1) return 'img:openkruise.jpeg';

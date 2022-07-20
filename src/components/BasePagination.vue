@@ -45,7 +45,7 @@
                       @click="setSize(s)"
                     >
                       <v-list-item-content>
-                        <span>{{ s }}</span>
+                        <span class="font-weight-medium">{{ s }}</span>
                       </v-list-item-content>
                     </v-list-item>
                   </v-list>
