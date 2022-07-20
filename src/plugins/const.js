@@ -252,6 +252,7 @@ const MODEL_FRAMEWORK = [
   'core ml',
   'onnx',
   'rust',
+  'tensorflow',
 ];
 
 export default {

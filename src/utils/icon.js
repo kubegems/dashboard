@@ -1,6 +1,6 @@
 export function getIconName(name, def = 'kubernetes') {
-  name = name.toLowerCase();
-  if (name.trim().startsWith('mm')) return '';
+  name = name.toLowerCase().trim();
+  if (name.startsWith('mm')) return '';
 
   if (name.indexOf('kubegems-local') > -1) return 'logos:kubernetes';
   if (name.indexOf('volume-snapshoter') > -1) return 'logos:kubernetes';
@@ -142,7 +142,7 @@ export function getIconName(name, def = 'kubernetes') {
   if (name.indexOf('opentelemetry') > -1) return 'logos:opentelemetry';
   if (name.indexOf('openkruise') > -1) return 'img:openkruise.jpeg';
   if (name.indexOf('ai-model') > -1) return 'img:ai-model.png';
-  if (name.indexOf('transformers') > -1) return 'img:transform.png';
+  if (name.indexOf('transformers') > -1) return 'img:transform.svg';
   if (name.indexOf('gitea') > -1) return 'img:gitea.svg';
   if (name.indexOf('chartmuseum') > -1) return 'img:chartmuseum.svg';
 
