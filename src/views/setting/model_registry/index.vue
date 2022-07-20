@@ -13,7 +13,7 @@
                 </div>
                 <a class="mr-4 float-left" :href="item.address" target="_blank">{{ item.address }}</a>
                 <div class="mr-4 float-left">
-                  <template v-if="item.status === 'SUCCEED'">
+                  <template v-if="item.status === 'SUCCESS'">
                     <v-icon color="success" small>mdi-check-circle</v-icon>
                     同步成功
                   </template>
