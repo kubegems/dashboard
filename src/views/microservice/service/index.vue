@@ -7,7 +7,6 @@
         <BaseFilter
           :default="{ items: [], text: '服务名称', value: 'search' }"
           :filters="filters"
-          :reload="false"
           @refresh="m_filter_list"
         />
         <EnvironmentFilter />
@@ -46,15 +45,12 @@
         <template #default>
           <v-data-table
             class="mx-4"
-            :custom-filter="baseFilter"
             disable-sort
             :headers="headers"
             hide-default-footer
             :items="items"
-            :items-per-page="1000"
             no-data-text="暂无数据"
             no-results-text="暂无数据"
-            :search.sync="$route.query.search"
           >
             <template #[`item.name`]="{ item }">
               <a class="text-subtitle-2" @click="kialiServiceDetail(item)">
@@ -279,14 +275,6 @@
       },
     },
     methods: {
-      baseFilter(value, search, item) {
-        return (
-          item != null &&
-          search != null &&
-          item.name &&
-          item.name.toLocaleLowerCase().indexOf(search.toLocaleLowerCase()) > -1
-        );
-      },
       serviceList(noprocess = false) {
         this.microServiceList(noprocess);
       },
@@ -296,6 +284,7 @@
           this.EnvironmentFilter?.value || this.$route.query?.environmentid,
           {
             ...this.params,
+            search: this.$route.query.search ? this.$route.query.search : null,
             noprocessing: noprocess,
           },
         );
