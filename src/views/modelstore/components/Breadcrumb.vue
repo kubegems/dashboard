@@ -12,8 +12,8 @@
               {{ tip }}
             </div>
             <div v-if="status" class="breadcrumb__status">
-              <template v-if="status.status === 'SUCCEED'">
-                <v-icon class="mr-1" color="success">mdi-check-circle</v-icon>上次同步
+              <template v-if="status.status === 'SUCCESS'">
+                <v-icon class="mr-1" color="success" small>mdi-check-circle</v-icon>上次同步
                 {{ $moment(status.startedAt).format('lll') }}
               </template>
               <template v-else-if="['INITIALIZE', 'PROGRESS'].indexOf(status.status) > -1">
