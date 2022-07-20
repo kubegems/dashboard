@@ -26,6 +26,7 @@
 </template>
 
 <script>
+  import { Base64 } from 'js-base64';
   import { mapState } from 'vuex';
 
   import { putUpdateModel } from '@/api';
@@ -56,7 +57,7 @@
       async updateRecomment() {
         if (this.$refs.form.validate(true)) {
           const data = this.obj;
-          await putUpdateModel(this.$route.query.registry, data.name, data);
+          await putUpdateModel(this.$route.query.registry, Base64.encode(data.name), data);
           this.reset();
           this.$emit('refresh');
         }

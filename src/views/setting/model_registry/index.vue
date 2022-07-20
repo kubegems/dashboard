@@ -13,16 +13,16 @@
                 </div>
                 <a class="mr-4 float-left" :href="item.address" target="_blank">{{ item.address }}</a>
                 <div class="mr-4 float-left">
-                  <template v-if="item.status === 'SUCCEED'">
+                  <template v-if="item.status === 'SUCCESS'">
                     <v-icon color="success" small>mdi-check-circle</v-icon>
                     同步成功
                   </template>
                   <template v-else-if="item.status === 'FAILURE'">
-                    <v-icon color="success" small>mdi-close-circle</v-icon>
+                    <v-icon color="error" small>mdi-close-circle</v-icon>
                     同步失败
                   </template>
                   <template v-else-if="item.status === 'STOP'">
-                    <v-icon color="success" small>mdi-close-circle</v-icon>
+                    <v-icon color="grey" small>mdi-alert-circle</v-icon>
                     暂无同步
                   </template>
                   <template v-else-if="['INITIALIZE', 'PROGRESS'].indexOf(item.status) > -1">
@@ -45,8 +45,12 @@
                   Images: {{ item ? item.images.length : 0 }}
                 </div>
                 <div class="mr-4 float-right">
-                  <v-btn :color="item.status === 'running' ? `error` : 'primary'" text @click="syncRegistry(item)">
-                    {{ item.status === 'running' ? '终止同步' : '同步' }}
+                  <v-btn
+                    :color="['INITIALIZE', 'PROGRESS'].indexOf(item.status) > -1 ? `error` : 'primary'"
+                    text
+                    @click="syncRegistry(item)"
+                  >
+                    {{ ['INITIALIZE', 'PROGRESS'].indexOf(item.status) > -1 ? '终止同步' : '同步' }}
                   </v-btn>
                   <v-btn color="primary" text @click="editRegistry(item)">编辑</v-btn>
                   <v-btn :color="item.enabled ? 'error' : 'primary'" text @click="toggleActiveRegistry(item)">
@@ -141,9 +145,12 @@
       },
       syncRegistry(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: item.status === 'running' ? `终止同步模型仓库` : `同步模型仓库`,
+          title: ['INITIALIZE', 'PROGRESS'].indexOf(item.status) > -1 ? `终止同步模型仓库` : `同步模型仓库`,
           content: {
-            text: item.status === 'running' ? `终止同步模型仓库 ${item.name}` : `同步模型仓库 ${item.name}`,
+            text:
+              ['INITIALIZE', 'PROGRESS'].indexOf(item.status) > -1
+                ? `终止同步模型仓库 ${item.name}`
+                : `同步模型仓库 ${item.name}`,
             type: 'confirm',
           },
           param: { item },

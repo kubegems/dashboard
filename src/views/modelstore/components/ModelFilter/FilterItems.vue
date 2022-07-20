@@ -135,7 +135,7 @@
       },
       hasLogo(tag) {
         return this.$MODEL_FRAMEWORK.some((i) => {
-          return tag.indexOf(i) > -1;
+          return tag.toLowerCase().indexOf(i) > -1;
         });
       },
     },
