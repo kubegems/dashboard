@@ -214,6 +214,17 @@ export const platform = [
               tip: 'modelstore-registry',
             },
           },
+        ],
+      },
+      {
+        path: '',
+        meta: {
+          title: '模版',
+          icon: 'mdi-view-module',
+        },
+        component: () => import('@/layouts/Container'),
+        redirect: { name: 'repository-list' },
+        children: [
           // prometheus
           {
             path: 'prometheus/templates',
