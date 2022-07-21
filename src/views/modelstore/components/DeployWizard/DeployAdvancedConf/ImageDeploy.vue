@@ -5,27 +5,21 @@
       <v-row>
         <v-col cols="12">
           <v-text-field label="镜像地址" />
-        </v-col>
-        <v-col cols="12">
+
           <v-text-field label="运行命令" />
-        </v-col>
-        <v-col cols="12">
+
           <v-text-field label="环境变量" />
-        </v-col>
-        <v-col cols="12">
+
           <v-text-field label="端口号" />
-        </v-col>
-        <v-col cols="12">
+
           <v-switch v-model="advanced" label="高级配置" />
-        </v-col>
-        <template v-if="advanced">
-          <v-col cols="12">
+
+          <template v-if="advanced">
             <v-text-field v-model="obj.modelPath" label="模型挂载路径" />
-          </v-col>
-          <v-col cols="12">
+
             <v-text-field v-model="obj.host" label="访问域名" />
-          </v-col>
-        </template>
+          </template>
+        </v-col>
       </v-row>
     </v-card-text>
 
