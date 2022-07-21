@@ -184,6 +184,7 @@
             this.Environment().EnvironmentName,
             this.$route.params.name,
           );
+          this.app = data;
         } else {
           const envid = this.$route.query.environmentid ? this.$route.query.environmentid : this.Environment().ID;
           data = await getAppRunningDetail(
@@ -196,11 +197,11 @@
           data.TenantID = this.$route.query.tenantid;
           data.EnvironmentID = envid;
           data.namespace = this.$route.query.namespace;
+          this.app = data;
 
           this.watchApp();
         }
 
-        this.app = data;
         this.$router.replace({
           query: {
             ...this.$route.query,
