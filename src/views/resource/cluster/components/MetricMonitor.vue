@@ -20,7 +20,7 @@
       :extend-height="280"
       :label="tabItems[tab].label"
       :metrics="tabItems[tab].chart"
-      :no-data-offset-y="-28"
+      :no-data-offset-y="-24"
       title=""
       :type="tabItems[tab].type"
     />

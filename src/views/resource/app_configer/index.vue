@@ -6,7 +6,7 @@
       <template #extend>
         <v-flex class="kubegems__full-right">
           <div class="float-left provider text-body-2 kubegems__text mr-2">Provider</div>
-          <div class="float-left provider__img"><img src="/icon/nacos.png" width="80" /></div>
+          <div class="float-left provider__img"><img src="/icon/nacos-t.svg" width="80" /></div>
 
           <v-menu
             bottom
