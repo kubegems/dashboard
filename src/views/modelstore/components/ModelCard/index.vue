@@ -17,7 +17,7 @@
                   类型： {{ item.framework }}
                 </v-list-item-subtitle>
                 <v-list-item-subtitle class="text-body-2 text--lighten-4 card__desc">
-                  更新时间： {{ $moment(item.updateAt || item.createAt).format('lll') }}
+                  更新时间： {{ item.lastModified ? $moment(item.lastModified).format('lll') : '未知' }}
                 </v-list-item-subtitle>
                 <v-list-item-subtitle
                   v-if="item.downloads > -1 || item.likes > -1"

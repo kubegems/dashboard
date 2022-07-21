@@ -13,14 +13,23 @@
             </div>
             <div v-if="status" class="breadcrumb__status">
               <template v-if="status.status === 'SUCCESS'">
-                <v-icon class="mr-1" color="success" small>mdi-check-circle</v-icon>上次同步
-                {{ $moment(status.startedAt).format('lll') }}
+                <v-icon class="mr-1" color="success" small>mdi-check-circle</v-icon>
+                已同步
               </template>
               <template v-else-if="['INITIALIZE', 'PROGRESS'].indexOf(status.status) > -1">
                 <v-icon class="mr-1 kubegems__waiting-circle-flashing" color="warning"> mdi-autorenew </v-icon>
                 正在同步
                 {{ status.progress }}
               </template>
+              <template v-else-if="status.status === 'FAILURE'">
+                <v-icon class="mr-1" color="error" small> mdi-close-circle </v-icon>
+                同步失败
+              </template>
+              <template v-else-if="status.status === 'STOP'">
+                <v-icon class="mr-1" color="grey" small> mdi-alert-circle </v-icon>
+                暂未同步
+              </template>
+              {{ status.finishedAt ? $moment(status.finishedAt).format('lll') : '' }}
             </div>
             <slot name="extend" />
           </v-card-text>
