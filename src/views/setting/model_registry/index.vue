@@ -32,7 +32,7 @@
                     />
                     正在同步: {{ item.progress }}
                   </template>
-                  {{ $moment(item.startedAt).format('lll') }}
+                  {{ item.finishedAt ? $moment(item.finishedAt).format('lll') : '' }}
                 </div>
                 <div class="kubegems__clear-float" />
               </div>
