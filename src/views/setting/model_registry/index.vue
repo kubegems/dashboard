@@ -200,31 +200,31 @@
         switch (item.name) {
           case 'huggingface':
             return {
-              imgSrc: '/icon/hugging-face.png',
+              imgSrc: '/icon/hugging-face.svg',
               tip: '全球大型开源社区,专注于NLP技术。',
               address: 'https://huggingface.co/',
             };
           case 'openmmlab':
             return {
-              imgSrc: '/icon/openmmlab.png',
+              imgSrc: '/icon/openmmlab.svg',
               tip: '深度学习时代最完整的计算机视觉开源算法体系。',
               address: 'https://openmmlab.com/',
             };
           case 'tensorflow':
             return {
-              imgSrc: '/icon/tensorflow.png',
+              imgSrc: '/icon/tensorflow.svg',
               tip: '一个核心开源库，可以帮助您开发和训练机器学习模型。',
               address: 'https://www.tensorflow.org/',
             };
           case 'pytorch':
             return {
-              imgSrc: '/icon/pytorch.jpeg',
+              imgSrc: '/icon/pytorch.svg',
               tip: '发现模型并将其发布到专为研究探索而设计的预训练模型存储库。',
               address: 'https://pytorch.org/',
             };
           case 'paddlepaddle':
             return {
-              imgSrc: '/icon/paddlepaddle.jpg',
+              imgSrc: '/icon/paddlepaddle.svg',
               tip: '源于产业实践的开源深度学习平台。',
               address: 'https://www.paddlepaddle.org.cn/',
             };
