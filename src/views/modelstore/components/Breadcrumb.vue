@@ -66,15 +66,15 @@
         handler(newValue) {
           switch (newValue) {
             case 'huggingface':
-              this.imgSrc = '/icon/hugging-face.png';
+              this.imgSrc = '/icon/hugging-face.svg';
               this.tip = '全球大型开源社区,专注于NLP技术。';
               break;
             case 'openmmlab':
-              this.imgSrc = '/icon/openmmlab.png';
+              this.imgSrc = '/icon/openmmlab.svg';
               this.tip = '深度学习时代最完整的计算机视觉开源算法体系。';
               break;
             case 'tensorflow':
-              this.imgSrc = '/icon/tensorflow.png';
+              this.imgSrc = '/icon/tensorflow.svg';
               this.tip = '一个核心开源库，可以帮助您开发和训练机器学习模型。';
               break;
             case 'kubegems-charts':
@@ -83,20 +83,20 @@
                 '一个描述Kubernetes相关资源的文件集合，单个应用可以用来部署某些复杂的HTTP服务器以及web全栈应用、数据库、缓存等。';
               break;
             case 'bitnami':
-              this.imgSrc = '/icon/bitnami.png';
+              this.imgSrc = '/icon/bitnami.svg';
               this.tip =
                 'Bitnami 让您可以轻松地在任何平台上启动和运行您最喜欢的开源软件，包括您的笔记本电脑、Kubernetes 和所有主要云。';
               break;
             case 'chartmuseum':
-              this.imgSrc = '/icon/chartmuseum.png';
+              this.imgSrc = '/icon/chartmuseum-b.svg';
               this.tip = 'ChartMuseum 是一个开源的、易于部署的、Helm Chart 存储库服务器。';
               break;
             case 'pytorch':
-              this.imgSrc = '/icon/pytorch.jpeg';
+              this.imgSrc = '/icon/pytorch.svg';
               this.tip = '发现模型并将其发布到专为研究探索而设计的预训练模型存储库。';
               break;
             case 'paddlepaddle':
-              this.imgSrc = '/icon/paddlepaddle.jpg';
+              this.imgSrc = '/icon/paddlepaddle.svg';
               this.tip = '源于产业实践的开源深度学习平台。';
               break;
             default:

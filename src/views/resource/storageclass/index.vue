@@ -138,18 +138,18 @@
       },
       getIconName(provisioner) {
         if (provisioner) {
-          if (provisioner.indexOf('ceph') > -1) return 'img:ceph.png';
-          if (provisioner.indexOf('openebs') > -1) return 'img:openebs.png';
+          if (provisioner.indexOf('ceph') > -1) return 'img:ceph.svg';
+          if (provisioner.indexOf('openebs') > -1) return 'img:openebs.svg';
           if (provisioner.indexOf('rancher') > -1) return 'logos:rancher-icon';
-          if (provisioner.indexOf('gluster') > -1) return 'img:glusterfs.png';
+          if (provisioner.indexOf('gluster') > -1) return 'img:glusterfs.svg';
           if (provisioner.indexOf('azure') > -1) return 'logos:azure-icon';
           if (provisioner.indexOf('aws') > -1) return 'logos:aws';
           if (provisioner.indexOf('cinder') > -1) return 'logos:openstack-icon';
           if (provisioner.indexOf('gce') > -1) return 'logos:google-cloud';
-          if (provisioner.indexOf('longhorn') > -1) return 'img:longhorn.png';
-          if (provisioner.indexOf('carina') > -1) return 'img:carina.jpeg';
+          if (provisioner.indexOf('longhorn') > -1) return 'img:longhorn.svg';
+          if (provisioner.indexOf('carina') > -1) return 'img:carina.svg';
         }
-        return 'carbon:block-storage';
+        return 'img:storage.svg';
       },
     },
   };
