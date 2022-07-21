@@ -26,10 +26,7 @@
                     暂无同步
                   </template>
                   <template v-else-if="['INITIALIZE', 'PROGRESS'].indexOf(item.status) > -1">
-                    <span
-                      class="v-avatar mr-2 kubegems__waiting-flashing"
-                      :style="{ height: '12px', minWidth: '12px', width: '12px', backgroundColor: '#fb8c00' }"
-                    />
+                    <v-icon class="kubegems__waiting-circle-flashing" color="warning"> mdi-autorenew </v-icon>
                     正在同步: {{ item.progress }}
                   </template>
                   {{ item.finishedAt ? $moment(item.finishedAt).format('lll') : '' }}

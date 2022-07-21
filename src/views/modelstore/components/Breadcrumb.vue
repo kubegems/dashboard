@@ -25,6 +25,10 @@
                 <v-icon class="mr-1" color="error" small> mdi-close-circle </v-icon>
                 同步失败
               </template>
+              <template v-else-if="status.status === 'STOP'">
+                <v-icon class="mr-1" color="grey" small> mdi-alert-circle </v-icon>
+                暂未同步
+              </template>
               {{ status.finishedAt ? $moment(status.finishedAt).format('lll') : '' }}
             </div>
             <slot name="extend" />
