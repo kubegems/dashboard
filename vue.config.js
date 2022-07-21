@@ -38,7 +38,7 @@ module.exports = {
       host: '0.0.0.0',
       proxy: {
         '/api/v1/': {
-          target: 'http://local.kubegems.io:31393',
+          target: 'http://local.kubegems.io:8081',
           changeOrigin: true,
           pathRewrite: {
             '^/api/v1/': '/v1/',
