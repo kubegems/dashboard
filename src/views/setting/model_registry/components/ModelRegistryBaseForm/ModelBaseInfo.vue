@@ -55,13 +55,14 @@
             <template #selection="{ item }">
               <v-chip color="primary" small>
                 {{ item['text'] }}
+                <v-icon right small @click="removeImage(item.text)">mdi-close</v-icon>
               </v-chip>
             </template>
           </v-autocomplete>
         </v-col>
         <template v-if="registry === 'modelx'">
           <v-col cols="6">
-            <v-switch class="mt-6" label="允许模型创建" />
+            <v-switch label="允许模型创建" />
           </v-col>
         </template>
       </v-row>
@@ -94,7 +95,7 @@
           { text: 'openmmlab', value: 'openmmlab' },
           // { text: 'tensorflow', value: 'tensorflow' },
           // { text: 'pytorch', value: 'pytorch' },
-          // { text: 'modelx', value: 'modelx' },
+          { text: 'modelx', value: 'modelx' },
         ],
         imageText: '',
         imageItems: [],
@@ -181,6 +182,14 @@
           this.obj.images.push(this.imageText);
         }
         this.imageText = '';
+      },
+      removeImage(image) {
+        const index = this.obj.images.findIndex((i) => {
+          return i === image;
+        });
+        if (index > -1) {
+          this.obj.images.splice(index, 1);
+        }
       },
     },
   };

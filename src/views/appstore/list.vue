@@ -138,17 +138,17 @@
         switch (item.name) {
           case 'bitnami':
             return {
-              imgSrc: '/icon/bitnami.png',
+              imgSrc: '/icon/bitnami.svg',
               tip: 'Bitnami 让您可以轻松地在任何平台上启动和运行您最喜欢的开源软件，包括您的笔记本电脑、Kubernetes 和所有主要云。',
             };
           case 'chartmuseum':
             return {
-              imgSrc: '/icon/chartmuseum.png',
+              imgSrc: '/icon/chartmuseum.svg',
               tip: 'ChartMuseum 是一个开源的、易于部署的、Helm Chart 存储库服务器。',
             };
           default:
             return {
-              imgSrc: '/logo-about.svg',
+              imgSrc: process.env?.VUE_APP_LOGO_BLUE,
               tip: '一个描述Kubernetes相关资源的文件集合，单个应用可以用来部署某些复杂的HTTP服务器以及web全栈应用、数据库、缓存等。',
             };
         }

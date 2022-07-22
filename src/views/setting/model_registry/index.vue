@@ -116,12 +116,16 @@
     data() {
       return {
         items: [],
+        timeinterval: null,
       };
     },
     mounted() {
       this.$nextTick(() => {
         this.modelRegistryList();
       });
+    },
+    destroyed() {
+      this.clearInterval();
     },
     methods: {
       async modelRegistryList() {
@@ -132,10 +136,23 @@
             ...this.getRegistryMeta(d),
           };
         });
+        this.loadSyncStatus();
+      },
+      loadSyncStatus() {
+        this.clearInterval();
         this.items.forEach(async (item, index) => {
           const statusData = await getModelStoreSync(item.name, { noprocessing: true });
           this.$set(this.items, index, { ...item, ...statusData });
         });
+        this.timeinterval = setInterval(() => {
+          this.items.forEach(async (item, index) => {
+            const statusData = await getModelStoreSync(item.name, { noprocessing: true });
+            this.$set(this.items, index, { ...item, ...statusData });
+          });
+        }, 1000 * 10);
+      },
+      clearInterval() {
+        if (this.timeinterval) clearInterval(this.timeinterval);
       },
       addModelRegitry() {
         this.$refs.addModelRegitry.open();
@@ -230,7 +247,7 @@
             };
           default:
             return {
-              imgSrc: '/logo-about.svg',
+              imgSrc: process.env?.VUE_APP_LOGO_BLUE,
               tip: 'Kubegems内置算法模型商店。',
               address: '',
             };

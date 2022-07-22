@@ -13,7 +13,7 @@
       <v-flex class="px-4 py-3 primary white--text full-screen__position">
         <div v-if="kubegemsLogo" class="justify-center float-left text-h6 py-1">
           <span class="hidden-sm-and-down float-left">
-            <v-img class="kubegems__absolute-middle" contain src="/logo.svg" width="140" />
+            <v-img class="kubegems__absolute-middle" contain :src="logo" width="140" />
           </span>
           <span
             class="pl-2 text-h6"
@@ -82,6 +82,11 @@
         type: String,
         default: () => '',
       },
+    },
+    data() {
+      return {
+        logo: process.env.VUE_APP_LOGO_WHITE,
+      };
     },
     computed: {
       ...mapState(['Progress']),

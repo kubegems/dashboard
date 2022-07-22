@@ -163,7 +163,7 @@
         this.closeUserMenu();
       },
       toBook() {
-        window.open(`https://www.kubegems.io/docs/concepts/what-is-kubegems`);
+        window.open(process.env?.VUE_APP_MANUAL);
         this.closeUserMenu();
       },
       toUserCenter() {

@@ -38,7 +38,7 @@
         tab: 0,
         tabItems: [
           { text: '模型部署', value: 'ModelDeploy' },
-          { text: '镜像部署', value: 'ImageDeploy' },
+          // { text: '镜像部署', value: 'ImageDeploy' },
         ],
       };
     },
