@@ -22,10 +22,10 @@
             </template>
           </v-autocomplete>
         </v-col>
-        <v-col cols="2">
+        <v-col class="py-0" cols="2">
           <v-switch v-model="loadOnline" label="在线导入模型文件" readonly />
         </v-col>
-        <v-col v-if="false" cols="4">
+        <v-col v-if="false" class="py-0" cols="4">
           <v-checkbox label="从 kubegems modelx 导入模型文件" />
         </v-col>
       </v-row>

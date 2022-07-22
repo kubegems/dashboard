@@ -7,7 +7,7 @@
 
     <div>
       <div class="hidden-sm-and-down float-left">
-        <v-img class="kubegems__absolute-middle" contain src="/logo.svg" width="140" />
+        <v-img class="kubegems__absolute-middle" contain :src="logo" width="140" />
       </div>
       <div
         class="pl-2 text-h6 float-left header-line-height"
@@ -143,13 +143,16 @@
         default: false,
       },
     },
-    data: () => ({
-      storeMenu: false,
-      stores: [
-        { text: '应用商店', value: 'app' },
-        { text: '算法商店', value: 'model' },
-      ],
-    }),
+    data() {
+      return {
+        storeMenu: false,
+        stores: [
+          { text: '应用商店', value: 'app' },
+          { text: '算法商店', value: 'model' },
+        ],
+        logo: process.env.VUE_APP_LOGO_WHITE,
+      };
+    },
     computed: {
       ...mapState(['SidebarDrawer', 'Admin', 'User', 'JWT', 'StoreMode', 'GlobalPlugins']),
       ...mapGetters(['Tenant', 'Project']),

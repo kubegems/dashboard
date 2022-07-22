@@ -2,7 +2,7 @@
   <v-card flat>
     <v-card-text class="pa-7">
       <div class="d-flex justify-center my-3">
-        <div class="text-center">
+        <div class="text-center" :style="{ wordBreak: 'break-all' }">
           <BaseLogo icon-name="ai-model" large :width="100" />
           <h3 class="text-h6 font-weight-medium primary--text">
             {{ $route.params.name }}

@@ -3,7 +3,7 @@
     <v-card>
       <v-card-text class="pa-0">
         <div>
-          <v-img class="ma-2" contain src="/logo-about.svg" width="200" />
+          <v-img class="ma-2" contain :src="logo" width="200" />
           <div class="kubegems__clear-float" />
         </div>
         <v-divider />
@@ -44,6 +44,7 @@
           Platform: '编译平台',
         },
         apiVersion: null,
+        logo: process.env.VUE_APP_LOGO_BLUE,
       };
     },
     computed: {

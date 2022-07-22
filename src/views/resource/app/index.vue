@@ -310,15 +310,15 @@
           }
         } else {
           items = [
-            { text: '实例名称', value: 'instanceName', align: 'start', sortable: false },
+            { text: '实例名称', value: 'instanceName', align: 'start', width: 100 },
             { text: '模型名称', value: 'modelName', align: 'start', sortable: false },
             { text: '模型版本', value: 'modelVersion', align: 'start', sortable: false },
             { text: '模型框架', value: 'framework', align: 'start', sortable: false },
             { text: '模型来源', value: 'source', align: 'start', sortable: false },
             { text: '镜像', value: 'modelImage', align: 'start', sortable: false },
-            { text: '状态', value: 'phase', align: 'start', sortable: false },
+            { text: '状态', value: 'phase', align: 'start', sortable: false, width: 100 },
             { text: 'Api', value: 'url', align: 'start', sortable: false },
-            { text: '创建时间', value: 'creationTimestamp', align: 'start', sortable: false },
+            { text: '创建时间', value: 'creationTimestamp', align: 'start' },
             { text: '', value: 'modelAction', align: 'center', width: 20, sortable: false },
           ];
         }

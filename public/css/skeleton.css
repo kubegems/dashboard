@@ -28,30 +28,30 @@
 
 @keyframes img-change {
   0% {
-    content: url(/logo-about.svg);
+    content: url(/logo-blue.svg);
     width: 400px;
   }
   45% {
-    content: url(/logo.svg);
+    content: url(/logo-white.svg);
     width: 400px;
   }
   75% {
-    content: url(/logo.svg);
+    content: url(/logo-white.svg);
     width: 400px;
   }
   100% {
-    content: url(/logo.svg);
+    content: url(/logo-white.svg);
     width: 15vw;
   }
 }
 
 .skeleton__img {
   width: 400px;
-  content: url(/logo-about.svg);
+  content: url(/logo-blue.svg);
 }
 
 .skeleton__img__small {
-  content: url(/logo.svg);
+  content: url(/logo-white.svg);
   width: 15vw;
 }
 
