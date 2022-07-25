@@ -13,21 +13,21 @@ const RESOURCE_CN = {
   'count/persistentvolumeclaims': '存储卷',
 };
 const RESOURCE_ICON = {
-  applications: 'mdi:apps',
-  node: 'mdi:desktop-classic',
-  'count/deployments.apps': 'mdi:calendar-refresh',
-  'count/statefulsets.apps': 'mdi:vector-arrange-above',
-  'count/daemonsets.apps': 'mdi:vector-difference-ba',
-  pods: 'mdi:cube',
-  'count/services': 'mdi:lan',
-  'count/jobs.batch': 'mdi:calendar-check',
-  'count/cronjobs.batch': 'mdi:calendar-sync',
-  'count/configmaps': 'mdi:cog-outline',
-  'count/secrets': 'mdi:key',
-  'count/persistentvolumeclaims': 'mdi:database',
-  cpu: 'mdi:cpu-64-bit',
-  storage: 'mdi:sd',
-  memory: 'mdi:nas',
+  applications: 'mdi-apps',
+  node: 'mdi-desktop-classic',
+  'count/deployments.apps': 'mdi-calendar-refresh',
+  'count/statefulsets.apps': 'mdi-vector-arrange-above',
+  'count/daemonsets.apps': 'mdi-vector-difference-ba',
+  pods: 'mdi-cube',
+  'count/services': 'mdi-lan',
+  'count/jobs.batch': 'mdi-calendar-check',
+  'count/cronjobs.batch': 'mdi-calendar-sync',
+  'count/configmaps': 'mdi-cog-outline',
+  'count/secrets': 'mdi-key',
+  'count/persistentvolumeclaims': 'mdi-database',
+  cpu: 'mdi-cpu-64-bit',
+  storage: 'mdi-sd',
+  memory: 'mdi-nas',
 };
 const K8S_RESOURCE_ICON = {
   Node: 'node',
@@ -255,6 +255,14 @@ const MODEL_FRAMEWORK = [
   'tensorflow',
 ];
 
+// 主题定制
+const DESCRIPTION =
+  'KubeGems 是一款开源的企业级多租户容器云平台。围绕云原生社区， KubeGems 提供了多 Kubernetes 集群接入能力，并具备丰富的组件管理和资源成本分析功能，能够帮助企业快速的构建和打造一个本地化、功能强大且低成本的云管理平台。';
+const PLATFORM = 'KubeGems';
+const MANUAL = 'https://www.kubegems.io/docs/concepts/what-is-kubegems';
+const LOGO_BLUE = '/logo-blue.svg';
+const LOGO_WHITE = '/logo-white.svg';
+
 export default {
   install(Vue) {
     Vue.prototype.$RESOURCE_CN = RESOURCE_CN;
@@ -281,5 +289,10 @@ export default {
     Vue.prototype.$VENDOR = VENDOR;
     Vue.prototype.$LINE_THEME_FUL_COLORS = LINE_THEME_FUL_COLORS;
     Vue.prototype.$MODEL_FRAMEWORK = MODEL_FRAMEWORK;
+    Vue.prototype.$DESCRIPTION = DESCRIPTION;
+    Vue.prototype.$PLATFORM = PLATFORM;
+    Vue.prototype.$MANUAL = MANUAL;
+    Vue.prototype.$LOGO_BLUE = LOGO_BLUE;
+    Vue.prototype.$LOGO_WHITE = LOGO_WHITE;
   },
 };

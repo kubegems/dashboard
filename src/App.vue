@@ -24,13 +24,19 @@
       };
     },
     computed: {
-      ...mapState(['Scale', 'Version']),
+      ...mapState(['Scale', 'Version', 'Title']),
     },
     mounted() {
       // 初始化缩放
       this.initScale();
       // 版本迭代清理本地缓存
       this.clearLocalStorage();
+      this.$nextTick(() => {
+        const { set } = this.$meta().addApp('custom');
+        set({
+          meta: [{ keyWords: `gitops,kubegems,kubernetes,Cloud Native` }, { description: this.$DESCRIPTION }],
+        });
+      });
     },
     methods: {
       reload() {

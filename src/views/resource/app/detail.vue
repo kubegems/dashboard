@@ -82,7 +82,17 @@
             </v-tabs>
           </v-card-text>
         </v-card>
-        <component :is="tabItems[tab].value" :ref="tabItems[tab].value" :app="app" class="mt-3" />
+        <component
+          :is="tabItems[tab].value"
+          :ref="tabItems[tab].value"
+          :app="app"
+          class="mt-3"
+          :item="app"
+          :selector="{
+            topkind: 'Deployment',
+            topname: app ? app.name || app.metadata.name : '',
+          }"
+        />
       </v-col>
     </v-row>
 
@@ -96,6 +106,7 @@
   import { mapGetters, mapState } from 'vuex';
 
   import HPAStrategy from './components/HPAStrategy';
+  import ModelResourceInfo from './components/ModelResourceInfo';
   import ResourceInfo from './components/ResourceInfo';
   import Rollingback from './components/Rollingback';
   import ScaleReplicas from './components/ScaleReplicas';
@@ -105,6 +116,7 @@
   import AppDeployList from '@/views/resource/appmanifest/components/AppDeployList';
   import AppImageSecurityReportList from '@/views/resource/appmanifest/components/AppImageSecurityReportList';
   import AppResourceFileList from '@/views/resource/appmanifest/components/AppResourceFileList';
+  import PodList from '@/views/resource/components/common/PodList';
   import DeployControlCenter from '@/views/resource/deploy/components/DeployControlCenter';
   import DeployStatus from '@/views/resource/deploy/components/DeployStatus';
 
@@ -117,6 +129,8 @@
       DeployControlCenter,
       DeployStatus,
       HPAStrategy,
+      ModelResourceInfo,
+      PodList,
       ResourceInfo,
       Rollingback,
       ScaleReplicas,
@@ -141,7 +155,10 @@
         } else if (this.$route.query.kind === 'appstore') {
           return [{ text: '资源状态', value: 'DeployStatus' }];
         } else if (this.$route.query.kind === 'modelstore') {
-          return [];
+          return [
+            { text: '运行信息', value: 'ModelResourceInfo' },
+            { text: '实例列表', value: 'PodList' },
+          ];
         }
         return [];
       },

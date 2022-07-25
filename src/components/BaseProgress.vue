@@ -4,7 +4,7 @@
       <v-card-text>
         <div class="text-center primary--text progress__loading" :style="{ fontFamily: 'kubegems-sample' }">
           <span
-            v-for="(char, index) in logo"
+            v-for="(char, index) in processName"
             :key="index"
             class="progress__loading__span"
             :style="{ animationDelay: `${index * 70}ms`, left: `${charWidth[index]}px` }"
@@ -25,7 +25,7 @@
     name: 'BaseProgress',
     data() {
       return {
-        logo: process.env.VUE_APP_LOGONAME,
+        processName: this.$PLATFORM,
         charWidth: [0, 13, 24, 36, 46, 60, 70, 86, 98, 110, 122, 134, 146],
       };
     },

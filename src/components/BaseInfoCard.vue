@@ -1,11 +1,13 @@
 <template>
   <v-card :flat="flat">
     <v-card-text class="pa-5">
-      <div class="d-flex align-center justify-left">
-        <Icon class="mr-4 primary--text" height="50px" :icon="icon" width="50px" />
-        <div class="mx-2 info-card-width text-center">
-          <h2 class="text-h5">{{ num }} {{ unit }}</h2>
-          <h5 class="text-subtitle-2 font-weight-regular">{{ title }}</h5>
+      <div class="d-flex align-center">
+        <v-btn class="elevation-0" color="primary" dark fab small>
+          <v-icon>{{ icon }}</v-icon>
+        </v-btn>
+        <div class="ml-2 mr-1">
+          <h2 class="text-h6"> {{ num }} {{ unit }} </h2>
+          <h4 class="font-weight-regular mt-1"> {{ title }} </h4>
         </div>
       </div>
     </v-card-text>
@@ -39,9 +41,3 @@
     },
   };
 </script>
-
-<style lang="scss" scoped>
-  .info-card-width {
-    width: 100px;
-  }
-</style>

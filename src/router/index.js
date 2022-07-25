@@ -47,6 +47,13 @@ const router = new Router({
     .concat(modelStore), //模型商店
 });
 
+router.beforeResolve((to, from, next) => {
+  if (window) {
+    window.document.title = `${to.meta.title} - ${Vue.prototype.$PLATFORM}`;
+  }
+  next();
+});
+
 router.beforeEach(async (to, from, next) => {
   if (to.name === null) {
     next({ name: '404' });

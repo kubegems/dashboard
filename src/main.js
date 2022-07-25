@@ -8,7 +8,7 @@ import yaml from 'js-yaml';
 import _ from 'lodash';
 import moment from 'moment';
 import Vue from 'vue';
-import VuePageTitle from 'vue-page-title';
+import VueMeta from 'vue-meta';
 import ACEEditor from 'vue2-ace-editor';
 
 import App from './App';
@@ -85,10 +85,7 @@ Vue.prototype.$aceinit = () => {
   require('brace/snippets/json');
 };
 
-Vue.use(VuePageTitle, {
-  router: router,
-  suffix: ' - KubeGems',
-});
+Vue.use(VueMeta);
 Vue.use(c);
 Vue.use(t);
 

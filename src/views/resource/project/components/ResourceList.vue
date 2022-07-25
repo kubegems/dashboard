@@ -13,7 +13,9 @@
           justify="center"
         >
           <div class="d-flex align-center justify-center">
-            <Icon class="mr-6 primary--text" height="40px" :icon="$RESOURCE_ICON[key]" width="40px" />
+            <v-btn class="elevation-0" color="primary" dark fab small>
+              <v-icon>{{ $RESOURCE_ICON[key] }}</v-icon>
+            </v-btn>
             <div class="mx-2 text-width">
               <h2 class="text-h5">
                 {{ quota[key] }}

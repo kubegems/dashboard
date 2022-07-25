@@ -27,7 +27,7 @@
         <div class="d-flex flex-row comment-row mt-0">
           <div class="comment-text w-100 pa-4 px-6 pb-0">
             <div class="mb-2">
-              <v-avatar color="primary" size="36">
+              <v-avatar color="primary" size="50">
                 <span class="white--text text-h6">{{ item.username ? item.username[0].toUpperCase() : '' }}</span>
               </v-avatar>
               <span class="text-subtitle-1 mx-2 font-weight-medium">{{ item.username }}</span>

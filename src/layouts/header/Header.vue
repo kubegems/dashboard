@@ -150,7 +150,7 @@
           { text: '应用商店', value: 'app' },
           { text: '算法商店', value: 'model' },
         ],
-        logo: process.env.VUE_APP_LOGO_WHITE,
+        logo: this.$LOGO_WHITE,
       };
     },
     computed: {
