@@ -85,7 +85,7 @@
     },
     data() {
       return {
-        logo: process.env.VUE_APP_LOGO_WHITE,
+        logo: this.$LOGO_WHITE,
       };
     },
     computed: {

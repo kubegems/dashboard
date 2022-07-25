@@ -116,7 +116,9 @@
           </template>
 
           <template #[`item.instanceName`]="{ item }">
-            {{ item.metadata.name }}
+            <a class="text-subtitle-2" @click="appDetail(item)">
+              {{ item.metadata.name }}
+            </a>
           </template>
           <template #[`item.modelName`]="{ item }">
             {{ item.spec.model.name }}
@@ -507,10 +509,12 @@
           kind = 'app';
         } else if (this.tabItems[this.tab].value === 'AppStoreList') {
           kind = 'appstore';
+        } else if (this.tabItems[this.tab].value === 'ModelStoreList') {
+          kind = 'modelstore';
         }
         this.$router.push({
           name: 'app-detail',
-          params: Object.assign(this.$route.params, { name: item.name }),
+          params: Object.assign(this.$route.params, { name: item.name || item.metadata.name }),
           query: {
             projectid: this.Project().ID,
             tenantid: this.Tenant().ID,

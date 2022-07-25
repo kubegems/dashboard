@@ -163,7 +163,7 @@
         this.closeUserMenu();
       },
       toBook() {
-        window.open(process.env?.VUE_APP_MANUAL);
+        window.open(this.$MANUAL);
         this.closeUserMenu();
       },
       toUserCenter() {

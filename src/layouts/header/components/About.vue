@@ -8,9 +8,7 @@
         </div>
         <v-divider />
         <h6 class="text-subtitle-2 ma-4 font-weight-medium">
-          KubeGems 是一款开源的企业级多租户容器云平台。围绕云原生社区， KubeGems 提供了多 Kubernetes
-          集群接入能力，并具备丰富的组件管理和资源成本分析功能，
-          能够帮助企业快速的构建和打造一个本地化、功能强大且低成本的云管理平台。
+          {{ $DESCRIPTION }}
         </h6>
 
         <v-flex v-for="(value, key) in version" :key="key" class="mx-4">
@@ -44,7 +42,7 @@
           Platform: '编译平台',
         },
         apiVersion: null,
-        logo: process.env.VUE_APP_LOGO_BLUE,
+        logo: this.$LOGO_BULE,
       };
     },
     computed: {

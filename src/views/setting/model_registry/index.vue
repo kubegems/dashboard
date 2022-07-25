@@ -247,7 +247,7 @@
             };
           default:
             return {
-              imgSrc: process.env?.VUE_APP_LOGO_BLUE,
+              imgSrc: this.$LOGO_BULE,
               tip: 'Kubegems内置算法模型商店。',
               address: '',
             };

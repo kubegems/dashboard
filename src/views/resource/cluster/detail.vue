@@ -43,16 +43,14 @@
 
       <v-col v-for="(key, index) in resources" :key="index" class="down-top-padding pt-1 pb-2" cols="2">
         <v-card>
-          <v-card-text class="py-5 pl-8">
+          <v-card-text class="pa-5">
             <div class="d-flex align-center">
-              <Icon class="mr-6 primary--text icon--large" :icon="$RESOURCE_ICON[key]" />
+              <v-btn class="elevation-0" color="primary" dark fab small>
+                <v-icon>{{ $RESOURCE_ICON[key] }}</v-icon>
+              </v-btn>
               <div class="ml-2 mr-1">
-                <h2 class="text-h5">
-                  {{ workload[key] }}
-                </h2>
-                <div class="text-subtitle-2 font-weight-regular cluster__resource__div">
-                  {{ $RESOURCE_CN[key] }}
-                </div>
+                <h2 class="text-h6"> {{ workload[key] }} </h2>
+                <h4 class="font-weight-regular mt-1"> {{ $RESOURCE_CN[key] }} </h4>
               </div>
             </div>
           </v-card-text>
