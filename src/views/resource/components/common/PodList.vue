@@ -395,9 +395,11 @@
           namespace: item.metadata.namespace,
           name: item.metadata.name,
           containers: item.spec.containers.concat(
-            this.item.spec.initContainers.map((i) => {
-              return { ...i, showName: `${i.name} (init)` };
-            }) || [],
+            this.item.spec.initContainers
+              ? this.item.spec.initContainers.map((i) => {
+                  return { ...i, showName: `${i.name} (init)` };
+                })
+              : [],
           ),
         };
         let container = '';

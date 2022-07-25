@@ -23,9 +23,11 @@
           namespace: this.$route.query.namespace,
           name: this.$route.params.name,
           containers: this.pod.spec.containers.concat(
-            this.pod.spec.initContainers.map((i) => {
-              return { ...i, showName: `${i.name} (init)` };
-            }) || [],
+            this.pod.spec.initContainers
+              ? this.pod.spec.initContainers.map((i) => {
+                  return { ...i, showName: `${i.name} (init)` };
+                })
+              : [],
           ),
         };
         let container = this.pod.spec.containers[0].name;
