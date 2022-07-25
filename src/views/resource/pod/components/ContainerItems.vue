@@ -250,9 +250,11 @@
           namespace: pod.metadata.namespace,
           name: pod.metadata.name,
           containers: pod.status.containerStatuses.concat(
-            pod.spec.initContainers.map((i) => {
-              return { ...i, showName: `${i.name} (init)` };
-            }) || [],
+            pod.spec.initContainers
+              ? pod.spec.initContainers.map((i) => {
+                  return { ...i, showName: `${i.name} (init)` };
+                })
+              : [],
           ),
         };
         this.$refs.containerLog.init(container, item);
