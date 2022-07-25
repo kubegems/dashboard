@@ -330,7 +330,11 @@
         const item = {
           namespace: this.item.metadata.namespace,
           name: this.item.metadata.name,
-          containers: this.item.spec.containers,
+          containers: this.item.spec.containers.concat(
+            this.item.spec.initContainers.map((i) => {
+              return { ...i, showName: `${i.name} (init)` };
+            }) || [],
+          ),
         };
         this.$refs.containerLog.init(container, item);
         this.$refs.containerLog.open();
