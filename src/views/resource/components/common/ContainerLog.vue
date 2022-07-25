@@ -58,7 +58,7 @@
                     hide-details
                     placeholder="手动输入行数"
                     solo
-                    style="width: 120px"
+                    style="width: 120px;"
                     @click.stop
                     @focus.stop
                     @keyup.enter="setCustomCount"
@@ -127,7 +127,9 @@
                     :key="index"
                     class="text-body-2 text-center"
                     link
-                    :style="con.text === container ? `color: #1e88e5 !important;` : ``"
+                    :style="
+                      con.text === container || con.text === `${container} (init)` ? `color: #1e88e5 !important;` : ``
+                    "
                     @click="setContainer(con)"
                   >
                     <v-list-item-content>
@@ -219,7 +221,7 @@
           this.containers = [];
           this.item.containers.forEach((i) => {
             this.containers.push({
-              text: i.name,
+              text: i.showName || i.name,
               value: i.name,
             });
           });
