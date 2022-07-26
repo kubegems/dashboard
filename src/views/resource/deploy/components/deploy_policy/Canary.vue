@@ -90,7 +90,7 @@
 
           <template v-if="trafficRouting === 'istio'">
             <BaseSubTitle title="灰度配置" />
-            <v-tabs v-model="tab" class="px-2 mt-2 v-tabs--default" fixed-tabs height="40" @change="onTabChange">
+            <v-tabs v-model="tab" class="px-2 mt-2 mb-3 rounded-t" height="30" @change="onTabChange">
               <v-tab v-for="item in tabItems" :key="item.value">
                 {{ item.text }}
               </v-tab>

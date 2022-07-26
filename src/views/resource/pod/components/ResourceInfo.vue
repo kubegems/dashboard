@@ -30,7 +30,19 @@
 
     <v-card class="mt-3" flat>
       <BaseSubTitle class="pt-2" :divider="false" title="容器" />
-      <DetailContainer :containers="pod ? pod.spec.containers : []" />
+      <DetailContainer
+        :containers="
+          pod
+            ? pod.spec.containers.concat(
+                pod.spec.initContainers
+                  ? pod.spec.initContainers.map((i) => {
+                      return { ...i, showName: `${i.name} (init)` };
+                    })
+                  : [],
+              )
+            : []
+        "
+      />
     </v-card>
 
     <v-card class="mt-3" flat>

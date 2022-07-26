@@ -79,7 +79,7 @@
               this.tip = '一个核心开源库，可以帮助您开发和训练机器学习模型。';
               break;
             case 'kubegems-charts':
-              this.imgSrc = this.$LOGO_BULE;
+              this.imgSrc = this.$LOGO_BLUE;
               this.tip =
                 '一个描述Kubernetes相关资源的文件集合，单个应用可以用来部署某些复杂的HTTP服务器以及web全栈应用、数据库、缓存等。';
               break;
@@ -101,7 +101,7 @@
               this.tip = '源于产业实践的开源深度学习平台。';
               break;
             default:
-              this.imgSrc = this.$LOGO_BULE;
+              this.imgSrc = this.$LOGO_BLUE;
               this.tip = 'Kubegems内置算法模型商店。';
               break;
           }

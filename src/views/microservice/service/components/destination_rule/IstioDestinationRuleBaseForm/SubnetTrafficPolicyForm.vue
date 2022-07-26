@@ -23,7 +23,7 @@
           </v-card-text>
 
           <BaseSubTitle title="流量策略" />
-          <v-tabs v-model="tab" class="px-2 v-tabs--default" fixed-tabs height="40">
+          <v-tabs v-model="tab" class="px-2 rounded-t mt-2 mb-3" height="30">
             <v-tab v-for="item in tabItems" :key="item.value">
               {{ item.text }}
             </v-tab>

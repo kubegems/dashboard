@@ -7,16 +7,16 @@
           <v-text-field class="my-0" label="模型名称" :readonly="edit" required />
         </v-col>
         <v-col cols="6">
-          <v-autocomplete label="类型" />
+          <v-autocomplete class="my-0" label="类型" />
         </v-col>
         <v-col cols="6">
-          <v-autocomplete label="Libraries" />
+          <v-autocomplete class="my-0" label="Libraries" />
         </v-col>
         <v-col cols="6">
-          <v-autocomplete label="License" />
+          <v-autocomplete class="my-0" label="License" />
         </v-col>
         <v-col cols="12">
-          <v-textarea auto-grow label="模型简介" />
+          <v-textarea auto-grow class="my-0" label="模型简介" />
         </v-col>
       </v-row>
     </v-card-text>

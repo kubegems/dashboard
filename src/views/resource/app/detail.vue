@@ -22,7 +22,12 @@
           </v-btn>
 
           <v-btn
-            v-if="app && app.kind !== 'DaemonSet' && m_permisson_resourceAllow && $route.query.kind === 'app'"
+            v-if="
+              app &&
+              app.kind !== 'DaemonSet' &&
+              m_permisson_resourceAllow &&
+              ($route.query.kind === 'app' || $route.query.kind === 'modelstore')
+            "
             class="primary--text"
             small
             text
@@ -40,6 +45,16 @@
           >
             <v-icon left small> fas fa-redo-alt </v-icon>
             回滚
+          </v-btn>
+          <v-btn
+            v-if="app && m_permisson_resourceAllow && $route.query.kind === 'modelstore'"
+            class="primary--text"
+            small
+            text
+            @click="resourceYaml"
+          >
+            <v-icon left small> fas fa-code </v-icon>
+            YAML
           </v-btn>
           <!-- <v-btn
             v-if="app && app.kind !== 'DaemonSet' && m_permisson_resourceAllow && $route.query.kind === 'app'"
@@ -59,6 +74,9 @@
             </template>
             <v-card>
               <v-card-text class="pa-2">
+                <v-flex v-if="$route.query.kind === 'modelstore'">
+                  <v-btn color="primary" small text @click="updateModelRuntime"> 编辑 </v-btn>
+                </v-flex>
                 <v-flex>
                   <v-btn color="error" small text @click="removeApp"> 删除 </v-btn>
                 </v-flex>
@@ -96,9 +114,15 @@
       </v-col>
     </v-row>
 
-    <ScaleReplicas v-if="$route.query.kind === 'app'" ref="scaleReplicas" />
+    <ScaleReplicas
+      v-if="$route.query.kind === 'app' || $route.query.kind === 'modelstore'"
+      ref="scaleReplicas"
+      :item="app"
+    />
     <HPAStrategy v-if="$route.query.kind === 'app'" ref="hpaStrategy" />
     <Rollingback v-if="$route.query.kind === 'app'" ref="rollingback" />
+    <ResourceYaml ref="resourceYaml" :item="app" />
+    <UpdateModelRuntime ref="updateModelRuntime" @refresh="appRunningDetail" />
   </v-container>
 </template>
 
@@ -106,10 +130,12 @@
   import { mapGetters, mapState } from 'vuex';
 
   import HPAStrategy from './components/HPAStrategy';
+  import ModelMonitor from './components/ModelMonitor';
   import ModelResourceInfo from './components/ModelResourceInfo';
   import ResourceInfo from './components/ResourceInfo';
   import Rollingback from './components/Rollingback';
   import ScaleReplicas from './components/ScaleReplicas';
+  import UpdateModelRuntime from './components/UpdateModelRuntime';
   import { deleteApp, deleteAppStoreApp, deleteModelRuntime, getAppRunningDetail, getModelRuntimeDetail } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -117,6 +143,7 @@
   import AppImageSecurityReportList from '@/views/resource/appmanifest/components/AppImageSecurityReportList';
   import AppResourceFileList from '@/views/resource/appmanifest/components/AppResourceFileList';
   import PodList from '@/views/resource/components/common/PodList';
+  import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
   import DeployControlCenter from '@/views/resource/deploy/components/DeployControlCenter';
   import DeployStatus from '@/views/resource/deploy/components/DeployStatus';
 
@@ -129,11 +156,14 @@
       DeployControlCenter,
       DeployStatus,
       HPAStrategy,
+      ModelMonitor,
       ModelResourceInfo,
       PodList,
       ResourceInfo,
+      ResourceYaml,
       Rollingback,
       ScaleReplicas,
+      UpdateModelRuntime,
     },
     mixins: [BasePermission, BaseResource],
     data: () => ({
@@ -157,7 +187,8 @@
         } else if (this.$route.query.kind === 'modelstore') {
           return [
             { text: '运行信息', value: 'ModelResourceInfo' },
-            { text: '实例列表', value: 'PodList' },
+            { text: '容器组', value: 'PodList' },
+            { text: '监控', value: 'ModelMonitor' },
           ];
         }
         return [];
@@ -239,7 +270,7 @@
         }
       },
       scaleReplicas() {
-        this.$refs.scaleReplicas.init();
+        this.$refs.scaleReplicas.init(this.$route.query.kind);
         this.$refs.scaleReplicas.open();
       },
       hpaStrategy() {
@@ -294,6 +325,13 @@
             this.$router.push({ name: 'app-list', params: this.$route.params });
           },
         });
+      },
+      resourceYaml() {
+        this.$refs.resourceYaml.open();
+      },
+      updateModelRuntime() {
+        this.$refs.updateModelRuntime.init(this.app);
+        this.$refs.updateModelRuntime.open();
       },
     },
   };

@@ -4,6 +4,7 @@
       ref="filter"
       v-model="conditions"
       chips
+      class="filter__label"
       color="primary"
       dense
       flat
@@ -200,3 +201,11 @@
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .filter {
+    &__label {
+      font-weight: 500;
+    }
+  }
+</style>

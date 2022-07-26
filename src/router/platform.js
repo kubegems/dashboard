@@ -214,6 +214,18 @@ export const platform = [
               tip: 'modelstore-registry',
             },
           },
+          {
+            path: 'model/repositories/:name',
+            name: 'model-repository-detail',
+            component: () => import('@/views/setting/model_registry/detail'),
+            meta: {
+              requireAuth: true,
+              title: '算法商店',
+              icon: 'mdi-cube',
+              rootName: 'platform',
+              tip: 'modelstore-registry',
+            },
+          },
         ],
       },
       {

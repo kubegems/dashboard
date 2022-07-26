@@ -49,6 +49,21 @@
           </v-card>
         </v-hover>
       </v-col>
+
+      <v-col class="pt-0" cols="3">
+        <v-card class="kubegems__full-height" flat min-height="184">
+          <v-card-text class="pa-0 kubegems__full-height">
+            <v-list-item class="kubegems__full-height" three-line>
+              <v-list-item-content>
+                <v-btn block class="text-h6" color="primary" text @click="addModel">
+                  <v-icon left>mdi-plus-box</v-icon>
+                  添加算法模型
+                </v-btn>
+              </v-list-item-content>
+            </v-list-item>
+          </v-card-text>
+        </v-card>
+      </v-col>
     </v-row>
 
     <BasePagination
@@ -60,14 +75,20 @@
       @changesize="onPageSizeChange"
       @loaddata="modelStoreList"
     />
+
+    <AddModel ref="addModel" @refresh="modelStoreList" />
   </div>
 </template>
 
 <script>
+  import AddModel from '../AddModel';
   import { getModelStoreList } from '@/api';
 
   export default {
     name: 'ModelCard',
+    components: {
+      AddModel,
+    },
     props: {
       registry: {
         type: Object,
@@ -141,6 +162,9 @@
       },
       onPageIndexChange(page) {
         this.params.page = page;
+      },
+      addModel() {
+        this.$refs.addModel.open();
       },
     },
   };

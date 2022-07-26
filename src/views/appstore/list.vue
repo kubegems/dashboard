@@ -148,7 +148,7 @@
             };
           default:
             return {
-              imgSrc: this.$LOGO_BULE,
+              imgSrc: this.$LOGO_BLUE,
               tip: '一个描述Kubernetes相关资源的文件集合，单个应用可以用来部署某些复杂的HTTP服务器以及web全栈应用、数据库、缓存等。',
             };
         }

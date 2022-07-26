@@ -42,7 +42,7 @@
           Platform: '编译平台',
         },
         apiVersion: null,
-        logo: this.$LOGO_BULE,
+        logo: this.$LOGO_BLUE,
       };
     },
     computed: {

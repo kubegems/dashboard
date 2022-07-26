@@ -135,7 +135,7 @@
           <template #[`item.phase`]="{ item }">
             <span
               :class="`v-avatar mr-2 ${
-                ['ContainerCreating', 'Pending', 'Terminating', 'PodInitializing'].indexOf(item.phase) > -1
+                ['ContainerCreating', 'Pending', 'Terminating', 'PodInitializing'].indexOf(item.status.phase) > -1
                   ? 'kubegems__waiting-flashing'
                   : ''
               }`"
@@ -170,7 +170,10 @@
               <v-card>
                 <v-card-text class="pa-2">
                   <v-flex>
-                    <v-btn color="error" small text @click="removeModel(item)"> 删除 </v-btn>
+                    <v-btn color="primary" small text @click="updateModelRuntime(item)"> 编辑 </v-btn>
+                  </v-flex>
+                  <v-flex>
+                    <v-btn color="error" small text @click="removeModelRuntime(item)"> 删除 </v-btn>
                   </v-flex>
                 </v-card-text>
               </v-card>
@@ -191,6 +194,7 @@
 
     <LinkApp ref="linkApp" @refresh="appRunningList" />
     <DeployApp ref="deployApp" @refresh="appRunningList" />
+    <UpdateModelRuntime ref="updateModelRuntime" @refresh="appRunningList" />
   </v-container>
 </template>
 
@@ -199,6 +203,7 @@
 
   import AppStatusTip from './components/AppStatusTip';
   import TaskStatusTip from './components/TaskStatusTip';
+  import UpdateModelRuntime from './components/UpdateModelRuntime';
   import {
     deleteApp,
     deleteAppStoreApp,
@@ -224,6 +229,7 @@
       LinkApp,
       NamespaceFilter,
       TaskStatusTip,
+      UpdateModelRuntime,
     },
     mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],
     data() {
@@ -563,7 +569,7 @@
         }
         return status.length > 0 ? `( ${status.join(', ')} ) ` : '';
       },
-      removeModel(item) {
+      removeModelRuntime(item) {
         this.$store.commit('SET_CONFIRM', {
           title: '删除算法商店应用',
           content: {
@@ -582,6 +588,10 @@
             this.appRunningList();
           },
         });
+      },
+      updateModelRuntime(item) {
+        this.$refs.updateModelRuntime.init(item);
+        this.$refs.updateModelRuntime.open();
       },
     },
   };

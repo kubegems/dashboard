@@ -57,7 +57,7 @@
       async updateRecomment() {
         if (this.$refs.form.validate(true)) {
           const data = this.obj;
-          await putUpdateModel(this.$route.query.registry, Base64.encode(data.name), data);
+          await putUpdateModel(this.$route.params.name, Base64.encode(data.name), data);
           this.reset();
           this.$emit('refresh');
         }
