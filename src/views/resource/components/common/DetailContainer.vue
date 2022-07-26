@@ -13,7 +13,7 @@
       </thead>
       <tbody>
         <tr v-for="(item, i) in containers" :key="`${item.name}${i}`">
-          <td>{{ item.name }}</td>
+          <td>{{ item.showName || item.name }}</td>
           <td>{{ item.image }}</td>
           <td>
             <template v-if="item.livenessProbe">

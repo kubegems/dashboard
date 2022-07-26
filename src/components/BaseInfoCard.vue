@@ -6,7 +6,9 @@
           <v-icon>{{ icon }}</v-icon>
         </v-btn>
         <div class="ml-2 mr-1">
-          <h2 class="text-h6"> {{ num }} {{ unit }} </h2>
+          <h2 :class="{ 'text-subtitle-1': !large, 'text-h6': large, 'font-weight-medium': !large }">
+            {{ num }} {{ unit }}
+          </h2>
           <h4 class="font-weight-regular mt-1"> {{ title }} </h4>
         </div>
       </div>
@@ -26,8 +28,12 @@
         type: String,
         default: () => '',
       },
+      large: {
+        type: Boolean,
+        default: () => true,
+      },
       num: {
-        type: Number,
+        type: [Number, String],
         default: () => 0,
       },
       title: {

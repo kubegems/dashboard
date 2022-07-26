@@ -15,7 +15,7 @@
     <template #content>
       <v-card-text>
         <v-card-title class="primary--text text-h6 py-2">
-          <v-icon class="mr-2 primary--text" left> mdi-memory </v-icon>
+          <v-icon class="mr-2 primary--text" left> mdi-cpu-64-bit </v-icon>
           CPU
         </v-card-title>
         <v-data-table
@@ -27,7 +27,7 @@
           no-data-text="暂无数据"
         />
         <v-card-title class="primary--text text-h6 py-2">
-          <v-icon class="mr-2 primary--text" left> mdi-sd </v-icon>
+          <v-icon class="mr-2 primary--text" left> mdi-nas </v-icon>
           内存
         </v-card-title>
         <v-data-table

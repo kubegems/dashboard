@@ -42,6 +42,7 @@
                   Images: {{ item ? item.images.length : 0 }}
                 </div>
                 <div class="mr-4 float-right">
+                  <v-btn color="primary" text @click="modelRegistryDetail(item)">模型管理</v-btn>
                   <v-btn
                     :color="['INITIALIZE', 'PROGRESS'].indexOf(item.status) > -1 ? `error` : 'primary'"
                     text
@@ -49,7 +50,7 @@
                   >
                     {{ ['INITIALIZE', 'PROGRESS'].indexOf(item.status) > -1 ? '终止同步' : '同步' }}
                   </v-btn>
-                  <v-btn color="primary" text @click="editRegistry(item)">编辑</v-btn>
+                  <v-btn color="primary" text @click="updateRegistry(item)">编辑</v-btn>
                   <v-btn :color="item.enabled ? 'error' : 'primary'" text @click="toggleActiveRegistry(item)">
                     {{ item.enabled ? '禁用' : '激活' }}
                   </v-btn>
@@ -159,12 +160,12 @@
       },
       syncRegistry(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: ['INITIALIZE', 'PROGRESS'].indexOf(item.status) > -1 ? `终止同步模型仓库` : `同步模型仓库`,
+          title: ['INITIALIZE', 'PROGRESS'].indexOf(item.status) > -1 ? `终止同步算法模型商店` : `同步算法模型商店`,
           content: {
             text:
               ['INITIALIZE', 'PROGRESS'].indexOf(item.status) > -1
-                ? `终止同步模型仓库 ${item.name}`
-                : `同步模型仓库 ${item.name}`,
+                ? `终止同步算法模型商店 ${item.name}`
+                : `同步算法模型商店 ${item.name}`,
             type: 'confirm',
           },
           param: { item },
@@ -180,9 +181,9 @@
       },
       toggleActiveRegistry(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: item.enabled ? `禁用模型仓库` : `激活模型仓库`,
+          title: item.enabled ? `禁用算法模型商店` : `激活算法模型商店`,
           content: {
-            text: item.enabled ? `禁用模型仓库 ${item.name}` : `激活模型仓库 ${item.name}`,
+            text: item.enabled ? `禁用算法模型商店 ${item.name}` : `激活算法模型商店 ${item.name}`,
             type: 'confirm',
           },
           param: { item },
@@ -194,15 +195,15 @@
           },
         });
       },
-      editRegistry(item) {
+      updateRegistry(item) {
         this.$refs.updateModelRegistry.init(item);
         this.$refs.updateModelRegistry.open();
       },
       removeRegistry(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除模型仓库`,
+          title: `删除算法模型商店`,
           content: {
-            text: `删除模型仓库 ${item.name}`,
+            text: `删除算法模型商店 ${item.name}`,
             type: 'delete',
             name: item.name,
           },
@@ -247,11 +248,14 @@
             };
           default:
             return {
-              imgSrc: this.$LOGO_BULE,
+              imgSrc: this.$LOGO_BLUE,
               tip: 'Kubegems内置算法模型商店。',
               address: '',
             };
         }
+      },
+      modelRegistryDetail(item) {
+        this.$router.push({ name: 'model-repository-detail', params: { name: item.name } });
       },
     },
   };

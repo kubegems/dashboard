@@ -20,7 +20,7 @@
 <script>
   import { mapState } from 'vuex';
 
-  import ModelBaseForm from '../ModelBaseForm';
+  import ModelBaseForm from './ModelBaseForm';
 
   export default {
     name: 'AddModel',

@@ -59,9 +59,12 @@
         </v-flex>
         <v-flex v-for="(item, index) in topN" :key="index" class="text-body-2 mt-3 mb-3">
           <v-flex class="float-left" :style="{ width: `80%` }">
+            <v-btn class="elevation-0" color="success" dark fab x-small>
+              <v-icon small>mdi-cube</v-icon>
+            </v-btn>
             {{ item.metric.pod }}
           </v-flex>
-          <span class="float-right text-body-2 primary--text font-weight-medium">
+          <span class="float-right text-body-2 primary--text font-weight-medium resource__unit">
             <span v-if="podUsageMode.indexOf('cpu') > -1">
               {{ beautifyCpuUnit(sizeOfCpu(parseFloat(item.value[1]), 'n') * 1000 * 1000 * 1000) }}
             </span>
@@ -161,3 +164,11 @@
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .resource {
+    &__unit {
+      line-height: 32px;
+    }
+  }
+</style>

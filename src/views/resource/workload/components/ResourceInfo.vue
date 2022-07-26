@@ -64,7 +64,19 @@
 
     <v-card class="mt-3" flat>
       <BaseSubTitle class="pt-2" :divider="false" title="容器" />
-      <DetailContainer :containers="workload ? workload.spec.template.spec.containers : []" />
+      <DetailContainer
+        :containers="
+          workload
+            ? workload.spec.template.spec.containers.concat(
+                workload.spec.template.spec.initContainers
+                  ? workload.spec.template.spec.initContainers.map((i) => {
+                      return { ...i, showName: `${i.name} (init)` };
+                    })
+                  : [],
+              )
+            : []
+        "
+      />
     </v-card>
 
     <v-card class="mt-3" flat>

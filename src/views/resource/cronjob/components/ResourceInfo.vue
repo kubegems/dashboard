@@ -46,7 +46,19 @@
 
     <v-card class="mt-3" flat>
       <BaseSubTitle class="pt-2" :divider="false" title="容器" />
-      <DetailContainer :containers="cronjob ? cronjob.spec.jobTemplate.spec.template.spec.containers : []" />
+      <DetailContainer
+        :containers="
+          cronjob
+            ? cronjob.spec.jobTemplate.spec.template.spec.containers.concat(
+                cronjob.spec.jobTemplate.spec.spec.template.spec.initContainers
+                  ? cronjob.spec.jobTemplate.spec.spec.template.spec.initContainers.map((i) => {
+                      return { ...i, showName: `${i.name} (init)` };
+                    })
+                  : [],
+              )
+            : []
+        "
+      />
     </v-card>
 
     <v-card class="mt-3" flat>

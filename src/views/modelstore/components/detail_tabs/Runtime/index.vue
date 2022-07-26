@@ -2,7 +2,6 @@
   <v-card class="mt-3" flat>
     <v-card-text>
       <v-data-table
-        class="kubegems__table-row-pointer"
         disable-sort
         :headers="headers"
         hide-default-footer

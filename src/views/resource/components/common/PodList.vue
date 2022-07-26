@@ -397,7 +397,13 @@
         const itemCopy = {
           namespace: item.metadata.namespace,
           name: item.metadata.name,
-          containers: item.spec.containers,
+          containers: item.spec.containers.concat(
+            this.item.spec.initContainers
+              ? this.item.spec.initContainers.map((i) => {
+                  return { ...i, showName: `${i.name} (init)` };
+                })
+              : [],
+          ),
         };
         let container = '';
         if (item.spec.containers && item.spec.containers.length > 0) {

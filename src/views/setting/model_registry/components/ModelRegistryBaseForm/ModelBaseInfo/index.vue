@@ -34,11 +34,8 @@
               :rules="objRules.nameRules"
             />
           </v-col>
-          <v-col cols="6">
-            <v-text-field class="my-0" label="商店地址" required :rules="objRules.addressRules" />
-          </v-col>
         </template>
-        <v-col cols="12">
+        <v-col v-if="registry !== 'modelx'" cols="12">
           <v-autocomplete
             v-model="obj.images"
             class="my-0"
@@ -60,22 +57,31 @@
             </template>
           </v-autocomplete>
         </v-col>
-        <template v-if="registry === 'modelx'">
-          <v-col cols="6">
-            <v-switch label="允许模型创建" />
-          </v-col>
-        </template>
       </v-row>
     </v-card-text>
+    <template v-if="registry === 'modelx'">
+      <BaseSubTitle title="模型存储定义" />
+      <v-tabs v-model="tab" class="px-2 mt-2 mb-3 rounded-t" height="30">
+        <v-tab v-for="item in tabItems" :key="item.value">
+          {{ item.text }}
+        </v-tab>
+      </v-tabs>
+
+      <S3Conf @updateComponentData="updateComponentData" />
+    </template>
   </v-form>
 </template>
 
 <script>
+  import S3Conf from './S3Conf';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'ModelBaseInfo',
+    components: {
+      S3Conf,
+    },
     props: {
       edit: {
         type: Boolean,
@@ -109,6 +115,15 @@
           imagesRules: [required],
           addressRules: [required],
         },
+        tab: 0,
+        tabItems: [
+          { text: 'aws s3', value: 'aws' },
+          { text: 'idoe dft', value: 'idoe' },
+          { text: 'oss', value: 'oss' },
+          { text: 'azure', value: 'azure' },
+          { text: 'gcs', value: 'gcs' },
+          { text: 'tos', value: 'tos' },
+        ],
       };
     },
     watch: {
@@ -138,6 +153,7 @@
       reset() {
         this.$refs.form.resetValidation();
         this.obj = this.$options.data().obj;
+        this.registry = '';
       },
       init(data) {
         this.$nextTick(() => {
@@ -191,6 +207,7 @@
           this.obj.images.splice(index, 1);
         }
       },
+      updateComponentData() {},
     },
   };
 </script>

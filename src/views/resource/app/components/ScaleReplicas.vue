@@ -12,7 +12,7 @@
               </span>
             </v-flex>
             <v-text-field
-              v-model="obj.replicas"
+              v-model.number="obj.replicas"
               class="my-0"
               label="目标副本数"
               required
@@ -32,8 +32,9 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import { getAppRunningReplicas, postAppReplicasScale } from '@/api';
+  import { getAppRunningReplicas, getModelRuntimeDetail, postAppReplicasScale, putModelRuntime } from '@/api';
   import BaseResource from '@/mixins/resource';
+  import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'ScaleReplicas',
@@ -41,6 +42,7 @@
     data: () => ({
       dialog: false,
       valid: false,
+      item: null,
       obj: {
         replicas: 0,
       },
@@ -54,11 +56,26 @@
       ...mapGetters(['Tenant', 'Project', 'Environment']),
     },
     methods: {
+      init(kind) {
+        if (kind === 'modelstore') {
+          this.modelRuntimeDetail();
+        } else {
+          this.appRunningReplicas();
+        }
+      },
       open() {
         this.dialog = true;
       },
-      init() {
-        this.appRunningReplicas();
+      async modelRuntimeDetail() {
+        const data = await getModelRuntimeDetail(
+          this.Tenant().TenantName,
+          this.Project().ProjectName,
+          this.Environment().EnvironmentName,
+          this.$route.params.name,
+        );
+        this.replicas = data.spec.replicas;
+        this.obj.replicas = data.spec.replicas;
+        this.item = data;
       },
       async appRunningReplicas() {
         const data = await getAppRunningReplicas(
@@ -72,16 +89,28 @@
       },
       async scaleAppReplicas() {
         if (this.$refs.form.validate(true)) {
-          await postAppReplicasScale(
-            this.Tenant().ID,
-            this.Project().ID,
-            this.Environment().ID,
-            this.$route.params.name,
-            {},
-            {
-              replicas: parseInt(this.obj.replicas),
-            },
-          );
+          if (this.item.kind === 'ModelDeployment') {
+            const data = deepCopy(this.item);
+            data.spec.replicas = this.obj.replicas;
+            await putModelRuntime(
+              this.Tenant().TenantName,
+              this.Project().ProjectName,
+              this.Environment().EnvironmentName,
+              this.$route.params.name,
+              data,
+            );
+          } else {
+            await postAppReplicasScale(
+              this.Tenant().ID,
+              this.Project().ID,
+              this.Environment().ID,
+              this.$route.params.name,
+              {},
+              {
+                replicas: parseInt(this.obj.replicas),
+              },
+            );
+          }
           this.$emit('refresh');
           this.reset();
         }
