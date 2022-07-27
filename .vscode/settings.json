@@ -55,5 +55,7 @@
     "autoAdd": true,
     "autoAddLine": 10000,
     "prohibitAutoAdd": ["json", "md", "mdx"]
-  }
+  },
+  "i18n-ally.localesPaths": ["src/i18n", "src/i18n/messages"],
+  "i18n-ally.sourceLanguage": "zh-CN"
 }

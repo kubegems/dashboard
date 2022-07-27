@@ -1,0 +1,9 @@
+{
+  "header": {
+    "workspace": "Workspace",
+    "model_store": "Model Store",
+    "app_store": "App Store",
+    "administrator": "Administrator",
+    "tenant_workspace": "Tenant Workspace"
+  }
+}

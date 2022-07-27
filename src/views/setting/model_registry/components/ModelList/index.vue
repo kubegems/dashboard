@@ -13,6 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
 -->
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "Licens");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+-->
 <template>
   <v-card>
     <v-card-text>
@@ -40,8 +55,8 @@
             <v-icon small>mdi-circle-edit-outline</v-icon>
           </v-btn>
         </template>
-        <template #[`item.status`]="{ item }">
-          <template v-if="item.status">
+        <template #[`item.published`]="{ item }">
+          <template v-if="item.published">
             <v-icon color="error" small>mdi-check-circle</v-icon>
             已发布
           </template>
@@ -67,7 +82,9 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" small text @click="togglePublishModel(item)"> 上架 </v-btn>
+                  <v-btn color="primary" small text @click="togglePublishModel(item)">
+                    {{ item.published ? '下架' : '发布' }}
+                  </v-btn>
                 </v-flex>
                 <v-flex>
                   <v-btn color="error" small text @click="removeModel(item)"> 删除 </v-btn>
@@ -97,8 +114,9 @@
   import { Base64 } from 'js-base64';
 
   import Recommend from './Recommend';
-  import { deleteModelStoreModel, getModelStoreList } from '@/api';
+  import { deleteModelStoreModel, getModelStoreList, putUpdateModel } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
+  import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'ModelList',
@@ -122,7 +140,7 @@
         { text: 'Tag', value: 'tags', align: 'start' },
         { text: '上次更新', value: 'lastModified', align: 'start' },
         { text: '推荐值', value: 'recomment', align: 'start' },
-        { text: '发布', value: 'status', align: 'start' },
+        { text: '发布', value: 'published', align: 'start' },
         { text: '', value: 'action', align: 'center', width: 20, sortable: false },
       ],
       pageCount: 0,
@@ -146,7 +164,10 @@
     },
     methods: {
       async modelList() {
-        const data = await getModelStoreList(this.item.name, { ...this.params, ...this.$route.query });
+        const data = await getModelStoreList(this.item.name, {
+          ...this.params,
+          search: this.$route.query.search || null,
+        });
         this.items = data.list;
         this.pageCount = Math.ceil(data.total / this.params.size);
         this.params.page = data.page;
@@ -178,7 +199,22 @@
           },
         });
       },
-      togglePublishModel() {},
+      togglePublishModel(item) {
+        this.$store.commit('SET_CONFIRM', {
+          title: item.published ? `下架算法模型` : `发布算法模型`,
+          content: {
+            text: item.published ? `下架算法模型 ${item.name}` : `发布算法模型 ${item.name}`,
+            type: 'confirm',
+          },
+          param: { item },
+          doFunc: async (param) => {
+            const data = deepCopy(param.item);
+            data.published = !data.published;
+            await putUpdateModel(this.$route.params.name, Base64.encode(param.item.name), data);
+            this.modelList();
+          },
+        });
+      },
     },
   };
 </script>
