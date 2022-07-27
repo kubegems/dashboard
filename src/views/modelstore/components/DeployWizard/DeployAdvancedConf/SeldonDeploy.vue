@@ -15,14 +15,14 @@
 -->
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
-    <BaseSubTitle class="mt-3" color="grey lighten-3" :divider="false" title="部署类型" />
+    <BaseSubTitle class="mt-3" color="grey lighten-3" :divider="false" title="部署信息" />
     <v-card-text class="pa-2">
       <v-row>
         <v-col cols="12">
           <v-autocomplete
-            v-model="deployType"
-            :items="typeItems"
-            label="部署类型"
+            v-model="obj.model.image"
+            :items="item ? getImages() : []"
+            label="Protocol"
             :menu-props="{
               bottom: true,
               left: true,
@@ -32,38 +32,44 @@
           >
             <template #selection="{ item }">
               <v-chip color="primary" small>
-                {{ item.text }}
+                {{ item }}
+              </v-chip>
+            </template>
+          </v-autocomplete>
+
+          <v-autocomplete
+            v-model="obj.model.image"
+            :items="runtimeItems"
+            label="运行时"
+            :menu-props="{
+              bottom: true,
+              left: true,
+              origin: `top center`,
+            }"
+            :rules="objRules.imageRules"
+          >
+            <template #selection="{ item }">
+              <v-chip color="primary" small>
+                {{ item }}
               </v-chip>
             </template>
           </v-autocomplete>
         </v-col>
       </v-row>
     </v-card-text>
-
-    <component :is="deployType" />
-
-    <ResourceConf ref="resourceConf" :base="base" :spec="spec" />
   </v-form>
 </template>
 
 <script>
-  import ModelDeploy from './ModelDeploy';
-  import ResourceConf from './ResourceConf';
-  import SeldonDeploy from './SeldonDeploy';
   import { required } from '@/utils/rules';
 
   export default {
-    name: 'DeployAdvancedConf',
-    components: {
-      ModelDeploy,
-      ResourceConf,
-      SeldonDeploy,
-    },
+    name: 'ModelDeploy',
     props: {
-      base: {
-        type: Object,
-        default: () => null,
-      },
+      // base: {
+      //   type: Object,
+      //   default: () => null,
+      // },
       // item: {
       //   type: Object,
       //   default: () => null,
@@ -76,10 +82,14 @@
     data: function () {
       return {
         valid: false,
-        deployType: 'ModelDeploy',
-        typeItems: [
-          { text: 'Model Deployment', value: 'ModelDeploy' },
-          { text: 'Seldon Deployment', value: 'SeldonDeploy' },
+        runtimeItems: [
+          { text: 'huggingface', value: 'huggingface' },
+          { text: 'tensorflow Server', value: 'tensorflow' },
+          { text: 'mlflow Server', value: 'mlflow' },
+          { text: 'triton interface (ONNX, Pytorch, Tensorflow, TensorRt)', value: 'triton' },
+          { text: 'SKLeaern Server', value: 'skleaern' },
+          { text: 'Tempo Server', value: 'tempo' },
+          { text: 'XGBoost Server', value: 'xgboost' },
         ],
         obj: {
           model: {

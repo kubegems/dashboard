@@ -11,6 +11,10 @@ export const getModelStoreFilterCondition = (source, query = {}) =>
 export const getModelStoreDetail = (source, name, query = {}) =>
   axios(`sources/${source}/models/${name}`, { params: query });
 
+// 删除模型商店模型
+export const deleteModelStoreModel = (source, name, body = {}) =>
+  axios.delete(`sources/${source}/models/${name}`, body);
+
 // 模型评论列表
 export const getModelCommentList = (source, name, query = {}) =>
   axios(`sources/${source}/models/${name}/comments`, { params: query });
