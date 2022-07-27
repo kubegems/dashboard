@@ -1,3 +1,19 @@
+<!-- 
+  Copyright 2022 The kubegems.io Authors
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License. 
+-->
+
 <template>
   <BaseFullScreenDialog v-model="dialog" icon="fas fa-terminal" title="终端" @dispose="dispose">
     <template #header>
@@ -63,18 +79,16 @@
       </v-sheet>
     </template>
     <template #content>
-      <div id="terminal" ref="xterm" :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`" />
+      <div id="terminal" :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`" />
     </template>
   </BaseFullScreenDialog>
 </template>
 
 <script>
   import { mapState } from 'vuex';
-  import 'xterm/dist/xterm.css';
+  import 'xterm/css/xterm.css';
   import { Terminal } from 'xterm';
-  import * as fit from 'xterm/lib/addons/fit/fit';
-  import * as search from 'xterm/lib/addons/search/search';
-  import * as webLinks from 'xterm/lib/addons/webLinks/webLinks';
+  import { FitAddon } from 'xterm-addon-fit';
 
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
@@ -88,10 +102,7 @@
       });
       websocket.send(msg);
     };
-    term.on('resize', onTermResize);
-    websocket.addEventListener('close', function () {
-      term.off('resize', onTermResize);
-    });
+    term.onResize(onTermResize);
   };
 
   const bindTerminal = (term, websocket, bidirectional) => {
@@ -119,12 +130,11 @@
     // 回显
     websocket.onmessage = webSocketMessage;
     if (bidirectional) {
-      term.on('data', terminalData);
+      term.onData(terminalData);
     }
     // 关闭的时候处理
     websocket.addEventListener('close', function () {
       websocket.removeEventListener('message', webSocketMessage);
-      term.off('data', terminalData);
       delete term.socket;
       clearInterval(heartBeatTimer);
     });
@@ -172,26 +182,17 @@
           this.container = container;
         }
         this.initWebSocket();
-        setTimeout(() => {
-          this.initTermArgs();
-        }, 100);
       },
       setContainer(con) {
         if (this.container !== con.value) {
           this.container = con.value;
           this.dispose();
           this.initWebSocket();
-          setTimeout(() => {
-            this.initTermArgs();
-          }, 100);
         }
       },
       restartContainer() {
         this.dispose();
         this.initWebSocket();
-        setTimeout(() => {
-          this.initTermArgs();
-        }, 100);
       },
       dispose() {
         if (this.websock && this.websock.readyState === 1) {
@@ -233,12 +234,27 @@
             return;
         }
         this.termArgs.wsurl = url;
+
+        this.websock = new WebSocket(this.termArgs.wsurl);
+        this.websock.binaryType = 'arraybuffer';
+
+        this.websock.onopen = () => {
+          var msg = JSON.stringify({
+            type: 'resize',
+            rows: this.rows,
+            // cols: this.termArgs.cols,
+          });
+          this.websock.send(msg);
+          this.initTermArgs();
+        };
+
+        this.websock.onclose = () => {
+          this.term.setOption('cursorBlink', false);
+          this.doClose();
+        };
       },
       initTermArgs() {
-        Terminal.applyAddon(fit);
-        Terminal.applyAddon(webLinks);
-        Terminal.applyAddon(search);
-        this.term = new Terminal({
+        const term = new Terminal({
           lineHeight: 1.1,
           cursorBlink: true,
           cursorStyle: 'underline',
@@ -266,31 +282,16 @@
             brightCyan: '#3949AB',
             brightWhite: '#FFFFFF',
           },
-          cols: this.termArgs.cols,
+          // cols: this.termArgs.cols,
           rows: this.rows,
           scrollback: 1000,
         });
-        this.term.open(this.$refs.xterm);
-        this.term.fit();
-        this.term.webLinksInit(this.doLink);
-        // term.on("resize", this.onTerminalResize);
-
-        this.websock = new WebSocket(this.termArgs.wsurl);
-        this.websock.binaryType = 'arraybuffer';
-
-        this.websock.onopen = () => {
-          var msg = JSON.stringify({
-            type: 'resize',
-            rows: this.rows,
-            cols: this.termArgs.cols,
-          });
-          this.websock.send(msg);
-        };
-
-        this.websock.onclose = () => {
-          this.term.setOption('cursorBlink', false);
-          this.doClose();
-        };
+        const fitAddon = new FitAddon();
+        term.loadAddon(fitAddon);
+        term.open(document.getElementById('terminal'));
+        fitAddon.fit();
+        term.focus();
+        this.term = term;
 
         bindTerminal(this.term, this.websock, true);
         bindTerminalResize(this.term, this.websock);

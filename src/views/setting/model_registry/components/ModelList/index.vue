@@ -1,3 +1,18 @@
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "Licens");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+-->
 <template>
   <v-card>
     <v-card-text>
@@ -54,6 +69,9 @@
                 <v-flex>
                   <v-btn color="primary" small text @click="togglePublishModel(item)"> 上架 </v-btn>
                 </v-flex>
+                <v-flex>
+                  <v-btn color="error" small text @click="removeModel(item)"> 删除 </v-btn>
+                </v-flex>
               </v-card-text>
             </v-card>
           </v-menu>
@@ -76,8 +94,10 @@
 </template>
 
 <script>
+  import { Base64 } from 'js-base64';
+
   import Recommend from './Recommend';
-  import { getModelStoreList } from '@/api';
+  import { deleteModelStoreModel, getModelStoreList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
 
   export default {
@@ -142,6 +162,21 @@
       recommend(item) {
         this.$refs.recommend.init(item);
         this.$refs.recommend.open();
+      },
+      removeModel(item) {
+        this.$store.commit('SET_CONFIRM', {
+          title: `删除算法模型`,
+          content: {
+            text: `删除算法模型 ${item.name}`,
+            type: 'delete',
+            name: item.name,
+          },
+          param: { item },
+          doFunc: async (param) => {
+            await deleteModelStoreModel(this.$route.params.name, Base64.encode(param.item.name));
+            this.modelList();
+          },
+        });
       },
       togglePublishModel() {},
     },
