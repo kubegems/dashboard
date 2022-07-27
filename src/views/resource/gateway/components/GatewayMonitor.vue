@@ -29,10 +29,10 @@
     <v-card-text :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
       <v-row>
         <v-col cols="6">
-          <BaseApexAreaChart id="qps" label="pod" :metrics="qps" title="QPS" type="" />
+          <BaseApexAreaChart id="qps" label="host" :metrics="qps" title="QPS" type="" />
         </v-col>
         <v-col cols="6">
-          <BaseApexAreaChart id="connection" label="pod" :metrics="connections" title="连接数" type="" />
+          <BaseApexAreaChart id="connection" label="state" :metrics="connections" title="连接数" type="" />
         </v-col>
       </v-row>
     </v-card-text>
@@ -103,7 +103,7 @@
         const data = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, {
-            query: GATEWAY_QPS_PROMQL.replaceAll('$1', this.selector.ingressClassName),
+            query: GATEWAY_QPS_PROMQL.replaceAll('$1', this.selector.topname),
             noprocessing: true,
           }),
         );
@@ -113,7 +113,7 @@
         const data = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, {
-            query: GATEWAY_CONNECTIONS_PROMQL.replaceAll('$1', this.selector.ingressClassName),
+            query: GATEWAY_CONNECTIONS_PROMQL.replaceAll('$1', this.selector.topname),
             noprocessing: true,
           }),
         );
