@@ -40,7 +40,7 @@
       };
     },
     computed: {
-      ...mapState(['Scale', 'Version', 'Title']),
+      ...mapState(['Scale', 'Version']),
     },
     mounted() {
       // 初始化缩放

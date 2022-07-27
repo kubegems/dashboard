@@ -1,0 +1,9 @@
+{
+  "header": {
+    "workspace": "工作台",
+    "model_store": "算法商店",
+    "app_store": "应用商店",
+    "administrator": "管理员",
+    "tenant_workspace": "租户工作台"
+  }
+}

@@ -1,17 +1,17 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "Licens");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
@@ -48,7 +48,7 @@
         class="header-span-line-height"
         :style="{ fontFamily: `Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important`, fontWeight: `bold` }"
       >
-        应用商店
+        {{ $t('header.app_store') }}
       </span>
     </v-btn>
 
@@ -71,7 +71,7 @@
             class="header-span-line-height"
             :style="{ fontFamily: `Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important;`, fontWeight: `bold` }"
           >
-            {{ StoreMode === 'app' ? '应用商店' : '算法商店' }}
+            {{ StoreMode === 'app' ? $t('header.app_store') : $t('header.model_store') }}
           </span>
           <v-icon v-if="storeMenu" right>fas fa-angle-up</v-icon>
           <v-icon v-else right>fas fa-angle-down</v-icon>
@@ -84,7 +84,7 @@
               <v-list-item
                 v-for="(store, index) in item.values"
                 :key="index"
-                class="text-body-2 text-center font-weight-medium"
+                class="text-body-2 text-start font-weight-medium pl-2 mx-2"
                 link
                 :style="
                   store.value === StoreMode ? `color: #1e88e5 !important;` : `color: rgba(0, 0, 0, 0.7) !important;`
@@ -120,7 +120,7 @@
         class="header-span-line-height"
         :style="{ fontFamily: `Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important`, fontWeight: `bold` }"
       >
-        工作台
+        {{ $t('header.workspace') }}
       </span>
     </v-btn>
 
@@ -163,8 +163,8 @@
       return {
         storeMenu: false,
         stores: [
-          { text: '应用商店', value: 'app' },
-          { text: '算法商店', value: 'model' },
+          { text: this.$t('header.app_store'), value: 'app' },
+          { text: this.$t('header.model_store'), value: 'model' },
         ],
         logo: this.$LOGO_WHITE,
       };
