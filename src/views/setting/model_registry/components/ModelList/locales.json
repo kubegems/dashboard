@@ -1,0 +1,26 @@
+{
+  "zh-Hans": {
+    "name": "名称",
+    "version": "版本",
+    "framework": "框架",
+    "task": "类型",
+    "tag": "标签",
+    "last_modified": "上次更新",
+    "recommend": "推荐值",
+    "published": "发布状态",
+
+    "search": "模型名称"
+  },
+  "en": {
+    "name": "Name",
+    "version": "Version",
+    "framework": "Framework",
+    "task": "Task",
+    "tag": "Tag",
+    "last_modified": "Last Modified",
+    "recommend": "Recommend Val",
+    "published": "Publish Status",
+
+    "search": "模型名称"
+  }
+}

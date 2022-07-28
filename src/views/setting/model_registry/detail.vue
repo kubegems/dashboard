@@ -15,11 +15,10 @@
 -->
 <template>
   <v-container fluid>
-    <BaseViewportHeader :selectable="false" />
     <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
-          <v-btn class="primary--text" small text>
+          <v-btn class="primary--text" small text @click="syncModelIndex">
             <v-icon left small> mdi-clipboard-search </v-icon>
             更新索引
           </v-btn>
@@ -121,6 +120,17 @@
             await deleteModelSource(this.item.name);
             this.$router.push({ name: 'model-repository-list' });
           },
+        });
+      },
+      syncModelIndex() {
+        this.$store.commit('SET_CONFIRM', {
+          title: `更新索引`,
+          content: {
+            text: `更新 ${this.$route.params.name} 索引`,
+            type: 'confirm',
+          },
+          param: {},
+          doFunc: async () => {},
         });
       },
     },

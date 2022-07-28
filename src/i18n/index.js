@@ -23,7 +23,12 @@ import zhHans from '@/i18n/messages/zh-CN.json';
 
 Vue.use(VueI18n);
 
-export default new VueI18n({
+const i18n = new VueI18n({
   locale: 'zh-Hans',
+  fallbackLocale: 'zh-Hans',
   messages: { ['zh-Hans']: zhHans, en },
 });
+
+Vue.prototype.$_i18n = i18n;
+
+export default i18n;

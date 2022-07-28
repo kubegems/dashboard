@@ -10,6 +10,11 @@ module.exports = {
           test: /\.mdx?$/,
           use: ['babel-loader', '@mdx-js/vue-loader'],
         },
+        {
+          resourceQuery: /blockType=i18n/,
+          type: 'javascript/auto',
+          loader: '@kazupon/vue-i18n-loader',
+        },
       ],
     },
     output: {

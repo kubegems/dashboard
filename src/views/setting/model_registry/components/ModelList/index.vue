@@ -13,26 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
 -->
-<!--
- * Copyright 2022 The kubegems.io Authors
- * 
- * Licensed under the Apache License, Version 2.0 (the "Licens");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *       http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License. 
--->
+<i18n src="./locales.json" />
 <template>
   <v-card>
     <v-card-text>
       <BaseFilter
-        :default="{ items: [], text: '模型名称', value: 'search' }"
+        :default="{ items: [], text: `${$t('search')}`, value: 'search' }"
         :filters="filters"
         @refresh="m_filter_list"
       />
@@ -67,7 +53,7 @@
         </template>
         <template #[`item.tags`]="{ item }">
           <BaseCollapseChips id="m_tag" :chips="item.tags || {}" icon="mdi-label" single-line />
-          <v-btn color="orange" icon>
+          <v-btn color="orange" icon @click="tagModel(item)">
             <v-icon small>mdi-circle-edit-outline</v-icon>
           </v-btn>
         </template>
@@ -106,6 +92,7 @@
       />
 
       <Recommend ref="recommend" @refresh="modelList" />
+      <TagModel ref="tagModel" @refresh="modelList" />
     </v-card-text>
   </v-card>
 </template>
@@ -114,6 +101,7 @@
   import { Base64 } from 'js-base64';
 
   import Recommend from './Recommend';
+  import TagModel from './TagModel';
   import { deleteModelStoreModel, getModelStoreList, putUpdateModel } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import { deepCopy } from '@/utils/helpers';
@@ -122,6 +110,7 @@
     name: 'ModelList',
     components: {
       Recommend,
+      TagModel,
     },
     mixins: [BaseFilter],
     props: {
@@ -132,25 +121,31 @@
     },
     data: () => ({
       items: [],
-      headers: [
-        { text: '名称', value: 'name', align: 'start' },
-        { text: '版本', value: 'versions', align: 'start' },
-        { text: '框架', value: 'framework', align: 'start' },
-        { text: '类型', value: 'task', align: 'start' },
-        { text: 'Tag', value: 'tags', align: 'start' },
-        { text: '上次更新', value: 'lastModified', align: 'start' },
-        { text: '推荐值', value: 'recomment', align: 'start' },
-        { text: '发布', value: 'published', align: 'start' },
-        { text: '', value: 'action', align: 'center', width: 20, sortable: false },
-      ],
       pageCount: 0,
       params: {
         page: 1,
         size: 10,
         noprocessing: true,
       },
-      filters: [{ text: '模型名称', value: 'search', items: [] }],
     }),
+    computed: {
+      headers() {
+        return [
+          { text: this.$t('name'), value: 'name', align: 'start' },
+          { text: this.$t('version'), value: 'versions', align: 'start' },
+          { text: this.$t('framework'), value: 'framework', align: 'start' },
+          { text: this.$t('task'), value: 'task', align: 'start' },
+          { text: this.$t('tag'), value: 'tags', align: 'start' },
+          { text: this.$t('last_modified'), value: 'lastModified', align: 'start' },
+          { text: this.$t('recommend'), value: 'recomment', align: 'start' },
+          { text: this.$t('published'), value: 'published', align: 'start' },
+          { text: '', value: 'action', align: 'center', width: 20, sortable: false },
+        ];
+      },
+      filters() {
+        return [{ text: this.$t('search'), value: 'search', items: [] }];
+      },
+    },
     watch: {
       item: {
         handler: function () {
@@ -183,6 +178,10 @@
       recommend(item) {
         this.$refs.recommend.init(item);
         this.$refs.recommend.open();
+      },
+      tagModel(item) {
+        this.$refs.tagModel.init(item);
+        this.$refs.tagModel.open();
       },
       removeModel(item) {
         this.$store.commit('SET_CONFIRM', {

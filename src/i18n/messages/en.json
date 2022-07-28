@@ -5,5 +5,11 @@
     "app_store": "App Store",
     "administrator": "Administrator",
     "tenant_workspace": "Tenant Workspace"
+  },
+  "filter": {
+    "placehold": "Enter query criteria to filter result"
+  },
+  "data": {
+    "no_data": "No Data"
   }
 }

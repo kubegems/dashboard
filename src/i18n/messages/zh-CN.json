@@ -5,5 +5,11 @@
     "app_store": "应用商店",
     "administrator": "管理员",
     "tenant_workspace": "租户工作台"
+  },
+  "filter": {
+    "placehold": "输入查询条件进行过滤"
+  },
+  "data": {
+    "no_data": "暂无数据"
   }
 }
