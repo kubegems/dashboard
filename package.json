@@ -33,6 +33,7 @@
     ]
   },
   "dependencies": {
+    "@kazupon/vue-i18n-loader": "^0.5.0",
     "@mdi/js": "^6.9.96",
     "@vue/composition-api": "^1.6.2",
     "ajv": "^8.6.3",

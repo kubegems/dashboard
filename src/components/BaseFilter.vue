@@ -28,7 +28,7 @@
       hide-details
       hide-selected
       :items="items"
-      label="输入查询条件进行过滤"
+      :label="$t('filter.placehold')"
       multiple
       no-data-text="无数据"
       prepend-inner-icon="mdi-magnify"
