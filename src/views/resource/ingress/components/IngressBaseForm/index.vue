@@ -417,9 +417,7 @@
         this.obj = this.$options.data().obj;
       },
       help() {
-        window.open(
-          'https://docs.nginx.com/nginx-ingress-controller/configuration/ingress-resources/advanced-configuration-with-annotations',
-        );
+        window.open('https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/');
       },
       setData(data) {
         this.obj = data;
