@@ -51,7 +51,7 @@
   import { mapState } from 'vuex';
 
   import ModelRegistryBaseForm from './ModelRegistryBaseForm';
-  import { getModelSourceDetail, putModelSource } from '@/api';
+  import { getAdminModelSourceDetail, putAdminModelSource } from '@/api';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
@@ -81,7 +81,7 @@
       async updateModelRegistry() {
         if (this.$refs[this.formComponent].validate()) {
           const data = this.$refs[this.formComponent].getData();
-          await putModelSource(data.name, data);
+          await putAdminModelSource(data.name, data);
           this.reset();
           this.$emit('refresh');
         }
@@ -106,7 +106,7 @@
       },
       async init(item) {
         this.formComponent = 'ModelRegistryBaseForm';
-        const data = await getModelSourceDetail(item.name);
+        const data = await getAdminModelSourceDetail(item.name);
         this.item = deepCopy(data);
       },
       reset() {

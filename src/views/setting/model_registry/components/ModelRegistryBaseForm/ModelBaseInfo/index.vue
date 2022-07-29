@@ -38,6 +38,10 @@
             </template>
           </v-autocomplete>
         </v-col>
+        <v-col v-if="registry === 'modelx'" cols="6">
+          <v-icon class="mt-6" color="orange" small>mdi-help-circle</v-icon>
+          <v-btn class="mt-5" color="orange" small text> 下载ModelX Client </v-btn>
+        </v-col>
         <template v-if="registry === 'modelx'">
           <v-col cols="6">
             <v-text-field
@@ -50,28 +54,6 @@
             />
           </v-col>
         </template>
-        <v-col v-if="registry !== 'modelx'" cols="12">
-          <v-autocomplete
-            v-model="obj.images"
-            class="my-0"
-            color="primary"
-            hide-selected
-            :items="imageItems"
-            label="默认镜像(回车创建)"
-            multiple
-            no-data-text="暂无可选数据"
-            :rules="objRules.imagesRules"
-            :search-input.sync="imageText"
-            @keyup.enter="createImage"
-          >
-            <template #selection="{ item }">
-              <v-chip color="primary" small>
-                {{ item['text'] }}
-                <v-icon right small @click="removeImage(item.text)">mdi-close</v-icon>
-              </v-chip>
-            </template>
-          </v-autocomplete>
-        </v-col>
       </v-row>
     </v-card-text>
     <template v-if="registry === 'modelx'">
@@ -118,11 +100,9 @@
           // { text: 'pytorch', value: 'pytorch' },
           { text: 'modelx', value: 'modelx' },
         ],
-        imageText: '',
-        imageItems: [],
         obj: {
           name: '',
-          images: [],
+          online: true,
         },
         objRules: {
           nameRules: [required],
@@ -197,29 +177,12 @@
       onRegistryChange() {
         if (this.registry !== 'modelx') {
           this.obj.name = this.registry;
+          this.obj.online = false;
           this.$emit('changeStep', 1);
         } else {
+          this.obj.online = true;
+          this.obj.name = '';
           this.$emit('changeStep', 2);
-        }
-      },
-      createImage() {
-        if (
-          this.imageText &&
-          !this.imageItems.some((i) => {
-            return i.value === this.imageText;
-          })
-        ) {
-          this.imageItems.push({ text: this.imageText, value: this.imageText });
-          this.obj.images.push(this.imageText);
-        }
-        this.imageText = '';
-      },
-      removeImage(image) {
-        const index = this.obj.images.findIndex((i) => {
-          return i === image;
-        });
-        if (index > -1) {
-          this.obj.images.splice(index, 1);
         }
       },
       updateComponentData() {},

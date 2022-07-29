@@ -38,7 +38,7 @@
           <v-col cols="6">
             <BaseApexAreaChart id="gpu" label="pod" :metrics="gpu" title="GPU使用量" type="cpu" />
           </v-col>
-          <v-col v-if="hasGpuMemory" cols="6">
+          <v-col cols="6">
             <BaseApexAreaChart id="gpuMemory" label="pod" :metrics="gpuMemory" title="显存使用量" type="memory" />
           </v-col>
         </v-row>
@@ -77,7 +77,6 @@
       },
       timeinterval: null,
       hasGpu: false,
-      hasGpuMemory: false,
     }),
     computed: {
       ...mapState(['Scale']),
@@ -91,9 +90,6 @@
             }
             if (newValue?.spec?.resources?.limits?.[`tencent.com/vcuda-core`]) {
               this.hasGpu = true;
-            }
-            if (newValue?.spec?.resources?.limits?.[`tencent.com/vcuda-memory`]) {
-              this.hasGpuMemory = true;
             }
           }
         },

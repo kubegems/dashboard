@@ -7,7 +7,7 @@
     "tag": "标签",
     "last_modified": "上次更新",
     "recommend": "推荐值",
-    "published": "发布状态",
+    "published": "上架状态",
 
     "search": "模型名称"
   },
@@ -19,7 +19,7 @@
     "tag": "Tag",
     "last_modified": "Last Modified",
     "recommend": "Recommend Val",
-    "published": "Publish Status",
+    "published": "Online Status",
 
     "search": "模型名称"
   }

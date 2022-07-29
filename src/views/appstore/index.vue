@@ -73,7 +73,7 @@
     </Breadcrumb>
     <v-row class="mt-0">
       <v-col class="pt-0" cols="2">
-        <v-card>
+        <v-card :style="{ height: `${height}px`, overflowY: 'auto' }">
           <v-card-text class="pa-0 pl-2 pb-2">
             <BaseSubTitle class="pt-2 mb-1" :divider="false" title="应用类型" />
             <v-text-field
@@ -108,14 +108,29 @@
           </v-card-text>
         </v-card>
       </v-col>
-      <v-col class="pt-0" cols="10">
-        <v-row class="mt-0">
+      <v-col id="app__store" class="pt-0" cols="10" :style="{ height: `${height}px`, overflowY: 'auto' }">
+        <v-row v-scroll:#app__store="$_.debounce(onScroll, 50)" class="mt-0">
           <v-col v-for="(app, index) in items" :key="index" class="pt-0" cols="3">
             <AppStoreCard :app="app" :select-repo="selectRepo" />
           </v-col>
         </v-row>
       </v-col>
     </v-row>
+
+    <v-btn
+      v-if="offsetTop"
+      bottom
+      class="card__top"
+      color="primary"
+      direction="left"
+      fab
+      fixed
+      right
+      transition="slide-x-reverse-transition"
+      @click="goToTop"
+    >
+      <v-icon small>fas fa-angle-double-up</v-icon>
+    </v-btn>
   </v-container>
 </template>
 
@@ -148,11 +163,15 @@
       chartsNum: 0,
       selectRepo: 'kubegems',
       repoMenu: false,
+      offsetTop: 0,
     }),
     computed: {
-      ...mapState(['Circular']),
+      ...mapState(['Circular', 'Scale']),
       showFilter() {
         return this.chartsNum < 50;
+      },
+      height() {
+        return parseInt((window.innerHeight - 148) / this.Scale);
       },
     },
     mounted() {
@@ -252,6 +271,29 @@
           this.items = this.all;
         }
       },
+      onScroll(e) {
+        this.offsetTop = e.target.scrollTop;
+      },
+      goToTop() {
+        const container = document.getElementById('app__store');
+        container.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        });
+      },
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .card {
+    &__top {
+      bottom: 75px;
+      right: 20px;
+      z-index: 15;
+      height: 45px;
+      width: 45px;
+      border-radius: 45px;
+    }
+  }
+</style>

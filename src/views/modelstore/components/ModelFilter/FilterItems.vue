@@ -56,14 +56,14 @@
           {{ tag }}
         </v-chip>
       </v-chip-group>
-      <v-chip v-if="tags.length > 12" color="primary mx-3" small @click="searchShow = !searchShow">
+      <v-chip v-if="orderedTags.length > 12" color="primary mx-3" small @click="searchShow = !searchShow">
         <span v-if="searchShow">
           <v-icon small>mdi-chevron-double-up</v-icon>
         </span>
-        <span v-else> + {{ tags.length - 12 }}</span>
+        <span v-else> + {{ orderedTags.length - 12 }}</span>
       </v-chip>
     </div>
-    <div v-if="!tags || tags.length === 0" class="filter__null"> 暂无数据 </div>
+    <div v-if="!tags || orderedTags.length === 0" class="filter__null"> 暂无数据 </div>
   </div>
 </template>
 
@@ -87,21 +87,34 @@
         search: '',
         searchShow: false,
         tagsCopy: [],
+        orderedTags: [],
         tagIndex: undefined,
         tagHide: '',
+        orderIndex: ['pytorch', 'tensorflow', 'transformers', 'onnx'],
       };
     },
     computed: {
       shortTags() {
-        return this.tags.slice(0, 12);
+        return this.orderedTags.slice(0, 12);
       },
     },
     watch: {
       tags: {
         handler(newValue) {
-          this.tagsCopy = deepCopy(newValue.slice(0, 100));
+          this.orderedTags = [];
+          newValue.forEach((t) => {
+            const index = this.orderIndex.findIndex((i) => {
+              return t.indexOf(i) > -1;
+            });
+            if (index > -1) {
+              this.orderedTags.splice(index, 0, t);
+            } else {
+              this.orderedTags.push(t);
+            }
+          });
+          this.tagsCopy = deepCopy(this.orderedTags.slice(0, 100));
           const tag = this.$route.query.tags;
-          const index = this.tags.findIndex((t) => {
+          const index = this.orderedTags.findIndex((t) => {
             return t === tag;
           });
           if (index > -1) {
@@ -116,24 +129,24 @@
     methods: {
       onSearch() {
         if (this.search) {
-          this.tagsCopy = this.tags.filter((t) => {
+          this.tagsCopy = this.orderedTags.filter((t) => {
             return t.toLowerCase().indexOf(this.search.toLowerCase()) > -1;
           });
         } else {
-          this.tagsCopy = deepCopy(this.tags.slice(0, 100));
+          this.tagsCopy = deepCopy(this.orderedTags.slice(0, 100));
         }
       },
       onTagChange() {
         const t = this.tagsCopy[this.tagIndex];
-        const index = this.tags.indexOf(t);
+        const index = this.orderedTags.indexOf(t);
         if (index && index >= 12) {
-          this.tagHide = this.tags[index];
+          this.tagHide = this.orderedTags[index];
           this.tagIndex = -1;
         } else {
           this.tagHide = '';
         }
 
-        this.$emit('search', { [this.title.toLowerCase()]: index > -1 ? this.tags[index] : null });
+        this.$emit('search', { [this.title.toLowerCase()]: index > -1 ? this.orderedTags[index] : null });
       },
       clearSelect() {
         this.tagIndex = -1;

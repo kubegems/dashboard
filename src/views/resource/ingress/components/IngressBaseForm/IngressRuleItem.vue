@@ -20,9 +20,6 @@
       <v-list-item two-line>
         <v-list-item-content class="py-2">
           <v-list-item-subtitle class="text-subtitle-2 py-1 primary--text">
-            <v-chip class="mr-2" color="primary" x-small>
-              {{ getProtocol(item, tls) }}
-            </v-chip>
             <span>{{ item.host }}</span>
           </v-list-item-subtitle>
           <v-list-item-content v-for="(path, i) in item.http.paths" :key="i">
@@ -73,15 +70,7 @@
   export default {
     name: 'IngressRuleItem',
     props: {
-      obj: {
-        type: Object,
-        default: () => {},
-      },
       rules: {
-        type: Array,
-        default: () => [],
-      },
-      tls: {
         type: Array,
         default: () => [],
       },
@@ -95,52 +84,6 @@
       },
       expandCard() {
         this.$emit('expandCard', 'ingressRuleForm');
-      },
-      getProtocol(rule, tls) {
-        let basePrefix = 'http';
-        let prefix = 'http';
-        if (this.obj.metadata.annotations) {
-          if (this.obj.metadata.annotations['nginx.org/websocket-services']) {
-            if (
-              rule.http.paths.find((p) => {
-                return (
-                  this.obj.metadata.annotations['nginx.org/websocket-services']
-                    .split(',')
-                    .indexOf(p.backend.serviceName) > -1
-                );
-              })
-            ) {
-              basePrefix = 'ws';
-              prefix = 'ws';
-            }
-          } else if (this.obj.metadata.annotations['nginx.org/grpc-services']) {
-            if (
-              rule.http.paths.find((p) => {
-                return (
-                  this.obj.metadata.annotations['nginx.org/grpc-services'].split(',').indexOf(p.backend.serviceName) >
-                  -1
-                );
-              })
-            ) {
-              basePrefix = 'grpc';
-              prefix = 'grpc';
-            }
-          }
-        }
-        if (tls) {
-          tls.forEach((t) => {
-            const i = t.hosts.findIndex((h) => {
-              return h === rule.host;
-            });
-            if (i > -1) {
-              if (basePrefix === 'http') prefix = 'https';
-              else if (basePrefix === 'ws') prefix = 'wss';
-              else if (basePrefix === 'grpc') prefix = 'grpc';
-              return;
-            }
-          });
-        }
-        return `${prefix}`;
       },
     },
   };

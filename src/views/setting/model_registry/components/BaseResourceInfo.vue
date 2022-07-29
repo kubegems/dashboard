@@ -40,7 +40,7 @@
       <v-list-item-content class="kubegems__text">
         <v-list-item-title class="text-subtitle-2"> 模型数 </v-list-item-title>
         <v-list-item-subtitle class="text-body-2">
-          {{ item && item.count ? item.count.modelsCount : '' }}
+          {{ $route.query.modelCount || 0 }}
         </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
