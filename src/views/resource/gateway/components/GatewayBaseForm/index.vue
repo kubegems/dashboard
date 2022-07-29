@@ -176,9 +176,9 @@
       ],
       protocolTypes: [
         { text: 'http/1.1', value: 'http/1.1' },
-        { text: 'http/2(仅对启用ssl的服务生效)', value: 'http/2' },
+        { text: 'http/2', value: 'http/2' },
       ],
-      protocol: 'http/1.1',
+      protocol: 'http/2',
       image: '',
       obj: {
         apiVersion: '',
@@ -268,7 +268,7 @@
       },
       removeData(key) {
         if (key === 'use-http2') {
-          this.protocol = 'http/1.1';
+          this.protocol = 'http/2';
         }
         this.$delete(this.obj.spec.configMapData, key);
       },
