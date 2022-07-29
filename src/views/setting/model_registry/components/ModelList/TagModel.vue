@@ -58,7 +58,7 @@
   import { Base64 } from 'js-base64';
   import { mapState } from 'vuex';
 
-  import { putUpdateModel } from '@/api';
+  import { putAdminUpdateModel } from '@/api';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
@@ -88,18 +88,23 @@
       async updateTag() {
         if (this.$refs.form.validate(true)) {
           const data = this.obj;
-          await putUpdateModel(this.$route.params.name, Base64.encode(data.name), data);
+          await putAdminUpdateModel(this.$route.params.name, Base64.encode(data.name), data);
           this.reset();
           this.$emit('refresh');
         }
       },
       init(item) {
         this.obj = deepCopy(item);
+        this.tagItems = item.tags
+          ? item.tags.map((t) => {
+              return { text: t, value: t };
+            })
+          : [];
       },
       reset() {
         this.dialog = false;
-        this.$refs.form.resetValidation();
         this.obj = this.$options.data().obj;
+        this.$refs.form.resetValidation();
       },
       createTag() {
         if (

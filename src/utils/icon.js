@@ -192,7 +192,7 @@ export function getIconName(name, def = 'kubernetes') {
     case 'framework':
       return '';
     case 'license':
-      return 'mdi:bank';
+      return 'mdi:bank-outline';
     default:
       return 'logos:kubernetes';
   }

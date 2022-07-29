@@ -32,7 +32,7 @@
         :page.sync="params.page"
       >
         <template #[`item.lastModified`]="{ item }">
-          {{ item ? $moment(item.lastModified).format('lll') : '' }}
+          {{ item && item.lastModified ? $moment(item.lastModified).format('lll') : '' }}
         </template>
         <template #[`item.recomment`]="{ item }">
           <v-icon v-if="item.recomment >= 80" color="error">mdi-fire</v-icon>
@@ -41,19 +41,19 @@
             <v-icon small>mdi-circle-edit-outline</v-icon>
           </v-btn>
         </template>
-        <template #[`item.published`]="{ item }">
-          <template v-if="item.published">
-            <v-icon color="error" small>mdi-check-circle</v-icon>
-            已发布
+        <template #[`item.enabled`]="{ item }">
+          <template v-if="item.enabled">
+            <v-icon color="success" small>mdi-check-circle</v-icon>
+            已上架
           </template>
           <template v-else>
             <v-icon color="error" small>mdi-close-circle</v-icon>
-            未发布
+            未上架
           </template>
         </template>
         <template #[`item.tags`]="{ item }">
-          <BaseCollapseChips id="m_tag" :chips="item.tags || {}" icon="mdi-label" single-line />
-          <v-btn color="orange" icon @click="tagModel(item)">
+          <BaseCollapseChips id="m_tag" :chips="item.tags || []" icon="mdi-label" single-line />
+          <v-btn v-if="registry && !registry.online" color="orange" icon @click="tagModel(item)">
             <v-icon small>mdi-circle-edit-outline</v-icon>
           </v-btn>
         </template>
@@ -69,7 +69,7 @@
               <v-card-text class="pa-2">
                 <v-flex>
                   <v-btn color="primary" small text @click="togglePublishModel(item)">
-                    {{ item.published ? '下架' : '发布' }}
+                    {{ item.enabled ? '下架' : '上架' }}
                   </v-btn>
                 </v-flex>
                 <v-flex>
@@ -102,7 +102,7 @@
 
   import Recommend from './Recommend';
   import TagModel from './TagModel';
-  import { deleteModelStoreModel, getModelStoreList, putUpdateModel } from '@/api';
+  import { deleteAdminModelStoreModel, getAdminModelStoreList, putAdminUpdateModel } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import { deepCopy } from '@/utils/helpers';
 
@@ -127,10 +127,11 @@
         size: 10,
         noprocessing: true,
       },
+      registry: null,
     }),
     computed: {
       headers() {
-        return [
+        const items = [
           { text: this.$t('name'), value: 'name', align: 'start' },
           { text: this.$t('version'), value: 'versions', align: 'start' },
           { text: this.$t('framework'), value: 'framework', align: 'start' },
@@ -138,9 +139,11 @@
           { text: this.$t('tag'), value: 'tags', align: 'start' },
           { text: this.$t('last_modified'), value: 'lastModified', align: 'start' },
           { text: this.$t('recommend'), value: 'recomment', align: 'start' },
-          { text: this.$t('published'), value: 'published', align: 'start' },
+          { text: this.$t('published'), value: 'enabled', align: 'start' },
           { text: '', value: 'action', align: 'center', width: 20, sortable: false },
         ];
+
+        return items;
       },
       filters() {
         return [{ text: this.$t('search'), value: 'search', items: [] }];
@@ -148,8 +151,9 @@
     },
     watch: {
       item: {
-        handler: function () {
+        handler() {
           if (this.item) {
+            this.registry = deepCopy(this.item);
             this.modelList();
           }
         },
@@ -159,14 +163,21 @@
     },
     methods: {
       async modelList() {
-        const data = await getModelStoreList(this.item.name, {
+        const data = await getAdminModelStoreList(this.item.name, {
           ...this.params,
           search: this.$route.query.search || null,
+          modelCount: this.$route.query.modelCount || null,
         });
         this.items = data.list;
         this.pageCount = Math.ceil(data.total / this.params.size);
         this.params.page = data.page;
-        this.$router.replace({ query: { search: this.$route.query.search || null, ...this.params } });
+        this.$router.replace({
+          query: {
+            modelCount: this.$route.query.modelCount || null,
+            search: this.$route.query.search || null,
+            ...this.params,
+          },
+        });
       },
       onPageSizeChange(size) {
         this.params.page = 1;
@@ -193,23 +204,23 @@
           },
           param: { item },
           doFunc: async (param) => {
-            await deleteModelStoreModel(this.$route.params.name, Base64.encode(param.item.name));
+            await deleteAdminModelStoreModel(this.$route.params.name, Base64.encode(param.item.name));
             this.modelList();
           },
         });
       },
       togglePublishModel(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: item.published ? `下架算法模型` : `发布算法模型`,
+          title: item.enabled ? `下架算法模型` : `发布算法模型`,
           content: {
-            text: item.published ? `下架算法模型 ${item.name}` : `发布算法模型 ${item.name}`,
+            text: item.enabled ? `下架算法模型 ${item.name}` : `发布算法模型 ${item.name}`,
             type: 'confirm',
           },
           param: { item },
           doFunc: async (param) => {
             const data = deepCopy(param.item);
-            data.published = !data.published;
-            await putUpdateModel(this.$route.params.name, Base64.encode(param.item.name), data);
+            data.enabled = !data.enabled;
+            await putAdminUpdateModel(this.$route.params.name, Base64.encode(param.item.name), data);
             this.modelList();
           },
         });

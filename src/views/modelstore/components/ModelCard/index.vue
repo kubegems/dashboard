@@ -14,8 +14,8 @@
  * limitations under the License. 
 -->
 <template>
-  <div class="card">
-    <v-row class="mt-0">
+  <div id="model__store" class="card" :style="{ height: `${height}px`, overflowY: 'auto' }">
+    <v-row v-scroll:#model__store="$_.debounce(onScroll, 50)" class="mt-0">
       <v-col v-for="(item, index) in items" :key="index" class="pt-0" cols="3">
         <v-hover #default="{ hover }">
           <v-card class="mx-auto" :elevation="hover ? 5 : 0" flat height="100%">
@@ -64,46 +64,32 @@
           </v-card>
         </v-hover>
       </v-col>
-
-      <v-col class="pt-0" cols="3">
-        <v-card class="kubegems__full-height" flat min-height="184">
-          <v-card-text class="pa-0 kubegems__full-height">
-            <v-list-item class="kubegems__full-height" three-line>
-              <v-list-item-content>
-                <v-btn block class="text-h6" color="primary" text @click="addModel">
-                  <v-icon left>mdi-plus-box</v-icon>
-                  添加算法模型
-                </v-btn>
-              </v-list-item-content>
-            </v-list-item>
-          </v-card-text>
-        </v-card>
-      </v-col>
     </v-row>
 
-    <BasePagination
-      v-if="pageCount >= 1"
-      v-model="params.page"
-      :page-count="pageCount"
-      :size="params.size"
-      @changepage="onPageIndexChange"
-      @changesize="onPageSizeChange"
-      @loaddata="modelStoreList"
-    />
-
-    <AddModel ref="addModel" @refresh="modelStoreList" />
+    <v-btn
+      v-if="offsetTop"
+      bottom
+      class="card__top"
+      color="primary"
+      direction="left"
+      fab
+      fixed
+      right
+      transition="slide-x-reverse-transition"
+      @click="goToTop"
+    >
+      <v-icon small>fas fa-angle-double-up</v-icon>
+    </v-btn>
   </div>
 </template>
 
 <script>
-  import AddModel from '../AddModel';
+  import { mapState } from 'vuex';
+
   import { getModelStoreList } from '@/api';
 
   export default {
     name: 'ModelCard',
-    components: {
-      AddModel,
-    },
     props: {
       registry: {
         type: Object,
@@ -116,9 +102,16 @@
         pageCount: 0,
         params: {
           page: 1,
-          size: 16,
+          size: 28,
         },
+        offsetTop: 0,
       };
+    },
+    computed: {
+      ...mapState(['Scale']),
+      height() {
+        return parseInt((window.innerHeight - 148) / this.Scale);
+      },
     },
     watch: {
       registry: {
@@ -135,18 +128,26 @@
       },
     },
     methods: {
-      async modelStoreList(search = {}) {
-        const data = await getModelStoreList(this.registry.name, { ...this.params, ...this.$route.query, ...search });
-        this.items = data.list;
+      async modelStoreList(search = {}, append = false) {
+        let queryParams = { ...this.params, ...this.$route.query, ...search };
+        if (append) {
+          queryParams = { ...queryParams, noprocessing: true };
+        }
+        const data = await getModelStoreList(this.registry.name, queryParams);
+        if (append) {
+          this.items = this.items.concat(data.list);
+        } else {
+          this.items = data.list;
+        }
         this.pageCount = Math.ceil(data.total / this.params.size);
         this.params.page = data.page;
         this.$router.replace({ query: { ...this.$route.query, ...search } });
       },
       search(s) {
-        this.modelStoreList({ search: s });
+        this.modelStoreList({ search: s, page: 1 });
       },
       filter(filter) {
-        this.modelStoreList(filter);
+        this.modelStoreList({ ...filter, page: 1 });
       },
       modelDetail(item) {
         this.$router.push({
@@ -171,15 +172,19 @@
         }
         return `${result.toFixed(decimal)} Yi`;
       },
-      onPageSizeChange(size) {
-        this.params.page = 1;
-        this.params.size = size;
+      onScroll(e) {
+        this.offsetTop = e.target.scrollTop;
+        if (e.target.scrollTop + document.getElementById('model__store').clientHeight >= e.target.scrollHeight) {
+          this.params.page += 1;
+          this.modelStoreList({}, true);
+        }
       },
-      onPageIndexChange(page) {
-        this.params.page = page;
-      },
-      addModel() {
-        this.$refs.addModel.open();
+      goToTop() {
+        const container = document.getElementById('model__store');
+        container.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        });
       },
     },
   };
@@ -197,7 +202,17 @@
       word-break: break-word;
       white-space: break-spaces;
       font-weight: bold;
-      height: 38px;
+      min-height: 38px;
+      max-height: 57px;
+    }
+
+    &__top {
+      bottom: 75px;
+      right: 20px;
+      z-index: 15;
+      height: 45px;
+      width: 45px;
+      border-radius: 45px;
     }
   }
 </style>

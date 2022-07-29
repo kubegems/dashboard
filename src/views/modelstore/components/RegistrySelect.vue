@@ -93,8 +93,8 @@
         this.$router.replace({ query: { ...this.$route.query, registry: this.selectRepo.name } });
       },
       async modelSourceList() {
-        const data = await getModelSourceList({ size: 1000, noprocessing: true });
-        this.repoItems = data.list
+        const data = await getModelSourceList({ noprocessing: true });
+        this.repoItems = data
           .filter((s) => {
             return s.enabled;
           })

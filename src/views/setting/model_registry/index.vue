@@ -51,7 +51,7 @@
               <div class="text-body-2 registry__action">
                 <div class="mr-4 float-left registry__desc"> {{ item.tip }} </div>
                 <div class="mr-4 float-left registry__stat text-subtitle-2">
-                  Models: {{ item ? item.count.modelsCount : 0 }}
+                  Models: {{ item ? item.modelsCount : 0 }}
                 </div>
                 <div class="mr-4 float-left registry__stat text-subtitle-2">
                   Images: {{ item ? item.images.length : 0 }}
@@ -114,12 +114,12 @@
   import AddModelRegistry from './components/AddModelRegistry';
   import UpdateModelRegistry from './components/UpdateModelRegistry';
   import {
-    deleteModelSource,
-    deleteModelStoreSync,
-    getModelSourceList,
-    getModelStoreSync,
-    postModelStoreSync,
-    putModelSource,
+    deleteAdminModelSource,
+    deleteAdminModelStoreSync,
+    getAdminModelSourceList,
+    getAdminModelStoreSync,
+    postAdminModelStoreSync,
+    putAdminModelSource,
   } from '@/api';
   import { deepCopy } from '@/utils/helpers';
 
@@ -145,8 +145,8 @@
     },
     methods: {
       async modelRegistryList() {
-        const data = await getModelSourceList({ count: true, size: 1000 });
-        this.items = data.list.map((d) => {
+        const data = await getAdminModelSourceList({ count: true });
+        this.items = data.map((d) => {
           return {
             ...d,
             ...this.getRegistryMeta(d),
@@ -157,12 +157,12 @@
       loadSyncStatus() {
         this.clearInterval();
         this.items.forEach(async (item, index) => {
-          const statusData = await getModelStoreSync(item.name, { noprocessing: true });
+          const statusData = await getAdminModelStoreSync(item.name, { noprocessing: true });
           this.$set(this.items, index, { ...item, ...statusData });
         });
         this.timeinterval = setInterval(() => {
           this.items.forEach(async (item, index) => {
-            const statusData = await getModelStoreSync(item.name, { noprocessing: true });
+            const statusData = await getAdminModelStoreSync(item.name, { noprocessing: true });
             this.$set(this.items, index, { ...item, ...statusData });
           });
         }, 1000 * 10);
@@ -186,9 +186,9 @@
           param: { item },
           doFunc: async (param) => {
             if (param.item.status === 'running') {
-              await deleteModelStoreSync(param.item.name);
+              await deleteAdminModelStoreSync(param.item.name);
             } else {
-              await postModelStoreSync(param.item.name);
+              await postAdminModelStoreSync(param.item.name);
             }
             this.modelRegistryList();
           },
@@ -205,7 +205,7 @@
           doFunc: async (param) => {
             const data = deepCopy(param.item);
             data.enabled = !data.enabled;
-            await putModelSource(data.name, data);
+            await putAdminModelSource(data.name, data);
             this.modelRegistryList();
           },
         });
@@ -224,7 +224,7 @@
           },
           param: { item },
           doFunc: async (param) => {
-            await deleteModelSource(param.item.name);
+            await deleteAdminModelSource(param.item.name);
             this.modelRegistryList();
           },
         });
@@ -270,7 +270,11 @@
         }
       },
       modelRegistryDetail(item) {
-        this.$router.push({ name: 'model-repository-detail', params: { name: item.name } });
+        this.$router.push({
+          name: 'model-repository-detail',
+          params: { name: item.name },
+          query: { modelCount: item?.modelsCount },
+        });
       },
     },
   };

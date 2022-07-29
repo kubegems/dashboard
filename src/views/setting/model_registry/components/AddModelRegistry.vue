@@ -43,7 +43,7 @@
   import { mapState } from 'vuex';
 
   import ModelRegistryBaseForm from './ModelRegistryBaseForm';
-  import { postModelSource, postModelStoreAdminList } from '@/api';
+  import { postAdminModelSource, postModelStoreAdminList } from '@/api';
 
   export default {
     name: 'AddModelRegistry',
@@ -68,7 +68,7 @@
       async addModelRegistry() {
         if (this.$refs[this.formComponent].validate()) {
           const data = this.$refs[this.formComponent].getData();
-          const resdata = await postModelSource(data);
+          const resdata = await postAdminModelSource(data);
           if (data.users) {
             data.users.forEach(async (username) => {
               await postModelStoreAdminList(resdata.name, username);

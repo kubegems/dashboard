@@ -22,7 +22,7 @@
           <BaseLogo :icon-name="app.name" :width="60" />
         </v-list-item-avatar>
         <v-list-item-content>
-          <v-list-item-title class="text-h6 mb-1">
+          <v-list-item-title class="text-h6 mb-1 app__title">
             <a @click="appStoreDetail(app)">{{ app.name }}</a>
           </v-list-item-title>
           <v-list-item-subtitle class="text-body-2 text--lighten-4">
@@ -69,3 +69,15 @@
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .app {
+    &__title {
+      word-break: break-word;
+      white-space: break-spaces;
+      font-weight: bold;
+      min-height: 38px;
+      max-height: 57px;
+    }
+  }
+</style>

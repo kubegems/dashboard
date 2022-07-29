@@ -44,7 +44,7 @@
   import { Base64 } from 'js-base64';
   import { mapState } from 'vuex';
 
-  import { putUpdateModel } from '@/api';
+  import { putAdminUpdateModel } from '@/api';
   import { deepCopy } from '@/utils/helpers';
   import { positiveInteger, required } from '@/utils/rules';
 
@@ -72,7 +72,7 @@
       async updateRecomment() {
         if (this.$refs.form.validate(true)) {
           const data = this.obj;
-          await putUpdateModel(this.$route.params.name, Base64.encode(data.name), data);
+          await putAdminUpdateModel(this.$route.params.name, Base64.encode(data.name), data);
           this.reset();
           this.$emit('refresh');
         }

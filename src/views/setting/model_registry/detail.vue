@@ -18,10 +18,6 @@
     <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
-          <v-btn class="primary--text" small text @click="syncModelIndex">
-            <v-icon left small> mdi-clipboard-search </v-icon>
-            更新索引
-          </v-btn>
           <v-menu v-if="m_permisson_resourceAllow" left>
             <template #activator="{ on }">
               <v-btn icon>
@@ -71,7 +67,7 @@
   import BaseResourceInfo from './components/BaseResourceInfo';
   import ModelList from './components/ModelList';
   import UpdateModelRegistry from './components/UpdateModelRegistry';
-  import { deleteModelSource, getModelSourceDetail } from '@/api';
+  import { deleteAdminModelSource, getAdminModelSourceDetail } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
 
@@ -100,7 +96,7 @@
     },
     methods: {
       async modelRegistryDetail() {
-        const data = await getModelSourceDetail(this.$route.params.name);
+        const data = await getAdminModelSourceDetail(this.$route.params.name);
         this.item = data;
       },
       updateModelRegistry() {
@@ -117,20 +113,9 @@
           },
           param: {},
           doFunc: async () => {
-            await deleteModelSource(this.item.name);
+            await deleteAdminModelSource(this.item.name);
             this.$router.push({ name: 'model-repository-list' });
           },
-        });
-      },
-      syncModelIndex() {
-        this.$store.commit('SET_CONFIRM', {
-          title: `更新索引`,
-          content: {
-            text: `更新 ${this.$route.params.name} 索引`,
-            type: 'confirm',
-          },
-          param: {},
-          doFunc: async () => {},
         });
       },
     },

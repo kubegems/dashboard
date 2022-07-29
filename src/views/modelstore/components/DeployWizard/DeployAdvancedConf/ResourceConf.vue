@@ -158,6 +158,7 @@
             (v) => (!!new RegExp('(^\\d+[M|G]i$)').test(v) && parseInt(v) >= 0) || '格式错误(示例:1Mi,1Gi)',
           ],
           nvidiaGpuRule: [
+            positiveInteger,
             (v) => parseFloat(v) >= 0 || '格式错误(>=0)',
             (v) => parseFloat(v) <= parseFloat(this.gpuData.ApplyNvidiaGpu || 0) || '超出最大限制',
           ],

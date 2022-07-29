@@ -20,25 +20,25 @@
       <v-row>
         <v-col cols="12">
           <v-autocomplete
-            v-model="obj.model.image"
-            :items="item ? getImages() : []"
+            v-model="obj.model.protocol"
+            :items="protocolItems"
             label="Protocol"
             :menu-props="{
               bottom: true,
               left: true,
               origin: `top center`,
             }"
-            :rules="objRules.imageRules"
+            :rules="objRules.protocolRules"
           >
             <template #selection="{ item }">
               <v-chip color="primary" small>
-                {{ item }}
+                {{ item.text }}
               </v-chip>
             </template>
           </v-autocomplete>
 
           <v-autocomplete
-            v-model="obj.model.image"
+            v-model="obj.model.implementation"
             :items="runtimeItems"
             label="运行时"
             :menu-props="{
@@ -46,11 +46,11 @@
               left: true,
               origin: `top center`,
             }"
-            :rules="objRules.imageRules"
+            :rules="objRules.implementationRules"
           >
             <template #selection="{ item }">
               <v-chip color="primary" small>
-                {{ item }}
+                {{ item.text }}
               </v-chip>
             </template>
           </v-autocomplete>
@@ -83,13 +83,18 @@
       return {
         valid: false,
         runtimeItems: [
-          { text: 'huggingface', value: 'huggingface' },
-          { text: 'tensorflow Server', value: 'tensorflow' },
-          { text: 'mlflow Server', value: 'mlflow' },
-          { text: 'triton interface (ONNX, Pytorch, Tensorflow, TensorRt)', value: 'triton' },
-          { text: 'SKLeaern Server', value: 'skleaern' },
-          { text: 'Tempo Server', value: 'tempo' },
-          { text: 'XGBoost Server', value: 'xgboost' },
+          { text: 'Huggingface Server', value: 'HUGGINGFACE_SERVER' },
+          { text: 'Tensorflow Server', value: 'TENSORFLOW_SERVER' },
+          { text: 'MLFlow Server', value: 'MLFLOW_SERVER' },
+          { text: 'Triton Interface Server', value: 'TRITON_SERVER' },
+          { text: 'SKLearn Server', value: 'SKLEARN_SERVER' },
+          { text: 'Tempo Server', value: 'TEMPO_SERVER' },
+          { text: 'XGBoost Server', value: 'XGBOOST_SERVER' },
+        ],
+        protocolItems: [
+          { text: 'Seldon', value: 'seldon' },
+          { text: 'Tensorflow', value: 'tensorflow' },
+          { text: 'V2', value: 'v2' },
         ],
         obj: {
           model: {
@@ -104,7 +109,8 @@
           replicas: 1,
         },
         objRules: {
-          imageRules: [required],
+          protocolRules: [required],
+          implementationRules: [required],
         },
       };
     },
