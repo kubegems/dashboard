@@ -78,11 +78,11 @@
             if (!this.m_resource_validateJsonSchema(this.schema, data)) {
               return;
             }
-            data = this.m_resource_beautifyData(data);
+            // data = this.m_resource_beautifyData(data);
           } else if (this.formComponent === 'GatewayBaseForm') {
             data = this.$refs[this.formComponent].getData();
             if (data.cluster === '') data.cluster = this.ThisCluster;
-            data = this.m_resource_beautifyData(data);
+            // data = this.m_resource_beautifyData(data);
           }
           if (!this.m_resource_checkDataWithOutNS(data)) return;
           await postAddGateway(this.Tenant().ID, this.ThisClusterID, data);

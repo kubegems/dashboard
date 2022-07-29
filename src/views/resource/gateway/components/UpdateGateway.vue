@@ -80,10 +80,10 @@
             if (!this.m_resource_validateJsonSchema(this.schema, data)) {
               return;
             }
-            data = this.m_resource_beautifyData(data);
+            // data = this.m_resource_beautifyData(data);
           } else if (this.formComponent === 'GatewayBaseForm') {
             data = this.$refs[this.formComponent].getData();
-            data = this.m_resource_beautifyData(data);
+            // data = this.m_resource_beautifyData(data);
           }
           await putUpdateGateway(this.Tenant().ID, this.ThisClusterID, this.item.metadata.name, data);
           this.reset();
@@ -120,7 +120,7 @@
           data &&
           data.spec &&
           data.spec.configMapData &&
-          data.spec.configMapData.http2.toLocaleLowerCase() === 'true'
+          data.spec.configMapData['use-http2'].toLocaleLowerCase() === 'true'
         ) {
           this.$refs[this.formComponent].protocol = 'http/2';
         } else {

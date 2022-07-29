@@ -246,10 +246,10 @@
       addData(data) {
         this.obj.spec.configMapData = data;
         this.$refs.dataForm.closeCard();
-        if (data['http2']) {
-          if (data['http2'] === 'False') {
+        if (data['use-http2']) {
+          if (data['use-http2'] === 'false') {
             this.protocol = 'http/1.1';
-          } else if (data['http2'] === 'True') {
+          } else if (data['use-http2'] === 'true') {
             this.protocol = 'http/2';
           }
         }
@@ -258,16 +258,16 @@
         const data = { key: key, value: this.obj.spec.configMapData[key] };
         this.$refs.dataForm.init(data);
         this.expand = true;
-        if (key === 'http2') {
-          if (this.obj.spec.configMapData[key] === 'False') {
+        if (key === 'use-http2') {
+          if (this.obj.spec.configMapData[key] === 'false') {
             this.protocol = 'http/1.1';
-          } else if (this.obj.spec.configMapData[key] === 'True') {
+          } else if (this.obj.spec.configMapData[key] === 'true') {
             this.protocol = 'http/2';
           }
         }
       },
       removeData(key) {
-        if (key === 'http2') {
+        if (key === 'use-http2') {
           this.protocol = 'http/1.1';
         }
         this.$delete(this.obj.spec.configMapData, key);
@@ -290,15 +290,13 @@
         obj.spec.baseDomain = `*.kubegems.io`;
       },
       help() {
-        window.open(
-          'https://docs.nginx.com/nginx-ingress-controller/configuration/global-configuration/configmap-resource/',
-        );
+        window.open('https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/');
       },
       onProtocolChange() {
         if (this.protocol === 'http/2') {
-          this.$set(this.obj.spec.configMapData, 'http2', 'True');
+          this.$set(this.obj.spec.configMapData, 'use-http2', 'true');
         } else {
-          this.$set(this.obj.spec.configMapData, 'http2', 'False');
+          this.$set(this.obj.spec.configMapData, 'use-http2', 'false');
         }
       },
       setData(data) {
