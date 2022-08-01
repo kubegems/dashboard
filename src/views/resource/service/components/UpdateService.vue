@@ -89,11 +89,10 @@
             if (!this.m_resource_validateJsonSchema(this.schema, data)) {
               return;
             }
-            data = this.m_resource_beautifyData(data);
           } else if (this.formComponent === 'ServiceBaseForm') {
             data = this.$refs[this.formComponent].getData();
-            data = this.m_resource_beautifyData(data);
           }
+          data = this.m_resource_beautifyData(data);
           if (
             (!data.spec.ports || data.spec.ports.length === 0) &&
             data.spec.clusterIP !== 'None' &&

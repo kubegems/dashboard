@@ -43,7 +43,13 @@
 
       <BaseListItemForDetail title="容量">
         <template #content>
-          {{ pvc ? pvc.spec.resources.requests.storage : '' }}
+          {{
+            pvc
+              ? isNaN(pvc.spec.resources.requests.storage)
+                ? pvc.spec.resources.requests.storage
+                : `${parseInt(pvc.spec.resources.requests.storage) / 1024 / 1024 / 1024}Gi`
+              : ''
+          }}
         </template>
       </BaseListItemForDetail>
 

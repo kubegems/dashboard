@@ -102,7 +102,7 @@
           this.schemaJson = JSON.parse(Base64.decode(this.chart['values.schema.json']));
         }
         if (this.chart['values.yaml']) {
-          this.appValues = this.$yamlload(Base64.decode(this.chart['values.yaml']));
+          this.appValues = this.$yamlload(Base64.decode(this.chart['values.yaml'])) || {};
         }
         this.params = this.retrieveBasicFormParams(this.appValues, this.schemaJson);
       },

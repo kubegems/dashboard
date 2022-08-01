@@ -111,7 +111,11 @@
           {{ item.spec.accessModes[0] }}
         </template>
         <template #[`item.storage`]="{ item }">
-          {{ item.spec.resources.requests.storage }}
+          {{
+            isNaN(item.spec.resources.requests.storage)
+              ? item.spec.resources.requests.storage
+              : `${parseInt(item.spec.resources.requests.storage) / 1024 / 1024 / 1024}Gi`
+          }}
         </template>
         <template #[`item.createAt`]="{ item }">
           {{ item.metadata.creationTimestamp ? $moment(item.metadata.creationTimestamp).format('lll') : '' }}

@@ -65,11 +65,10 @@
             if (!this.m_resource_validateJsonSchema(this.destinationruleschema, data)) {
               return;
             }
-            data = this.m_resource_beautifyData(data);
           } else if (this.formComponent === 'IstioDestinationRuleBaseForm') {
             data = this.$refs[this.formComponent].getData();
-            data = this.m_resource_beautifyData(data);
           }
+          data = this.m_resource_beautifyData(data);
           await patchUpdateIstioDestinationRule(
             this.EnvironmentFilter.cluster,
             this.item.metadata.namespace,

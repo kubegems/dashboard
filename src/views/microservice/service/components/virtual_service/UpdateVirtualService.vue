@@ -65,11 +65,10 @@
             if (!this.m_resource_validateJsonSchema(this.virtualserviceschema, data)) {
               return;
             }
-            data = this.m_resource_beautifyData(data);
           } else if (this.formComponent === 'IstioVirtualServiceBaseForm') {
             data = this.$refs[this.formComponent].getData();
-            data = this.m_resource_beautifyData(data);
           }
+          data = this.m_resource_beautifyData(data);
           await patchUpdateIstioVirtualService(
             this.EnvironmentFilter.cluster,
             this.item.metadata.namespace,

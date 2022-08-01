@@ -18,6 +18,8 @@ import _ from 'lodash';
 import moment from 'moment';
 import Vue from 'vue';
 
+import store from '@/store';
+
 Vue.prototype.$aceOptions = {
   tabSize: 2,
   fontSize: 12,
@@ -52,6 +54,13 @@ Vue.prototype.$_ = _;
 Vue.prototype.$yamlload = (data) => {
   try {
     const d = yaml.load(data);
+    if (typeof d === 'string') {
+      store.commit('SET_SNACKBAR', {
+        text: '不符合标准的yaml格式',
+        color: 'warning',
+      });
+      return null;
+    }
     return d;
   } catch (e) {
     store.commit('SET_SNACKBAR', {

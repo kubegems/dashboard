@@ -61,11 +61,10 @@
             if (!this.m_resource_validateJsonSchema(this.gatewayschema, data)) {
               return;
             }
-            data = this.m_resource_beautifyData(data);
           } else if (this.formComponent === 'IstioGatewayBaseForm') {
             data = this.$refs[this.formComponent].getData();
-            data = this.m_resource_beautifyData(data);
           }
+          data = this.m_resource_beautifyData(data);
           if (!this.m_resource_checkDataWithOutNS(data)) return;
           await postAddIstioGateway(
             this.EnvironmentFilter.cluster,

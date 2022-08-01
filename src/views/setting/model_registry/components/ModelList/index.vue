@@ -68,6 +68,11 @@
             @click.stop
           />
         </template>
+        <template #[`item.name`]="{ item }">
+          <a class="text-subtitle-2" @click="modelDetail(item)">
+            {{ item.name }}
+          </a>
+        </template>
         <template #[`item.lastModified`]="{ item }">
           {{ item && item.lastModified ? $moment(item.lastModified).format('lll') : '' }}
         </template>
@@ -219,6 +224,16 @@
           },
         });
         this.m_table_generateSelectResourceNoK8s('name');
+      },
+      modelDetail(item) {
+        this.$router.push({
+          name: 'modelstore-detail',
+          params: { name: item.name },
+          query: {
+            registry: this.$route.params.name,
+            online: this.item.online,
+          },
+        });
       },
       onPageSizeChange(size) {
         this.params.page = 1;

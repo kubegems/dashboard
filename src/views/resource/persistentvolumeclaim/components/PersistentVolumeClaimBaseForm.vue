@@ -327,6 +327,11 @@
           if (this.obj.spec.accessModes.length > 0) {
             this.accessMode = this.obj.spec.accessModes[0];
           }
+          if (this.obj.spec.resources.requests.storage && !isNaN(this.obj.spec.resources.requests.storage)) {
+            this.obj.spec.resources.requests.storage = `${
+              parseInt(this.obj.spec.resources.requests.storage) / 1024 / 1024 / 1024
+            }Gi`;
+          }
         });
       },
       addLabelData(data) {

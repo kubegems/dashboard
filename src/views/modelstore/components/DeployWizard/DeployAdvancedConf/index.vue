@@ -120,13 +120,6 @@
       validate() {
         return this.$refs.form.validate(true) && this.$refs.resourceConf.validate();
       },
-      getImages() {
-        const images = this.$route.query.images;
-        if (typeof images === 'string') {
-          return [images];
-        }
-        return images;
-      },
       getData() {
         const data = this.$refs.resourceConf.getData();
         return { ...this.obj, ...data };
