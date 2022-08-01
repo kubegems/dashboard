@@ -77,7 +77,7 @@
                   <v-menu nudge-right="20px" nudge-top="10px" open-on-hover right>
                     <template #activator="{ on }">
                       <span v-on="on">
-                        <Icon class="mr-2 primary--text" height="18px" icon="simple-icons:istio" width="18px" />
+                        <img class="service__inject" :src="`/icon/istio.svg`" width="18px" />
                       </span>
                     </template>
                     <v-card>
@@ -113,7 +113,7 @@
                 <template v-if="item.istioReferences.length > 1 && i === 0">
                   <v-btn
                     v-if="item.showConfig"
-                    class="cell-btn"
+                    class="service__cell"
                     color="primary"
                     icon
                     small
@@ -122,7 +122,7 @@
                   >
                     <v-icon>mdi-chevron-double-up</v-icon>
                   </v-btn>
-                  <v-btn v-else class="cell-btn" color="primary" icon small text @click="showAllConfig(index)">
+                  <v-btn v-else class="service__cell" color="primary" icon small text @click="showAllConfig(index)">
                     <v-icon>mdi-chevron-double-down</v-icon>
                   </v-btn>
                 </template>
@@ -425,7 +425,13 @@
 </script>
 
 <style lang="scss" scoped>
-  .cell-btn {
-    display: inline-flex;
+  .service {
+    &__inject {
+      margin-top: 2px;
+    }
+
+    &__cell {
+      display: inline-flex;
+    }
   }
 </style>

@@ -545,4 +545,8 @@
   .error-msg {
     max-width: 500px;
   }
+
+  .v-list-item__subtitle {
+    line-height: 1.5 !important;
+  }
 </style>

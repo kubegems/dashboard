@@ -19,9 +19,9 @@
     <v-card-text class="pa-5">
       <div class="d-flex justify-space-between">
         <div class="d-flex">
-          <v-icon class="primary--text mr-5" :style="{ fontSize: `40px` }">
-            {{ icon }}
-          </v-icon>
+          <v-btn class="elevation-0 ml-4 mr-4" color="primary" dark fab>
+            <v-icon large>{{ icon }}</v-icon>
+          </v-btn>
           <div>
             <h2 class="text-h5">{{ value }}</h2>
             <h5 class="text-subtitle-2 font-weight-regular">{{ name }}</h5>

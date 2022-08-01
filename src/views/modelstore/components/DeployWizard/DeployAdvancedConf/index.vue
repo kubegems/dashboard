@@ -76,11 +76,7 @@
     data: function () {
       return {
         valid: false,
-        deployType: 'ModelDeploy',
-        typeItems: [
-          { text: 'Model Deployment', value: 'ModelDeploy' },
-          { text: 'Seldon Deployment', value: 'SeldonDeploy' },
-        ],
+        deployType: 'SeldonDeploy',
         obj: {
           model: {
             image: '',
@@ -97,6 +93,17 @@
           imageRules: [required],
         },
       };
+    },
+    computed: {
+      typeItems() {
+        if (this.$route.query.online === 'true') {
+          return [{ text: 'Seldon Deployment', value: 'SeldonDeploy' }];
+        }
+        return [
+          { text: 'Model Deployment', value: 'ModelDeploy' },
+          { text: 'Seldon Deployment', value: 'SeldonDeploy' },
+        ];
+      },
     },
     watch: {
       spec: {
