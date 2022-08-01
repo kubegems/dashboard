@@ -157,6 +157,7 @@
           },
           query: {
             registry: this.registry.name,
+            online: this.registry.online,
             images: this.registry.images,
           },
         });

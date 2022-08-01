@@ -13,15 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { icons as antIconSet } from '@iconify-json/ant-design';
-import { icons as cibIconSet } from '@iconify-json/cib';
 import { icons as logosIconSet } from '@iconify-json/logos';
 import { icons as mdiIconSet } from '@iconify-json/mdi';
 import { Icon, addCollection } from '@iconify/vue2/dist/offline';
 
 addCollection(logosIconSet);
 addCollection(mdiIconSet);
-addCollection(cibIconSet);
-addCollection(antIconSet);
 
 export default Icon;

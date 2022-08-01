@@ -16,12 +16,38 @@
 <i18n src="./locales.json" />
 <template>
   <v-card>
-    <v-card-text>
+    <v-card-title>
       <BaseFilter
         :default="{ items: [], text: `${$t('search')}`, value: 'search' }"
         :filters="filters"
         @refresh="m_filter_list"
       />
+      <v-spacer />
+      <v-menu left>
+        <template #activator="{ on }">
+          <v-btn icon>
+            <v-icon color="primary" small v-on="on"> fas fa-ellipsis-v </v-icon>
+          </v-btn>
+        </template>
+        <v-card>
+          <v-card-text class="pa-2">
+            <v-flex>
+              <v-btn color="primary" text @click="toggleOnlineModels(true)">
+                <v-icon left>mdi-arrow-up-bold</v-icon>
+                上架
+              </v-btn>
+            </v-flex>
+            <v-flex>
+              <v-btn color="error" text @click="toggleOnlineModels(false)">
+                <v-icon left>mdi-arrow-down-bold</v-icon>
+                下架
+              </v-btn>
+            </v-flex>
+          </v-card-text>
+        </v-card>
+      </v-menu>
+    </v-card-title>
+    <v-card-text>
       <v-data-table
         disable-sort
         :headers="headers"
@@ -30,16 +56,29 @@
         :items-per-page="params.size"
         no-data-text="暂无数据"
         :page.sync="params.page"
+        show-select
+        @toggle-select-all="m_table_onNotK8SResourceToggleSelect($event, 'name')"
       >
+        <template #[`item.data-table-select`]="{ item, index }">
+          <v-checkbox
+            v-model="m_table_batchResources[index].checked"
+            color="primary"
+            hide-details
+            @change="m_table_onNotK8SResourceChange($event, item, 'name', index)"
+            @click.stop
+          />
+        </template>
         <template #[`item.lastModified`]="{ item }">
           {{ item && item.lastModified ? $moment(item.lastModified).format('lll') : '' }}
         </template>
         <template #[`item.recomment`]="{ item }">
-          <v-icon v-if="item.recomment >= 80" color="error">mdi-fire</v-icon>
-          {{ item.recomment }}
-          <v-btn color="orange" icon @click="recommend(item)">
-            <v-icon small>mdi-circle-edit-outline</v-icon>
-          </v-btn>
+          <div class="text-end">
+            <v-icon v-if="item.recomment >= 80" color="error">mdi-fire</v-icon>
+            {{ item.recomment }}
+            <v-btn color="orange" icon @click="recommend(item)">
+              <v-icon small>mdi-circle-edit-outline</v-icon>
+            </v-btn>
+          </div>
         </template>
         <template #[`item.enabled`]="{ item }">
           <template v-if="item.enabled">
@@ -104,6 +143,7 @@
   import TagModel from './TagModel';
   import { deleteAdminModelStoreModel, getAdminModelStoreList, putAdminUpdateModel } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
+  import BaseTable from '@/mixins/table';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
@@ -112,7 +152,7 @@
       Recommend,
       TagModel,
     },
-    mixins: [BaseFilter],
+    mixins: [BaseFilter, BaseTable],
     props: {
       item: {
         type: Object,
@@ -138,8 +178,8 @@
           { text: this.$t('task'), value: 'task', align: 'start' },
           { text: this.$t('tag'), value: 'tags', align: 'start' },
           { text: this.$t('last_modified'), value: 'lastModified', align: 'start' },
-          { text: this.$t('recommend'), value: 'recomment', align: 'start' },
-          { text: this.$t('published'), value: 'enabled', align: 'start' },
+          { text: this.$t('recommend'), value: 'recomment', align: 'start', width: 120 },
+          { text: this.$t('published'), value: 'enabled', align: 'start', width: 90 },
           { text: '', value: 'action', align: 'center', width: 20, sortable: false },
         ];
 
@@ -178,6 +218,7 @@
             ...this.params,
           },
         });
+        this.m_table_generateSelectResourceNoK8s('name');
       },
       onPageSizeChange(size) {
         this.params.page = 1;
@@ -211,9 +252,9 @@
       },
       togglePublishModel(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: item.enabled ? `下架算法模型` : `发布算法模型`,
+          title: item.enabled ? `下架算法模型` : `上架算法模型`,
           content: {
-            text: item.enabled ? `下架算法模型 ${item.name}` : `发布算法模型 ${item.name}`,
+            text: item.enabled ? `下架算法模型 ${item.name}` : `上架算法模型 ${item.name}`,
             type: 'confirm',
           },
           param: { item },
@@ -221,6 +262,54 @@
             const data = deepCopy(param.item);
             data.enabled = !data.enabled;
             await putAdminUpdateModel(this.$route.params.name, Base64.encode(param.item.name), data);
+            this.modelList();
+          },
+        });
+      },
+      toggleOnlineModels(online = true) {
+        if (!Object.values(this.m_table_batchResources).some((c) => c.checked)) {
+          this.$store.commit('SET_SNACKBAR', {
+            text: `请勾选算法模型`,
+            color: 'warning',
+          });
+          return;
+        }
+        const resources = Object.values(this.m_table_batchResources)
+          .filter((c) => c.checked)
+          .map((c) => c.name);
+        this.$store.commit('SET_CONFIRM', {
+          title: online ? `批量上架算法模型` : `批量下架算法模型`,
+          content: {
+            text: `${resources.join(',')}`,
+            type: 'batch_delete',
+            one: resources.length === 1 ? resources[0] : undefined,
+            status: {},
+            tip: online ? `上架` : `下架`,
+          },
+          param: { online },
+          doFunc: async (param) => {
+            for (const id in this.m_table_batchResources) {
+              if (this.m_table_batchResources[id].checked) {
+                try {
+                  const data = this.items.find((m) => {
+                    return m.name === this.m_table_batchResources[id].name;
+                  });
+                  if (data) {
+                    data.enabled = param.online;
+                    await putAdminUpdateModel(this.$route.params.name, Base64.encode(data.name), data);
+                    this.$store.commit('SET_CONFIRM_STATUS', {
+                      key: this.m_table_batchResources[id].name,
+                      value: true,
+                    });
+                  }
+                } catch {
+                  this.$store.commit('SET_CONFIRM_STATUS', {
+                    key: this.m_table_batchResources[id].name,
+                    value: false,
+                  });
+                }
+              }
+            }
             this.modelList();
           },
         });

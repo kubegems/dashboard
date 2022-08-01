@@ -51,10 +51,7 @@
               <div class="text-body-2 registry__action">
                 <div class="mr-4 float-left registry__desc"> {{ item.tip }} </div>
                 <div class="mr-4 float-left registry__stat text-subtitle-2">
-                  Models: {{ item ? item.modelsCount : 0 }}
-                </div>
-                <div class="mr-4 float-left registry__stat text-subtitle-2">
-                  Images: {{ item ? item.images.length : 0 }}
+                  模型数量: {{ item ? item.modelsCount : 0 }}
                 </div>
                 <div class="mr-4 float-right">
                   <v-btn color="primary" text @click="modelRegistryDetail(item)">模型管理</v-btn>

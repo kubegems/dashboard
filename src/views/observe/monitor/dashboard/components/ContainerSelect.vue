@@ -30,7 +30,7 @@
         transition="scale-transition"
       >
         <template #activator="{ on }">
-          <v-btn class="primary--text font-weight-medium" color="white" dark depressed small v-on="on">
+          <v-btn class="primary--text font-weight-medium sheet__menu__btn" color="white" dark depressed small v-on="on">
             容器组 {{ podName }}
             <v-icon v-if="podMenu" right> fas fa-angle-up </v-icon>
             <v-icon v-else right> fas fa-angle-down </v-icon>
@@ -58,7 +58,7 @@
                   @click="setPod(pod)"
                 >
                   <v-list-item-content>
-                    <span>{{ pod.podName }}</span>
+                    <span class="text-body-2">{{ pod.podName }}</span>
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
@@ -139,6 +139,10 @@
     &__menu {
       &__line {
         line-height: 34px;
+      }
+
+      &__btn {
+        margin-top: -6px;
       }
     }
   }

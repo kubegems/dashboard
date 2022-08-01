@@ -46,14 +46,6 @@
     </v-list-item>
     <v-list-item two-line>
       <v-list-item-content class="kubegems__text">
-        <v-list-item-title class="text-subtitle-2"> 镜像数 </v-list-item-title>
-        <v-list-item-subtitle class="text-body-2">
-          {{ item ? item.images.length : '' }}
-        </v-list-item-subtitle>
-      </v-list-item-content>
-    </v-list-item>
-    <v-list-item two-line>
-      <v-list-item-content class="kubegems__text">
         <v-list-item-title class="text-subtitle-2"> 更新时间 </v-list-item-title>
         <v-list-item-subtitle class="text-body-2">
           {{ item ? $moment(item.updationTime).format('lll') : '' }}
