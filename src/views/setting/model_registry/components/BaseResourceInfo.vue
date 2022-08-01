@@ -52,10 +52,35 @@
         </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
+    <v-list-item two-line>
+      <v-list-item-content class="kubegems__text">
+        <v-list-item-title class="text-subtitle-2"> 更新状态 </v-list-item-title>
+        <v-list-item-subtitle class="text-body-2">
+          <template v-if="syncStatus.status === 'SUCCESS'">
+            <v-icon color="success" small>mdi-check-circle</v-icon>
+            同步成功
+          </template>
+          <template v-else-if="syncStatus.status === 'FAILURE'">
+            <v-icon color="error" small>mdi-close-circle</v-icon>
+            同步失败
+          </template>
+          <template v-else-if="syncStatus.status === 'STOP'">
+            <v-icon color="grey" small>mdi-alert-circle</v-icon>
+            暂无同步
+          </template>
+          <template v-else-if="['INITIALIZE', 'PROGRESS'].indexOf(syncStatus.status) > -1">
+            <v-icon class="kubegems__waiting-circle-flashing" color="warning"> mdi-autorenew </v-icon>
+            正在同步: {{ syncStatus.progress }}
+          </template>
+        </v-list-item-subtitle>
+      </v-list-item-content>
+    </v-list-item>
   </v-card>
 </template>
 
 <script>
+  import { getAdminModelStoreSync } from '@/api';
+
   export default {
     name: 'BasicResourceInfo',
     props: {
@@ -64,7 +89,41 @@
         default: () => null,
       },
     },
+    data() {
+      return {
+        syncStatus: {},
+        timeinterval: null,
+      };
+    },
+    watch: {
+      item: {
+        handler(newValue) {
+          if (newValue) {
+            this.loadSyncStatus();
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
+    },
+    destroyed() {
+      this.clearInterval();
+    },
     methods: {
+      async loadSyncStatus() {
+        this.clearInterval();
+
+        const statusData = await getAdminModelStoreSync(this.item.name, { noprocessing: true });
+        this.syncStatus = statusData;
+
+        this.timeinterval = setInterval(async () => {
+          const statusData = await getAdminModelStoreSync(this.item.name, { noprocessing: true });
+          this.syncStatus = statusData;
+        }, 1000 * 10);
+      },
+      clearInterval() {
+        if (this.timeinterval) clearInterval(this.timeinterval);
+      },
       getRegistryMeta(item) {
         switch (item.name) {
           case 'huggingface':

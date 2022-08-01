@@ -165,6 +165,7 @@ const resource = {
       return true;
     },
     m_resource_addNsToData(data, ns) {
+      if (!data) return;
       if (!data?.metadata?.namespace) {
         data.metadata.namespace = ns || this.$route.query.namespace;
       }
@@ -309,6 +310,7 @@ const resource = {
       }
     },
     m_resource_validateJsonSchema(schema, data) {
+      if (!data) return false;
       const ajv = new Ajv();
       const validate = ajv.compile(schema);
       const valid = validate(data);

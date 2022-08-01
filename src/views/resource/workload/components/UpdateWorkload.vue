@@ -130,11 +130,10 @@
               return;
             }
             if (!this.m_resource_checkDataWithNS(data, this.item.metadata.namespace)) return;
-            data = this.m_resource_beautifyData(data);
           } else if (this.formComponent === 'WorkloadBaseForm') {
             data = this.$refs[this.formComponent].getData();
-            data = this.m_resource_beautifyData(data);
           }
+          data = this.m_resource_beautifyData(data);
           const kind = this.kind;
           if (kind === 'DaemonSet') {
             await patchUpdateDaemonSet(

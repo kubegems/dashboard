@@ -78,11 +78,10 @@
             if (!this.m_resource_validateJsonSchema(this.schema, data)) {
               return;
             }
-            data = this.m_resource_beautifyData(data);
           } else if (this.formComponent === 'CertificateBaseForm') {
             data = this.$refs[this.formComponent].getData();
-            data = this.m_resource_beautifyData(data);
           }
+          data = this.m_resource_beautifyData(data);
           const namespace = this.AdminViewport ? data?.metadata?.namespace : this.ThisNamespace;
           if (!this.m_resource_checkDataWithNS(data, namespace)) {
             return;

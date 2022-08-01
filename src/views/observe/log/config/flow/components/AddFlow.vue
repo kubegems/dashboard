@@ -88,11 +88,10 @@
             if (!this.m_resource_validateJsonSchema(this.schema, data)) {
               return;
             }
-            data = this.m_resource_beautifyData(data);
           } else if (this.formComponent === 'FlowBaseForm') {
             data = this.$refs[this.formComponent].getData();
-            data = this.m_resource_beautifyData(data);
           }
+          data = this.m_resource_beautifyData(data);
           const action = data.kind === 'Flow' ? postFlowData : postClusterFlowData;
           await action(
             this.$route.query.cluster,

@@ -94,11 +94,10 @@
             if (!this.m_resource_validateJsonSchema(this.schema, data)) {
               return;
             }
-            data = this.m_resource_beautifyData(data);
           } else if (this.formComponent === 'OutputBaseForm') {
             data = this.$refs[this.formComponent].getData();
-            data = this.m_resource_beautifyData(data);
           }
+          data = this.m_resource_beautifyData(data);
           const action = data.kind === 'Output' ? patchOutputData : patchClusterOutputData;
           await action(this.$route.query.cluster, this.$route.query.namespace, data.metadata.name, data);
           this.reset();
