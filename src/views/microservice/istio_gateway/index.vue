@@ -40,7 +40,7 @@
               <v-card class="mx-auto" :elevation="hover ? 5 : 0" flat height="100%">
                 <v-list-item three-line>
                   <v-list-item-avatar class="primary--text" size="80" tile>
-                    <Icon icon="simple-icons:istio" :style="{ width: `80px`, height: `80px`, marginLeft: `10px` }" />
+                    <img class="service__inject" :src="`/icon/istio.svg`" />
                   </v-list-item-avatar>
                   <v-list-item-content>
                     <v-list-item-title class="text-h6 mb-1">

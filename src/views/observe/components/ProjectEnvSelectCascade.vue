@@ -31,13 +31,12 @@
     <template #activator="{ on }">
       <div v-if="reverse" class="float-left">
         <v-btn
-          :class="`mr-2 ${small ? 'mt-1' : 'mt-n1'} font-weight-medium ${
-            reverseColor ? 'white--text' : 'primary--text'
-          }`"
+          :class="`mr-2 ${small ? '' : 'mt-n1'} font-weight-medium ${reverseColor ? 'white--text' : 'primary--text'}`"
           :color="reverseColor ? 'primary' : 'white'"
           dark
           depressed
           :small="small"
+          :style="{ marginTop: small ? `${offsetY}px` : '' }"
           v-on="on"
         >
           {{ env ? `环境 ${env.environmentName}` : '选择一个环境' }}
@@ -131,6 +130,10 @@
       first: {
         type: Boolean,
         default: () => false,
+      },
+      offsetY: {
+        type: Number,
+        default: () => 0,
       },
       reverse: {
         type: Boolean,

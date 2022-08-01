@@ -20,11 +20,13 @@
       <v-card flat height="100%">
         <v-card-text class="pa-5">
           <div class="d-flex align-center">
-            <Icon class="mr-3 primary--text" height="40px" icon="clarity:network-globe-line" width="40px" />
+            <v-btn class="elevation-0" color="primary" dark fab small>
+              <v-icon>mdi-camera-timer</v-icon>
+            </v-btn>
             <div class="ml-2 mr-1">
               <v-flex class="text-body-2"> 实时速率: {{ requestsNow ? requestsNow : 0 }} </v-flex>
               <v-flex class="text-body-2"> 过去24小时: {{ requestsSumOverTime ? requestsSumOverTime : 0 }} </v-flex>
-              <h5 class="text-subtitle-2 font-weight-regular kubegems__text"> 总请求 </h5>
+              <h5 class="text-subtitle-2 font-weight-medium kubegems__text mt-2"> 总请求 </h5>
             </div>
           </div>
         </v-card-text>
@@ -34,11 +36,13 @@
       <v-card flat height="100%">
         <v-card-text class="pa-5">
           <div class="d-flex align-center">
-            <Icon class="mr-3 primary--text" height="40px" icon="fluent:timer-16-regular" width="40px" />
+            <v-btn class="elevation-0" color="primary" dark fab small>
+              <v-icon>mdi-clock</v-icon>
+            </v-btn>
             <div class="ml-2 mr-1">
               <v-flex class="text-body-2"> p99: {{ avgresponsetimeP99 ? avgresponsetimeP99 : 0 }} ms </v-flex>
               <v-flex class="text-body-2"> p95: {{ avgresponsetimeP95 ? avgresponsetimeP95 : 0 }} ms </v-flex>
-              <h5 class="text-subtitle-2 font-weight-regular kubegems__text"> 响应时间 </h5>
+              <h5 class="text-subtitle-2 font-weight-medium kubegems__text mt-2"> 响应时间 </h5>
             </div>
           </div>
         </v-card-text>
@@ -48,14 +52,16 @@
       <v-card flat height="100%">
         <v-card-text class="pa-5">
           <div class="d-flex align-center">
-            <Icon class="mr-3 primary--text" height="40px" icon="clarity:network-globe-outline-badged" width="40px" />
+            <v-btn class="elevation-0" color="primary" dark fab small>
+              <v-icon>mdi-alarm-panel-outline</v-icon>
+            </v-btn>
             <div class="ml-2 mr-1">
               <v-flex class="text-body-2"> 实时: {{ errrequestsSum ? errrequestsSum : 0 }} </v-flex>
               <v-flex class="text-body-2">
                 过去24小时:
                 {{ errrequestsSumOverTime ? errrequestsSumOverTime : 0 }}
               </v-flex>
-              <h5 class="text-subtitle-2 font-weight-regular kubegems__text"> 异常请求数 </h5>
+              <h5 class="text-subtitle-2 font-weight-medium kubegems__text mt-2"> 异常请求数 </h5>
             </div>
           </div>
         </v-card-text>
@@ -65,11 +71,13 @@
       <v-card flat height="100%">
         <v-card-text class="pa-5">
           <div class="d-flex align-center">
-            <Icon class="mr-3 primary--text" height="40px" icon="carbon:content-delivery-network" width="40px" />
+            <v-btn class="elevation-0" color="primary" dark fab small>
+              <v-icon>mdi-earth</v-icon>
+            </v-btn>
             <div class="ml-2 mr-1">
               <v-flex class="text-body-2"> 入: {{ networkIngress ? networkIngress : 0 }} Kbps </v-flex>
               <v-flex class="text-body-2"> 出: {{ networkEgress ? networkEgress : 0 }} Kbps </v-flex>
-              <h5 class="text-subtitle-2 font-weight-regular kubegems__text">流量</h5>
+              <h5 class="text-subtitle-2 font-weight-medium kubegems__text mt-2">流量</h5>
             </div>
           </div>
         </v-card-text>

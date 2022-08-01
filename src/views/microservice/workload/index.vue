@@ -59,7 +59,7 @@
                     <v-menu nudge-right="20px" nudge-top="10px" open-on-hover right>
                       <template #activator="{ on }">
                         <span v-on="on">
-                          <Icon class="mr-2 primary--text" height="18px" icon="simple-icons:istio" width="18px" />
+                          <img class="workload__inject" :src="`/icon/istio.svg`" width="18px" />
                         </span>
                       </template>
                       <v-card>
@@ -476,3 +476,11 @@
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .workload {
+    &__inject {
+      margin-top: 2px;
+    }
+  }
+</style>

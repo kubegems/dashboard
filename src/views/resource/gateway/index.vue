@@ -24,7 +24,7 @@
           <v-card class="mx-auto gateway-pos" :elevation="hover ? 5 : 0" flat height="100%">
             <v-list-item three-line>
               <v-list-item-avatar class="primary--text" size="80" tile>
-                <Icon icon="cib:nginx" :style="{ width: `80px`, height: `80px`, marginLeft: `10px` }" />
+                <img src="/icon/nginx.svg" :style="{ width: `80px`, height: `80px`, marginLeft: `10px` }" />
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title class="text-h6 mb-1">

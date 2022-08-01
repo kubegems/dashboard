@@ -22,7 +22,7 @@
           <ContainerSelect :env="env" @filterPod="filterPod" />
           <ProjectEnvSelectCascade v-model="env" first reverse :tenant="tenant" />
 
-          <BaseDatetimePicker v-model="date" :default-value="30" :offset-y="1" @change="onDatetimeChange(undefined)" />
+          <BaseDatetimePicker v-model="date" :default-value="30" :offset-y="0" @change="onDatetimeChange(undefined)" />
           <v-menu
             v-if="
               environment &&

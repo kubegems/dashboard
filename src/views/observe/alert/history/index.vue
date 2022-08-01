@@ -21,7 +21,7 @@
         <v-flex class="kubegems__full-right">
           <ProjectEnvSelectCascade v-model="env" first reverse :tenant="tenant" />
 
-          <BaseDatetimePicker v-model="date" clearable :default-value="180" :offset-y="4" @change="onDatetimeChange" />
+          <BaseDatetimePicker v-model="date" clearable :default-value="180" :offset-y="0" @change="onDatetimeChange" />
           <div />
         </v-flex>
       </template>

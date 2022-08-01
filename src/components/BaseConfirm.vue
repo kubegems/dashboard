@@ -33,7 +33,9 @@
           elevation="1"
         >
           <template v-if="Confirm.content && Confirm.content.type === 'batch_delete'">
-            <div class="text-subtitle-1 kubegems__text"> 请确认以下需要删除的资源！ </div>
+            <div class="text-subtitle-1 kubegems__text">
+              请确认以下需要{{ Confirm.content.tip || '删除' }}的资源！
+            </div>
             <div
               v-for="(content, index) in Confirm.content ? Confirm.content.text.split(',') : []"
               :key="index"
@@ -69,7 +71,7 @@
             v-else-if="Confirm.content.type === 'batch_delete'"
             v-model="confirmData"
             class="my-0"
-            :label="`${Confirm.content.one ? '确认资源名称' : '请输入 “确认删除”'}`"
+            :label="`${Confirm.content.one ? '确认资源名称' : `请输入 “确认${Confirm.content.tip || '删除'}”`}`"
             required
             :rules="confirmBacthDataRule"
             @keydown.enter="confirm"
@@ -109,7 +111,7 @@
         if (this.Confirm.content.one) {
           return [required, (v) => !!(v === this.Confirm.content.one) || '名称不匹配'];
         } else {
-          return [required, (v) => !!(v === '确认删除') || '输入不匹配'];
+          return [required, (v) => !!(v === `确认${this.Confirm.content.tip || '删除'}`) || '输入不匹配'];
         }
       },
     },
