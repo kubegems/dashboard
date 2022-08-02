@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
 -->
-<i18n src="./locales.json" />
+<i18n src="../../i18n/locales.json" />
 <template>
   <v-card>
     <v-card-title>
       <BaseFilter
-        :default="{ items: [], text: `${$t('search')}`, value: 'search' }"
+        :default="{ items: [], text: `${$t('table.search')}`, value: 'search' }"
         :filters="filters"
         @refresh="m_filter_list"
       />
@@ -34,13 +34,13 @@
             <v-flex>
               <v-btn color="primary" text @click="toggleOnlineModels(true)">
                 <v-icon left>mdi-arrow-up-bold</v-icon>
-                上架
+                {{ $t('table.row.online') }}
               </v-btn>
             </v-flex>
             <v-flex>
               <v-btn color="error" text @click="toggleOnlineModels(false)">
                 <v-icon left>mdi-arrow-down-bold</v-icon>
-                下架
+                {{ $t('table.row.offline') }}
               </v-btn>
             </v-flex>
           </v-card-text>
@@ -54,7 +54,7 @@
         hide-default-footer
         :items="items"
         :items-per-page="params.size"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
         show-select
         @toggle-select-all="m_table_onNotK8SResourceToggleSelect($event, 'name')"
@@ -74,7 +74,7 @@
           </a>
         </template>
         <template #[`item.versions`]="{ item }">
-          <BaseCollapseChips id="m_version" :chips="item.versions || []" icon="mdi-vimeo" single-line />
+          <BaseCollapseChips id="m_version" :chips="item.versions || []" icon="mdi-alpha-v-circle" single-line />
         </template>
         <template #[`item.lastModified`]="{ item }">
           {{ item && item.lastModified ? $moment(item.lastModified).format('lll') : '' }}
@@ -91,11 +91,11 @@
         <template #[`item.enabled`]="{ item }">
           <template v-if="item.enabled">
             <v-icon color="success" small>mdi-check-circle</v-icon>
-            已上架
+            {{ $t('table.row.online') }}
           </template>
           <template v-else>
             <v-icon color="error" small>mdi-close-circle</v-icon>
-            未上架
+            {{ $t('table.row.offline') }}
           </template>
         </template>
         <template #[`item.tags`]="{ item }">
@@ -116,11 +116,11 @@
               <v-card-text class="pa-2">
                 <v-flex>
                   <v-btn color="primary" small text @click="togglePublishModel(item)">
-                    {{ item.enabled ? '下架' : '上架' }}
+                    {{ item.enabled ? $t('table.row.offline') : $t('table.row.online') }}
                   </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="removeModel(item)"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeModel(item)"> {{ $root.$t('operate.delete') }} </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -186,21 +186,21 @@
     computed: {
       headers() {
         const items = [
-          { text: this.$t('name'), value: 'name', align: 'start' },
-          { text: this.$t('version'), value: 'versions', align: 'start' },
-          { text: this.$t('framework'), value: 'framework', align: 'start' },
-          { text: this.$t('task'), value: 'task', align: 'start' },
-          { text: this.$t('tag'), value: 'tags', align: 'start' },
-          { text: this.$t('last_modified'), value: 'lastModified', align: 'start' },
-          { text: this.$t('recommend'), value: 'recomment', align: 'start', width: 120 },
-          { text: this.$t('published'), value: 'enabled', align: 'start', width: 90 },
+          { text: this.$t('table.header.name'), value: 'name', align: 'start' },
+          { text: this.$t('table.header.version'), value: 'versions', align: 'start' },
+          { text: this.$t('table.header.framework'), value: 'framework', align: 'start' },
+          { text: this.$t('table.header.task'), value: 'task', align: 'start' },
+          { text: this.$t('table.header.tag'), value: 'tags', align: 'start' },
+          { text: this.$t('table.header.last_modified'), value: 'lastModified', align: 'start' },
+          { text: this.$t('table.header.recommend'), value: 'recomment', align: 'start', width: 120 },
+          { text: this.$t('table.header.published'), value: 'enabled', align: 'start', width: 90 },
           { text: '', value: 'action', align: 'center', width: 20, sortable: false },
         ];
 
         return items;
       },
       filters() {
-        return [{ text: this.$t('search'), value: 'search', items: [] }].concat(this.conditions);
+        return [{ text: this.$t('table.search'), value: 'search', items: [] }].concat(this.conditions);
       },
     },
     watch: {
@@ -244,7 +244,7 @@
         this.conditions = [];
         const data = await getAdminModelStoreFilterCondition(this.$route.params.name);
         this.conditions.push({
-          text: '框架',
+          text: this.$t('table.framework'),
           value: 'framework',
           items: data.frameworks.map((d) => {
             return { text: d, value: d, parent: 'framework' };
@@ -260,7 +260,7 @@
         });
 
         this.conditions.push({
-          text: '类型',
+          text: this.$t('table.task'),
           value: 'task',
           items: data.tasks.map((d) => {
             return { text: d, value: d, parent: 'task' };
@@ -294,9 +294,9 @@
       },
       removeModel(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除算法模型`,
+          title: `${this.$root.$t('operate.delete')} ${this.$t('tab_ai_model')}`,
           content: {
-            text: `删除算法模型 ${item.name}`,
+            text: `${this.$root.$t('operate.delete')} ${this.$t('tab_ai_model')} ${item.name}`,
             type: 'delete',
             name: item.name,
           },
@@ -309,9 +309,13 @@
       },
       togglePublishModel(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: item.enabled ? `下架算法模型` : `上架算法模型`,
+          title: item.enabled
+            ? `${this.$t('table.row.offline')} ${this.$t('tab_ai_model')}`
+            : `${this.$t('table.row.online')} ${this.$t('tab_ai_model')}`,
           content: {
-            text: item.enabled ? `下架算法模型 ${item.name}` : `上架算法模型 ${item.name}`,
+            text: item.enabled
+              ? `${this.$t('table.row.offline')} ${this.$t('tab_ai_model')} ${item.name}`
+              : `${this.$t('table.row.online')} ${this.$t('tab_ai_model')} ${item.name}`,
             type: 'confirm',
           },
           param: { item },
@@ -335,13 +339,15 @@
           .filter((c) => c.checked)
           .map((c) => c.name);
         this.$store.commit('SET_CONFIRM', {
-          title: online ? `批量上架算法模型` : `批量下架算法模型`,
+          title: online
+            ? `${this.$root.$t('operate.batch')} ${this.$t('table.row.online')} ${this.$t('tab_ai_model')}`
+            : `${this.$root.$t('operate.batch')} ${this.$t('table.row.offline')} ${this.$t('tab_ai_model')}`,
           content: {
             text: `${resources.join(',')}`,
             type: 'batch_delete',
             one: resources.length === 1 ? resources[0] : undefined,
             status: {},
-            tip: online ? `上架` : `下架`,
+            tip: online ? `${this.$t('table.row.online')}` : `${this.$t('table.row.offline')}`,
           },
           param: { online },
           doFunc: async (param) => {

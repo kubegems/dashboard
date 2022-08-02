@@ -85,7 +85,7 @@
                         <v-card>
                           <v-list class="pa-0" dense>
                             <v-flex class="text-body-2 text-center primary white--text py-2">
-                              <v-icon color="white" left small> mdi-vimeo </v-icon>
+                              <v-icon color="white" left small> mdi-alpha-v-circle </v-icon>
                               <span>版本</span>
                             </v-flex>
                             <v-list-item>

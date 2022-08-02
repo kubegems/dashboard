@@ -11,5 +11,17 @@
   },
   "data": {
     "no_data": "暂无数据"
+  },
+  "operate": {
+    "batch": "批量",
+    "delete": "删除",
+    "confirm": "确定",
+    "cancel": "取消"
+  },
+  "pagination": {
+    "count": "每页条目数"
+  },
+  "confirm": {
+    "tip": "请确认资源名称"
   }
 }

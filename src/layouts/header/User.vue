@@ -114,7 +114,7 @@
         </v-list-item>
         <v-list-item @click="showAbout">
           <v-list-item-avatar height="25" min-width="25" width="25">
-            <v-icon color="primary">mdi-vimeo</v-icon>
+            <v-icon color="primary">mdi-alpha-v-circle</v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title class="text-body-2 font-weight-medium kubegems__text"> 关于 </v-list-item-title>
