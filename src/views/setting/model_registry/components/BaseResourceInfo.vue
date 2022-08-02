@@ -1,7 +1,7 @@
 <!--
  * Copyright 2022 The kubegems.io Authors
  * 
- * Licensed under the Apache License, Version 2.0 (the "Licens");
+ * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
@@ -54,7 +54,7 @@
     </v-list-item>
     <v-list-item two-line>
       <v-list-item-content class="kubegems__text">
-        <v-list-item-title class="text-subtitle-2"> 更新状态 </v-list-item-title>
+        <v-list-item-title class="text-subtitle-2"> 同步状态 </v-list-item-title>
         <v-list-item-subtitle class="text-body-2">
           <template v-if="syncStatus.status === 'SUCCESS'">
             <v-icon color="success" small>mdi-check-circle</v-icon>
