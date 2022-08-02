@@ -1,7 +1,7 @@
 <!--
  * Copyright 2022 The kubegems.io Authors
  * 
- * Licensed under the Apache License, Version 2.0 (the "Licens");
+ * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
@@ -72,6 +72,9 @@
           <a class="text-subtitle-2" @click="modelDetail(item)">
             {{ item.name }}
           </a>
+        </template>
+        <template #[`item.versions`]="{ item }">
+          <BaseCollapseChips id="m_version" :chips="item.versions || []" icon="mdi-vimeo" single-line />
         </template>
         <template #[`item.lastModified`]="{ item }">
           {{ item && item.lastModified ? $moment(item.lastModified).format('lll') : '' }}
@@ -146,7 +149,12 @@
 
   import Recommend from './Recommend';
   import TagModel from './TagModel';
-  import { deleteAdminModelStoreModel, getAdminModelStoreList, putAdminUpdateModel } from '@/api';
+  import {
+    deleteAdminModelStoreModel,
+    getAdminModelStoreFilterCondition,
+    getAdminModelStoreList,
+    putAdminUpdateModel,
+  } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BaseTable from '@/mixins/table';
   import { deepCopy } from '@/utils/helpers';
@@ -173,6 +181,7 @@
         noprocessing: true,
       },
       registry: null,
+      conditions: [],
     }),
     computed: {
       headers() {
@@ -191,7 +200,7 @@
         return items;
       },
       filters() {
-        return [{ text: this.$t('search'), value: 'search', items: [] }];
+        return [{ text: this.$t('search'), value: 'search', items: [] }].concat(this.conditions);
       },
     },
     watch: {
@@ -200,6 +209,7 @@
           if (this.item) {
             this.registry = deepCopy(this.item);
             this.modelList();
+            this.adminModelStoreFilterCondition();
           }
         },
         deep: true,
@@ -208,22 +218,54 @@
     },
     methods: {
       async modelList() {
+        const query = {
+          search: this.$route.query.search || null,
+          framework: this.$route.query.framework || null,
+          license: this.$route.query.license || null,
+          task: this.$route.query.task || null,
+          modelCount: this.$route.query.modelCount || null,
+        };
         const data = await getAdminModelStoreList(this.item.name, {
           ...this.params,
-          search: this.$route.query.search || null,
-          modelCount: this.$route.query.modelCount || null,
+          ...query,
         });
         this.items = data.list;
         this.pageCount = Math.ceil(data.total / this.params.size);
         this.params.page = data.page;
         this.$router.replace({
           query: {
-            modelCount: this.$route.query.modelCount || null,
-            search: this.$route.query.search || null,
             ...this.params,
+            ...query,
           },
         });
         this.m_table_generateSelectResourceNoK8s('name');
+      },
+      async adminModelStoreFilterCondition() {
+        this.conditions = [];
+        const data = await getAdminModelStoreFilterCondition(this.$route.params.name);
+        this.conditions.push({
+          text: '框架',
+          value: 'framework',
+          items: data.frameworks.map((d) => {
+            return { text: d, value: d, parent: 'framework' };
+          }),
+        });
+
+        this.conditions.push({
+          text: 'License',
+          value: 'license',
+          items: data.licenses.map((d) => {
+            return { text: d, value: d, parent: 'license' };
+          }),
+        });
+
+        this.conditions.push({
+          text: '类型',
+          value: 'task',
+          items: data.tasks.map((d) => {
+            return { text: d, value: d, parent: 'task' };
+          }),
+        });
       },
       modelDetail(item) {
         this.$router.push({

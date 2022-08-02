@@ -1,7 +1,7 @@
 <!--
  * Copyright 2022 The kubegems.io Authors
  * 
- * Licensed under the Apache License, Version 2.0 (the "Licens");
+ * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
@@ -82,7 +82,7 @@
     data: () => ({
       item: null,
       tab: 0,
-      tabItems: [{ text: '模型列表', value: 'ModelList' }],
+      tabItems: [{ text: '算法模型', value: 'ModelList' }],
     }),
     computed: {
       ...mapState(['JWT']),

@@ -1,7 +1,7 @@
 <!--
  * Copyright 2022 The kubegems.io Authors
  * 
- * Licensed under the Apache License, Version 2.0 (the "Licens");
+ * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
@@ -171,18 +171,15 @@
           this.registry = this.obj.name;
         } else {
           this.registry = 'modelx';
-          this.$emit('changeStep', 2);
         }
       },
       onRegistryChange() {
         if (this.registry !== 'modelx') {
           this.obj.name = this.registry;
           this.obj.online = false;
-          this.$emit('changeStep', 1);
         } else {
           this.obj.online = true;
           this.obj.name = '';
-          this.$emit('changeStep', 2);
         }
       },
       updateComponentData() {},
