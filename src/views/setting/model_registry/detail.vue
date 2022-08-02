@@ -82,7 +82,7 @@
     data: () => ({
       item: null,
       tab: 0,
-      tabItems: [{ text: '模型列表', value: 'ModelList' }],
+      tabItems: [{ text: '算法模型', value: 'ModelList' }],
     }),
     computed: {
       ...mapState(['JWT']),
