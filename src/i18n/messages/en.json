@@ -11,5 +11,17 @@
   },
   "data": {
     "no_data": "No Data"
+  },
+  "operate": {
+    "batch": "Batch",
+    "delete": "Delete",
+    "confirm": "Confirm",
+    "cancel": "Cancel"
+  },
+  "pagination": {
+    "count": "Per Page Count"
+  },
+  "confirm": {
+    "tip": "Please confirm the resource name"
   }
 }

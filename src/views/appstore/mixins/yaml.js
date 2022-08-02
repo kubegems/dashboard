@@ -11,14 +11,14 @@ const YamlMixin = {
 
       doc.setIn(splittedPath, value);
       // yaml转object
-      return this.$yamlload(doc);
+      return this.$yamlload(doc) || {};
     },
     setYamlValue(values, path, newValue = null) {
       const doc = YAML.parseDocument(values);
       const { splittedPath, value } = this.parsePathAndValue(doc, path, newValue);
       doc.setIn(splittedPath, value);
       // doc是YAML对象,先转为字符串再美化为yaml字符串
-      return this.$yamldump(this.$yamlload(doc));
+      return this.$yamldump(this.$yamlload(doc) || {});
     },
 
     getValue(values, path, defaultValue = null) {

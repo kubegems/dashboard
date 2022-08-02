@@ -25,8 +25,8 @@
           :total-visible="visibleNum"
           @input="onPageInput"
         />
-        <div v-if="pageCount * size > 10 && showSize" class="text-body-2 float-left ml-2 mt-2">
-          每页条目数
+        <div v-if="pageCount * size > 10 && showSize" class="text-body-2 float-left ml-2 pagination__count">
+          {{ $t('pagination.count') }}
           <v-menu
             v-model="pageMenu"
             :attach="`#${pid}`"
@@ -38,18 +38,18 @@
             transition="scale-transition"
           >
             <template #activator="{ on }">
-              <v-btn class="primary--text" color="white" dark depressed small v-on="on">
+              <v-btn class="primary--text mt-n1" color="white" dark depressed small v-on="on">
                 {{ size }}
                 <v-icon v-if="pageMenu" right>fas fa-angle-up</v-icon>
                 <v-icon v-else right>fas fa-angle-down</v-icon>
               </v-btn>
             </template>
-            <v-data-iterator hide-default-footer :items="[{ text: '页数', values: [10, 20, 50, 100] }]">
+            <v-data-iterator hide-default-footer :items="[{ text: '', values: [10, 20, 50, 100] }]">
               <template #default="props">
                 <v-card v-for="item in props.items" :key="item.text" flat>
                   <v-list dense>
                     <v-flex class="text-body-2 text-center ma-2">
-                      <span>条目数</span>
+                      <span>{{ $t('pagination.count') }}</span>
                     </v-flex>
                     <v-divider class="mx-2" />
                     <v-list-item
@@ -155,6 +155,10 @@
 
     &__height {
       height: 40px;
+    }
+
+    &__count {
+      line-height: 44px !important;
     }
   }
 </style>

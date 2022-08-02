@@ -232,7 +232,7 @@ export const platform = [
         path: '',
         meta: {
           title: '模版',
-          icon: 'mdi-view-module',
+          icon: 'mdi-widgets',
         },
         component: () => import('@/layouts/Container'),
         redirect: { name: 'repository-list' },

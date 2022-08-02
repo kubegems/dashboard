@@ -55,19 +55,19 @@
             <template v-if="tke">
               <v-menu :close-delay="200" open-on-hover top>
                 <template #activator="{ on }">
-                  <span class="mt-1 mr-2" v-on="on">
+                  <span class="mt-2 mr-2" v-on="on">
                     <BaseLogo icon-name="tke" />
                   </span>
                 </template>
                 <v-card>
-                  <v-card-text class="pa-2"> tke </v-card-text>
+                  <v-card-text class="pa-2"> tencent vcuda </v-card-text>
                 </v-card>
               </v-menu>
             </template>
             <template v-if="nvidia">
               <v-menu :close-delay="200" open-on-hover top>
                 <template #activator="{ on }">
-                  <span class="mt-1 mr-2" v-on="on">
+                  <span class="mt-2 mr-2" v-on="on">
                     <BaseLogo icon-name="nvidia" />
                   </span>
                 </template>

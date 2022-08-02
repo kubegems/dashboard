@@ -313,8 +313,8 @@
           this.schemaJson = JSON.parse(this.filesCopy['values.schema.json']);
         }
         if (this.filesCopy['values.yaml']) {
-          this.appValues = this.$yamlload(this.filesCopy['values.yaml']);
-          this.appValuesOrigin = this.$yamlload(this.filesCopy['values.yaml']);
+          this.appValues = this.$yamlload(this.filesCopy['values.yaml']) || {};
+          this.appValuesOrigin = this.$yamlload(this.filesCopy['values.yaml']) || {};
           this.appValuesYaml = this.$yamldump(this.appValuesOrigin);
         }
         if (Object.keys(this.appValues).length === 0) {

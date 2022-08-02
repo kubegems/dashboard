@@ -31,7 +31,7 @@
                 <v-icon class="mr-1" color="success" small>mdi-check-circle</v-icon>
                 已同步
               </template>
-              <template v-else-if="['INITIALIZE', 'PROGRESS'].indexOf(status.status) > -1">
+              <template v-else-if="['INITIALIZE', 'PROGRESS', 'STARTED'].indexOf(status.status) > -1">
                 <v-icon class="mr-1 kubegems__waiting-circle-flashing" color="warning"> mdi-autorenew </v-icon>
                 正在同步
                 {{ status.progress }}

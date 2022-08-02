@@ -62,7 +62,7 @@
             v-if="Confirm.content.type === 'delete'"
             v-model="confirmData"
             class="my-0"
-            label="确认资源名称"
+            :label="$t('confirm.tip')"
             required
             :rules="confirmDataRule"
             @keydown.enter="confirm"
@@ -71,7 +71,7 @@
             v-else-if="Confirm.content.type === 'batch_delete'"
             v-model="confirmData"
             class="my-0"
-            :label="`${Confirm.content.one ? '确认资源名称' : `请输入 “确认${Confirm.content.tip || '删除'}”`}`"
+            :label="`${Confirm.content.one ? `${$t('confirm.tip')}` : `请输入 “确认${Confirm.content.tip || '删除'}”`}`"
             required
             :rules="confirmBacthDataRule"
             @keydown.enter="confirm"
@@ -82,8 +82,12 @@
         <v-flex class="text-subtitle-1 kubegems__text kubegems__break-all" v-html="Confirm.content.text" />
       </v-sheet>
       <div class="pb-3 pr-4">
-        <v-btn class="float-right" color="primary" :loading="Circular" small text @click="confirm"> 确定 </v-btn>
-        <v-btn class="float-right" color="error" small text @click="closeConfirmDialog"> 取消 </v-btn>
+        <v-btn class="float-right" color="primary" :loading="Circular" small text @click="confirm">
+          {{ $t('operate.confirm') }}
+        </v-btn>
+        <v-btn class="float-right" color="error" small text @click="closeConfirmDialog">
+          {{ $t('operate.cancel') }}
+        </v-btn>
       </div>
     </v-card>
   </v-dialog>
