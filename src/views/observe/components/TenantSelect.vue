@@ -30,8 +30,8 @@
         <template #activator="{ on }">
           <v-btn class="primary--text font-weight-medium" color="white" text v-on="on">
             {{ tenant ? tenant.TenantName : '' }}
-            <v-icon v-if="tenantMenu" right> fas fa-angle-up </v-icon>
-            <v-icon v-else right> fas fa-angle-down </v-icon>
+            <v-icon v-if="tenantMenu" right> mdi-chevron-up </v-icon>
+            <v-icon v-else right> mdi-chevron-down </v-icon>
           </v-btn>
         </template>
         <v-data-iterator class="file-iterator" hide-default-footer :items="[{ text: '租户', values: tenants }]">

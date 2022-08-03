@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <BasePanel v-model="panel" icon="fas fa-code" title="YAML" :width="`50%`" @dispose="dispose">
+  <BasePanel v-model="panel" icon="mdi-code-json" title="YAML" :width="`50%`" @dispose="dispose">
     <template #header>
       <span class="ml-3">
         {{ item ? item.metadata.name : '' }}

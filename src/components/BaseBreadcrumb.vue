@@ -27,7 +27,7 @@
               {{ breadcrumb.title }}
             </div>
             <v-icon v-if="breadcrumb.tip !== undefined" class="breadcrumb__bg mr-1" right small>
-              fas fa-question-circle
+              mdi-help-rhombus
             </v-icon>
             <div
               v-if="breadcrumb.tip !== undefined"

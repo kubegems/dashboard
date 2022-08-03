@@ -15,7 +15,13 @@
 -->
 
 <template>
-  <BasePanel v-model="panel" icon="fas fa-chart-line" title="租户集群资源监控" :width="`50%`" @dispose="dispose">
+  <BasePanel
+    v-model="panel"
+    icon="mdi-chart-areaspline-variant"
+    title="租户集群资源监控"
+    :width="`50%`"
+    @dispose="dispose"
+  >
     <template #header>
       <span class="ml-3 text-subtitle-2 primary--text">
         {{ item ? item.TenantName : '' }}

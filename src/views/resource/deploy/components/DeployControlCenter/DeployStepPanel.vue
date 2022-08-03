@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <BasePanel v-model="panel" icon="fas fa-globe" title="步骤&流量" :width="`1200px`" @dispose="dispose">
+  <BasePanel v-model="panel" icon="mdi-debug-step-over" title="步骤&流量" :width="`1200px`" @dispose="dispose">
     <template #header>
       <span class="ml-2">
         {{ $route.params.name }}
@@ -24,19 +24,19 @@
     <template #action>
       <template v-if="status && (status.strategy === 'Canary' || status.strategy === 'BlueGreen')">
         <v-btn class="white--text" small text @click="deployControll('重启应用', 'restart')">
-          <v-icon left small> fas fa-redo </v-icon>
+          <v-icon left small> mdi-redo-variant </v-icon>
           重启应用
         </v-btn>
         <v-btn class="white--text" small text @click="deployControll('重试发布', 'retry')">
-          <v-icon left small> fas fa-location-arrow </v-icon>
+          <v-icon left small> mdi-reload </v-icon>
           重试
         </v-btn>
         <v-btn class="white--text" small text @click="deployControll('中止发布', 'pause')">
-          <v-icon left small> fas fa-pause </v-icon>
+          <v-icon left small> mdi-pause </v-icon>
           中止
         </v-btn>
         <v-btn class="white--text" small text @click="deployControll('继续发布', 'promote', { full: false })">
-          <v-icon left small> fas fa-play </v-icon>
+          <v-icon left small> mdi-play </v-icon>
           继续
         </v-btn>
       </template>

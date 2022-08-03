@@ -28,7 +28,7 @@
             text
             @click="initReuqestRouting"
           >
-            <v-icon left small> fas fa-code-branch </v-icon>
+            <v-icon left small> mdi-code-json-branch </v-icon>
             请求路由
           </v-btn>
           <v-btn
@@ -39,7 +39,7 @@
             text
             @click="initFaultInjection"
           >
-            <v-icon left small> fas fa-eye-dropper </v-icon>
+            <v-icon left small> mdi-eyedropper </v-icon>
             故障注入
           </v-btn>
           <v-btn
@@ -50,7 +50,7 @@
             text
             @click="initTrafficShifting"
           >
-            <v-icon left small> fas fa-recycle </v-icon>
+            <v-icon left small> mdi-recycle </v-icon>
             流量切换
           </v-btn>
           <v-btn
@@ -61,7 +61,7 @@
             text
             @click="initTcpTrafficShifting"
           >
-            <v-icon left small> fas fa-recycle </v-icon>
+            <v-icon left small> mdi-recycle </v-icon>
             TCP流量切换
           </v-btn>
           <v-btn
@@ -72,13 +72,13 @@
             text
             @click="initRequestTimeouts"
           >
-            <v-icon left small> fas fa-clock </v-icon>
+            <v-icon left small> mdi-clock </v-icon>
             请求超时
           </v-btn>
           <v-menu v-if="m_permisson_virtualSpaceAllow" left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
               </v-btn>
             </template>
             <v-card>

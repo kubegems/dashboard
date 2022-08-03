@@ -31,7 +31,7 @@
               @change="onDatetimeChange(undefined)"
             />
             <v-btn class="primary--text" small text @click="refresh">
-              <v-icon left small> fas fa-redo </v-icon>
+              <v-icon left small> mdi-refresh </v-icon>
               刷新
             </v-btn>
           </v-sheet>

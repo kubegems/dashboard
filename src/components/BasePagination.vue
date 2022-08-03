@@ -40,8 +40,8 @@
             <template #activator="{ on }">
               <v-btn class="primary--text mt-n1" color="white" dark depressed small v-on="on">
                 {{ size }}
-                <v-icon v-if="pageMenu" right>fas fa-angle-up</v-icon>
-                <v-icon v-else right>fas fa-angle-down</v-icon>
+                <v-icon v-if="pageMenu" right>mdi-chevron-up</v-icon>
+                <v-icon v-else right>mdi-chevron-down</v-icon>
               </v-btn>
             </template>
             <v-data-iterator hide-default-footer :items="[{ text: '', values: [10, 20, 50, 100] }]">

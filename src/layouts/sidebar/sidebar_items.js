@@ -60,7 +60,7 @@ export const SIDEBAR_ITEMS = [
     text: '平台管理',
     sidebar: 'platform',
     value: 'platform',
-    icon: 'mdi:view-dashboard',
+    icon: 'mdi:view-gallery',
     admin: true,
   },
 ];

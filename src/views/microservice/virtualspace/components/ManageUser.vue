@@ -21,7 +21,7 @@
         <v-card-text class="pa-0">
           <BaseSubTitle title="虚拟空间成员角色">
             <template #tips>
-              <v-icon class="breadcrumb__bg mr-1" right small> fas fa-question-circle </v-icon>
+              <v-icon class="breadcrumb__bg mr-1" right small> mdi-help-rhombus </v-icon>
               <span class="text-caption orange--text">虚拟空间用户继承于环境成员</span>
             </template>
           </BaseSubTitle>

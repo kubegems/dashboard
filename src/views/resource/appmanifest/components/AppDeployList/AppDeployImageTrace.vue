@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <BasePanel v-model="panel" icon="fas fa-search" title="镜像跟踪" :width="`50%`" @dispose="dispose">
+  <BasePanel v-model="panel" icon="mdi-selection-search" title="镜像跟踪" :width="`50%`" @dispose="dispose">
     <template #header>
       <span class="primary--text ml-2 text-subtitle-2">
         {{ item ? item.ImageName : '' }}

@@ -46,7 +46,7 @@
             </template>
           </span>
           <v-btn class="primary--text" small text @click="returnAppDetail">
-            <v-icon left small> fas fa-share-square </v-icon>
+            <v-icon left small> mdi-share </v-icon>
             返回
           </v-btn>
         </v-flex>

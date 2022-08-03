@@ -27,7 +27,7 @@
                   您可以从右上角工作台进入首页访问
                 </h6>
                 <v-btn color="info mt-4" @click="toDashboard">
-                  <v-icon left small> fas fa-undo-alt </v-icon>
+                  <v-icon left>mdi-undo-variant</v-icon>
                   回到首页
                 </v-btn>
               </div>

@@ -34,7 +34,7 @@
           >
             <template #activator="{ on, attrs }">
               <v-btn color="primary" icon text v-bind="attrs" v-on="on">
-                <v-icon small> fas fa-ellipsis-v </v-icon>
+                <v-icon> mdi-dots-vertical </v-icon>
               </v-btn>
             </template>
             <v-card>

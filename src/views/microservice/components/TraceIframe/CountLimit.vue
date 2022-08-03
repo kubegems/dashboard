@@ -29,8 +29,8 @@
       <template #activator="{ on }">
         <v-btn class="primary--text" color="white" dark depressed small v-on="on">
           {{ limitObj.text }}
-          <v-icon v-if="limitMenu" right> fas fa-angle-up </v-icon>
-          <v-icon v-else right> fas fa-angle-down </v-icon>
+          <v-icon v-if="limitMenu" right> mdi-chevron-up </v-icon>
+          <v-icon v-else right> mdi-chevron-down </v-icon>
         </v-btn>
       </template>
       <v-data-iterator hide-default-footer :items="[{ text: '条数', values: limitItems }]">

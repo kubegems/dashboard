@@ -30,14 +30,13 @@
   >
     <template #activator="{ on }">
       <v-btn class="mr-1" dark icon v-on="on" @click="expand = false">
-        <v-icon>fas fa-user-circle</v-icon>
+        <v-icon>mdi-account-circle</v-icon>
       </v-btn>
     </template>
 
     <v-card>
       <v-list-item class="py-2 primary white--text" two-line>
         <v-list-item-avatar>
-          <!-- <v-icon large>fas fa-user-circle</v-icon> -->
           <v-avatar
             class="primary--text font-weight-medium"
             color="white"
@@ -83,7 +82,7 @@
           <v-list-item-content>
             <v-list-item-title class="text-body-2 font-weight-medium kubegems__text">
               租户
-              <v-flex class="float-right white--text blue-grey lighten-2 px-1 user-chip label">
+              <v-flex class="float-right white--text blue-grey lighten-2 px-1 user__item">
                 {{ Tenant().TenantName }}
               </v-flex>
               <div class="kubegems__clear-float" />
@@ -97,7 +96,7 @@
           <v-list-item-content>
             <v-list-item-title class="text-body-2 font-weight-medium kubegems__text">
               用户中心
-              <v-flex class="float-right white--text blue-grey lighten-2 px-1 user-chip label">
+              <v-flex class="float-right white--text blue-grey lighten-2 px-1 user__item">
                 {{ Admin ? '管理员' : '普通用户' }}
               </v-flex>
               <div class="kubegems__clear-float" />
@@ -125,7 +124,7 @@
       <v-card-actions>
         <v-spacer />
         <v-btn color="primary" text @click="logout">
-          <v-icon left small> fas fa-sign-out-alt </v-icon>
+          <v-icon left> mdi-login </v-icon>
           <span class="font-weight-medium kubegems__text">退出</span>
         </v-btn>
         <v-spacer />
@@ -195,12 +194,12 @@
 </script>
 
 <style lang="scss" scoped>
-  .label {
-    line-height: 22px;
-  }
-  .user-chip {
-    border-radius: 3px;
-    min-width: 80px;
-    text-align: center;
+  .user {
+    &__item {
+      border-radius: 3px;
+      min-width: 80px;
+      text-align: center;
+      line-height: 22px;
+    }
   }
 </style>

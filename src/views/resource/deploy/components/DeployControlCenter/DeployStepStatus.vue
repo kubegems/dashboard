@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="fas fa-bullseye" title="任务步骤状态" :width="1000" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-dots-circle" title="任务步骤状态" :width="1000" @reset="reset">
     <template #header>
       <span class="ml-3">
         {{ $route.params.name }}

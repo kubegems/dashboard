@@ -38,7 +38,7 @@
         v-on="on"
       >
         {{ label }}
-        <v-icon right>fas fa-angle-{{ showPicker ? 'up' : 'down' }}</v-icon>
+        <v-icon right>mdi-chevron-{{ showPicker ? 'up' : 'down' }}</v-icon>
       </v-btn>
     </template>
 

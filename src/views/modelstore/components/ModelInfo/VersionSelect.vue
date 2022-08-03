@@ -29,8 +29,8 @@
         <template #activator="{ on }">
           <v-btn class="primary--text font-weight-medium" color="white" text v-on="on">
             {{ selectVersion }}
-            <v-icon v-if="versionMenu" right> fas fa-angle-up </v-icon>
-            <v-icon v-else right> fas fa-angle-down </v-icon>
+            <v-icon v-if="versionMenu" right> mdi-chevron-up </v-icon>
+            <v-icon v-else right> mdi-chevron-down </v-icon>
           </v-btn>
         </template>
         <v-data-iterator class="file-iterator" hide-default-footer :items="[{ text: '版本', values: versions }]">

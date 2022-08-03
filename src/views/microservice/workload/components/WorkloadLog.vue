@@ -32,8 +32,8 @@
             <template #activator="{ on }">
               <v-btn class="primary--text mt-n1" color="white" dark depressed v-on="on">
                 {{ container }}
-                <v-icon v-if="containerMenu" right> fas fa-angle-up </v-icon>
-                <v-icon v-else right> fas fa-angle-down </v-icon>
+                <v-icon v-if="containerMenu" right> mdi-chevron-up </v-icon>
+                <v-icon v-else right> mdi-chevron-down </v-icon>
               </v-btn>
             </template>
             <v-data-iterator hide-default-footer :items="[{ text: '容器', values: containers }]">
@@ -83,8 +83,8 @@
             <template #activator="{ on }">
               <v-btn class="primary--text mt-n1" color="white" dark depressed v-on="on">
                 {{ pod.metadata.name }}
-                <v-icon v-if="podMenu" right> fas fa-angle-up </v-icon>
-                <v-icon v-else right> fas fa-angle-down </v-icon>
+                <v-icon v-if="podMenu" right> mdi-chevron-up </v-icon>
+                <v-icon v-else right> mdi-chevron-down </v-icon>
               </v-btn>
             </template>
             <v-data-iterator hide-default-footer :items="[{ text: '容器组', values: pods }]">

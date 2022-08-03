@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <BasePanel v-model="panel" icon="fas fa-bell" title="Kubernetes事件" @dispose="dispose">
+  <BasePanel v-model="panel" icon="mdi-bell" title="Kubernetes事件" @dispose="dispose">
     <template #action>
       <BaseDatetimePicker v-model="date" color="primary" :default-value="60" @change="onDatetimeChange(undefined)" />
     </template>

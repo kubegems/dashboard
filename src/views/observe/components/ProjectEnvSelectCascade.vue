@@ -40,8 +40,8 @@
           v-on="on"
         >
           {{ env ? `环境 ${env.environmentName}` : '选择一个环境' }}
-          <v-icon v-if="menu" right> fas fa-angle-up </v-icon>
-          <v-icon v-else right> fas fa-angle-down </v-icon>
+          <v-icon v-if="menu" right> mdi-chevron-up </v-icon>
+          <v-icon v-else right> mdi-chevron-down </v-icon>
         </v-btn>
         <div class="kubegems__clear-float" />
       </div>

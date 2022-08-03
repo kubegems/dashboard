@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="fas fa-arrows-alt-v" title="调整副本数" :width="500" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-arrow-up-down-bold" title="调整副本数" :width="500" @reset="reset">
     <template #content>
       <BaseSubTitle title="副本定义" />
       <v-card-text class="px-2 pb-0">

@@ -276,7 +276,7 @@
                 </div>
                 <button
                   type="button"
-                  class="v-icon notranslate v-icon--link fas fa-ellipsis-v theme--light primary--text resource-operate"
+                  class="v-icon notranslate v-icon--link mdi mdi-dots-vertical theme--light primary--text resource-operate"
                   onclick={this.showMenu}
                   onblur={this.hideMenu}
                   data-data={JSON.stringify(node.data)}
@@ -428,7 +428,7 @@
     overflow: hidden;
   }
   .resource-operate {
-    font-size: 12px !important;
+    font-size: 14px !important;
     width: 20px;
     height: 20px;
     margin-top: 7px;

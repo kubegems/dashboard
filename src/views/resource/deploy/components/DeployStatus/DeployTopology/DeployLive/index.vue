@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <BasePanel v-model="panel" icon="fas fa-spinner" title="实时状态" :width="`50%`" @dispose="dispose">
+  <BasePanel v-model="panel" icon="mdi-dots-circle" title="实时状态" :width="`50%`" @dispose="dispose">
     <template #header>
       <span class="ml-2"> {{ resource ? resource.kind : '' }}/{{ resource ? resource.name : '' }} </span>
     </template>
@@ -33,8 +33,8 @@
           <template #activator="{ on }">
             <v-btn class="white--text primary" color="white" dark depressed v-on="on">
               {{ container }}
-              <v-icon v-if="containerMenu" right> fas fa-angle-up </v-icon>
-              <v-icon v-else right> fas fa-angle-down </v-icon>
+              <v-icon v-if="containerMenu" right> mdi-chevron-up </v-icon>
+              <v-icon v-else right> mdi-chevron-down </v-icon>
             </v-btn>
           </template>
           <v-data-iterator hide-default-footer :items="[{ text: '容器', values: containers }]">

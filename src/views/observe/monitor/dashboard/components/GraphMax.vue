@@ -15,7 +15,12 @@
 -->
 
 <template>
-  <BaseFullScreenDialog v-model="dialog" icon="fas fa-chart-area" :title="`监控面板--${graph.name}`" @dispose="dispose">
+  <BaseFullScreenDialog
+    v-model="dialog"
+    icon="mdi-chart-areaspline-variant"
+    :title="`监控面板--${graph.name}`"
+    @dispose="dispose"
+  >
     <template #action>
       <BaseDatetimePicker v-model="date" color="primary" :default-value="30" @change="onDatetimeChange(undefined)" />
     </template>

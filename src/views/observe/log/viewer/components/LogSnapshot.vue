@@ -60,7 +60,7 @@
             <v-menu :attach="`#r${item.ID}`" left>
               <template #activator="{ on }">
                 <v-btn icon>
-                  <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
+                  <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
                 </v-btn>
               </template>
               <v-card>

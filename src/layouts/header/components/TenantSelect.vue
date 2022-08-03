@@ -42,11 +42,11 @@
         >
           <template #[`item.isActive`]="{ item }">
             <span v-if="item.isActive">
-              <v-icon color="primary" small> fas fa-check-circle </v-icon>
+              <v-icon color="primary" small> mdi-check-circle </v-icon>
               启用
             </span>
             <span v-else>
-              <v-icon color="error" small>fas fa-minus-circle</v-icon>
+              <v-icon color="error" small> mdi-minus-circle </v-icon>
               禁用
             </span>
           </template>

@@ -35,9 +35,9 @@
                   v-on="on"
                   @click="m_select_projectSelectData"
                 >
-                  <v-icon left>fas fa-cube</v-icon>
+                  <v-icon left>mdi-cube</v-icon>
                   {{ projectName }}
-                  <v-icon right>fas fa-angle-down</v-icon>
+                  <v-icon right>mdi-chevron-down</v-icon>
                 </v-btn>
               </template>
               <v-data-iterator hide-default-footer :items="[{ text: '项目', values: m_select_projectItems }]">
@@ -135,8 +135,8 @@
                     @click="appImageTags(key)"
                   >
                     {{ splitImage(value.publish, 'tag') }}
-                    <v-icon v-if="tagMenus[`${item.index}-${key}`].menu" right small> fas fa-angle-up </v-icon>
-                    <v-icon v-else right small> fas fa-angle-down </v-icon>
+                    <v-icon v-if="tagMenus[`${item.index}-${key}`].menu" right small> mdi-chevron-up </v-icon>
+                    <v-icon v-else right small> mdi-chevron-down </v-icon>
                   </v-chip>
                 </template>
                 <v-flex>

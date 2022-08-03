@@ -31,15 +31,15 @@
         </template>
         <template #[`item.status`]="{ item }">
           <span v-if="item.status.succeeded !== undefined">
-            <v-icon color="primary" small> fas fa-check-circle </v-icon>
+            <v-icon color="primary" small> mdi-check-circle </v-icon>
             成功
           </span>
           <span v-else-if="item.status.failed !== undefined">
-            <v-icon color="error" small>fas fa-minus-circle</v-icon>
+            <v-icon color="error" small> mdi-minus-circle </v-icon>
             失败
           </span>
           <span v-else-if="item.status.active !== undefined">
-            <v-icon color="success" small>fas fa-dot-circle</v-icon>
+            <v-icon color="success" small> mdi-record-circle-outline </v-icon>
             进行中
           </span>
         </template>
