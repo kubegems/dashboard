@@ -41,7 +41,7 @@
             @change="onRefresh(undefined)"
           />
           <v-btn color="primary" small text @click="onRefresh(undefined)">
-            <v-icon left small> fas fa-redo </v-icon>
+            <v-icon left small> mdi-refresh </v-icon>
             刷新
           </v-btn>
         </div>

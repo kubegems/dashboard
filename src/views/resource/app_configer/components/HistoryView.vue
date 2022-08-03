@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <BaseFullScreenDialog v-model="dialog" icon="fas fa-list-ol" title="配置项历史" @dispose="dispose">
+  <BaseFullScreenDialog v-model="dialog" icon="mdi-list-box" title="配置项历史" @dispose="dispose">
     <template #header>
       <div>
         租户: {{ historyItem.tenant }} 项目: {{ historyItem.project }} 环境: {{ historyItem.environment }} 应用:

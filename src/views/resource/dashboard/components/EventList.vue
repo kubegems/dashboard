@@ -40,8 +40,8 @@
                 @click="m_select_clusterSelectData(Tenant().ID)"
               >
                 {{ clusterName }}
-                <v-icon v-if="eventMenu" right> fas fa-angle-up </v-icon>
-                <v-icon v-else right> fas fa-angle-down </v-icon>
+                <v-icon v-if="eventMenu" right> mdi-chevron-up </v-icon>
+                <v-icon v-else right> mdi-chevron-down </v-icon>
               </v-btn>
             </template>
             <v-data-iterator hide-default-footer :items="[{ text: '集群', values: m_select_clusterItems }]">

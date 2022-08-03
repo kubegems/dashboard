@@ -42,10 +42,10 @@
               v-on="on"
               @click.stop="getVirtualspace"
             >
-              <v-icon left>fas fa-hospital-alt</v-icon>
+              <v-icon left>mdi-arrow-decision</v-icon>
               {{ VirtualSpace().VirtualSpaceName }}
-              <v-icon v-if="virtualSpaceMenu" right>fas fa-angle-up</v-icon>
-              <v-icon v-else right>fas fa-angle-down</v-icon>
+              <v-icon v-if="virtualSpaceMenu" right>mdi-chevron-up</v-icon>
+              <v-icon v-else right>mdi-chevron-down</v-icon>
             </v-btn>
           </template>
           <v-data-iterator hide-default-footer :items="[{ text: '虚拟空间', values: m_select_virtualSpaceItems }]">
@@ -72,7 +72,7 @@
                     >
                       <v-list-item-content class="text-body-2 font-weight-medium text-start">
                         <div class="kubegems__break-all">
-                          <v-icon color="primary" left small>fas fa-hospital-alt</v-icon>
+                          <v-icon color="primary" left small>mdi-arrow-decision</v-icon>
                           {{ virtualspace.text }}
                         </div>
                       </v-list-item-content>
@@ -87,24 +87,45 @@
       <template v-else>
         <v-sheet class="text-subtitle-1">
           虚拟空间
-          <span class="text-subtitle-1 ml-2 primary--text font-weight-medium">
-            <v-icon color="primary" right small>fas fa-hospital-alt</v-icon>
+          <v-btn
+            class="primary--text text-subtitle-1 font-weight-medium mt-n1"
+            color="white"
+            dark
+            depressed
+            small
+            @click.stop
+          >
+            <v-icon left>mdi-arrow-decision</v-icon>
             {{ VirtualSpace().VirtualSpaceName }}
-          </span>
+          </v-btn>
         </v-sheet>
         <v-sheet class="text-subtitle-1 ml-4">
           集群
-          <span class="text-subtitle-1 ml-2 primary--text font-weight-medium">
-            <v-icon color="primary" right small>fab fa-docker</v-icon>
+          <v-btn
+            class="primary--text text-subtitle-1 font-weight-medium mt-n1"
+            color="white"
+            dark
+            depressed
+            small
+            @click.stop
+          >
+            <v-icon left>mdi-kubernetes</v-icon>
             {{ $route.query.cluster }}
-          </span>
+          </v-btn>
         </v-sheet>
         <v-sheet class="text-subtitle-1 ml-4">
           环境
-          <span class="text-subtitle-1 ml-2 primary--text font-weight-medium">
-            <v-icon color="primary" right small>fas fa-cloud</v-icon>
+          <v-btn
+            class="primary--text text-subtitle-1 font-weight-medium mt-n1"
+            color="white"
+            dark
+            depressed
+            small
+            @click.stop
+          >
+            <v-icon left>mdi-cloud</v-icon>
             {{ $route.query.environment }}
-          </span>
+          </v-btn>
         </v-sheet>
       </template>
 

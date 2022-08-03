@@ -24,7 +24,7 @@
             {{ $PROJECT_ROLE[m_permisson_projectRole] ? $PROJECT_ROLE[m_permisson_projectRole] : '暂无' }}
           </span>
           <v-btn v-if="m_permisson_projectAllow" class="primary--text" small text @click="addEnvironment">
-            <v-icon left small> fas fa-plus-square </v-icon>
+            <v-icon left small> mdi-plus-box </v-icon>
             创建环境
           </v-btn>
           <v-btn v-if="m_permisson_projectAllow" class="primary--text" small text @click="manageUser">
@@ -38,7 +38,7 @@
           <v-menu v-if="m_permisson_tenantAllow" left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
               </v-btn>
             </template>
             <v-card>

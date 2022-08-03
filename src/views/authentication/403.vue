@@ -27,7 +27,7 @@
                   您可以联系某个租户的管理员或系统管理员为您添加访问权限
                 </h6>
                 <v-btn color="info mt-4" @click="toDashboard">
-                  <v-icon left small> fas fa-undo-alt </v-icon>
+                  <v-icon left> mdi-undo-variant </v-icon>
                   回到首页
                 </v-btn>
               </div>

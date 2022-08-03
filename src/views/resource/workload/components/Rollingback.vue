@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="fas fa-redo-alt" title="回滚" :width="800" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-redo-variant" title="回滚" :width="800" @reset="reset">
     <template #content>
       <BaseSubTitle title="版本定义" />
       <v-card-text class="px-2 pb-0">

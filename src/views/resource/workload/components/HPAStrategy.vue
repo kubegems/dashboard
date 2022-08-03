@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="fas fa-cogs" title="弹性伸缩设置" :width="500" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-cogs" title="弹性伸缩设置" :width="500" @reset="reset">
     <template #content>
       <BaseSubTitle title="弹性伸缩定义">
         <template #action>

@@ -33,8 +33,8 @@
               <template #activator="{ on }">
                 <v-btn class="primary--text font-weight-medium" color="white" text v-on="on">
                   {{ selectRepo }}
-                  <v-icon v-if="repoMenu" right> fas fa-angle-up </v-icon>
-                  <v-icon v-else right> fas fa-angle-down </v-icon>
+                  <v-icon v-if="repoMenu" right> mdi-chevron-up </v-icon>
+                  <v-icon v-else right> mdi-chevron-down </v-icon>
                 </v-btn>
               </template>
               <v-data-iterator class="file-iterator" hide-default-footer :items="[{ text: '仓库', values: repos }]">
@@ -129,7 +129,7 @@
       transition="slide-x-reverse-transition"
       @click="goToTop"
     >
-      <v-icon small>fas fa-angle-double-up</v-icon>
+      <v-icon>mdi-chevron-double-up</v-icon>
     </v-btn>
   </v-container>
 </template>

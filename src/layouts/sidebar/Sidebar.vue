@@ -47,10 +47,10 @@
           </v-list-item-content>
           <v-list-item-action>
             <v-btn v-if="!expand" icon>
-              <v-icon color="primary lighten-1" small> fas fa-angle-down </v-icon>
+              <v-icon color="primary lighten-1"> mdi-chevron-down </v-icon>
             </v-btn>
             <v-btn v-else icon>
-              <v-icon color="primary lighten-1" small> fas fa-angle-up </v-icon>
+              <v-icon color="primary lighten-1"> mdi-chevron-up </v-icon>
             </v-btn>
           </v-list-item-action>
         </v-list-item>
@@ -63,9 +63,11 @@
           <v-list-item
             v-for="item in modules"
             :key="item.value"
-            :class="item.value === module.value ? `px-9 primary` : `px-9`"
+            :class="{ 'px-9': true, primary: item.value === module.value }"
             exact
-            :style="item.value === module.value ? `color: white !important;` : `color: rgba(0, 0, 0, 0.7) !important;`"
+            :style="{
+              color: item.value === module.value ? 'white !important' : 'rgba(0, 0, 0, 0.7) !important',
+            }"
             @click="switchModule(item)"
           >
             <v-list-item-icon>

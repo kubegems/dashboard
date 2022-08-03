@@ -28,8 +28,8 @@
     <template #activator="{ on }">
       <v-btn class="white--text" color="primary" depressed :text="text" v-on="on">
         {{ currentDate }}
-        <v-icon v-if="menu" right>fas fa-angle-up</v-icon>
-        <v-icon v-else right>fas fa-angle-down</v-icon>
+        <v-icon v-if="menu" right>mdi-chevron-up</v-icon>
+        <v-icon v-else right>mdi-chevron-down</v-icon>
       </v-btn>
     </template>
     <v-card flat width="300px">

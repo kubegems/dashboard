@@ -42,10 +42,10 @@
               v-on="on"
               @click.stop="getCluster"
             >
-              <v-icon left>fab fa-docker</v-icon>
+              <v-icon class="header__icon" left>mdi-kubernetes</v-icon>
               {{ Cluster().ClusterName }}
-              <v-icon v-if="clusterMenu" right>fas fa-angle-up</v-icon>
-              <v-icon v-else right>fas fa-angle-down</v-icon>
+              <v-icon v-if="clusterMenu" right>mdi-chevron-up</v-icon>
+              <v-icon v-else right>mdi-chevron-down</v-icon>
             </v-btn>
           </template>
           <v-data-iterator hide-default-footer :items="[{ text: '集群', values: m_select_clusterItems }]">
@@ -72,7 +72,7 @@
                     >
                       <v-list-item-content class="text-body-2 font-weight-medium text-start">
                         <div class="kubegems__break-all">
-                          <v-icon color="primary" left small>fab fa-docker</v-icon>
+                          <v-icon color="primary" left small>mdi-kubernetes</v-icon>
                           {{ cluster.text }}
                         </div>
                       </v-list-item-content>
@@ -86,10 +86,17 @@
       </v-sheet>
       <v-sheet v-else class="text-subtitle-1">
         集群
-        <span class="text-subtitle-1 ml-2 primary--text font-weight-medium">
-          <v-icon color="primary" right small>fab fa-docker</v-icon>
+        <v-btn
+          class="primary--text text-subtitle-1 font-weight-medium mt-n1"
+          color="white"
+          dark
+          depressed
+          small
+          @click.stop
+        >
+          <v-icon class="header__icon" left>mdi-kubernetes</v-icon>
           {{ Cluster().ClusterName }}
-        </span>
+        </v-btn>
       </v-sheet>
     </v-card-title>
   </v-card>
@@ -146,8 +153,10 @@
     z-index: auto !important;
   }
 
-  .header__list {
-    max-height: 250px;
-    overflow-y: auto;
+  .header {
+    &__list {
+      max-height: 250px;
+      overflow-y: auto;
+    }
   }
 </style>

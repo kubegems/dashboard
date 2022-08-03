@@ -33,11 +33,11 @@
         <v-btn dark icon v-on="on">
           <template v-if="messagesTotal > 0 || approves.length > 0">
             <v-badge color="red" dot>
-              <v-icon>fas fa-bell</v-icon>
+              <v-icon>mdi-bell</v-icon>
             </v-badge>
           </template>
           <template v-else>
-            <v-icon>fas fa-bell</v-icon>
+            <v-icon>mdi-bell</v-icon>
           </template>
         </v-btn>
       </template>
@@ -57,14 +57,14 @@
             </v-tab>
           </v-tabs>
 
-          <v-flex v-scroll.self="scrollMessage" class="message-tab-item-height">
+          <v-flex v-scroll.self="scrollMessage" class="message__tab-item-height">
             <v-flex
               v-if="tabItems[tab].value === 'message' ? messagesTotal === 0 : approves.length === 0"
               class="text-body-2 pa-2 text-center mt-2"
             >
               {{ tabItems[tab].value === 'message' ? '暂无未读消息' : '暂无未处理审批' }}
             </v-flex>
-            <v-flex v-else class="px-4 mt-2 message-operator-title">
+            <v-flex v-else class="px-4 mt-2 message__operator-title">
               <span class="text-body-2">
                 {{ tabItems[tab].value === 'message' ? '未读消息' : '未处理审批' }}
               </span>
@@ -109,7 +109,7 @@
                         :class="`text--secondary text-body-2 descpart d-block text-truncate ${messageClass[index]}`"
                         :style="getStatusColor(data)"
                         @mouseout="$set(messageClass, index, '')"
-                        @mouseover="$set(messageClass, index, 'message-content-overflow')"
+                        @mouseover="$set(messageClass, index, 'message__content-overflow')"
                       >
                         {{ data.Title }}
                         <span v-if="tabItems[tab].value === 'approve'">
@@ -386,17 +386,19 @@
 </script>
 
 <style lang="scss" scoped>
-  .message-content-overflow {
-    white-space: initial !important;
-    word-break: break-word !important;
-  }
+  .message {
+    &__content-overflow {
+      white-space: initial !important;
+      word-break: break-word !important;
+    }
 
-  .message-tab-item-height {
-    max-height: 450px;
-    overflow-y: auto;
-  }
+    &__tab-item-height {
+      max-height: 450px;
+      overflow-y: auto;
+    }
 
-  .message-operator-title {
-    line-height: 28px;
+    &__operator-title {
+      line-height: 28px;
+    }
   }
 </style>

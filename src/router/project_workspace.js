@@ -38,7 +38,7 @@ export const projectWorkspace = [
         meta: {
           header: '平台应用',
           title: '应用中心',
-          icon: 'mdi-apps',
+          icon: 'mdi-view-grid',
         },
         component: () => import('@/layouts/Container'),
         redirect: { name: 'appmanifest-list' },

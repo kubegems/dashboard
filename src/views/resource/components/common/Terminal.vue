@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <BaseFullScreenDialog v-model="dialog" icon="fas fa-terminal" title="终端" @dispose="dispose">
+  <BaseFullScreenDialog v-model="dialog" icon="mdi-console" title="终端" @dispose="dispose">
     <template #header>
       <v-flex class="ml-2 text-h6 mt-n1">
         {{ item ? item.name : '' }}
@@ -42,8 +42,8 @@
           <template #activator="{ on }">
             <v-btn class="white--text mt-n1" color="primary" dark depressed v-on="on">
               {{ container }}
-              <v-icon v-if="containerMenu" right> fas fa-angle-up </v-icon>
-              <v-icon v-else right> fas fa-angle-down </v-icon>
+              <v-icon v-if="containerMenu" right> mdi-chevron-up </v-icon>
+              <v-icon v-else right> mdi-chevron-down </v-icon>
             </v-btn>
           </template>
           <v-data-iterator hide-default-footer :items="[{ text: '容器', values: containers }]">

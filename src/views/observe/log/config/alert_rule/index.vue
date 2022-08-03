@@ -52,7 +52,7 @@
         <v-menu v-if="m_permisson_resourceAllow($route.query.env)" left>
           <template #activator="{ on }">
             <v-btn icon>
-              <v-icon color="primary" small v-on="on"> fas fa-ellipsis-v </v-icon>
+              <v-icon color="primary" v-on="on"> mdi-dots-vertical </v-icon>
             </v-btn>
           </template>
           <v-card>
@@ -139,11 +139,11 @@
           </template>
           <template #[`item.open`]="{ item }">
             <span v-if="item.isOpen">
-              <v-icon color="primary" small> fas fa-check-circle </v-icon>
+              <v-icon color="primary" small> mdi-check-circle </v-icon>
               启用
             </span>
             <span v-else>
-              <v-icon color="error" small> fas fa-minus-circle </v-icon>
+              <v-icon color="error" small> mdi-minus-circle </v-icon>
               禁用
             </span>
           </template>
@@ -160,7 +160,7 @@
             <v-menu :attach="`#r${index}`" left>
               <template #activator="{ on }">
                 <v-btn icon>
-                  <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
+                  <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
                 </v-btn>
               </template>
               <v-card>

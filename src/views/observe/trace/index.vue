@@ -42,7 +42,7 @@
     <v-card class="search__main" flat :height="height">
       <div class="search__header">
         <v-btn v-if="location === 'trace'" class="float-right" color="primary" small text @click="onBack">
-          <v-icon left small> fas fa-share-square </v-icon>
+          <v-icon left> mdi-share </v-icon>
           返回
         </v-btn>
       </div>

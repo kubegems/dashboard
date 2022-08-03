@@ -20,7 +20,7 @@
       <ProjectEnvSelectCascade v-model="env" :tenant="Tenant()" />
 
       <v-sheet class="tip">
-        <v-icon right small> fas fa-question-circle </v-icon>
+        <v-icon right small> mdi-help-rhombus </v-icon>
       </v-sheet>
 
       <v-sheet class="text-body-2 ml-2" :style="{ lineHeight: '36px' }">

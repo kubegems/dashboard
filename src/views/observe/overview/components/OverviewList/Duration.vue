@@ -29,8 +29,8 @@
         <template #activator="{ on }">
           <v-btn class="primary--text font-weight-medium" color="white" small text v-on="on">
             {{ durationText }}
-            <v-icon v-if="durationMenu" right> fas fa-angle-up </v-icon>
-            <v-icon v-else right> fas fa-angle-down </v-icon>
+            <v-icon v-if="durationMenu" right> mdi-chevron-up </v-icon>
+            <v-icon v-else right> mdi-chevron-down </v-icon>
           </v-btn>
         </template>
         <v-data-iterator class="file-iterator" hide-default-footer :items="[{ text: '时间', values: durations }]">

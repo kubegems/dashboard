@@ -26,7 +26,7 @@ export const workspace = [
             meta: {
               requireAuth: true,
               title: '环境资源',
-              icon: 'mdi-cube',
+              icon: 'mdi-cloud',
               show: true,
               rootName: 'workspace',
               tip: 'environment',
@@ -39,7 +39,7 @@ export const workspace = [
         meta: {
           header: '应用中心',
           title: '应用中心',
-          icon: 'mdi-apps',
+          icon: 'mdi-view-grid',
           required: ['tenant'],
         },
         component: () => import('@/layouts/Container'),

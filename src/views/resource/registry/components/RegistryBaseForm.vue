@@ -64,8 +64,8 @@
                   <template #activator="{ on }">
                     <v-chip class="primary--text float-left mt-3 font-weight-medium" color="white" label v-on="on">
                       {{ scheme.toLocaleUpperCase() }}
-                      <v-icon v-if="prefixscheme" right small> fas fa-angle-up </v-icon>
-                      <v-icon v-else right small> fas fa-angle-down </v-icon>
+                      <v-icon v-if="prefixscheme" right small> mdi-chevron-up </v-icon>
+                      <v-icon v-else right small> mdi-chevron-down </v-icon>
                     </v-chip>
                   </template>
                   <v-data-iterator hide-default-footer :items="[{ text: 'scheme', values: ['http', 'https'] }]">

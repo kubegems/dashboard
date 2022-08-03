@@ -78,7 +78,7 @@
       transition="slide-x-reverse-transition"
       @click="goToTop"
     >
-      <v-icon small>fas fa-angle-double-up</v-icon>
+      <v-icon>mdi-chevron-double-up</v-icon>
     </v-btn>
   </div>
 </template>

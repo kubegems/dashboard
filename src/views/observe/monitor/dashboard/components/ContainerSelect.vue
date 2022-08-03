@@ -32,8 +32,8 @@
         <template #activator="{ on }">
           <v-btn class="primary--text font-weight-medium sheet__menu__btn" color="white" dark depressed small v-on="on">
             容器组 {{ podName }}
-            <v-icon v-if="podMenu" right> fas fa-angle-up </v-icon>
-            <v-icon v-else right> fas fa-angle-down </v-icon>
+            <v-icon v-if="podMenu" right> mdi-chevron-up </v-icon>
+            <v-icon v-else right> mdi-chevron-down </v-icon>
           </v-btn>
         </template>
         <v-data-iterator hide-default-footer :items="[{ text: '容器组', values: podItems }]">

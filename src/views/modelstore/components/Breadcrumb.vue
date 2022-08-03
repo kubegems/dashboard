@@ -22,7 +22,7 @@
             <div class="text-subtitle-2 kubegems__text font-weight-medium breadcrumb__font">
               <img height="32" :src="imgSrc" />
             </div>
-            <v-icon v-if="tip !== undefined" class="breadcrumb__bg mr-1" right small> fas fa-question-circle </v-icon>
+            <v-icon v-if="tip !== undefined" class="breadcrumb__bg mr-1" right small> mdi-help-rhombus </v-icon>
             <div v-if="tip !== undefined" class="text-overline breadcrumb__bg breadcrumb__tip font-weight-regular">
               {{ tip }}
             </div>

@@ -43,9 +43,9 @@
       transition
     >
       <template #prepend="{ item }">
-        <v-icon v-if="item.type === 'project'" color="primary" left small> fas fa-cube </v-icon>
+        <v-icon v-if="item.type === 'project'" color="primary" left> mdi-view-dashboard </v-icon>
 
-        <v-icon v-else color="primary" left small> fas fa-cloud </v-icon>
+        <v-icon v-else color="primary" left> mdi-cloud </v-icon>
       </template>
     </v-treeview>
   </div>

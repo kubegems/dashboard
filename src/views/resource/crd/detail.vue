@@ -21,13 +21,13 @@
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-btn class="primary--text" small text @click="resourceYaml">
-            <v-icon left small> fas fa-code </v-icon>
+            <v-icon left small> mdi-code-json </v-icon>
             YAML
           </v-btn>
           <v-menu v-if="m_permisson_resourceAllow" left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
               </v-btn>
             </template>
             <v-card>

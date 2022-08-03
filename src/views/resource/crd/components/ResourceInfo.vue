@@ -56,10 +56,10 @@
               <td>{{ item.reason }}</td>
               <td>
                 <span v-if="item.status === 'True'">
-                  <v-icon color="primary" small> fas fa-check-circle </v-icon>
+                  <v-icon color="primary" small> mdi-check-circle </v-icon>
                 </span>
                 <span v-else>
-                  <v-icon color="error" small>fas fa-minus-circle</v-icon>
+                  <v-icon color="error" small> mdi-minus-circle </v-icon>
                 </span>
               </td>
               <td>{{ item.type }}</td>

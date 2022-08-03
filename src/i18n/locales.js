@@ -16,8 +16,7 @@
 module.exports = [
   {
     title: '简体中文',
-    locale: 'zh-CN',
-    alternate: 'zh-Hans',
+    locale: 'zh-Hans',
   },
   {
     title: 'English',

@@ -21,7 +21,7 @@
         <template #extend>
           <v-flex class="kubegems__full-right">
             <v-btn class="primary--text" small text @click="addTemplate">
-              <v-icon left small> fas fa-plus-square </v-icon>
+              <v-icon left small> mdi-plus-box </v-icon>
               创建模版
             </v-btn>
           </v-flex>
@@ -65,7 +65,7 @@
           <v-menu :attach="`#r${index}`" left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
               </v-btn>
             </template>
             <v-card>

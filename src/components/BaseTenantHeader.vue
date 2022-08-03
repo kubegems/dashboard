@@ -41,10 +41,10 @@
               v-on="on"
               @click.stop="getProject"
             >
-              <v-icon left>fas fa-window-maximize</v-icon>
+              <v-icon left>mdi-view-dashboard</v-icon>
               {{ Project().ProjectName }}
-              <v-icon v-if="projectMenu" right>fas fa-angle-up</v-icon>
-              <v-icon v-else right>fas fa-angle-down</v-icon>
+              <v-icon v-if="projectMenu" right>mdi-chevron-up</v-icon>
+              <v-icon v-else right>mdi-chevron-down</v-icon>
             </v-btn>
           </template>
           <v-data-iterator hide-default-footer :items="[{ text: '项目', values: m_select_tenantProjectItems }]">
@@ -71,7 +71,7 @@
                     >
                       <v-list-item-content class="text-body-2 font-weight-medium text-start">
                         <div class="kubegems__break-all">
-                          <v-icon color="primary" left small>fas fa-window-maximize</v-icon>
+                          <v-icon color="primary" left small>mdi-view-dashboard</v-icon>
                           {{ project.text }}
                         </div>
                       </v-list-item-content>
@@ -85,12 +85,17 @@
       </v-sheet>
       <v-sheet v-else class="text-subtitle-1">
         项目
-        <span class="text-subtitle-1 ml-2 primary--text font-weight-medium">
-          <v-icon color="primary" right small>fas fa-window-maximize</v-icon>
+        <v-btn
+          class="primary--text text-subtitle-1 font-weight-medium mt-n1"
+          color="white"
+          dark
+          depressed
+          small
+          @click.stop
+        >
+          <v-icon left>mdi-view-dashboard</v-icon>
           {{ Project().ProjectName }}
-        </span>
-        <v-btn icon @click="toProject">
-          <v-icon color="primary" small> mdi-open-in-new </v-icon>
+          <v-icon right @click.stop="toProject"> mdi-open-in-new </v-icon>
         </v-btn>
       </v-sheet>
 
@@ -120,10 +125,10 @@
                 v-on="on"
                 @click.stop="getEnvironment"
               >
-                <v-icon left>fas fa-cloud</v-icon>
+                <v-icon left>mdi-cloud</v-icon>
                 {{ Environment().EnvironmentName }}
-                <v-icon v-if="environmentMenu" right>fas fa-angle-up</v-icon>
-                <v-icon v-else right>fas fa-angle-down</v-icon>
+                <v-icon v-if="environmentMenu" right>mdi-chevron-up</v-icon>
+                <v-icon v-else right>mdi-chevron-down</v-icon>
               </v-btn>
             </template>
             <v-data-iterator hide-default-footer :items="[{ text: '环境', values: m_select_projectEnvironmentItems }]">
@@ -150,7 +155,7 @@
                       >
                         <v-list-item-content class="text-body-2 font-weight-medium text-start">
                           <div class="kubegems__break-all">
-                            <v-icon color="primary" left small>fas fa-cloud</v-icon>
+                            <v-icon color="primary" left small>mdi-cloud</v-icon>
                             {{ environment.text }}
                           </div>
                         </v-list-item-content>
@@ -164,10 +169,17 @@
         </v-sheet>
         <v-sheet v-else class="text-subtitle-1 ml-4">
           环境
-          <span class="text-subtitle-1 ml-2 primary--text font-weight-medium">
-            <v-icon color="primary" right small>fas fa-cloud</v-icon>
+          <v-btn
+            class="primary--text text-subtitle-1 font-weight-medium mt-n1"
+            color="white"
+            dark
+            depressed
+            small
+            @click.stop
+          >
+            <v-icon left>mdi-cloud</v-icon>
             {{ Environment().EnvironmentName }}
-          </span>
+          </v-btn>
         </v-sheet>
       </template>
 
@@ -297,8 +309,10 @@
     z-index: auto !important;
   }
 
-  .header__list {
-    max-height: 250px;
-    overflow-y: auto;
+  .header {
+    &__list {
+      max-height: 250px;
+      overflow-y: auto;
+    }
   }
 </style>

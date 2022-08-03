@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <BasePanel v-model="panel" icon="fas fa-exclamation" title="漏洞报告" :width="`50%`" @dispose="dispose">
+  <BasePanel v-model="panel" icon="mdi-exclamation-thick" title="漏洞报告" :width="`50%`" @dispose="dispose">
     <template #header>
       <span class="ml-2 text-subtitle-1">
         {{ item ? item.ImageName : '' }}

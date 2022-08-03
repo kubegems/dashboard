@@ -31,8 +31,8 @@
       <v-btn class="primary--text" :class="buttonClass" color="white" dark depressed small v-on="on">
         <span v-if="label" class="mr-2">{{ label }}</span>
         <span>{{ value2format }}</span>
-        <v-icon v-if="showMenu" right> fas fa-angle-up </v-icon>
-        <v-icon v-else right> fas fa-angle-down </v-icon>
+        <v-icon v-if="showMenu" right> mdi-chevron-up </v-icon>
+        <v-icon v-else right> mdi-chevron-down </v-icon>
       </v-btn>
     </template>
     <v-card class="pa-2" flat>

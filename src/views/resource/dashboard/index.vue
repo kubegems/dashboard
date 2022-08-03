@@ -24,7 +24,7 @@
             {{ $TENANT_ROLE[m_permisson_tenantRole] ? $TENANT_ROLE[m_permisson_tenantRole] : '暂无' }}
           </span>
           <v-btn v-if="m_permisson_tenantAllow" class="primary--text mt-n1" small text @click="manageUser">
-            <v-icon left small> fas fa-user-md </v-icon>
+            <v-icon left small> mdi-account-settings </v-icon>
             租户成员
           </v-btn>
         </v-flex>

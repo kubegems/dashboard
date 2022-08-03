@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <BasePanel v-model="panel" icon="fas fa-link" :title="`接入配置`" :width="`50%`" @dispose="dispose">
+  <BasePanel v-model="panel" icon="mdi-link-variant" :title="`接入配置`" :width="`50%`" @dispose="dispose">
     <template #action>
       <v-btn v-if="type !== 'app'" class="mt-n1 ml-2" color="white" :loading="Circular" text @click="addData">
         保存

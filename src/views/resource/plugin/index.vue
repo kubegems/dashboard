@@ -54,8 +54,8 @@
                     <template v-if="plugin.enabled && !plugin.healthy">
                       <v-progress-circular color="warning" indeterminate size="16" :width="3" />
                     </template>
-                    <v-icon v-else-if="plugin.healthy" color="success" small> fas fa-check-circle </v-icon>
-                    <v-icon v-else color="error" small> fas fa-times-circle </v-icon>
+                    <v-icon v-else-if="plugin.healthy" color="success" small> mdi-check-circle </v-icon>
+                    <v-icon v-else color="error" small> mdi-close-circle </v-icon>
                     <div class="kubegems__clear-float" />
                   </v-list-item-subtitle>
                 </v-list-item-content>
@@ -80,7 +80,7 @@
                         transition="scale-transition"
                       >
                         <template #activator="{ on }">
-                          <v-icon color="warning" right small v-on="on"> fas fa-arrow-alt-circle-up </v-icon>
+                          <v-icon color="warning" right small v-on="on"> mdi-arrow-up-bold-circle </v-icon>
                         </template>
                         <v-card>
                           <v-list class="pa-0" dense>

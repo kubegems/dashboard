@@ -42,7 +42,7 @@
         @click="SnackBar.collapse = !SnackBar.collapse"
       >
         <v-icon small>
-          {{ SnackBar.collapse ? 'fas fa-angle-down' : 'fas fa-angle-up' }}
+          {{ SnackBar.collapse ? 'mdi-chevron-down' : 'mdi-chevron-up' }}
         </v-icon>
       </v-btn>
     </v-flex>

@@ -131,8 +131,8 @@
                     <template #activator="{ on }">
                       <v-chip class="primary--text float-left mt-3 font-weight-medium" color="white" label v-on="on">
                         {{ ruler.paths[index].portType === 'name' ? '端口名' : '端口号' }}
-                        <v-icon v-if="ruler.paths[index].portTypeMenu" right small> fas fa-angle-up </v-icon>
-                        <v-icon v-else right small> fas fa-angle-down </v-icon>
+                        <v-icon v-if="ruler.paths[index].portTypeMenu" right small> mdi-chevron-up </v-icon>
+                        <v-icon v-else right small> mdi-chevron-down </v-icon>
                       </v-chip>
                     </template>
                     <v-data-iterator

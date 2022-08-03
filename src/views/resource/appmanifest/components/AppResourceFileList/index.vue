@@ -43,7 +43,7 @@
                 }}
               </v-flex>
               <v-flex class="float-left ml-2 mt-n1">
-                <v-icon v-if="!item.completed" color="orange" small> fas fa-exclamation </v-icon>
+                <v-icon v-if="!item.completed" color="orange"> mdi-exclamation-thick </v-icon>
               </v-flex>
               <div class="kubegems__clear-float" />
             </v-flex>
@@ -63,7 +63,7 @@
             <v-menu v-else-if="m_permisson_resourceAllow" left>
               <template #activator="{ on }">
                 <v-btn icon>
-                  <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
+                  <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
                 </v-btn>
               </template>
               <v-card>

@@ -33,7 +33,7 @@
             text
             @click="advancedDeploy"
           >
-            <v-icon left small> fas fa-location-arrow </v-icon>
+            <v-icon left small> mdi-send </v-icon>
             高级部署
           </v-btn>
 
@@ -49,7 +49,7 @@
             text
             @click="scaleReplicas"
           >
-            <v-icon left small> fas fa-arrows-alt-v </v-icon>
+            <v-icon left small> mdi-arrow-up-down-bold </v-icon>
             调整副本数
           </v-btn>
           <v-btn
@@ -59,7 +59,7 @@
             text
             @click="rollingback"
           >
-            <v-icon left small> fas fa-redo-alt </v-icon>
+            <v-icon left small> mdi-redo-variant </v-icon>
             回滚
           </v-btn>
           <v-btn
@@ -69,7 +69,7 @@
             text
             @click="resourceYaml"
           >
-            <v-icon left small> fas fa-code </v-icon>
+            <v-icon left small> mdi-code-json </v-icon>
             YAML
           </v-btn>
           <!-- <v-btn
@@ -79,13 +79,13 @@
             text
             @click="hpaStrategy"
           >
-            <v-icon left small> fas fa-cogs </v-icon>
+            <v-icon left small> mdi-cogs </v-icon>
             弹性伸缩策略
           </v-btn> -->
           <v-menu left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
               </v-btn>
             </template>
             <v-card>

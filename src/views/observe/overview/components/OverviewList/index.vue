@@ -55,7 +55,7 @@
       </template>
       <template #[`item.eventCount`]="{ item }">
         {{ item.eventCount }}
-        <v-icon color="primary" @click="onShowEvents(item)"> mdi-chart-pie </v-icon>
+        <v-icon color="primary" small @click="onShowEvents(item)"> mdi-chart-pie </v-icon>
       </template>
       <template #[`item.loggingCollectorCount`]="{ item }">
         {{ item.loggingCollectorCount }}
@@ -72,7 +72,7 @@
         >
           <template #activator="{ on }">
             <span class="kubegems__pointer" v-on="on">
-              <v-icon color="error"> mdi-alert-circle </v-icon>
+              <v-icon color="error" small> mdi-alert-circle </v-icon>
             </span>
           </template>
           <v-card flat>

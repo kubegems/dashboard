@@ -26,7 +26,7 @@
             <div class="ml-2 mr-1">
               <v-flex class="text-body-2"> 实时速率: {{ requestsNow ? requestsNow : 0 }} </v-flex>
               <v-flex class="text-body-2"> 过去24小时: {{ requestsSumOverTime ? requestsSumOverTime : 0 }} </v-flex>
-              <h5 class="text-subtitle-2 font-weight-medium kubegems__text mt-2"> 总请求 </h5>
+              <h5 class="text-subtitle-2 kubegems__text mt-2"> 总请求 </h5>
             </div>
           </div>
         </v-card-text>
@@ -42,7 +42,7 @@
             <div class="ml-2 mr-1">
               <v-flex class="text-body-2"> p99: {{ avgresponsetimeP99 ? avgresponsetimeP99 : 0 }} ms </v-flex>
               <v-flex class="text-body-2"> p95: {{ avgresponsetimeP95 ? avgresponsetimeP95 : 0 }} ms </v-flex>
-              <h5 class="text-subtitle-2 font-weight-medium kubegems__text mt-2"> 响应时间 </h5>
+              <h5 class="text-subtitle-2 kubegems__text mt-2"> 响应时间 </h5>
             </div>
           </div>
         </v-card-text>
@@ -61,7 +61,7 @@
                 过去24小时:
                 {{ errrequestsSumOverTime ? errrequestsSumOverTime : 0 }}
               </v-flex>
-              <h5 class="text-subtitle-2 font-weight-medium kubegems__text mt-2"> 异常请求数 </h5>
+              <h5 class="text-subtitle-2 kubegems__text mt-2"> 异常请求数 </h5>
             </div>
           </div>
         </v-card-text>
@@ -77,7 +77,7 @@
             <div class="ml-2 mr-1">
               <v-flex class="text-body-2"> 入: {{ networkIngress ? networkIngress : 0 }} Kbps </v-flex>
               <v-flex class="text-body-2"> 出: {{ networkEgress ? networkEgress : 0 }} Kbps </v-flex>
-              <h5 class="text-subtitle-2 font-weight-medium kubegems__text mt-2">流量</h5>
+              <h5 class="text-subtitle-2 kubegems__text mt-2">流量</h5>
             </div>
           </div>
         </v-card-text>

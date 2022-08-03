@@ -114,11 +114,11 @@
               <td :style="{ width: `50%` }">{{ item.Addr }}</td>
               <td :style="{ width: `45%` }">
                 <template v-if="item.Ready">
-                  <v-icon color="primary" small> fas fa-check-circle </v-icon>
+                  <v-icon color="primary" small> mdi-check-circle </v-icon>
                   正常
                 </template>
                 <template v-else>
-                  <v-icon color="error" small> fas fa-times-circle </v-icon>
+                  <v-icon color="error" small> mdi-close-circle </v-icon>
                   异常
                 </template>
               </td>
@@ -143,11 +143,11 @@
               <td :style="{ width: `50%` }">{{ item.Addr }}</td>
               <td :style="{ width: `45%` }">
                 <template v-if="item.Ready">
-                  <v-icon color="primary" small> fas fa-check-circle </v-icon>
+                  <v-icon color="primary" small> mdi-check-circle </v-icon>
                   正常
                 </template>
                 <template v-else>
-                  <v-icon color="error" small> fas fa-times-circle </v-icon>
+                  <v-icon color="error" small> mdi-close-circle </v-icon>
                   异常
                 </template>
               </td>

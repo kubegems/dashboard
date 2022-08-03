@@ -26,7 +26,7 @@
         <v-img class="kubegems__absolute-middle" contain :src="logo" width="140" />
       </div>
       <div
-        class="pl-2 text-h6 float-left header-line-height"
+        class="pl-2 text-h6 float-left header__line-height"
         :style="{
           fontFamily: `Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important`,
           fontWeight: `bold`,
@@ -43,9 +43,9 @@
     <v-spacer />
 
     <v-btn v-if="!GlobalPlugins['kubegems-models']" color="primary" dark depressed @click="toAppStore">
-      <v-icon class="header-icon-line-height" left small> fas fa-shopping-bag </v-icon>
+      <v-icon class="header__icon-line-height" left> mdi-shopping </v-icon>
       <span
-        class="header-span-line-height"
+        class="header__span-line-height"
         :style="{ fontFamily: `Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important`, fontWeight: `bold` }"
       >
         {{ $t('header.app_store') }}
@@ -65,16 +65,16 @@
     >
       <template #activator="{ on }">
         <v-btn color="primary" dark depressed v-on="on">
-          <v-icon v-if="StoreMode === 'app'" class="header-icon-line-height" left small> fas fa-shopping-bag </v-icon>
-          <v-icon v-else class="header-icon-line-height" left small> fas fa-cube </v-icon>
+          <v-icon v-if="StoreMode === 'app'" class="header__icon-line-height" left> mdi-shopping </v-icon>
+          <v-icon v-else class="header__icon-line-height" left> mdi-cube </v-icon>
           <span
-            class="header-span-line-height"
+            class="header__span-line-height"
             :style="{ fontFamily: `Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important;`, fontWeight: `bold` }"
           >
             {{ StoreMode === 'app' ? $t('header.app_store') : $t('header.model_store') }}
           </span>
-          <v-icon v-if="storeMenu" right>fas fa-angle-up</v-icon>
-          <v-icon v-else right>fas fa-angle-down</v-icon>
+          <v-icon v-if="storeMenu" right>mdi-chevron-up</v-icon>
+          <v-icon v-else right>mdi-chevron-down</v-icon>
         </v-btn>
       </template>
       <v-data-iterator hide-default-footer :items="[{ text: '', values: stores }]">
@@ -86,9 +86,9 @@
                 :key="index"
                 class="text-body-2 text-start font-weight-medium pl-2 mx-2"
                 link
-                :style="
-                  store.value === StoreMode ? `color: #1e88e5 !important;` : `color: rgba(0, 0, 0, 0.7) !important;`
-                "
+                :style="{
+                  color: store.value === StoreMode ? '#1e88e5 !important' : 'rgba(0, 0, 0, 0.7) !important',
+                }"
                 @click="goStore(store)"
               >
                 <v-list-item-content class="text-body-2 font-weight-medium">
@@ -99,10 +99,10 @@
                       left
                       small
                     >
-                      fas fa-shopping-bag
+                      mdi-shopping
                     </v-icon>
                     <v-icon v-else :class="store.value === StoreMode ? 'header--highlight' : ''" left small>
-                      fas fa-cube
+                      mdi-cube
                     </v-icon>
                     {{ store.text }}
                   </span>
@@ -115,9 +115,9 @@
     </v-menu>
 
     <v-btn color="primary" dark depressed @click="toWorkspace">
-      <v-icon class="header-icon-line-height" left small> fas fa-home </v-icon>
+      <v-icon class="header__icon-line-height" left> mdi-home </v-icon>
       <span
-        class="header-span-line-height"
+        class="header__span-line-height"
         :style="{ fontFamily: `Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important`, fontWeight: `bold` }"
       >
         {{ $t('header.workspace') }}
@@ -126,6 +126,8 @@
 
     <Message />
     <User />
+
+    <Translate />
   </v-app-bar>
 </template>
 
@@ -133,6 +135,7 @@
   import { mapGetters, mapMutations, mapState } from 'vuex';
 
   import Message from './Message';
+  import Translate from './Translate';
   import User from './User';
   import BasePermission from '@/mixins/permission';
   import BaseSelect from '@/mixins/select';
@@ -141,6 +144,7 @@
     name: 'Header',
     components: {
       Message,
+      Translate,
       User,
     },
     mixins: [BasePermission, BaseSelect],
@@ -226,21 +230,25 @@
 </script>
 
 <style lang="scss" scoped>
-  .header-line-height {
-    line-height: 64px !important;
-  }
-  .header-icon-line-height {
-    line-height: 20px !important;
-  }
-  .header-span-line-height {
-    line-height: 22px !important;
-  }
+  .header {
+    &__line-height {
+      line-height: 64px !important;
+    }
 
-  .header__bg {
-    z-index: 9999 !important;
-  }
+    &__icon-line-height {
+      line-height: 20px !important;
+    }
 
-  .header--highlight {
-    color: #1e88e5 !important;
+    &__span-line-height {
+      line-height: 22px !important;
+    }
+
+    &__bg {
+      z-index: 9999 !important;
+    }
+
+    &__highlight {
+      color: #1e88e5 !important;
+    }
   }
 </style>
