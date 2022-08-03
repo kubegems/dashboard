@@ -100,14 +100,14 @@
     },
     computed: {
       tke() {
-        if (this?.item?.spec?.nodeSelector) {
-          return this.item.spec.nodeSelector['tencent.com/vcuda'] === 'true';
+        if (this.item?.spec?.resources?.limits['tencent.com/vcuda-core']) {
+          return true;
         }
         return false;
       },
       nvidia() {
-        if (this?.item?.spec?.nodeSelector) {
-          return this.item.spec.nodeSelector['nvidia.com/gpu'] === 'true';
+        if (this.item?.spec?.resources?.limits['limits.nvidia.com/gpu']) {
+          return true;
         }
         return false;
       },

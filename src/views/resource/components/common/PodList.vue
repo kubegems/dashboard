@@ -29,7 +29,50 @@
       >
         <template #[`item.name`]="{ item }">
           <a class="text-subtitle-2" @click="podDetail(item)">
-            {{ item.metadata.name }}
+            <v-flex class="float-left">
+              {{ item.metadata.name }}
+            </v-flex>
+            <v-flex
+              v-if="
+                item &&
+                item.spec.resources &&
+                item.spec.resources.limits &&
+                item.spec.resources.limits['tencent.com/vcuda-core']
+              "
+              class="float-left ml-2"
+            >
+              <v-menu :close-delay="200" nudge-bottom="7px" open-on-hover top>
+                <template #activator="{ on }">
+                  <span v-on="on">
+                    <BaseLogo icon-name="tke" />
+                  </span>
+                </template>
+                <v-card>
+                  <v-card-text class="pa-2"> tencent vcuda </v-card-text>
+                </v-card>
+              </v-menu>
+            </v-flex>
+            <v-flex
+              v-if="
+                item &&
+                item.spec.resources &&
+                item.spec.resources.limits &&
+                item.spec.resources.limits['limits.nvidia.com/gpu']
+              "
+              class="float-left ml-2"
+            >
+              <v-menu :close-delay="200" nudge-bottom="7px" open-on-hover top>
+                <template #activator="{ on }">
+                  <span v-on="on">
+                    <BaseLogo icon-name="nvidia" />
+                  </span>
+                </template>
+                <v-card>
+                  <v-card-text class="pa-2"> nvidia </v-card-text>
+                </v-card>
+              </v-menu>
+            </v-flex>
+            <div class="kubegems__clear-float" />
           </a>
         </template>
         <template #[`item.status`]="{ item, index }">
