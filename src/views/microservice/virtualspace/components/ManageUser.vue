@@ -1,17 +1,17 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
@@ -21,7 +21,7 @@
         <v-card-text class="pa-0">
           <BaseSubTitle title="虚拟空间成员角色">
             <template #tips>
-              <v-icon class="breadcrumb__bg mr-1" right small> fas fa-question-circle </v-icon>
+              <v-icon class="breadcrumb__bg mr-1" right small> mdi-help-rhombus </v-icon>
               <span class="text-caption orange--text">虚拟空间用户继承于环境成员</span>
             </template>
           </BaseSubTitle>
@@ -33,7 +33,7 @@
               <v-card flat>
                 <v-row class="pa-0 ma-0">
                   <v-col class="py-1" cols="6">
-                    <v-card elevation="2" height="550px">
+                    <v-card elevation="2" flat height="550px">
                       <v-card-text>
                         <v-flex class="px-1 mb-2">用户</v-flex>
                         <v-text-field
@@ -44,7 +44,7 @@
                           prepend-inner-icon="mdi-magnify"
                           @keyup="onAllUsernameInput"
                         />
-                        <v-list dense height="450px" style="overflow-y: auto">
+                        <v-list dense height="450px" :style="{ overflowY: `auto` }">
                           <v-list-item
                             v-for="(user, index) in allUsers"
                             :key="index"
@@ -65,7 +65,7 @@
                     </v-card>
                   </v-col>
                   <v-col class="py-1" cols="6">
-                    <v-card elevation="2" height="550px">
+                    <v-card elevation="2" flat height="550px">
                       <v-card-text>
                         <v-flex class="px-1 mb-2">
                           {{ tab === 0 ? '普通成员' : '管理员' }}
@@ -78,7 +78,7 @@
                           prepend-inner-icon="mdi-magnify"
                           @keyup="onRoleUsernameInput"
                         />
-                        <v-list dense height="450px" style="overflow-y: auto">
+                        <v-list dense height="450px" :style="{ overflowY: `auto` }">
                           <v-list-item
                             v-for="(user, index) in tab === 0 ? normalUsers : adminUsers"
                             :key="index"

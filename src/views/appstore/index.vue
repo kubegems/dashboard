@@ -1,22 +1,22 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
   <v-container fluid>
-    <BaseBreadcrumb>
+    <Breadcrumb hub="kubegems-charts">
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-sheet class="text-body-2 text--darken-1 d-flex align-center mx-1">
@@ -33,8 +33,8 @@
               <template #activator="{ on }">
                 <v-btn class="primary--text font-weight-medium" color="white" text v-on="on">
                   {{ selectRepo }}
-                  <v-icon v-if="repoMenu" right> fas fa-angle-up </v-icon>
-                  <v-icon v-else right> fas fa-angle-down </v-icon>
+                  <v-icon v-if="repoMenu" right> mdi-chevron-up </v-icon>
+                  <v-icon v-else right> mdi-chevron-down </v-icon>
                 </v-btn>
               </template>
               <v-data-iterator class="file-iterator" hide-default-footer :items="[{ text: '仓库', values: repos }]">
@@ -44,7 +44,7 @@
                   </v-card>
                 </template>
                 <template #default="props">
-                  <v-card v-for="item in props.items" :key="item.text" min-height="100">
+                  <v-card v-for="item in props.items" :key="item.text" flat min-height="100">
                     <v-list dense>
                       <v-flex class="text-subtitle-2 text-center ma-2">
                         <span>仓库</span>
@@ -70,10 +70,10 @@
           </v-sheet>
         </v-flex>
       </template>
-    </BaseBreadcrumb>
+    </Breadcrumb>
     <v-row class="mt-0">
       <v-col class="pt-0" cols="2">
-        <v-card>
+        <v-card :style="{ height: `${height}px`, overflowY: 'auto' }">
           <v-card-text class="pa-0 pl-2 pb-2">
             <BaseSubTitle class="pt-2 mb-1" :divider="false" title="应用类型" />
             <v-text-field
@@ -108,14 +108,29 @@
           </v-card-text>
         </v-card>
       </v-col>
-      <v-col class="pt-0" cols="10">
-        <v-row class="mt-0">
+      <v-col id="app__store" class="pt-0" cols="10" :style="{ height: `${height}px`, overflowY: 'auto' }">
+        <v-row v-scroll:#app__store="$_.debounce(onScroll, 50)" class="mt-0">
           <v-col v-for="(app, index) in items" :key="index" class="pt-0" cols="3">
             <AppStoreCard :app="app" :select-repo="selectRepo" />
           </v-col>
         </v-row>
       </v-col>
     </v-row>
+
+    <v-btn
+      v-if="offsetTop"
+      bottom
+      class="card__top"
+      color="primary"
+      direction="left"
+      fab
+      fixed
+      right
+      transition="slide-x-reverse-transition"
+      @click="goToTop"
+    >
+      <v-icon>mdi-chevron-double-up</v-icon>
+    </v-btn>
   </v-container>
 </template>
 
@@ -124,11 +139,13 @@
 
   import AppStoreCard from './components/AppStoreCard';
   import { getAppStoreList, getRepositoryList } from '@/api';
+  import Breadcrumb from '@/views/modelstore/components/Breadcrumb';
 
   export default {
     name: 'AppStoreCenter',
     components: {
       AppStoreCard,
+      Breadcrumb,
     },
     data: () => ({
       items: [],
@@ -146,11 +163,15 @@
       chartsNum: 0,
       selectRepo: 'kubegems',
       repoMenu: false,
+      offsetTop: 0,
     }),
     computed: {
-      ...mapState(['Circular']),
+      ...mapState(['Circular', 'Scale']),
       showFilter() {
         return this.chartsNum < 50;
+      },
+      height() {
+        return parseInt((window.innerHeight - 148) / this.Scale);
       },
     },
     mounted() {
@@ -250,6 +271,29 @@
           this.items = this.all;
         }
       },
+      onScroll(e) {
+        this.offsetTop = e.target.scrollTop;
+      },
+      goToTop() {
+        const container = document.getElementById('app__store');
+        container.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        });
+      },
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .card {
+    &__top {
+      bottom: 75px;
+      right: 20px;
+      z-index: 15;
+      height: 45px;
+      width: 45px;
+      border-radius: 45px;
+    }
+  }
+</style>

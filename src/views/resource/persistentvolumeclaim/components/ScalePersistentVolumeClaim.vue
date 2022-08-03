@@ -1,21 +1,21 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="fas fa-arrows-alt-v" title="扩容存储卷" :width="500" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-arrow-up-down-bold" title="扩容存储卷" :width="500" @reset="reset">
     <template #content>
       <BaseSubTitle title="扩容定义" />
       <v-card-text class="px-2 pb-0">

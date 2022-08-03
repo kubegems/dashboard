@@ -1,0 +1,27 @@
+{
+  "header": {
+    "workspace": "工作台",
+    "model_store": "算法商店",
+    "app_store": "应用商店",
+    "administrator": "管理员",
+    "tenant_workspace": "租户工作台"
+  },
+  "filter": {
+    "placehold": "输入查询条件进行过滤"
+  },
+  "data": {
+    "no_data": "暂无数据"
+  },
+  "operate": {
+    "batch": "批量",
+    "delete": "删除",
+    "confirm": "确定",
+    "cancel": "取消"
+  },
+  "pagination": {
+    "count": "每页条目数"
+  },
+  "confirm": {
+    "tip": "请确认资源名称"
+  }
+}

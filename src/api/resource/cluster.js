@@ -14,7 +14,7 @@ export const deleteCluster = (clusterid) => axios.delete(`cluster/${clusterid}`)
 export const getClusterQuota = (clusterid, query = {}) => axios(`cluster/${clusterid}/quota`, { params: query });
 // 集群组件状态
 export const getClusterComponentStatus = (clusterName, query = {}) =>
-  axios(`proxy/cluster/${clusterName}/custom/prometheus/v1/componentstatus`, {
+  axios(`proxy/cluster/${clusterName}/core/v1/componentstatuses`, {
     params: query,
   });
 // 集群证书信息

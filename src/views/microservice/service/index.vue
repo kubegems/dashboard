@@ -1,17 +1,17 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
@@ -30,7 +30,7 @@
         <v-menu v-if="m_permisson_virtualSpaceAllow" left>
           <template #activator="{ on }">
             <v-btn icon>
-              <v-icon color="primary" small v-on="on"> fas fa-ellipsis-v </v-icon>
+              <v-icon color="primary" v-on="on"> mdi-dots-vertical </v-icon>
             </v-btn>
           </template>
           <v-card>
@@ -77,7 +77,7 @@
                   <v-menu nudge-right="20px" nudge-top="10px" open-on-hover right>
                     <template #activator="{ on }">
                       <span v-on="on">
-                        <Icon class="mr-2 primary--text" height="18px" icon="simple-icons:istio" width="18px" />
+                        <img class="service__inject" :src="`/icon/istio.svg`" width="18px" />
                       </span>
                     </template>
                     <v-card>
@@ -113,7 +113,7 @@
                 <template v-if="item.istioReferences.length > 1 && i === 0">
                   <v-btn
                     v-if="item.showConfig"
-                    class="cell-btn"
+                    class="service__cell"
                     color="primary"
                     icon
                     small
@@ -122,14 +122,14 @@
                   >
                     <v-icon>mdi-chevron-double-up</v-icon>
                   </v-btn>
-                  <v-btn v-else class="cell-btn" color="primary" icon small text @click="showAllConfig(index)">
+                  <v-btn v-else class="service__cell" color="primary" icon small text @click="showAllConfig(index)">
                     <v-icon>mdi-chevron-double-down</v-icon>
                   </v-btn>
                 </template>
                 <v-menu :attach="`#r${index}`" left top>
                   <template #activator="{ on }">
                     <v-btn icon>
-                      <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
+                      <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
                     </v-btn>
                   </template>
                   <v-card>
@@ -425,7 +425,13 @@
 </script>
 
 <style lang="scss" scoped>
-  .cell-btn {
-    display: inline-flex;
+  .service {
+    &__inject {
+      margin-top: 2px;
+    }
+
+    &__cell {
+      display: inline-flex;
+    }
   }
 </style>

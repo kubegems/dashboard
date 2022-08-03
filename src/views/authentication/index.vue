@@ -1,17 +1,17 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
@@ -48,9 +48,7 @@
           :class="{ 'mt-4': true, 'white--text': true, login__second__desc: true, login__second__desc__ani: !SelfOut }"
           :style="{ opacity: `${SelfOut ? 1 : 0}` }"
         >
-          KubeGems 是一款开源的企业级多租户容器云平台。围绕云原生社区， KubeGems 提供了多 Kubernetes
-          集群接入能力，并具备丰富的组件管理和资源成本分析功能，
-          能够帮助企业快速的构建和打造一个本地化、功能强大且低成本的云管理平台。
+          {{ $DESCRIPTION }}
         </div>
       </div>
     </div>
@@ -132,7 +130,7 @@
         </div>
       </v-container>
       <h6 class="px-12 text-body-2 mt-4 login__copyright font-weight-medium kubegems__text">
-        © 2021 — KubeGems by Kubegems.io
+        © 2021 — {{ $PLATFORM }} by Kubegems.io
       </h6>
     </div>
   </div>

@@ -1,17 +1,17 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
@@ -35,9 +35,9 @@
                   v-on="on"
                   @click="m_select_projectSelectData"
                 >
-                  <v-icon left>fas fa-cube</v-icon>
+                  <v-icon left>mdi-cube</v-icon>
                   {{ projectName }}
-                  <v-icon right>fas fa-angle-down</v-icon>
+                  <v-icon right>mdi-chevron-down</v-icon>
                 </v-btn>
               </template>
               <v-data-iterator hide-default-footer :items="[{ text: '项目', values: m_select_projectItems }]">
@@ -47,7 +47,7 @@
                   </v-card>
                 </template>
                 <template #default="props">
-                  <v-card v-for="item in props.items" :key="item.text">
+                  <v-card v-for="item in props.items" :key="item.text" flat>
                     <v-list dense>
                       <v-flex class="text-subtitle-2 text-center ma-2">
                         <span>项目</span>
@@ -135,8 +135,8 @@
                     @click="appImageTags(key)"
                   >
                     {{ splitImage(value.publish, 'tag') }}
-                    <v-icon v-if="tagMenus[`${item.index}-${key}`].menu" right small> fas fa-angle-up </v-icon>
-                    <v-icon v-else right small> fas fa-angle-down </v-icon>
+                    <v-icon v-if="tagMenus[`${item.index}-${key}`].menu" right small> mdi-chevron-up </v-icon>
+                    <v-icon v-else right small> mdi-chevron-down </v-icon>
                   </v-chip>
                 </template>
                 <v-flex>
@@ -162,7 +162,7 @@
                       </v-card>
                     </template>
                     <template #default="props">
-                      <v-card v-for="iterdata in props.items" :key="iterdata.text" class="tag-card rounded-b">
+                      <v-card v-for="iterdata in props.items" :key="iterdata.text" class="tag-card rounded-b" flat>
                         <v-list dense>
                           <v-list-item
                             v-for="(tag, index) in iterdata.values"

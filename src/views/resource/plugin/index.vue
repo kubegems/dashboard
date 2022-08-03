@@ -1,17 +1,17 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
@@ -35,13 +35,13 @@
       <v-row class="mt-3">
         <v-col v-for="(plugin, index) in plugins" :key="index" class="pt-0" cols="3">
           <v-hover #default="{ hover }">
-            <v-card class="mx-auto plugins-pos" :elevation="hover ? 5 : 0" height="180px">
+            <v-card class="mx-auto plugins__pos" :elevation="hover ? 5 : 0" flat height="180px">
               <v-list-item three-line>
                 <v-list-item-avatar size="80" tile>
                   <BaseLogo :icon-name="plugin.name" :width="60" />
                 </v-list-item-avatar>
                 <v-list-item-content>
-                  <v-list-item-title class="text-h6 mb-1">
+                  <v-list-item-title class="text-h6 mb-1 plugins__title">
                     <a @click="pluginPodList(plugin)">
                       {{ plugin.name }}
                     </a>
@@ -54,13 +54,13 @@
                     <template v-if="plugin.enabled && !plugin.healthy">
                       <v-progress-circular color="warning" indeterminate size="16" :width="3" />
                     </template>
-                    <v-icon v-else-if="plugin.healthy" color="success" small> fas fa-check-circle </v-icon>
-                    <v-icon v-else color="error" small> fas fa-times-circle </v-icon>
+                    <v-icon v-else-if="plugin.healthy" color="success" small> mdi-check-circle </v-icon>
+                    <v-icon v-else color="error" small> mdi-close-circle </v-icon>
                     <div class="kubegems__clear-float" />
                   </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
-              <v-card-actions class="plugins-action-pos">
+              <v-card-actions class="plugins__action-pos">
                 <v-list-item>
                   <v-list-item-content>
                     <v-list-item-subtitle class="text-body-2 text--lighten-4">
@@ -80,12 +80,12 @@
                         transition="scale-transition"
                       >
                         <template #activator="{ on }">
-                          <v-icon color="warning" right small v-on="on"> fas fa-arrow-alt-circle-up </v-icon>
+                          <v-icon color="warning" right small v-on="on"> mdi-arrow-up-bold-circle </v-icon>
                         </template>
                         <v-card>
                           <v-list class="pa-0" dense>
                             <v-flex class="text-body-2 text-center primary white--text py-2">
-                              <v-icon color="white" left small> mdi-vimeo </v-icon>
+                              <v-icon color="white" left small> mdi-alpha-v-circle </v-icon>
                               <span>版本</span>
                             </v-flex>
                             <v-list-item>
@@ -124,8 +124,8 @@
                 <div class="kubegems__clear-float" />
               </v-card-actions>
 
-              <v-flex v-if="plugin.required" class="plugins-watermark-bg" />
-              <v-flex v-if="plugin.required" class="plugins-watermark font-weight-medium"> 内置组件 </v-flex>
+              <v-flex v-if="plugin.required" class="plugins__watermark-bg" />
+              <v-flex v-if="plugin.required" class="plugins__watermark font-weight-medium"> 内置组件 </v-flex>
             </v-card>
           </v-hover>
         </v-col>
@@ -278,38 +278,48 @@
 </script>
 
 <style lang="scss" scoped>
-  .plugins-pos {
-    position: relative;
-    background-color: #ffffff;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+  .plugins {
+    &__title {
+      word-break: break-word;
+      white-space: break-spaces;
+      font-weight: bold;
+      min-height: 38px;
+      max-height: 57px;
+    }
 
-  .plugins-watermark-bg {
-    position: absolute;
-    width: 110px;
-    height: 90px;
-    transform: rotate(47deg);
-    top: -46px;
-    right: -55px;
-    background-color: #1e88e5;
-    padding: 0;
-  }
+    &__pos {
+      position: relative;
+      background-color: #ffffff;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 
-  .plugins-watermark {
-    position: absolute;
-    top: 14px;
-    right: -1px;
-    transform: rotate(47deg);
-    text-transform: uppercase;
-    color: white;
-    font-size: 12px;
-  }
+    &__watermark-bg {
+      position: absolute;
+      width: 110px;
+      height: 90px;
+      transform: rotate(47deg);
+      top: -46px;
+      right: -55px;
+      background-color: #1e88e5;
+      padding: 0;
+    }
 
-  .plugins-action-pos {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
+    &__watermark {
+      position: absolute;
+      top: 14px;
+      right: -1px;
+      transform: rotate(47deg);
+      text-transform: uppercase;
+      color: white;
+      font-size: 12px;
+    }
+
+    &__action-pos {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+    }
   }
 </style>

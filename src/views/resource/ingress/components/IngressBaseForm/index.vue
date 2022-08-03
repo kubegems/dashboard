@@ -1,17 +1,17 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
@@ -97,11 +97,31 @@
               </template>
             </v-autocomplete>
           </v-col>
+          <v-col cols="6">
+            <v-autocomplete
+              v-model="protocol"
+              class="my-0"
+              color="primary"
+              hide-selected
+              :items="protocolItems"
+              label="协议"
+              no-data-text="暂无可选数据"
+              :rules="objRules.protocolRule"
+              @change="onProtocolChange"
+            >
+              <template #selection="{ item }">
+                <v-chip class="mx-1" color="primary" small>
+                  {{ item['text'] }}
+                </v-chip>
+              </template>
+            </v-autocomplete>
+          </v-col>
         </v-row>
       </v-card-text>
 
       <IngressRuleForm
         ref="ingressRuleForm"
+        :annotations="obj.metadata.annotations"
         :domain="baseDomain"
         :obj="obj"
         @addData="addRulerData"
@@ -110,9 +130,7 @@
       <BaseSubTitle title="路由规则" />
       <v-card-text class="pa-2">
         <IngressRuleItem
-          :obj="obj"
           :rules="obj.spec.rules"
-          :tls="obj.spec.tls"
           @expandCard="expandCard"
           @removePort="removePort"
           @updatePort="updatePort"
@@ -196,13 +214,22 @@
       valid: false,
       expand: false,
       resourceKind: '',
+      protocol: 'HTTP',
+      protocolItems: [
+        { text: 'http', value: 'HTTP' },
+        { text: 'https', value: 'HTTPS' },
+        { text: 'grpc', value: 'GRPC' },
+        { text: 'grpcs', value: 'GRPCS' },
+      ],
       obj: {
         apiVersion: 'networking.k8s.io/v1',
         kind: 'Ingress',
         metadata: {
           name: '',
           namespace: '',
-          annotations: {},
+          annotations: {
+            'nginx.ingress.kubernetes.io/backend-protocol': 'HTTP',
+          },
         },
         spec: {
           ingressClassName: '',
@@ -220,6 +247,7 @@
           namespaceRule: [required],
           // ingressClassNameRule: [required],
           kindRule: [required],
+          protocolRule: [required],
         };
       },
       baseDomain() {
@@ -264,58 +292,30 @@
 
           if (!this.obj.metadata.annotations) {
             this.obj.metadata.annotations = {};
+          } else {
+            this.protocol = this.obj.metadata.annotations['nginx.ingress.kubernetes.io/backend-protocol'] || 'HTTP';
           }
           this.resourceKind = this.kind;
           this.obj.kind = this.kind;
         });
       },
       getTLS(rule, tls) {
-        let basePrefix = 'http';
-        let prefix = 'http';
         let secret = '';
-        if (this.obj.metadata.annotations) {
-          if (this.obj.metadata.annotations['nginx.org/websocket-services']) {
-            if (
-              rule.http.paths.find((p) => {
-                return (
-                  this.obj.metadata.annotations['nginx.org/websocket-services']
-                    .split(',')
-                    .indexOf(p.backend.serviceName) > -1
-                );
-              })
-            ) {
-              basePrefix = 'ws';
-              prefix = 'ws';
-            }
-          } else if (this.obj.metadata.annotations['nginx.org/grpc-services']) {
-            if (
-              rule.http.paths.find((p) => {
-                return (
-                  this.obj.metadata.annotations['nginx.org/grpc-services'].split(',').indexOf(p.backend.serviceName) >
-                  -1
-                );
-              })
-            ) {
-              basePrefix = 'grpc';
-              prefix = 'grpc';
-            }
-          }
-        }
         if (tls) {
           tls.forEach((t) => {
             const i = t.hosts.findIndex((h) => {
               return h === rule.host;
             });
             if (i > -1) {
-              if (basePrefix === 'http') prefix = 'https';
-              else if (basePrefix === 'ws') prefix = 'wss';
-              else if (basePrefix === 'grpc') prefix = 'grpc';
               secret = t.secretName;
               return;
             }
           });
         }
-        return { protocol: `${prefix}`, secretName: secret };
+        return {
+          protocol: this.obj.metadata.annotations['nginx.ingress.kubernetes.io/backend-protocol'],
+          secretName: secret,
+        };
       },
       addAnnotationData(data) {
         this.obj.metadata.annotations = data;
@@ -417,9 +417,7 @@
         this.obj = this.$options.data().obj;
       },
       help() {
-        window.open(
-          'https://docs.nginx.com/nginx-ingress-controller/configuration/ingress-resources/advanced-configuration-with-annotations',
-        );
+        window.open('https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/');
       },
       setData(data) {
         this.obj = data;
@@ -435,6 +433,9 @@
       },
       getData() {
         return this.obj;
+      },
+      onProtocolChange() {
+        this.obj.metadata.annotations['nginx.ingress.kubernetes.io/backend-protocol'] = this.protocol;
       },
     },
   };

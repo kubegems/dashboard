@@ -74,31 +74,31 @@ const table = {
     ...mapGetters(['Cluster', 'Environment']),
   },
   methods: {
-    m_table_sortBy(names) {
-      if (names.length > 0) {
-        this.m_table_sortparam['name'] = names[0];
+    m_table_sortBy(name) {
+      if (name) {
+        this.m_table_sortparam['name'] = name;
         this.m_table_sortparam['desc'] = null;
       } else this.m_table_sortparam['name'] = null;
     },
-    m_table_sortDesc(descs) {
-      if (descs.length > 0) {
-        this.m_table_sortparam['desc'] = descs[0];
+    m_table_sortDesc(desc) {
+      if (desc) {
+        this.m_table_sortparam['desc'] = desc;
       } else {
         this.m_table_sortparam['desc'] = null;
       }
     },
     m_table_generateResourceSortParamValue() {
-      if (this.m_table_sortparam.name === 'Name') {
+      if (this.m_table_sortparam.name === 'name') {
         return `name${this.m_table_sortparam.desc ? 'Desc' : 'Asc'}`;
-      } else if (this.m_table_sortparam.name === 'CreateAt') {
+      } else if (this.m_table_sortparam.name === 'createAt') {
         return `createTime${this.m_table_sortparam.desc ? 'Desc' : 'Asc'}`;
-      } else if (this.m_table_sortparam.name === 'Age') {
+      } else if (this.m_table_sortparam.name === 'age') {
         return `createTime${this.m_table_sortparam.desc ? 'Desc' : 'Asc'}`;
-      } else if (this.m_table_sortparam.name === 'Status') {
+      } else if (this.m_table_sortparam.name === 'status') {
         return `status${this.m_table_sortparam.desc ? 'Desc' : 'Asc'}`;
-      } else if (this.m_table_sortparam.name === 'AppName') {
+      } else if (this.m_table_sortparam.name === 'appName') {
         return `name${this.m_table_sortparam.desc ? 'Desc' : 'Asc'}`;
-      } else if (this.m_table_sortparam.name === 'CreatedAt') {
+      } else if (this.m_table_sortparam.name === 'createdAt') {
         return `createTime${this.m_table_sortparam.desc ? 'Desc' : 'Asc'}`;
       }
       return null;
@@ -159,11 +159,7 @@ const table = {
       });
     },
     m_table_batchRemoveNotK8SResource(title, resourceType, listFunc) {
-      if (
-        Object.values(this.m_table_batchResources).filter((c) => {
-          return c.checked;
-        }).length === 0
-      ) {
+      if (!Object.values(this.m_table_batchResources).some((c) => c.checked)) {
         this.$store.commit('SET_SNACKBAR', {
           text: `请勾选${title}`,
           color: 'warning',
@@ -171,12 +167,8 @@ const table = {
         return;
       }
       const resources = Object.values(this.m_table_batchResources)
-        .filter((c) => {
-          return c.checked;
-        })
-        .map((c) => {
-          return c.name;
-        });
+        .filter((c) => c.checked)
+        .map((c) => c.name);
       this.$store.commit('SET_CONFIRM', {
         title: `批量删除${title}`,
         content: {
@@ -220,8 +212,8 @@ const table = {
     },
     m_table_generateSelectResourceNoK8s(valueKey) {
       this.m_table_batchResources = {};
-      this.items.forEach((resource) => {
-        this.$set(this.m_table_batchResources, resource.ID, {
+      this.items.forEach((resource, index) => {
+        this.$set(this.m_table_batchResources, resource.ID || index, {
           name: resource.name,
           value: resource[valueKey],
           checked: false,
@@ -236,8 +228,8 @@ const table = {
         checked: checked,
       });
     },
-    m_table_onNotK8SResourceChange(checked, item, valueKey) {
-      this.$set(this.m_table_batchResources, item.ID, {
+    m_table_onNotK8SResourceChange(checked, item, valueKey, index = 0) {
+      this.$set(this.m_table_batchResources, item.ID || index, {
         name: item.name,
         checked: checked,
         value: item[valueKey],
@@ -254,8 +246,8 @@ const table = {
       });
     },
     m_table_onNotK8SResourceToggleSelect(checkObj, valueKey) {
-      this.items.forEach((resource) => {
-        this.m_table_batchResources[resource.ID] = {
+      this.items.forEach((resource, index) => {
+        this.m_table_batchResources[resource.ID || index] = {
           name: resource.name,
           checked: checkObj.value,
           value: resource[valueKey],

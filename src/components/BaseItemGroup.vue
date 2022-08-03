@@ -1,25 +1,25 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
   <v-list-group
     v-model="open"
+    :active-class="`primary white--text`"
     :prepend-icon="item.meta.icon"
     :sub-group="subGroup"
-    :active-class="`primary white--text`"
   >
     <template #activator>
       <v-list-item-icon v-if="item.meta.sicon" class="sicon">
@@ -32,7 +32,7 @@
     </template>
 
     <template v-for="(child, i) in children">
-      <BaseItemSubGroup v-if="child.children" :key="`sub-group-${i}`" :item="child" class="second-dd" />
+      <BaseItemSubGroup v-if="child.children" :key="`sub-group-${i}`" class="second-dd" :item="child" />
 
       <BaseItem
         v-else-if="child.meta.show || (pluginPass(child.meta.dependencies) && child.meta.pluginOpenShow)"
@@ -66,10 +66,6 @@
         type: Boolean,
         default: false,
       },
-      text: {
-        type: Boolean,
-        default: false,
-      },
     },
     computed: {
       ...mapState(['Plugins']),
@@ -91,7 +87,7 @@
         get() {
           return this.genGroup(this.item.children);
         },
-        set(val) {},
+        set() {},
       },
     },
 

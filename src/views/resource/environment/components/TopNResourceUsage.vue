@@ -1,17 +1,17 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
@@ -31,8 +31,8 @@
             <template #activator="{ on }">
               <v-btn class="primary--text font-weight-medium" color="white" dark depressed small v-on="on">
                 {{ podUsedMode }}
-                <v-icon v-if="topMenu" right> fas fa-angle-up </v-icon>
-                <v-icon v-else right> fas fa-angle-down </v-icon>
+                <v-icon v-if="topMenu" right> mdi-chevron-up </v-icon>
+                <v-icon v-else right> mdi-chevron-down </v-icon>
               </v-btn>
             </template>
             <v-data-iterator hide-default-footer :items="[{ text: '排序', values: environmentPodUsageSelect }]">
@@ -42,7 +42,7 @@
                 </v-card>
               </template>
               <template #default="props">
-                <v-card v-for="item in props.items" :key="item.text">
+                <v-card v-for="item in props.items" :key="item.text" flat>
                   <v-list dense>
                     <v-flex class="text-subtitle-2 text-center ma-2">
                       <span>资源使用</span>
@@ -74,10 +74,13 @@
           <span class="kubegems__full-center kubegems__text"> 暂无数据 </span>
         </v-flex>
         <v-flex v-for="(item, index) in topN" :key="index" class="text-body-2 mt-3 mb-3">
-          <v-flex class="float-left" style="width: 80%">
+          <v-flex class="float-left" :style="{ width: `80%` }">
+            <v-btn class="elevation-0" color="success" dark fab x-small>
+              <v-icon small>mdi-cube</v-icon>
+            </v-btn>
             {{ item.metric.pod }}
           </v-flex>
-          <span class="float-right text-body-2 primary--text font-weight-medium">
+          <span class="float-right text-body-2 primary--text font-weight-medium resource__unit">
             <span v-if="podUsageMode.indexOf('cpu') > -1">
               {{ beautifyCpuUnit(sizeOfCpu(parseFloat(item.value[1]), 'n') * 1000 * 1000 * 1000) }}
             </span>
@@ -177,3 +180,11 @@
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .resource {
+    &__unit {
+      line-height: 32px;
+    }
+  }
+</style>

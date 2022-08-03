@@ -1,17 +1,17 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
@@ -27,7 +27,7 @@
             <v-tab-item v-for="item in tabItems" :key="item.tab" :reverse-transition="false" :transition="false">
               <v-row class="pa-0 ma-0">
                 <v-col class="py-1" cols="6">
-                  <v-card elevation="2" height="550px">
+                  <v-card elevation="2" flat height="550px">
                     <v-card-text>
                       <v-flex class="px-1 mb-2">租户成员</v-flex>
                       <v-text-field
@@ -38,7 +38,7 @@
                         prepend-inner-icon="mdi-magnify"
                         @keyup="onAllUsernameInput"
                       />
-                      <v-list dense height="450px" style="overflow-y: auto">
+                      <v-list dense height="450px" :style="{ overflowY: `auto` }">
                         <v-list-item v-for="(user, index) in allUsers" :key="index" link @click="setRole(user, index)">
                           <v-list-item-avatar class="my-1">
                             <v-avatar class="white--text font-weight-medium" color="primary" :size="32">
@@ -54,7 +54,7 @@
                   </v-card>
                 </v-col>
                 <v-col class="py-1" cols="6">
-                  <v-card elevation="2" height="550px">
+                  <v-card elevation="2" flat height="550px">
                     <v-card-text>
                       <v-flex class="px-1 mb-2">
                         {{ tabItems[tab].text }}
@@ -67,7 +67,7 @@
                         prepend-inner-icon="mdi-magnify"
                         @keyup="onRoleUsernameInput"
                       />
-                      <v-list dense height="450px" style="overflow-y: auto">
+                      <v-list dense height="450px" :style="{ overflowY: `auto` }">
                         <v-list-item
                           v-for="(user, index) in roleUsers"
                           :key="index"

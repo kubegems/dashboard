@@ -1,17 +1,17 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
@@ -36,9 +36,12 @@
       <template #[`item.status`]="{ item }">
         <span
           :class="`v-avatar mr-2 ${getContainerStatus(item) === 'Waiting' ? 'kubegems__waiting-flashing' : ''}`"
-          :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
-            $CONTAINER_STATUS_COLOR[getContainerStatus(item)]
-          };`"
+          :style="{
+            height: '10px',
+            minWidth: '10px',
+            width: '10px',
+            backgroundColor: `${$CONTAINER_STATUS_COLOR[getContainerStatus(item)]}`,
+          }"
         />
         <span v-if="item.state.running"> Running </span>
         <span v-else-if="item.state.terminated"> Terminated({{ item.state.terminated.reason }}) </span>
@@ -94,7 +97,7 @@
         <v-menu left>
           <template #activator="{ on }">
             <v-btn icon>
-              <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
+              <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
             </v-btn>
           </template>
           <v-card>
@@ -137,9 +140,12 @@
       <template #[`item.status`]>
         <span
           :class="`v-avatar mr-2`"
-          :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
-            $CONTAINER_STATUS_COLOR[getContainerStatus(item)]
-          };`"
+          :style="{
+            height: '10px',
+            minWidth: '10px',
+            width: '10px',
+            backgroundColor: `${$CONTAINER_STATUS_COLOR[getContainerStatus(item)]}`,
+          }"
         />
         Failed
       </template>

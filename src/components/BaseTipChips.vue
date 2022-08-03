@@ -1,17 +1,17 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
@@ -21,26 +21,26 @@
 
     <v-menu
       v-if="items.length"
-      open-on-hover
       :close-delay="200"
       :close-on-content-click="false"
-      :max-width="maxWidth"
       :disabled="items.length === 0"
+      :max-width="maxWidth"
+      open-on-hover
     >
       <template #activator="{ on }">
         <v-flex v-on="on">
-          <v-icon :color="color" v-if="icon" left> {{ icon }} </v-icon>
+          <v-icon v-if="icon" :color="color" left> {{ icon }} </v-icon>
         </v-flex>
       </template>
 
-      <v-card class="pa-2">
+      <v-card class="pa-2" flat>
         <template v-if="singleLine">
           <div v-for="item in items" :key="item[itemValue]">
             <v-flex
-              small
               :class="{ 'ma-1': true, 'text-caption': true, kubegems__text: true, kubegems__pointer: linked }"
+              small
             >
-              <v-icon v-if="icon" :color="color" small left> {{ icon }} </v-icon>
+              <v-icon v-if="icon" :color="color" left small> {{ icon }} </v-icon>
               <strong v-if="dataType === 'object'" class="mr-1">
                 {{ item[itemValue] }}
               </strong>
@@ -49,7 +49,7 @@
           </div>
         </template>
         <template v-else>
-          <v-chip v-for="item in items" :key="item[itemValue]" small :color="color" class="ma-1">
+          <v-chip v-for="item in items" :key="item[itemValue]" class="ma-1" :color="color" small>
             <slot :item="item">{{ item[itemText] }}</slot>
           </v-chip>
         </template>
@@ -69,10 +69,6 @@
       color: {
         type: String,
         default: 'success',
-      },
-      count: {
-        type: Number,
-        default: 1,
       },
       delimiter: {
         type: String,

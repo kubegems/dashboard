@@ -1,17 +1,17 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
@@ -58,11 +58,11 @@
               text
               @click="scaleReplicas"
             >
-              <v-icon left small> fas fa-arrows-alt-v </v-icon>
+              <v-icon left small> mdi-arrow-up-down-bold </v-icon>
               调整副本数
             </v-btn>
             <v-btn v-if="m_permisson_resourceAllow" class="primary--text" small text @click="rollingback">
-              <v-icon left small> fas fa-redo-alt </v-icon>
+              <v-icon left small> mdi-redo-variant </v-icon>
               回滚
             </v-btn>
             <v-btn
@@ -72,18 +72,18 @@
               text
               @click="hpaStrategy"
             >
-              <v-icon left small> fas fa-cogs </v-icon>
+              <v-icon left small> mdi-cogs </v-icon>
               弹性伸缩策略
             </v-btn>
           </template>
           <v-btn class="primary--text" small text @click="resourceYaml">
-            <v-icon left small> fas fa-code </v-icon>
+            <v-icon left small> mdi-code-json </v-icon>
             YAML
           </v-btn>
           <v-menu v-if="m_permisson_resourceAllow" left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
               </v-btn>
             </template>
             <v-card>

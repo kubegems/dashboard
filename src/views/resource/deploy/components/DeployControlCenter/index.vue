@@ -1,24 +1,24 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
   <div>
     <v-row>
       <v-col cols="3">
-        <v-card class="mx-auto status-pos mb-3" height="102px">
+        <v-card class="mx-auto status-pos mb-3" flat height="102px">
           <v-list-item three-line>
             <v-list-item-content class="pb-2">
               <v-list-item-title class="text-subtitle-1 mb-1 primary--text font-weight-medium">
@@ -44,7 +44,7 @@
                   <template v-else-if="taskStatus === 'Error'">
                     <v-menu :close-delay="200" nudge-bottom="8px" open-on-hover top>
                       <template #activator="{ on }">
-                        <span class="error--text" style="cursor: pointer" v-on="on">
+                        <span class="error--text kubegems__pointer" v-on="on">
                           <v-icon class="icon-font-status" color="error"> mdi-close-circle </v-icon>
                           {{ taskType === 'switch-strategy' ? '策略变更失败' : '部署任务执行失败' }}
                         </span>
@@ -63,7 +63,7 @@
             </v-list-item-content>
           </v-list-item>
         </v-card>
-        <v-card class="mx-auto status-pos my-3">
+        <v-card class="mx-auto status-pos my-3" flat>
           <v-list-item three-line>
             <v-list-item-content class="pb-2">
               <v-list-item-title class="text-subtitle-1 mb-1 primary--text font-weight-medium">
@@ -75,7 +75,7 @@
                   v-for="(image, index) in running ? running.images : []"
                   :key="index"
                   class="ml-4 pr-2"
-                  style="overflow: hidden"
+                  :style="{ overflow: `hidden` }"
                 >
                   {{ image }}
                 </v-flex>
@@ -115,7 +115,7 @@
                 实际权重：{{ status ? status.actualWeight : '' }}
               </v-list-item-subtitle>
             </template>
-            <v-list-item-subtitle class="text-body-2 text--lighten-4 pb-1" style="white-space: inherit">
+            <v-list-item-subtitle class="text-body-2 text--lighten-4 pb-1" :style="{ whiteSpace: `inherit` }">
               信息：{{ status ? status.message : '' }}
             </v-list-item-subtitle>
             <v-list-item-subtitle class="text-body-2 text--lighten-4">
@@ -124,9 +124,13 @@
                 :class="`v-avatar mr-1 ${
                   status && status.status === 'Progressing' ? 'kubegems__waiting-flashing' : ''
                 }`"
-                :style="`height: 10px; min-width: 10px; width: 10px; margin-top: -2px; background-color: ${
-                  $ARGO_ROLLOUT_STATUS_COLOR[status ? status.status : '']
-                };`"
+                :style="{
+                  height: '10px',
+                  minWidth: '10px',
+                  width: '10px',
+                  marginTop: '-2px',
+                  backgroundColor: `${$ARGO_ROLLOUT_STATUS_COLOR[status ? status.status : '']}`,
+                }"
               />
               {{ status ? status.status : '' }}
               <v-btn
@@ -141,7 +145,7 @@
             </v-list-item-subtitle>
           </v-card-text>
         </v-card>
-        <v-card class="mt-3">
+        <v-card class="mt-3" flat>
           <v-list-item three-line>
             <v-list-item-content class="pb-2">
               <v-list-item-title class="text-subtitle-1 mb-1 primary--text font-weight-medium">
@@ -156,7 +160,7 @@
                   v-for="(port, index) in service ? service.ports : []"
                   :key="index"
                   class="ml-4 pr-2"
-                  style="overflow: hidden"
+                  :style="{ overflow: `hidden` }"
                 >
                   <v-chip color="primary" small>
                     {{ port.port }}
@@ -171,7 +175,7 @@
                   v-for="(ingress, index) in service ? service.ingresses : []"
                   :key="index"
                   class="ml-4 pr-2"
-                  style="overflow: hidden"
+                  :style="{ overflow: `hidden` }"
                 >
                   <v-chip color="primary" small> {{ ingress.host }} | {{ ingress.ingressPort }} </v-chip>
                 </v-flex>
@@ -190,7 +194,7 @@
             class="my-0 py-1"
             :cols="4"
           >
-            <v-card class="mx-auto status-pos" height="100%">
+            <v-card class="mx-auto status-pos" flat height="100%">
               <v-list-item three-line>
                 <v-list-item-content class="pb-2">
                   <v-list-item-title class="text-subtitle-1 mb-1 primary--text font-weight-medium">
@@ -202,7 +206,7 @@
                       v-for="(image, index) in replicaSet.images"
                       :key="index"
                       class="ml-4 pr-2"
-                      style="overflow: hidden"
+                      :style="{ overflow: `hidden` }"
                     >
                       {{ image }}
                     </v-flex>
@@ -540,5 +544,9 @@
 
   .error-msg {
     max-width: 500px;
+  }
+
+  .v-list-item__subtitle {
+    line-height: 1.5 !important;
   }
 </style>

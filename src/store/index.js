@@ -8,7 +8,7 @@ import {
   getTenantSelectData,
   getVirtualSpaceSelectData,
 } from './server_data';
-import { getClusterPluginsList, getRESTMapping } from '@/api';
+import { getClusterPluginsList, getPluginsList, getRESTMapping } from '@/api';
 import router from '@/router';
 import { delAllCookie, getCookie } from '@/utils/cookie';
 import { sleep } from '@/utils/helpers';
@@ -26,6 +26,7 @@ const EnvironmentStore = 'environmentstore';
 const ClusterStore = 'clusterstore';
 const Auth = 'auth';
 const Plugins = 'plugins';
+const GlobalPlugins = 'globalplugins';
 const VirtualSpaceStore = 'virtualspacestore';
 const LatestTenant = 'latesttenant';
 const LatestProject = 'latestproject';
@@ -33,6 +34,7 @@ const LatestEnvironment = 'latestenvironment';
 const LatestCluster = 'latestcluster';
 const Version = 'version';
 const ApiResources = 'api-resources';
+const StoreMode = 'store';
 
 export default new Store({
   state: {
@@ -61,6 +63,7 @@ export default new Store({
     MessageStream: null,
     Scale: 1,
     Plugins: JSON.parse(window.localStorage.getItem(Plugins)) || {},
+    GlobalPlugins: JSON.parse(window.localStorage.getItem(GlobalPlugins)) || {},
     VirtualSpaceStore: JSON.parse(window.localStorage.getItem(VirtualSpaceStore)) || [],
     ClusterStore: JSON.parse(window.localStorage.getItem(ClusterStore)) || [],
     TenantStore: JSON.parse(window.localStorage.getItem(TenantStore)) || [],
@@ -88,14 +91,24 @@ export default new Store({
     Version: window.localStorage.getItem(Version) || '',
     ApiResources: JSON.parse(window.localStorage.getItem(ApiResources)) || {},
     SelfOut: false,
+    StoreMode: window.localStorage.getItem(StoreMode) || 'app',
+    GlobalPluginsInterval: null,
   },
   mutations: {
     SET_PLUGINS(state, payload) {
       state.Plugins = payload;
       window.localStorage.setItem(Plugins, JSON.stringify(payload));
     },
+    SET_GLOBAL_PLUGINS(state, payload) {
+      state.GlobalPlugins = payload;
+      window.localStorage.setItem(GlobalPlugins, JSON.stringify(payload));
+    },
     SET_DIALOG(state, payload) {
       state.DialogActive = payload;
+    },
+    SET_STORE(state, payload) {
+      state.StoreMode = payload;
+      window.localStorage.setItem(StoreMode, payload);
     },
     SET_VERSION(state, payload) {
       state.Version = payload;
@@ -314,6 +327,25 @@ export default new Store({
     async UPDATE_ENVIRONMENT_DATA({ commit }, payload) {
       const data = await getEnvironmentSelectData(payload);
       commit('SET_ENVIRONMENT', data);
+    },
+    async INIT_GLOBAL_PLUGINS({ state, commit }) {
+      const doFunc = async () => {
+        const data = await getPluginsList({
+          noprocessing: true,
+        });
+        const p = {};
+        data.forEach((d) => {
+          p[d.name] = d.enabled;
+        });
+        commit('SET_GLOBAL_PLUGINS', p);
+        return true;
+      };
+      if (!state.GlobalPluginsInterval && state.JWT) {
+        const r = await doFunc();
+        if (r) {
+          state.GlobalPluginsInterval = setInterval(doFunc, 1000 * 30);
+        }
+      }
     },
     async INIT_PLUGINS({ state, getters, commit }, payload) {
       const doFunc = async () => {

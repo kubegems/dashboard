@@ -1,17 +1,17 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
@@ -19,14 +19,12 @@
     <v-card>
       <v-card-text class="pa-0">
         <div>
-          <v-img class="ma-2" contain src="/logo-about.svg" width="200" />
+          <v-img class="ma-2" contain :src="logo" width="200" />
           <div class="kubegems__clear-float" />
         </div>
         <v-divider />
         <h6 class="text-subtitle-2 ma-4 font-weight-medium">
-          KubeGems 是一款开源的企业级多租户容器云平台。围绕云原生社区， KubeGems 提供了多 Kubernetes
-          集群接入能力，并具备丰富的组件管理和资源成本分析功能，
-          能够帮助企业快速的构建和打造一个本地化、功能强大且低成本的云管理平台。
+          {{ $DESCRIPTION }}
         </h6>
 
         <v-flex v-for="(value, key) in version" :key="key" class="mx-4">
@@ -60,6 +58,7 @@
           Platform: '编译平台',
         },
         apiVersion: null,
+        logo: this.$LOGO_BLUE,
       };
     },
     computed: {

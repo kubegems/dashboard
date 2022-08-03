@@ -1,17 +1,17 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
@@ -22,7 +22,7 @@
           <ContainerSelect :env="env" @filterPod="filterPod" />
           <ProjectEnvSelectCascade v-model="env" first reverse :tenant="tenant" />
 
-          <BaseDatetimePicker v-model="date" :default-value="30" :offset-y="1" @change="onDatetimeChange(undefined)" />
+          <BaseDatetimePicker v-model="date" :default-value="30" :offset-y="0" @change="onDatetimeChange(undefined)" />
           <v-menu
             v-if="
               environment &&
@@ -34,7 +34,7 @@
           >
             <template #activator="{ on, attrs }">
               <v-btn color="primary" icon text v-bind="attrs" v-on="on">
-                <v-icon small> fas fa-ellipsis-v </v-icon>
+                <v-icon> mdi-dots-vertical </v-icon>
               </v-btn>
             </template>
             <v-card>
@@ -77,7 +77,7 @@
 
       <v-row class="mt-3 mb-1 pb-0">
         <v-col v-for="(graph, index) in items[tab].graphs" :key="index" class="dash__col pt-0" :cols="4">
-          <v-card class="kubegems__full-height" height="330">
+          <v-card class="kubegems__full-height" flat height="330">
             <v-card-text class="pa-1 kubegems__full-height">
               <div class="dash__btn">
                 <v-btn icon small @click.stop="openGraphInMaxScreen(graph)">
@@ -109,7 +109,7 @@
           </v-card>
         </v-col>
         <v-col class="pt-0" cols="4">
-          <v-card class="kubegems__full-height" min-height="330">
+          <v-card class="kubegems__full-height" flat min-height="330">
             <v-card-text class="pa-0 kubegems__full-height">
               <v-list-item class="kubegems__full-height" three-line>
                 <v-list-item-content>

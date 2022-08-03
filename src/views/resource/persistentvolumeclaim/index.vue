@@ -1,17 +1,17 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
@@ -30,7 +30,7 @@
         <v-menu v-if="m_permisson_resourceAllow" left>
           <template #activator="{ on }">
             <v-btn icon>
-              <v-icon color="primary" small v-on="on"> fas fa-ellipsis-v </v-icon>
+              <v-icon color="primary" v-on="on"> mdi-dots-vertical </v-icon>
             </v-btn>
           </template>
           <v-card>
@@ -94,11 +94,16 @@
         <template #[`item.mount`]="{ item }">
           <span
             :class="`v-avatar mr-2`"
-            :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
-              $PVC_STATUS_COLOR[
-                item.metadata.annotations ? item.metadata.annotations[`storage.kubegems.io/in-use`] : 'undefined'
-              ]
-            };`"
+            :style="{
+              height: '10px',
+              minWidth: '10px',
+              width: '10px',
+              backgroundColor: `${
+                $PVC_STATUS_COLOR[
+                  item.metadata.annotations ? item.metadata.annotations[`storage.kubegems.io/in-use`] : 'undefined'
+                ]
+              }`,
+            }"
           />
           <span> {{ getMountStatus(item) }} </span>
         </template>
@@ -106,7 +111,11 @@
           {{ item.spec.accessModes[0] }}
         </template>
         <template #[`item.storage`]="{ item }">
-          {{ item.spec.resources.requests.storage }}
+          {{
+            isNaN(item.spec.resources.requests.storage)
+              ? item.spec.resources.requests.storage
+              : `${parseInt(item.spec.resources.requests.storage) / 1024 / 1024 / 1024}Gi`
+          }}
         </template>
         <template #[`item.createAt`]="{ item }">
           {{ item.metadata.creationTimestamp ? $moment(item.metadata.creationTimestamp).format('lll') : '' }}
@@ -116,7 +125,7 @@
           <v-menu :attach="`#r${item.metadata.resourceVersion}`" left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
               </v-btn>
             </template>
             <v-card>

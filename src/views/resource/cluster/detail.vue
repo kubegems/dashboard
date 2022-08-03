@@ -1,17 +1,17 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
@@ -27,7 +27,7 @@
           <v-menu left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
               </v-btn>
             </template>
             <v-card>
@@ -59,16 +59,14 @@
 
       <v-col v-for="(key, index) in resources" :key="index" class="down-top-padding pt-1 pb-2" cols="2">
         <v-card>
-          <v-card-text class="py-5 pl-8">
+          <v-card-text class="pa-5">
             <div class="d-flex align-center">
-              <Icon class="mr-6 primary--text icon--large" :icon="$RESOURCE_ICON[key]" />
+              <v-btn class="elevation-0" color="primary" dark fab small>
+                <v-icon>{{ $RESOURCE_ICON[key] }}</v-icon>
+              </v-btn>
               <div class="ml-2 mr-1">
-                <h2 class="text-h5">
-                  {{ workload[key] }}
-                </h2>
-                <div class="text-subtitle-2 font-weight-regular cluster__resource__div">
-                  {{ $RESOURCE_CN[key] }}
-                </div>
+                <h2 class="text-h6"> {{ workload[key] }} </h2>
+                <h4 class="font-weight-regular mt-1"> {{ $RESOURCE_CN[key] }} </h4>
               </div>
             </div>
           </v-card-text>

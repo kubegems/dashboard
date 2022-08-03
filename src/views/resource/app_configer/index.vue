@@ -1,17 +1,17 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
@@ -22,7 +22,7 @@
       <template #extend>
         <v-flex class="kubegems__full-right">
           <div class="float-left provider text-body-2 kubegems__text mr-2">Provider</div>
-          <div class="float-left provider__img"><img src="/icon/nacos.png" width="80" /></div>
+          <div class="float-left provider__img"><img src="/icon/nacos-t.svg" width="80" /></div>
 
           <v-menu
             bottom
@@ -93,7 +93,7 @@
         <v-menu left>
           <template #activator="{ on }">
             <v-btn icon>
-              <v-icon color="primary" small v-on="on"> fas fa-ellipsis-v </v-icon>
+              <v-icon color="primary" v-on="on"> mdi-dots-vertical </v-icon>
             </v-btn>
           </template>
           <v-card>
@@ -129,7 +129,7 @@
           <v-menu :attach="`#r${index}`" left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
               </v-btn>
             </template>
             <v-card>
@@ -194,7 +194,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import { delConfigItems, listConfigItems, pubConfigItems, baseInfo } from './api/index.js';
+  import { baseInfo, delConfigItems, listConfigItems, pubConfigItems } from './api/index.js';
   import ConfigEditor from './components/ConfigEditor';
   import ConfigListener from './components/ConfigListener';
   import ConfigSDK from './components/ConfigSDK';

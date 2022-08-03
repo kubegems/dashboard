@@ -1,36 +1,39 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
   <v-row>
     <v-col class="py-0" :cols="4">
-      <v-card class="mb-0 px-2 pt-1" height="100%">
+      <v-card class="mb-0 px-2 pt-1" flat height="100%">
         <WorkloadInfo :item="workload" />
       </v-card>
     </v-col>
     <v-col class="py-0" :cols="2">
-      <v-card class="mb-0" height="265px">
+      <v-card class="mb-0" flat height="265px">
         <div class="pa-2">
           <h4 class="font-weight-regular text-title kubegems__text mx-3">请求量</h4>
           <div class="d-flex align-center mt-2">
+            <v-btn class="elevation-0 ml-4" color="primary" dark fab small>
+              <v-icon>mdi-camera-timer</v-icon>
+            </v-btn>
             <div class="border-right px-3 py-2">
               <h6 class="font-weight-light text-body-2 blue-grey--text text--lighten-2 font-weight-regular">
                 实时速率
               </h6>
-              <span class="font-weight-medium text-body-2">
+              <span class="font-weight-medium text-caption">
                 {{ requestsNow }}
               </span>
             </div>
@@ -38,7 +41,7 @@
               <h6 class="font-weight-light blue-grey--text text--lighten-2 font-weight-regular text-body-2">
                 过去24h
               </h6>
-              <span class="font-weight-medium text-body-2">
+              <span class="font-weight-medium text-caption">
                 {{ requestsSumOverTime }}
               </span>
             </div>
@@ -58,17 +61,20 @@
       </v-card>
     </v-col>
     <v-col class="py-0" :cols="2">
-      <v-card class="mb-0" height="265px">
+      <v-card class="mb-0" flat height="265px">
         <div class="pa-2">
           <h4 class="font-weight-regular text-title kubegems__text mx-3">响应时间</h4>
           <div class="d-flex align-center mt-2">
+            <v-btn class="elevation-0 ml-4" color="primary" dark fab small>
+              <v-icon>mdi-clock</v-icon>
+            </v-btn>
             <div class="border-right px-3 py-2">
               <h6 class="font-weight-light text-body-2 blue-grey--text text--lighten-2 font-weight-regular"> p99 </h6>
-              <span class="font-weight-medium text-body-2"> {{ avgresponsetimeP99 }} ms </span>
+              <span class="font-weight-medium text-caption"> {{ avgresponsetimeP99 }} ms </span>
             </div>
             <div class="px-3 py-2">
               <h6 class="font-weight-light blue-grey--text text--lighten-2 font-weight-regular text-body-2"> p95 </h6>
-              <span class="font-weight-medium text-body-2"> {{ avgresponsetimeP95 }} ms </span>
+              <span class="font-weight-medium text-caption"> {{ avgresponsetimeP95 }} ms </span>
             </div>
           </div>
         </div>
@@ -86,13 +92,16 @@
       </v-card>
     </v-col>
     <v-col class="py-0" :cols="2">
-      <v-card class="mb-0" height="265px">
+      <v-card class="mb-0" flat height="265px">
         <div class="pa-2">
           <h4 class="font-weight-regular text-title kubegems__text mx-3"> 异常请求数 </h4>
           <div class="d-flex align-center mt-2">
+            <v-btn class="elevation-0 ml-4" color="primary" dark fab small>
+              <v-icon>mdi-alarm-panel-outline</v-icon>
+            </v-btn>
             <div class="border-right px-3 py-2">
               <h6 class="font-weight-light text-body-2 blue-grey--text text--lighten-2 font-weight-regular"> 实时 </h6>
-              <span class="font-weight-medium text-body-2">
+              <span class="font-weight-medium text-caption">
                 {{ errrequestsSum }}
               </span>
             </div>
@@ -100,7 +109,7 @@
               <h6 class="font-weight-light blue-grey--text text--lighten-2 font-weight-regular text-body-2">
                 过去24h
               </h6>
-              <span class="font-weight-medium text-body-2">{{ errrequestsSumOverTime }}</span>
+              <span class="font-weight-medium text-caption">{{ errrequestsSumOverTime }}</span>
             </div>
           </div>
         </div>
@@ -118,21 +127,24 @@
       </v-card>
     </v-col>
     <v-col class="py-0" :cols="2">
-      <v-card class="mb-0" height="265px">
+      <v-card class="mb-0" flat height="265px">
         <div class="pa-2">
           <h4 class="font-weight-regular text-title kubegems__text mx-3">流量</h4>
           <div class="d-flex align-center mt-2">
+            <v-btn class="elevation-0 ml-4" color="primary" dark fab small>
+              <v-icon>mdi-earth</v-icon>
+            </v-btn>
             <div class="border-right px-3 py-2">
               <h6 class="font-weight-light text-body-2 blue-grey--text text--lighten-2 font-weight-regular">
-                实时ingress
+                ingress
               </h6>
-              <span class="font-weight-medium text-body-2"> {{ networkIngress }} Kbps </span>
+              <span class="font-weight-medium text-caption"> {{ networkIngress }} Kbps </span>
             </div>
             <div class="px-3 py-2">
               <h6 class="font-weight-light blue-grey--text text--lighten-2 font-weight-regular text-body-2">
-                实时egress
+                egress
               </h6>
-              <span class="font-weight-medium text-body-2"> {{ networkEgress }} Kbps </span>
+              <span class="font-weight-medium text-caption"> {{ networkEgress }} Kbps </span>
             </div>
           </div>
         </div>

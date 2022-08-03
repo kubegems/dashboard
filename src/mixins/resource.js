@@ -165,6 +165,7 @@ const resource = {
       return true;
     },
     m_resource_addNsToData(data, ns) {
+      if (!data) return;
       if (!data?.metadata?.namespace) {
         data.metadata.namespace = ns || this.$route.query.namespace;
       }
@@ -248,9 +249,17 @@ const resource = {
         } else if (data[item] instanceof Object) {
           // if (JSON.stringify(data[item]) === '{}') continue
           if (
-            ['annotations', 'labels', 'matchLabels', 'data', 'status', 'selector', 'nodeSelector', 'dnsConfig'].indexOf(
-              item,
-            ) === -1
+            [
+              'annotations',
+              'labels',
+              'matchLabels',
+              'data',
+              'status',
+              'selector',
+              'nodeSelector',
+              'dnsConfig',
+              'configMapData',
+            ].indexOf(item) === -1
           ) {
             newdata[item] = this.m_resource_beautifyData(data[item]);
           } else {
@@ -301,6 +310,7 @@ const resource = {
       }
     },
     m_resource_validateJsonSchema(schema, data) {
+      if (!data) return false;
       const ajv = new Ajv();
       const validate = ajv.compile(schema);
       const valid = validate(data);

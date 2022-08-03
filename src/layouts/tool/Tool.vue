@@ -1,17 +1,17 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
@@ -27,16 +27,16 @@
   >
     <template #activator="{ on, attrs }">
       <v-btn bottom v-bind="attrs" class="tool__btn" color="primary" dark fab fixed right small v-on="on">
-        <v-icon small>fas fa-wrench</v-icon>
+        <v-icon>mdi-wrench</v-icon>
       </v-btn>
     </template>
-    <v-card class="pa-0">
+    <v-card class="pa-0" flat>
       <BaseSubTitle :divider="false" title="工具箱" />
       <v-card-text class="px-2 pt-0 pb-2">
-        <v-card v-if="Admin" class="my-2 pa-2" hover outlined @click="toAdminViewport">
+        <v-card v-if="Admin" class="my-2 pa-2" flat hover outlined @click="toAdminViewport">
           <v-card-text class="pa-1">
             <v-flex class="float-left">
-              <v-icon color="primary" left small> fas fa-cog </v-icon>
+              <v-icon color="primary" left> mdi-cog </v-icon>
             </v-flex>
             <v-flex class="text-subtitle-2 primary--text">平台管理</v-flex>
             <v-flex class="text-caption"> 以管理员身份查看操作所有资源。 </v-flex>

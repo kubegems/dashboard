@@ -116,6 +116,7 @@ const permission = {
       return [];
     },
     async m_permission_plugin_pass(cluster, plugins = []) {
+      if (plugins && plugins.length === 0) return [];
       const data = await getClusterPluginsList(cluster, {
         simple: true,
         noprocessing: true,

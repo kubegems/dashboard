@@ -189,6 +189,15 @@ module.exports = defineConfig({
     'vue/no-template-shadow': ['off'],
     'vue/multi-word-component-names': ['off'],
     'vue/no-v-html': ['off'],
+    // 'sort-imports': [
+    //   'error',
+    //   {
+    //     ignoreCase: false,
+    //     ignoreDeclarationSort: false,
+    //     ignoreMemberSort: false,
+    //     memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
+    //   },
+    // ],
   },
   ignorePatterns: [
     '*.sh',

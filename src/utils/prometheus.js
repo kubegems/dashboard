@@ -62,8 +62,8 @@ export const TOP_20_POD_MEMORY_AVG_PROMQL = `topk(20, round(avg_over_time(sum(ge
 export const WORKLOAD_CPU_USAGE_PROMQL = `sum(gems_container_cpu_usage_cores{namespace="$1", workload="$2"}) * 1000`;
 export const WORKLOAD_MEMORY_USAGE_PROMQL = `sum(gems_container_memory_usage_bytes{namespace="$1", workload="$2"}) / 1024 / 1024`;
 
-export const GATEWAY_QPS_PROMQL = `irate(nginx_ingress_nginx_http_requests_total{class="$1"}[5m])`;
-export const GATEWAY_CONNECTIONS_PROMQL = `nginx_ingress_nginx_connections_active{class="$1"}`;
+export const GATEWAY_QPS_PROMQL = `sum(irate(nginx_ingress_controller_requests{namespace="kubegems-gateway", container="$1"}[5m]))by(ingress, host, service)`;
+export const GATEWAY_CONNECTIONS_PROMQL = `sum(nginx_ingress_controller_nginx_process_connections{namespace="kubegems-gateway", container="$1"})by(state)`;
 
 export const ISTIO_WORKLOAD_ERR_QPS_PROMQL = `sum(gems_istio_workload_request_qps{reporter="destination", destination_workload=~"$1", destination_workload_namespace="$2", request_protocol = "http", response_code =~ "4.*|5.*"} or gems_istio_workload_request_qps{reporter="destination", destination_workload=~"$1", destination_workload_namespace="$2", request_protocol="grpc", grpc_response_status !~ "0|"})`;
 export const ISTIO_WORKLOAD_ERR_REQUEST_LAST_24H_PROMQL = `round(sum(increase(istio_requests_total{reporter="destination", destination_workload=~"$1", destination_workload_namespace="$2", request_protocol = "http", response_code =~ "4.*|5.*"}[24h]) or increase(istio_requests_total{reporter="destination", destination_workload=~"$1", destination_workload_namespace="$2", request_protocol="grpc", grpc_response_status !~ "0|"}[24h])), 1)`;

@@ -1,21 +1,21 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
-  <BaseFullScreenDialog v-model="dialog" icon="fas fa-list-ol" title="日志" @dispose="dispose">
+  <BaseFullScreenDialog v-model="dialog" icon="mdi-list-box" title="日志" @dispose="dispose">
     <template #header>
       <v-flex class="ml-2 text-h6 mt-n1">
         {{ item ? item.name : '' }}
@@ -39,13 +39,13 @@
           <template #activator="{ on }">
             <v-btn class="white--text mt-n1" color="primary" dark depressed v-on="on">
               {{ count }}
-              <v-icon v-if="countMenu" right> fas fa-angle-up </v-icon>
-              <v-icon v-else right> fas fa-angle-down </v-icon>
+              <v-icon v-if="countMenu" right> mdi-chevron-up </v-icon>
+              <v-icon v-else right> mdi-chevron-down </v-icon>
             </v-btn>
           </template>
           <v-data-iterator hide-default-footer :items="[{ text: '行数', values: counts }]">
             <template #default="props">
-              <v-card v-for="item in props.items" :key="item.text">
+              <v-card v-for="item in props.items" :key="item.text" flat>
                 <v-list dense>
                   <v-flex class="text-subtitle-2 text-center ma-2">
                     <span>行数</span>
@@ -74,7 +74,7 @@
                     hide-details
                     placeholder="手动输入行数"
                     solo
-                    style="width: 120px"
+                    :style="{ width: `120px` }"
                     @click.stop
                     @focus.stop
                     @keyup.enter="setCustomCount"
@@ -121,8 +121,8 @@
           <template #activator="{ on }">
             <v-btn class="white--text mt-n1" color="primary" dark depressed v-on="on">
               {{ container }}
-              <v-icon v-if="containerMenu" right> fas fa-angle-up </v-icon>
-              <v-icon v-else right> fas fa-angle-down </v-icon>
+              <v-icon v-if="containerMenu" right> mdi-chevron-up </v-icon>
+              <v-icon v-else right> mdi-chevron-down </v-icon>
             </v-btn>
           </template>
           <v-data-iterator hide-default-footer :items="[{ text: '容器', values: containers }]">
@@ -132,7 +132,7 @@
               </v-card>
             </template>
             <template #default="props">
-              <v-card v-for="item in props.items" :key="item.text">
+              <v-card v-for="item in props.items" :key="item.text" flat>
                 <v-list dense>
                   <v-flex class="text-subtitle-2 text-center ma-2">
                     <span>容器</span>
@@ -174,7 +174,7 @@
             wrap: false,
           })
         "
-        :style="`height: ${height}px !important`"
+        :style="{ height: `${height}px !important` }"
         theme="chrome"
         @init="$aceinit"
         @keydown.stop

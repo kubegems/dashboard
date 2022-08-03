@@ -1,17 +1,17 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
@@ -30,19 +30,18 @@
   >
     <template #activator="{ on }">
       <v-btn class="mr-1" dark icon v-on="on" @click="expand = false">
-        <v-icon>fas fa-user-circle</v-icon>
+        <v-icon>mdi-account-circle</v-icon>
       </v-btn>
     </template>
 
     <v-card>
       <v-list-item class="py-2 primary white--text" two-line>
         <v-list-item-avatar>
-          <!-- <v-icon large>fas fa-user-circle</v-icon> -->
           <v-avatar
             class="primary--text font-weight-medium"
             color="white"
             :size="45"
-            style="min-width: 40px; width: 40px"
+            :style="{ minWidth: `40px`, width: `40px` }"
           >
             <span class="text-h5">
               {{ User.Username ? User.Username[0].toLocaleUpperCase() : 'N' }}
@@ -83,7 +82,7 @@
           <v-list-item-content>
             <v-list-item-title class="text-body-2 font-weight-medium kubegems__text">
               租户
-              <v-flex class="float-right white--text blue-grey lighten-2 px-1 user-chip label">
+              <v-flex class="float-right white--text blue-grey lighten-2 px-1 user__item">
                 {{ Tenant().TenantName }}
               </v-flex>
               <div class="kubegems__clear-float" />
@@ -97,7 +96,7 @@
           <v-list-item-content>
             <v-list-item-title class="text-body-2 font-weight-medium kubegems__text">
               用户中心
-              <v-flex class="float-right white--text blue-grey lighten-2 px-1 user-chip label">
+              <v-flex class="float-right white--text blue-grey lighten-2 px-1 user__item">
                 {{ Admin ? '管理员' : '普通用户' }}
               </v-flex>
               <div class="kubegems__clear-float" />
@@ -114,7 +113,7 @@
         </v-list-item>
         <v-list-item @click="showAbout">
           <v-list-item-avatar height="25" min-width="25" width="25">
-            <v-icon color="primary">mdi-vimeo</v-icon>
+            <v-icon color="primary">mdi-alpha-v-circle</v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title class="text-body-2 font-weight-medium kubegems__text"> 关于 </v-list-item-title>
@@ -125,7 +124,7 @@
       <v-card-actions>
         <v-spacer />
         <v-btn color="primary" text @click="logout">
-          <v-icon left small> fas fa-sign-out-alt </v-icon>
+          <v-icon left> mdi-login </v-icon>
           <span class="font-weight-medium kubegems__text">退出</span>
         </v-btn>
         <v-spacer />
@@ -179,7 +178,7 @@
         this.closeUserMenu();
       },
       toBook() {
-        window.open(`https://www.kubegems.io/docs/concepts/what-is-kubegems`);
+        window.open(this.$MANUAL);
         this.closeUserMenu();
       },
       toUserCenter() {
@@ -195,12 +194,12 @@
 </script>
 
 <style lang="scss" scoped>
-  .label {
-    line-height: 22px;
-  }
-  .user-chip {
-    border-radius: 3px;
-    min-width: 80px;
-    text-align: center;
+  .user {
+    &__item {
+      border-radius: 3px;
+      min-width: 80px;
+      text-align: center;
+      line-height: 22px;
+    }
   }
 </style>

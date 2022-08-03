@@ -10,6 +10,11 @@ module.exports = {
           test: /\.mdx?$/,
           use: ['babel-loader', '@mdx-js/vue-loader'],
         },
+        {
+          resourceQuery: /blockType=i18n/,
+          type: 'javascript/auto',
+          loader: '@kazupon/vue-i18n-loader',
+        },
       ],
     },
     output: {
@@ -37,15 +42,15 @@ module.exports = {
       port: 8080,
       host: '0.0.0.0',
       proxy: {
-        '/api/v1/': {
+        '/api/v1': {
           target: 'http://local.kubegems.io:31529',
           changeOrigin: true,
           pathRewrite: {
-            '^/api/v1/': '/v1/',
+            '^/api/v1': '/v1',
           },
         },
         '/realtime/': {
-          target: 'http://local.kubegems.io:8080',
+          target: 'http://local.kubegems.io:8020',
           changeOrigin: true,
           pathRewrite: {
             '^/realtime/': '/',

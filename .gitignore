@@ -13,3 +13,6 @@ package-lock.json
 .github/
 .sentryclirc
 dist/
+
+*.py
+*.pyc

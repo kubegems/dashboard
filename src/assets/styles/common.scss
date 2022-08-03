@@ -23,6 +23,13 @@ html::-webkit-scrollbar {
   transform: translate(-0%, -50%);
 }
 
+.kubegems__top-right {
+  position: absolute;
+  right: 12px;
+  top: 0%;
+  transform: translate(-0%, -0%);
+}
+
 .kubegems__full-center {
   position: absolute;
   left: 50%;

@@ -1,21 +1,21 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
-  <BaseFullScreenDialog v-model="dialog" icon="fas fa-list-ol" title="配置项历史" @dispose="dispose">
+  <BaseFullScreenDialog v-model="dialog" icon="mdi-list-box" title="配置项历史" @dispose="dispose">
     <template #header>
       <div>
         租户: {{ historyItem.tenant }} 项目: {{ historyItem.project }} 环境: {{ historyItem.environment }} 应用:
@@ -23,7 +23,7 @@
       </div>
     </template>
     <template #content>
-      <v-card class="px-3">
+      <v-card class="px-3" flat>
         <v-data-iterator disable-filtering disable-pagination hide-default-footer :items="history">
           <template #default="props">
             <v-simple-table :height="height">

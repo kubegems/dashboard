@@ -1,30 +1,34 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
   <v-card class="rounded-t-0" flat height="55%">
-    <v-card-text class="d-flex pl-6 align-center flex-wrap" style="height: 100%">
-      <div class="d-flex align-center justify-start my-2" style="width: 50%">
-        <Icon class="mr-4 icon-large primary--text" :icon="$RESOURCE_ICON['node']" :width="35" />
+    <v-card-text class="d-flex pl-6 align-center flex-wrap" :style="{ height: `100%` }">
+      <div class="d-flex align-center justify-start my-2" :style="{ width: `50%` }">
+        <v-btn class="elevation-0 mr-2" color="primary" dark fab small>
+          <v-icon>{{ $RESOURCE_ICON['node'] }}</v-icon>
+        </v-btn>
         <h6 class="text-large-size font-weight-regular">
           节点 {{ workload && workload['node'] ? workload['node'] : '' }}
         </h6>
       </div>
-      <div class="d-flex align-center justify-start my-2" style="width: 50%">
-        <Icon class="mr-4 icon-large primary--text" :icon="$RESOURCE_ICON['cpu']" :width="35" />
+      <div class="d-flex align-center justify-start my-2" :style="{ width: `50%` }">
+        <v-btn class="elevation-0 mr-2" color="primary" dark fab small>
+          <v-icon>{{ $RESOURCE_ICON['cpu'] }}</v-icon>
+        </v-btn>
         <div>
           <h5 class="text-size font-weight-regular">
             物理CPU
@@ -38,8 +42,10 @@
           </h5>
         </div>
       </div>
-      <div class="d-flex align-center justify-start my-2" style="width: 50%">
-        <Icon class="mr-4 icon-large primary--text" :icon="$RESOURCE_ICON['storage']" :width="35" />
+      <div class="d-flex align-center justify-start my-2" :style="{ width: `50%` }">
+        <v-btn class="elevation-0 mr-2" color="primary" dark fab small>
+          <v-icon>{{ $RESOURCE_ICON['storage'] }}</v-icon>
+        </v-btn>
         <div>
           <h5 class="text-size font-weight-regular">
             物理存储
@@ -57,8 +63,10 @@
           </h5>
         </div>
       </div>
-      <div class="d-flex align-center justify-start my-2" style="width: 50%">
-        <Icon class="mr-4 icon-large primary--text" :icon="$RESOURCE_ICON['memory']" :width="35" />
+      <div class="d-flex align-center justify-start my-2" :style="{ width: `50%` }">
+        <v-btn class="elevation-0 mr-2" color="primary" dark fab small>
+          <v-icon>{{ $RESOURCE_ICON['memory'] }}</v-icon>
+        </v-btn>
         <div>
           <h5 class="text-size font-weight-regular">
             物理内存

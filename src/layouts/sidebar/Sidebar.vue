@@ -1,17 +1,17 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
@@ -38,7 +38,7 @@
           <v-list-item-content class="primary--text">
             <v-list-item-title class="text-subtitle-1 text-center title-font-weight">
               <v-flex class="float-left">
-                <Icon :icon="module.icon" style="width: 2rem; height: 2rem; font-size: 2rem" />
+                <Icon :icon="module.icon" :style="{ width: `2.2rem`, height: `2.2rem`, fontSize: `2.2rem` }" />
               </v-flex>
               <v-flex v-if="!hide" class="float-left title-line-height ml-3">
                 {{ module.text }}
@@ -47,10 +47,10 @@
           </v-list-item-content>
           <v-list-item-action>
             <v-btn v-if="!expand" icon>
-              <v-icon color="primary lighten-1" small> fas fa-angle-down </v-icon>
+              <v-icon color="primary lighten-1"> mdi-chevron-down </v-icon>
             </v-btn>
             <v-btn v-else icon>
-              <v-icon color="primary lighten-1" small> fas fa-angle-up </v-icon>
+              <v-icon color="primary lighten-1"> mdi-chevron-up </v-icon>
             </v-btn>
           </v-list-item-action>
         </v-list-item>
@@ -63,13 +63,15 @@
           <v-list-item
             v-for="item in modules"
             :key="item.value"
-            :class="item.value === module.value ? `px-9 primary` : `px-9`"
+            :class="{ 'px-9': true, primary: item.value === module.value }"
             exact
-            :style="item.value === module.value ? `color: white !important;` : `color: rgba(0, 0, 0, 0.7) !important;`"
+            :style="{
+              color: item.value === module.value ? 'white !important' : 'rgba(0, 0, 0, 0.7) !important',
+            }"
             @click="switchModule(item)"
           >
             <v-list-item-icon>
-              <Icon :icon="item.icon" style="width: 1.5rem; height: 1.5rem; font-size: 1.5rem" />
+              <Icon :icon="item.icon" :style="{ width: `1.5rem`, height: `1.5rem`, fontSize: `1.5rem` }" />
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title v-text="item.text" />

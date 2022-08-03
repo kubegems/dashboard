@@ -1,17 +1,17 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
@@ -19,30 +19,31 @@
     <v-combobox
       ref="filter"
       v-model="conditions"
-      color="primary"
       chips
-      hide-selected
-      hide-details
-      label="输入查询条件进行过滤"
-      multiple
-      prepend-inner-icon="mdi-magnify"
+      class="filter__label"
+      color="primary"
       dense
-      solo
       flat
-      no-data-text="无数据"
-      :items="items"
-      :search-input.sync="filterText"
       full-width
-      @change="onFilterConditionChange"
+      hide-details
+      hide-selected
+      :items="items"
+      :label="$t('filter.placehold')"
+      multiple
+      no-data-text="无数据"
+      prepend-inner-icon="mdi-magnify"
+      :search-input.sync="filterText"
+      solo
       @blur="onFilterConditionBlur"
+      @change="onFilterConditionChange"
       @focus="onFilterConditionFocus"
       @keydown.enter="contructFilterTextCondition"
     >
       <template #selection="{ attrs, item, selected }">
         <v-chip
           v-if="item && item.text && (item.items.length > 0 || item.text.indexOf(':') > -1)"
-          :input-value="selected"
           color="primary"
+          :input-value="selected"
           label
           small
           v-bind="attrs"
@@ -216,3 +217,11 @@
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .filter {
+    &__label {
+      font-weight: 500;
+    }
+  }
+</style>

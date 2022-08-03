@@ -1,21 +1,21 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
-  <v-card class="my-3">
+  <v-card class="my-3" flat>
     <BaseSubTitle class="pt-2" :divider="false" title="事件">
       <template #selector>
         <v-sheet class="text-body-2 text--darken-1">
@@ -40,8 +40,8 @@
                 @click="m_select_clusterSelectData(Tenant().ID)"
               >
                 {{ clusterName }}
-                <v-icon v-if="eventMenu" right> fas fa-angle-up </v-icon>
-                <v-icon v-else right> fas fa-angle-down </v-icon>
+                <v-icon v-if="eventMenu" right> mdi-chevron-up </v-icon>
+                <v-icon v-else right> mdi-chevron-down </v-icon>
               </v-btn>
             </template>
             <v-data-iterator hide-default-footer :items="[{ text: '集群', values: m_select_clusterItems }]">
@@ -51,7 +51,7 @@
                 </v-card>
               </template>
               <template #default="props">
-                <v-card v-for="item in props.items" :key="item.text" min-width="100px">
+                <v-card v-for="item in props.items" :key="item.text" flat min-width="100px">
                   <v-list dense>
                     <v-flex class="text-subtitle-2 text-center ma-2">
                       <span>集群</span>

@@ -1,17 +1,17 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
@@ -52,7 +52,7 @@
         <v-menu v-if="m_permisson_resourceAllow($route.query.env)" left>
           <template #activator="{ on }">
             <v-btn icon>
-              <v-icon color="primary" small v-on="on"> fas fa-ellipsis-v </v-icon>
+              <v-icon color="primary" v-on="on"> mdi-dots-vertical </v-icon>
             </v-btn>
           </template>
           <v-card>
@@ -110,7 +110,7 @@
             />
           </template>
           <template #[`item.name`]="{ item }">
-            <v-flex style="display: flex">
+            <v-flex :style="{ display: `flex` }">
               <a class="text-subtitle-2" @click.stop="prometheusRuleDetail(item)">
                 {{ item.name }}
               </a>
@@ -155,11 +155,11 @@
           </template>
           <template #[`item.open`]="{ item }">
             <span v-if="item.isOpen">
-              <v-icon color="primary" small> fas fa-check-circle </v-icon>
+              <v-icon color="primary" small> mdi-check-circle </v-icon>
               启用
             </span>
             <span v-else>
-              <v-icon color="error" small> fas fa-minus-circle </v-icon>
+              <v-icon color="error" small> mdi-minus-circle </v-icon>
               禁用
             </span>
           </template>
@@ -176,7 +176,7 @@
             <v-menu :attach="`#r${index}`" left>
               <template #activator="{ on }">
                 <v-btn icon>
-                  <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
+                  <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
                 </v-btn>
               </template>
               <v-card>

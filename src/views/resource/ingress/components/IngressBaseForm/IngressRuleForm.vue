@@ -1,23 +1,23 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
   <v-form ref="form" v-model="valid" class="my-2" lazy-validation @submit.prevent>
     <v-expand-transition>
-      <v-card v-show="expand" class="my-2 pa-2 kubegems__expand-transition" :elevation="4">
+      <v-card v-show="expand" class="my-2 pa-2 kubegems__expand-transition" :elevation="4" flat>
         <BaseSubTitle :divider="false">
           <template #action>
             <v-btn class="float-right mr-2" color="primary" small text @click="addPath">
@@ -41,33 +41,7 @@
                 </template>
               </v-text-field>
             </v-flex>
-            <v-flex class="float-left ml-2 kubegems__form-width">
-              <v-autocomplete
-                v-model="ruler.tls"
-                class="my-0"
-                color="primary"
-                hide-selected
-                :items="protocols"
-                label="协议"
-                no-data-text="暂无可选数据"
-                :rules="rulerRules.tlsRule"
-              >
-                <template #selection="{ item }">
-                  <v-chip class="mx-1" color="primary" small>
-                    {{ item['text'] }}
-                  </v-chip>
-                </template>
-              </v-autocomplete>
-            </v-flex>
-            <div class="kubegems__clear-float" />
-          </v-sheet>
-
-          <v-sheet class="px-2">
-            <v-flex class="float-left text-subtitle-2 py-1 primary--text kubegems__min-width" />
-            <v-flex
-              v-if="['https', 'wss', 'grpc'].indexOf(ruler.tls) > -1"
-              class="float-left ml-2 kubegems__form-width"
-            >
+            <v-flex v-if="hasTLS" class="float-left ml-2 kubegems__form-width">
               <v-autocomplete
                 v-model="ruler.secretName"
                 class="my-0"
@@ -76,7 +50,7 @@
                 :items="m_select_secretItems"
                 label="密钥"
                 no-data-text="暂无可选数据"
-                :rules="rulerRules.secretName"
+                :rules="rulerRules.secretNameRule"
                 @focus="onSecretSelectFocus(ThisCluster, obj.metadata.namespace, 'kubernetes.io/tls')"
               >
                 <template #selection="{ item }">
@@ -88,6 +62,7 @@
             </v-flex>
             <div class="kubegems__clear-float" />
           </v-sheet>
+
           <v-sheet v-for="(item, index) in ruler.paths" :key="index" class="px-2">
             <v-flex class="float-left text-subtitle-2 pt-5 py-1 primary--text kubegems__min-width">
               路径{{ index + 1 }}
@@ -156,8 +131,8 @@
                     <template #activator="{ on }">
                       <v-chip class="primary--text float-left mt-3 font-weight-medium" color="white" label v-on="on">
                         {{ ruler.paths[index].portType === 'name' ? '端口名' : '端口号' }}
-                        <v-icon v-if="ruler.paths[index].portTypeMenu" right small> fas fa-angle-up </v-icon>
-                        <v-icon v-else right small> fas fa-angle-down </v-icon>
+                        <v-icon v-if="ruler.paths[index].portTypeMenu" right small> mdi-chevron-up </v-icon>
+                        <v-icon v-else right small> mdi-chevron-down </v-icon>
                       </v-chip>
                     </template>
                     <v-data-iterator
@@ -173,7 +148,7 @@
                       ]"
                     >
                       <template #default="props">
-                        <v-card v-for="iterdata in props.items" :key="iterdata.text">
+                        <v-card v-for="iterdata in props.items" :key="iterdata.text" flat>
                           <v-list dense>
                             <v-list-item
                               v-for="(pType, i) in iterdata.values"
@@ -253,6 +228,10 @@
     name: 'IngressRuleForm',
     mixins: [BaseResource, BaseSelect],
     props: {
+      annotations: {
+        type: Object,
+        default: () => null,
+      },
       domain: {
         type: String,
         default: () => '',
@@ -266,13 +245,6 @@
       return {
         valid: false,
         expand: false,
-        protocols: [
-          { text: 'http', value: 'http' },
-          { text: 'https', value: 'https' },
-          { text: 'ws', value: 'ws' },
-          { text: 'wss', value: 'wss' },
-          { text: 'grpc', value: 'grpc' },
-        ],
         pathTypeItems: [
           { text: 'Prefix', value: 'Prefix' },
           { text: 'Exact', value: 'Exact' },
@@ -285,7 +257,6 @@
         },
         ruler: {
           index: -1,
-          tls: '',
           secretName: '',
           host: '',
           paths: [{ path: '', pathType: '', serviceName: '', servicePort: '', portType: 'name', portTypeMenu: false }],
@@ -295,9 +266,8 @@
     computed: {
       rulerRules() {
         const rule = {
-          hostRule: [],
-          secretName: [required],
-          s: [required],
+          hostRule: [required],
+          secretNameRule: [required],
           pathsRule: [
             {
               pathRule: [required],
@@ -307,20 +277,26 @@
             },
           ],
         };
-        if (['https', 'wss', 'grpc'].indexOf(this.ruler.tls) > -1) {
-          rule.hostRule = [required];
+        if (this.hasTLS) {
+          rule.secretNameRule = [required];
         }
         return rule;
+      },
+      hasTLS() {
+        return (
+          this.annotations &&
+          ['HTTPS', 'GRPCS'].indexOf(this.annotations['nginx.ingress.kubernetes.io/backend-protocol']) > -1
+        );
       },
     },
     watch: {
       obj: {
-        handler: function (data) {
-          if (data?.metadata?.namespace !== this.objCopy.metadata.namespace && data?.metadata?.namespace) {
-            this.m_select_serviceSelectData(this.ThisCluster, data?.metadata?.namespace);
-            this.m_select_secretSelectData(this.ThisCluster, data?.metadata?.namespace, 'kubernetes.io/tls');
+        handler: function (newValue) {
+          if (newValue?.metadata?.namespace !== this.objCopy.metadata.namespace && newValue?.metadata?.namespace) {
+            this.m_select_serviceSelectData(this.ThisCluster, newValue?.metadata?.namespace);
+            this.m_select_secretSelectData(this.ThisCluster, newValue?.metadata?.namespace, 'kubernetes.io/tls');
           }
-          this.objCopy = deepCopy(data);
+          this.objCopy = deepCopy(newValue);
         },
         deep: true,
       },
@@ -375,65 +351,8 @@
         this.ruler.paths.splice(index, 1);
         this.rulerRules.pathsRule.splice(index, 1);
       },
-      generateAnnotation(oriRuler) {
-        if (!this.objCopy.metadata.annotations) {
-          this.objCopy.metadata.annotations = {};
-        }
-        if (this.objCopy.metadata.annotations && this.objCopy.metadata.annotations['nginx.org/websocket-services']) {
-          const svcs = this.objCopy.metadata.annotations['nginx.org/websocket-services'].split(',');
-          oriRuler.forEach((r) => {
-            const index = svcs.indexOf(r.serviceName);
-            if (index > -1) svcs.splice(index, 1);
-          });
-          this.objCopy.metadata.annotations['nginx.org/websocket-services'] = svcs.join(',');
-          if (this.objCopy.metadata.annotations['nginx.org/websocket-services'] === '') {
-            this.$delete(this.objCopy.metadata.annotations, 'nginx.org/websocket-services');
-          }
-        }
-        if (this.objCopy.metadata.annotations && this.objCopy.metadata.annotations['nginx.org/grpc-services']) {
-          const svcs = this.objCopy.metadata.annotations['nginx.org/grpc-services'].split(',');
-          oriRuler.forEach((r) => {
-            const index = svcs.indexOf(r.serviceName);
-            if (index > -1) svcs.splice(index, 1);
-          });
-          this.objCopy.metadata.annotations['nginx.org/grpc-services'] = svcs.join(',');
-          if (this.objCopy.metadata.annotations['nginx.org/grpc-services'] === '') {
-            this.$delete(this.objCopy.metadata.annotations, 'nginx.org/grpc-services');
-          }
-        }
-        if (this.ruler.tls === 'ws' || this.ruler.tls === 'wss') {
-          if (!this.objCopy.metadata.annotations['nginx.org/websocket-services']) {
-            this.objCopy.metadata.annotations['nginx.org/websocket-services'] = '';
-          }
-          const svcs = this.objCopy.metadata.annotations['nginx.org/websocket-services'].split(',').filter((svc) => {
-            return svc !== '';
-          });
-          this.objCopy.metadata.annotations['nginx.org/websocket-services'] = svcs
-            .concat(
-              this.ruler.paths.map((p) => {
-                return p.serviceName;
-              }),
-            )
-            .join(',');
-        } else if (this.ruler.tls === 'grpc') {
-          if (!this.objCopy.metadata.annotations['nginx.org/grpc-services']) {
-            this.objCopy.metadata.annotations['nginx.org/grpc-services'] = '';
-          }
-          const svcs = this.objCopy.metadata.annotations['nginx.org/grpc-services'].split(',').filter((svc) => {
-            return svc !== '';
-          });
-          this.objCopy.metadata.annotations['nginx.org/grpc-services'] = svcs
-            .concat(
-              this.ruler.paths.map((p) => {
-                return p.serviceName;
-              }),
-            )
-            .join(',');
-        }
-      },
       addData() {
         if (this.$refs.form.validate(true)) {
-          const oriRuler = this.ruler.paths;
           const paths = [];
           this.ruler.paths.forEach((p) => {
             if (p.portType === 'name') {
@@ -468,7 +387,7 @@
           if (this.ruler.host === '自动生成域名') {
             this.ruler.host = '';
           }
-          if (['https', 'wss', 'grpc'].indexOf(this.ruler.tls) > -1) {
+          if (this.hasTLS) {
             if (!this.objCopy.spec.tls) {
               this.objCopy.spec.tls = [];
             }
@@ -492,7 +411,7 @@
               },
             });
           }
-          if (['https', 'wss', 'grpc'].indexOf(this.ruler.tls) === -1) {
+          if (!this.hasTLS) {
             if (this.objCopy.spec.tls && this.objCopy.spec.tls.length > 0) {
               const index = this.objCopy.spec.tls.findIndex((tls) => {
                 return tls.hosts.find((h) => {
@@ -502,7 +421,6 @@
               this.$delete(this.objCopy.spec.tls, index);
             }
           }
-          this.generateAnnotation(oriRuler);
           this.$emit('addData', this.objCopy);
           this.closeCard();
         }

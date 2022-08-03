@@ -1,21 +1,21 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
-  <v-card class="pa-3" :elevation="expand ? 3 : 0">
+  <v-card class="pa-3" :elevation="expand ? 3 : 0" flat>
     <div class="d-flex">
       <v-btn color="primary" text @click="handleExpand">
         查询
@@ -39,7 +39,7 @@
       </v-combobox>
       <!-- 标签查询 -->
 
-      <div style="margin-left: auto">
+      <div :style="{ marginLeft: `auto` }">
         <v-btn color="primary" :disabled="disabled" text @click="search">
           <v-icon left>mdi-magnify</v-icon>
           运行
@@ -289,8 +289,6 @@
       handleHistory() {
         this.$emit('showHistroy');
       },
-
-      // eslint-disable-next-line vue/no-unused-properties
       handleParseLabel(input) {
         const labelMatchArr = input.match(new RegExp('{(.*)}'));
         if (labelMatchArr && labelMatchArr.length > 1) {
@@ -310,8 +308,6 @@
           return {};
         }
       },
-
-      // eslint-disable-next-line vue/no-unused-properties
       handleParseFilter(input) {
         const filterList = [];
         const matchedArr = input.match(new RegExp('{.*}(.*)'));
@@ -356,14 +352,10 @@
           }, 100);
         });
       },
-
-      // eslint-disable-next-line vue/no-unused-properties
       clear() {
         this.selected = {};
         this.regexp = undefined;
       },
-
-      // eslint-disable-next-line vue/no-unused-properties
       setSelectedValue(key, value, switchValue = false) {
         if (this.selected[key]) {
           if (this.selected[key].includes(value)) {
@@ -375,8 +367,6 @@
           this.$set(this.selected, key, [value]);
         }
       },
-
-      // eslint-disable-next-line vue/no-unused-properties
       setRegexp(value) {
         this.regexp = value;
       },

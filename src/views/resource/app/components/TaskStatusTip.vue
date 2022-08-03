@@ -1,17 +1,17 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
@@ -22,11 +22,16 @@
           ? 'kubegems__waiting-flashing'
           : ''
       }`"
-      :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
-        $APP_TASK_STATUS_COLOR[item.task ? item.task.status.status : '']
-          ? $APP_TASK_STATUS_COLOR[item.task ? item.task.status.status : '']
-          : 'grey'
-      };`"
+      :style="{
+        height: '10px',
+        minWidth: '10px',
+        width: '10px',
+        backgroundColor: `${
+          $APP_TASK_STATUS_COLOR[item.task ? item.task.status.status : '']
+            ? $APP_TASK_STATUS_COLOR[item.task ? item.task.status.status : '']
+            : 'grey'
+        }`,
+      }"
     />
     <template v-if="item.task && (item.task.status.status === 'Running' || item.task.status.status === 'Pending')">
       <span> 执行中 </span>
@@ -48,7 +53,7 @@
         transition="scale-transition"
       >
         <template #activator="{ on }">
-          <span style="cursor: pointer" v-on="on"> 执行失败 </span>
+          <span class="kubegems__pointer" v-on="on"> 执行失败 </span>
         </template>
         <v-card flat>
           <v-flex class="text-body-2 text-center primary white--text py-2">

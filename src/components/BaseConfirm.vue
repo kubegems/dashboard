@@ -1,22 +1,22 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
   <v-dialog v-model="Confirm.value" max-width="500" persistent scrollable>
-    <v-card class="pa-0">
+    <v-card class="pa-0" flat>
       <v-sheet class="px-4 py-2 error--text text-h6">
         {{ Confirm.title }}
       </v-sheet>
@@ -27,13 +27,15 @@
       >
         <v-alert
           border="left"
-          colored-border
-          :color="(Confirm.content && Confirm.content.level) || 'warning'"
-          elevation="1"
           class="rounded py-3"
+          :color="(Confirm.content && Confirm.content.level) || 'warning'"
+          colored-border
+          elevation="1"
         >
           <template v-if="Confirm.content && Confirm.content.type === 'batch_delete'">
-            <div class="text-subtitle-1 kubegems__text"> 请确认以下需要删除的资源！ </div>
+            <div class="text-subtitle-1 kubegems__text">
+              请确认以下需要{{ Confirm.content.tip || '删除' }}的资源！
+            </div>
             <div
               v-for="(content, index) in Confirm.content ? Confirm.content.text.split(',') : []"
               :key="index"
@@ -41,8 +43,8 @@
             >
               {{ content }}
               <template v-if="Object.prototype.hasOwnProperty.call(Confirm.content.status, content)">
-                <v-icon v-if="Confirm.content.status[content]" small right color="success">mdi-check</v-icon>
-                <v-icon v-else small right color="error">mdi-close</v-icon>
+                <v-icon v-if="Confirm.content.status[content]" color="success" right small>mdi-check</v-icon>
+                <v-icon v-else color="error" right small>mdi-close</v-icon>
               </template>
             </div>
           </template>
@@ -52,7 +54,7 @@
               :key="index"
               class="text-subtitle-1 kubegems__text kubegems__break-all"
               v-html="content"
-            ></div>
+            />
           </template>
         </v-alert>
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
@@ -60,30 +62,32 @@
             v-if="Confirm.content.type === 'delete'"
             v-model="confirmData"
             class="my-0"
-            :rules="confirmDataRule"
+            :label="$t('confirm.tip')"
             required
-            label="确认资源名称"
+            :rules="confirmDataRule"
             @keydown.enter="confirm"
-          >
-          </v-text-field>
+          />
           <v-text-field
             v-else-if="Confirm.content.type === 'batch_delete'"
             v-model="confirmData"
             class="my-0"
-            :rules="confirmBacthDataRule"
+            :label="`${Confirm.content.one ? `${$t('confirm.tip')}` : `请输入 “确认${Confirm.content.tip || '删除'}”`}`"
             required
-            :label="`${Confirm.content.one ? '确认资源名称' : '请输入 “确认删除”'}`"
+            :rules="confirmBacthDataRule"
             @keydown.enter="confirm"
-          >
-          </v-text-field>
+          />
         </v-form>
       </v-sheet>
       <v-sheet v-else-if="Confirm.content" class="px-4 py-4 confirm-size">
-        <v-flex class="text-subtitle-1 kubegems__text kubegems__break-all" v-html="Confirm.content.text"> </v-flex>
+        <v-flex class="text-subtitle-1 kubegems__text kubegems__break-all" v-html="Confirm.content.text" />
       </v-sheet>
       <div class="pb-3 pr-4">
-        <v-btn class="float-right" color="primary" small text :loading="Circular" @click="confirm"> 确定 </v-btn>
-        <v-btn class="float-right" color="error" small text @click="closeConfirmDialog"> 取消 </v-btn>
+        <v-btn class="float-right" color="primary" :loading="Circular" small text @click="confirm">
+          {{ $t('operate.confirm') }}
+        </v-btn>
+        <v-btn class="float-right" color="error" small text @click="closeConfirmDialog">
+          {{ $t('operate.cancel') }}
+        </v-btn>
       </div>
     </v-card>
   </v-dialog>
@@ -91,6 +95,7 @@
 
 <script>
   import { mapState } from 'vuex';
+
   import { required } from '@/utils/rules';
 
   export default {
@@ -110,7 +115,7 @@
         if (this.Confirm.content.one) {
           return [required, (v) => !!(v === this.Confirm.content.one) || '名称不匹配'];
         } else {
-          return [required, (v) => !!(v === '确认删除') || '输入不匹配'];
+          return [required, (v) => !!(v === `确认${this.Confirm.content.tip || '删除'}`) || '输入不匹配'];
         }
       },
     },

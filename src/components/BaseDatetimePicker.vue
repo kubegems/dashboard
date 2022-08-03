@@ -1,48 +1,48 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
   <v-menu
     v-model="showPicker"
-    :close-on-content-click="false"
     bottom
+    :close-on-content-click="false"
+    :disabled="disabled"
     left
+    nudge-bottom="5px"
     offset-y
     origin="top center"
     transition="scale-transition"
-    nudge-bottom="5px"
-    :disabled="disabled"
     @input="onMenuInput"
   >
     <template #activator="{ on }">
       <v-btn
-        depressed
-        :color="color"
         :class="color === 'white' ? `primary--text` : `white--text`"
+        :color="color"
+        dark
+        depressed
         :small="small"
         :style="{ marginTop: `${offsetY}px` }"
-        dark
         v-on="on"
       >
         {{ label }}
-        <v-icon right>fas fa-angle-{{ showPicker ? 'up' : 'down' }}</v-icon>
+        <v-icon right>mdi-chevron-{{ showPicker ? 'up' : 'down' }}</v-icon>
       </v-btn>
     </template>
 
-    <v-card width="480px" class="pa-3">
+    <v-card class="pa-3" flat width="480px">
       <v-row>
         <!-- 快捷选项 -->
         <v-col cols="3">
@@ -53,8 +53,8 @@
             :class="{
               'v-item--active v-list-item--active': shortcut === item.value,
             }"
-            style="min-height: 40px;"
             color="primary"
+            :style="{ minHeight: `40px` }"
             @click="shortcutDate(item)"
           >
             {{ item.text }}
@@ -62,7 +62,7 @@
         </v-col>
         <!-- 快捷选项 -->
 
-        <v-divider vertical class="my-4" />
+        <v-divider class="my-4" vertical />
 
         <!-- 选择面板 -->
         <v-col cols="9">
@@ -71,33 +71,31 @@
           <div class="d-flex align-center">
             <v-combobox
               v-model="time[0]"
-              label="开始时间"
-              :items="timeShortcutOptions"
-              hide-details
-              solo
-              flat
-              dense
               attach
+              dense
+              flat
+              hide-details
+              :items="timeShortcutOptions"
+              label="开始时间"
+              solo
               @blur="onComboboxBlur($event, 0)"
               @change="onTouchChange"
-            >
-            </v-combobox>
+            />
             <span class="mx-2">~</span>
             <v-combobox
               v-model="time[1]"
-              label="结束时间"
-              :items="timeShortcutOptions"
-              hide-details
-              solo
-              flat
-              dense
               attach
+              dense
+              flat
+              hide-details
+              :items="timeShortcutOptions"
+              label="结束时间"
+              solo
               @blur="onComboboxBlur($event, 1)"
               @change="onTouchChange"
-            >
-            </v-combobox>
+            />
           </div>
-          <v-date-picker v-model="date" range no-title flat locale="zh-cn" class="mt-4" @change="onTouchChange" />
+          <v-date-picker v-model="date" class="mt-4" flat locale="zh-cn" no-title range @change="onTouchChange" />
         </v-col>
         <!-- 选择面板 -->
       </v-row>
@@ -106,8 +104,8 @@
       <v-divider class="my-1" />
       <v-card-actions class="pa-0">
         <v-spacer />
-        <v-btn v-if="clearable" text color="error" @click="clear">清空</v-btn>
-        <v-btn text color="primary" @click="confirm">确定</v-btn>
+        <v-btn v-if="clearable" color="error" text @click="clear">清空</v-btn>
+        <v-btn color="primary" text @click="confirm">确定</v-btn>
       </v-card-actions>
       <!-- 确认 -->
     </v-card>

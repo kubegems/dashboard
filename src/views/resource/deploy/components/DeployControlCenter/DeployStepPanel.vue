@@ -1,21 +1,21 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
-  <BasePanel v-model="panel" icon="fas fa-globe" title="步骤&流量" :width="`1200px`" @dispose="dispose">
+  <BasePanel v-model="panel" icon="mdi-debug-step-over" title="步骤&流量" :width="`1200px`" @dispose="dispose">
     <template #header>
       <span class="ml-2">
         {{ $route.params.name }}
@@ -24,19 +24,19 @@
     <template #action>
       <template v-if="status && (status.strategy === 'Canary' || status.strategy === 'BlueGreen')">
         <v-btn class="white--text" small text @click="deployControll('重启应用', 'restart')">
-          <v-icon left small> fas fa-redo </v-icon>
+          <v-icon left small> mdi-redo-variant </v-icon>
           重启应用
         </v-btn>
         <v-btn class="white--text" small text @click="deployControll('重试发布', 'retry')">
-          <v-icon left small> fas fa-location-arrow </v-icon>
+          <v-icon left small> mdi-reload </v-icon>
           重试
         </v-btn>
         <v-btn class="white--text" small text @click="deployControll('中止发布', 'pause')">
-          <v-icon left small> fas fa-pause </v-icon>
+          <v-icon left small> mdi-pause </v-icon>
           中止
         </v-btn>
         <v-btn class="white--text" small text @click="deployControll('继续发布', 'promote', { full: false })">
-          <v-icon left small> fas fa-play </v-icon>
+          <v-icon left small> mdi-play </v-icon>
           继续
         </v-btn>
       </template>
@@ -75,7 +75,7 @@
 
       <v-flex class="px-4 py-2 text-subtitle-1 kubegems__text">流量拓扑</v-flex>
       <v-progress-linear v-if="progress" color="primary" indeterminate />
-      <v-flex style="position: relative">
+      <v-flex :style="{ position: `relative` }">
         <v-flex :class="progress ? 'kubegems__overlay' : ''" />
         <iframe
           v-if="status"

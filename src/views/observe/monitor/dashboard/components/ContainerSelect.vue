@@ -1,17 +1,17 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
@@ -30,10 +30,10 @@
         transition="scale-transition"
       >
         <template #activator="{ on }">
-          <v-btn class="primary--text font-weight-medium" color="white" dark depressed small v-on="on">
+          <v-btn class="primary--text font-weight-medium sheet__menu__btn" color="white" dark depressed small v-on="on">
             容器组 {{ podName }}
-            <v-icon v-if="podMenu" right> fas fa-angle-up </v-icon>
-            <v-icon v-else right> fas fa-angle-down </v-icon>
+            <v-icon v-if="podMenu" right> mdi-chevron-up </v-icon>
+            <v-icon v-else right> mdi-chevron-down </v-icon>
           </v-btn>
         </template>
         <v-data-iterator hide-default-footer :items="[{ text: '容器组', values: podItems }]">
@@ -43,7 +43,7 @@
             </v-card>
           </template>
           <template #default="props">
-            <v-card v-for="item in props.items" :key="item.text" min-width="100px">
+            <v-card v-for="item in props.items" :key="item.text" flat min-width="100px">
               <v-list dense>
                 <v-flex class="text-subtitle-2 text-center ma-2">
                   <span>容器组</span>
@@ -58,7 +58,7 @@
                   @click="setPod(pod)"
                 >
                   <v-list-item-content>
-                    <span>{{ pod.podName }}</span>
+                    <span class="text-body-2">{{ pod.podName }}</span>
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
@@ -139,6 +139,10 @@
     &__menu {
       &__line {
         line-height: 34px;
+      }
+
+      &__btn {
+        margin-top: -6px;
       }
     }
   }

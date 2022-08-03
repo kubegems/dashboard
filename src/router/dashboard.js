@@ -39,7 +39,7 @@ export const dashboard = [
         meta: {
           header: '空间',
           title: '空间管理',
-          icon: 'mdi-apps',
+          icon: 'mdi-view-grid',
           required: ['tenant'],
         },
         component: () => import('@/layouts/Container'),
@@ -53,7 +53,7 @@ export const dashboard = [
             meta: {
               requireAuth: true,
               title: '项目',
-              icon: 'mdi-cube-outline',
+              icon: 'mdi-view-dashboard',
               show: true,
               rootName: 'dashboard',
               tip: 'project',

@@ -1,17 +1,17 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
@@ -34,7 +34,7 @@
             <template v-else-if="taskStatus === 'Error'">
               <v-menu :close-delay="200" nudge-bottom="10px" open-on-hover top>
                 <template #activator="{ on }">
-                  <span class="error--text" style="cursor: pointer" v-on="on">
+                  <span class="error--text kubegems__pointer" v-on="on">
                     <v-icon class="icon-font" color="error"> mdi-close-circle </v-icon>
                     {{ deploy ? '应用部署失败' : '策略变更失败' }}
                   </span>
@@ -46,7 +46,7 @@
             </template>
           </span>
           <v-btn class="primary--text" small text @click="returnAppDetail">
-            <v-icon left small> fas fa-share-square </v-icon>
+            <v-icon left small> mdi-share </v-icon>
             返回
           </v-btn>
         </v-flex>
@@ -54,7 +54,7 @@
     </BaseBreadcrumb>
     <v-row class="mt-n3 deploy-pos">
       <v-col cols="3">
-        <v-card height="100%">
+        <v-card flat height="100%">
           <v-card-title>
             <span class="text-subtitle-1 kubegems__text"> 滚动更新 </span>
             <v-spacer />
@@ -84,7 +84,7 @@
         </v-card>
       </v-col>
       <v-col cols="3">
-        <v-card height="100%">
+        <v-card flat height="100%">
           <v-card-title>
             <span class="text-subtitle-1 kubegems__text"> 重建 </span>
             <v-spacer />
@@ -113,7 +113,7 @@
         </v-card>
       </v-col>
       <v-col cols="3">
-        <v-card height="100%">
+        <v-card flat height="100%">
           <v-card-title>
             <span class="text-subtitle-1 kubegems__text"> 蓝绿发布 </span>
             <v-spacer />
@@ -143,7 +143,7 @@
         </v-card>
       </v-col>
       <v-col cols="3">
-        <v-card height="100%">
+        <v-card flat height="100%">
           <v-card-title>
             <span class="text-subtitle-1 kubegems__text"> 金丝雀发布（灰度） </span>
             <v-spacer />

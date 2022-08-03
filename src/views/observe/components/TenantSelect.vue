@@ -1,17 +1,17 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
@@ -30,8 +30,8 @@
         <template #activator="{ on }">
           <v-btn class="primary--text font-weight-medium" color="white" text v-on="on">
             {{ tenant ? tenant.TenantName : '' }}
-            <v-icon v-if="tenantMenu" right> fas fa-angle-up </v-icon>
-            <v-icon v-else right> fas fa-angle-down </v-icon>
+            <v-icon v-if="tenantMenu" right> mdi-chevron-up </v-icon>
+            <v-icon v-else right> mdi-chevron-down </v-icon>
           </v-btn>
         </template>
         <v-data-iterator class="file-iterator" hide-default-footer :items="[{ text: '租户', values: tenants }]">
@@ -41,7 +41,7 @@
             </v-card>
           </template>
           <template #default="props">
-            <v-card v-for="item in props.items" :key="item.text" min-width="120">
+            <v-card v-for="item in props.items" :key="item.text" flat min-width="120">
               <v-list dense>
                 <v-flex class="text-subtitle-2 text-center ma-2">
                   <span>租户</span>

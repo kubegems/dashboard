@@ -1,17 +1,17 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
@@ -59,7 +59,6 @@
                 bottom: true,
                 left: true,
                 origin: `top center`,
-                transition: `scale-transition`,
               }"
               no-data-text="暂无可选数据"
               :rules="objRules.tenantProjectIdRules"
@@ -84,7 +83,6 @@
                 bottom: true,
                 left: true,
                 origin: `top center`,
-                transition: `scale-transition`,
               }"
               no-data-text="暂无可选数据"
               :rules="objRules.versionRules"
@@ -108,7 +106,6 @@
                 bottom: true,
                 left: true,
                 origin: `top center`,
-                transition: `scale-transition`,
               }"
               no-data-text="暂无可选数据"
               :rules="objRules.environmentIdRules"
@@ -152,7 +149,7 @@
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded`"
           lang="yaml"
           :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
-          :style="`height: ${height}px !important`"
+          :style="{ height: `${height}px !important` }"
           theme="chrome"
           @init="$aceinit"
           @keydown.stop
@@ -261,7 +258,7 @@
       filesCopy: {},
     }),
     computed: {
-      ...mapState(['Auth', 'Circular', 'AdminViewport', 'Scale', 'BasePermission']),
+      ...mapState(['Auth', 'Circular', 'AdminViewport', 'Scale']),
       ...mapGetters(['Tenant', 'Project', 'Environment']),
       objRules() {
         return {
@@ -316,8 +313,8 @@
           this.schemaJson = JSON.parse(this.filesCopy['values.schema.json']);
         }
         if (this.filesCopy['values.yaml']) {
-          this.appValues = this.$yamlload(this.filesCopy['values.yaml']);
-          this.appValuesOrigin = this.$yamlload(this.filesCopy['values.yaml']);
+          this.appValues = this.$yamlload(this.filesCopy['values.yaml']) || {};
+          this.appValuesOrigin = this.$yamlload(this.filesCopy['values.yaml']) || {};
           this.appValuesYaml = this.$yamldump(this.appValuesOrigin);
         }
         if (Object.keys(this.appValues).length === 0) {
@@ -484,6 +481,7 @@
         this.params = this.retrieveBasicFormParams(this.appValues, this.schemaJson);
       },
       reset() {
+        this.$refs.deploy.reset();
         if (this.$refs.form) {
           this.$refs.form?.reset();
         }

@@ -1,17 +1,17 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
@@ -23,7 +23,7 @@
           <v-menu v-if="m_permisson_resourceAllow($route.query.env)" left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
               </v-btn>
             </template>
             <v-card>
@@ -43,7 +43,7 @@
 
     <v-row>
       <v-col cols="6">
-        <v-card class="mt-0">
+        <v-card class="mt-0" flat>
           <BaseSubTitle class="pa-2" :divider="false" title="规则详情" />
           <v-card-text class="px-6 pt-0" :style="{ overflowY: 'auto', height: '330px' }">
             <pre class="yaml-pre">{{ yaml }}</pre>
@@ -51,7 +51,7 @@
         </v-card>
       </v-col>
       <v-col cols="6">
-        <v-card class="mt-0">
+        <v-card class="mt-0" flat>
           <BaseSubTitle class="pa-2" :divider="false" title="告警趋势" />
           <v-card-text class="px-6 pt-0" :style="{ height: '330px' }">
             <AlertBarChart
@@ -65,7 +65,7 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-card class="mt-3">
+    <v-card class="mt-3" flat>
       <v-card-text class="px-4 py-3">
         <AlertList ref="alertList" />
       </v-card-text>

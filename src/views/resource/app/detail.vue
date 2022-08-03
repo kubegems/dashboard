@@ -1,17 +1,17 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
@@ -33,18 +33,23 @@
             text
             @click="advancedDeploy"
           >
-            <v-icon left small> fas fa-location-arrow </v-icon>
+            <v-icon left small> mdi-send </v-icon>
             高级部署
           </v-btn>
 
           <v-btn
-            v-if="app && app.kind !== 'DaemonSet' && m_permisson_resourceAllow && $route.query.kind === 'app'"
+            v-if="
+              app &&
+              app.kind !== 'DaemonSet' &&
+              m_permisson_resourceAllow &&
+              ($route.query.kind === 'app' || $route.query.kind === 'modelstore')
+            "
             class="primary--text"
             small
             text
             @click="scaleReplicas"
           >
-            <v-icon left small> fas fa-arrows-alt-v </v-icon>
+            <v-icon left small> mdi-arrow-up-down-bold </v-icon>
             调整副本数
           </v-btn>
           <v-btn
@@ -54,8 +59,18 @@
             text
             @click="rollingback"
           >
-            <v-icon left small> fas fa-redo-alt </v-icon>
+            <v-icon left small> mdi-redo-variant </v-icon>
             回滚
+          </v-btn>
+          <v-btn
+            v-if="app && m_permisson_resourceAllow && $route.query.kind === 'modelstore'"
+            class="primary--text"
+            small
+            text
+            @click="resourceYaml"
+          >
+            <v-icon left small> mdi-code-json </v-icon>
+            YAML
           </v-btn>
           <!-- <v-btn
             v-if="app && app.kind !== 'DaemonSet' && m_permisson_resourceAllow && $route.query.kind === 'app'"
@@ -64,17 +79,20 @@
             text
             @click="hpaStrategy"
           >
-            <v-icon left small> fas fa-cogs </v-icon>
+            <v-icon left small> mdi-cogs </v-icon>
             弹性伸缩策略
           </v-btn> -->
           <v-menu left>
             <template #activator="{ on }">
               <v-btn icon>
-                <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
+                <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
               </v-btn>
             </template>
             <v-card>
               <v-card-text class="pa-2">
+                <v-flex v-if="$route.query.kind === 'modelstore'">
+                  <v-btn color="primary" small text @click="updateModelRuntime"> 编辑 </v-btn>
+                </v-flex>
                 <v-flex>
                   <v-btn color="error" small text @click="removeApp"> 删除 </v-btn>
                 </v-flex>
@@ -98,13 +116,29 @@
             </v-tabs>
           </v-card-text>
         </v-card>
-        <component :is="tabItems[tab].value" :ref="tabItems[tab].value" :app="app" class="mt-3" />
+        <component
+          :is="tabItems[tab].value"
+          :ref="tabItems[tab].value"
+          :app="app"
+          class="mt-3"
+          :item="app"
+          :selector="{
+            topkind: 'Deployment',
+            topname: app ? app.name || app.metadata.name : '',
+          }"
+        />
       </v-col>
     </v-row>
 
-    <ScaleReplicas v-if="$route.query.kind === 'app'" ref="scaleReplicas" />
+    <ScaleReplicas
+      v-if="$route.query.kind === 'app' || $route.query.kind === 'modelstore'"
+      ref="scaleReplicas"
+      :item="app"
+    />
     <HPAStrategy v-if="$route.query.kind === 'app'" ref="hpaStrategy" />
     <Rollingback v-if="$route.query.kind === 'app'" ref="rollingback" />
+    <ResourceYaml ref="resourceYaml" :item="app" />
+    <UpdateModelRuntime ref="updateModelRuntime" @refresh="appRunningDetail" />
   </v-container>
 </template>
 
@@ -112,15 +146,20 @@
   import { mapGetters, mapState } from 'vuex';
 
   import HPAStrategy from './components/HPAStrategy';
+  import ModelMonitor from './components/ModelMonitor';
+  import ModelResourceInfo from './components/ModelResourceInfo';
   import ResourceInfo from './components/ResourceInfo';
   import Rollingback from './components/Rollingback';
   import ScaleReplicas from './components/ScaleReplicas';
-  import { deleteApp, deleteAppStoreApp, getAppRunningDetail } from '@/api';
+  import UpdateModelRuntime from './components/UpdateModelRuntime';
+  import { deleteApp, deleteAppStoreApp, deleteModelRuntime, getAppRunningDetail, getModelRuntimeDetail } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import AppDeployList from '@/views/resource/appmanifest/components/AppDeployList';
   import AppImageSecurityReportList from '@/views/resource/appmanifest/components/AppImageSecurityReportList';
   import AppResourceFileList from '@/views/resource/appmanifest/components/AppResourceFileList';
+  import PodList from '@/views/resource/components/common/PodList';
+  import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
   import DeployControlCenter from '@/views/resource/deploy/components/DeployControlCenter';
   import DeployStatus from '@/views/resource/deploy/components/DeployStatus';
 
@@ -133,9 +172,14 @@
       DeployControlCenter,
       DeployStatus,
       HPAStrategy,
+      ModelMonitor,
+      ModelResourceInfo,
+      PodList,
       ResourceInfo,
+      ResourceYaml,
       Rollingback,
       ScaleReplicas,
+      UpdateModelRuntime,
     },
     mixins: [BasePermission, BaseResource],
     data: () => ({
@@ -154,9 +198,16 @@
             { text: '部署历史', value: 'AppDeployList' },
             { text: '镜像安全', value: 'AppImageSecurityReportList' },
           ];
-        } else {
+        } else if (this.$route.query.kind === 'appstore') {
           return [{ text: '资源状态', value: 'DeployStatus' }];
+        } else if (this.$route.query.kind === 'modelstore') {
+          return [
+            { text: '运行信息', value: 'ModelResourceInfo' },
+            { text: '容器组', value: 'PodList' },
+            { text: '监控', value: 'ModelMonitor' },
+          ];
         }
+        return [];
       },
     },
     watch: {
@@ -189,26 +240,38 @@
     },
     methods: {
       async appRunningDetail() {
-        const envid = this.$route.query.environmentid ? this.$route.query.environmentid : this.Environment().ID;
-        const data = await getAppRunningDetail(
-          this.$route.query.tenantid,
-          this.$route.query.projectid,
-          envid,
-          this.$route.params.name,
-        );
-        data.ProjectID = this.$route.query.projectid;
-        data.TenantID = this.$route.query.tenantid;
-        data.EnvironmentID = envid;
-        data.namespace = this.$route.query.namespace;
+        let data = {};
+        if (this.$route.query.kind === 'modelstore') {
+          data = await getModelRuntimeDetail(
+            this.Tenant().TenantName,
+            this.Project().ProjectName,
+            this.Environment().EnvironmentName,
+            this.$route.params.name,
+          );
+          this.app = data;
+        } else {
+          const envid = this.$route.query.environmentid ? this.$route.query.environmentid : this.Environment().ID;
+          data = await getAppRunningDetail(
+            this.$route.query.tenantid,
+            this.$route.query.projectid,
+            envid,
+            this.$route.params.name,
+          );
+          data.ProjectID = this.$route.query.projectid;
+          data.TenantID = this.$route.query.tenantid;
+          data.EnvironmentID = envid;
+          data.namespace = this.$route.query.namespace;
+          this.app = data;
 
-        this.app = data;
+          this.watchApp();
+        }
+
         this.$router.replace({
           query: {
             ...this.$route.query,
             ...{ name: this.app.name, type: this.app.kind },
           },
         });
-        this.watchApp();
       },
       watchApp() {
         const sub = {
@@ -223,7 +286,7 @@
         }
       },
       scaleReplicas() {
-        this.$refs.scaleReplicas.init();
+        this.$refs.scaleReplicas.init(this.$route.query.kind);
         this.$refs.scaleReplicas.open();
       },
       hpaStrategy() {
@@ -248,11 +311,16 @@
         });
       },
       removeApp() {
+        let title = '删除平台应用';
+        if (this.$route.query.kind === 'appstore') {
+          title = '删除应用商店应用';
+        } else if (this.$route.query.kind === 'modelstore') {
+          title = '删除算法商店应用';
+        }
         this.$store.commit('SET_CONFIRM', {
-          title: this.$route.query.kind === 'app' ? '删除平台应用' : '删除应用商店应用',
+          title: title,
           content: {
-            text:
-              this.$route.query.kind === 'app' ? `删除平台应用 ${this.app.name}` : `删除应用商店应用 ${this.app.name}`,
+            text: `${title} ${this.app.name}`,
             type: 'delete',
             name: this.app.name,
           },
@@ -260,12 +328,26 @@
           doFunc: async () => {
             if (this.$route.query.kind === 'app') {
               await deleteApp(this.Tenant().ID, this.Project().ID, this.Environment().ID, this.app.name);
-            } else {
+            } else if (this.$route.query.kind === 'appstore') {
               await deleteAppStoreApp(this.Tenant().ID, this.Project().ID, this.Environment().ID, this.app.name);
+            } else if (this.$route.query.kind === 'modelstore') {
+              await deleteModelRuntime(
+                this.Tenant().TenantName,
+                this.Project().ProjectName,
+                this.Environment().EnvironmentName,
+                this.app.name,
+              );
             }
             this.$router.push({ name: 'app-list', params: this.$route.params });
           },
         });
+      },
+      resourceYaml() {
+        this.$refs.resourceYaml.open();
+      },
+      updateModelRuntime() {
+        this.$refs.updateModelRuntime.init(this.app);
+        this.$refs.updateModelRuntime.open();
       },
     },
   };

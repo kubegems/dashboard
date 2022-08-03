@@ -1,17 +1,17 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
@@ -59,7 +59,7 @@
                     <v-menu nudge-right="20px" nudge-top="10px" open-on-hover right>
                       <template #activator="{ on }">
                         <span v-on="on">
-                          <Icon class="mr-2 primary--text" height="18px" icon="simple-icons:istio" width="18px" />
+                          <img class="workload__inject" :src="`/icon/istio.svg`" width="18px" />
                         </span>
                       </template>
                       <v-card>
@@ -90,9 +90,14 @@
                       ? 'kubegems__waiting-flashing'
                       : ''
                   }`"
-                  :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
-                    $WORKLOAD_STATUS_COLOR[m_resource_getWorkloadStatus(tabItems[tab].value, item.Object)]
-                  };`"
+                  :style="{
+                    height: '10px',
+                    minWidth: '10px',
+                    width: '10px',
+                    backgroundColor: `${
+                      $WORKLOAD_STATUS_COLOR[m_resource_getWorkloadStatus(tabItems[tab].value, item.Object)]
+                    }`,
+                  }"
                 />
                 <span>
                   {{ m_resource_getWorkloadStatus(tabItems[tab].value, item.Object) === 'ready' ? 'Ready' : 'Pending' }}
@@ -116,7 +121,7 @@
                     <v-list-item two-line>
                       <v-list-item-content class="py-0">
                         <v-list-item-subtitle class="text-body-2 py-0">
-                          <v-list-item class="float-left py-0 pl-0" style="width: 300px" two-line>
+                          <v-list-item class="float-left py-0 pl-0" :style="{ width: `300px` }" two-line>
                             <v-list-item-content class="py-0">
                               <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
                                 <v-icon class="float-left mt-1" color="primary" left small> mdi-cube </v-icon>
@@ -127,7 +132,7 @@
                               </v-list-item-title>
                             </v-list-item-content>
                           </v-list-item>
-                          <v-list-item class="float-left py-0 pl-0" style="width: 250px" two-line>
+                          <v-list-item class="float-left py-0 pl-0" :style="{ width: `250px` }" two-line>
                             <v-list-item-content class="py-0">
                               <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
                                 <span
@@ -138,9 +143,12 @@
                                       ? 'kubegems__waiting-flashing'
                                       : ''
                                   }`"
-                                  :style="`height: 10px; min-width: 10px; width: 10px; background-color: ${
-                                    $POD_STATUS_COLOR[m_resource_getPodStatus(pod)] || '#ff5252'
-                                  };`"
+                                  :style="{
+                                    height: '10px',
+                                    minWidth: '10px',
+                                    width: '10px',
+                                    backgroundColor: `${$POD_STATUS_COLOR[m_resource_getPodStatus(pod)] || '#ff5252'}`,
+                                  }"
                                 />
                                 <span>
                                   {{ m_resource_getPodStatus(pod) }}
@@ -158,7 +166,7 @@
                               <v-list-item-subtitle class="text-body-2 py-1"> 状态 </v-list-item-subtitle>
                             </v-list-item-content>
                           </v-list-item>
-                          <v-list-item class="float-left py-0 pl-0" style="width: 200px" two-line>
+                          <v-list-item class="float-left py-0 pl-0" :style="{ width: `200px` }" two-line>
                             <v-list-item-content class="py-0">
                               <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
                                 {{ getRestart(pod.status.containerStatuses) }}
@@ -166,7 +174,7 @@
                               <v-list-item-subtitle class="text-body-2 py-1"> 重启次数 </v-list-item-subtitle>
                             </v-list-item-content>
                           </v-list-item>
-                          <v-list-item class="float-left py-0 pl-0" style="width: 200px" two-line>
+                          <v-list-item class="float-left py-0 pl-0" :style="{ width: `200px` }" two-line>
                             <v-list-item-content class="py-0">
                               <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
                                 {{
@@ -178,7 +186,7 @@
                               <v-list-item-subtitle class="text-body-2 py-1"> Age </v-list-item-subtitle>
                             </v-list-item-content>
                           </v-list-item>
-                          <v-list-item class="float-left py-0 pl-0" style="width: 200px" two-line>
+                          <v-list-item class="float-left py-0 pl-0" :style="{ width: `200px` }" two-line>
                             <v-list-item-content class="py-0">
                               <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
                                 {{ pod.status.podIP }}
@@ -186,7 +194,7 @@
                               <v-list-item-subtitle class="text-body-2 py-1"> Pod IP </v-list-item-subtitle>
                             </v-list-item-content>
                           </v-list-item>
-                          <v-list-item class="float-left py-0 pl-0" style="width: 200px" two-line>
+                          <v-list-item class="float-left py-0 pl-0" :style="{ width: `200px` }" two-line>
                             <v-list-item-content class="py-0">
                               <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
                                 {{ pod.status.hostIP }}
@@ -206,7 +214,7 @@
                 <v-menu :attach="`#r${item.Name}`" left>
                   <template #activator="{ on }">
                     <v-btn icon>
-                      <v-icon color="primary" x-small v-on="on"> fas fa-ellipsis-v </v-icon>
+                      <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
                     </v-btn>
                   </template>
                   <v-card>
@@ -468,3 +476,11 @@
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .workload {
+    &__inject {
+      margin-top: 2px;
+    }
+  }
+</style>

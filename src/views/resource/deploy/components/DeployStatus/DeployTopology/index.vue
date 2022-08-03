@@ -1,17 +1,17 @@
-<!-- 
-  Copyright 2022 The kubegems.io Authors
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. 
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
 -->
 
 <template>
@@ -42,7 +42,7 @@
       :data="tree"
       direction="horizontal"
       :render-content="renderContent"
-      :style="`height: ${height}px`"
+      :style="{ height: `${height}px` }"
       @node-click="showDeployLive"
     />
 
@@ -276,7 +276,7 @@
                 </div>
                 <button
                   type="button"
-                  class="v-icon notranslate v-icon--link fas fa-ellipsis-v theme--light primary--text resource-operate"
+                  class="v-icon notranslate v-icon--link mdi mdi-dots-vertical theme--light primary--text resource-operate"
                   onclick={this.showMenu}
                   onblur={this.hideMenu}
                   data-data={JSON.stringify(node.data)}
@@ -428,7 +428,7 @@
     overflow: hidden;
   }
   .resource-operate {
-    font-size: 12px !important;
+    font-size: 14px !important;
     width: 20px;
     height: 20px;
     margin-top: 7px;
