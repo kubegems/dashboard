@@ -10,8 +10,8 @@ export const entryMicroService = [
       {
         path: '',
         meta: {
-          header: '微服务空间',
-          title: '微服务空间',
+          header: 'routerbar.microservice.h_space',
+          title: 'routerbar.microservice.g_space',
           icon: 'mdi-cloud',
         },
         component: () => import('@/layouts/Container'),
@@ -25,7 +25,7 @@ export const entryMicroService = [
             meta: {
               icon: 'mdi-cloud-outline',
               requireAuth: true,
-              title: '虚拟空间',
+              title: 'routerbar.microservice.virtualspace',
               show: true,
               rootName: 'entry-microservice',
               tip: 'virtualspace',
@@ -39,7 +39,7 @@ export const entryMicroService = [
             meta: {
               icon: 'mdi-dns',
               requireAuth: true,
-              title: 'DNS管理',
+              title: 'routerbar.microservice.dns',
               show: true,
               rootName: 'entry-microservice',
               tip: 'dns',

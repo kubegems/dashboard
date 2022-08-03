@@ -1,10 +1,17 @@
 {
+  "login": "Login",
+  "403": "Forbidden",
+  "404": "Not Found",
+
   "header": {
     "workspace": "Workspace",
     "model_store": "Model Store",
     "app_store": "App Store",
     "administrator": "Administrator",
-    "tenant_workspace": "Tenant Workspace"
+    "tenant_workspace": "Tenant Workspace",
+    "audit": "Audit",
+    "event": "Event",
+    "usercenter": "User Center"
   },
   "filter": {
     "placehold": "Enter query criteria to filter result"
@@ -23,5 +30,143 @@
   },
   "confirm": {
     "tip": "Please confirm the resource name"
+  },
+  "sidebar": {
+    "cluster": "Cluster Resource",
+    "runtime": "Container Runtime",
+    "microservice": "Service Mesh",
+    "observability": "Observability",
+    "administration": "Platform Management"
+  },
+  "routerbar": {
+    "cluster": {
+      "cluster_dashboard": "Cluster Dashboard",
+      "project_dashboaed": "Project Dashboard",
+      "environment_dashboaed": "Environment Dashboard",
+      "plugins": "Plugins",
+      "node": "Node",
+      "workload": "Workload",
+      "pod": "Pod",
+      "service": "Service",
+      "ingress": "Ingress",
+      "gateway": "Gateway",
+      "job": "Job",
+      "cronjob": "CronJob",
+      "configmap": "Configmap",
+      "secret": "Secret",
+      "certmanager": "Certmanager",
+      "crd": "CRD",
+      "persistentvolumeclaim": "Persistentvolumeclaim",
+      "volumesnapshot": "Volume Snapshot",
+      "srorageclass": "Srorageclass",
+      "app": "App",
+      "app_deploy": "App Deploy",
+      "app_manifest": "App Manifest",
+      "app_config": "App Config",
+      "registry": "Image Registry",
+      "project": "Project",
+      "terminal": "Terminal",
+      "log": "Container Log",
+
+      "g_cluster": "Cluser",
+      "g_node": "Node",
+      "g_container": "Container",
+      "g_dashboard": "Dashboard",
+      "g_space": "Space",
+      "g_app": "App",
+      "g_task": "Task",
+      "g_config": "Config Center",
+      "g_crd": "Custom Resource Define",
+      "g_runtime": "Runtime",
+      "g_storage": "Storage Center",
+
+      "h_cluster": "Cluster",
+      "h_node": "Node",
+      "h_container": "Container",
+      "h_dashboard": "Dashboard",
+      "h_space": "Space",
+      "h_app": "App Center",
+      "h_appmanifest": "Platform App"
+    },
+    "microservice": {
+      "virtualspace": "Virtual Space",
+      "dns": "DNS",
+      "dashboard": "Virtualspace Dashboard",
+      "workload": "Workload",
+      "service": "Service",
+      "mesh": "Mesh DAG",
+      "configmap": "Configmap",
+      "gateway_intance": "Gateway Instance",
+      "authorization_policy": "Authorization Policy",
+      "gateway": "Gateway",
+      "peer_authentication": "Peer Authentication",
+      "service_entry": "Service Entry",
+      "sidecar": "Sidecar",
+
+      "g_space": "Space",
+      "g_virtualspace": "Virtual Space",
+      "g_app": "App",
+      "g_config": "Config",
+      "g_spaceconfig": "Space Config",
+      "g_istioconfig": "Istio Config",
+
+      "h_space": "Virtual Space",
+      "h_mesh": "Mesh"
+    },
+    "observability": {
+      "dashboard": "Dashboard",
+      "integrated": "Integrated",
+      "monitor_dahboard": "Monitor",
+      "metrics_inquirer": "Metric",
+      "log_inquirer": "Log",
+      "trace_inquirer": "Trace",
+      "alert_dashboard": "Dashboard",
+      "alert_history": "History",
+      "alert_blacklist": "Blacklist",
+      "mertic_setting": "Metrics",
+      "log_setting": "Log",
+      "servicemonitor": "Service Monitor",
+      "prometheusrule": "Prometheus Rule",
+      "alertrule": "Alert Rule",
+      "output": "Flow",
+      "flow": "Output",
+
+      "g_dashboard": "Dashboard",
+      "g_integrated": "Integrated Center",
+      "g_observability": "Observability",
+      "g_inquirer": "Inquirer",
+      "g_alert": "Alert Center",
+      "g_setting": "Setting Center",
+
+      "h_dashboard": "Dashboard",
+      "h_integrated": "Integrated",
+      "h_observability": "Observability",
+      "h_alert": "Alert",
+      "h_setting": "Setting"
+    },
+    "administration": {
+      "tenant": "Tenant",
+      "user": "Account",
+      "role": "Role",
+      "project": "Project",
+      "environment": "Environment",
+      "audit": "Audit",
+      "event": "Event",
+      "authorization": "Authorization",
+      "app_store": "App Store",
+      "model_store": "Model Store",
+      "prometheus_template": "Prometheus",
+
+      "g_template": "Template",
+      "g_integrated": "Integrated",
+      "g_security": "Security",
+      "g_space": "Space",
+      "g_tenant": "Tenant",
+
+      "h_tenant": "Tenant",
+      "h_space": "Space",
+      "h_security": "Security Setting",
+      "h_integrated": "Integrated"
+    }
   }
 }

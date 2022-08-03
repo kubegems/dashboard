@@ -10,8 +10,8 @@ export const projectWorkspace = [
       {
         path: '',
         meta: {
-          header: '首页',
-          title: '首页',
+          header: 'routerbar.cluster.h_dashboard',
+          title: 'routerbar.cluster.g_dashboard',
           icon: 'mdi-view-dashboard',
         },
         component: () => import('@/layouts/Container'),
@@ -24,7 +24,7 @@ export const projectWorkspace = [
             component: () => import('@/views/resource/project/detail'),
             meta: {
               requireAuth: true,
-              title: '项目资源',
+              title: 'routerbar.cluster.project_dashboaed',
               icon: 'mdi-view-dashboard',
               show: true,
               rootName: 'project',
@@ -36,8 +36,8 @@ export const projectWorkspace = [
       {
         path: '',
         meta: {
-          header: '平台应用',
-          title: '应用中心',
+          header: 'routerbar.cluster.h_appmanifest',
+          title: 'routerbar.cluster.g_app',
           icon: 'mdi-view-grid',
         },
         component: () => import('@/layouts/Container'),
@@ -50,7 +50,7 @@ export const projectWorkspace = [
             component: () => import('@/views/resource/appmanifest/index'),
             meta: {
               requireAuth: true,
-              title: '应用编排',
+              title: 'routerbar.cluster.app_manifest',
               icon: 'mdi-apps',
               show: true,
               rootName: 'project',
@@ -63,7 +63,7 @@ export const projectWorkspace = [
             component: () => import('@/views/resource/appmanifest/detail'),
             meta: {
               requireAuth: true,
-              title: '应用编排',
+              title: 'routerbar.cluster.app_manifest',
               icon: 'mdi-apps',
               show: false,
               rootName: 'project',
@@ -77,7 +77,7 @@ export const projectWorkspace = [
             component: () => import('@/views/resource/registry/index'),
             meta: {
               requireAuth: true,
-              title: '镜像仓库',
+              title: 'routerbar.cluster.registry',
               icon: 'mdi-database',
               show: true,
               rootName: 'project',

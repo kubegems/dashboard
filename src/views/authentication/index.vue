@@ -100,7 +100,7 @@
                   submit
                   @click="login(source)"
                 >
-                  {{ ldap ? $VENDOR[vendor] : '' }} 登录
+                  {{ ldap ? $VENDOR[vendor] : '' }} {{ $t('login') }}
                 </v-btn>
               </v-form>
               <div v-if="enableOauthItems && enableOauthItems.length > 0 && !ldap" class="mt-5">

@@ -34,7 +34,7 @@
           marginLeft: `140px`,
         }"
       >
-        {{ smallTitle }}
+        {{ $t(smallTitle) }}
       </div>
 
       <div class="kubegems__clear-float" />
@@ -95,13 +95,13 @@
                   <span>
                     <v-icon
                       v-if="store.value === 'app'"
-                      :class="store.value === StoreMode ? 'header--highlight' : ''"
+                      :class="{ header__highlight: store.value === StoreMode }"
                       left
                       small
                     >
                       mdi-shopping
                     </v-icon>
-                    <v-icon v-else :class="store.value === StoreMode ? 'header--highlight' : ''" left small>
+                    <v-icon v-else :class="{ header__highlight: store.value === StoreMode }" left small>
                       mdi-cube
                     </v-icon>
                     {{ store.text }}

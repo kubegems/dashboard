@@ -41,7 +41,8 @@
 </template>
 
 <script>
-  import { configListener } from '../api/index.js';
+  import { configListener } from '@/api';
+
   export default {
     name: 'ConfigListener',
     data() {

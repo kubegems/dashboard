@@ -11,8 +11,8 @@ export const appStore = [
         component: () => import('@/views/appstore/index'),
         meta: {
           requireAuth: true,
-          smallTitle: '应用商店',
-          title: '应用商店',
+          smallTitle: 'header.app_store',
+          title: 'header.app_store',
           icon: 'mdi-shopping',
           rootName: 'app-store',
           tip: 'appstore',
@@ -24,8 +24,8 @@ export const appStore = [
         component: () => import('@/views/appstore/detail'),
         meta: {
           requireAuth: true,
-          smallTitle: '应用商店',
-          title: '应用商店',
+          smallTitle: 'header.app_store',
+          title: 'header.app_store',
           icon: 'mdi-shopping',
           rootName: 'app-store',
           tip: 'appstore',

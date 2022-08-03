@@ -8,8 +8,8 @@ export const platform = [
       {
         path: '',
         meta: {
-          header: '租户',
-          title: '租户管理',
+          header: 'routerbar.administration.h_tenant',
+          title: 'routerbar.administration.g_tenant',
           icon: 'mdi-account-settings',
         },
         component: () => import('@/layouts/Container'),
@@ -22,7 +22,7 @@ export const platform = [
             component: () => import('@/views/tenant/tenant/index'),
             meta: {
               requireAuth: true,
-              title: '租户',
+              title: 'routerbar.administration.tenant',
               admin: true,
               icon: 'mdi-account-switch',
               show: true,
@@ -36,7 +36,7 @@ export const platform = [
             component: () => import('@/views/tenant/tenant/detail'),
             meta: {
               requireAuth: true,
-              title: '租户',
+              title: 'routerbar.administration.user',
               admin: true,
               icon: 'mdi-account-switch',
               show: false,
@@ -51,7 +51,7 @@ export const platform = [
             component: () => import('@/views/tenant/user/index'),
             meta: {
               requireAuth: true,
-              title: '用户',
+              title: 'routerbar.administration.user',
               admin: true,
               icon: 'mdi-account',
               show: true,
@@ -66,7 +66,7 @@ export const platform = [
             component: () => import('@/views/tenant/role/index'),
             meta: {
               requireAuth: true,
-              title: '角色',
+              title: 'routerbar.administration.role',
               admin: true,
               icon: 'mdi-ticket-account',
               show: true,
@@ -79,8 +79,8 @@ export const platform = [
       {
         path: '',
         meta: {
-          header: '空间',
-          title: '空间管理',
+          header: 'routerbar.administration.h_space',
+          title: 'routerbar.administration.g_space',
           icon: 'mdi-checkbox-multiple-blank',
         },
         component: () => import('@/layouts/Container'),
@@ -93,7 +93,7 @@ export const platform = [
             component: () => import('@/views/resource/project/index'),
             meta: {
               requireAuth: true,
-              title: '项目',
+              title: 'routerbar.administration.project',
               admin: true,
               icon: 'mdi-cube-outline',
               show: true,
@@ -108,7 +108,7 @@ export const platform = [
             component: () => import('@/views/resource/environment/index'),
             meta: {
               requireAuth: true,
-              title: '环境',
+              title: 'routerbar.administration.environment',
               admin: true,
               icon: 'mdi-cloud',
               show: true,
@@ -121,8 +121,8 @@ export const platform = [
       {
         path: '',
         meta: {
-          header: '安全配置',
-          title: '安全',
+          header: 'routerbar.administration.h_security',
+          title: 'routerbar.administration.g_security',
           icon: 'mdi-security',
         },
         component: () => import('@/layouts/Container'),
@@ -136,7 +136,7 @@ export const platform = [
             meta: {
               requireAuth: true,
               admin: true,
-              title: '审计',
+              title: 'routerbar.administration.audit',
               icon: 'mdi-history',
               show: true,
               rootName: 'platform',
@@ -151,7 +151,7 @@ export const platform = [
             meta: {
               requireAuth: true,
               admin: true,
-              title: '事件',
+              title: 'routerbar.administration.event',
               icon: 'mdi-bell',
               show: true,
               rootName: 'platform',
@@ -165,8 +165,8 @@ export const platform = [
       {
         path: '',
         meta: {
-          header: '集成',
-          title: '集成',
+          header: 'routerbar.administration.h_integrated',
+          title: 'routerbar.administration.g_integrated',
           icon: 'mdi-hexagon-multiple',
         },
         component: () => import('@/layouts/Container'),
@@ -179,7 +179,7 @@ export const platform = [
             component: () => import('@/views/setting/oauth/index'),
             meta: {
               requireAuth: true,
-              title: '认证',
+              title: 'routerbar.administration.authorization',
               icon: 'mdi-star',
               show: true,
               rootName: 'platform',
@@ -193,7 +193,7 @@ export const platform = [
             component: () => import('@/views/appstore/list'),
             meta: {
               requireAuth: true,
-              title: '应用商店',
+              title: 'routerbar.administration.app_store',
               icon: 'mdi-shopping',
               show: true,
               rootName: 'platform',
@@ -207,7 +207,7 @@ export const platform = [
             component: () => import('@/views/setting/model_registry/index'),
             meta: {
               requireAuth: true,
-              title: '算法商店',
+              title: 'routerbar.administration.model_store',
               icon: 'mdi-cube',
               show: true,
               rootName: 'platform',
@@ -220,7 +220,7 @@ export const platform = [
             component: () => import('@/views/setting/model_registry/detail'),
             meta: {
               requireAuth: true,
-              title: '算法商店',
+              title: 'routerbar.administration.model_store',
               icon: 'mdi-cube',
               rootName: 'platform',
               tip: 'modelstore-registry',
@@ -231,7 +231,7 @@ export const platform = [
       {
         path: '',
         meta: {
-          title: '模版',
+          title: 'routerbar.administration.g_template',
           icon: 'mdi-widgets',
         },
         component: () => import('@/layouts/Container'),
@@ -244,7 +244,7 @@ export const platform = [
             component: () => import('@/views/setting/prometheus/index'),
             meta: {
               requireAuth: true,
-              title: 'Prometheus模版',
+              title: 'routerbar.administration.prometheus_template',
               icon: 'mdi-file-powerpoint-box',
               show: true,
               rootName: 'platform',

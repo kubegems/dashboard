@@ -12,7 +12,7 @@ export const global = [
     component: () => import('@/views/authentication/index'),
     meta: {
       requireAuth: false,
-      title: '登录',
+      title: 'login',
     },
   },
   {
@@ -33,7 +33,7 @@ export const global = [
         component: () => import('@/views/authentication/403'),
         meta: {
           requireAuth: false,
-          title: '无权限访问',
+          title: '403',
         },
       },
     ],
@@ -50,7 +50,7 @@ export const global = [
         component: () => import('@/views/authentication/404'),
         meta: {
           requireAuth: false,
-          title: '页面不存在',
+          title: '404',
         },
       },
     ],

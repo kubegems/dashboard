@@ -11,8 +11,8 @@ export const adminObserve = [
       {
         path: '',
         meta: {
-          header: '概览',
-          title: '概览',
+          header: 'routerbar.observability.h_dashboard',
+          title: 'routerbar.observability.g_dashboard',
           icon: 'mdi-tablet-dashboard',
           show: true,
         },
@@ -25,7 +25,7 @@ export const adminObserve = [
             component: () => import('@/views/observe/overview'),
             meta: {
               requireAuth: true,
-              title: '概览',
+              title: 'routerbar.observability.dashboard',
               admin: true,
               icon: 'mdi-home',
               show: true,
@@ -42,8 +42,8 @@ export const adminObserve = [
       {
         path: 'integrated',
         meta: {
-          header: '接入',
-          title: '接入中心',
+          header: 'routerbar.observability.h_integrated',
+          title: 'routerbar.observability.g_integrated',
           icon: 'mdi-link-variant',
           show: true,
         },
@@ -56,7 +56,7 @@ export const adminObserve = [
             component: () => import('@/views/observe/integrated'),
             meta: {
               requireAuth: true,
-              title: '接入中心',
+              title: 'routerbar.observability.integrated',
               admin: true,
               icon: 'mdi-widgets',
               show: true,
@@ -73,8 +73,8 @@ export const adminObserve = [
       {
         path: 'dash',
         meta: {
-          header: '可视化',
-          title: '可视化',
+          header: 'routerbar.observability.h_observability',
+          title: 'routerbar.observability.g_observability',
           icon: 'mdi-view-dashboard',
           show: true,
         },
@@ -87,7 +87,7 @@ export const adminObserve = [
             component: () => import('@/views/observe/monitor/dashboard'),
             meta: {
               requireAuth: true,
-              title: '监控大盘',
+              title: 'routerbar.observability.monitor_dahboard',
               admin: true,
               icon: 'mdi-gauge',
               show: true,
@@ -102,7 +102,7 @@ export const adminObserve = [
       {
         path: 'query',
         meta: {
-          title: '查询器',
+          title: 'routerbar.observability.g_inquirer',
           icon: 'mdi-magnify',
           show: true,
         },
@@ -115,7 +115,7 @@ export const adminObserve = [
             component: () => import('@/views/observe/monitor/metrics'),
             meta: {
               requireAuth: true,
-              title: '指标查询器',
+              title: 'routerbar.observability.metrics_inquirer',
               admin: true,
               icon: 'mdi-feature-search-outline',
               show: true,
@@ -131,7 +131,7 @@ export const adminObserve = [
             component: () => import('@/views/observe/log/viewer/index'),
             meta: {
               requireAuth: true,
-              title: '日志查询器',
+              title: 'routerbar.observability.log_inquirer',
               admin: true,
               icon: 'mdi-format-list-bulleted',
               show: true,
@@ -147,7 +147,7 @@ export const adminObserve = [
             component: () => import('@/views/observe/trace'),
             meta: {
               requireAuth: true,
-              title: '链路查询器',
+              title: 'routerbar.observability.trace_inquirer',
               admin: true,
               icon: 'mdi-glasses',
               show: true,
@@ -166,8 +166,8 @@ export const adminObserve = [
       {
         path: 'alert',
         meta: {
-          header: '告警',
-          title: '告警中心',
+          header: 'routerbar.observability.h_alert',
+          title: 'routerbar.observability.g_alert',
           icon: 'mdi-alert',
           show: true,
         },
@@ -180,7 +180,7 @@ export const adminObserve = [
             component: () => import('@/views/observe/alert/dashboard'),
             meta: {
               requireAuth: true,
-              title: '概览',
+              title: 'routerbar.observability.alert_dashboard',
               admin: true,
               icon: 'mdi-monitor-dashboard',
               show: true,
@@ -196,7 +196,7 @@ export const adminObserve = [
             component: () => import('@/views/observe/alert/history'),
             meta: {
               requireAuth: true,
-              title: '告警历史',
+              title: 'routerbar.observability.alert_history',
               admin: true,
               icon: 'mdi-history',
               show: true,
@@ -212,7 +212,7 @@ export const adminObserve = [
             component: () => import('@/views/observe/alert/blacklist'),
             meta: {
               requireAuth: true,
-              title: '告警黑名单',
+              title: 'routerbar.observability.alert_blacklist',
               admin: true,
               icon: 'mdi-playlist-remove',
               show: true,
@@ -231,8 +231,8 @@ export const adminObserve = [
       {
         path: 'config',
         meta: {
-          header: '配置',
-          title: '配置中心',
+          header: 'routerbar.observability.h_setting',
+          title: 'routerbar.observability.g_setting',
           icon: 'mdi-wrench',
           show: true,
         },
@@ -245,7 +245,7 @@ export const adminObserve = [
             component: () => import('@/views/observe/monitor/config'),
             meta: {
               requireAuth: true,
-              title: '监控配置',
+              title: 'routerbar.observability.mertic_setting',
               admin: true,
               icon: 'mdi-format-list-bulleted',
               show: true,
@@ -261,7 +261,7 @@ export const adminObserve = [
             component: () => import('@/views/observe/monitor/config/servicemonitor/detail'),
             meta: {
               requireAuth: true,
-              title: '监控采集器',
+              title: 'routerbar.observability.servicemonitor',
               admin: true,
               icon: 'mdi-eyedropper',
               show: false,
@@ -277,7 +277,7 @@ export const adminObserve = [
             component: () => import('@/views/observe/monitor/config/prometheusrule/detail'),
             meta: {
               requireAuth: true,
-              title: '指标告警规则',
+              title: 'routerbar.observability.prometheusrule',
               admin: true,
               icon: 'mdi-ruler',
               show: false,
@@ -293,7 +293,7 @@ export const adminObserve = [
             component: () => import('@/views/observe/log/config'),
             meta: {
               requireAuth: true,
-              title: '日志配置',
+              title: 'routerbar.observability.log_setting',
               admin: true,
               icon: 'mdi-arrange-send-backward',
               show: true,
@@ -310,7 +310,7 @@ export const adminObserve = [
             component: () => import('@/views/observe/log/config/flow/detail'),
             meta: {
               requireAuth: true,
-              title: '日志采集器详情',
+              title: 'routerbar.observability.flow',
               admin: true,
               icon: 'mdi-arrange-send-backward',
               show: false,
@@ -326,7 +326,7 @@ export const adminObserve = [
             component: () => import('@/views/observe/log/config/output/detail'),
             meta: {
               requireAuth: true,
-              title: '日志路由器详情',
+              title: 'routerbar.observability.output',
               admin: true,
               icon: 'mdi-router-wireless',
               show: false,
@@ -342,7 +342,7 @@ export const adminObserve = [
             component: () => import('@/views/observe/log/config/alert_rule/detail'),
             meta: {
               requireAuth: true,
-              title: '日志告警规则',
+              title: 'routerbar.observability.alertrule',
               admin: true,
               icon: 'mdi-ruler',
               show: false,
