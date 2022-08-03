@@ -11,8 +11,8 @@ export const userCenter = [
         component: () => import('@/views/tool/user/index'),
         meta: {
           requireAuth: true,
-          smallTitle: '用户中心',
-          title: '用户中心',
+          smallTitle: 'header.usercenter',
+          title: 'header.usercenter',
           icon: 'mdi-account',
           tip: 'user-center',
         },

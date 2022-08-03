@@ -20,12 +20,13 @@ import VueI18n from 'vue-i18n';
 // Messages
 import en from '@/i18n/messages/en.json';
 import zhHans from '@/i18n/messages/zh-Hans.json';
+import store from '@/store';
 
 Vue.use(VueI18n);
 
 const i18n = new VueI18n({
-  locale: 'zh-Hans',
-  fallbackLocale: 'zh-Hans',
+  locale: store.state.Locale,
+  fallbackLocale: store.state.Locale,
   messages: { ['zh-Hans']: zhHans, en },
 });
 

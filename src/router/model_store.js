@@ -11,8 +11,8 @@ export const modelStore = [
         component: () => import('@/views/modelstore/index'),
         meta: {
           requireAuth: true,
-          smallTitle: '算法商店',
-          title: '算法商店',
+          smallTitle: 'header.model_store',
+          title: 'header.model_store',
           icon: 'mdi-cube',
           rootName: 'model-store',
           tip: 'modelstore',
@@ -24,8 +24,8 @@ export const modelStore = [
         component: () => import('@/views/modelstore/detail'),
         meta: {
           requireAuth: true,
-          smallTitle: '算法商店',
-          title: '算法商店',
+          smallTitle: 'header.model_store',
+          title: 'header.model_store',
           icon: 'mdi-cube',
           rootName: 'model-store',
           tip: 'modelstore',

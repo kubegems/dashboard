@@ -194,12 +194,12 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import { baseInfo, delConfigItems, listConfigItems, pubConfigItems } from './api/index.js';
   import ConfigEditor from './components/ConfigEditor';
   import ConfigListener from './components/ConfigListener';
   import ConfigSDK from './components/ConfigSDK';
   import DeleteItem from './components/DeleteItem';
   import HistoryView from './components/HistoryView';
+  import { baseInfo, delConfigItems, listConfigItems, pubConfigItems } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import { deepCopy } from '@/utils/helpers';
 

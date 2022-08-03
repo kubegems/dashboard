@@ -1,10 +1,17 @@
 {
+  "login": "登录",
+  "403": "无权限访问",
+  "404": "页面不存在",
+
   "header": {
     "workspace": "工作台",
     "model_store": "算法商店",
     "app_store": "应用商店",
     "administrator": "管理员",
-    "tenant_workspace": "租户工作台"
+    "tenant_workspace": "租户工作台",
+    "audit": "审计",
+    "event": "事件",
+    "usercenter": "用户中心"
   },
   "filter": {
     "placehold": "输入查询条件进行过滤"
@@ -23,5 +30,143 @@
   },
   "confirm": {
     "tip": "请确认资源名称"
+  },
+  "sidebar": {
+    "cluster": "集群资源",
+    "runtime": "容器服务",
+    "microservice": "服务治理",
+    "observability": "可观测性",
+    "administration": "平台管理"
+  },
+  "routerbar": {
+    "cluster": {
+      "cluster_dashboard": "资源概览",
+      "project_dashboaed": "项目资源",
+      "environment_dashboaed": "环境资源",
+      "plugins": "插件管理",
+      "node": "节点",
+      "workload": "工作负载",
+      "pod": "容器组",
+      "service": "服务",
+      "ingress": "路由",
+      "gateway": "网关",
+      "job": "任务",
+      "cronjob": "定时任务",
+      "configmap": "配置",
+      "secret": "密钥",
+      "certmanager": "证书",
+      "crd": "CRD",
+      "persistentvolumeclaim": "存储卷",
+      "volumesnapshot": "存储卷快照",
+      "srorageclass": "存储类型",
+      "app": "应用",
+      "app_deploy": "应用部署",
+      "app_manifest": "应用编排",
+      "app_config": "应用配置",
+      "registry": "镜像仓库",
+      "project": "项目",
+      "terminal": "终端",
+      "log": "容器日志",
+
+      "g_cluster": "集群管理",
+      "g_node": "节点管理",
+      "g_container": "容器服务",
+      "g_dashboard": "首页",
+      "g_space": "空间管理",
+      "g_app": "应用中心",
+      "g_task": "任务",
+      "g_config": "配置中心",
+      "g_crd": "自定义资源",
+      "g_runtime": "运行时",
+      "g_storage": "存储中心",
+
+      "h_cluster": "集群",
+      "h_node": "节点",
+      "h_container": "容器服务",
+      "h_dashboard": "首页",
+      "h_space": "空间",
+      "h_app": "应用中心",
+      "h_appmanifest": "平台应用"
+    },
+    "microservice": {
+      "virtualspace": "虚拟空间",
+      "dns": "DNS管理",
+      "dashboard": "虚拟空间资源",
+      "workload": "工作负载",
+      "service": "服务",
+      "mesh": "服务调用图",
+      "configmap": "Kubernetes配置",
+      "gateway_intance": "微服务网关实例",
+      "authorization_policy": "认证策略",
+      "gateway": "网关",
+      "peer_authentication": "端点认证",
+      "service_entry": "服务入口",
+      "sidecar": "边车",
+
+      "g_space": "微服务空间",
+      "g_virtualspace": "虚拟空间",
+      "g_app": "应用",
+      "g_config": "配置",
+      "g_spaceconfig": "空间配置",
+      "g_istioconfig": "Istio配置",
+
+      "h_space": "微服务空间",
+      "h_mesh": "微服务治理"
+    },
+    "observability": {
+      "dashboard": "概览",
+      "integrated": "接入中心",
+      "monitor_dahboard": "监控大盘",
+      "metrics_inquirer": "指标查询器",
+      "log_inquirer": "日志查询器",
+      "trace_inquirer": "链路查询器",
+      "alert_dashboard": "概览",
+      "alert_history": "告警历史",
+      "alert_blacklist": "告警黑名单",
+      "mertic_setting": "监控配置",
+      "log_setting": "日志配置",
+      "servicemonitor": "监控采集器",
+      "prometheusrule": "告警规则",
+      "alertrule": "告警规则",
+      "output": "日志路由器",
+      "flow": "日志采集器",
+
+      "g_dashboard": "概览",
+      "g_integrated": "接入中心",
+      "g_observability": "可视化",
+      "g_inquirer": "查询器",
+      "g_alert": "告警中心",
+      "g_setting": "配置中心",
+
+      "h_dashboard": "概览",
+      "h_integrated": "接入",
+      "h_observability": "可视化",
+      "h_alert": "告警",
+      "h_setting": "配置"
+    },
+    "administration": {
+      "tenant": "租户",
+      "user": "用户",
+      "role": "角色",
+      "project": "项目",
+      "environment": "环境",
+      "audit": "审计",
+      "event": "事件",
+      "authorization": "认证",
+      "app_store": "应用商店",
+      "model_store": "算法商店",
+      "prometheus_template": "Prometheus模版",
+
+      "g_template": "模版",
+      "g_integrated": "集成",
+      "g_security": "安全",
+      "g_space": "空间管理",
+      "g_tenant": "租户管理",
+
+      "h_tenant": "租户",
+      "h_space": "空间",
+      "h_security": "安全配置",
+      "h_integrated": "集成"
+    }
   }
 }

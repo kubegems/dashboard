@@ -35,6 +35,7 @@ const LatestCluster = 'latestcluster';
 const Version = 'version';
 const ApiResources = 'api-resources';
 const StoreMode = 'store';
+const Locale = 'locale';
 
 export default new Store({
   state: {
@@ -93,6 +94,7 @@ export default new Store({
     SelfOut: false,
     StoreMode: window.localStorage.getItem(StoreMode) || 'app',
     GlobalPluginsInterval: null,
+    Locale: window.localStorage.getItem(Locale) || 'zh-Hans',
   },
   mutations: {
     SET_PLUGINS(state, payload) {
@@ -109,6 +111,10 @@ export default new Store({
     SET_STORE(state, payload) {
       state.StoreMode = payload;
       window.localStorage.setItem(StoreMode, payload);
+    },
+    SET_LOCALE(state, payload) {
+      state.Locale = payload;
+      window.localStorage.setItem(Locale, payload);
     },
     SET_VERSION(state, payload) {
       state.Version = payload;

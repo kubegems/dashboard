@@ -18,74 +18,7 @@
   <BaseDialog v-model="dialog" icon="mdi-send" title="部署应用" :width="1200" @reset="reset">
     <template #content>
       <v-card-text class="pa-0">
-        <v-flex v-if="ThisAppEnvironmentID > 0 && !AdminViewport" class="text-subtitle-2 primary--text px-0">
-          环境: {{ Environment().EnvironmentName }}
-        </v-flex>
-        <v-flex v-else>
-          <template v-if="AdminViewport">
-            项目:
-            <v-menu bottom nudge-bottom="5px" offset-y origin="top center" right transition="scale-transition">
-              <template #activator="{ on }">
-                <v-btn
-                  class="primary--text"
-                  color="white"
-                  dark
-                  depressed
-                  small
-                  v-on="on"
-                  @click="m_select_projectSelectData"
-                >
-                  <v-icon left>mdi-cube</v-icon>
-                  {{ projectName }}
-                  <v-icon right>mdi-chevron-down</v-icon>
-                </v-btn>
-              </template>
-              <v-data-iterator hide-default-footer :items="[{ text: '项目', values: m_select_projectItems }]">
-                <template #no-data>
-                  <v-card>
-                    <v-card-text> 暂无项目 </v-card-text>
-                  </v-card>
-                </template>
-                <template #default="props">
-                  <v-card v-for="item in props.items" :key="item.text" flat>
-                    <v-list dense>
-                      <v-flex class="text-subtitle-2 text-center ma-2">
-                        <span>项目</span>
-                      </v-flex>
-                      <v-divider class="mx-2" />
-                      <v-list-item
-                        v-for="(project, index) in item.values"
-                        :key="index"
-                        class="text-body-2 text-center"
-                        link
-                        :style="project.projectName === projectName ? `color: #1e88e5 !important;` : ``"
-                        @click="setProject(project)"
-                      >
-                        <v-list-item-content>
-                          <span>{{ project.text }}</span>
-                        </v-list-item-content>
-                      </v-list-item>
-                    </v-list>
-                  </v-card>
-                </template>
-              </v-data-iterator>
-            </v-menu>
-          </template>
-          环境:
-          <v-btn-toggle
-            v-model="environmentIndex"
-            borderless
-            class="my-2"
-            color="primary"
-            dense
-            mandatory
-            @change="onEnvironmentChange"
-          >
-            <v-btn v-for="(environment, index) in m_select_projectEnvironmentItems" :key="index" small>
-              {{ environment.text }}
-            </v-btn>
-          </v-btn-toggle>
-        </v-flex>
+        <v-flex class="text-subtitle-2 primary--text px-0"> 环境: {{ Environment().EnvironmentName }} </v-flex>
         <v-text-field v-model="search" class="mt-2 pt-0" hide-details prepend-inner-icon="mdi-magnify" />
         <v-data-table
           class="mt-2 deploy__table"
@@ -218,9 +151,7 @@
         { text: '部署Tag', value: 'publishTag', align: 'start' },
       ],
       tags: [],
-      environmentIndex: 0,
       environmentID: 0,
-      projectName: '',
       search: '',
     }),
     computed: {
@@ -232,41 +163,6 @@
         this.dialog = true;
       },
       async init() {
-        if (this.AdminViewport) {
-          await this.m_select_projectSelectData();
-          if (this.m_select_projectItems.length > 0) {
-            this.projectName = this.m_select_projectItems[0].projectName;
-            await this.m_select_projectEnvironmentSelectData(this.m_select_projectItems[0].value);
-            this.onEnvironmentChange();
-          }
-        } else {
-          if (this.Project().ID > 0) {
-            this.onEnvironmentChange();
-          }
-        }
-      },
-      async setProject(item) {
-        this.projectName = item.projectName;
-        await this.m_select_projectEnvironmentSelectData(item.value);
-        await this.onEnvironmentChange();
-      },
-      onEnvironmentChange() {
-        // 非admin时不用选择，避免发送list env请求耗时
-        if (!this.AdminViewport) {
-          this.environmentAppList();
-          return;
-        }
-
-        if (this.m_select_projectEnvironmentItems.length > 0) {
-          this.environmentID = this.m_select_projectEnvironmentItems[this.environmentIndex].value;
-        } else {
-          this.$store.commit('SET_SNACKBAR', {
-            text: '当前项目下无环境',
-            color: 'warning',
-          });
-          this.items = [];
-          return;
-        }
         this.environmentAppList();
       },
       splitImage(image, type) {

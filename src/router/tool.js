@@ -13,8 +13,8 @@ export const tool = [
         component: () => import('@/views/tool/audit/index'),
         meta: {
           requireAuth: true,
-          smallTitle: '审计',
-          title: '审计中心',
+          smallTitle: 'header.audit',
+          title: 'header.audit',
           icon: 'mdi-history',
           tip: 'audit',
         },
@@ -25,8 +25,8 @@ export const tool = [
         component: () => import('@/views/tool/event/index'),
         meta: {
           requireAuth: true,
-          smallTitle: '事件',
-          title: '事件中心',
+          smallTitle: 'header.event',
+          title: 'header.event',
           icon: 'mdi-bell',
           dependencies: ['logging', 'eventer'],
           tip: 'event',

@@ -33,3 +33,4 @@ export * from './daemonset.js';
 export * from './deployment.js';
 export * from './statefulset.js';
 export * from './apiresource.js';
+export * from './appconfig.js';

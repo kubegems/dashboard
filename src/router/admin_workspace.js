@@ -11,8 +11,8 @@ export const adminWorkspace = [
       {
         path: '',
         meta: {
-          header: '集群',
-          title: '集群管理',
+          header: 'routerbar.cluster.h_cluster',
+          title: 'routerbar.cluster.g_cluster',
           icon: 'mdi-server-network',
           required: ['cluster'],
         },
@@ -26,7 +26,7 @@ export const adminWorkspace = [
             component: () => import('@/views/resource/cluster/index'),
             meta: {
               requireAuth: true,
-              title: '资源概览',
+              title: 'routerbar.cluster.cluster_dashboard',
               admin: true,
               icon: 'mdi-server',
               show: true,
@@ -40,7 +40,7 @@ export const adminWorkspace = [
             component: () => import('@/views/resource/cluster/detail'),
             meta: {
               requireAuth: true,
-              title: '资源概览',
+              title: 'routerbar.cluster.cluster_dashboard',
               admin: true,
               icon: 'mdi-server',
               show: false,
@@ -55,7 +55,7 @@ export const adminWorkspace = [
             component: () => import('@/views/resource/plugin/index'),
             meta: {
               requireAuth: true,
-              title: '组件管理',
+              title: 'routerbar.cluster.plugins',
               admin: true,
               icon: 'mdi-power-plug',
               show: true,
@@ -68,8 +68,8 @@ export const adminWorkspace = [
       {
         path: '',
         meta: {
-          header: '节点',
-          title: '节点管理',
+          header: 'routerbar.cluster.h_node',
+          title: 'routerbar.cluster.g_node',
           icon: 'mdi-desktop-tower',
           required: ['cluster'],
         },
@@ -83,7 +83,7 @@ export const adminWorkspace = [
             component: () => import('@/views/resource/node/index'),
             meta: {
               requireAuth: true,
-              title: '节点',
+              title: 'routerbar.cluster.node',
               admin: true,
               icon: 'mdi-lan-connect',
               show: true,
@@ -97,7 +97,7 @@ export const adminWorkspace = [
             component: () => import('@/views/resource/node/detail'),
             meta: {
               requireAuth: true,
-              title: '节点',
+              title: 'routerbar.cluster.node',
               admin: true,
               icon: 'mdi-lan-connect',
               show: false,
@@ -110,8 +110,8 @@ export const adminWorkspace = [
       {
         path: '',
         meta: {
-          header: '容器服务',
-          title: '运行时',
+          header: 'routerbar.cluster.h_container',
+          title: 'routerbar.cluster.g_runtime',
           icon: 'mdi-application',
           required: ['cluster'],
         },
@@ -125,7 +125,7 @@ export const adminWorkspace = [
             component: () => import('@/views/resource/workload/index'),
             meta: {
               requireAuth: true,
-              title: '工作负载',
+              title: 'routerbar.cluster.workload',
               admin: true,
               icon: 'mdi-vector-arrange-above',
               show: true,
@@ -139,7 +139,7 @@ export const adminWorkspace = [
             component: () => import('@/views/resource/workload/detail'),
             meta: {
               requireAuth: true,
-              title: '工作负载',
+              title: 'routerbar.cluster.workload',
               admin: true,
               icon: 'mdi-vector-arrange-above',
               show: false,
@@ -154,7 +154,7 @@ export const adminWorkspace = [
             component: () => import('@/views/resource/pod/index'),
             meta: {
               requireAuth: true,
-              title: '容器组',
+              title: 'routerbar.cluster.pod',
               admin: true,
               icon: 'mdi-microsoft',
               show: true,
@@ -168,7 +168,7 @@ export const adminWorkspace = [
             component: () => import('@/views/resource/pod/detail'),
             meta: {
               requireAuth: true,
-              title: '容器组',
+              title: 'routerbar.cluster.pod',
               admin: true,
               icon: 'mdi-microsoft',
               show: false,
@@ -183,7 +183,7 @@ export const adminWorkspace = [
             component: () => import('@/views/resource/service/index'),
             meta: {
               requireAuth: true,
-              title: '服务',
+              title: 'routerbar.cluster.service',
               admin: true,
               icon: 'mdi-dns',
               show: true,
@@ -197,7 +197,7 @@ export const adminWorkspace = [
             component: () => import('@/views/resource/service/detail'),
             meta: {
               requireAuth: true,
-              title: '服务',
+              title: 'routerbar.cluster.service',
               admin: true,
               icon: 'mdi-dns',
               show: false,
@@ -212,7 +212,7 @@ export const adminWorkspace = [
             component: () => import('@/views/resource/ingress/index'),
             meta: {
               requireAuth: true,
-              title: '路由',
+              title: 'routerbar.cluster.ingress',
               admin: true,
               icon: 'mdi-network',
               show: true,
@@ -226,7 +226,7 @@ export const adminWorkspace = [
             component: () => import('@/views/resource/ingress/detail'),
             meta: {
               requireAuth: true,
-              title: '路由',
+              title: 'routerbar.cluster.ingress',
               admin: true,
               icon: 'mdi-network',
               show: false,
@@ -241,7 +241,7 @@ export const adminWorkspace = [
             component: () => import('@/views/resource/gateway/index'),
             meta: {
               requireAuth: true,
-              title: '网关',
+              title: 'routerbar.cluster.gateway',
               admin: true,
               icon: 'mdi-gate',
               show: true,
@@ -255,7 +255,7 @@ export const adminWorkspace = [
             component: () => import('@/views/resource/gateway/detail'),
             meta: {
               requireAuth: true,
-              title: '网关',
+              title: 'routerbar.cluster.gateway',
               admin: true,
               icon: 'mdi-gate',
               show: false,
@@ -268,7 +268,7 @@ export const adminWorkspace = [
       {
         path: '',
         meta: {
-          title: '任务',
+          title: 'routerbar.cluster.g_task',
           icon: 'mdi-playlist-check',
           required: ['cluster'],
         },
@@ -282,7 +282,7 @@ export const adminWorkspace = [
             component: () => import('@/views/resource/job/index'),
             meta: {
               requireAuth: true,
-              title: '任务',
+              title: 'routerbar.cluster.job',
               admin: true,
               icon: 'mdi-repeat-once',
               show: true,
@@ -296,7 +296,7 @@ export const adminWorkspace = [
             component: () => import('@/views/resource/job/detail'),
             meta: {
               requireAuth: true,
-              title: '任务',
+              title: 'routerbar.cluster.job',
               admin: true,
               icon: 'mdi-repeat-once',
               show: false,
@@ -311,7 +311,7 @@ export const adminWorkspace = [
             component: () => import('@/views/resource/cronjob/index'),
             meta: {
               requireAuth: true,
-              title: '定时任务',
+              title: 'routerbar.cluster.cronjob',
               admin: true,
               icon: 'mdi-calendar-clock',
               show: true,
@@ -325,7 +325,7 @@ export const adminWorkspace = [
             component: () => import('@/views/resource/cronjob/detail'),
             meta: {
               requireAuth: true,
-              title: '定时任务',
+              title: 'routerbar.cluster.cronjob',
               admin: true,
               icon: 'mdi-calendar-clock',
               show: false,
@@ -338,7 +338,7 @@ export const adminWorkspace = [
       {
         path: '',
         meta: {
-          title: '配置中心',
+          title: 'routerbar.cluster.g_config',
           icon: 'mdi-brightness-7',
           required: ['cluster'],
         },
@@ -352,7 +352,7 @@ export const adminWorkspace = [
             component: () => import('@/views/resource/configmap/index'),
             meta: {
               requireAuth: true,
-              title: '配置',
+              title: 'routerbar.cluster.configmap',
               admin: true,
               icon: 'mdi-wrench',
               show: true,
@@ -366,7 +366,7 @@ export const adminWorkspace = [
             component: () => import('@/views/resource/configmap/detail'),
             meta: {
               requireAuth: true,
-              title: '配置',
+              title: 'routerbar.cluster.configmap',
               admin: true,
               icon: 'mdi-wrench',
               show: false,
@@ -381,7 +381,7 @@ export const adminWorkspace = [
             component: () => import('@/views/resource/secret/index'),
             meta: {
               requireAuth: true,
-              title: '密钥',
+              title: 'routerbar.cluster.secret',
               admin: true,
               icon: 'mdi-key-variant',
               show: true,
@@ -395,7 +395,7 @@ export const adminWorkspace = [
             component: () => import('@/views/resource/secret/detail'),
             meta: {
               requireAuth: true,
-              title: '密钥',
+              title: 'routerbar.cluster.secret',
               admin: true,
               icon: 'mdi-key-variant',
               show: false,
@@ -410,7 +410,7 @@ export const adminWorkspace = [
             component: () => import('@/views/resource/certmanager/index'),
             meta: {
               requireAuth: true,
-              title: '证书',
+              title: 'routerbar.cluster.certmanager',
               admin: true,
               icon: 'mdi-book-open',
               show: true,
@@ -425,7 +425,7 @@ export const adminWorkspace = [
             component: () => import('@/views/resource/certmanager/detail'),
             meta: {
               requireAuth: true,
-              title: '证书',
+              title: 'routerbar.cluster.certmanager',
               admin: true,
               icon: 'mdi-book-open',
               show: false,
@@ -439,7 +439,7 @@ export const adminWorkspace = [
       {
         path: '',
         meta: {
-          title: '自定义资源',
+          title: 'routerbar.cluster.g_crd',
           icon: 'mdi-arrow-down-box',
           required: ['cluster'],
         },
@@ -453,7 +453,7 @@ export const adminWorkspace = [
             component: () => import('@/views/resource/crd/index'),
             meta: {
               requireAuth: true,
-              title: 'CRD',
+              title: 'routerbar.cluster.crd',
               admin: true,
               icon: 'mdi-collage',
               show: true,
@@ -467,7 +467,7 @@ export const adminWorkspace = [
             component: () => import('@/views/resource/crd/detail'),
             meta: {
               requireAuth: true,
-              title: 'CRD',
+              title: 'routerbar.cluster.crd',
               admin: true,
               icon: 'mdi-collage',
               show: false,
@@ -480,7 +480,7 @@ export const adminWorkspace = [
       {
         path: '',
         meta: {
-          title: '存储中心',
+          title: 'routerbar.cluster.g_storage',
           icon: 'mdi-database',
           required: ['cluster'],
         },
@@ -494,7 +494,7 @@ export const adminWorkspace = [
             component: () => import('@/views/resource/persistentvolumeclaim/index'),
             meta: {
               requireAuth: true,
-              title: '存储卷',
+              title: 'routerbar.cluster.persistentvolumeclaim',
               admin: true,
               icon: 'mdi-database',
               show: true,
@@ -508,7 +508,7 @@ export const adminWorkspace = [
             component: () => import('@/views/resource/persistentvolumeclaim/detail'),
             meta: {
               requireAuth: true,
-              title: '存储卷',
+              title: 'routerbar.cluster.persistentvolumeclaim',
               admin: true,
               icon: 'mdi-database',
               show: false,
@@ -523,7 +523,7 @@ export const adminWorkspace = [
             component: () => import('@/views/resource/volumesnapshot/index'),
             meta: {
               requireAuth: true,
-              title: '存储卷快照',
+              title: 'routerbar.cluster.volumesnapshot',
               icon: 'mdi-camera',
               show: true,
               rootName: 'admin-workspace',
@@ -537,7 +537,7 @@ export const adminWorkspace = [
             component: () => import('@/views/resource/storageclass/index'),
             meta: {
               requireAuth: true,
-              title: '存储类型',
+              title: 'routerbar.cluster.srorageclass',
               admin: true,
               icon: 'mdi-database',
               show: true,
@@ -562,7 +562,7 @@ export const adminWorkspace = [
         component: () => import('@/views/resource/terminal/index'),
         meta: {
           requireAuth: true,
-          title: '终端',
+          title: 'routerbar.cluster.terminal',
           admin: true,
         },
       },
@@ -581,7 +581,7 @@ export const adminWorkspace = [
         component: () => import('@/views/resource/log/index'),
         meta: {
           requireAuth: true,
-          title: '容器日志',
+          title: 'routerbar.cluster.log',
           admin: true,
         },
       },

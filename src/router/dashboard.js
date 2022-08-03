@@ -10,8 +10,8 @@ export const dashboard = [
       {
         path: '',
         meta: {
-          header: '首页',
-          title: '首页',
+          header: 'routerbar.cluster.h_dashboard',
+          title: 'routerbar.cluster.g_dashboard',
           icon: 'mdi-view-dashboard',
           required: ['tenant'],
         },
@@ -25,7 +25,7 @@ export const dashboard = [
             component: () => import('@/views/resource/dashboard/index'),
             meta: {
               requireAuth: true,
-              title: '租户资源',
+              title: 'routerbar.cluster.environment_dashboaed',
               icon: 'mdi-view-dashboard',
               show: true,
               rootName: 'dashboard',
@@ -37,8 +37,8 @@ export const dashboard = [
       {
         path: '',
         meta: {
-          header: '空间',
-          title: '空间管理',
+          header: 'routerbar.cluster.h_space',
+          title: 'routerbar.cluster.g_space',
           icon: 'mdi-view-grid',
           required: ['tenant'],
         },
@@ -52,7 +52,7 @@ export const dashboard = [
             component: () => import('@/views/resource/project/index'),
             meta: {
               requireAuth: true,
-              title: '项目',
+              title: 'routerbar.cluster.project',
               icon: 'mdi-view-dashboard',
               show: true,
               rootName: 'dashboard',

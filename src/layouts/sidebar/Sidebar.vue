@@ -41,7 +41,7 @@
                 <Icon :icon="module.icon" :style="{ width: `2.2rem`, height: `2.2rem`, fontSize: `2.2rem` }" />
               </v-flex>
               <v-flex v-if="!hide" class="float-left title-line-height ml-3">
-                {{ module.text }}
+                {{ $t(`sidebar.${module.text}`) }}
               </v-flex>
             </v-list-item-title>
           </v-list-item-content>
@@ -74,7 +74,7 @@
               <Icon :icon="item.icon" :style="{ width: `1.5rem`, height: `1.5rem`, fontSize: `1.5rem` }" />
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title v-text="item.text" />
+              <v-list-item-title v-text="$t(`sidebar.${item.text}`)" />
             </v-list-item-content>
           </v-list-item>
         </v-list-item-group>
@@ -90,7 +90,7 @@
           <v-row v-if="item.meta.header" :key="item.meta.header" align="center" class="py-2">
             <v-col class="pa-1" cols="12">
               <v-subheader v-if="item.meta.header && (!expandOnHover || mouseovered)" class="text-truncate">
-                {{ item.meta.header }}
+                {{ $t(item.meta.header) }}
               </v-subheader>
               <v-subheader v-else class="text-truncate">
                 <v-icon class="dot" x-small> mdi-stop </v-icon>

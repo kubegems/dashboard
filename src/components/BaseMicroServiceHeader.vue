@@ -67,7 +67,9 @@
                       :key="index"
                       class="text-body-2 text-center font-weight-medium px-2"
                       link
-                      :style="virtualspace.text === VirtualSpace().VirtualSpaceName ? `color: #1e88e5 !important;` : ``"
+                      :style="{
+                        color: virtualspace.text === VirtualSpace().VirtualSpaceName ? `#1e88e5 !important;` : ``,
+                      }"
                       @click="setVirtualSpace(virtualspace)"
                     >
                       <v-list-item-content class="text-body-2 font-weight-medium text-start">

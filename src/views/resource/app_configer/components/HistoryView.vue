@@ -87,7 +87,7 @@
   import { CodeDiff } from 'v-code-diff';
   import { mapState } from 'vuex';
 
-  import { itemDetail, itemHistory, pubConfigItems } from '../api/index.js';
+  import { itemDetail, itemHistory, pubConfigItems } from '@/api';
 
   export default {
     name: 'HistoryView',

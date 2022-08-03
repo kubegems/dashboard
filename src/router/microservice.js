@@ -12,8 +12,8 @@ export const microService = [
       {
         path: '',
         meta: {
-          header: '微服务空间',
-          title: '虚拟空间',
+          header: 'routerbar.microservice.h_space',
+          title: 'routerbar.microservice.g_virtualspace',
           icon: 'mdi-cloud',
           dependencies: ['istio'],
         },
@@ -26,7 +26,7 @@ export const microService = [
             component: () => import('@/views/microservice/virtualspace/detail'),
             meta: {
               requireAuth: true,
-              title: '虚拟空间资源',
+              title: 'routerbar.microservice.dashboard',
               icon: 'mdi-cloud-outline',
               show: true,
               rootName: 'microservice',
@@ -40,8 +40,8 @@ export const microService = [
       {
         path: '',
         meta: {
-          header: '微服务治理',
-          title: '应用',
+          header: 'routerbar.microservice.h_mesh',
+          title: 'routerbar.microservice.g_app',
           icon: 'mdi-application',
           dependencies: ['istio'],
         },
@@ -55,7 +55,7 @@ export const microService = [
             component: () => import('@/views/microservice/app/index'),
             meta: {
               requireAuth: true,
-              title: '服务调用图',
+              title: 'routerbar.microservice.mesh',
               icon: 'mdi-vector-polyline',
               show: true,
               rootName: 'microservice',
@@ -71,7 +71,7 @@ export const microService = [
             component: () => import('@/views/microservice/workload/index'),
             meta: {
               requireAuth: true,
-              title: '工作负载',
+              title: 'routerbar.microservice.workload',
               icon: 'mdi-vector-arrange-above',
               show: true,
               rootName: 'microservice',
@@ -86,7 +86,7 @@ export const microService = [
             component: () => import('@/views/microservice/workload/detail'),
             meta: {
               requireAuth: true,
-              title: '工作负载',
+              title: 'routerbar.microservice.workload',
               icon: 'mdi-vector-arrange-above',
               show: false,
               rootName: 'microservice',
@@ -102,7 +102,7 @@ export const microService = [
             component: () => import('@/views/microservice/service/index'),
             meta: {
               requireAuth: true,
-              title: '服务',
+              title: 'routerbar.microservice.service',
               icon: 'mdi-network',
               show: true,
               rootName: 'microservice',
@@ -117,7 +117,7 @@ export const microService = [
             component: () => import('@/views/microservice/service/detail'),
             meta: {
               requireAuth: true,
-              title: '服务',
+              title: 'routerbar.microservice.service',
               icon: 'mdi-network',
               show: false,
               rootName: 'microservice',
@@ -131,7 +131,7 @@ export const microService = [
       {
         path: '',
         meta: {
-          title: '配置',
+          title: 'routerbar.microservice.g_config',
           icon: 'mdi-brightness-7',
           dependencies: ['istio'],
         },
@@ -145,7 +145,7 @@ export const microService = [
             component: () => import('@/views/microservice/configmap/index'),
             meta: {
               requireAuth: true,
-              title: 'Kubernetes配置',
+              title: 'routerbar.microservice.configmap',
               icon: 'mdi-wrench',
               show: true,
               rootName: 'microservice',
@@ -160,7 +160,7 @@ export const microService = [
             component: () => import('@/views/resource/configmap/detail'),
             meta: {
               requireAuth: true,
-              title: 'Kubernetes配置',
+              title: 'routerbar.microservice.configmap',
               icon: 'mdi-wrench',
               show: false,
               rootName: 'microservice',
@@ -174,7 +174,7 @@ export const microService = [
       {
         path: '',
         meta: {
-          title: '空间配置',
+          title: 'routerbar.microservice.g_spaceconfig',
           icon: 'mdi-home-variant',
           dependencies: ['istio'],
         },
@@ -188,7 +188,7 @@ export const microService = [
             component: () => import('@/views/microservice/istio_gateway/index'),
             meta: {
               requireAuth: true,
-              title: '微服务网关实例',
+              title: 'routerbar.microservice.gateway_intance',
               icon: 'mdi-gate',
               show: true,
               rootName: 'microservice',
@@ -203,7 +203,7 @@ export const microService = [
             component: () => import('@/views/microservice/istio_gateway/detail'),
             meta: {
               requireAuth: true,
-              title: '微服务网关实例',
+              title: 'routerbar.microservice.gateway_intance',
               icon: 'mdi-gate',
               show: false,
               rootName: 'microservice',
@@ -217,7 +217,7 @@ export const microService = [
       {
         path: '',
         meta: {
-          title: 'Istio配置',
+          title: 'routerbar.microservice.g_istioconfig',
           icon: 'mdi-access-point-network',
           dependencies: ['istio'],
         },
@@ -231,7 +231,7 @@ export const microService = [
             component: () => import('@/views/microservice/istio/authorization_policy/index'),
             meta: {
               requireAuth: true,
-              title: '认证策略',
+              title: 'routerbar.microservice.authorization_policy',
               icon: 'mdi-key',
               show: true,
               rootName: 'microservice',
@@ -247,7 +247,7 @@ export const microService = [
             component: () => import('@/views/microservice/istio/gateway/index'),
             meta: {
               requireAuth: true,
-              title: '网关',
+              title: 'routerbar.microservice.gateway',
               icon: 'mdi-network',
               show: true,
               rootName: 'microservice',
@@ -263,7 +263,7 @@ export const microService = [
             component: () => import('@/views/microservice/istio/peer_authentication/index'),
             meta: {
               requireAuth: true,
-              title: '端点认证',
+              title: 'routerbar.microservice.peer_authentication',
               icon: 'mdi-vector-point',
               show: true,
               rootName: 'microservice',
@@ -279,7 +279,7 @@ export const microService = [
             component: () => import('@/views/microservice/istio/service_entry/index'),
             meta: {
               requireAuth: true,
-              title: '服务入口',
+              title: 'routerbar.microservice.service_entry',
               icon: 'mdi-login-variant',
               show: true,
               rootName: 'microservice',
@@ -295,7 +295,7 @@ export const microService = [
             component: () => import('@/views/microservice/istio/sidecar/index'),
             meta: {
               requireAuth: true,
-              title: '边车',
+              title: 'routerbar.microservice.sidecar',
               icon: 'mdi-motorbike',
               show: true,
               rootName: 'microservice',

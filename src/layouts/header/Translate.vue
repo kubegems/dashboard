@@ -20,6 +20,7 @@
     bottom
     content-class="header__bg"
     left
+    min-width="120"
     nudge-bottom="5px"
     offset-y
     origin="top center"
@@ -42,13 +43,13 @@
               class="text-body-2 text-start font-weight-medium pl-2 mx-2"
               link
               :style="{
-                color: language.locale === $i18n.locale ? '#1e88e5 !important' : 'rgba(0, 0, 0, 0.7) !important',
+                color: language.locale === Locale ? '#1e88e5 !important' : 'rgba(0, 0, 0, 0.7) !important',
               }"
               @click="setLocale(language)"
             >
               <v-list-item-content class="text-body-2 font-weight-medium">
                 <span>
-                  <v-icon :class="language.locale === $i18n.locale ? 'header__highlight' : ''" left small>
+                  <v-icon :class="language.locale === Locale ? 'header__highlight' : ''" left small>
                     mdi-translate
                   </v-icon>
                   {{ language.title }}
@@ -63,16 +64,20 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex';
+
   import locales from '@/i18n/locales';
 
   export default {
     name: 'Translate',
+    inject: ['reload'],
     data() {
       return {
         menu: false,
       };
     },
     computed: {
+      ...mapState(['Locale']),
       languages() {
         return locales;
       },
@@ -80,6 +85,8 @@
     methods: {
       setLocale(locale) {
         this.$i18n.locale = locale.locale;
+        this.$store.commit('SET_LOCALE', locale.locale);
+        this.reload();
       },
     },
   };

@@ -27,7 +27,7 @@
     </v-list-item-icon>
 
     <v-list-item-content v-if="item.meta.title">
-      <v-list-item-title v-text="item.meta.title" />
+      <v-list-item-title v-text="$t(item.meta.title)" />
     </v-list-item-content>
   </v-list-item>
 </template>
