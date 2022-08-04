@@ -99,9 +99,15 @@
             @keydown.enter="createScope"
           >
             <template #selection="{ item }">
-              <v-chip class="ma-1" color="primary" small>
+              <v-chip
+                class="ma-1"
+                close
+                close-icon="mdi-close-circle"
+                color="primary"
+                small
+                @click:close="removeScope(item)"
+              >
                 {{ item['text'] }}
-                <v-icon small @click="removeScope(item)"> mdi-close </v-icon>
               </v-chip>
             </template>
           </v-combobox>

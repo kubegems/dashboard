@@ -31,15 +31,15 @@
     <TabContent
       :before-change="validateBaseInfo"
       :class="`kubegems__wizard-tab-content mt-8`"
-      icon="ti-info-alt"
+      icon="mdi mdi-information"
       title="基本配置"
     >
       <DeployBaseConf ref="baseConf" :base="obj.base" :item="item" />
     </TabContent>
-    <TabContent :class="`kubegems__wizard-tab-content mt-12`" icon="ti-settings" :lazy="false" title="详细配置">
+    <TabContent :class="`kubegems__wizard-tab-content mt-12`" icon="mdi mdi-cog" :lazy="false" title="详细配置">
       <DeployAdvancedConf ref="advancedConf" :base="obj.base" :item="item" :spec="obj.spec" />
     </TabContent>
-    <TabContent :class="`kubegems__wizard-tab-content mt-12`" icon="ti-check" :lazy="false" title="完成">
+    <TabContent :class="`kubegems__wizard-tab-content mt-12`" icon="mdi mdi-check" :lazy="false" title="完成">
       <DeployStatus :base="obj.base" :item="item" :processing="processing" @showDeployStatus="showDeployStatus" />
     </TabContent>
     <template #footer="props">
@@ -107,8 +107,8 @@
             modelPath: '',
             resources: {
               limits: {
-                cpu: 1,
-                memory: '2Gi',
+                cpu: 2,
+                memory: '4Gi',
               },
             },
             replicas: 1,

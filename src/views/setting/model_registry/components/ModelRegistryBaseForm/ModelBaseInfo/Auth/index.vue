@@ -1,0 +1,234 @@
+<!--
+ * Copyright 2022 The kubegems.io Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+-->
+<template>
+  <v-form v-model="valid" class="ma-2" lazy-validation @submit.prevent>
+    <v-flex :class="expand ? 'kubegems__overlay' : ''" />
+    <v-expand-transition>
+      <v-card v-show="expand" class="my-2 pa-2 kubegems__expand-transition" :elevation="4" flat>
+        <v-card-text class="pa-0">
+          <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
+            <v-sheet class="pt-2 px-2">
+              <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width">
+                <span>模型仓库认证</span>
+              </v-flex>
+              <v-flex class="float-left ml-2 kubegems__long-width">
+                <v-text-field
+                  v-model="obj.address"
+                  class="my-0"
+                  label="仓库地址"
+                  required
+                  :rules="objRules.addressRule"
+                />
+              </v-flex>
+
+              <div class="kubegems__clear-float" />
+            </v-sheet>
+
+            <v-sheet class="pt-2 px-2">
+              <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width" />
+              <v-flex class="float-left ml-2 kubegems__form-width">
+                <v-autocomplete
+                  v-model="authType"
+                  class="my-0"
+                  color="primary"
+                  hide-selected
+                  :items="authTypeItems"
+                  label="认证方式"
+                  no-data-text="暂无可选数据"
+                  :rules="objRules.authTypeItemsRules"
+                >
+                  <template #selection="{ item }">
+                    <v-chip color="primary" small>
+                      {{ item.text }}
+                    </v-chip>
+                  </template>
+                </v-autocomplete>
+              </v-flex>
+
+              <div class="kubegems__clear-float" />
+            </v-sheet>
+
+            <template v-if="authType === 'passwd'">
+              <v-sheet class="pt-2 px-2">
+                <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width" />
+                <v-flex class="float-left ml-2 kubegems__form-width">
+                  <v-text-field
+                    v-model="obj.auth.username"
+                    class="my-0"
+                    label="用户名"
+                    required
+                    :rules="objRules.usernameRule"
+                  />
+                </v-flex>
+                <v-flex class="float-left ml-2 kubegems__form-width">
+                  <v-text-field
+                    v-model="obj.auth.password"
+                    class="my-0"
+                    label="密码"
+                    required
+                    :rules="objRules.passwordRule"
+                  />
+                </v-flex>
+                <div class="kubegems__clear-float" />
+              </v-sheet>
+            </template>
+            <template v-else-if="authType === 'token'">
+              <v-sheet class="pt-2 px-2">
+                <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width" />
+                <v-flex class="float-left ml-2 kubegems__long-width">
+                  <v-text-field
+                    v-model="obj.auth.token"
+                    class="my-0"
+                    label="Token"
+                    required
+                    :rules="objRules.tokenRule"
+                  />
+                </v-flex>
+                <div class="kubegems__clear-float" />
+              </v-sheet>
+            </template>
+          </v-form>
+        </v-card-text>
+        <v-card-actions class="pa-0">
+          <v-spacer />
+          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
+          <v-btn color="primary" :loading="Circular" small text @click="adminModelStorCheck"> 校验 </v-btn>
+          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-expand-transition>
+
+    <AuthItem
+      v-if="objCopy.auth.username || objCopy.auth.token"
+      :data="objCopy"
+      @removeData="removeData"
+      @updateData="updateData"
+    />
+
+    <v-flex v-else class="grey lighten-4 rounded my-2">
+      <v-list-item two-line>
+        <v-list-item-content class="py-2">
+          <v-list-item-subtitle class="text-body-2 py-0 text-center">
+            <v-btn color="primary" text @click="expandCard">
+              <v-icon left small> mdi-plus </v-icon>
+              添加认证配置
+            </v-btn>
+          </v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+    </v-flex>
+  </v-form>
+</template>
+
+<script>
+  import { mapState } from 'vuex';
+
+  import AuthItem from './AuthItem';
+  import { postAdminModelStorCheck } from '@/api';
+  import { deepCopy } from '@/utils/helpers';
+  import { required } from '@/utils/rules';
+
+  export default {
+    name: 'Auth',
+    components: {
+      AuthItem,
+    },
+    props: {
+      data: {
+        type: Object,
+        default: () => null,
+      },
+    },
+    data() {
+      return {
+        valid: false,
+        expand: false,
+        authType: 'token',
+        authTypeItems: [
+          { text: '基于用户名密码的认证', value: 'passwd' },
+          { text: '基于Token的认证', value: 'token' },
+        ],
+        obj: {
+          addressRule: '',
+          auth: {
+            username: '',
+            token: '',
+            password: '',
+          },
+        },
+        objRules: {
+          addressRule: [required],
+          authTypeItemsRules: [required],
+          usernameRule: [required],
+          passwordRule: [required],
+          tokenRule: [required],
+        },
+        objCopy: {
+          auth: {},
+        },
+      };
+    },
+    computed: {
+      ...mapState(['Circular']),
+    },
+    watch: {
+      data: {
+        handler(newValue) {
+          if (newValue) {
+            this.obj = deepCopy(newValue);
+            this.objCopy = deepCopy(newValue);
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
+    },
+    methods: {
+      async adminModelStorCheck() {
+        if (this.$refs.form.validate(true)) {
+          await postAdminModelStorCheck(this.obj);
+        }
+      },
+      expandCard() {
+        this.expand = true;
+      },
+      closeCard() {
+        this.expand = false;
+        this.$refs.form.resetValidation();
+        this.obj = this.$options.data().obj;
+        this.authType = 'token';
+      },
+      addData() {
+        if (this.$refs.form.validate(true)) {
+          this.$emit('updateComponentData', deepCopy(this.obj));
+          this.objCopy = deepCopy(this.obj);
+          this.closeCard();
+        }
+      },
+      removeData() {
+        this.obj.auth = {
+          username: '',
+          token: '',
+          password: '',
+        };
+        this.$emit('updateComponentData', deepCopy(this.obj));
+      },
+      updateData() {
+        this.expandCard();
+      },
+    },
+  };
+</script>

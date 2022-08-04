@@ -29,13 +29,40 @@
             </v-chip>
           </template>
         </BaseListItemForDetail>
-
-        <BaseListItemForDetail title="内部地址">
-          <template #content>
-            {{ item ? item.spec.host : '' }}
-          </template>
-        </BaseListItemForDetail>
       </v-sheet>
+    </v-card>
+
+    <v-card class="mt-3" flat>
+      <BaseSubTitle class="pt-2" :divider="false" title="端口" />
+      <v-simple-table class="mx-2 pa-2 pb-3">
+        <template #default>
+          <thead>
+            <tr>
+              <th class="text-left">端口名称</th>
+              <th class="text-left">容器端口</th>
+              <th class="text-left">主机地址</th>
+              <th class="text-left">主机端口</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in item ? item.spec.ports : []" :key="index">
+              <td>{{ item.name }}</td>
+              <td>
+                <v-chip class="ma-1 font-weight-medium" color="success" small text-color="white">
+                  {{ item.containerPort }}｜{{ item.protocol }}
+                </v-chip>
+              </td>
+              <td>
+                <v-chip class="ma-1 font-weight-medium" color="success" small text-color="white">
+                  {{ item.hostPort }}｜{{ item.protocol }}
+                </v-chip>
+              </td>
+              <td>{{ item.hostIp }}</td>
+              <td>{{ item.hostPort }}</td>
+            </tr>
+          </tbody>
+        </template>
+      </v-simple-table>
     </v-card>
   </div>
 </template>

@@ -38,11 +38,17 @@
                 @keydown.enter="createNameservers"
               >
                 <template #selection="{ item }">
-                  <v-chip class="pa-1" color="primary" small>
+                  <v-chip
+                    class="pa-1"
+                    close
+                    close-icon="mdi-close-circle"
+                    color="primary"
+                    small
+                    @click:close="removeNameservers(item)"
+                  >
                     <span>
                       {{ item.text }}
                     </span>
-                    <v-icon small @click="removeNameservers(item)"> mdi-close </v-icon>
                   </v-chip>
                 </template>
               </v-combobox>
@@ -67,11 +73,17 @@
                 @keydown.enter="createSearches"
               >
                 <template #selection="{ item }">
-                  <v-chip class="pa-1" color="primary" small>
+                  <v-chip
+                    class="pa-1"
+                    close
+                    close-icon="mdi-close-circle"
+                    color="primary"
+                    small
+                    @click:close="removeSearches(item)"
+                  >
                     <span>
                       {{ item.text }}
                     </span>
-                    <v-icon small @click="removeSearches(item)"> mdi-close </v-icon>
                   </v-chip>
                 </template>
               </v-combobox>

@@ -49,7 +49,7 @@
                 <div class="kubegems__clear-float" />
               </div>
               <div class="text-body-2 registry__action">
-                <div class="mr-4 float-left registry__desc"> {{ item.tip }} </div>
+                <div class="mr-4 float-left registry__desc"> {{ item.name }} {{ item.tip }} </div>
                 <div class="mr-4 float-left registry__stat text-subtitle-2">
                   模型数量: {{ item ? item.modelsCount : 0 }}
                 </div>
@@ -262,7 +262,6 @@
             return {
               imgSrc: this.$LOGO_BLUE,
               tip: 'Kubegems内置算法模型商店。',
-              address: '',
             };
         }
       },

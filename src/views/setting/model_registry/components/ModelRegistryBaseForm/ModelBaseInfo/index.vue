@@ -20,7 +20,7 @@
       <v-row>
         <v-col cols="6">
           <v-autocomplete
-            v-model="registry"
+            v-model="obj.kind"
             class="my-0"
             color="primary"
             hide-selected
@@ -38,11 +38,11 @@
             </template>
           </v-autocomplete>
         </v-col>
-        <v-col v-if="registry === 'modelx'" cols="6">
-          <v-icon class="mt-6" color="orange" small>mdi-help-circle</v-icon>
-          <v-btn class="mt-5" color="orange" small text> 下载ModelX Client </v-btn>
-        </v-col>
-        <template v-if="registry === 'modelx'">
+        <template v-if="obj.kind === 'modelx'">
+          <v-col cols="6">
+            <v-icon class="mt-6" color="orange" small>mdi-help-circle</v-icon>
+            <v-btn class="mt-5" color="orange" small text> 下载ModelX Client </v-btn>
+          </v-col>
           <v-col cols="6">
             <v-text-field
               v-model="obj.name"
@@ -56,28 +56,23 @@
         </template>
       </v-row>
     </v-card-text>
-    <template v-if="registry === 'modelx'">
-      <BaseSubTitle title="模型存储定义" />
-      <v-tabs v-model="tab" class="px-2 mt-2 mb-3 rounded-t" height="30">
-        <v-tab v-for="item in tabItems" :key="item.value">
-          {{ item.text }}
-        </v-tab>
-      </v-tabs>
+    <template v-if="obj.kind === 'modelx'">
+      <BaseSubTitle title="模型仓库认证" />
 
-      <S3Conf @updateComponentData="updateComponentData" />
+      <Auth :data="obj" @updateComponentData="updateComponentData" />
     </template>
   </v-form>
 </template>
 
 <script>
-  import S3Conf from './S3Conf';
+  import Auth from './Auth';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'ModelBaseInfo',
     components: {
-      S3Conf,
+      Auth,
     },
     props: {
       edit: {
@@ -92,7 +87,6 @@
     data() {
       return {
         valid: false,
-        registry: '',
         registryItems: [
           { text: 'huggingface', value: 'huggingface' },
           { text: 'openmmlab', value: 'openmmlab' },
@@ -101,8 +95,16 @@
           { text: 'modelx', value: 'modelx' },
         ],
         obj: {
+          address: '',
           name: '',
           online: true,
+          kind: '',
+          auth: {
+            password: '',
+            token: '',
+            username: '',
+          },
+          images: [],
         },
         objRules: {
           nameRules: [required],
@@ -110,15 +112,6 @@
           imagesRules: [required],
           addressRules: [required],
         },
-        tab: 0,
-        tabItems: [
-          { text: 'aws s3', value: 'aws' },
-          { text: 'idoe dft', value: 'idoe' },
-          { text: 'oss', value: 'oss' },
-          { text: 'azure', value: 'azure' },
-          { text: 'gcs', value: 'gcs' },
-          { text: 'tos', value: 'tos' },
-        ],
       };
     },
     watch: {
@@ -148,7 +141,6 @@
       reset() {
         this.$refs.form.resetValidation();
         this.obj = this.$options.data().obj;
-        this.registry = '';
       },
       init(data) {
         this.$nextTick(() => {
@@ -168,21 +160,23 @@
             return r.value === this.obj.name;
           })
         ) {
-          this.registry = this.obj.name;
+          this.obj.kind = this.obj.name;
         } else {
-          this.registry = 'modelx';
+          this.obj.kind = 'modelx';
         }
       },
       onRegistryChange() {
-        if (this.registry !== 'modelx') {
-          this.obj.name = this.registry;
-          this.obj.online = false;
-        } else {
+        if (this.obj.kind !== 'modelx') {
+          this.obj.name = this.obj.kind;
           this.obj.online = true;
+        } else {
+          this.obj.online = false;
           this.obj.name = '';
         }
       },
-      updateComponentData() {},
+      updateComponentData(data) {
+        this.obj = data;
+      },
     },
   };
 </script>

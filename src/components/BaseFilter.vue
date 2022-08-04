@@ -39,17 +39,18 @@
       @focus="onFilterConditionFocus"
       @keydown.enter="contructFilterTextCondition"
     >
-      <template #selection="{ attrs, item, selected }">
+      <template #selection="{ item, selected }">
         <v-chip
           v-if="item && item.text && (item.items.length > 0 || item.text.indexOf(':') > -1)"
+          close
+          close-icon="mdi-close-circle"
           color="primary"
           :input-value="selected"
           label
           small
-          v-bind="attrs"
+          @click:close="onFilterConditionChange(item, 'delete')"
         >
           <span class="pr-2">{{ item.text }}</span>
-          <v-icon small @click="onFilterConditionChange(item, 'delete')"> mdi-close </v-icon>
         </v-chip>
         <span v-else-if="item.text && item.text.length > 0" class="text-body-1 font-weight-medium">
           {{ item.text }}:

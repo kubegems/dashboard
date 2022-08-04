@@ -32,15 +32,23 @@
         @keydown.enter="onSearch"
       >
         <template #prepend-inner>
-          <v-chip v-for="(value, key) in tagMap" v-show="tagMap[key]" :key="key" color="primary" label small>
+          <v-chip
+            v-for="(value, key) in tagMap"
+            v-show="tagMap[key]"
+            :key="key"
+            close
+            close-icon="mdi-close-circle"
+            color="primary"
+            label
+            small
+            @click:close="onRemoveTag(key)"
+          >
             <span>{{ labels[key].text }}：{{ getItemText(key, value) }}</span>
-            <v-icon right small @click="onRemoveTag(key)"> mdi-close </v-icon>
           </v-chip>
         </template>
         <template #selection="{ item }">
-          <v-chip color="primary" label small>
+          <v-chip close close-icon="mdi-close-circle" color="primary" label small @click:close="onRemoveTag('search')">
             <span>告警：{{ item }}</span>
-            <v-icon right small @click="onRemoveTag('search')"> mdi-close </v-icon>
           </v-chip>
         </template>
       </v-combobox>

@@ -54,11 +54,17 @@
               @keydown.enter="createExportTo"
             >
               <template #selection="{ item }">
-                <v-chip class="pa-1" color="primary" small>
+                <v-chip
+                  class="pa-1"
+                  close
+                  close-icon="mdi-close-circle"
+                  color="primary"
+                  small
+                  @click:close="removeExportTo(item)"
+                >
                   <span>
                     {{ item.text }}
                   </span>
-                  <v-icon small @click="removeExportTo(item)"> mdi-close </v-icon>
                 </v-chip>
               </template>
             </v-combobox>

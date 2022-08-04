@@ -82,3 +82,8 @@ export const ISTIO_INGRESS_GATEWAY_DOWNSTREAM_443_QPS_PROMQL = `sum(gems_istio_g
 export const ISTIO_INGRESS_GATEWAY_DOWNSTREAM_443_RESPONSE_DURATION_PROMQL = `gems_istio_gateway_port_443_downstream_response_duration_seconds{namespace="$1", pod=~"$2(.*)"} * 1000 * 1000`;
 export const ISTIO_INGRESS_NETWORK_PROMQL = `sum(gems_istio_workload_request_bps{reporter="destination",  destination_workload="$1", destination_workload_namespace="$2"} >= 0)`;
 export const ISTIO_EGRESS_NETWORK_PROMQL = `sum(gems_istio_workload_response_bps{reporter="destination",  destination_workload="$1", destination_workload_namespace="$2"} >= 0)`;
+
+export const GPU_USAGE = `round(gems_container_gpu_usage_percent{pod=~"$1", namespace=~"$2"}, 0.01)`;
+export const GPU_MEMORY_USAGE = `round(gems_container_gpu_memory_usage_mb{pod=~"$1", namespace=~"$2"}, 0.001) / 1024`;
+export const GPU_TEMP = `round(gems_container_gpu_temp{pod=~"$1", namespace=~"$2"}, 0.01)`;
+export const GPU_POWER = `round(gems_container_gpu_power_usage_watt{pod=~"$1", namespace=~"$2"}, 0.01)`;

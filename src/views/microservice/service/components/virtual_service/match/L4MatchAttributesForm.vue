@@ -39,11 +39,17 @@
                   @keydown.enter="createDestinationSubnets"
                 >
                   <template #selection="{ item }">
-                    <v-chip class="pa-1" color="primary" small>
+                    <v-chip
+                      class="pa-1"
+                      close
+                      close-icon="mdi-close-circle"
+                      color="primary"
+                      small
+                      @click:close="removeDestinationSubnets(item)"
+                    >
                       <span>
                         {{ item.text }}
                       </span>
-                      <v-icon small @click="removeDestinationSubnets(item)"> mdi-close </v-icon>
                     </v-chip>
                   </template>
                 </v-combobox>

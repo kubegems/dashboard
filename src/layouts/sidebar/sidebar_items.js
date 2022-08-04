@@ -60,7 +60,7 @@ export const SIDEBAR_ITEMS = [
     text: 'administration',
     sidebar: 'platform',
     value: 'platform',
-    icon: 'mdi:view-gallery',
+    icon: 'mdi:widgets',
     admin: true,
   },
 ];
