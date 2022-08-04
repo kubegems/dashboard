@@ -126,7 +126,7 @@
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
-  import { k8sLabel, required } from '@/utils/rules';
+  import { k8sName, required } from '@/utils/rules';
 
   export default {
     name: 'ProjectBaseForm',
@@ -172,7 +172,7 @@
       ...mapGetters(['Tenant', 'Project']),
       objRules() {
         return {
-          projectNameRules: [required, (v) => !!(v && v.length <= 20) || '超出20字符限制', k8sLabel],
+          projectNameRules: [required, (v) => !!(v && v.length <= 20) || '超出20字符限制', k8sName],
         };
       },
       roleUsers() {

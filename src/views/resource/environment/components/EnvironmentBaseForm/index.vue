@@ -161,7 +161,7 @@
                       prepend-inner-icon="mdi-magnify"
                       @keyup="onAllUsernameInput"
                     />
-                    <v-list dense height="450px" style="overflow-y: auto">
+                    <v-list dense height="450px" style="overflow-y: auto;">
                       <v-list-item v-for="(user, index) in allUsers" :key="index" link @click="setRole(user, index)">
                         <v-list-item-avatar class="my-1">
                           <v-avatar class="white--text font-weight-medium" color="primary" :size="32">
@@ -190,7 +190,7 @@
                       prepend-inner-icon="mdi-magnify"
                       @keyup="onRoleUsernameInput"
                     />
-                    <v-list dense height="450px" style="overflow-y: auto">
+                    <v-list dense height="450px" style="overflow-y: auto;">
                       <v-list-item
                         v-for="(user, index) in tab === 0 ? readerUsers : operatorUsers"
                         :key="index"
@@ -251,7 +251,7 @@
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
-  import { k8sLabel, required } from '@/utils/rules';
+  import { k8sName, required } from '@/utils/rules';
   import LimitRange from '@/views/resource/environment/components/base/LimitRange';
   import LimitRangeCard from '@/views/resource/environment/components/base/LimitRangeCard';
   import ResourceChart from '@/views/resource/environment/components/base/ResourceChart';
@@ -364,11 +364,11 @@
       ...mapGetters(['Tenant', 'Project', 'Environment']),
       objRules() {
         return {
-          environmentNameRules: [required, (v) => !!(v && v.length <= 20) || '超出20字符限制', k8sLabel],
+          environmentNameRules: [required, (v) => !!(v && v.length <= 20) || '超出20字符限制', k8sName],
           clusterIDRules: [required],
           projectIDRules: [required],
           metaTypeRules: [required],
-          namespaceRules: [required],
+          namespaceRules: [required, k8sName],
           deletePolicyRules: [required],
         };
       },
