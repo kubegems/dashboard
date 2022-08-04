@@ -13,20 +13,6 @@
     <v-card-text :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
       <v-row>
         <v-col cols="6">
-          <BaseApexAreaChart id="requestQps" label="pod" :metrics="requestQps" title="请求qps" type="" />
-        </v-col>
-        <v-col cols="6">
-          <BaseApexAreaChart
-            id="requestDuration"
-            label="pod"
-            :metrics="requestDuration"
-            title="请求耗时"
-            type="timecost"
-          />
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="6">
           <BaseApexAreaChart id="cpu" label="pod" :metrics="cpu" title="CPU使用量" type="cpu" />
         </v-col>
         <v-col cols="6">
@@ -36,10 +22,19 @@
       <template v-if="hasGpu">
         <v-row>
           <v-col cols="6">
-            <BaseApexAreaChart id="gpu" label="pod" :metrics="gpu" title="GPU使用量" type="cpu" />
+            <BaseApexAreaChart id="gpu" label="pod" :metrics="gpu" title="GPU使用量" type="%" />
           </v-col>
           <v-col cols="6">
             <BaseApexAreaChart id="gpuMemory" label="pod" :metrics="gpuMemory" title="显存使用量" type="memory" />
+          </v-col>
+        </v-row>
+
+        <v-row>
+          <v-col cols="6">
+            <BaseApexAreaChart id="gpuTemp" label="pod" :metrics="gpuTemp" title="GPU温度" type="°C" />
+          </v-col>
+          <v-col cols="6">
+            <BaseApexAreaChart id="gpuPower" label="pod" :metrics="gpuPower" title="GPU功率" type="W" />
           </v-col>
         </v-row>
       </template>
@@ -50,8 +45,17 @@
 <script>
   import { mapState } from 'vuex';
 
+  import { getPodList } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
+  import {
+    GPU_MEMORY_USAGE,
+    GPU_POWER,
+    GPU_TEMP,
+    GPU_USAGE,
+    WORKLOAD_CPU_USAGE_CORE_PROMQL,
+    WORKLOAD_MEMORY_USAGE_BYTE_PROMQL,
+  } from '@/utils/prometheus';
 
   export default {
     name: 'ModelMonitor',
@@ -67,8 +71,8 @@
       memory: [],
       gpu: [],
       gpuMemory: [],
-      requestDuration: [],
-      requestQps: [],
+      gpuTemp: [],
+      gpuPower: [],
       date: [],
       params: {
         start: '',
@@ -77,6 +81,7 @@
       },
       timeinterval: null,
       hasGpu: false,
+      pods: '',
     }),
     computed: {
       ...mapState(['Scale']),
@@ -101,11 +106,23 @@
       if (this.timeinterval) clearInterval(this.timeinterval);
     },
     mounted() {
-      this.$nextTick(() => {
+      this.$nextTick(async () => {
+        await this.podList();
         this.onDatetimeChange();
       });
     },
     methods: {
+      async podList() {
+        const data = await getPodList(this.ThisCluster, this.ThisNamespace, {
+          topkind: 'Deployment',
+          topname: this.item.metadata.name,
+          size: 1000,
+          noprocessing: true,
+        });
+        this.pods = data.List.map((d) => {
+          return d.metadata.name;
+        }).join('|');
+      },
       async loadMetrics() {
         if (this.timeinterval) clearInterval(this.timeinterval);
         this.loadData();
@@ -115,8 +132,52 @@
           this.loadData();
         }, 1000 * 30);
       },
-      async loadData() {},
+      async loadData() {
+        this.modelCPUUsage();
+        this.modelMemoryUsage();
 
+        this.modelGPUUsage();
+        this.modelGpuMemoryUsage();
+        this.modelGPUTemp();
+        this.modelGpuPower();
+      },
+      async modelCPUUsage() {
+        const query = WORKLOAD_CPU_USAGE_CORE_PROMQL.replaceAll(
+          '$1',
+          `Deployment:${this.item.metadata.name}`,
+        ).replaceAll('$2', this.item.metadata.namespace);
+        const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
+        if (data) this.cpu = data;
+      },
+      async modelMemoryUsage() {
+        const query = WORKLOAD_MEMORY_USAGE_BYTE_PROMQL.replaceAll(
+          '$1',
+          `Deployment:${this.item.metadata.name}`,
+        ).replaceAll('$2', this.item.metadata.namespace);
+        const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
+        if (data) this.memory = data;
+      },
+
+      async modelGPUUsage() {
+        const query = GPU_USAGE.replaceAll('$1', this.pods).replaceAll('$2', this.item.metadata.namespace);
+        const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
+        if (data) this.cpu = data;
+      },
+      async modelGpuMemoryUsage() {
+        const query = GPU_MEMORY_USAGE.replaceAll('$1', this.pods).replaceAll('$2', this.item.metadata.namespace);
+        const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
+        if (data) this.memory = data;
+      },
+      async modelGPUTemp() {
+        const query = GPU_TEMP.replaceAll('$1', this.pods).replaceAll('$2', this.item.metadata.namespace);
+        const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
+        if (data) this.cpu = data;
+      },
+      async modelGpuPower() {
+        const query = GPU_POWER.replaceAll('$1', this.pods).replaceAll('$2', this.item.metadata.namespace);
+        const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
+        if (data) this.memory = data;
+      },
       onDatetimeChange() {
         this.params.start = this.$moment(this.date[0]).utc().format();
         this.params.end = this.$moment(this.date[1]).utc().format();

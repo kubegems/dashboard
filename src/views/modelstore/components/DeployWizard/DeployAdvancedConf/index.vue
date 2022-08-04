@@ -15,14 +15,16 @@
 -->
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
-    <BaseSubTitle class="mt-3" color="grey lighten-3" :divider="false" title="部署类型" />
+    <BaseSubTitle class="mt-3" color="grey lighten-3" :divider="false" title="部署信息" />
     <v-card-text class="pa-2">
       <v-row>
         <v-col cols="12">
           <v-autocomplete
-            v-model="deployType"
-            :items="typeItems"
-            label="部署类型"
+            v-model="obj.model.image"
+            hide-no-data
+            hide-selected
+            :items="imageItems"
+            label="镜像"
             :menu-props="{
               bottom: true,
               left: true,
@@ -31,43 +33,83 @@
             :rules="objRules.imageRules"
           >
             <template #selection="{ item }">
-              <v-chip color="primary" small>
+              <v-chip class="my-1" color="primary" small text-color="white">
                 {{ item.text }}
               </v-chip>
             </template>
           </v-autocomplete>
+
+          <v-switch v-model="advanced" label="高级配置" />
+
+          <template v-if="advanced">
+            <v-text-field v-model="obj.host" label="访问域名" />
+
+            <v-autocomplete
+              v-model="obj.args"
+              hide-no-data
+              hide-selected
+              :items="argsItems"
+              label="参数"
+              :menu-props="{
+                bottom: true,
+                left: true,
+                origin: `top center`,
+              }"
+              multiple
+              :search-input.sync="argsText"
+              @keydown.enter="createArgs"
+            >
+              <template #selection="{ item }">
+                <v-chip
+                  class="pa-1"
+                  close
+                  close-icon="mdi-close-circle"
+                  color="primary"
+                  small
+                  @click:close="removeArgs(item)"
+                >
+                  <span>
+                    {{ item.text }}
+                  </span>
+                </v-chip>
+              </template>
+            </v-autocomplete>
+
+            <Env v-model="obj.env" />
+
+            <Port v-model="obj.ports" />
+          </template>
         </v-col>
       </v-row>
     </v-card-text>
-
-    <component :is="deployType" />
 
     <ResourceConf ref="resourceConf" :base="base" :spec="spec" />
   </v-form>
 </template>
 
 <script>
-  import ModelDeploy from './ModelDeploy';
+  import Env from './Env';
+  import Port from './Port';
   import ResourceConf from './ResourceConf';
-  import SeldonDeploy from './SeldonDeploy';
-  import { required } from '@/utils/rules';
+  import { getModelSourceDetail } from '@/api';
+  // import { required } from '@/utils/rules';
 
   export default {
     name: 'DeployAdvancedConf',
     components: {
-      ModelDeploy,
+      Env,
+      Port,
       ResourceConf,
-      SeldonDeploy,
     },
     props: {
       base: {
         type: Object,
         default: () => null,
       },
-      // item: {
-      //   type: Object,
-      //   default: () => null,
-      // },
+      item: {
+        type: Object,
+        default: () => null,
+      },
       spec: {
         type: Object,
         default: () => null,
@@ -76,40 +118,41 @@
     data: function () {
       return {
         valid: false,
-        deployType: 'SeldonDeploy',
+        advanced: false,
+        argsItems: [],
+        imageItems: [],
         obj: {
+          host: '',
+          args: [],
+          env: [],
+          ports: [],
+          backend: '',
           model: {
+            framework: '',
             image: '',
+            name: '',
+            url: '',
+            version: '',
           },
           resources: {
             limits: {
-              cpu: 0,
-              memory: 0,
+              cpu: 2,
+              memory: '4Gi',
             },
           },
           replicas: 1,
         },
         objRules: {
-          imageRules: [required],
+          imageRules: [],
         },
+        argsText: '',
       };
     },
-    computed: {
-      typeItems() {
-        if (this.$route.query.online === 'true') {
-          return [{ text: 'Seldon Deployment', value: 'SeldonDeploy' }];
-        }
-        return [
-          { text: 'Model Deployment', value: 'ModelDeploy' },
-          { text: 'Seldon Deployment', value: 'SeldonDeploy' },
-        ];
-      },
-    },
     watch: {
-      spec: {
+      item: {
         handler(newValue) {
           if (newValue) {
-            this.obj.model.image = newValue.model.image;
+            this.modelSourceDetail();
           }
         },
         deep: true,
@@ -117,6 +160,12 @@
       },
     },
     methods: {
+      async modelSourceDetail() {
+        const data = await getModelSourceDetail(this.item.source);
+        this.imageItems = data.images.map((i) => {
+          return { text: i, value: i };
+        });
+      },
       validate() {
         return this.$refs.form.validate(true) && this.$refs.resourceConf.validate();
       },
@@ -126,6 +175,23 @@
       },
       reset() {
         this.$refs.form.resetValidation() && this.$refs.resourceConf.reset();
+      },
+      createArgs() {
+        if (!this.argsText) return;
+        this.obj.args.push(this.argsText);
+        this.argsItems.push({
+          text: this.argsText,
+          value: this.argsText,
+        });
+        this.argsText = '';
+      },
+      removeArgs(item) {
+        const index = this.obj.args.findIndex((args) => {
+          return args !== item.value;
+        });
+        if (index > -1) {
+          this.obj.args.splice(index, 1);
+        }
       },
     },
   };

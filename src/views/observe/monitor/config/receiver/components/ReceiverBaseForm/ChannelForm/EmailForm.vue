@@ -92,9 +92,15 @@
               @keydown.13="createEmail"
             >
               <template #selection="{ item }">
-                <v-chip class="mx-1" color="primary" small>
+                <v-chip
+                  class="mx-1"
+                  close
+                  close-icon="mdi-close-circle"
+                  color="primary"
+                  small
+                  @click:close="removeEmail(item)"
+                >
                   {{ item['text'] }}
-                  <v-icon small @click="removeEmail(item)"> mdi-close </v-icon>
                 </v-chip>
               </template>
             </v-autocomplete>

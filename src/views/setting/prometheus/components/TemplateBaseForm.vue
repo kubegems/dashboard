@@ -56,11 +56,17 @@
               @keydown.enter="createLabel"
             >
               <template #selection="{ item }">
-                <v-chip class="pa-1" color="primary" small>
+                <v-chip
+                  class="pa-1"
+                  close
+                  close-icon="mdi-close-circle"
+                  color="primary"
+                  small
+                  @click.close="removeLabel(item)"
+                >
                   <span>
                     {{ item.text }}
                   </span>
-                  <v-icon small @click="removeLabel(item)"> mdi-close </v-icon>
                 </v-chip>
               </template>
             </v-combobox>

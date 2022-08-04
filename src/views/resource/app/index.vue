@@ -163,7 +163,7 @@
               }"
             />
             <span>
-              {{ item.status.phase }}
+              {{ item.status.phase || 'No Status' }}
             </span>
           </template>
           <template #[`item.modelImage`]="{ item }">
@@ -340,7 +340,7 @@
             { text: '模型框架', value: 'framework', align: 'start', sortable: false },
             { text: '模型来源', value: 'source', align: 'start', sortable: false },
             { text: '镜像', value: 'modelImage', align: 'start', sortable: false },
-            { text: '状态', value: 'phase', align: 'start', sortable: false, width: 100 },
+            { text: '状态', value: 'phase', align: 'start', sortable: false, width: 120 },
             { text: 'Api', value: 'url', align: 'start', sortable: false },
             { text: '创建时间', value: 'creationTimestamp', align: 'start' },
             { text: '', value: 'modelAction', align: 'center', width: 20, sortable: false },

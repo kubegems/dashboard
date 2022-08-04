@@ -67,8 +67,8 @@ export const global = [
         component: () => import('@/views/resource/blank/white_page'),
         meta: {
           requireAuth: true,
-          title: '暂无租户',
-          smallTitle: '租户工作台',
+          title: 'data.no_tenant',
+          smallTitle: 'header.tenant_workspace',
         },
       },
       {
@@ -77,8 +77,8 @@ export const global = [
         component: () => import('@/views/resource/blank/white_tenant_page'),
         meta: {
           requireAuth: true,
-          title: '暂无租户',
-          smallTitle: '租户工作台',
+          title: 'data.no_tenant',
+          smallTitle: 'header.tenant_workspace',
         },
       },
     ],
@@ -95,8 +95,8 @@ export const global = [
         component: () => import('@/views/resource/blank/white_cluster_page'),
         meta: {
           requireAuth: true,
-          title: '暂无集群',
-          smallTitle: '管理员',
+          title: 'data.no_cluster',
+          smallTitle: 'header.administrator',
         },
       },
     ],

@@ -38,11 +38,17 @@
                   @keydown.enter="createCommand"
                 >
                   <template #selection="{ item }">
-                    <v-chip class="pa-1" color="primary" small>
+                    <v-chip
+                      class="pa-1"
+                      close
+                      close-icon="mdi-close-circle"
+                      color="primary"
+                      small
+                      @click:close="removeCommand(item)"
+                    >
                       <span>
                         {{ item.text }}
                       </span>
-                      <v-icon small @click="removeCommand(item)"> mdi-close </v-icon>
                     </v-chip>
                   </template>
                 </v-combobox>
@@ -65,11 +71,17 @@
                   @keydown.enter="createArgs"
                 >
                   <template #selection="{ item }">
-                    <v-chip class="pa-1" color="primary" small>
+                    <v-chip
+                      class="pa-1"
+                      close
+                      close-icon="mdi-close-circle"
+                      color="primary"
+                      small
+                      @click:close="removeArgs(item)"
+                    >
                       <span>
                         {{ item.text }}
                       </span>
-                      <v-icon small @click="removeArgs(item)"> mdi-close </v-icon>
                     </v-chip>
                   </template>
                 </v-combobox>
@@ -203,7 +215,7 @@
       },
       onArgsChange() {
         const args = this.obj.args.filter((args) => {
-          return args !== '' && typeof cmd === 'object';
+          return args !== '' && typeof args === 'object';
         });
         this.obj.args = args;
       },

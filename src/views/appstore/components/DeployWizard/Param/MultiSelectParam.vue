@@ -49,9 +49,16 @@
         </v-list-item>
       </template>
       <template #selection="{ item }">
-        <v-chip class="ma-1" color="success" dense small>
+        <v-chip
+          class="ma-1"
+          close
+          close-icon="mdi-close-circle"
+          color="success"
+          dense
+          small
+          @click:close="removeCommand(item)"
+        >
           {{ item }}
-          <v-icon small @click="removeCommand(item)"> mdi-close </v-icon>
         </v-chip>
       </template>
       <template #append-outer><v-flex :id="id" /></template>

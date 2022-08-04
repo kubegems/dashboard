@@ -38,10 +38,18 @@
           @change="onNamespaceFilterChange"
           @focus="onNamespaceSelectFocus(Cluster().ClusterName)"
         >
-          <template #selection="{ attrs, item, selected }">
-            <v-chip v-if="namespaceFilter" color="primary" :input-value="selected" label small v-bind="attrs">
+          <template #selection="{ item, selected }">
+            <v-chip
+              v-if="namespaceFilter"
+              close
+              close-icon="mdi-close-circle"
+              color="primary"
+              :input-value="selected"
+              label
+              small
+              @click:close="removeNamespaceFilter"
+            >
               <span class="pr-2">{{ item.text }}</span>
-              <v-icon small @click="removeNamespaceFilter"> mdi-close </v-icon>
             </v-chip>
           </template>
         </v-combobox>

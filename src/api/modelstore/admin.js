@@ -39,3 +39,6 @@ export const deleteAdminModelSource = (name) => axios.delete(`admin/sources/${na
 // 模型商店过滤条件
 export const getAdminModelStoreFilterCondition = (source, query = {}) =>
   axios(`admin/sources/${source}/selector`, { params: query });
+
+// 模型商店过滤条件
+export const postAdminModelStorCheck = (body = {}) => axios.post(`admin/sourcescheck`, body);

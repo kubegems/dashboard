@@ -71,11 +71,17 @@
                   @keydown.enter="createReqSet"
                 >
                   <template #selection="{ item }">
-                    <v-chip class="pa-1" color="primary" small>
+                    <v-chip
+                      class="pa-1"
+                      close
+                      close-icon="mdi-close-circle"
+                      color="primary"
+                      small
+                      @click:close="removeReqSet(item)"
+                    >
                       <span>
                         {{ item.text }}
                       </span>
-                      <v-icon small @click="removeReqSet(item)"> mdi-close </v-icon>
                     </v-chip>
                   </template>
                 </v-combobox>
@@ -100,11 +106,17 @@
                   @keydown.enter="createReqAdd"
                 >
                   <template #selection="{ item }">
-                    <v-chip class="pa-1" color="primary" small>
+                    <v-chip
+                      class="pa-1"
+                      close
+                      close-icon="mdi-close-circle"
+                      color="primary"
+                      small
+                      @click:close="removeReqAdd(item)"
+                    >
                       <span>
                         {{ item.text }}
                       </span>
-                      <v-icon small @click="removeReqAdd(item)"> mdi-close </v-icon>
                     </v-chip>
                   </template>
                 </v-combobox>
@@ -129,11 +141,17 @@
                   @keydown.enter="createReqRemove"
                 >
                   <template #selection="{ item }">
-                    <v-chip class="pa-1" color="primary" small>
+                    <v-chip
+                      class="pa-1"
+                      close
+                      close-icon="mdi-close-circle"
+                      color="primary"
+                      small
+                      @click:close="removeReqRemove(item)"
+                    >
                       <span>
                         {{ item.text }}
                       </span>
-                      <v-icon small @click="removeReqRemove(item)"> mdi-close </v-icon>
                     </v-chip>
                   </template>
                 </v-combobox>
@@ -159,11 +177,17 @@
                   @keydown.enter="createResSet"
                 >
                   <template #selection="{ item }">
-                    <v-chip class="pa-1" color="primary" small>
+                    <v-chip
+                      class="pa-1"
+                      close
+                      close-icon="mdi-close-circle"
+                      color="primary"
+                      small
+                      @click:close="removeResSet(item)"
+                    >
                       <span>
                         {{ item.text }}
                       </span>
-                      <v-icon small @click="removeResSet(item)"> mdi-close </v-icon>
                     </v-chip>
                   </template>
                 </v-combobox>
@@ -188,11 +212,17 @@
                   @keydown.enter="createResAdd"
                 >
                   <template #selection="{ item }">
-                    <v-chip class="pa-1" color="primary" small>
+                    <v-chip
+                      class="pa-1"
+                      close
+                      close-icon="mdi-close-circle"
+                      color="primary"
+                      small
+                      @click:close="removeResAdd(item)"
+                    >
                       <span>
                         {{ item.text }}
                       </span>
-                      <v-icon small @click="removeResAdd(item)"> mdi-close </v-icon>
                     </v-chip>
                   </template>
                 </v-combobox>
@@ -217,11 +247,17 @@
                   @keydown.enter="createResRemove"
                 >
                   <template #selection="{ item }">
-                    <v-chip class="pa-1" color="primary" small>
+                    <v-chip
+                      class="pa-1"
+                      close
+                      close-icon="mdi-close-circle"
+                      color="primary"
+                      small
+                      @click:close="removeResRemove(item)"
+                    >
                       <span>
                         {{ item.text }}
                       </span>
-                      <v-icon small @click="removeResRemove(item)"> mdi-close </v-icon>
                     </v-chip>
                   </template>
                 </v-combobox>

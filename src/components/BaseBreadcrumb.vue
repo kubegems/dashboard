@@ -24,7 +24,7 @@
               {{ breadcrumb.icon }}
             </v-icon>
             <div class="text-subtitle-2 kubegems__text font-weight-medium breadcrumb__font">
-              {{ breadcrumb.title }}
+              {{ $t(breadcrumb.title) }}
             </div>
             <v-icon v-if="breadcrumb.tip !== undefined" class="breadcrumb__bg mr-1" right small>
               mdi-help-rhombus

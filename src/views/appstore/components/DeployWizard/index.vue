@@ -32,7 +32,7 @@
     <TabContent
       :before-change="validateBaseInfo"
       :class="`zoom-${Scale.toString().replaceAll('.', '-')} kubegems__wizard-tab-content mt-8`"
-      icon="ti-info-alt"
+      icon="mdi mdi-information"
       title="基本配置"
     >
       <v-form ref="form" v-model="valid" class="wizard-form-content" lazy-validation @submit.prevent>
@@ -123,7 +123,7 @@
     </TabContent>
     <TabContent
       :class="`zoom-${Scale.toString().replaceAll('.', '-')} kubegems__wizard-tab-content mt-12`"
-      icon="ti-settings"
+      icon="mdi mdi-cog"
       :lazy="false"
       title="详细配置"
     >
@@ -159,7 +159,7 @@
     </TabContent>
     <TabContent
       :class="`zoom-${Scale.toString().replaceAll('.', '-')} kubegems__wizard-tab-content mt-12`"
-      icon="ti-check"
+      icon="mdi mdi-check"
       :lazy="false"
       title="完成"
     >

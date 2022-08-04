@@ -40,7 +40,7 @@
             }"
           />
           <span>
-            {{ item.phase }}
+            {{ item.phase || 'No Status' }}
           </span>
         </template>
         <template #[`item.url`]="{ item }">

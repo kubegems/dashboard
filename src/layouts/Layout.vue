@@ -16,10 +16,7 @@
 
 <template>
   <v-app id="inspire">
-    <Header
-      v-model="expandOnHover"
-      :small-title="AdminViewport ? `${$t('header.administrator')}` : `${$t('header.tenant_workspace')}`"
-    />
+    <Header v-model="expandOnHover" :small-title="AdminViewport ? 'header.administrator' : 'header.tenant_workspace'" />
     <v-main :style="`min-height: ${height}px;`">
       <BasePluginPass>
         <template #default>

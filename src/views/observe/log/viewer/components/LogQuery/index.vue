@@ -25,15 +25,30 @@
       <!-- 标签查询 -->
       <v-combobox v-if="queryType === 'tag'" v-model="filter" dense flat full-width hide-details multiple solo>
         <template #prepend-inner>
-          <v-chip v-for="tag in comboboxTags" :key="tag.text + tag.value" color="primary" label small>
+          <v-chip
+            v-for="tag in comboboxTags"
+            :key="tag.text + tag.value"
+            close
+            close-icon="mdi-close-circle"
+            color="primary"
+            label
+            small
+            @click:close="handleRemoveTag(tag.text, tag.value)"
+          >
             <span>{{ tag.text }}:{{ tag.value }}</span>
-            <v-icon right small @click="handleRemoveTag(tag.text, tag.value)"> mdi-close </v-icon>
           </v-chip>
         </template>
         <template #selection="{ item }">
-          <v-chip class="my-1" color="primary" label small>
+          <v-chip
+            class="my-1"
+            close
+            close-icon="mdi-close-circle"
+            color="primary"
+            label
+            small
+            @click:close="handleRemoveRegexp(item)"
+          >
             <span>正则：{{ item }}</span>
-            <v-icon right small @click="handleRemoveRegexp(item)"> mdi-close </v-icon>
           </v-chip>
         </template>
       </v-combobox>

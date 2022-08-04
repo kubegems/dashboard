@@ -17,7 +17,9 @@
     "placehold": "Enter query criteria to filter result"
   },
   "data": {
-    "no_data": "No Data"
+    "no_data": "No Data",
+    "no_cluster": "No Cluster",
+    "no_tenant": "No Tenant"
   },
   "operate": {
     "batch": "Batch",
