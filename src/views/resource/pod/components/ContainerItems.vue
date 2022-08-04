@@ -41,7 +41,8 @@
                     v-if="
                       (container.state && container.state.running !== undefined) ||
                       (item.metadata.deletionTimestamp ? 'Terminating' : item.status.phase) === 'Succeeded' ||
-                      (container.state && container.state.waiting)
+                      (container.state && container.state.waiting) ||
+                      container.state.terminated
                     "
                     class="kubegems__pointer"
                     color="primary float-left"
