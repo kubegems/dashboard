@@ -203,7 +203,7 @@
       },
       onArgsChange() {
         const args = this.obj.args.filter((args) => {
-          return args !== '' && typeof cmd === 'object';
+          return args !== '' && typeof args === 'object';
         });
         this.obj.args = args;
       },

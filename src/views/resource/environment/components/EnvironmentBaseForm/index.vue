@@ -251,7 +251,7 @@
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
-  import { k8sLabel, required } from '@/utils/rules';
+  import { k8sName, required } from '@/utils/rules';
   import LimitRange from '@/views/resource/environment/components/base/LimitRange';
   import LimitRangeCard from '@/views/resource/environment/components/base/LimitRangeCard';
   import ResourceChart from '@/views/resource/environment/components/base/ResourceChart';
@@ -364,11 +364,11 @@
       ...mapGetters(['Tenant', 'Project', 'Environment']),
       objRules() {
         return {
-          environmentNameRules: [required, (v) => !!(v && v.length <= 20) || '超出20字符限制', k8sLabel],
+          environmentNameRules: [required, (v) => !!(v && v.length <= 20) || '超出20字符限制', k8sName],
           clusterIDRules: [required],
           projectIDRules: [required],
           metaTypeRules: [required],
-          namespaceRules: [required],
+          namespaceRules: [required, k8sName],
           deletePolicyRules: [required],
         };
       },
