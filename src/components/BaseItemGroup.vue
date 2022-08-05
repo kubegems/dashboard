@@ -110,7 +110,7 @@
         let pass = true;
         if (dependencies === undefined) return pass;
         dependencies.forEach((d) => {
-          if (!this.Plugins[d]) {
+          if (!this.Plugins?.[d]) {
             pass = false;
             return;
           }

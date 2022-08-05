@@ -142,9 +142,6 @@
           <template #[`item.modelVersion`]="{ item }">
             {{ item.spec.model.version }}
           </template>
-          <template #[`item.framework`]="{ item }">
-            {{ item.spec.model.framework }}
-          </template>
           <template #[`item.source`]="{ item }">
             {{ item.spec.model.source }}
           </template>
@@ -170,7 +167,7 @@
             {{ item.spec.model.image }}
           </template>
           <template #[`item.url`]="{ item }">
-            <a :href="`http://${item.spec.host}`" target="_blank">{{ item.spec.host }}</a>
+            <a :href="item.status.url" target="_blank" @click.stop>{{ item.status.url }}</a>
           </template>
           <template #[`item.creationTimestamp`]="{ item }">
             {{ $moment(item.metadata.creationTimestamp).format('lll') }}
@@ -337,7 +334,6 @@
             { text: '实例名称', value: 'instanceName', align: 'start', width: 100 },
             { text: '模型名称', value: 'modelName', align: 'start', sortable: false },
             { text: '模型版本', value: 'modelVersion', align: 'start', sortable: false },
-            { text: '模型框架', value: 'framework', align: 'start', sortable: false },
             { text: '模型来源', value: 'source', align: 'start', sortable: false },
             { text: '镜像', value: 'modelImage', align: 'start', sortable: false },
             { text: '状态', value: 'phase', align: 'start', sortable: false, width: 120 },

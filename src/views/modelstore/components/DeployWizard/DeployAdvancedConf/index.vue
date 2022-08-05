@@ -20,7 +20,7 @@
       <v-row>
         <v-col cols="12">
           <v-autocomplete
-            v-model="obj.model.image"
+            v-model="obj.server.image"
             hide-no-data
             hide-selected
             :items="imageItems"
@@ -44,8 +44,41 @@
           <template v-if="advanced">
             <v-text-field v-model="obj.host" label="访问域名" />
 
+            <v-text-field v-model="obj.mountPath" label="挂载路径" />
+
             <v-autocomplete
-              v-model="obj.args"
+              v-model="obj.server.command"
+              hide-no-data
+              hide-selected
+              :items="commandItems"
+              label="启动命令"
+              :menu-props="{
+                bottom: true,
+                left: true,
+                origin: `top center`,
+              }"
+              multiple
+              :search-input.sync="commandText"
+              @keydown.enter="createCommand"
+            >
+              <template #selection="{ item }">
+                <v-chip
+                  class="pa-1"
+                  close
+                  close-icon="mdi-close-circle"
+                  color="primary"
+                  small
+                  @click:close="removeCommand(item)"
+                >
+                  <span>
+                    {{ item.text }}
+                  </span>
+                </v-chip>
+              </template>
+            </v-autocomplete>
+
+            <v-autocomplete
+              v-model="obj.server.args"
               hide-no-data
               hide-selected
               :items="argsItems"
@@ -75,9 +108,9 @@
               </template>
             </v-autocomplete>
 
-            <Env v-model="obj.env" />
+            <Env v-model="obj.server.env" />
 
-            <Port v-model="obj.ports" />
+            <Port v-model="obj.server.ports" />
           </template>
         </v-col>
       </v-row>
@@ -120,19 +153,22 @@
         valid: false,
         advanced: false,
         argsItems: [],
+        commandItems: [],
         imageItems: [],
         obj: {
-          host: '',
-          args: [],
-          env: [],
-          ports: [],
-          backend: '',
           model: {
-            framework: '',
-            image: '',
             name: '',
             url: '',
             version: '',
+            source: '',
+          },
+          server: {
+            args: [],
+            command: [],
+            env: [],
+            envFrom: [],
+            image: '',
+            ports: [],
           },
           resources: {
             limits: {
@@ -146,6 +182,7 @@
           imageRules: [],
         },
         argsText: '',
+        commandText: '',
       };
     },
     watch: {
@@ -178,7 +215,7 @@
       },
       createArgs() {
         if (!this.argsText) return;
-        this.obj.args.push(this.argsText);
+        this.obj.server.args.push(this.argsText);
         this.argsItems.push({
           text: this.argsText,
           value: this.argsText,
@@ -186,11 +223,28 @@
         this.argsText = '';
       },
       removeArgs(item) {
-        const index = this.obj.args.findIndex((args) => {
+        const index = this.obj.server.args.findIndex((args) => {
           return args !== item.value;
         });
         if (index > -1) {
-          this.obj.args.splice(index, 1);
+          this.obj.server.args.splice(index, 1);
+        }
+      },
+      createCommand() {
+        if (!this.commandText) return;
+        this.obj.server.command.push(this.commandText);
+        this.commandItems.push({
+          text: this.commandText,
+          value: this.commandText,
+        });
+        this.commandText = '';
+      },
+      removeCommand(item) {
+        const index = this.obj.server.command.findIndex((command) => {
+          return command !== item.value;
+        });
+        if (index > -1) {
+          this.obj.server.command.splice(index, 1);
         }
       },
     },

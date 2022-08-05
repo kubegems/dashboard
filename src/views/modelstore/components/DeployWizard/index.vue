@@ -97,14 +97,19 @@
           spec: {
             host: '',
             model: {
-              framework: '',
-              image: '',
               name: '',
               url: '',
               version: '',
               source: '',
             },
-            modelPath: '',
+            server: {
+              args: [],
+              command: [],
+              env: [],
+              envFrom: [],
+              image: '',
+              ports: [],
+            },
             resources: {
               limits: {
                 cpu: 2,
@@ -146,7 +151,6 @@
           const spec = this.$refs.advancedConf.getData();
           this.obj.spec = spec;
           this.obj.spec.model.source = this.item.source;
-          this.obj.spec.model.framework = this.item.framework;
           this.obj.spec.model.name = this.item.name;
           this.obj.metadata.name = this.obj.base.name;
           this.obj.spec.model.version = this.obj.base.version;

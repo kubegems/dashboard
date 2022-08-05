@@ -22,8 +22,8 @@
         <BaseListItemForDetail title="API地址">
           <template #content>
             <v-chip color="primary" small>
-              {{ item ? item.spec.host : '' }}
-              <v-btn icon small @click="openAPIAddress(item.spec.host)">
+              {{ item && item.status ? item.status.url : '' }}
+              <v-btn icon small @click="openAPIAddress(item)">
                 <v-icon color="white" small> mdi-open-in-new </v-icon>
               </v-btn>
             </v-chip>
@@ -82,8 +82,8 @@
       },
     },
     methods: {
-      openAPIAddress(address) {
-        window.open(`http://${address}`);
+      openAPIAddress(item) {
+        window.open(item?.status?.url);
       },
     },
   };

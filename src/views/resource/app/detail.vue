@@ -137,7 +137,7 @@
     />
     <HPAStrategy v-if="$route.query.kind === 'app'" ref="hpaStrategy" />
     <Rollingback v-if="$route.query.kind === 'app'" ref="rollingback" />
-    <ResourceYaml ref="resourceYaml" :item="app" />
+    <ResourceYaml v-if="$route.query.kind === 'modelstore'" ref="resourceYaml" :item="app" />
     <UpdateModelRuntime ref="updateModelRuntime" @refresh="appRunningDetail" />
   </v-container>
 </template>
