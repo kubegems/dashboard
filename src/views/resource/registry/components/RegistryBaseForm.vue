@@ -77,7 +77,7 @@
                             :key="index"
                             class="text-body-2 text-center"
                             link
-                            :style="prefixscheme === scheme ? `color: #1e88e5 !important;` : ``"
+                            :style="{ color: prefixscheme === scheme ? `#1e88e5 !important` : `` }"
                             @click="setScheme(prefixscheme)"
                           >
                             <v-list-item-content>

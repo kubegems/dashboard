@@ -54,7 +54,7 @@
                   :key="index"
                   class="text-body-2 text-start font-weight-medium mx-2"
                   link
-                  :style="pod.podName === podName ? `color: #1e88e5 !important;` : ``"
+                  :style="{ color: pod.podName === podName ? `#1e88e5 !important` : `` }"
                   @click="setPod(pod)"
                 >
                   <v-list-item-content>

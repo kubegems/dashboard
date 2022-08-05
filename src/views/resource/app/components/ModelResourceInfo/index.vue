@@ -45,7 +45,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(item, index) in item ? item.spec.ports : []" :key="index">
+            <tr v-for="(item, index) in item ? item.spec.server.ports : []" :key="index">
               <td>{{ item.name }}</td>
               <td>
                 <v-chip class="ma-1 font-weight-medium" color="success" small text-color="white">

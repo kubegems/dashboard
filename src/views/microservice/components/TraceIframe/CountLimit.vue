@@ -51,7 +51,7 @@
                 :key="index"
                 class="text-body-2 text-center"
                 link
-                :style="time.value === limit ? `color: #1e88e5 !important;` : ``"
+                :style="{ color: time.value === limit ? `#1e88e5 !important` : `` }"
                 @click="setLimit(time)"
               >
                 <v-list-item-content>

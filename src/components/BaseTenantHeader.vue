@@ -66,7 +66,7 @@
                       :key="index"
                       class="text-body-2 text-center font-weight-medium px-2"
                       link
-                      :style="{ color: project.text === Project().ProjectName ? `#1e88e5 !important;` : `` }"
+                      :style="{ color: project.text === Project().ProjectName ? `#1e88e5 !important` : `` }"
                       @click="setProject(project)"
                     >
                       <v-list-item-content class="text-body-2 font-weight-medium text-start">
@@ -151,7 +151,7 @@
                         class="text-body-2 text-center font-weight-medium px-2"
                         link
                         :style="{
-                          color: environment.text === Environment().EnvironmentName ? `#1e88e5 !important;` : ``,
+                          color: environment.text === Environment().EnvironmentName ? `#1e88e5 !important` : ``,
                         }"
                         @click="setEnvironment(environment)"
                       >

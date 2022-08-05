@@ -68,8 +68,8 @@
               <span class="text-body-2">
                 {{
                   tabItems[tab].value === 'message'
-                    ? `${$t('message.unread')}${$t('message.message')}`
-                    : `${$t('message.unread')}${$t('message.approval')}`
+                    ? `${$t('message.unread')} ${$t('message.message')}`
+                    : `${$t('message.unread')} ${$t('message.approval')}`
                 }}
               </span>
               <v-flex v-if="tabItems[tab].value === 'message'" class="float-right">

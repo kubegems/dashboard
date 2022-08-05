@@ -62,7 +62,7 @@
                       :key="index"
                       class="text-body-2 text-center font-weight-medium mx-2"
                       link
-                      :style="cluster.text === clusterName ? `color: #1e88e5 !important;` : ``"
+                      :style="{ color: cluster.text === clusterName ? `#1e88e5 !important` : `` }"
                       @click="setCluster(cluster)"
                     >
                       <v-list-item-content>

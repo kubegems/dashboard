@@ -14,131 +14,146 @@
  * limitations under the License. 
 -->
 <template>
-  <div class="comment" :style="{ height: `${height}px` }">
-    <v-card v-for="(item, index) in commentItems" :key="index" class="mt-3" flat>
-      <v-card-text class="pa-0">
-        <v-flex class="kubegems__top-right mt-2">
-          <v-menu left>
-            <template #activator="{ on }">
-              <v-btn icon>
-                <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
-              </v-btn>
-            </template>
-            <v-card>
-              <v-card-text class="pa-2 text-center">
-                <v-flex v-if="User.Username === item.username">
-                  <v-btn color="primary" small text @click="editCommnet(item)"> 编辑 </v-btn>
-                </v-flex>
-                <v-flex>
-                  <v-btn color="primary" small text @click="replyCommnet(item, item.id)"> 回复 </v-btn>
-                </v-flex>
-                <v-flex v-if="User.Username === item.username">
-                  <v-btn color="error" small text @click="removeComment(item)"> 删除 </v-btn>
-                </v-flex>
-              </v-card-text>
-            </v-card>
-          </v-menu>
-        </v-flex>
-        <div class="d-flex flex-row comment-row mt-0">
-          <div class="comment-text w-100 pa-4 px-6 pb-0">
-            <div class="mb-2">
-              <v-avatar color="primary" size="50">
-                <span class="white--text text-h6">{{ item.username ? item.username[0].toUpperCase() : '' }}</span>
-              </v-avatar>
-              <span class="text-subtitle-1 mx-2 font-weight-medium">{{ item.username }}</span>
-              <span class="text-muted text-caption kubegems__text">
-                {{ $moment(item.creationTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() }} 发表评论
-              </span>
-            </div>
-            <v-rating
-              v-if="!item.replyTo"
-              background-color="orange lighten-3"
-              class="float-right mt-1"
-              color="orange"
-              dense
-              readonly
-              small
-              :value="item.rating"
-            />
-            <div class="d-block text-subtitle-2 font-weight-regular mt-3 kubegems__text">{{ item.content }}</div>
-          </div>
-        </div>
-      </v-card-text>
-      <v-card-actions class="px-4 pt-1">
-        <v-spacer />
-        <v-btn color="primary" depressed small text @click="showReply(item, index)">
-          <v-icon left small>{{ item.expand ? 'mdi-chevron-double-up' : 'mdi-comment-text-outline' }}</v-icon>
-          {{ item.repliesCount || 0 }} 回复
-        </v-btn>
-      </v-card-actions>
-
-      <v-expand-transition>
-        <div v-show="item.expand" class="ma-0 pa-0 px-8 pb-3">
-          <div v-for="(reply, i) in replyItems" :key="i" class="my-1 comment__reply">
-            <v-divider />
-            <v-flex class="kubegems__top-right mt-1">
-              <v-menu left>
-                <template #activator="{ on }">
-                  <v-btn icon>
-                    <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
-                  </v-btn>
-                </template>
-                <v-card>
-                  <v-card-text class="pa-2 text-center">
-                    <v-flex v-if="User.Username === item.username">
-                      <v-btn color="primary" small text @click="editCommnet(reply, true)"> 编辑 </v-btn>
-                    </v-flex>
-                    <v-flex>
-                      <v-btn color="primary" small text @click="replyCommnet(reply, item.id)"> 回复 </v-btn>
-                    </v-flex>
-                    <v-flex v-if="User.Username === item.username">
-                      <v-btn color="error" small text @click="removeComment(reply, true, item.id)"> 删除 </v-btn>
-                    </v-flex>
-                  </v-card-text>
-                </v-card>
-              </v-menu>
-            </v-flex>
-            <div class="ma-2">
-              <v-avatar color="primary" size="24">
-                <span class="white--text text-body-1">{{ reply.username ? reply.username[0].toUpperCase() : '' }}</span>
-              </v-avatar>
-              <span class="text-subtitle-2 mx-2 font-weight-medium kubegems__text">{{ reply.username }}</span>
-              <span class="text-muted text-caption kubegems__text">
-                {{ $moment(reply.creationTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() }} 发表回复
-              </span>
-            </div>
-            <div
-              v-if="reply.replyTo && reply.replyTo.id !== reply.replyTo.rootID"
-              class="comment__reply__content grey lighten-4 rounded mx-4 px-3 kubegems__text"
-            >
-              <div>{{ reply.replyTo.username }} 发布于 {{ $moment(reply.replyTo.creationTime).format('lll') }}</div>
-              “{{ reply.replyTo.content }}”
-            </div>
-            <div class="d-block my-2 text-subtitle-2 font-weight-regular mt-3 mx-2 kubegems__text">
-              {{ reply.content }}
+  <div id="model__comment" class="comment" :style="{ height: `${height}px`, overflowY: 'auto' }">
+    <div v-scroll:#model__comment="$_.debounce(onScroll, 50)">
+      <v-card v-for="(item, index) in commentItems" :key="index" class="mt-3" flat>
+        <v-card-text class="pa-0">
+          <v-flex class="kubegems__top-right mt-2">
+            <v-menu left>
+              <template #activator="{ on }">
+                <v-btn icon>
+                  <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-text class="pa-2 text-center">
+                  <v-flex v-if="User.Username === item.username">
+                    <v-btn color="primary" small text @click="editCommnet(item)"> 编辑 </v-btn>
+                  </v-flex>
+                  <v-flex>
+                    <v-btn color="primary" small text @click="replyCommnet(item, item.id)"> 回复 </v-btn>
+                  </v-flex>
+                  <v-flex v-if="User.Username === item.username">
+                    <v-btn color="error" small text @click="removeComment(item)"> 删除 </v-btn>
+                  </v-flex>
+                </v-card-text>
+              </v-card>
+            </v-menu>
+          </v-flex>
+          <div class="d-flex flex-row comment-row mt-0">
+            <div class="comment-text w-100 pa-4 px-6 pb-0">
+              <div class="mb-2">
+                <v-avatar color="primary" size="50">
+                  <span class="white--text text-h6">{{ item.username ? item.username[0].toUpperCase() : '' }}</span>
+                </v-avatar>
+                <span class="text-subtitle-1 mx-2 font-weight-medium">{{ item.username }}</span>
+                <span class="text-muted text-caption kubegems__text">
+                  {{ $moment(item.creationTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() }} 发表评论
+                </span>
+              </div>
+              <v-rating
+                v-if="!item.replyTo"
+                background-color="orange lighten-3"
+                class="float-right mt-1"
+                color="orange"
+                dense
+                readonly
+                small
+                :value="item.rating"
+              />
+              <div class="d-block text-subtitle-2 font-weight-regular mt-3 kubegems__text">{{ item.content }}</div>
             </div>
           </div>
-        </div>
-      </v-expand-transition>
-    </v-card>
-    <v-card class="kubegems__full-height mt-3" flat max-height="126" min-height="126">
-      <div class="kubegems__full-center">
-        <v-btn block class="text-h6" color="primary" text @click="addComment">
-          <v-icon left>mdi-plus-box</v-icon>
-          添加评论
-        </v-btn>
-      </div>
-    </v-card>
+        </v-card-text>
+        <v-card-actions class="px-4 pt-1">
+          <v-spacer />
+          <v-btn color="primary" depressed small text @click="showReply(item, index)">
+            <v-icon left small>{{ item.expand ? 'mdi-chevron-double-up' : 'mdi-comment-text-outline' }}</v-icon>
+            {{ item.repliesCount || 0 }} 回复
+          </v-btn>
+        </v-card-actions>
 
-    <BasePagination
-      v-if="pageCount >= 1"
-      v-model="params.page"
-      :page-count="pageCount"
-      :size="params.size"
-      @changepage="onPageIndexChange"
-      @changesize="onPageSizeChange"
-      @loaddata="modelCommentList"
-    />
+        <v-expand-transition>
+          <div v-show="item.expand" class="ma-0 pa-0 px-8 pb-3">
+            <div v-for="(reply, i) in replyItems" :key="i" class="my-1 comment__reply">
+              <v-divider />
+              <v-flex class="kubegems__top-right mt-1">
+                <v-menu left>
+                  <template #activator="{ on }">
+                    <v-btn icon>
+                      <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
+                    </v-btn>
+                  </template>
+                  <v-card>
+                    <v-card-text class="pa-2 text-center">
+                      <v-flex v-if="User.Username === item.username">
+                        <v-btn color="primary" small text @click="editCommnet(reply, true)"> 编辑 </v-btn>
+                      </v-flex>
+                      <v-flex>
+                        <v-btn color="primary" small text @click="replyCommnet(reply, item.id)"> 回复 </v-btn>
+                      </v-flex>
+                      <v-flex v-if="User.Username === item.username">
+                        <v-btn color="error" small text @click="removeComment(reply, true, item.id)"> 删除 </v-btn>
+                      </v-flex>
+                    </v-card-text>
+                  </v-card>
+                </v-menu>
+              </v-flex>
+              <div class="ma-2">
+                <v-avatar color="primary" size="24">
+                  <span class="white--text text-body-1">{{
+                    reply.username ? reply.username[0].toUpperCase() : ''
+                  }}</span>
+                </v-avatar>
+                <span class="text-subtitle-2 mx-2 font-weight-medium kubegems__text">{{ reply.username }}</span>
+                <span class="text-muted text-caption kubegems__text">
+                  {{ $moment(reply.creationTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() }} 发表回复
+                </span>
+              </div>
+              <div
+                v-if="reply.replyTo && reply.replyTo.id !== reply.replyTo.rootID"
+                class="comment__reply__content grey lighten-4 rounded mx-4 px-3 kubegems__text"
+              >
+                <div>{{ reply.replyTo.username }} 发布于 {{ $moment(reply.replyTo.creationTime).format('lll') }}</div>
+                “{{ reply.replyTo.content }}”
+              </div>
+              <div class="d-block my-2 text-subtitle-2 font-weight-regular mt-3 mx-2 kubegems__text">
+                {{ reply.content }}
+              </div>
+            </div>
+          </div>
+        </v-expand-transition>
+      </v-card>
+    </div>
+
+    <v-btn
+      v-if="offsetTop"
+      bottom
+      class="comment__top"
+      color="primary"
+      direction="left"
+      fab
+      fixed
+      right
+      transition="slide-x-reverse-transition"
+      @click="goToTop"
+    >
+      <v-icon>mdi-chevron-double-up</v-icon>
+    </v-btn>
+
+    <v-btn
+      bottom
+      class="comment__add"
+      color="primary"
+      direction="left"
+      fab
+      fixed
+      right
+      transition="slide-x-reverse-transition"
+      @click="addComment"
+    >
+      <v-icon>mdi-plus</v-icon>
+    </v-btn>
 
     <Reply ref="reply" @refresh="refresh" />
   </div>
@@ -167,11 +182,12 @@
         withRepliesCount: true,
       },
       expandIndex: [],
+      offsetTop: 0,
     }),
     computed: {
       ...mapState(['Scale', 'User']),
       height() {
-        return parseInt((window.innerHeight - 214) / this.Scale);
+        return parseInt((window.innerHeight - 202) / this.Scale);
       },
     },
     mounted() {
@@ -222,14 +238,6 @@
         });
         this.$set(this, 'commentItems', items);
       },
-      onPageSizeChange(size) {
-        this.params.page = 1;
-        this.params.size = size;
-      },
-      onPageIndexChange(page) {
-        this.params.page = page;
-        this.expandItems = [];
-      },
       addComment() {
         this.$refs.reply.open('添加评论');
       },
@@ -271,6 +279,20 @@
           },
         });
       },
+      onScroll(e) {
+        this.offsetTop = e.target.scrollTop;
+        if (e.target.scrollTop + document.getElementById('model__comment').clientHeight >= e.target.scrollHeight) {
+          this.params.page += 1;
+          this.modelCommentList();
+        }
+      },
+      goToTop() {
+        const container = document.getElementById('model__comment');
+        container.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        });
+      },
     },
   };
 </script>
@@ -288,6 +310,24 @@
         font-style: italic;
         font-size: 14px;
       }
+    }
+
+    &__top {
+      bottom: 130px;
+      right: 20px;
+      z-index: 15;
+      height: 45px;
+      width: 45px;
+      border-radius: 45px;
+    }
+
+    &__add {
+      bottom: 75px;
+      right: 20px;
+      z-index: 15;
+      height: 45px;
+      width: 45px;
+      border-radius: 45px;
     }
   }
 </style>
