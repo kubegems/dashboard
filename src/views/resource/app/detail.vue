@@ -123,7 +123,7 @@
           class="mt-3"
           :item="app"
           :selector="{
-            topkind: 'Deployment',
+            topkind: 'ModelDeployment',
             topname: app ? app.name || app.metadata.name : '',
           }"
         />

@@ -28,7 +28,7 @@
           <v-text-field v-model="obj.resources.limits.memory" label="分配内存" :rules="objRules.limitsMemoryRule" />
         </v-col>
         <v-col v-if="gpuData.NvidiaGpu || gpuData.TkeGpu || gpuData.TkeMemory" cols="4">
-          <v-switch v-model="gpu" label="分配GPU" />
+          <v-switch v-model="gpu" class="ml-1" label="分配GPU" />
         </v-col>
       </v-row>
     </v-card-text>

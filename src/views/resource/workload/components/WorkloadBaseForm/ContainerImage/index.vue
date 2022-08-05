@@ -23,10 +23,11 @@
           <BaseSubTitle title="镜像" />
           <ContainerImageSelect
             ref="containerImageSelect"
-            :container="container"
+            :container="containerEdit ? containerCopy : container"
             :edit="containerEdit"
             :image-pull-secret="imagePullSecret"
             :type="type"
+            @updateImage="updateImage"
             @updateRegistry="updateRegistry"
             @updateType="updateType"
           />
@@ -41,7 +42,7 @@
           <component
             :is="tabItems[tab].value"
             :ref="tabItems[tab].value"
-            :container="container"
+            :container="containerEdit ? containerCopy : container"
             :manifest="manifest"
             :namespace="obj.metadata.namespace"
             @updateComponentData="updateComponentData"
@@ -114,6 +115,7 @@
         },
         expand: false,
         container: null,
+        containerCopy: null,
         type: 'worker',
         imagePullSecret: 'dockerhub',
         containerEdit: false,
@@ -163,6 +165,7 @@
       },
       closeCard() {
         this.expand = false;
+        this.containerEdit = false;
         this.$refs.containerImageSelect.reset();
         this.reset();
       },
@@ -237,6 +240,11 @@
         });
         return check;
       },
+      updateImage(data) {
+        if (this.containerEdit) {
+          this.containerCopy = deepCopy(data);
+        }
+      },
       addData() {
         if (this.checkData()) {
           if (this.$refs.containerImageSelect.validate()) {
@@ -256,7 +264,7 @@
           container = this.obj.spec.template.spec.initContainers[index];
           this.type = 'init';
         }
-        this.container = container;
+        this.containerCopy = container;
         this.expandCard(true);
       },
       removeData(index, type) {
@@ -278,7 +286,11 @@
             return c.name === data.name;
           });
           if (indexContainer > -1) {
-            this.container = deepCopy(data);
+            if (this.containerEdit) {
+              this.containerCopy = deepCopy(data);
+            } else {
+              this.container = deepCopy(data);
+            }
             if (!temp) {
               this.$set(this.obj.spec.template.spec.containers, indexContainer, data);
             }
@@ -295,7 +307,11 @@
             return c.name === data.name;
           });
           if (indexInitContainer > -1) {
-            this.container = deepCopy(data);
+            if (this.containerEdit) {
+              this.containerCopy = deepCopy(data);
+            } else {
+              this.container = deepCopy(data);
+            }
             if (!temp) {
               this.$set(this.obj.spec.template.spec.initContainers, indexInitContainer, data);
             }

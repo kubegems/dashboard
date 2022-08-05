@@ -39,7 +39,7 @@
             </template>
           </v-autocomplete>
 
-          <v-switch v-model="advanced" label="高级配置" />
+          <v-switch v-model="advanced" class="ml-1" label="高级配置" />
 
           <template v-if="advanced">
             <v-text-field v-model="obj.host" label="访问域名" />
