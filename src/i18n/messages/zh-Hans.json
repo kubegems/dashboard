@@ -4,6 +4,11 @@
   "403": "无权限访问",
   "404": "页面不存在",
 
+  "status": {
+    "success": "成功",
+    "failure": "失败"
+  },
+
   "role": {
     "system": {
       "normal": "普通用户",
@@ -23,7 +28,27 @@
   "resource": {
     "cpu": "CPU",
     "memory": "内存",
-    "storage": "存储"
+    "storage": "存储",
+
+    "cluster": "集群",
+    "node": "节点",
+    "workload": "工作负载",
+    "pod": "容器组",
+    "service": "服务",
+    "ingress": "路由",
+    "gateway": "网关",
+    "job": "任务",
+    "cronjob": "定时任务",
+    "configmap": "配置",
+    "secret": "密钥",
+    "certmanager": "证书",
+    "crd": "CRD",
+    "persistentvolumeclaim": "存储卷",
+    "volumesnapshot": "存储卷快照",
+    "srorageclass": "存储类型",
+    "account": "用户",
+    "project": "项目",
+    "environment": "环境"
   },
 
   "header": {

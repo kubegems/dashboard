@@ -18,8 +18,8 @@
     <div v-for="(file, index) in files" :key="index" class="file text-subtitle-2 kubegems__text">
       <!-- <div class="float-left"> 2022-04-23 12:12:12 CST </div>
       <div class="float-left file__size">11 KiB</div> -->
-      <div class="float-left">
-        <v-icon color="primary" small>mdi-file</v-icon>
+      <div class="float-left file__item">
+        <v-icon color="primary">mdi-file</v-icon>
         {{ file.filename }}
       </div>
       <div class="kubegems__clear-float" />
@@ -63,6 +63,10 @@
     &__size {
       width: 120px;
       text-align: center;
+    }
+
+    &__item {
+      line-height: 25px;
     }
   }
 </style>

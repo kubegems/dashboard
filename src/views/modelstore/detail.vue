@@ -92,7 +92,7 @@
           { text: '文件', value: 'Files', tab: 'files' },
           { text: '讨论区', value: 'Comment', tab: 'comment' },
           { text: '运行实例', value: 'Runtime', tab: 'runtime' },
-          { text: '证书', value: 'Certificate', tab: 'certificate' },
+          // { text: '证书', value: 'Certificate', tab: 'certificate' },
         ],
         item: undefined,
       };

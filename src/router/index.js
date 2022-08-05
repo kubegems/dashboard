@@ -49,7 +49,7 @@ const router = new Router({
 
 router.beforeResolve((to, from, next) => {
   if (window) {
-    window.document.title = `${to.meta.title} - ${Vue.prototype.$PLATFORM}`;
+    window.document.title = `${Vue.prototype.$_i18n.t(to.meta.title)} - ${Vue.prototype.$PLATFORM}`;
   }
   next();
 });

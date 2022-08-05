@@ -17,26 +17,42 @@
 <template>
   <v-row>
     <v-col class="mb-2" cols="2">
-      <BaseInfoCard icon="mdi-server" :num="statistics ? statistics['count.clusters'] : 0" title="集群" />
+      <BaseInfoCard
+        icon="mdi-server"
+        :num="statistics ? statistics['count.clusters'] : 0"
+        :title="$t('resource.cluster')"
+      />
     </v-col>
     <v-col class="pb-0" cols="2">
-      <BaseInfoCard icon="mdi-cube-outline" :num="statistics ? statistics['count.projects'] : 0" title="项目" />
+      <BaseInfoCard
+        icon="mdi-cube-outline"
+        :num="statistics ? statistics['count.projects'] : 0"
+        :title="$t('resource.project')"
+      />
     </v-col>
     <v-col class="pb-0" cols="2">
-      <BaseInfoCard icon="mdi-cloud" :num="statistics ? statistics['count.environments'] : 0" title="环境" />
+      <BaseInfoCard
+        icon="mdi-cloud"
+        :num="statistics ? statistics['count.environments'] : 0"
+        :title="$t('resource.environment')"
+      />
     </v-col>
     <v-col class="pb-0" cols="2">
       <BaseInfoCard
         icon="mdi-vector-arrange-above"
         :num="statistics ? statistics['count.workloads'] : 0"
-        title="工作负载"
+        :title="$t('resource.workload')"
       />
     </v-col>
     <v-col class="pb-0" cols="2">
-      <BaseInfoCard icon="mdi-cube" :num="statistics ? statistics['count.pods'] : 0" title="容器组" />
+      <BaseInfoCard icon="mdi-cube" :num="statistics ? statistics['count.pods'] : 0" :title="$t('resource.pod')" />
     </v-col>
     <v-col class="pb-0" cols="2">
-      <BaseInfoCard icon="mdi-account" :num="statistics ? statistics['count.users'] : 0" title="用户" />
+      <BaseInfoCard
+        icon="mdi-account"
+        :num="statistics ? statistics['count.users'] : 0"
+        :title="$t('resource.account')"
+      />
     </v-col>
   </v-row>
 </template>
