@@ -69,7 +69,7 @@
             <div class="kubegems__clear-float" />
           </v-list-item-title>
           <v-list-item-subtitle class="white--text">
-            {{ User && User.Email && User.Email.length === 0 ? '暂无邮箱' : User.Email }}
+            {{ User && User.Email ? User.Email : '' }}
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -80,8 +80,8 @@
             <v-icon color="primary">mdi-account-multiple</v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title class="text-body-2 font-weight-medium kubegems__text">
-              租户
+            <v-list-item-title class="text-body-2 font-weight-medium kubegems__text user__list__title">
+              {{ $t('header.user.tenant') }}
               <v-flex class="float-right white--text blue-grey lighten-2 px-1 user__item">
                 {{ Tenant().TenantName }}
               </v-flex>
@@ -94,10 +94,10 @@
             <v-icon color="primary">mdi-account</v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title class="text-body-2 font-weight-medium kubegems__text">
-              用户中心
+            <v-list-item-title class="text-body-2 font-weight-medium kubegems__text user__list__title">
+              {{ $t('header.user.usercenter') }}
               <v-flex class="float-right white--text blue-grey lighten-2 px-1 user__item">
-                {{ Admin ? '管理员' : '普通用户' }}
+                {{ Admin ? $t('role.system.administrator') : $t('role.system.normal') }}
               </v-flex>
               <div class="kubegems__clear-float" />
             </v-list-item-title>
@@ -108,7 +108,9 @@
             <v-icon color="primary">mdi-book-open-variant</v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title class="text-body-2 font-weight-medium kubegems__text"> 产品手册 </v-list-item-title>
+            <v-list-item-title class="text-body-2 font-weight-medium kubegems__text user__list__title">
+              {{ $t('header.user.manual') }}
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item @click="showAbout">
@@ -116,7 +118,9 @@
             <v-icon color="primary">mdi-alpha-v-circle</v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title class="text-body-2 font-weight-medium kubegems__text"> 关于 </v-list-item-title>
+            <v-list-item-title class="text-body-2 font-weight-medium kubegems__text user__list__title">
+              {{ $t('header.user.about') }}
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -125,7 +129,7 @@
         <v-spacer />
         <v-btn color="primary" text @click="logout">
           <v-icon left> mdi-login </v-icon>
-          <span class="font-weight-medium kubegems__text">退出</span>
+          <span class="font-weight-medium kubegems__text">{{ $t('logout') }}</span>
         </v-btn>
         <v-spacer />
       </v-card-actions>
@@ -200,6 +204,11 @@
       min-width: 80px;
       text-align: center;
       line-height: 22px;
+    }
+    &__list {
+      &__title {
+        line-height: 22px;
+      }
     }
   }
 </style>

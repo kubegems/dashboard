@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <BasePanel v-model="panel" icon="mdi-view-list" :title="title" :width="`50%`" @dispose="dispose">
+  <BasePanel v-model="panel" icon="mdi-clipboard-list" :title="title" :width="`50%`" @dispose="dispose">
     <template #header>
       <span class="ml-3">
         {{ Environment().Namespace }}
