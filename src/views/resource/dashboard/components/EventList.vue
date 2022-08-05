@@ -202,7 +202,7 @@
         }
       },
       async eventList() {
-        let query = '{container="event-exporter"} | json | __error__=``';
+        let query = '{container="event-exporter", stream="stdout"} | json | __error__=``';
         await this.m_select_environmentSelectData(this.Tenant().ID);
         const ns = [];
         if (this.m_select_environmentItems.length > 0) {
