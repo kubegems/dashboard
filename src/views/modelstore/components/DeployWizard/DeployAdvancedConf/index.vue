@@ -46,67 +46,9 @@
 
             <v-text-field v-model="obj.mountPath" label="挂载路径" />
 
-            <v-autocomplete
-              v-model="obj.server.command"
-              hide-no-data
-              hide-selected
-              :items="commandItems"
-              label="启动命令"
-              :menu-props="{
-                bottom: true,
-                left: true,
-                origin: `top center`,
-              }"
-              multiple
-              :search-input.sync="commandText"
-              @keydown.enter="createCommand"
-            >
-              <template #selection="{ item }">
-                <v-chip
-                  class="pa-1"
-                  close
-                  close-icon="mdi-close-circle"
-                  color="primary"
-                  small
-                  @click:close="removeCommand(item)"
-                >
-                  <span>
-                    {{ item.text }}
-                  </span>
-                </v-chip>
-              </template>
-            </v-autocomplete>
+            <Command v-model="obj.server.command" />
 
-            <v-autocomplete
-              v-model="obj.server.args"
-              hide-no-data
-              hide-selected
-              :items="argsItems"
-              label="参数"
-              :menu-props="{
-                bottom: true,
-                left: true,
-                origin: `top center`,
-              }"
-              multiple
-              :search-input.sync="argsText"
-              @keydown.enter="createArgs"
-            >
-              <template #selection="{ item }">
-                <v-chip
-                  class="pa-1"
-                  close
-                  close-icon="mdi-close-circle"
-                  color="primary"
-                  small
-                  @click:close="removeArgs(item)"
-                >
-                  <span>
-                    {{ item.text }}
-                  </span>
-                </v-chip>
-              </template>
-            </v-autocomplete>
+            <Args v-model="obj.server.args" />
 
             <Env v-model="obj.server.env" />
 
@@ -121,6 +63,8 @@
 </template>
 
 <script>
+  import Args from './Args';
+  import Command from './Command';
   import Env from './Env';
   import Port from './Port';
   import ResourceConf from './ResourceConf';
@@ -130,6 +74,8 @@
   export default {
     name: 'DeployAdvancedConf',
     components: {
+      Args,
+      Command,
       Env,
       Port,
       ResourceConf,
@@ -152,8 +98,6 @@
       return {
         valid: false,
         advanced: false,
-        argsItems: [],
-        commandItems: [],
         imageItems: [],
         obj: {
           model: {
@@ -180,8 +124,6 @@
         objRules: {
           imageRules: [],
         },
-        argsText: '',
-        commandText: '',
       };
     },
     watch: {
@@ -211,40 +153,6 @@
       },
       reset() {
         this.$refs.form.resetValidation() && this.$refs.resourceConf.reset();
-      },
-      createArgs() {
-        if (!this.argsText) return;
-        this.obj.server.args.push(this.argsText);
-        this.argsItems.push({
-          text: this.argsText,
-          value: this.argsText,
-        });
-        this.argsText = '';
-      },
-      removeArgs(item) {
-        const index = this.obj.server.args.findIndex((args) => {
-          return args !== item.value;
-        });
-        if (index > -1) {
-          this.obj.server.args.splice(index, 1);
-        }
-      },
-      createCommand() {
-        if (!this.commandText) return;
-        this.obj.server.command.push(this.commandText);
-        this.commandItems.push({
-          text: this.commandText,
-          value: this.commandText,
-        });
-        this.commandText = '';
-      },
-      removeCommand(item) {
-        const index = this.obj.server.command.findIndex((command) => {
-          return command !== item.value;
-        });
-        if (index > -1) {
-          this.obj.server.command.splice(index, 1);
-        }
       },
     },
   };

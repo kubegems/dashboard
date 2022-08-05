@@ -40,7 +40,10 @@
                 <div class="kubegems__clear-float" />
               </div>
               <div class="text-body-2 registry__action">
-                <div class="mr-4 float-left registry__desc"> {{ item.tip }} </div>
+                <div class="mr-4 float-left registry__desc">
+                  <span class="font-weight-medium primary--text"> {{ item.ChartRepoName }} </span>
+                  {{ item.tip }}
+                </div>
                 <div class="mr-4 float-right">
                   <v-btn color="primary" text @click="syncRepository(item)">同步</v-btn>
                   <v-btn color="primary" text @click="updateRepository(item)">编辑</v-btn>
@@ -180,7 +183,7 @@
     }
 
     &__desc {
-      width: 900px;
+      width: 950px;
     }
 
     &__stat {

@@ -86,6 +86,9 @@
       setLocale(locale) {
         this.$i18n.locale = locale.locale;
         this.$moment.locale(locale.locale === 'zh-Hans' ? 'zh-cn' : locale.locale);
+        if (window) {
+          window.document.title = `${this.$t(this.$route.meta.title)} - ${this.$PLATFORM}`;
+        }
         this.$store.commit('SET_LOCALE', locale.locale);
         this.reload();
       },

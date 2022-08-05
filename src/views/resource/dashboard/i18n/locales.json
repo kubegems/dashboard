@@ -1,0 +1,22 @@
+{
+  "zh-Hans": {
+    "more": "更多",
+    "audit": {
+      "audit": "审计"
+    },
+    "event": {
+      "event": "事件",
+      "cluster": "集群"
+    }
+  },
+  "en": {
+    "more": "More",
+    "audit": {
+      "audit": "Audit"
+    },
+    "event": {
+      "event": "Event",
+      "cluster": "Cluster"
+    }
+  }
+}

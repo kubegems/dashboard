@@ -4,6 +4,11 @@
   "403": "Forbidden",
   "404": "Not Found",
 
+  "status": {
+    "success": "Success",
+    "failure": "Failure"
+  },
+
   "role": {
     "system": {
       "normal": "Normal",
@@ -23,7 +28,27 @@
   "resource": {
     "cpu": "CPU",
     "memory": "Memory",
-    "storage": "Storage"
+    "storage": "Storage",
+
+    "cluster": "Cluster",
+    "node": "Node",
+    "workload": "Workload",
+    "pod": "Pod",
+    "service": "Service",
+    "ingress": "Ingress",
+    "gateway": "Gateway",
+    "job": "Job",
+    "cronjob": "CronJob",
+    "configmap": "Configmap",
+    "secret": "Secret",
+    "certmanager": "Certmanager",
+    "crd": "CRD",
+    "persistentvolumeclaim": "Persistentvolumeclaim",
+    "volumesnapshot": "Volume Snapshot",
+    "srorageclass": "Srorageclass",
+    "account": "Account",
+    "project": "Project",
+    "environment": "Environment"
   },
 
   "header": {

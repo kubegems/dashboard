@@ -49,7 +49,10 @@
                 <div class="kubegems__clear-float" />
               </div>
               <div class="text-body-2 registry__action">
-                <div class="mr-4 float-left registry__desc"> {{ item.name }} {{ item.tip }} </div>
+                <div class="mr-4 float-left registry__desc">
+                  <span class="font-weight-medium primary--text"> {{ item.name }} </span>
+                  {{ item.tip }}
+                </div>
                 <div class="mr-4 float-left registry__stat text-subtitle-2">
                   模型数量: {{ item ? item.modelsCount : 0 }}
                 </div>

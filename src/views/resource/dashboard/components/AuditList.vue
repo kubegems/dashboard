@@ -14,19 +14,20 @@
  * limitations under the License. 
 -->
 
+<i18n src="../i18n/locales.json" />
 <template>
   <v-card>
-    <BaseSubTitle class="pt-2" :divider="false" title="审计">
+    <BaseSubTitle class="pt-2" :divider="false" :title="$t('audit.audit')">
       <template #action>
         <v-btn class="float-right mr-2" color="primary" small text @click="toAudit">
           <v-icon left small> mdi-more </v-icon>
-          更多
+          {{ $t('more') }}
         </v-btn>
       </template>
     </BaseSubTitle>
     <v-card-text>
       <v-flex v-if="auditItems.length === 0" :style="{ position: 'relative', height: '300px' }">
-        <span class="kubegems__full-center kubegems__text"> 暂无数据 </span>
+        <span class="kubegems__full-center kubegems__text"> {{ $root.$t('data.no_data') }} </span>
       </v-flex>
       <div class="align-items-center">
         <div class="vs-scrollable">
@@ -59,7 +60,7 @@
                     <v-icon left x-small>
                       {{ item.Success ? 'mdi-check-circle' : 'mdi-close-circle' }}
                     </v-icon>
-                    {{ item.Success ? '成功' : '失败' }}
+                    {{ item.Success ? $root.$t('status.success') : $root.$t('status.failure') }}
                   </v-chip>
                 </div>
               </div>

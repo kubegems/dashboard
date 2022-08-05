@@ -14,12 +14,13 @@
  * limitations under the License. 
 -->
 
+<i18n src="../i18n/locales.json" />
 <template>
   <v-card class="my-3" flat>
-    <BaseSubTitle class="pt-2" :divider="false" title="事件">
+    <BaseSubTitle class="pt-2" :divider="false" :title="$t('event.event')">
       <template #selector>
         <v-sheet class="text-body-2 text--darken-1">
-          集群
+          {{ $t('event.cluster') }}
           <v-menu
             v-model="eventMenu"
             bottom
@@ -44,17 +45,20 @@
                 <v-icon v-else right> mdi-chevron-down </v-icon>
               </v-btn>
             </template>
-            <v-data-iterator hide-default-footer :items="[{ text: '集群', values: m_select_clusterItems }]">
+            <v-data-iterator
+              hide-default-footer
+              :items="[{ text: $t('event.cluster'), values: m_select_clusterItems }]"
+            >
               <template #no-data>
                 <v-card>
-                  <v-card-text> 暂无集群 </v-card-text>
+                  <v-card-text>{{ $root.$t('data.no_data') }} </v-card-text>
                 </v-card>
               </template>
               <template #default="props">
                 <v-card v-for="item in props.items" :key="item.text" flat min-width="100px">
                   <v-list dense>
                     <v-flex class="text-subtitle-2 text-center ma-2">
-                      <span>集群</span>
+                      <span>{{ $t('event.cluster') }}</span>
                     </v-flex>
                     <v-divider class="mx-2" />
                     <v-list-item
@@ -79,14 +83,14 @@
       <template #action>
         <v-btn class="float-right mr-2" color="primary" small text @click="toEvent">
           <v-icon left small> mdi-more </v-icon>
-          更多
+          {{ $t('more') }}
         </v-btn>
       </template>
     </BaseSubTitle>
     <v-card-text>
       <template v-if="pluginPass.length === 0">
         <v-flex v-if="eventItems.length === 0" class="text-body-2" :style="{ position: 'relative', height: '300px' }">
-          <span class="kubegems__full-center kubegems__text"> 暂无数据 </span>
+          <span class="kubegems__full-center kubegems__text"> {{ $root.$t('data.no_data') }} </span>
         </v-flex>
         <div class="align-items-center">
           <div class="vs-scrollable">
