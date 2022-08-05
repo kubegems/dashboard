@@ -28,7 +28,7 @@
     :mini-variant.sync="mini"
     mini-variant-width="64"
     mobile-breakpoint="960"
-    width="200"
+    width="220"
     @transitionend="transitionend"
     @update:mini-variant="updateSidebar"
   >
@@ -45,7 +45,7 @@
               </v-flex>
             </v-list-item-title>
           </v-list-item-content>
-          <v-list-item-action>
+          <v-list-item-action class="ml-0">
             <v-btn v-if="!expand" icon>
               <v-icon color="primary lighten-1"> mdi-chevron-down </v-icon>
             </v-btn>
@@ -350,7 +350,7 @@
     font-weight: 500 !important;
   }
   .title-line-height {
-    line-height: 36px;
+    line-height: 40px;
   }
   .dot {
     margin: 0 auto;

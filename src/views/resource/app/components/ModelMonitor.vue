@@ -114,7 +114,7 @@
     methods: {
       async podList() {
         const data = await getPodList(this.ThisCluster, this.ThisNamespace, {
-          topkind: 'Deployment',
+          topkind: 'ModelDeployment',
           topname: this.item.metadata.name,
           size: 1000,
           noprocessing: true,
