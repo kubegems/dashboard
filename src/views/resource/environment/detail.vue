@@ -30,7 +30,7 @@
               环境成员
             </v-btn>
             <v-btn class="primary--text" small text @click="resourceUsage">
-              <v-icon left small> mdi-view-list </v-icon>
+              <v-icon left small> mdi-format-list-text </v-icon>
               资源使用清单
             </v-btn>
             <v-menu left>

@@ -19,14 +19,6 @@
     <template #content>
       <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
         <v-flex :class="expand ? 'kubegems__overlay' : ''" />
-        <v-expand-transition>
-          <v-card v-show="resourceExpanded" class="my-2 pa-2" flat>
-            <BaseSubTitle title="申请资源" />
-            <v-card-text class="px-0">
-              <component :is="resourceComponent" :data="obj" @addData="addResourceData" @close="closeResourceExpaned" />
-            </v-card-text>
-          </v-card>
-        </v-expand-transition>
 
         <BaseSubTitle title="租户在集群上已分配资源" />
         <v-card-text>
@@ -64,7 +56,6 @@
 
   import LimitRange from './base/LimitRange';
   import LimitRangeCard from './base/LimitRangeCard';
-  import ResourceApply from './base/ResourceApply';
   import ResourceChart from './base/ResourceChart';
   import ResourceQuota from './base/ResourceQuota';
   import { putUpdateEnvironment } from '@/api';
@@ -77,7 +68,6 @@
     components: {
       LimitRange,
       LimitRangeCard,
-      ResourceApply,
       ResourceChart,
       ResourceQuota,
     },
@@ -86,8 +76,6 @@
       dialog: false,
       valid: false,
       expand: false,
-      resourceComponent: '',
-      resourceExpanded: false,
       obj: {
         data: null,
         statistics: null,
@@ -154,17 +142,9 @@
       closeExpand() {
         this.expand = false;
       },
-      async addResourceData() {
-        this.obj.statistics = await this.m_resource_tenantResourceQuota(this.ThisCluster, this.Tenant().TenantName);
-        this.closeResourceExpaned();
-      },
       async addLimitRangeData(data) {
         this.obj.data.LimitRange = data.LimitRange;
         this.$refs.limitRange.closeCard();
-      },
-      closeResourceExpaned() {
-        this.resourceExpanded = false;
-        this.resourceComponent = '';
       },
       checkSaved() {
         if (this.$refs.limitRange.expand) {

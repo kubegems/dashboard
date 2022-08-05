@@ -1,7 +1,30 @@
 {
   "login": "登录",
+  "logout": "登出",
   "403": "无权限访问",
   "404": "页面不存在",
+
+  "role": {
+    "system": {
+      "normal": "普通用户",
+      "administrator": "管理员"
+    }
+  },
+
+  "message": {
+    "message": "消息",
+    "approval": "审批",
+    "no_message": "暂无未读消息",
+    "no_approval": "暂无未处理审批",
+    "unread": "未读",
+    "clear": "清除未读"
+  },
+
+  "resource": {
+    "cpu": "CPU",
+    "memory": "内存",
+    "storage": "存储"
+  },
 
   "header": {
     "workspace": "工作台",
@@ -11,7 +34,13 @@
     "tenant_workspace": "租户工作台",
     "audit": "审计",
     "event": "事件",
-    "usercenter": "用户中心"
+    "usercenter": "用户中心",
+    "user": {
+      "tenant": "租户",
+      "usercenter": "用户中心",
+      "manual": "产品手册",
+      "about": "关于"
+    }
   },
   "filter": {
     "placehold": "输入查询条件进行过滤"

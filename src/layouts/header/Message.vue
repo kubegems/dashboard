@@ -62,14 +62,18 @@
               v-if="tabItems[tab].value === 'message' ? messagesTotal === 0 : approves.length === 0"
               class="text-body-2 pa-2 text-center mt-2"
             >
-              {{ tabItems[tab].value === 'message' ? '暂无未读消息' : '暂无未处理审批' }}
+              {{ tabItems[tab].value === 'message' ? $t('message.no_message') : $t('message.no_approval') }}
             </v-flex>
             <v-flex v-else class="px-4 mt-2 message__operator-title">
               <span class="text-body-2">
-                {{ tabItems[tab].value === 'message' ? '未读消息' : '未处理审批' }}
+                {{
+                  tabItems[tab].value === 'message'
+                    ? `${$t('message.unread')}${$t('message.message')}`
+                    : `${$t('message.unread')}${$t('message.approval')}`
+                }}
               </span>
               <v-flex v-if="tabItems[tab].value === 'message'" class="float-right">
-                <v-btn color="warning" small text @click="readAllMessage"> 清除未读 </v-btn>
+                <v-btn color="warning" small text @click="readAllMessage"> {{ $t('message.clear') }} </v-btn>
               </v-flex>
               <div class="kubegems__clear-float" />
             </v-flex>
@@ -113,9 +117,9 @@
                       >
                         {{ data.Title }}
                         <span v-if="tabItems[tab].value === 'approve'">
-                          CPU：{{ data.Content['limits.cpu'] }}, 内存：{{ data.Content['limits.memory'] }}, 存储：{{
-                            data.Content['requests.storage']
-                          }}
+                          {{ $t('resource.cpu') }} : {{ data.Content['limits.cpu'] }}, {{ $t('resource.memory') }} :
+                          {{ data.Content['limits.memory'] }}, {{ $t('resource.storage') }} :
+                          {{ data.Content['requests.storage'] }}
                         </span>
                       </span>
                       <small class="text--secondary" :style="getStatusColor(data)">
@@ -157,10 +161,6 @@
         messagesPage: 1,
         approves: [],
         tab: 0,
-        tabItems: [
-          { text: '消息', value: 'message' },
-          { text: '审批', value: 'approve' },
-        ],
         messageClass: [],
         alertTimeout: null,
         messageTimeout: null,
@@ -169,6 +169,12 @@
     computed: {
       ...mapState(['JWT', 'MessageStreamWS', 'User', 'Admin', 'Auth']),
       ...mapGetters(['Project', 'Environment', 'Tenant']),
+      tabItems() {
+        return [
+          { text: this.$t('message.message'), value: 'message' },
+          { text: this.$t('message.approval'), value: 'approve' },
+        ];
+      },
     },
     watch: {
       '$store.state.MessageStream': {
@@ -353,8 +359,8 @@
       },
       async readAllMessage() {
         this.$store.commit('SET_CONFIRM', {
-          title: `清除消息`,
-          content: { text: `清除所有未读消息`, type: 'confirm' },
+          title: this.$t('message.clear'),
+          content: { text: this.$t('message.clear'), type: 'confirm' },
           param: {},
           doFunc: async () => {
             await putReadMessage('_all', { message_type: '' });

@@ -1,7 +1,30 @@
 {
   "login": "Login",
+  "logout": "Logout",
   "403": "Forbidden",
   "404": "Not Found",
+
+  "role": {
+    "system": {
+      "normal": "Normal",
+      "administrator": "Admin"
+    }
+  },
+
+  "message": {
+    "message": "Message",
+    "approval": "Approval",
+    "no_message": "No unread messages yet",
+    "no_approval": "No pending approvals yet",
+    "unread": "Unread",
+    "clear": "Clear"
+  },
+
+  "resource": {
+    "cpu": "CPU",
+    "memory": "Memory",
+    "storage": "Storage"
+  },
 
   "header": {
     "workspace": "Workspace",
@@ -11,7 +34,13 @@
     "tenant_workspace": "Tenant Workspace",
     "audit": "Audit",
     "event": "Event",
-    "usercenter": "User Center"
+    "usercenter": "User Center",
+    "user": {
+      "tenant": "Tenant",
+      "usercenter": "User Center",
+      "manual": "Manual",
+      "about": "About"
+    }
   },
   "filter": {
     "placehold": "Enter query criteria to filter result"
