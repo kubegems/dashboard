@@ -21,7 +21,14 @@
         <span>镜像定义</span>
       </v-flex>
       <v-flex class="float-left ml-2 kubegems__long-width">
-        <v-text-field v-model="obj.image" class="my-0" label="镜像地址" required :rules="objRules.imageRule" />
+        <v-text-field
+          v-model="obj.image"
+          class="my-0"
+          label="镜像地址"
+          required
+          :rules="objRules.imageRule"
+          @keydown="updateImage"
+        />
         <div class="kubegems__clear-float" />
       </v-flex>
       <div class="kubegems__clear-float" />
@@ -86,6 +93,7 @@
           label="镜像策略"
           no-data-text="暂无可选数据"
           :rules="objRules.imagePullPolicyRule"
+          @change="updateImage"
         >
           <template #selection="{ item }">
             <v-chip class="mx-1" color="primary" small>
@@ -196,12 +204,16 @@
       },
       onRegistrySelectFocus() {
         this.m_select_registrySelectData();
+        this.updateImage();
       },
       validate() {
         return this.$refs.form.validate(true);
       },
       getData() {
         return this.obj;
+      },
+      updateImage() {
+        this.$emit('updateImage', this.obj);
       },
     },
   };
