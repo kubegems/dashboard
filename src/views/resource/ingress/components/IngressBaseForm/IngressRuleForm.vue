@@ -155,7 +155,9 @@
                               :key="i"
                               class="text-body-2 text-center"
                               link
-                              :style="pType.value === ruler.paths[index].portType ? `color: #1e88e5 !important;` : ``"
+                              :style="{
+                                color: pType.value === ruler.paths[index].portType ? `#1e88e5 !important` : ``,
+                              }"
                               @click="setPortType(pType, index)"
                             >
                               <v-list-item-content>

@@ -46,7 +46,7 @@ Vue.prototype.$aceinit = () => {
   require('brace/snippets/json');
 };
 
-moment.locale('zh-cn');
+moment.locale(store.state.Locale === 'zh-Hans' ? 'zh-cn' : store.state.Locale);
 Vue.prototype.$moment = moment;
 
 Vue.prototype.$_ = _;

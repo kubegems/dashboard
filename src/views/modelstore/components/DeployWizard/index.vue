@@ -106,7 +106,6 @@
               args: [],
               command: [],
               env: [],
-              envFrom: [],
               image: '',
               ports: [],
             },

@@ -56,7 +56,7 @@
                     :key="index"
                     class="text-body-2 text-center"
                     link
-                    :style="cou.text === count ? `color: #1e88e5 !important;` : ``"
+                    :style="{ color: cou.text === count ? `#1e88e5 !important` : `` }"
                     @click="updateCount(cou)"
                   >
                     <v-list-item-content>
@@ -143,9 +143,9 @@
                     :key="index"
                     class="text-body-2 text-center"
                     link
-                    :style="
-                      con.text === container || con.text === `${container} (init)` ? `color: #1e88e5 !important;` : ``
-                    "
+                    :style="{
+                      color: con.text === container || con.text === `${container} (init)` ? `#1e88e5 !important` : ``,
+                    }"
                     @click="setContainer(con)"
                   >
                     <v-list-item-content>

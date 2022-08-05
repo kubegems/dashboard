@@ -55,7 +55,7 @@
                     :key="index"
                     class="text-body-2 text-center mx-2"
                     link
-                    :style="con.text === container ? `color: #1e88e5 !important;` : ``"
+                    :style="{ color: con.text === container ? `#1e88e5 !important` : `` }"
                     @click="setContainer(con)"
                   >
                     <v-list-item-content>

@@ -54,10 +54,10 @@ export const CONTAINER_MEMORY_USAGE_PROMQL = `gems_container_memory_usage_bytes{
 export const PVC_USAGE_PROMQL = `gems_pvc_usage_bytes{namespace="$1",persistentvolumeclaim="$2"}`;
 export const PVC_USAGE_INODE_PROMQL = `round(gems_pvc_inode_used{namespace="$1",persistentvolumeclaim="$2"} / gems_pvc_inode_total{namespace="$1",persistentvolumeclaim="$2"} * 100, 0.01)`;
 
-export const TOP_20_POD_CPU_MAX_PROMQL = `topk(20, round(max_over_time(sum(gems_container_cpu_usage_cores{namespace="$1"})without(container)[1d:1m]), 0.001))`;
-export const TOP_20_POD_CPU_AVG_PROMQL = `topk(20, round(avg_over_time(sum(gems_container_cpu_usage_cores{namespace="$1"})without(container)[1d:1m]), 0.001))`;
-export const TOP_20_POD_MEMORY_MAX_PROMQL = `topk(20, round(max_over_time(sum(gems_container_memory_usage_bytes{namespace="$1"})without(container)[1d:1m]), 0.001))`;
-export const TOP_20_POD_MEMORY_AVG_PROMQL = `topk(20, round(avg_over_time(sum(gems_container_memory_usage_bytes{namespace="$1"})without(container)[1d:1m]), 0.001))`;
+export const TOP_15_POD_CPU_MAX_PROMQL = `topk(15, round(max_over_time(sum(gems_container_cpu_usage_cores{namespace="$1"})without(container)[1d:1m]), 0.001))`;
+export const TOP_15_POD_CPU_AVG_PROMQL = `topk(15, round(avg_over_time(sum(gems_container_cpu_usage_cores{namespace="$1"})without(container)[1d:1m]), 0.001))`;
+export const TOP_15_POD_MEMORY_MAX_PROMQL = `topk(15, round(max_over_time(sum(gems_container_memory_usage_bytes{namespace="$1"})without(container)[1d:1m]), 0.001))`;
+export const TOP_15_POD_MEMORY_AVG_PROMQL = `topk(15, round(avg_over_time(sum(gems_container_memory_usage_bytes{namespace="$1"})without(container)[1d:1m]), 0.001))`;
 
 export const WORKLOAD_CPU_USAGE_PROMQL = `sum(gems_container_cpu_usage_cores{namespace="$1", workload="$2"}) * 1000`;
 export const WORKLOAD_MEMORY_USAGE_PROMQL = `sum(gems_container_memory_usage_bytes{namespace="$1", workload="$2"}) / 1024 / 1024`;

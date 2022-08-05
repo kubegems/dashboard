@@ -53,7 +53,7 @@
                       :key="index"
                       class="text-body-2 text-center mx-2"
                       link
-                      :style="select.value === podUsageMode ? `color: #1e88e5 !important;` : ``"
+                      :style="{ color: select.value === podUsageMode ? `#1e88e5 !important` : `` }"
                       @click="setPodUsageMode(select)"
                     >
                       <v-list-item-content>
@@ -108,10 +108,10 @@
   import BaseResource from '@/mixins/resource';
   import { beautifyCpuUnit, beautifyStorageUnit, sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
   import {
-    TOP_20_POD_CPU_AVG_PROMQL,
-    TOP_20_POD_CPU_MAX_PROMQL,
-    TOP_20_POD_MEMORY_AVG_PROMQL,
-    TOP_20_POD_MEMORY_MAX_PROMQL,
+    TOP_15_POD_CPU_AVG_PROMQL,
+    TOP_15_POD_CPU_MAX_PROMQL,
+    TOP_15_POD_MEMORY_AVG_PROMQL,
+    TOP_15_POD_MEMORY_MAX_PROMQL,
   } from '@/utils/prometheus';
 
   export default {
@@ -163,13 +163,13 @@
         this.topN = [];
         let promql = '';
         if (this.podUsageMode === 'cpuavg') {
-          promql = TOP_20_POD_CPU_AVG_PROMQL;
+          promql = TOP_15_POD_CPU_AVG_PROMQL;
         } else if (this.podUsageMode === 'cpumax') {
-          promql = TOP_20_POD_CPU_MAX_PROMQL;
+          promql = TOP_15_POD_CPU_MAX_PROMQL;
         } else if (this.podUsageMode === 'memoryavg') {
-          promql = TOP_20_POD_MEMORY_AVG_PROMQL;
+          promql = TOP_15_POD_MEMORY_AVG_PROMQL;
         } else if (this.podUsageMode === 'memorymax') {
-          promql = TOP_20_POD_MEMORY_MAX_PROMQL;
+          promql = TOP_15_POD_MEMORY_MAX_PROMQL;
         }
         const data = await this.m_permission_vector(this.ThisCluster, {
           query: promql.replaceAll('$1', this.Environment().Namespace),

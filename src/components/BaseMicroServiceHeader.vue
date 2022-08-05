@@ -68,7 +68,7 @@
                       class="text-body-2 text-center font-weight-medium px-2"
                       link
                       :style="{
-                        color: virtualspace.text === VirtualSpace().VirtualSpaceName ? `#1e88e5 !important;` : ``,
+                        color: virtualspace.text === VirtualSpace().VirtualSpaceName ? `#1e88e5 !important` : ``,
                       }"
                       @click="setVirtualSpace(virtualspace)"
                     >
