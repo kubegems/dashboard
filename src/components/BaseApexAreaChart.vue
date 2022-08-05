@@ -421,7 +421,7 @@
             horizontalAlign: this.horizontalAlign,
           },
           noData: {
-            text: this.Plugins['monitoring'] || !this.Plugins ? '暂无数据' : '插件monitoring未启用',
+            text: this.Plugins?.['monitoring'] || !this.Plugins ? '暂无数据' : '插件monitoring未启用',
             offsetY: this.noDataOffsetY,
             style: {
               fontSize: '13px',

@@ -16,11 +16,8 @@
 
 <template>
   <v-card>
-    <v-card-title v-if="$route.query.kind === 'modelstore'" class="text-h6 primary--text">
-      {{ item ? item.metadata.name : '' }}
-    </v-card-title>
-    <v-card-title v-else class="text-h6 primary--text">
-      {{ item ? item.name : '' }}
+    <v-card-title class="text-h6 primary--text">
+      {{ item ? item.name || item.metadata.name : '' }}
     </v-card-title>
     <v-list-item two-line>
       <v-list-item-content class="kubegems__text">
@@ -60,14 +57,6 @@
           <v-list-item-title class="text-subtitle-2"> 模型源 </v-list-item-title>
           <v-list-item-subtitle class="text-body-2">
             {{ item ? item.spec.model.source : '' }}
-          </v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item two-line>
-        <v-list-item-content class="kubegems__text">
-          <v-list-item-title class="text-subtitle-2"> 框架 </v-list-item-title>
-          <v-list-item-subtitle class="text-body-2">
-            {{ item ? item.spec.model.framework : '' }}
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
