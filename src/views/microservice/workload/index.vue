@@ -51,7 +51,7 @@
               @item-expanded="podList"
             >
               <template #[`item.name`]="{ item }">
-                <a class="text-subtitle-2" @click.stop="microAppWorkoladDetail(item)">
+                <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="microAppWorkoladDetail(item)">
                   <v-flex class="float-left">
                     {{ item.name }}
                   </v-flex>

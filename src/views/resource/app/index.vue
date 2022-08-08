@@ -69,7 +69,7 @@
           @update:sort-desc="m_table_sortDesc"
         >
           <template #[`item.name`]="{ item }">
-            <a class="text-subtitle-2" @click="appDetail(item)">
+            <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="appDetail(item)">
               {{ item.name }}
             </a>
           </template>
@@ -132,7 +132,7 @@
           </template>
 
           <template #[`item.instanceName`]="{ item }">
-            <a class="text-subtitle-2" @click="appDetail(item)">
+            <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="appDetail(item)">
               {{ item.metadata.name }}
             </a>
           </template>

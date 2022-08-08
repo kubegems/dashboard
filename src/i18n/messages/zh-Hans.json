@@ -3,6 +3,7 @@
   "logout": "登出",
   "403": "无权限访问",
   "404": "页面不存在",
+  "loading": "数据获取中",
 
   "status": {
     "success": "成功",
@@ -13,6 +14,27 @@
     "system": {
       "normal": "普通用户",
       "administrator": "管理员"
+    },
+    "tenant": {
+      "ordinary": "普通成员",
+      "admin": "管理员",
+      "sys": "系统管理员"
+    },
+    "project": {
+      "dev": "研发",
+      "test": "测试",
+      "ops": "运维",
+      "admin": "管理员",
+      "sys": "系统管理员",
+      "tenantadmin": "租户管理员"
+    },
+    "environment": {
+      "operator": "操作成员",
+      "reader": "只读成员",
+      "sys": "系统管理员",
+      "tenantadmin": "租户管理员",
+      "projectadmin": "项目管理员",
+      "projectops": "项目运维"
     }
   },
 
@@ -32,8 +54,12 @@
     "storage": "存储",
 
     "cluster": "集群",
+    "app": "应用",
     "node": "节点",
     "workload": "工作负载",
+    "deployment": "无状态服务",
+    "statefulset": "有状态服务",
+    "daemonset": "守护进程服务",
     "pod": "容器组",
     "service": "服务",
     "ingress": "路由",
@@ -49,7 +75,13 @@
     "srorageclass": "存储类型",
     "account": "用户",
     "project": "项目",
-    "environment": "环境"
+    "project_c": "项目{0}",
+    "environment": "环境",
+    "tenant": "租户",
+    "tenant_c": "租户{0}",
+    "role": "角色",
+    "member": "成员",
+    "member_c": "成员{0}"
   },
 
   "header": {
@@ -72,19 +104,30 @@
     "placehold": "输入查询条件进行过滤"
   },
   "data": {
+    "unknown": "未知",
     "no_data": "暂无数据",
     "no_cluster": "暂无集群",
     "no_tenant": "暂无租户"
   },
   "operate": {
+    "open_c": "开启{0}",
     "batch": "批量",
     "delete": "删除",
     "confirm": "确定",
     "cancel": "取消",
+    "close": "关闭",
+    "edit": "编辑",
     "operate": "操作",
     "create": "创建{0}",
+    "update": "更新{0}",
     "enter": "进入{0}",
-    "apply": "申请{0}"
+    "apply": "申请{0}",
+    "delete_c": "删除{0}",
+    "previous": "上一步",
+    "next": "下一步"
+  },
+  "form": {
+    "definition": "{0}定义"
   },
   "pagination": {
     "count": "每页条目数"

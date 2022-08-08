@@ -14,17 +14,18 @@
  * limitations under the License. 
 -->
 
+<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <BaseBreadcrumb />
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :default="{ items: [], text: '项目名称', value: 'search' }"
+          :default="{ items: [], text: $t('filter.name'), value: 'search' }"
           :filters="filters"
           @refresh="m_filter_list"
         />
-        <v-sheet v-if="AdminViewport" class="text-subtitle-2 ml-4"> 租户 </v-sheet>
+        <v-sheet v-if="AdminViewport" class="text-subtitle-2 ml-4"> {{ $root.$t('resource.tenant') }} </v-sheet>
         <v-sheet width="350">
           <v-autocomplete
             v-if="AdminViewport"
@@ -38,8 +39,8 @@
             hide-details
             hide-selected
             :items="m_select_tenantItems"
-            label="租户"
-            no-data-text="无数据"
+            :label="$root.$t('resource.tenant')"
+            :no-data-text="$root.$t('data.no_data')"
             prepend-inner-icon="mdi-account-switch"
             solo
             @change="onTenantSelectChange"
@@ -61,7 +62,7 @@
         hide-default-footer
         :items="items"
         :items-per-page="params.size"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
       >
         <template #[`item.projectName`]="{ item }">
@@ -129,10 +130,14 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" small text @click="updateProject(item)"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateProject(item)">
+                    {{ $root.$t('operate.edit') }}
+                  </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="removeProject(item)"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeProject(item)">
+                    {{ $root.$t('operate.delete') }}
+                  </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -178,32 +183,41 @@
         page: 1,
         size: 10,
       },
-      filters: [{ text: '项目名称', value: 'search', items: [] }],
     }),
     computed: {
       ...mapState(['Admin', 'AdminViewport', 'JWT', 'ProjectStore']),
       ...mapGetters(['Tenant']),
       headers() {
         const items = [
-          { text: '名称', value: 'projectName', align: 'start' },
-          { text: '别名', value: 'projectAlias', align: 'start' },
-          { text: '环境空间', value: 'environment', align: 'start' },
-          { text: 'CPU', value: 'cpu', align: 'start' },
-          { text: '内存', value: 'memory', align: 'start' },
-          { text: '存储', value: 'storage', align: 'start' },
-          { text: '已使用CPU', value: 'usedCpu', align: 'start', width: 150 },
-          { text: '已使用内存', value: 'usedMemory', align: 'start', width: 150 },
+          { text: this.$t('table.name'), value: 'projectName', align: 'start' },
+          { text: this.$t('table.alias'), value: 'projectAlias', align: 'start' },
+          { text: this.$t('table.environment_space'), value: 'environment', align: 'start' },
+          { text: this.$root.$t('resource.cpu'), value: 'cpu', align: 'start' },
+          { text: this.$root.$t('resource.memory'), value: 'memory', align: 'start' },
+          { text: this.$root.$t('resource.storage'), value: 'storage', align: 'start' },
           {
-            text: '已使用存储',
+            text: this.$t('table.used', [this.$root.$t('resource.cpu')]),
+            value: 'usedCpu',
+            align: 'start',
+            width: 150,
+          },
+          {
+            text: this.$t('table.used', [this.$root.$t('resource.memory')]),
+            value: 'usedMemory',
+            align: 'start',
+            width: 150,
+          },
+          {
+            text: this.$t('table.used', [this.$root.$t('resource.storage')]),
             value: 'usedStorage',
             align: 'start',
             width: 150,
           },
-          { text: '创建时间', value: 'createdAt', align: 'start' },
+          { text: this.$t('table.create_at'), value: 'createdAt', align: 'start' },
         ];
         if (this.Admin && this.AdminViewport) {
           items.splice(1, 0, {
-            text: '租户',
+            text: this.$root.$t('resource.tenant'),
             value: 'tenant',
             align: 'start',
           });
@@ -212,6 +226,9 @@
           items.push({ text: '', value: 'action', align: 'center', width: 20 });
         }
         return items;
+      },
+      filters() {
+        return [{ text: this.$t('filter.name'), value: 'search', items: [] }];
       },
     },
     async mounted() {
@@ -227,7 +244,7 @@
           });
         } else {
           this.$store.commit('SET_SNACKBAR', {
-            text: `暂无租户`,
+            text: this.$root.$t('data.no_tenant'),
             color: 'warning',
           });
         }
@@ -288,7 +305,7 @@
         if (this.tenant) this.projectList();
         else {
           this.$store.commit('SET_SNACKBAR', {
-            text: `请选择租户`,
+            text: this.$t('tip.tenant'),
             color: 'warning',
           });
         }
@@ -309,9 +326,9 @@
       },
       removeProject(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除项目`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.project')]),
           content: {
-            text: `删除项目 ${item.ProjectName}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.project')])} ${item.ProjectName}`,
             type: 'delete',
             name: item.ProjectName,
           },

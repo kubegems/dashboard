@@ -14,35 +14,38 @@
  * limitations under the License. 
 -->
 
+<i18n src="../i18n/locales.json" />
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
     <template v-if="step === 0">
-      <BaseSubTitle title="项目定义" />
+      <BaseSubTitle :title="$root.$t('form.definition', [$root.$t('resource.project')])" />
       <v-card-text class="pa-2">
         <v-row>
           <v-col cols="6">
             <v-text-field
               v-model.trim="obj.ProjectName"
               class="my-0"
-              label="名称"
+              :label="$t('form.project.name')"
               :readonly="edit"
               required
               :rules="objRules.projectNameRules"
             />
           </v-col>
           <v-col cols="6">
-            <v-text-field v-model="obj.ProjectAlias" class="my-0" label="别名" required />
+            <v-text-field v-model="obj.ProjectAlias" class="my-0" :label="$t('form.project.alias')" required />
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="6">
-            <v-textarea v-model="obj.Remark" auto-grow class="my-0" label="说明" required />
+            <v-textarea v-model="obj.Remark" auto-grow class="my-0" :label="$t('form.project.remark')" required />
           </v-col>
         </v-row>
       </v-card-text>
     </template>
     <template v-else-if="step === 1">
-      <BaseSubTitle title="项目成员角色" />
+      <BaseSubTitle
+        :title="$root.$t('resource.project_c', [$root.$t('resource.member_c', [$root.$t('resource.role')])])"
+      />
       <v-card-text class="pa-0">
         <v-tabs v-model="tab" class="pa-2" height="120px" vertical @change="onTabChange">
           <v-tab v-for="item in tabItems" :key="item.value">
@@ -53,7 +56,9 @@
               <v-col class="py-1" cols="6">
                 <v-card elevation="2" flat height="550px">
                   <v-card-text>
-                    <v-flex class="px-1 mb-2">租户成员</v-flex>
+                    <v-flex class="px-1 mb-2">
+                      {{ $root.$t('resource.project_c', [$root.$t('resource.member')]) }}
+                    </v-flex>
                     <v-text-field
                       v-model="searchAllUser"
                       class="mx-1"
@@ -150,12 +155,6 @@
         Users: [],
       },
       tab: 0,
-      tabItems: [
-        { text: '测试', value: 'test' },
-        { text: '开发', value: 'dev' },
-        { text: '运维', value: 'ops' },
-        { text: '管理员', value: 'admin' },
-      ],
       allUsers: [],
       allUsersCopy: [],
       users: [],
@@ -172,7 +171,7 @@
       ...mapGetters(['Tenant', 'Project']),
       objRules() {
         return {
-          projectNameRules: [required, (v) => !!(v && v.length <= 20) || '超出20字符限制', k8sName],
+          projectNameRules: [required, (v) => !!(v && v.length <= 20) || this.$t('form.project.nameRule'), k8sName],
         };
       },
       roleUsers() {
@@ -188,6 +187,14 @@
           default:
             return [];
         }
+      },
+      tabItems() {
+        return [
+          { text: this.$root.$t('role.projct.test'), value: 'test' },
+          { text: this.$root.$t('role.projct.dev'), value: 'dev' },
+          { text: this.$root.$t('role.projct.ops'), value: 'ops' },
+          { text: this.$root.$t('role.projct.admin'), value: 'admin' },
+        ];
       },
     },
     methods: {

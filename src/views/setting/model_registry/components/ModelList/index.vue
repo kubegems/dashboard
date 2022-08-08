@@ -69,7 +69,7 @@
           />
         </template>
         <template #[`item.name`]="{ item }">
-          <a class="text-subtitle-2" @click="modelDetail(item)">
+          <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="modelDetail(item)">
             {{ item.name }}
           </a>
         </template>

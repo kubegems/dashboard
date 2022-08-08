@@ -16,7 +16,11 @@
 <template>
   <v-card>
     <v-card-text class="pa-0 pl-2 pb-2">
-      <BaseSubTitle class="pt-2 mb-1" :divider="false" title="算法模型" />
+      <BaseSubTitle class="pt-2 mb-1" :divider="false" title="算法模型">
+        <template #action>
+          <span class="text-body-2 kubegems__text mr-2"> 模型总数:{{ modelCount }} </span>
+        </template>
+      </BaseSubTitle>
       <v-text-field
         v-model="search"
         class="mr-4 my-2 ml-2"
@@ -50,6 +54,10 @@
       FilterItems,
     },
     props: {
+      modelCount: {
+        type: Number,
+        default: () => 0,
+      },
       registry: {
         type: Object,
         default: () => null,

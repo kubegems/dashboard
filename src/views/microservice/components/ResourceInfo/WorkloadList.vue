@@ -25,7 +25,7 @@
   >
     <template #[`item.name`]="{ item, index }">
       <v-flex :id="`r${index}`" />
-      <a class="text-subtitle-2" @click="microAppWorkoladDetail(item)">
+      <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="microAppWorkoladDetail(item)">
         <v-flex class="float-left">
           {{ item.name }}
         </v-flex>

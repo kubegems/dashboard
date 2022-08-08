@@ -54,7 +54,7 @@
         :page.sync="params.page"
       >
         <template #[`item.virtualSpaceName`]="{ item }">
-          <a class="text-subtitle-2" @click="virtualSpaceDetail(item)">
+          <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="virtualSpaceDetail(item)">
             {{ item.VirtualSpaceName }}
           </a>
         </template>

@@ -38,7 +38,9 @@
         <slot name="header" />
       </v-flex>
       <div class="float-right">
-        <v-btn class="mt-n1 ml-2" color="white" :panel="panel" text v-on="clickListeners"> 关闭 </v-btn>
+        <v-btn class="mt-n1 ml-2" color="white" :panel="panel" text v-on="clickListeners">
+          {{ $t('operate.close') }}
+        </v-btn>
       </div>
       <div class="float-right">
         <div v-if="Progress" :style="{ float: 'left' }">

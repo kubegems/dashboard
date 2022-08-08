@@ -78,7 +78,7 @@
           />
         </template>
         <template #[`item.name`]="{ item }">
-          <a class="text-subtitle-2" @click="persistentVolumeClaimDetail(item)">
+          <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="persistentVolumeClaimDetail(item)">
             {{ item.metadata.name }}
           </a>
         </template>

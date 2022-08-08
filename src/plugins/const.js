@@ -12,6 +12,20 @@ const RESOURCE_CN = {
   'count/secrets': '密钥',
   'count/persistentvolumeclaims': '存储卷',
 };
+const RESOURCE_EN = {
+  applications: 'app',
+  node: 'node',
+  'count/deployments.apps': 'deployment',
+  'count/statefulsets.apps': 'statefulset',
+  'count/daemonsets.apps': 'daemonset',
+  pods: 'pod',
+  'count/services': 'service',
+  'count/jobs.batch': 'job',
+  'count/cronjobs.batch': 'cronjob',
+  'count/configmaps': 'configmap',
+  'count/secrets': 'secret',
+  'count/persistentvolumeclaims': 'persistentvolumeclaim',
+};
 const RESOURCE_ICON = {
   applications: 'mdi-apps',
   node: 'mdi-desktop-classic',
@@ -266,6 +280,7 @@ const LOGO_WHITE = '/logo-white.svg';
 export default {
   install(Vue) {
     Vue.prototype.$RESOURCE_CN = RESOURCE_CN;
+    Vue.prototype.$RESOURCE_EN = RESOURCE_EN;
     Vue.prototype.$RESOURCE_ICON = RESOURCE_ICON;
     Vue.prototype.$K8S_RESOURCE_ICON = K8S_RESOURCE_ICON;
     Vue.prototype.$RESOURCE_SHORT_CN = RESOURCE_SHORT_CN;

@@ -14,10 +14,11 @@
  * limitations under the License. 
 -->
 
+<i18n src="../i18n/locales.json" />
 <template>
   <v-card class="mt-6" flat>
     <v-card-text class="pa-0">
-      <BaseSubTitle class="pt-2" :divider="false" title="资源统计" />
+      <BaseSubTitle class="pt-2" :divider="false" :title="$t('tip.resource_count')" />
       <div class="kubegems__clear-float" />
       <v-row class="pa-3 mt-2">
         <v-col
@@ -37,7 +38,7 @@
                 {{ quota[key] }}
               </h2>
               <h5 class="text-subtitle-2 font-weight-regular">
-                {{ $RESOURCE_CN[key] }}
+                {{ $root.$t(`resource.${$RESOURCE_EN[key]}`) }}
               </h5>
             </div>
           </div>

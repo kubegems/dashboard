@@ -71,7 +71,7 @@
           />
         </template>
         <template #[`item.name`]="{ item }">
-          <a class="text-subtitle-2" @click="crdDetail(item)">
+          <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="crdDetail(item)">
             {{ item.metadata.name }}
           </a>
         </template>

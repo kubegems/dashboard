@@ -32,14 +32,14 @@
     >
       <template #selection="{ item }">
         <v-chip
-          class="pa-1"
+          class="my-1"
           close
           close-icon="mdi-close-circle"
           color="primary"
           small
           @click:close="removeCommand(item)"
         >
-          <span>
+          <span class="mx-1">
             {{ item.text }}
           </span>
         </v-chip>

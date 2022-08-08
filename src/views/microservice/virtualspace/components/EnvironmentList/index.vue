@@ -36,7 +36,7 @@
           no-data-text="暂无数据"
         >
           <template #[`item.environmentName`]="{ item }">
-            <a class="text-subtitle-2" @click="environmentDetail(item)">
+            <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="environmentDetail(item)">
               {{ item.EnvironmentName }}
             </a>
           </template>

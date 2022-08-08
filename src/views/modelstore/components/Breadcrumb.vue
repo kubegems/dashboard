@@ -55,7 +55,7 @@
 </template>
 
 <script>
-  import { getAdminModelSourceDetail } from '@/api';
+  import { getModelSourceDetail } from '@/api';
 
   export default {
     name: 'Breadcrumb',
@@ -140,8 +140,9 @@
         }, 1000 * 10);
       },
       async registryStatus() {
-        const data = await getAdminModelSourceDetail(this.$route.query.registry, { noprocessing: true });
+        const data = await getModelSourceDetail(this.$route.query.registry, { noprocessing: true });
         this.status = data.syncStatus;
+        this.$emit('updateModelCount', data.modelsCount || 0);
       },
       clearInterval() {
         if (this.timeinterval) clearInterval(this.timeinterval);

@@ -54,7 +54,7 @@
         :page.sync="params.page"
       >
         <template #[`item.tenantName`]="{ item }">
-          <a class="text-subtitle-2" @click="tenantDetail(item)">
+          <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="tenantDetail(item)">
             {{ item.TenantName }}
           </a>
         </template>

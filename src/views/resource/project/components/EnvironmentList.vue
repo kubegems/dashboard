@@ -14,10 +14,11 @@
  * limitations under the License. 
 -->
 
+<i18n src="../i18n/locales.json" />
 <template>
   <v-flex>
     <v-card v-for="(cluster, index) in clusters" :key="index" :class="`${index > 0 ? 'mt-3' : 'mt-6'}`" flat>
-      <BaseSubTitle class="pt-2" :divider="false" :title="`集群 ${cluster.ClusterName}`">
+      <BaseSubTitle class="pt-2" :divider="false" :title="`${$root.$t('resource.cluster')} ${cluster.ClusterName}`">
         <template #action>
           <v-switch
             v-if="m_permisson_resourceAllow"
@@ -29,7 +30,13 @@
             @click.stop
           >
             <template #label>
-              <span class="text-subtitle-2"> 开启项目网络隔离 </span>
+              <span class="text-subtitle-2">
+                {{
+                  $root.$t('operate.open_c', [
+                    $root.$t('resource.project_c', [$t('environment.table.network_isolation')]),
+                  ])
+                }}
+              </span>
             </template>
           </v-switch>
         </template>
@@ -43,10 +50,10 @@
           hide-default-footer
           :items="items[cluster.ClusterName]"
           :items-per-page="100"
-          no-data-text="暂无数据"
+          :no-data-text="$root.$t('data.no_data')"
         >
           <template #[`item.environmentName`]="{ item }">
-            <a class="text-subtitle-2" @click="environmentDetail(item)">
+            <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="environmentDetail(item)">
               {{ item.EnvironmentName }}
             </a>
           </template>
@@ -60,7 +67,7 @@
               label
               small
             >
-              {{ $METATYPE_CN[item.MetaType].cn }}
+              {{ $t(`environment.type.${item.MetaType}`) }}
             </v-chip>
           </template>
           <template #[`item.creator`]="{ item }">
@@ -160,21 +167,31 @@
       headers() {
         const items = [
           {
-            text: '环境空间',
+            text: this.$t('environment.table.environment_space'),
             value: 'environmentName',
             align: 'start',
             width: 180,
           },
-          { text: '环境类型', value: 'metaType', align: 'start' },
-          { text: '命名空间', value: 'namespace', align: 'start' },
-          { text: '创建人', value: 'creator', align: 'start' },
-          { text: 'CPU', value: 'cpu', align: 'start' },
-          { text: '内存', value: 'memory', align: 'start' },
-          { text: '存储', value: 'storage', align: 'start' },
-          { text: '已使用CPU', value: 'usedCpu', align: 'start', width: 150 },
-          { text: '已使用内存', value: 'usedMemory', align: 'start', width: 150 },
+          { text: this.$t('environment.table.environment_type'), value: 'metaType', align: 'start' },
+          { text: this.$t('environment.table.namespace'), value: 'namespace', align: 'start' },
+          { text: this.$t('environment.table.creator'), value: 'creator', align: 'start' },
+          { text: this.$root.$t('resource.cpu'), value: 'cpu', align: 'start' },
+          { text: this.$root.$t('resource.memory'), value: 'memory', align: 'start' },
+          { text: this.$root.$t('resource.storage'), value: 'storage', align: 'start' },
           {
-            text: '已使用存储',
+            text: this.$t('environment.table.used', [this.$root.$t('resource.cpu')]),
+            value: 'usedCpu',
+            align: 'start',
+            width: 150,
+          },
+          {
+            text: this.$t('environment.table.used', [this.$root.$t('resource.memory')]),
+            value: 'usedMemory',
+            align: 'start',
+            width: 150,
+          },
+          {
+            text: this.$t('environment.table.used', [this.$root.$t('resource.storage')]),
             value: 'usedStorage',
             align: 'start',
             width: 150,
@@ -182,7 +199,7 @@
         ];
         if (this.m_permisson_resourceAllow) {
           items.push({
-            text: '网络隔离',
+            text: this.$t('environment.table.network_isolation'),
             value: 'isolation',
             align: 'center',
             width: 100,
@@ -199,7 +216,7 @@
             this.environmentList();
           } else {
             this.$store.commit('SET_SNACKBAR', {
-              text: `请创建或加入租户`,
+              text: this.$t('tip.tenant_creat_or_join'),
               color: 'warning',
             });
           }
@@ -307,9 +324,13 @@
       },
       async onNetworkPolicyChange(item, type) {
         this.$store.commit('SET_CONFIRM', {
-          title: '更新网络隔离策略',
+          title: this.$root.$t('operate.update', [
+            this.$root.$t('resource.project_c', [this.$t('environment.table.network_isolation')]),
+          ]),
           content: {
-            text: `更新 ${type === 'project' ? this.Project().ProjectName : item.Env.EnvironmentName} 网络隔离策略`,
+            text: `${this.$root.$t('operate.update', [
+              ` ${type === 'project' ? this.Project().ProjectName : item.Env.EnvironmentName}`,
+            ])} ${this.$t('environment.table.network_isolation')} ${this.$t('tip.policy')}`,
             type: 'confirm',
           },
           param: { item, type },

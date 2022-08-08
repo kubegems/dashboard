@@ -76,7 +76,7 @@
             />
           </template>
           <template #[`item.name`]="{ item }">
-            <a class="text-subtitle-2" @click="serviceMonitorDetail(item)">
+            <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="serviceMonitorDetail(item)">
               {{ item.metadata.name }}
             </a>
           </template>

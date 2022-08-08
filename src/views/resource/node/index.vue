@@ -38,7 +38,7 @@
         :page.sync="params.page"
       >
         <template #[`item.name`]="{ item }">
-          <a class="text-subtitle-2" @click="nodeDetail(item)">
+          <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="nodeDetail(item)">
             <v-flex class="float-left">
               {{ item.metadata.name }}
             </v-flex>

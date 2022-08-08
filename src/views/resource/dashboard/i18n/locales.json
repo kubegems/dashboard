@@ -27,7 +27,11 @@
         "all": "总{0}",
         "allocated": "已分配{0}",
         "applying": "资源申请中"
-      }
+      },
+      "title": "资源调整"
+    },
+    "tip": {
+      "tenant": "请创建或加入租户"
     }
   },
   "en": {
@@ -58,7 +62,11 @@
         "all": "All {0}",
         "allocated": "Allocated {0}",
         "applying": "Resource in apply"
-      }
+      },
+      "title": "Sacle Resource"
+    },
+    "tip": {
+      "tenant": "Please create or join a tenant"
     }
   }
 }

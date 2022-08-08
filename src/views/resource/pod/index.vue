@@ -72,7 +72,7 @@
           />
         </template>
         <template #[`item.name`]="{ item }">
-          <a class="text-subtitle-2" @click.stop="podDetail(item)">
+          <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="podDetail(item)">
             <v-flex class="float-left">
               {{ item.metadata.name }}
             </v-flex>
