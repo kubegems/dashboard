@@ -29,7 +29,34 @@
             </v-chip>
           </template>
         </BaseListItemForDetail>
+        <BaseListItemForDetail title="协议">
+          <template #content>
+            <v-chip color="primary" small>
+              {{ item ? item.spec.server.protocol : '' }}
+            </v-chip>
+          </template>
+        </BaseListItemForDetail>
       </v-sheet>
+    </v-card>
+
+    <v-card class="mt-3" flat>
+      <BaseSubTitle class="pt-2" :divider="false" title="参数" />
+      <v-simple-table class="mx-2 pa-2 pb-3">
+        <template #default>
+          <thead>
+            <tr>
+              <th class="text-left">名称</th>
+              <th class="text-left">值</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in item ? item.spec.server.parameters : []" :key="index">
+              <td>{{ item.name }}</td>
+              <td>{{ item.value }}</td>
+            </tr>
+          </tbody>
+        </template>
+      </v-simple-table>
     </v-card>
 
     <v-card class="mt-3" flat>

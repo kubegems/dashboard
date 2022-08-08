@@ -66,6 +66,10 @@
       </v-col>
     </v-row>
 
+    <div v-if="loading" class="my-3 py-2 text-center card__scroll__loading">
+      <BaseDropProgress />
+    </div>
+
     <v-btn
       v-if="offsetTop"
       bottom
@@ -105,6 +109,7 @@
           size: 28,
         },
         offsetTop: 0,
+        loading: false,
       };
     },
     computed: {
@@ -172,11 +177,13 @@
         }
         return `${result.toFixed(decimal)} Yi`;
       },
-      onScroll(e) {
+      async onScroll(e) {
         this.offsetTop = e.target.scrollTop;
         if (e.target.scrollTop + document.getElementById('model__store').clientHeight >= e.target.scrollHeight) {
           this.params.page += 1;
-          this.modelStoreList({}, true);
+          this.loading = true;
+          await this.modelStoreList({}, true);
+          this.loading = false;
         }
       },
       goToTop() {
@@ -213,6 +220,13 @@
       height: 45px;
       width: 45px;
       border-radius: 45px;
+    }
+
+    &__scroll {
+      &__loading {
+        position: relative;
+        height: 70px;
+      }
     }
   }
 </style>

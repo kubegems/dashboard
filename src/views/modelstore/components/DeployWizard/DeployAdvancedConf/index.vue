@@ -22,7 +22,7 @@
       </div>
       <div class="float-left mr-2">Provider</div>
       <div class="float-left mr-2">
-        <img alt="Seldon Core" height="26px" src="/icon/seldon.svg" />
+        <img alt="Seldon Core" class="mt-1" height="26px" src="/icon/seldon.svg" />
       </div>
       <div class="kubegems__clear-float" />
     </div>
@@ -95,6 +95,36 @@
       </v-row>
     </v-card-text>
 
+    <BaseSubTitle class="mt-3" color="grey lighten-3" :divider="false" title="访问信息" />
+    <v-card-text class="pa-2">
+      <v-row>
+        <v-col cols="12">
+          <v-text-field v-model="obj.ingress.host" label="访问域名" />
+
+          <v-autocomplete
+            v-model="gateway"
+            hide-no-data
+            hide-selected
+            :items="gatewayItems"
+            label="网关"
+            :menu-props="{
+              bottom: true,
+              left: true,
+              origin: `top center`,
+            }"
+            :rules="objRules.gatewayRules"
+            @change="onGatewayChange"
+          >
+            <template #selection="{ item }">
+              <v-chip class="my-1" color="primary" small text-color="white">
+                {{ item.text }}
+              </v-chip>
+            </template>
+          </v-autocomplete>
+        </v-col>
+      </v-row>
+    </v-card-text>
+
     <template v-if="obj.server.kind === 'UNKNOWN_IMPLEMENTATION'">
       <BaseSubTitle class="mt-3" color="grey lighten-3" :divider="false" title="自定义配置" />
       <v-card-text class="pa-2">
@@ -113,35 +143,6 @@
         </v-row>
       </v-card-text>
     </template>
-
-    <BaseSubTitle class="mt-3" color="grey lighten-3" :divider="false" title="访问信息" />
-    <v-card-text class="pa-2">
-      <v-row>
-        <v-col cols="12">
-          <v-text-field v-model="obj.ingress.host" label="访问域名" />
-
-          <v-autocomplete
-            v-model="obj.ingress.className"
-            hide-no-data
-            hide-selected
-            :items="gatewayItems"
-            label="网关"
-            :menu-props="{
-              bottom: true,
-              left: true,
-              origin: `top center`,
-            }"
-            :rules="objRules.gatewayRules"
-          >
-            <template #selection="{ item }">
-              <v-chip class="my-1" color="primary" small text-color="white">
-                {{ item.text }}
-              </v-chip>
-            </template>
-          </v-autocomplete>
-        </v-col>
-      </v-row>
-    </v-card-text>
 
     <ResourceConf ref="resourceConf" :base="base" :spec="spec" />
   </v-form>
@@ -192,6 +193,7 @@
         ],
         implementationItems: [
           { text: 'huggingface server', value: 'HUGGINGFACE_SERVER' },
+          { text: 'openmmlab server', value: 'OPENMMLAB_SERVER' },
           { text: 'tensorflow server', value: 'TENSORFLOW_SERVER' },
           { text: 'sklearn server', value: 'SKLEARN_SERVER' },
           { text: 'triton server', value: 'TRITON_SERVER' },
@@ -199,6 +201,7 @@
           { text: 'xgboost server', value: 'XGBOOST_SERVER' },
           { text: '自定义', value: 'UNKNOWN_IMPLEMENTATION' },
         ],
+        gateway: '',
         gatewayItems: [],
         obj: {
           model: {
@@ -224,6 +227,7 @@
           replicas: 1,
           ingress: {
             className: '',
+            gatewayName: '',
             host: '',
           },
         },
@@ -237,6 +241,13 @@
     },
     computed: {
       ...mapGetters(['Tenant']),
+      gatewayObj() {
+        const gateway = this.gatewayItems.find((g) => {
+          return g.value === this.gateway;
+        });
+        if (gateway) return gateway.obj;
+        return null;
+      },
     },
     watch: {
       item: {
@@ -269,7 +280,7 @@
         const data = await getGatewayOriginList(this.base.cluster, { size: 1000 });
         this.gatewayItems = data.List.map((d) => {
           if (d.spec.tenant === this.Tenant().TenantName) {
-            return { text: d.metadata.name, value: d.metadata.name };
+            return { text: d.metadata.name, value: d.metadata.name, obj: d };
           }
         });
       },
@@ -284,6 +295,13 @@
       },
       reset() {
         this.$refs.form.resetValidation() && this.$refs.resourceConf.reset();
+      },
+      onGatewayChange() {
+        if (this.gatewayObj.spec?.ingressClass) {
+          this.obj.ingress.className = this.gatewayObj.spec?.ingressClass;
+        } else {
+          this.obj.ingress.gatewayName = this.gatewayObj.metadata.name;
+        }
       },
     },
   };

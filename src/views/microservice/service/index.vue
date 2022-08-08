@@ -69,7 +69,7 @@
             no-results-text="暂无数据"
           >
             <template #[`item.name`]="{ item }">
-              <a class="text-subtitle-2" @click="kialiServiceDetail(item)">
+              <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="kialiServiceDetail(item)">
                 <v-flex class="float-left">
                   {{ item.name }}
                 </v-flex>

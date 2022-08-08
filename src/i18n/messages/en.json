@@ -3,6 +3,7 @@
   "logout": "Logout",
   "403": "Forbidden",
   "404": "Not Found",
+  "loading": "Loading",
 
   "status": {
     "success": "Success",
@@ -13,6 +14,27 @@
     "system": {
       "normal": "Normal",
       "administrator": "Admin"
+    },
+    "tenant": {
+      "ordinary": "Ordinary",
+      "admin": "Admin",
+      "sys": "System Admin"
+    },
+    "project": {
+      "dev": "Developer",
+      "test": "Test",
+      "ops": "Ops",
+      "admin": "Admin",
+      "sys": "System Admin",
+      "tenantadmin": "Tenant Admin"
+    },
+    "environment": {
+      "operator": "Operator",
+      "reader": "Reader",
+      "sys": "System Admin",
+      "tenantadmin": "Tenant Admin",
+      "projectadmin": "Project Admin",
+      "projectops": "Project Ops"
     }
   },
 
@@ -32,8 +54,12 @@
     "storage": "Storage",
 
     "cluster": "Cluster",
+    "app": "Application",
     "node": "Node",
     "workload": "Workload",
+    "deployment": "Deployment",
+    "statefulset": "StatefulSet",
+    "daemonset": "DaemonSet",
     "pod": "Pod",
     "service": "Service",
     "ingress": "Ingress",
@@ -49,7 +75,13 @@
     "srorageclass": "Srorageclass",
     "account": "Account",
     "project": "Project",
-    "environment": "Environment"
+    "project_c": "Project {0}",
+    "environment": "Environment",
+    "tenant": "Tenant",
+    "tenant_c": "Tenant {0}",
+    "role": "Role",
+    "member": "Member",
+    "member_c": "Member {0}"
   },
 
   "header": {
@@ -72,19 +104,30 @@
     "placehold": "Enter query criteria to filter result"
   },
   "data": {
+    "unknown": "Unknown",
     "no_data": "No Data",
     "no_cluster": "No Cluster",
     "no_tenant": "No Tenant"
   },
   "operate": {
+    "open_c": "Open {0}",
     "batch": "Batch",
     "delete": "Delete",
     "confirm": "Confirm",
     "cancel": "Cancel",
+    "close": "Close",
     "operate": "Operate",
+    "edit": "Edit",
     "create": "Create {0}",
+    "update": "Update {0}",
     "enter": "Enter {0}",
-    "apply": "Apply {0}"
+    "apply": "Apply {0}",
+    "delete_c": "Delete {0}",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "form": {
+    "definition": "{0} Definition"
   },
   "pagination": {
     "count": "Per Page Count"

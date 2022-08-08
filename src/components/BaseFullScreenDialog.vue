@@ -58,7 +58,9 @@
             <slot name="action" />
           </v-flex>
           <v-flex class="float-left">
-            <v-btn class="mx-2" color="white" :dialog="dialog" text v-on="clickListeners"> 关闭 </v-btn>
+            <v-btn class="mx-2" color="white" :dialog="dialog" text v-on="clickListeners">
+              {{ $t('operate.close') }}
+            </v-btn>
           </v-flex>
           <div class="kubegems__clear-float" />
         </v-flex>

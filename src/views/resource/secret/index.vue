@@ -75,7 +75,7 @@
         </template>
         <template #[`item.name`]="{ item, index }">
           <v-flex :id="`t${item.secret.metadata.resourceVersion}`" />
-          <a class="text-subtitle-2" @click="secretDetail(item.secret)">
+          <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="secretDetail(item.secret)">
             {{ item.secret.metadata.name }}
           </a>
           <Tips

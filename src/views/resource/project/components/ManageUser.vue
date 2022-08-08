@@ -15,11 +15,19 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-account-settings" title="项目成员" :width="900" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-account-settings"
+    :title="$root.$t('form.definition', [$root.$t('resource.project')])"
+    :width="900"
+    @reset="reset"
+  >
     <template #content>
       <v-card flat>
         <v-card-text class="pa-0">
-          <BaseSubTitle title="项目成员角色" />
+          <BaseSubTitle
+            :title="$root.$t('resource.project_c', [$root.$t('resource.member_c', [$root.$t('resource.role')])])"
+          />
           <v-tabs v-model="tab" class="pa-2" height="120px" vertical @change="onTabChange">
             <v-tab v-for="item in tabItems" :key="item.value">
               {{ item.text }}
@@ -29,7 +37,9 @@
                 <v-col class="py-1" cols="6">
                   <v-card elevation="2" flat height="550px">
                     <v-card-text>
-                      <v-flex class="px-1 mb-2">租户成员</v-flex>
+                      <v-flex class="px-1 mb-2">
+                        {{ $root.$t('resource.project_c', [$root.$t('resource.member')]) }}
+                      </v-flex>
                       <v-text-field
                         v-model="searchAllUser"
                         class="mx-1"
@@ -108,12 +118,6 @@
     data: () => ({
       dialog: false,
       tab: 0,
-      tabItems: [
-        { text: '测试', value: 'test' },
-        { text: '开发', value: 'dev' },
-        { text: '运维', value: 'ops' },
-        { text: '管理员', value: 'admin' },
-      ],
       allUsers: [],
       allUsersCopy: [],
       users: [],
@@ -141,6 +145,14 @@
           default:
             return [];
         }
+      },
+      tabItems() {
+        return [
+          { text: this.$root.$t('role.projct.test'), value: 'test' },
+          { text: this.$root.$t('role.projct.dev'), value: 'dev' },
+          { text: this.$root.$t('role.projct.ops'), value: 'ops' },
+          { text: this.$root.$t('role.projct.admin'), value: 'admin' },
+        ];
       },
     },
     methods: {

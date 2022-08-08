@@ -45,7 +45,7 @@
           no-data-text="暂无数据"
         >
           <template #[`item.name`]="{ item }">
-            <a class="text-subtitle-2" @click="outputDetail(item)">
+            <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="outputDetail(item)">
               {{ item.metadata.name }}
             </a>
           </template>

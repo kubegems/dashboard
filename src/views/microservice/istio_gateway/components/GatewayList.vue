@@ -26,7 +26,7 @@
         no-data-text="暂无数据"
       >
         <template #[`item.name`]="{ item }">
-          <a class="text-subtitle-2">
+          <a class="text-subtitle-2 kubegems__inline_flex">
             {{ item.metadata.name }}
           </a>
         </template>

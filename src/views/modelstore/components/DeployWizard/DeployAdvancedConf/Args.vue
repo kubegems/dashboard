@@ -30,8 +30,8 @@
     @keydown.enter="createArgs"
   >
     <template #selection="{ item }">
-      <v-chip class="pa-1" close close-icon="mdi-close-circle" color="primary" small @click:close="removeArgs(item)">
-        <span>
+      <v-chip class="my-1" close close-icon="mdi-close-circle" color="primary" small @click:close="removeArgs(item)">
+        <span class="mx-1">
           {{ item.text }}
         </span>
       </v-chip>

@@ -94,7 +94,7 @@
           </template>
           <template #[`item.name`]="{ item, index }">
             <v-flex :id="`a${item.workload.metadata.resourceVersion}`" />
-            <a class="text-subtitle-2" @click="workloadDetail(item.workload)">
+            <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="workloadDetail(item.workload)">
               {{ item.workload.metadata.name }}
             </a>
             <ResourceAdvise

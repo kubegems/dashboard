@@ -45,7 +45,7 @@
       <div class="px-4 py-2">
         <slot name="action" />
         <v-btn class="float-right mx-2" color="error" :dialog="dialog" text v-on="clickListeners">
-          {{ $slots.action ? '取消' : '关闭' }}
+          {{ $slots.action ? $t('operate.cancel') : $t('operate.close') }}
         </v-btn>
         <div class="kubegems__clear-float" />
       </div>

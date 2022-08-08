@@ -27,7 +27,9 @@
         :page.sync="params.page"
       >
         <template #[`item.name`]="{ item }">
-          <a class="text-subtitle-2" @click.stop="toEnvironmentModelList(item)">{{ item.name }}</a>
+          <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="toEnvironmentModelList(item)">
+            {{ item.name }}
+          </a>
         </template>
         <template #[`item.phase`]="{ item }">
           <span

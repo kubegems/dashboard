@@ -15,16 +15,26 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-cube-outline" title="更新项目" :width="1000" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-cube-outline"
+    :title="$t('operate.update', [$t('resource.project')])"
+    :width="1000"
+    @reset="reset"
+  >
     <template #content>
       <component :is="formComponent" :ref="formComponent" :edit="true" :step="step" />
     </template>
     <template #action>
       <v-btn v-if="step === 1" class="float-right mx-2" color="primary" :loading="Circular" text @click="updateProject">
-        确定
+        {{ $t('operate.confirm') }}
       </v-btn>
-      <v-btn v-if="step === 1" class="float-right mx-2" color="primary" text @click="step = 0"> 上一步 </v-btn>
-      <v-btn v-if="step === 0" class="float-right mx-2" color="primary" text @click="check"> 下一步 </v-btn>
+      <v-btn v-if="step === 1" class="float-right mx-2" color="primary" text @click="step = 0">
+        {{ $t('operate.previous') }}
+      </v-btn>
+      <v-btn v-if="step === 0" class="float-right mx-2" color="primary" text @click="check">
+        {{ $t('operate.next') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>

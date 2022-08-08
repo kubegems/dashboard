@@ -95,7 +95,7 @@
           </template>
           <template #[`item.name`]="{ item }">
             <v-flex :style="{ display: `flex` }">
-              <a class="text-subtitle-2" @click.stop="alertRuleDetail(item)">
+              <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="alertRuleDetail(item)">
                 {{ item.name }}
               </a>
               <span v-if="item.state === 'inactive'" class="px-2">
