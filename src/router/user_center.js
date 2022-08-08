@@ -14,7 +14,7 @@ export const userCenter = [
           smallTitle: 'header.usercenter',
           title: 'header.usercenter',
           icon: 'mdi-account',
-          tip: 'user-center',
+          tip: 'user_center',
         },
       },
     ],

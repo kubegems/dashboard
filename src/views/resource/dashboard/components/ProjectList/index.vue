@@ -14,13 +14,14 @@
  * limitations under the License. 
 -->
 
+<i18n src="../../i18n/locales.json" />
 <template>
   <v-card>
-    <BaseSubTitle class="pt-2" :divider="false" title="项目">
+    <BaseSubTitle class="pt-2" :divider="false" :title="$root.$t('resource.project')">
       <template #action>
         <v-btn v-if="m_permisson_tenantAllow" class="float-right mr-2" color="primary" small text @click="addProject">
           <v-icon left small> mdi-plus-box </v-icon>
-          创建项目
+          {{ $root.$t('operate.create', [$root.$t('resource.project')]) }}
         </v-btn>
       </template>
     </BaseSubTitle>
@@ -30,8 +31,8 @@
           <v-expansion-panel-header @click="projectEnvironmentList(item)">
             <v-flex class="text-subtitle-1">
               {{ item.ProjectName }}
-              <span class="text-body-2 ml-3">别名：{{ item.ProjectAlias }}</span>
-              <span class="text-body-2 ml-3">备注：{{ item.Remark }}</span>
+              <span class="text-body-2 ml-3">{{ $t('project.table.alias') }} : {{ item.ProjectAlias }}</span>
+              <span class="text-body-2 ml-3">{{ $t('project.table.remark') }} : {{ item.Remark }}</span>
               <v-btn
                 v-if="m_permisson_projectAllow"
                 class="float-right"
@@ -42,11 +43,11 @@
                 @click.stop="addEnvironment(item)"
               >
                 <v-icon left small> mdi-plus-box </v-icon>
-                创建环境
+                {{ $root.$t('operate.create', [$root.$t('resource.environment')]) }}
               </v-btn>
               <v-btn class="float-right" color="primary" depressed small text @click.stop="projectDetail(item)">
                 <v-icon left small> mdi-login </v-icon>
-                进入项目
+                {{ $root.$t('operate.enter', [$root.$t('resource.project')]) }}
               </v-btn>
             </v-flex>
           </v-expansion-panel-header>
@@ -56,7 +57,7 @@
               :headers="headers"
               hide-default-footer
               :items="environmentItems"
-              no-data-text="暂无数据"
+              :no-data-text="$root.$t('data.no_data')"
             >
               <template #[`item.environmentName`]="{ item }">
                 <BaseMarquee :content="item.EnvironmentName" :speed="20">
@@ -75,7 +76,7 @@
                   label
                   x-small
                 >
-                  {{ $METATYPE_CN[item.MetaType].cn }}
+                  {{ $t(`project.table.${item.MetaType}`) }}
                 </v-chip>
               </template>
               <template #[`item.workload`]="{ item }">
@@ -170,7 +171,7 @@
                 <span class="pa-2">
                   <v-btn color="primary" text x-small @click.stop="environmentDetail(item)">
                     <v-icon left small> mdi-login </v-icon>
-                    进入环境
+                    {{ $root.$t('operate.enter', [$root.$t('resource.environment')]) }}
                   </v-btn>
                 </span>
               </template>
@@ -180,7 +181,7 @@
       </v-expansion-panels>
 
       <div v-else class="text-body-2" :style="{ position: 'relative', height: '300px' }">
-        <span class="kubegems__full-center kubegems__text"> 暂无数据 </span>
+        <span class="kubegems__full-center kubegems__text"> {{ $root.$t('data.no_data') }} </span>
       </div>
 
       <Pagination
@@ -229,23 +230,6 @@
     data: () => ({
       projectItems: [],
       environmentItems: [],
-      headers: [
-        { text: '环境', value: 'environmentName', align: 'start', width: 100 },
-        { text: '类型', value: 'type', align: 'start' },
-        { text: '工作负载', value: 'workload', align: 'start' },
-        { text: '任务', value: 'job', align: 'start' },
-        { text: '存储卷', value: 'persistentvolumeclaims', align: 'start' },
-        { text: '配置', value: 'configMap', align: 'start' },
-        { text: '密钥', value: 'secret', align: 'start' },
-        { text: '服务', value: 'service', align: 'start' },
-        { text: '路由', value: 'ingress', align: 'start' },
-        { text: '容器组', value: 'pod', align: 'start' },
-        { text: 'CPU', value: 'cpu', align: 'start', width: 100 },
-        { text: '内存', value: 'memory', align: 'start', width: 100 },
-        { text: '流量in', value: 'in', align: 'start', width: 100 },
-        { text: '流量out', value: 'out', align: 'start', width: 100 },
-        { text: '操作', value: 'action', align: 'center', width: 100 },
-      ],
       pageCount: 0,
       pageParams: {
         page: 1,
@@ -260,6 +244,25 @@
     computed: {
       ...mapState(['JWT', 'Admin']),
       ...mapGetters(['Tenant', 'Project']),
+      headers() {
+        return [
+          { text: this.$root.$t('resource.environment'), value: 'environmentName', align: 'start', width: 100 },
+          { text: this.$t('project.table.type'), value: 'type', align: 'start' },
+          { text: this.$root.$t('resource.workload'), value: 'workload', align: 'start' },
+          { text: this.$root.$t('resource.job'), value: 'job', align: 'start' },
+          { text: this.$root.$t('resource.persistentvolumeclaim'), value: 'persistentvolumeclaims', align: 'start' },
+          { text: this.$root.$t('resource.configmap'), value: 'configMap', align: 'start' },
+          { text: this.$root.$t('resource.secret'), value: 'secret', align: 'start' },
+          { text: this.$root.$t('resource.service'), value: 'service', align: 'start' },
+          { text: this.$root.$t('resource.ingress'), value: 'ingress', align: 'start' },
+          { text: this.$root.$t('resource.pod'), value: 'pod', align: 'start' },
+          { text: this.$root.$t('resource.cpu'), value: 'cpu', align: 'start', width: 100 },
+          { text: this.$root.$t('resource.memory'), value: 'memory', align: 'start', width: 100 },
+          { text: this.$t('project.table.traffic_in'), value: 'in', align: 'start', width: 100 },
+          { text: this.$t('project.table.traffic_out'), value: 'out', align: 'start', width: 100 },
+          { text: this.$root.$t('operate.operate'), value: 'action', align: 'center', width: 100 },
+        ];
+      },
     },
     mounted() {
       if (this.JWT) {

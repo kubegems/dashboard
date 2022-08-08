@@ -108,11 +108,11 @@
               env: [],
               image: '',
               ports: [],
-            },
-            resources: {
-              limits: {
-                cpu: 2,
-                memory: '4Gi',
+              resources: {
+                limits: {
+                  cpu: 2,
+                  memory: '4Gi',
+                },
               },
             },
             replicas: 1,

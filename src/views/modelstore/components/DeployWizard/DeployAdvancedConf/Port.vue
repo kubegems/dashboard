@@ -35,7 +35,7 @@
             @click:close="removePort(item)"
           >
             <strong class="mx-1"> {{ item.name }} </strong>
-            {{ item.hostPort }}
+            端口:{{ item.hostPort }}
           </v-chip>
         </template>
       </v-combobox>

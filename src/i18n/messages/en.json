@@ -26,6 +26,7 @@
   },
 
   "resource": {
+    "resource": "Resource",
     "cpu": "CPU",
     "memory": "Memory",
     "storage": "Storage",
@@ -79,7 +80,11 @@
     "batch": "Batch",
     "delete": "Delete",
     "confirm": "Confirm",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "operate": "Operate",
+    "create": "Create {0}",
+    "enter": "Enter {0}",
+    "apply": "Apply {0}"
   },
   "pagination": {
     "count": "Per Page Count"
@@ -224,5 +229,79 @@
       "h_security": "Security",
       "h_integrated": "Integrated"
     }
+  },
+  "breadcrumb": {
+    "virtualspace": "Virtual space is an aggregation of a set of environments.",
+    "mesh_dag": "Service mesh graph (DAG) is a graph of all load service mesh links under one or more namespaces.",
+    "dns": "DNS",
+    "v_dashboard": "Virtual space is an aggregation of a set of environments.",
+    "v_workload": "Workload is usually a carrier for accessing services and is an abstraction of a set of container groups (Pods).",
+    "v_service": "Service is a logical collection that defines a group of containers and a policy for accessing them.",
+    "v_configmap": "ConfigMap is often used to store configuration information required by a workload, and many applications read configuration information from configuration files, command-line arguments, or environment variables.",
+    "v_gateway_instance": "Istio gateway instance",
+    "v_authorization_policy": "AuthenticationPolicies support access control to workloads in the grid.",
+    "v_gateway": "Gateway describes a load balancer running at the edge of the mesh to receive incoming or outgoing HTTP/TCP connections.",
+    "v_peer_authentication": "PeerAuthentication defines how traffic will be tunneled (or not) to the sidecar.",
+    "v_service_entry": "ServiceEntry allows adding additional entries to Istio's internal service registry so that auto-discovered services in the mesh can access/route to these manually specified services.",
+    "v_sidecar": "Sidecar describes the configuration of an agent that mediates inbound and outbound communication to the workload instance to which it is attached.",
+
+    "appstore": "HelmChart is a collection of files describing Kubernetes-related resources. A single application can be used to deploy some complex HTTP servers and web full-stack applications, databases, caches, etc.",
+    "appstore_registry": "The chart repository is where chart packages are stored, used by app stores and deployments.",
+
+    "modelstore": "",
+    "modelstore_registry": "AI Model Registry achieves model synchronization by configuring the model warehouse, and is integrated in Kubegems.",
+
+    "auth_setting": "Based on the third-party authentication integration of oauth2.0/ldap, users can log in in various ways.",
+    "prometheus_setting": "Configure Prometheus Recording rules to improve monitoring query efficiency.",
+
+    "role": "Description of all roles and operating permissions of the system.",
+    "tenant": "Tenant is a logical unit that organizes your projects and DevOps projects, manages access to resources, shares resources within a team, etc. It can be used as an independent workspace for team work.",
+    "user": "All users of the platform, including system administrators and ordinary members.",
+
+    "audit": "Audit queries for multi-dimensional operations such as project space, environment space, and resources.",
+    "event": "Event is provided by the container cloud event driver, which represents the state history of resources in the cluster.",
+    "user_center": "用户中心(User Center)提供用户消息，审计，个人设置等。",
+
+    "dashboard": "The container service under the tenant provides a work platform with security isolation and access control. Here you can see an overview of the resources running in the current tenant.",
+    "project": "Project is an abstract combination of a set of environments, applications, and image repositories.",
+    "appmanifest": "AppManifest is a collection of description files for a set of workloads, configurations, keys and other resources.",
+    "registry": "Registry is a repository (or collection of repositories) for storing container images for Kubernetes, DevOps, and container-based application development.",
+    "cluster": "Unified management of multiple clusters and the basic resources, service components and application resources of each cluster.",
+    "plugin": "Service plugin provides management of the health status and enabling status of each service component in the Kubernetes cluster.",
+    "environment": "Environment is the boundary of specific application, load, storage and other resources, usually a namespace.",
+    "node": "Node provides the running status of nodes under the current cluster.",
+    "app": "Application is the application runtime from application orchestration and application store deployment.",
+    "deploy": "Application Deployment provides a variety of application deployment methods, including rebuild, rolling update, blue-green, canary, etc.",
+    "workload": "Workload is usually a carrier for accessing services and is an abstraction of a set of container groups (Pods).",
+    "pod": "Pod is the basic unit of execution of a Kubernetes application, the smallest and simplest unit of the Kubernetes object model that you create or deploy.",
+    "service": "Service is a logical collection that defines a group of containers and a policy for accessing them.",
+    "ingress": "Ingress provides a way of aggregating services, you can expose the internal services of the cluster to the outside of the cluster through an externally accessible IP address.",
+    "gateway": "Gateway is used to forward the communication data of other servers.",
+    "job": "Job is responsible for batching short-lived one-off tasks, that is, tasks that are executed only once, and guarantees that one or more container groups of a batched task complete successfully.",
+    "cronjob": "CronJob manages time-based jobs, such as running only once at a given point in time, or periodically at a given point in time.",
+    "configmap": "ConfigMap is often used to store configuration information required by a workload, and many applications read configuration information from configuration files, command-line arguments, or environment variables.",
+    "secret": "Secret is a resource object that contains a small amount of sensitive information, such as passwords, tokens, secret keys, etc., stored in the form of key/value pairs and can be used in container groups.",
+    "certmanager": "Certificate, when creating a certificate, the certificate manager will create a corresponding CertificateRequest resource, which contains the encoded X.509 certificate request, issuer reference and other options based on the certificate resource specification.",
+    "crd": "CRD is an extension method for Kubernetes to implement custom resource types. Users can manipulate CRD objects in the same way as built-in resource objects.",
+    "persistentvolumeclaim": "PersistentVolumeClaim is used by user-created workloads and is a resource object that persists workload data.",
+    "volumesnapshot": "VolumeSnapshot represents a point-in-time copy of a storage volume. Snapshots can be used to provision new volumes (pre-populated with snapshot data) or to restore existing storage volumes to a previous state (represented by snapshots).",
+    "storageclass": "StorageClass is configured by the cluster administrator to configure the storage server parameters, and provides storage for cluster users according to the type.",
+    "appconfig": "Application Configuration can provide external dynamic configuration services to applications",
+
+    "observe": "Observability provides all functions such as log collection, viewing, alarm/monitoring indicator collection, alarm/alarm center, history/link tracking, etc.",
+    "integrated": "The Intergate Center allows you to configure application/middleware link tracking, metric monitoring, and logging for observability capabilities.",
+    "dash_overview": "Monitor Dashboard allows you to query and visualize your metrics.",
+    "dash_metrics": "Metrics allows you to query system monitoring metrics and generate related alarms.",
+    "dash_log": "Log is based on Loki's log viewing panel, which can perform log real-time query, snapshot, filtering, etc.",
+    "dash_trace": "Jaeger is an end-to-end distributed tracking monitoring system.",
+    "alert_overview": "Alert Dashboard allows you to view recent alert trends, summary and comparison of alert indicators.",
+    "alert_history": "Alert History allows you to view the history of alerts by condition.",
+    "alert_blacklist": "Alert Blacklist allows you to silence some alerts that you do not need to receive.",
+    "config-monitor": "The Monitor Config Center allows you to configure collectors, alarms, receivers and other monitoring indicators.",
+    "log_monitor": "The Log Config Center allows you to configure log collectors, alarms, receivers and other log metrics, as well as log flow filtering and other configurations.",
+    "service_monitor": "ServiceMonitor defines monitoring for a set of services, which is automatically discovered by Prometheus and becomes the target of its indicator pull.",
+    "prometheus_rule": "PrometheusRule are usually Prometheus alert rules set for monitoring indicators.",
+    "flow": "Flow/ClusterFlow defines a log flow with filters and outputs.",
+    "output": "Output/ClusterOutput defines the output to which your flow can send log messages."
   }
 }

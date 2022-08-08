@@ -21,7 +21,6 @@ import ACEEditor from 'vue2-ace-editor';
 import App from '@/App';
 import i18n from '@/i18n';
 import Icon from '@/icon';
-import BreadcrumbTip from '@/plugins/breadcrumb';
 import ConstField from '@/plugins/const';
 import '@/plugins/base';
 import '@/directives/hjs';
@@ -37,7 +36,6 @@ Vue.config.productionTip = false;
 Vue.component('ACEEditor', ACEEditor);
 Vue.component('Icon', Icon);
 
-Vue.use(BreadcrumbTip);
 Vue.use(ConstField);
 Vue.use(VueMeta);
 

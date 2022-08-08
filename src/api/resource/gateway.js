@@ -24,3 +24,9 @@ export const getGatewayAddressList = (tenantid, clusterid, name, query = {}) =>
   axios(`tenant/${tenantid}/cluster/${clusterid}/tenantgateways/${name}/addresses`, {
     params: query,
   });
+
+// 租户网关列表
+export const getGatewayOriginList = (clusterName, query = {}) =>
+  axios(`proxy/cluster/${clusterName}/gems.kubegems.io/v1beta1/tenantgateways`, {
+    params: query,
+  });
