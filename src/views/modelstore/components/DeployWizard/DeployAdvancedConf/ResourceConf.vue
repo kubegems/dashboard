@@ -22,10 +22,14 @@
           <v-text-field v-model.number="obj.replicas" label="实例数" :rules="objRules.replicasRules" type="number" />
         </v-col>
         <v-col cols="4">
-          <v-text-field v-model="obj.resources.limits.cpu" label="分配CPU" :rules="objRules.limitsCpuRule" />
+          <v-text-field v-model="obj.server.resources.limits.cpu" label="分配CPU" :rules="objRules.limitsCpuRule" />
         </v-col>
         <v-col cols="4">
-          <v-text-field v-model="obj.resources.limits.memory" label="分配内存" :rules="objRules.limitsMemoryRule" />
+          <v-text-field
+            v-model="obj.server.resources.limits.memory"
+            label="分配内存"
+            :rules="objRules.limitsMemoryRule"
+          />
         </v-col>
         <v-col v-if="gpuData.NvidiaGpu || gpuData.TkeGpu || gpuData.TkeMemory" cols="4">
           <v-switch v-model="gpu" class="ml-1" label="分配GPU" />
@@ -45,7 +49,7 @@
           <v-row>
             <v-col cols="4">
               <v-text-field
-                v-model="obj.resources.limits['limits.nvidia.com/gpu']"
+                v-model="obj.server.resources.limits['limits.nvidia.com/gpu']"
                 label="分配gpu"
                 :rules="objRules.nvidiaGpuRule"
                 type="number"
@@ -67,7 +71,7 @@
           <v-row>
             <v-col cols="4">
               <v-text-field
-                v-model="obj.resources.limits['tencent.com/vcuda-core']"
+                v-model="obj.server.resources.limits['tencent.com/vcuda-core']"
                 label="分配显卡"
                 :rules="objRules.vcudaGpuRule"
                 type="number"
@@ -81,7 +85,7 @@
             </v-col>
             <v-col cols="4">
               <v-text-field
-                v-model="obj.resources.limits['tencent.com/vcuda-memory']"
+                v-model="obj.server.resources.limits['tencent.com/vcuda-memory']"
                 label="分配显存"
                 :rules="objRules.vcudaMemoryRule"
                 type="number"
@@ -128,10 +132,12 @@
         tab: 0,
         gpuData: {},
         obj: {
-          resources: {
-            limits: {
-              cpu: 2,
-              memory: '4Gi',
+          server: {
+            resources: {
+              limits: {
+                cpu: 2,
+                memory: '4Gi',
+              },
             },
           },
           replicas: 1,
@@ -179,11 +185,11 @@
           if (newValue?.cluster) {
             await this.getGpu();
             if (this.gpuData.NvidiaGpu) {
-              this.obj.resources.limits['limits.nvidia.com/gpu'] = 0;
+              this.server.obj.resources.limits['limits.nvidia.com/gpu'] = 0;
             }
             if (this.gpuData.TkeGpu || this.gpuData.TkeMemory) {
-              this.obj.resources.limits['tencent.com/vcuda-core'] = 0;
-              this.obj.resources.limits['tencent.com/vcuda-memory'] = 0;
+              this.obj.server.resources.limits['tencent.com/vcuda-core'] = 0;
+              this.obj.server.resources.limits['tencent.com/vcuda-memory'] = 0;
             }
           }
         },
@@ -193,7 +199,7 @@
       spec: {
         handler(newValue) {
           if (newValue) {
-            this.obj.resources = deepCopy(newValue.resources);
+            this.obj.server.resources = deepCopy(newValue.server.resources);
             this.obj.replicas = newValue.replicas;
           }
         },
@@ -205,13 +211,13 @@
       onTabChange() {
         if (this.gpuData.NvidiaGpu) {
           this.obj.resources.limits['limits.nvidia.com/gpu'] = 0;
-          delete this.obj.resources.limits['tencent.com/vcuda-core'];
-          delete this.obj.resources.limits['tencent.com/vcuda-memory'];
+          delete this.obj.server.resources.limits['tencent.com/vcuda-core'];
+          delete this.obj.server.resources.limits['tencent.com/vcuda-memory'];
         }
         if (this.gpuData.TkeGpu || this.gpuData.TkeMemory) {
-          this.obj.resources.limits['tencent.com/vcuda-core'] = 0;
-          this.obj.resources.limits['tencent.com/vcuda-memory'] = 0;
-          delete this.obj.resources.limits['limits.nvidia.com/gpu'];
+          this.obj.server.resources.limits['tencent.com/vcuda-core'] = 0;
+          this.obj.server.resources.limits['tencent.com/vcuda-memory'] = 0;
+          delete this.obj.server.resources.limits['limits.nvidia.com/gpu'];
         }
       },
       validate() {
@@ -219,12 +225,13 @@
       },
       getData() {
         const data = deepCopy(this.obj);
-        if (data.resources.limits['tencent.com/vcuda-core']) {
-          data.resources.limits['tencent.com/vcuda-core'] = data.resources.limits['tencent.com/vcuda-core'] * 100;
+        if (data.server.resources.limits['tencent.com/vcuda-core']) {
+          data.server.resources.limits['tencent.com/vcuda-core'] =
+            data.server.resources.limits['tencent.com/vcuda-core'] * 100;
         }
-        if (data.resources.limits['tencent.com/vcuda-memory']) {
-          data.resources.limits['tencent.com/vcuda-memory'] =
-            (data.resources.limits['tencent.com/vcuda-memory'] * 1024) / 256;
+        if (data.server.resources.limits['tencent.com/vcuda-memory']) {
+          data.server.resources.limits['tencent.com/vcuda-memory'] =
+            (data.server.resources.limits['tencent.com/vcuda-memory'] * 1024) / 256;
         }
         return data;
       },

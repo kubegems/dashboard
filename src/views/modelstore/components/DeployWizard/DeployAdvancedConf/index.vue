@@ -15,11 +15,64 @@
 -->
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
+    <div class="deploy__tip">
+      <div class="float-left mr-2">部署类型</div>
+      <div class="float-left mr-2">
+        <v-chip class="my-1" color="primary" small text-color="white"> ModelDeployment </v-chip>
+      </div>
+      <div class="float-left mr-2">Provider</div>
+      <div class="float-left mr-2">
+        <img alt="Seldon Core" height="26px" src="/icon/seldon.svg" />
+      </div>
+      <div class="kubegems__clear-float" />
+    </div>
+
     <BaseSubTitle class="mt-3" color="grey lighten-3" :divider="false" title="部署信息" />
     <v-card-text class="pa-2">
       <v-row>
         <v-col cols="12">
           <v-autocomplete
+            v-model="obj.server.protocol"
+            hide-no-data
+            hide-selected
+            :items="protocolItems"
+            label="协议"
+            :menu-props="{
+              bottom: true,
+              left: true,
+              origin: `top center`,
+            }"
+            :rules="objRules.protocolRules"
+          >
+            <template #selection="{ item }">
+              <v-chip class="my-1" color="primary" small text-color="white">
+                {{ item.text }}
+              </v-chip>
+            </template>
+          </v-autocomplete>
+
+          <v-autocomplete
+            v-model="obj.server.kind"
+            hide-no-data
+            hide-selected
+            :items="implementationItems"
+            label="运行时"
+            :menu-props="{
+              bottom: true,
+              left: true,
+              origin: `top center`,
+            }"
+            :rules="objRules.implementationRules"
+          >
+            <template #selection="{ item }">
+              <v-chip class="my-1" color="primary" small text-color="white">
+                {{ item.text }}
+              </v-chip>
+            </template>
+          </v-autocomplete>
+
+          <v-autocomplete
+            v-if="obj.server.kind === 'UNKNOWN_IMPLEMENTATION'"
             v-model="obj.server.image"
             hide-no-data
             hide-selected
@@ -38,13 +91,16 @@
               </v-chip>
             </template>
           </v-autocomplete>
+        </v-col>
+      </v-row>
+    </v-card-text>
 
-          <v-switch v-model="advanced" class="ml-1" label="高级配置" />
-
-          <template v-if="advanced">
-            <v-text-field v-model="obj.host" label="访问域名" />
-
-            <v-text-field v-model="obj.mountPath" label="挂载路径" />
+    <template v-if="obj.server.kind === 'UNKNOWN_IMPLEMENTATION'">
+      <BaseSubTitle class="mt-3" color="grey lighten-3" :divider="false" title="自定义配置" />
+      <v-card-text class="pa-2">
+        <v-row>
+          <v-col cols="12">
+            <v-text-field v-model="obj.server.mountPath" label="挂载路径" />
 
             <Command v-model="obj.server.command" />
 
@@ -53,7 +109,36 @@
             <Env v-model="obj.server.env" />
 
             <Port v-model="obj.server.ports" />
-          </template>
+          </v-col>
+        </v-row>
+      </v-card-text>
+    </template>
+
+    <BaseSubTitle class="mt-3" color="grey lighten-3" :divider="false" title="访问信息" />
+    <v-card-text class="pa-2">
+      <v-row>
+        <v-col cols="12">
+          <v-text-field v-model="obj.ingress.host" label="访问域名" />
+
+          <v-autocomplete
+            v-model="obj.ingress.className"
+            hide-no-data
+            hide-selected
+            :items="gatewayItems"
+            label="网关"
+            :menu-props="{
+              bottom: true,
+              left: true,
+              origin: `top center`,
+            }"
+            :rules="objRules.gatewayRules"
+          >
+            <template #selection="{ item }">
+              <v-chip class="my-1" color="primary" small text-color="white">
+                {{ item.text }}
+              </v-chip>
+            </template>
+          </v-autocomplete>
         </v-col>
       </v-row>
     </v-card-text>
@@ -63,13 +148,15 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex';
+
   import Args from './Args';
   import Command from './Command';
   import Env from './Env';
   import Port from './Port';
   import ResourceConf from './ResourceConf';
-  import { getModelSourceDetail } from '@/api';
-  // import { required } from '@/utils/rules';
+  import { getModelSourceDetail, getGatewayOriginList } from '@/api';
+  import { required } from '@/utils/rules';
 
   export default {
     name: 'DeployAdvancedConf',
@@ -97,8 +184,22 @@
     data: function () {
       return {
         valid: false,
-        advanced: false,
         imageItems: [],
+        protocolItems: [
+          { text: 'seldon', value: 'seldon' },
+          { text: 'tensorflow', value: 'tensorflow' },
+          { text: 'v2', value: 'v2' },
+        ],
+        implementationItems: [
+          { text: 'huggingface server', value: 'HUGGINGFACE_SERVER' },
+          { text: 'tensorflow server', value: 'TENSORFLOW_SERVER' },
+          { text: 'sklearn server', value: 'SKLEARN_SERVER' },
+          { text: 'triton server', value: 'TRITON_SERVER' },
+          { text: 'mlflow server', value: 'MLFLOW_SERVER' },
+          { text: 'xgboost server', value: 'XGBOOST_SERVER' },
+          { text: '自定义', value: 'UNKNOWN_IMPLEMENTATION' },
+        ],
+        gatewayItems: [],
         obj: {
           model: {
             name: '',
@@ -112,6 +213,7 @@
             env: [],
             image: '',
             ports: [],
+            mountPath: '',
           },
           resources: {
             limits: {
@@ -120,17 +222,36 @@
             },
           },
           replicas: 1,
+          ingress: {
+            className: '',
+            host: '',
+          },
         },
         objRules: {
           imageRules: [],
+          protocolRules: [required],
+          implementationRules: [required],
+          gatewayRules: [required],
         },
       };
+    },
+    computed: {
+      ...mapGetters(['Tenant']),
     },
     watch: {
       item: {
         handler(newValue) {
           if (newValue) {
             this.modelSourceDetail();
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
+      base: {
+        handler(newValue) {
+          if (newValue && newValue.cluster) {
+            this.gatewayList();
           }
         },
         deep: true,
@@ -144,12 +265,22 @@
           return { text: i, value: i };
         });
       },
+      async gatewayList() {
+        const data = await getGatewayOriginList(this.base.cluster, { size: 1000 });
+        this.gatewayItems = data.List.map((d) => {
+          if (d.spec.tenant === this.Tenant().TenantName) {
+            return { text: d.metadata.name, value: d.metadata.name };
+          }
+        });
+      },
       validate() {
         return this.$refs.form.validate(true) && this.$refs.resourceConf.validate();
       },
       getData() {
         const data = this.$refs.resourceConf.getData();
-        return { ...this.obj, ...data };
+        this.obj.server.resources = data.server.resources;
+        this.obj.replicas = data.replicas;
+        return this.obj;
       },
       reset() {
         this.$refs.form.resetValidation() && this.$refs.resourceConf.reset();
@@ -157,3 +288,11 @@
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .deploy {
+    &__tip {
+      line-height: 32px;
+    }
+  }
+</style>

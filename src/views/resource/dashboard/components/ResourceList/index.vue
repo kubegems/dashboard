@@ -14,9 +14,10 @@
  * limitations under the License. 
 -->
 
+<i18n src="../../i18n/locales.json" />
 <template>
   <v-card class="my-3" flat>
-    <BaseSubTitle class="pt-2" :divider="false" title="集群" />
+    <BaseSubTitle class="pt-2" :divider="false" :title="$root.$t('resource.cluster')" />
     <v-data-table
       class="px-4"
       disable-sort
@@ -24,7 +25,7 @@
       hide-default-footer
       :items="items"
       :items-per-page="params.size"
-      no-data-text="暂无数据"
+      :no-data-text="$root.$t('data.no_data')"
       :page.sync="params.page"
     >
       <template #[`item.clusterName`]="{ item }">
@@ -40,7 +41,7 @@
         <template v-if="item.TenantResourceQuotaApply && item.TenantResourceQuotaApply.Status === 'pending'">
           <v-flex class="float-left ml-2 resource__tr">
             <v-icon color="warning" right small> mdi-alert-circle </v-icon>
-            <span class="warning--text text-caption font-weight-medium"> 资源申请中 </span>
+            <span class="warning--text text-caption font-weight-medium"> {{ $t('resource.table.applying') }} </span>
           </v-flex>
         </template>
         <div class="kubegems__clear-float" />
@@ -89,7 +90,9 @@
       </template>
       <template #[`item.action`]="{ item }">
         <span class="pa-2">
-          <v-btn color="primary" small text @click="scaleResource(item)"> 申请资源 </v-btn>
+          <v-btn color="primary" small text @click="scaleResource(item)">
+            {{ $root.$t('operate.apply', [$root.$t('resource.resource')]) }}
+          </v-btn>
         </span>
       </template>
     </v-data-table>
@@ -138,24 +141,28 @@
       ...mapGetters(['Tenant']),
       headers() {
         const items = [
-          { text: '集群', value: 'clusterName', align: 'start' },
-          { text: '总CPU', value: 'cpu', align: 'start' },
-          { text: '总内存', value: 'memory', align: 'start' },
-          { text: '总存储', value: 'storage', align: 'start' },
+          { text: this.$root.$t('resource.cluster'), value: 'clusterName', align: 'start' },
+          { text: this.$t('resource.table.all', [this.$root.$t('resource.cpu')]), value: 'cpu', align: 'start' },
+          { text: this.$t('resource.table.all', [this.$root.$t('resource.memory')]), value: 'memory', align: 'start' },
           {
-            text: '已分配CPU',
+            text: this.$t('resource.table.all', [this.$root.$t('resource.storage')]),
+            value: 'storage',
+            align: 'start',
+          },
+          {
+            text: this.$t('resource.table.allocated', [this.$root.$t('resource.cpu')]),
             value: 'allocatedCpu',
             align: 'start',
             width: 150,
           },
           {
-            text: '已分配内存',
+            text: this.$t('resource.table.allocated', [this.$root.$t('resource.memory')]),
             value: 'allocatedMemory',
             align: 'start',
             width: 150,
           },
           {
-            text: '已分配存储',
+            text: this.$t('resource.table.allocated', [this.$root.$t('resource.storage')]),
             value: 'allocatedStorage',
             align: 'start',
             width: 150,
@@ -163,7 +170,7 @@
         ];
         if (this.m_permisson_tenantAllow) {
           items.push({
-            text: '操作',
+            text: this.$root.$t('operate.operate'),
             value: 'action',
             align: 'center',
             width: 100,

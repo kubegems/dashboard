@@ -75,6 +75,8 @@
         handler(newValue) {
           if (newValue) {
             this.$store.commit('SET_PROGRESS', true);
+          } else {
+            this.$store.commit('SET_PROGRESS', false);
           }
         },
         deep: true,
@@ -82,9 +84,6 @@
     },
     destroyed() {
       if (this.timeinterval) clearInterval(this.timeinterval);
-    },
-    mounted() {
-      this.$store.commit('SET_PROGRESS', true);
     },
     methods: {
       loadDataComplete() {

@@ -56,7 +56,7 @@
       breadcrumb() {
         return {
           title: this.$route.meta.title,
-          tip: this.$TIP[this.$route.meta.tip],
+          tip: this.$t(`breadcrumb.${this.$route.meta.tip}`),
           icon: this.$route.meta.icon,
         };
       },
@@ -87,6 +87,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      width: 1000px;
 
       @media (max-width: 1000px) {
         width: 600px;
