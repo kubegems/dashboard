@@ -14,6 +14,7 @@
  * limitations under the License. 
 -->
 
+<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <BaseBreadcrumb>
@@ -32,7 +33,7 @@
             />
             <v-btn class="primary--text" small text @click="refresh">
               <v-icon left small> mdi-refresh </v-icon>
-              刷新
+              {{ $root.$t('operate.refresh') }}
             </v-btn>
           </v-sheet>
         </v-flex>
@@ -40,7 +41,11 @@
     </BaseBreadcrumb>
     <v-card flat>
       <v-card-title class="py-4">
-        <BaseFilter :default="{ items: [], text: '消息', value: 'message' }" :filters="filters" @refresh="filterList" />
+        <BaseFilter
+          :default="{ items: [], text: $t('filter.message'), value: 'message' }"
+          :filters="filters"
+          @refresh="filterList"
+        />
       </v-card-title>
       <template v-if="pluginPass.length === 0">
         <v-data-table
@@ -51,7 +56,7 @@
           item-key="index"
           :items="items"
           :items-per-page="itemsPerPage"
-          no-data-text="暂无数据"
+          :no-data-text="$root.$t('data.no_data')"
           :page.sync="page"
           show-expand
           single-expand
@@ -130,10 +135,10 @@
             <div class="d-flex align-center pa-10">
               <div class="text-center">
                 <h2 class="text-h5 primary--text font-weight-medium">
-                  该集群暂时还未启用 {{ pluginPass.join(', ') }} 插件！
+                  {{ $root.$t('plugins.missing', [pluginPass.join(', ')]) }}
                 </h2>
                 <h6 class="text-subtitle-1 mt-4 primary--text op-5 font-weight-regular">
-                  您可以联系平台管理员启用该插件
+                  {{ $root.$t('plugin.no_permission') }}
                 </h6>
               </div>
             </div>
@@ -158,19 +163,6 @@
     mixins: [BaseFilter, BaseSelect],
     data: () => ({
       items: [],
-      headers: [
-        { text: '来源组件', value: 'component', align: 'start', width: 150 },
-        { text: '来源主机', value: 'host', align: 'start', width: 250 },
-        { text: '服务', value: 'name', align: 'start', width: 200 },
-        { text: '命名空间', value: 'namespace', align: 'start', width: 150 },
-        { text: '类型', value: 'type', align: 'start', width: 150 },
-        { text: 'Reason', value: 'reason', align: 'start', width: 100 },
-        { text: '消息', value: 'message', align: 'start', width: 200 },
-        { text: '次数', value: 'count', align: 'start', width: 50 },
-        { text: '首次发生时间', value: 'firstAt', align: 'start', width: 150 },
-        { text: '最近发生时间', value: 'lastAt', align: 'start', width: 150 },
-        { text: '', value: 'data-table-expand' },
-      ],
       dataLength: 0,
       date: [],
       params: {
@@ -182,83 +174,100 @@
       page: 1,
       itemsPerPage: 10,
       pageCount: 0,
-      filters: [
-        { text: '集群', value: 'clustername', items: [] },
-        { text: '消息', value: 'message', items: [] },
-        {
-          text: 'Reason',
-          value: 'reason',
-          items: [
-            { text: 'Evicted', value: 'Evicted', parent: 'reason' },
-            { text: 'Scheduled', value: 'Scheduled', parent: 'reason' },
-            {
-              text: 'SuccessfulCreate',
-              value: 'SuccessfulCreate',
-              parent: 'reason',
-            },
-            {
-              text: 'SuccessfulDelete',
-              value: 'SuccessfulDelete',
-              parent: 'reason',
-            },
-            {
-              text: 'FailedDaemonPod',
-              value: 'FailedDaemonPod',
-              parent: 'reason',
-            },
-            {
-              text: 'ImageGCFailed',
-              value: 'ImageGCFailed',
-              parent: 'reason',
-            },
-            {
-              text: 'FreeDiskSpaceFailed',
-              value: 'FreeDiskSpaceFailed',
-              parent: 'reason',
-            },
-            {
-              text: 'NodeHasNoDiskPressure',
-              value: 'NodeHasNoDiskPressure',
-              parent: 'reason',
-            },
-            {
-              text: 'Started',
-              value: 'Started',
-              parent: 'reason',
-            },
-            {
-              text: 'Unhealthy',
-              value: 'Unhealthy',
-              parent: 'reason',
-            },
-            {
-              text: 'FailedGetResourceMetric',
-              value: 'FailedGetResourceMetric',
-              parent: 'reason',
-            },
-            {
-              text: 'FailedComputeMetricsReplicas',
-              value: 'FailedComputeMetricsReplicas',
-              parent: 'reason',
-            },
-            {
-              text: 'Killing',
-              value: 'Killing',
-              parent: 'reason',
-            },
-            {
-              text: 'FailedCreate',
-              value: 'FailedCreate',
-              parent: 'reason',
-            },
-          ],
-        },
-      ],
       pluginPass: [],
     }),
     computed: {
       ...mapState(['JWT', 'Admin', 'Scale', 'AdminViewport']),
       ...mapGetters(['Cluster', 'Tenant']),
+      headers() {
+        return [
+          { text: this.$t('table.component'), value: 'component', align: 'start', width: 150 },
+          { text: this.$t('table.host'), value: 'host', align: 'start', width: 250 },
+          { text: this.$t('table.service'), value: 'name', align: 'start', width: 200 },
+          { text: this.$t('table.namespace'), value: 'namespace', align: 'start', width: 150 },
+          { text: this.$t('table.type'), value: 'type', align: 'start', width: 150 },
+          { text: 'Reason', value: 'reason', align: 'start', width: 100 },
+          { text: this.$t('table.message'), value: 'message', align: 'start', width: 200 },
+          { text: this.$t('table.count'), value: 'count', align: 'start', width: 50 },
+          { text: this.$t('table.first_at'), value: 'firstAt', align: 'start', width: 150 },
+          { text: this.$t('table.last_at'), value: 'lastAt', align: 'start', width: 150 },
+          { text: '', value: 'data-table-expand' },
+        ];
+      },
+      filters() {
+        return [
+          { text: this.$t('filter.cluster'), value: 'clustername', items: [] },
+          { text: this.$t('filter.message'), value: 'message', items: [] },
+          {
+            text: 'Reason',
+            value: 'reason',
+            items: [
+              { text: 'Evicted', value: 'Evicted', parent: 'reason' },
+              { text: 'Scheduled', value: 'Scheduled', parent: 'reason' },
+              {
+                text: 'SuccessfulCreate',
+                value: 'SuccessfulCreate',
+                parent: 'reason',
+              },
+              {
+                text: 'SuccessfulDelete',
+                value: 'SuccessfulDelete',
+                parent: 'reason',
+              },
+              {
+                text: 'FailedDaemonPod',
+                value: 'FailedDaemonPod',
+                parent: 'reason',
+              },
+              {
+                text: 'ImageGCFailed',
+                value: 'ImageGCFailed',
+                parent: 'reason',
+              },
+              {
+                text: 'FreeDiskSpaceFailed',
+                value: 'FreeDiskSpaceFailed',
+                parent: 'reason',
+              },
+              {
+                text: 'NodeHasNoDiskPressure',
+                value: 'NodeHasNoDiskPressure',
+                parent: 'reason',
+              },
+              {
+                text: 'Started',
+                value: 'Started',
+                parent: 'reason',
+              },
+              {
+                text: 'Unhealthy',
+                value: 'Unhealthy',
+                parent: 'reason',
+              },
+              {
+                text: 'FailedGetResourceMetric',
+                value: 'FailedGetResourceMetric',
+                parent: 'reason',
+              },
+              {
+                text: 'FailedComputeMetricsReplicas',
+                value: 'FailedComputeMetricsReplicas',
+                parent: 'reason',
+              },
+              {
+                text: 'Killing',
+                value: 'Killing',
+                parent: 'reason',
+              },
+              {
+                text: 'FailedCreate',
+                value: 'FailedCreate',
+                parent: 'reason',
+              },
+            ],
+          },
+        ];
+      },
     },
     async mounted() {
       this.$nextTick(async () => {

@@ -30,7 +30,7 @@
           </span>
           <v-btn v-if="m_permisson_projectAllow" class="primary--text" small text @click="addEnvironment">
             <v-icon left small> mdi-plus-box </v-icon>
-            {{ $root.$t('operate.create', [$root.$t('resource.environment')]) }}
+            {{ $root.$t('operate.create_c', [$root.$t('resource.environment')]) }}
           </v-btn>
           <v-btn v-if="m_permisson_projectAllow" class="primary--text" small text @click="manageUser">
             <v-icon left small> mdi-account-settings </v-icon>

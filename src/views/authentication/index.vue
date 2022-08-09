@@ -14,6 +14,7 @@
  * limitations under the License. 
 -->
 
+<i18n src="./i18n/locales.json" />
 <template>
   <div
     :class="`page clear-zoom-${Scale.toString().replaceAll('.', '-')} ${SelfOut || vertical ? '' : 'page__ani'}`"
@@ -48,7 +49,7 @@
           :class="{ 'mt-4': true, 'white--text': true, login__second__desc: true, login__second__desc__ani: !SelfOut }"
           :style="{ opacity: `${SelfOut ? 1 : 0}` }"
         >
-          {{ $DESCRIPTION }}
+          {{ $root.$t('metadata.description') }}
         </div>
       </div>
     </div>
@@ -62,9 +63,9 @@
           <v-row>
             <v-col class="login" cols="12" lg="9" xl="6">
               <h2 class="font-weight-bold mt-4 blue-grey--text text--darken-2">
-                用户登录
+                {{ $t('tip.login') }}
                 <v-btn v-if="ldap" class="float-right mt-1" color="primary" small text @click="toDefaultLogin">
-                  返回
+                  {{ $root.$t('operate.return') }}
                 </v-btn>
                 <div class="kubegems__clear-float" />
               </h2>
@@ -72,7 +73,7 @@
                 <v-text-field
                   v-model="username"
                   class="mt-4"
-                  label="用户名"
+                  :label="$t('username')"
                   outlined
                   required
                   :rules="usernameRules"
@@ -82,7 +83,7 @@
                   v-model="password"
                   :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                   :counter="20"
-                  label="密码"
+                  :label="$t('password')"
                   outlined
                   required
                   :rules="passwordRules"
@@ -104,7 +105,7 @@
                 </v-btn>
               </v-form>
               <div v-if="enableOauthItems && enableOauthItems.length > 0 && !ldap" class="mt-5">
-                <div class="login__divide">其他登录方式</div>
+                <div class="login__divide"> {{ $t('tip.other') }}</div>
                 <div class="mt-4 text-center">
                   <v-avatar
                     v-for="(item, index) in enableOauthItems"
@@ -152,7 +153,6 @@
       valid: true,
       password: '',
       show: false,
-      passwordRules: [required, (v) => (v && v.length <= 20) || '多于20位'],
       username: '',
       usernameRules: [required],
       oauthItems: [],
@@ -163,6 +163,9 @@
     computed: {
       ...mapState(['JWT', 'Circular', 'Admin', 'AdminViewport', 'Scale', 'SelfOut']),
       ...mapGetters(['Environment', 'Project', 'Tenant', 'Cluster']),
+      passwordRules() {
+        return [required, (v) => (v && v.length <= 20) || this.$t('form.passwordRule')];
+      },
       height() {
         return window.innerHeight;
       },
@@ -199,7 +202,7 @@
           this.$store.commit('SET_VERSION', process.env.VUE_APP_RELEASE);
           await this.loadData();
           this.$store.commit('SET_SNACKBAR', {
-            text: '登录成功',
+            text: this.$t('status.success'),
             color: 'success',
           });
           this.redirect();
@@ -240,7 +243,7 @@
       async init() {
         if (this.JWT != null && validateJWT(this.JWT)) {
           this.$store.commit('SET_SNACKBAR', {
-            text: `已登录`,
+            text: this.$t('status.logined'),
             color: 'success',
           });
           await this.loadData();

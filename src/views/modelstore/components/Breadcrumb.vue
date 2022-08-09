@@ -140,7 +140,7 @@
         }, 1000 * 10);
       },
       async registryStatus() {
-        const data = await getModelSourceDetail(this.$route.query.registry, { noprocessing: true });
+        const data = await getModelSourceDetail(this.$route.query.registry, { noprocessing: true, count: true });
         this.status = data.syncStatus;
         this.$emit('updateModelCount', data.modelsCount || 0);
       },

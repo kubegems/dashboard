@@ -1,49 +1,51 @@
 {
   "zh-Hans": {
-    "tab_ai_model": "算法模型",
+    "tab": {
+      "ai_model": "算法模型"
+    },
 
     "table": {
-      "header": {
-        "name": "名称",
-        "version": "版本",
-        "framework": "框架",
-        "task": "类型",
-        "tag": "标签",
-        "last_modified": "上次更新",
-        "recommend": "推荐值",
-        "published": "上架状态"
-      },
-
-      "row": {
-        "online": "上架",
-        "offline": "下架"
-      },
-
+      "name": "名称",
+      "version": "版本",
+      "framework": "框架",
+      "task": "类型",
+      "tag": "标签",
+      "last_modified": "上次更新",
+      "recommend": "推荐值",
+      "published": "上架状态"
+    },
+    "operate": {
+      "recommend_content": "推荐内容",
+      "online": "上架",
+      "offline": "下架"
+    },
+    "filter": {
       "search": "模型名称",
       "framework": "框架",
       "task": "类型"
     }
   },
   "en": {
-    "tab_ai_model": "AI Model",
+    "tab": {
+      "ai_model": "AI Model"
+    },
 
     "table": {
-      "header": {
-        "name": "Name",
-        "version": "Version",
-        "framework": "Framework",
-        "task": "Task",
-        "tag": "Tag",
-        "last_modified": "Last Modified",
-        "recommend": "Recommend Val",
-        "published": "Online Status"
-      },
-
-      "row": {
-        "online": "Online",
-        "offline": "Offline"
-      },
-
+      "name": "Name",
+      "version": "Version",
+      "framework": "Framework",
+      "task": "Task",
+      "tag": "Tag",
+      "last_modified": "Last Modified",
+      "recommend": "Recommend Val",
+      "published": "Online Status"
+    },
+    "operate": {
+      "recommend_content": "Recommend Content",
+      "online": "Online",
+      "offline": "Offline"
+    },
+    "filter": {
       "search": "Model Name",
       "framework": "Framework",
       "task": "Task"

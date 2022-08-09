@@ -14,6 +14,7 @@
  * limitations under the License. 
 -->
 
+<i18n src="./i18n/locales.json" />
 <template>
   <div />
 </template>
@@ -31,7 +32,7 @@
         this.$router.push({ name: 'login', query: { token: data.token } });
       } else {
         this.$store.commit('SET_SNACKBAR', {
-          text: '认证失败，请登录后访问',
+          text: this.$t('status.failed'),
           color: 'warning',
         });
       }

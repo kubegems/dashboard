@@ -18,7 +18,7 @@
   <v-card>
     <v-card-title>
       <BaseFilter
-        :default="{ items: [], text: `${$t('table.search')}`, value: 'search' }"
+        :default="{ items: [], text: `${$t('filter.search')}`, value: 'search' }"
         :filters="filters"
         @refresh="m_filter_list"
       />
@@ -34,13 +34,13 @@
             <v-flex>
               <v-btn color="primary" text @click="toggleOnlineModels(true)">
                 <v-icon left>mdi-arrow-up-bold</v-icon>
-                {{ $t('table.row.online') }}
+                {{ $t('operate.online') }}
               </v-btn>
             </v-flex>
             <v-flex>
               <v-btn color="error" text @click="toggleOnlineModels(false)">
                 <v-icon left>mdi-arrow-down-bold</v-icon>
-                {{ $t('table.row.offline') }}
+                {{ $t('operate.offline') }}
               </v-btn>
             </v-flex>
           </v-card-text>
@@ -91,11 +91,11 @@
         <template #[`item.enabled`]="{ item }">
           <template v-if="item.enabled">
             <v-icon color="success" small>mdi-check-circle</v-icon>
-            {{ $t('table.row.online') }}
+            {{ $t('operate.online') }}
           </template>
           <template v-else>
             <v-icon color="error" small>mdi-close-circle</v-icon>
-            {{ $t('table.row.offline') }}
+            {{ $t('operate.offline') }}
           </template>
         </template>
         <template #[`item.tags`]="{ item }">
@@ -116,7 +116,12 @@
               <v-card-text class="pa-2">
                 <v-flex>
                   <v-btn color="primary" small text @click="togglePublishModel(item)">
-                    {{ item.enabled ? $t('table.row.offline') : $t('table.row.online') }}
+                    {{ item.enabled ? $t('operate.offline') : $t('operate.online') }}
+                  </v-btn>
+                </v-flex>
+                <v-flex>
+                  <v-btn color="primary" small text @click="recommendContentModel(item)">
+                    {{ $t('operate.recommend_content') }}
                   </v-btn>
                 </v-flex>
                 <v-flex>
@@ -139,6 +144,7 @@
       />
 
       <Recommend ref="recommend" @refresh="modelList" />
+      <RecommendContent ref="recommendContent" @refresh="modelList" />
       <TagModel ref="tagModel" @refresh="modelList" />
     </v-card-text>
   </v-card>
@@ -148,6 +154,7 @@
   import { Base64 } from 'js-base64';
 
   import Recommend from './Recommend';
+  import RecommendContent from './RecommendContent';
   import TagModel from './TagModel';
   import {
     deleteAdminModelStoreModel,
@@ -163,6 +170,7 @@
     name: 'ModelList',
     components: {
       Recommend,
+      RecommendContent,
       TagModel,
     },
     mixins: [BaseFilter, BaseTable],
@@ -186,21 +194,21 @@
     computed: {
       headers() {
         const items = [
-          { text: this.$t('table.header.name'), value: 'name', align: 'start' },
-          { text: this.$t('table.header.version'), value: 'versions', align: 'start' },
-          { text: this.$t('table.header.framework'), value: 'framework', align: 'start' },
-          { text: this.$t('table.header.task'), value: 'task', align: 'start' },
-          { text: this.$t('table.header.tag'), value: 'tags', align: 'start' },
-          { text: this.$t('table.header.last_modified'), value: 'lastModified', align: 'start' },
-          { text: this.$t('table.header.recommend'), value: 'recomment', align: 'start', width: 120 },
-          { text: this.$t('table.header.published'), value: 'enabled', align: 'start', width: 90 },
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
+          { text: this.$t('table.version'), value: 'versions', align: 'start' },
+          { text: this.$t('table.framework'), value: 'framework', align: 'start' },
+          { text: this.$t('table.task'), value: 'task', align: 'start' },
+          { text: this.$t('table.tag'), value: 'tags', align: 'start' },
+          { text: this.$t('table.last_modified'), value: 'lastModified', align: 'start' },
+          { text: this.$t('table.recommend'), value: 'recomment', align: 'start', width: 120 },
+          { text: this.$t('table.published'), value: 'enabled', align: 'start', width: 90 },
           { text: '', value: 'action', align: 'center', width: 20, sortable: false },
         ];
 
         return items;
       },
       filters() {
-        return [{ text: this.$t('table.search'), value: 'search', items: [] }].concat(this.conditions);
+        return [{ text: this.$t('filter.search'), value: 'search', items: [] }].concat(this.conditions);
       },
     },
     watch: {
@@ -244,7 +252,7 @@
         this.conditions = [];
         const data = await getAdminModelStoreFilterCondition(this.$route.params.name);
         this.conditions.push({
-          text: this.$t('table.framework'),
+          text: this.$t('filter.framework'),
           value: 'framework',
           items: data.frameworks.map((d) => {
             return { text: d, value: d, parent: 'framework' };
@@ -260,7 +268,7 @@
         });
 
         this.conditions.push({
-          text: this.$t('table.task'),
+          text: this.$t('filter.task'),
           value: 'task',
           items: data.tasks.map((d) => {
             return { text: d, value: d, parent: 'task' };
@@ -288,15 +296,19 @@
         this.$refs.recommend.init(item);
         this.$refs.recommend.open();
       },
+      recommendContentModel(item) {
+        this.$refs.recommendContent.init(item);
+        this.$refs.recommendContent.open();
+      },
       tagModel(item) {
         this.$refs.tagModel.init(item);
         this.$refs.tagModel.open();
       },
       removeModel(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `${this.$root.$t('operate.delete')} ${this.$t('tab_ai_model')}`,
+          title: `${this.$root.$t('operate.delete')} ${this.$t('tab.ai_model')}`,
           content: {
-            text: `${this.$root.$t('operate.delete')} ${this.$t('tab_ai_model')} ${item.name}`,
+            text: `${this.$root.$t('operate.delete')} ${this.$t('tab.ai_model')} ${item.name}`,
             type: 'delete',
             name: item.name,
           },
@@ -310,12 +322,12 @@
       togglePublishModel(item) {
         this.$store.commit('SET_CONFIRM', {
           title: item.enabled
-            ? `${this.$t('table.row.offline')} ${this.$t('tab_ai_model')}`
-            : `${this.$t('table.row.online')} ${this.$t('tab_ai_model')}`,
+            ? `${this.$t('operate.offline')} ${this.$t('tab.ai_model')}`
+            : `${this.$t('operate.online')} ${this.$t('tab.ai_model')}`,
           content: {
             text: item.enabled
-              ? `${this.$t('table.row.offline')} ${this.$t('tab_ai_model')} ${item.name}`
-              : `${this.$t('table.row.online')} ${this.$t('tab_ai_model')} ${item.name}`,
+              ? `${this.$t('operate.offline')} ${this.$t('tab.ai_model')} ${item.name}`
+              : `${this.$t('operate.online')} ${this.$t('tab.ai_model')} ${item.name}`,
             type: 'confirm',
           },
           param: { item },
@@ -340,14 +352,14 @@
           .map((c) => c.name);
         this.$store.commit('SET_CONFIRM', {
           title: online
-            ? `${this.$root.$t('operate.batch')} ${this.$t('table.row.online')} ${this.$t('tab_ai_model')}`
-            : `${this.$root.$t('operate.batch')} ${this.$t('table.row.offline')} ${this.$t('tab_ai_model')}`,
+            ? `${this.$root.$t('operate.batch')} ${this.$t('operate.online')} ${this.$t('tab.ai_model')}`
+            : `${this.$root.$t('operate.batch')} ${this.$t('operate.offline')} ${this.$t('tab.ai_model')}`,
           content: {
             text: `${resources.join(',')}`,
             type: 'batch_delete',
             one: resources.length === 1 ? resources[0] : undefined,
             status: {},
-            tip: online ? `${this.$t('table.row.online')}` : `${this.$t('table.row.offline')}`,
+            tip: online ? `${this.$t('operate.online')}` : `${this.$t('operate.offline')}`,
           },
           param: { online },
           doFunc: async (param) => {

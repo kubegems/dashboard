@@ -18,7 +18,7 @@
   <BaseDialog
     v-model="dialog"
     icon="mdi-cube-outline"
-    :title="$t('operate.update', [$t('resource.project')])"
+    :title="$t('operate.update_c', [$t('resource.project')])"
     :width="1000"
     @reset="reset"
   >

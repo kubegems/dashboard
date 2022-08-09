@@ -14,13 +14,20 @@
  * limitations under the License. 
 -->
 
+<i18n src="../i18n/locales.json" />
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-account-multiple" title="选择租户" :width="600" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-account-multiple"
+    :title="$root.$t('resource.tenant')"
+    :width="600"
+    @reset="reset"
+  >
     <template #content>
       <v-flex class="grey lighten-4 rounded ma-2 mt-0">
         <v-list-item>
           <v-list-item-content class="kubegems__label-class-padding kubegems__break-all">
-            当前租户：{{ Tenant().TenantName }}
+            {{ $t('tip.tenant') }} : {{ Tenant().TenantName }}
           </v-list-item-content>
         </v-list-item>
       </v-flex>
@@ -35,24 +42,24 @@
           item-key="value"
           :items="m_select_tenantItems"
           :items-per-page="params.size"
-          no-data-text="暂无数据"
-          no-results-text="暂无匹配租户"
+          :no-data-text="$root.$t('data.no_data')"
+          :no-results-text="$root.$t('data.no_data')"
           :page.sync="params.page"
           :search.sync="search"
         >
           <template #[`item.isActive`]="{ item }">
             <span v-if="item.isActive">
               <v-icon color="primary" small> mdi-check-circle </v-icon>
-              启用
+              {{ $t('status.enabled') }}
             </span>
             <span v-else>
               <v-icon color="error" small> mdi-minus-circle </v-icon>
-              禁用
+              {{ $t('status.disabled') }}
             </span>
           </template>
           <template #[`item.action`]="{ item }">
             <v-btn v-if="!item.disabled && item.isActive" color="primary" small text @click="setTenant(item)">
-              进入空间
+              {{ $root.$t('operate.enter', [$root.$t('resource.space')]) }}
             </v-btn>
           </template>
         </v-data-table>
@@ -72,12 +79,7 @@
     inject: ['reload'],
     data: () => ({
       dialog: false,
-      headers: [
-        { text: '租户', value: 'text', align: 'start' },
-        // { text: 'ID', value: 'value', align: 'start' },
-        { text: '状态', value: 'isActive', align: 'start' },
-        { text: '', value: 'action', align: 'end' },
-      ],
+
       search: '',
       params: {
         page: 1,
@@ -87,6 +89,14 @@
     computed: {
       ...mapState(['Circular']),
       ...mapGetters(['Tenant']),
+      headers() {
+        return [
+          { text: this.$t('table.tenant'), value: 'text', align: 'start' },
+          // { text: 'ID', value: 'value', align: 'start' },
+          { text: this.$t('table.status'), value: 'isActive', align: 'start' },
+          { text: '', value: 'action', align: 'end' },
+        ];
+      },
     },
     methods: {
       open() {

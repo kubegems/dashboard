@@ -324,11 +324,11 @@
       },
       async onNetworkPolicyChange(item, type) {
         this.$store.commit('SET_CONFIRM', {
-          title: this.$root.$t('operate.update', [
+          title: this.$root.$t('operate.update_c', [
             this.$root.$t('resource.project_c', [this.$t('environment.table.network_isolation')]),
           ]),
           content: {
-            text: `${this.$root.$t('operate.update', [
+            text: `${this.$root.$t('operate.update_c', [
               ` ${type === 'project' ? this.Project().ProjectName : item.Env.EnvironmentName}`,
             ])} ${this.$t('environment.table.network_isolation')} ${this.$t('tip.policy')}`,
             type: 'confirm',

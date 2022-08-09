@@ -270,8 +270,6 @@ const MODEL_FRAMEWORK = [
 ];
 
 // 定制化字段
-const DESCRIPTION =
-  'KubeGems 是一款开源的企业级多租户容器云平台。围绕云原生社区， KubeGems 提供了多 Kubernetes 集群接入能力，并具备丰富的组件管理和资源成本分析功能，能够帮助企业快速的构建和打造一个本地化、功能强大且低成本的云管理平台。';
 const PLATFORM = 'KubeGems';
 const MANUAL = 'https://www.kubegems.io/docs/concepts/what-is-kubegems';
 const LOGO_BLUE = '/logo-blue.svg';
@@ -304,7 +302,6 @@ export default {
     Vue.prototype.$VENDOR = VENDOR;
     Vue.prototype.$LINE_THEME_FUL_COLORS = LINE_THEME_FUL_COLORS;
     Vue.prototype.$MODEL_FRAMEWORK = MODEL_FRAMEWORK;
-    Vue.prototype.$DESCRIPTION = DESCRIPTION;
     Vue.prototype.$PLATFORM = PLATFORM;
     Vue.prototype.$MANUAL = MANUAL;
     Vue.prototype.$LOGO_BLUE = LOGO_BLUE;

@@ -26,6 +26,7 @@
               <v-list-item-content>
                 <v-list-item-title class="text-subtitle-1 mb-3 card__title">
                   <a @click="modelDetail(item)">{{ item.name }}</a>
+                  <v-icon v-if="item.recomment >= 80" color="error">mdi-fire</v-icon>
                 </v-list-item-title>
 
                 <v-list-item-subtitle class="text-body-2 text--lighten-4 card__desc">
@@ -179,8 +180,9 @@
       },
       async onScroll(e) {
         this.offsetTop = e.target.scrollTop;
-        if (e.target.scrollTop + document.getElementById('model__store').clientHeight >= e.target.scrollHeight) {
+        if (e.target.scrollTop + document.getElementById('model__store').clientHeight >= e.target.scrollHeight - 1) {
           this.params.page += 1;
+          if (this.pageCount < this.params.page) return;
           this.loading = true;
           await this.modelStoreList({}, true);
           this.loading = false;

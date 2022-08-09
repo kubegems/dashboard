@@ -14,14 +14,19 @@
  * limitations under the License. 
 -->
 
+<i18n src="../i18n/locales.json" />
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-scale" title="资源调整" :width="1000" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-scale" :title="$t('tip.resource_scale')" :width="1000" @reset="reset">
     <template #content>
       <ResourceBaseForm ref="resource" :cluster="cluster" edit :quota="quota" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="passLoading" text @click="approvePass"> 通过 </v-btn>
-      <v-btn class="float-right" color="error" :loading="cancelLoading" text @click="approveReject"> 拒绝 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="passLoading" text @click="approvePass">
+        {{ $t('operate.approve') }}
+      </v-btn>
+      <v-btn class="float-right" color="error" :loading="cancelLoading" text @click="approveReject">
+        {{ $t('operate.reject') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>
