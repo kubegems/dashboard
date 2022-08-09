@@ -211,6 +211,7 @@ export default new Store({
     },
     CLEARALL(state) {
       delAllCookie();
+      const locale = window.localStorage.getItem(Locale) || 'zh-Hans';
       window.localStorage.clear();
       state.JWT = null;
       state.User = {};
@@ -233,6 +234,8 @@ export default new Store({
       state.LatestCluster = { cluster: '' };
       state.ApiResources = {};
       state.SelfOut = true;
+      state.Locale = locale;
+      window.localStorage.setItem(Locale, locale);
     },
     CLEAR_PLUGINS_INTERVAL(state) {
       clearInterval(state.PluginsInterval);

@@ -10,6 +10,13 @@
     "failure": "失败"
   },
 
+  "plugin": {
+    "no_permission": "您可以联系平台管理员启用该插件",
+    "missing": "该集群暂时还未启用 {0} 插件！"
+  },
+
+  "datetimepicker": {},
+
   "role": {
     "system": {
       "normal": "普通用户",
@@ -38,20 +45,12 @@
     }
   },
 
-  "message": {
-    "message": "消息",
-    "approval": "审批",
-    "no_message": "暂无未读消息",
-    "no_approval": "暂无未处理审批",
-    "unread": "未读",
-    "clear": "清除未读"
-  },
-
   "resource": {
     "resource": "资源",
     "cpu": "CPU",
     "memory": "内存",
     "storage": "存储",
+    "space": "空间",
 
     "cluster": "集群",
     "app": "应用",
@@ -118,13 +117,21 @@
     "close": "关闭",
     "edit": "编辑",
     "operate": "操作",
-    "create": "创建{0}",
-    "update": "更新{0}",
+    "create": "创建",
+    "create_c": "创建{0}",
+    "update": "更新",
+    "update_c": "更新{0}",
     "enter": "进入{0}",
     "apply": "申请{0}",
     "delete_c": "删除{0}",
     "previous": "上一步",
-    "next": "下一步"
+    "next": "下一步",
+    "refresh": "刷新",
+    "shell": "执行命令",
+    "enable": "启用",
+    "disable": "禁用",
+    "login": "登录",
+    "return": "返回"
   },
   "form": {
     "definition": "{0}定义"
@@ -346,5 +353,11 @@
     "prometheus_rule": "告警规则 (PrometheusRule) 通常是针对监控指标设置的Prometheus告警规则。",
     "flow": "日志采集器 (Flow/ClusterFlow) 定义了一个带有过滤器和输出的日志流。",
     "output": "日志路由器 (Output/ClusterOutput) 定义您的流可以发送日志消息的输出。"
+  },
+  "metadata": {
+    "description": "KubeGems 是一款开源的企业级多租户容器云平台。围绕云原生社区， KubeGems 提供了多 Kubernetes 集群接入能力，并具备丰富的组件管理和资源成本分析功能，能够帮助企业快速的构建和打造一个本地化、功能强大且低成本的云管理平台。"
+  },
+  "tip": {
+    "version": "版本 {0} 已发布，请重新登录"
   }
 }

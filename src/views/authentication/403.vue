@@ -14,6 +14,7 @@
  * limitations under the License. 
 -->
 
+<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <v-card class="mt-8" flat height="400px">
@@ -22,13 +23,13 @@
           <div class="d-none d-sm-block">
             <div class="d-flex align-center pa-10">
               <div class="text-center">
-                <h2 class="text-h4 primary--text font-weight-medium"> 您暂时无权查看该资源！ </h2>
+                <h2 class="text-h4 primary--text font-weight-medium"> {{ $t('status.403') }} </h2>
                 <h6 class="text-subtitle-1 mt-4 primary--text op-5 font-weight-regular">
-                  您可以联系某个租户的管理员或系统管理员为您添加访问权限
+                  {{ $t('tip.permission') }}
                 </h6>
                 <v-btn color="info mt-4" @click="toDashboard">
                   <v-icon left> mdi-undo-variant </v-icon>
-                  回到首页
+                  {{ $root.$t('operate.return') }}
                 </v-btn>
               </div>
             </div>

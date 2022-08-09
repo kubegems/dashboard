@@ -16,13 +16,12 @@
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
     <div class="deploy__tip">
-      <div class="float-left mr-2">部署类型</div>
-      <div class="float-left mr-2">
-        <v-chip class="my-1" color="primary" small text-color="white"> ModelDeployment </v-chip>
-      </div>
-      <div class="float-left mr-2">Provider</div>
-      <div class="float-left mr-2">
+      <div class="float-right mr-2">
         <img alt="Seldon Core" class="mt-1" height="26px" src="/icon/seldon.svg" />
+      </div>
+      <div class="float-right mr-2">Provider By</div>
+      <div class="float-right mr-2">
+        <v-chip class="my-1" color="primary" label small text-color="white"> ModelDeployment </v-chip>
       </div>
       <div class="kubegems__clear-float" />
     </div>
@@ -199,7 +198,7 @@
           { text: 'triton server', value: 'TRITON_SERVER' },
           { text: 'mlflow server', value: 'MLFLOW_SERVER' },
           { text: 'xgboost server', value: 'XGBOOST_SERVER' },
-          { text: '自定义', value: 'UNKNOWN_IMPLEMENTATION' },
+          { text: 'custom server', value: 'UNKNOWN_IMPLEMENTATION' },
         ],
         gateway: '',
         gatewayItems: [],

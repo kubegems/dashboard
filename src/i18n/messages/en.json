@@ -10,6 +10,13 @@
     "failure": "Failure"
   },
 
+  "plugin": {
+    "no_permission": "You can contact the platform administrator to enable the plugins",
+    "missing": "The cluster has not yet enabled the {0} plugins!"
+  },
+
+  "datetimepicker": {},
+
   "role": {
     "system": {
       "normal": "Normal",
@@ -38,20 +45,12 @@
     }
   },
 
-  "message": {
-    "message": "Message",
-    "approval": "Approval",
-    "no_message": "No unread messages yet",
-    "no_approval": "No pending approvals yet",
-    "unread": "Unread",
-    "clear": "Clear"
-  },
-
   "resource": {
     "resource": "Resource",
     "cpu": "CPU",
     "memory": "Memory",
     "storage": "Storage",
+    "space": "Space",
 
     "cluster": "Cluster",
     "app": "Application",
@@ -118,13 +117,21 @@
     "close": "Close",
     "operate": "Operate",
     "edit": "Edit",
-    "create": "Create {0}",
-    "update": "Update {0}",
+    "create": "Create",
+    "create_c": "Create {0}",
+    "update": "Update",
+    "update_c": "Update {0}",
     "enter": "Enter {0}",
     "apply": "Apply {0}",
     "delete_c": "Delete {0}",
     "previous": "Previous",
-    "next": "Next"
+    "next": "Next",
+    "refresh": "Refresh",
+    "shell": "Shell",
+    "enable": "Enable",
+    "disable": "Disable",
+    "login": "Login",
+    "return": "Return"
   },
   "form": {
     "definition": "{0} Definition"
@@ -303,7 +310,7 @@
 
     "audit": "Audit queries for multi-dimensional operations such as project space, environment space, and resources.",
     "event": "Event is provided by the container cloud event driver, which represents the state history of resources in the cluster.",
-    "user_center": "用户中心(User Center)提供用户消息，审计，个人设置等。",
+    "user_center": "User Center provides user messages, auditing, personal settings, etc.",
 
     "dashboard": "The container service under the tenant provides a work platform with security isolation and access control. Here you can see an overview of the resources running in the current tenant.",
     "project": "Project is an abstract combination of a set of environments, applications, and image repositories.",
@@ -346,5 +353,12 @@
     "prometheus_rule": "PrometheusRule are usually Prometheus alert rules set for monitoring indicators.",
     "flow": "Flow/ClusterFlow defines a log flow with filters and outputs.",
     "output": "Output/ClusterOutput defines the output to which your flow can send log messages."
+  },
+
+  "metadata": {
+    "description": "KubeGems is an open source enterprise-grade multi-tenant container cloud platform. Focusing on the cloud native community, KubeGems provides multiple Kubernetes cluster access capabilities, and has rich component management and resource cost analysis functions, which can help enterprises quickly build and build a localized, powerful and low-cost cloud management platform."
+  },
+  "tip": {
+    "version": "Version {0} has been released, please login again"
   }
 }

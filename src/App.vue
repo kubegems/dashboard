@@ -50,7 +50,10 @@
       this.$nextTick(() => {
         const { set } = this.$meta().addApp('custom');
         set({
-          meta: [{ keyWords: `gitops,kubegems,kubernetes,Cloud Native` }, { description: this.$DESCRIPTION }],
+          meta: [
+            { keyWords: `gitops,kubegems,kubernetes,Cloud Native` },
+            { description: this.$t('metadata.description') },
+          ],
         });
       });
     },
@@ -80,7 +83,7 @@
           this.$store.commit('CLEARALL');
           await this.$router.push({ name: 'login' });
           this.$store.commit('SET_SNACKBAR', {
-            text: `版本 ${this.latestVersion} 已发布，请重新登录`,
+            text: this.$t('tip.version', [this.latestVersion]),
             color: 'warning',
           });
           this.$store.commit('SET_VERSION', this.latestVersion);

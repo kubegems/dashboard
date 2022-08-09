@@ -14,6 +14,7 @@
  * limitations under the License. 
 -->
 
+<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <v-card class="mt-8" flat height="400px">
@@ -22,13 +23,13 @@
           <div class="d-none d-sm-block">
             <div class="d-flex align-center pa-10">
               <div class="text-center">
-                <h2 class="text-h4 primary--text font-weight-medium"> 您访问的页面不存在！ </h2>
+                <h2 class="text-h4 primary--text font-weight-medium"> {{ $t('status.404') }} </h2>
                 <h6 class="text-subtitle-1 mt-4 primary--text op-5 font-weight-regular">
-                  您可以从右上角工作台进入首页访问
+                  {{ $t('tip.nav') }}
                 </h6>
                 <v-btn color="info mt-4" @click="toDashboard">
                   <v-icon left>mdi-undo-variant</v-icon>
-                  回到首页
+                  {{ $root.$t('operate.return') }}
                 </v-btn>
               </div>
             </div>

@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <div class="text-center primary--text progress__loading" :style="{ fontFamily: 'kubegems-sample' }" :value="loading">
+  <div class="text-center primary--text progress__loading" :style="{ fontFamily: 'kubegems-sample' }">
     <span
       v-for="(char, index) in processName"
       :key="index"
@@ -30,12 +30,6 @@
 <script>
   export default {
     name: 'BaseDropProgress',
-    prop: {
-      loading: {
-        type: Boolean,
-        default: () => true,
-      },
-    },
     data() {
       return {
         processName: this.$PLATFORM,

@@ -14,6 +14,7 @@
  * limitations under the License. 
 -->
 
+<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <BaseBreadcrumb>
@@ -33,7 +34,7 @@
             />
             <v-btn class="primary--text" small text @click="refresh">
               <v-icon left small> mdi-refresh </v-icon>
-              刷新
+              {{ $root.$t('operate.refresh') }}
             </v-btn>
           </v-sheet>
         </v-flex>
@@ -51,7 +52,7 @@
         item-key="ID"
         :items="items"
         :items-per-page="params.size"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
         show-expand
         single-expand
@@ -128,18 +129,6 @@
     mixins: [BaseFilter, BaseSelect],
     data: () => ({
       items: [],
-      headers: [
-        { text: '时间', value: 'createdAt', align: 'start', width: 220 },
-        { text: '租户', value: 'tenant', align: 'start', width: 100 },
-        { text: '用户', value: 'username', align: 'start', width: 100 },
-        { text: '操作', value: 'action', align: 'start', width: 100 },
-        { text: 'Kind', value: 'module', align: 'start', width: 250 },
-        { text: '对象', value: 'name', align: 'start', width: 300 },
-        { text: '标签', value: 'labels', align: 'start' },
-        { text: 'ClientIP', value: 'clientIP', align: 'start', width: 150 },
-        { text: '状态', value: 'success', align: 'start', width: 100 },
-        { text: '', value: 'data-table-expand' },
-      ],
       pageCount: 0,
       date: [],
       params: {
@@ -156,6 +145,20 @@
     computed: {
       ...mapState(['JWT', 'Admin', 'AdminViewport']),
       ...mapGetters(['Tenant']),
+      headers() {
+        return [
+          { text: this.$t('table.trigger_time'), value: 'createdAt', align: 'start', width: 220 },
+          { text: this.$t('table.tenant'), value: 'tenant', align: 'start', width: 100 },
+          { text: this.$t('table.account'), value: 'username', align: 'start', width: 100 },
+          { text: this.$t('table.operate'), value: 'action', align: 'start', width: 100 },
+          { text: 'Kind', value: 'module', align: 'start', width: 250 },
+          { text: this.$t('table.object'), value: 'name', align: 'start', width: 300 },
+          { text: this.$t('table.label'), value: 'labels', align: 'start' },
+          { text: 'ClientIP', value: 'clientIP', align: 'start', width: 150 },
+          { text: this.$t('table.status'), value: 'success', align: 'start', width: 100 },
+          { text: '', value: 'data-table-expand' },
+        ];
+      },
       filters() {
         const userItems = [];
         this.userItems.forEach((user) => {
@@ -166,31 +169,31 @@
           });
         });
         return [
-          { text: '检索', value: 'search', items: [] },
+          { text: this.$t('filter.search'), value: 'search', items: [] },
           {
-            text: '用户',
+            text: this.$t('filter.account'),
             value: 'Username',
             items: userItems,
           },
           {
-            text: '状态',
+            text: this.$t('filter.status'),
             value: 'Success',
             items: [
-              { text: '成功', value: 'true', parent: 'Success' },
-              { text: '失败', value: 'false', parent: 'Success' },
+              { text: this.$root.$t('status.success'), value: 'true', parent: 'Success' },
+              { text: this.$root.$t('status.failure'), value: 'false', parent: 'Success' },
             ],
           },
           {
-            text: '操作',
+            text: this.$t('filter.action'),
             value: 'Action',
             items: [
-              { text: '创建', value: '创建', parent: 'Action' },
-              { text: '删除', value: '删除', parent: 'Action' },
-              { text: '更新', value: '更新', parent: 'Action' },
-              { text: '执行命令', value: '执行命令', parent: 'Action' },
-              { text: '登录', value: '登录', parent: 'Action' },
-              { text: '启用', value: '启用', parent: 'Action' },
-              { text: '禁用', value: '禁用', parent: 'Action' },
+              { text: this.$root.$t('operate.create'), value: '创建', parent: 'Action' },
+              { text: this.$root.$t('operate.delete'), value: '删除', parent: 'Action' },
+              { text: this.$root.$t('operate.update'), value: '更新', parent: 'Action' },
+              { text: this.$root.$t('operate.shell'), value: '执行命令', parent: 'Action' },
+              { text: this.$root.$t('operate.login'), value: '登录', parent: 'Action' },
+              { text: this.$root.$t('operate.enable'), value: '启用', parent: 'Action' },
+              { text: this.$root.$t('operate.disable'), value: '禁用', parent: 'Action' },
             ],
           },
         ];

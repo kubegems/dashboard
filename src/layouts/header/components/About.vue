@@ -14,6 +14,7 @@
  * limitations under the License. 
 -->
 
+<i18n src="../i18n/locales.json" />
 <template>
   <v-dialog v-model="dialog" height="100%" :max-width="500" persistent scrollable>
     <v-card>
@@ -24,7 +25,7 @@
         </div>
         <v-divider />
         <h6 class="text-subtitle-2 ma-4 font-weight-medium">
-          {{ $DESCRIPTION }}
+          {{ $root.$t('metadata.description') }}
         </h6>
 
         <v-flex v-for="(value, key) in version" :key="key" class="mx-4">
@@ -32,7 +33,9 @@
         </v-flex>
       </v-card-text>
       <div class="pa-2">
-        <v-btn class="float-right" color="error" small text @click="dialog = false"> 关闭 </v-btn>
+        <v-btn class="float-right" color="error" small text @click="dialog = false">
+          {{ $root.$t('operate.close') }}
+        </v-btn>
       </div>
     </v-card>
   </v-dialog>
@@ -47,16 +50,6 @@
       return {
         dialog: false,
         version: {},
-        cnDict: {
-          version: 'Dashboard版本',
-          date: 'Dashboard版本日期',
-          GitVersion: 'Api版本',
-          GitCommit: 'Commit',
-          BuildDate: 'Api版本日期',
-          GoVersion: 'Go版本',
-          Compiler: '编译',
-          Platform: '编译平台',
-        },
         apiVersion: null,
         logo: this.$LOGO_BLUE,
       };
@@ -66,6 +59,18 @@
         return {
           version: process.env.VUE_APP_RELEASE,
           date: process.env.VUE_APP_DATE ? this.$moment(process.env.VUE_APP_DATE).format('lll') : '',
+        };
+      },
+      cnDict() {
+        return {
+          version: this.$t('about.dashboard_version'),
+          date: this.$t('about.dashboard_release_time'),
+          GitVersion: this.$t('about.api_version'),
+          GitCommit: 'Commit',
+          BuildDate: this.$t('about.api_release_time'),
+          GoVersion: this.$t('about.go_version'),
+          Compiler: this.$t('about.compile'),
+          Platform: this.$t('about.compile_platform'),
         };
       },
     },
