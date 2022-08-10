@@ -537,7 +537,7 @@ export const adminWorkspace = [
             component: () => import('@/views/resource/storageclass/index'),
             meta: {
               requireAuth: true,
-              title: 'routerbar.cluster.srorageclass',
+              title: 'routerbar.cluster.storageclass',
               admin: true,
               icon: 'mdi-database',
               show: true,

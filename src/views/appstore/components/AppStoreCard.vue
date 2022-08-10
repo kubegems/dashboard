@@ -14,6 +14,7 @@
  * limitations under the License. 
 -->
 
+<i18n src="../i18n/locales.json" />
 <template>
   <v-hover #default="{ hover }">
     <v-card class="mx-auto" :elevation="hover ? 5 : 0" flat height="100%">
@@ -26,7 +27,7 @@
             <a @click="appStoreDetail(app)">{{ app.name }}</a>
           </v-list-item-title>
           <v-list-item-subtitle class="text-body-2 text--lighten-4">
-            简介：{{ app.description === '' ? '-' : app.description }}
+            {{ $t('tip.desc') }} : {{ app.description === '' ? '-' : app.description }}
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -34,12 +35,12 @@
         <v-list-item>
           <v-list-item-content>
             <v-list-item-subtitle class="text-body-2 text--lighten-4">
-              版本：{{ app.appVersion === '' ? '-' : app.appVersion }}
+              {{ $t('tip.version') }} : {{ app.appVersion === '' ? '-' : app.appVersion }}
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
         <v-spacer />
-        <v-btn color="primary" small text @click="appStoreDetail(app)"> 详情 </v-btn>
+        <v-btn color="primary" small text @click="appStoreDetail(app)"> {{ $t('tip.detail') }} </v-btn>
       </v-card-actions>
     </v-card>
   </v-hover>

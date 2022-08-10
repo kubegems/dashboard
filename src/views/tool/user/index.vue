@@ -14,6 +14,7 @@
  * limitations under the License. 
 -->
 
+<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <BaseBreadcrumb />
@@ -43,25 +44,25 @@
                   </v-chip>
                 </h3>
                 <h5 class="text-subtitle-2 mt-1">
-                  {{ Admin ? '管理员' : '普通用户' }}
+                  {{ Admin ? $root.$t('role.system.administrator') : $root.$t('role.system.normal') }}
                 </h5>
               </div>
             </div>
             <v-divider />
             <div class="py-5">
-              <h5 class="text-subtitle-1 kubegems__text">邮箱</h5>
+              <h5 class="text-subtitle-1 kubegems__text">{{ $t('table.email') }}</h5>
               <h6 class="text-body-2 mb-3">
-                {{ User && User.Email && User.Email.length === 0 ? '暂无邮箱' : User.Email }}
+                {{ User && User.Email && User.Email.length === 0 ? $root.$t('data.unknown') : User.Email }}
               </h6>
-              <h5 class="text-subtitle-1 kubegems__text">手机号</h5>
+              <h5 class="text-subtitle-1 kubegems__text">{{ $t('table.mobile') }}</h5>
               <h6 class="text-body-2 mb-3">
-                {{ User.Phone ? User.Phone : '暂无' }}
+                {{ User.Phone ? User.Phone : $root.$t('data.unknown') }}
               </h6>
-              <h5 class="text-subtitle-1 kubegems__text">注册时间</h5>
+              <h5 class="text-subtitle-1 kubegems__text">{{ $t('table.registe_at') }}</h5>
               <h6 class="text-body-2 mb-3">
                 {{ User.CreatedAt ? $moment(User.CreatedAt).format('lll') : '' }}
               </h6>
-              <h5 class="text-subtitle-1 kubegems__text">上次登录</h5>
+              <h5 class="text-subtitle-1 kubegems__text">{{ $t('table.last_login_at') }}</h5>
               <h6 class="text-body-2 mb-3">
                 {{ User.LastLoginAt ? $moment(User.LastLoginAt).format('lll') : '' }}
               </h6>
@@ -102,14 +103,16 @@
     },
     data: () => ({
       tab: 0,
-      tabItems: [
-        { text: '消息盒子', value: 'MessageBox' },
-        { text: '操作历史', value: 'AuditList' },
-        { text: '个人设置', value: 'OwnerSetting' },
-      ],
     }),
     computed: {
       ...mapState(['JWT', 'User', 'Admin']),
+      tabItems() {
+        return [
+          { text: this.$t('tab.message'), value: 'MessageBox' },
+          { text: this.$t('tab.audit'), value: 'AuditList' },
+          { text: this.$t('tab.setting'), value: 'OwnerSetting' },
+        ];
+      },
     },
     mounted() {
       if (this.JWT) {

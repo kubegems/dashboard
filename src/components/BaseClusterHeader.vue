@@ -18,7 +18,7 @@
   <v-card class="rounded-tr-0 rounded-tl-0 mb-3" flat height="60">
     <v-card-title class="py-3 mt-n3" :style="{ height: `60px` }">
       <v-sheet v-if="selectable" class="text-subtitle-1">
-        集群
+        {{ $t('resource.cluster') }}
         <v-menu
           v-model="clusterMenu"
           bottom
@@ -48,17 +48,20 @@
               <v-icon v-else right>mdi-chevron-down</v-icon>
             </v-btn>
           </template>
-          <v-data-iterator hide-default-footer :items="[{ text: '集群', values: m_select_clusterItems }]">
+          <v-data-iterator
+            hide-default-footer
+            :items="[{ text: $t('resource.cluster'), values: m_select_clusterItems }]"
+          >
             <template #no-data>
               <v-card>
-                <v-card-text> 暂无集群 </v-card-text>
+                <v-card-text> {{ $t('data.no_data') }} </v-card-text>
               </v-card>
             </template>
             <template #default="props">
               <v-card v-for="item in props.items" :key="item.text" flat :loading="loading">
                 <v-list class="pb-3" dense>
                   <v-flex class="text-subtitle-2 text-center ma-2">
-                    <span>集群</span>
+                    <span>{{ $t('resource.cluster') }}</span>
                   </v-flex>
                   <v-divider class="mx-2" />
                   <div class="header__list px-2">
@@ -85,7 +88,7 @@
         </v-menu>
       </v-sheet>
       <v-sheet v-else class="text-subtitle-1">
-        集群
+        {{ $t('resource.cluster') }}
         <v-btn
           class="primary--text text-subtitle-1 font-weight-medium mt-n1"
           color="white"

@@ -14,15 +14,16 @@
  * limitations under the License. 
 -->
 
+<i18n src="../../i18n/locales.json" />
 <template>
   <FormWizard
     ref="deploy"
-    back-button-text="上一步"
+    :back-button-text="$root.$t('operate.previous')"
     :class="`px-8 pt-8`"
     color="#1e88e5"
     error-color="#e74c3c"
-    finish-button-text="部署"
-    next-button-text="下一步"
+    :finish-button-text="$root.$t('operate.deploy')"
+    :next-button-text="$root.$t('operate.next')"
     shape="tab"
     :start-index="0"
     step-size="sm"
@@ -33,7 +34,7 @@
       :before-change="validateBaseInfo"
       :class="`zoom-${Scale.toString().replaceAll('.', '-')} kubegems__wizard-tab-content mt-8`"
       icon="mdi mdi-information"
-      title="基本配置"
+      :title="$t('tip.base_info')"
     >
       <v-form ref="form" v-model="valid" class="wizard-form-content" lazy-validation @submit.prevent>
         <v-row>
@@ -42,7 +43,7 @@
               v-model="obj.AppName"
               class="my-4"
               flat
-              label="应用名称"
+              :label="$t('form.appname')"
               required
               :rules="objRules.appNameRules"
               @change="onAppNameChange"
@@ -54,13 +55,13 @@
               hide-selected
               item-text="text"
               :items="m_select_tenantProjectItems"
-              label="项目"
+              :label="$root.$t('resource.project')"
               :menu-props="{
                 bottom: true,
                 left: true,
                 origin: `top center`,
               }"
-              no-data-text="暂无可选数据"
+              :no-data-text="$root.$t('data.no_data')"
               :rules="objRules.tenantProjectIdRules"
               @focus="onTenantProjectSelectFocus"
             >
@@ -78,13 +79,13 @@
               color="primary"
               hide-selected
               :items="versions"
-              label="版本"
+              :label="$t('form.version')"
               :menu-props="{
                 bottom: true,
                 left: true,
                 origin: `top center`,
               }"
-              no-data-text="暂无可选数据"
+              :no-data-text="$root.$t('data.no_data')"
               :rules="objRules.versionRules"
               @change="onAppVersionChange"
             >
@@ -101,13 +102,13 @@
               color="primary"
               hide-selected
               :items="m_select_projectEnvironmentItems"
-              label="环境"
+              :label="$root.$t('resource.environment')"
               :menu-props="{
                 bottom: true,
                 left: true,
                 origin: `top center`,
               }"
-              no-data-text="暂无可选数据"
+              :no-data-text="$root.$t('data.no_data')"
               :rules="objRules.environmentIdRules"
               @focus="onEnvSelectFocus"
             >
@@ -125,12 +126,12 @@
       :class="`zoom-${Scale.toString().replaceAll('.', '-')} kubegems__wizard-tab-content mt-12`"
       icon="mdi mdi-cog"
       :lazy="false"
-      title="详细配置"
+      :title="$t('tip.advance_setting')"
     >
       <v-tabs v-model="tab" height="30" rounded-t @change="onTabChange">
         <v-tab v-for="item in tabItems" :key="item.value">
           {{ item.text }}
-          <Tips v-if="tab === 0 && selectRepo !== 'kubegems'" class="mx-1" msg="第三方仓库,建议使用values.yaml配置" />
+          <Tips v-if="tab === 0 && selectRepo !== 'kubegems'" class="mx-1" :msg="$t('tip.third_registry_deploy')" />
         </v-tab>
       </v-tabs>
       <div v-if="tab === 0" class="py-2">
@@ -161,14 +162,18 @@
       :class="`zoom-${Scale.toString().replaceAll('.', '-')} kubegems__wizard-tab-content mt-12`"
       icon="mdi mdi-check"
       :lazy="false"
-      title="完成"
+      :title="$t('tip.complete')"
     >
       <AppStoreComplete v-if="completed" class="mt-12 pt-12" @showDeployStatus="showDeployStatus" />
     </TabContent>
     <template #footer="props">
       <v-flex class="kubegems__wizard-footer" :style="`right:${footerWidth}px;`">
-        <v-btn v-show="props.activeTabIndex > 0" color="primary" text @click.native="props.prevTab()"> 上一步 </v-btn>
-        <v-btn v-if="props.activeTabIndex === 0" color="primary" text @click.native="nextStep(props)"> 下一步 </v-btn>
+        <v-btn v-show="props.activeTabIndex > 0" color="primary" text @click.native="props.prevTab()">
+          {{ $root.$t('operate.previous') }}
+        </v-btn>
+        <v-btn v-if="props.activeTabIndex === 0" color="primary" text @click.native="nextStep(props)">
+          {{ $root.$t('operate.next') }}
+        </v-btn>
 
         <v-btn
           v-if="props.activeTabIndex === 1"
@@ -177,7 +182,7 @@
           text
           @click.native="deployAppStore(props)"
         >
-          部署
+          {{ $root.$t('operate.deploy') }}
         </v-btn>
       </v-flex>
     </template>
@@ -251,10 +256,6 @@
       deployDialog: false,
       completed: false,
       tab: 0,
-      tabItems: [
-        { text: '表单', value: 'DeployForm' },
-        { text: 'Values', value: 'DeployFrom' },
-      ],
       filesCopy: {},
     }),
     computed: {
@@ -283,6 +284,12 @@
       },
       showForm() {
         return this.filesCopy['values.schema.json'] !== undefined && this.filesCopy['values.schema.json'] !== null;
+      },
+      tabItems() {
+        return [
+          { text: this.$t('tab.form'), value: 'DeployForm' },
+          { text: 'Values', value: 'DeployFrom' },
+        ];
       },
     },
     watch: {
@@ -319,7 +326,7 @@
         }
         if (Object.keys(this.appValues).length === 0) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '获取values.yaml失败',
+            text: this.$t('tip.values_error'),
             color: 'warning',
           });
           return;
@@ -387,7 +394,7 @@
             // 提前加载项目环境
           } else {
             // 手动触发校验失败,标题显示红色样式
-            this.$refs.deploy.setValidationError(new Error('参数校验失败'));
+            this.$refs.deploy.setValidationError(new Error(this.$t('tip.params_check_error')));
           }
         }
       },
@@ -434,7 +441,7 @@
         });
         if (!project) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '项目为空',
+            text: this.$t('tip.project_is_null'),
             color: 'warning',
           });
           return;
@@ -445,7 +452,7 @@
 
         if (!environment) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '环境为空',
+            text: this.$t('tip.environment_is_null'),
             color: 'warning',
           });
           return;

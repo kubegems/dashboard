@@ -14,6 +14,7 @@
  * limitations under the License. 
 -->
 
+<i18n src="../i18n/locales.json" />
 <template>
   <v-card class="pa-2" flat>
     <v-card-title class="pa-0">
@@ -40,7 +41,7 @@
       item-key="ID"
       :items="items"
       :items-per-page="params.size"
-      no-data-text="暂无数据"
+      :no-data-text="$root.$t('data.no_data')"
       :page.sync="params.page"
       show-expand
       single-expand
@@ -110,28 +111,8 @@
     data() {
       return {
         items: [],
-        headers: [
-          { text: '时间', value: 'createdAt', align: 'start', width: 220 },
-          { text: '租户', value: 'tenant', align: 'start', width: 100 },
-          { text: '操作', value: 'action', align: 'start', width: 100 },
-          { text: 'Kind', value: 'module', align: 'start', width: 150 },
-          { text: '对象', value: 'name', align: 'start', width: 250 },
-          { text: '标签', value: 'labels', align: 'start' },
-          { text: 'ClientIP', value: 'clientIP', align: 'start', width: 150 },
-          { text: '状态', value: 'success', align: 'start', width: 100 },
-          { text: '', value: 'data-table-expand' },
-        ],
         pageCount: 0,
         action: null,
-        actionItems: [
-          { text: '创建', color: 'primary' },
-          { text: '删除', color: 'error' },
-          { text: '更新', color: 'warning' },
-          { text: '执行命令', color: 'grey' },
-          { text: '登录', color: 'success' },
-          { text: '启用', color: 'success' },
-          { text: '禁用', color: 'error' },
-        ],
         yaml: '',
       };
     },
@@ -143,8 +124,32 @@
           size: 20,
           order: '-CreatedAt',
           Username: this.User.Username,
-          Action: this.action || this.action === 0 ? this.actionItems[this.action].text : null,
+          Action: this.action || this.action === 0 ? this.actionItems[this.action].value : null,
         };
+      },
+      headers() {
+        return [
+          { text: this.$t('audit.table.trigger_time'), value: 'createdAt', align: 'start', width: 220 },
+          { text: this.$t('audit.table.tenant'), value: 'tenant', align: 'start', width: 100 },
+          { text: this.$t('audit.table.operate'), value: 'action', align: 'start', width: 100 },
+          { text: 'Kind', value: 'module', align: 'start', width: 250 },
+          { text: this.$t('audit.table.object'), value: 'name', align: 'start', width: 300 },
+          { text: this.$t('audit.table.label'), value: 'labels', align: 'start' },
+          { text: 'ClientIP', value: 'clientIP', align: 'start', width: 150 },
+          { text: this.$t('audit.table.status'), value: 'success', align: 'start', width: 100 },
+          { text: '', value: 'data-table-expand' },
+        ];
+      },
+      actionItems() {
+        return [
+          { text: this.$root.$t('operate.create'), value: '创建', color: 'primary' },
+          { text: this.$root.$t('operate.delete'), value: '删除', color: 'error' },
+          { text: this.$root.$t('operate.update'), value: '更新', color: 'warning' },
+          { text: this.$root.$t('operate.shell'), value: '执行命令', color: 'grey' },
+          { text: this.$root.$t('operate.login'), value: '登录', color: 'success' },
+          { text: this.$root.$t('operate.enable'), value: '启用', color: 'success' },
+          { text: this.$root.$t('operate.disable'), value: '禁用', color: 'error' },
+        ];
       },
     },
     mounted() {

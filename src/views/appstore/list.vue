@@ -14,6 +14,7 @@
  * limitations under the License. 
 -->
 
+<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <BaseBreadcrumb />
@@ -35,7 +36,12 @@
                       <v-icon v-else color="error" small> mdi-minus-circle </v-icon>
                     </template>
                   </StatusTip>
-                  同步{{ item.SyncStatus === 'success' ? '成功' : '失败' }}:{{ $moment(item.LastSync).format('lll') }}
+                  {{
+                    $root.$t('operate.sync_c', [
+                      item.SyncStatus === 'success' ? $root.$t('status.success') : $root.$t('status.failure'),
+                    ])
+                  }}
+                  :{{ $moment(item.LastSync).format('lll') }}
                 </div>
                 <div class="kubegems__clear-float" />
               </div>
@@ -45,9 +51,9 @@
                   {{ item.tip }}
                 </div>
                 <div class="mr-4 float-right">
-                  <v-btn color="primary" text @click="syncRepository(item)">同步</v-btn>
-                  <v-btn color="primary" text @click="updateRepository(item)">编辑</v-btn>
-                  <v-btn color="error" text @click="removeRepository(item)">删除</v-btn>
+                  <v-btn color="primary" text @click="syncRepository(item)">{{ $root.$t('operate.sync') }}</v-btn>
+                  <v-btn color="primary" text @click="updateRepository(item)">{{ $root.$t('operate.edit') }}</v-btn>
+                  <v-btn color="error" text @click="removeRepository(item)">{{ $root.$t('operate.delete') }}</v-btn>
                 </div>
                 <div class="kubegems__clear-float" />
               </div>
@@ -69,7 +75,7 @@
                   @click="addRepository"
                 >
                   <v-icon left>mdi-plus-box</v-icon>
-                  添加应用商店
+                  {{ $root.$t('operate.add_c', [$root.$t('header.app_store')]) }}
                 </v-btn>
               </v-list-item-content>
             </v-list-item>
@@ -119,19 +125,19 @@
         });
       },
       addRepository() {
-        this.$refs.repositoryInfo.setTitle('添加应用商店');
+        this.$refs.repositoryInfo.setTitle(this.$root.$t('operate.add_c', [this.$root.$t('header.app_store')]));
         this.$refs.repositoryInfo.open();
       },
       updateRepository(item) {
-        this.$refs.repositoryInfo.setTitle('更新应用商店');
+        this.$refs.repositoryInfo.setTitle(this.$root.$t('operate.update_c', [this.$root.$t('header.app_store')]));
         this.$refs.repositoryInfo.init(item);
         this.$refs.repositoryInfo.open();
       },
       removeRepository(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除仓库`,
+          title: this.$root.$t('operate.delete_c', [this.$t('tip.registry')]),
           content: {
-            text: `删除仓库 ${item.ChartRepoName}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$t('tip.registry')])} ${item.ChartRepoName}`,
             type: 'delete',
             name: item.ChartRepoName,
           },
@@ -144,8 +150,11 @@
       },
       syncRepository(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `同步仓库`,
-          content: { text: `同步仓库 ${item.ChartRepoName}`, type: 'confirm' },
+          title: this.$root.$t('operate.sync_c', [this.$t('tip.registry')]),
+          content: {
+            text: `${this.$root.$t('operate.sync_c', [this.$t('tip.registry')])} ${item.ChartRepoName}`,
+            type: 'confirm',
+          },
           param: { item },
           doFunc: async (param) => {
             await postSyncRepository(param.item.ChartRepoName);
@@ -158,17 +167,17 @@
           case 'bitnami':
             return {
               imgSrc: '/icon/bitnami.svg',
-              tip: 'Bitnami 让您可以轻松地在任何平台上启动和运行您最喜欢的开源软件，包括您的笔记本电脑、Kubernetes 和所有主要云。',
+              tip: this.$t('tip.bitnami'),
             };
           case 'chartmuseum':
             return {
               imgSrc: '/icon/chartmuseum.svg',
-              tip: 'ChartMuseum 是一个开源的、易于部署的、Helm Chart 存储库服务器。',
+              tip: this.$t('tip.chartmuseum'),
             };
           default:
             return {
               imgSrc: this.$LOGO_BLUE,
-              tip: '一个描述Kubernetes相关资源的文件集合，单个应用可以用来部署某些复杂的HTTP服务器以及web全栈应用、数据库、缓存等。',
+              tip: this.$t('tip.kubegems'),
             };
         }
       },

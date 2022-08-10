@@ -14,25 +14,28 @@
  * limitations under the License. 
 -->
 
+<i18n src="../i18n/locales.json" />
 <template>
   <div>
     <v-row>
       <v-col cols="6">
         <v-card flat>
           <v-card-text class="pa-2">
-            <BaseSubTitle :divider="false" title="个人信息" />
+            <BaseSubTitle :divider="false" :title="$t('setting.tip.personal_info')" />
             <v-form ref="infoForm" v-model="validInfo" class="px-4" lazy-validation @submit.prevent>
               <v-row class="mt-0">
                 <v-col cols="12">
-                  <v-flex class="text-subtitle-2 kubegems__text"> 邮箱 </v-flex>
+                  <v-flex class="text-subtitle-2 kubegems__text"> {{ $t('table.email') }} </v-flex>
                   <v-text-field v-model="objInfo.Email" class="pt-0" dense flat :rules="objInfoRules.emailRules" solo />
                 </v-col>
                 <v-col cols="12">
-                  <v-flex class="text-subtitle-2 kubegems__text"> 手机号 </v-flex>
+                  <v-flex class="text-subtitle-2 kubegems__text"> {{ $t('table.mobile') }} </v-flex>
                   <v-text-field v-model="objInfo.Phone" class="pt-0" dense flat :rules="objInfoRules.phoneRules" solo />
                 </v-col>
               </v-row>
-              <v-btn class="my-4" color="primary" small @click="updateUser"> 更新个人信息 </v-btn>
+              <v-btn class="my-4" color="primary" small @click="updateUser">
+                {{ $root.$t('operate.update_c', [$t('setting.tip.personal_info')]) }}
+              </v-btn>
             </v-form>
           </v-card-text>
         </v-card>
@@ -41,11 +44,13 @@
       <v-col cols="6">
         <v-card flat>
           <v-card-text class="pa-2">
-            <BaseSubTitle :divider="false" title="密码" />
+            <BaseSubTitle :divider="false" :title="$root.$t('passwd')" />
             <v-form ref="pwdForm" v-model="validPwd" class="px-4" lazy-validation @submit.prevent>
               <v-row class="mt-0">
                 <v-col cols="12">
-                  <v-flex class="text-subtitle-2 kubegems__text"> 原密码 </v-flex>
+                  <v-flex class="text-subtitle-2 kubegems__text">
+                    {{ $t('setting.tip.old', [$root.$t('passwd')]) }}
+                  </v-flex>
                   <v-text-field
                     v-model="objPwd.origin"
                     :append-icon="showOrigin ? 'mdi-eye' : 'mdi-eye-off'"
@@ -59,7 +64,9 @@
                   />
                 </v-col>
                 <v-col cols="12">
-                  <v-flex class="text-subtitle-2 kubegems__text"> 新密码 </v-flex>
+                  <v-flex class="text-subtitle-2 kubegems__text">
+                    {{ $t('setting.tip.new', [$root.$t('passwd')]) }}
+                  </v-flex>
                   <v-text-field
                     v-model="objPwd.new1"
                     :append-icon="showNew1 ? 'mdi-eye' : 'mdi-eye-off'"
@@ -73,7 +80,7 @@
                   />
                 </v-col>
                 <v-col cols="12">
-                  <v-flex class="text-subtitle-2 kubegems__text"> 确认新密码 </v-flex>
+                  <v-flex class="text-subtitle-2 kubegems__text"> {{ $t('setting.tip.confirm_passwd') }} </v-flex>
                   <v-text-field
                     v-model="objPwd.new2"
                     :append-icon="showNew2 ? 'mdi-eye' : 'mdi-eye-off'"
@@ -87,7 +94,9 @@
                   />
                 </v-col>
               </v-row>
-              <v-btn class="my-4" color="primary" small @click="resetPassword"> 更新密码 </v-btn>
+              <v-btn class="my-4" color="primary" small @click="resetPassword">
+                {{ $root.$t('operate.update_c', [$root.$t('passwd')]) }}
+              </v-btn>
             </v-form>
           </v-card-text>
         </v-card>
@@ -153,9 +162,9 @@
       async updateUser() {
         if (this.$refs.infoForm.validate(true)) {
           this.$store.commit('SET_CONFIRM', {
-            title: `更新用户信息`,
+            title: this.$root.$t('operate.update_c', [this.$t('setting.tip.personal_info')]),
             content: {
-              text: `更新用户 ${this.User.Username} 信息`,
+              text: this.$root.$t('operate.update_c', [this.$t('setting.tip.personal_info')]),
               type: 'confirm',
             },
             param: {},
@@ -170,9 +179,9 @@
       async resetPassword() {
         if (this.$refs.pwdForm.validate(true)) {
           this.$store.commit('SET_CONFIRM', {
-            title: `修改用户密码`,
+            title: this.$root.$t('operate.update_c', [this.$root.$t('passwd')]),
             content: {
-              text: `修改用户 ${this.User.Username} 密码`,
+              text: this.$root.$t('operate.update_c', [this.$root.$t('passwd')]),
               type: 'confirm',
             },
             param: {},

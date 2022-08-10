@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <BaseFullScreenDialog v-model="dialog" kubegems-logo :title="title" @dispose="dispose">
+  <BaseFullScreenDialog v-model="dialog" kubegems-logo :title="$root.$t('header.app_store')" @dispose="dispose">
     <template #content>
       <v-flex :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
         <v-row class="mt-0 ma-0">
@@ -90,7 +90,6 @@
     },
     data: () => ({
       dialog: false,
-      title: '应用商店',
     }),
     computed: {
       ...mapState(['Scale']),

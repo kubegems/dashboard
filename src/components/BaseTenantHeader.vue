@@ -18,7 +18,7 @@
   <v-card class="rounded-tr-0 rounded-tl-0 mb-3" flat height="60">
     <v-card-title class="py-3 mt-n3" :style="{ height: `60px` }">
       <v-sheet v-if="selectable" class="text-subtitle-1">
-        项目
+        {{ $t('resource.project') }}
         <v-menu
           v-model="projectMenu"
           bottom
@@ -47,17 +47,20 @@
               <v-icon v-else right>mdi-chevron-down</v-icon>
             </v-btn>
           </template>
-          <v-data-iterator hide-default-footer :items="[{ text: '项目', values: m_select_tenantProjectItems }]">
+          <v-data-iterator
+            hide-default-footer
+            :items="[{ text: $t('resource.project'), values: m_select_tenantProjectItems }]"
+          >
             <template #no-data>
               <v-card>
-                <v-card-text> 暂无项目 </v-card-text>
+                <v-card-text> {{ $t('data.no_data') }} </v-card-text>
               </v-card>
             </template>
             <template #default="props">
               <v-card v-for="item in props.items" :key="item.text" flat :loading="loadingPro">
                 <v-list class="pb-3" dense>
                   <v-flex class="text-subtitle-2 text-center ma-2">
-                    <span>项目</span>
+                    <span>{{ $t('resource.project') }}</span>
                   </v-flex>
                   <v-divider class="mx-2" />
                   <div class="header__list px-2">
@@ -84,7 +87,7 @@
         </v-menu>
       </v-sheet>
       <v-sheet v-else class="text-subtitle-1">
-        项目
+        {{ $t('resource.project') }}
         <v-btn
           class="primary--text text-subtitle-1 font-weight-medium mt-n1"
           color="white"
@@ -101,7 +104,7 @@
 
       <template v-if="environmented">
         <v-sheet v-if="selectable" class="text-subtitle-1 ml-4">
-          环境
+          {{ $t('resource.environment') }}
           <v-menu
             v-model="environmentMenu"
             bottom
@@ -131,17 +134,20 @@
                 <v-icon v-else right>mdi-chevron-down</v-icon>
               </v-btn>
             </template>
-            <v-data-iterator hide-default-footer :items="[{ text: '环境', values: m_select_projectEnvironmentItems }]">
+            <v-data-iterator
+              hide-default-footer
+              :items="[{ text: $t('resource.environment'), values: m_select_projectEnvironmentItems }]"
+            >
               <template #no-data>
                 <v-card>
-                  <v-card-text> 暂无环境 </v-card-text>
+                  <v-card-text> {{ $t('data.no_data') }} </v-card-text>
                 </v-card>
               </template>
               <template #default="props">
                 <v-card v-for="item in props.items" :key="item.text" flat :loading="loadingEnv">
                   <v-list class="pb-3" dense>
                     <v-flex class="text-subtitle-2 text-center ma-2">
-                      <span>环境</span>
+                      <span>{{ $t('resource.environment') }}</span>
                     </v-flex>
                     <v-divider class="mx-2" />
                     <div class="header__list px-2">
@@ -170,7 +176,7 @@
           </v-menu>
         </v-sheet>
         <v-sheet v-else class="text-subtitle-1 ml-4">
-          环境
+          {{ $t('resource.environment') }}
           <v-btn
             class="primary--text text-subtitle-1 font-weight-medium mt-n1"
             color="white"
@@ -189,18 +195,24 @@
 
       <v-sheet>
         <span v-if="environmented" class="text-body-2 kubegems__text">
-          环境角色:
-          {{ $RESOURCE_ROLE[m_permisson_resourceRole] ? $RESOURCE_ROLE[m_permisson_resourceRole] : '暂无' }}
+          {{ $t('resource.project_c', [$t('resource.role')]) }}:
+          {{
+            $RESOURCE_ROLE[m_permisson_resourceRole]
+              ? $t(`role.project.${m_permisson_resourceRole}`)
+              : $t('data.unknown')
+          }}
           <span class="ml-4">
-            环境类型:
-            {{ $METATYPE_CN[Environment().Type] ? $METATYPE_CN[Environment().Type].cn : '' }}
+            {{ $t('resource.environment_c', [$t('resource.type')]) }}:
+            {{ $METATYPE_CN[Environment().Type] ? $t(`metadata.environment_type.${Environment().Type}`) : '' }}
           </span>
-          <span class="ml-4">集群: {{ Environment().ClusterName }}</span>
-          <span class="ml-4">命名空间: {{ Environment().Namespace }}</span>
+          <span class="ml-4">{{ $t('resource.cluster') }} : {{ Environment().ClusterName }}</span>
+          <span class="ml-4">{{ $t('resource.namespace') }} : {{ Environment().Namespace }}</span>
         </span>
         <span v-else class="text-body-2 kubegems__text">
-          项目角色:
-          {{ $PROJECT_ROLE[m_permisson_projectRole] ? $PROJECT_ROLE[m_permisson_projectRole] : '暂无' }}
+          {{ $t('resource.project_c', [$t('resource.role')]) }}:
+          {{
+            $PROJECT_ROLE[m_permisson_projectRole] ? $t(`role.project.${m_permisson_resourceRole}`) : $t('data.unknown')
+          }}
         </span>
       </v-sheet>
     </v-card-title>
@@ -244,7 +256,7 @@
           await this.m_select_projectEnvironmentSelectData(item.value);
           if (this.m_select_projectEnvironmentItems.length === 0) {
             this.$store.commit('SET_SNACKBAR', {
-              text: '该项目下没有环境，请重新选择项目或添加环境',
+              text: this.$t('tip.project_select'),
               color: 'warning',
             });
             return;

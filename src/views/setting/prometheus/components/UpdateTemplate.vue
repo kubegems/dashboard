@@ -18,7 +18,7 @@
   <BaseDialog
     v-model="dialog"
     icon="mdi-file-powerpoint-box"
-    title="更新 Prometheus 查询模版"
+    :title="$root.$t('operate.update_c', [$root.$t('resource.template')])"
     :width="1000"
     @reset="reset"
   >
@@ -33,7 +33,9 @@
       />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateTemplate"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateTemplate">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>

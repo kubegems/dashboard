@@ -14,13 +14,14 @@
  * limitations under the License. 
 -->
 
+<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <Breadcrumb hub="kubegems-charts">
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-sheet class="text-body-2 text--darken-1 d-flex align-center mx-1">
-            <span class="text-body-2 mr-1">仓库</span>
+            <span class="text-body-2 mr-1">{{ $t('tip.registry') }}</span>
             <v-menu
               v-model="repoMenu"
               bottom
@@ -37,17 +38,21 @@
                   <v-icon v-else right> mdi-chevron-down </v-icon>
                 </v-btn>
               </template>
-              <v-data-iterator class="file-iterator" hide-default-footer :items="[{ text: '仓库', values: repos }]">
+              <v-data-iterator
+                class="file-iterator"
+                hide-default-footer
+                :items="[{ text: $t('tip.registry'), values: repos }]"
+              >
                 <template #no-data>
                   <v-card>
-                    <v-card-text> 暂无版本 </v-card-text>
+                    <v-card-text> {{ $root.$t('data.no_data') }} </v-card-text>
                   </v-card>
                 </template>
                 <template #default="props">
                   <v-card v-for="item in props.items" :key="item.text" flat min-height="100">
                     <v-list dense>
                       <v-flex class="text-subtitle-2 text-center ma-2">
-                        <span>仓库</span>
+                        <span>{{ $t('tip.registry') }}</span>
                       </v-flex>
                       <v-divider class="mx-2" />
                       <v-list-item
@@ -75,13 +80,17 @@
       <v-col class="pt-0" cols="2">
         <v-card :style="{ height: `${height}px`, overflowY: 'auto' }">
           <v-card-text class="pa-0 pl-2 pb-2">
-            <BaseSubTitle class="pt-2 mb-1" :divider="false" title="应用类型" />
+            <BaseSubTitle
+              class="pt-2 mb-1"
+              :divider="false"
+              :title="$root.$t('resource.app_c', [$root.$t('resource.type')])"
+            />
             <v-text-field
               v-model="search"
               class="mr-4 my-2 ml-2"
               flat
               hide-details
-              label="应用名称"
+              :label="$t('filter.name')"
               prepend-inner-icon="mdi-magnify"
               solo
               @input="onAppNameInput"

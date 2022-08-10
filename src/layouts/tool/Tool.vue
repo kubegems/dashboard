@@ -14,6 +14,7 @@
  * limitations under the License. 
 -->
 
+<i18n src="./i18n/locales.json" />
 <template>
   <v-menu
     v-if="Admin"
@@ -38,8 +39,8 @@
             <v-flex class="float-left">
               <v-icon color="primary" left> mdi-cog </v-icon>
             </v-flex>
-            <v-flex class="text-subtitle-2 primary--text">平台管理</v-flex>
-            <v-flex class="text-caption"> 以管理员身份查看操作所有资源。 </v-flex>
+            <v-flex class="text-subtitle-2 primary--text">{{ $t('tip.management') }}</v-flex>
+            <v-flex class="text-caption"> {{ $t('tip.management_desc') }} </v-flex>
             <div class="kubegems__clear-float" />
           </v-card-text>
         </v-card>
