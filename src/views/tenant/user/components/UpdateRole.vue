@@ -14,17 +14,18 @@
  * limitations under the License. 
 -->
 
+<i18n src="../i18n/locales.json" />
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-account-edit" title="用户系统角色" :width="500" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-account-edit" :title="$t('tip.role_title')" :width="500" @reset="reset">
     <template #content>
-      <BaseSubTitle title="用户角色" />
+      <BaseSubTitle :title="$root.$t('form.definition', [$root.$t('resource.role')])" />
       <v-card-text class="pa-2 mt-2">
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
           <v-sheet>
             <v-text-field
               v-model="obj.Username"
               class="my-0"
-              label="用户"
+              :label="$root.$t('resource.account')"
               readonly
               required
               :rules="objRules.userIDRules"
@@ -34,9 +35,9 @@
               class="my-0"
               color="primary"
               hide-selected
-              :items="m_select_systemRoleItems"
-              label="角色"
-              no-data-text="暂无可选数据"
+              :items="systemRoleItems"
+              :label="$root.$t('resource.role')"
+              :no-data-text="$root.$t('data.no_data')"
               :rules="objRules.systemRoleRules"
               @focus="onSystemRoleSelectFocus"
             >
@@ -51,7 +52,9 @@
       </v-card-text>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="changeUserRole"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="changeUserRole">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>
@@ -59,7 +62,7 @@
 <script>
   import { mapState } from 'vuex';
 
-  import { putChangeUserRole } from '@/api';
+  import { putChangeUserRole, systemRoleSelectData } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { required } from '@/utils/rules';
 
@@ -69,6 +72,7 @@
     data: () => ({
       dialog: false,
       valid: false,
+      systemRoleItems: [],
       obj: {
         UserID: 0,
         Username: '',
@@ -83,7 +87,7 @@
       ...mapState(['Circular']),
     },
     mounted() {
-      this.m_select_systemRoleSelectData();
+      this.systemRoleSelectData();
     },
     methods: {
       open() {
@@ -108,7 +112,21 @@
         this.$refs.form.reset();
       },
       onSystemRoleSelectFocus() {
-        this.m_select_systemRoleSelectData();
+        this.systemRoleSelectData();
+      },
+      async systemRoleSelectData() {
+        const data = await systemRoleSelectData({ noprocessing: true });
+        const systemRoleSelect = [];
+        data.List.forEach((role) => {
+          systemRoleSelect.push({
+            text:
+              role.RoleCode === 'sysadmin'
+                ? this.$root.$t('role.system.administrator')
+                : this.$root.$t('role.system.normal'),
+            value: role.ID,
+          });
+        });
+        this.systemRoleItems = systemRoleSelect;
       },
     },
   };

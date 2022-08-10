@@ -15,7 +15,32 @@
     "missing": "The cluster has not yet enabled the {0} plugins!"
   },
 
-  "datetimepicker": {},
+  "datetimepicker": {
+    "start": "Start",
+    "end": "End",
+    "tip": {
+      "start_end": "Time(format: 1、12、12:30、12:30:30、1230、123030)",
+      "range": "Please select datetime range"
+    },
+    "last": {
+      "5": "Last 5 minutes",
+      "15": "Last 15 minutes",
+      "30": "Last 30 minutes",
+      "60": "Last 1 hours",
+      "180": "Last 3 hours",
+      "360": "Last 6 hours",
+      "720": "Last 12 hours",
+      "1440": "Last 24 hours",
+      "2880": "Last 2 days",
+      "10080": "Last 1 weeks",
+      "last_c": "Last {0} minutes"
+    }
+  },
+
+  "ruler": {
+    "required": "Required",
+    "not_match": "Not Match"
+  },
 
   "role": {
     "system": {
@@ -42,6 +67,10 @@
       "tenantadmin": "Tenant Admin",
       "projectadmin": "Project Admin",
       "projectops": "Project Ops"
+    },
+    "mesh": {
+      "normal": "Normal",
+      "administrator": "Admin"
     }
   },
 
@@ -51,6 +80,8 @@
     "memory": "Memory",
     "storage": "Storage",
     "space": "Space",
+    "system": "System",
+    "mesh": "Service Mesh",
 
     "cluster": "Cluster",
     "app": "Application",
@@ -112,9 +143,11 @@
     "open_c": "Open {0}",
     "batch": "Batch",
     "delete": "Delete",
+    "batch_delete_c": "Batch Delete {0}",
     "confirm": "Confirm",
     "cancel": "Cancel",
     "close": "Close",
+    "clear": "Clear",
     "operate": "Operate",
     "edit": "Edit",
     "create": "Create",
@@ -359,6 +392,11 @@
     "description": "KubeGems is an open source enterprise-grade multi-tenant container cloud platform. Focusing on the cloud native community, KubeGems provides multiple Kubernetes cluster access capabilities, and has rich component management and resource cost analysis functions, which can help enterprises quickly build and build a localized, powerful and low-cost cloud management platform."
   },
   "tip": {
-    "version": "Version {0} has been released, please login again"
+    "version": "Version {0} has been released, please login again",
+    "batch_delete_c": "Please confirm the following resources that need to be {0}d!",
+    "batch_select_c": "Please Select {0}",
+    "batch_confirm_c": "Please input {0}",
+    "batch_rule_c": "{0}",
+    "batch_delete": "yes"
   }
 }

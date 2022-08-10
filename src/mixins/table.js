@@ -110,7 +110,7 @@ const table = {
         }).length === 0
       ) {
         this.$store.commit('SET_SNACKBAR', {
-          text: `请勾选${title}`,
+          text: this.$t('tip.batch_select_c', [title]),
           color: 'warning',
         });
         return;
@@ -123,7 +123,7 @@ const table = {
           return c.name;
         });
       this.$store.commit('SET_CONFIRM', {
-        title: `批量删除${title}`,
+        title: this.$t('operate.batch_delete_c', [title]),
         content: {
           text: `${resources.join(',')}`,
           type: 'batch_delete',
@@ -161,7 +161,7 @@ const table = {
     m_table_batchRemoveNotK8SResource(title, resourceType, listFunc) {
       if (!Object.values(this.m_table_batchResources).some((c) => c.checked)) {
         this.$store.commit('SET_SNACKBAR', {
-          text: `请勾选${title}`,
+          text: this.$t('tip.batch_select_c', [title]),
           color: 'warning',
         });
         return;
@@ -170,7 +170,7 @@ const table = {
         .filter((c) => c.checked)
         .map((c) => c.name);
       this.$store.commit('SET_CONFIRM', {
-        title: `批量删除${title}`,
+        title: this.$t('operate.batch_delete_c', [title]),
         content: {
           text: `${resources.join(',')}`,
           type: 'batch_delete',

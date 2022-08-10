@@ -143,6 +143,7 @@ export function getIconName(name, def = 'kubernetes') {
   if (name.indexOf('openkruise') > -1) return 'img:openkruise.svg';
   if (name.indexOf('ai-model') > -1) return 'img:ai-model.svg';
   if (name.indexOf('transformers') > -1) return 'img:transform.svg';
+  if (name.indexOf('huggingface') > -1) return 'img:transform.svg';
   if (name.indexOf('gitea') > -1) return 'img:gitea.svg';
   if (name.indexOf('chartmuseum') > -1) return 'img:chartmuseum.svg';
   if (name.indexOf('ceph') > -1) return 'img:ceph.svg';
@@ -183,6 +184,11 @@ export function getIconName(name, def = 'kubernetes') {
   if (name.indexOf('local') > -1) return 'mdi:earth';
 
   if (name.indexOf('tempo') > -1) return 'img:tempo.svg';
+  if (name.indexOf('openmmlab') > -1) return 'img:openmmlab_logo.svg';
+  if (name.indexOf('triton') > -1) return 'img:nvidia.svg';
+  if (name.indexOf('sklearn') > -1) return 'img:sklearn.svg';
+  if (name.indexOf('mlflow') > -1) return 'img:mlflow.svg';
+  if (name.indexOf('xgboost') > -1) return 'img:xgboost.svg';
 
   // if (name.indexOf('selfhosted') > -1) return 'img:kubegems.svg';
 

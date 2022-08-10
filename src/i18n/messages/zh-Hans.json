@@ -15,7 +15,32 @@
     "missing": "该集群暂时还未启用 {0} 插件！"
   },
 
-  "datetimepicker": {},
+  "datetimepicker": {
+    "start": "开始时间",
+    "end": "结束时间",
+    "tip": {
+      "start_end": "起止时间(格式: 1、12、12:30、12:30:30、1230、123030)",
+      "range": "请选择日期时间范围"
+    },
+    "last": {
+      "5": "最近5分钟",
+      "15": "最近15分钟",
+      "30": "最近30分钟",
+      "60": "最近1小时",
+      "180": "最近3小时",
+      "360": "最近6小时",
+      "720": "最近12小时",
+      "1440": "最近24小时",
+      "2880": "最近2天",
+      "10080": "最近1周",
+      "last_c": "最近{0}分钟"
+    }
+  },
+
+  "ruler": {
+    "required": "必填项",
+    "not_match": "不匹配"
+  },
 
   "role": {
     "system": {
@@ -42,6 +67,10 @@
       "tenantadmin": "租户管理员",
       "projectadmin": "项目管理员",
       "projectops": "项目运维"
+    },
+    "mesh": {
+      "normal": "普通用户",
+      "administrator": "管理员"
     }
   },
 
@@ -51,6 +80,8 @@
     "memory": "内存",
     "storage": "存储",
     "space": "空间",
+    "system": "系统",
+    "mesh": "微服务",
 
     "cluster": "集群",
     "app": "应用",
@@ -112,9 +143,11 @@
     "open_c": "开启{0}",
     "batch": "批量",
     "delete": "删除",
+    "batch_delete_c": "批量删除{0}",
     "confirm": "确定",
     "cancel": "取消",
     "close": "关闭",
+    "clear": "清空",
     "edit": "编辑",
     "operate": "操作",
     "create": "创建",
@@ -358,6 +391,11 @@
     "description": "KubeGems 是一款开源的企业级多租户容器云平台。围绕云原生社区， KubeGems 提供了多 Kubernetes 集群接入能力，并具备丰富的组件管理和资源成本分析功能，能够帮助企业快速的构建和打造一个本地化、功能强大且低成本的云管理平台。"
   },
   "tip": {
-    "version": "版本 {0} 已发布，请重新登录"
+    "version": "版本 {0} 已发布，请重新登录",
+    "batch_delete_c": "请确认以下需要{0}的资源！",
+    "batch_select_c": "请勾选{0}",
+    "batch_confirm_c": "请输入 “确认{0}”",
+    "batch_rule_c": "确认{0}",
+    "batch_delete": "删除"
   }
 }

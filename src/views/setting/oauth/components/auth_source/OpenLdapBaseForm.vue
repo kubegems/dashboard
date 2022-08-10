@@ -14,6 +14,7 @@
  * limitations under the License. 
 -->
 
+<i18n src="../../i18n/locales.json" />
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
     <v-card-text class="pa-2">
@@ -22,7 +23,7 @@
           <v-text-field
             v-model="obj.config.ldapaddr"
             class="my-0"
-            label="Ldap地址"
+            :label="$t('form.ladp_address')"
             required
             :rules="objRules.ldapaddrRule"
           />
@@ -60,7 +61,7 @@
           />
         </v-col> -->
         <v-col cols="6">
-          <v-switch v-model="obj.config.enableTLS" class="mt-4" hide-details label="开启tls" />
+          <v-switch v-model="obj.config.enableTLS" class="mt-4" hide-details :label="$t('tip.tls')" />
         </v-col>
       </v-row>
     </v-card-text>
@@ -105,7 +106,7 @@
             (v) =>
               !!new RegExp(
                 '^(ldap://)?(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5]):([0-9]|[1-9]\\d|[1-9]\\d{2}|[1-9]\\d{3}|[1-5]\\d{4}|6[0-4]\\d{3}|65[0-4]\\d{2}|655[0-2]\\d|6553[0-5])$',
-              ).test(v) || '格式错误',
+              ).test(v) || this.$t('form.format_rule'),
           ],
         };
       },

@@ -14,15 +14,23 @@
  * limitations under the License. 
 -->
 
+<i18n src="../i18n/locales.json" />
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-star" title="配置第三方认证" :width="1000" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-star" :title="$t('tip.config_title')" :width="1000" @reset="reset">
     <template #content>
-      <BaseSubTitle :title="`${obj.vendor} 认证定义`" />
+      <BaseSubTitle :title="$root.$t('form.definition', [obj.vendor])" />
       <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
         <v-card-text class="pa-2">
           <v-row>
             <v-col cols="6">
-              <v-text-field v-model="obj.name" class="my-0" label="名称" readonly required :rules="objRules.nameRule" />
+              <v-text-field
+                v-model="obj.name"
+                class="my-0"
+                :label="$t('form.name')"
+                readonly
+                required
+                :rules="objRules.nameRule"
+              />
             </v-col>
           </v-row>
         </v-card-text>
@@ -30,7 +38,9 @@
       </v-form>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateAuthSource"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateAuthSource">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>

@@ -87,7 +87,7 @@
       },
     }),
     computed: {
-      ...mapState(['Circular']),
+      ...mapState(['Circular', 'Locale']),
       ...mapGetters(['Tenant']),
       headers() {
         return [

@@ -14,18 +14,25 @@
  * limitations under the License. 
 -->
 
+<i18n src="../i18n/locales.json" />
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-account-key" title="重设用户密码" :width="500" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-account-key" :title="$t('tip.passwd_title')" :width="500" @reset="reset">
     <template #content>
-      <BaseSubTitle title="密码定义" />
+      <BaseSubTitle :title="$root.$t('form.definition', [$t('resource.password')])" />
       <v-card-text class="pa-2 mt-2">
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
           <v-sheet>
-            <v-text-field v-model="obj.password" class="my-0" label="新密码" required :rules="objRules.passwordRules">
+            <v-text-field
+              v-model="obj.password"
+              class="my-0"
+              :label="$t('form.new_passwd')"
+              required
+              :rules="objRules.passwordRules"
+            >
               <template #append>
                 <v-btn class="mt-n1" color="primary" small text @click.stop="randomPassword">
                   <v-icon left small> mdi-eye </v-icon>
-                  生成随机密码
+                  {{ $t('tip.random_passwd') }}
                 </v-btn>
               </template>
             </v-text-field>
@@ -34,7 +41,9 @@
       </v-card-text>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="resetUserPassword"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="resetUserPassword">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>

@@ -1,3 +1,5 @@
+import Vue from 'vue';
+
 import { typeOf } from './helpers';
 
 export const required = (v) => {
@@ -16,7 +18,7 @@ export const required = (v) => {
     default:
       pass = !!v && v.trim().length > 0;
   }
-  return pass || '必填项';
+  return pass || Vue.prototype.$_i18n.t('ruler.required');
 };
 
 export const positiveInteger = (v) => !v || !!new RegExp('^[1-9]\\d*|0$').test(v) || '格式错误(示例:正整数)';

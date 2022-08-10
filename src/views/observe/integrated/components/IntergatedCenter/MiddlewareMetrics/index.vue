@@ -43,6 +43,7 @@
 
   import ProjectEnvSelect from '../ProjectEnvSelect';
   import { getChartSchema, postDeployAppStore } from '@/api';
+  import { randomString } from '@/utils/helpers';
   import { required } from '@/utils/rules';
   import JsonSchema from '@/views/appstore/components/DeployWizard/JsonSchema';
   import { YamlMixin } from '@/views/appstore/mixins/yaml';
@@ -118,7 +119,7 @@
               this.appValues.fullnameOverride = appName;
             }
             const data = {
-              name: appName,
+              name: `${appName}-obs-${randomString(4)}`,
               project_id: this.env?.projectid,
               environment_id: this.env?.value,
               repoURL: this.chart.repo || 'kubegems_online_store',
