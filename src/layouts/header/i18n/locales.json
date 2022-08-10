@@ -5,7 +5,7 @@
       "approval": "审批",
       "no_message": "暂无未读消息",
       "no_approval": "暂无未处理审批",
-      "unread": "未读",
+      "unread_c": "未读{0}",
       "clear": "清除未读"
     },
     "about": {
@@ -40,7 +40,7 @@
       "approval": "Approval",
       "no_message": "No unread messages yet",
       "no_approval": "No pending approvals yet",
-      "unread": "Unread",
+      "unread_c": "Unread {0}",
       "clear": "Clear"
     },
     "about": {

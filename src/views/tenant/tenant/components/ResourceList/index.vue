@@ -14,24 +14,25 @@
  * limitations under the License. 
 -->
 
+<i18n src="../../i18n/locales.json" />
 <template>
   <v-card>
     <v-card-text>
-      <BaseSubTitle :divider="false" :pl="0" title="资源分配">
+      <BaseSubTitle :divider="false" :pl="0" :title="$t('resource.tip.resource_allocate')">
         <template #header>
           <span>
             <span class="ma-2 text-caption grey--text">
-              CPU:
+              {{ $root.$t('resource.cpu') }}:
               <span class="text-subtitle-2">{{ allCpu }}</span>
               core
             </span>
             <span class="ma-2 text-caption grey--text">
-              内存:
+              {{ $root.$t('resource.memory') }}:
               <span class="text-subtitle-2">{{ allMem }}</span>
               Gi
             </span>
             <span class="ma-2 text-caption grey--text">
-              存储:
+              {{ $root.$t('resource.storage') }}:
               <span class="text-subtitle-2">{{ allStorage }}</span>
               Gi
             </span>
@@ -40,7 +41,7 @@
         <template #action>
           <v-btn class="float-right mr-2" color="primary" small text @click="addResource">
             <v-icon left small> mdi-server-plus </v-icon>
-            添加集群资源
+            {{ $root.$t('operate.add_c', [$root.$t('resource.cluster')]) }}
           </v-btn>
         </template>
       </BaseSubTitle>
@@ -50,7 +51,7 @@
         hide-default-footer
         :items="items"
         :items-per-page="params.size"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
       >
         <template #[`item.clusterName`]="{ item }">
@@ -78,13 +79,19 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" small text @click="scaleResource(item)"> 资源调整 </v-btn>
+                  <v-btn color="primary" small text @click="scaleResource(item)">
+                    {{ $t('resource.operate.resource_scale') }}
+                  </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="primary" small text @click="tenantMonitor(item)"> 资源监控 </v-btn>
+                  <v-btn color="primary" small text @click="tenantMonitor(item)">
+                    {{ $t('resource.operate.resource_monitor') }}
+                  </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="recycleTenantResourceQuota(item)"> 回收集群 </v-btn>
+                  <v-btn color="error" small text @click="recycleTenantResourceQuota(item)">
+                    {{ $t('resource.operate.recycle_cluster') }}
+                  </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -133,13 +140,6 @@
     data() {
       return {
         items: [],
-        headers: [
-          { text: '集群', value: 'clusterName', align: 'start' },
-          { text: 'CPU', value: 'cpu', align: 'start' },
-          { text: '内存', value: 'memory', align: 'start' },
-          { text: '存储', value: 'storage', align: 'start' },
-          { text: '', value: 'action', align: 'center', width: 20 },
-        ],
         pageCount: 0,
         params: {
           page: 1,
@@ -149,6 +149,17 @@
         allMem: 0,
         allStorage: 0,
       };
+    },
+    computed: {
+      headers() {
+        return [
+          { text: this.$t('resource.table.cluster'), value: 'clusterName', align: 'start' },
+          { text: this.$root.$t('resource.cpu'), value: 'cpu', align: 'start' },
+          { text: this.$root.$t('resource.memory'), value: 'memory', align: 'start' },
+          { text: this.$root.$t('resource.storage'), value: 'storage', align: 'start' },
+          { text: '', value: 'action', align: 'center', width: 20 },
+        ];
+      },
     },
     watch: {
       tenant: {
@@ -205,9 +216,9 @@
       },
       recycleTenantResourceQuota(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `回收集群资源`,
+          title: this.$t('resource.operate.recycle_cluster'),
           content: {
-            text: `回收集群资源 ${item.Cluster.ClusterName}`,
+            text: `${this.$t('resource.operate.recycle_cluster')} ${item.Cluster.ClusterName}`,
             type: 'delete',
             name: item.Cluster.ClusterName,
           },

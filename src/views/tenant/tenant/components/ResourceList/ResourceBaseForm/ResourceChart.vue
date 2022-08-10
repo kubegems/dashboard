@@ -14,6 +14,7 @@
  * limitations under the License. 
 -->
 
+<i18n src="../../../i18n/locales.json" />
 <template>
   <v-row>
     <v-col class="py-0" cols="4">
@@ -70,7 +71,12 @@
         return this.quota ? (this.quota.UsedCpu === 0 ? [0] : [(this.quota.UsedCpu / this.quota.Cpu) * 100]) : [0];
       },
       cpuOptions() {
-        return generateRadialBarChartOptions('CPU', ['CPU'], this.quota ? this.quota.Cpu : 0, 'core');
+        return generateRadialBarChartOptions(
+          this.$root.$t('resource.cpu'),
+          [this.$root.$t('resource.cpu')],
+          this.quota ? this.quota.Cpu : 0,
+          'core',
+        );
       },
       memorySeries() {
         return this.quota
@@ -80,7 +86,12 @@
           : [0];
       },
       memoryOptions() {
-        return generateRadialBarChartOptions('内存', ['内存'], this.quota ? this.quota.Memory : 0, 'Gi');
+        return generateRadialBarChartOptions(
+          this.$root.$t('resource.memory'),
+          [this.$root.$t('resource.memory')],
+          this.quota ? this.quota.Memory : 0,
+          'Gi',
+        );
       },
       storageSeries() {
         return this.quota
@@ -90,7 +101,12 @@
           : [0];
       },
       storageOptions() {
-        return generateRadialBarChartOptions('存储', ['存储'], this.quota ? this.quota.Storage : 0, 'Gi');
+        return generateRadialBarChartOptions(
+          this.$root.$t('resource.storage'),
+          [this.$root.$t('resource.storage')],
+          this.quota ? this.quota.Storage : 0,
+          'Gi',
+        );
       },
       nvidiaSeries() {
         return this.quota
@@ -101,8 +117,8 @@
       },
       nvidiaOptions() {
         return generateRadialBarChartOptions(
-          'nvidia gpu',
-          ['nvidia gpu'],
+          `nvidia ${this.$root.$t('resource.gpu')}`,
+          [`nvidia ${this.$root.$t('resource.gpu')}`],
           this.quota ? this.quota.NvidiaGpu : 0,
           'gpu',
         );
@@ -115,7 +131,12 @@
           : [0];
       },
       tkeOptions() {
-        return generateRadialBarChartOptions('tke gpu', ['tke gpu'], this.quota ? this.quota.TkeGpu : 0, '');
+        return generateRadialBarChartOptions(
+          `tke ${this.$root.$t('resource.gpu')}`,
+          [`tke ${this.$root.$t('resource.gpu')}`],
+          this.quota ? this.quota.TkeGpu : 0,
+          '',
+        );
       },
       tkeMemorySeries() {
         return this.quota
@@ -125,7 +146,12 @@
           : [0];
       },
       tkeMemoryOptions() {
-        return generateRadialBarChartOptions('tke 显存', ['tke 显存'], this.quota ? this.quota.TkeMemory : 0, '');
+        return generateRadialBarChartOptions(
+          `tke ${this.$root.$t('resource.video_memory')}`,
+          [`tke ${this.$root.$t('resource.video_memory')}`],
+          this.quota ? this.quota.TkeMemory : 0,
+          '',
+        );
       },
     },
   };

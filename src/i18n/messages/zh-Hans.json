@@ -77,6 +77,8 @@
   "resource": {
     "resource": "资源",
     "cpu": "CPU",
+    "gpu": "GPU",
+    "video_memory": "显存",
     "memory": "内存",
     "storage": "存储",
     "space": "空间",
@@ -140,6 +142,8 @@
     "no_tenant": "暂无租户"
   },
   "operate": {
+    "add": "添加",
+    "add_c": "添加{0}",
     "open_c": "开启{0}",
     "batch": "批量",
     "delete": "删除",

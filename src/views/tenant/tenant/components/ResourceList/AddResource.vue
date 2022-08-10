@@ -14,13 +14,22 @@
  * limitations under the License. 
 -->
 
+<i18n src="../../i18n/locales.json" />
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-server-plus" title="创建集群资源" :width="1000" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-server-plus"
+    :title="$root.$t('operate.create_c', [$t('resource.cluster')])"
+    :width="1000"
+    @reset="reset"
+  >
     <template #content>
       <ResourceBaseForm ref="resource" :quota="quota" @clusterChange="onClusterChange" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addTenantResourceQuota"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addTenantResourceQuota">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>
@@ -66,7 +75,7 @@
             })
           ) {
             this.$store.commit('SET_SNACKBAR', {
-              text: `集群已存在`,
+              text: this.$t('resource.tip.cluster_exist'),
               color: 'warning',
             });
             return;

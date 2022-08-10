@@ -72,6 +72,8 @@
             {{ tag }}
           </v-chip>
         </h6>
+        <h5 class="text-subtitle-1 kubegems__text">推荐内容</h5>
+        <h6 class="text-body-2 mb-3" v-html="item ? item.recommentContent : ''" />
         <h5 class="text-subtitle-1 kubegems__text">类型</h5>
         <h6 class="text-body-2 mb-3">
           {{ item ? item.source : '' }}

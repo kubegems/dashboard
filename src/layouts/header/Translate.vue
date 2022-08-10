@@ -84,6 +84,7 @@
     },
     methods: {
       setLocale(locale) {
+        if (this.Locale === locale.locale) return;
         this.$i18n.locale = locale.locale;
         this.$moment.locale(locale.locale === 'zh-Hans' ? 'zh-cn' : locale.locale);
         if (window) {

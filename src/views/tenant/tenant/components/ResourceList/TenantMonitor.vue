@@ -14,11 +14,12 @@
  * limitations under the License. 
 -->
 
+<i18n src="../../i18n/locales.json" />
 <template>
   <BasePanel
     v-model="panel"
     icon="mdi-chart-areaspline-variant"
-    title="租户集群资源监控"
+    :title="$t('resource.tip.resource_monitor')"
     :width="`50%`"
     @dispose="dispose"
   >
@@ -42,14 +43,21 @@
     <template #content>
       <v-card :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} mt-4`" flat>
         <v-card-text class="py-0">
-          <BaseApexAreaChart id="cpu" :extend-height="280" label="tenant" :metrics="cpu" title="CPU使用量" type="cpu" />
+          <BaseApexAreaChart
+            id="cpu"
+            :extend-height="280"
+            label="tenant"
+            :metrics="cpu"
+            :title="$t('resource.tip.cpu_used')"
+            type="cpu"
+          />
 
           <BaseApexAreaChart
             id="memory"
             :extend-height="280"
             label="tenant"
             :metrics="memory"
-            title="内存使用量"
+            :title="$t('resource.tip.memory_used')"
             type="memory"
           />
         </v-card-text>

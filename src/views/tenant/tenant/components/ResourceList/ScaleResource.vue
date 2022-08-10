@@ -14,14 +14,15 @@
  * limitations under the License. 
 -->
 
+<i18n src="../../i18n/locales.json" />
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-scale" title="资源调整" :width="1000" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-scale" :title="$t('resource.tip.resource_scale')" :width="1000" @reset="reset">
     <template #content>
       <ResourceBaseForm ref="resource" :cluster="cluster" edit :quota="quota" />
     </template>
     <template #action>
       <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateTenantResourceQuota">
-        确定
+        {{ $root.$t('operate.confirm') }}
       </v-btn>
     </template>
   </BaseDialog>

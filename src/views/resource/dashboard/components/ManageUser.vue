@@ -19,7 +19,7 @@
   <BaseDialog
     v-model="dialog"
     icon="mdi-account-settings"
-    :title="$root.$t('resource.tenant_c', [$root.$t('resource.member', [''])])"
+    :title="$root.$t('resource.tenant_c', [$root.$t('resource.member')])"
     :width="900"
     @reset="reset"
   >
