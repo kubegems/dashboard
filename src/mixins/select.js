@@ -17,7 +17,6 @@ import {
   secretSelectData,
   serviceSelectData,
   storageClassSelectData,
-  systemRoleSelectData,
   tenantClusterSelectData,
   tenantEnvironmentSelectData,
   tenantProjectSelectData,
@@ -81,14 +80,6 @@ const select = {
         userSelect.push({ text: user.Username, value: user.ID });
       });
       this.m_select_userItems = userSelect;
-    },
-    async m_select_systemRoleSelectData() {
-      const data = await systemRoleSelectData({ noprocessing: true });
-      const systemRoleSelect = [];
-      data.List.forEach((role) => {
-        systemRoleSelect.push({ text: role.RoleName, value: role.ID });
-      });
-      this.m_select_systemRoleItems = systemRoleSelect;
     },
     async m_select_tenantSelectData() {
       let data = {};

@@ -42,7 +42,7 @@
       </v-btn>
     </template>
 
-    <v-card class="pa-3" flat width="480px">
+    <v-card class="pa-3" flat width="550px">
       <v-row>
         <!-- 快捷选项 -->
         <v-col cols="3">
@@ -66,7 +66,7 @@
 
         <!-- 选择面板 -->
         <v-col cols="9">
-          <div class="time-label"> 起止时间(格式：1、12、12:30、12:30:30、1230、123030) </div>
+          <div class="time-label"> {{ $t('datetimepicker.tip.start_end') }} </div>
           <v-divider class="mb-3" />
           <div class="d-flex align-center">
             <v-combobox
@@ -76,7 +76,7 @@
               flat
               hide-details
               :items="timeShortcutOptions"
-              label="开始时间"
+              :label="$t('datetimepicker.start')"
               solo
               @blur="onComboboxBlur($event, 0)"
               @change="onTouchChange"
@@ -89,13 +89,21 @@
               flat
               hide-details
               :items="timeShortcutOptions"
-              label="结束时间"
+              :label="$t('datetimepicker.end')"
               solo
               @blur="onComboboxBlur($event, 1)"
               @change="onTouchChange"
             />
           </div>
-          <v-date-picker v-model="date" class="mt-4" flat locale="zh-cn" no-title range @change="onTouchChange" />
+          <v-date-picker
+            v-model="date"
+            class="mt-4"
+            flat
+            :locale="Locale === 'zh-Hans' ? 'zh-cn' : Locale"
+            no-title
+            range
+            @change="onTouchChange"
+          />
         </v-col>
         <!-- 选择面板 -->
       </v-row>
@@ -104,8 +112,8 @@
       <v-divider class="my-1" />
       <v-card-actions class="pa-0">
         <v-spacer />
-        <v-btn v-if="clearable" color="error" text @click="clear">清空</v-btn>
-        <v-btn color="primary" text @click="confirm">确定</v-btn>
+        <v-btn v-if="clearable" color="error" text @click="clear">{{ $t('operate.clear') }}</v-btn>
+        <v-btn color="primary" text @click="confirm">{{ $t('operate.confirm') }}</v-btn>
       </v-card-actions>
       <!-- 确认 -->
     </v-card>
@@ -113,6 +121,8 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex';
+
   import { formatDatetime } from '@/utils/helpers';
 
   export default {
@@ -185,16 +195,16 @@
     },
     data() {
       this.dateShortcutOptions = [
-        { text: '最近5分钟', value: 5, type: 'relative' },
-        { text: '最近15分钟', value: 15, type: 'relative' },
-        { text: '最近30分钟', value: 30, type: 'relative' },
-        { text: '最近1小时', value: 60, type: 'relative' },
-        { text: '最近3小时', value: 180, type: 'relative' },
-        { text: '最近6小时', value: 360, type: 'relative' },
-        { text: '最近12小时', value: 720, type: 'relative' },
-        { text: '最近24小时', value: 1440, type: 'relative' },
-        { text: '最近2天', value: 2880, type: 'relative' },
-        { text: '最近1周', value: 10080, type: 'relative' },
+        { text: this.$t('datetimepicker.last.5'), value: 5, type: 'relative' },
+        { text: this.$t('datetimepicker.last.15'), value: 15, type: 'relative' },
+        { text: this.$t('datetimepicker.last.30'), value: 30, type: 'relative' },
+        { text: this.$t('datetimepicker.last.60'), value: 60, type: 'relative' },
+        { text: this.$t('datetimepicker.last.180'), value: 180, type: 'relative' },
+        { text: this.$t('datetimepicker.last.360'), value: 360, type: 'relative' },
+        { text: this.$t('datetimepicker.last.720'), value: 720, type: 'relative' },
+        { text: this.$t('datetimepicker.last.1440'), value: 1440, type: 'relative' },
+        { text: this.$t('datetimepicker.last.2880'), value: 2880, type: 'relative' },
+        { text: this.$t('datetimepicker.last.10080'), value: 10080, type: 'relative' },
       ];
 
       this.state = {};
@@ -211,13 +221,15 @@
       };
     },
     computed: {
+      ...mapState(['Locale']),
       label() {
         if (!this.datetime.length) {
-          return '请选择日期时间范围';
+          return this.$t('datetimepicker.tip.range');
         }
         if (this.type === 'relative' && this.shortcut) {
           return (
-            this.dateShortcutOptions.find((item) => item.value === this.shortcut)?.text || `最近${this.shortcut}分钟`
+            this.dateShortcutOptions.find((item) => item.value === this.shortcut)?.text ||
+            this.$t('datetimepicker.last.last_c', [this.shortcut])
           );
         } else {
           return `${formatDatetime(this.datetime[0], 'yyyy-MM-dd hh:mm:ss')} - ${formatDatetime(

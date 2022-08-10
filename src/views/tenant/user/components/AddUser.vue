@@ -14,29 +14,56 @@
  * limitations under the License. 
 -->
 
+<i18n src="../i18n/locales.json" />
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-account" title="创建用户" :width="500" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-account"
+    :title="$root.$t('operate.create_c', [$root.$t('resource.account')])"
+    :width="500"
+    @reset="reset"
+  >
     <template #content>
-      <BaseSubTitle title="用户定义" />
+      <BaseSubTitle :title="$root.$t('form.definition', [$root.$t('resource.account')])" />
       <v-card-text class="pa-2 mt-2">
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
           <v-sheet>
-            <v-text-field v-model="obj.Username" class="my-0" label="用户名" required :rules="objRules.usernameRules" />
-            <v-text-field v-model="obj.Password" class="my-0" label="密码" required :rules="objRules.passwordRules">
+            <v-text-field
+              v-model="obj.Username"
+              class="my-0"
+              :label="$t('form.username')"
+              required
+              :rules="objRules.usernameRules"
+            />
+            <v-text-field
+              v-model="obj.Password"
+              class="my-0"
+              :label="$t('form.passwd')"
+              required
+              :rules="objRules.passwordRules"
+            >
               <template #append>
                 <v-btn class="mt-n1" color="primary" small text @click.stop="randomPassword">
                   <v-icon left small> mdi-eye </v-icon>
-                  生成随机密码
+                  {{ $t('tip.random_passwd') }}
                 </v-btn>
               </template>
             </v-text-field>
-            <v-text-field v-model="obj.Email" class="my-0" label="邮箱" required :rules="objRules.emailRules" />
+            <v-text-field
+              v-model="obj.Email"
+              class="my-0"
+              :label="$t('form.email')"
+              required
+              :rules="objRules.emailRules"
+            />
           </v-sheet>
         </v-form>
       </v-card-text>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addUser"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addUser">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>

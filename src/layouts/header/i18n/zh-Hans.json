@@ -1,0 +1,35 @@
+{
+  "message": {
+    "message": "消息",
+    "approval": "审批",
+    "no_message": "暂无未读消息",
+    "no_approval": "暂无未处理审批",
+    "unread": "未读",
+    "clear": "清除未读"
+  },
+  "about": {
+    "api_version": "Api版本",
+    "api_release_time": "Api版本日期",
+    "go_version": "go版本",
+    "compile": "编译",
+    "compile_platform": "编译平台",
+    "dashboard_version": "Dashboard版本",
+    "dashboard_release_time": "Dashboard版本日期"
+  },
+  "status": {
+    "enabled": "启用",
+    "disabled": "禁用"
+  },
+  "table": {
+    "tenant": "租户",
+    "status": "状态"
+  },
+  "operate": {
+    "approve": "通过",
+    "reject": "拒绝"
+  },
+  "tip": {
+    "tenant": "当前租户",
+    "resource_scale": "资源调整"
+  }
+}

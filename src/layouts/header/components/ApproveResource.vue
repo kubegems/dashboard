@@ -54,7 +54,7 @@
       cancelLoading: false,
     }),
     computed: {
-      ...mapState(['Circular']),
+      ...mapState(['Circular', 'Locale']),
     },
     watch: {
       item: {

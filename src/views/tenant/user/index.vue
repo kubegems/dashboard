@@ -14,13 +14,14 @@
  * limitations under the License. 
 -->
 
+<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <BaseBreadcrumb />
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :default="{ items: [], text: '用户名称', value: 'search' }"
+          :default="{ items: [], text: $t('filter.username_or_email'), value: 'search' }"
           :filters="filters"
           @refresh="m_filter_list"
         />
@@ -36,13 +37,17 @@
               <v-flex>
                 <v-btn color="primary" text @click="addUser">
                   <v-icon left>mdi-plus-box</v-icon>
-                  创建用户
+                  {{ $root.$t('operate.create_c', [$root.$t('resource.account')]) }}
                 </v-btn>
               </v-flex>
               <v-flex>
-                <v-btn color="error" text @click="m_table_batchRemoveNotK8SResource('用户', 'User', userList)">
+                <v-btn
+                  color="error"
+                  text
+                  @click="m_table_batchRemoveNotK8SResource($root.$t('resource.account'), 'User', userList)"
+                >
                   <v-icon left>mdi-minus-box</v-icon>
-                  删除用户
+                  {{ $root.$t('operate.delete_c', [$root.$t('resource.account')]) }}
                 </v-btn>
               </v-flex>
             </v-card-text>
@@ -56,7 +61,7 @@
         hide-default-footer
         :items="items"
         :items-per-page="params.size"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
         show-select
         @toggle-select-all="m_table_onNotK8SResourceToggleSelect($event, 'ID')"
@@ -97,15 +102,21 @@
         <template #[`item.isActive`]="{ item }">
           <span v-if="item.IsActive">
             <v-icon color="primary" small> mdi-check-circle </v-icon>
-            正常
+            {{ $t('status.enabled') }}
           </span>
           <span v-else>
             <v-icon color="error" small> mid-minus-circle </v-icon>
-            禁用
+            {{ $t('status.disabled') }}
           </span>
         </template>
         <template #[`item.role`]="{ item }">
-          {{ item.SystemRole === null ? '普通用户' : item.SystemRole.RoleName }}
+          {{
+            item.SystemRole === null
+              ? $root.$t('role.system.normal')
+              : item.SystemRole.RoleCode === 'sysadmin'
+              ? $root.$t('role.system.administrator')
+              : $root.$t('role.system.normal')
+          }}
         </template>
         <template #[`item.lastLoginAt`]="{ item }">
           {{ item.LastLoginAt === null ? '--' : $moment(item.LastLoginAt).format('lll') }}
@@ -124,13 +135,13 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" small text @click="updateRole(item)"> 角色 </v-btn>
+                  <v-btn color="primary" small text @click="updateRole(item)"> {{ $t('operate.role') }} </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="warning" small text @click="resetPassword(item)"> 重设密码 </v-btn>
+                  <v-btn color="warning" small text @click="resetPassword(item)"> {{ $t('operate.reset_pwd') }} </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="removeUser(item)"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeUser(item)"> {{ $root.$t('operate.delete') }} </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -176,25 +187,29 @@
     mixins: [BaseFilter, BaseResource, BaseTable],
     data: () => ({
       items: [],
-      headers: [
-        { text: '名称', value: 'username', align: 'start' },
-        { text: '状态', value: 'isActive', align: 'start' },
-        { text: '邮箱', value: 'email', align: 'start' },
-        { text: '手机号', value: 'phone', align: 'start' },
-        { text: '角色', value: 'role', align: 'start' },
-        { text: '最近登录', value: 'lastLoginAt', align: 'start' },
-        { text: '注册时间', value: 'createdAt', align: 'start' },
-        { text: '', value: 'action', align: 'center', width: 20 },
-      ],
       pageCount: 0,
       params: {
         page: 1,
         size: 10,
       },
-      filters: [{ text: '用户名或邮箱', value: 'search', items: [] }],
     }),
     computed: {
       ...mapState(['JWT']),
+      headers() {
+        return [
+          { text: this.$t('table.name'), value: 'username', align: 'start' },
+          { text: this.$t('table.status'), value: 'isActive', align: 'start' },
+          { text: this.$t('table.email'), value: 'email', align: 'start' },
+          { text: this.$t('table.mobile'), value: 'phone', align: 'start' },
+          { text: this.$t('table.role'), value: 'role', align: 'start' },
+          { text: this.$t('table.last_login_at'), value: 'lastLoginAt', align: 'start' },
+          { text: this.$t('table.registe_at'), value: 'createdAt', align: 'start' },
+          { text: '', value: 'action', align: 'center', width: 20 },
+        ];
+      },
+      filters() {
+        return [{ text: this.$t('filter.username_or_email'), value: 'search', items: [] }];
+      },
     },
     mounted() {
       if (this.JWT) {
@@ -222,9 +237,9 @@
       },
       removeUser(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除用户`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.account')]),
           content: {
-            text: `删除用户 ${item.Username}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.account')])} ${item.Username}`,
             type: 'delete',
             name: item.Username,
           },

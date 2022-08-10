@@ -17,12 +17,10 @@
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
     <div class="deploy__tip">
       <div class="float-right mr-2">
-        <img alt="Seldon Core" class="mt-1" height="26px" src="/icon/seldon.svg" />
+        <img alt="Seldon Core" class="mt-1" height="24px" src="/icon/seldon.svg" />
       </div>
-      <div class="float-right mr-2">Provider By</div>
-      <div class="float-right mr-2">
-        <v-chip class="my-1" color="primary" label small text-color="white"> ModelDeployment </v-chip>
-      </div>
+      <div class="float-right mr-2 font-weight-medium">Provider By</div>
+      <div class="float-left mr-2 font-weight-medium"> ModelDeployment </div>
       <div class="kubegems__clear-float" />
     </div>
 
@@ -64,9 +62,14 @@
             :rules="objRules.implementationRules"
           >
             <template #selection="{ item }">
-              <v-chip class="my-1" color="primary" small text-color="white">
-                {{ item.text }}
+              <v-chip small>
+                <BaseLogo class="white--text mt-1" :icon-name="item.icon" :ml="0" :width="20" />
+                <span class="ml-2"> {{ item.text }}</span>
               </v-chip>
+            </template>
+            <template #item="{ item }">
+              <BaseLogo class="white--text mt-2" :icon-name="item.icon" :ml="0" :width="24" />
+              <span class="ml-2"> {{ item.text }}</span>
             </template>
           </v-autocomplete>
 
@@ -94,56 +97,60 @@
       </v-row>
     </v-card-text>
 
-    <BaseSubTitle class="mt-3" color="grey lighten-3" :divider="false" title="访问信息" />
-    <v-card-text class="pa-2">
-      <v-row>
-        <v-col cols="12">
-          <v-text-field v-model="obj.ingress.host" label="访问域名" />
+    <ResourceConf ref="resourceConf" :base="base" :spec="spec" />
 
-          <v-autocomplete
-            v-model="gateway"
-            hide-no-data
-            hide-selected
-            :items="gatewayItems"
-            label="网关"
-            :menu-props="{
-              bottom: true,
-              left: true,
-              origin: `top center`,
-            }"
-            :rules="objRules.gatewayRules"
-            @change="onGatewayChange"
-          >
-            <template #selection="{ item }">
-              <v-chip class="my-1" color="primary" small text-color="white">
-                {{ item.text }}
-              </v-chip>
-            </template>
-          </v-autocomplete>
-        </v-col>
-      </v-row>
-    </v-card-text>
+    <v-switch v-model="advanced" class="ml-3" label="高级配置" />
 
-    <template v-if="obj.server.kind === 'UNKNOWN_IMPLEMENTATION'">
-      <BaseSubTitle class="mt-3" color="grey lighten-3" :divider="false" title="自定义配置" />
+    <template v-if="advanced">
+      <BaseSubTitle class="mt-3" color="grey lighten-3" :divider="false" title="访问信息" />
       <v-card-text class="pa-2">
         <v-row>
           <v-col cols="12">
-            <v-text-field v-model="obj.server.mountPath" label="挂载路径" />
+            <v-text-field v-model="obj.ingress.host" label="访问域名" />
 
-            <Command v-model="obj.server.command" />
-
-            <Args v-model="obj.server.args" />
-
-            <Env v-model="obj.server.env" />
-
-            <Port v-model="obj.server.ports" />
+            <v-autocomplete
+              v-model="gateway"
+              hide-no-data
+              hide-selected
+              :items="gatewayItems"
+              label="网关"
+              :menu-props="{
+                bottom: true,
+                left: true,
+                origin: `top center`,
+              }"
+              :rules="objRules.gatewayRules"
+              @change="onGatewayChange"
+            >
+              <template #selection="{ item }">
+                <v-chip class="my-1" color="primary" small text-color="white">
+                  {{ item.text }}
+                </v-chip>
+              </template>
+            </v-autocomplete>
           </v-col>
         </v-row>
       </v-card-text>
-    </template>
 
-    <ResourceConf ref="resourceConf" :base="base" :spec="spec" />
+      <template v-if="obj.server.kind === 'UNKNOWN_IMPLEMENTATION'">
+        <BaseSubTitle class="mt-3" color="grey lighten-3" :divider="false" title="自定义配置" />
+        <v-card-text class="pa-2">
+          <v-row>
+            <v-col cols="12">
+              <v-text-field v-model="obj.server.mountPath" label="挂载路径" />
+
+              <Command v-model="obj.server.command" />
+
+              <Args v-model="obj.server.args" />
+
+              <Env v-model="obj.server.env" />
+
+              <Port v-model="obj.server.ports" />
+            </v-col>
+          </v-row>
+        </v-card-text>
+      </template>
+    </template>
   </v-form>
 </template>
 
@@ -184,6 +191,7 @@
     data: function () {
       return {
         valid: false,
+        advanced: false,
         imageItems: [],
         protocolItems: [
           { text: 'seldon', value: 'seldon' },
@@ -191,14 +199,14 @@
           { text: 'v2', value: 'v2' },
         ],
         implementationItems: [
-          { text: 'huggingface server', value: 'HUGGINGFACE_SERVER' },
-          { text: 'openmmlab server', value: 'OPENMMLAB_SERVER' },
-          { text: 'tensorflow server', value: 'TENSORFLOW_SERVER' },
-          { text: 'sklearn server', value: 'SKLEARN_SERVER' },
-          { text: 'triton server', value: 'TRITON_SERVER' },
-          { text: 'mlflow server', value: 'MLFLOW_SERVER' },
-          { text: 'xgboost server', value: 'XGBOOST_SERVER' },
-          { text: 'custom server', value: 'UNKNOWN_IMPLEMENTATION' },
+          { text: 'huggingface server', value: 'HUGGINGFACE_SERVER', icon: 'huggingface' },
+          { text: 'openmmlab server', value: 'OPENMMLAB_SERVER', icon: 'openmmlab' },
+          { text: 'tensorflow server', value: 'TENSORFLOW_SERVER', icon: 'tensorflow' },
+          { text: 'sklearn server', value: 'SKLEARN_SERVER', icon: 'sklearn' },
+          { text: 'triton server', value: 'TRITON_SERVER', icon: 'triton' },
+          { text: 'mlflow server', value: 'MLFLOW_SERVER', icon: 'mlflow' },
+          { text: 'xgboost server', value: 'XGBOOST_SERVER', icon: 'xgboost' },
+          { text: 'custom server', value: 'UNKNOWN_IMPLEMENTATION', icon: 'kubegems' },
         ],
         gateway: '',
         gatewayItems: [],

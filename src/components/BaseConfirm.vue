@@ -34,7 +34,7 @@
         >
           <template v-if="Confirm.content && Confirm.content.type === 'batch_delete'">
             <div class="text-subtitle-1 kubegems__text">
-              请确认以下需要{{ Confirm.content.tip || '删除' }}的资源！
+              {{ $t('tip.batch_delete_c', [Confirm.content.tip || $t('operate.delete')]) }}
             </div>
             <div
               v-for="(content, index) in Confirm.content ? Confirm.content.text.split(',') : []"
@@ -71,7 +71,11 @@
             v-else-if="Confirm.content.type === 'batch_delete'"
             v-model="confirmData"
             class="my-0"
-            :label="`${Confirm.content.one ? `${$t('confirm.tip')}` : `请输入 “确认${Confirm.content.tip || '删除'}”`}`"
+            :label="`${
+              Confirm.content.one
+                ? `${$t('confirm.tip')}`
+                : $t('tip.batch_confirm_c', [Confirm.content.tip || $t('tip.batch_delete')])
+            }`"
             required
             :rules="confirmBacthDataRule"
             @keydown.enter="confirm"
@@ -109,13 +113,18 @@
     computed: {
       ...mapState(['Confirm', 'Circular']),
       confirmDataRule() {
-        return [required, (v) => !!(v === this.Confirm.content.name) || '名称不匹配'];
+        return [required, (v) => !!(v === this.Confirm.content.name) || this.$t('ruler.not_match')];
       },
       confirmBacthDataRule() {
         if (this.Confirm.content.one) {
-          return [required, (v) => !!(v === this.Confirm.content.one) || '名称不匹配'];
+          return [required, (v) => !!(v === this.Confirm.content.one) || this.$t('ruler.not_match')];
         } else {
-          return [required, (v) => !!(v === `确认${this.Confirm.content.tip || '删除'}`) || '输入不匹配'];
+          return [
+            required,
+            (v) =>
+              !!(v === this.$t('tip.batch_rule_c', [this.Confirm.content.tip || this.$t('tip.batch_delete')])) ||
+              this.$t('ruler.not_match'),
+          ];
         }
       },
     },

@@ -14,6 +14,7 @@
  * limitations under the License. 
 -->
 
+<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <BaseBreadcrumb />
@@ -21,7 +22,7 @@
     <v-row class="mt-0">
       <v-col v-for="(item, index) in items" :key="index" class="pt-0 pb-3" cols="12">
         <v-hover #default="{ hover }">
-          <v-card class="mx-auto oauth-pos" :elevation="hover ? 5 : 0" flat height="100%">
+          <v-card class="mx-auto oauth__pos" :elevation="hover ? 5 : 0" flat height="100%">
             <v-list-item three-line>
               <v-list-item-avatar class="primary--text" size="80" tile>
                 <BaseLogo class="mr-6 mt-1" :icon-name="item.vendor.toLocaleLowerCase()" :width="60" />
@@ -33,15 +34,14 @@
                   </a>
                 </v-list-item-title>
                 <v-list-item-subtitle>
-                  <span class="text-body-2"> 简介： </span>
-                  {{ item.desc }}
+                  {{ $t(`tip.${item.name.toLowerCase()}`) }}
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
 
-            <v-card-actions v-if="!item.forbid" class="btn-position">
+            <v-card-actions v-if="!item.forbid" class="oauth__position">
               <v-spacer />
-              <v-btn color="primary" depressed text @click="configAuthSource(item)"> 配置 </v-btn>
+              <v-btn color="primary" depressed text @click="configAuthSource(item)"> {{ $t('operate.config') }} </v-btn>
               <v-btn
                 v-if="Object.prototype.hasOwnProperty.call(item, 'enabled')"
                 :color="item.enabled ? `error` : `primary`"
@@ -49,12 +49,14 @@
                 text
                 @click="operateAuthSource(item)"
               >
-                {{ item.enabled ? '停止' : '启用' }}
+                {{ item.enabled ? $t('disable') : $t('enable') }}
               </v-btn>
             </v-card-actions>
 
-            <v-flex v-if="item.enabled" class="oauth-watermark-bg" />
-            <v-flex v-if="item.enabled" class="oauth-watermark font-weight-medium"> 已启用 </v-flex>
+            <v-flex v-if="item.enabled" class="oauth__watermark-bg" />
+            <v-flex v-if="item.enabled" class="oauth__watermark font-weight-medium">
+              {{ $t('status.enabled') }}
+            </v-flex>
           </v-card>
         </v-hover>
       </v-col>
@@ -77,9 +79,8 @@
     data: () => ({
       items: [
         {
-          name: 'Kubegems (default)',
+          name: 'Kubegems',
           kind: 'kubegems',
-          desc: 'Kubegems 内置的数据库认证',
           enabled: true,
           forbid: true,
           vendor: 'kubegems',
@@ -87,25 +88,21 @@
         {
           name: 'Oauth',
           kind: 'OAUTH',
-          desc: '使您的组织能够使用 Oauth 协议登录',
           vendor: 'oauth',
         },
         {
           name: 'OpenLdap',
           kind: 'LDAP',
-          desc: '使您的组织能够使用 Ldap 协议登录',
           vendor: 'ldap',
         },
         {
           name: 'GitLab',
           kind: 'OAUTH',
-          desc: '使您的组织能够使用 GitLab 账号登录',
           vendor: 'gitlab',
         },
         {
           name: 'GitHub',
           kind: 'OAUTH',
-          desc: '使您的组织能够使用 GitHub 账号登录',
           vendor: 'github',
         },
       ],
@@ -137,9 +134,9 @@
       },
       async operateAuthSource(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: item.enabled ? `停止${item.kind}登录` : `启用${item.kind}登录`,
+          title: item.enabled ? this.$t('operate.disable_c', [item.kind]) : this.$t('operate.enable_c', [item.kind]),
           content: {
-            text: item.enabled ? `停止${item.kind}登录` : `启用${item.kind}登录`,
+            text: item.enabled ? this.$t('operate.disable_c', [item.kind]) : this.$t('operate.enable_c', [item.kind]),
             type: 'confirm',
             name: item.name,
           },
@@ -155,39 +152,41 @@
   };
 </script>
 
-<style scoped>
-  .oauth-pos {
-    position: relative;
-    background-color: #ffffff;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+<style lang="scss" scoped>
+  .oauth {
+    &__pos {
+      position: relative;
+      background-color: #ffffff;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 
-  .oauth-watermark-bg {
-    position: absolute;
-    width: 120px;
-    height: 90px;
-    transform: rotate(47deg);
-    top: -46px;
-    right: -55px;
-    background-color: #1e88e5;
-    padding: 0;
-  }
+    &__watermark-bg {
+      position: absolute;
+      width: 120px;
+      height: 90px;
+      transform: rotate(47deg);
+      top: -46px;
+      right: -55px;
+      background-color: #1e88e5;
+      padding: 0;
+    }
 
-  .oauth-watermark {
-    position: absolute;
-    top: 13px;
-    right: 4px;
-    transform: rotate(47deg);
-    text-transform: uppercase;
-    color: white;
-    font-size: 12px;
-  }
+    &__watermark {
+      position: absolute;
+      top: 13px;
+      right: 4px;
+      transform: rotate(47deg);
+      text-transform: uppercase;
+      color: white;
+      font-size: 12px;
+    }
 
-  .btn-position {
-    position: absolute;
-    right: 10px;
-    bottom: 0;
+    &__position {
+      position: absolute;
+      right: 10px;
+      bottom: 0;
+    }
   }
 </style>

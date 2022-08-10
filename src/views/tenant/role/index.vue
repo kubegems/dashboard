@@ -14,6 +14,7 @@
  * limitations under the License. 
 -->
 
+<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <BaseBreadcrumb />
@@ -25,7 +26,7 @@
           hide-default-footer
           :items="items"
           :items-per-page="100"
-          no-data-text="暂无数据"
+          :no-data-text="$root.$t('data.no_data')"
         />
       </v-card-text>
     </v-card>
@@ -35,89 +36,93 @@
 <script>
   export default {
     name: 'Role',
-    data: () => ({
-      items: [
-        {
-          id: 1,
-          role: '系统管理员',
-          type: '系统',
-          description: '可以操作系统所有的资源，用户，租户',
-        },
-        {
-          id: 2,
-          role: '系统成员',
-          type: '系统',
-          description: '没有任何系统级别的权限',
-        },
+    computed: {
+      headers() {
+        return [
+          { text: this.$t('table.role'), value: 'role', align: 'start', width: 300 },
+          { text: this.$t('table.type'), value: 'type', align: 'start' },
+          { text: this.$t('table.description'), value: 'description', align: 'start' },
+        ];
+      },
+      items() {
+        return [
+          {
+            id: 1,
+            role: this.$root.$t('role.system.administrator'),
+            type: this.$root.$t('resource.system'),
+            description: this.$t('tip.system.admin'),
+          },
+          {
+            id: 2,
+            role: this.$root.$t('role.system.normal'),
+            type: this.$root.$t('resource.system'),
+            description: this.$t('tip.system.normal'),
+          },
 
-        {
-          id: 3,
-          role: '租户管理员',
-          type: '租户',
-          description: '可以操作租户下所有资源',
-        },
-        {
-          id: 4,
-          role: '租户成员',
-          type: '租户',
-          description: '只能看到自己参与的项目',
-        },
+          {
+            id: 3,
+            role: this.$root.$t('role.tenant.admin'),
+            type: this.$root.$t('resource.tenant'),
+            description: this.$t('tip.tenant.admin'),
+          },
+          {
+            id: 4,
+            role: this.$root.$t('role.tenant.ordinary'),
+            type: this.$root.$t('resource.tenant'),
+            description: this.$t('tip.tenant.normal'),
+          },
 
-        {
-          id: 5,
-          role: '项目管理员',
-          type: '项目',
-          description: '可以操作项目下的所有资源',
-        },
-        {
-          id: 6,
-          role: '项目测试',
-          type: '项目',
-          description: '仅可以操作测试属性的环境',
-        },
-        {
-          id: 7,
-          role: '项目研发',
-          type: '项目',
-          description: '仅可以操作研发属性的环境',
-        },
-        {
-          id: 8,
-          role: '项目运维',
-          type: '项目',
-          description: '可以操作所有环境',
-        },
+          {
+            id: 5,
+            role: this.$root.$t('role.project.admin'),
+            type: this.$root.$t('resource.project'),
+            description: this.$t('tip.project.admin'),
+          },
+          {
+            id: 6,
+            role: this.$root.$t('role.project.test'),
+            type: this.$root.$t('resource.project'),
+            description: this.$t('tip.project.test'),
+          },
+          {
+            id: 7,
+            role: this.$root.$t('role.project.dev'),
+            type: this.$root.$t('resource.project'),
+            description: this.$t('tip.project.dev'),
+          },
+          {
+            id: 8,
+            role: this.$root.$t('role.project.ops'),
+            type: this.$root.$t('resource.project'),
+            description: this.$t('tip.project.ops'),
+          },
 
-        {
-          id: 9,
-          role: '环境成员',
-          type: '环境',
-          description: '只可以查看环境下的资源',
-        },
-        {
-          id: 10,
-          role: '环境管理员',
-          type: '环境',
-          description: '可以操作环境下的资源',
-        },
-        {
-          id: 11,
-          role: '虚拟空间成员',
-          type: '微服务',
-          description: '查看微服务虚拟空间下的资源',
-        },
-        {
-          id: 12,
-          role: '虚拟空间管理员',
-          type: '微服务',
-          description: '可以操作微服务虚拟空间下的资源',
-        },
-      ],
-      headers: [
-        { text: '角色', value: 'role', align: 'start', width: 300 },
-        { text: '类别', value: 'type', align: 'start' },
-        { text: '说明', value: 'description', align: 'start' },
-      ],
-    }),
+          {
+            id: 9,
+            role: this.$root.$t('role.environment.reader'),
+            type: this.$root.$t('resource.project'),
+            description: this.$t('tip.environment.reader'),
+          },
+          {
+            id: 10,
+            role: this.$root.$t('role.environment.operator'),
+            type: this.$root.$t('resource.project'),
+            description: this.$t('tip.environment.operator'),
+          },
+          {
+            id: 11,
+            role: this.$root.$t('role.mesh.normal'),
+            type: this.$root.$t('resource.mesh'),
+            description: this.$t('tip.mesh.normal'),
+          },
+          {
+            id: 12,
+            role: this.$root.$t('role.mesh.administrator'),
+            type: this.$root.$t('resource.mesh'),
+            description: this.$t('tip.mesh.admin'),
+          },
+        ];
+      },
+    },
   };
 </script>

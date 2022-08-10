@@ -168,7 +168,7 @@
       };
     },
     computed: {
-      ...mapState(['JWT', 'MessageStreamWS', 'User', 'Admin', 'Auth']),
+      ...mapState(['JWT', 'MessageStreamWS', 'User', 'Admin', 'Auth', 'Locale']),
       ...mapGetters(['Project', 'Environment', 'Tenant']),
       tabItems() {
         return [

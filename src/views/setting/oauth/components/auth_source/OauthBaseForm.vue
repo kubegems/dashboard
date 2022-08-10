@@ -14,6 +14,7 @@
  * limitations under the License. 
 -->
 
+<i18n src="../../i18n/locales.json" />
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
     <v-card-text class="pa-2">
@@ -168,7 +169,9 @@
           userInfoURLRule: [required],
           tokenURLRule: [required],
           gitlabDomainRule: [
-            (v) => !!new RegExp('^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}$', 'g').test(v) || '格式错误',
+            (v) =>
+              !!new RegExp('^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\\.)+[A-Za-z]{2,6}$', 'g').test(v) ||
+              this.$t('form.format_rule'),
           ],
         };
       },
