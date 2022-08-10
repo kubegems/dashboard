@@ -18,7 +18,7 @@
   <v-card class="rounded-tr-0 rounded-tl-0 mb-3" flat height="60">
     <v-card-title class="py-3 mt-n3" :style="{ height: `60px` }">
       <v-sheet v-if="selectable" class="text-subtitle-1">
-        虚拟空间
+        {{ $t('resource.mesh') }}
         <v-menu
           v-model="virtualSpaceMenu"
           bottom
@@ -48,17 +48,20 @@
               <v-icon v-else right>mdi-chevron-down</v-icon>
             </v-btn>
           </template>
-          <v-data-iterator hide-default-footer :items="[{ text: '虚拟空间', values: m_select_virtualSpaceItems }]">
+          <v-data-iterator
+            hide-default-footer
+            :items="[{ text: $t('resource.mesh'), values: m_select_virtualSpaceItems }]"
+          >
             <template #no-data>
               <v-card>
-                <v-card-text> 暂无虚拟空间 </v-card-text>
+                <v-card-text> {{ $t('data.no_data') }} </v-card-text>
               </v-card>
             </template>
             <template #default="props">
               <v-card v-for="item in props.items" :key="item.text" flat :loading="loading">
                 <v-list class="pb-3" dense>
                   <v-flex class="text-subtitle-2 text-center ma-2">
-                    <span>虚拟空间</span>
+                    <span>{{ $t('resource.mesh') }}</span>
                   </v-flex>
                   <v-divider class="mx-2" />
                   <div class="header__list px-2">
@@ -88,7 +91,7 @@
       </v-sheet>
       <template v-else>
         <v-sheet class="text-subtitle-1">
-          虚拟空间
+          {{ $t('resource.mesh') }}
           <v-btn
             class="primary--text text-subtitle-1 font-weight-medium mt-n1"
             color="white"
@@ -102,7 +105,7 @@
           </v-btn>
         </v-sheet>
         <v-sheet class="text-subtitle-1 ml-4">
-          集群
+          {{ $t('resource.cluster') }}
           <v-btn
             class="primary--text text-subtitle-1 font-weight-medium mt-n1"
             color="white"
@@ -116,7 +119,7 @@
           </v-btn>
         </v-sheet>
         <v-sheet class="text-subtitle-1 ml-4">
-          环境
+          {{ $t('resource.environment') }}
           <v-btn
             class="primary--text text-subtitle-1 font-weight-medium mt-n1"
             color="white"
@@ -135,14 +138,16 @@
 
       <v-sheet>
         <span class="text-body-2 kubegems__text">
-          虚拟空间角色:
+          {{ $t('resource.mesh_c', [$t('resource.role')]) }}:
           {{
-            $VIRTUALSPACE_ROLE[m_permisson_virtualSpaceRole] ? $VIRTUALSPACE_ROLE[m_permisson_virtualSpaceRole] : '暂无'
+            $VIRTUALSPACE_ROLE[m_permisson_virtualSpaceRole]
+              ? $t(`role.mesh.${m_permisson_virtualSpaceRole}`)
+              : $t('data.unknown')
           }}
         </span>
         <v-btn class="primary--text" small text @click="returnVirtualSpace">
           <v-icon left small>mdi-logout</v-icon>
-          返回
+          {{ $t('operate.return') }}
         </v-btn>
       </v-sheet>
     </v-card-title>

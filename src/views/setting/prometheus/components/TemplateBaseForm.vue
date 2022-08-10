@@ -14,18 +14,19 @@
  * limitations under the License. 
 -->
 
+<i18n src="../i18n/locales.json" />
 <template>
   <v-flex>
     <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
       <v-flex :class="expand ? 'kubegems__overlay' : ''" />
-      <BaseSubTitle title="模版定义" />
+      <BaseSubTitle :title="$root.$t('form.definition', [$root.$t('resource.template')])" />
       <v-card-text class="pa-2">
         <v-row>
           <v-col cols="6">
             <v-text-field
               v-model="obj.name"
               class="my-0"
-              label="名称"
+              :label="$t('form.name')"
               :readonly="edit"
               required
               :rules="objRules.nameRule"
@@ -35,13 +36,13 @@
             <v-text-field
               v-model="obj.showName"
               class="my-0"
-              label="规则描述"
+              :label="$t('form.rule')"
               required
               :rules="objRules.showNameRule"
             />
           </v-col>
           <v-col cols="12">
-            <v-text-field v-model="obj.expr" class="my-0" label="expr" required :rules="objRules.exprRule" />
+            <v-text-field v-model="obj.expr" class="my-0" label="Expr" required :rules="objRules.exprRule" />
           </v-col>
           <v-col cols="12">
             <v-combobox
@@ -49,7 +50,7 @@
               height="32"
               hide-no-data
               :items="[]"
-              label="标签(回车)"
+              :label="$t('form.label')"
               multiple
               :search-input.sync="labelText"
               @change="onLabelChange"
@@ -71,8 +72,8 @@
               color="primary"
               hide-selected
               :items="m_metrics_unitItems"
-              label="单位"
-              no-data-text="暂无可选数据"
+              :label="$t('form.unit')"
+              :no-data-text="$root.$t('data.no_data')"
               :rules="objRules.unitRule"
             >
               <template #selection="{ item }">

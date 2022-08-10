@@ -14,6 +14,7 @@
  * limitations under the License. 
 -->
 
+<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <BaseViewportHeader />
@@ -36,13 +37,17 @@
                 <v-list-item-title class="text-h6 mb-1">
                   <a>{{ item.metadata.name }}</a>
                 </v-list-item-title>
-                <v-list-item-subtitle> 供应商：{{ item.provisioner }} </v-list-item-subtitle>
+                <v-list-item-subtitle> {{ $t('tip.provisioner') }} : {{ item.provisioner }} </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-card-actions>
               <v-spacer />
-              <v-btn color="primary" small text @click="updateStorageClass(item)"> 编 辑 </v-btn>
-              <v-btn color="error" small text @click="removeStorageClass(item)"> 删 除 </v-btn>
+              <v-btn color="primary" small text @click="updateStorageClass(item)">
+                {{ $root.$t('operate.edit') }}
+              </v-btn>
+              <v-btn color="error" small text @click="removeStorageClass(item)">
+                {{ $root.$t('operate.delete') }}
+              </v-btn>
             </v-card-actions>
             <v-flex
               v-if="
@@ -60,7 +65,7 @@
               "
               class="sc-watermark font-weight-medium"
             >
-              默认存储
+              {{ $t('tip.default') }}
             </v-flex>
           </v-card>
         </v-hover>
@@ -72,7 +77,7 @@
               <v-list-item-content>
                 <v-btn block class="text-h6" color="primary" text @click="addStorageClass">
                   <v-icon left>mdi-plus-box</v-icon>
-                  创建存储类型
+                  {{ $root.$t('operate.create_c', [$root.$t('resource.storageclass')]) }}
                 </v-btn>
               </v-list-item-content>
             </v-list-item>
@@ -114,7 +119,7 @@
         this.$nextTick(() => {
           if (this.ThisCluster === '') {
             this.$store.commit('SET_SNACKBAR', {
-              text: `请创建或选择集群`,
+              text: this.$root.$t('tip.cluster'),
               color: 'warning',
             });
             return;
@@ -139,9 +144,11 @@
       },
       removeStorageClass(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除存储类型`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.storageclass')]),
           content: {
-            text: `删除存储类型 ${item.metadata.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.storageclass')])} ${
+              item.metadata.name
+            }`,
             type: 'delete',
             name: item.metadata.name,
           },

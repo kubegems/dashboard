@@ -14,6 +14,7 @@
  * limitations under the License. 
 -->
 
+<i18n src="../i18n/locales.json" />
 <template>
   <v-card class="pa-2" flat>
     <v-card-title class="pa-0">
@@ -40,7 +41,7 @@
       hide-default-footer
       :items="items"
       :items-per-page="params.size"
-      no-data-text="暂无数据"
+      :no-data-text="$root.$t('data.no_data')"
       :page.sync="params.page"
     >
       <template #[`item.createdAt`]="{ item }">
@@ -50,7 +51,7 @@
         {{ item.Title }}
       </template>
       <template #[`item.messageType`]="{ item }">
-        {{ messageTypeCn[item.MessageType] }}
+        {{ $t(`message.filter.${item.MessageType}`) }}
       </template>
     </v-data-table>
     <BasePagination
@@ -75,24 +76,8 @@
     data() {
       return {
         items: [],
-        headers: [
-          { text: '时间', value: 'createdAt', align: 'start', width: 220 },
-          { text: '消息', value: 'title', align: 'start' },
-          { text: '类型', value: 'messageType', align: 'end', width: 50 },
-          { text: '', value: '', align: 'end', width: 30 },
-        ],
         pageCount: 0,
-        messageTypeCn: {
-          alert: '告警',
-          message: '通知',
-          approve: '审批',
-        },
         messageType: null,
-        messageTypeItems: [
-          { text: '通知', color: 'success', value: 'message' },
-          { text: '审批', color: 'primary', value: 'approve' },
-          { text: '告警', color: 'error', value: 'alert' },
-        ],
       };
     },
     computed: {
@@ -105,6 +90,21 @@
           message_type:
             this.messageType || this.messageType === 0 ? this.messageTypeItems[this.messageType].value : null,
         };
+      },
+      headers() {
+        return [
+          { text: this.$t('message.table.time'), value: 'createdAt', align: 'start', width: 220 },
+          { text: this.$t('message.table.message'), value: 'title', align: 'start' },
+          { text: this.$t('message.table.type'), value: 'messageType', align: 'end', width: 50 },
+          { text: '', value: '', align: 'end', width: 30 },
+        ];
+      },
+      messageTypeItems() {
+        return [
+          { text: this.$t('message.filter.notify'), color: 'success', value: 'message' },
+          { text: this.$t('message.filter.approval'), color: 'primary', value: 'approve' },
+          { text: this.$t('message.filter.alert'), color: 'error', value: 'alert' },
+        ];
       },
     },
     mounted() {

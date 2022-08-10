@@ -18,7 +18,7 @@
   <BaseDialog
     v-model="dialog"
     icon="mdi-file-powerpoint-box"
-    title="创建 Prometheus 查询模版"
+    :title="$root.$t('operate.create_c', [$root.$t('resource.template')])"
     :width="1000"
     @reset="reset"
   >
@@ -26,7 +26,9 @@
       <component :is="formComponent" :ref="formComponent" :item="item" title="Reocrding Rules" :units="units" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addTemplate"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addTemplate">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>

@@ -14,6 +14,7 @@
  * limitations under the License. 
 -->
 
+<i18n src="../i18n/locales.json" />
 <template>
   <v-card flat>
     <v-card-text class="pa-7">
@@ -24,7 +25,7 @@
             {{ appName }}
           </h3>
           <div v-if="showVersion" class="mx-1">
-            <div class="text-body-2 float-left version__tip">chart版本</div>
+            <div class="text-body-2 float-left version__tip">chart {{ $t('tip.version') }}</div>
             <v-menu
               v-model="chartMenu"
               bottom
@@ -42,17 +43,21 @@
                   <v-icon v-else right> mdi-chevron-down </v-icon>
                 </v-btn>
               </template>
-              <v-data-iterator class="file-iterator" hide-default-footer :items="[{ text: '版本', values: versions }]">
+              <v-data-iterator
+                class="file-iterator"
+                hide-default-footer
+                :items="[{ text: $t('tip.version'), values: versions }]"
+              >
                 <template #no-data>
                   <v-card>
-                    <v-card-text> 暂无版本 </v-card-text>
+                    <v-card-text> {{ $root.$t('data.no_data') }} </v-card-text>
                   </v-card>
                 </template>
                 <template #default="props">
                   <v-card class="app-overflow-y" flat max-height="300">
                     <v-list v-for="item in props.items" :key="item.text" dense>
                       <v-flex class="text-subtitle-2 text-center ma-2">
-                        <span>版本</span>
+                        <span>{{ $t('tip.version') }}</span>
                       </v-flex>
                       <v-divider class="mx-2" />
                       <v-list-item
@@ -77,22 +82,22 @@
       </div>
       <v-divider />
       <div class="py-5">
-        <h5 class="text-subtitle-1 kubegems__text">仓库</h5>
+        <h5 class="text-subtitle-1 kubegems__text">{{ $t('tip.registry') }}</h5>
         <h6 class="text-body-2 mb-3">
           {{ selectRepo }}
         </h6>
-        <h5 class="text-subtitle-1 kubegems__text">应用版本</h5>
+        <h5 class="text-subtitle-1 kubegems__text">{{ $t('tip.app_version') }}</h5>
         <h6 class="text-body-2 mb-2">{{ currentApp.appVersion }}</h6>
-        <h5 class="text-subtitle-1 kubegems__text">描述</h5>
+        <h5 class="text-subtitle-1 kubegems__text">{{ $t('tip.desc') }}</h5>
         <h6 class="text-body-2 mb-3">
           {{ currentApp.description }}
         </h6>
-        <h5 class="text-subtitle-1 kubegems__text">创建时间</h5>
+        <h5 class="text-subtitle-1 kubegems__text">{{ $t('tip.create_at') }}</h5>
         <h6 class="text-body-2 mb-3">
           {{ currentApp.created ? $moment(currentApp.created).format('lll') : '' }}
         </h6>
         <template v-if="currentApp.maintainers && currentApp.maintainers.length > 0">
-          <h5 class="text-subtitle-1 kubegems__text">维护者</h5>
+          <h5 class="text-subtitle-1 kubegems__text">{{ $t('tip.maintainer') }}</h5>
           <h6 class="text-body-2 mb-3">
             <div v-for="(maintainer, index) in currentApp.maintainers" :key="index" class="mb-3">
               <span v-if="maintainer.name" class="mr-2">

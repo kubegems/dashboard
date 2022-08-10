@@ -15,12 +15,20 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-database" title="更新存储类型" :width="1000" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-database"
+    :title="$root.$t('operate.update_c', [$root.$t('resource.storageclass')])"
+    :width="1000"
+    @reset="reset"
+  >
     <template #content>
       <BaseYamlForm ref="yamlForm" :item="item" title="StorageClass" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateStorageClass"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateStorageClass">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
     <template #header-action>
       <div class="text-h6 ml-2 white--text mt-1">Yaml</div>

@@ -14,12 +14,13 @@
  * limitations under the License. 
 -->
 
+<i18n src="../../i18n/locales.json" />
 <template>
   <div class="text-center">
     <v-dialog hide-overlay light persistent :value="dialog" width="300">
       <v-card color="primary" dark flat>
         <v-card-text class="text-center">
-          部署中,请等待...
+          {{ $t('deploying') }}...
           <v-progress-linear class="mb-0" color="white" indeterminate />
         </v-card-text>
       </v-card>

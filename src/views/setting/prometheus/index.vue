@@ -14,15 +14,16 @@
  * limitations under the License. 
 -->
 
+<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
-    <BaseSplitContainer side-width="250px" title="类型">
+    <BaseSplitContainer side-width="250px" :title="$root.$t('resource.type')">
       <BaseBreadcrumb flat>
         <template #extend>
           <v-flex class="kubegems__full-right">
             <v-btn class="primary--text" small text @click="addTemplate">
               <v-icon left small> mdi-plus-box </v-icon>
-              创建模版
+              {{ $root.$t('operate.create_c', [$root.$t('resource.template')]) }}
             </v-btn>
           </v-flex>
         </template>
@@ -48,7 +49,7 @@
         hide-default-footer
         :items="items"
         :items-per-page="params.size"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
       >
         <template #[`item.rule`]="{ item }">
@@ -71,10 +72,14 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" small text @click="updateTemplate(item)"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateTemplate(item)">
+                    {{ $root.$t('operate.edit') }}
+                  </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="removeTemplate(item)"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeTemplate(item)">
+                    {{ $root.$t('operate.delete') }}
+                  </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -113,20 +118,24 @@
       metricTypeItems: [],
       selected: 0,
       items: [],
-      headers: [
-        { text: '名称', value: 'name', align: 'start' },
-        { text: '规则', value: 'rule', align: 'start' },
-        { text: 'expr', value: 'expr', align: 'start' },
-        { text: '单位', value: 'unit', align: 'start' },
-        { text: '标签', value: 'label', align: 'start' },
-        { text: '', value: 'action', align: 'center', width: 20 },
-      ],
       pageCount: 0,
       params: {
         page: 1,
         size: 10,
       },
     }),
+    computed: {
+      headers() {
+        return [
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
+          { text: this.$t('table.rule'), value: 'rule', align: 'start' },
+          { text: 'Expr', value: 'expr', align: 'start' },
+          { text: this.$t('table.unit'), value: 'unit', align: 'start' },
+          { text: this.$t('table.label'), value: 'label', align: 'start' },
+          { text: '', value: 'action', align: 'center', width: 20 },
+        ];
+      },
+    },
     mounted() {
       this.$nextTick(() => {
         this.metricsConfig();
@@ -177,9 +186,9 @@
       },
       removeTemplate(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除查询模版`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.template')]),
           content: {
-            text: `删除查询模版 ${item.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.template')])} ${item.name}`,
             type: 'delete',
             name: item.name,
           },

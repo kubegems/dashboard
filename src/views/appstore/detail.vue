@@ -14,6 +14,7 @@
  * limitations under the License. 
 -->
 
+<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <Breadcrumb hub="kubegems-charts">
@@ -21,7 +22,7 @@
         <v-flex class="kubegems__full-right">
           <v-btn class="primary--text" small text @click="deployAppStore">
             <v-icon left small> mdi-rocket </v-icon>
-            部署
+            {{ $root.$t('operate.deploy') }}
           </v-btn>
         </v-flex>
       </template>
@@ -94,16 +95,18 @@
       appName: '',
       selectRepo: '',
       tab: 0,
-      tabItems: [
-        { text: '应用详情', value: 'AppDetail' },
-        { text: '配置文件', value: 'ConfigFile' },
-      ],
       item: { files: {} },
     }),
     computed: {
       ...mapState(['Scale']),
       reponame() {
         return this.selectRepo === 'kubegems' ? '' : this.selectRepo;
+      },
+      tabItems() {
+        return [
+          { text: this.$t('tab.app_detail'), value: 'AppDetail' },
+          { text: this.$t('tab.config_file'), value: 'ConfigFile' },
+        ];
       },
     },
     mounted() {

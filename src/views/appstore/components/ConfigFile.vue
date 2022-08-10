@@ -25,8 +25,8 @@
       hide-details
       hide-selected
       :items="fileName"
-      label="文件"
-      no-data-text="暂无可选数据"
+      :label="$root.$t('resource.file')"
+      :no-data-text="$root.$t('data.no_data')"
       solo
       :style="{ width: `500px` }"
       @change="onFileChange"

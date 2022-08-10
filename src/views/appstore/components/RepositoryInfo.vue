@@ -14,24 +14,25 @@
  * limitations under the License. 
 -->
 
+<i18n src="../i18n/locales.json" />
 <template>
   <BaseDialog v-model="dialog" icon="mdi-hexagon-multiple" :title="title" :width="500" @reset="reset">
     <template #content>
-      <BaseSubTitle title="应用商店定义" />
+      <BaseSubTitle :title="$root.$t('form.definition', [$root.$t('header.app_store')])" />
       <v-card-text class="pa-2 mt-2">
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
           <v-sheet>
             <v-text-field
               v-model="obj.ChartRepoName"
               class="my-0"
-              label="名称"
+              :label="$t('form.name')"
               required
               :rules="objRules.chartRepoNameRules"
             />
             <v-text-field
               v-model="obj.URL"
               class="my-0 kubegems__long-width"
-              label="URL"
+              :label="$t('form.address')"
               required
               :rules="objRules.urlRules"
             />
@@ -40,7 +41,9 @@
       </v-card-text>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="recreateRepository"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="recreateRepository">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>
