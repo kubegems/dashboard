@@ -14,17 +14,18 @@
  * limitations under the License. 
 -->
 
+<i18n src="../../i18n/locales.json" />
 <template>
   <v-card>
     <v-card-text>
-      <BaseSubTitle :divider="false" :pl="0" title="租户成员">
+      <BaseSubTitle :divider="false" :pl="0" :title="$root.$t('resource.tenant_c', [$root.$t('resource.member')])">
         <template #header>
-          <span class="text-caption grey--text"> 共{{ total }}人 </span>
+          <span class="text-caption grey--text"> {{ $t('user.tip.user_count', [total]) }} </span>
         </template>
         <template #action>
           <v-btn class="float-right mr-2" color="primary" small text @click="addUser">
             <v-icon left small> mdi-account-plus </v-icon>
-            添加成员
+            {{ $root.$t('operate.add_c', [$root.$t('resource.member')]) }}
           </v-btn>
         </template>
       </BaseSubTitle>
@@ -34,24 +35,24 @@
         hide-default-footer
         :items="items"
         :items-per-page="params.size"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
       >
         <template #[`item.isActive`]="{ item }">
           <span v-if="item.IsActive">
             <v-icon color="primary" small> mdi-check-circle </v-icon>
-            正常
+            {{ $t('status.enabled') }}
           </span>
           <span v-else>
             <v-icon color="error" small> mdi-minus-circle </v-icon>
-            禁用
+            {{ $t('status.disabled') }}
           </span>
         </template>
         <template #[`item.username`]="{ item }">
           {{ item.Username }}
         </template>
         <template #[`item.role`]="{ item }">
-          {{ item.Role === 'ordinary' ? '普通用户' : '租户管理员' }}
+          {{ item.Role === 'ordinary' ? $root.$t('role.tenant.ordinary') : $root.$t('role.tenant.admin') }}
         </template>
         <template #[`item.lastLoginAt`]="{ item }">
           {{ item.LastLoginAt === null ? '--' : $moment(item.LastLoginAt).format('lll') }}
@@ -67,13 +68,15 @@
             <v-card>
               <v-card-text class="pa-2 text-center">
                 <v-flex v-if="item.Role === 'ordinary'">
-                  <v-btn color="primary" small text @click="setAdmin(item)"> 设置管理员 </v-btn>
+                  <v-btn color="primary" small text @click="setAdmin(item)"> {{ $t('operate.set_admin') }} </v-btn>
                 </v-flex>
                 <v-flex v-else>
-                  <v-btn color="primary" small text @click="setOrdinary(item)"> 设置普通用户 </v-btn>
+                  <v-btn color="primary" small text @click="setOrdinary(item)">
+                    {{ $t('operate.set_ordinary') }}
+                  </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="removeUser(item)"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeUser(item)"> {{ $root.$t('operate.delete') }} </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -120,14 +123,18 @@
           noprocessing: true,
         },
         total: 0,
-        headers: [
-          { text: '用户名', value: 'username', align: 'start' },
-          { text: '角色', value: 'role', align: 'start' },
-          { text: '状态', value: 'isActive', align: 'start' },
-          { text: '最近登录', value: 'lastLoginAt', align: 'start' },
-          { text: '', value: 'action', align: 'center', width: 20 },
-        ],
       };
+    },
+    computed: {
+      headers() {
+        return [
+          { text: this.$t('user.table.username'), value: 'username', align: 'start' },
+          { text: this.$t('user.table.role'), value: 'role', align: 'start' },
+          { text: this.$t('user.table.status'), value: 'isActive', align: 'start' },
+          { text: this.$t('user.table.last_login_at'), value: 'lastLoginAt', align: 'start' },
+          { text: '', value: 'action', align: 'center', width: 20 },
+        ];
+      },
     },
     watch: {
       tenant: {
@@ -152,9 +159,9 @@
       },
       setAdmin(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `设置租户成员角色`,
+          title: this.$t('user.tip.set_member_role'),
           content: {
-            text: `设置租户成员 ${item.Username} 为管理员`,
+            text: this.$t('user.tip.set_admin', [item.Username]),
             type: 'confirm',
           },
           param: { item },
@@ -170,9 +177,9 @@
       },
       setOrdinary(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `设置租户成员角色`,
+          title: this.$t('user.tip.set_member_role'),
           content: {
-            text: `设置租户成员 ${item.Username} 为普通用户`,
+            text: this.$t('user.tip.set_ordinary', [item.Username]),
             type: 'confirm',
           },
           param: { item },
@@ -188,9 +195,9 @@
       },
       removeUser(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除租户成员`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.member')]),
           content: {
-            text: `删除租户成员 ${item.Username}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.member')])} ${item.Username}`,
             type: 'delete',
             name: item.Username,
           },

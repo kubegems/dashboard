@@ -24,21 +24,6 @@
               <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width">
                 <span>模型仓库认证</span>
               </v-flex>
-              <v-flex class="float-left ml-2 kubegems__long-width">
-                <v-text-field
-                  v-model="obj.address"
-                  class="my-0"
-                  label="仓库地址"
-                  required
-                  :rules="objRules.addressRule"
-                />
-              </v-flex>
-
-              <div class="kubegems__clear-float" />
-            </v-sheet>
-
-            <v-sheet class="pt-2 px-2">
-              <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width" />
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-autocomplete
                   v-model="authType"
@@ -80,6 +65,7 @@
                     label="密码"
                     required
                     :rules="objRules.passwordRule"
+                    type="password"
                   />
                 </v-flex>
                 <div class="kubegems__clear-float" />
@@ -89,8 +75,9 @@
               <v-sheet class="pt-2 px-2">
                 <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width" />
                 <v-flex class="float-left ml-2 kubegems__long-width">
-                  <v-text-field
+                  <v-textarea
                     v-model="obj.auth.token"
+                    auto-grow
                     class="my-0"
                     label="Token"
                     required
@@ -162,7 +149,6 @@
           { text: '基于Token的认证', value: 'token' },
         ],
         obj: {
-          addressRule: '',
           auth: {
             username: '',
             token: '',
@@ -170,7 +156,6 @@
           },
         },
         objRules: {
-          addressRule: [required],
           authTypeItemsRules: [required],
           usernameRule: [required],
           passwordRule: [required],

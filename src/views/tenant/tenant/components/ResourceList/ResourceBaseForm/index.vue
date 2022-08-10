@@ -14,9 +14,16 @@
  * limitations under the License. 
 -->
 
+<i18n src="../../../i18n/locales.json" />
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
-    <BaseSubTitle :title="cluster ? `集群 ${cluster}` : `集群定义`" />
+    <BaseSubTitle
+      :title="
+        cluster
+          ? `${$root.$t('resource.cluster')} ${cluster}`
+          : $root.$t('form.definition', [$root.$t('resource.cluster')])
+      "
+    />
     <v-card-text class="pa-2">
       <v-row v-if="!edit">
         <v-col cols="6">
@@ -26,8 +33,8 @@
             color="primary"
             hide-selected
             :items="m_select_clusterItems"
-            label="集群"
-            no-data-text="暂无可选数据"
+            :label="$root.$t('resource.cluster')"
+            :no-data-text="$root.$t('data.no_data')"
             :rules="objRules.clusterIDRules"
             @change="onClusterChange"
             @focus="onClusterSelectFocus"
@@ -42,13 +49,13 @@
       </v-row>
       <ResourceChart :nvidia="nvidia" :quota="quota" :tke="tke" />
 
-      <BaseSubTitle title="资源限制" />
+      <BaseSubTitle :title="$t('resource.tip.resource_limit')" />
       <v-card-text class="px-0 pb-2">
         <v-row class="mx-0">
           <v-col class="px-0 py-0" cols="4">
             <v-sheet class="px-2">
               <v-flex class="text-subtitle-1">
-                可用CPU
+                {{ $t('resource.form.apply', [$root.$t('resource.cpu')]) }}
                 <span class="text-subtitle-2 primary--text">
                   {{ quota ? quota.AllocatedCpu.toFixed(1) : 0 }} core
                 </span>
@@ -56,7 +63,11 @@
               <v-text-field
                 v-model="obj.Content['limits.cpu']"
                 class="my-0"
-                :label="edit ? 'CPU扩容后限制值' : 'CPU限制值'"
+                :label="
+                  edit
+                    ? `${$t('resource.tip.scale_limit', [$root.$t('resource.cpu')])}`
+                    : `${$t('resource.tip.limit', [$root.$t('resource.cpu')])}`
+                "
                 required
                 :rules="objRules.cpuRules"
                 type="number"
@@ -70,7 +81,7 @@
           <v-col class="pa-0" cols="4">
             <v-sheet class="px-2">
               <v-flex class="text-subtitle-1">
-                可用内存
+                {{ $t('resource.form.apply', [$root.$t('resource.memory')]) }}
                 <span class="text-subtitle-2 primary--text">
                   {{ quota ? quota.AllocatedMemory.toFixed(1) : 0 }} Gi
                 </span>
@@ -78,7 +89,11 @@
               <v-text-field
                 v-model="obj.Content['limits.memory']"
                 class="my-0"
-                :label="edit ? '内存扩容后限制值' : '内存限制值'"
+                :label="
+                  edit
+                    ? `${$t('resource.tip.scale_limit', [$root.$t('resource.memory')])}`
+                    : `${$t('resource.tip.limit', [$root.$t('resource.memory')])}`
+                "
                 required
                 :rules="objRules.memoryRules"
                 type="number"
@@ -92,7 +107,7 @@
           <v-col class="px-0 py-0" cols="4">
             <v-sheet class="px-2">
               <v-flex class="text-subtitle-1">
-                可用存储
+                {{ $t('resource.form.apply', [$root.$t('resource.storage')]) }}
                 <span class="text-subtitle-2 primary--text">
                   {{ quota ? quota.AllocatedStorage.toFixed(1) : 0 }}
                   Gi
@@ -101,7 +116,11 @@
               <v-text-field
                 v-model="obj.Content[`requests.storage`]"
                 class="my-0"
-                :label="edit ? '存储扩容后限制值' : '存储限制值'"
+                :label="
+                  edit
+                    ? `${$t('resource.tip.scale_limit', [$root.$t('resource.storage')])}`
+                    : `${$t('resource.tip.limit', [$root.$t('resource.storage')])}`
+                "
                 required
                 :rules="objRules.storageRules"
                 type="number"
@@ -116,13 +135,13 @@
       </v-card-text>
 
       <template v-if="nvidia || tke">
-        <BaseSubTitle title="GPU资源限制" />
+        <BaseSubTitle :title="$t('resource.tip.gpu_resource_limit')" />
         <v-card-text class="px-0 pb-2">
           <v-row class="mx-0">
             <v-col v-if="nvidia" class="px-0 py-0" cols="4">
               <v-sheet class="px-2">
                 <v-flex class="text-subtitle-1">
-                  可用nvidia CPU
+                  nvidia {{ $t('resource.form.apply', [$root.$t('resource.gpu')]) }}
                   <span class="text-subtitle-2 primary--text">
                     {{ quota ? quota.AllocatedNvidiaGpu.toFixed(1) : 0 }} Gpu
                   </span>
@@ -130,7 +149,11 @@
                 <v-text-field
                   v-model="obj.Content['limits.nvidia.com/gpu']"
                   class="my-0"
-                  :label="edit ? 'nvidia GPU扩容后限制值' : 'nvidia GPU限制值'"
+                  :label="
+                    edit
+                      ? `nvidia ${$t('resource.tip.scale_limit', [$root.$t('resource.gpu')])}`
+                      : `nvidia ${$t('resource.tip.limit', [$root.$t('resource.gpu')])}`
+                  "
                   required
                   :rules="objRules.nvidiaRules"
                   type="number"
@@ -145,15 +168,21 @@
               <v-col class="pa-0" cols="4">
                 <v-sheet class="px-2">
                   <v-flex class="text-subtitle-1">
-                    可用tke GPU
+                    tke {{ $t('resource.form.apply', [$root.$t('resource.gpu')]) }}
                     <span class="text-subtitle-2 primary--text">
-                      {{ quota ? quota.AllocatedTkeGpu.toFixed(1) : 0 }} 单位 (1单位=0.01 Gpu)
+                      {{ quota ? quota.AllocatedTkeGpu.toFixed(1) : 0 }} {{ $t('resource.form.unit') }} (1{{
+                        $t('resource.form.unit')
+                      }}=0.01 Gpu)
                     </span>
                   </v-flex>
                   <v-text-field
                     v-model="obj.Content['tencent.com/vcuda-core']"
                     class="my-0"
-                    :label="edit ? 'tke GPU扩容后限制值' : 'tke GPU限制值'"
+                    :label="
+                      edit
+                        ? `tke ${$t('resource.tip.scale_limit', [$root.$t('resource.gpu')])}`
+                        : `tke ${$t('resource.tip.limit', [$root.$t('resource.gpu')])}`
+                    "
                     required
                     :rules="objRules.tkeVcudaRules"
                     type="number"
@@ -169,15 +198,21 @@
               <v-col class="px-0 py-0" cols="4">
                 <v-sheet class="px-2">
                   <v-flex class="text-subtitle-1">
-                    可用tke显存
+                    tke {{ $t('resource.form.apply', [$root.$t('resource.video_memory')]) }}
                     <span class="text-subtitle-2 primary--text">
-                      {{ quota ? quota.AllocatedTkeMemory.toFixed(1) : 0 }} 单位 (1单位=256Mi)
+                      {{ quota ? quota.AllocatedTkeMemory.toFixed(1) : 0 }} {{ $t('resource.form.unit') }} (1{{
+                        $t('resource.form.unit')
+                      }}=256Mi)
                     </span>
                   </v-flex>
                   <v-text-field
                     v-model="obj.Content[`tencent.com/vcuda-memory`]"
                     class="my-0"
-                    :label="edit ? 'tke显存扩容后限制值' : 'tke显存限制值'"
+                    :label="
+                      edit
+                        ? `tke ${$t('resource.tip.scale_limit', [$root.$t('resource.video_memory')])}`
+                        : `tke ${$t('resource.tip.limit', [$root.$t('resource.video_memory')])}`
+                    "
                     required
                     :rules="objRules.tkeVcudaMemoryRules"
                     type="number"
@@ -261,32 +296,34 @@
           cpuRules: [
             required,
             integer,
-            (v) => parseInt(v) <= (this.quota ? this.quota.AllocatedCpu : 0) || '超出最大限制',
+            (v) => parseInt(v) <= (this.quota ? this.quota.AllocatedCpu : 0) || this.$t('resource.form.limit_rule'),
           ],
           memoryRules: [
             required,
             integer,
-            (v) => parseInt(v) <= (this.quota ? this.quota.AllocatedMemory : 0) || '超出最大限制',
+            (v) => parseInt(v) <= (this.quota ? this.quota.AllocatedMemory : 0) || this.$t('resource.form.limit_rule'),
           ],
           storageRules: [
             required,
             integer,
-            (v) => parseInt(v) <= (this.quota ? this.quota.AllocatedStorage : 0) || '超出最大限制',
+            (v) => parseInt(v) <= (this.quota ? this.quota.AllocatedStorage : 0) || this.$t('resource.form.limit_rule'),
           ],
           nvidiaRules: [
             required,
             integer,
-            (v) => parseInt(v) <= (this.quota ? this.quota.AllocatedNvidiaGpu : 0) || '超出最大限制',
+            (v) =>
+              parseInt(v) <= (this.quota ? this.quota.AllocatedNvidiaGpu : 0) || this.$t('resource.form.limit_rule'),
           ],
           tkeVcudaRules: [
             required,
             integer,
-            (v) => parseInt(v) <= (this.quota ? this.quota.AllocatedTkeGpu : 0) || '超出最大限制',
+            (v) => parseInt(v) <= (this.quota ? this.quota.AllocatedTkeGpu : 0) || this.$t('resource.form.limit_rule'),
           ],
           tkeVcudaMemoryRules: [
             required,
             integer,
-            (v) => parseInt(v) <= (this.quota ? this.quota.AllocatedTkeMemory : 0) || '超出最大限制',
+            (v) =>
+              parseInt(v) <= (this.quota ? this.quota.AllocatedTkeMemory : 0) || this.$t('resource.form.limit_rule'),
           ],
         };
       },

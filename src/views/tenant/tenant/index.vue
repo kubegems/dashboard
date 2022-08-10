@@ -14,13 +14,14 @@
  * limitations under the License. 
 -->
 
+<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <BaseBreadcrumb />
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :default="{ items: [], text: '租户名称', value: 'search' }"
+          :default="{ items: [], text: $t('filter.tenant'), value: 'search' }"
           :filters="filters"
           @refresh="m_filter_list"
         />
@@ -36,7 +37,7 @@
               <v-flex>
                 <v-btn color="primary" text @click="addTenant">
                   <v-icon left>mdi-account-multiple-plus</v-icon>
-                  创建租户
+                  {{ $root.$t('operate.create_c', [$root.$t('resource.tenant')]) }}
                 </v-btn>
               </v-flex>
             </v-card-text>
@@ -50,7 +51,7 @@
         hide-default-footer
         :items="items"
         :items-per-page="params.size"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
       >
         <template #[`item.tenantName`]="{ item }">
@@ -61,11 +62,11 @@
         <template #[`item.isActive`]="{ item }">
           <span v-if="item.IsActive">
             <v-icon color="primary" small> mdi-check-circle </v-icon>
-            启用
+            {{ $t('status.enabled') }}
           </span>
           <span v-else>
             <v-icon color="error" small> mdi-minus-circle </v-icon>
-            禁用
+            {{ $t('status.disabled') }}
           </span>
         </template>
         <template #[`item.cpu`]="{ item }"> {{ item.Cpu }} core </template>
@@ -130,16 +131,16 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" small text @click="updateTenant(item)"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateTenant(item)"> {{ $root.$t('operate.edit') }} </v-btn>
                 </v-flex>
                 <v-flex v-if="item.IsActive">
-                  <v-btn color="error" small text @click="forbidTenant(item)"> 禁用 </v-btn>
+                  <v-btn color="error" small text @click="forbidTenant(item)"> {{ $t('operate.disable') }} </v-btn>
                 </v-flex>
                 <v-flex v-else>
-                  <v-btn color="primary" small text @click="activeTenant(item)"> 激活 </v-btn>
+                  <v-btn color="primary" small text @click="activeTenant(item)"> {{ $t('operate.enable') }} </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="removeTenant(item)"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeTenant(item)"> {{ $root.$t('operate.delete') }} </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -183,31 +184,44 @@
     mixins: [BaseFilter, BaseResource, BaseSelect, BaseTable],
     data: () => ({
       items: [],
-      headers: [
-        { text: '名称', value: 'tenantName', align: 'start' },
-        { text: '状态', value: 'isActive', align: 'start' },
-        { text: '用户数', value: 'user', align: 'start' },
-        { text: '集群数', value: 'cluster', align: 'start' },
-        { text: '总CPU', value: 'cpu', align: 'start' },
-        { text: '总内存', value: 'memory', align: 'start' },
-        { text: '总存储', value: 'storage', align: 'start' },
-        { text: '已分配CPU', value: 'allocatedCpu', align: 'start' },
-        { text: '已分配内存', value: 'allocatedMemory', align: 'start' },
-        { text: '已分配存储', value: 'allocatedStorage', align: 'start' },
-        { text: '创建时间', value: 'createdAt', align: 'start' },
-        { text: '', value: 'action', align: 'center', width: 20 },
-      ],
+
       pageCount: 0,
       params: {
         page: 1,
         size: 10,
         containAllocatedResourcequota: true,
       },
-      filters: [{ text: '租户名称', value: 'search', items: [] }],
     }),
     computed: {
       ...mapState(['JWT']),
       ...mapGetters(['Tenant']),
+      headers() {
+        return [
+          { text: this.$t('table.name'), value: 'tenantName', align: 'start' },
+          { text: this.$t('table.status'), value: 'isActive', align: 'start' },
+          { text: this.$t('table.user_count'), value: 'user', align: 'start' },
+          { text: this.$t('table.cluster_count'), value: 'cluster', align: 'start' },
+          { text: this.$t('table.all', [this.$root.$t('resource.cpu')]), value: 'cpu', align: 'start' },
+          { text: this.$t('table.all', [this.$root.$t('resource.memory')]), value: 'memory', align: 'start' },
+          { text: this.$t('table.all', [this.$root.$t('resource.storage')]), value: 'storage', align: 'start' },
+          { text: this.$t('table.allocated', [this.$root.$t('resource.cpu')]), value: 'allocatedCpu', align: 'start' },
+          {
+            text: this.$t('table.allocated', [this.$root.$t('resource.memory')]),
+            value: 'allocatedMemory',
+            align: 'start',
+          },
+          {
+            text: this.$t('table.allocated', [this.$root.$t('resource.storage')]),
+            value: 'allocatedStorage',
+            align: 'start',
+          },
+          { text: this.$t('table.create_at'), value: 'createdAt', align: 'start' },
+          { text: '', value: 'action', align: 'center', width: 20 },
+        ];
+      },
+      filters() {
+        return [{ text: this.$t('filter.tenant'), value: 'search', items: [] }];
+      },
     },
     mounted() {
       if (this.JWT) {
@@ -264,8 +278,11 @@
       },
       forbidTenant(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `禁用租户`,
-          content: { text: `禁用租户 ${item.TenantName}`, type: 'confirm' },
+          title: this.$t('operate.disable_c', [this.$root.$t('resource.tenant')]),
+          content: {
+            text: `${this.$t('operate.disable_c', [this.$root.$t('resource.tenant')])} ${item.TenantName}`,
+            type: 'confirm',
+          },
           param: { item },
           doFunc: async (param) => {
             await putForbideTenant(param.item.ID);
@@ -275,8 +292,11 @@
       },
       activeTenant(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `激活租户`,
-          content: { text: `激活租户 ${item.TenantName}`, type: 'confirm' },
+          title: this.$t('operate.enable_c', [this.$root.$t('resource.tenant')]),
+          content: {
+            text: `${this.$t('operate.enable_c', [this.$root.$t('resource.tenant')])} ${item.TenantName}`,
+            type: 'confirm',
+          },
           param: { item },
           doFunc: async (param) => {
             await putActiveTenant(param.item.ID);
@@ -286,9 +306,9 @@
       },
       removeTenant(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除租户`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.tenant')]),
           content: {
-            text: `删除租户 ${item.TenantName}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.tenant')])} ${item.TenantName}`,
             type: 'delete',
             name: item.TenantName,
           },

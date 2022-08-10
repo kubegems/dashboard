@@ -77,6 +77,8 @@
   "resource": {
     "resource": "Resource",
     "cpu": "CPU",
+    "gpu": "GPU",
+    "video_memory": "Video Memory",
     "memory": "Memory",
     "storage": "Storage",
     "space": "Space",
@@ -140,6 +142,8 @@
     "no_tenant": "No Tenant"
   },
   "operate": {
+    "add": "Add",
+    "add_c": "Add {0}",
     "open_c": "Open {0}",
     "batch": "Batch",
     "delete": "Delete",

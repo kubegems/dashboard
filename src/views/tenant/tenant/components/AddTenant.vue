@@ -14,17 +14,24 @@
  * limitations under the License. 
 -->
 
+<i18n src="../i18n/locales.json" />
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-account-multiple-plus" title="创建租户" :width="500" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-account-multiple-plus"
+    :title="$root.$t('operate.create_c', [$root.$t('resource.tenant')])"
+    :width="500"
+    @reset="reset"
+  >
     <template #content>
-      <BaseSubTitle title="租户定义" />
+      <BaseSubTitle :title="$root.$t('form.definition', [$root.$t('resource.tenant')])" />
       <v-card-text class="pa-2 mt-2">
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
           <v-sheet>
             <v-text-field
               v-model="obj.TenantName"
               class="my-0"
-              label="名称"
+              :label="$t('form.name')"
               required
               :rules="objRules.tenantNameRules"
             />
@@ -32,7 +39,7 @@
               v-model="obj.Remark"
               auto-grow
               class="my-0"
-              label="说明"
+              :label="$t('form.remark')"
               required
               :rules="objRules.remarkRules"
             />
@@ -41,7 +48,9 @@
       </v-card-text>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addTenant"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addTenant">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>
@@ -69,7 +78,7 @@
       ...mapState(['Circular']),
       objRules() {
         return {
-          tenantNameRules: [required, (v) => !!(v && v.length <= 20) || '超出20字符限制', k8sLabel],
+          tenantNameRules: [required, (v) => !!(v && v.length <= 20) || this.$t('form.name_rule'), k8sLabel],
           remarkRules: [required],
         };
       },

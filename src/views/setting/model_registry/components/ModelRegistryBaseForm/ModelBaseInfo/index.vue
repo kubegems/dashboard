@@ -53,6 +53,9 @@
               :rules="objRules.nameRules"
             />
           </v-col>
+          <v-col cols="6">
+            <v-text-field v-model="obj.address" class="my-0" label="仓库地址" required :rules="objRules.addressRules" />
+          </v-col>
         </template>
       </v-row>
     </v-card-text>

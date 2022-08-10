@@ -14,6 +14,7 @@
  * limitations under the License. 
 -->
 
+<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <BaseBreadcrumb>
@@ -28,18 +29,18 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" small text @click="updateTenant"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateTenant"> {{ $root.$t('operate.edit') }} </v-btn>
                 </v-flex>
                 <template v-if="tenant">
                   <v-flex v-if="tenant.IsActive">
-                    <v-btn color="error" small text @click="forbidTenant"> 禁用 </v-btn>
+                    <v-btn color="error" small text @click="forbidTenant"> {{ $t('operate.disable') }} </v-btn>
                   </v-flex>
                   <v-flex v-else>
-                    <v-btn color="primary" small text @click="activeTenant"> 启用 </v-btn>
+                    <v-btn color="primary" small text @click="activeTenant"> {{ $t('operate.enable') }} </v-btn>
                   </v-flex>
                 </template>
                 <v-flex>
-                  <v-btn color="error" small text @click="removeTenant"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeTenant"> {{ $root.$t('operate.delete') }} </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -55,22 +56,22 @@
           </v-card-title>
           <v-list-item two-line>
             <v-list-item-content class="kubegems__text">
-              <v-list-item-title class="text-subtitle-2"> 状态 </v-list-item-title>
+              <v-list-item-title class="text-subtitle-2"> {{ $t('table.status') }} </v-list-item-title>
               <v-list-item-subtitle>
                 <span v-if="tenant ? tenant.IsActive : false">
                   <v-icon color="primary" small> mdi-check-circle </v-icon>
-                  启用
+                  {{ $t('status.enabled') }}
                 </span>
                 <span v-else>
                   <v-icon color="error" small> mdi-minus-circle </v-icon>
-                  禁用
+                  {{ $t('status.disabled') }}
                 </span>
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
           <v-list-item two-line>
             <v-list-item-content class="kubegems__text">
-              <v-list-item-title class="text-subtitle-2"> 创建时间 </v-list-item-title>
+              <v-list-item-title class="text-subtitle-2"> {{ $t('table.create_at') }} </v-list-item-title>
               <v-list-item-subtitle>
                 {{ tenant && tenant.CreatedAt ? $moment(tenant.CreatedAt).format('lll') : '' }}
               </v-list-item-subtitle>
@@ -136,8 +137,11 @@
       forbidTenant() {
         const item = this.tenant;
         this.$store.commit('SET_CONFIRM', {
-          title: `禁用租户`,
-          content: { text: `禁用租户 ${item.TenantName}`, type: 'confirm' },
+          title: this.$t('operate.disable_c', [this.$root.$t('resource.tenant')]),
+          content: {
+            text: `${this.$t('operate.disable_c', [this.$root.$t('resource.tenant')])} ${item.TenantName}`,
+            type: 'confirm',
+          },
           param: { item },
           doFunc: async (param) => {
             await putForbideTenant(param.item.ID);
@@ -148,8 +152,11 @@
       activeTenant() {
         const item = this.tenant;
         this.$store.commit('SET_CONFIRM', {
-          title: `激活租户`,
-          content: { text: `激活租户 ${item.TenantName}`, type: 'confirm' },
+          title: this.$t('operate.enable_c', [this.$root.$t('resource.tenant')]),
+          content: {
+            text: `${this.$t('operate.enable_c', [this.$root.$t('resource.tenant')])} ${item.TenantName}`,
+            type: 'confirm',
+          },
           param: { item },
           doFunc: async (param) => {
             await putActiveTenant(param.item.ID);
@@ -160,9 +167,9 @@
       removeTenant() {
         const item = this.tenant;
         this.$store.commit('SET_CONFIRM', {
-          title: `删除租户`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.tenant')]),
           content: {
-            text: `删除租户 ${item.TenantName}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.tenant')])} ${item.TenantName}`,
             type: 'delete',
             name: item.TenantName,
           },
