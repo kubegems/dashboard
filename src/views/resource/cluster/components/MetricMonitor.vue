@@ -197,7 +197,7 @@
         const data = await this.m_permission_matrix(
           this.$route.params.name,
           Object.assign(timeParam, {
-            query: escape(query),
+            query: query,
             noprocessing: true,
           }),
         );
@@ -210,7 +210,7 @@
         const data = await this.m_permission_matrix(
           this.$route.params.name,
           Object.assign(timeParam, {
-            query: escape(query),
+            query: query,
             noprocessing: true,
           }),
         );
@@ -229,7 +229,7 @@
         const data1 = await this.m_permission_matrix(
           this.$route.params.name,
           Object.assign(timeParam, {
-            query: escape(CLUSTER_API_SERVER_QPS_PROMQL.replaceAll('$1', '2.*')),
+            query: CLUSTER_API_SERVER_QPS_PROMQL.replaceAll('$1', '2.*'),
             noprocessing: true,
           }),
         );
@@ -237,7 +237,7 @@
         const data2 = await this.m_permission_matrix(
           this.$route.params.name,
           Object.assign(timeParam, {
-            query: escape(CLUSTER_API_SERVER_QPS_PROMQL.replaceAll('$1', '4.*')),
+            query: CLUSTER_API_SERVER_QPS_PROMQL.replaceAll('$1', '4.*'),
             noprocessing: true,
           }),
         );
@@ -245,7 +245,7 @@
         const data3 = await this.m_permission_matrix(
           this.$route.params.name,
           Object.assign(timeParam, {
-            query: escape(CLUSTER_API_SERVER_QPS_PROMQL.replaceAll('$1', '5.*')),
+            query: CLUSTER_API_SERVER_QPS_PROMQL.replaceAll('$1', '5.*'),
             noprocessing: true,
           }),
         );
@@ -261,7 +261,7 @@
         const data = await this.m_permission_matrix(
           this.$route.params.name,
           Object.assign(timeParam, {
-            query: escape(CLUSTER_ETCD_QPS_PROMQL),
+            query: CLUSTER_ETCD_QPS_PROMQL,
             noprocessing: true,
           }),
         );
@@ -274,7 +274,7 @@
         const data = await this.m_permission_matrix(
           this.$route.params.name,
           Object.assign(timeParam, {
-            query: escape(query),
+            query: query,
             noprocessing: true,
           }),
         );
@@ -287,7 +287,7 @@
         const data = await this.m_permission_matrix(
           this.$route.params.name,
           Object.assign(timeParam, {
-            query: escape(query),
+            query: query,
             noprocessing: true,
           }),
         );
@@ -300,7 +300,7 @@
         const data = await this.m_permission_matrix(
           this.$route.params.name,
           Object.assign(timeParam, {
-            query: escape(query),
+            query: query,
             noprocessing: true,
           }),
         );
@@ -313,7 +313,7 @@
         const data = await this.m_permission_matrix(
           this.$route.params.name,
           Object.assign(timeParam, {
-            query: escape(query),
+            query: query,
             noprocessing: true,
           }),
         );

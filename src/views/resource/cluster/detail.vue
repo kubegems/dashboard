@@ -160,7 +160,7 @@
         });
         const query = CLUSTER_POD_CAPACITY_PROMQL;
         const pods = await this.m_permission_vector(this.cluster.ClusterName, {
-          query: escape(query),
+          query: query,
           noprocessing: true,
         });
         if (data.resources) {
