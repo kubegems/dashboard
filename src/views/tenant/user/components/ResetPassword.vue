@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../i18n/locales.json" />
 <template>
   <BaseDialog v-model="dialog" icon="mdi-account-key" :title="$t('tip.passwd_title')" :width="500" @reset="reset">
     <template #content>
@@ -51,11 +50,15 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import { postResetUserPassword } from '@/api';
   import { password } from '@/utils/rules';
 
   export default {
     name: 'ResetPassword',
+    i18n: {
+      messages: messages,
+    },
     data: () => ({
       dialog: false,
       valid: false,

@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../../i18n/locales.json" />
 <template>
   <v-card>
     <v-card-text>
@@ -99,11 +98,15 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
   import AddUser from './AddUser';
   import { deleteTenantUser, getTenantUserList, putChangeTenantUser } from '@/api';
 
   export default {
     name: 'UserList',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddUser,
     },

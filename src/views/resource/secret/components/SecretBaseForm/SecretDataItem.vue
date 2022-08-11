@@ -40,7 +40,7 @@
           <v-list-item-subtitle class="text-body-2 py-0 text-center">
             <v-btn color="primary" text @click="expandCard">
               <v-icon left small> mdi-tag-plus </v-icon>
-              添加密钥项
+              {{ $root.$t('operate.add_c', [$t('form.item')]) }}
             </v-btn>
           </v-list-item-subtitle>
         </v-list-item-content>
@@ -50,8 +50,13 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
+
   export default {
     name: 'SecretDataItem',
+    i18n: {
+      messages: messages,
+    },
     props: {
       data: {
         type: Object,

@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="./i18n/locales.json" />
 <template>
   <div
     :class="`page clear-zoom-${Scale.toString().replaceAll('.', '-')} ${SelfOut || vertical ? '' : 'page__ani'}`"
@@ -140,6 +139,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from './i18n';
   import { getLoginUserAuth, getLoginUserInfo, getOauthAddr, getSystemAuthSource, postLogin } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseSelect from '@/mixins/select';
@@ -148,6 +148,9 @@
 
   export default {
     name: 'Login',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BasePermission, BaseSelect],
     data: () => ({
       valid: true,
@@ -436,7 +439,7 @@
       &__desc {
         width: 45%;
         line-height: 1.5;
-        font-size: 1rem;
+        font-size: 1.3rem;
         position: absolute;
         left: 45%;
         top: 50%;

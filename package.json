@@ -33,7 +33,6 @@
     ]
   },
   "dependencies": {
-    "@intlify/vue-i18n-loader": "^1.1.0",
     "ajv": "^8.6.3",
     "apexcharts": "^3.35.3",
     "axios": "^0.27.2",
@@ -53,7 +52,6 @@
     "vue-i18n": "^8.27.2",
     "vue-meta": "^2.4.0",
     "vue-okr-tree": "1.0.10",
-    "vue-quill-editor": "^3.0.6",
     "vue-router": "^3.4.4",
     "vue-slider-component": "^3.2.14",
     "vue2-ace-editor": "^0.0.15",

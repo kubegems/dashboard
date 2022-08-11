@@ -68,7 +68,7 @@
         />
         <div class="text-caption pa-1 mt-2">资源</div>
         <v-divider class="mb-2" />
-        <v-list class="pa-0" dense max-height="350" nav :style="{ overflowY: 'auto' }">
+        <v-list class="pa-0" dense max-height="300" nav :style="{ overflowY: 'auto' }">
           <v-list-item-group v-model="resourceIndex" color="primary" @change="onLatitudeChange">
             <v-list-item v-for="(item, index) in resourceItemsCopy" :key="index" dense>
               <v-list-item-content>
@@ -88,7 +88,7 @@
       <div v-if="show" class="select__div">
         <div class="text-caption pa-1 mt-2">模板</div>
         <v-divider class="mb-2" />
-        <v-list class="pa-0" dense max-height="350" nav :style="{ overflowY: 'auto' }">
+        <v-list class="pa-0" dense max-height="345" nav :style="{ overflowY: 'auto' }">
           <v-list-item-group v-model="ruleIndex" color="primary" @change="onRuleChange">
             <v-list-item v-for="(item, index) in ruleItemsCopy" :key="index" dense>
               <v-list-item-content>

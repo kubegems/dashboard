@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <BaseBreadcrumb>
@@ -82,6 +81,7 @@
   import ManageUser from './components/ManageUser';
   import ResourceList from './components/ResourceList';
   import UpdateProject from './components/UpdateProject';
+  import messages from './i18n';
   import { deleteProject, getProjectDetail, getProjectQuota } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -91,6 +91,9 @@
 
   export default {
     name: 'ProjectDetail',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddEnvironment,
       DashboardCard,

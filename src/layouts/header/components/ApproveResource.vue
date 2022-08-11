@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../i18n/locales.json" />
 <template>
   <BaseDialog v-model="dialog" icon="mdi-scale" :title="$t('tip.resource_scale')" :width="1000" @reset="reset">
     <template #content>
@@ -34,6 +33,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import { getTenantResourceQuota, postApprovePass, postApproveReject } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
@@ -41,6 +41,9 @@
 
   export default {
     name: 'ApproveResource',
+    i18n: {
+      messages: messages,
+    },
     components: {
       ResourceBaseForm,
     },

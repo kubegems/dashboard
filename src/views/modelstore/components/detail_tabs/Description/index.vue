@@ -21,9 +21,11 @@
 </template>
 
 <script>
+  import { Base64 } from 'js-base64';
   import { mapState } from 'vuex';
 
   import Markdown from './Markdown';
+  import { getModelVersionContent } from '@/api';
 
   export default {
     name: 'Description',
@@ -50,12 +52,18 @@
     watch: {
       item: {
         handler(newValue) {
-          if (newValue) {
-            this.content = newValue?.intro || '';
+          if (newValue && newValue.v) {
+            this.modelVersionContent();
           }
         },
         deep: true,
         immediate: true,
+      },
+    },
+    methods: {
+      async modelVersionContent() {
+        const data = await getModelVersionContent(this.item.source, Base64.encode(this.item.name), this.item.v);
+        this.content = data.intro || '';
       },
     },
   };

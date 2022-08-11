@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../../../i18n/locales.json" />
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
     <BaseSubTitle
@@ -234,6 +233,7 @@
 </template>
 
 <script>
+  import messages from '../../../i18n';
   import ResourceChart from './ResourceChart';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
@@ -242,6 +242,9 @@
 
   export default {
     name: 'ResourceBaseForm',
+    i18n: {
+      messages: messages,
+    },
     components: {
       ResourceChart,
     },

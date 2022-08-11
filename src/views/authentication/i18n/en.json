@@ -1,0 +1,21 @@
+{
+  "login": "Login",
+  "username": "Username",
+  "password": "Password",
+  "tip": {
+    "login": "Login",
+    "other": "Other login channel",
+    "nav": "You can access the homepage from the workbench in the upper right corner",
+    "permission": "You can contact a tenant's administrator or system administrator to add access for you"
+  },
+  "status": {
+    "success": "Login successful",
+    "logined": "Has logged",
+    "failed": "Authentication failed, please login again",
+    "403": "Forbidden",
+    "404": "Page Not Found"
+  },
+  "form": {
+    "passwordRule": "More than 20"
+  }
+}

@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <BaseBreadcrumb>
@@ -153,6 +152,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from './i18n';
   import { getClusterPluginsList, getEventListFromLoki } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BaseSelect from '@/mixins/select';
@@ -160,6 +160,9 @@
 
   export default {
     name: 'Event',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseFilter, BaseSelect],
     data: () => ({
       items: [],

@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../i18n/locales.json" />
 <template>
   <BaseDialog v-model="dialog" icon="mdi-star" :title="$t('tip.config_title')" :width="1000" @reset="reset">
     <template #content>
@@ -48,6 +47,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import OauthBaseForm from './auth_source/OauthBaseForm';
   import OpenLdapBaseForm from './auth_source/OpenLdapBaseForm';
   import { postAuthSourceConfig, putAuthSourceConfig } from '@/api';
@@ -57,6 +57,9 @@
 
   export default {
     name: 'ConfigAuthSource',
+    i18n: {
+      messages: messages,
+    },
     components: {
       OauthBaseForm,
       OpenLdapBaseForm,

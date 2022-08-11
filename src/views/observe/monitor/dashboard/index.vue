@@ -101,6 +101,7 @@
                 :label-show="false"
                 :metrics="metrics[`c${index}`]"
                 :no-data-offset-y="-18"
+                single-tooptip
                 :title="graph.name"
                 type=""
                 :unit="graph.promqlGenerator ? getUnit(graph.promqlGenerator.unit) : getUnit(graph.unit)"

@@ -1,0 +1,35 @@
+{
+  "more": "More",
+  "audit": {
+    "audit": "Audit"
+  },
+  "event": {
+    "event": "Event",
+    "cluster": "Cluster"
+  },
+  "project": {
+    "table": {
+      "type": "Type",
+      "traffic_in": "Traffic In",
+      "traffic_out": "Traffic Out",
+
+      "remark": "Remark",
+      "alias": "Alias",
+
+      "test": "Test",
+      "dev": "Development",
+      "prod": "Production"
+    }
+  },
+  "resource": {
+    "table": {
+      "all": "All {0}",
+      "allocated": "Allocated {0}",
+      "applying": "Resource in apply"
+    },
+    "title": "Sacle Resource"
+  },
+  "tip": {
+    "tenant": "Please create or join a tenant"
+  }
+}

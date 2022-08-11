@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../../i18n/locales.json" />
 <template>
   <BasePanel
     v-model="panel"
@@ -69,6 +68,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
@@ -76,6 +76,9 @@
 
   export default {
     name: 'TenantMonitor',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BasePermission, BaseResource],
     data: () => ({
       panel: false,

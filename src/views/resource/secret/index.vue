@@ -21,7 +21,7 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :default="{ items: [], text: '密钥名称', value: 'search' }"
+          :default="{ items: [], text: $t('filter.secret_name'), value: 'search' }"
           :filters="filters"
           @refresh="m_filter_list"
         />
@@ -38,13 +38,17 @@
               <v-flex>
                 <v-btn color="primary" text @click="addSecret">
                   <v-icon left>mdi-key-plus</v-icon>
-                  创建密钥
+                  {{ $root.$t('operate.create_c', [$root.$t('resource.secret')]) }}
                 </v-btn>
               </v-flex>
               <v-flex>
-                <v-btn color="error" text @click="m_table_batchRemoveResource('密钥', 'Secret', secretList)">
+                <v-btn
+                  color="error"
+                  text
+                  @click="m_table_batchRemoveResource($root.$t('resource.secret'), 'Secret', secretList)"
+                >
                   <v-icon left>mdi-minus-box</v-icon>
-                  删除密钥
+                  {{ $root.$t('operate.delete_c', [$root.$t('resource.secret')]) }}
                 </v-btn>
               </v-flex>
             </v-card-text>
@@ -57,7 +61,7 @@
         hide-default-footer
         :items="items"
         :items-per-page="params.size"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
         show-select
         @toggle-select-all="m_table_onResourceToggleSelect"
@@ -110,10 +114,14 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" small text @click="updateSecret(item.secret)"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateSecret(item.secret)">
+                    {{ $root.$t('operate.edit') }}
+                  </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="removeSecret(item.secret)"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeSecret(item.secret)">
+                    {{ $root.$t('operate.delete') }}
+                  </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -142,6 +150,7 @@
   import AddSecret from './components/AddSecret';
   import Tips from './components/Tips';
   import UpdateSecret from './components/UpdateSecret';
+  import messages from './i18n';
   import { deleteSecret, getSecretList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -151,6 +160,9 @@
 
   export default {
     name: 'Secret',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddSecret,
       NamespaceFilter,
@@ -165,21 +177,20 @@
         page: 1,
         size: 10,
       },
-      filters: [{ text: '密钥名称', value: 'search', items: [] }],
     }),
     computed: {
       ...mapState(['JWT', 'AdminViewport']),
       headers() {
         const items = [
-          { text: '密钥名', value: 'name', align: 'start' },
-          { text: '类型', value: 'type', align: 'start', sortable: false },
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
+          { text: this.$t('table.type'), value: 'type', align: 'start', sortable: false },
           {
-            text: '密钥数量',
+            text: this.$t('table.count'),
             value: 'dataCount',
             align: 'start',
             sortable: false,
           },
-          { text: '创建时间', value: 'createAt', align: 'start', width: 180 },
+          { text: this.$root.$t('resource.create_at'), value: 'createAt', align: 'start', width: 180 },
         ];
         if (this.m_permisson_resourceAllow) {
           items.push({
@@ -192,13 +203,16 @@
         }
         if (this.AdminViewport) {
           items.splice(1, 0, {
-            text: '命名空间',
+            text: this.$root.$t('resource.namespace'),
             value: 'namespace',
             align: 'start',
             sortable: false,
           });
         }
         return items;
+      },
+      filters() {
+        return [{ text: this.$t('filter.secret_name'), value: 'search', items: [] }];
       },
     },
     watch: {
@@ -226,7 +240,7 @@
         this.$nextTick(() => {
           if (this.ThisCluster === '') {
             this.$store.commit('SET_SNACKBAR', {
-              text: `请创建或选择集群`,
+              text: this.$root.$t('tip.cluster'),
               color: 'warning',
             });
             return;
@@ -278,9 +292,9 @@
       },
       removeSecret(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除密钥`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.secret')]),
           content: {
-            text: `删除密钥 ${item.metadata.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.secret')])} ${item.metadata.name}`,
             type: 'delete',
             name: item.metadata.name,
           },

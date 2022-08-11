@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="./i18n/locales.json" />
 <template>
   <v-menu
     v-if="Admin"
@@ -51,11 +50,15 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from './i18n';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'Tool',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource, BaseSelect],
     inject: ['reload'],
     computed: {

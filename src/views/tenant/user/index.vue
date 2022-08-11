@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <BaseBreadcrumb />
@@ -171,6 +170,7 @@
   import AddUser from './components/AddUser';
   import ResetPassword from './components/ResetPassword';
   import UpdateRole from './components/UpdateRole';
+  import messages from './i18n';
   import { deleteUser, getUserList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BaseResource from '@/mixins/resource';
@@ -179,6 +179,9 @@
 
   export default {
     name: 'User',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddUser,
       ResetPassword,

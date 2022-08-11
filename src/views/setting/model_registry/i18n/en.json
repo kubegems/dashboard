@@ -1,0 +1,26 @@
+{
+  "tab": {
+    "ai_model": "AI Model"
+  },
+
+  "table": {
+    "name": "Name",
+    "version": "Version",
+    "framework": "Framework",
+    "task": "Task",
+    "tag": "Tag",
+    "last_modified": "Last Modified",
+    "recommend": "Recommend Val",
+    "published": "Online Status"
+  },
+  "operate": {
+    "recommend_content": "Recommend Content",
+    "online": "Online",
+    "offline": "Offline"
+  },
+  "filter": {
+    "search": "Model Name",
+    "framework": "Framework",
+    "task": "Task"
+  }
+}

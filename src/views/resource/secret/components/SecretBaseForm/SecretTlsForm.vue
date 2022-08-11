@@ -21,7 +21,7 @@
         <v-card-text class="pa-0">
           <v-sheet class="mt-2 px-2">
             <v-flex class="float-left text-subtitle-2 py-1 primary--text kubegems__min-width">
-              <span class="ml-2">凭证</span>
+              <span class="ml-2">{{ $t('form.crt') }}</span>
             </v-flex>
             <v-flex class="ml-2">
               <ACEEditor
@@ -39,7 +39,7 @@
           </v-sheet>
           <v-sheet class="mt-2 px-2">
             <v-flex class="float-left text-subtitle-2 py-1 primary--text kubegems__min-width">
-              <span class="ml-2">私钥</span>
+              <span class="ml-2">{{ $t('form.key') }}</span>
             </v-flex>
             <v-flex class="ml-2">
               <ACEEditor
@@ -58,8 +58,8 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
-          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> {{ $root.$t('operate.cancel') }} </v-btn>
+          <v-btn color="primary" small text @click="addData"> {{ $root.$t('operate.save') }} </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -70,10 +70,14 @@
   import { Base64 } from 'js-base64';
   import { mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'SecretTlsForm',
+    i18n: {
+      messages: messages,
+    },
     props: {
       data: {
         type: Object,

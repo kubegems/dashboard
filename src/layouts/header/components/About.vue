@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../i18n/locales.json" />
 <template>
   <v-dialog v-model="dialog" height="100%" :max-width="500" persistent scrollable>
     <v-card>
@@ -42,10 +41,14 @@
 </template>
 
 <script>
+  import messages from '../i18n';
   import { getPlatformVersion } from '@/api';
 
   export default {
     name: 'About',
+    i18n: {
+      messages: messages,
+    },
     data() {
       return {
         dialog: false,

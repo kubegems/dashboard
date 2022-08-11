@@ -122,7 +122,10 @@
     "member_c": "Member {0}",
     "type": "Type",
     "file": "File",
-    "template": "Template"
+    "template": "Template",
+    "create_at": "Create Time",
+    "kind": "Kind",
+    "plugin": "Plugin"
   },
 
   "header": {
@@ -180,10 +183,13 @@
     "return": "Return",
     "deploy": "Deploy",
     "sync": "Sync",
-    "sync_c": "Sync {0}"
+    "sync_c": "Sync {0}",
+    "save": "Save"
   },
   "form": {
-    "definition": "{0} Definition"
+    "definition": "{0} Definition",
+    "key_value": "Key-value pair",
+    "key": "Key"
   },
   "pagination": {
     "count": "Per Page Count"
@@ -405,7 +411,7 @@
   },
 
   "metadata": {
-    "description": "KubeGems is an open source enterprise-grade multi-tenant container cloud platform. Focusing on the cloud native community, KubeGems provides multiple Kubernetes cluster access capabilities, and has rich component management and resource cost analysis functions, which can help enterprises quickly build and build a localized, powerful and low-cost cloud management platform.",
+    "description": "Let cloudnative management more easily.",
     "environment_type": {
       "dev": "Development",
       "test": "Test",
@@ -420,6 +426,8 @@
     "batch_rule_c": "{0}",
     "batch_delete": "yes",
     "cluster": "Please create or select cluster",
-    "project_select": "There is no environment under this project, please re-select the project or add an environment"
+    "project_select": "There is no environment under this project, please re-select the project or add an environment",
+    "save_data": "Please save the data",
+    "parse_error": "Data parsing error"
   }
 }

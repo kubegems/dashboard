@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <BaseViewportHeader />
@@ -96,6 +95,7 @@
 
   import AddStorageClass from './components/AddStorageClass';
   import UpdateStorageClass from './components/UpdateStorageClass';
+  import messages from './i18n';
   import { deleteStorageClass, getStorageClassList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -103,6 +103,9 @@
 
   export default {
     name: 'StorageClass',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddStorageClass,
       UpdateStorageClass,

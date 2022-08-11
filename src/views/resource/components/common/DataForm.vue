@@ -21,13 +21,13 @@
         <v-card-text class="pa-0">
           <v-sheet class="pt-2 px-4">
             <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width">
-              <span>键值对</span>
+              <span>{{ $t('form.key_value') }}</span>
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-text-field
                 v-model="obj.key"
                 class="my-0"
-                label="键"
+                :label="$t('form.key')"
                 required
                 :rules="objRules.keyRule"
                 @keydown.enter.prevent
@@ -54,8 +54,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
-          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> {{ $t('operate.cancel') }} </v-btn>
+          <v-btn color="primary" small text @click="addData"> {{ $t('operate.save') }} </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>

@@ -20,7 +20,7 @@
     <v-row class="mt-0">
       <v-col v-for="(item, index) in items" :key="index" class="pt-0" cols="3">
         <v-hover #default="{ hover }">
-          <v-card class="mx-auto cluster-pos" :elevation="hover ? 5 : 0" flat height="100%">
+          <v-card class="mx-auto cluster__pos" :elevation="hover ? 5 : 0" flat height="100%">
             <v-list-item three-line>
               <v-list-item-avatar class="primary--text" size="80" tile>
                 <BaseLogo :icon-name="item.Vendor" :width="70" />
@@ -56,8 +56,8 @@
               <v-btn color="primary" :disabled="!item.Status" small text @click="kuberCtl(item)"> Kubectl </v-btn>
             </v-card-actions>
 
-            <v-flex v-if="item.Primary" class="cluster-watermark-bg" />
-            <v-flex v-if="item.Primary" class="cluster-watermark font-weight-medium"> 控制集群 </v-flex>
+            <v-flex v-if="item.Primary" class="cluster__watermark-bg" />
+            <v-flex v-if="item.Primary" class="cluster__watermark font-weight-medium"> 控制集群 </v-flex>
           </v-card>
         </v-hover>
       </v-col>
@@ -198,33 +198,35 @@
   };
 </script>
 
-<style scoped>
-  .cluster-pos {
-    position: relative;
-    background-color: #ffffff;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+<style lang="scss" scoped>
+  .cluster {
+    &__pos {
+      position: relative;
+      background-color: #ffffff;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 
-  .cluster-watermark-bg {
-    position: absolute;
-    width: 120px;
-    height: 90px;
-    transform: rotate(47deg);
-    top: -46px;
-    right: -55px;
-    background-color: #1e88e5;
-    padding: 0;
-  }
+    &__watermark-bg {
+      position: absolute;
+      width: 120px;
+      height: 90px;
+      transform: rotate(47deg);
+      top: -46px;
+      right: -55px;
+      background-color: #1e88e5;
+      padding: 0;
+    }
 
-  .cluster-watermark {
-    position: absolute;
-    top: 17px;
-    right: 1px;
-    transform: rotate(47deg);
-    text-transform: uppercase;
-    color: white;
-    font-size: 12px;
+    &__watermark {
+      position: absolute;
+      top: 17px;
+      right: 1px;
+      transform: rotate(47deg);
+      text-transform: uppercase;
+      color: white;
+      font-size: 12px;
+    }
   }
 </style>

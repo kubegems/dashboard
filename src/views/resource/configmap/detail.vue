@@ -34,10 +34,10 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" small text @click="updateConfigMap"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateConfigMap"> {{ $root.$t('operate.edit') }} </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="removeConfigMap"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeConfigMap"> {{ $root.$t('operate.delete') }} </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -70,6 +70,7 @@
   import { mapGetters, mapState } from 'vuex';
 
   import UpdateConfigMap from './components/UpdateConfigMap';
+  import messages from './i18n';
   import { deleteConfigMap, getConfigMapDetail } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -79,6 +80,9 @@
 
   export default {
     name: 'ConfigMapDetail',
+    i18n: {
+      messages: messages,
+    },
     components: {
       BasicResourceInfo,
       ResourceYaml,
@@ -124,9 +128,9 @@
       removeConfigMap() {
         const item = this.configmap;
         this.$store.commit('SET_CONFIRM', {
-          title: `删除配置`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.configmap')]),
           content: {
-            text: `删除配置 ${item.metadata.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.configmap')])} ${item.metadata.name}`,
             type: 'delete',
             name: item.metadata.name,
           },

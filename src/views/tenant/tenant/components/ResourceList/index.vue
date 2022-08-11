@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../../i18n/locales.json" />
 <template>
   <v-card>
     <v-card-text>
@@ -116,6 +115,7 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
   import AddResource from './AddResource';
   import ScaleResource from './ScaleResource';
   import TenantMonitor from './TenantMonitor';
@@ -125,6 +125,9 @@
 
   export default {
     name: 'ResourceList',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddResource,
       GpuTip,

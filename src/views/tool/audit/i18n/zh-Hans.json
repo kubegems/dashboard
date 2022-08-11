@@ -1,0 +1,17 @@
+{
+  "table": {
+    "trigger_time": "触发时间",
+    "tenant": "租户",
+    "account": "用户",
+    "operate": "操作",
+    "object": "对象",
+    "label": "标签",
+    "status": "状态"
+  },
+  "filter": {
+    "account": "用户",
+    "search": "检索",
+    "status": "状态",
+    "action": "操作"
+  }
+}

@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <Breadcrumb hub="kubegems-charts">
@@ -74,11 +73,15 @@
   import ConfigFile from './components/ConfigFile';
   import Deploy from './components/Deploy';
   import Markdown from './components/Markdown';
+  import messages from './i18n';
   import { getAppStoreDetail, getAppStoreFiles } from '@/api';
   import Breadcrumb from '@/views/modelstore/components/Breadcrumb';
 
   export default {
     name: 'AppStoreDetail',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AppDetail,
       AppInfo,

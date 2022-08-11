@@ -21,7 +21,7 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :default="{ items: [], text: '配置名称', value: 'search' }"
+          :default="{ items: [], text: $t('filter.configmap_name'), value: 'search' }"
           :filters="filters"
           @refresh="m_filter_list"
         />
@@ -38,13 +38,17 @@
               <v-flex>
                 <v-btn color="primary" text @click="addConfigMap">
                   <v-icon left>mdi-plus-box</v-icon>
-                  创建配置
+                  {{ $root.$t('operate.create_c', [$root.$t('resource.configmap')]) }}
                 </v-btn>
               </v-flex>
               <v-flex>
-                <v-btn color="error" text @click="m_table_batchRemoveResource('配置', 'ConfigMap', configMapList)">
+                <v-btn
+                  color="error"
+                  text
+                  @click="m_table_batchRemoveResource($root.$t('resource.configmap'), 'ConfigMap', configMapList)"
+                >
                   <v-icon left>mdi-minus-box</v-icon>
-                  删除配置
+                  {{ $root.$t('operate.delete_c', [$root.$t('resource.configmap')]) }}
                 </v-btn>
               </v-flex>
             </v-card-text>
@@ -57,7 +61,7 @@
         hide-default-footer
         :items="items"
         :items-per-page="params.size"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
         show-select
         @toggle-select-all="m_table_onResourceToggleSelect"
@@ -104,10 +108,14 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" small text @click="updateConfigMap(item)"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateConfigMap(item)">
+                    {{ $root.$t('operate.edit') }}
+                  </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="removeConfigMap(item)"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeConfigMap(item)">
+                    {{ $root.$t('operate.delete') }}
+                  </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -135,6 +143,7 @@
 
   import AddConfigMap from './components/AddConfigMap';
   import UpdateConfigMap from './components/UpdateConfigMap';
+  import messages from './i18n';
   import { deleteConfigMap, getConfigMapList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -144,6 +153,9 @@
 
   export default {
     name: 'ConfigMap',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddConfigMap,
       NamespaceFilter,
@@ -157,21 +169,20 @@
         page: 1,
         size: 10,
       },
-      filters: [{ text: '配置名称', value: 'search', items: [] }],
     }),
     computed: {
       ...mapState(['JWT']),
       headers() {
         const items = [
-          { text: '配置名', value: 'name', align: 'start' },
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
           {
-            text: '配置项',
+            text: this.$t('table.item'),
             value: 'data',
             align: 'start',
             width: 700,
             sortable: false,
           },
-          { text: '创建时间', value: 'createAt', align: 'start', width: 180 },
+          { text: this.$root.$t('resource.create_at'), value: 'createAt', align: 'start', width: 180 },
         ];
         if (this.m_permisson_resourceAllow) {
           items.push({
@@ -184,13 +195,16 @@
         }
         if (this.AdminViewport) {
           items.splice(1, 0, {
-            text: '命名空间',
+            text: this.$root.$t('resource.namespace'),
             value: 'namespace',
             align: 'start',
             sortable: false,
           });
         }
         return items;
+      },
+      filters() {
+        return [{ text: this.$t('filter.configmap_name'), value: 'search', items: [] }];
       },
     },
     watch: {
@@ -217,7 +231,7 @@
       if (this.JWT) {
         if (this.ThisCluster === '') {
           this.$store.commit('SET_SNACKBAR', {
-            text: `请创建或选择集群`,
+            text: this.$root.$t('tip.cluster'),
             color: 'warning',
           });
           return;
@@ -264,9 +278,9 @@
       },
       removeConfigMap(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除配置`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.configmap')]),
           content: {
-            text: `删除配置 ${item.metadata.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.configmap')])} ${item.metadata.name}`,
             type: 'delete',
             name: item.metadata.name,
           },

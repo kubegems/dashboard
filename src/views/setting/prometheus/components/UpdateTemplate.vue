@@ -77,7 +77,6 @@
           if (this.formComponent === 'TemplateBaseForm') {
             data = this.$refs[this.formComponent].getData();
             const ruleName = data.name;
-            delete data.name;
             await postPrometheusTemplate(this.resourceName, ruleName, data);
           }
           this.reset();

@@ -33,10 +33,10 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" small text @click="updateSecret"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateSecret"> {{ $root.$t('operate.edit') }} </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="removeSecret"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeSecret"> {{ $root.$t('operate.delete') }} </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -55,11 +55,11 @@
               <template #action>
                 <v-btn v-if="item.hide" class="float-right mr-2" color="white" small text @click="showSecret(item)">
                   <v-icon left small> mdi-eye </v-icon>
-                  显示
+                  {{ $t('operate.show') }}
                 </v-btn>
                 <v-btn v-else class="float-right mr-2" color="white" small text @click="hideSecret(item)">
                   <v-icon left small> mdi-eye-off </v-icon>
-                  隐藏
+                  {{ $t('operate.hide') }}
                 </v-btn>
               </template>
             </BaseSubTitle>
@@ -81,6 +81,7 @@
   import { mapState } from 'vuex';
 
   import UpdateSecret from './components/UpdateSecret';
+  import messages from './i18n';
   import { deleteSecret, getSecretDetail } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -90,6 +91,9 @@
 
   export default {
     name: 'SecretDetail',
+    i18n: {
+      messages: messages,
+    },
     components: {
       BasicResourceInfo,
       ResourceYaml,
@@ -146,9 +150,9 @@
       removeSecret() {
         const item = this.secret;
         this.$store.commit('SET_CONFIRM', {
-          title: `删除密钥`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.secret')]),
           content: {
-            text: `删除密钥 ${item.metadata.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.secret')])} ${item.metadata.name}`,
             type: 'delete',
             name: item.metadata.name,
           },

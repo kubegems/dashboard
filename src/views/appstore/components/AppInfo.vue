@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../i18n/locales.json" />
 <template>
   <v-card flat>
     <v-card-text class="pa-7">
@@ -117,8 +116,13 @@
 </template>
 
 <script>
+  import messages from '../i18n';
+
   export default {
     name: 'AppInfo',
+    i18n: {
+      messages: messages,
+    },
     props: {
       appName: {
         type: String,

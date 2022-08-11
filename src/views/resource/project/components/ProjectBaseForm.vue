@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../i18n/locales.json" />
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
     <template v-if="step === 0">
@@ -127,6 +126,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../i18n';
   import { deleteProjectUser, getProjectUserList, getTenantUserList, postAddProjectUser } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -135,6 +135,9 @@
 
   export default {
     name: 'ProjectBaseForm',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BasePermission, BaseResource, BaseSelect],
     props: {
       edit: {

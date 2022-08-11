@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <Breadcrumb hub="kubegems-charts">
@@ -147,11 +146,15 @@
   import { mapState } from 'vuex';
 
   import AppStoreCard from './components/AppStoreCard';
+  import messages from './i18n';
   import { getAppStoreList, getRepositoryList } from '@/api';
   import Breadcrumb from '@/views/modelstore/components/Breadcrumb';
 
   export default {
     name: 'AppStoreCenter',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AppStoreCard,
       Breadcrumb,

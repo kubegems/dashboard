@@ -18,7 +18,7 @@
   <v-flex>
     <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
       <v-flex :class="expand ? 'kubegems__overlay' : ''" />
-      <BaseSubTitle title="密钥定义" />
+      <BaseSubTitle :title="$root.$t('form.definition', [$root.$t('resource.secret')])" />
       <v-card-text class="pa-2">
         <v-row v-if="manifest">
           <v-col cols="6">
@@ -28,8 +28,8 @@
               color="primary"
               hide-selected
               :items="kinds"
-              label="资源"
-              no-data-text="暂无可选数据"
+              :label="$root.$t('resource.kind')"
+              :no-data-text="$root.$t('data.no_data')"
               :readonly="edit"
               :rules="objRules.kindRule"
               @change="onKindChange"
@@ -47,7 +47,7 @@
             <v-text-field
               v-model="obj.metadata.name"
               class="my-0"
-              label="名称"
+              :label="$t('form.name')"
               :readonly="edit"
               required
               :rules="objRules.nameRule"
@@ -60,8 +60,8 @@
               color="primary"
               hide-selected
               :items="types"
-              label="密钥类型"
-              no-data-text="暂无可选数据"
+              :label="$t('form.type')"
+              :no-data-text="$root.$t('data.no_data')"
               :rules="objRules.typeRule"
               @change="onTypeChange"
               @click:clear="clearType"
@@ -82,8 +82,8 @@
               color="primary"
               hide-selected
               :items="m_select_namespaceItems"
-              label="命名空间"
-              no-data-text="暂无可选数据"
+              :label="$root.$t('resource.namespace')"
+              :no-data-text="$root.$t('data.no_data')"
               :readonly="edit"
               :rules="objRules.namespaceRule"
               @focus="onNamespaceSelectFocus(ThisCluster)"
@@ -105,7 +105,7 @@
         @addData="addData"
         @closeOverlay="closeExpand"
       />
-      <BaseSubTitle title="密钥项" />
+      <BaseSubTitle :title="$t('form.item')" />
       <v-card-text class="pa-2">
         <SecretDataItem :data="obj.data" @expandCard="expandCard" @removeData="removeData" @updateData="updateData" />
       </v-card-text>
@@ -117,6 +117,7 @@
   import { Base64 } from 'js-base64';
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import SecretDataForm from './SecretDataForm';
   import SecretDataItem from './SecretDataItem';
   import SecretDockerconfigForm from './SecretDockerconfigForm';
@@ -128,6 +129,9 @@
 
   export default {
     name: 'SecretBaseForm',
+    i18n: {
+      messages: messages,
+    },
     components: {
       SecretDataForm,
       SecretDataItem,
@@ -165,11 +169,6 @@
       valid: false,
       expand: false,
       resourceKind: '',
-      types: [
-        { text: '默认', value: 'Opaque' },
-        { text: 'TLS', value: 'kubernetes.io/tls' },
-        { text: '镜像仓库', value: 'kubernetes.io/dockerconfigjson' },
-      ],
       obj: {
         apiVersion: 'v1',
         kind: 'Secret',
@@ -193,6 +192,13 @@
           typeRule: [required],
           kindRule: [required],
         };
+      },
+      types() {
+        return [
+          { text: this.$t('type.default'), value: 'Opaque' },
+          { text: this.$t('type.tls'), value: 'kubernetes.io/tls' },
+          { text: this.$t('type.image'), value: 'kubernetes.io/dockerconfigjson' },
+        ];
       },
     },
     watch: {
@@ -255,9 +261,9 @@
       },
       clearType() {
         this.types = [
-          { text: '默认', value: 'Opaque' },
-          { text: 'TLS', value: 'kubernetes.io/tls' },
-          { text: '镜像仓库', value: 'kubernetes.io/dockerconfigjson' },
+          { text: this.$t('type.default'), value: 'Opaque' },
+          { text: this.$t('type.tls'), value: 'kubernetes.io/tls' },
+          { text: this.$t('type.image'), value: 'kubernetes.io/dockerconfigjson' },
         ];
         this.obj.type = '';
       },
@@ -299,7 +305,7 @@
             }
           } catch (e) {
             this.$store.commit('SET_SNACKBAR', {
-              text: '无法解析数据',
+              text: this.$root.$t('tip.parse_error'),
               color: 'warning',
             });
           }

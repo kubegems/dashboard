@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../../i18n/locales.json" />
 <template>
   <v-card class="my-3" flat>
     <BaseSubTitle class="pt-2" :divider="false" :title="$root.$t('resource.cluster')" />
@@ -113,6 +112,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import Pagination from '../Pagination';
   import ScaleResource from './ScaleResource';
   import { getTenantResourceQuota, getTenantResourceQuotaList } from '@/api';
@@ -122,6 +122,9 @@
 
   export default {
     name: 'ResourceList',
+    i18n: {
+      messages: messages,
+    },
     components: {
       GpuTip,
       Pagination,

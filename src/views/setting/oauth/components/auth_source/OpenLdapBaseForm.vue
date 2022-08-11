@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../../i18n/locales.json" />
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
     <v-card-text class="pa-2">
@@ -69,11 +68,15 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'OpenLdapBaseForm',
+    i18n: {
+      messages: messages,
+    },
     props: {
       item: {
         type: Object,

@@ -122,7 +122,10 @@
     "member_c": "成员{0}",
     "type": "类型",
     "file": "文件",
-    "template": "模版"
+    "template": "模版",
+    "create_at": "创建时间",
+    "kind": "资源",
+    "plugin": "插件"
   },
 
   "header": {
@@ -180,10 +183,13 @@
     "return": "返回",
     "deploy": "部署",
     "sync": "同步",
-    "sync_c": "同步{0}"
+    "sync_c": "同步{0}",
+    "save": "保存"
   },
   "form": {
-    "definition": "{0}定义"
+    "definition": "{0}定义",
+    "key_value": "键值对",
+    "key": "键"
   },
   "pagination": {
     "count": "每页条目数"
@@ -404,7 +410,7 @@
     "output": "日志路由器 (Output/ClusterOutput) 定义您的流可以发送日志消息的输出。"
   },
   "metadata": {
-    "description": "KubeGems 是一款开源的企业级多租户容器云平台。围绕云原生社区， KubeGems 提供了多 Kubernetes 集群接入能力，并具备丰富的组件管理和资源成本分析功能，能够帮助企业快速的构建和打造一个本地化、功能强大且低成本的云管理平台。",
+    "description": "更便捷的云原生管理平台",
     "environment_type": {
       "dev": "开发",
       "test": "测试",
@@ -419,6 +425,8 @@
     "batch_rule_c": "确认{0}",
     "batch_delete": "删除",
     "cluster": "请创建或选择集群",
-    "project_select": "该项目下没有环境，请重新选择项目或添加环境"
+    "project_select": "该项目下没有环境，请重新选择项目或添加环境",
+    "save_data": "请保存数据",
+    "parse_error": "数据解析错误"
   }
 }

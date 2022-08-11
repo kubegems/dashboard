@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../i18n/locales.json" />
 <template>
   <v-flex>
     <v-card v-for="(cluster, index) in clusters" :key="index" :class="`${index > 0 ? 'mt-3' : 'mt-6'}`" flat>
@@ -131,6 +130,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../i18n';
   import {
     getNetworkPolicyDetail,
     getProjectEnvironmentAggregation,
@@ -145,6 +145,9 @@
 
   export default {
     name: 'EnvironmentList',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseFilter, BasePermission, BaseResource, BaseSelect],
     inject: ['reload'],
     props: {

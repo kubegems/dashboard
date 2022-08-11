@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../i18n/locales.json" />
 <template>
   <BaseDialog v-model="dialog" icon="mdi-account-edit" :title="$t('tip.role_title')" :width="500" @reset="reset">
     <template #content>
@@ -62,12 +61,16 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import { putChangeUserRole, systemRoleSelectData } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'UpdateRole',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseSelect],
     data: () => ({
       dialog: false,

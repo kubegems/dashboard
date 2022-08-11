@@ -1,0 +1,13 @@
+{
+  "table": {
+    "name": "配置名",
+    "item": "配置项",
+    "create_at": "创建时间"
+  },
+  "filter": {
+    "configmap_name": "配置名称"
+  },
+  "form": {
+    "name": "配置名"
+  }
+}

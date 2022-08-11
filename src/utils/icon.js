@@ -138,7 +138,7 @@ export function getIconName(name, def = 'kubernetes') {
   if (name.indexOf('kubevela') > -1) return 'img:kubevela.svg';
   if (name.indexOf('gateway') > -1) return 'logos:nginx';
   if (name.indexOf('tracing') > -1) return 'img:jaeger.svg';
-  if (name.indexOf('日志采集') > -1) return 'img:kubegems.svg';
+  if (name.indexOf('log collect') > -1) return 'img:kubegems.svg';
   if (name.indexOf('opentelemetry') > -1) return 'logos:opentelemetry';
   if (name.indexOf('openkruise') > -1) return 'img:openkruise.svg';
   if (name.indexOf('ai-model') > -1) return 'img:ai-model.svg';

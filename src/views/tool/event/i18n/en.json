@@ -1,0 +1,17 @@
+{
+  "table": {
+    "component": "Component",
+    "host": "Host",
+    "service": "Service",
+    "namespace": "Namespace",
+    "type": "Type",
+    "message": "Message",
+    "count": "Count",
+    "first_at": "First Time",
+    "last_at": "Last Time"
+  },
+  "filter": {
+    "cluster": "Cluster",
+    "message": "Message"
+  }
+}

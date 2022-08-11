@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <BaseBreadcrumb />
@@ -93,10 +92,14 @@
 
   import RepositoryInfo from './components/RepositoryInfo';
   import StatusTip from './components/StatusTip';
+  import messages from './i18n';
   import { deleteRepository, getRepositoryList, postSyncRepository } from '@/api';
 
   export default {
     name: 'RepositoryList',
+    i18n: {
+      messages: messages,
+    },
     components: {
       RepositoryInfo,
       StatusTip,

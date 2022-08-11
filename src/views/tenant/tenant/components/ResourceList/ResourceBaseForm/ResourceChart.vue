@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../../../i18n/locales.json" />
 <template>
   <v-row>
     <v-col class="py-0" cols="4">
@@ -45,10 +44,14 @@
 <script>
   import VueApexCharts from 'vue-apexcharts';
 
+  import messages from '../../../i18n';
   import { generateRadialBarChartOptions } from '@/utils/chart';
 
   export default {
     name: 'ResourceChart',
+    i18n: {
+      messages: messages,
+    },
     components: {
       VueApexCharts,
     },

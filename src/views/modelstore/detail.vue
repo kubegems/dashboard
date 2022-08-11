@@ -31,7 +31,7 @@
     </Breadcrumb>
     <v-row class="mt-0">
       <v-col class="pt-0" cols="3">
-        <ModelInfo :item="item" @refresh="refresh" />
+        <ModelInfo :item="item" @refresh="refresh" @selcetVersion="selcetVersion" />
       </v-col>
       <v-col class="pt-0" cols="9">
         <v-card flat>
@@ -95,6 +95,7 @@
           // { text: '证书', value: 'Certificate', tab: 'certificate' },
         ],
         item: undefined,
+        version: '',
       };
     },
     computed: {
@@ -110,6 +111,15 @@
             query: { ...this.$route.query, tab: this.tabItems[this.tab].tab },
           });
         },
+      },
+      version: {
+        handler(newValue) {
+          if (newValue) {
+            this.item = { ...this.item, v: newValue };
+          }
+        },
+        deep: true,
+        immediate: true,
       },
     },
     mounted() {
@@ -136,6 +146,9 @@
             registry: this.$route.query.registry,
           },
         });
+      },
+      selcetVersion(version) {
+        this.version = version;
       },
     },
   };

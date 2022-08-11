@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../i18n/locales.json" />
 <template>
   <v-card class="pa-2" flat>
     <v-card-title class="pa-0">
@@ -104,10 +103,14 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import { getAuditList } from '@/api';
 
   export default {
     name: 'AuditList',
+    i18n: {
+      messages: messages,
+    },
     data() {
       return {
         items: [],

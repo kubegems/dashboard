@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <BaseBreadcrumb />
@@ -68,11 +67,15 @@
 
 <script>
   import ConfigAuthSource from './components/ConfigAuthSource';
+  import messages from './i18n';
   import { getAuthSourceConfigList, putAuthSourceConfig } from '@/api';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'OAuthSetting',
+    i18n: {
+      messages: messages,
+    },
     components: {
       ConfigAuthSource,
     },
