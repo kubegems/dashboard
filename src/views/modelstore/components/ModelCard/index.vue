@@ -18,7 +18,7 @@
     <v-row v-scroll:#model__store="$_.debounce(onScroll, 50)" class="mt-0">
       <v-col v-for="(item, index) in items" :key="index" class="pt-0" cols="3">
         <v-hover #default="{ hover }">
-          <v-card class="mx-auto" :elevation="hover ? 5 : 0" flat height="100%">
+          <v-card class="mx-auto card__pos" :elevation="hover ? 5 : 0" flat height="100%">
             <v-list-item three-line>
               <v-list-item-avatar size="80" tile>
                 <BaseLogo icon-name="ai-model" :ml="0" :width="60" />
@@ -62,6 +62,9 @@
               <v-spacer />
               <v-btn color="primary" small text @click="modelDetail(item)"> 详情 </v-btn>
             </v-card-actions>
+
+            <v-flex v-if="item.recommentContent" class="card__watermark-bg" />
+            <v-flex v-if="item.recommentContent" class="card__watermark font-weight-medium"> 推荐 </v-flex>
           </v-card>
         </v-hover>
       </v-col>
@@ -229,6 +232,35 @@
         position: relative;
         height: 70px;
       }
+    }
+
+    &__pos {
+      position: relative;
+      background-color: #ffffff;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    &__watermark-bg {
+      position: absolute;
+      width: 105px;
+      height: 90px;
+      transform: rotate(47deg);
+      top: -46px;
+      right: -55px;
+      background-color: #1e88e5;
+      padding: 0;
+    }
+
+    &__watermark {
+      position: absolute;
+      top: 10px;
+      right: 7px;
+      transform: rotate(47deg);
+      text-transform: uppercase;
+      color: white;
+      font-size: 12px;
     }
   }
 </style>

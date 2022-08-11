@@ -14,11 +14,12 @@
  * limitations under the License. 
 -->
 
+<i18n src="../../i18n/locales.json" />
 <template>
   <v-flex>
     <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
       <v-flex :class="expand ? 'kubegems__overlay' : ''" />
-      <BaseSubTitle title="配置定义" />
+      <BaseSubTitle :title="$root.$t('form.definition', [$root.$t('resource.configmap')])" />
       <v-card-text class="pa-2">
         <v-row v-if="manifest">
           <v-col cols="6">
@@ -28,8 +29,8 @@
               color="primary"
               hide-selected
               :items="kinds"
-              label="资源"
-              no-data-text="暂无可选数据"
+              :label="$root.$t('resource.kind')"
+              :no-data-text="$root.$t('data.no_data')"
               :readonly="edit"
               :rules="objRules.kindRule"
               @change="onKindChange"
@@ -47,7 +48,7 @@
             <v-text-field
               v-model="obj.metadata.name"
               class="my-0"
-              label="名称"
+              :label="$t('form.name')"
               :readonly="edit"
               required
               :rules="objRules.nameRule"
@@ -61,8 +62,8 @@
               color="primary"
               hide-selected
               :items="m_select_namespaceItems"
-              label="命名空间"
-              no-data-text="暂无可选数据"
+              :label="$root.$t('resource.namespace')"
+              :no-data-text="$root.$t('data.no_data')"
               :readonly="edit"
               :rules="objRules.namespaceRule"
               @focus="onNamespaceSelectFocus(ThisCluster)"
@@ -84,7 +85,7 @@
         @addData="addData"
         @closeOverlay="closeExpand"
       />
-      <BaseSubTitle title="配置项" />
+      <BaseSubTitle :title="$t('table.item')" />
       <v-card-text class="pa-2">
         <ConfigMapDataItem
           :data="obj.data"

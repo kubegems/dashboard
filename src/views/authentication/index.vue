@@ -436,7 +436,7 @@
       &__desc {
         width: 45%;
         line-height: 1.5;
-        font-size: 1rem;
+        font-size: 1.3rem;
         position: absolute;
         left: 45%;
         top: 50%;

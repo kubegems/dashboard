@@ -15,12 +15,12 @@
 -->
 <template>
   <div class="mt-3 white rounded pa-4">
-    <div v-for="(file, index) in files" :key="index" class="file text-subtitle-2 kubegems__text">
+    <div v-for="(item, index) in files" :key="index" class="file text-subtitle-2 kubegems__text">
       <!-- <div class="float-left"> 2022-04-23 12:12:12 CST </div>
       <div class="float-left file__size">11 KiB</div> -->
       <div class="float-left file__item">
         <v-icon color="primary">mdi-file</v-icon>
-        {{ file.filename }}
+        {{ item.filename }}
       </div>
       <div class="kubegems__clear-float" />
     </div>
@@ -28,6 +28,10 @@
 </template>
 
 <script>
+  import { Base64 } from 'js-base64';
+
+  import { getModelVersionContent } from '@/api';
+
   export default {
     name: 'Files',
     props: {
@@ -44,12 +48,18 @@
     watch: {
       item: {
         handler(newValue) {
-          if (newValue) {
-            this.files = newValue?.files;
+          if (newValue && newValue.v) {
+            this.modelVersionContent();
           }
         },
         deep: true,
         immediate: true,
+      },
+    },
+    methods: {
+      async modelVersionContent() {
+        const data = await getModelVersionContent(this.item.source, Base64.encode(this.item.name), this.item.v);
+        this.files = data.files || [];
       },
     },
   };

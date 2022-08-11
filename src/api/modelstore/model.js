@@ -35,3 +35,7 @@ export const getModelSourceList = (query = {}) => axios(`sources`, { params: que
 
 // 模型仓库详情
 export const getModelSourceDetail = (name, query = {}) => axios(`sources/${name}`, { params: query });
+
+// 模型版本内容
+export const getModelVersionContent = (source, name, version, query = {}) =>
+  axios(`sources/${source}/models/${name}/versions/${version}`, { params: query });

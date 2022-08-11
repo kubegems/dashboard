@@ -15,14 +15,19 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-content-copy" title="模型推荐内容" :width="1000" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-content-copy" title="模型推荐内容" :width="500" @reset="reset">
     <template #content>
       <v-flex>
         <BaseSubTitle title="推荐内容定义" />
         <v-card-text class="pa-2">
           <v-row>
             <v-col cols="12">
-              <QuillEditor v-model="obj.recommentContent" :options="editorOption" @keydown.stop />
+              <v-textarea
+                v-model="obj.recommentContent"
+                auto-grow
+                label="推荐内容"
+                :rules="objRules.recommentContentRule"
+              />
             </v-col>
           </v-row>
         </v-card-text>
@@ -36,28 +41,22 @@
 
 <script>
   import { Base64 } from 'js-base64';
-  import { quillEditor } from 'vue-quill-editor';
   import { mapState } from 'vuex';
 
-  import 'quill/dist/quill.core.css';
-  import 'quill/dist/quill.snow.css';
   import { putAdminUpdateModel } from '@/api';
   import { deepCopy } from '@/utils/helpers';
+  import { required } from '@/utils/rules';
 
   export default {
     name: 'RecommendContent',
-    components: {
-      QuillEditor: quillEditor,
-    },
     data() {
       return {
         dialog: false,
         obj: {
           recommentContent: '',
         },
-        editorOption: {
-          placeholder: '模型推荐内容',
-          theme: 'snow',
+        objRules: {
+          recommentContentRule: [required],
         },
       };
     },

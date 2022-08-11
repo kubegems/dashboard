@@ -36,6 +36,7 @@
           label="all"
           :metrics="metrics"
           :no-data-offset-y="-24"
+          single-tooptip
           title=""
           type=""
           :unit="graph.promqlGenerator ? getUnit(graph.promqlGenerator.unit) : getUnit(graph.unit)"

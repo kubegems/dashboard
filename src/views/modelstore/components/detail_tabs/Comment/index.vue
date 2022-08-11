@@ -126,6 +126,10 @@
       </v-card>
     </div>
 
+    <div v-if="loading" class="my-3 py-2 text-center card__scroll__loading">
+      <BaseDropProgress />
+    </div>
+
     <v-btn
       v-if="offsetTop"
       bottom
@@ -183,6 +187,7 @@
       },
       expandIndex: [],
       offsetTop: 0,
+      loading: false,
     }),
     computed: {
       ...mapState(['Scale', 'User']),
@@ -281,9 +286,12 @@
       },
       onScroll(e) {
         this.offsetTop = e.target.scrollTop;
-        if (e.target.scrollTop + document.getElementById('model__comment').clientHeight >= e.target.scrollHeight) {
+        if (e.target.scrollTop + document.getElementById('model__comment').clientHeight >= e.target.scrollHeight - 1) {
           this.params.page += 1;
+          if (this.pageCount < this.params.page) return;
+          this.loading = true;
           this.modelCommentList();
+          this.loading = false;
         }
       },
       goToTop() {

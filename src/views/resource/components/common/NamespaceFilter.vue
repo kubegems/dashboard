@@ -18,7 +18,7 @@
   <v-sheet>
     <v-sheet v-if="AdminViewport">
       <v-sheet class="text-subtitle-2 ml-4 mr-2 float-left font-weight-medium kubegems__text font-line-height ns__tip">
-        命名空间
+        {{ $t('resource.namespace') }}
       </v-sheet>
       <v-sheet class="float-left ns__combox" width="400">
         <v-combobox
@@ -31,8 +31,8 @@
           hide-details
           hide-selected
           :items="m_select_namespaceItems"
-          label="命名空间"
-          no-data-text="无数据"
+          :label="$t('resource.namespace')"
+          :no-data-text="$t('data.no_data')"
           prepend-inner-icon="mdi-cube"
           solo
           @change="onNamespaceFilterChange"

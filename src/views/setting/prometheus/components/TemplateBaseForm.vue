@@ -42,7 +42,7 @@
             />
           </v-col>
           <v-col cols="12">
-            <v-text-field v-model="obj.expr" class="my-0" label="Expr" required :rules="objRules.exprRule" />
+            <v-textarea v-model="obj.expr" auto-grow class="my-0" label="Expr" required :rules="objRules.exprRule" />
           </v-col>
           <v-col cols="12">
             <v-combobox

@@ -60,6 +60,7 @@
           :label-show="false"
           :metrics="data ? data.data : []"
           :no-data-offset-y="-25"
+          single-tooptip
           type=""
           :unit="getUnit(unit)"
         />

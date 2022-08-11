@@ -86,7 +86,7 @@
         />
         <div class="text-caption pa-1 mt-2">项目</div>
         <v-divider class="mb-2" />
-        <v-list class="pa-0" dense max-height="350" nav :style="{ overflowY: 'auto' }">
+        <v-list class="pa-0" dense max-height="300" nav :style="{ overflowY: 'auto' }">
           <v-list-item-group v-model="projectIndex" color="primary" @change="onProjectChange">
             <v-list-item v-for="item in projectItems" :key="item.value" dense>
               <v-list-item-content>
@@ -105,7 +105,7 @@
       <div v-if="show" class="select__div">
         <div class="text-caption pa-1">环境</div>
         <v-divider class="mb-2" />
-        <v-list class="pa-0" dense max-height="350" nav :style="{ overflowY: 'auto' }">
+        <v-list class="pa-0" dense max-height="345" nav :style="{ overflowY: 'auto' }">
           <v-list-item-group v-model="environmentIndex" color="primary" @change="onEnvironmentChange">
             <v-list-item v-for="item in environmentItems" :key="item.value" dense>
               <v-list-item-content>

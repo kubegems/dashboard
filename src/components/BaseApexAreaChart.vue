@@ -76,6 +76,10 @@
         type: Number,
         default: () => -17,
       },
+      singleTooptip: {
+        type: Boolean,
+        default: () => false,
+      },
       title: {
         type: String,
         default: () => null,
@@ -413,6 +417,15 @@
                 return this.formatter(value);
               },
             },
+            custom: this.singleTooptip
+              ? ({ series, seriesIndex, dataPointIndex, w }) => {
+                  return `<div class="arrow_box pa-2 chart__tooptip">
+                  <div class="chart__legend" style="background-color: ${w.config.colors[seriesIndex]}"></div>
+                  <span>${w.globals.seriesNames[seriesIndex]}</span>
+                  <span class="ml-2 font-weight-medium">${this.formatter(series[seriesIndex][dataPointIndex])}</span>
+                </div>`;
+                }
+              : undefined,
           },
           legend: {
             show: this.labelShow,
@@ -435,3 +448,23 @@
     },
   };
 </script>
+
+<style lang="scss">
+  .chart {
+    &__tooptip {
+      font-size: 11px;
+      max-width: 700px;
+      word-break: break-all;
+      white-space: initial;
+    }
+
+    &__legend {
+      width: 10px;
+      height: 10px;
+      border-radius: 10px;
+      float: left;
+      margin-right: 4px;
+      margin-top: 4px;
+    }
+  }
+</style>

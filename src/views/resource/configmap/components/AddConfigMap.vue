@@ -15,12 +15,20 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-wrench" title="创建配置" :width="1000" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-wrench"
+    :title="$root.$t('operate.add_c', [$root.$t('resource.configmap')])"
+    :width="1000"
+    @reset="reset"
+  >
     <template #content>
       <component :is="formComponent" :ref="formComponent" title="ConfigMap" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addConfigMap"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addConfigMap">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
     <template #header-action>
       <v-switch
@@ -74,7 +82,7 @@
         }
         if (!this.$refs[this.formComponent].checkSaved()) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请保存数据',
+            text: this.$root.$t('tip.save_data'),
             color: 'warning',
           });
           return;

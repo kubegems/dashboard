@@ -14,6 +14,7 @@
  * limitations under the License. 
 -->
 
+<i18n src="../../i18n/locales.json" />
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
     <v-expand-transition>
@@ -21,13 +22,13 @@
         <v-card-text class="pa-0">
           <v-sheet class="pt-2 px-2">
             <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width">
-              <span class="ml-2">仓库定义</span>
+              <span class="ml-2">{{ $root.$t('form.definition', [$root.$t('resource.registry')]) }}</span>
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-text-field
                 v-model="dockerconfig.address"
                 class="my-0"
-                label="仓库地址"
+                :label="$t('form.address')"
                 required
                 :rules="dockerconfigRules.addressRule"
               />
@@ -38,7 +39,7 @@
           <v-sheet class="px-2">
             <v-flex class="float-left text-subtitle-2 py-1 primary--text kubegems__min-width" />
             <v-flex class="float-left ml-2 kubegems__form-width">
-              <v-text-field v-model="dockerconfig.email" class="my-0" label="邮箱" required />
+              <v-text-field v-model="dockerconfig.email" class="my-0" :label="$t('form.email')" required />
             </v-flex>
             <div class="kubegems__clear-float" />
           </v-sheet>
@@ -49,7 +50,7 @@
               <v-text-field
                 v-model="dockerconfig.username"
                 class="my-0"
-                label="用户名"
+                :label="$t('form.username')"
                 required
                 :rules="dockerconfigRules.usernameRule"
               />
@@ -58,7 +59,7 @@
               <v-text-field
                 v-model="dockerconfig.password"
                 class="my-0"
-                label="密码"
+                :label="$t('form.passwd')"
                 required
                 :rules="dockerconfigRules.passwordRule"
               />
@@ -68,8 +69,8 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
-          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> {{ $root.$t('operate.cancel') }} </v-btn>
+          <v-btn color="primary" small text @click="addData"> {{ $root.$t('operate.save') }} </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
