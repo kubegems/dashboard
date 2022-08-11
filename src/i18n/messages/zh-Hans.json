@@ -124,7 +124,8 @@
     "file": "文件",
     "template": "模版",
     "create_at": "创建时间",
-    "kind": "资源"
+    "kind": "资源",
+    "plugin": "插件"
   },
 
   "header": {

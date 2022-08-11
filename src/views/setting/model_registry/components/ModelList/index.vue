@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
 -->
-<i18n src="../../i18n/locales.json" />
+
 <template>
   <v-card>
     <v-card-title>
@@ -153,6 +153,7 @@
 <script>
   import { Base64 } from 'js-base64';
 
+  import messages from '../../i18n';
   import Recommend from './Recommend';
   import RecommendContent from './RecommendContent';
   import TagModel from './TagModel';
@@ -168,6 +169,9 @@
 
   export default {
     name: 'ModelList',
+    i18n: {
+      messages: messages,
+    },
     components: {
       Recommend,
       RecommendContent,

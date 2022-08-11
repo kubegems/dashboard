@@ -70,6 +70,7 @@
   import { mapGetters, mapState } from 'vuex';
 
   import UpdateConfigMap from './components/UpdateConfigMap';
+  import messages from './i18n';
   import { deleteConfigMap, getConfigMapDetail } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -79,6 +80,9 @@
 
   export default {
     name: 'ConfigMapDetail',
+    i18n: {
+      messages: messages,
+    },
     components: {
       BasicResourceInfo,
       ResourceYaml,

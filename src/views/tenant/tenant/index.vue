@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <BaseBreadcrumb />
@@ -168,6 +167,7 @@
 
   import AddTenant from './components/AddTenant';
   import UpdateTenant from './components/UpdateTenant';
+  import messages from './i18n';
   import { deleteTenant, getTenantList, putActiveTenant, putForbideTenant } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BaseResource from '@/mixins/resource';
@@ -177,6 +177,9 @@
 
   export default {
     name: 'Tenant',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddTenant,
       UpdateTenant,

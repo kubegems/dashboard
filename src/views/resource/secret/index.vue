@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <BaseViewportHeader />
@@ -151,6 +150,7 @@
   import AddSecret from './components/AddSecret';
   import Tips from './components/Tips';
   import UpdateSecret from './components/UpdateSecret';
+  import messages from './i18n';
   import { deleteSecret, getSecretList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -160,6 +160,9 @@
 
   export default {
     name: 'Secret',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddSecret,
       NamespaceFilter,

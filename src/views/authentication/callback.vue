@@ -14,16 +14,19 @@
  * limitations under the License. 
 -->
 
-<i18n src="./i18n/locales.json" />
 <template>
   <div />
 </template>
 
 <script>
+  import messages from './i18n';
   import { getOauthCallback } from '@/api';
 
   export default {
     name: 'Callback',
+    i18n: {
+      messages: messages,
+    },
     async mounted() {
       const code = this.$route.query.code;
       const state = this.$route.query.state;

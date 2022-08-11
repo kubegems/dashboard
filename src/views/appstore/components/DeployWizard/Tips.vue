@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../../i18n/locales.json" />
 <template>
   <v-menu :nudge-width="200" offset-x open-on-hover>
     <template #activator="{ on, attrs }">
@@ -40,8 +39,13 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
+
   export default {
     name: 'Tips',
+    i18n: {
+      messages: messages,
+    },
     props: {
       msg: {
         type: String,

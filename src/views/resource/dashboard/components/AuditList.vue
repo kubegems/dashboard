@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../i18n/locales.json" />
 <template>
   <v-card>
     <BaseSubTitle class="pt-2" :divider="false" :title="$t('audit.audit')">
@@ -76,10 +75,14 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../i18n';
   import { getAuditList } from '@/api';
 
   export default {
     name: 'AuditList',
+    i18n: {
+      messages: messages,
+    },
     data: () => ({
       auditItems: [],
     }),

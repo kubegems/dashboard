@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../../i18n/locales.json" />
 <template>
   <v-card>
     <BaseSubTitle class="pt-2" :divider="false" :title="$root.$t('resource.project')">
@@ -203,6 +202,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import Pagination from '../Pagination';
   import { getProjectEnvironmentList, getProjectEnvironmentQuotaList, getProjectList } from '@/api';
   import BasePermission from '@/mixins/permission';
@@ -220,6 +220,9 @@
 
   export default {
     name: 'ProjectList',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddEnvironment,
       AddProject,

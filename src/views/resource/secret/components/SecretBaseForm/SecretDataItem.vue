@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../../i18n/locales.json" />
 <template>
   <v-flex>
     <v-sheet v-for="(value, key) in data" :key="key" class="grey lighten-4 rounded mb-3">
@@ -51,8 +50,13 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
+
   export default {
     name: 'SecretDataItem',
+    i18n: {
+      messages: messages,
+    },
     props: {
       data: {
         type: Object,

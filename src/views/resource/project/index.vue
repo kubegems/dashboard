@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <BaseBreadcrumb />
@@ -163,6 +162,7 @@
   import { mapGetters, mapState } from 'vuex';
 
   import UpdateProject from './components/UpdateProject';
+  import messages from './i18n';
   import { deleteProject, getProjectList, getTenantProjectQuotaList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -171,6 +171,9 @@
 
   export default {
     name: 'Project',
+    i18n: {
+      messages: messages,
+    },
     components: {
       UpdateProject,
     },

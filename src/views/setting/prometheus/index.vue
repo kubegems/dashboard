@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <BaseSplitContainer side-width="250px" :title="$root.$t('resource.type')">
@@ -106,10 +105,14 @@
 <script>
   import AddTemplate from './components/AddTemplate';
   import UpdateTemplate from './components/UpdateTemplate';
+  import messages from './i18n';
   import { deletePrometheusTemplate, getSystemConfigData } from '@/api';
 
   export default {
     name: 'PrometheusTemplate',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddTemplate,
       UpdateTemplate,

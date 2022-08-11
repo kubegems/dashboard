@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../../i18n/locales.json" />
 <template>
   <div class="text-center">
     <v-dialog hide-overlay light persistent :value="dialog" width="300">
@@ -29,8 +28,13 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
+
   export default {
     name: 'AppStoreDeployLoading',
+    i18n: {
+      messages: messages,
+    },
     props: {
       dialog: {
         type: Boolean,

@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../../i18n/locales.json" />
 <template>
   <BaseDialog v-model="dialog" icon="mdi-scale" :title="$t('resource.tip.resource_scale')" :width="1000" @reset="reset">
     <template #content>
@@ -31,6 +30,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import ResourceBaseForm from './ResourceBaseForm';
   import { putUpdateTenantResourceQuota } from '@/api';
   import BaseResource from '@/mixins/resource';
@@ -38,6 +38,9 @@
 
   export default {
     name: 'ScaleResource',
+    i18n: {
+      messages: messages,
+    },
     components: {
       ResourceBaseForm,
     },

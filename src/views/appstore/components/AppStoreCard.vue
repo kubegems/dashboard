@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../i18n/locales.json" />
 <template>
   <v-hover #default="{ hover }">
     <v-card class="mx-auto" :elevation="hover ? 5 : 0" flat height="100%">
@@ -47,8 +46,13 @@
 </template>
 
 <script>
+  import messages from '../i18n';
+
   export default {
     name: 'AppStoreCard',
+    i18n: {
+      messages: messages,
+    },
     props: {
       app: {
         type: Object,

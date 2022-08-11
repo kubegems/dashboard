@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../../i18n/locales.json" />
 <template>
   <v-flex>
     <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
@@ -101,6 +100,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import ConfigMapDataItem from './ConfigMapDataItem';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
@@ -110,6 +110,9 @@
 
   export default {
     name: 'ConfigMapBaseForm',
+    i18n: {
+      messages: messages,
+    },
     components: {
       ConfigMapDataItem,
       DataForm,

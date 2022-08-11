@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../i18n/locales.json" />
 <template>
   <BaseDialog
     v-model="dialog"
@@ -71,11 +70,15 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import { postAddUser } from '@/api';
   import { email, password, required } from '@/utils/rules';
 
   export default {
     name: 'AddUser',
+    i18n: {
+      messages: messages,
+    },
     data: () => ({
       dialog: false,
       valid: false,

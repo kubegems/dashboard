@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../i18n/locales.json" />
 <template>
   <v-flex>
     <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
@@ -74,7 +73,6 @@
               :items="m_metrics_unitItems"
               :label="$t('form.unit')"
               :no-data-text="$root.$t('data.no_data')"
-              :rules="objRules.unitRule"
             >
               <template #selection="{ item }">
                 <v-chip class="mx-1" color="primary" small>
@@ -92,12 +90,16 @@
 </template>
 
 <script>
+  import messages from '../i18n';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
   import Metrics from '@/views/observe/monitor/mixins/metrics';
 
   export default {
     name: 'TemplateBaseForm',
+    i18n: {
+      messages: messages,
+    },
     mixins: [Metrics],
     props: {
       edit: {
@@ -128,7 +130,6 @@
           nameRule: [required],
           showNameRule: [required],
           exprRule: [required],
-          unitRule: [required],
         };
       },
     },

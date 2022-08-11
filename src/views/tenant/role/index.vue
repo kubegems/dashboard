@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <BaseBreadcrumb />
@@ -34,8 +33,13 @@
 </template>
 
 <script>
+  import messages from './i18n';
+
   export default {
     name: 'Role',
+    i18n: {
+      messages: messages,
+    },
     computed: {
       headers() {
         return [

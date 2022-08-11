@@ -1,0 +1,17 @@
+{
+  "table": {
+    "component": "来源组件",
+    "host": "来源主机",
+    "service": "服务",
+    "namespace": "命名空间",
+    "type": "类型",
+    "message": "消息",
+    "count": "次数",
+    "first_at": "首次发生时间",
+    "last_at": "最近发生时间"
+  },
+  "filter": {
+    "cluster": "集群",
+    "message": "消息"
+  }
+}

@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../../i18n/locales.json" />
 <template>
   <v-flex>
     <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
@@ -118,6 +117,7 @@
   import { Base64 } from 'js-base64';
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import SecretDataForm from './SecretDataForm';
   import SecretDataItem from './SecretDataItem';
   import SecretDockerconfigForm from './SecretDockerconfigForm';
@@ -129,6 +129,9 @@
 
   export default {
     name: 'SecretBaseForm',
+    i18n: {
+      messages: messages,
+    },
     components: {
       SecretDataForm,
       SecretDataItem,

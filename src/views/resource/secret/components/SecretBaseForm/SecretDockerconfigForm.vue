@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../../i18n/locales.json" />
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
     <v-expand-transition>
@@ -80,11 +79,15 @@
 <script>
   import { Base64 } from 'js-base64';
 
+  import messages from '../../i18n';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'SecretDockerconfigForm',
+    i18n: {
+      messages: messages,
+    },
     props: {
       data: {
         type: Object,

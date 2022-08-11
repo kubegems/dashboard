@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../../i18n/locales.json" />
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
     <v-expand-transition>
@@ -71,10 +70,14 @@
   import { Base64 } from 'js-base64';
   import { mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'SecretTlsForm',
+    i18n: {
+      messages: messages,
+    },
     props: {
       data: {
         type: Object,

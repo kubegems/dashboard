@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../i18n/locales.json" />
 <template>
   <BaseDialog
     v-model="dialog"
@@ -58,6 +57,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import { postAddTenant } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
@@ -65,6 +65,9 @@
 
   export default {
     name: 'AddTenant',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource, BaseSelect],
     data: () => ({
       dialog: false,

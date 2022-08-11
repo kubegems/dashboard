@@ -124,7 +124,8 @@
     "file": "File",
     "template": "Template",
     "create_at": "Create Time",
-    "kind": "Kind"
+    "kind": "Kind",
+    "plugin": "Plugin"
   },
 
   "header": {

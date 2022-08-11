@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../../i18n/locales.json" />
 <template>
   <FormWizard
     ref="deploy"
@@ -194,6 +193,7 @@
   import { FormWizard, TabContent } from 'vue-form-wizard';
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import AppStoreComplete from './AppStoreComplete';
   import AppStoreDeployLoading from './AppStoreDeployLoading';
   import Tips from './Tips';
@@ -209,6 +209,9 @@
 
   export default {
     name: 'DeployWizard',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AppStoreComplete,
       AppStoreDeployLoading,

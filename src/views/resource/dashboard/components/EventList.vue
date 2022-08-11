@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../i18n/locales.json" />
 <template>
   <v-card class="my-3" flat>
     <BaseSubTitle class="pt-2" :divider="false" :title="$t('event.event')">
@@ -160,12 +159,16 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../i18n';
   import { getClusterPluginsList, getEventListFromLoki } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'EventList',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource, BaseSelect],
     data: () => ({
       eventItems: [],

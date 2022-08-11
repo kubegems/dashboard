@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../i18n/locales.json" />
 <template>
   <div>
     <v-row>
@@ -108,11 +107,15 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import { getLoginUserInfo, postResetPassword, putUpdateUser } from '@/api';
   import { email, password, phone, required } from '@/utils/rules';
 
   export default {
     name: 'OwnerSetting',
+    i18n: {
+      messages: messages,
+    },
     data() {
       return {
         validInfo: false,

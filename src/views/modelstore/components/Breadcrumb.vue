@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../i18n/locales.json" />
 <template>
   <v-flex class="mb-3">
     <v-row class="ma-0 pa-0">
@@ -57,10 +56,14 @@
 </template>
 
 <script>
+  import messages from '../i18n';
   import { getModelSourceDetail } from '@/api';
 
   export default {
     name: 'Breadcrumb',
+    i18n: {
+      messages: messages,
+    },
     props: {
       hub: {
         type: String,

@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../i18n/locales.json" />
 <template>
   <BaseDialog
     v-model="dialog"
@@ -115,11 +114,15 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../i18n';
   import { deleteTenantUser, getTenantUserList, postAddTenantUser, userSelectData } from '@/api';
   import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'ManageUser',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseSelect],
     data: () => ({
       dialog: false,

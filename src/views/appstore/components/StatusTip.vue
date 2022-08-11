@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../i18n/locales.json" />
 <template>
   <v-menu
     bottom
@@ -56,8 +55,13 @@
 </template>
 
 <script>
+  import messages from '../i18n';
+
   export default {
     name: 'StatusTip',
+    i18n: {
+      messages: messages,
+    },
     props: {
       item: {
         type: Object,

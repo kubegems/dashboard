@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../i18n/locales.json" />
 <template>
   <BaseDialog v-model="dialog" icon="mdi-hexagon-multiple" :title="title" :width="500" @reset="reset">
     <template #content>
@@ -51,6 +50,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import { postAddRepository } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
@@ -58,6 +58,9 @@
 
   export default {
     name: 'RepositoryInfo',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseSelect],
     data: () => ({
       title: '',

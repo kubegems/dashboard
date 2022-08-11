@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <BaseBreadcrumb />
@@ -92,10 +91,14 @@
   import AuditList from './components/AuditList';
   import MessageBox from './components/MessageBox';
   import OwnerSetting from './components/OwnerSetting';
+  import messages from './i18n';
   import { getLoginUserInfo } from '@/api';
 
   export default {
     name: 'UserCenter',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AuditList,
       MessageBox,

@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <BaseViewportHeader :selectable="false" />
@@ -82,6 +81,7 @@
   import { mapState } from 'vuex';
 
   import UpdateSecret from './components/UpdateSecret';
+  import messages from './i18n';
   import { deleteSecret, getSecretDetail } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -91,6 +91,9 @@
 
   export default {
     name: 'SecretDetail',
+    i18n: {
+      messages: messages,
+    },
     components: {
       BasicResourceInfo,
       ResourceYaml,

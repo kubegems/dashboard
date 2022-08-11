@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <BaseViewportHeader />
@@ -144,6 +143,7 @@
 
   import AddConfigMap from './components/AddConfigMap';
   import UpdateConfigMap from './components/UpdateConfigMap';
+  import messages from './i18n';
   import { deleteConfigMap, getConfigMapList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -153,6 +153,9 @@
 
   export default {
     name: 'ConfigMap',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddConfigMap,
       NamespaceFilter,

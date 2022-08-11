@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <v-card class="mt-8" flat height="400px">
@@ -43,8 +42,13 @@
 <script>
   import { mapGetters } from 'vuex';
 
+  import messages from './i18n';
+
   export default {
     name: 'V403',
+    i18n: {
+      messages: messages,
+    },
     computed: {
       ...mapGetters(['Tenant']),
     },

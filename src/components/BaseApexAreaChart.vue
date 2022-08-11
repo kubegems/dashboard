@@ -278,7 +278,7 @@
       beautifyUnit(num, sclaeNum, units = [], unitType = '', decimal = 1) {
         let result = num;
         for (const index in units) {
-          if (Math.abs(result) < sclaeNum || parseInt(index) === parseInt(units.length - 1)) {
+          if (Math.abs(result) <= sclaeNum || parseInt(index) === parseInt(units.length - 1)) {
             if (unitType === 'percent') {
               return `${result.toFixed(decimal)} %`;
             }
@@ -305,7 +305,7 @@
           } else {
             sclaeNum = 7;
           }
-          if (Math.abs(result) < sclaeNum || parseInt(index) === parseInt(units.length - 1)) {
+          if (Math.abs(result) <= sclaeNum || parseInt(index) === parseInt(units.length - 1)) {
             return `${result.toFixed(decimal)} ${units[index]}`;
           }
           result /= sclaeNum;

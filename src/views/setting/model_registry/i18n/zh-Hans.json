@@ -1,0 +1,26 @@
+{
+  "tab": {
+    "ai_model": "算法模型"
+  },
+
+  "table": {
+    "name": "名称",
+    "version": "版本",
+    "framework": "框架",
+    "task": "类型",
+    "tag": "标签",
+    "last_modified": "上次更新",
+    "recommend": "推荐值",
+    "published": "上架状态"
+  },
+  "operate": {
+    "recommend_content": "推荐内容",
+    "online": "上架",
+    "offline": "下架"
+  },
+  "filter": {
+    "search": "模型名称",
+    "framework": "框架",
+    "task": "类型"
+  }
+}

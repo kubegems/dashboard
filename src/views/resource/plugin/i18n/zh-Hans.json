@@ -1,0 +1,24 @@
+{
+  "tip": {
+    "inner": "内置组件",
+    "status": "状态",
+    "desc": "简介",
+    "version": "版本",
+    "laset_version": "最新版本",
+    "enable_plugin": "请先启用组件"
+  },
+  "operate": {
+    "install": "启用",
+    "install_c": "启用{0}",
+    "uninstall": "卸载",
+    "uninstall_c": "卸载{0}"
+  },
+  "status": {
+    "deploying": "部署中",
+    "installed": "已安装"
+  },
+  "tab": {
+    "core": "核心组件",
+    "kubernetes": "Kubernetes组件"
+  }
+}

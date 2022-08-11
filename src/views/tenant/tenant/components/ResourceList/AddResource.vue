@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../../i18n/locales.json" />
 <template>
   <BaseDialog
     v-model="dialog"
@@ -37,6 +36,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import ResourceBaseForm from './ResourceBaseForm';
   import { postAddTenantResourceQuota } from '@/api';
   import BaseResource from '@/mixins/resource';
@@ -44,6 +44,9 @@
 
   export default {
     name: 'AddResource',
+    i18n: {
+      messages: messages,
+    },
     components: {
       ResourceBaseForm,
     },

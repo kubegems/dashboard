@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="./i18n/locales.json" />
 <template>
   <v-container fluid>
     <BaseBreadcrumb>
@@ -96,12 +95,16 @@
   import ResourceList from './components/ResourceList';
   import UpdateTenant from './components/UpdateTenant';
   import UserList from './components/UserList';
+  import messages from './i18n';
   import { deleteTenant, getTenantDetail, putActiveTenant, putForbideTenant } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'TenantDetail',
+    i18n: {
+      messages: messages,
+    },
     components: {
       ResourceList,
       UserList,

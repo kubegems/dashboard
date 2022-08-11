@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="./i18n/locales.json" />
 <template>
   <div>
     <v-menu
@@ -144,11 +143,15 @@
   import { mapGetters, mapState } from 'vuex';
 
   import ApproveResource from './components/ApproveResource';
+  import messages from './i18n';
   import { getApproveList, getLoginUserAuth, getMessageList, putReadMessage } from '@/api';
   import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'Message',
+    i18n: {
+      messages: messages,
+    },
     components: {
       ApproveResource,
     },

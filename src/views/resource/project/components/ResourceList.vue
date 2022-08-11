@@ -14,7 +14,6 @@
  * limitations under the License. 
 -->
 
-<i18n src="../i18n/locales.json" />
 <template>
   <v-card class="mt-6" flat>
     <v-card-text class="pa-0">
@@ -49,10 +48,14 @@
 </template>
 
 <script>
+  import messages from '../i18n';
   import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'ResourceList',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     props: {
       quota: {

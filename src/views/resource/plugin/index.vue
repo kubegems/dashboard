@@ -47,10 +47,10 @@
                     </a>
                   </v-list-item-title>
                   <v-list-item-subtitle class="text-body-2 text--lighten-4">
-                    简介：{{ plugin.description }}
+                    {{ $t('tip.desc') }} : {{ plugin.description }}
                   </v-list-item-subtitle>
                   <v-list-item-subtitle v-if="!plugin.skip && plugin.enabled" class="text-body-2 text--lighten-4">
-                    状态：
+                    {{ $t('tip.status') }} :
                     <template v-if="plugin.enabled && !plugin.healthy">
                       <v-progress-circular color="warning" indeterminate size="16" :width="3" />
                     </template>
@@ -65,7 +65,7 @@
                   <v-list-item-content>
                     <v-list-item-subtitle class="text-body-2 text--lighten-4">
                       <v-flex :id="`${plugin.name}-${index}`" />
-                      版本：{{ plugin.version }}
+                      {{ $t('tip.version') }} : {{ plugin.version }}
                       <v-menu
                         v-if="innerPlugins[plugin.name] && innerPlugins[plugin.name] !== plugin.version"
                         :attach="`#${plugin.name}-${index}`"
@@ -86,13 +86,13 @@
                           <v-list class="pa-0" dense>
                             <v-flex class="text-body-2 text-center primary white--text py-2">
                               <v-icon color="white" left small> mdi-alpha-v-circle </v-icon>
-                              <span>版本</span>
+                              <span>{{ $t('tip.version') }}</span>
                             </v-flex>
                             <v-list-item>
                               <v-list-item-content>
                                 <v-list-item class="float-left pa-0" two-line>
                                   <v-list-item-content class="py-0">
-                                    <v-list-item-title> 最新版本 </v-list-item-title>
+                                    <v-list-item-title> {{ $t('tip.laset_version') }} </v-list-item-title>
                                     <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
                                       {{ innerPlugins[plugin.name] }}
                                     </v-list-item-content>
@@ -118,14 +118,16 @@
                     {{ getStatus(plugin).text }}
                   </v-btn>
                   <v-btn v-else-if="!plugin.skip" color="primary" small text @click="enablePlugin(plugin)">
-                    启用
+                    {{ $t('operate.install') }}
                   </v-btn>
                 </v-flex>
                 <div class="kubegems__clear-float" />
               </v-card-actions>
 
               <v-flex v-if="plugin.required" class="plugins__watermark-bg" />
-              <v-flex v-if="plugin.required" class="plugins__watermark font-weight-medium"> 内置组件 </v-flex>
+              <v-flex v-if="plugin.required" class="plugins__watermark font-weight-medium">
+                {{ $t('tip.inner') }}
+              </v-flex>
             </v-card>
           </v-hover>
         </v-col>
@@ -138,26 +140,26 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from './i18n';
   import { getClusterPluginsList, getPlatformVersion, postDisablePlugin, postEnablePlugin } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'Plugin',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BasePermission, BaseResource],
     data: () => ({
       tab: 0,
-      tabItems: [
-        { text: '核心组件', value: 'Core' },
-        { text: 'Kubernetes组件', value: 'Kubernetes' },
-      ],
       pluginDict: {},
       interval: null,
       apiVersion: null,
       uiVersion: null,
     }),
     computed: {
-      ...mapState(['JWT', 'AdminViewport']),
+      ...mapState(['JWT', 'AdminViewport', 'Locale']),
       ...mapGetters(['Cluster']),
       pluginGroup() {
         if (this.tabItems[this.tab].value === 'Core') {
@@ -174,13 +176,19 @@
           'kubegems-installer': this.apiVersion,
         };
       },
+      tabItems() {
+        return [
+          { text: this.$t('tab.core'), value: 'Core' },
+          { text: this.$t('tab.kubernetes'), value: 'Kubernetes' },
+        ];
+      },
     },
     mounted() {
       if (this.JWT) {
         this.$nextTick(() => {
           if (this.ThisCluster === '') {
             this.$store.commit('SET_SNACKBAR', {
-              text: `请创建或选择集群`,
+              text: this.$root.$t('tip.cluster'),
               color: 'warning',
             });
             return;
@@ -213,7 +221,7 @@
       pluginPodList(plugin) {
         if (!plugin.enabled) {
           this.$store.commit('SET_SNACKBAR', {
-            text: `请先启用组件`,
+            text: this.$t('tip.enable_plugin'),
             color: 'warning',
           });
           return;
@@ -230,8 +238,11 @@
       },
       enablePlugin(plugin) {
         this.$store.commit('SET_CONFIRM', {
-          title: '启用组件',
-          content: { text: `启用组件 ${plugin.name}`, type: 'confirm' },
+          title: this.$t('operate.install_c', [this.$root.$t('resource.plugin')]),
+          content: {
+            text: `${this.$t('operate.install_c', [this.$root.$t('resource.plugin')])} ${plugin.name}`,
+            type: 'confirm',
+          },
           param: { plugin },
           doFunc: async (param) => {
             await postEnablePlugin(this.Cluster().ClusterName, param.plugin.name, {
@@ -246,8 +257,11 @@
           return;
         }
         this.$store.commit('SET_CONFIRM', {
-          title: '卸载组件',
-          content: { text: `卸载组件 ${plugin.name}`, type: 'confirm' },
+          title: this.$t('operate.uninstall_c', [this.$root.$t('resource.plugin')]),
+          content: {
+            text: `${this.$t('operate.uninstall_c', [this.$root.$t('resource.plugin')])} ${plugin.name}`,
+            type: 'confirm',
+          },
           param: { plugin },
           doFunc: async (param) => {
             await postDisablePlugin(this.Cluster().ClusterName, param.plugin.name, {
@@ -259,13 +273,13 @@
       },
       getStatus(plugin) {
         if (plugin.enabled && !plugin.healthy) {
-          return { text: '部署中', color: 'warning' };
+          return { text: this.$t('status.deploying'), color: 'warning' };
         } else if (plugin.enabled && plugin.required) {
-          return { text: '已安装', color: '' };
+          return { text: this.$t('status.installed'), color: '' };
         } else if (plugin.enabled) {
-          return { text: '卸载', color: 'error' };
+          return { text: this.$t('operate.uninstall'), color: 'error' };
         } else {
-          return { text: '启用', color: 'primary' };
+          return { text: this.$t('operate.install'), color: 'primary' };
         }
       },
       async platformVersion() {
