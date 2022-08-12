@@ -22,10 +22,10 @@
           <div class="d-flex align-center pa-10">
             <div class="text-center">
               <h2 class="text-h5 primary--text font-weight-medium">
-                该应用环境所在集群暂时还未启用 {{ missingPlugins.join(', ') }} 插件！
+                {{ $t('tip.missing_plugin', [missingPlugins.join(', ')]) }}
               </h2>
               <h6 class="text-subtitle-1 mt-4 primary--text op-5 font-weight-regular">
-                您可以联系平台管理员启用该插件
+                {{ $t('tip.plugin_tip') }}
               </h6>
             </div>
           </div>
@@ -37,10 +37,14 @@
 </template>
 
 <script>
+  import messages from './i18n';
   import { getClusterPluginsList } from '@/api';
 
   export default {
     name: 'PluginPass',
+    i18n: {
+      messages: messages,
+    },
     data() {
       return {
         missingPlugins: [],

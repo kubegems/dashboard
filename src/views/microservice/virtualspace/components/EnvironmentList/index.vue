@@ -17,11 +17,11 @@
 <template>
   <v-flex>
     <v-card class="mt-6" flat>
-      <BaseSubTitle :divider="false" title="环境">
+      <BaseSubTitle :divider="false" :title="$root.$t('resource.environment')">
         <template #action>
           <v-btn v-if="m_permisson_virtualSpaceAllow" class="mr-1" color="primary" small text @click="linkEnvironment">
             <v-icon left>mdi-link</v-icon>
-            关联环境
+            {{ $t('operate.link_c', [$root.$t('resource.mesh')]) }}
           </v-btn>
         </template>
       </BaseSubTitle>
@@ -33,7 +33,7 @@
           hide-default-footer
           :items="virtualspace ? virtualspace.Environments : []"
           :items-per-page="500"
-          no-data-text="暂无数据"
+          :no-data-text="$root.$t('data.no_data')"
         >
           <template #[`item.environmentName`]="{ item }">
             <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="environmentDetail(item)">
@@ -63,7 +63,9 @@
               <v-card>
                 <v-card-text class="pa-2">
                   <v-flex>
-                    <v-btn color="error" small text @click="removeVirtualSpaceEnvironment(item)"> 删除 </v-btn>
+                    <v-btn color="error" small text @click="removeVirtualSpaceEnvironment(item)">
+                      {{ $root.$t('operate.delete') }}
+                    </v-btn>
                   </v-flex>
                 </v-card-text>
               </v-card>
@@ -80,6 +82,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import AddEnvironment from './AddEnvironment';
   import { deleteVirtualSpaceEnvironment } from '@/api';
   import BasePermission from '@/mixins/permission';
@@ -88,6 +91,9 @@
 
   export default {
     name: 'EnvironmentList',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddEnvironment,
     },
@@ -104,15 +110,15 @@
       headers() {
         const items = [
           {
-            text: '环境空间',
+            text: this.$root.$t('resource.environment'),
             value: 'environmentName',
             align: 'start',
             width: 180,
           },
-          { text: '备注', value: 'remark', align: 'start' },
-          { text: '环境类型', value: 'metaType', align: 'start' },
-          { text: '命名空间', value: 'namespace', align: 'start' },
-          { text: '集群', value: 'cluster', align: 'start' },
+          { text: this.$t('table.remark'), value: 'remark', align: 'start' },
+          { text: this.$t('table.environment_type'), value: 'metaType', align: 'start' },
+          { text: this.$root.$t('resource.namespace'), value: 'namespace', align: 'start' },
+          { text: this.$root.$t('resource.cluster'), value: 'cluster', align: 'start' },
         ];
         if (this.m_permisson_virtualSpaceAllow) {
           items.push({ text: '', value: 'action', align: 'center', width: 20 });
@@ -142,9 +148,9 @@
       },
       async removeVirtualSpaceEnvironment(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除虚拟空间关联环境`,
+          title: this.$t('operate.delete_linked_env'),
           content: {
-            text: `删除虚拟空间关联环境 ${item.EnvironmentName}`,
+            text: `${this.$t('operate.delete_linked_env')} ${item.EnvironmentName}`,
             type: 'delete',
             name: item.EnvironmentName,
           },

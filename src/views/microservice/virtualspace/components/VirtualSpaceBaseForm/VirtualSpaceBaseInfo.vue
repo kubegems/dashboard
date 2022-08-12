@@ -16,14 +16,14 @@
 
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
-    <BaseSubTitle title="虚拟空间定义" />
+    <BaseSubTitle :title="$t('form.definition', [$root.$t('resource.mesh')])" />
     <v-card-text class="pa-2">
       <v-row>
         <v-col cols="6">
           <v-text-field
             v-model="obj.VirtualSpaceName"
             class="my-0"
-            label="空间名称"
+            :label="$t('form.name')"
             :readonly="edit"
             required
             :rules="objRules.virtualSpaceNameRule"
@@ -40,6 +40,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
@@ -47,6 +48,9 @@
 
   export default {
     name: 'VirtualSpaceBaseInfo',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource, BaseSelect],
     props: {
       edit: {
@@ -72,7 +76,7 @@
       ...mapState(['AdminViewport']),
       objRules() {
         return {
-          virtualSpaceNameRule: [required, (v) => !!(v && v.length <= 20) || '超出20字符限制'],
+          virtualSpaceNameRule: [required, (v) => !!(v && v.length <= 20) || this.$t('form.name_rule')],
         };
       },
     },

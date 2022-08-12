@@ -16,7 +16,7 @@
 
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
-    <BaseSubTitle title="虚拟空间成员" />
+    <BaseSubTitle :title="$root.$t('resource.mesh_c', [$root.$t('resource.member')])" />
     <v-card-text class="pa-2">
       <v-tabs v-model="tab" class="pa-2" height="60px" vertical @change="onTabChange">
         <v-tab v-for="item in tabItems" :key="item.value">
@@ -28,7 +28,7 @@
               <v-col class="py-1" cols="6">
                 <v-card elevation="2" flat height="550px">
                   <v-card-text>
-                    <v-flex class="px-1 mb-2">用户</v-flex>
+                    <v-flex class="px-1 mb-2">{{ $root.$t('resource.account') }}</v-flex>
                     <v-text-field
                       v-model="searchAllUser"
                       class="mx-1"
@@ -56,7 +56,7 @@
                 <v-card elevation="2" flat height="550px">
                   <v-card-text>
                     <v-flex class="px-1 mb-2">
-                      {{ tab === 0 ? '普通成员' : '管理员' }}
+                      {{ tab === 0 ? $root.$t('role.mesh.normal') : $root.$t('role.mesh.administrator') }}
                     </v-flex>
                     <v-text-field
                       v-model="searchRoleUser"
@@ -118,10 +118,6 @@
     data: () => ({
       valid: false,
       tab: 0,
-      tabItems: [
-        { text: '普通成员', value: 'normal' },
-        { text: '管理员', value: 'admin' },
-      ],
       allUsers: [],
       allUsersCopy: [],
       users: [],
@@ -144,6 +140,12 @@
         return this.obj.Environments.map((e) => {
           return e.ID;
         }).join(',');
+      },
+      tabItems() {
+        return [
+          { text: this.$root.$t('role.mesh.normal'), value: 'normal' },
+          { text: this.$root.$t('role.mesh.administrator'), value: 'admin' },
+        ];
       },
     },
     methods: {

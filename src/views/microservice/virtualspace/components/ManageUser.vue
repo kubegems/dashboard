@@ -15,14 +15,22 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-account-settings" title="虚拟空间成员" :width="900" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-account-settings"
+    :title="$root.$t('resource.mesh_c', [$root.$t('resource.member')])"
+    :width="900"
+    @reset="reset"
+  >
     <template #content>
       <v-card flat>
         <v-card-text class="pa-0">
-          <BaseSubTitle title="虚拟空间成员角色">
+          <BaseSubTitle
+            :title="$root.$t('resource.mesh_c', [$root.$t('resource.member_c', [$root.$t('resource.role')])])"
+          >
             <template #tips>
               <v-icon class="breadcrumb__bg mr-1" right small> mdi-help-rhombus </v-icon>
-              <span class="text-caption orange--text">虚拟空间用户继承于环境成员</span>
+              <span class="text-caption orange--text">{{ $t('tip.mesh_member') }}</span>
             </template>
           </BaseSubTitle>
           <v-tabs v-model="tab" class="pa-2" height="60px" vertical @change="onTabChange">
@@ -35,7 +43,7 @@
                   <v-col class="py-1" cols="6">
                     <v-card elevation="2" flat height="550px">
                       <v-card-text>
-                        <v-flex class="px-1 mb-2">用户</v-flex>
+                        <v-flex class="px-1 mb-2">{{ $root.$t('resource.account') }}</v-flex>
                         <v-text-field
                           v-model="searchAllUser"
                           class="mx-1"
@@ -68,7 +76,7 @@
                     <v-card elevation="2" flat height="550px">
                       <v-card-text>
                         <v-flex class="px-1 mb-2">
-                          {{ tab === 0 ? '普通成员' : '管理员' }}
+                          {{ tab === 0 ? $root.$t('role.mesh.normal') : $root.$t('role.mesh.administrator') }}
                         </v-flex>
                         <v-text-field
                           v-model="searchRoleUser"
@@ -111,6 +119,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../i18n';
   import {
     deleteVirtualSpaceUser,
     getVirtualSpaceEnvironmentUser,
@@ -121,6 +130,9 @@
 
   export default {
     name: 'ManageUser',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseSelect],
     props: {
       virtualspace: {
@@ -131,10 +143,7 @@
     data: () => ({
       dialog: false,
       tab: 0,
-      tabItems: [
-        { text: '普通成员', value: 'normal' },
-        { text: '管理员', value: 'admin' },
-      ],
+
       allUsers: [],
       allUsersCopy: [],
       users: [],
@@ -154,6 +163,12 @@
           }).join(',');
         }
         return '';
+      },
+      tabItems() {
+        return [
+          { text: this.$root.$t('role.mesh.normal'), value: 'normal' },
+          { text: this.$root.$t('role.mesh.administrator'), value: 'admin' },
+        ];
       },
     },
     methods: {

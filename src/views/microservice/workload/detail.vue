@@ -46,6 +46,7 @@
   import { mapGetters, mapState } from 'vuex';
 
   import WorkloadLog from './components/WorkloadLog';
+  import messages from './i18n';
   import { getMicroAppWorkoladDetail } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -58,6 +59,9 @@
 
   export default {
     name: 'WorkloadDetail',
+    i18n: {
+      messages: messages,
+    },
     components: {
       InboundTrafficIframe,
       NetworkTopologyIframe,
@@ -70,14 +74,6 @@
     mixins: [BasePermission, BaseResource],
     data: () => ({
       tab: 0,
-      tabItems: [
-        { text: '概览', value: 'ResourceInfo' },
-        { text: '流量拓扑', value: 'NetworkTopologyIframe' },
-        { text: '日志', value: 'WorkloadLog' },
-        { text: '入口流量', value: 'InboundTrafficIframe' },
-        { text: '出口流量', value: 'OutboundTrafficIframe' },
-        { text: '链路追踪', value: 'TraceIframe' },
-      ],
       workload: null,
       services: null,
       pass: false,
@@ -85,6 +81,16 @@
     computed: {
       ...mapState(['JWT', 'EnvironmentFilter']),
       ...mapGetters(['VirtualSpace']),
+      tabItems() {
+        return [
+          { text: this.$root.$t('tab.overview'), value: 'ResourceInfo' },
+          { text: this.$t('tab.network_topology'), value: 'NetworkTopologyIframe' },
+          { text: this.$t('tab.log'), value: 'WorkloadLog' },
+          { text: this.$t('tab.ingress'), value: 'InboundTrafficIframe' },
+          { text: this.$t('tab.egress'), value: 'OutboundTrafficIframe' },
+          { text: this.$t('tab.trace'), value: 'TraceIframe' },
+        ];
+      },
     },
     watch: {
       pass: {

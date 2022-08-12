@@ -18,11 +18,17 @@
   <v-flex>
     <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
       <v-flex :class="expand ? 'kubegems__overlay' : ''" />
-      <BaseSubTitle title="故障注入定义" />
+      <BaseSubTitle :title="$root.$t('form.definition', [$t('operate.fault_injection')])" />
       <v-card-text class="pa-2">
         <v-row>
           <v-col cols="6">
-            <v-switch v-model="delay" class="mt-4" hide-details label="请求延迟(Http Delay)" @change="onDelayChange" />
+            <v-switch
+              v-model="delay"
+              class="mt-4"
+              hide-details
+              :label="$t('form.http_delay')"
+              @change="onDelayChange"
+            />
           </v-col>
         </v-row>
         <v-row v-if="delay">
@@ -30,7 +36,7 @@
             <v-text-field
               v-model="obj.fault.delay.percentage.value"
               class="my-0"
-              label="延迟百分比(Delay Percentage)"
+              :label="$t('form.delay_precent')"
               required
               :rules="objRules.delayPercentageRule"
               type="number"
@@ -40,7 +46,7 @@
             <v-text-field
               v-model="obj.fault.delay.fixedDelay"
               class="my-0"
-              label="固定延迟(Fixed Delay)"
+              :label="$t('form.fixed_delay')"
               required
               :rules="objRules.fixedDelayRule"
             />
@@ -48,7 +54,13 @@
         </v-row>
         <v-row>
           <v-col cols="6">
-            <v-switch v-model="abort" class="mt-4" hide-details label="请求中止(Http Abort)" @change="onAbortChange" />
+            <v-switch
+              v-model="abort"
+              class="mt-4"
+              hide-details
+              :label="$t('form.http_abort')"
+              @change="onAbortChange"
+            />
           </v-col>
         </v-row>
         <v-row v-if="abort">
@@ -56,7 +68,7 @@
             <v-text-field
               v-model="obj.fault.abort.percentage.value"
               class="my-0"
-              label="中止百分比(Abort Percentage)"
+              :label="$t('form.abort_precent')"
               required
               :rules="objRules.abortPercentageRule"
               type="number"
@@ -66,7 +78,7 @@
             <v-text-field
               v-model="obj.fault.abort.httpStatus"
               class="my-0"
-              label="状态码(HTTP Status Code)"
+              :label="$t('form.status_code')"
               required
               :rules="objRules.httpStatusRule"
               type="number"
@@ -81,6 +93,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
@@ -88,6 +101,9 @@
 
   export default {
     name: 'FaultInjectionBaseForm',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource, BaseSelect],
     props: {
       vs: {
@@ -123,13 +139,13 @@
         return {
           delayPercentageRule: [
             required,
-            (v) => !!(parseInt(v) <= 100 && parseInt(v) >= 0) || '格式错误(示例:<=100整数)',
+            (v) => !!(parseInt(v) <= 100 && parseInt(v) >= 0) || this.$t('form.limit_100_rule'),
           ],
           abortPercentageRule: [
             required,
-            (v) => !!(parseInt(v) <= 100 && parseInt(v) >= 0) || '格式错误(示例:<=100整数)',
+            (v) => !!(parseInt(v) <= 100 && parseInt(v) >= 0) || this.$t('form.limit_100_rule'),
           ],
-          fixedDelayRule: [required, (v) => !!new RegExp('^\\d+(s|h|m|ms)$').test(v) || '格式错误(示例:整数)'],
+          fixedDelayRule: [required, (v) => !!new RegExp('^\\d+(s|h|m|ms)$').test(v) || this.$t('form.integer_rule')],
           httpStatusRule: [required],
         };
       },

@@ -15,12 +15,20 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-cloud-outline" title="创建istio虚拟服务" :width="1000" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-cloud-outline"
+    :title="$root.$t('operate.create_c', [$root.$t('resource.virtual_service')])"
+    :width="1000"
+    @reset="reset"
+  >
     <template #content>
       <component :is="formComponent" :ref="formComponent" title="VirtualService" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addIstioVirtualService"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addIstioVirtualService">
+        {{ $root.$t('confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>

@@ -29,7 +29,7 @@
             @click="initReuqestRouting"
           >
             <v-icon left small> mdi-code-json-branch </v-icon>
-            请求路由
+            {{ $t('operate.request_route') }}
           </v-btn>
           <v-btn
             v-if="m_permisson_virtualSpaceAllow"
@@ -40,7 +40,7 @@
             @click="initFaultInjection"
           >
             <v-icon left small> mdi-eyedropper </v-icon>
-            故障注入
+            {{ $t('operate.fault_injection') }}
           </v-btn>
           <v-btn
             v-if="m_permisson_virtualSpaceAllow"
@@ -51,7 +51,7 @@
             @click="initTrafficShifting"
           >
             <v-icon left small> mdi-recycle </v-icon>
-            流量切换
+            {{ $t('operate.traffic_shift') }}
           </v-btn>
           <v-btn
             v-if="m_permisson_virtualSpaceAllow"
@@ -62,7 +62,7 @@
             @click="initTcpTrafficShifting"
           >
             <v-icon left small> mdi-recycle </v-icon>
-            TCP流量切换
+            {{ $t('operate.tcp_traffic_shift') }}
           </v-btn>
           <v-btn
             v-if="m_permisson_virtualSpaceAllow"
@@ -73,7 +73,7 @@
             @click="initRequestTimeouts"
           >
             <v-icon left small> mdi-clock </v-icon>
-            请求超时
+            {{ $t('operate.request_timeout') }}
           </v-btn>
           <v-menu v-if="m_permisson_virtualSpaceAllow" left>
             <template #activator="{ on }">
@@ -84,7 +84,7 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="error" small text @click="clearVS"> 清理虚拟服务 </v-btn>
+                  <v-btn color="error" small text @click="clearVS"> {{ $t('operate.clear') }} </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -133,6 +133,7 @@
   import TcpTrafficShifting from './components/TcpTrafficShifting';
   import TrafficShifting from './components/TrafficShifting';
   import VSControlInfo from './components/VSControlInfo';
+  import messages from './i18n';
   import { getMicroServiceDetail, postResetService } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -144,6 +145,9 @@
 
   export default {
     name: 'ServiceDetail',
+    i18n: {
+      messages: messages,
+    },
     components: {
       FaultInjection,
       InboundTrafficIframe,
@@ -170,21 +174,21 @@
       ...mapGetters(['VirtualSpace']),
       tabItems() {
         const items = [
-          { text: '概览', value: 'ResourceInfo' },
-          { text: '流量拓扑', value: 'NetworkTopologyIframe' },
-          { text: '入口流量', value: 'InboundTrafficIframe' },
-          { text: '链路追踪', value: 'TraceIframe' },
+          { text: this.$root.$t('tab.overview'), value: 'ResourceInfo' },
+          { text: this.$t('tab.network_topology'), value: 'NetworkTopologyIframe' },
+          { text: this.$t('tab.ingress'), value: 'InboundTrafficIframe' },
+          { text: this.$t('tab.trace'), value: 'TraceIframe' },
         ];
         if (this.mode === 'fault_injection') {
-          items.push({ text: '故障注入', value: 'VSControlInfo' });
+          items.push({ text: this.$t('operate.fault_injection'), value: 'VSControlInfo' });
         } else if (this.mode === 'request_timeouts') {
-          items.push({ text: '请求超时', value: 'VSControlInfo' });
+          items.push({ text: this.$t('operate.request_timeout'), value: 'VSControlInfo' });
         } else if (this.mode === 'request_routing') {
-          items.push({ text: '请求路由', value: 'VSControlInfo' });
+          items.push({ text: this.$t('operate.request_route'), value: 'VSControlInfo' });
         } else if (this.mode === 'traffic_shifting') {
-          items.push({ text: '流量切换', value: 'VSControlInfo' });
+          items.push({ text: this.$t('operate.traffic_shift'), value: 'VSControlInfo' });
         } else if (this.mode === 'tcp_traffic_shifting') {
-          items.push({ text: 'tcp流量切换', value: 'VSControlInfo' });
+          items.push({ text: this.$t('operate.tcp_traffic_shift'), value: 'VSControlInfo' });
         }
         return items;
       },
@@ -276,9 +280,9 @@
       },
       clearVS() {
         this.$store.commit('SET_CONFIRM', {
-          title: `清理虚拟服务与规则`,
+          title: this.$t('operate.clear'),
           content: {
-            text: `清理虚拟服务与规则`,
+            text: this.$t('operate.clear'),
             type: 'confirm',
           },
           param: {},

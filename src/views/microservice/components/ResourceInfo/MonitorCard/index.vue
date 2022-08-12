@@ -24,14 +24,14 @@
     <v-col class="py-0" :cols="2">
       <v-card class="mb-0" flat height="265px">
         <div class="pa-2">
-          <h4 class="font-weight-regular text-title kubegems__text mx-3">请求量</h4>
+          <h4 class="font-weight-regular text-title kubegems__text mx-3">{{ $t('tip.request_count') }}</h4>
           <div class="d-flex align-center mt-2">
             <v-btn class="elevation-0 ml-4" color="primary" dark fab small>
               <v-icon>mdi-camera-timer</v-icon>
             </v-btn>
             <div class="border-right px-3 py-2">
               <h6 class="font-weight-light text-body-2 blue-grey--text text--lighten-2 font-weight-regular">
-                实时速率
+                {{ $t('tip.realtime_rate') }}
               </h6>
               <span class="font-weight-medium text-caption">
                 {{ requestsNow }}
@@ -39,7 +39,7 @@
             </div>
             <div class="px-3 py-2">
               <h6 class="font-weight-light blue-grey--text text--lighten-2 font-weight-regular text-body-2">
-                过去24h
+                {{ $t('tip.last_24_hours') }}
               </h6>
               <span class="font-weight-medium text-caption">
                 {{ requestsSumOverTime }}
@@ -63,7 +63,7 @@
     <v-col class="py-0" :cols="2">
       <v-card class="mb-0" flat height="265px">
         <div class="pa-2">
-          <h4 class="font-weight-regular text-title kubegems__text mx-3">响应时间</h4>
+          <h4 class="font-weight-regular text-title kubegems__text mx-3">{{ $t('tip.response_time') }}</h4>
           <div class="d-flex align-center mt-2">
             <v-btn class="elevation-0 ml-4" color="primary" dark fab small>
               <v-icon>mdi-clock</v-icon>
@@ -94,20 +94,22 @@
     <v-col class="py-0" :cols="2">
       <v-card class="mb-0" flat height="265px">
         <div class="pa-2">
-          <h4 class="font-weight-regular text-title kubegems__text mx-3"> 异常请求数 </h4>
+          <h4 class="font-weight-regular text-title kubegems__text mx-3"> {{ $t('tip.error_request') }} </h4>
           <div class="d-flex align-center mt-2">
             <v-btn class="elevation-0 ml-4" color="primary" dark fab small>
               <v-icon>mdi-alarm-panel-outline</v-icon>
             </v-btn>
             <div class="border-right px-3 py-2">
-              <h6 class="font-weight-light text-body-2 blue-grey--text text--lighten-2 font-weight-regular"> 实时 </h6>
+              <h6 class="font-weight-light text-body-2 blue-grey--text text--lighten-2 font-weight-regular">
+                {{ $t('tip.realtime') }}
+              </h6>
               <span class="font-weight-medium text-caption">
                 {{ errrequestsSum }}
               </span>
             </div>
             <div class="px-3 py-2">
               <h6 class="font-weight-light blue-grey--text text--lighten-2 font-weight-regular text-body-2">
-                过去24h
+                {{ $t('tip.last_24_hours') }}
               </h6>
               <span class="font-weight-medium text-caption">{{ errrequestsSumOverTime }}</span>
             </div>
@@ -129,7 +131,7 @@
     <v-col class="py-0" :cols="2">
       <v-card class="mb-0" flat height="265px">
         <div class="pa-2">
-          <h4 class="font-weight-regular text-title kubegems__text mx-3">流量</h4>
+          <h4 class="font-weight-regular text-title kubegems__text mx-3">{{ $t('tip.traffic') }}</h4>
           <div class="d-flex align-center mt-2">
             <v-btn class="elevation-0 ml-4" color="primary" dark fab small>
               <v-icon>mdi-earth</v-icon>
@@ -167,6 +169,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import WorkloadInfo from './WorkloadInfo';
   import BasePermission from '@/mixins/permission';
   import {
@@ -182,6 +185,9 @@
 
   export default {
     name: 'MonitorCard',
+    i18n: {
+      messages: messages,
+    },
     components: {
       WorkloadInfo,
     },
@@ -246,7 +252,7 @@
           }),
         );
         if (data) {
-          if (data && data.length > 0) data[0].metric['name'] = '请求量';
+          if (data && data.length > 0) data[0].metric['name'] = this.$t('tip.request_count');
           this.requests = data;
         }
       },
@@ -287,7 +293,7 @@
           }),
         );
         if (data) {
-          if (data && data.length > 0) data[0].metric['name'] = '平均响应时间';
+          if (data && data.length > 0) data[0].metric['name'] = this.$t('tip.response_time');
           this.avgresponsetime = data;
         }
       },
@@ -328,7 +334,7 @@
           }),
         );
         if (data) {
-          if (data && data.length > 0) data[0].metric['name'] = '异常请求数';
+          if (data && data.length > 0) data[0].metric['name'] = this.$t('tip.error_request');
           this.errrequests = data;
         }
       },
@@ -368,7 +374,7 @@
             noprocessing: noprocess,
           }),
         );
-        if (data1 && data1.length > 0) data1[0].metric['name'] = 'ingress流量';
+        if (data1 && data1.length > 0) data1[0].metric['name'] = `ingress${this.$t('tip.traffic')}`;
         const data2 = await this.m_permission_matrix(
           this.$route.query.cluster,
           Object.assign(this.params, {
@@ -379,7 +385,7 @@
             noprocessing: noprocess,
           }),
         );
-        if (data2 && data2.length > 0) data2[0].metric['name'] = 'egress流量';
+        if (data2 && data2.length > 0) data2[0].metric['name'] = `egress${this.$t('tip.traffic')}`;
 
         let data = [];
         if (data1) data = data.concat(data1);

@@ -21,7 +21,7 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :default="{ items: [], text: '服务入口名称', value: 'search' }"
+          :default="{ items: [], text: $t('filter.entry_name'), value: 'search' }"
           :filters="filters"
           @refresh="m_filter_list"
         />
@@ -38,17 +38,23 @@
               <v-flex>
                 <v-btn color="primary" text @click="addServiceEntry">
                   <v-icon left>mdi-plus-box</v-icon>
-                  创建服务入口
+                  {{ $root.$t('operate.create_c', [$root.$t('resource.service_entry')]) }}
                 </v-btn>
               </v-flex>
               <v-flex>
                 <v-btn
                   color="error"
                   text
-                  @click="m_table_batchRemoveResource('服务入口', 'ServiceEntry', istioServiceEntryList)"
+                  @click="
+                    m_table_batchRemoveResource(
+                      $root.$t('resource.service_entry'),
+                      'ServiceEntry',
+                      istioServiceEntryList,
+                    )
+                  "
                 >
                   <v-icon left>mdi-minus-box</v-icon>
-                  删除服务入口
+                  {{ $root.$t('operate.delete_c', [$root.$t('resource.service_entry')]) }}
                 </v-btn>
               </v-flex>
             </v-card-text>
@@ -63,7 +69,7 @@
             hide-default-footer
             :items="items"
             :items-per-page="params.size"
-            no-data-text="暂无数据"
+            :no-data-text="$root.$t('data.no_data')"
             :page.sync="params.page"
             show-select
             @toggle-select-all="m_table_onResourceToggleSelect"
@@ -122,10 +128,14 @@
                 <v-card>
                   <v-card-text class="pa-2">
                     <v-flex>
-                      <v-btn color="primary" small text @click.stop="updateServiceEntry(item)"> 编辑 </v-btn>
+                      <v-btn color="primary" small text @click.stop="updateServiceEntry(item)">
+                        {{ $root.$t('operate.edit') }}
+                      </v-btn>
                     </v-flex>
                     <v-flex>
-                      <v-btn color="error" small text @click.stop="removeIstioServiceEntry(item)"> 删除 </v-btn>
+                      <v-btn color="error" small text @click.stop="removeIstioServiceEntry(item)">
+                        {{ $root.$t('operate.delete') }}
+                      </v-btn>
                     </v-flex>
                   </v-card-text>
                 </v-card>
@@ -155,6 +165,7 @@
 
   import AddServiceEntry from './components/AddServiceEntry';
   import UpdateServiceEntry from './components/UpdateServiceEntry';
+  import messages from './i18n';
   import { deleteIstioServiceEntry, getIstioServiceEntryList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -166,6 +177,9 @@
 
   export default {
     name: 'ServiceEntry',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddServiceEntry,
       EnvironmentFilter,
@@ -180,24 +194,23 @@
         page: 1,
         size: 10,
       },
-      filters: [{ text: '服务入口名称', value: 'search', items: [] }],
       pass: false,
     }),
     computed: {
       ...mapState(['JWT', 'EnvironmentFilter']),
       headers() {
         const items = [
-          { text: '服务入口名称', value: 'name', align: 'start' },
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
           {
-            text: '命名空间',
+            text: this.$root.$t('resource.namespace'),
             value: 'namespace',
             align: 'start',
             sortable: false,
           },
           { text: 'Host', value: 'hosts', align: 'start' },
-          { text: '端口', value: 'ports', align: 'start' },
+          { text: this.$t('table.port'), value: 'ports', align: 'start' },
           { text: 'Resolution', value: 'resolution', align: 'start' },
-          { text: '创建时间', value: 'createAt', align: 'start', width: 180 },
+          { text: this.$root.$t('resource.create_at'), value: 'createAt', align: 'start', width: 180 },
         ];
         if (this.m_permisson_virtualSpaceAllow) {
           items.push({
@@ -209,6 +222,9 @@
           });
         }
         return items;
+      },
+      filters() {
+        return [{ text: this.$t('filter.entry_name'), value: 'search', items: [] }];
       },
     },
     watch: {
@@ -269,9 +285,11 @@
       },
       removeIstioServiceEntry(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除服务入口`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.service_entry')]),
           content: {
-            text: `删除服务入口 ${item.metadata.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.service_entry')])} ${
+              item.metadata.name
+            }`,
             type: 'delete',
             name: item.metadata.name,
           },

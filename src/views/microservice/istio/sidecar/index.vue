@@ -21,7 +21,7 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :default="{ items: [], text: '边车名称', value: 'search' }"
+          :default="{ items: [], text: $t('filter.sidecar_name'), value: 'search' }"
           :filters="filters"
           @refresh="m_filter_list"
         />
@@ -38,13 +38,17 @@
               <v-flex>
                 <v-btn color="primary" text @click="addSidecar">
                   <v-icon left>mdi-plus-box</v-icon>
-                  创建边车
+                  {{ $root.$t('operate.create_c', [$root.$t('resource.sidecar')]) }}
                 </v-btn>
               </v-flex>
               <v-flex>
-                <v-btn color="error" text @click="m_table_batchRemoveResource('边车', 'Sidecar', istioSidecarList)">
+                <v-btn
+                  color="error"
+                  text
+                  @click="m_table_batchRemoveResource($root.$t('resource.sidecar'), 'Sidecar', istioSidecarList)"
+                >
                   <v-icon left>mdi-minus-box</v-icon>
-                  删除边车
+                  {{ $root.$t('operate.delete_c', [$root.$t('resource.sidecar')]) }}
                 </v-btn>
               </v-flex>
             </v-card-text>
@@ -59,7 +63,7 @@
             hide-default-footer
             :items="items"
             :items-per-page="params.size"
-            no-data-text="暂无数据"
+            :no-data-text="$root.$t('data.no_data')"
             :page.sync="params.page"
             show-select
             @toggle-select-all="m_table_onResourceToggleSelect"
@@ -124,10 +128,14 @@
                 <v-card>
                   <v-card-text class="pa-2">
                     <v-flex>
-                      <v-btn color="primary" small text @click.stop="updateSidecar(item)"> 编辑 </v-btn>
+                      <v-btn color="primary" small text @click.stop="updateSidecar(item)">
+                        {{ $root.$t('operate.edit') }}
+                      </v-btn>
                     </v-flex>
                     <v-flex>
-                      <v-btn color="error" small text @click.stop="removeIstioSidecar(item)"> 删除 </v-btn>
+                      <v-btn color="error" small text @click.stop="removeIstioSidecar(item)">
+                        {{ $root.$t('operate.delete') }}
+                      </v-btn>
                     </v-flex>
                   </v-card-text>
                 </v-card>
@@ -157,6 +165,7 @@
 
   import AddSidecar from './components/AddSidecar';
   import UpdateSidecar from './components/UpdateSidecar';
+  import messages from './i18n';
   import { deleteIstioSidecar, getIstioSidecarList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -168,6 +177,9 @@
 
   export default {
     name: 'Sidecar',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddSidecar,
       EnvironmentFilter,
@@ -182,24 +194,23 @@
         page: 1,
         size: 10,
       },
-      filters: [{ text: '边车名称', value: 'search', items: [] }],
       pass: false,
     }),
     computed: {
       ...mapState(['JWT', 'EnvironmentFilter']),
       headers() {
         const items = [
-          { text: '边车名称', value: 'name', align: 'start' },
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
           {
-            text: '命名空间',
+            text: this.$root.$t('resource.namespace'),
             value: 'namespace',
             align: 'start',
             sortable: false,
           },
-          { text: '匹配标签', value: 'selector', align: 'start' },
+          { text: this.$t('table.label'), value: 'selector', align: 'start' },
           { text: 'Ingress', value: 'ingress', align: 'start' },
           { text: 'Egress', value: 'egress', align: 'start' },
-          { text: '创建时间', value: 'createAt', align: 'start', width: 180 },
+          { text: this.$root.$t('resource.create_at'), value: 'createAt', align: 'start', width: 180 },
         ];
         if (this.m_permisson_virtualSpaceAllow) {
           items.push({
@@ -211,6 +222,9 @@
           });
         }
         return items;
+      },
+      filters() {
+        return [{ text: this.$t('filter.sidecar_name'), value: 'search', items: [] }];
       },
     },
     watch: {
@@ -276,9 +290,9 @@
       },
       removeIstioSidecar(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除边车`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.sidecar')]),
           content: {
-            text: `删除边车 ${item.metadata.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.sidecar')])} ${item.metadata.name}`,
             type: 'delete',
             name: item.metadata.name,
           },

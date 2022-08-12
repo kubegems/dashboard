@@ -21,7 +21,7 @@
     :headers="headers"
     hide-default-footer
     :items="workloads"
-    no-data-text="暂无数据"
+    :no-data-text="$root.$t('data.no_data')"
   >
     <template #[`item.name`]="{ item, index }">
       <v-flex :id="`r${index}`" />
@@ -38,7 +38,7 @@
             </template>
             <v-card>
               <v-card-text class="pa-2 text-caption">
-                <span>自动注入</span>
+                <span>{{ $t('tip.auto_inject') }}</span>
               </v-card-text>
             </v-card>
           </v-menu>
@@ -57,10 +57,14 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../i18n';
   import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'WorkloadList',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     props: {
       workloads: {
@@ -68,20 +72,18 @@
         default: () => [],
       },
     },
-    data() {
-      return {
-        headers: [
-          { text: '名称', value: 'name', align: 'start' },
-          { text: '类型', value: 'type', align: 'start' },
-          { text: '容器组数量', value: 'podCount', align: 'start' },
-          { text: '标签', value: 'labels', align: 'start', width: 500 },
-          { text: '创建时间', value: 'createdAt', align: 'start' },
-        ],
-      };
-    },
     computed: {
       ...mapState(['JWT']),
       ...mapGetters(['VirtualSpace']),
+      headers() {
+        return [
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
+          { text: this.$root.$t('resource.type'), value: 'type', align: 'start' },
+          { text: this.$t('table.pod_count'), value: 'podCount', align: 'start' },
+          { text: this.$t('table.label'), value: 'labels', align: 'start', width: 500 },
+          { text: this.$root.$t('resource.create_at'), value: 'createdAt', align: 'start' },
+        ];
+      },
     },
     methods: {
       microAppWorkoladDetail(item) {

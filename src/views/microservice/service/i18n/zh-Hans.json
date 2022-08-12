@@ -1,0 +1,49 @@
+{
+  "table": {
+    "name": "服务名称",
+    "label": "匹配标签",
+    "config_check": "配置检查",
+    "istio_config": "Istio配置"
+  },
+  "tip": {
+    "select_environment": "请选择应用环境",
+    "auto_inject": "自动注入",
+    "alert": "警告",
+    "route": "路由",
+    "match_header": "匹配请求头",
+    "match_uri": "匹配请求路径"
+  },
+  "filter": {
+    "service_name": "服务名称"
+  },
+  "operate": {
+    "clear": "清理虚拟服务与规则",
+    "fault_injection": "故障注入",
+    "request_route": "请求路由",
+    "request_timeout": "请求超时",
+    "traffic_shift": "流量切换",
+    "tcp_traffic_shift": "TCP流量切换"
+  },
+  "tab": {
+    "network_topology": "流量拓扑",
+    "ingress": "入口流量",
+    "trace": "链路追踪"
+  },
+  "form": {
+    "http_delay": "请求延迟",
+    "delay_precent": "延迟百分比",
+    "fixed_delay": "固定延迟",
+    "http_abort": "请求中止",
+    "abort_precent": "中止百分比",
+    "status_code": "状态码",
+    "limit_100_rule": "格式错误(示例:<=100整数)",
+    "integer_rule": "格式错误(示例:整数)",
+    "destination_workload": "目标负载",
+    "traffic_weight": "流量权重",
+    "http_timeout": "请求超时",
+    "timeout": "超时时间",
+    "http_retry": "请求重试",
+    "attempt": "重试次数",
+    "try_timeout": "每次重试超时时间"
+  }
+}

@@ -19,7 +19,7 @@
     <v-flex :class="expand ? 'kubegems__overlay' : ''" />
 
     <LinkEnvironmentForm ref="linkEnvironmentForm" @addData="addData" @closeOverlay="closeExpand" />
-    <BaseSubTitle title="关联环境" />
+    <BaseSubTitle :title="$t('operate.link_c', [$root.$t('resource.environment')])" />
     <v-card-text class="pa-2">
       <EnvironmentItem
         :environments="obj.Environments"
@@ -34,6 +34,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../../i18n';
   import EnvironmentItem from './EnvironmentItem';
   import LinkEnvironmentForm from './LinkEnvironmentForm';
   import { deleteVirtualSpaceEnvironment, postAddVirtualSpaceEnvironment } from '@/api';
@@ -43,6 +44,9 @@
 
   export default {
     name: 'LinkEnvironment',
+    i18n: {
+      messages: messages,
+    },
     components: {
       EnvironmentItem,
       LinkEnvironmentForm,

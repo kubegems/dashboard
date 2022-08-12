@@ -21,7 +21,7 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :default="{ items: [], text: '策略名称', value: 'search' }"
+          :default="{ items: [], text: $t('filter.policy_name'), value: 'search' }"
           :filters="filters"
           @refresh="m_filter_list"
         />
@@ -38,17 +38,23 @@
               <v-flex>
                 <v-btn color="primary" text @click="addAuthorizationPolicy">
                   <v-icon left>mdi-plus-box</v-icon>
-                  创建认证策略
+                  {{ $root.$t('operate.create_c', [$root.$t('resource.authorization_policy')]) }}
                 </v-btn>
               </v-flex>
               <v-flex>
                 <v-btn
                   color="error"
                   text
-                  @click="m_table_batchRemoveResource('认证策略', 'AuthorizationPolicy', istioAuthorizationPolicyList)"
+                  @click="
+                    m_table_batchRemoveResource(
+                      $root.$t('resource.authorization_policy'),
+                      'AuthorizationPolicy',
+                      istioAuthorizationPolicyList,
+                    )
+                  "
                 >
                   <v-icon left>mdi-minus-box</v-icon>
-                  删除认证策略
+                  {{ $root.$t('operate.delete_c', [$root.$t('resource.authorization_policy')]) }}
                 </v-btn>
               </v-flex>
             </v-card-text>
@@ -63,7 +69,7 @@
             hide-default-footer
             :items="items"
             :items-per-page="params.size"
-            no-data-text="暂无数据"
+            :no-data-text="$root.$t('data.no_data')"
             :page.sync="params.page"
             show-select
             @toggle-select-all="m_table_onResourceToggleSelect"
@@ -107,10 +113,14 @@
                 <v-card>
                   <v-card-text class="pa-2">
                     <v-flex>
-                      <v-btn color="primary" small text @click.stop="updateAuthorizationPolicy(item)"> 编辑 </v-btn>
+                      <v-btn color="primary" small text @click.stop="updateAuthorizationPolicy(item)">
+                        {{ $root.$t('operate.edit') }}
+                      </v-btn>
                     </v-flex>
                     <v-flex>
-                      <v-btn color="error" small text @click.stop="removeIstioAuthorizationPolicy(item)"> 删除 </v-btn>
+                      <v-btn color="error" small text @click.stop="removeIstioAuthorizationPolicy(item)">
+                        {{ $root.$t('operate.delete') }}
+                      </v-btn>
                     </v-flex>
                   </v-card-text>
                 </v-card>
@@ -140,6 +150,7 @@
 
   import AddAuthorizationPolicy from './components/AddAuthorizationPolicy';
   import UpdateAuthorizationPolicy from './components/UpdateAuthorizationPolicy';
+  import messages from './i18n';
   import { deleteIstioAuthorizationPolicy, getIstioAuthorizationPolicyList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -151,6 +162,9 @@
 
   export default {
     name: 'AuthorizationPolicy',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddAuthorizationPolicy,
       EnvironmentFilter,
@@ -165,23 +179,22 @@
         page: 1,
         size: 10,
       },
-      filters: [{ text: '策略名称', value: 'search', items: [] }],
       pass: false,
     }),
     computed: {
       ...mapState(['JWT', 'EnvironmentFilter']),
       headers() {
         const items = [
-          { text: '策略名称', value: 'name', align: 'start' },
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
           {
-            text: '命名空间',
+            text: this.$root.$t('resource.namespace'),
             value: 'namespace',
             align: 'start',
             sortable: false,
           },
           { text: 'Action', value: 'requestAction', align: 'start' },
-          { text: '规则数量', value: 'rules', align: 'start' },
-          { text: '创建时间', value: 'createAt', align: 'start', width: 180 },
+          { text: this.$t('table.rule_count'), value: 'rules', align: 'start' },
+          { text: this.$root.$t('resource.create_at'), value: 'createAt', align: 'start', width: 180 },
         ];
         if (this.m_permisson_virtualSpaceAllow) {
           items.push({
@@ -193,6 +206,9 @@
           });
         }
         return items;
+      },
+      filters() {
+        return [{ text: this.$t('filter.policy_name'), value: 'search', items: [] }];
       },
     },
     watch: {
@@ -244,9 +260,11 @@
       },
       removeIstioAuthorizationPolicy(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除认证策略`,
+          title: this.$root.$t('operate.create_c', [this.$root.$t('resource.authorization_policy')]),
           content: {
-            text: `删除认证策略 ${item.metadata.name}`,
+            text: `${this.$root.$t('operate.create_c', [this.$root.$t('resource.authorization_policy')])} ${
+              item.metadata.name
+            }`,
             type: 'delete',
             name: item.metadata.name,
           },

@@ -21,7 +21,7 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :default="{ items: [], text: '网关名称', value: 'search' }"
+          :default="{ items: [], text: $t('filter.gateway_name'), value: 'search' }"
           :filters="filters"
           @refresh="m_filter_list"
         />
@@ -38,13 +38,17 @@
               <v-flex>
                 <v-btn color="primary" text @click="addGateway">
                   <v-icon left>mdi-plus-box</v-icon>
-                  创建网关
+                  {{ $root.$t('operate.create_c', [$root.$t('resource.gateway')]) }}
                 </v-btn>
               </v-flex>
               <v-flex>
-                <v-btn color="error" text @click="m_table_batchRemoveResource('网关', 'Gateway', istioGatewayList)">
+                <v-btn
+                  color="error"
+                  text
+                  @click="m_table_batchRemoveResource($root.$t('resource.gateway'), 'Gateway', istioGatewayList)"
+                >
                   <v-icon left>mdi-minus-box</v-icon>
-                  删除网关
+                  {{ $root.$t('operate.delete_c', [$root.$t('resource.gateway')]) }}
                 </v-btn>
               </v-flex>
             </v-card-text>
@@ -59,7 +63,7 @@
             hide-default-footer
             :items="items"
             :items-per-page="params.size"
-            no-data-text="暂无数据"
+            :no-data-text="$root.$t('data.no_data')"
             :page.sync="params.page"
             show-select
             @toggle-select-all="m_table_onResourceToggleSelect"
@@ -115,10 +119,14 @@
                 <v-card>
                   <v-card-text class="pa-2">
                     <v-flex>
-                      <v-btn color="primary" small text @click.stop="updateGateway(item)"> 编辑 </v-btn>
+                      <v-btn color="primary" small text @click.stop="updateGateway(item)">
+                        {{ $root.$t('operate.edit') }}
+                      </v-btn>
                     </v-flex>
                     <v-flex>
-                      <v-btn color="error" small text @click.stop="removeIstioGateway(item)"> 删除 </v-btn>
+                      <v-btn color="error" small text @click.stop="removeIstioGateway(item)">
+                        {{ $root.$t('operate.delete') }}
+                      </v-btn>
                     </v-flex>
                   </v-card-text>
                 </v-card>
@@ -148,6 +156,7 @@
 
   import AddGateway from './components/AddGateway';
   import UpdateGateway from './components/UpdateGateway';
+  import messages from './i18n';
   import { deleteIstioGateway, getIstioGatewayList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -159,6 +168,9 @@
 
   export default {
     name: 'Gateway',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddGateway,
       EnvironmentFilter,
@@ -173,23 +185,22 @@
         page: 1,
         size: 10,
       },
-      filters: [{ text: '网关名称', value: 'search', items: [] }],
       pass: false,
     }),
     computed: {
       ...mapState(['JWT', 'EnvironmentFilter']),
       headers() {
         const items = [
-          { text: '网关名称', value: 'name', align: 'start' },
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
           {
-            text: '命名空间',
+            text: this.$root.$t('resource.namespace'),
             value: 'namespace',
             align: 'start',
             sortable: false,
           },
-          { text: '匹配标签', value: 'selector', align: 'start' },
-          { text: '服务', value: 'service', align: 'start' },
-          { text: '创建时间', value: 'createAt', align: 'start', width: 180 },
+          { text: this.$t('table.selector'), value: 'selector', align: 'start' },
+          { text: this.$root.$t('resource.service'), value: 'service', align: 'start' },
+          { text: this.$root.$t('resource.create_at'), value: 'createAt', align: 'start', width: 180 },
         ];
         if (this.m_permisson_virtualSpaceAllow) {
           items.push({
@@ -201,6 +212,9 @@
           });
         }
         return items;
+      },
+      filters() {
+        return [{ text: this.$t('filter.gateway_name'), value: 'search', items: [] }];
       },
     },
     watch: {
@@ -261,9 +275,9 @@
       },
       removeIstioGateway(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除网关`,
+          title: this.$root.$t('operate.create_c', [this.$root.$t('resource.gateway')]),
           content: {
-            text: `删除网关 ${item.metadata.name}`,
+            text: `${this.$root.$t('operate.create_c', [this.$root.$t('resource.gateway')])} ${item.metadata.name}`,
             type: 'delete',
             name: item.metadata.name,
           },

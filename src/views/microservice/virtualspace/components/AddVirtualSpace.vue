@@ -15,9 +15,15 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-cloud-outline" title="创建虚拟空间" :width="1000" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-cloud-outline"
+    :title="$root.$t('operate.create_c', [$root.$t('resource.mesh')])"
+    :width="1000"
+    @reset="reset"
+  >
     <template #content>
-      <component :is="formComponent" :ref="formComponent" :step="step" title="虚拟空间" />
+      <component :is="formComponent" :ref="formComponent" :step="step" :title="$root.$t('resource.mesh')" />
     </template>
     <template #action>
       <v-btn
@@ -28,13 +34,13 @@
         text
         @click="addVirtualSpace"
       >
-        确定
+        {{ $root.$t('operate.confirm') }}
       </v-btn>
       <v-btn v-if="step >= 0 && step < totalStep - 1" class="float-right mx-2" color="primary" text @click="nextStep">
-        下一步
+        {{ $root.$t('operate.next') }}
       </v-btn>
       <v-btn v-if="step > 0 && step <= totalStep - 1" class="float-right mx-2" color="primary" text @click="lastStep">
-        上一步
+        {{ $root.$t('operate.previous') }}
       </v-btn>
     </template>
   </BaseDialog>
@@ -43,12 +49,16 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import VirtualSpaceBaseForm from './VirtualSpaceBaseForm';
   import { postAddVirtualSpace, postAddVirtualSpaceEnvironment, postAddVirtualSpaceUser } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'AddVirtualSpace',
+    i18n: {
+      messages: messages,
+    },
     components: {
       VirtualSpaceBaseForm,
     },
@@ -101,7 +111,7 @@
       nextStep() {
         if (this.step === 1 && this.$refs[this.formComponent].obj.Environments.length === 0) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请关联环境',
+            text: this.$t('tip.link_environment'),
             color: 'warning',
           });
           return;

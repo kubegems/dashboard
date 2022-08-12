@@ -71,6 +71,7 @@
       "projectops": "Project Ops"
     },
     "mesh": {
+      "sys": "System Admin",
       "normal": "Normal",
       "administrator": "Admin"
     }
@@ -97,9 +98,11 @@
     "statefulset": "StatefulSet",
     "daemonset": "DaemonSet",
     "pod": "Pod",
+    "container": "Container",
     "service": "Service",
     "ingress": "Ingress",
     "gateway": "Gateway",
+    "gateway_instance": "Gateway Instance",
     "job": "Job",
     "cronjob": "CronJob",
     "configmap": "Configmap",
@@ -125,7 +128,15 @@
     "template": "Template",
     "create_at": "Create Time",
     "kind": "Kind",
-    "plugin": "Plugin"
+    "plugin": "Plugin",
+    "image_registry": "Image Registry",
+    "dns": "DNS",
+    "authorization_policy": "Authorization Policy",
+    "peer_authentication": "Peer Authentication",
+    "service_entry": "Service Entry",
+    "sidecar": "Sidecar",
+    "virtual_service": "Virtual Service",
+    "destination_rule": "Destination Rule"
   },
 
   "header": {
@@ -429,5 +440,8 @@
     "project_select": "There is no environment under this project, please re-select the project or add an environment",
     "save_data": "Please save the data",
     "parse_error": "Data parsing error"
+  },
+  "tab": {
+    "overview": "Overview"
   }
 }

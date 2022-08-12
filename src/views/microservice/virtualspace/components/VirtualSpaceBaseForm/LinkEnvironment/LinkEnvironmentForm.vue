@@ -21,7 +21,7 @@
         <v-card-text class="pa-0">
           <v-sheet class="pt-2 px-2">
             <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width">
-              <span>环境定义</span>
+              <span>{{ $root.$t('form.definition', [$root.$t('resource.environment')]) }}</span>
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-autocomplete
@@ -30,8 +30,8 @@
                 color="primary"
                 hide-selected
                 :items="m_select_projectItems"
-                label="租户(项目)"
-                no-data-text="暂无可选数据"
+                :label="`${$root.$t('resource.tenant')}(${$root.$t('resource.project')})`"
+                :no-data-text="$root.$t('data.no_data')"
                 :rules="objRules.projectIDRules"
                 @focus="onProjectSelectFocus"
               >
@@ -49,8 +49,8 @@
                 color="primary"
                 hide-selected
                 :items="m_select_projectEnvironmentItems"
-                label="环境"
-                no-data-text="暂无可选数据"
+                :label="$root.$t('resource.environment')"
+                :no-data-text="$root.$t('data.no_data')"
                 :rules="objRules.environmentIDRules"
                 @focus="onProjectEnvironmentSelectFocus(obj.projectid, true)"
               >
@@ -66,8 +66,8 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
-          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> {{ $root.$t('operate.cancel') }} </v-btn>
+          <v-btn color="primary" small text @click="addData"> {{ $root.$t('operate.save') }} </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>

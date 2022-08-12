@@ -15,7 +15,13 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-vector-point" title="更新istio端点认证" :width="1000" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-vector-point"
+    :title="$root.$t('operate.update_c', [$root.$t('resource.peer_authentication')])"
+    :width="1000"
+    @reset="reset"
+  >
     <template #content>
       <component :is="formComponent" :ref="formComponent" :edit="true" :item="item" title="PeerAuthentication" />
     </template>

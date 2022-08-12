@@ -15,12 +15,14 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-clock" title="请求超时" :width="1000" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-clock" :title="$t('operate.request_timeout')" :width="1000" @reset="reset">
     <template #content>
       <component :is="formComponent" :ref="formComponent" :service="service" title="RequestTimeouts" :vs="vs" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addRequestTimeouts"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addRequestTimeouts">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>
@@ -28,12 +30,16 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import RequestTimeoutsBaseForm from './RequestTimeoutsBaseForm';
   import { postAddRequestTimeouts } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'RequestTimeouts',
+    i18n: {
+      messages: messages,
+    },
     components: {
       RequestTimeoutsBaseForm,
     },

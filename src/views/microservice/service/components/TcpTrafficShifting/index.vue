@@ -15,12 +15,14 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-recycle" title="Tcp流量切换" :width="1000" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-recycle" :title="$t('operate.tcp_traffic_shift')" :width="1000" @reset="reset">
     <template #content>
       <component :is="formComponent" :ref="formComponent" :service="service" title="TcpTrafficShifting" :vs="vs" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addTcpTrafficShifting"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addTcpTrafficShifting">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>
@@ -28,12 +30,16 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import TcpTrafficShiftingBaseForm from './TcpTrafficShiftingBaseForm';
   import { postAddTcpTrafficShifting } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'TcpTrafficShifting',
+    i18n: {
+      messages: messages,
+    },
     components: {
       TcpTrafficShiftingBaseForm,
     },

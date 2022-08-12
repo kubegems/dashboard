@@ -18,7 +18,7 @@
   <v-flex>
     <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
       <v-flex :class="expand ? 'kubegems__overlay' : ''" />
-      <BaseSubTitle title="请求超时定义" />
+      <BaseSubTitle :title="$root.$t('form.definition', [$t('operate.request_timeout')])" />
       <v-card-text class="pa-2">
         <v-row>
           <v-col cols="6">
@@ -26,7 +26,7 @@
               v-model="timeout"
               class="mt-4"
               hide-details
-              label="请求超时(Http Timeout)"
+              :label="$t('form.http_timeout')"
               @change="onTimeoutChange"
             />
           </v-col>
@@ -36,7 +36,7 @@
             <v-text-field
               v-model="obj.timeout"
               class="my-0"
-              label="超时时间(Timeout)"
+              :label="$t('form.timeout')"
               required
               :rules="objRules.timeoutInputRule"
             />
@@ -48,7 +48,7 @@
               v-model="retries"
               class="mt-4"
               hide-details
-              label="请求重试(Http Retry)"
+              :label="$t('form.http_retry')"
               @change="onRetriesChange"
             />
           </v-col>
@@ -58,7 +58,7 @@
             <v-text-field
               v-model="obj.retries.attempts"
               class="my-0"
-              label="重试次数(Attempts)"
+              :label="$t('form.attempt')"
               required
               :rules="objRules.attemptsRule"
               type="number"
@@ -68,7 +68,7 @@
             <v-text-field
               v-model="obj.retries.perTryTimeout"
               class="my-0"
-              label="每次重试超时时间(Per Try Timeout)"
+              :label="$t('form.try_timeout')"
               required
               :rules="objRules.perTryTimeoutRule"
             />
@@ -82,6 +82,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
@@ -89,6 +90,9 @@
 
   export default {
     name: 'RequestTimeoutsBaseForm',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource, BaseSelect],
     props: {
       vs: {
@@ -113,8 +117,11 @@
       ...mapGetters(['Cluster']),
       objRules() {
         return {
-          timeoutInputRule: [required, (v) => !!new RegExp('^\\d+(s|h|m|ms)$').test(v) || '格式错误(示例:整数)'],
-          perTryTimeoutRule: [required, (v) => !!new RegExp('^\\d+(s|h|m|ms)$').test(v) || '格式错误(示例:整数)'],
+          timeoutInputRule: [required, (v) => !!new RegExp('^\\d+(s|h|m|ms)$').test(v) || this.$t('from.integer_rule')],
+          perTryTimeoutRule: [
+            required,
+            (v) => !!new RegExp('^\\d+(s|h|m|ms)$').test(v) || this.$t('from.integer_rule'),
+          ],
           attemptsRule: [required],
         };
       },

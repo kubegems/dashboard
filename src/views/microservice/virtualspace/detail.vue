@@ -20,24 +20,24 @@
       <template #extend>
         <v-flex class="kubegems__full-right">
           <span class="text-body-2 mx-2">
-            虚拟空间:
+            {{ $root.$t('resource.mesh') }} :
             {{ VirtualSpace().VirtualSpaceName }}
           </span>
           <span class="text-body-2 mx-2">
-            虚拟空间角色:
+            {{ $root.$t('resource.mesh_c', [$root.$t('resource.role')]) }} :
             {{
               $VIRTUALSPACE_ROLE[m_permisson_virtualSpaceRole]
-                ? $VIRTUALSPACE_ROLE[m_permisson_virtualSpaceRole]
-                : '暂无'
+                ? $root.$t(`role.mesh.${m_permisson_virtualSpaceRole}`)
+                : $root.$t('data.unknown')
             }}
           </span>
           <v-btn class="primary--text" small text @click="manageUser">
             <v-icon left small> mdi-account-settings </v-icon>
-            虚拟空间成员
+            {{ $root.$t('resource.mesh_c', [$root.$t('resource.member')]) }}
           </v-btn>
           <v-btn class="primary--text" small text @click="returnVirtualSpace">
             <v-icon left small> mdi-logout </v-icon>
-            返回
+            {{ $root.$t('operate.return') }}
           </v-btn>
           <v-menu v-if="m_permisson_tenantAllow || m_permisson_virtualSpaceAllow" left>
             <template #activator="{ on }">
@@ -48,10 +48,10 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" small text @click="updateVirtualSpace"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateVirtualSpace"> {{ $root.$t('operate.edit') }} </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="removeVirtualSpace"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeVirtualSpace"> {{ $root.$t('operate.delete') }} </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -110,9 +110,9 @@
       removeVirtualSpace() {
         const item = this.virtualspace;
         this.$store.commit('SET_CONFIRM', {
-          title: `删除虚拟空间`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.mesh')]),
           content: {
-            text: `删除虚拟空间 ${item.VirtualSpaceName}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.mesh')])} ${item.VirtualSpaceName}`,
             type: 'delete',
             name: item.VirtualSpaceName,
           },

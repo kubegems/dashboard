@@ -33,7 +33,7 @@
             id="outqps"
             label="destination_workload"
             :metrics="qpsMetrics"
-            title="出口流量qps"
+            :title="$t('tip.egress_qps')"
             type=""
           />
         </v-col>
@@ -42,7 +42,7 @@
             id="outTime"
             label="destination_workload"
             :metrics="responseDurationMetrics"
-            title="出口流量响应时间"
+            :title="$t('tip.egress_time')"
             type="timecost"
           />
         </v-col>
@@ -51,7 +51,7 @@
             id="in80Qps"
             label="pod"
             :metrics="downstream80QpsMetrics"
-            title="80端口入口流量qps"
+            :title="$t('tip.ingress_80_qps')"
             type=""
           />
         </v-col>
@@ -60,7 +60,7 @@
             id="in80Time"
             label="pod"
             :metrics="downstream80ResponseDurationMetrics"
-            title="80端口入口流量响应时间"
+            :title="$t('tip.ingress_80_time')"
             type="timecost"
           />
         </v-col>
@@ -69,7 +69,7 @@
             id="in443Qps"
             label="pod"
             :metrics="downstream443QpsMetrics"
-            title="443端口入口流量qps"
+            :title="$t('tip.ingress_443_qps')"
             type=""
           />
         </v-col>
@@ -78,7 +78,7 @@
             id="in443Time"
             label="pod"
             :metrics="downstream443ResponseDurationMetrics"
-            title="443端口入口流量响应时间"
+            :title="$t('tip.ingress_443_time')"
             type="timecost"
           />
         </v-col>
@@ -90,6 +90,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import { SERVICE_GATEWAY_NS } from '@/utils/namespace';
@@ -104,6 +105,9 @@
 
   export default {
     name: 'GatewayMonitor',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BasePermission, BaseResource],
     props: {
       gateway: {

@@ -19,19 +19,19 @@
     <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
       <v-flex :class="expand ? 'kubegems__overlay' : ''" />
 
-      <BaseSubTitle title="匹配(headers)" />
+      <BaseSubTitle :title="$t('tip.match_header')" />
       <StringMatchForm :data="obj.match[0].headers" @addData="addHeaderData" />
 
-      <BaseSubTitle title="匹配(uri)" />
+      <BaseSubTitle :title="$t('tip.match_uri')" />
       <UriMatchForm :data="obj.match[0].uri" @addData="addUriData" />
 
-      <BaseSubTitle title="Route定义" />
+      <BaseSubTitle :title="$root.$t('form.definition', [$t('tip.route')])" />
       <v-card-text class="pa-2">
         <v-row v-for="(workload, index) in serviceCopy ? serviceCopy.workloads : []" :key="index">
           <v-col cols="6">
             <v-text-field
               class="my-0"
-              label="目标负载(Destination Workload)"
+              :label="$t('form.destination_workload')"
               readonly
               required
               :value="workload.name"
@@ -41,7 +41,7 @@
             <v-text-field
               v-model="obj.route[index].weight"
               class="my-0"
-              label="流量权重(Traffic Weight)"
+              :label="$t('form.traffic_weight')"
               required
               :rules="objRules[index].weightRule"
               suffix="%"
@@ -57,6 +57,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
@@ -66,6 +67,9 @@
 
   export default {
     name: 'RequestRoutingBaseForm',
+    i18n: {
+      messages: messages,
+    },
     components: {
       StringMatchForm,
       UriMatchForm,
@@ -110,7 +114,10 @@
         if (this.serviceCopy) {
           this.serviceCopy.workloads.forEach(() => {
             rules.push({
-              weightRule: [required, (v) => !!(parseInt(v) <= 100 && parseInt(v) >= 0) || '格式错误(示例:<=100整数)'],
+              weightRule: [
+                required,
+                (v) => !!(parseInt(v) <= 100 && parseInt(v) >= 0) || this.$t('form.limit_100_rule'),
+              ],
             });
           });
         }

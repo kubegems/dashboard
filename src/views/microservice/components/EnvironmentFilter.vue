@@ -18,7 +18,7 @@
   <v-sheet>
     <v-sheet>
       <v-sheet :class="`text-subtitle-2 ml-${ml} mt-2 float-left kubegems__text font-weight-medium`">
-        应用环境
+        {{ $root.$t('resource.environment') }}
       </v-sheet>
       <v-sheet class="float-left" width="350">
         <v-combobox
@@ -32,8 +32,8 @@
           hide-details
           hide-selected
           :items="m_select_virtualSpaceEnvironmentItems"
-          label="应用环境"
-          no-data-text="无数据"
+          :label="$root.$t('resource.environment')"
+          :no-data-text="$root.$t('data.no_data')"
           prepend-inner-icon="mdi-cube"
           solo
           @change="onEnvironmentFilterChange"
@@ -54,10 +54,14 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from './i18n';
   import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'EnvironmentFilter',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseSelect],
     inject: ['reload'],
     props: {
@@ -151,7 +155,7 @@
         } else {
           this.environmentFilter = null;
           this.$store.commit('SET_SNACKBAR', {
-            text: `请选择应用环境`,
+            text: this.$t('tip.select_environment'),
             color: 'warning',
           });
         }
