@@ -1,0 +1,17 @@
+{
+  "table": {
+    "trigger_time": "Trigger Time",
+    "tenant": "Tenant",
+    "account": "Account",
+    "operate": "Action",
+    "object": "Operate Object",
+    "label": "Label",
+    "status": "Status"
+  },
+  "filter": {
+    "account": "Account",
+    "search": "Search",
+    "status": "Status",
+    "action": "Action"
+  }
+}
