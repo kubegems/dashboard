@@ -1,68 +1,33 @@
 {
-  "zh-Hans": {
-    "more": "更多",
-    "audit": {
-      "audit": "审计"
-    },
-    "event": {
-      "event": "事件",
-      "cluster": "集群"
-    },
-    "project": {
-      "table": {
-        "type": "类型",
-        "traffic_in": "流量in",
-        "traffic_out": "流量out",
-        "remark": "备注",
-        "alias": "别名",
-        "test": "测试",
-        "dev": "开发",
-        "prod": "生产"
-      }
-    },
-    "resource": {
-      "table": {
-        "all": "总{0}",
-        "allocated": "已分配{0}",
-        "applying": "资源申请中"
-      },
-      "title": "资源调整"
-    },
-    "tip": {
-      "tenant": "请创建或加入租户"
+  "more": "More",
+  "audit": {
+    "audit": "Audit"
+  },
+  "event": {
+    "event": "Event",
+    "cluster": "Cluster"
+  },
+  "project": {
+    "table": {
+      "type": "Type",
+      "traffic_in": "Traffic In",
+      "traffic_out": "Traffic Out",
+      "remark": "Remark",
+      "alias": "Alias",
+      "test": "Test",
+      "dev": "Development",
+      "prod": "Production"
     }
   },
-  "en": {
-    "more": "More",
-    "audit": {
-      "audit": "Audit"
+  "resource": {
+    "table": {
+      "all": "All {0}",
+      "allocated": "Allocated {0}",
+      "applying": "Resource in apply"
     },
-    "event": {
-      "event": "Event",
-      "cluster": "Cluster"
-    },
-    "project": {
-      "table": {
-        "type": "Type",
-        "traffic_in": "Traffic In",
-        "traffic_out": "Traffic Out",
-        "remark": "Remark",
-        "alias": "Alias",
-        "test": "Test",
-        "dev": "Development",
-        "prod": "Production"
-      }
-    },
-    "resource": {
-      "table": {
-        "all": "All {0}",
-        "allocated": "Allocated {0}",
-        "applying": "Resource in apply"
-      },
-      "title": "Sacle Resource"
-    },
-    "tip": {
-      "tenant": "Please create or join a tenant"
-    }
+    "title": "Sacle Resource"
+  },
+  "tip": {
+    "tenant": "Please create or join a tenant"
   }
 }
