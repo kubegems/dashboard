@@ -30,7 +30,7 @@
         :headers="headers"
         hide-default-footer
         :items="traffics"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
       >
         <template #[`item.name`]="{ item }">
           <v-chip color="success" small>
@@ -51,7 +51,7 @@
     </v-card>
 
     <v-card v-if="$route.query.type === 'Service'" class="mt-3" flat>
-      <BaseSubTitle class="pt-2" :divider="false" title="工作负载" />
+      <BaseSubTitle class="pt-2" :divider="false" :title="$root.$t('resource.workload')" />
       <WorkloadList :workloads="item ? item.workloads : []" />
     </v-card>
   </div>
@@ -60,6 +60,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../i18n';
   import MonitorCard from './MonitorCard';
   import ServiceInfo from './ServiceInfo';
   import WorkloadList from './WorkloadList';
@@ -68,6 +69,9 @@
 
   export default {
     name: 'ResourceInfo',
+    i18n: {
+      messages: messages,
+    },
     components: {
       MonitorCard,
       ServiceInfo,
@@ -86,20 +90,10 @@
     },
     data() {
       return {
-        trafficCn: {
-          in: '入口流量',
-          out: '出口流量',
-        },
         traffic: {
           in: [],
           out: [],
         },
-        headers: [
-          { text: '名称', value: 'name', align: 'start', width: 400 },
-          { text: '速率', value: 'rate', align: 'start', width: 400 },
-          { text: '成功率', value: 'percentSuccess', align: 'start' },
-          { text: '协议', value: 'protocol', align: 'start' },
-        ],
         graphInterval: null,
       };
     },
@@ -108,6 +102,20 @@
       ...mapGetters(['VirtualSpace']),
       injectServiceNodes() {
         return this.type === 'services';
+      },
+      trafficCn() {
+        return {
+          in: this.$t('table.ingress'),
+          out: this.$t('table.egress'),
+        };
+      },
+      headers() {
+        return [
+          { text: this.$t('table.name'), value: 'name', align: 'start', width: 400 },
+          { text: this.$t('table.rate'), value: 'rate', align: 'start', width: 400 },
+          { text: this.$t('table.success_precent'), value: 'percentSuccess', align: 'start' },
+          { text: this.$t('table.protocol'), value: 'protocol', align: 'start' },
+        ];
       },
     },
     watch: {

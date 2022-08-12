@@ -20,7 +20,7 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :default="{ items: [], text: 'DNS', value: 'search' }"
+          :default="{ items: [], text: $t('filter.dns_name'), value: 'search' }"
           :filters="filters"
           @refresh="m_filter_list"
         />
@@ -36,7 +36,7 @@
               <v-flex>
                 <v-btn color="primary" text @click="addDNSDomain">
                   <v-icon left>mdi-plus-box</v-icon>
-                  创建DNS
+                  {{ $root.$t('operate.create_c', [$root.$t('resource.dns')]) }}
                 </v-btn>
               </v-flex>
             </v-card-text>
@@ -50,7 +50,7 @@
         hide-default-footer
         :items="items"
         :items-per-page="params.size"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
       >
         <template #[`item.virtualDomainName`]="{ item }">
@@ -73,10 +73,14 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" small text @click="updateDNSDomain(item)"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateDNSDomain(item)">
+                    {{ $root.$t('operate.edit') }}
+                  </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="removeDNSDomain(item)"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeDNSDomain(item)">
+                    {{ $root.$t('operate.delete') }}
+                  </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -104,6 +108,7 @@
 
   import AddDNSDomain from './components/AddDNSDomain';
   import UpdateDNSDomain from './components/UpdateDNSDomain';
+  import messages from './i18n';
   import { deleteDNSDomain, getDnsDomainList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -112,6 +117,9 @@
 
   export default {
     name: 'DNSDomain',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddDNSDomain,
       UpdateDNSDomain,
@@ -124,20 +132,22 @@
         page: 1,
         size: 10,
       },
-      filters: [{ text: 'DNS', value: 'search', items: [] }],
     }),
     computed: {
       ...mapState(['JWT']),
       headers() {
         const items = [
-          { text: 'DNS', value: 'virtualDomainName', align: 'start' },
-          { text: '创建时间', value: 'createdAt', align: 'start' },
-          { text: '创建人', value: 'createdBy', align: 'start' },
+          { text: this.$t('table.name'), value: 'virtualDomainName', align: 'start' },
+          { text: this.$root.$t('resource.create_at'), value: 'createdAt', align: 'start' },
+          { text: this.$t('table.creator'), value: 'createdBy', align: 'start' },
         ];
         if (this.m_permisson_virtualSpaceAllow || this.m_permisson_tenantAllow) {
           items.push({ text: '', value: 'action', align: 'center', width: 20 });
         }
         return items;
+      },
+      filters() {
+        return [{ text: this.$t('filter.dns_name'), value: 'search', items: [] }];
       },
     },
     mounted() {
@@ -169,9 +179,9 @@
       },
       removeDNSDomain(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除DNS`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.dns')]),
           content: {
-            text: `删除DNS ${item.VirtualDomainName}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.dns')])} ${item.VirtualDomainName}`,
             type: 'delete',
             name: item.VirtualDomainName,
           },

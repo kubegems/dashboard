@@ -20,7 +20,7 @@
       <BaseInfoCard
         icon="mdi-cloud"
         :num="virtualspace && virtualspace.Environments ? virtualspace.Environments.length : 0"
-        title="环境"
+        :title="$root.$t('resource.environment')"
       />
     </v-col>
     <!-- <v-col cols="4" class="py-0">
@@ -30,7 +30,7 @@
       <BaseInfoCard
         icon="mdi-account"
         :num="virtualspace && virtualspace.Users ? virtualspace.Users.length : 0"
-        title="成员"
+        :title="$root.$t('resource.member')"
       />
     </v-col>
   </v-row>

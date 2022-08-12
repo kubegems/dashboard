@@ -21,7 +21,7 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :default="{ items: [], text: '网关实例名称', value: 'search' }"
+          :default="{ items: [], text: $t('filter.gateway_name'), value: 'search' }"
           :filters="filters"
           :reload="false"
           @filter="customFilter"
@@ -50,7 +50,7 @@
                     </v-list-item-title>
                     <v-list-item-subtitle>
                       <span class="text-body-2">
-                        状态：
+                        {{ $t('table.status') }} :
                         <v-icon
                           v-if="item && item.status && item.status.replicas === item.status.availableReplicas"
                           color="success"
@@ -81,7 +81,9 @@
                 </v-list-item>
                 <v-card-actions>
                   <v-spacer />
-                  <v-btn color="primary" small text @click="istioGatewayDetail(item)"> 详 情 </v-btn>
+                  <v-btn color="primary" small text @click="istioGatewayDetail(item)">
+                    {{ $t('operate.detail') }}
+                  </v-btn>
                   <v-btn
                     v-if="m_permisson_virtualSpaceAllow"
                     color="primary"
@@ -89,7 +91,7 @@
                     text
                     @click="updateIstioInstanceGateway(item)"
                   >
-                    编 辑
+                    {{ $root.$t('operate.edit') }}
                   </v-btn>
                   <v-btn
                     v-if="m_permisson_virtualSpaceAllow"
@@ -98,7 +100,7 @@
                     text
                     @click="removeIstioGatewayInstance(item)"
                   >
-                    删 除
+                    {{ $root.$t('operate.delete') }}
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -111,7 +113,7 @@
                   <v-list-item-content>
                     <v-btn block class="text-h6" color="primary" text @click="addIstioGatewayInstance">
                       <v-icon left>mdi-plus-box</v-icon>
-                      创建网关实例
+                      {{ $root.$t('operate.create_c', [$root.$t('resource.gateway_instance')]) }}
                     </v-btn>
                   </v-list-item-content>
                 </v-list-item>
@@ -132,6 +134,7 @@
 
   import AddIstioGateway from './components/AddIstioGateway';
   import UpdateIstioGateway from './components/UpdateIstioGateway';
+  import messages from './i18n';
   import { deleteIstioGatewayInstance, getIstioGatewayInstanceList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -141,6 +144,9 @@
 
   export default {
     name: 'IstioGateway',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddIstioGateway,
       EnvironmentFilter,
@@ -150,13 +156,15 @@
     mixins: [BaseFilter, BasePermission],
     data: () => ({
       items: [],
-      filters: [{ text: '网关实例名称', value: 'search', items: [] }],
       params: {},
       pass: false,
     }),
     computed: {
       ...mapState(['JWT', 'EnvironmentFilter']),
       ...mapGetters(['VirtualSpace']),
+      filters() {
+        return [{ text: this.$t('filter.gateway_name'), value: 'search', items: [] }];
+      },
     },
     watch: {
       pass: {
@@ -215,9 +223,9 @@
       },
       async removeIstioGatewayInstance(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除istio网关实例`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.gateway_instance')]),
           content: {
-            text: `删除istio网关实例 ${item.Name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.gateway_instance')])} ${item.Name}`,
             type: 'delete',
             name: item.Name,
           },

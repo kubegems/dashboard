@@ -22,9 +22,9 @@
           <div class="d-none d-sm-block">
             <div class="d-flex align-center pa-10">
               <div class="text-center">
-                <h2 class="text-h4 primary--text font-weight-medium"> 您暂时不属于任何租户！ </h2>
+                <h2 class="text-h4 primary--text font-weight-medium"> {{ $t('tip.no_tenant') }} </h2>
                 <h6 class="text-subtitle-1 mt-4 primary--text op-5 font-weight-regular">
-                  您可以联系某个租户的管理员邀请您加入租户中或者创建新的租户
+                  {{ $t('tip.no_tenant_tip') }}
                 </h6>
               </div>
             </div>
@@ -36,8 +36,13 @@
 </template>
 
 <script>
+  import messages from './i18n';
+
   export default {
     name: 'WhitePage',
+    i18n: {
+      messages: messages,
+    },
   };
 </script>
 

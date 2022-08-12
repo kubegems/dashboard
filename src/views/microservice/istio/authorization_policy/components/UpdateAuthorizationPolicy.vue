@@ -15,13 +15,19 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-key" title="更新istio认证策略" :width="1000" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-key"
+    :title="$root.$t('operate.update_c', [$root.$t('resource.authorization_policy')])"
+    :width="1000"
+    @reset="reset"
+  >
     <template #content>
       <component :is="formComponent" :ref="formComponent" :edit="true" :item="item" title="AuthorizationPolicy" />
     </template>
     <template #action>
       <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateIstioAuthorizationPolicy">
-        确定
+        {{ $root.$t('operate.confirm') }}
       </v-btn>
     </template>
   </BaseDialog>

@@ -21,7 +21,7 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :default="{ items: [], text: '镜像仓库名称', value: 'search' }"
+          :default="{ items: [], text: $t('filter.registry_name'), value: 'search' }"
           :filters="filters"
           @refresh="m_filter_list"
         />
@@ -37,7 +37,7 @@
               <v-flex>
                 <v-btn color="primary" text @click="addRegistry">
                   <v-icon left>mdi-database-plus</v-icon>
-                  创建镜像仓库
+                  {{ $root.$t('operate.create_c', [$root.$t('resource.image_registry')]) }}
                 </v-btn>
               </v-flex>
             </v-card-text>
@@ -51,7 +51,7 @@
         hide-default-footer
         :items="items"
         :items-per-page="params.size"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
       >
         <template #[`item.registryName`]="{ item }">
@@ -73,7 +73,7 @@
           {{ item.Project.ProjectName }}
         </template>
         <template #[`item.isDefault`]="{ item }">
-          {{ item.IsDefault ? '是' : '否' }}
+          {{ item.IsDefault ? $t('tip.yes') : $t('tip.no') }}
         </template>
         <template #[`item.action`]="{ item }">
           <v-flex :id="`r${item.ID}`" />
@@ -86,16 +86,24 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex v-if="item.IsDefault">
-                  <v-btn color="error" small text @click="setDefaultRegistry(item, false)"> 取消默认仓库 </v-btn>
+                  <v-btn color="error" small text @click="setDefaultRegistry(item, false)">
+                    {{ $t('operate.cancel_default') }}
+                  </v-btn>
                 </v-flex>
                 <v-flex v-else>
-                  <v-btn color="primary" small text @click="setDefaultRegistry(item, true)"> 置为默认仓库 </v-btn>
+                  <v-btn color="primary" small text @click="setDefaultRegistry(item, true)">
+                    {{ $t('operate.set_default') }}
+                  </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="primary" small text @click="updateRegistry(item)"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateRegistry(item)">
+                    {{ $root.$t('operate.edit') }}
+                  </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="removeRegistry(item)"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeRegistry(item)">
+                    {{ $root.$t('operate.delete') }}
+                  </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -123,6 +131,7 @@
 
   import AddRegistry from './components/AddRegistry';
   import UpdateRegistry from './components/UpdateRegistry';
+  import messages from './i18n';
   import { deleteRegistry, getRegistryAllList, getRegistryList, patchSetDefaultRegistry } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -132,6 +141,9 @@
 
   export default {
     name: 'Registry',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddRegistry,
       UpdateRegistry,
@@ -144,23 +156,22 @@
         page: 1,
         size: 10,
       },
-      filters: [{ text: '镜像仓库名称', value: 'search', items: [] }],
     }),
     computed: {
       ...mapState(['Admin', 'AdminViewport', 'JWT']),
       ...mapGetters(['Project']),
       headers() {
         const items = [
-          { text: '仓库名称', value: 'registryName', align: 'start' },
-          { text: '仓库地址', value: 'registryAddress', align: 'start' },
-          { text: '默认仓库', value: 'isDefault', align: 'start' },
-          { text: '用户名', value: 'username', align: 'start' },
-          { text: '创建人', value: 'creator', align: 'start' },
-          { text: '最近更新时间', value: 'updateAt', align: 'start' },
+          { text: this.$t('table.name'), value: 'registryName', align: 'start' },
+          { text: this.$t('table.address'), value: 'registryAddress', align: 'start' },
+          { text: this.$t('table.default'), value: 'isDefault', align: 'start' },
+          { text: this.$t('table.username'), value: 'username', align: 'start' },
+          { text: this.$t('table.creator'), value: 'creator', align: 'start' },
+          { text: this.$t('table.last_update_at'), value: 'updateAt', align: 'start' },
         ];
         if (this.Admin && this.AdminViewport) {
           items.splice(1, 0, {
-            text: '项目',
+            text: this.$root.$t('resource.project'),
             value: 'project',
             align: 'start',
           });
@@ -169,6 +180,9 @@
           items.push({ text: '', value: 'action', align: 'center', width: 20 });
         }
         return items;
+      },
+      filters() {
+        return [{ text: this.$t('filter.registry_name'), value: 'search', items: [] }];
       },
     },
     mounted() {
@@ -204,7 +218,7 @@
       addRegistry() {
         if (!this.AdminViewport && this.Project().ID === 0) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请先选择项目',
+            text: this.$t('tip.select_project'),
             color: 'warning',
           });
           return;
@@ -217,9 +231,11 @@
       },
       removeRegistry(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除镜像仓库`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.image_registry')]),
           content: {
-            text: `删除镜像仓库 ${item.RegistryName}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.image_registry')])} ${
+              item.RegistryName
+            }`,
             type: 'delete',
             name: item.RegistryName,
           },
@@ -235,11 +251,11 @@
       },
       setDefaultRegistry(item, isDefault) {
         this.$store.commit('SET_CONFIRM', {
-          title: `设置默认镜像仓库`,
+          title: this.$t('operate.set_default'),
           content: {
             text: isDefault
-              ? `将镜像仓库 ${item.RegistryName} 置为默认仓库`
-              : `取消镜像仓库 ${item.RegistryName} 的默认设置`,
+              ? this.$t('tip.set_default', [item.RegistryName])
+              : this.$t('tip.cancel_default', [item.RegistryName]),
             type: 'confirm',
           },
           param: { item, isDefault },

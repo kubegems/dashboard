@@ -21,7 +21,7 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :default="{ items: [], text: '服务名称', value: 'search' }"
+          :default="{ items: [], text: $t('filter.service_name'), value: 'search' }"
           :filters="filters"
           @refresh="m_filter_list"
         />
@@ -38,19 +38,19 @@
               <v-flex>
                 <v-btn color="primary" text @click="addIstioVirtualService">
                   <v-icon left>mdi-cloud-outline</v-icon>
-                  创建istio虚拟服务
+                  {{ $root.$t('operate.create_c', [$root.$t('resource.virtual_service')]) }}
                 </v-btn>
               </v-flex>
               <v-flex>
                 <v-btn color="primary" text @click="addIstioDestinationRule">
                   <v-icon left>mdi-ruler</v-icon>
-                  创建istio流量规则
+                  {{ $root.$t('operate.create_c', [$root.$t('resource.destination_rule')]) }}
                 </v-btn>
               </v-flex>
               <v-flex>
                 <v-btn color="primary" text @click="addIstioGateway">
                   <v-icon left>mdi-gate</v-icon>
-                  创建istio网关
+                  {{ $root.$t('operate.create_c', [$root.$t('resource.gateway')]) }}
                 </v-btn>
               </v-flex>
             </v-card-text>
@@ -65,8 +65,8 @@
             :headers="headers"
             hide-default-footer
             :items="items"
-            no-data-text="暂无数据"
-            no-results-text="暂无数据"
+            :no-data-text="$root.$t('data.no_data')"
+            :no-results-text="$root.$t('data.no_data')"
           >
             <template #[`item.name`]="{ item }">
               <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="kialiServiceDetail(item)">
@@ -81,7 +81,7 @@
                       </span>
                     </template>
                     <v-card>
-                      <v-card-text class="pa-2 text-caption"> 自动注入 </v-card-text>
+                      <v-card-text class="pa-2 text-caption"> {{ $t('tip.auto_inject') }} </v-card-text>
                     </v-card>
                   </v-menu>
                 </v-flex>
@@ -135,10 +135,14 @@
                   <v-card>
                     <v-card-text class="pa-2">
                       <v-flex>
-                        <v-btn color="primary" small text @click="updateIstioRecource(ref)"> 编辑 </v-btn>
+                        <v-btn color="primary" small text @click="updateIstioRecource(ref)">
+                          {{ $root.$t('operate.edit') }}
+                        </v-btn>
                       </v-flex>
                       <v-flex>
-                        <v-btn color="error" small text @click="removeIstioResource(ref)"> 删除 </v-btn>
+                        <v-btn color="error" small text @click="removeIstioResource(ref)">
+                          {{ $root.$t('operate.delete') }}
+                        </v-btn>
                       </v-flex>
                     </v-card-text>
                   </v-card>
@@ -170,13 +174,13 @@
                   <v-list class="pa-0" dense>
                     <v-flex class="text-body-2 text-center primary white--text py-2">
                       <v-icon color="white" left small> mdi-alert </v-icon>
-                      <span>警告</span>
+                      <span>{{ $t('tip.alert') }}</span>
                     </v-flex>
                     <v-list-item>
                       <v-list-item-content>
                         <v-list-item class="float-left pa-0" two-line>
                           <v-list-item-content class="py-0">
-                            <v-list-item-title> 警告 </v-list-item-title>
+                            <v-list-item-title> {{ $t('tip.alert') }} </v-list-item-title>
                             <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
                               {{
                                 valids[item.name] &&
@@ -230,6 +234,7 @@
   import UpdateResource from './components/UpdateResource';
   import AddVirtualService from './components/virtual_service/AddVirtualService';
   import UpdateVirtualService from './components/virtual_service/UpdateVirtualService';
+  import messages from './i18n';
   import {
     deleteIstioDestinationRule,
     deleteIstioGateway,
@@ -243,6 +248,9 @@
 
   export default {
     name: 'Service',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddIstioDestinationRule,
       AddIstioGateway,
@@ -263,7 +271,6 @@
         page: 1,
         size: 10,
       },
-      filters: [{ text: '服务名称', value: 'search', items: [] }],
       pass: false,
     }),
     computed: {
@@ -271,13 +278,16 @@
       ...mapGetters(['VirtualSpace']),
       headers() {
         const items = [
-          { text: '服务名称', value: 'name', align: 'start', filterable: true },
-          { text: '命名空间', value: 'namespace', align: 'start' },
-          { text: '标签', value: 'labels', align: 'start', width: 500 },
-          { text: '配置检查', value: 'valid', align: 'start' },
-          { text: 'Istio配置', value: 'config', align: 'start', width: 350 },
+          { text: this.$t('table.name'), value: 'name', align: 'start', filterable: true },
+          { text: this.$root.$t('resource.namespace'), value: 'namespace', align: 'start' },
+          { text: this.$t('table.label'), value: 'labels', align: 'start', width: 500 },
+          { text: this.$t('table.config_check'), value: 'valid', align: 'start' },
+          { text: this.$t('table.istio_config'), value: 'config', align: 'start', width: 350 },
         ];
         return items;
+      },
+      filters() {
+        return [{ text: this.$t('filter.service_name'), value: 'search', items: [] }];
       },
     },
     watch: {
@@ -336,7 +346,7 @@
       addIstioVirtualService() {
         if (!this.EnvironmentFilter) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请选择应用环境',
+            text: this.$t('tip.select_environment'),
             color: 'warning',
           });
           return;
@@ -346,7 +356,7 @@
       addIstioDestinationRule() {
         if (!this.EnvironmentFilter) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请选择应用环境',
+            text: this.$t('tip.select_environment'),
             color: 'warning',
           });
           return;
@@ -356,7 +366,7 @@
       addIstioGateway() {
         if (!this.EnvironmentFilter) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请选择应用环境',
+            text: this.$t('tip.select_environment'),
             color: 'warning',
           });
           return;
@@ -380,9 +390,9 @@
       },
       removeIstioResource(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除${item.objectType}`,
+          title: this.$root.$t('operate.delete_c', [item.objectType]),
           content: {
-            text: `删除${item.objectType} ${item.name}`,
+            text: `${this.$root.$t('operate.delete_c', [item.objectType])} ${item.name}`,
             type: 'delete',
             name: item.name,
           },

@@ -16,7 +16,7 @@
 
 <template>
   <div class="kubegems__text text-subtitle-2 font-weight-medium">
-    <span> 限制条数 </span>
+    <span> {{ $t('tip.limit_count') }} </span>
     <v-menu
       v-model="limitMenu"
       bottom
@@ -33,17 +33,17 @@
           <v-icon v-else right> mdi-chevron-down </v-icon>
         </v-btn>
       </template>
-      <v-data-iterator hide-default-footer :items="[{ text: '条数', values: limitItems }]">
+      <v-data-iterator hide-default-footer :items="[{ text: $t('tip.limit_count'), values: limitItems }]">
         <template #no-data>
           <v-card>
-            <v-card-text> 暂无条数 </v-card-text>
+            <v-card-text> {{ $root.$t('data.no_data') }} </v-card-text>
           </v-card>
         </template>
         <template #default="props">
           <v-card v-for="item in props.items" :key="item.text" flat>
             <v-list dense>
               <v-flex class="text-subtitle-2 text-center ma-2">
-                <span>条数</span>
+                <span>{{ $t('tip.limit_count') }}</span>
               </v-flex>
               <v-divider class="mx-2" />
               <v-list-item
@@ -69,8 +69,13 @@
 </template>
 
 <script>
+  import messages from '../i18n';
+
   export default {
     name: 'CountLimit',
+    i18n: {
+      messages: messages,
+    },
     data() {
       return {
         limit: 100,

@@ -16,14 +16,14 @@
 
 <template>
   <v-flex>
-    <BaseSubTitle title="DNS定义" />
+    <BaseSubTitle :title="$root.$t('form.definition', [$root.$t('resource.dns')])" />
     <v-card-text class="pa-2">
       <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
         <v-sheet>
           <v-text-field
             v-model="obj.VirtualDomainName"
             class="my-0"
-            label="DNS"
+            :label="$root.$t('resource.dns')"
             required
             :rules="objRules.virtualDomainNameRules"
           />

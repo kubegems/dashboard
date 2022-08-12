@@ -19,7 +19,7 @@
     <v-card-text class="px-0 py-3">
       <v-flex class="ma-1 mx-3 pb-2 pt-1">
         <v-sheet class="text-body-2 primary--text float-right mt-n1">
-          <span class="kubegems__text"> 容器 </span>
+          <span class="kubegems__text"> {{ $root.$t('resource.container') }} </span>
           <v-menu
             v-model="containerMenu"
             bottom
@@ -36,17 +36,20 @@
                 <v-icon v-else right> mdi-chevron-down </v-icon>
               </v-btn>
             </template>
-            <v-data-iterator hide-default-footer :items="[{ text: '容器', values: containers }]">
+            <v-data-iterator
+              hide-default-footer
+              :items="[{ text: $root.$t('resource.container'), values: containers }]"
+            >
               <template #no-data>
                 <v-card>
-                  <v-card-text> 暂无容器 </v-card-text>
+                  <v-card-text> {{ $root.$t('data.no_data') }} </v-card-text>
                 </v-card>
               </template>
               <template #default="props">
                 <v-card v-for="item in props.items" :key="item.text" flat>
                   <v-list dense>
                     <v-flex class="text-subtitle-2 text-center ma-2">
-                      <span>容器</span>
+                      <span>{{ $root.$t('resource.container') }}</span>
                     </v-flex>
                     <v-divider class="mx-2" />
                     <v-list-item
@@ -70,7 +73,7 @@
           </v-menu>
         </v-sheet>
         <v-sheet class="text-body-2 primary--text float-right mt-n1">
-          <span class="kubegems__text"> 容器组 </span>
+          <span class="kubegems__text"> {{ $root.$t('resource.pod') }} </span>
           <v-menu
             v-model="podMenu"
             bottom
@@ -87,17 +90,17 @@
                 <v-icon v-else right> mdi-chevron-down </v-icon>
               </v-btn>
             </template>
-            <v-data-iterator hide-default-footer :items="[{ text: '容器组', values: pods }]">
+            <v-data-iterator hide-default-footer :items="[{ text: $root.$t('resource.pod'), values: pods }]">
               <template #no-data>
                 <v-card>
-                  <v-card-text> 暂无容器组 </v-card-text>
+                  <v-card-text> {{ $root.$t('data.no_data') }} </v-card-text>
                 </v-card>
               </template>
               <template #default="props">
                 <v-card v-for="item in props.items" :key="item.text" flat>
                   <v-list dense>
                     <v-flex class="text-subtitle-2 text-center ma-2">
-                      <span>容器组</span>
+                      <span>{{ $root.$t('resource.pod') }}</span>
                     </v-flex>
                     <v-divider class="mx-2" />
                     <v-list-item
@@ -122,7 +125,7 @@
         </v-sheet>
 
         <v-flex class="text-subtitle-2 float-right primary--text">
-          <span class="kubegems__text"> 实时 </span>
+          <span class="kubegems__text"> {{ $t('tip.realtime') }} </span>
           <v-switch
             v-model="stream"
             class="pl-2 primary--text float-right switch-mt"
@@ -159,11 +162,15 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import { getPodList } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'WorkloadLog',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     props: {
       item: {
@@ -225,7 +232,7 @@
         }
         if (!pod) {
           this.$store.commit('SET_SNACKBAR', {
-            text: `不存在容器组`,
+            text: this.$t('tip.no_pod'),
             color: 'warning',
           });
           return;

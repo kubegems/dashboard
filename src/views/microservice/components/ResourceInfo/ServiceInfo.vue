@@ -17,12 +17,12 @@
 <template>
   <div>
     <v-card class="px-2" flat>
-      <BaseListItemForDetail :mt="0" title="标签">
+      <BaseListItemForDetail :mt="0" :title="$t('table.label')">
         <template #content>
           <BaseCollapseChips v-if="item" id="s_label" :chips="item.service.labels || {}" icon="mdi-label" single-line />
         </template>
       </BaseListItemForDetail>
-      <BaseListItemForDetail title="类型">
+      <BaseListItemForDetail :title="$root.$t('resource.type')">
         <template #content>
           {{ item ? item.service.type : '' }}
         </template>
@@ -36,12 +36,12 @@
           </v-flex>
         </template>
       </BaseListItemForDetail>
-      <BaseListItemForDetail title="Service IP">
+      <BaseListItemForDetail :title="$t('table.service_ip')">
         <template #content>
           {{ item ? item.service.ip : '' }}
         </template>
       </BaseListItemForDetail>
-      <BaseListItemForDetail title="端口">
+      <BaseListItemForDetail :title="$t('table.port')">
         <template #content>
           <v-flex class="text-body-2">
             <BaseCollapseChips v-if="item" id="s_port" :chips="services || []" icon="mdi-directions-fork" single-line />
@@ -53,8 +53,13 @@
 </template>
 
 <script>
+  import messages from '../i18n';
+
   export default {
     name: 'ServiceInfo',
+    i18n: {
+      messages: messages,
+    },
     props: {
       item: {
         type: Object,

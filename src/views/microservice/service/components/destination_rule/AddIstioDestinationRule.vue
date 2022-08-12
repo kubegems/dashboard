@@ -15,13 +15,19 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-ruler" title="创建istio流量规则" :width="1000" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-ruler"
+    :title="$root.$t('operate.create_c', [$root.$t('resource.destination_rule')])"
+    :width="1000"
+    @reset="reset"
+  >
     <template #content>
       <component :is="formComponent" :ref="formComponent" title="DestinationRule" />
     </template>
     <template #action>
       <v-btn class="float-right" color="primary" :loading="Circular" text @click="addIstioDestinationRule">
-        确定
+        {{ $root.$t('operate.confirm') }}
       </v-btn>
     </template>
   </BaseDialog>

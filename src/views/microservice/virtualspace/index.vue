@@ -20,7 +20,7 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :default="{ items: [], text: '虚拟负载名称', value: 'search' }"
+          :default="{ items: [], text: $t('filter.mesh_name'), value: 'search' }"
           :filters="filters"
           @refresh="m_filter_list"
         />
@@ -36,7 +36,7 @@
               <v-flex>
                 <v-btn color="primary" text @click="addVirtualSpace">
                   <v-icon left>mdi-cloud-outline</v-icon>
-                  创建虚拟空间
+                  {{ $root.$t('operate.create_c', [$root.$t('resource.mesh')]) }}
                 </v-btn>
               </v-flex>
             </v-card-text>
@@ -50,7 +50,7 @@
         hide-default-footer
         :items="items"
         :items-per-page="params.size"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
       >
         <template #[`item.virtualSpaceName`]="{ item }">
@@ -68,7 +68,7 @@
           {{ item.Environments ? item.Environments.length : 0 }}
         </template>
         <template #[`item.isActive`]="{ item }">
-          {{ item.IsActive ? '已激活' : '未激活' }}
+          {{ item.IsActive ? $t('status.activated') : $t('status.inactivated') }}
         </template>
         <template #[`item.createdAt`]="{ item }">
           {{ item.CreatedAt ? $moment(item.CreatedAt).format('lll') : '' }}
@@ -84,16 +84,24 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex v-if="item.IsActive">
-                  <v-btn color="error" small text @click="setVirtualSpaceStatus(item, false)"> 关闭 </v-btn>
+                  <v-btn color="error" small text @click="setVirtualSpaceStatus(item, false)">
+                    {{ $t('operate.inactivate') }}
+                  </v-btn>
                 </v-flex>
                 <v-flex v-else>
-                  <v-btn color="primary" small text @click="setVirtualSpaceStatus(item, true)"> 激活 </v-btn>
+                  <v-btn color="primary" small text @click="setVirtualSpaceStatus(item, true)">
+                    {{ $t('operate.activate') }}
+                  </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="primary" small text @click="updateVirtualSpace(item)"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateVirtualSpace(item)">
+                    {{ $root.$t('operate.edit') }}
+                  </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="removeVirtualSpace(item)"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeVirtualSpace(item)">
+                    {{ $root.$t('operate.delete') }}
+                  </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -121,6 +129,7 @@
 
   import AddVirtualSpace from './components/AddVirtualSpace';
   import UpdateVirtualSpace from './components/UpdateVirtualSpace';
+  import messages from './i18n';
   import { deleteVirtualSpace, getVirtualSpaceList, patchSetVirtualSpaceStatus } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -129,6 +138,9 @@
 
   export default {
     name: 'VirtualSpace',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddVirtualSpace,
       UpdateVirtualSpace,
@@ -142,24 +154,26 @@
           page: 1,
           size: 10,
         },
-        filters: [{ text: '虚拟空间名称', value: 'search', items: [] }],
       };
     },
     computed: {
       ...mapState(['JWT', 'Admin']),
       headers() {
         const items = [
-          { text: '虚拟空间', value: 'virtualSpaceName', align: 'start' },
-          { text: '状态', value: 'isActive', align: 'start' },
-          { text: '环境', value: 'env', align: 'start' },
-          { text: '成员', value: 'user', align: 'start' },
-          { text: '创建时间', value: 'createdAt', align: 'start' },
-          { text: '创建人', value: 'createdBy', align: 'start' },
+          { text: this.$t('table.name'), value: 'virtualSpaceName', align: 'start' },
+          { text: this.$t('table.status'), value: 'isActive', align: 'start' },
+          { text: this.$root.$t('resource.environment'), value: 'env', align: 'start' },
+          { text: this.$root.$t('resource.member'), value: 'user', align: 'start' },
+          { text: this.$root.$t('resource.create_at'), value: 'createdAt', align: 'start' },
+          { text: this.$t('table.creator'), value: 'createdBy', align: 'start' },
         ];
         if (this.m_permisson_virtualSpaceAllow || this.m_permisson_tenantAllow) {
           items.push({ text: '', value: 'action', align: 'center', width: 20 });
         }
         return items;
+      },
+      filters() {
+        return [{ text: this.$t('filter.mesh_name'), value: 'search', items: [] }];
       },
     },
     watch: {
@@ -209,9 +223,9 @@
       },
       removeVirtualSpace(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除虚拟空间`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.mesh')]),
           content: {
-            text: `删除虚拟空间 ${item.VirtualSpaceName}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.mesh')])} ${item.VirtualSpaceName}`,
             type: 'delete',
             name: item.VirtualSpaceName,
           },
@@ -227,9 +241,11 @@
       },
       setVirtualSpaceStatus(item, open) {
         this.$store.commit('SET_CONFIRM', {
-          title: `设置虚拟空间状态`,
+          title: this.$t('tip.set_status'),
           content: {
-            text: open ? `激活虚拟空间 ${item.VirtualSpaceName}` : `关闭虚拟空间 ${item.VirtualSpaceName}`,
+            text: open
+              ? `${this.$t('operate.activate_c', [this.$root.$t('resource.mesh')])} ${item.VirtualSpaceName}`
+              : `${this.$t('operate.inactivate_c', [this.$root.$t('resource.mesh')])} ${item.VirtualSpaceName}`,
             type: 'confirm',
           },
           param: { item, open },

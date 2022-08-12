@@ -15,12 +15,20 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-dns" title="更新DNS" :width="500" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-dns"
+    :title="$root.$t('operate.update_c', [$root.$t('resource.dns')])"
+    :width="500"
+    @reset="reset"
+  >
     <template #content>
       <component :is="formComponent" :ref="formComponent" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateDNSDomain"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateDNSDomain">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>

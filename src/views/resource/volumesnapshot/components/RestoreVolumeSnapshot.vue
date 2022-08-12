@@ -15,20 +15,28 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-camera" title="快照恢复" :width="500" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-camera" :title="$t('operate.restore')" :width="500" @reset="reset">
     <template #content>
-      <BaseSubTitle title="存储卷定义" />
+      <BaseSubTitle :title="$root.$t('form.definition', [$root.$t('resource.persistentvolumeclaim')])" />
       <v-card-text class="px-2 pb-0">
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
           <v-sheet>
-            <v-text-field v-model="item.metadata.name" class="my-0" label="快照" readonly />
-            <v-text-field v-model="obj.name" class="my-0" label="存储卷名称" required :rules="objRules.nameRules" />
+            <v-text-field v-model="item.metadata.name" class="my-0" :label="$t('form.name')" readonly />
+            <v-text-field
+              v-model="obj.name"
+              class="my-0"
+              :label="$t('form.pvc_name')"
+              required
+              :rules="objRules.nameRules"
+            />
           </v-sheet>
         </v-form>
       </v-card-text>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="restoreVolumeSnapshot"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="restoreVolumeSnapshot">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>
@@ -36,6 +44,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import { postRestoreVolumeSnapshot } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
@@ -44,6 +53,9 @@
 
   export default {
     name: 'RestoreVolumeSnapshot',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource, BaseSelect],
     data: () => ({
       dialog: false,

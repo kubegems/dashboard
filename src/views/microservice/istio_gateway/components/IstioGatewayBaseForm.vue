@@ -16,14 +16,14 @@
 
 <template>
   <v-flex>
-    <BaseSubTitle title="网关实例定义" />
+    <BaseSubTitle :title="$root.$t('form.definition', [$root.$t('resource.gateway_instance')])" />
     <v-card-text class="pa-2">
       <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
         <v-sheet>
           <v-text-field
             v-model="obj.Name"
             class="my-0"
-            label="网关实例"
+            :label="$root.$t('resource.gateway_instance')"
             :readonly="edit"
             required
             :rules="objRules.nameRules"

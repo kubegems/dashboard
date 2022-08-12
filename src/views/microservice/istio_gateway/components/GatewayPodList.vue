@@ -24,7 +24,7 @@
         hide-default-footer
         :items="items"
         :items-per-page="500"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
       >
         <template #[`item.name`]="{ item }">
           {{ item.metadata.name }}
@@ -73,10 +73,14 @@
 </template>
 
 <script>
+  import messages from '../i18n';
   import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'GatewayPodList',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     props: {
       gateway: {
@@ -87,14 +91,18 @@
     data() {
       return {
         items: [],
-        headers: [
-          { text: '容器组', value: 'name', align: 'start' },
-          { text: '状态', value: 'status', align: 'start', width: 250 },
-          { text: '重启次数', value: 'restart', align: 'start', sortable: false },
+      };
+    },
+    computed: {
+      headers() {
+        return [
+          { text: this.$t('table.pods'), value: 'name', align: 'start' },
+          { text: this.$t('table.status'), value: 'status', align: 'start', width: 250 },
+          { text: this.$t('table.restart_count'), value: 'restart', align: 'start', sortable: false },
           { text: 'Age', value: 'age', align: 'start' },
           { text: 'Pod IP', value: 'ip', align: 'start', sortable: false },
-        ],
-      };
+        ];
+      },
     },
     watch: {
       gateway: {

@@ -21,7 +21,7 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :default="{ items: [], text: '端点认证名称', value: 'search' }"
+          :default="{ items: [], text: $t('filter.peer_name'), value: 'search' }"
           :filters="filters"
           @refresh="m_filter_list"
         />
@@ -38,17 +38,23 @@
               <v-flex>
                 <v-btn color="primary" text @click="addPeerAuthentication">
                   <v-icon left>mdi-plus-box</v-icon>
-                  创建端点认证
+                  {{ $root.$t('operate.create_c', [$root.$t('resource.peer_authentication')]) }}
                 </v-btn>
               </v-flex>
               <v-flex>
                 <v-btn
                   color="error"
                   text
-                  @click="m_table_batchRemoveResource('端点认证', 'PeerAuthentication', istioPeerAuthenticationList)"
+                  @click="
+                    m_table_batchRemoveResource(
+                      $root.$t('resource.peer_authentication'),
+                      'PeerAuthentication',
+                      istioPeerAuthenticationList,
+                    )
+                  "
                 >
                   <v-icon left>mdi-minus-box</v-icon>
-                  删除端点认证
+                  {{ $root.$t('operate.delete_c', [$root.$t('resource.peer_authentication')]) }}
                 </v-btn>
               </v-flex>
             </v-card-text>
@@ -63,7 +69,7 @@
             hide-default-footer
             :items="items"
             :items-per-page="params.size"
-            no-data-text="暂无数据"
+            :no-data-text="$root.$t('data.no_data')"
             :page.sync="params.page"
             show-select
             @toggle-select-all="m_table_onResourceToggleSelect"
@@ -113,10 +119,14 @@
                 <v-card>
                   <v-card-text class="pa-2">
                     <v-flex>
-                      <v-btn color="primary" small text @click.stop="updatePeerAuthentication(item)"> 编辑 </v-btn>
+                      <v-btn color="primary" small text @click.stop="updatePeerAuthentication(item)">
+                        {{ $root.$t('operate.edit') }}
+                      </v-btn>
                     </v-flex>
                     <v-flex>
-                      <v-btn color="error" small text @click.stop="removeIstioPeerAuthentication(item)"> 删除 </v-btn>
+                      <v-btn color="error" small text @click.stop="removeIstioPeerAuthentication(item)">
+                        {{ $root.$t('operate.delete') }}
+                      </v-btn>
                     </v-flex>
                   </v-card-text>
                 </v-card>
@@ -146,6 +156,7 @@
 
   import AddPeerAuthentication from './components/AddPeerAuthentication';
   import UpdatePeerAuthentication from './components/UpdatePeerAuthentication';
+  import messages from './i18n';
   import { deleteIstioPeerAuthentication, getIstioPeerAuthenticationList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -157,6 +168,9 @@
 
   export default {
     name: 'PeerAuthentication',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddPeerAuthentication,
       EnvironmentFilter,
@@ -171,23 +185,22 @@
         page: 1,
         size: 10,
       },
-      filters: [{ text: '端点认证名称', value: 'search', items: [] }],
       pass: false,
     }),
     computed: {
       ...mapState(['JWT', 'EnvironmentFilter']),
       headers() {
         const items = [
-          { text: '端点认证名称', value: 'name', align: 'start' },
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
           {
-            text: '命名空间',
+            text: this.$root.$t('resource.namespace'),
             value: 'namespace',
             align: 'start',
             sortable: false,
           },
-          { text: '匹配标签', value: 'selector', align: 'start' },
-          { text: 'TLS设置', value: 'mutualTLS', align: 'start' },
-          { text: '创建时间', value: 'createAt', align: 'start', width: 180 },
+          { text: this.$t('table.label'), value: 'selector', align: 'start' },
+          { text: this.$t('table.tls'), value: 'mutualTLS', align: 'start' },
+          { text: this.$root.$t('resource.create_at'), value: 'createAt', align: 'start', width: 180 },
         ];
         if (this.m_permisson_virtualSpaceAllow) {
           items.push({
@@ -199,6 +212,9 @@
           });
         }
         return items;
+      },
+      filters() {
+        return [{ text: this.$t('filter.peer_name'), value: 'search', items: [] }];
       },
     },
     watch: {
@@ -250,9 +266,11 @@
       },
       removeIstioPeerAuthentication(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除端点认证`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.peer_authentication')]),
           content: {
-            text: `删除端点认证 ${item.metadata.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.peer_authentication')])} ${
+              item.metadata.name
+            }`,
             type: 'delete',
             name: item.metadata.name,
           },

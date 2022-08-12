@@ -16,37 +16,37 @@
 
 <template>
   <v-sheet class="overflow" max-height="400px">
-    <BaseListItemForDetail v-if="$route.query.type !== 'DaemonSet'" :mt="0" title="副本">
+    <BaseListItemForDetail v-if="$route.query.type !== 'DaemonSet'" :mt="0" :title="$t('tip.replicas')">
       <template #content>
-        {{ item && item.status.updatedReplicas ? item.status.updatedReplicas : 0 }}
-        个副本已更新,
-        {{ item && item.status.readyReplicas ? item.status.readyReplicas : 0 }}
-        个副本已就绪,
+        {{ $t('tip.replicas_updated', [item && item.status.updatedReplicas ? item.status.updatedReplicas : 0]) }},
+        {{ $t('tip.replicas_ready', [item && item.status.readyReplicas ? item.status.readyReplicas : 0]) }},
         {{
-          item && (item.status.availableReplicas || item.status.currentReplicas)
-            ? $route.query.type === 'Deployment'
-              ? item.status.availableReplicas
-              : item.status.currentReplicas
-            : 0
-        }}
-        个副本可用,
+          $t('tip.replicas_available', [
+            item && (item.status.availableReplicas || item.status.currentReplicas)
+              ? $route.query.type === 'Deployment'
+                ? item.status.availableReplicas
+                : item.status.currentReplicas
+              : 0,
+          ])
+        }},
         {{
-          item && (item.status.availableReplicas || item.status.currentReplicas)
-            ? item.status.replicas -
-              ($route.query.type === 'Deployment' ? item.status.availableReplicas : item.status.currentReplicas)
-            : 0
+          $t('tip.replicas_unavailable', [
+            item && (item.status.availableReplicas || item.status.currentReplicas)
+              ? item.status.replicas -
+                ($route.query.type === 'Deployment' ? item.status.availableReplicas : item.status.currentReplicas)
+              : 0,
+          ])
         }}
-        个副本不可用
       </template>
     </BaseListItemForDetail>
 
-    <BaseListItemForDetail :mt="0" title="标签">
+    <BaseListItemForDetail :mt="0" :title="$t('table.label')">
       <template #content>
         <BaseCollapseChips v-if="item" id="w_label" :chips="item.metadata.labels || {}" icon="mdi-label" single-line />
       </template>
     </BaseListItemForDetail>
 
-    <BaseListItemForDetail :mt="0" title="容器组">
+    <BaseListItemForDetail :mt="0" :title="$root.$t('resource.pod')">
       <template #content>
         <v-menu
           bottom
@@ -88,22 +88,24 @@
           <v-card flat>
             <v-flex class="text-body-2 text-center primary white--text py-2">
               <v-icon color="white" left small> mdi-cube </v-icon>
-              <span>容器组</span>
+              <span>{{ $root.$t('resource.pod') }}</span>
             </v-flex>
             <v-list class="pa-0 kubegems__tip" dense>
               <v-list-item v-if="podItems.length > 0">
                 <v-list-item-content>
                   <v-list-item class="float-left pa-0" two-line>
                     <v-list-item-content class="py-0">
-                      <v-list-item-title> 容器组 </v-list-item-title>
+                      <v-list-item-title> {{ $root.$t('resource.pod') }} </v-list-item-title>
                       <v-list-item-content
                         v-for="(pod, index) in podItems"
                         :key="index"
                         class="text-caption kubegems__text kubegems__break-all"
                       >
-                        <span class="text-caption"> 容器{{ index + 1 }}：{{ pod.metadata.name }} </span>
                         <span class="text-caption">
-                          状态：
+                          {{ $root.$t('resource.pod') }}{{ index + 1 }}：{{ pod.metadata.name }}
+                        </span>
+                        <span class="text-caption">
+                          {{ $t('tip.status') }} :
                           <span
                             :class="`v-avatar mr-1 ${
                               ['ContainerCreating', 'Pending', 'Terminating', 'PodInitializing'].indexOf(
@@ -126,7 +128,9 @@
                   </v-list-item>
                 </v-list-item-content>
               </v-list-item>
-              <v-flex v-if="podItems.length === 0" class="text-caption text-center py-3"> 暂无容器 </v-flex>
+              <v-flex v-if="podItems.length === 0" class="text-caption text-center py-3">
+                {{ $root.$t('data.no_data') }}
+              </v-flex>
             </v-list>
           </v-card>
         </v-menu>
@@ -136,11 +140,15 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
   import { getPodList } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'WorkloadInfo',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     props: {
       item: {

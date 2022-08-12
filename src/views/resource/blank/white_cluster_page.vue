@@ -22,9 +22,9 @@
           <div class="d-none d-sm-block">
             <div class="d-flex align-center pa-10">
               <div class="text-center">
-                <h2 class="text-h4 primary--text font-weight-medium"> 您的租户暂未分配任何集群资源！ </h2>
+                <h2 class="text-h4 primary--text font-weight-medium"> {{ $t('tip.no_cluster') }} </h2>
                 <h6 class="text-subtitle-1 mt-4 primary--text op-5 font-weight-regular">
-                  您可以联系系统管理员为您所在的租户分配集群资源
+                  {{ $t('tip.no_cluster_tip') }}
                 </h6>
               </div>
             </div>
@@ -36,8 +36,13 @@
 </template>
 
 <script>
+  import messages from './i18n';
+
   export default {
     name: 'WhiteClusterPage',
+    i18n: {
+      messages: messages,
+    },
   };
 </script>
 

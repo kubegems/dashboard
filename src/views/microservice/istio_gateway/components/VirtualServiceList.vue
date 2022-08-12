@@ -23,7 +23,7 @@
         :headers="headers"
         hide-default-footer
         :items="items"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
       >
         <template #[`item.name`]="{ item }">
           <a class="text-subtitle-2 kubegems__inline_flex">
@@ -51,8 +51,13 @@
 </template>
 
 <script>
+  import messages from '../i18n';
+
   export default {
     name: 'VirtualServiceList',
+    i18n: {
+      messages: messages,
+    },
     props: {
       gateway: {
         type: Object,
@@ -62,13 +67,17 @@
     data() {
       return {
         items: [],
-        headers: [
-          { text: '名称', value: 'name', align: 'start' },
-          { text: '命名空间', value: 'namespace', align: 'start' },
-          { text: 'hosts', value: 'hosts', align: 'start', width: 300 },
-          { text: '创建时间', value: 'createdAt', align: 'start' },
-        ],
       };
+    },
+    computed: {
+      headers() {
+        return [
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
+          { text: this.$root.$t('resource.namespace'), value: 'namespace', align: 'start' },
+          { text: this.$t('table.host'), value: 'hosts', align: 'start', width: 300 },
+          { text: this.$root.$t('resource.create_at'), value: 'createdAt', align: 'start' },
+        ];
+      },
     },
     watch: {
       gateway: {

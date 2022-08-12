@@ -1,0 +1,34 @@
+{
+  "table": {
+    "name": "虚拟空间名称",
+    "status": "状态",
+    "creator": "创建人",
+
+    "environment_type": "环境类型",
+    "remark": "备注"
+  },
+  "filter": {
+    "mesh_name": "虚拟空间名称"
+  },
+  "status": {
+    "activated": "已激活",
+    "inactivated": "未激活"
+  },
+  "operate": {
+    "activate": "激活",
+    "inactivate": "关闭",
+    "activate_c": "激活{0}",
+    "inactivate_c": "关闭{0}",
+    "link_c": "关联{0}",
+    "delete_linked_env": "删除虚拟空间关联环境"
+  },
+  "tip": {
+    "set_status": "设置虚拟空间状态",
+    "link_environment": "请关联环境",
+    "mesh_member": "虚拟空间用户继承于环境成员"
+  },
+  "form": {
+    "name": "虚拟空间名称",
+    "name_rule": "超出20字符限制"
+  }
+}

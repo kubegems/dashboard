@@ -15,12 +15,20 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-source-branch" title="请求路由" :width="1000" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-source-branch"
+    :title="$t('operate.request_route')"
+    :width="1000"
+    @reset="reset"
+  >
     <template #content>
       <component :is="formComponent" :ref="formComponent" :service="service" title="RequestRouting" :vs="vs" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addRequestRouting"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addRequestRouting">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>
@@ -28,12 +36,16 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import RequestRoutingBaseForm from './RequestRoutingBaseForm';
   import { postAddRequestRouting } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'RequestRouting',
+    i18n: {
+      messages: messages,
+    },
     components: {
       RequestRoutingBaseForm,
     },

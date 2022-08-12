@@ -16,15 +16,15 @@
 
 <template>
   <v-flex>
-    <BaseSubTitle title="镜像仓库定义" />
+    <BaseSubTitle :title="$root.$t('form.definition', [$root.$t('resource.image_registry')])" />
     <v-card-text class="pa-2">
       <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
         <v-sheet>
-          <v-switch v-model="obj.EnableExtends" class="mb-4" hide-details label="启用镜像扫描和分析报告" />
+          <v-switch v-model="obj.EnableExtends" class="mb-4" hide-details :label="$t('tip.enable_scan')" />
           <v-text-field
             v-model="obj.RegistryName"
             class="my-0"
-            label="仓库名称"
+            :label="$t('table.name')"
             :readonly="edit"
             required
             :rules="objRules.RegistryNameRules"
@@ -36,8 +36,8 @@
             color="primary"
             hide-selected
             :items="m_select_projectItems"
-            label="项目"
-            no-data-text="暂无可选数据"
+            :label="$root.$t('resource.project')"
+            :no-data-text="$root.$t('data.no_data')"
             :rules="objRules.ProjectRules"
             @focus="onProjectSelectFocus"
           >
@@ -96,18 +96,24 @@
                 <v-text-field
                   v-model="obj.RegistryAddress"
                   class="my-0"
-                  label="仓库地址"
+                  :label="$t('table.address')"
                   required
                   :rules="objRules.RegistryAddressRules"
                 />
               </v-col>
             </v-row>
           </v-flex>
-          <v-text-field v-model="obj.Username" class="my-0" label="用户名" required :rules="objRules.UsernameRules" />
+          <v-text-field
+            v-model="obj.Username"
+            class="my-0"
+            :label="$t('table.username')"
+            required
+            :rules="objRules.UsernameRules"
+          />
           <v-text-field
             v-model="obj.Password"
             class="my-0"
-            label="密码"
+            :label="$t('table.passwd')"
             required
             :rules="objRules.PasswordRules"
             type="password"
@@ -121,6 +127,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../i18n';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
@@ -128,6 +135,9 @@
 
   export default {
     name: 'RegistryBaseForm',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource, BaseSelect],
     props: {
       edit: {

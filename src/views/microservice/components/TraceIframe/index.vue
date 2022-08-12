@@ -18,11 +18,11 @@
   <v-card flat>
     <v-sheet class="text-body-2 primary--text pa-2">
       <v-flex v-if="showBtn" class="float-left ml-2">
-        <v-btn color="primary" small text @click="returnIframePage"> 返回 </v-btn>
+        <v-btn color="primary" small text @click="returnIframePage"> {{ $root.$t('operate.return') }} </v-btn>
       </v-flex>
       <CountLimit class="float-right ml-2" @refreshLimit="refreshLimit" />
       <v-flex class="float-right">
-        <span class="kubegems__text text-subtitle-2 font-weight-medium"> 起止时间 </span>
+        <span class="kubegems__text text-subtitle-2 font-weight-medium"> {{ $t('tip.start_end_time') }} </span>
         <BaseDatetimePicker v-model="date" :default-value="30" @change="onDatetimeChange(undefined)" />
       </v-flex>
       <div class="kubegems__clear-float" />
@@ -46,11 +46,15 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import CountLimit from './CountLimit';
   import { randomString } from '@/utils/helpers';
 
   export default {
     name: 'TraceIframe',
+    i18n: {
+      messages: messages,
+    },
     components: {
       CountLimit,
     },

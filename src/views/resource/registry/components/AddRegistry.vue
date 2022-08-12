@@ -15,12 +15,20 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-database" title="创建镜像仓库" :width="500" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-database"
+    :title="$root.$t('operate.create_c', [$root.$t('resource.image_registry')])"
+    :width="500"
+    @reset="reset"
+  >
     <template #content>
       <component :is="formComponent" :ref="formComponent" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addRegistry"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addRegistry">
+        {{ $root.$t('confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>

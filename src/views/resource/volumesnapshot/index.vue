@@ -21,7 +21,7 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :default="{ items: [], text: '快照名称', value: 'search' }"
+          :default="{ items: [], text: $t('filter.snapshot_name'), value: 'search' }"
           :filters="filters"
           @refresh="m_filter_list"
         />
@@ -39,10 +39,16 @@
                 <v-btn
                   color="error"
                   text
-                  @click="m_table_batchRemoveResource('卷快照', 'VolumeSnapshot', volumeSpanshotList)"
+                  @click="
+                    m_table_batchRemoveResource(
+                      $root.$t('resource.volumesnapshot'),
+                      'VolumeSnapshot',
+                      volumeSpanshotList,
+                    )
+                  "
                 >
                   <v-icon left>mdi-minus-box</v-icon>
-                  删除卷快照
+                  {{ $root.$t('operate.delete_c', [$root.$t('resource.volumesnapshot')]) }}
                 </v-btn>
               </v-flex>
             </v-card-text>
@@ -55,7 +61,7 @@
         hide-default-footer
         :items="items"
         :items-per-page="params.size"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
         show-select
         @toggle-select-all="m_table_onResourceToggleSelect"
@@ -97,10 +103,14 @@
             <v-card>
               <v-card-text class="pa-2 text-center">
                 <v-flex>
-                  <v-btn color="primary" small text @click="restoreVolumeSnapshot(item)"> 快照恢复 </v-btn>
+                  <v-btn color="primary" small text @click="restoreVolumeSnapshot(item)">
+                    {{ $t('operate.restore') }}
+                  </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="removeVolumeSpanshot(item)"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeVolumeSpanshot(item)">
+                    {{ $root.$t('operate.delete') }}
+                  </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -127,6 +137,7 @@
   import { mapState } from 'vuex';
 
   import RestoreVolumeSnapshot from './components/RestoreVolumeSnapshot';
+  import messages from './i18n';
   import { deleteVolumeSnapshot, getVolumeSnapshotList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -136,6 +147,9 @@
 
   export default {
     name: 'VolumeSnapshot',
+    i18n: {
+      messages: messages,
+    },
     components: {
       NamespaceFilter,
       RestoreVolumeSnapshot,
@@ -148,21 +162,20 @@
         page: 1,
         size: 10,
       },
-      filters: [{ text: '快照名称', value: 'search', items: [] }],
     }),
     computed: {
       ...mapState(['JWT', 'AdminViewport']),
       headers() {
         const items = [
-          { text: '快照名', value: 'name', align: 'start' },
-          { text: '源存储卷', value: 'pvc', align: 'start', sortable: false },
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
+          { text: this.$t('table.origin_pvc'), value: 'pvc', align: 'start', sortable: false },
           {
-            text: '快照类',
+            text: this.$t('table.class'),
             value: 'snapshotClass',
             align: 'start',
             sortable: false,
           },
-          { text: '创建时间', value: 'createAt', align: 'center' },
+          { text: this.$root.$t('resource.create_at'), value: 'createAt', align: 'center' },
         ];
         if (this.m_permisson_resourceAllow) {
           items.push({
@@ -175,13 +188,16 @@
         }
         if (this.AdminViewport) {
           items.splice(1, 0, {
-            text: '命名空间',
+            text: this.$root.$t('resource.namespace'),
             value: 'namespace',
             align: 'start',
             sortable: false,
           });
         }
         return items;
+      },
+      filters() {
+        return [{ text: this.$t('filter.snapshot_name'), value: 'search', items: [] }];
       },
     },
     watch: {
@@ -209,7 +225,7 @@
         this.$nextTick(() => {
           if (this.ThisCluster === '') {
             this.$store.commit('SET_SNACKBAR', {
-              text: `请创建或选择集群`,
+              text: this.$root.$t('tip.cluster'),
               color: 'warning',
             });
             return;
@@ -237,9 +253,11 @@
       },
       removeVolumeSpanshot(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除卷快照`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.volumesnapshot')]),
           content: {
-            text: `删除卷快照 ${item.metadata.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.volumesnapshot')])} ${
+              item.metadata.name
+            }`,
             type: 'delete',
             name: item.metadata.name,
           },

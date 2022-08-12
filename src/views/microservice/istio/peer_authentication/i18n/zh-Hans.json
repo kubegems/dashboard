@@ -1,0 +1,10 @@
+{
+  "table": {
+    "name": "端点认证名称",
+    "label": "匹配标签",
+    "tls": "TLS设置"
+  },
+  "filter": {
+    "peer_name": "端点认证名称"
+  }
+}

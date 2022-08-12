@@ -15,9 +15,15 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-link" title="关联环境" :width="500" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-link"
+    :title="$t('operate.link_c', [$root.$t('resource.environment')])"
+    :width="500"
+    @reset="reset"
+  >
     <template #content>
-      <BaseSubTitle title="环境定义" />
+      <BaseSubTitle :title="$root.$t('form.definition', [$root.$t('resource.environment')])" />
       <v-card-text class="pa-2 mt-2">
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
           <v-sheet>
@@ -27,8 +33,10 @@
               color="primary"
               hide-selected
               :items="m_select_projectItems"
-              :label="Admin ? `租户(项目)` : `项目`"
-              no-data-text="暂无可选数据"
+              :label="
+                Admin ? `${$root.$t('resource.tenant')}(${$root.$t('resource.project')})` : $root.$t('resource.project')
+              "
+              :no-data-text="$root.$t('data.no_data')"
               :rules="objRules.projectIDRules"
               @focus="onProjectSelectFocus"
             >
@@ -44,8 +52,8 @@
               color="primary"
               hide-selected
               :items="m_select_projectEnvironmentItems"
-              label="环境"
-              no-data-text="暂无可选数据"
+              :label="$root.$t('resource.environment')"
+              :no-data-text="$root.$t('data.no_data')"
               :rules="objRules.environmentIDRules"
               @focus="onProjectEnvironmentSelectFocus(obj.projectid, true)"
             >
@@ -61,7 +69,7 @@
     </template>
     <template #action>
       <v-btn class="float-right" color="primary" :loading="Circular" text @click="addVirtualSpaceEnvironment">
-        确定
+        {{ $root.$t('operate.confirm') }}
       </v-btn>
     </template>
   </BaseDialog>
@@ -70,6 +78,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import { postAddVirtualSpaceEnvironment } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
@@ -77,6 +86,9 @@
 
   export default {
     name: 'AddEnvironment',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource, BaseSelect],
     data: () => ({
       dialog: false,

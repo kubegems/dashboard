@@ -15,12 +15,20 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-eyedropper" title="故障注入" :width="1000" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-eyedropper"
+    :title="$t('operate.fault_injection')"
+    :width="1000"
+    @reset="reset"
+  >
     <template #content>
       <component :is="formComponent" :ref="formComponent" :service="service" title="FaultInjection" :vs="vs" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addFaultInjection"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addFaultInjection">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>
@@ -28,12 +36,16 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import FaultInjectionBaseForm from './FaultInjectionBaseForm';
   import { postAddFaultInjection } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'FaultInjection',
+    i18n: {
+      messages: messages,
+    },
     components: {
       FaultInjectionBaseForm,
     },

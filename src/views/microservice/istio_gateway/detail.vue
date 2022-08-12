@@ -29,10 +29,14 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" small text @click="updateIstioGatewayInstance"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateIstioGatewayInstance">
+                    {{ $root.$t('operate.edit') }}
+                  </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="removeIstioGatewayInstance"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeIstioGatewayInstance">
+                    {{ $root.$t('operate.delete') }}
+                  </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -50,7 +54,7 @@
               </v-card-title>
               <v-list-item two-line>
                 <v-list-item-content class="kubegems__text">
-                  <v-list-item-title class="text-subtitle-2"> 集群 </v-list-item-title>
+                  <v-list-item-title class="text-subtitle-2"> {{ $root.$t('resource.cluster') }} </v-list-item-title>
                   <v-list-item-subtitle class="text-body-2">
                     {{ $route.query.cluster }}
                   </v-list-item-subtitle>
@@ -58,7 +62,9 @@
               </v-list-item>
               <v-list-item two-line>
                 <v-list-item-content class="kubegems__text">
-                  <v-list-item-title class="text-subtitle-2"> 应用环境 </v-list-item-title>
+                  <v-list-item-title class="text-subtitle-2">
+                    {{ $root.$t('resource.environment') }}
+                  </v-list-item-title>
                   <v-list-item-subtitle class="text-body-2">
                     {{ $route.query.environment }}
                   </v-list-item-subtitle>
@@ -66,7 +72,7 @@
               </v-list-item>
               <v-list-item two-line>
                 <v-list-item-content class="kubegems__text">
-                  <v-list-item-title class="text-subtitle-2"> 状态 </v-list-item-title>
+                  <v-list-item-title class="text-subtitle-2"> {{ $t('table.status') }} </v-list-item-title>
                   <v-list-item-subtitle class="text-body-2">
                     <v-icon
                       v-if="gateway && gateway.status && gateway.status.replicas === gateway.status.availableReplicas"
@@ -116,6 +122,7 @@
   import GatewayPodList from './components/GatewayPodList';
   import UpdateIstioGateway from './components/UpdateIstioGateway';
   import VirtualServiceList from './components/VirtualServiceList';
+  import messages from './i18n';
   import { deleteIstioGatewayInstance, getIstioGatewayInstanceDetail } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -123,6 +130,9 @@
 
   export default {
     name: 'IstioGatewayDetail',
+    i18n: {
+      messages: messages,
+    },
     components: {
       GatewayList,
       GatewayMonitor,
@@ -135,17 +145,19 @@
     data: () => ({
       gateway: null,
       tab: 0,
-      tabItems: [
-        { text: '网关资源', value: 'GatewayList' },
-        { text: '虚拟服务', value: 'VirtualServiceList' },
-        { text: '网关容器组', value: 'GatewayPodList' },
-        { text: '网关监控', value: 'GatewayMonitor' },
-      ],
       pass: false,
     }),
     computed: {
       ...mapState(['JWT']),
       ...mapGetters(['VirtualSpace']),
+      tabItems() {
+        return [
+          { text: this.$t('tab.gateway_resource'), value: 'GatewayList' },
+          { text: this.$t('tab.virtualservice'), value: 'VirtualServiceList' },
+          { text: this.$t('tab.pods'), value: 'GatewayPodList' },
+          { text: this.$t('tab.monitor'), value: 'GatewayMonitor' },
+        ];
+      },
     },
     watch: {
       pass: {
@@ -173,9 +185,9 @@
       removeIstioGatewayInstance() {
         const item = this.gateway;
         this.$store.commit('SET_CONFIRM', {
-          title: `删除istio网关实例`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.gateway_instance')]),
           content: {
-            text: `删除istio网关实例 ${item.Name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.gateway_instance')])} ${item.Name}`,
             type: 'delete',
             name: item.Name,
           },

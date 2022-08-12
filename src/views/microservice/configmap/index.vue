@@ -21,7 +21,7 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :default="{ items: [], text: '配置名称', value: 'search' }"
+          :default="{ items: [], text: $t('filter.configmap_name'), value: 'search' }"
           :filters="filters"
           @refresh="m_filter_list"
         />
@@ -38,13 +38,17 @@
               <v-flex>
                 <v-btn color="primary" text @click="addConfigMap">
                   <v-icon left>mdi-plus-box</v-icon>
-                  创建配置
+                  {{ $root.$t('operate.create_c', [$root.$t('resource.configmap')]) }}
                 </v-btn>
               </v-flex>
               <v-flex>
-                <v-btn color="error" text @click="m_table_batchRemoveResource('配置', 'ConfigMap', configMapList)">
+                <v-btn
+                  color="error"
+                  text
+                  @click="m_table_batchRemoveResource($root.$t('resource.configmap'), 'ConfigMap', configMapList)"
+                >
                   <v-icon left>mdi-minus-box</v-icon>
-                  删除配置
+                  {{ $root.$t('operate.delete_c', [$root.$t('resource.configmap')]) }}
                 </v-btn>
               </v-flex>
             </v-card-text>
@@ -57,7 +61,7 @@
         hide-default-footer
         :items="items"
         :items-per-page="params.size"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
         show-select
         @toggle-select-all="m_table_onResourceToggleSelect"
@@ -104,10 +108,14 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" small text @click.stop="updateConfigMap(item)"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click.stop="updateConfigMap(item)">
+                    {{ $root.$t('operate.edit') }}
+                  </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click.stop="removeConfigMap(item)"> 删除 </v-btn>
+                  <v-btn color="error" small text @click.stop="removeConfigMap(item)">
+                    {{ $root.$t('operate.delete') }}
+                  </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -142,9 +150,13 @@
   import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
   import AddConfigMap from '@/views/resource/configmap/components/AddConfigMap';
   import UpdateConfigMap from '@/views/resource/configmap/components/UpdateConfigMap';
+  import messages from '@/views/resource/configmap/i18n';
 
   export default {
     name: 'ConfigMap',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddConfigMap,
       EnvironmentFilter,
@@ -158,27 +170,26 @@
         page: 1,
         size: 10,
       },
-      filters: [{ text: '配置名称', value: 'search', items: [] }],
     }),
     computed: {
       ...mapState(['JWT', 'EnvironmentFilter']),
       headers() {
         const items = [
-          { text: '配置名称', value: 'name', align: 'start' },
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
           {
-            text: '命名空间',
+            text: this.$root.$t('resource.namespace'),
             value: 'namespace',
             align: 'start',
             sortable: false,
           },
           {
-            text: '配置项',
+            text: this.$t('table.item'),
             value: 'data',
             align: 'start',
             width: 700,
             sortable: false,
           },
-          { text: '创建时间', value: 'createAt', align: 'start', width: 180 },
+          { text: this.$root.$t('resource.create_at'), value: 'createAt', align: 'start', width: 180 },
         ];
         if (this.m_permisson_virtualSpaceAllow) {
           items.push({
@@ -190,6 +201,9 @@
           });
         }
         return items;
+      },
+      filters() {
+        return [{ text: this.$t('filter.configmap_name'), value: 'search', items: [] }];
       },
     },
     watch: {
@@ -252,9 +266,9 @@
       },
       removeConfigMap(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除配置`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.configmap')]),
           content: {
-            text: `删除配置 ${item.metadata.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.configmap')])} ${item.metadata.name}`,
             type: 'delete',
             name: item.metadata.name,
           },
