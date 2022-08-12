@@ -241,7 +241,7 @@
           this.$route.params.name,
           Object.assign(this.params, {
             noprocessing: true,
-            query: escape(CLUSTER_API_SERVER_SUCCESS_RATE_PROMQL),
+            query: CLUSTER_API_SERVER_SUCCESS_RATE_PROMQL,
           }),
         );
         this.apiServerSuccessRate = data;
