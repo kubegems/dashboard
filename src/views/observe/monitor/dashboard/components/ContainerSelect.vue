@@ -30,7 +30,15 @@
         transition="scale-transition"
       >
         <template #activator="{ on }">
-          <v-btn class="primary--text font-weight-medium sheet__menu__btn" color="white" dark depressed small v-on="on">
+          <v-btn
+            class="primary--text font-weight-medium sheet__menu__btn"
+            color="white"
+            dark
+            depressed
+            small
+            :style="{ marginTop: `${offsetY}px` }"
+            v-on="on"
+          >
             容器组 {{ podName }}
             <v-icon v-if="podMenu" right> mdi-chevron-up </v-icon>
             <v-icon v-else right> mdi-chevron-down </v-icon>
@@ -81,6 +89,10 @@
       env: {
         type: Object,
         default: () => null,
+      },
+      offsetY: {
+        type: Number,
+        default: () => 2,
       },
     },
     data() {
