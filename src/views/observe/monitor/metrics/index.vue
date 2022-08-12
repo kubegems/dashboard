@@ -139,7 +139,7 @@
                   <!-- 项目环境 -->
 
                   <!-- 资源规则 -->
-                  <BaseSubTitle class="mb-3" title="规则模板">
+                  <BaseSubTitle class="mb-3" title="规则">
                     <template #action>
                       <v-switch
                         v-model="queryList[index].ql"

@@ -309,7 +309,7 @@
     }
     100% {
       top: 40%;
-      left: 43%;
+      left: 49%;
       transform: none;
     }
   }
@@ -439,9 +439,9 @@
       &__desc {
         width: 45%;
         line-height: 1.5;
-        font-size: 1.3rem;
+        font-size: 1.4rem;
         position: absolute;
-        left: 45%;
+        left: 49%;
         top: 50%;
         opacity: 0;
 

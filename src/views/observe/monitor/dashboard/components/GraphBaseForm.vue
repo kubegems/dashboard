@@ -20,16 +20,6 @@
     <v-card-text class="pa-2">
       <v-row>
         <v-col cols="6">
-          <v-text-field
-            v-model="obj.name"
-            class="my-0"
-            label="名称"
-            :readonly="edit"
-            required
-            :rules="objRules.nameRule"
-          />
-        </v-col>
-        <v-col cols="6">
           <v-autocomplete
             v-model="mode"
             class="my-0"
@@ -49,7 +39,9 @@
             </template>
           </v-autocomplete>
         </v-col>
+      </v-row>
 
+      <v-row>
         <!-- 资源 -->
         <template v-if="mode === 'template'">
           <v-col cols="6">
@@ -119,6 +111,16 @@
           </v-col>
         </template>
         <template v-if="mode === 'ql'">
+          <v-col cols="6">
+            <v-text-field
+              v-model="obj.name"
+              class="my-0"
+              label="名称"
+              :readonly="edit"
+              required
+              :rules="objRules.nameRule"
+            />
+          </v-col>
           <v-col cols="12">
             <v-textarea v-model="obj.expr" auto-grow label="查询语句" :rules="objRules.exprRule" />
             <MetricsSuggestion
@@ -283,6 +285,7 @@
           this.obj.promqlGenerator = null;
           this.obj.expr = '';
           this.obj.unit = '';
+          this.obj.name = '';
         }
       },
       onResourceChange() {
@@ -296,6 +299,7 @@
         });
         if (rule) {
           this.obj.promqlGenerator.unit = rule.unit;
+          this.obj.name = rule.text;
         }
       },
       validate() {

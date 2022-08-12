@@ -20,7 +20,7 @@
       <template #extend>
         <v-flex class="kubegems__full-right">
           <ContainerSelect :env="env" @filterPod="filterPod" />
-          <ProjectEnvSelectCascade v-model="env" first reverse :tenant="tenant" />
+          <ProjectEnvSelectCascade v-model="env" first :offset-y="4" reverse :tenant="tenant" />
 
           <BaseDatetimePicker v-model="date" :default-value="30" :offset-y="0" @change="onDatetimeChange(undefined)" />
           <v-menu
