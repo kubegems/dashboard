@@ -1,0 +1,26 @@
+{
+  "operate": {
+    "enable": "启用",
+    "enable_c": "启用{0}",
+    "disable": "禁用",
+    "disable_c": "禁用{0}",
+    "config": "配置"
+  },
+  "status": {
+    "enabled": "已启用"
+  },
+  "tip": {
+    "kubegems": "Kubegems 内置的数据库认证",
+    "oauth": "使您的组织能够使用 Oauth 协议登录",
+    "openldap": "使您的组织能够使用 Ldap 协议登录",
+    "gitlab": "使您的组织能够使用 GitLab 账号登录",
+    "github": "使您的组织能够使用 GitHub 账号登录",
+    "tls": "开启tls",
+    "config_title": "配置第三方认证"
+  },
+  "form": {
+    "name": "名称",
+    "format_rule": "格式错误",
+    "ladp_address": "Ldap地址"
+  }
+}
