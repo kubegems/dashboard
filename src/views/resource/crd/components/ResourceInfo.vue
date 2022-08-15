@@ -18,7 +18,7 @@
   <div>
     <v-card>
       <v-sheet class="pa-2">
-        <BaseListItemForDetail :mt="0" title="generation">
+        <BaseListItemForDetail :mt="0" title="Generation">
           <template #content>
             {{ crd ? crd.metadata.generation : '' }}
           </template>
@@ -39,16 +39,16 @@
     </v-card>
 
     <v-card class="mt-3" flat>
-      <BaseSubTitle class="pt-2" :divider="false" title="状况" />
+      <BaseSubTitle class="pt-2" :divider="false" :title="$root.$t('tip.condition')" />
       <v-simple-table class="mx-2 pa-2 pb-3">
         <template #default>
           <thead>
             <tr>
               <th class="text-left">Reason</th>
-              <th class="text-left">状态</th>
+              <th class="text-left">{{ $t('table.status') }}</th>
               <th class="text-left">Type</th>
               <th class="text-left">Message</th>
-              <th class="text-left">上次更新时间</th>
+              <th class="text-left">{{ $t('table.last_update_time') }}</th>
             </tr>
           </thead>
           <tbody>
@@ -74,11 +74,15 @@
 </template>
 
 <script>
+  import messages from '../i18n';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'ResourceInfo',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     props: {
       item: {

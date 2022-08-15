@@ -46,6 +46,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import {
@@ -61,6 +62,9 @@
 
   export default {
     name: 'MetricMonitor',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BasePermission, BaseResource],
     props: {
       params: {
@@ -71,81 +75,83 @@
 
     data: () => ({
       tab: 0,
-      tabItems: [
-        {
-          text: 'ETCD耗时',
-          type: 'timecost',
-          label: 'operation',
-          chart: [],
-          callBack: (thisInstance, timeParam) => {
-            thisInstance.clusterEtcdRT(timeParam);
-          },
-        },
-        {
-          text: 'ETCD QPS',
-          type: '',
-          chart: [],
-          callBack: (thisInstance, timeParam) => {
-            thisInstance.clusterEtcdQps(timeParam);
-          },
-        },
-        {
-          text: 'APIServer耗时',
-          type: 'timecost',
-          label: 'verb',
-          chart: [],
-          callBack: (thisInstance, timeParam) => {
-            thisInstance.clusterApiServerRT(timeParam);
-          },
-        },
-        {
-          text: 'APIServerQPS',
-          type: '',
-          label: 'name',
-          chart: [],
-          callBack: (thisInstance, timeParam) => {
-            thisInstance.clusterApiServerQps(timeParam);
-          },
-        },
-        {
-          text: '集群CPU',
-          chart: [],
-          type: 'cpu',
-          callBack: (thisInstance, timeParam) => {
-            thisInstance.clusterCPUUsage(timeParam);
-          },
-        },
-        {
-          text: '集群内存',
-          type: 'memory',
-          chart: [],
-          callBack: (thisInstance, timeParam) => {
-            thisInstance.clusterMemoryUsage(timeParam);
-          },
-        },
-        {
-          text: '集群存储',
-          type: 'storage',
-          chart: [],
-          callBack: (thisInstance, timeParam) => {
-            thisInstance.clusterDiskSize(timeParam);
-          },
-        },
-        {
-          text: '集群容器组',
-          type: '',
-          chart: [],
-          callBack: (thisInstance, timeParam) => {
-            thisInstance.clusterPodUsage(timeParam);
-          },
-        },
-      ],
       count: 0,
       key: 0,
       timeinterval: null,
     }),
     computed: {
       ...mapState(['Scale']),
+      tabItems() {
+        return [
+          {
+            text: this.$t('tab.etcd_timeout'),
+            type: 'timecost',
+            label: 'operation',
+            chart: [],
+            callBack: (thisInstance, timeParam) => {
+              thisInstance.clusterEtcdRT(timeParam);
+            },
+          },
+          {
+            text: 'ETCD QPS',
+            type: '',
+            chart: [],
+            callBack: (thisInstance, timeParam) => {
+              thisInstance.clusterEtcdQps(timeParam);
+            },
+          },
+          {
+            text: this.$t('tab.apiserver_timeout'),
+            type: 'timecost',
+            label: 'verb',
+            chart: [],
+            callBack: (thisInstance, timeParam) => {
+              thisInstance.clusterApiServerRT(timeParam);
+            },
+          },
+          {
+            text: 'APIServerQPS',
+            type: '',
+            label: 'name',
+            chart: [],
+            callBack: (thisInstance, timeParam) => {
+              thisInstance.clusterApiServerQps(timeParam);
+            },
+          },
+          {
+            text: this.$t('tab.cluster_cpu'),
+            chart: [],
+            type: 'cpu',
+            callBack: (thisInstance, timeParam) => {
+              thisInstance.clusterCPUUsage(timeParam);
+            },
+          },
+          {
+            text: this.$t('tab.cluster_memory'),
+            type: 'memory',
+            chart: [],
+            callBack: (thisInstance, timeParam) => {
+              thisInstance.clusterMemoryUsage(timeParam);
+            },
+          },
+          {
+            text: this.$t('tab.cluster_storage'),
+            type: 'storage',
+            chart: [],
+            callBack: (thisInstance, timeParam) => {
+              thisInstance.clusterDiskSize(timeParam);
+            },
+          },
+          {
+            text: this.$t('tab.cluster_pod'),
+            type: '',
+            chart: [],
+            callBack: (thisInstance, timeParam) => {
+              thisInstance.clusterPodUsage(timeParam);
+            },
+          },
+        ];
+      },
     },
     watch: {
       params: {

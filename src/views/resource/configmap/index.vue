@@ -231,7 +231,7 @@
       if (this.JWT) {
         if (this.ThisCluster === '') {
           this.$store.commit('SET_SNACKBAR', {
-            text: this.$root.$t('tip.cluster'),
+            text: this.$root.$t('tip.select_cluster'),
             color: 'warning',
           });
           return;

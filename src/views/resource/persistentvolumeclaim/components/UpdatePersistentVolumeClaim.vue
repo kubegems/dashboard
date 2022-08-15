@@ -15,13 +15,19 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-database-plus" title="更新存储卷" :width="1000" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-database-plus"
+    :title="$root.$t('operate.update_c', [$root.$t('resource.persistentvolumeclaim')])"
+    :width="1000"
+    @reset="reset"
+  >
     <template #content>
       <component :is="formComponent" :ref="formComponent" :edit="true" :item="item" title="PersistentVolumeClaim" />
     </template>
     <template #action>
       <v-btn class="float-right" color="primary" :loading="Circular" text @click="updatePersistentVolumeClaim">
-        确定
+        {{ $root.$t('operate.confirm') }}
       </v-btn>
     </template>
     <template #header-action>
@@ -77,7 +83,7 @@
         }
         if (!this.$refs[this.formComponent].checkSaved()) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请保存数据',
+            text: this.$root.$t('tip.save_data'),
             color: 'warning',
           });
           return;

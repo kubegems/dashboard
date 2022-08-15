@@ -24,14 +24,14 @@
       @closeOverlay="closeExpand"
     />
     <v-flex v-if="step === 0">
-      <BaseSubTitle title="环境定义" />
+      <BaseSubTitle :title="$root.$t('form.definition', [$root.$t('resource.environment')])" />
       <v-card-text class="pa-2">
         <v-row>
           <v-col cols="6">
             <v-text-field
               v-model.trim="obj.data.EnvironmentName"
               class="my-0"
-              label="名称"
+              :label="$t('form.name')"
               :readonly="edit"
               required
               :rules="objRules.environmentNameRules"
@@ -44,8 +44,8 @@
               color="primary"
               hide-selected
               :items="m_select_projectItems"
-              label="项目"
-              no-data-text="暂无可选数据"
+              :label="$root.$t('resource.project')"
+              :no-data-text="$root.$t('data.no_data')"
               :readonly="edit"
               :rules="objRules.projectIDRules"
               @focus="onProjectSelectFocus"
@@ -64,8 +64,8 @@
               color="primary"
               hide-selected
               :items="m_select_tenantClusterItems"
-              label="集群"
-              no-data-text="暂无可选数据"
+              :label="$root.$t('resource.cluster')"
+              :no-data-text="$root.$t('data.no_data')"
               :readonly="edit"
               :rules="objRules.clusterIDRules"
               @change="onClusterChange"
@@ -82,7 +82,7 @@
             <v-text-field
               v-model.trim="obj.data.Namespace"
               class="my-0"
-              label="命名空间"
+              :label="$root.$t('resource.namespace')"
               :readonly="edit"
               required
               :rules="objRules.namespaceRules"
@@ -90,7 +90,7 @@
               <template #append>
                 <v-btn v-if="!edit" class="mt-n1" color="primary" small text @click.stop="openExpaned('addNamespace')">
                   <v-icon left small> mdi-link </v-icon>
-                  绑定NS
+                  {{ $t('operate.bind_ns') }}
                 </v-btn>
               </template>
             </v-text-field>
@@ -102,8 +102,8 @@
               color="primary"
               hide-selected
               :items="m_select_environmentTypeItems"
-              label="类型"
-              no-data-text="暂无可选数据"
+              :label="$root.$t('resource.type')"
+              :no-data-text="$root.$t('data.no_data')"
               :rules="objRules.metaTypeRules"
             >
               <template #selection="{ item }">
@@ -120,8 +120,8 @@
               color="primary"
               hide-selected
               :items="environmentDeletePolicySelect"
-              label="删除策略"
-              no-data-text="暂无可选数据"
+              :label="$t('form.delete_policy')"
+              :no-data-text="$root.$t('data.no_data')"
               :rules="objRules.deletePolicyRules"
             >
               <template #selection="{ item }">
@@ -134,7 +134,7 @@
         </v-row>
         <v-row>
           <v-col cols="6">
-            <v-textarea v-model="obj.data.Remark" auto-grow class="my-0" label="说明" required />
+            <v-textarea v-model="obj.data.Remark" auto-grow class="my-0" :label="$t('form.remark')" required />
           </v-col>
         </v-row>
       </v-card-text>
@@ -142,7 +142,9 @@
 
     <v-flex v-else-if="step === 1">
       <v-card-text class="pa-0">
-        <BaseSubTitle title="环境成员角色" />
+        <BaseSubTitle
+          :title="$root.$t('resource.environment_c', [$root.$t('resource.member_c', [$root.$t('resource.role')])])"
+        />
         <v-tabs v-model="tab" class="pa-2" height="60px" vertical @change="onTabChange">
           <v-tab v-for="item in tabItems" :key="item.value">
             {{ item.text }}
@@ -152,7 +154,9 @@
               <v-col class="py-1" cols="6">
                 <v-card elevation="2" flat height="550px">
                   <v-card-text>
-                    <v-flex class="px-1 mb-2">项目成员</v-flex>
+                    <v-flex class="px-1 mb-2">
+                      {{ $root.$t('resource.project_c', [$root.$t('resource.member')]) }}
+                    </v-flex>
                     <v-text-field
                       v-model="searchAllUser"
                       class="mx-1"
@@ -180,7 +184,7 @@
                 <v-card elevation="2" flat height="550px">
                   <v-card-text>
                     <v-flex class="px-1 mb-2">
-                      {{ tab === 0 ? '只读成员' : '操作成员' }}
+                      {{ tab === 0 ? $root.$t('role.environment.reader') : $root.$t('role.environment.operator') }}
                     </v-flex>
                     <v-text-field
                       v-model="searchRoleUser"
@@ -217,22 +221,22 @@
     </v-flex>
 
     <v-flex v-else-if="step === 2 && !edit">
-      <BaseSubTitle title="租户在集群上已分配资源" />
+      <BaseSubTitle :title="$t('tip.tenant_resource_allocated')" />
       <v-card-text>
         <ResourceChart ref="resourceChart" :statistics="obj.statistics" />
       </v-card-text>
 
-      <BaseSubTitle title="资源配额(ResourceQuota)" />
+      <BaseSubTitle :title="$t('tip.resource_quota')" />
       <v-card-text class="px-2 py-2">
         <ResourceQuota ref="resourceQuota" :data="obj.data" :statistics="obj.statistics" />
       </v-card-text>
 
       <LimitRange ref="limitRange" :data="obj" @addData="addLimitRangeData" @closeOverlay="closeExpand" />
-      <BaseSubTitle class="mt-4" title="资源限制(LimitRange)">
+      <BaseSubTitle class="mt-4" :title="$t('tip.limit_range')">
         <template #action>
           <v-btn class="float-right mr-2" color="primary" small text @click="openExpaned('limitRange')">
             <v-icon left small> mdi-pencil </v-icon>
-            修改限制
+            {{ $t('operate.edit_limit') }}
           </v-btn>
         </template>
       </BaseSubTitle>
@@ -246,6 +250,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import AddNamespace from './AddNamespace';
   import { deleteEnvironmentUser, getEnvironmentUserList, getProjectUserList, postAddEnvironmentUser } from '@/api';
   import BaseResource from '@/mixins/resource';
@@ -259,6 +264,9 @@
 
   export default {
     name: 'EnvironmentBaseForm',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddNamespace,
       LimitRange,
@@ -341,15 +349,7 @@
         statistics: null,
         quota: null,
       },
-      environmentDeletePolicySelect: [
-        { text: '删除整个命名空间', value: 'delNamespace' },
-        { text: '仅删除关联', value: 'delLabels' },
-      ],
       tab: 0,
-      tabItems: [
-        { text: '只读成员', value: 'reader' },
-        { text: '操作成员', value: 'operator' },
-      ],
       allUsers: [],
       allUsersCopy: [],
       users: [],
@@ -364,13 +364,25 @@
       ...mapGetters(['Tenant', 'Project', 'Environment']),
       objRules() {
         return {
-          environmentNameRules: [required, (v) => !!(v && v.length <= 20) || '超出20字符限制', k8sName],
+          environmentNameRules: [required, (v) => !!(v && v.length <= 20) || this.$t('form.limit_20_rule'), k8sName],
           clusterIDRules: [required],
           projectIDRules: [required],
           metaTypeRules: [required],
           namespaceRules: [required, k8sName],
           deletePolicyRules: [required],
         };
+      },
+      environmentDeletePolicySelect() {
+        return [
+          { text: this.$t('tip.delete_all_select'), value: 'delNamespace' },
+          { text: this.$t('tip.delete_cascade_select'), value: 'delLabels' },
+        ];
+      },
+      tabItems() {
+        return [
+          { text: this.$root.$t('role.environment.reader'), value: 'reader' },
+          { text: this.$root.$t('role.environment.operator'), value: 'operator' },
+        ];
       },
     },
     methods: {

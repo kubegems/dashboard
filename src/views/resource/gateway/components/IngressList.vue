@@ -23,7 +23,7 @@
         hide-default-footer
         :items="items"
         :items-per-page="params.size"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
       >
         <template #[`item.name`]="{ item }">
@@ -74,11 +74,15 @@
 </template>
 
 <script>
+  import messages from '../i18n';
   import { getIngressList } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'IngressList',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     props: {
       item: {
@@ -92,12 +96,6 @@
     },
     data: () => ({
       items: [],
-      headers: [
-        { text: '名称', value: 'name', align: 'start' },
-        { text: '命名空间', value: 'namespace', align: 'start' },
-        { text: '访问地址', value: 'address', align: 'start' },
-        { text: '创建时间', value: 'createAt', align: 'start' },
-      ],
       pageCount: 0,
       params: {
         page: 1,
@@ -105,6 +103,16 @@
         noprocessing: true,
       },
     }),
+    computed: {
+      headers() {
+        return [
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
+          { text: this.$root.$t('resource.namespace'), value: 'namespace', align: 'start' },
+          { text: this.$t('table.address'), value: 'address', align: 'start' },
+          { text: this.$root.$t('resource.create_at'), value: 'createAt', align: 'start' },
+        ];
+      },
+    },
     watch: {
       item() {
         this.ingressList();

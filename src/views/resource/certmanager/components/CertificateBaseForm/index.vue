@@ -18,14 +18,14 @@
   <v-flex>
     <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
       <v-flex :class="expand ? 'kubegems__overlay' : ''" />
-      <BaseSubTitle title="证书定义" />
+      <BaseSubTitle :title="$root.$t('form.definition', [$root.$t('resource.certificate')])" />
       <v-card-text class="pa-2">
         <v-row>
           <v-col cols="6">
             <v-text-field
               v-model="obj.metadata.name"
               class="my-0"
-              label="名称"
+              :label="$t('form.name')"
               :readonly="edit"
               required
               :rules="objRules.nameRule"
@@ -39,8 +39,8 @@
               color="primary"
               hide-selected
               :items="m_select_namespaceItems"
-              label="命名空间"
-              no-data-text="暂无可选数据"
+              :label="$root.$t('resource.namespace')"
+              :no-data-text="$root.$t('data.no_data')"
               :readonly="edit"
               :rules="objRules.namespaceRule"
               @change="onNamespaceChange"
@@ -60,8 +60,8 @@
               color="primary"
               hide-selected
               :items="m_select_issuerItems"
-              label="颁发机构"
-              no-data-text="暂无可选数据"
+              :label="$t('table.issuer')"
+              :no-data-text="$root.$t('data.no_data')"
               :rules="objRules.issuerRule"
             >
               <template #selection="{ item }">
@@ -78,8 +78,8 @@
               color="primary"
               hide-selected
               :items="durationItems"
-              label="证书有效期"
-              no-data-text="暂无可选数据"
+              :label="$t('form.expire_at')"
+              :no-data-text="$root.$t('data.no_data')"
               :rules="objRules.durationRule"
             >
               <template #selection="{ item }">
@@ -90,7 +90,7 @@
             </v-autocomplete>
           </v-col>
           <v-col cols="6">
-            <v-switch v-model="renew" class="mt-4" label="自动续签" @change="onRenewChange" />
+            <v-switch v-model="renew" class="mt-4" :label="$t('form.auto_renew')" @change="onRenewChange" />
           </v-col>
           <v-col cols="12">
             <v-autocomplete
@@ -98,7 +98,7 @@
               class="my-0"
               hide-selected
               :items="keyUsage"
-              label="证书用途"
+              :label="$t('form.cert_use')"
               multiple
             >
               <template #selection="{ item }">
@@ -110,7 +110,7 @@
           </v-col>
         </v-row>
       </v-card-text>
-      <BaseSubTitle title="授信域名" />
+      <BaseSubTitle :title="$t('form.domain')" />
       <DnsNameForm ref="dnsNameForm" @addData="addData" @closeOverlay="closeExpand" @updateData="updateData" />
       <DnsNameItem
         :items="obj.spec.dnsNames"
@@ -125,6 +125,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import DnsNameForm from './DnsNameForm';
   import DnsNameItem from './DnsNameItem';
   import BaseResource from '@/mixins/resource';
@@ -134,6 +135,9 @@
 
   export default {
     name: 'CertificateBaseForm',
+    i18n: {
+      messages: messages,
+    },
     components: {
       DnsNameForm,
       DnsNameItem,

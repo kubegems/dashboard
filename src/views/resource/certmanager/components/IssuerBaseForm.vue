@@ -18,14 +18,14 @@
   <v-flex>
     <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
       <v-flex :class="expand ? 'kubegems__overlay' : ''" />
-      <BaseSubTitle title="颁发机构定义" />
+      <BaseSubTitle :title="$root.$t('form.definition', [$root.$t('resource.issuer')])" />
       <v-card-text class="pa-2">
         <v-row>
           <v-col cols="6">
             <v-text-field
               v-model="obj.metadata.name"
               class="my-0"
-              label="名称"
+              :label="$t('form.name')"
               :readonly="edit"
               required
               :rules="objRules.nameRule"
@@ -39,8 +39,8 @@
               color="primary"
               hide-selected
               :items="m_select_namespaceItems"
-              label="命名空间"
-              no-data-text="暂无可选数据"
+              :label="$root.$t('resource.namespace')"
+              :no-data-text="$root.$t('data.no_data')"
               :readonly="edit"
               :rules="objRules.namespaceRule"
               @change="onNamespaceChange"
@@ -60,8 +60,8 @@
               color="primary"
               hide-selected
               :items="issuerItems"
-              label="机构类型"
-              no-data-text="暂无可选数据"
+              :label="$t('form.issuer_type')"
+              :no-data-text="$root.$t('data.no_data')"
               :rules="objRules.issuerRule"
               @change="onIssuerChange"
             >
@@ -82,7 +82,7 @@
               hide-selected
               :items="serverItems"
               label="Server"
-              no-data-text="暂无可选数据"
+              :no-data-text="$root.$t('data.no_data')"
               :rules="objRules.serverRule"
               :search-input.sync="serverText"
               @keyup.enter="createServer"
@@ -101,8 +101,8 @@
               color="primary"
               hide-selected
               :items="ingressItems"
-              label="关联ingress名称"
-              no-data-text="暂无可选数据"
+              :label="$t('form.ingress')"
+              :no-data-text="$root.$t('data.no_data')"
               :rules="objRules.ingressRule"
             >
               <template #selection="{ item }">
@@ -121,6 +121,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../i18n';
   import { getIngressList } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
@@ -129,6 +130,9 @@
 
   export default {
     name: 'IssuerBaseForm',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource, BaseSelect],
     props: {
       edit: {

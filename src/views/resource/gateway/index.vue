@@ -21,7 +21,7 @@
     <v-row class="mt-0">
       <v-col v-for="(item, index) in items" :key="index" class="pt-0" cols="3">
         <v-hover #default="{ hover }">
-          <v-card class="mx-auto gateway-pos" :elevation="hover ? 5 : 0" flat height="100%">
+          <v-card class="mx-auto gateway__pos" :elevation="hover ? 5 : 0" flat height="100%">
             <v-list-item three-line>
               <v-list-item-avatar class="primary--text" size="80" tile>
                 <img src="/icon/nginx.svg" :style="{ width: `80px`, height: `80px`, marginLeft: `10px` }" />
@@ -33,24 +33,22 @@
                   </a>
                 </v-list-item-title>
                 <v-list-item-subtitle>
-                  <span class="text-body-2"> 类型： </span>
+                  <span class="text-body-2"> {{ $root.$t('resource.type') }} : </span>
                   {{
-                    item && item.spec && item.spec.type === 'LoadBalancer'
-                      ? '外部负载均衡网关(LoadBalancer)'
-                      : '常规集群网关(NodePort)'
+                    item && item.spec && item.spec.type === 'LoadBalancer' ? $t('tip.loadbalancer') : $t('tip.nodeport')
                   }}
                 </v-list-item-subtitle>
                 <v-list-item-subtitle>
-                  <span class="text-body-2"> 实例数： </span>
+                  <span class="text-body-2"> {{ $t('tip.instance_count') }} : </span>
                   {{ item && item.spec && item.spec.replicas === '' ? '-' : item.spec.replicas }}
                 </v-list-item-subtitle>
                 <v-list-item-subtitle>
-                  <span class="text-body-2"> 租户： </span>
+                  <span class="text-body-2"> {{ $root.$t('resource.tenant') }} : </span>
                   {{ item && item.spec && item.spec.tenant === '' ? '-' : item.spec.tenant }}
                 </v-list-item-subtitle>
                 <v-list-item-subtitle>
                   <span class="text-body-2">
-                    状态：
+                    {{ $t('tip.status') }} :
                     <v-icon
                       v-if="item && item.spec && item.status && item.spec.replicas === item.status.availableReplicas"
                       color="success"
@@ -65,7 +63,7 @@
                   </span>
                 </v-list-item-subtitle>
                 <v-list-item-subtitle>
-                  <span class="text-body-2"> 端口： </span>
+                  <span class="text-body-2"> {{ $t('tip.port') }} : </span>
                   <span v-for="(port, index) in item ? item && item.status && item.status.ports : []" :key="index">
                     {{ port.name === '' ? '-' : port.name }}:
                     {{ port.nodePort === '' ? '-' : port.nodePort }}
@@ -75,15 +73,15 @@
             </v-list-item>
             <v-card-actions>
               <v-spacer />
-              <v-btn color="primary" small text @click="gatewayDetail(item)"> 详情 </v-btn>
-              <v-btn color="primary" small text @click="updateGateway(item)"> 编 辑 </v-btn>
+              <v-btn color="primary" small text @click="gatewayDetail(item)"> {{ $root.$t('operate.detail') }} </v-btn>
+              <v-btn color="primary" small text @click="updateGateway(item)"> {{ $root.$t('operate.edit') }} </v-btn>
               <v-btn v-if="item.spec.tenant !== 'notenant'" color="error" small text @click="removeGateway(item)">
-                删 除
+                {{ $root.$t('operate.delete') }}
               </v-btn>
             </v-card-actions>
-            <v-flex v-if="item.spec.tenant === 'notenant'" class="gateway-watermark-bg" />
-            <v-flex v-if="item.spec.tenant === 'notenant'" class="gateway-watermark font-weight-medium">
-              默认网关
+            <v-flex v-if="item.spec.tenant === 'notenant'" class="gateway__watermark-bg" />
+            <v-flex v-if="item.spec.tenant === 'notenant'" class="gateway__watermark font-weight-medium">
+              {{ $t('tip.default') }}
             </v-flex>
           </v-card>
         </v-hover>
@@ -95,7 +93,7 @@
               <v-list-item-content>
                 <v-btn block class="text-h6" color="primary" text @click="addGateway">
                   <v-icon left>mdi-plus-box</v-icon>
-                  创建网关
+                  {{ $root.$t('operate.create_c', [$root.$t('resource.gateway')]) }}
                 </v-btn>
               </v-list-item-content>
             </v-list-item>
@@ -114,6 +112,7 @@
 
   import AddGateway from './components/AddGateway';
   import UpdateGateway from './components/UpdateGateway';
+  import messages from './i18n';
   import { deleteGateway, getGatewayList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -121,6 +120,9 @@
 
   export default {
     name: 'Gateway',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddGateway,
       UpdateGateway,
@@ -137,7 +139,7 @@
       if (this.JWT) {
         if (this.ThisCluster === '') {
           this.$store.commit('SET_SNACKBAR', {
-            text: `请创建或选择集群`,
+            text: this.$root.$t('tip.select_cluster'),
             color: 'warning',
           });
           return;
@@ -167,9 +169,9 @@
       },
       removeGateway(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除网关`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.gateway')]),
           content: {
-            text: `删除网关 ${item.metadata.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.gateway')])} ${item.metadata.name}`,
             type: 'delete',
             name: item.metadata.name,
           },
@@ -187,35 +189,36 @@
 </script>
 
 <style lang="scss" scoped>
-  .gateway-pos {
-    position: relative;
-    background-color: #ffffff;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+  .gateway {
+    &__pos {
+      position: relative;
+      background-color: #ffffff;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 
-  .gateway-watermark-bg {
-    position: absolute;
-    width: 120px;
-    height: 90px;
-    transform: rotate(47deg);
-    top: -46px;
-    right: -55px;
-    background-color: #1e88e5;
-    padding: 0;
-  }
+    &__watermark-bg {
+      position: absolute;
+      width: 120px;
+      height: 90px;
+      transform: rotate(47deg);
+      top: -46px;
+      right: -55px;
+      background-color: #1e88e5;
+      padding: 0;
+    }
 
-  .gateway-watermark {
-    position: absolute;
-    top: 17px;
-    right: 1px;
-    transform: rotate(47deg);
-    text-transform: uppercase;
-    color: white;
-    font-size: 12px;
+    &__watermark {
+      position: absolute;
+      top: 17px;
+      right: 1px;
+      transform: rotate(47deg);
+      text-transform: uppercase;
+      color: white;
+      font-size: 12px;
+    }
   }
-
   .full-height {
     height: 100%;
   }

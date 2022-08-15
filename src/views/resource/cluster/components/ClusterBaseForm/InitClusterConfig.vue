@@ -16,16 +16,16 @@
 
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
-    <BaseSubTitle title="集群初始化设置" />
+    <BaseSubTitle :title="$t('tip.cluster_init_config')" />
     <v-card-text class="pa-2">
       <v-row>
         <v-col v-if="!control && !edit && obj.extend.existInstaller" cols="12">
-          <v-switch v-model="obj.Primary" class="mt-5" label="控制集群" @change="onPrimaryChange" />
+          <v-switch v-model="obj.Primary" class="mt-5" :label="$t('tip.control_cluster')" @change="onPrimaryChange" />
         </v-col>
         <v-col v-if="!obj.Primary" cols="6">
           <v-text-field
             v-model="obj.ClusterName"
-            label="集群名称"
+            :label="$t('form.name')"
             :readonly="edit"
             required
             :rules="objRules.ClusterNameRules"
@@ -37,8 +37,8 @@
             color="primary"
             hide-selected
             :items="imageRepoItems"
-            label="镜像仓库"
-            no-data-text="暂无可选数据"
+            :label="$root.$t('resource.image_registry')"
+            :no-data-text="$root.$t('data.no_data')"
             :rules="objRules.ImageRepoRules"
             :search-input.sync="imageRepoText"
             @keyup.enter="createImageRepo"
@@ -56,8 +56,8 @@
             color="primary"
             hide-selected
             :items="storageClassItems"
-            label="存储卷类型"
-            no-data-text="暂无可选数据"
+            :label="$root.$t('resource.storageclass')"
+            :no-data-text="$root.$t('data.no_data')"
             :rules="objRules.StorageClassesRules"
             :search-input.sync="storageClassText"
             @keyup.enter="createStorageClass"
@@ -75,11 +75,15 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'InitClusterConfig',
+    i18n: {
+      messages: messages,
+    },
     props: {
       control: {
         type: Boolean,

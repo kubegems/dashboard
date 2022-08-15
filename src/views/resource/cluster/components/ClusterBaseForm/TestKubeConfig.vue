@@ -16,7 +16,7 @@
 
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
-    <BaseSubTitle title="测试集群" />
+    <BaseSubTitle :title="$t('tip.test_cluster')" />
     <v-card-text v-if="Circular" class="py-6 px-2 mt-2" :style="{ width: `500px`, margin: `auto` }">
       <v-progress-linear buffer-value="0" color="green" height="10" indeterminate rounded stream />
     </v-card-text>
@@ -24,15 +24,15 @@
       <v-flex class="text-subtitle-1 text-center">
         <template v-if="obj.extend.validate === 'success'">
           <v-icon color="success" left small> mdi-check-circle </v-icon>
-          集群连接成功
+          {{ $t('tip.connect_success') }}
         </template>
         <template v-else-if="obj.extend.validate === 'error'">
           <v-icon color="error" left small> mdi-close-circle </v-icon>
-          集群连接失败
+          {{ $t('tip.connect_failed') }}
         </template>
         <template v-if="obj.extend.validate === 'progressing'">
           <v-icon color="warning" left small> mdi-checkbox-blank-circle </v-icon>
-          集群连接中......
+          {{ $t('tip.connecting') }}......
         </template>
       </v-flex>
     </v-card-text>
@@ -42,11 +42,15 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import { postValidateClusterKubeConfig } from '@/api';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'TestKubeConfig',
+    i18n: {
+      messages: messages,
+    },
     data: () => ({
       valid: false,
       obj: {

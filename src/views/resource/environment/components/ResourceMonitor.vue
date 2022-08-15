@@ -16,7 +16,7 @@
 
 <template>
   <v-card class="mt-3" flat>
-    <BaseSubTitle class="pt-2" :divider="false" title="资源监控">
+    <BaseSubTitle class="pt-2" :divider="false" :title="$t('tip.resource_monitor')">
       <template #selector>
         <v-sheet class="text-body-2 text--darken-1">
           <BaseDatetimePicker v-model="date" :default-value="30" @change="onDatetimeChange(undefined)" />
@@ -31,7 +31,7 @@
             label="environment"
             :label-show="false"
             :metrics="cpu"
-            title="CPU使用量"
+            :title="$t('tip.cpu_used')"
             type="cpu"
           />
         </v-col>
@@ -41,7 +41,7 @@
             label="environment"
             :label-show="false"
             :metrics="memory"
-            title="内存使用量"
+            :title="$t('tip.memory_used')"
             type="memory"
           />
         </v-col>
@@ -53,7 +53,7 @@
             label="environment"
             :label-show="false"
             :metrics="networkin"
-            title="网络入口流量"
+            :title="$t('tip.ingress')"
             type="network"
           />
         </v-col>
@@ -63,7 +63,7 @@
             label="environment"
             :label-show="false"
             :metrics="networkout"
-            title="网络出口流量"
+            :title="$t('tip.egress')"
             type="network"
           />
         </v-col>
@@ -75,6 +75,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../i18n';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import {
@@ -86,6 +87,9 @@
 
   export default {
     name: 'ResourceMonitor',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BasePermission, BaseResource],
     props: {
       ready: {

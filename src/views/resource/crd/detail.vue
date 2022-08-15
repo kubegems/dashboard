@@ -33,7 +33,7 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="error" small text @click="removeCRD"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeCRD"> {{ $root.$t('operate.delete') }} </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -77,6 +77,7 @@
 
   import CRList from './components/CRList';
   import ResourceInfo from './components/ResourceInfo';
+  import messages from './i18n';
   import { deleteCRD, getCrdDetail } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -86,6 +87,9 @@
 
   export default {
     name: 'CRDDetail',
+    i18n: {
+      messages: messages,
+    },
     components: {
       BasicResourceInfo,
       CRList,
@@ -97,14 +101,16 @@
     data: () => ({
       crd: null,
       tab: 0,
-      tabItems: [
-        { text: '资源信息', value: 'ResourceInfo' },
-        { text: '元数据', value: 'Metadata' },
-        { text: '资源列表', value: 'CRList' },
-      ],
     }),
     computed: {
       ...mapState(['JWT']),
+      tabItems() {
+        return [
+          { text: this.$root.$t('tab.resource_info'), value: 'ResourceInfo' },
+          { text: this.$root.$t('tab.metadata'), value: 'Metadata' },
+          { text: this.$t('tab.cr_list'), value: 'CRList' },
+        ];
+      },
     },
     mounted() {
       if (this.JWT) {
@@ -124,9 +130,9 @@
       removeCRD() {
         const item = this.crd;
         this.$store.commit('SET_CONFIRM', {
-          title: `删除CRD`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.crd')]),
           content: {
-            text: `删除CRD ${item.metadata.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.crd')])} ${item.metadata.name}`,
             type: 'delete',
             name: item.metadata.name,
           },

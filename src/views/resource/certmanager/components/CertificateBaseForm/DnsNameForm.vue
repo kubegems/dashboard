@@ -21,18 +21,24 @@
         <v-card-text class="pa-0">
           <v-sheet class="pt-2 px-2">
             <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width">
-              <span>授信域名</span>
+              <span>{{ $t('form.domain') }}</span>
             </v-flex>
             <v-flex class="float-left ml-0 kubegems__long-width">
-              <v-text-field v-model="dnsName" class="my-0" label="授信域名" required :rules="rules.dnsNameRules" />
+              <v-text-field
+                v-model="dnsName"
+                class="my-0"
+                :label="$t('form.domain')"
+                required
+                :rules="rules.dnsNameRules"
+              />
             </v-flex>
             <div class="kubegems__clear-float" />
           </v-sheet>
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
-          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> {{ $root.$t('operate.cancel') }} </v-btn>
+          <v-btn color="primary" small text @click="addData"> {{ $root.$t('operate.save') }} </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -40,10 +46,14 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'DnsNameForm',
+    i18n: {
+      messages: messages,
+    },
     data: () => ({
       valid: false,
       expand: false,

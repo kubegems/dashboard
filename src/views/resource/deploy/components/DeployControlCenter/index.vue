@@ -22,23 +22,23 @@
           <v-list-item three-line>
             <v-list-item-content class="pb-2">
               <v-list-item-title class="text-subtitle-1 mb-1 primary--text font-weight-medium">
-                任务中心
+                {{ $t('tip.task_center') }}
               </v-list-item-title>
               <v-list-item-subtitle class="text-body-2 text--lighten-4">
-                状态：
+                {{ $t('tip.status') }} :
                 <span class="text-body-2 deploy-line-height">
                   <template v-if="taskStatus === 'Running' || taskStatus === 'Pending'">
                     <v-icon class="kubegems__waiting-circle-flashing icon-font-status" color="warning">
                       mdi-autorenew
                     </v-icon>
                     <span class="warning--text">
-                      {{ taskType === 'switch-strategy' ? '策略变更中' : '部署任务执行中' }}
+                      {{ taskType === 'switch-strategy' ? $t('tip.policy_changing') : $t('tip.tasking') }}
                     </span>
                   </template>
                   <template v-else-if="taskStatus === 'Success'">
                     <v-icon class="icon-font-status" color="success"> mdi-check-circle </v-icon>
                     <span class="success--text">
-                      {{ taskType === 'switch-strategy' ? '策略变更完成' : '部署任务已完成' }}
+                      {{ taskType === 'switch-strategy' ? $t('tip.policy_change_complete') : $t('tip.task_complete') }}
                     </span>
                   </template>
                   <template v-else-if="taskStatus === 'Error'">
@@ -46,7 +46,7 @@
                       <template #activator="{ on }">
                         <span class="error--text kubegems__pointer" v-on="on">
                           <v-icon class="icon-font-status" color="error"> mdi-close-circle </v-icon>
-                          {{ taskType === 'switch-strategy' ? '策略变更失败' : '部署任务执行失败' }}
+                          {{ taskType === 'switch-strategy' ? $t('tip.policy_change_failed') : $t('tip.task_failed') }}
                         </span>
                       </template>
                       <v-card>
@@ -58,7 +58,9 @@
                   </template>
                   <template v-else>未知</template>
                 </span>
-                <v-btn class="mt-n1" color="primary" small text @click="viewDeployStep"> 查看详情 </v-btn>
+                <v-btn class="mt-n1" color="primary" small text @click="viewDeployStep">
+                  {{ $t('operate.detail') }}
+                </v-btn>
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -67,10 +69,10 @@
           <v-list-item three-line>
             <v-list-item-content class="pb-2">
               <v-list-item-title class="text-subtitle-1 mb-1 primary--text font-weight-medium">
-                正在运行
+                {{ $t('tip.running') }}
               </v-list-item-title>
               <v-list-item-subtitle class="text-body-2 text--lighten-4">
-                镜像：
+                {{ $t('tip.image') }} :
                 <v-flex
                   v-for="(image, index) in running ? running.images : []"
                   :key="index"
@@ -81,17 +83,18 @@
                 </v-flex>
               </v-list-item-subtitle>
               <v-list-item-subtitle class="text-body-2 text--lighten-4">
-                状态：{{ running ? running.status : '' }}
+                {{ $t('tip.status') }} : {{ running ? running.status : '' }}
               </v-list-item-subtitle>
               <v-list-item-subtitle class="text-body-2 text--lighten-4">
-                副本数：{{ running && running.replicas ? running.replicas : '未知' }}
+                {{ $t('tip.replicas') }} :
+                {{ running && running.replicas ? running.replicas : $root.$t('data.unknown') }}
               </v-list-item-subtitle>
               <v-list-item-subtitle class="text-body-2 text--lighten-4 pod-show">
-                Pods：
+                Pods :
                 <v-flex v-if="running && running.pods">
                   <DeployPodTip :pods="running.pods" />
                 </v-flex>
-                <v-flex v-else class="text-center"> 暂无Pod </v-flex>
+                <v-flex v-else class="text-center"> {{ $root.$t('data.no_data') }} </v-flex>
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -99,27 +102,27 @@
         <v-card>
           <v-card-text v-if="status">
             <v-list-item-title class="text-subtitle-1 mb-1 primary--text font-weight-medium">
-              部署策略
+              {{ $t('tip.deploy_policy') }}
             </v-list-item-title>
             <v-list-item-subtitle class="text-body-2 text--lighten-4 pb-1">
-              策略：{{ status ? status.strategy : '' }}
+              {{ $t('tip.policy') }} : {{ status ? status.strategy : '' }}
             </v-list-item-subtitle>
             <template v-if="status && status.strategy === 'Canary'">
               <v-list-item-subtitle class="text-body-2 text--lighten-4 pb-1">
-                步骤：{{ status ? status.step : '' }}
+                {{ $t('tip.step') }} : {{ status ? status.step : '' }}
               </v-list-item-subtitle>
               <v-list-item-subtitle class="text-body-2 text--lighten-4 pb-1">
-                预设权重：{{ status ? status.setWeight : '' }}
+                {{ $t('tip.pre_weight') }} : {{ status ? status.setWeight : '' }}
               </v-list-item-subtitle>
               <v-list-item-subtitle class="text-body-2 text--lighten-4 pb-1">
-                实际权重：{{ status ? status.actualWeight : '' }}
+                {{ $t('tip.real_weight') }} : {{ status ? status.actualWeight : '' }}
               </v-list-item-subtitle>
             </template>
             <v-list-item-subtitle class="text-body-2 text--lighten-4 pb-1" :style="{ whiteSpace: `inherit` }">
-              信息：{{ status ? status.message : '' }}
+              {{ $t('tip.info') }} : {{ status ? status.message : '' }}
             </v-list-item-subtitle>
             <v-list-item-subtitle class="text-body-2 text--lighten-4">
-              部署状态：
+              {{ $t('tip.status') }} :
               <span
                 :class="`v-avatar mr-1 ${
                   status && status.status === 'Progressing' ? 'kubegems__waiting-flashing' : ''
@@ -140,7 +143,7 @@
                 text
                 @click="showTrafficPanel"
               >
-                查看详情
+                {{ $t('operate.detail') }}
               </v-btn>
             </v-list-item-subtitle>
           </v-card-text>
@@ -149,13 +152,13 @@
           <v-list-item three-line>
             <v-list-item-content class="pb-2">
               <v-list-item-title class="text-subtitle-1 mb-1 primary--text font-weight-medium">
-                服务访问方式
+                {{ $t('tip.request_type') }}
               </v-list-item-title>
               <v-list-item-subtitle class="text-body-2 text--lighten-4">
-                Service IP：{{ service ? service.serviceIP : '' }}
+                Service IP : {{ service ? service.serviceIP : '' }}
               </v-list-item-subtitle>
               <v-list-item-subtitle class="text-body-2 text--lighten-4">
-                Port：
+                {{ $t('tip.port') }} :
                 <v-flex
                   v-for="(port, index) in service ? service.ports : []"
                   :key="index"
@@ -170,7 +173,7 @@
                 </v-flex>
               </v-list-item-subtitle>
               <v-list-item-subtitle class="text-body-2 text--lighten-4">
-                Ingress：
+                Ingress :
                 <v-flex
                   v-for="(ingress, index) in service ? service.ingresses : []"
                   :key="index"
@@ -201,7 +204,7 @@
                     Revision {{ replicaSet.revision }}
                   </v-list-item-title>
                   <v-list-item-subtitle class="text-body-2 text--lighten-4">
-                    镜像：
+                    {{ $t('tip.image') }} :
                     <v-flex
                       v-for="(image, index) in replicaSet.images"
                       :key="index"
@@ -212,14 +215,14 @@
                     </v-flex>
                   </v-list-item-subtitle>
                   <v-list-item-subtitle class="text-body-2 text--lighten-4">
-                    ReplicaSet：{{ replicaSet.objectMeta.name }}
+                    ReplicaSet : {{ replicaSet.objectMeta.name }}
                   </v-list-item-subtitle>
                   <v-list-item-subtitle class="text-body-2 text--lighten-4 pod-show">
-                    Pods：
+                    Pods :
                     <v-flex v-if="replicaSet.pods">
                       <DeployPodTip :pods="replicaSet.pods" />
                     </v-flex>
-                    <v-flex v-else class="text-center"> 暂无Pod </v-flex>
+                    <v-flex v-else class="text-center"> {{ $root.$t('data.no_data') }} </v-flex>
                   </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
@@ -237,12 +240,12 @@
                     small
                     text
                     @click="
-                      deployControll('回滚版本', 'undo', {
+                      deployControll($t('operate.rollback'), 'undo', {
                         revision: `${replicaSet.revision}`,
                       })
                     "
                   >
-                    回滚
+                    {{ $t('operate.rollback') }}
                   </v-btn>
                 </v-card-actions>
               </template>
@@ -265,6 +268,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import DeployCard from './DeployCard';
   import DeployPodTip from './DeployPodTip';
   import DeployStepPanel from './DeployStepPanel';
@@ -274,6 +278,9 @@
 
   export default {
     name: 'DeployControlCenter',
+    i18n: {
+      messages: messages,
+    },
     components: {
       DeployCard,
       DeployPodTip,
@@ -398,7 +405,10 @@
         this.$store.commit('SET_CONFIRM', {
           title: title,
           content: {
-            text: command === 'undo' ? `回滚版本 ${args.revision}` : `${title} ${this.$route.params.name}`,
+            text:
+              command === 'undo'
+                ? `${this.$t('operate.rollback')} ${args.revision}`
+                : `${title} ${this.$route.params.name}`,
             type: 'confirm',
             name: this.$route.params.name,
           },

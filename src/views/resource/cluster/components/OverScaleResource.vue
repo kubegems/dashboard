@@ -15,9 +15,9 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-scale" title="资源超分" :width="1000" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-scale" :title="$t('tip.resource_oversold')" :width="1000" @reset="reset">
     <template #content>
-      <BaseSubTitle :title="`集群${item ? item.ClusterName : ''}`" />
+      <BaseSubTitle :title="`${$root.$t('resource.cluster')} ${item ? item.ClusterName : ''}`" />
       <v-card-text class="px-0 pb-0 mt-2">
         <v-row>
           <v-col class="py-0" cols="4">
@@ -32,15 +32,15 @@
         </v-row>
       </v-card-text>
 
-      <BaseSubTitle title="资源超分" />
+      <BaseSubTitle :title="$t('tip.resource_oversold')" />
       <v-form ref="form" v-model="valid" class="mt-4 mx-1" lazy-validation @submit.prevent>
         <v-row>
           <v-col class="px-2 py-0" cols="4">
             <v-sheet class="pa-2">
               <v-flex class="text-subtitle-1">
-                超分CPU
+                {{ $t('tip.oversold', [$root.$t('resource.cpu')]) }}
                 <span class="text-subtitle-2 primary--text"> {{ overResource.cpu.toFixed(1) }} core </span>
-                总CPU
+                {{ $t('tip.all', [$root.$t('resource.cpu')]) }}
                 <span class="text-subtitle-2 primary--text">
                   {{ quota ? quota.Cpu.toFixed(1) : 0 }}
                   core
@@ -49,7 +49,7 @@
               <v-text-field
                 v-model="obj.OversoldConfig.cpu"
                 class="my-0"
-                label="CPU超分比例"
+                :label="$t('tip.oversold_precent', [$root.$t('resource.cpu')])"
                 required
                 :rules="objRules.CpuRules"
                 type="number"
@@ -60,9 +60,9 @@
           <v-col class="px-2 py-0" cols="4">
             <v-sheet class="pa-2">
               <v-flex class="text-subtitle-1">
-                超分内存
+                {{ $t('tip.oversold', [$root.$t('resource.memory')]) }}
                 <span class="text-subtitle-2 primary--text"> {{ overResource.memory.toFixed(1) }} Gi </span>
-                总内存
+                {{ $t('tip.all', [$root.$t('resource.memory')]) }}
                 <span class="text-subtitle-2 primary--text">
                   {{ quota ? quota.Memory.toFixed(1) : 0 }}
                   Gi
@@ -71,7 +71,7 @@
               <v-text-field
                 v-model="obj.OversoldConfig.memory"
                 class="my-0"
-                label="内存超分比例"
+                :label="$t('tip.oversold_precent', [$root.$t('resource.memory')])"
                 required
                 :rules="objRules.MemoryRules"
                 type="number"
@@ -82,9 +82,9 @@
           <v-col class="px-2 py-0" cols="4">
             <v-sheet class="pa-2">
               <v-flex class="text-subtitle-1">
-                超分存储
+                {{ $t('tip.oversold', [$root.$t('resource.storage')]) }}
                 <span class="text-subtitle-2 primary--text"> {{ overResource.storage.toFixed(1) }} Gi </span>
-                总存储
+                {{ $t('tip.all', [$root.$t('resource.storage')]) }}
                 <span class="text-subtitle-2 primary--text">
                   {{ quota ? quota.Storage.toFixed(1) : 0 }}
                   Gi
@@ -93,7 +93,7 @@
               <v-text-field
                 v-model="obj.OversoldConfig.storage"
                 class="my-0"
-                label="存储超分比例"
+                :label="$t('tip.oversold_precent', [$root.$t('resource.storage')])"
                 required
                 :rules="objRules.StorageRules"
                 type="number"
@@ -106,7 +106,7 @@
     </template>
     <template #action>
       <v-btn class="float-right" color="primary" :loading="Circular" text @click="oversoldClusterResource">
-        确定
+        {{ $root.$t('operate.confirm') }}
       </v-btn>
     </template>
   </BaseDialog>
@@ -116,6 +116,7 @@
   import VueApexCharts from 'vue-apexcharts';
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import { getClusterQuota, putUpdateCluster } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { generateRadialBarChartOptions } from '@/utils/chart';
@@ -124,6 +125,9 @@
 
   export default {
     name: 'OverScaleResource',
+    i18n: {
+      messages: messages,
+    },
     components: {
       VueApexCharts,
     },
@@ -152,21 +156,21 @@
         return {
           CpuRules: [
             required,
-            (v) => !!new RegExp('^\\d+\\.?\\d?$').test(v) || '格式错误(示例:最多1位小数)',
-            (v) => parseInt(v) >= 1 || '低于最小限制',
-            (v) => parseInt(v) <= 20 || '超出最大限制',
+            (v) => !!new RegExp('^\\d+\\.?\\d?$').test(v) || this.$t('form.format_rule'),
+            (v) => parseInt(v) >= 1 || this.$t('form.limit_min_rule'),
+            (v) => parseInt(v) <= 20 || this.$t('form.limit_max_rule'),
           ],
           MemoryRules: [
             required,
-            (v) => !!new RegExp('^\\d+\\.?\\d?$').test(v) || '格式错误(示例:最多1位小数)',
-            (v) => parseInt(v) >= 1 || '低于最小限制',
-            (v) => parseInt(v) <= 20 || '超出最大限制',
+            (v) => !!new RegExp('^\\d+\\.?\\d?$').test(v) || this.$t('form.format_rule'),
+            (v) => parseInt(v) >= 1 || this.$t('form.limit_min_rule'),
+            (v) => parseInt(v) <= 20 || this.$t('form.limit_max_rule'),
           ],
           StorageRules: [
             required,
-            (v) => !!new RegExp('^\\d+\\.?\\d?$').test(v) || '格式错误(示例:最多1位小数)',
-            (v) => parseInt(v) >= 1 || '低于最小限制',
-            (v) => parseInt(v) <= 20 || '超出最大限制',
+            (v) => !!new RegExp('^\\d+\\.?\\d?$').test(v) || this.$t('form.format_rule'),
+            (v) => parseInt(v) >= 1 || this.$t('form.limit_min_rule'),
+            (v) => parseInt(v) <= 20 || this.$t('form.limit_max_rule'),
           ],
         };
       },
@@ -177,8 +181,8 @@
       },
       cpuOptions() {
         return generateRadialBarChartOptions(
-          '超分CPU',
-          ['总CPU', '使用CPU'],
+          this.$t('tip.oversold', [this.$root.$t('resource.cpu')]),
+          [this.$t('tip.all', [this.$root.$t('resource.cpu')]), this.$t('tip.used', [this.$root.$t('resource.cpu')])],
           this.quota ? this.quota.AllocatedCpu : 0,
           'core',
           true,
@@ -194,8 +198,11 @@
       },
       memoryOptions() {
         return generateRadialBarChartOptions(
-          '超分内存',
-          ['总内存', '使用内存'],
+          this.$t('tip.oversold', [this.$root.$t('resource.memory')]),
+          [
+            this.$t('tip.all', [this.$root.$t('resource.memory')]),
+            this.$t('tip.uesd', [this.$root.$t('resource.memory')]),
+          ],
           this.quota ? this.quota.AllocatedMemory : 0,
           'Gi',
           true,
@@ -211,8 +218,11 @@
       },
       storageOptions() {
         return generateRadialBarChartOptions(
-          '超分存储',
-          ['总存储', '使用存储'],
+          this.$t('tip.oversold', [this.$root.$t('resource.storage')]),
+          [
+            this.$t('tip.all', [this.$root.$t('resource.storage')]),
+            this.$t('tip.used', [this.$root.$t('resource.storage')]),
+          ],
           this.quota ? this.quota.AllocatedStorage : 0,
           'Gi',
           true,

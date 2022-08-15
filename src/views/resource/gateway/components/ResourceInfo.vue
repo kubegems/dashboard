@@ -18,44 +18,42 @@
   <div>
     <v-card>
       <v-sheet class="pa-2">
-        <BaseListItemForDetail :mt="0" title="实例数">
+        <BaseListItemForDetail :mt="0" :title="$t('tip.instance_count')">
           <template #content>
-            {{ gateway ? gateway.status.availableReplicas : 0 }} 个实例可用，{{
-              gateway ? gateway.spec.replicas - gateway.status.availableReplicas : 0
-            }}
-            个实例不可用
+            {{ $t('tip.available', [gateway ? gateway.status.availableReplicas : 0]) }},
+            {{ $t('tip.unavailable', [gateway ? gateway.spec.replicas - gateway.status.availableReplicas : 0]) }}
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="generation">
+        <BaseListItemForDetail title="Generation">
           <template #content>
             {{ gateway ? gateway.metadata.generation : '' }}
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="租户">
+        <BaseListItemForDetail :title="$root.$t('resource.tenant')">
           <template #content>
             {{ gateway ? gateway.spec.tenant : '' }}
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="类型">
+        <BaseListItemForDetail :title="$root.$t('resource.type')">
           <template #content>
             {{
               gateway && gateway.spec && gateway.spec.type === 'LoadBalancer'
-                ? '外部负载均衡网关(LoadBalancer)'
-                : '常规集群网关(NodePort)'
+                ? $t('tip.loadbalancer')
+                : $t('tip.nodeport')
             }}
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="默认域名">
+        <BaseListItemForDetail :title="$t('tip.default_domain')">
           <template #content>
             {{ gateway ? gateway.spec.baseDomain : '' }}
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="工作负载附加标签">
+        <BaseListItemForDetail :title="$t('tip.extend_label')">
           <template #content>
             <BaseCollapseChips
               v-if="gateway"
@@ -70,26 +68,26 @@
     </v-card>
 
     <v-card class="mt-3" flat>
-      <BaseSubTitle class="pt-2" :divider="false" title="网关端口" />
+      <BaseSubTitle class="pt-2" :divider="false" :title="$t('tip.port')" />
       <v-simple-table class="mx-2 pa-2 pb-3">
         <template #default>
           <thead>
             <tr>
-              <th class="text-left">容器端口</th>
-              <th class="text-left">服务端口</th>
-              <th class="text-left">主机端口</th>
+              <th class="text-left">{{ $t('table.container_port') }}</th>
+              <th class="text-left">{{ $t('table.service_port') }}</th>
+              <th class="text-left">{{ $t('table.host_port') }}</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(item, index) in gateway ? gateway.status.ports : []" :key="index">
               <td>
                 <v-chip class="ma-1 font-weight-medium" color="success" small text-color="white">
-                  {{ item.targetPort }}｜{{ item.protocol }}
+                  {{ item.targetPort }} | {{ item.protocol }}
                 </v-chip>
               </td>
               <td>
                 <v-chip class="ma-1 font-weight-medium" color="success" small text-color="white">
-                  {{ item.port }}｜{{ item.protocol }}
+                  {{ item.port }} | {{ item.protocol }}
                 </v-chip>
               </td>
               <td>{{ item.nodePort }}</td>
@@ -100,7 +98,7 @@
     </v-card>
 
     <v-card class="mt-3" flat>
-      <BaseSubTitle class="pt-2" :divider="false" title="网关地址" />
+      <BaseSubTitle class="pt-2" :divider="false" :title="$t('tip.address')" />
       <v-flex class="pl-4 kubegems__text py-2 text-subtitle-1">HTTP</v-flex>
       <v-simple-table class="mx-2 pa-2 rounded">
         <template #default>
@@ -115,15 +113,15 @@
               <td :style="{ width: `45%` }">
                 <template v-if="item.Ready">
                   <v-icon color="primary" small> mdi-check-circle </v-icon>
-                  正常
+                  {{ $t('status.normal') }}
                 </template>
                 <template v-else>
                   <v-icon color="error" small> mdi-close-circle </v-icon>
-                  异常
+                  {{ $t('status.error') }}
                 </template>
               </td>
               <td :style="{ textAlign: `end` }">
-                <v-btn color="primary" text x-small @click="toAddress(item.Addr)"> 访问 </v-btn>
+                <v-btn color="primary" text x-small @click="toAddress(item.Addr)"> {{ $t('operate.access') }} </v-btn>
               </td>
             </tr>
           </tbody>
@@ -144,15 +142,15 @@
               <td :style="{ width: `45%` }">
                 <template v-if="item.Ready">
                   <v-icon color="primary" small> mdi-check-circle </v-icon>
-                  正常
+                  {{ $t('status.normal') }}
                 </template>
                 <template v-else>
                   <v-icon color="error" small> mdi-close-circle </v-icon>
-                  异常
+                  {{ $t('status.error') }}
                 </template>
               </td>
               <td :style="{ textAlign: `end` }">
-                <v-btn color="primary" text x-small @click="toAddress(item.Addr)"> 访问 </v-btn>
+                <v-btn color="primary" text x-small @click="toAddress(item.Addr)"> {{ $t('operate.access') }} </v-btn>
               </td>
             </tr>
           </tbody>
@@ -165,12 +163,16 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../i18n';
   import { getGatewayAddressList, getGatewayDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'ResourceInfo',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     props: {
       item: {

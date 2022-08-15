@@ -23,7 +23,7 @@
       hide-default-footer
       :items="items"
       :items-per-page="params.size"
-      no-data-text="暂无数据"
+      :no-data-text="$root.$t('data.no_data')"
       :page.sync="params.page"
     >
       <template #[`item.kind`]="{ item }">
@@ -48,10 +48,14 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../../../i18n';
   import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'DeployResult',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     props: {
       resource: {
@@ -61,13 +65,6 @@
     },
     data: () => ({
       items: [],
-      headers: [
-        { text: 'Kind', value: 'kind', align: 'start' },
-        { text: 'Namspace', value: 'namespace', align: 'start' },
-        { text: '名称', value: 'name', align: 'start' },
-        { text: '状态', value: 'status', align: 'start' },
-        { text: '消息', value: 'message', align: 'start', width: 350 },
-      ],
       params: {
         page: 1,
         size: 1000,
@@ -77,6 +74,15 @@
       ...mapState(['Scale']),
       height() {
         return parseInt((window.innerHeight - 64 - 45) / this.Scale);
+      },
+      headers() {
+        return [
+          { text: 'Kind', value: 'kind', align: 'start' },
+          { text: this.$root.$t('resource.namespace'), value: 'namespace', align: 'start' },
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
+          { text: this.$t('table.status'), value: 'status', align: 'start' },
+          { text: this.$t('table.message'), value: 'message', align: 'start', width: 350 },
+        ];
       },
     },
     watch: {

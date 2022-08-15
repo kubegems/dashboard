@@ -30,15 +30,15 @@
                   <a @click="clusterDetail(item)">{{ item.ClusterName }}</a>
                 </v-list-item-title>
                 <v-list-item-subtitle>
-                  <span class="text-body-2"> Kubernetes版本： </span>
+                  <span class="text-body-2"> {{ $t('table.kubernetes_version') }} : </span>
                   {{ item.Version === '' ? '-' : item.Version }}
                 </v-list-item-subtitle>
                 <v-list-item-subtitle>
-                  <span class="text-body-2"> APIServer： </span>
+                  <span class="text-body-2"> APIServer : </span>
                   {{ item.APIServer === '' ? '-' : item.APIServer }}
                 </v-list-item-subtitle>
                 <v-list-item-subtitle>
-                  <span class="text-body-2"> 状态： </span>
+                  <span class="text-body-2"> {{ $t('table.status') }} : </span>
                   <template v-if="!item.Status">
                     <v-progress-circular color="warning" indeterminate size="16" width="3" />
                   </template>
@@ -50,14 +50,20 @@
 
             <v-card-actions>
               <v-spacer />
-              <v-btn color="primary" :disabled="!item.Status" small text @click="clusterDetail(item)"> 详情 </v-btn>
-              <v-btn color="primary" :disabled="!item.Status" small text @click="updateCluster(item)"> 编辑 </v-btn>
-              <v-btn color="error" small text @click="removeCluster(item)"> 删除 </v-btn>
+              <v-btn color="primary" :disabled="!item.Status" small text @click="clusterDetail(item)">
+                {{ $root.$t('operate.detail') }}
+              </v-btn>
+              <v-btn color="primary" :disabled="!item.Status" small text @click="updateCluster(item)">
+                {{ $root.$t('operate.edit') }}
+              </v-btn>
+              <v-btn color="error" small text @click="removeCluster(item)"> {{ $root.$t('operate.delete') }} </v-btn>
               <v-btn color="primary" :disabled="!item.Status" small text @click="kuberCtl(item)"> Kubectl </v-btn>
             </v-card-actions>
 
             <v-flex v-if="item.Primary" class="cluster__watermark-bg" />
-            <v-flex v-if="item.Primary" class="cluster__watermark font-weight-medium"> 控制集群 </v-flex>
+            <v-flex v-if="item.Primary" class="cluster__watermark font-weight-medium">
+              {{ $t('tip.control_cluster') }}
+            </v-flex>
           </v-card>
         </v-hover>
       </v-col>
@@ -68,7 +74,7 @@
               <v-list-item-content>
                 <v-btn block class="text-h6" color="primary" text @click="addCluster">
                   <v-icon left>mdi-plus-box</v-icon>
-                  添加集群
+                  {{ $root.$t('operate.add_c', [$root.$t('resource.cluster')]) }}
                 </v-btn>
               </v-list-item-content>
             </v-list-item>
@@ -88,6 +94,7 @@
 
   import AddCluster from './components/AddCluster';
   import UpdateCluster from './components/UpdateCluster';
+  import messages from './i18n';
   import { deleteCluster, getClusterList, getClusterStatus } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
@@ -95,6 +102,9 @@
 
   export default {
     name: 'Cluster',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddCluster,
       Terminal,
@@ -179,9 +189,9 @@
       },
       removeCluster(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除集群`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.cluster')]),
           content: {
-            text: `删除集群 ${item.ClusterName}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.cluster')])} ${item.ClusterName}`,
             type: 'delete',
             name: item.ClusterName,
           },

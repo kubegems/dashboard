@@ -31,7 +31,7 @@
             <h6 class="card-subtitle white--text text-subtitle-1 font-weight-regular mb-2">
               {{ cluster && cluster.Version ? cluster.Version : '' }}
             </h6>
-            <span class="texture-left pa-1 text-caption">证书有效期:</span>
+            <span class="texture-left pa-1 text-caption"> {{ $t('tip.cert_expired') }} : </span>
             <span class="texture-right pa-1 text-caption">{{
               certInfo && certInfo.ExpiredAt ? $moment(certInfo.ExpiredAt).format('YYYY/MM/DD h:mm') : ''
             }}</span>
@@ -41,7 +41,7 @@
               class="pa-4 float-right"
               :extend-height="100"
               :metrics="apiServerSuccessRate"
-              title="API请求成功率"
+              :title="$t('tip.api_success_rate')"
               type=""
               :width="65"
             />
@@ -55,8 +55,12 @@
             </v-icon>
             <Tips
               v-else
-              :item="etcd && etcd.conditions && etcd.conditions[0].message ? etcd.conditions[0].message : ['未知']"
-              title="原因"
+              :item="
+                etcd && etcd.conditions && etcd.conditions[0].message
+                  ? etcd.conditions[0].message
+                  : [$root.$t('data.unknown')]
+              "
+              :title="$t('tip.reason')"
             >
               <template #default="scopeData">
                 <v-icon class="mt-1" color="error" small v-on="scopeData.on"> mdi-heart-broken </v-icon>
@@ -77,9 +81,9 @@
               :item="
                 scheduler && scheduler.conditions && scheduler.conditions[0].message
                   ? scheduler.conditions[0].message
-                  : ['未知']
+                  : [$root.$t('data.unknown')]
               "
-              title="原因"
+              :title="$t('tip.reason')"
             >
               <template #default="scopeData">
                 <v-icon class="mt-1" color="error" small v-on="scopeData.on"> mdi-heart-broken </v-icon>
@@ -100,9 +104,9 @@
               :item="
                 apiserver && apiserver.conditions && apiserver.conditions[0].message
                   ? apiserver.conditions[0].message
-                  : ['未知']
+                  : [$root.$t('data.unknown')]
               "
-              title="原因"
+              :title="$t('tip.reason')"
             >
               <template #default="scopeData">
                 <v-icon class="mt-1" color="error" small v-on="scopeData.on"> mdi-heart-broken </v-icon>
@@ -123,9 +127,9 @@
               :item="
                 controller && controller.conditions && controller.conditions[0].message
                   ? controller.conditions[0].message
-                  : ['未知']
+                  : [$root.$t('data.unknown')]
               "
-              title="原因"
+              :title="$t('tip.reason')"
             >
               <template #default="scopeData">
                 <v-icon class="mt-1" color="error" small v-on="scopeData.on"> mdi-heart-broken </v-icon>
@@ -141,6 +145,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import SampleAreaChart from './SampleAreaChart';
   import Tips from './Tips';
   import { getClusterCertInfo, getClusterComponentStatus } from '@/api';
@@ -150,6 +155,9 @@
 
   export default {
     name: 'BasicMonitor',
+    i18n: {
+      messages: messages,
+    },
     components: {
       SampleAreaChart,
       Tips,

@@ -46,7 +46,7 @@
 
     <div v-if="tke || nvidia" class="mb-2 text-center">
       <v-btn color="primary" small text @click="showMore = !showMore">
-        {{ showMore ? '折叠GPU' : '显示GPU' }}
+        {{ showMore ? `${t('tip.hide')}GPU` : `${t('tip.show')}GPU` }}
       </v-btn>
     </div>
   </div>
@@ -55,10 +55,14 @@
 <script>
   import VueApexCharts from 'vue-apexcharts';
 
+  import messages from '../../i18n';
   import { generateRadialBarChartOptions } from '@/utils/chart';
 
   export default {
     name: 'ResourceChart',
+    i18n: {
+      messages: messages,
+    },
     components: {
       VueApexCharts,
     },
@@ -97,7 +101,12 @@
           : [0];
       },
       cpuOptions() {
-        return generateRadialBarChartOptions('CPU', ['CPU'], this.statistics ? this.statistics.Cpu : 0, 'core');
+        return generateRadialBarChartOptions(
+          this.$root.$t('resource.cpu'),
+          [this.$root.$t('resource.cpu')],
+          this.statistics ? this.statistics.Cpu : 0,
+          'core',
+        );
       },
       memorySeries() {
         return this.statistics
@@ -107,7 +116,12 @@
           : [0];
       },
       memoryOptions() {
-        return generateRadialBarChartOptions('内存', ['内存'], this.statistics ? this.statistics.Memory : 0, 'Gi');
+        return generateRadialBarChartOptions(
+          this.$root.$t('resource.memory'),
+          [this.$root.$t('resource.memory')],
+          this.statistics ? this.statistics.Memory : 0,
+          'Gi',
+        );
       },
       storageSeries() {
         return this.statistics
@@ -117,7 +131,12 @@
           : [0];
       },
       storageOptions() {
-        return generateRadialBarChartOptions('存储', ['存储'], this.statistics ? this.statistics.Storage : 0, 'Gi');
+        return generateRadialBarChartOptions(
+          this.$root.$t('resource.storage'),
+          [this.$root.$t('resource.storage')],
+          this.statistics ? this.statistics.Storage : 0,
+          'Gi',
+        );
       },
       podSeries() {
         return this.statistics
@@ -127,7 +146,12 @@
           : [0];
       },
       podOptions() {
-        return generateRadialBarChartOptions('容器组', ['容器组'], this.statistics ? this.statistics.Pod : 0, '');
+        return generateRadialBarChartOptions(
+          this.$root.$t('resource.pod'),
+          [this.$root.$t('resource.pod')],
+          this.statistics ? this.statistics.Pod : 0,
+          '',
+        );
       },
 
       nvidiaGpuSeries() {
@@ -139,8 +163,8 @@
       },
       nvidiaGpuOptions() {
         return generateRadialBarChartOptions(
-          'Nvidia CPU',
-          ['Nvidia CPU'],
+          `Nvidia ${this.$root.$t('resource.gpu')}`,
+          [`Nvidia ${this.$root.$t('resource.gpu')}`],
           this.statistics ? this.statistics.NvidiaGpu : 0,
           'gpu',
         );
@@ -154,7 +178,12 @@
           : [0];
       },
       tkeGpuOptions() {
-        return generateRadialBarChartOptions('Tke CPU', ['Tke CPU'], this.statistics ? this.statistics.TkeGpu : 0, '');
+        return generateRadialBarChartOptions(
+          `Tke ${this.$root.$t('resource.gpu')}`,
+          [`Tke ${this.$root.$t('resource.gpu')}`],
+          this.statistics ? this.statistics.TkeGpu : 0,
+          '',
+        );
       },
 
       tkeMemorySeries() {
@@ -166,8 +195,8 @@
       },
       tkeMemoryOptions() {
         return generateRadialBarChartOptions(
-          'Tke显存',
-          ['Tke显存'],
+          `Tke ${this.$root.$t('resource.video_memory')}`,
+          [`Tke ${this.$root.$t('resource.video_memory')}`],
           this.statistics ? this.statistics.TkeMemory : 0,
           '',
         );

@@ -20,7 +20,7 @@
       <v-col class="pb-0 pt-6" cols="3">
         <v-text-field
           v-model="obj.ResourceQuota['limits.cpu']"
-          label="CPU限制值"
+          :label="$t('tip.limit_value', [$root.$t('resource.cpu')])"
           :rules="resourceQuotaRules['limits.cpu']"
           type="number"
         >
@@ -32,7 +32,7 @@
       <v-col class="pb-0 pt-6" cols="3">
         <v-text-field
           v-model="obj.ResourceQuota['limits.memory']"
-          label="内存限制值"
+          :label="$t('tip.limit_value', [$root.$t('resource.memory')])"
           :rules="resourceQuotaRules['limits.memory']"
           type="number"
         >
@@ -44,7 +44,7 @@
       <v-col class="pb-0 pt-6" cols="3">
         <v-text-field
           v-model="obj.ResourceQuota['requests.storage']"
-          label="存储限制值"
+          :label="$t('tip.limit_value', [$root.$t('resource.storage')])"
           :rules="resourceQuotaRules['requests.storage']"
           type="number"
         >
@@ -56,7 +56,7 @@
       <v-col class="pb-0 pt-6" cols="3">
         <v-text-field
           v-model="obj.ResourceQuota['count/pods']"
-          label="容器组限制值"
+          :label="$t('tip.limit_value', [$root.$t('resource.pod')])"
           :rules="resourceQuotaRules['count/pods']"
           type="number"
         >
@@ -69,7 +69,7 @@
       <v-col v-if="nvidia" class="py-0" cols="3">
         <v-text-field
           v-model="obj.ResourceQuota['limits.nvidia.com/gpu']"
-          label="Nvidia Gpu限制值"
+          :label="`Nvidia ${$t('tip.limit_value', [$root.$t('resource.gpu')])}`"
           :rules="resourceQuotaRules['limits.nvidia.com/gpu']"
           type="number"
         >
@@ -83,7 +83,7 @@
         <v-col class="py-0" cols="3">
           <v-text-field
             v-model="obj.ResourceQuota['tencent.com/vcuda-core']"
-            label="Tke Gpu限制值"
+            :label="`Tke ${$t('tip.limit_value', [$root.$t('resource.gpu')])}`"
             :rules="resourceQuotaRules['tencent.com/vcuda-core']"
             type="number"
           >
@@ -98,7 +98,7 @@
         <v-col class="py-0" cols="3">
           <v-text-field
             v-model="obj.ResourceQuota['tencent.com/vcuda-memory']"
-            label="Tke显存限制值"
+            :label="`Tke ${$t('tip.limit_value', [$root.$t('resource.video_memory')])}`"
             :rules="resourceQuotaRules['tencent.com/vcuda-memory']"
             type="number"
           >
@@ -115,11 +115,15 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
   import { deepCopy, sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
   import { positiveInteger } from '@/utils/rules';
 
   export default {
     name: 'ResourceQuota',
+    i18n: {
+      messages: messages,
+    },
     props: {
       data: {
         type: Object,
@@ -187,45 +191,47 @@
       resourceQuotaRules() {
         return {
           'limits.cpu': [
-            (v) => parseFloat(v) > 0 || '低于最小值限制',
+            (v) => parseFloat(v) > 0 || this.$t('form.limit_min_rule'),
             positiveInteger,
-            (v) => parseFloat(v) <= this.apply.ApplyCpu + this.now['limits.cpu'] || '最大值超出可用资源',
+            (v) => parseFloat(v) <= this.apply.ApplyCpu + this.now['limits.cpu'] || this.$t('form.limit_max_rule'),
           ],
           'limits.memory': [
-            (v) => parseFloat(v) > 0 || '低于最小值限制',
+            (v) => parseFloat(v) > 0 || this.$t('form.limit_min_rule'),
             positiveInteger,
-            (v) => parseFloat(v) <= this.apply.ApplyMemory + this.now['limits.memory'] || '最大值超出可用资源',
+            (v) =>
+              parseFloat(v) <= this.apply.ApplyMemory + this.now['limits.memory'] || this.$t('form.limit_max_rule'),
           ],
           'requests.storage': [
-            (v) => parseFloat(v) > 0 || '低于最小值限制',
+            (v) => parseFloat(v) > 0 || this.$t('form.limit_min_rule'),
             positiveInteger,
-            (v) => parseFloat(v) <= this.apply.ApplyStorage + this.now['requests.storage'] || '最大值超出可用资源',
+            (v) =>
+              parseFloat(v) <= this.apply.ApplyStorage + this.now['requests.storage'] || this.$t('form.limit_max_rule'),
           ],
           'count/pods': [
-            (v) => parseFloat(v) > 0 || '低于最小值限制',
+            (v) => parseFloat(v) > 0 || this.$t('form.limit_min_rule'),
             positiveInteger,
             (v) =>
               parseFloat(v) <=
                 this.apply.ApplyPod + (this.now['count/pods'] ? parseInt(this.now['count/pods']) : 5120) ||
-              '最大值超出可用资源',
+              this.$t('form.limit_max_rule'),
           ],
           'limits.nvidia.com/gpu': [
             positiveInteger,
             (v) =>
               parseFloat(v) <= this.apply.ApplyNvidiaGpu + (this.now['limits.nvidia.com/gpu'] || 0) ||
-              '最大值超出可用资源',
+              this.$t('form.limit_max_rule'),
           ],
           'tencent.com/vcuda-core': [
             positiveInteger,
             (v) =>
               parseFloat(v) <= this.apply.ApplyTkeGpu + (this.now['tencent.com/vcuda-core'] || 0) ||
-              '最大值超出可用资源',
+              this.$t('form.limit_max_rule'),
           ],
           'tencent.com/vcuda-memory': [
             positiveInteger,
             (v) =>
               parseFloat(v) <= this.apply.ApplyTkeMemory + (this.now['tencent.com/vcuda-memory'] || 0) ||
-              '最大值超出可用资源',
+              this.$t('form.limit_max_rule'),
           ],
         };
       },

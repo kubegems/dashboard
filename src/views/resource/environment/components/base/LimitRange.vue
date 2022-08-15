@@ -20,13 +20,13 @@
       <v-card v-show="expand" class="mb-2 pa-2 kubegems__expand-transition" :elevation="4" flat>
         <v-sheet class="pt-4 px-2">
           <v-flex class="float-left text-body-2 py-2 primary--text font-weight-medium kubegems__min-width">
-            <span>容器CPU</span>
+            <span>{{ $root.$t('resource.cpu_c', [$root.$t('resource.container')]) }}</span>
           </v-flex>
           <v-flex class="float-left ml-2">
             <v-text-field
               v-model="obj.LimitRange.Container.default.cpu"
               class="mt-0 pt-0"
-              label="默认值"
+              :label="$t('tip.default')"
               :rules="objRules.container.cpuDefaultMinRule"
               :style="{ width: `120px` }"
             />
@@ -35,7 +35,7 @@
             <v-text-field
               v-model="obj.LimitRange.Container.defaultRequest.cpu"
               class="mt-0 pt-0"
-              label="默认请求值"
+              :label="$t('tip.default_reauest')"
               :rules="objRules.container.cpuDefaultRequestMinRule"
               :style="{ width: `120px` }"
             />
@@ -44,7 +44,7 @@
             <v-text-field
               v-model="obj.LimitRange.Container.max.cpu"
               class="mt-0 pt-0"
-              label="限制值"
+              :label="$t('tip.limit')"
               :rules="objRules.container.cpuMaxRule"
               :style="{ width: `120px` }"
             />
@@ -54,13 +54,13 @@
 
         <v-sheet class="pt-0 px-2">
           <v-flex class="float-left text-body-2 py-2 primary--text font-weight-medium kubegems__min-width">
-            <span>容器内存</span>
+            <span>{{ $root.$t('resource.memory_c', [$root.$t('resource.container')]) }}</span>
           </v-flex>
           <v-flex class="float-left ml-2">
             <v-text-field
               v-model="obj.LimitRange.Container.default.memory"
               class="mt-0 pt-0"
-              label="默认值"
+              :label="$t('tip.default')"
               :rules="objRules.container.memoryDefaultRule"
               :style="{ width: `120px` }"
             />
@@ -69,7 +69,7 @@
             <v-text-field
               v-model="obj.LimitRange.Container.defaultRequest.memory"
               class="mt-0 pt-0"
-              label="默认请求值"
+              :label="$t('tip.default_reauest')"
               :rules="objRules.container.memoryDefaultRequestRule"
               :style="{ width: `120px` }"
             />
@@ -78,7 +78,7 @@
             <v-text-field
               v-model="obj.LimitRange.Container.max.memory"
               class="mt-0 pt-0"
-              label="限制值"
+              :label="$t('tip.limit')"
               :rules="objRules.container.memoryMaxRule"
               :style="{ width: `120px` }"
             />
@@ -88,13 +88,13 @@
 
         <v-sheet class="pt-0 px-2">
           <v-flex class="float-left text-body-2 py-2 primary--text font-weight-medium kubegems__min-width">
-            <span>容器组CPU</span>
+            <span>{{ $root.$t('resource.cpu_c', [$root.$t('resource.pod')]) }}</span>
           </v-flex>
           <v-flex class="float-left ml-2">
             <v-text-field
               v-model="obj.LimitRange.Pod.max.cpu"
               class="mt-0 pt-0"
-              label="限制值"
+              :label="$t('tip.limit')"
               :rules="objRules.pod.cpuMaxRule"
               :style="{ width: `120px` }"
             />
@@ -105,13 +105,13 @@
         <v-sheet class="pt-0 px-2">
           <v-flex class="float-left">
             <v-flex class="float-left text-body-2 py-2 primary--text font-weight-medium kubegems__min-width">
-              <span>容器组内存</span>
+              <span>{{ $root.$t('resource.memory_c', [$root.$t('resource.pod')]) }}</span>
             </v-flex>
             <v-flex class="float-left ml-2">
               <v-text-field
                 v-model="obj.LimitRange.Pod.max.memory"
                 class="mt-0 pt-0"
-                label="限制值"
+                :label="$t('tip.limit')"
                 :rules="objRules.pod.memoryMaxRule"
                 :style="{ width: `120px` }"
               />
@@ -125,13 +125,13 @@
 
         <v-sheet class="pt-0 px-2">
           <v-flex class="float-left text-body-2 py-2 primary--text font-weight-medium kubegems__min-width">
-            <span>存储卷容量</span>
+            <span>{{ $t('tip.storage_capacity') }}</span>
           </v-flex>
           <v-flex class="float-left ml-2">
             <v-text-field
               v-model="obj.LimitRange.PersistentVolumeClaim.max.storage"
               class="mt-0 pt-0"
-              label="限制值"
+              :label="$t('tip.limit')"
               :rules="objRules.persistentVolumeClaim.storageMaxRule"
               :style="{ width: `120px` }"
             />
@@ -140,8 +140,8 @@
         </v-sheet>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
-          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> {{ $root.$('operate.cancel') }} </v-btn>
+          <v-btn color="primary" small text @click="addData"> {{ $root.$('operate.save') }} </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -149,10 +149,14 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
   import { deepCopy, sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
 
   export default {
     name: 'LimitRange',
+    i18n: {
+      messages: messages,
+    },
     props: {
       data: {
         type: Object,
@@ -207,38 +211,45 @@
       objRules() {
         return {
           container: {
-            cpuDefaultMinRule: [(v) => !!new RegExp('^\\d+[m]?$').test(v) || '格式错误(示例:1m,1)'],
-            cpuDefaultRequestMinRule: [(v) => !!new RegExp('^\\d+[m]?$').test(v) || '格式错误(示例:1m,1)'],
+            cpuDefaultMinRule: [(v) => !!new RegExp('^\\d+[m]?$').test(v) || this.$t('form.cpu_format_rule')],
+            cpuDefaultRequestMinRule: [(v) => !!new RegExp('^\\d+[m]?$').test(v) || this.$t('form.cpu_format_rule')],
             cpuMaxRule: [
-              (v) => !!new RegExp('^\\d+[m]?$').test(v) || '格式错误(示例:1m,1)',
+              (v) => !!new RegExp('^\\d+[m]?$').test(v) || this.$t('form.cpu_format_rule'),
               (v) =>
-                sizeOfCpu(v) >= sizeOfCpu(this.obj.LimitRange.Container.defaultRequest.cpu) || 'Limits小于Requests',
+                sizeOfCpu(v) >= sizeOfCpu(this.obj.LimitRange.Container.defaultRequest.cpu) ||
+                this.$t('form.limit_request_rule'),
             ],
-            memoryDefaultRule: [(v) => !!new RegExp('(^\\d+[M|G]i$)|(^0$)').test(v) || '格式错误(示例:1Mi,1Gi)'],
-            memoryDefaultRequestRule: [(v) => !!new RegExp('(^\\d+[M|G]i$)|(^0$)').test(v) || '格式错误(示例:1Mi,1Gi)'],
+            memoryDefaultRule: [
+              (v) => !!new RegExp('(^\\d+[M|G]i$)|(^0$)').test(v) || this.$t('form.memory_format_rule'),
+            ],
+            memoryDefaultRequestRule: [
+              (v) => !!new RegExp('(^\\d+[M|G]i$)|(^0$)').test(v) || this.$t('form.memory_format_rule'),
+            ],
             memoryMaxRule: [
-              (v) => !!new RegExp('(^\\d+[M|G]i$)|(^0$)').test(v) || '格式错误(示例:1Mi,1Gi)',
+              (v) => !!new RegExp('(^\\d+[M|G]i$)|(^0$)').test(v) || this.$t('form.memory_format_rule'),
               (v) =>
                 sizeOfStorage(v) >= sizeOfStorage(this.obj.LimitRange.Container.defaultRequest.memory) ||
-                'Limits小于Requests',
+                this.$t('form.limit_request_rule'),
             ],
           },
           pod: {
             cpuMaxRule: [
-              (v) => !!new RegExp('^\\d+[m]?$').test(v) || '格式错误(示例:1m,1)',
-              (v) => sizeOfCpu(v) >= sizeOfCpu(this.obj.LimitRange.Pod.min.cpu) || 'Limits小于Requests',
+              (v) => !!new RegExp('^\\d+[m]?$').test(v) || this.$t('form.cpu_format_rule'),
+              (v) => sizeOfCpu(v) >= sizeOfCpu(this.obj.LimitRange.Pod.min.cpu) || this.$t('form.limit_request_rule'),
             ],
             memoryMaxRule: [
-              (v) => !!new RegExp('(^\\d+[M|G]i$)|(^0$)').test(v) || '格式错误(示例:1Mi,1Gi)',
-              (v) => sizeOfStorage(v) >= sizeOfStorage(this.obj.LimitRange.Pod.min.memory) || 'Limits小于Requests',
+              (v) => !!new RegExp('(^\\d+[M|G]i$)|(^0$)').test(v) || this.$t('form.memory_format_rule'),
+              (v) =>
+                sizeOfStorage(v) >= sizeOfStorage(this.obj.LimitRange.Pod.min.memory) ||
+                this.$t('form.limit_request_rule'),
             ],
           },
           persistentVolumeClaim: {
             storageMaxRule: [
-              (v) => !!new RegExp('(^\\d+[K|M|G|T]i$)|(^0$)').test(v) || '格式错误(示例:1Ki,1Mi,1Gi,1Ti)',
+              (v) => !!new RegExp('(^\\d+[K|M|G|T]i$)|(^0$)').test(v) || this.$t('form.storage_format_rule'),
               (v) =>
                 sizeOfStorage(v) >= sizeOfStorage(this.obj.LimitRange.PersistentVolumeClaim.min.storage) ||
-                'Limits小于Requests',
+                this.$t('form.limit_request_rule'),
             ],
           },
         };

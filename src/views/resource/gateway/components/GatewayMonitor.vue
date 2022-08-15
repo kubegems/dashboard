@@ -32,7 +32,13 @@
           <BaseApexAreaChart id="qps" label="host" :metrics="qps" title="QPS" type="" />
         </v-col>
         <v-col cols="6">
-          <BaseApexAreaChart id="connection" label="state" :metrics="connections" title="连接数" type="" />
+          <BaseApexAreaChart
+            id="connection"
+            label="state"
+            :metrics="connections"
+            :title="$t('tip.connect_count')"
+            type=""
+          />
         </v-col>
       </v-row>
     </v-card-text>
@@ -42,12 +48,16 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import { GATEWAY_CONNECTIONS_PROMQL, GATEWAY_QPS_PROMQL } from '@/utils/prometheus';
 
   export default {
     name: 'GatewayMonitor',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BasePermission, BaseResource],
     props: {
       item: {

@@ -21,7 +21,7 @@
         <v-flex class="kubegems__full-right">
           <v-btn color="primary" small text @click="overScaleResource">
             <v-icon left small> mdi-scale </v-icon>
-            资源超分
+            {{ $t('tip.resource_oversold') }}
           </v-btn>
           <BaseDatetimePicker v-model="date" :default-value="30" @change="onDatetimeChange(undefined)" />
           <v-menu left>
@@ -36,10 +36,10 @@
                   <v-btn color="primary" small text @click="kuberCtl"> Kubectl </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="primary" small text @click="updateCluster"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateCluster"> {{ $root.$t('operate.edit') }} </v-btn>
                 </v-flex>
                 <v-flex v-if="cluster && !cluster.Primary">
-                  <v-btn color="error" small text @click="removeCluster"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeCluster"> {{ $root.$t('operate.delete') }} </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -88,6 +88,7 @@
   import ResourceChart from './components/ResourceChart';
   import ResourceInfo from './components/ResourceInfo';
   import UpdateCluster from './components/UpdateCluster';
+  import messages from './i18n';
   import { deleteCluster, getClusterDetail, getClusterQuota } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -97,6 +98,9 @@
 
   export default {
     name: 'ClusterDetail',
+    i18n: {
+      messages: messages,
+    },
     components: {
       BasicMonitor,
       MetricMonitor,
@@ -170,7 +174,7 @@
           this.quota = data.resources;
           this.workload = data.workloads;
           this.resources = Object.keys(this.workload).filter((i) => {
-            return this.$RESOURCE_CN[i] !== undefined && this.$RESOURCE_CN[i] !== '节点';
+            return this.$RESOURCE_CN[i] !== undefined && this.$RESOURCE_CN[i] !== this.$root.$t('resource.node');
           });
         }
       },
@@ -185,9 +189,9 @@
       removeCluster() {
         const item = this.cluster;
         this.$store.commit('SET_CONFIRM', {
-          title: `删除集群`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.cluster')]),
           content: {
-            text: `删除集群 ${item.ClusterName}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.cluster')])} ${item.ClusterName}`,
             type: 'delete',
             name: item.ClusterName,
           },

@@ -16,7 +16,7 @@
 
 <template>
   <v-card>
-    <BaseSubTitle class="pt-2" :divider="false" title="过去一天资源使用排名">
+    <BaseSubTitle class="pt-2" :divider="false" :title="$t('tip.last_day_resource_used')">
       <template #selector>
         <v-sheet class="text-body-2 text--darken-1">
           <v-menu
@@ -35,17 +35,20 @@
                 <v-icon v-else right> mdi-chevron-down </v-icon>
               </v-btn>
             </template>
-            <v-data-iterator hide-default-footer :items="[{ text: '排序', values: environmentPodUsageSelect }]">
+            <v-data-iterator
+              hide-default-footer
+              :items="[{ text: $t('tip.resource_used'), values: environmentPodUsageSelect }]"
+            >
               <template #no-data>
                 <v-card>
-                  <v-card-text> 暂无资源 </v-card-text>
+                  <v-card-text> {{ $root.$t('data.no_data') }} </v-card-text>
                 </v-card>
               </template>
               <template #default="props">
                 <v-card v-for="item in props.items" :key="item.text" flat>
                   <v-list dense>
                     <v-flex class="text-subtitle-2 text-center ma-2">
-                      <span>资源使用</span>
+                      <span>{{ $t('tip.resource_used') }}</span>
                     </v-flex>
                     <v-divider class="mx-2" />
                     <v-list-item
@@ -71,13 +74,11 @@
     <v-card-text>
       <template v-if="Plugins && Plugins['monitoring']">
         <v-flex v-if="topN.length === 0" class="text-body-2" :style="{ position: 'relative', height: '400px' }">
-          <span class="kubegems__full-center kubegems__text"> 暂无数据 </span>
+          <span class="kubegems__full-center kubegems__text"> {{ $root.$t('data.no_data') }} </span>
         </v-flex>
         <v-flex v-for="(item, index) in topN" :key="index" class="text-body-2 mt-3 mb-3">
-          <v-flex class="float-left" :style="{ width: `80%` }">
-            <v-btn class="elevation-0" color="success" dark fab x-small>
-              <v-icon small>mdi-cube</v-icon>
-            </v-btn>
+          <v-flex class="float-left resource__unit" :style="{ width: `80%` }">
+            <v-icon color="success" small>mdi-cube</v-icon>
             {{ item.metric.pod }}
           </v-flex>
           <span class="float-right text-body-2 primary--text font-weight-medium resource__unit">
@@ -94,7 +95,7 @@
       </template>
       <template v-else>
         <div class="text-body-2" :style="{ position: 'relative', height: '400px' }">
-          <span class="kubegems__full-center kubegems__text"> 插件monitoring未启用 </span>
+          <span class="kubegems__full-center kubegems__text"> {{ $root.$t('plugin.missing', ['monitoring']) }} </span>
         </div>
       </template>
     </v-card-text>
@@ -104,6 +105,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../i18n';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import { beautifyCpuUnit, beautifyStorageUnit, sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
@@ -116,18 +118,15 @@
 
   export default {
     name: 'TopNResourceUsage',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BasePermission, BaseResource],
     data() {
       return {
         topMenu: false,
         podUsageMode: 'cpuavg',
         topN: [],
-        environmentPodUsageSelect: [
-          { text: 'CPU平均使用量', value: 'cpuavg' },
-          { text: 'CPU最大使用量', value: 'cpumax' },
-          { text: '内存平均使用量', value: 'memoryavg' },
-          { text: '内存最大使用量', value: 'memorymax' },
-        ],
       };
     },
     computed: {
@@ -141,6 +140,14 @@
           return cn.text;
         }
         return '';
+      },
+      environmentPodUsageSelect() {
+        return [
+          { text: this.$t('tip.cpu_avg_used'), value: 'cpuavg' },
+          { text: this.$t('tip.cpu_max_used'), value: 'cpumax' },
+          { text: this.$t('tip.memory_avg_used'), value: 'memoryavg' },
+          { text: this.$t('tip.memory_max_used'), value: 'memorymax' },
+        ];
       },
     },
     mounted() {
@@ -184,7 +191,7 @@
 <style lang="scss" scoped>
   .resource {
     &__unit {
-      line-height: 32px;
+      line-height: 24px;
     }
   }
 </style>

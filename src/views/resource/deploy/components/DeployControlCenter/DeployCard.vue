@@ -24,9 +24,11 @@
               <v-icon>mdi-camera-timer</v-icon>
             </v-btn>
             <div class="ml-2 mr-1">
-              <v-flex class="text-body-2"> 实时速率: {{ requestsNow ? requestsNow : 0 }} </v-flex>
-              <v-flex class="text-body-2"> 过去24小时: {{ requestsSumOverTime ? requestsSumOverTime : 0 }} </v-flex>
-              <h5 class="text-subtitle-2 kubegems__text mt-2"> 总请求 </h5>
+              <v-flex class="text-body-2"> {{ $t('tip.realtime_rate') }} : {{ requestsNow ? requestsNow : 0 }} </v-flex>
+              <v-flex class="text-body-2">
+                {{ $t('tip.last_24_hours') }} : {{ requestsSumOverTime ? requestsSumOverTime : 0 }}
+              </v-flex>
+              <h5 class="text-subtitle-2 kubegems__text mt-2"> {{ $t('tip.total_request') }} </h5>
             </div>
           </div>
         </v-card-text>
@@ -40,9 +42,9 @@
               <v-icon>mdi-clock</v-icon>
             </v-btn>
             <div class="ml-2 mr-1">
-              <v-flex class="text-body-2"> p99: {{ avgresponsetimeP99 ? avgresponsetimeP99 : 0 }} ms </v-flex>
-              <v-flex class="text-body-2"> p95: {{ avgresponsetimeP95 ? avgresponsetimeP95 : 0 }} ms </v-flex>
-              <h5 class="text-subtitle-2 kubegems__text mt-2"> 响应时间 </h5>
+              <v-flex class="text-body-2"> p99 : {{ avgresponsetimeP99 ? avgresponsetimeP99 : 0 }} ms </v-flex>
+              <v-flex class="text-body-2"> p95 : {{ avgresponsetimeP95 ? avgresponsetimeP95 : 0 }} ms </v-flex>
+              <h5 class="text-subtitle-2 kubegems__text mt-2"> {{ $t('tip.response_time') }} </h5>
             </div>
           </div>
         </v-card-text>
@@ -56,12 +58,14 @@
               <v-icon>mdi-alarm-panel-outline</v-icon>
             </v-btn>
             <div class="ml-2 mr-1">
-              <v-flex class="text-body-2"> 实时: {{ errrequestsSum ? errrequestsSum : 0 }} </v-flex>
               <v-flex class="text-body-2">
-                过去24小时:
+                {{ $t('tip.realtime') }} : {{ errrequestsSum ? errrequestsSum : 0 }}
+              </v-flex>
+              <v-flex class="text-body-2">
+                {{ $t('tip.last_24_hours') }} :
                 {{ errrequestsSumOverTime ? errrequestsSumOverTime : 0 }}
               </v-flex>
-              <h5 class="text-subtitle-2 kubegems__text mt-2"> 异常请求数 </h5>
+              <h5 class="text-subtitle-2 kubegems__text mt-2"> {{ $t('tip.error_request_count') }} </h5>
             </div>
           </div>
         </v-card-text>
@@ -75,9 +79,9 @@
               <v-icon>mdi-earth</v-icon>
             </v-btn>
             <div class="ml-2 mr-1">
-              <v-flex class="text-body-2"> 入: {{ networkIngress ? networkIngress : 0 }} Kbps </v-flex>
-              <v-flex class="text-body-2"> 出: {{ networkEgress ? networkEgress : 0 }} Kbps </v-flex>
-              <h5 class="text-subtitle-2 kubegems__text mt-2">流量</h5>
+              <v-flex class="text-body-2"> {{ $t('tip.in') }} : {{ networkIngress ? networkIngress : 0 }} Kbps </v-flex>
+              <v-flex class="text-body-2"> {{ $t('tip.out') }} : {{ networkEgress ? networkEgress : 0 }} Kbps </v-flex>
+              <h5 class="text-subtitle-2 kubegems__text mt-2">{{ $t('tip.traffic') }}</h5>
             </div>
           </div>
         </v-card-text>
@@ -87,6 +91,7 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import {
@@ -102,6 +107,9 @@
 
   export default {
     name: 'DeployCard',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BasePermission, BaseResource],
     props: {
       status: {

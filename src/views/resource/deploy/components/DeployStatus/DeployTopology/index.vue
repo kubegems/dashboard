@@ -27,10 +27,10 @@
       <v-card>
         <v-card-text class="pa-2 text-center">
           <!-- <v-flex>
-            <v-btn color="primary" small text @click="syncResource"> 同步 </v-btn>
+            <v-btn color="primary" small text @click="syncResource"> {{ $root.$t('operate.sync') }} </v-btn>
           </v-flex> -->
           <v-flex>
-            <v-btn color="error" small text @click="removeResource"> 删除 </v-btn>
+            <v-btn color="error" small text @click="removeResource"> {{ $root.$t('operate.delete') }} </v-btn>
           </v-flex>
         </v-card-text>
       </v-card>
@@ -54,6 +54,7 @@
   import { VueOkrTree } from 'vue-okr-tree';
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../../i18n';
   import DeployLive from './DeployLive';
   import { deleteAppResource, getAppRunningResourceDetail, postSyncAppResource } from '@/api';
   import BaseResource from '@/mixins/resource';
@@ -62,6 +63,9 @@
 
   export default {
     name: 'DeployTopology',
+    i18n: {
+      messages: messages,
+    },
     components: {
       DeployLive,
       VueOkrTree,
@@ -185,9 +189,11 @@
       },
       syncResource() {
         this.$store.commit('SET_CONFIRM', {
-          title: '同步资源',
+          title: this.$root.$t('operate.sync_c', [this.$root.$t('resource.resource')]),
           content: {
-            text: `同步资源 ${this.data.kind}/${this.data.name}，该操作会导致服务重启`,
+            text: `${this.$root.$t('operate.sync_c', [this.$root.$t('resource.resource')])} ${this.data.kind}/${
+              this.data.name
+            }, ${this.$t('tip.restart_alert')}`,
             type: 'confirm',
           },
           param: {},
@@ -209,9 +215,11 @@
       },
       removeResource() {
         this.$store.commit('SET_CONFIRM', {
-          title: '删除资源',
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.resource')]),
           content: {
-            text: `删除资源 ${this.data.kind}/${this.data.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.resource')])} ${this.data.kind}/${
+              this.data.name
+            }`,
             type: 'delete',
             name: this.data.name,
           },

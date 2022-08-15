@@ -15,12 +15,20 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-gate" title="创建网关" :width="1000" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-gate"
+    :title="$root.$t('operate.update_c', [$root.$t('resource.gateway')])"
+    :width="1000"
+    @reset="reset"
+  >
     <template #content>
       <component :is="formComponent" :ref="formComponent" title="Gateway" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addGateway"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addGateway">
+        {{ $root.$t('confirm') }}
+      </v-btn>
     </template>
     <template #header-action>
       <v-switch

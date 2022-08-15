@@ -21,7 +21,7 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :default="{ items: [], text: '证书名称', value: 'search' }"
+          :default="{ items: [], text: $t('filter.cert_name'), value: 'search' }"
           :filters="filters"
           @refresh="m_filter_list"
         />
@@ -38,7 +38,11 @@
               <v-flex>
                 <v-btn color="primary" text @click="addCertificate">
                   <v-icon left>mdi-book-open</v-icon>
-                  {{ tab === 0 ? '创建证书' : '创建颁发机构' }}
+                  {{
+                    tab === 0
+                      ? $root.$t('operate.create_c', [$root.$t('resource.certificate')])
+                      : $root.$t('operate.create_c', [$root.$t('resource.issuer')])
+                  }}
                 </v-btn>
               </v-flex>
               <v-flex>
@@ -47,14 +51,18 @@
                   text
                   @click="
                     m_table_batchRemoveResource(
-                      tab === 0 ? '证书' : '颁发机构',
+                      tab === 0 ? $root.$t('resource.certificate') : $root.$t('resource.issuer'),
                       tab === 0 ? 'Certificate' : 'Issuer',
                       certificateList,
                     )
                   "
                 >
                   <v-icon left>mdi-minus-box</v-icon>
-                  {{ tab === 0 ? '删除证书' : '删除颁发机构' }}
+                  {{
+                    tab === 0
+                      ? $root.$t('operate.delete_c', [$root.$t('resource.certificate')])
+                      : $root.$t('operate.delete_c', [$root.$t('resource.issuer')])
+                  }}
                 </v-btn>
               </v-flex>
             </v-card-text>
@@ -73,7 +81,7 @@
           hide-default-footer
           :items="items"
           :items-per-page="params.size"
-          no-data-text="暂无数据"
+          :no-data-text="$root.$t('data.no_data')"
           :page.sync="params.page"
           show-select
           @toggle-select-all="m_table_onResourceToggleSelect"
@@ -141,10 +149,14 @@
               <v-card>
                 <v-card-text class="pa-2">
                   <v-flex>
-                    <v-btn color="primary" small text @click="updateCertificate(item)"> 编辑 </v-btn>
+                    <v-btn color="primary" small text @click="updateCertificate(item)">
+                      {{ $root.$t('operate.edit') }}
+                    </v-btn>
                   </v-flex>
                   <v-flex>
-                    <v-btn color="error" small text @click="removeCertificate(item)"> 删除 </v-btn>
+                    <v-btn color="error" small text @click="removeCertificate(item)">
+                      {{ $root.$t('operate.delete') }}
+                    </v-btn>
                   </v-flex>
                 </v-card-text>
               </v-card>
@@ -177,6 +189,7 @@
   import AddIssuer from './components/AddIssuer';
   import UpdateCertificate from './components/UpdateCertificate';
   import UpdateIssuer from './components/UpdateIssuer';
+  import messages from './i18n';
   import { deleteCertificate, deleteIssuer, getCertificateList, getIssuerList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -187,6 +200,9 @@
 
   export default {
     name: 'CertificateList',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddCertificate,
       AddIssuer,
@@ -199,7 +215,7 @@
     data() {
       this.tabMap = {
         certificate: 0,
-        issue: 1,
+        issuer: 1,
       };
 
       return {
@@ -209,12 +225,7 @@
           page: 1,
           size: 10,
         },
-        filters: [{ text: '名称', value: 'search', items: [] }],
         tab: this.tabMap[this.$route.query.tab] || 0,
-        tabItems: [
-          { text: '证书', value: 'Certificate', tab: 'certificate' },
-          { text: '颁发机构', value: 'Issue', tab: 'issue' },
-        ],
       };
     },
     computed: {
@@ -223,22 +234,22 @@
         let items = [];
         if (this.tab === 0) {
           items = [
-            { text: '证书名', value: 'name', align: 'start' },
-            { text: '颁发者', value: 'issuer', align: 'start', sortable: false },
-            { text: '状态', value: 'status', align: 'start', sortable: false },
+            { text: this.$t('table.name'), value: 'name', align: 'start' },
+            { text: this.$t('table.issuer'), value: 'issuer', align: 'start', sortable: false },
+            { text: this.$t('table.status'), value: 'status', align: 'start', sortable: false },
             {
-              text: '到期时间',
+              text: this.$t('table.expire_at'),
               value: 'expireAt',
               align: 'start',
               sortable: false,
             },
             {
-              text: '自动续签时间',
+              text: this.$t('table.renew_at'),
               value: 'renewalTime',
               align: 'start',
               sortable: false,
             },
-            { text: '创建时间', value: 'createAt', align: 'start', width: 180 },
+            { text: this.$root.$t('resource.create_at'), value: 'createAt', align: 'start', width: 180 },
           ];
           if (this.m_permisson_resourceAllow) {
             items.push({
@@ -251,9 +262,9 @@
           }
         } else {
           items = [
-            { text: '机构名称', value: 'name', align: 'start' },
+            { text: this.$t('table.name'), value: 'name', align: 'start' },
             {
-              text: '颁发机构类型',
+              text: this.$t('table.issuer_type'),
               value: 'issuerMechanism',
               align: 'start',
               sortable: false,
@@ -264,7 +275,7 @@
               align: 'start',
               sortable: false,
             },
-            { text: '创建时间', value: 'createAt', align: 'start', width: 180 },
+            { text: this.$root.$t('resource.create_at'), value: 'createAt', align: 'start', width: 180 },
           ];
           if (this.m_permisson_resourceAllow) {
             items.push({
@@ -278,13 +289,22 @@
         }
         if (this.AdminViewport) {
           items.splice(1, 0, {
-            text: '命名空间',
+            text: this.$root.$t('resource.namespace'),
             value: 'namespace',
             align: 'start',
             sortable: false,
           });
         }
         return items;
+      },
+      filters() {
+        return [{ text: this.$t('filter.cert_name'), value: 'search', items: [] }];
+      },
+      tabItems() {
+        return [
+          { text: this.$root.$t('resource.certificate'), value: 'Certificate', tab: 'certificate' },
+          { text: this.$root.$t('resource.issuer'), value: 'Issuer', tab: 'issuer' },
+        ];
       },
     },
     watch: {
@@ -312,7 +332,7 @@
         this.$nextTick(() => {
           if (this.ThisCluster === '') {
             this.$store.commit('SET_SNACKBAR', {
-              text: `请创建或选择集群`,
+              text: this.$root.$t('tip.select_cluster'),
               color: 'warning',
             });
             return;
@@ -385,9 +405,11 @@
       removeCertificate(item) {
         if (this.tab === 0) {
           this.$store.commit('SET_CONFIRM', {
-            title: `删除证书`,
+            title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.certificate')]),
             content: {
-              text: `删除证书 ${item.metadata.name}`,
+              text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.certificate')])} ${
+                item.metadata.name
+              }`,
               type: 'delete',
               name: item.metadata.name,
             },
@@ -401,9 +423,9 @@
           });
         } else {
           this.$store.commit('SET_CONFIRM', {
-            title: `删除颁发机构`,
+            title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.issuer')]),
             content: {
-              text: `删除颁发机构 ${item.metadata.name}`,
+              text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.issuer')])} ${item.metadata.name}`,
               type: 'delete',
               name: item.metadata.name,
             },

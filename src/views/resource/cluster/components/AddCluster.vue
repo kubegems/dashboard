@@ -15,7 +15,13 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-server-plus" title="添加集群" :width="1000" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-server-plus"
+    :title="$root.$t('operate.add_c', [$root.$t('resource.cluster')])"
+    :width="1000"
+    @reset="reset"
+  >
     <template #content>
       <component :is="formComponent" :ref="formComponent" :control="control" :step="step" @refresh="refresh" />
     </template>
@@ -28,7 +34,7 @@
         text
         @click="addCluster"
       >
-        确定
+        {{ $root.$t('operate.confirm') }}
       </v-btn>
       <v-btn
         v-if="step >= 0 && step < totalStep - 1"
@@ -38,10 +44,10 @@
         text
         @click="nextStep"
       >
-        下一步
+        {{ $root.$t('operate.next') }}
       </v-btn>
       <v-btn v-if="step > 0 && step <= totalStep - 1" class="float-right mx-2" color="primary" text @click="lastStep">
-        上一步
+        {{ $root.$t('operate.previous') }}
       </v-btn>
     </template>
   </BaseDialog>
@@ -50,6 +56,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import ClusterBaseForm from './ClusterBaseForm';
   import { postAddCluster } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
@@ -57,6 +64,9 @@
 
   export default {
     name: 'AddCluster',
+    i18n: {
+      messages: messages,
+    },
     components: {
       ClusterBaseForm,
     },
@@ -119,7 +129,7 @@
           const data = this.$refs[this.formComponent].getData();
           if (data.KubeConfig.trim() === '') {
             this.$store.commit('SET_SNACKBAR', {
-              text: '请输入KubeConfig',
+              text: this.$t('tip.missing_kubeconfig'),
               color: 'warning',
             });
             return;

@@ -18,7 +18,7 @@
   <v-flex>
     <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
       <v-flex :class="expand ? 'kubegems__overlay' : ''" />
-      <BaseSubTitle title="存储卷定义" />
+      <BaseSubTitle :title="$root.$t('form.definition', [$root.$t('resource.persistentvolumeclaim')])" />
       <v-card-text class="pa-2">
         <v-row v-if="manifest">
           <v-col cols="6">
@@ -28,8 +28,8 @@
               color="primary"
               hide-selected
               :items="kinds"
-              label="资源"
-              no-data-text="暂无可选数据"
+              :label="$root.$t('resource.resource')"
+              :no-data-text="$root.$t('data.no_data')"
               :readonly="edit"
               :rules="objRules.kindRule"
               @change="onKindChange"
@@ -47,7 +47,7 @@
             <v-text-field
               v-model="obj.metadata.name"
               class="my-0"
-              label="名称"
+              :label="$t('table.name')"
               :readonly="edit"
               required
               :rules="objRules.nameRule"
@@ -60,8 +60,8 @@
               color="primary"
               hide-selected
               :items="m_select_namespaceItems"
-              label="命名空间"
-              no-data-text="暂无可选数据"
+              :label="$root.$t('resource.namespace')"
+              :no-data-text="$root.$t('data.no_data')"
               :readonly="edit"
               :rules="objRules.namespaceRule"
               @focus="onNamespaceSelectFocus(ThisCluster)"
@@ -80,8 +80,8 @@
               color="primary"
               hide-selected
               :items="m_select_storageClassItems"
-              label="存储类型"
-              no-data-text="暂无可选数据"
+              :label="$root.$t('resource.storageclass')"
+              :no-data-text="$root.$t('data.no_data')"
               :rules="objRules.storageClassNameRule"
               @focus="onStorageClassSelectFocus(ThisCluster)"
             >
@@ -99,8 +99,8 @@
               color="primary"
               hide-selected
               :items="accessModes"
-              label="访问模式"
-              no-data-text="暂无可选数据"
+              :label="$t('table.access_mode')"
+              :no-data-text="$root.$t('data.no_data')"
               :rules="objRules.accessModesRule"
               @change="onAccessModeChange"
             >
@@ -115,7 +115,7 @@
             <v-text-field
               v-model="obj.spec.resources.requests.storage"
               class="my-0"
-              label="容量"
+              :label="$t('table.capacity')"
               required
               :rules="objRules.storageRule"
             />
@@ -124,7 +124,7 @@
       </v-card-text>
 
       <LabelForm ref="labelForm" :data="obj.metadata.labels" @addData="addLabelData" @closeOverlay="closeExpand" />
-      <BaseSubTitle title="标签" />
+      <BaseSubTitle :title="$t('tip.label')" />
       <v-card-text class="pa-2">
         <LabelItem
           :labels="obj.metadata.labels"
@@ -141,7 +141,7 @@
         @addData="addAnnotationData"
         @closeOverlay="closeExpand"
       />
-      <BaseSubTitle title="注解" />
+      <BaseSubTitle :title="$t('tip.annotation')" />
       <v-card-text class="pa-2">
         <AnnotationItem
           :annotations="obj.metadata.annotations"
@@ -158,6 +158,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../i18n';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
@@ -169,6 +170,9 @@
 
   export default {
     name: 'PersistentVolumeClaimBaseForm',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AnnotationForm,
       AnnotationItem,
@@ -237,7 +241,7 @@
           accessModesRule: [required],
           storageRule: [
             required,
-            (v) => !!new RegExp('(^\\d+[K|M|G|T]i$)|(^0$)').test(v) || '格式错误(示例:1Ki,1Mi,1Gi,1Ti)',
+            (v) => !!new RegExp('(^\\d+[K|M|G|T]i$)|(^0$)').test(v) || this.$t('form.storage_rule'),
           ],
           storageClassNameRule: [required],
           kindRule: [required],
@@ -269,19 +273,19 @@
           const accessModes = [];
           modes.forEach((mode) => {
             if (mode === 'rwo') {
-              accessModes.push({ text: '单节点读写', value: 'ReadWriteOnce' });
+              accessModes.push({ text: this.$t('tip.rwo'), value: 'ReadWriteOnce' });
             } else if (mode === 'rox') {
-              accessModes.push({ text: '多节点只读', value: 'ReadOnlyMany' });
+              accessModes.push({ text: this.$t('tip.rox'), value: 'ReadOnlyMany' });
             } else if (mode === 'rwx') {
-              accessModes.push({ text: '多节点读写', value: 'ReadWriteMany' });
+              accessModes.push({ text: this.$t('tip.rwx'), value: 'ReadWriteMany' });
             }
           });
           return accessModes;
         } else {
           return [
-            { text: '单节点读写', value: 'ReadWriteOnce' },
-            { text: '多节点只读', value: 'ReadOnlyMany' },
-            { text: '多节点读写', value: 'ReadWriteMany' },
+            { text: this.$t('tip.rwo'), value: 'ReadWriteOnce' },
+            { text: this.$t('tip.rox'), value: 'ReadOnlyMany' },
+            { text: this.$t('tip.rwx'), value: 'ReadWriteMany' },
           ];
         }
       },
