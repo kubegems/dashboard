@@ -17,31 +17,31 @@
 <template>
   <v-card>
     <v-sheet class="pa-2">
-      <BaseListItemForDetail :mt="0" title="存储类型">
+      <BaseListItemForDetail :mt="0" :title="$root.$t('resource.storageclass')">
         <template #content>
           {{ pvc ? pvc.spec.storageClassName : '' }}
         </template>
       </BaseListItemForDetail>
 
-      <BaseListItemForDetail title="访问模式">
+      <BaseListItemForDetail :title="$t('table.access_mode')">
         <template #content>
           {{ pvc ? pvc.spec.accessModes[0] : '' }}
         </template>
       </BaseListItemForDetail>
 
-      <BaseListItemForDetail title="卷模式">
+      <BaseListItemForDetail :title="$t('tip.volume_mode')">
         <template #content>
           {{ pvc ? pvc.spec.volumeMode : '' }}
         </template>
       </BaseListItemForDetail>
 
-      <BaseListItemForDetail title="卷名称">
+      <BaseListItemForDetail :title="$t('tip.volume_name')">
         <template #content>
           {{ pvc ? pvc.spec.volumeName : '' }}
         </template>
       </BaseListItemForDetail>
 
-      <BaseListItemForDetail title="容量">
+      <BaseListItemForDetail :title="$t('table.capacity')">
         <template #content>
           {{
             pvc
@@ -53,13 +53,13 @@
         </template>
       </BaseListItemForDetail>
 
-      <BaseListItemForDetail title="状态">
+      <BaseListItemForDetail :title="$t('table.status')">
         <template #content>
           {{ pvc ? pvc.status.phase : '' }}
         </template>
       </BaseListItemForDetail>
 
-      <BaseListItemForDetail title="挂载">
+      <BaseListItemForDetail :title="$t('table.mount')">
         <template #content>
           <span
             v-if="pvc && pvc.metadata.annotations && pvc.metadata.annotations[`storage.kubegems.io/in-use`] === 'true'"
@@ -72,7 +72,7 @@
         </template>
       </BaseListItemForDetail>
 
-      <BaseListItemForDetail title="可创建快照">
+      <BaseListItemForDetail :title="$t('tip.can_create_snapshot')">
         <template #content>
           <span
             v-if="
@@ -93,11 +93,15 @@
 </template>
 
 <script>
+  import messages from '../i18n';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'ResourceInfo',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     props: {
       item: {

@@ -15,15 +15,26 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-arrow-up-down-bold" title="扩容存储卷" :width="500" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-arrow-up-down-bold"
+    :title="$t('operate.scale_pvc')"
+    :width="500"
+    @reset="reset"
+  >
     <template #content>
-      <BaseSubTitle title="扩容定义" />
+      <BaseSubTitle :title="$root.$t('from.definition', [$t('operate.scale')])" />
       <v-card-text class="px-2 pb-0">
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
           <v-sheet>
-            <v-text-field v-model="obj.metadata.name" class="my-0" label="存储卷" readonly />
+            <v-text-field
+              v-model="obj.metadata.name"
+              class="my-0"
+              :label="$root.$t('resource.persistentvolumeclaim')"
+              readonly
+            />
             <v-flex class="text-subtitle-1 mb-2">
-              当前容量
+              {{ $t('tip.now_capacity') }}
               <span class="text-subtitle-2 primary--text">
                 {{ storage }}
               </span>
@@ -31,7 +42,7 @@
             <v-text-field
               v-model="obj.spec.resources.requests.storage"
               class="my-0"
-              label="目标容量"
+              :label="$t('tip.dest_capacity')"
               required
               :rules="objRules.StorageRules"
             />
@@ -41,7 +52,7 @@
     </template>
     <template #action>
       <v-btn class="float-right" color="primary" :loading="Circular" text @click="updatePersistentVolumeClaim">
-        确定
+        {{ $root.$t('operate.confrim') }}
       </v-btn>
     </template>
   </BaseDialog>
@@ -50,6 +61,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import { patchUpdatePersistentVolumeClaim } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, sizeOfStorage } from '@/utils/helpers';
@@ -57,6 +69,9 @@
 
   export default {
     name: 'ScalePersistentVolumeClaim',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     data: () => ({
       dialog: false,
@@ -73,8 +88,8 @@
         return {
           StorageRules: [
             required,
-            (v) => !!new RegExp('(^\\d+[K|M|G|T]i$)|(^0$)').test(v) || '格式错误(示例:1Ki,1Mi,1Gi,1Ti)',
-            (v) => !!(sizeOfStorage(v, 'Mi') >= sizeOfStorage(this.storage, 'Mi')) || '小于当前值',
+            (v) => !!new RegExp('(^\\d+[K|M|G|T]i$)|(^0$)').test(v) || this.$t('form.storage_rule'),
+            (v) => !!(sizeOfStorage(v, 'Mi') >= sizeOfStorage(this.storage, 'Mi')) || this.$t('form.limit_min_rule'),
           ],
         };
       },

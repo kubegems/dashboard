@@ -15,12 +15,20 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-book-open" title="创建颁发机构" :width="1000" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-book-open"
+    :title="$root.$t('operate.create_c', [$root.$t('resource.issuer')])"
+    :width="1000"
+    @reset="reset"
+  >
     <template #content>
       <component :is="formComponent" :ref="formComponent" title="Issuer" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addIssuer"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addIssuer">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
     <template #header-action>
       <v-switch

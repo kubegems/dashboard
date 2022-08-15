@@ -22,7 +22,7 @@
           <v-icon>{{ $RESOURCE_ICON['node'] }}</v-icon>
         </v-btn>
         <h6 class="text-large-size font-weight-regular">
-          节点 {{ workload && workload['node'] ? workload['node'] : '' }}
+          {{ $root.$t('resource.node') }} {{ workload && workload['node'] ? workload['node'] : '' }}
         </h6>
       </div>
       <div class="d-flex align-center justify-start my-2" :style="{ width: `50%` }">
@@ -31,12 +31,12 @@
         </v-btn>
         <div>
           <h5 class="text-size font-weight-regular">
-            物理CPU
+            {{ $root.$t('resource.cpu_c', [$t('tip.physics')]) }}
             {{ quota ? sizeOfCpu(quota.capacity.cpu).toFixed(1) : 0 }}
-            core（1:{{ cluster ? cluster.OversoldConfig.cpu : 1 }}）
+            core (1:{{ cluster ? cluster.OversoldConfig.cpu : 1 }})
           </h5>
           <h5 class="text-size font-weight-regular">
-            vCPU
+            {{ $root.$t('resource.cpu_c', [$t('tip.virtual')]) }}
             {{ quota && cluster ? (sizeOfCpu(quota.capacity.cpu) * cluster.OversoldConfig.cpu).toFixed(1) : 0 }}
             core
           </h5>
@@ -48,12 +48,12 @@
         </v-btn>
         <div>
           <h5 class="text-size font-weight-regular">
-            物理存储
+            {{ $root.$t('resource.storage_c', [$t('tip.physics')]) }}
             {{ quota ? sizeOfStorage(quota.capacity['ephemeral-storage']).toFixed(1) : 0 }}
-            Gi（1:{{ cluster ? cluster.OversoldConfig.storage : 1 }}）
+            Gi (1:{{ cluster ? cluster.OversoldConfig.storage : 1 }})
           </h5>
           <h5 class="text-size font-weight-regular">
-            v存储
+            {{ $root.$t('resource.storage_c', [$t('tip.virtual')]) }}
             {{
               quota && cluster
                 ? (sizeOfStorage(quota.capacity['ephemeral-storage']) * cluster.OversoldConfig.storage).toFixed(1)
@@ -69,12 +69,12 @@
         </v-btn>
         <div>
           <h5 class="text-size font-weight-regular">
-            物理内存
+            {{ $root.$t('resource.memory_c', [$t('tip.physics')]) }}
             {{ quota ? sizeOfStorage(quota.capacity.memory).toFixed(1) : 0 }}
-            Gi （1:{{ cluster ? cluster.OversoldConfig.memory : 1 }}）
+            Gi (1:{{ cluster ? cluster.OversoldConfig.memory : 1 }})
           </h5>
           <h5 class="text-size font-weight-regular">
-            v内存
+            {{ $root.$t('resource.memory_c', [$t('tip.virtual')]) }}
             {{
               quota && cluster ? (sizeOfStorage(quota.capacity.memory) * cluster.OversoldConfig.memory).toFixed(1) : 0
             }}
@@ -87,11 +87,15 @@
 </template>
 
 <script>
+  import messages from '../i18n';
   import BaseResource from '@/mixins/resource';
   import { sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
 
   export default {
     name: 'ResourceInfo',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     props: {
       cluster: {

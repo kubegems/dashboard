@@ -20,7 +20,7 @@
       <v-card v-show="expand" class="mb-2 pa-2 kubegems__expand-transition" :elevation="4" flat>
         <v-sheet class="pt-2 px-2">
           <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width">
-            <span>命名空间</span>
+            <span>{{ $root.$t('resource.namespace') }}</span>
           </v-flex>
           <v-flex class="float-left ml-2 kubegems__form-width">
             <v-autocomplete
@@ -29,8 +29,8 @@
               color="primary"
               hide-selected
               :items="namespaceItems"
-              label="命名空间"
-              no-data-text="暂无可选数据"
+              :label="$root.$t('resource.namespace')"
+              :no-data-text="$root.$t('data.no_data')"
               :rules="namespaceRule"
               @focus="onNamespaceSelectFocus"
             >
@@ -45,8 +45,8 @@
         </v-sheet>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
-          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> {{ $root.$t('operate.cancel') }} </v-btn>
+          <v-btn color="primary" small text @click="addData"> {{ $root.$t('operate.save') }} </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -106,7 +106,7 @@
       async namespaceSelectData() {
         if (!this.clusterName) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请先选择集群',
+            text: this.$root.$t('tip.select_cluster'),
             color: 'warning',
           });
           return;

@@ -16,7 +16,14 @@
 
 <template>
   <v-flex>
-    <BaseTipWindow v-for="(pod, index) in pods" :key="index" icon="mdi-cube" :max-width="180" title="容器组" top>
+    <BaseTipWindow
+      v-for="(pod, index) in pods"
+      :key="index"
+      icon="mdi-cube"
+      :max-width="180"
+      :title="$root.$t('resource.pod')"
+      top
+    >
       <template #header>
         <v-icon v-if="pod.status === 'Running'" class="mx-0-5 icon-font" :color="getColor(pod.ready)">
           mdi-cube
@@ -39,15 +46,15 @@
       <template #content>
         <v-list-item>
           <v-list-item-content>
-            <v-list-item-title>名称</v-list-item-title>
+            <v-list-item-title>{{ $t('table.name') }}</v-list-item-title>
             <v-list-item-content class="text-caption kubegems__text">
               {{ pod.objectMeta.name }}
             </v-list-item-content>
-            <v-list-item-title>状态</v-list-item-title>
+            <v-list-item-title>{{ $t('table.status') }}</v-list-item-title>
             <v-list-item-content class="text-caption kubegems__text">
               {{ pod.status }}
             </v-list-item-content>
-            <v-list-item-title>容器</v-list-item-title>
+            <v-list-item-title>{{ $root.$t('resource.container') }}</v-list-item-title>
             <v-list-item-content class="text-caption kubegems__text my-0">
               {{ pod.ready }}
             </v-list-item-content>
@@ -59,8 +66,13 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
+
   export default {
     name: 'DeployPodTip',
+    i18n: {
+      messages: messages,
+    },
     props: {
       pods: {
         type: Array,

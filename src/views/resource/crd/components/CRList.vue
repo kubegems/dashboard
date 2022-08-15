@@ -21,7 +21,7 @@
         <v-spacer />
         <v-btn v-if="m_permisson_resourceAllow" color="primary" small text @click="addCR">
           <v-icon left>mdi-plus-box</v-icon>
-          创建自定义资源
+          {{ $root.$t('operate.create_c', [$root.$t('resource.cr')]) }}
         </v-btn>
       </v-card-title>
     </v-card>
@@ -31,7 +31,7 @@
       hide-default-footer
       :items="items"
       :items-per-page="params.size"
-      no-data-text="暂无数据"
+      :no-data-text="$root.$t('data.no_data')"
       :page.sync="params.page"
     >
       <template #[`item.name`]="{ item }">
@@ -54,10 +54,10 @@
           <v-card>
             <v-card-text class="pa-2">
               <v-flex>
-                <v-btn color="primary" small text @click="updateCR(item)"> 编辑 </v-btn>
+                <v-btn color="primary" small text @click="updateCR(item)"> {{ $root.$t('operate.edit') }} </v-btn>
               </v-flex>
               <v-flex>
-                <v-btn color="error" small text @click="removeCR(item)"> 删除 </v-btn>
+                <v-btn color="error" small text @click="removeCR(item)"> {{ $root.$t('operate.delete') }} </v-btn>
               </v-flex>
             </v-card-text>
           </v-card>
@@ -80,6 +80,7 @@
 </template>
 
 <script>
+  import messages from '../i18n';
   import AddCR from './AddCR';
   import UpdateCR from './UpdateCR';
   import { deleteCr, getCrList } from '@/api';
@@ -88,6 +89,9 @@
 
   export default {
     name: 'CRList',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddCR,
       UpdateCR,
@@ -111,12 +115,12 @@
     computed: {
       headers() {
         const items = [
-          { text: '名称', value: 'name', align: 'start' },
-          { text: '创建时间', value: 'createAt', align: 'start' },
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
+          { text: this.$root.$t('resource.create_at'), value: 'createAt', align: 'start' },
         ];
         if (this.item && this.item.spec.scope === 'Namespaced') {
           items.splice(1, 0, {
-            text: '命名空间',
+            text: this.$root.$t('resource.namespace'),
             value: 'namespace',
             align: 'start',
             sortable: false,
@@ -170,9 +174,9 @@
       },
       removeCR(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除资源`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.cr')]),
           content: {
-            text: `删除资源 ${item.metadata.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.cr')])} ${item.metadata.name}`,
             type: 'delete',
             name: item.metadata.name,
           },

@@ -15,28 +15,28 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-scale" title="调整资源限制" :width="1000" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-scale" :title="$t('operate.scale_resource')" :width="1000" @reset="reset">
     <template #content>
       <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
         <v-flex :class="expand ? 'kubegems__overlay' : ''" />
 
-        <BaseSubTitle title="租户在集群上已分配资源" />
+        <BaseSubTitle :title="$t('tip.tenant_resource_allocated')" />
         <v-card-text>
           <ResourceChart :statistics="obj.statistics" />
         </v-card-text>
 
-        <BaseSubTitle title="资源配额(ResourceQuota)" />
+        <BaseSubTitle :title="$t('tip.resource_quota')" />
         <v-card-text class="pa-2">
           <ResourceQuota ref="resourceQuota" :data="obj.data" edit :statistics="obj.statistics" />
         </v-card-text>
 
         <LimitRange ref="limitRange" :data="obj" @addData="addLimitRangeData" @closeOverlay="closeExpand" />
 
-        <BaseSubTitle class="mt-4" title="资源限制(LimitRange)">
+        <BaseSubTitle class="mt-4" :title="$t('tip.limit_range')">
           <template #action>
             <v-btn class="float-right mr-2" color="primary" small text @click="openExpaned('limitRange')">
               <v-icon left small> mdi-pencil </v-icon>
-              修改限制
+              {{ $t('operate.edit_limit') }}
             </v-btn>
           </template>
         </BaseSubTitle>
@@ -46,7 +46,9 @@
       </v-form>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateEnvironment"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateEnvironment">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>
@@ -54,6 +56,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../i18n';
   import LimitRange from './base/LimitRange';
   import LimitRangeCard from './base/LimitRangeCard';
   import ResourceChart from './base/ResourceChart';
@@ -65,6 +68,9 @@
 
   export default {
     name: 'ScaleResource',
+    i18n: {
+      messages: messages,
+    },
     components: {
       LimitRange,
       LimitRangeCard,
@@ -93,7 +99,7 @@
       async updateEnvironment() {
         if (!this.checkSaved()) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请保存数据',
+            text: this.$root.$t('tip.save_data'),
             color: 'warning',
           });
           return;

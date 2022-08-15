@@ -18,7 +18,7 @@
   <v-flex>
     <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
       <v-flex :class="expand ? 'kubegems__overlay' : ''" />
-      <BaseSubTitle title="网关定义" />
+      <BaseSubTitle :title="$root.$t('form.definition', [$root.$t('resource.gateway')])" />
       <v-card-text class="pa-2">
         <v-row>
           <v-col v-if="AdminViewport && obj.spec.tenant !== 'notenant'" cols="6">
@@ -29,8 +29,8 @@
               hide-selected
               item-value="text"
               :items="m_select_tenantItems"
-              label="租户"
-              no-data-text="暂无可选数据"
+              :label="$root.$t('resource.tenant')"
+              :no-data-text="$root.$t('data.no_data')"
               :readonly="edit"
               :rules="objRules.tenantRule"
               @focus="onTenantSelectFocus"
@@ -46,7 +46,7 @@
             <v-text-field
               v-model="obj.metadata.name"
               class="my-0"
-              label="网关名称"
+              :label="$t('tip.name')"
               :readonly="edit"
               required
               :rules="objRules.nameRule"
@@ -59,8 +59,8 @@
               color="primary"
               hide-selected
               :items="gatewayTypes"
-              label="网关类型"
-              no-data-text="暂无可选数据"
+              :label="$t('tip.type')"
+              :no-data-text="$root.$t('data.no_data')"
               :rules="objRules.gatewayTypeRule"
             >
               <template #selection="{ item }">
@@ -77,8 +77,8 @@
               color="primary"
               hide-selected
               :items="protocolTypes"
-              label="协议"
-              no-data-text="暂无可选数据"
+              :label="$t('tip.protocol')"
+              :no-data-text="$root.$t('data.no_data')"
               :rules="objRules.protocolTypeRule"
               @change="onProtocolChange"
             >
@@ -93,7 +93,7 @@
             <v-text-field
               v-model="obj.spec.replicas"
               class="my-0"
-              label="副本数"
+              :label="$t('tip.replicas')"
               required
               :rules="objRules.replicasRule"
               type="number"
@@ -104,24 +104,26 @@
             <v-text-field
               v-model="obj.spec.baseDomain"
               class="my-0"
-              label="默认域名"
+              :label="$t('tip.default_domain')"
               required
               :rules="objRules.baseDomainRule"
             >
               <template #append>
-                <v-btn class="my-0" color="primary" small text @click="setDomain(obj)"> 使用默认域名 </v-btn>
+                <v-btn class="my-0" color="primary" small text @click="setDomain(obj)">
+                  {{ $t('operate.use_default_domain') }}
+                </v-btn>
               </template>
             </v-text-field>
           </v-col>
 
           <v-col cols="6">
-            <v-text-field v-model="image" class="my-0" label="镜像" required :rules="objRules.imageRule" />
+            <v-text-field v-model="image" class="my-0" :label="$t('tip.image')" required :rules="objRules.imageRule" />
           </v-col>
         </v-row>
       </v-card-text>
 
       <DataForm ref="dataForm" :data="obj.spec.configMapData" @addData="addData" @closeOverlay="closeExpand" />
-      <BaseSubTitle title="配置项">
+      <BaseSubTitle :title="$t('tip.config_item')">
         <template #tips>
           <v-icon class="mt-n1 kubegems__pointer" color="warning" right small @click="help">
             mdi-information-variant
@@ -143,6 +145,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import GatewayDataItem from './GatewayDataItem';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
@@ -152,6 +155,9 @@
 
   export default {
     name: 'GatewayBaseForm',
+    i18n: {
+      messages: messages,
+    },
     components: {
       DataForm,
       GatewayDataItem,
@@ -170,10 +176,6 @@
     data: () => ({
       valid: false,
       expand: false,
-      gatewayTypes: [
-        { text: '常规集群网关(NodePort)', value: 'NodePort' },
-        { text: '外部负载均衡网关(LoadBalancer)', value: 'LoadBalancer' },
-      ],
       protocolTypes: [
         { text: 'http/1.1', value: 'http/1.1' },
         { text: 'http/2', value: 'http/2' },
@@ -202,17 +204,23 @@
         return {
           nameRule: [
             required,
-            (v) => !v || !!new RegExp('^[a-z]([-a-z0-9]*[a-z0-9])?$').test(v) || '格式错误（以字母开头）',
+            (v) => !v || !!new RegExp('^[a-z]([-a-z0-9]*[a-z0-9])?$').test(v) || this.$t('form.name_rule'),
           ],
           tenantRule: [required],
           gatewayTypeRule: [required],
           protocolTypeRule: [required],
           replicasRule: [positiveInteger],
-          baseDomainRule: [(v) => !!v || "域名格式错误（支持通配符'*'）"],
+          baseDomainRule: [(v) => !!v || this.$t('form.domain_rule')],
           imageRule: [
-            (v) => !v || !!new RegExp('^([\\w|/|\\.|-]+)[:|@]([\\w|\\.|-]+)$').test(v) || '格式错误（不符合镜像格式）',
+            (v) => !v || !!new RegExp('^([\\w|/|\\.|-]+)[:|@]([\\w|\\.|-]+)$').test(v) || this.$t('form.image_rule'),
           ],
         };
+      },
+      gatewayTypes() {
+        return [
+          { text: this.$t('tip.nodeport'), value: 'NodePort' },
+          { text: this.$t('tip.loadbalancer'), value: 'LoadBalancer' },
+        ];
       },
     },
     watch: {

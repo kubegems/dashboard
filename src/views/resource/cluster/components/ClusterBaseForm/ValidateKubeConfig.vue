@@ -17,12 +17,12 @@
 <template>
   <v-flex>
     <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
-      <BaseSubTitle title="集群厂商" />
+      <BaseSubTitle :title="$t('tip.cluster_vendor')" />
       <v-card-text class="pa-2">
         <v-row class="mt-0">
           <v-col v-for="(item, index) in vendorItems" :key="index" cols="4">
             <v-hover #default="{ hover }">
-              <v-card class="kubegems__pointer vendor-pos" :elevation="hover ? 5 : 1" flat @click="selectVendor(item)">
+              <v-card class="kubegems__pointer vendor__pos" :elevation="hover ? 5 : 1" flat @click="selectVendor(item)">
                 <v-list-item three-line>
                   <v-list-item-avatar class="primary--text" size="50" tile>
                     <BaseLogo :icon-name="item.value" :width="40" />
@@ -32,14 +32,14 @@
                       {{ item.vendor }}
                     </v-list-item-title>
                     <v-list-item-subtitle>
-                      <span class="text-body-2"> 支持版本： </span>
+                      <span class="text-body-2"> {{ $t('tip.support_version') }} : </span>
                       v1.20+
                     </v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
                 <template v-if="obj.Vendor === item.value">
-                  <v-flex class="vendor-watermark-bg" />
-                  <v-flex class="vendor-watermark font-weight-medium"> 当前选择 </v-flex>
+                  <v-flex class="vendor__watermark-bg" />
+                  <v-flex class="vendor__watermark font-weight-medium"> {{ $t('tip.now_select') }} </v-flex>
                 </template>
               </v-card>
             </v-hover>
@@ -67,10 +67,14 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'ValidateKubeConfig',
+    i18n: {
+      messages: messages,
+    },
     props: {
       edit: {
         type: Boolean,
@@ -136,33 +140,35 @@
   };
 </script>
 
-<style scoped>
-  .vendor-pos {
-    position: relative;
-    background-color: #ffffff;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+<style lang="scss" scoped>
+  .vendor {
+    &__pos {
+      position: relative;
+      background-color: #ffffff;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 
-  .vendor-watermark-bg {
-    position: absolute;
-    width: 100px;
-    height: 90px;
-    transform: rotate(47deg);
-    top: -46px;
-    right: -55px;
-    background-color: #1e88e5;
-    padding: 0;
-  }
+    &__watermark-bg {
+      position: absolute;
+      width: 100px;
+      height: 90px;
+      transform: rotate(47deg);
+      top: -46px;
+      right: -55px;
+      background-color: #1e88e5;
+      padding: 0;
+    }
 
-  .vendor-watermark {
-    position: absolute;
-    top: 10px;
-    right: -4px;
-    transform: rotate(47deg);
-    text-transform: uppercase;
-    color: white;
-    font-size: 12px;
+    &__watermark {
+      position: absolute;
+      top: 10px;
+      right: -4px;
+      transform: rotate(47deg);
+      text-transform: uppercase;
+      color: white;
+      font-size: 12px;
+    }
   }
 </style>

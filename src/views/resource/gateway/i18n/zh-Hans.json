@@ -1,0 +1,46 @@
+{
+  "tip": {
+    "instance_count": "实例数",
+    "default": "默认网关",
+    "port": "网关端口",
+    "status": "状态",
+    "loadbalancer": "外部负载均衡网关(LoadBalancer)",
+    "nodeport": "常规集群网关(NodePort)",
+    "connect_count": "连接数",
+    "default_domain": "默认域名",
+    "extend_label": "工作负载附加标签",
+    "address": "网关地址",
+    "available": "{0}个实例可用",
+    "unavailable": "{0}个实例不可用",
+    "name": "网关名称",
+    "type": "网关类型",
+    "protocol": "协议",
+    "replicas": "副本数",
+    "image": "镜像",
+    "config_item": "配置项"
+  },
+  "tab": {
+    "config": "配置",
+    "ingress": "路由"
+  },
+  "table": {
+    "name": "名称",
+    "address": "访问地址",
+    "container_port": "容器端口",
+    "service_port": "服务端口",
+    "host_port": "主机端口"
+  },
+  "operate": {
+    "access": "访问",
+    "use_default_domain": "使用默认域名"
+  },
+  "status": {
+    "normal": "正常",
+    "error": "异常"
+  },
+  "form": {
+    "name_rule": "格式错误(以字母开头)",
+    "domain_rule": "域名格式错误(支持通配符'*')",
+    "image_rule": "格式错误(不符合镜像格式)"
+  }
+}

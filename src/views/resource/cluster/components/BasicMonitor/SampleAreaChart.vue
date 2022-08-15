@@ -163,7 +163,7 @@
             },
           },
           noData: {
-            text: '暂无数据',
+            text: this.$root.$t('data.no_data'),
             offsetX: -30,
             offsetY: 0,
             style: {

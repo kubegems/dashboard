@@ -32,7 +32,7 @@
       <v-card-text>
         <v-card-title class="primary--text text-h6 py-2">
           <v-icon class="mr-2 primary--text" left> mdi-cpu-64-bit </v-icon>
-          CPU
+          {{ $root.$t('resource.cpu') }}
         </v-card-title>
         <v-data-table
           class="mb-8"
@@ -40,11 +40,11 @@
           :headers="headersCpu"
           hide-default-footer
           :items="itemsObj.cpuItems"
-          no-data-text="暂无数据"
+          :no-data-text="$root.$t('data.no_data')"
         />
         <v-card-title class="primary--text text-h6 py-2">
           <v-icon class="mr-2 primary--text" left> mdi-nas </v-icon>
-          内存
+          {{ $root.$t('resource.memory') }}
         </v-card-title>
         <v-data-table
           class="mb-8"
@@ -52,11 +52,11 @@
           :headers="headersCpu"
           hide-default-footer
           :items="itemsObj.memoryItems"
-          no-data-text="暂无数据"
+          :no-data-text="$root.$t('data.no_data')"
         />
         <v-card-title class="primary--text text-h6 py-2">
           <v-icon class="mr-2 primary--text" left> mdi-database </v-icon>
-          存储
+          {{ $root.$t('resource.storage') }}
         </v-card-title>
         <v-data-table
           class="mb-8"
@@ -64,18 +64,18 @@
           :headers="headersCpu"
           hide-default-footer
           :items="itemsObj.storageItems"
-          no-data-text="暂无数据"
+          :no-data-text="$root.$t('data.no_data')"
         />
         <v-card-title class="primary--text text-h6 py-2">
           <v-icon class="mr-2 primary--text" left> mdi-earth </v-icon>
-          网络流量
+          {{ $t('tip.traffic') }}
         </v-card-title>
         <v-data-table
           disable-sort
           :headers="headersNetwork"
           hide-default-footer
           :items="itemsObj.networkItems"
-          no-data-text="暂无数据"
+          :no-data-text="$root.$t('data.no_data')"
         />
       </v-card-text>
     </template>
@@ -85,11 +85,15 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../i18n';
   import { getEnvironmentResourceUsage, getProjectResourceUsage } from '@/api';
   import { ResourceBeatifulMixin } from '@/views/resource/environment/mixins/resourcebeatiful';
 
   export default {
     name: 'ResourceUseList',
+    i18n: {
+      messages: messages,
+    },
     mixins: [ResourceBeatifulMixin],
     props: {
       title: {
@@ -104,20 +108,24 @@
     data: () => ({
       panel: false,
       resourceUseDetail: {},
-      headersCpu: [
-        { text: '最大', value: 'max', align: 'start' },
-        { text: '最小', value: 'min', align: 'start' },
-        { text: '平均', value: 'avg', align: 'start' },
-      ],
-      headersNetwork: [
-        { text: '发送', value: 'out', align: 'start' },
-        { text: '接收', value: 'in', align: 'start' },
-      ],
       itemsObj: {},
     }),
     computed: {
       ...mapState(['JWT', 'AdminViewport']),
       ...mapGetters(['Environment', 'Project']),
+      headersCpu() {
+        return [
+          { text: this.$t('tip.max'), value: 'max', align: 'start' },
+          { text: this.$t('tip.min'), value: 'min', align: 'start' },
+          { text: this.$t('tip.avg'), value: 'avg', align: 'start' },
+        ];
+      },
+      headersNetwork() {
+        return [
+          { text: this.$t('tip.send'), value: 'out', align: 'start' },
+          { text: this.$t('tip.receive'), value: 'in', align: 'start' },
+        ];
+      },
     },
     methods: {
       open() {

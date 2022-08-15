@@ -80,10 +80,13 @@
   "resource": {
     "resource": "资源",
     "cpu": "CPU",
+    "cpu_c": "{0}CPU",
     "gpu": "GPU",
     "video_memory": "显存",
     "memory": "内存",
+    "memory_c": "{0}内存",
     "storage": "存储",
+    "storage_c": "{0}存储",
     "space": "空间",
     "system": "系统",
     "mesh": "虚拟空间",
@@ -109,6 +112,7 @@
     "secret": "密钥",
     "certmanager": "证书",
     "crd": "CRD",
+    "cr": "自定义资源",
     "persistentvolumeclaim": "存储卷",
     "volumesnapshot": "存储卷快照",
     "storageclass": "存储类型",
@@ -136,7 +140,9 @@
     "service_entry": "服务入口",
     "sidecar": "边车",
     "virtual_service": "虚拟服务",
-    "destination_rule": "流量规则"
+    "destination_rule": "流量规则",
+    "certificate": "证书",
+    "issuer": "颁发机构"
   },
 
   "header": {
@@ -195,7 +201,8 @@
     "deploy": "部署",
     "sync": "同步",
     "sync_c": "同步{0}",
-    "save": "保存"
+    "save": "保存",
+    "detail": "详情"
   },
   "form": {
     "definition": "{0}定义",
@@ -435,12 +442,19 @@
     "batch_confirm_c": "请输入 “确认{0}”",
     "batch_rule_c": "确认{0}",
     "batch_delete": "删除",
-    "cluster": "请创建或选择集群",
+    "select_cluster": "请创建或选择集群",
     "project_select": "该项目下没有环境，请重新选择项目或添加环境",
     "save_data": "请保存数据",
-    "parse_error": "数据解析错误"
+    "parse_error": "数据解析错误",
+    "select_tenant": "请选择租户",
+    "condition": "状况"
   },
   "tab": {
-    "overview": "概览"
+    "overview": "概览",
+    "resource_info": "资源信息",
+    "metadata": "元数据",
+    "event": "事件",
+    "pod": "容器组",
+    "monitor": "监控"
   }
 }

@@ -18,7 +18,7 @@
   <div>
     <v-card>
       <v-sheet class="pa-2">
-        <BaseListItemForDetail :mt="0" title="到期时间">
+        <BaseListItemForDetail :mt="0" :title="$t('table.expire_at')">
           <template #content>
             {{
               certificate && certificate.status && certificate.status.notAfter
@@ -28,7 +28,7 @@
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="下次更新时间">
+        <BaseListItemForDetail :title="$t('table.renew_at')">
           <template #content>
             {{
               certificate && certificate.status && certificate.status.renewalTime
@@ -38,13 +38,13 @@
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="密钥名">
+        <BaseListItemForDetail :title="$t('table.secret_name')">
           <template #content>
             {{ certificate ? certificate.spec.secretName : '' }}
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="颁发者">
+        <BaseListItemForDetail :title="$t('table.issuer')">
           <template #content>
             {{ certificate ? certificate.spec.issuerRef.name : '' }}
           </template>
@@ -53,7 +53,7 @@
     </v-card>
 
     <v-card class="mt-3" flat>
-      <BaseSubTitle class="pt-2" :divider="false" title="DNS名" />
+      <BaseSubTitle class="pt-2" :divider="false" :title="$t('table.dns_name')" />
       <v-simple-table class="mx-2 pa-2 pb-3">
         <template #default>
           <thead>
@@ -72,12 +72,12 @@
 
     <v-flex v-if="certificate && certificate.spec.usages">
       <v-card class="mt-3" flat>
-        <BaseSubTitle class="pt-2" :divider="false" title="扩展" />
+        <BaseSubTitle class="pt-2" :divider="false" :title="$t('table.extend')" />
         <v-simple-table class="mx-2 pa-2 pb-3">
           <template #default>
             <thead>
               <tr>
-                <th class="text-left">公钥用法</th>
+                <th class="text-left">{{ $t('tip.key_use') }}</th>
               </tr>
             </thead>
             <tbody>
@@ -93,11 +93,15 @@
 </template>
 
 <script>
+  import messages from '../i18n';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'ResourceInfo',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     props: {
       item: {

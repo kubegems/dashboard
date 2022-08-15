@@ -33,10 +33,10 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" small text @click="updateGateway"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateGateway"> {{ $root.$t('operate.edit') }} </v-btn>
                 </v-flex>
                 <v-flex v-if="gateway && gateway.spec.tenant !== 'notenant'">
-                  <v-btn color="error" small text @click="removeGateway"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeGateway"> {{ $root.$t('operate.delete') }} </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -52,7 +52,7 @@
           </v-card-title>
           <v-list-item two-line>
             <v-list-item-content class="kubegems__text">
-              <v-list-item-title class="text-subtitle-2"> 集群 </v-list-item-title>
+              <v-list-item-title class="text-subtitle-2"> {{ $root.$t('resource.cluster') }} </v-list-item-title>
               <v-list-item-subtitle class="text-body-2">
                 {{ gateway ? ThisCluster : '' }}
               </v-list-item-subtitle>
@@ -60,7 +60,7 @@
           </v-list-item>
           <v-list-item two-line>
             <v-list-item-content class="kubegems__text">
-              <v-list-item-title class="text-subtitle-2"> 租户 </v-list-item-title>
+              <v-list-item-title class="text-subtitle-2"> {{ $root.$t('resource.tenant') }} </v-list-item-title>
               <v-list-item-subtitle class="text-body-2">
                 {{ gateway ? gateway.spec.tenant : '' }}
               </v-list-item-subtitle>
@@ -68,7 +68,7 @@
           </v-list-item>
           <v-list-item two-line>
             <v-list-item-content class="kubegems__text">
-              <v-list-item-title class="text-subtitle-2"> 创建时间 </v-list-item-title>
+              <v-list-item-title class="text-subtitle-2"> {{ $root.$t('resource.create_at') }} </v-list-item-title>
               <v-list-item-subtitle class="text-body-2">
                 {{
                   gateway && gateway.metadata.creationTimestamp
@@ -118,6 +118,7 @@
   import IngressList from './components/IngressList';
   import ResourceInfo from './components/ResourceInfo';
   import UpdateGateway from './components/UpdateGateway';
+  import messages from './i18n';
   import { deleteGateway, getGatewayDetail } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -128,6 +129,9 @@
 
   export default {
     name: 'GatewayDetail',
+    i18n: {
+      messages: messages,
+    },
     components: {
       EventList,
       GatewayConfigmap,
@@ -143,19 +147,21 @@
     data: () => ({
       gateway: null,
       tab: 0,
-      tabItems: [
-        { text: '资源信息', value: 'ResourceInfo' },
-        { text: '元数据', value: 'Metadata' },
-        { text: '配置', value: 'GatewayConfigmap' },
-        { text: '容器组', value: 'PodList' },
-        { text: '路由', value: 'IngressList' },
-        { text: '事件', value: 'EventList' },
-        { text: '监控', value: 'GatewayMonitor' },
-      ],
     }),
     computed: {
       ...mapState(['JWT']),
       ...mapGetters(['Tenant']),
+      tabItems() {
+        return [
+          { text: this.$root.$t('tab.resource_info'), value: 'ResourceInfo' },
+          { text: this.$root.$t('tab.metadata'), value: 'Metadata' },
+          { text: this.$t('tab.config'), value: 'GatewayConfigmap' },
+          { text: this.$root.$t('tab.pod'), value: 'PodList' },
+          { text: this.$t('tab.ingress'), value: 'IngressList' },
+          { text: this.$root.$t('tab.event'), value: 'EventList' },
+          { text: this.$root.$t('tab.monitor'), value: 'GatewayMonitor' },
+        ];
+      },
     },
     mounted() {
       if (this.JWT) {
@@ -179,9 +185,9 @@
       removeGateway() {
         const item = this.gateway;
         this.$store.commit('SET_CONFIRM', {
-          title: `删除网关`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.gateway')]),
           content: {
-            text: `删除网关 ${item.metadata.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.gateway')])} ${item.metadata.name}`,
             type: 'delete',
             name: item.metadata.name,
           },

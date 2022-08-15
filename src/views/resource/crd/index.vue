@@ -21,7 +21,7 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :default="{ items: [], text: 'crd名称', value: 'search' }"
+          :default="{ items: [], text: $t('filter.crd_name'), value: 'search' }"
           :filters="filters"
           @refresh="m_filter_list"
         />
@@ -41,7 +41,7 @@
                   @click="m_table_batchRemoveResource('CRD', 'CustomResourceDefinition', crdList)"
                 >
                   <v-icon left>mdi-minus-box</v-icon>
-                  删除CRD
+                  {{ $root.$t('operate.delete_c', [$root.$t('resource.crd')]) }}
                 </v-btn>
               </v-flex>
             </v-card-text>
@@ -54,7 +54,7 @@
         hide-default-footer
         :items="items"
         :items-per-page="params.size"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
         show-select
         @toggle-select-all="m_table_onResourceToggleSelect"
@@ -98,7 +98,7 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="error" small text @click="removeCRD(item)"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeCRD(item)"> {{ $root.$t('operate.delete') }} </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -121,6 +121,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from './i18n';
   import { deleteCRD, getCrdList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -130,6 +131,9 @@
 
   export default {
     name: 'CRD',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],
     data: () => ({
       items: [],
@@ -138,13 +142,12 @@
         page: 1,
         size: 10,
       },
-      filters: [{ text: 'crd名称', value: 'search', items: [] }],
     }),
     computed: {
       ...mapState(['JWT']),
       headers() {
         const items = [
-          { text: '名称', value: 'name', align: 'start' },
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
           { text: 'Kind', value: 'kind', align: 'start', sortable: false },
           {
             text: 'Group',
@@ -153,7 +156,7 @@
             sortable: false,
           },
           { text: 'Scope', value: 'scope', align: 'start', sortable: false },
-          { text: '创建时间', value: 'createAt', align: 'start', width: 180 },
+          { text: this.$root.$t('resource.create_at'), value: 'createAt', align: 'start', width: 180 },
         ];
         if (this.m_permisson_resourceAllow) {
           items.push({
@@ -165,6 +168,9 @@
           });
         }
         return items;
+      },
+      filters() {
+        return [{ text: this.$t('filter.crd_name'), value: 'search', items: [] }];
       },
     },
     watch: {
@@ -181,7 +187,7 @@
       if (this.JWT) {
         if (this.ThisCluster === '') {
           this.$store.commit('SET_SNACKBAR', {
-            text: `请创建或选择集群`,
+            text: this.$root.$t('tip.select_cluster'),
             color: 'warning',
           });
           return;
@@ -217,9 +223,9 @@
       },
       removeCRD(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除CRD`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.crd')]),
           content: {
-            text: `删除CRD ${item.metadata.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.crd')])} ${item.metadata.name}`,
             type: 'delete',
             name: item.metadata.name,
           },

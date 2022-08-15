@@ -1,0 +1,63 @@
+{
+  "table": {
+    "name": "环境名称",
+    "creator": "创建人",
+    "used": "已使用{0}"
+  },
+  "filter": {
+    "environment_name": "环境名称"
+  },
+  "tip": {
+    "delete_cascade": "当前删除策略为 delLabels, 该策略仅删除关联",
+    "delete_all": "当前删除策略为 delNamespace, 该策略会删除整个命名空间, 请谨慎操作",
+    "resource_used_list": "环境资源使用清单",
+    "resource_monitor": "资源监控",
+    "cpu_used": "CPU使用量",
+    "memory_used": "内存使用量",
+    "ingress": "网络入口流量",
+    "egress": "网络出口流量",
+    "last_day_resource_used": "过去一天资源使用排名",
+    "cpu_avg_used": "CPU平均使用量",
+    "cpu_max_used": "CPU最大使用量",
+    "memory_avg_used": "内存平均使用量",
+    "memory_max_used": "内存最大使用量",
+    "resource_used": "资源使用",
+    "traffic": "网络流量",
+    "max": "最大",
+    "min": "最小",
+    "avg": "平均",
+    "receive": "接收",
+    "send": "发送",
+    "resource_allocated": "资源分配",
+    "show": "显示",
+    "hide": "折叠",
+    "tenant_resource_allocated": "租户在集群上已分配资源",
+    "resource_quota": "资源配额",
+    "limit_range": "资源限制",
+    "limit_value": "{0}限制值",
+    "limit": "限制值",
+    "default": "默认值",
+    "default_reauest": "默认请求值",
+    "storage_capacity": "存储卷容量",
+    "delete_all_select": "删除整个命名空间",
+    "delete_cascade_select": "仅删除关联"
+  },
+  "operate": {
+    "scale_resource": "调整资源限制",
+    "resource_used_list": "资源使用清单",
+    "edit_limit": "修改限制",
+    "bind_ns": "绑定NS"
+  },
+  "form": {
+    "limit_min_rule": "低于最小值限制",
+    "limit_max_rule": "最大值超出可用资源",
+    "cpu_format_rule": "格式错误(示例:1m,1)",
+    "memory_format_rule": "格式错误(示例:1Mi,1Gi)",
+    "storage_format_rule": "格式错误(示例:1Ki,1Mi,1Gi,1Ti)",
+    "limit_request_rule": "Limits小于Requests",
+    "limit_20_rule": "超出20字符限制",
+    "name": "名称",
+    "remark": "备注",
+    "delete_policy": "删除策略"
+  }
+}

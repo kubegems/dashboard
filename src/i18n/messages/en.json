@@ -80,10 +80,13 @@
   "resource": {
     "resource": "Resource",
     "cpu": "CPU",
+    "cpu_c": "{0} CPU",
     "gpu": "GPU",
     "video_memory": "Video Memory",
     "memory": "Memory",
+    "memory_c": "{0} Memory",
     "storage": "Storage",
+    "storage_c": "{0} Storage",
     "space": "Space",
     "system": "System",
     "mesh": "Service Mesh",
@@ -109,9 +112,10 @@
     "secret": "Secret",
     "certmanager": "Certmanager",
     "crd": "CRD",
+    "cr": "Custom Resource",
     "persistentvolumeclaim": "Persistentvolumeclaim",
     "volumesnapshot": "Volume Snapshot",
-    "storageclass": "Srorageclass",
+    "storageclass": "Storageclass",
     "account": "Account",
     "namespace": "Namespace",
     "project": "Project",
@@ -136,7 +140,9 @@
     "service_entry": "Service Entry",
     "sidecar": "Sidecar",
     "virtual_service": "Virtual Service",
-    "destination_rule": "Destination Rule"
+    "destination_rule": "Destination Rule",
+    "certificate": "Certificate",
+    "issuer": "Issuer"
   },
 
   "header": {
@@ -195,7 +201,8 @@
     "deploy": "Deploy",
     "sync": "Sync",
     "sync_c": "Sync {0}",
-    "save": "Save"
+    "save": "Save",
+    "detail": "Detail"
   },
   "form": {
     "definition": "{0} Definition",
@@ -235,7 +242,7 @@
       "crd": "CRD",
       "persistentvolumeclaim": "Persistentvolumeclaim",
       "volumesnapshot": "Volume Snapshot",
-      "storageclass": "Srorageclass",
+      "storageclass": "Storageclass",
       "app": "App",
       "app_deploy": "App Deploy",
       "app_manifest": "App Manifest",
@@ -439,9 +446,16 @@
     "cluster": "Please create or select cluster",
     "project_select": "There is no environment under this project, please re-select the project or add an environment",
     "save_data": "Please save the data",
-    "parse_error": "Data parsing error"
+    "parse_error": "Data parsing error",
+    "select_tenant": "Please select tenant",
+    "condition": "Condition"
   },
   "tab": {
-    "overview": "Overview"
+    "overview": "Overview",
+    "resource_info": "Resource Info",
+    "metadata": "Metadata",
+    "event": "Event",
+    "pod": "Pod",
+    "monitor": "Monitor"
   }
 }

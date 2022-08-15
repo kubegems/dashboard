@@ -23,15 +23,15 @@
           <template v-if="m_permisson_projectAllow">
             <v-btn class="primary--text" small text @click="scaleResource">
               <v-icon left small> mdi-scale </v-icon>
-              调整资源限制
+              {{ $t('operate.scale_resource') }}
             </v-btn>
             <v-btn class="primary--text" small text @click="manageUser">
               <v-icon left small> mdi-account-settings </v-icon>
-              环境成员
+              {{ $root.$t('resource.environment_c', [$root.$t('resource.member')]) }}
             </v-btn>
             <v-btn class="primary--text" small text @click="resourceUsage">
               <v-icon left small> mdi-format-list-text </v-icon>
-              资源使用清单
+              {{ $t('operate.resource_used_list') }}
             </v-btn>
             <v-menu left>
               <template #activator="{ on }">
@@ -42,10 +42,14 @@
               <v-card>
                 <v-card-text class="pa-2">
                   <v-flex>
-                    <v-btn color="primary" small text @click="updateEnvironment"> 编辑 </v-btn>
+                    <v-btn color="primary" small text @click="updateEnvironment">
+                      {{ $root.$t('operate.edit') }}
+                    </v-btn>
                   </v-flex>
                   <v-flex>
-                    <v-btn color="error" small text @click="removeEnvironment"> 删除 </v-btn>
+                    <v-btn color="error" small text @click="removeEnvironment">
+                      {{ $root.$t('operate.delete') }}
+                    </v-btn>
                   </v-flex>
                 </v-card-text>
               </v-card>
@@ -70,7 +74,7 @@
     <ScaleResource ref="scaleResource" @refresh="environmentQuota" />
     <ManageUser ref="manageUser" />
     <UpdateEnvironment ref="updateEnvironment" @refresh="environmentDetail" />
-    <ResourceUseList ref="resourceUseList" title="环境资源使用清单" type="env" />
+    <ResourceUseList ref="resourceUseList" :title="$t('tip.resource_used_list')" type="env" />
   </v-container>
 </template>
 
@@ -84,6 +88,7 @@
   import ScaleResource from './components/ScaleResource';
   import TopNResourceUsage from './components/TopNResourceUsage';
   import UpdateEnvironment from './components/UpdateEnvironment';
+  import messages from './i18n';
   import { deleteEnvironment, getEnvironmentDetail } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -91,6 +96,9 @@
 
   export default {
     name: 'EnvironmentDetail',
+    i18n: {
+      messages: messages,
+    },
     components: {
       ManageUser,
       ResourceMonitor,
@@ -135,13 +143,11 @@
       removeEnvironment() {
         const item = this.environment;
         this.$store.commit('SET_CONFIRM', {
-          title: `删除环境`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.environment')]),
           content: {
-            text: `删除环境 ${item.EnvironmentName} ，${
-              item.DeletePolicy === 'delLabels'
-                ? '当前删除策略为 delLabels，该策略仅删除关联'
-                : '当前删除策略为 delNamespace，该策略会删除整个命名空间，请谨慎操作'
-            }`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.environment')])} ${
+              item.EnvironmentName
+            } , ${item.DeletePolicy === 'delLabels' ? this.$t('tip.delete_cascade') : this.$t('tip.delete_all')}`,
             type: 'delete',
             name: item.EnvironmentName,
             level: item.DeletePolicy === 'delLabels' ? 'warning' : 'error',

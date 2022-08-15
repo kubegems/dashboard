@@ -22,7 +22,7 @@
         <v-flex class="kubegems__full-right">
           <v-btn v-if="m_permisson_resourceAllow" class="primary--text" small text @click="scalePersistentVolumeClaim">
             <v-icon left small> mdi-arrow-up-down-bold </v-icon>
-            扩容存储卷
+            {{ $t('operate.scale_pvc') }}
           </v-btn>
           <v-btn class="primary--text" small text @click="resourceYaml">
             <v-icon left small> mdi-code-json </v-icon>
@@ -37,7 +37,9 @@
             <v-card>
               <v-card-text class="pa-2 text-center">
                 <v-flex>
-                  <v-btn color="primary" small text @click="updatePersistentVolumeClaim"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updatePersistentVolumeClaim">
+                    {{ $root.$t('operate.edit') }}
+                  </v-btn>
                 </v-flex>
                 <v-flex
                   v-if="
@@ -47,10 +49,14 @@
                     pvc.metadata.annotations['storage.kubegems.io/allow-snapshot'] === 'true'
                   "
                 >
-                  <v-btn color="primary" small text @click="addVolumeSnapshot"> 创建快照 </v-btn>
+                  <v-btn color="primary" small text @click="addVolumeSnapshot">
+                    {{ $t('operate.create_snapshot') }}
+                  </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="removePersistentVolumeClaim"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removePersistentVolumeClaim">
+                    {{ $root.$t('operate.delete') }}
+                  </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -98,6 +104,7 @@
   import ResourceInfo from './components/ResourceInfo';
   import ScalePersistentVolumeClaim from './components/ScalePersistentVolumeClaim';
   import UpdatePersistentVolumeClaim from './components/UpdatePersistentVolumeClaim';
+  import messages from './i18n';
   import { deletePersistentVolumeClaim, getPersistentVolumeClaimDetail, postAddVolumeSnapshot } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -108,6 +115,9 @@
 
   export default {
     name: 'PersistentVolumeClaimDetail',
+    i18n: {
+      messages: messages,
+    },
     components: {
       BasicResourceInfo,
       EventList,
@@ -122,15 +132,17 @@
     data: () => ({
       pvc: null,
       tab: 0,
-      tabItems: [
-        { text: '资源信息', value: 'ResourceInfo' },
-        { text: '元数据', value: 'Metadata' },
-        { text: '事件', value: 'EventList' },
-        { text: '监控', value: 'PersistentVolumeClaimMonitor' },
-      ],
     }),
     computed: {
       ...mapState(['JWT']),
+      tabItems() {
+        return [
+          { text: this.$root.$t('tab.resource_info'), value: 'ResourceInfo' },
+          { text: this.$root.$t('tab.metadata'), value: 'Metadata' },
+          { text: this.$root.$t('tab.event'), value: 'EventList' },
+          { text: this.$root.$t('tab.monitor'), value: 'PersistentVolumeClaimMonitor' },
+        ];
+      },
     },
     mounted() {
       if (this.JWT) {
@@ -158,9 +170,11 @@
       addVolumeSnapshot() {
         const item = this.pvc;
         this.$store.commit('SET_CONFIRM', {
-          title: '创建存储卷快照',
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.persistentvolumeclaim')]),
           content: {
-            text: `创建存储卷快照 ${item.metadata.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.persistentvolumeclaim')])} ${
+              item.metadata.name
+            }`,
             type: 'confirm',
           },
           param: { item },
@@ -180,9 +194,11 @@
       removePersistentVolumeClaim() {
         const item = this.pvc;
         this.$store.commit('SET_CONFIRM', {
-          title: `删除存储卷`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.persistentvolumeclaim')]),
           content: {
-            text: `删除存储卷 ${item.metadata.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.persistentvolumeclaim')])} ${
+              item.metadata.name
+            }`,
             type: 'delete',
             name: item.metadata.name,
           },

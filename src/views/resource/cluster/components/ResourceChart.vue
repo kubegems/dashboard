@@ -28,7 +28,7 @@
                 <span class="white--text text-h5" />
               </v-avatar>
               <span>
-                租户总量
+                {{ $t('tip.total', [$root.$t('resource.tenant')]) }}
                 {{ quota ? sizeOfCpu(quota.tenantAllocated['limits.cpu']).toFixed(1) : 0 }}
                 core
               </span>
@@ -38,7 +38,7 @@
                 <span class="white--text text-h5" />
               </v-avatar>
               <span>
-                物理总量
+                {{ $t('tip.total', [$t('tip.physics')]) }}
                 {{ quota ? sizeOfCpu(quota.capacity.cpu).toFixed(1) : 0 }}
                 core
               </span>
@@ -48,7 +48,7 @@
                 <span class="white--text text-h5" />
               </v-avatar>
               <span>
-                vCPU
+                {{ $root.$t('resource.cpu_c', [$t('tip.virtual')]) }}
                 {{ quota ? maxCpu.toFixed(1) : 0 }}
                 core
               </span>
@@ -70,7 +70,7 @@
                 <span class="white--text text-h5" />
               </v-avatar>
               <span>
-                租户总量
+                {{ $t('tip.total', [$root.$t('resource.tenant')]) }}
                 {{ quota ? sizeOfStorage(quota.tenantAllocated['limits.memory']).toFixed(1) : 0 }}
                 Gi
               </span>
@@ -80,7 +80,7 @@
                 <span class="white--text text-h5" />
               </v-avatar>
               <span>
-                物理总量
+                {{ $t('tip.total', [$t('tip.physics')]) }}
                 {{ quota ? sizeOfStorage(quota.capacity.memory).toFixed(1) : 0 }}
                 Gi
               </span>
@@ -90,7 +90,7 @@
                 <span class="white--text text-h5" />
               </v-avatar>
               <span>
-                v内存
+                {{ $root.$t('resource.memory_c', [$t('tip.virtual')]) }}
                 {{ quota ? maxMemory.toFixed(1) : 0 }}
                 Gi
               </span>
@@ -112,7 +112,7 @@
                 <span class="white--text text-h5" />
               </v-avatar>
               <span>
-                租户总量
+                {{ $t('tip.total', [$root.$t('resource.tenant')]) }}
                 {{ quota ? sizeOfStorage(quota.tenantAllocated['requests.storage']).toFixed(1) : 0 }}
                 Gi
               </span>
@@ -122,7 +122,7 @@
                 <span class="white--text text-h5" />
               </v-avatar>
               <span>
-                物理总量
+                {{ $t('tip.total', [$t('tip.physics')]) }}
                 {{ quota ? sizeOfStorage(quota.capacity['ephemeral-storage']).toFixed(1) : 0 }}
                 Gi
               </span>
@@ -150,7 +150,7 @@
                 <span class="white--text text-h5" />
               </v-avatar>
               <span>
-                总和
+                {{ $t('tip.sum') }}
                 {{ quota ? quota.capacity.pods : 0 }}
               </span>
             </v-sheet>
@@ -178,11 +178,15 @@
   import VueApexCharts from 'vue-apexcharts';
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../i18n';
   import { generateRadialBarChartOptions } from '@/utils/chart';
   import { sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
 
   export default {
     name: 'ResourceChart',
+    i18n: {
+      messages: messages,
+    },
     components: {
       VueApexCharts,
     },
@@ -226,8 +230,12 @@
       },
       cpuOptions() {
         return generateRadialBarChartOptions(
-          'CPU',
-          ['租户总量', '物理总量', 'vCPU'],
+          this.$root.$t('resource.cpu'),
+          [
+            this.$t('tip.total', [this.$root.$t('resource.tenant')]),
+            this.$t('tip.total', [this.$t('tip.physics')]),
+            this.$root.$t('resource.cpu_c', [this.$t('tip.virtual')]),
+          ],
           this.quota ? this.maxCpu : 0,
           'core',
           true,
@@ -244,8 +252,12 @@
       },
       memoryOptions() {
         return generateRadialBarChartOptions(
-          '内存',
-          ['租户总量', '物理总量', 'v内存'],
+          this.$root.$t('resource.memory'),
+          [
+            this.$t('tip.total', [this.$root.$t('resource.tenant')]),
+            this.$t('tip.total', [this.$t('tip.physics')]),
+            this.$root.$t('resource.memory_c', [this.$t('tip.virtual')]),
+          ],
           this.quota ? this.maxMemory : 0,
           'Gi',
           true,
@@ -261,8 +273,8 @@
       },
       storageOptions() {
         return generateRadialBarChartOptions(
-          '存储',
-          ['租户总量', '物理总量'],
+          this.$root.$t('resource.storage'),
+          [this.$t('tip.total', [this.$root.$t('resource.tenant')]), this.$t('tip.total', [this.$t('tip.physics')])],
           this.quota ? this.maxStorage : 0,
           'Gi',
           true,
@@ -276,7 +288,13 @@
           : [0];
       },
       podOptions() {
-        return generateRadialBarChartOptions('容器组', ['总和'], this.quota ? this.quota.capacity.pods : 0, '', true);
+        return generateRadialBarChartOptions(
+          this.$root.$t('resource.pod'),
+          [this.$t('tip.sum')],
+          this.quota ? this.quota.capacity.pods : 0,
+          '',
+          true,
+        );
       },
     },
     methods: {

@@ -15,12 +15,20 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-cube" title="更新环境" :width="1000" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-cube"
+    :title="$root.$t('operate.update_c', [$root.$t('resource.environment')])"
+    :width="1000"
+    @reset="reset"
+  >
     <template #content>
       <component :is="formComponent" :ref="formComponent" :edit="true" :step="step" />
     </template>
     <template #action>
-      <v-btn class="float-right mx-2" color="primary" :loading="Circular" text @click="updateEnvironment"> 确定 </v-btn>
+      <v-btn class="float-right mx-2" color="primary" :loading="Circular" text @click="updateEnvironment">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>
@@ -59,7 +67,7 @@
         }
         if (!this.$refs[this.formComponent].checkSaved()) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请保存数据',
+            text: this.$root.$t('tip.save_data'),
             color: 'warning',
           });
           return;

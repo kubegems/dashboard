@@ -15,7 +15,13 @@
 -->
 
 <template>
-  <BasePanel v-model="panel" icon="mdi-debug-step-over" title="步骤&流量" :width="`1200px`" @dispose="dispose">
+  <BasePanel
+    v-model="panel"
+    icon="mdi-debug-step-over"
+    :title="$t('tip.step_and_traffic')"
+    :width="`1200px`"
+    @dispose="dispose"
+  >
     <template #header>
       <span class="ml-2">
         {{ $route.params.name }}
@@ -23,27 +29,32 @@
     </template>
     <template #action>
       <template v-if="status && (status.strategy === 'Canary' || status.strategy === 'BlueGreen')">
-        <v-btn class="white--text" small text @click="deployControll('重启应用', 'restart')">
+        <v-btn class="white--text" small text @click="deployControll($t('operate.restart'), 'restart')">
           <v-icon left small> mdi-redo-variant </v-icon>
-          重启应用
+          {{ $t('operate.restart') }}
         </v-btn>
-        <v-btn class="white--text" small text @click="deployControll('重试发布', 'retry')">
+        <v-btn class="white--text" small text @click="deployControll($t('operate.redo'), 'retry')">
           <v-icon left small> mdi-reload </v-icon>
-          重试
+          {{ $t('operate.redo') }}
         </v-btn>
-        <v-btn class="white--text" small text @click="deployControll('中止发布', 'pause')">
+        <v-btn class="white--text" small text @click="deployControll($t('operate.abort'), 'pause')">
           <v-icon left small> mdi-pause </v-icon>
-          中止
+          {{ $t('operate.abort') }}
         </v-btn>
-        <v-btn class="white--text" small text @click="deployControll('继续发布', 'promote', { full: false })">
+        <v-btn
+          class="white--text"
+          small
+          text
+          @click="deployControll($t('operate.continue'), 'promote', { full: false })"
+        >
           <v-icon left small> mdi-play </v-icon>
-          继续
+          {{ $t('operate.continue') }}
         </v-btn>
       </template>
     </template>
     <template #content>
       <template v-if="status && status.strategy === 'Canary'">
-        <v-flex class="px-4 pt-2 text-subtitle-1 kubegems__text">步骤</v-flex>
+        <v-flex class="px-4 pt-2 text-subtitle-1 kubegems__text">{{ $t('tip.step') }}</v-flex>
         <v-stepper v-if="status && status.step" alt-labels :value="getNowStep(status.step) + 1">
           <v-stepper-header>
             <template v-for="(step, index) in status ? status.steps : []">
@@ -73,7 +84,7 @@
         </v-stepper>
       </template>
 
-      <v-flex class="px-4 py-2 text-subtitle-1 kubegems__text">流量拓扑</v-flex>
+      <v-flex class="px-4 py-2 text-subtitle-1 kubegems__text">{{ $t('tip.traffic_topology') }}</v-flex>
       <v-progress-linear v-if="progress" color="primary" indeterminate />
       <v-flex :style="{ position: `relative` }">
         <v-flex :class="progress ? 'kubegems__overlay' : ''" />
@@ -95,11 +106,15 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import { postStrategyDeployEnvironmentAppsControl } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'DeployStepPanel',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
 
     data() {
@@ -142,7 +157,7 @@
         this.$store.commit('SET_CONFIRM', {
           title: title,
           content: {
-            text: command === 'undo' ? `回滚版本 ${args.revision}` : `${title} ${this.$route.params.name}`,
+            text: command === 'undo' ? `${operate.rollback} ${args.revision}` : `${title} ${this.$route.params.name}`,
             type: 'confirm',
             name: this.$route.params.name,
           },

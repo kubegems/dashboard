@@ -24,19 +24,19 @@
             <template v-if="taskStatus === 'Running' || taskStatus === 'Pending'">
               <v-icon class="icon-font waiting-circle-flashing" color="warning"> mdi-autorenew </v-icon>
               <span class="warning--text">
-                {{ deploy ? '应用部署中' : '策略变更中' }}
+                {{ deploy ? $t('status.deploying') : $t('status.policy_changing') }}
               </span>
             </template>
             <template v-else-if="taskStatus === 'Success' && deploy">
               <v-icon class="icon-font" color="success"> mdi-check-circle </v-icon>
-              <span class="success--text"> 应用已部署 </span>
+              <span class="success--text"> {{ $t('status.deployed') }} </span>
             </template>
             <template v-else-if="taskStatus === 'Error'">
               <v-menu :close-delay="200" nudge-bottom="10px" open-on-hover top>
                 <template #activator="{ on }">
                   <span class="error--text kubegems__pointer" v-on="on">
                     <v-icon class="icon-font" color="error"> mdi-close-circle </v-icon>
-                    {{ deploy ? '应用部署失败' : '策略变更失败' }}
+                    {{ deploy ? $t('status.deploy_failed') : $t('status.policy_change_failed') }}
                   </span>
                 </template>
                 <v-card>
@@ -47,7 +47,7 @@
           </span>
           <v-btn class="primary--text" small text @click="returnAppDetail">
             <v-icon left small> mdi-share </v-icon>
-            返回
+            {{ $root.$t('operate.return') }}
           </v-btn>
         </v-flex>
       </template>
@@ -56,7 +56,7 @@
       <v-col cols="3">
         <v-card flat height="100%">
           <v-card-title>
-            <span class="text-subtitle-1 kubegems__text"> 滚动更新 </span>
+            <span class="text-subtitle-1 kubegems__text"> {{ $t('tip.rolling_update') }} </span>
             <v-spacer />
             <v-btn
               color="primary"
@@ -70,7 +70,7 @@
               small
               @click="deployRollingUpdate"
             >
-              部署
+              {{ $root.$t('operate.deploy') }}
             </v-btn>
           </v-card-title>
           <v-divider class="mx-2" />
@@ -79,14 +79,14 @@
               <img src="/img/deploy/rollingupdate.png" width="100%" />
             </v-flex>
             RollingUpdate
-            慢慢的用新版本替换旧版本。随着新版本的出现，旧版本会按比例缩小，以保持应用程序的整体数量。这是Deployment对象的默认策略。
+            {{ $t('tip.rolling_update_tip') }}
           </v-card-text>
         </v-card>
       </v-col>
       <v-col cols="3">
         <v-card flat height="100%">
           <v-card-title>
-            <span class="text-subtitle-1 kubegems__text"> 重建 </span>
+            <span class="text-subtitle-1 kubegems__text"> {{ $t('tip.recreate') }} </span>
             <v-spacer />
             <v-btn
               color="primary"
@@ -100,7 +100,7 @@
               small
               @click="deployRecreate"
             >
-              部署
+              {{ $root.$t('operate.deploy') }}
             </v-btn>
           </v-card-title>
           <v-divider class="mx-2" />
@@ -108,14 +108,14 @@
             <v-flex class="mb-2">
               <img src="/img/deploy/recreate.png" width="100%" />
             </v-flex>
-            重新创建部署会在启动新版本之前删除旧版本的应用程序，因此，这可以保证应用程序的两个版本永远不会同时运行，但在部署期间会出现停机间隔。
+            {{ $t('tip.recreate_tip') }}
           </v-card-text>
         </v-card>
       </v-col>
       <v-col cols="3">
         <v-card flat height="100%">
           <v-card-title>
-            <span class="text-subtitle-1 kubegems__text"> 蓝绿发布 </span>
+            <span class="text-subtitle-1 kubegems__text"> {{ $t('tip.blue_green') }} </span>
             <v-spacer />
             <v-btn
               color="primary"
@@ -130,7 +130,7 @@
               small
               @click="deployBlueGreen"
             >
-              部署
+              {{ $root.$t('operate.deploy') }}
             </v-btn>
           </v-card-title>
           <v-divider class="mx-2" />
@@ -138,14 +138,14 @@
             <v-flex class="mb-2">
               <img src="/img/deploy/bluegreen.png" width="100%" />
             </v-flex>
-            蓝绿部署（有时称为红黑）同时部署了新旧版本的应用程序，在此期间，只有旧版本的应用程序会收到生产流量，这允许开发人员在将实时流量切换到新版本之前针对新版本进行测试。
+            {{ $t('tip.blue_green_tip') }}
           </v-card-text>
         </v-card>
       </v-col>
       <v-col cols="3">
         <v-card flat height="100%">
           <v-card-title>
-            <span class="text-subtitle-1 kubegems__text"> 金丝雀发布（灰度） </span>
+            <span class="text-subtitle-1 kubegems__text"> {{ $t('tip.canary') }} </span>
             <v-spacer />
             <v-btn
               color="primary"
@@ -160,7 +160,7 @@
               small
               @click="deployCanary"
             >
-              部署
+              {{ $root.$t('operate.deploy') }}
             </v-btn>
           </v-card-title>
           <v-divider class="mx-2" />
@@ -169,8 +169,7 @@
               <img src="/img/deploy/canary.png" width="100%" />
             </v-flex>
             Canary
-            部署将一部分用户暴露给新版本的应用程序，同时将其余流量提供给旧版本。新版本经验证无误后，可逐步替换旧版本。入口控制器和服务网格（例如Nginx和Istio）为金丝雀启用了比原生可用更为复杂的流量整合模式。（例如实现非常细粒度的流量拆分，或基于http
-            header的拆分）
+            {{ $t('tip.canary_tip') }}
           </v-card-text>
         </v-card>
       </v-col>
@@ -204,12 +203,12 @@
                   (runtime.strategy.type === undefined ||
                     runtime.strategy.type === 'Recreate' ||
                     runtime.strategy.type === 'RollingUpdate')
-                  ? { text: '蓝绿', value: 'BlueGreen' }
-                  : { text: '滚动更新', value: 'RollingUpdate' },
+                  ? { text: $t('tip.blue_green'), value: 'BlueGreen' }
+                  : { text: $t('tip.rolling_update'), value: 'RollingUpdate' },
               )
             "
           >
-            切换模式
+            {{ $t('operate.switch_deploy') }}
           </v-btn>
         </v-flex>
       </v-flex>
@@ -244,12 +243,12 @@
                   (runtime.strategy.type === undefined ||
                     runtime.strategy.type === 'Recreate' ||
                     runtime.strategy.type === 'RollingUpdate')
-                  ? { text: '金丝雀（灰度）', value: 'Canary' }
-                  : { text: '重建', value: 'Recreate' },
+                  ? { text: $t('tip.canary'), value: 'Canary' }
+                  : { text: $t('tip.recreate'), value: 'Recreate' },
               )
             "
           >
-            切换模式
+            {{ $t('operate.switch_deploy') }}
           </v-btn>
         </v-flex>
       </v-flex>
@@ -269,12 +268,16 @@
   import Canary from './components/deploy_policy/Canary';
   import Recreate from './components/deploy_policy/Recreate';
   import RollingUpdate from './components/deploy_policy/RollingUpdate';
+  import messages from './i18n';
   import { getStrategyDeployEnvironmentAppsDetail, postSwitchDeployAppStrategy } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'AppDeployCenter',
+    i18n: {
+      messages: messages,
+    },
     components: {
       BlueGreen,
       Canary,
@@ -378,9 +381,9 @@
       },
       switchDeployMode(mode) {
         this.$store.commit('SET_CONFIRM', {
-          title: `切换部署模式`,
+          title: this.$t('operate.switch_deploy'),
           content: {
-            text: `应用部署切换为 <span class="warning--text">${mode.text}</span> 模式，该模式首次运行时会自动触发流量切换，请确认执行。`,
+            text: this.$t('tip.switch_deploy', [mode.text]),
             type: 'confirm',
           },
           param: { mode },

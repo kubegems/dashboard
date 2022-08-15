@@ -21,7 +21,7 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :default="{ items: [], text: '存储卷名称', value: 'search' }"
+          :default="{ items: [], text: $t('filter.pvc_name'), value: 'search' }"
           :filters="filters"
           @refresh="m_filter_list"
         />
@@ -38,17 +38,23 @@
               <v-flex>
                 <v-btn color="primary" text @click="addPersistentVolumeClaim">
                   <v-icon left>mdi-database-plus</v-icon>
-                  创建存储卷
+                  {{ $root.$t('operate.create_c', [$root.$t('resource.persistentvolumeclaim')]) }}
                 </v-btn>
               </v-flex>
               <v-flex>
                 <v-btn
                   color="error"
                   text
-                  @click="m_table_batchRemoveResource('存储卷', 'PersistentVolumeClaim', persistentVolumeClaimList)"
+                  @click="
+                    m_table_batchRemoveResource(
+                      $root.$t('resource.persistentvolumeclaim'),
+                      'PersistentVolumeClaim',
+                      persistentVolumeClaimList,
+                    )
+                  "
                 >
                   <v-icon left>mdi-minus-box</v-icon>
-                  删除存储卷
+                  {{ $root.$t('operate.delete_c', [$root.$t('resource.persistentvolumeclaim')]) }}
                 </v-btn>
               </v-flex>
             </v-card-text>
@@ -61,7 +67,7 @@
         hide-default-footer
         :items="items"
         :items-per-page="params.size"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
         show-select
         @toggle-select-all="m_table_onResourceToggleSelect"
@@ -131,10 +137,14 @@
             <v-card>
               <v-card-text class="pa-2 text-center">
                 <v-flex>
-                  <v-btn color="primary" small text @click="updatePersistentVolumeClaim(item)"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updatePersistentVolumeClaim(item)">
+                    {{ $root.$t('operate.edit') }}
+                  </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="primary" small text @click="scalePersistentVolumeClaim(item)"> 扩容 </v-btn>
+                  <v-btn color="primary" small text @click="scalePersistentVolumeClaim(item)">
+                    {{ $t('operate.scale') }}
+                  </v-btn>
                 </v-flex>
                 <v-flex
                   v-if="
@@ -143,10 +153,14 @@
                     item.metadata.annotations[`storage.kubegems.io/allow-snapshot`] === 'true'
                   "
                 >
-                  <v-btn color="primary" small text @click="addVolumeSnapshot(item)"> 创建快照 </v-btn>
+                  <v-btn color="primary" small text @click="addVolumeSnapshot(item)">
+                    {{ $t('operate.create_snapshot') }}
+                  </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="removePersistentVolumeClaim(item)"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removePersistentVolumeClaim(item)">
+                    {{ $root.$t('operate.delete') }}
+                  </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -176,6 +190,7 @@
   import AddPersistentVolumeClaim from './components/AddPersistentVolumeClaim';
   import ScalePersistentVolumeClaim from './components/ScalePersistentVolumeClaim';
   import UpdatePersistentVolumeClaim from './components/UpdatePersistentVolumeClaim';
+  import messages from './i18n';
   import { deletePersistentVolumeClaim, getPersistentVolumeClaimList, postAddVolumeSnapshot } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -185,6 +200,9 @@
 
   export default {
     name: 'PersistentVolumeClaim',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddPersistentVolumeClaim,
       NamespaceFilter,
@@ -199,24 +217,23 @@
         page: 1,
         size: 10,
       },
-      filters: [{ text: '存储卷名称', value: 'search', items: [] }],
     }),
     computed: {
       ...mapState(['JWT', 'AdminViewport']),
       headers() {
         const items = [
-          { text: '存储卷', value: 'name', align: 'start' },
-          { text: '类型', value: 'type', align: 'start', sortable: false },
-          { text: '状态', value: 'status', align: 'start', sortable: false },
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
+          { text: this.$root.$t('resource.type'), value: 'type', align: 'start', sortable: false },
+          { text: this.$t('table.status'), value: 'status', align: 'start', sortable: false },
           {
-            text: '访问模式',
+            text: this.$t('table.access_mode'),
             value: 'accessMode',
             align: 'start',
             sortable: false,
           },
-          { text: '容量', value: 'storage', align: 'start', sortable: false },
-          { text: '挂载', value: 'mount', align: 'start', sortable: false, width: 120 },
-          { text: '创建时间', value: 'createAt', align: 'start', width: 200 },
+          { text: this.$t('table.storage'), value: 'storage', align: 'start', sortable: false },
+          { text: this.$t('table.mount'), value: 'mount', align: 'start', sortable: false, width: 120 },
+          { text: this.$root.$t('resource.create_at'), value: 'createAt', align: 'start', width: 200 },
         ];
         if (this.m_permisson_resourceAllow) {
           items.push({
@@ -229,7 +246,7 @@
         }
         if (this.AdminViewport) {
           items.splice(1, 0, {
-            text: '命名空间',
+            text: this.$root.$t('resource.namespace'),
             value: 'namespace',
             align: 'start',
             sortable: false,
@@ -237,6 +254,9 @@
           });
         }
         return items;
+      },
+      filters() {
+        return [{ text: this.$t('filter.pvc_name'), value: 'search', items: [] }];
       },
     },
     watch: {
@@ -264,7 +284,7 @@
         this.$nextTick(() => {
           if (this.ThisCluster === '') {
             this.$store.commit('SET_SNACKBAR', {
-              text: `请创建或选择集群`,
+              text: this.$root.$t('tip.select_cluster'),
               color: 'warning',
             });
             return;
@@ -310,9 +330,11 @@
       },
       addVolumeSnapshot(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `创建存储卷快照`,
+          title: this.$root.$t('operate.create_c', [this.$root.$t('resource.volumesnapshot')]),
           content: {
-            text: `创建存储卷快照 ${item.metadata.name}`,
+            text: `${this.$root.$t('operate.create_c', [this.$root.$t('resource.volumesnapshot')])} ${
+              item.metadata.name
+            }`,
             type: 'confirm',
           },
           param: { item },
@@ -331,9 +353,11 @@
       },
       removePersistentVolumeClaim(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除存储卷`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.persistentvolumeclaim')]),
           content: {
-            text: `删除存储卷 ${item.metadata.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.persistentvolumeclaim')])} ${
+              item.metadata.name
+            }`,
             type: 'delete',
             name: item.metadata.name,
           },
@@ -359,12 +383,12 @@
       },
       getMountStatus(item) {
         if (item.metadata.annotations && item.metadata.annotations[`storage.kubegems.io/in-use`] === 'true') {
-          return '已挂载';
+          return this.$t('status.mounted');
         }
         if (item.metadata.annotations && item.metadata.annotations[`storage.kubegems.io/in-use`] === 'false') {
-          return '未挂载';
+          return this.$t('status.unmounted');
         }
-        return '未知';
+        return this.$root.$t('data.unknown');
       },
     },
   };

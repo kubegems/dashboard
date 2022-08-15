@@ -15,7 +15,13 @@
 -->
 
 <template>
-  <BasePanel v-model="panel" icon="mdi-dots-circle" title="实时状态" :width="`50%`" @dispose="dispose">
+  <BasePanel
+    v-model="panel"
+    icon="mdi-dots-circle"
+    :title="$t('tip.realtime_status')"
+    :width="`50%`"
+    @dispose="dispose"
+  >
     <template #header>
       <span class="ml-2"> {{ resource ? resource.kind : '' }}/{{ resource ? resource.name : '' }} </span>
     </template>
@@ -37,17 +43,17 @@
               <v-icon v-else right> mdi-chevron-down </v-icon>
             </v-btn>
           </template>
-          <v-data-iterator hide-default-footer :items="[{ text: '容器', values: containers }]">
+          <v-data-iterator hide-default-footer :items="[{ text: $root.$t('resource.container'), values: containers }]">
             <template #no-data>
               <v-card>
-                <v-card-text> 暂无容器 </v-card-text>
+                <v-card-text> {{ $root.$t('data.no_data') }} </v-card-text>
               </v-card>
             </template>
             <template #default="props">
               <v-card v-for="item in props.items" :key="item.text" flat min-width="120">
                 <v-list dense>
                   <v-flex class="text-subtitle-2 text-center ma-2">
-                    <span>容器</span>
+                    <span>{{ $root.$t('resource.container') }}</span>
                   </v-flex>
                   <v-divider class="mx-2" />
                   <v-list-item
@@ -86,6 +92,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../../../i18n';
   import DeployDiffYaml from './DeployDiffYaml';
   import DeployEvent from './DeployEvent';
   import DeployLiveYaml from './DeployLiveYaml';
@@ -97,6 +104,9 @@
 
   export default {
     name: 'DeployLive',
+    i18n: {
+      messages: messages,
+    },
     components: {
       DeployDiffYaml,
       DeployEvent,
@@ -120,21 +130,21 @@
       tabItems() {
         if (this.resource && this.resource.kind === 'Pod') {
           return [
-            { text: '资源Live', value: 'DeployLiveYaml' },
-            { text: '资源Diff', value: 'DeployDiffYaml' },
-            { text: '事件', value: 'DeployEvent' },
-            { text: '日志', value: 'DeployLog' },
+            { text: this.$t('tab.resource_live'), value: 'DeployLiveYaml' },
+            { text: this.$t('tab.resource_diff'), value: 'DeployDiffYaml' },
+            { text: this.$root.$t('tab.event'), value: 'DeployEvent' },
+            { text: this.$t('tab.log'), value: 'DeployLog' },
           ];
         } else if (this.resource && this.resource.kind === 'Application') {
           return [
-            { text: '资源Live', value: 'DeployLiveYaml' },
-            { text: '应用状态', value: 'DeployResult' },
+            { text: this.$t('tab.resource_live'), value: 'DeployLiveYaml' },
+            { text: this.$t('tab.app_status'), value: 'DeployResult' },
           ];
         } else {
           return [
-            { text: '资源Live', value: 'DeployLiveYaml' },
-            { text: '资源Diff', value: 'DeployDiffYaml' },
-            { text: '事件', value: 'DeployEvent' },
+            { text: this.$t('tab.resource_live'), value: 'DeployLiveYaml' },
+            { text: this.$t('tab.resource_diff'), value: 'DeployDiffYaml' },
+            { text: this.$root.$t('tab.event'), value: 'DeployEvent' },
           ];
         }
       },

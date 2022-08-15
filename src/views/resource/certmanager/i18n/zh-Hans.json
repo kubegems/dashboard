@@ -1,0 +1,27 @@
+{
+  "table": {
+    "name": "名称",
+    "issuer": "颁发者",
+    "expire_at": "到期时间",
+    "renew_at": "自动续签时间",
+    "issuer_type": "颁发机构类型",
+    "secret_name": "密钥名",
+    "dns_name": "DNS名",
+    "extend": "扩展"
+  },
+  "filter": {
+    "cert_name": "名称"
+  },
+  "tip": {
+    "key_use": "公钥用法"
+  },
+  "form": {
+    "name": "名称",
+    "issuer_type": "机构类型",
+    "ingress": "关联ingress名称",
+    "expire_at": "证书有效期",
+    "auto_renew": "自动续签",
+    "cert_use": "证书用途",
+    "domain": "授信域名"
+  }
+}

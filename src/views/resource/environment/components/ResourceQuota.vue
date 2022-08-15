@@ -16,7 +16,7 @@
 
 <template>
   <v-card>
-    <BaseSubTitle class="pt-2" :divider="false" title="资源分配" />
+    <BaseSubTitle class="pt-2" :divider="false" :title="$t('tip.resource_allocated')" />
     <v-card-text :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
       <v-row>
         <v-col class="py-0" cols="3">
@@ -47,7 +47,7 @@
 
       <div v-if="tke || nvidia" class="text-center">
         <v-btn color="primary" small text @click="showMore = !showMore">
-          {{ showMore ? '折叠GPU' : '显示GPU' }}
+          {{ showMore ? `${$t('tip.hide')} GPU` : `${$t('tip.hide')} GPU` }}
         </v-btn>
       </div>
     </v-card-text>
@@ -58,6 +58,7 @@
   import VueApexCharts from 'vue-apexcharts';
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../i18n';
   import { getEnvironmentQuota } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { generateRadialBarChartOptions } from '@/utils/chart';
@@ -65,6 +66,9 @@
 
   export default {
     name: 'ResourceQuota',
+    i18n: {
+      messages: messages,
+    },
     components: {
       VueApexCharts,
     },
@@ -84,25 +88,45 @@
         return this.quota ? [this.quota.Cpu === 0 ? 0 : (this.quota.UsedCpu / this.quota.Cpu) * 100] : [0];
       },
       cpuOptions() {
-        return generateRadialBarChartOptions('CPU', ['CPU'], this.quota ? this.quota.Cpu : 0, 'core');
+        return generateRadialBarChartOptions(
+          this.$root.$t('resource.cpu'),
+          [this.$root.$t('resource.cpu')],
+          this.quota ? this.quota.Cpu : 0,
+          'core',
+        );
       },
       memorySeries() {
         return this.quota ? [this.quota.Memory === 0 ? 0 : (this.quota.UsedMemory / this.quota.Memory) * 100] : [0];
       },
       memoryOptions() {
-        return generateRadialBarChartOptions('内存', ['内存'], this.quota ? this.quota.Memory : 0, 'Gi');
+        return generateRadialBarChartOptions(
+          this.$root.$t('resource.memory'),
+          [this.$root.$t('resource.memory')],
+          this.quota ? this.quota.Memory : 0,
+          'Gi',
+        );
       },
       storageSeries() {
         return this.quota ? [this.quota.Storage === 0 ? 0 : (this.quota.UsedStorage / this.quota.Storage) * 100] : [0];
       },
       storageOptions() {
-        return generateRadialBarChartOptions('存储', ['存储'], this.quota ? this.quota.Storage : 0, 'Gi');
+        return generateRadialBarChartOptions(
+          this.$root.$t('resource.storage'),
+          [this.$root.$t('resource.storage')],
+          this.quota ? this.quota.Storage : 0,
+          'Gi',
+        );
       },
       podSeries() {
         return this.quota ? [this.quota.Pod === 0 ? 0 : (this.quota.UsedPod / this.quota.Pod) * 100] : [0];
       },
       podOptions() {
-        return generateRadialBarChartOptions('容器组', ['容器组'], this.quota ? this.quota.Pod : 0, '');
+        return generateRadialBarChartOptions(
+          this.$root.$t('resource.pod'),
+          [this.$root.$t('resource.pod')],
+          this.quota ? this.quota.Pod : 0,
+          '',
+        );
       },
 
       nvidiaGpuSeries() {
@@ -112,8 +136,8 @@
       },
       nvidiaGpuOptions() {
         return generateRadialBarChartOptions(
-          'Nvidia CPU',
-          ['Nvidia CPU'],
+          `Nvidia ${this.$root.$t('resource.gpu')}`,
+          [`Nvidia ${this.$root.$t('resource.gpu')}`],
           this.quota ? this.quota.NvidiaGpu : 0,
           'gpu',
         );
@@ -123,7 +147,12 @@
         return this.quota ? [this.quota.TkeGpu === 0 ? 0 : (this.quota.UsedTkeGpu / this.quota.TkeGpu) * 100] : [0];
       },
       tkeGpuOptions() {
-        return generateRadialBarChartOptions('Tke GPU', ['Tke GPU'], this.quota ? this.quota.TkeGpu : 0, '');
+        return generateRadialBarChartOptions(
+          `Tke ${this.$root.$t('resource.gpu')}`,
+          [`Tke ${this.$root.$t('resource.gpu')}`],
+          this.quota ? this.quota.TkeGpu : 0,
+          '',
+        );
       },
 
       tkeMemorySeries() {
@@ -132,7 +161,12 @@
           : [0];
       },
       tkeMemoryOptions() {
-        return generateRadialBarChartOptions('Tke显存', ['Tke显存'], this.quota ? this.quota.TkeMemory : 0, '');
+        return generateRadialBarChartOptions(
+          `Tke ${this.$root.$t('resource.video_memory')}`,
+          [`Tke ${this.$root.$t('resource.video_memory')}`],
+          this.quota ? this.quota.TkeMemory : 0,
+          '',
+        );
       },
     },
     mounted() {

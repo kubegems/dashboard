@@ -15,11 +15,19 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-account-settings" title="环境成员" :width="900" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-account-settings"
+    :title="$root.$t('resource.environment_c', [$root.$t('resource.member')])"
+    :width="900"
+    @reset="reset"
+  >
     <template #content>
       <v-card flat>
         <v-card-text class="pa-0">
-          <BaseSubTitle title="环境成员角色" />
+          <BaseSubTitle
+            :title="$root.$t('resource.environment_c', [$root.$t('resource.member_c', [$root.$t('resource.role')])])"
+          />
           <v-tabs v-model="tab" class="pa-2" height="60px" vertical @change="onTabChange">
             <v-tab v-for="item in tabItems" :key="item.value">
               {{ item.text }}
@@ -29,7 +37,9 @@
                 <v-col class="py-1" cols="6">
                   <v-card elevation="2" flat height="550px">
                     <v-card-text>
-                      <v-flex class="px-1 mb-2">项目成员</v-flex>
+                      <v-flex class="px-1 mb-2">
+                        {{ $root.$t('resource.project_c', [$root.$t('resource.member')]) }}
+                      </v-flex>
                       <v-text-field
                         v-model="searchAllUser"
                         class="mx-1"
@@ -57,7 +67,7 @@
                   <v-card elevation="2" flat height="550px">
                     <v-card-text>
                       <v-flex class="px-1 mb-2">
-                        {{ tab === 0 ? '只读成员' : '操作成员' }}
+                        {{ tab === 0 ? $root.$t('role.environment.reader') : $root.$t('role.environment.operator') }}
                       </v-flex>
                       <v-text-field
                         v-model="searchRoleUser"
@@ -108,10 +118,6 @@
     data: () => ({
       dialog: false,
       tab: 0,
-      tabItems: [
-        { text: '只读成员', value: 'reader' },
-        { text: '操作成员', value: 'operator' },
-      ],
       allUsers: [],
       allUsersCopy: [],
       users: [],
@@ -124,6 +130,12 @@
     computed: {
       ...mapState(['JWT', 'Scale']),
       ...mapGetters(['Project', 'Environment']),
+      tabItems() {
+        return [
+          { text: this.$root.$t('role.environment.reader'), value: 'reader' },
+          { text: this.$root.$t('role.environment.operator'), value: 'operator' },
+        ];
+      },
     },
     methods: {
       open() {

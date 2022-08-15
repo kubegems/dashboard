@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-dots-circle" title="任务步骤状态" :width="1000" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-dots-circle" :title="$t('tip.step_status')" :width="1000" @reset="reset">
     <template #header>
       <span class="ml-3">
         {{ $route.params.name }}
@@ -48,7 +48,7 @@
               "
               :step="`${index + 1}`"
             >
-              步骤{{ index + 1 }}: {{ stage.name }}
+              {{ $t('tip.step') }}{{ index + 1 }}: {{ stage.name }}
             </v-stepper-step>
             <v-stepper-content :key="`c${index}`" :step="`${index + 1}`">
               <v-card class="my-0" flat>
@@ -59,7 +59,7 @@
                   item-key="ID"
                   :items="stage.nodata ? [] : stage.data"
                   :items-per-page="100"
-                  no-data-text="暂无部署数据"
+                  :no-data-text="$root.$t('data.no_data')"
                   show-expand
                   single-expand
                   @click:row="onRowClick"
@@ -84,29 +84,29 @@
                   <template #[`item.status`]="{ item }">
                     <template v-if="item && item.status && item.status.status === 'Success'">
                       <v-icon color="success" small> mdi-check-circle </v-icon>
-                      执行完成
+                      {{ $t('status.complete') }}
                     </template>
                     <template v-else-if="item && item.status && item.status.status === 'Error'">
                       <v-icon color="error" small> mdi-alert-circle </v-icon>
-                      执行失败
+                      {{ $t('status.failed') }}
                     </template>
                     <template v-else-if="item && item.status && item.status.status === 'Running'">
                       <v-icon class="kubegems__waiting-circle-flashing" color="warning" small> mdi-sync </v-icon>
-                      执行中
+                      {{ $t('status.running') }}
                     </template>
                     <template v-else-if="item && item.status && item.status.status === 'Pending'">
                       <v-icon color="grey" small> mdi-timer-sand </v-icon>
-                      等待执行
+                      {{ $t('status.pending') }}
                     </template>
                   </template>
                   <template #expanded-item="{ headers, item }">
                     <td class="my-2 py-2" :colspan="headers.length">
-                      <span>错误信息：</span>
+                      <span>{{ $t('tip.error_info') }} : </span>
                       <span>
                         {{
                           item.status && item.status.message && item.status.message.length > 0
                             ? item.status.message
-                            : '暂无'
+                            : $root.$t('data.no_data')
                         }}
                       </span>
                     </td>
@@ -120,7 +120,9 @@
       <v-flex v-else class="grey lighten-4 rounded ma-2 mt-3">
         <v-list-item two-line>
           <v-list-item-content class="py-2">
-            <v-list-item-subtitle class="text-body-2 py-0 text-center"> 暂无任务 </v-list-item-subtitle>
+            <v-list-item-subtitle class="text-body-2 py-0 text-center">
+              {{ $root.$t('data.no_data') }}
+            </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </v-flex>
@@ -131,29 +133,35 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'DeployStepStatus',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     data() {
       return {
         dialog: false,
         statusSSE: null,
         step: 1,
-        headers: [
-          { text: '任务', value: 'task', align: 'start', width: 200 },
-          { text: '开始时间', value: 'startAt', align: 'start' },
-          { text: '结束时间', value: 'endAt', align: 'start' },
-          { text: '状态', value: 'status', align: 'start' },
-          { text: '', value: 'data-table-expand' },
-        ],
         stages: [],
       };
     },
     computed: {
       ...mapState(['JWT', 'Scale']),
       ...mapGetters(['Tenant', 'Project', 'Environment']),
+      headers() {
+        return [
+          { text: this.$t('table.task'), value: 'task', align: 'start', width: 200 },
+          { text: this.$t('table.start_at'), value: 'startAt', align: 'start' },
+          { text: this.$t('table.end_at'), value: 'endAt', align: 'start' },
+          { text: this.$t('table.status'), value: 'status', align: 'start' },
+          { text: '', value: 'data-table-expand' },
+        ];
+      },
     },
     created() {
       window.addEventListener('beforeunload', this.closeStatusSSE);

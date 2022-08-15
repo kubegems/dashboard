@@ -15,7 +15,13 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-cube" title="创建环境" :width="1000" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-cube"
+    :title="$root.$t('operate.create_c', [$root.$t('resource.environment')])"
+    :width="1000"
+    @reset="reset"
+  >
     <template #content>
       <component :is="formComponent" :ref="formComponent" :step="step" />
     </template>
@@ -28,10 +34,14 @@
         text
         @click="addEnvironment"
       >
-        确定
+        {{ $root.$t('operate.confirm') }}
       </v-btn>
-      <v-btn v-if="step < 2" class="float-right mx-2" color="primary" text @click="check"> 下一步 </v-btn>
-      <v-btn v-if="step > 0" class="float-right mx-2" color="primary" text @click="step -= 1"> 上一步 </v-btn>
+      <v-btn v-if="step < 2" class="float-right mx-2" color="primary" text @click="check">
+        {{ $root.$t('operate.next') }}
+      </v-btn>
+      <v-btn v-if="step > 0" class="float-right mx-2" color="primary" text @click="step -= 1">
+        {{ $root.$t('operate.previous') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>
@@ -69,7 +79,7 @@
         }
         if (!this.$refs[this.formComponent].checkSaved()) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请保存数据',
+            text: this.$root.$t('tip.save_data'),
             color: 'warning',
           });
           return;
@@ -89,7 +99,7 @@
         }
         if (!this.$refs[this.formComponent].checkSaved()) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请保存数据',
+            text: this.$root.$t('tip.save_data'),
             color: 'warning',
           });
           return;

@@ -19,25 +19,25 @@
     <v-sheet class="pa-1">
       <v-flex class="float-left">
         <v-flex class="float-left text-body-2 py-2 kubegems__min-width">
-          <span>容器CPU</span>
+          <span>{{ $root.$t('resource.cpu_c', [$root.$t('resource.container')]) }}</span>
         </v-flex>
         <v-flex class="float-left limit-range-min-width">
           <v-flex class="text-body-2 text-center">
             {{ obj ? obj.LimitRange.Container.default.cpu : 0 }}
           </v-flex>
-          <v-flex class="text-center py-0"> 默认值 </v-flex>
+          <v-flex class="text-center py-0"> {{ $t('tip.default') }} </v-flex>
         </v-flex>
         <v-flex class="float-left limit-range-min-width">
           <v-flex class="text-body-2 text-center">
             {{ obj ? obj.LimitRange.Container.defaultRequest.cpu : 0 }}
           </v-flex>
-          <v-flex class="text-center py-0"> 默认请求值 </v-flex>
+          <v-flex class="text-center py-0"> {{ $t('tip.default_request') }} </v-flex>
         </v-flex>
         <v-flex class="float-left limit-range-min-width">
           <v-flex class="text-body-2 text-center">
             {{ obj ? obj.LimitRange.Container.max.cpu : 0 }}
           </v-flex>
-          <v-flex class="text-center py-0"> 限制值 </v-flex>
+          <v-flex class="text-center py-0"> {{ $t('tip.limit') }} </v-flex>
         </v-flex>
         <div class="kubegems__clear-float" />
       </v-flex>
@@ -47,25 +47,25 @@
     <v-sheet class="pa-1">
       <v-flex class="float-left">
         <v-flex class="float-left text-body-2 py-2 kubegems__min-width">
-          <span>容器内存</span>
+          <span>{{ $root.$t('resource.memory_c', [$root.$t('resource.container')]) }}</span>
         </v-flex>
         <v-flex class="float-left limit-range-min-width">
           <v-flex class="text-body-2 text-center">
             {{ obj ? obj.LimitRange.Container.default.memory : 0 }}
           </v-flex>
-          <v-flex class="text-center py-0"> 默认值 </v-flex>
+          <v-flex class="text-center py-0"> {{ $t('tip.default') }} </v-flex>
         </v-flex>
         <v-flex class="float-left limit-range-min-width">
           <v-flex class="text-body-2 text-center">
             {{ obj ? obj.LimitRange.Container.defaultRequest.memory : 0 }}
           </v-flex>
-          <v-flex class="text-center py-0"> 默认请求值 </v-flex>
+          <v-flex class="text-center py-0"> {{ $t('tip.default_request') }} </v-flex>
         </v-flex>
         <v-flex class="float-left limit-range-min-width">
           <v-flex class="text-body-2 text-center">
             {{ obj ? obj.LimitRange.Container.max.memory : 0 }}
           </v-flex>
-          <v-flex class="text-center py-0"> 限制值 </v-flex>
+          <v-flex class="text-center py-0"> {{ $t('tip.limit') }} </v-flex>
         </v-flex>
         <div class="kubegems__clear-float" />
       </v-flex>
@@ -75,13 +75,13 @@
     <v-sheet class="pa-1">
       <v-flex class="float-left">
         <v-flex class="float-left text-body-2 py-2 kubegems__min-width">
-          <span>容器组CPU</span>
+          <span>{{ $root.$t('resource.cpu_c', [$root.$t('resource.pod')]) }}</span>
         </v-flex>
         <v-flex class="float-left limit-range-min-width">
           <v-flex class="text-body-2 text-center">
             {{ obj ? obj.LimitRange.Pod.max.cpu : 0 }}
           </v-flex>
-          <v-flex class="text-center py-0"> 限制值 </v-flex>
+          <v-flex class="text-center py-0"> {{ $t('tip.limit') }} </v-flex>
         </v-flex>
         <div class="kubegems__clear-float" />
       </v-flex>
@@ -91,13 +91,13 @@
     <v-sheet class="pa-1">
       <v-flex class="float-left">
         <v-flex class="float-left text-body-2 py-2 kubegems__min-width">
-          <span>容器组内存</span>
+          <span>{{ $root.$t('resource.memory_c', [$root.$t('resource.pod')]) }}</span>
         </v-flex>
         <v-flex class="float-left limit-range-min-width">
           <v-flex class="text-body-2 text-center">
             {{ obj ? obj.LimitRange.Pod.max.memory : 0 }}
           </v-flex>
-          <v-flex class="text-center py-0"> 限制值 </v-flex>
+          <v-flex class="text-center py-0"> {{ $t('tip.limit') }} </v-flex>
         </v-flex>
         <v-flex class="float-left limit-range-min-width">
           <v-flex class="text-body-2 text-center" />
@@ -111,13 +111,13 @@
     <v-sheet class="pa-1">
       <v-flex class="float-left">
         <v-flex class="float-left text-body-2 py-2 kubegems__min-width">
-          <span>存储卷容量</span>
+          <span>{{ $t('tip.storage_capacity') }}</span>
         </v-flex>
         <v-flex class="float-left limit-range-min-width">
           <v-flex class="text-body-2 text-center">
             {{ obj ? obj.LimitRange.PersistentVolumeClaim.max.storage : 0 }}
           </v-flex>
-          <v-flex class="text-center py-0"> 限制值 </v-flex>
+          <v-flex class="text-center py-0"> {{ $t('tip.limit') }} </v-flex>
         </v-flex>
         <div class="kubegems__clear-float" />
       </v-flex>
@@ -127,8 +127,13 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
+
   export default {
     name: 'LimitRangeCard',
+    i18n: {
+      messages: messages,
+    },
     props: {
       obj: {
         type: Object,
