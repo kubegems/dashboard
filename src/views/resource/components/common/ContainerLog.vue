@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <BaseFullScreenDialog v-model="dialog" icon="mdi-list-box" title="日志" @dispose="dispose">
+  <BaseFullScreenDialog v-model="dialog" icon="mdi-list-box" :title="$t('tip.log')" @dispose="dispose">
     <template #header>
       <v-flex class="ml-2 text-h6 mt-n1">
         {{ item ? item.name : '' }}
@@ -26,7 +26,7 @@
     </template>
     <template #action>
       <v-sheet class="text-subtitle-2 primary white--text float-left mr-2">
-        行数
+        {{ $t('tip.count') }}
         <v-menu
           v-model="countMenu"
           bottom
@@ -43,12 +43,12 @@
               <v-icon v-else right> mdi-chevron-down </v-icon>
             </v-btn>
           </template>
-          <v-data-iterator hide-default-footer :items="[{ text: '行数', values: counts }]">
+          <v-data-iterator hide-default-footer :items="[{ text: $t('tip.count'), values: counts }]">
             <template #default="props">
               <v-card v-for="item in props.items" :key="item.text" flat>
                 <v-list dense>
                   <v-flex class="text-subtitle-2 text-center ma-2">
-                    <span>行数</span>
+                    <span>{{ $t('tip.count') }}</span>
                   </v-flex>
                   <v-divider class="mx-2" />
                   <v-list-item
@@ -72,7 +72,7 @@
                     dense
                     flat
                     hide-details
-                    placeholder="手动输入行数"
+                    :placeholder="$t('tip.count_placehold')"
                     solo
                     :style="{ width: `120px` }"
                     @click.stop
@@ -86,7 +86,7 @@
         </v-menu>
       </v-sheet>
       <v-flex class="text-subtitle-2 float-left primary white--text mt-1">
-        实时
+        {{ $t('tip.stream') }}
         <v-switch
           v-model="stream"
           class="pl-2 white--text float-right"
@@ -97,7 +97,7 @@
         />
       </v-flex>
       <v-flex class="text-subtitle-2 float-left primary white--text mt-1">
-        折行
+        {{ $t('tip.breakline') }}
         <v-switch
           v-model="linenotbreak"
           class="pl-2 white--text float-right"
@@ -108,7 +108,7 @@
         />
       </v-flex>
       <v-sheet class="text-subtitle-2 primary white--text float-left">
-        容器
+        {{ $root.$t('resource.container') }}
         <v-menu
           v-model="containerMenu"
           bottom
@@ -125,17 +125,17 @@
               <v-icon v-else right> mdi-chevron-down </v-icon>
             </v-btn>
           </template>
-          <v-data-iterator hide-default-footer :items="[{ text: '容器', values: containers }]">
+          <v-data-iterator hide-default-footer :items="[{ text: $root.$t('resource.container'), values: containers }]">
             <template #no-data>
               <v-card>
-                <v-card-text> 暂无容器 </v-card-text>
+                <v-card-text> {{ $root.$t('data.no_data') }} </v-card-text>
               </v-card>
             </template>
             <template #default="props">
               <v-card v-for="item in props.items" :key="item.text" flat>
                 <v-list dense>
                   <v-flex class="text-subtitle-2 text-center ma-2">
-                    <span>容器</span>
+                    <span>{{ $root.$t('resource.container') }}</span>
                   </v-flex>
                   <v-divider class="mx-2" />
                   <v-list-item
@@ -186,11 +186,15 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'ContainerLog',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     data: () => ({
       dialog: false,
@@ -270,7 +274,7 @@
         if (this.countText) {
           if (!new RegExp('^\\d+$').test(this.countText)) {
             this.$store.commit('SET_SNACKBAR', {
-              text: `请输入数字`,
+              text: this.$t('tip.input_number'),
               color: 'warning',
             });
             return;
@@ -324,7 +328,7 @@
         if (this.$refs.log?.editor?.session.getLength() > 10000) {
           this.log = '';
           this.$store.commit('SET_SNACKBAR', {
-            text: `达到行数上限，进行重新计数行数`,
+            text: this.$t('tip.count_limit'),
             color: 'warning',
           });
         }

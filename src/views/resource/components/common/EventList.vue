@@ -23,7 +23,7 @@
         hide-default-footer
         :items="items"
         :items-per-page="params.size"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
       >
         <template #[`item.reason`]="{ item }">
@@ -89,11 +89,15 @@
 </template>
 
 <script>
+  import messages from '../i18n';
   import { getEventList } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'EventList',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     props: {
       item: {
@@ -107,14 +111,6 @@
     },
     data: () => ({
       items: [],
-      headers: [
-        { text: 'Reason', value: 'reason', align: 'start' },
-        { text: 'Kind', value: 'kind', align: 'start' },
-        { text: '首次发生时间', value: 'firstAt', align: 'start', width: 120 },
-        { text: '最近发生时间', value: 'lastAt', align: 'start', width: 120 },
-        { text: '类型', value: 'type', align: 'start' },
-        { text: '消息', value: 'message', align: 'start' },
-      ],
       pageCount: 0,
       params: {
         page: 1,
@@ -122,6 +118,18 @@
         noprocessing: true,
       },
     }),
+    computed: {
+      headers() {
+        return [
+          { text: 'Reason', value: 'reason', align: 'start' },
+          { text: 'Kind', value: 'kind', align: 'start' },
+          { text: this.$t('table.first_trigger_at'), value: 'firstAt', align: 'start', width: 120 },
+          { text: this.$t('table.last_trigger_at'), value: 'lastAt', align: 'start', width: 120 },
+          { text: this.$root.$t('resource.type'), value: 'type', align: 'start' },
+          { text: this.$t('table.message'), value: 'message', align: 'start' },
+        ];
+      },
+    },
     watch: {
       item: {
         handler: function () {

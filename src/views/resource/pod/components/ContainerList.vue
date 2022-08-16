@@ -22,7 +22,7 @@
       :headers="headers"
       hide-default-footer
       :items="containerStatusesCopy"
-      no-data-text="暂无数据"
+      :no-data-text="$root.$t('data.no_data')"
     >
       <template #[`item.name`]="{ item }">
         {{ item.name }}
@@ -103,19 +103,21 @@
           <v-card>
             <v-card-text class="pa-2 text-center">
               <v-flex v-if="m_permisson_resourceAllow && item.state.running !== undefined">
-                <v-btn color="primary" small text @click="containerShell(item.name)"> 终端 </v-btn>
+                <v-btn color="primary" small text @click="containerShell(item.name)">
+                  {{ $t('operate.terminal') }}
+                </v-btn>
               </v-flex>
               <v-flex v-if="m_permisson_resourceAllow && item.state.running !== undefined">
                 <v-btn color="primary" small text @click="containerDebug(item.name)"> Debug </v-btn>
               </v-flex>
               <v-flex v-if="item.state.running !== undefined || status === 'Succeeded' || item.state.waiting">
-                <v-btn color="primary" small text @click="containerLog(item.name)"> 日志 </v-btn>
+                <v-btn color="primary" small text @click="containerLog(item.name)"> {{ $t('operate.log') }} </v-btn>
               </v-flex>
               <v-flex
                 v-if="item.state.running === undefined && status !== 'Succeeded' && item.state.waiting === undefined"
                 class="pa-2"
               >
-                不可操作
+                {{ $t('tip.no_operate') }}
               </v-flex>
             </v-card-text>
           </v-card>
@@ -128,7 +130,7 @@
       :headers="headers"
       hide-default-footer
       :items="item ? item.spec.containers : []"
-      no-data-text="暂无数据"
+      :no-data-text="$root.$t('data.no_data')"
     >
       <template #[`item.name`]="{ item }">
         {{ item.name }}
@@ -196,6 +198,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import { beautifyCpuUnit, beautifyStorageUnit, deepCopy } from '@/utils/helpers';
@@ -205,6 +208,9 @@
 
   export default {
     name: 'ContainerList',
+    i18n: {
+      messages: messages,
+    },
     components: {
       ContainerLog,
       Terminal,
@@ -217,21 +223,28 @@
       },
     },
     data: () => ({
-      headers: [
-        { text: '容器名', value: 'name', align: 'start' },
-        { text: '镜像', value: 'image', align: 'start' },
-        { text: '状态', value: 'status', align: 'start', width: 250 },
-        { text: 'Age', value: 'age', align: 'start' },
-        { text: 'Restarts', value: 'restartCount', align: 'start' },
-        { text: 'CPU使用量', value: 'cpu', align: 'start', width: 130 },
-        { text: '内存使用量', value: 'memory', align: 'start', width: 130 },
-        { text: '操作', value: 'action', align: 'center', width: 20 },
-      ],
       status: '',
       containerStatusesCopy: [],
     }),
     computed: {
       ...mapState(['AdminViewport']),
+      headers() {
+        return [
+          { text: this.$t('table.container_name'), value: 'name', align: 'start' },
+          { text: this.$t('table.image'), value: 'image', align: 'start' },
+          { text: this.$t('table.status'), value: 'status', align: 'start', width: 250 },
+          { text: 'Age', value: 'age', align: 'start' },
+          { text: this.$t('table.restart_count'), value: 'restartCount', align: 'start' },
+          { text: this.$t('table.used', [this.$root.$t('resource.cpu')]), value: 'cpu', align: 'start', width: 130 },
+          {
+            text: this.$t('table.used', [this.$root.$t('resource.memory')]),
+            value: 'memory',
+            align: 'start',
+            width: 130,
+          },
+          { text: '', value: 'action', align: 'center', width: 20 },
+        ];
+      },
     },
     watch: {
       item: {

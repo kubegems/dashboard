@@ -69,7 +69,12 @@
           />
         </template>
         <template #[`item.name`]="{ item }">
-          <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="modelDetail(item)">
+          <v-badge v-if="item.recommentContent" bordered color="primary" icon="mdi-script-text" inline>
+            <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="modelDetail(item)">
+              {{ item.name }}
+            </a>
+          </v-badge>
+          <a v-else class="text-subtitle-2 kubegems__inline_flex" @click.stop="modelDetail(item)">
             {{ item.name }}
           </a>
         </template>

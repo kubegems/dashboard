@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <BasePanel v-model="panel" icon="fab fa-git" title="变更内容" :width="`50%`" @dispose="dispose">
+  <BasePanel v-model="panel" icon="fab fa-git" :title="$t('tip.change_content')" :width="`50%`" @dispose="dispose">
     <template #header>
       <span class="ml-3 text-subtitle-1">
         {{ commit ? commit.hash : '' }}
@@ -38,12 +38,16 @@
   import { CodeDiff } from 'v-code-diff';
   import { mapState } from 'vuex';
 
+  import messages from '../../../i18n';
   import { getAppResourceFileDiff } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'AppResourceFileDiff',
+    i18n: {
+      messages: messages,
+    },
     components: {
       CodeDiff,
     },

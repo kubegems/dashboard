@@ -16,7 +16,7 @@
 
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
-    <BaseSubTitle title="资源类型" />
+    <BaseSubTitle :title="$t('table.kind')" />
     <v-card-text class="pa-2">
       <v-row>
         <v-col cols="6">
@@ -26,8 +26,8 @@
             color="primary"
             hide-selected
             :items="kinds"
-            label="资源"
-            no-data-text="暂无可选数据"
+            :label="$root.$t('resource.kind')"
+            :no-data-text="$root.$t('data.no_data')"
             :rules="objRules.kindRule"
             @change="onKindChange"
           >
@@ -46,6 +46,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../../i18n';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
@@ -53,6 +54,9 @@
 
   export default {
     name: 'AppBaseInfo',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource, BaseSelect],
     props: {
       kinds: {

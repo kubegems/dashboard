@@ -33,7 +33,7 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="error" small text @click="removePod"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removePod"> {{ $root.$t('operate.delete') }} </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -79,6 +79,7 @@
   import ContainerList from './components/ContainerList';
   import PodMonitor from './components/PodMonitor';
   import ResourceInfo from './components/ResourceInfo';
+  import messages from './i18n';
   import { deletePod, getPodDetail } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -90,6 +91,9 @@
 
   export default {
     name: 'PodDetail',
+    i18n: {
+      messages: messages,
+    },
     components: {
       BasicResourceInfo,
       ContainerList,
@@ -104,16 +108,18 @@
     data: () => ({
       pod: null,
       tab: 0,
-      tabItems: [
-        { text: '资源信息', value: 'ResourceInfo' },
-        { text: '元数据', value: 'Metadata' },
-        { text: '容器', value: 'ContainerList' },
-        { text: '事件', value: 'EventList' },
-        { text: '监控', value: 'PodMonitor' },
-      ],
     }),
     computed: {
       ...mapState(['JWT', 'MessageStreamWS']),
+      tabItems() {
+        return [
+          { text: this.$root.$t('tab.resource_info'), value: 'ResourceInfo' },
+          { text: this.$root.$t('tab.metadata'), value: 'Metadata' },
+          { text: this.$t('tab.container'), value: 'ContainerList' },
+          { text: this.$root.$t('tab.event'), value: 'EventList' },
+          { text: this.$root.$t('tab.monitor'), value: 'PodMonitor' },
+        ];
+      },
     },
     watch: {
       '$store.state.MessageStream': {
@@ -164,9 +170,9 @@
       removePod() {
         const item = this.pod;
         this.$store.commit('SET_CONFIRM', {
-          title: `删除容器组`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.pod')]),
           content: {
-            text: `删除容器组 ${item.metadata.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.pod')])} ${item.metadata.name}`,
             type: 'delete',
             name: item.metadata.name,
           },

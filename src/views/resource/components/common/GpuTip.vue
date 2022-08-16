@@ -42,25 +42,27 @@
               <template v-if="type === 'tke'">
                 <v-list-item class="float-left pa-0" two-line>
                   <v-list-item-content class="py-0">
-                    <v-list-item-title> Gpu </v-list-item-title>
+                    <v-list-item-title> {{ $root.$t('resource.gpu') }} </v-list-item-title>
                     <v-list-item-content class="text-caption kubegems__text">
                       {{ parseInt(item.TkeGpu || 0) / 100 }} Gpu
-                      <div v-if="allocated"
-                        >已分配：{{ parseInt(item.AllocatedTkeGpu || 0) / 100 }} Gpu ({{ item.TkeGpuPercentage }}%)</div
-                      >
+                      <div v-if="allocated">
+                        {{ $t('tip.used') }} : {{ parseInt(item.AllocatedTkeGpu || 0) / 100 }} Gpu ({{
+                          item.TkeGpuPercentage
+                        }}%)
+                      </div>
                     </v-list-item-content>
                   </v-list-item-content>
                 </v-list-item>
                 <v-list-item class="float-left pa-0" two-line>
                   <v-list-item-content class="py-0">
-                    <v-list-item-title> 显存 </v-list-item-title>
+                    <v-list-item-title> {{ $root.$t('resource.video_memory') }} </v-list-item-title>
                     <v-list-item-content class="text-caption kubegems__text">
                       {{ parseInt(item.TkeMemory || 0) / 100 }} Gi
-                      <div v-if="allocated"
-                        >已分配：{{ (parseInt(item.AllocatedTkeMemory || 0) * 256) / 1024 }} Gi ({{
+                      <div v-if="allocated">
+                        {{ $t('tip.used') }} : {{ (parseInt(item.AllocatedTkeMemory || 0) * 256) / 1024 }} Gi ({{
                           item.TkeMemoryPercentage
-                        }}%)</div
-                      >
+                        }}%)
+                      </div>
                     </v-list-item-content>
                   </v-list-item-content>
                 </v-list-item>
@@ -68,14 +70,14 @@
               <template v-if="type === 'nvidia'">
                 <v-list-item class="float-left pa-0" two-line>
                   <v-list-item-content class="py-0">
-                    <v-list-item-title> Gpu </v-list-item-title>
+                    <v-list-item-title> {{ $root.$t('resource.gpu') }} </v-list-item-title>
                     <v-list-item-content class="text-caption kubegems__text">
                       {{ parseInt(item.NvidiaGpu || 0) }} Gpu
-                      <div v-if="allocated"
-                        >已分配：{{ parseInt(item.AllocatedNvidiaGpu || 0) / 100 }} Gpu ({{
+                      <div v-if="allocated">
+                        {{ $t('tip.used') }} : {{ parseInt(item.AllocatedNvidiaGpu || 0) / 100 }} Gpu ({{
                           item.NvidiaGpuPercentage
-                        }}%)</div
-                      >
+                        }}%)
+                      </div>
                     </v-list-item-content>
                   </v-list-item-content>
                 </v-list-item>
@@ -89,8 +91,13 @@
 </template>
 
 <script>
+  import messages from '../i18n';
+
   export default {
     name: 'GpuTip',
+    i18n: {
+      messages: messages,
+    },
     props: {
       allocated: {
         type: Boolean,

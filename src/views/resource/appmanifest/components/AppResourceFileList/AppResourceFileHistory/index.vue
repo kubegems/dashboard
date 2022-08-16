@@ -22,7 +22,7 @@
       hide-default-footer
       :items="items"
       :items-per-page="params.page_size"
-      no-data-text="暂无数据"
+      :no-data-text="$root.$t('data.no_data')"
       :page.sync="params.page"
     >
       <template #[`item.hash`]="{ item }">
@@ -42,10 +42,10 @@
           <v-card>
             <v-card-text class="pa-2 text-center">
               <v-flex>
-                <v-btn color="primary" small text @click="diff(item)"> 变更内容 </v-btn>
+                <v-btn color="primary" small text @click="diff(item)"> {{ $t('operate.change_content') }} </v-btn>
               </v-flex>
               <v-flex>
-                <v-btn color="primary" small text @click="rollback(item)"> 回滚 </v-btn>
+                <v-btn color="primary" small text @click="rollback(item)"> {{ $t('operate.rollback') }} </v-btn>
               </v-flex>
             </v-card-text>
           </v-card>
@@ -67,12 +67,16 @@
 </template>
 
 <script>
+  import messages from '../../../i18n';
   import AppResourceFileDiff from './AppResourceFileDiff';
   import { getAppResourceFileHistorys, postRollbackAppResourceFile } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'AppResourceFileHistory',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AppResourceFileDiff,
     },
@@ -85,13 +89,6 @@
     },
     data: () => ({
       items: [],
-      headers: [
-        { text: 'CommitID', value: 'hash', align: 'start' },
-        { text: '消息', value: 'message', align: 'start' },
-        { text: '修改人', value: 'author', align: 'start' },
-        { text: '修改时间', value: 'timestamp', align: 'start' },
-        { text: '操作', value: 'action', align: 'center', width: 20 },
-      ],
       pageCount: 0,
       params: {
         page: 1,
@@ -99,6 +96,17 @@
         noprocessing: true,
       },
     }),
+    computed: {
+      headers() {
+        return [
+          { text: 'CommitID', value: 'hash', align: 'start' },
+          { text: this.$t('table.message'), value: 'message', align: 'start' },
+          { text: this.$t('table.author'), value: 'author', align: 'start' },
+          { text: this.$t('table.update_at'), value: 'timestamp', align: 'start' },
+          { text: '', value: 'action', align: 'center', width: 20 },
+        ];
+      },
+    },
     mounted() {
       this.$nextTick(() => {
         this.appResourceFileHistorys();
@@ -123,8 +131,8 @@
       },
       rollback(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: '回滚',
-          content: { text: `回滚版本至 ${item.hash}`, type: 'confirm' },
+          title: this.$t('operate.rollback'),
+          content: { text: this.$t('tip.rollback_tip', [item.hash]), type: 'confirm' },
           param: { item },
           doFunc: async (param) => {
             await postRollbackAppResourceFile(

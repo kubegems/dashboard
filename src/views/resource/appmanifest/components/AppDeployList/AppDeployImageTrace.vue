@@ -15,7 +15,13 @@
 -->
 
 <template>
-  <BasePanel v-model="panel" icon="mdi-selection-search" title="镜像跟踪" :width="`50%`" @dispose="dispose">
+  <BasePanel
+    v-model="panel"
+    icon="mdi-selection-search"
+    :title="$t('tip.image_trace')"
+    :width="`50%`"
+    @dispose="dispose"
+  >
     <template #header>
       <span class="primary--text ml-2 text-subtitle-2">
         {{ item ? item.ImageName : '' }}
@@ -30,7 +36,7 @@
           hide-default-footer
           :items="items"
           :items-per-page="params.size"
-          no-data-text="暂无数据"
+          :no-data-text="$root.$t('data.no_data')"
           :page.sync="params.page"
         >
           <template #[`item.publisher`]="{ item }">
@@ -57,25 +63,20 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import { getDeployEnvironmentAppImageTrace } from '@/api';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'AppDeployImageTrace',
+    i18n: {
+      messages: messages,
+    },
     data: () => ({
       panel: false,
       item: null,
       items: [],
       app: null,
-      headers: [
-        { text: '时间', value: 'publishAt', align: 'start' },
-        { text: '任务', value: 'id', align: 'start' },
-        { text: '发布人', value: 'publisher', align: 'start' },
-        { text: '镜像', value: 'image', align: 'start', width: 300 },
-        { text: '开发', value: 'dev', align: 'start' },
-        { text: '测试', value: 'test', align: 'start' },
-        { text: '生产', value: 'prod', align: 'start' },
-      ],
       pageCount: 0,
       params: {
         page: 1,
@@ -87,6 +88,17 @@
       ...mapGetters(['Tenant', 'Project', 'Environment']),
       height() {
         return parseInt((window.innerHeight - 64) / this.Scale);
+      },
+      headers() {
+        return [
+          { text: this.$t('table.publish_at'), value: 'publishAt', align: 'start' },
+          { text: this.$t('table.task'), value: 'id', align: 'start' },
+          { text: this.$t('table.publisher'), value: 'publisher', align: 'start' },
+          { text: this.$t('table.image'), value: 'image', align: 'start', width: 300 },
+          { text: this.$t('table.dev'), value: 'dev', align: 'start' },
+          { text: this.$t('table.test'), value: 'test', align: 'start' },
+          { text: this.$t('table.production'), value: 'prod', align: 'start' },
+        ];
       },
     },
     methods: {

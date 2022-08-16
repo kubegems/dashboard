@@ -95,6 +95,7 @@
     "cluster": "集群",
     "app": "应用",
     "app_c": "应用{0}",
+    "appmanifest": "应用编排",
     "node": "节点",
     "workload": "工作负载",
     "deployment": "无状态服务",
@@ -142,7 +143,8 @@
     "virtual_service": "虚拟服务",
     "destination_rule": "流量规则",
     "certificate": "证书",
-    "issuer": "颁发机构"
+    "issuer": "颁发机构",
+    "event": "事件"
   },
 
   "header": {
@@ -199,6 +201,7 @@
     "login": "登录",
     "return": "返回",
     "deploy": "部署",
+    "deploy_c": "部署{0}",
     "sync": "同步",
     "sync_c": "同步{0}",
     "save": "保存",
@@ -448,6 +451,7 @@
     "save_data": "请保存数据",
     "parse_error": "数据解析错误",
     "select_tenant": "请选择租户",
+    "select_environment": "请选择环境",
     "condition": "状况"
   },
   "tab": {

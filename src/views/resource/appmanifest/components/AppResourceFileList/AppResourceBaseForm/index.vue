@@ -23,16 +23,7 @@
       :edit="edit"
       :item="item"
       :kind="kind"
-      :kinds="
-        app
-          ? app.kind && app.kind.length > 0
-            ? m_select_resourceItems.concat({
-                text: $RESOURCE_SHORT_CN[app.kind],
-                value: app.kind,
-              })
-            : m_select_resourceItems.concat(defaultKindItems)
-          : []
-      "
+      :kinds="kindItems"
       :manifest="true"
       @change="onKindChange"
     />
@@ -103,24 +94,36 @@
     data: () => ({
       valid: false,
       steps: ['AppBaseInfo'],
-      defaultKindItems: [
-        {
-          text: '无状态服务',
-          value: 'Deployment',
-        },
-        {
-          text: '守护进程服务',
-          value: 'DaemonSet',
-        },
-        {
-          text: '有状态服务',
-          value: 'StatefulSet',
-        },
-      ],
     }),
     computed: {
       obj() {
         return this.$refs[this.steps[this.step]].getData();
+      },
+      kindItems() {
+        return this.app
+          ? this.app.kind && this.app.kind.length > 0
+            ? this.m_select_resourceItems.concat({
+                text: this.$root.$t(`resource.${this.app.kind.toLowerCase()}`),
+                value: this.app.kind,
+              })
+            : this.m_select_resourceItems.concat(this.defaultKindItems)
+          : [];
+      },
+      defaultKindItems() {
+        return [
+          {
+            text: this.$root.$t('resource.deployment'),
+            value: 'Deployment',
+          },
+          {
+            text: this.$root.$t('resource.daemonset'),
+            value: 'DaemonSet',
+          },
+          {
+            text: this.$root.$t('resource.statefulset'),
+            value: 'StatefulSet',
+          },
+        ];
       },
     },
     methods: {

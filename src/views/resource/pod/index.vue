@@ -21,7 +21,7 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :default="{ items: [], text: '容器组名称', value: 'search' }"
+          :default="{ items: [], text: $t('filter.pod_name'), value: 'search' }"
           :filters="filters"
           @refresh="m_filter_list"
         />
@@ -36,9 +36,13 @@
           <v-card>
             <v-card-text class="pa-2">
               <v-flex>
-                <v-btn color="error" text @click="m_table_batchRemoveResource('容器组', 'Pod', podList)">
+                <v-btn
+                  color="error"
+                  text
+                  @click="m_table_batchRemoveResource($root.$t('resource.pod'), 'Pod', podList)"
+                >
                   <v-icon left>mdi-minus-box</v-icon>
-                  删除容器组
+                  {{ $root.$t('operate.delete_c', [$root.$t('resource.pod')]) }}
                 </v-btn>
               </v-flex>
             </v-card-text>
@@ -52,7 +56,7 @@
         item-key="metadata.uid"
         :items="items"
         :items-per-page="params.size"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
         show-expand
         show-select
@@ -223,7 +227,9 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="error" small text @click.stop="removePod(item)"> 删除 </v-btn>
+                  <v-btn color="error" small text @click.stop="removePod(item)">
+                    {{ $root.$t('operate.delete') }}
+                  </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -247,6 +253,7 @@
   import { mapGetters, mapState } from 'vuex';
 
   import ContainerItems from './components/ContainerItems';
+  import messages from './i18n';
   import { deletePod, getPodList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -260,6 +267,9 @@
 
   export default {
     name: 'Pod',
+    i18n: {
+      messages: messages,
+    },
     components: {
       ContainerItems,
       EventTip,
@@ -273,26 +283,25 @@
         page: 1,
         size: 10,
       },
-      filters: [{ text: '容器组名称', value: 'search', items: [] }],
     }),
     computed: {
       ...mapState(['JWT', 'AdminViewport', 'MessageStreamWS', 'Plugins']),
       ...mapGetters(['Environment']),
       headers() {
         const items = [
-          { text: '容器组', value: 'name', align: 'start', width: 358 },
-          { text: '状态', value: 'status', align: 'start', width: 250 },
-          { text: '容器数', value: 'container', align: 'start', sortable: false },
-          { text: '重启次数', value: 'restart', align: 'start', sortable: false },
+          { text: this.$t('table.name'), value: 'name', align: 'start', width: 358 },
+          { text: this.$t('table.status'), value: 'status', align: 'start', width: 250 },
+          { text: this.$t('table.container_count'), value: 'container', align: 'start', sortable: false },
+          { text: this.$t('table.restart_count'), value: 'restart', align: 'start', sortable: false },
           {
-            text: 'CPU使用量',
+            text: this.$t('table.used', [this.$root.$t('resource.cpu')]),
             value: 'cpu',
             align: 'start',
             width: 150,
             sortable: false,
           },
           {
-            text: '内存使用量',
+            text: this.$t('table.used', [this.$root.$t('resource.memory')]),
             value: 'memory',
             align: 'start',
             width: 150,
@@ -313,7 +322,7 @@
         }
         if (this.AdminViewport) {
           items.splice(1, 0, {
-            text: '命名空间',
+            text: this.$root.$t('resource.namespace'),
             value: 'namespace',
             align: 'start',
             sortable: false,
@@ -324,6 +333,9 @@
         }
         items.push({ text: '', value: 'data-table-expand' });
         return items;
+      },
+      filters() {
+        return [{ text: this.$t('filter.pod_name'), value: 'search', items: [] }];
       },
     },
     watch: {
@@ -382,7 +394,7 @@
         this.$nextTick(() => {
           if (this.ThisCluster === '') {
             this.$store.commit('SET_SNACKBAR', {
-              text: `请创建或选择集群`,
+              text: this.$root.$t('tip.select_cluster'),
               color: 'warning',
             });
             return;
@@ -407,7 +419,7 @@
           };
         });
         this.filters.push({
-          text: '状态',
+          text: this.$t('filter.status'),
           value: 'fieldSelector',
           items: allStatus,
         });
@@ -555,9 +567,9 @@
       },
       removePod(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除容器组`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.pod')]),
           content: {
-            text: `删除容器组 ${item.metadata.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.pod')])} ${item.metadata.name}`,
             type: 'delete',
             name: item.metadata.name,
           },

@@ -23,7 +23,7 @@
       hide-default-footer
       :items="items"
       :items-per-page="params.size"
-      no-data-text="暂无数据"
+      :no-data-text="$root.$t('data.no_data')"
       :page.sync="params.page"
     >
       <template #[`item.images`]="{ item }">
@@ -54,9 +54,11 @@
           <v-card>
             <v-card-text class="pa-2">
               <v-flex v-if="item.images">
-                <v-btn color="primary" small text @click="appDeployImageTrace(item)"> 镜像跟踪 </v-btn>
+                <v-btn color="primary" small text @click="appDeployImageTrace(item)">
+                  {{ $t('operate.image_trace') }}
+                </v-btn>
               </v-flex>
-              <v-flex v-else> 不可操作 </v-flex>
+              <v-flex v-else> {{ $t('tip.no_operate') }} </v-flex>
             </v-card-text>
           </v-card>
         </v-menu>
@@ -77,12 +79,16 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
   import AppDeployImageTrace from './AppDeployImageTrace';
   import { getDeployEnvironmentAppsStatus } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'AppDeployList',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AppDeployImageTrace,
     },
@@ -95,16 +101,6 @@
     },
     data: () => ({
       items: [],
-      headers: [
-        { text: '任务', value: 'id', align: 'start' },
-        { text: '镜像版本', value: 'images', align: 'start' },
-        { text: 'Git版本', value: 'gitVersion', align: 'start' },
-        { text: '环境', value: 'environment', align: 'start' },
-        { text: '状态', value: 'status', align: 'start' },
-        { text: '发布者', value: 'publisher', align: 'start' },
-        { text: '发布时间', value: 'publishAt', align: 'start' },
-        { text: '操作', value: 'action', align: 'center', width: 20 },
-      ],
       pageCount: 0,
       params: {
         page: 1,
@@ -112,6 +108,20 @@
         noprocessing: true,
       },
     }),
+    computed: {
+      headers() {
+        return [
+          { text: this.$t('table.task'), value: 'id', align: 'start' },
+          { text: this.$t('table.image_version'), value: 'images', align: 'start' },
+          { text: this.$t('table.git_version'), value: 'gitVersion', align: 'start' },
+          { text: this.$root.$t('resource.environment'), value: 'environment', align: 'start' },
+          { text: this.$t('table.status'), value: 'status', align: 'start' },
+          { text: this.$t('table.publisher'), value: 'publisher', align: 'start' },
+          { text: this.$t('table.publish_at'), value: 'publishAt', align: 'start' },
+          { text: '', value: 'action', align: 'center', width: 20 },
+        ];
+      },
+    },
     watch: {
       app() {
         this.deployEnvironmentAppsStatus();

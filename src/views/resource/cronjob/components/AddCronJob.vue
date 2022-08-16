@@ -15,7 +15,13 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-calendar-clock" title="创建定时任务" :width="1000" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-calendar-clock"
+    :title="$root.$t('operate.create_c', [$root.$t('resource.cronjob')])"
+    :width="1000"
+    @reset="reset"
+  >
     <template #content>
       <component :is="formComponent" :ref="formComponent" kind="CronJob" :step="step" title="CronJob" />
     </template>
@@ -28,7 +34,7 @@
         text
         @click="addCronJob"
       >
-        确定
+        {{ $root.$t('operate.confirm') }}
       </v-btn>
       <v-btn
         v-if="step >= 0 && step < totalStep - 1 && formComponent !== 'BaseYamlForm'"
@@ -37,7 +43,7 @@
         text
         @click="nextStep"
       >
-        下一步
+        {{ $root.$t('operate.next') }}
       </v-btn>
       <v-btn
         v-if="step > 0 && step <= totalStep - 1 && formComponent !== 'BaseYamlForm'"
@@ -46,7 +52,7 @@
         text
         @click="lastStep"
       >
-        上一步
+        {{ $root.$t('operate.previous') }}
       </v-btn>
     </template>
     <template #header-action>
@@ -70,6 +76,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import CronjobBaseForm from './CronjobBaseForm';
   import { postAddCronJob } from '@/api';
   import BaseResource from '@/mixins/resource';
@@ -78,6 +85,9 @@
 
   export default {
     name: 'AddCronJob',
+    i18n: {
+      messages: messages,
+    },
     components: {
       CronjobBaseForm,
     },
@@ -148,7 +158,7 @@
         }
         if (!this.$refs[this.formComponent].checkSaved()) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请保存数据',
+            text: this.$root.$t('tip.save_data'),
             color: 'warning',
           });
           return;
@@ -167,7 +177,7 @@
         }
         if (!this.$refs[this.formComponent].checkSaved()) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请保存数据',
+            text: this.$root.$t('tip.save_data'),
             color: 'warning',
           });
           return;
@@ -181,7 +191,7 @@
                 data.spec.jobTemplate.spec.template.spec.containers.length === 0))
           ) {
             this.$store.commit('SET_SNACKBAR', {
-              text: '请添加容器镜像',
+              text: this.$t('tip.add_container_image'),
               color: 'warning',
             });
             return;

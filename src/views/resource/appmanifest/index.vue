@@ -21,7 +21,7 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :default="{ items: [], text: '应用编排名称', value: 'search' }"
+          :default="{ items: [], text: $t('filter.manifest_name'), value: 'search' }"
           :filters="filters"
           @refresh="m_filter_list"
         />
@@ -37,7 +37,7 @@
               <v-flex>
                 <v-btn color="primary" text @click="addApp">
                   <v-icon left>mdi-plus-box</v-icon>
-                  创建应用
+                  {{ $root.$t('operate.create_c', [$root.$t('resource.appmanifest')]) }}
                 </v-btn>
               </v-flex>
             </v-card-text>
@@ -51,7 +51,7 @@
           hide-default-footer
           :items="items"
           :items-per-page="params.size"
-          no-data-text="暂无数据"
+          :no-data-text="$root.$t('data.no_data')"
           :page.sync="params.page"
         >
           <template #[`item.name`]="{ item }">
@@ -100,10 +100,10 @@
               <v-card>
                 <v-card-text class="pa-2">
                   <v-flex>
-                    <v-btn color="primary" small text @click="updateApp(item)"> 编辑 </v-btn>
+                    <v-btn color="primary" small text @click="updateApp(item)"> {{ $root.$t('operate.edit') }} </v-btn>
                   </v-flex>
                   <v-flex>
-                    <v-btn color="error" small text @click="removeApp(item)"> 删除 </v-btn>
+                    <v-btn color="error" small text @click="removeApp(item)"> {{ $root.$t('operate.delete') }} </v-btn>
                   </v-flex>
                 </v-card-text>
               </v-card>
@@ -132,6 +132,7 @@
 
   import AddApp from './components/AddApp';
   import UpdateApp from './components/UpdateApp';
+  import messages from './i18n';
   import { deleteManifest, getAllManifest, getManifestList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -140,6 +141,9 @@
 
   export default {
     name: 'AppManifest',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddApp,
       UpdateApp,
@@ -152,23 +156,22 @@
         page: 1,
         size: 10,
       },
-      filters: [{ text: '应用编排名称', value: 'search', items: [] }],
     }),
     computed: {
       ...mapState(['JWT', 'Admin', 'AdminViewport']),
       ...mapGetters(['Project', 'Tenant']),
       headers() {
         const items = [
-          { text: '应用名称', value: 'name', align: 'start' },
-          { text: '标签', value: 'labels', align: 'start' },
-          { text: '应用类型', value: 'kind', align: 'start' },
-          { text: '镜像', value: 'images', align: 'start' },
-          { text: '创建人', value: 'creator', align: 'start' },
-          { text: '创建时间', value: 'createAt', align: 'start' },
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
+          { text: this.$t('table.label'), value: 'labels', align: 'start' },
+          { text: this.$t('table.kind'), value: 'kind', align: 'start' },
+          { text: this.$t('table.image'), value: 'images', align: 'start' },
+          { text: this.$t('table.creator'), value: 'creator', align: 'start' },
+          { text: this.$root.$t('resource.create_at'), value: 'createAt', align: 'start' },
         ];
         if (this.Admin && this.AdminViewport) {
           items.splice(1, 0, {
-            text: '项目',
+            text: this.$root.$t('resource.project'),
             value: 'project',
             align: 'start',
           });
@@ -177,6 +180,9 @@
           items.push({ text: '', value: 'action', align: 'center', width: 20 });
         }
         return items;
+      },
+      filters() {
+        return [{ text: this.$t('filter.manifest_name'), value: 'search', items: [] }];
       },
     },
     mounted() {
@@ -229,9 +235,9 @@
       },
       removeApp(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除应用编排`,
+          title: this.$root.$t('operate.create_c', [this.$root.$t('resource.appmanifest')]),
           content: {
-            text: `删除应用编排 ${item.name}`,
+            text: `${this.$root.$t('operate.create_c', [this.$root.$t('resource.appmanifest')])} ${item.name}`,
             type: 'delete',
             name: item.name,
           },

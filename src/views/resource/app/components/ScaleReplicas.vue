@@ -15,14 +15,20 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-arrow-up-down-bold" title="调整副本数" :width="500" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-arrow-up-down-bold"
+    :title="$t('operate.scale_replicas')"
+    :width="500"
+    @reset="reset"
+  >
     <template #content>
-      <BaseSubTitle title="副本定义" />
+      <BaseSubTitle :title="$root.$t('form.definition', [$t('tip.replicas')])" />
       <v-card-text class="px-2 pb-0">
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
           <v-sheet>
             <v-flex class="text-subtitle-1 mb-2">
-              当前副本数
+              {{ $t('tip.now_replicas') }}
               <span class="text-subtitle-2 primary--text">
                 {{ replicas }}
               </span>
@@ -30,7 +36,7 @@
             <v-text-field
               v-model.number="obj.replicas"
               class="my-0"
-              label="目标副本数"
+              :label="$t('tip.dest_replicas')"
               required
               :rules="objRules.replicasRules"
               type="number"
@@ -40,7 +46,9 @@
       </v-card-text>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="scaleAppReplicas"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="scaleAppReplicas">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>
@@ -48,12 +56,16 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../i18n';
   import { getAppRunningReplicas, getModelRuntimeDetail, postAppReplicasScale, putModelRuntime } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'ScaleReplicas',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     data: () => ({
       dialog: false,
@@ -64,7 +76,7 @@
       },
       replicas: 0,
       objRules: {
-        replicasRules: [(v) => parseInt(v) >= 0 || '小于最小限制'],
+        replicasRules: [(v) => parseInt(v) >= 0 || this.$t('form.limit_min_rule')],
       },
     }),
     computed: {

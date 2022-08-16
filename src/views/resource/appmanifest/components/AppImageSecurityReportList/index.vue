@@ -23,7 +23,7 @@
       hide-default-footer
       :items="items"
       :items-per-page="params.size"
-      no-data-text="暂无数据"
+      :no-data-text="$root.$t('data.no_data')"
       :page.sync="params.page"
     >
       <template #[`item.severity`]="{ item }">
@@ -52,19 +52,19 @@
             >
               {{ severityDict[item.severity] ? severityDict[item.severity].CN : '' }}
             </v-chip>
-            <v-chip v-else class="white--text" color="blue-grey" label small> 未扫描 </v-chip>
+            <v-chip v-else class="white--text" color="blue-grey" label small> {{ $t('tip.not_scan') }} </v-chip>
           </template>
           <v-card flat width="100%">
             <v-flex class="text-body-2 text-center primary white--text py-2">
               <v-icon color="white" left small> mdi-chart-bar </v-icon>
-              <span>漏洞统计</span>
+              <span>{{ $t('tip.vulnerability_statics') }}</span>
             </v-flex>
             <v-list class="pa-0 kubegems__tip" dense>
               <v-list-item>
                 <v-list-item-content>
                   <v-list-item class="float-left pa-0" two-line>
                     <v-list-item-content class="py-0">
-                      <v-list-item-title> 严重 </v-list-item-title>
+                      <v-list-item-title> {{ $t('tip.severity') }} </v-list-item-title>
                       <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
                         {{ item && item.report ? item.report.summary.Critical : 0 }}
                       </v-list-item-content>
@@ -72,7 +72,7 @@
                   </v-list-item>
                   <v-list-item class="float-left pa-0" two-line>
                     <v-list-item-content class="py-0">
-                      <v-list-item-title> 高 </v-list-item-title>
+                      <v-list-item-title> {{ $t('tip.high') }} </v-list-item-title>
                       <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
                         {{ item && item.report ? item.report.summary.High : 0 }}
                       </v-list-item-content>
@@ -80,7 +80,7 @@
                   </v-list-item>
                   <v-list-item class="float-left pa-0" two-line>
                     <v-list-item-content class="py-0">
-                      <v-list-item-title> 中等 </v-list-item-title>
+                      <v-list-item-title> {{ $t('tip.middle') }} </v-list-item-title>
                       <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
                         {{ item && item.report ? item.report.summary.Medium : 0 }}
                       </v-list-item-content>
@@ -88,7 +88,7 @@
                   </v-list-item>
                   <v-list-item class="float-left pa-0" two-line>
                     <v-list-item-content class="py-0">
-                      <v-list-item-title> 低 </v-list-item-title>
+                      <v-list-item-title> {{ $t('tip.low') }} </v-list-item-title>
                       <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
                         {{ item && item.report ? item.report.summary.Low : 0 }}
                       </v-list-item-content>
@@ -96,7 +96,7 @@
                   </v-list-item>
                   <v-list-item class="float-left pa-0" two-line>
                     <v-list-item-content class="py-0">
-                      <v-list-item-title> 可修复 </v-list-item-title>
+                      <v-list-item-title> {{ $t('tip.can_repair') }} </v-list-item-title>
                       <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
                         {{ item && item.report ? item.report.fixable : 0 }}
                       </v-list-item-content>
@@ -113,7 +113,7 @@
         {{ item.updatedAt ? $moment(item.updatedAt).format('lll') : '' }}
       </template>
       <template #[`item.published`]="{ item }">
-        {{ item.unpublishable ? '不可发布' : '允许发布' }}
+        {{ item.unpublishable ? $t('operate.cannot_publish') : $t('operate.allow_publish') }}
       </template>
       <template #[`item.action`]="{ item }">
         <v-flex :id="`r${item.ID}`" />
@@ -133,7 +133,7 @@
                   text
                   @click="reportDetail(item)"
                 >
-                  报告
+                  {{ $t('operate.report') }}
                 </v-btn>
               </v-flex>
               <v-flex v-if="m_permisson_resourceAllow">
@@ -144,7 +144,7 @@
                   text
                   @click="labelNoPublish(item)"
                 >
-                  标记不可发布
+                  {{ $t('operate.cannot_publish') }}
                 </v-btn>
                 <v-btn
                   v-if="item.unpublishable && item.isHarborRegistry"
@@ -153,10 +153,10 @@
                   text
                   @click="labelPublish(item)"
                 >
-                  允许发布
+                  {{ $t('operate.allow_publish') }}
                 </v-btn>
               </v-flex>
-              <v-flex v-if="!item.isHarborRegistry" class="pa-2"> 不可操作 </v-flex>
+              <v-flex v-if="!item.isHarborRegistry" class="pa-2"> {{ $t('tip.no_operate') }} </v-flex>
             </v-card-text>
           </v-card>
         </v-menu>
@@ -179,6 +179,7 @@
 <script>
   import { mapGetters } from 'vuex';
 
+  import messages from '../../i18n';
   import AppImageSecurityReportDetail from './AppImageSecurityReportDetail';
   import { getAppImageSecurityReportList, putSetPublishAppImage } from '@/api';
   import BasePermission from '@/mixins/permission';
@@ -186,6 +187,9 @@
 
   export default {
     name: 'AppImageSecurityReportList',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AppImageSecurityReportDetail,
     },
@@ -198,45 +202,49 @@
     },
     data: () => ({
       items: [],
-      headers: [
-        { text: '镜像版本', value: 'image', align: 'start' },
-        { text: '更新时间', value: 'updatedAt', align: 'start' },
-        { text: '风险等级', value: 'severity', align: 'start' },
-        { text: '扫描工具', value: 'scanTool', align: 'start' },
-        { text: '可发布', value: 'published', align: 'start' },
-        { text: '操作', value: 'action', align: 'center', width: 20 },
-      ],
       pageCount: 0,
       params: {
         page: 1,
         size: 10,
         noprocessing: true,
       },
-      severityDict: {
-        Critical: {
-          CN: '严重',
-          Color: 'red',
-        },
-        High: {
-          CN: '高',
-          Color: 'deep-purple',
-        },
-        Medium: {
-          CN: '中等',
-          Color: 'warning',
-        },
-        Low: {
-          CN: '低',
-          Color: 'blue',
-        },
-        Unknown: {
-          CN: '无漏洞',
-          Color: 'success',
-        },
-      },
     }),
     computed: {
       ...mapGetters(['Tenant', 'Project']),
+      headers() {
+        return [
+          { text: this.$t('table.image_version'), value: 'image', align: 'start' },
+          { text: this.$t('table.update_at'), value: 'updatedAt', align: 'start' },
+          { text: this.$t('table.level'), value: 'severity', align: 'start' },
+          { text: this.$t('table.scan_tool'), value: 'scanTool', align: 'start' },
+          { text: this.$t('table.allow_publish'), value: 'published', align: 'start' },
+          { text: '', value: 'action', align: 'center', width: 20 },
+        ];
+      },
+      severityDict() {
+        return {
+          Critical: {
+            CN: this.$t('tip.severity'),
+            Color: 'red',
+          },
+          High: {
+            CN: this.$t('tip.high'),
+            Color: 'deep-purple',
+          },
+          Medium: {
+            CN: this.$t('tip.middle'),
+            Color: 'warning',
+          },
+          Low: {
+            CN: this.$t('tip.low'),
+            Color: 'blue',
+          },
+          Unknown: {
+            CN: this.$t('tip.none'),
+            Color: 'success',
+          },
+        };
+      },
     },
     watch: {
       app() {
@@ -276,7 +284,7 @@
       },
       labelNoPublish(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: '不可发布',
+          title: this.$t('operate.cannot_publish'),
           content: { text: `标记 ${item.image} 不可发布`, type: 'confirm' },
           param: { item },
           doFunc: async (param) => {
@@ -290,7 +298,7 @@
       },
       labelPublish(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: '允许发布',
+          title: this.$t('operate.allow_publish'),
           content: { text: `标记 ${item.image} 允许发布`, type: 'confirm' },
           param: { item },
           doFunc: async (param) => {

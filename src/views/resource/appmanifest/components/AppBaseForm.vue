@@ -18,7 +18,7 @@
   <v-flex>
     <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
       <v-flex :class="expand ? 'kubegems__overlay' : ''" />
-      <BaseSubTitle title="应用定义" />
+      <BaseSubTitle :title="$root.$t('form.definition', [$root.$t('resource.app')])" />
       <v-card-text class="pa-2">
         <v-autocomplete
           v-if="AdminViewport"
@@ -27,8 +27,8 @@
           color="primary"
           hide-selected
           :items="m_select_projectItems"
-          label="项目"
-          no-data-text="暂无可选数据"
+          :label="$root.$t('resource.project')"
+          :no-data-text="$root.$t('data.no_data')"
           :readonly="edit"
           :rules="objRules.projectRule"
           @change="onProjectChange"
@@ -45,7 +45,7 @@
             <v-text-field
               v-model="obj.name"
               class="my-0"
-              label="名称"
+              :label="$t('table.name')"
               :readonly="edit"
               required
               :rules="objRules.nameRules"
@@ -58,8 +58,8 @@
               color="primary"
               hide-selected
               :items="kindItems"
-              label="应用类型"
-              no-data-text="暂无可选数据"
+              :label="$t('table.kind')"
+              :no-data-text="$root.$t('data.no_data')"
               :readonly="edit && obj.kind && obj.kind.length > 0"
               :rules="objRules.kindRule"
             >
@@ -78,7 +78,7 @@
               v-model="obj.description"
               auto-grow
               class="my-0"
-              label="说明"
+              :label="$t('table.remark')"
               required
               :rules="objRules.descriptionRules"
             />
@@ -93,7 +93,7 @@
         @addData="addData"
         @closeOverlay="closeExpand"
       />
-      <BaseSubTitle title="标签" />
+      <BaseSubTitle :title="$t('table.label')" />
       <v-card-text class="pa-2">
         <LabelItem
           :labels="obj.labels"
@@ -110,6 +110,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../i18n';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { k8sLabel, required } from '@/utils/rules';
@@ -118,6 +119,9 @@
 
   export default {
     name: 'AppBaseForm',
+    i18n: {
+      messages: messages,
+    },
     components: {
       LabelForm,
       LabelItem,
@@ -132,11 +136,6 @@
     data: () => ({
       valid: false,
       expand: false,
-      kindItems: [
-        { text: '无状态服务', value: 'Deployment' },
-        { text: '有状态服务', value: 'StatefulSet' },
-        { text: '守护进程服务', value: 'DaemonSet' },
-      ],
       obj: {
         name: '',
         kind: '',
@@ -163,6 +162,13 @@
           return p.value === this.obj.ProjectID;
         });
         return project;
+      },
+      kindItems() {
+        return [
+          { text: this.$root.$t('resource.deployment'), value: 'Deployment' },
+          { text: this.$root.$t('resource.statefulset'), value: 'StatefulSet' },
+          { text: this.$root.$t('resource.daemonset'), value: 'DaemonSet' },
+        ];
       },
     },
     mounted() {

@@ -1,0 +1,65 @@
+{
+  "filter": {
+    "cronjob_name": "定时任务名称"
+  },
+  "tip": {
+    "add_container_image": "请添加容器镜像",
+    "schedule": "调度",
+    "last_schedule": "上一次调度",
+    "concurrency": "并发策略",
+    "success_count": "历史成功数量限制",
+    "failed_count": "历史失败数量限制",
+    "stop": "暂停",
+    "volume": "卷",
+    "env": "环境变量",
+    "condition": "状况",
+    "last_change_at": "上次改变时间",
+    "crontab": "定时计划",
+    "cronjob_setting": "定时任务设置",
+    "max_retry": "最大重试次数",
+    "complations": "完成数",
+    "parallisem": "并行数",
+    "deadline_seconds": "退出超时时限(秒)",
+    "start_seconds": "启动 Job 的期限(秒)",
+    "success_job_limit": "保留完成 Job 数",
+    "failed_job_limit": "保留失败 Job 数",
+    "parallisem_policy": "并发策略",
+    "restart_policy": "重启策略",
+    "never": "Never (故障时创建新的容器组)",
+    "onfailure": "OnFailure (故障时内部重启容器)",
+
+    "image": "镜像",
+    "advanced_setting": "高级配置",
+    "container_image": "容器镜像",
+    "resource_limit_unsaved": "资源限制数据未保存",
+    "container_port_unsaved": "容器端口数据未保存",
+    "health_check_unsaved": "健康检查数据未保存",
+    "run_command_unsaved": "启动命令数据未保存",
+    "env_unsaved": "环境变量数据未保存",
+    "security_unsaved": "安全设置数据未保存",
+    "volume_mount": "卷挂载",
+    "unknown_volume": "未知的卷类型"
+  },
+  "table": {
+    "name": "名称",
+    "crontab": "计划时间",
+    "status": "状态",
+    "last_at": "上次执行时间",
+    "start_at": "开始时间",
+    "end_at": "结束时间"
+  },
+  "status": {
+    "success": "成功",
+    "failed": "失败",
+    "running": "进行中"
+  },
+  "tab": {
+    "job": "任务",
+    "resource_limit": "资源限制",
+    "container_port": "容器端口",
+    "health_check": "健康检测",
+    "run_command": "启动命令",
+    "env": "环境变量",
+    "security": "安全设置"
+  }
+}

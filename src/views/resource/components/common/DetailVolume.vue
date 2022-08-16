@@ -19,9 +19,9 @@
     <template #default>
       <thead>
         <tr>
-          <th class="text-left">卷名称</th>
-          <th class="text-left">类型</th>
-          <th class="text-left">键/路径</th>
+          <th class="text-left">{{ $t('table.volume_name') }}</th>
+          <th class="text-left">{{ $root.$t('resource.type') }}</th>
+          <th class="text-left">{{ $t('table.key_path') }}</th>
         </tr>
       </thead>
       <tbody>
@@ -42,8 +42,13 @@
 </template>
 
 <script>
+  import messages from '../i18n';
+
   export default {
     name: 'DetailVolume',
+    i18n: {
+      messages: messages,
+    },
     props: {
       volumes: {
         type: Array,
@@ -65,7 +70,7 @@
         if (item.configMap) return item.configMap.name;
         if (item.secret) return item.secret.secretName;
         if (item.persistentVolumeClaim) return item.persistentVolumeClaim.name;
-        if (item.projected) return '投射卷请从YAML中查看';
+        if (item.projected) return this.$t('tip.projected_volume');
       },
     },
   };

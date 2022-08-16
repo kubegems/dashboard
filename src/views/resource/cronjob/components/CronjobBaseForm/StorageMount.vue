@@ -23,7 +23,7 @@
           <v-form v-model="valid" lazy-validation @submit.prevent>
             <v-sheet class="pt-2 px-2">
               <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width">
-                <span>卷挂载定义</span>
+                <span>{{ $root.$t('form.definition', [$t('tip.volume_mount')]) }}</span>
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-autocomplete
@@ -32,8 +32,8 @@
                   color="primary"
                   hide-selected
                   :items="volumeTypes"
-                  label="类型"
-                  no-data-text="暂无可选数据"
+                  :label="$root.$t('resource.type')"
+                  :no-data-text="$root.$t('data.no_data')"
                   :readonly="componentEdit"
                 >
                   <template #selection="{ item }">
@@ -58,8 +58,8 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
-          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> {{ $root.$t('operate.cancel') }} </v-btn>
+          <v-btn color="primary" small text @click="addData"> {{ $root.$t('operate.save') }} </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -79,6 +79,7 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
   import { getAppResourceFileMetas, getPersistentVolumeClaimDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
@@ -90,6 +91,9 @@
 
   export default {
     name: 'StorageMount',
+    i18n: {
+      messages: messages,
+    },
     components: {
       ConfigMapMount,
       HostPathMount,
@@ -101,12 +105,6 @@
     data() {
       return {
         valid: false,
-        volumeTypes: [
-          { text: '存储卷', value: 'PersistentVolumeClaim' },
-          { text: 'HostPath', value: 'HostPath' },
-          { text: '配置', value: 'ConfigMap' },
-          { text: '密钥', value: 'Secret' },
-        ],
         volumeType: null,
         volumeMountName: null,
         volume: null,
@@ -130,6 +128,16 @@
         pvcs: {},
         expand: false,
       };
+    },
+    computed: {
+      volumeTypes() {
+        return [
+          { text: this.$root.$t('resource.persistentvolumeclaim'), value: 'PersistentVolumeClaim' },
+          { text: 'HostPath', value: 'HostPath' },
+          { text: this.$root.$t('resource.configmap'), value: 'ConfigMap' },
+          { text: this.$root.$t('resource.secret'), value: 'Secret' },
+        ];
+      },
     },
     methods: {
       async init(data) {
@@ -259,7 +267,7 @@
           this.expandCard(true);
         } else {
           this.$store.commit('SET_SNACKBAR', {
-            text: '未知的卷类型',
+            text: this.$t('tip.unknown_volume'),
             color: 'warning',
           });
         }

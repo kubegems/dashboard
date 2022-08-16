@@ -41,14 +41,14 @@
     <v-card flat :loading="eventLoad" width="100%">
       <v-flex class="text-body-2 text-center primary white--text py-2">
         <v-icon color="white" left small> mdi-bell-ring </v-icon>
-        <span>事件</span>
+        <span>{{ $t('tip.event') }}</span>
       </v-flex>
       <v-list class="pa-0 kubegems__tip" dense>
         <v-list-item>
           <v-list-item-content v-if="event">
             <v-list-item class="float-left pa-0" two-line>
               <v-list-item-content class="py-0">
-                <v-list-item-title> 最新事件 </v-list-item-title>
+                <v-list-item-title> {{ $t('tip.last_at') }} </v-list-item-title>
                 <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
                   {{ event.message }}
                 </v-list-item-content>
@@ -56,7 +56,7 @@
             </v-list-item>
             <v-list-item class="float-left pa-0" two-line>
               <v-list-item-content class="py-0">
-                <v-list-item-title> 发生时间 </v-list-item-title>
+                <v-list-item-title> {{ $t('tip.trigger_at') }} </v-list-item-title>
                 <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
                   {{
                     event.metadata.creationTimestamp
@@ -67,7 +67,7 @@
               </v-list-item-content>
             </v-list-item>
           </v-list-item-content>
-          <v-flex v-else class="text-caption kubegems__text text-center"> 暂无事件 </v-flex>
+          <v-flex v-else class="text-caption kubegems__text text-center"> {{ $root.$t('data.no_data') }} </v-flex>
         </v-list-item>
       </v-list>
     </v-card>
@@ -75,11 +75,15 @@
 </template>
 
 <script>
+  import messages from '../i18n';
   import { getEventList } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'EventTip',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     props: {
       disabled: {

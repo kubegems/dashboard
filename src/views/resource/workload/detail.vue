@@ -21,7 +21,7 @@
       <template #extend>
         <v-flex class="kubegems__full-right">
           <span class="text-subtitle-2 mx-2">
-            CPU: {{ cpu.val }}
+            {{ $root.$t('resource.cpu') }} : {{ cpu.val }}
             <v-menu id="cpu" :close-delay="200" nudge-right="25px" nudge-top="-5px" open-on-hover top>
               <template #activator="{ on }">
                 <v-icon v-if="cpu.trend === 'up'" color="error" v-on="on"> mdi-trending-up </v-icon>
@@ -29,12 +29,12 @@
                 <v-icon v-else-if="cpu.trend === 'neutral'" color="primary" v-on="on"> mdi-trending-neutral </v-icon>
               </template>
               <v-card>
-                <v-card-text class="pa-2 text-caption"> 间隔30s cpu实时变化 </v-card-text>
+                <v-card-text class="pa-2 text-caption"> {{ $t('tip.cpu_30_interval') }} </v-card-text>
               </v-card>
             </v-menu>
           </span>
           <span class="text-subtitle-2 mx-2">
-            内存: {{ memory.val }}
+            {{ $root.$t('resource.memory') }} : {{ memory.val }}
             <v-menu id="memory" :close-delay="200" nudge-right="25px" nudge-top="-5px" open-on-hover top>
               <template #activator="{ on }">
                 <v-icon v-if="memory.trend === 'up'" color="error" v-on="on"> mdi-trending-up </v-icon>
@@ -42,7 +42,7 @@
                 <v-icon v-else-if="memory.trend === 'neutral'" color="primary" v-on="on"> mdi-trending-neutral </v-icon>
               </template>
               <v-card>
-                <v-card-text class="pa-2 text-caption"> 间隔30s 内存实时变化 </v-card-text>
+                <v-card-text class="pa-2 text-caption"> {{ $t('tip.memory_30_interval') }} </v-card-text>
               </v-card>
             </v-menu>
           </span>
@@ -59,11 +59,11 @@
               @click="scaleReplicas"
             >
               <v-icon left small> mdi-arrow-up-down-bold </v-icon>
-              调整副本数
+              {{ $t('operate.scale_replicas') }}
             </v-btn>
             <v-btn v-if="m_permisson_resourceAllow" class="primary--text" small text @click="rollingback">
               <v-icon left small> mdi-redo-variant </v-icon>
-              回滚
+              {{ $t('operate.rollback') }}
             </v-btn>
             <v-btn
               v-if="$route.query.type !== 'DaemonSet' && m_permisson_resourceAllow"
@@ -73,7 +73,7 @@
               @click="hpaStrategy"
             >
               <v-icon left small> mdi-cogs </v-icon>
-              弹性伸缩策略
+              {{ $t('tip.auto_scale_policy') }}
             </v-btn>
           </template>
           <v-btn class="primary--text" small text @click="resourceYaml">
@@ -89,10 +89,10 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" small text @click="updateWorkload"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateWorkload"> {{ $root.$t('operate.edit') }} </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="removeWorkload"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeWorkload"> {{ $root.$t('operate.delete') }} </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -145,6 +145,7 @@
   import ScaleReplicas from './components/ScaleReplicas';
   import UpdateWorkload from './components/UpdateWorkload';
   import WorkloadMonitor from './components/WorkloadMonitor';
+  import messages from './i18n';
   import {
     deleteDaemonSet,
     deleteDeployment,
@@ -165,6 +166,9 @@
 
   export default {
     name: 'WorkloadDetail',
+    i18n: {
+      messages: messages,
+    },
     components: {
       BasicResourceInfo,
       EventList,
@@ -182,13 +186,6 @@
     data: () => ({
       workload: null,
       tab: 0,
-      tabItems: [
-        { text: '资源信息', value: 'ResourceInfo' },
-        { text: '元数据', value: 'Metadata' },
-        { text: '容器组', value: 'PodList' },
-        { text: '事件', value: 'EventList' },
-        { text: '监控', value: 'WorkloadMonitor' },
-      ],
       cpu: { val: 0, trend: '' },
       memory: { val: 0, trend: '' },
       cpuInterval: null,
@@ -196,6 +193,15 @@
     }),
     computed: {
       ...mapState(['JWT', 'MessageStreamWS']),
+      tabItems() {
+        return [
+          { text: this.$root.$t('tab.resource_info'), value: 'ResourceInfo' },
+          { text: this.$root.$t('tab.metadata'), value: 'Metadata' },
+          { text: this.$root.$t('tab.pod'), value: 'PodList' },
+          { text: this.$root.$t('tab.event'), value: 'EventList' },
+          { text: this.$root.$t('tab.monitor'), value: 'WorkloadMonitor' },
+        ];
+      },
     },
     watch: {
       '$store.state.MessageStream': {
@@ -332,9 +338,9 @@
         const item = this.workload;
         if (this.$route.query.type === 'DaemonSet') {
           this.$store.commit('SET_CONFIRM', {
-            title: `删除守护进程服务`,
+            title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.daemonset')]),
             content: {
-              text: `删除守护进程服务 ${item.metadata.name}`,
+              text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.daemonset')])} ${item.metadata.name}`,
               type: 'delete',
               name: item.metadata.name,
             },
@@ -346,9 +352,11 @@
           });
         } else if (this.$route.query.type === 'StatefulSet') {
           this.$store.commit('SET_CONFIRM', {
-            title: `删除有状态服务`,
+            title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.statefulset')]),
             content: {
-              text: `删除有状态服务 ${item.metadata.name}`,
+              text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.statefulset')])} ${
+                item.metadata.name
+              }`,
               type: 'delete',
               name: item.metadata.name,
             },
@@ -360,9 +368,11 @@
           });
         } else if (this.$route.query.type === 'Deployment') {
           this.$store.commit('SET_CONFIRM', {
-            title: `删除无状态服务`,
+            title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.deployment')]),
             content: {
-              text: `删除无状态服务 ${item.metadata.name}`,
+              text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.deployment')])} ${
+                item.metadata.name
+              }`,
               type: 'delete',
               name: item.metadata.name,
             },

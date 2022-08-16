@@ -17,7 +17,7 @@
 <template>
   <v-flex>
     <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
-      <BaseSubTitle title="关联应用" />
+      <BaseSubTitle :title="$t('operate.link_c', [$root.$t('resource.app')])" />
       <v-card-text class="px-2 pb-0">
         <v-sheet>
           <v-autocomplete
@@ -26,9 +26,9 @@
             color="primary"
             hide-selected
             :items="items"
-            label="应用"
+            :label="$root.$t('resource.app')"
             multiple
-            no-data-text="暂无可选数据"
+            :no-data-text="$root.$t('data.no_data')"
             :rules="objRules.ApplicationRule"
             @focus="onAppSelectFocus"
           >
@@ -47,12 +47,16 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import { getAppRunningList, getManifestList } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'LinkAppBaseForm',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseSelect],
     data: () => ({
       valid: false,
@@ -79,7 +83,7 @@
               return l.name === app.name;
             })
           ) {
-            apps.push({ text: `${app.name}(已关联)`, value: app, disabled: true });
+            apps.push({ text: `${app.name}(${this.$t('tip.linked')})`, value: app, disabled: true });
           } else {
             apps.push({ text: app.name, value: app, disabled: false });
           }

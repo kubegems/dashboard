@@ -56,10 +56,14 @@
               text
               @click.stop="addResourceFile"
             >
-              添加资源
+              {{ $root.$t('operate.add_c', [$root.$t('resource.resource')]) }}
             </v-btn>
-            <v-btn v-if="!item.kind" color="primary" small text @click.stop="viewHistoryVersion"> 历史版本 </v-btn>
-            <v-btn v-if="!item.kind" color="primary" small text @click.stop="refreshResource"> 刷新 </v-btn>
+            <v-btn v-if="!item.kind" color="primary" small text @click.stop="viewHistoryVersion">
+              {{ $t('operate.history_version') }}
+            </v-btn>
+            <v-btn v-if="!item.kind" color="primary" small text @click.stop="refreshResource">
+              {{ $root.$t('operate.refresh') }}
+            </v-btn>
             <v-menu v-else-if="m_permisson_resourceAllow" left>
               <template #activator="{ on }">
                 <v-btn icon>
@@ -69,10 +73,14 @@
               <v-card>
                 <v-card-text class="pa-2">
                   <v-flex>
-                    <v-btn color="primary" small text @click="updateResourceFile(item)"> 编辑 </v-btn>
+                    <v-btn color="primary" small text @click="updateResourceFile(item)">
+                      {{ $root.$t('operate.edit') }}
+                    </v-btn>
                   </v-flex>
                   <v-flex>
-                    <v-btn color="error" small text @click="removeResourceFile(item)"> 删除 </v-btn>
+                    <v-btn color="error" small text @click="removeResourceFile(item)">
+                      {{ $root.$t('operate.delete') }}
+                    </v-btn>
                   </v-flex>
                 </v-card-text>
               </v-card>
@@ -82,7 +90,7 @@
         <v-flex v-if="m_permisson_resourceAllow && Environment().ID > 0" class="sync-btn mx-3">
           <v-btn block color="primary" text @click="syncAppResource">
             <v-icon left>mdi-sync</v-icon>
-            同步
+            {{ $root.$t('operate.sync') }}
           </v-btn>
         </v-flex>
       </v-col>
@@ -110,6 +118,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import AddResourceFile from './AddResourceFile';
   import AppResourceFileHistory from './AppResourceFileHistory';
   import UpdateResourceFile from './UpdateResourceFile';
@@ -119,6 +128,9 @@
 
   export default {
     name: 'AppResourceFileList',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddResourceFile,
       AppResourceFileHistory,
@@ -239,9 +251,9 @@
       },
       removeResourceFile(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: '删除资源文件',
+          title: this.$root.$t('operate.delete_c', [$t('tip.resource_file')]),
           content: {
-            text: `删除资源文件 ${item.name}`,
+            text: `${this.$root.$t('operate.delete_c', [$t('tip.resource_file')])} ${item.name}`,
             type: 'delete',
             name: item.name,
           },
@@ -266,9 +278,9 @@
       },
       syncAppResource() {
         this.$store.commit('SET_CONFIRM', {
-          title: '同步应用',
+          title: this.$root.$t('operate.sync_c', [$root.$t('resource.app')]),
           content: {
-            text: `同步应用 ${this.app.name}，该操作会导致服务重启`,
+            text: this.$t('tip.sync_alert', [this.app.name]),
             type: 'confirm',
           },
           param: {},
@@ -280,9 +292,9 @@
       },
       async refreshResource() {
         this.$store.commit('SET_CONFIRM', {
-          title: '刷新应用资源',
+          title: this.$t('operate.refresh_c', [$root.$t('resource.app')]),
           content: {
-            text: `刷新应用 ${this.app.name} 的资源文件`,
+            text: this.$t('tip.refresh_tip', [this.app.name]),
             type: 'confirm',
           },
           param: {},

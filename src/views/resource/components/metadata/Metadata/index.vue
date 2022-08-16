@@ -17,11 +17,11 @@
 <template>
   <div>
     <v-card>
-      <BaseSubTitle class="pt-2" :divider="false" title="标签">
+      <BaseSubTitle class="pt-2" :divider="false" :title="$t('tip.label')">
         <template v-if="!readonly" #action>
           <v-btn class="float-right mr-2" color="primary" small text @click="addLabel">
             <v-icon left small> mdi-tag-plus </v-icon>
-            添加标签
+            {{ $root.$t('operate.add_c', [$t('tip.label')]) }}
           </v-btn>
         </template>
       </BaseSubTitle>
@@ -48,11 +48,11 @@
     </v-card>
 
     <v-card class="mt-3" flat>
-      <BaseSubTitle class="pt-2" :divider="false" title="注解">
+      <BaseSubTitle class="pt-2" :divider="false" :title="$t('tip.annotation')">
         <template v-if="!readonly" #action>
           <v-btn class="float-right mr-2" color="primary" small text @click="addAnnotation">
             <v-icon left small> mdi-tag-plus </v-icon>
-            添加注解
+            {{ $root.$t('operate.add_c', [$t('tip.annotation')]) }}
           </v-btn>
         </template>
       </BaseSubTitle>
@@ -85,6 +85,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import AddAnnotation from './AddAnnotation';
   import AddLabel from './AddLabel';
   import { patchMetadataNode } from '@/api';
@@ -93,6 +94,9 @@
 
   export default {
     name: 'Metadata',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddAnnotation,
       AddLabel,
@@ -131,9 +135,15 @@
     methods: {
       removeMetadata(item, type) {
         this.$store.commit('SET_CONFIRM', {
-          title: type === 'label' ? '移除标签' : '移除注解',
+          title:
+            type === 'label'
+              ? this.$root.$t('operate.delete_c', [this.$t('tip.label')])
+              : this.$root.$t('operate.delete_c', [this.$t('tip.annotation')]),
           content: {
-            text: type === 'label' ? `移除标签 ${item}` : `移除注解 ${item}`,
+            text:
+              type === 'label'
+                ? `${this.$root.$t('operate.delete_c', [this.$t('tip.label')])} ${item}`
+                : `${this.$root.$t('operate.delete_c', [this.$t('tip.annotation')])} ${item}`,
             type: 'delete',
             name: item,
           },

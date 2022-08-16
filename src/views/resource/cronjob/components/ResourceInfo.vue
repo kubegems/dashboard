@@ -18,13 +18,13 @@
   <div>
     <v-card>
       <v-sheet class="pa-2">
-        <BaseListItemForDetail :mt="0" title="调度">
+        <BaseListItemForDetail :mt="0" :title="$t('tip.schedule')">
           <template #content>
             {{ cronjob ? cronjob.spec.schedule : '' }}
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="上一次调度">
+        <BaseListItemForDetail :title="$t('tip.last_schedule')">
           <template #content>
             {{
               cronjob && cronjob.status.lastScheduleTime
@@ -34,25 +34,25 @@
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="并发策略">
+        <BaseListItemForDetail :title="$t('tip.concurrency')">
           <template #content>
             {{ cronjob ? cronjob.spec.concurrencyPolicy : '' }}
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="历史成功数量限制">
+        <BaseListItemForDetail :title="$t('tip.success_count')">
           <template #content>
             {{ cronjob ? cronjob.spec.successfulJobsHistoryLimit : '' }}
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="历史失败数量限制">
+        <BaseListItemForDetail :title="$t('tip.failed_count')">
           <template #content>
             {{ cronjob ? cronjob.spec.failedJobsHistoryLimit : '' }}
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="暂停">
+        <BaseListItemForDetail :title="$t('tip.stop')">
           <template #content>
             {{ cronjob ? cronjob.spec.suspend : '' }}
           </template>
@@ -61,7 +61,7 @@
     </v-card>
 
     <v-card class="mt-3" flat>
-      <BaseSubTitle class="pt-2" :divider="false" title="容器" />
+      <BaseSubTitle class="pt-2" :divider="false" :title="$root.$t('resource.container')" />
       <DetailContainer
         :containers="
           cronjob
@@ -78,24 +78,24 @@
     </v-card>
 
     <v-card class="mt-3" flat>
-      <BaseSubTitle class="pt-2" :divider="false" title="卷" />
+      <BaseSubTitle class="pt-2" :divider="false" :title="$t('tip.volume')" />
       <DetailVolume :volumes="cronjob ? cronjob.spec.jobTemplate.spec.template.spec.volumes : []" />
     </v-card>
 
     <v-card class="mt-3" flat>
-      <BaseSubTitle class="pt-2" :divider="false" title="环境变量" />
+      <BaseSubTitle class="pt-2" :divider="false" :title="$t('tip.env')" />
       <DetailEnv :containers="cronjob ? cronjob.spec.jobTemplate.spec.template.spec.containers : []" />
     </v-card>
 
     <v-card class="mt-3" flat>
-      <BaseSubTitle class="pt-2" :divider="false" title="状况" />
+      <BaseSubTitle class="pt-2" :divider="false" :title="$t('tip.condition')" />
       <v-simple-table class="mx-2 pa-2">
         <template #default>
           <thead>
             <tr>
               <th class="text-left">Type</th>
-              <th class="text-left">状态</th>
-              <th class="text-left">上次改变时间</th>
+              <th class="text-left">{{ $t('table.status') }}</th>
+              <th class="text-left">{{ $t('tip.last_change_at') }}</th>
             </tr>
           </thead>
           <tbody>
@@ -119,6 +119,7 @@
 </template>
 
 <script>
+  import messages from '../i18n';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
   import DetailContainer from '@/views/resource/components/common/DetailContainer';
@@ -127,6 +128,9 @@
 
   export default {
     name: 'ResourceInfo',
+    i18n: {
+      messages: messages,
+    },
     components: {
       DetailContainer,
       DetailEnv,

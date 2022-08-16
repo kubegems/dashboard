@@ -22,7 +22,7 @@
         hide-default-footer
         :items="items"
         :items-per-page="params.size"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
         @update:sort-by="m_table_sortBy"
         @update:sort-desc="m_table_sortDesc"
@@ -163,7 +163,7 @@
                     m_permisson_resourceAllow && item.status.phase === 'Running' && !item.metadata.deletionTimestamp
                   "
                 >
-                  <v-btn color="primary" small text @click="containerShell(item)"> 终端 </v-btn>
+                  <v-btn color="primary" small text @click="containerShell(item)"> {{ $t('operate.terminal') }} </v-btn>
                 </v-flex>
                 <v-flex
                   v-if="
@@ -178,7 +178,7 @@
                     !item.metadata.deletionTimestamp
                   "
                 >
-                  <v-btn color="primary" small text @click="containerLog(item)"> 日志 </v-btn>
+                  <v-btn color="primary" small text @click="containerLog(item)"> {{ $t('operate.log') }} </v-btn>
                 </v-flex>
                 <v-flex
                   v-if="
@@ -187,7 +187,7 @@
                   "
                   class="pa-2"
                 >
-                  不可操作
+                  {{ $t('tip.no_operate') }}
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -213,6 +213,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import ContainerLog from './ContainerLog';
   import EventTip from './EventTip';
   import Terminal from './Terminal';
@@ -225,6 +226,9 @@
 
   export default {
     name: 'PodList',
+    i18n: {
+      messages: messages,
+    },
     components: {
       ContainerLog,
       EventTip,
@@ -243,34 +247,6 @@
     },
     data: () => ({
       items: [],
-      headers: [
-        { text: '容器组', value: 'name', align: 'start' },
-        { text: '状态', value: 'status', align: 'start', width: 250 },
-        { text: '重启次数', value: 'restart', align: 'start', sortable: false },
-        { text: 'Age', value: 'age', align: 'start' },
-        { text: 'Pod IP', value: 'ip', align: 'start', sortable: false },
-        {
-          text: 'CPU使用量',
-          value: 'cpu',
-          align: 'start',
-          width: 150,
-          sortable: false,
-        },
-        {
-          text: '内存使用量',
-          value: 'memory',
-          align: 'start',
-          width: 150,
-          sortable: false,
-        },
-        {
-          text: '操作',
-          value: 'action',
-          align: 'center',
-          width: 20,
-          sortable: false,
-        },
-      ],
       pageCount: 0,
       params: {
         page: 1,
@@ -280,6 +256,36 @@
     }),
     computed: {
       ...mapState(['MessageStreamWS', 'AdminViewport']),
+      headers() {
+        return [
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
+          { text: this.$t('table.status'), value: 'status', align: 'start', width: 250 },
+          { text: this.$t('table.restart_count'), value: 'restart', align: 'start', sortable: false },
+          { text: 'Age', value: 'age', align: 'start' },
+          { text: 'Pod IP', value: 'ip', align: 'start', sortable: false },
+          {
+            text: this.$t('table.used', [this.$root.$t('resource.cpu')]),
+            value: 'cpu',
+            align: 'start',
+            width: 150,
+            sortable: false,
+          },
+          {
+            text: this.$t('table.used', [this.$root.$t('resource.memory')]),
+            value: 'memory',
+            align: 'start',
+            width: 150,
+            sortable: false,
+          },
+          {
+            text: '',
+            value: 'action',
+            align: 'center',
+            width: 20,
+            sortable: false,
+          },
+        ];
+      },
     },
     watch: {
       '$store.state.MessageStream': {

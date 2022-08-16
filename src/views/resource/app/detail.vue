@@ -34,7 +34,7 @@
             @click="advancedDeploy"
           >
             <v-icon left small> mdi-send </v-icon>
-            高级部署
+            {{ $t('operate.advanced_deploy') }}
           </v-btn>
 
           <v-btn
@@ -50,7 +50,7 @@
             @click="scaleReplicas"
           >
             <v-icon left small> mdi-arrow-up-down-bold </v-icon>
-            调整副本数
+            {{ $t('operate.scale_replicas') }}
           </v-btn>
           <v-btn
             v-if="app && app.kind !== 'DaemonSet' && m_permisson_resourceAllow && $route.query.kind === 'app'"
@@ -60,7 +60,7 @@
             @click="rollingback"
           >
             <v-icon left small> mdi-redo-variant </v-icon>
-            回滚
+            {{ $t('operate.rollback') }}
           </v-btn>
           <v-btn
             v-if="app && m_permisson_resourceAllow && $route.query.kind === 'modelstore'"
@@ -72,16 +72,6 @@
             <v-icon left small> mdi-code-json </v-icon>
             YAML
           </v-btn>
-          <!-- <v-btn
-            v-if="app && app.kind !== 'DaemonSet' && m_permisson_resourceAllow && $route.query.kind === 'app'"
-            class="primary--text"
-            small
-            text
-            @click="hpaStrategy"
-          >
-            <v-icon left small> mdi-cogs </v-icon>
-            弹性伸缩策略
-          </v-btn> -->
           <v-menu left>
             <template #activator="{ on }">
               <v-btn icon>
@@ -91,10 +81,10 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex v-if="$route.query.kind === 'modelstore'">
-                  <v-btn color="primary" small text @click="updateModelRuntime"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateModelRuntime"> {{ $root.$t('operate.edit') }} </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="removeApp"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeApp"> {{ $root.$t('operate.delete') }} </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -135,7 +125,6 @@
       ref="scaleReplicas"
       :item="app"
     />
-    <HPAStrategy v-if="$route.query.kind === 'app'" ref="hpaStrategy" />
     <Rollingback v-if="$route.query.kind === 'app'" ref="rollingback" />
     <ResourceYaml v-if="$route.query.kind === 'modelstore'" ref="resourceYaml" :item="app" />
     <UpdateModelRuntime ref="updateModelRuntime" @refresh="appRunningDetail" />
@@ -145,13 +134,13 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
-  import HPAStrategy from './components/HPAStrategy';
   import ModelMonitor from './components/ModelMonitor';
   import ModelResourceInfo from './components/ModelResourceInfo';
   import ResourceInfo from './components/ResourceInfo';
   import Rollingback from './components/Rollingback';
   import ScaleReplicas from './components/ScaleReplicas';
   import UpdateModelRuntime from './components/UpdateModelRuntime';
+  import messages from './i18n';
   import { deleteApp, deleteAppStoreApp, deleteModelRuntime, getAppRunningDetail, getModelRuntimeDetail } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -165,13 +154,15 @@
 
   export default {
     name: 'AppDetail',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AppDeployList,
       AppImageSecurityReportList,
       AppResourceFileList,
       DeployControlCenter,
       DeployStatus,
-      HPAStrategy,
       ModelMonitor,
       ModelResourceInfo,
       PodList,
@@ -192,19 +183,19 @@
       tabItems() {
         if (this.$route.query.kind === 'app') {
           return [
-            { text: '资源编排', value: 'AppResourceFileList' },
-            { text: '控制中心', value: 'DeployControlCenter' },
-            { text: '资源状态', value: 'DeployStatus' },
-            { text: '部署历史', value: 'AppDeployList' },
-            { text: '镜像安全', value: 'AppImageSecurityReportList' },
+            { text: this.$t('tab.manifest'), value: 'AppResourceFileList' },
+            { text: this.$t('tab.control_center'), value: 'DeployControlCenter' },
+            { text: this.$t('tab.resource_status'), value: 'DeployStatus' },
+            { text: this.$t('tab.deploy_history'), value: 'AppDeployList' },
+            { text: this.$t('tab.image_safey'), value: 'AppImageSecurityReportList' },
           ];
         } else if (this.$route.query.kind === 'appstore') {
-          return [{ text: '资源状态', value: 'DeployStatus' }];
+          return [{ text: this.$t('tab.resource_status'), value: 'DeployStatus' }];
         } else if (this.$route.query.kind === 'modelstore') {
           return [
-            { text: '运行信息', value: 'ModelResourceInfo' },
-            { text: '容器组', value: 'PodList' },
-            { text: '监控', value: 'ModelMonitor' },
+            { text: this.$t('tab.runtime'), value: 'ModelResourceInfo' },
+            { text: this.$root.$t('tab.pod'), value: 'PodList' },
+            { text: this.$root.$t('tab.monitor'), value: 'ModelMonitor' },
           ];
         }
         return [];
@@ -289,10 +280,6 @@
         this.$refs.scaleReplicas.init(this.$route.query.kind);
         this.$refs.scaleReplicas.open();
       },
-      hpaStrategy() {
-        this.$refs.hpaStrategy.init();
-        this.$refs.hpaStrategy.open();
-      },
       rollingback() {
         this.$refs.rollingback.init();
         this.$refs.rollingback.open();
@@ -311,11 +298,11 @@
         });
       },
       removeApp() {
-        let title = '删除平台应用';
+        let title = this.$root.$t('operate.delete_c', [this.$t('tip.platform_app')]);
         if (this.$route.query.kind === 'appstore') {
-          title = '删除应用商店应用';
+          title = this.$root.$t('operate.delete_c', [this.$t('tip.app_store_app')]);
         } else if (this.$route.query.kind === 'modelstore') {
-          title = '删除算法商店应用';
+          title = this.$root.$t('operate.delete_c', [this.$t('tip.model_store_app')]);
         }
         this.$store.commit('SET_CONFIRM', {
           title: title,

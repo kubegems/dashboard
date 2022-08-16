@@ -95,6 +95,7 @@
     "cluster": "Cluster",
     "app": "Application",
     "app_c": "Application {0}",
+    "appmanifest": "Application Manifest",
     "node": "Node",
     "workload": "Workload",
     "deployment": "Deployment",
@@ -142,7 +143,8 @@
     "virtual_service": "Virtual Service",
     "destination_rule": "Destination Rule",
     "certificate": "Certificate",
-    "issuer": "Issuer"
+    "issuer": "Issuer",
+    "event": "Event"
   },
 
   "header": {
@@ -199,6 +201,7 @@
     "login": "Login",
     "return": "Return",
     "deploy": "Deploy",
+    "deploy_c": "Deploy {0}",
     "sync": "Sync",
     "sync_c": "Sync {0}",
     "save": "Save",
@@ -449,6 +452,7 @@
     "save_data": "Please save the data",
     "parse_error": "Data parsing error",
     "select_tenant": "Please select tenant",
+    "select_environment": "Please select environment",
     "condition": "Condition"
   },
   "tab": {

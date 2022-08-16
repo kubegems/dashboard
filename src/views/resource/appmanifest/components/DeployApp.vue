@@ -15,10 +15,18 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-send" title="部署应用" :width="1200" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-send"
+    :title="$root.$t('operate.deploy_c', [$root.$t('resource.app')])"
+    :width="1200"
+    @reset="reset"
+  >
     <template #content>
       <v-card-text class="pa-0">
-        <v-flex class="text-subtitle-2 primary--text px-0"> 环境: {{ Environment().EnvironmentName }} </v-flex>
+        <v-flex class="text-subtitle-2 primary--text px-0">
+          {{ $root.$t('resource.environment') }} : {{ Environment().EnvironmentName }}
+        </v-flex>
         <v-text-field v-model="search" class="mt-2 pt-0" hide-details prepend-inner-icon="mdi-magnify" />
         <v-data-table
           class="mt-2 deploy__table"
@@ -27,8 +35,8 @@
           hide-default-footer
           :items="items"
           :items-per-page="500"
-          no-data-text="暂无数据"
-          no-results-text="暂无匹配应用"
+          :no-data-text="$root.$t('data.no_data')"
+          :no-results-text="$root.$t('data.no_data')"
           :search.sync="search"
           show-select
           @toggle-select-all="selectAllApp"
@@ -79,7 +87,7 @@
                       dense
                       flat
                       hide-details
-                      label="回车创建"
+                      :label="$t('tip.enter_2_create')"
                       solo
                       @keyup.enter="createTag(`${item.index}-${key}`, key, item.name)"
                     />
@@ -91,7 +99,7 @@
                   >
                     <template #no-data>
                       <v-card>
-                        <v-card-text> 暂无Tag </v-card-text>
+                        <v-card-text> {{ $root.$t('data.no_data') }} </v-card-text>
                       </v-card>
                     </template>
                     <template #default="props">
@@ -108,7 +116,7 @@
                             <v-list-item-content>
                               <span>
                                 {{ tag.name }}
-                                <span v-if="tag.unpublishable" class="error--text"> (不可部署) </span>
+                                <span v-if="tag.unpublishable" class="error--text"> ({{ $t('tip.no_deploy') }}) </span>
                               </span>
                             </v-list-item-content>
                           </v-list-item>
@@ -124,7 +132,9 @@
       </v-card-text>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="deployEnvironmentApps"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="deployEnvironmentApps">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>
@@ -132,24 +142,21 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../i18n';
   import { getAppImageTags, getEnvironmentAppImageList, postDeployEnvironmentAppImages } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'DeployApp',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource, BaseSelect],
     data: () => ({
       dialog: false,
       items: [],
       tagMenus: [],
-      headers: [
-        { text: '应用名称', value: 'name', align: 'start' },
-        { text: '应用类型', value: 'kind', align: 'start' },
-        { text: '镜像', value: 'images', align: 'start' },
-        { text: '当前Tag', value: 'runningTag', align: 'start' },
-        { text: '部署Tag', value: 'publishTag', align: 'start' },
-      ],
       tags: [],
       environmentID: 0,
       search: '',
@@ -157,6 +164,15 @@
     computed: {
       ...mapState(['Circular', 'AdminViewport']),
       ...mapGetters(['Environment', 'Project', 'Tenant']),
+      headers() {
+        return [
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
+          { text: this.$t('table.kind'), value: 'kind', align: 'start' },
+          { text: this.$t('table.image'), value: 'images', align: 'start' },
+          { text: this.$t('table.now_tag'), value: 'runningTag', align: 'start' },
+          { text: this.$t('table.deploy_tag'), value: 'publishTag', align: 'start' },
+        ];
+      },
     },
     methods: {
       open() {
@@ -224,7 +240,7 @@
         this.tagMenus[`${imageIndex}-${image}`].menu = false;
         if (unpublishable) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '该tag不可部署',
+            text: this.$t('tip.tag_not_deploy'),
             color: 'warning',
           });
           return;
@@ -269,22 +285,22 @@
       async deployEnvironmentApps() {
         if (!this.checkAllApp()) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请勾选需要部署的应用',
+            text: this.$t('tip.select_app'),
             color: 'warning',
           });
           return;
         }
         if (!this.checkAllPublished()) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请选择部署应用的tag',
+            text: this.$t('tip.select_tag'),
             color: 'warning',
           });
           return;
         }
         this.$store.commit('SET_CONFIRM', {
-          title: '部署应用',
+          title: this.$root.$t('operate.deploy_c', [this.$root.$t('resource.app')]),
           content: {
-            text: `部署应用 ${this.items
+            text: `${this.$root.$t('operate.deploy_c', [this.$root.$t('resource.app')])} ${this.items
               .filter((app) => {
                 return app.published;
               })

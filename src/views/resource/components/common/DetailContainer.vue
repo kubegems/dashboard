@@ -19,12 +19,12 @@
     <template #default>
       <thead>
         <tr>
-          <th class="text-left">容器名</th>
-          <th class="text-left" :style="{ width: `300px` }"> 镜像 </th>
-          <th class="text-left" :style="{ width: `120px` }"> 探针 </th>
-          <th class="text-left">容器端口</th>
-          <th class="text-left" :style="{ width: `220px` }"> 卷 </th>
-          <th class="text-left">卷挂载</th>
+          <th class="text-left">{{ $t('table.container_name') }}</th>
+          <th class="text-left" :style="{ width: `300px` }"> {{ $t('table.image') }} </th>
+          <th class="text-left" :style="{ width: `120px` }"> {{ $t('table.probe') }} </th>
+          <th class="text-left">{{ $t('table.container_port') }}</th>
+          <th class="text-left" :style="{ width: `220px` }"> {{ $t('table.volume') }} </th>
+          <th class="text-left">{{ $t('table.volume_mount') }}</th>
         </tr>
       </thead>
       <tbody>
@@ -33,13 +33,13 @@
           <td>{{ item.image }}</td>
           <td>
             <template v-if="item.livenessProbe">
-              <ProbeTip :item="item.livenessProbe" title="存活探针" />
+              <ProbeTip :item="item.livenessProbe" :title="$t('tip.live_probe')" />
             </template>
             <template v-if="item.readinessProbe">
-              <ProbeTip :item="item.readinessProbe" title="就绪探针" />
+              <ProbeTip :item="item.readinessProbe" :title="$t('tip.read_probe')" />
             </template>
             <template v-if="item.startupProbe">
-              <ProbeTip :item="item.startupProbe" title="启动探针" />
+              <ProbeTip :item="item.startupProbe" :title="$t('tip.start_probe')" />
             </template>
           </td>
           <td>
@@ -60,7 +60,7 @@
             <v-flex v-for="(volume, index) in item.volumeMounts" :key="index" class="py-1">
               <div class="table__volume__height">
                 <span>{{ volume.mountPath }}</span>
-                <span v-if="volume.subPath"> ｜子路径 : {{ volume.subPath }} </span>
+                <span v-if="volume.subPath"> | {{ $t('tip.subpath') }} : {{ volume.subPath }} </span>
               </div>
             </v-flex>
           </td>
@@ -71,10 +71,14 @@
 </template>
 
 <script>
+  import messages from '../i18n';
   import ProbeTip from './ProbeTip';
 
   export default {
     name: 'DetailContainer',
+    i18n: {
+      messages: messages,
+    },
     components: {
       ProbeTip,
     },

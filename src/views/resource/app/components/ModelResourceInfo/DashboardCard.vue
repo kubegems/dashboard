@@ -20,7 +20,7 @@
         icon="mdi-cpu-64-bit"
         :large="false"
         :num="item && item.spec.server.resources.limits ? item.spec.server.resources.limits.cpu : 0"
-        title="已分配CPU"
+        :title="$t('tip.allocated', [$root.$t('resource.cpu')])"
       />
     </v-col>
     <v-col class="py-0 mb-3" cols="3">
@@ -28,21 +28,36 @@
         icon="mdi-nas"
         :large="false"
         :num="item && item.spec.server.resources.limits ? item.spec.server.resources.limits.memory : 0"
-        title="已分配内存"
+        :title="$t('tip.allocated', [$root.$t('resource.memory')])"
       />
     </v-col>
     <v-col class="py-0 mb-3" cols="3">
-      <BaseInfoCard icon="mdi-memory" :large="false" :num="gpu ? gpu : '未分配'" title="已分配GPU" />
+      <BaseInfoCard
+        icon="mdi-memory"
+        :large="false"
+        :num="gpu ? gpu : $t('tip.unallocated')"
+        :title="$t('tip.allocated', [$root.$t('resource.gpu')])"
+      />
     </v-col>
     <v-col class="py-0 mb-3" cols="3">
-      <BaseInfoCard icon="mdi-nas" :large="false" :num="gpuStorage ? gpuStorage : '未分配'" title="已分配显存" />
+      <BaseInfoCard
+        icon="mdi-nas"
+        :large="false"
+        :num="gpuStorage ? gpuStorage : $t('tip.unallocated')"
+        :title="$t('tip.allocated', [$root.$t('resource.video_memory')])"
+      />
     </v-col>
   </v-row>
 </template>
 
 <script>
+  import messages from '../../i18n';
+
   export default {
     name: 'DashboardCard',
+    i18n: {
+      messages: messages,
+    },
     props: {
       item: {
         type: Object,

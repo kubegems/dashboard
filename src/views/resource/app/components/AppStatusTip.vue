@@ -41,7 +41,7 @@
     <v-card flat :loading="eventLoad">
       <v-flex class="text-body-2 text-center primary white--text py-2">
         <v-icon color="white" left small> mdi-bell-ring </v-icon>
-        <span>事件</span>
+        <span>{{ $root.$t('resource.event') }}</span>
       </v-flex>
       <v-list class="pa-0 kubegems__tip" dense>
         <v-list-item v-if="events.length > 0">
@@ -49,7 +49,9 @@
             <v-list-item class="float-left pa-0" two-line>
               <v-list-item-content class="py-0">
                 <template v-for="(event, index) in events">
-                  <v-list-item-title :key="`t${index}`"> 事件 {{ index + 1 }} </v-list-item-title>
+                  <v-list-item-title :key="`t${index}`">
+                    {{ $root.$t('resource.event') }} {{ index + 1 }}
+                  </v-list-item-title>
                   <v-list-item-content :key="index" class="text-caption kubegems__text kubegems__break-all">
                     {{ event.kind }} {{ item.name }} :
                     {{ event.message }}
@@ -59,7 +61,7 @@
             </v-list-item>
           </v-list-item-content>
         </v-list-item>
-        <v-flex v-else class="text-caption kubegems__text text-center pa-2"> 暂无事件 </v-flex>
+        <v-flex v-else class="text-caption kubegems__text text-center pa-2"> {{ $root.$t('data.no_data') }} </v-flex>
       </v-list>
     </v-card>
   </v-menu>

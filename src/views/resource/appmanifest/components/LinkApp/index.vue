@@ -15,12 +15,20 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-link" title="关联应用" :width="500" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-link"
+    :title="$t('operate.link_c', [$root.$t('resource.app')])"
+    :width="500"
+    @reset="reset"
+  >
     <template #content>
       <component :is="formComponent" :ref="formComponent" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addApp"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addApp">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>
@@ -28,11 +36,15 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import LinkAppBaseForm from './LinkAppBaseForm';
   import { postAddApp } from '@/api';
 
   export default {
     name: 'LinkApp',
+    i18n: {
+      messages: messages,
+    },
     components: {
       LinkAppBaseForm,
     },
@@ -53,7 +65,7 @@
           const data = this.$refs[this.formComponent].getData();
           if (this.Environment().ID === 0) {
             this.$store.commit('SET_SNACKBAR', {
-              text: '请选择环境',
+              text: this.$root.$t('tip.select_environment'),
               color: 'warning',
             });
             return;

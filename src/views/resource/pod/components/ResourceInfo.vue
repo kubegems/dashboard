@@ -18,19 +18,19 @@
   <div>
     <v-card>
       <v-sheet class="pa-2">
-        <BaseListItemForDetail :mt="0" title="节点">
+        <BaseListItemForDetail :mt="0" :title="$root.$t('resource.node')">
           <template #content>
             {{ pod ? pod.spec.nodeName : '' }}
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="容器组IP">
+        <BaseListItemForDetail :title="$t('tip.ip', [$root.$t('resource.pod')])">
           <template #content>
             {{ pod ? pod.status.podIP : '' }}
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="节点IP">
+        <BaseListItemForDetail :title="$t('tip.ip', [$root.$t('resource.node')])">
           <template #content>
             {{ pod ? pod.status.hostIP : '' }}
           </template>
@@ -45,7 +45,7 @@
     </v-card>
 
     <v-card class="mt-3" flat>
-      <BaseSubTitle class="pt-2" :divider="false" title="容器" />
+      <BaseSubTitle class="pt-2" :divider="false" :title="$root.$t('resource.container')" />
       <DetailContainer
         :containers="
           pod
@@ -62,24 +62,24 @@
     </v-card>
 
     <v-card class="mt-3" flat>
-      <BaseSubTitle class="pt-2" :divider="false" title="卷" />
+      <BaseSubTitle class="pt-2" :divider="false" :title="$t('tip.volume')" />
       <DetailVolume :volumes="pod ? pod.spec.volumes : []" />
     </v-card>
 
     <v-card class="mt-3" flat>
-      <BaseSubTitle class="pt-2" :divider="false" title="环境变量" />
+      <BaseSubTitle class="pt-2" :divider="false" :title="$t('tip.env')" />
       <DetailEnv :containers="pod ? pod.spec.containers : []" />
     </v-card>
 
     <v-card class="mt-3" flat>
-      <BaseSubTitle class="pt-2" :divider="false" title="状况" />
+      <BaseSubTitle class="pt-2" :divider="false" :title="$t('tip.condition')" />
       <v-simple-table class="mx-2 pa-2 pb-3">
         <template #default>
           <thead>
             <tr>
               <th class="text-left">Type</th>
-              <th class="text-left">状态</th>
-              <th class="text-left">上次改变时间</th>
+              <th class="text-left">{{ $t('table.status') }}</th>
+              <th class="text-left">{{ $t('tip.last_change_at') }}</th>
             </tr>
           </thead>
           <tbody>
@@ -103,6 +103,7 @@
 </template>
 
 <script>
+  import messages from '../i18n';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
   import DetailContainer from '@/views/resource/components/common/DetailContainer';
@@ -111,6 +112,9 @@
 
   export default {
     name: 'ResourceInfo',
+    i18n: {
+      messages: messages,
+    },
     components: {
       DetailContainer,
       DetailEnv,

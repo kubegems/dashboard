@@ -15,7 +15,13 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-wrench" title="更新资源文件" :width="1000" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-wrench"
+    :title="$root.$t('operate.update_c', [$t('tip.resource_file')])"
+    :width="1000"
+    @reset="reset"
+  >
     <template #content>
       <component
         :is="formComponent"
@@ -38,7 +44,7 @@
         text
         @click="updateResourceFile"
       >
-        确定
+        {{ $root.$t('operate.confirm') }}
       </v-btn>
       <v-btn
         v-if="step >= 0 && step < totalStep - 1 && formComponent !== 'BaseYamlForm'"
@@ -47,7 +53,7 @@
         text
         @click="nextStep"
       >
-        下一步
+        {{ $root.$t('operate.next') }}
       </v-btn>
       <v-btn
         v-if="step > 0 && step <= totalStep - 1 && formComponent !== 'BaseYamlForm'"
@@ -56,7 +62,7 @@
         text
         @click="lastStep"
       >
-        上一步
+        {{ $root.$t('operate.previous') }}
       </v-btn>
     </template>
     <template #header-action>
@@ -80,6 +86,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import AppResourceBaseForm from './AppResourceBaseForm';
   import { patchAppResourceFile } from '@/api';
   import BaseResource from '@/mixins/resource';
@@ -87,6 +94,9 @@
 
   export default {
     name: 'UpdateResourceFile',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AppResourceBaseForm,
     },
@@ -184,7 +194,7 @@
         }
         if (!this.$refs[this.formComponent].checkSaved()) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请保存数据',
+            text: this.$root.$t('tip.save_data'),
             color: 'warning',
           });
           return;
@@ -203,7 +213,7 @@
         }
         if (!this.$refs[this.formComponent].checkSaved()) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请保存数据',
+            text: this.$root.$t('tip.save_data'),
             color: 'warning',
           });
           return;
@@ -217,7 +227,7 @@
               (data.spec.template.spec.containers && data.spec.template.spec.containers.length === 0))
           ) {
             this.$store.commit('SET_SNACKBAR', {
-              text: '请添加容器镜像',
+              text: this.$t('tip.add_container_image'),
               color: 'warning',
             });
             return;
@@ -229,7 +239,7 @@
                 data.spec.jobTemplate.spec.template.spec.containers.length === 0))
           ) {
             this.$store.commit('SET_SNACKBAR', {
-              text: '请添加容器镜像',
+              text: this.$t('tip.add_container_image'),
               color: 'warning',
             });
             return;
@@ -257,7 +267,7 @@
         this.item = deepCopy(this.$yamlload(file.manifest));
         if (!this.$APP_MENIFEST_TAG[this.item?.kind]?.form) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '暂时不支持该资源类型，请直接编辑yaml文件',
+            text: this.$t('tip.cannot_support'),
             color: 'warning',
           });
           this.yaml = true;

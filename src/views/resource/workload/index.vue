@@ -21,7 +21,7 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :default="{ items: [], text: '负载名称', value: 'search' }"
+          :default="{ items: [], text: $t('filter.workload_name'), value: 'search' }"
           :filters="filters"
           @refresh="m_filter_list"
         />
@@ -38,7 +38,7 @@
               <v-flex>
                 <v-btn color="primary" text @click="addWorkload">
                   <v-icon left>mdi-plus-box</v-icon>
-                  创建工作负载
+                  {{ $root.$t('operate.create_c', [$root.$t('resource.workload')]) }}
                 </v-btn>
               </v-flex>
               <v-flex>
@@ -48,17 +48,17 @@
                   @click="
                     m_table_batchRemoveResource(
                       tabItems[tab].value === 'DaemonSet'
-                        ? '守护进程服务'
+                        ? $root.$t('resource.daemonset')
                         : tabItems[tab].value === 'Deployment'
-                        ? '无状态服务'
-                        : '有状态服务',
+                        ? $root.$t('resource.deployment')
+                        : $root.$t('resource.statefulset'),
                       tabItems[tab].value,
                       workloadList,
                     )
                   "
                 >
                   <v-icon left>mdi-minus-box</v-icon>
-                  删除工作负载
+                  {{ $root.$t('operate.delete_c', [$root.$t('resource.workload')]) }}
                 </v-btn>
               </v-flex>
             </v-card-text>
@@ -76,7 +76,7 @@
           hide-default-footer
           :items="items"
           :items-per-page="params.size"
-          no-data-text="暂无数据"
+          :no-data-text="$root.$t('data.no_data')"
           :page.sync="params.page"
           show-select
           @toggle-select-all="m_table_onResourceToggleSelect"
@@ -168,10 +168,14 @@
               <v-card>
                 <v-card-text class="pa-2">
                   <v-flex>
-                    <v-btn color="primary" small text @click="updateWorkload(item.workload)"> 编辑 </v-btn>
+                    <v-btn color="primary" small text @click="updateWorkload(item.workload)">
+                      {{ $root.$t('operate.edit') }}
+                    </v-btn>
                   </v-flex>
                   <v-flex>
-                    <v-btn color="error" small text @click="removeWorkload(item.workload)"> 删除 </v-btn>
+                    <v-btn color="error" small text @click="removeWorkload(item.workload)">
+                      {{ $root.$t('operate.delete') }}
+                    </v-btn>
                   </v-flex>
                 </v-card-text>
               </v-card>
@@ -202,6 +206,7 @@
   import ResourceAdvise from './components/ResourceAdvise';
   import ResourceLimit from './components/ResourceLimit';
   import UpdateWorkload from './components/UpdateWorkload';
+  import messages from './i18n';
   import {
     deleteDaemonSet,
     deleteDeployment,
@@ -221,6 +226,9 @@
 
   export default {
     name: 'Workload',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddWorkload,
       EventTip,
@@ -238,13 +246,7 @@
       };
 
       return {
-        filters: [{ text: '负载名称', value: 'search', items: [] }],
         tab: this.tabMap[this.$route.query.tab] || 0,
-        tabItems: [
-          { text: '无状态服务', value: 'Deployment', tab: 'deployment' },
-          { text: '有状态服务', value: 'StatefulSet', tab: 'statefulset' },
-          { text: '守护进程服务', value: 'DaemonSet', tab: 'daemonset' },
-        ],
         items: [],
         pageCount: 0,
         params: {
@@ -259,9 +261,9 @@
       ...mapGetters(['Environment']),
       headers() {
         const items = [
-          { text: '负载名称', value: 'name', align: 'start' },
-          { text: '运行状态', value: 'status', align: 'start', sortable: false },
-          { text: '创建时间', value: 'createAt', align: 'start' },
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
+          { text: this.$t('table.status'), value: 'status', align: 'start', sortable: false },
+          { text: this.$root.$t('resource.create_at'), value: 'createAt', align: 'start' },
         ];
         if (this.m_permisson_resourceAllow) {
           items.push({
@@ -274,13 +276,23 @@
         }
         if (this.AdminViewport) {
           items.splice(1, 0, {
-            text: '命名空间',
+            text: this.$root.$t('resource.namespace'),
             value: 'namespace',
             align: 'start',
             sortable: false,
           });
         }
         return items;
+      },
+      filters() {
+        return [{ text: this.$t('filter.workload_name'), value: 'search', items: [] }];
+      },
+      tabItems() {
+        return [
+          { text: this.$root.$t('resource.deployment'), value: 'Deployment', tab: 'deployment' },
+          { text: this.$root.$t('resource.statefulset'), value: 'StatefulSet', tab: 'statefulset' },
+          { text: this.$root.$t('resource.daemonset'), value: 'DaemonSet', tab: 'daemonset' },
+        ];
       },
     },
     watch: {
@@ -348,7 +360,7 @@
         this.$nextTick(() => {
           if (this.ThisCluster === '') {
             this.$store.commit('SET_SNACKBAR', {
-              text: `请创建或选择集群`,
+              text: this.$root.$t('tip.select_cluster'),
               color: 'warning',
             });
             return;
@@ -494,9 +506,9 @@
       removeWorkload(item) {
         if (this.tabItems[this.tab].value === 'DaemonSet') {
           this.$store.commit('SET_CONFIRM', {
-            title: `删除守护进程服务`,
+            title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.daemonset')]),
             content: {
-              text: `删除守护进程服务 ${item.metadata.name}`,
+              text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.daemonset')])} ${item.metadata.name}`,
               type: 'delete',
               name: item.metadata.name,
             },
@@ -510,9 +522,11 @@
           });
         } else if (this.tabItems[this.tab].value === 'StatefulSet') {
           this.$store.commit('SET_CONFIRM', {
-            title: `删除有状态服务`,
+            title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.statefulset')]),
             content: {
-              text: `删除有状态服务 ${item.metadata.name}`,
+              text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.statefulset')])} ${
+                item.metadata.name
+              }`,
               type: 'delete',
               name: item.metadata.name,
             },
@@ -526,9 +540,11 @@
           });
         } else if (this.tabItems[this.tab].value === 'Deployment') {
           this.$store.commit('SET_CONFIRM', {
-            title: `删除无状态服务`,
+            title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.deployment')]),
             content: {
-              text: `删除无状态服务 ${item.metadata.name}`,
+              text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.deployment')])} ${
+                item.metadata.name
+              }`,
               type: 'delete',
               name: item.metadata.name,
             },

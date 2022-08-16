@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <BaseFullScreenDialog v-model="dialog" icon="mdi-console" title="终端" @dispose="dispose">
+  <BaseFullScreenDialog v-model="dialog" icon="mdi-console" :title="$t('tip.terminal')" @dispose="dispose">
     <template #header>
       <v-flex class="ml-2 text-h6 mt-n1">
         {{ item ? item.name : '' }}
@@ -29,7 +29,7 @@
         <v-btn class="mx-2" color="white" icon text @click="restartContainer">
           <v-icon>mdi-refresh</v-icon>
         </v-btn>
-        容器
+        {{ $root.$t('resource.container') }}
         <v-menu
           v-model="containerMenu"
           bottom
@@ -46,17 +46,17 @@
               <v-icon v-else right> mdi-chevron-down </v-icon>
             </v-btn>
           </template>
-          <v-data-iterator hide-default-footer :items="[{ text: '容器', values: containers }]">
+          <v-data-iterator hide-default-footer :items="[{ text: $root.$t('resource.container'), values: containers }]">
             <template #no-data>
               <v-card>
-                <v-card-text> 暂无容器 </v-card-text>
+                <v-card-text> {{ $root.$t('data.no_data') }} </v-card-text>
               </v-card>
             </template>
             <template #default="props">
               <v-card v-for="item in props.items" :key="item.text" flat min-width="120">
                 <v-list dense>
                   <v-flex class="text-subtitle-2 text-center ma-2">
-                    <span>容器</span>
+                    <span>{{ $root.$t('resource.container') }}</span>
                   </v-flex>
                   <v-divider class="mx-2" />
                   <v-list-item
@@ -90,6 +90,7 @@
   import { Terminal } from 'xterm';
   import { FitAddon } from 'xterm-addon-fit';
 
+  import messages from '../i18n';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 
@@ -142,6 +143,9 @@
 
   export default {
     name: 'Terminal',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     data() {
       return {
@@ -228,7 +232,7 @@
             break;
           default:
             this.$store.commit('SET_SNACKBAR', {
-              text: `未知终端类型`,
+              text: this.$t('tip.unknown_terminal'),
               color: 'warning',
             });
             return;
@@ -307,7 +311,7 @@
         }
       },
       doClose() {
-        this.term.write('容器连接断开');
+        this.term.write(this.$t('tip.container_lost'));
         window.removeEventListener('resize', this.onWindowResize);
         if (this.term) {
           this.term.dispose();
