@@ -15,7 +15,13 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-engine" title="创建工作负载" :width="1000" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-engine"
+    :title="$root.$t('operate.create_c', [$root.$t('resource.workload')])"
+    :width="1000"
+    @reset="reset"
+  >
     <template #content>
       <component :is="formComponent" :ref="formComponent" :kind="kind" :step="step" title="Workload" />
     </template>
@@ -28,7 +34,7 @@
         text
         @click="addWorkload"
       >
-        确定
+        {{ $root.$t('operate.confirm') }}
       </v-btn>
       <v-btn
         v-if="step >= 0 && step < totalStep - 1 && formComponent !== 'BaseYamlForm'"
@@ -37,7 +43,7 @@
         text
         @click="nextStep"
       >
-        下一步
+        {{ $root.$t('operate.next') }}
       </v-btn>
       <v-btn
         v-if="step > 0 && step <= totalStep - 1 && formComponent !== 'BaseYamlForm'"
@@ -46,7 +52,7 @@
         text
         @click="lastStep"
       >
-        上一步
+        {{ $root.$t('operate.previous') }}
       </v-btn>
     </template>
     <template #header-action>
@@ -70,6 +76,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import WorkloadBaseForm from './WorkloadBaseForm';
   import { postAddDaemonSet, postAddDeployment, postAddStatefulSet } from '@/api';
   import BaseResource from '@/mixins/resource';
@@ -78,6 +85,9 @@
 
   export default {
     name: 'AddWorkload',
+    i18n: {
+      messages: messages,
+    },
     components: {
       WorkloadBaseForm,
     },
@@ -156,7 +166,7 @@
         }
         if (!this.$refs[this.formComponent].checkSaved()) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请保存数据',
+            text: this.$root.$t('tip.save_data'),
             color: 'warning',
           });
           return;
@@ -175,7 +185,7 @@
         }
         if (!this.$refs[this.formComponent].checkSaved()) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请保存数据',
+            text: this.$root.$t('tip.save_data'),
             color: 'warning',
           });
           return;
@@ -188,7 +198,7 @@
               (data.spec.template.spec.containers && data.spec.template.spec.containers.length === 0))
           ) {
             this.$store.commit('SET_SNACKBAR', {
-              text: '请添加容器镜像',
+              text: this.$t('tip.add_container_image'),
               color: 'warning',
             });
             return;

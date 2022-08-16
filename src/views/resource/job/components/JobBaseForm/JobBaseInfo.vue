@@ -26,7 +26,7 @@
             color="primary"
             hide-selected
             :items="kinds"
-            :label="$root.$t('resource.resource')"
+            :label="$root.$t('resource.kind')"
             :no-data-text="$root.$t('data.no_data')"
             :readonly="edit"
             :rules="objRules.kindRule"

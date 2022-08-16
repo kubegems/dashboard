@@ -21,7 +21,7 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :default="{ items: [], text: '应用名称', value: 'search' }"
+          :default="{ items: [], text: $t('filter.app_name'), value: 'search' }"
           :filters="filters"
           @refresh="m_filter_list"
         />
@@ -38,13 +38,13 @@
               <v-flex>
                 <v-btn color="primary" text @click="linkApp">
                   <v-icon left>mdi-link</v-icon>
-                  关联应用
+                  {{ $t('operate.link_c', [$root.$t('resource.app')]) }}
                 </v-btn>
               </v-flex>
               <v-flex>
                 <v-btn color="primary" text @click="deployApp">
                   <v-icon left>mdi-send</v-icon>
-                  部署应用
+                  {{ $root.$t('operate.deploy_c', [$root.$t('resource.app')]) }}
                 </v-btn>
               </v-flex>
             </v-card-text>
@@ -63,7 +63,7 @@
           hide-default-footer
           :items="items"
           :items-per-page="params.size"
-          no-data-text="暂无数据"
+          :no-data-text="$root.$t('data.no_data')"
           :page.sync="params.page"
           @update:sort-by="m_table_sortBy"
           @update:sort-desc="m_table_sortDesc"
@@ -124,7 +124,7 @@
               <v-card>
                 <v-card-text class="pa-2">
                   <v-flex>
-                    <v-btn color="error" small text @click="removeApp(item)"> 删除 </v-btn>
+                    <v-btn color="error" small text @click="removeApp(item)"> {{ $root.$t('operate.delete') }}</v-btn>
                   </v-flex>
                 </v-card-text>
               </v-card>
@@ -183,10 +183,14 @@
               <v-card>
                 <v-card-text class="pa-2">
                   <v-flex>
-                    <v-btn color="primary" small text @click="updateModelRuntime(item)"> 编辑 </v-btn>
+                    <v-btn color="primary" small text @click="updateModelRuntime(item)">
+                      {{ $root.$t('operate.edit') }}
+                    </v-btn>
                   </v-flex>
                   <v-flex>
-                    <v-btn color="error" small text @click="removeModelRuntime(item)"> 删除 </v-btn>
+                    <v-btn color="error" small text @click="removeModelRuntime(item)">
+                      {{ $root.$t('operate.delete') }}
+                    </v-btn>
                   </v-flex>
                 </v-card-text>
               </v-card>
@@ -217,6 +221,7 @@
   import AppStatusTip from './components/AppStatusTip';
   import TaskStatusTip from './components/TaskStatusTip';
   import UpdateModelRuntime from './components/UpdateModelRuntime';
+  import messages from './i18n';
   import {
     deleteApp,
     deleteAppStoreApp,
@@ -236,6 +241,9 @@
 
   export default {
     name: 'App',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AppStatusTip,
       DeployApp,
@@ -260,7 +268,6 @@
           size: 10,
         },
         tab: this.tabMap[this.$route.query.tab] || 0,
-        filters: [{ text: '应用名称', value: 'search', items: [] }],
       };
     },
     computed: {
@@ -269,44 +276,44 @@
       tabItems() {
         if (this.ThisAppEnvironmentID > 0) {
           return [
-            { text: '平台应用', value: 'AppList', tab: 'app' },
-            { text: '应用商店应用', value: 'AppStoreList', tab: 'appstore' },
-            { text: '模型商店应用', value: 'ModelStoreList', tab: 'modelstore' },
+            { text: this.$t('tip.platform_app'), value: 'AppList', tab: 'app' },
+            { text: this.$t('tip.app_store_app'), value: 'AppStoreList', tab: 'appstore' },
+            { text: this.$t('tip.model_store_app'), value: 'ModelStoreList', tab: 'modelstore' },
           ];
         } else {
-          return [{ text: '平台应用', value: 'AppList', tab: 'app' }];
+          return [{ text: this.$t('tip.platform_app'), value: 'AppList', tab: 'app' }];
         }
       },
       headers() {
         let items = [];
         if (this.tabItems[this.tab].value === 'AppList' || this.tabItems[this.tab].value === 'AppStoreList') {
           items = [
-            { text: '应用名称', value: 'name', align: 'start' },
-            { text: '应用类型', value: 'kind', align: 'start', sortable: false },
+            { text: this.$t('table.name'), value: 'name', align: 'start' },
+            { text: this.$t('table.kind'), value: 'kind', align: 'start', sortable: false },
             {
-              text: '当前镜像版本',
+              text: this.$t('table.image_version'),
               value: 'images',
               align: 'start',
               sortable: false,
             },
             {
-              text: '应用状态',
+              text: this.$t('table.status'),
               value: 'appStatus',
               align: 'start',
               width: 220,
               sortable: false,
             },
             {
-              text: '发布者',
+              text: this.$t('table.publisher'),
               value: 'creator',
               align: 'start',
               sortable: false,
             },
-            { text: '发布时间', value: 'createAt', align: 'start' },
+            { text: this.$t('table.publish_at'), value: 'createAt', align: 'start' },
           ];
           if (this.tabItems[this.tab].value === 'AppList') {
             items.splice(3, 0, {
-              text: '部署任务状态',
+              text: this.$t('table.task_status'),
               value: 'taskStatus',
               align: 'start',
               sortable: false,
@@ -331,18 +338,21 @@
           }
         } else {
           items = [
-            { text: '实例名称', value: 'instanceName', align: 'start', width: 100 },
-            { text: '模型名称', value: 'modelName', align: 'start', sortable: false },
-            { text: '模型版本', value: 'modelVersion', align: 'start', sortable: false },
-            { text: '模型来源', value: 'source', align: 'start', sortable: false },
-            { text: '镜像', value: 'modelImage', align: 'start', sortable: false },
-            { text: '状态', value: 'phase', align: 'start', sortable: false, width: 120 },
+            { text: this.$t('table.instance_name'), value: 'instanceName', align: 'start', width: 100 },
+            { text: this.$t('table.model_name'), value: 'modelName', align: 'start', sortable: false },
+            { text: this.$t('table.model_version'), value: 'modelVersion', align: 'start', sortable: false },
+            { text: this.$t('table.source'), value: 'source', align: 'start', sortable: false },
+            { text: this.$t('table.image'), value: 'modelImage', align: 'start', sortable: false },
+            { text: this.$t('table.status'), value: 'phase', align: 'start', sortable: false, width: 120 },
             { text: 'Api', value: 'url', align: 'start', sortable: false },
-            { text: '创建时间', value: 'creationTimestamp', align: 'start' },
+            { text: this.$root.$t('resource.create_at'), value: 'creationTimestamp', align: 'start' },
             { text: '', value: 'modelAction', align: 'center', width: 20, sortable: false },
           ];
         }
         return items;
+      },
+      filters() {
+        return [{ text: this.$t('filter.app_name'), value: 'search', items: [] }];
       },
     },
     watch: {
@@ -544,12 +554,15 @@
       },
       removeApp(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: this.tabItems[this.tab].value === 'AppList' ? '删除平台应用' : '删除应用商店应用',
+          title:
+            this.tabItems[this.tab].value === 'AppList'
+              ? this.$root.$t('operate.delete_c', [this.$t('tip.platform_app')])
+              : this.$root.$t('operate.delete_c', [this.$t('tip.app_store_app')]),
           content: {
             text:
               this.tabItems[this.tab].value === 'AppList'
-                ? `删除平台应用 ${item.name}`
-                : `删除应用商店应用 ${item.name}`,
+                ? `${this.$root.$t('operate.delete_c', [this.$t('tip.platform_app')])} ${item.name}`
+                : `${this.$root.$t('operate.delete_c', [this.$t('tip.app_store_app')])} ${item.name}`,
             type: 'delete',
             name: item.name,
           },
@@ -574,18 +587,20 @@
       getStatus(item) {
         const status = [];
         if (!['Synced', 'OutOfSync'].includes(item?.runtime?.raw?.status?.sync?.status)) {
-          status.push(`Sync: ${item?.runtime?.raw?.status?.sync?.status || '未知'}`);
+          status.push(`Sync: ${item?.runtime?.raw?.status?.sync?.status || this.$root.$t('data.unknown')}`);
         }
         if (item?.runtime?.raw?.status?.operationState?.phase !== 'Succeeded') {
-          status.push(`Operation: ${item?.runtime?.raw?.status?.operationState?.phase || '未知'}`);
+          status.push(
+            `Operation: ${item?.runtime?.raw?.status?.operationState?.phase || this.$root.$t('data.unknown')}`,
+          );
         }
         return status.length > 0 ? `( ${status.join(', ')} ) ` : '';
       },
       removeModelRuntime(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: '删除算法商店应用',
+          title: this.$root.$t('operate.delete_c', [this.$t('tip.model_store_app')]),
           content: {
-            text: `删除算法商店应用 ${item.metadata.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$t('tip.model_store_app')])} ${item.metadata.name}`,
             type: 'delete',
             name: item.metadata.name,
           },

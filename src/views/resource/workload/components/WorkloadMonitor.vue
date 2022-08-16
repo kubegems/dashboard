@@ -29,18 +29,42 @@
     <v-card-text :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
       <v-row>
         <v-col cols="6">
-          <BaseApexAreaChart id="cpu" label="pod" :metrics="cpu" title="CPU使用量" type="cpu" />
+          <BaseApexAreaChart
+            id="cpu"
+            label="pod"
+            :metrics="cpu"
+            :title="$t('tip.used', [$root.$t('resource.cpu')])"
+            type="cpu"
+          />
         </v-col>
         <v-col cols="6">
-          <BaseApexAreaChart id="memory" label="pod" :metrics="memory" title="内存使用量" type="memory" />
+          <BaseApexAreaChart
+            id="memory"
+            label="pod"
+            :metrics="memory"
+            :title="$t('tip.used', [$root.$t('resource.memory')])"
+            type="memory"
+          />
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="6">
-          <BaseApexAreaChart id="networkin" label="pod" :metrics="networkin" title="网络入口流量" type="network" />
+          <BaseApexAreaChart
+            id="networkin"
+            label="pod"
+            :metrics="networkin"
+            :title="$t('tip.in_traffic')"
+            type="network"
+          />
         </v-col>
         <v-col cols="6">
-          <BaseApexAreaChart id="networkout" label="pod" :metrics="networkout" title="网络出口流量" type="network" />
+          <BaseApexAreaChart
+            id="networkout"
+            label="pod"
+            :metrics="networkout"
+            :title="$t('tip.out_traffic')"
+            type="network"
+          />
         </v-col>
       </v-row>
     </v-card-text>
@@ -50,6 +74,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import {
@@ -61,6 +86,9 @@
 
   export default {
     name: 'WorkloadMonitor',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BasePermission, BaseResource],
     props: {
       item: {

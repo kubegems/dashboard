@@ -1,0 +1,37 @@
+{
+  "filter": {
+    "pod_name": "容器组名称",
+    "status": "状态"
+  },
+  "table": {
+    "name": "容器组",
+    "status": "状态",
+    "container_count": "容器数",
+    "restart_count": "重启次数",
+    "used": "{0}使用量",
+    "container_name": "容器名",
+    "image": "镜像"
+  },
+  "tab": {
+    "container": "容器"
+  },
+  "tip": {
+    "no_limit": "无限制",
+    "probe": "探针",
+    "live_probe": "存活探针",
+    "read_probe": "就绪探针",
+    "start_probe": "启动探针",
+    "no_operate": "不可操作",
+    "in_traffic": "网络入口流量",
+    "out_traffic": "网络出口流量",
+    "ip": "{0}IP",
+    "volume": "卷",
+    "env": "环境变量",
+    "condition": "状况",
+    "last_change_at": "上次改变时间"
+  },
+  "operate": {
+    "terminal": "终端",
+    "log": "日志"
+  }
+}

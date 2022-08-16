@@ -23,7 +23,7 @@
         hide-default-footer
         :items="items"
         :items-per-page="params.size"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
       >
         <template #[`item.name`]="{ item }">
@@ -32,15 +32,15 @@
         <template #[`item.status`]="{ item }">
           <span v-if="item.status.succeeded !== undefined">
             <v-icon color="primary" small> mdi-check-circle </v-icon>
-            成功
+            {{ $t('status.success') }}
           </span>
           <span v-else-if="item.status.failed !== undefined">
             <v-icon color="error" small> mdi-minus-circle </v-icon>
-            失败
+            {{ $t('status.failed') }}
           </span>
           <span v-else-if="item.status.active !== undefined">
             <v-icon color="success" small> mdi-record-circle-outline </v-icon>
-            进行中
+            {{ $t('status.running') }}
           </span>
         </template>
         <template #[`item.startAt`]="{ item }">
@@ -66,11 +66,15 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import { getJobList } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'JobList',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     props: {
       item: {
@@ -80,12 +84,6 @@
     },
     data: () => ({
       items: [],
-      headers: [
-        { text: '任务', value: 'name', align: 'start' },
-        { text: '状态', value: 'status', align: 'start' },
-        { text: '开始时间', value: 'startAt', align: 'start' },
-        { text: '结束时间', value: 'endAt', align: 'start' },
-      ],
       pageCount: 0,
       params: {
         page: 1,
@@ -95,6 +93,14 @@
     }),
     computed: {
       ...mapState(['JWT']),
+      headers() {
+        return [
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
+          { text: this.$t('table.status'), value: 'status', align: 'start' },
+          { text: this.$t('table.start_at'), value: 'startAt', align: 'start' },
+          { text: this.$t('table.end_at'), value: 'endAt', align: 'start' },
+        ];
+      },
     },
     mounted() {
       if (this.JWT) {

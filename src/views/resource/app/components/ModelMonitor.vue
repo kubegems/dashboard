@@ -13,28 +13,52 @@
     <v-card-text :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
       <v-row>
         <v-col cols="6">
-          <BaseApexAreaChart id="cpu" label="pod" :metrics="cpu" title="CPU使用量" type="cpu" />
+          <BaseApexAreaChart
+            id="cpu"
+            label="pod"
+            :metrics="cpu"
+            :title="$t('tip.used', [$root.$t('resource.cpu')])"
+            type="cpu"
+          />
         </v-col>
         <v-col cols="6">
-          <BaseApexAreaChart id="memory" label="pod" :metrics="memory" title="内存使用量" type="memory" />
+          <BaseApexAreaChart
+            id="memory"
+            label="pod"
+            :metrics="memory"
+            :title="$t('tip.used', [$root.$t('resource.memory')])"
+            type="memory"
+          />
         </v-col>
       </v-row>
       <template v-if="hasGpu">
         <v-row>
           <v-col cols="6">
-            <BaseApexAreaChart id="gpu" label="pod" :metrics="gpu" title="GPU使用量" type="%" />
+            <BaseApexAreaChart
+              id="gpu"
+              label="pod"
+              :metrics="gpu"
+              :title="$t('tip.used', [$root.$t('resource.gpu')])"
+              type="%"
+            />
           </v-col>
           <v-col cols="6">
-            <BaseApexAreaChart id="gpuMemory" label="pod" :metrics="gpuMemory" title="显存使用量" type="memory" />
+            <BaseApexAreaChart
+              id="gpuMemory"
+              label="pod"
+              :metrics="gpuMemory"
+              :title="$t('tip.used', [$root.$t('resource.video_memory')])"
+              type="memory"
+            />
           </v-col>
         </v-row>
 
         <v-row>
           <v-col cols="6">
-            <BaseApexAreaChart id="gpuTemp" label="pod" :metrics="gpuTemp" title="GPU温度" type="°C" />
+            <BaseApexAreaChart id="gpuTemp" label="pod" :metrics="gpuTemp" :title="$t('tip.gpu_temp')" type="°C" />
           </v-col>
           <v-col cols="6">
-            <BaseApexAreaChart id="gpuPower" label="pod" :metrics="gpuPower" title="GPU功率" type="W" />
+            <BaseApexAreaChart id="gpuPower" label="pod" :metrics="gpuPower" :title="$t('tip.gpu_power')" type="W" />
           </v-col>
         </v-row>
       </template>
@@ -45,6 +69,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import { getPodList } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -59,6 +84,9 @@
 
   export default {
     name: 'ModelMonitor',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BasePermission, BaseResource],
     props: {
       item: {

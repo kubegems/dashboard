@@ -16,7 +16,6 @@
 <template>
   <v-sheet class="text-body-2 text--darken-1 mx-1 mt-4 version">
     <div>
-      <div class="text-body-2 version__tip">版本</div>
       <v-menu
         v-model="versionMenu"
         bottom
@@ -27,6 +26,7 @@
         transition="scale-transition"
       >
         <template #activator="{ on }">
+          <span class="text-body-2 mr-2">版本</span>
           <v-btn class="primary--text font-weight-medium" color="white" text v-on="on">
             {{ selectVersion }}
             <v-icon v-if="versionMenu" right> mdi-chevron-up </v-icon>
@@ -111,13 +111,3 @@
     },
   };
 </script>
-
-<style lang="scss" scoped>
-  .version {
-    position: relative;
-
-    &__tip {
-      line-height: 36px;
-    }
-  }
-</style>

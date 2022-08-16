@@ -29,10 +29,10 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" small text @click="updateApp"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateApp"> {{ $root.$t('operate.edit') }} </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="removeApp"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeApp"> {{ $root.$t('operate.delete') }} </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -70,11 +70,15 @@
   import AppResourceFileList from './components/AppResourceFileList';
   import ResourceInfo from './components/ResourceInfo';
   import UpdateApp from './components/UpdateApp';
+  import messages from './i18n';
   import { deleteManifest, getManifestDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'AppManifestDetail',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AppDeployList,
       AppImageSecurityReportList,
@@ -85,16 +89,18 @@
     mixins: [BaseResource],
     data: () => ({
       tab: 0,
-      tabItems: [
-        { text: '资源编排', value: 'AppResourceFileList' },
-        { text: '部署状态', value: 'AppDeployList' },
-        { text: '镜像安全', value: 'AppImageSecurityReportList' },
-      ],
       app: null,
     }),
     computed: {
       ...mapState(['JWT', 'AdminViewport']),
       ...mapGetters(['Tenant', 'Project', 'Environment']),
+      tabItems() {
+        return [
+          { text: this.$t('tab.manifest'), value: 'AppResourceFileList' },
+          { text: this.$t('tab.deploy_status'), value: 'AppDeployList' },
+          { text: this.$t('tab.image_safety'), value: 'AppImageSecurityReportList' },
+        ];
+      },
     },
     mounted() {
       if (this.JWT) {
@@ -122,9 +128,9 @@
       removeApp() {
         const item = this.app;
         this.$store.commit('SET_CONFIRM', {
-          title: `删除应用编排`,
+          title: this.$root.$t('operate.create_c', [this.$root.$t('resource.appmanifest')]),
           content: {
-            text: `删除应用编排 ${item.name}`,
+            text: `${this.$root.$t('operate.create_c', [this.$root.$t('resource.appmanifest')])} ${item.name}`,
             type: 'delete',
             name: item.name,
           },

@@ -19,7 +19,7 @@
 
     <v-card class="mt-3">
       <v-sheet class="pa-2">
-        <BaseListItemForDetail title="API地址">
+        <BaseListItemForDetail title="Api">
           <template #content>
             <v-chip color="primary" small>
               {{ item && item.status ? item.status.url : '' }}
@@ -29,7 +29,7 @@
             </v-chip>
           </template>
         </BaseListItemForDetail>
-        <BaseListItemForDetail title="协议">
+        <BaseListItemForDetail :title="$t('tip.protocol')">
           <template #content>
             <v-chip color="primary" small>
               {{ item ? item.spec.server.protocol : '' }}
@@ -40,13 +40,13 @@
     </v-card>
 
     <v-card class="mt-3" flat>
-      <BaseSubTitle class="pt-2" :divider="false" title="参数" />
+      <BaseSubTitle class="pt-2" :divider="false" :title="$t('tip.params')" />
       <v-simple-table class="mx-2 pa-2 pb-3">
         <template #default>
           <thead>
             <tr>
-              <th class="text-left">名称</th>
-              <th class="text-left">值</th>
+              <th class="text-left">{{ $root.$t('form.key') }}</th>
+              <th class="text-left">{{ $root.$t('form.value') }}</th>
             </tr>
           </thead>
           <tbody>
@@ -60,15 +60,15 @@
     </v-card>
 
     <v-card class="mt-3" flat>
-      <BaseSubTitle class="pt-2" :divider="false" title="端口" />
+      <BaseSubTitle class="pt-2" :divider="false" :title="$t('tip.port')" />
       <v-simple-table class="mx-2 pa-2 pb-3">
         <template #default>
           <thead>
             <tr>
-              <th class="text-left">端口名称</th>
-              <th class="text-left">容器端口</th>
-              <th class="text-left">主机地址</th>
-              <th class="text-left">主机端口</th>
+              <th class="text-left">{{ $t('tip.port_name') }}</th>
+              <th class="text-left">{{ $t('tip.container_port') }}</th>
+              <th class="text-left">{{ $t('tip.host_address') }}</th>
+              <th class="text-left">{{ $t('tip.host_port') }}</th>
             </tr>
           </thead>
           <tbody>
@@ -76,12 +76,12 @@
               <td>{{ item.name }}</td>
               <td>
                 <v-chip class="ma-1 font-weight-medium" color="success" small text-color="white">
-                  {{ item.containerPort }}｜{{ item.protocol }}
+                  {{ item.containerPort }} | {{ item.protocol }}
                 </v-chip>
               </td>
               <td>
                 <v-chip class="ma-1 font-weight-medium" color="success" small text-color="white">
-                  {{ item.hostPort }}｜{{ item.protocol }}
+                  {{ item.hostPort }} | {{ item.protocol }}
                 </v-chip>
               </td>
               <td>{{ item.hostIp }}</td>
@@ -95,10 +95,14 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
   import DashboardCard from './DashboardCard';
 
   export default {
     name: 'ModelResourceInfo',
+    i18n: {
+      messages: messages,
+    },
     components: {
       DashboardCard,
     },

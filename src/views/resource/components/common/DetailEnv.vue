@@ -19,9 +19,9 @@
     <template #default>
       <thead>
         <tr>
-          <th class="text-left">环境变量(容器)</th>
-          <th class="text-left">类型</th>
-          <th class="text-left">值(value/name(key)/fieldPath/containerName(resource))</th>
+          <th class="text-left">{{ $t('table.env') }}</th>
+          <th class="text-left">{{ $root.$t('resource.type') }}</th>
+          <th class="text-left">{{ $root.$t('form.value') }}(value/name(key)/fieldPath/containerName(resource))</th>
         </tr>
       </thead>
       <tbody>
@@ -36,8 +36,13 @@
 </template>
 
 <script>
+  import messages from '../i18n';
+
   export default {
     name: 'DetailEnv',
+    i18n: {
+      messages: messages,
+    },
     props: {
       containers: {
         type: Array,

@@ -15,14 +15,14 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-redo-variant" title="回滚" :width="800" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-redo-variant" :title="$t('operate.rollback')" :width="800" @reset="reset">
     <template #content>
-      <BaseSubTitle title="版本定义" />
+      <BaseSubTitle :title="$root.$t('form.definition', [$t('tip.version')])" />
       <v-card-text class="px-2 pb-0">
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
           <v-sheet>
             <v-flex class="text-subtitle-1 mb-2">
-              当前版本
+              {{ $t('table.now_version') }}
               <span class="text-subtitle-2 primary--text">
                 {{ currentVersion }}
               </span>
@@ -37,8 +37,8 @@
                 item-key="value"
                 :items="versions"
                 :items-per-page="params.size"
-                no-data-text="暂无数据"
-                no-results-text="暂无匹配版本"
+                :no-data-text="$root.$t('data.no_data')"
+                :no-results-text="$root.$t('data.no_data')"
                 :page.sync="params.page"
                 :search.sync="search"
                 show-select
@@ -57,7 +57,9 @@
       </v-card-text>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="rollback"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="rollback">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>
@@ -65,21 +67,20 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../i18n';
   import { getStrategyDeployStatus, postStrategyDeployEnvironmentAppsControl } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'Rollingback',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     data: () => ({
       dialog: false,
       valid: false,
       versions: [],
-      headers: [
-        { text: '版本', value: 'value', align: 'start' },
-        { text: '镜像', value: 'images', align: 'start' },
-        { text: '发布时间', value: 'createTime', align: 'start' },
-      ],
       search: '',
       params: {
         page: 1,
@@ -91,6 +92,13 @@
     computed: {
       ...mapState(['Circular']),
       ...mapGetters(['Tenant', 'Project', 'Environment']),
+      headers() {
+        return [
+          { text: this.$t('tip.version'), value: 'value', align: 'start' },
+          { text: this.$t('table.image'), value: 'images', align: 'start' },
+          { text: this.$t('table.publish_at'), value: 'createTime', align: 'start' },
+        ];
+      },
     },
     methods: {
       open() {
@@ -129,9 +137,9 @@
       },
       rollback() {
         this.$store.commit('SET_CONFIRM', {
-          title: '回滚',
+          title: this.$root.$t('operate.rollback'),
           content: {
-            text: `回滚版本 ${this.selectItem.value}`,
+            text: `${this.$root.$t('operate.rollback')} ${this.selectItem.value}`,
             type: 'confirm',
             name: this.$route.params.name,
           },

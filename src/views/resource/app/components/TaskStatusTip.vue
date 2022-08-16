@@ -34,10 +34,10 @@
       }"
     />
     <template v-if="item.task && (item.task.status.status === 'Running' || item.task.status.status === 'Pending')">
-      <span> 执行中 </span>
+      <span> {{ $t('status.running') }} </span>
     </template>
     <template v-else-if="item.task && item.task.status.status === 'Success'">
-      <span> 已完成 </span>
+      <span> {{ $t('status.complete') }} </span>
     </template>
     <template v-else-if="item.task && item.task.status.status === 'Error'">
       <v-menu
@@ -53,19 +53,19 @@
         transition="scale-transition"
       >
         <template #activator="{ on }">
-          <span class="kubegems__pointer" v-on="on"> 执行失败 </span>
+          <span class="kubegems__pointer" v-on="on"> {{ $t('status.failed') }} </span>
         </template>
         <v-card flat>
           <v-flex class="text-body-2 text-center primary white--text py-2">
             <v-icon color="white" left small> mdi-alert </v-icon>
-            <span>错误信息</span>
+            <span>{{ $t('tip.error_info') }}</span>
           </v-flex>
           <v-list class="pa-0 kubegems__tip" dense>
             <v-list-item>
               <v-list-item-content>
                 <v-list-item class="float-left pa-0" two-line>
                   <v-list-item-content class="py-0">
-                    <v-list-item-title> 错误信息 </v-list-item-title>
+                    <v-list-item-title> {{ $t('tip.error_info') }} </v-list-item-title>
                     <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
                       {{ item.task ? item.task.status.message : '' }}
                     </v-list-item-content>
@@ -77,13 +77,18 @@
         </v-card>
       </v-menu>
     </template>
-    <template v-else>暂无</template>
+    <template v-else>{{ $root.$t('data.no_data') }}</template>
   </div>
 </template>
 
 <script>
+  import messages from '../i18n';
+
   export default {
     name: 'TaskStatusTip',
+    i18n: {
+      messages: messages,
+    },
     props: {
       index: {
         type: Number,

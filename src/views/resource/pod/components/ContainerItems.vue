@@ -16,9 +16,9 @@
 
 <template>
   <v-flex>
-    <span>容器</span>
+    <span>{{ $root.$t('resource.container') }}</span>
     <v-sheet v-if="containerStatusesCopy.length === 0" class="grey lighten-4 rounded my-1 py-6 text-center">
-      暂无容器
+      {{ $root.$t('data.no_data') }}
     </v-sheet>
     <v-sheet v-for="(container, index) in containerStatusesCopy" :key="index" class="grey lighten-4 rounded my-1">
       <v-list-item two-line>
@@ -89,7 +89,7 @@
                   </span>
                   <span v-else-if="container.state.waiting"> Waiting({{ container.state.waiting.reason }}) </span>
                 </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1"> 状态 </v-list-item-subtitle>
+                <v-list-item-subtitle class="text-body-2 py-1"> {{ $t('table.status') }} </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item class="float-left py-0 pl-0" :style="{ width: `200px` }" two-line>
@@ -103,11 +103,11 @@
                     <ProbeTip :item="probe.probe" :title="probe.title" />
                   </v-flex>
                   <v-flex v-if="getContainerProbes(item, container).length === 0" class="float-left mr-1">
-                    暂无探针
+                    {{ $root.$t('data.no_data') }}
                   </v-flex>
                   <div class="kubegems__clear-float" />
                 </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1"> 探针 </v-list-item-subtitle>
+                <v-list-item-subtitle class="text-body-2 py-1"> {{ $t('tip.probe') }} </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item class="float-left py-0 pl-0" :style="{ width: `150px` }" two-line>
@@ -115,7 +115,7 @@
                 <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
                   {{ container.restartCount }}
                 </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1"> 重启次数 </v-list-item-subtitle>
+                <v-list-item-subtitle class="text-body-2 py-1"> {{ $t('table.restart_count') }} </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item class="float-left py-0 pl-0" :style="{ width: `150px` }" two-line>
@@ -132,10 +132,10 @@
                     {{
                       container.state.terminated.startedAt
                         ? $moment(container.state.terminated.startedAt, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
-                        : '未知'
+                        : $root.$t('data.unknown')
                     }}
                   </span>
-                  <span v-else>暂无</span>
+                  <span v-else>{{ $root.$t('data.no_data') }}</span>
                 </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1"> Age </v-list-item-subtitle>
               </v-list-item-content>
@@ -143,7 +143,11 @@
             <v-list-item class="float-left py-0 pl-0" :style="{ width: `150px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
-                  {{ container.resources && container.resources.limits ? container.resources.limits.cpu : '无限制' }}
+                  {{
+                    container.resources && container.resources.limits
+                      ? container.resources.limits.cpu
+                      : $t('tip.no_limit')
+                  }}
                 </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1"> limits.cpu </v-list-item-subtitle>
               </v-list-item-content>
@@ -151,7 +155,11 @@
             <v-list-item class="float-left py-0 pl-0" :style="{ width: `150px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
-                  {{ container.resources && container.resources.limits ? container.resources.limits.memory : '无限制' }}
+                  {{
+                    container.resources && container.resources.limits
+                      ? container.resources.limits.memory
+                      : $t('tip.no_limit')
+                  }}
                 </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1"> limits.memory </v-list-item-subtitle>
               </v-list-item-content>
@@ -170,6 +178,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
@@ -179,6 +188,9 @@
 
   export default {
     name: 'ContainerItems',
+    i18n: {
+      messages: messages,
+    },
     components: {
       ContainerLog,
       ProbeTip,
@@ -254,13 +266,13 @@
         });
         if (spec) {
           if (spec.livenessProbe) {
-            probes.push({ title: '存活探针', probe: spec.livenessProbe });
+            probes.push({ title: this.$t('tip.live_probe'), probe: spec.livenessProbe });
           }
           if (spec.readinessProbe) {
-            probes.push({ title: '就绪探针', probe: spec.readinessProbe });
+            probes.push({ title: this.$t('tip.read_probe'), probe: spec.readinessProbe });
           }
           if (spec.startupProbe) {
-            probes.push({ title: '启动探针', probe: spec.startupProbe });
+            probes.push({ title: this.$t('tip.start_probe'), probe: spec.startupProbe });
           }
         }
         return probes;

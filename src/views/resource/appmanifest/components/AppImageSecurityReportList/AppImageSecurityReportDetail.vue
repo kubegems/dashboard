@@ -15,7 +15,13 @@
 -->
 
 <template>
-  <BasePanel v-model="panel" icon="mdi-exclamation-thick" title="漏洞报告" :width="`50%`" @dispose="dispose">
+  <BasePanel
+    v-model="panel"
+    icon="mdi-exclamation-thick"
+    :title="$t('tip.vulnerability_report')"
+    :width="`50%`"
+    @dispose="dispose"
+  >
     <template #header>
       <span class="ml-2 text-subtitle-1">
         {{ item ? item.ImageName : '' }}
@@ -33,7 +39,7 @@
             item-key="index"
             :items="items"
             :items-per-page="1000"
-            no-data-text="暂无数据"
+            :no-data-text="$root.$t('data.no_data')"
             show-expand
             single-expand
             @click:row="onRowClick"
@@ -64,11 +70,11 @@
             <template #expanded-item="{ headers, item }">
               <td class="ma-2" :colspan="headers.length">
                 <v-flex>
-                  描述:
+                  {{ $t('tip.description') }} :
                   <pre class="kubegems__word-all-break">{{ item.description }}</pre>
                 </v-flex>
                 <v-flex>
-                  链接：
+                  {{ $t('tip.link') }} :
                   <v-flex v-for="(link, index) in item.links" :key="index">
                     <a :href="link" target="blank">{{ link }}</a>
                   </v-flex>
@@ -85,52 +91,60 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import { getAppImageSecurityReportDetail } from '@/api';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'AppImageSecurityReportDetail',
+    i18n: {
+      messages: messages,
+    },
     data: () => ({
       panel: false,
       item: null,
       items: [],
       app: null,
-      headers: [
-        { text: '编号', value: 'id', align: 'start' },
-        { text: '严重度', value: 'severity', align: 'start' },
-        { text: '组件', value: 'package', align: 'start' },
-        { text: '当前版本', value: 'version', align: 'start' },
-        { text: '修复版本', value: 'fixVersion', align: 'start' },
-        { text: '', value: 'data-table-expand' },
-      ],
-      severityDict: {
-        Critical: {
-          CN: '严重',
-          Color: 'red',
-        },
-        High: {
-          CN: '高',
-          Color: 'deep-purple',
-        },
-        Medium: {
-          CN: '中等',
-          Color: 'warning',
-        },
-        Low: {
-          CN: '低',
-          Color: 'blue',
-        },
-        Unknown: {
-          CN: '无漏洞',
-          Color: 'success',
-        },
-      },
     }),
     computed: {
       ...mapState(['Scale']),
       ...mapGetters(['Tenant', 'Project']),
       height() {
         return parseInt((window.innerHeight - 64) / this.Scale);
+      },
+      headers() {
+        return [
+          { text: this.$t('table.id'), value: 'id', align: 'start' },
+          { text: this.$t('table.severity'), value: 'severity', align: 'start' },
+          { text: this.$t('table.component'), value: 'package', align: 'start' },
+          { text: this.$t('table.version'), value: 'version', align: 'start' },
+          { text: this.$t('table.fixed_version'), value: 'fixVersion', align: 'start' },
+          { text: '', value: 'data-table-expand' },
+        ];
+      },
+      severityDict() {
+        return {
+          Critical: {
+            CN: this.$t('tip.severity'),
+            Color: 'red',
+          },
+          High: {
+            CN: this.$t('tip.high'),
+            Color: 'deep-purple',
+          },
+          Medium: {
+            CN: this.$t('tip.middle'),
+            Color: 'warning',
+          },
+          Low: {
+            CN: this.$t('tip.low'),
+            Color: 'blue',
+          },
+          Unknown: {
+            CN: this.$t('tip.none'),
+            Color: 'success',
+          },
+        };
       },
     },
     methods: {
