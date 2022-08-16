@@ -18,13 +18,13 @@
   <div>
     <v-card>
       <v-sheet class="pa-2">
-        <BaseListItemForDetail :mt="0" title="网关">
+        <BaseListItemForDetail :mt="0" :title="$root.$t('resource.gateway')">
           <template #content>
             {{ gateway ? gateway.metadata.name : '' }}
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="generation">
+        <BaseListItemForDetail title="Generation">
           <template #content>
             {{ ingress ? ingress.metadata.generation : '' }}
           </template>
@@ -33,7 +33,7 @@
     </v-card>
 
     <v-card class="mt-3" flat>
-      <BaseSubTitle class="pt-2" :divider="false" title="路由规则" />
+      <BaseSubTitle class="pt-2" :divider="false" :title="$t('tip.ingress_rule')" />
       <v-flex class="pl-4 kubegems__text py-2 text-subtitle-1">HTTP</v-flex>
       <v-data-table
         class="mx-2 pa-2 no-header-table"
@@ -52,7 +52,7 @@
               })
             : []
         "
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
         show-expand
         single-expand
         @click:row="onHttpRowClick"
@@ -105,7 +105,7 @@
               })
             : []
         "
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
         show-expand
         single-expand
         @click:row="onHttpsRowClick"
@@ -130,7 +130,7 @@
               small
               text-color="white"
             >
-              {{ path.backend.service.name }}｜{{ path.backend.service.port.name || path.backend.service.port.number }}
+              {{ path.backend.service.name }} | {{ path.backend.service.port.name || path.backend.service.port.number }}
             </v-chip>
           </td>
         </template>
@@ -140,11 +140,15 @@
 </template>
 
 <script>
+  import messages from '../i18n';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'ResourceInfo',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     props: {
       gateway: {
@@ -210,7 +214,7 @@
           window.open(`${prefix}://${rule.host}${port}${path}`);
         } else {
           this.$store.commit('SET_SNACKBAR', {
-            text: `找不到对应网关`,
+            text: this.$t('tip.gateway_not_found'),
             color: 'warning',
           });
         }

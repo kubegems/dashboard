@@ -82,7 +82,7 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :default="{ items: [], text: '配置项', value: 'search' }"
+          :default="{ items: [], text: $t('filter.config_name'), value: 'search' }"
           :filters="filters"
           :reload="false"
           @filter="customFilter"
@@ -114,7 +114,7 @@
         hide-default-footer
         :items="items"
         :items-per-page="params.size"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
         @page-count="pageCount = $event"
       >
@@ -135,19 +135,21 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" small text @click="editConfig(item)"> 编辑/查看 </v-btn>
+                  <v-btn color="primary" small text @click="editConfig(item)"> {{ $root.$t('operate.edit') }} </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="primary" small text @click="showSDK(item)"> SDK示例 </v-btn>
+                  <v-btn color="primary" small text @click="showSDK(item)"> {{ $t('operate.sdk_demo') }} </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="primary" small text @click="showHistory(item)"> 历史 </v-btn>
+                  <v-btn color="primary" small text @click="showHistory(item)"> {{ $t('operate.history') }} </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="primary" small text @click="showListener(item)"> 监听查询 </v-btn>
+                  <v-btn color="primary" small text @click="showListener(item)"> {{ $t('operate.listen') }} </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="removeConfig(item, index)"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeConfig(item, index)">
+                    {{ $root.$t('operate.delete') }}
+                  </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -199,12 +201,16 @@
   import ConfigSDK from './components/ConfigSDK';
   import DeleteItem from './components/DeleteItem';
   import HistoryView from './components/HistoryView';
+  import messages from './i18n';
   import { baseInfo, delConfigItems, listConfigItems, pubConfigItems } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'ConfigeUI',
+    i18n: {
+      messages: messages,
+    },
     components: {
       ConfigEditor,
       ConfigSDK,
@@ -239,25 +245,35 @@
           nacos_tenant: '',
           nacos_group: '',
         },
-        headers: [
-          { text: 'dataid', value: 'key', align: 'start' },
-          { text: 'app', value: 'application', align: 'start' },
-          { text: 'create', value: 'createdTime', align: 'center', width: 260, sortable: false },
-          { text: 'update', value: 'lastModifiedTime', align: 'center', width: 260, sortable: false },
-          { text: 'operator', value: 'lastUpdateUser', align: 'center', width: 160, sortable: false },
-          { text: '', value: 'action', align: 'center', width: 20, sortable: false },
-        ],
         pageCount: 0,
         params: {
           page: 1,
           size: 10,
         },
-        filters: [{ text: '配置名称', value: 'search', items: [] }],
       };
     },
     computed: {
       ...mapState(['JWT', 'Admin', 'AdminViewport', 'MessageStreamWS']),
       ...mapGetters(['Tenant', 'Environment', 'Project']),
+      headers() {
+        return [
+          { text: 'dataid', value: 'key', align: 'start' },
+          { text: this.$t('table.app'), value: 'application', align: 'start' },
+          {
+            text: this.$root.$t('resource.create_at'),
+            value: 'createdTime',
+            align: 'center',
+            width: 260,
+            sortable: false,
+          },
+          { text: this.$t('table.update_at'), value: 'lastModifiedTime', align: 'center', width: 260, sortable: false },
+          { text: this.$t('table.operator'), value: 'lastUpdateUser', align: 'center', width: 160, sortable: false },
+          { text: '', value: 'action', align: 'center', width: 20, sortable: false },
+        ];
+      },
+      filters() {
+        return [{ text: this.$t('filter.config_name'), value: 'search', items: [] }];
+      },
     },
     mounted() {
       this.appConfigList();

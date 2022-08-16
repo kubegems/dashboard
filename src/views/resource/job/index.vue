@@ -21,7 +21,7 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :default="{ items: [], text: '任务名称', value: 'search' }"
+          :default="{ items: [], text: $t('filter.job_name'), value: 'search' }"
           :filters="filters"
           @refresh="m_filter_list"
         />
@@ -38,13 +38,17 @@
               <v-flex>
                 <v-btn color="primary" text @click="addJob">
                   <v-icon left>mdi-playlist-plus</v-icon>
-                  创建任务
+                  {{ $root.$t('operate.create_c', [$root.$t('resource.job')]) }}
                 </v-btn>
               </v-flex>
               <v-flex>
-                <v-btn color="error" text @click="m_table_batchRemoveResource('任务', 'Job', jobList)">
+                <v-btn
+                  color="error"
+                  text
+                  @click="m_table_batchRemoveResource($root.$t('resource.job'), 'Job', jobList)"
+                >
                   <v-icon left>mdi-minus-box</v-icon>
-                  批量删除
+                  {{ $root.$t('operate.delete_c', [$root.$t('resource.job')]) }}
                 </v-btn>
               </v-flex>
             </v-card-text>
@@ -57,7 +61,7 @@
         hide-default-footer
         :items="items"
         :items-per-page="params.size"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
         show-select
         @toggle-select-all="m_table_onResourceToggleSelect"
@@ -118,10 +122,10 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" small text @click="updateJob(item)"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateJob(item)"> {{ $root.$t('operate.edit') }} </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="removeJob(item)"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeJob(item)"> {{ $root.$t('operate.delete') }} </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -149,6 +153,7 @@
 
   import AddJob from './components/AddJob';
   import UpdateJob from './components/UpdateJob';
+  import messages from './i18n';
   import { deleteJob, getJobList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -158,6 +163,9 @@
 
   export default {
     name: 'Job',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddJob,
       NamespaceFilter,
@@ -171,17 +179,16 @@
         page: 1,
         size: 10,
       },
-      filters: [{ text: '任务名称', value: 'search', items: [] }],
     }),
     computed: {
       ...mapState(['JWT', 'AdminViewport', 'MessageStreamWS']),
       ...mapGetters(['Environment']),
       headers() {
         const items = [
-          { text: '任务', value: 'name', align: 'start' },
-          { text: '状态', value: 'status', align: 'start', sortable: false },
-          { text: '开始时间', value: 'startAt', align: 'start', sortable: false },
-          { text: '结束时间', value: 'endAt', align: 'start', sortable: false },
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
+          { text: this.$t('table.status'), value: 'status', align: 'start', sortable: false },
+          { text: this.$t('table.start_at'), value: 'startAt', align: 'start', sortable: false },
+          { text: this.$t('table.end_at'), value: 'endAt', align: 'start', sortable: false },
         ];
         if (this.m_permisson_resourceAllow) {
           items.push({
@@ -194,13 +201,16 @@
         }
         if (this.AdminViewport) {
           items.splice(1, 0, {
-            text: '命名空间',
+            text: this.$root.$t('resource.namespace'),
             value: 'namespace',
             align: 'start',
             sortable: false,
           });
         }
         return items;
+      },
+      filters() {
+        return [{ text: this.$t('filter.job_name'), value: 'search', items: [] }];
       },
     },
     watch: {
@@ -259,7 +269,7 @@
         this.$nextTick(() => {
           if (this.ThisCluster === '') {
             this.$store.commit('SET_SNACKBAR', {
-              text: `请创建或选择集群`,
+              text: this.$root.$t('tip.select_cluster'),
               color: 'warning',
             });
             return;
@@ -320,9 +330,9 @@
       },
       removeJob(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除任务`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.job')]),
           content: {
-            text: `删除任务 ${item.metadata.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.job')])} ${item.metadata.name}`,
             type: 'delete',
             name: item.metadata.name,
           },

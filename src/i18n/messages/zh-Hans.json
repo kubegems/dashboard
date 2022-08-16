@@ -207,7 +207,8 @@
   "form": {
     "definition": "{0}定义",
     "key_value": "键值对",
-    "key": "键"
+    "key": "键",
+    "value": "值"
   },
   "pagination": {
     "count": "每页条目数"

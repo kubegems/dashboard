@@ -17,7 +17,7 @@
 <template>
   <div>
     <v-card>
-      <BaseSubTitle class="pt-2" :divider="false" title="资源统计" />
+      <BaseSubTitle class="pt-2" :divider="false" :title="$t('tip.resource_statics')" />
       <v-row class="mt-2">
         <v-col cols="4">
           <VueApexCharts height="300" :options="cpuOptions" :series="cpuSeries" type="radialBar" />
@@ -47,80 +47,80 @@
 
       <div v-if="tke || nvidia" class="pb-3 text-center">
         <v-btn color="primary" small text @click="showMore = !showMore">
-          {{ showMore ? '折叠GPU' : '显示GPU' }}
+          {{ showMore ? `${$t('operate.hide')} GPU` : `${$t('operate.show')} GPU` }}
         </v-btn>
       </div>
     </v-card>
 
     <v-card class="mt-6" flat>
       <v-sheet class="pa-2">
-        <BaseListItemForDetail class="pt-0" :mt="0" title="架构">
+        <BaseListItemForDetail class="pt-0" :mt="0" :title="$t('tip.architecture')">
           <template #content>
             {{ node ? node.status.nodeInfo.architecture : '' }}
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="bootID">
+        <BaseListItemForDetail title="BootID">
           <template #content>
             {{ node ? node.status.nodeInfo.bootID : '' }}
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="容器运行时版本">
+        <BaseListItemForDetail :title="$t('tip.runtime_version')">
           <template #content>
             {{ node ? node.status.nodeInfo.containerRuntimeVersion : '' }}
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="内核版本">
+        <BaseListItemForDetail :title="$t('tip.kernel_version')">
           <template #content>
             {{ node ? node.status.nodeInfo.kernelVersion : '' }}
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="kubeProxy版本">
+        <BaseListItemForDetail :title="$t('tip.kubeproxy_version')">
           <template #content>
             {{ node ? node.status.nodeInfo.kubeProxyVersion : '' }}
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="kubelet版本">
+        <BaseListItemForDetail :title="$t('tip.kubelet_version')">
           <template #content>
             {{ node ? node.status.nodeInfo.kubeletVersion : '' }}
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="machineID">
+        <BaseListItemForDetail title="MachineID">
           <template #content>
             {{ node ? node.status.nodeInfo.machineID : '' }}
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="操作系统">
+        <BaseListItemForDetail :title="$t('tip.os')">
           <template #content>
             {{ node ? node.status.nodeInfo.operatingSystem : '' }}
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="操作系统版本">
+        <BaseListItemForDetail :title="$t('tip.os_version')">
           <template #content>
             {{ node ? node.status.nodeInfo.osImage : '' }}
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="系统UUID">
+        <BaseListItemForDetail :title="$t('tip.system_uuid')">
           <template #content>
             {{ node ? node.status.nodeInfo.systemUUID : '' }}
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="镜像数量">
+        <BaseListItemForDetail :title="$t('tip.image_count')">
           <template #content>
             {{ node && node.status.images ? node.status.images.length : 0 }}
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="podCIDR">
+        <BaseListItemForDetail title="PodCIDR">
           <template #content>
             <v-chip class="mx-1 font-weight-medium" color="success" small text-color="white">
               {{ node ? node.spec.podCIDR : '' }}
@@ -128,7 +128,7 @@
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="podCIDRs">
+        <BaseListItemForDetail title="PodCIDRs">
           <template #content>
             <v-chip
               v-for="(item, index) in node ? node.spec.podCIDRs : []"
@@ -143,7 +143,7 @@
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="卷">
+        <BaseListItemForDetail :title="$t('tip.volume')">
           <template #content>
             attached :
             {{ node && node.status.volumesAttached ? node.status.volumesAttached.length : 0 }}/ inuse :
@@ -154,16 +154,16 @@
     </v-card>
 
     <v-card class="mt-3" flat>
-      <BaseSubTitle class="pt-2" :divider="false" title="状况" />
+      <BaseSubTitle class="pt-2" :divider="false" :title="$t('tip.condition')" />
       <v-simple-table class="mx-2 pa-2 pb-3">
         <template #default>
           <thead>
             <tr>
               <th class="text-left">Reason</th>
-              <th class="text-left">状态</th>
+              <th class="text-left">{{ $t('table.status') }}</th>
               <th class="text-left">Type</th>
               <th class="text-left">Message</th>
-              <th class="text-left">上次更新时间</th>
+              <th class="text-left">{{ $t('tip.last_update_at') }}</th>
             </tr>
           </thead>
           <tbody>
@@ -191,6 +191,7 @@
 <script>
   import VueApexCharts from 'vue-apexcharts';
 
+  import messages from '../i18n';
   import { getNodeResourceAllocated } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -200,6 +201,9 @@
 
   export default {
     name: 'ResourceInfo',
+    i18n: {
+      messages: messages,
+    },
     components: {
       VueApexCharts,
     },
@@ -241,8 +245,8 @@
       },
       cpuOptions() {
         return generateRadialBarChartOptions(
-          'CPU',
-          ['CPU'],
+          this.$root.$t('resource.cpu'),
+          [this.$root.$t('resource.cpu')],
           this.totalRequests['cpu'] ? sizeOfCpu(this.item.status.capacity['cpu']) : 0,
           'core',
         );
@@ -259,8 +263,8 @@
       },
       memoryOptions() {
         return generateRadialBarChartOptions(
-          '内存',
-          ['内存'],
+          this.$root.$t('resource.memory'),
+          [this.$root.$t('resource.memory')],
           this.totalRequests['memory'] ? sizeOfStorage(this.item.status.capacity['memory']) : 0,
           'Gi',
         );
@@ -278,8 +282,8 @@
       },
       gpuTkeOptions() {
         return generateRadialBarChartOptions(
-          'TKE vcuda',
-          ['TKE vcuda'],
+          `TKE ${this.$root.$t('resource.gpu')}`,
+          [`TKE ${this.$root.$t('resource.gpu')}`],
           this.totalRequests['tencent.com/vcuda-core']
             ? parseInt(this.item.status.capacity['tencent.com/vcuda-core'])
             : 0,
@@ -297,8 +301,8 @@
       },
       gpuNvidiaOptions() {
         return generateRadialBarChartOptions(
-          'Nvidia GPU',
-          ['Nvidia GPU'],
+          `Nvidia ${this.$root.$t('resource.gpu')}`,
+          [`Nvidia ${this.$root.$t('resource.gpu')}`],
           this.totalRequests['nvidia.com/gpu'] ? parseInt(this.totalLimits['nvidia.com/gpu']) : 0,
           '',
         );
@@ -316,8 +320,8 @@
       },
       gpuTkeMemoryOptions() {
         return generateRadialBarChartOptions(
-          'TKE显存',
-          ['TKE显存'],
+          `TKE ${this.$root.$t('resource.video_memory')}`,
+          [`TKE ${this.$root.$t('resource.video_memory')}`],
           this.totalRequests['tencent.com/vcuda-memory']
             ? parseInt(this.item.status.capacity['tencent.com/vcuda-memory'])
             : 0,
@@ -333,8 +337,8 @@
       },
       podOptions() {
         return generateRadialBarChartOptions(
-          '容器组',
-          ['容器组'],
+          this.$root.$t('resource.pod'),
+          [this.$root.$t('resource.pod')],
           this.item ? parseInt(this.item.status.capacity.pods) : 0,
           '',
         );

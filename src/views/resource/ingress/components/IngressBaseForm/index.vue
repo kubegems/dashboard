@@ -18,7 +18,7 @@
   <v-flex>
     <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
       <v-flex :class="expand ? 'kubegems__overlay' : ''" />
-      <BaseSubTitle title="路由定义" />
+      <BaseSubTitle :title="$root.$t('form.definition', [$root.$t('resource.ingress')])" />
       <v-card-text class="pa-2">
         <v-row v-if="manifest">
           <v-col cols="6">
@@ -28,8 +28,8 @@
               color="primary"
               hide-selected
               :items="kinds"
-              label="资源"
-              no-data-text="暂无可选数据"
+              :label="$root.$t('resource.resource')"
+              :no-data-text="$root.$t('data.no_data')"
               :readonly="edit"
               :rules="objRules.kindRule"
               @change="onKindChange"
@@ -47,7 +47,7 @@
             <v-text-field
               v-model="obj.metadata.name"
               class="my-0"
-              label="名称"
+              :label="$t('table.name')"
               :readonly="edit"
               required
               :rules="objRules.nameRule"
@@ -60,8 +60,8 @@
               color="primary"
               hide-selected
               :items="m_select_namespaceItems"
-              label="命名空间"
-              no-data-text="暂无可选数据"
+              :label="$root.$t('resource.namespace')"
+              :no-data-text="$root.$t('resource.resource')"
               :readonly="edit"
               :rules="objRules.namespaceRule"
               @focus="onNamespaceSelectFocus(ThisCluster)"
@@ -85,8 +85,8 @@
               color="primary"
               hide-selected
               :items="m_select_gatewayItems"
-              label="声明网关"
-              no-data-text="暂无可选数据"
+              :label="$t('tip.gateway')"
+              :no-data-text="$root.$t('resource.resource')"
               :rules="objRules.ingressClassNameRule"
               @focus="onGatewaySelectFocus(ThisCluster)"
             >
@@ -104,8 +104,8 @@
               color="primary"
               hide-selected
               :items="protocolItems"
-              label="协议"
-              no-data-text="暂无可选数据"
+              :label="$t('tip.protocol')"
+              :no-data-text="$root.$t('resource.resource')"
               :rules="objRules.protocolRule"
               @change="onProtocolChange"
             >
@@ -127,7 +127,7 @@
         @addData="addRulerData"
         @closeOverlay="closeExpand"
       />
-      <BaseSubTitle title="路由规则" />
+      <BaseSubTitle :title="$t('tip.ingress_rule')" />
       <v-card-text class="pa-2">
         <IngressRuleItem
           :rules="obj.spec.rules"
@@ -143,7 +143,7 @@
         @addData="addAnnotationData"
         @closeOverlay="closeExpand"
       />
-      <BaseSubTitle title="注解">
+      <BaseSubTitle :title="$t('tip.annotation')">
         <template #tips>
           <v-icon class="mt-n1 kubegems__pointer" color="warning" right small @click="help">
             mdi-information-variant
@@ -166,6 +166,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import IngressRuleForm from './IngressRuleForm';
   import IngressRuleItem from './IngressRuleItem';
   import BaseResource from '@/mixins/resource';
@@ -177,6 +178,9 @@
 
   export default {
     name: 'IngressBaseForm',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AnnotationForm,
       AnnotationItem,

@@ -24,13 +24,13 @@
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="类型">
+        <BaseListItemForDetail :title="$t('tip.type')">
           <template #content>
             {{ service ? service.spec.type : '' }}
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="匹配标签">
+        <BaseListItemForDetail :title="$t('tip.label')">
           <template #content>
             <BaseCollapseChips
               v-if="service"
@@ -45,26 +45,26 @@
     </v-card>
 
     <v-card class="mt-3" flat>
-      <BaseSubTitle class="pt-2" :divider="false" title="服务端口" />
+      <BaseSubTitle class="pt-2" :divider="false" :title="$t('tip.service_port')" />
       <v-simple-table class="mx-2 pa-2 pb-3">
         <template #default>
           <thead>
             <tr>
-              <th class="text-left">容器端口</th>
-              <th class="text-left">服务端口</th>
-              <th class="text-left">主机端口</th>
+              <th class="text-left">{{ $t('tip.container_port') }}</th>
+              <th class="text-left">{{ $t('tip.service_port') }}</th>
+              <th class="text-left">{{ $t('tip.host_port') }}</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(item, index) in service ? service.spec.ports : []" :key="index">
               <td>
                 <v-chip class="ma-1 font-weight-medium" color="success" small text-color="white">
-                  {{ item.targetPort }}｜{{ item.protocol }}
+                  {{ item.targetPort }} | {{ item.protocol }}
                 </v-chip>
               </td>
               <td>
                 <v-chip class="ma-1 font-weight-medium" color="success" small text-color="white">
-                  {{ item.port }}｜{{ item.protocol }}
+                  {{ item.port }} | {{ item.protocol }}
                 </v-chip>
               </td>
               <td>{{ item.nodePort }}</td>
@@ -77,11 +77,15 @@
 </template>
 
 <script>
+  import messages from '../i18n';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'ResourceInfo',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     props: {
       item: {
