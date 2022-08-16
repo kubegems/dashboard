@@ -1,0 +1,30 @@
+{
+  "table": {
+    "app": "应用",
+    "update_at": "更新时间",
+    "operator": "操作人",
+    "version": "版本号"
+  },
+  "filter": {
+    "config_name": "配置项"
+  },
+  "operate": {
+    "listen": "监听查询",
+    "history": "历史",
+    "sdk_demo": "SDK示例",
+    "rollback": "回滚"
+  },
+  "tip": {
+    "config": "配置项",
+    "more": "更多配置",
+    "listen_list": "监听列表",
+    "sdk_demo": "SDK接入示例",
+    "history": "配置项历史",
+    "rollback_tip": "回滚配置 {0} 到版本 {1}",
+    "delete_tip": "确认删除 租户「{0}」/项目「{1}」/环境「{2}」 下的配置项 {3} ?"
+  },
+  "status": {
+    "rollback_success": "回滚完成",
+    "rollback_failed": "回滚失败"
+  }
+}

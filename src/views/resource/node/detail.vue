@@ -34,10 +34,12 @@
               <v-card-text class="pa-2">
                 <template v-if="node">
                   <v-flex v-if="node.spec.unschedulable">
-                    <v-btn color="primary" small text @click="allowSchedule"> 允许调度 </v-btn>
+                    <v-btn color="primary" small text @click="allowSchedule">
+                      {{ $t('operate.allow_schedule') }}
+                    </v-btn>
                   </v-flex>
                   <v-flex v-else>
-                    <v-btn color="error" small text @click="stopSchedule"> 停止调度 </v-btn>
+                    <v-btn color="error" small text @click="stopSchedule"> {{ $t('operate.stop_schedule') }} </v-btn>
                   </v-flex>
                 </template>
               </v-card-text>
@@ -79,7 +81,7 @@
           </v-card-title>
           <v-list-item two-line>
             <v-list-item-content class="kubegems__text">
-              <v-list-item-title class="text-subtitle-2"> 集群 </v-list-item-title>
+              <v-list-item-title class="text-subtitle-2"> {{ $root.$t('resource.cluster') }} </v-list-item-title>
               <v-list-item-subtitle class="text-body-2">
                 {{ node ? Cluster().ClusterName : '' }}
               </v-list-item-subtitle>
@@ -95,7 +97,7 @@
           </v-list-item>
           <v-list-item two-line>
             <v-list-item-content class="kubegems__text">
-              <v-list-item-title class="text-subtitle-2"> Hostname </v-list-item-title>
+              <v-list-item-title class="text-subtitle-2"> {{ $t('table.name') }} </v-list-item-title>
               <v-list-item-subtitle class="kubegems__break-all text-body-2">
                 {{ node ? node.status.addresses[1].address : '' }}
               </v-list-item-subtitle>
@@ -111,7 +113,7 @@
           </v-list-item>
           <v-list-item two-line>
             <v-list-item-content class="kubegems__text">
-              <v-list-item-title class="text-subtitle-2"> 创建时间 </v-list-item-title>
+              <v-list-item-title class="text-subtitle-2"> {{ $root.$t('resource.create_at') }} </v-list-item-title>
               <v-list-item-subtitle class="text-body-2">
                 {{
                   node && node.metadata.creationTimestamp ? $moment(node.metadata.creationTimestamp).format('lll') : ''
@@ -156,6 +158,7 @@
   import NodeMonitor from './components/NodeMonitor';
   import ResourceInfo from './components/ResourceInfo';
   import Taint from './components/Taint';
+  import messages from './i18n';
   import { getNodeDetail, patchCordonNode } from '@/api';
   import BaseResource from '@/mixins/resource';
   import EventList from '@/views/resource/components/common/EventList';
@@ -165,6 +168,9 @@
 
   export default {
     name: 'NodeDetail',
+    i18n: {
+      messages: messages,
+    },
     components: {
       EventList,
       Metadata,
@@ -185,12 +191,12 @@
       ...mapGetters(['Cluster']),
       tabItems() {
         const items = [
-          { text: '资源信息', value: 'ResourceInfo' },
-          { text: '元数据', value: 'Metadata' },
-          { text: '亲和性', value: 'Taint' },
-          { text: '容器组', value: 'PodList' },
-          { text: '事件', value: 'EventList' },
-          { text: '监控', value: 'NodeMonitor' },
+          { text: this.$root.$t('tab.resurce_info'), value: 'ResourceInfo' },
+          { text: this.$root.$t('tab.metadata'), value: 'Metadata' },
+          { text: this.$t('tab.taint'), value: 'Taint' },
+          { text: this.$root.$t('tab.pod'), value: 'PodList' },
+          { text: this.$root.$t('tab.event'), value: 'EventList' },
+          { text: this.$root.$t('tab.monitor'), value: 'NodeMonitor' },
         ];
         return items;
       },
@@ -222,9 +228,9 @@
       stopSchedule() {
         const item = this.node;
         this.$store.commit('SET_CONFIRM', {
-          title: '停止调度节点',
+          title: this.$t('operate.stop_schedule'),
           content: {
-            text: `停止调度节点 ${item.metadata.name}`,
+            text: `${this.$t('operate.stop_schedule')} ${item.metadata.name}`,
             type: 'confirm',
           },
           param: { item },
@@ -239,9 +245,9 @@
       allowSchedule() {
         const item = this.node;
         this.$store.commit('SET_CONFIRM', {
-          title: '允许调度节点',
+          title: this.$t('operate.allow_schedule'),
           content: {
-            text: `允许调度节点 ${item.metadata.name}`,
+            text: `${this.$t('operate.allow_schedule')} ${item.metadata.name}`,
             type: 'confirm',
           },
           param: { item },

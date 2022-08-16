@@ -21,7 +21,7 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :default="{ items: [], text: '服务名称', value: 'search' }"
+          :default="{ items: [], text: $t('tip.service_name'), value: 'search' }"
           :filters="filters"
           @refresh="m_filter_list"
         />
@@ -38,13 +38,17 @@
               <v-flex>
                 <v-btn color="primary" text @click="addService">
                   <v-icon left>mdi-plus-box</v-icon>
-                  创建服务
+                  {{ $root.$t('operate.create_c', [$root.$t('resource.service')]) }}
                 </v-btn>
               </v-flex>
               <v-flex>
-                <v-btn color="error" text @click="m_table_batchRemoveResource('服务', 'Service', serviceList)">
+                <v-btn
+                  color="error"
+                  text
+                  @click="m_table_batchRemoveResource($root.$t('resource.service'), 'Service', serviceList)"
+                >
                   <v-icon left>mdi-minus-box</v-icon>
-                  删除服务
+                  {{ $root.$t('operate.delete_c', [$root.$t('resource.service')]) }}
                 </v-btn>
               </v-flex>
             </v-card-text>
@@ -57,7 +61,7 @@
         hide-default-footer
         :items="items"
         :items-per-page="params.size"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
         show-select
         @toggle-select-all="m_table_onResourceToggleSelect"
@@ -114,10 +118,14 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" small text @click="updateService(item)"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateService(item)">
+                    {{ $root.$t('operate.edit') }}
+                  </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="removeService(item)"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeService(item)">
+                    {{ $root.$t('operate.delete') }}
+                  </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -145,6 +153,7 @@
 
   import AddService from './components/AddService';
   import UpdateService from './components/UpdateService';
+  import messages from './i18n';
   import { deleteService, getServiceList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -154,6 +163,9 @@
 
   export default {
     name: 'Service',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddService,
       NamespaceFilter,
@@ -167,13 +179,12 @@
         page: 1,
         size: 10,
       },
-      filters: [{ text: '服务名称', value: 'search', items: [] }],
     }),
     computed: {
       ...mapState(['JWT', 'AdminViewport']),
       headers() {
         const items = [
-          { text: '服务名', value: 'name', align: 'start' },
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
           {
             text: 'ClusterIP',
             value: 'clusterIP',
@@ -181,13 +192,13 @@
             sortable: false,
           },
           {
-            text: '服务类型(ExternalIp/LoadBalancerIp)',
+            text: this.$t('table.service_type'),
             value: 'externalip',
             align: 'start',
             sortable: false,
           },
-          { text: '访问信息', value: 'ports', align: 'start', sortable: false },
-          { text: '创建时间', value: 'createAt', align: 'center' },
+          { text: this.$t('table.access_info'), value: 'ports', align: 'start', sortable: false },
+          { text: this.$root.$t('resource.create_at'), value: 'createAt', align: 'center' },
         ];
         if (this.m_permisson_resourceAllow) {
           items.push({
@@ -200,13 +211,16 @@
         }
         if (this.AdminViewport) {
           items.splice(1, 0, {
-            text: '命名空间',
+            text: this.$root.$t('resource.namespace'),
             value: 'namespace',
             align: 'start',
             sortable: false,
           });
         }
         return items;
+      },
+      filters() {
+        return [{ text: this.$t('tip.service_name'), value: 'search', items: [] }];
       },
     },
     watch: {
@@ -234,7 +248,7 @@
         this.$nextTick(() => {
           if (this.ThisCluster === '') {
             this.$store.commit('SET_SNACKBAR', {
-              text: `请创建或选择集群`,
+              text: this.$root.$t('tip.select_cluster'),
               color: 'warning',
             });
             return;
@@ -293,9 +307,9 @@
       },
       removeService(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除服务`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.service')]),
           content: {
-            text: `删除服务 ${item.metadata.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.service')])} ${item.metadata.name}`,
             type: 'delete',
             name: item.metadata.name,
           },

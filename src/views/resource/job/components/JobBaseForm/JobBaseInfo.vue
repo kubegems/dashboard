@@ -16,7 +16,7 @@
 
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
-    <BaseSubTitle title="任务定义" />
+    <BaseSubTitle :title="$root.$t('form.definition', [$root.$t('resource.job')])" />
     <v-card-text class="pa-2">
       <v-row v-if="manifest">
         <v-col cols="6">
@@ -26,8 +26,8 @@
             color="primary"
             hide-selected
             :items="kinds"
-            label="资源"
-            no-data-text="暂无可选数据"
+            :label="$root.$t('resource.resource')"
+            :no-data-text="$root.$t('data.no_data')"
             :readonly="edit"
             :rules="objRules.kindRule"
             @change="onKindChange"
@@ -45,7 +45,7 @@
           <v-text-field
             v-model="obj.metadata.name"
             class="my-0"
-            label="名称"
+            :label="$t('table.name')"
             :readonly="edit"
             required
             :rules="objRules.nameRule"
@@ -58,8 +58,8 @@
             color="primary"
             hide-selected
             :items="m_select_namespaceItems"
-            label="命名空间"
-            no-data-text="暂无可选数据"
+            :label="$root.$t('resource.namespace')"
+            :no-data-text="$root.$t('data.no_data')"
             :readonly="edit"
             :rules="objRules.namespaceRule"
             @focus="onNamespaceSelectFocus(ThisCluster)"
@@ -74,23 +74,41 @@
       </v-row>
     </v-card-text>
 
-    <BaseSubTitle title="任务设置" />
+    <BaseSubTitle :title="$t('tip.job_setting')" />
     <v-card-text class="pa-2">
       <v-row>
         <v-col cols="6">
-          <v-text-field v-model="obj.spec.backoffLimit" class="my-0" label="最大重试次数" required type="number" />
+          <v-text-field
+            v-model="obj.spec.backoffLimit"
+            class="my-0"
+            :label="$t('tip.max_restart_count')"
+            required
+            type="number"
+          />
         </v-col>
         <v-col cols="6">
-          <v-text-field v-model="obj.spec.completions" class="my-0" label="完成数" required type="number" />
+          <v-text-field
+            v-model="obj.spec.completions"
+            class="my-0"
+            :label="$t('tip.complations')"
+            required
+            type="number"
+          />
         </v-col>
         <v-col cols="6">
-          <v-text-field v-model="obj.spec.parallelism" class="my-0" label="并行数" required type="number" />
+          <v-text-field
+            v-model="obj.spec.parallelism"
+            class="my-0"
+            :label="$t('tip.parallelism')"
+            required
+            type="number"
+          />
         </v-col>
         <v-col cols="6">
           <v-text-field
             v-model="obj.spec.activeDeadlineSeconds"
             class="my-0"
-            label="退出超时时限(秒)"
+            :label="$t('tip.deadline_seconds')"
             required
             type="number"
           />
@@ -102,8 +120,8 @@
             color="primary"
             hide-selected
             :items="restartPolicys"
-            label="重启策略"
-            no-data-text="暂无可选数据"
+            :label="$t('tip.restart_policy')"
+            :no-data-text="$root.$t('data.no_data')"
           >
             <template #selection="{ item }">
               <v-chip class="mx-1" color="primary" small>
@@ -120,6 +138,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
@@ -127,6 +146,9 @@
 
   export default {
     name: 'JobBaseInfo',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource, BaseSelect],
     props: {
       app: {
@@ -158,13 +180,6 @@
       return {
         valid: false,
         resourceKind: '',
-        restartPolicys: [
-          { text: 'Never (故障时创建新的容器组)', value: 'Never' },
-          {
-            text: 'OnFailure (故障时内部重启容器)',
-            value: 'OnFailure',
-          },
-        ],
         obj: {
           apiVersion: 'batch/v1',
           kind: 'Job',
@@ -197,6 +212,15 @@
           namespaceRule: [required],
           kindRule: [required],
         };
+      },
+      restartPolicys() {
+        return [
+          { text: this.$t('tip.policy_never'), value: 'Never' },
+          {
+            text: this.$t('tip.policy_onfailure'),
+            value: 'OnFailure',
+          },
+        ];
       },
     },
     watch: {

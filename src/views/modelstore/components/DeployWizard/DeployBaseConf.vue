@@ -38,7 +38,7 @@
         >
           <template #selection="{ item }">
             <v-chip color="primary" small>
-              {{ item['text'] }}
+              {{ item.text }}
             </v-chip>
           </template>
         </v-autocomplete>
@@ -49,7 +49,7 @@
           class="my-4"
           color="primary"
           hide-selected
-          :items="item ? item.versions : []"
+          :items="versionItems"
           label="版本"
           :menu-props="{
             bottom: true,
@@ -62,7 +62,7 @@
         >
           <template #selection="{ item }">
             <v-chip color="primary" small>
-              {{ item }}
+              {{ item.text }}
             </v-chip>
           </template>
         </v-autocomplete>
@@ -87,7 +87,7 @@
         >
           <template #selection="{ item }">
             <v-chip class="mx-1" color="primary" small>
-              {{ item['text'] }}
+              {{ item.text }}
             </v-chip>
           </template>
         </v-autocomplete>
@@ -147,6 +147,14 @@
         });
         if (pro) return pro.value;
         return 0;
+      },
+      versionItems() {
+        if (this.item) {
+          return this.item.versions.map((v) => {
+            return { text: v.name, value: v.name };
+          });
+        }
+        return [];
       },
     },
     watch: {

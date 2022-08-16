@@ -207,7 +207,8 @@
   "form": {
     "definition": "{0} Definition",
     "key_value": "Key-value pair",
-    "key": "Key"
+    "key": "Key",
+    "value": "Value"
   },
   "pagination": {
     "count": "Per Page Count"
@@ -318,7 +319,7 @@
       "g_dashboard": "Dashboard",
       "g_integrated": "Integrated",
       "g_observability": "Observability",
-      "g_inquirer": "Inquirer",
+      "g_inquirer": "Explorer",
       "g_alert": "Alert",
       "g_setting": "Setting",
 

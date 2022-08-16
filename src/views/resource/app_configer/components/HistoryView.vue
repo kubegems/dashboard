@@ -15,11 +15,13 @@
 -->
 
 <template>
-  <BaseFullScreenDialog v-model="dialog" icon="mdi-list-box" title="配置项历史" @dispose="dispose">
+  <BaseFullScreenDialog v-model="dialog" icon="mdi-list-box" :title="$t('tip.history')" @dispose="dispose">
     <template #header>
       <div>
-        租户: {{ historyItem.tenant }} 项目: {{ historyItem.project }} 环境: {{ historyItem.environment }} 应用:
-        {{ historyItem.application }} Key: {{ historyItem.key }}
+        {{ $root.$t('resource.tenant') }}: {{ historyItem.tenant }} {{ $root.$t('resource.project') }}:
+        {{ historyItem.project }} {{ $root.$t('resource.environment') }}: {{ historyItem.environment }}
+        {{ $root.$t('resource.app') }}: {{ historyItem.application }} Key:
+        {{ historyItem.key }}
       </div>
     </template>
     <template #content>
@@ -29,8 +31,8 @@
             <v-simple-table :height="height">
               <thead>
                 <tr>
-                  <th class="text-center" width="200"> 版本号 </th>
-                  <th class="text-left"> 更新时间 </th>
+                  <th class="text-center" width="200"> {{ $t('table.version') }} </th>
+                  <th class="text-left"> {{ $t('table.update_at') }} </th>
                   <th class="text-end" width="230" />
                 </tr>
               </thead>
@@ -56,7 +58,7 @@
                         <v-col>
                           <v-btn class="ma-md-2" color="primary" small text @click="rollback(item)">
                             <v-icon small>mdi-backup-restore</v-icon>
-                            回滚
+                            {{ $t('operate.rollback') }}
                           </v-btn>
                         </v-col>
                       </v-row>
@@ -87,10 +89,14 @@
   import { CodeDiff } from 'v-code-diff';
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import { itemDetail, itemHistory, pubConfigItems } from '@/api';
 
   export default {
     name: 'HistoryView',
+    i18n: {
+      messages: messages,
+    },
     components: {
       CodeDiff,
     },
@@ -187,9 +193,9 @@
           content = await this.getHistoryDetail(item.rev);
         }
         this.$store.commit('SET_CONFIRM', {
-          title: `确认回滚配置项到版本 ${item.rev} ?`,
+          title: this.$t('operate.rollback'),
           content: {
-            text: `回滚配置 ${this.historyItem.key} 到版本 ${item.rev}`,
+            text: this.$t('tip.rollback_tip', [this.historyItem.key, item.rev]),
             type: 'confirm',
           },
           param: { content },
@@ -204,12 +210,12 @@
             );
             if (res.ErrorData) {
               this.$store.commit('SET_SNACKBAR', {
-                text: `回滚失败 ${res.ErrorData}`,
+                text: `${this.$t('status.rollback_failed')} ${res.ErrorData}`,
                 color: 'warning',
               });
             } else {
               this.$store.commit('SET_SNACKBAR', {
-                text: '回滚完成',
+                text: this.$t('status.rollback_success'),
                 color: 'green',
               });
               this.$emit('rollback', res);

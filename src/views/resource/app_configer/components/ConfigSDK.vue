@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <BasePanel v-model="panel" icon="mdi-wrench" title="SDK接入示例">
+  <BasePanel v-model="panel" icon="mdi-wrench" :title="$t('tip.sdk_demo')">
     <template #content>
       <v-card class="conf rounded-0 pa-0" flat>
         <v-card-text class="text-h5 card__title">
@@ -46,8 +46,13 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
+
   export default {
     name: 'ConfigSDK',
+    i18n: {
+      messages: messages,
+    },
     data() {
       return {
         panel: false,

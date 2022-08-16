@@ -18,19 +18,19 @@
   <div>
     <v-card>
       <v-sheet class="pa-2">
-        <BaseListItemForDetail :mt="0" title="重试次数">
+        <BaseListItemForDetail :mt="0" :title="$t('tip.restart_count')">
           <template #content>
             {{ job ? job.spec.backoffLimit : '' }}
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="并行数量">
+        <BaseListItemForDetail :title="$t('tip.parallelism')">
           <template #content>
             {{ job ? job.spec.parallelism : '' }}
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="完成时间">
+        <BaseListItemForDetail :title="$t('tip.complete_at')">
           <template #content>
             {{
               job
@@ -42,7 +42,7 @@
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="成功数量">
+        <BaseListItemForDetail :title="$t('tip.succeed')">
           <template #content>
             {{ job ? job.status.succeeded : '' }}
           </template>
@@ -51,7 +51,7 @@
     </v-card>
 
     <v-card class="mt-3" flat>
-      <BaseSubTitle class="pt-2" :divider="false" title="容器" />
+      <BaseSubTitle class="pt-2" :divider="false" :title="$root.$t('resource.container')" />
       <DetailContainer
         :containers="
           job
@@ -68,24 +68,24 @@
     </v-card>
 
     <v-card class="mt-3" flat>
-      <BaseSubTitle class="pt-2" :divider="false" title="卷" />
+      <BaseSubTitle class="pt-2" :divider="false" :title="$t('tip.volume')" />
       <DetailVolume :volumes="job ? job.spec.template.spec.volumes : []" />
     </v-card>
 
     <v-card class="mt-3" flat>
-      <BaseSubTitle class="pt-2" :divider="false" title="环境变量" />
+      <BaseSubTitle class="pt-2" :divider="false" :title="$t('tip.env')" />
       <DetailEnv :containers="job ? job.spec.template.spec.containers : []" />
     </v-card>
 
     <v-card class="mt-3" flat>
-      <BaseSubTitle class="pt-2" :divider="false" title="状况" />
+      <BaseSubTitle class="pt-2" :divider="false" :title="$t('tip.condition')" />
       <v-simple-table class="mx-2 pa-2 pb-3">
         <template #default>
           <thead>
             <tr>
               <th class="text-left">Type</th>
-              <th class="text-left">状态</th>
-              <th class="text-left">上次改变时间</th>
+              <th class="text-left">{{ $t('table.status') }}</th>
+              <th class="text-left">{{ $t('tip.last_change_at') }}</th>
             </tr>
           </thead>
           <tbody>
@@ -109,6 +109,7 @@
 </template>
 
 <script>
+  import messages from '../i18n';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
   import DetailContainer from '@/views/resource/components/common/DetailContainer';
@@ -117,6 +118,9 @@
 
   export default {
     name: 'ResourceInfo',
+    i18n: {
+      messages: messages,
+    },
     components: {
       DetailContainer,
       DetailEnv,

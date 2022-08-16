@@ -21,7 +21,7 @@
         <v-card-text class="pa-0">
           <v-sheet class="pt-2 px-2">
             <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width">
-              <span>端口定义</span>
+              <span>{{ $root.$t('form.definition', [$t('tip.port')]) }}</span>
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-text-field v-model="port.name" class="my-0" label="名称" required :rules="portRules.nameRule" />
@@ -35,7 +35,7 @@
               <v-text-field
                 v-model="port.targetPort"
                 class="my-0"
-                label="容器端口"
+                :label="$t('tip.container_port')"
                 required
                 :rules="portRules.targetPortRule"
               />
@@ -44,7 +44,7 @@
               <v-text-field
                 v-model="port.port"
                 class="my-0"
-                label="服务端口"
+                :label="$t('tip.service_port')"
                 required
                 :rules="portRules.portRule"
                 type="number"
@@ -55,8 +55,8 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
-          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> {{ $root.$t('operate.cancel') }} </v-btn>
+          <v-btn color="primary" small text @click="addData"> {{ $root.$t('operate.save') }} </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -64,11 +64,15 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
   import { deepCopy } from '@/utils/helpers';
   import { positiveInteger, required } from '@/utils/rules';
 
   export default {
     name: 'ServicePortForm',
+    i18n: {
+      messages: messages,
+    },
     props: {
       data: {
         type: Array,
@@ -93,11 +97,11 @@
               !!new RegExp(
                 '^(http)([-\\w]+)?$|^(https)([-\\w]+)?$|^(http2)([-\\w]+)?$|^(grpc)([-\\w]+)?$|^(tcp)([-\\w]+)?$|^(udp)([-\\w]+)?$|^(tls)([-\\w]+)?$|^(mongo)([-\\w]+)?$|^(mysql)([-\\w]+)?$|^(redis)([-\\w]+)?$',
                 'g',
-              ).test(v) || '名称格式错误（<protocol>[-<suffix>]）',
+              ).test(v) || this.$t('form.name_rule'),
           ],
           portRule: [required],
           targetPortRule: [required],
-          sessionRule: [positiveInteger, (v) => !!parseInt(v) > 86400 || '超出最大限制'],
+          sessionRule: [positiveInteger, (v) => !!parseInt(v) > 86400 || this.$t('form.limit_max_rule')],
         },
       };
     },

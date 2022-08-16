@@ -17,11 +17,11 @@
 <template>
   <v-card>
     <v-card-text class="pa-0 pt-1">
-      <BaseSubTitle :divider="false" title="污点">
+      <BaseSubTitle :divider="false" :title="$t('table.taint')">
         <template #action>
           <v-btn class="float-right mr-2" color="primary" small text @click="addTaint">
             <v-icon left small> mdi-tag-plus </v-icon>
-            添加污点
+            {{ $root.$t('operate.add_c', [$t('table.taint')]) }}
           </v-btn>
         </template>
       </BaseSubTitle>
@@ -61,6 +61,7 @@
 <script>
   import { mapGetters } from 'vuex';
 
+  import messages from '../../i18n';
   import AddTaint from './AddTaint';
   import { getNodeDetail, patchTaintNode } from '@/api';
   import BaseResource from '@/mixins/resource';
@@ -68,6 +69,9 @@
 
   export default {
     name: 'Taint',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddTaint,
     },
@@ -102,9 +106,9 @@
     methods: {
       removeTaint(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: '删除污点',
+          title: this.$root.$t('operate.delete_c', [this.$t('table.taint')]),
           content: {
-            text: `删除污点 ${item.key}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$t('table.taint')])} ${item.key}`,
             type: 'delete',
             name: item.key,
           },

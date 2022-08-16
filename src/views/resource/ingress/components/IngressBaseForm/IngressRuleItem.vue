@@ -25,17 +25,17 @@
           <v-list-item-content v-for="(path, i) in item.http.paths" :key="i">
             <v-row>
               <v-col class="py-1" cols="4">
-                <span class="text-body-2">路径:</span>
+                <span class="text-body-2">{{ $t('tip.path') }} : </span>
                 <span class="text-subtitle-2">{{ path.path }}</span>
               </v-col>
               <v-col class="py-1" cols="4">
-                <span class="text-body-2">服务:</span>
+                <span class="text-body-2">{{ $root.$t('resource.service') }} : </span>
                 <span class="text-subtitle-2">
                   {{ path.backend.service.name }}
                 </span>
               </v-col>
               <v-col class="py-1" cols="4">
-                <span class="text-body-2">端口:</span>
+                <span class="text-body-2">{{ $t('tip.port') }} : </span>
                 <span class="text-subtitle-2">
                   {{ path.backend.service.port.name || path.backend.service.port.number }}
                 </span>
@@ -57,7 +57,7 @@
           <v-list-item-subtitle class="text-body-2 py-0 text-center">
             <v-btn color="primary" text @click="expandCard">
               <v-icon left small> mdi-plus </v-icon>
-              添加规则
+              {{ $root.$t('operate.add_c', [$t('tip.ingress_rule')]) }}
             </v-btn>
           </v-list-item-subtitle>
         </v-list-item-content>
@@ -67,8 +67,13 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
+
   export default {
     name: 'IngressRuleItem',
+    i18n: {
+      messages: messages,
+    },
     props: {
       rules: {
         type: Array,

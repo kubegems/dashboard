@@ -29,26 +29,32 @@
     <v-card-text :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
       <v-row>
         <v-col cols="6">
-          <BaseApexAreaChart id="load" label="name" :metrics="load" title="负载" type="" />
+          <BaseApexAreaChart id="load" label="name" :metrics="load" :title="$t('tip.load')" type="" />
         </v-col>
         <v-col cols="6">
-          <BaseApexAreaChart id="cpu" label="node" :metrics="cpu" title="CPU使用率" type="%" />
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="6">
-          <BaseApexAreaChart id="memory" label="node" :metrics="memory" title="内存使用率" type="%" />
-        </v-col>
-        <v-col cols="6">
-          <BaseApexAreaChart id="network" label="name" :metrics="network" title="网络带宽" type="network" />
+          <BaseApexAreaChart id="cpu" label="node" :metrics="cpu" :title="$t('tip.cpu_rate')" type="%" />
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="6">
-          <BaseApexAreaChart id="disk" label="device" :metrics="disk" title="磁盘剩余容量" type="storage" />
+          <BaseApexAreaChart id="memory" label="node" :metrics="memory" :title="$t('tip.memory_rate')" type="%" />
         </v-col>
         <v-col cols="6">
-          <BaseApexAreaChart id="diskiops" label="name" :metrics="diskiops" title="磁盘IOPS" type="" />
+          <BaseApexAreaChart id="network" label="name" :metrics="network" :title="$t('tip.network')" type="network" />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="6">
+          <BaseApexAreaChart
+            id="disk"
+            label="device"
+            :metrics="disk"
+            :title="$t('tip.remain_storage')"
+            type="storage"
+          />
+        </v-col>
+        <v-col cols="6">
+          <BaseApexAreaChart id="diskiops" label="name" :metrics="diskiops" :title="$t('tip.disk_iops')" type="" />
         </v-col>
       </v-row>
     </v-card-text>
@@ -58,6 +64,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import {
@@ -75,6 +82,9 @@
 
   export default {
     name: 'NodeMonitor',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BasePermission, BaseResource],
     props: {
       item: {
@@ -138,21 +148,21 @@
             query: NODE_LOAD1_PROMQL.replaceAll('$1', this.item.metadata.name),
           }),
         );
-        if (data1?.length > 0) data1[0].metric['name'] = '1分钟负载';
+        if (data1?.length > 0) data1[0].metric['name'] = this.$t('tip.load_1');
         const data2 = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, {
             query: NODE_LOAD5_PROMQL.replaceAll('$1', this.item.metadata.name),
           }),
         );
-        if (data2?.length > 0) data2[0].metric['name'] = '5分钟负载';
+        if (data2?.length > 0) data2[0].metric['name'] = this.$t('tip.load_5');
         const data3 = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, {
             query: NODE_LOAD15_PROMQL.replaceAll('$1', this.item.metadata.name),
           }),
         );
-        if (data3?.length > 0) data3[0].metric['name'] = '15分钟负载';
+        if (data3?.length > 0) data3[0].metric['name'] = this.$t('tip.load_15');
         let data = [];
         if (data1) data = data.concat(data1);
         if (data2) data = data.concat(data2);
@@ -184,14 +194,14 @@
             query: NODE_NETWORK_IN_PROMQL.replaceAll('$1', this.item.metadata.name),
           }),
         );
-        if (data1?.length > 0) data1[0].metric['name'] = '入口流量';
+        if (data1?.length > 0) data1[0].metric['name'] = this.$t('tip.in_traffc');
         const data2 = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, {
             query: NODE_NETWORK_OUT_PROMQL.replaceAll('$1', this.item.metadata.name),
           }),
         );
-        if (data2?.length > 0) data2[0].metric['name'] = '出口流量';
+        if (data2?.length > 0) data2[0].metric['name'] = this.$t('tip.out_traffc');
         let data = [];
         if (data1) data = data.concat(data1);
         if (data2) data = data.concat(data2);
@@ -213,14 +223,14 @@
             query: NODE_DISK_WRITE_IOPS_PROMQL.replaceAll('$1', this.item.metadata.name),
           }),
         );
-        if (data1?.length > 0) data1[0].metric['name'] = '写入IOPS';
+        if (data1?.length > 0) data1[0].metric['name'] = this.$t('tip.write_iops');
         const data2 = await this.m_permission_matrix(
           this.ThisCluster,
           Object.assign(this.params, {
             query: NODE_DISK_READ_IOPS_PROMQL.replaceAll('$1', this.item.metadata.name),
           }),
         );
-        if (data2?.length > 0) data2[0].metric['name'] = '读取IOPS';
+        if (data2?.length > 0) data2[0].metric['name'] = this.$t('tip.read_iops');
         let data = [];
         if (data1) data = data.concat(data1);
         if (data2) data = data.concat(data2);

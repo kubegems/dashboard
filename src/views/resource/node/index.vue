@@ -21,7 +21,7 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :default="{ items: [], text: '节点名称', value: 'search' }"
+          :default="{ items: [], text: $t('filter.node_name'), value: 'search' }"
           :filters="filters"
           @refresh="m_filter_list"
         />
@@ -34,7 +34,7 @@
         hide-default-footer
         :items="items"
         :items-per-page="params.size"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
       >
         <template #[`item.name`]="{ item }">
@@ -182,13 +182,19 @@
             <v-card>
               <v-card-text class="pa-2 text-center">
                 <v-flex v-if="Plugins && (Plugins['tke-gpu-manager'] || Plugins['nvidia-device-plugin'])">
-                  <v-btn color="primary" small text @click="gpuSchedule(item)"> GPU调度 </v-btn>
+                  <v-btn color="primary" small text @click="gpuSchedule(item)">
+                    {{ $t('operate.gpu_schedule') }}
+                  </v-btn>
                 </v-flex>
                 <v-flex v-if="item.spec.unschedulable">
-                  <v-btn color="primary" small text @click="allowSchedule(item)"> 允许调度 </v-btn>
+                  <v-btn color="primary" small text @click="allowSchedule(item)">
+                    {{ $t('operate.allow_schedule') }}
+                  </v-btn>
                 </v-flex>
                 <v-flex v-else>
-                  <v-btn color="error" small text @click="stopSchedule(item)"> 停止调度 </v-btn>
+                  <v-btn color="error" small text @click="stopSchedule(item)">
+                    {{ $t('operate.stop_schedule') }}
+                  </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -215,6 +221,7 @@
   import { mapState } from 'vuex';
 
   import GpuScheduleForm from './components/GpuScheduleForm';
+  import messages from './i18n';
   import { getNodeList, patchCordonNode } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
@@ -229,42 +236,50 @@
 
   export default {
     name: 'Node',
+    i18n: {
+      messages: messages,
+    },
     components: {
       GpuScheduleForm,
     },
     mixins: [BaseFilter, BasePermission, BaseResource],
     data: () => ({
       items: [],
-      headers: [
-        { text: '主机名', value: 'name', align: 'start' },
-        { text: 'Ip', value: 'ip', align: 'start' },
-        { text: '状态', value: 'status', align: 'start', width: 150 },
-        { text: '角色', value: 'role', align: 'start' },
-        { text: '污点', value: 'taint', align: 'start' },
-        { text: '5分钟负载', value: 'load', align: 'start', width: 100 },
-        { text: 'CPU', value: 'cpu', align: 'start', width: 150 },
-        { text: '内存', value: 'memory', align: 'start', width: 150 },
-        { text: 'Pods', value: 'pod', align: 'start', width: 150 },
-        { text: '加入时间', value: 'createAt', align: 'start', width: 180 },
-        { text: '', value: 'action', align: 'center', width: 20 },
-      ],
       pageCount: 0,
       params: {
         page: 1,
         size: 10,
       },
-      filters: [{ text: '节点名称', value: 'search', items: [] }],
+
       interval: null,
     }),
     computed: {
       ...mapState(['JWT', 'Plugins']),
+      filters() {
+        return [{ text: this.$t('filter.node_name'), value: 'search', items: [] }];
+      },
+      headers() {
+        return [
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
+          { text: 'IP', value: 'ip', align: 'start' },
+          { text: this.$t('table.status'), value: 'status', align: 'start', width: 150 },
+          { text: this.$t('table.role'), value: 'role', align: 'start' },
+          { text: this.$t('table.taint'), value: 'taint', align: 'start' },
+          { text: this.$t('table.load'), value: 'load', align: 'start', width: 100 },
+          { text: this.$root.$t('resource.cpu'), value: 'cpu', align: 'start', width: 150 },
+          { text: this.$root.$t('resource.memory'), value: 'memory', align: 'start', width: 150 },
+          { text: this.$root.$t('resource.pod'), value: 'pod', align: 'start', width: 150 },
+          { text: this.$t('table.join_at'), value: 'createAt', align: 'start', width: 180 },
+          { text: '', value: 'action', align: 'center', width: 20 },
+        ];
+      },
     },
     mounted() {
       if (this.JWT) {
         this.$nextTick(() => {
           if (this.ThisCluster === '') {
             this.$store.commit('SET_SNACKBAR', {
-              text: `请创建或选择集群`,
+              text: this.$root.$t('tip.select_cluster'),
               color: 'warning',
             });
             return;
@@ -380,9 +395,9 @@
       },
       stopSchedule(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: '停止调度节点',
+          title: this.$t('operate.stop_schedule'),
           content: {
-            text: `停止调度节点 ${item.metadata.name}`,
+            text: `${this.$t('operate.stop_schedule')} ${item.metadata.name}`,
             type: 'confirm',
           },
           param: { item },
@@ -396,9 +411,9 @@
       },
       allowSchedule(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: '允许调度节点',
+          title: this.$t('operate.allow_schedule'),
           content: {
-            text: `允许调度节点 ${item.metadata.name}`,
+            text: `${this.$t('operate.allow_schedule')} ${item.metadata.name}`,
             type: 'confirm',
           },
           param: { item },

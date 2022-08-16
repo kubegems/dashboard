@@ -15,12 +15,20 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-dns" title="创建服务" :width="1000" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-dns"
+    :title="$root.$t('operate.create_c', [$root.$t('resource.service')])"
+    :width="1000"
+    @reset="reset"
+  >
     <template #content>
       <component :is="formComponent" :ref="formComponent" title="Service" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addService"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addService">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
     <template #header-action>
       <v-switch
@@ -43,6 +51,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import ServiceBaseForm from './ServiceBaseForm';
   import { postAddService } from '@/api';
   import BaseResource from '@/mixins/resource';
@@ -51,6 +60,9 @@
 
   export default {
     name: 'AddService',
+    i18n: {
+      messages: messages,
+    },
     components: {
       ServiceBaseForm,
     },
@@ -74,7 +86,7 @@
         }
         if (!this.$refs[this.formComponent].checkSaved()) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请保存数据',
+            text: this.$root.$t('tip.save_data'),
             color: 'warning',
           });
           return;
@@ -101,7 +113,7 @@
             data.spec.type !== 'ExternalName'
           ) {
             this.$store.commit('SET_SNACKBAR', {
-              text: '请添加端口配置',
+              text: this.$t('tip.add_port_tip'),
               color: 'warning',
             });
             return;

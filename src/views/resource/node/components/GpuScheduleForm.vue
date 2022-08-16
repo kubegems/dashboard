@@ -15,9 +15,9 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-tag-plus" title="节点GPU调度" :width="500" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-tag-plus" :title="$t('tip.schedule')" :width="500" @reset="reset">
     <template #content>
-      <BaseSubTitle title="调度定义" />
+      <BaseSubTitle :title="$root.$t('form.definition', [$t('tip.schedule')])" />
       <v-card-text class="px-2 py-0">
         <v-list dense>
           <v-list-item-group active-class="primary--text" multiple>
@@ -36,7 +36,7 @@
                 <v-checkbox v-model="nvidia" class="ml-3" hide-details>
                   <template #label>
                     <BaseLogo icon-name="nvidia" :width="28" />
-                    <span class="mx-2"> Nvidia GPU驱动 </span>
+                    <span class="mx-2"> {{ $t('tip.nvidia') }} </span>
                   </template>
                 </v-checkbox>
               </v-list-item-content>
@@ -46,7 +46,9 @@
       </v-card-text>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="gpuSchedule"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="gpuSchedule">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>
@@ -54,12 +56,16 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import { patchMetadataNode } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'GpuScheduleForm',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     data: () => ({
       dialog: false,

@@ -15,7 +15,13 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-repeat-once" title="更新任务" :width="1000" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-repeat-once"
+    :title="$root.$t('operate.update_c', [$root.$t('resource.job')])"
+    :width="1000"
+    @reset="reset"
+  >
     <template #content>
       <component
         :is="formComponent"
@@ -36,7 +42,7 @@
         text
         @click="updateJob"
       >
-        确定
+        {{ $root.$t('operate.confirm') }}
       </v-btn>
       <v-btn
         v-if="step >= 0 && step < totalStep - 1 && formComponent !== 'BaseYamlForm'"
@@ -45,7 +51,7 @@
         text
         @click="nextStep"
       >
-        下一步
+        {{ $root.$t('operate.next') }}
       </v-btn>
       <v-btn
         v-if="step > 0 && step <= totalStep - 1 && formComponent !== 'BaseYamlForm'"
@@ -54,7 +60,7 @@
         text
         @click="lastStep"
       >
-        上一步
+        {{ $root.$t('operate.previous') }}
       </v-btn>
     </template>
     <template #header-action>
@@ -78,6 +84,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import JobBaseForm from './JobBaseForm';
   import { getJobDetail, patchUpdateJob } from '@/api';
   import BaseResource from '@/mixins/resource';
@@ -86,6 +93,9 @@
 
   export default {
     name: 'UpdateJob',
+    i18n: {
+      messages: messages,
+    },
     components: {
       JobBaseForm,
     },
@@ -159,7 +169,7 @@
         }
         if (!this.$refs[this.formComponent].checkSaved()) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请保存数据',
+            text: this.$root.$t('tip.save_data'),
             color: 'warning',
           });
           return;
@@ -178,7 +188,7 @@
         }
         if (!this.$refs[this.formComponent].checkSaved()) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请保存数据',
+            text: this.$root.$t('tip.save_data'),
             color: 'warning',
           });
           return;
@@ -191,7 +201,7 @@
               (data.spec.template.spec.containers && data.spec.template.spec.containers.length === 0))
           ) {
             this.$store.commit('SET_SNACKBAR', {
-              text: '请添加容器镜像',
+              text: this.$t('tip.add_image'),
               color: 'warning',
             });
             return;

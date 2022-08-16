@@ -51,11 +51,11 @@
                   :key="index"
                   class="text-body-2 text-center font-weight-medium mx-2"
                   link
-                  :style="{ color: ver === selectVersion ? `#1e88e5 !important` : `` }"
+                  :style="{ color: ver.name === selectVersion ? `#1e88e5 !important` : `` }"
                   @click="setVersion(ver)"
                 >
                   <v-list-item-content>
-                    <span>{{ ver }}</span>
+                    <span>{{ ver.name }}</span>
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
@@ -86,7 +86,7 @@
       versions: {
         handler(newValue) {
           if (newValue && newValue.length > 0) {
-            this.selectVersion = newValue[0];
+            this.selectVersion = newValue[0]?.name;
             this.$emit('change', this.selectVersion);
             this.$emit('input', this.selectVersion);
           }
@@ -104,7 +104,7 @@
     },
     methods: {
       setVersion(ver) {
-        this.selectVersion = ver;
+        this.selectVersion = ver?.name;
         this.$emit('change', this.selectVersion);
         this.$emit('input', this.selectVersion);
       },

@@ -1,0 +1,27 @@
+{
+  "filter": {
+    "ingress_name": "路由名称"
+  },
+  "table": {
+    "name": "名称",
+    "address": "访问地址"
+  },
+  "tip": {
+    "gateway_not_found": "找不到对应网关",
+    "ingress_rule": "路由规则",
+    "gateway": "声明网关",
+    "protocol": "协议",
+    "annotation": "注解",
+    "random_domain": "随机域名",
+    "path": "路径",
+    "port_number": "端口号",
+    "port_name": "端口名",
+    "port": "端口",
+    "no_random_domain": "暂无可生成的随机域名",
+    "leave_1_rule": "至少保留一项路由规则",
+    "auto_domain": "自动生成域名"
+  },
+  "operate": {
+    "add_path": "添加Path"
+  }
+}

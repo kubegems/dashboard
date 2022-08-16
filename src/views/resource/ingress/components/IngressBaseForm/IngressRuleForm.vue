@@ -22,21 +22,21 @@
           <template #action>
             <v-btn class="float-right mr-2" color="primary" small text @click="addPath">
               <v-icon left small> mdi-plus </v-icon>
-              添加Path
+              {{ $t('operate.add_path') }}
             </v-btn>
           </template>
         </BaseSubTitle>
         <v-card-text class="pa-0">
           <v-sheet class="pt-2 px-2">
             <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width">
-              <span>规则定义</span>
+              <span>{{ $root.$t('form.definition', [$t('tip.ingress_rule')]) }}</span>
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-text-field v-model="ruler.host" class="my-0" label="域名" :rules="rulerRules.hostRule">
                 <template #append>
                   <v-btn class="mt-n1" color="primary" small text @click="randomHost">
                     <v-icon left small> mdi-all-inclusive </v-icon>
-                    随机域名
+                    {{ $t('tip.random_domain') }}
                   </v-btn>
                 </template>
               </v-text-field>
@@ -48,8 +48,8 @@
                 color="primary"
                 hide-selected
                 :items="m_select_secretItems"
-                label="密钥"
-                no-data-text="暂无可选数据"
+                :label="$root.$t('resource.secret')"
+                :no-data-text="$root.$t('data.no_data')"
                 :rules="rulerRules.secretNameRule"
                 @focus="onSecretSelectFocus(ThisCluster, obj.metadata.namespace, 'kubernetes.io/tls')"
               >
@@ -65,13 +65,13 @@
 
           <v-sheet v-for="(item, index) in ruler.paths" :key="index" class="px-2">
             <v-flex class="float-left text-subtitle-2 pt-5 py-1 primary--text kubegems__min-width">
-              路径{{ index + 1 }}
+              {{ $t('tip.path') }}{{ index + 1 }}
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-text-field
                 v-model="ruler.paths[index].path"
                 class="my-0"
-                label="路径"
+                :label="$t('tip.path')"
                 required
                 :rules="rulerRules.pathsRule[index].pathRule"
               />
@@ -83,8 +83,8 @@
                 color="primary"
                 hide-selected
                 :items="pathTypeItems"
-                label="pathType"
-                no-data-text="暂无可选数据"
+                label="PathType"
+                :no-data-text="$root.$t('data.no_data')"
                 :rules="rulerRules.pathsRule[index].serviceNameRule"
               >
                 <template #selection="{ item }">
@@ -102,8 +102,8 @@
                 color="primary"
                 hide-selected
                 :items="m_select_serviceItems"
-                label="服务"
-                no-data-text="暂无可选数据"
+                :label="$root.$t('resource.service')"
+                :no-data-text="$root.$t('data.no_data')"
                 :rules="rulerRules.pathsRule[index].serviceNameRule"
                 @focus="onServiceSelectFocus(ThisCluster, obj.metadata.namespace)"
               >
@@ -130,7 +130,7 @@
                   >
                     <template #activator="{ on }">
                       <v-chip class="primary--text float-left mt-3 font-weight-medium" color="white" label v-on="on">
-                        {{ ruler.paths[index].portType === 'name' ? '端口名' : '端口号' }}
+                        {{ ruler.paths[index].portType === 'name' ? $t('tip.port_name') : $t('tip.port_number') }}
                         <v-icon v-if="ruler.paths[index].portTypeMenu" right small> mdi-chevron-up </v-icon>
                         <v-icon v-else right small> mdi-chevron-down </v-icon>
                       </v-chip>
@@ -141,8 +141,8 @@
                         {
                           text: 'portType',
                           values: [
-                            { text: '端口名', value: 'name' },
-                            { text: '端口号', value: 'number' },
+                            { text: $t('tip.port_name'), value: 'name' },
+                            { text: $t('tip.port_number'), value: 'number' },
                           ],
                         },
                       ]"
@@ -191,8 +191,8 @@
                             }).ports
                         : []
                     "
-                    label="端口"
-                    no-data-text="暂无可选数据"
+                    :label="$t('tip.port')"
+                    :no-data-text="$root.$t('data.no_data')"
                     :rules="rulerRules.pathsRule[index].servicePortRule"
                   >
                     <template #selection="{ item }">
@@ -212,8 +212,8 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
-          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> {{ $root.$t('operate.cancel') }} </v-btn>
+          <v-btn color="primary" small text @click="addData"> {{ $root.$t('operate.save') }} </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -221,6 +221,7 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { deepCopy, randomString } from '@/utils/helpers';
@@ -228,6 +229,9 @@
 
   export default {
     name: 'IngressRuleForm',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource, BaseSelect],
     props: {
       annotations: {
@@ -319,7 +323,7 @@
       randomHost() {
         if (!this.domain) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '暂无可生成的随机域名',
+            text: this.$t('tip.no_random_domain'),
             color: 'warning',
           });
           return;
@@ -345,7 +349,7 @@
       removePtah(index) {
         if (this.ruler.paths.length === 1) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '至少保留一项路由规则',
+            text: this.$t('tip.leave_1_rule'),
             color: 'warning',
           });
           return;
@@ -386,7 +390,7 @@
             }
           });
           // 域名为空时后端才会自动生成
-          if (this.ruler.host === '自动生成域名') {
+          if (this.ruler.host === this.$t('tip.auto_domain')) {
             this.ruler.host = '';
           }
           if (this.hasTLS) {

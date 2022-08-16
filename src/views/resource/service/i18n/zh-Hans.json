@@ -1,0 +1,33 @@
+{
+  "filter": {
+    "service_name": "服务名称"
+  },
+  "table": {
+    "name": "名称",
+    "access_info": "访问信息",
+    "service_type": "服务类型(ExternalIp/LoadBalancerIp)"
+  },
+  "tip": {
+    "add_port_tip": "请添加端口配置",
+    "label": "匹配标签",
+    "type": "类型",
+    "service_port": "服务端口",
+    "container_port": "容器端口",
+    "host_port": "主机端口",
+    "link_workload": "关联工作负载",
+    "access_type": "访问类型",
+    "extend_access": "外部访问",
+    "keep_alive": "会话保持(秒)",
+    "port_config": "端口配置",
+    "port": "端口",
+    "annotation": "注解",
+    "vip": "集群内部IP访问(VirtualIP)",
+    "headless": "通过服务后端EndpointIP访问(Headless)",
+    "no_access": "禁止访问",
+    "protocol": "应用协议"
+  },
+  "form": {
+    "name_rule": "名称格式错误(<protocol>[-<suffix>])",
+    "limit_max_rule": "超出最大限制"
+  }
+}

@@ -18,7 +18,7 @@
   <v-flex>
     <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
       <v-flex :class="expand ? 'kubegems__overlay' : ''" />
-      <BaseSubTitle title="服务定义" />
+      <BaseSubTitle :title="$root.$t('from.definition', [$root.$t('resource.service')])" />
       <v-card-text class="pa-2">
         <v-row v-if="manifest">
           <v-col cols="6">
@@ -28,8 +28,8 @@
               color="primary"
               hide-selected
               :items="kinds"
-              label="资源"
-              no-data-text="暂无可选数据"
+              :label="$root.$t('resource.resource')"
+              :no-data-text="$root.$t('data.no_data')"
               :readonly="edit"
               :rules="objRules.kindRule"
               @change="onKindChange"
@@ -47,7 +47,7 @@
             <v-text-field
               v-model="obj.metadata.name"
               class="my-0"
-              label="名称"
+              :label="$t('table.name')"
               :readonly="edit"
               required
               :rules="objRules.nameRule"
@@ -60,8 +60,8 @@
               color="primary"
               hide-selected
               :items="m_select_namespaceItems"
-              label="命名空间"
-              no-data-text="暂无可选数据"
+              :label="$root.$t('resource.namespace')"
+              :no-data-text="$root.$t('data.no_data')"
               :readonly="edit"
               :rules="objRules.namespaceRule"
               @focus="onNamespaceSelectFocus(ThisCluster)"
@@ -80,8 +80,8 @@
               color="primary"
               hide-selected
               :items="workloads"
-              label="关联工作负载"
-              no-data-text="暂无可选数据"
+              :label="$t('tip.link_workload')"
+              :no-data-text="$root.$t('data.no_data')"
               :rules="objRules.selectorRule"
               @change="onWorkloadSelectorChange"
               @focus="onRelatedWorkloadSelectFocus"
@@ -100,8 +100,8 @@
               color="primary"
               hide-selected
               :items="types"
-              label="访问类型"
-              no-data-text="暂无可选数据"
+              :label="$t('tip.access_type')"
+              :no-data-text="$root.$t('data.no_data')"
               :rules="objRules.clusterIPRule"
             >
               <template #selection="{ item }">
@@ -118,8 +118,8 @@
               color="primary"
               hide-selected
               :items="externaltypes"
-              label="外部访问"
-              no-data-text="暂无可选数据"
+              :label="$t('tip.extend_access')"
+              :no-data-text="$root.$t('data.no_data')"
               :rules="objRules.typeRule"
               @change="onTypeChange"
             >
@@ -144,7 +144,7 @@
               v-if="obj.spec.sessionAffinityConfig && obj.spec.sessionAffinityConfig.clientIP"
               v-model="obj.spec.sessionAffinityConfig.clientIP.timeoutSeconds"
               class="my-0"
-              label="会话保持(秒)"
+              :label="$t('tip.keep_alive')"
               required
               :rules="objRules.sessionRule"
             />
@@ -159,7 +159,7 @@
           @addData="addPortData"
           @closeOverlay="closeExpand"
         />
-        <BaseSubTitle title="端口配置" />
+        <BaseSubTitle :title="$t('tip.port_config')" />
         <v-card-text class="pa-2">
           <ServicePortItem
             :ports="obj.spec.ports"
@@ -171,7 +171,7 @@
       </template>
 
       <LabelForm ref="labelForm" :data="obj.metadata.labels" @addData="addLabelData" @closeOverlay="closeExpand" />
-      <BaseSubTitle title="标签" />
+      <BaseSubTitle :title="$t('tip.label')" />
       <v-card-text class="pa-2">
         <LabelItem
           :labels="obj.metadata.labels"
@@ -189,7 +189,7 @@
         @closeOverlay="closeExpand"
       />
       <v-flex v-if="obj.spec.type === 'LoadBalancer'">
-        <BaseSubTitle title="注解" />
+        <BaseSubTitle :title="$t('tip.annotation')" />
         <v-card-text class="pa-2">
           <AnnotationItem
             :annotations="obj.metadata.annotations"
@@ -207,6 +207,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import ServicePortForm from './ServicePortForm';
   import ServicePortItem from './ServicePortItem';
   import { getAppResourceFileMetas } from '@/api';
@@ -221,6 +222,9 @@
 
   export default {
     name: 'ServiceBaseForm',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AnnotationForm,
       AnnotationItem,
@@ -262,16 +266,6 @@
       resourceKind: '',
       workloads: [],
       selector: '',
-      types: [
-        { text: '集群内部IP访问(VirtualIP)', value: null },
-        { text: '通过服务后端EndpointIP访问(Headless)', value: 'None' },
-      ],
-      externaltypes: [
-        { text: 'LoadBalancer', value: 'LoadBalancer' },
-        { text: 'NodePort', value: 'NodePort' },
-        { text: 'ExternalName', value: 'ExternalName' },
-        { text: '禁止访问', value: 'ClusterIP' },
-      ],
       obj: {
         apiVersion: 'v1',
         kind: 'Service',
@@ -306,6 +300,20 @@
           kindRule: [required],
           externalNameRule: [required],
         };
+      },
+      types() {
+        return [
+          { text: this.$t('tip.vip'), value: null },
+          { text: this.$t('tip.headless'), value: 'None' },
+        ];
+      },
+      externaltypes() {
+        return [
+          { text: 'LoadBalancer', value: 'LoadBalancer' },
+          { text: 'NodePort', value: 'NodePort' },
+          { text: 'ExternalName', value: 'ExternalName' },
+          { text: this.$t('tip.no_access'), value: 'ClusterIP' },
+        ];
       },
     },
     watch: {
@@ -350,10 +358,10 @@
           this.selector = this.getWorkloadSelectIndex();
           this.types = [
             {
-              text: '集群内部IP访问(VirtualIP)',
+              text: this.$t('tip.vip'),
               value: this.obj.spec.clusterIP === 'None' ? null : this.obj.spec.clusterIP,
             },
-            { text: '通过服务后端EndpointIP访问(Headless)', value: 'None' },
+            { text: this.$t('tip.headless'), value: 'None' },
           ];
         });
       },

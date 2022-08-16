@@ -18,16 +18,21 @@
   <BaseDialog
     v-model="dialog"
     icon="mdi-wrench"
-    :title="isCreate ? `创建配置项` : `编辑配置项`"
+    :title="
+      isCreate ? $root.$t('operate.create_c', [$t('tip.config')]) : $root.$t('operate.update_c', [$t('tip.config')])
+    "
     :width="1000"
     @reset="reset"
   >
     <template #action>
-      <v-btn class="float-right" color="primary" text @click="submit"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" text @click="submit"> {{ $root.$t('operate.confirm') }} </v-btn>
     </template>
     <template #header-action>
       <div class="white--text header ml-3">
-        租户:{{ editItem.tenant }} 项目:{{ editItem.project }} 环境:{{ editItem.environment }}
+        {{ $root.$t('resource.tenant') }}:{{ editItem.tenant }} {{ $root.$t('resource.project') }}:{{
+          editItem.project
+        }}
+        {{ $root.$t('resource.environment') }}:{{ editItem.environment }}
       </div>
     </template>
     <template #content>
@@ -50,10 +55,10 @@
                 </v-radio-group>
               </v-col>
               <v-col v-if="more" class="py-0" cols="4">
-                <v-text-field v-model="editItem.application" label="应用" />
+                <v-text-field v-model="editItem.application" :label="$t('table.app')" />
               </v-col>
               <v-col class="py-0" cols="2">
-                <v-switch v-model="more" class="mt-5" label="更多配置" />
+                <v-switch v-model="more" class="mt-5" :label="$t('tip.more')" />
               </v-col>
             </v-row>
           </v-form>
@@ -74,10 +79,14 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'ConfigeEditor',
+    i18n: {
+      messages: messages,
+    },
     props: {
       item: {
         type: Object,

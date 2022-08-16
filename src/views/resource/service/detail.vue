@@ -33,10 +33,10 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" small text @click="updateService"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateService"> {{ $root.$t('operate.edit') }} </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="removeService"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeService"> {{ $root.$t('operate.delete') }} </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -127,12 +127,12 @@
       },
       tabItems() {
         const items = [
-          { text: '资源信息', value: 'ResourceInfo' },
-          { text: '元数据', value: 'Metadata' },
-          { text: '事件', value: 'EventList' },
+          { text: this.$root.$t('tab.resource_info'), value: 'ResourceInfo' },
+          { text: this.$root.$t('tab.metadata'), value: 'Metadata' },
+          { text: this.$root.$t('tab.event'), value: 'EventList' },
         ];
         if (this.service && this.service.spec.type !== 'ExternalName') {
-          items.splice(2, 0, { text: '容器组', value: 'PodList' });
+          items.splice(2, 0, { text: this.$root.$t('tab.pod'), value: 'PodList' });
         }
         return items;
       },
@@ -159,9 +159,9 @@
       removeService() {
         const item = this.service;
         this.$store.commit('SET_CONFIRM', {
-          title: `删除服务`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.service')]),
           content: {
-            text: `删除服务 ${item.metadata.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.service')])} ${item.metadata.name}`,
             type: 'delete',
             name: item.metadata.name,
           },

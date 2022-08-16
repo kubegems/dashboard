@@ -1,0 +1,57 @@
+{
+  "filter": {
+    "node_name": "节点名称"
+  },
+  "operate": {
+    "gpu_schedule": "GPU调度",
+    "allow_schedule": "允许调度",
+    "stop_schedule": "停止调度",
+    "hide": "折叠",
+    "show": "显示"
+  },
+  "table": {
+    "name": "主机名",
+    "status": "状态",
+    "role": "角色",
+    "taint": "污点",
+    "load": "5分钟负载",
+    "join_at": "加入时间"
+  },
+  "tab": {
+    "taint": "亲和性"
+  },
+  "tip": {
+    "load": "负载",
+    "cpu_rate": "CPU使用率",
+    "memory_rate": "内存使用率",
+    "network": "网络带宽",
+    "remain_storage": "磁盘剩余容量",
+    "disk_iops": "磁盘IOPS",
+    "load_1": "1分钟负载",
+    "load_5": "5分钟负载",
+    "load_15": "15分钟负载",
+    "in_traffc": "入口流量",
+    "out_traffic": "出口流量",
+    "write_iops": "写入IOPS",
+    "read_iops": "读取IOPS",
+    "resource_statics": "资源统计",
+    "architecture": "架构",
+    "runtime_version": "容器运行时版本",
+    "kernel_version": "内核版本",
+    "kubeproxy_version": "kubeProxy版本",
+    "kubelet_version": "kubelet版本",
+    "os": "操作系统",
+    "os_version": "操作系统版本",
+    "system_uuid": "系统UUID",
+    "image_count": "镜像数量",
+    "volume": "卷",
+    "condition": "状况",
+    "last_update_at": "上次更新时间",
+    "nvidia": "Nvidia GPU驱动",
+    "schedule": "节点调度",
+    "policy": "策略",
+    "no_schedule": "不允许调度 (NoSchedule)",
+    "prefer_no_schedule": "尽量不调度 (PreferNoSchedule)",
+    "no_execute": "不允许并驱逐已有容器组 (NoExecute)"
+  }
+}

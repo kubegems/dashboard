@@ -15,14 +15,14 @@
 -->
 
 <template>
-  <BasePanel v-model="panel" icon="mdi-wrench" title="监听列表">
+  <BasePanel v-model="panel" icon="mdi-wrench" :title="$t('tip.listen_list')">
     <template #content>
       <v-data-table
         :headers="headers"
         hide-default-footer
         :items="listeners"
         :items-per-page="params.size"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
         @page-count="pageCount = $event"
       />
@@ -41,10 +41,14 @@
 </template>
 
 <script>
+  import messages from '../i18n';
   import { configListener } from '@/api';
 
   export default {
     name: 'ConfigListener',
+    i18n: {
+      messages: messages,
+    },
     data() {
       return {
         panel: false,
