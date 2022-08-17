@@ -78,8 +78,8 @@
     GPU_POWER,
     GPU_TEMP,
     GPU_USAGE,
-    WORKLOAD_CPU_USAGE_CORE_PROMQL,
-    WORKLOAD_MEMORY_USAGE_BYTE_PROMQL,
+    MODEL_WORKLOAD_CPU_USAGE_CORE_PROMQL,
+    MODEL_WORKLOAD_MEMORY_USAGE_BYTE_PROMQL,
   } from '@/utils/prometheus';
 
   export default {
@@ -163,25 +163,26 @@
       async loadData() {
         this.modelCPUUsage();
         this.modelMemoryUsage();
-
-        this.modelGPUUsage();
-        this.modelGpuMemoryUsage();
-        this.modelGPUTemp();
-        this.modelGpuPower();
+        if (this.hasGpu) {
+          this.modelGPUUsage();
+          this.modelGpuMemoryUsage();
+          this.modelGPUTemp();
+          this.modelGpuPower();
+        }
       },
       async modelCPUUsage() {
-        const query = WORKLOAD_CPU_USAGE_CORE_PROMQL.replaceAll(
-          '$1',
-          `Deployment:${this.item.metadata.name}`,
-        ).replaceAll('$2', this.item.metadata.namespace);
+        const query = MODEL_WORKLOAD_CPU_USAGE_CORE_PROMQL.replaceAll('$1', this.pods).replaceAll(
+          '$2',
+          this.item.metadata.namespace,
+        );
         const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
         if (data) this.cpu = data;
       },
       async modelMemoryUsage() {
-        const query = WORKLOAD_MEMORY_USAGE_BYTE_PROMQL.replaceAll(
-          '$1',
-          `Deployment:${this.item.metadata.name}`,
-        ).replaceAll('$2', this.item.metadata.namespace);
+        const query = MODEL_WORKLOAD_MEMORY_USAGE_BYTE_PROMQL.replaceAll('$1', this.pods).replaceAll(
+          '$2',
+          this.item.metadata.namespace,
+        );
         const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
         if (data) this.memory = data;
       },
@@ -189,22 +190,22 @@
       async modelGPUUsage() {
         const query = GPU_USAGE.replaceAll('$1', this.pods).replaceAll('$2', this.item.metadata.namespace);
         const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
-        if (data) this.cpu = data;
+        if (data) this.gpu = data;
       },
       async modelGpuMemoryUsage() {
         const query = GPU_MEMORY_USAGE.replaceAll('$1', this.pods).replaceAll('$2', this.item.metadata.namespace);
         const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
-        if (data) this.memory = data;
+        if (data) this.gpuMemory = data;
       },
       async modelGPUTemp() {
         const query = GPU_TEMP.replaceAll('$1', this.pods).replaceAll('$2', this.item.metadata.namespace);
         const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
-        if (data) this.cpu = data;
+        if (data) this.gpuTemp = data;
       },
       async modelGpuPower() {
         const query = GPU_POWER.replaceAll('$1', this.pods).replaceAll('$2', this.item.metadata.namespace);
         const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
-        if (data) this.memory = data;
+        if (data) this.gpuPower = data;
       },
       onDatetimeChange() {
         this.params.start = this.$moment(this.date[0]).utc().format();
