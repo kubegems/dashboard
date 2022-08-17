@@ -15,13 +15,13 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-cogs" title="弹性伸缩设置" :width="500" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-cogs" :title="$t('operate.auto_scale_policy')" :width="500" @reset="reset">
     <template #content>
-      <BaseSubTitle title="弹性伸缩定义">
+      <BaseSubTitle :title="$root.$t('form.definition', [$t('operate.auto_scale_policy')])">
         <template #action>
           <v-btn v-if="obj.exist" class="float-right mr-2" color="primary" small text @click="removeHPA">
             <v-icon left small> mdi-delete </v-icon>
-            清除弹性伸缩策略
+            {{ $t('operate.clear_c', [$t('operate.auto_scale_policy')]) }}
           </v-btn>
         </template>
       </BaseSubTitle>
@@ -31,21 +31,22 @@
             <v-text-field v-model="obj.cpu" class="my-0" required :rules="objRules.cpuRules" suffix="%">
               <template #label>
                 <div>
-                  最大CPU使用率 <span v-if="obj.exist" class="error--text">({{ getCpuTip() }})</span>
+                  {{ $t('tip.cpu_max_used') }} <span v-if="obj.exist" class="error--text">({{ getCpuTip() }})</span>
                 </div>
               </template>
             </v-text-field>
             <v-text-field v-model="obj.memory" class="my-0" required :rules="objRules.memoryRules" suffix="%">
               <template #label>
                 <div>
-                  最大内存使用率 <span v-if="obj.exist" class="error--text">({{ getMemoryTip() }})</span>
+                  {{ $t('tip.memory_max_used') }}
+                  <span v-if="obj.exist" class="error--text">({{ getMemoryTip() }})</span>
                 </div>
               </template>
             </v-text-field>
             <v-text-field
               v-model="obj.min_replicas"
               class="my-0"
-              label="最小副本数"
+              :label="$t('tip.min_replicas')"
               required
               :rules="objRules.min_replicasRules"
               type="number"
@@ -53,7 +54,7 @@
             <v-text-field
               v-model="obj.max_replicas"
               class="my-0"
-              label="最大副本数"
+              :label="$t('tip.max_replicas')"
               required
               :rules="objRules.max_replicasRules"
               type="number"
@@ -63,7 +64,9 @@
       </v-card-text>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="setHPA"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="setHPA">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>
@@ -71,11 +74,15 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import { deleteHpa, getHpaDetail, postSetHpa } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'HPAStrategy',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     props: {
       item: {
@@ -111,14 +118,14 @@
             (v) => {
               if (v !== '') {
                 if (!new RegExp('^\\d+$').test(v)) {
-                  return '数字格式错误';
+                  return this.$t('form.number_rule');
                 } else {
-                  if (parseInt(v) < 0) return '小于最小限制';
-                  if (parseInt(v) > 100) return '大于最大限制';
+                  if (parseInt(v) < 0) return this.$t('form.limit_min_rule');
+                  if (parseInt(v) > 100) return this.$t('form.limit_max_rule');
                   return true;
                 }
               } else if (this.obj.cpu === '' && this.obj.memory === '') {
-                return '最大CPU使用率,最大内存使用率必填一项';
+                return this.$t('form.replicas_required_rule');
               }
               return true;
             },
@@ -127,22 +134,22 @@
             (v) => {
               if (v !== '') {
                 if (!new RegExp('^\\d+$').test(v)) {
-                  return '数字格式错误';
+                  return this.$t('form.number_rule');
                 } else {
-                  if (parseInt(v) < 0) return '小于最小限制';
-                  if (parseInt(v) > 100) return '大于最大限制';
+                  if (parseInt(v) < 0) return this.$t('form.limit_min_rule');
+                  if (parseInt(v) > 100) return this.$t('form.limit_max_rule');
                   return true;
                 }
               } else if (this.obj.cpu === '' && this.obj.memory === '') {
-                return '最大CPU使用率,最大内存使用率必填一项';
+                return this.$t('form.replicas_required_rule');
               }
               return true;
             },
           ],
-          min_replicasRules: [(v) => parseInt(v) >= 0 || '小于最小限制'],
+          min_replicasRules: [(v) => parseInt(v) >= 0 || this.$t('form.limit_min_rule')],
           max_replicasRules: [
-            (v) => parseInt(v) >= 0 || '小于最小限制',
-            (v) => parseInt(this.obj.min_replicas) < parseInt(v) || '最小副本数超过最大副本数',
+            (v) => parseInt(v) >= 0 || this.$t('form.limit_min_rule'),
+            (v) => parseInt(this.obj.min_replicas) < parseInt(v) || this.$t('form.min_gte_max_rule'),
           ],
         };
       },
@@ -182,8 +189,8 @@
       },
       async removeHPA() {
         this.$store.commit('SET_CONFIRM', {
-          title: '清除弹性伸缩策略',
-          content: { text: '清除弹性伸缩策略', type: 'confirm' },
+          title: this.$t('operate.clear_c', [this.$t('operate.auto_scale_policy')]),
+          content: { text: this.$t('operate.clear_c', [this.$t('operate.auto_scale_policy')]), type: 'confirm' },
           param: {},
           doFunc: async () => {
             if (this.obj.name.length > 0) {
@@ -211,18 +218,18 @@
       },
       getCpuTip() {
         if (this.obj.real_cpu === 0) {
-          return `未设置资源的resources,该设置无法生效`;
+          return this.$t('tip.not_effect');
         }
         if (parseFloat(this.obj.real_cpu) !== parseFloat(this.obj.cpu)) {
-          return `用户更改过资源的resources,真实值为${this.obj.real_cpu}%,请重新提交数据`;
+          return this.$t('tip.changed_resource_limit', [this.obj.real_cpu]);
         }
       },
       getMemoryTip() {
         if (this.obj.real_memory === 0) {
-          return `未设置资源的resources,该设置无法生效`;
+          return this.$t('tip.not_effect');
         }
         if (parseFloat(this.obj.real_memory) !== parseFloat(this.obj.memory)) {
-          return `用户更改过资源的resources,真实值为${this.obj.real_memory}%,请重新提交数据`;
+          return this.$t('tip.changed_resource_limit', [this.obj.real_memory]);
         }
       },
     },

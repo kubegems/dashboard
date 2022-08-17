@@ -140,14 +140,14 @@ const resource = {
     m_resource_checkDataWithNS(data, ns) {
       if (!(data && data.metadata)) {
         this.$store.commit('SET_SNACKBAR', {
-          text: '缺少元数据',
+          text: this.$root.$t('tip.missing_metadata'),
           color: 'warning',
         });
         return false;
       }
       if (!data.metadata.name) {
         this.$store.commit('SET_SNACKBAR', {
-          text: '缺少名称',
+          text: this.$root.$t('tip.missing_name'),
           color: 'warning',
         });
         return false;
@@ -157,7 +157,7 @@ const resource = {
       }
       if (!data.metadata.namespace) {
         this.$store.commit('SET_SNACKBAR', {
-          text: '缺少命名空间',
+          text: this.$root.$t('tip.missing_namespace'),
           color: 'warning',
         });
         return false;
@@ -173,14 +173,14 @@ const resource = {
     m_resource_checkDataWithOutNS(data) {
       if (!(data && data.metadata)) {
         this.$store.commit('SET_SNACKBAR', {
-          text: '缺少元数据',
+          text: this.$root.$t('tip.missing_metadata'),
           color: 'warning',
         });
         return false;
       }
       if (!data.metadata.name) {
         this.$store.commit('SET_SNACKBAR', {
-          text: '缺少名称',
+          text: this.$root.$t('tip.missing_name'),
           color: 'warning',
         });
         return false;
@@ -316,9 +316,9 @@ const resource = {
       const valid = validate(data);
       if (!valid) {
         this.$store.commit('SET_SNACKBAR', {
-          text: `不是正确的K8S yaml格式，请补充必要字段或填写正确的数据格式，错误提示：${validate.errors
+          text: `${this.$root.$t('tip.not_correct_yaml')} ${validate.errors
             .map((err) => {
-              return `路径${err.instancePath} ${err.message}`;
+              return `${this.$root.$t('tip.path')}${err.instancePath} ${err.message}`;
             })
             .join(',')}`,
           color: 'warning',

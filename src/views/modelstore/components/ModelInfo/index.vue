@@ -17,7 +17,7 @@
   <div :style="{ height: `${height}px`, overflowY: 'auto' }">
     <v-card v-if="item && item.recommentContent" :class="{ 'mb-3': true, 'mt-3': noVersion }" color="success" dark flat>
       <v-card-title>
-        <span class="text-body-1 font-weight-medium">推荐</span>
+        <span class="text-body-1 font-weight-medium">平台推荐</span>
       </v-card-title>
 
       <v-card-text class="text-subtitle-2 font-weight-medium">

@@ -44,7 +44,7 @@
           <v-list-item-subtitle class="text-body-2 py-0 text-center">
             <v-btn color="primary" text @click="expandCard">
               <v-icon left small> mdi-plus </v-icon>
-              添加Option
+              {{ $root.$t('operate.add_c', ['Option']) }}
             </v-btn>
           </v-list-item-subtitle>
         </v-list-item-content>

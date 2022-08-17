@@ -32,13 +32,13 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn color="error" small text @click="closeTemplateCard"> 取消 </v-btn>
-          <v-btn color="primary" small text @click="addTemplateData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeTemplateCard"> {{ $root.$t('operate.cancel') }} </v-btn>
+          <v-btn color="primary" small text @click="addTemplateData"> {{ $root.$t('operate.save') }} </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
     <template v-if="kind === 'StatefulSet'">
-      <BaseSubTitle title="存储卷模版" />
+      <BaseSubTitle :title="$t('tip.volume_template')" />
       <v-card-text class="pa-2">
         <VolumeClaimTemplateItem
           :containers="obj.spec.template.spec.containers"
@@ -55,7 +55,7 @@
           <template #action>
             <v-btn class="float-right mr-2" color="primary" small text @click="addItem">
               <v-icon left small> mdi-plus </v-icon>
-              添加特定键与路径
+              {{ $t('operate.add_key_path') }}
             </v-btn>
           </template>
         </BaseSubTitle>
@@ -63,7 +63,7 @@
           <v-form v-model="valid" lazy-validation @submit.prevent>
             <v-sheet class="pt-2 px-2">
               <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width">
-                <span>卷挂载定义</span>
+                <span>{{ $root.$t('form.definition', [$t('tip.volume_mount')]) }}</span>
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-autocomplete
@@ -72,8 +72,8 @@
                   color="primary"
                   hide-selected
                   :items="volumeTypes"
-                  label="类型"
-                  no-data-text="暂无可选数据"
+                  :label="$root.$t('resource.type')"
+                  :no-data-text="$root.$t('data.no_data')"
                   :readonly="componentEdit"
                 >
                   <template #selection="{ item }">
@@ -101,13 +101,13 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
-          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> {{ $root.$t('operate.cancel') }} </v-btn>
+          <v-btn color="primary" small text @click="addData"> {{ $root.$t('operate.save') }} </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
 
-    <BaseSubTitle title="存储卷" />
+    <BaseSubTitle :title="$root.$t('resource.persistentvolumeclaim')" />
     <v-card-text class="pa-2">
       <StorageMountItem
         :containers="obj.spec.template.spec.containers"
@@ -123,6 +123,7 @@
 </template>
 
 <script>
+  import messages from '../../../i18n';
   import StorageMountItem from './StorageMountItem';
   import ConfigMapMount from './volume_section/ConfigMapMount';
   import EmptyDirMount from './volume_section/EmptyDirMount';
@@ -137,6 +138,9 @@
 
   export default {
     name: 'StorageMount',
+    i18n: {
+      messages: messages,
+    },
     components: {
       ConfigMapMount,
       EmptyDirMount,
@@ -161,13 +165,6 @@
     data() {
       return {
         valid: false,
-        volumeTypes: [
-          { text: '存储卷', value: 'PersistentVolumeClaim' },
-          { text: 'HostPath', value: 'HostPath' },
-          { text: '配置', value: 'ConfigMap' },
-          { text: '密钥', value: 'Secret' },
-          { text: 'EmptyDir', value: 'EmptyDir' },
-        ],
         volumeType: null,
         volumeMountName: null,
         volume: null,
@@ -190,6 +187,17 @@
         volumeClaimTemplateComponent: '',
         template: null,
       };
+    },
+    computed: {
+      volumeTypes() {
+        return [
+          { text: this.$root.$t('resource.persistentvolumeclaim'), value: 'PersistentVolumeClaim' },
+          { text: 'HostPath', value: 'HostPath' },
+          { text: this.$root.$t('resource.configmap'), value: 'ConfigMap' },
+          { text: this.$root.$t('resource.secret'), value: 'Secret' },
+          { text: 'EmptyDir', value: 'EmptyDir' },
+        ];
+      },
     },
     methods: {
       async init(data) {
@@ -408,7 +416,7 @@
           this.expandCard(true);
         } else {
           this.$store.commit('SET_SNACKBAR', {
-            text: '未知的卷类型',
+            text: this.$t('tip.unknown_volume'),
             color: 'warning',
           });
         }

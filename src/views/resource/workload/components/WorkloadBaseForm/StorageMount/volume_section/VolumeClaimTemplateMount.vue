@@ -18,10 +18,16 @@
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
     <v-sheet class="pt-2 px-2">
       <v-flex class="float-left text-subtitle-2 pt-4 primary--text kubegems__min-width">
-        <span>模版定义</span>
+        <span>{{ $root.$t('form.definition', [$t('tip.template')]) }}</span>
       </v-flex>
       <v-flex class="float-left ml-2 kubegems__form-width">
-        <v-text-field v-model="obj.metadata.name" class="my-0" label="卷名称" required :rules="objRules.nameRule" />
+        <v-text-field
+          v-model="obj.metadata.name"
+          class="my-0"
+          :label="$t('tip.volume_name')"
+          required
+          :rules="objRules.nameRule"
+        />
       </v-flex>
       <div class="kubegems__clear-float" />
     </v-sheet>
@@ -35,8 +41,8 @@
           color="primary"
           hide-selected
           :items="storageClasses"
-          label="存储类型"
-          no-data-text="暂无可选数据"
+          :label="$root.$t('resource.storageclass')"
+          :no-data-text="$root.$t('data.no_data')"
           :rules="objRules.storageClassNameRule"
           @focus="onStorageClassSelectFocus"
         >
@@ -58,8 +64,8 @@
           color="primary"
           hide-selected
           :items="accessModes"
-          label="访问模式"
-          no-data-text="暂无可选数据"
+          :label="$t('tip.access_mode')"
+          :no-data-text="$root.$t('data.no_data')"
           :rules="objRules.accessModeRule"
         >
           <template #selection="{ item }">
@@ -73,7 +79,7 @@
         <v-text-field
           v-model="obj.spec.resources.requests.storage"
           class="my-0"
-          label="容量"
+          :label="$t('tip.capacity')"
           required
           :rules="objRules.storageRule"
         />
@@ -91,6 +97,7 @@
 </template>
 
 <script>
+  import messages from '../../../../i18n';
   import VolumeMount from './VolumeMount';
   import { getStorageClassList } from '@/api';
   import BaseResource from '@/mixins/resource';
@@ -99,6 +106,9 @@
 
   export default {
     name: 'VolumeClaimTemplateMount',
+    i18n: {
+      messages: messages,
+    },
     components: {
       VolumeMount,
     },
@@ -172,19 +182,19 @@
           const accessModes = [];
           modes.forEach((mode) => {
             if (mode === 'rwo') {
-              accessModes.push({ text: '单节点读写', value: 'ReadWriteOnce' });
+              accessModes.push({ text: this.$t('tip.rwo'), value: 'ReadWriteOnce' });
             } else if (mode === 'rox') {
-              accessModes.push({ text: '多节点只读', value: 'ReadOnlyMany' });
+              accessModes.push({ text: this.$t('tip.rox'), value: 'ReadOnlyMany' });
             } else if (mode === 'rwx') {
-              accessModes.push({ text: '多节点读写', value: 'ReadWriteMany' });
+              accessModes.push({ text: this.$t('tip.rwx'), value: 'ReadWriteMany' });
             }
           });
           return accessModes;
         } else {
           return [
-            { text: '单节点读写', value: 'ReadWriteOnce' },
-            { text: '多节点只读', value: 'ReadOnlyMany' },
-            { text: '多节点读写', value: 'ReadWriteMany' },
+            { text: this.$t('tip.rwo'), value: 'ReadWriteOnce' },
+            { text: this.$t('tip.rox'), value: 'ReadOnlyMany' },
+            { text: this.$t('tip.rwx'), value: 'ReadWriteMany' },
           ];
         }
       },

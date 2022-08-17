@@ -52,22 +52,24 @@
           <v-list-item-content v-for="(container, i) in containers" :key="`container${i}`" class="pb-4">
             <v-row v-if="container.volumeMounts && containerMap[container.name][item.name]">
               <v-col class="py-1" :cols="containerMap[container.name][item.name].subPath ? 3 : 4">
-                <span class="text-body-2">容器:</span>
+                <span class="text-body-2">{{ $root.$t('resource.container') }} : </span>
                 <span class="text-subtitle-2 ml-2">
                   {{ container.name }}
                 </span>
               </v-col>
               <v-col class="py-1" cols="5">
-                <span class="text-body-2">挂载:</span>
+                <span class="text-body-2">{{ $t('tip.mounted') }} : </span>
                 <span class="text-subtitle-2 ml-2">
                   {{ containerMap[container.name][item.name].mountPath }}
                 </span>
                 <span class="text-subtitle-2 ml-2">
-                  ({{ containerMap[container.name][item.name].readOnly ? '只读' : '读写' }})
+                  ({{
+                    containerMap[container.name][item.name].readOnly ? $t('status.read_only') : $t('status.read_write')
+                  }})
                 </span>
               </v-col>
               <v-col v-if="containerMap[container.name][item.name].subPath" class="py-1" cols="3">
-                <span class="text-body-2">子路径:</span>
+                <span class="text-body-2">{{ $t('tip.subpath') }} : </span>
                 <span class="text-subtitle-2 ml-2">
                   {{ containerMap[container.name][item.name].subPath }}
                 </span>
@@ -75,14 +77,14 @@
             </v-row>
             <v-row v-else>
               <v-col class="py-1" cols="4">
-                <span class="text-body-2">容器:</span>
+                <span class="text-body-2">{{ $root.$t('resource.container') }} : </span>
                 <span class="text-subtitle-2 ml-2">
                   {{ container.name }}
                 </span>
               </v-col>
               <v-col class="py-1" cols="5">
-                <span class="text-body-2">挂载:</span>
-                <span class="text-subtitle-2 ml-2">不挂载</span>
+                <span class="text-body-2">{{ $t('tip.mounted') }} : </span>
+                <span class="text-subtitle-2 ml-2">{{ $t('tip.unmounted') }}</span>
               </v-col>
             </v-row>
           </v-list-item-content>
@@ -90,20 +92,24 @@
             <v-list-item-content v-for="(container, i) in initContainers" :key="`initcontainer${i}`" class="pb-4">
               <v-row v-if="container.volumeMounts && initContainerMap[container.name][item.name]">
                 <v-col class="py-1" :cols="initContainerMap[container.name][item.name].subPath ? 3 : 4">
-                  <span class="text-body-2">容器:</span>
+                  <span class="text-body-2">{{ $root.$t('resource.container') }} : </span>
                   <span class="text-subtitle-2 ml-2"> {{ container.name }}(init) </span>
                 </v-col>
                 <v-col class="py-1" cols="5">
-                  <span class="text-body-2">挂载:</span>
+                  <span class="text-body-2">{{ $t('tip.mounted') }} : </span>
                   <span class="text-subtitle-2 ml-2">
                     {{ initContainerMap[container.name][item.name].mountPath }}
                   </span>
                   <span class="text-subtitle-2 ml-2">
-                    ({{ initContainerMap[container.name][item.name].readOnly ? '只读' : '读写' }})
+                    ({{
+                      initContainerMap[container.name][item.name].readOnly
+                        ? $t('status.read_only')
+                        : $t('status.read_write')
+                    }})
                   </span>
                 </v-col>
                 <v-col v-if="initContainerMap[container.name][item.name].subPath" class="py-1" cols="3">
-                  <span class="text-body-2">子路径:</span>
+                  <span class="text-body-2">{{ $t('tip.subpath') }} :</span>
                   <span class="text-subtitle-2 ml-2">
                     {{ initContainerMap[container.name][item.name].subPath }}
                   </span>
@@ -111,12 +117,12 @@
               </v-row>
               <v-row v-else>
                 <v-col class="py-1" cols="4">
-                  <span class="text-body-2">容器:</span>
+                  <span class="text-body-2">{{ $root.$t('resource.container') }} : </span>
                   <span class="text-subtitle-2 ml-2"> {{ container.name }}(init) </span>
                 </v-col>
                 <v-col class="py-1" cols="5">
-                  <span class="text-body-2">挂载:</span>
-                  <span class="text-subtitle-2 ml-2">不挂载</span>
+                  <span class="text-body-2">{{ $t('tip.mounted') }} : </span>
+                  <span class="text-subtitle-2 ml-2">{{ $t('tip.unmounted') }}</span>
                 </v-col>
               </v-row>
             </v-list-item-content>
@@ -136,7 +142,7 @@
           <v-list-item-subtitle class="text-body-2 py-0 text-center">
             <v-btn color="primary" text @click="expandCard">
               <v-icon left small> mdi-plus </v-icon>
-              添加卷挂载
+              {{ $root.$t('operate.add_c', [$t('tip.volume_mount')]) }}
             </v-btn>
           </v-list-item-subtitle>
         </v-list-item-content>
@@ -146,6 +152,7 @@
 </template>
 
 <script>
+  import messages from '../../../../i18n';
   import Configmap from './Configmap';
   import EmptyDir from './EmptyDir';
   import HostPath from './HostPath';
@@ -155,6 +162,9 @@
 
   export default {
     name: 'StorageMountItem',
+    i18n: {
+      messages: messages,
+    },
     components: {
       Configmap,
       EmptyDir,

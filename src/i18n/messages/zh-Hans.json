@@ -41,7 +41,18 @@
 
   "ruler": {
     "required": "必填项",
-    "not_match": "不匹配"
+    "not_match": "不匹配",
+    "positive_integer": "格式错误(示例:正整数)",
+    "integer": "格式错误(示例:整数)",
+    "time_interval": "格式错误(示例:30s,1m,1h)",
+    "size_gb": "格式错误(示例:10G)",
+    "port": "格式错误(示例:9200)",
+    "k8s_label": "不符合Kubernetes标签规范",
+    "k8s_annotation": "不符合Kubernetes注解规范",
+    "k8s_name": "不符合Kubernetes命名规范",
+    "email": "邮箱格式错误",
+    "mobile": "手机号格式错误",
+    "password": "格式错误(包含大小写数字特殊字符8到16位密码)"
   },
 
   "role": {
@@ -211,7 +222,8 @@
     "definition": "{0}定义",
     "key_value": "键值对",
     "key": "键",
-    "value": "值"
+    "value": "值",
+    "name": "名称"
   },
   "pagination": {
     "count": "每页条目数"
@@ -452,7 +464,15 @@
     "parse_error": "数据解析错误",
     "select_tenant": "请选择租户",
     "select_environment": "请选择环境",
-    "condition": "状况"
+    "condition": "状况",
+    "not_correct_yaml": "不是正确的K8S yaml格式,请补充必要字段或填写正确的数据格式,错误提示:",
+    "path": "路径",
+    "missing_metadata": "缺少元数据",
+    "missing_name": "缺少名称",
+    "missing_namespace": "缺少命名空间",
+    "select_namespace": "请先选择命名空间",
+    "in_virtualspace": "已加入虚拟空间",
+    "not_allocate_resource": "租户未分配资源"
   },
   "tab": {
     "overview": "概览",

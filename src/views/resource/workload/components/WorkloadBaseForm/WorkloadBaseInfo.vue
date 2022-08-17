@@ -16,7 +16,7 @@
 
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
-    <BaseSubTitle title="工作负载定义" />
+    <BaseSubTitle :title="$root.$t('form.definition', [$root.$t('resource.workload')])" />
     <v-card-text class="pa-2">
       <v-row v-if="manifest">
         <v-col cols="6">
@@ -26,8 +26,8 @@
             color="primary"
             hide-selected
             :items="kinds"
-            label="资源"
-            no-data-text="暂无可选数据"
+            :label="$root.$t('resource.kind')"
+            :no-data-text="$root.$t('data.no_data')"
             :readonly="edit"
             :rules="objRules.kindRule"
             @change="onKindChange"
@@ -46,7 +46,7 @@
           <v-text-field
             v-model="obj.metadata.name"
             class="my-0"
-            label="名称"
+            :label="$t('table.name')"
             :readonly="edit"
             required
             :rules="objRules.nameRule"
@@ -60,8 +60,8 @@
             color="primary"
             hide-selected
             :items="m_select_namespaceItems"
-            label="命名空间"
-            no-data-text="暂无可选数据"
+            :label="$root.$t('resource.namespace')"
+            :no-data-text="$root.$t('data.no_data')"
             :readonly="edit"
             :rules="objRules.namespaceRule"
             @focus="onNamespaceSelectFocus(ThisCluster)"
@@ -77,14 +77,14 @@
     </v-card-text>
 
     <template v-if="kind !== 'DaemonSet'">
-      <BaseSubTitle title="副本定义" />
+      <BaseSubTitle :title="$root.$t('form.definition', [$t('tip.replicas')])" />
       <v-card-text class="pa-2">
         <v-row>
           <v-col cols="6">
             <v-text-field
               v-model="obj.spec.replicas"
               class="my-0"
-              label="副本数量"
+              :label="$t('tip.replicas')"
               required
               :rules="objRules.replicasRule"
               type="number"
@@ -99,6 +99,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
@@ -106,6 +107,9 @@
 
   export default {
     name: 'WorkloadBaseInfo',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource, BaseSelect],
     props: {
       app: {
@@ -167,7 +171,7 @@
         return {
           nameRule: [required, k8sName],
           namespaceRule: [required],
-          replicasRule: [positiveInteger, (v) => parseInt(v) >= 0 || '副本数小于0'],
+          replicasRule: [positiveInteger, (v) => parseInt(v) >= 0 || this.$t('form.replicas_lte_rule')],
           kindRule: [required],
         };
       },

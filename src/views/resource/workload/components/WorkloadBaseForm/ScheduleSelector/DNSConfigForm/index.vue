@@ -30,7 +30,7 @@
                 height="32"
                 hide-no-data
                 :items="[]"
-                label="nameservers(回车)"
+                label="nameservers"
                 multiple
                 :search-input.sync="nameserversText"
                 small-chips
@@ -65,7 +65,7 @@
                 height="32"
                 hide-no-data
                 :items="[]"
-                label="searches(回车)"
+                label="searches"
                 multiple
                 :search-input.sync="searchesText"
                 small-chips
@@ -104,8 +104,8 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
-          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> {{ $root.$t('operate.cancel') }} </v-btn>
+          <v-btn color="primary" small text @click="addData"> {{ $root.$t('operate.save') }} </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>

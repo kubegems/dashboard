@@ -25,20 +25,20 @@
                 {{
                   containerCopy && containerCopy.resources && containerCopy.resources.requests
                     ? containerCopy.resources.requests.cpu === '0'
-                      ? '无限制'
+                      ? $t('tip.no_limit')
                       : containerCopy.resources.requests.cpu
-                    : '无限制'
+                    : $t('tip.no_limit')
                 }}
-                ～
+                ~
                 {{
                   containerCopy && containerCopy.resources && containerCopy.resources.limits
                     ? containerCopy.resources.limits.cpu === '0'
-                      ? '无限制'
+                      ? $t('tip.no_limit')
                       : containerCopy.resources.limits.cpu
-                    : '无限制'
+                    : $t('tip.no_limit')
                 }}
               </v-list-item-title>
-              <v-list-item-subtitle class="text-body-2 py-1"> CPU </v-list-item-subtitle>
+              <v-list-item-subtitle class="text-body-2 py-1"> {{ $root.$t('resource.cpu') }} </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
           <v-list-item class="float-left pa-0 kubegems__form-width" two-line>
@@ -47,20 +47,20 @@
                 {{
                   containerCopy && containerCopy.resources && containerCopy.resources.requests
                     ? containerCopy.resources.requests.memory === '0'
-                      ? '无限制'
+                      ? $t('tip.no_limit')
                       : containerCopy.resources.requests.memory
-                    : '无限制'
+                    : $t('tip.no_limit')
                 }}
-                ～
+                ~
                 {{
                   containerCopy && containerCopy.resources && containerCopy.resources.limits
                     ? containerCopy.resources.limits.memory === '0'
-                      ? '无限制'
+                      ? $t('tip.no_limit')
                       : containerCopy.resources.limits.memory
-                    : '无限制'
+                    : $t('tip.no_limit')
                 }}
               </v-list-item-title>
-              <v-list-item-subtitle class="text-body-2 py-1"> 内存 </v-list-item-subtitle>
+              <v-list-item-subtitle class="text-body-2 py-1"> {{ $root.$t('resource.memory') }} </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </v-list-item-subtitle>
@@ -77,8 +77,13 @@
 </template>
 
 <script>
+  import messages from '../../../../../i18n';
+
   export default {
     name: 'ResourceLimit',
+    i18n: {
+      messages: messages,
+    },
     props: {
       containerCopy: {
         type: Object,

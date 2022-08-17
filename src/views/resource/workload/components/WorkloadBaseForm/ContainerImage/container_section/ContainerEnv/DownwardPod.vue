@@ -22,7 +22,7 @@
           <v-list-item-title class="text-subtitle-2 py-1">
             <span> Downward API </span>
           </v-list-item-title>
-          <v-list-item-subtitle class="text-body-2 py-1"> 类型 </v-list-item-subtitle>
+          <v-list-item-subtitle class="text-body-2 py-1"> {{ $root.$t('resource.type') }} </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
       <v-list-item class="float-left pa-0 downward__item" two-line>
@@ -32,7 +32,7 @@
               {{ item.name }}
             </span>
           </v-list-item-title>
-          <v-list-item-subtitle class="text-body-2 py-1"> 名称 </v-list-item-subtitle>
+          <v-list-item-subtitle class="text-body-2 py-1"> {{ $root.$t('form.name') }} </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
       <v-list-item class="float-left pa-0 downward__item" two-line>
@@ -40,7 +40,7 @@
           <v-list-item-title class="text-subtitle-2 py-1">
             <span> Pod </span>
           </v-list-item-title>
-          <v-list-item-subtitle class="text-body-2 py-1"> 方式 </v-list-item-subtitle>
+          <v-list-item-subtitle class="text-body-2 py-1"> {{ $t('tip.method') }} </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
       <v-list-item class="float-left pa-0 downward__item" two-line>
@@ -59,8 +59,13 @@
 </template>
 
 <script>
+  import messages from '../../../../../i18n';
+
   export default {
     name: 'DownwardPod',
+    i18n: {
+      messages: messages,
+    },
     props: {
       item: {
         type: Object,

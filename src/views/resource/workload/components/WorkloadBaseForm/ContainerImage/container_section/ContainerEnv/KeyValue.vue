@@ -20,9 +20,9 @@
       <v-list-item class="float-left pa-0 keyvalue__item" two-line>
         <v-list-item-content class="py-0">
           <v-list-item-title class="text-subtitle-2 py-1">
-            <span> 键值对 </span>
+            <span> {{ $root.$t('form.key_value') }} </span>
           </v-list-item-title>
-          <v-list-item-subtitle class="text-body-2 py-1"> 类型 </v-list-item-subtitle>
+          <v-list-item-subtitle class="text-body-2 py-1"> {{ $root.$t('resource.type') }} </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
       <v-list-item class="float-left pa-0 keyvalue__item" two-line>
@@ -32,7 +32,7 @@
               {{ item.name }}
             </span>
           </v-list-item-title>
-          <v-list-item-subtitle class="text-body-2 py-1"> 名称 </v-list-item-subtitle>
+          <v-list-item-subtitle class="text-body-2 py-1"> {{ $root.$t('form.name') }} </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
       <v-list-item class="float-left pa-0 keyvalue__item" two-line>
@@ -42,7 +42,7 @@
               {{ item.value }}
             </span>
           </v-list-item-title>
-          <v-list-item-subtitle class="text-body-2 py-1"> 值 </v-list-item-subtitle>
+          <v-list-item-subtitle class="text-body-2 py-1"> {{ $root.$t('form.value') }} </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
     </v-list-item-subtitle>

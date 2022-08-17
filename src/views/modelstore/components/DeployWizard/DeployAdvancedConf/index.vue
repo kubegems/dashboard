@@ -73,7 +73,14 @@
             </template>
           </v-autocomplete>
 
-          <v-autocomplete
+          <v-text-field
+            v-if="obj.server.kind === 'UNKNOWN_IMPLEMENTATION'"
+            v-model="obj.server.image"
+            label="镜像"
+            :rules="objRules.imageRules"
+          />
+
+          <!-- <v-autocomplete
             v-if="obj.server.kind === 'UNKNOWN_IMPLEMENTATION'"
             v-model="obj.server.image"
             hide-no-data
@@ -92,7 +99,7 @@
                 {{ item.text }}
               </v-chip>
             </template>
-          </v-autocomplete>
+          </v-autocomplete> -->
         </v-col>
       </v-row>
     </v-card-text>
@@ -198,16 +205,6 @@
           { text: 'tensorflow', value: 'tensorflow' },
           { text: 'v2', value: 'v2' },
         ],
-        implementationItems: [
-          { text: 'huggingface server', value: 'HUGGINGFACE_SERVER', icon: 'huggingface' },
-          { text: 'openmmlab server', value: 'OPENMMLAB_SERVER', icon: 'openmmlab' },
-          { text: 'tensorflow server', value: 'TENSORFLOW_SERVER', icon: 'tensorflow' },
-          { text: 'sklearn server', value: 'SKLEARN_SERVER', icon: 'sklearn' },
-          { text: 'triton server', value: 'TRITON_SERVER', icon: 'triton' },
-          { text: 'mlflow server', value: 'MLFLOW_SERVER', icon: 'mlflow' },
-          { text: 'xgboost server', value: 'XGBOOST_SERVER', icon: 'xgboost' },
-          { text: 'custom server', value: 'UNKNOWN_IMPLEMENTATION', icon: 'kubegems' },
-        ],
         gateway: '',
         gatewayItems: [],
         obj: {
@@ -224,6 +221,7 @@
             image: '',
             ports: [],
             mountPath: '',
+            protocol: 'v2',
           },
           resources: {
             limits: {
@@ -239,7 +237,7 @@
           },
         },
         objRules: {
-          imageRules: [],
+          imageRules: [required],
           protocolRules: [required],
           implementationRules: [required],
           gatewayRules: [required],
@@ -254,6 +252,24 @@
         });
         if (gateway) return gateway.obj;
         return null;
+      },
+      implementationItems() {
+        if (this.$route.query.registry === 'huggingface') {
+          return [{ text: 'huggingface server', value: 'HUGGINGFACE_SERVER', icon: 'huggingface' }];
+        }
+        if (this.$route.query.registry === 'openmmlab') {
+          return [{ text: 'openmmlab server', value: 'OPENMMLAB_SERVER', icon: 'openmmlab' }];
+        }
+        return [
+          { text: 'huggingface server', value: 'HUGGINGFACE_SERVER', icon: 'huggingface' },
+          { text: 'openmmlab server', value: 'OPENMMLAB_SERVER', icon: 'openmmlab' },
+          { text: 'tensorflow server', value: 'TENSORFLOW_SERVER', icon: 'tensorflow' },
+          { text: 'sklearn server', value: 'SKLEARN_SERVER', icon: 'sklearn' },
+          { text: 'triton server', value: 'TRITON_SERVER', icon: 'triton' },
+          { text: 'mlflow server', value: 'MLFLOW_SERVER', icon: 'mlflow' },
+          { text: 'xgboost server', value: 'XGBOOST_SERVER', icon: 'xgboost' },
+          { text: 'custom server', value: 'UNKNOWN_IMPLEMENTATION', icon: 'kubegems' },
+        ];
       },
     },
     watch: {
@@ -275,6 +291,13 @@
         deep: true,
         immediate: true,
       },
+    },
+    mounted() {
+      if (this.$route.query.registry === 'huggingface') {
+        this.obj.server.kind = 'HUGGINGFACE_SERVER';
+      } else if (this.$route.query.registry === 'openmmlab') {
+        this.obj.server.kind = 'OPENMMLAB_SERVER';
+      }
     },
     methods: {
       async modelSourceDetail() {

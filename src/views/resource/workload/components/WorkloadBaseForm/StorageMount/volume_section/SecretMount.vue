@@ -25,8 +25,8 @@
           color="primary"
           hide-selected
           :items="items"
-          label="密钥"
-          no-data-text="暂无可选数据"
+          :label="$root.$t('resource.secret')"
+          :no-data-text="$root.$t('data.no_data')"
           :readonly="edit"
           :rules="volumeRules.SecretRule"
           @change="onVolumeChange"
@@ -53,8 +53,8 @@
           color="primary"
           hide-selected
           :items="secrets"
-          label="密钥键"
-          no-data-text="暂无可选数据"
+          :label="$root.$t('resource.secret_key')"
+          :no-data-text="$root.$t('data.no_data')"
           :rules="volumeRules[index].KeyRule"
           @focus="onSecretKeySelectFocus"
         >
@@ -69,7 +69,7 @@
         <v-text-field
           v-model="volumeCopy.secret.items[index].path"
           class="my-0"
-          label="路径"
+          :label="$t('tip.path')"
           required
           :rules="volumeRules[index].PathRule"
         />
@@ -91,6 +91,7 @@
 </template>
 
 <script>
+  import messages from '../../../../i18n';
   import VolumeMount from './VolumeMount';
   import VolumeMountForInitContainer from './VolumeMountForInitContainer';
   import { getAppResourceFileMetas, getSecretDetail, getSecretList } from '@/api';
@@ -100,6 +101,9 @@
 
   export default {
     name: 'SecretMount',
+    i18n: {
+      messages: messages,
+    },
     components: {
       VolumeMount,
       VolumeMountForInitContainer,

@@ -29,7 +29,7 @@
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{ item.name }}
                 </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1"> 名称 </v-list-item-subtitle>
+                <v-list-item-subtitle class="text-body-2 py-1"> {{ $root.$t('form.name') }} </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item class="float-left pa-0 kubegems__three-width" two-line>
@@ -37,7 +37,7 @@
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{ item.protocol }}
                 </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1"> 协议 </v-list-item-subtitle>
+                <v-list-item-subtitle class="text-body-2 py-1"> {{ $t('tip.protocol') }} </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item class="float-left pa-0 kubegems__three-width" two-line>
@@ -45,7 +45,7 @@
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{ item.containerPort }}
                 </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1"> 容器端口 </v-list-item-subtitle>
+                <v-list-item-subtitle class="text-body-2 py-1"> {{ $t('tip.container_port') }} </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-list-item-subtitle>
@@ -63,8 +63,13 @@
 </template>
 
 <script>
+  import messages from '../../../../../i18n';
+
   export default {
     name: 'Port',
+    i18n: {
+      messages: messages,
+    },
     props: {
       containerCopy: {
         type: Object,

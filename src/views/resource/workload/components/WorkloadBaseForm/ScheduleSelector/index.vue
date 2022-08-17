@@ -34,7 +34,7 @@
       @closeOverlay="closeExpand"
     />
     <template v-if="kind !== 'DaemonSet'">
-      <BaseSubTitle title="节点调度" />
+      <BaseSubTitle :title="$t('tip.node_schedule')" />
       <v-card-text class="pa-2">
         <SelectorItem
           :selector="
@@ -57,7 +57,7 @@
     </template>
 
     <LabelForm ref="labelForm" :data="obj.metadata.labels" @addData="addLabelData" @closeOverlay="closeExpand" />
-    <BaseSubTitle title="标签" />
+    <BaseSubTitle :title="$t('tip.label')" />
     <v-card-text class="pa-2">
       <LabelItem
         :labels="obj.metadata.labels"
@@ -74,7 +74,7 @@
       @addData="addAnnotationData"
       @closeOverlay="closeExpand"
     />
-    <BaseSubTitle title="注解" />
+    <BaseSubTitle :title="$t('tip.annotation')" />
     <v-card-text class="pa-2">
       <AnnotationItem
         :annotations="obj.metadata.annotations"
@@ -90,7 +90,7 @@
       @addData="addDnsConfigData"
       @closeOverlay="closeExpand"
     />
-    <BaseSubTitle title="DNS配置" />
+    <BaseSubTitle :title="$t('tip.dns_config')" />
     <v-card-text class="pa-2">
       <DNSConfigItem
         :dns-config="obj.spec && obj.spec.template.spec.dnsConfig ? obj.spec.template.spec.dnsConfig : null"
@@ -103,6 +103,7 @@
 </template>
 
 <script>
+  import messages from '../../../i18n';
   import DNSConfigForm from './DNSConfigForm';
   import DNSConfigItem from './DNSConfigItem';
   import SelectorForm from './SelectorForm';
@@ -116,6 +117,9 @@
 
   export default {
     name: 'ScheduleSelector',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AnnotationForm,
       AnnotationItem,

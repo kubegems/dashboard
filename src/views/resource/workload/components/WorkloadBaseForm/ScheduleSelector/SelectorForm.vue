@@ -22,21 +22,33 @@
         <v-card-text class="pa-0">
           <v-sheet class="pt-2 px-2">
             <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width">
-              <span>键值对</span>
+              <span>{{ $root.$t('form.key_value') }}</span>
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
-              <v-text-field v-model="obj.key" class="my-0" label="键" required :rules="objRules.keyRule" />
+              <v-text-field
+                v-model="obj.key"
+                class="my-0"
+                :label="$root.$t('form.key')"
+                required
+                :rules="objRules.keyRule"
+              />
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
-              <v-text-field v-model="obj.value" class="my-0" label="值" required :rules="objRules.valueRule" />
+              <v-text-field
+                v-model="obj.value"
+                class="my-0"
+                :label="$root.$t('form.value')"
+                required
+                :rules="objRules.valueRule"
+              />
             </v-flex>
             <div class="kubegems__clear-float" />
           </v-sheet>
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
-          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> {{ $root.$t('operate.cancel') }} </v-btn>
+          <v-btn color="primary" small text @click="addData"> {{ $root.$t('operate.save') }} </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>

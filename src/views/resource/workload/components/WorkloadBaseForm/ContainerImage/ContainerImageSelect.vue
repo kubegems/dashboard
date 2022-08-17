@@ -18,13 +18,13 @@
   <v-form ref="form" v-model="valid" class="mb-2" lazy-validation @submit.prevent>
     <v-sheet class="pt-2 px-2">
       <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width">
-        <span>镜像定义</span>
+        <span>{{ $root.$t('form.definition', [$t('tip.image')]) }}</span>
       </v-flex>
       <v-flex class="float-left ml-2 kubegems__long-width">
         <v-text-field
           v-model="obj.image"
           class="my-0"
-          label="镜像地址"
+          :label="$t('tip.image_address')"
           required
           :rules="objRules.imageRule"
           @keydown="updateImage"
@@ -38,7 +38,13 @@
         <span />
       </v-flex>
       <v-flex class="float-left ml-2 kubegems__form-width">
-        <v-text-field v-model="obj.name" label="容器名称" :readonly="edit" required :rules="objRules.nameRule" />
+        <v-text-field
+          v-model="obj.name"
+          :label="$t('tip.container_name')"
+          :readonly="edit"
+          required
+          :rules="objRules.nameRule"
+        />
       </v-flex>
       <v-flex class="float-left ml-2 kubegems__form-width">
         <v-autocomplete
@@ -46,8 +52,8 @@
           color="primary"
           hide-selected
           :items="containerTypes"
-          label="容器类型"
-          no-data-text="暂无可选数据"
+          :label="$t('tip.container_type')"
+          :no-data-text="$root.$t('data.no_data')"
           :readonly="edit"
           :rules="objRules.containerTypeRule"
           @change="onContainerTypeChange"
@@ -72,8 +78,8 @@
           hide-selected
           item-text="value"
           :items="m_select_registryItems"
-          label="镜像密钥"
-          no-data-text="暂无可选数据"
+          :label="$t('tip.image_secret')"
+          :no-data-text="$root.$t('data.no_data')"
           @change="onRegistryChange"
           @focus="onRegistrySelectFocus"
         >
@@ -90,8 +96,8 @@
           color="primary"
           hide-selected
           :items="imagePullPolicys"
-          label="镜像策略"
-          no-data-text="暂无可选数据"
+          :label="$t('tip.image_policy')"
+          :no-data-text="$root.$t('data.no_data')"
           :rules="objRules.imagePullPolicyRule"
           @change="updateImage"
         >
@@ -108,6 +114,7 @@
 </template>
 
 <script>
+  import messages from '../../../i18n';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
@@ -115,6 +122,9 @@
   export default {
     name: 'ContainerImageSelect',
     mixins: [BaseSelect],
+    i18n: {
+      messages: messages,
+    },
     props: {
       container: {
         type: Object,
@@ -136,16 +146,7 @@
     data() {
       return {
         valid: false,
-        containerTypes: [
-          { text: '工作容器', value: 'worker' },
-          { text: '初始化容器', value: 'init' },
-        ],
         containerType: 'worker',
-        imagePullPolicys: [
-          { text: '尝试重新下载镜像', value: 'Always' },
-          { text: '优先使用本地镜', value: 'IfNotPresent' },
-          { text: '仅使用本地镜像', value: 'Never' },
-        ],
         imageRegistry: '',
         obj: {
           name: '',
@@ -159,6 +160,21 @@
           containerTypeRule: [required],
         },
       };
+    },
+    computed: {
+      containerTypes() {
+        return [
+          { text: this.$t('tip.worker_container'), value: 'worker' },
+          { text: this.$t('tip.init_container'), value: 'init' },
+        ];
+      },
+      imagePullPolicys() {
+        return [
+          { text: this.$t('tip.image_always'), value: 'Always' },
+          { text: this.$t('tip.image_if_not_present'), value: 'IfNotPresent' },
+          { text: this.$t('tip.image_never'), value: 'Never' },
+        ];
+      },
     },
     watch: {
       container: {

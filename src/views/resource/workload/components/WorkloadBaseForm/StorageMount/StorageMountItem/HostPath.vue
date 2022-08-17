@@ -19,21 +19,26 @@
     <v-list-item class="float-left px-0" :style="{ width: `296px` }" two-line>
       <v-list-item-content class="py-0">
         <v-list-item-title class="text-subtitle-2 py-1"> hostPath </v-list-item-title>
-        <v-list-item-subtitle class="text-body-2 py-1"> 类型 </v-list-item-subtitle>
+        <v-list-item-subtitle class="text-body-2 py-1"> {{ $root.$t('resource.secret') }} </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
     <v-list-item class="float-left px-0" :style="{ width: `300px` }" two-line>
       <v-list-item-content class="py-0">
         <v-list-item-title class="text-subtitle-2 py-1"> {{ item.hostPath.path }}&nbsp; </v-list-item-title>
-        <v-list-item-subtitle class="text-body-2 py-1"> 路径 </v-list-item-subtitle>
+        <v-list-item-subtitle class="text-body-2 py-1">{{ $t('tip.path') }} </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
   </v-flex>
 </template>
 
 <script>
+  import messages from '../../../../i18n';
+
   export default {
     name: 'HostPath',
+    i18n: {
+      messages: messages,
+    },
     props: {
       item: {
         type: Object,

@@ -18,39 +18,45 @@
   <div>
     <v-card>
       <v-sheet class="pa-2">
-        <BaseListItemForDetail v-if="$route.query.type !== 'DaemonSet'" :mt="0" title="副本">
+        <BaseListItemForDetail v-if="$route.query.type !== 'DaemonSet'" :mt="0" :title="$t('tip.replicas')">
           <template #content>
-            {{ workload && workload.status.updatedReplicas ? workload.status.updatedReplicas : 0 }}
-            个副本已更新,
-            {{ workload && workload.status.readyReplicas ? workload.status.readyReplicas : 0 }}
-            个副本已就绪,
             {{
-              workload && (workload.status.availableReplicas || workload.status.currentReplicas)
-                ? $route.query.type === 'Deployment'
-                  ? workload.status.availableReplicas
-                  : workload.status.currentReplicas
-                : 0
-            }}
-            个副本可用,
+              $t('tip.updated_replicas', [
+                workload && workload.status.updatedReplicas ? workload.status.updatedReplicas : 0,
+              ])
+            }},
             {{
-              workload && (workload.status.availableReplicas || workload.status.currentReplicas)
-                ? workload.status.replicas -
-                  ($route.query.type === 'Deployment'
+              $t('tip.ready_replicas', [workload && workload.status.readyReplicas ? workload.status.readyReplicas : 0])
+            }},
+            {{
+              $t('tip.available_replicas', [
+                workload && (workload.status.availableReplicas || workload.status.currentReplicas)
+                  ? $route.query.type === 'Deployment'
                     ? workload.status.availableReplicas
-                    : workload.status.currentReplicas)
-                : 0
-            }}
-            个副本不可用
+                    : workload.status.currentReplicas
+                  : 0,
+              ])
+            }},
+            {{
+              $t('tip.unavailable_replicas', [
+                workload && (workload.status.availableReplicas || workload.status.currentReplicas)
+                  ? workload.status.replicas -
+                    ($route.query.type === 'Deployment'
+                      ? workload.status.availableReplicas
+                      : workload.status.currentReplicas)
+                  : 0,
+              ])
+            }},
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="generation">
+        <BaseListItemForDetail title="Generation">
           <template #content>
             {{ workload ? workload.metadata.generation : '' }}
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="匹配标签">
+        <BaseListItemForDetail :title="$t('tip.label')">
           <template #content>
             <BaseCollapseChips
               v-if="workload"
@@ -62,7 +68,7 @@
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="滚动更新策略">
+        <BaseListItemForDetail :title="$t('tip.rolling_update_policy')">
           <template #content>
             <span v-if="$route.query.type === 'StatefulSet'">
               {{ workload ? workload.spec.updateStrategy.type : '' }}
@@ -79,7 +85,7 @@
     </v-card>
 
     <v-card class="mt-3" flat>
-      <BaseSubTitle class="pt-2" :divider="false" title="容器" />
+      <BaseSubTitle class="pt-2" :divider="false" :title="$root.$t('resource.container')" />
       <DetailContainer
         :containers="
           workload
@@ -96,26 +102,26 @@
     </v-card>
 
     <v-card class="mt-3" flat>
-      <BaseSubTitle class="pt-2" :divider="false" title="卷" />
+      <BaseSubTitle class="pt-2" :divider="false" :title="$t('tip.volume')" />
       <DetailVolume :volumes="workload ? workload.spec.template.spec.volumes : []" />
     </v-card>
 
     <v-card class="mt-3" flat>
-      <BaseSubTitle class="pt-2" :divider="false" title="环境变量" />
+      <BaseSubTitle class="pt-2" :divider="false" :title="$t('tip.env')" />
       <DetailEnv :containers="workload ? workload.spec.template.spec.containers : []" />
     </v-card>
 
     <v-card class="mt-3" flat>
-      <BaseSubTitle class="pt-2" :divider="false" title="状况" />
+      <BaseSubTitle class="pt-2" :divider="false" :title="$t('tip.condition')" />
       <v-simple-table class="mx-2 pa-2 pb-3">
         <template #default>
           <thead>
             <tr>
               <th class="text-left">Reason</th>
-              <th class="text-left">状态</th>
-              <th class="text-left">Type</th>
+              <th class="text-left">{{ $t('tip.status') }}</th>
+              <th class="text-left">{{ $root.$t('resource.type') }}</th>
               <th class="text-left">Message</th>
-              <th class="text-left">上次更新时间</th>
+              <th class="text-left">{{ $t('tip.last_at') }}</th>
             </tr>
           </thead>
           <tbody>
@@ -141,6 +147,7 @@
 </template>
 
 <script>
+  import messages from '../i18n';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
   import DetailContainer from '@/views/resource/components/common/DetailContainer';
@@ -149,6 +156,9 @@
 
   export default {
     name: 'ResourceInfo',
+    i18n: {
+      messages: messages,
+    },
     components: {
       DetailContainer,
       DetailEnv,

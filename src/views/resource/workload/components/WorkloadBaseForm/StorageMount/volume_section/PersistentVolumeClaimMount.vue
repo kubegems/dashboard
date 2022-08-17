@@ -25,8 +25,8 @@
           color="primary"
           hide-selected
           :items="items"
-          label="存储卷"
-          no-data-text="暂无可选数据"
+          :label="$root.$t('resource.persistentvolumeclaim')"
+          :no-data-text="$root.$t('data.no_data')"
           :readonly="edit"
           :rules="volumeRules"
           @change="onVolumeChange"
@@ -39,9 +39,11 @@
         </v-autocomplete>
       </v-flex>
       <v-flex v-if="volumeObj" class="pt-5">
-        <span class="text-body-2 mx-1"> 类型:{{ volumeObj.spec.storageClassName }} </span>
-        <span class="text-body-2 mx-1"> 容量:{{ volumeObj.spec.resources.requests.storage }} </span>
-        <span class="text-body-2 mx-1"> 访问模式:{{ volumeObj.spec.accessModes[0] }} </span>
+        <span class="text-body-2 mx-1"> {{ $root.$t('resource.type') }} : {{ volumeObj.spec.storageClassName }} </span>
+        <span class="text-body-2 mx-1">
+          {{ $t('tip.capacity') }} : {{ volumeObj.spec.resources.requests.storage }}
+        </span>
+        <span class="text-body-2 mx-1"> {{ $t('tip.access_mode') }} : {{ volumeObj.spec.accessModes[0] }} </span>
       </v-flex>
       <div class="kubegems__clear-float" />
     </v-sheet>
@@ -57,6 +59,7 @@
 </template>
 
 <script>
+  import messages from '../../../../i18n';
   import VolumeMount from './VolumeMount';
   import VolumeMountForInitContainer from './VolumeMountForInitContainer';
   import { getAppResourceFileMetas, getPersistentVolumeClaimList } from '@/api';
@@ -65,6 +68,9 @@
 
   export default {
     name: 'PersistentVolumeClaimMount',
+    i18n: {
+      messages: messages,
+    },
     components: {
       VolumeMount,
       VolumeMountForInitContainer,

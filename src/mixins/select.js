@@ -41,11 +41,6 @@ const select = {
       m_select_tenantProjectItems: [],
       m_select_tenantClusterItems: [],
       m_select_projectEnvironmentItems: [],
-      m_select_environmentTypeItems: [
-        { text: '开发', value: 'dev' },
-        { text: '测试', value: 'test' },
-        { text: '生产', value: 'prod' },
-      ],
       m_select_storageClassItems: [],
       m_select_workloadSelectItems: [],
       m_select_secretItems: [],
@@ -54,15 +49,6 @@ const select = {
       m_select_gatewayItems: [],
       m_select_projectItems: [],
       m_select_registryItems: [],
-      m_select_resourceItems: [
-        { text: '服务', value: 'Service' },
-        { text: '配置', value: 'ConfigMap' },
-        { text: '密钥', value: 'Secret' },
-        { text: '存储卷', value: 'PersistentVolumeClaim' },
-        { text: '任务', value: 'Job' },
-        { text: '定时任务', value: 'CronJob' },
-        { text: '路由', value: 'Ingress' },
-      ],
       m_select_virtualSpaceItems: [],
       m_select_virtualSpaceEnvironmentItems: [],
       m_select_appItems: [],
@@ -71,6 +57,24 @@ const select = {
   computed: {
     ...mapState(['Admin', 'User', 'AdminViewport']),
     ...mapGetters(['Project', 'Environment', 'Cluster', 'Tenant']),
+    m_select_environmentTypeItems() {
+      return [
+        { text: this.$root.$t('environment_type.dev'), value: 'dev' },
+        { text: this.$root.$t('environment_type.test'), value: 'test' },
+        { text: this.$root.$t('environment_type.prod'), value: 'prod' },
+      ];
+    },
+    m_select_resourceItems() {
+      return [
+        { text: this.$root.$t('resource.service'), value: 'Service' },
+        { text: this.$root.$t('resource.configmap'), value: 'ConfigMap' },
+        { text: this.$root.$t('resource.secret'), value: 'Secret' },
+        { text: this.$root.$t('resource.persistentvolumeclaim'), value: 'PersistentVolumeClaim' },
+        { text: this.$root.$t('resource.job'), value: 'Job' },
+        { text: this.$root.$t('resource.cronjob'), value: 'CronJob' },
+        { text: this.$root.$t('resource.ingress'), value: 'Ingress' },
+      ];
+    },
   },
   methods: {
     async m_select_userSelectData() {
@@ -97,14 +101,16 @@ const select = {
             text:
               tenant.Clusters && tenant.Clusters.length > 0
                 ? tenant.TenantName
-                : `${tenant.TenantName} (租户未分配资源)`,
+                : `${tenant.TenantName} (${this.$root.$t('tip.not_allocate_resource')})`,
             value: tenant.ID,
             isActive: tenant.IsActive,
             disabled: !(tenant.Clusters && tenant.Clusters.length > 0),
           });
         } else {
           tenantSelect.push({
-            text: tenant.ResourceQuotas ? tenant.TenantName : `${tenant.TenantName} (租户未分配资源)`,
+            text: tenant.ResourceQuotas
+              ? tenant.TenantName
+              : `${tenant.TenantName} (${this.$root.$t('tip.not_allocate_resource')})`,
             value: tenant.ID,
             isActive: tenant.IsActive,
             disabled: !tenant.ResourceQuotas,
@@ -168,7 +174,10 @@ const select = {
       const projectEnvironmentSelect = [];
       data.List.forEach((ns) => {
         projectEnvironmentSelect.push({
-          text: ns.VirtualSpaceID > 0 && virtualspace ? `${ns.EnvironmentName}(已加入虚拟空间)` : ns.EnvironmentName,
+          text:
+            ns.VirtualSpaceID > 0 && virtualspace
+              ? `${ns.EnvironmentName}(${this.$root.$t('tip.in_virtualspace')})`
+              : ns.EnvironmentName,
           value: ns.ID,
           environmentName: ns.EnvironmentName,
           clusterName: ns.Cluster.ClusterName,
@@ -215,7 +224,7 @@ const select = {
     async m_select_namespaceSelectData(Cluster, params = { noprocessing: false }) {
       if (!Cluster) {
         this.$store.commit('SET_SNACKBAR', {
-          text: '请先选择集群',
+          text: this.$root.$t('tip.select_cluster'),
           color: 'warning',
         });
         return;
@@ -268,7 +277,7 @@ const select = {
     async m_select_storageClassSelectData(Cluster, params = { noprocessing: false }) {
       if (!Cluster) {
         this.$store.commit('SET_SNACKBAR', {
-          text: '请先选择集群',
+          text: this.$root.$t('tip.select_cluster'),
           color: 'warning',
         });
         return;
@@ -287,7 +296,7 @@ const select = {
     async m_select_workloadSelectData(Cluster, Namespace) {
       if (!Cluster) {
         this.$store.commit('SET_SNACKBAR', {
-          text: '请先选择集群',
+          text: this.$root.$t('tip.select_cluster'),
           color: 'warning',
         });
         return;
@@ -323,14 +332,14 @@ const select = {
     async m_select_secretSelectData(Cluster, Namespace, type = null) {
       if (!Cluster) {
         this.$store.commit('SET_SNACKBAR', {
-          text: '请先选择集群',
+          text: this.$root.$t('tip.select_cluster'),
           color: 'warning',
         });
         return;
       }
       if (!Namespace) {
         this.$store.commit('SET_SNACKBAR', {
-          text: '请先选择命名空间',
+          text: this.$root.$t('tip.select_namespace'),
           color: 'warning',
         });
         return;
@@ -353,14 +362,14 @@ const select = {
     async m_select_serviceSelectData(Cluster, Namespace) {
       if (!Cluster) {
         this.$store.commit('SET_SNACKBAR', {
-          text: '请先选择集群',
+          text: this.$root.$t('tip.select_cluster'),
           color: 'warning',
         });
         return;
       }
       if (!Namespace) {
         this.$store.commit('SET_SNACKBAR', {
-          text: '请先选择命名空间',
+          text: this.$root.$t('tip.select_namespace'),
           color: 'warning',
         });
         return;
@@ -391,14 +400,14 @@ const select = {
     async m_select_issuerSelectData(Cluster, Namespace) {
       if (!Cluster) {
         this.$store.commit('SET_SNACKBAR', {
-          text: '请先选择集群',
+          text: this.$root.$t('tip.select_cluster'),
           color: 'warning',
         });
         return;
       }
       if (!Namespace) {
         this.$store.commit('SET_SNACKBAR', {
-          text: '请先选择命名空间',
+          text: this.$root.$t('tip.select_namespace'),
           color: 'warning',
         });
         return;
@@ -419,7 +428,7 @@ const select = {
     async m_select_gatewaySelectData(Cluster) {
       if (!Cluster) {
         this.$store.commit('SET_SNACKBAR', {
-          text: '请先选择集群',
+          text: this.$root.$t('tip.select_cluster'),
           color: 'warning',
         });
         return;

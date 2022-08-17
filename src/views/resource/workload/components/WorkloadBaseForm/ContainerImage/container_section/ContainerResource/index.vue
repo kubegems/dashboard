@@ -23,7 +23,7 @@
           <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
             <v-sheet class="pt-2 px-2">
               <v-flex class="float-left text-subtitle-2 pt-6 primary--text kubegems__min-width">
-                <span>CPU</span>
+                <span>{{ $root.$t('resource.cpu') }}</span>
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-text-field v-model="obj.requests.cpu" label="Reuqests" required :rules="objRules.requestsCpuRule" />
@@ -35,7 +35,7 @@
             </v-sheet>
             <v-sheet class="px-2">
               <v-flex class="float-left text-subtitle-2 pt-6 primary--text kubegems__min-width">
-                <span>内存</span>
+                <span>{{ $root.$t('resource.memory') }}</span>
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-text-field
@@ -54,8 +54,8 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
-          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> {{ $root.$t('operate.cancel') }} </v-btn>
+          <v-btn color="primary" small text @click="addData"> {{ $root.$t('operate.save') }} </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -65,11 +65,15 @@
 </template>
 
 <script>
+  import messages from '../../../../../i18n';
   import ResourceLimit from './ResourceLimit';
   import { deepCopy, sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
 
   export default {
     name: 'ContainerResource',
+    i18n: {
+      messages: messages,
+    },
     components: {
       ResourceLimit,
     },
@@ -99,17 +103,20 @@
     computed: {
       objRules() {
         return {
-          requestsCpuRule: [(v) => (!!new RegExp('^\\d+[m]?$').test(v) && parseInt(v) >= 0) || '格式错误(示例:1m,1)'],
+          requestsCpuRule: [
+            (v) => (!!new RegExp('^\\d+[m]?$').test(v) && parseInt(v) >= 0) || this.$t('form.cpu_rule'),
+          ],
           requestsMemoryRule: [
-            (v) => (!!new RegExp('(^\\d+[M|G]i$)').test(v) && parseInt(v) >= 0) || '格式错误(示例:1Mi,1Gi)',
+            (v) => (!!new RegExp('(^\\d+[M|G]i$)').test(v) && parseInt(v) >= 0) || this.$t('form.memory_rule'),
           ],
           limitsCpuRule: [
-            (v) => (!!new RegExp('^\\d+[m]?$').test(v) && parseInt(v) >= 0) || '格式错误(示例:1m,1)',
-            (v) => sizeOfCpu(v) >= sizeOfCpu(this.obj.requests.cpu) || 'Limits小于Requests',
+            (v) => (!!new RegExp('^\\d+[m]?$').test(v) && parseInt(v) >= 0) || this.$t('form.cpu_rule'),
+            (v) => sizeOfCpu(v) >= sizeOfCpu(this.obj.requests.cpu) || this.$t('form.limit_lte_request_rule'),
           ],
           limitsMemoryRule: [
-            (v) => (!!new RegExp('(^\\d+[M|G]i$)').test(v) && parseInt(v) >= 0) || '格式错误(示例:1Mi,1Gi)',
-            (v) => sizeOfStorage(v) >= sizeOfStorage(this.obj.requests.memory) || 'Limits小于Requests',
+            (v) => (!!new RegExp('(^\\d+[M|G]i$)').test(v) && parseInt(v) >= 0) || this.$t('form.memory_rule'),
+            (v) =>
+              sizeOfStorage(v) >= sizeOfStorage(this.obj.requests.memory) || this.$t('form.limit_lte_request_rule'),
           ],
         };
       },
