@@ -20,7 +20,7 @@
       <v-list-item two-line>
         <v-list-item-content class="py-2">
           <v-list-item-subtitle class="text-subtitle-2 py-1 primary--text">
-            {{ item.name }}(工作容器)
+            {{ item.name }}({{ $t('tip.worker_container') }})
           </v-list-item-subtitle>
           <v-list-item-subtitle class="text-body-2 py-0">
             <v-list-item class="float-left pa-0" two-line>
@@ -28,14 +28,14 @@
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{ item.image }}
                 </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1"> 镜像 </v-list-item-subtitle>
+                <v-list-item-subtitle class="text-body-2 py-1"> {{ $t('tip.image') }} </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item v-if="item.resources" class="float-right pa-0" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   <span class="mx-1">
-                    CPU:
+                    {{ $root.$t('resource.cpu') }} :
                     <span v-if="item.resources.requests && item.resources.requests.cpu">
                       {{ item.resources.requests.cpu }}
                     </span>
@@ -47,7 +47,7 @@
                     <span v-else>∞</span>
                   </span>
                   <span class="mx-1">
-                    内存:
+                    {{ $root.$t('resource.memory') }} :
                     <span v-if="item.resources && item.resources.requests && item.resources.requests.memory">
                       {{ item.resources.requests.memory }}
                     </span>
@@ -59,13 +59,17 @@
                     <span v-else>∞</span>
                   </span>
                 </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1"> 资源 </v-list-item-subtitle>
+                <v-list-item-subtitle class="text-body-2 py-1">
+                  {{ $root.$t('resource.resource') }}
+                </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item v-else class="float-right pa-0" two-line>
               <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1"> 无限制 </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1"> 资源 </v-list-item-subtitle>
+                <v-list-item-title class="text-subtitle-2 py-1"> {{ $t('tip.no_limit') }} </v-list-item-title>
+                <v-list-item-subtitle class="text-body-2 py-1">
+                  {{ $root.$t('resource.resource') }}
+                </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-list-item-subtitle>
@@ -83,7 +87,7 @@
       <v-list-item two-line>
         <v-list-item-content class="py-2">
           <v-list-item-subtitle class="text-subtitle-2 py-1 primary--text">
-            {{ item.name }}(初始化容器)
+            {{ item.name }}({{ $t('tip.init_container') }})
           </v-list-item-subtitle>
           <v-list-item-subtitle class="text-body-2 py-0">
             <v-list-item class="float-left pa-0" two-line>
@@ -91,14 +95,14 @@
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{ item.image }}
                 </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1"> 镜像 </v-list-item-subtitle>
+                <v-list-item-subtitle class="text-body-2 py-1"> {{ $t('tip.image') }} </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item v-if="item.resources" class="float-right pa-0" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
                   <span class="mx-1">
-                    CPU:
+                    {{ $root.$t('resource.cpu') }} :
                     <span v-if="item.resources.requests && item.resources.requests.cpu">
                       {{ item.resources.requests.cpu }}
                     </span>
@@ -110,7 +114,7 @@
                     <span v-else>∞</span>
                   </span>
                   <span class="mx-1">
-                    内存:
+                    {{ $root.$t('resource.memory') }} :
                     <span v-if="item.resources && item.resources.requests && item.resources.requests.memory">
                       {{ item.resources.requests.memory }}
                     </span>
@@ -122,13 +126,17 @@
                     <span v-else>∞</span>
                   </span>
                 </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1"> 资源 </v-list-item-subtitle>
+                <v-list-item-subtitle class="text-body-2 py-1">
+                  {{ $root.$t('resource.resource') }}
+                </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item v-else class="float-right pa-0" two-line>
               <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1"> 无限制 </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1"> 资源 </v-list-item-subtitle>
+                <v-list-item-title class="text-subtitle-2 py-1"> {{ $t('tip.no_limit') }} </v-list-item-title>
+                <v-list-item-subtitle class="text-body-2 py-1">
+                  {{ $root.$t('resource.resource') }}
+                </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-list-item-subtitle>
@@ -148,7 +156,7 @@
           <v-list-item-subtitle class="text-body-2 py-0 text-center">
             <v-btn color="primary" text @click="expandCard">
               <v-icon left small> mdi-plus </v-icon>
-              添加容器镜像
+              {{ $root.$t('operate.add_c', [$t('tip.container_image')]) }}
             </v-btn>
           </v-list-item-subtitle>
         </v-list-item-content>
@@ -158,8 +166,13 @@
 </template>
 
 <script>
+  import messages from '../../../i18n';
+
   export default {
     name: 'ContainerImageItem',
+    i18n: {
+      messages: messages,
+    },
     props: {
       containers: {
         type: Array,

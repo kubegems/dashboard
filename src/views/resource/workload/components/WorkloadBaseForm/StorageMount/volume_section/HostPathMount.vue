@@ -22,7 +22,7 @@
         <v-text-field
           v-model="volumeObj.name"
           class="my-0"
-          label="卷名称"
+          :label="$t('tip.volume_name')"
           :readonly="edit"
           required
           :rules="volumeRules.nameRule"
@@ -52,6 +52,7 @@
 </template>
 
 <script>
+  import messages from '../../../../i18n';
   import VolumeMount from './VolumeMount';
   import VolumeMountForInitContainer from './VolumeMountForInitContainer';
   import BaseResource from '@/mixins/resource';
@@ -59,6 +60,9 @@
 
   export default {
     name: 'HostPathMount',
+    i18n: {
+      messages: messages,
+    },
     components: {
       VolumeMount,
       VolumeMountForInitContainer,

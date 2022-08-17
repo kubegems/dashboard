@@ -224,3 +224,4 @@ export * from './metrics';
 export * from './visualization';
 export * from './integrated';
 export * from './modelstore';
+export * from './rule';

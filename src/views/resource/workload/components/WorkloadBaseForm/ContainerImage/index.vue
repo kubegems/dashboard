@@ -20,7 +20,7 @@
     <v-expand-transition>
       <v-card v-show="expand" class="my-2 pa-2 kubegems__expand-transition" :elevation="4" flat>
         <v-card-text class="pa-2">
-          <BaseSubTitle title="镜像" />
+          <BaseSubTitle :title="$t('tip.image')" />
           <ContainerImageSelect
             ref="containerImageSelect"
             :container="containerEdit ? containerCopy : container"
@@ -32,7 +32,7 @@
             @updateType="updateType"
           />
 
-          <BaseSubTitle title="高级配置" />
+          <BaseSubTitle :title="$t('tip.advanced_setting')" />
           <v-tabs v-model="tab" class="px-2 rounded-t mt-2 mb-3" height="30" @change="onTabChange">
             <v-tab v-for="item in tabItems" :key="item.value">
               {{ item.text }}
@@ -50,13 +50,13 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
-          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> {{ $root.$t('operate.cancel') }} </v-btn>
+          <v-btn color="primary" small text @click="addData"> {{ $root.$t('operate.save') }} </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
 
-    <BaseSubTitle title="容器镜像" />
+    <BaseSubTitle :title="$t('tip.container_image')" />
     <v-card-text class="pa-2">
       <ContainerImageItem
         :containers="obj.spec.template.spec.containers"
@@ -70,6 +70,7 @@
 </template>
 
 <script>
+  import messages from '../../../i18n';
   import ContainerEnv from './container_section/ContainerEnv';
   import ContainerHealthCheck from './container_section/ContainerHealthCheck';
   import ContainerPort from './container_section/ContainerPort';
@@ -82,6 +83,9 @@
 
   export default {
     name: 'ContainerImage',
+    i18n: {
+      messages: messages,
+    },
     components: {
       ContainerEnv,
       ContainerHealthCheck,
@@ -120,15 +124,19 @@
         imagePullSecret: 'dockerhub',
         containerEdit: false,
         tab: 0,
-        tabItems: [
-          { text: '资源限制', value: 'ContainerResource' },
-          { text: '容器端口', value: 'ContainerPort' },
-          { text: '健康检查', value: 'ContainerHealthCheck' },
-          { text: '启动命令', value: 'ContainerRunCommand' },
-          { text: '环境变量', value: 'ContainerEnv' },
-          { text: '安全设置', value: 'ContainerSecurityContext' },
-        ],
       };
+    },
+    computed: {
+      tabItems() {
+        return [
+          { text: this.$t('tab.resource_limit'), value: 'ContainerResource' },
+          { text: this.$t('tab.container_port'), value: 'ContainerPort' },
+          { text: this.$t('tab.health_check'), value: 'ContainerHealthCheck' },
+          { text: this.$t('tab.run_command'), value: 'ContainerRunCommand' },
+          { text: this.$t('tab.env'), value: 'ContainerEnv' },
+          { text: this.$t('tab.security'), value: 'ContainerSecurityContext' },
+        ];
+      },
     },
     methods: {
       init(data) {
@@ -194,42 +202,42 @@
             if (this.$refs[tab.value].expand) {
               if (tab.value === 'ContainerResource') {
                 this.$store.commit('SET_SNACKBAR', {
-                  text: '资源限制数据未保存',
+                  text: this.$t('tip.resource_limit_unsaved'),
                   color: 'warning',
                 });
                 check = false;
                 return;
               } else if (tab.value === 'ContainerPort') {
                 this.$store.commit('SET_SNACKBAR', {
-                  text: '容器端口数据未保存',
+                  text: this.$t('tip.container_port_unsaved'),
                   color: 'warning',
                 });
                 check = false;
                 return;
               } else if (tab.value === 'ContainerHealthCheck') {
                 this.$store.commit('SET_SNACKBAR', {
-                  text: '健康检查数据未保存',
+                  text: this.$t('tip.health_check_unsaved'),
                   color: 'warning',
                 });
                 check = false;
                 return;
               } else if (tab.value === 'ContainerRunCommand') {
                 this.$store.commit('SET_SNACKBAR', {
-                  text: '启动命令数据未保存',
+                  text: this.$t('tip.run_command_unsaved'),
                   color: 'warning',
                 });
                 check = false;
                 return;
               } else if (tab.value === 'ContainerEnv') {
                 this.$store.commit('SET_SNACKBAR', {
-                  text: '环境变量数据未保存',
+                  text: this.$t('tip.env_unsaved'),
                   color: 'warning',
                 });
                 check = false;
                 return;
               } else if (tab.value === 'ContainerSecurityContext') {
                 this.$store.commit('SET_SNACKBAR', {
-                  text: '安全设置数据未保存',
+                  text: this.$t('tip.security_unsaved'),
                   color: 'warning',
                 });
                 check = false;

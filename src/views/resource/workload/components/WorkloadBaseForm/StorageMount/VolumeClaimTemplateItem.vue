@@ -42,7 +42,9 @@
                   <v-list-item-title class="text-subtitle-2 py-1">
                     {{ item.spec.storageClassName }}&nbsp;
                   </v-list-item-title>
-                  <v-list-item-subtitle class="text-body-2 py-1"> 类型 </v-list-item-subtitle>
+                  <v-list-item-subtitle class="text-body-2 py-1">
+                    {{ $root.$t('resource.type') }}
+                  </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
               <v-list-item class="float-left" :style="{ width: `200px` }" two-line>
@@ -50,7 +52,7 @@
                   <v-list-item-title class="text-subtitle-2 py-1">
                     {{ item.spec.resources.requests.storage }}&nbsp;
                   </v-list-item-title>
-                  <v-list-item-subtitle class="text-body-2 py-1"> 容量 </v-list-item-subtitle>
+                  <v-list-item-subtitle class="text-body-2 py-1"> {{ $t('tip.capacity') }} </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
               <v-list-item class="float-left px-0" :style="{ width: `200px` }" two-line>
@@ -58,7 +60,7 @@
                   <v-list-item-title class="text-subtitle-2 py-1">
                     {{ item.spec.accessModes[0] }}&nbsp;
                   </v-list-item-title>
-                  <v-list-item-subtitle class="text-body-2 py-1"> 访问模式 </v-list-item-subtitle>
+                  <v-list-item-subtitle class="text-body-2 py-1"> {{ $t('tip.access_mode') }} </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
             </v-flex>
@@ -67,22 +69,26 @@
           <v-list-item-content v-for="(container, i) in containers" :key="`containerT${i}`" class="pb-4">
             <v-row v-if="container.volumeMounts && containerMap[container.name][item.metadata.name]">
               <v-col class="py-1" cols="2">
-                <span class="text-body-2">容器:</span>
+                <span class="text-body-2">{{ $root.$t('resource.container') }} : </span>
                 <span class="text-subtitle-2 ml-2">
                   {{ container.name }}
                 </span>
               </v-col>
               <v-col class="py-1" cols="5">
-                <span class="text-body-2">挂载:</span>
+                <span class="text-body-2">{{ $t('tip.mounted') }} : </span>
                 <span class="text-subtitle-2 ml-2">
                   {{ containerMap[container.name][item.metadata.name].mountPath }}
                 </span>
                 <span class="text-subtitle-2 ml-2">
-                  ({{ containerMap[container.name][item.metadata.name].readOnly ? '只读' : '读写' }})
+                  ({{
+                    containerMap[container.name][item.metadata.name].readOnly
+                      ? $t('status.read_only')
+                      : $t('status.read_write')
+                  }})
                 </span>
               </v-col>
               <v-col v-if="containerMap[container.name][item.metadata.name].subPath" class="py-1" cols="4">
-                <span class="text-body-2">子路径:</span>
+                <span class="text-body-2">{{ $t('tip.subpath') }} : </span>
                 <span class="text-subtitle-2 ml-2">
                   {{ containerMap[container.name][item.metadata.name].subPath }}
                 </span>
@@ -90,14 +96,14 @@
             </v-row>
             <v-row v-else>
               <v-col class="py-1" cols="2">
-                <span class="text-body-2">容器:</span>
+                <span class="text-body-2">{{ $root.$t('resource.container') }} : </span>
                 <span class="text-subtitle-2 ml-2">
                   {{ container.name }}
                 </span>
               </v-col>
               <v-col class="py-1" cols="5">
-                <span class="text-body-2">挂载:</span>
-                <span class="text-subtitle-2 ml-2">不挂载</span>
+                <span class="text-body-2">{{ $t('tip.mounted') }} : </span>
+                <span class="text-subtitle-2 ml-2">{{ $t('tip.unmounted') }}</span>
               </v-col>
             </v-row>
           </v-list-item-content>
@@ -116,7 +122,7 @@
           <v-list-item-subtitle class="text-body-2 py-0 text-center">
             <v-btn color="primary" text @click="expandTemplateCard">
               <v-icon left small> mdi-plus </v-icon>
-              添加卷挂载模版
+              {{ $root.$t('operate.add_c', [$t('tip.volume_mount_template')]) }}
             </v-btn>
           </v-list-item-subtitle>
         </v-list-item-content>
@@ -126,10 +132,14 @@
 </template>
 
 <script>
+  import messages from '../../../i18n';
   import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'VolumeClaimTemplateItem',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     props: {
       containers: {

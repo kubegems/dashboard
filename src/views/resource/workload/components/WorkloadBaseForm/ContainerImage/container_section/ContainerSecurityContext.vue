@@ -23,7 +23,7 @@
           <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
             <v-sheet class="pt-2 px-2">
               <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width">
-                <span>访问控制</span>
+                <span>{{ $t('tip.access_control') }}</span>
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-autocomplete
@@ -32,9 +32,9 @@
                   color="primary"
                   hide-selected
                   :items="modes"
-                  label="访问控制"
+                  :label="$t('tip.access_control')"
                   multiple
-                  no-data-text="暂无可选数据"
+                  :no-data-text="$root.$t('data.no_data')"
                   :rules="objRules.securityContextRule"
                 >
                   <template #selection="{ item }">
@@ -50,8 +50,8 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
-          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> {{ $root.$t('operate.cancel') }} </v-btn>
+          <v-btn color="primary" small text @click="addData"> {{ $root.$t('operate.save') }} </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -61,17 +61,17 @@
           <v-list-item-subtitle class="text-body-2 py-0">
             <v-list-item v-if="containerCopy.securityContext.privileged" class="pa-0">
               <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1"> 特权模式运行(Privileged) </v-list-item-title>
+                <v-list-item-title class="text-subtitle-2 py-1"> {{ $t('tip.privileged') }} </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             <v-list-item v-if="containerCopy.securityContext.allowPrivilegeEscalation" class="pa-0">
               <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1"> 扩大特权(AllowPrivilegeEscalation) </v-list-item-title>
+                <v-list-item-title class="text-subtitle-2 py-1"> {{ $t('tip.allow_escalation') }} </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             <v-list-item v-if="containerCopy.securityContext.readOnlyRootFilesystem" class="pa-0">
               <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1"> root只读(ReadOnlyRootFilesystem) </v-list-item-title>
+                <v-list-item-title class="text-subtitle-2 py-1"> {{ $t('tip.root_readonly') }} </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list-item-subtitle>
@@ -91,7 +91,7 @@
           <v-list-item-subtitle class="text-body-2 py-0 text-center">
             <v-btn color="primary" text @click="expandCard">
               <v-icon left small> mdi-plus </v-icon>
-              添加安全设置
+              {{ $root.$t('operate.add_c', [$t('tab.security')]) }}
             </v-btn>
           </v-list-item-subtitle>
         </v-list-item-content>
@@ -101,11 +101,15 @@
 </template>
 
 <script>
+  import messages from '../../../../i18n';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'ContainerSecurityContext',
+    i18n: {
+      messages: messages,
+    },
     props: {
       container: {
         type: Object,
@@ -116,23 +120,27 @@
       return {
         valid: false,
         expand: false,
-        modes: [
-          { text: '特权模式(Privileged)', value: 'privileged' },
-          {
-            text: '扩大特权(AllowPrivilegeEscalation)',
-            value: 'allowPrivilegeEscalation',
-          },
-          {
-            text: 'root只读(ReadOnlyRootFilesystem)',
-            value: 'readOnlyRootFilesystem',
-          },
-        ],
         securityContext: [],
         objRules: {
           securityContextRule: [required],
         },
         containerCopy: null,
       };
+    },
+    computed: {
+      modes() {
+        return [
+          { text: this.$t('tip.privileged'), value: 'privileged' },
+          {
+            text: this.$t('tip.allow_escalation'),
+            value: 'allowPrivilegeEscalation',
+          },
+          {
+            text: this.$t('tip.root_readonly'),
+            value: 'readOnlyRootFilesystem',
+          },
+        ];
+      },
     },
     watch: {
       container() {

@@ -23,7 +23,7 @@
           <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
             <v-sheet class="pt-2 px-2">
               <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width">
-                <span>检查类型</span>
+                <span>{{ $t('tab.health_check') }}</span>
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-autocomplete
@@ -32,8 +32,8 @@
                   color="primary"
                   hide-selected
                   :items="checkTypes"
-                  label="健康检查类型"
-                  no-data-text="暂无可选数据"
+                  :label="$t('tip.health_check_type')"
+                  :no-data-text="$root.$t('data.no_data')"
                   :rules="objRules.checkTypeRule"
                 >
                   <template #selection="{ item }">
@@ -47,7 +47,7 @@
             </v-sheet>
             <v-sheet class="px-2">
               <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width">
-                <span>检查方式</span>
+                <span>{{ $t('tip.health_check_method') }}</span>
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-autocomplete
@@ -56,8 +56,8 @@
                   color="primary"
                   hide-selected
                   :items="checkMethods"
-                  label="健康检查方式"
-                  no-data-text="暂无可选数据"
+                  :label="$t('tip.health_check_method')"
+                  :no-data-text="$root.$t('data.no_data')"
                   :rules="objRules.checkMethodRule"
                 >
                   <template #selection="{ item }">
@@ -72,7 +72,7 @@
 
             <v-sheet v-if="obj.checkMethod === 'httpGet'" class="px-2">
               <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width">
-                <span>HTTP请求</span>
+                <span>{{ $t('tip.http_check') }}</span>
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-autocomplete
@@ -84,8 +84,8 @@
                     { text: 'HTTP', value: 'HTTP' },
                     { text: 'HTTPS', value: 'HTTPS' },
                   ]"
-                  label="协议"
-                  no-data-text="暂无可选数据"
+                  :label="$t('tip.protocol')"
+                  :no-data-text="$root.$t('data.no_data')"
                   :rules="objRules.schemeRule"
                 >
                   <template #selection="{ item }">
@@ -99,7 +99,7 @@
                 <v-text-field
                   v-model="obj.httpGet.path"
                   class="my-0"
-                  label="路径"
+                  :label="$t('tip.path')"
                   required
                   :rules="objRules.pathRule"
                 />
@@ -109,7 +109,7 @@
                 <v-text-field
                   v-model="obj.httpGet.port"
                   class="my-0"
-                  label="端口"
+                  :label="$t('tip.port')"
                   required
                   :rules="objRules.portRule"
                   type="number"
@@ -120,14 +120,14 @@
 
             <v-sheet v-else-if="obj.checkMethod === 'exec'" class="px-2">
               <v-flex class="float-left text-subtitle-2 pt-4 primary--text kubegems__min-width">
-                <span>执行命令</span>
+                <span>{{ $t('tip.shell_check') }}</span>
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-textarea
                   v-model="obj.exec.command"
                   auto-grow
                   class="my-0"
-                  label="命令"
+                  :label="$t('tip.command')"
                   required
                   :rules="objRules.commandRule"
                 />
@@ -137,13 +137,13 @@
 
             <v-sheet v-else-if="obj.checkMethod === 'tcpSocket'" class="px-2">
               <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width">
-                <span>TCP端口</span>
+                <span>{{ $t('tip.tcp_check') }}</span>
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-text-field
                   v-model="obj.tcpSocket.port"
                   class="my-0"
-                  label="端口"
+                  :label="$t('tip.port')"
                   required
                   :rules="objRules.portRule"
                   type="number"
@@ -154,13 +154,13 @@
 
             <v-sheet class="px-2">
               <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width">
-                <span>参数</span>
+                <span>{{ $t('tip.params') }}</span>
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-text-field
                   v-model="obj.initialDelaySeconds"
                   class="my-0"
-                  label="初始延迟"
+                  :label="$t('tip.init_delay')"
                   required
                   :rules="objRules.initialDelaySecondsRule"
                   type="number"
@@ -170,7 +170,7 @@
                 <v-text-field
                   v-model="obj.timeoutSeconds"
                   class="my-0"
-                  label="超时时间"
+                  :label="$t('tip.timeout')"
                   required
                   :rules="objRules.timeoutSecondsRule"
                   type="number"
@@ -186,7 +186,7 @@
                 <v-text-field
                   v-model="obj.periodSeconds"
                   class="my-0"
-                  label="探测频率"
+                  :label="$t('tip.period')"
                   required
                   :rules="objRules.periodSecondsRule"
                   type="number"
@@ -196,7 +196,7 @@
                 <v-text-field
                   v-model="obj.successThreshold"
                   class="my-0"
-                  label="健康阀值"
+                  :label="$t('tip.success_threshold')"
                   :readonly="obj.checkType === 'livenessProbe' || obj.checkType === 'startupProbe'"
                   required
                   :rules="objRules.successThresholdRule"
@@ -213,7 +213,7 @@
                 <v-text-field
                   v-model="obj.failureThreshold"
                   class="my-0"
-                  label="不健康阀值"
+                  :label="$t('tip.failure_threshold')"
                   required
                   :rules="objRules.failureThresholdRule"
                   type="number"
@@ -225,8 +225,8 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
-          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> {{ $root.$t('operate.cancel') }} </v-btn>
+          <v-btn color="primary" small text @click="addData"> {{ $root.$t('operate.save') }} </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -263,7 +263,7 @@
           <v-list-item-subtitle class="text-body-2 py-0 text-center">
             <v-btn color="primary" text @click="expandCard">
               <v-icon left small> mdi-plus </v-icon>
-              添加健康检查
+              {{ $root.$t('operate.add_c', [$t('tab.health_check')]) }}
             </v-btn>
           </v-list-item-subtitle>
         </v-list-item-content>
@@ -273,6 +273,7 @@
 </template>
 
 <script>
+  import messages from '../../../../../i18n';
   import LivenessProbe from './LivenessProbe';
   import ReadinessProbe from './ReadinessProbe';
   import StartupProbe from './StartupProbe';
@@ -281,6 +282,9 @@
 
   export default {
     name: 'ContainerHealthCheck',
+    i18n: {
+      messages: messages,
+    },
     components: {
       LivenessProbe,
       ReadinessProbe,
@@ -296,16 +300,6 @@
       return {
         valid: false,
         expand: false,
-        checkTypes: [
-          { text: '容器存活检查', value: 'livenessProbe' },
-          { text: '容器就绪检查', value: 'readinessProbe' },
-          { text: '容器启动检查', value: 'startupProbe' },
-        ],
-        checkMethods: [
-          { text: 'HTTP请求检查', value: 'httpGet' },
-          { text: '执行命令检查', value: 'exec' },
-          { text: 'TCP端口检查', value: 'tcpSocket' },
-        ],
         obj: {
           checkType: 'livenessProbe',
           checkMethod: 'httpGet',
@@ -335,8 +329,8 @@
           checkTypeRule: [required],
           checkMethodRule: [required],
           initialDelaySecondsRule: [positiveInteger],
-          timeoutSecondsRule: [positiveInteger, (v) => parseInt(v) >= 1 || '最小为1'],
-          periodSecondsRule: [positiveInteger, (v) => parseInt(v) >= 1 || '最小为1'],
+          timeoutSecondsRule: [positiveInteger, (v) => parseInt(v) >= 1 || this.$t('form.min_1_rule')],
+          periodSecondsRule: [positiveInteger, (v) => parseInt(v) >= 1 || this.$t('form.min_1_rule')],
           successThresholdRule: [positiveInteger],
           failureThresholdRule: [positiveInteger],
         };
@@ -350,6 +344,20 @@
           ruler['portRule'] = [port];
         }
         return ruler;
+      },
+      checkTypes() {
+        return [
+          { text: this.$t('tip.live_probe'), value: 'livenessProbe' },
+          { text: this.$t('tip.readness_probe'), value: 'readinessProbe' },
+          { text: this.$t('tip.startup_probe'), value: 'startupProbe' },
+        ];
+      },
+      checkMethods() {
+        return [
+          { text: this.$t('tip.http_check'), value: 'httpGet' },
+          { text: this.$t('tip.shell_check'), value: 'exec' },
+          { text: this.$t('tip.tcp_check'), value: 'tcpSocket' },
+        ];
       },
     },
     watch: {

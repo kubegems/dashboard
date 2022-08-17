@@ -41,7 +41,18 @@
 
   "ruler": {
     "required": "Required",
-    "not_match": "Not Match"
+    "not_match": "Not Match",
+    "positive_integer": "Error (example: positive integer)",
+    "integer": "Error (example: integer)",
+    "time_interval": "Error (example: 30s,1m,1h)",
+    "size_gb": "Error (example: 10G)",
+    "port": "Error (example: 9200)",
+    "k8s_label": "Does not conform to the Kubernetes label specification",
+    "k8s_annotation": "Does not conform to the Kubernetes annotation specification",
+    "k8s_name": "Does not conform to Kubernetes naming conventions",
+    "email": "Email error",
+    "mobile": "Mobile error",
+    "password": "Error (includes uppercase and lowercase numeric special characters 8 to 16 passwords)"
   },
 
   "role": {
@@ -211,7 +222,8 @@
     "definition": "{0} Definition",
     "key_value": "Key-value pair",
     "key": "Key",
-    "value": "Value"
+    "value": "Value",
+    "name": "Name"
   },
   "pagination": {
     "count": "Per Page Count"
@@ -453,7 +465,15 @@
     "parse_error": "Data parsing error",
     "select_tenant": "Please select tenant",
     "select_environment": "Please select environment",
-    "condition": "Condition"
+    "condition": "Condition",
+    "not_correct_yaml": "It is not the correct K8S yaml format, please add the necessary fields or fill in the correct data format, the error message is:",
+    "path": "Path",
+    "missing_metadata": "Missing metadata",
+    "missing_name": "Missing name",
+    "missing_namespace": "Missing namespace",
+    "select_namespace": "Please select namespace first",
+    "in_virtualspace": "Added virtual space",
+    "not_allocate_resource": "Tenant has no resources assigned"
   },
   "tab": {
     "overview": "Overview",

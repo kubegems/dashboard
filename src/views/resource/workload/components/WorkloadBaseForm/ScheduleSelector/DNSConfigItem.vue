@@ -81,7 +81,7 @@
           <v-list-item-subtitle class="text-body-2 py-0 text-center">
             <v-btn color="primary" text @click="expandCard">
               <v-icon left small> mdi-plus </v-icon>
-              添加DNS配置
+              {{ $root.$t('operate.add_c', [$t('tip.dns_config')]) }}
             </v-btn>
           </v-list-item-subtitle>
         </v-list-item-content>
@@ -91,10 +91,14 @@
 </template>
 
 <script>
+  import messages from '../../../i18n';
   import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'DNSConfigItem',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     props: {
       dnsConfig: {

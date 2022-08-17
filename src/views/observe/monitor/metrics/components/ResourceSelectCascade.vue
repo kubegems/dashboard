@@ -166,6 +166,7 @@
         handler: async function (newValue) {
           if (newValue) {
             this.getMonitorConfig();
+            this.ruleScopeList();
           }
         },
         deep: true,

@@ -20,9 +20,9 @@
       <v-list-item class="float-left pa-0 secret__item" two-line>
         <v-list-item-content class="py-0">
           <v-list-item-title class="text-subtitle-2 py-1">
-            <span> 密钥 </span>
+            <span> {{ $root.$t('resource.secret') }} </span>
           </v-list-item-title>
-          <v-list-item-subtitle class="text-body-2 py-1"> 类型 </v-list-item-subtitle>
+          <v-list-item-subtitle class="text-body-2 py-1"> {{ $root.$t('resource.type') }} </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
       <v-list-item class="float-left pa-0 secret__item" two-line>
@@ -32,7 +32,7 @@
               {{ item.name }}
             </span>
           </v-list-item-title>
-          <v-list-item-subtitle class="text-body-2 py-1"> 名称 </v-list-item-subtitle>
+          <v-list-item-subtitle class="text-body-2 py-1"> {{ $root.$t('form.name') }} </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
       <v-list-item class="float-left pa-0 secret__item" two-line>
@@ -42,7 +42,7 @@
               {{ item.valueFrom.secretKeyRef.name }}
             </span>
           </v-list-item-title>
-          <v-list-item-subtitle class="text-body-2 py-1"> 密钥 </v-list-item-subtitle>
+          <v-list-item-subtitle class="text-body-2 py-1"> {{ $root.$t('resource.secret') }} </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
       <v-list-item class="float-left pa-0 secret__item" two-line>
@@ -52,7 +52,7 @@
               {{ item.valueFrom.secretKeyRef.key }}
             </span>
           </v-list-item-title>
-          <v-list-item-subtitle class="text-body-2 py-1"> 键 </v-list-item-subtitle>
+          <v-list-item-subtitle class="text-body-2 py-1"> {{ $root.$t('form.key') }} </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
     </v-list-item-subtitle>

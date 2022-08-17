@@ -15,12 +15,12 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-rocket" :title="title" :width="800" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-rocket" :title="$t('tip.resource_limit')" :width="800" @reset="reset">
     <template #content>
       <v-card v-if="adviseItem && item" flat>
         <v-card-text v-for="obj in item.spec.template.spec.containers" :key="obj.name" class="pa-0 mb-8">
           <div v-if="hasAdvise(obj.name)">
-            <BaseSubTitle :title="`容器:${obj.name}`" />
+            <BaseSubTitle :title="`${$root.$t('resource.container')}:${obj.name}`" />
             <v-alert
               border="left"
               class="mt-3 mx-2 text-body-2 py-4"
@@ -31,7 +31,7 @@
               {{ getAdviseShow(obj) }}
             </v-alert>
             <v-card-text class="pa-0">
-              <p class="text-subtitle-2 px-2 primary--text mt-0"> CPU预留/限制 </p>
+              <p class="text-subtitle-2 px-2 primary--text mt-0"> {{ $t('tip.cpu_limit') }} </p>
               <v-card-text
                 v-if="sliderItems[obj.name]"
                 :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} pt-1 px-4 mt-6`"
@@ -54,7 +54,7 @@
                 </VueSlider>
               </v-card-text>
             </v-card-text>
-            <p class="text-subtitle-2 px-2 primary--text mt-4">内存预留/限制</p>
+            <p class="text-subtitle-2 px-2 primary--text mt-4">{{ $t('tip.memory_limit') }}</p>
             <v-card-text
               v-if="sliderItems[obj.name]"
               :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} pt-1 px-4 mt-6`"
@@ -81,7 +81,9 @@
     </template>
 
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateWorkloadResource"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateWorkloadResource">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>
@@ -90,6 +92,7 @@
   import VueSlider from 'vue-slider-component';
   import { mapState } from 'vuex';
 
+  import messages from '../i18n';
   import {
     getDaemonSetDetail,
     getDeploymentDetail,
@@ -107,12 +110,14 @@
 
   export default {
     name: 'ResourceLimit',
+    i18n: {
+      messages: messages,
+    },
     components: {
       VueSlider,
     },
     mixins: [BaseResource, BaseSelect],
     data: () => ({
-      title: '资源限制',
       dialog: false,
       item: null,
       workload: null,

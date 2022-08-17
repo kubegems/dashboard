@@ -23,7 +23,7 @@
           <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
             <v-sheet class="pt-0 px-2">
               <v-flex class="float-left text-subtitle-2 pt-6 primary--text kubegems__min-width">
-                <span>运行命令</span>
+                <span>{{ $t('tab.run_command') }}</span>
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__long-width">
                 <v-combobox
@@ -57,7 +57,7 @@
             </v-sheet>
             <v-sheet class="px-2">
               <v-flex class="float-left text-subtitle-2 pt-6 primary--text kubegems__min-width">
-                <span>参数</span>
+                <span>{{ $t('tip.params') }}</span>
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__long-width">
                 <v-combobox
@@ -92,8 +92,8 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
-          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> {{ $root.$t('operate.cancel') }} </v-btn>
+          <v-btn color="primary" small text @click="addData"> {{ $root.$t('operate.save') }} </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -110,7 +110,7 @@
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{ command }}
                 </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1"> 启动命令 </v-list-item-subtitle>
+                <v-list-item-subtitle class="text-body-2 py-1"> {{ $t('tab.run_command') }} </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-list-item-subtitle>
@@ -124,7 +124,7 @@
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{ args }}
                 </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1"> 启动参数 </v-list-item-subtitle>
+                <v-list-item-subtitle class="text-body-2 py-1"> {{ $t('tip.params') }} </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-list-item-subtitle>
@@ -144,7 +144,7 @@
           <v-list-item-subtitle class="text-body-2 py-0 text-center">
             <v-btn color="primary" text @click="expandCard">
               <v-icon left small> mdi-plus </v-icon>
-              添加启动命令
+              {{ $root.$t('operate.add_c', [$t('tab.run_command')]) }}
             </v-btn>
           </v-list-item-subtitle>
         </v-list-item-content>
@@ -154,11 +154,15 @@
 </template>
 
 <script>
+  import messages from '../../../../i18n';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'ContainerRunCommand',
+    i18n: {
+      messages: messages,
+    },
     props: {
       container: {
         type: Object,

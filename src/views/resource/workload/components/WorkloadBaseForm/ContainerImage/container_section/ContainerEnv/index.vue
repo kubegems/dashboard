@@ -22,7 +22,7 @@
         <v-card-text class="pa-0">
           <v-sheet class="pt-2 px-2">
             <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width">
-              <span>变量类型</span>
+              <span>{{ $t('tip.params_type') }}</span>
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-autocomplete
@@ -31,8 +31,8 @@
                 color="primary"
                 hide-selected
                 :items="envTypes"
-                label="类型"
-                no-data-text="暂无可选数据"
+                :label="$root.$t('resource.type')"
+                :no-data-text="$root.$t('data.no_data')"
                 @change="onEnvTypeChange"
               >
                 <template #selection="{ item }">
@@ -65,8 +65,8 @@
                     color="primary"
                     hide-selected
                     :items="items"
-                    :label="env === 'secret' ? '密钥' : '配置'"
-                    no-data-text="暂无可选数据"
+                    :label="env === 'secret' ? $root.$t('resource.secret') : $root.$t('resource.configmap')"
+                    :no-data-text="$root.$t('data.no_data')"
                     :rules="objRules.fromNameRule"
                   >
                     <template #selection="{ item }">
@@ -86,8 +86,8 @@
                     color="primary"
                     hide-selected
                     :items="keys"
-                    label="键"
-                    no-data-text="暂无可选数据"
+                    :label="$root.$t('form.key')"
+                    :no-data-text="$root.$t('data.no_data')"
                     :rules="objRules.valueRule"
                   >
                     <template #selection="{ item }">
@@ -112,8 +112,8 @@
                     color="primary"
                     hide-selected
                     :items="sources"
-                    label="源"
-                    no-data-text="暂无可选数据"
+                    :label="$t('tip.source')"
+                    :no-data-text="$root.$t('data.no_data')"
                     :rules="objRules.fromNameRule"
                   >
                     <template #selection="{ item }">
@@ -128,7 +128,7 @@
                     <v-text-field
                       v-model="obj.containerName"
                       class="my-0"
-                      label="容器"
+                      :label="$root.$t('container')"
                       required
                       :rules="objRules.containerNameRule"
                     />
@@ -164,8 +164,8 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
-          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> {{ $root.$t('operate.cancel') }} </v-btn>
+          <v-btn color="primary" small text @click="addData"> {{ $root.$t('operate.save') }} </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -199,7 +199,7 @@
           <v-list-item-subtitle class="text-body-2 py-0 text-center">
             <v-btn color="primary" text @click="expandCard">
               <v-icon left small> mdi-plus </v-icon>
-              添加环境变量
+              {{ $root.$t('operate.add_c', [$t('tip.env')]) }}
             </v-btn>
           </v-list-item-subtitle>
         </v-list-item-content>
@@ -209,6 +209,7 @@
 </template>
 
 <script>
+  import messages from '../../../../../i18n';
   import Configmap from './Configmap';
   import DownwardContainer from './DownwardContainer';
   import DownwardPod from './DownwardPod';
@@ -221,6 +222,9 @@
 
   export default {
     name: 'ContainerEnv',
+    i18n: {
+      messages: messages,
+    },
     components: {
       Configmap,
       DownwardContainer,
@@ -247,16 +251,6 @@
       return {
         valid: false,
         expand: false,
-        envTypes: [
-          { text: '键值对', value: 'kv' },
-          { text: '配置', value: 'configmap' },
-          { text: '密钥', value: 'secret' },
-          { text: 'Downward API', value: 'downward' },
-        ],
-        sources: [
-          { text: '容器', value: 'Container' },
-          { text: 'Pod', value: 'Pod' },
-        ],
         env: 'kv',
         items: [],
         obj: {
@@ -292,6 +286,20 @@
           return [];
         }
         return [];
+      },
+      envTypes() {
+        return [
+          { text: this.$root.$t('form.key_value'), value: 'kv' },
+          { text: this.$root.$t('resource.configmap'), value: 'configmap' },
+          { text: this.$root.$t('resource.secret'), value: 'secret' },
+          { text: 'Downward API', value: 'downward' },
+        ];
+      },
+      sources() {
+        return [
+          { text: this.$root.$t('resource.container'), value: 'Container' },
+          { text: 'Pod', value: 'Pod' },
+        ];
       },
     },
     watch: {

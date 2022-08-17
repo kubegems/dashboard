@@ -30,7 +30,7 @@
                 </v-list-item-title>
 
                 <v-list-item-subtitle class="text-body-2 text--lighten-4 card__desc">
-                  类型： {{ item.framework }}
+                  类型： {{ item.task }}
                 </v-list-item-subtitle>
                 <v-list-item-subtitle class="text-body-2 text--lighten-4 card__desc">
                   更新时间： {{ item.lastModified ? $moment(item.lastModified).format('lll') : '未知' }}

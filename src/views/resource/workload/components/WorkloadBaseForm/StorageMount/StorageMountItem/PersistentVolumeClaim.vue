@@ -22,10 +22,10 @@
           {{
             pvcs && pvcs[item.persistentVolumeClaim.claimName]
               ? pvcs[item.persistentVolumeClaim.claimName].spec.storageClassName
-              : '未知'
+              : $root.$t('data.unknown')
           }}&nbsp;
         </v-list-item-title>
-        <v-list-item-subtitle class="text-body-2 py-1"> 类型 </v-list-item-subtitle>
+        <v-list-item-subtitle class="text-body-2 py-1"> {{ $root.$t('resource.type') }} </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
     <v-list-item class="float-left px-0" :style="{ width: `150px` }" two-line>
@@ -37,7 +37,7 @@
               : '0Gi'
           }}&nbsp;
         </v-list-item-title>
-        <v-list-item-subtitle class="text-body-2 py-1"> 容量 </v-list-item-subtitle>
+        <v-list-item-subtitle class="text-body-2 py-1"> {{ $t('tip.capacity') }} </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
     <v-list-item class="float-left px-0" :style="{ width: `150px` }" two-line>
@@ -46,10 +46,10 @@
           {{
             pvcs && pvcs[item.persistentVolumeClaim.claimName]
               ? pvcs[item.persistentVolumeClaim.claimName].spec.accessModes[0]
-              : '未知'
+              : $root.$t('data.unknown')
           }}&nbsp;
         </v-list-item-title>
-        <v-list-item-subtitle class="text-body-2 py-1"> 访问模式 </v-list-item-subtitle>
+        <v-list-item-subtitle class="text-body-2 py-1"> {{ $t('tip.access_mode') }} </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
     <v-list-item class="float-left px-0" :style="{ width: `250px` }" two-line>
@@ -58,18 +58,25 @@
           {{
             pvcs && pvcs[item.persistentVolumeClaim.claimName]
               ? pvcs[item.persistentVolumeClaim.claimName].metadata.name
-              : '未知'
+              : $root.$t('data.unknown')
           }}&nbsp;
         </v-list-item-title>
-        <v-list-item-subtitle class="text-body-2 py-1"> 存储卷 </v-list-item-subtitle>
+        <v-list-item-subtitle class="text-body-2 py-1">
+          {{ $root.$t('resource.persistentvolumeclaim') }}
+        </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
   </v-flex>
 </template>
 
 <script>
+  import messages from '../../../../i18n';
+
   export default {
     name: 'PersistentVolumeClaim',
+    i18n: {
+      messages: messages,
+    },
     props: {
       item: {
         type: Object,

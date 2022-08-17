@@ -16,7 +16,7 @@
 
 <template>
   <div v-if="adviseItem">
-    <BaseTipWindow icon="mdi-feather" title="资源建议" :top="top">
+    <BaseTipWindow icon="mdi-feather" :title="$t('tip.resource_suggest')" :top="top">
       <template #header>
         <v-icon :color="getCondition(adviseItem).color" small @click="scaleResourceLimit">
           {{ getCondition(adviseItem).icon }}
@@ -33,25 +33,27 @@
         <v-list-item v-for="(container, containerName, index) in adviseItem.Conditions" :key="containerName">
           <v-list-item-content>
             <v-list-item-title>
-              容器
-              <v-btn v-if="index == 0" absolute color="warning" right text x-small @click="clearAdvise"> 忽略 </v-btn>
+              {{ $root.$t('resource.container') }}
+              <v-btn v-if="index == 0" absolute color="warning" right text x-small @click="clearAdvise">
+                {{ $t('tip.ignore') }}
+              </v-btn>
             </v-list-item-title>
             <v-list-item-content class="text-caption kubegems__text">
               {{ containerName }}
             </v-list-item-content>
             <template v-if="container.CPUStatus !== null">
-              <v-list-item-title>CPU</v-list-item-title>
+              <v-list-item-title>{{ $root.$t('resource.cpu') }}</v-list-item-title>
               <v-list-item-content class="text-caption kubegems__text">
-                {{ showAdvise(container.CPUStatus, 'CPU') }}
+                {{ showAdvise(container.CPUStatus, $root.$t('resource.cpu')) }}
               </v-list-item-content>
             </template>
             <template v-if="container.MemoryStatus !== null">
-              <v-list-item-title>内存</v-list-item-title>
+              <v-list-item-title>{{ $root.$t('resource.memory') }}</v-list-item-title>
               <v-list-item-content class="text-caption kubegems__text">
-                {{ showAdvise(container.MemoryStatus, '内存') }}
+                {{ showAdvise(container.MemoryStatus, $root.$t('resource.memory')) }}
               </v-list-item-content>
             </template>
-            <v-list-item-title>Pods(建议调整)</v-list-item-title>
+            <v-list-item-title>Pods({{ $t('tipadvice_2_scale') }})</v-list-item-title>
             <v-list-item-content class="text-caption kubegems__text my-0">
               <v-flex v-for="(pod, podIndex) in container.Pods" :key="podIndex" class="text-caption kubegems__text">
                 {{ pod }}
@@ -65,10 +67,14 @@
 </template>
 
 <script>
+  import messages from '../i18n';
   import { deleteWorkloadResourceAdvise } from '@/api';
 
   export default {
     name: 'ResourceAdvise',
+    i18n: {
+      messages: messages,
+    },
     props: {
       adviseItem: {
         type: Object,
@@ -93,49 +99,58 @@
           item?.Conditions?.reviews?.CPUStatus?.Status === 'low' &&
           item?.Conditions?.reviews?.MemoryStatus?.Status === 'low'
         ) {
-          return { color: 'success', text: '资源推荐缩容', icon: 'mdi-download' };
+          return { color: 'success', text: this.$t('tip.advice_shrink'), icon: 'mdi-download' };
         } else if (
           item?.Conditions?.reviews?.CPUStatus?.Status === 'high' &&
           item?.Conditions?.reviews?.MemoryStatus?.Status === 'high'
         ) {
-          return { color: 'warning', text: '资源推荐扩容', icon: 'mdi-upload' };
+          return { color: 'warning', text: this.$t('tip.advice_expansion'), icon: 'mdi-upload' };
         } else if (item?.Conditions?.reviews?.CPUStatus?.Status === 'low' && !item?.Conditions?.reviews?.MemoryStatus) {
-          return { color: 'warning', text: '资源推荐CPU缩容', icon: 'mdi-download' };
+          return { color: 'warning', text: this.$t('tip.advice_cpu_shrink'), icon: 'mdi-download' };
         } else if (
           item?.Conditions?.reviews?.CPUStatus?.Status === 'high' &&
           !item?.Conditions?.reviews?.MemoryStatus
         ) {
-          return { color: 'warning', text: '资源推荐CPU扩容', icon: 'mdi-upload' };
+          return { color: 'warning', text: this.$t('tip.advice_cpu_expansion'), icon: 'mdi-upload' };
         } else if (item?.Conditions?.reviews?.MemoryStatus?.Status === 'low' && !item?.Conditions?.reviews?.CPUStatus) {
-          return { color: 'warning', text: '资源推荐内存缩容', icon: 'mdi-download' };
+          return { color: 'warning', text: this.$t('tip.advice_memory_shrink'), icon: 'mdi-download' };
         } else if (
           item?.Conditions?.reviews?.MemoryStatus?.Status === 'high' &&
           !item?.Conditions?.reviews?.CPUStatus
         ) {
-          return { color: 'warning', text: '资源推荐内存扩容', icon: 'mdi-upload' };
+          return { color: 'warning', text: this.$t('tip.advice_memory_expansion'), icon: 'mdi-upload' };
         }
-        return { color: 'warning', text: '资源推荐', icon: 'mdi-clipboard-alert' };
+        return { color: 'warning', text: this.$t('tip.resource_suggest'), icon: 'mdi-clipboard-alert' };
       },
       showAdvise(advise, prefex) {
         let showStr = '';
         switch (advise.Status) {
           case 'low':
-            showStr = `过去一周${prefex}使用率95峰值:${(advise.CurrentRate * 100).toFixed(2)}%,偏低,当前限制:${
-              advise.CurrentLimit
-            },建议缩容至:${advise.SuggestLimit};`;
+            showStr = this.$t('tip.low_suggest', [
+              prefex,
+              (advise.CurrentRate * 100).toFixed(2),
+              advise.CurrentLimit,
+              advise.SuggestLimit,
+            ]);
             advise.Action = 'scaleDown';
 
             break;
           case 'high':
-            showStr = `过去一周${prefex}使用率95峰值:${(advise.CurrentRate * 100).toFixed(2)}%,偏高,当前限制:${
-              advise.CurrentLimit
-            },建议扩容至:${advise.SuggestLimit};`;
+            showStr = this.$t('tip.high_suggest', [
+              prefex,
+              (advise.CurrentRate * 100).toFixed(2),
+              advise.CurrentLimit,
+              advise.SuggestLimit,
+            ]);
             advise.Action = 'scaleUp';
             break;
           case 'very_high':
-            showStr = `过去一周${prefex}使用率95峰值:${(advise.CurrentRate * 100).toFixed(2)}%,非常高,当前限制:${
-              advise.CurrentLimit
-            },建议扩容至:${advise.SuggestLimit};`;
+            showStr = this.$t('tip.veryhigh_suggest', [
+              prefex,
+              (advise.CurrentRate * 100).toFixed(2),
+              advise.CurrentLimit,
+              advise.SuggestLimit,
+            ]);
             advise.Action = 'scaleUp';
             break;
         }

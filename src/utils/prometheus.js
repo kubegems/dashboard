@@ -87,3 +87,6 @@ export const GPU_USAGE = `round(gems_container_gpu_usage_percent{pod=~"$1", name
 export const GPU_MEMORY_USAGE = `round(gems_container_gpu_memory_usage_mb{pod=~"$1", namespace=~"$2"}, 0.001) / 1024`;
 export const GPU_TEMP = `round(gems_container_gpu_temp{pod=~"$1", namespace=~"$2"}, 0.01)`;
 export const GPU_POWER = `round(gems_container_gpu_power_usage_watt{pod=~"$1", namespace=~"$2"}, 0.01)`;
+
+export const MODEL_WORKLOAD_CPU_USAGE_CORE_PROMQL = `round(sum(gems_container_cpu_usage_cores{pod=~"$1", namespace=~"$2"})without(container), 0.001) * 1000 * 1000 * 1000`;
+export const MODEL_WORKLOAD_MEMORY_USAGE_BYTE_PROMQL = `sum(gems_container_memory_usage_bytes{pod=~"$1", namespace=~"$2"})without(container)`;

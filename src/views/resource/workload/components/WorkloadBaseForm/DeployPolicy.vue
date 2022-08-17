@@ -16,7 +16,7 @@
 
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
-    <BaseSubTitle title="更新策略" />
+    <BaseSubTitle :title="$t('tip.update_policy')" />
     <v-card-text class="pa-2">
       <v-row>
         <v-col cols="6">
@@ -26,8 +26,8 @@
             color="primary"
             hide-selected
             :items="updateStrategys"
-            label="更新方式"
-            no-data-text="暂无可选数据"
+            :label="$t('tip.update_type')"
+            :no-data-text="$root.$t('data.no_data')"
             :rules="dataRules.updateStrategyRule"
             @change="onUpdateStrategyDataInput"
           >
@@ -43,7 +43,7 @@
             <v-text-field
               v-model="data.maxUnavailable"
               class="my-0"
-              label="容器组最大不可用数量"
+              :label="$t('tip.max_unavailable')"
               required
               :rules="dataRules.maxUnavailableRule"
               @keyup="onUpdateStrategyDataInput"
@@ -53,7 +53,7 @@
             <v-text-field
               v-model="data.minReadySeconds"
               class="my-0"
-              label="最小就绪时间 (MinReadySeconds)"
+              :label="$t('tip.min_ready_seconds')"
               required
               type="number"
               @keyup="onUpdateStrategyDataInput"
@@ -66,7 +66,7 @@
             <v-text-field
               v-model="data.maxUnavailable"
               class="my-0"
-              label="容器组最大不可用数量"
+              :label="$t('tip.max_unavailable')"
               required
               :rules="dataRules.maxUnavailableRule"
               @keyup="onUpdateStrategyDataInput"
@@ -76,7 +76,7 @@
             <v-text-field
               v-model="data.maxSurge"
               class="my-0"
-              label="容器组最大超出数量"
+              :label="$t('tip.max_exceed')"
               required
               :rules="dataRules.maxSurgeRule"
               @keyup="onUpdateStrategyDataInput"
@@ -99,7 +99,7 @@
       </v-row>
     </v-card-text>
 
-    <BaseSubTitle title="部署模式" />
+    <BaseSubTitle :title="$t('tip.deploy_type')" />
     <v-card-text class="pa-2">
       <v-row>
         <v-col cols="6">
@@ -109,8 +109,8 @@
             color="primary"
             hide-selected
             :items="affinitys"
-            label="部署模式"
-            no-data-text="暂无可选数据"
+            :label="$t('tip.deploy_type')"
+            :no-data-text="$root.$t('data.no_data')"
             :rules="dataRules.affinityRule"
             @change="onAffinityChange"
           >
@@ -127,11 +127,15 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
   import { deepCopy } from '@/utils/helpers';
   import { positiveInteger, required } from '@/utils/rules';
 
   export default {
     name: 'DeployPolicy',
+    i18n: {
+      messages: messages,
+    },
     props: {
       kind: {
         type: String,
@@ -142,17 +146,6 @@
       return {
         valid: false,
         affinity: 'normal',
-        affinitys: [
-          { text: '默认部署(容器组副本将根据默认策略部署)', value: 'normal' },
-          {
-            text: '分散部署(容器组副本将会尽量分散在不同的节点中)',
-            value: 'podAntiAffinity',
-          },
-          {
-            text: '聚合部署(容器组副本将会尽量部署在同一节点上)',
-            value: 'podAffinity',
-          },
-        ],
         affinityPolicy: {
           preferredDuringSchedulingIgnoredDuringExecution: [
             {
@@ -196,16 +189,29 @@
       updateStrategys() {
         if (this.kind === 'DaemonSet' || this.kind === 'StatefulSet') {
           return [
-            { text: '滚动更新', value: 'RollingUpdate' },
-            { text: '删除容器组时更新', value: 'OnDelete' },
+            { text: this.$t('tip.rolling'), value: 'RollingUpdate' },
+            { text: this.$t('tip.ondelete'), value: 'OnDelete' },
           ];
         } else if (this.kind === 'Deployment') {
           return [
-            { text: '滚动更新', value: 'RollingUpdate' },
-            { text: '替换升级', value: 'Recreate' },
+            { text: this.$t('tip.rolling'), value: 'RollingUpdate' },
+            { text: this.$t('tip.recreate'), value: 'Recreate' },
           ];
         }
         return [];
+      },
+      affinitys() {
+        return [
+          { text: this.$t('tip.default_aff'), value: 'normal' },
+          {
+            text: this.$t('tip.pod_ant_aff'),
+            value: 'podAntiAffinity',
+          },
+          {
+            text: this.$t('tip.pod_aff'),
+            value: 'podAffinity',
+          },
+        ];
       },
     },
     methods: {

@@ -23,7 +23,7 @@
           <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
             <v-sheet class="pt-2 px-2">
               <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width">
-                <span>端口定义</span>
+                <span>{{ $root.$t('form.definition', [$t('tip.port')]) }}</span>
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-text-field v-model="obj.name" class="my-0" label="名称" required :rules="objRules.nameRule" />
@@ -32,7 +32,7 @@
                 <v-text-field
                   v-model="obj.containerPort"
                   class="my-0"
-                  label="端口"
+                  :label="$t('tip.port')"
                   required
                   :rules="objRules.containerPortRule"
                   type="number"
@@ -44,8 +44,8 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
-          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> {{ $root.$t('operate.cancel') }} </v-btn>
+          <v-btn color="primary" small text @click="addData"> {{ $root.$t('operate.save') }} </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -58,7 +58,7 @@
           <v-list-item-subtitle class="text-body-2 py-0 text-center">
             <v-btn color="primary" text @click="expandCard">
               <v-icon left small> mdi-plus </v-icon>
-              添加容器端口
+              {{ $root.$t('operate.add_c', [$t('tip.container_port')]) }}
             </v-btn>
           </v-list-item-subtitle>
         </v-list-item-content>
@@ -68,12 +68,16 @@
 </template>
 
 <script>
+  import messages from '../../../../../i18n';
   import Port from './Port';
   import { deepCopy } from '@/utils/helpers';
   import { port, required } from '@/utils/rules';
 
   export default {
     name: 'ContainerPort',
+    i18n: {
+      messages: messages,
+    },
     components: {
       Port,
     },

@@ -26,8 +26,8 @@
           color="primary"
           hide-selected
           :items="readModes"
-          label="挂载方式"
-          no-data-text="暂无可选数据"
+          :label="$t('tip.mount_type')"
+          :no-data-text="$root.$t('data.no_data')"
         >
           <template #selection="{ item }">
             <v-chip class="mx-1" color="primary" small>
@@ -40,7 +40,7 @@
         <v-text-field
           v-if="mounts[container.name].readOnly !== null"
           v-model="mounts[container.name].mountPath"
-          label="挂载路径"
+          :label="$t('tip.mount_path')"
           required
           :rules="mountRules[container.name].mountPathRule"
         />
@@ -50,7 +50,7 @@
         <v-text-field
           v-if="mounts[container.name].readOnly !== null"
           v-model="mounts[container.name].subPath"
-          label="子路径"
+          :label="$t('tip.subpath')"
           :rules="mountRules[container.name].subPathRule"
         />
       </v-flex>
@@ -60,11 +60,15 @@
 </template>
 
 <script>
+  import messages from '../../../../i18n';
   import BaseResource from '@/mixins/resource';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'VolumeMount',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     props: {
       containers: {
@@ -90,14 +94,14 @@
       readModes() {
         if (this.volume && (this.volume.secret || this.volume.configmap)) {
           return [
-            { text: '只读', value: true },
-            { text: '不挂载', value: null },
+            { text: this.$t('status.read_only'), value: true },
+            { text: this.$t('tip.unmounted'), value: null },
           ];
         }
         return [
-          { text: '只读', value: true },
-          { text: '读写', value: false },
-          { text: '不挂载', value: null },
+          { text: this.$t('status.read_only'), value: true },
+          { text: this.$t('status.read_write'), value: false },
+          { text: this.$t('tip.unmounted'), value: null },
         ];
       },
       mountRules() {
@@ -105,7 +109,7 @@
         this.containers.forEach((c) => {
           const rules = {};
           rules['mountPathRule'] = [required];
-          rules['subPathRule'] = [(v) => !new RegExp('^/').test(v) || '相对路径'];
+          rules['subPathRule'] = [(v) => !new RegExp('^/').test(v) || this.$t('form.path_rule')];
           mountRules[c.name] = rules;
         });
         return mountRules;

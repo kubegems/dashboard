@@ -21,19 +21,22 @@
         <v-list-item-subtitle class="text-body-2 py-0">
           <v-list-item class="float-left pa-0" two-line>
             <v-list-item-content class="py-0">
-              <v-list-item-title class="text-subtitle-2 py-1"> 就绪检查 </v-list-item-title>
-              <v-list-item-subtitle class="text-body-2 py-1"> 类型 </v-list-item-subtitle>
+              <v-list-item-title class="text-subtitle-2 py-1"> {{ $t('tip.readness_probe') }} </v-list-item-title>
+              <v-list-item-subtitle class="text-body-2 py-1"> {{ $root.$t('resource.type') }} </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
           <template v-if="containerCopy.readinessProbe.httpGet">
             <v-list-item class="float-left pa-0 kubegems__three-width" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
-                  初始延迟{{ containerCopy.readinessProbe.initialDelaySeconds }}s&nbsp;超时{{
-                    containerCopy.readinessProbe.timeoutSeconds
-                  }}s
+                  {{
+                    $t('tip.delay_msg', [
+                      containerCopy.readinessProbe.initialDelaySeconds,
+                      containerCopy.readinessProbe.timeoutSeconds,
+                    ])
+                  }}
                 </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1"> HTTP请求检查 </v-list-item-subtitle>
+                <v-list-item-subtitle class="text-body-2 py-1"> {{ $t('tip.http_check') }} </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item class="float-left pa-0" two-line>
@@ -41,7 +44,7 @@
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{ containerCopy.readinessProbe.httpGet.scheme }}
                 </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1"> 类型 </v-list-item-subtitle>
+                <v-list-item-subtitle class="text-body-2 py-1"> {{ $root.$t('resource.type') }} </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item class="float-left pa-0 kubegems__three-width" two-line>
@@ -49,7 +52,7 @@
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{ containerCopy.readinessProbe.httpGet.path }}
                 </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1"> 路径 </v-list-item-subtitle>
+                <v-list-item-subtitle class="text-body-2 py-1"> {{ $t('tip.path') }} </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item class="float-left pa-0" two-line>
@@ -57,7 +60,7 @@
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{ containerCopy.readinessProbe.httpGet.port }}
                 </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1"> 端口 </v-list-item-subtitle>
+                <v-list-item-subtitle class="text-body-2 py-1"> {{ $t('tip.port') }} </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </template>
@@ -65,11 +68,14 @@
             <v-list-item class="float-left pa-0 kubegems__three-width" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
-                  初始延迟{{ containerCopy.readinessProbe.initialDelaySeconds }}s&nbsp;超时{{
-                    containerCopy.readinessProbe.timeoutSeconds
-                  }}s
+                  {{
+                    $t('tip.delay_msg', [
+                      containerCopy.readinessProbe.initialDelaySeconds,
+                      containerCopy.readinessProbe.timeoutSeconds,
+                    ])
+                  }}
                 </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1"> 执行命令检查 </v-list-item-subtitle>
+                <v-list-item-subtitle class="text-body-2 py-1"> {{ $t('tip.shell_check') }} </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item class="float-left pa-0" two-line>
@@ -79,7 +85,7 @@
                     {{ command }}
                   </template>
                 </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1"> 命令 </v-list-item-subtitle>
+                <v-list-item-subtitle class="text-body-2 py-1"> {{ $t('tip.command') }} </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </template>
@@ -87,11 +93,14 @@
             <v-list-item class="float-left pa-0 kubegems__three-width" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
-                  初始延迟{{ containerCopy.readinessProbe.initialDelaySeconds }}s&nbsp;超时{{
-                    containerCopy.readinessProbe.timeoutSeconds
-                  }}s
+                  {{
+                    $t('tip.delay_msg', [
+                      containerCopy.readinessProbe.initialDelaySeconds,
+                      containerCopy.readinessProbe.timeoutSeconds,
+                    ])
+                  }}
                 </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1"> TCP端口检查 </v-list-item-subtitle>
+                <v-list-item-subtitle class="text-body-2 py-1"> {{ $t('tip.tcp_check') }} </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item class="float-left pa-0" two-line>
@@ -99,7 +108,7 @@
                 <v-list-item-title class="text-subtitle-2 py-1">
                   {{ containerCopy.readinessProbe.tcpSocket.port }}
                 </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1"> 端口 </v-list-item-subtitle>
+                <v-list-item-subtitle class="text-body-2 py-1"> {{ $t('tip.port') }} </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </template>
@@ -117,8 +126,13 @@
 </template>
 
 <script>
+  import messages from '../../../../../i18n';
+
   export default {
     name: 'ReadinessProbe',
+    i18n: {
+      messages: messages,
+    },
     props: {
       containerCopy: {
         type: Object,
