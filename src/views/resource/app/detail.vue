@@ -307,7 +307,7 @@
         this.$store.commit('SET_CONFIRM', {
           title: title,
           content: {
-            text: `${title} ${this.app.name}`,
+            text: `${title} ${this.app?.name || this.app?.metadata?.name}`,
             type: 'delete',
             name: this.app.name,
           },

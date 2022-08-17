@@ -90,6 +90,10 @@
           <h6 class="text-body-2 mb-3">
             {{ item ? item.framework : '' }}
           </h6>
+          <h5 class="text-subtitle-1 kubegems__text">任务类型</h5>
+          <h6 class="text-body-2 mb-3">
+            {{ item ? item.task : '' }}
+          </h6>
           <h5 class="text-subtitle-1 kubegems__text">协议</h5>
           <h6 class="text-body-2 mb-3">
             {{ item ? item.license : '' }}
