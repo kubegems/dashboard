@@ -106,7 +106,7 @@
           hostPortRules: [required],
           protocolRules: [required],
         },
-        protocolItems: [{ text: 'tcp', value: 'tcp' }],
+        protocolItems: [{ text: 'TCP', value: 'TCP' }],
       };
     },
     watch: {
