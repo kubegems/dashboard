@@ -16,7 +16,7 @@
 
 <template>
   <v-card class="kubegems__h-24" flat>
-    <BaseSubTitle :divider="false" title="告警类别">
+    <BaseSubTitle :divider="false" :title="$t('tip.alert_type')">
       <template #selector>
         <v-sheet class="text-body-2 text--darken-1">
           <BaseDatetimePicker v-model="date" :default-value="1440" @change="onDatetimeChange(undefined)" />
@@ -37,11 +37,15 @@
   import VueApexCharts from 'vue-apexcharts';
   import { mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import { getAlertGroup } from '@/api';
   import { toFixed } from '@/utils/helpers';
 
   export default {
     name: 'AlertCategoryBar',
+    i18n: {
+      messages: messages,
+    },
     components: {
       VueApexCharts,
     },
@@ -124,7 +128,7 @@
             theme: 'dark',
           },
           noData: {
-            text: '暂无数据',
+            text: this.$root.$t('data.no_data'),
             offsetY: -13,
             style: {
               fontSize: '13px',
@@ -151,11 +155,11 @@
           end: this.$moment(parseInt(this.date[1])).utc().format(),
         });
         this.categories = data.map((d) => {
-          return [d.groupValue ? d.groupValue : '未知'];
+          return [d.groupValue ? d.groupValue : this.$root.$t('data.unknown')];
         });
         this.series = [
           {
-            name: '数量',
+            name: this.$t('tip.count'),
             data: data.map((d) => {
               return d.count;
             }),

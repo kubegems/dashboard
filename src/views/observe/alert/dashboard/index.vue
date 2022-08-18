@@ -23,7 +23,7 @@
         <ValueCard
           :compare-value="alert ? alert.total.yesterdayCount : 0"
           icon="mdi-bell"
-          name="今日告警"
+          :name="$t('tip.today_alert')"
           :value="alert ? alert.total.todayCount : 0"
         />
       </v-col>
@@ -31,7 +31,7 @@
         <ValueCard
           :compare-value="alert ? alert.resolved.yesterdayCount : 0"
           icon="mdi-fire-extinguisher"
-          name="已消除"
+          :name="$t('tip.cleared')"
           :value="alert ? alert.resolved.todayCount : 0"
         />
       </v-col>
@@ -39,7 +39,7 @@
         <ValueCard
           :compare-value="alert ? alert.firing.yesterdayCount : 0"
           icon="mdi-fire-alert"
-          name="正在告警"
+          :name="$t('tip.triggering')"
           :value="alert ? alert.firing.todayCount : 0"
         />
       </v-col>
@@ -59,6 +59,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../i18n';
   import AlertCategoryBar from './components/AlertCategoryBar';
   import AlertHistoryBar from './components/AlertHistoryBar';
   import AlertTopBar from './components/AlertTopBar';
@@ -68,6 +69,9 @@
 
   export default {
     name: 'ObserveMonitor',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AlertCategoryBar,
       AlertHistoryBar,
@@ -97,7 +101,7 @@
       this.$nextTick(() => {
         if (!this.Tenant().ID) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '暂未选择租户',
+            text: this.$root.$t('tip.select_tenant'),
             color: 'warning',
           });
           return;

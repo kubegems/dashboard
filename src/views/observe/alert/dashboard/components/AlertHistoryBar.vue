@@ -16,7 +16,7 @@
 
 <template>
   <v-card class="kubegems__h-24" flat>
-    <BaseSubTitle :divider="false" title="告警历史趋势" />
+    <BaseSubTitle :divider="false" :title="$t('tip.alert_trend')" />
     <div :style="{ height: `100%`, width: `100%` }">
       <VueApexCharts
         :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
@@ -33,11 +33,15 @@
   import VueApexCharts from 'vue-apexcharts';
   import { mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import { getAlertGraph } from '@/api';
   import { toFixed } from '@/utils/helpers';
 
   export default {
     name: 'AlertHistoryBar',
+    i18n: {
+      messages: messages,
+    },
     components: {
       VueApexCharts,
     },
@@ -115,7 +119,7 @@
           theme: 'dark',
         },
         noData: {
-          text: '暂无数据',
+          text: this.$root.$t('data.no_data'),
           offsetY: -12,
           style: {
             fontSize: '13px',

@@ -1,0 +1,48 @@
+{
+  "tip": {
+    "install_metrics": "安装 OpenTelemetry Metrics Library",
+    "install_metrics_desc": "自定义指标可以深入了解应用实时状态,以及发现它如何影响用户体验或者业务流程",
+    "install_trace": "安装 OpenTelemetry Traces Library",
+    "install_trace_desc": "链路追踪Tracing提供了调用链路还原、链路拓扑、应用依赖分析等工具,可帮助开发者快速分析和诊断应用的性能瓶颈,提高开发诊断效率",
+    "create_log": "创建采集器收集应用日志",
+    "create_log_desc": "自动采集应用容器控制台(stdout/stderr)日志,可帮助开发者在故障时进行日志分析",
+    "enabled_monitor": "已启用监控",
+    "disabled_monitor": "未启用监控",
+    "enabled_log": "已启用日志",
+    "disabled_log": "未启用日志",
+    "enabled_mesh": "已启用服务网格",
+    "disabled_mesh": "未启用服务网格",
+    "filter_project": "请选择项目进行过滤",
+    "last_30_second": "最近30秒",
+    "last_5_minute": "最近5分钟",
+    "last_1_hour": "最近1小时",
+    "last_1_day": "最近1天",
+    "last_1_week": "最近1周",
+    "time": "时间",
+    "error_info": "错误信息",
+    "event_source": "事件源",
+    "event_type": "事件类型"
+  },
+  "table": {
+    "label": "标签",
+    "status": "状态",
+    "restart_count": "容器重启(次)",
+    "metrics_count": "指标采集器",
+    "alert_rule_count": "告警规则",
+    "living_alert_count": "实时告警",
+    "log_count": "日志采集器",
+    "error_log_count": "错误日志",
+    "log_rate": "日志速率",
+    "event_count": "事件",
+    "origin_component": "来源组件",
+    "origin_host": "来源主机",
+    "message": "消息",
+    "count": "次数",
+    "first_at": "首次发生时间",
+    "last_at": "最近发生时间"
+  },
+  "tab": {
+    "event_chart": "事件图表",
+    "event_list": "事件列表"
+  }
+}

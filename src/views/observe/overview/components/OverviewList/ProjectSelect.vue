@@ -22,24 +22,28 @@
     hide-details
     hide-selected
     :items="projectItems"
-    label="请选择项目进行过滤"
-    no-data-text="暂无可选数据"
+    :label="$t('tip.filter_project')"
+    :no-data-text="$root.$t('data.no_data')"
     prepend-inner-icon="mdi-magnify"
     solo
     :style="{ maxWidth: `500px` }"
     @change="onProjectChange"
   >
     <template #selection="{ item }">
-      <v-chip color="primary" label small> 项目: {{ item.text }} </v-chip>
+      <v-chip color="primary" label small> {{ $root.$t('resource.project') }} : {{ item.text }} </v-chip>
     </template>
   </v-autocomplete>
 </template>
 
 <script>
+  import messages from '../../i18n';
   import { getProjectList } from '@/api';
 
   export default {
     name: 'ProjectSelect',
+    i18n: {
+      messages: messages,
+    },
     props: {
       tenant: {
         type: Object,

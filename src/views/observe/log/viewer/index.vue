@@ -50,7 +50,7 @@
       <div class="log-viewer__toolbar">
         <div v-if="view.resultType === 'streams'">
           <div class="d-inline-block">
-            限制:
+            {{ $t('tip.limit') }} :
             <v-text-field
               v-model="params.limit"
               class="d-inline-block"
@@ -62,14 +62,14 @@
               type="number"
             />
           </div>
-          <div class="d-inline-block ml-3">结果: {{ ItemsFilterByLevel.length }}</div>
+          <div class="d-inline-block ml-3">{{ $t('tip.result') }} : {{ ItemsFilterByLevel.length }}</div>
           <LogLevelSelector v-model="params.levels" class="ml-3" />
           <div class="d-inline-block ml-4">
-            时间
+            {{ $t('tip.time') }}
             <v-switch v-model="view.timestamp" class="log-viewer__toolbar-switch" hide-details />
           </div>
           <div class="d-inline-block ml-3">
-            倒序
+            {{ $t('tip.sort') }}
             <v-switch
               v-model="params.direction"
               class="log-viewer__toolbar-switch"
@@ -80,7 +80,7 @@
             />
           </div>
           <div class="d-inline-block ml-3">
-            图表
+            {{ $t('tip.chart') }}
             <v-switch v-model="view.chartShow" class="log-viewer__toolbar-switch" hide-details />
           </div>
         </div>
@@ -102,11 +102,13 @@
                     text
                     @click="handleDownloadLog"
                   >
-                    下载日志
+                    {{ $t('operate.download_log') }}
                   </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="primary" small text @click="handleShowSnapshot"> 查看快照 </v-btn>
+                  <v-btn color="primary" small text @click="handleShowSnapshot">
+                    {{ $t('operate.view_snapshot') }}
+                  </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -148,6 +150,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../i18n';
   import LogBar from './components/LogBar';
   import LogContext from './components/LogContext';
   import LogLevelSelector from './components/LogLevelSelector';
@@ -161,6 +164,9 @@
 
   export default {
     name: 'LogViewer',
+    i18n: {
+      messages: messages,
+    },
     components: {
       LogBar,
       LogContext,
@@ -251,7 +257,7 @@
       async onLogQuery(projectName = '', environmentName = '') {
         if (!this.params.logQL || this.params.logQL === '{  }') {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请输入查询条件',
+            text: this.$t('tip.input_query'),
             color: 'warning',
           });
           return;
@@ -285,7 +291,7 @@
 
         if (data.resultType === '') {
           this.$store.commit('SET_SNACKBAR', {
-            text: 'LogQL有误',
+            text: this.$t('tip.error_logql'),
             color: 'warning',
           });
           return;
@@ -310,13 +316,13 @@
         // 数据过多提示
         if (this.items.length / this.limit > 0.8) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '条目较多，请精确查询条件',
+            text: this.$t('tip.too_much_result'),
             color: 'warning',
           });
         }
         if (data.chart && data.chart.long) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '图表数据过多，仅展示50条',
+            text: this.$t('tip.limit_50'),
             color: 'warning',
           });
         }
@@ -373,7 +379,7 @@
           return data.filename;
         } else {
           this.$store.commit('SET_SNACKBAR', {
-            text: '该区间内没有数据',
+            text: this.$t('tip.no_data_period'),
             color: 'warning',
           });
           return null;
@@ -385,14 +391,14 @@
         if (this.Progress) return;
         if (this.items.length === 0) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '无查询结果',
+            text: this.$t('tip.no_data'),
             color: 'warning',
           });
           return;
         }
 
         this.$store.commit('SET_SNACKBAR', {
-          text: '正在生成结果临时文件，请等待...',
+          text: this.$t('tip.generating_tmp_file'),
           color: 'success',
         });
         const filename = await this.handleGetLogFilename();
@@ -410,7 +416,7 @@
       async handleDownloadLog() {
         if (!this.params.logQL) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请输入查询条件',
+            text: this.$t('tip.input_query'),
             color: 'warning',
           });
           return;
@@ -444,12 +450,12 @@
           e.initEvent('click', false, false);
           link.dispatchEvent(e);
           this.$store.commit('SET_SNACKBAR', {
-            text: '导出成功',
+            text: this.$t('tip.export_success'),
             color: 'success',
           });
         } else {
           this.$store.commit('SET_SNACKBAR', {
-            text: '该区间内没有数据',
+            text: this.$t('tip.no_data_period'),
             color: 'warning',
           });
           return null;

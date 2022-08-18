@@ -30,10 +30,14 @@
   import VueApexCharts from 'vue-apexcharts';
   import { mapState } from 'vuex';
 
+  import messages from '../../../../i18n';
   import { toFixed } from '@/utils/helpers';
 
   export default {
     name: 'MessageBarChart',
+    i18n: {
+      messages: messages,
+    },
     components: {
       VueApexCharts,
     },
@@ -66,7 +70,7 @@
           },
         },
         title: {
-          text: '消息',
+          text: this.$t('table.message'),
           align: 'left',
           margin: 5,
           style: {
@@ -126,7 +130,7 @@
           theme: 'dark',
         },
         noData: {
-          text: '暂无数据',
+          text: this.$root.$t('data.no_data'),
           offsetY: -28,
           style: {
             fontSize: '13px',

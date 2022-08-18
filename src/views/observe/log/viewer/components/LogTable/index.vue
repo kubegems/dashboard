@@ -27,8 +27,8 @@
       :item-key="mode === 'context' ? 'info.timestamp' : 'info.index'"
       :items="items"
       :loading="loading"
-      loading-text="接收数据中..."
-      :no-data-text="mode === 'context' ? '' : '暂无数据'"
+      :loading-text="$t('tip.loading')"
+      :no-data-text="mode === 'context' ? '' : $root.$t('data.no_data')"
       :show-expand="mode === 'normal'"
       single-expand
       :style="{ maxHeight: `${height}px`, overflowY: 'auto' }"
@@ -60,7 +60,7 @@
           <span :class="{ 'log-table__highlight': highlight }" v-html="item.message" />
         </div>
         <v-btn v-if="context && mode === 'normal'" color="primary" text x-small @click.stop="handleShowContext(item)">
-          显示上下文
+          {{ $t('operate.show_context') }}
         </v-btn>
       </template>
       <template #expanded-item="{ headers, item }">
@@ -77,10 +77,14 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../../i18n';
   import LogPodMonitor from './LogPodMonitor';
 
   export default {
     name: 'LogTable',
+    i18n: {
+      messages: messages,
+    },
     components: {
       LogPodMonitor,
     },

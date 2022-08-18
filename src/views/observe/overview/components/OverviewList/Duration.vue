@@ -33,17 +33,21 @@
             <v-icon v-else right> mdi-chevron-down </v-icon>
           </v-btn>
         </template>
-        <v-data-iterator class="file-iterator" hide-default-footer :items="[{ text: '时间', values: durations }]">
+        <v-data-iterator
+          class="file-iterator"
+          hide-default-footer
+          :items="[{ text: $t('tip.time'), values: durations }]"
+        >
           <template #no-data>
             <v-card>
-              <v-card-text> 暂无选项 </v-card-text>
+              <v-card-text> {{ $root.$t('data.no_data') }} </v-card-text>
             </v-card>
           </template>
           <template #default="props">
             <v-card v-for="item in props.items" :key="item.text" flat>
               <v-list dense>
                 <v-flex class="text-subtitle-2 text-center ma-2">
-                  <span>时间</span>
+                  <span>{{ $t('tip.time') }}</span>
                 </v-flex>
                 <v-divider class="mx-2" />
                 <v-list-item
@@ -68,8 +72,13 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
+
   export default {
     name: 'Duration',
+    i18n: {
+      messages: messages,
+    },
     data() {
       return {
         durationMenu: false,
@@ -84,11 +93,11 @@
       },
       durations() {
         return [
-          { text: '最近30秒', value: '30s' },
-          { text: '最近5分钟', value: '5m' },
-          { text: '最近1小时', value: '1h' },
-          { text: '最近1天', value: '1d' },
-          { text: '最近1周', value: '1w' },
+          { text: this.$t('tip.last_30_second'), value: '30s' },
+          { text: this.$t('tiplast_5_minute'), value: '5m' },
+          { text: this.$t('tip.last_1_hour'), value: '1h' },
+          { text: this.$t('tip.last_1_day'), value: '1d' },
+          { text: this.$t('tip.last_1_week'), value: '1w' },
         ];
       },
     },

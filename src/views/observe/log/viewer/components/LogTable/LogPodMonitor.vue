@@ -15,7 +15,13 @@
 -->
 
 <template>
-  <BasePanel v-model="panel" icon="mdi-chart-areaspline-variant" title="容器监控" :width="`50%`" @dispose="dispose">
+  <BasePanel
+    v-model="panel"
+    icon="mdi-chart-areaspline-variant"
+    :title="$t('tip.container_monitor')"
+    :width="`50%`"
+    @dispose="dispose"
+  >
     <template #header>
       <span class="ml-3 text-subtitle-2 primary--text">
         {{ promqlParams.pod }}
@@ -41,7 +47,7 @@
             label="container"
             :metrics="cpu"
             :no-data-offset-y="-22"
-            title="CPU使用量"
+            :title="$t('tip.used', [$root.$t('resource.cpu')])"
             type="cpu"
           />
           <BaseApexAreaChart
@@ -49,7 +55,7 @@
             label="container"
             :metrics="memory"
             :no-data-offset-y="-22"
-            title="内存使用量"
+            :title="$t('tip.used', [$root.$t('resource.memory')])"
             type="memory"
           />
           <BaseApexAreaChart
@@ -57,7 +63,7 @@
             label="pod"
             :metrics="networkin"
             :no-data-offset-y="-22"
-            title="网络入口流量"
+            :title="$t('tip.in_traffic')"
             type="network"
           />
           <BaseApexAreaChart
@@ -65,7 +71,7 @@
             label="pod"
             :metrics="networkout"
             :no-data-offset-y="-22"
-            title="网络出口流量"
+            :title="$t('tip.out_traffic')"
             type="network"
           />
         </v-card-text>
@@ -77,6 +83,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../../i18n';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
@@ -89,6 +96,9 @@
 
   export default {
     name: 'LogPodMonitor',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BasePermission, BaseResource],
     data: () => ({
       panel: false,

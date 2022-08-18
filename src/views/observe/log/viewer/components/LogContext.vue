@@ -20,7 +20,7 @@
       <v-card class="log-context" flat>
         <div class="text-center py-3">
           <v-btn color="primary" :loading="loading.preview" text x-small @click="handleLoadPreview">
-            向前加载10条数据
+            {{ $t('operate.prev_10') }}
           </v-btn>
         </div>
 
@@ -31,7 +31,9 @@
         <LogTable :items="items.next" mode="context" />
 
         <div class="text-center py-3">
-          <v-btn color="primary" :loading="loading.next" text x-small @click="handleLoadNext"> 向后加载10条数据 </v-btn>
+          <v-btn color="primary" :loading="loading.next" text x-small @click="handleLoadNext">
+            {{ $t('operate.next_10') }}
+          </v-btn>
         </div>
       </v-card>
     </template>
@@ -39,11 +41,15 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
   import LogTable from './LogTable';
   import { getLogContext } from '@/api';
 
   export default {
     name: 'LogContext',
+    i18n: {
+      messages: messages,
+    },
     components: {
       LogTable,
     },

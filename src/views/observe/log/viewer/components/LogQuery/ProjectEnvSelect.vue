@@ -24,11 +24,11 @@
       </v-sheet>
 
       <v-sheet class="text-body-2 ml-2" :style="{ lineHeight: '36px' }">
-        <v-btn bottom color="primary" small text @click="handleRefresh"> 刷新 </v-btn>
+        <v-btn bottom color="primary" small text @click="handleRefresh"> {{ $root.$t('operate.refresh') }} </v-btn>
       </v-sheet>
 
       <v-sheet class="text-body-2 ml-2" :style="{ lineHeight: '36px' }">
-        <v-btn bottom color="error" small text @click="handleClear"> 清空 </v-btn>
+        <v-btn bottom color="error" small text @click="handleClear"> {{ $root.$t('operate.clear') }} </v-btn>
       </v-sheet>
 
       <v-sheet v-if="loading" class="tip ml-2">
@@ -38,20 +38,20 @@
 
     <v-flex :style="{ display: 'inline-flex !important', float: 'right' }">
       <v-sheet class="text-body-2 tip ml-6 kubegems__text">
-        集群:
+        {{ $root.$t('resource.cluster') }} :
         <span class="text-body-2 font-weight-medium">
           {{ env ? env.clusterName : '' }}
         </span>
       </v-sheet>
       <v-sheet class="text-body-2 tip ml-4 kubegems__text">
-        命名空间:
+        {{ $root.$t('resource.namespace') }} :
         <span class="text-body-2 font-weight-medium">
           {{ env ? env.namespace : '' }}
         </span>
       </v-sheet>
 
       <v-sheet class="text-body-2 tip ml-4 kubegems__text">
-        series:
+        Series:
         <span class="text-body-2 font-weight-medium">
           {{ series.length > 5000 ? '5000+' : series.length }}
         </span>

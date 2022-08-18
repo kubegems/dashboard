@@ -43,7 +43,7 @@
       <div class="search__header">
         <v-btn v-if="location === 'trace'" class="float-right" color="primary" small text @click="onBack">
           <v-icon left> mdi-share </v-icon>
-          返回
+          {{ $root.$t('operate.return') }}
         </v-btn>
       </div>
 
@@ -112,7 +112,7 @@
             this.iframeKey = Date.now();
           } else {
             this.$store.commit('SET_SNACKBAR', {
-              text: `该集群还未启用 ${this.missingPlugins.join(', ')} 插件！`,
+              text: this.$root.$t('plugin.cluster_missing', [this.missingPlugins.join(', ')]),
               color: 'warning',
             });
             return;
@@ -133,7 +133,7 @@
       this.$nextTick(() => {
         if (!this.Tenant().ID) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '暂未选择租户',
+            text: this.$root.$t('tip.select_tenant'),
             color: 'warning',
           });
           return;

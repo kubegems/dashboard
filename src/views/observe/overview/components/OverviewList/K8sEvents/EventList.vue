@@ -24,7 +24,7 @@
       item-key="index"
       :items="items"
       :items-per-page="itemsPerPage"
-      no-data-text="暂无数据"
+      :no-data-text="$root.$t('data.no_data')"
       :page.sync="page"
       show-expand
       single-expand
@@ -103,8 +103,13 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../../i18n';
+
   export default {
     name: 'EventList',
+    i18n: {
+      messages: messages,
+    },
     props: {
       data: {
         type: Array,
@@ -114,19 +119,7 @@
     data() {
       return {
         items: [],
-        headers: [
-          { text: '来源组件', value: 'component', align: 'start', width: 150 },
-          { text: '来源主机', value: 'host', align: 'start', width: 250 },
-          { text: '服务', value: 'name', align: 'start', width: 200 },
-          { text: '命名空间', value: 'namespace', align: 'start', width: 150 },
-          { text: '类型', value: 'type', align: 'start', width: 150 },
-          { text: 'Reason', value: 'reason', align: 'start', width: 100 },
-          { text: '消息', value: 'message', align: 'start', width: 200 },
-          { text: '次数', value: 'count', align: 'start', width: 50 },
-          { text: '首次发生时间', value: 'firstAt', align: 'start', width: 150 },
-          { text: '最近发生时间', value: 'lastAt', align: 'start', width: 150 },
-          { text: '', value: 'data-table-expand' },
-        ],
+
         page: 1,
         itemsPerPage: 10,
         pageCount: 0,
@@ -136,6 +129,21 @@
       ...mapState(['Scale']),
       height() {
         return parseInt((window.innerHeight - 110) / this.Scale);
+      },
+      headers() {
+        return [
+          { text: this.$t('table.origin_component'), value: 'component', align: 'start', width: 150 },
+          { text: this.$t('table.origin_host'), value: 'host', align: 'start', width: 250 },
+          { text: this.$root.$t('resource.service'), value: 'name', align: 'start', width: 200 },
+          { text: this.$root.$t('resource.namespace'), value: 'namespace', align: 'start', width: 150 },
+          { text: this.$root.$t('resource.type'), value: 'type', align: 'start', width: 150 },
+          { text: 'Reason', value: 'reason', align: 'start', width: 100 },
+          { text: this.$t('table.message'), value: 'message', align: 'start', width: 200 },
+          { text: this.$t('table.count'), value: 'count', align: 'start', width: 50 },
+          { text: this.$t('table.first_at'), value: 'firstAt', align: 'start', width: 150 },
+          { text: this.$t('table.last_at'), value: 'lastAt', align: 'start', width: 150 },
+          { text: '', value: 'data-table-expand' },
+        ];
       },
     },
     watch: {

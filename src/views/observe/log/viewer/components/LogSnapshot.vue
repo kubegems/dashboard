@@ -15,7 +15,12 @@
 -->
 
 <template>
-  <BaseFullScreenDialog v-model="visible" icon="mdi-camera" title="查看快照" @dispose="handleDispose">
+  <BaseFullScreenDialog
+    v-model="visible"
+    icon="mdi-camera"
+    :title="$t('operate.view_snapshot')"
+    @dispose="handleDispose"
+  >
     <template #action>
       <ProjectEnvSelectCascade
         :key="selectKey"
@@ -36,7 +41,7 @@
           hide-default-footer
           :items="items"
           :items-per-page="params.size"
-          no-data-text="暂无数据"
+          :no-data-text="$root.$t('data.no_data')"
           :page.sync="params.page"
         >
           <template #[`item.snapshotName`]="{ item }">{{ item.SnapshotName }}</template>
@@ -66,10 +71,14 @@
               <v-card>
                 <v-card-text class="pa-2">
                   <v-flex>
-                    <v-btn color="primary" small text @click="downloadLogQuerySnapshot(item)"> 下载 </v-btn>
+                    <v-btn color="primary" small text @click="downloadLogQuerySnapshot(item)">
+                      {{ $t('operate.download') }}
+                    </v-btn>
                   </v-flex>
                   <v-flex>
-                    <v-btn color="error" small text @click="removeLogQuerySnapshot(item)"> 删除 </v-btn>
+                    <v-btn color="error" small text @click="removeLogQuerySnapshot(item)">
+                      {{ $root.$t('operate.delete') }}
+                    </v-btn>
                   </v-flex>
                 </v-card-text>
               </v-card>
@@ -93,6 +102,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import { deleteLogQuerySnapshot, getLogQuerySnapshotList } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { randomString } from '@/utils/helpers';
@@ -100,6 +110,9 @@
 
   export default {
     name: 'LogSnapshot',
+    i18n: {
+      messages: messages,
+    },
     components: {
       ProjectEnvSelectCascade,
     },
@@ -107,15 +120,6 @@
     data: () => ({
       visible: false,
       items: [],
-      headers: [
-        { text: '快照名称', value: 'snapshotName', align: 'start' },
-        { text: '快照容量（条）', value: 'snapshotCount', align: 'start' },
-        { text: '快照地址', value: 'downloadURL', align: 'start' },
-        { text: '快照起始时间', value: 'startTime', align: 'start' },
-        { text: '快照终止时间', value: 'endTime', align: 'start' },
-        { text: '保存时间', value: 'createAt', align: 'start' },
-        { text: '', value: 'action', align: 'center', width: 80 },
-      ],
       pageCount: 0,
       params: {
         page: 1,
@@ -129,6 +133,17 @@
     computed: {
       ...mapState(['Progress', 'JWT']),
       ...mapGetters(['Tenant']),
+      headers() {
+        return [
+          { text: this.$t('table.name'), value: 'snapshotName', align: 'start' },
+          { text: this.$t('table.snapshot_count'), value: 'snapshotCount', align: 'start' },
+          { text: this.$t('table.snapshot_address'), value: 'downloadURL', align: 'start' },
+          { text: this.$t('table.start_at'), value: 'startTime', align: 'start' },
+          { text: this.$t('table.end_at'), value: 'endTime', align: 'start' },
+          { text: this.$t('table.save_at'), value: 'createAt', align: 'start' },
+          { text: '', value: 'action', align: 'center', width: 80 },
+        ];
+      },
     },
     watch: {
       env: {
@@ -160,9 +175,9 @@
       },
       removeLogQuerySnapshot(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: '删除日志快照',
+          title: this.$root.$t('operate.delete_c', [this.$t('tip.snapshot')]),
           content: {
-            text: `删除日志快照 ${item.SnapshotName}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$t('tip.snapshot')])} ${item.SnapshotName}`,
             type: 'delete',
             name: item.SnapshotName,
           },
@@ -191,7 +206,7 @@
         e.initEvent('click', false, false);
         link.dispatchEvent(e);
         this.$store.commit('SET_SNACKBAR', {
-          text: '下载成功',
+          text: this.$t('tip.download_success'),
           color: 'success',
         });
       },

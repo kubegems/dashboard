@@ -16,30 +16,30 @@
 
 <template>
   <v-container fluid>
-    <BaseSplitContainer side-width="250px" title="项目环境" :tooltip="!!env">
+    <BaseSplitContainer side-width="250px" :title="$root.$t('resource.environment')" :tooltip="!!env">
       <ProjectEnvironmentTree slot="side" v-model="env" @change="onEnvChange" />
 
       <div v-if="!!env" slot="tooltip" class="text-caption" :style="{ maxWidth: '200px' }">
         <v-flex class="text-body-2 text-center primary white--text py-2">
           <v-icon color="white" left small> mdi-cloud </v-icon>
-          <span>环境信息</span>
+          <span>{{ $root.$t('resource.environment') }}</span>
         </v-flex>
         <v-list class="pa-0 kubegems__tip" dense>
           <v-list-item>
             <v-list-item-content>
-              <v-list-item-title>集群</v-list-item-title>
+              <v-list-item-title>{{ $root.$t('resource.cluster') }}</v-list-item-title>
               <v-list-item-content class="text-caption kubegems__text">
                 {{ env.clusterName }}
               </v-list-item-content>
-              <v-list-item-title>项目</v-list-item-title>
+              <v-list-item-title>{{ $root.$t('resource.project') }}</v-list-item-title>
               <v-list-item-content class="text-caption kubegems__text">
                 {{ env.projectName }}
               </v-list-item-content>
-              <v-list-item-title>环境</v-list-item-title>
+              <v-list-item-title>{{ $root.$t('resource.environment') }}</v-list-item-title>
               <v-list-item-content class="text-caption kubegems__text my-0">
                 {{ env.name }}
               </v-list-item-content>
-              <v-list-item-title>命名空间</v-list-item-title>
+              <v-list-item-title>{{ $root.$t('resource.namespace') }}</v-list-item-title>
               <v-list-item-content class="text-caption kubegems__text my-0">
                 {{ env.namespace }}
               </v-list-item-content>
@@ -47,7 +47,7 @@
           </v-list-item>
         </v-list>
       </div>
-      <EmptyOverlay :visible="!env" />
+      <EmptyOverlay :text="$root.$t('tip.select_environment')" :visible="!env" />
 
       <slot v-if="missingPlugins.length === 0" />
       <v-card v-else class="mx-3" flat :height="`400px`">
@@ -56,10 +56,10 @@
             <div class="d-flex align-center pa-10">
               <div class="text-center">
                 <h2 class="text-h5 primary--text font-weight-medium">
-                  该环境所在集群暂时还未启用 {{ missingPlugins.join(', ') }} 插件！
+                  {{ $root.$t('plugin.environment_missing', [missingPlugins.join(', ')]) }}
                 </h2>
                 <h6 class="text-subtitle-1 mt-4 primary--text op-5 font-weight-regular">
-                  您可以联系平台管理员启用该插件
+                  {{ $root.$t('plugin.no_permission') }}
                 </h6>
               </div>
             </div>

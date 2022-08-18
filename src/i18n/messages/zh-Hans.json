@@ -6,6 +6,7 @@
   "loading": "数据获取中",
   "username": "用户名",
   "passwd": "密码",
+  "query": "搜索",
 
   "status": {
     "success": "成功",
@@ -15,6 +16,7 @@
   "plugin": {
     "no_permission": "您可以联系平台管理员启用该插件",
     "cluster_missing": "该集群暂时还未启用 {0} 插件！",
+    "environment_missing": "该环境所在集群暂时还未启用 {0} 插件！",
     "missing": "插件{0}未启用"
   },
 
@@ -159,7 +161,10 @@
     "destination_rule": "流量规则",
     "certificate": "证书",
     "issuer": "颁发机构",
-    "event": "事件"
+    "event": "事件",
+    "platform": "平台",
+    "receiver": "接收器",
+    "prometheus_rule": "告警规则"
   },
 
   "header": {
@@ -220,7 +225,8 @@
     "sync": "同步",
     "sync_c": "同步{0}",
     "save": "保存",
-    "detail": "详情"
+    "detail": "详情",
+    "reset": "重置"
   },
   "form": {
     "definition": "{0}定义",
@@ -468,6 +474,7 @@
     "parse_error": "数据解析错误",
     "select_tenant": "请选择租户",
     "select_environment": "请选择环境",
+    "select_project_environment": "请选择项目环境",
     "condition": "状况",
     "not_correct_yaml": "不是正确的K8S yaml格式,请补充必要字段或填写正确的数据格式,错误提示:",
     "path": "路径",

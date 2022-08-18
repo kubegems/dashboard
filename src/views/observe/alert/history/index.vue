@@ -38,7 +38,7 @@
         item-key="ID"
         :items="items"
         :items-per-page="params.size"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
         show-expand
         single-expand
@@ -85,7 +85,7 @@
           {{ $moment(item.CreatedAt).format('lll') }}
         </template>
         <template #[`item.silenceCreator`]="{ item }">
-          {{ item.AlertInfo.SilenceCreator ? '是' : '-' }}
+          {{ item.AlertInfo.SilenceCreator ? $t('tip.yes') : '-' }}
         </template>
         <template #expanded-item="{ headers, item }">
           <td class="pa-4" :colspan="headers.length">
@@ -108,9 +108,11 @@
                 text
                 @click.stop="onRemoveBlacklist(item)"
               >
-                移除黑名单
+                {{ $t('operate.remove_blacklist') }}
               </v-btn>
-              <v-btn v-else block color="error" small text @click.stop="onAddBacklist(item)"> 加入黑名单 </v-btn>
+              <v-btn v-else block color="error" small text @click.stop="onAddBacklist(item)">
+                {{ $t('operate.in_blacklist') }}
+              </v-btn>
             </v-card>
           </v-menu>
         </template>
@@ -131,6 +133,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../i18n';
   import HistorySearch from './components/HistorySearch';
   import { deletePrometheusBlacklist, getPrometheusAlertSearch, postAddPrometheusBlacklist } from '@/api';
   import BaseSelect from '@/mixins/select';
@@ -139,57 +142,15 @@
 
   export default {
     name: 'AlertHistroy',
+    i18n: {
+      messages: messages,
+    },
     components: {
       ProjectEnvSelectCascade,
       HistorySearch,
     },
     mixins: [BaseSelect],
     data() {
-      this.filters = [
-        { items: [], text: '名称', value: 'name' },
-        { items: [], text: '资源', value: 'name' },
-      ];
-
-      this.levels = [
-        { text: 'firing', value: 'firing', color: 'error' },
-        { text: 'resolved', value: 'resolved', color: 'primary' },
-      ];
-
-      this.headers = [
-        { text: '告警名称', value: 'name', align: 'start' },
-        {
-          text: '命名空间',
-          value: 'namespace',
-          align: 'start',
-          cellClass: 'kubegems__table-nowrap-cell',
-          width: 80,
-        },
-        {
-          text: '告警类型',
-          value: 'type',
-          align: 'start',
-          width: 100,
-          cellClass: 'kubegems__table-nowrap-cell',
-        },
-        { text: '详情', value: 'message', align: 'start' },
-        { text: '级别', value: 'severity', align: 'start' },
-        {
-          text: '开始时间',
-          value: 'startsAt',
-          align: 'start',
-          cellClass: 'kubegems__table-nowrap-cell',
-        },
-        {
-          text: '触发时间',
-          value: 'createdAt',
-          align: 'start',
-          cellClass: 'kubegems__table-nowrap-cell',
-        },
-        { text: '黑名单', value: 'silenceCreator', align: 'center', width: 80 },
-        { text: '', value: 'action', align: 'center', width: 20 },
-        { text: '', value: 'data-table-expand', align: 'end' },
-      ];
-
       return {
         items: [],
         pageCount: 0,
@@ -216,6 +177,54 @@
     computed: {
       ...mapState(['AdminViewport']),
       ...mapGetters(['Tenant']),
+      // filters() {
+      //   return [
+      //     { items: [], text: this.$t('filter.name'), value: 'name' },
+      //     { items: [], text: this.$t('filter.resource'), value: 'name' },
+      //   ];
+      // },
+      // levels() {
+      //   return [
+      //     { text: 'firing', value: 'firing', color: 'error' },
+      //     { text: 'resolved', value: 'resolved', color: 'primary' },
+      //   ];
+      // },
+      headers() {
+        return [
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
+          {
+            text: this.$root.$t('resource.namespace'),
+            value: 'namespace',
+            align: 'start',
+            cellClass: 'kubegems__table-nowrap-cell',
+            width: 80,
+          },
+          {
+            text: this.$t('tip.alert_type'),
+            value: 'type',
+            align: 'start',
+            width: 100,
+            cellClass: 'kubegems__table-nowrap-cell',
+          },
+          { text: this.$t('table.message'), value: 'message', align: 'start' },
+          { text: this.$t('table.severity'), value: 'severity', align: 'start' },
+          {
+            text: this.$t('table.start_at'),
+            value: 'startsAt',
+            align: 'start',
+            cellClass: 'kubegems__table-nowrap-cell',
+          },
+          {
+            text: this.$t('table.trigger_at'),
+            value: 'createdAt',
+            align: 'start',
+            cellClass: 'kubegems__table-nowrap-cell',
+          },
+          { text: this.$t('table.blacklist'), value: 'silenceCreator', align: 'center', width: 80 },
+          { text: '', value: 'action', align: 'center', width: 20 },
+          { text: '', value: 'data-table-expand', align: 'end' },
+        ];
+      },
     },
     watch: {
       env: {
@@ -235,7 +244,7 @@
       this.$nextTick(() => {
         if (!this.Tenant().ID) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '暂未选择租户',
+            text: this.$root.$t('tip.select_tenant'),
             color: 'warning',
           });
           return;
@@ -275,9 +284,9 @@
       },
       onAddBacklist(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: '告警黑名单',
+          title: this.$t('operate.in_blacklist'),
           content: {
-            text: '是否确认将此条告警信息加入告警黑名单中？',
+            text: this.$t('tip.confirm_in_blacklist'),
             type: 'confirm',
           },
           doFunc: async () => {
@@ -288,9 +297,9 @@
       },
       onRemoveBlacklist(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: '告警黑名单',
+          title: this.$t('operate.remove_blacklist'),
           content: {
-            text: '是否确认将此条告警信息从告警黑名单中移除？',
+            text: this.$t('tip.confirm_remove_blacklist'),
             type: 'confirm',
           },
           doFunc: async () => {

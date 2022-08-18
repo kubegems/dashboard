@@ -18,7 +18,8 @@
   <v-card class="pa-3" :elevation="expand ? 3 : 0" flat>
     <div class="d-flex">
       <v-btn color="primary" text @click="onSwitchExpand">
-        查询<v-icon right>mdi-chevron-{{ expand ? 'up' : 'down' }}</v-icon>
+        {{ $t('tip.query') }}
+        <v-icon right>mdi-chevron-{{ expand ? 'up' : 'down' }}</v-icon>
       </v-btn>
 
       <v-combobox
@@ -26,7 +27,7 @@
         dense
         flat
         hide-details
-        label="模糊搜索规则和标签(多个关键字请用空格分割)"
+        :label="$t('tip.query_tip')"
         solo
         @change="onEmitChange"
         @keydown.enter="onSearch"
@@ -48,20 +49,20 @@
         </template>
         <template #selection="{ item }">
           <v-chip close close-icon="mdi-close-circle" color="primary" label small @click:close="onRemoveTag('search')">
-            <span>告警：{{ item }}</span>
+            <span>{{ $t('tip.alert') }} : {{ item }}</span>
           </v-chip>
         </template>
       </v-combobox>
 
       <v-btn class="ml-4" color="primary" text @click="onSearch">
         <v-icon left>mdi-magnify</v-icon>
-        运行
+        {{ $t('operate.go') }}
       </v-btn>
     </div>
 
     <div v-show="expand" class="mt-3">
       <div class="tags__header">
-        <span>选择标签：</span>
+        <span>{{ $t('tip.select_label') }} : </span>
         <v-btn
           v-for="tag in tags"
           :key="tag.value"
@@ -88,15 +89,16 @@
                 class="tags__item"
                 :class="{ 'tags__item--selected': tagMap[col] && tagMap[col] === item.value }"
                 @click="onSwitchTag(col, item)"
-                >{{ item.text }}</span
               >
+                {{ item.text }}
+              </span>
             </li>
           </ul>
         </v-col>
       </v-row>
 
       <div class="text-right">
-        <v-btn color="error" text @click="onClear"> 清空 </v-btn>
+        <v-btn color="error" text @click="onClear">{{ $root.$t('operate.clear') }} </v-btn>
       </div>
     </div>
   </v-card>
@@ -105,10 +107,14 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import { getSystemConfigData } from '@/api';
 
   export default {
     name: 'HistorySearch',
+    i18n: {
+      messages: messages,
+    },
     props: {
       cluster: {
         type: String,
@@ -122,23 +128,6 @@
     data() {
       return {
         expand: false,
-        labels: {
-          resource: {
-            text: '资源',
-            items: [],
-          },
-          rule: {
-            text: '规则',
-            items: [],
-          },
-          status: {
-            text: '状态',
-            items: [
-              { text: 'firing', value: 'firing' },
-              { text: 'resolved', value: 'resolved' },
-            ],
-          },
-        },
         tagCols: [],
         tagMap: {},
         search: undefined,
@@ -154,6 +143,25 @@
           items: this.labels[key].items,
           value: key,
         }));
+      },
+      labels() {
+        return {
+          resource: {
+            text: this.$t('filter.resource'),
+            items: [],
+          },
+          rule: {
+            text: this.$t('filter.rule'),
+            items: [],
+          },
+          status: {
+            text: this.$t('filter.status'),
+            items: [
+              { text: 'firing', value: 'firing' },
+              { text: 'resolved', value: 'resolved' },
+            ],
+          },
+        };
       },
     },
     watch: {

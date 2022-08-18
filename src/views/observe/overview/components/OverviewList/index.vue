@@ -29,8 +29,8 @@
       item-key="value"
       :items="items"
       :items-per-page="params.size"
-      no-data-text="暂无数据"
-      no-results-text="暂无匹配租户"
+      :no-data-text="$root.$t('data.no_data')"
+      :no-results-text="$root.$t('data.no_data')"
       :page.sync="params.page"
     >
       <template #[`item.labels`]="{ item, index }">
@@ -78,14 +78,14 @@
           <v-card flat>
             <v-flex class="text-body-2 text-center primary white--text py-2">
               <v-icon color="white" left small> mdi-alert-circle </v-icon>
-              <span>错误</span>
+              <span>{{ $t('tip.error_info') }}</span>
             </v-flex>
             <v-list class="pa-0 kubegems__tip" dense>
               <v-list-item>
                 <v-list-item-content>
                   <v-list-item class="float-left pa-0" two-line>
                     <v-list-item-content class="py-0">
-                      <v-list-item-title> 错误信息 </v-list-item-title>
+                      <v-list-item-title> {{ $t('tip.error_info') }} </v-list-item-title>
                       <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
                         {{ item.warning }}
                       </v-list-item-content>
@@ -114,6 +114,7 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
   import Duration from './Duration';
   import K8sEvents from './K8sEvents';
   import ProjectSelect from './ProjectSelect';
@@ -123,6 +124,9 @@
 
   export default {
     name: 'OverviewList',
+    i18n: {
+      messages: messages,
+    },
     components: {
       Duration,
       K8sEvents,
@@ -137,22 +141,6 @@
       },
     },
     data() {
-      this.headers = [
-        { text: '环境', value: 'environmentName', align: 'start' },
-        { text: '标签', value: 'labels', align: 'start' },
-        { text: '状态', value: 'status', align: 'start', width: 250 },
-        { text: '容器重启(次)', value: 'containerRestartTotal', align: 'start' },
-        { text: 'CPU', value: 'cpu', align: 'start' },
-        { text: 'Mem', value: 'memory', align: 'start' },
-        { text: '指标采集器', value: 'monitorCollectorCount', align: 'start' },
-        { text: '告警规则', value: 'alertRuleCount', align: 'start', width: 80 },
-        { text: '实时告警', value: 'alertLiving', align: 'start' },
-        { text: '日志采集器', value: 'loggingCollectorCount', align: 'start' },
-        { text: '错误日志', value: 'errorLogCount', align: 'start' },
-        { text: '日志速率', value: 'logRate', align: 'start' },
-        { text: '事件', value: 'eventCount', align: 'start' },
-      ];
-
       return {
         params: {
           duration: '1h',
@@ -164,6 +152,25 @@
         pageCount: 0,
         env: null,
       };
+    },
+    computed: {
+      headers() {
+        return [
+          { text: this.$root.$t('resource.environment'), value: 'environmentName', align: 'start' },
+          { text: this.$t('table.label'), value: 'labels', align: 'start' },
+          { text: this.$t('table.status'), value: 'status', align: 'start', width: 250 },
+          { text: this.$t('table.restart_count'), value: 'containerRestartTotal', align: 'start' },
+          { text: this.$root.$t('resource.cpu'), value: 'cpu', align: 'start' },
+          { text: this.$root.$t('resource.memory'), value: 'memory', align: 'start' },
+          { text: this.$t('table.metrics_count'), value: 'monitorCollectorCount', align: 'start' },
+          { text: this.$t('table.alert_rule_count'), value: 'alertRuleCount', align: 'start', width: 80 },
+          { text: this.$t('table.living_alert_count'), value: 'alertLiving', align: 'start' },
+          { text: this.$t('table.log_count'), value: 'loggingCollectorCount', align: 'start' },
+          { text: this.$t('table.error_log_count'), value: 'errorLogCount', align: 'start' },
+          { text: this.$t('table.log_rate'), value: 'logRate', align: 'start' },
+          { text: this.$t('table.event_count'), value: 'eventCount', align: 'start' },
+        ];
+      },
     },
     watch: {
       project: {
