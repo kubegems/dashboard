@@ -45,48 +45,15 @@
         <!-- 资源 -->
         <template v-if="mode === 'template'">
           <v-col cols="6">
-            <v-autocomplete
-              v-model="obj.promqlGenerator.resource"
-              class="my-0"
-              color="primary"
-              hide-selected
-              :items="resourceItems"
-              label="资源"
-              no-data-text="暂无可选数据"
-              :rules="objRules.resourceRule"
-              @change="onResourceChange"
-            >
-              <template #selection="{ item }">
-                <v-chip class="mx-1" color="primary" small>
-                  {{ item['text'] }}
-                </v-chip>
-              </template>
-            </v-autocomplete>
+            <ResourceSelectCascade
+              v-model="resource"
+              :generator="generator"
+              single-line
+              :tenant="Tenant()"
+              @setData="setData"
+            />
           </v-col>
           <!-- 资源 -->
-
-          <!-- 规则 -->
-          <v-col cols="6">
-            <v-autocomplete
-              v-model="obj.promqlGenerator.rule"
-              class="my-0"
-              color="primary"
-              :disabled="!obj.promqlGenerator.resource"
-              hide-selected
-              :items="ruleItems"
-              label="规则"
-              no-data-text="暂无可选数据"
-              :rules="objRules.ruleRule"
-              @change="onRuleChange"
-            >
-              <template #selection="{ item }">
-                <v-chip class="mx-1" color="primary" small>
-                  {{ item['text'] }}
-                </v-chip>
-              </template>
-            </v-autocomplete>
-          </v-col>
-          <!-- 规则 -->
 
           <!-- 单位 -->
           <v-col cols="6">
@@ -158,18 +125,19 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
+  import { mapGetters, mapState } from 'vuex';
 
-  import { getMyConfigData, getSystemConfigData } from '@/api';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
   import MetricsSuggestion from '@/views/observe/monitor/metrics/components/MetricsSuggestion';
+  import ResourceSelectCascade from '@/views/observe/monitor/metrics/components/ResourceSelectCascade';
   import Metrics from '@/views/observe/monitor/mixins/metrics';
 
   export default {
     name: 'GraphBaseForm',
     components: {
       MetricsSuggestion,
+      ResourceSelectCascade,
     },
     mixins: [Metrics],
     props: {
@@ -180,6 +148,10 @@
       environment: {
         type: Object,
         default: () => {},
+      },
+      generator: {
+        type: Object,
+        default: () => undefined,
       },
       item: {
         type: Object,
@@ -192,6 +164,7 @@
         obj: {
           name: '',
           promqlGenerator: {
+            scope: '',
             resource: '',
             rule: '',
             unit: '',
@@ -206,39 +179,17 @@
           exprRule: [required],
           modeRule: [required],
         },
-        metricsConfig: {},
         mode: 'template',
         modeItems: [
           { text: '由模版生成', value: 'template' },
           { text: '由PromQl生成', value: 'ql' },
         ],
+        resource: undefined,
       };
     },
     computed: {
       ...mapState(['AdminViewport']),
-      resourceItems() {
-        const resourcesObj = this.metricsConfig.resources || {};
-        return Object.keys(resourcesObj).map((key) => {
-          if (resourcesObj[key].namespaced) {
-            return {
-              text: resourcesObj[key].showName,
-              value: key,
-            };
-          }
-        });
-      },
-      ruleItems() {
-        if (this.metricsConfig.resources && this.obj.promqlGenerator.resource) {
-          const rulesObj = this.metricsConfig.resources[this.obj.promqlGenerator.resource].rules;
-          return Object.keys(rulesObj).map((key) => ({
-            text: rulesObj[key].showName,
-            value: key,
-            unit: rulesObj[key].unit,
-          }));
-        }
-
-        return [];
-      },
+      ...mapGetters(['Tenant']),
     },
     watch: {
       item: {
@@ -257,27 +208,14 @@
         immediate: true,
       },
     },
-    mounted() {
-      this.$nextTick(() => {
-        this.getMonitorConfig();
-      });
-    },
     methods: {
-      async getMonitorConfig() {
-        let data = {};
-        if (this.AdminViewport) {
-          data = await getSystemConfigData('Monitor');
-        } else {
-          data = await getMyConfigData('Monitor');
-        }
-        this.metricsConfig = data.content || {};
-      },
       onModeChange() {
         if (this.mode === 'template') {
           this.obj.promqlGenerator = {
             resource: '',
             rule: '',
             unit: '',
+            scope: '',
           };
           this.obj.expr = null;
           this.obj.unit = null;
@@ -288,18 +226,16 @@
           this.obj.name = '';
         }
       },
-      onResourceChange() {
-        this.obj.promqlGenerator.rule = '';
-        this.obj.promqlGenerator.unit = '';
-      },
-      onRuleChange() {
-        this.obj.promqlGenerator.unit = '';
-        const rule = this.ruleItems.find((r) => {
-          return r.value === this.obj.promqlGenerator.rule;
-        });
-        if (rule) {
-          this.obj.promqlGenerator.unit = rule.unit;
-          this.obj.name = rule.text;
+      setData() {
+        if (this.resource) {
+          this.obj.promqlGenerator = {
+            scope: this.resource.scope,
+            resource: this.resource.resource,
+            rule: this.resource.rule,
+            unit: this.resource.unit,
+          };
+          this.obj.unit = this.resource.unit;
+          this.obj.name = this.resource.showName;
         }
       },
       validate() {
@@ -312,6 +248,7 @@
         this.$refs.form.resetValidation();
         this.obj = this.$options.data().obj;
         this.mode = 'template';
+        this.resource = undefined;
       },
       insertMetrics(metrics) {
         this.$set(this.obj, 'expr', metrics);

@@ -146,6 +146,7 @@
         const data = await getModelSourceDetail(this.$route.query.registry, { noprocessing: true, count: true });
         this.status = data.syncStatus;
         this.$emit('updateModelCount', data.modelsCount || 0);
+        this.$emit('setOnline', data.online);
       },
       clearInterval() {
         if (this.timeinterval) clearInterval(this.timeinterval);

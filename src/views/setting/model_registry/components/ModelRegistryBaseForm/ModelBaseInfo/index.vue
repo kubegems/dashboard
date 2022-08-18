@@ -15,7 +15,7 @@
 -->
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
-    <BaseSubTitle title="模型商店定义" />
+    <BaseSubTitle :title="$root.$t('form.definition', [$root.$t('header.model_store')])" />
     <v-card-text class="pa-2">
       <v-row>
         <v-col cols="6">
@@ -25,8 +25,8 @@
             color="primary"
             hide-selected
             :items="registryItems"
-            label="模型商店来源"
-            no-data-text="暂无可选数据"
+            :label="$t('tip.source')"
+            :no-data-text="$root.$t('data.no_data')"
             :readonly="edit"
             :rules="objRules.registryRules"
             @change="onRegistryChange"
@@ -41,26 +41,34 @@
         <template v-if="obj.kind === 'modelx'">
           <v-col cols="6">
             <v-icon class="mt-6" color="orange" small>mdi-help-circle</v-icon>
-            <v-btn class="mt-5" color="orange" small text> 下载ModelX Client </v-btn>
+            <v-btn class="mt-5" color="orange" small text @click="downloadClient">
+              {{ $t('tip.download_modelx') }}
+            </v-btn>
           </v-col>
           <v-col cols="6">
             <v-text-field
               v-model="obj.name"
               class="my-0"
-              label="商店名称"
+              :label="$t('table.name')"
               :readonly="edit"
               required
               :rules="objRules.nameRules"
             />
           </v-col>
           <v-col cols="6">
-            <v-text-field v-model="obj.address" class="my-0" label="仓库地址" required :rules="objRules.addressRules" />
+            <v-text-field
+              v-model="obj.address"
+              class="my-0"
+              :label="$t('tip.address')"
+              required
+              :rules="objRules.addressRules"
+            />
           </v-col>
         </template>
       </v-row>
     </v-card-text>
     <template v-if="obj.kind === 'modelx'">
-      <BaseSubTitle title="模型仓库认证" />
+      <BaseSubTitle :title="$t('tip.auth')" />
 
       <Auth :data="obj" @updateComponentData="updateComponentData" />
     </template>
@@ -68,12 +76,16 @@
 </template>
 
 <script>
+  import messages from '../../../i18n';
   import Auth from './Auth';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'ModelBaseInfo',
+    i18n: {
+      messages: messages,
+    },
     components: {
       Auth,
     },
@@ -179,6 +191,9 @@
       },
       updateComponentData(data) {
         this.obj = data;
+      },
+      downloadClient() {
+        window.open('https://github.com/kubegems/modelx/releases');
       },
     },
   };

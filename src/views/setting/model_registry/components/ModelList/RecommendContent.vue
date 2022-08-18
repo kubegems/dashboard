@@ -15,17 +15,17 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-content-copy" title="模型推荐内容" :width="500" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-content-copy" :title="$t('tip.recomment_content')" :width="500" @reset="reset">
     <template #content>
       <v-flex>
-        <BaseSubTitle title="推荐内容定义" />
+        <BaseSubTitle :title="$root.$t('form.definition', [$t('tip.recomment_content')])" />
         <v-card-text class="pa-2">
           <v-row>
             <v-col cols="12">
               <v-textarea
                 v-model="obj.recommentContent"
                 auto-grow
-                label="推荐内容"
+                :label="$t('tip.recomment_content')"
                 :rules="objRules.recommentContentRule"
               />
             </v-col>
@@ -34,7 +34,9 @@
       </v-flex>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateRecommentContent"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateRecommentContent">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>
@@ -43,12 +45,16 @@
   import { Base64 } from 'js-base64';
   import { mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import { putAdminUpdateModel } from '@/api';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'RecommendContent',
+    i18n: {
+      messages: messages,
+    },
     data() {
       return {
         dialog: false,

@@ -126,8 +126,6 @@
 
     <Message />
     <User />
-
-    <Translate />
   </v-app-bar>
 </template>
 
@@ -135,7 +133,6 @@
   import { mapGetters, mapMutations, mapState } from 'vuex';
 
   import Message from './Message';
-  import Translate from './Translate';
   import User from './User';
   import BasePermission from '@/mixins/permission';
   import BaseSelect from '@/mixins/select';
@@ -144,7 +141,6 @@
     name: 'Header',
     components: {
       Message,
-      Translate,
       User,
     },
     mixins: [BasePermission, BaseSelect],

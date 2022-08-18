@@ -188,7 +188,7 @@
                         :index="index"
                         :is-cluster="queryList[index].isCluster"
                         :tenant="Tenant()"
-                        @setUnit="setUnitItem"
+                        @setData="setUnitItem"
                       />
                     </div>
                   </template>
@@ -403,9 +403,9 @@
         this.$delete(this.labelpairs, id);
         this.$delete(this.metricsObject, id);
       },
-      onAddAlert(data) {
+      onAddAlert(data, generator) {
         this.$refs.addPrometheusRule.open();
-        this.$refs.addPrometheusRule.init(data);
+        this.$refs.addPrometheusRule.init(data, generator);
       },
       onModeChange(index) {
         this.$set(this.queryList[index], 'unit', undefined);
@@ -463,7 +463,8 @@
           }
           newParams = Object.assign(newParams, {
             resource: params.resourceObj.resource,
-            rule: params.resourceObj._$value,
+            rule: params.resourceObj.rule,
+            scope: params.resourceObj.scope,
             unit: params.unit || null,
           });
         }

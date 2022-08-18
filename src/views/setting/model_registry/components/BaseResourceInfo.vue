@@ -22,7 +22,7 @@
     </v-card-title>
     <v-list-item two-line>
       <v-list-item-content class="kubegems__text">
-        <v-list-item-title class="text-subtitle-2"> 名称 </v-list-item-title>
+        <v-list-item-title class="text-subtitle-2"> {{ $('table.name') }} </v-list-item-title>
         <v-list-item-subtitle class="text-body-2">
           {{ item ? item.name : '' }}
         </v-list-item-subtitle>
@@ -30,7 +30,7 @@
     </v-list-item>
     <v-list-item two-line>
       <v-list-item-content class="kubegems__text">
-        <v-list-item-title class="text-subtitle-2"> 地址 </v-list-item-title>
+        <v-list-item-title class="text-subtitle-2"> {{ $t('tip.address') }} </v-list-item-title>
         <v-list-item-subtitle class="text-body-2">
           {{ item ? getRegistryMeta(item).address : '' }}
         </v-list-item-subtitle>
@@ -38,7 +38,7 @@
     </v-list-item>
     <v-list-item two-line>
       <v-list-item-content class="kubegems__text">
-        <v-list-item-title class="text-subtitle-2"> 模型数 </v-list-item-title>
+        <v-list-item-title class="text-subtitle-2"> {{ $t('tip.model_count') }} </v-list-item-title>
         <v-list-item-subtitle class="text-body-2">
           {{ $route.query.modelCount || 0 }}
         </v-list-item-subtitle>
@@ -46,7 +46,7 @@
     </v-list-item>
     <v-list-item two-line>
       <v-list-item-content class="kubegems__text">
-        <v-list-item-title class="text-subtitle-2"> 更新时间 </v-list-item-title>
+        <v-list-item-title class="text-subtitle-2"> {{ $t('tip.update_at') }} </v-list-item-title>
         <v-list-item-subtitle class="text-body-2">
           {{ item ? $moment(item.updationTime).format('lll') : '' }}
         </v-list-item-subtitle>
@@ -54,23 +54,23 @@
     </v-list-item>
     <v-list-item two-line>
       <v-list-item-content class="kubegems__text">
-        <v-list-item-title class="text-subtitle-2"> 同步状态 </v-list-item-title>
+        <v-list-item-title class="text-subtitle-2"> {{ $t('tip.status') }} </v-list-item-title>
         <v-list-item-subtitle class="text-body-2">
           <template v-if="syncStatus.status === 'SUCCESS'">
             <v-icon color="success" small>mdi-check-circle</v-icon>
-            同步成功
+            {{ $t('status.success') }}
           </template>
           <template v-else-if="syncStatus.status === 'FAILURE'">
             <v-icon color="error" small>mdi-close-circle</v-icon>
-            同步失败
+            {{ $t('status.failure') }}
           </template>
           <template v-else-if="syncStatus.status === 'STOP'">
             <v-icon color="grey" small>mdi-alert-circle</v-icon>
-            暂无同步
+            {{ $t('status.no_sync') }}
           </template>
           <template v-else-if="['INITIALIZE', 'PROGRESS', 'STARTED'].indexOf(syncStatus.status) > -1">
             <v-icon class="kubegems__waiting-circle-flashing" color="warning"> mdi-autorenew </v-icon>
-            正在同步: {{ syncStatus.progress }}
+            {{ $t('status.running') }} : {{ syncStatus.progress }}
           </template>
         </v-list-item-subtitle>
       </v-list-item-content>
@@ -79,10 +79,14 @@
 </template>
 
 <script>
+  import messages from '../i18n';
   import { getAdminModelStoreSync } from '@/api';
 
   export default {
     name: 'BasicResourceInfo',
+    i18n: {
+      messages: messages,
+    },
     props: {
       item: {
         type: Object,
@@ -129,37 +133,37 @@
           case 'huggingface':
             return {
               imgSrc: '/icon/hugging-face.svg',
-              tip: '全球大型开源社区,专注于NLP技术。',
+              tip: this.$t('tip.huggingface'),
               address: 'https://huggingface.co/',
             };
           case 'openmmlab':
             return {
               imgSrc: '/icon/openmmlab.svg',
-              tip: '深度学习时代最完整的计算机视觉开源算法体系。',
+              tip: this.$t('tip.openmmlab'),
               address: 'https://openmmlab.com/',
             };
           case 'tensorflow':
             return {
               imgSrc: '/icon/tensorflow.svg',
-              tip: '一个核心开源库，可以帮助您开发和训练机器学习模型。',
+              tip: this.$t('tip.tensorflow'),
               address: 'https://www.tensorflow.org/',
             };
           case 'pytorch':
             return {
               imgSrc: '/icon/pytorch.svg',
-              tip: '发现模型并将其发布到专为研究探索而设计的预训练模型存储库。',
+              tip: this.$t('tip.pytorch'),
               address: 'https://pytorch.org/',
             };
           case 'paddlepaddle':
             return {
               imgSrc: '/icon/paddlepaddle.svg',
-              tip: '源于产业实践的开源深度学习平台。',
+              tip: this.$t('tip.paddlepaddle'),
               address: 'https://www.paddlepaddle.org.cn/',
             };
           default:
             return {
               imgSrc: this.$LOGO_BLUE,
-              tip: 'Kubegems内置算法模型商店。',
+              tip: this.$t('tip.kubegems'),
               address: '',
             };
         }

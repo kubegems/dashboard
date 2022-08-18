@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Vue from 'vue';
 
 import router from '@/router';
 import store from '@/store';
@@ -23,7 +24,7 @@ axios.interceptors.request.use(function (config) {
       },
     });
     store.commit('SET_SNACKBAR', {
-      text: 'token过期，请重新登录',
+      text: Vue.prototype.$_i18n.t('tip.token_expired'),
       color: 'error',
     });
     return new Promise(() => {});
@@ -39,7 +40,7 @@ axios.interceptors.request.use(function (config) {
   ) {
     console.log(config);
     store.commit('SET_SNACKBAR', {
-      text: '请求参数有误',
+      text: Vue.prototype.$_i18n.t('tip.request_params_error'),
       color: 'error',
     });
     return new Promise(() => {});
@@ -74,7 +75,7 @@ axios.interceptors.response.use(
           !new RegExp('^(cluster/validate-kubeconfig)$|^(logqueryhistory)$|^(message/\\d+)$').test(response.config.url)
         ) {
           store.commit('SET_SNACKBAR', {
-            text: '操作成功',
+            text: Vue.prototype.$_i18n.t('tip.success'),
             color: 'success',
           });
         }
@@ -97,7 +98,7 @@ axios.interceptors.response.use(
     if (!(error && error.response)) {
       if (error.toString().indexOf('timeout') > -1) {
         store.commit('SET_SNACKBAR', {
-          text: '请求超时',
+          text: Vue.prototype.$_i18n.t('tip.timeout'),
           color: 'error',
         });
       } else {
@@ -119,7 +120,7 @@ axios.interceptors.response.use(
           break;
         case 401:
           store.commit('SET_SNACKBAR', {
-            text: '认证失败，请登录后访问',
+            text: Vue.prototype.$_i18n.t('tip.401'),
             color: 'warning',
           });
           store.commit('CLEARALL');
@@ -143,67 +144,67 @@ axios.interceptors.response.use(
           break;
         case 403:
           store.commit('SET_SNACKBAR', {
-            text: '无权限获取该数据',
+            text: Vue.prototype.$_i18n.t('tip.403'),
             color: 'warning',
           });
           break;
         case 404:
           store.commit('SET_SNACKBAR', {
-            text: '请求资源不存在',
+            text: Vue.prototype.$_i18n.t('tip.404'),
             color: 'warning',
           });
           break;
         case 405:
           store.commit('SET_SNACKBAR', {
-            text: '不允许请求',
+            text: Vue.prototype.$_i18n.t('tip.405'),
             color: 'warning',
           });
           break;
         case 408:
           store.commit('SET_SNACKBAR', {
-            text: '请求超时',
+            text: Vue.prototype.$_i18n.t('tip.timeout'),
             color: 'warning',
           });
           break;
         case 409:
           store.commit('SET_SNACKBAR', {
-            text: '请求资源冲突',
+            text: Vue.prototype.$_i18n.t('tip.409'),
             color: 'warning',
           });
           break;
         case 422:
           store.commit('SET_SNACKBAR', {
-            text: `无法处理的请求实体, 请求结果： ${error.response.data.Message || error.response.data.message}`,
+            text: `${Vue.prototype.$_i18n.t('tip.422')} ${error.response.data.Message || error.response.data.message}`,
             color: 'warning',
           });
           break;
         case 500:
           store.commit('SET_SNACKBAR', {
-            text: '服务器故障',
+            text: Vue.prototype.$_i18n.t('tip.500'),
             color: 'error',
           });
           break;
         case 502:
           store.commit('SET_SNACKBAR', {
-            text: '网关错误',
+            text: Vue.prototype.$_i18n.t('tip.502'),
             color: 'error',
           });
           break;
         case 503:
           store.commit('SET_SNACKBAR', {
-            text: '服务不可用',
+            text: Vue.prototype.$_i18n.t('tip.503'),
             color: 'error',
           });
           break;
         case 504:
           store.commit('SET_SNACKBAR', {
-            text: '服务器响应超时',
+            text: Vue.prototype.$_i18n.t('tip.504'),
             color: 'error',
           });
           break;
         default:
           store.commit('SET_SNACKBAR', {
-            text: '未知错误',
+            text: Vue.prototype.$_i18n.t('tip.unknown_error'),
             color: 'error',
           });
           break;
@@ -225,3 +226,4 @@ export * from './visualization';
 export * from './integrated';
 export * from './modelstore';
 export * from './rule';
+('');

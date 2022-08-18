@@ -16,7 +16,7 @@
 
 <template>
   <v-container fluid>
-    <BaseSplitContainer side-width="250px" :title="$root.$t('resource.type')">
+    <ScopeResourceLayout>
       <BaseBreadcrumb flat>
         <template #extend>
           <v-flex class="kubegems__full-right">
@@ -27,20 +27,7 @@
           </v-flex>
         </template>
       </BaseBreadcrumb>
-      <template #side>
-        <v-list dense rounded>
-          <v-list-item-group v-model="selected" color="primary" @change="onTypeSelectChange">
-            <v-list-item v-for="(metric, index) in metricTypeItems" :key="index">
-              <v-list-item-icon>
-                <v-icon v-text="`mdi-format-size`" />
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title v-text="metric.showName" />
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-item-group>
-        </v-list>
-      </template>
+
       <v-data-table
         class="mx-4"
         disable-sort
@@ -88,25 +75,27 @@
       <BasePagination
         v-if="pageCount >= 1"
         v-model="params.page"
-        :front-page="true"
         :page-count="pageCount"
         :size="params.size"
         @changepage="onPageIndexChange"
         @changesize="onPageSizeChange"
-        @loaddata="prometheusTemplateList"
+        @loaddata="ruleList"
       />
-    </BaseSplitContainer>
+    </ScopeResourceLayout>
 
-    <AddTemplate ref="addTemplate" @refresh="metricsConfig" />
-    <UpdateTemplate ref="updateTemplate" @refresh="metricsConfig" />
+    <AddTemplate ref="addTemplate" @refresh="ruleList" />
+    <UpdateTemplate ref="updateTemplate" @refresh="ruleList" />
   </v-container>
 </template>
 
 <script>
+  import { mapGetters } from 'vuex';
+
   import AddTemplate from './components/AddTemplate';
+  import ScopeResourceLayout from './components/ScopeResourceLayout';
   import UpdateTemplate from './components/UpdateTemplate';
   import messages from './i18n';
-  import { deletePrometheusTemplate, getSystemConfigData } from '@/api';
+  import { deleteAddRule, getRuleList } from '@/api';
 
   export default {
     name: 'PrometheusTemplate',
@@ -115,11 +104,10 @@
     },
     components: {
       AddTemplate,
+      ScopeResourceLayout,
       UpdateTemplate,
     },
     data: () => ({
-      metricTypeItems: [],
-      selected: 0,
       items: [],
       pageCount: 0,
       params: {
@@ -128,6 +116,7 @@
       },
     }),
     computed: {
+      ...mapGetters(['Tenant']),
       headers() {
         return [
           { text: this.$t('table.name'), value: 'name', align: 'start' },
@@ -139,36 +128,23 @@
         ];
       },
     },
-    mounted() {
-      this.$nextTick(() => {
-        this.metricsConfig();
-      });
+    watch: {
+      '$route.query': {
+        handler(newValue) {
+          if (newValue?.resourceId) {
+            this.ruleList();
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
     },
     methods: {
-      async metricsConfig() {
-        const data = await getSystemConfigData('Monitor');
-        this.metricTypeItems =
-          !data.content.resources ||
-          Object.keys(data.content.resources).map((k) => {
-            return { ...data.content.resources[k], name: k };
-          });
-        this.onTypeSelectChange();
-      },
-      onTypeSelectChange() {
-        this.items = [];
-        if (this.selected === undefined || !this.metricTypeItems) {
-          this.pageCount = 0;
-          return;
-        }
-        this.$nextTick(() => {
-          this.items = Object.keys(this.metricTypeItems[this.selected].rules).map((k) => {
-            return { ...this.metricTypeItems[this.selected].rules[k], name: k };
-          });
-          this.pageCount = Math.ceil(this.items.length / this.params.size);
-        });
-      },
-      prometheusTemplateList() {
-        this.onTypeSelectChange();
+      async ruleList() {
+        const data = await getRuleList(this.Tenant().ID, this.$route.query.resourceId, { ...this.params });
+        this.items = data.List;
+        this.pageCount = Math.ceil(data.Total / this.params.size);
+        this.params.page = data.CurrentPage;
       },
       onPageSizeChange(size) {
         this.params.page = 1;
@@ -178,13 +154,17 @@
         this.params.page = page;
       },
       addTemplate() {
-        const resourceName = this.metricTypeItems[this.selected].name;
-        this.$refs.addTemplate.init(resourceName);
+        if (!this.$route.query.resourceId) {
+          this.$store.commit('SET_SNACKBAR', {
+            text: this.$t('tip.select_resource'),
+            color: 'warning',
+          });
+          return;
+        }
         this.$refs.addTemplate.open();
       },
       updateTemplate(item) {
-        const resourceName = this.metricTypeItems[this.selected].name;
-        this.$refs.updateTemplate.init(resourceName, item);
+        this.$refs.updateTemplate.init(item);
         this.$refs.updateTemplate.open();
       },
       removeTemplate(item) {
@@ -197,9 +177,8 @@
           },
           param: { item },
           doFunc: async (param) => {
-            const resourceName = this.metricTypeItems[this.selected].name;
-            await deletePrometheusTemplate(resourceName, param.item.name);
-            this.metricsConfig();
+            await deleteAddRule(this.Tenant().ID, param.item.id);
+            this.ruleList();
           },
         });
       },

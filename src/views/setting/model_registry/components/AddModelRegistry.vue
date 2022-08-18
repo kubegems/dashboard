@@ -14,9 +14,21 @@
  * limitations under the License. 
 -->
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-cube" title="添加算法模型商店" :width="1000" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-cube"
+    :title="$root.$t('operate.add_c', [$root.$t('header.model_store')])"
+    :width="1000"
+    @reset="reset"
+  >
     <template #content>
-      <component :is="formComponent" :ref="formComponent" :step="step" title="模型商店" @changeStep="changeStep" />
+      <component
+        :is="formComponent"
+        :ref="formComponent"
+        :step="step"
+        :title="$root.$t('header.model_store')"
+        @changeStep="changeStep"
+      />
     </template>
     <template #action>
       <v-btn
@@ -27,13 +39,13 @@
         text
         @click="addModelRegistry"
       >
-        确定
+        {{ $root.$t('operate.confirm') }}
       </v-btn>
       <v-btn v-if="step >= 0 && step < totalStep - 1" class="float-right mx-2" color="primary" text @click="nextStep">
-        下一步
+        {{ $root.$t('operate.next') }}
       </v-btn>
       <v-btn v-if="step > 0 && step <= totalStep - 1" class="float-right mx-2" color="primary" text @click="lastStep">
-        上一步
+        {{ $root.$t('operate.previous') }}
       </v-btn>
     </template>
   </BaseDialog>

@@ -22,7 +22,7 @@
           <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
             <v-sheet class="pt-2 px-2">
               <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width">
-                <span>模型仓库认证</span>
+                <span>{{ $t('tip.auth') }}</span>
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__form-width">
                 <v-autocomplete
@@ -31,8 +31,8 @@
                   color="primary"
                   hide-selected
                   :items="authTypeItems"
-                  label="认证方式"
-                  no-data-text="暂无可选数据"
+                  :label="$t('tip.auth_type')"
+                  :no-data-text="$root.$t('data.no_data')"
                   :rules="objRules.authTypeItemsRules"
                 >
                   <template #selection="{ item }">
@@ -53,7 +53,7 @@
                   <v-text-field
                     v-model="obj.auth.username"
                     class="my-0"
-                    label="用户名"
+                    :label="$root.$t('usernmae')"
                     required
                     :rules="objRules.usernameRule"
                   />
@@ -62,7 +62,7 @@
                   <v-text-field
                     v-model="obj.auth.password"
                     class="my-0"
-                    label="密码"
+                    :label="$root.$t('passwd')"
                     required
                     :rules="objRules.passwordRule"
                     type="password"
@@ -91,9 +91,11 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
-          <v-btn color="primary" :loading="Circular" small text @click="adminModelStorCheck"> 校验 </v-btn>
-          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> {{ $root.$t('operate.cancel') }} </v-btn>
+          <v-btn color="primary" :loading="Circular" small text @click="adminModelStorCheck">
+            {{ $t('operate.check') }}
+          </v-btn>
+          <v-btn color="primary" small text @click="addData"> {{ $root.$t('operate.save') }} </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -111,7 +113,7 @@
           <v-list-item-subtitle class="text-body-2 py-0 text-center">
             <v-btn color="primary" text @click="expandCard">
               <v-icon left small> mdi-plus </v-icon>
-              添加认证配置
+              {{ $root.$t('operate.add_c', [$t('tip.auth_setting')]) }}
             </v-btn>
           </v-list-item-subtitle>
         </v-list-item-content>
@@ -123,6 +125,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../../../i18n';
   import AuthItem from './AuthItem';
   import { postAdminModelStorCheck } from '@/api';
   import { deepCopy } from '@/utils/helpers';
@@ -130,6 +133,9 @@
 
   export default {
     name: 'Auth',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AuthItem,
     },
@@ -144,10 +150,6 @@
         valid: false,
         expand: false,
         authType: 'token',
-        authTypeItems: [
-          { text: '基于用户名密码的认证', value: 'passwd' },
-          { text: '基于Token的认证', value: 'token' },
-        ],
         obj: {
           auth: {
             username: '',
@@ -168,6 +170,12 @@
     },
     computed: {
       ...mapState(['Circular']),
+      authTypeItems() {
+        return [
+          { text: this.$t('tip.passwd_auth'), value: 'passwd' },
+          { text: this.$t('tip.token_auth'), value: 'token' },
+        ];
+      },
     },
     watch: {
       data: {

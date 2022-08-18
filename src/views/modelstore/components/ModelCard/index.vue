@@ -60,6 +60,7 @@
                 />
               </div>
               <v-spacer />
+              <v-btn v-if="!online" color="primary" small text @click="refreshModel(item)"> 刷新 </v-btn>
               <v-btn color="primary" small text @click="modelDetail(item)"> 详情 </v-btn>
             </v-card-actions>
 
@@ -99,6 +100,10 @@
   export default {
     name: 'ModelCard',
     props: {
+      online: {
+        type: Boolean,
+        default: () => true,
+      },
       registry: {
         type: Object,
         default: () => null,
@@ -198,6 +203,7 @@
           behavior: 'smooth',
         });
       },
+      refreshModel() {},
     },
   };
 </script>

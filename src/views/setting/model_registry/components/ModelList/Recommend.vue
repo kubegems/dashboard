@@ -14,17 +14,17 @@
  * limitations under the License. 
 -->
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-comment" title="模型推荐指数" :width="500" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-comment" :title="$t('tip.recomment')" :width="500" @reset="reset">
     <template #content>
       <v-flex>
-        <BaseSubTitle title="推荐指数定义" />
+        <BaseSubTitle :title="$root.$t('form.definition', [$t('tip.recomment')])" />
         <v-card-text class="pa-2">
           <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
             <v-row>
               <v-col cols="12">
                 <v-text-field
                   v-model.number="obj.recomment"
-                  label="推荐指数"
+                  :label="$t('tip.recomment')"
                   :rules="objRules.recommentRules"
                   type="number"
                 />
@@ -35,7 +35,9 @@
       </v-flex>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateRecomment"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateRecomment">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>
@@ -44,12 +46,16 @@
   import { Base64 } from 'js-base64';
   import { mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import { putAdminUpdateModel } from '@/api';
   import { deepCopy } from '@/utils/helpers';
   import { positiveInteger, required } from '@/utils/rules';
 
   export default {
     name: 'Recommend',
+    i18n: {
+      messages: messages,
+    },
     data() {
       return {
         dialog: false,
@@ -58,7 +64,7 @@
           recomment: 0,
         },
         objRules: {
-          recommentRules: [required, positiveInteger, (v) => v <= 100 || '格式错误(0-100)'],
+          recommentRules: [required, positiveInteger, (v) => v <= 100 || this.$t('form.recomment_rule')],
         },
       };
     },

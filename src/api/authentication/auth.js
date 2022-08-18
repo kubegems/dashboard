@@ -14,3 +14,5 @@ export const getOauthCallback = (query = {}) => axios(`/oauth/callback`, { param
 export const postResetPassword = (body = {}) => axios.post(`my/reset_password`, body);
 // 三方登录
 export const getSystemAuthSource = (query = {}) => axios(`system/authsource`, { params: query });
+// 生成token
+export const postGenerateToken = (query = {}) => axios.post(`oauth/token`, {}, { params: query });

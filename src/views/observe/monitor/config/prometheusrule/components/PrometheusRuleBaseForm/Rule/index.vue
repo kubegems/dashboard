@@ -56,47 +56,15 @@
           <!-- 资源 -->
           <template v-if="mod === 'template' && mode === 'monitor'">
             <v-col cols="6">
-              <v-autocomplete
-                v-model="obj.promqlGenerator.resource"
-                class="my-0"
-                color="primary"
-                hide-selected
-                :items="resourceItems"
-                label="资源"
-                no-data-text="暂无可选数据"
-                :rules="objRules.resourceRule"
-                @change="onResourceChange"
-              >
-                <template #selection="{ item }">
-                  <v-chip class="mx-1" color="primary" small>
-                    {{ item['text'] }}
-                  </v-chip>
-                </template>
-              </v-autocomplete>
+              <ResourceSelectCascade
+                v-model="resource"
+                :generator="generator"
+                single-line
+                :tenant="Tenant()"
+                @setData="setResourceData"
+              />
             </v-col>
             <!-- 资源 -->
-
-            <!-- 规则 -->
-            <v-col cols="6">
-              <v-autocomplete
-                v-model="obj.promqlGenerator.rule"
-                class="my-0"
-                color="primary"
-                :disabled="!obj.promqlGenerator.resource"
-                hide-selected
-                :items="ruleItems"
-                label="规则"
-                no-data-text="暂无可选数据"
-                :rules="objRules.ruleRule"
-                @change="onRuleChange"
-              >
-                <template #selection="{ item }">
-                  <v-chip class="mx-1" color="primary" small>
-                    {{ item['text'] }}
-                  </v-chip>
-                </template>
-              </v-autocomplete>
-            </v-col>
           </template>
 
           <template v-if="mod === 'template' && mode === 'logging'">
@@ -247,17 +215,18 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
+  import { mapGetters, mapState } from 'vuex';
 
   import AlertLevelForm from './AlertLevelForm';
   import AlertLevelItem from './AlertLevelItem';
   import RuleLabelpairs from './RuleLabelpairs';
-  import { getMetricsLabels, getMyConfigData, getPodList, getSystemConfigData } from '@/api';
+  import { getMetricsLabels, getPodList } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
   import MetricsSuggestion from '@/views/observe/monitor/metrics/components/MetricsSuggestion';
+  import ResourceSelectCascade from '@/views/observe/monitor/metrics/components/ResourceSelectCascade';
   import Metrics from '@/views/observe/monitor/mixins/metrics';
 
   export default {
@@ -266,6 +235,7 @@
       AlertLevelForm,
       AlertLevelItem,
       MetricsSuggestion,
+      ResourceSelectCascade,
       RuleLabelpairs,
     },
     mixins: [BaseResource, BaseSelect, Metrics],
@@ -277,6 +247,10 @@
       expr: {
         type: String,
         default: () => '',
+      },
+      generator: {
+        type: Object,
+        default: () => null,
       },
       item: {
         type: Object,
@@ -291,7 +265,6 @@
       return {
         valid: false,
         expand: false,
-        metricsConfig: {}, // 指标配置
         inhibitLabelItems: [],
         obj: {
           name: '',
@@ -305,6 +278,7 @@
             resource: '',
             rule: '',
             unit: '',
+            scope: '',
           },
           logqlGenerator: {
             match: '',
@@ -317,10 +291,12 @@
         mod: 'template',
         containerItems: [],
         inhibitLabelText: '',
+        resource: undefined,
       };
     },
     computed: {
       ...mapState(['AdminViewport']),
+      ...mapGetters(['Tenant']),
       modeItems() {
         if (this.mode === 'monitor')
           return [
@@ -351,27 +327,6 @@
           durationRule: [(v) => !!new RegExp('(^\\d+[s|m|h]$)').test(v) || '格式错误(示例:30s,1m,1h)'],
         };
       },
-      resourceItems() {
-        const resourcesObj = this.metricsConfig.resources || {};
-        return Object.keys(resourcesObj).map((key) => ({
-          text: resourcesObj[key].showName,
-          value: key,
-        }));
-      },
-      ruleItems() {
-        if (this.metricsConfig.resources && this.obj.promqlGenerator.resource) {
-          const rulesObj = this.metricsConfig.resources[this.obj.promqlGenerator.resource].rules;
-          return Object.keys(rulesObj).map((key) => ({
-            text: `${rulesObj[key].showName} (${
-              rulesObj[key]?.unit === 'short' ? '默认' : rulesObj[key]?.unit || '暂无单位'
-            })`,
-            value: key,
-            unit: rulesObj[key]?.unit,
-          }));
-        }
-
-        return [];
-      },
     },
     watch: {
       expr: {
@@ -399,13 +354,12 @@
           if (!this.obj.promqlGenerator) {
             this.obj.promqlGenerator = {
               resource: '',
+              scope: '',
               rule: '',
               unit: '',
             };
           }
           this.$delete(this.obj, 'expr');
-          this.getMonitorConfig();
-          this.setLabelpairs();
         } else if (this.mod === 'ql' && this.mode === 'monitor') {
           if (!this.obj.expr) {
             this.obj.expr = '';
@@ -491,6 +445,17 @@
           this.mod = 'template';
         }
       },
+      setResourceData() {
+        if (this.resource) {
+          this.obj.promqlGenerator = {
+            scope: this.resource.scope,
+            resource: this.resource.resource,
+            rule: this.resource.rule,
+            unit: this.resource.unit,
+          };
+          this.setLabelpairs();
+        }
+      },
       closeExpand() {
         this.expand = false;
       },
@@ -498,22 +463,6 @@
         this.$refs.alertLevelForm.closeCard();
         this.$refs.form.resetValidation();
         this.obj = deepCopy(this.$options.data().obj);
-      },
-      onResourceChange() {
-        // resource选择变更时需要重置rule值
-        this.obj.promqlGenerator.rule = '';
-        this.obj.promqlGenerator.unit = '';
-      },
-      onRuleChange() {
-        const rule = this.ruleItems.find((r) => {
-          r.value === this.obj.promqlGenerator.rule;
-        });
-        if (rule) {
-          this.obj.promqlGenerator.unit = rule?.unit;
-        } else {
-          this.obj.promqlGenerator.unit = '';
-        }
-        this.setLabelpairs();
       },
       onModChange() {
         this.load();
@@ -523,10 +472,9 @@
       },
       // mergeLabelpairs 点击编辑时数据labelpairs与全值合并
       setLabelpairs(mergeLabelpairs = {}) {
-        const { resource, rule } = this.obj?.promqlGenerator || { resource: '', rule: '' };
         const labelpairs = {};
-        if (resource && rule && this.metricsConfig) {
-          const labels = this.metricsConfig.resources?.[resource].rules[rule].labels || [];
+        if (this.resource) {
+          const labels = this.resource.labels || [];
           labels.forEach((item) => {
             labelpairs[item] = '';
           });
@@ -535,16 +483,6 @@
         this.inhibitLabelItems = Object.keys(this.obj.labelpairs).map((l) => {
           return { text: l, value: l };
         });
-      },
-      async getMonitorConfig() {
-        let data = {};
-        if (this.AdminViewport) {
-          data = await getSystemConfigData('Monitor');
-        } else {
-          data = await getMyConfigData('Monitor');
-        }
-        this.metricsConfig = data.content || {};
-        this.setLabelpairs(this.obj.labelpairs); // 此处确保配置项加载完后更新labelpairs列表
       },
       async getInhibitLabels() {
         let data = [];

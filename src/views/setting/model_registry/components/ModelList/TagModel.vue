@@ -14,10 +14,10 @@
  * limitations under the License. 
 -->
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-label" title="模型标签" :width="500" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-label" :title="$t('tip.label')" :width="500" @reset="reset">
     <template #content>
       <v-flex>
-        <BaseSubTitle title="模型标签定义" />
+        <BaseSubTitle :title="$root.$t('form.definition', [$t('tip.label')])" />
         <v-card-text class="pa-2">
           <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
             <v-row>
@@ -28,9 +28,9 @@
                   color="primary"
                   hide-selected
                   :items="tagItems"
-                  label="模型标签(回车创建)"
+                  :label="$t('tip.label')"
                   multiple
-                  no-data-text="暂无可选数据"
+                  :no-data-text="$root.$t('data.no_data')"
                   :rules="objRules.tagsRules"
                   :search-input.sync="tagText"
                   @keyup.enter="createTag"
@@ -49,7 +49,9 @@
       </v-flex>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateTag"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateTag">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>
@@ -58,12 +60,16 @@
   import { Base64 } from 'js-base64';
   import { mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import { putAdminUpdateModel } from '@/api';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'TagModel',
+    i18n: {
+      messages: messages,
+    },
     data() {
       return {
         dialog: false,

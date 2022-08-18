@@ -30,18 +30,19 @@
     <template #activator="{ on }">
       <v-combobox
         v-model="resource"
-        dense
-        flat
-        hide-details
+        :class="{ 'my-0': singleLine }"
+        :dense="!singleLine"
+        :flat="!singleLine"
+        :hide-details="!singleLine"
         hide-no-data
         hide-selected
         :items="items"
         label="规则模板"
-        solo
+        :solo="!singleLine"
         v-on="on"
       >
         <template #selection="{ attrs, item, selected }">
-          <v-chip color="primary" :input-value="selected" label small v-bind="attrs">
+          <v-chip color="primary" :input-value="selected" :label="!singleLine" small v-bind="attrs">
             <span class="pr-2">{{ item.resourceShowName }}-{{ item.showName }}</span>
           </v-chip>
         </template>
@@ -55,7 +56,7 @@
         </div>
         <div class="kubegems__clear-float" />
       </div>
-      <div class="select__div" :style="{ width: show ? '50%' : '100%' }">
+      <div class="select__div" :style="{ width: getWidth() }">
         <v-text-field
           v-model="search"
           class="mt-2"
@@ -66,15 +67,14 @@
           solo
           @keyup="onSearch"
         />
-        <div class="text-caption pa-1 mt-2">资源</div>
+        <div class="text-caption pa-1 mt-2">组</div>
         <v-divider class="mb-2" />
         <v-list class="pa-0" dense max-height="300" nav :style="{ overflowY: 'auto' }">
-          <v-list-item-group v-model="resourceIndex" color="primary" @change="onLatitudeChange">
-            <v-list-item v-for="(item, index) in resourceItemsCopy" :key="index" dense>
+          <v-list-item-group v-model="scopeIndex" color="primary" @change="onScopeChange">
+            <v-list-item v-for="(item, index) in scopeItemsCopy" :key="index" dense>
               <v-list-item-content>
                 <v-list-item-title class="select__list__title pl-2">
                   {{ item.showName }}
-                  <div class="float-right text-caption mt-n1">{{ Object.keys(item.rules).length }} 模板</div>
                 </v-list-item-title>
               </v-list-item-content>
               <v-list-item-icon>
@@ -84,15 +84,37 @@
           </v-list-item-group>
         </v-list>
       </div>
-      <v-divider v-if="show" class="float-left select__divider" vertical />
-      <div v-if="show" class="select__div">
-        <div class="text-caption pa-1 mt-2">模板</div>
+      <v-divider v-if="showResource" class="float-left select__divider" vertical />
+      <div v-if="showResource" class="select__div" :style="{ width: getWidth() }">
+        <div class="text-caption pa-1 mt-2">资源</div>
+        <v-divider class="mb-2" />
+        <v-list class="pa-0" dense max-height="345" nav :style="{ overflowY: 'auto' }">
+          <v-list-item-group v-model="resourceIndex" color="primary" @change="onResourceChange">
+            <v-list-item v-for="(item, index) in resourceItemsCopy" :key="index" dense>
+              <v-list-item-content>
+                <v-list-item-title class="select__list__title pl-2" v-text="item.showName" />
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+      </div>
+
+      <v-divider v-if="showRule" class="float-left select__divider" vertical />
+      <div v-if="showRule" class="select__div" :style="{ width: getWidth() }">
+        <div class="text-caption pa-1 mt-2">规则</div>
         <v-divider class="mb-2" />
         <v-list class="pa-0" dense max-height="345" nav :style="{ overflowY: 'auto' }">
           <v-list-item-group v-model="ruleIndex" color="primary" @change="onRuleChange">
             <v-list-item v-for="(item, index) in ruleItemsCopy" :key="index" dense>
               <v-list-item-content>
-                <v-list-item-title class="select__list__title pl-2" v-text="item.showName" />
+                <v-menu id="desc" :close-delay="200" nudge-right="25px" nudge-top="20px" open-on-hover top>
+                  <template #activator="{ on }">
+                    <v-list-item-title class="select__list__title pl-2" v-on="on" v-text="item.showName" />
+                  </template>
+                  <v-card>
+                    <v-card-text class="pa-2 text-caption"> {{ item.description || '暂无' }} </v-card-text>
+                  </v-card>
+                </v-menu>
               </v-list-item-content>
             </v-list-item>
           </v-list-item-group>
@@ -104,18 +126,26 @@
 </template>
 
 <script>
-  import { getMyConfigData, getSystemConfigData } from '@/api';
+  import { getRuleScopeList, getRuleResourceList, getRuleList, getRuleSearch } from '@/api';
   import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'ResourceSelectCascade',
     mixins: [BaseSelect],
     props: {
+      generator: {
+        type: Object,
+        default: () => null,
+      },
       index: {
         type: Number,
         default: () => 0,
       },
       isCluster: {
+        type: Boolean,
+        default: () => false,
+      },
+      singleLine: {
         type: Boolean,
         default: () => false,
       },
@@ -130,11 +160,13 @@
         resource: undefined,
         maxWidth: 275,
         items: [],
-        config: {},
         resourceItems: [],
         resourceItemsCopy: [],
+        scopeItems: [],
+        scopeItemsCopy: [],
         ruleItems: [],
         ruleItemsCopy: [],
+        scopeIndex: undefined,
         resourceIndex: undefined,
         ruleIndex: undefined,
         search: '',
@@ -147,7 +179,13 @@
       ruleObj() {
         return this.ruleIndex > -1 ? this.ruleItems[this.ruleIndex] : null;
       },
-      show() {
+      scopeObj() {
+        return this.scopeIndex > -1 ? this.scopeItems[this.scopeIndex] : null;
+      },
+      showResource() {
+        return this.scopeIndex > -1 || this.search || this.resourceItems.length > 0;
+      },
+      showRule() {
         return this.resourceIndex > -1 || this.search || this.ruleItems.length > 0;
       },
     },
@@ -165,7 +203,6 @@
       tenant: {
         handler: async function (newValue) {
           if (newValue) {
-            this.getMonitorConfig();
             this.ruleScopeList();
           }
         },
@@ -174,84 +211,142 @@
       },
       isCluster: {
         handler() {
-          this.loadResources();
+          this.ruleScopeList();
         },
         deep: true,
       },
+      generator: {
+        handler(newValue) {
+          if (newValue) {
+            this.loadRule();
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
     },
     methods: {
-      async getMonitorConfig() {
-        let data = null;
-        if (this.AdminViewport) {
-          data = await getSystemConfigData('Monitor', { noprocessing: true });
-        } else {
-          data = await getMyConfigData('Monitor', { noprocessing: true });
+      async loadRule() {
+        const data = await getRuleSearch({
+          scope: this.generator.scope,
+          resource: this.generator.resource,
+          rule: this.generator.rule,
+        });
+        this.scopeIndex = this.scopeItems.findIndex((s) => {
+          return s.id === data.scopeID;
+        });
+
+        this.ruleResourceList(data.scopeID, data.resourceID);
+        this.ruleList(data.resourceID, data.ruleID);
+      },
+      async ruleScopeList() {
+        const data = await getRuleScopeList(this.tenant.ID, { noprocessing: true, size: 1000 });
+        this.scopeItems = data.List;
+        this.scopeItemsCopy = data.List;
+      },
+      async ruleResourceList(scopeId, resourceId = -1) {
+        const data = await getRuleResourceList(this.tenant.ID, scopeId, { noprocessing: true, size: 1000 });
+        this.resourceItems = data.List;
+        this.resourceItemsCopy = data.List;
+        if (this.generator) {
+          this.resourceIndex = this.resourceItems.findIndex((r) => {
+            return r.id === resourceId;
+          });
         }
-        this.config = data?.content || {};
-        this.loadResources();
       },
-      formatObject2Array(obj) {
-        return Object.keys(obj || {}).map((key) => ({
-          _$value: key,
-          ...obj[key],
-        }));
+      async ruleList(resourceId, ruleId = -1) {
+        const data = await getRuleList(this.tenant.ID, resourceId, { noprocessing: true, size: 1000 });
+        this.ruleItems = data.List;
+        this.ruleItemsCopy = data.List;
+        if (this.generator) {
+          this.ruleIndex = this.ruleItems.findIndex((r) => {
+            return r.id === ruleId;
+          });
+          this.onRuleChange();
+          this.maxWidth = 825;
+        }
       },
-      loadResources() {
-        const items = this.formatObject2Array(this.config.resources || {}).filter(
-          (item) => this.isCluster || item.namespaced,
-        );
-        this.resourceItems = items;
-        this.resourceItemsCopy = items;
-      },
-      onLatitudeChange() {
+      onResourceChange() {
         if (this.resourceIndex > -1) {
-          this.maxWidth = 550;
+          this.maxWidth = 825;
           this.loadRules();
         } else {
-          this.maxWidth = this.ruleItems.length > 0 ? 550 : 275;
+          this.maxWidth = this.ruleItems.length > 0 ? 825 : 550;
+        }
+      },
+      onScopeChange() {
+        if (this.scopeIndex > -1) {
+          this.maxWidth = 550;
+          const scope = this.scopeItemsCopy[this.scopeIndex];
+          this.ruleResourceList(scope.id);
+        } else {
+          this.resourceIndex = undefined;
+          this.maxWidth = this.resourceItems.length > 0 ? 550 : 275;
         }
       },
       loadRules() {
         if (this.resourceIndex > -1) {
-          let items = [];
-          const rulesObj = this.config.resources?.[this.resourceObj._$value]?.rules || {};
-          items = this.formatObject2Array(rulesObj);
-          this.ruleItems = items;
-          this.ruleItemsCopy = items;
+          const resource = this.resourceItemsCopy[this.resourceIndex];
+          this.ruleList(resource.id);
         }
       },
       onRuleChange() {
         if (this.ruleIndex > -1) {
           this.resource = {
             ...this.ruleObj,
-            resource: this.resourceObj._$value,
-            resourceShowName: this.resourceObj.showName,
+            resource: this.resourceObj?.name,
+            resourceShowName: this.resourceObj?.showName,
+            rule: this.ruleObj.name,
+            scope: this.scopeObj.name,
           };
           this.items = [this.resource];
           this.$emit('change', this.resource);
           this.$emit('input', this.resource);
-          this.$emit('setUnit', this.index);
+          this.$emit('setData', this.index);
           this.menu = false;
         }
       },
       onSearch() {
         if (this.search) {
+          this.scopeItemsCopy = this.scopeItems.filter((p) => {
+            return p.showName.indexOf(this.search) > -1;
+          });
           this.resourceItemsCopy = this.resourceItems.filter((p) => {
             return p.showName.indexOf(this.search) > -1;
           });
           this.ruleItemsCopy = this.ruleItems.filter((e) => {
             return e.showName.indexOf(this.search) > -1;
           });
+          this.maxWidth = 825;
         } else {
+          this.scopeItemsCopy = this.scopeItems;
           this.resourceItemsCopy = this.resourceItems;
           this.ruleItemsCopy = this.ruleItems;
+          if (this.showResource && this.showRule) {
+            this.maxWidth = 825;
+          } else if (this.showResource) {
+            this.maxWidth = 550;
+          } else {
+            this.maxWidth = 275;
+          }
         }
       },
       reset() {
+        this.scopeIndex = undefined;
         this.resourceIndex = undefined;
         this.ruleIndex = undefined;
+        this.resourceItems = [];
         this.ruleItems = [];
         this.maxWidth = 275;
+      },
+      getWidth() {
+        if (this.showResource && this.showRule) {
+          return '33.333333%';
+        }
+        if (this.showResource) {
+          return '50%';
+        }
+        return '100%';
       },
     },
   };

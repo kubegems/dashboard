@@ -21,6 +21,7 @@
         :is="formComponent"
         :ref="formComponent"
         :edit="true"
+        :generator="generator"
         :item="item"
         :mode="mode"
         :step="step"
@@ -74,6 +75,7 @@
       item: null,
       step: 0,
       totalStep: 2,
+      generator: undefined,
     }),
     computed: {
       ...mapState(['Circular', 'AdminViewport']),
@@ -110,6 +112,7 @@
           // 提前加载命名空间
           this.$refs[this.formComponent].setData(this.item);
           this.$refs[this.formComponent].setLabelpairs(this.item.labelpairs);
+          this.generator = this.item.promqlGenerator;
         });
       },
 
