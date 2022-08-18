@@ -16,7 +16,15 @@
 
 <template>
   <v-form ref="form" v-model="valid" lazy-validation>
-    <component :is="steps[step]" :ref="steps[step]" :edit="edit" :expr="expr" :item="item" :mode="mode" />
+    <component
+      :is="steps[step]"
+      :ref="steps[step]"
+      :edit="edit"
+      :expr="expr"
+      :generator="generator"
+      :item="item"
+      :mode="mode"
+    />
   </v-form>
 </template>
 
@@ -38,6 +46,10 @@
       expr: {
         type: String,
         default: () => '',
+      },
+      generator: {
+        type: Object,
+        default: () => null,
       },
       item: {
         type: Object,

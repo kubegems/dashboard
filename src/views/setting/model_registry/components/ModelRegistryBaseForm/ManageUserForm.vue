@@ -15,7 +15,7 @@
 -->
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
-    <BaseSubTitle title="模型商店管理员" />
+    <BaseSubTitle :title="$t('tip.model_admin')" />
     <v-card-text class="pa-2">
       <v-tabs v-model="tab" class="pa-2" height="30px" vertical @change="onTabChange">
         <v-tab v-for="item in tabItems" :key="item.value">
@@ -27,7 +27,7 @@
               <v-col class="py-1" cols="6">
                 <v-card elevation="2" flat height="550px">
                   <v-card-text>
-                    <v-flex class="px-1 mb-2">用户</v-flex>
+                    <v-flex class="px-1 mb-2">{{ $root.$t('resource.account') }}</v-flex>
                     <v-text-field
                       v-model="searchAllUser"
                       class="mx-1"
@@ -54,7 +54,7 @@
               <v-col class="py-1" cols="6">
                 <v-card elevation="2" flat height="550px">
                   <v-card-text>
-                    <v-flex class="px-1 mb-2"> 管理员 </v-flex>
+                    <v-flex class="px-1 mb-2"> {{ $root.$t('role.model.admin') }} </v-flex>
                     <v-text-field
                       v-model="searchRoleUser"
                       class="mx-1"
@@ -94,12 +94,16 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import { deleteModelStoreAdminList, getModelStoreAdminList, postModelStoreAdminList, userSelectData } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'ManageUserForm',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseSelect],
     props: {
       edit: {
@@ -110,7 +114,6 @@
     data: () => ({
       valid: false,
       tab: 0,
-      tabItems: [{ text: '管理员', value: 'admin' }],
       allUsers: [],
       allUsersCopy: [],
       users: [],
@@ -126,6 +129,9 @@
     computed: {
       ...mapState(['JWT', 'Scale']),
       ...mapGetters(['Tenant']),
+      tabItems() {
+        return [{ text: this.$root.$t('role.model.admin'), value: 'admin' }];
+      },
     },
     methods: {
       async userList() {

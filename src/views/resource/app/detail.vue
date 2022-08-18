@@ -309,7 +309,7 @@
           content: {
             text: `${title} ${this.app?.name || this.app?.metadata?.name}`,
             type: 'delete',
-            name: this.app.name,
+            name: this.app?.name || this.app?.metadata?.name,
           },
           param: {},
           doFunc: async () => {

@@ -141,7 +141,7 @@
         }
       },
       setAlert() {
-        const { resource, rule, unit, cluster, environment, ql, expr } = this.data?._$origin;
+        const { resourceObj, unit, cluster, environment, ql, expr } = this.data?._$origin;
         const labelpairs = {};
         for (const key in this.labelpairs) {
           if (this.labelpairs[key] && this.labelpairs[key].length) {
@@ -157,8 +157,9 @@
         } else {
           params = {
             promqlGenerator: {
-              resource: resource._$value,
-              rule: rule._$value,
+              resource: resourceObj.name,
+              rule: resourceObj.rule,
+              scope: resourceObj.scope,
               unit: unit?.value,
             },
           };
@@ -176,12 +177,13 @@
             },
             params,
           ),
+          resourceObj,
         );
 
         this.$router.replace({
           query: {
-            cluster: environment?.Cluster.ClusterName || cluster?.text,
-            namespace: environment?.Namespace || SERVICE_MONITOR_NS,
+            cluster: environment?.clusterName || cluster?.text,
+            namespace: environment?.namespace || SERVICE_MONITOR_NS,
           },
         });
       },

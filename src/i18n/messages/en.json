@@ -4,7 +4,8 @@
   "403": "Forbidden",
   "404": "Not Found",
   "loading": "Loading",
-  "passwd": "password",
+  "username": "Username",
+  "passwd": "Password",
 
   "status": {
     "success": "Success",
@@ -85,6 +86,9 @@
       "sys": "System Admin",
       "normal": "Normal",
       "administrator": "Admin"
+    },
+    "model": {
+      "admin": "Admin"
     }
   },
 
@@ -473,7 +477,22 @@
     "missing_namespace": "Missing namespace",
     "select_namespace": "Please select namespace first",
     "in_virtualspace": "Added virtual space",
-    "not_allocate_resource": "Tenant has no resources assigned"
+    "not_allocate_resource": "Tenant has no resources assigned",
+    "token_expired": "Token expired, please login again",
+    "401": "Authentication failed, please login to visit",
+    "request_params_error": "Incorrect request parameters",
+    "success": "Successful",
+    "timeout": "Request timeout",
+    "403": "Not authorized to access this data",
+    "404": "The requested resource does not exist",
+    "405": "Request not allowed",
+    "409": "Request resource conflict",
+    "422": "Unprocessable request entity, request result:",
+    "500": "Server failure",
+    "502": "Gateway error",
+    "503": "Service unavailable",
+    "504": "Server response timeout",
+    "unknown_error": "Unknown error"
   },
   "tab": {
     "overview": "Overview",

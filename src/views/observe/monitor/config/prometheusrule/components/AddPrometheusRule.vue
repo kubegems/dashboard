@@ -21,6 +21,7 @@
         :is="formComponent"
         :ref="formComponent"
         :expr="expr"
+        :generator="generator"
         :mode="mode"
         :step="step"
         :title="`${mode === 'metrics' ? 'PrometheusRule' : 'LogRule'}`"
@@ -76,6 +77,7 @@
       formComponent: 'PrometheusRuleBaseForm',
       step: 0,
       totalStep: 2,
+      generator: undefined,
     }),
     computed: {
       ...mapState(['Circular', 'AdminViewport']),
@@ -86,10 +88,11 @@
         this.dialog = true;
       },
       // 增加初始值
-      init(initData) {
+      init(initData, generator) {
         this.$nextTick(() => {
           this.$refs[this.formComponent].setData(initData);
           this.$refs[this.formComponent].getInhibitLabels();
+          this.generator = generator;
         });
       },
       async addPrometheusRule() {

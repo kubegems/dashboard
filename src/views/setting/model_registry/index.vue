@@ -30,19 +30,19 @@
                 <div class="mr-4 float-left">
                   <template v-if="item.status === 'SUCCESS'">
                     <v-icon color="success" small>mdi-check-circle</v-icon>
-                    同步成功
+                    {{ $t('status.success') }}
                   </template>
                   <template v-else-if="item.status === 'FAILURE'">
                     <v-icon color="error" small>mdi-close-circle</v-icon>
-                    同步失败
+                    {{ $t('status.failure') }}
                   </template>
                   <template v-else-if="item.status === 'STOP'">
                     <v-icon color="grey" small>mdi-alert-circle</v-icon>
-                    暂无同步
+                    {{ $t('status.no_sync') }}
                   </template>
                   <template v-else-if="['INITIALIZE', 'PROGRESS', 'STARTED'].indexOf(item.status) > -1">
                     <v-icon class="kubegems__waiting-circle-flashing" color="warning"> mdi-autorenew </v-icon>
-                    正在同步: {{ item.progress }}
+                    {{ $t('status.running') }} : {{ item.progress }}
                   </template>
                   {{ item.finishedAt ? $moment(item.finishedAt).format('lll') : '' }}
                 </div>
@@ -54,22 +54,28 @@
                   {{ item.tip }}
                 </div>
                 <div class="mr-4 float-left registry__stat text-subtitle-2">
-                  模型数量: {{ item ? item.modelsCount : 0 }}
+                  {{ $t('tip.model_count') }} : {{ item ? item.modelsCount : 0 }}
                 </div>
                 <div class="mr-4 float-right">
-                  <v-btn color="primary" text @click="modelRegistryDetail(item)">模型管理</v-btn>
+                  <v-btn color="primary" text @click="modelRegistryDetail(item)">{{ $t('operate.manage') }}</v-btn>
                   <v-btn
                     :color="['INITIALIZE', 'PROGRESS'].indexOf(item.status) > -1 ? `error` : 'primary'"
                     text
                     @click="syncRegistry(item)"
                   >
-                    {{ ['INITIALIZE', 'PROGRESS'].indexOf(item.status) > -1 ? '终止同步' : '同步' }}
+                    {{
+                      ['INITIALIZE', 'PROGRESS'].indexOf(item.status) > -1
+                        ? $t('operate.stop_sync')
+                        : $root.$t('operate.sync')
+                    }}
                   </v-btn>
-                  <v-btn color="primary" text @click="updateRegistry(item)">编辑</v-btn>
+                  <v-btn color="primary" text @click="updateRegistry(item)">{{ $root.$t('operate.edit') }}</v-btn>
                   <v-btn :color="item.enabled ? 'error' : 'primary'" text @click="toggleActiveRegistry(item)">
-                    {{ item.enabled ? '禁用' : '激活' }}
+                    {{ item.enabled ? $t('operate.forbid') : $t('operate.active') }}
                   </v-btn>
-                  <v-btn v-if="!item.builtIn" color="error" text @click="removeRegistry(item)">删除</v-btn>
+                  <v-btn v-if="!item.builtIn" color="error" text @click="removeRegistry(item)">
+                    {{ $root.$t('operate.delete') }}
+                  </v-btn>
                 </div>
                 <div class="kubegems__clear-float" />
               </div>
@@ -77,7 +83,7 @@
 
             <template v-if="item.builtIn">
               <v-flex class="registry__watermarkbg" />
-              <v-flex class="registry__watermark font-weight-medium"> 内置商店 </v-flex>
+              <v-flex class="registry__watermark font-weight-medium"> {{ $t('tip.inner') }} </v-flex>
             </template>
           </v-card>
         </v-hover>
@@ -96,7 +102,7 @@
                   @click="addModelRegitry"
                 >
                   <v-icon left>mdi-plus-box</v-icon>
-                  添加算法商店
+                  {{ $root.$t('operate.add_c', [$root.$t('header.model_store')]) }}
                 </v-btn>
               </v-list-item-content>
             </v-list-item>
@@ -113,6 +119,7 @@
 <script>
   import AddModelRegistry from './components/AddModelRegistry';
   import UpdateModelRegistry from './components/UpdateModelRegistry';
+  import messages from './i18n';
   import {
     deleteAdminModelSource,
     deleteAdminModelStoreSync,
@@ -125,6 +132,9 @@
 
   export default {
     name: 'ModelRegistrySetting',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddModelRegistry,
       UpdateModelRegistry,
@@ -175,12 +185,15 @@
       },
       syncRegistry(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: ['INITIALIZE', 'PROGRESS'].indexOf(item.status) > -1 ? `终止同步算法模型商店` : `同步算法模型商店`,
+          title:
+            ['INITIALIZE', 'PROGRESS'].indexOf(item.status) > -1
+              ? this.$t('operate.stop_sync_c', [this.$root.$t('header.model_store')])
+              : this.$root.$t('operate.sync_c', [this.$root.$t('header.model_store')]),
           content: {
             text:
               ['INITIALIZE', 'PROGRESS'].indexOf(item.status) > -1
-                ? `终止同步算法模型商店 ${item.name}`
-                : `同步算法模型商店 ${item.name}`,
+                ? `${this.$t('operate.stop_sync_c', [this.$root.$t('header.model_store')])} ${item.name}`
+                : `${this.$root.$t('operate.sync_c', [this.$root.$t('header.model_store')])} ${item.name}`,
             type: 'confirm',
           },
           param: { item },
@@ -196,9 +209,13 @@
       },
       toggleActiveRegistry(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: item.enabled ? `禁用算法模型商店` : `激活算法模型商店`,
+          title: item.enabled
+            ? this.$t('operate.forbid_c', [this.$root.$t('header.model_store')])
+            : this.$t('operate.active_c', [this.$root.$t('header.model_store')]),
           content: {
-            text: item.enabled ? `禁用算法模型商店 ${item.name}` : `激活算法模型商店 ${item.name}`,
+            text: item.enabled
+              ? `${this.$t('operate.forbid_c', [this.$root.$t('header.model_store')])} ${item.name}`
+              : `${this.$t('operate.active_c', [this.$root.$t('header.model_store')])} ${item.name}`,
             type: 'confirm',
           },
           param: { item },
@@ -216,9 +233,9 @@
       },
       removeRegistry(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除算法模型商店`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('header.model_store')]),
           content: {
-            text: `删除算法模型商店 ${item.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('header.model_store')])} ${item.name}`,
             type: 'delete',
             name: item.name,
           },
@@ -234,37 +251,37 @@
           case 'huggingface':
             return {
               imgSrc: '/icon/hugging-face.svg',
-              tip: '全球大型开源社区,专注于NLP技术。',
+              tip: this.$t('tip.huggingface'),
               address: 'https://huggingface.co/',
             };
           case 'openmmlab':
             return {
               imgSrc: '/icon/openmmlab.svg',
-              tip: '深度学习时代最完整的计算机视觉开源算法体系。',
+              tip: this.$t('tip.openmmlab'),
               address: 'https://openmmlab.com/',
             };
           case 'tensorflow':
             return {
               imgSrc: '/icon/tensorflow.svg',
-              tip: '一个核心开源库，可以帮助您开发和训练机器学习模型。',
+              tip: this.$t('tip.tensorflow'),
               address: 'https://www.tensorflow.org/',
             };
           case 'pytorch':
             return {
               imgSrc: '/icon/pytorch.svg',
-              tip: '发现模型并将其发布到专为研究探索而设计的预训练模型存储库。',
+              tip: this.$t('tip.pytorch'),
               address: 'https://pytorch.org/',
             };
           case 'paddlepaddle':
             return {
               imgSrc: '/icon/paddlepaddle.svg',
-              tip: '源于产业实践的开源深度学习平台。',
+              tip: this.$t('tip.paddlepaddle'),
               address: 'https://www.paddlepaddle.org.cn/',
             };
           default:
             return {
               imgSrc: this.$LOGO_BLUE,
-              tip: 'Kubegems内置算法模型商店。',
+              tip: this.$t('tip.kubegems'),
             };
         }
       },

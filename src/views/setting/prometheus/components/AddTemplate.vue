@@ -34,10 +34,10 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
+  import { mapGetters, mapState } from 'vuex';
 
   import TemplateBaseForm from './TemplateBaseForm';
-  import { postPrometheusTemplate } from '@/api';
+  import { postAddRule } from '@/api';
 
   export default {
     name: 'AddTemplate',
@@ -54,11 +54,11 @@
       dialog: false,
       yaml: null,
       item: null,
-      resourceName: null,
       formComponent: 'TemplateBaseForm',
     }),
     computed: {
       ...mapState(['Circular']),
+      ...mapGetters(['Tenant']),
     },
     methods: {
       open() {
@@ -69,15 +69,12 @@
           let data = '';
           if (this.formComponent === 'TemplateBaseForm') {
             data = this.$refs[this.formComponent].getData();
-            const ruleName = data.name;
-            await postPrometheusTemplate(this.resourceName, ruleName, data);
+            data.resourceID = parseInt(this.$route.query.resourceId);
+            await postAddRule(this.Tenant().ID, data);
           }
           this.reset();
           this.$emit('refresh');
         }
-      },
-      init(resourceName) {
-        this.resourceName = resourceName;
       },
       reset() {
         this.dialog = false;

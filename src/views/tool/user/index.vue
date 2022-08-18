@@ -51,11 +51,11 @@
             <div class="py-5">
               <h5 class="text-subtitle-1 kubegems__text">{{ $t('table.email') }}</h5>
               <h6 class="text-body-2 mb-3">
-                {{ User && User.Email && User.Email.length === 0 ? $root.$t('data.unknown') : User.Email }}
+                {{ User.Email || $root.$t('data.unknown') }}
               </h6>
               <h5 class="text-subtitle-1 kubegems__text">{{ $t('table.mobile') }}</h5>
               <h6 class="text-body-2 mb-3">
-                {{ User.Phone ? User.Phone : $root.$t('data.unknown') }}
+                {{ User.Phone || $root.$t('data.unknown') }}
               </h6>
               <h5 class="text-subtitle-1 kubegems__text">{{ $t('table.registe_at') }}</h5>
               <h6 class="text-body-2 mb-3">
@@ -111,9 +111,9 @@
       ...mapState(['JWT', 'User', 'Admin']),
       tabItems() {
         return [
-          { text: this.$t('tab.message'), value: 'MessageBox' },
-          { text: this.$t('tab.audit'), value: 'AuditList' },
           { text: this.$t('tab.setting'), value: 'OwnerSetting' },
+          { text: this.$t('tab.audit'), value: 'AuditList' },
+          { text: this.$t('tab.message'), value: 'MessageBox' },
         ];
       },
     },

@@ -38,6 +38,32 @@
             </v-form>
           </v-card-text>
         </v-card>
+
+        <v-card class="mt-3" flat>
+          <v-card-text class="pa-2">
+            <BaseSubTitle :divider="false" :title="$t('setting.tip.auth')" />
+            <v-form ref="infoForm" v-model="validInfo" class="px-4" lazy-validation @submit.prevent>
+              <v-row class="mt-0">
+                <v-col cols="12">
+                  <v-flex class="text-subtitle-2 kubegems__text"> {{ $t('setting.tip.exprie') }} </v-flex>
+                  <v-text-field
+                    v-model.number="objToken.expire"
+                    class="pt-0"
+                    dense
+                    flat
+                    :rules="tokenRules.expireRules"
+                    solo
+                    type="number"
+                  />
+                  <span>{{ accessToken }}</span>
+                </v-col>
+              </v-row>
+              <v-btn class="my-4" color="primary" small @click="updateToken">
+                {{ $t('operate.generate_c', [$t('setting.tip.auth')]) }}
+              </v-btn>
+            </v-form>
+          </v-card-text>
+        </v-card>
       </v-col>
 
       <v-col cols="6">
@@ -99,6 +125,37 @@
             </v-form>
           </v-card-text>
         </v-card>
+
+        <v-card class="mt-3" flat>
+          <v-card-text class="pa-2">
+            <BaseSubTitle :divider="false" :title="$t('setting.tip.i18n')" />
+            <v-form ref="infoForm" v-model="validInfo" class="px-4" lazy-validation @submit.prevent>
+              <v-row class="mt-0">
+                <v-col cols="12">
+                  <v-autocomplete
+                    v-model="locale"
+                    dense
+                    flat
+                    hide-details
+                    item-text="title"
+                    item-value="locale"
+                    :items="languages"
+                    :menu-props="{
+                      bottom: true,
+                      left: true,
+                      origin: `top center`,
+                    }"
+                    :rules="i18nRules.languageRules"
+                    solo
+                  />
+                </v-col>
+              </v-row>
+              <v-btn class="my-4" color="primary" small @click="updateLanguage">
+                {{ $root.$t('operate.update_c', [$t('setting.tip.i18n')]) }}
+              </v-btn>
+            </v-form>
+          </v-card-text>
+        </v-card>
       </v-col>
     </v-row>
   </div>
@@ -108,14 +165,16 @@
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
-  import { getLoginUserInfo, postResetPassword, putUpdateUser } from '@/api';
-  import { email, password, phone, required } from '@/utils/rules';
+  import { getLoginUserInfo, postResetPassword, putUpdateUser, postGenerateToken } from '@/api';
+  import locales from '@/i18n/locales';
+  import { email, password, phone, required, positiveInteger } from '@/utils/rules';
 
   export default {
     name: 'OwnerSetting',
     i18n: {
       messages: messages,
     },
+    inject: ['reload'],
     data() {
       return {
         validInfo: false,
@@ -133,10 +192,18 @@
         showOrigin: false,
         showNew1: false,
         showNew2: false,
+
+        locale: '',
+        objToken: {
+          expire: 600,
+          grant_type: 'client_credentials',
+          scope: 'validate',
+        },
+        accessToken: '',
       };
     },
     computed: {
-      ...mapState(['User']),
+      ...mapState(['User', 'Locale']),
       objInfoRules() {
         return {
           emailRules: [email],
@@ -150,10 +217,24 @@
           new2Rules: [required, password],
         };
       },
+      i18nRules() {
+        return {
+          languageRules: [required],
+        };
+      },
+      tokenRules() {
+        return {
+          expireRules: [required, positiveInteger],
+        };
+      },
+      languages() {
+        return locales;
+      },
     },
     mounted() {
       this.$nextTick(() => {
         this.loginUserInfo();
+        this.locale = this.Locale;
       });
     },
     methods: {
@@ -194,6 +275,20 @@
             },
           });
         }
+      },
+      updateLanguage() {
+        if (this.Locale === this.locale) return;
+        this.$i18n.locale = this.locale;
+        this.$moment.locale(this.locale === 'zh-Hans' ? 'zh-cn' : this.locale);
+        if (window) {
+          window.document.title = `${this.$t(this.$route.meta.title)} - ${this.$PLATFORM}`;
+        }
+        this.$store.commit('SET_LOCALE', this.locale);
+        this.reload();
+      },
+      async updateToken() {
+        const data = await postGenerateToken(this.objToken);
+        this.accessToken = data.access_token;
       },
     },
   };

@@ -43,9 +43,12 @@
       transition
     >
       <template #prepend="{ item }">
-        <v-icon v-if="item.type === 'project'" color="primary" left> mdi-view-dashboard </v-icon>
+        <v-icon v-if="item.type === 'project'" color="primary" left small> mdi-view-dashboard </v-icon>
 
-        <v-icon v-else color="primary" left> mdi-cloud </v-icon>
+        <v-icon v-else color="primary" left small> mdi-cloud </v-icon>
+      </template>
+      <template #label="{ item }">
+        <span class="text-body-2">{{ item.name }}</span>
       </template>
     </v-treeview>
   </div>

@@ -4,6 +4,7 @@
   "403": "无权限访问",
   "404": "页面不存在",
   "loading": "数据获取中",
+  "username": "用户名",
   "passwd": "密码",
 
   "status": {
@@ -85,6 +86,9 @@
       "sys": "系统管理员",
       "normal": "普通用户",
       "administrator": "管理员"
+    },
+    "model": {
+      "admin": "管理员"
     }
   },
 
@@ -472,7 +476,22 @@
     "missing_namespace": "缺少命名空间",
     "select_namespace": "请先选择命名空间",
     "in_virtualspace": "已加入虚拟空间",
-    "not_allocate_resource": "租户未分配资源"
+    "not_allocate_resource": "租户未分配资源",
+    "token_expired": "token过期,请重新登录",
+    "401": "认证失败，请登录后访问",
+    "request_params_error": "请求参数有误",
+    "success": "操作成功",
+    "timeout": "请求超时",
+    "403": "无权限获取该数据",
+    "404": "请求资源不存在",
+    "405": "不允许请求",
+    "409": "请求资源冲突",
+    "422": "无法处理的请求实体, 请求结果: ",
+    "500": "服务器故障",
+    "502": "网关错误",
+    "503": "服务不可用",
+    "504": "服务器响应超时",
+    "unknown_error": "未知错误"
   },
   "tab": {
     "overview": "概览",

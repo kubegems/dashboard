@@ -15,12 +15,16 @@
 -->
 <template>
   <v-container fluid>
-    <Breadcrumb :hub="$route.query.registry" sync-status>
+    <Breadcrumb :hub="$route.query.registry" sync-status @setOnline="setOnline">
       <template #extend>
         <v-flex class="kubegems__full-right">
           <v-btn class="primary--text" small text @click="deployModel">
             <v-icon left small> mdi-rocket </v-icon>
             部署
+          </v-btn>
+          <v-btn v-if="!online" class="primary--text" small text @click="refreshModel">
+            <v-icon left small>mdi-refresh</v-icon>
+            刷新
           </v-btn>
           <v-btn class="primary--text" small text @click="returnModel">
             <v-icon left small>mdi-reply</v-icon>
@@ -96,6 +100,7 @@
         ],
         item: undefined,
         version: '',
+        online: true,
       };
     },
     computed: {
@@ -149,6 +154,10 @@
       },
       selcetVersion(version) {
         this.version = version;
+      },
+      refreshModel() {},
+      setOnline(online) {
+        this.online = online;
       },
     },
   };

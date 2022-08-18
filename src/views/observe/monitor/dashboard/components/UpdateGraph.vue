@@ -17,7 +17,14 @@
 <template>
   <BaseDialog v-model="dialog" icon="mdi-chart-areaspline" title="更新监控图" :width="1000" @reset="reset">
     <template #content>
-      <component :is="formComponent" :ref="formComponent" :edit="true" :environment="environment" :item="item" />
+      <component
+        :is="formComponent"
+        :ref="formComponent"
+        :edit="true"
+        :environment="environment"
+        :generator="generator"
+        :item="item"
+      />
     </template>
     <template #action>
       <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateGraph"> 确定 </v-btn>
@@ -54,6 +61,7 @@
         index: 0,
         item: null,
         dashboardCopy: null,
+        generator: undefined,
       };
     },
     computed: {
@@ -76,6 +84,7 @@
       init(item, index) {
         this.index = index;
         this.item = deepCopy(item);
+        this.generator = this.item.promqlGenerator;
       },
       async updateGraph() {
         if (this.$refs[this.formComponent].validate()) {

@@ -24,7 +24,7 @@
             <v-list-item class="float-left py-0 pl-0" :style="{ width: `600px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1"> {{ getAuthType() }} </v-list-item-title>
-                <v-list-item-subtitle class="text-body-2 py-1"> 认证方式 </v-list-item-subtitle>
+                <v-list-item-subtitle class="text-body-2 py-1"> {{ $t('tip.auth_type') }} </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-list-item-subtitle>
@@ -42,8 +42,13 @@
 </template>
 
 <script>
+  import messages from '../../../../i18n';
+
   export default {
     name: 'AuthItem',
+    i18n: {
+      messages: messages,
+    },
     props: {
       data: {
         type: Object,
@@ -53,13 +58,13 @@
     methods: {
       getAuthType() {
         if (this.data?.auth?.username && this.data?.auth?.token) {
-          return '基于用户名密码或Token的认证';
+          return this.$t('tip.passwd_or_token_auth');
         }
         if (this.data?.auth?.username) {
-          return '基于用户名密码的认证';
+          return this.$t('tip.passwd_auth');
         }
         if (this.data?.auth?.token) {
-          return '基于Token的认证';
+          return this.$t('tip.token_auth');
         }
         return '';
       },

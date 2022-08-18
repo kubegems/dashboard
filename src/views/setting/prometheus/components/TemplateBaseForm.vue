@@ -35,9 +35,19 @@
             <v-text-field
               v-model="obj.showName"
               class="my-0"
-              :label="$t('form.rule')"
+              :label="$t('form.show_name')"
               required
               :rules="objRules.showNameRule"
+            />
+          </v-col>
+          <v-col cols="12">
+            <v-textarea
+              v-model="obj.description"
+              auto-grow
+              class="my-0"
+              :label="$t('form.description')"
+              required
+              :rules="objRules.descriptionRule"
             />
           </v-col>
           <v-col cols="12">
@@ -122,6 +132,8 @@
         expr: '',
         labels: [],
         unit: [],
+        description: '',
+        resourceID: 0,
       },
     }),
     computed: {
@@ -130,6 +142,7 @@
           nameRule: [required],
           showNameRule: [required],
           exprRule: [required],
+          descriptionRule: [required],
         };
       },
     },
@@ -138,9 +151,11 @@
         handler() {
           if (this.item) {
             this.obj = deepCopy(this.item);
-            this.labels = this.obj.labels.map((l, index) => {
-              return { text: l, value: index };
-            });
+            this.labels = this.obj.labels
+              ? this.obj.labels.map((l, index) => {
+                  return { text: l, value: index };
+                })
+              : [];
           }
         },
         deep: true,

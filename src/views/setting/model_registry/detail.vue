@@ -27,10 +27,14 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" small text @click="updateModelRegistry"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateModelRegistry">
+                    {{ $root.$t('operate.edit') }}
+                  </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="removeModelRegistry"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeModelRegistry">
+                    {{ $root.$t('operate.delete') }}
+                  </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -67,12 +71,16 @@
   import BaseResourceInfo from './components/BaseResourceInfo';
   import ModelList from './components/ModelList';
   import UpdateModelRegistry from './components/UpdateModelRegistry';
+  import messages from './i18n';
   import { deleteAdminModelSource, getAdminModelSourceDetail } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'ModelRegistryDetail',
+    i18n: {
+      messages: messages,
+    },
     components: {
       BaseResourceInfo,
       ModelList,
@@ -82,10 +90,12 @@
     data: () => ({
       item: null,
       tab: 0,
-      tabItems: [{ text: '算法模型', value: 'ModelList' }],
     }),
     computed: {
       ...mapState(['JWT']),
+      tabItems() {
+        return [{ text: this.$root.$t('header.model_store'), value: 'ModelList' }];
+      },
     },
     mounted() {
       if (this.JWT) {
@@ -105,9 +115,9 @@
       },
       removeModelRegistry() {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除算法模型商店`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('header.model_store')]),
           content: {
-            text: `删除算法模型商店 ${this.item.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('header.model_store')])} ${this.item.name}`,
             type: 'delete',
             name: this.item.name,
           },

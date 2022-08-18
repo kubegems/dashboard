@@ -15,7 +15,12 @@
 -->
 <template>
   <v-container fluid>
-    <Breadcrumb :hub="registry ? registry.name : ''" sync-status @updateModelCount="updateModelCount">
+    <Breadcrumb
+      :hub="registry ? registry.name : ''"
+      sync-status
+      @setOnline="setOnline"
+      @updateModelCount="updateModelCount"
+    >
       <template #extend>
         <v-flex class="kubegems__full-right">
           <RegistrySelect v-model="registry" />
@@ -28,7 +33,7 @@
           <ModelFilter :model-count="modelCount" :registry="registry" @filter="filter" @search="search" />
         </v-col>
         <v-col class="pt-0" cols="9">
-          <ModelCard ref="modelCard" :registry="registry" />
+          <ModelCard ref="modelCard" :online="online" :registry="registry" />
         </v-col>
       </v-row>
     </template>
@@ -71,6 +76,7 @@
       return {
         registry: null,
         modelCount: 0,
+        online: true,
       };
     },
     computed: {
@@ -85,6 +91,9 @@
       },
       updateModelCount(modelCount) {
         this.modelCount = modelCount;
+      },
+      setOnline(online) {
+        this.online = online;
       },
     },
   };

@@ -14,7 +14,13 @@
  * limitations under the License. 
 -->
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-cube" title="更新算法模型商店" :width="1000" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-cube"
+    :title="$root.$t('operate.update_c', [$root.$t('header.model_store')])"
+    :width="1000"
+    @reset="reset"
+  >
     <template #content>
       <component
         :is="formComponent"
@@ -22,7 +28,7 @@
         :edit="true"
         :item="item"
         :step="step"
-        title="算法商店"
+        :title="$root.$t('header.model_store')"
         @changeStep="changeStep"
       />
     </template>
@@ -35,13 +41,13 @@
         text
         @click="updateModelRegistry"
       >
-        确定
+        {{ $root.$t('operate.confirm') }}
       </v-btn>
       <v-btn v-if="step >= 0 && step < totalStep - 1" class="float-right mx-2" color="primary" text @click="nextStep">
-        下一步
+        {{ $root.$t('operate.next') }}
       </v-btn>
       <v-btn v-if="step > 0 && step <= totalStep - 1" class="float-right mx-2" color="primary" text @click="lastStep">
-        上一步
+        {{ $root.$t('operate.previous') }}
       </v-btn>
     </template>
   </BaseDialog>

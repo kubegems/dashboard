@@ -14,7 +14,13 @@
  * limitations under the License. 
 -->
 <template>
-  <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
+  <v-form
+    ref="form"
+    v-model="valid"
+    lazy-validation
+    :style="{ height: `${height}px`, overflowY: 'auto' }"
+    @submit.prevent
+  >
     <div class="deploy__tip">
       <div class="float-right mr-2">
         <img alt="Seldon Core" class="mt-1" height="24px" src="/icon/seldon.svg" />
@@ -28,26 +34,6 @@
     <v-card-text class="pa-2">
       <v-row>
         <v-col cols="12">
-          <v-autocomplete
-            v-model="obj.server.protocol"
-            hide-no-data
-            hide-selected
-            :items="protocolItems"
-            label="协议"
-            :menu-props="{
-              bottom: true,
-              left: true,
-              origin: `top center`,
-            }"
-            :rules="objRules.protocolRules"
-          >
-            <template #selection="{ item }">
-              <v-chip class="my-1" color="primary" small text-color="white">
-                {{ item.text }}
-              </v-chip>
-            </template>
-          </v-autocomplete>
-
           <v-autocomplete
             v-model="obj.server.kind"
             hide-no-data
@@ -73,33 +59,40 @@
             </template>
           </v-autocomplete>
 
-          <v-text-field
-            v-if="obj.server.kind === 'UNKNOWN_IMPLEMENTATION'"
-            v-model="obj.server.image"
-            label="镜像"
-            :rules="objRules.imageRules"
-          />
-
-          <!-- <v-autocomplete
-            v-if="obj.server.kind === 'UNKNOWN_IMPLEMENTATION'"
-            v-model="obj.server.image"
+          <v-autocomplete
+            v-if="obj.server.kind !== ''"
+            v-model="obj.server.protocol"
             hide-no-data
             hide-selected
-            :items="imageItems"
-            label="镜像"
+            :items="protocolItems"
+            label="协议"
             :menu-props="{
               bottom: true,
               left: true,
               origin: `top center`,
             }"
-            :rules="objRules.imageRules"
+            :rules="objRules.protocolRules"
           >
             <template #selection="{ item }">
               <v-chip class="my-1" color="primary" small text-color="white">
                 {{ item.text }}
               </v-chip>
             </template>
-          </v-autocomplete> -->
+          </v-autocomplete>
+
+          <v-text-field
+            v-if="obj.server.kind === ''"
+            v-model="obj.server.image"
+            label="镜像"
+            :rules="objRules.imageRules"
+          />
+
+          <v-text-field
+            v-if="obj.server.kind === ''"
+            v-model="obj.model.license"
+            label="License"
+            :rules="objRules.licenseRules"
+          />
         </v-col>
       </v-row>
     </v-card-text>
@@ -135,24 +128,31 @@
                 </v-chip>
               </template>
             </v-autocomplete>
+
+            <Port v-model="obj.server.ports" />
           </v-col>
         </v-row>
       </v-card-text>
 
-      <template v-if="obj.server.kind === 'UNKNOWN_IMPLEMENTATION'">
-        <BaseSubTitle class="mt-3" color="grey lighten-3" :divider="false" title="自定义配置" />
+      <template v-if="obj.server.kind === ''">
+        <BaseSubTitle class="mt-3" color="grey lighten-3" :divider="false" title="模型挂载" />
         <v-card-text class="pa-2">
           <v-row>
             <v-col cols="12">
               <v-text-field v-model="obj.server.mountPath" label="挂载路径" />
+            </v-col>
+          </v-row>
+        </v-card-text>
+
+        <BaseSubTitle class="mt-3" color="grey lighten-3" :divider="false" title="启动参数" />
+        <v-card-text class="pa-2">
+          <v-row>
+            <v-col cols="12">
+              <Env v-model="obj.server.env" />
 
               <Command v-model="obj.server.command" />
 
               <Args v-model="obj.server.args" />
-
-              <Env v-model="obj.server.env" />
-
-              <Port v-model="obj.server.ports" />
             </v-col>
           </v-row>
         </v-card-text>
@@ -162,7 +162,7 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex';
+  import { mapGetters, mapState } from 'vuex';
 
   import Args from './Args';
   import Command from './Command';
@@ -213,6 +213,7 @@
             url: '',
             version: '',
             source: '',
+            license: '',
           },
           server: {
             args: [],
@@ -239,13 +240,18 @@
         objRules: {
           imageRules: [required],
           protocolRules: [required],
-          implementationRules: [required],
+          implementationRules: [(v) => !!(v?.trim()?.length > 0 || v === '') || '必填项'],
           gatewayRules: [required],
+          licenseRules: [required],
         },
       };
     },
     computed: {
+      ...mapState(['Scale']),
       ...mapGetters(['Tenant']),
+      height() {
+        return parseInt((window.innerHeight - 190) / this.Scale);
+      },
       gatewayObj() {
         const gateway = this.gatewayItems.find((g) => {
           return g.value === this.gateway;
@@ -268,7 +274,7 @@
           { text: 'triton server', value: 'TRITON_SERVER', icon: 'triton' },
           { text: 'mlflow server', value: 'MLFLOW_SERVER', icon: 'mlflow' },
           { text: 'xgboost server', value: 'XGBOOST_SERVER', icon: 'xgboost' },
-          { text: 'custom server', value: 'UNKNOWN_IMPLEMENTATION', icon: 'kubegems' },
+          { text: 'custom server', value: '', icon: 'kubegems' },
         ];
       },
     },
