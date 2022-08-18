@@ -35,7 +35,7 @@
       </v-row>
     </div>
 
-    <div v-if="tags.length === 0" class="pt-2 kubegems__text text-body-2"> 暂无可选标签 </div>
+    <div v-if="tags.length === 0" class="pt-2 kubegems__text text-body-2"> {{ $root.$t('data.no_data') }} </div>
 
     <v-row class="ma-0">
       <v-col

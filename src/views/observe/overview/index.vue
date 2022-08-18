@@ -47,7 +47,7 @@
       this.$nextTick(() => {
         if (!this.Tenant().ID) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '暂未选择租户',
+            text: this.$root.$t('tip.select_tenant'),
             color: 'warning',
           });
           return;

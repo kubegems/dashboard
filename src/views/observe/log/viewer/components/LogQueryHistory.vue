@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <BaseFullScreenDialog v-model="visible" icon="mdi-history" title="查询历史" @dispose="handleDispose">
+  <BaseFullScreenDialog v-model="visible" icon="mdi-history" :title="$t('tip.query_history')" @dispose="handleDispose">
     <template #action>
       <ProjectEnvSelectCascade
         :key="selectKey"
@@ -35,7 +35,7 @@
           hide-default-footer
           :items="items"
           :items-per-page="-1"
-          no-data-text="暂无数据"
+          :no-data-text="$root.$t('data.no_data')"
           :sort-by="['CreateAt']"
           :sort-desc="[true]"
         >
@@ -48,7 +48,7 @@
                 color="success"
                 small
               >
-                <span class="pr-2">标签({{ k }}):{{ labelValue }}</span>
+                <span class="pr-2">{{ $t('tip.label') }}({{ k }}):{{ labelValue }}</span>
               </v-chip>
             </span>
             <v-chip
@@ -58,18 +58,22 @@
               color="success"
               small
             >
-              <span class="pr-2">正则(regex):{{ it }}</span>
+              <span class="pr-2">{{ $t('tip.regex') }}(regex):{{ it }}</span>
             </v-chip>
           </template>
-          <template #[`item.createAt`]="{ item }">{{
-            item.CreateAt ? $moment(item.CreateAt).format('lll') : ''
-          }}</template>
+          <template #[`item.createAt`]="{ item }">
+            {{ item.CreateAt ? $moment(item.CreateAt).format('lll') : '' }}
+          </template>
           <template #[`item.logQL`]="{ item }">{{ item.LogQL }}</template>
           <template #[`item.total`]="{ item }">{{ item.Total }}</template>
           <template #[`item.action`]="{ item }">
             <v-flex class="float-right">
-              <v-btn class="my-1" color="primary" small text @click="handleQuery(item)"> 查询 </v-btn>
-              <v-btn class="my-1" color="error" small text @click="handleDelete(item)"> 删除 </v-btn>
+              <v-btn class="my-1" color="primary" small text @click="handleQuery(item)">
+                {{ $t('operate.query') }}
+              </v-btn>
+              <v-btn class="my-1" color="error" small text @click="handleDelete(item)">
+                {{ $root.$t('operate.delete') }}
+              </v-btn>
             </v-flex>
             <div class="kubegems__clear-float" />
           </template>
@@ -82,6 +86,7 @@
 <script>
   import { mapGetters } from 'vuex';
 
+  import messages from '../../i18n';
   import { deleteLogQueryHistory, getLogQueryHistoryList } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { randomString } from '@/utils/helpers';
@@ -89,22 +94,15 @@
 
   export default {
     name: 'LogHistory',
+    i18n: {
+      messages: messages,
+    },
     components: {
       ProjectEnvSelectCascade,
     },
     mixins: [BaseSelect],
     inject: ['reload'],
     data() {
-      this.headers = [
-        { text: 'LogQL', value: 'logQL', align: 'start', sortable: false },
-        { text: '查询标签', value: 'label', align: 'start', sortable: false },
-        { text: '最近查询时间', value: 'createAt', align: 'start', width: 200 },
-        { text: '频次', value: 'total', align: 'start', width: 100 },
-        { text: '', value: 'action', align: 'end', width: 140, sortable: false },
-      ];
-
-      this.filters = [{ text: 'LogQL', value: 'search', items: [] }];
-
       return {
         visible: false,
         clusterid: undefined,
@@ -122,6 +120,15 @@
           return e.value === this.namespace;
         });
         return env;
+      },
+      headers() {
+        return [
+          { text: 'LogQL', value: 'logQL', align: 'start', sortable: false },
+          { text: this.$t('tip.label'), value: 'label', align: 'start', sortable: false },
+          { text: this.$t('table.last_query_at'), value: 'createAt', align: 'start', width: 200 },
+          { text: this.$t('table.count'), value: 'total', align: 'start', width: 100 },
+          { text: '', value: 'action', align: 'end', width: 140, sortable: false },
+        ];
       },
     },
     watch: {
@@ -213,7 +220,7 @@
           this.reload();
         } else {
           this.$store.commit('SET_SNACKBAR', {
-            text: '无法解析namespace标签',
+            text: this.$t('tip.parse_namespace_error'),
             color: 'warning',
           });
         }
@@ -221,7 +228,7 @@
 
       async handleDelete(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除历史`,
+          title: this.$root.$t('operate.delete_c', [this.$t('tip.query_history')]),
           content: {
             text: item.LogQL,
             type: 'confirm',

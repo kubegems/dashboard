@@ -15,17 +15,25 @@
 -->
 
 <template>
-  <BaseDialog v-model="visible" icon="mdi-content-save" title="保存快照" :width="500" @reset="reset">
+  <BaseDialog
+    v-model="visible"
+    icon="mdi-content-save"
+    :title="$root.$t('operate.add_c', [$t('tip.snapshot')])"
+    :width="500"
+    @reset="reset"
+  >
     <template #content>
-      <BaseSubTitle title="快照定义" />
+      <BaseSubTitle :title="$root.$t('form.definition', [$t('tip.snapshot')])" />
       <v-card-text class="pa-2">
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
-          <v-text-field v-model="snapshotName" label="快照名称" :rules="objRules.SnapshotNameRules" />
+          <v-text-field v-model="snapshotName" :label="$t('table.name')" :rules="objRules.SnapshotNameRules" />
         </v-form>
       </v-card-text>
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="handleSaveSnapshot"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="handleSaveSnapshot">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>
@@ -33,16 +41,21 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import { postAddLogQuerySnapshot } from '@/api';
+  import { required } from '@/utils/rules';
 
   export default {
     name: 'LogSaveSnapshot',
+    i18n: {
+      messages: messages,
+    },
     data: () => ({
       visible: false,
       valid: false,
       snapshotName: '',
       objRules: {
-        SnapshotNameRules: [(v) => !!v || '名称必填'],
+        SnapshotNameRules: [required],
       },
     }),
     computed: {

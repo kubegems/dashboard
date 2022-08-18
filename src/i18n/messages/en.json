@@ -6,6 +6,7 @@
   "loading": "Loading",
   "username": "Username",
   "passwd": "Password",
+  "query": "Query",
 
   "status": {
     "success": "Success",
@@ -15,6 +16,7 @@
   "plugin": {
     "no_permission": "You can contact the platform administrator to enable the plugins",
     "cluster_missing": "The cluster has not yet enabled the {0} plugins!",
+    "environment_missing": "The {0} plugin has not been enabled for the cluster where the environment is located!",
     "missing": "Plugin {0} is not enabled"
   },
 
@@ -159,7 +161,10 @@
     "destination_rule": "Destination Rule",
     "certificate": "Certificate",
     "issuer": "Issuer",
-    "event": "Event"
+    "event": "Event",
+    "platform": "Platform",
+    "receiver": "Receiver",
+    "prometheus_rule": "Prometheus Rule"
   },
 
   "header": {
@@ -220,7 +225,8 @@
     "sync": "Sync",
     "sync_c": "Sync {0}",
     "save": "Save",
-    "detail": "Detail"
+    "detail": "Detail",
+    "reset": "Reset"
   },
   "form": {
     "definition": "{0} Definition",
@@ -469,6 +475,7 @@
     "parse_error": "Data parsing error",
     "select_tenant": "Please select tenant",
     "select_environment": "Please select environment",
+    "select_project_environment": "Please select project and environment",
     "condition": "Condition",
     "not_correct_yaml": "It is not the correct K8S yaml format, please add the necessary fields or fill in the correct data format, the error message is:",
     "path": "Path",

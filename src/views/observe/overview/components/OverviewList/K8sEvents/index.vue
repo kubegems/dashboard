@@ -33,12 +33,16 @@
 </template>
 
 <script>
+  import messages from '../../../i18n';
   import Chart from './Chart';
   import EventList from './EventList';
   import { getEventListFromLoki } from '@/api';
 
   export default {
     name: 'K8sEvents',
+    i18n: {
+      messages: messages,
+    },
     components: {
       Chart,
       EventList,
@@ -55,11 +59,15 @@
         data: null,
         date: [],
         tab: 0,
-        tabItems: [
-          { text: '事件图表', value: 'Chart' },
-          { text: '事件列表', value: 'EventList' },
-        ],
       };
+    },
+    computed: {
+      tabItems() {
+        return [
+          { text: this.$t('tab.event_chart'), value: 'Chart' },
+          { text: this.$t('tab.event_list'), value: 'EventList' },
+        ];
+      },
     },
     watch: {
       env: {

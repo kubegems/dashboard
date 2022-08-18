@@ -18,7 +18,7 @@
   <v-card class="pa-3" :elevation="expand ? 3 : 0" flat>
     <div class="d-flex">
       <v-btn color="primary" text @click="handleExpand">
-        查询
+        {{ $root.$t('query') }}
         <v-icon>mdi-chevron-{{ expand ? 'up' : 'down' }}</v-icon>
       </v-btn>
 
@@ -48,7 +48,7 @@
             small
             @click:close="handleRemoveRegexp(item)"
           >
-            <span>正则：{{ item }}</span>
+            <span>{{ $t('tip.regex') }} : {{ item }}</span>
           </v-chip>
         </template>
       </v-combobox>
@@ -57,29 +57,29 @@
       <div :style="{ marginLeft: `auto` }">
         <v-btn color="primary" :disabled="disabled" text @click="search">
           <v-icon left>mdi-magnify</v-icon>
-          运行
+          {{ $t('operate.go') }}
         </v-btn>
         <v-btn v-if="queryType === 'tag'" color="primary" :disabled="disabled" text @click="handleSaveSnapshot">
           <v-icon left>mdi-content-save</v-icon>
-          保存
+          {{ $root.$t('operate.save') }}
         </v-btn>
         <v-btn v-if="queryType === 'tag'" color="primary" :disabled="disabled" text @click="handleHistory">
           <v-icon left>mdi-history</v-icon>
-          历史
+          {{ $t('operate.history') }}
         </v-btn>
         <v-btn v-if="queryType === 'tag'" color="primary" text @click="handleLiveQuerying">
           <v-icon left>{{ disabled ? 'mdi-stop-circle-outline' : 'mdi-play-circle-outline' }}</v-icon>
-          流式传输
+          {{ $t('operate.streaming') }}
         </v-btn>
         <v-btn color="primary" :disabled="disabled" text @click="handleChangeQueryType">
           <v-icon left>mdi-sync</v-icon>
-          {{ queryType === 'tag' ? '高级查询' : '标签查询' }}
+          {{ queryType === 'tag' ? $t('operate.advanced_query') : $t('operate.label_query') }}
         </v-btn>
       </div>
     </div>
 
     <div v-show="expand" class="mt-3">
-      <div class="my-2 kubegems__text text-body-2">环境</div>
+      <div class="my-2 kubegems__text text-body-2">{{ $root.$t('resource.environment') }}</div>
       <ProjectEnvSelect
         :loading="loading"
         :series="series"
@@ -88,7 +88,9 @@
         @refresh="handlerRefresh"
         @setEnvironment="handleSetEnvironment"
       />
-      <div class="my-2 kubegems__text text-body-2">{{ queryType === 'tag' ? '选择标签' : '查询语句' }}</div>
+      <div class="my-2 kubegems__text text-body-2">
+        {{ queryType === 'tag' ? $t('tip.selcet_label') : $t('tip.logql') }}
+      </div>
       <LabelSelector v-if="queryType === 'tag'" v-model="selected" :cluster="cluster" :series="series" />
       <AdvancedTextare
         v-else-if="queryType === 'ql'"
@@ -106,6 +108,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../../i18n';
   import AdvancedTextare from './AdvancedTextare';
   import LabelSelector from './LabelSelector';
   import ProjectEnvSelect from './ProjectEnvSelect';
@@ -114,6 +117,9 @@
 
   export default {
     name: 'LogQuery',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AdvancedTextare,
       LabelSelector,
@@ -271,7 +277,7 @@
             }
           } else {
             this.$store.commit('SET_SNACKBAR', {
-              text: `该环境所在集群还未启用 ${this.missingPlugins.join(', ')} 插件！`,
+              text: this.$root.$t('plugin.environment_missing', [this.missingPlugins.join(', ')]),
               color: 'warning',
             });
             return;
@@ -394,7 +400,7 @@
       handleLiveQuerying() {
         if (!this.cluster.value) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请选择项目环境',
+            text: this.$root.$t('tip.select_project_environment'),
             color: 'warning',
           });
           return;
@@ -402,7 +408,7 @@
 
         if (!this.logQL && !this.advancedQl) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请输入查询条件',
+            text: this.$t('tip.input_query'),
             color: 'warning',
           });
           return;
@@ -450,7 +456,7 @@
       onWebsocketError() {
         this.disabled = false;
         this.$store.commit('SET_SNACKBAR', {
-          text: 'websocket连接失败',
+          text: this.$t('tip.ws_connect_error'),
           color: 'warning',
         });
         this.websocket = null;

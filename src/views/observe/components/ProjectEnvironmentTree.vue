@@ -23,7 +23,7 @@
       dense
       flat
       hide-details
-      label="搜索"
+      :label="$root.$t('query')"
       prepend-inner-icon="mdi-magnify"
       solo
     />
@@ -121,7 +121,7 @@
             type: 'project',
             treeId: `proj-system`,
             id: 0,
-            name: 'system(平台全局)',
+            name: `system(${this.$root.$t('resource.platform')})`,
             children: [],
           });
         }

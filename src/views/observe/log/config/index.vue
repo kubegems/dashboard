@@ -28,6 +28,7 @@
 </template>
 
 <script>
+  import messages from '../i18n';
   import AlertRule from './alert_rule';
   import Flow from './flow';
   import Output from './output';
@@ -36,6 +37,9 @@
 
   export default {
     name: 'MonitorConfig',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AlertRule,
       Flow,
@@ -44,33 +48,6 @@
       Receiver,
     },
     data() {
-      this.tabs = [
-        {
-          icon: 'mdi-arrange-send-backward',
-          text: '日志采集器',
-          component: 'Flow',
-          tab: 'flow',
-        },
-        {
-          icon: 'mdi-router-wireless',
-          text: '日志路由器',
-          component: 'Output',
-          tab: 'output',
-        },
-        {
-          icon: 'mdi-ruler',
-          text: '日志告警规则',
-          component: 'AlertRule',
-          tab: 'alert',
-        },
-        {
-          icon: 'mdi-call-received',
-          text: '告警接收器',
-          component: 'Receiver',
-          tab: 'receiver',
-        },
-      ];
-
       this.tabMap = {
         flow: 0,
         output: 1,
@@ -86,6 +63,34 @@
     computed: {
       currentComponent() {
         return this.tabs[this.currentTab].component;
+      },
+      tabs() {
+        return [
+          {
+            icon: 'mdi-arrange-send-backward',
+            text: this.$t('tab.log_flow'),
+            component: 'Flow',
+            tab: 'flow',
+          },
+          {
+            icon: 'mdi-router-wireless',
+            text: this.$t('tab.log_ouput'),
+            component: 'Output',
+            tab: 'output',
+          },
+          {
+            icon: 'mdi-ruler',
+            text: this.$t('tab.log_alert_rule'),
+            component: 'AlertRule',
+            tab: 'alert',
+          },
+          {
+            icon: 'mdi-call-received',
+            text: this.$t('tab.log_receiver'),
+            component: 'Receiver',
+            tab: 'receiver',
+          },
+        ];
       },
     },
     watch: {

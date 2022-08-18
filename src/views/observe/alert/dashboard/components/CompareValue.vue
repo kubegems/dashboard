@@ -23,15 +23,19 @@
     <v-icon v-if="diff !== 0" class="compare-value__icon mt-n1">
       {{ icon }}
     </v-icon>
-    <span v-else>不变</span>
+    <span v-else>{{ $t('tip.not_changed') }}</span>
   </div>
 </template>
 
 <script>
+  import messages from '../../i18n';
   import { toFixed } from '@/utils/helpers';
 
   export default {
     name: 'CompareValue',
+    i18n: {
+      messages: messages,
+    },
     props: {
       name: {
         type: String,

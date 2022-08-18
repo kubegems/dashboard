@@ -17,7 +17,7 @@
 <template>
   <v-flex class="kubegems__full-right">
     <v-sheet class="text-body-2 text--darken-1 d-flex align-center mx-1">
-      <span class="text-body-2 mt-0 mr-1">租户</span>
+      <span class="text-body-2 mt-0 mr-1">{{ $root.$t('resource.tenant') }}</span>
       <v-menu
         v-model="tenantMenu"
         bottom
@@ -34,17 +34,21 @@
             <v-icon v-else right> mdi-chevron-down </v-icon>
           </v-btn>
         </template>
-        <v-data-iterator class="file-iterator" hide-default-footer :items="[{ text: '租户', values: tenants }]">
+        <v-data-iterator
+          class="file-iterator"
+          hide-default-footer
+          :items="[{ text: $root.$t('resource.tenant'), values: tenants }]"
+        >
           <template #no-data>
             <v-card>
-              <v-card-text> 暂无租户 </v-card-text>
+              <v-card-text> {{ $root.$t('data.no_data') }} </v-card-text>
             </v-card>
           </template>
           <template #default="props">
             <v-card v-for="item in props.items" :key="item.text" flat min-width="120">
               <v-list dense>
                 <v-flex class="text-subtitle-2 text-center ma-2">
-                  <span>租户</span>
+                  <span>{{ $root.$t('resource.tenant') }}</span>
                 </v-flex>
                 <v-divider class="mx-2" />
                 <v-list-item
@@ -111,7 +115,7 @@
           this.$emit('change', this.tenant);
         } else {
           this.$store.commit('SET_SNACKBAR', {
-            text: '暂无租户',
+            text: this.$root.$t('data.no_data'),
             color: 'warning',
           });
         }

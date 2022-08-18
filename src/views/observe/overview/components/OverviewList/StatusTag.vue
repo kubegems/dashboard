@@ -40,8 +40,13 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
+
   export default {
     name: 'StatusTag',
+    i18n: {
+      messages: messages,
+    },
     props: {
       l: {
         type: Boolean,
@@ -62,22 +67,22 @@
           {
             key: 'm',
             name: 'Metrics',
-            text: '已启用监控',
-            notext: '未启用监控',
+            text: this.$t('tip.enabled_monitor'),
+            notext: this.$t('tip.disabled_monitor'),
             status: this.m,
           },
           {
             key: 'l',
             name: 'Log',
-            text: '已启用日志',
-            notext: '未启用日志',
+            text: this.$t('tip.enabled_log'),
+            notext: this.$t('tip.disabled_log'),
             status: this.l,
           },
           {
             key: 's',
             name: 'Mesh',
-            text: '已启用服务网格',
-            notext: '未启用服务网格',
+            text: this.$t('tip.enabled_mesh'),
+            notext: this.$t('tip.disabled_mesh'),
             status: this.s,
           },
         ];

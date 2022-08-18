@@ -28,7 +28,7 @@
     props: {
       text: {
         type: String,
-        default: '请选择环境',
+        default: '',
       },
       visible: {
         type: Boolean,

@@ -30,7 +30,7 @@
       @keyup="onSuggestionInput"
     >
       <template #append>
-        <v-btn color="primary" small text @click.stop="addAlertRule"> 生成告警 </v-btn>
+        <v-btn color="primary" small text @click.stop="addAlertRule"> {{ $t('operate.generate_alert') }} </v-btn>
       </template>
     </v-textarea>
     <v-data-table
@@ -46,9 +46,9 @@
       item-key="item.value"
       :items="filterItems"
       :loading="loading"
-      loading-text="载入中..."
-      no-data-text="暂无提示"
-      no-results-text="无匹配"
+      :loading-text="$t('tip.loading')"
+      :no-data-text="$root.$t('data.no_data')"
+      :no-results-text="$root.$t('data.no_data')"
       :search="keyword"
       :style="`top: ${suggestTop}px;`"
       @click:row="selectComplete"
@@ -63,11 +63,15 @@
 </template>
 
 <script>
+  import messages from '../../../i18n';
   import { getLogLabels } from '@/api';
   import AddAlertRule from '@/views/observe/monitor/config/prometheusrule/components/AddPrometheusRule';
 
   export default {
     name: 'AdvancedTextarea',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddAlertRule,
     },
@@ -221,7 +225,7 @@
       async onSuggestionInput(e) {
         if (!this.cluster.value) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请先选择项目环境',
+            text: this.$root.$t('tip.select_project_environment'),
             color: 'warning',
           });
           return;

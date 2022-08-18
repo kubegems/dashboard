@@ -28,7 +28,7 @@
           </div>
         </div>
         <div class="d-flex align-center justify-center">
-          <CompareValue name="较昨日" :value1="compareValue" :value2="value" />
+          <CompareValue :name="$t('tip.compare_yestoday')" :value1="compareValue" :value2="value" />
         </div>
       </div>
     </v-card-text>
@@ -36,10 +36,14 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
   import CompareValue from './CompareValue';
 
   export default {
     name: 'ValueCard',
+    i18n: {
+      messages: messages,
+    },
     components: {
       CompareValue,
     },
@@ -54,7 +58,7 @@
       },
       name: {
         type: String,
-        default: '今日告警',
+        default: '',
       },
       value: {
         type: Number,

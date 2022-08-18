@@ -32,7 +32,7 @@
         item-key="Fingerprint"
         :items="items"
         :items-per-page="params.size"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
         show-expand
         single-expand
@@ -51,7 +51,7 @@
           {{ item.SilenceCreator }}
         </template>
         <template #[`item.silenceEndsAt`]="{ item }">
-          {{ item.SilenceEndsAt ? $moment(item.SilenceEndsAt).format('yyyy/MM/DD hh:mm:ss') : '永久' }}
+          {{ item.SilenceEndsAt ? $moment(item.SilenceEndsAt).format('yyyy/MM/DD hh:mm:ss') : $t('tip.forever') }}
         </template>
         <template #expanded-item="{ headers, item }">
           <td class="pa-4" :colspan="headers.length">
@@ -66,7 +66,9 @@
               </v-btn>
             </template>
             <v-card class="pa-2" flat>
-              <v-btn color="primary" small text @click.stop="onRemoveBlack(item)"> 移除黑名单 </v-btn>
+              <v-btn color="primary" small text @click.stop="onRemoveBlack(item)">
+                {{ $t('operate.remove_blacklist') }}
+              </v-btn>
             </v-card>
           </v-menu>
         </template>
@@ -87,6 +89,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../i18n';
   import { deletePrometheusBlacklist, getPrometheusBlackList } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { deleteEmpty } from '@/utils/helpers';
@@ -94,21 +97,14 @@
 
   export default {
     name: 'AlertHistroy',
+    i18n: {
+      messages: messages,
+    },
     components: {
       ProjectEnvSelectCascade,
     },
     mixins: [BaseSelect],
     data() {
-      this.headers = [
-        { text: '摘要', value: 'summary', align: 'start' },
-        { text: '命名空间', value: 'namespace', align: 'start' },
-        { text: '指纹', value: 'fingerprint', align: 'start' },
-        { text: '创建人', value: 'silenceCreator', align: 'start' },
-        { text: '过期时间', value: 'silenceEndsAt', align: 'start' },
-        { text: '', value: 'action', align: 'center', width: 20 },
-        { text: '', value: 'data-table-expand', align: 'end' },
-      ];
-
       return {
         items: [],
         pageCount: 0,
@@ -125,6 +121,17 @@
     computed: {
       ...mapState(['AdminViewport']),
       ...mapGetters(['Tenant']),
+      headers() {
+        return [
+          { text: this.$t('table.summary'), value: 'summary', align: 'start' },
+          { text: this.$root.$t('resource.namespace'), value: 'namespace', align: 'start' },
+          { text: this.$t('table.fingerprint'), value: 'fingerprint', align: 'start' },
+          { text: this.$t('table.creator'), value: 'silenceCreator', align: 'start' },
+          { text: this.$t('table.expired_at'), value: 'silenceEndsAt', align: 'start' },
+          { text: '', value: 'action', align: 'center', width: 20 },
+          { text: '', value: 'data-table-expand', align: 'end' },
+        ];
+      },
     },
     watch: {
       env: {
@@ -161,9 +168,9 @@
       },
       onRemoveBlack(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: '告警黑名单',
+          title: this.$t('operate.remove_blacklist'),
           content: {
-            text: '是否确认将此条告警信息从告警黑名单中移除？',
+            text: this.$t('tip.confirm_remove_blacklist'),
             type: 'confirm',
           },
           doFunc: async () => {

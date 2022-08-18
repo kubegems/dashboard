@@ -123,7 +123,7 @@
             theme: 'dark',
           },
           noData: {
-            text: '暂无数据',
+            text: this.$root.$t('data.no_data'),
             style: {
               fontSize: '13px',
             },

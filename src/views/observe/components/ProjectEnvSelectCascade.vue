@@ -39,7 +39,7 @@
           :style="{ marginTop: small ? `${offsetY}px` : '' }"
           v-on="on"
         >
-          {{ env ? `环境 ${env.environmentName}` : '选择一个环境' }}
+          {{ env ? `${$root.$t('resource.environment')} ${env.environmentName}` : $root.$t('tip.select_environment') }}
           <v-icon v-if="menu" right> mdi-chevron-up </v-icon>
           <v-icon v-else right> mdi-chevron-down </v-icon>
         </v-btn>
@@ -54,7 +54,7 @@
         hide-no-data
         hide-selected
         :items="items"
-        label="环境"
+        :label="$root.$t('resource.environment')"
         solo
         v-on="on"
       >
@@ -67,9 +67,9 @@
     </template>
     <v-card class="pa-2 py-3" flat height="450px">
       <div class="text-subtitle-2 mx-2 kubegems__text select__title">
-        <div class="float-left"> 选择一个环境 </div>
+        <div class="float-left"> {{ $root.$t('tip.select_environment') }} </div>
         <div class="float-right">
-          <v-btn color="primary" small @click="reset">重置</v-btn>
+          <v-btn color="primary" small @click="reset">{{ $root.$t('operate.reset') }}</v-btn>
         </div>
         <div class="kubegems__clear-float" />
       </div>
@@ -84,7 +84,7 @@
           solo
           @keyup="onSearch"
         />
-        <div class="text-caption pa-1 mt-2">项目</div>
+        <div class="text-caption pa-1 mt-2">{{ $root.$t('resource.project') }}</div>
         <v-divider class="mb-2" />
         <v-list class="pa-0" dense max-height="300" nav :style="{ overflowY: 'auto' }">
           <v-list-item-group v-model="projectIndex" color="primary" @change="onProjectChange">
@@ -103,7 +103,7 @@
       </div>
       <v-divider v-if="show" class="float-left select__divider" vertical />
       <div v-if="show" class="select__div">
-        <div class="text-caption pa-1">环境</div>
+        <div class="text-caption pa-1">{{ $root.$t('resource.environment') }}</div>
         <v-divider class="mb-2" />
         <v-list class="pa-0" dense max-height="345" nav :style="{ overflowY: 'auto' }">
           <v-list-item-group v-model="environmentIndex" color="primary" @change="onEnvironmentChange">

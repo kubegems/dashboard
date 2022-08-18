@@ -38,8 +38,13 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
+
   export default {
     name: 'LeftSteps',
+    i18n: {
+      messages: messages,
+    },
     props: {
       value: {
         type: String,
@@ -47,27 +52,30 @@
       },
     },
     data() {
-      this.steps = [
-        {
-          id: 'metrics',
-          name: '安装 OpenTelemetry Metrics Library',
-          desc: '自定义指标可以深入了解应用实时状态,以及发现它如何影响用户体验或者业务流程',
-        },
-        {
-          id: 'traces',
-          name: '安装 OpenTelemetry Traces Library',
-          desc: '链路追踪Tracing提供了调用链路还原、链路拓扑、应用依赖分析等工具,可帮助开发者快速分析和诊断应用的性能瓶颈,提高开发诊断效率',
-        },
-        {
-          id: 'logs',
-          name: '创建采集器收集应用日志',
-          desc: '自动采集应用容器控制台(stdout/stderr)日志,可帮助开发者在故障时进行日志分析',
-        },
-      ];
-
       return {
         current: 1,
       };
+    },
+    computed: {
+      steps() {
+        return [
+          {
+            id: 'metrics',
+            name: this.$t('tip.install_metrics'),
+            desc: this.$t('tip.install_metrics_desc'),
+          },
+          {
+            id: 'traces',
+            name: this.$t('tip.install_trace'),
+            desc: this.$t('tip.install_trace_desc'),
+          },
+          {
+            id: 'logs',
+            name: this.$t('tip.create_log'),
+            desc: this.$t('tip.create_log_desc'),
+          },
+        ];
+      },
     },
     watch: {
       value: {

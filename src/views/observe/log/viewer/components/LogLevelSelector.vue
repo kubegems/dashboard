@@ -16,7 +16,7 @@
 
 <template>
   <div class="d-inline-block">
-    <span>级别:</span>
+    <span>{{ $t('tip.severity') }}:</span>
     <v-menu v-for="item in legends" :key="item.value" :close-delay="200" nudge-top="23px" open-on-hover top>
       <template #activator="{ on }">
         <v-btn
@@ -40,8 +40,13 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
+
   export default {
     name: 'LogLevelSelect',
+    i18n: {
+      messages: messages,
+    },
     props: {
       value: {
         type: Array,
@@ -54,31 +59,31 @@
           text: 'Info',
           value: 'info',
           color: 'success',
-          intro: '匹配元素:[I],[info],【info】,info,level=info,忽略大小写',
+          intro: this.$t('tip.info_regex'),
         },
         {
           text: 'Debug',
           value: 'debug',
           color: 'primary',
-          intro: '匹配元素:[D],[debug],【debug】,debug,level=debug,忽略大小写',
+          intro: this.$t('tip.debug_regex'),
         },
         {
           text: 'Warn',
           value: 'warn',
           color: 'warning',
-          intro: '匹配元素:[W],[warn],[warning],【warn】,【warning】,warn,warning,level=warn,level=warning,忽略大小写',
+          intro: this.$t('tip.warn_regex'),
         },
         {
           text: 'Error',
           value: 'error',
           color: 'error',
-          intro: '匹配元素:[E],[error],【error】,error,level=error,忽略大小写',
+          intro: this.$t('tip.error_regex'),
         },
         {
           text: 'Unknown',
           value: 'unknown',
           color: 'blue-grey',
-          intro: '无法匹配前面四个日志级别的其他日志',
+          intro: this.$t('tip.unknown_regex'),
         },
       ];
 
