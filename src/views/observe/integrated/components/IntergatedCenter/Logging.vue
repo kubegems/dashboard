@@ -16,19 +16,19 @@
 
 <template>
   <div class="pa-3">
-    <BaseSubTitle class="my-0" color="grey lighten-3" :divider="false" title="日志采集配置" />
+    <BaseSubTitle class="my-0" color="grey lighten-3" :divider="false" :title="$t('tip.log_config')" />
 
     <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
       <ProjectEnvSelect v-model="env" class="px-2 mt-0" t="logging" />
 
       <v-row class="px-2">
         <v-col cols="12">
-          <v-switch v-model="sampleMode" class="mt-5" hide-details label="一键开启（精简模式）" />
+          <v-switch v-model="sampleMode" class="mt-5" hide-details :label="$t('tip.sample_log')" />
         </v-col>
       </v-row>
 
       <template v-if="!sampleMode">
-        <BaseSubTitle class="mt-6" title="自定义配置" />
+        <BaseSubTitle class="mt-6" :title="$t('tip.diy_config')" />
 
         <v-row class="mt-0 px-2">
           <v-col cols="6">
@@ -38,8 +38,8 @@
               color="primary"
               hide-selected
               :items="applicationItems"
-              label="关联应用"
-              no-data-text="暂无可选数据"
+              :label="$t('tip.related_app')"
+              :no-data-text="$root.$t('data.no_data')"
               :rules="objRules.appRules"
               @change="onApplicationChange"
             >
@@ -58,13 +58,13 @@
               color="primary"
               hide-selected
               :items="outputItems"
-              label="关联日志路由"
+              :label="$t('tip.related_output')"
               :menu-props="{
                 bottom: true,
                 left: true,
                 origin: `top center`,
               }"
-              no-data-text="暂无可选数据"
+              :no-data-text="$root.$t('data.no_data')"
               :rules="objRules.outputRules"
               @change="onOutputChange"
             >
@@ -77,23 +77,23 @@
           </v-col>
 
           <v-col cols="12">
-            <v-switch v-model="throttle" class="mt-5" hide-details label="启用限速" />
+            <v-switch v-model="throttle" class="mt-5" hide-details :label="$t('tip.enable_throttle')" />
           </v-col>
 
           <v-col v-if="throttle" cols="6">
             <v-text-field
               v-model.number="obj.pluginConfig.throttle"
               class="my-0"
-              label="限速"
+              :label="$t('tip.throttle')"
               required
               :rules="objRules.throttleRules"
-              suffix="条/分钟"
+              :suffix="$t('tip.item_pre_minute')"
               type="number"
             />
           </v-col>
 
           <v-col cols="12">
-            <v-switch v-model="obj.enableMetrics" class="mt-5" hide-details label="启用日志状态监控" />
+            <v-switch v-model="obj.enableMetrics" class="mt-5" hide-details :label="$t('tip.enable_log_monitor')" />
           </v-col>
         </v-row>
       </template>
@@ -104,6 +104,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import ProjectEnvSelect from './ProjectEnvSelect';
   import {
     getClusterOutputsData,
@@ -117,6 +118,9 @@
 
   export default {
     name: 'Logging',
+    i18n: {
+      messages: messages,
+    },
     components: {
       ProjectEnvSelect,
     },
@@ -179,7 +183,7 @@
         const data = await getLoggingAppList(this.env.clusterName, this.env.namespace);
         this.applicationItems = Object.keys(data).map((d) => {
           return {
-            text: `${d}${data[d].collectedBy ? '(已添加采集)' : ''}`,
+            text: `${d}${data[d].collectedBy ? `(${$t('tip.added_log_collect')})` : ''}`,
             value: d,
             disabled: data[d].collectedBy,
           };
@@ -231,7 +235,7 @@
             this.$emit('close');
           } else {
             this.$store.commit('SET_SNACKBAR', {
-              text: '请先选择项目环境',
+              text: this.$root.$t('tip.select_project_environment'),
               color: 'warning',
             });
           }
@@ -247,9 +251,9 @@
       async addSampleLoggingFlow() {
         if (this.env?.projectid && this.env?.value) {
           this.$store.commit('SET_CONFIRM', {
-            title: '精简模式',
+            title: $t('tip.sample'),
             content: {
-              text: `${this.sampleMode ? '开启' : '关闭'} 精简模式`,
+              text: `${this.sampleMode ? $t('operate.open') : $t('operate.close')} ${$t('tip.sample')}`,
               type: 'confirm',
             },
             param: {},
@@ -259,7 +263,7 @@
           });
         } else {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请先选择项目环境',
+            text: this.$root.$t('tip.select_project_environment'),
             color: 'warning',
           });
           return;

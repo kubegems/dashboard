@@ -1,0 +1,17 @@
+{
+  "tip": {
+    "graph": "监控图表",
+    "minitor_dashboard": "监控大盘",
+    "monitor_panel": "监控面板",
+    "name": "名称",
+    "template": "模版",
+    "from_template": "从模版创建",
+    "mode": "模式",
+    "unit": "单位",
+    "query_ql": "查询语句"
+  },
+  "tab": {
+    "generate_from_template": "由模版生成",
+    "generate_from_promql": "由PromQl生成"
+  }
+}

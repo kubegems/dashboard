@@ -53,18 +53,16 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../../i18n';
   import { getMyConfigData, getSystemConfigData } from '@/api';
 
   export default {
     name: 'MetricsList',
+    i18n: {
+      messages: messages,
+    },
     data() {
       return {
-        headers: [
-          { text: '名称', value: 'name', align: 'start' },
-          { text: '规则', value: 'showName', align: 'start' },
-          { text: '表达式', value: 'expr', align: 'start' },
-          { text: '单位', value: 'unit', align: 'start' },
-        ],
         items: [],
         total: 0,
         page: 1,
@@ -82,6 +80,14 @@
           this.pageCount = Math.ceil(this.total / this.itemsPerPage);
         },
         deep: true,
+      },
+      headers() {
+        return [
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
+          { text: this.$t('table.rule'), value: 'showName', align: 'start' },
+          { text: this.$t('table.expr'), value: 'expr', align: 'start' },
+          { text: this.$t('table.unit'), value: 'unit', align: 'start' },
+        ];
       },
     },
     mounted() {

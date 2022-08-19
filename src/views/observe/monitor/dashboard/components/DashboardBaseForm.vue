@@ -16,15 +16,15 @@
 
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
-    <BaseSubTitle title="大盘定义" />
+    <BaseSubTitle :title="$root.$t('form.definition', [$t('tip.minitor_dashboard')])" />
     <v-card-text class="pa-2">
       <v-row>
         <v-col cols="12">
-          <v-text-field v-model="obj.name" class="my-0" label="名称" required :rules="objRules.nameRule" />
+          <v-text-field v-model="obj.name" class="my-0" :label="$t('tip.name')" required :rules="objRules.nameRule" />
         </v-col>
         <template v-if="!edit">
           <v-col cols="12">
-            <v-switch v-model="tamplate" hide-details label="从模版创建" />
+            <v-switch v-model="tamplate" hide-details :label="$t('tip.from_template')" />
           </v-col>
           <v-col v-if="tamplate" cols="12">
             <v-autocomplete
@@ -33,8 +33,8 @@
               color="primary"
               hide-selected
               :items="templateItems"
-              label="模版"
-              no-data-text="暂无可选数据"
+              :label="$t('tip.template')"
+              :no-data-text="$root.$t('data.no_data')"
               :rules="objRules.templateRule"
             />
           </v-col>
@@ -45,12 +45,16 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
   import { getMonitorDashboardTemplate } from '@/api';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'DashboardBaseForm',
+    i18n: {
+      messages: messages,
+    },
     props: {
       edit: {
         type: Boolean,

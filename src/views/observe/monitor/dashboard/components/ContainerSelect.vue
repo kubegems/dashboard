@@ -39,22 +39,22 @@
             :style="{ marginTop: `${offsetY}px` }"
             v-on="on"
           >
-            容器组 {{ podName }}
+            {{ $root.$t('resource.pod') }} {{ podName }}
             <v-icon v-if="podMenu" right> mdi-chevron-up </v-icon>
             <v-icon v-else right> mdi-chevron-down </v-icon>
           </v-btn>
         </template>
-        <v-data-iterator hide-default-footer :items="[{ text: '容器组', values: podItems }]">
+        <v-data-iterator hide-default-footer :items="[{ text: $root.$t('resource.pod'), values: podItems }]">
           <template #no-data>
             <v-card>
-              <v-card-text> 暂无容器组 </v-card-text>
+              <v-card-text> {{ $root.$t('data.no_data') }} </v-card-text>
             </v-card>
           </template>
           <template #default="props">
             <v-card v-for="item in props.items" :key="item.text" flat min-width="100px">
               <v-list dense>
                 <v-flex class="text-subtitle-2 text-center ma-2">
-                  <span>容器组</span>
+                  <span>{{ $root.$t('resource.pod') }}</span>
                 </v-flex>
                 <v-divider class="mx-2" />
                 <v-list-item

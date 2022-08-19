@@ -67,64 +67,68 @@
   import { mapGetters, mapState } from 'vuex';
 
   import IntergatedCenter from './components/IntergatedCenter';
+  import messages from './i18n';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'Intergated',
+    i18n: {
+      messages: messages,
+    },
     components: {
       IntergatedCenter,
     },
     mixins: [BasePermission, BaseResource],
-    data: () => ({
-      items: {
-        app: {
-          name: '应用',
-          type: 'app',
-          items: [
-            { name: 'c++', value: 'cpp' },
-            { name: 'c#', value: 'csharp' },
-            { name: 'golang' },
-            { name: 'erlang' },
-            { name: 'python' },
-            { name: 'swift' },
-            { name: 'ruby' },
-            { name: 'rust' },
-            { name: 'java' },
-            { name: 'javascript' },
-            { name: 'nodejs' },
-            { name: 'php' },
-          ],
-          harfItems: [...new Array(6).keys()],
-        },
-        middleware: {
-          name: '中间件',
-          type: 'middleware',
-          items: [
-            { name: 'cassandra', chart: 'prometheus-cassandra-exporter' },
-            { name: 'elasticsearch', chart: 'prometheus-elasticsearch-exporter' },
-            { name: 'memcached', chart: 'prometheus-memcached-exporter' },
-            { name: 'mongodb', chart: 'prometheus-mongodb-exporter' },
-            { name: 'mysql', chart: 'prometheus-mysql-exporter' },
-            { name: 'rabbitmq', chart: 'prometheus-rabbitmq-exporter' },
-            { name: 'redis', chart: 'prometheus-redis-exporter' },
-            { name: 'kafka', chart: 'prometheus-kafka-exporter' },
-            { name: 'postgresql', chart: 'prometheus-postgres-exporter' },
-            { name: 'consul', chart: 'prometheus-consul-exporter' },
-          ],
-          harfItems: [...new Array(5).keys()],
-        },
-        logging: {
-          name: '监控/日志',
-          type: 'monitor',
-          items: [{ name: 'Log Collect' }, { name: 'Prometheus Exporter' }],
-          harfItems: [...new Array(5).keys()],
-        },
-      },
-    }),
     computed: {
       ...mapState(['JWT', 'AdminViewport']),
       ...mapGetters(['Cluster']),
+      items() {
+        return {
+          app: {
+            name: this.$root.$t('resource.app'),
+            type: 'app',
+            items: [
+              { name: 'c++', value: 'cpp' },
+              { name: 'c#', value: 'csharp' },
+              { name: 'golang' },
+              { name: 'erlang' },
+              { name: 'python' },
+              { name: 'swift' },
+              { name: 'ruby' },
+              { name: 'rust' },
+              { name: 'java' },
+              { name: 'javascript' },
+              { name: 'nodejs' },
+              { name: 'php' },
+            ],
+            harfItems: [...new Array(6).keys()],
+          },
+          middleware: {
+            name: this.$t('tip.middleware'),
+            type: 'middleware',
+            items: [
+              { name: 'cassandra', chart: 'prometheus-cassandra-exporter' },
+              { name: 'elasticsearch', chart: 'prometheus-elasticsearch-exporter' },
+              { name: 'memcached', chart: 'prometheus-memcached-exporter' },
+              { name: 'mongodb', chart: 'prometheus-mongodb-exporter' },
+              { name: 'mysql', chart: 'prometheus-mysql-exporter' },
+              { name: 'rabbitmq', chart: 'prometheus-rabbitmq-exporter' },
+              { name: 'redis', chart: 'prometheus-redis-exporter' },
+              { name: 'kafka', chart: 'prometheus-kafka-exporter' },
+              { name: 'postgresql', chart: 'prometheus-postgres-exporter' },
+              { name: 'consul', chart: 'prometheus-consul-exporter' },
+            ],
+            harfItems: [...new Array(5).keys()],
+          },
+          logging: {
+            name: this.$t('tip.monitor_and_log'),
+            type: 'monitor',
+            items: [{ name: 'Log Collect' }, { name: 'Prometheus Exporter' }],
+            harfItems: [...new Array(5).keys()],
+          },
+        };
+      },
     },
     mounted() {},
     methods: {

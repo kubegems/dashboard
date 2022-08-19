@@ -15,12 +15,20 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-chart-areaspline" title="创建监控大盘" :width="500" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-chart-areaspline"
+    :title="$root.$t('operate.create_c', [$t('tip.minitor_dashboard')])"
+    :width="500"
+    @reset="reset"
+  >
     <template #content>
       <component :is="formComponent" :ref="formComponent" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addDashboard"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addDashboard">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>
@@ -28,11 +36,15 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import DashboardBaseForm from './DashboardBaseForm';
   import { postAddMonitorDashboard } from '@/api';
 
   export default {
     name: 'AddDashboard',
+    i18n: {
+      messages: messages,
+    },
     components: {
       DashboardBaseForm,
     },

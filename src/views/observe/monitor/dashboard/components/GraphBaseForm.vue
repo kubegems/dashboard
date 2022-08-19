@@ -16,7 +16,7 @@
 
 <template>
   <v-form ref="form" v-model="valid" lazy-validation>
-    <BaseSubTitle title="监控图定义" />
+    <BaseSubTitle :title="$root.$t('form.definition', [$t('tip.graph')])" />
     <v-card-text class="pa-2">
       <v-row>
         <v-col cols="6">
@@ -26,8 +26,8 @@
             color="primary"
             hide-selected
             :items="modeItems"
-            label="模式"
-            no-data-text="暂无可选数据"
+            :label="$t('tip.mode')"
+            :no-data-text="$root.$t('data.no_data')"
             :readonly="edit"
             :rules="objRules.modeRule"
             @change="onModeChange"
@@ -63,8 +63,8 @@
               color="primary"
               hide-selected
               :items="m_metrics_unitItems"
-              label="单位(回车可创建自定义单位)"
-              no-data-text="暂无可选数据"
+              :label="$t('tip.unit')"
+              :no-data-text="$root.$t('data.no_data')"
               readonly
               :search-input.sync="m_metrics_unitText"
               @keydown.enter="m_metrics_createUnit"
@@ -82,14 +82,14 @@
             <v-text-field
               v-model="obj.name"
               class="my-0"
-              label="名称"
+              :label="$t('tip.name')"
               :readonly="edit"
               required
               :rules="objRules.nameRule"
             />
           </v-col>
           <v-col cols="12">
-            <v-textarea v-model="obj.expr" auto-grow label="查询语句" :rules="objRules.exprRule" />
+            <v-textarea v-model="obj.expr" auto-grow :label="$t('tip.query_ql')" :rules="objRules.exprRule" />
             <MetricsSuggestion
               :cluster="environment.clusterName"
               :expr="obj.expr"
@@ -106,8 +106,8 @@
               color="primary"
               hide-selected
               :items="m_metrics_unitItems"
-              label="单位(回车可创建自定义单位)"
-              no-data-text="暂无可选数据"
+              :label="$t('tip.unit')"
+              :no-data-text="$root.$t('data.no_data')"
               :search-input.sync="m_metrics_unitText"
               @keydown.enter="m_metrics_createUnit"
             >
@@ -127,6 +127,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
   import MetricsSuggestion from '@/views/observe/monitor/metrics/components/MetricsSuggestion';
@@ -135,6 +136,9 @@
 
   export default {
     name: 'GraphBaseForm',
+    i18n: {
+      messages: messages,
+    },
     components: {
       MetricsSuggestion,
       ResourceSelectCascade,
@@ -180,16 +184,18 @@
           modeRule: [required],
         },
         mode: 'template',
-        modeItems: [
-          { text: '由模版生成', value: 'template' },
-          { text: '由PromQl生成', value: 'ql' },
-        ],
         resource: undefined,
       };
     },
     computed: {
       ...mapState(['AdminViewport']),
       ...mapGetters(['Tenant']),
+      modeItems() {
+        return [
+          { text: this.$t('tab.generate_from_template'), value: 'template' },
+          { text: this.$t('tab.generate_from_promql'), value: 'ql' },
+        ];
+      },
     },
     watch: {
       item: {

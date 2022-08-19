@@ -24,13 +24,13 @@
         hide-selected
         item-text="projectName"
         :items="m_select_projectItems"
-        label="项目"
+        :label="$root.$t('resource.project')"
         :menu-props="{
           bottom: true,
           left: true,
           origin: `top center`,
         }"
-        no-data-text="暂无可选数据"
+        :no-data-text="$root.$t('data.no_data')"
         @change="onProjectChange"
       >
         <template #selection="{ item }">
@@ -48,13 +48,13 @@
         hide-selected
         item-text="environmentName"
         :items="m_select_projectEnvironmentItems"
-        label="环境"
+        :label="$root.$t('resource.environment')"
         :menu-props="{
           bottom: true,
           left: true,
           origin: `top center`,
         }"
-        no-data-text="暂无可选数据"
+        :no-data-text="$root.$t('data.no_data')"
         @change="onEnvironmentChange"
       >
         <template #selection="{ item }">
@@ -68,10 +68,14 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
   import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'ProjectEnvSelect',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseSelect],
     props: {
       t: {
@@ -106,7 +110,7 @@
           this.m_select_projectEnvironmentItems = this.m_select_projectEnvironmentItems.map((e) => {
             if (e.nsLabels && e.nsLabels['gems.kubegems.io/logging'] === 'enabled') {
               e.disabled = true;
-              e.environmentName = `${e.environmentName}(已接入日志采集)`;
+              e.environmentName = `${e.environmentName}(${this.$t('tip.added_log_collect')})`;
             }
             return { ...e };
           });

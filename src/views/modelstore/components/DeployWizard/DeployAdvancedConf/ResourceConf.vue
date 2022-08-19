@@ -185,7 +185,7 @@
           if (newValue?.cluster) {
             await this.getGpu();
             if (this.gpuData.NvidiaGpu) {
-              this.server.obj.resources.limits['limits.nvidia.com/gpu'] = 0;
+              this.obj.server.resources.limits['limits.nvidia.com/gpu'] = 0;
             }
             if (this.gpuData.TkeGpu || this.gpuData.TkeMemory) {
               this.obj.server.resources.limits['tencent.com/vcuda-core'] = 0;

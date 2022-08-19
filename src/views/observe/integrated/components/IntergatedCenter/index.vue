@@ -15,10 +15,16 @@
 -->
 
 <template>
-  <BasePanel v-model="panel" icon="mdi-link-variant" :title="`接入配置`" :width="`50%`" @dispose="dispose">
+  <BasePanel
+    v-model="panel"
+    icon="mdi-link-variant"
+    :title="$t('tip.integrated_config')"
+    :width="`50%`"
+    @dispose="dispose"
+  >
     <template #action>
       <v-btn v-if="type !== 'app'" class="mt-n1 ml-2" color="white" :loading="Circular" text @click="addData">
-        保存
+        {{ $root.$t('operate.save') }}
       </v-btn>
     </template>
     <template #content>
@@ -61,6 +67,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import Logging from './Logging';
   import Metrics from './Metrics';
   import MiddlewareMetrics from './MiddlewareMetrics';
@@ -69,6 +76,9 @@
 
   export default {
     name: 'DeployLive',
+    i18n: {
+      messages: messages,
+    },
     components: {
       Logging,
       Metrics,
@@ -120,11 +130,11 @@
       },
       getTitle(item) {
         if (this.type === 'app') {
-          return `配置 ${item.name} 应用的Trace, Metrics`;
+          return this.$t('tip.config_metrics_and_trace', [item.name]);
         } else if (this.type === 'middleware') {
-          return `配置 ${item.name} 中间件的Exporter`;
+          return this.$t('tip.config_exporter', [item.name]);
         } else if (this.type === 'monitor') {
-          return `配置 ${item.name} `;
+          return this.$t('tip.config_c', [item.name]);
         }
       },
     },

@@ -1,0 +1,40 @@
+{
+  "tip": {
+    "middleware": "中间件",
+    "monitor_and_log": "监控/日志",
+    "integrated_config": "接入配置",
+    "config_metrics_and_trace": "配置 {0} 应用的Trace, Metrics",
+    "config_exporter": "配置 {0} 中间件的Exporter",
+    "config_c": "配置 {0}",
+
+    "log_config": "日志采集配置",
+    "sample_log": "一键开启(精简模式)",
+    "diy_config": "自定义配置",
+    "related_app": "关联应用",
+    "related_output": "关联日志路由",
+    "enable_throttle": "启用限速",
+    "throttle": "限速",
+    "item_pre_minute": "条/分钟",
+    "enable_log_monitor": "启用日志状态监控",
+    "sample": "精简模式",
+    "added_log_collect": "已添加日志采集",
+    "name": "名称",
+    "metrics_config": "监控采集配置",
+
+    "related_service": "关联服务",
+    "servicemonitor_port": "采集器端口",
+    "no_service_tip": "没有服务？从 <a>应用商店</a> 创建exporter",
+    "request_path": "请求路径",
+    "metrics": "指标"
+  },
+  "operate": {
+    "open": "开启",
+    "close": "关闭"
+  },
+  "table": {
+    "name": "名称",
+    "rule": "规则",
+    "expr": "表达式",
+    "unit": "单位"
+  }
+}
