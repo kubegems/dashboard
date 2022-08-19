@@ -28,6 +28,7 @@
 </template>
 
 <script>
+  import messages from '../i18n';
   import PrometheusRule from './prometheusrule';
   import Receiver from './receiver';
   import ServiceMonitor from './servicemonitor';
@@ -35,6 +36,9 @@
 
   export default {
     name: 'MonitorConfig',
+    i18n: {
+      messages: messages,
+    },
     components: {
       ProjectEnvironmentLayout,
       PrometheusRule,
@@ -42,27 +46,6 @@
       ServiceMonitor,
     },
     data() {
-      this.tabs = [
-        {
-          icon: 'mdi-eyedropper',
-          text: '指标采集器',
-          component: 'ServiceMonitor',
-          tab: 'servicemonitor',
-        },
-        {
-          icon: 'mdi-ruler',
-          text: '监控告警规则',
-          component: 'PrometheusRule',
-          tab: 'prometheusrule',
-        },
-        {
-          icon: 'mdi-call-received',
-          text: '告警接收器',
-          component: 'Receiver',
-          tab: 'receiver',
-        },
-      ];
-
       this.tabMap = {
         servicemonitor: 0,
         prometheusrule: 1,
@@ -71,13 +54,34 @@
 
       return {
         currentTab: this.tabMap[this.$route.query.tab] || 0,
-        tabs: this.tabs,
         pass: false,
       };
     },
     computed: {
       currentComponent() {
         return this.tabs[this.currentTab].component;
+      },
+      tabs() {
+        return [
+          {
+            icon: 'mdi-eyedropper',
+            text: this.$t('tab.servicemonitor'),
+            component: 'ServiceMonitor',
+            tab: 'servicemonitor',
+          },
+          {
+            icon: 'mdi-ruler',
+            text: this.$t('tab.prometheus_rule'),
+            component: 'PrometheusRule',
+            tab: 'prometheusrule',
+          },
+          {
+            icon: 'mdi-call-received',
+            text: this.$t('tab.receiver'),
+            component: 'Receiver',
+            tab: 'receiver',
+          },
+        ];
       },
     },
     watch: {

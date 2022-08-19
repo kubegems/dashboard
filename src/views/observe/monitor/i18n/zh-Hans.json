@@ -8,10 +8,39 @@
     "from_template": "从模版创建",
     "mode": "模式",
     "unit": "单位",
-    "query_ql": "查询语句"
+    "query_ql": "查询语句",
+
+    "cluster_latitude": "集群维度",
+    "environment_latitude": "环境维度",
+    "rule": "规则",
+    "custom": "自定义",
+    "limit_30": "结果数量过多,截取30条",
+    "select_rule": "请选择规则",
+    "loading": "载入中...",
+    "select_cluster_or_environment": "请先选择集群或者环境",
+    "select_one_rule": "选择一个规则",
+    "group": "组",
+    "resource": "资源",
+
+    "default": "默认",
+    "byte": "字节",
+    "byte_rate": "字节速率",
+    "time": "时间",
+    "precent": "百分比"
   },
   "tab": {
     "generate_from_template": "由模版生成",
-    "generate_from_promql": "由PromQl生成"
+    "generate_from_promql": "由PromQl生成",
+    "servicemonitor": "指标采集器",
+    "prometheus_rule": "监控告警规则",
+    "receiver": "告警接收器"
+  },
+  "form": {
+    "all_null": "集群和项目环境不能同时为空"
+  },
+  "operate": {
+    "query": "查询",
+    "remove": "移除",
+    "set_alert": "设置告警"
   }
 }

@@ -112,8 +112,8 @@
       headers() {
         return [
           { text: 'token', value: 'token', align: 'start' },
-          { text: 'scpoe', value: 'scpoe', align: 'start' },
-          { text: 'scpoe', value: 'grantType', align: 'start' },
+          { text: 'scope', value: 'scope', align: 'start' },
+          { text: this.$t('auth.table.grant_type'), value: 'grantType', align: 'start' },
           { text: this.$t('auth.table.expired'), value: 'expired', align: 'start' },
           { text: this.$t('auth.table.expire_at'), value: 'expireAt', align: 'start' },
           { text: this.$root.$t('resource.create_at'), value: 'createdAt', align: 'start' },

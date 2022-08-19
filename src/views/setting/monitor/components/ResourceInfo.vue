@@ -39,7 +39,7 @@
     </v-card>
 
     <v-card class="mt-3" flat>
-      <BaseSubTitle class="pt-2" :divider="false" :title="$t('tip.graph')" />
+      <BaseSubTitle class="pt-2" :divider="false" :title="$t('tip.rule')" />
       <v-simple-table class="mx-2 pa-2 pb-3">
         <template #default>
           <thead>

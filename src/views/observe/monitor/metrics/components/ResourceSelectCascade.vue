@@ -37,7 +37,7 @@
         hide-no-data
         hide-selected
         :items="items"
-        label="规则模板"
+        :label="$t('tip.rule')"
         :solo="!singleLine"
         v-on="on"
       >
@@ -50,9 +50,9 @@
     </template>
     <v-card class="pa-2 py-3" flat height="450px">
       <div class="text-subtitle-2 mx-2 kubegems__text select__title">
-        <div class="float-left"> 选择一个模板 </div>
+        <div class="float-left"> {{ $t('tip.select_one_rule') }} </div>
         <div class="float-right">
-          <v-btn color="primary" small @click="reset">重置</v-btn>
+          <v-btn color="primary" small @click="reset">{{ $root.$t('operate.reset') }}</v-btn>
         </div>
         <div class="kubegems__clear-float" />
       </div>
@@ -67,7 +67,7 @@
           solo
           @keyup="onSearch"
         />
-        <div class="text-caption pa-1 mt-2">组</div>
+        <div class="text-caption pa-1 mt-2">{{ $t('tip.group') }}</div>
         <v-divider class="mb-2" />
         <v-list class="pa-0" dense max-height="300" nav :style="{ overflowY: 'auto' }">
           <v-list-item-group v-model="scopeIndex" color="primary" @change="onScopeChange">
@@ -86,7 +86,7 @@
       </div>
       <v-divider v-if="showResource" class="float-left select__divider" vertical />
       <div v-if="showResource" class="select__div" :style="{ width: getWidth() }">
-        <div class="text-caption pa-1 mt-2">资源</div>
+        <div class="text-caption pa-1 mt-2">{{ $t('tip.resource') }}</div>
         <v-divider class="mb-2" />
         <v-list class="pa-0" dense max-height="345" nav :style="{ overflowY: 'auto' }">
           <v-list-item-group v-model="resourceIndex" color="primary" @change="onResourceChange">
@@ -104,7 +104,7 @@
 
       <v-divider v-if="showRule" class="float-left select__divider" vertical />
       <div v-if="showRule" class="select__div" :style="{ width: getWidth() }">
-        <div class="text-caption pa-1 mt-2">规则</div>
+        <div class="text-caption pa-1 mt-2">{{ $t('tip.rule') }}</div>
         <v-divider class="mb-2" />
         <v-list class="pa-0" dense max-height="345" nav :style="{ overflowY: 'auto' }">
           <v-list-item-group v-model="ruleIndex" color="primary" @change="onRuleChange">
@@ -115,7 +115,7 @@
                     <v-list-item-title class="select__list__title pl-2" v-on="on" v-text="item.showName" />
                   </template>
                   <template #default>
-                    <span class="text-caption">{{ item.description || '暂无' }}</span>
+                    <span class="text-caption">{{ item.description || $root.$t('data.no_data') }}</span>
                   </template>
                 </v-tooltip>
               </v-list-item-content>
@@ -129,11 +129,15 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
   import { getRuleList, getRuleResourceList, getRuleScopeList, getRuleSearch } from '@/api';
   import BaseSelect from '@/mixins/select';
 
   export default {
     name: 'ResourceSelectCascade',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseSelect],
     props: {
       generator: {

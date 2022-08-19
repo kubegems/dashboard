@@ -18,7 +18,7 @@
   <v-card class="metrics-item" flat>
     <div class="metrics-item__title">
       <span class="text-body-1 kubegems__text">{{ title }}</span>
-      <v-btn color="primary" small @click="setAlert"> 设置告警 </v-btn>
+      <v-btn color="primary" small @click="setAlert"> {{ $t('operate.set_alert') }} </v-btn>
     </div>
     <v-row :style="{ maxHeight: `${maxHeight}px` }">
       <v-col v-for="label in labels" :key="label.text" class="py-1 px-4" cols="4">
@@ -32,7 +32,7 @@
           :items="label.items"
           :label="label.text"
           multiple
-          no-data-text="暂无可选数据"
+          :no-data-text="$root.$t('data.no_data')"
           solo
           :value="labelpairs[label.text]"
           @change="onLabelChange($event, label.text)"
@@ -72,11 +72,15 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import { debounce } from '@/utils/helpers';
   import { SERVICE_MONITOR_NS } from '@/utils/namespace';
 
   export default {
     name: 'MetricsItem',
+    i18n: {
+      messages: messages,
+    },
     props: {
       data: {
         type: Object,
