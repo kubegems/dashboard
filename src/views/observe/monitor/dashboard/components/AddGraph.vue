@@ -15,12 +15,20 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-chart-areaspline" title="创建监控图" :width="1000" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-chart-areaspline"
+    :title="$root.$t('operate.create_c', [$t('tip.graph')])"
+    :width="1000"
+    @reset="reset"
+  >
     <template #content>
       <component :is="formComponent" :ref="formComponent" :environment="environment" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addGraph"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addGraph">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>
@@ -28,12 +36,16 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import GraphBaseForm from './GraphBaseForm';
   import { putUpdateMonitorDashboard } from '@/api';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'AddGraph',
+    i18n: {
+      messages: messages,
+    },
     components: {
       GraphBaseForm,
     },

@@ -42,19 +42,19 @@
                 <v-flex>
                   <v-btn color="primary" text @click="addDashboard">
                     <v-icon left>mdi-plus-box</v-icon>
-                    创建监控大盘
+                    {{ $root.$t('operate.create_c', [$t('tip.minitor_dashboard')]) }}
                   </v-btn>
                 </v-flex>
                 <v-flex>
                   <v-btn color="primary" text @click="updateDashboard">
                     <v-icon left>mdi-upload</v-icon>
-                    更新监控大盘
+                    {{ $root.$t('operate.update_c', [$t('tip.minitor_dashboard')]) }}
                   </v-btn>
                 </v-flex>
                 <v-flex>
                   <v-btn color="error" text @click="removePanel">
                     <v-icon left>mdi-minus-box</v-icon>
-                    删除监控大盘
+                    {{ $root.$t('operate.delete_c', [$t('tip.minitor_dashboard')]) }}
                   </v-btn>
                 </v-flex>
               </v-card-text>
@@ -122,7 +122,7 @@
                 <v-list-item-content>
                   <v-btn block class="text-h6" color="primary" text @click="addGraph">
                     <v-icon left>mdi-plus-box</v-icon>
-                    添加图表
+                    {{ $root.$t('operate.add_c', [$t('tip.graph')]) }}
                   </v-btn>
                 </v-list-item-content>
               </v-list-item>
@@ -157,6 +157,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../i18n';
   import AddDashboard from './components/AddDashboard';
   import AddGraph from './components/AddGraph';
   import ContainerSelect from './components/ContainerSelect';
@@ -176,6 +177,9 @@
 
   export default {
     name: 'MonitorDashboard',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddDashboard,
       AddGraph,
@@ -221,7 +225,7 @@
               this.dashboardList();
             } else {
               this.$store.commit('SET_SNACKBAR', {
-                text: `该环境所在集群还未启用 ${this.missingPlugins.join(', ')} 插件！`,
+                text: this.$root.$t('plugin.environment_missing', [this.missingPlugins.join(', ')]),
                 color: 'warning',
               });
               return;
@@ -236,7 +240,7 @@
       this.$nextTick(() => {
         if (!this.Tenant().ID) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '暂未选择租户',
+            text: this.$root.$t('tip.select_tenant'),
             color: 'warning',
           });
           return;
@@ -358,9 +362,9 @@
       removePanel() {
         const item = this.items[this.tab];
         this.$store.commit('SET_CONFIRM', {
-          title: `删除监控大盘`,
+          title: this.$root.$t('operate.delete_c', [$t('tip.minitor_dashboard')]),
           content: {
-            text: `删除监控大盘 ${item.name}`,
+            text: `${this.$root.$t('operate.delete_c', [$t('tip.minitor_dashboard')])} ${item.name}`,
             type: 'delete',
             name: item.name,
           },
@@ -373,9 +377,9 @@
       },
       removeGraph(item, index) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除监控图表`,
+          title: this.$root.$t('operate.delete_c', [$t('tip.graph')]),
           content: {
-            text: `删除监控图表 ${item.name}`,
+            text: `${this.$root.$t('operate.delete_c', [$t('tip.graph')])} ${item.name}`,
             type: 'delete',
             name: item.name,
           },

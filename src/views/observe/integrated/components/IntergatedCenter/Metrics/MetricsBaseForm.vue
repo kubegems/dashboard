@@ -16,7 +16,7 @@
 
 <template>
   <div class="pa-3 pt-0">
-    <BaseSubTitle class="my-0" color="grey lighten-3" :divider="false" title="监控采集配置" />
+    <BaseSubTitle class="my-0" color="grey lighten-3" :divider="false" :title="$t('tip.metrics_config')" />
 
     <v-form ref="form" v-model="valid" class="px-2" lazy-validation @submit.prevent>
       <ProjectEnvSelect v-model="env" class="mt-0" t="metrics" />
@@ -29,8 +29,8 @@
             color="primary"
             hide-selected
             :items="serviceItems"
-            label="关联服务"
-            no-data-text="暂无可选数据"
+            :label="$t('tip.related_service')"
+            :no-data-text="$root.$t('data.no_data')"
             :rules="objRules.serviceRules"
           >
             <template #selection="{ item }">
@@ -44,7 +44,7 @@
         <v-col cols="6">
           <div :style="{ lineHeight: '66px' }">
             <v-icon small> mdi-help-circle </v-icon>
-            没有服务？从 <a @click="toAppstore">应用商店</a> 创建exporter
+            <span @click="toAppstore" v-html="$t('tip.no_service_tip')" />
           </div>
         </v-col>
 
@@ -55,8 +55,8 @@
             color="primary"
             hide-selected
             :items="portItems"
-            label="采集器端口"
-            no-data-text="暂无可选数据"
+            :label="$t('tip.servicemonitor_port')"
+            :no-data-text="$root.$t('data.no_data')"
             :rules="objRules.portRules"
           >
             <template #selection="{ item }">
@@ -68,17 +68,24 @@
         </v-col>
 
         <v-col cols="6">
-          <v-text-field v-model="obj.path" class="my-0" label="请求路径" required :rules="objRules.pathRules" />
+          <v-text-field
+            v-model="obj.path"
+            class="my-0"
+            :label="$t('tip.request_path')"
+            required
+            :rules="objRules.pathRules"
+          />
         </v-col>
       </v-row>
     </v-form>
 
-    <BaseSubTitle class="my-0 mt-3" color="grey lighten-3" :divider="false" title="指标" />
+    <BaseSubTitle class="my-0 mt-3" color="grey lighten-3" :divider="false" :title="$t('tip.metrics')" />
     <MetricsList />
   </div>
 </template>
 
 <script>
+  import messages from '../../../i18n';
   import ProjectEnvSelect from '../ProjectEnvSelect';
   import MetricsList from './MetricsList';
   import { getServiceList, postServiceMonitor } from '@/api';
@@ -86,6 +93,9 @@
 
   export default {
     name: 'MetricsBaseForm',
+    i18n: {
+      messages: messages,
+    },
     components: {
       MetricsList,
       ProjectEnvSelect,
@@ -164,7 +174,7 @@
             this.$emit('close');
           } else {
             this.$store.commit('SET_SNACKBAR', {
-              text: '请先选择项目环境',
+              text: this.$root.$t('tip.select_project_environment'),
               color: 'warning',
             });
           }

@@ -16,13 +16,13 @@
 
 <template>
   <div class="pa-2" :style="{ height: `${height}px`, overflowY: 'auto', overflowX: 'hidden' }">
-    <BaseSubTitle class="mx-2 mt-1" color="grey lighten-3" :divider="false" title="监控采集配置" />
+    <BaseSubTitle class="mx-2 mt-1" color="grey lighten-3" :divider="false" :title="$t('tip.metrics_config')" />
 
     <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
       <ProjectEnvSelect v-model="env" class="px-2 mt-0" t="metrics" />
       <v-row class="px-2 mt-0">
         <v-col cols="6">
-          <v-text-field v-model="obj.appName" label="名称" :rules="objRules.appNameRule" />
+          <v-text-field v-model="obj.appName" :label="$t('tip.name')" :rules="objRules.appNameRule" />
         </v-col>
       </v-row>
       <JsonSchema
@@ -41,6 +41,7 @@
   import { Base64 } from 'js-base64';
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../../i18n';
   import ProjectEnvSelect from '../ProjectEnvSelect';
   import { getChartSchema, postDeployAppStore } from '@/api';
   import { randomString } from '@/utils/helpers';
@@ -50,6 +51,9 @@
 
   export default {
     name: 'MiddlewareMetrics',
+    i18n: {
+      messages: messages,
+    },
     components: {
       JsonSchema,
       ProjectEnvSelect,
@@ -132,7 +136,7 @@
             this.$emit('close');
           } else {
             this.$store.commit('SET_SNACKBAR', {
-              text: '请先选择项目环境',
+              text: this.$root.$t('tip.select_project_environment'),
               color: 'warning',
             });
           }

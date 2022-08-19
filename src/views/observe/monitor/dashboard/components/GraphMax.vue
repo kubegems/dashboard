@@ -18,7 +18,7 @@
   <BaseFullScreenDialog
     v-model="dialog"
     icon="mdi-chart-areaspline-variant"
-    :title="`监控面板--${graph.name}`"
+    :title="`${$t('tip.monitor_panel')}--${graph.name}`"
     @dispose="dispose"
   >
     <template #action>
@@ -49,10 +49,14 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import { getMetricsQueryrange } from '@/api';
 
   export default {
     name: 'GraphMax',
+    i18n: {
+      messages: messages,
+    },
     props: {
       environment: {
         type: Object,

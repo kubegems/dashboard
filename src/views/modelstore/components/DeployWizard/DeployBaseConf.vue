@@ -202,6 +202,7 @@
         });
         if (env) {
           this.obj.cluster = env.clusterName;
+          this.obj.namespace = env.namespace;
           const missingPlugins = await this.m_permission_plugin_pass(env.clusterName, []);
           if (missingPlugins?.length === 0) {
             this.pluginsPass = true;

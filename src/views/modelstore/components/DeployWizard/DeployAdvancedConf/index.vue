@@ -139,7 +139,7 @@
         <v-card-text class="pa-2">
           <v-row>
             <v-col cols="12">
-              <v-text-field v-model="obj.server.mountPath" label="挂载路径" />
+              <Mount v-model="obj.server.mounts" :base="base" />
             </v-col>
           </v-row>
         </v-card-text>
@@ -167,6 +167,7 @@
   import Args from './Args';
   import Command from './Command';
   import Env from './Env';
+  import Mount from './Mount';
   import Port from './Port';
   import ResourceConf from './ResourceConf';
   import { getGatewayOriginList, getModelSourceDetail } from '@/api';
@@ -178,6 +179,7 @@
       Args,
       Command,
       Env,
+      Mount,
       Port,
       ResourceConf,
     },
@@ -223,6 +225,7 @@
             ports: [],
             mountPath: '',
             protocol: 'v2',
+            mounts: [],
           },
           resources: {
             limits: {

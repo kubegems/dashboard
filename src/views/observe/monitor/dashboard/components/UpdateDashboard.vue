@@ -15,12 +15,20 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-chart-areaspline" title="更新监控大盘" :width="500" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-chart-areaspline"
+    :title="$root.$t('operate.update_c', [$t('tip.minitor_dashboard')])"
+    :width="500"
+    @reset="reset"
+  >
     <template #content>
       <component :is="formComponent" :ref="formComponent" :edit="true" :item="item" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateDashboard"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateDashboard">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>
@@ -28,11 +36,15 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import DashboardBaseForm from './DashboardBaseForm';
   import { getMonitorDashboard, putUpdateMonitorDashboard } from '@/api';
 
   export default {
     name: 'UpdateDashboard',
+    i18n: {
+      messages: messages,
+    },
     components: {
       DashboardBaseForm,
     },

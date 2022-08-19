@@ -39,7 +39,6 @@
           </v-chip>
         </template>
       </v-combobox>
-      <!-- <div id="model_deploy_port" class="port__anchor" /> -->
     </template>
     <v-card>
       <v-card-text class="pa-2">
@@ -60,6 +59,7 @@
                   left: true,
                   origin: `top center`,
                 }"
+                :rules="objRules.protocolRules"
               />
             </v-col>
             <v-col>
@@ -94,7 +94,8 @@
           name: 'http',
           containerPort: 0,
           hostPort: 0,
-          protocol: '',
+          protocol: 'TCP',
+          hostIP: '',
         },
         objRules: {
           nameRules: [required],
@@ -142,11 +143,3 @@
     },
   };
 </script>
-
-<style lang="scss" scoped>
-  .port {
-    &__anchor {
-      position: relative;
-    }
-  }
-</style>
