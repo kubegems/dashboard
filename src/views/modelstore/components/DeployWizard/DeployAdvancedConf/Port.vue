@@ -46,7 +46,7 @@
         <v-form ref="form" v-model="valid" class="px-2" lazy-validation @click.stop @submit.prevent>
           <v-row>
             <v-col>
-              <v-text-field v-model="obj.name" label="端口名称" :rules="objRules.nameRules" />
+              <v-text-field v-model="obj.name" hint="推荐http/grpc" label="端口名称" :rules="objRules.nameRules" />
             </v-col>
             <v-col>
               <v-autocomplete
@@ -66,10 +66,7 @@
               <v-text-field v-model.number="obj.containerPort" label="容器端口" :rules="objRules.containerPortRules" />
             </v-col>
             <v-col>
-              <v-text-field v-model="obj.hostIP" label="IP" :rules="objRules.hostIPRules" />
-            </v-col>
-            <v-col>
-              <v-text-field v-model.number="obj.hostPort" label="端口" :rules="objRules.hostPortRules" />
+              <v-text-field v-model.number="obj.hostPort" label="主机端口" :rules="objRules.hostPortRules" />
             </v-col>
           </v-row>
         </v-form>
@@ -94,9 +91,8 @@
         menu: false,
         ports: [],
         obj: {
-          name: '',
+          name: 'http',
           containerPort: 0,
-          hostIP: '',
           hostPort: 0,
           protocol: '',
         },

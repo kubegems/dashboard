@@ -27,7 +27,7 @@
     </template>
     <template #action>
       <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateIstioPeerAuthentication">
-        确定
+        {{ $root.$t('operate.confirm') }}
       </v-btn>
     </template>
   </BaseDialog>

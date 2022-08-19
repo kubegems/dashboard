@@ -17,7 +17,7 @@
 <template>
   <v-data-table
     v-if="suggestShow"
-    class="table kubegems__table-row-pointer"
+    class="table kubegems__table-row-pointer pa-2"
     :custom-filter="filterKeyword"
     dense
     disable-pagination
@@ -117,6 +117,13 @@
     },
     methods: {
       async loadMetrics() {
+        if (!this.cluster) {
+          this.$store.commit('SET_SNACKBAR', {
+            text: '请先选择集群或者环境',
+            color: 'warning',
+          });
+          return;
+        }
         this.loading = true;
         const data = await getMetrics(this.cluster, {
           label: '__name__',

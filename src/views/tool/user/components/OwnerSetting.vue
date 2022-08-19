@@ -41,25 +41,30 @@
 
         <v-card class="mt-3" flat>
           <v-card-text class="pa-2">
-            <BaseSubTitle :divider="false" :title="$t('setting.tip.auth')" />
+            <BaseSubTitle :divider="false" :title="$t('setting.tip.i18n')" />
             <v-form ref="infoForm" v-model="validInfo" class="px-4" lazy-validation @submit.prevent>
               <v-row class="mt-0">
                 <v-col cols="12">
-                  <v-flex class="text-subtitle-2 kubegems__text"> {{ $t('setting.tip.exprie') }} </v-flex>
-                  <v-text-field
-                    v-model.number="objToken.expire"
-                    class="pt-0"
+                  <v-autocomplete
+                    v-model="locale"
                     dense
                     flat
-                    :rules="tokenRules.expireRules"
+                    hide-details
+                    item-text="title"
+                    item-value="locale"
+                    :items="languages"
+                    :menu-props="{
+                      bottom: true,
+                      left: true,
+                      origin: `top center`,
+                    }"
+                    :rules="i18nRules.languageRules"
                     solo
-                    type="number"
                   />
-                  <span>{{ accessToken }}</span>
                 </v-col>
               </v-row>
-              <v-btn class="my-4" color="primary" small @click="updateToken">
-                {{ $t('operate.generate_c', [$t('setting.tip.auth')]) }}
+              <v-btn class="my-4" color="primary" small @click="updateLanguage">
+                {{ $root.$t('operate.update_c', [$t('setting.tip.i18n')]) }}
               </v-btn>
             </v-form>
           </v-card-text>
@@ -125,37 +130,6 @@
             </v-form>
           </v-card-text>
         </v-card>
-
-        <v-card class="mt-3" flat>
-          <v-card-text class="pa-2">
-            <BaseSubTitle :divider="false" :title="$t('setting.tip.i18n')" />
-            <v-form ref="infoForm" v-model="validInfo" class="px-4" lazy-validation @submit.prevent>
-              <v-row class="mt-0">
-                <v-col cols="12">
-                  <v-autocomplete
-                    v-model="locale"
-                    dense
-                    flat
-                    hide-details
-                    item-text="title"
-                    item-value="locale"
-                    :items="languages"
-                    :menu-props="{
-                      bottom: true,
-                      left: true,
-                      origin: `top center`,
-                    }"
-                    :rules="i18nRules.languageRules"
-                    solo
-                  />
-                </v-col>
-              </v-row>
-              <v-btn class="my-4" color="primary" small @click="updateLanguage">
-                {{ $root.$t('operate.update_c', [$t('setting.tip.i18n')]) }}
-              </v-btn>
-            </v-form>
-          </v-card-text>
-        </v-card>
       </v-col>
     </v-row>
   </div>
@@ -165,9 +139,9 @@
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
-  import { getLoginUserInfo, postResetPassword, putUpdateUser, postGenerateToken } from '@/api';
+  import { getLoginUserInfo, postResetPassword, putUpdateUser } from '@/api';
   import locales from '@/i18n/locales';
-  import { email, password, phone, required, positiveInteger } from '@/utils/rules';
+  import { email, password, phone, required } from '@/utils/rules';
 
   export default {
     name: 'OwnerSetting',
@@ -194,12 +168,6 @@
         showNew2: false,
 
         locale: '',
-        objToken: {
-          expire: 600,
-          grant_type: 'client_credentials',
-          scope: 'validate',
-        },
-        accessToken: '',
       };
     },
     computed: {
@@ -220,11 +188,6 @@
       i18nRules() {
         return {
           languageRules: [required],
-        };
-      },
-      tokenRules() {
-        return {
-          expireRules: [required, positiveInteger],
         };
       },
       languages() {
@@ -285,10 +248,6 @@
         }
         this.$store.commit('SET_LOCALE', this.locale);
         this.reload();
-      },
-      async updateToken() {
-        const data = await postGenerateToken(this.objToken);
-        this.accessToken = data.access_token;
       },
     },
   };

@@ -15,12 +15,20 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-arrange-send-backward" title="创建采集器" :width="1000" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-arrange-send-backward"
+    :title="$root.$t('operate.create_c', [$root.$t('resource.flow')])"
+    :width="1000"
+    @reset="reset"
+  >
     <template #content>
       <component :is="formComponent" :ref="formComponent" title="Flow/ClusterFlow" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addFlow"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addFlow">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
     <template #header-action>
       <v-switch
@@ -75,7 +83,7 @@
         }
         if (!this.$refs[this.formComponent].checkSaved()) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请保存数据',
+            text: this.$root.$t('tip.save_data'),
             color: 'warning',
           });
           return;

@@ -29,7 +29,7 @@
           <v-card class="pa-2" flat>
             <v-btn block color="primary" text @click="addOutput">
               <v-icon left>mdi-plus-box</v-icon>
-              创建路由器
+              {{ $root.$t('operate.create_c', [$root.$t('resource.output')]) }}
             </v-btn>
           </v-card>
         </v-menu>
@@ -42,7 +42,7 @@
           :headers="headers"
           hide-default-footer
           :items="items"
-          no-data-text="暂无数据"
+          :no-data-text="$root.$t('data.no_data')"
         >
           <template #[`item.name`]="{ item }">
             <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="outputDetail(item)">
@@ -64,11 +64,11 @@
           <template #[`item.status`]="{ item }">
             <template v-if="item.status && item.status.active">
               <v-icon color="success" small> mdi-check-circle </v-icon>
-              已激活
+              {{ $t('status.actived') }}
             </template>
             <template v-else>
               <v-icon color="error" small> mdi-alert-circle </v-icon>
-              未激活
+              {{ $t('status.unactived') }}
             </template>
           </template>
           <template #[`item.action`]="{ item }">
@@ -80,10 +80,12 @@
               </template>
               <v-card class="pa-2" flat>
                 <v-flex>
-                  <v-btn color="primary" small text @click="updateOutput(item)"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateOutput(item)"> {{ $root.$t('operate.edit') }} </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn block color="error" small text @click="removeOutput(item)"> 删除 </v-btn>
+                  <v-btn block color="error" small text @click="removeOutput(item)">
+                    {{ $root.$t('operate.delete') }}
+                  </v-btn>
                 </v-flex>
               </v-card>
             </v-menu>
@@ -109,6 +111,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import AddOutput from './components/AddOutput';
   import UpdateOutput from './components/UpdateOutput';
   import { deleteClusterOutputData, deleteOutputData, getClusterOutputsData, getOutputsData } from '@/api';
@@ -116,6 +119,9 @@
 
   export default {
     name: 'LogFlow',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddOutput,
       UpdateOutput,
@@ -128,27 +134,6 @@
       },
     },
     data() {
-      this.filters = [
-        { text: '名称', value: 'name', items: [] },
-        {
-          text: '类型',
-          value: 'kind',
-          items: [
-            { text: 'Output', value: 'Output', parent: 'kind' },
-            { text: 'ClusterOutput', value: 'ClusterOutput', parent: 'kind' },
-          ],
-        },
-        {
-          text: '插件',
-          value: 'plugin',
-          items: [
-            { text: 'Kafka', value: 'Kafka', parent: 'plugin' },
-            { text: 'Elasticsearch', value: 'Elasticsearch', parent: 'plugin' },
-            { text: 'Loki', value: 'Loki', parent: 'plugin' },
-          ],
-        },
-      ];
-
       this.cacheAll = [];
       this.cacheFilter = [];
 
@@ -171,12 +156,12 @@
       ...mapGetters(['Tenant']),
       headers() {
         const items = [
-          { text: '名称', value: 'name', align: 'start' },
-          { text: '类型', value: 'kind', align: 'start' },
-          { text: '插件', value: 'plugin', align: 'start' },
-          { text: '命名空间', value: 'namespace', align: 'start' },
-          { text: '创建时间', value: 'createAt', align: 'start', width: 200 },
-          { text: '状态', value: 'status', align: 'start', width: 100 },
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
+          { text: this.$root.$t('resource.type'), value: 'kind', align: 'start' },
+          { text: this.$t('table.plugin'), value: 'plugin', align: 'start' },
+          { text: this.$root.$t('resource.namespace'), value: 'namespace', align: 'start' },
+          { text: this.$root.$t('resource.create_at'), value: 'createAt', align: 'start', width: 200 },
+          { text: this.$t('table.status'), value: 'status', align: 'start', width: 100 },
         ];
 
         if (this.m_permisson_resourceAllow(this.$route.query.env)) {
@@ -184,6 +169,28 @@
         }
 
         return items;
+      },
+      filters() {
+        return [
+          { text: this.$t('filter.output_name'), value: 'name', items: [] },
+          {
+            text: this.$t('filter.output_type'),
+            value: 'kind',
+            items: [
+              { text: 'Output', value: 'Output', parent: 'kind' },
+              { text: 'ClusterOutput', value: 'ClusterOutput', parent: 'kind' },
+            ],
+          },
+          {
+            text: this.$t('filter.output_plugin'),
+            value: 'plugin',
+            items: [
+              { text: 'Kafka', value: 'Kafka', parent: 'plugin' },
+              { text: 'Elasticsearch', value: 'Elasticsearch', parent: 'plugin' },
+              { text: 'Loki', value: 'Loki', parent: 'plugin' },
+            ],
+          },
+        ];
       },
     },
     watch: {
@@ -250,9 +257,9 @@
       },
       removeOutput(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除日志路由器`,
+          title: this.$root.$t('operate.create_c', [this.$root.$t('resource.output')]),
           content: {
-            text: `删除日志路由器 ${item.metadata.name}`,
+            text: `${this.$root.$t('operate.create_c', [this.$root.$t('resource.output')])} ${item.metadata.name}`,
             type: 'delete',
             name: item.metadata.name,
           },
@@ -287,7 +294,7 @@
           case !!item.spec?.kafka:
             return 'Kafka';
           default:
-            return '其他';
+            return this.$t('tip.other');
         }
       },
     },

@@ -22,7 +22,7 @@
     </v-card-title>
     <v-list-item two-line>
       <v-list-item-content class="kubegems__text">
-        <v-list-item-title class="text-subtitle-2"> {{ $('table.name') }} </v-list-item-title>
+        <v-list-item-title class="text-subtitle-2"> {{ $t('table.name') }} </v-list-item-title>
         <v-list-item-subtitle class="text-body-2">
           {{ item ? item.name : '' }}
         </v-list-item-subtitle>

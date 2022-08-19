@@ -58,7 +58,7 @@
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../i18n';
-  import { getRuleScopeList, getRuleResourceList } from '@/api';
+  import { getRuleResourceList, getRuleScopeList } from '@/api';
   import BaseSelect from '@/mixins/select';
 
   export default {

@@ -164,7 +164,10 @@
     "event": "Event",
     "platform": "Platform",
     "receiver": "Receiver",
-    "prometheus_rule": "Prometheus Rule"
+    "prometheus_rule": "Prometheus Rule",
+    "flow": "Flow",
+    "output": "Output",
+    "monitor_template": "Monitor Template"
   },
 
   "header": {
@@ -365,7 +368,8 @@
       "authorization": "Authorization",
       "app_store": "App Store",
       "model_store": "Model Store",
-      "prometheus_template": "Prometheus",
+      "prometheus_template": "Prometheus Template",
+      "monitor_template": "Monitor Template",
 
       "g_template": "Template",
       "g_integrated": "Integrated",
@@ -402,6 +406,7 @@
 
     "auth_setting": "Based on the third-party authentication integration of oauth2.0/ldap, users can log in in various ways.",
     "prometheus_setting": "Configure Prometheus Recording rules to improve monitoring query efficiency.",
+    "monitor_template": "Configure monitoring dashboard templates to quickly create monitoring dashboards.",
 
     "role": "Description of all roles and operating permissions of the system.",
     "tenant": "Tenant is a logical unit that organizes your projects and DevOps projects, manages access to resources, shares resources within a team, etc. It can be used as an independent workspace for team work.",

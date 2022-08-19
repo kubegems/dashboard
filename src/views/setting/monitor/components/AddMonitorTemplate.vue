@@ -17,16 +17,16 @@
 <template>
   <BaseDialog
     v-model="dialog"
-    icon="mdi-vector-point"
-    :title="$root.$t('operate.create_c', [$root.$t('resource.peer_authentication')])"
+    icon="mdi-code-json"
+    :title="$t('operate.load_c', [$root.$t('resource.monitor_template')])"
     :width="1000"
     @reset="reset"
   >
     <template #content>
-      <component :is="formComponent" :ref="formComponent" title="PeerAuthentication" />
+      <component :is="formComponent" :ref="formComponent" :title="$root.$t('resource.monitor_template')" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addIstioPeerAuthentication">
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addMonitorDashboardTemplate">
         {{ $root.$t('operate.confirm') }}
       </v-btn>
     </template>
@@ -34,45 +34,35 @@
 </template>
 
 <script>
-  import { mapGetters, mapState } from 'vuex';
+  import { mapState } from 'vuex';
 
-  import { postAddIstioPeerAuthentication } from '@/api';
-  import BaseResource from '@/mixins/resource';
-  import IstioAuthorizationPolicySchema from '@/views/microservice/istio/peer_authentication/mixins/schema';
+  import messages from '../i18n';
+  import { postMonitorDashboardTemplate } from '@/api';
 
   export default {
-    name: 'AddPeerAuthentication',
-    mixins: [BaseResource, IstioAuthorizationPolicySchema],
+    name: 'AddMonitorTemplate',
+    i18n: {
+      messages: messages,
+    },
     data: () => ({
       dialog: false,
       formComponent: 'BaseYamlForm',
     }),
     computed: {
-      ...mapState(['Circular', 'EnvironmentFilter']),
-      ...mapGetters(['VirtualSpace']),
+      ...mapState(['Circular']),
     },
     methods: {
       open() {
         this.dialog = true;
       },
-      async addIstioPeerAuthentication() {
+      async addMonitorDashboardTemplate() {
         if (this.$refs[this.formComponent].validate()) {
           let data = '';
           if (this.formComponent === 'BaseYamlForm') {
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
-            if (!this.m_resource_validateJsonSchema(this.schema, data)) {
-              return;
-            }
-            if (!this.m_resource_checkDataWithOutNS(data)) return;
-            data = this.m_resource_beautifyData(data);
           }
-          await postAddIstioPeerAuthentication(
-            this.EnvironmentFilter.cluster,
-            this.EnvironmentFilter.namespace,
-            data.metadata.name,
-            data,
-          );
+          await postMonitorDashboardTemplate(data);
           this.reset();
           this.$emit('refresh');
         }

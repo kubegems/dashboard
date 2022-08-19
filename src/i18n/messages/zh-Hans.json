@@ -164,7 +164,10 @@
     "event": "事件",
     "platform": "平台",
     "receiver": "接收器",
-    "prometheus_rule": "告警规则"
+    "prometheus_rule": "告警规则",
+    "flow": "采集器",
+    "output": "路由器",
+    "monitor_template": "监控模版"
   },
 
   "header": {
@@ -366,6 +369,7 @@
       "app_store": "应用商店",
       "model_store": "算法商店",
       "prometheus_template": "Prometheus模版",
+      "monitor_template": "监控模版",
 
       "g_template": "模版",
       "g_integrated": "集成",
@@ -402,6 +406,7 @@
 
     "auth_setting": "基于 oauth2.0/ldap 的第三方认证集成, 用户可进行多种方式登录。",
     "prometheus_setting": "配置 Prometheus Recording rules 来提升监控查询效率。",
+    "monitor_template": "配置监控大盘模版来快速创建监控大盘。",
 
     "role": "系统所有角色(Role)与操作权限的描述。",
     "tenant": "租户(tenant)是一个组织您的项目和 DevOps 工程、管理资源访问权限以及在团队内部共享资源等的逻辑单元，可以作为团队工作的独立工作空间。",

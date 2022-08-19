@@ -88,6 +88,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import AccessToken from './components/AccessToken';
   import AuditList from './components/AuditList';
   import MessageBox from './components/MessageBox';
   import OwnerSetting from './components/OwnerSetting';
@@ -100,6 +101,7 @@
       messages: messages,
     },
     components: {
+      AccessToken,
       AuditList,
       MessageBox,
       OwnerSetting,
@@ -114,6 +116,7 @@
           { text: this.$t('tab.setting'), value: 'OwnerSetting' },
           { text: this.$t('tab.audit'), value: 'AuditList' },
           { text: this.$t('tab.message'), value: 'MessageBox' },
+          { text: this.$t('tab.auth'), value: 'AccessToken' },
         ];
       },
     },

@@ -18,17 +18,17 @@
   <div>
     <v-card>
       <v-sheet class="pa-2">
-        <BaseListItemForDetail :mt="0" title="匹配应用">
+        <BaseListItemForDetail :mt="0" :title="$t('tip.match_app')">
           <template #content>
             <BaseCollapseChips v-if="flow" id="r_app" :chips="matchs" icon="mdi-apps" single-line />
           </template>
         </BaseListItemForDetail>
-        <BaseListItemForDetail title="过滤器">
+        <BaseListItemForDetail :title="$t('tip.filter')">
           <template #content>
             <BaseCollapseChips v-if="flow" id="r_fliter" :chips="filters" icon="mdi-filter" single-line />
           </template>
         </BaseListItemForDetail>
-        <BaseListItemForDetail title="路由器(Output)">
+        <BaseListItemForDetail :title="`${$t('table.output')}(Output)`">
           <template #content>
             <BaseCollapseChips
               v-if="flow"
@@ -39,7 +39,7 @@
             />
           </template>
         </BaseListItemForDetail>
-        <BaseListItemForDetail title="路由器(ClusterOutput)">
+        <BaseListItemForDetail :title="`${$t('table.output')}(ClusterOutput)`">
           <template #content>
             <BaseCollapseChips
               v-if="flow"
@@ -56,10 +56,14 @@
 </template>
 
 <script>
+  import messages from '../../../i18n';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'ResourceInfo',
+    i18n: {
+      messages: messages,
+    },
     props: {
       item: {
         type: Object,

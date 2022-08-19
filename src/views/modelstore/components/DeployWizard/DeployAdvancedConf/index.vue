@@ -169,7 +169,7 @@
   import Env from './Env';
   import Port from './Port';
   import ResourceConf from './ResourceConf';
-  import { getModelSourceDetail, getGatewayOriginList } from '@/api';
+  import { getGatewayOriginList, getModelSourceDetail } from '@/api';
   import { required } from '@/utils/rules';
 
   export default {
@@ -234,7 +234,7 @@
           ingress: {
             className: '',
             gatewayName: '',
-            host: '',
+            host: 'api.models.kubegems.io',
           },
         },
         objRules: {

@@ -24,8 +24,8 @@
           color="primary"
           hide-selected
           :items="typeItems"
-          label="类型"
-          no-data-text="暂无可选数据"
+          :label="$root.$t('resource.type')"
+          :no-data-text="$root.$t('data.no_data')"
           :readonly="edit"
           :rules="objRules.kindRules"
         >
@@ -40,7 +40,7 @@
         <v-text-field
           v-model="obj.metadata.name"
           class="my-0"
-          label="名称"
+          :label="$t('table.name')"
           :readonly="edit"
           required
           :rules="objRules.nameRules"
@@ -53,9 +53,9 @@
           color="primary"
           hide-selected
           :items="localOutputRefsItems"
-          label="路由器(Output)"
+          :label="`${$t('table.output')}(Output)`"
           multiple
-          no-data-text="暂无可选数据"
+          :no-data-text="$root.$t('data.no_data')"
           @change="onFilterChange"
         >
           <template #selection="{ item }">
@@ -72,9 +72,9 @@
           color="primary"
           hide-selected
           :items="globalOutputRefsItems"
-          label="路由器(ClusterOutput)"
+          :label="`${$t('table.output')}(ClusterOutput)`"
           multiple
-          no-data-text="暂无可选数据"
+          :no-data-text="$root.$t('data.no_data')"
           @change="onFilterChange"
         >
           <template #selection="{ item }">
@@ -91,9 +91,9 @@
           color="primary"
           hide-selected
           :items="matchItems"
-          label="匹配应用"
+          :label="$t('tip.match_app')"
           multiple
-          no-data-text="暂无可选数据"
+          :no-data-text="$root.$t('data.no_data')"
           @change="onMatchChange"
         >
           <template #selection="{ item }">
@@ -110,9 +110,9 @@
           color="primary"
           hide-selected
           :items="filtersItems"
-          label="过滤器"
+          :label="$t('tip.filter')"
           multiple
-          no-data-text="暂无可选数据"
+          :no-data-text="$root.$t('data.no_data')"
           @change="onFilterChange"
         >
           <template #selection="{ item }">
@@ -129,6 +129,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../../../i18n';
   import { getClusterOutputsData, getOutputsData } from '@/api';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
@@ -136,6 +137,9 @@
 
   export default {
     name: 'FlowBaseForm',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseSelect],
     props: {
       edit: {

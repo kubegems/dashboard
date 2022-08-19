@@ -21,14 +21,14 @@
       v-else-if="
         getIconName(iconName, defaultLogo) !== 'undefined' && getIconName(iconName, defaultLogo).indexOf('img:') === -1
       "
-      :class="`ml-${ml}`"
+      :class="`ml-${ml} mt-${mt}`"
       :height="`${width}px`"
       :icon="getIconName(iconName, defaultLogo)"
       :width="`${width}px`"
     />
     <img
       v-else
-      :class="`${large ? 'logo__largeimg' : 'logo__img'} ml-${ml}`"
+      :class="`${large ? 'logo__largeimg' : 'logo__img'} ml-${ml} mt-${mt}`"
       :src="`/icon/${getIconName(iconName, defaultLogo).replaceAll('img:', '')}`"
       :style="`width: ${width}px;height: ${width}px;`"
     />
@@ -56,6 +56,10 @@
       ml: {
         type: Number,
         default: () => 2,
+      },
+      mt: {
+        type: Number,
+        default: () => 0,
       },
       width: {
         type: Number,

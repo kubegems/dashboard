@@ -69,7 +69,7 @@
     </v-list-item>
     <v-list-item two-line>
       <v-list-item-content class="kubegems__text">
-        <v-list-item-title class="text-subtitle-2"> {{ $t('tip.create_at') }} </v-list-item-title>
+        <v-list-item-title class="text-subtitle-2"> {{ $t('resource.create_at') }} </v-list-item-title>
         <v-list-item-subtitle class="text-body-2">
           {{ item ? $moment(item.metadata.creationTimestamp).format('lll') : '' }}
         </v-list-item-subtitle>

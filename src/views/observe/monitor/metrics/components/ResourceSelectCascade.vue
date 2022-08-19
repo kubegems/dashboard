@@ -91,6 +91,9 @@
         <v-list class="pa-0" dense max-height="345" nav :style="{ overflowY: 'auto' }">
           <v-list-item-group v-model="resourceIndex" color="primary" @change="onResourceChange">
             <v-list-item v-for="(item, index) in resourceItemsCopy" :key="index" dense>
+              <v-list-item-avatar class="mr-0" size="28">
+                <BaseLogo default-logo="kubegems" :icon-name="item.showName" :ml="0" :mt="1" :width="20" />
+              </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title class="select__list__title pl-2" v-text="item.showName" />
               </v-list-item-content>
@@ -107,14 +110,14 @@
           <v-list-item-group v-model="ruleIndex" color="primary" @change="onRuleChange">
             <v-list-item v-for="(item, index) in ruleItemsCopy" :key="index" dense>
               <v-list-item-content>
-                <v-menu id="desc" :close-delay="200" nudge-right="25px" nudge-top="20px" open-on-hover top>
+                <v-tooltip :close-delay="200" right>
                   <template #activator="{ on }">
                     <v-list-item-title class="select__list__title pl-2" v-on="on" v-text="item.showName" />
                   </template>
-                  <v-card>
-                    <v-card-text class="pa-2 text-caption"> {{ item.description || '暂无' }} </v-card-text>
-                  </v-card>
-                </v-menu>
+                  <template #default>
+                    <span class="text-caption">{{ item.description || '暂无' }}</span>
+                  </template>
+                </v-tooltip>
               </v-list-item-content>
             </v-list-item>
           </v-list-item-group>
@@ -126,7 +129,7 @@
 </template>
 
 <script>
-  import { getRuleScopeList, getRuleResourceList, getRuleList, getRuleSearch } from '@/api';
+  import { getRuleList, getRuleResourceList, getRuleScopeList, getRuleSearch } from '@/api';
   import BaseSelect from '@/mixins/select';
 
   export default {
@@ -276,12 +279,16 @@
       },
       onScopeChange() {
         if (this.scopeIndex > -1) {
-          this.maxWidth = 550;
           const scope = this.scopeItemsCopy[this.scopeIndex];
           this.ruleResourceList(scope.id);
+        }
+        this.resourceIndex = undefined;
+        if (this.resourceItems.length > 0 && this.ruleItems.length > 0) {
+          this.maxWidth = 825;
+        } else if (this.scopeIndex > -1 || this.resourceItems.length > 0) {
+          this.maxWidth = 550;
         } else {
-          this.resourceIndex = undefined;
-          this.maxWidth = this.resourceItems.length > 0 ? 550 : 275;
+          this.maxWidth = 275;
         }
       },
       loadRules() {
@@ -306,21 +313,13 @@
           this.menu = false;
         }
       },
-      onSearch() {
+      async onSearch() {
         if (this.search) {
-          this.scopeItemsCopy = this.scopeItems.filter((p) => {
-            return p.showName.indexOf(this.search) > -1;
-          });
-          this.resourceItemsCopy = this.resourceItems.filter((p) => {
-            return p.showName.indexOf(this.search) > -1;
-          });
           this.ruleItemsCopy = this.ruleItems.filter((e) => {
-            return e.showName.indexOf(this.search) > -1;
+            return e.showName.toLowerCase().indexOf(this.search) > -1;
           });
           this.maxWidth = 825;
         } else {
-          this.scopeItemsCopy = this.scopeItems;
-          this.resourceItemsCopy = this.resourceItems;
           this.ruleItemsCopy = this.ruleItems;
           if (this.showResource && this.showRule) {
             this.maxWidth = 825;

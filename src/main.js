@@ -15,6 +15,7 @@
  */
 
 import Vue from 'vue';
+import VueClipboard from 'vue-clipboard2';
 import VueMeta from 'vue-meta';
 import ACEEditor from 'vue2-ace-editor';
 
@@ -38,6 +39,7 @@ Vue.component('Icon', Icon);
 
 Vue.use(ConstField);
 Vue.use(VueMeta);
+Vue.use(VueClipboard);
 
 const timeout = setTimeout(() => {
   // eslint-disable-next-line vue/require-name-property

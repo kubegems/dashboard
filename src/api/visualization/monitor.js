@@ -24,3 +24,14 @@ export const deleteMonitorDashboard = (environmentId, dashboardId, body = {}) =>
 
 // 监控大盘模版
 export const getMonitorDashboardTemplate = (query = {}) => axios(`observability/template/dashboard`, { params: query });
+
+// 监控大盘模版详情
+export const getMonitorDashboardTemplateDetail = (name, query = {}) =>
+  axios(`observability/template/dashboard/${name}`, { params: query });
+
+// 删除大盘模版
+export const deleteMonitorDashboardTemplate = (name, body = {}) =>
+  axios.delete(`observability/template/dashboard/${name}`, body);
+
+// 创建大盘模版
+export const postMonitorDashboardTemplate = (body = {}) => axios.post(`observability/template/dashboard`, body);
