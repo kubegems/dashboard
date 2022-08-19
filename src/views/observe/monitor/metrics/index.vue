@@ -42,7 +42,7 @@
           />
           <v-btn color="primary" small text @click="onRefresh(undefined)">
             <v-icon left small> mdi-refresh </v-icon>
-            刷新
+            {{ $root.$t('operate.refresh') }}
           </v-btn>
         </div>
       </template>
@@ -79,7 +79,12 @@
               <v-expansion-panel-content>
                 <v-form :ref="`${item._$id}-form`" lazy-validation @submit.prevent>
                   <!-- 项目环境 -->
-                  <BaseSubTitle class="mb-3" :title="queryList[index].isCluster ? '集群' : '环境'">
+                  <BaseSubTitle
+                    class="mb-3"
+                    :title="
+                      queryList[index].isCluster ? $root.$t('resource.cluster') : $root.$t('resource.environment')
+                    "
+                  >
                     <template #action>
                       <v-switch
                         v-if="AdminViewport"
@@ -91,7 +96,9 @@
                       >
                         <template #label>
                           <span class="text-body-2 font-weight-medium">
-                            {{ !queryList[index].isCluster ? '集群维度' : '环境维度' }}
+                            {{
+                              !queryList[index].isCluster ? $t('tip.cluster_latitude') : $t('tip.environment_latitude')
+                            }}
                           </span>
                         </template>
                       </v-switch>
@@ -108,8 +115,8 @@
                           item-text="text"
                           item-value="value"
                           :items="m_select_clusterItems"
-                          label="集群"
-                          no-data-text="暂无可选数据"
+                          :label="$root.$t('resource.cluster')"
+                          :no-data-text="$root.$t('data.no_data')"
                           return-object
                           :rules="fieldRules.required"
                           solo
@@ -139,7 +146,7 @@
                   <!-- 项目环境 -->
 
                   <!-- 资源规则 -->
-                  <BaseSubTitle class="mb-3" title="规则">
+                  <BaseSubTitle class="mb-3" :title="$t('tip.rule')">
                     <template #action>
                       <v-switch
                         v-model="queryList[index].ql"
@@ -163,7 +170,7 @@
                       class="px-2"
                       dense
                       flat
-                      label="查询语句"
+                      :label="$t('tip.query_ql')"
                       :rules="fieldRules.required"
                       solo
                     />
@@ -201,8 +208,8 @@
                     flat
                     item-text="text"
                     :items="queryList[index].unitItems"
-                    label="单位(回车可创建自定义单位)"
-                    no-data-text="暂无可选数据"
+                    :label="$t('tip.unit')"
+                    :no-data-text="$root.$t('data.no_data')"
                     :search-input.sync="queryList[index].unitText"
                     solo
                     @focus="setUnitItems(index)"
@@ -219,8 +226,8 @@
 
                   <!-- 查询 -->
                   <div class="queryer__panel-search">
-                    <v-btn class="mr-4" depressed @click="onRemove(item._$id)"> 移除 </v-btn>
-                    <v-btn color="primary" depressed @click="onSearch(item._$id)"> 查询 </v-btn>
+                    <v-btn class="mr-4" depressed @click="onRemove(item._$id)"> {{ $t('operate.remove') }} </v-btn>
+                    <v-btn color="primary" depressed @click="onSearch(item._$id)"> {{ $t('operate.query') }} </v-btn>
                   </div>
                   <!-- 查询 -->
                 </v-form>
@@ -232,13 +239,13 @@
             <v-col :cols="6">
               <v-btn block class="mt-4" @click="onClean">
                 <v-icon>mdi-redo</v-icon>
-                重置
+                {{ $root.$t('operate.reset') }}
               </v-btn>
             </v-col>
             <v-col :cols="6">
               <v-btn block class="mt-4" color="primary" @click="onAddQuery">
                 <v-icon>mdi-plus-box</v-icon>
-                添加查询
+                {{ $root.$t('operate.add_c', [$t('operate.query')]) }}
               </v-btn>
             </v-col>
           </v-row>
@@ -274,6 +281,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../i18n';
   import ButtonInput from './components/ButtonInput';
   import MetricsItem from './components/MetricsItem';
   import MetricsSuggestion from './components/MetricsSuggestion';
@@ -289,6 +297,9 @@
 
   export default {
     name: 'MetricsIndex',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddPrometheusRule,
       ButtonInput,
@@ -299,19 +310,6 @@
     },
     mixins: [BasePermission, BaseSelect, Metrics],
     data() {
-      this.fieldRules = {
-        cluster: (index) => {
-          return [
-            (v) => {
-              const query = this.queryList[index];
-              return !!v || !!query.project || '集群和项目环境不能同时为空';
-            },
-          ];
-        },
-        required: [required],
-        step: [(v) => !v || v.trim() === 'auto' || !!new RegExp('^\\d+$').test(v) || '格式错误(示例:整数)'],
-      };
-
       this.defaultParams = {
         _$id: `0-${Date.now()}`,
         cluster: undefined,
@@ -367,6 +365,20 @@
             data: this.metricsObject[id],
           };
         });
+      },
+      fieldRules() {
+        return {
+          cluster: (index) => {
+            return [
+              (v) => {
+                const query = this.queryList[index];
+                return !!v || !!query.project || this.$t('tip.all_null');
+              },
+            ];
+          },
+          required: [required],
+          step: [(v) => !v || v.trim() === 'auto' || !!new RegExp('^\\d+$').test(v) || this.$root.$t('ruler.integer')],
+        };
       },
     },
     mounted() {
@@ -456,7 +468,7 @@
         } else {
           if (!params.resourceObj) {
             this.$store.commit('SET_SNACKBAR', {
-              text: '请选择规则模板',
+              text: this.$t('tip.select_rule'),
               color: 'warning',
             });
             return;
@@ -543,7 +555,7 @@
           const params = this.getParams(query);
           if (!params.cluster || !params.namespace) {
             this.$store.commit('SET_SNACKBAR', {
-              text: '请选择环境',
+              text: this.$root.$t('tip.select_environment'),
               color: 'warning',
             });
             return;
@@ -551,7 +563,7 @@
           let data = await getMetricsQueryrange(params.cluster, params.namespace, params);
           if (data?.length > 30) {
             this.$store.commit('SET_SNACKBAR', {
-              text: '结果数量过多，截取30条',
+              text: this.$t('tip.limit_30'),
               color: 'warning',
             });
             data = data.slice(0, 30);
@@ -581,7 +593,7 @@
           })
         ) {
           this.$set(this.m_metrics_units, 'custom', {
-            cn: '自定义',
+            cn: this.$t('tip.custom'),
             value: [query.unitText],
           });
           this.setUnitItems(index, true);
@@ -594,7 +606,7 @@
           //
         } else {
           this.$store.commit('SET_SNACKBAR', {
-            text: `该集群还未启用 ${this.missingPlugins.join(', ')} 插件！`,
+            text: this.$root.$t('plugin.cluster_missing', [this.missingPlugins.join(', ')]),
             color: 'warning',
           });
           return;

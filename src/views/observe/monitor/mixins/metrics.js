@@ -2,28 +2,6 @@ const metrics = {
   data() {
     return {
       m_metrics_unitText: '',
-      m_metrics_units: {
-        short: {
-          cn: '默认',
-          value: ['n', 'u', 'm', '', 'K', 'Mil', 'Bil', 'Tri'],
-        },
-        bytes: {
-          cn: '字节',
-          value: ['B', 'KB', 'MB', 'GB', 'TB', 'PB'],
-        },
-        'bytes/sec': {
-          cn: '字节速率',
-          value: ['B/s', 'KB/s', 'MB/s', 'GB/s', 'TB/s', 'PB/s'],
-        },
-        duration: {
-          cn: '时间',
-          value: ['ns', 'us', 'ms', 's', 'm', 'h', 'd', 'w'],
-        },
-        percent: {
-          cn: '百分比',
-          value: ['0.0-1.0', '0-100'],
-        },
-      },
     };
   },
   computed: {
@@ -46,6 +24,30 @@ const metrics = {
       );
       return items;
     },
+    m_metrics_units() {
+      return {
+        short: {
+          cn: this.$t('tip.default'),
+          value: ['n', 'u', 'm', '', 'K', 'Mil', 'Bil', 'Tri'],
+        },
+        bytes: {
+          cn: this.$t('tip.byte'),
+          value: ['B', 'KB', 'MB', 'GB', 'TB', 'PB'],
+        },
+        'bytes/sec': {
+          cn: this.$t('tip.byte_rate'),
+          value: ['B/s', 'KB/s', 'MB/s', 'GB/s', 'TB/s', 'PB/s'],
+        },
+        duration: {
+          cn: this.$t('tip.time'),
+          value: ['ns', 'us', 'ms', 's', 'm', 'h', 'd', 'w'],
+        },
+        percent: {
+          cn: this.$t('tip.precent'),
+          value: ['0.0-1.0', '0-100'],
+        },
+      };
+    },
   },
   methods: {
     m_metrics_initItems(unit) {
@@ -55,7 +57,7 @@ const metrics = {
         })
       ) {
         this.$set(this.m_metrics_units, 'custom', {
-          cn: '自定义',
+          cn: this.$t('tip.custom'),
           value: [unit],
         });
       }
@@ -68,7 +70,7 @@ const metrics = {
         })
       ) {
         this.$set(this.m_metrics_units, 'custom', {
-          cn: '自定义',
+          cn: this.$t('tip.custom'),
           value: [this.m_metrics_unitText],
         });
       }

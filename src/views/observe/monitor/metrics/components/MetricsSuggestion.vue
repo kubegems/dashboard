@@ -28,9 +28,9 @@
     item-key="item.value"
     :items="items"
     :loading="loading"
-    loading-text="载入中..."
-    no-data-text="暂无指标"
-    no-results-text="无匹配"
+    :loading-text="$t('tip.loading')"
+    :no-data-text="$root.$t('data.no_data')"
+    :no-results-text="$root.$t('data.no_data')"
     :search="keyword"
     :style="{ top: `${top + topOffset}px`, left: `${left}px` }"
     @click:row="selectedItem"
@@ -42,10 +42,14 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
   import { getMetrics } from '@/api';
 
   export default {
     name: 'MetricsSuggestion',
+    i18n: {
+      messages: messages,
+    },
     props: {
       cluster: {
         type: String,
@@ -119,7 +123,7 @@
       async loadMetrics() {
         if (!this.cluster) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请先选择集群或者环境',
+            text: this.$t('tip.select_cluster_or_environment'),
             color: 'warning',
           });
           return;
