@@ -110,6 +110,7 @@
             { name: 'redis', chart: 'prometheus-redis-exporter' },
             { name: 'kafka', chart: 'prometheus-kafka-exporter' },
             { name: 'postgresql', chart: 'prometheus-postgres-exporter' },
+            { name: 'consul', chart: 'prometheus-consul-exporter' },
           ],
           harfItems: [...new Array(5).keys()],
         },

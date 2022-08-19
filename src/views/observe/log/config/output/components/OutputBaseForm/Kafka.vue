@@ -16,7 +16,7 @@
 
 <template>
   <div>
-    <BaseSubTitle title="kafka配置" />
+    <BaseSubTitle :title="$t('tip.config', ['kafka'])" />
     <v-form ref="form" v-model="valid" lazy-validation>
       <v-row class="px-2 mt-0">
         <v-col cols="6">
@@ -37,10 +37,14 @@
 </template>
 
 <script>
+  import messages from '../../../../i18n';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'Kafka',
+    i18n: {
+      messages: messages,
+    },
     props: {
       item: {
         type: Object,

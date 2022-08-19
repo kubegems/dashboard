@@ -41,7 +41,13 @@
     "alert_trend": "告警趋势",
     "alert_count": "告警次数",
     "global_alert": "此命名空间下告警规则将标记为全局告警",
-    "message_template": "消息模版"
+    "message_template": "消息模版",
+    "filter": "过滤器",
+    "match_app": "匹配应用",
+    "other": "其他",
+    "config": "{0}配置",
+    "base_config": "基本配置",
+    "plugin_type": "插件类型"
   },
   "operate": {
     "download_log": "下载日志",
@@ -74,7 +80,9 @@
     "channel": "渠道",
     "expr": "指标",
     "for": "评估时间",
-    "status": "状态"
+    "status": "状态",
+    "output": "路由器",
+    "plugin": "插件"
   },
   "tab": {
     "log_flow": "日志采集器",
@@ -84,10 +92,17 @@
   },
   "filter": {
     "receiver_name": "接收器名称",
-    "rule_name": "告警规则名称"
+    "rule_name": "告警规则名称",
+    "flow_name": "采集器名称",
+    "flow_type": "采集器类型",
+    "output_name": "路由器名称",
+    "output_type": "路由器类型",
+    "output_plugin": "插件"
   },
   "status": {
     "enabled": "启用",
-    "disabled": "禁用"
+    "disabled": "禁用",
+    "actived": "已激活",
+    "unactived": "未激活"
   }
 }

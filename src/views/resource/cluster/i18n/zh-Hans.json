@@ -1,7 +1,8 @@
 {
   "table": {
     "kubernetes_version": "Kubernetes版本",
-    "status": "状态"
+    "status": "状态",
+    "kubeconfig_expired": "配置有效期"
   },
   "tip": {
     "control_cluster": "控制集群",

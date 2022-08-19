@@ -41,14 +41,7 @@
             />
           </v-col>
           <v-col cols="12">
-            <v-textarea
-              v-model="obj.description"
-              auto-grow
-              class="my-0"
-              :label="$t('form.description')"
-              required
-              :rules="objRules.descriptionRule"
-            />
+            <v-textarea v-model="obj.description" auto-grow class="my-0" :label="$t('form.description')" required />
           </v-col>
           <v-col cols="12">
             <v-textarea v-model="obj.expr" auto-grow class="my-0" label="Expr" required :rules="objRules.exprRule" />
@@ -131,7 +124,7 @@
         showName: '',
         expr: '',
         labels: [],
-        unit: [],
+        unit: '',
         description: '',
         resourceID: 0,
       },

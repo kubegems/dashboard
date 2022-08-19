@@ -66,7 +66,7 @@
   import Files from './components/detail_tabs/Files';
   import Runtime from './components/detail_tabs/Runtime';
   import ModelInfo from './components/ModelInfo';
-  import { getModelRate, getModelStoreDetail } from '@/api';
+  import { getModelRate, getModelStoreDetail, postModelSync } from '@/api';
 
   export default {
     name: 'ModelStoreDetail',
@@ -155,7 +155,20 @@
       selcetVersion(version) {
         this.version = version;
       },
-      refreshModel() {},
+      async refreshModel() {
+        this.$store.commit('SET_CONFIRM', {
+          title: '同步算法模型',
+          content: {
+            text: `同步算法模型 ${this.$route.params.name}`,
+            type: 'confirm',
+          },
+          param: {},
+          doFunc: async () => {
+            await postModelSync(this.$route.query.registry, Base64.encode(this.$route.params.name));
+            this.modelDetail();
+          },
+        });
+      },
       setOnline(online) {
         this.online = online;
       },

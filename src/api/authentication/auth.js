@@ -16,3 +16,9 @@ export const postResetPassword = (body = {}) => axios.post(`my/reset_password`, 
 export const getSystemAuthSource = (query = {}) => axios(`system/authsource`, { params: query });
 // 生成token
 export const postGenerateToken = (query = {}) => axios.post(`oauth/token`, {}, { params: query });
+
+// 获取token
+export const getTokenList = (query = {}) => axios(`oauth/token`, { params: query });
+
+// 删除token
+export const deleteToken = (tokenId, body = {}) => axios.delete(`oauth/token/${tokenId}`, body);

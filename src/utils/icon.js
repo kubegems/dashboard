@@ -6,14 +6,20 @@ export function getIconName(name, def = 'kubernetes') {
   if (name.indexOf('volume-snapshoter') > -1) return 'logos:kubernetes';
   if (name.indexOf('node-problem-detector') > -1) return 'logos:kubernetes';
   if (name.indexOf('node-local-dns') > -1) return 'logos:kubernetes';
+  if (name === 'container') return 'logos:kubernetes';
+  if (name === 'log') return 'logos:kubernetes';
+  if (name === 'volume') return 'logos:kubernetes';
   if (name.indexOf('prometheus') > -1) return 'logos:prometheus';
-  if (name.indexOf('mysql') > -1) return 'logos:mysql';
+  if (name.indexOf('mysql') > -1) return 'logos:mysql-icon';
   if (name.indexOf('redis') > -1) return 'logos:redis';
   if (name.indexOf('nginx') > -1) return 'logos:nginx';
   if (name.indexOf('operator') > -1) return 'img:operator.svg';
   if (name.indexOf('elasticsearch') > -1) return 'logos:elasticsearch';
-  if (name.indexOf('mongodb') > -1) return 'logos:mongodb';
+  if (name === 'es') return 'logos:elasticsearch';
+  if (name.indexOf('mongodb') > -1) return 'logos:mongodb-icon';
+  if (name === 'mongo') return 'logos:mongodb-icon';
   if (name.indexOf('postgresql') > -1) return 'logos:postgresql';
+  if (name.indexOf('postgres') > -1) return 'logos:postgresql';
   if (name.indexOf('kibana') > -1) return 'logos:kibana';
   if (name.indexOf('cassandra') > -1) return 'logos:cassandra';
   if (name.indexOf('jenkins') > -1) return 'logos:jenkins';
@@ -199,6 +205,8 @@ export function getIconName(name, def = 'kubernetes') {
       return '';
     case 'license':
       return 'mdi:bank-outline';
+    case 'kubegems':
+      return 'img:kubegems.svg';
     default:
       return 'logos:kubernetes';
   }

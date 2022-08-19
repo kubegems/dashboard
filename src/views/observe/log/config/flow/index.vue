@@ -29,7 +29,7 @@
           <v-card class="pa-2" flat>
             <v-btn block color="primary" text @click="addFlow">
               <v-icon left>mdi-plus-box</v-icon>
-              创建采集器
+              {{ $root.$t('operate.create_c', [$root.$t('resource.flow')]) }}
             </v-btn>
           </v-card>
         </v-menu>
@@ -42,7 +42,7 @@
           :headers="headers"
           hide-default-footer
           :items="items"
-          no-data-text="暂无数据"
+          :no-data-text="$root.$t('data.no_data')"
         >
           <template #[`item.name`]="{ item }">
             <a class="text-subtitle-2 kubegems__inline_flex" @click="flowDetail(item)">
@@ -68,11 +68,11 @@
           <template #[`item.status`]="{ item }">
             <template v-if="item.status && item.status.active">
               <v-icon color="success" small> mdi-check-circle </v-icon>
-              已激活
+              {{ $t('status.actived') }}
             </template>
             <template v-else>
               <v-icon color="error" small> mdi-alert-circle </v-icon>
-              未激活
+              {{ $t('status.unactived') }}
             </template>
           </template>
           <template #[`item.action`]="{ item }">
@@ -91,7 +91,7 @@
                     text
                     @click="updateFlow(item)"
                   >
-                    编辑
+                    {{ $root.$t('operate.edit') }}
                   </v-btn>
                 </v-flex>
                 <v-flex>
@@ -103,7 +103,7 @@
                     text
                     @click="removeFlow(item)"
                   >
-                    删除
+                    {{ $root.$t('operate.delete') }}
                   </v-btn>
                 </v-flex>
               </v-card>
@@ -131,6 +131,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import AddFlow from './components/AddFlow';
   import UpdateFlow from './components/UpdateFlow';
   import { deleteClusterFlowData, deleteFlowData, getClusterFlowsData, getFlowsData } from '@/api';
@@ -138,6 +139,9 @@
 
   export default {
     name: 'LogFlow',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddFlow,
       UpdateFlow,
@@ -150,18 +154,6 @@
       },
     },
     data() {
-      this.filters = [
-        { text: '名称', value: 'name', items: [] },
-        {
-          text: '类型',
-          value: 'kind',
-          items: [
-            { text: 'Flow', value: 'Flow', parent: 'kind' },
-            { text: 'ClusterFlow', value: 'ClusterFlow', parent: 'kind' },
-          ],
-        },
-      ];
-
       this.cacheAll = [];
       this.cacheFilter = [];
 
@@ -183,18 +175,31 @@
       ...mapGetters(['Tenant']),
       headers() {
         const items = [
-          { text: '名称', value: 'name', align: 'start' },
-          { text: '类型', value: 'kind', align: 'start' },
-          { text: '命名空间', value: 'namespace', align: 'start' },
-          { text: '路由器', value: 'router', align: 'start' },
-          { text: '创建时间', value: 'createAt', align: 'start', width: 200 },
-          { text: '状态', value: 'status', align: 'start', width: 100 },
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
+          { text: this.$root.$t('resource.type'), value: 'kind', align: 'start' },
+          { text: this.$root.$t('resource.namespace'), value: 'namespace', align: 'start' },
+          { text: this.$t('table.output'), value: 'router', align: 'start' },
+          { text: this.$root.$t('resource.create_at'), value: 'createAt', align: 'start', width: 200 },
+          { text: this.$t('table.status'), value: 'status', align: 'start', width: 100 },
         ];
 
         if (this.m_permisson_resourceAllow(this.$route.query.env)) {
           items.push({ text: '', value: 'action', align: 'center', width: 20 });
         }
         return items;
+      },
+      filters() {
+        return [
+          { text: this.$t('filter.flow_name'), value: 'name', items: [] },
+          {
+            text: this.$t('filter.flow_type'),
+            value: 'kind',
+            items: [
+              { text: 'Flow', value: 'Flow', parent: 'kind' },
+              { text: 'ClusterFlow', value: 'ClusterFlow', parent: 'kind' },
+            ],
+          },
+        ];
       },
     },
     watch: {
@@ -261,9 +266,9 @@
       },
       removeFlow(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除采集器`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.flow')]),
           content: {
-            text: `删除采集器 ${item.metadata.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.flow')])} ${item.metadata.name}`,
             type: 'delete',
             name: item.metadata.name,
           },

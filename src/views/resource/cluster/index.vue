@@ -45,6 +45,15 @@
                   <v-icon v-else-if="item.Status === 0" color="error" small> mdi-heart-broken </v-icon>
                   <v-icon v-else color="success" small> mdi-heart-pulse </v-icon>
                 </v-list-item-subtitle>
+                <v-list-item-subtitle>
+                  <span class="text-body-2"> {{ $t('table.kubeconfig_expired') }} : </span>
+                  <span v-if="isExpiredSoon(item)" class="error white--text pa-1 rounded">
+                    {{ item.ClientCertExpireAt === '' ? '-' : $moment(item.ClientCertExpireAt).format('ll') }}(即将到期)
+                  </span>
+                  <span v-else class="success white--text pa-1 rounded">
+                    {{ item.ClientCertExpireAt === '' ? '-' : $moment(item.ClientCertExpireAt).format('ll') }}
+                  </span>
+                </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
 
@@ -203,6 +212,11 @@
             this.clusterList(true);
           },
         });
+      },
+      isExpiredSoon(item) {
+        const expiredAt = this.$moment(item.ClientCertExpireAt);
+        const now = this.$moment();
+        return new Date(now.add(10, 'days')) > new Date(expiredAt);
       },
     },
   };

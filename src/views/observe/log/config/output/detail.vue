@@ -32,10 +32,10 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" small text @click="updateOutput"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updateOutput"> {{ $root.$t('operate.edit') }} </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="removeOutput"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removeOutput"> {{ $root.$t('operate.delete') }} </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -92,11 +92,6 @@
     },
     mixins: [BasePermission],
     data() {
-      this.tabItems = [
-        { text: '资源信息', value: 'ResourceInfo' },
-        { text: '元数据', value: 'Metadata' },
-      ];
-
       return {
         output: null,
         tab: 0,
@@ -104,6 +99,12 @@
     },
     computed: {
       ...mapState(['AdminViewport']),
+      tabItems() {
+        return [
+          { text: this.$root.$t('tab.resource_info'), value: 'ResourceInfo' },
+          { text: this.$root.$t('tab.metadata'), value: 'Metadata' },
+        ];
+      },
     },
     mounted() {
       this.getOutputDetail();
@@ -125,9 +126,9 @@
       removeOutput() {
         const item = this.output;
         this.$store.commit('SET_CONFIRM', {
-          title: `删除日志路由器`,
+          title: this.$root.$t('operate.create_c', [this.$root.$t('resource.output')]),
           content: {
-            text: `删除日志路由器 ${item.metadata.name}`,
+            text: `${this.$root.$t('operate.create_c', [this.$root.$t('resource.output')])} ${item.metadata.name}`,
             type: 'delete',
             name: item.metadata.name,
           },

@@ -16,7 +16,7 @@
 
 <template>
   <div>
-    <BaseSubTitle title="基本配置" />
+    <BaseSubTitle :title="$t('tip.base_config')" />
     <v-form ref="form" v-model="valid" lazy-validation>
       <v-row class="px-2 mt-0">
         <v-col cols="6">
@@ -26,8 +26,8 @@
             color="primary"
             hide-selected
             :items="typeItems"
-            label="类型"
-            no-data-text="暂无可选数据"
+            :label="$root.$t('resource.type')"
+            :no-data-text="$root.$t('data.no_data')"
             :readonly="edit"
             :rules="objRules.kindRules"
           >
@@ -42,7 +42,7 @@
           <v-text-field
             v-model="obj.metadata.name"
             class="my-0"
-            label="名称"
+            :label="$t('table.name')"
             :readonly="edit"
             required
             :rules="objRules.nameRules"
@@ -56,8 +56,8 @@
             color="primary"
             hide-selected
             :items="pluginItems"
-            label="插件类型"
-            no-data-text="暂无可选数据"
+            :label="$t('tip.plugin_type')"
+            :no-data-text="$root.$t('data.no_data')"
             :readonly="edit"
             :rules="objRules.pluginRules"
             @change="onPluginChange"
@@ -79,6 +79,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../../../i18n';
   import Elasticsearch from './Elasticsearch';
   import Kafka from './Kafka';
   import Loki from './Loki';
@@ -88,6 +89,9 @@
 
   export default {
     name: 'OutputBaseForm',
+    i18n: {
+      messages: messages,
+    },
     components: {
       Elasticsearch,
       Loki,

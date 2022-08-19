@@ -39,3 +39,6 @@ export const getModelSourceDetail = (name, query = {}) => axios(`sources/${name}
 // 模型版本内容
 export const getModelVersionContent = (source, name, version, query = {}) =>
   axios(`sources/${source}/models/${name}/versions/${version}`, { params: query });
+
+// 同步模型
+export const postModelSync = (source, model, body = {}) => axios.post(`sources/${source}/models/${model}/sync`, body);
