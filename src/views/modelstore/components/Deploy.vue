@@ -14,7 +14,7 @@
  * limitations under the License. 
 -->
 <template>
-  <BaseFullScreenDialog v-model="dialog" kubegems-logo :title="title" @dispose="dispose">
+  <BaseFullScreenDialog v-model="dialog" kubegems-logo :title="$root.$t('header.model_store')" @dispose="dispose">
     <template #content>
       <v-flex>
         <v-row class="mt-0 ma-0">
@@ -53,7 +53,6 @@
     },
     data: () => ({
       dialog: false,
-      title: '算法商店',
     }),
     computed: {
       ...mapState(['Scale']),

@@ -20,15 +20,15 @@
         <v-flex class="kubegems__full-right">
           <v-btn class="primary--text" small text @click="deployModel">
             <v-icon left small> mdi-rocket </v-icon>
-            部署
+            {{ $root.$t('operate.deploy') }}
           </v-btn>
           <v-btn v-if="!online" class="primary--text" small text @click="refreshModel">
             <v-icon left small>mdi-refresh</v-icon>
-            刷新
+            {{ $root.$t('operate.refresh') }}
           </v-btn>
           <v-btn class="primary--text" small text @click="returnModel">
             <v-icon left small>mdi-reply</v-icon>
-            返回
+            {{ $root.$t('operate.return') }}
           </v-btn>
         </v-flex>
       </template>
@@ -66,10 +66,14 @@
   import Files from './components/detail_tabs/Files';
   import Runtime from './components/detail_tabs/Runtime';
   import ModelInfo from './components/ModelInfo';
+  import messages from './i18n';
   import { getModelRate, getModelStoreDetail, postModelSync } from '@/api';
 
   export default {
     name: 'ModelStoreDetail',
+    i18n: {
+      messages: messages,
+    },
     components: {
       Breadcrumb,
       Certificate,
@@ -91,13 +95,6 @@
 
       return {
         tab: this.tabMap[this.$route.query.tab] || 0,
-        tabItems: [
-          { text: '介绍', value: 'Description', tab: 'description' },
-          { text: '文件', value: 'Files', tab: 'files' },
-          { text: '讨论区', value: 'Comment', tab: 'comment' },
-          { text: '运行实例', value: 'Runtime', tab: 'runtime' },
-          // { text: '证书', value: 'Certificate', tab: 'certificate' },
-        ],
         item: undefined,
         version: '',
         online: true,
@@ -106,6 +103,15 @@
     computed: {
       currentComponent() {
         return this.tabItems[this.tab].value;
+      },
+      tabItems() {
+        return [
+          { text: this.$t('tab.description'), value: 'Description', tab: 'description' },
+          { text: this.$t('tab.files'), value: 'Files', tab: 'files' },
+          { text: this.$t('tab.comment'), value: 'Comment', tab: 'comment' },
+          { text: this.$t('tab.runtime'), value: 'Runtime', tab: 'runtime' },
+          // { text: this.$t('tab.certificate'), value: 'Certificate', tab: 'certificate' },
+        ];
       },
     },
     watch: {

@@ -26,7 +26,7 @@
         <div class="kubegems__clear-float" />
       </div>
     </template>
-    <div v-else class="text-center text-body-2 kubegems__text">暂无文件</div>
+    <div v-else class="text-center text-body-2 kubegems__text">{{ $root.$t('data.no_data') }}</div>
   </div>
 </template>
 

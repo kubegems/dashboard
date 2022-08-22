@@ -20,13 +20,13 @@
       <v-card-text class="pa-0">
         <v-sheet class="pt-2 px-0">
           <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width">
-            <span>邮箱配置</span>
+            <span>{{ $t('tip.email_config') }}</span>
           </v-flex>
           <v-flex class="float-left ml-0 kubegems__form-width">
             <v-text-field
               v-model="smtpServerInput"
               class="my-0"
-              label="SMTP服务器"
+              :label="$t('tip.smtp')"
               required
               :rules="emailConfigRules.smtpServerRule"
             />
@@ -54,7 +54,7 @@
             <v-text-field
               v-model="emailConfig.from"
               class="my-0"
-              label="发件人邮箱"
+              :label="$t('tip.send')"
               required
               :rules="emailConfigRules.fromRule"
             />
@@ -64,7 +64,7 @@
               v-model="emailConfig.authPassword"
               :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
               class="my-0 ml-2"
-              label="发件人邮箱密码"
+              :label="$t('tip.send_passwd')"
               required
               :rules="emailConfigRules.authPasswordRule"
               :type="show ? 'text' : 'password'"
@@ -83,9 +83,9 @@
               color="primary"
               hide-selected
               :items="emailToSelect"
-              label="收件人"
+              :label="$t('tip.recv')"
               multiple
-              no-data-text="暂无可选数据"
+              :no-data-text="$root.$t('data.no_data')"
               :rules="emailConfigRules.toRule"
               :search-input.sync="emailText"
               @change="onEmailChange"
@@ -110,9 +110,9 @@
       </v-card-text>
       <v-card-actions class="pa-0">
         <v-spacer />
-        <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
-        <v-btn color="primary" small text @click="sendTestEmail"> 发送测试邮件 </v-btn>
-        <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
+        <v-btn color="error" small text @click="closeCard"> {{ $root.$t('operate.cancel') }} </v-btn>
+        <v-btn color="primary" small text @click="sendTestEmail"> {{ $t('operate.send_test') }} </v-btn>
+        <v-btn color="primary" small text @click="addData"> {{ $root.$t('operate.save') }} </v-btn>
       </v-card-actions>
     </v-card>
   </v-form>
@@ -121,6 +121,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../../../../i18n';
   import { getEnvironmentUserList, postSendTestEmail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
@@ -128,6 +129,9 @@
 
   export default {
     name: 'EmailForm',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     props: {
       configIndex: {
@@ -239,7 +243,7 @@
         if (!this.emailText) return;
         if (!new RegExp('^[\\.a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$').test(this.emailText)) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '邮箱格式错误',
+            text: this.$root.$t('ruler.email'),
             color: 'warning',
           });
           return;
@@ -279,7 +283,7 @@
             to: this.emailConfig.to,
           });
           this.$store.commit('SET_SNACKBAR', {
-            text: '发送测试邮件成功！',
+            text: this.$t('tip.test_success'),
             color: 'success',
           });
         }

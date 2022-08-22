@@ -26,21 +26,107 @@
     "byte": "字节",
     "byte_rate": "字节速率",
     "time": "时间",
-    "precent": "百分比"
+    "precent": "百分比",
+
+    "email": "邮箱",
+    "send": "发件人",
+    "recv": "收件人",
+    "smtp": "SMTP服务器",
+    "alert_channel": "告警渠道",
+    "add_alert_channel": "请添加告警渠道",
+    "email_config": "邮箱配置",
+    "send_passwd": "发件人邮箱密码",
+    "test_success": "发送测试邮件成功!",
+
+    "rule_detail": "规则详情",
+    "alert_trend": "告警趋势",
+    "alert_count": "告警次数",
+    "global_alert": "此命名空间下告警规则将标记为全局告警",
+    "message_template": "消息模版",
+    "add_alert_severity": "请添加告警级别",
+    "alert_message": "告警消息",
+    "receiver_config": "接收器配置",
+    "send_interval": "发送间隔",
+    "label_filter": "标签筛选",
+    "alert_severity_config": "告警级别配置",
+    "split_by_vertical": "多值以 | 分割",
+    "trigger_condition": "触发条件",
+    "trigger_val": "阈值",
+    "alert_severity": "告警级别",
+    "critical": "紧急",
+    "error": "重要",
+    "gt": "大于",
+    "gte": "大于或等于",
+    "lt": "小于",
+    "lte": "小于或等于",
+    "eq": "等于",
+    "neq": "不等于",
+
+    "related_service": "关联服务",
+    "task_label": "任务标签",
+    "match_label": "匹配标签",
+    "match_namespace": "匹配命名空间",
+    "endpoint_config": "端点配置",
+    "endpoint": "端点",
+    "port_type": "端口类型"
   },
   "tab": {
     "generate_from_template": "由模版生成",
     "generate_from_promql": "由PromQl生成",
+    "generate_from_logql": "由LogQl生成",
     "servicemonitor": "指标采集器",
     "prometheus_rule": "监控告警规则",
-    "receiver": "告警接收器"
+    "receiver": "告警接收器",
+
+    "living_alert": "实时告警",
+    "history_alert": "历史告警"
   },
   "form": {
-    "all_null": "集群和项目环境不能同时为空"
+    "all_null": "集群和项目环境不能同时为空",
+    "mode": "模式",
+    "match_string": "匹配的字符串(支持正则)",
+    "dest_container": "目标容器",
+    "time": "时长",
+    "inhabit_label": "抑制标签"
   },
   "operate": {
     "query": "查询",
     "remove": "移除",
-    "set_alert": "设置告警"
+    "set_alert": "设置告警",
+    "send_test": "发送测试邮件",
+    "enable": "启用",
+    "disable": "禁用",
+    "enable_c": "启用{0}",
+    "disable_c": "禁用{0}"
+  },
+  "filter": {
+    "receiver_name": "接收器名称",
+    "rule_name": "告警规则名称",
+    "servicemonitor_name": "采集器名称"
+  },
+  "table": {
+    "name": "名称",
+    "channel": "渠道",
+    "expr": "指标",
+    "for": "评估时间",
+    "status": "状态",
+    "message": "消息",
+    "severity": "级别",
+    "first_at": "首次触发时间",
+    "trigger_val": "触发值",
+    "end_at": "结束时间",
+    "last_alert_at": "上次告警时间",
+    "alert_count": "告警数量",
+    "port": "采集端口",
+    "path": "采集路径",
+    "timeout": "超时时间",
+    "interval": "间隔",
+    "metric_first": "指标优先",
+    "port_name": "端口名",
+    "port_number": "端口号"
+  },
+  "status": {
+    "enabled": "启用",
+    "disabled": "禁用"
   }
 }

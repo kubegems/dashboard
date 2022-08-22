@@ -30,7 +30,7 @@
       <div class="kubegems__clear-float" />
     </div>
 
-    <BaseSubTitle class="mt-3" color="grey lighten-3" :divider="false" title="部署信息" />
+    <BaseSubTitle class="mt-3" color="grey lighten-3" :divider="false" :title="$t('tip.deploy_info')" />
     <v-card-text class="pa-2">
       <v-row>
         <v-col cols="12">
@@ -39,7 +39,7 @@
             hide-no-data
             hide-selected
             :items="implementationItems"
-            label="运行时"
+            :label="$t('tip.runtime')"
             :menu-props="{
               bottom: true,
               left: true,
@@ -65,7 +65,7 @@
             hide-no-data
             hide-selected
             :items="protocolItems"
-            label="协议"
+            :label="$t('tip.protocol')"
             :menu-props="{
               bottom: true,
               left: true,
@@ -83,7 +83,7 @@
           <v-text-field
             v-if="obj.server.kind === ''"
             v-model="obj.server.image"
-            label="镜像"
+            :label="$t('tip.image')"
             :rules="objRules.imageRules"
           />
 
@@ -99,21 +99,21 @@
 
     <ResourceConf ref="resourceConf" :base="base" :spec="spec" />
 
-    <v-switch v-model="advanced" class="ml-3" label="高级配置" />
+    <v-switch v-model="advanced" class="ml-3" :label="$t('tip.advanced_config')" />
 
     <template v-if="advanced">
-      <BaseSubTitle class="mt-3" color="grey lighten-3" :divider="false" title="访问信息" />
+      <BaseSubTitle class="mt-3" color="grey lighten-3" :divider="false" :title="$t('tip.access_info')" />
       <v-card-text class="pa-2">
         <v-row>
           <v-col cols="12">
-            <v-text-field v-model="obj.ingress.host" label="访问域名" />
+            <v-text-field v-model="obj.ingress.host" :label="$t('tip.domain')" />
 
             <v-autocomplete
               v-model="gateway"
               hide-no-data
               hide-selected
               :items="gatewayItems"
-              label="网关"
+              :label="$t('tip.gateway')"
               :menu-props="{
                 bottom: true,
                 left: true,
@@ -135,7 +135,7 @@
       </v-card-text>
 
       <template v-if="obj.server.kind === ''">
-        <BaseSubTitle class="mt-3" color="grey lighten-3" :divider="false" title="模型挂载" />
+        <BaseSubTitle class="mt-3" color="grey lighten-3" :divider="false" :title="$t('tip.model_mount')" />
         <v-card-text class="pa-2">
           <v-row>
             <v-col cols="12">
@@ -144,7 +144,7 @@
           </v-row>
         </v-card-text>
 
-        <BaseSubTitle class="mt-3" color="grey lighten-3" :divider="false" title="启动参数" />
+        <BaseSubTitle class="mt-3" color="grey lighten-3" :divider="false" :title="$t('tip.run_params')" />
         <v-card-text class="pa-2">
           <v-row>
             <v-col cols="12">
@@ -164,6 +164,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../../i18n';
   import Args from './Args';
   import Command from './Command';
   import Env from './Env';
@@ -175,6 +176,9 @@
 
   export default {
     name: 'DeployAdvancedConf',
+    i18n: {
+      messages: messages,
+    },
     components: {
       Args,
       Command,
@@ -243,7 +247,7 @@
         objRules: {
           imageRules: [required],
           protocolRules: [required],
-          implementationRules: [(v) => !!(v?.trim()?.length > 0 || v === '') || '必填项'],
+          implementationRules: [(v) => !!(v?.trim()?.length > 0 || v === '') || this.$t('tip.required')],
           gatewayRules: [required],
           licenseRules: [required],
         },

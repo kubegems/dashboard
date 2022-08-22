@@ -21,7 +21,7 @@
         <v-card-text class="pa-0">
           <v-sheet class="pt-2 px-2">
             <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width">
-              <span>端点定义</span>
+              <span>{{ $root.$t('form.definition', [$t('tip.endpoint')]) }}</span>
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-autocomplete
@@ -30,8 +30,8 @@
                 color="primary"
                 hide-selected
                 :items="portSelect"
-                label="端口类型"
-                no-data-text="暂无可选数据"
+                :label="$t('tip.port_type')"
+                :no-data-text="$root.$t('data.no_data')"
                 required
                 :rules="endpointRules.typeRule"
                 value="port"
@@ -52,7 +52,7 @@
               <v-text-field
                 v-model="endpoint.port"
                 class="my-0"
-                label="端口名(port)"
+                :label="$t('table.port_name')"
                 required
                 :rules="endpointRules.portRules"
               />
@@ -61,21 +61,21 @@
               <v-text-field
                 v-model="endpoint.targetPort"
                 class="my-0"
-                label="端口号(targetPort)"
+                :label="$t('table.port_number')"
                 required
                 :rules="endpointRules.targetPortRules"
                 type="number"
               />
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
-              <v-text-field v-model="endpoint.path" class="my-0" label="路径" required />
+              <v-text-field v-model="endpoint.path" class="my-0" :label="$t('table.path')" required />
             </v-flex>
             <v-flex class="float-left text-subtitle-2 py-1 primary--text kubegems__min-width" />
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-text-field
                 v-model="endpoint.interval"
                 class="my-0"
-                label="间隔"
+                :label="$t('table.interval')"
                 required
                 :rules="endpointRules.intervalRule"
               />
@@ -84,7 +84,7 @@
               <v-text-field
                 v-model="endpoint.scrapeTimeout"
                 class="my-0"
-                label="超时"
+                :label="$t('table.timeout')"
                 required
                 :rules="endpointRules.scrapeTimeoutRule"
               />
@@ -95,7 +95,7 @@
                 v-model="honorLabel"
                 class="mt-4"
                 hide-details
-                label="指标标签优先"
+                :label="$t('table.metric_first')"
                 @change="onHonorLabelChange"
               />
             </v-flex>
@@ -104,8 +104,8 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
-          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> {{ $root.$t('operate.cancel') }} </v-btn>
+          <v-btn color="primary" small text @click="addData"> {{ $root.$t('operate.save') }} </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -113,11 +113,15 @@
 </template>
 
 <script>
+  import messages from '../../../../i18n';
   import { deepCopy } from '@/utils/helpers';
-  import { required } from '@/utils/rules';
+  import { required, timeInterval } from '@/utils/rules';
 
   export default {
     name: 'EndpointForm',
+    i18n: {
+      messages: messages,
+    },
     props: {
       data: {
         type: Array,
@@ -139,33 +143,23 @@
           honorLabels: true,
         },
         portSelector: 'port',
-        portSelect: [
-          { text: '端口名', value: 'port' },
-          { text: '端口号', value: 'targetPort' },
-        ],
         honorLabel: true,
         endpointRules: {
           typeRule: [required],
           portRules: [required],
           targetPortRules: [required],
-          intervalRule: [
-            (v) =>
-              v === undefined ||
-              v === null ||
-              v === '' ||
-              !!new RegExp('(^\\d+[s|m|h]$)').test(v) ||
-              '格式错误(示例:30s,1m,1h)',
-          ],
-          scrapeTimeoutRule: [
-            (v) =>
-              v === undefined ||
-              v === null ||
-              v === '' ||
-              !!new RegExp('(^\\d+[s|m|h]$)').test(v) ||
-              '格式错误(示例:30s,1m,1h)',
-          ],
+          intervalRule: [timeInterval],
+          scrapeTimeoutRule: [timeInterval],
         },
       };
+    },
+    computed: {
+      portSelect() {
+        return [
+          { text: this.$t('table.port_name'), value: 'port' },
+          { text: this.$t('table.port_number'), value: 'targetPort' },
+        ];
+      },
     },
     watch: {
       data() {

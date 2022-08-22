@@ -29,10 +29,14 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
-                  <v-btn color="primary" small text @click="updatePrometheusRule"> 编辑 </v-btn>
+                  <v-btn color="primary" small text @click="updatePrometheusRule">
+                    {{ $root.$t('operate.edit') }}
+                  </v-btn>
                 </v-flex>
                 <v-flex>
-                  <v-btn color="error" small text @click="removePrometheusRule"> 删除 </v-btn>
+                  <v-btn color="error" small text @click="removePrometheusRule">
+                    {{ $root.$t('operate.delete') }}
+                  </v-btn>
                 </v-flex>
               </v-card-text>
             </v-card>
@@ -44,7 +48,7 @@
     <v-row>
       <v-col cols="6">
         <v-card class="mt-0" flat>
-          <BaseSubTitle class="pa-2" :divider="false" title="规则详情" />
+          <BaseSubTitle class="pa-2" :divider="false" :title="$t('tip.rule_detail')" />
           <v-card-text class="px-6 pt-0" :style="{ overflowY: 'auto', height: '330px' }">
             <pre class="yaml-pre">{{ yaml }}</pre>
           </v-card-text>
@@ -52,14 +56,14 @@
       </v-col>
       <v-col cols="6">
         <v-card class="mt-0" flat>
-          <BaseSubTitle class="pa-2" :divider="false" title="告警趋势" />
+          <BaseSubTitle class="pa-2" :divider="false" :title="$t('tip.alert_trend')" />
           <v-card-text class="px-6 pt-0" :style="{ height: '330px' }">
             <AlertBarChart
               :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
               :extend-height="280"
               label="name"
               :metrics="metrics"
-              title="告警次数"
+              :title="$t('tip.alert_count')"
             />
           </v-card-text>
         </v-card>
@@ -78,6 +82,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import AlertBarChart from './components/AlertBarChart';
   import AlertList from './components/AlertList';
   import UpdatePrometheusRule from './components/UpdatePrometheusRule';
@@ -88,6 +93,9 @@
 
   export default {
     name: 'PrometheusRuleDetail',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AlertBarChart,
       AlertList,
@@ -143,9 +151,9 @@
       removePrometheusRule() {
         const item = this.prometheusRule;
         this.$store.commit('SET_CONFIRM', {
-          title: `删除告警规则`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.prometheus_rule')]),
           content: {
-            text: `删除告警规则 ${item.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.prometheus_rule')])} ${item.name}`,
             type: 'delete',
             name: item.name,
           },

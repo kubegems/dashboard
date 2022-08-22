@@ -15,12 +15,12 @@
 -->
 <template>
   <v-flex>
-    <BaseSubTitle title="模型评论定义" />
+    <BaseSubTitle :title="$root.$t('form.definition', [$t('tip.comment')])" />
     <v-card-text class="pa-2">
       <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
         <v-row>
           <v-col v-if="!reply" cols="12">
-            <label class="v-label theme--light">评分</label>
+            <label class="v-label theme--light">{{ $t('tip.user_comment') }}</label>
             <v-rating
               v-model="obj.rating"
               background-color="orange lighten-3"
@@ -33,7 +33,7 @@
             <v-textarea
               v-model="obj.content"
               auto-grow
-              :label="reply ? '回复评论' : '评论'"
+              :label="reply ? $t('operate.reply_c', [$t('tip.comment')]) : $t('tip.comment')"
               :rules="objRules.contentRules"
             />
           </v-col>
@@ -44,11 +44,15 @@
 </template>
 
 <script>
+  import messages from '../../../i18n';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'CommentBaseForm',
+    i18n: {
+      messages: messages,
+    },
     props: {
       item: {
         type: Object,

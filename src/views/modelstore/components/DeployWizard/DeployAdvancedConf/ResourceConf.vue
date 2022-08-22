@@ -15,24 +15,33 @@
 -->
 <template>
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
-    <BaseSubTitle class="mt-3" color="grey lighten-3" :divider="false" title="资源部署" />
+    <BaseSubTitle class="mt-3" color="grey lighten-3" :divider="false" :title="$t('tip.resource_deploy')" />
     <v-card-text class="pa-2">
       <v-row>
         <v-col cols="4">
-          <v-text-field v-model.number="obj.replicas" label="实例数" :rules="objRules.replicasRules" type="number" />
+          <v-text-field
+            v-model.number="obj.replicas"
+            :label="$t('tip.replicas')"
+            :rules="objRules.replicasRules"
+            type="number"
+          />
         </v-col>
         <v-col cols="4">
-          <v-text-field v-model="obj.server.resources.limits.cpu" label="分配CPU" :rules="objRules.limitsCpuRule" />
+          <v-text-field
+            v-model="obj.server.resources.limits.cpu"
+            :label="$t('tip.allocated', [$root.$t('resource.cpu')])"
+            :rules="objRules.limitsCpuRule"
+          />
         </v-col>
         <v-col cols="4">
           <v-text-field
             v-model="obj.server.resources.limits.memory"
-            label="分配内存"
+            :label="$t('tip.allocated', [$root.$t('resource.memory')])"
             :rules="objRules.limitsMemoryRule"
           />
         </v-col>
         <v-col v-if="gpuData.NvidiaGpu || gpuData.TkeGpu || gpuData.TkeMemory" cols="4">
-          <v-switch v-model="gpu" class="ml-1" label="分配GPU" />
+          <v-switch v-model="gpu" class="ml-1" :label="$t('tip.allocated', [$root.$t('resource.gpu')])" />
         </v-col>
       </v-row>
     </v-card-text>
@@ -50,13 +59,14 @@
             <v-col cols="4">
               <v-text-field
                 v-model="obj.server.resources.limits['limits.nvidia.com/gpu']"
-                label="分配gpu"
+                :label="$t('tip.allocated', [$root.$t('resource.gpu')])"
                 :rules="objRules.nvidiaGpuRule"
                 type="number"
               >
                 <template #append>
                   <span class="text-body-2 kubegems__text">
-                    可使用 {{ gpuData.ApplyNvidiaGpu || 0 }}/总共 {{ gpuData.NvidiaGpu || 0 }}
+                    {{ $t('tip.can_use') }} {{ gpuData.ApplyNvidiaGpu || 0 }}/{{ $t('tip.total') }}
+                    {{ gpuData.NvidiaGpu || 0 }}
                   </span>
                 </template>
               </v-text-field>
@@ -72,13 +82,16 @@
             <v-col cols="4">
               <v-text-field
                 v-model="obj.server.resources.limits['tencent.com/vcuda-core']"
-                label="分配显卡"
+                :label="$t('tip.allocated', [$t('tip.video_card')])"
                 :rules="objRules.vcudaGpuRule"
                 type="number"
               >
                 <template #append>
                   <span class="text-body-2 kubegems__text">
-                    可使用 {{ gpuData.ApplyTkeGpu / 100 || 0 }} 核心/总共 {{ gpuData.TkeGpu / 100 || 0 }} 核心
+                    {{ $t('tip.can_use') }} {{ gpuData.ApplyTkeGpu / 100 || 0 }} {{ $t('tip.core') }}/{{
+                      $t('tip.total')
+                    }}
+                    {{ gpuData.TkeGpu / 100 || 0 }} {{ $t('tip.core') }}
                   </span>
                 </template>
               </v-text-field>
@@ -86,13 +99,13 @@
             <v-col cols="4">
               <v-text-field
                 v-model="obj.server.resources.limits['tencent.com/vcuda-memory']"
-                label="分配显存"
+                :label="$t('tip.allocated', [$root.$t('resource.video_memory')])"
                 :rules="objRules.vcudaMemoryRule"
                 type="number"
               >
                 <template #append>
                   <span class="text-body-2 kubegems__text">
-                    可使用 {{ (gpuData.ApplyTkeMemory * 256) / 1024 || 0 }} Gi/总共
+                    {{ $t('tip.can_use') }} {{ (gpuData.ApplyTkeMemory * 256) / 1024 || 0 }} Gi/{{ $t('tip.total') }}
                     {{ (gpuData.TkeMemory * 256) / 1024 || 0 }} Gi
                   </span>
                 </template>
@@ -108,12 +121,16 @@
 <script>
   import { mapGetters } from 'vuex';
 
+  import messages from '../../../i18n';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
   import { positiveInteger } from '@/utils/rules';
 
   export default {
     name: 'ResourceConf',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     props: {
       base: {
@@ -159,22 +176,24 @@
       objRules() {
         return {
           replicasRules: [positiveInteger],
-          limitsCpuRule: [(v) => (!!new RegExp('^\\d+[m]?$').test(v) && parseInt(v) >= 0) || '格式错误(示例:1m,1)'],
+          limitsCpuRule: [(v) => (!!new RegExp('^\\d+[m]?$').test(v) && parseInt(v) >= 0) || this.$t('form.cpu_rule')],
           limitsMemoryRule: [
-            (v) => (!!new RegExp('(^\\d+[M|G]i$)').test(v) && parseInt(v) >= 0) || '格式错误(示例:1Mi,1Gi)',
+            (v) => (!!new RegExp('(^\\d+[M|G]i$)').test(v) && parseInt(v) >= 0) || this.$t('form.memory_rule'),
           ],
           nvidiaGpuRule: [
             positiveInteger,
-            (v) => parseFloat(v) >= 0 || '格式错误(>=0)',
-            (v) => parseFloat(v) <= parseFloat(this.gpuData.ApplyNvidiaGpu || 0) || '超出最大限制',
+            (v) => parseFloat(v) >= 0 || this.$t('form.gte_0_rule'),
+            (v) => parseFloat(v) <= parseFloat(this.gpuData.ApplyNvidiaGpu || 0) || this.$t('form.limit_max_rule'),
           ],
           vcudaGpuRule: [
-            (v) => parseFloat(v) >= 0 || '格式错误(>=0)',
-            (v) => parseFloat(v) <= parseFloat(this.gpuData.ApplyTkeGpu || 0) / 100 || '超出最大限制',
+            (v) => parseFloat(v) >= 0 || this.$t('form.gte_0_rule'),
+            (v) => parseFloat(v) <= parseFloat(this.gpuData.ApplyTkeGpu || 0) / 100 || this.$t('form.limit_max_rule'),
           ],
           vcudaMemoryRule: [
-            (v) => parseFloat(v) >= 0 || '格式错误(>=0)',
-            (v) => parseFloat(v) <= (parseFloat(this.gpuData.ApplyTkeMemory || 0) * 256) / 1024 || '超出最大限制',
+            (v) => parseFloat(v) >= 0 || this.$t('form.gte_0_rule'),
+            (v) =>
+              parseFloat(v) <= (parseFloat(this.gpuData.ApplyTkeMemory || 0) * 256) / 1024 ||
+              this.$t('form.limit_max_rule'),
           ],
         };
       },

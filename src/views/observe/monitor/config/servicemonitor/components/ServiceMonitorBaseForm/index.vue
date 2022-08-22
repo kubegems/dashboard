@@ -18,14 +18,14 @@
   <v-flex>
     <v-form ref="form" v-model="valid" lazy-validation>
       <v-flex :class="expand ? 'kubegems__overlay' : ''" />
-      <BaseSubTitle title="采集器定义" />
+      <BaseSubTitle :title="$root.$t('form.definition', [$root.$t('resource.service_monitor')])" />
       <v-card-text class="pa-2">
         <v-row>
           <v-col cols="6">
             <v-text-field
               v-model="obj.metadata.name"
               class="my-0"
-              label="名称"
+              :label="$t('table.name')"
               :readonly="!edit"
               required
               :rules="objRules.nameRule"
@@ -39,8 +39,8 @@
               color="primary"
               hide-selected
               :items="m_select_serviceItems"
-              label="关联服务"
-              no-data-text="暂无可选数据"
+              :label="$t('tip.related_service')"
+              :no-data-text="$root.$t('data.no_data')"
               :rules="objRules.selectorRule"
               @change="onServiceSelectorChange"
               @focus="onServiceSelectFocus"
@@ -56,7 +56,7 @@
       </v-card-text>
 
       <EndpointForm ref="endpointForm" :data="obj.spec.endpoints" @addData="addData" @closeOverlay="closeExpand" />
-      <BaseSubTitle title="端点配置" />
+      <BaseSubTitle :title="$t('tip.endpoint_config')" />
       <v-card-text class="pa-2">
         <EndpointItem
           :endpoints="obj.spec.endpoints"
@@ -72,6 +72,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../../../i18n';
   import EndpointForm from './EndpointForm';
   import EndpointItem from './EndpointItem';
   import BaseResource from '@/mixins/resource';
@@ -80,6 +81,9 @@
 
   export default {
     name: 'ServiceMonitorBaseForm',
+    i18n: {
+      messages: messages,
+    },
     components: {
       EndpointForm,
       EndpointItem,
@@ -174,7 +178,7 @@
         this.obj.metadata.namespace = namespace;
         if (!this.obj.metadata.namespace) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请先选择命名空间',
+            text: this.$root.$t('tip.select_namespace'),
             color: 'warning',
           });
           return;

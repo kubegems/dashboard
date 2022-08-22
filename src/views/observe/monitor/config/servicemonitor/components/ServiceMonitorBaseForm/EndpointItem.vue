@@ -22,7 +22,9 @@
           <v-list-item-subtitle class="text-body-2 py-0">
             <v-list-item v-if="item.port" class="float-left py-0 pl-0" :style="{ width: `220px` }" two-line>
               <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1 primary--text"> 端口名 </v-list-item-title>
+                <v-list-item-title class="text-subtitle-2 py-1 primary--text">
+                  {{ $t('table.port_name') }}
+                </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1">
                   {{ item.port ? item.port : '-' }}
                 </v-list-item-subtitle>
@@ -30,7 +32,9 @@
             </v-list-item>
             <v-list-item v-if="item.targetPort" class="float-left py-0 pl-0" :style="{ width: `220px` }" two-line>
               <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1 primary--text"> 端口号 </v-list-item-title>
+                <v-list-item-title class="text-subtitle-2 py-1 primary--text">
+                  {{ $t('table.port_number') }}
+                </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1">
                   {{ item.targetPort ? item.targetPort : '-' }}
                 </v-list-item-subtitle>
@@ -38,7 +42,9 @@
             </v-list-item>
             <v-list-item class="float-left py-0 pl-0" :style="{ width: `220px` }" two-line>
               <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1 primary--text"> 路径 </v-list-item-title>
+                <v-list-item-title class="text-subtitle-2 py-1 primary--text">
+                  {{ $t('table.path') }}
+                </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1">
                   {{ item.path ? item.path : '-' }}
                 </v-list-item-subtitle>
@@ -46,7 +52,9 @@
             </v-list-item>
             <v-list-item class="float-left py-0 pl-0" :style="{ width: `220px` }" two-line>
               <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1 primary--text"> 拉取间隔 </v-list-item-title>
+                <v-list-item-title class="text-subtitle-2 py-1 primary--text">
+                  {{ $t('table.interval') }}
+                </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1">
                   {{ item.interval ? item.interval : '-' }}
                 </v-list-item-subtitle>
@@ -54,7 +62,9 @@
             </v-list-item>
             <v-list-item class="float-left py-0 pl-0" :style="{ width: `150px` }" two-line>
               <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1 primary--text"> 超时时间 </v-list-item-title>
+                <v-list-item-title class="text-subtitle-2 py-1 primary--text">
+                  {{ $t('table.timeout') }}
+                </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1">
                   {{ item.scrapeTimeout ? item.scrapeTimeout : '-' }}
                 </v-list-item-subtitle>
@@ -77,7 +87,7 @@
           <v-list-item-subtitle class="text-body-2 py-0 text-center">
             <v-btn color="primary" text @click="expandCard('EndpointForm')">
               <v-icon left small> mdi-plus </v-icon>
-              添加端点
+              {{ $root.$t('operate.add_c', [$t('tip.endpoint')]) }}
             </v-btn>
           </v-list-item-subtitle>
         </v-list-item-content>
@@ -87,8 +97,13 @@
 </template>
 
 <script>
+  import messages from '../../../../i18n';
+
   export default {
     name: 'EndpointItem',
+    i18n: {
+      messages: messages,
+    },
     props: {
       endpoints: {
         type: Array,

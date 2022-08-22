@@ -26,24 +26,28 @@
         transition="scale-transition"
       >
         <template #activator="{ on }">
-          <span class="text-body-2 mr-2">版本</span>
+          <span class="text-body-2 mr-2">{{ $t('tip.version') }}</span>
           <v-btn class="primary--text font-weight-medium" color="white" text v-on="on">
             {{ selectVersion }}
             <v-icon v-if="versionMenu" right> mdi-chevron-up </v-icon>
             <v-icon v-else right> mdi-chevron-down </v-icon>
           </v-btn>
         </template>
-        <v-data-iterator class="file-iterator" hide-default-footer :items="[{ text: '版本', values: versions }]">
+        <v-data-iterator
+          class="file-iterator"
+          hide-default-footer
+          :items="[{ text: $t('tip.version'), values: versions }]"
+        >
           <template #no-data>
             <v-card>
-              <v-card-text> 暂无版本 </v-card-text>
+              <v-card-text> {{ $root.$t('data.no_data') }} </v-card-text>
             </v-card>
           </template>
           <template #default="props">
             <v-card v-for="item in props.items" :key="item.text" flat min-height="100">
               <v-list dense>
                 <v-flex class="text-subtitle-2 text-center ma-2">
-                  <span>版本</span>
+                  <span>{{ $t('tip.version') }}</span>
                 </v-flex>
                 <v-divider class="mx-2" />
                 <v-list-item
@@ -68,8 +72,13 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
+
   export default {
     name: 'VersionSelect',
+    i18n: {
+      messages: messages,
+    },
     props: {
       versions: {
         type: Array,

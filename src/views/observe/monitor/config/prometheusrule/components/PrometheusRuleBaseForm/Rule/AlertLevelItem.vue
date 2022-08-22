@@ -22,7 +22,9 @@
           <v-list-item-subtitle class="text-body-2 py-0">
             <v-list-item class="float-left py-0 pl-0" :style="{ width: `270px` }" two-line>
               <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1 primary--text"> 级别 </v-list-item-title>
+                <v-list-item-title class="text-subtitle-2 py-1 primary--text">
+                  {{ $t('table.severity') }}
+                </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1">
                   {{ severityMap(item.severity) }}
                 </v-list-item-subtitle>
@@ -30,7 +32,9 @@
             </v-list-item>
             <v-list-item class="float-left py-0 pl-0" :style="{ width: `270px` }" two-line>
               <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1 primary--text"> 触发条件 </v-list-item-title>
+                <v-list-item-title class="text-subtitle-2 py-1 primary--text">
+                  {{ $t('tip.trigger_condition') }}
+                </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1">
                   {{ compareMap(item.compareOp) }}
                 </v-list-item-subtitle>
@@ -38,7 +42,9 @@
             </v-list-item>
             <v-list-item class="float-left py-0 pl-0" :style="{ width: `270px` }" two-line>
               <v-list-item-content class="py-0">
-                <v-list-item-title class="text-subtitle-2 py-1 primary--text"> 阈值 </v-list-item-title>
+                <v-list-item-title class="text-subtitle-2 py-1 primary--text">
+                  {{ $t('tip.trigger_val') }}
+                </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1">
                   {{ item.compareValue }}
                 </v-list-item-subtitle>
@@ -61,7 +67,7 @@
           <v-list-item-subtitle class="text-body-2 py-0 text-center">
             <v-btn color="primary" text @click="expandCard">
               <v-icon left small> mdi-plus </v-icon>
-              添加级别
+              {{ $root.$t('operate.add_c', [$t('table.severity')]) }}
             </v-btn>
           </v-list-item-subtitle>
         </v-list-item-content>
@@ -71,10 +77,14 @@
 </template>
 
 <script>
+  import messages from '../../../../../i18n';
   import BaseAlert from '../../../mixins/alert';
 
   export default {
     name: 'AlertLevelItem',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseAlert],
     props: {
       alertlevels: {

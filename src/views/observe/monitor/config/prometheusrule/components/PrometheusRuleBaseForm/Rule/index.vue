@@ -18,14 +18,14 @@
   <v-flex>
     <v-form ref="form" v-model="valid" lazy-validation>
       <v-flex :class="expand ? 'kubegems__overlay' : ''" />
-      <BaseSubTitle title="告警规则定义" />
+      <BaseSubTitle :title="$root.$t('form.definition', [$root.$t('resource.prometheus_rule')])" />
       <v-card-text class="pa-2">
         <v-row>
           <v-col cols="6">
             <v-text-field
               v-model="obj.name"
               class="my-0"
-              label="名称"
+              :label="$t('table.name')"
               :readonly="edit"
               required
               :rules="objRules.nameRule"
@@ -39,8 +39,8 @@
               color="primary"
               hide-selected
               :items="modeItems"
-              label="模式"
-              no-data-text="暂无可选数据"
+              :label="$t('form.mode')"
+              :no-data-text="$root.$t('data.no_data')"
               :readonly="edit"
               :rules="objRules.modRule"
               @change="onModChange"
@@ -72,7 +72,7 @@
               <v-text-field
                 v-model="obj.logqlGenerator.match"
                 class="my-0"
-                label="匹配的字符串(支持正则)"
+                :label="$t('form.match_string')"
                 required
                 :rules="objRules.matchRule"
               />
@@ -84,8 +84,8 @@
                 color="primary"
                 hide-selected
                 :items="containerItems"
-                label="目标容器"
-                no-data-text="暂无可选数据"
+                :label="$t('form.dest_container')"
+                :no-data-text="$root.$t('data.no_data')"
               >
                 <template #selection="{ item }">
                   <v-chip class="mx-1" color="primary" small>
@@ -98,7 +98,7 @@
               <v-text-field
                 v-model="obj.logqlGenerator.duration"
                 class="my-0"
-                label="时长"
+                :label="$t('form.time')"
                 required
                 :rules="objRules.durationRule"
               />
@@ -110,7 +110,7 @@
               <v-textarea
                 v-model="obj.expr"
                 auto-grow
-                label="查询语句"
+                :label="$t('tip.query_ql')"
                 :rules="objRules.exprRule"
                 @keyup="onExprInput"
               />
@@ -129,7 +129,7 @@
               <v-textarea
                 v-model="obj.expr"
                 auto-grow
-                label="查询语句"
+                :label="$t('tip.query_ql')"
                 :rules="objRules.exprRule"
                 @keyup="onExprInput"
               />
@@ -145,9 +145,9 @@
               color="primary"
               hide-selected
               :items="inhibitLabelItems"
-              label="抑制标签"
+              :label="$t('form.inhabit_label')"
               multiple
-              no-data-text="暂无可选数据"
+              :no-data-text="$root.$t('data.no_data')"
               @focus="getInhibitLabels"
             >
               <template #selection="{ item }">
@@ -163,9 +163,9 @@
               color="primary"
               hide-selected
               :items="inhibitLabelItems"
-              label="抑制标签(回车创建)"
+              :label="$t('form.inhabit_label')"
               multiple
-              no-data-text="暂无可选数据"
+              :no-data-text="$root.$t('data.no_data')"
               :search-input.sync="inhibitLabelText"
               @focus="getInhibitLabels"
               @keyup.enter="createInhibitLabel"
@@ -180,7 +180,7 @@
 
           <!-- 评估时间 -->
           <v-col cols="6">
-            <v-text-field v-model="obj.for" class="my-0" label="评估时间" required :rules="objRules.forRule" />
+            <v-text-field v-model="obj.for" class="my-0" :label="$t('table.for')" required :rules="objRules.forRule" />
           </v-col>
           <!-- 评估时间 -->
         </v-row>
@@ -188,7 +188,7 @@
 
       <!-- 标签筛选 -->
       <div v-if="mod === 'template' && mode === 'monitor'" class="mb-4">
-        <BaseSubTitle title="标签筛选" />
+        <BaseSubTitle :title="$t('tip.label_filter')" />
         <br />
         <RuleLabelpairs v-model="obj.labelpairs" />
       </div>
@@ -201,7 +201,7 @@
         @addData="addData"
         @closeOverlay="closeExpand"
       />
-      <BaseSubTitle title="告警级别配置" />
+      <BaseSubTitle :title="$t('tip.alert_severity_config')" />
       <v-card-text class="pa-2">
         <AlertLevelItem
           :alertlevels="obj.alertLevels"
@@ -217,6 +217,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../../../../i18n';
   import AlertLevelForm from './AlertLevelForm';
   import AlertLevelItem from './AlertLevelItem';
   import RuleLabelpairs from './RuleLabelpairs';
@@ -224,13 +225,16 @@
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
-  import { required } from '@/utils/rules';
+  import { required, timeInterval } from '@/utils/rules';
   import MetricsSuggestion from '@/views/observe/monitor/metrics/components/MetricsSuggestion';
   import ResourceSelectCascade from '@/views/observe/monitor/metrics/components/ResourceSelectCascade';
   import Metrics from '@/views/observe/monitor/mixins/metrics';
 
   export default {
     name: 'Rule',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AlertLevelForm,
       AlertLevelItem,
@@ -300,13 +304,13 @@
       modeItems() {
         if (this.mode === 'monitor')
           return [
-            { text: '由模版生成', value: 'template' },
-            { text: '由PromQl生成', value: 'ql' },
+            { text: this.$t('tab.generate_from_template'), value: 'template' },
+            { text: this.$t('tab.generate_from_promql'), value: 'ql' },
           ];
         if (this.mode === 'logging')
           return [
-            { text: '由模版生成', value: 'template' },
-            { text: '由LogQl生成', value: 'ql' },
+            { text: this.$t('tab.generate_from_template'), value: 'template' },
+            { text: this.$t('tab.generate_from_logql'), value: 'ql' },
           ];
         return [];
       },
@@ -317,14 +321,14 @@
           resourceRule: [required],
           ruleRule: [required],
           metricRule: [required],
-          forRule: [(v) => !!new RegExp('(^\\d+[s|m|h]$)').test(v) || '格式错误(示例:30s,1m,1h)'],
+          forRule: [timeInterval],
           compareRule: [required],
           severityRule: [required],
           thresholdValueRule: [required],
           exprRule: [required],
           modRule: [required],
           matchRule: [required],
-          durationRule: [(v) => !!new RegExp('(^\\d+[s|m|h]$)').test(v) || '格式错误(示例:30s,1m,1h)'],
+          durationRule: [timeInterval],
         };
       },
     },

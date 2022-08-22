@@ -18,7 +18,10 @@
   <v-container class="pa-0" fluid>
     <v-card flat>
       <v-card-title class="px-0">
-        <BaseFilter :default="{ items: [], text: '采集器名称', value: 'search' }" :filters="filters" />
+        <BaseFilter
+          :default="{ items: [], text: $t('filter.servicemonitor_name'), value: 'search' }"
+          :filters="filters"
+        />
         <v-spacer />
         <v-menu v-if="m_permisson_resourceAllow($route.query.env)" left>
           <template #activator="{ on }">
@@ -31,25 +34,9 @@
               <v-flex>
                 <v-btn color="primary" text @click="addServiceMonitor">
                   <v-icon left>mdi-plus-box</v-icon>
-                  创建采集器
+                  {{ $root.$t('operate.create_c', [$root.$t('resource.service_monitor')]) }}
                 </v-btn>
               </v-flex>
-              <!-- <v-flex>
-                <v-btn
-                  text
-                  color="error"
-                  @click="
-                    batchRemoveResource(
-                      '采集器',
-                      'ServiceMonitor',
-                      serviceMonitorList,
-                    )
-                  "
-                >
-                  <v-icon left>mdi-minus-box</v-icon>
-                  删除采集器
-                </v-btn>
-              </v-flex> -->
             </v-card-text>
           </v-card>
         </v-menu>
@@ -61,7 +48,7 @@
           hide-default-footer
           :items="items"
           :items-per-page="params.size"
-          no-data-text="暂无数据"
+          :no-data-text="$root.$t('data.no_data')"
           :page.sync="params.page"
           @update:sort-by="m_table_sortBy"
           @update:sort-desc="m_table_sortDesc"
@@ -106,10 +93,14 @@
               <v-card>
                 <v-card-text class="pa-2">
                   <v-flex>
-                    <v-btn color="primary" small text @click="updateServiceMonitor(item)"> 编辑 </v-btn>
+                    <v-btn color="primary" small text @click="updateServiceMonitor(item)">
+                      {{ $root.$t('operate.edit') }}
+                    </v-btn>
                   </v-flex>
                   <v-flex>
-                    <v-btn color="error" small text @click="removeServiceMonitor(item)"> 删除 </v-btn>
+                    <v-btn color="error" small text @click="removeServiceMonitor(item)">
+                      {{ $root.$t('operate.delete') }}
+                    </v-btn>
                   </v-flex>
                 </v-card-text>
               </v-card>
@@ -137,6 +128,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import AddServiceMonitor from './components/AddServiceMonitor';
   import UpdateServiceMonitor from './components/UpdateServiceMonitor';
   import { deleteServiceMonitor, getServiceMonitorList } from '@/api';
@@ -147,6 +139,9 @@
 
   export default {
     name: 'ServiceMonitorList',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddServiceMonitor,
       UpdateServiceMonitor,
@@ -167,17 +162,15 @@
         page: 1,
         size: 10,
       },
-      filters: [{ text: '采集器名称', value: 'search', items: [] }],
     }),
     computed: {
       ...mapState(['JWT', 'AdminViewport']),
       headers() {
         const items = [
-          { text: '采集器名', value: 'name', align: 'start' },
-          // { text: '关联服务', value: 'service', align: 'start', sortable: false },
-          { text: '采集端口', value: 'port', align: 'start', sortable: false },
-          { text: '采集路径', value: 'path', align: 'start', sortable: false },
-          { text: '创建时间', value: 'createAt', align: 'center' },
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
+          { text: this.$t('table.port'), value: 'port', align: 'start', sortable: false },
+          { text: this.$t('table.path'), value: 'path', align: 'start', sortable: false },
+          { text: this.$root.$t('resource.create_at'), value: 'createAt', align: 'center' },
         ];
         if (this.m_permisson_resourceAllow(this.$route.query.env)) {
           items.push({
@@ -189,6 +182,9 @@
           });
         }
         return items;
+      },
+      filters() {
+        return [{ text: this.$t('filter.servicemonitor_name'), value: 'search', items: [] }];
       },
     },
     watch: {
@@ -252,9 +248,11 @@
       },
       removeServiceMonitor(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除采集器`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.service_monitor')]),
           content: {
-            text: `删除采集器 ${item.metadata.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.service_monitor')])} ${
+              item.metadata.name
+            }`,
             type: 'delete',
             name: item.metadata.name,
           },

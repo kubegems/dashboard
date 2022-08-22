@@ -16,9 +16,9 @@
 <template>
   <v-card>
     <v-card-text class="pa-0 pl-2 pb-2">
-      <BaseSubTitle class="pt-2 mb-1" :divider="false" title="算法模型">
+      <BaseSubTitle class="pt-2 mb-1" :divider="false" :title="$t('tip.ai_model')">
         <template #action>
-          <span class="text-body-2 kubegems__text mr-2"> 模型总数:{{ modelCount }} </span>
+          <span class="text-body-2 kubegems__text mr-2"> {{ $t('tip.model_count') }} : {{ modelCount }} </span>
         </template>
       </BaseSubTitle>
       <v-text-field
@@ -26,7 +26,7 @@
         class="mr-4 my-2 ml-2"
         flat
         hide-details
-        label="算法模型名称"
+        :label="$t('filter.model_name')"
         prepend-inner-icon="mdi-magnify"
         solo
         @keyup.enter="onSearch"
@@ -45,11 +45,15 @@
 </template>
 
 <script>
+  import messages from '../../i18n';
   import FilterItems from './FilterItems';
   import { getModelStoreFilterCondition } from '@/api';
 
   export default {
     name: 'ModelFilter',
+    i18n: {
+      messages: messages,
+    },
     components: {
       FilterItems,
     },

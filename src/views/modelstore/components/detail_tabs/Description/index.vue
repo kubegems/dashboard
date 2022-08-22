@@ -16,7 +16,7 @@
 <template>
   <div class="white rounded mt-3 pa-4" :style="{ height: `${height}px`, overflowY: 'auto' }">
     <Markdown v-if="content" :content="content" />
-    <div v-else class="text-center text-body-2 mt-12 kubegems__text">暂无介绍</div>
+    <div v-else class="text-center text-body-2 mt-12 kubegems__text">{{ $root.$t('data.no_data') }}</div>
   </div>
 </template>
 

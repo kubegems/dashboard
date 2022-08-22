@@ -15,7 +15,13 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-ruler" title="更新告警规则" :width="1000" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-ruler"
+    :title="$root.$t('operate.update_c', [$root.$t('resource.prometheus_rule')])"
+    :width="1000"
+    @reset="reset"
+  >
     <template #content>
       <component
         :is="formComponent"
@@ -37,13 +43,13 @@
         text
         @click="updatePrometheusRule"
       >
-        确定
+        {{ $root.$t('operate.confirm') }}
       </v-btn>
       <v-btn v-if="step >= 0 && step < totalStep - 1" class="float-right mx-2" color="primary" text @click="nextStep">
-        下一步
+        {{ $root.$t('operate.next') }}
       </v-btn>
       <v-btn v-if="step > 0 && step <= totalStep - 1" class="float-right mx-2" color="primary" text @click="lastStep">
-        上一步
+        {{ $root.$t('operate.previous') }}
       </v-btn>
     </template>
   </BaseDialog>
@@ -52,6 +58,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../../i18n';
   import PrometheusRuleBaseForm from './PrometheusRuleBaseForm';
   import { putUpdateLogAlertRule, putUpdatePrometheusRule } from '@/api';
   import BaseResource from '@/mixins/resource';
@@ -59,6 +66,9 @@
 
   export default {
     name: 'UpdatePrometheusRule',
+    i18n: {
+      messages: messages,
+    },
     components: {
       PrometheusRuleBaseForm,
     },
@@ -130,7 +140,7 @@
           const data = this.$refs[this.formComponent].getData();
           if (!data.alertLevels || (data.alertLevels && data.alertLevels.length === 0)) {
             this.$store.commit('SET_SNACKBAR', {
-              text: '请添加告警级别',
+              text: this.$t('tip.add_alert_severity'),
               color: 'warning',
             });
             return;

@@ -19,7 +19,7 @@
     hide-no-data
     hide-selected
     :items="argsItems"
-    label="参数"
+    :label="$t('tip.params')"
     :menu-props="{
       bottom: true,
       left: true,
@@ -40,8 +40,13 @@
 </template>
 
 <script>
+  import messages from '../../../i18n';
+
   export default {
     name: 'Args',
+    i18n: {
+      messages: messages,
+    },
     data() {
       return {
         argsItems: [],

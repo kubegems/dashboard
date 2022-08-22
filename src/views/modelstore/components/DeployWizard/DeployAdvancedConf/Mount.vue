@@ -15,7 +15,7 @@
         hide-no-data
         hide-selected
         :items="[]"
-        label="卷挂载"
+        :label="$t('tip.volume_mount')"
         :menu-props="{
           bottom: true,
           left: true,
@@ -35,7 +35,7 @@
             @click:close="removePort(item)"
           >
             <strong class="mx-1"> {{ item.kind }} </strong>
-            目标路径:{{ item.mountPath }}
+            {{ $t('tip.mount_path') }} : {{ item.mountPath }}
           </v-chip>
         </template>
       </v-combobox>
@@ -50,7 +50,7 @@
                 hide-no-data
                 hide-selected
                 :items="kindItems"
-                label="卷类型"
+                :label="$t('tip.volume_type')"
                 :menu-props="{
                   bottom: true,
                   left: true,
@@ -61,7 +61,11 @@
               />
             </v-col>
             <v-col v-if="obj.kind === 'HostPath'">
-              <v-text-field v-model.number="obj.sourcePath" label="源路径" :rules="objRules.sourcePathRules" />
+              <v-text-field
+                v-model.number="obj.sourcePath"
+                :label="$t('tip.origin_path')"
+                :rules="objRules.sourcePathRules"
+              />
             </v-col>
             <v-col v-else-if="obj.kind === 'PVC'">
               <v-autocomplete
@@ -69,7 +73,7 @@
                 hide-no-data
                 hide-selected
                 :items="persistentVolumeClaimItems"
-                label="卷名称"
+                :label="$t('tip.volume_name')"
                 :menu-props="{
                   bottom: true,
                   left: true,
@@ -79,7 +83,11 @@
               />
             </v-col>
             <v-col>
-              <v-text-field v-model.number="obj.mountPath" label="挂载路径" :rules="objRules.mountPathRules" />
+              <v-text-field
+                v-model.number="obj.mountPath"
+                :label="$t('tip.mount_path')"
+                :rules="objRules.mountPathRules"
+              />
             </v-col>
             <v-col v-if="obj.kind === 'EmptyDir' || obj.kind === 'Model'" />
           </v-row>
@@ -87,19 +95,25 @@
       </v-card-text>
       <v-card-title class="pa-0">
         <v-spacer />
-        <v-btn class="mr-2 mb-2" color="primary" dark right small text @click="addMount"> 确定 </v-btn>
+        <v-btn class="mr-2 mb-2" color="primary" dark right small text @click="addMount">
+          {{ $root.$t('operate.confirm') }}
+        </v-btn>
       </v-card-title>
     </v-card>
   </v-menu>
 </template>
 
 <script>
+  import messages from '../../../i18n';
   import { getPersistentVolumeClaimList } from '@/api';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'Mount',
+    i18n: {
+      messages: messages,
+    },
     props: {
       base: {
         type: Object,

@@ -15,7 +15,7 @@
         hide-no-data
         hide-selected
         :items="[]"
-        label="端口配置"
+        :label="$t('tip.port_config')"
         :menu-props="{
           bottom: true,
           left: true,
@@ -35,7 +35,7 @@
             @click:close="removePort(item)"
           >
             <strong class="mx-1"> {{ item.name }} </strong>
-            端口:{{ item.hostPort }}
+            {{ $t('tip.port') }} : {{ item.hostPort }}
           </v-chip>
         </template>
       </v-combobox>
@@ -45,7 +45,12 @@
         <v-form ref="form" v-model="valid" class="px-2" lazy-validation @click.stop @submit.prevent>
           <v-row>
             <v-col>
-              <v-text-field v-model="obj.name" hint="推荐http/grpc" label="端口名称" :rules="objRules.nameRules" />
+              <v-text-field
+                v-model="obj.name"
+                :hint="$t('tip.port_name_hint')"
+                :label="$t('tip.port_name')"
+                :rules="objRules.nameRules"
+              />
             </v-col>
             <v-col>
               <v-autocomplete
@@ -53,7 +58,7 @@
                 hide-no-data
                 hide-selected
                 :items="protocolItems"
-                label="协议"
+                :label="$t('tip.protocol')"
                 :menu-props="{
                   bottom: true,
                   left: true,
@@ -63,28 +68,42 @@
               />
             </v-col>
             <v-col>
-              <v-text-field v-model.number="obj.containerPort" label="容器端口" :rules="objRules.containerPortRules" />
+              <v-text-field
+                v-model.number="obj.containerPort"
+                :label="$t('tip.container_port')"
+                :rules="objRules.containerPortRules"
+              />
             </v-col>
             <v-col>
-              <v-text-field v-model.number="obj.hostPort" label="主机端口" :rules="objRules.hostPortRules" />
+              <v-text-field
+                v-model.number="obj.hostPort"
+                :label="$t('tip.host_port')"
+                :rules="objRules.hostPortRules"
+              />
             </v-col>
           </v-row>
         </v-form>
       </v-card-text>
       <v-card-title class="pa-0">
         <v-spacer />
-        <v-btn class="mr-2 mb-2" color="primary" dark right small text @click="addPort"> 确定 </v-btn>
+        <v-btn class="mr-2 mb-2" color="primary" dark right small text @click="addPort">
+          {{ $root.$t('operate.confirm') }}
+        </v-btn>
       </v-card-title>
     </v-card>
   </v-menu>
 </template>
 
 <script>
+  import messages from '../../../i18n';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'Port',
+    i18n: {
+      messages: messages,
+    },
     data() {
       return {
         valid: false,

@@ -19,7 +19,9 @@
       <component :is="formComponent" :ref="formComponent" :item="item" :reply="reply" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addComment"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addComment">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>
