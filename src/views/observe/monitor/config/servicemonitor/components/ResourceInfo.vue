@@ -18,7 +18,7 @@
   <div>
     <v-card>
       <v-sheet class="pa-2">
-        <BaseListItemForDetail :mt="0" title="关联服务">
+        <BaseListItemForDetail :mt="0" :title="$t('tip.related_service')">
           <template #content>
             {{
               serviceMonitor && serviceMonitor.metadata && serviceMonitor.metadata.labels
@@ -28,19 +28,19 @@
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="任务标签">
+        <BaseListItemForDetail :title="$t('tip.task_label')">
           <template #content>
             {{ serviceMonitor ? serviceMonitor.spec.jobLabel : '' }}
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="generation">
+        <BaseListItemForDetail title="Generation">
           <template #content>
             {{ serviceMonitor ? serviceMonitor.metadata.generation : '' }}
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="匹配标签">
+        <BaseListItemForDetail :title="$t('tip.match_label')">
           <template #content>
             <BaseCollapseChips
               v-if="serviceMonitor && serviceMonitor.spec.selector"
@@ -52,7 +52,7 @@
           </template>
         </BaseListItemForDetail>
 
-        <BaseListItemForDetail title="匹配命名空间">
+        <BaseListItemForDetail :title="$t('tip.match_namespace')">
           <template #content>
             <BaseCollapseChips
               v-if="serviceMonitor && serviceMonitor.spec.namespaceSelector"
@@ -72,11 +72,11 @@
         <template #default>
           <thead>
             <tr>
-              <th class="text-left">端口</th>
-              <th class="text-left">路径</th>
-              <th class="text-left">超时时间</th>
-              <th class="text-left">间隔</th>
-              <th class="text-left">指标优先</th>
+              <th class="text-left">{{ $t('table.port') }}</th>
+              <th class="text-left">{{ $t('table.path') }}</th>
+              <th class="text-left">{{ $t('table.timeout') }}</th>
+              <th class="text-left">{{ $t('table.interval') }}</th>
+              <th class="text-left">{{ $t('table.metric_first') }}</th>
             </tr>
           </thead>
           <tbody>
@@ -107,11 +107,15 @@
 </template>
 
 <script>
+  import messages from '../../../i18n';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'ResourceInfo',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     props: {
       item: {

@@ -20,7 +20,7 @@
       hide-no-data
       hide-selected
       :items="commandItems"
-      label="启动命令"
+      :label="$t('tip.run_command')"
       :menu-props="{
         bottom: true,
         left: true,
@@ -49,8 +49,13 @@
 </template>
 
 <script>
+  import messages from '../../../i18n';
+
   export default {
     name: 'Command',
+    i18n: {
+      messages: messages,
+    },
     data() {
       return {
         commandItems: [],

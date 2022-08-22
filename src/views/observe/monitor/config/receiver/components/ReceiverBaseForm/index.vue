@@ -18,14 +18,14 @@
   <v-flex>
     <v-form ref="form" v-model="valid" lazy-validation>
       <v-flex :class="expand ? 'kubegems__overlay' : ''" />
-      <BaseSubTitle title="接收器定义" />
+      <BaseSubTitle :title="$root.$t('form.definition', [$root.$t('resource.receiver')])" />
       <v-card-text class="pa-2">
         <v-row>
           <v-col cols="6">
             <v-text-field
               v-model="obj.name"
               class="my-0"
-              label="接收器"
+              :label="$root.$t('resource.receiver')"
               :readonly="edit"
               required
               :rules="objRules.nameRule"
@@ -44,7 +44,7 @@
         @closeOverlay="closeExpand"
         @updateData="updateData"
       />
-      <BaseSubTitle title="告警渠道" />
+      <BaseSubTitle :title="$t('tip.alert_channel')" />
       <v-card-text class="pa-2">
         <ChannelItem :obj="obj" @expandCard="expandCard" @removeConfig="removeConfig" @updateConfig="updateConfig" />
       </v-card-text>
@@ -55,6 +55,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../../../i18n';
   import ChannelForm from './ChannelForm';
   import ChannelItem from './ChannelItem';
   import BaseResource from '@/mixins/resource';
@@ -63,6 +64,9 @@
 
   export default {
     name: 'ReceiverBaseForm',
+    i18n: {
+      messages: messages,
+    },
     components: {
       ChannelForm,
       ChannelItem,
@@ -185,7 +189,7 @@
         }
         if (channelLenth === 0) {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请添加告警渠道',
+            text: this.$t('tip.add_alert_channel'),
             color: 'warning',
           });
           return false && this.$refs.form.validate(true);

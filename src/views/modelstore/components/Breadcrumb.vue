@@ -30,20 +30,20 @@
             <div v-if="status" class="breadcrumb__status">
               <template v-if="status.status === 'SUCCESS'">
                 <v-icon class="mr-1" color="success" small>mdi-check-circle</v-icon>
-                已同步
+                {{ $t('status.synced') }}
               </template>
               <template v-else-if="['INITIALIZE', 'PROGRESS', 'STARTED'].indexOf(status.status) > -1">
                 <v-icon class="mr-1 kubegems__waiting-circle-flashing" color="warning"> mdi-autorenew </v-icon>
-                正在同步
+                {{ $t('status.running') }}
                 {{ status.progress }}
               </template>
               <template v-else-if="status.status === 'FAILURE'">
                 <v-icon class="mr-1" color="error" small> mdi-close-circle </v-icon>
-                同步失败
+                {{ $t('status.failure') }}
               </template>
               <template v-else-if="status.status === 'STOP'">
                 <v-icon class="mr-1" color="grey" small> mdi-alert-circle </v-icon>
-                暂未同步
+                {{ $t('status.no_sync') }}
               </template>
               {{ status.finishedAt ? $moment(status.finishedAt).format('lll') : '' }}
             </div>

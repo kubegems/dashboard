@@ -19,7 +19,7 @@
     <v-card flat>
       <v-card-title class="px-0">
         <BaseFilter
-          :default="{ items: [], text: '告警规则名称', value: 'search' }"
+          :default="{ items: [], text: $t('filter.rule_name'), value: 'search' }"
           :filters="filters"
           :reload="false"
           @filter="customFilter"
@@ -60,25 +60,9 @@
               <v-flex>
                 <v-btn color="primary" text @click="addPrometheusRule">
                   <v-icon left>mdi-plus-box</v-icon>
-                  创建告警规则
+                  {{ $root.$t('operate.create_c', [$root.$t('resource.prometheus_rule')]) }}
                 </v-btn>
               </v-flex>
-              <!-- <v-flex>
-                <v-btn
-                  text
-                  color="error"
-                  @click="
-                    batchRemoveResource(
-                      '告警规则',
-                      'PrometheusRule',
-                      prometheusRuleList,
-                    )
-                  "
-                >
-                  <v-icon left>mdi-minus-box</v-icon>
-                  删除告警规则
-                </v-btn>
-              </v-flex> -->
             </v-card-text>
           </v-card>
         </v-menu>
@@ -93,7 +77,7 @@
           item-key="index"
           :items="items"
           :items-per-page="itemsPerPage"
-          no-data-text="暂无数据"
+          :no-data-text="$root.$t('data.no_data')"
           :page.sync="page"
           show-expand
           single-expand
@@ -139,7 +123,7 @@
                 </span>
               </template>
               <v-card>
-                <v-card-text class="pa-2"> 此命名空间下告警规则将标记为全局告警 </v-card-text>
+                <v-card-text class="pa-2"> {{ $t('tip.global_alert') }} </v-card-text>
               </v-card>
             </v-menu>
             <span v-else>{{ item.namespace }}</span>
@@ -156,16 +140,16 @@
           <template #[`item.open`]="{ item }">
             <span v-if="item.isOpen">
               <v-icon color="primary" small> mdi-check-circle </v-icon>
-              启用
+              {{ $t('status.enabled') }}
             </span>
             <span v-else>
               <v-icon color="error" small> mdi-minus-circle </v-icon>
-              禁用
+              {{ $t('status.disabled') }}
             </span>
           </template>
           <template #expanded-item="{ headers, item }">
             <td class="my-2 py-2" :colspan="headers.length">
-              <span class="text-subtitle-2 kubegems__text">消息模版：</span>
+              <span class="text-subtitle-2 kubegems__text">{{ $t('tip.message_template') }} : </span>
               <v-flex class="text-body-2 break-word">
                 {{ item.message }}
               </v-flex>
@@ -182,15 +166,19 @@
               <v-card>
                 <v-card-text class="pa-2">
                   <v-flex>
-                    <v-btn color="primary" small text @click.stop="updatePrometheusRule(item)"> 编辑 </v-btn>
-                  </v-flex>
-                  <v-flex>
-                    <v-btn color="primary" small text @click.stop="switchBlackList(item)">
-                      {{ item.isOpen ? '禁用' : '启用' }}
+                    <v-btn color="primary" small text @click.stop="updatePrometheusRule(item)">
+                      {{ $root.$t('operate.edit') }}
                     </v-btn>
                   </v-flex>
                   <v-flex>
-                    <v-btn color="error" small text @click.stop="removePrometheusRule(item)"> 删除 </v-btn>
+                    <v-btn color="primary" small text @click.stop="switchBlackList(item)">
+                      {{ item.isOpen ? $t('operate.disable') : $t('operate.enable') }}
+                    </v-btn>
+                  </v-flex>
+                  <v-flex>
+                    <v-btn color="error" small text @click.stop="removePrometheusRule(item)">
+                      {{ $root.$t('operate.delete') }}
+                    </v-btn>
                   </v-flex>
                 </v-card-text>
               </v-card>
@@ -217,6 +205,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import AddPrometheusRule from './components/AddPrometheusRule';
   import UpdatePrometheusRule from './components/UpdatePrometheusRule';
   import { deletePrometheusRule, getPrometheusRuleList, postDisableAlertRule, postEnableAlertRule } from '@/api';
@@ -229,6 +218,9 @@
 
   export default {
     name: 'PrometheusRule',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddPrometheusRule,
       UpdatePrometheusRule,
@@ -241,7 +233,6 @@
       },
     },
     data: () => ({
-      filters: [{ text: '告警规则名称', value: 'search', items: [] }],
       items: [],
       itemsCopy: [],
       page: 1,
@@ -263,11 +254,11 @@
       ...mapGetters(['Environment']),
       headers() {
         const items = [
-          { text: '名称', value: 'name', align: 'start', width: 150 },
-          { text: '指标', value: 'expr', align: 'start', width: 300 },
-          { text: '评估时间', value: 'for', align: 'start' },
-          { text: '接收器', value: 'receivers', align: 'start', width: 150 },
-          { text: '使用状态', value: 'open', align: 'start', width: 80 },
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
+          { text: this.$t('table.expr'), value: 'expr', align: 'start', width: 300 },
+          { text: this.$t('table.for'), value: 'for', align: 'start' },
+          { text: this.$root.$t('resource.receiver'), value: 'receivers', align: 'start', width: 150 },
+          { text: this.$t('table.status'), value: 'open', align: 'start', width: 80 },
         ];
         if (this.m_permisson_resourceAllow(this.$route.query.env)) {
           items.push({ text: '', value: 'action', align: 'center', width: 20 });
@@ -277,6 +268,9 @@
       },
       SERVICE_MONITOR_NS() {
         return SERVICE_MONITOR_NS;
+      },
+      filters() {
+        return [{ text: this.$t('filter.rule_name'), value: 'search', items: [] }];
       },
     },
     watch: {
@@ -375,9 +369,9 @@
       },
       removePrometheusRule(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除告警规则`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.prometheus_rule')]),
           content: {
-            text: `删除告警规则 ${item.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.prometheus_rule')])} ${item.name}`,
             type: 'delete',
             name: item.name,
           },
@@ -393,8 +387,11 @@
       async switchBlackList(item) {
         if (item.isOpen) {
           this.$store.commit('SET_CONFIRM', {
-            title: `禁用告警规则`,
-            content: { text: `禁用告警规则 ${item.name}`, type: 'confirm' },
+            title: this.$root.$t('operate.disable_c', [this.$root.$t('resource.prometheus_rule')]),
+            content: {
+              text: `${this.$root.$t('operate.disable_c', [this.$root.$t('resource.prometheus_rule')])} ${item.name}`,
+              type: 'confirm',
+            },
             param: { item },
             doFunc: async (param) => {
               await postDisableAlertRule(this.cluster, param.item.namespace, param.item.name);
@@ -403,8 +400,11 @@
           });
         } else {
           this.$store.commit('SET_CONFIRM', {
-            title: `启用告警规则`,
-            content: { text: `启用告警规则 ${item.name}`, type: 'confirm' },
+            title: this.$root.$t('operate.enable_c', [this.$root.$t('resource.prometheus_rule')]),
+            content: {
+              text: `${this.$root.$t('operate.enable_c', [this.$root.$t('resource.prometheus_rule')])} ${item.name}`,
+              type: 'confirm',
+            },
             param: { item },
             doFunc: async (param) => {
               await postEnableAlertRule(this.cluster, param.item.namespace, param.item.name);

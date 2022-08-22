@@ -29,7 +29,7 @@
       item-key="index"
       :items="items"
       :items-per-page="params.size"
-      no-data-text="暂无告警"
+      :no-data-text="$root.$t('data.no_data')"
       :page.sync="params.page"
       show-expand
       single-expand
@@ -109,12 +109,16 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../../i18n';
   import BaseAlert from '../mixins/alert';
   import { getLogAlertRuleDetail, getPrometheusAlertHistory, getPrometheusRuleDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'AlertList',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseAlert, BaseResource],
     props: {
       mode: {
@@ -132,10 +136,6 @@
           noprocessing: true,
         },
         tab: this.$route.query.createAt ? 1 : 0,
-        tabItems: [
-          { text: '实时告警', value: 'AlertNow' },
-          { text: '历史告警', value: 'AlertHistory' },
-        ],
         timeParams: {},
       };
     },
@@ -143,39 +143,45 @@
       ...mapState(['JWT', 'AdminViewport']),
       headers() {
         const items = [
-          { text: '消息', value: 'message', align: 'start' },
-          { text: '级别', value: 'severity', align: 'start', width: 100 },
-          { text: '状态', value: 'status', align: 'start', width: 100 },
-          { text: '首次触发时间', value: 'activeAt', align: 'start', width: 200 },
+          { text: this.$t('table.message'), value: 'message', align: 'start' },
+          { text: this.$t('table.severity'), value: 'severity', align: 'start', width: 100 },
+          { text: this.$t('table.status'), value: 'status', align: 'start', width: 100 },
+          { text: this.$t('table.first_at'), value: 'activeAt', align: 'start', width: 200 },
           { text: '', value: 'data-table-expand' },
         ];
         if (this.tab === 0) {
           items.splice(4, 0, {
-            text: '触发值',
+            text: this.$t('table.trigger_val'),
             value: 'value',
             align: 'start',
           });
         }
         if (this.tab === 1) {
           items.splice(4, 0, {
-            text: '结束时间',
+            text: this.$t('table.end_at'),
             value: 'endsAt',
             align: 'start',
             width: 200,
           });
           items.splice(5, 0, {
-            text: '上次告警时间',
+            text: this.$t('table.last_alert_at'),
             value: 'createdAt',
             align: 'start',
             width: 200,
           });
           items.splice(6, 0, {
-            text: '告警数量',
+            text: this.$t('table.alert_count'),
             value: 'count',
             align: 'start',
           });
         }
         return items;
+      },
+      tabItems() {
+        return [
+          { text: this.$t('tab.living_alert'), value: 'AlertNow' },
+          { text: this.$t('tab.history_alert'), value: 'AlertHistory' },
+        ];
       },
     },
     methods: {

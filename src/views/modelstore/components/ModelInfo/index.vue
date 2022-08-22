@@ -17,7 +17,7 @@
   <div :style="{ height: `${height}px`, overflowY: 'auto' }">
     <v-card v-if="item && item.recommentContent" :class="{ 'mb-3': true, 'mt-3': noVersion }" color="success" dark flat>
       <v-card-title>
-        <span class="text-body-1 font-weight-medium">平台推荐</span>
+        <span class="text-body-1 font-weight-medium">{{ $t('tip.platform_recomment') }}</span>
       </v-card-title>
 
       <v-card-text class="text-subtitle-2 font-weight-medium">
@@ -39,7 +39,7 @@
         <div class="py-5">
           <div>
             <div class="float-left model__rate">
-              <h5 class="text-subtitle-1 kubegems__text">用户评分</h5>
+              <h5 class="text-subtitle-1 kubegems__text">{{ $t('tip.user_comment') }}</h5>
               <h6 class="text-body-2 mb-3 model__rate__div">
                 <div class="float-left model__rate__div__fraction mr-3">
                   {{ item && item.rating ? item.rating.rating.toFixed(1) : 0 }}
@@ -55,13 +55,15 @@
                     small
                     :value="item && item.rating ? item.rating.rating : 0"
                   />
-                  <div class="text-caption"> {{ item && item.rating ? item.rating.count : 0 }}评价 </div>
+                  <div class="text-caption">
+                    {{ item && item.rating ? item.rating.count : 0 }}{{ $t('tip.comment') }}
+                  </div>
                 </div>
                 <div class="kubegems__clear-float" />
               </h6>
             </div>
             <div class="float-left model__rate">
-              <h5 class="text-subtitle-1 kubegems__text">平台推荐</h5>
+              <h5 class="text-subtitle-1 kubegems__text">{{ $t('tip.platform_recomment') }}</h5>
               <h6 class="text-body-2 mb-2">
                 <div :class="`float-left model__rate__div__recommend mr-3 ${getMarginLeft(item)}`">
                   <div>
@@ -82,24 +84,26 @@
               {{ tag }}
             </v-chip>
           </h6>
-          <h5 class="text-subtitle-1 kubegems__text">类型</h5>
+          <h5 class="text-subtitle-1 kubegems__text">{{ $root.$t('resource.type') }}</h5>
           <h6 class="text-body-2 mb-3">
             {{ item ? item.source : '' }}
           </h6>
-          <h5 class="text-subtitle-1 kubegems__text">库</h5>
+          <h5 class="text-subtitle-1 kubegems__text">{{ $t('tip.library') }}</h5>
           <h6 class="text-body-2 mb-3">
             {{ item ? item.framework : '' }}
           </h6>
-          <h5 class="text-subtitle-1 kubegems__text">任务类型</h5>
+          <h5 class="text-subtitle-1 kubegems__text">{{ $t('tip.task_type') }}</h5>
           <h6 class="text-body-2 mb-3">
             {{ item ? item.task : '' }}
           </h6>
-          <h5 class="text-subtitle-1 kubegems__text">协议</h5>
+          <h5 class="text-subtitle-1 kubegems__text">{{ $t('tip.protocol') }}</h5>
           <h6 class="text-body-2 mb-3">
             {{ item ? item.license : '' }}
           </h6>
-          <h5 class="text-subtitle-1 kubegems__text">发布状态</h5>
-          <h6 class="text-body-2 mb-3"> <v-icon color="success" left small>mdi-check-circle</v-icon>已发布 </h6>
+          <h5 class="text-subtitle-1 kubegems__text">{{ $t('tip.publish_status') }}</h5>
+          <h6 class="text-body-2 mb-3">
+            <v-icon color="success" left small>mdi-check-circle</v-icon>{{ $t('tip.published') }}
+          </h6>
         </div>
       </v-card-text>
     </v-card>
@@ -109,10 +113,14 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import VersionSelect from './VersionSelect';
 
   export default {
     name: 'ModelInfo',
+    i18n: {
+      messages: messages,
+    },
     components: {
       VersionSelect,
     },

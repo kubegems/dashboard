@@ -167,7 +167,7 @@
             showForNullSeries: false,
           },
           noData: {
-            text: '暂无数据',
+            text: this.$root.$t('data.no_data'),
             offsetY: -30,
             style: {
               fontSize: '13px',

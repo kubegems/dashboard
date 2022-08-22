@@ -43,9 +43,11 @@
           <v-col class="d-flex align-center justify-center">
             <div class="d-flex align-center pa-10">
               <div class="text-center">
-                <h2 class="text-h5 primary--text font-weight-medium"> 您暂时还未启用 kubegems-model 插件！ </h2>
+                <h2 class="text-h5 primary--text font-weight-medium">
+                  {{ $root.$t('plugin.missing', ['kubegems-model']) }}
+                </h2>
                 <h6 class="text-subtitle-1 mt-4 primary--text op-5 font-weight-regular">
-                  您可以联系平台管理员启用该插件
+                  {{ $root.$t('plugin.no_permission') }}
                 </h6>
               </div>
             </div>
@@ -63,9 +65,13 @@
   import ModelCard from './components/ModelCard';
   import ModelFilter from './components/ModelFilter';
   import RegistrySelect from './components/RegistrySelect';
+  import messages from './i18n';
 
   export default {
     name: 'ModelStoreCenter',
+    i18n: {
+      messages: messages,
+    },
     components: {
       Breadcrumb,
       ModelCard,

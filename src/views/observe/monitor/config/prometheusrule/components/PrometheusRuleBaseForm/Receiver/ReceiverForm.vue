@@ -21,7 +21,7 @@
         <v-card-text class="pa-0">
           <v-sheet class="pt-2 px-2">
             <v-flex class="float-left text-subtitle-2 pt-6 primary--text kubegems__min-width">
-              <span>接收器定义</span>
+              <span>{{ $root.$t('form.definition', [$root.$t('resource.receiver')]) }}</span>
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-autocomplete
@@ -29,8 +29,8 @@
                 color="primary"
                 hide-selected
                 :items="receiverSelect"
-                label="接收器"
-                no-data-text="暂无可选数据"
+                :label="$root.$t('resource.receiver')"
+                :no-data-text="$root.$t('data.no_data')"
                 :rules="receiverRules.nameRule"
                 @focus="onReceiverSelectFocus"
               >
@@ -49,8 +49,8 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
-          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> {{ $root.$t('operate.cancel') }} </v-btn>
+          <v-btn color="primary" small text @click="addData"> {{ $root.$t('operate.save') }} </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -60,15 +60,19 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../../../../i18n';
   import { getReceiverList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
-  import { required } from '@/utils/rules';
+  import { required, timeInterval } from '@/utils/rules';
 
   export default {
     name: 'ReceiverForm',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseFilter, BasePermission, BaseResource],
     props: {
       data: {
@@ -92,7 +96,7 @@
         },
         receiverRules: {
           nameRule: [required],
-          intervalRule: [(v) => !!new RegExp('(^\\d+[s|m|h]$)').test(v) || '格式错误(示例:30s,1m,1h)'],
+          intervalRule: [timeInterval],
         },
         receiverSelect: [],
       };

@@ -15,12 +15,20 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-eyedropper" title="创建采集器" :width="1000" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-eyedropper"
+    :title="$root.$t('operate.create_c', [$root.$t('resource.service_monitor')])"
+    :width="1000"
+    @reset="reset"
+  >
     <template #content>
       <component :is="formComponent" :ref="formComponent" title="ServiceMonitor" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addServiceMonitor"> 确定 </v-btn>
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addServiceMonitor">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
     <template #header-action>
       <v-switch

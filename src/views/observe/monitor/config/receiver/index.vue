@@ -19,7 +19,7 @@
     <v-card flat>
       <v-card-title class="px-0">
         <BaseFilter
-          :default="{ items: [], text: '接收器名称', value: 'search' }"
+          :default="{ items: [], text: $t('tip.receiver_name'), value: 'search' }"
           :filters="filters"
           @refresh="filterList"
         />
@@ -35,7 +35,7 @@
               <v-flex>
                 <v-btn color="primary" text @click="addReceiver">
                   <v-icon left>mdi-plus-box</v-icon>
-                  创建接收器
+                  {{ $root.$t('operate.create_c', [$root.$t('resource.receiver')]) }}
                 </v-btn>
               </v-flex>
               <!-- <v-flex>
@@ -63,7 +63,7 @@
           item-key="index"
           :items="items"
           :items-per-page="itemsPerPage"
-          no-data-text="暂无数据"
+          :no-data-text="$root.$t('data.no_data')"
           :page.sync="page"
           show-expand
           single-expand
@@ -104,12 +104,12 @@
                 class="text-body-2 break-word my-1"
               >
                 <div class="text-subtitle-2 kubegems__text">
-                  {{ `邮箱${index + 1}: ` }}
+                  {{ `${$t('tip.email')}${index + 1}: ` }}
                 </div>
                 <v-flex class="ml-2">
-                  <div>{{ `发件人:` }}{{ email.from }}</div>
-                  <div>{{ `SMTP服务器:` }}{{ email.smtpServer }}</div>
-                  <span>{{ `收件人:` }}</span>
+                  <div>{{ $t('tip.send') }} : {{ email.from }}</div>
+                  <div>{{ $t('tip.smtp') }} : {{ email.smtpServer }}</div>
+                  <span>{{ $t('tip.recv') }} : </span>
                   <v-chip v-for="(item, key) in email.to.split(',')" :key="key" class="mx-1" color="success" small>
                     {{ item }}
                   </v-chip>
@@ -129,10 +129,14 @@
                 <v-card>
                   <v-card-text class="pa-2">
                     <v-flex>
-                      <v-btn color="primary" small text @click.stop="updateReceiver(item)"> 编辑 </v-btn>
+                      <v-btn color="primary" small text @click.stop="updateReceiver(item)">
+                        {{ $root.$t('operate.edit') }}
+                      </v-btn>
                     </v-flex>
                     <v-flex>
-                      <v-btn color="error" small text @click.stop="removeReceiver(item)"> 删除 </v-btn>
+                      <v-btn color="error" small text @click.stop="removeReceiver(item)">
+                        {{ $root.$t('operate.delete') }}
+                      </v-btn>
                     </v-flex>
                   </v-card-text>
                 </v-card>
@@ -160,6 +164,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import AddReceiver from './components/AddReceiver';
   import UpdateReceiver from './components/UpdateReceiver';
   import { deleteReceiver, getReceiverList } from '@/api';
@@ -170,6 +175,9 @@
 
   export default {
     name: 'ReceiverList',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AddReceiver,
       UpdateReceiver,
@@ -182,7 +190,6 @@
       },
     },
     data: () => ({
-      filters: [{ text: '接收器名称', value: 'search', items: [] }],
       items: [],
       page: 1,
       pageCount: 0,
@@ -196,14 +203,17 @@
       ...mapGetters(['Environment']),
       headers() {
         const items = [
-          { text: '名称', value: 'name', align: 'start' },
-          { text: '渠道', value: 'channel', align: 'start' },
+          { text: this.$t('table.name'), value: 'name', align: 'start' },
+          { text: this.$t('table.channel'), value: 'channel', align: 'start' },
         ];
         if (this.m_permisson_resourceAllow(this.$route.query.env)) {
           items.push({ text: '', value: 'action', align: 'center', width: 20 });
         }
         items.push({ text: '', value: 'data-table-expand' });
         return items;
+      },
+      filters() {
+        return [{ text: this.$t('tip.receiver_name'), value: 'search', items: [] }];
       },
     },
     watch: {
@@ -262,9 +272,9 @@
       },
       removeReceiver(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除接收器`,
+          title: this.$root.$t('operate.delete_c', [this.$root.$t('resource.receiver')]),
           content: {
-            text: `删除接收器 ${item.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$root.$t('resource.receiver')])} ${item.name}`,
             type: 'delete',
             name: item.name,
           },

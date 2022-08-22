@@ -17,7 +17,14 @@
   <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
     <v-row>
       <v-col class="my-2">
-        <v-text-field v-model="obj.name" class="my-4" flat label="实例名称" required :rules="objRules.nameRules" />
+        <v-text-field
+          v-model="obj.name"
+          class="my-4"
+          flat
+          :label="$t('tip.instance_name')"
+          required
+          :rules="objRules.nameRules"
+        />
         <v-autocomplete
           v-model="obj.project"
           class="my-4"
@@ -26,13 +33,13 @@
           item-text="text"
           item-value="text"
           :items="m_select_tenantProjectItems"
-          label="项目"
+          :label="$root.$t('resource.project')"
           :menu-props="{
             bottom: true,
             left: true,
             origin: `top center`,
           }"
-          no-data-text="暂无可选数据"
+          :no-data-text="$root.$t('data.no_data')"
           :rules="objRules.tenantProjectRules"
           @focus="onTenantProjectSelectFocus"
         >
@@ -50,13 +57,13 @@
           color="primary"
           hide-selected
           :items="versionItems"
-          label="版本"
+          :label="$t('tip.version')"
           :menu-props="{
             bottom: true,
             left: true,
             origin: `top center`,
           }"
-          no-data-text="暂无可选数据"
+          :no-data-text="$root.$t('data.no_data')"
           :rules="objRules.versionRules"
           @change="onAppVersionChange"
         >
@@ -74,13 +81,13 @@
           hide-selected
           item-value="environmentName"
           :items="m_select_projectEnvironmentItems"
-          label="环境"
+          :label="$root.$t('resource.environment')"
           :menu-props="{
             bottom: true,
             left: true,
             origin: `top center`,
           }"
-          no-data-text="暂无可选数据"
+          :no-data-text="$root.$t('data.no_data')"
           :rules="objRules.environmentRules"
           @change="onEnvironmentChange"
           @focus="onEnvSelectFocus"
@@ -99,6 +106,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import BasePermission from '@/mixins/permission';
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
@@ -106,6 +114,9 @@
 
   export default {
     name: 'DeployBaseConf',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BasePermission, BaseSelect],
     props: {
       base: {
@@ -138,7 +149,7 @@
           nameRules: [required, k8sName],
           versionRules: [required],
           tenantProjectRules: [required],
-          environmentRules: [required, () => this.pluginsPass || '该环境所在集群还未启用  插件！'],
+          environmentRules: [required, () => this.pluginsPass || this.$root.$t('plugin.environment_missing', [''])],
         };
       },
       projectId() {
@@ -208,7 +219,7 @@
             this.pluginsPass = true;
           } else {
             this.$store.commit('SET_SNACKBAR', {
-              text: `该环境所在集群还未启用 ${missingPlugins.join(', ')} 插件！`,
+              text: this.$root.$t('plugin.environment_missing', [missingPlugins.join(', ')]),
               color: 'warning',
             });
             this.pluginsPass = false;

@@ -20,7 +20,7 @@
       <v-list-item-subtitle class="text-body-2 py-0">
         <v-list-item class="float-left py-0 pl-0" :style="{ width: `300px` }" two-line>
           <v-list-item-content class="py-0">
-            <v-list-item-title class="text-subtitle-2 py-1 primary--text"> 发件人 </v-list-item-title>
+            <v-list-item-title class="text-subtitle-2 py-1 primary--text"> {{ $t('tip.send') }} </v-list-item-title>
             <v-list-item-subtitle class="text-body-2 py-1">
               {{ item.from }}
             </v-list-item-subtitle>
@@ -30,7 +30,7 @@
       <v-list-item-subtitle class="text-body-2 py-0">
         <v-list-item class="float-left py-0 pl-0" two-line>
           <v-list-item-content class="py-0">
-            <v-list-item-title class="text-subtitle-2 py-1 primary--text"> 收件人 </v-list-item-title>
+            <v-list-item-title class="text-subtitle-2 py-1 primary--text"> {{ $t('tip.recv') }} </v-list-item-title>
             <v-list-item-subtitle class="text-body-2 py-1 white-space" :style="{ wordBreak: 'break-all' }">
               {{ item.to }}
             </v-list-item-subtitle>
@@ -49,8 +49,13 @@
 </template>
 
 <script>
+  import messages from '../../../../../i18n';
+
   export default {
     name: 'EmailItem',
+    i18n: {
+      messages: messages,
+    },
     props: {
       item: {
         type: Object,

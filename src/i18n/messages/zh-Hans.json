@@ -17,7 +17,7 @@
     "no_permission": "您可以联系平台管理员启用该插件",
     "cluster_missing": "该集群暂时还未启用 {0} 插件！",
     "environment_missing": "该环境所在集群暂时还未启用 {0} 插件！",
-    "missing": "插件{0}未启用"
+    "missing": "您暂时还未启用 {0} 插件！"
   },
 
   "datetimepicker": {
@@ -167,7 +167,8 @@
     "prometheus_rule": "告警规则",
     "flow": "采集器",
     "output": "路由器",
-    "monitor_template": "监控模版"
+    "monitor_template": "监控模版",
+    "service_monitor": "采集器"
   },
 
   "header": {
@@ -207,6 +208,7 @@
     "close": "关闭",
     "clear": "清空",
     "edit": "编辑",
+    "edit_c": "编辑{0}",
     "operate": "操作",
     "create": "创建",
     "create_c": "创建{0}",

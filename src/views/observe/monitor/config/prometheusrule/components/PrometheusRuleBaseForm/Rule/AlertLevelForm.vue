@@ -21,7 +21,7 @@
         <v-card-text class="pa-0">
           <v-sheet class="pt-2 px-2">
             <v-flex class="float-left text-subtitle-2 pt-6 primary--text kubegems__min-width">
-              <span>告警级别</span>
+              <span>{{ $t('tip.alert_severity') }}</span>
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-autocomplete
@@ -29,8 +29,8 @@
                 color="primary"
                 hide-selected
                 :items="severitySelect"
-                label="告警级别"
-                no-data-text="暂无可选数据"
+                :label="$t('tip.alert_severity')"
+                :no-data-text="$root.$t('data.no_data')"
                 :rules="alertLevelRules.severityRule"
               >
                 <template #selection="{ item }">
@@ -46,8 +46,8 @@
                 color="primary"
                 hide-selected
                 :items="comepareSelect"
-                label="触发条件"
-                no-data-text="暂无可选数据"
+                :label="$t('tip.trigger_condition')"
+                :no-data-text="$root.$t('data.no_data')"
                 :rules="alertLevelRules.compareRule"
               >
                 <template #selection="{ item }">
@@ -61,7 +61,7 @@
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-text-field
                 v-model="alertLevel.compareValue"
-                label="阈值"
+                :label="$t('tip.trigger_val')"
                 required
                 :rules="alertLevelRules.compareValueRule"
               />
@@ -71,8 +71,8 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
-          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> {{ $root.$t('operate.cancel') }} </v-btn>
+          <v-btn color="primary" small text @click="addData"> {{ $root.$t('operate.save') }} </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -80,11 +80,15 @@
 </template>
 
 <script>
+  import messages from '../../../../../i18n';
   import { deepCopy } from '@/utils/helpers';
-  import { required } from '@/utils/rules';
+  import { required, timeInterval } from '@/utils/rules';
 
   export default {
     name: 'AlertLevelForm',
+    i18n: {
+      messages: messages,
+    },
     props: {
       data: {
         type: Array,
@@ -105,24 +109,30 @@
         alertLevelRules: {
           nameRule: [required],
           metricRule: [required],
-          forRule: [(v) => !!new RegExp('(^\\d+[s|m|h]$)').test(v) || '格式错误(示例:30s,1m,1h)'],
+          forRule: [timeInterval],
           compareRule: [required],
           severityRule: [required],
           compareValueRule: [required],
         },
-        comepareSelect: [
-          { text: '大于', value: '>' },
-          { text: '大于或等于', value: '>=' },
-          { text: '小于', value: '<' },
-          { text: '小于或等于', value: '<=' },
-          { text: '等于', value: '==' },
-          { text: '不等于', value: '!=' },
-        ],
-        severitySelect: [
-          { text: '重要', value: 'error' },
-          { text: '紧急', value: 'critical' },
-        ],
       };
+    },
+    computed: {
+      comepareSelect() {
+        return [
+          { text: this.$t('tip.gt'), value: '>' },
+          { text: this.$t('tip.gte'), value: '>=' },
+          { text: this.$t('tip.lt'), value: '<' },
+          { text: this.$t('tip.lte'), value: '<=' },
+          { text: this.$t('tip.eq'), value: '==' },
+          { text: this.$t('tip.neq'), value: '!=' },
+        ];
+      },
+      severitySelect() {
+        return [
+          { text: this.$t('tip.error'), value: 'error' },
+          { text: this.$t('tip.critical'), value: 'critical' },
+        ];
+      },
     },
     watch: {
       data() {

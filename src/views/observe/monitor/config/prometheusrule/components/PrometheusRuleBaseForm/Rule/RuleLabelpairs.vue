@@ -19,7 +19,7 @@
     <v-col v-for="item in labels" :key="item.label" class="py-0" cols="4">
       <v-text-field
         class="my-0"
-        hint="多值以 | 分割"
+        :hint="$t('tip.split_by_vertical')"
         :label="item.label"
         :value="item.value"
         @change="onChange($event, item.label)"
@@ -29,8 +29,13 @@
 </template>
 
 <script>
+  import messages from '../../../../../i18n';
+
   export default {
     name: 'RuleLabelpairs',
+    i18n: {
+      messages: messages,
+    },
     props: {
       value: {
         type: Object,

@@ -15,12 +15,20 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-call-received" title="更新接收器" :width="1000" @reset="reset">
+  <BaseDialog
+    v-model="dialog"
+    icon="mdi-call-received"
+    :title="$root.$t('operate.update_c', [$root.$t('resource.receiver')])"
+    :width="1000"
+    @reset="reset"
+  >
     <template #content>
       <component :is="formComponent" :ref="formComponent" :edit="true" :item="item" title="Receiver" />
     </template>
     <template #action>
-      <v-btn class="float-right mx-2" color="primary" :loading="Circular" text @click="updateReceiver"> 确定 </v-btn>
+      <v-btn class="float-right mx-2" color="primary" :loading="Circular" text @click="updateReceiver">
+        {{ $root.$t('operate.confirm') }}
+      </v-btn>
     </template>
   </BaseDialog>
 </template>

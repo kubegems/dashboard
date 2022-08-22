@@ -16,12 +16,12 @@
 <template>
   <FormWizard
     ref="wizard"
-    back-button-text="上一步"
+    :back-button-text="$root.$t('operate.previous')"
     :class="`px-8 pt-8`"
     color="#1e88e5"
     error-color="#e74c3c"
-    finish-button-text="部署"
-    next-button-text="下一步"
+    :finish-button-text="$root.$t('operate.deploy')"
+    :next-button-text="$root.$t('operate.next')"
     shape="tab"
     :start-index="0"
     step-size="sm"
@@ -32,22 +32,38 @@
       :before-change="validateBaseInfo"
       :class="`kubegems__wizard-tab-content mt-8`"
       icon="mdi mdi-information"
-      title="基本配置"
+      :title="$t('tip.basic_config')"
     >
       <DeployBaseConf ref="baseConf" :base="obj.base" :item="item" />
     </TabContent>
-    <TabContent :class="`kubegems__wizard-tab-content mt-12`" icon="mdi mdi-cog" :lazy="false" title="详细配置">
+    <TabContent
+      :class="`kubegems__wizard-tab-content mt-12`"
+      icon="mdi mdi-cog"
+      :lazy="false"
+      :title="$t('tip.detail_config')"
+    >
       <DeployAdvancedConf ref="advancedConf" :base="obj.base" :item="item" :spec="obj.spec" />
     </TabContent>
-    <TabContent :class="`kubegems__wizard-tab-content mt-12`" icon="mdi mdi-check" :lazy="false" title="完成">
+    <TabContent
+      :class="`kubegems__wizard-tab-content mt-12`"
+      icon="mdi mdi-check"
+      :lazy="false"
+      :title="$t('tip.complete')"
+    >
       <DeployStatus :base="obj.base" :item="item" :processing="processing" @showDeployStatus="showDeployStatus" />
     </TabContent>
     <template #footer="props">
       <v-flex class="kubegems__wizard-footer" :style="`right:${footerWidth}px;`">
-        <v-btn v-show="props.activeTabIndex > 0" color="primary" text @click.native="props.prevTab()"> 上一步 </v-btn>
-        <v-btn v-if="props.activeTabIndex === 0" color="primary" text @click.native="nextStep(props)"> 下一步 </v-btn>
+        <v-btn v-show="props.activeTabIndex > 0" color="primary" text @click.native="props.prevTab()">
+          {{ $root.$t('operate.previous') }}
+        </v-btn>
+        <v-btn v-if="props.activeTabIndex === 0" color="primary" text @click.native="nextStep(props)">
+          {{ $root.$t('operate.next') }}
+        </v-btn>
 
-        <v-btn v-if="props.activeTabIndex === 1" color="primary" :loading="Circular" text @click="deploy"> 部署 </v-btn>
+        <v-btn v-if="props.activeTabIndex === 1" color="primary" :loading="Circular" text @click="deploy">
+          {{ $root.$t('operate.deploy') }}
+        </v-btn>
       </v-flex>
     </template>
   </FormWizard>
@@ -57,6 +73,7 @@
   import { FormWizard, TabContent } from 'vue-form-wizard';
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import DeployAdvancedConf from './DeployAdvancedConf';
   import DeployBaseConf from './DeployBaseConf';
   import DeployStatus from './DeployStatus';
@@ -67,6 +84,9 @@
 
   export default {
     name: 'DeployWizard',
+    i18n: {
+      messages: messages,
+    },
     components: {
       DeployAdvancedConf,
       DeployBaseConf,

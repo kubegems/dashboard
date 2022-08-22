@@ -24,7 +24,7 @@
         dense
         flat
         hide-details
-        :label="`${title}名称`"
+        :label="`${title}${$t('tip.name')}`"
         prepend-inner-icon="mdi-magnify"
         solo
         @keyup="onSearch"
@@ -63,15 +63,19 @@
         <span v-else> + {{ orderedTags.length - 12 }}</span>
       </v-chip>
     </div>
-    <div v-if="!tags || orderedTags.length === 0" class="filter__null"> 暂无数据 </div>
+    <div v-if="!tags || orderedTags.length === 0" class="filter__null"> {{ $root.$t('data.no_data') }} </div>
   </div>
 </template>
 
 <script>
+  import messages from '../../i18n';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'FilterItems',
+    i18n: {
+      messages: messages,
+    },
     props: {
       title: {
         type: String,

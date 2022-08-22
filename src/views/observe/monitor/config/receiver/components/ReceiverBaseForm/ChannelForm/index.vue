@@ -21,7 +21,7 @@
         <v-card-text class="pa-0">
           <v-sheet class="pt-2 px-2">
             <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width">
-              <span>告警渠道</span>
+              <span>{{ $t('tip.alert_channel') }}</span>
             </v-flex>
             <v-flex class="float-left ml-0 kubegems__form-width">
               <v-autocomplete
@@ -30,8 +30,8 @@
                 color="primary"
                 hide-selected
                 :items="receiverTypeItems"
-                label="告警渠道"
-                no-data-text="暂无可选数据"
+                :label="$t('tip.alert_channel')"
+                :no-data-text="$root.$t('data.no_data')"
                 :readonly="type === null ? false : true"
                 required
                 :rules="channelRule"
@@ -66,6 +66,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../../../../i18n';
   import EmailForm from './EmailForm';
   import WebhookForm from './WebhookForm';
   import BaseResource from '@/mixins/resource';
@@ -73,6 +74,9 @@
 
   export default {
     name: 'ChannelForm',
+    i18n: {
+      messages: messages,
+    },
     components: {
       EmailForm,
       WebhookForm,

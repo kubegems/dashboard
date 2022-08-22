@@ -28,13 +28,19 @@
               <v-card>
                 <v-card-text class="pa-2 text-center">
                   <v-flex v-if="User.Username === item.username">
-                    <v-btn color="primary" small text @click="editCommnet(item)"> 编辑 </v-btn>
+                    <v-btn color="primary" small text @click="editCommnet(item)">
+                      {{ $root.$t('operate.edit') }}
+                    </v-btn>
                   </v-flex>
                   <v-flex>
-                    <v-btn color="primary" small text @click="replyCommnet(item, item.id)"> 回复 </v-btn>
+                    <v-btn color="primary" small text @click="replyCommnet(item, item.id)">
+                      {{ $t('operate.reply') }}
+                    </v-btn>
                   </v-flex>
                   <v-flex v-if="User.Username === item.username">
-                    <v-btn color="error" small text @click="removeComment(item)"> 删除 </v-btn>
+                    <v-btn color="error" small text @click="removeComment(item)">
+                      {{ $root.$t('operate.delete') }}
+                    </v-btn>
                   </v-flex>
                 </v-card-text>
               </v-card>
@@ -48,7 +54,7 @@
                 </v-avatar>
                 <span class="text-subtitle-1 mx-2 font-weight-medium">{{ item.username }}</span>
                 <span class="text-muted text-caption kubegems__text">
-                  {{ $moment(item.creationTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() }} 发表评论
+                  {{ $moment(item.creationTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() }} {{ $t('operate.publish_comment') }}
                 </span>
               </div>
               <v-rating
@@ -69,7 +75,7 @@
           <v-spacer />
           <v-btn color="primary" depressed small text @click="showReply(item, index)">
             <v-icon left small>{{ item.expand ? 'mdi-chevron-double-up' : 'mdi-comment-text-outline' }}</v-icon>
-            {{ item.repliesCount || 0 }} 回复
+            {{ item.repliesCount || 0 }} {{ $t('operate.reply') }}
           </v-btn>
         </v-card-actions>
 
@@ -87,13 +93,19 @@
                   <v-card>
                     <v-card-text class="pa-2 text-center">
                       <v-flex v-if="User.Username === item.username">
-                        <v-btn color="primary" small text @click="editCommnet(reply, true)"> 编辑 </v-btn>
+                        <v-btn color="primary" small text @click="editCommnet(reply, true)">
+                          {{ $root.$t('operate.edit') }}
+                        </v-btn>
                       </v-flex>
                       <v-flex>
-                        <v-btn color="primary" small text @click="replyCommnet(reply, item.id)"> 回复 </v-btn>
+                        <v-btn color="primary" small text @click="replyCommnet(reply, item.id)">
+                          {{ $t('operate.reply') }}
+                        </v-btn>
                       </v-flex>
                       <v-flex v-if="User.Username === item.username">
-                        <v-btn color="error" small text @click="removeComment(reply, true, item.id)"> 删除 </v-btn>
+                        <v-btn color="error" small text @click="removeComment(reply, true, item.id)">
+                          {{ $root.$t('operate.delete') }}
+                        </v-btn>
                       </v-flex>
                     </v-card-text>
                   </v-card>
@@ -107,14 +119,17 @@
                 </v-avatar>
                 <span class="text-subtitle-2 mx-2 font-weight-medium kubegems__text">{{ reply.username }}</span>
                 <span class="text-muted text-caption kubegems__text">
-                  {{ $moment(reply.creationTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() }} 发表回复
+                  {{ $moment(reply.creationTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() }} {{ $t('operate.publish_reply') }}
                 </span>
               </div>
               <div
                 v-if="reply.replyTo && reply.replyTo.id !== reply.replyTo.rootID"
                 class="comment__reply__content grey lighten-4 rounded mx-4 px-3 kubegems__text"
               >
-                <div>{{ reply.replyTo.username }} 发布于 {{ $moment(reply.replyTo.creationTime).format('lll') }}</div>
+                <div>
+                  {{ reply.replyTo.username }} {{ $t('tip.published_at') }}
+                  {{ $moment(reply.replyTo.creationTime).format('lll') }}
+                </div>
                 “{{ reply.replyTo.content }}”
               </div>
               <div class="d-block my-2 text-subtitle-2 font-weight-regular mt-3 mx-2 kubegems__text">
@@ -167,11 +182,15 @@
   import { Base64 } from 'js-base64';
   import { mapState } from 'vuex';
 
+  import messages from '../../../i18n';
   import Reply from './Reply';
   import { deleteModelComment, getModelCommentList } from '@/api';
 
   export default {
     name: 'Comment',
+    i18n: {
+      messages: messages,
+    },
     components: {
       Reply,
     },
@@ -244,7 +263,7 @@
         this.$set(this, 'commentItems', items);
       },
       addComment() {
-        this.$refs.reply.open('添加评论');
+        this.$refs.reply.open(this.$root.$t('operate.add_c', [this.$t('tip.comment')]));
       },
       replyCommnet(item, rootId) {
         const data = {
@@ -257,7 +276,7 @@
           },
         };
         this.$refs.reply.init(data, true);
-        this.$refs.reply.open('回复评论');
+        this.$refs.reply.open(this.$t('operate.reply_c', [this.$t('tip.comment')]));
       },
       refresh(reply, commentid) {
         if (reply) {
@@ -268,13 +287,13 @@
       },
       editCommnet(item, reply = false) {
         this.$refs.reply.init(item, reply);
-        this.$refs.reply.open('编辑评论');
+        this.$refs.reply.open(this.$root.$t('operate.edit_c', [this.$t('tip.comment')]));
       },
       removeComment(item, reply, commentid) {
         this.$store.commit('SET_CONFIRM', {
-          title: `删除评论`,
+          title: this.$root.$t('operate.delete_c', [this.$t('tip.comment')]),
           content: {
-            text: `删除该评论`,
+            text: this.$root.$t('operate.delete_c', [this.$t('tip.comment')]),
             type: 'confirm',
           },
           param: { item, reply, commentid },

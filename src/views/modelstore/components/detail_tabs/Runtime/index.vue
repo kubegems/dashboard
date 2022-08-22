@@ -23,7 +23,7 @@
         item-key="name"
         :items="items"
         :items-per-page="params.size"
-        no-data-text="暂无数据"
+        :no-data-text="$root.$t('data.no_data')"
         :page.sync="params.page"
       >
         <template #[`item.name`]="{ item }">
@@ -65,21 +65,16 @@
 <script>
   import { Base64 } from 'js-base64';
 
+  import messages from '../../../i18n';
   import { getModelRuntimeList } from '@/api';
 
   export default {
     name: 'RuntimeList',
+    i18n: {
+      messages: messages,
+    },
     data: () => ({
       items: [],
-      headers: [
-        { text: '部署实例', value: 'name', align: 'start' },
-        { text: '模型版本', value: 'modelVersion', align: 'start' },
-        { text: '状态', value: 'phase', align: 'start' },
-        { text: '集群', value: 'cluster', align: 'start' },
-        { text: '命名空间', value: 'namespace', align: 'start' },
-        { text: '创建人', value: 'creator', align: 'start' },
-        { text: 'Api', value: 'url', align: 'start' },
-      ],
       pageCount: 0,
       params: {
         page: 1,
@@ -87,6 +82,19 @@
         noprocessing: true,
       },
     }),
+    computed: {
+      headers() {
+        return [
+          { text: this.$t('table.deploy_instance'), value: 'name', align: 'start' },
+          { text: this.$t('table.model_version'), value: 'modelVersion', align: 'start' },
+          { text: this.$t('table.status'), value: 'phase', align: 'start' },
+          { text: this.$root.$t('resource.cluster'), value: 'cluster', align: 'start' },
+          { text: this.$root.$t('resource.namespace'), value: 'namespace', align: 'start' },
+          { text: this.$t('table.creator'), value: 'creator', align: 'start' },
+          { text: 'Api', value: 'url', align: 'start' },
+        ];
+      },
+    },
     mounted() {
       this.$nextTick(() => {
         this.runtimeList();

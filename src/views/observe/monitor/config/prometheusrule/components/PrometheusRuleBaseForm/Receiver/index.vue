@@ -18,9 +18,9 @@
   <v-flex>
     <v-form ref="form" v-model="valid" lazy-validation>
       <v-flex :class="expand ? 'kubegems__overlay' : ''" />
-      <BaseSubTitle title="告警消息" />
+      <BaseSubTitle :title="$t('tip.alert_message')" />
       <v-card-text class="pa-2">
-        <v-textarea v-model="obj.message" auto-grow class="my-0" label="告警消息" required />
+        <v-textarea v-model="obj.message" auto-grow class="my-0" :label="$t('tip.alert_message')" required />
       </v-card-text>
 
       <ReceiverForm
@@ -32,7 +32,7 @@
         @addData="addData"
         @closeOverlay="closeExpand"
       />
-      <BaseSubTitle title="接收器配置" />
+      <BaseSubTitle :title="$t('tip.receiver_config')" />
       <v-card-text class="pa-2">
         <ReceiverItem
           :receivers="obj.receivers"
@@ -48,6 +48,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../../../../i18n';
   import ReceiverForm from './ReceiverForm';
   import ReceiverItem from './ReceiverItem';
   import BaseResource from '@/mixins/resource';
@@ -56,6 +57,9 @@
 
   export default {
     name: 'Receiver',
+    i18n: {
+      messages: messages,
+    },
     components: {
       ReceiverForm,
       ReceiverItem,

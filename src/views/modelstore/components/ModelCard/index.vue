@@ -30,10 +30,11 @@
                 </v-list-item-title>
 
                 <v-list-item-subtitle class="text-body-2 text--lighten-4 card__desc">
-                  类型： {{ item.task }}
+                  {{ $root.$t('resource.type') }} : {{ item.task }}
                 </v-list-item-subtitle>
                 <v-list-item-subtitle class="text-body-2 text--lighten-4 card__desc">
-                  更新时间： {{ item.lastModified ? $moment(item.lastModified).format('lll') : '未知' }}
+                  {{ $t('tip.last_update_at') }} :
+                  {{ item.lastModified ? $moment(item.lastModified).format('lll') : $root.$t('data.unknown') }}
                 </v-list-item-subtitle>
                 <v-list-item-subtitle
                   v-if="item.downloads > -1 || item.likes > -1"
@@ -60,11 +61,13 @@
                 />
               </div>
               <v-spacer />
-              <v-btn color="primary" small text @click="modelDetail(item)"> 详情 </v-btn>
+              <v-btn color="primary" small text @click="modelDetail(item)"> {{ $root.$t('operate.detail') }} </v-btn>
             </v-card-actions>
 
             <v-flex v-if="item.recommentContent" class="card__watermark-bg" />
-            <v-flex v-if="item.recommentContent" class="card__watermark font-weight-medium"> 推荐 </v-flex>
+            <v-flex v-if="item.recommentContent" class="card__watermark font-weight-medium">
+              {{ $t('tip.recommend') }}
+            </v-flex>
           </v-card>
         </v-hover>
       </v-col>
@@ -94,10 +97,14 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import { getModelStoreList } from '@/api';
 
   export default {
     name: 'ModelCard',
+    i18n: {
+      messages: messages,
+    },
     props: {
       registry: {
         type: Object,

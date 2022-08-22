@@ -167,7 +167,8 @@
     "prometheus_rule": "Prometheus Rule",
     "flow": "Flow",
     "output": "Output",
-    "monitor_template": "Monitor Template"
+    "monitor_template": "Monitor Template",
+    "service_monitor": "Service Monitor"
   },
 
   "header": {
@@ -208,6 +209,7 @@
     "clear": "Clear",
     "operate": "Operate",
     "edit": "Edit",
+    "edit_c": "Edit {0}",
     "create": "Create",
     "create_c": "Create {0}",
     "update": "Update",

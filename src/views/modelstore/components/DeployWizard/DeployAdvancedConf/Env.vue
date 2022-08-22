@@ -15,7 +15,7 @@
         hide-no-data
         hide-selected
         :items="[]"
-        label="环境变量"
+        :label="$t('tip.env')"
         :menu-props="{
           bottom: true,
           left: true,
@@ -46,28 +46,34 @@
         <v-form ref="form" v-model="valid" class="px-2" lazy-validation @click.stop @submit.prevent>
           <v-row>
             <v-col cols="6">
-              <v-text-field v-model="obj.name" label="键" :rules="objRules.nameRules" />
+              <v-text-field v-model="obj.name" :label="$root.$t('form.key')" :rules="objRules.nameRules" />
             </v-col>
             <v-col cols="6">
-              <v-text-field v-model="obj.value" label="值" :rules="objRules.valueRules" />
+              <v-text-field v-model="obj.value" :label="$root.$t('form.value')" :rules="objRules.valueRules" />
             </v-col>
           </v-row>
         </v-form>
       </v-card-text>
       <v-card-title class="pa-0">
         <v-spacer />
-        <v-btn class="mr-2 mb-2" color="primary" dark right small text @click="addEnv"> 确定 </v-btn>
+        <v-btn class="mr-2 mb-2" color="primary" dark right small text @click="addEnv">
+          {{ $root.$t('operate.confirm') }}</v-btn
+        >
       </v-card-title>
     </v-card>
   </v-menu>
 </template>
 
 <script>
+  import messages from '../../../i18n';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'Env',
+    i18n: {
+      messages: messages,
+    },
     data() {
       return {
         valid: false,
