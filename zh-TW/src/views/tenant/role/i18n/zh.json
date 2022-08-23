@@ -1,0 +1,31 @@
+{
+  "table": {
+    "role": "Role",
+    "type": "Type",
+    "description": "Description"
+  },
+  "tip": {
+    "system": {
+      "admin": "Can operate all resources, users, tenants",
+      "normal": "No system level permissions"
+    },
+    "tenant": {
+      "admin": "Can operate all resources under the tenant",
+      "normal": "You can only see the projects you are involved in"
+    },
+    "project": {
+      "admin": "Can operate all resources under the project",
+      "dev": "An environment where only R&D properties can be manipulated",
+      "test": "An environment where only test properties can be manipulated",
+      "ops": "Can operate in all environments"
+    },
+    "environment": {
+      "operator": "Resources in an operational environment",
+      "reader": "Can only view resources in the environment"
+    },
+    "mesh": {
+      "admin": "Can operate resources under the microservice virtual space",
+      "normal": "View resources under the microservice virtual space"
+    }
+  }
+}
