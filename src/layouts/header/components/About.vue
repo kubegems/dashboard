@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <v-dialog v-model="dialog" height="100%" :max-width="500" persistent scrollable>
+  <v-dialog v-model="dialog" height="100%" :max-width="700" persistent scrollable>
     <v-card>
       <v-card-text class="pa-0">
         <div>
@@ -31,42 +31,29 @@
           <h6 class="text-body-2 grey--text text--darken-1 font-weight-regular"> {{ cnDict[key] }} : {{ value }} </h6>
         </v-flex>
       </v-card-text>
+      <v-divider class="mt-4" />
       <v-card-title class="text-body-2 kubegems__text px-4">
         <div class="title__pointer" @click.stop="toProject">
           <v-btn class="float-left" icon small>
             <v-icon>mdi-github</v-icon>
           </v-btn>
-          <div class="float-left title__div"> 项目地址 </div>
+          <div class="float-left title__div"> {{ $t('tip.project_address') }} </div>
         </div>
 
         <div class="ml-2 title__pointer" @click.stop="toIssue">
           <v-btn class="float-left" color="red lighten-1" icon small>
             <v-icon>mdi-bug</v-icon>
           </v-btn>
-          <div class="float-left title__div"> 问题反馈 </div>
+          <div class="float-left title__div"> {{ $t('tip.issue') }} </div>
         </div>
 
         <v-spacer />
-
-        <div class="title__pointer" @click.stop="toDiscussion">
-          <v-btn class="float-left" color="success" icon small>
-            <v-icon>mdi-slack</v-icon>
-          </v-btn>
-          <div class="float-left title__div"> 参与讨论 </div>
-        </div>
-
-        <div class="ml-2 title__pointer" @click.stop="toPR">
-          <v-btn class="float-left" color="primary" icon small>
-            <v-icon>mdi-source-branch-plus</v-icon>
-          </v-btn>
-          <div class="float-left title__div"> 贡献代码 </div>
-        </div>
 
         <div class="ml-2 title__pointer" @click.stop="toStar">
           <v-btn class="float-left" color="orange" icon small>
             <v-icon>mdi-star</v-icon>
           </v-btn>
-          <div class="float-left title__div"> 标星 </div>
+          <div class="float-left title__div"> {{ $t('tip.star') }} </div>
         </div>
       </v-card-title>
       <div class="pa-2">
@@ -133,14 +120,8 @@
       toProject() {
         window.open('https://github.com/kubegems/kubegems');
       },
-      toDiscussion() {
-        window.open('https://github.com/kubegems/kubegems/discussions');
-      },
       toIssue() {
         window.open('https://github.com/kubegems/kubegems/issues');
-      },
-      toPR() {
-        window.open('https://github.com/kubegems/kubegems/pulls');
       },
       toStar() {
         window.open('https://github.com/kubegems/kubegems');

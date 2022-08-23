@@ -1,1 +1,68 @@
-{}
+{
+  "filter": {
+    "app_name": "App name"
+  },
+  "operate": {
+    "link_c": "Associate {0}",
+    "advanced_deploy": "Advanced deployment",
+    "scale_replicas": "Adjust number of copies",
+    "rollback": "Rollback",
+    "auto_scale_policy": "Flexibility Policy",
+    "confirm_and_publish": "Determine and publish"
+  },
+  "tip": {
+    "platform_app": "Platform app",
+    "app_store_app": "App Store App",
+    "model_store_app": "Algorithm Store App",
+    "used": "{0} Usage",
+    "gpu_temp": "GPU temperature",
+    "gpu_power": "GPU power",
+    "version": "Version",
+    "replicas": "Duplicate",
+    "now_replicas": "Current number of copies",
+    "dest_replicas": "Number of target copies",
+    "error_info": "Error message",
+    "model_instance": "Model Instances",
+    "allocated": "Assigned {0}",
+    "unallocated": "Unassigned",
+    "protocol": "Protocol",
+    "params": "Parameters",
+    "port": "Port",
+    "port_name": "Port Name",
+    "container_port": "Container Port",
+    "host_address": "Host address",
+    "host_port": "Host Port"
+  },
+  "table": {
+    "name": "App name",
+    "kind": "Application Type",
+    "image_version": "Current mirror version",
+    "status": "Status",
+    "publisher": "Publisher",
+    "publish_at": "Publish Date",
+    "task_status": "Deployment Task Status",
+    "instance_name": "Instance Name",
+    "model_name": "Model Name",
+    "model_version": "Model Version",
+    "source": "Model Source",
+    "image": "Mirror",
+    "creator": "Created By",
+    "now_version": "Current version"
+  },
+  "tab": {
+    "manifest": "Resource Organization",
+    "control_center": "Control Center",
+    "resource_status": "Resource Status",
+    "deploy_history": "Deployment History",
+    "image_safey": "Mirror security",
+    "runtime": "Run Information"
+  },
+  "form": {
+    "limit_min_rule": "Less than Minimum Limit"
+  },
+  "status": {
+    "running": "In progress",
+    "complete": "Completed",
+    "failed": "Execution Failed"
+  }
+}

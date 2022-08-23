@@ -81,7 +81,7 @@
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title class="text-body-2 font-weight-medium kubegems__text user__list__title">
-              {{ $t('header.user.tenant') }}
+              {{ $root.$t('header.user.tenant') }}
               <v-flex class="float-right white--text blue-grey lighten-2 px-1 user__item">
                 {{ Tenant().TenantName }}
               </v-flex>
@@ -95,9 +95,9 @@
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title class="text-body-2 font-weight-medium kubegems__text user__list__title">
-              {{ $t('header.user.usercenter') }}
+              {{ $root.$t('header.user.usercenter') }}
               <v-flex class="float-right white--text blue-grey lighten-2 px-1 user__item">
-                {{ Admin ? $t('role.system.administrator') : $t('role.system.normal') }}
+                {{ Admin ? $root.$t('role.system.administrator') : $root.$t('role.system.normal') }}
               </v-flex>
               <div class="kubegems__clear-float" />
             </v-list-item-title>
@@ -109,7 +109,7 @@
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title class="text-body-2 font-weight-medium kubegems__text user__list__title">
-              {{ $t('header.user.manual') }}
+              {{ $root.$t('header.user.manual') }}
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -119,7 +119,7 @@
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title class="text-body-2 font-weight-medium kubegems__text user__list__title">
-              {{ $t('header.user.about') }}
+              {{ $root.$t('header.user.about') }}
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -129,7 +129,7 @@
         <v-spacer />
         <v-btn color="primary" text @click="logout">
           <v-icon left> mdi-login </v-icon>
-          <span class="font-weight-medium kubegems__text">{{ $t('logout') }}</span>
+          <span class="font-weight-medium kubegems__text">{{ $root.$t('logout') }}</span>
         </v-btn>
         <v-spacer />
       </v-card-actions>

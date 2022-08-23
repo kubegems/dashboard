@@ -30,6 +30,9 @@
   },
   "tip": {
     "tenant": "当前租户",
-    "resource_scale": "资源调整"
+    "resource_scale": "资源调整",
+    "project_address": "项目地址",
+    "issue": "问题反馈",
+    "star": "标星"
   }
 }

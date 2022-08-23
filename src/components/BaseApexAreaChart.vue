@@ -279,7 +279,7 @@
         }
         return { scaleNum: scaleNum, unitType: unitType, newValue: value };
       },
-      beautifyUnit(num, sclaeNum, units = [], unitType = '', decimal = 1) {
+      beautifyUnit(num, sclaeNum, units = [], unitType = '', decimal = 2) {
         let result = num;
         for (const index in units) {
           if (Math.abs(result) <= sclaeNum || parseInt(index) === parseInt(units.length - 1)) {
@@ -295,7 +295,7 @@
         }
         return `${result.toFixed(decimal)} Yi`;
       },
-      beautifyDurationUnit(num, decimal = 1) {
+      beautifyDurationUnit(num, decimal = 2) {
         let result = num;
         const units = ['ns', 'us', 'ms', 's', 'm', 'h', 'd', 'w'];
         let sclaeNum = 1000;
@@ -326,9 +326,9 @@
           return scaleNum;
         }
         if (unitType === 'duration') {
-          return this.beautifyDurationUnit(value, 1);
+          return this.beautifyDurationUnit(value, 2);
         } else {
-          return this.beautifyUnit(value, scaleNum, this.allUnit[unitType], unitType, 1);
+          return this.beautifyUnit(value, scaleNum, this.allUnit[unitType], unitType, 2);
         }
       },
       getOptions(title, id) {

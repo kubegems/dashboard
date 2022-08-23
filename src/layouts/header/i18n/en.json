@@ -30,6 +30,9 @@
   },
   "tip": {
     "tenant": "Current tenant",
-    "resource_scale": "Resource Scale"
+    "resource_scale": "Resource Scale",
+    "project_address": "Github",
+    "issue": "Issues",
+    "star": "Star"
   }
 }

@@ -136,6 +136,7 @@ export function getIconName(name, def = 'kubernetes') {
   if (name.indexOf('golang') > -1) return 'logos:go';
   if (name.indexOf('javascript') > -1) return 'logos:javascript';
   if (name.indexOf('java') > -1) return 'logos:java';
+  if (name.indexOf('jmx') > -1) return 'logos:java';
   if (name.indexOf('php') > -1) return 'logos:php';
   if (name.indexOf('python') > -1) return 'logos:python';
   if (name.indexOf('ruby') > -1) return 'logos:ruby';

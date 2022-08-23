@@ -1,1 +1,48 @@
-{}
+{
+  "tip": {
+    "install_metrics": "Install OpenTelemetry Metrics Library",
+    "install_metrics_desc": "Customize indicators to understand how the app works in real time and how it affects user experience or functions",
+    "install_trace": "Install OpenTelemetry Traces Library",
+    "install_trace_desc": "Linked Tracing provides tools such as calling links to reverse, link top, app dependency analysis to help developers to quickly analyze and diagnose performance bottlenecks and to improve the efficiency of developing diagnostics",
+    "create_log": "Create collector collection application log",
+    "create_log_desc": "Automatically collect app container console (stdout/stderr) logs to help developers perform log analysis during failure",
+    "enabled_monitor": "Monitor enabled",
+    "disabled_monitor": "Monitor is not enabled",
+    "enabled_log": "Log enabled",
+    "disabled_log": "Log not enabled",
+    "enabled_mesh": "Service grid enabled",
+    "disabled_mesh": "Service grid not enabled",
+    "filter_project": "Please select an item to filter",
+    "last_30_second": "Last 30 seconds",
+    "last_5_minute": "Last 5 minutes",
+    "last_1_hour": "Last 1 hour",
+    "last_1_day": "Last 1 day",
+    "last_1_week": "Last week",
+    "time": "Time",
+    "error_info": "Error message",
+    "event_source": "Event Source",
+    "event_type": "Event Type"
+  },
+  "table": {
+    "label": "Tags",
+    "status": "Status",
+    "restart_count": "Container Restart (second)",
+    "metrics_count": "Indicator collector",
+    "alert_rule_count": "Warning Rules",
+    "living_alert_count": "Real-Time Warning",
+    "log_count": "Log Collector",
+    "error_log_count": "Error Log",
+    "log_rate": "Log Rate",
+    "event_count": "Event",
+    "origin_component": "Source Component",
+    "origin_host": "Source Host",
+    "message": "Message",
+    "count": "Times",
+    "first_at": "First Time",
+    "last_at": "Last Time"
+  },
+  "tab": {
+    "event_chart": "Event Chart",
+    "event_list": "List of events"
+  }
+}
