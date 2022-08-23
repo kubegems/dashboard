@@ -1,0 +1,45 @@
+{
+  "table": {
+    "kubernetes_version": "Kubernetes版本",
+    "status": "状态",
+    "kubeconfig_expired": "配置有效期"
+  },
+  "tip": {
+    "control_cluster": "控制集群",
+    "resource_oversold": "资源超分",
+    "missing_kubeconfig": "请输入KubeConfig",
+    "physics": "物理",
+    "virtual": "v",
+    "total": "{0}总量",
+    "sum": "总和",
+    "oversold_precent": "{0}超分比例",
+    "oversold": "超分{0}",
+    "all": "总{0}",
+    "used": "已使用{0}",
+    "reason": "原因",
+    "cert_expired": "证书有效期",
+    "api_success_rate": "API请求成功率",
+    "cluster_init_config": "集群初始化设置",
+    "test_cluster": "测试集群",
+    "connect_success": "集群连接成功",
+    "connect_failed": "集群连接失败",
+    "connecting": "集群连接中",
+    "support_version": "支持版本",
+    "cluster_vendor": "集群厂商",
+    "now_select": "当前选择"
+  },
+  "form": {
+    "format_rule": "格式错误(示例:最多1位小数)",
+    "limit_min_rule": "低于最小限制",
+    "limit_max_rule": "超出最大限制",
+    "name": "集群名称"
+  },
+  "tab": {
+    "etcd_timeout": "ETCD耗时",
+    "apiserver_timeout": "APIServer耗时",
+    "cluster_cpu": "集群CPU",
+    "cluster_memory": "集群内存",
+    "cluster_storage": "集群存储",
+    "cluster_pod": "集群容器组"
+  }
+}
