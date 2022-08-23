@@ -1,0 +1,63 @@
+{
+  "tab": {
+    "message": "消息盒子",
+    "audit": "操作历史",
+    "setting": "个人设置",
+    "auth": "认证"
+  },
+  "table": {
+    "email": "邮箱",
+    "mobile": "手机号",
+    "registe_at": "注册时间",
+    "last_login_at": "上次登录"
+  },
+  "message": {
+    "table": {
+      "message": "消息",
+      "time": "时间",
+      "type": "类型"
+    },
+    "filter": {
+      "notify": "通知",
+      "approval": "审批",
+      "alert": "告警"
+    }
+  },
+  "audit": {
+    "table": {
+      "trigger_time": "触发时间",
+      "tenant": "租户",
+      "account": "用户",
+      "operate": "操作",
+      "object": "对象",
+      "label": "标签",
+      "status": "状态"
+    }
+  },
+  "setting": {
+    "tip": {
+      "personal_info": "个人信息",
+      "old": "原{0}",
+      "new": "新{0}",
+      "confirm_passwd": "确认新密码",
+      "i18n": "语言",
+      "auth": "认证信息",
+      "exprie": "过期时间(秒)"
+    }
+  },
+  "operate": {
+    "generate_c": "生成{0}"
+  },
+  "auth": {
+    "table": {
+      "expired": "是否过期",
+      "expire_at": "过期时间",
+      "grant_type": "授权类型",
+      "yes": "是",
+      "no": "否"
+    },
+    "tip": {
+      "copyed": "已复制到粘贴板"
+    }
+  }
+}
