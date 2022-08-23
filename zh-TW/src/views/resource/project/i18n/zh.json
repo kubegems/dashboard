@@ -1,0 +1,42 @@
+{
+  "table": {
+    "name": "Name",
+    "alias": " Alias",
+    "environment_space": "Environment Space",
+    "create_at": "Create Time",
+    "used": "Used {0}"
+  },
+  "filter": {
+    "name": "Project Name"
+  },
+  "tip": {
+    "tenant": "Please choose a tenant",
+    "tenant_creat_or_join": "Please create or join a tenant",
+    "resource_list": "Resource Usage",
+    "resource_count": "Resource Statistics",
+    "policy": "Policy"
+  },
+  "form": {
+    "project": {
+      "name": "Name",
+      "nameRule": "Exceed the 20 character limit",
+      "alias": "Alias",
+      "remark": "Remark"
+    }
+  },
+  "environment": {
+    "table": {
+      "environment_space": "Environment Space",
+      "environment_type": "Environment Type",
+      "namespace": "Namespace",
+      "creator": "Creator",
+      "network_isolation": "Network Isolation",
+      "used": "Used {0}"
+    },
+    "type": {
+      "dev": "Development",
+      "test": "Test",
+      "prod": "Production"
+    }
+  }
+}
