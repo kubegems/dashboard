@@ -1,9 +1,1 @@
-{
-  "table": {
-    "name": "网关名称",
-    "selector": "匹配标签"
-  },
-  "filter": {
-    "gateway_name": "网关名称"
-  }
-}
+{}
