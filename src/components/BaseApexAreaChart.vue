@@ -36,6 +36,10 @@
       VueApexCharts,
     },
     props: {
+      animationsEnable: {
+        type: Boolean,
+        default: () => true,
+      },
       chartType: {
         type: String,
         default: () => 'area',
@@ -156,7 +160,7 @@
             return Object.values(metricAndValues.metric)[0];
           }
         }
-        return this.$route.params.name || `数据${index + 1}`;
+        return this.$route.params.name || `${$t('data.data')}${index + 1}`;
       },
       async loadData() {
         let series = [];
@@ -336,11 +340,13 @@
             },
             id: id,
             animations: {
+              enabled: this.animationsEnable,
               animateGradually: {
                 enabled: false,
                 delay: 0,
               },
               dynamicAnimation: {
+                enabled: this.animationsEnable,
                 speed: 50,
               },
             },

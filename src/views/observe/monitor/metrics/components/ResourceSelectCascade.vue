@@ -75,6 +75,7 @@
               <v-list-item-content>
                 <v-list-item-title class="select__list__title pl-2">
                   {{ item.showName }}
+                  <div class="float-right text-caption mt-n1">{{ item.resourceCount }} 资源</div>
                 </v-list-item-title>
               </v-list-item-content>
               <v-list-item-icon>
@@ -95,7 +96,10 @@
                 <BaseLogo default-logo="kubegems" :icon-name="item.showName" :ml="0" :mt="1" :width="20" />
               </v-list-item-avatar>
               <v-list-item-content>
-                <v-list-item-title class="select__list__title pl-2" v-text="item.showName" />
+                <v-list-item-title class="select__list__title pl-2">
+                  {{ item.showName }}
+                  <div class="float-right text-caption mt-n1">{{ item.ruleCount }} 规则</div>
+                </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list-item-group>

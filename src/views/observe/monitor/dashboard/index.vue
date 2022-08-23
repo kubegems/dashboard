@@ -99,6 +99,7 @@
               <BaseApexAreaChart
                 :id="`c${index}`"
                 :key="`c${index}${tab}`"
+                :animations-enable="false"
                 chart-type="line"
                 :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
                 colorful

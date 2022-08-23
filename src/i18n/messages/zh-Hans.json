@@ -194,7 +194,8 @@
     "unknown": "未知",
     "no_data": "暂无数据",
     "no_cluster": "暂无集群",
-    "no_tenant": "暂无租户"
+    "no_tenant": "暂无租户",
+    "data": "数据"
   },
   "operate": {
     "add": "添加",

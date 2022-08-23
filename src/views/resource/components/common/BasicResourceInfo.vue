@@ -18,30 +18,18 @@
   <v-card flat>
     <v-card-title class="text-h6 primary--text">
       {{ item ? item.metadata.name : '' }}
-      <template v-if="item && item.kind === 'Pod' && tke">
-        <v-menu :close-delay="200" open-on-hover top>
-          <template #activator="{ on }">
-            <span class="mt-2 mr-2" v-on="on">
-              <BaseLogo icon-name="tke" />
-            </span>
-          </template>
-          <v-card>
-            <v-card-text class="pa-2">tencent vcuda </v-card-text>
-          </v-card>
-        </v-menu>
-      </template>
-      <template v-if="item && item.kind === 'Pod' && nvidia">
-        <v-menu :close-delay="200" open-on-hover top>
-          <template #activator="{ on }">
-            <span class="mt-2 mr-2" v-on="on">
-              <BaseLogo icon-name="nvidia" />
-            </span>
-          </template>
-          <v-card>
-            <v-card-text class="pa-2"> nvidia </v-card-text>
-          </v-card>
-        </v-menu>
-      </template>
+      <BaseLogo
+        v-if="item && ['Pod', 'Deployment', 'StatefulSet', 'DaemonSet'].indexOf(item.kind) > -1 && tke"
+        icon-name="tke"
+        :ml="0"
+        :width="24"
+      />
+      <BaseLogo
+        v-if="item && ['Pod', 'Deployment', 'StatefulSet', 'DaemonSet'].indexOf(item.kind) > -1 && nvidia"
+        icon-name="nvidia"
+        :ml="0"
+        :width="24"
+      />
     </v-card-title>
     <v-list-item two-line>
       <v-list-item-content class="kubegems__text">
@@ -100,13 +88,27 @@
     },
     computed: {
       tke() {
-        if (this.item?.spec?.resources?.limits['tencent.com/vcuda-core']) {
+        if (
+          this.item?.spec?.containers?.some((c) => {
+            return c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda'];
+          }) ||
+          this.item?.spec?.template?.spec?.containers?.some((c) => {
+            return c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda'];
+          })
+        ) {
           return true;
         }
         return false;
       },
       nvidia() {
-        if (this.item?.spec?.resources?.limits['limits.nvidia.com/gpu']) {
+        if (
+          this.item?.spec?.containers?.some((c) => {
+            return c?.resources?.limits && c?.resources?.limits['nvidia.com/gpu'];
+          }) ||
+          this.item?.spec?.template?.spec?.containers?.some((c) => {
+            return c?.resources?.limits && c?.resources?.limits['nvidia.com/gpu'];
+          })
+        ) {
           return true;
         }
         return false;

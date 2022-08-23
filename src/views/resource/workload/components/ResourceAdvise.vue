@@ -53,7 +53,7 @@
                 {{ showAdvise(container.MemoryStatus, $root.$t('resource.memory')) }}
               </v-list-item-content>
             </template>
-            <v-list-item-title>Pods({{ $t('tipadvice_2_scale') }})</v-list-item-title>
+            <v-list-item-title>Pods({{ $t('tip.advice_2_scale') }})</v-list-item-title>
             <v-list-item-content class="text-caption kubegems__text my-0">
               <v-flex v-for="(pod, podIndex) in container.Pods" :key="podIndex" class="text-caption kubegems__text">
                 {{ pod }}

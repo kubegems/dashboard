@@ -28,6 +28,7 @@
       <v-card flat :height="outerHeight" :style="{ overflowY: 'auto' }">
         <BaseApexAreaChart
           id="max"
+          :animations-enable="false"
           chart-type="line"
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
           colorful

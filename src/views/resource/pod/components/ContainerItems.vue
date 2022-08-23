@@ -31,12 +31,6 @@
                   <v-flex class="float-left">
                     {{ container.name }}
                   </v-flex>
-                  <v-flex v-if="tke" class="float-left mt-1 ml-2 icon-height">
-                    <BaseLogo icon-name="tke" :width="16" />
-                  </v-flex>
-                  <v-flex v-if="nvidia" class="float-left mt-1 ml-2 icon-height">
-                    <BaseLogo icon-name="nvidia" :width="16" />
-                  </v-flex>
                   <v-icon
                     v-if="
                       (container.state && container.state.running !== undefined) ||
@@ -218,18 +212,6 @@
     },
     computed: {
       ...mapState(['AdminViewport']),
-      tke() {
-        if (this?.item?.spec?.nodeSelector) {
-          return this.item.spec.nodeSelector['tencent.com/vcuda'] === 'true';
-        }
-        return false;
-      },
-      nvidia() {
-        if (this?.item?.spec?.nodeSelector) {
-          return this.item.spec.nodeSelector['nvidia.com/gpu'] === 'true';
-        }
-        return false;
-      },
     },
     watch: {
       containerStatuses: {
