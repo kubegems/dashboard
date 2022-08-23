@@ -30,7 +30,7 @@
       v-else
       :class="`${large ? 'logo__largeimg' : 'logo__img'} ml-${ml} mt-${mt}`"
       :src="`/icon/${getIconName(iconName, defaultLogo).replaceAll('img:', '')}`"
-      :style="`width: ${width}px;height: ${width}px;`"
+      :style="{ width: `${width}px`, height: `${width}px`, position: absolute ? 'absolute' : '' }"
     />
   </span>
 </template>
@@ -58,8 +58,12 @@
         default: () => 2,
       },
       mt: {
-        type: Number,
+        type: [Number, String],
         default: () => 0,
+      },
+      absolute: {
+        type: Boolean,
+        default: () => false,
       },
       width: {
         type: Number,

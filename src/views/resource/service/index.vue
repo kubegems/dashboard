@@ -21,7 +21,7 @@
     <v-card>
       <v-card-title class="py-4">
         <BaseFilter
-          :default="{ items: [], text: $t('tip.service_name'), value: 'search' }"
+          :default="{ items: [], text: $t('filter.service_name'), value: 'search' }"
           :filters="filters"
           @refresh="m_filter_list"
         />
@@ -220,7 +220,7 @@
         return items;
       },
       filters() {
-        return [{ text: this.$t('tip.service_name'), value: 'search', items: [] }];
+        return [{ text: this.$t('filter.service_name'), value: 'search', items: [] }];
       },
     },
     watch: {

@@ -194,7 +194,8 @@
     "unknown": "Unknown",
     "no_data": "No Data",
     "no_cluster": "No Cluster",
-    "no_tenant": "No Tenant"
+    "no_tenant": "No Tenant",
+    "data": "Data"
   },
   "operate": {
     "add": "Add",

@@ -162,6 +162,12 @@
             ...this.getRegistryMeta(d),
           };
         });
+        this.items.sort((a, b) => {
+          return b.builtIn - a.builtIn;
+        });
+        this.items.sort((a, b) => {
+          return a.creationTime - b.creationTime;
+        });
         this.loadSyncStatus();
       },
       loadSyncStatus() {

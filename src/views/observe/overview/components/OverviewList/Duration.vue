@@ -94,7 +94,7 @@
       durations() {
         return [
           { text: this.$t('tip.last_30_second'), value: '30s' },
-          { text: this.$t('tiplast_5_minute'), value: '5m' },
+          { text: this.$t('tip.last_5_minute'), value: '5m' },
           { text: this.$t('tip.last_1_hour'), value: '1h' },
           { text: this.$t('tip.last_1_day'), value: '1d' },
           { text: this.$t('tip.last_1_week'), value: '1w' },

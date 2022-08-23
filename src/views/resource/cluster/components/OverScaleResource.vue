@@ -201,7 +201,7 @@
           this.$t('tip.oversold', [this.$root.$t('resource.memory')]),
           [
             this.$t('tip.all', [this.$root.$t('resource.memory')]),
-            this.$t('tip.uesd', [this.$root.$t('resource.memory')]),
+            this.$t('tip.used', [this.$root.$t('resource.memory')]),
           ],
           this.quota ? this.quota.AllocatedMemory : 0,
           'Gi',

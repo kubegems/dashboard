@@ -94,18 +94,29 @@
           </template>
           <template #[`item.name`]="{ item, index }">
             <v-flex :id="`a${item.workload.metadata.resourceVersion}`" />
-            <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="workloadDetail(item.workload)">
-              {{ item.workload.metadata.name }}
-            </a>
-            <ResourceAdvise
-              v-if="item.hasOwnProperty('advise')"
-              :advise-item="adviseItems[`${item.workload.metadata.name}/${item.workload.metadata.namespace}`]"
-              :item="item.workload"
-              :kind="tabItems[tab].value"
-              :top="params.size - index <= 5 || (items.length <= 5 && index >= 1)"
-              @clearAdvise="clearAdvise"
-              @scaleResourceLimit="scaleResourceLimit"
-            />
+            <v-flex class="float-left">
+              <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="workloadDetail(item.workload)">
+                {{ item.workload.metadata.name }}
+              </a>
+            </v-flex>
+            <v-flex v-if="isTke(item)" class="float-left mt-1 ml-2 icon-height">
+              <BaseLogo icon-name="tke" mt="n1" :width="20" />
+            </v-flex>
+            <v-flex v-if="isNvidia(item)" class="float-left mt-1 ml-2 icon-height">
+              <BaseLogo icon-name="nvidia" mt="n1" :width="20" />
+            </v-flex>
+            <v-flex class="float-left ml-2">
+              <ResourceAdvise
+                v-if="item.hasOwnProperty('advise')"
+                :advise-item="adviseItems[`${item.workload.metadata.name}/${item.workload.metadata.namespace}`]"
+                :item="item.workload"
+                :kind="tabItems[tab].value"
+                :top="params.size - index <= 5 || (items.length <= 5 && index >= 1)"
+                @clearAdvise="clearAdvise"
+                @scaleResourceLimit="scaleResourceLimit"
+              />
+            </v-flex>
+            <div class="kubegems__clear-float" />
           </template>
           <template #[`item.namespace`]="{ item }">
             {{ item.workload.metadata.namespace }}
@@ -568,6 +579,16 @@
       },
       onPageIndexChange(page) {
         this.params.page = page;
+      },
+      isTke(item) {
+        return item.spec.template.spec.containers.some((c) => {
+          return c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda'];
+        });
+      },
+      isNvidia(item) {
+        return item.spec.template.spec.containers.some((c) => {
+          return c?.resources?.limits && c?.resources?.limits['nvidia.com/gpu'];
+        });
       },
     },
   };
