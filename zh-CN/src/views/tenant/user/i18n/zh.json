@@ -1,0 +1,36 @@
+{
+  "table": {
+    "name": "Name",
+    "status": "Status",
+    "email": "Email",
+    "mobile": "Mobile",
+    "role": "Role",
+    "last_login_at": "Last Login Time",
+    "registe_at": "Registe Time"
+  },
+  "filter": {
+    "username_or_email": "Username or email"
+  },
+  "operate": {
+    "role": "Set Role",
+    "reset_pwd": "Reset Passwd"
+  },
+  "status": {
+    "enabled": "Enabled",
+    "disabled": "Disabled"
+  },
+  "tip": {
+    "role_title": "User system role",
+    "passwd_title": "Reset password",
+    "random_passwd": "Generate random password"
+  },
+  "resource": {
+    "password": "Password"
+  },
+  "form": {
+    "new_passwd": "New Password",
+    "username": "Username",
+    "passwd": "Password",
+    "email": "Email"
+  }
+}
