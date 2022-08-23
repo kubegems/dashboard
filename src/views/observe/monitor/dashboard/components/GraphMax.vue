@@ -26,6 +26,33 @@
     </template>
     <template #content>
       <v-card flat :height="outerHeight" :style="{ overflowY: 'auto' }">
+        <!-- <v-row :style="{ maxHeight: `${maxHeight}px` }">
+          <v-col v-for="label in labels" :key="label.text" class="py-1 px-4" cols="4">
+            <v-autocomplete
+              attach
+              class="my-1"
+              dense
+              flat
+              hide-details
+              hide-selected
+              :items="label.items"
+              :label="label.text"
+              multiple
+              :no-data-text="$root.$t('data.no_data')"
+              solo
+              :value="labelpairs[label.text]"
+              @change="onLabelChange($event, label.text)"
+              @focus="onLoadLabelFocus(label.text)"
+            >
+              <template #selection="{ item, parent, index }">
+                <v-chip v-if="index === 0" class="my-1" color="primary" small>
+                  {{ item }}
+                </v-chip>
+                <v-chip v-if="index === 1" class="my-1" color="primary" small> +{{ parent.value.length - 1 }} </v-chip>
+              </template>
+            </v-autocomplete>
+          </v-col>
+        </v-row> -->
         <BaseApexAreaChart
           id="max"
           :animations-enable="false"
@@ -148,6 +175,12 @@
         }
         return unit;
       },
+      // onLoadLabelFocus(label) {
+      //   this.$emit('loadLabel', label);
+      // },
+      // onLabelChange(value, label) {
+      //   this.$emit('change', { label, value });
+      // },
     },
   };
 </script>

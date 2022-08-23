@@ -19,7 +19,7 @@
     "replicas_updated": "{0}个副本已更新",
     "replicas_ready": "{0}个副本已就绪",
     "replicas_available": "{0}个副本可用",
-    "replicas_unavailable": "[0]个副本不可用"
+    "replicas_unavailable": "{0}个副本不可用"
   },
   "table": {
     "ingress": "入口流量",

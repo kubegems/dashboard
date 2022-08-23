@@ -46,7 +46,7 @@
               <v-row class="mt-0">
                 <v-col cols="12">
                   <v-autocomplete
-                    v-model="locale"
+                    v-model="language"
                     dense
                     flat
                     hide-details
@@ -167,7 +167,7 @@
         showNew1: false,
         showNew2: false,
 
-        locale: '',
+        language: '',
       };
     },
     computed: {
@@ -197,7 +197,7 @@
     mounted() {
       this.$nextTick(() => {
         this.loginUserInfo();
-        this.locale = this.Locale;
+        this.language = this.Locale;
       });
     },
     methods: {
@@ -240,13 +240,13 @@
         }
       },
       updateLanguage() {
-        if (this.Locale === this.locale) return;
-        this.$i18n.locale = this.locale;
-        this.$moment.locale(this.locale === 'zh-Hans' ? 'zh-cn' : this.locale);
+        if (this.Locale === this.language) return;
+        this.$_i18n.locale = this.language;
+        this.$moment.locale(this.language === 'zh-Hans' ? 'zh-cn' : this.language);
         if (window) {
           window.document.title = `${this.$t(this.$route.meta.title)} - ${this.$PLATFORM}`;
         }
-        this.$store.commit('SET_LOCALE', this.locale);
+        this.$store.commit('SET_LOCALE', this.language);
         this.reload();
       },
     },

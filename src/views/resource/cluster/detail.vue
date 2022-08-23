@@ -66,7 +66,9 @@
               </v-btn>
               <div class="ml-2 mr-1">
                 <h2 class="text-h6"> {{ workload[key] }} </h2>
-                <h4 class="font-weight-regular mt-1"> {{ $RESOURCE_CN[key] }} </h4>
+                <h4 class="font-weight-regular mt-1">
+                  {{ $root.$t(`resource.${$RESOURCE_EN[key]}`) }}
+                </h4>
               </div>
             </div>
           </v-card-text>

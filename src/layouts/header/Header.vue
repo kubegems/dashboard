@@ -34,7 +34,7 @@
           marginLeft: `140px`,
         }"
       >
-        {{ $t(smallTitle) }}
+        {{ $root.$t(smallTitle) }}
       </div>
 
       <div class="kubegems__clear-float" />
@@ -48,7 +48,7 @@
         class="header__span-line-height"
         :style="{ fontFamily: `Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important`, fontWeight: `bold` }"
       >
-        {{ $t('header.app_store') }}
+        {{ $root.$t('header.app_store') }}
       </span>
     </v-btn>
 
@@ -71,7 +71,7 @@
             class="header__span-line-height"
             :style="{ fontFamily: `Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important;`, fontWeight: `bold` }"
           >
-            {{ StoreMode === 'app' ? $t('header.app_store') : $t('header.model_store') }}
+            {{ StoreMode === 'app' ? $root.$t('header.app_store') : $root.$t('header.model_store') }}
           </span>
           <v-icon v-if="storeMenu" right>mdi-chevron-up</v-icon>
           <v-icon v-else right>mdi-chevron-down</v-icon>
@@ -120,7 +120,7 @@
         class="header__span-line-height"
         :style="{ fontFamily: `Yuanti SC, YouYuan, Microsoft Yahei, PingFang SC !important`, fontWeight: `bold` }"
       >
-        {{ $t('header.workspace') }}
+        {{ $root.$t('header.workspace') }}
       </span>
     </v-btn>
 
@@ -163,8 +163,8 @@
       return {
         storeMenu: false,
         stores: [
-          { text: this.$t('header.app_store'), value: 'app' },
-          { text: this.$t('header.model_store'), value: 'model' },
+          { text: this.$root.$t('header.app_store'), value: 'app' },
+          { text: this.$root.$t('header.model_store'), value: 'model' },
         ],
         logo: this.$LOGO_WHITE,
       };

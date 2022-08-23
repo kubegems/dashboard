@@ -76,7 +76,7 @@
         </v-card-text>
       </v-card>
 
-      <v-row class="mt-3 mb-1 pb-0">
+      <draggable v-model="items[tab].graphs" class="row mt-3 mb-1 pb-0" @end="onDraggableEnd">
         <v-col
           v-for="(graph, index) in items[tab] ? items[tab].graphs : []"
           :key="index"
@@ -116,6 +116,7 @@
             </v-card-text>
           </v-card>
         </v-col>
+
         <v-col class="pt-0" cols="4">
           <v-card class="kubegems__full-height" flat min-height="330">
             <v-card-text class="pa-0 kubegems__full-height">
@@ -130,7 +131,7 @@
             </v-card-text>
           </v-card>
         </v-col>
-      </v-row>
+      </draggable>
     </template>
 
     <div v-else class="text-center dash__tip primary--text white rounded">
@@ -156,6 +157,7 @@
 </template>
 
 <script>
+  import draggable from 'vuedraggable';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../i18n';
@@ -185,6 +187,7 @@
       AddDashboard,
       AddGraph,
       ContainerSelect,
+      Draggable: draggable,
       GraphMax,
       ProjectEnvSelectCascade,
       UpdateDashboard,
@@ -428,6 +431,13 @@
           return unit.substr(unit.indexOf('-') + 1);
         }
         return unit;
+      },
+      async onDraggableEnd(e) {
+        const oldItem = this.metrics[`c${e.oldIndex}`];
+        const newItem = this.metrics[`c${e.newIndex}`];
+        this.$set(this.metrics, `c${e.oldIndex}`, newItem);
+        this.$set(this.metrics, `c${e.newIndex}`, oldItem);
+        await putUpdateMonitorDashboard(this.environment.value, this.items[this.tab].id, this.items[this.tab]);
       },
     },
   };
