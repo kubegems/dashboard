@@ -1,0 +1,42 @@
+{
+  "tip": {
+    "detail": "详情",
+    "version": "版本",
+    "desc": "简介",
+    "registry": "仓库",
+    "app_version": "应用版本",
+    "maintainer": "维护者",
+    "create_at": "创建时间",
+    "error_info": "错误信息",
+    "deploying": "部署中,请等待",
+    "deploy_success": "部署成功",
+    "view_deploy_status": "查看部署状态",
+    "third_registry": "第三方仓库",
+    "advise": "建议",
+    "third_registry_deploy": "第三方仓库,建议使用values.yaml配置",
+    "values_error": "获取values.yaml失败",
+    "params_check_error": "参数校验失败",
+    "project_is_null": "缺少项目",
+    "environment_is_null": "缺少环境",
+    "base_info": "基本配置",
+    "advance_setting": "详细配置",
+    "complete": "完成",
+    "bitnami": "Bitnami 让您可以轻松地在任何平台上启动和运行您最喜欢的开源软件，包括您的笔记本电脑、Kubernetes 和所有主要云。",
+    "kubegems": "一个描述Kubernetes相关资源的文件集合，单个应用可以用来部署某些复杂的HTTP服务器以及web全栈应用、数据库、缓存等。",
+    "chartmuseum": "ChartMuseum 是一个开源的、易于部署的、Helm Chart 存储库服务器。"
+  },
+  "filter": {
+    "name": "应用名称"
+  },
+  "form": {
+    "name": "名称",
+    "appname": "应用名称",
+    "address": "地址",
+    "version": "版本"
+  },
+  "tab": {
+    "form": "表单",
+    "app_detail": "应用详情",
+    "config_file": "配置文件"
+  }
+}
