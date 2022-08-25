@@ -75,7 +75,7 @@
               <v-list-item-content>
                 <v-list-item-title class="select__list__title pl-2">
                   {{ item.showName }}
-                  <div class="float-right text-caption mt-n1">{{ item.resourceCount }} 资源</div>
+                  <div class="float-right text-caption mt-n1">{{ item.resources.length }} 资源</div>
                 </v-list-item-title>
               </v-list-item-content>
               <v-list-item-icon>
@@ -98,7 +98,7 @@
               <v-list-item-content>
                 <v-list-item-title class="select__list__title pl-2">
                   {{ item.showName }}
-                  <div class="float-right text-caption mt-n1">{{ item.ruleCount }} 规则</div>
+                  <div class="float-right text-caption mt-n1">{{ item.rules.length }} 规则</div>
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
@@ -251,12 +251,16 @@
         this.ruleList(data.resourceID, data.ruleID);
       },
       async ruleScopeList() {
-        const data = await getRuleScopeList(this.tenant.ID, { noprocessing: true, size: 1000 });
+        const data = await getRuleScopeList(this.tenant.ID, { noprocessing: true, size: 1000, preload: 'Resources' });
         this.scopeItems = data.List;
         this.scopeItemsCopy = data.List;
       },
       async ruleResourceList(scopeId, resourceId = -1) {
-        const data = await getRuleResourceList(this.tenant.ID, scopeId, { noprocessing: true, size: 1000 });
+        const data = await getRuleResourceList(this.tenant.ID, scopeId, {
+          noprocessing: true,
+          size: 1000,
+          preload: 'Rules',
+        });
         this.resourceItems = data.List;
         this.resourceItemsCopy = data.List;
         if (this.generator) {
