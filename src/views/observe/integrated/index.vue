@@ -118,7 +118,7 @@
               { name: 'kafka', chart: 'prometheus-kafka-exporter' },
               { name: 'postgresql', chart: 'prometheus-postgres-exporter' },
               { name: 'consul', chart: 'prometheus-consul-exporter' },
-              { name: 'jmx', chart: ' prometheus-jmx-exporter' },
+              { name: 'jmx', chart: 'prometheus-jmx-exporter' },
             ],
             harfItems: [...new Array(6).keys()],
           },

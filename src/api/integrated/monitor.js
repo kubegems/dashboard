@@ -11,3 +11,8 @@ export const postServiceMonitor = (clusterName, namespace, body = {}) =>
   axios.post(`observability/cluster/${clusterName}/namespaces/${namespace}/monitor`, body);
 
 export const getChartSchema = (chartName) => axios(`observability/monitor/exporters/${chartName}/schema`);
+
+export const getServiceMonitorStatus = (clusterName, namespace, query = {}) =>
+  axios(`observability/cluster/${clusterName}/namespaces/${namespace}/monitor/status`, {
+    params: query,
+  });

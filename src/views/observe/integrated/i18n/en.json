@@ -2,7 +2,7 @@
   "tip": {
     "middleware": "Middleware",
     "monitor_and_log": "Monitor / Log",
-    "integrated_config": "Access Configuration",
+    "integrated_config": "Integrate Configuration",
     "config_metrics_and_trace": "Configure Trace, Metrics for {0} apps",
     "config_exporter": "Configure exporter of {0} middleware",
     "config_c": "Configure {0}",
@@ -23,16 +23,26 @@
     "servicemonitor_port": "Gauntlets",
     "no_service_tip": "No service ?create export from <a>App Store</a>",
     "request_path": "Request Path",
-    "metrics": "Indicators"
+    "metrics": "Indicators",
+
+    "integated_info": "Integrate Info",
+    "integated_status": "Integrate Status",
+    "integated_complete": "Integrate Cpmplete",
+    "link_2_app": " Click <a>link</a> to app detail"
   },
   "operate": {
-    "open": "On",
-    "close": "Close"
+    "open": "Open",
+    "close": "Close",
+    "refresh_middleware_status": "Refresh middleware status"
   },
   "table": {
     "name": "Name",
     "rule": "Rules",
     "expr": "Expression",
     "unit": "Units"
+  },
+  "status": {
+    "deploying": "Deploying",
+    "ready": "Ready"
   }
 }

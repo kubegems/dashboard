@@ -155,7 +155,7 @@
         item: null,
         termArgs: {
           wsurl: '',
-          cols: 500,
+          cols: 300,
         },
         term: null,
         websock: null,
@@ -243,12 +243,6 @@
         this.websock.binaryType = 'arraybuffer';
 
         this.websock.onopen = () => {
-          var msg = JSON.stringify({
-            type: 'resize',
-            rows: this.rows,
-            // cols: this.termArgs.cols,
-          });
-          this.websock.send(msg);
           this.initTermArgs();
         };
 
@@ -286,8 +280,8 @@
             brightCyan: '#3949AB',
             brightWhite: '#FFFFFF',
           },
-          // cols: this.termArgs.cols,
           rows: this.rows,
+          cols: this.termArgs.cols,
           scrollback: 1000,
         });
         const fitAddon = new FitAddon();
@@ -301,6 +295,13 @@
         bindTerminalResize(this.term, this.websock);
         const xtermScreen = document.querySelector('.xterm-screen');
         xtermScreen.style.height = `${this.height}px`;
+
+        var msg = JSON.stringify({
+          type: 'resize',
+          rows: this.rows,
+          cols: this.termArgs.cols,
+        });
+        this.websock.send(msg);
       },
       onWindowResize() {
         this.term.fit();

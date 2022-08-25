@@ -23,8 +23,15 @@
     @dispose="dispose"
   >
     <template #action>
-      <v-btn v-if="type !== 'app'" class="mt-n1 ml-2" color="white" :loading="Circular" text @click="addData">
-        {{ $root.$t('operate.save') }}
+      <v-btn
+        v-if="type !== 'app' && !inDeploy"
+        class="mt-n1 ml-2"
+        color="white"
+        :loading="Circular"
+        text
+        @click="addData"
+      >
+        {{ type === 'middleware' ? $root.$t('operate.next') : $root.$t('operate.save') }}
       </v-btn>
     </template>
     <template #content>
@@ -48,7 +55,7 @@
           <component :is="tabItems[tab].value" :ref="tabItems[tab].value" :v="item.value || item.name" @close="close" />
         </template>
         <template v-else-if="type === 'middleware'">
-          <MiddlewareMetrics ref="middlewareMetrics" :chart-name="item.chart" @close="close" />
+          <MiddlewareMetrics ref="middlewareMetrics" :chart-name="item.chart" @close="close" @deploying="deploying" />
         </template>
         <template v-else-if="type === 'monitor'">
           <Metrics
@@ -94,6 +101,7 @@
         { text: 'Metrics', value: 'Metrics' },
       ],
       type: undefined,
+      inDeploy: false,
     }),
     computed: {
       ...mapState(['Scale', 'Circular']),
@@ -136,6 +144,9 @@
         } else if (this.type === 'monitor') {
           return this.$t('tip.config_c', [item.name]);
         }
+      },
+      deploying() {
+        this.inDeploy = true;
       },
     },
   };

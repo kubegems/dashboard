@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <v-container fluid>
+  <v-container class="pa-0" fluid>
     <BaseSplitContainer side-width="250px" :title="$root.$t('resource.resource')" :tooltip="!!resource">
       <ScopeResourceTree slot="side" v-model="resource" @change="onResourceChange" />
 

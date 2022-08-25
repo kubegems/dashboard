@@ -29,6 +29,7 @@
   >
     <template #activator="{ on }">
       <v-btn
+        v-if="!inForm"
         :class="color === 'white' ? `primary--text` : `white--text`"
         :color="color"
         dark
@@ -40,12 +41,14 @@
         {{ label }}
         <v-icon right>mdi-chevron-{{ showPicker ? 'up' : 'down' }}</v-icon>
       </v-btn>
+
+      <v-text-field v-else class="my-0" :label="$root.$t('tip.start_end')" :value="label" v-on="on" />
     </template>
 
     <v-card class="pa-3" flat width="550px">
       <v-row>
         <!-- 快捷选项 -->
-        <v-col cols="3">
+        <v-col v-if="!inForm" cols="3">
           <v-list-item
             v-for="item in dateShortcutOptions"
             :key="item.value"
@@ -62,10 +65,10 @@
         </v-col>
         <!-- 快捷选项 -->
 
-        <v-divider class="my-4" vertical />
+        <v-divider v-if="!inForm" class="my-4" vertical />
 
         <!-- 选择面板 -->
-        <v-col cols="9">
+        <v-col :cols="inForm ? 12 : 9">
           <div class="time-label"> {{ $t('datetimepicker.tip.start_end') }} </div>
           <v-divider class="mb-3" />
           <div class="d-flex align-center">
@@ -151,6 +154,10 @@
       },
       // 禁用
       disabled: {
+        type: Boolean,
+        default: false,
+      },
+      inForm: {
         type: Boolean,
         default: false,
       },
