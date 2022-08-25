@@ -25,6 +25,12 @@
     >
       <img :class="{ skeleton__img: true, skeleton__img__ani: !SelfOut, skeleton__img__small: SelfOut || vertical }" />
       <div
+        :class="{ 'ml-4': true, 'white--text': true, login__second__desc: true, login__second__desc__ani: !SelfOut }"
+        :style="{ opacity: `${SelfOut ? 1 : 0}` }"
+      >
+        {{ $root.$t('metadata.description') }}
+      </div>
+      <div
         :class="{ skeleton__loading: true, skeleton__loading__ani: !SelfOut }"
         :style="{ opacity: SelfOut ? '0 !important' : '' }"
       >
@@ -44,12 +50,12 @@
       :style="{ height: `${height}px !important`, display: `${vertical ? 'none !important' : ''}` }"
     >
       <div class="info align-center justify-start">
-        <div
+        <!-- <div
           :class="{ 'mt-4': true, 'white--text': true, login__second__desc: true, login__second__desc__ani: !SelfOut }"
           :style="{ opacity: `${SelfOut ? 1 : 0}` }"
         >
           {{ $root.$t('metadata.description') }}
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -346,7 +352,7 @@
       }
 
       &__small {
-        top: 43%;
+        top: 50%;
         transform: none;
         left: 45vw;
       }
@@ -383,7 +389,7 @@
     }
     100% {
       left: 145vw;
-      top: 43%;
+      top: 50%;
       transform: none;
     }
   }
@@ -437,12 +443,12 @@
       }
 
       &__desc {
-        width: 45%;
-        line-height: 1.5;
+        width: 100%;
+        line-height: 74px;
         font-size: 1.4rem;
         position: absolute;
-        left: 49%;
-        top: 50%;
+        left: 100%;
+        top: 0%;
         opacity: 0;
 
         &__ani {

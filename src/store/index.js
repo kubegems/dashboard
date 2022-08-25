@@ -8,7 +8,7 @@ import {
   getTenantSelectData,
   getVirtualSpaceSelectData,
 } from './server_data';
-import { getClusterPluginsList, getPluginsList, getRESTMapping } from '@/api';
+import { getClusterPluginsList, getPluginsList, getRESTMapping, getBroadcastlist } from '@/api';
 import router from '@/router';
 import { delAllCookie, getCookie } from '@/utils/cookie';
 import { sleep } from '@/utils/helpers';
@@ -36,6 +36,7 @@ const Version = 'version';
 const ApiResources = 'api-resources';
 const StoreMode = 'store';
 const Locale = 'locale';
+const Broadcast = 'broadcast';
 
 export default new Store({
   state: {
@@ -95,11 +96,17 @@ export default new Store({
     StoreMode: window.localStorage.getItem(StoreMode) || 'app',
     GlobalPluginsInterval: null,
     Locale: window.localStorage.getItem(Locale) || 'zh-Hans',
+    BroadcastInterval: null,
+    Broadcast: JSON.parse(window.localStorage.getItem(Broadcast)) || [],
   },
   mutations: {
     SET_PLUGINS(state, payload) {
       state.Plugins = payload;
       window.localStorage.setItem(Plugins, JSON.stringify(payload));
+    },
+    SET_BROADCAST(state, payload) {
+      state.Broadcast = payload;
+      window.localStorage.setItem(Broadcast, JSON.stringify(payload));
     },
     SET_GLOBAL_PLUGINS(state, payload) {
       state.GlobalPlugins = payload;
@@ -379,6 +386,28 @@ export default new Store({
         const r = await doFunc();
         if (r) {
           state.PluginsInterval = setInterval(doFunc, 1000 * 30);
+        }
+      }
+    },
+    async INIT_BROADCAST({ state, commit }) {
+      const doFunc = async () => {
+        const data = await getBroadcastlist({
+          size: 1000,
+          noprocessing: true,
+        });
+        const items = data.List.filter((d) => {
+          return (
+            new Date(Vue.prototype.$moment(d.startAt).add(-1, 'days')) < new Date(Vue.prototype.$moment()) ||
+            (new Date(Vue.prototype.$moment(d.endAt)) > new Date() &&
+              new Date(Vue.prototype.$moment(d.startAt)) < new Date())
+          );
+        });
+        commit('SET_BROADCAST', items);
+      };
+      if (!state.BroadcastInterval && state.JWT) {
+        const r = await doFunc();
+        if (r) {
+          state.BroadcastInterval = setInterval(doFunc, 1000 * 60);
         }
       }
     },

@@ -279,6 +279,30 @@ export const platform = [
           },
         ],
       },
+      {
+        path: '',
+        meta: {
+          title: 'routerbar.administration.g_notice',
+          icon: 'mdi-bulletin-board',
+        },
+        component: () => import('@/layouts/Container'),
+        redirect: { name: 'broadcast-list' },
+        children: [
+          {
+            path: 'broadcasts',
+            name: 'broadcast-list',
+            component: () => import('@/views/setting/broadcast/index'),
+            meta: {
+              requireAuth: true,
+              title: 'routerbar.administration.broadcast',
+              icon: 'mdi-broadcast',
+              show: true,
+              rootName: 'platform',
+              tip: 'broadcast',
+            },
+          },
+        ],
+      },
     ],
   },
 ];
