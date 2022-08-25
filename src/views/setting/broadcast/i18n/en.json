@@ -1,0 +1,19 @@
+{
+  "table": {
+    "type": "Type",
+    "message": "Mesaage",
+    "start_at": "Start Time",
+    "end_at": "End Time",
+    "expried": "Expried"
+  },
+  "resource": {
+    "broadcast": "Broadcast"
+  },
+  "tip": {
+    "select_datetime": "Please select detetime"
+  },
+  "status": {
+    "expried": "Expried",
+    "active": "Active"
+  }
+}

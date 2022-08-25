@@ -19,20 +19,85 @@
     <BaseSubTitle class="mx-2 mt-1" color="grey lighten-3" :divider="false" :title="$t('tip.metrics_config')" />
 
     <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
-      <ProjectEnvSelect v-model="env" class="px-2 mt-0" t="metrics" />
-      <v-row class="px-2 mt-0">
-        <v-col cols="6">
-          <v-text-field v-model="obj.appName" :label="$t('tip.name')" :rules="objRules.appNameRule" />
-        </v-col>
-      </v-row>
-      <JsonSchema
-        ref="jsonSchema"
-        :app-values="appValues"
-        class="px-2"
-        :cluster-name="env ? env.clusterName : ''"
-        :params="params"
-        @changeBasicFormParam="changeBasicFormParam"
-      />
+      <template v-if="deploying">
+        <v-timeline align-top dense :style="{ width: '60%', paddingTop: '60px' }">
+          <v-timeline-item class="timeline__item" color="success">
+            <v-card class="elevation-2">
+              <v-card-title class="text-body-1"> {{ $t('tip.integated_info') }} </v-card-title>
+              <v-card-text>
+                <div class="my-1">
+                  {{ $root.$t('resource.project') }}
+                  <div>{{ env ? env.projectName : '' }}</div>
+                </div>
+                <div class="my-1">
+                  {{ $root.$t('resource.environment') }}
+                  <div>{{ env ? env.environmentName : '' }}</div>
+                </div>
+                <div class="my-1">
+                  {{ $t('tip.name') }}
+                  <div>{{ `${obj.appName}-obs-${randomStr}` }}</div>
+                </div>
+              </v-card-text>
+            </v-card>
+          </v-timeline-item>
+          <v-timeline-item class="timeline__item" color="success">
+            <v-card class="elevation-2">
+              <v-card-title class="text-body-1"> {{ $t('tip.integated_status') }} </v-card-title>
+              <v-card-text>
+                <div class="mb-2">
+                  {{ deployStatus !== 'up' ? $t('status.deploying') : $t('status.ready') }}
+                  <div v-if="deployStatus !== 'up'">{{ lastError }}</div>
+                </div>
+                <v-progress-linear
+                  v-if="deployStatus !== 'up'"
+                  buffer-value="0"
+                  color="success"
+                  height="10"
+                  reverse
+                  stream
+                  value="0"
+                />
+                <div v-else>
+                  <v-icon color="success" size="28">mdi-check-circle</v-icon>
+                </div>
+                <v-btn
+                  v-if="deployStatus !== 'up'"
+                  class="my-2"
+                  color="primary"
+                  :loading="loading"
+                  small
+                  @click="serviceMonitorStatus"
+                >
+                  <v-icon left>mdi-refresh</v-icon>
+                  {{ $t('operate.refresh_middleware_status') }}
+                </v-btn>
+              </v-card-text>
+            </v-card>
+          </v-timeline-item>
+          <v-timeline-item class="timeline__item" color="success">
+            <v-card class="elevation-2">
+              <v-card-title class="text-body-1"> {{ $t('tip.integated_complete') }} </v-card-title>
+              <v-card-text @click="toApp" v-html="$t('tip.link_2_app')" />
+            </v-card>
+          </v-timeline-item>
+        </v-timeline>
+      </template>
+      <template v-else>
+        <ProjectEnvSelect v-model="env" class="px-2 mt-0" t="metrics" />
+        <v-row class="px-2 mt-0">
+          <v-col cols="6">
+            <v-text-field v-model="obj.appName" :label="$t('tip.name')" :rules="objRules.appNameRule" />
+          </v-col>
+        </v-row>
+        <JsonSchema
+          ref="jsonSchema"
+          :app-values="appValues"
+          class="px-2"
+          :cluster-name="env ? env.clusterName : ''"
+          :params="params"
+          @changeBasicFormParam="changeBasicFormParam"
+        />
+      </template>
     </v-form>
   </div>
 </template>
@@ -43,7 +108,7 @@
 
   import messages from '../../../i18n';
   import ProjectEnvSelect from '../ProjectEnvSelect';
-  import { getChartSchema, postDeployAppStore } from '@/api';
+  import { getChartSchema, postDeployAppStore, getServiceMonitorStatus } from '@/api';
   import { randomString } from '@/utils/helpers';
   import { required } from '@/utils/rules';
   import JsonSchema from '@/views/appstore/components/DeployWizard/JsonSchema';
@@ -66,6 +131,8 @@
       },
     },
     data() {
+      this.randomStr = randomString(4);
+
       return {
         valid: false,
         env: undefined,
@@ -79,6 +146,10 @@
         objRules: {
           appNameRule: [required],
         },
+        deploying: false,
+        deployStatus: 'deploying',
+        lastError: '',
+        loading: false,
       };
     },
     computed: {
@@ -123,7 +194,7 @@
               this.appValues.fullnameOverride = appName;
             }
             const data = {
-              name: `${appName}-obs-${randomString(4)}`,
+              name: `${appName}-obs-${this.randomStr}`,
               project_id: this.env?.projectid,
               environment_id: this.env?.value,
               repoURL: this.chart.repo || 'kubegems_online_store',
@@ -133,7 +204,9 @@
               values: this.appValues,
             };
             await postDeployAppStore(this.Tenant().ID, this.env?.projectid, this.env?.value, data);
-            this.$emit('close');
+            this.serviceMonitorStatus();
+            this.deploying = true;
+            this.$emit('deploying');
           } else {
             this.$store.commit('SET_SNACKBAR', {
               text: this.$root.$t('tip.select_project_environment'),
@@ -193,6 +266,40 @@
         this.params = [];
         this.params = this.retrieveBasicFormParams(this.appValues, this.schemaJson);
       },
+      async serviceMonitorStatus() {
+        this.loading = true;
+        const data = await getServiceMonitorStatus(this.env.clusterName, this.env.namespace, {
+          service: `${this.obj.appName}-obs-${this.randomStr}`,
+        });
+        this.loading = false;
+        this.deployStatus = data.health;
+        this.lastError = data.lastError;
+      },
+      toApp() {
+        this.$router.push({
+          name: 'app-detail',
+          params: {
+            name: `${this.obj.appName}-obs-${this.randomStr}`,
+            tenamt: this.Tenant().TenantName,
+            project: this.env.projectName,
+            environment: this.env.environmentName,
+          },
+          query: {
+            kind: 'appstore',
+            name: `${this.obj.appName}-obs-${this.randomStr}`,
+            type: 'Deployment',
+            projectid: this.env.projectid,
+            environmentid: this.env.value,
+            tenantid: this.Tenant().ID,
+          },
+        });
+      },
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .timeline__item {
+    padding-bottom: 60px;
+  }
+</style>

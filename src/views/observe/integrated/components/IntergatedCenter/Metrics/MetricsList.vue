@@ -20,7 +20,7 @@
       v-model="search"
       class="px-2 mt-2"
       hide-details
-      label="搜索"
+      :label="$root.$t('query')"
       prepend-inner-icon="mdi-magnify"
       @keyup="onInput"
     />
@@ -33,8 +33,8 @@
       item-key="value"
       :items="items"
       :items-per-page="itemsPerPage"
-      no-data-text="暂无数据"
-      no-results-text="暂无结果"
+      :no-data-text="$root.$t('data.no_data')"
+      :no-results-text="$root.$t('data.no_data')"
       :page.sync="page"
       :search.sync="search"
     />
@@ -73,14 +73,6 @@
     },
     computed: {
       ...mapState(['AdminViewport']),
-    },
-    watch: {
-      total: {
-        handler() {
-          this.pageCount = Math.ceil(this.total / this.itemsPerPage);
-        },
-        deep: true,
-      },
       headers() {
         return [
           { text: this.$t('table.name'), value: 'name', align: 'start' },
@@ -88,6 +80,14 @@
           { text: this.$t('table.expr'), value: 'expr', align: 'start' },
           { text: this.$t('table.unit'), value: 'unit', align: 'start' },
         ];
+      },
+    },
+    watch: {
+      total: {
+        handler() {
+          this.pageCount = Math.ceil(this.total / this.itemsPerPage);
+        },
+        deep: true,
       },
     },
     mounted() {

@@ -132,6 +132,7 @@
       '$route.query': {
         handler(newValue) {
           if (newValue?.resourceId) {
+            this.params.page = 1;
             this.ruleList();
           }
         },

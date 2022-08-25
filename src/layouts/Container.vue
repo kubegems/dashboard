@@ -15,11 +15,41 @@
 -->
 
 <template>
-  <router-view />
+  <div>
+    <v-system-bar
+      v-if="Broadcast.length > 0"
+      class="white--text text-subtitle-1 font-weight-medium mx-3 rounded-b"
+      color="orange lighten-2"
+      height="48"
+    >
+      <div class="text-center notice">
+        <span v-for="(item, index) in Broadcast" :key="index" class="px-2">
+          {{ `${index + 1}. ${item.message}` }}
+        </span>
+      </div>
+    </v-system-bar>
+    <router-view />
+  </div>
 </template>
 
 <script>
+  import { mapState } from 'vuex';
+
   export default {
     name: 'Container',
+    computed: {
+      ...mapState(['Broadcast']),
+    },
+    mounted() {
+      this.$nextTick(() => {
+        this.$store.dispatch('INIT_BROADCAST');
+      });
+    },
   };
 </script>
+
+<style lang="scss" scoped>
+  .notice {
+    width: 100%;
+  }
+</style>

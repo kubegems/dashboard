@@ -26,8 +26,8 @@
     </template>
     <template #content>
       <v-card flat :height="outerHeight" :style="{ overflowY: 'auto' }">
-        <!-- <v-row :style="{ maxHeight: `${maxHeight}px` }">
-          <v-col v-for="label in labels" :key="label.text" class="py-1 px-4" cols="4">
+        <v-row class="pa-2 mt-0">
+          <v-col v-for="label in labels" :key="label.text" class="py-1 px-4" cols="2">
             <v-autocomplete
               attach
               class="my-1"
@@ -41,8 +41,8 @@
               :no-data-text="$root.$t('data.no_data')"
               solo
               :value="labelpairs[label.text]"
-              @change="onLabelChange($event, label.text)"
-              @focus="onLoadLabelFocus(label.text)"
+              @change="onLabelChange($event, label)"
+              @focus="getLabelItems(label)"
             >
               <template #selection="{ item, parent, index }">
                 <v-chip v-if="index === 0" class="my-1" color="primary" small>
@@ -52,7 +52,7 @@
               </template>
             </v-autocomplete>
           </v-col>
-        </v-row> -->
+        </v-row>
         <BaseApexAreaChart
           id="max"
           :animations-enable="false"
@@ -78,7 +78,7 @@
   import { mapState } from 'vuex';
 
   import messages from '../../i18n';
-  import { getMetricsQueryrange } from '@/api';
+  import { getMetricsQueryrange, getMetricsLabels, getRuleSearch, getMetricsLabelValues } from '@/api';
 
   export default {
     name: 'GraphMax',
@@ -102,6 +102,8 @@
         start: null,
         end: null,
       },
+      labels: [],
+      labelpairs: {},
     }),
     computed: {
       ...mapState(['JWT', 'Scale']),
@@ -129,10 +131,11 @@
         this.graph = graph;
         this.namespace = namespace;
         this.loadMetrics();
+        this.getLabel();
       },
-      async loadMetrics() {
+      async loadMetrics(newParams = {}) {
         this.clearInterval();
-        this.getMetrics();
+        this.getMetrics(newParams);
         this.timeinterval = setInterval(() => {
           this.params.start = this.$moment(this.params.start).utc().add(30, 'seconds').format();
           this.params.end = this.$moment(this.params.end).utc().add(30, 'seconds').format();
@@ -147,18 +150,18 @@
       clearInterval() {
         if (this.timeinterval) clearInterval(this.timeinterval);
       },
-      async getMetrics() {
+      async getMetrics(newParams = {}) {
         const params = this.graph.promqlGenerator
           ? this.graph.promqlGenerator
           : {
               expr: this.graph.expr,
               unit: this.graph.unit,
             };
-        const data = await getMetricsQueryrange(
-          this.environment.clusterName,
-          this.namespace,
-          Object.assign(this.params, params),
-        );
+        const data = await getMetricsQueryrange(this.environment.clusterName, this.namespace, {
+          ...this.params,
+          ...params,
+          ...newParams,
+        });
         this.metrics = data;
       },
       onDatetimeChange() {
@@ -175,12 +178,60 @@
         }
         return unit;
       },
-      // onLoadLabelFocus(label) {
-      //   this.$emit('loadLabel', label);
-      // },
-      // onLabelChange(value, label) {
-      //   this.$emit('change', { label, value });
-      // },
+      async getLabel() {
+        const data = {};
+        let resData = {};
+        let labelpairs = {};
+        if (!this.graph.promqlGenerator) {
+          resData = await getMetricsLabels(this.environment.clusterName, this.namespace, {
+            expr: this.graph.expr,
+            noprocessing: true,
+          });
+        } else {
+          resData = await getRuleSearch(this.graph.promqlGenerator);
+          resData = resData.labels;
+        }
+        const labels = resData?.filter((d) => {
+          return ['__name__', 'id', 'job', 'metrics_path', 'instance', 'image'].indexOf(d) === -1;
+        });
+        labels.forEach((label) => {
+          data[label] = {
+            text: label,
+            items: [],
+            request: false,
+          };
+          labelpairs[label] = {};
+        });
+        this.labels = data;
+      },
+      async getLabelItems(label) {
+        const params = this.graph.promqlGenerator
+          ? this.graph.promqlGenerator
+          : {
+              expr: this.graph.expr,
+              unit: this.graph.unit,
+            };
+        const data = await getMetricsLabelValues(
+          this.environment.clusterName,
+          this.namespace,
+          Object.assign(params, { noprocessing: true, label: label.text }),
+        );
+        this.$set(this.labels[label.text], 'items', data);
+      },
+      onLabelChange(value, label) {
+        this.$set(this.labelpairs, label.text, value);
+        let newParams = {};
+        for (const key in this.labelpairs) {
+          if (this.labelpairs[key] && this.labelpairs[key].length) {
+            newParams[`labelpairs[${key}]`] = this.labelpairs[key].reduce(
+              (pre, current, index, arr) => pre + current + `${index === arr.length - 1 ? '' : '|'}`,
+              '',
+            );
+          }
+        }
+
+        this.loadMetrics(newParams);
+      },
     },
   };
 </script>

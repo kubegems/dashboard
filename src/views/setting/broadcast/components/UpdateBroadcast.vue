@@ -17,8 +17,8 @@
 <template>
   <BaseDialog
     v-model="dialog"
-    icon="mdi-database"
-    :title="$root.$t('operate.create_c', [$root.$t('resource.image_registry')])"
+    icon="mdi-broadcast"
+    :title="$root.$t('operate.update_c', [$t('resource.broadcast')])"
     :width="500"
     @reset="reset"
   >
@@ -26,7 +26,7 @@
       <component :is="formComponent" :ref="formComponent" />
     </template>
     <template #action>
-      <v-btn class="float-right" color="primary" :loading="Circular" text @click="addRegistry">
+      <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateBroadcast">
         {{ $root.$t('operate.confirm') }}
       </v-btn>
     </template>
@@ -34,34 +34,37 @@
 </template>
 
 <script>
-  import { mapGetters, mapState } from 'vuex';
+  import { mapState } from 'vuex';
 
-  import RegistryBaseForm from './RegistryBaseForm';
-  import { postAddRegistry } from '@/api';
+  import messages from '../i18n';
+  import BroadcastBaseForm from './BroadcastBaseForm';
+  import { getBroadcastDetail, putBroadcast } from '@/api';
   import BaseResource from '@/mixins/resource';
 
   export default {
-    name: 'AddRegistry',
+    name: 'UpdateBroadcast',
+    i18n: {
+      messages: messages,
+    },
     components: {
-      RegistryBaseForm,
+      BroadcastBaseForm,
     },
     mixins: [BaseResource],
     data: () => ({
       dialog: false,
-      formComponent: 'RegistryBaseForm',
+      formComponent: 'BroadcastBaseForm',
     }),
     computed: {
       ...mapState(['Circular']),
-      ...mapGetters(['Tenant']),
     },
     methods: {
       open() {
         this.dialog = true;
       },
-      async addRegistry() {
+      async updateBroadcast() {
         if (this.$refs[this.formComponent].validate()) {
           const data = this.$refs[this.formComponent].getData();
-          await postAddRegistry({ projectid: data.ProjectID }, data);
+          await putBroadcast(data.id, data);
           this.reset();
           this.$emit('refresh');
         }
@@ -69,6 +72,10 @@
       reset() {
         this.dialog = false;
         this.$refs[this.formComponent].reset();
+      },
+      async init(item) {
+        const data = await getBroadcastDetail(item.id);
+        this.$refs[this.formComponent].setData(data);
       },
     },
   };

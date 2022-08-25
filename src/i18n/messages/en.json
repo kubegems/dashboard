@@ -373,12 +373,14 @@
       "model_store": "Model Store",
       "prometheus_template": "Prometheus Template",
       "monitor_template": "Monitor Template",
+      "broadcast": "Broadcast Notice",
 
       "g_template": "Template",
       "g_integrated": "Integrated",
       "g_security": "Security",
       "g_space": "Space",
       "g_tenant": "Tenant",
+      "g_notice": "Notice",
 
       "h_tenant": "Tenant",
       "h_space": "Space",
@@ -410,6 +412,7 @@
     "auth_setting": "Based on the third-party authentication integration of oauth2.0/ldap, users can log in in various ways.",
     "prometheus_setting": "Configure Prometheus Recording rules to improve monitoring query efficiency.",
     "monitor_template": "Configure monitoring dashboard templates to quickly create monitoring dashboards.",
+    "broadcast": "Use banners and notifications to notify your users about scheduled maintenance and more.",
 
     "role": "Description of all roles and operating permissions of the system.",
     "tenant": "Tenant is a logical unit that organizes your projects and DevOps projects, manages access to resources, shares resources within a team, etc. It can be used as an independent workspace for team work.",
@@ -507,7 +510,8 @@
     "502": "Gateway error",
     "503": "Service unavailable",
     "504": "Server response timeout",
-    "unknown_error": "Unknown error"
+    "unknown_error": "Unknown error",
+    "start_end": "Start Time And End Time"
   },
   "tab": {
     "overview": "Overview",
