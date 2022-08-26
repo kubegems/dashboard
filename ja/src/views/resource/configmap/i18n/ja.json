@@ -1,0 +1,13 @@
+{
+  "table": {
+    "name": "Profile name",
+    "item": "Configuration Item",
+    "create_at": "Created on"
+  },
+  "filter": {
+    "configmap_name": "Configuration Name"
+  },
+  "form": {
+    "name": "Profile name"
+  }
+}
