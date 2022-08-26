@@ -1,0 +1,17 @@
+{
+  "table": {
+    "name": "快照名称",
+    "class": "快照类",
+    "origin_pvc": "源存储卷"
+  },
+  "filter": {
+    "snapshot_name": "快照名称"
+  },
+  "operate": {
+    "restore": "快照恢复"
+  },
+  "form": {
+    "name": "快照",
+    "pvc_name": "存储卷名称"
+  }
+}
