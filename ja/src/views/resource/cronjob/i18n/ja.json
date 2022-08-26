@@ -1,0 +1,64 @@
+{
+  "filter": {
+    "cronjob_name": "Scheduled task name"
+  },
+  "tip": {
+    "add_container_image": "Please add a container image",
+    "schedule": "Schedule",
+    "last_schedule": "Last Scheduler",
+    "concurrency": "Parallel Policy",
+    "success_count": "History Success Limit",
+    "failed_count": "History Failure Limit",
+    "stop": "Pause",
+    "volume": "Volume",
+    "env": "Environment Variables",
+    "condition": "Status",
+    "last_change_at": "Last changed time",
+    "crontab": "Scheduling",
+    "cronjob_setting": "Timed task settings",
+    "max_retry": "Maximum number of retries",
+    "complations": "Completed",
+    "parallisem": "Parallel number",
+    "deadline_seconds": "Exit timeout (in seconds)",
+    "start_seconds": "Start Job duration (in seconds)",
+    "success_job_limit": "Keep Job Completed",
+    "failed_job_limit": "Retention failed",
+    "parallisem_policy": "Parallel Policy",
+    "restart_policy": "Restart Policy",
+    "never": "Never (create a new container group when failing)",
+    "onfailure": "OnFailure (internal reboot container on failure)",
+    "image": "Mirror",
+    "advanced_setting": "Advanced Configuration",
+    "container_image": "Container Image",
+    "resource_limit_unsaved": "Resource limit data not saved",
+    "container_port_unsaved": "Container port data not saved",
+    "health_check_unsaved": "Health check data not saved",
+    "run_command_unsaved": "Startup command data not saved",
+    "env_unsaved": "Environment variable data not saved",
+    "security_unsaved": "Security settings data not saved",
+    "volume_mount": "Volume Mount",
+    "unknown_volume": "Unknown volume type"
+  },
+  "table": {
+    "name": "Name",
+    "crontab": "Planned Time",
+    "status": "Status",
+    "last_at": "Last execution time",
+    "start_at": "Start Time",
+    "end_at": "End Time"
+  },
+  "status": {
+    "success": "Success",
+    "failed": "Failed",
+    "running": "In progress"
+  },
+  "tab": {
+    "job": "Tasks",
+    "resource_limit": "Resource Limit",
+    "container_port": "Container Port",
+    "health_check": "Health Detection",
+    "run_command": "Start command",
+    "env": "Environment Variables",
+    "security": "Security Settings"
+  }
+}
