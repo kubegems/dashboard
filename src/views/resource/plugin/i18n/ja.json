@@ -1,0 +1,24 @@
+{
+  "tip": {
+    "inner": "組み込みコンポーネント",
+    "status": "状態",
+    "desc": "はじめに",
+    "version": "バージョン",
+    "laset_version": "最新バージョン",
+    "enable_plugin": "はじめにウィジェットを有効にしてください"
+  },
+  "operate": {
+    "install": "有効",
+    "install_c": "{0} を有効にする",
+    "uninstall": "アンインストール",
+    "uninstall_c": "{0} のアンインストール"
+  },
+  "status": {
+    "deploying": "展開中",
+    "installed": "インストール済み"
+  },
+  "tab": {
+    "core": "コアコンポーネント",
+    "kubernetes": "Kubernetes コンポーネント"
+  }
+}

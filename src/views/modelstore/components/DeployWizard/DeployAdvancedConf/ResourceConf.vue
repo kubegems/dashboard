@@ -252,6 +252,9 @@
           data.server.resources.limits['tencent.com/vcuda-memory'] =
             (data.server.resources.limits['tencent.com/vcuda-memory'] * 1024) / 256;
         }
+        if (parseInt(data.server.resources.limits['nvidia.com/gpu']) === 0) {
+          delete data.server.resources.limits['nvidia.com/gpu'];
+        }
         return data;
       },
       reset() {

@@ -1,0 +1,33 @@
+{
+  "table": {
+    "name": "仮想スペース名",
+    "status": "状態",
+    "creator": "作成者",
+    "environment_type": "環境タイプ",
+    "remark": "メモ"
+  },
+  "filter": {
+    "mesh_name": "仮想スペース名"
+  },
+  "status": {
+    "activated": "有効",
+    "inactivated": "非アクティブ"
+  },
+  "operate": {
+    "activate": "有効",
+    "inactivate": "閉じる",
+    "activate_c": "{0}をアクティベートする",
+    "inactivate_c": "{0} を閉じました",
+    "link_c": "{0} に接続",
+    "delete_linked_env": "仮想スペース関連環境の削除"
+  },
+  "tip": {
+    "set_status": "仮想空間ステータスを設定",
+    "link_environment": "環境を設定してください",
+    "mesh_member": "仮想スペースピアが環境メンバーから引き継ぎ"
+  },
+  "form": {
+    "name": "仮想スペース名",
+    "name_rule": "20 文字制限を超え"
+  }
+}

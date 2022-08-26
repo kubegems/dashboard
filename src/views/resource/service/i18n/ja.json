@@ -1,0 +1,33 @@
+{
+  "filter": {
+    "service_name": "サービス名"
+  },
+  "table": {
+    "name": "注文番号による検索",
+    "access_info": "アクセス情報",
+    "service_type": "サービス型 (ExternalIp/LoadBalancerIp)"
+  },
+  "tip": {
+    "add_port_tip": "ポート設定を追加してください",
+    "label": "一致するタグ",
+    "type": "タイプ",
+    "service_port": "サービスポート",
+    "container_port": "コンテナポート",
+    "host_port": "ポート",
+    "link_workload": "関連付けワークロード中",
+    "access_type": "アクセス タイプ",
+    "extend_access": "外部アクセス",
+    "keep_alive": "セッションの存続期間 (秒)",
+    "port_config": "ポート設定",
+    "port": "ポート",
+    "annotation": "コメント",
+    "vip": "クラスター内のIPアクセス(VirtualIP)",
+    "headless": "サービス バックエンド の EndpointIP へのアクセス",
+    "no_access": "禁止",
+    "protocol": "アプリケーション契約"
+  },
+  "form": {
+    "name_rule": "名前のフォーマットが間違っています(<protocol>[-<suffix>])",
+    "limit_max_rule": "最大値を超過しました"
+  }
+}

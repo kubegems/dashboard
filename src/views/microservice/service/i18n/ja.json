@@ -1,0 +1,49 @@
+{
+  "table": {
+    "name": "サービス名",
+    "label": "一致するタグ",
+    "config_check": "構成のチェック",
+    "istio_config": "Istio構成"
+  },
+  "tip": {
+    "select_environment": "アプリの環境を選択してください",
+    "auto_inject": "自動的にコメントする",
+    "alert": "注意",
+    "route": "ルーティング",
+    "match_header": "要求ヘッダーに一致する",
+    "match_uri": "リクエストパスの一致"
+  },
+  "filter": {
+    "service_name": "サービス名"
+  },
+  "operate": {
+    "clear": "仮想サービスとルールをクリーンアップ",
+    "fault_injection": "インジェクション",
+    "request_route": "リクエストルート",
+    "request_timeout": "リクエストのタイムアウト",
+    "traffic_shift": "トラフィックの切替",
+    "tcp_traffic_shift": "TCPデータの切替え"
+  },
+  "tab": {
+    "network_topology": "トポロジー",
+    "ingress": "入口トラフィック",
+    "trace": "トラッキングリンクの設定"
+  },
+  "form": {
+    "http_delay": "遅延リクエスト",
+    "delay_precent": "遅延の割合",
+    "fixed_delay": "固定遅延",
+    "http_abort": "リクエストが中止されました",
+    "abort_precent": "中止した割合",
+    "status_code": "ステータスコード",
+    "limit_100_rule": "整形エラー(例:<=100整数)",
+    "integer_rule": "整形エラー(例: 整数)",
+    "destination_workload": "ターゲット 負荷",
+    "traffic_weight": "トラフィック重量",
+    "http_timeout": "リクエストのタイムアウト",
+    "timeout": "タイムアウト",
+    "http_retry": "リクエストの再試行",
+    "attempt": "リトライ数",
+    "try_timeout": "リサイクルのタイムアウト時間"
+  }
+}

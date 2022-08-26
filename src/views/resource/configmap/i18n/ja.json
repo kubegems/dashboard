@@ -1,0 +1,13 @@
+{
+  "table": {
+    "name": "プロファイル名",
+    "item": "設定項目",
+    "create_at": "作成日時"
+  },
+  "filter": {
+    "configmap_name": "プロファイル名"
+  },
+  "form": {
+    "name": "プロファイル名"
+  }
+}

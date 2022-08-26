@@ -1,0 +1,68 @@
+{
+  "filter": {
+    "app_name": "アプリケーション名"
+  },
+  "operate": {
+    "link_c": "{0} に接続",
+    "advanced_deploy": "高度なデプロイ",
+    "scale_replicas": "レプリカの数をセットする",
+    "rollback": "ロールバック",
+    "auto_scale_policy": "柔軟スケーリングポリシー",
+    "confirm_and_publish": "確定"
+  },
+  "tip": {
+    "platform_app": "プラットフォームのアプリ",
+    "app_store_app": "カタログアプリ",
+    "model_store_app": "アルゴリズムストアアプリ",
+    "used": "{0}使用量",
+    "gpu_temp": "GPU 温度",
+    "gpu_power": "GPU 電源",
+    "version": "バージョン",
+    "replicas": "開くべきクリック ギルドVault 4",
+    "now_replicas": "現在のレプリカ数",
+    "dest_replicas": "コピー数",
+    "error_info": "エラーメッセージ",
+    "model_instance": "モデルインスタンス",
+    "allocated": "{0}を割り当てました",
+    "unallocated": "未割り当て",
+    "protocol": "プロトコル",
+    "params": "パラメーター",
+    "port": "ポート",
+    "port_name": "ポート名",
+    "container_port": "コンテナポート",
+    "host_address": "ホスト",
+    "host_port": "ポート"
+  },
+  "table": {
+    "name": "アプリケーション名",
+    "kind": "アプリケーションタイプ",
+    "image_version": "現在のイメージバージョン",
+    "status": "状態",
+    "publisher": "発行者",
+    "publish_at": "公開",
+    "task_status": "タスクの配置状態",
+    "instance_name": "インスタンス名",
+    "model_name": "モデル名",
+    "model_version": "モデルバージョン",
+    "source": "モデルソース",
+    "image": "ミラー",
+    "creator": "作成者",
+    "now_version": "現在のバージョン"
+  },
+  "tab": {
+    "manifest": "資源ガイド",
+    "control_center": "コントロール センター",
+    "resource_status": "リソース状態",
+    "deploy_history": "デプロイ履歴",
+    "image_safey": "ミラーセキュリティ",
+    "runtime": "起動情報"
+  },
+  "form": {
+    "limit_min_rule": "最小限"
+  },
+  "status": {
+    "running": "実行中",
+    "complete": "完了",
+    "failed": "実行に失敗しました"
+  }
+}

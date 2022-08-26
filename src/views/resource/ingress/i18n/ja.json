@@ -1,0 +1,27 @@
+{
+  "filter": {
+    "ingress_name": "ルート名"
+  },
+  "table": {
+    "name": "注文番号による検索",
+    "address": "アドレスへ"
+  },
+  "tip": {
+    "gateway_not_found": "はゲートウェイが見つかりません",
+    "ingress_rule": "ルートルール",
+    "gateway": "ゲートウェイ",
+    "protocol": "プロトコル",
+    "annotation": "コメント",
+    "random_domain": "ドメインをランダム化",
+    "path": "パス",
+    "port_number": "ポート番号",
+    "port_name": "ポート名",
+    "port": "ポート",
+    "no_random_domain": "生成された乱用ドメインがありません。",
+    "leave_1_rule": "最低一つroute (ルート) ルールを保持します",
+    "auto_domain": "ドメインを自動生成する"
+  },
+  "operate": {
+    "add_path": "Path を追加"
+  }
+}

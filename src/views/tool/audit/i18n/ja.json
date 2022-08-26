@@ -1,0 +1,17 @@
+{
+  "table": {
+    "trigger_time": "動作開始時間",
+    "tenant": "テナント",
+    "account": "ユーザー",
+    "operate": "アクション",
+    "object": "オブジェクト",
+    "label": "タグ",
+    "status": "状態"
+  },
+  "filter": {
+    "account": "ユーザー",
+    "search": "検索",
+    "status": "状態",
+    "action": "アクション"
+  }
+}

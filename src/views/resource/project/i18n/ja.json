@@ -1,0 +1,42 @@
+{
+  "table": {
+    "name": "注文番号による検索",
+    "alias": "エイリアス",
+    "environment_space": "環境空間",
+    "create_at": "作成日時",
+    "used": "{0} 使用中"
+  },
+  "filter": {
+    "name": "プロジェクト名"
+  },
+  "tip": {
+    "tenant": "テナントを選択してください",
+    "tenant_creat_or_join": "作成またはテナントを追加してください。",
+    "resource_list": "リソース使用一覧",
+    "resource_count": "資源統計",
+    "policy": "ストラテジー"
+  },
+  "form": {
+    "project": {
+      "name": "注文番号による検索",
+      "nameRule": "20 文字制限を超え",
+      "alias": "エイリアス",
+      "remark": "説明"
+    }
+  },
+  "environment": {
+    "table": {
+      "environment_space": "環境空間",
+      "environment_type": "環境タイプ",
+      "namespace": "名前空間",
+      "creator": "作成者",
+      "network_isolation": "ネットワーク分離",
+      "used": "{0} 使用中"
+    },
+    "type": {
+      "dev": "開発",
+      "test": "テスト",
+      "prod": "生産品"
+    }
+  }
+}

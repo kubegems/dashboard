@@ -1,0 +1,47 @@
+{
+  "tip": {
+    "middleware": "ミドルウェア",
+    "monitor_and_log": "監視/ログ",
+    "integrated_config": "アクセス設定",
+    "config_metrics_and_trace": "{0} アプリのTrace, Metricsを設定",
+    "config_exporter": "{0} の間のエクスプレスを構成する",
+    "config_c": "{0} を設定",
+    "log_config": "ログ取得構成",
+    "sample_log": "ワンクリックで有効にする（非アクティブモード）",
+    "diy_config": "カスタム設定",
+    "related_app": "アプリケーションへリンク",
+    "related_output": "関連ログルート",
+    "enable_throttle": "スピード ON",
+    "throttle": "スピード",
+    "item_pre_minute": "バー/分",
+    "enable_log_monitor": "LogCat を開く",
+    "sample": "シンプルモード",
+    "added_log_collect": "新しいログ採取量が追加されました",
+    "name": "注文番号による検索",
+    "metrics_config": "採集設定の監視",
+    "related_service": "関連サービス",
+    "servicemonitor_port": "デバッガーポート",
+    "no_service_tip": "サービスがありませんか？ <a>アプリケーション ストア</a> にexportを作成してください",
+    "request_path": "リクエストパス",
+    "metrics": "メトリクス",
+    "integated_info": "接続情報",
+    "integated_status": "接続状況",
+    "integated_complete": "アクセス完了",
+    "link_2_app": "<a>ジャンプする</a> をクリックします"
+  },
+  "operate": {
+    "open": "オン",
+    "close": "閉じる",
+    "refresh_middleware_status": "中間値の接続状態を更新"
+  },
+  "table": {
+    "name": "注文番号による検索",
+    "rule": "ルール",
+    "expr": "評価式",
+    "unit": "単位"
+  },
+  "status": {
+    "deploying": "展開中",
+    "ready": "準備完了"
+  }
+}

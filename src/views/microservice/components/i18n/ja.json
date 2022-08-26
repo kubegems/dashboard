@@ -1,0 +1,35 @@
+{
+  "tip": {
+    "missing_plugin": "その環境がクラスター内に存在し {0} プラグインはまだ有効化されていません！",
+    "plugin_tip": "このプラグインの有効化にはプラットフォームマネージャーに連絡することができます。",
+    "select_environment": "アプリの環境を選択してください",
+    "start_end_time": "有効時間",
+    "limit_count": "最大アイテム",
+    "auto_inject": "自動的にコメントする",
+    "request_count": "要求量",
+    "realtime_rate": "リアルタイムでの速度",
+    "last_24_hours": "直近24h",
+    "response_time": "応答時間",
+    "realtime": "リアルタイム",
+    "error_request": "異常リクエスト回数",
+    "traffic": "トラフィック",
+    "status": "状態",
+    "replicas": "開くべきクリック ギルドVault 4",
+    "replicas_updated": "{0}個のコピーが更新されました",
+    "replicas_ready": "{0}個のコピーの準備ができました",
+    "replicas_available": "{0}個のコピーが入手可能です",
+    "replicas_unavailable": "{0}個のコピーが利用できません"
+  },
+  "table": {
+    "ingress": "入口トラフィック",
+    "egress": "トラフィックのエクスポート",
+    "name": "注文番号による検索",
+    "rate": "速度",
+    "success_precent": "クリア率",
+    "protocol": "プロトコル",
+    "label": "タグ",
+    "port": "ポート",
+    "service_ip": "サービス IP",
+    "pod_count": "コンテナグループの数"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "table": {
+    "summary": "概要",
+    "fingerprint": "指紋",
+    "expired_at": "有効期限",
+    "creator": "作成者",
+    "name": "注文番号による検索",
+    "start_at": "開始時刻",
+    "trigger_at": "動作開始時間",
+    "blacklist": "ブラックリスト",
+    "message": "詳細",
+    "severity": "レベル"
+  },
+  "tip": {
+    "forever": "無期限",
+    "confirm_remove_blacklist": "この警告をサイレンスからサイレンスしますか？",
+    "today_alert": "本日告知",
+    "cleared": "削除された",
+    "triggering": "警告中",
+    "alert_type": "お知らせの種類",
+    "count": "個数",
+    "alert_trend": "警告履歴動向",
+    "top_10": "警察TOP10",
+    "not_changed": "変更なし",
+    "compare_yestoday": "昨日",
+    "yes": "はい",
+    "confirm_in_blacklist": "この警告をサイレンスからサイレンスしますか？",
+    "select_label": "ラベルの選択",
+    "alert": "アラート",
+    "query_tip": "ぼかしの検索ルールとラベル。(複数キーワードはスペースで区切ってください)",
+    "query": "クエリ"
+  },
+  "operate": {
+    "remove_blacklist": "ブロックを解除",
+    "in_blacklist": "ブロック",
+    "go": "実行"
+  },
+  "filter": {
+    "name": "注文番号による検索",
+    "resource": "リソース",
+    "rule": "ルール",
+    "status": "状態"
+  }
+}

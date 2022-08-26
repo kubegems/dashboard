@@ -1,0 +1,38 @@
+{
+  "message": {
+    "message": "メッセージ",
+    "approval": "承認",
+    "no_message": "未読メッセージはありません",
+    "no_approval": "まだ承認されていない承認者はいません",
+    "unread_c": "未読{0}",
+    "clear": "未読を除く"
+  },
+  "about": {
+    "api_version": "Api バージョン",
+    "api_release_time": "API 日付",
+    "go_version": "goバージョン",
+    "compile": "コンパイル",
+    "compile_platform": "ビルドプラットフォーム",
+    "dashboard_version": "Dashboardバージョン",
+    "dashboard_release_time": "Dashboardバージョン日付"
+  },
+  "status": {
+    "enabled": "有効",
+    "disabled": "無効"
+  },
+  "table": {
+    "tenant": "テナント",
+    "status": "状態"
+  },
+  "operate": {
+    "approve": "経由",
+    "reject": "拒否"
+  },
+  "tip": {
+    "tenant": "現在のテナント",
+    "resource_scale": "リソース調整",
+    "project_address": "プロジェクト URL",
+    "issue": "MoKeeバグトラッカー",
+    "star": "スター"
+  }
+}

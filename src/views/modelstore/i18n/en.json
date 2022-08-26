@@ -58,7 +58,9 @@
     "video_card": "Visual Card",
     "can_use": "Available",
     "total": "Total",
-    "core": "Core"
+    "core": "Core",
+
+    "experience": "Model Experience"
   },
   "tab": {
     "description": "Introduction",
@@ -90,7 +92,8 @@
     "publish_comment": "Comment",
     "publish_reply": "Post Reply",
     "reply_c": "Reply to {0}",
-    "view_deploy_status": "View Deployment Status"
+    "view_deploy_status": "View Deployment Status",
+    "experience": "Experience"
   },
   "form": {
     "cpu_rule": "Wrong format (example:1m,1)",

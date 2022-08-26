@@ -1,0 +1,67 @@
+{
+  "tab": {
+    "ai_model": "アルゴリズムモデル"
+  },
+  "table": {
+    "name": "注文番号による検索",
+    "version": "バージョン",
+    "framework": "フレームワーク",
+    "task": "タイプ",
+    "tag": "タグ",
+    "last_modified": "最終更新日",
+    "recommend": "推奨値",
+    "published": "参加状況"
+  },
+  "operate": {
+    "recommend_content": "推奨コンテンツ",
+    "online": "リスト表示",
+    "offline": "オフライン",
+    "manage": "モデル管理",
+    "stop_sync": "同期を中止",
+    "stop_sync_c": "{0} との同期を中止",
+    "forbid": "無効",
+    "active": "有効",
+    "forbid_c": "{0} を無効化",
+    "active_C": "{0}をアクティベートする",
+    "check": "チェックサム"
+  },
+  "filter": {
+    "search": "モデル名",
+    "framework": "フレームワーク",
+    "task": "タイプ"
+  },
+  "status": {
+    "success": "同期が成功",
+    "failure": "同期失敗",
+    "no_sync": "同期なし",
+    "running": "同期有効"
+  },
+  "tip": {
+    "model_count": "モデルの数",
+    "inner": "インボックス",
+    "huggingface": "世界で最も大規模なオープンソース コミュニティとして、NLP の技術に集中している。",
+    "openmmlab": "深い学習時に最も完全なコンピュータービジョンでオープンソースなアルゴリズムシステム。",
+    "tensorflow": "コアとなるオープンソースライブラリで、機械学習モデルを開発・トレーニングに役立つでしょう。",
+    "pytorch": "検出されたモデルとリサーチのために設計された プリペイドモデルリポジトリに公開します。",
+    "paddlepaddle": "は 産業を基盤とするオープンソース・ゼロ・学習プラットフォームです",
+    "kubegems": "Kubegemsビルトインアルゴリズムモデル",
+    "status": "同期ステータス",
+    "update_at": "更新日時",
+    "address": "住所",
+    "recomment": "紹介インデックス",
+    "recomment_content": "推奨コンテンツ",
+    "label": "モデルのラベル",
+    "model_admin": "アルゴリズムモデルストア管理者",
+    "source": "アルゴリズムストアソース",
+    "download_modelx": "ModelX Client をダウンロード",
+    "auth": "アルゴリズムストア認証",
+    "auth_setting": "認証設定",
+    "auth_type": "このニュースをサイトで公開するか否かの設定",
+    "passwd_auth": "ユーザー名コードベース認証",
+    "token_auth": "トークンベースの認証",
+    "passwd_or_token_auth": "ユーザー名パスワードやトークンベースの認証"
+  },
+  "form": {
+    "recomment_rule": "書式が不適切です(0-100)"
+  }
+}

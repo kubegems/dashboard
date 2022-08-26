@@ -1,0 +1,30 @@
+{
+  "table": {
+    "app": "適用",
+    "update_at": "更新日時",
+    "operator": "演算子",
+    "version": "ビルド番号"
+  },
+  "filter": {
+    "config_name": "設定項目"
+  },
+  "operate": {
+    "listen": "クエリを聴く",
+    "history": "履歴",
+    "sdk_demo": "SDK の例",
+    "rollback": "ロールバック"
+  },
+  "tip": {
+    "config": "設定項目",
+    "more": "追加設定",
+    "listen_list": "リスニングリスト",
+    "sdk_demo": "SDKアクセスポイントのサンプル",
+    "history": "履歴の設定",
+    "rollback_tip": "{0} をバージョン {1}ロールバックする",
+    "delete_tip": "テナント「{0}」/プロジェクト「{1}」/環境「{2}」の下の構成設定項目 {3}?"
+  },
+  "status": {
+    "rollback_success": "ロールバック完了",
+    "rollback_failed": "ロールバック失敗"
+  }
+}

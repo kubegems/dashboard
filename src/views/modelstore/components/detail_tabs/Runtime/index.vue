@@ -48,6 +48,25 @@
         <template #[`item.url`]="{ item }">
           <a :href="item.url" target="_blank" @click.stop>{{ item.url }}</a>
         </template>
+        <!-- <template #[`item.action`]="{ item }">
+          <v-flex :id="`r${item.name}`" />
+          <v-menu :attach="`#r${item.name}`" left>
+            <template #activator="{ on }">
+              <v-btn icon>
+                <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-text class="pa-2">
+                <v-flex>
+                  <v-btn color="primary" small text @click="experienceModel(item)">
+                    {{ $t('operate.experience') }}
+                  </v-btn>
+                </v-flex>
+              </v-card-text>
+            </v-card>
+          </v-menu>
+        </template> -->
       </v-data-table>
       <BasePagination
         v-if="pageCount >= 1"
@@ -59,6 +78,8 @@
         @loaddata="runtimeList"
       />
     </v-card-text>
+
+    <ModelExperience ref="modelExperience" :item="item" />
   </v-card>
 </template>
 
@@ -66,12 +87,22 @@
   import { Base64 } from 'js-base64';
 
   import messages from '../../../i18n';
+  import ModelExperience from './components/ModelExperience';
   import { getModelRuntimeList } from '@/api';
 
   export default {
     name: 'RuntimeList',
     i18n: {
       messages: messages,
+    },
+    components: {
+      ModelExperience,
+    },
+    props: {
+      item: {
+        type: Object,
+        default: () => null,
+      },
     },
     data: () => ({
       items: [],
@@ -92,12 +123,14 @@
           { text: this.$root.$t('resource.namespace'), value: 'namespace', align: 'start' },
           { text: this.$t('table.creator'), value: 'creator', align: 'start' },
           { text: 'Api', value: 'url', align: 'start' },
+          { text: '', value: 'action', align: 'center', width: 20, sortable: false },
         ];
       },
     },
     mounted() {
       this.$nextTick(() => {
         this.runtimeList();
+        console.log(this.item);
       });
     },
     methods: {
@@ -132,6 +165,9 @@
             tab: 'modelstore',
           },
         });
+      },
+      experienceModel() {
+        this.$refs.modelExperience.open();
       },
     },
   };

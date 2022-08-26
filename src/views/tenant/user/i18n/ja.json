@@ -1,0 +1,36 @@
+{
+  "table": {
+    "name": "注文番号による検索",
+    "status": "状態",
+    "email": "メール",
+    "mobile": "携帯電話",
+    "role": "ロール",
+    "last_login_at": "最近のサインイン順",
+    "registe_at": "登録日"
+  },
+  "filter": {
+    "username_or_email": "ユーザー名またはEメール"
+  },
+  "operate": {
+    "role": "ロール",
+    "reset_pwd": "パスワードをリセット"
+  },
+  "status": {
+    "enabled": "有効",
+    "disabled": "無効"
+  },
+  "tip": {
+    "role_title": "ユーザーシステムロール",
+    "passwd_title": "使用者パスワードの再設定",
+    "random_passwd": "ランダムパスワードを生成する"
+  },
+  "resource": {
+    "password": "パスワード"
+  },
+  "form": {
+    "new_passwd": "新しいパスワード",
+    "username": "ユーザー名",
+    "passwd": "パスワード",
+    "email": "メール"
+  }
+}

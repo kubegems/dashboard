@@ -1,0 +1,57 @@
+{
+  "filter": {
+    "node_name": "ノード名"
+  },
+  "operate": {
+    "gpu_schedule": "GPU チューナー",
+    "allow_schedule": "許可されたフィルタ：",
+    "stop_schedule": "スケジューリングを終了します。",
+    "hide": "折り畳む",
+    "show": "表示"
+  },
+  "table": {
+    "name": "ホスト名",
+    "status": "状態",
+    "role": "ロール",
+    "taint": "ドット",
+    "load": "5分間の負荷",
+    "join_at": "参加日"
+  },
+  "tab": {
+    "taint": "親和性"
+  },
+  "tip": {
+    "load": "負荷",
+    "cpu_rate": "CPU使用率",
+    "memory_rate": "メモリ使用率",
+    "network": "インターネット帯域幅",
+    "remain_storage": "残りのディスク容量",
+    "disk_iops": "ディスクIOPS",
+    "load_1": "1分間の負荷",
+    "load_5": "5分間の負荷",
+    "load_15": "15分使用率",
+    "in_traffc": "入口トラフィック",
+    "out_traffic": "トラフィックのエクスポート",
+    "write_iops": "IOPSの書き込み",
+    "read_iops": "IOPSの読み取り",
+    "resource_statics": "資源統計",
+    "architecture": "アーキテクチャ",
+    "runtime_version": "コンテナータイプ",
+    "kernel_version": "カーネルバージョン",
+    "kubeproxy_version": "kubeProxyバージョン",
+    "kubelet_version": "Kubeletバージョン",
+    "os": "オペレーティングシステム",
+    "os_version": "OSのバージョン",
+    "system_uuid": "システムUUID",
+    "image_count": "イメージ数",
+    "volume": "ボリューム",
+    "condition": "有効ステータス",
+    "last_update_at": "最終更新日",
+    "nvidia": "Nvidia GPU ドライバー",
+    "schedule": "ノードスケジューリング",
+    "policy": "ストラテジー",
+    "no_schedule": "No-スケジュールには適用できません",
+    "prefer_no_schedule": "スケジュールから外す (PreferNo-スケジュール)",
+    "no_execute": "既存のコンテナグループ (NoExecute) を追放することはできません"
+  }
+}

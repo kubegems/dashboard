@@ -1,0 +1,33 @@
+{
+  "more": "さらに表示",
+  "audit": {
+    "audit": "監査"
+  },
+  "event": {
+    "event": "イベント",
+    "cluster": "クラスター"
+  },
+  "project": {
+    "table": {
+      "type": "タイプ",
+      "traffic_in": "データ通信",
+      "traffic_out": "流出",
+      "remark": "メモ",
+      "alias": "エイリアス",
+      "test": "テスト",
+      "dev": "開発",
+      "prod": "生産品"
+    }
+  },
+  "resource": {
+    "table": {
+      "all": "合計{0}",
+      "allocated": "{0}を割り当てました",
+      "applying": "資源リクエスト"
+    },
+    "title": "リソース調整"
+  },
+  "tip": {
+    "tenant": "作成またはテナントを追加してください。"
+  }
+}

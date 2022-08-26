@@ -1,0 +1,42 @@
+{
+  "tip": {
+    "detail": "詳細",
+    "version": "バージョン",
+    "desc": "はじめに",
+    "registry": "倉庫",
+    "app_version": "アプリケーションのバージョン",
+    "maintainer": "メンテナ",
+    "create_at": "作成日時",
+    "error_info": "エラーメッセージ",
+    "deploying": "デプロイ中です、しばらくお待ちください",
+    "deploy_success": "デプロイが成功しました",
+    "view_deploy_status": "展開する状態を確認する",
+    "third_registry": "サードパーティリポジトリ",
+    "advise": "提案",
+    "third_registry_deploy": "サードパーティ製リポジトリ、一般的にはvalues.yamlの設定の使用が推奨されます",
+    "values_error": "values.yamlを取得できませんでした",
+    "params_check_error": "引数の検証に失敗しました",
+    "project_is_null": "プロジェクトが見つかりません",
+    "environment_is_null": "環境がありません。",
+    "base_info": "基本設定",
+    "advance_setting": "詳細な設定",
+    "complete": "完了",
+    "bitnami": "Bitnami では、お使いのパソコン、Kubernetes、およびすべての主要なクラウドが含まれます。",
+    "kubegems": "HTTPの複雑なサーバーや、web全スタック、データベース、キャッシュなどの特定の複雑なHTTPサーバをデプロイできるファイルコレクション。",
+    "chartmuseum": "ChartMuseum は、オープン ソースのオープンソース プロジェクトで、Helm Chart リポジトリサーバです。"
+  },
+  "filter": {
+    "name": "アプリケーション名"
+  },
+  "form": {
+    "name": "注文番号による検索",
+    "appname": "アプリケーション名",
+    "address": "住所",
+    "version": "バージョン"
+  },
+  "tab": {
+    "form": "フォーム",
+    "app_detail": "アプリの詳細",
+    "config_file": "プロファイル"
+  }
+}
