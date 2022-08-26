@@ -1,35 +1,38 @@
 {
   "message": {
-    "message": "消息",
-    "approval": "审批",
-    "no_message": "暂无未读消息",
-    "no_approval": "暂无未处理审批",
-    "unread_c": "未读{0}",
-    "clear": "清除未读"
+    "message": "Message",
+    "approval": "Approval",
+    "no_message": "No unread messages yet",
+    "no_approval": "No pending approvals yet",
+    "unread_c": "Unread {0}",
+    "clear": "Clear"
   },
   "about": {
-    "api_version": "Api版本",
-    "api_release_time": "Api版本日期",
-    "go_version": "go版本",
-    "compile": "编译",
-    "compile_platform": "编译平台",
-    "dashboard_version": "Dashboard版本",
-    "dashboard_release_time": "Dashboard版本日期"
+    "api_version": "Api Version",
+    "api_release_time": "Api Release Time",
+    "go_version": "Go Version",
+    "compile": "Compile",
+    "compile_platform": "Compile Platform",
+    "dashboard_version": "Dashboard Version",
+    "dashboard_release_time": "Dashboard Release Time"
   },
   "status": {
-    "enabled": "启用",
-    "disabled": "禁用"
+    "enabled": "Enabled",
+    "disabled": "disabled"
   },
   "table": {
-    "tenant": "租户",
-    "status": "状态"
+    "tenant": "Tenant",
+    "status": "Status"
   },
   "operate": {
-    "approve": "通过",
-    "reject": "拒绝"
+    "approve": "Approve",
+    "reject": "Reject"
   },
   "tip": {
-    "tenant": "当前租户",
-    "resource_scale": "资源调整"
+    "tenant": "Current tenant",
+    "resource_scale": "Resource Scale",
+    "project_address": "Github",
+    "issue": "Issues",
+    "star": "Star"
   }
 }
