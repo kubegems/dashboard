@@ -1,0 +1,26 @@
+{
+  "tip": {
+    "select_project": "请先选择项目",
+    "enable_scan": "启用镜像扫描和分析报告",
+    "yes": "是",
+    "no": "否",
+    "set_default": "将镜像仓库 {0} 置为默认仓库",
+    "cancel_default": "取消镜像仓库 {0} 的默认设置"
+  },
+  "filter": {
+    "registry_name": "镜像仓库名称"
+  },
+  "table": {
+    "name": "仓库名称",
+    "address": "仓库地址",
+    "default": "默认仓库",
+    "username": "用户名",
+    "creator": "创建人",
+    "last_update_at": "最近更新时间",
+    "passwd": "密码"
+  },
+  "operate": {
+    "set_default": "设置默认仓库",
+    "cancel_default": "取消默认仓库"
+  }
+}
