@@ -1,0 +1,9 @@
+{
+  "table": {
+    "name": "Service Entry Name",
+    "port": "Port"
+  },
+  "filter": {
+    "entry_name": "Service Entry Name"
+  }
+}
