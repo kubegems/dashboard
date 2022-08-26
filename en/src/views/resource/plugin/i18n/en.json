@@ -9,9 +9,9 @@
   },
   "operate": {
     "install": "Enabled",
-    "install_c": "Enable {0}",
+    "install_c": "Enable{0}",
     "uninstall": "Uninstall",
-    "uninstall_c": "Uninstall {0}"
+    "uninstall_c": "Uninstall{0}"
   },
   "status": {
     "deploying": "Deploying",
