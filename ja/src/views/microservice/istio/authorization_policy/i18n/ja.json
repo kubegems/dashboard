@@ -1,9 +1,9 @@
 {
   "table": {
-    "name": "Policy Name",
-    "rule_count": "Rule Count"
+    "name": "策略名称",
+    "rule_count": "规则数量"
   },
   "filter": {
-    "policy_name": "Policy Name"
+    "policy_name": "策略名称"
   }
 }
