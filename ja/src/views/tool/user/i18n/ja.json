@@ -1,0 +1,63 @@
+{
+  "tab": {
+    "message": "Message Box",
+    "audit": "Action History",
+    "setting": "Personal Settings",
+    "auth": "Authenticate"
+  },
+  "table": {
+    "email": "Email",
+    "mobile": "Phone number",
+    "registe_at": "Registration Time",
+    "last_login_at": "Last Login"
+  },
+  "message": {
+    "table": {
+      "message": "Message",
+      "time": "Time",
+      "type": "Type"
+    },
+    "filter": {
+      "notify": "Announcements",
+      "approval": "Approve",
+      "alert": "Warning"
+    }
+  },
+  "audit": {
+    "table": {
+      "trigger_time": "Trigger Time",
+      "tenant": "Tenant",
+      "account": "User",
+      "operate": "Operations",
+      "object": "Object",
+      "label": "Tags",
+      "status": "Status"
+    }
+  },
+  "setting": {
+    "tip": {
+      "personal_info": "Personal information",
+      "old": "Original {0}",
+      "new": "New {0}",
+      "confirm_passwd": "Confirm New Password",
+      "i18n": "Languages",
+      "auth": "Authentication Information",
+      "exprie": "Expiration time (seconds)"
+    }
+  },
+  "operate": {
+    "generate_c": "Spawn {0}"
+  },
+  "auth": {
+    "table": {
+      "expired": "Expiry",
+      "expire_at": "Expiration time",
+      "grant_type": "License Type",
+      "yes": "Yes",
+      "no": "No"
+    },
+    "tip": {
+      "copyed": "Copied to Clipboard"
+    }
+  }
+}
