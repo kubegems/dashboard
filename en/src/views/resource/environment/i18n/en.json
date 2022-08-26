@@ -2,7 +2,7 @@
   "table": {
     "name": "Environment Name",
     "creator": "Created By",
-    "used": "Used {0}"
+    "used": "Used{0}"
   },
   "filter": {
     "environment_name": "Environment Name"
@@ -34,7 +34,7 @@
     "tenant_resource_allocated": "Tenants have allocated resources on clusters",
     "resource_quota": "Resource quotas",
     "limit_range": "Resource Limit",
-    "limit_value": "{0} limit",
+    "limit_value": "{0}limit",
     "limit": "Limit value",
     "default": "Default value",
     "default_reauest": "Default request value",
