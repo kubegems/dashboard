@@ -1,10 +1,10 @@
 {
   "table": {
-    "name": "端点认证名称",
-    "label": "匹配标签",
-    "tls": "TLS设置"
+    "name": "Endpoint authentication name",
+    "label": "Match Tags",
+    "tls": "TLS Settings"
   },
   "filter": {
-    "peer_name": "端点认证名称"
+    "peer_name": "Endpoint authentication name"
   }
 }
