@@ -1,0 +1,10 @@
+{
+  "tip": {
+    "no_cluster": "Your tenant has not assigned any cluster resources!",
+    "no_cluster_tip": "You can contact the system administrator to allocate cluster resources to your tenants",
+    "no_tenant": "You don't belong to any tenant yet!",
+    "no_tenant_tip": "You can contact an administrator of a tenant to invite you to join a tenant or create a new tenant",
+    "leave_tenant": "You have quit the current tenant, please select the tenant again!",
+    "leave_tenant_tip": "You can contact the tenant administrator to invite you to rejoin the tenant"
+  }
+}
