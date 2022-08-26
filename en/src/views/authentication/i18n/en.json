@@ -1,21 +1,21 @@
 {
-  "login": "Login",
+  "login": "Sign in",
   "username": "Username",
   "password": "Password",
   "tip": {
-    "login": "Login",
-    "other": "Other logins",
-    "nav": "You can access the home page from the workbench in the upper right corner",
-    "permission": "You can contact a tenant's administrator or system administrator to add access for you"
+    "login": "User Login",
+    "other": "Other login methods",
+    "nav": "You can access the home page from the top right corner",
+    "permission": "You can contact an administrator or system administrator to add access to you"
   },
   "status": {
-    "success": "Login success",
-    "logined": "Has Logged",
-    "failed": "Authentication failed, please login",
-    "403": "Forbidden",
-    "404": "Page Not Found"
+    "success": "Login successful",
+    "logined": "Logged in",
+    "failed": "Authentication failed, please login and visit",
+    "403": "You do not have permission to view this resource!",
+    "404": "The page you visited does not exist!"
   },
   "form": {
-    "passwordRule": "More than 20"
+    "passwordRule": "More than 20 Bits"
   }
 }
