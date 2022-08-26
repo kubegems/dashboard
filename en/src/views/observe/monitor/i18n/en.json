@@ -90,8 +90,8 @@
     "send_test": "Send test email",
     "enable": "Enabled",
     "disable": "Disabled",
-    "enable_c": "Enable{0}",
-    "disable_c": "Disable{0}"
+    "enable_c": "Enable {0}",
+    "disable_c": "Disable {0}"
   },
   "filter": {
     "receiver_name": "Recipient Name",
