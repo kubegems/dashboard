@@ -1,0 +1,30 @@
+{
+  "table": {
+    "app": "Apps",
+    "update_at": "Update Time",
+    "operator": "Operator",
+    "version": "Version number"
+  },
+  "filter": {
+    "config_name": "Configuration Item"
+  },
+  "operate": {
+    "listen": "Listen query",
+    "history": "History",
+    "sdk_demo": "Sample SDK",
+    "rollback": "Rollback"
+  },
+  "tip": {
+    "config": "Configuration Item",
+    "more": "More Configuration",
+    "listen_list": "Listening list",
+    "sdk_demo": "Sample SDK Access",
+    "history": "Config History",
+    "rollback_tip": "Rollback configuration {0} to version {1}",
+    "delete_tip": "确认删除 租户「{0}」/项目「{1}」/环境「{2}」 下的配置项 {3} ?"
+  },
+  "status": {
+    "rollback_success": "Rollback completed",
+    "rollback_failed": "Rollback failed"
+  }
+}
