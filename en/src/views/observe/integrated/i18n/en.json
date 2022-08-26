@@ -2,7 +2,7 @@
   "tip": {
     "middleware": "Middleware",
     "monitor_and_log": "Monitor / Log",
-    "integrated_config": "Integrate Configuration",
+    "integrated_config": "Access Configuration",
     "config_metrics_and_trace": "Configure Trace, Metrics for {0} apps",
     "config_exporter": "Configure exporter of {0} middleware",
     "config_c": "Configure {0}",
@@ -24,15 +24,15 @@
     "no_service_tip": "No service ?create export from <a>App Store</a>",
     "request_path": "Request Path",
     "metrics": "Indicators",
-    "integated_info": "Integrate Info",
-    "integated_status": "Integrate Status",
-    "integated_complete": "Integrate Cpmplete",
-    "link_2_app": " Click <a>link</a> to app detail"
+    "integated_info": "接入信息",
+    "integated_status": "接入状态",
+    "integated_complete": "接入完成",
+    "link_2_app": "点击 <a>跳转</a> 至应用"
   },
   "operate": {
-    "open": "Open",
+    "open": "On",
     "close": "Close",
-    "refresh_middleware_status": "Refresh middleware status"
+    "refresh_middleware_status": "刷新中间件接入状态"
   },
   "table": {
     "name": "Name",
@@ -41,7 +41,7 @@
     "unit": "Units"
   },
   "status": {
-    "deploying": "Deploying",
-    "ready": "Ready"
+    "deploying": "部署中",
+    "ready": "已就绪"
   }
 }
