@@ -46,7 +46,7 @@
     "name": "Container Group",
     "status": "Status",
     "restart_count": "Restart count",
-    "used": "{0}Usage"
+    "used": "{0} Usage"
   },
   "operate": {
     "terminal": "Terminal",
