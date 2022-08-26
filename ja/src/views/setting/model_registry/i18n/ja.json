@@ -1,0 +1,67 @@
+{
+  "tab": {
+    "ai_model": "Algorithm Model"
+  },
+  "table": {
+    "name": "Name",
+    "version": "Version",
+    "framework": "Framework",
+    "task": "Type",
+    "tag": "Tags",
+    "last_modified": "Last updated",
+    "recommend": "Recommended Values",
+    "published": "Listing Status"
+  },
+  "operate": {
+    "recommend_content": "Recommended Content",
+    "online": "Listing",
+    "offline": "Next shelf",
+    "manage": "Model management",
+    "stop_sync": "Abort sync",
+    "stop_sync_c": "Abort sync {0}",
+    "forbid": "Disabled",
+    "active": "Activate",
+    "forbid_c": "Disable {0}",
+    "active_C": "Activate {0}",
+    "check": "Validation"
+  },
+  "filter": {
+    "search": "Model Name",
+    "framework": "Framework",
+    "task": "Type"
+  },
+  "status": {
+    "success": "Successfully synced",
+    "failure": "Sync failed",
+    "no_sync": "No sync yet",
+    "running": "Syncing"
+  },
+  "tip": {
+    "model_count": "Number of models",
+    "inner": "Built-in Store",
+    "huggingface": "Large open source communities globally, focused on NLP technologies.",
+    "openmmlab": "The most complete computer visual open source algorithm in a deep learning era.",
+    "tensorflow": "A core open source library that can help you develop and train machine learning models.",
+    "pytorch": "Discover the model and publish it to a repository of pre-training models designed specifically for research exploration.",
+    "paddlepaddle": "Open source depth learning platform derived from industry practice.",
+    "kubegems": "Kubegems built-in algorithm store.",
+    "status": "Sync Status",
+    "update_at": "Update Time",
+    "address": "Address",
+    "recomment": "Recommended Index",
+    "recomment_content": "Recommended Content",
+    "label": "Model Label",
+    "model_admin": "Algorithm Model Store Administrator",
+    "source": "Algorithm Store Source",
+    "download_modelx": "Download ModelX Client",
+    "auth": "Algorithm Store Authentication",
+    "auth_setting": "Authentication Configuration",
+    "auth_type": "Authentication Method",
+    "passwd_auth": "Authentication based on username and password",
+    "token_auth": "Token-based Authentication",
+    "passwd_or_token_auth": "Authentication based on username or token"
+  },
+  "form": {
+    "recomment_rule": "Format Error (0-100)"
+  }
+}
