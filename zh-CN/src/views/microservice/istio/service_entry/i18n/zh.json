@@ -1,9 +1,9 @@
 {
   "table": {
-    "name": "Service Entry Name",
-    "port": "Port"
+    "name": "服务入口名称",
+    "port": "端口"
   },
   "filter": {
-    "entry_name": "Service Entry Name"
+    "entry_name": "服务入口名称"
   }
 }
