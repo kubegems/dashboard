@@ -15,10 +15,10 @@
     "traffic": "Traffic",
     "status": "Status",
     "replicas": "Duplicate",
-    "replicas_updated": "{0} copies updated",
-    "replicas_ready": "{0} copies ready",
-    "replicas_available": "{0} copies available",
-    "replicas_unavailable": "{0} copies are not available"
+    "replicas_updated": "{0}copies updated",
+    "replicas_ready": "{0}copies ready",
+    "replicas_available": "{0}copies available",
+    "replicas_unavailable": "{0}个副本不可用"
   },
   "table": {
     "ingress": "Traffic at the entrance",
