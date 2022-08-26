@@ -1,0 +1,35 @@
+{
+  "tip": {
+    "missing_plugin": "{0} plugins are not yet enabled for this application cluster!",
+    "plugin_tip": "You can contact the platform administrator to enable this plugin",
+    "select_environment": "Please select an application environment",
+    "start_end_time": "Time from",
+    "limit_count": "Limit Count",
+    "auto_inject": "Auto Injection",
+    "request_count": "Request Amount",
+    "realtime_rate": "Realtime Rate",
+    "last_24_hours": "Past 24h",
+    "response_time": "Response Time",
+    "realtime": "Live",
+    "error_request": "Exception requests",
+    "traffic": "Traffic",
+    "status": "Status",
+    "replicas": "Duplicate",
+    "replicas_updated": "{0} copies updated",
+    "replicas_ready": "{0} copies ready",
+    "replicas_available": "{0} copies available",
+    "replicas_unavailable": "{0} copies are not available"
+  },
+  "table": {
+    "ingress": "Traffic at the entrance",
+    "egress": "Export traffic",
+    "name": "Name",
+    "rate": "Rate",
+    "success_precent": "Success rates",
+    "protocol": "Protocol",
+    "label": "Tags",
+    "port": "Port",
+    "service_ip": "Service IP",
+    "pod_count": "Number of Container Groups"
+  }
+}
