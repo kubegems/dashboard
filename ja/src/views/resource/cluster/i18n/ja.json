@@ -1,0 +1,45 @@
+{
+  "table": {
+    "kubernetes_version": "Kubernetes version",
+    "status": "Status",
+    "kubeconfig_expired": "Configuration Expiration"
+  },
+  "tip": {
+    "control_cluster": "Control cluster",
+    "resource_oversold": "Resource Override",
+    "missing_kubeconfig": "Please enter KubeConfig",
+    "physics": "Physics",
+    "virtual": "v",
+    "total": "Total {0}",
+    "sum": "Sum",
+    "oversold_precent": "{0} score ratio",
+    "oversold": "Over-commit {0}",
+    "all": "Total {0}",
+    "used": "Used {0}",
+    "reason": "Reason",
+    "cert_expired": "Certificate Expiration",
+    "api_success_rate": "Success rate for API",
+    "cluster_init_config": "Cluster initialization settings",
+    "test_cluster": "Test cluster",
+    "connect_success": "Cluster connection successful",
+    "connect_failed": "Cluster connection failed",
+    "connecting": "Connecting clusters",
+    "support_version": "Support Version",
+    "cluster_vendor": "Cluster Vendor",
+    "now_select": "Current selection"
+  },
+  "form": {
+    "format_rule": "Wrong format (example: max 1 decimal)",
+    "limit_min_rule": "Less than minimum limit",
+    "limit_max_rule": "Maximum limit exceeded",
+    "name": "Cluster name"
+  },
+  "tab": {
+    "etcd_timeout": "ETCD timeout",
+    "apiserver_timeout": "API ervertime",
+    "cluster_cpu": "CPU",
+    "cluster_memory": "Memory",
+    "cluster_storage": "Storage",
+    "cluster_pod": "Pod"
+  }
+}
