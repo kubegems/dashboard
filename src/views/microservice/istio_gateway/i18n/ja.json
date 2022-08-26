@@ -1,0 +1,31 @@
+{
+  "table": {
+    "status": "状態",
+    "pods": "コンテナグループ",
+    "restart_count": "再起動",
+    "name": "注文番号による検索",
+    "port": "ポート",
+    "selector": "セレクタ",
+    "host": "ホスト:"
+  },
+  "filter": {
+    "gateway_name": "ゲートウェイインスタンス名"
+  },
+  "operate": {
+    "detail": "詳細"
+  },
+  "tab": {
+    "gateway_resource": "ゲートウェイリソース",
+    "virtualservice": "仮想サービス",
+    "pods": "ゲートウェイ・コンテナグループ",
+    "monitor": "ゲートウェイモニター"
+  },
+  "tip": {
+    "egress_qps": "トラフィックのエクスポート中",
+    "egress_time": "トラフィックのエクスポートの応答時間",
+    "ingress_80_qps": "80ポートのエントリー数 qps",
+    "ingress_80_time": "80ポートエントリーポータル応答時間",
+    "ingress_443_qps": "443ポートのエントリー数 qps",
+    "ingress_443_time": "443ポートエントリーポータル応答時間"
+  }
+}

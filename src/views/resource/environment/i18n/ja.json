@@ -1,0 +1,63 @@
+{
+  "table": {
+    "name": "環境名",
+    "creator": "作成者",
+    "used": "{0} 使用中"
+  },
+  "filter": {
+    "environment_name": "環境名"
+  },
+  "tip": {
+    "delete_cascade": "現在、削除戦略は、delLabels、現在削除できません。",
+    "delete_all": "このポリシーは、delNamespace (delName) として削除され、実際に行われます。細心の注意を払って削除してください。",
+    "resource_used_list": "チェックリストアイテムの使用状況",
+    "resource_monitor": "リソース",
+    "cpu_used": "CPU 使用率",
+    "memory_used": "メモリ使用量",
+    "ingress": "通信速度",
+    "egress": "ネットワークトラフィック",
+    "last_day_resource_used": "一日の資源使用ランキング",
+    "cpu_avg_used": "CPU平均使用量",
+    "cpu_max_used": "CPU 使用率",
+    "memory_avg_used": "メモリ使用量の平均",
+    "memory_max_used": "メモリの最大使用",
+    "resource_used": "使用リソース",
+    "traffic": "通信速度",
+    "max": "極大",
+    "min": "極小",
+    "avg": "普通",
+    "receive": "受信",
+    "send": "送信",
+    "resource_allocated": "アセット配分状況",
+    "show": "表示",
+    "hide": "折り畳む",
+    "tenant_resource_allocated": "テナントのクラスターに割り当てられたリソース",
+    "resource_quota": "リソース制限",
+    "limit_range": "リソース制限",
+    "limit_value": "{0}の値",
+    "limit": "制限値",
+    "default": "デフォルト値",
+    "default_reauest": "デフォルト（リクエスト）",
+    "storage_capacity": "ストレージボリューム容量",
+    "delete_all_select": "名前空間全体を削除",
+    "delete_cascade_select": "関連付けの削除"
+  },
+  "operate": {
+    "scale_resource": "リソース制限を調整します。",
+    "resource_used_list": "リソース使用一覧",
+    "edit_limit": "制限を編集",
+    "bind_ns": "バインドNS"
+  },
+  "form": {
+    "limit_min_rule": "最小値を下回っています",
+    "limit_max_rule": "最大値は利用可能なリソースを超えています",
+    "cpu_format_rule": "フォーマットが正しくありません(例: 1m,1)",
+    "memory_format_rule": "書式エラー (例: 1 Mi, 1Gi)",
+    "storage_format_rule": "書式エラー (例. 1Ki,1Mi,1Gi,1Ti)",
+    "limit_request_rule": "LimitsはRequests",
+    "limit_20_rule": "20 文字制限を超え",
+    "name": "注文番号による検索",
+    "remark": "メモ",
+    "delete_policy": "ポリシーを削除"
+  }
+}

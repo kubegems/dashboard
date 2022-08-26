@@ -1,0 +1,45 @@
+{
+  "table": {
+    "kubernetes_version": "Kubernetes バージョン",
+    "status": "状態",
+    "kubeconfig_expired": "有効期限の設定"
+  },
+  "tip": {
+    "control_cluster": "クラスターを管理",
+    "resource_oversold": "リソース最高",
+    "missing_kubeconfig": "入力してくださいKubeConfiguration",
+    "physics": "開始日付(検索)",
+    "virtual": "v",
+    "total": "{0}合計",
+    "sum": "合計",
+    "oversold_precent": "{0}の百分率",
+    "oversold": "スコア{0}",
+    "all": "合計{0}",
+    "used": "{0} 使用中",
+    "reason": "理由",
+    "cert_expired": "証明書の有効期間",
+    "api_success_rate": "API 要求の成功率",
+    "cluster_init_config": "クラスター設定を初期化する",
+    "test_cluster": "テストクラスター",
+    "connect_success": "クラスターへの接続に成功しました。",
+    "connect_failed": "クラスターへの接続に失敗しました",
+    "connecting": "クラスターに接続中",
+    "support_version": "サポートバージョン",
+    "cluster_vendor": "集団工場商",
+    "now_select": "現在の選択"
+  },
+  "form": {
+    "format_rule": "整形エラー(例:最大1桁)",
+    "limit_min_rule": "最小限",
+    "limit_max_rule": "最大値を超過しました",
+    "name": "クラスター名"
+  },
+  "tab": {
+    "etcd_timeout": "ETCDの時間",
+    "apiserver_timeout": "APIServerの時間",
+    "cluster_cpu": "クラスター CPU",
+    "cluster_memory": "クラスタリング",
+    "cluster_storage": "クラスターストレージ",
+    "cluster_pod": "コンテナー グループ"
+  }
+}

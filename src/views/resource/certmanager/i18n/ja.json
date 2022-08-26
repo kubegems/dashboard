@@ -1,0 +1,27 @@
+{
+  "table": {
+    "name": "注文番号による検索",
+    "issuer": "発行者",
+    "expire_at": "有効期限",
+    "renew_at": "自動ログイン時間",
+    "issuer_type": "発行者タイプ",
+    "secret_name": "キー名",
+    "dns_name": "DNS 名",
+    "extend": "拡張"
+  },
+  "filter": {
+    "cert_name": "注文番号による検索"
+  },
+  "tip": {
+    "key_use": "公開鍵のメイジ"
+  },
+  "form": {
+    "name": "注文番号による検索",
+    "issuer_type": "機関タイプ",
+    "ingress": "リレーションシップヤード名",
+    "expire_at": "証明書の有効期間",
+    "auto_renew": "自動ログイン",
+    "cert_use": "証明書の利用",
+    "domain": "認証ドメイン"
+  }
+}

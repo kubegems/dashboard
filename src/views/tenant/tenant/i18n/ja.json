@@ -1,0 +1,73 @@
+{
+  "table": {
+    "name": "注文番号による検索",
+    "status": "状態",
+    "user_count": "ユーザー数",
+    "cluster_count": "クラスター数",
+    "all": "合計{0}",
+    "allocated": "{0}を割り当てました",
+    "create_at": "作成日時"
+  },
+  "filter": {
+    "tenant": "テナント名"
+  },
+  "status": {
+    "enabled": "有効",
+    "disabled": "無効"
+  },
+  "operate": {
+    "enable": "有効",
+    "enable_c": "{0} を有効にする",
+    "disable": "無効",
+    "disable_c": "{0} を無効化",
+    "set_admin": "管理設定を編集する",
+    "set_ordinary": "メンバーの設定"
+  },
+  "form": {
+    "name": "注文番号による検索",
+    "remark": "説明",
+    "name_rule": "20 文字制限を超え"
+  },
+  "user": {
+    "table": {
+      "username": "ユーザー名",
+      "role": "ロール",
+      "status": "状態",
+      "last_login_at": "最近のサインイン順"
+    },
+    "tip": {
+      "set_member_role": "テナントのメンバの役割を設定",
+      "set_admin": "モデレーターのメンバー {0} を",
+      "set_ordinary": "テナントを {0} の標準メンバーに設定",
+      "user_count": "合計{0}人"
+    }
+  },
+  "resource": {
+    "table": {
+      "cluster": "クラスター"
+    },
+    "operate": {
+      "resource_scale": "リソース調整",
+      "resource_monitor": "リソース",
+      "recycle_cluster": "グループに復旧"
+    },
+    "tip": {
+      "resource_allocate": "アセット配分状況",
+      "resource_monitor": "テナント クラスターリソースモニタリング",
+      "cpu_used": "CPU使用量",
+      "memory_used": "メモリ使用量",
+      "cluster_exist": "クラスターは既に存在します",
+      "resource_limit": "リソース制限",
+      "gpu_resource_limit": "GPU リソース制限",
+      "limit": "{0}の値",
+      "scale_limit": "{0}スケーリング後の限度額",
+      "resource_scale": "リソース調整"
+    },
+    "form": {
+      "apply": "利用可能:{0}",
+      "limit_rule": "最大値を超過しました",
+      "unit": "単位"
+    },
+    "cluster": "集団資源"
+  }
+}

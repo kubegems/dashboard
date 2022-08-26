@@ -1,0 +1,64 @@
+{
+  "filter": {
+    "cronjob_name": "ジョブ名"
+  },
+  "tip": {
+    "add_container_image": "コンテナイメージを追加してください。",
+    "schedule": "スケジューリング",
+    "last_schedule": "最後のスケジューリング",
+    "concurrency": "並列ポリシー",
+    "success_count": "履歴クリア上限",
+    "failed_count": "履歴失敗回数の制限",
+    "stop": "一時停止",
+    "volume": "ボリューム",
+    "env": "環境変数",
+    "condition": "有効ステータス",
+    "last_change_at": "最終変更日時",
+    "crontab": "スケジュール",
+    "cronjob_setting": "スケジューラーの設定",
+    "max_retry": "最大再試行回数",
+    "complations": "達成回数",
+    "parallisem": "並列数",
+    "deadline_seconds": "タイムアウトするまでの秒数",
+    "start_seconds": "作業時間間隔（秒）",
+    "success_job_limit": "作業完了数",
+    "failed_job_limit": "保持に失敗しました",
+    "parallisem_policy": "並列ポリシー",
+    "restart_policy": "リトライ",
+    "never": "Never (障害発生時に新しいコンテナグループ)",
+    "onfailure": "OnFailure（インシデント時にコンテナを再起動）",
+    "image": "ミラー",
+    "advanced_setting": "高度な設定",
+    "container_image": "コンテナイメージ",
+    "resource_limit_unsaved": "リソース制限データが保存されていません",
+    "container_port_unsaved": "コンテナポートデータは保存されませんでした",
+    "health_check_unsaved": "ヘルスチェックのためのデータは保存されませんでした。",
+    "run_command_unsaved": "開始コマンドデータを保存しない",
+    "env_unsaved": "環境変数データは保存されていません",
+    "security_unsaved": "セキュアな設定は保存されませんでした",
+    "volume_mount": "ボリュームマウント",
+    "unknown_volume": "不明なボリュームタイプ"
+  },
+  "table": {
+    "name": "注文番号による検索",
+    "crontab": "予定日時",
+    "status": "状態",
+    "last_at": "最後の実行時間",
+    "start_at": "開始時刻",
+    "end_at": "終了時刻"
+  },
+  "status": {
+    "success": "成功しました。",
+    "failed": "失敗",
+    "running": "進行中"
+  },
+  "tab": {
+    "job": "開くべきクリック ギルドVault 4",
+    "resource_limit": "リソース制限",
+    "container_port": "コンテナポート",
+    "health_check": "ヘルス検出",
+    "run_command": "コマンドを実行",
+    "env": "環境変数",
+    "security": "セキュリティ設定"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "table": {
+    "name": "負荷名",
+    "version": "バージョン",
+    "status": "状態",
+    "label": "タグ",
+    "restart_count": "再起動"
+  },
+  "filter": {
+    "workload_name": "負荷名"
+  },
+  "tip": {
+    "auto_inject": "自動的にコメントする",
+    "realtime": "リアルタイム",
+    "no_pod": "コンテナグループは存在しません"
+  },
+  "operate": {
+    "inject": "SideCar 注入",
+    "uninject": "SideCar (インジェクション)",
+    "inject_c": "SideCar にアプリケーション {0} を挿入する",
+    "uninject_c": "サイドカーへのインジェクションが {0} のアプリの取外し"
+  },
+  "tab": {
+    "network_topology": "トポロジー",
+    "log": "ログ",
+    "ingress": "入口トラフィック",
+    "egress": "トラフィックのエクスポート",
+    "trace": "トラッキングリンクの設定"
+  }
+}

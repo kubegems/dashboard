@@ -64,7 +64,9 @@
     "video_card": "显卡",
     "can_use": "可使用",
     "total": "总共",
-    "core": "核心"
+    "core": "核心",
+
+    "experience": "模型体验"
   },
   "tab": {
     "description": "介绍",
@@ -97,7 +99,8 @@
     "publish_comment": "发表评论",
     "publish_reply": "发表回复",
     "reply_c": "回复{0}",
-    "view_deploy_status": "查看部署状态"
+    "view_deploy_status": "查看部署状态",
+    "experience": "体验"
   },
   "form": {
     "cpu_rule": "格式错误(示例:1m,1)",

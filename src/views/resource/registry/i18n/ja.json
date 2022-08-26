@@ -1,0 +1,26 @@
+{
+  "tip": {
+    "select_project": "最初にプロジェクトを選択してください",
+    "enable_scan": "イメージスキャナと解析を有効にする",
+    "yes": "はい",
+    "no": "いいえ",
+    "set_default": "ミラーリポジトリ {0} をデフォルトとして設置しました",
+    "cancel_default": "リポジトリの {0} のデフォルト設定を解除"
+  },
+  "filter": {
+    "registry_name": "イメージ名"
+  },
+  "table": {
+    "name": "リポジトリ名",
+    "address": "レンタル",
+    "default": "デフォルトの倉庫",
+    "username": "ユーザー名",
+    "creator": "作成者",
+    "last_update_at": "最終更新日",
+    "passwd": "パスワード"
+  },
+  "operate": {
+    "set_default": "デフォルトの倉庫を設定",
+    "cancel_default": "デフォルトのリポジトリのキャンセル"
+  }
+}

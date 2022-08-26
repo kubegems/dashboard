@@ -1,0 +1,63 @@
+{
+  "tab": {
+    "message": "メッセージボックス",
+    "audit": "操作履歴",
+    "setting": "パーソナル設定",
+    "auth": "認証"
+  },
+  "table": {
+    "email": "メール",
+    "mobile": "携帯電話",
+    "registe_at": "登録日",
+    "last_login_at": "最終ログイン"
+  },
+  "message": {
+    "table": {
+      "message": "メッセージ",
+      "time": "時間",
+      "type": "タイプ"
+    },
+    "filter": {
+      "notify": "お知らせ",
+      "approval": "承認",
+      "alert": "アラート"
+    }
+  },
+  "audit": {
+    "table": {
+      "trigger_time": "動作開始時間",
+      "tenant": "テナント",
+      "account": "ユーザー",
+      "operate": "アクション",
+      "object": "オブジェクト",
+      "label": "タグ",
+      "status": "状態"
+    }
+  },
+  "setting": {
+    "tip": {
+      "personal_info": "個人情報",
+      "old": "草原{0}",
+      "new": "新しい{0}",
+      "confirm_passwd": "新しいパスワードの確認",
+      "i18n": "言語",
+      "auth": "認証",
+      "exprie": "期限 (秒)"
+    }
+  },
+  "operate": {
+    "generate_c": "{0} の生成"
+  },
+  "auth": {
+    "table": {
+      "expired": "有効期限切れ",
+      "expire_at": "有効期限",
+      "grant_type": "認可タイプ",
+      "yes": "はい",
+      "no": "いいえ"
+    },
+    "tip": {
+      "copyed": "クリップボードにコピーしました"
+    }
+  }
+}

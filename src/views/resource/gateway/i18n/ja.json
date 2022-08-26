@@ -1,0 +1,46 @@
+{
+  "tip": {
+    "instance_count": "インスタンスの数",
+    "default": "デフォルトゲートウェイ",
+    "port": "ゲートウェイポート",
+    "status": "状態",
+    "loadbalancer": "外部ロードバランサー(LoadBalancer)",
+    "nodeport": "典型的なクラスターゲートウェイ(NodePort)",
+    "connect_count": "接続番号",
+    "default_domain": "デフォルトのドメイン",
+    "extend_label": "ワークロードの追加ラベル",
+    "address": "すべての結果",
+    "available": "{0}個のインスタンスが利用可能です",
+    "unavailable": "{0}個のインスタンスは利用できません",
+    "name": "ゲートウェイ名",
+    "type": "ゲートウェイ・タイプ",
+    "protocol": "プロトコル",
+    "replicas": "レプリカ数",
+    "image": "ミラー",
+    "config_item": "設定項目"
+  },
+  "tab": {
+    "config": "設定",
+    "ingress": "ルーティング"
+  },
+  "table": {
+    "name": "注文番号による検索",
+    "address": "アドレスへ",
+    "container_port": "コンテナポート",
+    "service_port": "サービスポート",
+    "host_port": "ポート"
+  },
+  "operate": {
+    "access": "訪問",
+    "use_default_domain": "デフォルトのドメインを使用"
+  },
+  "status": {
+    "normal": "標準",
+    "error": "例外"
+  },
+  "form": {
+    "name_rule": "フォーマットエラー（文字の先頭）",
+    "domain_rule": "ドメイン名の書式が不適切です (ワイルドカード'*')",
+    "image_rule": "書式設定エラー(画像フォーマットなし)"
+  }
+}

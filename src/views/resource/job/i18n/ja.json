@@ -1,0 +1,29 @@
+{
+  "filter": {
+    "job_name": "タスク名"
+  },
+  "table": {
+    "name": "注文番号による検索",
+    "status": "状態",
+    "start_at": "開始時刻",
+    "end_at": "終了時刻"
+  },
+  "tip": {
+    "add_image": "コンテナイメージを追加してください。",
+    "restart_count": "リトライ数",
+    "parallelism": "並列数",
+    "complete_at": "完了時間",
+    "succeed": "成功数",
+    "condition": "有効ステータス",
+    "env": "環境変数",
+    "volume": "ボリューム",
+    "last_change_at": "最終変更日時",
+    "job_setting": "ミッションの設定",
+    "max_restart_count": "最大再試行回数",
+    "complations": "達成回数",
+    "deadline_seconds": "タイムアウトするまでの秒数",
+    "restart_policy": "リトライ",
+    "policy_never": "Never (障害発生時に新しいコンテナグループ)",
+    "policy_onfailure": "OnFailure（インシデント時にコンテナを再起動）"
+  }
+}

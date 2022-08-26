@@ -14,6 +14,9 @@
   <a href="https://opensource.org/licenses/Apache-2.0">
     <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License">
   </a>
+  <a title="Crowdin" target="_blank" href="https://crowdin.com">
+    <img src="https://badges.crowdin.net/kubegems-dashboard/localized.svg">
+  </a>
 </p>
 
 <p align="center">

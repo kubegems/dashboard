@@ -1,0 +1,37 @@
+{
+  "filter": {
+    "pod_name": "コンテナグループ名",
+    "status": "状態"
+  },
+  "table": {
+    "name": "コンテナグループ",
+    "status": "状態",
+    "container_count": "コンテント数",
+    "restart_count": "再起動",
+    "used": "{0}使用量",
+    "container_name": "コンテナ名",
+    "image": "ミラー"
+  },
+  "tab": {
+    "container": "コンテナ"
+  },
+  "tip": {
+    "no_limit": "無制限",
+    "probe": "プロフィール",
+    "live_probe": "コンパス",
+    "read_probe": "プローブ。",
+    "start_probe": "プローブ起動",
+    "no_operate": "扱えません",
+    "in_traffic": "通信速度",
+    "out_traffic": "ネットワークトラフィック",
+    "ip": "{0}IP",
+    "volume": "ボリューム",
+    "env": "環境変数",
+    "condition": "有効ステータス",
+    "last_change_at": "最終変更日時"
+  },
+  "operate": {
+    "terminal": "ターミナル",
+    "log": "ログ"
+  }
+}

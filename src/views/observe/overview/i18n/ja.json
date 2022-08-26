@@ -1,0 +1,48 @@
+{
+  "tip": {
+    "install_metrics": "OpenTelemetrics Library のインストール",
+    "install_metrics_desc": "カスタムメトリクスは、アプリケーションのライブステータス、ユーザーエクスペリエンスや業務プロセスに影響を与える方法を学びます。",
+    "install_trace": "OpenTelemetry Traces Library のインストール",
+    "install_trace_desc": "チェーンのトラッカーのトレーサリングは、呼び出し元の復元、リンク対象位相、アプリの依存関係分析ツールを提供し、開発者に高速解析を行い、診断パフォーマンスの向上に貢献できます。",
+    "create_log": "コレクターからアプリログを収集する",
+    "create_log_desc": "アプリのコンテナコンソールを自動キャプチャして、開発者が失敗した場合ログを解析します",
+    "enabled_monitor": "モニタリングは有効になっています",
+    "disabled_monitor": "監視は無効になっています",
+    "enabled_log": "ログを有効にする",
+    "disabled_log": "ログは無効です",
+    "enabled_mesh": "サービスグリッドは有効になっています",
+    "disabled_mesh": "サービスグリッドは有効ではありません",
+    "filter_project": "フィルタ項目を選択してください",
+    "last_30_second": "過去30秒",
+    "last_5_minute": "直近5分間",
+    "last_1_hour": "過去 1 時間",
+    "last_1_day": "過去1日間",
+    "last_1_week": "過去1週間",
+    "time": "時間",
+    "error_info": "エラーメッセージ",
+    "event_source": "イベントソース",
+    "event_type": "イベントタイプ"
+  },
+  "table": {
+    "label": "タグ",
+    "status": "状態",
+    "restart_count": "コンテナリスタート (回数)",
+    "metrics_count": "メトリクスローダー",
+    "alert_rule_count": "警告規則",
+    "living_alert_count": "ライブアラート",
+    "log_count": "ログのコレクタ",
+    "error_log_count": "エラーログ",
+    "log_rate": "ログのレート",
+    "event_count": "イベント",
+    "origin_component": "元のコンポーネント",
+    "origin_host": "ソースホスト",
+    "message": "メッセージ",
+    "count": "回数",
+    "first_at": "最初の発生時間",
+    "last_at": "最近の回"
+  },
+  "tab": {
+    "event_chart": "イベントチャート",
+    "event_list": "イベント一覧"
+  }
+}

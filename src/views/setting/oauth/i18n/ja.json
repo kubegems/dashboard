@@ -1,0 +1,26 @@
+{
+  "operate": {
+    "enable": "有効",
+    "enable_c": "{0} を有効にする",
+    "disable": "無効",
+    "disable_c": "{0} を無効化",
+    "config": "設定"
+  },
+  "status": {
+    "enabled": "有効"
+  },
+  "tip": {
+    "kubegems": "Kubegems の内部にデータ認証",
+    "oauth": "OrganizationがOauth プロトコルでログインすることができます。",
+    "openldap": "組織に Ldap プロトコルでログインできるようになります。",
+    "gitlab": "GitLab アカウントを使用してログインできるようにします。",
+    "github": "あなたの組織をGitHubアカウントを使用してサインインすることができます。",
+    "tls": "tlsを開く",
+    "config_title": "サードパーティ製の証明書の設定"
+  },
+  "form": {
+    "name": "注文番号による検索",
+    "format_rule": "フォーマットエラー",
+    "ladp_address": "Ldapのアドレス"
+  }
+}
