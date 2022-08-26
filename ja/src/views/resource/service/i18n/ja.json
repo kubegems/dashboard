@@ -1,0 +1,33 @@
+{
+  "filter": {
+    "service_name": "Service Name"
+  },
+  "table": {
+    "name": "Name",
+    "access_info": "Access Info",
+    "service_type": "Type of service (ExternalIp/LoadBalancerIp)"
+  },
+  "tip": {
+    "add_port_tip": "Please add port configuration",
+    "label": "Match Tags",
+    "type": "Type",
+    "service_port": "Service Port",
+    "container_port": "Container Port",
+    "host_port": "Host Port",
+    "link_workload": "Relation Work Load",
+    "access_type": "Access Type",
+    "extend_access": "External access",
+    "keep_alive": "Session Keep (seconds)",
+    "port_config": "Port Configuration",
+    "port": "Port",
+    "annotation": "Note",
+    "vip": "Internal IP Access to Cluster (VirtualIP)",
+    "headless": "Access via Service Backend EndpointIP (Headless)",
+    "no_access": "Disable access",
+    "protocol": "Application Protocol"
+  },
+  "form": {
+    "name_rule": "Incorrect name format (<protocol>[-<suffix>])",
+    "limit_max_rule": "Maximum limit exceeded"
+  }
+}
