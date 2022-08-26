@@ -7,7 +7,7 @@
   "tip": {
     "system": {
       "admin": "Can operate all resources, users, tenants",
-      "normal": "No system level permissions"
+      "normal": "No system level missions"
     },
     "tenant": {
       "admin": "Can operate all resources under the tenant",
@@ -15,8 +15,8 @@
     },
     "project": {
       "admin": "Can operate all resources under the project",
-      "dev": "An environment where only R&D properties can be manipulated",
-      "test": "An environment where only test properties can be manipulated",
+      "dev": "An environment where only R&D properties can be manualized",
+      "test": "An environment where only test properties can be manified",
       "ops": "Can operate in all environments"
     },
     "environment": {
