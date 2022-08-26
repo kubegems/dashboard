@@ -1,0 +1,27 @@
+{
+  "table": {
+    "name": "Name",
+    "issuer": "Issuer",
+    "expire_at": "Expiration Time",
+    "renew_at": "Auto-renew time",
+    "issuer_type": "Issue Agency Type",
+    "secret_name": "Key Name",
+    "dns_name": "DNS Name",
+    "extend": "Extended"
+  },
+  "filter": {
+    "cert_name": "Name"
+  },
+  "tip": {
+    "key_use": "Public Key Usage"
+  },
+  "form": {
+    "name": "Name",
+    "issuer_type": "Organization Type",
+    "ingress": "Relation address name",
+    "expire_at": "Certificate Expiration",
+    "auto_renew": "Auto Renewal",
+    "cert_use": "Certificate usage",
+    "domain": "Grant Domain"
+  }
+}
