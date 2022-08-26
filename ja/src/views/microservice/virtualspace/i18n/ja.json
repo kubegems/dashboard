@@ -1,0 +1,33 @@
+{
+  "table": {
+    "name": "Virtual Space Name",
+    "status": "Status",
+    "creator": "Created By",
+    "environment_type": "Environment Type",
+    "remark": "Remarks"
+  },
+  "filter": {
+    "mesh_name": "Virtual Space Name"
+  },
+  "status": {
+    "activated": "Activated",
+    "inactivated": "Not activated"
+  },
+  "operate": {
+    "activate": "Activate",
+    "inactivate": "Close",
+    "activate_c": "Activate {0}",
+    "inactivate_c": "Close {0}",
+    "link_c": "Associate {0}",
+    "delete_linked_env": "Remove virtual space association environment"
+  },
+  "tip": {
+    "set_status": "Set virtual space status",
+    "link_environment": "Please link environment",
+    "mesh_member": "Virtual space users inherit from members of the environment"
+  },
+  "form": {
+    "name": "Virtual Space Name",
+    "name_rule": "More than 20 characters"
+  }
+}
