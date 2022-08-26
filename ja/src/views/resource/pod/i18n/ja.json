@@ -1,0 +1,37 @@
+{
+  "filter": {
+    "pod_name": "Container Group Name",
+    "status": "Status"
+  },
+  "table": {
+    "name": "Container Group",
+    "status": "Status",
+    "container_count": "Containers",
+    "restart_count": "Restart count",
+    "used": "{0} Usage",
+    "container_name": "Container Name",
+    "image": "Mirror"
+  },
+  "tab": {
+    "container": "Container"
+  },
+  "tip": {
+    "no_limit": "No limit",
+    "probe": "Probe",
+    "live_probe": "Survival Probe",
+    "read_probe": "Stap Ready",
+    "start_probe": "Boot Probe",
+    "no_operate": "Unoperable",
+    "in_traffic": "Network access traffic",
+    "out_traffic": "Network export traffic",
+    "ip": "{0} IP",
+    "volume": "Volume",
+    "env": "Environment Variables",
+    "condition": "Status",
+    "last_change_at": "Last changed time"
+  },
+  "operate": {
+    "terminal": "Terminal",
+    "log": "Logs"
+  }
+}
