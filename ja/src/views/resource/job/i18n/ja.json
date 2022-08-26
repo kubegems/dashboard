@@ -1,0 +1,29 @@
+{
+  "filter": {
+    "job_name": "任务名称"
+  },
+  "table": {
+    "name": "名称",
+    "status": "状态",
+    "start_at": "开始时间",
+    "end_at": "结束时间"
+  },
+  "tip": {
+    "add_image": "请添加容器镜像",
+    "restart_count": "重试次数",
+    "parallelism": "并行数",
+    "complete_at": "完成时间",
+    "succeed": "成功数量",
+    "condition": "状况",
+    "env": "环境变量",
+    "volume": "卷",
+    "last_change_at": "上次改变时间",
+    "job_setting": "任务设置",
+    "max_restart_count": "最大重试次数",
+    "complations": "完成数",
+    "deadline_seconds": "退出超时时限(秒)",
+    "restart_policy": "重启策略",
+    "policy_never": "Never (故障时创建新的容器组)",
+    "policy_onfailure": "OnFailure (故障时内部重启容器)"
+  }
+}
