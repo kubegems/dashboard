@@ -1,0 +1,38 @@
+{
+  "message": {
+    "message": "Message",
+    "approval": "Approval",
+    "no_message": "No unread messages yet",
+    "no_approval": "No pending approvals yet",
+    "unread_c": "Unread {0}",
+    "clear": "Clear"
+  },
+  "about": {
+    "api_version": "Api Version",
+    "api_release_time": "Api Release Time",
+    "go_version": "Go Version",
+    "compile": "Compile",
+    "compile_platform": "Compile Platform",
+    "dashboard_version": "Dashboard Version",
+    "dashboard_release_time": "Dashboard Release Time"
+  },
+  "status": {
+    "enabled": "Enabled",
+    "disabled": "disabled"
+  },
+  "table": {
+    "tenant": "Tenant",
+    "status": "Status"
+  },
+  "operate": {
+    "approve": "Approve",
+    "reject": "Reject"
+  },
+  "tip": {
+    "tenant": "Current tenant",
+    "resource_scale": "Resource Scale",
+    "project_address": "Github",
+    "issue": "Issues",
+    "star": "Star"
+  }
+}
