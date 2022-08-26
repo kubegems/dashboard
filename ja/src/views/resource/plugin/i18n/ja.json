@@ -1,0 +1,24 @@
+{
+  "tip": {
+    "inner": "Built-in Component",
+    "status": "Status",
+    "desc": "Introduction",
+    "version": "Version",
+    "laset_version": "Latest Version",
+    "enable_plugin": "Please enable components first"
+  },
+  "operate": {
+    "install": "Enabled",
+    "install_c": "Enable {0}",
+    "uninstall": "Uninstall",
+    "uninstall_c": "Uninstall {0}"
+  },
+  "status": {
+    "deploying": "Deploying",
+    "installed": "Installed"
+  },
+  "tab": {
+    "core": "Core Component",
+    "kubernetes": "Kubernetes Component"
+  }
+}
