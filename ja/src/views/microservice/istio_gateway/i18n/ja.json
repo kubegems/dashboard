@@ -1,0 +1,31 @@
+{
+  "table": {
+    "status": "Status",
+    "pods": "Container Group",
+    "restart_count": "Restart count",
+    "name": "Name",
+    "port": "Port",
+    "selector": "Selector",
+    "host": "Post"
+  },
+  "filter": {
+    "gateway_name": "Gateway Instance Name"
+  },
+  "operate": {
+    "detail": "Details"
+  },
+  "tab": {
+    "gateway_resource": "Gateway Resources",
+    "virtualservice": "Virtual Service",
+    "pods": "Gateway Container Group",
+    "monitor": "Gateway Monitor"
+  },
+  "tip": {
+    "egress_qps": "Export traffic qps",
+    "egress_time": "Export traffic response time",
+    "ingress_80_qps": "Port traffic qps",
+    "ingress_80_time": "Port traffic response time",
+    "ingress_443_qps": "Port traffic qps",
+    "ingress_443_time": "Port import traffic response time"
+  }
+}
