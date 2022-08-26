@@ -54,7 +54,7 @@
     "required": "Required fields",
     "resource_deploy": "Resource deployment",
     "replicas": "Number of Instances",
-    "allocated": "Assign {0}",
+    "allocated": "Assign{0}",
     "video_card": "Visual Card",
     "can_use": "Available",
     "total": "Total",
@@ -89,7 +89,7 @@
     "reply": "Reply",
     "publish_comment": "Comment",
     "publish_reply": "Post Reply",
-    "reply_c": "Reply to {0}",
+    "reply_c": "Reply to{0}",
     "view_deploy_status": "View Deployment Status"
   },
   "form": {
