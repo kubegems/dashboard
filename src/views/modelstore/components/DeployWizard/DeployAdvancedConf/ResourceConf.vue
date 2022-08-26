@@ -58,7 +58,7 @@
           <v-row>
             <v-col cols="4">
               <v-text-field
-                v-model="obj.server.resources.limits['limits.nvidia.com/gpu']"
+                v-model="obj.server.resources.limits['nvidia.com/gpu']"
                 :label="$t('tip.allocated', [$root.$t('resource.gpu')])"
                 :rules="objRules.nvidiaGpuRule"
                 type="number"
@@ -204,7 +204,7 @@
           if (newValue?.cluster) {
             await this.getGpu();
             if (this.gpuData.NvidiaGpu) {
-              this.obj.server.resources.limits['limits.nvidia.com/gpu'] = 0;
+              this.obj.server.resources.limits['nvidia.com/gpu'] = 0;
             }
             if (this.gpuData.TkeGpu || this.gpuData.TkeMemory) {
               this.obj.server.resources.limits['tencent.com/vcuda-core'] = 0;
@@ -229,14 +229,14 @@
     methods: {
       onTabChange() {
         if (this.gpuData.NvidiaGpu) {
-          this.obj.resources.limits['limits.nvidia.com/gpu'] = 0;
+          this.obj.resources.limits['nvidia.com/gpu'] = 0;
           delete this.obj.server.resources.limits['tencent.com/vcuda-core'];
           delete this.obj.server.resources.limits['tencent.com/vcuda-memory'];
         }
         if (this.gpuData.TkeGpu || this.gpuData.TkeMemory) {
           this.obj.server.resources.limits['tencent.com/vcuda-core'] = 0;
           this.obj.server.resources.limits['tencent.com/vcuda-memory'] = 0;
-          delete this.obj.server.resources.limits['limits.nvidia.com/gpu'];
+          delete this.obj.server.resources.limits['nvidia.com/gpu'];
         }
       },
       validate() {

@@ -350,6 +350,9 @@
                 speed: 50,
               },
             },
+            zoom: {
+              enabled: false,
+            },
           },
           title: {
             text: title || '',
