@@ -1,0 +1,19 @@
+{
+  "table": {
+    "type": "类型",
+    "message": "消息",
+    "start_at": "开始时间",
+    "end_at": "结束时间",
+    "expried": "过期"
+  },
+  "resource": {
+    "broadcast": "广播"
+  },
+  "tip": {
+    "select_datetime": "请选择时间"
+  },
+  "status": {
+    "expried": "已过期",
+    "active": "激活"
+  }
+}
