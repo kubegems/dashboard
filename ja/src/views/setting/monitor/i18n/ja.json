@@ -1,0 +1,27 @@
+{
+  "filter": {
+    "template_name": "Template Name"
+  },
+  "table": {
+    "name": "Name",
+    "refresh": "Refresh interval",
+    "description": "Description",
+    "graph_count": "Chart Count",
+    "expr": "Expression",
+    "unit": "Units",
+    "generator": "Group | Resources | Rules"
+  },
+  "tab": {
+    "template_info": "Template Info"
+  },
+  "tip": {
+    "graph": "Graph",
+    "start": "Start Time",
+    "end": "End Time",
+    "step": "Interval",
+    "rule": "Rules"
+  },
+  "operate": {
+    "load_c": "Import {0}"
+  }
+}
