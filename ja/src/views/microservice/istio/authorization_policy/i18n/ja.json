@@ -1,0 +1,9 @@
+{
+  "table": {
+    "name": "Policy Name",
+    "rule_count": "Rule Count"
+  },
+  "filter": {
+    "policy_name": "Policy Name"
+  }
+}
