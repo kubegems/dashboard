@@ -22,6 +22,9 @@
         <v-col cols="12">
           <v-text-field v-model="obj.name" class="my-0" :label="$t('tip.name')" required :rules="objRules.nameRule" />
         </v-col>
+        <v-col cols="12">
+          <v-text-field v-model="variables" class="my-0" :label="$t('tip.global_var')" required />
+        </v-col>
         <template v-if="!edit">
           <v-col cols="12">
             <v-switch v-model="tamplate" hide-details :label="$t('tip.from_template')" />
@@ -70,9 +73,11 @@
         valid: false,
         tamplate: false,
         templateItems: [],
+        variables: '',
         obj: {
           name: '',
           template: '',
+          variables: {},
         },
         objRules: {
           nameRule: [required],
@@ -85,6 +90,10 @@
         handler(newValue) {
           if (newValue) {
             this.obj = deepCopy(newValue);
+            const keys = this.obj.variables ? Object.keys(this.obj.variables) : [];
+            if (keys.length > 0) {
+              this.variables = keys[0];
+            }
           }
         },
         deep: true,
@@ -108,6 +117,10 @@
         return this.$refs.form.validate(true);
       },
       getData() {
+        if (!this.obj.variables) {
+          this.obj.variables = {};
+        }
+        this.obj.variables[this.variables] = '';
         return this.obj;
       },
       reset() {

@@ -247,8 +247,8 @@
           return s.id === data.scopeID;
         });
 
-        this.ruleResourceList(data.scopeID, data.resourceID);
-        this.ruleList(data.resourceID, data.ruleID);
+        await this.ruleResourceList(data.scopeID, data.resourceID);
+        await this.ruleList(data.resourceID, data.ruleID);
       },
       async ruleScopeList() {
         const data = await getRuleScopeList(this.tenant.ID, { noprocessing: true, size: 1000, preload: 'Resources' });
@@ -315,9 +315,9 @@
             ...this.ruleObj,
             resource: this.resourceObj?.name,
             resourceShowName: this.resourceObj?.showName,
-            rule: this.ruleObj.name,
-            scope: this.scopeObj.name,
-            namespaced: this.scopeObj.namespaced,
+            rule: this.ruleObj?.name,
+            scope: this.scopeObj?.name,
+            namespaced: this.scopeObj?.namespaced,
           };
           this.items = [this.resource];
           this.$emit('change', this.resource);

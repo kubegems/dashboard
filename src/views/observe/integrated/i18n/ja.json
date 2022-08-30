@@ -24,16 +24,19 @@
     "no_service_tip": "サービスがありませんか？ <a>アプリケーション ストア</a> にexportを作成してください",
     "request_path": "リクエストパス",
     "metrics": "メトリクス",
-    "integated_info": "接続情報",
-    "integated_status": "接続状況",
-    "integated_complete": "アクセス完了",
-    "link_2_app": "<a>ジャンプする</a> をクリックします",
-    "status": "状態"
+
+    "instance_status": "インスタンスの状態",
+    "data_status": "データの状態",
+    "link_2_app": "<a>詳細</a>をクリックして操作を表示します",
+    "preview_data": "<a>Metric Explore</a>に入ってデータをプレビューします",
+    "success_data": "データが正常に検出されました",
+    "data_from_prometheus": "プロメテウスからのデータの受信を確認する",
+    "cpnfirm_project_and_env": "プロジェクト <span class=\"px-1\">{0}</span> 環境 <span class=\"px-1\">{1}</span> 配下のインスタンスの稼働状況を確認"
   },
   "operate": {
     "open": "オン",
     "close": "閉じる",
-    "refresh_middleware_status": "中間値の接続状態を更新"
+    "refresh_middleware_status": "データを確認する"
   },
   "table": {
     "name": "注文番号による検索",

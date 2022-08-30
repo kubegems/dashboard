@@ -22,8 +22,9 @@
       color="orange lighten-2"
       height="48"
     >
-      <div class="text-center notice">
+      <div class="text-end notice">
         <span v-for="(item, index) in Broadcast" :key="index" class="px-2">
+          <v-icon color="white">mdi-volume-high</v-icon>
           {{ `${index + 1}. ${item.message}` }}
         </span>
       </div>

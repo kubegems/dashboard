@@ -63,7 +63,8 @@
     "match_namespace": "名前空間を一致させる",
     "endpoint_config": "エンドポイントの設定",
     "endpoint": "エンドポイント",
-    "port_type": "ポートの種類"
+    "port_type": "ポートの種類",
+    "global_var": "グローバル変数"
   },
   "tab": {
     "generate_from_template": "テンプレート生成",

@@ -22,48 +22,42 @@
       <template v-if="deploying">
         <v-timeline align-top dense :style="{ width: '60%', paddingTop: '60px' }">
           <v-timeline-item class="timeline__item" color="success">
-            <v-card class="elevation-2">
-              <v-card-title class="text-body-1"> {{ $t('tip.integated_info') }} </v-card-title>
-              <v-card-text>
-                <div class="my-1">
-                  {{ $root.$t('resource.project') }}
-                  <div>{{ env ? env.projectName : '' }}</div>
-                </div>
-                <div class="my-1">
-                  {{ $root.$t('resource.environment') }}
-                  <div>{{ env ? env.environmentName : '' }}</div>
-                </div>
-                <div class="my-1">
-                  {{ $t('tip.name') }}
-                  <div>{{ `${obj.appName}-obs-${randomStr}` }}</div>
-                </div>
-                <div class="my-1">
-                  {{ $t('tip.status') }}
-                  <div>{{ appStatus }}</div>
-                </div>
-              </v-card-text>
-            </v-card>
+            <div>
+              <div class="timeline__title font-weight-normal mb-3"> {{ $t('tip.instance_status') }} </div>
+              <div
+                class="timeline__div"
+                v-html="$t('tip.cpnfirm_project_and_env', [env ? env.projectName : '', env ? env.environmentName : ''])"
+              />
+              <div class="timeline__div">
+                {{ `${obj.appName}-obs-${randomStr}` }}
+                <v-icon
+                  :class="{ 'kubegems__waiting-circle-flashing': appStatus !== 'Healthy', 'ml-2': true }"
+                  color="success"
+                >
+                  {{ appStatus !== 'Healthy' ? 'mdi-autorenew' : 'mdi-check-circle' }}
+                </v-icon>
+                <span class="px-1">{{ appStatus }}</span>
+              </div>
+              <div class="timeline__div" @click="toApp" v-html="$t('tip.link_2_app')" />
+            </div>
+
+            <v-divider class="mt-12" />
 
             <template #icon>
-              <v-icon :class="{ 'kubegems__waiting-circle-flashing': appStatus !== 'Healthy' }" color="white">
-                {{ appStatus !== 'Healthy' ? 'mdi-autorenew' : 'mdi-check' }}
-              </v-icon>
+              <v-icon color="white"> mdi-numeric-1-circle </v-icon>
             </template>
           </v-timeline-item>
+
           <v-timeline-item class="timeline__item" color="success">
-            <v-card class="elevation-2">
-              <v-card-title class="text-body-1"> {{ $t('tip.integated_status') }} </v-card-title>
-              <v-card-text>
-                <div v-if="deployStatus === 'up'" class="mb-2">
-                  {{ $t('status.ready') }}
-                </div>
-                <div v-if="deployStatus === 'up'">
-                  <v-icon color="success" size="28">mdi-check-circle</v-icon>
-                </div>
+            <div>
+              <div class="timeline__title font-weight-normal mb-3"> {{ $t('tip.data_status') }} </div>
+              <div class="timeline__div">
+                {{ $t('tip.data_from_prometheus') }}
                 <v-btn
                   v-if="deployStatus !== 'up'"
                   class="my-2"
                   color="primary"
+                  depressed
                   :disabled="appStatus !== 'Healthy'"
                   :loading="loading"
                   small
@@ -72,34 +66,33 @@
                   <v-icon left>mdi-refresh</v-icon>
                   {{ $t('operate.refresh_middleware_status') }}
                 </v-btn>
-              </v-card-text>
-            </v-card>
+              </div>
+              <div class="timeline__div">
+                <span v-if="deployStatus !== 'up'" class="timeline__data orange--text">
+                  <v-icon class="mt-n1" color="orange">mdi-alert-circle</v-icon>
+                  {{ $root.$t('data.no_data') }}
+                </span>
+                <span v-else class="timeline__data success--text">
+                  <v-icon class="mt-n1" color="success">mdi-check-circle</v-icon>
+                  {{ $t('tip.success_data') }}
+                </span>
+              </div>
+            </div>
+
+            <v-divider class="mt-12" />
 
             <template #icon>
-              <v-icon
-                :class="{ 'kubegems__waiting-circle-flashing': appStatus === 'Healthy' && deployStatus !== 'up' }"
-                color="white"
-              >
-                {{
-                  appStatus === 'Healthy'
-                    ? deployStatus !== 'up'
-                      ? 'mdi-autorenew'
-                      : 'mdi-check'
-                    : 'mdi-circle-slice-4'
-                }}
-              </v-icon>
+              <v-icon color="white"> mdi-numeric-2-circle </v-icon>
             </template>
           </v-timeline-item>
           <v-timeline-item class="timeline__item" color="success">
-            <v-card class="elevation-2">
-              <v-card-title class="text-body-1"> {{ $t('tip.integated_complete') }} </v-card-title>
-              <v-card-text @click="toApp" v-html="$t('tip.link_2_app')" />
-            </v-card>
+            <div>
+              <div class="timeline__title font-weight-normal mb-3"> Explore </div>
+              <div class="timeline__div" @click="toMetrics" v-html="$t('tip.preview_data')" />
+            </div>
 
             <template #icon>
-              <v-icon color="white">
-                {{ deployStatus !== 'up' ? 'mdi-circle-slice-4' : 'mdi-check' }}
-              </v-icon>
+              <v-icon color="white"> mdi-numeric-3-circle </v-icon>
             </template>
           </v-timeline-item>
         </v-timeline>
@@ -130,7 +123,7 @@
 
   import messages from '../../../i18n';
   import ProjectEnvSelect from '../ProjectEnvSelect';
-  import { getChartSchema, postDeployAppStore, getServiceMonitorStatus, getAppStoreRunningDetail } from '@/api';
+  import { getAppStoreRunningDetail, getChartSchema, getServiceMonitorStatus, postDeployAppStore } from '@/api';
   import { randomString } from '@/utils/helpers';
   import { required } from '@/utils/rules';
   import JsonSchema from '@/views/appstore/components/DeployWizard/JsonSchema';
@@ -178,7 +171,7 @@
     },
     computed: {
       ...mapGetters(['Tenant']),
-      ...mapState(['Scale']),
+      ...mapState(['Scale', 'AdminViewport']),
       height() {
         return parseInt((window.innerHeight - 152) / this.Scale);
       },
@@ -343,12 +336,38 @@
           },
         });
       },
+      toMetrics() {
+        if (this.AdminViewport) {
+          this.$router.push({
+            name: 'admin-observe-monitor-metrics',
+          });
+        } else {
+          this.$router.push({
+            name: 'observe-monitor-metrics',
+            params: {
+              tenant: this.Tenant().TenantName,
+            },
+          });
+        }
+      },
     },
   };
 </script>
 
 <style lang="scss" scoped>
-  .timeline__item {
-    padding-bottom: 60px;
+  .timeline {
+    &__item {
+      padding-bottom: 60px;
+    }
+
+    &__title {
+      font-size: 17px;
+    }
+
+    &__div {
+      line-height: 30px;
+      font-size: 15px;
+      color: rgba(0, 0, 0, 0.7);
+    }
   }
 </style>

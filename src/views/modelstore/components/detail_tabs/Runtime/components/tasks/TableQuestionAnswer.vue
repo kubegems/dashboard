@@ -9,11 +9,20 @@
         <v-btn color="primary" icon small @click="coldel"> <v-icon small>mdi-table-column-remove </v-icon> </v-btn>
         <vue-table-dynamic class="mt-3" :params="params" />
 
-        <div class="text-subtitle-1 my-3">问答</div>
-        <v-text-field v-model="question" flat hide-details label="question" solo />
+        <div class="text-subtitle-1 my-3">问题</div>
+        <ACEEditor
+          v-model="obj.question"
+          :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} kubegems__rounded_small`"
+          lang="plain_text"
+          :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
+          :style="{ height: `200px !important` }"
+          theme="chrome"
+          @init="$aceinit"
+          @keydown.stop
+        />
       </v-col>
 
-      <v-btn class="kubegems__full-center" color="primary" icon x-large @click="submitContent">
+      <v-btn class="kubegems__full-center" color="primary" icon :loading="Circular" x-large @click="submitContent">
         <v-icon>mdi-arrow-right-bold </v-icon>
       </v-btn>
 
@@ -27,6 +36,7 @@
 
 <script>
   import VueTableDynamic from 'vue-table-dynamic';
+  import { mapState } from 'vuex';
 
   import ParamsMixin from '../../mixins/params';
   import { postModelApi } from '@/api';
@@ -38,6 +48,10 @@
     },
     mixins: [ParamsMixin],
     props: {
+      dialog: {
+        type: Boolean,
+        default: () => true,
+      },
       instance: {
         type: Object,
         default: () => null,
@@ -45,8 +59,9 @@
     },
     data() {
       return {
-        rawOut: '',
-        question: '',
+        obj: {
+          question: '',
+        },
         params: {
           data: [['data1', 'data2', 'data3', 'data4']],
           border: true,
@@ -55,7 +70,24 @@
           },
           rowHeight: 48,
         },
+        rawOut: '',
       };
+    },
+    computed: {
+      ...mapState(['Scale', 'Circular']),
+    },
+    watch: {
+      dialog: {
+        handler(newValue) {
+          if (!newValue) {
+            this.obj = this.$options.data().obj;
+            this.params = this.$options.data().params;
+            this.rawOut = '';
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
     },
     methods: {
       rowadd() {
@@ -83,6 +115,14 @@
         }
       },
       async submitContent() {
+        if (!this.obj.question.trim()) {
+          this.$store.commit('SET_SNACKBAR', {
+            text: '请输入问题',
+            color: 'warning',
+          });
+          return;
+        }
+
         const data = {};
         const header = this.params.data[0];
         const dataarea = this.params.data.slice(1);
@@ -95,7 +135,10 @@
           data[key] = vals;
         }
 
-        const inferData = this.composeInputs(this.jsonParams('table', data), this.stringParam('query', this.question));
+        const inferData = this.composeInputs(
+          this.jsonParams('table', data),
+          this.stringParam('query', this.obj.question),
+        );
         const ret = await postModelApi(this.instance.environment, this.instance.name, inferData);
         const parsed = this.parseOut(ret.data.outputs);
         this.rawOut = parsed.raw_out;

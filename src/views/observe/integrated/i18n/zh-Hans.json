@@ -27,16 +27,18 @@
     "request_path": "请求路径",
     "metrics": "指标",
 
-    "integated_info": "接入信息",
-    "integated_status": "接入状态",
-    "integated_complete": "接入完成",
-    "link_2_app": "点击 <a>跳转</a> 至应用",
-    "status": "状态"
+    "instance_status": "实例状态",
+    "data_status": "数据状态",
+    "link_2_app": " 点击 <a>详情</a> 查看运行情况",
+    "preview_data": "进入 <a>指标查询器</a> 预览数据",
+    "success_data": "成功监测到数据",
+    "data_from_prometheus": "从prometheus中确认收到数据",
+    "cpnfirm_project_and_env": "确认 项目<span class=\"px-1\">{0}</span> 环境<span class=\"px-1\">{1}</span> 下的实例运行状态"
   },
   "operate": {
     "open": "开启",
     "close": "关闭",
-    "refresh_middleware_status": "刷新中间件接入状态"
+    "refresh_middleware_status": "检查数据"
   },
   "table": {
     "name": "名称",

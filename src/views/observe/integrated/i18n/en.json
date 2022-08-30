@@ -25,16 +25,18 @@
     "request_path": "Request Path",
     "metrics": "Indicators",
 
-    "integated_info": "Integrate Info",
-    "integated_status": "Integrate Status",
-    "integated_complete": "Integrate Cpmplete",
-    "link_2_app": " Click <a>link</a> to app detail",
-    "status": "Status"
+    "instance_status": "Instance Status",
+    "data_status": "Data Status",
+    "link_2_app": " Click <a>detail</a> to view app status",
+    "preview_data": "Enter <a>metrics explore</a> to preview metrics data",
+    "success_data": "Success to get data",
+    "data_from_prometheus": "Acknowledge receipt of data from prometheus",
+    "cpnfirm_project_and_env": "Confirm the running status of the instance under the project <span class=\"px-1\">{0}</span> environment <span class=\"px-1\">{1}</span>"
   },
   "operate": {
     "open": "Open",
     "close": "Close",
-    "refresh_middleware_status": "Refresh middleware status"
+    "refresh_middleware_status": "Check data"
   },
   "table": {
     "name": "Name",

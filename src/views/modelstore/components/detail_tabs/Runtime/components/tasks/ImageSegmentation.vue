@@ -4,7 +4,7 @@
       <v-col class="pr-8" cols="12" md="6">
         <div class="text-subtitle-1 mb-3">图片</div>
 
-        <v-img v-if="previewUrl" max-width="800" :src="previewUrl" />
+        <v-img v-if="obj.previewUrl" max-width="800" :src="obj.previewUrl" />
         <div v-else class="file__div">
           <div class="kubegems__full-center">
             <v-file-input
@@ -24,7 +24,7 @@
         </div>
       </v-col>
 
-      <v-btn class="kubegems__full-center" color="primary" icon x-large @click="submitContent">
+      <v-btn class="kubegems__full-center" color="primary" icon :loading="Circular" x-large @click="submitContent">
         <v-icon>mdi-arrow-right-bold </v-icon>
       </v-btn>
 
@@ -49,6 +49,8 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex';
+
   import ParamsMixin from '../../mixins/params';
   import { postModelApi } from '@/api';
 
@@ -56,6 +58,10 @@
     name: 'ImageSegmentation',
     mixins: [ParamsMixin],
     props: {
+      dialog: {
+        type: Boolean,
+        default: () => true,
+      },
       instance: {
         type: Object,
         default: () => null,
@@ -63,38 +69,62 @@
     },
     data: () => {
       return {
-        previewUrl: '',
-        file: null,
+        obj: {
+          file: null,
+          previewUrl: '',
+        },
         rawOut: [],
       };
+    },
+    computed: {
+      ...mapState(['Circular']),
+    },
+    watch: {
+      dialog: {
+        handler(newValue) {
+          if (!newValue) {
+            this.obj = this.$options.data().obj;
+            this.rawOut = [];
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
     },
     methods: {
       onFileChange(e) {
         if (e) {
-          this.previewUrl = URL.createObjectURL(e);
-          this.file = e;
+          this.obj.previewUrl = URL.createObjectURL(e);
+          this.obj.file = e;
         } else {
-          this.previewUrl = '';
-          this.file = null;
+          this.obj.previewUrl = '';
+          this.obj.file = null;
         }
         this.rawOut = [];
       },
       async submitContent() {
-        const that = this;
+        if (!this.obj.file) {
+          this.$store.commit('SET_SNACKBAR', {
+            text: '请上传图片',
+            color: 'warning',
+          });
+          return;
+        }
+        const _v = this;
         const reader = new FileReader();
         reader.onloadend = async function () {
           const b64data = reader.result.split(',')[1];
-          const data = that.composeInputs(that.imageParam('inputs', b64data));
-          const ret = await postModelApi(this.instance.environment, this.instance.name, data);
+          const data = _v.composeInputs(_v.imageParam('inputs', b64data));
+          const ret = await postModelApi(_v.instance.environment, _v.instance.name, data);
           let tmps = [];
           for (const out of ret.data.outputs) {
             if (out.name !== 'result_image') {
               tmps = JSON.parse(out.data[0]);
             }
           }
-          that.rawOut = tmps;
+          _v.rawOut = tmps;
         };
-        reader.readAsDataURL(this.file);
+        reader.readAsDataURL(this.obj.file);
       },
     },
   };
@@ -105,7 +135,7 @@
     &__div {
       width: 100%;
       height: 800px;
-      border: 2px solid #efefef;
+      border: 1.5px solid #efefef;
       border-radius: 3px;
       position: relative;
     }

@@ -78,7 +78,7 @@
   import { mapState } from 'vuex';
 
   import messages from '../../i18n';
-  import { getMetricsQueryrange, getMetricsLabels, getRuleSearch, getMetricsLabelValues } from '@/api';
+  import { getMetricsLabelValues, getMetricsLabels, getMetricsQueryrange, getRuleSearch } from '@/api';
 
   export default {
     name: 'GraphMax',
