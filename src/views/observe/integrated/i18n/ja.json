@@ -27,7 +27,8 @@
     "integated_info": "接続情報",
     "integated_status": "接続状況",
     "integated_complete": "アクセス完了",
-    "link_2_app": "<a>ジャンプする</a> をクリックします"
+    "link_2_app": "<a>ジャンプする</a> をクリックします",
+    "status": "状態"
   },
   "operate": {
     "open": "オン",

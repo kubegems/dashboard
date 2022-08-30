@@ -44,7 +44,7 @@
             small
             @click:close="onRemoveTag(key)"
           >
-            <span>{{ labels[key].text }}：{{ getItemText(key, value) }}</span>
+            <span>{{ labels[key].text }} : {{ getItemText(key, value) }}</span>
           </v-chip>
         </template>
         <template #selection="{ item }">
@@ -108,7 +108,7 @@
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
-  import { getSystemConfigData } from '@/api';
+  import { getRuleScopeList, getRuleResourceList, getRuleList } from '@/api';
 
   export default {
     name: 'HistorySearch',
@@ -131,7 +131,8 @@
         tagCols: [],
         tagMap: {},
         search: undefined,
-        metricsConfig: {},
+        scopeItems: [],
+        resourceItems: [],
       };
     },
     computed: {
@@ -146,6 +147,10 @@
       },
       labels() {
         return {
+          scope: {
+            text: this.$t('filter.scope'),
+            items: [],
+          },
           resource: {
             text: this.$t('filter.resource'),
             items: [],
@@ -175,6 +180,7 @@
         handler(newValue) {
           const v = newValue || {};
           this.tagMap = {
+            scope: v.scope,
             resource: v.resource,
             rule: v.rule,
             status: v.status,
@@ -189,7 +195,7 @@
       },
     },
     mounted() {
-      this.getMonitorConfig();
+      this.getScopeItems();
     },
     methods: {
       onSwitchExpand() {
@@ -208,7 +214,8 @@
         } else {
           this.$delete(this.tagMap, key);
         }
-        if (key === 'resource') this.onResourceChange(tag.value);
+        if (key === 'scope') this.onResourceChange(tag.value);
+        if (key === 'resource') this.onRuleChange(tag.value);
         this.onEmitChange();
       },
       onRemoveTag(key) {
@@ -225,7 +232,6 @@
       onClear() {
         this.tagCols = [];
         this.tagMap = {};
-        this.onResourceChange();
         this.onEmitChange();
       },
       format2value() {
@@ -245,19 +251,44 @@
         const item = this.labels[key].items.find((it) => it.value === value);
         return item ? item.text : '';
       },
-      onResourceChange(value, deleteRule = true) {
-        let items = [];
-        if (this.tagMap.resource) {
-          const rules = this.metricsConfig.resources[value].rules || {};
-          items = Object.keys(rules).map((key) => ({
-            text: rules[key].showName,
-            value: key,
-          }));
-        } else {
-          this.tagCols = this.tagCols.filter((item) => item !== 'rule');
+      async onResourceChange(value, deleteRule = true) {
+        const scope = this.scopeItems.find((s) => {
+          return s.name === value;
+        });
+        if (scope) {
+          const data = await getRuleResourceList(this.Tenant().ID, scope.id, { size: 1000, noprocessing: true });
+          let items = [];
+          this.resourceItems = data.List;
+          if (this.tagMap.resource) {
+            items = data.List.map((resource) => ({
+              text: resource.showName,
+              value: resource.name,
+            }));
+          } else {
+            this.tagCols = this.tagCols.filter((item) => item !== 'resource');
+          }
+          if (deleteRule) this.$delete(this.tagMap, 'resource');
+          this.$set(this.labels.resource, 'items', items);
         }
-        if (deleteRule) this.$delete(this.tagMap, 'rule');
-        this.$set(this.labels.rule, 'items', items);
+      },
+      async onRuleChange(value, deleteRule = true) {
+        const resource = this.resourceItems.find((r) => {
+          return r.name === value;
+        });
+        if (resource) {
+          const data = await getRuleList(this.Tenant().ID, resource.id, { size: 1000, noprocessing: true });
+          let items = [];
+          if (this.tagMap.resource) {
+            items = data.List.map((rule) => ({
+              text: rule.showName,
+              value: rule.name,
+            }));
+          } else {
+            this.tagCols = this.tagCols.filter((item) => item !== 'rule');
+          }
+          if (deleteRule) this.$delete(this.tagMap, 'rule');
+          this.$set(this.labels.rule, 'items', items);
+        }
       },
       onSearch() {
         this.expand = false;
@@ -269,19 +300,19 @@
           clearTimeout(timeout);
         }, 100);
       },
-      async getMonitorConfig() {
-        const data = await getSystemConfigData('Monitor');
-        const config = data.content;
+      async getScopeItems() {
+        const data = await getRuleScopeList(this.Tenant().ID, { size: 1000, noprocessing: true });
+        const config = data.List;
+        this.scopeItems = data.List;
         this.$set(
-          this.labels.resource,
+          this.labels.scope,
           'items',
-          Object.keys(config.resources).map((key) => ({
-            text: config.resources[key].showName,
-            value: key,
+          config.map((scope) => ({
+            text: scope.showName,
+            value: scope.name,
           })),
         );
-        this.metricsConfig = config;
-        if (this.tagMap.resource) this.onResourceChange(this.tagMap.resource, false);
+        if (this.tagMap.scope) this.onResourceChange(this.tagMap.scope, false);
       },
     },
   };

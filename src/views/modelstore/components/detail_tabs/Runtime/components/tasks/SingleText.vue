@@ -6,7 +6,7 @@
         <ACEEditor
           v-model="textContent"
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded`"
-          lang="yaml"
+          lang="text"
           :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
           :style="{ height: `${height}px !important` }"
           theme="chrome"
@@ -24,7 +24,7 @@
         <ACEEditor
           v-model="output"
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded`"
-          lang="yaml"
+          lang="text"
           :options="Object.assign($aceOptions, { readOnly: true, wrap: true })"
           :style="{ height: `${height}px !important` }"
           theme="chrome"

@@ -13,7 +13,7 @@
         <v-text-field v-model="question" flat hide-details label="question" solo />
       </v-col>
 
-      <v-btn class="kubegems__full-center" color="primary" icon x-large>
+      <v-btn class="kubegems__full-center" color="primary" icon x-large @click="submitContent">
         <v-icon>mdi-arrow-right-bold </v-icon>
       </v-btn>
 
@@ -82,7 +82,7 @@
           this.params.data[index].pop();
         }
       },
-      async getTableData() {
+      async submitContent() {
         const data = {};
         const header = this.params.data[0];
         const dataarea = this.params.data.slice(1);

@@ -10,6 +10,11 @@ export const getAppStoreRunningList = (tenantid, projectid, environmentid, query
   axios(`tenant/${tenantid}/project/${projectid}/environment/${environmentid}/appstoreapplications`, {
     params: query,
   });
+// 部署应用商店应用详情
+export const getAppStoreRunningDetail = (tenantid, projectid, environmentid, name, query = {}) =>
+  axios(`tenant/${tenantid}/project/${projectid}/environment/${environmentid}/applications/${name}/resourcetree`, {
+    params: query,
+  });
 // 部署应用详情
 export const getAppRunningDetail = (tenantid, projectid, environmentid, name, query = {}) =>
   axios(`tenant/${tenantid}/project/${projectid}/environment/${environmentid}/applications/${name}`, {

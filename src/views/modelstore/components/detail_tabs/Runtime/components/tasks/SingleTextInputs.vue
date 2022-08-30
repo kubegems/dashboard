@@ -6,7 +6,7 @@
         <ACEEditor
           v-model="textContent"
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded`"
-          lang="yaml"
+          lang="text"
           :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
           :style="{ height: `${height}px !important` }"
           theme="chrome"
@@ -15,7 +15,7 @@
         />
       </v-col>
 
-      <v-btn class="kubegems__full-center" color="primary" icon x-large>
+      <v-btn class="kubegems__full-center" color="primary" icon x-large @click="submitContent">
         <v-icon>mdi-arrow-right-bold </v-icon>
       </v-btn>
 
@@ -24,7 +24,7 @@
         <ACEEditor
           v-model="output"
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} rounded`"
-          lang="yaml"
+          lang="text"
           :options="Object.assign($aceOptions, { readOnly: true, wrap: true })"
           :style="{ height: `${height}px !important` }"
           theme="chrome"

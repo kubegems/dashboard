@@ -28,7 +28,8 @@
     "integated_info": "Integrate Info",
     "integated_status": "Integrate Status",
     "integated_complete": "Integrate Cpmplete",
-    "link_2_app": " Click <a>link</a> to app detail"
+    "link_2_app": " Click <a>link</a> to app detail",
+    "status": "Status"
   },
   "operate": {
     "open": "Open",
