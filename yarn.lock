@@ -5994,6 +5994,16 @@ lodash.merge@^4.6.2:
   resolved "https://registry.npmmirror.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
   integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
 
+lodash.throttle@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.npmmirror.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
+  integrity sha512-wIkUCfVKpVsWo3JSZlc+8MB5it+2AN5W8J7YVMST30UrvcQNZ1Okbj+rbVniijTWE6FGYy4XJq/rHkas8qJMLQ==
+
+lodash.trim@^4.5.1:
+  version "4.5.1"
+  resolved "https://registry.npmmirror.com/lodash.trim/-/lodash.trim-4.5.1.tgz#36425e7ee90be4aa5e27bcebb85b7d11ea47aa57"
+  integrity sha512-nJAlRl/K+eiOehWKDzoBVrSMhK0K3A3YQsUNXHQa5yIrKBAhsZgSu3KoAFoFT+mEgiyBHddZ0pRk1ITpIp90Wg==
+
 lodash.truncate@^4.4.2:
   version "4.4.2"
   resolved "https://registry.npmmirror.com/lodash.truncate/-/lodash.truncate-4.4.2.tgz#5a350da0b1113b837ecfffd5812cbe58d6eae193"
@@ -9156,6 +9166,13 @@ vue-router@^3.4.4:
   resolved "https://registry.npmmirror.com/vue-router/-/vue-router-3.6.1.tgz#ac5b634cb4c2e91ea0f8279e83a1d2c1e93bd7b4"
   integrity sha512-e1GSqNascDndl6IZR4XMn9jtjyGM8Jpu3Q9DBiPrWw1Dr/9KfRZoyL3b49wXfz+H4jwDQjASUXxKTEaip9yF5A==
 
+vue-scrollbar-simple@0.0.10:
+  version "0.0.10"
+  resolved "https://registry.npmmirror.com/vue-scrollbar-simple/-/vue-scrollbar-simple-0.0.10.tgz#40eae8e1dcc1ad4766121053b4c4c448586b857b"
+  integrity sha512-NvT20SmJ/DH19FyqPRViOfdZ4BKFI165mXRC3nMEryCYq2xaB1+8OvKGBY44Jpr/j1P08MirTPVJKl/B3DT+vw==
+  dependencies:
+    lodash.throttle "^4.1.1"
+
 vue-slider-component@^3.2.14:
   version "3.2.20"
   resolved "https://registry.npmmirror.com/vue-slider-component/-/vue-slider-component-3.2.20.tgz#cf1eb00a5293a8033fe93e2a1b7b48fb3dadc166"
@@ -9171,6 +9188,15 @@ vue-style-loader@^4.1.0, vue-style-loader@^4.1.3:
   dependencies:
     hash-sum "^1.0.2"
     loader-utils "^1.0.2"
+
+vue-table-dynamic@^0.4.10:
+  version "0.4.10"
+  resolved "https://registry.npmmirror.com/vue-table-dynamic/-/vue-table-dynamic-0.4.10.tgz#b26eb4da9964301400c8fa958c6b30e55e4b445b"
+  integrity sha512-TaG+qyMPjVBtYMeYzuc9ly2KTUJ7b/Vyqige6xwD5RgSUpgdq1i6vxg0SAPep3V0/dVP4vmggpfo/8GNaYpQtg==
+  dependencies:
+    lodash.throttle "^4.1.1"
+    lodash.trim "^4.5.1"
+    vue-scrollbar-simple "0.0.10"
 
 vue-template-compiler@^2.6.12:
   version "2.7.10"

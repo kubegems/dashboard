@@ -171,8 +171,7 @@
     deleteMonitorDashboard,
     getMetricsQueryrange,
     getMonitorDashboardList,
-    getMyConfigData,
-    getSystemConfigData,
+    getRuleScopeList,
     putUpdateMonitorDashboard,
   } from '@/api';
   import BasePermission from '@/mixins/permission';
@@ -293,7 +292,7 @@
       },
       getNamespace(item) {
         const namespace = item.promqlGenerator
-          ? this.resourceNamespaced[item.promqlGenerator.resource]
+          ? this.resourceNamespaced[item.promqlGenerator.scope]
             ? this.environment.namespace
             : '_all'
           : this.environment.namespace;
@@ -366,9 +365,9 @@
       removePanel() {
         const item = this.items[this.tab];
         this.$store.commit('SET_CONFIRM', {
-          title: this.$root.$t('operate.delete_c', [$t('tip.minitor_dashboard')]),
+          title: this.$root.$t('operate.delete_c', [this.$t('tip.minitor_dashboard')]),
           content: {
-            text: `${this.$root.$t('operate.delete_c', [$t('tip.minitor_dashboard')])} ${item.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$t('tip.minitor_dashboard')])} ${item.name}`,
             type: 'delete',
             name: item.name,
           },
@@ -381,9 +380,9 @@
       },
       removeGraph(item, index) {
         this.$store.commit('SET_CONFIRM', {
-          title: this.$root.$t('operate.delete_c', [$t('tip.graph')]),
+          title: this.$root.$t('operate.delete_c', [this.$t('tip.graph')]),
           content: {
-            text: `${this.$root.$t('operate.delete_c', [$t('tip.graph')])} ${item.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$t('tip.graph')])} ${item.name}`,
             type: 'delete',
             name: item.name,
           },
@@ -397,17 +396,10 @@
         });
       },
       async getMonitorConfig() {
-        let data = {};
-        if (this.AdminViewport) {
-          data = await getSystemConfigData('Monitor');
-        } else {
-          data = await getMyConfigData('Monitor');
-        }
+        const data = await getRuleScopeList(this.Tenant().ID, { size: 1000, noprocessing: true });
         this.resourceNamespaced = {};
-        const resources = data.content?.resources;
-        if (!resources) return;
-        Object.keys(resources).forEach((r) => {
-          this.resourceNamespaced[r] = resources[r].namespaced;
+        data.List.forEach((d) => {
+          this.resourceNamespaced[d.name] = d.namespaced;
         });
       },
       onDatetimeChange() {

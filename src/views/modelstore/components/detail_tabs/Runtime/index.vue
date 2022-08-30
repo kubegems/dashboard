@@ -48,7 +48,7 @@
         <template #[`item.url`]="{ item }">
           <a :href="item.url" target="_blank" @click.stop>{{ item.url }}</a>
         </template>
-        <!-- <template #[`item.action`]="{ item }">
+        <template #[`item.action`]="{ item }">
           <v-flex :id="`r${item.name}`" />
           <v-menu :attach="`#r${item.name}`" left>
             <template #activator="{ on }">
@@ -66,7 +66,7 @@
               </v-card-text>
             </v-card>
           </v-menu>
-        </template> -->
+        </template>
       </v-data-table>
       <BasePagination
         v-if="pageCount >= 1"
@@ -130,7 +130,6 @@
     mounted() {
       this.$nextTick(() => {
         this.runtimeList();
-        console.log(this.item);
       });
     },
     methods: {
@@ -166,7 +165,8 @@
           },
         });
       },
-      experienceModel() {
+      experienceModel(item) {
+        this.$refs.modelExperience.init(item);
         this.$refs.modelExperience.open();
       },
     },

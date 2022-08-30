@@ -27,3 +27,7 @@ export const deleteModelRuntime = (tenant, project, environment, name, body = {}
 // 部署模型
 export const postDeployModel = (tenant, project, environment, body = {}) =>
   axios.post(`tenants/${tenant}/projects/${project}/environments/${environment}/modeldeployments`, body);
+
+// 模型运行实例Api
+export const postModelApi = (environment, name, body) =>
+  axios.post(`${environment}/${name}/v2/models/model/infer`, body);

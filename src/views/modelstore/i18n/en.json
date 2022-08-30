@@ -60,7 +60,8 @@
     "total": "Total",
     "core": "Core",
 
-    "experience": "Model Experience"
+    "experience": "Model Experience",
+    "not_support": "Not Support"
   },
   "tab": {
     "description": "Introduction",

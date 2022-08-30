@@ -66,7 +66,8 @@
     "total": "总共",
     "core": "核心",
 
-    "experience": "模型体验"
+    "experience": "模型体验",
+    "not_support": "暂不支持"
   },
   "tab": {
     "description": "介绍",

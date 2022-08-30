@@ -37,6 +37,13 @@ module.exports = {
       port: 8080,
       host: '0.0.0.0',
       proxy: {
+        'models/model/infer': {
+          target: 'http://api.models.kubegems.io:31956',
+          changeOrigin: true,
+          pathRewrite: {
+            '^/api/v1': '',
+          },
+        },
         '/api/v1': {
           target: 'http://local.kubegems.io:8020',
           changeOrigin: true,

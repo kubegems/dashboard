@@ -39,6 +39,7 @@
     "name": "名称",
     "resource": "资源",
     "rule": "规则",
-    "status": "状态"
+    "status": "状态",
+    "scope": "组"
   }
 }

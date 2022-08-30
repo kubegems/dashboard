@@ -317,6 +317,7 @@
             resourceShowName: this.resourceObj?.showName,
             rule: this.ruleObj.name,
             scope: this.scopeObj.name,
+            namespaced: this.scopeObj.namespaced,
           };
           this.items = [this.resource];
           this.$emit('change', this.resource);

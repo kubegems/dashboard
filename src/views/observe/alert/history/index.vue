@@ -157,6 +157,7 @@
         cluster: undefined,
         histroyParams: {
           alertname: null,
+          scope: null,
           resource: null,
           rule: null,
           status: null,

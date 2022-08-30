@@ -39,6 +39,7 @@
     "name": "Name",
     "resource": "Resources",
     "rule": "Rules",
-    "status": "Status"
+    "status": "Status",
+    "scope": "Scope"
   }
 }
