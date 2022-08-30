@@ -6,7 +6,7 @@
         <v-file-input accept="*/*" counter filled flat label="语音文件" show-size solo @change="onFileChange" />
       </v-col>
 
-      <v-btn class="kubegems__full-center" color="primary" icon x-large>
+      <v-btn class="kubegems__full-center" color="primary" icon x-large @click="submitContent">
         <v-icon>mdi-arrow-right-bold </v-icon>
       </v-btn>
 
@@ -47,19 +47,26 @@
         this.rawOut = null;
       },
       async submitContent() {
-        const that = this;
+        if (!this.file) {
+          this.$store.commit('SET_SNACKBAR', {
+            text: '请先上传音频文件',
+            color: 'warning',
+          });
+          return;
+        }
+        const _v = this;
         const reader = new FileReader();
         reader.onloadend = async function () {
           const b64data = reader.result.split(',')[1];
-          const data = that.composeInputs(that.audioParam('inputs', b64data));
-          const ret = await postModelApi(this.instance.environment, this.instance.name, data);
+          const data = _v.composeInputs(_v.audioParam('inputs', b64data));
+          const ret = await postModelApi(_v.instance.environment, _v.instance.name, data);
           const tmp = [];
           for (const out of ret.data.outputs) {
             if (out.name !== 'result_image') {
               tmp.push(out);
             }
           }
-          that.rawOut = tmp;
+          _v.rawOut = tmp;
         };
         reader.readAsDataURL(this.file);
       },

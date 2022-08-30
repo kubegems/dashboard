@@ -30,7 +30,8 @@
     "integated_info": "接入信息",
     "integated_status": "接入状态",
     "integated_complete": "接入完成",
-    "link_2_app": "点击 <a>跳转</a> 至应用"
+    "link_2_app": "点击 <a>跳转</a> 至应用",
+    "status": "状态"
   },
   "operate": {
     "open": "开启",

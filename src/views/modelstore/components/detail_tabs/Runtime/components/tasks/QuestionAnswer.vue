@@ -9,7 +9,7 @@
         <v-textarea v-model="question" auto-grow flat hide-details label="question" rows="15" solo />
       </v-col>
 
-      <v-btn class="kubegems__full-center" color="primary" icon x-large>
+      <v-btn class="kubegems__full-center" color="primary" icon x-large @click="submitContent">
         <v-icon>mdi-arrow-right-bold </v-icon>
       </v-btn>
 

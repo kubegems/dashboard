@@ -37,48 +37,70 @@
                   {{ $t('tip.name') }}
                   <div>{{ `${obj.appName}-obs-${randomStr}` }}</div>
                 </div>
+                <div class="my-1">
+                  {{ $t('tip.status') }}
+                  <div>{{ appStatus }}</div>
+                </div>
               </v-card-text>
             </v-card>
+
+            <template #icon>
+              <v-icon :class="{ 'kubegems__waiting-circle-flashing': appStatus !== 'Healthy' }" color="white">
+                {{ appStatus !== 'Healthy' ? 'mdi-autorenew' : 'mdi-check' }}
+              </v-icon>
+            </template>
           </v-timeline-item>
           <v-timeline-item class="timeline__item" color="success">
             <v-card class="elevation-2">
               <v-card-title class="text-body-1"> {{ $t('tip.integated_status') }} </v-card-title>
               <v-card-text>
-                <div class="mb-2">
-                  {{ deployStatus !== 'up' ? $t('status.deploying') : $t('status.ready') }}
-                  <div v-if="deployStatus !== 'up'">{{ lastError }}</div>
+                <div v-if="deployStatus === 'up'" class="mb-2">
+                  {{ $t('status.ready') }}
                 </div>
-                <v-progress-linear
-                  v-if="deployStatus !== 'up'"
-                  buffer-value="0"
-                  color="success"
-                  height="10"
-                  reverse
-                  stream
-                  value="0"
-                />
-                <div v-else>
+                <div v-if="deployStatus === 'up'">
                   <v-icon color="success" size="28">mdi-check-circle</v-icon>
                 </div>
                 <v-btn
                   v-if="deployStatus !== 'up'"
                   class="my-2"
                   color="primary"
+                  :disabled="appStatus !== 'Healthy'"
                   :loading="loading"
                   small
-                  @click="serviceMonitorStatus"
+                  @click="getServiceMonitorStatus"
                 >
                   <v-icon left>mdi-refresh</v-icon>
                   {{ $t('operate.refresh_middleware_status') }}
                 </v-btn>
               </v-card-text>
             </v-card>
+
+            <template #icon>
+              <v-icon
+                :class="{ 'kubegems__waiting-circle-flashing': appStatus === 'Healthy' && deployStatus !== 'up' }"
+                color="white"
+              >
+                {{
+                  appStatus === 'Healthy'
+                    ? deployStatus !== 'up'
+                      ? 'mdi-autorenew'
+                      : 'mdi-check'
+                    : 'mdi-circle-slice-4'
+                }}
+              </v-icon>
+            </template>
           </v-timeline-item>
           <v-timeline-item class="timeline__item" color="success">
             <v-card class="elevation-2">
               <v-card-title class="text-body-1"> {{ $t('tip.integated_complete') }} </v-card-title>
               <v-card-text @click="toApp" v-html="$t('tip.link_2_app')" />
             </v-card>
+
+            <template #icon>
+              <v-icon color="white">
+                {{ deployStatus !== 'up' ? 'mdi-circle-slice-4' : 'mdi-check' }}
+              </v-icon>
+            </template>
           </v-timeline-item>
         </v-timeline>
       </template>
@@ -108,7 +130,7 @@
 
   import messages from '../../../i18n';
   import ProjectEnvSelect from '../ProjectEnvSelect';
-  import { getChartSchema, postDeployAppStore, getServiceMonitorStatus } from '@/api';
+  import { getChartSchema, postDeployAppStore, getServiceMonitorStatus, getAppStoreRunningDetail } from '@/api';
   import { randomString } from '@/utils/helpers';
   import { required } from '@/utils/rules';
   import JsonSchema from '@/views/appstore/components/DeployWizard/JsonSchema';
@@ -150,6 +172,8 @@
         deployStatus: 'deploying',
         lastError: '',
         loading: false,
+        appStatus: 'Pending',
+        appStatusInterval: undefined,
       };
     },
     computed: {
@@ -169,6 +193,12 @@
         deep: true,
         immediate: true,
       },
+    },
+    destroyed() {
+      if (this.appStatusInterval) {
+        clearInterval(this.appStatusInterval);
+        this.appStatusInterval = undefined;
+      }
     },
     methods: {
       async middlewareChartInfo() {
@@ -204,9 +234,16 @@
               values: this.appValues,
             };
             await postDeployAppStore(this.Tenant().ID, this.env?.projectid, this.env?.value, data);
-            this.serviceMonitorStatus();
             this.deploying = true;
             this.$emit('deploying');
+
+            this.getAppStatus();
+            this.appStatusInterval = setInterval(() => {
+              this.getAppStatus();
+              if (this.appStatus === 'Healthy') {
+                clearInterval(this.appStatusInterval);
+              }
+            }, 1000 * 5);
           } else {
             this.$store.commit('SET_SNACKBAR', {
               text: this.$root.$t('tip.select_project_environment'),
@@ -266,10 +303,22 @@
         this.params = [];
         this.params = this.retrieveBasicFormParams(this.appValues, this.schemaJson);
       },
-      async serviceMonitorStatus() {
+      async getAppStatus() {
+        const data = await getAppStoreRunningDetail(
+          this.Tenant().ID,
+          this.env.projectid,
+          this.env.value,
+          `${this.obj.appName}-obs-${this.randomStr}`,
+          {
+            watch: false,
+          },
+        );
+        this.appStatus = data?.health?.status;
+      },
+      async getServiceMonitorStatus() {
         this.loading = true;
-        const data = await getServiceMonitorStatus(this.env.clusterName, this.env.namespace, {
-          service: `${this.obj.appName}-obs-${this.randomStr}`,
+        const data = await getServiceMonitorStatus(this.env.clusterName, this.env.environmentName, {
+          service: this.appValues.nameOverride,
         });
         this.loading = false;
         this.deployStatus = data.health;
@@ -280,7 +329,7 @@
           name: 'app-detail',
           params: {
             name: `${this.obj.appName}-obs-${this.randomStr}`,
-            tenamt: this.Tenant().TenantName,
+            tenant: this.Tenant().TenantName,
             project: this.env.projectName,
             environment: this.env.environmentName,
           },
