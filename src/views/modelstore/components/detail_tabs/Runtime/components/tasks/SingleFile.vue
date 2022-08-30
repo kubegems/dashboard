@@ -6,7 +6,7 @@
         <v-file-input accept="*/*" counter filled flat label="语音文件" show-size solo @change="onFileChange" />
       </v-col>
 
-      <v-btn class="kubegems__full-center" color="primary" icon x-large @click="submitContent">
+      <v-btn class="kubegems__full-center" color="primary" icon :loading="Circular" x-large @click="submitContent">
         <v-icon>mdi-arrow-right-bold </v-icon>
       </v-btn>
 
@@ -19,6 +19,8 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex';
+
   import ParamsMixin from '../../mixins/params';
   import { postModelApi } from '@/api';
 
@@ -26,6 +28,10 @@
     name: 'SingleFile',
     mixins: [ParamsMixin],
     props: {
+      dialog: {
+        type: Boolean,
+        default: () => true,
+      },
       instance: {
         type: Object,
         default: () => null,
@@ -33,21 +39,38 @@
     },
     data: () => {
       return {
-        file: null,
+        obj: {
+          file: null,
+        },
         rawOut: null,
       };
+    },
+    computed: {
+      ...mapState(['Circular']),
+    },
+    watch: {
+      dialog: {
+        handler(newValue) {
+          if (!newValue) {
+            this.obj = this.$options.data().obj;
+            this.rawOut = null;
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
     },
     methods: {
       onFileChange(e) {
         if (e) {
-          this.file = e;
+          this.obj.file = e;
         } else {
-          this.file = null;
+          this.obj.file = null;
         }
         this.rawOut = null;
       },
       async submitContent() {
-        if (!this.file) {
+        if (!this.obj.file) {
           this.$store.commit('SET_SNACKBAR', {
             text: '请先上传音频文件',
             color: 'warning',
@@ -68,7 +91,7 @@
           }
           _v.rawOut = tmp;
         };
-        reader.readAsDataURL(this.file);
+        reader.readAsDataURL(this.obj.file);
       },
     },
   };

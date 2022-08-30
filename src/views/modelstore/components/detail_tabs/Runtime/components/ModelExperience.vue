@@ -22,7 +22,7 @@
       </v-flex>
     </template>
     <template #content>
-      <component :is="formComponent" :instance="instance" />
+      <component :is="formComponent" :dialog="dialog" :instance="instance" />
     </template>
   </BaseFullScreenDialog>
 </template>
@@ -78,7 +78,7 @@
         'question-anwser': QuestionAnswer,
         'table-question-anwser': TableQuestionAnswer,
         'feature-extraction': SingleText,
-        'visual-question-anwser': VisualQuestionAnswer,
+        'visual-question-answering': VisualQuestionAnswer,
         'fill-mask': SingleText,
         summarization: SingleText,
         'zero-shot-classification': ZeroShotClassification,
@@ -107,11 +107,6 @@
                 return;
               }
             }
-            this.$store.commit('SET_SNACKBAR', {
-              text: this.$t('tip.not_support'),
-              color: 'warning',
-            });
-            this.dialog = false;
           }
         },
         deep: true,
@@ -120,6 +115,13 @@
     },
     methods: {
       open() {
+        if (!this.formComponent) {
+          this.$store.commit('SET_SNACKBAR', {
+            text: this.$t('tip.not_support'),
+            color: 'warning',
+          });
+          return;
+        }
         this.dialog = true;
       },
       init(item) {

@@ -284,7 +284,12 @@
         for (const index in units) {
           if (Math.abs(result) <= sclaeNum || parseInt(index) === parseInt(units.length - 1)) {
             if (unitType === 'percent') {
-              return `${result.toFixed(decimal)} %`;
+              // 特殊处理
+              if (result > 1 && result < 1.2) {
+                return `${(result * 100).toFixed(decimal)} %`;
+              } else {
+                return `${result.toFixed(decimal)} %`;
+              }
             }
             return `${result.toFixed(decimal)} ${units[index]}`;
           }

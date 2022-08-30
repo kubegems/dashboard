@@ -8,7 +8,7 @@ import {
   getTenantSelectData,
   getVirtualSpaceSelectData,
 } from './server_data';
-import { getClusterPluginsList, getPluginsList, getRESTMapping, getBroadcastlist } from '@/api';
+import { getBroadcastlist, getClusterPluginsList, getPluginsList, getRESTMapping } from '@/api';
 import router from '@/router';
 import { delAllCookie, getCookie } from '@/utils/cookie';
 import { sleep } from '@/utils/helpers';
@@ -394,14 +394,9 @@ export default new Store({
         const data = await getBroadcastlist({
           size: 1000,
           noprocessing: true,
+          active: true,
         });
-        const items = data.List.filter((d) => {
-          return (
-            new Date(Vue.prototype.$moment(d.startAt).add(-1, 'days')) < new Date(Vue.prototype.$moment()) ||
-            (new Date(Vue.prototype.$moment(d.endAt)) > new Date() &&
-              new Date(Vue.prototype.$moment(d.startAt)) < new Date())
-          );
-        });
+        const items = data.List;
         commit('SET_BROADCAST', items);
       };
       if (!state.BroadcastInterval && state.JWT) {

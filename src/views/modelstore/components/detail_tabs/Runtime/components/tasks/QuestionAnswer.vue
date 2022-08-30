@@ -3,13 +3,31 @@
     <v-row>
       <v-col class="pr-8" cols="12" md="6">
         <div class="text-subtitle-1 mb-3">文本</div>
-        <v-textarea v-model="context" auto-grow flat hide-details label="context" rows="15" solo />
+        <ACEEditor
+          v-model="obj.context"
+          :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} kubegems__rounded_small`"
+          lang="plain_text"
+          :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
+          :style="{ height: `${height / 2 - 10}px !important` }"
+          theme="chrome"
+          @init="$aceinit"
+          @keydown.stop
+        />
 
         <div class="text-subtitle-1 mb-3">问题</div>
-        <v-textarea v-model="question" auto-grow flat hide-details label="question" rows="15" solo />
+        <ACEEditor
+          v-model="obj.question"
+          :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} kubegems__rounded_small`"
+          lang="plain_text"
+          :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
+          :style="{ height: `${height / 2 - 10}px !important` }"
+          theme="chrome"
+          @init="$aceinit"
+          @keydown.stop
+        />
       </v-col>
 
-      <v-btn class="kubegems__full-center" color="primary" icon x-large @click="submitContent">
+      <v-btn class="kubegems__full-center" color="primary" icon :loading="Circular" x-large @click="submitContent">
         <v-icon>mdi-arrow-right-bold </v-icon>
       </v-btn>
 
@@ -22,6 +40,8 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex';
+
   import ParamsMixin from '../../mixins/params';
   import { postModelApi } from '@/api';
 
@@ -29,6 +49,10 @@
     name: 'QuestionAnswer',
     mixins: [ParamsMixin],
     props: {
+      dialog: {
+        type: Boolean,
+        default: () => true,
+      },
       instance: {
         type: Object,
         default: () => null,
@@ -36,16 +60,50 @@
     },
     data() {
       return {
-        context: '',
-        question: '',
+        obj: {
+          context: '',
+          question: '',
+        },
         rawOut: '',
       };
     },
+    computed: {
+      ...mapState(['Scale', 'Circular']),
+      height() {
+        return window.innerHeight - 110;
+      },
+    },
+    watch: {
+      dialog: {
+        handler(newValue) {
+          if (!newValue) {
+            this.obj = this.$options.data().obj;
+            this.rawOut = '';
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
+    },
     methods: {
       async submitContent() {
+        if (!this.obj.context.trim()) {
+          this.$store.commit('SET_SNACKBAR', {
+            text: '请输入文本',
+            color: 'warning',
+          });
+          return;
+        }
+        if (!this.obj.question.trim()) {
+          this.$store.commit('SET_SNACKBAR', {
+            text: '请输入问题',
+            color: 'warning',
+          });
+          return;
+        }
         const data = this.composeInputs(
-          this.stringParam('context', this.context),
-          this.stringParam('question', this.question),
+          this.stringParam('context', this.obj.context),
+          this.stringParam('question', this.obj.question),
         );
         const ret = await postModelApi(this.instance.environment, this.instance.name, data);
         const parsed = this.parseOut(ret.data.outputs);

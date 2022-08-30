@@ -108,7 +108,7 @@
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
-  import { getRuleScopeList, getRuleResourceList, getRuleList } from '@/api';
+  import { getRuleList, getRuleResourceList, getRuleScopeList } from '@/api';
 
   export default {
     name: 'HistorySearch',

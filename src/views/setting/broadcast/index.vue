@@ -55,7 +55,7 @@
           {{ item.endAt ? $moment(item.endAt).format('lll') : '' }}
         </template>
         <template #[`item.expried`]="{ item }">
-          {{ $moment(item.endAt).format('lll') > new Date() ? $t('status.expried') : $t('status.active') }}
+          {{ new Date($moment(item.endAt)) < new Date($moment()) ? $t('status.expried') : $t('status.active') }}
         </template>
         <template #[`item.action`]="{ item }">
           <v-flex :id="`r${item.id}`" />
