@@ -16,8 +16,13 @@
 
 <template>
   <BaseFullScreenDialog v-model="dialog" icon="mdi-variable" :title="$t('tip.experience')" @dispose="dispose">
+    <template #header>
+      <v-flex class="ml-2 text-h6 mt-n1">
+        {{ item ? item.name : '' }}
+      </v-flex>
+    </template>
     <template #content>
-      <component :is="formComponent" />
+      <component :is="formComponent" :instance="instance" />
     </template>
   </BaseFullScreenDialog>
 </template>
@@ -26,16 +31,16 @@
   import { mapState } from 'vuex';
 
   import messages from '../../../../i18n';
-  import Conversation from './ConversationText';
-  import ImageSegmentation from './ImageSegmentation';
-  import QuestionAnswer from './QuestionAnswer';
-  import SingleFile from './SingleFile';
-  import SingleImage from './SingleImage';
-  import SingleText from './SingleText';
-  import SingleTextInputs from './SingleTextInputs';
-  // import TableQuestionAnswer from './TableQuestionAnswer';
-  import VisualQuestionAnswer from './VisualQuestionAnswer';
-  // import ZeroShotClassification from './ZeroShotClassification';
+  import Conversation from './tasks/ConversationText';
+  import ImageSegmentation from './tasks/ImageSegmentation';
+  import QuestionAnswer from './tasks/QuestionAnswer';
+  import SingleFile from './tasks/SingleFile';
+  import SingleImage from './tasks/SingleImage';
+  import SingleText from './tasks/SingleText';
+  import SingleTextInputs from './tasks/SingleTextInputs';
+  import TableQuestionAnswer from './tasks/TableQuestionAnswer';
+  import VisualQuestionAnswer from './tasks/VisualQuestionAnswer';
+  import ZeroShotClassification from './tasks/ZeroShotClassification';
 
   export default {
     name: 'ModelExperience',
@@ -50,26 +55,75 @@
       SingleImage,
       SingleText,
       SingleTextInputs,
-      // TableQuestionAnswer,
+      TableQuestionAnswer,
       VisualQuestionAnswer,
-      // ZeroShotClassification,
+      ZeroShotClassification,
     },
     props: {
-      // item: {
-      //   type: Object,
-      //   default: () => null,
-      // },
+      item: {
+        type: Object,
+        default: () => null,
+      },
     },
     data: () => ({
       dialog: false,
-      formComponent: 'SingleFile',
+      instance: undefined,
+      formComponent: '',
+      formConponentItems: {
+        openmmlab: SingleImage,
+        'text-generation': SingleText,
+        'text-classification': SingleText,
+        'text2text-generation': SingleText,
+        'token-classification': SingleTextInputs,
+        'question-anwser': QuestionAnswer,
+        'table-question-anwser': TableQuestionAnswer,
+        'feature-extraction': SingleText,
+        'visual-question-anwser': VisualQuestionAnswer,
+        'fill-mask': SingleText,
+        summarization: SingleText,
+        'zero-shot-classification': ZeroShotClassification,
+        'image-classification': SingleImage,
+        'image-segmentation': ImageSegmentation,
+        'object-detection': ImageSegmentation,
+        conversation: Conversation,
+        translation: SingleText,
+        'audio-classification': SingleFile,
+        'automatic-speech-recognition': SingleFile,
+      },
     }),
     computed: {
       ...mapState(['JWT']),
     },
+    watch: {
+      item: {
+        handler(newValue) {
+          if (newValue) {
+            if (newValue.source === 'openmmlab') {
+              this.formComponent = this.formConponentItems['openmmlab'];
+              return;
+            } else if (newValue.source === 'huggingface') {
+              if (Object.prototype.hasOwnProperty.call(this.formConponentItems, newValue.task)) {
+                this.formComponent = this.formConponentItems[newValue.task];
+                return;
+              }
+            }
+            this.$store.commit('SET_SNACKBAR', {
+              text: this.$t('tip.not_support'),
+              color: 'warning',
+            });
+            this.dialog = false;
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
+    },
     methods: {
       open() {
         this.dialog = true;
+      },
+      init(item) {
+        this.instance = item;
       },
       dispose() {},
     },

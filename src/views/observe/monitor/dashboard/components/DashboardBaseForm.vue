@@ -97,9 +97,9 @@
     },
     methods: {
       async monitorDashboardTemplateList() {
-        const data = await getMonitorDashboardTemplate();
+        const data = await getMonitorDashboardTemplate({ size: 1000 });
         if (data) {
-          this.templateItems = data.map((d) => {
+          this.templateItems = data.List.map((d) => {
             return { text: d.name, value: d.name };
           });
         }

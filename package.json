@@ -55,6 +55,7 @@
     "vue-okr-tree": "1.0.10",
     "vue-router": "^3.4.4",
     "vue-slider-component": "^3.2.14",
+    "vue-table-dynamic": "^0.4.10",
     "vue2-ace-editor": "^0.0.15",
     "vuedraggable": "^2.24.3",
     "vuetify": "^2.6.9",

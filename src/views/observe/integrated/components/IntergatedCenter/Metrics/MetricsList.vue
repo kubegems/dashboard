@@ -32,29 +32,29 @@
       hide-default-footer
       item-key="value"
       :items="items"
-      :items-per-page="itemsPerPage"
+      :items-per-page="params.size"
       :no-data-text="$root.$t('data.no_data')"
       :no-results-text="$root.$t('data.no_data')"
-      :page.sync="page"
+      :page.sync="params.page"
       :search.sync="search"
     />
     <BasePagination
       v-if="pageCount >= 1"
-      v-model="page"
-      :front-page="true"
+      v-model="params.page"
+      front-page
       :page-count="pageCount"
       :show-size="false"
-      :size="itemsPerPage"
+      :size="params.size"
       @changepage="onPageIndexChange"
     />
   </div>
 </template>
 
 <script>
-  import { mapState } from 'vuex';
+  import { mapGetters } from 'vuex';
 
   import messages from '../../../i18n';
-  import { getMyConfigData, getSystemConfigData } from '@/api';
+  import { getRuleList } from '@/api';
 
   export default {
     name: 'MetricsList',
@@ -65,14 +65,16 @@
       return {
         items: [],
         total: 0,
-        page: 1,
+        params: {
+          page: 1,
+          size: 5,
+        },
         pageCount: 0,
-        itemsPerPage: 5,
         search: '',
       };
     },
     computed: {
-      ...mapState(['AdminViewport']),
+      ...mapGetters(['Tenant']),
       headers() {
         return [
           { text: this.$t('table.name'), value: 'name', align: 'start' },
@@ -85,7 +87,7 @@
     watch: {
       total: {
         handler() {
-          this.pageCount = Math.ceil(this.total / this.itemsPerPage);
+          this.pageCount = Math.ceil(this.total / this.params.size);
         },
         deep: true,
       },
@@ -110,39 +112,16 @@
       },
       onInput() {
         this.total = 0;
-        this.page = 1;
+        this.params.page = 1;
       },
       async metricsList() {
-        let data = null;
-        if (this.AdminViewport) {
-          data = await getSystemConfigData('Monitor');
-        } else {
-          data = await getMyConfigData('Monitor');
-        }
+        const data = await getRuleList(this.Tenant().ID, '_all', { size: 1000 });
 
-        this.items =
-          Object.values(data?.content?.resources).reduce((r1, r2) => {
-            return Array.isArray(r1)
-              ? r1.concat(
-                  Object.keys(r2.rules).map((k) => {
-                    return { name: k, ...r2.rules[k] };
-                  }),
-                )
-              : Object.keys(r1.rules)
-                  .map((k) => {
-                    return { name: k, ...r1.rules[k] };
-                  })
-                  .concat(
-                    Object.keys(r2.rules).map((k) => {
-                      return { name: k, ...r2.rules[k] };
-                    }),
-                  );
-          }) || [];
-
-        this.pageCount = Math.ceil(this.items.length / this.itemsPerPage);
+        this.items = data.List;
+        this.pageCount = Math.ceil(this.items.length / this.params.size);
       },
       onPageIndexChange(page) {
-        this.page = page;
+        this.params.page = page;
       },
     },
   };

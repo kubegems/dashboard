@@ -209,6 +209,7 @@
         );
         if (data) {
           this.tabItems[this.tab].chart = data;
+          this.$forceUpdate();
         }
       },
       async clusterApiServerRT(timeParam) {
@@ -229,6 +230,7 @@
             });
           });
           this.tabItems[this.tab].chart = data;
+          this.$forceUpdate();
         }
       },
       async clusterApiServerQps(timeParam) {
@@ -262,6 +264,7 @@
         if (data2) data = data.concat(data2);
         if (data3) data = data.concat(data3);
         this.tabItems[this.tab].chart = data;
+        this.$forceUpdate();
       },
       async clusterEtcdQps(timeParam) {
         const data = await this.m_permission_matrix(
@@ -273,6 +276,7 @@
         );
         if (data) {
           this.tabItems[this.tab].chart = data;
+          this.$forceUpdate();
         }
       },
       async clusterCPUUsage(timeParam) {
@@ -286,6 +290,7 @@
         );
         if (data) {
           this.tabItems[this.tab].chart = data;
+          this.$forceUpdate();
         }
       },
       async clusterMemoryUsage(timeParam) {
@@ -299,6 +304,7 @@
         );
         if (data) {
           this.tabItems[this.tab].chart = data;
+          this.$forceUpdate();
         }
       },
       async clusterDiskSize(timeParam) {
@@ -312,6 +318,7 @@
         );
         if (data) {
           this.tabItems[this.tab].chart = data;
+          this.$forceUpdate();
         }
       },
       async clusterPodUsage(timeParam) {
@@ -325,6 +332,7 @@
         );
         if (data) {
           this.tabItems[this.tab].chart = data;
+          this.$forceUpdate();
         }
       },
     },
