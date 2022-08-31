@@ -64,7 +64,7 @@
     "endpoint_config": "エンドポイントの設定",
     "endpoint": "エンドポイント",
     "port_type": "ポートの種類",
-    "global_var": "グローバル変数"
+    "global_var": "グローバル変数の束縛"
   },
   "tab": {
     "generate_from_template": "テンプレート生成",
