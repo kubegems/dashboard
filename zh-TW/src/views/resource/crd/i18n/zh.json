@@ -1,13 +1,13 @@
 {
   "table": {
-    "name": "名稱",
+    "name": "注文番號による検索",
     "status": "狀態",
-    "last_update_time": "上次更新時間"
+    "last_update_time": "最終更新日"
   },
   "filter": {
-    "crd_name": "crd名稱"
+    "crd_name": "crd名"
   },
   "tab": {
-    "cr_list": "CR清單"
+    "cr_list": "CRリスト"
   }
 }
