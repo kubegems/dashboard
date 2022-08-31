@@ -1,42 +1,42 @@
 {
   "tip": {
-    "detail": "詳情",
-    "version": "版本",
-    "desc": "簡介",
+    "detail": "詳細",
+    "version": "バージョン",
+    "desc": "はじめに",
     "registry": "倉庫",
-    "app_version": "應用版本",
-    "maintainer": "維護者",
-    "create_at": "創建時間",
-    "error_info": "錯誤資訊",
-    "deploying": "部署中，請等待",
-    "deploy_success": "部署成功",
-    "view_deploy_status": "查看部署狀態",
-    "third_registry": "第三方倉庫",
-    "advise": "建議",
-    "third_registry_deploy": "第三方倉庫，建議使用values.yaml配置",
-    "values_error": "獲取values.yaml失敗",
-    "params_check_error": "參數校驗失敗",
-    "project_is_null": "缺少專案",
-    "environment_is_null": "缺少環境",
-    "base_info": "基本配置",
-    "advance_setting": "詳細配置",
-    "complete": "完成",
-    "bitnami": "Bitnami 讓您可以輕鬆地在任何平台上啟動和運行您最喜歡的開源軟體，包括您的筆記型電腦、Kubernetes 和所有主要雲。",
-    "kubegems": "一個描述Kubernetes相關資源的檔集合，單個應用可以用來部署某些複雜的HTTP伺服器以及web全棧應用、資料庫、緩存等。",
-    "chartmuseum": "ChartMuseum 是一個開源的、易於部署的、Helm Chart 儲存庫伺服器。"
+    "app_version": "アプリケーションのバージョン",
+    "maintainer": "メンテナ",
+    "create_at": "作成日時",
+    "error_info": "エラーメッセージ",
+    "deploying": "デプロイ中です、しばらくお待ちください",
+    "deploy_success": "デプロイが成功しました",
+    "view_deploy_status": "展開する状態を確認する",
+    "third_registry": "サードパーティリポジトリ",
+    "advise": "提案",
+    "third_registry_deploy": "サードパーティ製リポジトリ、一般的にはvalues.yamlの設定の使用が推奨されます",
+    "values_error": "values.yamlを取得できませんでした",
+    "params_check_error": "引数の検証に失敗しました",
+    "project_is_null": "プロジェクトが見つかりません",
+    "environment_is_null": "環境がありません。",
+    "base_info": "基本設定",
+    "advance_setting": "詳細な設定",
+    "complete": "完了",
+    "bitnami": "Bitnami では、お使いのパソコン、Kubernetes、およびすべての主要なクラウドが含まれます。",
+    "kubegems": "HTTPの複雑なサーバーや、web全スタック、データベース、キャッシュなどの特定の複雑なHTTPサーバをデプロイできるファイルコレクション。",
+    "chartmuseum": "ChartMuseum は、オープン ソースのオープンソース プロジェクトで、Helm Chart リポジトリサーバです。"
   },
   "filter": {
-    "name": "應用名稱"
+    "name": "アプリケーション名"
   },
   "form": {
-    "name": "名稱",
-    "appname": "應用名稱",
-    "address": "位址",
-    "version": "版本"
+    "name": "注文番號による検索",
+    "appname": "アプリケーション名",
+    "address": "住所",
+    "version": "バージョン"
   },
   "tab": {
-    "form": "表單",
-    "app_detail": "應用詳情",
-    "config_file": "配置檔"
+    "form": "フォーム",
+    "app_detail": "アプリの詳細",
+    "config_file": "プロファイル"
   }
 }
