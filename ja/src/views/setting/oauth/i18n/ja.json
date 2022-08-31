@@ -1,26 +1,26 @@
 {
   "operate": {
-    "enable": "有効",
-    "enable_c": "{0} を有効にする",
-    "disable": "無効",
-    "disable_c": "{0} を無効化",
-    "config": "設定"
+    "enable": "は10",
+    "enable_c": "{0} を効率化する力。",
+    "disable": "無許可化",
+    "disable_c": "{0} を効果無し",
+    "config": "構成"
   },
   "status": {
-    "enabled": "有効"
+    "enabled": "は10"
   },
   "tip": {
-    "kubegems": "Kubegems の内部にデータ認証",
-    "oauth": "OrganizationがOauth プロトコルでログインすることができます。",
-    "openldap": "組織に Ldap プロトコルでログインできるようになります。",
-    "gitlab": "GitLab アカウントを使用してログインできるようにします。",
-    "github": "あなたの組織をGitHubアカウントを使用してサインインすることができます。",
-    "tls": "tlsを開く",
-    "config_title": "サードパーティ製の証明書の設定"
+    "kubegems": "効果的 インジェクションで効果的に",
+    "oauth": "Organizationか抽象を解析します: Oauth フロクールでオブジェクトをフローク処理することも...",
+    "openldap": "組織に Ldap F゜ロマンスジャンでフロクトジャストオブジェクトを処理して処理されたこようなります。",
+    "gitlab": "GitLab アルバムフィードを利用してロック処理してオブジェクトを演出します",
+    "github": "あなたの組織を GitHub Aチュートリアルを使用します。",
+    "tls": "tls化したく",
+    "config_title": "サートの処理（後手の技法）"
   },
   "form": {
-    "name": "注文番号による検索",
-    "format_rule": "フォーマットエラー",
-    "ladp_address": "Ldapのアドレス"
+    "name": "注文番番号によりよる検ソ",
+    "format_rule": "フォアマー",
+    "ladp_address": "Ldapのアセンブリ"
   }
 }
