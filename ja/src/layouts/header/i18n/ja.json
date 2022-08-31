@@ -1,38 +1,38 @@
 {
   "message": {
-    "message": "メッセージ",
-    "approval": "承認",
-    "no_message": "未読メッセージはありません",
-    "no_approval": "まだ承認されていない承認者はいません",
-    "unread_c": "未読{0}",
-    "clear": "未読を除く"
+    "message": "メッセンジャー",
+    "approval": "Approval",
+    "no_message": "No unread messages yet",
+    "no_approval": "approvals yet",
+    "unread_c": "{0} Unread",
+    "clear": "Clear"
   },
   "about": {
-    "api_version": "Api バージョン",
-    "api_release_time": "API 日付",
-    "go_version": "goバージョン",
-    "compile": "コンパイル",
-    "compile_platform": "ビルドプラットフォーム",
-    "dashboard_version": "Dashboardバージョン",
-    "dashboard_release_time": "Dashboardバージョン日付"
+    "api_version": "Api Version を",
+    "api_release_time": "Api Release Time",
+    "go_version": "GoVersion チーム",
+    "compile": "コンピューター",
+    "compile_platform": "Compile Platform",
+    "dashboard_version": "Dashboard Version Version -",
+    "dashboard_release_time": "Dashboard Release Time"
   },
   "status": {
-    "enabled": "有効",
-    "disabled": "無効"
+    "enabled": "Enabled",
+    "disabled": "disabled"
   },
   "table": {
-    "tenant": "テナント",
-    "status": "状態"
+    "tenant": "Tenant",
+    "status": "Status"
   },
   "operate": {
-    "approve": "経由",
-    "reject": "拒否"
+    "approve": "Approve",
+    "reject": "Reject"
   },
   "tip": {
-    "tenant": "現在のテナント",
-    "resource_scale": "リソース調整",
-    "project_address": "プロジェクト URL",
-    "issue": "MoKeeバグトラッカー",
-    "star": "スター"
+    "tenant": "Currentnt",
+    "resource_scale": "Resource Scale",
+    "project_address": "GitHub",
+    "issue": "Issues",
+    "star": "Star"
   }
 }
