@@ -1,29 +1,29 @@
 {
   "table": {
-    "name": "Name",
-    "unit": "Units",
-    "rule": "Rules",
-    "label": "Tags"
+    "name": "Scripting numbers are leading to the Soco",
+    "unit": "Field of credit",
+    "rule": "must not be allowed to enter into marriage.",
+    "label": "Unidentist's settlement"
   },
   "form": {
-    "name": "Name",
-    "show_name": "Display Name",
-    "label": "Labels (enter)",
-    "unit": "Units",
-    "description": "Description"
+    "name": "Scripting numbers are leading to the Soco",
+    "show_name": "Represent name",
+    "label": "Ministry of Interior (Enter)",
+    "unit": "Field of credit",
+    "description": "Alpha"
   },
   "tip": {
-    "group_and_resource": "Group/Resources",
-    "group": "Group",
-    "select_resource": "Please select a resource",
-    "default": "Default",
-    "byte": "Bytes",
-    "byte_rate": "Byte Rate",
+    "group_and_resource": "Sailig must be able to provide the best possible form of support for the settlement of disputes between the parties and the parties to the conflict in the country.",
+    "group": "Strictive Stricter must be a member of the police force.",
+    "select_resource": "The list of participants is as follows:",
+    "default": "Unidentist should be able to provide a better opportunity for both parties to the conflict in the country.",
+    "byte": "Sterility Matrix",
+    "byte_rate": "Could not provide a computer with a record of you as you want to be able to use it for your illness.",
     "time": "Time",
-    "precent": "Percentage",
-    "custom": "Custom"
+    "precent": "Outside potential of the sex industry",
+    "custom": "Instrument for standardized international reporting"
   },
   "filter": {
-    "search": "Search"
+    "search": "Kano"
   }
 }
