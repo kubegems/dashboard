@@ -1,40 +1,40 @@
 {
   "table": {
-    "name": "名稱",
+    "name": "注文番號による検索",
     "status": "狀態",
-    "access_mode": "訪問模式",
-    "storage": "容量",
-    "mount": "掛載",
-    "capacity": "容量"
+    "access_mode": "アクセスモード",
+    "storage": "內容",
+    "mount": "マウント",
+    "capacity": "內容"
   },
   "filter": {
-    "pvc_name": "存儲卷名稱"
+    "pvc_name": "ストレージボリューム名"
   },
   "operate": {
-    "scale": "擴容",
-    "create_snapshot": "創建快照",
-    "scale_pvc": "擴容存儲卷"
+    "scale": "拡張する",
+    "create_snapshot": "スナップショットを作成する",
+    "scale_pvc": "拡張ストレージボリューム"
   },
   "status": {
-    "mounted": "已掛載",
-    "unmounted": "未掛載"
+    "mounted": "マウントしました",
+    "unmounted": "マウントされていません"
   },
   "tip": {
-    "now_capacity": "當前容量",
+    "now_capacity": "現在の容量",
     "dest_capacity": "目標容量",
-    "used": "使用量",
-    "inode_rate": "Inode使用率",
-    "label": "標籤",
-    "annotation": "註解",
-    "rwo": "單節點讀寫",
-    "rox": "多節點唯讀",
-    "rwx": "多節點讀寫",
-    "can_create_snapshot": "可創建快照",
-    "volume_mode": "卷模式",
-    "volume_name": "卷名稱"
+    "used": "使用率",
+    "inode_rate": "Inodeメトリックの使用率",
+    "label": "タグ",
+    "annotation": "コメント",
+    "rwo": "単一ノード読み取り/書き込み",
+    "rox": "複数ノード読み取り専用",
+    "rwx": "複数ノード読み取り/書き込み",
+    "can_create_snapshot": "スナップショットが作成可能",
+    "volume_mode": "ボリュームモード",
+    "volume_name": "ボリューム名"
   },
   "form": {
-    "storage_rule": "格式錯誤（示例：1Ki，1Mi，1Gi，1Ti）",
-    "limit_min_rule": "小於當前值"
+    "storage_rule": "書式エラー （例. 1Ki，1Mi，1Gi，1Ti）",
+    "limit_min_rule": "より少なく："
   }
 }
