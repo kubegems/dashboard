@@ -18,11 +18,11 @@
     "offline": "Next shelf",
     "manage": "Model management",
     "stop_sync": "Abort sync",
-    "stop_sync_c": "Abort sync{0}",
+    "stop_sync_c": "Abort sync {0}",
     "forbid": "Disabled",
     "active": "Activate",
-    "forbid_c": "Disable{0}",
-    "active_C": "Activate{0}",
+    "forbid_c": "Disable {0}",
+    "active_C": "Activate {0}",
     "check": "Validation"
   },
   "filter": {
