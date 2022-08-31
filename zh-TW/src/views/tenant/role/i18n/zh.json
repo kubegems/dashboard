@@ -1,31 +1,31 @@
 {
   "table": {
-    "role": "Role",
-    "type": "Type",
-    "description": "Description"
+    "role": "角色",
+    "type": "類別",
+    "description": "描述"
   },
   "tip": {
     "system": {
-      "admin": "Can operate all resources, users, tenants",
-      "normal": "No system level permissions"
+      "admin": "可以操作系統所有的資源，使用者，租戶",
+      "normal": "沒有任何系統級別的許可權"
     },
     "tenant": {
-      "admin": "Can operate all resources under the tenant",
-      "normal": "You can only see the projects you are involved in"
+      "admin": "可以操作租戶下所有資源",
+      "normal": "只能看到自己參與的專案"
     },
     "project": {
-      "admin": "Can operate all resources under the project",
-      "dev": "An environment where only R&D properties can be manipulated",
-      "test": "An environment where only test properties can be manipulated",
-      "ops": "Can operate in all environments"
+      "admin": "可以操作專案下的所有資源",
+      "dev": "僅可以操作研發屬性的環境",
+      "test": "僅可以操作測試屬性的環境",
+      "ops": "可以操作所有環境"
     },
     "environment": {
-      "operator": "Resources in an operational environment",
-      "reader": "Can only view resources in the environment"
+      "operator": "可以操作環境下的資源",
+      "reader": "只可以查看環境下的資源"
     },
     "mesh": {
-      "admin": "Can operate resources under the microservice virtual space",
-      "normal": "View resources under the microservice virtual space"
+      "admin": "可以操作微服務虛擬空間下的資源",
+      "normal": "查看微服務虛擬空間下的資源"
     }
   }
 }
