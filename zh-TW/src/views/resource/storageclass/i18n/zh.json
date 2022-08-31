@@ -1,6 +1,6 @@
 {
   "tip": {
-    "default": "默認存儲",
-    "provisioner": "供應商"
+    "default": "Default storage",
+    "provisioner": "ベンダーイメージ一覧"
   }
 }
