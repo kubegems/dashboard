@@ -1,33 +1,33 @@
 {
-  "more": "More",
+  "more": "さらにより表示",
   "audit": {
-    "audit": "Audit"
+    "audit": "監察より"
   },
   "event": {
-    "event": "Event",
-    "cluster": "クラスター"
+    "event": "イエメトリックト",
+    "cluster": "クアラスター"
   },
   "project": {
     "table": {
-      "type": "Type",
-      "traffic_in": "Traffic In",
-      "traffic_out": "Traffic Out",
-      "remark": "Remark",
-      "alias": "Alias",
-      "test": "Test",
-      "dev": "Development",
-      "prod": "Production"
+      "type": "色々変える",
+      "traffic_in": "テレビゲーム通信",
+      "traffic_out": "エスケープ",
+      "remark": "メモ",
+      "alias": "エリアスス",
+      "test": "運いくつか",
+      "dev": "発",
+      "prod": "生産品"
     }
   },
   "resource": {
     "table": {
-      "all": "All {0}",
-      "allocated": "Allocated {0}",
-      "applying": "Resource in apply"
+      "all": "デザイン{0}",
+      "allocated": "{0}を切り落とした",
+      "applying": "資源項エキス"
     },
-    "title": "Sacle Resource"
+    "title": "リソンチューチューニング"
   },
   "tip": {
-    "tenant": "Please create or join a tenat"
+    "tenant": "作成たらはテランドが追加してくた動作のスコープ。"
   }
 }
