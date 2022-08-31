@@ -1,73 +1,73 @@
 {
   "table": {
-    "name": "Name",
-    "status": "Status",
-    "user_count": "Users",
-    "cluster_count": "Number of clusters",
-    "all": "Total{0}",
-    "allocated": "Assigned{0}",
-    "create_at": "Created on"
+    "name": "注文番番号によりよる検ソ",
+    "status": "ステータス",
+    "user_count": "から独立した",
+    "cluster_count": "クロスター数",
+    "all": "デザイン{0}",
+    "allocated": "{0}を切り落とした",
+    "create_at": "できた"
   },
   "filter": {
-    "tenant": "Tenant Name"
+    "tenant": "テレビ局名"
   },
   "status": {
-    "enabled": "Enabled",
-    "disabled": "Disabled"
+    "enabled": "は10",
+    "disabled": "無許可化"
   },
   "operate": {
-    "enable": "Enabled",
-    "enable_c": "Enable{0}",
-    "disable": "Disabled",
-    "disable_c": "Disable{0}",
-    "set_admin": "Set Admin",
-    "set_ordinary": "Set normal membership"
+    "enable": "は10",
+    "enable_c": "{0} を効率化する力。",
+    "disable": "無許可化",
+    "disable_c": "{0} を効果無し",
+    "set_admin": "設定ファイルを編み出る",
+    "set_ordinary": "メハンブの設定"
   },
   "form": {
-    "name": "Name",
-    "remark": "Note",
-    "name_rule": "More than 20 characters"
+    "name": "注文番番号によりよる検ソ",
+    "remark": "ヘルプ",
+    "name_rule": "20テキスト制限を 超え"
   },
   "user": {
     "table": {
-      "username": "Username",
-      "role": "Roles",
-      "status": "Status",
-      "last_login_at": "Last Login"
+      "username": "ユニバーサルド",
+      "role": "ロール",
+      "status": "ステータス",
+      "last_login_at": "最近の連絡の見上へ"
     },
     "tip": {
-      "set_member_role": "Set Tenant Member Roles",
-      "set_admin": "Set tenant member {0} as administrator",
-      "set_ordinary": "Set tenant member {0} to regular user",
-      "user_count": "out of{0}"
+      "set_member_role": "テナミントのメンハブの役割を定める。",
+      "set_admin": "モーテル コンハーフ ジェブ オネル {0} を",
+      "set_ordinary": "テュントートを {0} の上にとらわれる",
+      "user_count": "デザイン{0}名"
     }
   },
   "resource": {
     "table": {
-      "cluster": "Cluster"
+      "cluster": "クアラスター"
     },
     "operate": {
-      "resource_scale": "Resource Adjustment",
-      "resource_monitor": "Resource Monitor",
-      "recycle_cluster": "Cluster Recycling"
+      "resource_scale": "リソンチューチューニング",
+      "resource_monitor": "リソース",
+      "recycle_cluster": "クジャッフ ゜に復活った"
     },
     "tip": {
-      "resource_allocate": "Allocation of resources",
-      "resource_monitor": "Tenant cluster resource monitoring",
-      "cpu_used": "CpuUsage",
-      "memory_used": "Memory usage",
-      "cluster_exist": "Cluster already exists",
-      "resource_limit": "Resource Limit",
-      "gpu_resource_limit": "GPU Resource Limit",
-      "limit": "{0}limit",
-      "scale_limit": "Extended limit for {0}",
-      "resource_scale": "Resource Adjustment"
+      "resource_allocate": "コース配布",
+      "resource_monitor": "テナイト クライマックススターリス",
+      "cpu_used": "CPU 使用率",
+      "memory_used": "メリリを使用する",
+      "cluster_exist": "クロススターは既存のします",
+      "resource_limit": "リソンス 制限",
+      "gpu_resource_limit": "GPU リソン設定",
+      "limit": "{0}のプロンプト文",
+      "scale_limit": "{0}スケッリオンライン終了後限限度額",
+      "resource_scale": "リソンチューチューニング"
     },
     "form": {
-      "apply": "Available{0}",
-      "limit_rule": "Maximum limit exceeded",
-      "unit": "Units"
+      "apply": "使用可能:{0}",
+      "limit_rule": "最大値はかしました",
+      "unit": "単位名"
     },
-    "cluster": "Cluster resources"
+    "cluster": "集団資産"
   }
 }
