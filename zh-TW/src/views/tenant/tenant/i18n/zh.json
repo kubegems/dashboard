@@ -1,73 +1,73 @@
 {
   "table": {
-    "name": "名稱",
-    "status": "狀態",
-    "user_count": "用戶數",
-    "cluster_count": "集群數",
-    "all": "總{0}",
-    "allocated": "已分配{0}",
-    "create_at": "創建時間"
+    "name": "Name",
+    "status": "Status",
+    "user_count": "Users",
+    "cluster_count": "Number of clusters",
+    "all": "Total{0}",
+    "allocated": "Assigned{0}",
+    "create_at": "Created on"
   },
   "filter": {
-    "tenant": "租戶名稱"
+    "tenant": "Tenant Name"
   },
   "status": {
-    "enabled": "啟用",
-    "disabled": "禁用"
+    "enabled": "Enabled",
+    "disabled": "Disabled"
   },
   "operate": {
-    "enable": "啟用",
-    "enable_c": "開啟{0}",
-    "disable": "禁用",
-    "disable_c": "關閉{0}",
-    "set_admin": "設置管理員",
-    "set_ordinary": "設置普通成員"
+    "enable": "Enabled",
+    "enable_c": "Enable{0}",
+    "disable": "Disabled",
+    "disable_c": "Disable{0}",
+    "set_admin": "Set Admin",
+    "set_ordinary": "Set normal membership"
   },
   "form": {
-    "name": "名稱",
-    "remark": "說明",
-    "name_rule": "超出20字元限制"
+    "name": "Name",
+    "remark": "Note",
+    "name_rule": "More than 20 characters"
   },
   "user": {
     "table": {
-      "username": "使用者名",
-      "role": "角色",
-      "status": "狀態",
-      "last_login_at": "最近登錄"
+      "username": "Username",
+      "role": "Roles",
+      "status": "Status",
+      "last_login_at": "Last Login"
     },
     "tip": {
-      "set_member_role": "設置租戶成員角色",
-      "set_admin": "設置租戶成員 {0} 為管理員",
-      "set_ordinary": "設置租戶成員 {0} 為普通使用者",
-      "user_count": "共{0}人"
+      "set_member_role": "Set Tenant Member Roles",
+      "set_admin": "Set tenant member {0} as administrator",
+      "set_ordinary": "Set tenant member {0} to regular user",
+      "user_count": "out of{0}"
     }
   },
   "resource": {
     "table": {
-      "cluster": "集群"
+      "cluster": "Cluster"
     },
     "operate": {
-      "resource_scale": "資源調整",
-      "resource_monitor": "資源監控",
-      "recycle_cluster": "回收集群"
+      "resource_scale": "Resource Adjustment",
+      "resource_monitor": "Resource Monitor",
+      "recycle_cluster": "Cluster Recycling"
     },
     "tip": {
-      "resource_allocate": "資源分配",
-      "resource_monitor": "租戶集群資源監控",
-      "cpu_used": "Cpu使用量",
-      "memory_used": "記憶體使用量",
-      "cluster_exist": "集群已存在",
-      "resource_limit": "資源限制",
-      "gpu_resource_limit": "GPU資源限制",
-      "limit": "{0}限制值",
-      "scale_limit": "{0}擴容后限制值",
-      "resource_scale": "資源調整"
+      "resource_allocate": "Allocation of resources",
+      "resource_monitor": "Tenant cluster resource monitoring",
+      "cpu_used": "CpuUsage",
+      "memory_used": "Memory usage",
+      "cluster_exist": "Cluster already exists",
+      "resource_limit": "Resource Limit",
+      "gpu_resource_limit": "GPU Resource Limit",
+      "limit": "{0}limit",
+      "scale_limit": "Extended limit for {0}",
+      "resource_scale": "Resource Adjustment"
     },
     "form": {
-      "apply": "可用{0}",
-      "limit_rule": "超出最大限制",
-      "unit": "單位"
+      "apply": "Available{0}",
+      "limit_rule": "Maximum limit exceeded",
+      "unit": "Units"
     },
-    "cluster": "集群資源"
+    "cluster": "Cluster resources"
   }
 }
