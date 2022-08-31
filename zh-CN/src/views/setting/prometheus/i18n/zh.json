@@ -1,29 +1,29 @@
 {
   "table": {
-    "name": "名称",
-    "unit": "单位",
-    "rule": "规则",
-    "label": "标签"
+    "name": "注文番号による検索",
+    "unit": "単位",
+    "rule": "ルール",
+    "label": "タグ"
   },
   "form": {
-    "name": "名称",
-    "show_name": "显示名称",
-    "label": "标签(回车)",
-    "unit": "单位",
-    "description": "描述"
+    "name": "注文番号による検索",
+    "show_name": "表示名",
+    "label": "タグ（Enter）",
+    "unit": "単位",
+    "description": "説明"
   },
   "tip": {
-    "group_and_resource": "组/资源",
-    "group": "组",
-    "select_resource": "请选择一个资源",
-    "default": "默认",
-    "byte": "字节",
-    "byte_rate": "字节速率",
-    "time": "时间",
-    "precent": "百分比",
-    "custom": "自定义"
+    "group_and_resource": "グループ/リソース",
+    "group": "グループ",
+    "select_resource": "リソースを選択してください",
+    "default": "デフォルト",
+    "byte": "バイト",
+    "byte_rate": "バイトレート",
+    "time": "時間",
+    "precent": "パーセント",
+    "custom": "カスタム"
   },
   "filter": {
-    "search": "搜索"
+    "search": "検索"
   }
 }
