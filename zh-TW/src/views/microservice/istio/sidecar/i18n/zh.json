@@ -1,9 +1,9 @@
 {
   "table": {
-    "name": "邊車名稱",
-    "label": "匹配標籤"
+    "name": "車両名",
+    "label": "一致するタグ"
   },
   "filter": {
-    "sidecar_name": "邊車名稱"
+    "sidecar_name": "車両名"
   }
 }
