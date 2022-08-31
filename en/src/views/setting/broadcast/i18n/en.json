@@ -1,19 +1,19 @@
 {
   "table": {
     "type": "Type",
-    "message": "Message",
+    "message": "Mesaage",
     "start_at": "Start Time",
     "end_at": "End Time",
-    "expried": "Expires"
+    "expried": "Extracted"
   },
   "resource": {
     "broadcast": "Broadcast"
   },
   "tip": {
-    "select_datetime": "Please select a time"
+    "select_datetime": "Please select detection time"
   },
   "status": {
-    "expried": "Expired",
-    "active": "Activate"
+    "expried": "Extracted",
+    "active": "Active"
   }
 }
