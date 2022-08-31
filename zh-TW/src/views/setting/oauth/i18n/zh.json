@@ -1,26 +1,26 @@
 {
   "operate": {
-    "enable": "啟用",
-    "enable_c": "開啟{0}",
-    "disable": "禁用",
-    "disable_c": "關閉{0}",
-    "config": "配置"
+    "enable": "有効",
+    "enable_c": "{0} を有効にする",
+    "disable": "無効",
+    "disable_c": "{0} を無効化",
+    "config": "設定"
   },
   "status": {
-    "enabled": "已啟用"
+    "enabled": "有効"
   },
   "tip": {
-    "kubegems": "Kubegems 內置的資料庫認證",
-    "oauth": "使您的組織能夠使用 Oauth 協議登錄",
-    "openldap": "使您的組織能夠使用 Ldap 協議登錄",
-    "gitlab": "使您的組織能夠使用 GitLab 帳號登錄",
-    "github": "使您的組織能夠使用 GitHub 帳號登錄",
-    "tls": "開啟tls",
-    "config_title": "配置第三方認證"
+    "kubegems": "Kubegems の内部にデータ認証",
+    "oauth": "OrganizationがOauth プロトコルでログインすることができます。",
+    "openldap": "組織に Ldap プロトコルでログインできるようになります。",
+    "gitlab": "GitLab アカウントを使用してログ|ンできるようにします。",
+    "github": "あなたの組織をGitHubアカウントを使用してサインインすることができます。",
+    "tls": "tlsを開く",
+    "config_title": "サードパーティ製の証明書の設定"
   },
   "form": {
-    "name": "名稱",
-    "format_rule": "格式錯誤",
-    "ladp_address": "Ldap位址"
+    "name": "注文番號による検索",
+    "format_rule": "フォーマットエラー",
+    "ladp_address": "Ldapのアドレス"
   }
 }
