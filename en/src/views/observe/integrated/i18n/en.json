@@ -2,7 +2,7 @@
   "tip": {
     "middleware": "Middleware",
     "monitor_and_log": "Monitor / Log",
-    "integrated_config": "Integrate Configuration",
+    "integrated_config": "Access Configuration",
     "config_metrics_and_trace": "Configure Trace, Metrics for {0} apps",
     "config_exporter": "Configure exporter of {0} middleware",
     "config_c": "Configure {0}",
@@ -24,18 +24,18 @@
     "no_service_tip": "No service ?create export from <a>App Store</a>",
     "request_path": "Request Path",
     "metrics": "Indicators",
-    "instance_status": "Instance Status",
-    "data_status": "Data Status",
-    "link_2_app": " Click <a>detail</a> to view app status",
-    "preview_data": "Enter <a>metrics explore</a> to preview metrics data",
-    "success_data": "Success to get data",
-    "data_from_prometheus": "Acknowledge receipt of data from prometheus, usually need to wait 3 to 5 minutes",
-    "cpnfirm_project_and_env": "Confirm the running status of the instance under the project <span class=\"px-1\">{0}</span> environment <span class=\"px-1\">{1}</span>"
+    "instance_status": "实例状态",
+    "data_status": "数据状态",
+    "link_2_app": " 点击 <a>详情</a> 查看运行情况",
+    "preview_data": "进入 <a>指标查询器</a> 预览数据",
+    "success_data": "成功监测到数据",
+    "data_from_prometheus": "从prometheus中确认收到数据, 通常需要等待3到5分钟",
+    "cpnfirm_project_and_env": "确认 项目<span class=\"px-1\">{0}</span> 环境<span class=\"px-1\">{1}</span> 下的实例运行状态"
   },
   "operate": {
-    "open": "Open",
+    "open": "On",
     "close": "Close",
-    "refresh_middleware_status": "Check data"
+    "refresh_middleware_status": "检查数据"
   },
   "table": {
     "name": "Name",
@@ -44,7 +44,7 @@
     "unit": "Units"
   },
   "status": {
-    "deploying": "Deploying",
-    "ready": "Ready"
+    "deploying": "部署中",
+    "ready": "已就绪"
   }
 }
