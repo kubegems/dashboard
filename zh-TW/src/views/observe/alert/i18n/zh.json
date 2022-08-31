@@ -1,45 +1,45 @@
 {
   "table": {
-    "summary": "Summary",
-    "fingerprint": "Fingerprint",
-    "expired_at": "Expiration time",
-    "creator": "Created By",
-    "name": "Name",
-    "start_at": "Start Time",
-    "trigger_at": "Trigger Time",
-    "blacklist": "Blacklist",
-    "message": "Details",
-    "severity": "Level"
+    "summary": "摘要",
+    "fingerprint": "指紋",
+    "expired_at": "過期時間",
+    "creator": "創建人",
+    "name": "名稱",
+    "start_at": "開始時間",
+    "trigger_at": "觸發時間",
+    "blacklist": "黑名單",
+    "message": "詳情",
+    "severity": "級別"
   },
   "tip": {
-    "forever": "Persistent",
-    "confirm_remove_blacklist": "Are you sure you want to remove this warning message from the alarm blacklist?",
-    "today_alert": "Today’s Warning",
-    "cleared": "Removed",
-    "triggering": "Alarm",
-    "alert_type": "Warning Categories",
-    "count": "Quantity",
-    "alert_trend": "Alert History Trends",
-    "top_10": "Warning TOP10",
-    "not_changed": "Same",
-    "compare_yestoday": "Yesterday",
-    "yes": "Yes",
-    "confirm_in_blacklist": "Are you sure you want to add this warning message to the Alert Blacklist?",
-    "select_label": "Select Tags",
-    "alert": "Warning",
-    "query_tip": "Blur search rules and tags (multiple keywords separated by spaces)",
-    "query": "Query"
+    "forever": "永久",
+    "confirm_remove_blacklist": "是否確認將此條告警資訊從告警黑名單中移除？",
+    "today_alert": "今日告警",
+    "cleared": "已消除",
+    "triggering": "正在告警",
+    "alert_type": "告警類別",
+    "count": "數量",
+    "alert_trend": "告警歷史趨勢",
+    "top_10": "告警TOP10",
+    "not_changed": "不變",
+    "compare_yestoday": "較昨日",
+    "yes": "是",
+    "confirm_in_blacklist": "是否確認將此條告警資訊加入告警黑名單中？",
+    "select_label": "選擇標籤",
+    "alert": "告警",
+    "query_tip": "模糊搜尋規則與標籤（多個關鍵字請用空白分割）",
+    "query": "查詢"
   },
   "operate": {
-    "remove_blacklist": "Remove blacklist",
-    "in_blacklist": "Blacklist",
-    "go": "Run"
+    "remove_blacklist": "拿掉黑名單",
+    "in_blacklist": "加入黑名單",
+    "go": "運行"
   },
   "filter": {
-    "name": "Name",
-    "resource": "Resources",
-    "rule": "Rules",
-    "status": "Status",
-    "scope": "Scope"
+    "name": "名稱",
+    "resource": "資源",
+    "rule": "規則",
+    "status": "狀態",
+    "scope": "組"
   }
 }
