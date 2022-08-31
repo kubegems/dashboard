@@ -1,45 +1,45 @@
 {
   "table": {
-    "summary": "概要",
-    "fingerprint": "指紋",
-    "expired_at": "有効期限",
-    "creator": "作成者",
-    "name": "注文番号による検索",
-    "start_at": "開始時刻",
-    "trigger_at": "動作開始時間",
-    "blacklist": "ブラックリスト",
+    "summary": "サマリー",
+    "fingerprint": "指紋だ",
+    "expired_at": "効果期",
+    "creator": "作者",
+    "name": "注文番番号によりよる検ソ",
+    "start_at": "開始日",
+    "trigger_at": "開始時間",
+    "blacklist": "案件リスト",
     "message": "詳細",
-    "severity": "レベル"
+    "severity": "レンダード"
   },
   "tip": {
-    "forever": "無期限",
-    "confirm_remove_blacklist": "この警告をサイレンスからサイレンスしますか？",
-    "today_alert": "本日告知",
-    "cleared": "削除された",
+    "forever": "期間無期限",
+    "confirm_remove_blacklist": "この警告をサイレンスからサイランスしますか?",
+    "today_alert": "今日に知らせる",
+    "cleared": "削減された",
     "triggering": "警告中",
-    "alert_type": "お知らせの種類",
-    "count": "個数",
-    "alert_trend": "警告履歴動向",
+    "alert_type": "わせの種だ",
+    "count": "アイテム",
+    "alert_trend": "警告タイミング",
     "top_10": "警察TOP10",
-    "not_changed": "変更なし",
+    "not_changed": "変成し",
     "compare_yestoday": "昨日",
     "yes": "はい",
-    "confirm_in_blacklist": "この警告をサイレンスからサイレンスしますか？",
-    "select_label": "ラベルの選択",
-    "alert": "アラート",
-    "query_tip": "ぼかしの検索ルールとラベル。(複数キーワードはスペースで区切ってください)",
-    "query": "クエリ"
+    "confirm_in_blacklist": "この警告をサイレンスからサイランスしますか?",
+    "select_label": "ラジオヘ量子化して変化",
+    "alert": "アロート",
+    "query_tip": "ほら、これに関する検ゾールとラヘダー（ジャンプリットフロー処理はヘコンシェルショーンで紛らされます）",
+    "query": "クエル"
   },
   "operate": {
-    "remove_blacklist": "ブロックを解除",
-    "in_blacklist": "ブロック",
+    "remove_blacklist": "解釈解放",
+    "in_blacklist": "フロラク",
     "go": "実行"
   },
   "filter": {
-    "name": "注文番号による検索",
+    "name": "注文番番号によりよる検ソ",
     "resource": "リソース",
-    "rule": "ルール",
-    "status": "状態",
-    "scope": "グループ"
+    "rule": "ルタル",
+    "status": "ステータス",
+    "scope": "技は優しいコードだ"
   }
 }
