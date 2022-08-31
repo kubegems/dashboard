@@ -1,7 +1,7 @@
 {
   "table": {
     "name": "DNS",
-    "creator": "作成者"
+    "creator": "ated アカウント創出"
   },
   "filter": {
     "dns_name": "DNS"
