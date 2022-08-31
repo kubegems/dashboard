@@ -1,38 +1,38 @@
 {
   "message": {
-    "message": "消息",
-    "approval": "審批",
-    "no_message": "暫無未讀消息",
-    "no_approval": "暫無未處理審批",
-    "unread_c": "未讀{0}",
-    "clear": "清除未讀"
+    "message": "メッセージ",
+    "approval": "承認",
+    "no_message": "未読メッセージはありません",
+    "no_approval": "まだ承認されていない承認者はいません",
+    "unread_c": "未読{0}",
+    "clear": "未読を除く"
   },
   "about": {
-    "api_version": "Api版本",
-    "api_release_time": "Api版本日期",
-    "go_version": "go版本",
-    "compile": "編譯",
-    "compile_platform": "編譯平臺",
-    "dashboard_version": "Dashboard版本",
-    "dashboard_release_time": "Dashboard版本日期"
+    "api_version": "Api バージョン",
+    "api_release_time": "API 日付",
+    "go_version": "goバージョン",
+    "compile": "コンパイル",
+    "compile_platform": "ビルドプラットフォーム",
+    "dashboard_version": "Dashboardバージョン",
+    "dashboard_release_time": "Dashboardバージョン日付"
   },
   "status": {
-    "enabled": "啟用",
-    "disabled": "禁用"
+    "enabled": "有効",
+    "disabled": "無効"
   },
   "table": {
-    "tenant": "租戶",
+    "tenant": "テナント",
     "status": "狀態"
   },
   "operate": {
-    "approve": "通過",
-    "reject": "拒絕"
+    "approve": "経由",
+    "reject": "拒否"
   },
   "tip": {
-    "tenant": "當前租戶",
-    "resource_scale": "資源調整",
-    "project_address": "項目位址",
-    "issue": "問題反饋",
-    "star": "標星"
+    "tenant": "現在のテナント",
+    "resource_scale": "リソース調整",
+    "project_address": "プロジェクト URL",
+    "issue": "MoKeeバグトラッカー",
+    "star": "スター"
   }
 }
