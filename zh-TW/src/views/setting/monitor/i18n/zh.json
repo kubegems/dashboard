@@ -1,27 +1,27 @@
 {
   "filter": {
-    "template_name": "模版名稱"
+    "template_name": "テンプレート名"
   },
   "table": {
-    "name": "名稱",
-    "refresh": "刷新間隔",
-    "description": "描述",
-    "graph_count": "圖表數量",
-    "expr": "表達式",
-    "unit": "單位",
-    "generator": "組 | 資源 | 規則"
+    "name": "注文番號による検索",
+    "refresh": "更新間隔",
+    "description": "説明",
+    "graph_count": "グラフの数",
+    "expr": "評価式",
+    "unit": "単位",
+    "generator": "グループ | リソース | ルール"
   },
   "tab": {
-    "template_info": "模版資訊"
+    "template_info": "テンプレート情報"
   },
   "tip": {
-    "graph": "圖表",
-    "start": "起始時間",
-    "end": "結束時間",
+    "graph": "グラフ",
+    "start": "開始時刻",
+    "end": "終了時刻",
     "step": "間隔",
-    "rule": "規則"
+    "rule": "ルール"
   },
   "operate": {
-    "load_c": "匯入{0}"
+    "load_c": "インポート{0}"
   }
 }
