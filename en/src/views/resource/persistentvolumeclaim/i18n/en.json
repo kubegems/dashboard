@@ -8,12 +8,12 @@
     "capacity": "Capacity"
   },
   "filter": {
-    "pvc_name": "Store volume name"
+    "pvc_name": "Storage volume name"
   },
   "operate": {
     "scale": "Expansion",
     "create_snapshot": "Create snapshot",
-    "scale_pvc": "Extended Store Volume"
+    "scale_pvc": "Extended Storage Volume"
   },
   "status": {
     "mounted": "Mounted",
@@ -34,7 +34,7 @@
     "volume_name": "Volume Name"
   },
   "form": {
-    "storage_rule": "Wrong format (Example: 1 Ki,1Mi,1 Gi,1 Ti)",
+    "storage_rule": "Wrong format (Example: 1Ki,1Mi,1Gi,1Ti)",
     "limit_min_rule": "Less than current value"
   }
 }
