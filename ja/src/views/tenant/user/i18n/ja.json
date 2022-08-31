@@ -1,36 +1,36 @@
 {
   "table": {
-    "name": "名称",
-    "status": "状态",
-    "email": "邮箱",
-    "mobile": "手机号",
-    "role": "角色",
-    "last_login_at": "最近登录",
-    "registe_at": "注册时间"
+    "name": "Name",
+    "status": "Status",
+    "email": "メール",
+    "mobile": "Mobile",
+    "role": "Role",
+    "last_login_at": "Last Login Time",
+    "registe_at": "Registe Time"
   },
   "filter": {
-    "username_or_email": "用户名或邮箱"
+    "username_or_email": "Username つきメール"
   },
   "operate": {
-    "role": "角色",
-    "reset_pwd": "重设密码"
+    "role": "Set Role",
+    "reset_pwd": "Reet Passwd"
   },
   "status": {
-    "enabled": "启用",
-    "disabled": "禁用"
+    "enabled": "Enabled",
+    "disabled": "Disabled"
   },
   "tip": {
-    "role_title": "用户系统角色",
-    "passwd_title": "重设用户密码",
-    "random_passwd": "生成随机密码"
+    "role_title": "User system role",
+    "passwd_title": "Reet password",
+    "random_passwd": "Generate random password"
   },
   "resource": {
-    "password": "密码"
+    "password": "パスワードの指定"
   },
   "form": {
-    "new_passwd": "新密码",
-    "username": "用户名",
-    "passwd": "密码",
-    "email": "邮箱"
+    "new_passwd": "New Password",
+    "username": "ユーザ ID",
+    "passwd": "パスワードの指定",
+    "email": "メール"
   }
 }
