@@ -1,26 +1,26 @@
 {
   "tip": {
-    "select_project": "請先選擇專案",
-    "enable_scan": "啟用鏡像掃描和分析報告",
-    "yes": "是",
-    "no": "否",
-    "set_default": "將鏡像倉庫 {0} 置為預設倉庫",
-    "cancel_default": "取消鏡像倉庫 {0} 的預設設置"
+    "select_project": "Please select items first",
+    "enable_scan": "Enable mirror scanning and analysis",
+    "yes": "Yes",
+    "no": "No",
+    "set_default": "Place mirror repository {0} as default repository",
+    "cancel_default": "Canceling default settings for repository {0}"
   },
   "filter": {
-    "registry_name": "鏡像倉庫名稱"
+    "registry_name": "Image repository name"
   },
   "table": {
-    "name": "倉庫名稱",
-    "address": "倉庫位址",
-    "default": "默認倉庫",
-    "username": "使用者名",
-    "creator": "創建人",
-    "last_update_at": "最近更新時間",
-    "passwd": "密碼"
+    "name": "Repository Name",
+    "address": "Repository Address",
+    "default": "Default repository",
+    "username": "Username",
+    "creator": "Created By",
+    "last_update_at": "Last updated",
+    "passwd": "Password"
   },
   "operate": {
-    "set_default": "設置預設倉庫",
-    "cancel_default": "取消預設倉庫"
+    "set_default": "Set Default Repository",
+    "cancel_default": "Cancel Default Repository"
   }
 }
