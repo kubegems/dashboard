@@ -1,10 +1,10 @@
 {
   "table": {
-    "name": "Endpoint authentication name",
-    "label": "Match Tags",
-    "tls": "TLS Settings"
+    "name": "エテントすることで対戦認証証名",
+    "label": "一貫したタク添え",
+    "tls": "TLS 設定"
   },
   "filter": {
-    "peer_name": "Endpoint authentication name"
+    "peer_name": "エテントすることで対戦認証証名"
   }
 }
