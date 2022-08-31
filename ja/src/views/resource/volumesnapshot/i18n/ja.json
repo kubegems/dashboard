@@ -1,17 +1,17 @@
 {
   "table": {
-    "name": "napshot Name",
-    "class": "Snapshot Classs",
-    "origin_pvc": "Source Storage Volume"
+    "name": "スナッフィールド名",
+    "class": "スナッフルハーフ クエスト",
+    "origin_pvc": "ソース記憶ホローム"
   },
   "filter": {
-    "snapshot_name": "napshot Name"
+    "snapshot_name": "スナッフィールド名"
   },
   "operate": {
-    "restore": "napshot recovery"
+    "restore": "スナッフルボルト 復帰可能"
   },
   "form": {
-    "name": "Snapshot",
-    "pvc_name": "Storage volume name"
+    "name": "スナッフルハーフ リスト",
+    "pvc_name": "メレンコ情報処理のスネ校名"
   }
 }
