@@ -1,9 +1,9 @@
 {
   "table": {
-    "name": "Side name",
-    "label": "Match Tags"
+    "name": "邊車名稱",
+    "label": "匹配標籤"
   },
   "filter": {
-    "sidecar_name": "Side name"
+    "sidecar_name": "邊車名稱"
   }
 }
