@@ -1,31 +1,31 @@
 {
   "table": {
-    "status": "状態",
-    "pods": "コンテナグループ",
-    "restart_count": "再起動",
-    "name": "注文番号による検索",
-    "port": "ポート",
-    "selector": "セレクタ",
+    "status": "ステータス",
+    "pods": "ジョンテナクフロルフ...",
+    "restart_count": "後で始めてください",
+    "name": "注文番番号によりよる検ソ",
+    "port": "ホ゜ート",
+    "selector": "セイレーサータ",
     "host": "ホスト:"
   },
   "filter": {
-    "gateway_name": "ゲートウェイインスタンス名"
+    "gateway_name": "ケオフローウェインスタンス名"
   },
   "operate": {
     "detail": "詳細"
   },
   "tab": {
-    "gateway_resource": "ゲートウェイリソース",
-    "virtualservice": "仮想サービス",
-    "pods": "ゲートウェイ・コンテナグループ",
-    "monitor": "ゲートウェイモニター"
+    "gateway_resource": "ケ動作した データウェブス",
+    "virtualservice": "仮能ヒフロス",
+    "pods": "ケフローストウェブ・コンテナクのスファイフ 変化",
+    "monitor": "ケオティストウジェモニー"
   },
   "tip": {
-    "egress_qps": "トラフィックのエクスポート中",
-    "egress_time": "トラフィックのエクスポートの応答時間",
-    "ingress_80_qps": "80ポートのエントリー数 qps",
-    "ingress_80_time": "80ポートエントリーポータル応答時間",
-    "ingress_443_qps": "443ポートのエントリー数 qps",
-    "ingress_443_time": "443ポートエントリーポータル応答時間"
+    "egress_qps": "おもてなしのエクショウィ",
+    "egress_time": "おもてなしのエクショウ゜メールの応時間。",
+    "ingress_80_qps": "80バッファー表示数 qps",
+    "ingress_80_time": "80ホテイッポンクラシック(ERL)のクーペ！",
+    "ingress_443_qps": "443ホテイートのエテント数 qps",
+    "ingress_443_time": "443ホッポンチェッホー！"
   }
 }
