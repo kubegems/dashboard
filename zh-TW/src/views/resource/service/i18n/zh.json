@@ -1,33 +1,33 @@
 {
   "filter": {
-    "service_name": "服務名稱"
+    "service_name": "Service Name"
   },
   "table": {
-    "name": "名稱",
-    "access_info": "訪問資訊",
-    "service_type": "服務類型（ExternalIp/LoadBalancerIp）"
+    "name": "Name",
+    "access_info": "Access Info",
+    "service_type": "Type of service (ExternalIp/LoadBalancerIp)"
   },
   "tip": {
-    "add_port_tip": "請添加埠配置",
-    "label": "匹配標籤",
-    "type": "類型",
-    "service_port": "服務埠",
-    "container_port": "容器埠",
-    "host_port": "主機埠",
-    "link_workload": "關聯工作負載",
-    "access_type": "訪問類型",
-    "extend_access": "外部訪問",
-    "keep_alive": "工作階段保持（秒）",
-    "port_config": "埠配置",
-    "port": "埠",
-    "annotation": "註解",
-    "vip": "集群內部IP訪問（VirtualIP）",
-    "headless": "透過服務後端EndpointIP訪問（Headless）",
-    "no_access": "禁止訪問",
-    "protocol": "應用協定"
+    "add_port_tip": "Please add port configuration",
+    "label": "Match Tags",
+    "type": "Type",
+    "service_port": "Service Port",
+    "container_port": "Container Port",
+    "host_port": "Host Port",
+    "link_workload": "Relation Work Load",
+    "access_type": "Access Type",
+    "extend_access": "External access",
+    "keep_alive": "Session Keep (seconds)",
+    "port_config": "Port Configuration",
+    "port": "Port",
+    "annotation": "Note",
+    "vip": "Internal IP Access to Cluster (VirtualIP)",
+    "headless": "Access via Service Backend EndpointIP (Headless)",
+    "no_access": "Disable access",
+    "protocol": "Application Protocol"
   },
   "form": {
-    "name_rule": "名稱格式錯誤（<protocol>[-<suffix>]）",
-    "limit_max_rule": "超出最大限制"
+    "name_rule": "Incorrect name format (<protocol>[-<suffix>])",
+    "limit_max_rule": "Maximum limit exceeded"
   }
 }
