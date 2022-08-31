@@ -2,7 +2,7 @@
   "table": {
     "status": "Status",
     "pods": "Container Group",
-    "restart_count": "Start count",
+    "restart_count": "Restart count",
     "name": "Name",
     "port": "Port",
     "selector": "Selector",
