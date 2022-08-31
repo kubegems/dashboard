@@ -3,7 +3,7 @@
     "app_name": "App name"
   },
   "operate": {
-    "link_c": "Associate {0}",
+    "link_c": "Associate{0}",
     "advanced_deploy": "Advanced deployment",
     "scale_replicas": "Adjust number of copies",
     "rollback": "Rollback",
@@ -14,7 +14,7 @@
     "platform_app": "Platform app",
     "app_store_app": "App Store App",
     "model_store_app": "Algorithm Store App",
-    "used": "{0} Usage",
+    "used": "{0}Usage",
     "gpu_temp": "GPU temperature",
     "gpu_power": "GPU power",
     "version": "Version",
@@ -23,7 +23,7 @@
     "dest_replicas": "Number of target copies",
     "error_info": "Error message",
     "model_instance": "Model Instances",
-    "allocated": "Assigned {0}",
+    "allocated": "Assigned{0}",
     "unallocated": "Unassigned",
     "protocol": "Protocol",
     "params": "Parameters",
