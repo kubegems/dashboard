@@ -1,1 +1,6 @@
-{}
+{
+  "tip": {
+    "management": "平臺管理",
+    "management_desc": "以管理員身份查看操作所有資源。"
+  }
+}

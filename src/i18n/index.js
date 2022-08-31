@@ -21,6 +21,7 @@ import VueI18n from 'vue-i18n';
 import en from '@/i18n/en.json';
 import ja from '@/i18n/ja.json';
 import zhHans from '@/i18n/zh-Hans.json';
+import zhHant from '@/i18n/zh-Hant.json';
 import store from '@/store';
 
 Vue.use(VueI18n);
@@ -28,7 +29,7 @@ Vue.use(VueI18n);
 const i18n = new VueI18n({
   locale: store.state.Locale,
   fallbackLocale: store.state.Locale,
-  messages: { ['zh-Hans']: zhHans, en, ja },
+  messages: { ['zh-Hans']: zhHans, en, ja, ['zh-Hant']: zhHant },
 });
 
 Vue.prototype.$_i18n = i18n;

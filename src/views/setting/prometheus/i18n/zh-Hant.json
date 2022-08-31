@@ -1,1 +1,29 @@
-{}
+{
+  "table": {
+    "name": "名稱",
+    "unit": "單位",
+    "rule": "規則",
+    "label": "標籤"
+  },
+  "form": {
+    "name": "名稱",
+    "show_name": "顯示名稱",
+    "label": "標籤（回車）",
+    "unit": "單位",
+    "description": "描述"
+  },
+  "tip": {
+    "group_and_resource": "組/資源",
+    "group": "組",
+    "select_resource": "請選擇一個資源",
+    "default": "預設",
+    "byte": "位元組",
+    "byte_rate": "位元組速率",
+    "time": "時間",
+    "precent": "百分比",
+    "custom": "自訂"
+  },
+  "filter": {
+    "search": "搜索"
+  }
+}

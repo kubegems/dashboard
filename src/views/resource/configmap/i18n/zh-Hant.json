@@ -1,1 +1,13 @@
-{}
+{
+  "table": {
+    "name": "配置名",
+    "item": "配置項",
+    "create_at": "創建時間"
+  },
+  "filter": {
+    "configmap_name": "配置名稱"
+  },
+  "form": {
+    "name": "配置名"
+  }
+}

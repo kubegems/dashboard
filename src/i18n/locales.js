@@ -26,8 +26,8 @@ module.exports = [
     title: '日本',
     locale: 'ja',
   },
-  // {
-  //   title: '繁體中文',
-  //   locale: 'zh-Hant',
-  // },
+  {
+    title: '繁體中文',
+    locale: 'zh-Hant',
+  },
 ];
