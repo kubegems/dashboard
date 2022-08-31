@@ -54,13 +54,13 @@
     "required": "Required fields",
     "resource_deploy": "Resource deployment",
     "replicas": "Number of Instances",
-    "allocated": "Assign {0}",
+    "allocated": "Assign{0}",
     "video_card": "Visual Card",
     "can_use": "Available",
     "total": "Total",
     "core": "Core",
-    "experience": "Model Experience",
-    "not_support": "Not Support"
+    "experience": "模型体验",
+    "not_support": "暂不支持"
   },
   "tab": {
     "description": "Introduction",
@@ -91,9 +91,9 @@
     "reply": "Reply",
     "publish_comment": "Comment",
     "publish_reply": "Post Reply",
-    "reply_c": "Reply to {0}",
+    "reply_c": "Reply to{0}",
     "view_deploy_status": "View Deployment Status",
-    "experience": "Experience"
+    "experience": "体验"
   },
   "form": {
     "cpu_rule": "Wrong format (example:1m,1)",
