@@ -1,37 +1,37 @@
 {
   "filter": {
-    "pod_name": "コンテナグループ名",
-    "status": "状態"
+    "pod_name": "コンテイナクオッフィールド名",
+    "status": "ステータス"
   },
   "table": {
-    "name": "コンテナグループ",
-    "status": "状態",
-    "container_count": "コンテント数",
-    "restart_count": "再起動",
+    "name": "ジョンテナクフロルフ...",
+    "status": "ステータス",
+    "container_count": "アカウント数",
+    "restart_count": "後で始めてください",
     "used": "{0}使用量",
     "container_name": "コンテナ名",
     "image": "ミラー"
   },
   "tab": {
-    "container": "コンテナ"
+    "container": "コナナ"
   },
   "tip": {
     "no_limit": "無制限",
-    "probe": "プロフィール",
-    "live_probe": "コンパス",
-    "read_probe": "プローブ。",
-    "start_probe": "プローブ起動",
+    "probe": "フィルハーバール",
+    "live_probe": "コンハーフ",
+    "read_probe": "フロッフロフロフロフロップ。",
+    "start_probe": "フィルハーフ 情報うえで動く",
     "no_operate": "扱えません",
     "in_traffic": "通信速度",
-    "out_traffic": "ネットワークトラフィック",
+    "out_traffic": "デネットチョークラフィク",
     "ip": "{0}IP",
-    "volume": "ボリューム",
-    "env": "環境変数",
-    "condition": "有効ステータス",
-    "last_change_at": "最終変更日時"
+    "volume": "処理はブーム",
+    "env": "環境変化",
+    "condition": "効果テイタス",
+    "last_change_at": "最終変化"
   },
   "operate": {
-    "terminal": "ターミナル",
-    "log": "ログ"
+    "terminal": "スターミール",
+    "log": "ロク縦書き人"
   }
 }
