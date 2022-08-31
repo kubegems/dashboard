@@ -1,42 +1,42 @@
 {
   "table": {
-    "name": "Name",
-    "alias": " Alias",
-    "environment_space": "Environment Space",
-    "create_at": "Create Time",
-    "used": "国： {0}"
+    "name": "注文番号による検索",
+    "alias": "エイリアス",
+    "environment_space": "環境空間",
+    "create_at": "作成日時",
+    "used": "{0} 使用中"
   },
   "filter": {
     "name": "プロジェクト名"
   },
   "tip": {
-    "tenant": "Please choose a tenant",
-    "tenant_creat_or_join": "Please create or join a tenat",
-    "resource_list": "Resource Usage",
-    "resource_count": "Resource Statistics",
-    "policy": "Policy"
+    "tenant": "テナントを選択してください",
+    "tenant_creat_or_join": "作成またはテナントを追加してください。",
+    "resource_list": "リソース使用一覧",
+    "resource_count": "資源統計",
+    "policy": "ストラテジー"
   },
   "form": {
     "project": {
-      "name": "Name",
-      "nameRule": "Exceed the 20 character limit",
-      "alias": "Alias",
-      "remark": "Remark"
+      "name": "注文番号による検索",
+      "nameRule": "20 文字制限を超え",
+      "alias": "エイリアス",
+      "remark": "説明"
     }
   },
   "environment": {
     "table": {
-      "environment_space": "Environment Space",
-      "environment_type": "Environment Type",
-      "namespace": "ネームスペース（ネームスペース）",
-      "creator": "Creator",
-      "network_isolation": "Network Isolation",
-      "used": "国： {0}"
+      "environment_space": "環境空間",
+      "environment_type": "環境タイプ",
+      "namespace": "名前空間",
+      "creator": "作成者",
+      "network_isolation": "ネットワーク分離",
+      "used": "{0} 使用中"
     },
     "type": {
-      "dev": "Development",
-      "test": "Test",
-      "prod": "Production"
+      "dev": "開発",
+      "test": "テスト",
+      "prod": "生産品"
     }
   }
 }
