@@ -5,7 +5,7 @@
   },
   "event": {
     "event": "Event",
-    "cluster": "Cluster"
+    "cluster": "クラスター"
   },
   "project": {
     "table": {
@@ -28,6 +28,6 @@
     "title": "Sacle Resource"
   },
   "tip": {
-    "tenant": "Please create or join a tenant"
+    "tenant": "Please create or join a tenat"
   }
 }
