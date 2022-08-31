@@ -1,27 +1,28 @@
 {
   "table": {
-    "name": "注文番号による検索",
-    "issuer": "発行者",
-    "expire_at": "有効期限",
-    "renew_at": "自動ログイン時間",
-    "issuer_type": "発行者タイプ",
-    "secret_name": "キー名",
+    "name": "Name",
+    "issuer": "Issuer",
+    "expire_at": "Expiration Time",
+    "renew_at": "Auto-renew time",
+    "issuer_type": "Issue エージェント",
+    "secret_name": "KeyName",
     "dns_name": "DNS 名",
-    "extend": "拡張"
+    "extend": "拡張機能のダウンロード",
+    "status": "Status"
   },
   "filter": {
-    "cert_name": "注文番号による検索"
+    "cert_name": "Name"
   },
   "tip": {
-    "key_use": "公開鍵のメイジ"
+    "key_use": "Public sages"
   },
   "form": {
-    "name": "注文番号による検索",
-    "issuer_type": "機関タイプ",
-    "ingress": "リレーションシップヤード名",
-    "expire_at": "証明書の有効期間",
-    "auto_renew": "自動ログイン",
-    "cert_use": "証明書の利用",
-    "domain": "認証ドメイン"
+    "name": "Name",
+    "issuer_type": "Organization Type",
+    "ingress": "Reation address name",
+    "expire_at": "Certificate Expiration",
+    "auto_renew": "Auto Renewal",
+    "cert_use": "Certificate usage",
+    "domain": "Grant Domain"
   }
 }
