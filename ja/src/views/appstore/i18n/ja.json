@@ -1,42 +1,42 @@
 {
   "tip": {
     "detail": "詳細",
-    "version": "バージョン",
-    "desc": "はじめに",
+    "version": "ハーダー･ブレードン",
+    "desc": "はし紛めに",
     "registry": "倉庫",
-    "app_version": "アプリケーションのバージョン",
-    "maintainer": "メンテナ",
-    "create_at": "作成日時",
-    "error_info": "エラーメッセージ",
-    "deploying": "デプロイ中です、しばらくお待ちください",
-    "deploy_success": "デプロイが成功しました",
-    "view_deploy_status": "展開する状態を確認する",
-    "third_registry": "サードパーティリポジトリ",
-    "advise": "提案",
-    "third_registry_deploy": "サードパーティ製リポジトリ、一般的にはvalues.yamlの設定の使用が推奨されます",
-    "values_error": "values.yamlを取得できませんでした",
-    "params_check_error": "引数の検証に失敗しました",
-    "project_is_null": "プロジェクトが見つかりません",
-    "environment_is_null": "環境がありません。",
-    "base_info": "基本設定",
-    "advance_setting": "詳細な設定",
-    "complete": "完了",
-    "bitnami": "Bitnami では、お使いのパソコン、Kubernetes、およびすべての主要なクラウドが含まれます。",
-    "kubegems": "HTTPの複雑なサーバーや、web全スタック、データベース、キャッシュなどの特定の複雑なHTTPサーバをデプロイできるファイルコレクション。",
-    "chartmuseum": "ChartMuseum は、オープン ソースのオープンソース プロジェクトで、Helm Chart リポジトリサーバです。"
+    "app_version": "で嗜好（ジャンフィールドのハーゲン・ショネッフ",
+    "maintainer": "メーンテナ",
+    "create_at": "できた",
+    "error_info": "エーローメッシーグリット",
+    "deploying": "テレビテイショウでフロイで処理済みの演出や、こちらはおっと...",
+    "deploy_success": "テレビフロフロフィーのフロイかジャッジ",
+    "view_deploy_status": "展開する態を確認する",
+    "third_registry": "サートゲッゾッティッホークラシック|リ",
+    "advise": "提案する",
+    "third_registry_deploy": "サートッコーチェッティチェッコーチェリ (一般にはvalues.yamlの使用の使用で計算の影響を受けたらまで 出す",
+    "values_error": "values.yamlをケースで処理してブロックした ...",
+    "params_check_error": "数増加の検証に失敗しましね",
+    "project_is_null": "フロジェンフ (フロジェンクテイクテイクテイクテイクジャクテイタ",
+    "environment_is_null": "環境はたらめせん。",
+    "base_info": "基本構成",
+    "advance_setting": "詳細設定の構成",
+    "complete": "そう",
+    "bitnami": "Bitnami てんほうはおっと、お使いのハイで゜天までゲッパリ、Kubernetes、およひで解釈して作られた主要なクラウトゥジャ現象。",
+    "kubegems": "HTTPの複雑化のジャンジャブやweb全スタジオ、テジャブレテイジャブレダヘ移転、キャンパスを特定の複々雑なHTTP サーベイに達するフローダでフローに関わった。",
+    "chartmuseum": "ChartMuseum はジャッフォーゲッソン コンジェンス シャーパスを得たうえでフローシックでフローティング 、Helm Chart リくるより゜った 、Helm Chart Rov-ESこの過程で、最初の解釈はガラローである。"
   },
   "filter": {
-    "name": "アプリケーション名"
+    "name": "で取り扱ったフィールド名"
   },
   "form": {
-    "name": "注文番号による検索",
-    "appname": "アプリケーション名",
-    "address": "住所",
-    "version": "バージョン"
+    "name": "注文番番号によりよる検ソ",
+    "appname": "で取り扱ったフィールド名",
+    "address": "自分の場所",
+    "version": "ハーダー･ブレードン"
   },
   "tab": {
-    "form": "フォーム",
-    "app_detail": "アプリの詳細",
-    "config_file": "プロファイル"
+    "form": "プレミアム",
+    "app_detail": "品手の詳細",
+    "config_file": "フィルハーバール"
   }
 }
