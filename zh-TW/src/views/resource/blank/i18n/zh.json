@@ -1,10 +1,10 @@
 {
   "tip": {
-    "no_cluster": "Your tenant has not assigned any cluster resources!",
-    "no_cluster_tip": "You can contact the system administrator to allocate cluster resources to your tenants",
-    "no_tenant": "You don't belong to any tenant yet!",
-    "no_tenant_tip": "You can contact an administrator of a tenant to invite you to join a tenant or create a new tenant",
-    "leave_tenant": "You have quit the current tenant, please select the tenant again!",
-    "leave_tenant_tip": "You can contact the tenant administrator to invite you to rejoin the tenant"
+    "no_cluster": "您的租戶暫未分配任何集群資源！",
+    "no_cluster_tip": "您可以聯繫系統管理員為您所在的租戶分配集群資源",
+    "no_tenant": "您暫時不屬於任何租戶！",
+    "no_tenant_tip": "您可以聯繫某個租戶的管理員邀請您加入租戶中或者創建新的租戶",
+    "leave_tenant": "您已退出當前租戶，請重新選擇租戶！",
+    "leave_tenant_tip": "您可以聯繫租戶的管理員邀請您重新加入租戶中"
   }
 }
