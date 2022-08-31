@@ -2,7 +2,7 @@
   "tip": {
     "middleware": "Middleware",
     "monitor_and_log": "Monitor / Log",
-    "integrated_config": "Access Configuration",
+    "integrated_config": "Integrate Configuration",
     "config_metrics_and_trace": "Configure Trace, Metrics for {0} apps",
     "config_exporter": "Configure exporter of {0} middleware",
     "config_c": "Configure {0}",
@@ -24,15 +24,18 @@
     "no_service_tip": "No service ?create export from <a>App Store</a>",
     "request_path": "Request Path",
     "metrics": "Indicators",
-    "integated_info": "接入信息",
-    "integated_status": "接入状态",
-    "integated_complete": "接入完成",
-    "link_2_app": "点击 <a>跳转</a> 至应用"
+    "instance_status": "Instance Status",
+    "data_status": "Data Status",
+    "link_2_app": " Click <a>detail</a> to view app status",
+    "preview_data": "Enter <a>metrics explore</a> to preview metrics data",
+    "success_data": "Success to get data",
+    "data_from_prometheus": "Acknowledge receipt of data from prometheus, usually need to wait 3 to 5 minutes",
+    "cpnfirm_project_and_env": "Confirm the running status of the instance under the project <span class=\"px-1\">{0}</span> environment <span class=\"px-1\">{1}</span>"
   },
   "operate": {
-    "open": "On",
+    "open": "Open",
     "close": "Close",
-    "refresh_middleware_status": "刷新中间件接入状态"
+    "refresh_middleware_status": "Check data"
   },
   "table": {
     "name": "Name",
@@ -41,7 +44,7 @@
     "unit": "Units"
   },
   "status": {
-    "deploying": "部署中",
-    "ready": "已就绪"
+    "deploying": "Deploying",
+    "ready": "Ready"
   }
 }
