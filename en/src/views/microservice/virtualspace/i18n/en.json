@@ -1,33 +1,33 @@
 {
   "table": {
-    "name": "Virtual Space Name",
+    "name": "Instrument for standardized international reporting of military expenditures",
     "status": "Status",
-    "creator": "Created By",
-    "environment_type": "Environment Type",
-    "remark": "Remarks"
+    "creator": "Author",
+    "environment_type": "Stig Stig Stig Stig",
+    "remark": "Spectrum"
   },
   "filter": {
-    "mesh_name": "Virtual Space Name"
+    "mesh_name": "Instrument for standardized international reporting of military expenditures"
   },
   "status": {
-    "activated": "Activated",
-    "inactivated": "Not activated"
+    "activated": "There is a sex worker",
+    "inactivated": "Non-UPU Ministry of National Communications Ministry of Finance"
   },
   "operate": {
-    "activate": "Activate",
-    "inactivate": "Close",
-    "activate_c": "Activate{0}",
-    "inactivate_c": "Close{0}",
-    "link_c": "Associate{0}",
-    "delete_linked_env": "Remove virtual space association environment"
+    "activate": "There is a sex worker",
+    "inactivate": "Disclose military service",
+    "activate_c": "{0}made a presentation with a statement that was sent to the main expert who had the opportunity to submit a statement to the United Nations High Commissioner for Human Rights.",
+    "inactivate_c": "{0} made it possible to mute the detachment",
+    "link_c": "{0} is coming together as an expert",
+    "delete_linked_env": "Instrument for standardized international reporting of"
   },
   "tip": {
-    "set_status": "Set virtual space status",
-    "link_environment": "Please link environment",
-    "mesh_member": "Virtual space users inherit from members of the environment"
+    "set_status": "Spectrum suppressants settings",
+    "link_environment": "Pharmaceuticals Settings Prenade Frontiers Spectrum Spectrum Spectrum Spectrum Shopping Sterilinee Strophy Spectrum Spectrum Spectrum Spectrum",
+    "mesh_member": "• Outside Ministry of Health and Social Welfare"
   },
   "form": {
-    "name": "Virtual Space Name",
-    "name_rule": "More than 20 characters"
+    "name": "Instrument for standardized international reporting of military expenditures",
+    "name_rule": "20 Text Limit Speech to Super Super Super Medical"
   }
 }
