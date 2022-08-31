@@ -1,13 +1,13 @@
 {
   "table": {
-    "name": "Name",
+    "name": "Scripting numbers are leading to the Soco",
     "status": "Status",
-    "last_update_time": "Last updated"
+    "last_update_time": "Termination update day"
   },
   "filter": {
-    "crd_name": "cd name"
+    "crd_name": "crdname"
   },
   "tab": {
-    "cr_list": "CRs List"
+    "cr_list": "SAL Ministry of Finance"
   }
 }
