@@ -1,30 +1,30 @@
 {
   "table": {
-    "name": "負荷名",
-    "version": "バージョン",
-    "status": "状態",
-    "label": "タグ",
-    "restart_count": "再起動"
+    "name": "負載名稱",
+    "version": "版本",
+    "status": "狀態",
+    "label": "標籤",
+    "restart_count": "重啟次數"
   },
   "filter": {
-    "workload_name": "負荷名"
+    "workload_name": "負載名稱"
   },
   "tip": {
-    "auto_inject": "自動的にコメントする",
-    "realtime": "リアルタイム",
-    "no_pod": "コンテナグループは存在しません"
+    "auto_inject": "自動注入",
+    "realtime": "即時",
+    "no_pod": "不存在容器組"
   },
   "operate": {
-    "inject": "SideCar 注入",
-    "uninject": "SideCar (インジェクション)",
-    "inject_c": "SideCar にアプリケーション {0} を挿入する",
-    "uninject_c": "サイドカーへのインジェクションが {0} のアプリの取外し"
+    "inject": "注入SideCar",
+    "uninject": "取消注入SideCar",
+    "inject_c": "為應用 {0} 注入SideCar",
+    "uninject_c": "為應用 {0} 取消注入SideCar"
   },
   "tab": {
-    "network_topology": "トポロジー",
-    "log": "ログ",
-    "ingress": "入口トラフィック",
-    "egress": "トラフィックのエクスポート",
-    "trace": "トラッキングリンクの設定"
+    "network_topology": "流量拓撲",
+    "log": "日誌",
+    "ingress": "入口流量",
+    "egress": "出口流量",
+    "trace": "鏈路追蹤"
   }
 }
