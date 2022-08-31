@@ -1,36 +1,36 @@
 {
   "table": {
-    "name": "Name",
-    "status": "Status",
-    "email": "Email",
-    "mobile": "Mobile",
-    "role": "Role",
-    "last_login_at": "Last Login Time",
-    "registe_at": "Registe Time"
+    "name": "名稱",
+    "status": "狀態",
+    "email": "郵箱",
+    "mobile": "手機號",
+    "role": "角色",
+    "last_login_at": "最近登錄",
+    "registe_at": "註冊時間"
   },
   "filter": {
-    "username_or_email": "Username or email"
+    "username_or_email": "使用者名或郵箱"
   },
   "operate": {
-    "role": "Set Role",
-    "reset_pwd": "Reset Passwd"
+    "role": "角色",
+    "reset_pwd": "重設密碼"
   },
   "status": {
-    "enabled": "Enabled",
-    "disabled": "Disabled"
+    "enabled": "啟用",
+    "disabled": "禁用"
   },
   "tip": {
-    "role_title": "User system role",
-    "passwd_title": "Reset password",
-    "random_passwd": "Generate random password"
+    "role_title": "用戶系統角色",
+    "passwd_title": "重設用戶密碼",
+    "random_passwd": "生成隨機密碼"
   },
   "resource": {
-    "password": "Password"
+    "password": "密碼"
   },
   "form": {
-    "new_passwd": "New Password",
-    "username": "Username",
-    "passwd": "Password",
-    "email": "Email"
+    "new_passwd": "新密碼",
+    "username": "使用者名",
+    "passwd": "密碼",
+    "email": "郵箱"
   }
 }
