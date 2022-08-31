@@ -1,63 +1,63 @@
 {
   "tab": {
-    "message": "メッセージボックス",
-    "audit": "操作履歴",
-    "setting": "パーソナル設定",
-    "auth": "認証"
+    "message": "Message Box",
+    "audit": "Action History",
+    "setting": "Personal Settings",
+    "auth": "Authorization"
   },
   "table": {
-    "email": "メール",
-    "mobile": "携帯電話",
-    "registe_at": "登録日",
-    "last_login_at": "最終ログイン"
+    "email": "Email",
+    "mobile": "Phone number",
+    "registe_at": "Registration Time",
+    "last_login_at": "Last Login"
   },
   "message": {
     "table": {
-      "message": "メッセージ",
-      "time": "時間",
-      "type": "タイプ"
+      "message": "Message",
+      "time": "Time",
+      "type": "Type"
     },
     "filter": {
-      "notify": "お知らせ",
-      "approval": "承認",
-      "alert": "アラート"
+      "notify": "Announcements",
+      "approval": "Approve",
+      "alert": "Warning"
     }
   },
   "audit": {
     "table": {
-      "trigger_time": "動作開始時間",
-      "tenant": "テナント",
-      "account": "ユーザー",
-      "operate": "アクション",
-      "object": "オブジェクト",
-      "label": "タグ",
-      "status": "状態"
+      "trigger_time": "Trigger Time",
+      "tenant": "Tenant",
+      "account": "User",
+      "operate": "Operations",
+      "object": "Object",
+      "label": "Tags",
+      "status": "Status"
     }
   },
   "setting": {
     "tip": {
-      "personal_info": "個人情報",
-      "old": "草原{0}",
-      "new": "新しい{0}",
-      "confirm_passwd": "新しいパスワードの確認",
-      "i18n": "言語",
-      "auth": "認証",
-      "exprie": "期限 (秒)"
+      "personal_info": "Personal information",
+      "old": "Ivana {0}",
+      "new": "New {0}",
+      "confirm_passwd": "Confirm New Password",
+      "i18n": "Languages",
+      "auth": "Authentication Information",
+      "exprie": "Expiration time (seconds)"
     }
   },
   "operate": {
-    "generate_c": "{0} の生成"
+    "generate_c": "Spawn {0}"
   },
   "auth": {
     "table": {
-      "expired": "有効期限切れ",
-      "expire_at": "有効期限",
-      "grant_type": "認可タイプ",
-      "yes": "はい",
-      "no": "いいえ"
+      "expired": "Expiry",
+      "expire_at": "Expiration time",
+      "grant_type": "License Type",
+      "yes": "Yes",
+      "no": "No"
     },
     "tip": {
-      "copyed": "クリップボードにコピーしました"
+      "copyed": "Copy to Clipboard"
     }
   }
 }
