@@ -1,9 +1,9 @@
 {
   "table": {
-    "name": "Side name",
-    "label": "Match Tags"
+    "name": "Car Field Name",
+    "label": "Unified Sterillemen Sterilian Sterilian"
   },
   "filter": {
-    "sidecar_name": "Side name"
+    "sidecar_name": "Car Field Name"
   }
 }
