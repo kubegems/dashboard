@@ -1,19 +1,19 @@
 {
   "table": {
-    "type": "タイプ",
-    "message": "メッセージ",
-    "start_at": "開始時刻",
-    "end_at": "終了時刻",
-    "expried": "期限切れ"
+    "type": "类型",
+    "message": "消息",
+    "start_at": "开始时间",
+    "end_at": "结束时间",
+    "expried": "过期"
   },
   "resource": {
-    "broadcast": "ブロードキャスト"
+    "broadcast": "广播"
   },
   "tip": {
-    "select_datetime": "時間を設定する"
+    "select_datetime": "请选择时间"
   },
   "status": {
-    "expried": "期限切れ",
-    "active": "有効"
+    "expried": "已过期",
+    "active": "激活"
   }
 }
