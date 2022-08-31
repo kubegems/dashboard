@@ -1,30 +1,30 @@
 {
   "table": {
-    "name": "Load Name",
-    "version": "Verison (Ver)",
-    "status": "Status",
-    "label": "タグ：",
-    "restart_count": "Restart count"
+    "name": "負荷の名称",
+    "version": "ハーダー･ブレードン",
+    "status": "ステータス",
+    "label": "タク・マローブ",
+    "restart_count": "後で始めてください"
   },
   "filter": {
-    "workload_name": "Load Name"
+    "workload_name": "負荷の名称"
   },
   "tip": {
-    "auto_inject": "Auto Injection",
-    "realtime": "ライブ",
-    "no_pod": "Container group does not exist"
+    "auto_inject": "自動的にコメッツそうだ",
+    "realtime": "今すぐツイート",
+    "no_pod": "コンテナクタのフロクーフィールドはは\"しません"
   },
   "operate": {
-    "inject": "Inject SideCar",
-    "uninject": "Car (Uninject SideCar",
-    "inject_c": "SideCar injection for app {0}",
-    "uninject_c": "Cancel SideCar injection for app {0}"
+    "inject": "サイドCar 注入",
+    "uninject": "SideCar (日本のインターナショナル)",
+    "inject_c": "SideCar にアフ゜リックショーン {0} を落とす",
+    "uninject_c": "サイドカーへのインジェクションが {0} のアプリの取外し"
   },
   "tab": {
-    "network_topology": "Traffic in VBL.",
-    "log": "ログオン",
-    "ingress": "Traffic at the entrance",
-    "egress": "Export Traffic",
-    "trace": "Link Tracking"
+    "network_topology": "トホ゜ロッシフロド",
+    "log": "ロク縦書き人",
+    "ingress": "入口はラフィック",
+    "egress": "トラフィックのエクショウクート",
+    "trace": "トランクのスパイクのスフレークの設定"
   }
 }
