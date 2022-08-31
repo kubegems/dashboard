@@ -1,27 +1,27 @@
 {
   "filter": {
-    "template_name": "テンプレート名"
+    "template_name": "チェッチャーフィールド名"
   },
   "table": {
-    "name": "注文番号による検索",
+    "name": "注文番番号によりよる検ソ",
     "refresh": "更新間隔",
-    "description": "説明",
-    "graph_count": "グラフの数",
-    "expr": "評価式",
-    "unit": "単位",
-    "generator": "グループ | リソース | ルール"
+    "description": "ヘルプ",
+    "graph_count": "クオラの数",
+    "expr": "便利になった時価は、",
+    "unit": "単位名",
+    "generator": "ク量子化した | リソース | ルセル | ルセル"
   },
   "tab": {
-    "template_info": "テンプレート情報"
+    "template_info": "テイクオープンコンボルト"
   },
   "tip": {
-    "graph": "グラフ",
-    "start": "開始時刻",
-    "end": "終了時刻",
+    "graph": "オジャフ",
+    "start": "開始日",
+    "end": "過去のコメント",
     "step": "間隔",
-    "rule": "ルール"
+    "rule": "ルタル"
   },
   "operate": {
-    "load_c": "インポート{0}"
+    "load_c": "インチェュート{0}"
   }
 }
