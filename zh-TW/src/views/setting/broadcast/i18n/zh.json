@@ -1,19 +1,19 @@
 {
   "table": {
-    "type": "類型",
-    "message": "消息",
-    "start_at": "開始時間",
-    "end_at": "結束時間",
-    "expried": "過期"
+    "type": "Type",
+    "message": "Mesaage",
+    "start_at": "Start Time",
+    "end_at": "End Time",
+    "expried": "Expried"
   },
   "resource": {
-    "broadcast": "廣播"
+    "broadcast": "Broadcast"
   },
   "tip": {
-    "select_datetime": "請選擇時間"
+    "select_datetime": "Please select detetime"
   },
   "status": {
-    "expried": "已過期",
-    "active": "啟動"
+    "expried": "Expried",
+    "active": "Active"
   }
 }
