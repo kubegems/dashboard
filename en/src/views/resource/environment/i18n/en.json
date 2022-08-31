@@ -2,7 +2,7 @@
   "table": {
     "name": "Environment Name",
     "creator": "Created By",
-    "used": "Used {0}"
+    "used": "Used{0}"
   },
   "filter": {
     "environment_name": "Environment Name"
@@ -30,14 +30,14 @@
     "send": "Send",
     "resource_allocated": "Allocation of resources",
     "show": "Show",
-    "hide": "Hide",
+    "hide": "Fold",
     "tenant_resource_allocated": "Tenants have allocated resources on clusters",
     "resource_quota": "Resource quotas",
     "limit_range": "Resource Limit",
-    "limit_value": "{0} limit",
+    "limit_value": "{0}limit",
     "limit": "Limit value",
     "default": "Default value",
-    "default_request": "Default request value",
+    "default_request": "默认请求值",
     "storage_capacity": "Storage volume size",
     "delete_all_select": "Delete entire namespace",
     "delete_cascade_select": "Only delete association"
