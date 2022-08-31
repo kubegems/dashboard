@@ -31,7 +31,7 @@
     "query": "Query"
   },
   "operate": {
-    "remove_blacklist": "Move blacklist",
+    "remove_blacklist": "Remove blacklist",
     "in_blacklist": "Blacklist",
     "go": "Run"
   },
@@ -40,6 +40,6 @@
     "resource": "Resources",
     "rule": "Rules",
     "status": "Status",
-    "scope": "Scope"
+    "scope": "Group"
   }
 }
