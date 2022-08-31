@@ -346,6 +346,7 @@
       "alertrule": "告警规则",
       "output": "日志路由器",
       "flow": "日志采集器",
+      "monitor_app": "应用监控",
 
       "g_dashboard": "概览",
       "g_integrated": "接入中心",
@@ -462,7 +463,8 @@
     "service_monitor": "采集器 (ServiceMonitor) 为一组服务定义监控, 自动被Prometheus发现, 成为其指标拉取目标Target。",
     "prometheus_rule": "告警规则 (PrometheusRule) 通常是针对监控指标设置的Prometheus告警规则。",
     "flow": "日志采集器 (Flow/ClusterFlow) 定义了一个带有过滤器和输出的日志流。",
-    "output": "日志路由器 (Output/ClusterOutput) 定义您的流可以发送日志消息的输出。"
+    "output": "日志路由器 (Output/ClusterOutput) 定义您的流可以发送日志消息的输出。",
+    "dash_app": "应用监控(Jaeger)"
   },
   "metadata": {
     "description": "更便捷的云原生管理平台",

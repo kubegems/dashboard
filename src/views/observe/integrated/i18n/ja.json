@@ -30,7 +30,7 @@
     "link_2_app": "<a>詳細</a>をクリックして操作を表示します",
     "preview_data": "<a>Metric Explore</a>に入ってデータをプレビューします",
     "success_data": "データが正常に検出されました",
-    "data_from_prometheus": "プロメテウスからのデータの受信を確認する",
+    "data_from_prometheus": "プロメテウスからのデータの受信を確認する,通常 3 ～ 5 分待つ必要があります",
     "cpnfirm_project_and_env": "プロジェクト <span class=\"px-1\">{0}</span> 環境 <span class=\"px-1\">{1}</span> 配下のインスタンスの稼働状況を確認"
   },
   "operate": {

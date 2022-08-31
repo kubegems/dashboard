@@ -19,7 +19,7 @@
     <BaseBreadcrumb class="dash__header">
       <template #extend>
         <v-flex class="kubegems__full-right">
-          <ContainerSelect :env="env" @filterPod="filterPod" />
+          <VariableSelect v-model="labelpairs" :env="env" :variable="variable" @filterPod="filterPod" />
           <ProjectEnvSelectCascade v-model="env" first :offset-y="4" reverse :tenant="tenant" />
 
           <BaseDatetimePicker v-model="date" :default-value="30" :offset-y="0" @change="onDatetimeChange(undefined)" />
@@ -104,6 +104,7 @@
                 :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
                 colorful
                 :extend-height="300"
+                :global-plugins-check="false"
                 label="all"
                 :label-show="false"
                 :metrics="metrics[`c${index}`]"
@@ -163,10 +164,10 @@
   import messages from '../i18n';
   import AddDashboard from './components/AddDashboard';
   import AddGraph from './components/AddGraph';
-  import ContainerSelect from './components/ContainerSelect';
   import GraphMax from './components/GraphMax';
   import UpdateDashboard from './components/UpdateDashboard';
   import UpdateGraph from './components/UpdateGraph';
+  import VariableSelect from './components/VariableSelect';
   import {
     deleteMonitorDashboard,
     getMetricsQueryrange,
@@ -185,12 +186,12 @@
     components: {
       AddDashboard,
       AddGraph,
-      ContainerSelect,
       Draggable: draggable,
       GraphMax,
       ProjectEnvSelectCascade,
       UpdateDashboard,
       UpdateGraph,
+      VariableSelect,
     },
     mixins: [BasePermission],
     data() {
@@ -209,6 +210,8 @@
         },
         missingPlugins: [],
         env: undefined,
+        variable: undefined,
+        labelpairs: {},
       };
     },
     computed: {
@@ -238,6 +241,15 @@
         deep: true,
         immediate: true,
       },
+      labelpairs: {
+        handler(newValue) {
+          if (Object.keys(newValue).length > 0) {
+            this.loadMetrics();
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
     },
     mounted() {
       this.$nextTick(() => {
@@ -260,6 +272,11 @@
       async loadMetrics(pod = null) {
         this.clearInterval();
         this.metrics = {};
+        const dashboard = this.items[this.tab];
+        if (dashboard.variables && Object.keys(dashboard.variables).length > 0) {
+          this.variable = Object.keys(dashboard.variables)[0];
+        }
+
         if (this.items?.length > 0 && this.items[this.tab] && this.items[this.tab].graphs) {
           this.items[this.tab].graphs.forEach((item, index) => {
             this.getMetrics(item, index, pod);
@@ -316,7 +333,7 @@
         let data = await getMetricsQueryrange(
           this.environment.clusterName,
           namespace,
-          Object.assign(params, { noprocessing: true, ...this.params }),
+          Object.assign(params, { noprocessing: true, ...this.params, ...this.labelpairs }),
         );
         if (pod) {
           data = data.filter((d) => {

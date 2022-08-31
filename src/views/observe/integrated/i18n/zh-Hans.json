@@ -32,7 +32,7 @@
     "link_2_app": " 点击 <a>详情</a> 查看运行情况",
     "preview_data": "进入 <a>指标查询器</a> 预览数据",
     "success_data": "成功监测到数据",
-    "data_from_prometheus": "从prometheus中确认收到数据",
+    "data_from_prometheus": "从prometheus中确认收到数据, 通常需要等待3到5分钟",
     "cpnfirm_project_and_env": "确认 项目<span class=\"px-1\">{0}</span> 环境<span class=\"px-1\">{1}</span> 下的实例运行状态"
   },
   "operate": {

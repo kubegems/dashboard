@@ -97,6 +97,22 @@ export const observe = [
               innerCheck: true,
             },
           },
+          {
+            path: `${prefix}/appmonitor`,
+            name: `observe-monitor-app`,
+            component: () => import('@/views/observe/monitor/app'),
+            meta: {
+              requireAuth: true,
+              title: 'routerbar.observability.monitor_app',
+              upToAdmin: true,
+              icon: 'mdi-chart-line-stacked',
+              show: true,
+              rootName: 'observe',
+              dependencies: ['monitoring'],
+              tip: 'dash_app',
+              innerCheck: true,
+            },
+          },
         ],
       },
       {

@@ -52,6 +52,10 @@
         type: Number,
         default: () => 280,
       },
+      globalPluginsCheck: {
+        type: Boolean,
+        default: () => true,
+      },
       horizontalAlign: {
         type: String,
         default: () => 'center',
@@ -449,7 +453,7 @@
           },
           noData: {
             text:
-              this.Plugins?.['monitoring'] || !this.Plugins
+              this.Plugins?.['monitoring'] || !this.Plugins || !this.globalPluginsCheck
                 ? this.$t('data.no_data')
                 : this.$t('plugin.missing', ['monitoring']),
             offsetY: this.noDataOffsetY,

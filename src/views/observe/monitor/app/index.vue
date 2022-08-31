@@ -19,34 +19,11 @@
     <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
-          <ProjectEnvSelectCascade v-model="env" first :offset-y="6" reverse :tenant="tenant" />
-          <div class="text-subtitle-2 float-left font-weight-medium kubegems__text search__label primary--text">
-            TraceId
-          </div>
-          <v-text-field
-            v-model="traceid"
-            dense
-            flat
-            full-width
-            hide-details
-            prepend-inner-icon="mdi-magnify"
-            solo
-            :style="{ width: `${traceIdSearchWidth}px` }"
-            @blur="traceIdSearchWidth = 250"
-            @focus="traceIdSearchWidth = 500"
-            @keyup="searchByTraceId"
-          />
+          <ProjectEnvSelectCascade v-model="env" first :offset-y="0" reverse :tenant="tenant" />
         </v-flex>
       </template>
     </BaseBreadcrumb>
     <v-card class="search__main" flat :height="height">
-      <div class="search__header">
-        <v-btn v-if="location === 'trace'" class="float-right" color="primary" small text @click="onBack">
-          <v-icon left> mdi-share </v-icon>
-          {{ $root.$t('operate.return') }}
-        </v-btn>
-      </div>
-
       <iframe
         v-if="cluster"
         v-show="show"
@@ -76,13 +53,9 @@
     data() {
       return {
         cluster: undefined,
-        location: 'search',
         iframeKey: Date.now(),
         show: false,
 
-        isTraceId: false,
-        traceid: '',
-        traceIdSearchWidth: 250,
         missingPlugins: [],
         tenant: null,
         env: undefined,
@@ -92,11 +65,7 @@
       ...mapState(['Scale']),
       ...mapGetters(['Tenant']),
       src() {
-        if (this.isTraceId) {
-          return `/api/v1/service-proxy/cluster/${this.cluster}/namespace/observability/service/jaeger-query/port/16686/trace/${this.traceid}?uiEmbed=v0`;
-        } else {
-          return `/api/v1/service-proxy/cluster/${this.cluster}/namespace/observability/service/jaeger-query/port/16686/search`;
-        }
+        return `/api/v1/service-proxy/cluster/${this.cluster}/namespace/observability/service/jaeger-query/port/16686/monitor?uiEmbed=v0`;
       },
       height() {
         return parseInt((window.innerHeight - 148) / this.Scale);
@@ -126,9 +95,6 @@
         this.tenant = this.Tenant();
       });
     },
-    beforeDestroy() {
-      clearTimeout(this.timer);
-    },
     methods: {
       async loadData() {
         this.missingPlugins = await this.m_permission_plugin_pass(this.cluster, this.$route.meta?.dependencies || []);
@@ -148,15 +114,6 @@
         this.onOverwriteStyle();
         this.show = true;
         this.$store.commit('SET_PROGRESS', false);
-        clearTimeout(this.timer);
-        this.setLocation();
-      },
-      searchByTraceId(e) {
-        if (e.keyCode === 13) {
-          this.isTraceId = true;
-        } else {
-          this.isTraceId = false;
-        }
       },
       // 样式覆盖
       onOverwriteStyle() {
@@ -196,17 +153,6 @@
       },
       onBack() {
         window.history.back();
-        this.isTraceId = false;
-        this.traceid = '';
-      },
-      setLocation() {
-        this.timer = setTimeout(() => {
-          if (this.$refs.iframe) {
-            const href = this.$refs.iframe.contentWindow.location.pathname;
-            this.location = href.search('/trace/') === -1 ? 'search' : 'trace';
-          }
-          this.setLocation();
-        }, 200);
       },
     },
   };
