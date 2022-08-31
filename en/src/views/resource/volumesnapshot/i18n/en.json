@@ -1,17 +1,17 @@
 {
   "table": {
-    "name": "Snapshot Name",
-    "class": "Snapshot Class",
-    "origin_pvc": "Source Store Volume"
+    "name": "• Stipule Stipule Stig",
+    "class": "• Stipule Stipule",
+    "origin_pvc": "Stig Stig Stig Stig Stig Stig Ana Stig"
   },
   "filter": {
-    "snapshot_name": "Snapshot Name"
+    "snapshot_name": "• Stipule Stipule Stig"
   },
   "operate": {
-    "restore": "Snapshot recovery"
+    "restore": "• Reverted by the United States of America"
   },
   "form": {
-    "name": "Snapshot",
-    "pvc_name": "Store volume name"
+    "name": "• Stipule Stipule",
+    "pvc_name": "Matrix Forge Formatting a statement of name to the Ministry of the Interior who is a member of the Ministry of Finance"
   }
 }
