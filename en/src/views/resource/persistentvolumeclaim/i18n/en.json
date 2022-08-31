@@ -1,40 +1,40 @@
 {
   "table": {
-    "name": "Name",
+    "name": "Scripting numbers are leading to the Soco",
     "status": "Status",
-    "access_mode": "Access mode",
-    "storage": "Capacity",
-    "mount": "Mount",
-    "capacity": "Capacity"
+    "access_mode": "Mafia Stika Stipule Stipule e e e e e e e la gouvernemente e la gouvernement de la gouvernement de la género",
+    "storage": "Content",
+    "mount": "Sterility shutdown",
+    "capacity": "Content"
   },
   "filter": {
-    "pvc_name": "Storage volume name"
+    "pvc_name": "Matrix Forge Formatting a statement of name to the Ministry of the Interior who is a member of the Ministry of Finance"
   },
   "operate": {
-    "scale": "Expansion",
-    "create_snapshot": "Create snapshot",
-    "scale_pvc": "Extended Storage Volume"
+    "scale": "Ministry of Finance",
+    "create_snapshot": "Madeira Stir-e Stig Stig Stig Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Stip Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Same Plop",
+    "scale_pvc": "Could you please provide you with a copy of the list of documents issued by the Ministry of Foreign Affairs of the United Kingdom of Great Britain and Northern Ireland."
   },
   "status": {
-    "mounted": "Mounted",
-    "unmounted": "Not Mounted"
+    "mounted": "RPF must not be allowed to run",
+    "unmounted": "dei terlus termasuk termasuk termasuk termasuk termasuk termasuk termasuk termasuk termasuk termasuk termasuk termasuk sendiri"
   },
   "tip": {
-    "now_capacity": "Current capacity",
+    "now_capacity": "Capture Now",
     "dest_capacity": "Target rating",
     "used": "Usage",
-    "inode_rate": "Inode Usage",
-    "label": "Tags",
-    "annotation": "Note",
-    "rwo": "Single node read/write",
-    "rox": "Multi-node read-only",
-    "rwx": "Multi-Node Read-write",
-    "can_create_snapshot": "Can create snapshot",
-    "volume_mode": "Volume mode",
-    "volume_name": "Volume Name"
+    "inode_rate": "Inodeuter Matrix Use",
+    "label": "Unidentist's settlement",
+    "annotation": "Spectrum trivials",
+    "rwo": "The main objectives of the programme are to be achieved by the Government of the Republic of Sierra Leone and the Ministry of Finance.",
+    "rox": "Duplicate PROCESS ABOVE PROCESS ABOVE IN ABOLOCK",
+    "rwx": "Duplicate Promises A Matrix Matrix Matrix Matrix Matrix Matrix Matrix Matrix Matrix Matrix Matrix Matrix",
+    "can_create_snapshot": "Madei University University University University",
+    "volume_mode": "Stigli Saikou Sécurité Sécurité",
+    "volume_name": "Medical Unit of the Ministry of Finance"
   },
   "form": {
-    "storage_rule": "Wrong format (Example: 1Ki,1Mi,1Gi,1Ti)",
-    "limit_min_rule": "Less than current value"
+    "storage_rule": "Booked immersion (Example 1Ki,1Mi,1Gi,1Ti)",
+    "limit_min_rule": "Sterility Spectrum Stermie："
   }
 }
