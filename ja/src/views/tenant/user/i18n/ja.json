@@ -1,36 +1,36 @@
 {
   "table": {
-    "name": "注文番号による検索",
-    "status": "状態",
-    "email": "メール",
-    "mobile": "携帯電話",
+    "name": "注文番番号によりよる検ソ",
+    "status": "ステータス",
+    "email": "スペシャル",
+    "mobile": "平等だ",
     "role": "ロール",
-    "last_login_at": "最近のサインイン順",
-    "registe_at": "登録日"
+    "last_login_at": "最近の連絡の見上へ",
+    "registe_at": "記録上日"
   },
   "filter": {
-    "username_or_email": "ユーザー名またはEメール"
+    "username_or_email": "ユニバーサルド Even、こと"
   },
   "operate": {
     "role": "ロール",
-    "reset_pwd": "パスワードをリセット"
+    "reset_pwd": "ハ゜スフィールドフロント リセット"
   },
   "status": {
-    "enabled": "有効",
-    "disabled": "無効"
+    "enabled": "は10",
+    "disabled": "無許可化"
   },
   "tip": {
-    "role_title": "ユーザーシステムロール",
-    "passwd_title": "使用者パスワードの再設定",
-    "random_passwd": "ランダムパスワードを生成する"
+    "role_title": "独立できません",
+    "passwd_title": "ユーザーハ゜のスロープフロートの再設定",
+    "random_passwd": "ランタフローハ゜ヶ所の考え方で生成る"
   },
   "resource": {
-    "password": "パスワード"
+    "password": "ハ゜スワーグリベット"
   },
   "form": {
-    "new_passwd": "新しいパスワード",
-    "username": "ユーザー名",
-    "passwd": "パスワード",
-    "email": "メール"
+    "new_passwd": "新しハ゜スクートグリゲートグリット",
+    "username": "ユニバーサルド",
+    "passwd": "ハ゜スワーグリベット",
+    "email": "スペシャル"
   }
 }
