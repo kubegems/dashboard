@@ -1,27 +1,27 @@
 {
   "table": {
-    "name": "名称",
-    "issuer": "颁发者",
-    "expire_at": "到期时间",
-    "renew_at": "自动续签时间",
-    "issuer_type": "颁发机构类型",
-    "secret_name": "密钥名",
-    "dns_name": "DNS名",
-    "extend": "扩展"
+    "name": "Name",
+    "issuer": "Issuer",
+    "expire_at": "Expiration Time",
+    "renew_at": "Auto-renew time",
+    "issuer_type": "Issue エージェント",
+    "secret_name": "KeyName",
+    "dns_name": "DNS 名",
+    "extend": "拡張機能のダウンロード"
   },
   "filter": {
-    "cert_name": "名称"
+    "cert_name": "Name"
   },
   "tip": {
-    "key_use": "公钥用法"
+    "key_use": "Public sages"
   },
   "form": {
-    "name": "名称",
-    "issuer_type": "机构类型",
-    "ingress": "关联ingress名称",
-    "expire_at": "证书有效期",
-    "auto_renew": "自动续签",
-    "cert_use": "证书用途",
-    "domain": "授信域名"
+    "name": "Name",
+    "issuer_type": "Organization Type",
+    "ingress": "Reation address name",
+    "expire_at": "Certificate Expiration",
+    "auto_renew": "Auto Renewal",
+    "cert_use": "Certificate usage",
+    "domain": "Grant Domain"
   }
 }
