@@ -1,21 +1,21 @@
 {
-  "login": "ログイン",
-  "username": "ユーザー名",
-  "password": "パスワード",
+  "login": "Login",
+  "username": "Username",
+  "password": "Password",
   "tip": {
-    "login": "ユーザーログイン",
-    "other": "その他のログイン方法",
-    "nav": "右上のワークベンチからホームページに掲載することができます",
-    "permission": "テナント管理者またはシステム管理者に連絡してください"
+    "login": "Login",
+    "other": "Other logins",
+    "nav": "You can access the home page from the workbench in the upper right corner",
+    "permission": "You can contact a tenant's administrator or system administrator to add access for you"
   },
   "status": {
-    "success": "ログイン成功",
-    "logined": "ログイン済み",
-    "failed": "認証に失敗しました。ログインが必要です。",
-    "403": "このリソースを表示する権限がありません。",
-    "404": "ページは存在しません！"
+    "success": "Login success",
+    "logined": "Has Logged",
+    "failed": "Authentication failed, please login",
+    "403": "Forbidden",
+    "404": "Page Not Found"
   },
   "form": {
-    "passwordRule": "20人"
+    "passwordRule": "More than 20"
   }
 }
