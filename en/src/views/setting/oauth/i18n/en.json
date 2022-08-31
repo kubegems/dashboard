@@ -1,21 +1,21 @@
 {
   "operate": {
-    "enable": "Enable",
-    "enable_c": "Ebable {0}",
-    "disable": "Disable",
-    "disable_c": "Disabled {0}",
-    "config": "Config"
+    "enable": "Enabled",
+    "enable_c": "Enable{0}",
+    "disable": "Disabled",
+    "disable_c": "Disable{0}",
+    "config": "Configuration"
   },
   "status": {
-    "enabled": "Open"
+    "enabled": "Enabled"
   },
   "tip": {
-    "kubegems": "Kubeegems built-in database authentication",
-    "oauth": "Enable your organization to log in using the Oauth protocol",
-    "openldap": "Enable your organization to log in using the Ldap protocol",
-    "gitlab": "Enable your organization to log in using the Gitlab protocol",
-    "github": "Enable your organization to log in using the Github protocol",
-    "tls": "Open tls",
+    "kubegems": "Kubegem's built-in database authentication",
+    "oauth": "Enable your organization to login with Oauth protocol",
+    "openldap": "Enable your organization to login using the Ldap protocol",
+    "gitlab": "Enable your organization to login with GitLab",
+    "github": "Enable your organization to login with GitHub",
+    "tls": "Enable tls",
     "config_title": "Configure third-party authentication"
   },
   "form": {
