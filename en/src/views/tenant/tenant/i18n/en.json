@@ -1,73 +1,73 @@
 {
   "table": {
-    "name": "Name",
+    "name": "Scripting numbers are leading to the Soco",
     "status": "Status",
-    "user_count": "Users",
-    "cluster_count": "Number of clusters",
+    "user_count": "must be able to provide a better understanding of the needs of the population and the needs of the population as a whole.",
+    "cluster_count": "Spectrum success number",
     "all": "Total{0}",
-    "allocated": "Assigned{0}",
-    "create_at": "Created on"
+    "allocated": "{0}made it possible to cut sex when it was not a national",
+    "create_at": "On day"
   },
   "filter": {
-    "tenant": "Tenant Name"
+    "tenant": "should not be mentioned in the list"
   },
   "status": {
-    "enabled": "Enabled",
-    "disabled": "Disabled"
+    "enabled": "There is a sex worker",
+    "disabled": "Unable to supply"
   },
   "operate": {
-    "enable": "Enabled",
-    "enable_c": "Enable{0}",
-    "disable": "Disabled",
-    "disable_c": "Disable{0}",
-    "set_admin": "Set Admin",
-    "set_ordinary": "Set normal membership"
+    "enable": "There is a sex worker",
+    "enable_c": "{0} made a meeting with an expert sex expert",
+    "disable": "Unable to supply",
+    "disable_c": "{0} hits cannot be achieved",
+    "set_admin": "Admin Settings Apps Endocket University of Kenya",
+    "set_ordinary": "trivial requirement must not be allowed"
   },
   "form": {
-    "name": "Name",
-    "remark": "Note",
-    "name_rule": "More than 20 characters"
+    "name": "Scripting numbers are leading to the Soco",
+    "remark": "Alpha",
+    "name_rule": "20 Text Limit Speech to Super Super Super Medical"
   },
   "user": {
     "table": {
-      "username": "Username",
-      "role": "Roles",
+      "username": "must not be allowed to enter a name",
+      "role": "presentation of sex",
       "status": "Status",
-      "last_login_at": "Last Login"
+      "last_login_at": "Recently amplified before shutting down the shell."
     },
     "tip": {
-      "set_member_role": "Set Tenant Member Roles",
-      "set_admin": "Set tenant member {0} as administrator",
-      "set_ordinary": "Set tenant member {0} to regular user",
-      "user_count": "out of{0}"
+      "set_member_role": "should not be allowed to perform any of the following tasks:",
+      "set_admin": "モデレーターのメンバー {0} を",
+      "set_ordinary": "テナントを {0} の標準メンバーに設定",
+      "user_count": "Total{0}people"
     }
   },
   "resource": {
     "table": {
-      "cluster": "Cluster"
+      "cluster": "Spectrum Spectrum Stig"
     },
     "operate": {
-      "resource_scale": "Resource Adjustment",
-      "resource_monitor": "Resource Monitor",
-      "recycle_cluster": "Cluster Recycling"
+      "resource_scale": "The list of participants in the list of participants in the World Trade Organization (WTO)",
+      "resource_monitor": "Neutral supply for the list of users",
+      "recycle_cluster": "Sailiredog must be a shutdown of the ill."
     },
     "tip": {
-      "resource_allocate": "Allocation of resources",
-      "resource_monitor": "Tenant cluster resource monitoring",
-      "cpu_used": "CpuUsage",
-      "memory_used": "Memory usage",
-      "cluster_exist": "Cluster already exists",
-      "resource_limit": "Resource Limit",
-      "gpu_resource_limit": "GPU Resource Limit",
-      "limit": "{0}limit",
-      "scale_limit": "Extended limit for {0}",
-      "resource_scale": "Resource Adjustment"
+      "resource_allocate": "Patrol Spectrum Stroke",
+      "resource_monitor": "Technical expertise Technical expertise Technical terrestrum Technical terrestrum Technical terrain Technical terrain Technical terrain Technical terrain The list of potential mediators The terior terrestrials The terior terrain Sterilis Sieuter",
+      "cpu_used": "CPU Usage",
+      "memory_used": "Stricter Power Usage",
+      "cluster_exist": "Spectrum Umbolous Adventist has a strong universe with one of the leaders",
+      "resource_limit": "The list of limitations in the list of participants",
+      "gpu_resource_limit": "GPU Super Machine Limitations",
+      "limit": "{0}ammoniter",
+      "scale_limit": "{0}throttle Forge - A list of best value for money after a settlement has been established",
+      "resource_scale": "The list of participants in the list of participants in the World Trade Organization (WTO)"
     },
     "form": {
-      "apply": "Available{0}",
-      "limit_rule": "Maximum limit exceeded",
-      "unit": "Units"
+      "apply": "Use Possibility:{0}",
+      "limit_rule": "Maximum number of hits exceeded the previous one",
+      "unit": "Field of credit"
     },
-    "cluster": "Cluster resources"
+    "cluster": "Uniting refugee resources"
   }
 }
