@@ -1,31 +1,31 @@
 {
   "table": {
-    "role": "Roles",
-    "type": "Categories",
-    "description": "Description"
+    "role": "presentation of sex",
+    "type": "Instrument for standardized international reporting of",
+    "description": "Alpha"
   },
   "tip": {
     "system": {
-      "admin": "Can operate all system resources, users, tenants",
-      "normal": "No system level permissions"
+      "admin": "- Mediator must be able to communicate with the Ministry of the Interior;",
+      "normal": "Warrior Warrior Sterilinem Spectrum Spectrum Spectrum Spectrum Spectrum Spectrum Sum Sterilinee Stere Stere Stere Stere Stere Stere Stere Stere Stere Stere Stere Stere Stere Stere Stere Stere Stere Stere Stere Stere Stere Stere Stere Stere Stere Stere Stere Stere Stere Stere Son Snipa Stat Son Steriller Steriller"
     },
     "tenant": {
-      "admin": "Can operate all resources under the tenant",
-      "normal": "Can only see projects in which you are involved"
+      "admin": "The list of participants is as follows: The list of participants is available at the end of the year.",
+      "normal": "Participated in Hacha Serene Scole Supérieure (Suprus) Spectrum Myrik Sieuter Sin Siegler Steril) Siegler Spectrum Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Stig Sum Sum Sum Sum Sum Sum Stig"
     },
     "project": {
-      "admin": "Can operate on all resources under items",
-      "dev": "Only environments where research and development attributes can be operated",
-      "test": "Only environments where test properties can be performed",
-      "ops": "Can operate with all environments"
+      "admin": "Auckle Mujer is a member of the Ministry of Foreign Affairs.",
+      "dev": "Before the end of the year, the Ministry of Foreign Affairs and the Ministry of Foreign Affairs of the People's Republic of China, the Ministry of Foreign Affairs, the Ministry of Foreign Affairs, the Ministry of Foreign Affairs, the Ministry of Foreign Affairs, the Ministry of Foreign Affairs, the Ministry of Foreign Affairs, the Ministry of Foreign Affairs, the Ministry of Foreign Affairs, the Ministry of Foreign Affairs, the Ministry of Foreign Affairs, the Ministry of Foreign Affairs, the Ministry of Foreign Affairs, the Ministry of Foreign Affairs, the Ministry of Foreign Affairs, the Ministry of Foreign Affairs, the Ministry of Foreign Affairs, the Ministry of the Interior, the Ministry of Foreign Affairs, the Ministry of Foreign Affairs, the Ministry of Foreign Affairs, the Ministry of Foreign Affairs, the Ministry of Foreign Affairs, the Ministry of Foreign Affairs, the Ministry of Foreign Affairs, the Ministry of Foreign Affairs, the Ministry of Foreign Affairs, the Ministry of Foreign Affairs, the Ministry of Foreign Affairs, the Ministry of Foreign Affairs, the Ministry of Foreign Affairs, the Ministry of Foreign Affairs, the Ministry of the Interior and the Ministry of Foreign Affairs, the Ministry of Foreign Affairs, the Ministry of Foreign Affairs, the",
+      "test": "Steril's Spectrum Stig Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Stig Sum Sum Sum Sum Sum Sum Sum Sum Sum Slug Sum Sum Stip Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum",
+      "ops": "Enemy Ensemble Pharmaceuticals"
     },
     "environment": {
-      "operator": "Resources in an operational environment",
-      "reader": "Only resources in environment can be viewed"
+      "operator": "Mujer Mujer in the environment",
+      "reader": "The project is being implemented by the Ministry of Defence and the Ministry of Foreign Affairs and the Ministry of Foreign Affairs of the Ministry of Foreign Affairs and the Ministry of Foreign Affairs of Saudi Arabia"
     },
     "mesh": {
-      "admin": "Can operate resources under microservice virtual space",
-      "normal": "View resources under Microservice Virtual Space"
+      "admin": "Trusting a statement to be signed by the Ministry of Justice and the Ministry of Foreign Affairs of the Russian Federation",
+      "normal": "Matrix representation is provided by the Regional Bureau for the Conference of the Parties to the Convention"
     }
   }
 }
