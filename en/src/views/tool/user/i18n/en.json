@@ -37,8 +37,8 @@
   "setting": {
     "tip": {
       "personal_info": "Personal information",
-      "old": "Original{0}",
-      "new": "New{0}",
+      "old": "Original {0}",
+      "new": "New {0}",
       "confirm_passwd": "Confirm New Password",
       "i18n": "Languages",
       "auth": "Authentication Information",
@@ -46,7 +46,7 @@
     }
   },
   "operate": {
-    "generate_c": "Spawn{0}"
+    "generate_c": "Spawn {0}"
   },
   "auth": {
     "table": {
