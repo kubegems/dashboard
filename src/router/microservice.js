@@ -193,7 +193,7 @@ export const microService = [
               show: true,
               rootName: 'microservice',
               dependencies: ['istio'],
-              tip: 'v_gateway-instance',
+              tip: 'v_gateway_instance',
               innerCheck: true,
             },
           },

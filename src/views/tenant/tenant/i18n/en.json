@@ -1,1 +1,73 @@
-{}
+{
+  "table": {
+    "name": "Name",
+    "status": "Status",
+    "user_count": "Users",
+    "cluster_count": "Number of clusters",
+    "all": "Total{0}",
+    "allocated": "Assigned{0}",
+    "create_at": "Created on"
+  },
+  "filter": {
+    "tenant": "Tenant Name"
+  },
+  "status": {
+    "enabled": "Enabled",
+    "disabled": "Disabled"
+  },
+  "operate": {
+    "enable": "Enabled",
+    "enable_c": "Enable{0}",
+    "disable": "Disabled",
+    "disable_c": "Disable{0}",
+    "set_admin": "Set Admin",
+    "set_ordinary": "Set normal membership"
+  },
+  "form": {
+    "name": "Name",
+    "remark": "Note",
+    "name_rule": "More than 20 characters"
+  },
+  "user": {
+    "table": {
+      "username": "Username",
+      "role": "Roles",
+      "status": "Status",
+      "last_login_at": "Last Login"
+    },
+    "tip": {
+      "set_member_role": "Set Tenant Member Roles",
+      "set_admin": "Set tenant member {0} as administrator",
+      "set_ordinary": "Set tenant member {0} to regular user",
+      "user_count": "out of{0}"
+    }
+  },
+  "resource": {
+    "table": {
+      "cluster": "Cluster"
+    },
+    "operate": {
+      "resource_scale": "Resource Adjustment",
+      "resource_monitor": "Resource Monitor",
+      "recycle_cluster": "Cluster Recycling"
+    },
+    "tip": {
+      "resource_allocate": "Allocation of resources",
+      "resource_monitor": "Tenant cluster resource monitoring",
+      "cpu_used": "CpuUsage",
+      "memory_used": "Memory usage",
+      "cluster_exist": "Cluster already exists",
+      "resource_limit": "Resource Limit",
+      "gpu_resource_limit": "GPU Resource Limit",
+      "limit": "{0}limit",
+      "scale_limit": "Extended limit for {0}",
+      "resource_scale": "Resource Adjustment"
+    },
+    "form": {
+      "apply": "Available{0}",
+      "limit_rule": "Maximum limit exceeded",
+      "unit": "Units"
+    },
+    "cluster": "Cluster resources"
+  }
+}

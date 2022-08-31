@@ -46,7 +46,7 @@
           <BaseCollapseChips
             v-if="item"
             :id="`g_port_${index}`"
-            :chips="servers || []"
+            :chips="item.servers || []"
             icon="mdi-directions-fork"
             single-line
           />

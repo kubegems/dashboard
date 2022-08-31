@@ -62,7 +62,7 @@
     "cannot_support": "このリソースタイプは対応していません。ダウンロードするにはyamlファイルを直接編集してください",
     "sync_alert": "{0}を同期しますこの操作はサービスを再起動します",
     "refresh_tip": "{0} のリソースファイルを更新します。",
-    "rollback_tip": "回滚版本至 {0}",
+    "rollback_tip": "{0}にロールバック",
     "change_content": "変更"
   },
   "operate": {

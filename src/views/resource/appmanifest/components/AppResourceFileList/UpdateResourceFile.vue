@@ -18,7 +18,7 @@
   <BaseDialog
     v-model="dialog"
     icon="mdi-wrench"
-    :title="$root.$t('operate.update_c', [$t('tip.resource_file')])"
+    :title="$root.$t('operate.update_c', [$t('table.resource_file')])"
     :width="1000"
     @reset="reset"
   >

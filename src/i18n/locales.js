@@ -22,4 +22,12 @@ module.exports = [
     title: 'English',
     locale: 'en',
   },
+  {
+    title: '日本',
+    locale: 'ja',
+  },
+  // {
+  //   title: '繁體中文',
+  //   locale: 'zh-Hant',
+  // },
 ];

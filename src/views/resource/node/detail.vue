@@ -191,7 +191,7 @@
       ...mapGetters(['Cluster']),
       tabItems() {
         const items = [
-          { text: this.$root.$t('tab.resurce_info'), value: 'ResourceInfo' },
+          { text: this.$root.$t('tab.resource_info'), value: 'ResourceInfo' },
           { text: this.$root.$t('tab.metadata'), value: 'Metadata' },
           { text: this.$t('tab.taint'), value: 'Taint' },
           { text: this.$root.$t('tab.pod'), value: 'PodList' },

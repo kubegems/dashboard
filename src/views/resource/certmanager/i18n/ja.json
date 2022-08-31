@@ -7,7 +7,8 @@
     "issuer_type": "発行者タイプ",
     "secret_name": "キー名",
     "dns_name": "DNS 名",
-    "extend": "拡張"
+    "extend": "拡張",
+    "status": "状態"
   },
   "filter": {
     "cert_name": "注文番号による検索"
