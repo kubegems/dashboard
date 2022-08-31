@@ -1,31 +1,31 @@
 {
   "table": {
-    "status": "状态",
-    "pods": "容器组",
-    "restart_count": "重启次数",
-    "name": "名称",
-    "port": "端口",
-    "selector": "选择器",
-    "host": "Host"
+    "status": "Status",
+    "pods": "Container Group",
+    "restart_count": "Restart count",
+    "name": "Name",
+    "port": "Port",
+    "selector": "Selector",
+    "host": "Post"
   },
   "filter": {
-    "gateway_name": "网关实例名称"
+    "gateway_name": "Gateway Instance Name"
   },
   "operate": {
-    "detail": "详情"
+    "detail": "Details"
   },
   "tab": {
-    "gateway_resource": "网关资源",
-    "virtualservice": "虚拟服务",
-    "pods": "网关容器组",
-    "monitor": "网关监控"
+    "gateway_resource": "Gateway Resources",
+    "virtualservice": "Virtual Service",
+    "pods": "Gateway Container Group",
+    "monitor": "Gateway Monitor"
   },
   "tip": {
-    "egress_qps": "出口流量qps",
-    "egress_time": "出口流量响应时间",
-    "ingress_80_qps": "80端口入口流量qps",
-    "ingress_80_time": "80端口入口流量响应时间",
-    "ingress_443_qps": "443端口入口流量qps",
-    "ingress_443_time": "443端口入口流量响应时间"
+    "egress_qps": "Export traffic qps",
+    "egress_time": "Export traffic response time",
+    "ingress_80_qps": "Port traffic qps",
+    "ingress_80_time": "Port traffic response time",
+    "ingress_443_qps": "Port traffic qps",
+    "ingress_443_time": "Port import traffic response time"
   }
 }
