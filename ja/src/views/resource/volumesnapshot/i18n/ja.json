@@ -1,17 +1,17 @@
 {
   "table": {
-    "name": "napshot Name",
-    "class": "Snapshot Classs",
-    "origin_pvc": "Source Storage Volume"
+    "name": "スナップショット名",
+    "class": "スナップショットクラス",
+    "origin_pvc": "ソース記憶ボリューム"
   },
   "filter": {
-    "snapshot_name": "napshot Name"
+    "snapshot_name": "スナップショット名"
   },
   "operate": {
-    "restore": "napshot recovery"
+    "restore": "スナップショット回復"
   },
   "form": {
-    "name": "Snapshot",
-    "pvc_name": "Storage volume name"
+    "name": "スナップショット",
+    "pvc_name": "ストレージボリューム名"
   }
 }
