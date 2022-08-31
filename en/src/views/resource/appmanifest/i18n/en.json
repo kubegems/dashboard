@@ -66,13 +66,13 @@
     "change_content": "Change content"
   },
   "operate": {
-    "link_c": "Associate{0}",
+    "link_c": "Associate {0}",
     "image_trace": "Mirror Tracking",
     "report": "Reporting",
     "cannot_publish": "Mark unpublishable",
     "allow_publish": "Allow Publish",
     "history_version": "History Version",
-    "refresh_c": "Refresh{0}",
+    "refresh_c": "Refresh {0}",
     "rollback": "Rollback",
     "change_content": "Change content"
   }
