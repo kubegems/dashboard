@@ -1,23 +1,23 @@
 {
   "message": {
     "message": "Message",
-    "approval": "Approval",
-    "no_message": "No unread messages yet",
-    "no_approval": "No pending approvals yet",
-    "unread_c": "Unread {0}",
-    "clear": "Clear"
+    "approval": "Approve",
+    "no_message": "No unread messages",
+    "no_approval": "No pending approvals",
+    "unread_c": "Unread{0}",
+    "clear": "Clear Unread"
   },
   "about": {
     "api_version": "Api Version",
-    "api_release_time": "Api Release Time",
-    "go_version": "Go Version",
-    "compile": "Compose",
-    "compile_platform": "Compile Platform",
-    "dashboard_version": "Dashboard Version",
-    "dashboard_release_time": "Dashboard Release Time"
+    "api_release_time": "Api Version Date",
+    "go_version": "go_version",
+    "compile": "Compilation",
+    "compile_platform": "Build Platform",
+    "dashboard_version": "Dashboard version",
+    "dashboard_release_time": "Dashboard version date"
   },
   "status": {
-    "enabled": "Enrolled",
+    "enabled": "Enabled",
     "disabled": "Disabled"
   },
   "table": {
@@ -25,14 +25,14 @@
     "status": "Status"
   },
   "operate": {
-    "approve": "Approve",
-    "reject": "Reject"
+    "approve": "By",
+    "reject": "Rejected"
   },
   "tip": {
-    "tenant": "Current tenant",
-    "resource_scale": "Resource Scale",
-    "project_address": "Github",
-    "issue": "Issues",
-    "star": "Star"
+    "tenant": "Current Tenant",
+    "resource_scale": "Resource Adjustment",
+    "project_address": "项目地址",
+    "issue": "问题反馈",
+    "star": "标星"
   }
 }
