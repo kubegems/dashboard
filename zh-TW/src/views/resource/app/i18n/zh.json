@@ -1,68 +1,68 @@
 {
   "filter": {
-    "app_name": "應用名稱"
+    "app_name": "App name"
   },
   "operate": {
-    "link_c": "關聯{0}",
-    "advanced_deploy": "高級部署",
-    "scale_replicas": "調整副本數",
-    "rollback": "回滾",
-    "auto_scale_policy": "彈性伸縮策略",
-    "confirm_and_publish": "確定併發佈"
+    "link_c": "Associate {0}",
+    "advanced_deploy": "Advanced deployment",
+    "scale_replicas": "Adjust number of copies",
+    "rollback": "Rollback",
+    "auto_scale_policy": "Flexibility Policy",
+    "confirm_and_publish": "Determine and publish"
   },
   "tip": {
-    "platform_app": "平台應用",
-    "app_store_app": "應用商店應用",
-    "model_store_app": "演算法商店應用",
-    "used": "{0}使用量",
-    "gpu_temp": "GPU溫度",
-    "gpu_power": "GPU功率",
-    "version": "版本",
-    "replicas": "副本",
-    "now_replicas": "當前副本數",
-    "dest_replicas": "目標副本數",
-    "error_info": "錯誤資訊",
-    "model_instance": "模型實例",
-    "allocated": "已分配{0}",
-    "unallocated": "未分配",
-    "protocol": "協定",
-    "params": "參數",
-    "port": "埠",
-    "port_name": "埠名稱",
-    "container_port": "容器埠",
-    "host_address": "主機位址",
-    "host_port": "主機埠"
+    "platform_app": "Platform app",
+    "app_store_app": "App Store App",
+    "model_store_app": "Algorithm Store App",
+    "used": "{0} Usage",
+    "gpu_temp": "GPU temperature",
+    "gpu_power": "GPU power",
+    "version": "Version",
+    "replicas": "Duplicate",
+    "now_replicas": "Current number of copies",
+    "dest_replicas": "Number of target copies",
+    "error_info": "Error message",
+    "model_instance": "Model Instances",
+    "allocated": "Assigned {0}",
+    "unallocated": "Unassigned",
+    "protocol": "Protocol",
+    "params": "Parameters",
+    "port": "Port",
+    "port_name": "Port Name",
+    "container_port": "Container Port",
+    "host_address": "Host address",
+    "host_port": "Host Port"
   },
   "table": {
-    "name": "應用名稱",
-    "kind": "應用類型",
-    "image_version": "當前鏡像版本",
-    "status": "狀態",
-    "publisher": "發佈人",
-    "publish_at": "發佈時間",
-    "task_status": "部署任務狀態",
-    "instance_name": "實例名稱",
-    "model_name": "模型名稱",
-    "model_version": "模型版本",
-    "source": "模型來源",
-    "image": "鏡像",
-    "creator": "創建人",
-    "now_version": "當前版本"
+    "name": "App name",
+    "kind": "Application Type",
+    "image_version": "Current mirror version",
+    "status": "Status",
+    "publisher": "Publisher",
+    "publish_at": "Publish Date",
+    "task_status": "Deployment Task Status",
+    "instance_name": "Instance Name",
+    "model_name": "Model Name",
+    "model_version": "Model Version",
+    "source": "Model Source",
+    "image": "Mirror",
+    "creator": "Created By",
+    "now_version": "Current version"
   },
   "tab": {
-    "manifest": "資源編排",
-    "control_center": "控制中心",
-    "resource_status": "資源狀態",
-    "deploy_history": "部署歷史",
-    "image_safey": "鏡像安全",
-    "runtime": "運行資訊"
+    "manifest": "Resource Organization",
+    "control_center": "Control Center",
+    "resource_status": "Resource Status",
+    "deploy_history": "Deployment History",
+    "image_safey": "Mirror security",
+    "runtime": "Run Information"
   },
   "form": {
-    "limit_min_rule": "小於最小限制"
+    "limit_min_rule": "Less than Minimum Limit"
   },
   "status": {
-    "running": "執行中",
-    "complete": "已完成",
-    "failed": "執行失敗"
+    "running": "In progress",
+    "complete": "Completed",
+    "failed": "Execution Failed"
   }
 }
