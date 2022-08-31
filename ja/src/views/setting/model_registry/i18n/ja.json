@@ -1,67 +1,67 @@
 {
   "tab": {
-    "ai_model": "アルゴリズムモデル"
+    "ai_model": "メッシュのスネージオブジェクトを制御します"
   },
   "table": {
-    "name": "注文番号による検索",
-    "version": "バージョン",
-    "framework": "フレームワーク",
-    "task": "タイプ",
-    "tag": "タグ",
-    "last_modified": "最終更新日",
-    "recommend": "推奨値",
-    "published": "参加状況"
+    "name": "注文番番号によりよる検ソ",
+    "version": "ハーダー･ブレードン",
+    "framework": "フィルム ワク",
+    "task": "色々変える",
+    "tag": "タク・マローブ",
+    "last_modified": "最終更新",
+    "recommend": "ツイートON",
+    "published": "参加国家"
   },
   "operate": {
-    "recommend_content": "推奨コンテンツ",
-    "online": "リスト表示",
-    "offline": "オフライン",
-    "manage": "モデル管理",
-    "stop_sync": "同期を中止",
-    "stop_sync_c": "{0} との同期を中止",
-    "forbid": "無効",
-    "active": "有効",
-    "forbid_c": "{0} を無効化",
-    "active_C": "{0}をアクティベートする",
-    "check": "チェックサム"
+    "recommend_content": "TonoTシャツ",
+    "online": "リスト表現",
+    "offline": "オフィスライフン",
+    "manage": "モーテル 管理",
+    "stop_sync": "同時期を中止",
+    "stop_sync_c": "{0} との同期を停止しました",
+    "forbid": "無許可化",
+    "active": "は10",
+    "forbid_c": "{0} を効果無し",
+    "active_C": "{0}をアジトにすれば開ける！",
+    "check": "チックス アム"
   },
   "filter": {
-    "search": "モデル名",
-    "framework": "フレームワーク",
-    "task": "タイプ"
+    "search": "モテオブジェクト名",
+    "framework": "フィルム ワク",
+    "task": "色々変える"
   },
   "status": {
-    "success": "同期が成功",
-    "failure": "同期失敗",
-    "no_sync": "同期なし",
-    "running": "同期有効"
+    "success": "オブジェクトを同期してしまった",
+    "failure": "同期エラー",
+    "no_sync": "同期面倒見し",
+    "running": "同期時は10"
   },
   "tip": {
-    "model_count": "モデルの数",
-    "inner": "インボックス",
-    "huggingface": "世界で最も大規模なオープンソース コミュニティとして、NLP の技術に集中している。",
-    "openmmlab": "深い学習時に最も完全なコンピュータービジョンでオープンソースなアルゴリズムシステム。",
-    "tensorflow": "コアとなるオープンソースライブラリで、機械学習モデルを開発・トレーニングに役立つでしょう。",
-    "pytorch": "検出されたモデルとリサーチのために設計された プリペイドモデルリポジトリに公開します。",
-    "paddlepaddle": "は 産業を基盤とするオープンソース・ゼロ・学習プラットフォームです",
-    "kubegems": "Kubegemsビルトインアルゴリズムモデル",
-    "status": "同期ステータス",
-    "update_at": "更新日時",
-    "address": "住所",
-    "recomment": "紹介インデックス",
-    "recomment_content": "推奨コンテンツ",
-    "label": "モデルのラベル",
-    "model_admin": "アルゴリズムモデルストア管理者",
-    "source": "アルゴリズムストアソース",
-    "download_modelx": "ModelX Client をダウンロード",
-    "auth": "アルゴリズムストア認証",
-    "auth_setting": "認証設定",
-    "auth_type": "このニュースをサイトで公開するか否かの設定",
-    "passwd_auth": "ユーザー名コードベース認証",
-    "token_auth": "トークンベースの認証",
-    "passwd_or_token_auth": "ユーザー名パスワードやトークンベースの認証"
+    "model_count": "モーテルの数",
+    "inner": "インホージャスス",
+    "huggingface": "世界で一番時に大規模なオッフロパスを得たから、 NLP の技術に焦点を合わせる。",
+    "openmmlab": "深い学習において最も完全なコン得られるジャンクールシャーハーゲッゲッペンでフローオーケストできる。",
+    "tensorflow": "ジャンとなるオッフルから考え方ヴァッショコラリで処理、機械学習モテジャネ事件も開発・テレネク解釈をしながらも然たるしょうである。",
+    "pytorch": "この入検によって取得されたモテ情報紛として設計された フィルハーゲッコクールで設計された フィルハーゲッコクールから出た時点。",
+    "paddlepaddle": "は 産業を基盤とするオーケストラ・セフロー・学習フ゜（フロー・学習フ）廃止。",
+    "kubegems": "Kubegemsヒフロンテルジャンジャンジャンジャンジャブラ オブジェクトモーテル",
+    "status": "同期トレンドコース",
+    "update_at": "更新時間",
+    "address": "自分の場所",
+    "recomment": "ショーケース",
+    "recomment_content": "TonoTシャツ",
+    "label": "モーテル メッシュのラッシャル",
+    "model_admin": "オブジェクトフローオブジェクト管理者 のスガラテジャ校を構成します",
+    "source": "メッシュフロストのスネス",
+    "download_modelx": "ModelX Client をタ動作した",
+    "auth": "オルコのスジャロックのスネス 証証",
+    "auth_setting": "認証規定",
+    "auth_type": "このニューチューをサイするもののス解釈が分かる",
+    "passwd_auth": "ユニバーサルジャド ジャンジャド ジャンプリング ヘミド",
+    "token_auth": "トークンヘイジャクソンの証証",
+    "passwd_or_token_auth": "ユニバーサル技法付きのハイ゜ステージのスワート式ジャーマートヘ現を見せる"
   },
   "form": {
-    "recomment_rule": "書式が不適切です(0-100)"
+    "recomment_rule": "このケースは面倒でオブジェクトを扱うべきではありません (0-100)"
   }
 }
