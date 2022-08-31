@@ -1,9 +1,9 @@
 {
   "table": {
-    "name": "Service Entry Name",
-    "port": "Port"
+    "name": "Outside the Ministry of Foreign Affairs, Ministry of Foreign Affairs and Cooperation",
+    "port": "Outstanding statement of service"
   },
   "filter": {
-    "entry_name": "Service Entry Name"
+    "entry_name": "Outside the Ministry of Foreign Affairs, Ministry of Foreign Affairs and Cooperation"
   }
 }
