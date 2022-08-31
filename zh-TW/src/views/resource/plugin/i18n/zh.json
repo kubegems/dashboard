@@ -1,24 +1,24 @@
 {
   "tip": {
-    "inner": "Built-in Component",
-    "status": "Status",
-    "desc": "Introduction",
-    "version": "Version",
-    "laset_version": "Latest Version",
-    "enable_plugin": "Please enable components first"
+    "inner": "內置元件",
+    "status": "狀態",
+    "desc": "簡介",
+    "version": "版本",
+    "laset_version": "最新版本",
+    "enable_plugin": "請先啟用元件"
   },
   "operate": {
-    "install": "Enabled",
-    "install_c": "Enable {0}",
-    "uninstall": "Uninstall",
-    "uninstall_c": "Uninstall {0}"
+    "install": "啟用",
+    "install_c": "開啟{0}",
+    "uninstall": "卸載",
+    "uninstall_c": "卸載{0}"
   },
   "status": {
-    "deploying": "Deploying",
-    "installed": "Installed"
+    "deploying": "部署中",
+    "installed": "已安裝"
   },
   "tab": {
-    "core": "Core Component",
-    "kubernetes": "Kubernetes Component"
+    "core": "核心元件",
+    "kubernetes": "Kubernetes元件"
   }
 }
