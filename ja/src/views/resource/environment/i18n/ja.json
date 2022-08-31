@@ -37,7 +37,7 @@
     "limit_value": "{0}の値",
     "limit": "制限値",
     "default": "デフォルト値",
-    "default_request": "默认请求值",
+    "default_request": "デフォルト（リクエスト）",
     "storage_capacity": "ストレージボリューム容量",
     "delete_all_select": "名前空間全体を削除",
     "delete_cascade_select": "関連付けの削除"
