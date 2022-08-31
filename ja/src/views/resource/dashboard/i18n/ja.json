@@ -1,33 +1,33 @@
 {
-  "more": "さらに表示",
+  "more": "More",
   "audit": {
-    "audit": "監査"
+    "audit": "Audit"
   },
   "event": {
-    "event": "イベント",
+    "event": "Event",
     "cluster": "クラスター"
   },
   "project": {
     "table": {
-      "type": "タイプ",
-      "traffic_in": "データ通信",
-      "traffic_out": "流出",
-      "remark": "メモ",
-      "alias": "エイリアス",
-      "test": "テスト",
-      "dev": "開発",
-      "prod": "生産品"
+      "type": "Type",
+      "traffic_in": "Traffic In",
+      "traffic_out": "Traffic Out",
+      "remark": "Remark",
+      "alias": "Alias",
+      "test": "Test",
+      "dev": "Development",
+      "prod": "Production"
     }
   },
   "resource": {
     "table": {
-      "all": "合計{0}",
-      "allocated": "{0}を割り当てました",
-      "applying": "資源リクエスト"
+      "all": "All {0}",
+      "allocated": "Allocated {0}",
+      "applying": "Resource in apply"
     },
-    "title": "リソース調整"
+    "title": "Sacle Resource"
   },
   "tip": {
-    "tenant": "作成またはテナントを追加してください。"
+    "tenant": "Please create or join a tenat"
   }
 }
