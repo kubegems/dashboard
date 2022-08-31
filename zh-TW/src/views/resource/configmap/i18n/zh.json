@@ -1,13 +1,13 @@
 {
   "table": {
-    "name": "Profile name",
-    "item": "Configuration Item",
-    "create_at": "Created on"
+    "name": "配置名",
+    "item": "配置項",
+    "create_at": "創建時間"
   },
   "filter": {
-    "configmap_name": "Configuration Name"
+    "configmap_name": "配置名稱"
   },
   "form": {
-    "name": "Profile name"
+    "name": "配置名"
   }
 }
