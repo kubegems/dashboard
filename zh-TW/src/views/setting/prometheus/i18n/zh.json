@@ -1,29 +1,29 @@
 {
   "table": {
-    "name": "名稱",
-    "unit": "單位",
-    "rule": "規則",
-    "label": "標籤"
+    "name": "Name",
+    "unit": "Units",
+    "rule": "Rules",
+    "label": "Tags"
   },
   "form": {
-    "name": "名稱",
-    "show_name": "顯示名稱",
-    "label": "標籤（回車）",
-    "unit": "單位",
-    "description": "描述"
+    "name": "Name",
+    "show_name": "Display Name",
+    "label": "Labels (enter)",
+    "unit": "Units",
+    "description": "Description"
   },
   "tip": {
-    "group_and_resource": "組/資源",
-    "group": "組",
-    "select_resource": "請選擇一個資源",
-    "default": "預設",
-    "byte": "位元組",
-    "byte_rate": "位元組速率",
-    "time": "時間",
-    "precent": "百分比",
-    "custom": "自訂"
+    "group_and_resource": "Group/Resources",
+    "group": "Group",
+    "select_resource": "Please select a resource",
+    "default": "Default",
+    "byte": "Bytes",
+    "byte_rate": "Byte Rate",
+    "time": "Time",
+    "precent": "Percentage",
+    "custom": "Custom"
   },
   "filter": {
-    "search": "搜索"
+    "search": "Search"
   }
 }
