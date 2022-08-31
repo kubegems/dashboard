@@ -1,17 +1,17 @@
 {
   "table": {
-    "name": "快照名称",
-    "class": "快照类",
-    "origin_pvc": "源存储卷"
+    "name": "スナップショット名",
+    "class": "スナップショットクラス",
+    "origin_pvc": "ソース記憶ボリューム"
   },
   "filter": {
-    "snapshot_name": "快照名称"
+    "snapshot_name": "スナップショット名"
   },
   "operate": {
-    "restore": "快照恢复"
+    "restore": "スナップショット回復"
   },
   "form": {
-    "name": "快照",
-    "pvc_name": "存储卷名称"
+    "name": "スナップショット",
+    "pvc_name": "ストレージボリューム名"
   }
 }
