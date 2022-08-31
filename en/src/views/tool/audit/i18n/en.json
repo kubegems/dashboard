@@ -2,16 +2,16 @@
   "table": {
     "trigger_time": "Trigger Time",
     "tenant": "Tenant",
-    "account": "User",
-    "operate": "Operations",
-    "object": "Object",
-    "label": "Tags",
+    "account": "Account",
+    "operate": "Action",
+    "object": "Operate Object",
+    "label": "Label",
     "status": "Status"
   },
   "filter": {
-    "account": "User",
-    "search": "Retrieve",
+    "account": "Account",
+    "search": "Search",
     "status": "Status",
-    "action": "Operations"
+    "action": "Action"
   }
 }
