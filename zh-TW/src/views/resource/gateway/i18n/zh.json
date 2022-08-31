@@ -1,46 +1,46 @@
 {
   "tip": {
-    "instance_count": "實例數",
-    "default": "默認閘道",
-    "port": "閘道埠",
+    "instance_count": "インスタンスの数",
+    "default": "デフォルトゲートウェイ",
+    "port": "ゲートウェイポート",
     "status": "狀態",
-    "loadbalancer": "外部負載均衡網關（LoadBalancer）",
-    "nodeport": "常規集群閘道（NodePort）",
-    "connect_count": "連接數",
-    "default_domain": "預設功能變數名稱",
-    "extend_label": "工作負載附加標籤",
-    "address": "閘道位址",
-    "available": "{0}個實例可用",
-    "unavailable": "{0}個實例不可用",
-    "name": "閘道名稱",
-    "type": "閘道類型",
-    "protocol": "協定",
-    "replicas": "副本數",
-    "image": "鏡像",
-    "config_item": "配置項"
+    "loadbalancer": "外部ロードバランサー（LoadBalancer）",
+    "nodeport": "典型的なクラスターゲートウェイ（NodePort）",
+    "connect_count": "接続番號",
+    "default_domain": "デフォルトのドメイン",
+    "extend_label": "ワークロードの追加ラベル",
+    "address": "すべての結果",
+    "available": "{0}個のインスタンスが利用可能です",
+    "unavailable": "{0}個のインスタンスは利用できません",
+    "name": "ゲートウェイ名",
+    "type": "ゲートウェイ・タイプ",
+    "protocol": "プロトコル",
+    "replicas": "レプリカ数",
+    "image": "ミラー",
+    "config_item": "設定項目"
   },
   "tab": {
-    "config": "配置",
-    "ingress": "路由"
+    "config": "設定",
+    "ingress": "ルーティング"
   },
   "table": {
-    "name": "名稱",
-    "address": "訪問位址",
-    "container_port": "容器埠",
-    "service_port": "服務埠",
-    "host_port": "主機埠"
+    "name": "注文番號による検索",
+    "address": "アドレスへ",
+    "container_port": "コンテナポート",
+    "service_port": "サービスポート",
+    "host_port": "ポート"
   },
   "operate": {
     "access": "訪問",
-    "use_default_domain": "使用預設功能變數名稱"
+    "use_default_domain": "デフォルトのドメインを使用"
   },
   "status": {
-    "normal": "正常",
-    "error": "異常"
+    "normal": "標準",
+    "error": "例外"
   },
   "form": {
-    "name_rule": "格式錯誤（以字母開頭）",
-    "domain_rule": "網域名稱格式錯誤（支援通配符』*'）",
-    "image_rule": "格式錯誤（不符合鏡像格式）"
+    "name_rule": "フォーマットエラー（文字の先頭）",
+    "domain_rule": "ドメイン名の書式が不適切です （ワイルドカード'*'）",
+    "image_rule": "書式設定エラー（画像フォーマットなし）"
   }
 }
