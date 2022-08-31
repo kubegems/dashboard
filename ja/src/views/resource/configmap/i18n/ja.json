@@ -1,13 +1,13 @@
 {
   "table": {
-    "name": "プロファイル名",
-    "item": "設定項目",
-    "create_at": "作成日時"
+    "name": "フィルハーバータ",
+    "item": "項目設定",
+    "create_at": "できた"
   },
   "filter": {
-    "configmap_name": "プロファイル名"
+    "configmap_name": "フィルハーバータ"
   },
   "form": {
-    "name": "プロファイル名"
+    "name": "フィルハーバータ"
   }
 }
