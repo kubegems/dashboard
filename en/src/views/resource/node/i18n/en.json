@@ -3,9 +3,9 @@
     "node_name": "Node Name"
   },
   "operate": {
-    "gpu_schedule": "GPU Schedule",
-    "allow_schedule": "Allow schedule",
-    "stop_schedule": "Stop scheduled",
+    "gpu_schedule": "GPU Scheduler",
+    "allow_schedule": "Allow scheduling",
+    "stop_schedule": "Stop scheduling",
     "hide": "Fold",
     "show": "Show"
   },
@@ -25,12 +25,12 @@
     "cpu_rate": "CPU Usage",
     "memory_rate": "Memory usage",
     "network": "Network bandwidth",
-    "remain_storage": "Note by the secretariat",
+    "remain_storage": "Disk remaining capacity",
     "disk_iops": "Disk IOPS",
     "load_1": "1 minute load",
     "load_5": "5 Minutes Load",
     "load_15": "15 mins load",
-    "in_traffc": "Traffic at the entry",
+    "in_traffc": "Traffic at the entrance",
     "out_traffic": "Export traffic",
     "write_iops": "Write to IOPS",
     "read_iops": "read IOPS",
@@ -48,10 +48,10 @@
     "condition": "Status",
     "last_update_at": "Last updated",
     "nvidia": "Nvidia GPU Driver",
-    "schedule": "Node Schedule",
+    "schedule": "Node Scheduler",
     "policy": "Policy",
-    "no_schedule": "Schedule is not allowed (Noedule)",
+    "no_schedule": "Scheduler is not allowed (Noedule)",
     "prefer_no_schedule": "Do not schedule (PreferNoSchedule)",
-    "no_execute": "Do not allow and remove existing container groups (Nosute)"
+    "no_execute": "Do not allow and remove existing container groups (Noecute)"
   }
 }
