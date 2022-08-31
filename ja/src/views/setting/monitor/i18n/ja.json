@@ -1,27 +1,27 @@
 {
   "filter": {
-    "template_name": "Template Name"
+    "template_name": "テンプレート名"
   },
   "table": {
-    "name": "Name",
-    "refresh": "Refresh interval",
-    "description": "Design",
-    "graph_count": "Chart Count",
-    "expr": "Expression",
-    "unit": "Units",
-    "generator": "Group | Resources | Rules"
+    "name": "注文番号による検索",
+    "refresh": "更新間隔",
+    "description": "説明",
+    "graph_count": "グラフの数",
+    "expr": "評価式",
+    "unit": "単位",
+    "generator": "グループ | リソース | ルール"
   },
   "tab": {
-    "template_info": "Template Info"
+    "template_info": "テンプレート情報"
   },
   "tip": {
-    "graph": "Graph",
-    "start": "Start Time",
-    "end": "End Time",
-    "step": "Interval",
-    "rule": "Rules"
+    "graph": "グラフ",
+    "start": "開始時刻",
+    "end": "終了時刻",
+    "step": "間隔",
+    "rule": "ルール"
   },
   "operate": {
-    "load_c": "Import {0}"
+    "load_c": "インポート{0}"
   }
 }
