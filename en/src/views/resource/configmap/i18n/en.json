@@ -1,13 +1,13 @@
 {
   "table": {
-    "name": "Profile name",
-    "item": "Configuration Item",
-    "create_at": "Created on"
+    "name": "Sterility illusion's name is known as Sterilian Myrik Sterilia",
+    "item": "Set Item",
+    "create_at": "On day"
   },
   "filter": {
-    "configmap_name": "Configuration Name"
+    "configmap_name": "Sterility illusion's name is known as Sterilian Myrik Sterilia"
   },
   "form": {
-    "name": "Profile name"
+    "name": "Sterility illusion's name is known as Sterilian Myrik Sterilia"
   }
 }
