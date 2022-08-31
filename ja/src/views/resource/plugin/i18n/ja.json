@@ -1,24 +1,24 @@
 {
   "tip": {
-    "inner": "組み込みコンポーネント",
-    "status": "状態",
-    "desc": "はじめに",
-    "version": "バージョン",
-    "laset_version": "最新バージョン",
-    "enable_plugin": "はじめにウィジェットを有効にしてください"
+    "inner": "組み込みコンホ普遍ト",
+    "status": "ステータス",
+    "desc": "はし紛めに",
+    "version": "ハーダー･ブレードン",
+    "laset_version": "新鮮なハーブ、ブレードランン",
+    "enable_plugin": "はのスナップショットに組み込む処理に必要だ"
   },
   "operate": {
-    "install": "有効",
-    "install_c": "{0} を有効にする",
-    "uninstall": "アンインストール",
-    "uninstall_c": "{0} のアンインストール"
+    "install": "は10",
+    "install_c": "{0} を効率化する力。",
+    "uninstall": "アデル",
+    "uninstall_c": "{0} のアセンション"
   },
   "status": {
     "deploying": "展開中",
-    "installed": "インストール済み"
+    "installed": "インストホール済み"
   },
   "tab": {
-    "core": "コアコンポーネント",
-    "kubernetes": "Kubernetes コンポーネント"
+    "core": "コスホンジュウ-チャート",
+    "kubernetes": "Kubernetes コンホテイターリスト"
   }
 }
