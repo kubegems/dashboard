@@ -9,21 +9,21 @@
     "end_at": "End Time"
   },
   "tip": {
-    "add_image": "Please add an image",
-    "restart_count": "Number of returns",
+    "add_image": "Please add a container image",
+    "restart_count": "Number of retries",
     "parallelism": "Parallel number",
-    "complete_at": "Finnish Time",
+    "complete_at": "Finish Time",
     "succeed": "Success Count",
     "condition": "Status",
     "env": "Environment Variables",
     "volume": "Volume",
     "last_change_at": "Last changed time",
     "job_setting": "Task Settings",
-    "max_restart_count": "Minimum number of returns",
+    "max_restart_count": "Maximum number of retries",
     "complations": "Completed",
-    "deadline_seconds": "Exit time (in seconds)",
-    "restart_policy": "Start Policy",
+    "deadline_seconds": "Exit timeout (in seconds)",
+    "restart_policy": "Restart Policy",
     "policy_never": "Never (create a new container group when failing)",
-    "policy_onfailure": "OnFailure (internal reboot containing on failure)"
+    "policy_onfailure": "OnFailure (internal reboot container on failure)"
   }
 }
