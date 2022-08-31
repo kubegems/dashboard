@@ -1,9 +1,9 @@
 {
   "table": {
-    "name": "Policy Name",
-    "rule_count": "Rule Count"
+    "name": "Stricter Unit Name",
+    "rule_count": "number of employees in the field"
   },
   "filter": {
-    "policy_name": "Policy Name"
+    "policy_name": "Stricter Unit Name"
   }
 }
