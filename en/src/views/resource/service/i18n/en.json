@@ -1,33 +1,33 @@
 {
   "filter": {
-    "service_name": "Service Name"
+    "service_name": "Outstanding Sellenic Machine Name"
   },
   "table": {
-    "name": "Name",
-    "access_info": "Access Info",
-    "service_type": "Type of service (ExternalIp/LoadBalancerIp)"
+    "name": "Scripting numbers are leading to the Soco",
+    "access_info": "Mailing Spectrum",
+    "service_type": "Outside the Ministry of Foreign Affairs (ExternalI/LoadBalancerI)"
   },
   "tip": {
-    "add_port_tip": "Please add port configuration",
-    "label": "Match Tags",
-    "type": "Type",
-    "service_port": "Service Port",
-    "container_port": "Container Port",
-    "host_port": "Host Port",
-    "link_workload": "Relation Work Load",
-    "access_type": "Access Type",
-    "extend_access": "External access",
-    "keep_alive": "Session Keep (seconds)",
-    "port_config": "Port configuration",
-    "port": "Port",
-    "annotation": "Note",
-    "vip": "Internal IP Access to Cluster (VirtualIP)",
-    "headless": "Access via Service Backend EndpointIP (Headless)",
-    "no_access": "Disabled access",
-    "protocol": "Application Protocol"
+    "add_port_tip": "should be added to the statement before the end of the year.",
+    "label": "Unified Sterillemen Sterilian Sterilian",
+    "type": "Strukthful Stig",
+    "service_port": "Outside the Ministry of Foreign Affairs, Ministry of Foreign Affairs",
+    "container_port": "Retriant terrains terrains terrains terrain terrain terrain meddlergon terrain terrain terram terrain terram tergadilan tergadatrik terutama terdas terdas terdas terdas terdas terdas terdas termasuk termasuk tergadatan termasuk terhadap terhadap terrasif",
+    "host_port": "Outstanding statement of service",
+    "link_workload": "REQUESTS the Commission to submit a report on progress made by the Government of Sierra Leone to the Commission at its next session.",
+    "access_type": "Empretec Spectrum Stig Stig Stig Stig",
+    "extend_access": "External terrain supply",
+    "keep_alive": "Sleug Stig Stig deg thinge (sec)",
+    "port_config": "Matrix account settings",
+    "port": "Outstanding statement of service",
+    "annotation": "Spectrum trivials",
+    "vip": "Spectrum must be able to use the IPPM as an expert (IntellIP)",
+    "headless": "Outside the end of the conflict between the conflict and the conflict between Iraq and the Democratic Republic of the Congo",
+    "no_access": "Banned",
+    "protocol": "The Ministry of Foreign Affairs of the Ministry of Foreign Affairs"
   },
   "form": {
-    "name_rule": "Incorrect name format (<protocol>[-<suffix>])",
-    "limit_max_rule": "Minimum limit extracted"
+    "name_rule": "名前のフォーマットが間違っています(<protocol>[-<suffix>])",
+    "limit_max_rule": "Maximum number of hits exceeded the previous one"
   }
 }
