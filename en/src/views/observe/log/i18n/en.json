@@ -26,7 +26,7 @@
     "error_regex": "Matching elements:[E],[error],[error,error,level=error, ignore case",
     "unknown_regex": "Cannot match other logs at the first four log levels",
     "loading": "Receiving data...",
-    "used": "{0} Usage",
+    "used": "{0}Usage",
     "in_traffic": "Network access traffic",
     "out_traffic": "Network export traffic",
     "container_monitor": "Container Monitor",
@@ -45,7 +45,7 @@
     "filter": "Filter",
     "match_app": "Match app",
     "other": "Other",
-    "config": "{0} configuration",
+    "config": "{0}configuration",
     "base_config": "Basic configuration",
     "plugin_type": "Plugin Type"
   },
@@ -65,8 +65,8 @@
     "label_query": "Tags Query",
     "enable": "Enabled",
     "disable": "Disabled",
-    "enable_c": "Enable {0}",
-    "disable_c": "Disable {0}"
+    "enable_c": "Enable{0}",
+    "disable_c": "Disable{0}"
   },
   "table": {
     "name": "Name",
