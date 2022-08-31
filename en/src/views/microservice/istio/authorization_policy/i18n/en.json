@@ -1,9 +1,9 @@
 {
   "table": {
-    "name": "ポリシー名",
-    "rule_count": "ルール数"
+    "name": "Policy Name",
+    "rule_count": "Rule Count"
   },
   "filter": {
-    "policy_name": "ポリシー名"
+    "policy_name": "Policy Name"
   }
 }
