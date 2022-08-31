@@ -18,16 +18,16 @@
     "access_type": "Access Type",
     "extend_access": "External access",
     "keep_alive": "Session Keep (seconds)",
-    "port_config": "Port Configuration",
+    "port_config": "Port configuration",
     "port": "Port",
     "annotation": "Note",
     "vip": "Internal IP Access to Cluster (VirtualIP)",
     "headless": "Access via Service Backend EndpointIP (Headless)",
-    "no_access": "Disable access",
+    "no_access": "Disabled access",
     "protocol": "Application Protocol"
   },
   "form": {
     "name_rule": "Incorrect name format (<protocol>[-<suffix>])",
-    "limit_max_rule": "Maximum limit exceeded"
+    "limit_max_rule": "Minimum limit extracted"
   }
 }
