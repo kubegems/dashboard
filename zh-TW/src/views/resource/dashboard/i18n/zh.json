@@ -1,33 +1,33 @@
 {
-  "more": "更多",
+  "more": "More",
   "audit": {
-    "audit": "審計"
+    "audit": "Audit"
   },
   "event": {
-    "event": "事件",
-    "cluster": "集群"
+    "event": "Event",
+    "cluster": "Cluster"
   },
   "project": {
     "table": {
-      "type": "類型",
-      "traffic_in": "流量in",
-      "traffic_out": "流量out",
-      "remark": "備註",
-      "alias": "別名",
-      "test": "測試",
-      "dev": "開發",
-      "prod": "生產"
+      "type": "Type",
+      "traffic_in": "Traffic In",
+      "traffic_out": "Traffic Out",
+      "remark": "Remark",
+      "alias": "Alias",
+      "test": "Test",
+      "dev": "Development",
+      "prod": "Production"
     }
   },
   "resource": {
     "table": {
-      "all": "總{0}",
-      "allocated": "已分配{0}",
-      "applying": "資源申請中"
+      "all": "All {0}",
+      "allocated": "Allocated {0}",
+      "applying": "Resource in apply"
     },
-    "title": "資源調整"
+    "title": "Sacle Resource"
   },
   "tip": {
-    "tenant": "請創建或加入租戶"
+    "tenant": "Please create or join a tenant"
   }
 }
