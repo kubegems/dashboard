@@ -1,33 +1,33 @@
 {
   "table": {
-    "name": "Virtual Space Name",
-    "status": "Status",
-    "creator": "Created By",
-    "environment_type": "Environment Type",
-    "remark": "Remarks"
+    "name": "虛擬空間名稱",
+    "status": "狀態",
+    "creator": "創建人",
+    "environment_type": "環境類型",
+    "remark": "備註"
   },
   "filter": {
-    "mesh_name": "Virtual Space Name"
+    "mesh_name": "虛擬空間名稱"
   },
   "status": {
-    "activated": "Activated",
-    "inactivated": "Not activated"
+    "activated": "已啟動",
+    "inactivated": "未啟動"
   },
   "operate": {
-    "activate": "Activate",
-    "inactivate": "Close",
-    "activate_c": "Activate {0}",
-    "inactivate_c": "Close {0}",
-    "link_c": "Associate {0}",
-    "delete_linked_env": "Remove virtual space association environment"
+    "activate": "啟動",
+    "inactivate": "關閉",
+    "activate_c": "啟動{0}",
+    "inactivate_c": "關閉{0}",
+    "link_c": "關聯{0}",
+    "delete_linked_env": "刪除虛擬空間關聯環境"
   },
   "tip": {
-    "set_status": "Set virtual space status",
-    "link_environment": "Please link environment",
-    "mesh_member": "Virtual space users inherit from members of the environment"
+    "set_status": "設置虛擬空間狀態",
+    "link_environment": "請關聯環境",
+    "mesh_member": "虛擬空間用戶繼承於環境成員"
   },
   "form": {
-    "name": "Virtual Space Name",
-    "name_rule": "More than 20 characters"
+    "name": "虛擬空間名稱",
+    "name_rule": "超出20字元限制"
   }
 }
