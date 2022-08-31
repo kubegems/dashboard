@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <v-app-bar app clipped-left clipped-right color="primary" dark>
+  <v-app-bar app class="header" clipped-left clipped-right color="primary" dark>
     <v-app-bar-nav-icon
       v-if="showAppBarNavIcon"
       @click="$vuetify.breakpoint.smAndDown ? setSidebarDrawer(!SidebarDrawer) : $emit('input', !value)"
@@ -227,6 +227,8 @@
 
 <style lang="scss" scoped>
   .header {
+    z-index: 9;
+
     &__line-height {
       line-height: 64px !important;
     }

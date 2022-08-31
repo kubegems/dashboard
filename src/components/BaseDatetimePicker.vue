@@ -115,8 +115,8 @@
       <v-divider class="my-1" />
       <v-card-actions class="pa-0">
         <v-spacer />
-        <v-btn v-if="clearable" color="error" text @click="clear">{{ $t('operate.clear') }}</v-btn>
-        <v-btn color="primary" text @click="confirm">{{ $t('operate.confirm') }}</v-btn>
+        <v-btn v-if="clearable" color="error" small @click="clear">{{ $t('operate.clear') }}</v-btn>
+        <v-btn color="primary" small @click="confirm">{{ $t('operate.confirm') }}</v-btn>
       </v-card-actions>
       <!-- 确认 -->
     </v-card>

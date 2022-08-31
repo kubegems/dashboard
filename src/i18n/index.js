@@ -18,8 +18,8 @@ import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 
 // Messages
-import en from '@/i18n/messages/en.json';
-import zhHans from '@/i18n/messages/zh-Hans.json';
+import en from '@/i18n/en.json';
+import zhHans from '@/i18n/zh-Hans.json';
 import store from '@/store';
 
 Vue.use(VueI18n);

@@ -60,6 +60,7 @@
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
           colorful
           :extend-height="height"
+          :global-plugins-check="false"
           horizontal-align="left"
           label="all"
           :metrics="metrics"

@@ -41,8 +41,6 @@
               <div class="timeline__div" @click="toApp" v-html="$t('tip.link_2_app')" />
             </div>
 
-            <v-divider class="mt-12" />
-
             <template #icon>
               <v-icon color="white"> mdi-numeric-1-circle </v-icon>
             </template>
@@ -67,19 +65,39 @@
                   {{ $t('operate.refresh_middleware_status') }}
                 </v-btn>
               </div>
-              <div class="timeline__div">
-                <span v-if="deployStatus !== 'up'" class="timeline__data orange--text">
-                  <v-icon class="mt-n1" color="orange">mdi-alert-circle</v-icon>
-                  {{ $root.$t('data.no_data') }}
-                </span>
-                <span v-else class="timeline__data success--text">
-                  <v-icon class="mt-n1" color="success">mdi-check-circle</v-icon>
-                  {{ $t('tip.success_data') }}
-                </span>
+              <div class="timeline__div mt-3">
+                <div
+                  v-if="deployStatus !== 'up'"
+                  class="v-alert v-sheet theme--dark v-alert--border v-alert--dense v-alert--border-left yellow-bg py-2"
+                  mdxtype="Alert"
+                  role="alert"
+                >
+                  <div class="v-alert__wrapper">
+                    <i
+                      aria-hidden="true"
+                      class="v-icon notranslate v-alert__icon mdi mdi-alert theme--dark warning--text"
+                    />
+                    <div class="v-alert__content warning--text"> {{ $root.$t('data.no_data') }} </div>
+                    <div class="v-alert__border v-alert__border--left" />
+                  </div>
+                </div>
+                <div
+                  v-else
+                  class="v-alert v-sheet theme--dark v-alert--border v-alert--dense v-alert--border-left success py-2"
+                  mdxtype="Alert"
+                  role="alert"
+                >
+                  <div class="v-alert__wrapper">
+                    <i
+                      aria-hidden="true"
+                      class="v-icon notranslate v-alert__icon mdi mdi-check theme--dark white--text"
+                    />
+                    <div class="v-alert__content white--text"> {{ $t('tip.success_data') }} </div>
+                    <div class="v-alert__border v-alert__border--left" />
+                  </div>
+                </div>
               </div>
             </div>
-
-            <v-divider class="mt-12" />
 
             <template #icon>
               <v-icon color="white"> mdi-numeric-2-circle </v-icon>
@@ -361,13 +379,26 @@
     }
 
     &__title {
-      font-size: 17px;
+      font-weight: 600;
+      padding-bottom: 0.3em;
+      font-size: 1.5em;
+      border-bottom: 1px solid hsla(210, 18%, 87%, 1);
     }
 
     &__div {
-      line-height: 30px;
-      font-size: 15px;
-      color: rgba(0, 0, 0, 0.7);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji',
+        'Segoe UI Emoji';
+      font-size: 16px;
+      line-height: 1.5;
+      word-wrap: break-word;
+      color: #24292f;
     }
+  }
+
+  .v-alert__content {
+    font-size: 14px;
+  }
+  .yellow-bg {
+    background-color: rgb(253, 242, 231);
   }
 </style>

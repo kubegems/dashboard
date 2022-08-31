@@ -346,6 +346,7 @@
       "alertrule": "Alert Rule",
       "output": "Flow",
       "flow": "Output",
+      "monitor_app": "App Monitor",
 
       "g_dashboard": "Dashboard",
       "g_integrated": "Integrated",
@@ -462,7 +463,8 @@
     "service_monitor": "ServiceMonitor defines monitoring for a set of services, which is automatically discovered by Prometheus and becomes the target of its indicator pull.",
     "prometheus_rule": "PrometheusRule are usually Prometheus alert rules set for monitoring indicators.",
     "flow": "Flow/ClusterFlow defines a log flow with filters and outputs.",
-    "output": "Output/ClusterOutput defines the output to which your flow can send log messages."
+    "output": "Output/ClusterOutput defines the output to which your flow can send log messages.",
+    "dash_app": "App monitor from Jaeger"
   },
 
   "metadata": {

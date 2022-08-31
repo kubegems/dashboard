@@ -37,7 +37,7 @@
     "limit_value": "{0}限制值",
     "limit": "限制值",
     "default": "默认值",
-    "default_reauest": "默认请求值",
+    "default_request": "默认请求值",
     "storage_capacity": "存储卷容量",
     "delete_all_select": "删除整个命名空间",
     "delete_cascade_select": "仅删除关联"

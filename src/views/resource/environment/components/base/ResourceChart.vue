@@ -46,7 +46,7 @@
 
     <div v-if="tke || nvidia" class="mb-2 text-center">
       <v-btn color="primary" small text @click="showMore = !showMore">
-        {{ showMore ? `${t('tip.hide')}GPU` : `${t('tip.show')}GPU` }}
+        {{ showMore ? `${$t('tip.hide')} GPU` : `${$t('tip.show')} GPU` }}
       </v-btn>
     </div>
   </div>
