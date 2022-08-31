@@ -1,9 +1,9 @@
 {
   "table": {
-    "name": "車両名",
-    "label": "一致するタグ"
+    "name": "両名",
+    "label": "一貫したタク添え"
   },
   "filter": {
-    "sidecar_name": "車両名"
+    "sidecar_name": "両名"
   }
 }
