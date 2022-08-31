@@ -1,13 +1,13 @@
 {
   "table": {
-    "name": "名称",
-    "status": "状态",
-    "last_update_time": "上次更新时间"
+    "name": "Name",
+    "status": "Status",
+    "last_update_time": "Last updated"
   },
   "filter": {
-    "crd_name": "crd名称"
+    "crd_name": "cd name"
   },
   "tab": {
-    "cr_list": "CR列表"
+    "cr_list": "CRs List"
   }
 }
