@@ -16,9 +16,9 @@
   "operate": {
     "activate": "Activate",
     "inactivate": "Close",
-    "activate_c": "Activate{0}",
-    "inactivate_c": "Close{0}",
-    "link_c": "Associate{0}",
+    "activate_c": "Activate {0}",
+    "inactivate_c": "Close {0}",
+    "link_c": "Associate {0}",
     "delete_linked_env": "Remove virtual space association environment"
   },
   "tip": {
