@@ -1,45 +1,45 @@
 {
   "table": {
-    "kubernetes_version": "Kubernetes version",
+    "kubernetes_version": "Kibernetes terram Sterilia Sterili Sterili Sterili Sterili Sterili Stig Sterili Sterili Sterili Stig Stig Stig Stig Stig Stig Sterili",
     "status": "Status",
-    "kubeconfig_expired": "Configuration Expiration"
+    "kubeconfig_expired": "There is a date when you want to fill in the settings"
   },
   "tip": {
-    "control_cluster": "Control cluster",
-    "resource_oversold": "Resource Override",
-    "missing_kubeconfig": "Please enter KubeConfig",
-    "physics": "Physics",
+    "control_cluster": "Spectrum delivery management",
+    "resource_oversold": "Top participants in the list of users in the list",
+    "missing_kubeconfig": "Invasion Pacha Sterilian Sieter Unit KubeConfiguration",
+    "physics": "Start day payment (Kanak request)",
     "virtual": "v",
-    "total": "Total {0}",
-    "sum": "Sum",
-    "oversold_precent": "{0}score ratio",
-    "oversold": "Excess{0}",
+    "total": "{0}total",
+    "sum": "Total",
+    "oversold_precent": "Percentage of hunting by {0}",
+    "oversold": "Advertise Super{0}",
     "all": "Total{0}",
-    "used": "Used{0}",
-    "reason": "Reason",
-    "cert_expired": "Certificate Expiration",
-    "api_success_rate": "Success rate for API request",
-    "cluster_init_config": "Cluster initialization settings",
-    "test_cluster": "Test cluster",
-    "connect_success": "ClusterIntegration|Cluster connection successful",
-    "connect_failed": "Cluster connection failed",
-    "connecting": "Connecting clusters",
-    "support_version": "Support Version",
-    "cluster_vendor": "Cluster Vendor",
-    "now_select": "Current selection"
+    "used": "{0} in use",
+    "reason": "Rationale",
+    "cert_expired": "Detecting bookings has date of conclusion",
+    "api_success_rate": "Success rate required by the API",
+    "cluster_init_config": "Spectrum must be capable of setting up the first stage of the project before the end of the year.",
+    "test_cluster": "Matron Mag Mag",
+    "connect_success": "Spectrum must be capable of achieving a successful settlement of the university.",
+    "connect_failed": "Spectrum must be capable of meeting with the best of the best of the illness;",
+    "connecting": "Spectrum Mutshi adalah terutama termasuk terjadinya",
+    "support_version": "should not be allowed to enter upon the request of the United States of America.",
+    "cluster_vendor": "Catalyst Spectrum",
+    "now_select": "Clear selection now"
   },
   "form": {
-    "format_rule": "Wrong format (example: max 1 decimal)",
-    "limit_min_rule": "Less than minimum limit",
-    "limit_max_rule": "Maximum limit exceeded",
-    "name": "Cluster name"
+    "format_rule": "Spectrum (max: max)",
+    "limit_min_rule": "Minimum limit",
+    "limit_max_rule": "Maximum number of hits exceeded the previous one",
+    "name": "Spectrum must be known"
   },
   "tab": {
-    "etcd_timeout": "ETCD spent time",
-    "apiserver_timeout": "API ervertime",
-    "cluster_cpu": "Cluster CPU",
-    "cluster_memory": "Cluster Memory",
-    "cluster_storage": "ClusterIntegration|Cluster storage",
-    "cluster_pod": "Cluster Container Group"
+    "etcd_timeout": "ETCDlocking time",
+    "apiserver_timeout": "APISercreen time",
+    "cluster_cpu": "Spectrum Mutshelli U",
+    "cluster_memory": "Spectrum Stig Ha Jo Stig",
+    "cluster_storage": "Spectrum must be able to provide a support service to the Government.",
+    "cluster_pod": "Arena dei deutsche supérieure supérieure supérieure supérieure supérieure supérieure supérieure supérieure supérieure supérieure supérieure supérieure supérieure supérieure supérieure supérieure supérieure supérieure supérieure supérieure supérieure supérieure supérieure supérieure supérieure supérieure supérieure supérieure supérieure supérieure supérieure supérieure supérieur supérieure supérieur supérieure supérieure supérieur supérieure supérieure supérieure supérieure supérieure supérieur supérieur supériegrene supérieur der"
   }
 }
