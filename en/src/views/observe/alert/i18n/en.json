@@ -1,45 +1,45 @@
 {
   "table": {
-    "summary": "Summary",
-    "fingerprint": "Fingerprint",
-    "expired_at": "Expiration time",
-    "creator": "Created By",
-    "name": "Name",
-    "start_at": "Start Time",
-    "trigger_at": "Trigger Time",
-    "blacklist": "Blacklist",
+    "summary": "General",
+    "fingerprint": "Spectrum",
+    "expired_at": "There is a date for delivery",
+    "creator": "Author",
+    "name": "Scripting numbers are leading to the Soco",
+    "start_at": "Start",
+    "trigger_at": "Action start time",
+    "blacklist": "Spectrum Spectrum Stroke",
     "message": "Details",
-    "severity": "Level"
+    "severity": "Reconnection of military expertise"
   },
   "tip": {
-    "forever": "Persistent",
-    "confirm_remove_blacklist": "Are you sure you want to remove this warning message from the alarm blacklist?",
-    "today_alert": "Today’s Warning",
-    "cleared": "Removed",
-    "triggering": "Alarm",
-    "alert_type": "Warning Categories",
-    "count": "Quantity",
-    "alert_trend": "Alert History Trends",
-    "top_10": "Warning TOP10",
-    "not_changed": "Same",
+    "forever": "No duration",
+    "confirm_remove_blacklist": "Do you want to use this list for you or you want to use it for you or you want to use it for you or you want to use it for you or you to use it for your own purposes?",
+    "today_alert": "This Day Notify",
+    "cleared": "Remove detachment detachment",
+    "triggering": "Warning in progress",
+    "alert_type": "Slew knowledge of crime type",
+    "count": "Count",
+    "alert_trend": "WARNING SPECIFICATIONS",
+    "top_10": "Police TOP10",
+    "not_changed": "Instrument for standardized international reporting",
     "compare_yestoday": "Yesterday",
-    "yes": "Yes",
-    "confirm_in_blacklist": "Are you sure you want to add this warning message to the Alert Blacklist?",
-    "select_label": "Select Tags",
-    "alert": "Warning",
-    "query_tip": "Blur search rules and tags (multiple keywords separated by spaces)",
-    "query": "Query"
+    "yes": "Matrix leader",
+    "confirm_in_blacklist": "Do you want to use this list for you or you want to use it for you or you want to use it for you or you want to use it for you or you to use it for your own purposes?",
+    "select_label": "Spectrum Supiter Spectrum Spectrum",
+    "alert": "23 June 2001",
+    "query_tip": "Technical experts can provide technical assistance to the Ministry of Health and Social Welfare, Ministry of Health and Social Welfare, Ministry of Health and Social Welfare, Ministry of Health and Social Welfare, Ministry of Health and Social Welfare, Ministry of Health and Social Welfare, Ministry of Health and Social Welfare, Ministry of Health and Social Welfare, Ministry of Health and Social Welfare, Ministry of Health and Social Welfare, Ministry of Health and Social Welfare, Ministry of Health and Social Welfare, Ministry of Social Welfare, Ministry of Health and Social Welfare, Ministry of Social Welfare, Ministry of Health and Social Welfare, Ministry of Health and Social Welfare, Ministry of Social Welfare, Ministry of Health and Social Welfare, Ministry of Social Welfare, Ministry of Social Welfare, Ministry of Social Welfare, Ministry of Health, Ministry of Health and Social Welfare, Ministry of Health, Ministry of Health and Social Welfare, Ministry of Social Welfare, Ministry of Social Welfare, Ministry of Social Welfare, Ministry of Health, Ministry of Health, Ministry of Social Welfare, Ministry of Health, Ministry",
+    "query": "Unidentist's settlement"
   },
   "operate": {
-    "remove_blacklist": "Remove blacklist",
-    "in_blacklist": "Blacklist",
-    "go": "Run"
+    "remove_blacklist": "Avoidance of discharges for the presentation of the presentation at the Joint Side Seminar",
+    "in_blacklist": "Steril's presentation of the seminar",
+    "go": "Sex line"
   },
   "filter": {
-    "name": "Name",
-    "resource": "Resources",
-    "rule": "Rules",
+    "name": "Scripting numbers are leading to the Soco",
+    "resource": "Neutral supply for the list of users",
+    "rule": "must not be allowed to enter into marriage.",
     "status": "Status",
-    "scope": "Group"
+    "scope": "Strictive Stricter must be a member of the police force."
   }
 }
