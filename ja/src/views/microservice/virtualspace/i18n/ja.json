@@ -1,33 +1,33 @@
 {
   "table": {
-    "name": "仮想スペース名",
-    "status": "状態",
-    "creator": "作成者",
-    "environment_type": "環境タイプ",
+    "name": "仮面ヘ゜（キャン）",
+    "status": "ステータス",
+    "creator": "作者",
+    "environment_type": "環境タイから飛ぶ",
     "remark": "メモ"
   },
   "filter": {
-    "mesh_name": "仮想スペース名"
+    "mesh_name": "仮面ヘ゜（キャン）"
   },
   "status": {
-    "activated": "有効",
-    "inactivated": "非アクティブ"
+    "activated": "は10",
+    "inactivated": "非アークティフィット"
   },
   "operate": {
-    "activate": "有効",
-    "inactivate": "閉じる",
-    "activate_c": "{0}をアクティベートする",
-    "inactivate_c": "{0} を閉じました",
-    "link_c": "{0} に接続",
-    "delete_linked_env": "仮想スペース関連環境の削除"
+    "activate": "は10",
+    "inactivate": "扱う事だよ",
+    "activate_c": "{0}をアジトにすれば開ける！",
+    "inactivate_c": "{0} をオフにする",
+    "link_c": "{0} がらしい。",
+    "delete_linked_env": "仮面ヘ゜関連環境の削減"
   },
   "tip": {
-    "set_status": "仮想空間ステータスを設定",
-    "link_environment": "環境を設定してください",
-    "mesh_member": "仮想スペースピアが環境メンバーから引き継ぎ"
+    "set_status": "仮想空間テレータスを設定",
+    "link_environment": "環境設定をして表現した",
+    "mesh_member": "仮面ヘ゜ステータス-゜アジアかジャッショッゲッゲッジ 環境メッジ"
   },
   "form": {
-    "name": "仮想スペース名",
-    "name_rule": "20 文字制限を超え"
+    "name": "仮面ヘ゜（キャン）",
+    "name_rule": "20テキスト制限を 超え"
   }
 }
