@@ -1,40 +1,40 @@
 {
   "table": {
-    "name": "Name",
-    "status": "Status",
-    "access_mode": "Access mode",
-    "storage": "Capacity",
-    "mount": "マウント/マウント解除",
-    "capacity": "Capacity"
+    "name": "注文番号による検索",
+    "status": "状態",
+    "access_mode": "アクセスモード",
+    "storage": "内容",
+    "mount": "マウント",
+    "capacity": "内容"
   },
   "filter": {
-    "pvc_name": "Storage volume name"
+    "pvc_name": "ストレージボリューム名"
   },
   "operate": {
-    "scale": "Expansion",
-    "create_snapshot": "Create snapshot",
-    "scale_pvc": "Extended Storage Volume"
+    "scale": "拡張する",
+    "create_snapshot": "スナップショットを作成する",
+    "scale_pvc": "拡張ストレージボリューム"
   },
   "status": {
-    "mounted": "Mounted",
-    "unmounted": "Not Mounted"
+    "mounted": "マウントしました",
+    "unmounted": "マウントされていません"
   },
   "tip": {
-    "now_capacity": "Current capacity",
-    "dest_capacity": "ターゲット検討",
-    "used": "Usage",
-    "inode_rate": "Inode Usage",
-    "label": "タグ：",
-    "annotation": "Notes",
-    "rwo": "Single node read/write",
-    "rox": "Multinode read-only",
-    "rwx": "Multi-NodeRead-write",
-    "can_create_snapshot": "Can create snapshot",
-    "volume_mode": "Volume mode",
-    "volume_name": "Volume Name"
+    "now_capacity": "現在の容量",
+    "dest_capacity": "目標容量",
+    "used": "使用率",
+    "inode_rate": "Inodeメトリックの使用率",
+    "label": "タグ",
+    "annotation": "コメント",
+    "rwo": "単一ノード読み取り/書き込み",
+    "rox": "複数ノード読み取り専用",
+    "rwx": "複数ノード読み取り/書き込み",
+    "can_create_snapshot": "スナップショットが作成可能",
+    "volume_mode": "ボリュームモード",
+    "volume_name": "ボリューム名"
   },
   "form": {
-    "storage_rule": "Wrong format (Example: 1i,1Mi,1Gi,1Ti)",
-    "limit_min_rule": "Less than current value"
+    "storage_rule": "書式エラー (例. 1Ki,1Mi,1Gi,1Ti)",
+    "limit_min_rule": "より少なく："
   }
 }
