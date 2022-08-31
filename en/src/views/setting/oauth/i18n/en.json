@@ -1,26 +1,26 @@
 {
   "operate": {
-    "enable": "Enabled",
-    "enable_c": "Enable{0}",
-    "disable": "Disabled",
-    "disable_c": "Disable{0}",
-    "config": "Configuration"
+    "enable": "There is a sex worker",
+    "enable_c": "{0} made a meeting with an expert sex expert",
+    "disable": "Unable to supply",
+    "disable_c": "{0} hits cannot be achieved",
+    "config": "Settings"
   },
   "status": {
-    "enabled": "Enabled"
+    "enabled": "There is a sex worker"
   },
   "tip": {
-    "kubegems": "Kubegem's built-in database authentication",
-    "oauth": "Enable your organization to login with Oauth protocol",
-    "openldap": "Enable your organization to login using the Ldap protocol",
-    "gitlab": "Enable your organization to login with GitLab",
-    "github": "Enable your organization to login with GitHub",
-    "tls": "Enable tls",
-    "config_title": "Configure third-party authentication"
+    "kubegems": "Kubegems uses internally with an illusionary account with a large number of employees who have signed up to the end of the year.",
+    "oauth": "Organizationi Wutman Séportaire Sélégué Sécurités Sécurités Sécurité Sécurité Sécurité - Sécurité - Sécurité des Supérieures - Sécurité Sécurité - Sécurité - Sécurité - Sécurité - Sécurité - Sécurité - Sécurité - Sécurité - Sécurité - Sécurité - Sélection - Sécurité - Sécurité - Sécurité - Sélection - Ségard - Ségard - Ségard - Sécurité - Stique - Sécurité - Séminine - Séminine - Ségard - Ségard - Ségard - Séminin - Sériel",
+    "openldap": "Organization of Spectrum Ldap Inmujeres Spectrum Spectrum Spectrum Spectrum Spectrum Spectrum Spectrum Spectrum Spectrum Sum Spectrum Sum Sum Sum Sum Sum Sum Spectrum Spectrum Spectrum Spectrum Spectrum Spectrum Spectrum Sum Sum Sum Spectrum Sum Stip Sum Spectrum Sum Stip Spectrum Sum Sum Sum Sum Sum Sum Pa Sum Sum Sum Spectrum Sum Sum Sum Spectrum Sum Sum Sum Sum Sum Sat Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum Sum S",
+    "gitlab": "GitLab Empretec Supporter Subsidy The Supporters Demon Demon Demon Demon Demon Demon Demon Demilitarism The High Commissioner for Human Rights The High Commissioner for Human Rights is a member of the United Nations High Commissioner for Human Rights is a member of the National Commission for Human Rights and is a member of the National Commission for Human Rights and is a member of the National Human Rights Commission.",
+    "github": "Supporter Supplies GitHubURD Supporter Supporter Supporter Supporters The Supportive Supporter The Supportive Supplies The Supportive Supplies The Supporters of the Supplies The Supporter of the Supplies The Supplies of the Supplies The Supplies of the Supplies GitHubJP Support; The Supporter of the Supplies The Supplies of the Supplies The Supplies of the Supplies The Supporters of the Support; The Made of the Sum of the Support; The Sum of the Sum of the Support; The Siege of the Sum of the Sum of the Sum of the Support; The Spectrum of the Spectrum Shopping of the Skills of the Sum The Sum of the Sum of the Sons of the Sons The Sum of the S",
+    "tls": "tls Pathfinder",
+    "config_title": "A statement of credit will be made by the Ministry of Finance and the Ministry of Foreign Affairs will be made available to the Ministry of Foreign Affairs and the Ministry of Foreign Affairs."
   },
   "form": {
-    "name": "Name",
-    "format_rule": "Wrong format",
-    "ladp_address": "Ldap Address"
+    "name": "Scripting numbers are leading to the Soco",
+    "format_rule": "should not be allowed to submit a copy of the list of participants",
+    "ladp_address": "Ldapling|junk can not be used"
   }
 }
