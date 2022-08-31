@@ -1,68 +1,68 @@
 {
   "filter": {
-    "app_name": "アプリケーション名"
+    "app_name": "App name"
   },
   "operate": {
-    "link_c": "{0} に接続",
-    "advanced_deploy": "高度なデプロイ",
-    "scale_replicas": "レプリカの数をセットする",
-    "rollback": "ロールバック",
-    "auto_scale_policy": "柔軟スケーリングポリシー",
-    "confirm_and_publish": "確定"
+    "link_c": "Associate{0}",
+    "advanced_deploy": "Advanced deployment",
+    "scale_replicas": "Adjust number of copies",
+    "rollback": "Rollback",
+    "auto_scale_policy": "Flexibility Policy",
+    "confirm_and_publish": "Determine and publish"
   },
   "tip": {
-    "platform_app": "プラットフォームのアプリ",
-    "app_store_app": "カタログアプリ",
-    "model_store_app": "アルゴリズムストアアプリ",
-    "used": "{0}使用量",
-    "gpu_temp": "GPU 温度",
-    "gpu_power": "GPU 電源",
-    "version": "バージョン",
-    "replicas": "開くべきクリック ギルドVault 4",
-    "now_replicas": "現在のレプリカ数",
-    "dest_replicas": "コピー数",
-    "error_info": "エラーメッセージ",
-    "model_instance": "モデルインスタンス",
-    "allocated": "{0}を割り当てました",
-    "unallocated": "未割り当て",
-    "protocol": "プロトコル",
-    "params": "パラメーター",
-    "port": "ポート",
-    "port_name": "ポート名",
-    "container_port": "コンテナポート",
-    "host_address": "ホスト",
-    "host_port": "ポート"
+    "platform_app": "Platform app",
+    "app_store_app": "App Store App",
+    "model_store_app": "Algorithm Store App",
+    "used": "{0}Usage",
+    "gpu_temp": "GPU temperature",
+    "gpu_power": "GPU power",
+    "version": "Version",
+    "replicas": "Duplicate",
+    "now_replicas": "Current number of copies",
+    "dest_replicas": "Number of target copies",
+    "error_info": "Error message",
+    "model_instance": "Model Instances",
+    "allocated": "Assigned{0}",
+    "unallocated": "Unassigned",
+    "protocol": "Protocol",
+    "params": "Parameters",
+    "port": "Port",
+    "port_name": "Port Name",
+    "container_port": "Container Port",
+    "host_address": "Host address",
+    "host_port": "Host Port"
   },
   "table": {
-    "name": "アプリケーション名",
-    "kind": "アプリケーションタイプ",
-    "image_version": "現在のイメージバージョン",
-    "status": "状態",
-    "publisher": "発行者",
-    "publish_at": "公開",
-    "task_status": "タスクの配置状態",
-    "instance_name": "インスタンス名",
-    "model_name": "モデル名",
-    "model_version": "モデルバージョン",
-    "source": "モデルソース",
-    "image": "ミラー",
-    "creator": "作成者",
-    "now_version": "現在のバージョン"
+    "name": "App name",
+    "kind": "Application Type",
+    "image_version": "Current mirror version",
+    "status": "Status",
+    "publisher": "Publisher",
+    "publish_at": "Publish Date",
+    "task_status": "Deployment Task Status",
+    "instance_name": "Instance Name",
+    "model_name": "Model Name",
+    "model_version": "Model Version",
+    "source": "Model Source",
+    "image": "Mirror",
+    "creator": "Created By",
+    "now_version": "Current version"
   },
   "tab": {
-    "manifest": "資源ガイド",
-    "control_center": "コントロール センター",
-    "resource_status": "リソース状態",
-    "deploy_history": "デプロイ履歴",
-    "image_safey": "ミラーセキュリティ",
-    "runtime": "起動情報"
+    "manifest": "Resource Organization",
+    "control_center": "Control Center",
+    "resource_status": "Resource Status",
+    "deploy_history": "Deployment History",
+    "image_safey": "Mirror security",
+    "runtime": "Run Information"
   },
   "form": {
-    "limit_min_rule": "最小限"
+    "limit_min_rule": "Less than Minimum Limit"
   },
   "status": {
-    "running": "実行中",
-    "complete": "完了",
-    "failed": "実行に失敗しました"
+    "running": "In progress",
+    "complete": "Completed",
+    "failed": "Execution Failed"
   }
 }
