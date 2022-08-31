@@ -1,41 +1,41 @@
 {
   "table": {
-    "name": "注文番号による検索",
-    "alias": "エイリアス",
+    "name": "注文番番号によりよる検ソ",
+    "alias": "エリアスス",
     "environment_space": "環境空間",
-    "create_at": "作成日時",
-    "used": "{0} 使用中"
+    "create_at": "できた",
+    "used": "{0} が使用中"
   },
   "filter": {
-    "name": "プロジェクト名"
+    "name": "フィルハー已（フロシュ）ゲクト名"
   },
   "tip": {
-    "tenant": "テナントを選択してください",
-    "tenant_creat_or_join": "作成またはテナントを追加してください。",
-    "resource_list": "リソース使用一覧",
-    "resource_count": "資源統計",
-    "policy": "ストラテジー"
+    "tenant": "テランドを重要として飲んでた...",
+    "tenant_creat_or_join": "作成たらはテランドが追加してくた動作のスコープ。",
+    "resource_list": "リソンベストから表示",
+    "resource_count": "資源ステータス",
+    "policy": "ストーリーテシフロド"
   },
   "form": {
     "project": {
-      "name": "注文番号による検索",
-      "nameRule": "20 文字制限を超え",
-      "alias": "エイリアス",
-      "remark": "説明"
+      "name": "注文番番号によりよる検ソ",
+      "nameRule": "20テキスト制限を 超え",
+      "alias": "エリアスス",
+      "remark": "ヘルプ"
     }
   },
   "environment": {
     "table": {
       "environment_space": "環境空間",
-      "environment_type": "環境タイプ",
-      "namespace": "名前空間",
-      "creator": "作成者",
-      "network_isolation": "ネットワーク分離",
-      "used": "{0} 使用中"
+      "environment_type": "環境タイから飛ぶ",
+      "namespace": "セレクションモード",
+      "creator": "作者",
+      "network_isolation": "ネットワークの難み",
+      "used": "{0} が使用中"
     },
     "type": {
-      "dev": "開発",
-      "test": "テスト",
+      "dev": "発",
+      "test": "運いくつか",
       "prod": "生産品"
     }
   }
