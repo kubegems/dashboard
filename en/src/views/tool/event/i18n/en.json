@@ -1,12 +1,12 @@
 {
   "table": {
-    "component": "Source Component",
-    "host": "Source Host",
-    "service": "Services",
+    "component": "Component",
+    "host": "Post",
+    "service": "Service",
     "namespace": "Namespace",
     "type": "Type",
     "message": "Message",
-    "count": "Times",
+    "count": "Count",
     "first_at": "First Time",
     "last_at": "Last Time"
   },
