@@ -1,6 +1,6 @@
 {
   "tip": {
-    "management": "Platform Manager",
-    "management_desc": "View all resources as administrators."
+    "management": "プラットフォーム管理",
+    "management_desc": "管理者としてすべての実行に必要なリソースを参照します。"
   }
 }
