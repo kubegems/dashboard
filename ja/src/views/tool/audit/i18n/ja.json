@@ -1,17 +1,17 @@
 {
   "table": {
-    "trigger_time": "動作開始時間",
-    "tenant": "テナント",
-    "account": "ユーザー",
-    "operate": "アクション",
-    "object": "オブジェクト",
-    "label": "タグ",
-    "status": "状態"
+    "trigger_time": "開始時間",
+    "tenant": "テキサス",
+    "account": "ユウラ",
+    "operate": "アクショーン",
+    "object": "オフレクトリスト",
+    "label": "タク・マローブ",
+    "status": "ステータス"
   },
   "filter": {
-    "account": "ユーザー",
-    "search": "検索",
-    "status": "状態",
-    "action": "アクション"
+    "account": "ユウラ",
+    "search": "ショナラ",
+    "status": "ステータス",
+    "action": "アクショーン"
   }
 }
