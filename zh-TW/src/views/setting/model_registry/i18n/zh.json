@@ -1,67 +1,67 @@
 {
   "tab": {
-    "ai_model": "演算法模型"
+    "ai_model": "アルゴリズムモデル"
   },
   "table": {
-    "name": "名稱",
-    "version": "版本",
-    "framework": "框架",
-    "task": "類型",
-    "tag": "標籤",
-    "last_modified": "上次更新",
-    "recommend": "推薦值",
-    "published": "上架狀態"
+    "name": "注文番號による検索",
+    "version": "バージョン",
+    "framework": "フレームワーク",
+    "task": "タイプ",
+    "tag": "タグ",
+    "last_modified": "最終更新日",
+    "recommend": "推奨値",
+    "published": "參加狀況"
   },
   "operate": {
-    "recommend_content": "推薦內容",
-    "online": "上架",
-    "offline": "下架",
-    "manage": "模型管理",
-    "stop_sync": "終止同步",
-    "stop_sync_c": "終止同步{0}",
-    "forbid": "禁用",
-    "active": "啟動",
-    "forbid_c": "關閉{0}",
-    "active_C": "啟動{0}",
-    "check": "校驗"
+    "recommend_content": "推奨コンテンツ",
+    "online": "リスト表示",
+    "offline": "オフライン",
+    "manage": "モデル管理",
+    "stop_sync": "同期を中止",
+    "stop_sync_c": "{0} との同期を中止",
+    "forbid": "無効",
+    "active": "有効",
+    "forbid_c": "{0} を無効化",
+    "active_C": "{0}をアクティベートする",
+    "check": "チェックサム"
   },
   "filter": {
-    "search": "模型名稱",
-    "framework": "框架",
-    "task": "類型"
+    "search": "モデル名",
+    "framework": "フレームワーク",
+    "task": "タイプ"
   },
   "status": {
-    "success": "同步成功",
-    "failure": "同步失敗",
-    "no_sync": "暫無同步",
-    "running": "正在同步"
+    "success": "同期が成功",
+    "failure": "同期失敗",
+    "no_sync": "同期なし",
+    "running": "同期有効"
   },
   "tip": {
-    "model_count": "模型數量",
-    "inner": "內置商店",
-    "huggingface": "全球大型開源社區，專注於NLP技術。",
-    "openmmlab": "深度學習時代最完整的電腦視覺開源演算法體系。",
-    "tensorflow": "一個核心開源庫，可以説明您開發和訓練機器學習模型。",
-    "pytorch": "發現模型並將其發佈到專為研究探索而設計的預訓練模型存儲庫。",
-    "paddlepaddle": "源於產業實踐的開源深度學習平臺。",
-    "kubegems": "Kubegems內置演算法模型商店。",
-    "status": "同步狀態",
-    "update_at": "更新時間",
-    "address": "位址",
-    "recomment": "推薦指數",
-    "recomment_content": "推薦內容",
-    "label": "模型標籤",
-    "model_admin": "演算法模型商店管理員",
-    "source": "演算法商店來源",
-    "download_modelx": "下載 ModelX Client",
-    "auth": "演算法商店認證",
-    "auth_setting": "認證配置",
-    "auth_type": "認證方式",
-    "passwd_auth": "基於使用者名密碼的認證",
-    "token_auth": "基於Token的認證",
-    "passwd_or_token_auth": "基於使用者名密碼或Token的認證"
+    "model_count": "モデルの数",
+    "inner": "インボックス",
+    "huggingface": "世界で最も大規模なオープンソース コミュニティとして、NLP の技術に集中している。",
+    "openmmlab": "深い学習時に最も完全なコンピュータービジョンでオープンソースなアルゴリズムシステム。",
+    "tensorflow": "コアとなるオープンソースライブラリで、機械 学習モデルを開発・トレーニングに役立つでしょう。",
+    "pytorch": "検出されたモデルとリサーチのために設計された プリペイドモデルリポジトリに公開します。",
+    "paddlepaddle": "は 産業を基盤とするオープンソース・プンンソース・ース・ース・るオーープンソとするオーーンソロ・学習プラットフォームです",
+    "kubegems": "Kubegemsビルトインアルゴリズムモデル",
+    "status": "同期ステータス",
+    "update_at": "更新日時",
+    "address": "住所",
+    "recomment": "紹介インデックス",
+    "recomment_content": "推奨コンテンツ",
+    "label": "モデルのラベル",
+    "model_admin": "アルゴリズムモデルストア管理者",
+    "source": "アルゴリズムストアソース",
+    "download_modelx": "ModelX Client をダウンロード",
+    "auth": "アルゴリズムストア認証",
+    "auth_setting": "認証設定",
+    "auth_type": "このニュースをサイトで公開するか否かの設定",
+    "passwd_auth": "ユーザー名コードベース認証",
+    "token_auth": "トークンベースの認証",
+    "passwd_or_token_auth": "ユーザー名パスワードやトークンベースの認証"
   },
   "form": {
-    "recomment_rule": "格式錯誤（0-100）"
+    "recomment_rule": "書式が不適切です（0-100）"
   }
 }
