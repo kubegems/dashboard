@@ -1,30 +1,30 @@
 {
   "table": {
-    "app": "Apps",
-    "update_at": "Update Time",
-    "operator": "Operator",
-    "version": "Version number"
+    "app": "應用",
+    "update_at": "更新時間",
+    "operator": "操作人",
+    "version": "版本號"
   },
   "filter": {
-    "config_name": "Configuration Item"
+    "config_name": "配置項"
   },
   "operate": {
-    "listen": "Listen query",
-    "history": "History",
-    "sdk_demo": "Sample SDK",
-    "rollback": "Rollback"
+    "listen": "監聽查詢",
+    "history": "歷史",
+    "sdk_demo": "SDK示例",
+    "rollback": "回滾"
   },
   "tip": {
-    "config": "Configuration Item",
-    "more": "More Configuration",
-    "listen_list": "Listening list",
-    "sdk_demo": "Sample SDK Access",
-    "history": "Config History",
-    "rollback_tip": "Rollback configuration {0} to version {1}",
-    "delete_tip": "Confirm to delete configuration item {3} under tenant \"{0}\"/project \"{1}\"/environment \"{2}\" ?"
+    "config": "配置項",
+    "more": "更多配置",
+    "listen_list": "監聽清單",
+    "sdk_demo": "SDK接入範例",
+    "history": "配置項歷史",
+    "rollback_tip": "回滾設定 {0} 到版本 {1}",
+    "delete_tip": "確認刪除 租戶「{0}」/專案「{1}」/環境「{2}」 下的設定項 {3} ？"
   },
   "status": {
-    "rollback_success": "Rollback completed",
-    "rollback_failed": "Rollback failed"
+    "rollback_success": "回滾完成",
+    "rollback_failed": "回滾失敗"
   }
 }
