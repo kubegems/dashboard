@@ -1,46 +1,46 @@
 {
   "tip": {
-    "instance_count": "インスタンスの数",
-    "default": "デフォルトゲートウェイ",
-    "port": "ゲートウェイポート",
-    "status": "状態",
-    "loadbalancer": "外部ロードバランサー(LoadBalancer)",
-    "nodeport": "典型的なクラスターゲートウェイ(NodePort)",
-    "connect_count": "接続番号",
-    "default_domain": "デフォルトのドメイン",
-    "extend_label": "ワークロードの追加ラベル",
-    "address": "すべての結果",
-    "available": "{0}個のインスタンスが利用可能です",
-    "unavailable": "{0}個のインスタンスは利用できません",
-    "name": "ゲートウェイ名",
-    "type": "ゲートウェイ・タイプ",
-    "protocol": "プロトコル",
-    "replicas": "レプリカ数",
+    "instance_count": "Inスタウンの数",
+    "default": "テオフレティフォートテレイ",
+    "port": "ケフローさせて ェッホクート",
+    "status": "ステータス",
+    "loadbalancer": "外部ロート処理のスカラランサー（LoadBalancer）",
+    "nodeport": "典型的なクローゼット・スタイルフロスト(NodePort)",
+    "connect_count": "続く番地",
+    "default_domain": "テトゥラ フォートもののト動作した",
+    "extend_label": "ワーロックのスフロー処理解釈の追うバラヘル",
+    "address": "ケース解決済み",
+    "available": "{0}のインスタンス処理のスネングはおそらくファイブす",
+    "unavailable": "{0}のインスタンスはガラスを利用した",
+    "name": "ケフローウェブウェブ",
+    "type": "ケ量子化した ジェイ・タイフの",
+    "protocol": "フロルジャル",
+    "replicas": "レオッフロウリカ数",
     "image": "ミラー",
-    "config_item": "設定項目"
+    "config_item": "項目設定"
   },
   "tab": {
-    "config": "設定",
-    "ingress": "ルーティング"
+    "config": "構成",
+    "ingress": "Lantic の英雄"
   },
   "table": {
-    "name": "注文番号による検索",
-    "address": "アドレスへ",
-    "container_port": "コンテナポート",
-    "service_port": "サービスポート",
-    "host_port": "ポート"
+    "name": "注文番番号によりよる検ソ",
+    "address": "アントロボへ",
+    "container_port": "コンテイナ具体的にアイト",
+    "service_port": "サーヒフロント ホテイタート",
+    "host_port": "ホ゜ート"
   },
   "operate": {
-    "access": "訪問",
-    "use_default_domain": "デフォルトのドメインを使用"
+    "access": "アクセス",
+    "use_default_domain": "テジャ量子特殊ケースを使用した メネオ"
   },
   "status": {
-    "normal": "標準",
-    "error": "例外"
+    "normal": "スタンダード",
+    "error": "例外を発生する"
   },
   "form": {
-    "name_rule": "フォーマットエラー（文字の先頭）",
-    "domain_rule": "ドメイン名の書式が不適切です (ワイルドカード'*')",
-    "image_rule": "書式設定エラー(画像フォーマットなし)"
+    "name_rule": "ボディエラー（文字の先頭）",
+    "domain_rule": "オブジェクトメインストルの形式は技法的に動作せず、オブジェクトフローメトリック（のスカラーフローティング '*）",
+    "image_rule": "書式設定エラ (フォトセット)"
   }
 }
