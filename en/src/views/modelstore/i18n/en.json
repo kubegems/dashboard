@@ -1,14 +1,14 @@
 {
   "tip": {
     "huggingface": "Large open source communities globally, focused on NLP technologies.",
-    "openmmlab": "The most complete computer visitor open source algorithm in a deep learning era.",
-    "tensorflow": "A core open source library that can help you develop and train in machine learning models.",
-    "kubegems_chart": "A collection of files describing Kubernetes related resources that can be used by individual apps to upload some complex HTTP servers as well as web full-stack apps, Databases, caches, etc",
-    "bitnami": "Bitnami allows you to start and run your favorite open source software on any platform, including your laptop, Kubernetes and all major clouds.",
-    "chartmuseum": "ChartMuseum is an open-source, economically employable and Helm Chart repository server.",
+    "openmmlab": "The most complete computer visual open source algorithm in a deep learning era.",
+    "tensorflow": "A core open source library that can help you develop and train machine learning models.",
+    "kubegems_chart": "A collection of files describing Kubernetes related resources that can be used by individual apps to deploy some complex HTTP servers as well as web full-stack apps, databases, caches, etc.",
+    "bitnami": "Bitnami allows you to easily start and run your favorite open source software on any platform, including your laptop, Kubernetes and all major clouds.",
+    "chartmuseum": "ChartMuseum is an open-source, easily deployable and Helm Chart repository server.",
     "pytorch": "Discover the model and publish it to a repository of pre-training models designed specifically for research exploration.",
     "paddlepaddle": "Open source depth learning platform derived from industry practice.",
-    "kubegems": "Kubeegems built-in algorithm store.",
+    "kubegems": "Kubegems built-in algorithm store.",
     "platform_recomment": "Platform recommendations",
     "user_comment": "User Rating",
     "comment": "Comment",
@@ -22,16 +22,16 @@
     "model_count": "Total Models",
     "name": "Name",
     "last_update_at": "Update Time",
-    "recommend": "Recomrecommendations",
+    "recommend": "Recommend",
     "published_at": "Posted on",
     "basic_config": "Basic configuration",
     "detail_config": "Detailed configuration",
     "complete": "Finished",
-    "instance_name": "Instalment Name",
+    "instance_name": "Instance Name",
     "params": "Parameters",
     "run_command": "Start command",
     "env": "Environment Variables",
-    "port_config": "Port configuration",
+    "port_config": "Port Configuration",
     "port": "Port",
     "port_name": "Port Name",
     "port_name_hint": "Recommended http://grpc",
@@ -42,7 +42,7 @@
     "origin_path": "Source Path",
     "volume_type": "Volume Type",
     "volume_mount": "Volume Mount",
-    "deploy_info": "Upload Info",
+    "deploy_info": "Deploy Info",
     "runtime": "On Run",
     "image": "Mirror",
     "advanced_config": "Advanced Configuration",
@@ -52,15 +52,15 @@
     "model_mount": "Model Mount",
     "run_params": "Start Parameters",
     "required": "Required fields",
-    "resource_deploy": "Resource employment",
+    "resource_deploy": "Resource deployment",
     "replicas": "Number of Instances",
-    "allocated": "Assign {0}",
+    "allocated": "Assign{0}",
     "video_card": "Visual Card",
     "can_use": "Available",
     "total": "Total",
-    "core": "Cove",
-    "experience": "Model Experience",
-    "not_support": "Not Support"
+    "core": "Core",
+    "experience": "Model experience",
+    "not_support": "Unsupported"
   },
   "tab": {
     "description": "Introduction",
@@ -71,18 +71,18 @@
   },
   "status": {
     "synced": "Synchronized",
-    "success": "Successful synced",
+    "success": "Successfully synced",
     "failure": "Sync failed",
-    "no_sync": "No sync het",
+    "no_sync": "No sync yet",
     "running": "Syncing",
-    "deploying": "Employing, please wait...",
-    "deploy_success": "Employment success"
+    "deploying": "Deploying, please wait...",
+    "deploy_success": "Deployment successful"
   },
   "filter": {
     "model_name": "Algorithm Model Name"
   },
   "table": {
-    "deploy_instance": "Employment Instances",
+    "deploy_instance": "Deployment Instances",
     "model_version": "Model Version",
     "status": "Status",
     "creator": "Created By"
@@ -91,14 +91,14 @@
     "reply": "Reply",
     "publish_comment": "Comment",
     "publish_reply": "Post Reply",
-    "reply_c": "Reply to {0}",
-    "view_deploy_status": "View Employment Status",
+    "reply_c": "Reply to{0}",
+    "view_deploy_status": "View Deployment Status",
     "experience": "Experience"
   },
   "form": {
     "cpu_rule": "Wrong format (example:1m,1)",
     "memory_rule": "Wrong format (example:1Mi,1G)",
     "gte_0_rule": "Wrong format (>=0)",
-    "limit_max_rule": "Minimum limit extracted"
+    "limit_max_rule": "Maximum limit exceeded"
   }
 }
