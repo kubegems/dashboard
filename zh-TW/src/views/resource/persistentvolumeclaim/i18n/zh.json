@@ -1,40 +1,40 @@
 {
   "table": {
-    "name": "Name",
-    "status": "Status",
-    "access_mode": "Access mode",
-    "storage": "Capacity",
-    "mount": "Mount",
-    "capacity": "Capacity"
+    "name": "名稱",
+    "status": "狀態",
+    "access_mode": "訪問模式",
+    "storage": "容量",
+    "mount": "掛載",
+    "capacity": "容量"
   },
   "filter": {
-    "pvc_name": "Storage volume name"
+    "pvc_name": "存儲卷名稱"
   },
   "operate": {
-    "scale": "Expansion",
-    "create_snapshot": "Create snapshot",
-    "scale_pvc": "Extended Storage Volume"
+    "scale": "擴容",
+    "create_snapshot": "創建快照",
+    "scale_pvc": "擴容存儲卷"
   },
   "status": {
-    "mounted": "Mounted",
-    "unmounted": "Not Mounted"
+    "mounted": "已掛載",
+    "unmounted": "未掛載"
   },
   "tip": {
-    "now_capacity": "Current capacity",
-    "dest_capacity": "Target rating",
-    "used": "Usage",
-    "inode_rate": "Inode Usage",
-    "label": "Tags",
-    "annotation": "Note",
-    "rwo": "Single node read/write",
-    "rox": "Multi-node read-only",
-    "rwx": "Multi-Node Read-write",
-    "can_create_snapshot": "Can create snapshot",
-    "volume_mode": "Volume mode",
-    "volume_name": "Volume Name"
+    "now_capacity": "當前容量",
+    "dest_capacity": "目標容量",
+    "used": "使用量",
+    "inode_rate": "Inode使用率",
+    "label": "標籤",
+    "annotation": "註解",
+    "rwo": "單節點讀寫",
+    "rox": "多節點唯讀",
+    "rwx": "多節點讀寫",
+    "can_create_snapshot": "可創建快照",
+    "volume_mode": "卷模式",
+    "volume_name": "卷名稱"
   },
   "form": {
-    "storage_rule": "Wrong format (Example: 1Ki,1Mi,1Gi,1Ti)",
-    "limit_min_rule": "Less than current value"
+    "storage_rule": "格式錯誤（示例：1Ki，1Mi，1Gi，1Ti）",
+    "limit_min_rule": "小於當前值"
   }
 }
