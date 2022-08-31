@@ -1,46 +1,46 @@
 {
   "tip": {
-    "instance_count": "インスタンスの数",
-    "default": "デフォルトゲートウェイ",
-    "port": "ゲートウェイポート",
-    "status": "状態",
-    "loadbalancer": "外部ロードバランサー(LoadBalancer)",
-    "nodeport": "典型的なクラスターゲートウェイ(NodePort)",
-    "connect_count": "接続番号",
-    "default_domain": "デフォルトのドメイン",
-    "extend_label": "ワークロードの追加ラベル",
-    "address": "すべての結果",
-    "available": "{0}個のインスタンスが利用可能です",
-    "unavailable": "{0}個のインスタンスは利用できません",
-    "name": "ゲートウェイ名",
-    "type": "ゲートウェイ・タイプ",
-    "protocol": "プロトコル",
-    "replicas": "レプリカ数",
-    "image": "ミラー",
-    "config_item": "設定項目"
+    "instance_count": "Number of Instances",
+    "default": "Default gateway",
+    "port": "Gateway Port",
+    "status": "Status",
+    "loadbalancer": "External Load Balancer Gateway (LoadBalancer)",
+    "nodeport": "General cluster gateway (NodePort)",
+    "connect_count": "Connections",
+    "default_domain": "Default domain name",
+    "extend_label": "Work attachments",
+    "address": "Gateway Address",
+    "available": "{0} installs available",
+    "unavailable": "{0} instance not available",
+    "name": "Gateway Name",
+    "type": "Gateway Type",
+    "protocol": "Protocol",
+    "replicas": "Number of copies",
+    "image": "Mirror",
+    "config_item": "Configuration Item"
   },
   "tab": {
-    "config": "設定",
-    "ingress": "ルーティング"
+    "config": "Configuration",
+    "ingress": "Route"
   },
   "table": {
-    "name": "注文番号による検索",
-    "address": "アドレスへ",
-    "container_port": "コンテナポート",
-    "service_port": "サービスポート",
-    "host_port": "ポート"
+    "name": "Name",
+    "address": "Access address",
+    "container_port": "Container Port",
+    "service_port": "Service Port",
+    "host_port": "Host Port"
   },
   "operate": {
-    "access": "訪問",
-    "use_default_domain": "デフォルトのドメインを使用"
+    "access": "Visits",
+    "use_default_domain": "Use Default Domain"
   },
   "status": {
-    "normal": "標準",
-    "error": "例外"
+    "normal": "Normal",
+    "error": "Exception"
   },
   "form": {
-    "name_rule": "フォーマットエラー（文字の先頭）",
-    "domain_rule": "ドメイン名の書式が不適切です (ワイルドカード'*')",
-    "image_rule": "書式設定エラー(画像フォーマットなし)"
+    "name_rule": "Wrong format (start with letter)",
+    "domain_rule": "Invalid domain format (wildcard '*' support)",
+    "image_rule": "Wrong format (not in mirror format)"
   }
 }
