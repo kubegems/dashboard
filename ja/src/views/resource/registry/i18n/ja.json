@@ -1,26 +1,26 @@
 {
   "tip": {
-    "select_project": "Please select items first",
-    "enable_scan": "Enable mirror scanning and analysis",
-    "yes": "Yes",
-    "no": "No",
-    "set_default": "Place mirror repoonsitory {0} as default reposiy",
-    "cancel_default": "Canceling default settings for repository {0}"
+    "select_project": "最初で純粋フロバッシュフロ例 個法が作られた時に付加される処理...",
+    "enable_scan": "イメシのスキーナと解析できる",
+    "yes": "はい",
+    "no": "いえ",
+    "set_default": "ミラーリホ完了 {0} をテフロートで設置した しまった",
+    "cancel_default": "リホテイィ します: {0} のテジャフロート設定を解除した"
   },
   "filter": {
-    "registry_name": "Imagerepository name"
+    "registry_name": "イメシード"
   },
   "table": {
-    "name": "リポジトリSitory Name",
-    "address": "Repository Address",
-    "default": "Default repository",
-    "username": "ユーザ ID",
-    "creator": "ated アカウント創出",
-    "last_update_at": "Last updated",
-    "passwd": "パスワードの指定"
+    "name": "リホテイィ タリ",
+    "address": "レオン",
+    "default": "テスバラの庫",
+    "username": "ユニバーサルド",
+    "creator": "作者",
+    "last_update_at": "最終更新",
+    "passwd": "ハ゜スワーグリベット"
   },
   "operate": {
-    "set_default": "Set Default Repository",
-    "cancel_default": "Cancel Default Repository"
+    "set_default": "テジャネルの倉庫を構成",
+    "cancel_default": "テジャフロートのリホ゜シジャコルトのキャンル"
   }
 }
