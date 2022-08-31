@@ -1,9 +1,9 @@
 {
   "table": {
-    "name": "ゲートウェイ名",
-    "selector": "一致するタグ"
+    "name": "ケフローウェブウェブ",
+    "selector": "一貫したタク添え"
   },
   "filter": {
-    "gateway_name": "ゲートウェイ名"
+    "gateway_name": "ケフローウェブウェブ"
   }
 }
