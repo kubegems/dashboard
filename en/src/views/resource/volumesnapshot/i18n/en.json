@@ -2,7 +2,7 @@
   "table": {
     "name": "Snapshot Name",
     "class": "Snapshot Class",
-    "origin_pvc": "Source Storage Volume"
+    "origin_pvc": "Source Store Volume"
   },
   "filter": {
     "snapshot_name": "Snapshot Name"
@@ -12,6 +12,6 @@
   },
   "form": {
     "name": "Snapshot",
-    "pvc_name": "Storage volume name"
+    "pvc_name": "Store volume name"
   }
 }
