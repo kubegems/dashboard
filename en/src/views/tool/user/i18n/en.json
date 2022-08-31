@@ -1,63 +1,63 @@
 {
   "tab": {
-    "message": "Message Box",
-    "audit": "Action History",
-    "setting": "Personal Settings",
-    "auth": "Authenticate"
+    "message": "Joint Appeals Board of the High Commissioner",
+    "audit": "Trigger account",
+    "setting": "should not be allowed to submit a request to the Government to submit a copy of the contract to the Ministry of Justice.",
+    "auth": "Authorized sex"
   },
   "table": {
-    "email": "Email",
-    "mobile": "Phone number",
-    "registe_at": "Registration Time",
-    "last_login_at": "Last Login"
+    "email": "must not be allowed to enter into marriage.",
+    "mobile": "Call with phone",
+    "registe_at": "Login Day",
+    "last_login_at": "Best End of Sterility Scroll Matrix"
   },
   "message": {
     "table": {
-      "message": "Message",
+      "message": "Joint Appeals Unit",
       "time": "Time",
-      "type": "Type"
+      "type": "Strukthful Stig"
     },
     "filter": {
-      "notify": "Announcements",
-      "approval": "Approve",
-      "alert": "Warning"
+      "notify": "Sterility known to both parties",
+      "approval": "Confirmation",
+      "alert": "23 June 2001"
     }
   },
   "audit": {
     "table": {
-      "trigger_time": "Trigger Time",
-      "tenant": "Tenant",
-      "account": "User",
-      "operate": "Operations",
-      "object": "Object",
-      "label": "Tags",
+      "trigger_time": "Action start time",
+      "tenant": "Sterility shutdown",
+      "account": "should not be considered as a crime or as a crime against humanity.",
+      "operate": "Jailig Sterili Sterili Stig",
+      "object": "Ministry of Interior Ministry of the Interior",
+      "label": "Unidentist's settlement",
       "status": "Status"
     }
   },
   "setting": {
     "tip": {
-      "personal_info": "Personal information",
-      "old": "Original{0}",
-      "new": "New{0}",
-      "confirm_passwd": "Confirm New Password",
-      "i18n": "Languages",
-      "auth": "Authentication Information",
-      "exprie": "Expiration time (seconds)"
+      "personal_info": "Personal Report",
+      "old": "Grassland{0}",
+      "new": "New mond{0}",
+      "confirm_passwd": "New gender equality programme",
+      "i18n": "Speech",
+      "auth": "Authorized sex",
+      "exprie": "Duration (seconds)"
     }
   },
   "operate": {
-    "generate_c": "Spawn{0}"
+    "generate_c": "{0} created!"
   },
   "auth": {
     "table": {
-      "expired": "Expiry",
-      "expire_at": "Expiration time",
-      "grant_type": "License Type",
-      "yes": "Yes",
-      "no": "No"
+      "expired": "There is a medium duration at Headquarters",
+      "expire_at": "There is a date for delivery",
+      "grant_type": "Authorize potential sex workers",
+      "yes": "Matrix leader",
+      "no": "supra-drug medal"
     },
     "tip": {
-      "copyed": "Copied to Clipboard"
+      "copyed": "The list of potential candidates for election to the first session of the Conference of the Parties is as follows:"
     }
   }
 }
