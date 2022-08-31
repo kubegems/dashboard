@@ -1,31 +1,31 @@
 {
   "table": {
-    "status": "状態",
-    "pods": "コンテナグループ",
-    "restart_count": "再起動",
-    "name": "注文番号による検索",
+    "status": "Status",
+    "pods": "コンテナGroup",
+    "restart_count": "Restart count",
+    "name": "Name",
     "port": "ポート",
-    "selector": "セレクタ",
-    "host": "ホスト:"
+    "selector": "Selector",
+    "host": "ポスト"
   },
   "filter": {
-    "gateway_name": "ゲートウェイインスタンス名"
+    "gateway_name": "Gateway Instance Name"
   },
   "operate": {
-    "detail": "詳細"
+    "detail": "Details"
   },
   "tab": {
-    "gateway_resource": "ゲートウェイリソース",
-    "virtualservice": "仮想サービス",
-    "pods": "ゲートウェイ・コンテナグループ",
-    "monitor": "ゲートウェイモニター"
+    "gateway_resource": "Gateway Resources",
+    "virtualservice": "Virtual Service",
+    "pods": "Gateway Container Group",
+    "monitor": "Gateway Monitor"
   },
   "tip": {
-    "egress_qps": "トラフィックのエクスポート中",
-    "egress_time": "トラフィックのエクスポートの応答時間",
-    "ingress_80_qps": "80ポートのエントリー数 qps",
-    "ingress_80_time": "80ポートエントリーポータル応答時間",
-    "ingress_443_qps": "443ポートのエントリー数 qps",
-    "ingress_443_time": "443ポートエントリーポータル応答時間"
+    "egress_qps": "Export traffic qps",
+    "egress_time": "Export traffic response time",
+    "ingress_80_qps": "Port traffic qps",
+    "ingress_80_time": "ポート traffic response time",
+    "ingress_443_qps": "Port traffic qps",
+    "ingress_443_time": "import traffic response time"
   }
 }
