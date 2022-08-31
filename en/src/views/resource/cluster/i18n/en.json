@@ -12,16 +12,16 @@
     "virtual": "v",
     "total": "Total {0}",
     "sum": "Sum",
-    "oversold_precent": "{0}score ratio",
-    "oversold": "Excess{0}",
-    "all": "Total{0}",
-    "used": "Used{0}",
+    "oversold_precent": "{0} score ratio",
+    "oversold": "Over-commit {0}",
+    "all": "Total {0}",
+    "used": "Used {0}",
     "reason": "Reason",
     "cert_expired": "Certificate Expiration",
-    "api_success_rate": "Success rate for API request",
+    "api_success_rate": "Success rate for API",
     "cluster_init_config": "Cluster initialization settings",
     "test_cluster": "Test cluster",
-    "connect_success": "ClusterIntegration|Cluster connection successful",
+    "connect_success": "Cluster connection successful",
     "connect_failed": "Cluster connection failed",
     "connecting": "Connecting clusters",
     "support_version": "Support Version",
@@ -35,11 +35,11 @@
     "name": "Cluster name"
   },
   "tab": {
-    "etcd_timeout": "ETCD spent time",
+    "etcd_timeout": "ETCD timeout",
     "apiserver_timeout": "API ervertime",
-    "cluster_cpu": "Cluster CPU",
-    "cluster_memory": "Cluster Memory",
-    "cluster_storage": "ClusterIntegration|Cluster storage",
-    "cluster_pod": "Cluster Container Group"
+    "cluster_cpu": "CPU",
+    "cluster_memory": "Memory",
+    "cluster_storage": "Storage",
+    "cluster_pod": "Pod"
   }
 }
