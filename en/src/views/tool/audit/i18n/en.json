@@ -1,17 +1,17 @@
 {
   "table": {
-    "trigger_time": "Trigger Time",
-    "tenant": "Tenant",
-    "account": "Account",
-    "operate": "Action",
-    "object": "Operate Object",
-    "label": "Label",
+    "trigger_time": "Action start time",
+    "tenant": "Sterility shutdown",
+    "account": "should not be considered as a crime or as a crime against humanity.",
+    "operate": "Jailig Sterili Sterili Stig",
+    "object": "Ministry of Interior Ministry of the Interior",
+    "label": "Unidentist's settlement",
     "status": "Status"
   },
   "filter": {
-    "account": "Account",
-    "search": "Search",
+    "account": "should not be considered as a crime or as a crime against humanity.",
+    "search": "Kano",
     "status": "Status",
-    "action": "Action"
+    "action": "Jailig Sterili Sterili Stig"
   }
 }
