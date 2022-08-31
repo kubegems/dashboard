@@ -1,49 +1,49 @@
 {
   "table": {
-    "name": "服务名称",
-    "label": "匹配标签",
-    "config_check": "配置检查",
-    "istio_config": "Istio配置"
+    "name": "サービス名",
+    "label": "一致するタグ",
+    "config_check": "構成のチェック",
+    "istio_config": "Istio構成"
   },
   "tip": {
-    "select_environment": "请选择应用环境",
-    "auto_inject": "自动注入",
-    "alert": "警告",
-    "route": "路由",
-    "match_header": "匹配请求头",
-    "match_uri": "匹配请求路径"
+    "select_environment": "アプリの環境を選択してください",
+    "auto_inject": "自動的にコメントする",
+    "alert": "注意",
+    "route": "ルーティング",
+    "match_header": "要求ヘッダーに一致する",
+    "match_uri": "リクエストパスの一致"
   },
   "filter": {
-    "service_name": "服务名称"
+    "service_name": "サービス名"
   },
   "operate": {
-    "clear": "清理虚拟服务与规则",
-    "fault_injection": "故障注入",
-    "request_route": "请求路由",
-    "request_timeout": "请求超时",
-    "traffic_shift": "流量切换",
-    "tcp_traffic_shift": "TCP流量切换"
+    "clear": "仮想サービスとルールをクリーンアップ",
+    "fault_injection": "インジェクション",
+    "request_route": "リクエストルート",
+    "request_timeout": "リクエストのタイムアウト",
+    "traffic_shift": "トラフィックの切替",
+    "tcp_traffic_shift": "TCPデータの切替え"
   },
   "tab": {
-    "network_topology": "流量拓扑",
-    "ingress": "入口流量",
-    "trace": "链路追踪"
+    "network_topology": "トポロジー",
+    "ingress": "入口トラフィック",
+    "trace": "トラッキングリンクの設定"
   },
   "form": {
-    "http_delay": "请求延迟",
-    "delay_precent": "延迟百分比",
-    "fixed_delay": "固定延迟",
-    "http_abort": "请求中止",
-    "abort_precent": "中止百分比",
-    "status_code": "状态码",
-    "limit_100_rule": "格式错误(示例:<=100整数)",
-    "integer_rule": "格式错误(示例:整数)",
-    "destination_workload": "目标负载",
-    "traffic_weight": "流量权重",
-    "http_timeout": "请求超时",
-    "timeout": "超时时间",
-    "http_retry": "请求重试",
-    "attempt": "重试次数",
-    "try_timeout": "每次重试超时时间"
+    "http_delay": "遅延リクエスト",
+    "delay_precent": "遅延の割合",
+    "fixed_delay": "固定遅延",
+    "http_abort": "リクエストが中止されました",
+    "abort_precent": "中止した割合",
+    "status_code": "ステータスコード",
+    "limit_100_rule": "整形エラー(例:<=100整数)",
+    "integer_rule": "整形エラー(例: 整数)",
+    "destination_workload": "ターゲット 負荷",
+    "traffic_weight": "トラフィック重量",
+    "http_timeout": "リクエストのタイムアウト",
+    "timeout": "タイムアウト",
+    "http_retry": "リクエストの再試行",
+    "attempt": "リトライ数",
+    "try_timeout": "リサイクルのタイムアウト時間"
   }
 }
