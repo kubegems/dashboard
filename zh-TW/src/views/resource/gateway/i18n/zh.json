@@ -1,46 +1,46 @@
 {
   "tip": {
-    "instance_count": "Number of Instances",
-    "default": "Default gateway",
-    "port": "Gateway Port",
-    "status": "Status",
-    "loadbalancer": "External Load Balancer Gateway (LoadBalancer)",
-    "nodeport": "General cluster gateway (NodePort)",
-    "connect_count": "Connections",
-    "default_domain": "Default domain name",
-    "extend_label": "Work load attachments",
-    "address": "Gateway Address",
-    "available": "{0} instances available",
-    "unavailable": "{0} instance not available",
-    "name": "Gateway Name",
-    "type": "Gateway Type",
-    "protocol": "Protocol",
-    "replicas": "Number of copies",
-    "image": "Mirror",
-    "config_item": "Configuration Item"
+    "instance_count": "實例數",
+    "default": "默認閘道",
+    "port": "閘道埠",
+    "status": "狀態",
+    "loadbalancer": "外部負載均衡網關（LoadBalancer）",
+    "nodeport": "常規集群閘道（NodePort）",
+    "connect_count": "連接數",
+    "default_domain": "預設功能變數名稱",
+    "extend_label": "工作負載附加標籤",
+    "address": "閘道位址",
+    "available": "{0}個實例可用",
+    "unavailable": "{0}個實例不可用",
+    "name": "閘道名稱",
+    "type": "閘道類型",
+    "protocol": "協定",
+    "replicas": "副本數",
+    "image": "鏡像",
+    "config_item": "配置項"
   },
   "tab": {
-    "config": "Configuration",
-    "ingress": "Route"
+    "config": "配置",
+    "ingress": "路由"
   },
   "table": {
-    "name": "Name",
-    "address": "Access address",
-    "container_port": "Container Port",
-    "service_port": "Service Port",
-    "host_port": "Host Port"
+    "name": "名稱",
+    "address": "訪問位址",
+    "container_port": "容器埠",
+    "service_port": "服務埠",
+    "host_port": "主機埠"
   },
   "operate": {
-    "access": "Visits",
-    "use_default_domain": "Use Default Domain"
+    "access": "訪問",
+    "use_default_domain": "使用預設功能變數名稱"
   },
   "status": {
-    "normal": "Normal",
-    "error": "Exception"
+    "normal": "正常",
+    "error": "異常"
   },
   "form": {
-    "name_rule": "Wrong format (start with letter)",
-    "domain_rule": "Invalid domain format (wildcard '*' supported)",
-    "image_rule": "Wrong format (not in mirror format)"
+    "name_rule": "格式錯誤（以字母開頭）",
+    "domain_rule": "網域名稱格式錯誤（支援通配符』*'）",
+    "image_rule": "格式錯誤（不符合鏡像格式）"
   }
 }
