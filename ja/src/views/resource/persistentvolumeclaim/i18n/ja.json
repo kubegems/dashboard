@@ -4,7 +4,7 @@
     "status": "Status",
     "access_mode": "Access mode",
     "storage": "Capacity",
-    "mount": "Mount",
+    "mount": "マウント/マウント解除",
     "capacity": "Capacity"
   },
   "filter": {
@@ -21,20 +21,20 @@
   },
   "tip": {
     "now_capacity": "Current capacity",
-    "dest_capacity": "Target rating",
+    "dest_capacity": "ターゲット検討",
     "used": "Usage",
     "inode_rate": "Inode Usage",
-    "label": "Tags",
-    "annotation": "Note",
+    "label": "タグ：",
+    "annotation": "Notes",
     "rwo": "Single node read/write",
-    "rox": "Multi-node read-only",
-    "rwx": "Multi-Node Read-write",
+    "rox": "Multinode read-only",
+    "rwx": "Multi-NodeRead-write",
     "can_create_snapshot": "Can create snapshot",
     "volume_mode": "Volume mode",
     "volume_name": "Volume Name"
   },
   "form": {
-    "storage_rule": "Wrong format (Example: 1Ki,1Mi,1Gi,1Ti)",
+    "storage_rule": "Wrong format (Example: 1i,1Mi,1Gi,1Ti)",
     "limit_min_rule": "Less than current value"
   }
 }
