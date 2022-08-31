@@ -1,7 +1,7 @@
 {
   "table": {
     "name": "DNS",
-    "creator": "Created By"
+    "creator": "Author"
   },
   "filter": {
     "dns_name": "DNS"
