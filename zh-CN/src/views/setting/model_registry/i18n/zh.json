@@ -1,67 +1,67 @@
 {
   "tab": {
-    "ai_model": "アルゴリズムモデル"
+    "ai_model": "Algorithm Model"
   },
   "table": {
-    "name": "注文番号による検索",
-    "version": "バージョン",
-    "framework": "フレームワーク",
-    "task": "タイプ",
-    "tag": "タグ",
-    "last_modified": "最終更新日",
-    "recommend": "推奨値",
-    "published": "参加状況"
+    "name": "Name",
+    "version": "Version",
+    "framework": "Framework",
+    "task": "Type",
+    "tag": "Tags",
+    "last_modified": "Last updated",
+    "recommend": "Recommended Values",
+    "published": "Listing Status"
   },
   "operate": {
-    "recommend_content": "推奨コンテンツ",
-    "online": "リスト表示",
-    "offline": "オフライン",
-    "manage": "モデル管理",
-    "stop_sync": "同期を中止",
-    "stop_sync_c": "{0} との同期を中止",
-    "forbid": "無効",
-    "active": "有効",
-    "forbid_c": "{0} を無効化",
-    "active_C": "{0}をアクティベートする",
-    "check": "チェックサム"
+    "recommend_content": "Recommended Content",
+    "online": "Listing",
+    "offline": "Next shelf",
+    "manage": "Model management",
+    "stop_sync": "Abort sync",
+    "stop_sync_c": "Abort sync {0}",
+    "forbid": "Disabled",
+    "active": "Activate",
+    "forbid_c": "Disable {0}",
+    "active_C": "Activate {0}",
+    "check": "Validation"
   },
   "filter": {
-    "search": "モデル名",
-    "framework": "フレームワーク",
-    "task": "タイプ"
+    "search": "Model Name",
+    "framework": "Framework",
+    "task": "Type"
   },
   "status": {
-    "success": "同期が成功",
-    "failure": "同期失敗",
-    "no_sync": "同期なし",
-    "running": "同期有効"
+    "success": "Successfully synced",
+    "failure": "Sync failed",
+    "no_sync": "No sync yet",
+    "running": "Syncing"
   },
   "tip": {
-    "model_count": "モデルの数",
-    "inner": "インボックス",
-    "huggingface": "世界で最も大規模なオープンソース コミュニティとして、NLP の技術に集中している。",
-    "openmmlab": "深い学習時に最も完全なコンピュータービジョンでオープンソースなアルゴリズムシステム。",
-    "tensorflow": "コアとなるオープンソースライブラリで、機械学習モデルを開発・トレーニングに役立つでしょう。",
-    "pytorch": "検出されたモデルとリサーチのために設計された プリペイドモデルリポジトリに公開します。",
-    "paddlepaddle": "は 産業を基盤とするオープンソース・ゼロ・学習プラットフォームです",
-    "kubegems": "Kubegemsビルトインアルゴリズムモデル",
-    "status": "同期ステータス",
-    "update_at": "更新日時",
-    "address": "住所",
-    "recomment": "紹介インデックス",
-    "recomment_content": "推奨コンテンツ",
-    "label": "モデルのラベル",
-    "model_admin": "アルゴリズムモデルストア管理者",
-    "source": "アルゴリズムストアソース",
-    "download_modelx": "ModelX Client をダウンロード",
-    "auth": "アルゴリズムストア認証",
-    "auth_setting": "認証設定",
-    "auth_type": "このニュースをサイトで公開するか否かの設定",
-    "passwd_auth": "ユーザー名コードベース認証",
-    "token_auth": "トークンベースの認証",
-    "passwd_or_token_auth": "ユーザー名パスワードやトークンベースの認証"
+    "model_count": "Number of models",
+    "inner": "Built-in Store",
+    "huggingface": "Large open source communities globally, focused on NLP technologies.",
+    "openmmlab": "The most complete computer visual open source algorithm in a deep learning era.",
+    "tensorflow": "A core open source library that can help you develop and train machine learning models.",
+    "pytorch": "Discover the model and publish it to a repository of pre-training models designed specifically for research exploration.",
+    "paddlepaddle": "Open source depth learning platform derived from industry practice.",
+    "kubegems": "Kubegems built-in algorithm store.",
+    "status": "Sync Status",
+    "update_at": "Update Time",
+    "address": "Address",
+    "recomment": "Recommended Index",
+    "recomment_content": "Recommended Content",
+    "label": "Model Label",
+    "model_admin": "Algorithm Model Store Administrator",
+    "source": "Algorithm Store Source",
+    "download_modelx": "Download ModelX Client",
+    "auth": "Algorithm Store Authentication",
+    "auth_setting": "Authentication Configuration",
+    "auth_type": "Authentication Method",
+    "passwd_auth": "Authentication based on username and password",
+    "token_auth": "Token-based Authentication",
+    "passwd_or_token_auth": "Authentication based on username or token"
   },
   "form": {
-    "recomment_rule": "書式が不適切です(0-100)"
+    "recomment_rule": "Format Error (0-100)"
   }
 }
