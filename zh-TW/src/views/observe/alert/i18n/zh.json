@@ -1,45 +1,45 @@
 {
   "table": {
-    "summary": "摘要",
-    "fingerprint": "指纹",
-    "expired_at": "过期时间",
-    "creator": "创建人",
-    "name": "名称",
-    "start_at": "开始时间",
-    "trigger_at": "触发时间",
-    "blacklist": "黑名单",
-    "message": "详情",
-    "severity": "级别"
+    "summary": "概要",
+    "fingerprint": "指紋",
+    "expired_at": "有効期限",
+    "creator": "作成者",
+    "name": "注文番号による検索",
+    "start_at": "開始時刻",
+    "trigger_at": "動作開始時間",
+    "blacklist": "ブラックリスト",
+    "message": "詳細",
+    "severity": "レベル"
   },
   "tip": {
-    "forever": "永久",
-    "confirm_remove_blacklist": "是否确认将此条告警信息从告警黑名单中移除？",
-    "today_alert": "今日告警",
-    "cleared": "已消除",
-    "triggering": "正在告警",
-    "alert_type": "告警类别",
-    "count": "数量",
-    "alert_trend": "告警历史趋势",
-    "top_10": "告警TOP10",
-    "not_changed": "不变",
-    "compare_yestoday": "较昨日",
-    "yes": "是",
-    "confirm_in_blacklist": "是否确认将此条告警信息加入告警黑名单中？",
-    "select_label": "选择标签",
-    "alert": "告警",
-    "query_tip": "模糊搜索规则和标签(多个关键字请用空格分割)",
-    "query": "查询"
+    "forever": "無期限",
+    "confirm_remove_blacklist": "この警告をサイレンスからサイレンスしますか？",
+    "today_alert": "本日告知",
+    "cleared": "削除された",
+    "triggering": "警告中",
+    "alert_type": "お知らせの種類",
+    "count": "個数",
+    "alert_trend": "警告履歴動向",
+    "top_10": "警察TOP10",
+    "not_changed": "変更なし",
+    "compare_yestoday": "昨日",
+    "yes": "はい",
+    "confirm_in_blacklist": "この警告をサイレンスからサイレンスしますか？",
+    "select_label": "ラベルの選択",
+    "alert": "アラート",
+    "query_tip": "ぼかしの検索ルールとラベル。(複数キーワードはスペースで区切ってください)",
+    "query": "クエリ"
   },
   "operate": {
-    "remove_blacklist": "移除黑名单",
-    "in_blacklist": "加入黑名单",
-    "go": "运行"
+    "remove_blacklist": "ブロックを解除",
+    "in_blacklist": "ブロック",
+    "go": "実行"
   },
   "filter": {
-    "name": "名称",
-    "resource": "资源",
-    "rule": "规则",
-    "status": "状态",
-    "scope": "组"
+    "name": "注文番号による検索",
+    "resource": "リソース",
+    "rule": "ルール",
+    "status": "状態",
+    "scope": "グループ"
   }
 }
