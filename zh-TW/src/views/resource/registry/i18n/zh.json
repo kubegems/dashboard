@@ -1,26 +1,26 @@
 {
   "tip": {
-    "select_project": "最初にプロジェクトを選択してください",
-    "enable_scan": "イメージスキャナと解析を有効にする",
-    "yes": "はい",
-    "no": "いいえ",
-    "set_default": "ミラーリポジトリ {0} をデフォルトとして設置しました",
-    "cancel_default": "リポジトリの {0} のデフォルト設定を解除"
+    "select_project": "請先選擇專案",
+    "enable_scan": "啟用鏡像掃描和分析報告",
+    "yes": "是",
+    "no": "否",
+    "set_default": "將鏡像倉庫 {0} 置為預設倉庫",
+    "cancel_default": "取消鏡像倉庫 {0} 的預設設置"
   },
   "filter": {
-    "registry_name": "イメージ名"
+    "registry_name": "鏡像倉庫名稱"
   },
   "table": {
-    "name": "リポジトリ名",
-    "address": "レンタル",
-    "default": "デフォルトの倉庫",
-    "username": "ユーザー名",
-    "creator": "作成者",
-    "last_update_at": "最終更新日",
-    "passwd": "パスワード"
+    "name": "倉庫名稱",
+    "address": "倉庫位址",
+    "default": "默認倉庫",
+    "username": "使用者名",
+    "creator": "創建人",
+    "last_update_at": "最近更新時間",
+    "passwd": "密碼"
   },
   "operate": {
-    "set_default": "デフォルトの倉庫を設定",
-    "cancel_default": "デフォルトのリポジトリのキャンセル"
+    "set_default": "設置預設倉庫",
+    "cancel_default": "取消預設倉庫"
   }
 }
