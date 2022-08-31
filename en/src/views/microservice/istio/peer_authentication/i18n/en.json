@@ -1,10 +1,10 @@
 {
   "table": {
-    "name": "エンドポイント認証名",
-    "label": "一致するタグ",
-    "tls": "TLS の設定"
+    "name": "End point authentication name",
+    "label": "Match Tags",
+    "tls": "TLS Settings"
   },
   "filter": {
-    "peer_name": "エンドポイント認証名"
+    "peer_name": "End point authentication name"
   }
 }
