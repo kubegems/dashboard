@@ -22,6 +22,6 @@
     "rule": "Rules"
   },
   "operate": {
-    "load_c": "Import{0}"
+    "load_c": "Import {0}"
   }
 }
