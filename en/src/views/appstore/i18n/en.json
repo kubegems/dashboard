@@ -1,1 +1,42 @@
-{}
+{
+  "tip": {
+    "detail": "Details",
+    "version": "Version",
+    "desc": "Introduction",
+    "registry": "Repository",
+    "app_version": "App Version",
+    "maintainer": "Maintainer",
+    "create_at": "Created on",
+    "error_info": "Error message",
+    "deploying": "Deploying, please wait",
+    "deploy_success": "Deployment successful",
+    "view_deploy_status": "View Deployment Status",
+    "third_registry": "3rd Party Repositories",
+    "advise": "Recommendations",
+    "third_registry_deploy": "Third Party Repository, values.yaml configuration recommended",
+    "values_error": "Failed to get values.yaml",
+    "params_check_error": "Parameter verification failed",
+    "project_is_null": "Missing project",
+    "environment_is_null": "Missing Environment",
+    "base_info": "Basic configuration",
+    "advance_setting": "Detailed configuration",
+    "complete": "Finished",
+    "bitnami": "Bitnami allows you to easily start and run your favorite open source software on any platform, including your laptop, Kubernetes and all major clouds.",
+    "kubegems": "A collection of files describing Kubernetes related resources that can be used by individual apps to deploy some complex HTTP servers as well as web full-stack apps, databases, caches, etc.",
+    "chartmuseum": "ChartMuseum is an open-source, easily deployable and Helm Chart repository server."
+  },
+  "filter": {
+    "name": "App name"
+  },
+  "form": {
+    "name": "Name",
+    "appname": "App name",
+    "address": "Address",
+    "version": "Version"
+  },
+  "tab": {
+    "form": "Form",
+    "app_detail": "App Details",
+    "config_file": "Profile"
+  }
+}
