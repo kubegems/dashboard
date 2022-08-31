@@ -1,17 +1,17 @@
 {
   "table": {
-    "trigger_time": "動作開始時間",
-    "tenant": "テナント",
-    "account": "ユーザー",
-    "operate": "アクション",
-    "object": "オブジェクト",
-    "label": "タグ",
-    "status": "状態"
+    "trigger_time": "Trigger Time",
+    "tenant": "Tenant",
+    "account": "Account",
+    "operate": "Action",
+    "object": "Operate Object",
+    "label": "Label",
+    "status": "Status"
   },
   "filter": {
-    "account": "ユーザー",
-    "search": "検索",
-    "status": "状態",
-    "action": "アクション"
+    "account": "Account",
+    "search": "Search",
+    "status": "Status",
+    "action": "Action"
   }
 }
