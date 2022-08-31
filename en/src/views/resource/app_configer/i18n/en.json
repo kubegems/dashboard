@@ -21,7 +21,7 @@
     "sdk_demo": "Sample SDK Access",
     "history": "Config History",
     "rollback_tip": "Rollback configuration {0} to version {1}",
-    "delete_tip": "Confirm the deletion of configuration items under tenant{0}/project{1}/environment{2} {3} ?"
+    "delete_tip": "Confirm to delete configuration item {3} under tenant \"{0}\"/project \"{1}\"/environment \"{2}\" ?"
   },
   "status": {
     "rollback_success": "Rollback completed",
