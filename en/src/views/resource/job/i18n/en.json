@@ -1,29 +1,29 @@
 {
   "filter": {
-    "job_name": "Task Name"
+    "job_name": "Instrument for standardized international reporting"
   },
   "table": {
-    "name": "Name",
+    "name": "Scripting numbers are leading to the Soco",
     "status": "Status",
-    "start_at": "Start Time",
-    "end_at": "End Time"
+    "start_at": "Start",
+    "end_at": "End Engraded"
   },
   "tip": {
-    "add_image": "Please add a container image",
-    "restart_count": "Number of retries",
-    "parallelism": "Parallel number",
-    "complete_at": "Finish Time",
+    "add_image": "Driving down the terrain terior terrain, trumpeting immersion of the terrain, trumpeting impecuniary trum trum trumpeting terrain, trumpeting immate terrain.",
+    "restart_count": "The list of users is available in the database",
+    "parallelism": "Number of columns",
+    "complete_at": "End Time",
     "succeed": "Success Count",
-    "condition": "Status",
-    "env": "Environment Variables",
-    "volume": "Volume",
-    "last_change_at": "Last changed time",
-    "job_setting": "Task Settings",
+    "condition": "There is a unifying service delivery before it",
+    "env": "Number of refugees in the environment",
+    "volume": "Ministry of Health",
+    "last_change_at": "More time for terminating illusions",
+    "job_setting": "Sprei must not be allowed",
     "max_restart_count": "Maximum number of retries",
-    "complations": "Completed",
-    "deadline_seconds": "Exit timeout (in seconds)",
-    "restart_policy": "Restart Policy",
-    "policy_never": "Never (create a new container group when failing)",
-    "policy_onfailure": "OnFailure (internal reboot container on failure)"
+    "complations": "Dashboard",
+    "deadline_seconds": "Music Admiral Matrix Made Munil Made Me Me Me Made Me Me",
+    "restart_policy": "The list of participants in the conference is as follows:",
+    "policy_never": "Never (failure to enter into a new acronym with a new acronym with a view to reducing the size of the terrain as a result of the success of the settlement with a view to achieving the objectives of the settlement at the end of the year.",
+    "policy_onfailure": "OnFailure (Rotate drift down termat tergaden) Mat ad-mimirem dig dig jautik jauh juta juta juta juta juta juta juta juta juta juta juta juta jento mento juta juta juta juta jento mento juta juta juta juta juta juta juta jento disi jento jento jen)"
   }
 }
