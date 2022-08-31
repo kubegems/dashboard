@@ -1,1 +1,45 @@
-{}
+{
+  "table": {
+    "kubernetes_version": "Kubernetes版本",
+    "status": "狀態",
+    "kubeconfig_expired": "配置有效期"
+  },
+  "tip": {
+    "control_cluster": "控制集群",
+    "resource_oversold": "資源超分",
+    "missing_kubeconfig": "請輸入KubeConfig",
+    "physics": "物理",
+    "virtual": "v",
+    "total": "{0}總量",
+    "sum": "總和",
+    "oversold_precent": "{0}超分比例",
+    "oversold": "超分{0}",
+    "all": "總{0}",
+    "used": "已使用{0}",
+    "reason": "原因",
+    "cert_expired": "證書有效期",
+    "api_success_rate": "API請求成功率",
+    "cluster_init_config": "集群初始化設置",
+    "test_cluster": "測試集群",
+    "connect_success": "集群連接成功",
+    "connect_failed": "集群連接失敗",
+    "connecting": "集群連接中",
+    "support_version": "支援版本",
+    "cluster_vendor": "集群廠商",
+    "now_select": "當前選擇"
+  },
+  "form": {
+    "format_rule": "格式錯誤（範例：最多1位小數）",
+    "limit_min_rule": "低於最小限制",
+    "limit_max_rule": "超出最大限制",
+    "name": "集群名稱"
+  },
+  "tab": {
+    "etcd_timeout": "ETCD耗時",
+    "apiserver_timeout": "APIServer耗時",
+    "cluster_cpu": "集群CPU",
+    "cluster_memory": "集群記憶體",
+    "cluster_storage": "集群存儲",
+    "cluster_pod": "集群容器組"
+  }
+}

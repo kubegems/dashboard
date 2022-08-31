@@ -1,1 +1,35 @@
-{}
+{
+  "tip": {
+    "missing_plugin": "該應用環境所在集群暫時還未啟用 {0} 外掛程式！",
+    "plugin_tip": "您可以聯繫平臺管理員啟用該外掛程式",
+    "select_environment": "請選擇應用環境",
+    "start_end_time": "起止時間",
+    "limit_count": "限制條數",
+    "auto_inject": "自動注入",
+    "request_count": "請求量",
+    "realtime_rate": "即時速率",
+    "last_24_hours": "過去24h",
+    "response_time": "回應時間",
+    "realtime": "即時",
+    "error_request": "異常請求數",
+    "traffic": "流量",
+    "status": "狀態",
+    "replicas": "副本",
+    "replicas_updated": "{0}個副本已更新",
+    "replicas_ready": "{0}個副本已就緒",
+    "replicas_available": "{0}個副本可用",
+    "replicas_unavailable": "{0}個副本不可用"
+  },
+  "table": {
+    "ingress": "入口流量",
+    "egress": "出口流量",
+    "name": "名稱",
+    "rate": "速率",
+    "success_precent": "成功率",
+    "protocol": "協定",
+    "label": "標籤",
+    "port": "埠",
+    "service_ip": "服務IP",
+    "pod_count": "容器組數量"
+  }
+}

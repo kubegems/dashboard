@@ -1,1 +1,33 @@
-{}
+{
+  "more": "更多",
+  "audit": {
+    "audit": "審計"
+  },
+  "event": {
+    "event": "事件",
+    "cluster": "集群"
+  },
+  "project": {
+    "table": {
+      "type": "類型",
+      "traffic_in": "流量in",
+      "traffic_out": "流量out",
+      "remark": "備註",
+      "alias": "別名",
+      "test": "測試",
+      "dev": "開發",
+      "prod": "生產"
+    }
+  },
+  "resource": {
+    "table": {
+      "all": "總{0}",
+      "allocated": "已分配{0}",
+      "applying": "資源申請中"
+    },
+    "title": "資源調整"
+  },
+  "tip": {
+    "tenant": "請創建或加入租戶"
+  }
+}

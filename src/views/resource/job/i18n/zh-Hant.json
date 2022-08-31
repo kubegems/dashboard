@@ -1,1 +1,29 @@
-{}
+{
+  "filter": {
+    "job_name": "任務名稱"
+  },
+  "table": {
+    "name": "名稱",
+    "status": "狀態",
+    "start_at": "開始時間",
+    "end_at": "結束時間"
+  },
+  "tip": {
+    "add_image": "請添加容器鏡像",
+    "restart_count": "重試次數",
+    "parallelism": "並行數",
+    "complete_at": "完成時間",
+    "succeed": "成功數量",
+    "condition": "狀況",
+    "env": "環境變數",
+    "volume": "卷",
+    "last_change_at": "上次改變時間",
+    "job_setting": "任務設置",
+    "max_restart_count": "最大重試次數",
+    "complations": "完成數",
+    "deadline_seconds": "離開逾時時限（秒）",
+    "restart_policy": "重啟策略",
+    "policy_never": "Never （故障時建立新的容器群組）",
+    "policy_onfailure": "OnFailure （故障時內部重啟容器）"
+  }
+}

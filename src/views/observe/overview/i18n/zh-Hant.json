@@ -1,1 +1,48 @@
-{}
+{
+  "tip": {
+    "install_metrics": "安裝 OpenTelemetry Metrics Library",
+    "install_metrics_desc": "自定義指標可以深入瞭解應用實時狀態，以及發現它如何影響用戶體驗或者業務流程",
+    "install_trace": "安裝 OpenTelemetry Traces Library",
+    "install_trace_desc": "鏈路追蹤Tracing提供了調用鏈路還原、鏈路拓撲、應用依賴分析等工具，可幫助開發者快速分析和診斷應用的性能瓶頸，提高開發診斷效率",
+    "create_log": "創建採集器收集應用日誌",
+    "create_log_desc": "自動採集應用容器控制台（stdout/stderr）日誌，可幫助開發者在故障時進行日誌分析",
+    "enabled_monitor": "已啟用監控",
+    "disabled_monitor": "未啟用監控",
+    "enabled_log": "已啟用紀錄",
+    "disabled_log": "未啟用紀錄",
+    "enabled_mesh": "已啟用服務網格",
+    "disabled_mesh": "未啟用服務網格",
+    "filter_project": "請選擇項目進行過濾",
+    "last_30_second": "最近30秒",
+    "last_5_minute": "最近5分鐘",
+    "last_1_hour": "最近1小時",
+    "last_1_day": "最近1天",
+    "last_1_week": "最近1周",
+    "time": "時間",
+    "error_info": "錯誤資訊",
+    "event_source": "事件源",
+    "event_type": "事件類型"
+  },
+  "table": {
+    "label": "標籤",
+    "status": "狀態",
+    "restart_count": "容器重啟（次）",
+    "metrics_count": "指標採集器",
+    "alert_rule_count": "告警規則",
+    "living_alert_count": "即時告警",
+    "log_count": "日誌採集器",
+    "error_log_count": "錯誤紀錄",
+    "log_rate": "日誌速率",
+    "event_count": "事件",
+    "origin_component": "來源元件",
+    "origin_host": "來源主機",
+    "message": "消息",
+    "count": "次數",
+    "first_at": "首次發生時間",
+    "last_at": "最近發生時間"
+  },
+  "tab": {
+    "event_chart": "事件圖表",
+    "event_list": "事件清單"
+  }
+}
