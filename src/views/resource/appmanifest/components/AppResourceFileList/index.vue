@@ -251,9 +251,9 @@
       },
       removeResourceFile(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: this.$root.$t('operate.delete_c', [$t('tip.resource_file')]),
+          title: this.$root.$t('operate.delete_c', [$t('table.resource_file')]),
           content: {
-            text: `${this.$root.$t('operate.delete_c', [$t('tip.resource_file')])} ${item.name}`,
+            text: `${this.$root.$t('operate.delete_c', [$t('table.resource_file')])} ${item.name}`,
             type: 'delete',
             name: item.name,
           },

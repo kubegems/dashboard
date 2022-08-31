@@ -201,7 +201,7 @@
             query: NODE_NETWORK_OUT_PROMQL.replaceAll('$1', this.item.metadata.name),
           }),
         );
-        if (data2?.length > 0) data2[0].metric['name'] = this.$t('tip.out_traffc');
+        if (data2?.length > 0) data2[0].metric['name'] = this.$t('tip.out_traffic');
         let data = [];
         if (data1) data = data.concat(data1);
         if (data2) data = data.concat(data2);

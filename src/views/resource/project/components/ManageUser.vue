@@ -148,10 +148,10 @@
       },
       tabItems() {
         return [
-          { text: this.$root.$t('role.projct.test'), value: 'test' },
-          { text: this.$root.$t('role.projct.dev'), value: 'dev' },
-          { text: this.$root.$t('role.projct.ops'), value: 'ops' },
-          { text: this.$root.$t('role.projct.admin'), value: 'admin' },
+          { text: this.$root.$t('role.project.test'), value: 'test' },
+          { text: this.$root.$t('role.project.dev'), value: 'dev' },
+          { text: this.$root.$t('role.project.ops'), value: 'ops' },
+          { text: this.$root.$t('role.project.admin'), value: 'admin' },
         ];
       },
     },

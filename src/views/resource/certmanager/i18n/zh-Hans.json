@@ -7,7 +7,8 @@
     "issuer_type": "颁发机构类型",
     "secret_name": "密钥名",
     "dns_name": "DNS名",
-    "extend": "扩展"
+    "extend": "扩展",
+    "status": "状态"
   },
   "filter": {
     "cert_name": "名称"

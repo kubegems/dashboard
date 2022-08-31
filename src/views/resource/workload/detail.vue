@@ -73,7 +73,7 @@
               @click="hpaStrategy"
             >
               <v-icon left small> mdi-cogs </v-icon>
-              {{ $t('tip.auto_scale_policy') }}
+              {{ $t('operate.auto_scale_policy') }}
             </v-btn>
           </template>
           <v-btn class="primary--text" small text @click="resourceYaml">

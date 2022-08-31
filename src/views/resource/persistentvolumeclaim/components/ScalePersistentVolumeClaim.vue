@@ -23,7 +23,7 @@
     @reset="reset"
   >
     <template #content>
-      <BaseSubTitle :title="$root.$t('from.definition', [$t('operate.scale')])" />
+      <BaseSubTitle :title="$root.$t('form.definition', [$t('operate.scale')])" />
       <v-card-text class="px-2 pb-0">
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
           <v-sheet>
@@ -52,7 +52,7 @@
     </template>
     <template #action>
       <v-btn class="float-right" color="primary" :loading="Circular" text @click="updatePersistentVolumeClaim">
-        {{ $root.$t('operate.confrim') }}
+        {{ $root.$t('operate.confirm') }}
       </v-btn>
     </template>
   </BaseDialog>

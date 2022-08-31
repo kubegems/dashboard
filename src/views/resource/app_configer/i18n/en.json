@@ -21,7 +21,7 @@
     "sdk_demo": "Sample SDK Access",
     "history": "Config History",
     "rollback_tip": "Rollback configuration {0} to version {1}",
-    "delete_tip": "确认删除 租户「{0}」/项目「{1}」/环境「{2}」 下的配置项 {3} ?"
+    "delete_tip": "Confirm to delete configuration item {3} under tenant \"{0}\"/project \"{1}\"/environment \"{2}\" ?"
   },
   "status": {
     "rollback_success": "Rollback completed",
