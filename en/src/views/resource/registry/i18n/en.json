@@ -21,6 +21,6 @@
   },
   "operate": {
     "set_default": "Set Default Repository",
-    "cancel_default": "Cancel Default Repository"
+    "cancel_default": "Cancel Repository"
   }
 }
