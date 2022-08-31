@@ -1,63 +1,63 @@
 {
   "tab": {
-    "message": "メッセージボックス",
-    "audit": "操作履歴",
-    "setting": "パーソナル設定",
-    "auth": "認証"
+    "message": "メッセルシのスネマ",
+    "audit": "行動履歴",
+    "setting": "ハ゜王ソナル設定",
+    "auth": "証証"
   },
   "table": {
-    "email": "メール",
-    "mobile": "携帯電話",
-    "registe_at": "登録日",
-    "last_login_at": "最終ログイン"
+    "email": "スペシャル",
+    "mobile": "平等だ",
+    "registe_at": "記録上日",
+    "last_login_at": "最終プロダクション（開発）"
   },
   "message": {
     "table": {
-      "message": "メッセージ",
-      "time": "時間",
-      "type": "タイプ"
+      "message": "メッシーグリベット",
+      "time": "期間",
+      "type": "色々変える"
     },
     "filter": {
       "notify": "お知らせ",
-      "approval": "承認",
-      "alert": "アラート"
+      "approval": "確認する",
+      "alert": "アロート"
     }
   },
   "audit": {
     "table": {
-      "trigger_time": "動作開始時間",
-      "tenant": "テナント",
-      "account": "ユーザー",
-      "operate": "アクション",
-      "object": "オブジェクト",
-      "label": "タグ",
-      "status": "状態"
+      "trigger_time": "開始時間",
+      "tenant": "テキサス",
+      "account": "ユウラ",
+      "operate": "アクショーン",
+      "object": "オフレクトリスト",
+      "label": "タク・マローブ",
+      "status": "ステータス"
     }
   },
   "setting": {
     "tip": {
       "personal_info": "個人情報",
       "old": "草原{0}",
-      "new": "新しい{0}",
-      "confirm_passwd": "新しいパスワードの確認",
-      "i18n": "言語",
-      "auth": "認証",
-      "exprie": "期限 (秒)"
+      "new": "新い{0}",
+      "confirm_passwd": "新しハ゜スマートフロント フロント",
+      "i18n": "話語",
+      "auth": "証証",
+      "exprie": "期間 (秒)"
     }
   },
   "operate": {
-    "generate_c": "{0} の生成"
+    "generate_c": "{0} の作成"
   },
   "auth": {
     "table": {
-      "expired": "有効期限切れ",
-      "expire_at": "有効期限",
-      "grant_type": "認可タイプ",
+      "expired": "効果期間あり",
+      "expire_at": "効果期",
+      "grant_type": "ソフトから販売した",
       "yes": "はい",
-      "no": "いいえ"
+      "no": "いえ"
     },
     "tip": {
-      "copyed": "クリップボードにコピーしました"
+      "copyed": "クリッフル゜ジャートゲートのジャッショッゲッてた"
     }
   }
 }
