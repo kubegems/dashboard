@@ -1,29 +1,29 @@
 {
   "table": {
-    "name": "注文番号による検索",
-    "unit": "単位",
-    "rule": "ルール",
-    "label": "タグ"
+    "name": "注文番番号によりよる検ソ",
+    "unit": "単位名",
+    "rule": "ルタル",
+    "label": "タク・マローブ"
   },
   "form": {
-    "name": "注文番号による検索",
+    "name": "注文番番号によりよる検ソ",
     "show_name": "表示名",
-    "label": "タグ（Enter）",
-    "unit": "単位",
-    "description": "説明"
+    "label": "タクオス (Enter)",
+    "unit": "単位名",
+    "description": "ヘルプ"
   },
   "tip": {
-    "group_and_resource": "グループ/リソース",
-    "group": "グループ",
-    "select_resource": "リソースを選択してください",
-    "default": "デフォルト",
-    "byte": "バイト",
-    "byte_rate": "バイトレート",
-    "time": "時間",
-    "precent": "パーセント",
-    "custom": "カスタム"
+    "group_and_resource": "クオッパリ・リクエストス",
+    "group": "技は優しいコードだ",
+    "select_resource": "リソス ストーンを重要として飲んで...",
+    "default": "ネジャネト",
+    "byte": "ハーネト",
+    "byte_rate": "ハーネートレイト",
+    "time": "期間",
+    "precent": "ハイフィールドト",
+    "custom": "カスターム"
   },
   "filter": {
-    "search": "検索"
+    "search": "ショナラ"
   }
 }
