@@ -1,33 +1,33 @@
 {
   "table": {
-    "name": "虛擬空間名稱",
+    "name": "仮想スペース名",
     "status": "狀態",
-    "creator": "創建人",
-    "environment_type": "環境類型",
-    "remark": "備註"
+    "creator": "作成者",
+    "environment_type": "環境タイプ",
+    "remark": "メモ"
   },
   "filter": {
-    "mesh_name": "虛擬空間名稱"
+    "mesh_name": "仮想スペース名"
   },
   "status": {
-    "activated": "已啟動",
-    "inactivated": "未啟動"
+    "activated": "有効",
+    "inactivated": "非アクティブ"
   },
   "operate": {
-    "activate": "啟動",
-    "inactivate": "關閉",
-    "activate_c": "啟動{0}",
-    "inactivate_c": "關閉{0}",
-    "link_c": "關聯{0}",
-    "delete_linked_env": "刪除虛擬空間關聯環境"
+    "activate": "有効",
+    "inactivate": "閉じる",
+    "activate_c": "{0}をアクティベートする",
+    "inactivate_c": "{0} を閉じました",
+    "link_c": "{0} に接続",
+    "delete_linked_env": "仮想スペース関連環境の削除"
   },
   "tip": {
-    "set_status": "設置虛擬空間狀態",
-    "link_environment": "請關聯環境",
-    "mesh_member": "虛擬空間用戶繼承於環境成員"
+    "set_status": "仮想空間ステータスを設定",
+    "link_environment": "環境を設定してください",
+    "mesh_member": "仮想スペースピアが環境メンバーから引き継ぎ"
   },
   "form": {
-    "name": "虛擬空間名稱",
-    "name_rule": "超出20字元限制"
+    "name": "仮想スペース名",
+    "name_rule": "20 文字制限を超え"
   }
 }
