@@ -1,19 +1,19 @@
 {
   "table": {
-    "type": "Type",
-    "message": "Mesaage",
-    "start_at": "Start Time",
-    "end_at": "End Time",
-    "expried": "オリバー"
+    "type": "色々変える",
+    "message": "メッシーグリベット",
+    "start_at": "開始日",
+    "end_at": "過去のコメント",
+    "expried": "期間切れ"
   },
   "resource": {
-    "broadcast": "ステータスのモーニング"
+    "broadcast": "もつフロート - リスト"
   },
   "tip": {
-    "select_datetime": "Please select detime"
+    "select_datetime": "だが時間を設定できる"
   },
   "status": {
-    "expried": "オリバー",
-    "active": "Active"
+    "expried": "期間切れ",
+    "active": "は10"
   }
 }
