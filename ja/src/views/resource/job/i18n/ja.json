@@ -1,29 +1,29 @@
 {
   "filter": {
-    "job_name": "Task Name"
+    "job_name": "タブ名"
   },
   "table": {
-    "name": "Name",
-    "status": "Status",
-    "start_at": "Start Time",
-    "end_at": "End Time"
+    "name": "注文番番号によりよる検ソ",
+    "status": "ステータス",
+    "start_at": "開始日",
+    "end_at": "過去のコメント"
   },
   "tip": {
-    "add_image": "Please add a container image",
-    "restart_count": "Number of retries",
-    "parallelism": "Parallel number",
-    "complete_at": "Finish Time",
-    "succeed": "Success Count",
-    "condition": "Status",
-    "env": "Environment Variables",
-    "volume": "Volume",
-    "last_change_at": "Last changed time",
-    "job_setting": "Task Settings",
-    "max_restart_count": "Maximum number of retries",
-    "complations": "Completed",
-    "deadline_seconds": "Exit timeout (in seconds)",
-    "restart_policy": "Restart Policy",
-    "policy_never": "Never (create a new container group when failing)",
-    "policy_onfailure": "OnFailure (internal reboot container on failure)"
+    "add_image": "ジャン・テメメケースが追加されてくる処理のスコープ。",
+    "restart_count": "リトル数",
+    "parallelism": "縦向き時の列数",
+    "complete_at": "打ち切り後",
+    "succeed": "成功数",
+    "condition": "効果テイタス",
+    "env": "環境変化",
+    "volume": "処理はブーム",
+    "last_change_at": "最終変化",
+    "job_setting": "ミュージックの設定規定",
+    "max_restart_count": "これ以上, が得られません",
+    "complations": "達成回数",
+    "deadline_seconds": "ドラムアウをするものは何も処理できません",
+    "restart_policy": "リトライ",
+    "policy_never": "ネver (虚害発生時に新しいコンテナク情報処理で処理できるまで）",
+    "policy_onfailure": "OnFailure(インオブジェクトを復活させる)"
   }
 }
