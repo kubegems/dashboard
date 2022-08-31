@@ -1,36 +1,36 @@
 {
   "table": {
-    "name": "注文番号による検索",
-    "status": "状態",
-    "email": "メール",
-    "mobile": "携帯電話",
-    "role": "ロール",
-    "last_login_at": "最近のサインイン順",
-    "registe_at": "登録日"
+    "name": "Name",
+    "status": "Status",
+    "email": "Email",
+    "mobile": "Mobile",
+    "role": "Role",
+    "last_login_at": "Last Login Time",
+    "registe_at": "Registe Time"
   },
   "filter": {
-    "username_or_email": "ユーザー名またはEメール"
+    "username_or_email": "Username or email"
   },
   "operate": {
-    "role": "ロール",
-    "reset_pwd": "パスワードをリセット"
+    "role": "Set Role",
+    "reset_pwd": "Reset Passwd"
   },
   "status": {
-    "enabled": "有効",
-    "disabled": "無効"
+    "enabled": "Enrolled",
+    "disabled": "Disabled"
   },
   "tip": {
-    "role_title": "ユーザーシステムロール",
-    "passwd_title": "使用者パスワードの再設定",
-    "random_passwd": "ランダムパスワードを生成する"
+    "role_title": "User system role",
+    "passwd_title": "Reset password",
+    "random_passwd": "Generate random password"
   },
   "resource": {
-    "password": "パスワード"
+    "password": "Password"
   },
   "form": {
-    "new_passwd": "新しいパスワード",
-    "username": "ユーザー名",
-    "passwd": "パスワード",
-    "email": "メール"
+    "new_passwd": "New Password",
+    "username": "Username",
+    "passwd": "Password",
+    "email": "Email"
   }
 }
