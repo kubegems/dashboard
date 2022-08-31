@@ -8,7 +8,7 @@
     "secret_name": "Key Name",
     "dns_name": "DNS Name",
     "extend": "Extended",
-    "status": "Status"
+    "status": "状态"
   },
   "filter": {
     "cert_name": "Name"
@@ -22,7 +22,7 @@
     "ingress": "Relation address name",
     "expire_at": "Certificate Expiration",
     "auto_renew": "Auto Renewal",
-    "cert_use": "Certificates usage",
+    "cert_use": "Certificate usage",
     "domain": "Grant Domain"
   }
 }
