@@ -1,31 +1,31 @@
 {
   "table": {
-    "status": "状态",
-    "pods": "容器组",
-    "restart_count": "重启次数",
-    "name": "名称",
-    "port": "端口",
-    "selector": "选择器",
-    "host": "Host"
+    "status": "状態",
+    "pods": "コンテナグループ",
+    "restart_count": "再起動",
+    "name": "注文番号による検索",
+    "port": "ポート",
+    "selector": "セレクタ",
+    "host": "ホスト:"
   },
   "filter": {
-    "gateway_name": "网关实例名称"
+    "gateway_name": "ゲートウェイインスタンス名"
   },
   "operate": {
-    "detail": "详情"
+    "detail": "詳細"
   },
   "tab": {
-    "gateway_resource": "网关资源",
-    "virtualservice": "虚拟服务",
-    "pods": "网关容器组",
-    "monitor": "网关监控"
+    "gateway_resource": "ゲートウェイリソース",
+    "virtualservice": "仮想サービス",
+    "pods": "ゲートウェイ・コンテナグループ",
+    "monitor": "ゲートウェイモニター"
   },
   "tip": {
-    "egress_qps": "出口流量qps",
-    "egress_time": "出口流量响应时间",
-    "ingress_80_qps": "80端口入口流量qps",
-    "ingress_80_time": "80端口入口流量响应时间",
-    "ingress_443_qps": "443端口入口流量qps",
-    "ingress_443_time": "443端口入口流量响应时间"
+    "egress_qps": "トラフィックのエクスポート中",
+    "egress_time": "トラフィックのエクスポートの応答時間",
+    "ingress_80_qps": "80ポートのエントリー数 qps",
+    "ingress_80_time": "80ポートエントリーポータル応答時間",
+    "ingress_443_qps": "443ポートのエントリー数 qps",
+    "ingress_443_time": "443ポートエントリーポータル応答時間"
   }
 }
