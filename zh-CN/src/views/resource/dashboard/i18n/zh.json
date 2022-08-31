@@ -1,33 +1,33 @@
 {
-  "more": "さらに表示",
+  "more": "更多",
   "audit": {
-    "audit": "監査"
+    "audit": "审计"
   },
   "event": {
-    "event": "イベント",
-    "cluster": "クラスター"
+    "event": "事件",
+    "cluster": "集群"
   },
   "project": {
     "table": {
-      "type": "タイプ",
-      "traffic_in": "データ通信",
-      "traffic_out": "流出",
-      "remark": "メモ",
-      "alias": "エイリアス",
-      "test": "テスト",
-      "dev": "開発",
-      "prod": "生産品"
+      "type": "类型",
+      "traffic_in": "流量in",
+      "traffic_out": "流量out",
+      "remark": "备注",
+      "alias": "别名",
+      "test": "测试",
+      "dev": "开发",
+      "prod": "生产"
     }
   },
   "resource": {
     "table": {
-      "all": "合計{0}",
-      "allocated": "{0}を割り当てました",
-      "applying": "資源リクエスト"
+      "all": "总{0}",
+      "allocated": "已分配{0}",
+      "applying": "资源申请中"
     },
-    "title": "リソース調整"
+    "title": "资源调整"
   },
   "tip": {
-    "tenant": "作成またはテナントを追加してください。"
+    "tenant": "请创建或加入租户"
   }
 }
