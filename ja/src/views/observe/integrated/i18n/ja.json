@@ -24,18 +24,18 @@
     "no_service_tip": "サービスがありませんか？ <a>アプリケーション ストア</a> にexportを作成してください",
     "request_path": "リクエストパス",
     "metrics": "メトリクス",
-    "instance_status": "实例状态",
-    "data_status": "数据状态",
-    "link_2_app": " 点击 <a>详情</a> 查看运行情况",
-    "preview_data": "进入 <a>指标查询器</a> 预览数据",
-    "success_data": "成功监测到数据",
-    "data_from_prometheus": "从prometheus中确认收到数据, 通常需要等待3到5分钟",
-    "cpnfirm_project_and_env": "确认 项目<span class=\"px-1\">{0}</span> 环境<span class=\"px-1\">{1}</span> 下的实例运行状态"
+    "instance_status": "インスタンスの状態",
+    "data_status": "データの状態",
+    "link_2_app": "<a>詳細</a>をクリックして操作を表示します",
+    "preview_data": "<a>Metric Explore</a>に入ってデータをプレビューします",
+    "success_data": "データが正常に検出されました",
+    "data_from_prometheus": "プロメテウスからのデータの受信を確認する,通常 3 ～ 5 分待つ必要があります",
+    "cpnfirm_project_and_env": "プロジェクト <span class=\"px-1\">{0}</span> 環境 <span class=\"px-1\">{1}</span> 配下のインスタンスの稼働状況を確認"
   },
   "operate": {
     "open": "オン",
     "close": "閉じる",
-    "refresh_middleware_status": "检查数据"
+    "refresh_middleware_status": "データを確認する"
   },
   "table": {
     "name": "注文番号による検索",
