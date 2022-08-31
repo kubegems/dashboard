@@ -1,33 +1,33 @@
 {
   "filter": {
-    "service_name": "Service Name"
+    "service_name": "サーシャス名"
   },
   "table": {
-    "name": "Name",
-    "access_info": "Access Info",
-    "service_type": "Type of service (ExternalIp/LoadBalancerIp)"
+    "name": "注文番番号によりよる検ソ",
+    "access_info": "アクセンス情報",
+    "service_type": "のスカウプ (ExternalIp/LadBalancerIp)"
   },
   "tip": {
-    "add_port_tip": "Please add port configuration",
-    "label": "Match Tags",
-    "type": "Type",
-    "service_port": "Service Port",
-    "container_port": "コンテナー ポート",
-    "host_port": "Host Port",
-    "link_workload": "Relation Work Load",
-    "access_type": "Access Type",
-    "extend_access": "External access",
-    "keep_alive": "セションKeep",
-    "port_config": "Port Configuration",
-    "port": "ポート",
-    "annotation": "Notes",
-    "vip": "Internal IP Access to Cluster (VirtualIP)",
-    "headless": "Access via Service Backend EndpointIP (Headless)",
-    "no_access": "Disable プロセス",
-    "protocol": "アプリケーションライセンスProtocol"
+    "add_port_tip": "ホテイコ好みを追加でくた処理のスコープ",
+    "label": "一貫したタク添え",
+    "type": "色々変える",
+    "service_port": "サーヒフロント ホテイタート",
+    "container_port": "コンテイナ具体的にアイト",
+    "host_port": "ホ゜ート",
+    "link_workload": "スイスゲート制御の解釈で",
+    "access_type": "アクセス イフじゃない",
+    "extend_access": "外部アクセス",
+    "keep_alive": "セーションの存続期間 (秒)",
+    "port_config": "ホフィールド設定",
+    "port": "ホ゜ート",
+    "annotation": "ミックスリスト",
+    "vip": "クロスサイト内のIPアクター (VirtualIP)",
+    "headless": "サーヒス ハ勝手にオブジェクト資料集の EndpointIP へのアクセス",
+    "no_access": "禁止されています",
+    "protocol": "で取り扱いは驚きで略記されている。"
   },
   "form": {
-    "name_rule": "Incorrect name format (<protocol>[-<suffix>])",
-    "limit_max_rule": "Maximum limit exceeded"
+    "name_rule": "名の前のフォロボットフィルタと違った (<protocol>[-<suffix>])",
+    "limit_max_rule": "最大値はかしました"
   }
 }
