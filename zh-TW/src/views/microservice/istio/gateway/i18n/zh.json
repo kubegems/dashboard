@@ -1,9 +1,9 @@
 {
   "table": {
-    "name": "閘道名稱",
-    "selector": "匹配標籤"
+    "name": "Gateway Name",
+    "selector": "Match Tags"
   },
   "filter": {
-    "gateway_name": "閘道名稱"
+    "gateway_name": "Gateway Name"
   }
 }
