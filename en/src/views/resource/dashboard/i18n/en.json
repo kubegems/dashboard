@@ -1,33 +1,33 @@
 {
-  "more": "More",
+  "more": "さらに表示",
   "audit": {
-    "audit": "Audit"
+    "audit": "監査"
   },
   "event": {
-    "event": "Event",
-    "cluster": "Cluster"
+    "event": "イベント",
+    "cluster": "クラスター"
   },
   "project": {
     "table": {
-      "type": "Type",
-      "traffic_in": "Traffic in",
-      "traffic_out": "Traffic out",
-      "remark": "Remarks",
-      "alias": "Alias",
-      "test": "Test",
-      "dev": "Development",
-      "prod": "Production"
+      "type": "タイプ",
+      "traffic_in": "データ通信",
+      "traffic_out": "流出",
+      "remark": "メモ",
+      "alias": "エイリアス",
+      "test": "テスト",
+      "dev": "開発",
+      "prod": "生産品"
     }
   },
   "resource": {
     "table": {
-      "all": "Total{0}",
-      "allocated": "Assigned{0}",
-      "applying": "Requesting Resource"
+      "all": "合計{0}",
+      "allocated": "{0}を割り当てました",
+      "applying": "資源リクエスト"
     },
-    "title": "Resource Adjustment"
+    "title": "リソース調整"
   },
   "tip": {
-    "tenant": "Please create or join tenants"
+    "tenant": "作成またはテナントを追加してください。"
   }
 }
