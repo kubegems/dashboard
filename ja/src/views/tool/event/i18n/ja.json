@@ -1,17 +1,17 @@
 {
   "table": {
-    "component": "Component",
-    "host": "ホスト:",
-    "service": "Service",
-    "namespace": "ネームスペース（ネームスペース）",
-    "type": "Type",
-    "message": "メッセンジャー",
-    "count": "カウントする",
-    "first_at": "First Time",
-    "last_at": "Last Time"
+    "component": "元のコンポーネント",
+    "host": "ソースホスト",
+    "service": "サービス",
+    "namespace": "名前空間",
+    "type": "タイプ",
+    "message": "メッセージ",
+    "count": "回数",
+    "first_at": "最初の発生時間",
+    "last_at": "最近の回"
   },
   "filter": {
     "cluster": "クラスター",
-    "message": "メッセンジャー"
+    "message": "メッセージ"
   }
 }
