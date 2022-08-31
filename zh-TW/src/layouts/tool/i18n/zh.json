@@ -1,6 +1,6 @@
 {
   "tip": {
-    "management": "Platform Manager",
-    "management_desc": "View all resources as administrators."
+    "management": "平臺管理",
+    "management_desc": "以管理員身份查看操作所有資源。"
   }
 }
