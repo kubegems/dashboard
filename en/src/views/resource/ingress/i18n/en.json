@@ -17,7 +17,7 @@
     "port_number": "Port number",
     "port_name": "Port Name",
     "port": "Port",
-    "no_random_domain": "No random domains generated",
+    "no_random_domain": "No random domains generated.",
     "leave_1_rule": "Keep at least one route rule",
     "auto_domain": "Auto-generate domain"
   },
