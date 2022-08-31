@@ -16,12 +16,12 @@
     "group_and_resource": "Group/Resources",
     "group": "Group",
     "select_resource": "Please select a resource",
-    "default": "默认",
-    "byte": "字节",
-    "byte_rate": "字节速率",
-    "time": "时间",
-    "precent": "百分比",
-    "custom": "自定义"
+    "default": "Default",
+    "byte": "Bytes",
+    "byte_rate": "Byte Rate",
+    "time": "Time",
+    "precent": "Percentage",
+    "custom": "Custom"
   },
   "filter": {
     "search": "Search"
