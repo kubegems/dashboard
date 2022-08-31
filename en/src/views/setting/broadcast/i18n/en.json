@@ -1,19 +1,19 @@
 {
   "table": {
-    "type": "Type",
-    "message": "Mesaage",
-    "start_at": "Start Time",
-    "end_at": "End Time",
-    "expried": "Extracted"
+    "type": "Strukthful Stig",
+    "message": "Joint Appeals Unit",
+    "start_at": "Start",
+    "end_at": "End Engraded",
+    "expried": "Stricter date"
   },
   "resource": {
-    "broadcast": "Broadcast"
+    "broadcast": "Stig Stig Stig Stig Stig Stig"
   },
   "tip": {
-    "select_datetime": "Please select detection time"
+    "select_datetime": "Supplies must be configured at the end of the time"
   },
   "status": {
-    "expried": "Extracted",
-    "active": "Active"
+    "expried": "Stricter date",
+    "active": "There is a sex worker"
   }
 }
