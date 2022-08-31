@@ -8,10 +8,10 @@
     "enable_plugin": "Please enable components first"
   },
   "operate": {
-    "install": "Enrolled",
-    "install_c": "Ebable {0}",
+    "install": "Enabled",
+    "install_c": "Enable{0}",
     "uninstall": "Uninstall",
-    "uninstall_c": "Uninstall {0}"
+    "uninstall_c": "Uninstall{0}"
   },
   "status": {
     "deploying": "Deploying",
