@@ -3,18 +3,18 @@
     "app_name": "App name"
   },
   "operate": {
-    "link_c": "Associate{0}",
-    "advanced_deploy": "Advanced deployment",
+    "link_c": "Associate {0}",
+    "advanced_deploy": "Advanced employment",
     "scale_replicas": "Adjust number of copies",
     "rollback": "Rollback",
     "auto_scale_policy": "Flexibility Policy",
-    "confirm_and_publish": "Determine and publish"
+    "confirm_and_publish": "Determine and published"
   },
   "tip": {
     "platform_app": "Platform app",
     "app_store_app": "App Store App",
     "model_store_app": "Algorithm Store App",
-    "used": "{0}Usage",
+    "used": "{0} Usage",
     "gpu_temp": "GPU temperature",
     "gpu_power": "GPU power",
     "version": "Version",
@@ -23,8 +23,8 @@
     "dest_replicas": "Number of target copies",
     "error_info": "Error message",
     "model_instance": "Model Instances",
-    "allocated": "Assigned{0}",
-    "unallocated": "Unassigned",
+    "allocated": "Assigned {0}",
+    "unallocated": "Onas signed",
     "protocol": "Protocol",
     "params": "Parameters",
     "port": "Port",
@@ -40,8 +40,8 @@
     "status": "Status",
     "publisher": "Publisher",
     "publish_at": "Publish Date",
-    "task_status": "Deployment Task Status",
-    "instance_name": "Instance Name",
+    "task_status": "Employment Task Status",
+    "instance_name": "Instalment Name",
     "model_name": "Model Name",
     "model_version": "Model Version",
     "source": "Model Source",
@@ -53,7 +53,7 @@
     "manifest": "Resource Organization",
     "control_center": "Control Center",
     "resource_status": "Resource Status",
-    "deploy_history": "Deployment History",
+    "deploy_history": "Employment History",
     "image_safey": "Mirror security",
     "runtime": "Run Information"
   },
@@ -63,6 +63,6 @@
   "status": {
     "running": "In progress",
     "complete": "Completed",
-    "failed": "Execution Failed"
+    "failed": "Execution failed"
   }
 }
