@@ -1,42 +1,42 @@
 {
   "table": {
-    "name": "Name",
-    "alias": "Alias",
-    "environment_space": "Environmental space",
-    "create_at": "Created on",
-    "used": "Used{0}"
+    "name": "Scripting numbers are leading to the Soco",
+    "alias": "Matrix Paste",
+    "environment_space": "Environment space",
+    "create_at": "On day",
+    "used": "{0} in use"
   },
   "filter": {
-    "name": "Project Name"
+    "name": "should not be allowed to use the name of the expert or expert body"
   },
   "tip": {
-    "tenant": "Please select tenant",
-    "tenant_creat_or_join": "Please create or join tenants",
-    "resource_list": "Resource Use List",
-    "resource_count": "Resource Statistics",
-    "policy": "Policy"
+    "tenant": "should not be allowed to enter into marriage or to enter into marriage before the end of the marriage.",
+    "tenant_creat_or_join": "Become an Embargo Adventist Adventist Adventist Pautes Apps Addition Arena Arena Arena Tionger.",
+    "resource_list": "The list of users in the list of users",
+    "resource_count": "Data statistics",
+    "policy": "Matrix Sterilia Sterilian Sterilia"
   },
   "form": {
     "project": {
-      "name": "Name",
-      "nameRule": "More than 20 characters",
-      "alias": "Alias",
-      "remark": "Note"
+      "name": "Scripting numbers are leading to the Soco",
+      "nameRule": "20 Text Limit Speech to Super Super Super Medical",
+      "alias": "Matrix Paste",
+      "remark": "Alpha"
     }
   },
   "environment": {
     "table": {
-      "environment_space": "Environmental space",
-      "environment_type": "Environment Type",
-      "namespace": "Namespace",
-      "creator": "Created By",
-      "network_isolation": "Network segregation",
-      "used": "Used{0}"
+      "environment_space": "Environment space",
+      "environment_type": "Stig Stig Stig Stig",
+      "namespace": "First Name",
+      "creator": "Author",
+      "network_isolation": "ii Auck Sum",
+      "used": "{0} in use"
     },
     "type": {
-      "dev": "Development",
-      "test": "Test",
-      "prod": "Production"
+      "dev": "Spectrum",
+      "test": "Instrument for standardized international reporting",
+      "prod": "Producing products"
     }
   }
 }
