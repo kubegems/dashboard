@@ -1,31 +1,31 @@
 {
   "table": {
-    "role": "ロール",
-    "type": "カテゴリ",
-    "description": "説明"
+    "role": "Role",
+    "type": "Type",
+    "description": "Description"
   },
   "tip": {
     "system": {
-      "admin": "ユーザーの使用は、すべてのリソース、テナント、公開",
-      "normal": "システムレベルの権限を持っていません"
+      "admin": "Can operate all resources, users, tenants",
+      "normal": "No system level permissions"
     },
     "tenant": {
-      "admin": "テナントの全てのリソースを管理できます。",
-      "normal": "参加しているプロジェクトだけが見えます。"
+      "admin": "Can operate all resources under the tenant",
+      "normal": "You can only see the projects you are involved in"
     },
     "project": {
-      "admin": "プロジェクト内の全リソース操作",
-      "dev": "開発したプロパティの環境だけを操作できます。",
-      "test": "プロパティの環境をテストする環境だけにします。",
-      "ops": "全ての環境を保管できます"
+      "admin": "Can operate all resources under the project",
+      "dev": "An environment where only R&D properties can be manipulated",
+      "test": "An environment where only test properties can be manipulated",
+      "ops": "Can operate in all environments"
     },
     "environment": {
-      "operator": "環境下へのリソース操作",
-      "reader": "マップ上のリソースのみ閲覧可能"
+      "operator": "Resources in an operational environment",
+      "reader": "Can only view resources in the environment"
     },
     "mesh": {
-      "admin": "マイクロサービス仮想空間をアクション可能なリソース",
-      "normal": "マイクロサービス仮想空間からリソースを表示"
+      "admin": "Can operate resources under the microservice virtual space",
+      "normal": "View resources under the microservice virtual space"
     }
   }
 }
