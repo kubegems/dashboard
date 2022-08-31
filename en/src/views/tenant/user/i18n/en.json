@@ -3,32 +3,32 @@
     "name": "Name",
     "status": "Status",
     "email": "Email",
-    "mobile": "Phone number",
-    "role": "Roles",
-    "last_login_at": "Last Login",
-    "registe_at": "Registration Time"
+    "mobile": "Mobile",
+    "role": "Role",
+    "last_login_at": "Last Login Time",
+    "registe_at": "Registe Time"
   },
   "filter": {
-    "username_or_email": "Username or Email"
+    "username_or_email": "Username or email"
   },
   "operate": {
-    "role": "Roles",
-    "reset_pwd": "Reset password"
+    "role": "Set Role",
+    "reset_pwd": "Reset Passwd"
   },
   "status": {
-    "enabled": "Enabled",
+    "enabled": "Enrolled",
     "disabled": "Disabled"
   },
   "tip": {
-    "role_title": "User System Roles",
-    "passwd_title": "Reset User Password",
+    "role_title": "User system role",
+    "passwd_title": "Reset password",
     "random_passwd": "Generate random password"
   },
   "resource": {
     "password": "Password"
   },
   "form": {
-    "new_passwd": "New password",
+    "new_passwd": "New Password",
     "username": "Username",
     "passwd": "Password",
     "email": "Email"
