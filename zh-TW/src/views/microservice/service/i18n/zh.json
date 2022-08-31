@@ -1,49 +1,49 @@
 {
   "table": {
-    "name": "サービス名",
-    "label": "一致するタグ",
-    "config_check": "構成のチェック",
-    "istio_config": "Istio構成"
+    "name": "Service Name",
+    "label": "Match Tags",
+    "config_check": "Configuration Check",
+    "istio_config": "Istio Configuration"
   },
   "tip": {
-    "select_environment": "アプリの環境を選択してください",
-    "auto_inject": "自動的にコメントする",
-    "alert": "注意",
-    "route": "ルーティング",
-    "match_header": "要求ヘッダーに一致する",
-    "match_uri": "リクエストパスの一致"
+    "select_environment": "Please select an application environment",
+    "auto_inject": "Auto Injection",
+    "alert": "Warning",
+    "route": "Route",
+    "match_header": "Match request header",
+    "match_uri": "Match request path"
   },
   "filter": {
-    "service_name": "サービス名"
+    "service_name": "Service Name"
   },
   "operate": {
-    "clear": "仮想サービスとルールをクリーンアップ",
-    "fault_injection": "インジェクション",
-    "request_route": "リクエストルート",
-    "request_timeout": "リクエストのタイムアウト",
-    "traffic_shift": "トラフィックの切替",
-    "tcp_traffic_shift": "TCPデータの切替え"
+    "clear": "Cleanup virtual services and rules",
+    "fault_injection": "Incident Injection",
+    "request_route": "Request Route",
+    "request_timeout": "Request Timeout",
+    "traffic_shift": "Traffic Switch",
+    "tcp_traffic_shift": "TCP Traffic Switch"
   },
   "tab": {
-    "network_topology": "トポロジー",
-    "ingress": "入口トラフィック",
-    "trace": "トラッキングリンクの設定"
+    "network_topology": "Traffic in VBL.",
+    "ingress": "Traffic at the entrance",
+    "trace": "Link Tracking"
   },
   "form": {
-    "http_delay": "遅延リクエスト",
-    "delay_precent": "遅延の割合",
-    "fixed_delay": "固定遅延",
-    "http_abort": "リクエストが中止されました",
-    "abort_precent": "中止した割合",
-    "status_code": "ステータスコード",
-    "limit_100_rule": "整形エラー(例:<=100整数)",
-    "integer_rule": "整形エラー(例: 整数)",
-    "destination_workload": "ターゲット 負荷",
-    "traffic_weight": "トラフィック重量",
-    "http_timeout": "リクエストのタイムアウト",
-    "timeout": "タイムアウト",
-    "http_retry": "リクエストの再試行",
-    "attempt": "リトライ数",
-    "try_timeout": "リサイクルのタイムアウト時間"
+    "http_delay": "Request Delay",
+    "delay_precent": "Delay Percent",
+    "fixed_delay": "Fixed delay",
+    "http_abort": "Request aborted",
+    "abort_precent": "Aborted percentage",
+    "status_code": "Status Code",
+    "limit_100_rule": "Wrong format (example:<=100 integes)",
+    "integer_rule": "Wrong format (example:integer)",
+    "destination_workload": "Target load",
+    "traffic_weight": "Data Weight",
+    "http_timeout": "Request Timeout",
+    "timeout": "Timeout",
+    "http_retry": "Request to try again",
+    "attempt": "Number of retries",
+    "try_timeout": "Timeout for each retry"
   }
 }
