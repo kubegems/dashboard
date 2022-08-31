@@ -10,9 +10,9 @@
   "project": {
     "table": {
       "type": "Type",
-      "traffic_in": "Traffic in",
-      "traffic_out": "Traffic out",
-      "remark": "Remarks",
+      "traffic_in": "Traffic In",
+      "traffic_out": "Traffic Out",
+      "remark": "Remark",
       "alias": "Alias",
       "test": "Test",
       "dev": "Development",
@@ -21,13 +21,13 @@
   },
   "resource": {
     "table": {
-      "all": "Total{0}",
-      "allocated": "Assigned{0}",
-      "applying": "Requesting Resource"
+      "all": "All {0}",
+      "allocated": "Allocated {0}",
+      "applying": "Resource in application"
     },
-    "title": "Resource Adjustment"
+    "title": "Sacle Resource"
   },
   "tip": {
-    "tenant": "Please create or join tenants"
+    "tenant": "Please create or join a tenant"
   }
 }
