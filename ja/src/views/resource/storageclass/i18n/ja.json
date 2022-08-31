@@ -1,6 +1,6 @@
 {
   "tip": {
-    "default": "Default storage",
-    "provisioner": "ベンダーイメージ一覧"
+    "default": "既定の保存先",
+    "provisioner": "サプライヤー"
   }
 }
