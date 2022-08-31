@@ -1,9 +1,9 @@
 {
   "table": {
-    "name": "Gateway Name",
-    "selector": "Match Tags"
+    "name": "ゲートウェイ名",
+    "selector": "一致するタグ"
   },
   "filter": {
-    "gateway_name": "Gateway Name"
+    "gateway_name": "ゲートウェイ名"
   }
 }
