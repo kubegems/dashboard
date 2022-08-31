@@ -1,73 +1,73 @@
 {
   "table": {
-    "name": "注文番号による検索",
-    "status": "状態",
-    "user_count": "ユーザー数",
-    "cluster_count": "クラスター数",
-    "all": "合計{0}",
-    "allocated": "{0}を割り当てました",
-    "create_at": "作成日時"
+    "name": "名称",
+    "status": "状态",
+    "user_count": "用户数",
+    "cluster_count": "集群数",
+    "all": "总{0}",
+    "allocated": "已分配{0}",
+    "create_at": "创建时间"
   },
   "filter": {
-    "tenant": "テナント名"
+    "tenant": "租户名称"
   },
   "status": {
-    "enabled": "有効",
-    "disabled": "無効"
+    "enabled": "启用",
+    "disabled": "禁用"
   },
   "operate": {
-    "enable": "有効",
-    "enable_c": "{0} を有効にする",
-    "disable": "無効",
-    "disable_c": "{0} を無効化",
-    "set_admin": "管理設定を編集する",
-    "set_ordinary": "メンバーの設定"
+    "enable": "启用",
+    "enable_c": "启用{0}",
+    "disable": "禁用",
+    "disable_c": "禁用{0}",
+    "set_admin": "设置管理员",
+    "set_ordinary": "设置普通成员"
   },
   "form": {
-    "name": "注文番号による検索",
-    "remark": "説明",
-    "name_rule": "20 文字制限を超え"
+    "name": "名称",
+    "remark": "说明",
+    "name_rule": "超出20字符限制"
   },
   "user": {
     "table": {
-      "username": "ユーザー名",
-      "role": "ロール",
-      "status": "状態",
-      "last_login_at": "最近のサインイン順"
+      "username": "用户名",
+      "role": "角色",
+      "status": "状态",
+      "last_login_at": "最近登录"
     },
     "tip": {
-      "set_member_role": "テナントのメンバの役割を設定",
-      "set_admin": "モデレーターのメンバー {0} を",
-      "set_ordinary": "テナントを {0} の標準メンバーに設定",
-      "user_count": "合計{0}人"
+      "set_member_role": "设置租户成员角色",
+      "set_admin": "设置租户成员 {0} 为管理员",
+      "set_ordinary": "设置租户成员 {0} 为普通用户",
+      "user_count": "共{0}人"
     }
   },
   "resource": {
     "table": {
-      "cluster": "クラスター"
+      "cluster": "集群"
     },
     "operate": {
-      "resource_scale": "リソース調整",
-      "resource_monitor": "リソース",
-      "recycle_cluster": "グループに復旧"
+      "resource_scale": "资源调整",
+      "resource_monitor": "资源监控",
+      "recycle_cluster": "回收集群"
     },
     "tip": {
-      "resource_allocate": "アセット配分状況",
-      "resource_monitor": "テナント クラスターリソースモニタリング",
-      "cpu_used": "CPU使用量",
-      "memory_used": "メモリ使用量",
-      "cluster_exist": "クラスターは既に存在します",
-      "resource_limit": "リソース制限",
-      "gpu_resource_limit": "GPU リソース制限",
-      "limit": "{0}の値",
-      "scale_limit": "{0}スケーリング後の限度額",
-      "resource_scale": "リソース調整"
+      "resource_allocate": "资源分配",
+      "resource_monitor": "租户集群资源监控",
+      "cpu_used": "Cpu使用量",
+      "memory_used": "内存使用量",
+      "cluster_exist": "集群已存在",
+      "resource_limit": "资源限制",
+      "gpu_resource_limit": "GPU资源限制",
+      "limit": "{0}限制值",
+      "scale_limit": "{0}扩容后限制值",
+      "resource_scale": "资源调整"
     },
     "form": {
-      "apply": "利用可能:{0}",
-      "limit_rule": "最大値を超過しました",
-      "unit": "単位"
+      "apply": "可用{0}",
+      "limit_rule": "超出最大限制",
+      "unit": "单位"
     },
-    "cluster": "集団資源"
+    "cluster": "集群资源"
   }
 }
