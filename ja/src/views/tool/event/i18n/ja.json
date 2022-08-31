@@ -1,17 +1,17 @@
 {
   "table": {
-    "component": "元のコンポーネント",
-    "host": "ソースホスト",
-    "service": "サービス",
-    "namespace": "名前空間",
-    "type": "タイプ",
-    "message": "メッセージ",
-    "count": "回数",
-    "first_at": "最初の発生時間",
-    "last_at": "最近の回"
+    "component": "元のコンホノー普遍ト",
+    "host": "ソースホステト",
+    "service": "サーシャス",
+    "namespace": "セレクションモード",
+    "type": "色々変える",
+    "message": "メッシーグリベット",
+    "count": "ヒット回数",
+    "first_at": "ゲームの発売時間",
+    "last_at": "最後の回"
   },
   "filter": {
-    "cluster": "クラスター",
-    "message": "メッセージ"
+    "cluster": "クアラスター",
+    "message": "メッシーグリベット"
   }
 }
