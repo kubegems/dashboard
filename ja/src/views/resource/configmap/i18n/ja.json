@@ -1,13 +1,13 @@
 {
   "table": {
-    "name": "Profile 名",
-    "item": "Configuration Item",
-    "create_at": "ated ドローン"
+    "name": "プロファイル名",
+    "item": "設定項目",
+    "create_at": "作成日時"
   },
   "filter": {
-    "configmap_name": "Configuration Name"
+    "configmap_name": "プロファイル名"
   },
   "form": {
-    "name": "Profile 名"
+    "name": "プロファイル名"
   }
 }
