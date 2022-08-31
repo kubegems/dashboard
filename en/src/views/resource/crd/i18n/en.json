@@ -1,13 +1,13 @@
 {
   "table": {
-    "name": "注文番号による検索",
-    "status": "状態",
-    "last_update_time": "最終更新日"
+    "name": "Name",
+    "status": "Status",
+    "last_update_time": "Last updated"
   },
   "filter": {
-    "crd_name": "crd名"
+    "crd_name": "cd name"
   },
   "tab": {
-    "cr_list": "CRリスト"
+    "cr_list": "CRs List"
   }
 }
