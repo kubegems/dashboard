@@ -4,26 +4,26 @@
     "version": "Version",
     "status": "Status",
     "label": "Tags",
-    "restart_count": "Restart count"
+    "restart_count": "Start count"
   },
   "filter": {
     "workload_name": "Load Name"
   },
   "tip": {
-    "auto_inject": "Auto Injection",
+    "auto_inject": "Auto Inspection",
     "realtime": "Live",
     "no_pod": "Container group does not exist"
   },
   "operate": {
     "inject": "Inject SideCar",
-    "uninject": "Uninject SideCar",
-    "inject_c": "SideCar injection for app {0}",
-    "uninject_c": "Cancel SideCar injection for app {0}"
+    "uninject": "Unsubject SideCar",
+    "inject_c": "SideCar inspection for app {0}",
+    "uninject_c": "Cancel SideCar inspection for app {0}"
   },
   "tab": {
     "network_topology": "Traffic in VBL.",
     "log": "Logs",
-    "ingress": "Traffic at the entrance",
+    "ingress": "Traffic at the entry",
     "egress": "Export traffic",
     "trace": "Link Tracking"
   }
