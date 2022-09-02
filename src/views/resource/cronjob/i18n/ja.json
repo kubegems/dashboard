@@ -25,7 +25,7 @@
     "failed_job_limit": "保持に失敗しました",
     "parallisem_policy": "並列ポリシー",
     "restart_policy": "リトライ",
-    "never": "Never (障害発生時に新しいコンテナグループ)",
+    "never": "Never (障害発生時に新しいポッド)",
     "onfailure": "OnFailure（インシデント時にコンテナを再起動）",
     "image": "ミラー",
     "advanced_setting": "高度な設定",

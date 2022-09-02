@@ -52,6 +52,6 @@
     "policy": "ストラテジー",
     "no_schedule": "No-スケジュールには適用できません",
     "prefer_no_schedule": "スケジュールから外す (PreferNo-スケジュール)",
-    "no_execute": "既存のコンテナグループ (NoExecute) を追放することはできません"
+    "no_execute": "既存のポッド (NoExecute) を追放することはできません"
   }
 }

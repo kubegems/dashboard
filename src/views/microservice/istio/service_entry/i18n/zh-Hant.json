@@ -1,7 +1,7 @@
 {
   "table": {
     "name": "服務入口名稱",
-    "port": "埠"
+    "port": "端口"
   },
   "filter": {
     "entry_name": "服務入口名稱"

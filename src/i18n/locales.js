@@ -23,7 +23,7 @@ module.exports = [
     locale: 'en',
   },
   {
-    title: '日本',
+    title: '日本語',
     locale: 'ja',
   },
   {

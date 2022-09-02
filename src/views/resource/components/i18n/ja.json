@@ -43,7 +43,7 @@
     "first_trigger_at": "最初の発生時間",
     "last_trigger_at": "最近の回",
     "message": "メッセージ",
-    "name": "コンテナグループ",
+    "name": "ポッド",
     "status": "状態",
     "restart_count": "再起動",
     "used": "{0}使用量"

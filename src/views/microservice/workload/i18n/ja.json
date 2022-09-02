@@ -12,7 +12,7 @@
   "tip": {
     "auto_inject": "自動的にコメントする",
     "realtime": "リアルタイム",
-    "no_pod": "コンテナグループは存在しません"
+    "no_pod": "ポッドは存在しません"
   },
   "operate": {
     "inject": "SideCar 注入",

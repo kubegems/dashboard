@@ -29,12 +29,16 @@
             <v-icon v-if="breadcrumb.tip !== undefined" class="breadcrumb__bg mr-1" right small>
               mdi-help-rhombus
             </v-icon>
+
             <div
-              v-if="breadcrumb.tip !== undefined"
               class="text-overline breadcrumb__bg breadcrumb__tip font-weight-regular"
+              :style="{ overflowX: 'auto' }"
             >
-              {{ breadcrumb.tip }}
+              <span id="breadcrumb__tip">
+                {{ breadcrumb.tip }}
+              </span>
             </div>
+
             <slot name="extend" />
           </v-card-text>
         </v-card>
@@ -84,10 +88,8 @@
     }
 
     &__tip {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
       width: 1000px;
+      white-space: nowrap;
 
       @media (max-width: 1000px) {
         width: 600px;

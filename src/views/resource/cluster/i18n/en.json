@@ -5,7 +5,7 @@
     "kubeconfig_expired": "Configuration Expiration"
   },
   "tip": {
-    "control_cluster": "Control cluster",
+    "control_cluster": "Control",
     "resource_oversold": "Resource Override",
     "missing_kubeconfig": "Please enter KubeConfig",
     "physics": "Physics",

@@ -23,7 +23,7 @@
     "complations": "達成回数",
     "deadline_seconds": "タイムアウトするまでの秒数",
     "restart_policy": "リトライ",
-    "policy_never": "Never (障害発生時に新しいコンテナグループ)",
+    "policy_never": "Never (障害発生時に新しいポッド)",
     "policy_onfailure": "OnFailure（インシデント時にコンテナを再起動）"
   }
 }

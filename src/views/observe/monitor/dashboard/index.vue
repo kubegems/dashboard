@@ -19,7 +19,14 @@
     <BaseBreadcrumb class="dash__header">
       <template #extend>
         <v-flex class="kubegems__full-right">
-          <VariableSelect v-model="labelpairs" :env="env" :variable="variable" @filterPod="filterPod" />
+          <VariableSelect
+            ref="variableSelect"
+            v-model="labelpairs"
+            :date="date"
+            :env="env"
+            :variable="variable"
+            @filterPod="filterPod"
+          />
           <ProjectEnvSelectCascade v-model="env" first :offset-y="4" reverse :tenant="tenant" />
 
           <BaseDatetimePicker v-model="date" :default-value="30" :offset-y="0" @change="onDatetimeChange(undefined)" />
@@ -425,6 +432,7 @@
         this.loadMetrics();
       },
       onTabChange() {
+        this.$refs.variableSelect.reset();
         this.loadMetrics();
         this.$router.replace({
           query: {

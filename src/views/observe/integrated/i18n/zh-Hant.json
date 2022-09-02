@@ -20,7 +20,7 @@
     "name": "名稱",
     "metrics_config": "監控採集配置",
     "related_service": "關聯服務",
-    "servicemonitor_port": "採集器埠",
+    "servicemonitor_port": "採集器端口",
     "no_service_tip": "沒有服務？ 從 <a>應用商店</a> 創建exporter",
     "request_path": "請求路徑",
     "metrics": "指標",
