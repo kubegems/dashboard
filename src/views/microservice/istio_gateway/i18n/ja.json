@@ -1,7 +1,7 @@
 {
   "table": {
     "status": "状態",
-    "pods": "コンテナグループ",
+    "pods": "ポッド",
     "restart_count": "再起動",
     "name": "注文番号による検索",
     "port": "ポート",
@@ -17,7 +17,7 @@
   "tab": {
     "gateway_resource": "ゲートウェイリソース",
     "virtualservice": "仮想サービス",
-    "pods": "ゲートウェイ・コンテナグループ",
+    "pods": "ゲートウェイ・ポッド",
     "monitor": "ゲートウェイモニター"
   },
   "tip": {

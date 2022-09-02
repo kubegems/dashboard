@@ -28,7 +28,7 @@
     "success_precent": "成功率",
     "protocol": "協定",
     "label": "標籤",
-    "port": "埠",
+    "port": "端口",
     "service_ip": "服務IP",
     "pod_count": "容器組數量"
   }

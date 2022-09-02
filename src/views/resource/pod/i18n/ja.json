@@ -1,10 +1,10 @@
 {
   "filter": {
-    "pod_name": "コンテナグループ名",
+    "pod_name": "ポッド名",
     "status": "状態"
   },
   "table": {
-    "name": "コンテナグループ",
+    "name": "ポッド",
     "status": "状態",
     "container_count": "コンテント数",
     "restart_count": "再起動",

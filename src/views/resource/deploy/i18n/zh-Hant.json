@@ -38,7 +38,7 @@
     "real_weight": "實際權重",
     "info": "資訊",
     "request_type": "服務訪問方式",
-    "port": "埠",
+    "port": "端口",
     "realtime_rate": "即時速率",
     "last_24_hours": "過去24小時",
     "total_request": "總請求",

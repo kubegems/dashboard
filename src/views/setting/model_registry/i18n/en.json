@@ -38,7 +38,7 @@
   },
   "tip": {
     "model_count": "Number of models",
-    "inner": "Built-in Store",
+    "inner": "Built-in",
     "huggingface": "Large open source communities globally, focused on NLP technologies.",
     "openmmlab": "The most complete computer visual open source algorithm in a deep learning era.",
     "tensorflow": "A core open source library that can help you develop and train machine learning models.",

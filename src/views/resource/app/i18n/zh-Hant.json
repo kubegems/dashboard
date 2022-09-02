@@ -27,11 +27,11 @@
     "unallocated": "未分配",
     "protocol": "協定",
     "params": "參數",
-    "port": "埠",
-    "port_name": "埠名稱",
-    "container_port": "容器埠",
+    "port": "端口",
+    "port_name": "端口名稱",
+    "container_port": "容器端口",
     "host_address": "主機位址",
-    "host_port": "主機埠"
+    "host_port": "主機端口"
   },
   "table": {
     "name": "應用名稱",

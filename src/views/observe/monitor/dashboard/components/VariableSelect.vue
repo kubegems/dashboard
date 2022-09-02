@@ -101,6 +101,10 @@
       messages: messages,
     },
     props: {
+      date: {
+        type: Array,
+        default: () => [],
+      },
       env: {
         type: Object,
         default: () => null,
@@ -155,6 +159,8 @@
           noprocessing: true,
           label: this.variable,
           expr: `{namespace="${this.env?.namespace}"}`,
+          start: this.$moment(this.date[0]).utc().format(),
+          end: this.$moment(this.date[1]).utc().format(),
         });
         const items = data.map((d) => {
           return {

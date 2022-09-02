@@ -31,7 +31,7 @@
     "advanced_setting": "高級配置",
     "container_image": "容器鏡像",
     "resource_limit_unsaved": "資源限制數據未保存",
-    "container_port_unsaved": "容器埠數據未保存",
+    "container_port_unsaved": "容器端口數據未保存",
     "health_check_unsaved": "健康檢查數據未保存",
     "run_command_unsaved": "啟動命令數據未保存",
     "env_unsaved": "環境變數數據未保存",
@@ -55,7 +55,7 @@
   "tab": {
     "job": "任務",
     "resource_limit": "資源限制",
-    "container_port": "容器埠",
+    "container_port": "容器端口",
     "health_check": "健康檢測",
     "run_command": "啟動命令",
     "env": "環境變數",

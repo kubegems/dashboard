@@ -63,7 +63,7 @@
     "match_namespace": "匹配命名空間",
     "endpoint_config": "端點配置",
     "endpoint": "端點",
-    "port_type": "埠類型",
+    "port_type": "端口類型",
     "global_var": "全域變數"
   },
   "tab": {
@@ -112,13 +112,13 @@
     "end_at": "結束時間",
     "last_alert_at": "上次告警時間",
     "alert_count": "告警數量",
-    "port": "採集埠",
+    "port": "採集端口",
     "path": "採集路徑",
     "timeout": "超時時間",
     "interval": "間隔",
     "metric_first": "指標優先",
-    "port_name": "埠名",
-    "port_number": "埠號"
+    "port_name": "端口名",
+    "port_number": "端口號"
   },
   "status": {
     "enabled": "啟用",

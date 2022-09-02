@@ -2,7 +2,7 @@
   "tip": {
     "instance_count": "實例數",
     "default": "默認閘道",
-    "port": "閘道埠",
+    "port": "閘道端口",
     "status": "狀態",
     "loadbalancer": "外部負載均衡網關（LoadBalancer）",
     "nodeport": "常規集群閘道（NodePort）",
@@ -26,9 +26,9 @@
   "table": {
     "name": "名稱",
     "address": "訪問位址",
-    "container_port": "容器埠",
-    "service_port": "服務埠",
-    "host_port": "主機埠"
+    "container_port": "容器端口",
+    "service_port": "服務端口",
+    "host_port": "主機端口"
   },
   "operate": {
     "access": "訪問",

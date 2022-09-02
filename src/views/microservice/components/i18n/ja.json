@@ -30,6 +30,6 @@
     "label": "タグ",
     "port": "ポート",
     "service_ip": "サービス IP",
-    "pod_count": "コンテナグループの数"
+    "pod_count": "ポッドの数"
   }
 }

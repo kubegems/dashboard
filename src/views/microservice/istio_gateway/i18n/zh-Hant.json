@@ -4,7 +4,7 @@
     "pods": "容器組",
     "restart_count": "重啟次數",
     "name": "名稱",
-    "port": "埠",
+    "port": "端口",
     "selector": "選擇器",
     "host": "Host"
   },
@@ -23,9 +23,9 @@
   "tip": {
     "egress_qps": "出口流量qps",
     "egress_time": "出口流量回應時間",
-    "ingress_80_qps": "80埠入口流量qps",
-    "ingress_80_time": "80埠入口流量回應時間",
-    "ingress_443_qps": "443埠入口流量qps",
-    "ingress_443_time": "443埠入口流量回應時間"
+    "ingress_80_qps": "80端口入口流量qps",
+    "ingress_80_time": "80端口入口流量回應時間",
+    "ingress_443_qps": "443端口入口流量qps",
+    "ingress_443_time": "443端口入口流量回應時間"
   }
 }
