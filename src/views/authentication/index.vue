@@ -25,12 +25,6 @@
     >
       <img :class="{ skeleton__img: true, skeleton__img__ani: !SelfOut, skeleton__img__small: SelfOut || vertical }" />
       <div
-        :class="{ 'ml-4': true, 'white--text': true, login__second__desc: true, login__second__desc__ani: !SelfOut }"
-        :style="{ opacity: `${SelfOut ? 1 : 0}` }"
-      >
-        {{ $root.$t('metadata.description') }}
-      </div>
-      <div
         :class="{ skeleton__loading: true, skeleton__loading__ani: !SelfOut }"
         :style="{ opacity: SelfOut ? '0 !important' : '' }"
       >
@@ -50,12 +44,19 @@
       :style="{ height: `${height}px !important`, display: `${vertical ? 'none !important' : ''}` }"
     >
       <div class="info align-center justify-start">
-        <!-- <div
-          :class="{ 'mt-4': true, 'white--text': true, login__second__desc: true, login__second__desc__ani: !SelfOut }"
+        <div
+          :class="{
+            'mt-6': true,
+            'white--text': true,
+            login__second__desc: true,
+            login__second__desc__ani: !SelfOut,
+            'ml-4': true,
+          }"
           :style="{ opacity: `${SelfOut ? 1 : 0}` }"
         >
-          {{ $root.$t('metadata.description') }}
-        </div> -->
+          <strong>更便捷的</strong>云原生管理平台
+          <div>Let cloudnative management <strong>more easily</strong></div>
+        </div>
       </div>
     </div>
 
@@ -96,6 +97,75 @@
                   @click:append="show = !show"
                   @keyup.enter="login(source)"
                 />
+
+                <v-menu
+                  v-model="localeMenu"
+                  attach="#login_locale"
+                  bottom
+                  left
+                  nudge-bottom="5px"
+                  offset-y
+                  origin="top center"
+                  transition="scale-transition"
+                >
+                  <template #activator="{ on }">
+                    <div id="login_locale" />
+                    <v-btn class="primary--text font-weight-medium mb-3" color="white" dark depressed small v-on="on">
+                      <BaseLogo
+                        class="primary--text logo__logo mr-2"
+                        default-logo="locale"
+                        :icon-name="Locale"
+                        :ml="0"
+                        :mt="1"
+                        :width="18"
+                      />
+                      {{ localeShow }}
+                      <v-icon v-if="localeMenu" right> mdi-chevron-up </v-icon>
+                      <v-icon v-else right> mdi-chevron-down </v-icon>
+                    </v-btn>
+                  </template>
+                  <v-data-iterator hide-default-footer :items="[{ text: $t('tip.i18n'), values: locales }]">
+                    <template #no-data>
+                      <v-card>
+                        <v-card-text>{{ $root.$t('data.no_data') }} </v-card-text>
+                      </v-card>
+                    </template>
+                    <template #default="props">
+                      <v-card v-for="item in props.items" :key="item.text" flat min-width="100px">
+                        <v-list dense>
+                          <v-flex class="text-subtitle-2 text-center ma-2">
+                            <span>{{ $t('tip.i18n') }}</span>
+                          </v-flex>
+                          <v-divider class="mx-2" />
+                          <v-list-item
+                            v-for="(ln, index) in item.values"
+                            :key="index"
+                            class="text-caption text-start font-weight-medium mx-2"
+                            link
+                            :style="{ color: ln.locale === locale ? `#1e88e5 !important` : `` }"
+                            @click="setLocale(ln)"
+                          >
+                            <v-list-item-content>
+                              <div>
+                                <div class="float-left mr-2">
+                                  <BaseLogo
+                                    class="primary--text logo__logo"
+                                    default-logo="locale"
+                                    :icon-name="ln.locale"
+                                    :ml="0"
+                                    :width="20"
+                                  />
+                                </div>
+                                <div class="float-left locale">{{ ln.title }}</div>
+                                <div class="kubegems__clear-float" />
+                              </div>
+                            </v-list-item-content>
+                          </v-list-item>
+                        </v-list>
+                      </v-card>
+                    </template>
+                  </v-data-iterator>
+                </v-menu>
 
                 <v-btn
                   block
@@ -147,6 +217,7 @@
 
   import messages from './i18n';
   import { getLoginUserAuth, getLoginUserInfo, getOauthAddr, getSystemAuthSource, postLogin } from '@/api';
+  import locales from '@/i18n/locales';
   import BasePermission from '@/mixins/permission';
   import BaseSelect from '@/mixins/select';
   import { validateJWT } from '@/utils/helpers';
@@ -158,19 +229,25 @@
       messages: messages,
     },
     mixins: [BasePermission, BaseSelect],
-    data: () => ({
-      valid: true,
-      password: '',
-      show: false,
-      username: '',
-      usernameRules: [required],
-      oauthItems: [],
-      ldap: false,
-      source: 'account',
-      vendor: '',
-    }),
+    data() {
+      this.locales = locales;
+
+      return {
+        valid: true,
+        password: '',
+        show: false,
+        username: '',
+        usernameRules: [required],
+        oauthItems: [],
+        ldap: false,
+        source: 'account',
+        vendor: '',
+        localeMenu: false,
+        locale: '',
+      };
+    },
     computed: {
-      ...mapState(['JWT', 'Circular', 'Admin', 'AdminViewport', 'Scale', 'SelfOut']),
+      ...mapState(['JWT', 'Circular', 'Admin', 'AdminViewport', 'Scale', 'SelfOut', 'Locale']),
       ...mapGetters(['Environment', 'Project', 'Tenant', 'Cluster']),
       passwordRules() {
         return [required, (v) => (v && v.length <= 20) || this.$t('form.passwordRule')];
@@ -186,12 +263,22 @@
       vertical() {
         return window.innerHeight > window.innerWidth;
       },
+      localeShow() {
+        const l = this.locales.find((l) => {
+          return l.locale === this.locale;
+        });
+        if (l) {
+          return `${l.title}`;
+        }
+        return ``;
+      },
     },
     mounted() {
       this.authSource();
       if (validateJWT(this.$route.query.token)) {
         this.$store.commit('SET_JWT', this.$route.query.token);
       }
+      this.locale = this.Locale;
       this.init();
     },
     methods: {
@@ -273,6 +360,16 @@
           this.vendor = auth.vendor;
         }
       },
+      setLocale(locale) {
+        this.locale = locale.locale;
+        if (this.Locale === this.locale) return;
+        this.$_i18n.locale = this.locale;
+        this.$moment.locale(this.locale === 'zh-Hans' ? 'zh-cn' : this.locale);
+        if (window) {
+          window.document.title = `${this.$t(this.$route.meta.title)} - ${this.$PLATFORM}`;
+        }
+        this.$store.commit('SET_LOCALE', this.locale);
+      },
     },
   };
 </script>
@@ -325,7 +422,7 @@
       width: 400px;
     }
     100% {
-      width: 15vw;
+      width: 18vw;
     }
   }
 
@@ -352,7 +449,7 @@
       }
 
       &__small {
-        top: 50%;
+        top: 43%;
         transform: none;
         left: 45vw;
       }
@@ -389,7 +486,7 @@
     }
     100% {
       left: 145vw;
-      top: 50%;
+      top: 43%;
       transform: none;
     }
   }
@@ -443,12 +540,12 @@
       }
 
       &__desc {
-        width: 100%;
-        line-height: 74px;
+        width: 45%;
+        line-height: 1.5;
         font-size: 1.4rem;
         position: absolute;
-        left: 100%;
-        top: 0%;
+        left: 49%;
+        top: 50%;
         opacity: 0;
 
         &__ani {
@@ -508,5 +605,9 @@
         margin-left: 0.25rem;
       }
     }
+  }
+
+  .locale {
+    line-height: 20px;
   }
 </style>
