@@ -41,7 +41,7 @@
   }
   100% {
     content: url(/logo-white.svg);
-    width: 15vw;
+    width: 18vw;
   }
 }
 
@@ -52,7 +52,7 @@
 
 .skeleton__img__small {
   content: url(/logo-white.svg);
-  width: 15vw;
+  width: 18vw;
 }
 
 .skeleton__loading {

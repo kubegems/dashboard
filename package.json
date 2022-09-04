@@ -64,8 +64,9 @@
     "xterm-addon-fit": "^0.5.0"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.1.13",
-    "@iconify-json/mdi": "^1.1.29",
+    "@iconify-json/emojione": "^1.1.2",
+    "@iconify-json/logos": "^1.1.15",
+    "@iconify-json/mdi": "^1.1.31",
     "@iconify/vue2": "^1.2.1",
     "@mdx-js/vue-loader": "^1.6.22",
     "@vue/cli-plugin-babel": "^5.0.4",
