@@ -121,6 +121,7 @@
         storage: ['B', 'Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei', 'Zi'],
         network: ['bps', 'Kbps', 'Mbps', 'Gbps'],
         timecost: ['us', 'ms', 's'],
+        reqrate: ['req/s'],
       },
     }),
     computed: {
@@ -239,6 +240,8 @@
             break;
           case 'percent':
             scaleNum = 100;
+            break;
+          case 'reqrate':
             break;
           case 'duration':
             break;

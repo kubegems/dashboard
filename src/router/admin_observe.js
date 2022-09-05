@@ -108,7 +108,7 @@ export const adminObserve = [
               icon: 'mdi-chart-line-stacked',
               show: true,
               rootName: 'admin-observe',
-              dependencies: ['monitoring'],
+              dependencies: ['tracing'],
               tip: 'dash_app',
               innerCheck: true,
             },

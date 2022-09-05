@@ -108,7 +108,7 @@ export const observe = [
               icon: 'mdi-chart-line-stacked',
               show: true,
               rootName: 'observe',
-              dependencies: ['monitoring'],
+              dependencies: ['tracing'],
               tip: 'dash_app',
               innerCheck: true,
             },

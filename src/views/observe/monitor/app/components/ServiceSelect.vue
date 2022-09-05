@@ -31,7 +31,7 @@
     <template #activator="{ on }">
       <div class="float-left">
         <v-btn
-          class="mr-2 mt-1 font-weight-medium primary--text"
+          class="mr-2 font-weight-medium primary--text"
           color="white"
           dark
           depressed
@@ -39,7 +39,7 @@
           :style="{ marginTop: `${offsetY}px` }"
           v-on="on"
         >
-          {{ variable }} {{ showText() }}
+          Service : {{ service }}
           <v-icon v-if="menu" right> mdi-chevron-up </v-icon>
           <v-icon v-else right> mdi-chevron-down </v-icon>
         </v-btn>
@@ -48,13 +48,7 @@
     </template>
     <v-card class="pa-2 py-3" flat height="450px">
       <div class="text-subtitle-2 mx-2 kubegems__text select__title">
-        <div class="float-left"> {{ $t('tip.global_var') }} </div>
-        <div class="float-right">
-          <v-btn class="mx-1" color="primary" small @click="reset">{{ $root.$t('operate.reset') }}</v-btn>
-          <v-btn class="ml-1" color="primary" small @click="setLabelPairs">
-            {{ $root.$t('operate.confirm') }}
-          </v-btn>
-        </div>
+        <div class="float-left"> Service </div>
         <div class="kubegems__clear-float" />
       </div>
       <div class="select__div" :style="{ width: '100%' }">
@@ -68,17 +62,14 @@
           solo
           @keyup="onSearch"
         />
-        <div class="text-caption pa-1 mt-2">{{ variable }}</div>
+        <div class="text-caption pa-1 mt-2">Service</div>
         <v-divider class="mb-2" />
         <v-list class="pa-0" dense max-height="300" nav :style="{ overflowY: 'auto' }">
-          <v-list-item-group color="primary">
-            <v-list-item v-for="item in variableItemsCopy" :key="item.value" dense>
-              <v-list-item-action class="mx-2">
-                <v-checkbox v-model="item.active" />
-              </v-list-item-action>
+          <v-list-item-group v-model="serviceIndex" color="primary" @change="onServiceChange">
+            <v-list-item v-for="item in serviceItemsCopy" :key="item" dense>
               <v-list-item-content>
                 <v-list-item-title class="select__list__title pl-2">
-                  {{ item.value }}
+                  {{ item }}
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
@@ -93,10 +84,9 @@
 <script>
   import messages from '../../i18n';
   import { getMetricsLabelValues } from '@/api';
-  import { deepCopy } from '@/utils/helpers';
 
   export default {
-    name: 'VariableSelect',
+    name: 'ServiceSelect',
     i18n: {
       messages: messages,
     },
@@ -113,25 +103,19 @@
         type: Number,
         default: () => 0,
       },
-      variable: {
-        type: String,
-        default: () => '',
-      },
     },
     data() {
       return {
         menu: false,
-        variableItems: [],
-        variableItemsCopy: [],
-        labelpairs: {},
+        serviceItems: [],
+        serviceItemsCopy: [],
         search: '',
+        serviceIndex: undefined,
       };
     },
     computed: {
-      selectedItems() {
-        return this.variableItemsCopy.filter((v) => {
-          return v.active;
-        });
+      service() {
+        return this.serviceIndex > -1 ? this.serviceItemsCopy[this.serviceIndex] : '';
       },
     },
     watch: {
@@ -143,10 +127,10 @@
         deep: true,
         immediate: true,
       },
-      variable: {
+      env: {
         handler(newValue) {
           if (newValue) {
-            this.monitorGlobalVariable();
+            this.monitorServiceLabels();
           }
         },
         deep: true,
@@ -154,57 +138,37 @@
       },
     },
     methods: {
-      async monitorGlobalVariable() {
+      async monitorServiceLabels() {
         const data = await getMetricsLabelValues(this.env?.clusterName, this.env?.environmentName, {
           noprocessing: true,
-          label: this.variable,
-          expr: `{namespace="${this.env?.namespace}"}`,
+          label: 'service',
+          expr: `gems_otel_calls_total{namespace="${this.env?.namespace}"}`,
           start: this.$moment(this.date[0]).utc().format(),
           end: this.$moment(this.date[1]).utc().format(),
         });
-        const items = data.map((d) => {
-          return {
-            value: d,
-            active: false,
-          };
-        });
-        this.variableItems = items;
-        this.variableItemsCopy = items;
+        const items = data;
+        this.serviceItems = items;
+        this.serviceItemsCopy = items;
+        if (this.serviceItemsCopy && this.serviceItemsCopy.length > 0) {
+          this.$emit('change', this.serviceItemsCopy[0]);
+          this.$emit('input', this.serviceItemsCopy[0]);
+        }
       },
       onSearch() {
         if (this.search) {
-          this.variableItemsCopy = this.variableItems.filter((v) => {
+          this.serviceItemsCopy = this.serviceItems.filter((v) => {
             return v.value.indexOf(this.search) > -1;
           });
         } else {
-          this.variableItemsCopy = this.variableItems;
+          this.serviceItemsCopy = this.serviceItems;
         }
       },
-      setLabelPairs() {
-        this.labelpairs[`labelpairs[${this.variable}]`] = this.selectedItems.reduce(
-          (pre, current, index, arr) =>
-            (pre?.value || pre) + (current?.value || current) + `${index === arr.length - 1 ? '' : '|'}`,
-          '',
-        );
-        this.$emit('input', this.labelpairs);
-        this.$emit('change', this.labelpairs);
-        this.menu = false;
-      },
-      reset() {
-        this.variableItems.forEach((v, index) => {
-          v.active = false;
-          this.$set(this.variableItems, index, v);
-        });
-        this.variableItemsCopy = deepCopy(this.variableItems);
-        this.labelpairs = {};
-      },
-      showText() {
-        if (this.selectedItems.length > 1) {
-          return `${this.selectedItems[0].value} (+${this.selectedItems.length - 1})`;
-        } else if (this.selectedItems.length > 0) {
-          return `${this.selectedItems[0].value}`;
+      onServiceChange() {
+        if (this.serviceIndex > -1) {
+          this.$emit('change', this.serviceItemsCopy[this.serviceIndex]);
+          this.$emit('input', this.serviceItemsCopy[this.serviceIndex]);
+          this.menu = false;
         }
-        return '';
       },
     },
   };

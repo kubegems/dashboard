@@ -334,7 +334,7 @@
       "alertrule": "告警規則",
       "output": "日誌路由器",
       "flow": "日誌採集器",
-      "monitor_app": "應用監控",
+      "monitor_app": "應用性能",
       "g_dashboard": "概覽",
       "g_integrated": "接入中心",
       "g_observability": "可視化",

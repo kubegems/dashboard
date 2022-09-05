@@ -346,7 +346,7 @@
       "alertrule": "Alert Rule",
       "output": "Flow",
       "flow": "Output",
-      "monitor_app": "App Monitor",
+      "monitor_app": "App Performance",
 
       "g_dashboard": "Dashboard",
       "g_integrated": "Integrated",

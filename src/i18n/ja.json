@@ -334,7 +334,7 @@
       "alertrule": "警告規則",
       "output": "ログルーター",
       "flow": "ログのコレクタ",
-      "monitor_app": "アプリの監視",
+      "monitor_app": "パフォーマンス",
       "g_dashboard": "概要",
       "g_integrated": "アクセスセンター",
       "g_observability": "可視性",
