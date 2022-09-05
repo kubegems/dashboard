@@ -19,56 +19,190 @@
     <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
+          <ServiceSelect v-model="service" :date="date" :env="env" :offset-y="0" />
           <ProjectEnvSelectCascade v-model="env" first :offset-y="0" reverse :tenant="tenant" />
+          <BaseDatetimePicker v-model="date" :default-value="30" :offset-y="0" @change="onDatetimeChange(undefined)" />
         </v-flex>
       </template>
     </BaseBreadcrumb>
-    <v-card class="search__main" flat :height="height">
-      <iframe
-        v-if="cluster"
-        v-show="show"
-        :key="iframeKey"
-        ref="iframe"
-        allow
-        class="search__iframe"
-        :src="src"
-        @load="onLoad"
-      />
-    </v-card>
+    <div class="search__main" flat :height="height">
+      <v-row>
+        <v-col cols="4">
+          <v-card>
+            <BaseApexAreaChart
+              :animations-enable="false"
+              chart-type="line"
+              :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
+              colorful
+              :extend-height="300"
+              :global-plugins-check="false"
+              label="name"
+              :metrics="latency"
+              :no-data-offset-y="-18"
+              single-tooptip
+              title="Latency"
+              type="timecost"
+            />
+          </v-card>
+        </v-col>
+        <v-col cols="4">
+          <v-card>
+            <BaseApexAreaChart
+              :animations-enable="false"
+              chart-type="line"
+              :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
+              colorful
+              :extend-height="300"
+              :global-plugins-check="false"
+              label="name"
+              :metrics="errorRate"
+              :no-data-offset-y="-18"
+              single-tooptip
+              title="Error rate"
+              type="percent"
+            />
+          </v-card>
+        </v-col>
+        <v-col cols="4">
+          <v-card>
+            <BaseApexAreaChart
+              :animations-enable="false"
+              chart-type="line"
+              :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
+              colorful
+              :extend-height="300"
+              :global-plugins-check="false"
+              label="name"
+              :metrics="requestRate"
+              :no-data-offset-y="-18"
+              single-tooptip
+              title="Request rate"
+              type="reqrate"
+            />
+          </v-card>
+        </v-col>
+      </v-row>
+
+      <v-card class="mt-3">
+        <v-data-table
+          class="mx-4"
+          :headers="headers"
+          hide-default-footer
+          :items="items"
+          :items-per-page="1000"
+          :no-data-text="$root.$t('data.no_data')"
+          :page="1"
+        >
+          <template #[`item.name`]="{ item }">
+            {{ item.name }}
+            <v-btn
+              class="primary--text text-subtitle-1 font-weight-medium mt-n1"
+              color="white"
+              depressed
+              icon
+              small
+              @click.stop
+            >
+              <v-icon small @click.stop="toTrace(item)"> mdi-open-in-new </v-icon>
+            </v-btn>
+          </template>
+          <template #[`item.latency`]="{ item }">
+            <v-flex class="text-subtitle-2 float-right table__item mx-2">
+              {{ item.latency && item.latency.length > 0 ? `${item.latency[0].toFixed(2)} us` : 0 }}
+            </v-flex>
+            <v-sparkline
+              auto-draw
+              :auto-draw-duration="200"
+              auto-line-width
+              color="rgba(29, 136, 229, 0.6)"
+              fill
+              :line-width="5"
+              smooth
+              type="trend"
+              :value="item.latency ? item.latency : []"
+            />
+          </template>
+          <template #[`item.requestRate`]="{ item }">
+            <v-flex class="text-subtitle-2 float-right table__item mx-2">
+              {{ item.requestRate && item.requestRate.length > 0 ? `${item.requestRate[0].toFixed(2)} req/s` : 0 }}
+            </v-flex>
+            <v-sparkline
+              auto-draw
+              :auto-draw-duration="200"
+              auto-line-width
+              color="rgba(29, 136, 229, 0.6)"
+              fill
+              :line-width="5"
+              smooth
+              type="trend"
+              :value="item.requestRate ? item.requestRate : []"
+            />
+          </template>
+          <template #[`item.errorRate`]="{ item }">
+            <v-flex class="text-subtitle-2 float-right table__item mx-2">
+              {{ item.errorRate && item.errorRate.length > 0 ? item.errorRate[0].toFixed(2) : 0 }}
+            </v-flex>
+            <v-sparkline
+              auto-draw
+              :auto-draw-duration="200"
+              auto-line-width
+              color="rgba(29, 136, 229, 0.6)"
+              fill
+              :line-width="5"
+              smooth
+              type="trend"
+              :value="item.errorRate ? item.errorRate : []"
+            />
+          </template>
+        </v-data-table>
+      </v-card>
+    </div>
   </v-container>
 </template>
 
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import ServiceSelect from './components/ServiceSelect';
+  import { getAppPerformanceDashboard } from '@/api';
   import BasePermission from '@/mixins/permission';
   import ProjectEnvSelectCascade from '@/views/observe/components/ProjectEnvSelectCascade';
 
   export default {
-    name: 'TraceSearch',
+    name: 'AppPerformance',
     components: {
       ProjectEnvSelectCascade,
+      ServiceSelect,
     },
     mixins: [BasePermission],
     data() {
       return {
         cluster: undefined,
-        iframeKey: Date.now(),
-        show: false,
 
         missingPlugins: [],
         tenant: null,
         env: undefined,
+        date: [],
+        service: null,
+        latency: [],
+        errorRate: [],
+        requestRate: [],
+        items: [],
       };
     },
     computed: {
       ...mapState(['Scale']),
       ...mapGetters(['Tenant']),
-      src() {
-        return `/api/v1/service-proxy/cluster/${this.cluster}/namespace/observability/service/jaeger-query/port/16686/monitor?uiEmbed=v0`;
-      },
       height() {
         return parseInt((window.innerHeight - 148) / this.Scale);
+      },
+      headers() {
+        return [
+          { text: 'Name', value: 'name', align: 'start' },
+          { text: 'P95 Latency', value: 'latency', align: 'start', width: 250 },
+          { text: 'Request Rate', value: 'requestRate', align: 'start', width: 250 },
+          { text: 'Error Rate', value: 'errorRate', align: 'start', width: 250 },
+        ];
       },
     },
     watch: {
@@ -77,6 +211,15 @@
           if (newValue) {
             this.cluster = newValue.clusterName;
             this.loadData();
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
+      service: {
+        handler(newValue) {
+          if (newValue) {
+            this.appPerformanceDashboard();
           }
         },
         deep: true,
@@ -99,9 +242,7 @@
       async loadData() {
         this.missingPlugins = await this.m_permission_plugin_pass(this.cluster, this.$route.meta?.dependencies || []);
         if (this.missingPlugins?.length === 0) {
-          this.$store.commit('SET_PROGRESS', true);
-          this.show = false;
-          this.iframeKey = Date.now();
+          //
         } else {
           this.$store.commit('SET_SNACKBAR', {
             text: this.$root.$t('plugin.cluster_missing', [this.missingPlugins.join(', ')]),
@@ -110,77 +251,99 @@
           return;
         }
       },
-      onLoad() {
-        this.onOverwriteStyle();
-        this.show = true;
-        this.$store.commit('SET_PROGRESS', false);
+      onDatetimeChange() {
+        if (this.env) {
+          this.appPerformanceDashboard();
+        }
       },
-      // 样式覆盖
-      onOverwriteStyle() {
-        const styleCover = `
-        .Page--topNav {
-          display: none;
+      setTableValue(d, key) {
+        const index = this.items.findIndex((l) => {
+          return l.name === d.metric.operation;
+        });
+        const values = d.values.map((v) => {
+          return isNaN(v[1]) ? 0 : parseFloat(v[1]);
+        });
+        if (index === -1) {
+          this.items.push({
+            name: d.metric.operation,
+            latency: key === 'latency' ? values : [],
+            requestRate: key === 'requestRate' ? values : [],
+            errorRate: key === 'errorRate' ? values : [],
+          });
+        } else {
+          const item = this.items[index];
+          item[key] = values;
+          this.$set(this.items, index, item);
         }
-        .Page--content {
-          top: 0;
-          height: 100%;
-        }
-        .SearchTracePage--row {
-          opacity: 1;
-        }
-        .SearchTracePage--find {
-          padding-top: 0;
-        }
-        .Tracepage--headerSection {
-          padding: 12px;
-        }
-        .TraceTimelineViewer {
-          margin: 0 12px;
-        }
-        .TimelineHeaderRow {
-          width: auto;
-          left: 12px;
-          right: 12px;
-        }
-        body::-webkit-scrollbar {
-          display: none;
-        }
-      `;
-        const ele = document.createElement('style');
-        ele.attributes.type = 'text/css';
-        ele.innerHTML = styleCover;
-        this.$refs.iframe.contentWindow.document.head.appendChild(ele);
       },
-      onBack() {
-        window.history.back();
+      async appPerformanceDashboard() {
+        const data = await getAppPerformanceDashboard(this.cluster, this.env?.namespace, {
+          service: this.service,
+          start: this.$moment(this.date[0]).utc().format(),
+          end: this.$moment(this.date[1]).utc().format(),
+        });
+
+        if (data) {
+          let l = [];
+          if (data.latencyP50 && data.latencyP50.length > 0) {
+            data.latencyP50[0].metric['name'] = 'P50';
+            l = l.concat(data.latencyP50);
+          }
+          if (data.latencyP75 && data.latencyP75.length > 0) {
+            data.latencyP75[0].metric['name'] = 'P75';
+            l = l.concat(data.latencyP75);
+          }
+          if (data.latencyP95 && data.latencyP95.length > 0) {
+            data.latencyP95[0].metric['name'] = '95';
+            l = l.concat(data.latencyP95);
+          }
+          this.latency = l;
+          if (data.errorRate && data.errorRate.length > 0) {
+            data.errorRate[0].metric['name'] = 'Error Rate';
+            this.errorRate = data.errorRate;
+          }
+          if (data.requestRate && data.requestRate.length > 0) {
+            data.requestRate[0].metric['name'] = 'Request Rate';
+            this.requestRate = data.requestRate;
+          }
+
+          data.operationlatencyP95.forEach((d) => {
+            this.setTableValue(d, 'latency');
+          });
+
+          data.operationRequestRate.forEach((d) => {
+            this.setTableValue(d, 'requestRate');
+          });
+
+          data.operationErrorRate.forEach((d) => {
+            this.setTableValue(d, 'errorRate');
+          });
+        } else {
+          this.latency = [];
+          this.errorRate = [];
+          this.requestRate = [];
+          this.items = [];
+        }
+      },
+      toTrace(item) {
+        this.$router.push({
+          name: 'observe-trace-search',
+          query: {
+            service: this.service,
+            operation: item.name,
+            start: this.date[0],
+            end: this.date[1],
+          },
+        });
       },
     },
   };
 </script>
 
 <style lang="scss" scoped>
-  .search {
-    height: 100%;
-
-    &__main {
-      position: relative;
-    }
-
-    &__header {
-      display: flex;
-      justify-content: space-between;
-      padding: 16px 16px 0;
-    }
-
-    &__iframe {
-      width: 100%;
-      height: calc(100% - 44px);
-      border: none;
-    }
-
-    &__label {
-      line-height: 38px;
-      margin-right: 8px;
+  .table {
+    &__item {
+      line-height: 44px;
     }
   }
 </style>

@@ -19,17 +19,16 @@
     <BaseBreadcrumb class="dash__header">
       <template #extend>
         <v-flex class="kubegems__full-right">
-          <VariableSelect
-            ref="variableSelect"
-            v-model="labelpairs"
-            :date="date"
-            :env="env"
-            :variable="variable"
-            @filterPod="filterPod"
-          />
+          <VariableSelect ref="variableSelect" v-model="labelpairs" :date="date" :env="env" :variable="variable" />
           <ProjectEnvSelectCascade v-model="env" first :offset-y="4" reverse :tenant="tenant" />
 
           <BaseDatetimePicker v-model="date" :default-value="30" :offset-y="0" @change="onDatetimeChange(undefined)" />
+
+          <v-btn class="primary--text" small text @click="refresh">
+            <v-icon left small> mdi-refresh </v-icon>
+            {{ $root.$t('operate.refresh') }}
+          </v-btn>
+
           <v-menu
             v-if="
               environment &&
@@ -276,7 +275,7 @@
       this.clearInterval();
     },
     methods: {
-      async loadMetrics(pod = null) {
+      async loadMetrics() {
         this.clearInterval();
         this.metrics = {};
         const dashboard = this.items[this.tab];
@@ -286,7 +285,7 @@
 
         if (this.items?.length > 0 && this.items[this.tab] && this.items[this.tab].graphs) {
           this.items[this.tab].graphs.forEach((item, index) => {
-            this.getMetrics(item, index, pod);
+            this.getMetrics(item, index);
           });
         }
         this.timeinterval = setInterval(() => {
@@ -294,7 +293,7 @@
           this.params.end = this.$moment(this.params.end).utc().add(30, 'seconds').format();
           if (this.items?.length > 0 && this.items[this.tab] && this.items[this.tab].graphs) {
             this.items[this.tab].graphs.forEach((item, index) => {
-              this.getMetrics(item, index, pod);
+              this.getMetrics(item, index);
             });
           }
         }, 1000 * 30);
@@ -302,7 +301,7 @@
       clearInterval() {
         if (this.timeinterval) clearInterval(this.timeinterval);
       },
-      async dashboardList(pod = null) {
+      async dashboardList() {
         await this.getMonitorConfig();
         const data = await getMonitorDashboardList(this.environment.value);
         this.items = data;
@@ -312,7 +311,7 @@
           });
           this.tab = index > -1 ? index : 0;
         }
-        this.loadMetrics(pod);
+        this.loadMetrics();
       },
       getNamespace(item) {
         const namespace = item.promqlGenerator
@@ -330,7 +329,7 @@
         });
         return sum / arr.length;
       },
-      async getMetrics(item, index, pod = null) {
+      async getMetrics(item, index) {
         const params = item.promqlGenerator
           ? item.promqlGenerator
           : {
@@ -342,11 +341,6 @@
           namespace,
           Object.assign(params, { noprocessing: true, ...this.params, ...this.labelpairs }),
         );
-        if (pod) {
-          data = data.filter((d) => {
-            return d.metric?.pod === pod;
-          });
-        }
         data = data.sort(
           (a, b) =>
             this.avg(
@@ -361,9 +355,6 @@
             ),
         );
         this.$set(this.metrics, `c${index}`, data);
-      },
-      async filterPod(pod) {
-        this.dashboardList(pod.podName);
       },
       addDashboard() {
         this.$refs.addDashboard.open();
@@ -433,6 +424,7 @@
       },
       onTabChange() {
         this.$refs.variableSelect.reset();
+        this.labelpairs = {};
         this.loadMetrics();
         this.$router.replace({
           query: {
@@ -455,6 +447,9 @@
         this.$set(this.metrics, `c${e.oldIndex}`, newItem);
         this.$set(this.metrics, `c${e.newIndex}`, oldItem);
         await putUpdateMonitorDashboard(this.environment.value, this.items[this.tab].id, this.items[this.tab]);
+      },
+      refresh() {
+        this.loadMetrics();
       },
     },
   };

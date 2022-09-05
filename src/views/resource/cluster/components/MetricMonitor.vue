@@ -32,6 +32,7 @@
       :id="`api${tab}`"
       :key="key"
       :ref="`tab${tab}`"
+      :animations-enable="false"
       :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
       :extend-height="280"
       :label="tabItems[tab].label"

@@ -36,8 +36,8 @@ export const deleteMonitorDashboardTemplate = (name, body = {}) =>
 // 创建大盘模版
 export const postMonitorDashboardTemplate = (body = {}) => axios.post(`observability/template/dashboard`, body);
 
-// 监控大盘全局变量
-export const getMonitorDashboardVariable = (cluster, environment, query = {}) =>
-  axios.get(`observability/cluster/${cluster}/namespaces/${environment}/monitor/metrics/labelvalues`, {
+// 应用性能
+export const getAppPerformanceDashboard = (cluster, namespace, query = {}) =>
+  axios.get(`observability/cluster/${cluster}/namespaces/${namespace}/otel/metrics/graphs`, {
     params: query,
   });

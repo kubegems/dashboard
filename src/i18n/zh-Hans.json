@@ -346,7 +346,7 @@
       "alertrule": "告警规则",
       "output": "日志路由器",
       "flow": "日志采集器",
-      "monitor_app": "应用监控",
+      "monitor_app": "应用性能",
 
       "g_dashboard": "概览",
       "g_integrated": "接入中心",

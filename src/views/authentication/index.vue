@@ -43,7 +43,7 @@
       class="login__second d-flex primary"
       :style="{ height: `${height}px !important`, display: `${vertical ? 'none !important' : ''}` }"
     >
-      <div class="info align-center justify-start">
+      <div class="info align-center justify-start text-center">
         <div
           :class="{
             'mt-6': true,
@@ -54,8 +54,10 @@
           }"
           :style="{ opacity: `${SelfOut ? 1 : 0}` }"
         >
-          <strong>更便捷的</strong>云原生管理平台
-          <div>Let cloudnative management <strong>more easily</strong></div>
+          <strong>
+            更便捷的云原生管理平台
+            <div class="login__second__desc__en">Let cloudnative management more easily</div>
+          </strong>
         </div>
       </div>
     </div>
@@ -451,7 +453,7 @@
       &__small {
         top: 43%;
         transform: none;
-        left: 45vw;
+        left: 60vw;
       }
     }
 
@@ -485,7 +487,7 @@
       transform: translate(-50%, -50%);
     }
     100% {
-      left: 145vw;
+      left: 160vw;
       top: 43%;
       transform: none;
     }
@@ -542,11 +544,16 @@
       &__desc {
         width: 45%;
         line-height: 1.5;
-        font-size: 1.4rem;
+        font-size: 24px;
         position: absolute;
-        left: 49%;
+        left: 48%;
         top: 50%;
         opacity: 0;
+
+        &__en {
+          font-size: 19px;
+          margin-left: -5px;
+        }
 
         &__ani {
           animation-name: desc-show;
