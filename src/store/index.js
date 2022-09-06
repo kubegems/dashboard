@@ -375,9 +375,14 @@ export default new Store({
       const data = await getRESTMapping(payload.clusterName);
       const resource = {};
       data.forEach((d) => {
-        d?.resources?.forEach((r) => {
-          resource[r.kind.toLocaleLowerCase()] = d.groupVersion;
-        });
+        if (
+          !d?.groupVersion.startsWith('apps.kruise.io') &&
+          !d?.groupVersion.startsWith('networking.internal.knative.dev')
+        ) {
+          d?.resources?.forEach((r) => {
+            resource[r.kind.toLocaleLowerCase()] = d.groupVersion;
+          });
+        }
       });
       commit('SET_API_RESOURCES', resource);
     },
