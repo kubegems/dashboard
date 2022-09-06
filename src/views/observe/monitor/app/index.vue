@@ -267,8 +267,11 @@
           this.items.push({
             name: d.metric.operation,
             latency: key === 'latency' ? values : [],
+            latencyOri: key === 'latency' ? d : [],
             requestRate: key === 'requestRate' ? values : [],
+            requestRateOri: key === 'requestRate' ? d : [],
             errorRate: key === 'errorRate' ? values : [],
+            errorRateOri: key === 'errorRate' ? d : [],
           });
         } else {
           const item = this.items[index];

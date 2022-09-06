@@ -440,7 +440,7 @@ export default new Store({
       const data = await getRESTMapping(payload.clusterName);
       const resource = {};
       data.forEach((d) => {
-        if (!d?.groupVersion.startsWith('apps.kruise.io')) {
+        if (!d?.groupVersion.startsWith('apps.kruise.io') && d?.groupVersion.indexOf('knative') === -1) {
           d?.resources?.forEach((r) => {
             resource[r.kind.toLocaleLowerCase()] = d.groupVersion;
           });

@@ -95,9 +95,9 @@
         if (this.isTraceId) {
           return `/api/v1/service-proxy/cluster/${this.cluster}/namespace/observability/service/jaeger-query/port/16686/trace/${this.traceid}?uiEmbed=v0`;
         } else if (this.$route.query.operation) {
-          return `/api/v1/service-proxy/cluster/${this.cluster}/namespace/observability/service/jaeger-query/port/16686/search`;
+          return `/api/v1/service-proxy/cluster/${this.cluster}/namespace/observability/service/jaeger-query/port/16686/search?limit=20&lookback=1h&maxDuration&minDuration&operation=${this.$route.query.operation}&service=${this.$route.query.service}`;
         } else {
-          return `/api/v1/service-proxy/cluster/${this.cluster}/namespace/observability/service/jaeger-query/port/16686/search?limit=20&lookback=1h&maxDuration&minDuration&operation=${this.$route.operation}&service=${this.$route.service}&start=${this.$route.start}&end=${this.$route.end}`;
+          return `/api/v1/service-proxy/cluster/${this.cluster}/namespace/observability/service/jaeger-query/port/16686/search`;
         }
       },
       height() {

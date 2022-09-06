@@ -165,7 +165,7 @@
             return Object.values(metricAndValues.metric)[0];
           }
         }
-        return this.$route.params.name || `${$t('data.data')}${index + 1}`;
+        return this.$route.params.name || `${this.$root.$t('data.data')}${index + 1}`;
       },
       async loadData() {
         let series = [];
@@ -363,6 +363,9 @@
               },
             },
             zoom: {
+              enabled: false,
+            },
+            selection: {
               enabled: false,
             },
           },
