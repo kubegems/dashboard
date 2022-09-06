@@ -47,7 +47,8 @@
     "other": "その他",
     "config": "{0}の構成設定",
     "base_config": "基本設定",
-    "plugin_type": "バナーの形式"
+    "plugin_type": "バナーの形式",
+    "no_log_data": "ログデータはまだありません"
   },
   "operate": {
     "download_log": "ログをダウンロード",
