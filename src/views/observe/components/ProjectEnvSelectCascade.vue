@@ -233,7 +233,7 @@
       onEnvironmentChange(trigger = false) {
         if (this.environmentIndex > -1) {
           const item = this.m_select_projectEnvironmentItems[this.environmentIndex];
-          this.env = { ...item, trigger: trigger };
+          this.env = { ...item, trigger: trigger === true };
           this.items = [item];
           this.$emit('change', this.env);
           this.$emit('input', this.env);

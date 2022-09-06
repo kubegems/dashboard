@@ -72,52 +72,14 @@
           />
         </template>
         <template #[`item.name`]="{ item }">
-          <a class="text-subtitle-2" @click.stop="podDetail(item)">
-            <v-flex class="float-left">
+          <v-flex class="float-left">
+            <a class="text-subtitle-2" @click.stop="podDetail(item)">
               {{ item.metadata.name }}
-            </v-flex>
-            <v-flex
-              v-if="
-                item &&
-                item.spec.resources &&
-                item.spec.resources.limits &&
-                item.spec.resources.limits['tencent.com/vcuda-core']
-              "
-              class="float-left ml-2"
-            >
-              <v-menu :close-delay="200" nudge-bottom="7px" open-on-hover top>
-                <template #activator="{ on }">
-                  <span v-on="on">
-                    <BaseLogo icon-name="tke" />
-                  </span>
-                </template>
-                <v-card>
-                  <v-card-text class="pa-2"> tencent vcuda </v-card-text>
-                </v-card>
-              </v-menu>
-            </v-flex>
-            <v-flex
-              v-if="
-                item &&
-                item.spec.resources &&
-                item.spec.resources.limits &&
-                item.spec.resources.limits['limits.nvidia.com/gpu']
-              "
-              class="float-left ml-2"
-            >
-              <v-menu :close-delay="200" nudge-bottom="7px" open-on-hover top>
-                <template #activator="{ on }">
-                  <span v-on="on">
-                    <BaseLogo icon-name="nvidia" />
-                  </span>
-                </template>
-                <v-card>
-                  <v-card-text class="pa-2"> nvidia </v-card-text>
-                </v-card>
-              </v-menu>
-            </v-flex>
-            <div class="kubegems__clear-float" />
-          </a>
+            </a>
+            <BaseLogo v-if="isTke(item)" absolute icon-name="tke" :mt="0" :width="20" />
+            <BaseLogo v-if="isNvidia(item)" absolute icon-name="nvidia" :mt="0" :width="20" />
+          </v-flex>
+          <div class="kubegems__clear-float" />
         </template>
         <template #[`item.namespace`]="{ item }">
           {{ item.metadata.namespace }}
@@ -585,6 +547,16 @@
       },
       onRowClick(item, { expand, isExpanded }) {
         expand(!isExpanded);
+      },
+      isTke(item) {
+        return item.spec.containers.some((c) => {
+          return c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda'];
+        });
+      },
+      isNvidia(item) {
+        return item.spec.containers.some((c) => {
+          return c?.resources?.limits && c?.resources?.limits['nvidia.com/gpu'];
+        });
       },
     },
   };

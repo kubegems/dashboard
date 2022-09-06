@@ -312,6 +312,15 @@
             return a.info.timestamp - b.info.timestamp;
           }
         });
+
+        if (this.items?.length === 0) {
+          this.$store.commit('SET_SNACKBAR', {
+            text: '暂无日志数据',
+            color: 'warning',
+          });
+          return;
+        }
+
         this.view.resultType = data.resultType;
         this.chartData = data.chart;
 
