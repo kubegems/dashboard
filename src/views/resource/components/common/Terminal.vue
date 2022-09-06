@@ -151,7 +151,7 @@
         item: null,
         termArgs: {
           wsurl: '',
-          cols: 500,
+          cols: 350,
         },
         term: null,
         websock: null,
@@ -242,7 +242,7 @@
           var msg = JSON.stringify({
             type: 'resize',
             rows: this.rows,
-            // cols: this.termArgs.cols,
+            cols: this.termArgs.cols,
           });
           this.websock.send(msg);
           this.initTermArgs();
@@ -282,7 +282,7 @@
             brightCyan: '#3949AB',
             brightWhite: '#FFFFFF',
           },
-          // cols: this.termArgs.cols,
+          cols: this.termArgs.cols,
           rows: this.rows,
           scrollback: 1000,
         });
