@@ -47,7 +47,8 @@
     "other": "Other",
     "config": "{0} configuration",
     "base_config": "Basic configuration",
-    "plugin_type": "Plugin Type"
+    "plugin_type": "Plugin Type",
+    "no_log_data": "No log data yet"
   },
   "operate": {
     "download_log": "Download Log",

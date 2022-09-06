@@ -104,7 +104,7 @@ export const adminObserve = [
             meta: {
               requireAuth: true,
               title: 'routerbar.observability.monitor_app',
-              upToAdmin: true,
+              admin: true,
               icon: 'mdi-chart-line-stacked',
               show: true,
               rootName: 'admin-observe',

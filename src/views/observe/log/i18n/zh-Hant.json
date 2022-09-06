@@ -47,7 +47,9 @@
     "other": "其他",
     "config": "{0}配置",
     "base_config": "基本配置",
-    "plugin_type": "外掛程式類型"
+    "plugin_type": "外掛程式類型",
+
+    "no_log_data": "暫無日誌數據"
   },
   "operate": {
     "download_log": "下載日誌",

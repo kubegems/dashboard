@@ -307,6 +307,13 @@
         this.view.resultType = data.resultType;
         this.chartData = data.chart;
 
+        if (this.items?.length === 0) {
+          this.$store.commit('SET_SNACKBAR', {
+            text: this.$t('tip.no_log_data'),
+            color: 'warning',
+          });
+        }
+
         // 填充图表数据
         this.view.chart = data.chart;
         if (this.view.resultType === 'matrix') {
