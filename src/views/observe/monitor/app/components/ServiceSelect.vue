@@ -150,6 +150,7 @@
         this.serviceItems = items;
         this.serviceItemsCopy = items;
         if (this.serviceItemsCopy && this.serviceItemsCopy.length > 0) {
+          this.serviceIndex = 0;
           this.$emit('change', this.serviceItemsCopy[0]);
           this.$emit('input', this.serviceItemsCopy[0]);
         }
