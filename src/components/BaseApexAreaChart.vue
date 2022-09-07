@@ -131,6 +131,7 @@
       metrics: {
         handler(newValue) {
           if (newValue) {
+            this.$_.debounce(this.formatter, 100);
             this.loadData();
           }
         },
@@ -436,17 +437,14 @@
           },
           tooltip: {
             theme: 'dark',
-            y: {
-              formatter: (value) => {
-                return this.formatter(value);
-              },
-            },
             custom: this.singleTooptip
               ? ({ series, seriesIndex, dataPointIndex, w }) => {
                   return `<div class="arrow_box pa-2 chart__tooptip">
                   <div class="chart__legend" style="background-color: ${w.config.colors[seriesIndex]}"></div>
                   <span>${w.globals.seriesNames[seriesIndex]}</span>
-                  <span class="ml-2 font-weight-medium">${this.formatter(series[seriesIndex][dataPointIndex])}</span>
+                  <span class="ml-2 font-weight-medium">
+                    ${this.formatter(series[seriesIndex][dataPointIndex])}
+                  </span>
                 </div>`;
                 }
               : undefined,

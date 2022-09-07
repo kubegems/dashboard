@@ -155,7 +155,7 @@
         item: null,
         termArgs: {
           wsurl: '',
-          cols: 300,
+          cols: 350,
         },
         term: null,
         websock: null,

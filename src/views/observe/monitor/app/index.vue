@@ -39,7 +39,6 @@
               label="name"
               :metrics="latency"
               :no-data-offset-y="-18"
-              single-tooptip
               title="Latency"
               type="timecost"
             />
@@ -57,7 +56,6 @@
               label="name"
               :metrics="errorRate"
               :no-data-offset-y="-18"
-              single-tooptip
               title="Error rate"
               type="percent"
             />
@@ -75,7 +73,6 @@
               label="name"
               :metrics="requestRate"
               :no-data-offset-y="-18"
-              single-tooptip
               title="Request rate"
               type="reqrate"
             />
@@ -83,9 +80,8 @@
         </v-col>
       </v-row>
 
-      <v-card class="mt-3">
+      <v-card class="mt-3 pa-4">
         <v-data-table
-          class="mx-4"
           :headers="headers"
           hide-default-footer
           :items="items"
@@ -188,6 +184,12 @@
         errorRate: [],
         requestRate: [],
         items: [],
+        params: {
+          start: '',
+          end: '',
+        },
+
+        timeinterval: null,
       };
     },
     computed: {
@@ -210,7 +212,7 @@
         handler(newValue) {
           if (newValue) {
             this.cluster = newValue.clusterName;
-            this.loadData();
+            this.loadPluginCheck();
           }
         },
         deep: true,
@@ -219,7 +221,9 @@
       service: {
         handler(newValue) {
           if (newValue) {
-            this.appPerformanceDashboard();
+            this.params.start = this.$moment(this.date[0]).utc().format();
+            this.params.end = this.$moment(this.date[1]).utc().format();
+            this.loadData();
           }
         },
         deep: true,
@@ -238,8 +242,11 @@
         this.tenant = this.Tenant();
       });
     },
+    destroyed() {
+      this.clearInterval();
+    },
     methods: {
-      async loadData() {
+      async loadPluginCheck() {
         this.missingPlugins = await this.m_permission_plugin_pass(this.cluster, this.$route.meta?.dependencies || []);
         if (this.missingPlugins?.length === 0) {
           //
@@ -251,9 +258,20 @@
           return;
         }
       },
+      async loadData() {
+        this.clearInterval();
+        this.appPerformanceDashboard();
+        this.timeinterval = setInterval(() => {
+          this.params.start = this.$moment(this.params.start).utc().add(30, 'seconds').format();
+          this.params.end = this.$moment(this.params.end).utc().add(30, 'seconds').format();
+          this.appPerformanceDashboard(true);
+        }, 1000 * 30);
+      },
       onDatetimeChange() {
         if (this.env) {
-          this.appPerformanceDashboard();
+          this.params.start = this.$moment(this.date[0]).utc().format();
+          this.params.end = this.$moment(this.date[1]).utc().format();
+          this.loadData();
         }
       },
       setTableValue(d, key) {
@@ -267,11 +285,8 @@
           this.items.push({
             name: d.metric.operation,
             latency: key === 'latency' ? values : [],
-            latencyOri: key === 'latency' ? d : [],
             requestRate: key === 'requestRate' ? values : [],
-            requestRateOri: key === 'requestRate' ? d : [],
             errorRate: key === 'errorRate' ? values : [],
-            errorRateOri: key === 'errorRate' ? d : [],
           });
         } else {
           const item = this.items[index];
@@ -279,11 +294,12 @@
           this.$set(this.items, index, item);
         }
       },
-      async appPerformanceDashboard() {
+      async appPerformanceDashboard(noprocess = false) {
+        this.items = [];
         const data = await getAppPerformanceDashboard(this.cluster, this.env?.namespace, {
           service: this.service,
-          start: this.$moment(this.date[0]).utc().format(),
-          end: this.$moment(this.date[1]).utc().format(),
+          ...this.params,
+          noprocessing: noprocess,
         });
 
         if (data) {
@@ -321,11 +337,6 @@
           data.operationErrorRate.forEach((d) => {
             this.setTableValue(d, 'errorRate');
           });
-        } else {
-          this.latency = [];
-          this.errorRate = [];
-          this.requestRate = [];
-          this.items = [];
         }
       },
       toTrace(item) {
@@ -338,6 +349,9 @@
             end: this.date[1],
           },
         });
+      },
+      clearInterval() {
+        if (this.timeinterval) clearInterval(this.timeinterval);
       },
     },
   };
