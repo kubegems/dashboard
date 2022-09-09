@@ -42,7 +42,7 @@
     <template #content>
       <v-card :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} mt-4`" flat>
         <v-card-text class="py-0">
-          <BaseApexAreaChart
+          <BaseAreaChart
             id="cpu"
             :extend-height="280"
             label="tenant"
@@ -51,7 +51,7 @@
             type="cpu"
           />
 
-          <BaseApexAreaChart
+          <BaseAreaChart
             id="memory"
             :extend-height="280"
             label="tenant"

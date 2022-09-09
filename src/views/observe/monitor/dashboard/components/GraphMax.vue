@@ -53,9 +53,8 @@
             </v-autocomplete>
           </v-col>
         </v-row>
-        <BaseApexAreaChart
+        <BaseAreaChart
           id="max"
-          :animations-enable="false"
           chart-type="line"
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
           colorful
@@ -64,7 +63,6 @@
           horizontal-align="left"
           label="all"
           :metrics="metrics"
-          :no-data-offset-y="-24"
           single-tooptip
           title=""
           type=""

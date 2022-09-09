@@ -28,9 +28,9 @@
     <div class="search__main" flat :height="height">
       <v-row>
         <v-col cols="4">
-          <v-card>
-            <BaseApexAreaChart
-              :animations-enable="false"
+          <v-card class="pa-2">
+            <BaseAreaChart
+              id="latency"
               chart-type="line"
               :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
               colorful
@@ -38,16 +38,15 @@
               :global-plugins-check="false"
               label="name"
               :metrics="latency"
-              :no-data-offset-y="-18"
               title="Latency"
               type="timecost"
             />
           </v-card>
         </v-col>
         <v-col cols="4">
-          <v-card>
-            <BaseApexAreaChart
-              :animations-enable="false"
+          <v-card class="pa-2">
+            <BaseAreaChart
+              id="error_rate"
               chart-type="line"
               :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
               colorful
@@ -55,16 +54,15 @@
               :global-plugins-check="false"
               label="name"
               :metrics="errorRate"
-              :no-data-offset-y="-18"
               title="Error rate"
               type="percent"
             />
           </v-card>
         </v-col>
         <v-col cols="4">
-          <v-card>
-            <BaseApexAreaChart
-              :animations-enable="false"
+          <v-card class="pa-2">
+            <BaseAreaChart
+              id="request_rate"
               chart-type="line"
               :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
               colorful
@@ -72,7 +70,6 @@
               :global-plugins-check="false"
               label="name"
               :metrics="requestRate"
-              :no-data-offset-y="-18"
               title="Request rate"
               type="reqrate"
             />
@@ -313,7 +310,7 @@
             l = l.concat(data.latencyP75);
           }
           if (data.latencyP95 && data.latencyP95.length > 0) {
-            data.latencyP95[0].metric['name'] = '95';
+            data.latencyP95[0].metric['name'] = 'P95';
             l = l.concat(data.latencyP95);
           }
           this.latency = l;

@@ -26,7 +26,7 @@
     <v-card-text :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
       <v-row>
         <v-col cols="6">
-          <BaseApexAreaChart
+          <BaseAreaChart
             id="cpu"
             label="environment"
             :label-show="false"
@@ -36,7 +36,7 @@
           />
         </v-col>
         <v-col cols="6">
-          <BaseApexAreaChart
+          <BaseAreaChart
             id="memory"
             label="environment"
             :label-show="false"
@@ -48,7 +48,7 @@
       </v-row>
       <v-row>
         <v-col cols="6">
-          <BaseApexAreaChart
+          <BaseAreaChart
             id="networkin"
             label="environment"
             :label-show="false"
@@ -58,7 +58,7 @@
           />
         </v-col>
         <v-col cols="6">
-          <BaseApexAreaChart
+          <BaseAreaChart
             id="networkout"
             label="environment"
             :label-show="false"

@@ -29,10 +29,10 @@
     <v-card-text :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
       <v-row>
         <v-col cols="6">
-          <BaseApexAreaChart id="qps" label="host" :metrics="qps" title="QPS" type="" />
+          <BaseAreaChart id="qps" label="host" :metrics="qps" title="QPS" type="" />
         </v-col>
         <v-col cols="6">
-          <BaseApexAreaChart
+          <BaseAreaChart
             id="connection"
             label="state"
             :metrics="connections"
