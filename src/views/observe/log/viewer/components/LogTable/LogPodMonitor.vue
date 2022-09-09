@@ -42,35 +42,25 @@
     <template #content>
       <v-card :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} mt-4`" flat>
         <v-card-text class="py-0" :style="{ height: `${height}px`, overflowY: 'auto' }">
-          <BaseApexAreaChart
+          <BaseAreaChart
             id="cpu"
             label="container"
             :metrics="cpu"
-            :no-data-offset-y="-22"
             :title="$t('tip.used', [$root.$t('resource.cpu')])"
             type="cpu"
           />
-          <BaseApexAreaChart
+          <BaseAreaChart
             id="memory"
             label="container"
             :metrics="memory"
-            :no-data-offset-y="-22"
             :title="$t('tip.used', [$root.$t('resource.memory')])"
             type="memory"
           />
-          <BaseApexAreaChart
-            id="networkin"
-            label="pod"
-            :metrics="networkin"
-            :no-data-offset-y="-22"
-            :title="$t('tip.in_traffic')"
-            type="network"
-          />
-          <BaseApexAreaChart
+          <BaseAreaChart id="networkin" label="pod" :metrics="networkin" :title="$t('tip.in_traffic')" type="network" />
+          <BaseAreaChart
             id="networkout"
             label="pod"
             :metrics="networkout"
-            :no-data-offset-y="-22"
             :title="$t('tip.out_traffic')"
             type="network"
           />

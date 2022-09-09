@@ -29,7 +29,7 @@
     <v-card-text :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
       <v-row>
         <v-col cols="6">
-          <BaseApexAreaChart
+          <BaseAreaChart
             id="outqps"
             label="destination_workload"
             :metrics="qpsMetrics"
@@ -38,7 +38,7 @@
           />
         </v-col>
         <v-col cols="6">
-          <BaseApexAreaChart
+          <BaseAreaChart
             id="outTime"
             label="destination_workload"
             :metrics="responseDurationMetrics"
@@ -47,7 +47,7 @@
           />
         </v-col>
         <v-col cols="6">
-          <BaseApexAreaChart
+          <BaseAreaChart
             id="in80Qps"
             label="pod"
             :metrics="downstream80QpsMetrics"
@@ -56,7 +56,7 @@
           />
         </v-col>
         <v-col cols="6">
-          <BaseApexAreaChart
+          <BaseAreaChart
             id="in80Time"
             label="pod"
             :metrics="downstream80ResponseDurationMetrics"
@@ -65,7 +65,7 @@
           />
         </v-col>
         <v-col cols="6">
-          <BaseApexAreaChart
+          <BaseAreaChart
             id="in443Qps"
             label="pod"
             :metrics="downstream443QpsMetrics"
@@ -74,7 +74,7 @@
           />
         </v-col>
         <v-col cols="6">
-          <BaseApexAreaChart
+          <BaseAreaChart
             id="in443Time"
             label="pod"
             :metrics="downstream443ResponseDurationMetrics"

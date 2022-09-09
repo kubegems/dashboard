@@ -13,7 +13,7 @@
     <v-card-text :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
       <v-row>
         <v-col cols="6">
-          <BaseApexAreaChart
+          <BaseAreaChart
             id="cpu"
             label="pod"
             :metrics="cpu"
@@ -22,7 +22,7 @@
           />
         </v-col>
         <v-col cols="6">
-          <BaseApexAreaChart
+          <BaseAreaChart
             id="memory"
             label="pod"
             :metrics="memory"
@@ -34,7 +34,7 @@
       <template v-if="hasGpu">
         <v-row>
           <v-col cols="6">
-            <BaseApexAreaChart
+            <BaseAreaChart
               id="gpu"
               label="pod"
               :metrics="gpu"
@@ -43,7 +43,7 @@
             />
           </v-col>
           <v-col cols="6">
-            <BaseApexAreaChart
+            <BaseAreaChart
               id="gpuMemory"
               label="pod"
               :metrics="gpuMemory"
@@ -55,10 +55,10 @@
 
         <v-row>
           <v-col cols="6">
-            <BaseApexAreaChart id="gpuTemp" label="pod" :metrics="gpuTemp" :title="$t('tip.gpu_temp')" type="°C" />
+            <BaseAreaChart id="gpuTemp" label="pod" :metrics="gpuTemp" :title="$t('tip.gpu_temp')" type="°C" />
           </v-col>
           <v-col cols="6">
-            <BaseApexAreaChart id="gpuPower" label="pod" :metrics="gpuPower" :title="$t('tip.gpu_power')" type="W" />
+            <BaseAreaChart id="gpuPower" label="pod" :metrics="gpuPower" :title="$t('tip.gpu_power')" type="W" />
           </v-col>
         </v-row>
       </template>

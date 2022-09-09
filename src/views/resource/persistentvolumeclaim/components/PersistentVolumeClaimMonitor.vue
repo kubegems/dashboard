@@ -29,7 +29,7 @@
     <v-card-text :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
       <v-row>
         <v-col cols="6">
-          <BaseApexAreaChart
+          <BaseAreaChart
             id="used"
             label="persistentvolumeclaim"
             :metrics="used"
@@ -38,7 +38,7 @@
           />
         </v-col>
         <v-col cols="6">
-          <BaseApexAreaChart
+          <BaseAreaChart
             id="inode"
             label="persistentvolumeclaim"
             :metrics="inodeused"

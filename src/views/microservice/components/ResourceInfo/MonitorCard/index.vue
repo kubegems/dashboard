@@ -48,7 +48,7 @@
           </div>
         </div>
 
-        <BaseApexAreaChart
+        <BaseAreaChart
           id="requests"
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
           :extend-height="150"
@@ -79,7 +79,7 @@
           </div>
         </div>
 
-        <BaseApexAreaChart
+        <BaseAreaChart
           id="avgresponsetime"
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
           :extend-height="150"
@@ -116,7 +116,7 @@
           </div>
         </div>
 
-        <BaseApexAreaChart
+        <BaseAreaChart
           id="errrequests"
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
           :extend-height="150"
@@ -151,7 +151,7 @@
           </div>
         </div>
 
-        <BaseApexAreaChart
+        <BaseAreaChart
           id="network"
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
           :extend-height="150"

@@ -29,8 +29,8 @@
     <v-card-text :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
       <v-row>
         <v-col cols="6">
-          <BaseApexAreaChart
-            id="cpu"
+          <BaseAreaChart
+            id="cpu_c"
             label="pod"
             :metrics="cpu"
             :title="$t('tip.used', [$root.$t('resource.cpu')])"
@@ -38,8 +38,8 @@
           />
         </v-col>
         <v-col cols="6">
-          <BaseApexAreaChart
-            id="memory"
+          <BaseAreaChart
+            id="memory_c"
             label="pod"
             :metrics="memory"
             :title="$t('tip.used', [$root.$t('resource.memory')])"
@@ -49,16 +49,10 @@
       </v-row>
       <v-row>
         <v-col cols="6">
-          <BaseApexAreaChart
-            id="networkin"
-            label="pod"
-            :metrics="networkin"
-            :title="$t('tip.in_traffic')"
-            type="network"
-          />
+          <BaseAreaChart id="networkin" label="pod" :metrics="networkin" :title="$t('tip.in_traffic')" type="network" />
         </v-col>
         <v-col cols="6">
-          <BaseApexAreaChart
+          <BaseAreaChart
             id="networkout"
             label="pod"
             :metrics="networkout"

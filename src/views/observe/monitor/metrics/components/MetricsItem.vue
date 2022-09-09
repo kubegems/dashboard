@@ -50,8 +50,9 @@
 
     <div class="metrics-item__chart">
       <div ref="container" class="metrics-item__container">
-        <BaseApexAreaChart
+        <BaseAreaChart
           v-if="data"
+          :id="data._$origin.resourceObj.rule"
           chart-type="line"
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
           colorful
@@ -59,7 +60,6 @@
           label="all"
           :label-show="false"
           :metrics="data ? data.data : []"
-          :no-data-offset-y="-25"
           single-tooptip
           type=""
           :unit="getUnit(unit)"

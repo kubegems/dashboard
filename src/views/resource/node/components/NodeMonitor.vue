@@ -29,32 +29,26 @@
     <v-card-text :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`">
       <v-row>
         <v-col cols="6">
-          <BaseApexAreaChart id="load" label="name" :metrics="load" :title="$t('tip.load')" type="" />
+          <BaseAreaChart id="load" label="name" :metrics="load" :title="$t('tip.load')" type="" />
         </v-col>
         <v-col cols="6">
-          <BaseApexAreaChart id="cpu" label="node" :metrics="cpu" :title="$t('tip.cpu_rate')" type="%" />
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="6">
-          <BaseApexAreaChart id="memory" label="node" :metrics="memory" :title="$t('tip.memory_rate')" type="%" />
-        </v-col>
-        <v-col cols="6">
-          <BaseApexAreaChart id="network" label="name" :metrics="network" :title="$t('tip.network')" type="network" />
+          <BaseAreaChart id="cpu" label="node" :metrics="cpu" :title="$t('tip.cpu_rate')" type="%" />
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="6">
-          <BaseApexAreaChart
-            id="disk"
-            label="device"
-            :metrics="disk"
-            :title="$t('tip.remain_storage')"
-            type="storage"
-          />
+          <BaseAreaChart id="memory" label="node" :metrics="memory" :title="$t('tip.memory_rate')" type="%" />
         </v-col>
         <v-col cols="6">
-          <BaseApexAreaChart id="diskiops" label="name" :metrics="diskiops" :title="$t('tip.disk_iops')" type="" />
+          <BaseAreaChart id="network" label="name" :metrics="network" :title="$t('tip.network')" type="network" />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="6">
+          <BaseAreaChart id="disk" label="device" :metrics="disk" :title="$t('tip.remain_storage')" type="storage" />
+        </v-col>
+        <v-col cols="6">
+          <BaseAreaChart id="diskiops" label="name" :metrics="diskiops" :title="$t('tip.disk_iops')" type="" />
         </v-col>
       </v-row>
     </v-card-text>

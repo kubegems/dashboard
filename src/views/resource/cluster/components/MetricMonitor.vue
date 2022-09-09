@@ -28,16 +28,14 @@
       </v-tab>
     </v-tabs>
 
-    <BaseApexAreaChart
+    <BaseAreaChart
       :id="`api${tab}`"
       :key="key"
       :ref="`tab${tab}`"
-      :animations-enable="false"
       :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
       :extend-height="280"
       :label="tabItems[tab].label"
       :metrics="tabItems[tab].chart"
-      :no-data-offset-y="-24"
       title=""
       :type="tabItems[tab].type"
     />

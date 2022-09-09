@@ -89,7 +89,7 @@
           class="dash__col pt-0"
           :cols="4"
         >
-          <v-card class="kubegems__full-height" flat height="330">
+          <v-card class="kubegems__full-height" flat>
             <v-card-text class="pa-1 kubegems__full-height">
               <div class="dash__btn">
                 <v-btn icon small @click.stop="openGraphInMaxScreen(graph)">
@@ -102,19 +102,16 @@
                   <v-icon color="error" small> mdi-minus-box </v-icon>
                 </v-btn>
               </div>
-              <BaseApexAreaChart
+              <BaseAreaChart
                 :id="`c${index}`"
                 :key="`c${index}${tab}`"
-                :animations-enable="false"
                 chart-type="line"
                 :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
                 colorful
-                :extend-height="300"
                 :global-plugins-check="false"
                 label="all"
                 :label-show="false"
                 :metrics="metrics[`c${index}`]"
-                :no-data-offset-y="-18"
                 single-tooptip
                 :title="graph.name"
                 type=""
