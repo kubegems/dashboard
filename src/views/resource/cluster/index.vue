@@ -39,10 +39,12 @@
                 </v-list-item-subtitle>
                 <v-list-item-subtitle>
                   <span class="text-body-2"> 状态： </span>
-                  <template v-if="!item.Status">
+                  <template v-if="!clusterStatus[item.ClusterName]">
                     <v-progress-circular color="warning" indeterminate size="16" width="3" />
                   </template>
-                  <v-icon v-else-if="item.Status === 0" color="error" small> mdi-heart-broken </v-icon>
+                  <v-icon v-else-if="clusterStatus[item.ClusterName] === 0" color="error" small>
+                    mdi-heart-broken
+                  </v-icon>
                   <v-icon v-else color="success" small> mdi-heart-pulse </v-icon>
                 </v-list-item-subtitle>
               </v-list-item-content>
@@ -50,10 +52,28 @@
 
             <v-card-actions>
               <v-spacer />
-              <v-btn color="primary" :disabled="!item.Status" small text @click="clusterDetail(item)"> 详情 </v-btn>
-              <v-btn color="primary" :disabled="!item.Status" small text @click="updateCluster(item)"> 编辑 </v-btn>
+              <v-btn
+                color="primary"
+                :disabled="!clusterStatus[item.ClusterName]"
+                small
+                text
+                @click="clusterDetail(item)"
+              >
+                详情
+              </v-btn>
+              <v-btn
+                color="primary"
+                :disabled="!clusterStatus[item.ClusterName]"
+                small
+                text
+                @click="updateCluster(item)"
+              >
+                编辑
+              </v-btn>
               <v-btn color="error" small text @click="removeCluster(item)"> 删除 </v-btn>
-              <v-btn color="primary" :disabled="!item.Status" small text @click="kuberCtl(item)"> Kubectl </v-btn>
+              <v-btn color="primary" :disabled="!clusterStatus[item.ClusterName]" small text @click="kuberCtl(item)">
+                Kubectl
+              </v-btn>
             </v-card-actions>
 
             <v-flex v-if="item.Primary" class="cluster-watermark-bg" />
@@ -105,6 +125,7 @@
       items: [],
       interval: null,
       hasControllerCluster: false,
+      clusterStatus: {},
     }),
     computed: {
       ...mapState(['JWT']),
@@ -116,6 +137,7 @@
     mounted() {
       if (this.JWT) {
         this.clusterList();
+        this.syncClusterStatus();
         this.$store.commit('SET_NAMESPACE_FILTER', null);
       }
     },
@@ -127,11 +149,6 @@
           return c.Primary;
         });
         this.updateClusterUrl(del);
-        this.clusterStatus(false);
-        if (this.interval) clearInterval(this.interval);
-        this.interval = setInterval(() => {
-          this.clusterStatus(true);
-        }, 30 * 1000);
       },
       updateClusterUrl(del = false) {
         let params = {};
@@ -148,16 +165,18 @@
           query: { ...this.$route.query, timestamp: Date.parse(new Date()) },
         });
       },
-      async clusterStatus(noprocess = false) {
+      syncClusterStatus() {
+        this.getClusterStatus(false);
+        if (this.interval) clearInterval(this.interval);
+        this.interval = setInterval(() => {
+          this.getClusterStatus(true);
+        }, 30 * 1000);
+      },
+      async getClusterStatus(noprocess = false) {
         const data = await getClusterStatus({
           noprocessing: noprocess,
         });
-        this.items.forEach((item, index) => {
-          if (item.ClusterName) {
-            item.Status = data[item.ClusterName];
-            this.$set(this.items, index, item);
-          }
-        });
+        this.clusterStatus = data;
       },
       clusterDetail(item) {
         this.$router.push({
