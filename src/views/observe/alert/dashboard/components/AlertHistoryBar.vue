@@ -17,33 +17,27 @@
 <template>
   <v-card class="kubegems__h-24" flat>
     <BaseSubTitle :divider="false" :title="$t('tip.alert_trend')" />
-    <div :style="{ height: `100%`, width: `100%` }">
-      <VueApexCharts
+    <div class="mx-3 mb-3" :style="{ height: `100%`, width: `100%` }">
+      <BaseBarChart
+        id="alert_history"
         :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
         height="290px"
-        :options="options"
-        :series="series"
+        :metrics="series"
       />
     </div>
   </v-card>
 </template>
 
 <script>
-  import moment from 'moment';
-  import VueApexCharts from 'vue-apexcharts';
   import { mapState } from 'vuex';
 
   import messages from '../../i18n';
   import { getAlertGraph } from '@/api';
-  import { toFixed } from '@/utils/helpers';
 
   export default {
     name: 'AlertHistoryBar',
     i18n: {
       messages: messages,
-    },
-    components: {
-      VueApexCharts,
     },
     props: {
       tenant: {
@@ -52,80 +46,6 @@
       },
     },
     data() {
-      this.options = {
-        colors: this.$LINE_THEME_COLORS,
-        chart: {
-          type: 'bar',
-          zoom: {
-            enabled: false,
-          },
-          toolbar: {
-            show: false,
-          },
-          animations: {
-            animateGradually: {
-              enabled: false,
-              delay: 0,
-            },
-          },
-        },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          curve: 'smooth',
-          width: 0,
-        },
-        grid: {
-          borderColor: 'rgba(0, 0, 0, .3)',
-          strokeDashArray: 5,
-          xaxis: {
-            lines: {
-              show: false,
-            },
-          },
-          yaxis: {
-            lines: {
-              show: true,
-            },
-          },
-        },
-        legend: {
-          show: true,
-          position: 'top',
-        },
-        yaxis: {
-          labels: {
-            formatter: (v) => toFixed(v, 3),
-          },
-        },
-        xaxis: {
-          type: 'datetime',
-          labels: {
-            datetimeUTC: false,
-            formatter: function (value, timestamp) {
-              return moment(new Date(timestamp * 1000)).format('L');
-            },
-            style: {
-              cssClass: 'grey--text lighten-2--text fill-color',
-            },
-          },
-          tooltip: {
-            enabled: false,
-          },
-          tickAmount: 10,
-        },
-        tooltip: {
-          theme: 'dark',
-        },
-        noData: {
-          text: this.$root.$t('data.no_data'),
-          offsetY: -12,
-          style: {
-            fontSize: '13px',
-          },
-        },
-      };
       return {
         series: [],
       };
@@ -151,8 +71,10 @@
         });
         this.series = data.map((d) => {
           return {
-            name: d.metric?.project,
-            data: d.values,
+            label: d.metric?.project,
+            data: d.values.map((v) => {
+              return { x: this.$moment(new Date(v[0] * 1000)).format('L'), y: v[1] };
+            }),
           };
         });
       },

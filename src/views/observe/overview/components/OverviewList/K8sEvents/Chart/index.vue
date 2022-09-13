@@ -16,16 +16,16 @@
 
 <template>
   <div>
-    <div>
+    <div class="mx-3">
       <MessageBarChart :data="data" :date="date" />
     </div>
     <div class="my-8" />
     <div class="d-flex justify-space-around">
       <div class="kubegems__h-24 kubegems__w-11">
-        <EventPieChart :data="data" :title="$t('tip.event_source')" type="source_component" />
+        <EventPieChart chart-id="source_pie" :data="data" :title="$t('tip.event_source')" type="source_component" />
       </div>
       <div class="kubegems__h-24 kubegems__w-11">
-        <EventPieChart :data="data" :title="$t('tip.event_type')" type="reason" />
+        <EventPieChart chart-id="type_pie" :data="data" :title="$t('tip.event_type')" type="reason" />
       </div>
     </div>
   </div>

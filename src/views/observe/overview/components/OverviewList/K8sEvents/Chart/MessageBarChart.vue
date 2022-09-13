@@ -15,31 +15,25 @@
 -->
 
 <template>
-  <VueApexCharts
+  <BaseBarChart
+    id="message_bar"
     :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-    :height="height"
-    :options="options"
-    :series="series"
-    type="bar"
-    :width="width"
+    :color="['#26C6DA', '#FB8C00']"
+    height="290px"
+    :label-show="false"
+    :metrics="series"
   />
 </template>
 
 <script>
-  import moment from 'moment';
-  import VueApexCharts from 'vue-apexcharts';
   import { mapState } from 'vuex';
 
   import messages from '../../../../i18n';
-  import { toFixed } from '@/utils/helpers';
 
   export default {
     name: 'MessageBarChart',
     i18n: {
       messages: messages,
-    },
-    components: {
-      VueApexCharts,
     },
     props: {
       data: {
@@ -52,94 +46,7 @@
       },
     },
     data() {
-      this.options = {
-        colors: ['#26C6DA', '#FB8C00'],
-        chart: {
-          type: 'bar',
-          zoom: {
-            enabled: false,
-          },
-          toolbar: {
-            show: false,
-          },
-          animations: {
-            animateGradually: {
-              enabled: false,
-              delay: 0,
-            },
-          },
-        },
-        title: {
-          text: this.$t('table.message'),
-          align: 'left',
-          margin: 5,
-          style: {
-            fontSize: '11px',
-            fontWeight: 'bold',
-            color: '#757575',
-          },
-        },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          curve: 'smooth',
-          width: 0,
-        },
-        grid: {
-          borderColor: 'rgba(0, 0, 0, .3)',
-          strokeDashArray: 5,
-          xaxis: {
-            lines: {
-              show: false,
-            },
-          },
-          yaxis: {
-            lines: {
-              show: true,
-            },
-          },
-        },
-        legend: {
-          show: true,
-        },
-        yaxis: {
-          labels: {
-            formatter: (v) => toFixed(v, 3),
-          },
-        },
-        xaxis: {
-          type: 'datetime',
-          labels: {
-            datetimeUTC: false,
-            formatter: function (value, timestamp) {
-              return moment(new Date(timestamp)).format('LTS');
-            },
-            style: {
-              cssClass: 'grey--text lighten-2--text fill-color',
-            },
-            rotate: -55,
-            rotateAlways: true,
-          },
-          tooltip: {
-            enabled: false,
-          },
-          tickAmount: 10,
-        },
-        tooltip: {
-          theme: 'dark',
-        },
-        noData: {
-          text: this.$root.$t('data.no_data'),
-          offsetY: -28,
-          style: {
-            fontSize: '13px',
-          },
-        },
-      };
       return {
-        width: '100%',
-        height: '350px',
         series: [],
       };
     },
@@ -194,13 +101,15 @@
         });
         this.series = metrics.map((metricAndValues) => {
           return {
-            name:
+            label:
               metricAndValues.metric && JSON.stringify(metricAndValues.metric) !== '{}'
                 ? this.label
                   ? metricAndValues.metric[this.label]
                   : Object.values(metricAndValues.metric)[0]
                 : this.$route.params.name,
-            data: metricAndValues.values,
+            data: metricAndValues.values.map((v) => {
+              return { x: this.$moment(new Date(v[0])).format('LTS'), y: v[1] };
+            }),
           };
         });
       },

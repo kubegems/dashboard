@@ -152,7 +152,6 @@
 </template>
 
 <script>
-  import VueApexCharts from 'vue-apexcharts';
   import { mapGetters, mapState } from 'vuex';
 
   import NodeMonitor from './components/NodeMonitor';
@@ -179,7 +178,6 @@
       ResourceInfo,
       ResourceYaml,
       Taint,
-      VueApexCharts,
     },
     mixins: [BaseResource],
     data: () => ({
