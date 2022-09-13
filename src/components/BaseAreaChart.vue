@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <div :style="{ height: `${extendHeight}px`, position: 'relative', width: '100%' }">
+  <div :style="{ height: `${extendHeight}px`, position: 'relative', width: width }">
     <canvas v-if="mustCheckPremission" :id="id" />
     <div v-else class="text-center kubegems__full-center">
       {{ $root.$t('plugin.missing', ['monitoring']) }}
@@ -39,6 +39,10 @@
         type: String,
         default: () => 'area',
       },
+      color: {
+        type: Array,
+        default: () => [],
+      },
       colorful: {
         type: Boolean,
         default: () => false,
@@ -55,6 +59,10 @@
         type: String,
         default: () => null,
       },
+      labels: {
+        type: Array,
+        default: () => [],
+      },
       labelShow: {
         type: Boolean,
         default: () => true,
@@ -62,6 +70,10 @@
       metrics: {
         type: Array,
         default: () => [],
+      },
+      sample: {
+        type: Boolean,
+        default: () => false,
       },
       singleTooptip: {
         type: Boolean,
@@ -78,6 +90,10 @@
       unit: {
         type: String,
         default: () => null,
+      },
+      width: {
+        type: String,
+        default: () => '100%',
       },
     },
     data() {
@@ -111,10 +127,11 @@
           if (newValue) {
             if (!this.mustCheckPremission) return;
             if (!this.chart) {
-              const ctx = document.getElementById(this.id);
+              const ctx = document.getElementById(this.id).getContext('2d');
               this.chart = new Chart(ctx, {
                 type: 'line',
                 data: {
+                  labels: this.labels,
                   datasets: this.loadDatasets(),
                 },
                 options: {
@@ -127,7 +144,7 @@
                       text: this.title,
                     },
                     legend: {
-                      display: this.labelShow,
+                      display: this.labelShow && !this.sample,
                       position: 'bottom',
                       labels: {
                         usePointStyle: true,
@@ -140,6 +157,7 @@
                       usePointStyle: true,
                       boxWidth: 8,
                       boxHeight: 8,
+                      boxPadding: 4,
                       callbacks: {
                         label: (tooltipItem) => {
                           return `${tooltipItem.dataset.label} : ${this.formatter(
@@ -159,11 +177,13 @@
                   },
                   scales: {
                     xAxis: {
+                      display: !this.sample,
                       grid: {
                         display: false,
                       },
                     },
                     yAxis: {
+                      display: !this.sample,
                       grid: {
                         borderDash: [8, 8, 8],
                         drawBorder: false,
@@ -305,10 +325,18 @@
             data: m.values.map((v) => {
               return { x: moment(new Date(v[0] * 1000)).format('LTS'), y: v[1] };
             }),
-            borderColor: this.colorful ? this.$LINE_THEME_FUL_COLORS[index % 10] : this.$LINE_THEME_COLORS[index % 12],
-            backgroundColor: this.colorful
-              ? this.$LINE_THEME_FUL_COLORS[index % 10]
-              : this.$LINE_THEME_COLORS[index % 12],
+            borderColor:
+              this.color.length > 0
+                ? this.color[index % this.color.length]
+                : this.colorful
+                ? this.$LINE_THEME_FUL_COLORS[index % 10]
+                : this.$LINE_THEME_COLORS[index % 12],
+            backgroundColor:
+              this.color.length > 0
+                ? this.color[index % this.color.length]
+                : this.colorful
+                ? this.$LINE_THEME_FUL_COLORS[index % 10]
+                : this.$LINE_THEME_COLORS[index % 12],
             fill: this.chartType === 'area',
             cubicInterpolationMode: 'monotone',
             tension: 0.4,

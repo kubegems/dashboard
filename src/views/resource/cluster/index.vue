@@ -40,10 +40,10 @@
                 <v-list-item-subtitle>
                   <span class="text-body-2"> {{ $t('table.kubeconfig_expired') }} : </span>
                   <span v-if="isExpiredSoon(item)" class="error--text">
-                    {{ item.ClientCertExpireAt === '' ? '-' : $moment(item.ClientCertExpireAt).format('ll') }}(即将到期)
+                    {{ item.ClientCertExpireAt ? $moment(item.ClientCertExpireAt).format('ll') : '-' }}(即将到期)
                   </span>
                   <span v-else>
-                    {{ item.ClientCertExpireAt === '' ? '-' : $moment(item.ClientCertExpireAt).format('ll') }}
+                    {{ item.ClientCertExpireAt ? $moment(item.ClientCertExpireAt).format('ll') : '-' }}
                   </span>
                 </v-list-item-subtitle>
                 <v-list-item-subtitle>

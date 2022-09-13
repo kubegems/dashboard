@@ -37,13 +37,18 @@
             }}</span>
           </div>
           <div :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`" :style="{ flexGrow: 2 }">
-            <SampleAreaChart
-              class="pa-4 float-right"
+            <div class="white--text mt-3 text-caption px-5">{{ $t('tip.api_success_rate') }}</div>
+            <BaseAreaChart
+              id="api_rate"
+              chart-type="line"
+              class="px-4 float-right"
+              :color="['#ffffff']"
               :extend-height="100"
               :metrics="apiServerSuccessRate"
-              :title="$t('tip.api_success_rate')"
-              type=""
-              :width="65"
+              sample
+              title=""
+              unit="0-100"
+              width="190px"
             />
           </div>
         </div>
@@ -146,7 +151,6 @@
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
-  import SampleAreaChart from './SampleAreaChart';
   import Tips from './Tips';
   import { getClusterCertInfo, getClusterComponentStatus } from '@/api';
   import BasePermission from '@/mixins/permission';
@@ -159,7 +163,6 @@
       messages: messages,
     },
     components: {
-      SampleAreaChart,
       Tips,
     },
     mixins: [BasePermission, BaseResource],

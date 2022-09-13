@@ -16,30 +16,33 @@
 
 <template>
   <div :style="{ width: width, height: height }">
-    <VueApexCharts
+    <BasePieChart
+      :id="chartId"
       :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-      height="80%"
-      :options="options"
-      :series="series"
-      type="pie"
+      colorful
+      height="290px"
+      :labels="labels"
+      :metrics="series"
+      :title="title"
     />
-    <div v-for="(label, index) in labels" :key="index" class="text-caption ml-4">
+
+    <!-- <div v-for="(label, index) in labels" :key="index" class="text-caption ml-4">
       <v-icon small :style="{ color: $LINE_THEME_FUL_COLORS[index] }"> mdi-checkbox-blank-circle </v-icon>
       {{ label }}
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
-  import VueApexCharts from 'vue-apexcharts';
   import { mapState } from 'vuex';
 
   export default {
     name: 'MessageLineChart',
-    components: {
-      VueApexCharts,
-    },
     props: {
+      chartId: {
+        type: String,
+        default: () => '',
+      },
       data: {
         type: Array,
         default: () => [],
@@ -63,74 +66,6 @@
     },
     computed: {
       ...mapState(['Scale']),
-      options() {
-        return {
-          colors: this.$LINE_THEME_FUL_COLORS,
-          chart: {
-            type: 'pie',
-            zoom: {
-              enabled: false,
-            },
-            toolbar: {
-              show: false,
-            },
-            animations: {
-              animateGradually: {
-                enabled: false,
-                delay: 0,
-              },
-            },
-          },
-          title: {
-            text: this.title,
-            align: 'left',
-            margin: 5,
-            style: {
-              fontSize: '11px',
-              fontWeight: 'bold',
-              color: '#757575',
-            },
-          },
-          dataLabels: {
-            enabled: true,
-            style: {
-              cssClass: 'grey--text lighten-2--text fill-color',
-            },
-          },
-          stroke: {
-            curve: 'straight',
-            width: 1,
-          },
-          grid: {
-            borderColor: 'rgba(0, 0, 0, .3)',
-            strokeDashArray: 5,
-            xaxis: {
-              lines: {
-                show: false,
-              },
-            },
-            yaxis: {
-              lines: {
-                show: true,
-              },
-            },
-          },
-          legend: {
-            show: false,
-            position: 'left',
-          },
-          tooltip: {
-            theme: 'dark',
-          },
-          noData: {
-            text: this.$root.$t('data.no_data'),
-            style: {
-              fontSize: '13px',
-            },
-          },
-          labels: this.labels,
-        };
-      },
     },
     watch: {
       data: {
