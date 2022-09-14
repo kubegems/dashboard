@@ -24,7 +24,7 @@
   import Chart from 'chart.js/auto';
 
   export default {
-    name: 'BaseBarChart',
+    name: 'BasePieChart',
     props: {
       id: {
         type: String,

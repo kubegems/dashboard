@@ -101,7 +101,7 @@
       />
     </div>
 
-    <p class="mt-2 text-body-2">logql : {{ advancedQl || logQL }}</p>
+    <p class="my-2 text-body-2">logql : {{ advancedQl || logQL }}</p>
   </v-card>
 </template>
 
@@ -222,6 +222,7 @@
         } else {
           this.$router.replace({
             name: this.$route.name,
+            params: { ...this.$route.params },
           });
           return;
         }
@@ -350,6 +351,7 @@
       replaceUrl() {
         this.$router.replace({
           name: this.$route.name,
+          params: { ...this.$route.params },
           query: {
             ...this.$route.query,
             cluster: this.cluster.text,

@@ -31,8 +31,8 @@
       :no-data-text="mode === 'context' ? '' : $root.$t('data.no_data')"
       :show-expand="mode === 'normal'"
       single-expand
-      :style="{ maxHeight: `${height}px`, overflowY: 'auto' }"
     >
+      <!-- :style="{ maxHeight: `${height}px`, overflowY: 'auto' }" -->
       <template #[`item.info`]="{ item }">
         <div
           v-if="mode === 'normal'"
@@ -130,9 +130,9 @@
           return [{ text: '', value: 'info', align: 'start' }];
         }
       },
-      height() {
-        return parseInt((window.innerHeight - 320) / this.Scale);
-      },
+      // height() {
+      //   return parseInt((window.innerHeight - 320) / this.Scale);
+      // },
     },
     methods: {
       handleShowContext(item) {

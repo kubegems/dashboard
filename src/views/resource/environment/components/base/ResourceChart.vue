@@ -18,28 +18,84 @@
   <div>
     <v-row>
       <v-col class="py-0" cols="3">
-        <VueApexCharts height="250" :options="cpuOptions" :series="cpuSeries" type="radialBar" />
+        <BaseRadialBarChart
+          class="my-3"
+          :label-show="false"
+          :metrics="cpuSeries"
+          :title="$root.$t('resource.cpu')"
+          :total="statistics ? statistics.Cpu : 0"
+          unit="core"
+          :val="statistics ? statistics.AllocatedCpu : 0"
+        />
       </v-col>
       <v-col class="py-0" cols="3">
-        <VueApexCharts height="250" :options="memoryOptions" :series="memorySeries" type="radialBar" />
+        <BaseRadialBarChart
+          class="my-3"
+          :label-show="false"
+          :metrics="memorySeries"
+          :title="$root.$t('resource.memory')"
+          :total="statistics ? statistics.Memory : 0"
+          unit="Gi"
+          :val="statistics ? statistics.AllocatedMemory : 0"
+        />
       </v-col>
       <v-col class="py-0" cols="3">
-        <VueApexCharts height="250" :options="storageOptions" :series="storageSeries" type="radialBar" />
+        <BaseRadialBarChart
+          class="my-3"
+          :label-show="false"
+          :metrics="storageSeries"
+          :title="$root.$t('resource.storage')"
+          :total="statistics ? statistics.Storage : 0"
+          unit="Gi"
+          :val="statistics ? statistics.AllocatedStorage : 0"
+        />
       </v-col>
       <v-col class="py-0" cols="3">
-        <VueApexCharts height="250" :options="podOptions" :series="podSeries" type="radialBar" />
+        <BaseRadialBarChart
+          class="my-3"
+          :label-show="false"
+          :metrics="podSeries"
+          :title="$root.$t('resource.pod')"
+          :total="statistics ? statistics.Pod : 0"
+          unit=""
+          :val="statistics ? statistics.AllocatedPod : 0"
+        />
       </v-col>
 
       <v-col v-if="nvidia && showMore" class="py-0" cols="3">
-        <VueApexCharts height="250" :options="nvidiaGpuOptions" :series="nvidiaGpuSeries" type="radialBar" />
+        <BaseRadialBarChart
+          class="my-3"
+          :label-show="false"
+          :metrics="nvidiaGpuSeries"
+          :title="`Nvidia ${$root.$t('resource.gpu')}`"
+          :total="statistics ? statistics.NvidiaGpu : 0"
+          unit="gpu"
+          :val="statistics ? statistics.AllocatedNvidiaGpu : 0"
+        />
       </v-col>
 
       <template v-if="tke && showMore">
         <v-col class="py-0" cols="3">
-          <VueApexCharts height="250" :options="tkeGpuOptions" :series="tkeGpuSeries" type="radialBar" />
+          <BaseRadialBarChart
+            class="my-3"
+            :label-show="false"
+            :metrics="tkeGpuSeries"
+            :title="`Tke ${$root.$t('resource.gpu')}`"
+            :total="statistics ? statistics.TkeGpu : 0"
+            unit=""
+            :val="statistics ? statistics.AllocatedTkeGpu : 0"
+          />
         </v-col>
         <v-col class="py-0" cols="3">
-          <VueApexCharts height="250" :options="tkeMemoryOptions" :series="tkeMemorySeries" type="radialBar" />
+          <BaseRadialBarChart
+            class="my-3"
+            :label-show="false"
+            :metrics="tkeMemorySeries"
+            :title="`Tke ${$root.$t('resource.video_memory')}`"
+            :total="statistics ? statistics.TkeMemory : 0"
+            unit=""
+            :val="statistics ? statistics.AllocatedTkeMemory : 0"
+          />
         </v-col>
       </template>
     </v-row>
@@ -53,18 +109,12 @@
 </template>
 
 <script>
-  import VueApexCharts from 'vue-apexcharts';
-
   import messages from '../../i18n';
-  import { generateRadialBarChartOptions } from '@/utils/chart';
 
   export default {
     name: 'ResourceChart',
     i18n: {
       messages: messages,
-    },
-    components: {
-      VueApexCharts,
     },
     props: {
       statistics: {
@@ -96,110 +146,54 @@
       cpuSeries() {
         return this.statistics
           ? this.statistics.AllocatedCpu === 0
-            ? [0]
-            : [(this.statistics.AllocatedCpu / this.statistics.Cpu) * 100]
-          : [0];
-      },
-      cpuOptions() {
-        return generateRadialBarChartOptions(
-          this.$root.$t('resource.cpu'),
-          [this.$root.$t('resource.cpu')],
-          this.statistics ? this.statistics.Cpu : 0,
-          'core',
-        );
+            ? [0, 50]
+            : [(this.statistics.AllocatedCpu / this.statistics.Cpu) * 100, 50]
+          : [0, 50];
       },
       memorySeries() {
         return this.statistics
           ? this.statistics.AllocatedMemory === 0
-            ? [0]
-            : [(this.statistics.AllocatedMemory / this.statistics.Memory) * 100]
-          : [0];
-      },
-      memoryOptions() {
-        return generateRadialBarChartOptions(
-          this.$root.$t('resource.memory'),
-          [this.$root.$t('resource.memory')],
-          this.statistics ? this.statistics.Memory : 0,
-          'Gi',
-        );
+            ? [0, 50]
+            : [(this.statistics.AllocatedMemory / this.statistics.Memory) * 100, 50]
+          : [0, 50];
       },
       storageSeries() {
         return this.statistics
           ? this.statistics.AllocatedStorage === 0
-            ? [0]
-            : [(this.statistics.AllocatedStorage / this.statistics.Storage) * 100]
-          : [0];
-      },
-      storageOptions() {
-        return generateRadialBarChartOptions(
-          this.$root.$t('resource.storage'),
-          [this.$root.$t('resource.storage')],
-          this.statistics ? this.statistics.Storage : 0,
-          'Gi',
-        );
+            ? [0, 50]
+            : [(this.statistics.AllocatedStorage / this.statistics.Storage) * 100, 50]
+          : [0, 50];
       },
       podSeries() {
         return this.statistics
           ? this.statistics.AllocatedPod === 0
-            ? [0]
-            : [(this.statistics.AllocatedPod / this.statistics.Pod) * 100]
-          : [0];
-      },
-      podOptions() {
-        return generateRadialBarChartOptions(
-          this.$root.$t('resource.pod'),
-          [this.$root.$t('resource.pod')],
-          this.statistics ? this.statistics.Pod : 0,
-          '',
-        );
+            ? [0, 50]
+            : [(this.statistics.AllocatedPod / this.statistics.Pod) * 100, 50]
+          : [0, 50];
       },
 
       nvidiaGpuSeries() {
         return this.statistics
           ? this.statistics.AllocatedNvidiaGpu === 0
-            ? [0]
-            : [(this.statistics.AllocatedNvidiaGpu / this.statistics.NvidiaGpu) * 100]
-          : [0];
-      },
-      nvidiaGpuOptions() {
-        return generateRadialBarChartOptions(
-          `Nvidia ${this.$root.$t('resource.gpu')}`,
-          [`Nvidia ${this.$root.$t('resource.gpu')}`],
-          this.statistics ? this.statistics.NvidiaGpu : 0,
-          'gpu',
-        );
+            ? [0, 50]
+            : [(this.statistics.AllocatedNvidiaGpu / this.statistics.NvidiaGpu) * 100, 50]
+          : [0, 50];
       },
 
       tkeGpuSeries() {
         return this.statistics
           ? this.statistics.AllocatedTkeGpu === 0
-            ? [0]
-            : [(this.statistics.AllocatedTkeGpu / this.statistics.TkeGpu) * 100]
-          : [0];
-      },
-      tkeGpuOptions() {
-        return generateRadialBarChartOptions(
-          `Tke ${this.$root.$t('resource.gpu')}`,
-          [`Tke ${this.$root.$t('resource.gpu')}`],
-          this.statistics ? this.statistics.TkeGpu : 0,
-          '',
-        );
+            ? [0, 50]
+            : [(this.statistics.AllocatedTkeGpu / this.statistics.TkeGpu) * 100, 50]
+          : [0, 50];
       },
 
       tkeMemorySeries() {
         return this.statistics
           ? this.statistics.AllocatedTkeMemory === 0
-            ? [0]
-            : [(this.statistics.AllocatedTkeMemory / this.statistics.TkeMemory) * 100]
-          : [0];
-      },
-      tkeMemoryOptions() {
-        return generateRadialBarChartOptions(
-          `Tke ${this.$root.$t('resource.video_memory')}`,
-          [`Tke ${this.$root.$t('resource.video_memory')}`],
-          this.statistics ? this.statistics.TkeMemory : 0,
-          '',
-        );
+            ? [0, 50]
+            : [(this.statistics.AllocatedTkeMemory / this.statistics.TkeMemory) * 100, 50]
+          : [0, 50];
       },
     },
   };

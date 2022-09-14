@@ -241,6 +241,7 @@
         this.handleEmit();
         this.$router.replace({
           name: this.$route.name,
+          params: { ...this.$route.params },
         });
       },
 

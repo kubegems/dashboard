@@ -35,7 +35,7 @@
             <v-text-field
               v-model="obj.LimitRange.Container.defaultRequest.cpu"
               class="mt-0 pt-0"
-              :label="$t('tip.default_reauest')"
+              :label="$t('tip.default_request')"
               :rules="objRules.container.cpuDefaultRequestMinRule"
               :style="{ width: `120px` }"
             />
@@ -69,7 +69,7 @@
             <v-text-field
               v-model="obj.LimitRange.Container.defaultRequest.memory"
               class="mt-0 pt-0"
-              :label="$t('tip.default_reauest')"
+              :label="$t('tip.default_request')"
               :rules="objRules.container.memoryDefaultRequestRule"
               :style="{ width: `120px` }"
             />
@@ -140,8 +140,8 @@
         </v-sheet>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn color="error" small text @click="closeCard"> {{ $root.$('operate.cancel') }} </v-btn>
-          <v-btn color="primary" small text @click="addData"> {{ $root.$('operate.save') }} </v-btn>
+          <v-btn color="error" small text @click="closeCard"> {{ $root.$t('operate.cancel') }} </v-btn>
+          <v-btn color="primary" small text @click="addData"> {{ $root.$t('operate.save') }} </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
