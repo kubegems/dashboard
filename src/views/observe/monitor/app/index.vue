@@ -210,6 +210,10 @@
           if (newValue) {
             this.cluster = newValue.clusterName;
             this.loadPluginCheck();
+            this.latency = [];
+            this.errorRate = [];
+            this.requestRate = [];
+            this.items = [];
           }
         },
         deep: true,
@@ -220,7 +224,7 @@
           if (newValue) {
             this.params.start = this.$moment(this.date[0]).utc().format();
             this.params.end = this.$moment(this.date[1]).utc().format();
-            this.loadData();
+            this.loadData(true);
           }
         },
         deep: true,

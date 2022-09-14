@@ -59,9 +59,9 @@ const select = {
     ...mapGetters(['Project', 'Environment', 'Cluster', 'Tenant']),
     m_select_environmentTypeItems() {
       return [
-        { text: this.$root.$t('environment_type.dev'), value: 'dev' },
-        { text: this.$root.$t('environment_type.test'), value: 'test' },
-        { text: this.$root.$t('environment_type.prod'), value: 'prod' },
+        { text: this.$root.$t('metadata.environment_type.dev'), value: 'dev' },
+        { text: this.$root.$t('metadata.environment_type.test'), value: 'test' },
+        { text: this.$root.$t('metadata.environment_type.prod'), value: 'prod' },
       ];
     },
     m_select_resourceItems() {

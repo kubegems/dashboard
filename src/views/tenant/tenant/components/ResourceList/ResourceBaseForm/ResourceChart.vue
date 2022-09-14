@@ -17,43 +17,85 @@
 <template>
   <v-row>
     <v-col class="py-0" cols="4">
-      <VueApexCharts height="230" :options="cpuOptions" :series="cpuSeries" type="radialBar" />
+      <BaseRadialBarChart
+        class="my-3"
+        :label-show="false"
+        :metrics="cpuSeries"
+        :title="$root.$t('resource.cpu')"
+        :total="quota ? quota.Cpu : 0"
+        unit="core"
+        :val="quota ? quota.UsedCpu : 0"
+      />
     </v-col>
     <v-col class="py-0" cols="4">
-      <VueApexCharts height="230" :options="memoryOptions" :series="memorySeries" type="radialBar" />
+      <BaseRadialBarChart
+        class="my-3"
+        :label-show="false"
+        :metrics="memorySeries"
+        :title="$root.$t('resource.memory')"
+        :total="quota ? quota.Memory : 0"
+        unit="Gi"
+        :val="quota ? quota.UsedMemory : 0"
+      />
     </v-col>
     <v-col class="py-0" cols="4">
-      <VueApexCharts height="230" :options="storageOptions" :series="storageSeries" type="radialBar" />
+      <BaseRadialBarChart
+        class="my-3"
+        :label-show="false"
+        :metrics="storageSeries"
+        :title="$root.$t('resource.storage')"
+        :total="quota ? quota.Storage : 0"
+        unit="Gi"
+        :val="quota ? quota.UsedStorage : 0"
+      />
     </v-col>
 
     <v-col v-if="nvidia" class="py-0" cols="4">
-      <VueApexCharts height="230" :options="nvidiaOptions" :series="nvidiaSeries" type="radialBar" />
+      <BaseRadialBarChart
+        class="my-3"
+        :label-show="false"
+        :metrics="nvidiaSeries"
+        :title="`Nvidia ${$root.$t('resource.gpu')}`"
+        :total="quota ? quota.NvidiaGpu : 0"
+        unit="gpu"
+        :val="quota ? quota.UsedNvidiaGpu : 0"
+      />
     </v-col>
 
     <template v-if="tke">
       <v-col class="py-0" cols="4">
-        <VueApexCharts height="230" :options="tkeOptions" :series="tkeSeries" type="radialBar" />
+        <BaseRadialBarChart
+          class="my-3"
+          :label-show="false"
+          :metrics="tkeSeries"
+          :title="`Tke ${$root.$t('resource.gpu')}`"
+          :total="quota ? quota.TkeGpu : 0"
+          unit=""
+          :val="quota ? quota.UsedTkeGpu : 0"
+        />
       </v-col>
       <v-col class="py-0" cols="4">
-        <VueApexCharts height="230" :options="tkeMemoryOptions" :series="tkeMemorySeries" type="radialBar" />
+        <BaseRadialBarChart
+          class="my-3"
+          :label-show="false"
+          :metrics="tkeMemorySeries"
+          :title="`Tke ${$root.$t('resource.video_memory')}`"
+          :total="quota ? quota.TkeMemory : 0"
+          unit=""
+          :val="quota ? quota.UsedTkeMemory : 0"
+        />
       </v-col>
     </template>
   </v-row>
 </template>
 
 <script>
-  import VueApexCharts from 'vue-apexcharts';
-
   import messages from '../../../i18n';
-  import { generateRadialBarChartOptions } from '@/utils/chart';
 
   export default {
     name: 'ResourceChart',
     i18n: {
       messages: messages,
-    },
-    components: {
-      VueApexCharts,
     },
     props: {
       nvidia: {
@@ -71,90 +113,47 @@
     },
     computed: {
       cpuSeries() {
-        return this.quota ? (this.quota.UsedCpu === 0 ? [0] : [(this.quota.UsedCpu / this.quota.Cpu) * 100]) : [0];
+        return this.quota
+          ? this.quota.UsedCpu === 0
+            ? [0, 50]
+            : [(this.quota.UsedCpu / this.quota.Cpu) * 100, 50]
+          : [0, 50];
       },
-      cpuOptions() {
-        return generateRadialBarChartOptions(
-          this.$root.$t('resource.cpu'),
-          [this.$root.$t('resource.cpu')],
-          this.quota ? this.quota.Cpu : 0,
-          'core',
-        );
-      },
+
       memorySeries() {
         return this.quota
           ? this.quota.UsedMemory === 0
-            ? [0]
-            : [(this.quota.UsedMemory / this.quota.Memory) * 100]
-          : [0];
-      },
-      memoryOptions() {
-        return generateRadialBarChartOptions(
-          this.$root.$t('resource.memory'),
-          [this.$root.$t('resource.memory')],
-          this.quota ? this.quota.Memory : 0,
-          'Gi',
-        );
+            ? [0, 50]
+            : [(this.quota.UsedMemory / this.quota.Memory) * 100, 50]
+          : [0, 50];
       },
       storageSeries() {
         return this.quota
           ? this.quota.UsedStorage === 0
-            ? [0]
-            : [(this.quota.UsedStorage / this.quota.Storage) * 100]
-          : [0];
-      },
-      storageOptions() {
-        return generateRadialBarChartOptions(
-          this.$root.$t('resource.storage'),
-          [this.$root.$t('resource.storage')],
-          this.quota ? this.quota.Storage : 0,
-          'Gi',
-        );
+            ? [0, 50]
+            : [(this.quota.UsedStorage / this.quota.Storage) * 100, 50]
+          : [0, 50];
       },
       nvidiaSeries() {
         return this.quota
           ? this.quota.UsedNvidiaGpu === 0
-            ? [0]
-            : [(this.quota.UsedNvidiaGpu / this.quota.NvidiaGpu) * 100]
-          : [0];
-      },
-      nvidiaOptions() {
-        return generateRadialBarChartOptions(
-          `nvidia ${this.$root.$t('resource.gpu')}`,
-          [`nvidia ${this.$root.$t('resource.gpu')}`],
-          this.quota ? this.quota.NvidiaGpu : 0,
-          'gpu',
-        );
+            ? [0, 50]
+            : [(this.quota.UsedNvidiaGpu / this.quota.NvidiaGpu) * 100, 50]
+          : [0, 50];
       },
       tkeSeries() {
         return this.quota
           ? this.quota.UsedTkeGpu === 0
-            ? [0]
-            : [(this.quota.UsedTkeGpu / this.quota.TkeGpu) * 100]
-          : [0];
-      },
-      tkeOptions() {
-        return generateRadialBarChartOptions(
-          `tke ${this.$root.$t('resource.gpu')}`,
-          [`tke ${this.$root.$t('resource.gpu')}`],
-          this.quota ? this.quota.TkeGpu : 0,
-          '',
-        );
+            ? [0, 50]
+            : [(this.quota.UsedTkeGpu / this.quota.TkeGpu) * 100, 50]
+          : [0, 50];
       },
       tkeMemorySeries() {
         return this.quota
           ? this.quota.UsedTkeMemory === 0
-            ? [0]
-            : [(this.quota.UsedTkeMemory / this.quota.TkeMemory) * 100]
-          : [0];
-      },
-      tkeMemoryOptions() {
-        return generateRadialBarChartOptions(
-          `tke ${this.$root.$t('resource.video_memory')}`,
-          [`tke ${this.$root.$t('resource.video_memory')}`],
-          this.quota ? this.quota.TkeMemory : 0,
-          '',
-        );
+            ? [0, 50]
+            : [(this.quota.UsedTkeMemory / this.quota.TkeMemory) * 100, 50]
+          : [0, 50];
       },
     },
   };
