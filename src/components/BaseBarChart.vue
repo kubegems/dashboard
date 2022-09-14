@@ -153,9 +153,6 @@
                 : this.colorful
                 ? this.$LINE_THEME_FUL_COLORS[index % 10]
                 : this.$LINE_THEME_COLORS[index % 12],
-            fill: true,
-            cubicInterpolationMode: 'monotone',
-            tension: 0.4,
           };
         });
 

@@ -20,7 +20,7 @@
       id="log_bar"
       :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
       :color="color"
-      height="180px"
+      :extend-height="180"
       :labels="
         chart
           ? chart['xAxis-data'].map((x) => {

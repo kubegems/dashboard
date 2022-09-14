@@ -140,6 +140,22 @@
       />
     </v-card>
 
+    <v-btn
+      bottom
+      class="log-viewer__btn"
+      color="primary"
+      direction="left"
+      fab
+      fixed
+      right
+      small
+      style="bottom: 75px !important"
+      transition="slide-x-reverse-transition"
+      @click="handleScrollTo"
+    >
+      <v-icon>mdi-arrow-up-bold</v-icon>
+    </v-btn>
+
     <LogContext ref="logContext" />
     <LogSaveSnapshot ref="logSaveSnapshot" />
     <LogQueryHistory ref="logQueryHistory" @queryHistory="handleQueryHistroy" />
@@ -201,7 +217,7 @@
       };
     },
     computed: {
-      ...mapState(['Progress', 'JWT', 'User', 'AdminViewport']),
+      ...mapState(['Progress', 'JWT', 'User', 'AdminViewport', 'Scale']),
       ...mapGetters(['Cluster']),
       dateTimestamp() {
         return this.date.map((d) => `${d}000000`);
@@ -341,6 +357,7 @@
         if (this.view.resultType === 'streams') {
           this.$router.replace({
             name: this.$route.name,
+            params: { ...this.$route.params },
             query: {
               ...this.$route.query,
               project: projectName,
@@ -535,13 +552,13 @@
         }, 5);
       },
 
-      // handleScrollTo() {
-      //   const container = document.getElementById('log-viewer')
-      //   container.scrollTo({
-      //     top: 0,
-      //     behavior: 'smooth',
-      //   })
-      // },
+      handleScrollTo() {
+        const container = document.getElementById('log-viewer');
+        container.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        });
+      },
 
       handleSetCluster(cluster) {
         this.cluster = cluster;
@@ -564,6 +581,32 @@
         position: relative;
         top: 3px;
       }
+    }
+
+    &__btn {
+      bottom: 20px;
+      right: 20px;
+      z-index: 15;
+      height: 45px;
+      width: 45px;
+      border-radius: 45px;
+    }
+  }
+
+  #log-viewer {
+    height: calc(100vh / 0.95);
+    overflow: auto;
+    &::-webkit-scrollbar {
+      display: block !important;
+    }
+    &::-webkit-scrollbar-thumb {
+      width: 10px;
+      border-radius: 5px;
+      background: grey;
+      box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    }
+    &::-webkit-scrollbar:vertical {
+      width: 10px;
     }
   }
 </style>
