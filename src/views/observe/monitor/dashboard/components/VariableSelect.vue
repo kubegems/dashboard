@@ -92,7 +92,6 @@
 
 <script>
   import messages from '../../i18n';
-  import { getMetricsLabelValues } from '@/api';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
@@ -101,14 +100,6 @@
       messages: messages,
     },
     props: {
-      date: {
-        type: Array,
-        default: () => [],
-      },
-      env: {
-        type: Object,
-        default: () => null,
-      },
       offsetY: {
         type: Number,
         default: () => 0,
@@ -116,6 +107,10 @@
       variable: {
         type: String,
         default: () => '',
+      },
+      variableValues: {
+        type: Array,
+        default: () => [],
       },
     },
     data() {
@@ -146,7 +141,17 @@
       variable: {
         handler(newValue) {
           if (newValue) {
-            this.monitorGlobalVariable();
+            const items = this.variableValues.map((d) => {
+              return {
+                value: d,
+                active: false,
+              };
+            });
+            this.variableItems = items;
+            this.variableItemsCopy = items;
+          } else {
+            this.variableItems = [];
+            this.variableItemsCopy = [];
           }
         },
         deep: true,
@@ -154,23 +159,6 @@
       },
     },
     methods: {
-      async monitorGlobalVariable() {
-        const data = await getMetricsLabelValues(this.env?.clusterName, this.env?.environmentName, {
-          noprocessing: true,
-          label: this.variable,
-          expr: `{namespace="${this.env?.namespace}"}`,
-          start: this.$moment(this.date[0]).utc().format(),
-          end: this.$moment(this.date[1]).utc().format(),
-        });
-        const items = data.map((d) => {
-          return {
-            value: d,
-            active: false,
-          };
-        });
-        this.variableItems = items;
-        this.variableItemsCopy = items;
-      },
       onSearch() {
         if (this.search) {
           this.variableItemsCopy = this.variableItems.filter((v) => {
@@ -188,6 +176,7 @@
         );
         this.$emit('input', this.labelpairs);
         this.$emit('change', this.labelpairs);
+        this.$emit('loadMetrics');
         this.menu = false;
       },
       reset() {

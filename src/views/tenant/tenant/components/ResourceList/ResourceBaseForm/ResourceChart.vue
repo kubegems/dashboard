@@ -15,80 +15,87 @@
 -->
 
 <template>
-  <v-row>
-    <v-col class="py-0" cols="4">
-      <BaseRadialBarChart
-        class="my-3"
-        :label-show="false"
-        :metrics="cpuSeries"
-        :title="$root.$t('resource.cpu')"
-        :total="quota ? quota.Cpu : 0"
-        unit="core"
-        :val="quota ? quota.UsedCpu : 0"
-      />
-    </v-col>
-    <v-col class="py-0" cols="4">
-      <BaseRadialBarChart
-        class="my-3"
-        :label-show="false"
-        :metrics="memorySeries"
-        :title="$root.$t('resource.memory')"
-        :total="quota ? quota.Memory : 0"
-        unit="Gi"
-        :val="quota ? quota.UsedMemory : 0"
-      />
-    </v-col>
-    <v-col class="py-0" cols="4">
-      <BaseRadialBarChart
-        class="my-3"
-        :label-show="false"
-        :metrics="storageSeries"
-        :title="$root.$t('resource.storage')"
-        :total="quota ? quota.Storage : 0"
-        unit="Gi"
-        :val="quota ? quota.UsedStorage : 0"
-      />
-    </v-col>
-
-    <v-col v-if="nvidia" class="py-0" cols="4">
-      <BaseRadialBarChart
-        class="my-3"
-        :label-show="false"
-        :metrics="nvidiaSeries"
-        :title="`Nvidia ${$root.$t('resource.gpu')}`"
-        :total="quota ? quota.NvidiaGpu : 0"
-        unit="gpu"
-        :val="quota ? quota.UsedNvidiaGpu : 0"
-      />
-    </v-col>
-
-    <template v-if="tke">
+  <div>
+    <v-row>
       <v-col class="py-0" cols="4">
         <BaseRadialBarChart
           class="my-3"
           :label-show="false"
-          :metrics="tkeSeries"
-          :title="`Tke ${$root.$t('resource.gpu')}`"
-          :total="quota ? quota.TkeGpu : 0"
-          unit=""
-          :val="quota ? quota.UsedTkeGpu : 0"
+          :metrics="cpuSeries"
+          :title="$root.$t('resource.cpu')"
+          :total="quota ? quota.Cpu : 0"
+          unit="core"
+          :val="quota ? quota.UsedCpu : 0"
         />
       </v-col>
       <v-col class="py-0" cols="4">
         <BaseRadialBarChart
           class="my-3"
           :label-show="false"
-          :metrics="tkeMemorySeries"
-          :title="`Tke ${$root.$t('resource.video_memory')}`"
-          :total="quota ? quota.TkeMemory : 0"
-          unit=""
-          :val="quota ? quota.UsedTkeMemory : 0"
+          :metrics="memorySeries"
+          :title="$root.$t('resource.memory')"
+          :total="quota ? quota.Memory : 0"
+          unit="Gi"
+          :val="quota ? quota.UsedMemory : 0"
         />
       </v-col>
-    </template>
-  </v-row>
+      <v-col class="py-0" cols="4">
+        <BaseRadialBarChart
+          class="my-3"
+          :label-show="false"
+          :metrics="storageSeries"
+          :title="$root.$t('resource.storage')"
+          :total="quota ? quota.Storage : 0"
+          unit="Gi"
+          :val="quota ? quota.UsedStorage : 0"
+        />
+      </v-col>
+
+      <v-col v-if="nvidia && showMore" class="py-0" cols="4">
+        <BaseRadialBarChart
+          class="my-3"
+          :label-show="false"
+          :metrics="nvidiaSeries"
+          :title="`Nvidia ${$root.$t('resource.gpu')}`"
+          :total="quota ? quota.NvidiaGpu : 0"
+          unit="gpu"
+          :val="quota ? quota.UsedNvidiaGpu : 0"
+        />
+      </v-col>
+
+      <template v-if="tke && showMore">
+        <v-col class="py-0" cols="4">
+          <BaseRadialBarChart
+            class="my-3"
+            :label-show="false"
+            :metrics="tkeSeries"
+            :title="`Tke ${$root.$t('resource.gpu')}`"
+            :total="quota ? quota.TkeGpu : 0"
+            unit=""
+            :val="quota ? quota.UsedTkeGpu : 0"
+          />
+        </v-col>
+        <v-col class="py-0" cols="4">
+          <BaseRadialBarChart
+            class="my-3"
+            :label-show="false"
+            :metrics="tkeMemorySeries"
+            :title="`Tke ${$root.$t('resource.video_memory')}`"
+            :total="quota ? quota.TkeMemory : 0"
+            unit=""
+            :val="quota ? quota.UsedTkeMemory : 0"
+          />
+        </v-col>
+      </template>
+    </v-row>
+
+    <div v-if="tke || nvidia" class="text-center mt-3">
+      <v-btn color="primary" small text @click="showMore = !showMore">
+        {{ showMore ? `${$root.$t('tip.hide')} GPU` : `${$root.$t('tip.show')} GPU` }}
+      </v-btn>
+    </div>
+  </div>
 </template>
-
 <script>
   import messages from '../../../i18n';
 
@@ -110,6 +117,11 @@
         type: Boolean,
         default: () => false,
       },
+    },
+    data() {
+      return {
+        showMore: false,
+      };
     },
     computed: {
       cpuSeries() {

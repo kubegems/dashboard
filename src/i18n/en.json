@@ -513,7 +513,9 @@
     "503": "Service unavailable",
     "504": "Server response timeout",
     "unknown_error": "Unknown error",
-    "start_end": "Start Time And End Time"
+    "start_end": "Start Time And End Time",
+    "show": "Show",
+    "hide": "Hide"
   },
   "tab": {
     "overview": "Overview",

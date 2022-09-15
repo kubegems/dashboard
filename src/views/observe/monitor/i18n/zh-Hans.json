@@ -69,7 +69,8 @@
     "endpoint_config": "端点配置",
     "endpoint": "端点",
     "port_type": "端口类型",
-    "global_var": "全局变量"
+    "global_var": "全局变量",
+    "global_var_val": "变量值"
   },
   "tab": {
     "generate_from_template": "由模版生成",

@@ -23,7 +23,7 @@
     @reset="reset"
   >
     <template #content>
-      <component :is="formComponent" :ref="formComponent" :edit="true" :item="item" />
+      <component :is="formComponent" :ref="formComponent" :edit="true" :env="environment" :item="item" />
     </template>
     <template #action>
       <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateDashboard">
