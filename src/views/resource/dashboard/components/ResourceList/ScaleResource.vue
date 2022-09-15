@@ -95,13 +95,13 @@
           'requests.storage': item.Storage,
         };
         if (item.NvidiaGpu) {
-          content['limits.nvidia.com/gpu'] = item.NowNvidiaGpu;
+          content['limits.nvidia.com/gpu'] = item.AllocatedNvidiaGpu;
         }
         if (item.TkeGpu) {
-          content['tencent.com/vcuda-core'] = item.TkeGpu;
+          content['tencent.com/vcuda-core'] = item.AllocatedTkeGpu;
         }
         if (item.TkeMemory) {
-          content['tencent.com/vcuda-memory'] = item.TkeMemory;
+          content['tencent.com/vcuda-memory'] = item.AllocatedTkeMemory;
         }
         if (this.item.TenantResourceQuotaApply && this.item.TenantResourceQuotaApply.Status === 'pending') {
           const data = await getTenantResourceApplyDetail(this.item.TenantID, this.item.TenantResourceQuotaApplyID);

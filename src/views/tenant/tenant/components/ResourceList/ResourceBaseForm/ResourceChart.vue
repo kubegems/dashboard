@@ -15,30 +15,38 @@
 -->
 
 <template>
-  <v-row>
-    <v-col class="py-0" cols="4">
-      <VueApexCharts height="230" :options="cpuOptions" :series="cpuSeries" type="radialBar" />
-    </v-col>
-    <v-col class="py-0" cols="4">
-      <VueApexCharts height="230" :options="memoryOptions" :series="memorySeries" type="radialBar" />
-    </v-col>
-    <v-col class="py-0" cols="4">
-      <VueApexCharts height="230" :options="storageOptions" :series="storageSeries" type="radialBar" />
-    </v-col>
-
-    <v-col v-if="nvidia" class="py-0" cols="4">
-      <VueApexCharts height="230" :options="nvidiaOptions" :series="nvidiaSeries" type="radialBar" />
-    </v-col>
-
-    <template v-if="tke">
+  <div>
+    <v-row>
       <v-col class="py-0" cols="4">
-        <VueApexCharts height="230" :options="tkeOptions" :series="tkeSeries" type="radialBar" />
+        <VueApexCharts height="230" :options="cpuOptions" :series="cpuSeries" type="radialBar" />
       </v-col>
       <v-col class="py-0" cols="4">
-        <VueApexCharts height="230" :options="tkeMemoryOptions" :series="tkeMemorySeries" type="radialBar" />
+        <VueApexCharts height="230" :options="memoryOptions" :series="memorySeries" type="radialBar" />
       </v-col>
-    </template>
-  </v-row>
+      <v-col class="py-0" cols="4">
+        <VueApexCharts height="230" :options="storageOptions" :series="storageSeries" type="radialBar" />
+      </v-col>
+
+      <v-col v-if="nvidia && showMore" class="py-0" cols="4">
+        <VueApexCharts height="230" :options="nvidiaOptions" :series="nvidiaSeries" type="radialBar" />
+      </v-col>
+
+      <template v-if="tke && showMore">
+        <v-col class="py-0" cols="4">
+          <VueApexCharts height="230" :options="tkeOptions" :series="tkeSeries" type="radialBar" />
+        </v-col>
+        <v-col class="py-0" cols="4">
+          <VueApexCharts height="230" :options="tkeMemoryOptions" :series="tkeMemorySeries" type="radialBar" />
+        </v-col>
+      </template>
+    </v-row>
+
+    <div v-if="tke || nvidia" class="text-center mt-3">
+      <v-btn color="primary" small text @click="showMore = !showMore">
+        {{ showMore ? `隐藏 GPU` : `显示 GPU` }}
+      </v-btn>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -64,6 +72,11 @@
         type: Boolean,
         default: () => false,
       },
+    },
+    data() {
+      return {
+        showMore: false,
+      };
     },
     computed: {
       cpuSeries() {
