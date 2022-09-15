@@ -133,7 +133,16 @@
         </v-row>
       </v-card-text>
 
-      <template v-if="nvidia || tke">
+      <v-switch
+        v-if="nvidia || tke"
+        v-model="canSetGpu"
+        class="mx-2"
+        dense
+        hide-details
+        :label="$t('resource.tip.gpu_resource_limit')"
+      />
+
+      <template v-if="canSetGpu">
         <BaseSubTitle :title="$t('resource.tip.gpu_resource_limit')" />
         <v-card-text class="px-0 pb-2">
           <v-row class="mx-0">
@@ -158,7 +167,9 @@
                   type="number"
                 >
                   <template #append>
-                    <span class="text-body-2 kubegems__text"> Gpu </span>
+                    <span class="text-body-2 kubegems__text">
+                      {{ $t('resource.tip.limit', [$root.$t('resource.gpu')]) }}
+                    </span>
                   </template>
                 </v-text-field>
               </v-sheet>
@@ -266,6 +277,7 @@
     data() {
       return {
         valid: false,
+        canSetGpu: false,
         obj: {
           ClusterID: null,
           TenantID: null,
@@ -355,7 +367,17 @@
         return this.$refs.form.validate(true);
       },
       getData() {
-        return this.obj;
+        const data = deepCopy(this.obj);
+        if (!canSetGpu) {
+          if (this.nvidia) {
+            delete data.Content['limits.nvidia.com/gpu'];
+          }
+          if (this.tke) {
+            delete data.Content['tencent.com/vcuda-core'];
+            delete data.Content['tencent.com/vcuda-memory'];
+          }
+        }
+        return data;
       },
       setContent(data) {
         this.obj.Content = deepCopy(data);

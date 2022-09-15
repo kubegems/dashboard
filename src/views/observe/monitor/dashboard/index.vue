@@ -19,7 +19,14 @@
     <BaseBreadcrumb class="dash__header">
       <template #extend>
         <v-flex class="kubegems__full-right">
-          <VariableSelect ref="variableSelect" v-model="labelpairs" :date="date" :env="env" :variable="variable" />
+          <VariableSelect
+            :key="variableKey"
+            ref="variableSelect"
+            v-model="labelpairs"
+            :variable="variable"
+            :variable-values="variableValues"
+            @loadMetrics="loadMetrics"
+          />
           <ProjectEnvSelectCascade v-model="env" first :offset-y="4" reverse :tenant="tenant" />
 
           <BaseDatetimePicker v-model="date" :default-value="30" :offset-y="0" @change="onDatetimeChange(undefined)" />
@@ -179,6 +186,7 @@
     putUpdateMonitorDashboard,
   } from '@/api';
   import BasePermission from '@/mixins/permission';
+  import { randomString } from '@/utils/helpers';
   import ProjectEnvSelectCascade from '@/views/observe/components/ProjectEnvSelectCascade';
 
   export default {
@@ -214,6 +222,8 @@
         missingPlugins: [],
         env: undefined,
         variable: undefined,
+        variableValues: [],
+        variableKey: '',
         labelpairs: {},
       };
     },
@@ -244,15 +254,6 @@
         deep: true,
         immediate: true,
       },
-      labelpairs: {
-        handler(newValue) {
-          if (Object.keys(newValue).length > 0) {
-            this.loadMetrics();
-          }
-        },
-        deep: true,
-        immediate: true,
-      },
     },
     mounted() {
       this.$nextTick(() => {
@@ -263,6 +264,7 @@
           });
           return;
         }
+        this.variableKey = randomString(4);
         this.tenant = this.Tenant();
         this.params.start = this.$moment(this.date[0]).utc().format();
         this.params.end = this.$moment(this.date[1]).utc().format();
@@ -278,6 +280,9 @@
         const dashboard = this.items[this.tab];
         if (dashboard.variables && Object.keys(dashboard.variables).length > 0) {
           this.variable = Object.keys(dashboard.variables)[0];
+          this.variableValues = dashboard.variables[this.variable].split(',').filter((v) => {
+            return Boolean(v);
+          });
         }
 
         if (this.items?.length > 0 && this.items[this.tab] && this.items[this.tab].graphs) {
@@ -422,6 +427,7 @@
       onTabChange() {
         this.$refs.variableSelect.reset();
         this.labelpairs = {};
+        this.variableKey = randomString(4);
         this.loadMetrics();
         this.$router.replace({
           query: {

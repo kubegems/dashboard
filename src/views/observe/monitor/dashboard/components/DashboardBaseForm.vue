@@ -23,7 +23,32 @@
           <v-text-field v-model="obj.name" class="my-0" :label="$t('tip.name')" required :rules="objRules.nameRule" />
         </v-col>
         <v-col cols="12">
-          <v-text-field v-model="variables" class="my-0" :label="$t('tip.global_var')" required />
+          <v-text-field
+            v-model="variables"
+            class="my-0"
+            :label="$t('tip.global_var')"
+            required
+            @keyup="inputVariable"
+          />
+        </v-col>
+        <v-col cols="12">
+          <v-autocomplete
+            v-model="variableVal"
+            class="my-0"
+            color="primary"
+            hide-selected
+            :items="varItems"
+            :label="$t('tip.global_var_val')"
+            multiple
+            :no-data-text="$root.$t('data.no_data')"
+            :rules="objRules.variableValRule"
+          >
+            <template #selection="{ item }">
+              <v-chip close close-icon="mdi-close-circle" color="primary" label small @click:close="removeVal(item)">
+                <span class="pr-2">{{ item.text }}</span>
+              </v-chip>
+            </template>
+          </v-autocomplete>
         </v-col>
         <template v-if="!edit">
           <v-col cols="12">
@@ -49,7 +74,7 @@
 
 <script>
   import messages from '../../i18n';
-  import { getMonitorDashboardTemplate } from '@/api';
+  import { getMonitorDashboardTemplate, getMetricsLabelValues } from '@/api';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
@@ -63,6 +88,10 @@
         type: Boolean,
         default: () => false,
       },
+      env: {
+        type: Object,
+        default: () => null,
+      },
       item: {
         type: Object,
         default: () => null,
@@ -73,7 +102,9 @@
         valid: false,
         tamplate: false,
         templateItems: [],
+        varItems: [],
         variables: '',
+        variableVal: [],
         obj: {
           name: '',
           template: '',
@@ -82,7 +113,9 @@
         objRules: {
           nameRule: [required],
           templateRule: [required],
+          variableValRule: [required],
         },
+        inputTimeout: null,
       };
     },
     watch: {
@@ -93,6 +126,10 @@
             const keys = this.obj.variables ? Object.keys(this.obj.variables) : [];
             if (keys.length > 0) {
               this.variables = keys[0];
+              this.variableVal = this.obj.variables[this.variables].split(',').filter((v) => {
+                return Boolean(v);
+              });
+              this.monitorGlobalVariable();
             }
           }
         },
@@ -113,6 +150,29 @@
           });
         }
       },
+      inputVariable() {
+        if (this.inputTimeout) {
+          clearTimeout(this.inputTimeout);
+        }
+        this.inputTimeout = setTimeout(() => {
+          this.monitorGlobalVariable();
+          clearTimeout(this.inputTimeout);
+        }, 200);
+      },
+      async monitorGlobalVariable() {
+        const data = await getMetricsLabelValues(this.env?.clusterName, this.env?.environmentName, {
+          noprocessing: true,
+          label: this.variables,
+          expr: `{namespace="${this.env?.namespace}"}`,
+        });
+        const items = data.map((d) => {
+          return {
+            text: d,
+            value: d,
+          };
+        });
+        this.varItems = items;
+      },
       validate() {
         return this.$refs.form.validate(true);
       },
@@ -120,12 +180,20 @@
         if (!this.obj.variables) {
           this.obj.variables = {};
         }
-        this.obj.variables[this.variables] = '';
+        this.obj.variables[this.variables] = this.variableVal.join(',');
         return this.obj;
       },
       reset() {
         this.$refs.form.resetValidation();
         this.obj = this.$options.data().obj;
+      },
+      removeVal(item) {
+        const index = this.variableVal.findIndex((v) => {
+          return v === item.value;
+        });
+        if (index > -1) {
+          this.variableVal.splice(index, 1);
+        }
       },
     },
   };
