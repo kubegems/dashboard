@@ -11,7 +11,8 @@
     "install": "有効",
     "install_c": "{0} を有効にする",
     "uninstall": "アンインストール",
-    "uninstall_c": "{0} のアンインストール"
+    "uninstall_c": "{0} のアンインストール",
+    "check_upgrade": "プラグインバージョンの確認"
   },
   "status": {
     "deploying": "展開中",

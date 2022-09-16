@@ -18,6 +18,15 @@
   <v-container fluid>
     <BaseViewportHeader />
     <BaseBreadcrumb />
+    <!-- <template #extend>
+        <v-flex class="kubegems__full-right">
+          <v-btn class="primary--text" small text>
+            <v-icon left small> mdi-arrow-up-bold </v-icon>
+            {{ $t('operate.check_upgrade') }}
+          </v-btn>
+        </v-flex>
+      </template>
+    </BaseBreadcrumb> -->
     <v-card>
       <v-card-text class="pa-3">
         <v-tabs v-model="tab" class="rounded-t" height="30">

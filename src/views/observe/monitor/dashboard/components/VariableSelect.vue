@@ -144,7 +144,7 @@
             const items = this.variableValues.map((d) => {
               return {
                 value: d,
-                active: false,
+                active: true,
               };
             });
             this.variableItems = items;
