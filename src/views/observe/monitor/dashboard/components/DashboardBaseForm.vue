@@ -160,7 +160,7 @@
         }, 200);
       },
       async monitorGlobalVariable() {
-        const data = await getMetricsLabelValues(this.env?.clusterName, this.env?.environmentName, {
+        const data = await getMetricsLabelValues(this.env?.clusterName, this.env?.namespace, {
           noprocessing: true,
           label: this.variables,
           expr: `{namespace="${this.env?.namespace}"}`,
