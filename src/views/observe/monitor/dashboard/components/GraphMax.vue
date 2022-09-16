@@ -53,21 +53,23 @@
             </v-autocomplete>
           </v-col>
         </v-row>
-        <BaseAreaChart
-          id="max"
-          chart-type="line"
-          :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-          colorful
-          :extend-height="height"
-          :global-plugins-check="false"
-          horizontal-align="left"
-          label="all"
-          :metrics="metrics"
-          single-tooptip
-          title=""
-          type=""
-          :unit="graph.promqlGenerator ? getUnit(graph.promqlGenerator.unit) : getUnit(graph.unit)"
-        />
+        <div class="mx-2">
+          <BaseAreaChart
+            chart-type="line"
+            :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
+            colorful
+            :extend-height="height"
+            :global-plugins-check="false"
+            horizontal-align="left"
+            label="all"
+            legend-align="start"
+            :metrics="metrics"
+            single-tooptip
+            title=""
+            type=""
+            :unit="graph.promqlGenerator ? getUnit(graph.promqlGenerator.unit) : getUnit(graph.unit)"
+          />
+        </div>
       </v-card>
     </template>
   </BaseFullScreenDialog>

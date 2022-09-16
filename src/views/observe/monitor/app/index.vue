@@ -47,6 +47,7 @@
           <v-card class="pa-2">
             <BaseAreaChart
               id="error_rate"
+              begin-at-zero
               chart-type="line"
               :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
               colorful

@@ -16,7 +16,7 @@
 
 <template>
   <div :style="{ height: `${extendHeight}px`, position: 'relative', width: width }">
-    <canvas v-if="mustCheckPremission" :id="id" />
+    <canvas v-if="mustCheckPremission" :id="chartId" />
     <div v-else class="text-center kubegems__full-center">
       {{ $root.$t('plugin.missing', ['monitoring']) }}
     </div>
@@ -25,8 +25,9 @@
 
 <script>
   import Chart from 'chart.js/auto';
-  import moment from 'moment';
   import { mapState } from 'vuex';
+
+  import { randomString } from '@/utils/helpers';
 
   export default {
     name: 'BaseAreaChart',
@@ -34,6 +35,10 @@
       id: {
         type: String,
         default: () => '',
+      },
+      beginAtZero: {
+        type: Boolean,
+        default: () => false,
       },
       chartType: {
         type: String,
@@ -66,6 +71,10 @@
       labelShow: {
         type: Boolean,
         default: () => true,
+      },
+      legendAlign: {
+        type: String,
+        default: () => 'center',
       },
       metrics: {
         type: Array,
@@ -113,6 +122,7 @@
           timecost: ['us', 'ms', 's'],
           reqrate: ['req/s'],
         },
+        chartId: '',
       };
     },
     computed: {
@@ -127,7 +137,7 @@
           if (newValue) {
             if (!this.mustCheckPremission) return;
             if (!this.chart) {
-              const ctx = document.getElementById(this.id).getContext('2d');
+              const ctx = document.getElementById(this.chartId).getContext('2d');
               this.chart = new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -150,6 +160,28 @@
                         usePointStyle: true,
                         pointStyleWidth: 10,
                         boxHeight: 7,
+                      },
+                      align: this.legendAlign,
+                      onClick: (e, legendItem, legend) => {
+                        const index = legendItem.datasetIndex;
+                        const ci = legend.chart;
+                        if (ci.isDatasetVisible(index)) {
+                          ci.hide(index);
+                          legendItem.hidden = true;
+                        } else {
+                          ci.show(index);
+                          legendItem.hidden = false;
+                        }
+                        legend.legendItems.forEach((item) => {
+                          const index = item.datasetIndex;
+                          if (ci.isDatasetVisible(index)) {
+                            ci.hide(index);
+                            item.hidden = true;
+                          } else {
+                            ci.show(index);
+                            item.hidden = false;
+                          }
+                        });
                       },
                     },
                     tooltip: {
@@ -176,13 +208,7 @@
                     mode: 'index',
                   },
                   scales: {
-                    xAxis: {
-                      display: !this.sample,
-                      grid: {
-                        display: false,
-                      },
-                    },
-                    yAxis: {
+                    y: {
                       display: !this.sample,
                       grid: {
                         borderDash: [8, 8, 8],
@@ -193,6 +219,14 @@
                           return this.formatter(value);
                         },
                         maxTicksLimit: 8,
+                      },
+                      beginAtZero: this.beginAtZero,
+                      max: this.type === 'percent' || ['0-100', '0.0-1.0'].indexOf(this.unit) > -1 ? 100 : null,
+                    },
+                    x: {
+                      display: !this.sample,
+                      grid: {
+                        display: false,
                       },
                     },
                   },
@@ -206,6 +240,15 @@
         },
         deep: true,
       },
+    },
+    mounted() {
+      this.$nextTick(() => {
+        if (this.id) {
+          this.chartId = this.id;
+        } else {
+          this.chartId = randomString(4);
+        }
+      });
     },
     methods: {
       getOrCreateTooltip(chart) {
@@ -323,7 +366,7 @@
           return {
             label: this.getMetricName(m, index),
             data: m.values.map((v) => {
-              return { x: moment(new Date(v[0] * 1000)).format('LTS'), y: v[1] };
+              return { x: this.$moment(new Date(v[0] * 1000)).format('LTS'), y: v[1] };
             }),
             borderColor:
               this.color.length > 0

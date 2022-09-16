@@ -11,7 +11,8 @@
     "install": "启用",
     "install_c": "启用{0}",
     "uninstall": "卸载",
-    "uninstall_c": "卸载{0}"
+    "uninstall_c": "卸载{0}",
+    "check_upgrade": "检查插件版本"
   },
   "status": {
     "deploying": "部署中",
