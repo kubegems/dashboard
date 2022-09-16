@@ -139,7 +139,7 @@
     },
     methods: {
       async monitorServiceLabels() {
-        const data = await getMetricsLabelValues(this.env?.clusterName, this.env?.environmentName, {
+        const data = await getMetricsLabelValues(this.env?.clusterName, this.env?.namespace, {
           noprocessing: true,
           label: 'service',
           expr: `gems_otel_calls_total{namespace="${this.env?.namespace}"}`,
