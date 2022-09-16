@@ -47,7 +47,8 @@
     "other": "其他",
     "config": "{0}配置",
     "base_config": "基本配置",
-    "plugin_type": "插件类型"
+    "plugin_type": "插件类型",
+    "no_log_data": "暂无日志数据"
   },
   "operate": {
     "download_log": "下载日志",
@@ -66,9 +67,7 @@
     "enable": "启用",
     "disable": "禁用",
     "enable_c": "启用{0}",
-    "disable_c": "禁用{0}",
-
-    "no_log_data": "暂无日志数据"
+    "disable_c": "禁用{0}"
   },
   "table": {
     "name": "名称",
