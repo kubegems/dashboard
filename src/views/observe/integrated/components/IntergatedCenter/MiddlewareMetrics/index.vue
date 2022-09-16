@@ -227,7 +227,7 @@
       async deployMiddlewareMetricsServiceMonitor() {
         if (this.$refs.form.validate(true) && this.$refs.jsonSchema.validate()) {
           if (this.env?.projectid && this.env?.value) {
-            const appName = this.obj.appName;
+            const appName = `${this.obj.appName}-obs-${this.randomStr}`;
             if (Object.prototype.hasOwnProperty.call(this.appValues, 'nameOverride')) {
               this.appValues.nameOverride = appName;
             }
@@ -235,7 +235,7 @@
               this.appValues.fullnameOverride = appName;
             }
             const data = {
-              name: `${appName}-obs-${this.randomStr}`,
+              name: appName,
               project_id: this.env?.projectid,
               environment_id: this.env?.value,
               repoURL: this.chart.repo || 'kubegems_online_store',
@@ -328,7 +328,7 @@
       },
       async getServiceMonitorStatus() {
         this.loading = true;
-        const data = await getServiceMonitorStatus(this.env.clusterName, this.env.environmentName, {
+        const data = await getServiceMonitorStatus(this.env.clusterName, this.env.namespace, {
           service: this.appValues.nameOverride,
         });
         this.loading = false;
