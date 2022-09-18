@@ -23,13 +23,24 @@
           <v-text-field v-model="obj.name" class="my-0" :label="$t('tip.name')" required :rules="objRules.nameRule" />
         </v-col>
         <v-col cols="12">
-          <v-text-field
+          <v-autocomplete
             v-model="variables"
             class="my-0"
+            color="primary"
+            hide-selected
+            :items="variableItems"
             :label="$t('tip.global_var')"
-            required
-            @keyup="inputVariable"
-          />
+            :no-data-text="$root.$t('data.no_data')"
+            :search-input.sync="variableText"
+            @change="onVariableChange"
+            @keyup.enter="inputVariable"
+          >
+            <template #selection="{ item }">
+              <v-chip close-icon="mdi-close-circle" color="primary" small>
+                <span>{{ item.text }}</span>
+              </v-chip>
+            </template>
+          </v-autocomplete>
         </v-col>
         <v-col cols="12">
           <v-autocomplete
@@ -41,10 +52,9 @@
             :label="$t('tip.global_var_val')"
             multiple
             :no-data-text="$root.$t('data.no_data')"
-            :rules="objRules.variableValRule"
           >
             <template #selection="{ item }">
-              <v-chip close close-icon="mdi-close-circle" color="primary" label small @click:close="removeVal(item)">
+              <v-chip close close-icon="mdi-close-circle" color="primary" small @click:close="removeVal(item)">
                 <span class="pr-2">{{ item.text }}</span>
               </v-chip>
             </template>
@@ -105,6 +115,12 @@
         varItems: [],
         variables: '',
         variableVal: [],
+        variableItems: [
+          { text: 'service', value: 'service' },
+          { text: 'pod', value: 'pod' },
+          { text: 'container', value: 'container' },
+        ],
+        variableText: '',
         obj: {
           name: '',
           template: '',
@@ -113,7 +129,6 @@
         objRules: {
           nameRule: [required],
           templateRule: [required],
-          variableValRule: [required],
         },
         inputTimeout: null,
       };
@@ -151,6 +166,17 @@
         }
       },
       inputVariable() {
+        if (
+          this.variableItems.findIndex((v) => {
+            return v.value === this.variableText.trim();
+          }) === -1
+        ) {
+          this.variableItems.push({ text: this.variableText.trim(), value: this.variableText.trim() });
+          this.variables = this.variableText.trim();
+          this.onVariableChange();
+        }
+      },
+      onVariableChange() {
         if (this.inputTimeout) {
           clearTimeout(this.inputTimeout);
         }
@@ -186,6 +212,8 @@
       reset() {
         this.$refs.form.resetValidation();
         this.obj = this.$options.data().obj;
+        this.variableVal = [];
+        this.variables = '';
       },
       removeVal(item) {
         const index = this.variableVal.findIndex((v) => {
