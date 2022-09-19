@@ -66,7 +66,7 @@
     computed: {
       ...mapState(['Scale']),
       height() {
-        return window.innerHeight - 64;
+        return (window.innerHeight - 64) / 2 + (this.data.length / 2) * 20;
       },
     },
     watch: {
@@ -103,7 +103,9 @@
       onDatetimeChange() {
         this.logRate();
       },
-      dispose() {},
+      dispose() {
+        this.data = [];
+      },
     },
   };
 </script>
