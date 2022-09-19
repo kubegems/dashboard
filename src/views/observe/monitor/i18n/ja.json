@@ -65,7 +65,8 @@
     "endpoint": "エンドポイント",
     "port_type": "ポートの種類",
     "global_var": "グローバル変数",
-    "global_var_val": "変数値"
+    "global_var_val": "変数値",
+    "global_var_tip": "グローバル変数は、監視アイコンで監視データをフィルタリングするために使用されます"
   },
   "tab": {
     "generate_from_template": "テンプレート生成",

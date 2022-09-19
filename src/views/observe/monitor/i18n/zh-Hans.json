@@ -70,7 +70,8 @@
     "endpoint": "端点",
     "port_type": "端口类型",
     "global_var": "全局变量",
-    "global_var_val": "变量值"
+    "global_var_val": "变量值",
+    "global_var_tip": "全局变量用来过滤监控图标中的监控数据"
   },
   "tab": {
     "generate_from_template": "由模版生成",

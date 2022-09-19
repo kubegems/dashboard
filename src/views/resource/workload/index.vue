@@ -582,7 +582,7 @@
       },
       isTke(item) {
         return item.spec.template.spec.containers.some((c) => {
-          return c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda'];
+          return c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda-core'];
         });
       },
       isNvidia(item) {

@@ -2867,6 +2867,11 @@ chart.js@^3.9.1:
   resolved "https://registry.npmmirror.com/chart.js/-/chart.js-3.9.1.tgz#3abf2c775169c4c71217a107163ac708515924b8"
   integrity sha512-Ro2JbLmvg83gXF5F4sniaQ+lTbSv18E+TIf2cOeiH1Iqd2PGFOtem+DUufMZsCJwFE7ywPOpfXFBwRTGq7dh6w==
 
+chartjs-adapter-moment@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npmmirror.com/chartjs-adapter-moment/-/chartjs-adapter-moment-1.0.0.tgz#9174b1093c68bcfe285aff24f7388ad60d44e8f7"
+  integrity sha512-PqlerEvQcc5hZLQ/NQWgBxgVQ4TRdvkW3c/t+SUEQSj78ia3hgLkf2VZ2yGJtltNbEEFyYGm+cA6XXevodYvWA==
+
 chartjs-plugin-doughnutlabel-v3@^1.2.0:
   version "1.2.0"
   resolved "https://registry.npmmirror.com/chartjs-plugin-doughnutlabel-v3/-/chartjs-plugin-doughnutlabel-v3-1.2.0.tgz#e1a40d048ca7cc0143cdace9138ca8e5ded8fadb"
