@@ -17,6 +17,7 @@
 <template>
   <div class="mx-2">
     <v-textarea
+      id="log_ql_global"
       ref="advanceTextarea"
       v-model="ql"
       auto-grow
@@ -168,6 +169,13 @@
       },
       focusInput() {
         const vue = this;
+        if (
+          this.originRangeFunctions.some((o) => {
+            return this.ql.indexOf(o.text) > -1;
+          })
+        ) {
+          return;
+        }
         setTimeout(() => {
           vue.suggestShow = true;
         }, 350);
@@ -223,6 +231,13 @@
         this.$refs.advanceTextarea.focus();
       },
       async onSuggestionInput(e) {
+        if (this.suggestTop <= this.$refs.advanceTextarea.$el.clientHeight + 250) {
+          const enters = [...this.ql.matchAll(new RegExp('\n', 'g'))];
+          this.suggestTop = 190 + 30 * enters.length;
+        } else {
+          this.suggestTop = this.$refs.advanceTextarea.$el.clientHeight + 4;
+        }
+
         if (!this.cluster.value) {
           this.$store.commit('SET_SNACKBAR', {
             text: this.$root.$t('tip.select_project_environment'),
@@ -230,12 +245,7 @@
           });
           return;
         }
-        // this.suggestTop = this.$refs.advanceTextarea.$el.clientHeight + 4
-        if (this.suggestTop <= this.$refs.advanceTextarea.$el.clientHeight + 90) {
-          this.suggestTop = e.key === 'Enter' ? this.suggestTop + 25 : this.suggestTop;
-        } else {
-          this.suggestTop = this.$refs.advanceTextarea.$el.clientHeight + 4;
-        }
+
         const p = e.srcElement.selectionStart;
         if (e.keyCode > 32 && e.keyCode <= 200) {
           this.keyword += e.key;

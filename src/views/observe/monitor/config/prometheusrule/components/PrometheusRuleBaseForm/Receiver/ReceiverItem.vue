@@ -57,7 +57,7 @@
           <v-list-item-subtitle class="text-body-2 py-0 text-center">
             <v-btn color="primary" text @click="expandCard">
               <v-icon left small> mdi-plus </v-icon>
-              {{ $root.$t('add_c', [$root.$t('resource.receiver')]) }}
+              {{ $root.$t('operate.add_c', [$root.$t('resource.receiver')]) }}
             </v-btn>
           </v-list-item-subtitle>
         </v-list-item-content>

@@ -15,37 +15,40 @@
 -->
 
 <template>
-  <BasePanel v-model="panel" icon="mdi-bell" :title="$t('tip.event')" @dispose="dispose">
+  <BasePanel v-model="panel" icon="mdi-bell" :title="$t('table.log_rate')" @dispose="dispose">
     <template #action>
       <BaseDatetimePicker v-model="date" color="primary" :default-value="60" @change="onDatetimeChange(undefined)" />
     </template>
     <template #content>
-      <v-tabs v-model="tab" class="rounded-t pa-0 v-tabs--default" fixed-tabs height="45">
-        <v-tab v-for="t in tabItems" :key="t.value">
-          {{ t.text }}
-        </v-tab>
-      </v-tabs>
-      <div class="d-flex flex-column mt-0">
-        <component :is="tabItems[tab].value" :data="data" :date="date" @loadData="eventList" />
+      <div class="d-flex flex-column mt-0 mx-2">
+        <BaseAreaChart
+          chart-type="line"
+          :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
+          colorful
+          :extend-height="height"
+          label="all"
+          legend-align="left"
+          :metrics="data"
+          single-tooptip
+          title=""
+          type=""
+          unit=""
+        />
       </div>
     </template>
   </BasePanel>
 </template>
 
 <script>
-  import messages from '../../../i18n';
-  import Chart from './Chart';
-  import EventList from './EventList';
-  import { getEventListFromLoki } from '@/api';
+  import { mapState } from 'vuex';
+
+  import messages from '../../i18n';
+  import { getMetricsQueryrange } from '@/api';
 
   export default {
-    name: 'K8sEvents',
+    name: 'LogRateChart',
     i18n: {
       messages: messages,
-    },
-    components: {
-      Chart,
-      EventList,
     },
     props: {
       env: {
@@ -56,24 +59,21 @@
     data() {
       return {
         panel: false,
-        data: null,
+        data: [],
         date: [],
-        tab: 0,
       };
     },
     computed: {
-      tabItems() {
-        return [
-          { text: this.$t('tab.event_chart'), value: 'Chart' },
-          { text: this.$t('tab.event_list'), value: 'EventList' },
-        ];
+      ...mapState(['Scale']),
+      height() {
+        return window.innerHeight - 64;
       },
     },
     watch: {
       env: {
         handler(newValue) {
           if (newValue) {
-            this.eventList();
+            this.logRate();
           }
         },
         deep: true,
@@ -83,19 +83,25 @@
       open() {
         this.panel = true;
       },
-      async eventList() {
-        let query = '{container="event-exporter", stream="stdout"} | json | __error__=``';
-        query += ` | line_format "{{.metadata_namespace}}" |= "${this.env.namespace}"`;
-        const data = await getEventListFromLoki(this.env.clusterName, {
-          query: query,
-          limit: 3000,
-          start: `${this.date[0]}000000`,
-          end: `${this.date[1]}000000`,
+      async logRate() {
+        let data = await getMetricsQueryrange(this.env.clusterName, this.env.namespace, {
+          start: this.$moment(this.date[0]).utc().format(),
+          end: this.$moment(this.date[1]).utc().format(),
+          resource: 'log',
+          rule: 'logCount',
+          scope: 'containers',
         });
-        this.data = data || [];
+        if (data?.length > 30) {
+          this.$store.commit('SET_SNACKBAR', {
+            text: this.$t('tip.limit_30'),
+            color: 'warning',
+          });
+          data = data.slice(0, 30);
+        }
+        this.data = data;
       },
       onDatetimeChange() {
-        this.eventList();
+        this.logRate();
       },
       dispose() {},
     },

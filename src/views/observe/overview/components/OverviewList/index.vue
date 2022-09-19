@@ -53,6 +53,10 @@
       <template #[`item.status`]="{ item }">
         <StatusTag :l="item.logging" :m="item.monitoring" :s="item.serviceMesh" />
       </template>
+      <template #[`item.logRate`]="{ item }">
+        {{ item.logRate }}
+        <v-icon color="primary" small @click="onShowLogRate(item)"> mdi-chart-line </v-icon>
+      </template>
       <template #[`item.eventCount`]="{ item }">
         {{ item.eventCount }}
         <v-icon color="primary" small @click="onShowEvents(item)"> mdi-chart-pie </v-icon>
@@ -110,6 +114,7 @@
     />
 
     <K8sEvents ref="k8sEvents" :env="env" />
+    <LogRateChart ref="logRateChart" :env="env" />
   </v-card>
 </template>
 
@@ -117,6 +122,7 @@
   import messages from '../../i18n';
   import Duration from './Duration';
   import K8sEvents from './K8sEvents';
+  import LogRateChart from './LogRateChart';
   import ProjectSelect from './ProjectSelect';
   import StatusTag from './StatusTag';
   import { getEnvironmentObservability } from '@/api';
@@ -130,6 +136,7 @@
     components: {
       Duration,
       K8sEvents,
+      LogRateChart,
       ProjectSelect,
       StatusTag,
     },
@@ -217,6 +224,10 @@
       onShowEvents(item) {
         this.env = item;
         this.$refs.k8sEvents.open();
+      },
+      onShowLogRate(item) {
+        this.env = item;
+        this.$refs.logRateChart.open();
       },
       // async linkToAlertRule(item) {
       //   await this.$router.push({

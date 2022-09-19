@@ -21,7 +21,8 @@
     "time": "时间",
     "error_info": "错误信息",
     "event_source": "事件源",
-    "event_type": "事件类型"
+    "event_type": "事件类型",
+    "event": "Kubernetes 事件"
   },
   "table": {
     "label": "标签",

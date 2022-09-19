@@ -21,7 +21,8 @@
     "time": "時間",
     "error_info": "エラーメッセージ",
     "event_source": "イベントソース",
-    "event_type": "イベントタイプ"
+    "event_type": "イベントタイプ",
+    "event": "Kubernetes イベントタイプ"
   },
   "table": {
     "label": "タグ",

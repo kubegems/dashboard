@@ -17,7 +17,7 @@
 <template>
   <div :style="{ height: `${extendHeight}px`, position: 'relative', width: width }">
     <canvas v-if="mustCheckPremission" :id="chartId" />
-    <div v-else class="text-center kubegems__full-center">
+    <div v-else class="text-center kubegems__full-center text-body-2">
       {{ $root.$t('plugin.missing', ['monitoring']) }}
     </div>
   </div>
@@ -136,94 +136,7 @@
       metrics: {
         handler(newValue) {
           if (newValue) {
-            if (!this.mustCheckPremission) return;
-            if (!this.chart) {
-              const ctx = document.getElementById(this.chartId).getContext('2d');
-              this.chart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                  labels: this.labels,
-                  datasets: this.loadDatasets(),
-                },
-                options: {
-                  responsive: true,
-                  maintainAspectRatio: false,
-                  plugins: {
-                    title: {
-                      align: 'start',
-                      display: true,
-                      text: this.title,
-                    },
-                    legend: {
-                      display: this.labelShow && !this.sample,
-                      position: 'bottom',
-                      labels: {
-                        usePointStyle: true,
-                        pointStyleWidth: 10,
-                        boxHeight: 7,
-                      },
-                      align: this.legendAlign,
-                    },
-                    tooltip: {
-                      enabled: !this.singleTooptip,
-                      usePointStyle: true,
-                      boxWidth: 8,
-                      boxHeight: 8,
-                      boxPadding: 4,
-                      callbacks: {
-                        label: (tooltipItem) => {
-                          return `${tooltipItem.dataset.label} : ${this.formatter(
-                            tooltipItem.dataset.data[tooltipItem.dataIndex].y,
-                          )}`;
-                        },
-                      },
-                      external: this.singleTooptip ? this.externalTooltipHandler : null,
-                      mode: this.singleTooptip ? 'nearest' : 'index',
-                    },
-                  },
-                  radius: 0,
-                  borderWidth: this.chartType === 'line' ? 2 : 1,
-                  interaction: {
-                    intersect: false,
-                    mode: 'index',
-                  },
-                  scales: {
-                    y: {
-                      display: !this.sample,
-                      grid: {
-                        borderDash: [8, 8, 8],
-                        drawBorder: false,
-                      },
-                      ticks: {
-                        callback: (value) => {
-                          return this.formatter(value);
-                        },
-                        maxTicksLimit: 8,
-                      },
-                      beginAtZero: this.beginAtZero,
-                      max: this.type === 'percent' || ['0-100', '0.0-1.0'].indexOf(this.unit) > -1 ? 100 : null,
-                    },
-                    x: {
-                      display: !this.sample,
-                      grid: {
-                        display: false,
-                      },
-                      type: 'timeseries',
-                      time: {
-                        unit: 'second',
-                        displayFormats: {
-                          second: 'HH:mm:ss',
-                        },
-                        tooltipFormat: 'YYYY-MM-DD HH:mm:ss',
-                      },
-                    },
-                  },
-                },
-              });
-            } else {
-              this.chart.data = { datasets: this.loadDatasets() };
-              this.chart.update('none');
-            }
+            this.loadChart();
           }
         },
         deep: true,
@@ -236,9 +149,105 @@
         } else {
           this.chartId = randomString(4);
         }
+        const interval = setInterval(() => {
+          if (document.getElementById(this.chartId)) {
+            clearInterval(interval);
+            this.loadChart();
+          }
+        }, 300);
       });
     },
     methods: {
+      loadChart() {
+        if (!this.mustCheckPremission) return;
+        if (!this.chart) {
+          const ctx = document.getElementById(this.chartId).getContext('2d');
+          this.chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: this.labels,
+              datasets: this.loadDatasets(),
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                title: {
+                  align: 'start',
+                  display: true,
+                  text: this.title,
+                },
+                legend: {
+                  display: this.labelShow && !this.sample,
+                  position: 'bottom',
+                  labels: {
+                    usePointStyle: true,
+                    pointStyleWidth: 10,
+                    boxHeight: 7,
+                  },
+                  align: this.legendAlign,
+                },
+                tooltip: {
+                  enabled: !this.singleTooptip,
+                  usePointStyle: true,
+                  boxWidth: 8,
+                  boxHeight: 8,
+                  boxPadding: 4,
+                  callbacks: {
+                    label: (tooltipItem) => {
+                      return `${tooltipItem.dataset.label} : ${this.formatter(
+                        tooltipItem.dataset.data[tooltipItem.dataIndex].y,
+                      )}`;
+                    },
+                  },
+                  external: this.singleTooptip ? this.externalTooltipHandler : null,
+                  mode: this.singleTooptip ? 'nearest' : 'index',
+                },
+              },
+              radius: 0,
+              borderWidth: this.chartType === 'line' ? 2 : 1,
+              interaction: {
+                intersect: false,
+                mode: 'index',
+              },
+              scales: {
+                y: {
+                  display: !this.sample,
+                  grid: {
+                    borderDash: [8, 8, 8],
+                    drawBorder: false,
+                  },
+                  ticks: {
+                    callback: (value) => {
+                      return this.formatter(value);
+                    },
+                    maxTicksLimit: 8,
+                  },
+                  beginAtZero: this.beginAtZero,
+                  max: this.type === 'percent' || ['0-100', '0.0-1.0'].indexOf(this.unit) > -1 ? 100 : null,
+                },
+                x: {
+                  display: !this.sample,
+                  grid: {
+                    display: false,
+                  },
+                  type: 'timeseries',
+                  time: {
+                    unit: 'second',
+                    displayFormats: {
+                      second: 'HH:mm:ss',
+                    },
+                    tooltipFormat: 'YYYY-MM-DD HH:mm:ss',
+                  },
+                },
+              },
+            },
+          });
+        } else {
+          this.chart.data = { datasets: this.loadDatasets() };
+          this.chart.update('none');
+        }
+      },
       getOrCreateTooltip(chart) {
         let tooltipEl = chart.canvas.parentNode.querySelector('div');
 
