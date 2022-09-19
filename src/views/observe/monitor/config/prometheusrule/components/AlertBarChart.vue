@@ -34,10 +34,6 @@
         type: Number,
         default: () => 250,
       },
-      label: {
-        type: String,
-        default: () => null,
-      },
       metrics: {
         type: Array,
         default: () => [],
@@ -70,28 +66,16 @@
     },
     methods: {
       async loadData() {
-        let series = [];
-        series = series.concat(
+        this.series = this.series.concat(
           this.metrics.map((metricAndValues) => {
             return {
-              lable:
-                metricAndValues.metric && JSON.stringify(metricAndValues.metric) !== '{}'
-                  ? this.label
-                    ? metricAndValues.metric[this.label]
-                    : Object.values(metricAndValues.metric)[0]
-                  : this.$route.params.name,
+              label: metricAndValues.metric.name,
               data: metricAndValues.values.map((v) => {
                 return { x: this.$moment(new Date(v[0])).format('LTS'), y: v[1] };
               }),
             };
           }),
         );
-        const timeout = setTimeout(() => {
-          if (this.$refs.vueApexCharts) {
-            this.$refs.vueApexCharts.updateSeries(series, false, true);
-          }
-          clearTimeout(timeout);
-        }, 200);
       },
     },
   };

@@ -90,10 +90,10 @@
       tke() {
         if (
           this.item?.spec?.containers?.some((c) => {
-            return c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda'];
+            return c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda-core'];
           }) ||
           this.item?.spec?.template?.spec?.containers?.some((c) => {
-            return c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda'];
+            return c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda-core'];
           })
         ) {
           return true;

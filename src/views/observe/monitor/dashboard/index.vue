@@ -97,7 +97,7 @@
           :cols="4"
         >
           <v-card class="kubegems__full-height" flat>
-            <v-card-text class="pa-2 kubegems__full-height">
+            <v-card-text class="px-2 py-0 kubegems__full-height">
               <div class="dash__btn">
                 <v-btn icon small @click.stop="openGraphInMaxScreen(graph)">
                   <v-icon color="primary" small> mdi-magnify-plus </v-icon>
@@ -474,7 +474,7 @@
     &__btn {
       position: absolute;
       right: 5px;
-      top: 6px;
+      top: 5px;
       z-index: 1;
     }
   }

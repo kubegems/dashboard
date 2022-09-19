@@ -19,7 +19,6 @@
     v-model="menu"
     bottom
     :close-on-content-click="false"
-    content-class="menu"
     max-height="450px"
     min-width="275px"
     nudge-bottom="5px"
@@ -39,7 +38,7 @@
           :style="{ marginTop: `${offsetY}px` }"
           v-on="on"
         >
-          {{ variable }} {{ showText() }}
+          {{ $t('tip.global_var') }}{{ variable }} {{ showText() }}
           <v-icon v-if="menu" right> mdi-chevron-up </v-icon>
           <v-icon v-else right> mdi-chevron-down </v-icon>
         </v-btn>
@@ -223,10 +222,5 @@
         word-break: break-all !important;
       }
     }
-  }
-
-  .menu {
-    right: 10px !important;
-    left: auto !important;
   }
 </style>

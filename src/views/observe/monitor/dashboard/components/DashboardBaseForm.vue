@@ -22,44 +22,6 @@
         <v-col cols="12">
           <v-text-field v-model="obj.name" class="my-0" :label="$t('tip.name')" required :rules="objRules.nameRule" />
         </v-col>
-        <v-col cols="12">
-          <v-autocomplete
-            v-model="variables"
-            class="my-0"
-            color="primary"
-            hide-selected
-            :items="variableItems"
-            :label="$t('tip.global_var')"
-            :no-data-text="$root.$t('data.no_data')"
-            :search-input.sync="variableText"
-            @change="onVariableChange"
-            @keyup.enter="inputVariable"
-          >
-            <template #selection="{ item }">
-              <v-chip close-icon="mdi-close-circle" color="primary" small>
-                <span>{{ item.text }}</span>
-              </v-chip>
-            </template>
-          </v-autocomplete>
-        </v-col>
-        <v-col cols="12">
-          <v-autocomplete
-            v-model="variableVal"
-            class="my-0"
-            color="primary"
-            hide-selected
-            :items="varItems"
-            :label="$t('tip.global_var_val')"
-            multiple
-            :no-data-text="$root.$t('data.no_data')"
-          >
-            <template #selection="{ item }">
-              <v-chip close close-icon="mdi-close-circle" color="primary" small @click:close="removeVal(item)">
-                <span class="pr-2">{{ item.text }}</span>
-              </v-chip>
-            </template>
-          </v-autocomplete>
-        </v-col>
         <template v-if="!edit">
           <v-col cols="12">
             <v-switch v-model="tamplate" hide-details :label="$t('tip.from_template')" />
@@ -74,7 +36,67 @@
               :label="$t('tip.template')"
               :no-data-text="$root.$t('data.no_data')"
               :rules="objRules.templateRule"
-            />
+            >
+              <template #item="{ item }">
+                <BaseLogo class="mr-2" :icon-name="item.value" :ml="0" :mt="1" :width="20" />
+                {{ item.text }}
+              </template>
+              <template #selection="{ item }">
+                <v-chip color="primary" small>
+                  <BaseLogo class="mr-2" :icon-name="item.value" :ml="0" :mt="1" :width="20" />
+                  {{ item.text }}
+                </v-chip>
+              </template>
+            </v-autocomplete>
+          </v-col>
+        </template>
+
+        <v-col cols="12">
+          <v-switch v-model="globalVariable" class="float-left" hide-details :label="$t('tip.global_var')" />
+          <span class="orange--text ml-2">
+            <v-icon color="orange" right small> mdi-information-variant </v-icon>
+            {{ $t('tip.global_var_tip') }}
+          </span>
+        </v-col>
+
+        <template v-if="globalVariable">
+          <v-col cols="12">
+            <v-autocomplete
+              v-model="variables"
+              class="my-0"
+              color="primary"
+              hide-selected
+              :items="variableItems"
+              :label="$t('tip.global_var')"
+              :no-data-text="$root.$t('data.no_data')"
+              :search-input.sync="variableText"
+              @change="onVariableChange"
+              @keyup.enter="inputVariable"
+            >
+              <template #selection="{ item }">
+                <v-chip color="primary" small>
+                  <span>{{ item.text }}</span>
+                </v-chip>
+              </template>
+            </v-autocomplete>
+          </v-col>
+          <v-col cols="12">
+            <v-autocomplete
+              v-model="variableVal"
+              class="my-0"
+              color="primary"
+              hide-selected
+              :items="varItems"
+              :label="$t('tip.global_var_val')"
+              multiple
+              :no-data-text="$root.$t('data.no_data')"
+            >
+              <template #selection="{ item }">
+                <v-chip close close-icon="mdi-close-circle" color="primary" small @click:close="removeVal(item)">
+                  <span class="pr-2">{{ item.text }}</span>
+                </v-chip>
+              </template>
+            </v-autocomplete>
           </v-col>
         </template>
       </v-row>
@@ -131,6 +153,7 @@
           templateRule: [required],
         },
         inputTimeout: null,
+        globalVariable: false,
       };
     },
     watch: {

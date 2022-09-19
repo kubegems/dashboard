@@ -37,6 +37,7 @@
     "apexcharts": "^3.35.5",
     "axios": "^0.27.2",
     "chart.js": "^3.9.1",
+    "chartjs-adapter-moment": "^1.0.0",
     "chartjs-plugin-doughnutlabel-v3": "^1.2.0",
     "core-js": "^3.6.5",
     "fast-json-patch": "^3.1.1",

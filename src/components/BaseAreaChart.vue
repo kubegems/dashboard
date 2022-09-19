@@ -26,6 +26,7 @@
 <script>
   import Chart from 'chart.js/auto';
   import { mapState } from 'vuex';
+  import 'chartjs-adapter-moment';
 
   import { randomString } from '@/utils/helpers';
 
@@ -162,27 +163,6 @@
                         boxHeight: 7,
                       },
                       align: this.legendAlign,
-                      onClick: (e, legendItem, legend) => {
-                        const index = legendItem.datasetIndex;
-                        const ci = legend.chart;
-                        if (ci.isDatasetVisible(index)) {
-                          ci.hide(index);
-                          legendItem.hidden = true;
-                        } else {
-                          ci.show(index);
-                          legendItem.hidden = false;
-                        }
-                        legend.legendItems.forEach((item) => {
-                          const index = item.datasetIndex;
-                          if (ci.isDatasetVisible(index)) {
-                            ci.hide(index);
-                            item.hidden = true;
-                          } else {
-                            ci.show(index);
-                            item.hidden = false;
-                          }
-                        });
-                      },
                     },
                     tooltip: {
                       enabled: !this.singleTooptip,
@@ -227,6 +207,14 @@
                       display: !this.sample,
                       grid: {
                         display: false,
+                      },
+                      type: 'timeseries',
+                      time: {
+                        unit: 'second',
+                        displayFormats: {
+                          second: 'HH:mm:ss',
+                        },
+                        tooltipFormat: 'YYYY-MM-DD HH:mm:ss',
                       },
                     },
                   },
@@ -366,7 +354,7 @@
           return {
             label: this.getMetricName(m, index),
             data: m.values.map((v) => {
-              return { x: this.$moment(new Date(v[0] * 1000)).format('LTS'), y: v[1] };
+              return { x: this.$moment(new Date(v[0] * 1000)), y: v[1] };
             }),
             borderColor:
               this.color.length > 0
@@ -381,8 +369,8 @@
                 ? this.$LINE_THEME_FUL_COLORS[index % 10]
                 : this.$LINE_THEME_COLORS[index % 12],
             fill: this.chartType === 'area',
-            cubicInterpolationMode: 'monotone',
-            tension: 0.4,
+            cubicInterpolationMode: 'default',
+            tension: 0.5,
           };
         });
 
