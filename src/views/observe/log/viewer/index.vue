@@ -259,7 +259,7 @@
       onDateChange() {
         if (this.cluster.value) {
           this.$refs.logQuery.getSeriesList();
-          this.$refs.logQuery.search();
+          // this.$refs.logQuery.search();
         }
       },
 
