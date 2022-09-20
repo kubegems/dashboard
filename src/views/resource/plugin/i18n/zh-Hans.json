@@ -5,14 +5,18 @@
     "desc": "简介",
     "version": "版本",
     "laset_version": "最新版本",
-    "enable_plugin": "请先启用组件"
+    "enable_plugin": "请先启用组件",
+    "select_version": "请选择新版本",
+    "category": "类别",
+    "repository": "仓库地址"
   },
   "operate": {
     "install": "启用",
     "install_c": "启用{0}",
     "uninstall": "卸载",
     "uninstall_c": "卸载{0}",
-    "check_upgrade": "检查插件版本"
+    "check_upgrade": "检查组件版本",
+    "upgrade": "升级"
   },
   "status": {
     "deploying": "部署中",
@@ -21,5 +25,10 @@
   "tab": {
     "core": "核心组件",
     "kubernetes": "Kubernetes组件"
+  },
+  "table": {
+    "name": "组件名称",
+    "installed_version": "已安装版本",
+    "upgrade_version": "可升级版本"
   }
 }
