@@ -26,8 +26,7 @@
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
           colorful
           :extend-height="height"
-          label="all"
-          legend-align="left"
+          label="pod"
           :metrics="data"
           single-tooptip
           title=""
