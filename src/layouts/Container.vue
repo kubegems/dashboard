@@ -25,7 +25,7 @@
       <div class="text-start notice">
         <span v-for="(item, index) in Broadcast" :key="index" class="px-1">
           <v-icon color="white">mdi-volume-high</v-icon>
-          <span v-html="parseLink(item.message)" />
+          <span class="ml-2" v-html="parseLink(item.message)" />
         </span>
       </div>
     </v-system-bar>
@@ -49,7 +49,10 @@
     methods: {
       parseLink(message) {
         const reg = new RegExp('(http[\\/:\\.-_\\w]*)', 'g');
-        return message.replaceAll(reg, `<a href="$1" target="_blank">$1</a>`);
+        return message.replaceAll(
+          reg,
+          `<a href="$1" target="_blank" style="text-decoration: underline;color: white;">$1</a>`,
+        );
       },
     },
   };
