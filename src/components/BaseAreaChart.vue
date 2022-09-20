@@ -124,6 +124,7 @@
           reqrate: ['req/s'],
         },
         chartId: '',
+        legendIndexs: [],
       };
     },
     computed: {
@@ -186,6 +187,27 @@
                     boxHeight: 7,
                   },
                   align: this.legendAlign,
+                  onClick: (e, legendItem, legend) => {
+                    const ci = legend.chart;
+                    const index = legendItem.datasetIndex;
+                    const legendIndex = this.legendIndexs.indexOf(index);
+                    if (legendIndex > -1) {
+                      this.legendIndexs.splice(legendIndex, 1);
+                    } else {
+                      this.legendIndexs.push(index);
+                    }
+
+                    legend.legendItems.forEach((item) => {
+                      const i = item.datasetIndex;
+                      if (this.legendIndexs.indexOf(i) > -1) {
+                        ci.show(i);
+                        item.hidden = false;
+                      } else {
+                        ci.hide(i);
+                        item.hidden = true;
+                      }
+                    });
+                  },
                 },
                 tooltip: {
                   enabled: !this.singleTooptip,
