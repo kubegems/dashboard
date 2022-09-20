@@ -8,7 +8,9 @@
     "enable_plugin": "はじめにウィジェットを有効にしてください",
     "select_version": "新しいバージョンを選択してください",
     "category": "カテゴリー",
-    "repository": "倉庫住所"
+    "repository": "倉庫住所",
+    "plugin_params": "プラグイン パラメータ",
+    "schema_form": "スキーマフォーム"
   },
   "operate": {
     "install": "有効",

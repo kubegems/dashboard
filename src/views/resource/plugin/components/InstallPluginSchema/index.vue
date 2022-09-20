@@ -14,7 +14,7 @@
  * limitations under the License. 
 -->
 <template>
-  <BaseFullScreenDialog v-model="dialog" kubegems-logo :title="$root.$t('header.model_store')" @dispose="dispose">
+  <BaseFullScreenDialog v-model="dialog" kubegems-logo :title="$t('tip.plugin_params')" @dispose="dispose">
     <template #content>
       <v-flex>
         <v-row class="mt-0 ma-0">
@@ -41,6 +41,7 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import PluginInfo from './PluginInfo';
   import SchemaRender from './SchemaRender';
   import { postEnablePlugin } from '@/api';
@@ -48,6 +49,9 @@
 
   export default {
     name: 'InstallPluginSchema',
+    i18n: {
+      messages: messages,
+    },
     components: {
       PluginInfo,
       SchemaRender,
@@ -79,7 +83,7 @@
       async installPlugin() {
         if (this.$refs.schemaRender.validate()) {
           const data = this.$refs.schemaRender.getData();
-          await postEnablePlugin(this.Cluster().ClusterName, this.item.name, data);
+          await postEnablePlugin(this.Cluster().ClusterName, this.plugin.name, data);
           this.dispose();
           this.$emit('refresh');
         }

@@ -8,7 +8,9 @@
     "enable_plugin": "Please enable components first",
     "select_version": "Please select new version",
     "category": "Category",
-    "repository": "Repository"
+    "repository": "Repository",
+    "plugin_params": "Plugin params",
+    "schema_form": "Schema Form"
   },
   "operate": {
     "install": "Enabled",
