@@ -55,7 +55,7 @@
       </template>
       <template #[`item.logRate`]="{ item }">
         {{ item.logRate }}
-        <v-icon color="primary" small @click="onShowLogRate(item)"> mdi-chart-line </v-icon>
+        <v-icon color="primary" small @click="onShowLogRate(item)"> mdi-chart-areaspline-variant </v-icon>
       </template>
       <template #[`item.eventCount`]="{ item }">
         {{ item.eventCount }}
