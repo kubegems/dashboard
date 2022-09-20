@@ -29,7 +29,6 @@
     </v-tabs>
 
     <BaseAreaChart
-      :id="`api${tab}`"
       :key="key"
       :ref="`tab${tab}`"
       :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
