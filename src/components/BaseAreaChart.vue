@@ -260,6 +260,7 @@
                       second: 'HH:mm:ss',
                     },
                     tooltipFormat: 'YYYY-MM-DD HH:mm:ss',
+                    stepSize: 200,
                   },
                 },
               },
@@ -332,7 +333,7 @@
             const td = document.createElement('td');
             td.style.borderWidth = 0;
 
-            const text = document.createTextNode(body);
+            const text = document.createTextNode(`${tooltip.title[0]} ${body}`);
 
             td.appendChild(span);
             td.appendChild(text);
