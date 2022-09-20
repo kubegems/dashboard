@@ -5,14 +5,18 @@
     "desc": "Introduction",
     "version": "Version",
     "laset_version": "Latest Version",
-    "enable_plugin": "Please enable components first"
+    "enable_plugin": "Please enable components first",
+    "select_version": "Please select new version",
+    "category": "Category",
+    "repository": "Repository"
   },
   "operate": {
     "install": "Enabled",
     "install_c": "Enable {0}",
     "uninstall": "Uninstall",
     "uninstall_c": "Uninstall {0}",
-    "check_upgrade": "Check plugin version"
+    "check_upgrade": "Check plugin version",
+    "upgrade": "Upgrade"
   },
   "status": {
     "deploying": "Deploying",
@@ -21,5 +25,10 @@
   "tab": {
     "core": "Core Component",
     "kubernetes": "Kubernetes Component"
+  },
+  "table": {
+    "name": "Plugin name",
+    "installed_version": "Installed version",
+    "upgrade_version": "Upgrade version"
   }
 }

@@ -5,14 +5,18 @@
     "desc": "はじめに",
     "version": "バージョン",
     "laset_version": "最新バージョン",
-    "enable_plugin": "はじめにウィジェットを有効にしてください"
+    "enable_plugin": "はじめにウィジェットを有効にしてください",
+    "select_version": "新しいバージョンを選択してください",
+    "category": "カテゴリー",
+    "repository": "倉庫住所"
   },
   "operate": {
     "install": "有効",
     "install_c": "{0} を有効にする",
     "uninstall": "アンインストール",
     "uninstall_c": "{0} のアンインストール",
-    "check_upgrade": "プラグインバージョンの確認"
+    "check_upgrade": "プラグインバージョンの確認",
+    "upgrade": "アップグレード"
   },
   "status": {
     "deploying": "展開中",
@@ -21,5 +25,10 @@
   "tab": {
     "core": "コアコンポーネント",
     "kubernetes": "Kubernetes コンポーネント"
+  },
+  "table": {
+    "name": "コンポーネント名",
+    "installed_version": "インストール済みバージョン",
+    "upgrade_version": "アップグレード版"
   }
 }

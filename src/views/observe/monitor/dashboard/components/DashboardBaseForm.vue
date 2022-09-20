@@ -84,7 +84,7 @@
 
 <script>
   import messages from '../../i18n';
-  import { getMonitorDashboardTemplate, getMetricsLabelValues } from '@/api';
+  import { getMetricsLabelValues, getMonitorDashboardTemplate } from '@/api';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 

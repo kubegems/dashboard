@@ -17,16 +17,16 @@
 <template>
   <v-container fluid>
     <BaseViewportHeader />
-    <BaseBreadcrumb />
-    <!-- <template #extend>
+    <BaseBreadcrumb>
+      <template #extend>
         <v-flex class="kubegems__full-right">
-          <v-btn class="primary--text" small text>
+          <v-btn class="primary--text" :loading="pluginUpdateLoading" small text @click="checkPluginUpdate">
             <v-icon left small> mdi-arrow-up-bold </v-icon>
             {{ $t('operate.check_upgrade') }}
           </v-btn>
         </v-flex>
       </template>
-    </BaseBreadcrumb> -->
+    </BaseBreadcrumb>
     <v-card>
       <v-card-text class="pa-3">
         <v-tabs v-model="tab" class="rounded-t" height="30">
@@ -73,49 +73,28 @@
                 <v-list-item>
                   <v-list-item-content>
                     <v-list-item-subtitle class="text-body-2 text--lighten-4">
-                      <v-flex :id="`${plugin.name}-${index}`" />
-                      {{ $t('tip.version') }} : {{ plugin.version }}
-                      <v-menu
-                        v-if="innerPlugins[plugin.name] && innerPlugins[plugin.name] !== plugin.version"
-                        :attach="`#${plugin.name}-${index}`"
-                        :close-delay="200"
-                        max-width="250px"
-                        nudge-bottom="-5px"
-                        offset-y
-                        open-on-hover
-                        origin="bottom center"
-                        right
-                        top
-                        transition="scale-transition"
-                      >
-                        <template #activator="{ on }">
-                          <v-icon color="warning" right small v-on="on"> mdi-arrow-up-bold-circle </v-icon>
-                        </template>
-                        <v-card>
-                          <v-list class="pa-0" dense>
-                            <v-flex class="text-body-2 text-center primary white--text py-2">
-                              <v-icon color="white" left small> mdi-alpha-v-circle </v-icon>
-                              <span>{{ $t('tip.version') }}</span>
-                            </v-flex>
-                            <v-list-item>
-                              <v-list-item-content>
-                                <v-list-item class="float-left pa-0" two-line>
-                                  <v-list-item-content class="py-0">
-                                    <v-list-item-title> {{ $t('tip.laset_version') }} </v-list-item-title>
-                                    <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
-                                      {{ innerPlugins[plugin.name] }}
-                                    </v-list-item-content>
-                                  </v-list-item-content>
-                                </v-list-item>
-                              </v-list-item-content>
-                            </v-list-item>
-                          </v-list>
-                        </v-card>
-                      </v-menu>
+                      <template v-if="getStatus(plugin).value === 'install' || plugin.upgradeableVersion">
+                        <div class="float-left plugins__install"> {{ $t('tip.version') }} : </div>
+                        <div class="float-left">
+                          <VersionSelect
+                            v-model="plugin.installedVersion"
+                            :installed-version="plugin.installedVersion"
+                            :versions="plugin.availableVersions"
+                            @change="onVersionChanged(plugin.installedVersion, plugin.name)"
+                          />
+                        </div>
+                      </template>
+                      <template v-else> {{ $t('tip.version') }} : {{ plugin.installedVersion }} </template>
+                      <template v-if="plugin.upgradeableVersion">
+                        <UpgradeTip :index="index" :plugin="plugin" />
+                      </template>
                     </v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
                 <v-flex class="float-right">
+                  <v-btn v-if="plugin.upgradeableVersion" color="primary" small text @click="upgradePlugin(plugin)">
+                    {{ $t('operate.upgrade') }}
+                  </v-btn>
                   <v-btn
                     v-if="plugin.enabled"
                     :color="getStatus(plugin).color"
@@ -126,7 +105,7 @@
                   >
                     {{ getStatus(plugin).text }}
                   </v-btn>
-                  <v-btn v-else-if="!plugin.skip" color="primary" small text @click="enablePlugin(plugin)">
+                  <v-btn v-else-if="!plugin.skip" color="primary" small text @click="upgradePlugin(plugin)">
                     {{ $t('operate.install') }}
                   </v-btn>
                 </v-flex>
@@ -143,14 +122,27 @@
       </v-row>
     </v-flex>
     <v-flex class="mb-2" />
+
+    <CheckPluginVersion ref="checkPluginVersion" />
+    <InstallPluginSchema ref="installPluginSchema" @refresh="pluginList" />
   </v-container>
 </template>
 
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import CheckPluginVersion from './components/CheckPluginVersion';
+  import InstallPluginSchema from './components/InstallPluginSchema';
+  import UpgradeTip from './components/UpgradeTip';
+  import VersionSelect from './components/VersionSelect';
   import messages from './i18n';
-  import { getClusterPluginsList, getPlatformVersion, postDisablePlugin, postEnablePlugin } from '@/api';
+  import {
+    deleteDisablePlugin,
+    getClusterPluginsDetail,
+    getClusterPluginsList,
+    getPlatformVersion,
+    postCheckPluginUpdate,
+  } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
 
@@ -159,6 +151,12 @@
     i18n: {
       messages: messages,
     },
+    components: {
+      CheckPluginVersion,
+      InstallPluginSchema,
+      UpgradeTip,
+      VersionSelect,
+    },
     mixins: [BasePermission, BaseResource],
     data: () => ({
       tab: 0,
@@ -166,6 +164,8 @@
       interval: null,
       apiVersion: null,
       uiVersion: null,
+      pluginUpdateLoading: false,
+      plugin: {},
     }),
     computed: {
       ...mapState(['JWT', 'AdminViewport', 'Locale']),
@@ -177,13 +177,6 @@
           return this.pluginDict.kubernetes || {};
         }
         return {};
-      },
-      innerPlugins() {
-        return {
-          kubegems: this.apiVersion,
-          'kubegems-local': this.apiVersion,
-          'kubegems-installer': this.apiVersion,
-        };
       },
       tabItems() {
         return [
@@ -245,21 +238,16 @@
           query: { namespace: plugin.namespace },
         });
       },
-      enablePlugin(plugin) {
-        this.$store.commit('SET_CONFIRM', {
-          title: this.$t('operate.install_c', [this.$root.$t('resource.plugin')]),
-          content: {
-            text: `${this.$t('operate.install_c', [this.$root.$t('resource.plugin')])} ${plugin.name}`,
-            type: 'confirm',
-          },
-          param: { plugin },
-          doFunc: async (param) => {
-            await postEnablePlugin(this.Cluster().ClusterName, param.plugin.name, {
-              type: this.tabItems[this.tab].value.toLocaleLowerCase(),
-            });
-            this.pluginList(true);
-          },
-        });
+      upgradePlugin(plugin) {
+        if (!this.plugin[plugin.name]) {
+          this.$store.commit('SET_SNACKBAR', {
+            text: this.$t('tip.select_version'),
+            color: 'warning',
+          });
+          return;
+        }
+        this.$refs.installPluginSchema.init(this.plugin[plugin.name]);
+        this.$refs.installPluginSchema.open();
       },
       disablePlugin(plugin) {
         if (plugin.enabled && !plugin.healthy) {
@@ -273,7 +261,7 @@
           },
           param: { plugin },
           doFunc: async (param) => {
-            await postDisablePlugin(this.Cluster().ClusterName, param.plugin.name, {
+            await deleteDisablePlugin(this.Cluster().ClusterName, param.plugin.name, {
               type: this.tabItems[this.tab].value.toLocaleLowerCase(),
             });
             this.pluginList(true);
@@ -282,19 +270,34 @@
       },
       getStatus(plugin) {
         if (plugin.enabled && !plugin.healthy) {
-          return { text: this.$t('status.deploying'), color: 'warning' };
+          return { text: this.$t('status.deploying'), color: 'warning', value: 'deploying' };
         } else if (plugin.enabled && plugin.required) {
-          return { text: this.$t('status.installed'), color: '' };
+          return { text: this.$t('status.installed'), color: '', value: 'installed' };
         } else if (plugin.enabled) {
-          return { text: this.$t('operate.uninstall'), color: 'error' };
+          return { text: this.$t('operate.uninstall'), color: 'error', value: 'uninstall' };
         } else {
-          return { text: this.$t('operate.install'), color: 'primary' };
+          return { text: this.$t('operate.install'), color: 'primary', value: 'install' };
         }
       },
       async platformVersion() {
         const data = await getPlatformVersion({ noprocessing: true });
         this.apiVersion = data?.GitVersion;
         this.uiVersion = process.env.VUE_APP_RELEASE;
+      },
+      async checkPluginUpdate() {
+        this.pluginUpdateLoading = true;
+        const data = await postCheckPluginUpdate(this.Cluster().ClusterName);
+        this.pluginUpdateLoading = false;
+        this.$refs.checkPluginVersion.init(data);
+        this.$refs.checkPluginVersion.open();
+        this.pluginList();
+      },
+      async onVersionChanged(version, name) {
+        const data = await getClusterPluginsDetail(this.Cluster().ClusterName, name, {
+          version: version,
+          noprocessing: true,
+        });
+        this.plugin[name] = data;
       },
     },
   };
@@ -343,6 +346,10 @@
       position: absolute;
       bottom: 0;
       width: 100%;
+    }
+
+    &__install {
+      line-height: 28px;
     }
   }
 </style>
