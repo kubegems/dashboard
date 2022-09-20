@@ -30,7 +30,7 @@
       <v-row>
         <v-col cols="6">
           <BaseAreaChart
-            id="cpu"
+            id="pod_cpu"
             label="container"
             :metrics="cpu"
             :title="$t('table.used', [$root.$t('resource.cpu')])"
@@ -39,7 +39,7 @@
         </v-col>
         <v-col cols="6">
           <BaseAreaChart
-            id="memory"
+            id="pod_memory"
             label="container"
             :metrics="memory"
             :title="$t('table.used', [$root.$t('resource.memory')])"
@@ -49,11 +49,17 @@
       </v-row>
       <v-row>
         <v-col cols="6">
-          <BaseAreaChart id="networkin" label="pod" :metrics="networkin" :title="$t('tip.in_traffic')" type="network" />
+          <BaseAreaChart
+            id="pod_networkin"
+            label="pod"
+            :metrics="networkin"
+            :title="$t('tip.in_traffic')"
+            type="network"
+          />
         </v-col>
         <v-col cols="6">
           <BaseAreaChart
-            id="networkout"
+            id="pod_networkout"
             label="pod"
             :metrics="networkout"
             :title="$t('tip.out_traffic')"
