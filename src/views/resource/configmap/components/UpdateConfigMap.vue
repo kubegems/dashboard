@@ -63,13 +63,15 @@
       ConfigMapBaseForm,
     },
     mixins: [BaseResource, ConfigmapSchema],
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      formComponent: 'ConfigMapBaseForm',
-      item: null,
-      switchKey: '',
-    }),
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        formComponent: 'ConfigMapBaseForm',
+        item: null,
+        switchKey: '',
+      };
+    },
     computed: {
       ...mapState(['Circular']),
     },

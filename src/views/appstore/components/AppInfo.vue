@@ -150,10 +150,12 @@
       },
     },
 
-    data: () => ({
-      selectVersionBind: '',
-      chartMenu: false,
-    }),
+    data() {
+      return {
+        selectVersionBind: '',
+        chartMenu: false,
+      };
+    },
     watch: {
       selectVersion() {
         this.selectVersionBind = this.selectVersion;

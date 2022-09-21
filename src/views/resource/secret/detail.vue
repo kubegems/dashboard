@@ -100,10 +100,12 @@
       UpdateSecret,
     },
     mixins: [BaseFilter, BasePermission, BaseResource],
-    data: () => ({
-      secret: null,
-      datas: [],
-    }),
+    data() {
+      return {
+        secret: null,
+        datas: [],
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Scale']),
       height() {

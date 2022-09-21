@@ -170,13 +170,15 @@
       messages: messages,
     },
     mixins: [BaseResource, BaseSelect],
-    data: () => ({
-      eventItems: [],
-      clusterName: '',
-      messageClass: ['event--collapse', 'event--collapse', 'event--collapse', 'event--collapse', 'event--collapse'],
-      eventMenu: false,
-      pluginPass: [],
-    }),
+    data() {
+      return {
+        eventItems: [],
+        clusterName: '',
+        messageClass: ['event--collapse', 'event--collapse', 'event--collapse', 'event--collapse', 'event--collapse'],
+        eventMenu: false,
+        pluginPass: [],
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Admin']),
       ...mapGetters(['Tenant']),

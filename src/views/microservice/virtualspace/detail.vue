@@ -86,9 +86,11 @@
       UpdateVirtualSpace,
     },
     mixins: [BasePermission],
-    data: () => ({
-      virtualspace: null,
-    }),
+    data() {
+      return {
+        virtualspace: null,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'AdminViewport']),
       ...mapGetters(['VirtualSpace']),

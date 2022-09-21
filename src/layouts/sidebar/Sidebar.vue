@@ -127,14 +127,16 @@
         default: false,
       },
     },
-    data: () => ({
-      module: {},
-      modules: [],
-      expand: false,
-      mouseovered: false,
-      hide: false,
-      mini: false,
-    }),
+    data() {
+      return {
+        module: {},
+        modules: [],
+        expand: false,
+        mouseovered: false,
+        hide: false,
+        mini: false,
+      };
+    },
     computed: {
       ...mapState(['SidebarColor', 'SidebarBg', 'AdminViewport', 'Scale', 'Plugins']),
       ...mapGetters(['VirtualSpace', 'Tenant', 'Environment', 'Project', 'Cluster']),

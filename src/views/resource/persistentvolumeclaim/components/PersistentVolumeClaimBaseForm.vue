@@ -206,31 +206,33 @@
         default: () => false,
       },
     },
-    data: () => ({
-      valid: false,
-      expand: false,
-      resourceKind: '',
-      accessMode: '',
-      obj: {
-        apiVersion: 'v1',
-        kind: 'PersistentVolumeClaim',
-        metadata: {
-          name: '',
-          namespace: null,
-          labels: {},
-          annotations: {},
-        },
-        spec: {
-          accessModes: [],
-          resources: {
-            requests: {
-              storage: '',
-            },
+    data() {
+      return {
+        valid: false,
+        expand: false,
+        resourceKind: '',
+        accessMode: '',
+        obj: {
+          apiVersion: 'v1',
+          kind: 'PersistentVolumeClaim',
+          metadata: {
+            name: '',
+            namespace: null,
+            labels: {},
+            annotations: {},
           },
-          storageClassName: '',
+          spec: {
+            accessModes: [],
+            resources: {
+              requests: {
+                storage: '',
+              },
+            },
+            storageClassName: '',
+          },
         },
-      },
-    }),
+      };
+    },
     computed: {
       ...mapState(['Admin', 'AdminViewport', 'ApiResources']),
       ...mapGetters(['Tenant', 'Cluster', 'Environment']),

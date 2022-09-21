@@ -29,9 +29,11 @@
         default: '',
       },
     },
-    data: () => ({
-      md: null,
-    }),
+    data() {
+      return {
+        md: null,
+      };
+    },
     computed: {
       html: function () {
         const res = this.md.render(this.content);

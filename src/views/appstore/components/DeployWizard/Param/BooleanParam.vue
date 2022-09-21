@@ -48,9 +48,11 @@
         default: () => {},
       },
     },
-    data: () => ({
-      myValue: false,
-    }),
+    data() {
+      return {
+        myValue: false,
+      };
+    },
     computed: {
       pathLevel() {
         return this.param.path.split('/').length;

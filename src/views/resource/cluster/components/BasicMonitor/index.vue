@@ -177,15 +177,17 @@
         default: () => null,
       },
     },
-    data: () => ({
-      timeinterval: null,
-      apiServerSuccessRate: [],
-      certInfo: {},
-      apiserver: null,
-      etcd: null,
-      scheduler: null,
-      controller: null,
-    }),
+    data() {
+      return {
+        timeinterval: null,
+        apiServerSuccessRate: [],
+        certInfo: {},
+        apiserver: null,
+        etcd: null,
+        scheduler: null,
+        controller: null,
+      };
+    },
     computed: {
       ...mapState(['Scale']),
       ...mapGetters(['Cluster']),

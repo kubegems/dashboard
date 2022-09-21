@@ -64,14 +64,16 @@
         default: () => [],
       },
     },
-    data: () => ({
-      valid: false,
-      resourceKind: '',
-      obj: {},
-      objRules: {
-        kindRule: [required],
-      },
-    }),
+    data() {
+      return {
+        valid: false,
+        resourceKind: '',
+        obj: {},
+        objRules: {
+          kindRule: [required],
+        },
+      };
+    },
     computed: {
       ...mapState(['AdminViewport']),
       ...mapGetters(['Project']),

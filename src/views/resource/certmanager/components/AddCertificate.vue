@@ -63,12 +63,14 @@
       CertificateBaseForm,
     },
     mixins: [BaseResource, CertmanagerSchema],
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      formComponent: 'CertificateBaseForm',
-      switchKey: '',
-    }),
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        formComponent: 'CertificateBaseForm',
+        switchKey: '',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'AdminViewport']),
     },

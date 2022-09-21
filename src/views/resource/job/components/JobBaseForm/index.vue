@@ -52,10 +52,12 @@
         default: () => 0,
       },
     },
-    data: () => ({
-      valid: false,
-      steps: ['JobBaseInfo', 'ContaninerImage', 'StorageMount', 'ScheduleSelector'],
-    }),
+    data() {
+      return {
+        valid: false,
+        steps: ['JobBaseInfo', 'ContaninerImage', 'StorageMount', 'ScheduleSelector'],
+      };
+    },
     computed: {
       obj() {
         return this.$refs[this.steps[this.step]].getData();

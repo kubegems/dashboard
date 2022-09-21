@@ -243,16 +243,18 @@
       GpuScheduleForm,
     },
     mixins: [BaseFilter, BasePermission, BaseResource],
-    data: () => ({
-      items: [],
-      pageCount: 0,
-      params: {
-        page: 1,
-        size: 10,
-      },
+    data() {
+      return {
+        items: [],
+        pageCount: 0,
+        params: {
+          page: 1,
+          size: 10,
+        },
 
-      interval: null,
-    }),
+        interval: null,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Plugins']),
       filters() {

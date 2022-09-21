@@ -82,13 +82,15 @@
         default: () => 'monitor',
       },
     },
-    data: () => ({
-      dialog: false,
-      formComponent: 'PrometheusRuleBaseForm',
-      step: 0,
-      totalStep: 2,
-      generator: undefined,
-    }),
+    data() {
+      return {
+        dialog: false,
+        formComponent: 'PrometheusRuleBaseForm',
+        step: 0,
+        totalStep: 2,
+        generator: undefined,
+      };
+    },
     computed: {
       ...mapState(['Circular', 'AdminViewport']),
       ...mapGetters(['Project', 'Environment']),

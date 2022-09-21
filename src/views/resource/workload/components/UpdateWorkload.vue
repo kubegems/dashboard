@@ -113,16 +113,18 @@
         default: () => null,
       },
     },
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      formComponent: 'WorkloadBaseForm',
-      item: null,
-      kind: '',
-      step: 0,
-      totalStep: 5,
-      switchKey: '',
-    }),
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        formComponent: 'WorkloadBaseForm',
+        item: null,
+        kind: '',
+        step: 0,
+        totalStep: 5,
+        switchKey: '',
+      };
+    },
     computed: {
       ...mapState(['Circular']),
     },

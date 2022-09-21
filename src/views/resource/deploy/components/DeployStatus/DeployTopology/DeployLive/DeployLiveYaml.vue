@@ -42,9 +42,11 @@
         default: () => null,
       },
     },
-    data: () => ({
-      kubeyaml: '',
-    }),
+    data() {
+      return {
+        kubeyaml: '',
+      };
+    },
     computed: {
       ...mapState(['Scale']),
       height() {

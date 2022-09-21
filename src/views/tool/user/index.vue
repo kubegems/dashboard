@@ -106,9 +106,11 @@
       MessageBox,
       OwnerSetting,
     },
-    data: () => ({
-      tab: 0,
-    }),
+    data() {
+      return {
+        tab: 0,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'User', 'Admin']),
       tabItems() {

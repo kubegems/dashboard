@@ -194,20 +194,22 @@
     components: {
       Reply,
     },
-    data: () => ({
-      commentItems: [],
-      replyItems: [],
-      pageCount: 0,
-      params: {
-        page: 1,
-        size: 10,
-        noprocessing: true,
-        withRepliesCount: true,
-      },
-      expandIndex: [],
-      offsetTop: 0,
-      loading: false,
-    }),
+    data() {
+      return {
+        commentItems: [],
+        replyItems: [],
+        pageCount: 0,
+        params: {
+          page: 1,
+          size: 10,
+          noprocessing: true,
+          withRepliesCount: true,
+        },
+        expandIndex: [],
+        offsetTop: 0,
+        loading: false,
+      };
+    },
     computed: {
       ...mapState(['Scale', 'User']),
       height() {

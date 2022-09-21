@@ -48,12 +48,14 @@
       IstioVirtualServiceBaseForm,
     },
     mixins: [BaseResource, IstioVirtualServiceSchema],
-    data: () => ({
-      dialog: false,
-      yaml: null,
-      item: null,
-      formComponent: 'BaseYamlForm',
-    }),
+    data() {
+      return {
+        dialog: false,
+        yaml: null,
+        item: null,
+        formComponent: 'BaseYamlForm',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'EnvironmentFilter']),
     },

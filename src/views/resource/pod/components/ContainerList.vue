@@ -222,10 +222,12 @@
         default: () => null,
       },
     },
-    data: () => ({
-      status: '',
-      containerStatusesCopy: [],
-    }),
+    data() {
+      return {
+        status: '',
+        containerStatusesCopy: [],
+      };
+    },
     computed: {
       ...mapState(['AdminViewport']),
       headers() {

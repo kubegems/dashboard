@@ -192,15 +192,17 @@
     },
     mixins: [BaseFilter, BasePermission, BaseResource, BaseSelect, BaseTable],
     inject: ['reload'],
-    data: () => ({
-      items: [],
-      itemsCopy: [],
-      tenant: -1,
-      params: {},
-      page: 1,
-      pageCount: 0,
-      itemsPerPage: 10,
-    }),
+    data() {
+      return {
+        items: [],
+        itemsCopy: [],
+        tenant: -1,
+        params: {},
+        page: 1,
+        pageCount: 0,
+        itemsPerPage: 10,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Admin', 'AdminViewport']),
       ...mapGetters(['Project', 'Tenant', 'Cluster']),

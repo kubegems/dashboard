@@ -128,9 +128,11 @@
       UpdateGateway,
     },
     mixins: [BaseFilter, BasePermission, BaseResource],
-    data: () => ({
-      items: [],
-    }),
+    data() {
+      return {
+        items: [],
+      };
+    },
     computed: {
       ...mapState(['JWT', 'AdminViewport']),
       ...mapGetters(['Tenant', 'Cluster']),

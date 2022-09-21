@@ -144,21 +144,23 @@
         default: () => false,
       },
     },
-    data: () => ({
-      valid: false,
-      expand: false,
-      resourceKind: '',
-      obj: {
-        apiVersion: 'v1',
-        kind: 'ConfigMap',
-        metadata: {
-          name: '',
-          namespace: null,
+    data() {
+      return {
+        valid: false,
+        expand: false,
+        resourceKind: '',
+        obj: {
+          apiVersion: 'v1',
+          kind: 'ConfigMap',
+          metadata: {
+            name: '',
+            namespace: null,
+          },
+          data: {},
         },
-        data: {},
-      },
-      formComponent: 'DataForm',
-    }),
+        formComponent: 'DataForm',
+      };
+    },
     computed: {
       ...mapState(['Admin', 'AdminViewport', 'ApiResources']),
       objRules() {

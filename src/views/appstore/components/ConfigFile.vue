@@ -55,11 +55,13 @@
         default: null,
       },
     },
-    data: () => ({
-      mySelectFile: 'values.yaml',
-      code: null,
-      fileName: [],
-    }),
+    data() {
+      return {
+        mySelectFile: 'values.yaml',
+        code: null,
+        fileName: [],
+      };
+    },
     computed: {
       ...mapState(['Scale']),
       height() {

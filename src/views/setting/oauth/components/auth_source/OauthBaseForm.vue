@@ -142,25 +142,27 @@
         default: () => '',
       },
     },
-    data: () => ({
-      valid: false,
-      show: false,
-      scopes: [],
-      scopeText: '',
-      gitlabDomain: 'gitlab.com',
-      obj: {
-        config: {
-          appID: '',
-          appSecret: '',
-          redirectURL: '',
-          scopes: [],
-          authURL: '',
-          userInfoURL: '',
-          tokenURL: '',
+    data() {
+      return {
+        valid: false,
+        show: false,
+        scopes: [],
+        scopeText: '',
+        gitlabDomain: 'gitlab.com',
+        obj: {
+          config: {
+            appID: '',
+            appSecret: '',
+            redirectURL: '',
+            scopes: [],
+            authURL: '',
+            userInfoURL: '',
+            tokenURL: '',
+          },
+          tokenType: 'Bearer',
         },
-        tokenType: 'Bearer',
-      },
-    }),
+      };
+    },
     computed: {
       objRules() {
         return {

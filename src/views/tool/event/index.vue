@@ -164,21 +164,23 @@
       messages: messages,
     },
     mixins: [BaseFilter, BaseSelect],
-    data: () => ({
-      items: [],
-      dataLength: 0,
-      date: [],
-      params: {
-        limit: 500,
-        clustername: undefined,
-        start: null,
-        end: null,
-      },
-      page: 1,
-      itemsPerPage: 10,
-      pageCount: 0,
-      pluginPass: [],
-    }),
+    data() {
+      return {
+        items: [],
+        dataLength: 0,
+        date: [],
+        params: {
+          limit: 500,
+          clustername: undefined,
+          start: null,
+          end: null,
+        },
+        page: 1,
+        itemsPerPage: 10,
+        pageCount: 0,
+        pluginPass: [],
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Admin', 'Scale', 'AdminViewport']),
       ...mapGetters(['Cluster', 'Tenant']),

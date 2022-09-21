@@ -294,17 +294,19 @@
         default: () => null,
       },
     },
-    data: () => ({
-      status: null,
-      statusSSE: null,
-      running: null,
-      service: null,
+    data() {
+      return {
+        status: null,
+        statusSSE: null,
+        running: null,
+        service: null,
 
-      deployStatusSSE: null,
-      taskStatus: null,
-      taskErrorMsg: '',
-      taskType: '',
-    }),
+        deployStatusSSE: null,
+        taskStatus: null,
+        taskErrorMsg: '',
+        taskType: '',
+      };
+    },
     computed: {
       ...mapState(['JWT']),
       ...mapGetters(['Project', 'Tenant', 'Environment']),

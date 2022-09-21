@@ -45,9 +45,11 @@
   export default {
     name: 'AddStorageClass',
     mixins: [BaseResource],
-    data: () => ({
-      dialog: false,
-    }),
+    data() {
+      return {
+        dialog: false,
+      };
+    },
     computed: {
       ...mapState(['Circular']),
     },

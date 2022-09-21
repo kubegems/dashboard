@@ -25,14 +25,15 @@
           chart-type="line"
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
           colorful
-          :extend-height="height"
+          :extend-height="chartHeight"
+          :global-plugins-check="false"
           label="pod"
           :metrics="data"
           :precision="0"
           single-tooptip
           title=""
           type=""
-          unit="lines/s"
+          unit="lines/min"
         />
       </div>
     </template>
@@ -65,7 +66,7 @@
     },
     computed: {
       ...mapState(['Scale']),
-      height() {
+      chartHeight() {
         return (window.innerHeight - 64) / 2 + (this.data.length / 2) * 20;
       },
     },
@@ -77,6 +78,7 @@
           }
         },
         deep: true,
+        immediate: true,
       },
     },
     methods: {
@@ -91,13 +93,6 @@
           rule: 'logCount',
           scope: 'containers',
         });
-        if (data?.length > 30) {
-          this.$store.commit('SET_SNACKBAR', {
-            text: this.$t('tip.limit_30'),
-            color: 'warning',
-          });
-          data = data.slice(0, 30);
-        }
         this.data = data;
       },
       onDatetimeChange() {
@@ -105,6 +100,7 @@
       },
       dispose() {
         this.data = [];
+        this.$emit('clear');
       },
     },
   };

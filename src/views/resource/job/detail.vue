@@ -103,10 +103,12 @@
       UpdateJob,
     },
     mixins: [BasePermission, BaseResource],
-    data: () => ({
-      job: null,
-      tab: 0,
-    }),
+    data() {
+      return {
+        job: null,
+        tab: 0,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'MessageStreamWS']),
       tabItems() {

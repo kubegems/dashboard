@@ -102,11 +102,13 @@
       UpdateIngress,
     },
     mixins: [BasePermission, BaseResource],
-    data: () => ({
-      ingress: null,
-      gateway: null,
-      tab: 0,
-    }),
+    data() {
+      return {
+        ingress: null,
+        gateway: null,
+        tab: 0,
+      };
+    },
     computed: {
       ...mapState(['JWT']),
       ...mapGetters(['Tenant', 'Cluster']),

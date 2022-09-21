@@ -63,13 +63,15 @@
         default: () => null,
       },
     },
-    data: () => ({
-      items: [],
-      params: {
-        page: 1,
-        size: 1000,
-      },
-    }),
+    data() {
+      return {
+        items: [],
+        params: {
+          page: 1,
+          size: 1000,
+        },
+      };
+    },
     computed: {
       ...mapState(['Scale']),
       height() {

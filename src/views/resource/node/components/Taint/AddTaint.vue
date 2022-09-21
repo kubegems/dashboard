@@ -84,22 +84,24 @@
       messages: messages,
     },
     mixins: [BaseResource],
-    data: () => ({
-      dialog: false,
-      valid: false,
-      item: null,
-      obj: {
-        key: '',
-        value: '',
-        effect: '',
-      },
-      objRules: {
-        keyRules: [required],
-        valueRules: [required],
-        effectRules: [required],
-      },
-      taints: [],
-    }),
+    data() {
+      return {
+        dialog: false,
+        valid: false,
+        item: null,
+        obj: {
+          key: '',
+          value: '',
+          effect: '',
+        },
+        objRules: {
+          keyRules: [required],
+          valueRules: [required],
+          effectRules: [required],
+        },
+        taints: [],
+      };
+    },
     computed: {
       ...mapState(['Circular']),
       effectSelect() {

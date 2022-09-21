@@ -46,11 +46,13 @@
   export default {
     name: 'AddCR',
     mixins: [BaseResource],
-    data: () => ({
-      dialog: false,
-      item: null,
-      crd: null,
-    }),
+    data() {
+      return {
+        dialog: false,
+        item: null,
+        crd: null,
+      };
+    },
     computed: {
       ...mapState(['Circular']),
     },

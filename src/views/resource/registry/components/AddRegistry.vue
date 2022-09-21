@@ -46,10 +46,12 @@
       RegistryBaseForm,
     },
     mixins: [BaseResource],
-    data: () => ({
-      dialog: false,
-      formComponent: 'RegistryBaseForm',
-    }),
+    data() {
+      return {
+        dialog: false,
+        formComponent: 'RegistryBaseForm',
+      };
+    },
     computed: {
       ...mapState(['Circular']),
       ...mapGetters(['Tenant']),

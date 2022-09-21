@@ -159,24 +159,26 @@
       AppStoreCard,
       Breadcrumb,
     },
-    data: () => ({
-      items: [],
-      all: [],
-      types: [],
-      filterKeywords: [],
-      search: '',
-      params: {
-        size: 1000,
-        page: 1,
-        reponame: '',
-        sort: 'nameAsc',
-      },
-      repos: [],
-      chartsNum: 0,
-      selectRepo: 'kubegems',
-      repoMenu: false,
-      offsetTop: 0,
-    }),
+    data() {
+      return {
+        items: [],
+        all: [],
+        types: [],
+        filterKeywords: [],
+        search: '',
+        params: {
+          size: 1000,
+          page: 1,
+          reponame: '',
+          sort: 'nameAsc',
+        },
+        repos: [],
+        chartsNum: 0,
+        selectRepo: 'kubegems',
+        repoMenu: false,
+        offsetTop: 0,
+      };
+    },
     computed: {
       ...mapState(['Circular', 'Scale']),
       showFilter() {

@@ -58,16 +58,18 @@
         default: () => false,
       },
     },
-    data: () => ({
-      valid: false,
-      date: [],
-      obj: {
-        message: '',
-        startAt: '',
-        endAt: '',
-        type: 'notice',
-      },
-    }),
+    data() {
+      return {
+        valid: false,
+        date: [],
+        obj: {
+          message: '',
+          startAt: '',
+          endAt: '',
+          type: 'notice',
+        },
+      };
+    },
     computed: {
       ...mapState(['Circular']),
       objRules() {

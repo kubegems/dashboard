@@ -111,27 +111,29 @@
         default: () => null,
       },
     },
-    data: () => ({
-      valid: false,
-      expand: false,
-      abort: false,
-      delay: false,
-      abortDefault: {
-        httpStatus: 503,
-        percentage: {
-          value: 100,
+    data() {
+      return {
+        valid: false,
+        expand: false,
+        abort: false,
+        delay: false,
+        abortDefault: {
+          httpStatus: 503,
+          percentage: {
+            value: 100,
+          },
         },
-      },
-      delayDefault: {
-        fixedDelay: '5s',
-        percentage: {
-          value: 100,
+        delayDefault: {
+          fixedDelay: '5s',
+          percentage: {
+            value: 100,
+          },
         },
-      },
-      obj: {
-        fault: {},
-      },
-    }),
+        obj: {
+          fault: {},
+        },
+      };
+    },
     computed: {
       ...mapState(['Admin', 'AdminViewport']),
       ...mapGetters(['Cluster']),

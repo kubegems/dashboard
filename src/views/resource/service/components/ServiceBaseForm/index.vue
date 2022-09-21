@@ -18,7 +18,7 @@
   <v-flex>
     <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
       <v-flex :class="expand ? 'kubegems__overlay' : ''" />
-      <BaseSubTitle :title="$root.$t('from.definition', [$root.$t('resource.service')])" />
+      <BaseSubTitle :title="$root.$t('form.definition', [$root.$t('resource.service')])" />
       <v-card-text class="pa-2">
         <v-row v-if="manifest">
           <v-col cols="6">
@@ -155,6 +155,7 @@
       <template v-if="obj.spec.type !== 'ExternalName'">
         <ServicePortForm
           ref="servicePortForm"
+          class="kubegems__forminform"
           :data="obj.spec.ports"
           @addData="addPortData"
           @closeOverlay="closeExpand"
@@ -260,34 +261,41 @@
         default: () => false,
       },
     },
-    data: () => ({
-      valid: false,
-      expand: false,
-      resourceKind: '',
-      workloads: [],
-      selector: '',
-      obj: {
-        apiVersion: 'v1',
-        kind: 'Service',
-        metadata: {
-          name: '',
-          namespace: null,
-          labels: {},
-          annotations: {},
-        },
-        spec: {
-          clusterIP: '',
-          ports: [],
-          selector: {},
-          type: '',
-          sessionAffinityConfig: {
-            clientIP: {
-              timeoutSeconds: 10800,
+    data() {
+      this.types = [
+        { text: 'VirtualIP', value: null },
+        { text: 'Headless', value: 'None' },
+      ];
+
+      return {
+        valid: false,
+        expand: false,
+        resourceKind: '',
+        workloads: [],
+        selector: '',
+        obj: {
+          apiVersion: 'v1',
+          kind: 'Service',
+          metadata: {
+            name: '',
+            namespace: null,
+            labels: {},
+            annotations: {},
+          },
+          spec: {
+            clusterIP: '',
+            ports: [],
+            selector: {},
+            type: '',
+            sessionAffinityConfig: {
+              clientIP: {
+                timeoutSeconds: 10800,
+              },
             },
           },
         },
-      },
-    }),
+      };
+    },
     computed: {
       ...mapState(['Admin', 'AdminViewport', 'ApiResources']),
       ...mapGetters(['Cluster']),
@@ -300,12 +308,6 @@
           kindRule: [required],
           externalNameRule: [required],
         };
-      },
-      types() {
-        return [
-          { text: this.$t('tip.vip'), value: null },
-          { text: this.$t('tip.headless'), value: 'None' },
-        ];
       },
       externaltypes() {
         return [
@@ -358,10 +360,10 @@
           this.selector = this.getWorkloadSelectIndex();
           this.types = [
             {
-              text: this.$t('tip.vip'),
+              text: 'VirtualIP',
               value: this.obj.spec.clusterIP === 'None' ? null : this.obj.spec.clusterIP,
             },
-            { text: this.$t('tip.headless'), value: 'None' },
+            { text: 'Headless', value: 'None' },
           ];
         });
       },

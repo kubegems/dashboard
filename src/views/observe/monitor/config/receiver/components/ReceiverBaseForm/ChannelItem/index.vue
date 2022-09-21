@@ -56,9 +56,11 @@
         default: () => null,
       },
     },
-    data: () => ({
-      itemMap: { Email: 'EmailItem', Webhook: 'WebhookItem' },
-    }),
+    data() {
+      return {
+        itemMap: { Email: 'EmailItem', Webhook: 'WebhookItem' },
+      };
+    },
     computed: {
       items() {
         let arr = [];

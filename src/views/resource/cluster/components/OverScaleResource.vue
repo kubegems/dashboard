@@ -132,24 +132,26 @@
       VueApexCharts,
     },
     mixins: [BaseResource],
-    data: () => ({
-      dialog: false,
-      valid: false,
-      item: null,
-      quota: null,
-      overResource: {
-        cpu: 0,
-        memory: 0,
-        storage: 0,
-      },
-      obj: {
-        OversoldConfig: {
-          cpu: 1,
-          memory: 1,
-          storage: 1,
+    data() {
+      return {
+        dialog: false,
+        valid: false,
+        item: null,
+        quota: null,
+        overResource: {
+          cpu: 0,
+          memory: 0,
+          storage: 0,
         },
-      },
-    }),
+        obj: {
+          OversoldConfig: {
+            cpu: 1,
+            memory: 1,
+            storage: 1,
+          },
+        },
+      };
+    },
     computed: {
       ...mapState(['Circular']),
       objRules() {

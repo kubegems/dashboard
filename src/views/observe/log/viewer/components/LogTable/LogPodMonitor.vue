@@ -82,25 +82,27 @@
       messages: messages,
     },
     mixins: [BasePermission, BaseResource],
-    data: () => ({
-      panel: false,
-      cpu: [],
-      memory: [],
-      networkin: [],
-      networkout: [],
-      date: [],
-      params: {
-        start: '',
-        end: '',
-      },
-      timeinterval: null,
-      promqlParams: {
-        cluster: '',
-        namespace: '',
-        pod: '',
-        timestamp: '',
-      },
-    }),
+    data() {
+      return {
+        panel: false,
+        cpu: [],
+        memory: [],
+        networkin: [],
+        networkout: [],
+        date: [],
+        params: {
+          start: '',
+          end: '',
+        },
+        timeinterval: null,
+        promqlParams: {
+          cluster: '',
+          namespace: '',
+          pod: '',
+          timestamp: '',
+        },
+      };
+    },
     computed: {
       ...mapState(['Scale']),
       height() {

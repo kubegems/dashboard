@@ -142,11 +142,13 @@
       VirtualServiceList,
     },
     mixins: [BasePermission, BaseResource],
-    data: () => ({
-      gateway: null,
-      tab: 0,
-      pass: false,
-    }),
+    data() {
+      return {
+        gateway: null,
+        tab: 0,
+        pass: false,
+      };
+    },
     computed: {
       ...mapState(['JWT']),
       ...mapGetters(['VirtualSpace']),

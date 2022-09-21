@@ -99,31 +99,33 @@
         default: () => null,
       },
     },
-    data: () => ({
-      valid: false,
-      expand: false,
-      serviceSelector: '',
-      obj: {
-        apiVersion: 'monitoring.coreos.com/v1',
-        kind: 'ServiceMonitor',
-        metadata: {
-          name: '',
-          namespace: '',
-          labels: {},
-          annotations: {},
-        },
-        spec: {
-          endpoints: [],
-          jobLabel: '',
-          namespaceSelector: {
-            matchNames: [],
+    data() {
+      return {
+        valid: false,
+        expand: false,
+        serviceSelector: '',
+        obj: {
+          apiVersion: 'monitoring.coreos.com/v1',
+          kind: 'ServiceMonitor',
+          metadata: {
+            name: '',
+            namespace: '',
+            labels: {},
+            annotations: {},
           },
-          selector: {
-            matchLabels: {},
+          spec: {
+            endpoints: [],
+            jobLabel: '',
+            namespaceSelector: {
+              matchNames: [],
+            },
+            selector: {
+              matchLabels: {},
+            },
           },
         },
-      },
-    }),
+      };
+    },
     computed: {
       ...mapState(['Admin', 'AdminViewport', 'ApiResources']),
       ...mapGetters(['Cluster']),

@@ -46,10 +46,12 @@
         default: () => 0,
       },
     },
-    data: () => ({
-      valid: false,
-      steps: ['VirtualSpaceBaseInfo', 'LinkEnvironment', 'ManageUserForm'],
-    }),
+    data() {
+      return {
+        valid: false,
+        steps: ['VirtualSpaceBaseInfo', 'LinkEnvironment', 'ManageUserForm'],
+      };
+    },
     computed: {
       obj() {
         return this.$refs[this.steps[this.step]].getData();

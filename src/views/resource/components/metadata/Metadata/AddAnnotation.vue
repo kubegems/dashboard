@@ -73,15 +73,17 @@
         default: () => null,
       },
     },
-    data: () => ({
-      dialog: false,
-      valid: false,
-      metadata: null,
-      obj: {
-        key: '',
-        value: '',
-      },
-    }),
+    data() {
+      return {
+        dialog: false,
+        valid: false,
+        metadata: null,
+        obj: {
+          key: '',
+          value: '',
+        },
+      };
+    },
     computed: {
       ...mapState(['Circular']),
       objRules() {

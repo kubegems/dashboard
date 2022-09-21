@@ -94,22 +94,24 @@
         default: () => '',
       },
     },
-    data: () => ({
-      dialog: false,
-      valid: false,
-      obj: {
-        cluster: '',
-        kind: '',
-        name: '',
-        namespace: '',
-        cpu: '',
-        max_replicas: 0,
-        memory: '',
-        min_replicas: 0,
-        real_cpu: 0,
-        real_memory: 0,
-      },
-    }),
+    data() {
+      return {
+        dialog: false,
+        valid: false,
+        obj: {
+          cluster: '',
+          kind: '',
+          name: '',
+          namespace: '',
+          cpu: '',
+          max_replicas: 0,
+          memory: '',
+          min_replicas: 0,
+          real_cpu: 0,
+          real_memory: 0,
+        },
+      };
+    },
     computed: {
       ...mapState(['Circular']),
       objRules() {

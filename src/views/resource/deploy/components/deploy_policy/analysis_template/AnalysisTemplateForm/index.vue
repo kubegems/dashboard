@@ -121,23 +121,25 @@
         default: () => '',
       },
     },
-    data: () => ({
-      valid: false,
-      expand: false,
-      analysisTemplate: '',
-      clusterScope: 'true',
-      clusterScopeItems: [{ text: '集群级别', value: 'true' }],
-      analysisTemplateItems: [],
-      obj: {
-        templates: [],
-        args: [],
-      },
-      objRules: {
-        analysisTemplateRule: [required],
-        clusterScopeRule: [required],
-      },
-      t: '',
-    }),
+    data() {
+      return {
+        valid: false,
+        expand: false,
+        analysisTemplate: '',
+        clusterScope: 'true',
+        clusterScopeItems: [{ text: '集群级别', value: 'true' }],
+        analysisTemplateItems: [],
+        obj: {
+          templates: [],
+          args: [],
+        },
+        objRules: {
+          analysisTemplateRule: [required],
+          clusterScopeRule: [required],
+        },
+        t: '',
+      };
+    },
     computed: {
       ...mapGetters(['Tenant', 'Environment', 'Project']),
       template() {

@@ -129,10 +129,12 @@
       UpdatePersistentVolumeClaim,
     },
     mixins: [BasePermission, BaseResource],
-    data: () => ({
-      pvc: null,
-      tab: 0,
-    }),
+    data() {
+      return {
+        pvc: null,
+        tab: 0,
+      };
+    },
     computed: {
       ...mapState(['JWT']),
       tabItems() {

@@ -96,19 +96,21 @@
         default: () => null,
       },
     },
-    data: () => ({
-      cpu: [],
-      memory: [],
-      networkin: [],
-      networkout: [],
-      date: [],
-      params: {
-        start: '',
-        end: '',
-        noprocessing: true,
-      },
-      timeinterval: null,
-    }),
+    data() {
+      return {
+        cpu: [],
+        memory: [],
+        networkin: [],
+        networkout: [],
+        date: [],
+        params: {
+          start: '',
+          end: '',
+          noprocessing: true,
+        },
+        timeinterval: null,
+      };
+    },
     computed: {
       ...mapState(['Scale']),
     },

@@ -46,10 +46,12 @@
       DNSDomainBaseForm,
     },
     mixins: [BaseResource],
-    data: () => ({
-      dialog: false,
-      formComponent: 'DNSDomainBaseForm',
-    }),
+    data() {
+      return {
+        dialog: false,
+        formComponent: 'DNSDomainBaseForm',
+      };
+    },
     computed: {
       ...mapState(['Circular']),
       ...mapGetters(['Tenant']),

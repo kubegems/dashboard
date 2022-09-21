@@ -43,10 +43,12 @@
   export default {
     name: 'AddServiceEntry',
     mixins: [BaseResource, IstioServiceEntrySchema],
-    data: () => ({
-      dialog: false,
-      formComponent: 'BaseYamlForm',
-    }),
+    data() {
+      return {
+        dialog: false,
+        formComponent: 'BaseYamlForm',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'EnvironmentFilter']),
       ...mapGetters(['VirtualSpace']),

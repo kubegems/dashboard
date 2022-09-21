@@ -113,17 +113,19 @@
       UpdateCluster,
     },
     mixins: [BasePermission, BaseResource, BaseSelect],
-    data: () => ({
-      cluster: null,
-      quota: null,
-      workload: null,
-      resources: [],
-      date: [],
-      params: {
-        start: '',
-        end: '',
-      },
-    }),
+    data() {
+      return {
+        cluster: null,
+        quota: null,
+        workload: null,
+        resources: [],
+        date: [],
+        params: {
+          start: '',
+          end: '',
+        },
+      };
+    },
     computed: {
       ...mapState(['JWT']),
       ...mapGetters(['Cluster']),

@@ -102,13 +102,15 @@
       UpdatePrometheusRule,
     },
     mixins: [BaseAlert, BasePermission, BaseResource],
-    data: () => ({
-      date: [],
-      prometheusRule: null,
-      yaml: '',
-      metrics: [],
-      timeArray: [],
-    }),
+    data() {
+      return {
+        date: [],
+        prometheusRule: null,
+        yaml: '',
+        metrics: [],
+        timeArray: [],
+      };
+    },
     computed: {
       ...mapState(['JWT', 'AdminViewport', 'Admin', 'Scale']),
     },

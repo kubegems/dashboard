@@ -51,25 +51,27 @@
     i18n: {
       messages: messages,
     },
-    data: () => ({
-      valid: false,
-      obj: {
-        ClusterID: 0,
-        ClusterName: '',
-        KubeConfig: '',
-        Primary: false,
-        Vendor: 'selfhosted',
-        ImageRepo: 'registry.cn-beijing.aliyuncs.com/kubegems',
-        DefaultStorageClass: 'local-path',
-        extend: {
-          storageClasses: [],
-          imageRepos: ['registry.cn-beijing.aliyuncs.com/kubegems', 'docker.io/kubegems'],
-          validate: 'progressing',
-          clusterName: '',
-          existInstaller: false,
+    data() {
+      return {
+        valid: false,
+        obj: {
+          ClusterID: 0,
+          ClusterName: '',
+          KubeConfig: '',
+          Primary: false,
+          Vendor: 'selfhosted',
+          ImageRepo: 'registry.cn-beijing.aliyuncs.com/kubegems',
+          DefaultStorageClass: 'local-path',
+          extend: {
+            storageClasses: [],
+            imageRepos: ['registry.cn-beijing.aliyuncs.com/kubegems', 'docker.io/kubegems'],
+            validate: 'progressing',
+            clusterName: '',
+            existInstaller: false,
+          },
         },
-      },
-    }),
+      };
+    },
     computed: {
       ...mapState(['Circular']),
     },

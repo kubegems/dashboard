@@ -50,12 +50,14 @@
         default: () => false,
       },
     },
-    data: () => ({
-      valid: false,
-      obj: {
-        Name: '',
-      },
-    }),
+    data() {
+      return {
+        valid: false,
+        obj: {
+          Name: '',
+        },
+      };
+    },
     computed: {
       ...mapState(['Circular']),
       objRules() {

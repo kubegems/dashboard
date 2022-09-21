@@ -173,10 +173,12 @@
       UpdateModelRuntime,
     },
     mixins: [BasePermission, BaseResource],
-    data: () => ({
-      tab: 0,
-      app: null,
-    }),
+    data() {
+      return {
+        tab: 0,
+        app: null,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'AdminViewport', 'MessageStreamWS', 'Plugins']),
       ...mapGetters(['Tenant', 'Project', 'Environment']),

@@ -154,11 +154,13 @@
       UpdateIstioGateway,
     },
     mixins: [BaseFilter, BasePermission],
-    data: () => ({
-      items: [],
-      params: {},
-      pass: false,
-    }),
+    data() {
+      return {
+        items: [],
+        params: {},
+        pass: false,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'EnvironmentFilter']),
       ...mapGetters(['VirtualSpace']),

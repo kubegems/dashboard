@@ -98,10 +98,12 @@
       UpdateCertificate,
     },
     mixins: [BaseFilter, BasePermission, BaseResource],
-    data: () => ({
-      certificate: null,
-      tab: 0,
-    }),
+    data() {
+      return {
+        certificate: null,
+        tab: 0,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'AdminViewport']),
       selector() {

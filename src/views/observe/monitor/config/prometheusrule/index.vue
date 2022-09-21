@@ -232,23 +232,25 @@
         default: () => false,
       },
     },
-    data: () => ({
-      items: [],
-      itemsCopy: [],
-      page: 1,
-      pageCount: 0,
-      itemsPerPage: 10,
-      params: {
-        state: '',
-        isAdmin: false,
-      },
-      amenities: [],
-      alertStatus: { inactive: 0, firing: 0, pending: 0 },
-      alertStateFilter: [],
-      alertStateArr: [{ inactive: 'success' }, { pending: 'warning' }, { firing: 'error' }],
-      cluster: undefined,
-      namespace: undefined,
-    }),
+    data() {
+      return {
+        items: [],
+        itemsCopy: [],
+        page: 1,
+        pageCount: 0,
+        itemsPerPage: 10,
+        params: {
+          state: '',
+          isAdmin: false,
+        },
+        amenities: [],
+        alertStatus: { inactive: 0, firing: 0, pending: 0 },
+        alertStateFilter: [],
+        alertStateArr: [{ inactive: 'success' }, { pending: 'warning' }, { firing: 'error' }],
+        cluster: undefined,
+        namespace: undefined,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'AdminViewport', 'Scale']),
       ...mapGetters(['Environment']),

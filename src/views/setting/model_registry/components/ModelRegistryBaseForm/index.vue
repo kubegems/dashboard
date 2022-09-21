@@ -50,10 +50,12 @@
         default: () => 0,
       },
     },
-    data: () => ({
-      valid: false,
-      steps: ['ModelBaseInfo', 'ManageUserForm'],
-    }),
+    data() {
+      return {
+        valid: false,
+        steps: ['ModelBaseInfo', 'ManageUserForm'],
+      };
+    },
     computed: {
       obj() {
         return this.$refs[this.steps[this.step]].getData();

@@ -117,16 +117,18 @@
       VueSlider,
     },
     mixins: [BaseResource, BaseSelect],
-    data: () => ({
-      dialog: false,
-      item: null,
-      workload: null,
-      type: '',
-      adviseItem: {},
-      sliderItems: {},
-      cpuRange: [1, 2, 4, 8, 16],
-      memoryRange: [1, 2, 4, 8, 16, 32, 64],
-    }),
+    data() {
+      return {
+        dialog: false,
+        item: null,
+        workload: null,
+        type: '',
+        adviseItem: {},
+        sliderItems: {},
+        cpuRange: [1, 2, 4, 8, 16],
+        memoryRange: [1, 2, 4, 8, 16, 32, 64],
+      };
+    },
     computed: {
       ...mapState(['Circular', 'Scale']),
       isArgoApp() {

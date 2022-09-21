@@ -69,16 +69,18 @@
         default: () => {},
       },
     },
-    data: () => ({
-      qps: [],
-      connections: [],
-      date: [],
-      params: {
-        start: '',
-        end: '',
-      },
-      timeinterval: null,
-    }),
+    data() {
+      return {
+        qps: [],
+        connections: [],
+        date: [],
+        params: {
+          start: '',
+          end: '',
+        },
+        timeinterval: null,
+      };
+    },
     computed: {
       ...mapState(['Scale']),
     },

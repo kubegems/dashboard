@@ -73,15 +73,17 @@
       messages: messages,
     },
     mixins: [BaseResource],
-    data: () => ({
-      dialog: false,
-      valid: false,
-      storage: '',
-      obj: {
-        metadata: { name: '' },
-        spec: { resources: { requests: { storage: '' } } },
-      },
-    }),
+    data() {
+      return {
+        dialog: false,
+        valid: false,
+        storage: '',
+        obj: {
+          metadata: { name: '' },
+          spec: { resources: { requests: { storage: '' } } },
+        },
+      };
+    },
     computed: {
       ...mapState(['Circular']),
       objRules() {

@@ -63,13 +63,15 @@
       PersistentVolumeClaimBaseForm,
     },
     mixins: [BaseResource, PersistentVolumeClaimSchema],
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      item: null,
-      formComponent: 'PersistentVolumeClaimBaseForm',
-      switchKey: '',
-    }),
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        item: null,
+        formComponent: 'PersistentVolumeClaimBaseForm',
+        switchKey: '',
+      };
+    },
     computed: {
       ...mapState(['Circular']),
     },

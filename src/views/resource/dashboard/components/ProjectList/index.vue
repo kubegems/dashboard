@@ -230,20 +230,22 @@
     },
     mixins: [BasePermission, BaseResource, BaseSelect],
     inject: ['reload'],
-    data: () => ({
-      projectItems: [],
-      environmentItems: [],
-      pageCount: 0,
-      pageParams: {
-        page: 1,
-        size: 5,
-      },
-      params: {
-        start: '',
-        end: '',
-      },
-      expand: null,
-    }),
+    data() {
+      return {
+        projectItems: [],
+        environmentItems: [],
+        pageCount: 0,
+        pageParams: {
+          page: 1,
+          size: 5,
+        },
+        params: {
+          start: '',
+          end: '',
+        },
+        expand: null,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Admin']),
       ...mapGetters(['Tenant', 'Project']),

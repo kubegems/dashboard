@@ -70,19 +70,21 @@
       messages: messages,
     },
     mixins: [BaseSelect],
-    data: () => ({
-      dialog: false,
-      valid: false,
-      obj: {
-        TenantID: 0,
-        TenantName: '',
-        Remark: '',
-      },
-      objRules: {
-        tenantNameRules: [required],
-        remarkRules: [required],
-      },
-    }),
+    data() {
+      return {
+        dialog: false,
+        valid: false,
+        obj: {
+          TenantID: 0,
+          TenantName: '',
+          Remark: '',
+        },
+        objRules: {
+          tenantNameRules: [required],
+          remarkRules: [required],
+        },
+      };
+    },
     computed: {
       ...mapState(['Circular']),
       ...mapGetters(['Tenant']),

@@ -92,20 +92,22 @@
         default: () => {},
       },
     },
-    data: () => ({
-      dialog: false,
-      graph: {},
-      namespace: '',
-      metrics: [],
-      timeinterval: null,
-      date: [],
-      params: {
-        start: null,
-        end: null,
-      },
-      labels: [],
-      labelpairs: {},
-    }),
+    data() {
+      return {
+        dialog: false,
+        graph: {},
+        namespace: '',
+        metrics: [],
+        timeinterval: null,
+        date: [],
+        params: {
+          start: null,
+          end: null,
+        },
+        labels: [],
+        labelpairs: {},
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Scale']),
       outerHeight() {

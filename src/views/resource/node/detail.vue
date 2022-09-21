@@ -180,10 +180,12 @@
       Taint,
     },
     mixins: [BaseResource],
-    data: () => ({
-      tab: 0,
-      node: null,
-    }),
+    data() {
+      return {
+        tab: 0,
+        node: null,
+      };
+    },
     computed: {
       ...mapState(['JWT']),
       ...mapGetters(['Cluster']),

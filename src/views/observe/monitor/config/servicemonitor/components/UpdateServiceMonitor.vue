@@ -63,13 +63,15 @@
       ServiceMonitorBaseForm,
     },
     mixins: [BaseResource, ServiceMonitorSchema],
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      item: {},
-      formComponent: 'ServiceMonitorBaseForm',
-      switchKey: '',
-    }),
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        item: {},
+        formComponent: 'ServiceMonitorBaseForm',
+        switchKey: '',
+      };
+    },
     computed: {
       ...mapState(['Circular']),
     },

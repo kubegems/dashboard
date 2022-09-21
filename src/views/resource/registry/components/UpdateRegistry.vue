@@ -44,10 +44,12 @@
     components: {
       RegistryBaseForm,
     },
-    data: () => ({
-      dialog: false,
-      formComponent: 'RegistryBaseForm',
-    }),
+    data() {
+      return {
+        dialog: false,
+        formComponent: 'RegistryBaseForm',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'User']),
       ...mapGetters(['Tenant']),

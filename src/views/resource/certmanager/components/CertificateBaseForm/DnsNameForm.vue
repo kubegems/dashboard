@@ -54,16 +54,18 @@
     i18n: {
       messages: messages,
     },
-    data: () => ({
-      valid: false,
-      expand: false,
-      dnsName: null,
-      edit: false,
-      index: null,
-      rules: {
-        dnsNameRules: [required],
-      },
-    }),
+    data() {
+      return {
+        valid: false,
+        expand: false,
+        dnsName: null,
+        edit: false,
+        index: null,
+        rules: {
+          dnsNameRules: [required],
+        },
+      };
+    },
     methods: {
       init(dnsNames, index) {
         this.dnsName = dnsNames[index];

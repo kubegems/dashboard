@@ -100,17 +100,19 @@
         default: () => null,
       },
     },
-    data: () => ({
-      valid: false,
-      expand: false,
-      receiverType: 'Email',
-      formComponent: 'EmailForm',
-      receiverTypeItems: [
-        { text: 'Email', value: 'Email' },
-        { text: 'Webhook', value: 'Webhook' },
-      ],
-      channelRule: [required],
-    }),
+    data() {
+      return {
+        valid: false,
+        expand: false,
+        receiverType: 'Email',
+        formComponent: 'EmailForm',
+        receiverTypeItems: [
+          { text: 'Email', value: 'Email' },
+          { text: 'Webhook', value: 'Webhook' },
+        ],
+        channelRule: [required],
+      };
+    },
     computed: {
       ...mapState(['Admin', 'AdminViewport']),
       ...mapGetters(['Cluster']),

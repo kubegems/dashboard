@@ -60,11 +60,13 @@
         default: () => null,
       },
     },
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      formComponent: 'FaultInjectionBaseForm',
-    }),
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        formComponent: 'FaultInjectionBaseForm',
+      };
+    },
     computed: {
       ...mapState(['Circular']),
       ...mapGetters(['VirtualSpace']),

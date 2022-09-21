@@ -285,13 +285,15 @@
       RollingUpdate,
     },
     mixins: [BasePermission, BaseResource],
-    data: () => ({
-      runtime: null,
-      statusSSE: null,
-      taskStatus: '',
-      taskErrorMsg: '',
-      deploy: true,
-    }),
+    data() {
+      return {
+        runtime: null,
+        statusSSE: null,
+        taskStatus: '',
+        taskErrorMsg: '',
+        deploy: true,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'AdminViewport']),
       ...mapGetters(['Tenant', 'Project', 'Environment']),

@@ -52,10 +52,12 @@
         default: () => 'monitor',
       },
     },
-    data: () => ({
-      dialog: false,
-      formComponent: 'ReceiverBaseForm',
-    }),
+    data() {
+      return {
+        dialog: false,
+        formComponent: 'ReceiverBaseForm',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'AdminViewport']),
     },

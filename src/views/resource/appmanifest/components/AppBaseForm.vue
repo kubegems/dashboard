@@ -133,19 +133,21 @@
         default: () => false,
       },
     },
-    data: () => ({
-      valid: false,
-      expand: false,
-      obj: {
-        name: '',
-        kind: '',
-        description: '',
-        ProjectID: 0,
-        TenantID: 0,
-        labels: {},
-      },
-      formComponent: 'LabelForm',
-    }),
+    data() {
+      return {
+        valid: false,
+        expand: false,
+        obj: {
+          name: '',
+          kind: '',
+          description: '',
+          ProjectID: 0,
+          TenantID: 0,
+          labels: {},
+        },
+        formComponent: 'LabelForm',
+      };
+    },
     computed: {
       ...mapState(['AdminViewport']),
       ...mapGetters(['Project', 'Tenant']),
