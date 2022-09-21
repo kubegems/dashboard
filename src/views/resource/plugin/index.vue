@@ -84,9 +84,16 @@
                           />
                         </div>
                       </template>
-                      <template v-else> {{ $t('tip.version') }} : {{ plugin.installedVersion }} </template>
+                      <template v-else>
+                        <div class="float-left plugins__install">
+                          {{ $t('tip.version') }} : {{ plugin.installedVersion }}
+                        </div>
+                      </template>
                       <template v-if="plugin.upgradeableVersion">
                         <UpgradeTip :index="index" :plugin="plugin" />
+                      </template>
+                      <template v-if="plugin.message">
+                        <UpgradeMessage :index="index" :plugin="plugin" />
                       </template>
                     </v-list-item-subtitle>
                   </v-list-item-content>
@@ -133,6 +140,7 @@
 
   import CheckPluginVersion from './components/CheckPluginVersion';
   import InstallPluginSchema from './components/InstallPluginSchema';
+  import UpgradeMessage from './components/UpgradeMessage';
   import UpgradeTip from './components/UpgradeTip';
   import VersionSelect from './components/VersionSelect';
   import messages from './i18n';
@@ -148,6 +156,7 @@
     components: {
       CheckPluginVersion,
       InstallPluginSchema,
+      UpgradeMessage,
       UpgradeTip,
       VersionSelect,
     },

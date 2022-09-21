@@ -82,7 +82,6 @@
       async renderSchema() {
         this.appValues = this.item.values;
         this.schemaJson = JSON.parse(this.item.schema);
-        console.log(this.schemaJson);
         this.params = this.retrieveBasicFormParams(this.appValues, this.schemaJson);
       },
       changeBasicFormParam(param, value) {

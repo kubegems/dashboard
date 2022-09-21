@@ -10,7 +10,8 @@
     "category": "カテゴリー",
     "repository": "倉庫住所",
     "plugin_params": "プラグイン パラメータ",
-    "schema_form": "スキーマフォーム"
+    "schema_form": "スキーマフォーム",
+    "message": "設置状況"
   },
   "operate": {
     "install": "有効",
