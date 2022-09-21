@@ -146,54 +146,75 @@
       cpuSeries() {
         return this.statistics
           ? this.statistics.AllocatedCpu === 0
-            ? [0, 50]
-            : [(this.statistics.AllocatedCpu / this.statistics.Cpu) * 100, 50]
-          : [0, 50];
+            ? [0, 100]
+            : [
+                (this.statistics.AllocatedCpu / this.statistics.Cpu) * 100,
+                100 - (this.statistics.AllocatedCpu / this.statistics.Cpu) * 100,
+              ]
+          : [0, 100];
       },
       memorySeries() {
         return this.statistics
           ? this.statistics.AllocatedMemory === 0
-            ? [0, 50]
-            : [(this.statistics.AllocatedMemory / this.statistics.Memory) * 100, 50]
-          : [0, 50];
+            ? [0, 100]
+            : [
+                (this.statistics.AllocatedMemory / this.statistics.Memory) * 100,
+                100 - (this.statistics.AllocatedMemory / this.statistics.Memory) * 100,
+              ]
+          : [0, 100];
       },
       storageSeries() {
         return this.statistics
           ? this.statistics.AllocatedStorage === 0
-            ? [0, 50]
-            : [(this.statistics.AllocatedStorage / this.statistics.Storage) * 100, 50]
-          : [0, 50];
+            ? [0, 100]
+            : [
+                (this.statistics.AllocatedStorage / this.statistics.Storage) * 100,
+                100 - (this.statistics.AllocatedStorage / this.statistics.Storage) * 100,
+              ]
+          : [0, 100];
       },
       podSeries() {
         return this.statistics
           ? this.statistics.AllocatedPod === 0
-            ? [0, 50]
-            : [(this.statistics.AllocatedPod / this.statistics.Pod) * 100, 50]
-          : [0, 50];
+            ? [0, 100]
+            : [
+                (this.statistics.AllocatedPod / this.statistics.Pod) * 100,
+                100 - (this.statistics.AllocatedPod / this.statistics.Pod) * 100,
+              ]
+          : [0, 100];
       },
 
       nvidiaGpuSeries() {
         return this.statistics
           ? this.statistics.AllocatedNvidiaGpu === 0
-            ? [0, 50]
-            : [(this.statistics.AllocatedNvidiaGpu / this.statistics.NvidiaGpu) * 100, 50]
-          : [0, 50];
+            ? [0, 100]
+            : [
+                (this.statistics.AllocatedNvidiaGpu / this.statistics.NvidiaGpu) * 100,
+                100 - (this.statistics.AllocatedNvidiaGpu / this.statistics.NvidiaGpu) * 100,
+              ]
+          : [0, 100];
       },
 
       tkeGpuSeries() {
         return this.statistics
           ? this.statistics.AllocatedTkeGpu === 0
-            ? [0, 50]
-            : [(this.statistics.AllocatedTkeGpu / this.statistics.TkeGpu) * 100, 50]
-          : [0, 50];
+            ? [0, 100]
+            : [
+                (this.statistics.AllocatedTkeGpu / this.statistics.TkeGpu) * 100,
+                100 - (this.statistics.AllocatedTkeGpu / this.statistics.TkeGpu) * 100,
+              ]
+          : [0, 100];
       },
 
       tkeMemorySeries() {
         return this.statistics
           ? this.statistics.AllocatedTkeMemory === 0
-            ? [0, 50]
-            : [(this.statistics.AllocatedTkeMemory / this.statistics.TkeMemory) * 100, 50]
-          : [0, 50];
+            ? [0, 100]
+            : [
+                (this.statistics.AllocatedTkeMemory / this.statistics.TkeMemory) * 100,
+                100 - (this.statistics.AllocatedTkeMemory / this.statistics.TkeMemory) * 100,
+              ]
+          : [0, 100];
       },
     },
   };

@@ -143,37 +143,62 @@
       ...mapState(['JWT', 'Scale']),
       ...mapGetters(['Environment', 'Project']),
       cpuSeries() {
-        return this.quota ? [this.quota.Cpu === 0 ? 0 : (this.quota.UsedCpu / this.quota.Cpu) * 100, 50] : [0, 50];
+        return this.quota
+          ? [
+              this.quota.Cpu === 0 ? 0 : (this.quota.UsedCpu / this.quota.Cpu) * 100,
+              100 - (this.quota.UsedCpu / this.quota.Cpu) * 100,
+            ]
+          : [0, 100];
       },
       memorySeries() {
         return this.quota
-          ? [this.quota.Memory === 0 ? 0 : (this.quota.UsedMemory / this.quota.Memory) * 100, 50]
-          : [0, 50];
+          ? [
+              this.quota.Memory === 0 ? 0 : (this.quota.UsedMemory / this.quota.Memory) * 100,
+              100 - (this.quota.UsedMemory / this.quota.Memory) * 100,
+            ]
+          : [0, 100];
       },
       storageSeries() {
         return this.quota
-          ? [this.quota.Storage === 0 ? 0 : (this.quota.UsedStorage / this.quota.Storage) * 100, 50]
-          : [0, 50];
+          ? [
+              this.quota.Storage === 0 ? 0 : (this.quota.UsedStorage / this.quota.Storage) * 100,
+              100 - (this.quota.UsedStorage / this.quota.Storage) * 100,
+            ]
+          : [0, 100];
       },
       podSeries() {
-        return this.quota ? [this.quota.Pod === 0 ? 0 : (this.quota.UsedPod / this.quota.Pod) * 100, 50] : [0, 50];
+        return this.quota
+          ? [
+              this.quota.Pod === 0 ? 0 : (this.quota.UsedPod / this.quota.Pod) * 100,
+              100 - (this.quota.Pod === 0 ? 0 : (this.quota.UsedPod / this.quota.Pod) * 100),
+            ]
+          : [0, 100];
       },
 
       nvidiaGpuSeries() {
         return this.quota
-          ? [this.quota.NvidiaGpu === 0 ? 0 : (this.quota.UsedNvidiaGpu / this.quota.NvidiaGpu) * 100, 50]
-          : [0, 50];
+          ? [
+              this.quota.NvidiaGpu === 0 ? 0 : (this.quota.UsedNvidiaGpu / this.quota.NvidiaGpu) * 100,
+              100 - (this.quota.UsedNvidiaGpu / this.quota.NvidiaGpu) * 100,
+            ]
+          : [0, 100];
       },
 
       tkeGpuSeries() {
         return this.quota
-          ? [this.quota.TkeGpu === 0 ? 0 : (this.quota.UsedTkeGpu / this.quota.TkeGpu) * 100, 50]
-          : [0, 50];
+          ? [
+              this.quota.TkeGpu === 0 ? 0 : (this.quota.UsedTkeGpu / this.quota.TkeGpu) * 100,
+              100 - (this.quota.UsedTkeGpu / this.quota.TkeGpu) * 100,
+            ]
+          : [0, 100];
       },
       tkeMemorySeries() {
         return this.quota
-          ? [this.quota.TkeMemory === 0 ? 0 : (this.quota.UsedTkeMemory / this.quota.TkeMemory) * 100, 50]
-          : [0, 50];
+          ? [
+              this.quota.TkeMemory === 0 ? 0 : (this.quota.UsedTkeMemory / this.quota.TkeMemory) * 100,
+              100 - (this.quota.UsedTkeMemory / this.quota.TkeMemory) * 100,
+            ]
+          : [0, 100];
       },
     },
     mounted() {

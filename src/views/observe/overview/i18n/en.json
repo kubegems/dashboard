@@ -22,7 +22,8 @@
     "error_info": "Error message",
     "event_source": "Event Source",
     "event_type": "Event Type",
-    "event": "Kubernetes Event"
+    "event": "Kubernetes Event",
+    "limit_30": "Too many results, 30 interceptions"
   },
   "table": {
     "label": "Tags",

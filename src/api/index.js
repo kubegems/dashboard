@@ -16,6 +16,7 @@ axios.interceptors.request.use(function (config) {
     ) === -1
   ) {
     store.commit('CLEARALL');
+    store.commit('SET_VERSION', process.env.VUE_APP_RELEASE);
     window.localStorage.clear();
     router.push({
       name: 'login',
@@ -124,6 +125,7 @@ axios.interceptors.response.use(
             color: 'warning',
           });
           store.commit('CLEARALL');
+          store.commit('SET_VERSION', process.env.VUE_APP_RELEASE);
           if (
             ['/login', '/403', '/404', '/white/page', '/white/tenant', '/whitecluster/cluster'].indexOf(
               window.location.pathname,

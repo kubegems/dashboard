@@ -127,45 +127,60 @@
       cpuSeries() {
         return this.quota
           ? this.quota.UsedCpu === 0
-            ? [0, 50]
-            : [(this.quota.UsedCpu / this.quota.Cpu) * 100, 50]
-          : [0, 50];
+            ? [0, 100]
+            : [(this.quota.UsedCpu / this.quota.Cpu) * 100, 100 - (this.quota.UsedCpu / this.quota.Cpu) * 100]
+          : [0, 100];
       },
 
       memorySeries() {
         return this.quota
           ? this.quota.UsedMemory === 0
-            ? [0, 50]
-            : [(this.quota.UsedMemory / this.quota.Memory) * 100, 50]
-          : [0, 50];
+            ? [0, 100]
+            : [
+                (this.quota.UsedMemory / this.quota.Memory) * 100,
+                100 - (this.quota.UsedMemory / this.quota.Memory) * 100,
+              ]
+          : [0, 100];
       },
       storageSeries() {
         return this.quota
           ? this.quota.UsedStorage === 0
-            ? [0, 50]
-            : [(this.quota.UsedStorage / this.quota.Storage) * 100, 50]
-          : [0, 50];
+            ? [0, 100]
+            : [
+                (this.quota.UsedStorage / this.quota.Storage) * 100,
+                100 - (this.quota.UsedStorage / this.quota.Storage) * 100,
+              ]
+          : [0, 100];
       },
       nvidiaSeries() {
         return this.quota
           ? this.quota.UsedNvidiaGpu === 0
-            ? [0, 50]
-            : [(this.quota.UsedNvidiaGpu / this.quota.NvidiaGpu) * 100, 50]
-          : [0, 50];
+            ? [0, 100]
+            : [
+                (this.quota.UsedNvidiaGpu / this.quota.NvidiaGpu) * 100,
+                100 - (this.quota.UsedNvidiaGpu / this.quota.NvidiaGpu) * 100,
+              ]
+          : [0, 100];
       },
       tkeSeries() {
         return this.quota
           ? this.quota.UsedTkeGpu === 0
-            ? [0, 50]
-            : [(this.quota.UsedTkeGpu / this.quota.TkeGpu) * 100, 50]
-          : [0, 50];
+            ? [0, 100]
+            : [
+                (this.quota.UsedTkeGpu / this.quota.TkeGpu) * 100,
+                100 - (this.quota.UsedTkeGpu / this.quota.TkeGpu) * 100,
+              ]
+          : [0, 100];
       },
       tkeMemorySeries() {
         return this.quota
           ? this.quota.UsedTkeMemory === 0
-            ? [0, 50]
-            : [(this.quota.UsedTkeMemory / this.quota.TkeMemory) * 100, 50]
-          : [0, 50];
+            ? [0, 100]
+            : [
+                (this.quota.UsedTkeMemory / this.quota.TkeMemory) * 100,
+                100 - (this.quota.UsedTkeMemory / this.quota.TkeMemory) * 100,
+              ]
+          : [0, 100];
       },
     },
   };

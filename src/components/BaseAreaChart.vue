@@ -81,6 +81,10 @@
         type: Array,
         default: () => [],
       },
+      precision: {
+        type: Number,
+        default: () => 2,
+      },
       sample: {
         type: Boolean,
         default: () => false,
@@ -444,7 +448,11 @@
           case 'duration':
             break;
           case '%':
-            return { scaleNum: `${parseFloat(value).toFixed(2)} ${unitType}`, unitType: null, newValue: value };
+            return {
+              scaleNum: `${parseFloat(value).toFixed(this.precision)} ${unitType}`,
+              unitType: null,
+              newValue: value,
+            };
             break;
           default:
             if (this.unit) {
@@ -453,13 +461,17 @@
                 return this.unitBase(scaleNum, unitType, value);
               } else {
                 return {
-                  scaleNum: `${parseFloat(value).toFixed(2)} ${this.unit}`,
+                  scaleNum: `${parseFloat(value).toFixed(this.precision)} ${this.unit}`,
                   unitType: null,
                   newValue: value,
                 };
               }
             }
-            return { scaleNum: `${parseFloat(value).toFixed(2)} ${unitType}`, unitType: null, newValue: value };
+            return {
+              scaleNum: `${parseFloat(value).toFixed(this.precision)} ${unitType}`,
+              unitType: null,
+              newValue: value,
+            };
         }
         if (this.unit) {
           const d = this.allUnit[unitType].findIndex((u) => {
@@ -484,28 +496,28 @@
         }
         return { scaleNum: scaleNum, unitType: unitType, newValue: value };
       },
-      beautifyUnit(num, sclaeNum, units = [], unitType = '', decimal = 2) {
+      beautifyUnit(num, sclaeNum, units = [], unitType = '') {
         let result = parseFloat(num);
         for (const index in units) {
           if (Math.abs(result) <= sclaeNum || parseInt(index) === parseInt(units.length - 1)) {
             if (unitType === 'percent') {
               // 特殊处理
               if (result > 1 && result < 1.2) {
-                return `${(result * 100).toFixed(decimal)} %`;
+                return `${(result * 100).toFixed(this.precision)} %`;
               } else {
-                return `${result.toFixed(decimal)} %`;
+                return `${result.toFixed(this.precision)} %`;
               }
             }
-            return `${result.toFixed(decimal)} ${units[index]}`;
+            return `${result.toFixed(this.precision)} ${units[index]}`;
           }
           result /= sclaeNum;
         }
         if (unitType === 'percent') {
-          return `${result.toFixed(decimal)} %`;
+          return `${result.toFixed(this.precision)} %`;
         }
-        return `${result.toFixed(decimal)} Yi`;
+        return `${result.toFixed(this.precision)} Yi`;
       },
-      beautifyDurationUnit(num, decimal = 2) {
+      beautifyDurationUnit(num) {
         let result = parseFloat(num);
         const units = ['ns', 'us', 'ms', 's', 'm', 'h', 'd', 'w'];
         let sclaeNum = 1000;
@@ -520,11 +532,11 @@
             sclaeNum = 7;
           }
           if (Math.abs(result) <= sclaeNum || parseInt(index) === parseInt(units.length - 1)) {
-            return `${result.toFixed(decimal)} ${units[index]}`;
+            return `${result.toFixed(this.precision)} ${units[index]}`;
           }
           result /= sclaeNum;
         }
-        return `${result.toFixed(decimal)} Yi`;
+        return `${result.toFixed(this.precision)} Yi`;
       },
       formatter(value) {
         if (value === 0) return '0';
