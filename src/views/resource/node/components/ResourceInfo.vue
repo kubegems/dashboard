@@ -298,9 +298,12 @@
               sizeOfCpu(this.item.status.capacity['cpu']) === 0
                 ? 0
                 : (sizeOfCpu(this.totalRequests['cpu']) / sizeOfCpu(this.item.status.capacity['cpu'])) * 100,
-              50,
+              100 -
+                (sizeOfCpu(this.item.status.capacity['cpu']) === 0
+                  ? 0
+                  : (sizeOfCpu(this.totalRequests['cpu']) / sizeOfCpu(this.item.status.capacity['cpu'])) * 100),
             ]
-          : [0, 50];
+          : [0, 100];
       },
       memorySeries() {
         return this.totalRequests['memory'] && this.item.status.capacity['memory']
@@ -309,9 +312,13 @@
                 ? 0
                 : (sizeOfStorage(this.totalRequests['memory']) / sizeOfStorage(this.item.status.capacity['memory'])) *
                   100,
-              50,
+              100 -
+                (sizeOfStorage(this.item.status.capacity['memory']) === 0
+                  ? 0
+                  : (sizeOfStorage(this.totalRequests['memory']) / sizeOfStorage(this.item.status.capacity['memory'])) *
+                    100),
             ]
-          : [0, 50];
+          : [0, 100];
       },
 
       gpuTkeSeries() {
@@ -322,9 +329,14 @@
                 : (parseInt(this.totalRequests['tencent.com/vcuda-core']) /
                     parseInt(this.item.status.capacity['tencent.com/vcuda-core'])) *
                   100,
-              50,
+              100 -
+                (parseInt(this.item.status.capacity['tencent.com/vcuda-core']) === 0
+                  ? 0
+                  : (parseInt(this.totalRequests['tencent.com/vcuda-core']) /
+                      parseInt(this.item.status.capacity['tencent.com/vcuda-core'])) *
+                    100),
             ]
-          : [0, 50];
+          : [0, 100];
       },
 
       gpuNvidiaSeries() {
@@ -333,9 +345,13 @@
               parseInt(this.totalLimits['nvidia.com/gpu']) === 0
                 ? 0
                 : (parseInt(this.totalRequests['nvidia.com/gpu']) / parseInt(this.totalLimits['nvidia.com/gpu'])) * 100,
-              50,
+              100 -
+                (parseInt(this.totalLimits['nvidia.com/gpu']) === 0
+                  ? 0
+                  : (parseInt(this.totalRequests['nvidia.com/gpu']) / parseInt(this.totalLimits['nvidia.com/gpu'])) *
+                    100),
             ]
-          : [0, 50];
+          : [0, 100];
       },
 
       gpuTkeMemorySeries() {
@@ -346,17 +362,25 @@
                 : (parseInt(this.totalRequests['tencent.com/vcuda-memory']) /
                     parseInt(this.item.status.capacity['tencent.com/vcuda-memory'])) *
                   100,
-              50,
+              100 -
+                (parseInt(this.item.status.capacity['tencent.com/vcuda-memory']) === 0
+                  ? 0
+                  : (parseInt(this.totalRequests['tencent.com/vcuda-memory']) /
+                      parseInt(this.item.status.capacity['tencent.com/vcuda-memory'])) *
+                    100),
             ]
-          : [0, 50];
+          : [0, 100];
       },
 
       podSeries() {
         return this.item
           ? parseInt(this.item.status.capacity.pods) === 0
-            ? [0, 50]
-            : [(this.podCount / parseInt(this.item.status.capacity.pods)) * 100, 50]
-          : [0, 50];
+            ? [0, 100]
+            : [
+                (this.podCount / parseInt(this.item.status.capacity.pods)) * 100,
+                100 - (this.podCount / parseInt(this.item.status.capacity.pods)) * 100,
+              ]
+          : [0, 100];
       },
     },
     watch: {

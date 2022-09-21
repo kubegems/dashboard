@@ -28,10 +28,11 @@
           :extend-height="height"
           label="pod"
           :metrics="data"
+          :precision="0"
           single-tooptip
           title=""
           type=""
-          unit=""
+          unit="lines/s"
         />
       </div>
     </template>

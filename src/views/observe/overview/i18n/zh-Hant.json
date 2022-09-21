@@ -22,7 +22,8 @@
     "error_info": "錯誤資訊",
     "event_source": "事件源",
     "event_type": "事件類型",
-    "event": "Kubernetes 事件"
+    "event": "Kubernetes 事件",
+    "limit_30": "結果數量過多，截取30條"
   },
   "table": {
     "label": "標籤",

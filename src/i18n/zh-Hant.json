@@ -69,7 +69,9 @@
       "ops": "運維",
       "admin": "管理員",
       "sys": "系統管理員",
-      "tenantadmin": "租戶管理員"
+      "tenantadmin": "租戶管理員",
+      "projectadmin": "專案管理員",
+      "projectops": "項目運維"
     },
     "environment": {
       "operator": "操作成員",

@@ -74,7 +74,9 @@
       "ops": "Ops",
       "admin": "Admin",
       "sys": "System Admin",
-      "tenantadmin": "Tenant Admin"
+      "tenantadmin": "Tenant Admin",
+      "projectadmin": "Project Admin",
+      "projectops": "Project Ops"
     },
     "environment": {
       "operator": "Operator",

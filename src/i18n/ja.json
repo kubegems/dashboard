@@ -69,7 +69,9 @@
       "ops": "運用",
       "admin": "管理者",
       "sys": "システム管理者",
-      "tenantadmin": "テナント管理者"
+      "tenantadmin": "テナント管理者",
+      "projectadmin": "プロジェクトマネージャー",
+      "projectops": "プロジェクト運用"
     },
     "environment": {
       "operator": "メンバーの動作",
