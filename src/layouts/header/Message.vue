@@ -117,8 +117,9 @@
                       >
                         {{ data.Title }}
                         <span v-if="tabItems[tab].value === 'approve'">
-                          {{ $t('resource.cpu') }} : {{ data.Content['limits.cpu'] }}, {{ $t('resource.memory') }} :
-                          {{ data.Content['limits.memory'] }}, {{ $t('resource.storage') }} :
+                          {{ $root.$t('resource.cpu') }} : {{ data.Content['limits.cpu'] }},
+                          {{ $root.$t('resource.memory') }} : {{ data.Content['limits.memory'] }},
+                          {{ $root.$t('resource.storage') }} :
                           {{ data.Content['requests.storage'] }}
                         </span>
                       </span>
