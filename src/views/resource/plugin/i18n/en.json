@@ -10,7 +10,8 @@
     "category": "Category",
     "repository": "Repository",
     "plugin_params": "Plugin params",
-    "schema_form": "Schema Form"
+    "schema_form": "Schema Form",
+    "message": "Install Status"
   },
   "operate": {
     "install": "Enabled",

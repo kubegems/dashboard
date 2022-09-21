@@ -10,7 +10,8 @@
     "category": "類別",
     "repository": "倉庫地址",
     "plugin_params": "元件參數",
-    "schema_form": "Schema表單"
+    "schema_form": "Schema表單",
+    "message": "安裝狀態"
   },
   "operate": {
     "install": "啟用",

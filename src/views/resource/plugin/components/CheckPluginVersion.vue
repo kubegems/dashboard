@@ -38,7 +38,6 @@
         :search.sync="search"
       >
         <template #[`item.upgradeableVersion`]="{ item }">
-          {{ item.upgradeableVersion }}
           <v-icon
             v-if="item.upgradeableVersion && item.upgradeableVersion !== item.installedVersion"
             color="warning"
@@ -47,6 +46,7 @@
           >
             mdi-arrow-up-bold-circle
           </v-icon>
+          {{ item.upgradeableVersion }}
         </template>
       </v-data-table>
     </template>

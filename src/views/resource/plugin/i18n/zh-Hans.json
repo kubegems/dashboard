@@ -10,7 +10,8 @@
     "category": "类别",
     "repository": "仓库地址",
     "plugin_params": "插件参数",
-    "schema_form": "Schema表单"
+    "schema_form": "Schema表单",
+    "message": "安装状态"
   },
   "operate": {
     "install": "启用",

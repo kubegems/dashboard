@@ -15,13 +15,15 @@
 -->
 <template>
   <div>
-    <v-flex :id="`${plugin.name}-${index}`" />
+    <v-flex :id="`${plugin.name}-${index}m`" />
     <v-menu
-      v-if="plugin.upgradeableVersion"
-      :attach="`#${plugin.name}-${index}`"
+      v-if="plugin.message"
+      :attach="`#${plugin.name}-${index}m`"
       :close-delay="200"
       max-width="250px"
-      nudge-bottom="-5px"
+      min-width="170px"
+      nudge-bottom="30px"
+      nudge-left="20px"
       offset-y
       open-on-hover
       origin="bottom center"
@@ -31,22 +33,22 @@
     >
       <template #activator="{ on }">
         <div class="float-left plugins__tip" v-on="on">
-          <v-icon class="plugins__icon" color="warning" right small> mdi-arrow-up-bold-circle </v-icon>
+          <v-icon class="plugins__icon" color="error" right small> mdi-alert-circle </v-icon>
         </div>
       </template>
       <v-card>
         <v-flex class="text-body-2 text-center primary white--text py-2">
-          <v-icon color="white" left small> mdi-alpha-v-circle </v-icon>
-          <span>{{ $t('tip.version') }}</span>
+          <v-icon color="white" left small> mdi-alert-circle </v-icon>
+          <span>{{ $t('tip.message') }}</span>
         </v-flex>
-        <v-list class="pa-0" dense>
+        <v-list class="pa-0" dense :style="{ height: '120px', overflowY: 'auto' }">
           <v-list-item>
             <v-list-item-content>
               <v-list-item class="float-left pa-0" two-line>
                 <v-list-item-content class="py-0">
-                  <v-list-item-title> {{ $t('tip.laset_version') }} </v-list-item-title>
+                  <v-list-item-title> {{ $t('tip.message') }} </v-list-item-title>
                   <v-list-item-content class="text-caption kubegems__text kubegems__break-all">
-                    {{ plugin.upgradeableVersion }}
+                    {{ plugin.message }}
                   </v-list-item-content>
                 </v-list-item-content>
               </v-list-item>
@@ -62,7 +64,7 @@
   import messages from '../i18n';
 
   export default {
-    name: 'UpgradeTip',
+    name: 'UpgradeMessage',
     i18n: {
       messages: messages,
     },
