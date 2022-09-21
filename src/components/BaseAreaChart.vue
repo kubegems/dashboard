@@ -250,7 +250,7 @@
                     maxTicksLimit: 8,
                   },
                   beginAtZero: this.beginAtZero,
-                  max: this.type === 'percent' || ['0-100', '0.0-1.0'].indexOf(this.unit) > -1 ? 100 : null,
+                  min: this.type === 'percent' || ['0-100', '0.0-1.0'].indexOf(this.unit) > -1 ? 0 : null,
                 },
                 x: {
                   display: !this.sample,

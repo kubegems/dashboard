@@ -174,7 +174,7 @@
           { text: this.$t('table.living_alert_count'), value: 'alertLiving', align: 'end' },
           { text: this.$t('table.log_count'), value: 'loggingCollectorCount', align: 'start' },
           { text: this.$t('table.error_log_count'), value: 'errorLogCount', align: 'start' },
-          { text: this.$t('table.log_rate'), value: 'logRate', align: 'end' },
+          { text: this.$t('table.log_rate'), value: 'logRate', align: 'end', width: 120 },
           { text: this.$t('table.event_count'), value: 'eventCount', align: 'end' },
         ];
       },
