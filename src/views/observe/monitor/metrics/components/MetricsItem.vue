@@ -54,7 +54,7 @@
           chart-type="line"
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
           colorful
-          :extend-height="295"
+          :extend-height="280"
           label="all"
           :label-show="false"
           :metrics="data.data"
