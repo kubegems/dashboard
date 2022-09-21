@@ -368,7 +368,7 @@
       },
       getData() {
         const data = deepCopy(this.obj);
-        if (!canSetGpu) {
+        if (!this.canSetGpu) {
           if (this.nvidia) {
             delete data.Content['limits.nvidia.com/gpu'];
           }

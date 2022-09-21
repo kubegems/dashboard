@@ -24,7 +24,7 @@
           </v-sheet>
           <v-sheet>
             <v-sheet>
-              <v-avatar class="mr-2" size="10" :style="{ backgroundcolor: `#00bcd4` }">
+              <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#00bcd4` }">
                 <span class="white--text text-h5" />
               </v-avatar>
               <span>
@@ -34,7 +34,7 @@
               </span>
             </v-sheet>
             <v-sheet>
-              <v-avatar class="mr-2" size="10" :style="{ backgroundcolor: `#1e88e5` }">
+              <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#1e88e5` }">
                 <span class="white--text text-h5" />
               </v-avatar>
               <span>
@@ -44,7 +44,7 @@
               </span>
             </v-sheet>
             <v-sheet>
-              <v-avatar class="mr-2" size="10" :style="{ backgroundcolor: `#fb8c00` }">
+              <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#fb8c00` }">
                 <span class="white--text text-h5" />
               </v-avatar>
               <span>
@@ -66,7 +66,7 @@
           </v-sheet>
           <v-sheet>
             <v-sheet>
-              <v-avatar class="mr-2" size="10" :style="{ backgroundcolor: `#00bcd4` }">
+              <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#00bcd4` }">
                 <span class="white--text text-h5" />
               </v-avatar>
               <span>
@@ -76,7 +76,7 @@
               </span>
             </v-sheet>
             <v-sheet>
-              <v-avatar class="mr-2" size="10" :style="{ backgroundcolor: `#1e88e5` }">
+              <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#1e88e5` }">
                 <span class="white--text text-h5" />
               </v-avatar>
               <span>
@@ -86,7 +86,7 @@
               </span>
             </v-sheet>
             <v-sheet>
-              <v-avatar class="mr-2" size="10" :style="{ backgroundcolor: `#fb8c00` }">
+              <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#fb8c00` }">
                 <span class="white--text text-h5" />
               </v-avatar>
               <span>
@@ -108,7 +108,7 @@
           </v-sheet>
           <v-sheet>
             <v-sheet>
-              <v-avatar class="mr-2" size="10" :style="{ backgroundcolor: `#00bcd4` }">
+              <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#00bcd4` }">
                 <span class="white--text text-h5" />
               </v-avatar>
               <span>
@@ -118,7 +118,7 @@
               </span>
             </v-sheet>
             <v-sheet>
-              <v-avatar class="mr-2" size="10" :style="{ backgroundcolor: `#1e88e5` }">
+              <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#1e88e5` }">
                 <span class="white--text text-h5" />
               </v-avatar>
               <span>
@@ -128,7 +128,7 @@
               </span>
             </v-sheet>
             <v-sheet>
-              <v-avatar class="mr-2" size="0" :style="{ backgroundcolor: `#607d8b` }">
+              <v-avatar class="mr-2" size="0" :style="{ backgroundColor: `#607d8b` }">
                 <span class="white--text text-h5" />
               </v-avatar>
               <span />
@@ -146,7 +146,7 @@
           </v-sheet>
           <v-sheet>
             <v-sheet>
-              <v-avatar class="mr-2" size="10" :style="{ backgroundcolor: `#00bcd4` }">
+              <v-avatar class="mr-2" size="10" :style="{ backgroundColor: `#00bcd4` }">
                 <span class="white--text text-h5" />
               </v-avatar>
               <span>
@@ -155,13 +155,13 @@
               </span>
             </v-sheet>
             <v-sheet>
-              <v-avatar class="mr-2" size="0" :style="{ backgroundcolor: `#00bcd4` }">
+              <v-avatar class="mr-2" size="0" :style="{ backgroundColor: `#00bcd4` }">
                 <span class="white--text text-h5" />
               </v-avatar>
               <span />
             </v-sheet>
             <v-sheet>
-              <v-avatar class="mr-2" size="0" :style="{ backgroundcolor: `#607d8b` }">
+              <v-avatar class="mr-2" size="0" :style="{ backgroundColor: `#607d8b` }">
                 <span class="white--text text-h5" />
               </v-avatar>
               <span />
