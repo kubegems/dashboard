@@ -70,7 +70,7 @@
           if (this.formComponent === 'TemplateBaseForm') {
             data = this.$refs[this.formComponent].getData();
             data.resourceID = parseInt(this.$route.query.resourceId);
-            await postAddRule(this.Tenant().ID, data);
+            await postAddRule('_all', data);
           }
           this.reset();
           this.$emit('refresh');

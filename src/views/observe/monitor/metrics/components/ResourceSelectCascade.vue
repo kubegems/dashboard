@@ -252,8 +252,8 @@
       },
       async ruleScopeList() {
         const data = await getRuleScopeList(this.tenant.ID, { noprocessing: true, size: 1000, preload: 'Resources' });
-        this.scopeItems = data.List;
-        this.scopeItemsCopy = data.List;
+        this.scopeItems = data.List || [];
+        this.scopeItemsCopy = data.List || [];
       },
       async ruleResourceList(scopeId, resourceId = -1) {
         const data = await getRuleResourceList(this.tenant.ID, scopeId, {
@@ -261,8 +261,8 @@
           size: 1000,
           preload: 'Rules',
         });
-        this.resourceItems = data.List;
-        this.resourceItemsCopy = data.List;
+        this.resourceItems = data.List || [];
+        this.resourceItemsCopy = data.List || [];
         if (this.generator) {
           this.resourceIndex = this.resourceItems.findIndex((r) => {
             return r.id === resourceId;
@@ -271,8 +271,8 @@
       },
       async ruleList(resourceId, ruleId = -1) {
         const data = await getRuleList(this.tenant.ID, resourceId, { noprocessing: true, size: 1000 });
-        this.ruleItems = data.List;
-        this.ruleItemsCopy = data.List;
+        this.ruleItems = data.List || [];
+        this.ruleItemsCopy = data.List || [];
         if (this.generator) {
           this.ruleIndex = this.ruleItems.findIndex((r) => {
             return r.id === ruleId;
