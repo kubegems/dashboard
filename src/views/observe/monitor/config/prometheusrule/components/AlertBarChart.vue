@@ -39,11 +39,13 @@
         default: () => [],
       },
     },
-    data: () => ({
-      series: [],
-      timeinterval: null,
-      height: 250,
-    }),
+    data() {
+      return {
+        series: [],
+        timeinterval: null,
+        height: 250,
+      };
+    },
     computed: {
       ...mapState(['Scale']),
     },

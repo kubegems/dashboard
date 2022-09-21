@@ -145,22 +145,24 @@
         default: () => false,
       },
     },
-    data: () => ({
-      valid: false,
-      prefixscheme: false,
-      scheme: 'https',
-      obj: {
-        RegistryName: '',
-        RegistryAddress: '',
-        Username: '',
-        Password: '',
-        UpdateTime: new Date(),
-        CreatorID: 0,
-        ProjectID: 0,
-        IsDefault: false,
-        EnableExtends: false,
-      },
-    }),
+    data() {
+      return {
+        valid: false,
+        prefixscheme: false,
+        scheme: 'https',
+        obj: {
+          RegistryName: '',
+          RegistryAddress: '',
+          Username: '',
+          Password: '',
+          UpdateTime: new Date(),
+          CreatorID: 0,
+          ProjectID: 0,
+          IsDefault: false,
+          EnableExtends: false,
+        },
+      };
+    },
     computed: {
       ...mapState(['Circular', 'User', 'AdminViewport']),
       ...mapGetters(['Project']),

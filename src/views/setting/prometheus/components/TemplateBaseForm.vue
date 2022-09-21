@@ -114,21 +114,23 @@
         default: () => null,
       },
     },
-    data: () => ({
-      valid: false,
-      expand: false,
-      labels: [],
-      labelText: '',
-      obj: {
-        name: '',
-        showName: '',
-        expr: '',
+    data() {
+      return {
+        valid: false,
+        expand: false,
         labels: [],
-        unit: '',
-        description: '',
-        resourceID: 0,
-      },
-    }),
+        labelText: '',
+        obj: {
+          name: '',
+          showName: '',
+          expr: '',
+          labels: [],
+          unit: '',
+          description: '',
+          resourceID: 0,
+        },
+      };
+    },
     computed: {
       objRules() {
         return {

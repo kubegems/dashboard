@@ -72,13 +72,15 @@
       VirtualSpaceBaseForm,
     },
     mixins: [BaseResource],
-    data: () => ({
-      dialog: false,
-      formComponent: 'VirtualSpaceBaseForm',
-      step: 0,
-      totalStep: 3,
-      item: null,
-    }),
+    data() {
+      return {
+        dialog: false,
+        formComponent: 'VirtualSpaceBaseForm',
+        step: 0,
+        totalStep: 3,
+        item: null,
+      };
+    },
     computed: {
       ...mapState(['Circular', 'AdminViewport']),
     },

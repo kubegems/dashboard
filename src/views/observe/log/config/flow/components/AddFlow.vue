@@ -64,12 +64,14 @@
       FlowBaseForm,
     },
     mixins: [BaseResource, FlowSchema],
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      formComponent: 'FlowBaseForm',
-      switchKey: '',
-    }),
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        formComponent: 'FlowBaseForm',
+        switchKey: '',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'AdminViewport']),
     },

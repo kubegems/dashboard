@@ -44,10 +44,12 @@
     i18n: {
       messages: messages,
     },
-    data: () => ({
-      dialog: false,
-      formComponent: 'BaseYamlForm',
-    }),
+    data() {
+      return {
+        dialog: false,
+        formComponent: 'BaseYamlForm',
+      };
+    },
     computed: {
       ...mapState(['Circular']),
     },

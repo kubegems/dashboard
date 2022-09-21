@@ -95,24 +95,26 @@
         default: () => null,
       },
     },
-    data: () => ({
-      valid: false,
-      expand: false,
-      ingressgatewayItems: [],
-      ingressgateway: null,
-      obj: {
-        apiVersion: 'networking.istio.io/v1beta1',
-        kind: 'Gateway',
-        metadata: {
-          name: '',
-          namespace: null,
+    data() {
+      return {
+        valid: false,
+        expand: false,
+        ingressgatewayItems: [],
+        ingressgateway: null,
+        obj: {
+          apiVersion: 'networking.istio.io/v1beta1',
+          kind: 'Gateway',
+          metadata: {
+            name: '',
+            namespace: null,
+          },
+          spec: {
+            selector: {},
+            servers: [],
+          },
         },
-        spec: {
-          selector: {},
-          servers: [],
-        },
-      },
-    }),
+      };
+    },
     computed: {
       ...mapState(['EnvironmentFilter', 'ApiResources']),
       ...mapGetters(['VirtualSpace']),

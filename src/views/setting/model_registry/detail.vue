@@ -87,10 +87,12 @@
       UpdateModelRegistry,
     },
     mixins: [BasePermission, BaseResource],
-    data: () => ({
-      item: null,
-      tab: 0,
-    }),
+    data() {
+      return {
+        item: null,
+        tab: 0,
+      };
+    },
     computed: {
       ...mapState(['JWT']),
       tabItems() {

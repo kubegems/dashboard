@@ -67,18 +67,20 @@
       messages: messages,
     },
     mixins: [BaseResource],
-    data: () => ({
-      dialog: false,
-      valid: false,
-      item: null,
-      obj: {
+    data() {
+      return {
+        dialog: false,
+        valid: false,
+        item: null,
+        obj: {
+          replicas: 0,
+        },
         replicas: 0,
-      },
-      replicas: 0,
-      objRules: {
-        replicasRules: [(v) => parseInt(v) >= 0 || this.$t('form.limit_min_rule')],
-      },
-    }),
+        objRules: {
+          replicasRules: [(v) => parseInt(v) >= 0 || this.$t('form.limit_min_rule')],
+        },
+      };
+    },
     computed: {
       ...mapState(['Circular']),
       ...mapGetters(['Tenant', 'Project', 'Environment']),

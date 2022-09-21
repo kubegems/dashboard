@@ -178,15 +178,17 @@
       UpdateProject,
     },
     mixins: [BaseFilter, BasePermission, BaseSelect],
-    data: () => ({
-      items: [],
-      tenant: -1,
-      pageCount: 0,
-      params: {
-        page: 1,
-        size: 10,
-      },
-    }),
+    data() {
+      return {
+        items: [],
+        tenant: -1,
+        pageCount: 0,
+        params: {
+          page: 1,
+          size: 10,
+        },
+      };
+    },
     computed: {
       ...mapState(['Admin', 'AdminViewport', 'JWT', 'ProjectStore']),
       ...mapGetters(['Tenant']),

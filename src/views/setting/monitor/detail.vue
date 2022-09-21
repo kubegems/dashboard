@@ -102,10 +102,12 @@
     components: {
       ResourceInfo,
     },
-    data: () => ({
-      monitorTemplate: null,
-      tab: 0,
-    }),
+    data() {
+      return {
+        monitorTemplate: null,
+        tab: 0,
+      };
+    },
     computed: {
       ...mapState(['JWT']),
       ...mapGetters(['Tenant']),

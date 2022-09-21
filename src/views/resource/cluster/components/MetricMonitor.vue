@@ -71,12 +71,14 @@
       },
     },
 
-    data: () => ({
-      tab: 0,
-      count: 0,
-      key: 0,
-      timeinterval: null,
-    }),
+    data() {
+      return {
+        tab: 0,
+        count: 0,
+        key: 0,
+        timeinterval: null,
+      };
+    },
     computed: {
       ...mapState(['Scale']),
       tabItems() {

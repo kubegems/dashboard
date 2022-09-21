@@ -89,9 +89,11 @@
       UpdateConfigMap,
     },
     mixins: [BaseFilter, BasePermission, BaseResource],
-    data: () => ({
-      configmap: null,
-    }),
+    data() {
+      return {
+        configmap: null,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Scale']),
       ...mapGetters(['VirtualSpace']),

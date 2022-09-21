@@ -45,12 +45,14 @@
       ResourceBaseForm,
     },
     mixins: [BaseResource],
-    data: () => ({
-      dialog: false,
-      item: null,
-      quota: null,
-      cluster: '',
-    }),
+    data() {
+      return {
+        dialog: false,
+        item: null,
+        quota: null,
+        cluster: '',
+      };
+    },
     computed: {
       ...mapState(['Circular']),
     },

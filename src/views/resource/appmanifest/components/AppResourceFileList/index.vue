@@ -143,13 +143,15 @@
         default: () => null,
       },
     },
-    data: () => ({
-      tree: [],
-      active: [],
-      activeFile: '',
-      items: [],
-      historyView: false,
-    }),
+    data() {
+      return {
+        tree: [],
+        active: [],
+        activeFile: '',
+        items: [],
+        historyView: false,
+      };
+    },
     computed: {
       ...mapState(['Scale']),
       ...mapGetters(['Project', 'Tenant', 'Environment']),

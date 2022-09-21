@@ -153,16 +153,18 @@
         default: () => false,
       },
     },
-    data: () => ({
-      items: [],
-      pageCount: 0,
-      cluster: undefined,
-      namespace: undefined,
-      params: {
-        page: 1,
-        size: 10,
-      },
-    }),
+    data() {
+      return {
+        items: [],
+        pageCount: 0,
+        cluster: undefined,
+        namespace: undefined,
+        params: {
+          page: 1,
+          size: 10,
+        },
+      };
+    },
     computed: {
       ...mapState(['JWT', 'AdminViewport']),
       headers() {

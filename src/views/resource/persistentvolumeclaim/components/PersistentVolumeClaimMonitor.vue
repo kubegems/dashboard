@@ -71,17 +71,19 @@
         default: () => null,
       },
     },
-    data: () => ({
-      used: [],
-      inodeused: [],
-      date: [],
-      params: {
-        start: '',
-        end: '',
-        noprocessing: true,
-      },
-      timeinterval: null,
-    }),
+    data() {
+      return {
+        used: [],
+        inodeused: [],
+        date: [],
+        params: {
+          start: '',
+          end: '',
+          noprocessing: true,
+        },
+        timeinterval: null,
+      };
+    },
     computed: {
       ...mapState(['Scale']),
     },

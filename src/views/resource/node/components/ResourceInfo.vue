@@ -272,13 +272,15 @@
         default: () => null,
       },
     },
-    data: () => ({
-      totalLimits: {},
-      totalRequests: {},
-      podCount: 0,
-      node: null,
-      showMore: false,
-    }),
+    data() {
+      return {
+        totalLimits: {},
+        totalRequests: {},
+        podCount: 0,
+        node: null,
+        showMore: false,
+      };
+    },
     computed: {
       tke() {
         if (this.item?.metadata?.labels) {

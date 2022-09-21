@@ -133,26 +133,28 @@
         default: () => null,
       },
     },
-    data: () => ({
-      valid: false,
-      expand: false,
-      obj: {
-        apiVersion: 'networking.istio.io/v1beta1',
-        kind: 'DestinationRule',
-        metadata: {
-          name: '',
-          namespace: null,
+    data() {
+      return {
+        valid: false,
+        expand: false,
+        obj: {
+          apiVersion: 'networking.istio.io/v1beta1',
+          kind: 'DestinationRule',
+          metadata: {
+            name: '',
+            namespace: null,
+          },
+          spec: {
+            host: '',
+            trafficPolicy: {},
+            subsets: [],
+            exportTo: [],
+          },
         },
-        spec: {
-          host: '',
-          trafficPolicy: {},
-          subsets: [],
-          exportTo: [],
-        },
-      },
-      exportTo: [],
-      exportToText: '',
-    }),
+        exportTo: [],
+        exportToText: '',
+      };
+    },
     computed: {
       ...mapState(['EnvironmentFilter', 'ApiResources']),
       objRules() {

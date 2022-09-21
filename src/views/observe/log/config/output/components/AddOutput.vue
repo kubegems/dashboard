@@ -63,12 +63,14 @@
       OutputBaseForm,
     },
     mixins: [BaseResource, OutputSchema],
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      formComponent: 'OutputBaseForm',
-      switchKey: '',
-    }),
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        formComponent: 'OutputBaseForm',
+        switchKey: '',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'AdminViewport']),
     },

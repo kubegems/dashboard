@@ -63,12 +63,14 @@
       PersistentVolumeClaimBaseForm,
     },
     mixins: [BaseResource, PersistentVolumeClaimSchema],
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      formComponent: 'PersistentVolumeClaimBaseForm',
-      switchKey: '',
-    }),
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        formComponent: 'PersistentVolumeClaimBaseForm',
+        switchKey: '',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'AdminViewport']),
     },

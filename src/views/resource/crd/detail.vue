@@ -98,10 +98,12 @@
       ResourceYaml,
     },
     mixins: [BasePermission, BaseResource],
-    data: () => ({
-      crd: null,
-      tab: 0,
-    }),
+    data() {
+      return {
+        crd: null,
+        tab: 0,
+      };
+    },
     computed: {
       ...mapState(['JWT']),
       tabItems() {

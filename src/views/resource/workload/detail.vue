@@ -183,14 +183,16 @@
       WorkloadMonitor,
     },
     mixins: [BasePermission, BaseResource],
-    data: () => ({
-      workload: null,
-      tab: 0,
-      cpu: { val: 0, trend: '' },
-      memory: { val: 0, trend: '' },
-      cpuInterval: null,
-      memoryInterval: null,
-    }),
+    data() {
+      return {
+        workload: null,
+        tab: 0,
+        cpu: { val: 0, trend: '' },
+        memory: { val: 0, trend: '' },
+        cpuInterval: null,
+        memoryInterval: null,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'MessageStreamWS']),
       tabItems() {

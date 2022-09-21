@@ -67,12 +67,14 @@
       ServiceBaseForm,
     },
     mixins: [BaseResource, ServiceSchema],
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      formComponent: 'ServiceBaseForm',
-      switchKey: '',
-    }),
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        formComponent: 'ServiceBaseForm',
+        switchKey: '',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'AdminViewport']),
     },

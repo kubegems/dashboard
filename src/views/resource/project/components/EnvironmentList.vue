@@ -156,14 +156,16 @@
         default: () => false,
       },
     },
-    data: () => ({
-      items: {},
-      clusters: [],
-      params: {
-        page: 1,
-        size: 1000,
-      },
-    }),
+    data() {
+      return {
+        items: {},
+        clusters: [],
+        params: {
+          page: 1,
+          size: 1000,
+        },
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Admin', 'AdminViewport']),
       ...mapGetters(['Project', 'Tenant', 'Cluster']),

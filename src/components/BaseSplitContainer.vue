@@ -109,9 +109,11 @@
         default: false,
       },
     },
-    data: () => ({
-      expand: true, // 展开
-    }),
+    data() {
+      return {
+        expand: true, // 展开
+      };
+    },
     computed: {
       sideStyle() {
         return {

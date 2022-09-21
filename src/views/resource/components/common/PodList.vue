@@ -245,15 +245,17 @@
         default: () => {},
       },
     },
-    data: () => ({
-      items: [],
-      pageCount: 0,
-      params: {
-        page: 1,
-        size: 10,
-        noprocessing: true,
-      },
-    }),
+    data() {
+      return {
+        items: [],
+        pageCount: 0,
+        params: {
+          page: 1,
+          size: 10,
+          noprocessing: true,
+        },
+      };
+    },
     computed: {
       ...mapState(['MessageStreamWS', 'AdminViewport']),
       headers() {

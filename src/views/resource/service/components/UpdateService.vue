@@ -67,13 +67,15 @@
       ServiceBaseForm,
     },
     mixins: [BaseResource, ServiceSchema],
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      item: null,
-      formComponent: 'ServiceBaseForm',
-      switchKey: '',
-    }),
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        item: null,
+        formComponent: 'ServiceBaseForm',
+        switchKey: '',
+      };
+    },
     computed: {
       ...mapState(['Circular']),
     },

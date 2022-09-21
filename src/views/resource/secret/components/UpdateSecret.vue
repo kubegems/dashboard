@@ -63,13 +63,15 @@
       SecretBaseForm,
     },
     mixins: [BaseResource, SecretSchema],
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      item: null,
-      formComponent: 'SecretBaseForm',
-      switchKey: '',
-    }),
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        item: null,
+        formComponent: 'SecretBaseForm',
+        switchKey: '',
+      };
+    },
     computed: {
       ...mapState(['Circular']),
     },

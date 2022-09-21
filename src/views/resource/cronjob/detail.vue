@@ -106,10 +106,12 @@
       UpdateCronJob,
     },
     mixins: [BasePermission, BaseResource],
-    data: () => ({
-      cronjob: null,
-      tab: 0,
-    }),
+    data() {
+      return {
+        cronjob: null,
+        tab: 0,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'MessageStreamWS']),
       tabItems() {

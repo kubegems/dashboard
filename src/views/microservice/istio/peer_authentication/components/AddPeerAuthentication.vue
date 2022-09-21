@@ -43,10 +43,12 @@
   export default {
     name: 'AddPeerAuthentication',
     mixins: [BaseResource, IstioAuthorizationPolicySchema],
-    data: () => ({
-      dialog: false,
-      formComponent: 'BaseYamlForm',
-    }),
+    data() {
+      return {
+        dialog: false,
+        formComponent: 'BaseYamlForm',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'EnvironmentFilter']),
       ...mapGetters(['VirtualSpace']),

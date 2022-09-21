@@ -57,11 +57,13 @@
         default: () => null,
       },
     },
-    data: () => ({
-      dialog: false,
-      item: null,
-      quota: null,
-    }),
+    data() {
+      return {
+        dialog: false,
+        item: null,
+        quota: null,
+      };
+    },
     computed: {
       ...mapState(['Circular']),
     },

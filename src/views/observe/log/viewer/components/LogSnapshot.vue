@@ -117,19 +117,21 @@
       ProjectEnvSelectCascade,
     },
     mixins: [BaseSelect],
-    data: () => ({
-      visible: false,
-      items: [],
-      pageCount: 0,
-      params: {
-        page: 1,
-        size: 10,
-      },
-      clusterid: undefined,
-      tenant: null,
-      env: undefined,
-      selectKey: '',
-    }),
+    data() {
+      return {
+        visible: false,
+        items: [],
+        pageCount: 0,
+        params: {
+          page: 1,
+          size: 10,
+        },
+        clusterid: undefined,
+        tenant: null,
+        env: undefined,
+        selectKey: '',
+      };
+    },
     computed: {
       ...mapState(['Progress', 'JWT']),
       ...mapGetters(['Tenant']),

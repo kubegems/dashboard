@@ -189,15 +189,17 @@
         default: () => false,
       },
     },
-    data: () => ({
-      items: [],
-      page: 1,
-      pageCount: 0,
-      itemsPerPage: 10,
-      params: {
-        scope: 'monitor',
-      },
-    }),
+    data() {
+      return {
+        items: [],
+        page: 1,
+        pageCount: 0,
+        itemsPerPage: 10,
+        params: {
+          scope: 'monitor',
+        },
+      };
+    },
     computed: {
       ...mapState(['JWT', 'AdminViewport']),
       ...mapGetters(['Environment']),

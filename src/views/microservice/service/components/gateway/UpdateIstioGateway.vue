@@ -48,12 +48,14 @@
       IstioGatewayBaseForm,
     },
     mixins: [BaseResource, IstioGatewaySchema],
-    data: () => ({
-      dialog: false,
-      yaml: null,
-      item: null,
-      formComponent: 'BaseYamlForm',
-    }),
+    data() {
+      return {
+        dialog: false,
+        yaml: null,
+        item: null,
+        formComponent: 'BaseYamlForm',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'EnvironmentFilter']),
     },

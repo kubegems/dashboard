@@ -153,14 +153,16 @@
       messages: messages,
     },
     mixins: [BaseResource, BaseSelect],
-    data: () => ({
-      dialog: false,
-      items: [],
-      tagMenus: [],
-      tags: [],
-      environmentID: 0,
-      search: '',
-    }),
+    data() {
+      return {
+        dialog: false,
+        items: [],
+        tagMenus: [],
+        tags: [],
+        environmentID: 0,
+        search: '',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'AdminViewport']),
       ...mapGetters(['Environment', 'Project', 'Tenant']),

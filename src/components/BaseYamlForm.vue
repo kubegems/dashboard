@@ -48,10 +48,12 @@
         default: () => '',
       },
     },
-    data: () => ({
-      valid: false,
-      kubeyaml: '',
-    }),
+    data() {
+      return {
+        valid: false,
+        kubeyaml: '',
+      };
+    },
     computed: {
       ...mapState(['Scale']),
     },

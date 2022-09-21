@@ -25,7 +25,7 @@
           content-class="micro-service-header__bg"
           left
           max-height="300px"
-          max-width="220px"
+          max-width="280px"
           min-width="120px"
           nudge-bottom="5px"
           offset-y
@@ -171,10 +171,12 @@
         default: () => true,
       },
     },
-    data: () => ({
-      virtualSpaceMenu: false,
-      loading: false,
-    }),
+    data() {
+      return {
+        virtualSpaceMenu: false,
+        loading: false,
+      };
+    },
     computed: {
       ...mapGetters(['VirtualSpace']),
     },

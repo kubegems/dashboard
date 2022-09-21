@@ -109,10 +109,12 @@
       UpdateEnvironment,
     },
     mixins: [BasePermission, BaseResource, BaseSelect],
-    data: () => ({
-      environment: null,
-      ready: false,
-    }),
+    data() {
+      return {
+        environment: null,
+        ready: false,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Scale']),
       ...mapGetters(['Environment', 'Project']),

@@ -100,15 +100,17 @@
       CronjobBaseForm,
     },
     mixins: [BaseResource, CronjobSchema],
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      item: null,
-      formComponent: 'CronjobBaseForm',
-      step: 0,
-      totalStep: 4,
-      switchKey: '',
-    }),
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        item: null,
+        formComponent: 'CronjobBaseForm',
+        step: 0,
+        totalStep: 4,
+        switchKey: '',
+      };
+    },
     computed: {
       ...mapState(['Circular']),
     },

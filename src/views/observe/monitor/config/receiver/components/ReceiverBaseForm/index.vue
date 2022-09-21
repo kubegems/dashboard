@@ -82,18 +82,20 @@
         default: () => null,
       },
     },
-    data: () => ({
-      valid: false,
-      expand: false,
-      obj: {
-        name: '',
-        webhookConfigs: [],
-        emailConfigs: [],
-      },
-      namespace: '',
-      type: null,
-      configIndex: null,
-    }),
+    data() {
+      return {
+        valid: false,
+        expand: false,
+        obj: {
+          name: '',
+          webhookConfigs: [],
+          emailConfigs: [],
+        },
+        namespace: '',
+        type: null,
+        configIndex: null,
+      };
+    },
     computed: {
       ...mapState(['Admin', 'AdminViewport']),
       ...mapGetters(['Cluster']),

@@ -92,17 +92,19 @@
       MiddlewareMetrics,
       Trace,
     },
-    data: () => ({
-      panel: false,
-      tab: 0,
-      item: {},
-      tabItems: [
-        { text: 'Trace', value: 'Trace' },
-        { text: 'Metrics', value: 'Metrics' },
-      ],
-      type: undefined,
-      inDeploy: false,
-    }),
+    data() {
+      return {
+        panel: false,
+        tab: 0,
+        item: {},
+        tabItems: [
+          { text: 'Trace', value: 'Trace' },
+          { text: 'Metrics', value: 'Metrics' },
+        ],
+        type: undefined,
+        inDeploy: false,
+      };
+    },
     computed: {
       ...mapState(['Scale', 'Circular']),
       ...mapGetters(['Tenant']),

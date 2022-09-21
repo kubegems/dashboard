@@ -144,10 +144,12 @@
       UpdateGateway,
     },
     mixins: [BasePermission, BaseResource],
-    data: () => ({
-      gateway: null,
-      tab: 0,
-    }),
+    data() {
+      return {
+        gateway: null,
+        tab: 0,
+      };
+    },
     computed: {
       ...mapState(['JWT']),
       ...mapGetters(['Tenant']),

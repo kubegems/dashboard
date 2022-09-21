@@ -86,21 +86,23 @@
         default: () => null,
       },
     },
-    data: () => ({
-      load: [],
-      cpu: [],
-      memory: [],
-      network: [],
-      disk: [],
-      diskiops: [],
-      date: [],
-      params: {
-        start: '',
-        end: '',
-        noprocessing: true,
-      },
-      timeinterval: null,
-    }),
+    data() {
+      return {
+        load: [],
+        cpu: [],
+        memory: [],
+        network: [],
+        disk: [],
+        diskiops: [],
+        date: [],
+        params: {
+          start: '',
+          end: '',
+          noprocessing: true,
+        },
+        timeinterval: null,
+      };
+    },
     computed: {
       ...mapState(['Scale']),
     },

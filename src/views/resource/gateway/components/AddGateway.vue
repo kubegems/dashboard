@@ -63,12 +63,14 @@
       GatewayBaseForm,
     },
     mixins: [BaseResource, GatewaySchema],
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      formComponent: 'GatewayBaseForm',
-      switchKey: '',
-    }),
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        formComponent: 'GatewayBaseForm',
+        switchKey: '',
+      };
+    },
     computed: {
       ...mapState(['Circular']),
       ...mapGetters(['Tenant']),

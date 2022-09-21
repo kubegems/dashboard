@@ -77,6 +77,7 @@
           }
         },
         deep: true,
+        immediate: true,
       },
     },
     methods: {
@@ -97,7 +98,10 @@
       onDatetimeChange() {
         this.eventList();
       },
-      dispose() {},
+      dispose() {
+        this.data = [];
+        this.$emit('clear');
+      },
     },
   };
 </script>

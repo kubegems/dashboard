@@ -173,30 +173,32 @@
         default: () => null,
       },
     },
-    data: () => ({
-      valid: false,
-      expand: false,
-      protocolTypes: [
-        { text: 'http/1.1', value: 'http/1.1' },
-        { text: 'http/2', value: 'http/2' },
-      ],
-      protocol: 'http/2',
-      image: '',
-      obj: {
-        apiVersion: '',
-        kind: 'TenantGateway',
-        metadata: {
-          name: '',
+    data() {
+      return {
+        valid: false,
+        expand: false,
+        protocolTypes: [
+          { text: 'http/1.1', value: 'http/1.1' },
+          { text: 'http/2', value: 'http/2' },
+        ],
+        protocol: 'http/2',
+        image: '',
+        obj: {
+          apiVersion: '',
+          kind: 'TenantGateway',
+          metadata: {
+            name: '',
+          },
+          spec: {
+            tenant: '',
+            type: 'NodePort',
+            replicas: 1,
+            baseDomain: '',
+            configMapData: {},
+          },
         },
-        spec: {
-          tenant: '',
-          type: 'NodePort',
-          replicas: 1,
-          baseDomain: '',
-          configMapData: {},
-        },
-      },
-    }),
+      };
+    },
     computed: {
       ...mapState(['AdminViewport', 'ApiResources']),
       ...mapGetters(['Tenant']),

@@ -50,10 +50,12 @@
         default: () => null,
       },
     },
-    data: () => ({
-      log: '',
-      logWebsocket: null,
-    }),
+    data() {
+      return {
+        log: '',
+        logWebsocket: null,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Scale']),
       height() {

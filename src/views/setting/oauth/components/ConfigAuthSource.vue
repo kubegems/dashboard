@@ -65,24 +65,26 @@
       OpenLdapBaseForm,
     },
     mixins: [BaseResource],
-    data: () => ({
-      dialog: false,
-      valid: false,
-      item: null,
-      edit: false,
-      formComponent: 'OauthBaseForm',
-      formComponents: {
-        oauth: 'OauthBaseForm',
-        ldap: 'OpenLdapBaseForm',
-        gitlab: 'OauthBaseForm',
-        github: 'OauthBaseForm',
-      },
-      obj: {
-        name: '',
-        kind: 'OAUTH',
-        vendor: '',
-      },
-    }),
+    data() {
+      return {
+        dialog: false,
+        valid: false,
+        item: null,
+        edit: false,
+        formComponent: 'OauthBaseForm',
+        formComponents: {
+          oauth: 'OauthBaseForm',
+          ldap: 'OpenLdapBaseForm',
+          gitlab: 'OauthBaseForm',
+          github: 'OauthBaseForm',
+        },
+        obj: {
+          name: '',
+          kind: 'OAUTH',
+          vendor: '',
+        },
+      };
+    },
     computed: {
       ...mapState(['Circular']),
       objRules() {

@@ -79,37 +79,39 @@
     components: {
       ConfigAuthSource,
     },
-    data: () => ({
-      items: [
-        {
-          name: 'Kubegems',
-          kind: 'kubegems',
-          enabled: true,
-          forbid: true,
-          vendor: 'kubegems',
-        },
-        {
-          name: 'Oauth',
-          kind: 'OAUTH',
-          vendor: 'oauth',
-        },
-        {
-          name: 'OpenLdap',
-          kind: 'LDAP',
-          vendor: 'ldap',
-        },
-        {
-          name: 'GitLab',
-          kind: 'OAUTH',
-          vendor: 'gitlab',
-        },
-        {
-          name: 'GitHub',
-          kind: 'OAUTH',
-          vendor: 'github',
-        },
-      ],
-    }),
+    data() {
+      return {
+        items: [
+          {
+            name: 'Kubegems',
+            kind: 'kubegems',
+            enabled: true,
+            forbid: true,
+            vendor: 'kubegems',
+          },
+          {
+            name: 'Oauth',
+            kind: 'OAUTH',
+            vendor: 'oauth',
+          },
+          {
+            name: 'OpenLdap',
+            kind: 'LDAP',
+            vendor: 'ldap',
+          },
+          {
+            name: 'GitLab',
+            kind: 'OAUTH',
+            vendor: 'gitlab',
+          },
+          {
+            name: 'GitHub',
+            kind: 'OAUTH',
+            vendor: 'github',
+          },
+        ],
+      };
+    },
     mounted() {
       this.$nextTick(() => {
         this.oauthSourceConfigList();

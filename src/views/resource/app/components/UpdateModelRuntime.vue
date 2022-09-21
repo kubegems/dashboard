@@ -48,10 +48,12 @@
       messages: messages,
     },
     mixins: [BaseResource],
-    data: () => ({
-      dialog: false,
-      item: null,
-    }),
+    data() {
+      return {
+        dialog: false,
+        item: null,
+      };
+    },
     computed: {
       ...mapState(['Circular']),
       ...mapGetters(['Tenant', 'Project', 'Environment']),

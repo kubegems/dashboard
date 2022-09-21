@@ -48,11 +48,13 @@
       ReceiverBaseForm,
     },
     mixins: [BaseResource, BaseSelect],
-    data: () => ({
-      dialog: false,
-      formComponent: 'ReceiverBaseForm',
-      item: {},
-    }),
+    data() {
+      return {
+        dialog: false,
+        formComponent: 'ReceiverBaseForm',
+        item: {},
+      };
+    },
     computed: {
       ...mapState(['Circular', 'AdminViewport']),
     },

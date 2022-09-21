@@ -119,6 +119,17 @@ html::-webkit-scrollbar {
   right: 0;
 }
 
+.kubegems__forminform {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(0%, 100%);
+  padding: 0 16px;
+  z-index: 12;
+  right: 0;
+  margin: auto;
+}
+
 .kubegems__expand-transition {
   z-index: 15;
 }

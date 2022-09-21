@@ -67,12 +67,14 @@
       messages: messages,
     },
     mixins: [BaseResource],
-    data: () => ({
-      dialog: false,
-      item: null,
-      tke: false,
-      nvidia: false,
-    }),
+    data() {
+      return {
+        dialog: false,
+        item: null,
+        tke: false,
+        nvidia: false,
+      };
+    },
     computed: {
       ...mapState(['Circular', 'Plugins']),
     },

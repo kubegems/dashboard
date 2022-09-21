@@ -172,14 +172,16 @@
       UpdateService,
     },
     mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],
-    data: () => ({
-      items: [],
-      pageCount: 0,
-      params: {
-        page: 1,
-        size: 10,
-      },
-    }),
+    data() {
+      return {
+        items: [],
+        pageCount: 0,
+        params: {
+          page: 1,
+          size: 10,
+        },
+      };
+    },
     computed: {
       ...mapState(['JWT', 'AdminViewport']),
       headers() {

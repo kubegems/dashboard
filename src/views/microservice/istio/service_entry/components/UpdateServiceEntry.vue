@@ -44,11 +44,13 @@
   export default {
     name: 'UpdateServiceEntry',
     mixins: [BaseResource, IstioServiceEntrySchema],
-    data: () => ({
-      dialog: false,
-      item: null,
-      formComponent: 'BaseYamlForm',
-    }),
+    data() {
+      return {
+        dialog: false,
+        item: null,
+        formComponent: 'BaseYamlForm',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'EnvironmentFilter']),
     },

@@ -131,14 +131,16 @@
       ScaleResource,
     },
     mixins: [BasePermission],
-    data: () => ({
-      items: [],
-      pageCount: 0,
-      params: {
-        page: 1,
-        size: 5,
-      },
-    }),
+    data() {
+      return {
+        items: [],
+        pageCount: 0,
+        params: {
+          page: 1,
+          size: 5,
+        },
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Admin']),
       ...mapGetters(['Tenant']),

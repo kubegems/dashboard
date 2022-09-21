@@ -57,14 +57,16 @@
       messages: messages,
     },
     mixins: [BaseResource, BaseSelect],
-    data: () => ({
-      dialog: false,
-      valid: false,
-      item: { metadata: { name: '' } },
-      obj: {
-        name: '',
-      },
-    }),
+    data() {
+      return {
+        dialog: false,
+        valid: false,
+        item: { metadata: { name: '' } },
+        obj: {
+          name: '',
+        },
+      };
+    },
     computed: {
       ...mapState(['Circular']),
       objRules() {

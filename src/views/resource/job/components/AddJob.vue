@@ -92,14 +92,16 @@
       JobBaseForm,
     },
     mixins: [BaseResource, JobSchema],
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      formComponent: 'JobBaseForm',
-      step: 0,
-      totalStep: 4,
-      switchKey: '',
-    }),
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        formComponent: 'JobBaseForm',
+        step: 0,
+        totalStep: 4,
+        switchKey: '',
+      };
+    },
     computed: {
       ...mapState(['Circular']),
     },

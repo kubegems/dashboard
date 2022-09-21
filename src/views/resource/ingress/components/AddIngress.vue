@@ -63,12 +63,14 @@
       IngressBaseForm,
     },
     mixins: [BaseResource, IngressSchema],
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      formComponent: 'IngressBaseForm',
-      switchKey: '',
-    }),
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        formComponent: 'IngressBaseForm',
+        switchKey: '',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'AdminViewport']),
     },

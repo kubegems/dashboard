@@ -104,9 +104,11 @@
       RepositoryInfo,
       StatusTip,
     },
-    data: () => ({
-      items: [],
-    }),
+    data() {
+      return {
+        items: [],
+      };
+    },
     computed: {
       ...mapState(['JWT']),
       ...mapGetters(['Tenant']),

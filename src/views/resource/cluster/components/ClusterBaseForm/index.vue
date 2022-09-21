@@ -48,9 +48,11 @@
         default: () => 0,
       },
     },
-    data: () => ({
-      steps: ['ValidateKubeConfig', 'TestKubeConfig', 'InitClusterConfig'],
-    }),
+    data() {
+      return {
+        steps: ['ValidateKubeConfig', 'TestKubeConfig', 'InitClusterConfig'],
+      };
+    },
     methods: {
       init(data) {
         this.$refs[this.steps[this.step]].init(data);

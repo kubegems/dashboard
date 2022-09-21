@@ -101,18 +101,20 @@
       AppResourceBaseForm,
     },
     mixins: [BaseResource],
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      formComponent: 'AppResourceBaseForm',
-      kind: '',
-      step: 0,
-      totalStep: 1,
-      app: null,
-      item: null,
-      file: null,
-      switchKey: '',
-    }),
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        formComponent: 'AppResourceBaseForm',
+        kind: '',
+        step: 0,
+        totalStep: 1,
+        app: null,
+        item: null,
+        file: null,
+        switchKey: '',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'AdminViewport']),
     },

@@ -44,11 +44,13 @@
   export default {
     name: 'UpdateIstioAuthorizationPolicy',
     mixins: [BaseResource, IstioAuthorizationPolicySchema],
-    data: () => ({
-      dialog: false,
-      item: null,
-      formComponent: 'BaseYamlForm',
-    }),
+    data() {
+      return {
+        dialog: false,
+        item: null,
+        formComponent: 'BaseYamlForm',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'EnvironmentFilter']),
     },

@@ -100,10 +100,12 @@
       UpdateServiceMonitor,
     },
     mixins: [BasePermission, BaseResource],
-    data: () => ({
-      serviceMonitor: null,
-      tab: 0,
-    }),
+    data() {
+      return {
+        serviceMonitor: null,
+        tab: 0,
+      };
+    },
     computed: {
       ...mapState(['JWT']),
       selector() {

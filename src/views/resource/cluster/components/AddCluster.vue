@@ -77,13 +77,15 @@
         default: () => false,
       },
     },
-    data: () => ({
-      dialog: false,
-      step: 0,
-      totalStep: 3,
-      extend: null,
-      formComponent: 'ClusterBaseForm',
-    }),
+    data() {
+      return {
+        dialog: false,
+        step: 0,
+        totalStep: 3,
+        extend: null,
+        formComponent: 'ClusterBaseForm',
+      };
+    },
     computed: {
       ...mapState(['Circular']),
     },

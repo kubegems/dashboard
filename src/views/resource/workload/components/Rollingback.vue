@@ -83,18 +83,20 @@
         default: () => null,
       },
     },
-    data: () => ({
-      dialog: false,
-      valid: false,
-      versions: [],
-      search: '',
-      params: {
-        page: 1,
-        size: 1000,
-      },
-      currentVersion: '',
-      selectItem: null,
-    }),
+    data() {
+      return {
+        dialog: false,
+        valid: false,
+        versions: [],
+        search: '',
+        params: {
+          page: 1,
+          size: 1000,
+        },
+        currentVersion: '',
+        selectItem: null,
+      };
+    },
     computed: {
       ...mapState(['Circular']),
       headers() {

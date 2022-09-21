@@ -185,16 +185,18 @@
       UpdateTenant,
     },
     mixins: [BaseFilter, BaseResource, BaseSelect, BaseTable],
-    data: () => ({
-      items: [],
+    data() {
+      return {
+        items: [],
 
-      pageCount: 0,
-      params: {
-        page: 1,
-        size: 10,
-        containAllocatedResourcequota: true,
-      },
-    }),
+        pageCount: 0,
+        params: {
+          page: 1,
+          size: 10,
+          containAllocatedResourcequota: true,
+        },
+      };
+    },
     computed: {
       ...mapState(['JWT']),
       ...mapGetters(['Tenant']),

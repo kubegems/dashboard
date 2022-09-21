@@ -59,15 +59,17 @@
     i18n: {
       messages: messages,
     },
-    data: () => ({
-      dialog: false,
-      valid: false,
-      obj: {
-        expire: 600,
-        grant_type: 'client_credentials',
-        scope: 'validate',
-      },
-    }),
+    data() {
+      return {
+        dialog: false,
+        valid: false,
+        obj: {
+          expire: 600,
+          grant_type: 'client_credentials',
+          scope: 'validate',
+        },
+      };
+    },
     computed: {
       ...mapState(['Circular']),
       objRules() {

@@ -160,13 +160,15 @@
       messages: messages,
     },
     mixins: [BasePermission, BaseResource],
-    data: () => ({
-      tab: 0,
-      pluginDict: {},
-      interval: null,
-      apiVersion: null,
-      uiVersion: null,
-    }),
+    data() {
+      return {
+        tab: 0,
+        pluginDict: {},
+        interval: null,
+        apiVersion: null,
+        uiVersion: null,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'AdminViewport', 'Locale']),
       ...mapGetters(['Cluster']),

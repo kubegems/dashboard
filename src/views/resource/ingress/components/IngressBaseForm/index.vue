@@ -214,34 +214,36 @@
         default: () => false,
       },
     },
-    data: () => ({
-      valid: false,
-      expand: false,
-      resourceKind: '',
-      protocol: 'HTTP',
-      protocolItems: [
-        { text: 'http', value: 'HTTP' },
-        { text: 'https', value: 'HTTPS' },
-        { text: 'grpc', value: 'GRPC' },
-        { text: 'grpcs', value: 'GRPCS' },
-      ],
-      obj: {
-        apiVersion: 'networking.k8s.io/v1',
-        kind: 'Ingress',
-        metadata: {
-          name: '',
-          namespace: '',
-          annotations: {
-            'nginx.ingress.kubernetes.io/backend-protocol': 'HTTP',
+    data() {
+      return {
+        valid: false,
+        expand: false,
+        resourceKind: '',
+        protocol: 'HTTP',
+        protocolItems: [
+          { text: 'http', value: 'HTTP' },
+          { text: 'https', value: 'HTTPS' },
+          { text: 'grpc', value: 'GRPC' },
+          { text: 'grpcs', value: 'GRPCS' },
+        ],
+        obj: {
+          apiVersion: 'networking.k8s.io/v1',
+          kind: 'Ingress',
+          metadata: {
+            name: '',
+            namespace: '',
+            annotations: {
+              'nginx.ingress.kubernetes.io/backend-protocol': 'HTTP',
+            },
+          },
+          spec: {
+            ingressClassName: '',
+            tls: [],
+            rules: [],
           },
         },
-        spec: {
-          ingressClassName: '',
-          tls: [],
-          rules: [],
-        },
-      },
-    }),
+      };
+    },
     computed: {
       ...mapState(['Admin', 'AdminViewport', 'ApiResources']),
       ...mapGetters(['Tenant', 'Cluster']),

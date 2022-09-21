@@ -104,13 +104,15 @@
       UpdateProject,
     },
     mixins: [BasePermission, BaseResource, BaseSelect],
-    data: () => ({
-      resources: [],
-      quota: {},
-      basic: {},
-      project: null,
-      ready: false,
-    }),
+    data() {
+      return {
+        resources: [],
+        quota: {},
+        basic: {},
+        project: null,
+        ready: false,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'AdminViewport']),
       ...mapGetters(['Project']),

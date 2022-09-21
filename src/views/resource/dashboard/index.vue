@@ -74,9 +74,11 @@
       ResourceList,
     },
     mixins: [BasePermission, BaseResource],
-    data: () => ({
-      statistics: null,
-    }),
+    data() {
+      return {
+        statistics: null,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Admin']),
       ...mapGetters(['Tenant']),

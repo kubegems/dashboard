@@ -72,12 +72,14 @@
       WorkloadLog,
     },
     mixins: [BasePermission, BaseResource],
-    data: () => ({
-      tab: 0,
-      workload: null,
-      services: null,
-      pass: false,
-    }),
+    data() {
+      return {
+        tab: 0,
+        workload: null,
+        services: null,
+        pass: false,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'EnvironmentFilter']),
       ...mapGetters(['VirtualSpace']),

@@ -63,12 +63,14 @@
       ConfigMapBaseForm,
     },
     mixins: [BaseResource, ConfigmapSchema],
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      formComponent: 'ConfigMapBaseForm',
-      switchKey: '',
-    }),
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        formComponent: 'ConfigMapBaseForm',
+        switchKey: '',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'AdminViewport']),
     },

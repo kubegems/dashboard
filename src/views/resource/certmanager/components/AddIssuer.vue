@@ -63,12 +63,14 @@
       IssuerBaseForm,
     },
     mixins: [BaseResource, IssuerSchema],
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      formComponent: 'IssuerBaseForm',
-      switchKey: '',
-    }),
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        formComponent: 'IssuerBaseForm',
+        switchKey: '',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'AdminViewport']),
     },

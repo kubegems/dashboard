@@ -63,12 +63,14 @@
       SecretBaseForm,
     },
     mixins: [BaseResource, SecretSchema],
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      formComponent: 'SecretBaseForm',
-      switchKey: '',
-    }),
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        formComponent: 'SecretBaseForm',
+        switchKey: '',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'AdminViewport']),
     },

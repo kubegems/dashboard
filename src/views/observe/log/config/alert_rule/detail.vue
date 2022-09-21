@@ -98,13 +98,15 @@
       UpdateAlertRule,
     },
     mixins: [BaseAlert, BasePermission, BaseResource],
-    data: () => ({
-      date: [],
-      alertRule: null,
-      yaml: '',
-      metrics: [],
-      timeArray: [],
-    }),
+    data() {
+      return {
+        date: [],
+        alertRule: null,
+        yaml: '',
+        metrics: [],
+        timeArray: [],
+      };
+    },
     computed: {
       ...mapState(['JWT', 'AdminViewport', 'Admin', 'Scale']),
     },

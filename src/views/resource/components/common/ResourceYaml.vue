@@ -49,10 +49,12 @@
         default: () => null,
       },
     },
-    data: () => ({
-      panel: false,
-      kubeyaml: '',
-    }),
+    data() {
+      return {
+        panel: false,
+        kubeyaml: '',
+      };
+    },
     computed: {
       ...mapState(['Scale']),
       height() {

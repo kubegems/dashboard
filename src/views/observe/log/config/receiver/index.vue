@@ -177,15 +177,17 @@
         default: () => false,
       },
     },
-    data: () => ({
-      items: [],
-      page: 1,
-      pageCount: 0,
-      itemsPerPage: 10,
-      params: {
-        scope: 'logging',
-      },
-    }),
+    data() {
+      return {
+        items: [],
+        page: 1,
+        pageCount: 0,
+        itemsPerPage: 10,
+        params: {
+          scope: 'logging',
+        },
+      };
+    },
     computed: {
       ...mapState(['JWT', 'AdminViewport']),
       ...mapGetters(['Environment']),

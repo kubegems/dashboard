@@ -48,14 +48,16 @@
       ResourceBaseForm,
     },
     mixins: [BaseResource],
-    data: () => ({
-      dialog: false,
-      item: null,
-      quota: null,
-      cluster: '',
-      passLoading: false,
-      cancelLoading: false,
-    }),
+    data() {
+      return {
+        dialog: false,
+        item: null,
+        quota: null,
+        cluster: '',
+        passLoading: false,
+        cancelLoading: false,
+      };
+    },
     computed: {
       ...mapState(['Circular', 'Locale']),
     },

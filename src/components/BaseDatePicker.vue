@@ -57,10 +57,12 @@
         default: true,
       },
     },
-    data: () => ({
-      currentDate: '',
-      menu: false,
-    }),
+    data() {
+      return {
+        currentDate: '',
+        menu: false,
+      };
+    },
     mounted() {
       const today = new Date();
       const yesterday = new Date();

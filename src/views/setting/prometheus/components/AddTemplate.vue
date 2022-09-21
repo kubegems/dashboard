@@ -50,12 +50,14 @@
         default: () => [],
       },
     },
-    data: () => ({
-      dialog: false,
-      yaml: null,
-      item: null,
-      formComponent: 'TemplateBaseForm',
-    }),
+    data() {
+      return {
+        dialog: false,
+        yaml: null,
+        item: null,
+        formComponent: 'TemplateBaseForm',
+      };
+    },
     computed: {
       ...mapState(['Circular']),
       ...mapGetters(['Tenant']),

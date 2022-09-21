@@ -165,23 +165,25 @@
         default: () => false,
       },
     },
-    data: () => ({
-      valid: false,
-      expand: false,
-      resourceKind: '',
-      obj: {
-        apiVersion: 'v1',
-        kind: 'Secret',
-        metadata: {
-          name: '',
-          namespace: null,
+    data() {
+      return {
+        valid: false,
+        expand: false,
+        resourceKind: '',
+        obj: {
+          apiVersion: 'v1',
+          kind: 'Secret',
+          metadata: {
+            name: '',
+            namespace: null,
+          },
+          data: {},
+          type: 'Opaque',
         },
-        data: {},
-        type: 'Opaque',
-      },
-      input: '',
-      formComponent: 'SecretDataForm',
-    }),
+        input: '',
+        formComponent: 'SecretDataForm',
+      };
+    },
     computed: {
       ...mapState(['Admin', 'AdminViewport', 'ApiResources']),
       ...mapGetters(['Cluster']),

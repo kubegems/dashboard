@@ -100,16 +100,18 @@
     },
     mixins: [BaseResource],
     inject: ['reload'],
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      formComponent: 'AppResourceBaseForm',
-      kind: '',
-      step: 0,
-      totalStep: 1,
-      app: null,
-      switchKey: '',
-    }),
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        formComponent: 'AppResourceBaseForm',
+        kind: '',
+        step: 0,
+        totalStep: 1,
+        app: null,
+        switchKey: '',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'AdminViewport']),
     },

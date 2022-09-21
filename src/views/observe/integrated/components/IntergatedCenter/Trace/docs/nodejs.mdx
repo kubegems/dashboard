@@ -71,7 +71,7 @@ registerInstrumentations({
     new HttpInstrumentation(),
     new ExpressInstrumentation({
       ignoreLayersType: [new RegExp("middleware.*")],
-    }),
+}},
   ],
   tracerProvider: provider,
 });

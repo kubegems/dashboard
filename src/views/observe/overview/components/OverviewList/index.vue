@@ -55,11 +55,11 @@
       </template>
       <template #[`item.logRate`]="{ item }">
         {{ item.logRate }}
-        <v-icon color="primary" small @click="onShowLogRate(item)"> mdi-chart-areaspline-variant </v-icon>
+        <v-icon color="primary" small @click="showLogRate(item)"> mdi-chart-areaspline-variant </v-icon>
       </template>
       <template #[`item.eventCount`]="{ item }">
         {{ item.eventCount }}
-        <v-icon color="primary" small @click="onShowEvents(item)"> mdi-chart-pie </v-icon>
+        <v-icon color="primary" small @click="showEvents(item)"> mdi-chart-pie </v-icon>
       </template>
       <template #[`item.loggingCollectorCount`]="{ item }">
         {{ item.loggingCollectorCount }}
@@ -113,8 +113,8 @@
       @changesize="onPageSizeChange"
     />
 
-    <K8sEvents ref="k8sEvents" :env="env" />
-    <LogRateChart ref="logRateChart" :env="env" />
+    <K8sEvents ref="k8sEvents" :env="env" @clear="env = null" />
+    <LogRateChart ref="logRateChart" :env="env" @clear="env = null" />
   </v-card>
 </template>
 
@@ -175,7 +175,7 @@
           { text: this.$t('table.log_count'), value: 'loggingCollectorCount', align: 'start' },
           { text: this.$t('table.error_log_count'), value: 'errorLogCount', align: 'start' },
           { text: this.$t('table.log_rate'), value: 'logRate', align: 'end', width: 120 },
-          { text: this.$t('table.event_count'), value: 'eventCount', align: 'end' },
+          { text: this.$t('table.event_count'), value: 'eventCount', align: 'end', width: 100 },
         ];
       },
     },
@@ -221,28 +221,14 @@
       onPageIndexChange(page) {
         this.params.page = page;
       },
-      onShowEvents(item) {
+      showEvents(item) {
         this.env = item;
         this.$refs.k8sEvents.open();
       },
-      onShowLogRate(item) {
+      showLogRate(item) {
         this.env = item;
         this.$refs.logRateChart.open();
       },
-      // async linkToAlertRule(item) {
-      //   await this.$router.push({
-      //     name: 'observe-monitor-config',
-      //     query: {
-      //       proj: '',
-      //       env: item.environmentName,
-      //       envid: '',
-      //       projid: this.project,
-      //       cluster: item.clusterName,
-      //       namespace: item.namespace,
-      //       tab: 'prometheusrule',
-      //     },
-      //   });
-      // },
     },
   };
 </script>

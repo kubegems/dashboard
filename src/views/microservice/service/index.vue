@@ -263,16 +263,18 @@
       UpdateVirtualService,
     },
     mixins: [BaseFilter, BasePermission],
-    data: () => ({
-      items: [],
-      valids: {},
-      pageCount: 0,
-      params: {
-        page: 1,
-        size: 10,
-      },
-      pass: false,
-    }),
+    data() {
+      return {
+        items: [],
+        valids: {},
+        pageCount: 0,
+        params: {
+          page: 1,
+          size: 10,
+        },
+        pass: false,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'EnvironmentFilter']),
       ...mapGetters(['VirtualSpace']),

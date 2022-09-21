@@ -102,10 +102,12 @@
       UpdateService,
     },
     mixins: [BasePermission, BaseResource],
-    data: () => ({
-      service: null,
-      tab: 0,
-    }),
+    data() {
+      return {
+        service: null,
+        tab: 0,
+      };
+    },
     computed: {
       ...mapState(['JWT']),
       selector() {

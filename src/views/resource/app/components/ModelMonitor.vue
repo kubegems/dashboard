@@ -94,23 +94,25 @@
         default: () => null,
       },
     },
-    data: () => ({
-      cpu: [],
-      memory: [],
-      gpu: [],
-      gpuMemory: [],
-      gpuTemp: [],
-      gpuPower: [],
-      date: [],
-      params: {
-        start: '',
-        end: '',
-        noprocessing: true,
-      },
-      timeinterval: null,
-      hasGpu: false,
-      pods: '',
-    }),
+    data() {
+      return {
+        cpu: [],
+        memory: [],
+        gpu: [],
+        gpuMemory: [],
+        gpuTemp: [],
+        gpuPower: [],
+        date: [],
+        params: {
+          start: '',
+          end: '',
+          noprocessing: true,
+        },
+        timeinterval: null,
+        hasGpu: false,
+        pods: '',
+      };
+    },
     computed: {
       ...mapState(['Scale']),
     },

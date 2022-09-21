@@ -162,13 +162,15 @@
       VSControlInfo,
     },
     mixins: [BasePermission, BaseResource],
-    data: () => ({
-      tab: 0,
-      service: null,
-      vs: null,
-      mode: null,
-      pass: false,
-    }),
+    data() {
+      return {
+        tab: 0,
+        service: null,
+        vs: null,
+        mode: null,
+        pass: false,
+      };
+    },
     computed: {
       ...mapState(['JWT']),
       ...mapGetters(['VirtualSpace']),

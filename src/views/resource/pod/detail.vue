@@ -105,10 +105,12 @@
       ResourceYaml,
     },
     mixins: [BasePermission, BaseResource],
-    data: () => ({
-      pod: null,
-      tab: 0,
-    }),
+    data() {
+      return {
+        pod: null,
+        tab: 0,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'MessageStreamWS']),
       tabItems() {

@@ -136,12 +136,14 @@
       UpdateCluster,
     },
     mixins: [BaseResource, BaseSelect],
-    data: () => ({
-      items: [],
-      interval: null,
-      hasControllerCluster: false,
-      clusterStatus: {},
-    }),
+    data() {
+      return {
+        items: [],
+        interval: null,
+        hasControllerCluster: false,
+        clusterStatus: {},
+      };
+    },
     computed: {
       ...mapState(['JWT']),
       ...mapGetters(['Cluster']),
