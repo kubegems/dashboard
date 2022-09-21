@@ -16,7 +16,14 @@
 
 <template>
   <v-flex class="my-0 mt-0">
-    <BaseSubTitle class="my-0 mt-0" :color="pathLevel === 1 ? 'grey lighten-3' : ''" :divider="false" :title="label" />
+    <BaseSubTitle
+      class="my-0 mt-0"
+      :color="pathLevel === 1 ? 'grey lighten-3' : ''"
+      :divider="false"
+      :freeze="pathLevel !== 1"
+      :pl="pathLevel === 1 ? 2 : 0"
+      :title="label"
+    />
     <v-flex class="my-0 mt-0" :v-if="param.children && param.children.length > 0">
       <Param
         v-for="(childrenParam, index) in param.children"

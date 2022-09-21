@@ -19,7 +19,7 @@
     <JsonSchema
       ref="jsonSchema"
       :app-values="appValues"
-      class="px-2"
+      class="px-2 pt-3"
       :cluster-name="Cluster().ClusterName"
       :params="params"
       @changeBasicFormParam="changeBasicFormParam"
@@ -32,12 +32,14 @@
 
   import { deepCopy } from '@/utils/helpers';
   import JsonSchema from '@/views/appstore/components/DeployWizard/JsonSchema';
+  import { YamlMixin } from '@/views/appstore/mixins/yaml';
 
   export default {
     name: 'SchemaForm',
     components: {
       JsonSchema,
     },
+    mixins: [YamlMixin],
     props: {
       item: {
         type: Object,
@@ -80,6 +82,7 @@
       async renderSchema() {
         this.appValues = this.item.values;
         this.schemaJson = JSON.parse(this.item.schema);
+        console.log(this.schemaJson);
         this.params = this.retrieveBasicFormParams(this.appValues, this.schemaJson);
       },
       changeBasicFormParam(param, value) {

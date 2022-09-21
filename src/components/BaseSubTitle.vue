@@ -15,7 +15,10 @@
 -->
 
 <template>
-  <v-sheet :class="`py-1 px-2 text-subtitle-1 primary--text rounded ${color}`" :height="height">
+  <v-sheet
+    :class="`py-1 px-2 text-subtitle-1 primary--text rounded ${!freeze || 'pl-0 text-body-2'} ${color}`"
+    :height="height"
+  >
     <span
       :class="`float-left subtitle font-weight-regular ${
         color === 'primary' ? 'white--text' : 'blue-grey--text text--darken-2'
@@ -52,6 +55,10 @@
       divider: {
         type: Boolean,
         default: () => true,
+      },
+      freeze: {
+        type: Boolean,
+        default: () => false,
       },
       height: {
         type: String,

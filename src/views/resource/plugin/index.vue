@@ -136,13 +136,7 @@
   import UpgradeTip from './components/UpgradeTip';
   import VersionSelect from './components/VersionSelect';
   import messages from './i18n';
-  import {
-    deleteDisablePlugin,
-    getClusterPluginsDetail,
-    getClusterPluginsList,
-    getPlatformVersion,
-    postCheckPluginUpdate,
-  } from '@/api';
+  import { deleteDisablePlugin, getClusterPluginsDetail, getClusterPluginsList, postCheckPluginUpdate } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
 
@@ -162,8 +156,6 @@
       tab: 0,
       pluginDict: {},
       interval: null,
-      apiVersion: null,
-      uiVersion: null,
       pluginUpdateLoading: false,
       plugin: {},
     }),
@@ -218,7 +210,6 @@
           noprocessing: process,
         });
         this.pluginDict = data;
-        this.platformVersion();
       },
       pluginPodList(plugin) {
         if (!plugin.enabled) {
@@ -261,9 +252,7 @@
           },
           param: { plugin },
           doFunc: async (param) => {
-            await deleteDisablePlugin(this.Cluster().ClusterName, param.plugin.name, {
-              type: this.tabItems[this.tab].value.toLocaleLowerCase(),
-            });
+            await deleteDisablePlugin(this.Cluster().ClusterName, param.plugin.name);
             this.pluginList(true);
           },
         });
@@ -278,11 +267,6 @@
         } else {
           return { text: this.$t('operate.install'), color: 'primary', value: 'install' };
         }
-      },
-      async platformVersion() {
-        const data = await getPlatformVersion({ noprocessing: true });
-        this.apiVersion = data?.GitVersion;
-        this.uiVersion = process.env.VUE_APP_RELEASE;
       },
       async checkPluginUpdate() {
         this.pluginUpdateLoading = true;

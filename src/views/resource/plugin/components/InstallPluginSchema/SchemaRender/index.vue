@@ -27,11 +27,15 @@
 </template>
 
 <script>
+  import messages from '../../../i18n';
   import SchemaForm from './SchemaForm';
   import ValuesForm from './ValuesForm';
 
   export default {
     name: 'SchemaRender',
+    i18n: {
+      messages: messages,
+    },
     components: {
       SchemaForm,
       ValuesForm,
@@ -45,11 +49,15 @@
     data() {
       return {
         tab: 0,
-        tabItems: [
-          { text: 'Schema', value: 'SchemaForm' },
-          { text: 'Helm Values', value: 'ValuesForm' },
-        ],
       };
+    },
+    computed: {
+      tabItems() {
+        return [
+          { text: this.$t('tip.schema_form'), value: 'SchemaForm' },
+          { text: 'Helm Values', value: 'ValuesForm' },
+        ];
+      },
     },
     methods: {
       validate() {

@@ -8,14 +8,16 @@
     "enable_plugin": "請先啟用元件",
     "select_version": "請選擇新版本",
     "category": "類別",
-    "repository": "倉庫地址"
+    "repository": "倉庫地址",
+    "plugin_params": "元件參數",
+    "schema_form": "Schema表單"
   },
   "operate": {
     "install": "啟用",
     "install_c": "開啟{0}",
     "uninstall": "卸載",
     "uninstall_c": "卸載{0}",
-    "check_upgrade": "檢查組件版本",
+    "check_upgrade": "檢查元件版本",
     "upgrade": "升級"
   },
   "status": {
@@ -27,7 +29,7 @@
     "kubernetes": "Kubernetes元件"
   },
   "table": {
-    "name": "組件名稱",
+    "name": "元件名稱",
     "installed_version": "已安裝版本",
     "upgrade_version": "可升級版本"
   }

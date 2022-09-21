@@ -1,11 +1,11 @@
 import axios from 'axios';
 
 // 启用插件
-export const postEnablePlugin = (clusterName, name, query = {}) =>
-  axios.post(`proxy/cluster/${clusterName}/plugins/${name}`, {}, { params: query });
+export const postEnablePlugin = (clusterName, name, body = {}) =>
+  axios.post(`proxy/cluster/${clusterName}/plugins/${name}`, body);
 // 关闭插件
-export const deleteDisablePlugin = (clusterName, name, query = {}) =>
-  axios.delete(`proxy/cluster/${clusterName}/plugins/${name}`, {}, { params: query });
+export const deleteDisablePlugin = (clusterName, name, body = {}) =>
+  axios.delete(`proxy/cluster/${clusterName}/plugins/${name}`, body);
 // 集群插件列表
 export const getClusterPluginsList = (clusterName, query = {}) =>
   axios(`proxy/cluster/${clusterName}/plugins`, {
