@@ -183,7 +183,7 @@
         const data = await getLoggingAppList(this.env.clusterName, this.env.namespace);
         this.applicationItems = Object.keys(data).map((d) => {
           return {
-            text: `${d}${data[d].collectedBy ? `(${$t('tip.added_log_collect')})` : ''}`,
+            text: `${d}${data[d].collectedBy ? `(${this.$t('tip.added_log_collect')})` : ''}`,
             value: d,
             disabled: data[d].collectedBy,
           };
@@ -251,14 +251,15 @@
       async addSampleLoggingFlow() {
         if (this.env?.projectid && this.env?.value) {
           this.$store.commit('SET_CONFIRM', {
-            title: $t('tip.sample'),
+            title: this.$t('tip.sample'),
             content: {
-              text: `${this.sampleMode ? $t('operate.open') : $t('operate.close')} ${$t('tip.sample')}`,
+              text: `${this.sampleMode ? this.$t('operate.open') : this.$t('operate.close')} ${this.$t('tip.sample')}`,
               type: 'confirm',
             },
             param: {},
             doFunc: async () => {
               await this.toggleLoggingNsFlow();
+              this.$emit('close');
             },
           });
         } else {
