@@ -255,9 +255,22 @@
     },
     methods: {
       async getHistoryList() {
+        const tpl = [];
+        if (this.histroyParams.scope) {
+          tpl.push(this.histroyParams.scope);
+        }
+        if (this.histroyParams.resource) {
+          tpl.push(this.histroyParams.resource);
+        }
+        if (this.histroyParams.rule) {
+          tpl.push(this.histroyParams.rule);
+        }
         const params = deleteEmpty({
           ...this.params,
           ...this.histroyParams,
+          ...{
+            tpl: tpl.length > 0 ? tpl.join('.') : undefined,
+          },
           start: this.date[0] ? this.$moment(this.date[0]).utc().format() : undefined,
           end: this.date[1] ? this.$moment(this.date[1]).utc().format() : undefined,
         });
