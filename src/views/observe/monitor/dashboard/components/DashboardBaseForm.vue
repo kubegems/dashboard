@@ -22,34 +22,35 @@
         <v-col cols="12">
           <v-text-field v-model="obj.name" class="my-0" :label="$t('tip.name')" required :rules="objRules.nameRule" />
         </v-col>
-        <template v-if="!edit">
-          <v-col cols="12">
-            <v-switch v-model="tamplate" hide-details :label="$t('tip.from_template')" />
-          </v-col>
-          <v-col v-if="tamplate" cols="12">
-            <v-autocomplete
-              v-model="obj.template"
-              class="my-0"
-              color="primary"
-              hide-selected
-              :items="templateItems"
-              :label="$t('tip.template')"
-              :no-data-text="$root.$t('data.no_data')"
-              :rules="objRules.templateRule"
-            >
-              <template #item="{ item }">
+
+        <v-col cols="12">
+          <v-switch v-model="template" hide-details :label="$t('tip.from_template')" :readonly="edit" />
+        </v-col>
+        <v-col v-if="template" cols="12">
+          <v-autocomplete
+            v-model="obj.template"
+            class="my-0"
+            color="primary"
+            hide-selected
+            :items="templateItems"
+            :label="$t('tip.template')"
+            :no-data-text="$root.$t('data.no_data')"
+            :readonly="edit"
+            :rules="objRules.templateRule"
+            @change="onTemplateChange"
+          >
+            <template #item="{ item }">
+              <BaseLogo class="mr-2" :icon-name="item.value" :ml="0" :mt="1" :width="20" />
+              {{ item.text }}
+            </template>
+            <template #selection="{ item }">
+              <v-chip color="primary" small>
                 <BaseLogo class="mr-2" :icon-name="item.value" :ml="0" :mt="1" :width="20" />
                 {{ item.text }}
-              </template>
-              <template #selection="{ item }">
-                <v-chip color="primary" small>
-                  <BaseLogo class="mr-2" :icon-name="item.value" :ml="0" :mt="1" :width="20" />
-                  {{ item.text }}
-                </v-chip>
-              </template>
-            </v-autocomplete>
-          </v-col>
-        </template>
+              </v-chip>
+            </template>
+          </v-autocomplete>
+        </v-col>
 
         <v-col cols="12">
           <v-switch v-model="globalVariable" class="float-left" hide-details :label="$t('tip.global_var')" />
@@ -132,16 +133,11 @@
     data() {
       return {
         valid: false,
-        tamplate: false,
+        template: false,
         templateItems: [],
         varItems: [],
         variables: '',
         variableVal: [],
-        variableItems: [
-          { text: 'service', value: 'service' },
-          { text: 'pod', value: 'pod' },
-          { text: 'container', value: 'container' },
-        ],
         variableText: '',
         obj: {
           name: '',
@@ -156,11 +152,36 @@
         globalVariable: false,
       };
     },
+    computed: {
+      variableItems() {
+        let t = null;
+        if (this.template) {
+          t = this.templateItems.find((t) => {
+            return t.name === this.obj.template;
+          });
+        } else {
+          t = {
+            variables: {},
+          };
+        }
+        if (t) {
+          const variableItems = t.variables ? Object.keys(t.variables) : [];
+          return variableItems.concat(this.variables ? [this.variables] : []).map((v) => {
+            return { text: v, value: v };
+          });
+        }
+        return [];
+      },
+    },
     watch: {
       item: {
         handler(newValue) {
           if (newValue) {
             this.obj = deepCopy(newValue);
+            if (this.obj.template) {
+              this.template = true;
+            }
+            this.globalVariable = this.obj.variables && Object.keys(this.obj.variables).length > 0;
             const keys = this.obj.variables ? Object.keys(this.obj.variables) : [];
             if (keys.length > 0) {
               this.variables = keys[0];
@@ -184,7 +205,7 @@
         const data = await getMonitorDashboardTemplate({ size: 1000 });
         if (data) {
           this.templateItems = data.List.map((d) => {
-            return { text: d.name, value: d.name };
+            return { text: d.name, value: d.name, ...d };
           });
         }
       },
@@ -194,7 +215,6 @@
             return v.value === this.variableText.trim();
           }) === -1
         ) {
-          this.variableItems.push({ text: this.variableText.trim(), value: this.variableText.trim() });
           this.variables = this.variableText.trim();
           this.onVariableChange();
         }
@@ -204,6 +224,7 @@
           clearTimeout(this.inputTimeout);
         }
         this.inputTimeout = setTimeout(() => {
+          this.variableVal = [];
           this.monitorGlobalVariable();
           clearTimeout(this.inputTimeout);
         }, 200);
@@ -226,9 +247,7 @@
         return this.$refs.form.validate(true);
       },
       getData() {
-        if (!this.obj.variables) {
-          this.obj.variables = {};
-        }
+        this.obj.variables = {};
         this.obj.variables[this.variables] = this.variableVal.join(',');
         return this.obj;
       },
@@ -237,6 +256,8 @@
         this.obj = this.$options.data().obj;
         this.variableVal = [];
         this.variables = '';
+        this.globalVariable = false;
+        this.template = false;
       },
       removeVal(item) {
         const index = this.variableVal.findIndex((v) => {
@@ -245,6 +266,9 @@
         if (index > -1) {
           this.variableVal.splice(index, 1);
         }
+      },
+      onTemplateChange() {
+        this.globalVariable = this.variableItems.length > 0;
       },
     },
   };

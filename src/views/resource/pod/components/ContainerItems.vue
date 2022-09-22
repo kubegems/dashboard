@@ -27,7 +27,7 @@
             <v-list-item class="float-left py-0 pl-0" :style="{ width: `515px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
-                  <v-icon class="float-left mt-1" color="primary" left small> mdi-cube </v-icon>
+                  <v-icon class="float-left icon__pod" color="primary" left small> mdi-cube </v-icon>
                   <v-flex class="float-left">
                     {{ container.name }}
                   </v-flex>
@@ -288,7 +288,9 @@
 </script>
 
 <style lang="scss" scoped>
-  .icon-height {
-    height: 16px;
+  .icon {
+    &__pod {
+      margin-top: 2px;
+    }
   }
 </style>

@@ -27,7 +27,7 @@
     "image_never": "僅使用本地鏡像",
     "params": "參數",
     "access_control": "訪問控制",
-    "prvileged": "特權模式運行（Priivileged）",
+    "privileged": "特權模式運行（Priivileged）",
     "allow_escalation": "擴大特權（AllowPrivilegeEscalation）",
     "root_readonly": "root只讀（ReadOnlyRootFilesystem）",
     "method": "方式",

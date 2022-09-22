@@ -278,7 +278,7 @@
         this.clearInterval();
         this.metrics = {};
         const dashboard = this.items[this.tab];
-        if (dashboard.variables && Object.keys(dashboard.variables).length > 0) {
+        if (dashboard?.variables && Object.keys(dashboard.variables).length > 0) {
           this.variable = Object.keys(dashboard.variables)[0];
           this.variableValues = dashboard.variables[this.variable].split(',').filter((v) => {
             return Boolean(v);

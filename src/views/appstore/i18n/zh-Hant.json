@@ -23,7 +23,11 @@
     "complete": "完成",
     "bitnami": "Bitnami 讓您可以輕鬆地在任何平台上啟動和運行您最喜歡的開源軟體，包括您的筆記型電腦、Kubernetes 和所有主要雲。",
     "kubegems": "一個描述Kubernetes相關資源的檔集合，單個應用可以用來部署某些複雜的HTTP伺服器以及web全棧應用、資料庫、緩存等。",
-    "chartmuseum": "ChartMuseum 是一個開源的、易於部署的、Helm Chart 儲存庫伺服器。"
+    "chartmuseum": "ChartMuseum 是一個開源的、易於部署的、Helm Chart 儲存庫伺服器。",
+    "banzaicloud": "構建操作系統用於您的容器和雲",
+    "hashicorp": "HashiCorp 提供一致的工作流程來為任何應用程序配置、保護、連接和運行任何基礎設施。",
+    "grafana": "Grafana 是適用於每個數據庫的開源分析和監控解決方案。",
+    "opentelemetry": "高質量、無處不在的便攜式遙測技術，以實現有效的可觀測性。"
   },
   "filter": {
     "name": "應用名稱"
