@@ -205,6 +205,17 @@
               imgSrc: '/icon/opentelemetry.svg',
               tip: this.$t('tip.opentelemetry'),
             };
+          case 'kubecost':
+            return {
+              imgSrc: '/icon/kubecost.svg',
+              tip: this.$t('tip.kubecost'),
+            };
+          case 'scylla':
+          case 'scylladb':
+            return {
+              imgSrc: '/icon/scylla.svg',
+              tip: this.$t('tip.scylla'),
+            };
           default:
             return {
               imgSrc: this.$LOGO_BLUE,

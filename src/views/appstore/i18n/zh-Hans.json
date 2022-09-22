@@ -27,7 +27,9 @@
     "banzaicloud": "构建操作系统用于您的容器和云",
     "hashicorp": "HashiCorp 提供一致的工作流程来为任何应用程序配置、保护、连接和运行任何基础设施。",
     "grafana": "Grafana 是适用于每个数据库的开源分析和监控解决方案。",
-    "opentelemetry": "高质量、无处不在的便携式遥测技术，以实现有效的可观测性。"
+    "opentelemetry": "高质量、无处不在的便携式遥测技术，以实现有效的可观测性。",
+    "kubecost": "Kubecost 为使用 Kubernetes 的团队提供实时成本可见性和洞察力，帮助您不断降低云成本。",
+    "scylla": "ScyllaDB 是用于需要高性能和低延迟的数据密集型应用程序的分布式数据库。"
   },
   "filter": {
     "name": "应用名称"

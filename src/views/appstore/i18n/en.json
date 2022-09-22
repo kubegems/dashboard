@@ -27,7 +27,9 @@
     "banzaicloud": "Building the operating system for your containers and clouds",
     "hashicorp": "HashiCorp delivers consistent workflows to provision, secure, connect, and run any infrastructure for any application.",
     "grafana": "Grafana is the open source analytics & monitoring solution for every database.",
-    "opentelemetry": "High-quality, ubiquitous, and portable telemetry to enable effective observability."
+    "opentelemetry": "High-quality, ubiquitous, and portable telemetry to enable effective observability.",
+    "kubecost": "Kubecost provides real-time cost visibility and insights for teams using Kubernetes, helping you continuously reduce your cloud costs.",
+    "scylla": "ScyllaDB is the distributed database for data-intensive apps that require high performance and low latency."
   },
   "filter": {
     "name": "App name"
