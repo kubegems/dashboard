@@ -621,6 +621,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    min-height: 900px;
 
     &__header {
       max-height: 64px;

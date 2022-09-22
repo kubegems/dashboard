@@ -48,16 +48,18 @@
           </div>
         </div>
 
-        <BaseAreaChart
-          id="requests"
-          :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-          :extend-height="150"
-          :label-show="false"
-          :metrics="requests"
-          mini
-          title=""
-          type=""
-        />
+        <div class="mx-4">
+          <BaseAreaChart
+            id="requests"
+            :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
+            :extend-height="150"
+            :label-show="false"
+            :metrics="requests"
+            sample
+            title=""
+            type=""
+          />
+        </div>
       </v-card>
     </v-col>
     <v-col class="py-0" :cols="2">
@@ -79,16 +81,18 @@
           </div>
         </div>
 
-        <BaseAreaChart
-          id="avgresponsetime"
-          :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-          :extend-height="150"
-          :label-show="false"
-          :metrics="avgresponsetime"
-          mini
-          title=""
-          type=""
-        />
+        <div class="mx-4">
+          <BaseAreaChart
+            id="avgresponsetime"
+            :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
+            :extend-height="150"
+            :label-show="false"
+            :metrics="avgresponsetime"
+            sample
+            title=""
+            type=""
+          />
+        </div>
       </v-card>
     </v-col>
     <v-col class="py-0" :cols="2">
@@ -116,16 +120,18 @@
           </div>
         </div>
 
-        <BaseAreaChart
-          id="errrequests"
-          :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-          :extend-height="150"
-          :label-show="false"
-          :metrics="errrequests"
-          mini
-          title=""
-          type=""
-        />
+        <div class="mx-4">
+          <BaseAreaChart
+            id="errrequests"
+            :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
+            :extend-height="150"
+            :label-show="false"
+            :metrics="errrequests"
+            sample
+            title=""
+            type=""
+          />
+        </div>
       </v-card>
     </v-col>
     <v-col class="py-0" :cols="2">
@@ -151,16 +157,18 @@
           </div>
         </div>
 
-        <BaseAreaChart
-          id="network"
-          :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-          :extend-height="150"
-          :label-show="false"
-          :metrics="network"
-          mini
-          title=""
-          type=""
-        />
+        <div class="mx-4">
+          <BaseAreaChart
+            id="network"
+            :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
+            :extend-height="150"
+            :label-show="false"
+            :metrics="network"
+            sample
+            title=""
+            type=""
+          />
+        </div>
       </v-card>
     </v-col>
   </v-row>

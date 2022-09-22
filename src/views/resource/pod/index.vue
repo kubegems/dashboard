@@ -299,7 +299,24 @@
         return items;
       },
       filters() {
-        return [{ text: this.$t('filter.pod_name'), value: 'search', items: [] }];
+        return [
+          { text: this.$t('filter.pod_name'), value: 'search', items: [] },
+          {
+            text: this.$t('filter.status'),
+            value: 'fieldSelector',
+            items: ['Terminating', 'Running', 'Pending', 'CrashLoopBackOff', 'Error'].map((s) => {
+              return {
+                text: s,
+                value: stringifySelector({
+                  matchLabels: {
+                    phase: s,
+                  },
+                }),
+                parent: 'fieldSelector',
+              };
+            }),
+          },
+        ];
       },
     },
     watch: {
@@ -365,29 +382,10 @@
           }
           this.m_table_generateParams();
           this.podList();
-          this.generateFilters();
         });
       }
     },
     methods: {
-      generateFilters() {
-        const allStatus = ['Terminating', 'Running', 'Pending', 'CrashLoopBackOff', 'Error'].map((s) => {
-          return {
-            text: s,
-            value: stringifySelector({
-              matchLabels: {
-                phase: s,
-              },
-            }),
-            parent: 'fieldSelector',
-          };
-        });
-        this.filters.push({
-          text: this.$t('filter.status'),
-          value: 'fieldSelector',
-          items: allStatus,
-        });
-      },
       async podList(noprocess = false) {
         const data = await getPodList(
           this.ThisCluster,
