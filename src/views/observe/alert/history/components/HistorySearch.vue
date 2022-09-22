@@ -133,18 +133,12 @@
         search: undefined,
         scopeItems: [],
         resourceItems: [],
+        tags: [],
       };
     },
     computed: {
       ...mapGetters(['Tenant']),
       ...mapState(['AdminViewport']),
-      tags() {
-        return Object.keys(this.labels).map((key) => ({
-          text: this.labels[key].text,
-          items: this.labels[key].items,
-          value: key,
-        }));
-      },
       labels() {
         return {
           scope: {
@@ -221,6 +215,13 @@
       onRemoveTag(key) {
         this.$delete(this.tagMap, key);
         this.tagCols = this.tagCols.filter((item) => item !== key);
+        if (key === 'scope') {
+          this.tagCols = this.tagCols.filter((item) => item !== 'rule' && item !== 'resource');
+          this.$delete(this.tagMap, 'resource');
+          this.$delete(this.tagMap, 'rule');
+          this.$set(this.labels.resource, 'items', []);
+          this.$set(this.labels.rule, 'items', []);
+        }
         if (key === 'resource') {
           this.tagCols = this.tagCols.filter((item) => item !== 'rule');
           this.$delete(this.tagMap, 'rule');
@@ -259,7 +260,7 @@
           const data = await getRuleResourceList(this.Tenant().ID, scope.id, { size: 1000, noprocessing: true });
           let items = [];
           this.resourceItems = data.List;
-          if (this.tagMap.resource) {
+          if (this.tagMap.scope) {
             items = data.List.map((resource) => ({
               text: resource.showName,
               value: resource.name,
@@ -270,6 +271,7 @@
           if (deleteRule) this.$delete(this.tagMap, 'resource');
           this.$set(this.labels.resource, 'items', items);
         }
+        this.constrcutTags();
       },
       async onRuleChange(value, deleteRule = true) {
         const resource = this.resourceItems.find((r) => {
@@ -289,6 +291,7 @@
           if (deleteRule) this.$delete(this.tagMap, 'rule');
           this.$set(this.labels.rule, 'items', items);
         }
+        this.constrcutTags();
       },
       onSearch() {
         this.expand = false;
@@ -312,7 +315,17 @@
             value: scope.name,
           })),
         );
+        this.constrcutTags();
         if (this.tagMap.scope) this.onResourceChange(this.tagMap.scope, false);
+      },
+      constrcutTags() {
+        this.tags = Object.keys(this.labels).map((key) => {
+          return {
+            text: this.labels[key].text,
+            items: this.labels[key].items,
+            value: key,
+          };
+        });
       },
     },
   };
