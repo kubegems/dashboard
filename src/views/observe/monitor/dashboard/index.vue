@@ -110,7 +110,6 @@
                 </v-btn>
               </div>
               <BaseAreaChart
-                :id="`c${index}`"
                 :key="`c${index}${tab}`"
                 chart-type="line"
                 :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
@@ -151,7 +150,7 @@
 
     <AddDashboard ref="addDashboard" :environment="environment" @refresh="dashboardList" />
     <UpdateDashboard ref="updateDashboard" :environment="environment" @refresh="dashboardList" />
-    <GraphMax ref="graphMax" :environment="environment" />
+    <GraphMax ref="graphMax" :date-link="date" :environment="environment" />
     <AddGraph
       ref="addGraph"
       :dashboard="items.length > 0 ? items[tab] : null"
@@ -283,6 +282,11 @@
           this.variableValues = dashboard.variables[this.variable].split(',').filter((v) => {
             return Boolean(v);
           });
+          this.labelpairs[`labelpairs[${this.variable}]`] = this.variableValues.reduce(
+            (pre, current, index, arr) =>
+              (pre || pre) + (current || current) + `${index === arr.length - 1 ? '' : '|'}`,
+            '',
+          );
         }
 
         if (this.items?.length > 0 && this.items[this.tab] && this.items[this.tab].graphs) {

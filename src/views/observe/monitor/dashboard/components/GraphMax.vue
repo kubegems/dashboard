@@ -87,6 +87,10 @@
       messages: messages,
     },
     props: {
+      dateLink: {
+        type: Array,
+        default: () => [],
+      },
       environment: {
         type: Object,
         default: () => {},
@@ -117,14 +121,19 @@
         return window.innerHeight - 64 * this.Scale - 100;
       },
     },
+    watch: {
+      dateLink: {
+        handler(newValue) {
+          if (newValue && newValue.length > 0) {
+            this.date = newValue;
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
+    },
     destroyed() {
       this.clearInterval();
-    },
-    mounted() {
-      this.$nextTick(() => {
-        this.params.start = this.$moment(this.date[0]).utc().format();
-        this.params.end = this.$moment(this.date[1]).utc().format();
-      });
     },
     methods: {
       open() {
@@ -161,9 +170,9 @@
               unit: this.graph.unit,
             };
         const data = await getMetricsQueryrange(this.environment.clusterName, this.namespace, {
-          ...this.params,
           ...params,
           ...newParams,
+          ...this.params,
         });
         this.metrics = data;
       },

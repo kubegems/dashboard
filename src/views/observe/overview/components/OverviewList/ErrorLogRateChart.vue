@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <BasePanel v-model="panel" icon="mdi-speedometer" :title="$t('table.log_rate')" @dispose="dispose">
+  <BasePanel v-model="panel" icon="mdi-speedometer" :title="$t('table.error_log_count')" @dispose="dispose">
     <template #action>
       <BaseDatetimePicker v-model="date" color="primary" :default-value="60" @change="onDatetimeChange(undefined)" />
     </template>
@@ -47,7 +47,7 @@
   import { getMetricsQueryrange } from '@/api';
 
   export default {
-    name: 'LogRateChart',
+    name: 'ErrorLogRateChart',
     i18n: {
       messages: messages,
     },
@@ -74,7 +74,7 @@
       env: {
         handler(newValue) {
           if (newValue) {
-            this.logRate();
+            this.errorLogRate();
           }
         },
         deep: true,
@@ -85,18 +85,18 @@
       open() {
         this.panel = true;
       },
-      async logRate() {
+      async errorLogRate() {
         let data = await getMetricsQueryrange(this.env.clusterName, this.env.namespace, {
           start: this.$moment(this.date[0]).utc().format(),
           end: this.$moment(this.date[1]).utc().format(),
           resource: 'log',
-          rule: 'logCount',
+          rule: 'errorLogCount',
           scope: 'containers',
         });
         this.data = data;
       },
       onDatetimeChange() {
-        this.logRate();
+        this.errorLogRate();
       },
       dispose() {
         this.data = [];

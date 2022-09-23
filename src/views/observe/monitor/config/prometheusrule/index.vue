@@ -113,6 +113,18 @@
                   {{ item.state }}
                 </v-chip>
               </span>
+              <v-flex v-if="item.tplLost" class="float-left">
+                <v-menu nudge-right="20px" nudge-top="8px" open-on-hover right>
+                  <template #activator="{ on }">
+                    <span v-on="on">
+                      <v-icon color="orange" small> mdi-alert-rhombus </v-icon>
+                    </span>
+                  </template>
+                  <v-card>
+                    <v-card-text class="pa-2 text-caption"> {{ $t('tip.missing_template') }} </v-card-text>
+                  </v-card>
+                </v-menu>
+              </v-flex>
             </v-flex>
           </template>
           <template v-if="AdminViewport" #[`item.namespace`]="{ item }">

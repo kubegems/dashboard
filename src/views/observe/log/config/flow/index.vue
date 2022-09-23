@@ -210,7 +210,7 @@
           const needRefresh = (cluster !== newCluster || namespace !== newNamespace) && this.pass;
           this.params = { ...this.params, ...newValue };
           this.params.namespace = this.params.namespace || '_all';
-          if (needRefresh) {
+          if (needRefresh || newValue.refresh) {
             this.getFlowList();
           } else {
             this.frontFilter();

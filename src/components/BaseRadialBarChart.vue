@@ -87,7 +87,7 @@
         if (this.id) {
           this.chartId = this.id;
         } else {
-          this.chartId = randomString(4);
+          this.chartId = randomString(6);
         }
         const interval = setInterval(() => {
           if (document.getElementById(this.chartId)) {

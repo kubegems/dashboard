@@ -384,7 +384,9 @@ const select = {
             ports.push({ text: p.port, value: p.port });
           });
           s.spec.ports.forEach((p) => {
-            portNames.push({ text: p.name, value: p.name });
+            if (p.name) {
+              portNames.push({ text: p.name, value: p.name });
+            }
           });
           serviceSelect.push({
             text: s.metadata.name,

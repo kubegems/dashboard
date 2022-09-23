@@ -46,6 +46,7 @@
         <template v-if="mode === 'template'">
           <v-col cols="6">
             <ResourceSelectCascade
+              ref="resourceSelectCascade"
               v-model="resource"
               :generator="generator"
               single-line
@@ -255,6 +256,7 @@
         this.obj = this.$options.data().obj;
         this.mode = 'template';
         this.resource = undefined;
+        this.$refs.resourceSelectCascade.reset();
       },
       insertMetrics(metrics) {
         this.$set(this.obj, 'expr', metrics);

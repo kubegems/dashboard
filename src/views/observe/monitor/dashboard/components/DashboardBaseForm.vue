@@ -82,22 +82,13 @@
             </v-autocomplete>
           </v-col>
           <v-col cols="12">
-            <v-autocomplete
+            <VariableSelect
               v-model="variableVal"
-              class="my-0"
-              color="primary"
-              hide-selected
-              :items="varItems"
-              :label="$t('tip.global_var_val')"
-              multiple
-              :no-data-text="$root.$t('data.no_data')"
-            >
-              <template #selection="{ item }">
-                <v-chip close close-icon="mdi-close-circle" color="primary" small @click:close="removeVal(item)">
-                  <span class="pr-2">{{ item.text }}</span>
-                </v-chip>
-              </template>
-            </v-autocomplete>
+              :form-variables="variableVal"
+              in-form
+              :variable-select-items="variableSelectItems"
+              :width="400"
+            />
           </v-col>
         </template>
       </v-row>
@@ -107,6 +98,7 @@
 
 <script>
   import messages from '../../i18n';
+  import VariableSelect from './VariableSelect';
   import { getMonitorDashboardTemplate, getMetricsLabelValues } from '@/api';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
@@ -115,6 +107,9 @@
     name: 'DashboardBaseForm',
     i18n: {
       messages: messages,
+    },
+    components: {
+      VariableSelect,
     },
     props: {
       edit: {
@@ -171,6 +166,11 @@
           });
         }
         return [];
+      },
+      variableSelectItems() {
+        return this.varItems.map((v) => {
+          return v.value;
+        });
       },
     },
     watch: {
@@ -258,14 +258,6 @@
         this.variables = '';
         this.globalVariable = false;
         this.template = false;
-      },
-      removeVal(item) {
-        const index = this.variableVal.findIndex((v) => {
-          return v === item.value;
-        });
-        if (index > -1) {
-          this.variableVal.splice(index, 1);
-        }
       },
       onTemplateChange() {
         this.globalVariable = this.variableItems.length > 0;

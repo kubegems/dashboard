@@ -203,7 +203,7 @@
           const { cluster, namespace } = this.params;
           const { cluster: newCluster, namespace: newNamespace } = newValue;
           const needRefresh = (cluster !== newCluster || namespace !== newNamespace) && this.pass;
-          if (needRefresh) {
+          if (needRefresh || newValue.refresh) {
             this.m_table_generateParams();
             this.serviceMonitorList();
           }

@@ -350,6 +350,7 @@
         this.resourceItems = [];
         this.ruleItems = [];
         this.maxWidth = 275;
+        this.resource = undefined;
       },
       getWidth() {
         if (this.showResource && this.showRule) {

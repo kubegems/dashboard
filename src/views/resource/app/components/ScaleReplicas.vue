@@ -79,6 +79,7 @@
         objRules: {
           replicasRules: [(v) => parseInt(v) >= 0 || this.$t('form.limit_min_rule')],
         },
+        kind: 'app',
       };
     },
     computed: {
@@ -88,8 +89,10 @@
     methods: {
       init(kind) {
         if (kind === 'modelstore') {
+          this.kind = 'modelstore';
           this.modelRuntimeDetail();
         } else {
+          this.kind = 'app';
           this.appRunningReplicas();
         }
       },
@@ -119,7 +122,7 @@
       },
       async scaleAppReplicas() {
         if (this.$refs.form.validate(true)) {
-          if (this.item.kind === 'ModelDeployment') {
+          if (this.kind === 'modelstore') {
             const data = deepCopy(this.item);
             data.spec.replicas = this.obj.replicas;
             await putModelRuntime(

@@ -20,7 +20,8 @@
     bottom
     :close-on-content-click="false"
     max-height="450px"
-    min-width="275px"
+    max-width="450px"
+    :min-width="`${width}px`"
     nudge-bottom="5px"
     offset-y
     origin="top center"
@@ -28,7 +29,26 @@
     transition="scale-transition"
   >
     <template #activator="{ on }">
-      <div class="float-left">
+      <v-autocomplete
+        v-if="inForm"
+        class="my-0"
+        color="primary"
+        hide-no-data
+        hide-selected
+        :items="[{ text: showText(), value: showText() }]"
+        :label="$t('tip.global_var_val')"
+        multiple
+        :no-data-text="$root.$t('data.no_data')"
+        :value="showText()"
+        v-on="on"
+      >
+        <template #selection>
+          <v-chip v-if="showText()" color="primary" small>
+            <span>{{ showText() }}</span>
+          </v-chip>
+        </template>
+      </v-autocomplete>
+      <div v-else class="float-left">
         <v-btn
           class="mr-2 mt-1 font-weight-medium primary--text"
           color="white"
@@ -50,6 +70,7 @@
         <div class="float-left"> {{ $t('tip.global_var') }} </div>
         <div class="float-right">
           <v-btn class="mx-1" color="primary" small @click="reset">{{ $root.$t('operate.reset') }}</v-btn>
+          <v-btn v-if="inForm" class="mx-1" color="primary" small @click="selectAll">{{ $t('operate.all') }}</v-btn>
           <v-btn class="ml-1" color="primary" small @click="setLabelPairs">
             {{ $root.$t('operate.confirm') }}
           </v-btn>
@@ -71,11 +92,11 @@
         <v-divider class="mb-2" />
         <v-list class="pa-0" dense max-height="300" nav :style="{ overflowY: 'auto' }">
           <v-list-item-group color="primary">
-            <v-list-item v-for="item in variableItemsCopy" :key="item.value" dense>
+            <v-list-item v-for="(item, index) in variableItemsCopy" :key="item.value" dense>
               <v-list-item-action class="mx-2">
                 <v-checkbox v-model="item.active" />
               </v-list-item-action>
-              <v-list-item-content>
+              <v-list-item-content @click="selectItem(item, index)">
                 <v-list-item-title class="select__list__title pl-2">
                   {{ item.value }}
                 </v-list-item-title>
@@ -99,6 +120,14 @@
       messages: messages,
     },
     props: {
+      formVariables: {
+        type: Array,
+        default: () => [],
+      },
+      inForm: {
+        type: Boolean,
+        default: () => false,
+      },
       offsetY: {
         type: Number,
         default: () => 0,
@@ -107,9 +136,17 @@
         type: String,
         default: () => '',
       },
+      variableSelectItems: {
+        type: Array,
+        default: () => [],
+      },
       variableValues: {
         type: Array,
         default: () => [],
+      },
+      width: {
+        type: Number,
+        default: () => 275,
       },
     },
     data() {
@@ -129,19 +166,12 @@
       },
     },
     watch: {
-      value: {
-        handler(newValue) {
-          if (newValue) {
-          }
-        },
-        deep: true,
-        immediate: true,
-      },
       variable: {
         handler(newValue) {
           if (newValue) {
             const items = this.variableValues.map((d) => {
               return {
+                text: d,
                 value: d,
                 active: true,
               };
@@ -151,6 +181,31 @@
           } else {
             this.variableItems = [];
             this.variableItemsCopy = [];
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
+      variableSelectItems: {
+        handler(newValue) {
+          if (newValue && newValue.length > 0) {
+            const items = newValue.map((d) => {
+              return {
+                text: d,
+                value: d,
+                active: false,
+              };
+            });
+            this.variableItems = items;
+            this.variableItemsCopy = items;
+            if (this.formVariables) {
+              this.variableItemsCopy.forEach((v, index) => {
+                if (this.formVariables.indexOf(v.value) > -1) {
+                  v.active = true;
+                  this.$set(this.variableItemsCopy, index, v);
+                }
+              });
+            }
           }
         },
         deep: true,
@@ -168,14 +223,22 @@
         }
       },
       setLabelPairs() {
-        this.labelpairs[`labelpairs[${this.variable}]`] = this.selectedItems.reduce(
-          (pre, current, index, arr) =>
-            (pre?.value || pre) + (current?.value || current) + `${index === arr.length - 1 ? '' : '|'}`,
-          '',
-        );
-        this.$emit('input', this.labelpairs);
-        this.$emit('change', this.labelpairs);
-        this.$emit('loadMetrics');
+        if (this.inForm) {
+          const items = this.selectedItems.map((i) => {
+            return i.value;
+          });
+          this.$emit('input', items);
+          this.$emit('change', items);
+        } else {
+          this.labelpairs[`labelpairs[${this.variable}]`] = this.selectedItems.reduce(
+            (pre, current, index, arr) =>
+              (pre?.value || pre) + (current?.value || current) + `${index === arr.length - 1 ? '' : '|'}`,
+            '',
+          );
+          this.$emit('input', this.labelpairs);
+          this.$emit('change', this.labelpairs);
+          this.$emit('loadMetrics');
+        }
         this.menu = false;
       },
       reset() {
@@ -193,6 +256,17 @@
           return `${this.selectedItems[0].value}`;
         }
         return '';
+      },
+      selectAll() {
+        this.variableItems.forEach((v, index) => {
+          v.active = !v.active;
+          this.$set(this.variableItems, index, v);
+        });
+        this.variableItemsCopy = deepCopy(this.variableItems);
+      },
+      selectItem(item, index) {
+        item.active = !item.active;
+        this.$set(this.variableItemsCopy, index, item);
       },
     },
   };
