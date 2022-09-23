@@ -103,12 +103,13 @@
             name: 'observe-monitor-config',
             params: this.$route.params,
             query: {
-              proj: this.item.projectID,
+              proj: this.item.projectName,
               env: this.item.environmentName,
-              projid: this.item.projectName,
+              projid: this.item.projectID,
               envid: this.item.environmentID,
               cluster: this.item.clusterName,
               namespace: this.item.namespace,
+              refresh: 1,
             },
           });
         } else if (item.key === 'l' && item.status) {
@@ -116,12 +117,13 @@
             name: 'log-config',
             params: this.$route.params,
             query: {
-              proj: this.item.projectID,
+              proj: this.item.projectName,
               env: this.item.environmentName,
-              projid: this.item.projectName,
+              projid: this.item.projectID,
               envid: this.item.environmentID,
               cluster: this.item.clusterName,
               namespace: this.item.namespace,
+              refresh: 1,
             },
           });
         }
