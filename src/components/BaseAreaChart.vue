@@ -152,7 +152,7 @@
         if (this.id) {
           this.chartId = this.id;
         } else {
-          this.chartId = randomString(4);
+          this.chartId = randomString(6);
         }
         const interval = setInterval(() => {
           if (document.getElementById(this.chartId)) {
@@ -201,14 +201,21 @@
                       this.legendIndexs.push(index);
                     }
 
+                    const showAll = this.legendIndexs.length === 0;
+
                     legend.legendItems.forEach((item) => {
                       const i = item.datasetIndex;
-                      if (this.legendIndexs.indexOf(i) > -1) {
+                      if (showAll) {
                         ci.show(i);
                         item.hidden = false;
                       } else {
-                        ci.hide(i);
-                        item.hidden = true;
+                        if (this.legendIndexs.indexOf(i) > -1) {
+                          ci.show(i);
+                          item.hidden = false;
+                        } else {
+                          ci.hide(i);
+                          item.hidden = true;
+                        }
                       }
                     });
                   },

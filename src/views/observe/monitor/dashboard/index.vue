@@ -110,7 +110,6 @@
                 </v-btn>
               </div>
               <BaseAreaChart
-                :id="`c${index}`"
                 :key="`c${index}${tab}`"
                 chart-type="line"
                 :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
@@ -151,7 +150,7 @@
 
     <AddDashboard ref="addDashboard" :environment="environment" @refresh="dashboardList" />
     <UpdateDashboard ref="updateDashboard" :environment="environment" @refresh="dashboardList" />
-    <GraphMax ref="graphMax" :environment="environment" />
+    <GraphMax ref="graphMax" :date-link="date" :environment="environment" />
     <AddGraph
       ref="addGraph"
       :dashboard="items.length > 0 ? items[tab] : null"

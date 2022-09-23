@@ -66,7 +66,8 @@
     "port_type": "端口類型",
     "global_var": "全域變數",
     "global_var_val": "變數值",
-    "global_var_tip": "全局變量用來過濾監控圖標中的監控數據"
+    "global_var_tip": "全局變量用來過濾監控圖標中的監控數據",
+    "missing_template": "模版缺失"
   },
   "tab": {
     "generate_from_template": "由模版生成",
@@ -94,7 +95,8 @@
     "enable": "啟用",
     "disable": "禁用",
     "enable_c": "開啟{0}",
-    "disable_c": "關閉{0}"
+    "disable_c": "關閉{0}",
+    "all": "全選"
   },
   "filter": {
     "receiver_name": "接收器名稱",

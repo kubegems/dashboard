@@ -51,11 +51,15 @@
         <BaseTipChips :chips="item.alertResourceMap || {}" color="primary" icon="mdi-ruler" single-line />
       </template>
       <template #[`item.status`]="{ item }">
-        <StatusTag :l="item.logging" :m="item.monitoring" :s="item.serviceMesh" />
+        <StatusTag :item="item" :l="item.logging" :m="item.monitoring" :s="item.serviceMesh" />
+      </template>
+      <template #[`item.errorLogCount`]="{ item }">
+        {{ item.errorLogCount }}
+        <v-icon color="primary" small @click="showErrorLogRate(item)"> mdi-chart-line </v-icon>
       </template>
       <template #[`item.logRate`]="{ item }">
         {{ item.logRate }}
-        <v-icon color="primary" small @click="showLogRate(item)"> mdi-chart-areaspline-variant </v-icon>
+        <v-icon color="primary" small @click="showLogRate(item)"> mdi-chart-line </v-icon>
       </template>
       <template #[`item.eventCount`]="{ item }">
         {{ item.eventCount }}
@@ -115,12 +119,14 @@
 
     <K8sEvents ref="k8sEvents" :env="env" @clear="env = null" />
     <LogRateChart ref="logRateChart" :env="env" @clear="env = null" />
+    <ErrorLogRateChart ref="errorLogRateChart" :env="env" @clear="env = null" />
   </v-card>
 </template>
 
 <script>
   import messages from '../../i18n';
   import Duration from './Duration';
+  import ErrorLogRateChart from './ErrorLogRateChart';
   import K8sEvents from './K8sEvents';
   import LogRateChart from './LogRateChart';
   import ProjectSelect from './ProjectSelect';
@@ -135,6 +141,7 @@
     },
     components: {
       Duration,
+      ErrorLogRateChart,
       K8sEvents,
       LogRateChart,
       ProjectSelect,
@@ -173,7 +180,7 @@
           { text: this.$t('table.alert_rule_count'), value: 'alertRuleCount', align: 'end', width: 100 },
           { text: this.$t('table.living_alert_count'), value: 'alertLiving', align: 'end' },
           { text: this.$t('table.log_count'), value: 'loggingCollectorCount', align: 'start' },
-          { text: this.$t('table.error_log_count'), value: 'errorLogCount', align: 'start' },
+          { text: this.$t('table.error_log_count'), value: 'errorLogCount', align: 'end', width: 100 },
           { text: this.$t('table.log_rate'), value: 'logRate', align: 'end', width: 120 },
           { text: this.$t('table.event_count'), value: 'eventCount', align: 'end', width: 100 },
         ];
@@ -228,6 +235,10 @@
       showLogRate(item) {
         this.env = item;
         this.$refs.logRateChart.open();
+      },
+      showErrorLogRate(item) {
+        this.env = item;
+        this.$refs.errorLogRateChart.open();
       },
     },
   };
