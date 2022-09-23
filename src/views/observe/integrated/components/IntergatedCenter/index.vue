@@ -55,7 +55,13 @@
           <component :is="tabItems[tab].value" :ref="tabItems[tab].value" :v="item.value || item.name" @close="close" />
         </template>
         <template v-else-if="type === 'middleware'">
-          <MiddlewareMetrics ref="middlewareMetrics" :chart-name="item.chart" @close="close" @deploying="deploying" />
+          <MiddlewareMetrics
+            ref="middlewareMetrics"
+            :app-name="item.name"
+            :chart-name="item.chart"
+            @close="close"
+            @deploying="deploying"
+          />
         </template>
         <template v-else-if="type === 'monitor'">
           <Metrics
