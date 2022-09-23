@@ -342,6 +342,14 @@
         deep: true,
         immediate: true,
       },
+      '$route.query.namespace': {
+        handler(newValue) {
+          if (newValue) {
+            this.load();
+          }
+        },
+        deep: true,
+      },
     },
     mounted() {
       if (this.item) {
@@ -538,6 +546,7 @@
         this.$forceUpdate();
       },
       async getContainers() {
+        this.containerItems = [];
         const data = await getPodList(
           this.$route.query.cluster || this.obj.cluster,
           this.$route.query.namespace || this.obj.namespace,

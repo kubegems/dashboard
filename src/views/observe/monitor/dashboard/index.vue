@@ -282,6 +282,11 @@
           this.variableValues = dashboard.variables[this.variable].split(',').filter((v) => {
             return Boolean(v);
           });
+          this.labelpairs[`labelpairs[${this.variable}]`] = this.variableValues.reduce(
+            (pre, current, index, arr) =>
+              (pre || pre) + (current || current) + `${index === arr.length - 1 ? '' : '|'}`,
+            '',
+          );
         }
 
         if (this.items?.length > 0 && this.items[this.tab] && this.items[this.tab].graphs) {
