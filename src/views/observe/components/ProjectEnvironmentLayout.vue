@@ -110,20 +110,15 @@
         }
 
         if (this.missingPlugins?.length === 0) {
-          const query = env?.id
-            ? {
-                proj: env?.projectName,
-                env: env?.name,
-                envid: env?.id,
-                projid: env?.projectId,
-                cluster: env?.clusterName,
-                namespace: env?.namespace,
-              }
-            : {};
           this.$router.replace({
             query: {
               ...this.$route.query,
-              ...query,
+              proj: env?.projectName,
+              env: env?.name,
+              envid: env?.id,
+              projid: env?.projectId,
+              cluster: env?.clusterName,
+              namespace: env?.namespace,
             },
           });
           this.pass = true;
