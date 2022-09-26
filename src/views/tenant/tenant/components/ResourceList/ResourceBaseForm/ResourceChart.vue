@@ -48,39 +48,41 @@
         />
       </v-col>
 
-      <v-col v-if="nvidia && showMore" class="py-0" cols="4">
-        <BaseRadialBarChart
-          class="my-3"
-          :metrics="nvidiaSeries"
-          :title="`Nvidia ${$root.$t('resource.gpu')}`"
-          :total="quota ? quota.NvidiaGpu : 0"
-          unit="gpu"
-          :val="quota ? quota.UsedNvidiaGpu : 0"
-        />
-      </v-col>
+      <v-expand-transition>
+        <v-col v-if="nvidia && showMore" class="py-0" cols="4">
+          <BaseRadialBarChart
+            class="my-3"
+            :metrics="nvidiaSeries"
+            :title="`Nvidia ${$root.$t('resource.gpu')}`"
+            :total="quota ? quota.NvidiaGpu : 0"
+            unit="gpu"
+            :val="quota ? quota.UsedNvidiaGpu : 0"
+          />
+        </v-col>
 
-      <template v-if="tke && showMore">
-        <v-col class="py-0" cols="4">
-          <BaseRadialBarChart
-            class="my-3"
-            :metrics="tkeSeries"
-            :title="`Tke ${$root.$t('resource.gpu')}`"
-            :total="quota ? quota.TkeGpu : 0"
-            unit=""
-            :val="quota ? quota.UsedTkeGpu : 0"
-          />
-        </v-col>
-        <v-col class="py-0" cols="4">
-          <BaseRadialBarChart
-            class="my-3"
-            :metrics="tkeMemorySeries"
-            :title="`Tke ${$root.$t('resource.video_memory')}`"
-            :total="quota ? quota.TkeMemory : 0"
-            unit=""
-            :val="quota ? quota.UsedTkeMemory : 0"
-          />
-        </v-col>
-      </template>
+        <template v-if="tke && showMore">
+          <v-col class="py-0" cols="4">
+            <BaseRadialBarChart
+              class="my-3"
+              :metrics="tkeSeries"
+              :title="`Tke ${$root.$t('resource.gpu')}`"
+              :total="quota ? quota.TkeGpu : 0"
+              unit=""
+              :val="quota ? quota.UsedTkeGpu : 0"
+            />
+          </v-col>
+          <v-col class="py-0" cols="4">
+            <BaseRadialBarChart
+              class="my-3"
+              :metrics="tkeMemorySeries"
+              :title="`Tke ${$root.$t('resource.video_memory')}`"
+              :total="quota ? quota.TkeMemory : 0"
+              unit=""
+              :val="quota ? quota.UsedTkeMemory : 0"
+            />
+          </v-col>
+        </template>
+      </v-expand-transition>
     </v-row>
 
     <div v-if="tke || nvidia" class="text-center mt-3">

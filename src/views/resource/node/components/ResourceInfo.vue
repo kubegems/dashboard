@@ -57,51 +57,57 @@
         </v-col>
       </v-row>
 
-      <v-row v-if="showMore && tke">
-        <v-col cols="4">
-          <BaseRadialBarChart
-            id="node_tke_gpu"
-            class="my-3"
-            :extend-height="200"
-            :metrics="gpuTkeSeries"
-            :title="`Tke ${$root.$t('resource.gpu')}`"
-            :total="
-              totalRequests['tencent.com/vcuda-core'] ? parseInt(item.status.capacity['tencent.com/vcuda-core']) : 0
-            "
-            unit=""
-            :val="totalRequests['tencent.com/vcuda-core'] ? parseFloat(totalRequests['tencent.com/vcuda-core']) : 0"
-          />
-        </v-col>
-        <v-col cols="4">
-          <BaseRadialBarChart
-            id="node_tke_gpu"
-            class="my-3"
-            :extend-height="200"
-            :metrics="gpuTkeMemorySeries"
-            :title="`Tke ${$root.$t('resource.vcuda-memory')}`"
-            :total="
-              totalRequests['tencent.com/vcuda-memory'] ? parseInt(item.status.capacity['tencent.com/vcuda-memory']) : 0
-            "
-            unit=""
-            :val="totalRequests['tencent.com/vcuda-memory'] ? parseFloat(totalRequests['tencent.com/vcuda-memory']) : 0"
-          />
-        </v-col>
-      </v-row>
+      <v-expand-transition>
+        <v-row v-if="showMore && tke">
+          <v-col cols="4">
+            <BaseRadialBarChart
+              id="node_tke_gpu"
+              class="my-3"
+              :extend-height="200"
+              :metrics="gpuTkeSeries"
+              :title="`Tke ${$root.$t('resource.gpu')}`"
+              :total="
+                totalRequests['tencent.com/vcuda-core'] ? parseInt(item.status.capacity['tencent.com/vcuda-core']) : 0
+              "
+              unit=""
+              :val="totalRequests['tencent.com/vcuda-core'] ? parseFloat(totalRequests['tencent.com/vcuda-core']) : 0"
+            />
+          </v-col>
+          <v-col cols="4">
+            <BaseRadialBarChart
+              id="node_tke_gpu"
+              class="my-3"
+              :extend-height="200"
+              :metrics="gpuTkeMemorySeries"
+              :title="`Tke ${$root.$t('resource.vcuda-memory')}`"
+              :total="
+                totalRequests['tencent.com/vcuda-memory']
+                  ? parseInt(item.status.capacity['tencent.com/vcuda-memory'])
+                  : 0
+              "
+              unit=""
+              :val="
+                totalRequests['tencent.com/vcuda-memory'] ? parseFloat(totalRequests['tencent.com/vcuda-memory']) : 0
+              "
+            />
+          </v-col>
+        </v-row>
 
-      <v-row v-if="showMore && nvidia">
-        <v-col cols="4">
-          <BaseRadialBarChart
-            id="node_nvidia_gpu"
-            class="my-3"
-            :extend-height="200"
-            :metrics="gpuNvidiaSeries"
-            :title="`Nvidia ${$root.$t('resource.gpu')}`"
-            :total="totalRequests['nvidia.com/gpu'] ? parseInt(item.status.capacity['nvidia.com/gpu']) : 0"
-            unit=""
-            :val="totalRequests['nvidia.com/gpu'] ? parseFloat(totalRequests['nvidia.com/gpu']) : 0"
-          />
-        </v-col>
-      </v-row>
+        <v-row v-if="showMore && nvidia">
+          <v-col cols="4">
+            <BaseRadialBarChart
+              id="node_nvidia_gpu"
+              class="my-3"
+              :extend-height="200"
+              :metrics="gpuNvidiaSeries"
+              :title="`Nvidia ${$root.$t('resource.gpu')}`"
+              :total="totalRequests['nvidia.com/gpu'] ? parseInt(item.status.capacity['nvidia.com/gpu']) : 0"
+              unit=""
+              :val="totalRequests['nvidia.com/gpu'] ? parseFloat(totalRequests['nvidia.com/gpu']) : 0"
+            />
+          </v-col>
+        </v-row>
+      </v-expand-transition>
 
       <div v-if="tke || nvidia" class="pb-3 text-center">
         <v-btn color="primary" small text @click="showMore = !showMore">

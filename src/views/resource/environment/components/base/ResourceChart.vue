@@ -58,39 +58,41 @@
         />
       </v-col>
 
-      <v-col v-if="nvidia && showMore" class="py-0" cols="3">
-        <BaseRadialBarChart
-          class="my-3"
-          :metrics="nvidiaGpuSeries"
-          :title="`Nvidia ${$root.$t('resource.gpu')}`"
-          :total="statistics ? statistics.NvidiaGpu : 0"
-          unit="gpu"
-          :val="statistics ? statistics.AllocatedNvidiaGpu : 0"
-        />
-      </v-col>
+      <v-expand-transition>
+        <v-col v-if="nvidia && showMore" class="py-0" cols="3">
+          <BaseRadialBarChart
+            class="my-3"
+            :metrics="nvidiaGpuSeries"
+            :title="`Nvidia ${$root.$t('resource.gpu')}`"
+            :total="statistics ? statistics.NvidiaGpu : 0"
+            unit="gpu"
+            :val="statistics ? statistics.AllocatedNvidiaGpu : 0"
+          />
+        </v-col>
 
-      <template v-if="tke && showMore">
-        <v-col class="py-0" cols="3">
-          <BaseRadialBarChart
-            class="my-3"
-            :metrics="tkeGpuSeries"
-            :title="`Tke ${$root.$t('resource.gpu')}`"
-            :total="statistics ? statistics.TkeGpu : 0"
-            unit=""
-            :val="statistics ? statistics.AllocatedTkeGpu : 0"
-          />
-        </v-col>
-        <v-col class="py-0" cols="3">
-          <BaseRadialBarChart
-            class="my-3"
-            :metrics="tkeMemorySeries"
-            :title="`Tke ${$root.$t('resource.video_memory')}`"
-            :total="statistics ? statistics.TkeMemory : 0"
-            unit=""
-            :val="statistics ? statistics.AllocatedTkeMemory : 0"
-          />
-        </v-col>
-      </template>
+        <template v-if="tke && showMore">
+          <v-col class="py-0" cols="3">
+            <BaseRadialBarChart
+              class="my-3"
+              :metrics="tkeGpuSeries"
+              :title="`Tke ${$root.$t('resource.gpu')}`"
+              :total="statistics ? statistics.TkeGpu : 0"
+              unit=""
+              :val="statistics ? statistics.AllocatedTkeGpu : 0"
+            />
+          </v-col>
+          <v-col class="py-0" cols="3">
+            <BaseRadialBarChart
+              class="my-3"
+              :metrics="tkeMemorySeries"
+              :title="`Tke ${$root.$t('resource.video_memory')}`"
+              :total="statistics ? statistics.TkeMemory : 0"
+              unit=""
+              :val="statistics ? statistics.AllocatedTkeMemory : 0"
+            />
+          </v-col>
+        </template>
+      </v-expand-transition>
     </v-row>
 
     <div v-if="tke || nvidia" class="mb-2 text-center">
