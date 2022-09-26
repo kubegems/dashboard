@@ -22,7 +22,7 @@
         <v-col v-if="!control && !edit && obj.extend.existInstaller" cols="12">
           <v-switch v-model="obj.Primary" class="mt-5" :label="$t('tip.control_cluster')" @change="onPrimaryChange" />
         </v-col>
-        <v-col v-if="!obj.Primary" cols="6">
+        <v-col cols="6">
           <v-text-field
             v-model="obj.ClusterName"
             :label="$t('form.name')"

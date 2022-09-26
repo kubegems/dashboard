@@ -19,8 +19,18 @@
     <v-col cols="3">
       <v-card>
         <v-card-text>
-          <v-sheet>
-            <VueApexCharts height="250" :options="cpuOptions" :series="cpuSeries" type="radialBar" />
+          <v-sheet class="mt-5">
+            <BaseRadialBarChart
+              class="my-3"
+              :cutout="70"
+              :default-val="quota ? maxCpu : 0"
+              :extend-height="180"
+              :metrics="cpuSeries"
+              :title="$root.$t('resource.cpu')"
+              tooltip-external
+              :total="quota ? maxCpu : 0"
+              unit="core"
+            />
           </v-sheet>
           <v-sheet>
             <v-sheet>
@@ -61,8 +71,18 @@
     <v-col cols="3">
       <v-card>
         <v-card-text>
-          <v-sheet>
-            <VueApexCharts height="250" :options="memoryOptions" :series="memorySeries" type="radialBar" />
+          <v-sheet class="mt-5">
+            <BaseRadialBarChart
+              class="my-3"
+              :cutout="70"
+              :default-val="quota ? maxMemory : 0"
+              :extend-height="180"
+              :metrics="memorySeries"
+              :title="$root.$t('resource.memory')"
+              tooltip-external
+              :total="quota ? maxMemory : 0"
+              unit="Gi"
+            />
           </v-sheet>
           <v-sheet>
             <v-sheet>
@@ -103,8 +123,18 @@
     <v-col cols="3">
       <v-card>
         <v-card-text>
-          <v-sheet>
-            <VueApexCharts height="250" :options="storageOptions" :series="storageSeries" type="radialBar" />
+          <v-sheet class="mt-5">
+            <BaseRadialBarChart
+              class="my-3"
+              :cutout="75"
+              :default-val="quota ? maxStorage : 0"
+              :extend-height="180"
+              :metrics="storageSeries"
+              :title="$root.$t('resource.storage')"
+              tooltip-external
+              :total="quota ? maxStorage : 0"
+              unit="Gi"
+            />
           </v-sheet>
           <v-sheet>
             <v-sheet>
@@ -141,8 +171,15 @@
     <v-col cols="3">
       <v-card>
         <v-card-text>
-          <v-sheet>
-            <VueApexCharts height="250" :options="podOptions" :series="podSeries" type="radialBar" />
+          <v-sheet class="mt-5">
+            <BaseRadialBarChart
+              class="my-3"
+              :default-val="quota ? quota.capacity.pods : 0"
+              :extend-height="180"
+              :metrics="podSeries"
+              :title="$root.$t('resource.pod')"
+              unit=""
+            />
           </v-sheet>
           <v-sheet>
             <v-sheet>
@@ -175,20 +212,15 @@
 </template>
 
 <script>
-  import VueApexCharts from 'vue-apexcharts';
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../i18n';
-  import { generateRadialBarChartOptions } from '@/utils/chart';
   import { sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
 
   export default {
     name: 'ResourceChart',
     i18n: {
       messages: messages,
-    },
-    components: {
-      VueApexCharts,
     },
     props: {
       cluster: {
@@ -222,79 +254,72 @@
       cpuSeries() {
         return this.quota
           ? [
-              (sizeOfCpu(this.quota.tenantAllocated['limits.cpu']) / this.maxCpu) * 100,
-              (sizeOfCpu(this.quota.capacity.cpu) / this.maxCpu) * 100,
-              100,
+              [
+                (sizeOfCpu(this.quota.tenantAllocated['limits.cpu']) / this.maxCpu) * 100,
+                100 - (sizeOfCpu(this.quota.tenantAllocated['limits.cpu']) / this.maxCpu) * 100,
+              ],
+              [
+                (sizeOfCpu(this.quota.capacity.cpu) / this.maxCpu) * 100,
+                100 - (sizeOfCpu(this.quota.capacity.cpu) / this.maxCpu) * 100,
+              ],
+              [100, 0],
             ]
-          : [0, 0, 0];
+          : [
+              [0, 100],
+              [0, 100],
+              [0, 100],
+            ];
       },
-      cpuOptions() {
-        return generateRadialBarChartOptions(
-          this.$root.$t('resource.cpu'),
-          [
-            this.$t('tip.total', [this.$root.$t('resource.tenant')]),
-            this.$t('tip.total', [this.$t('tip.physics')]),
-            this.$root.$t('resource.cpu_c', [this.$t('tip.virtual')]),
-          ],
-          this.quota ? this.maxCpu : 0,
-          'core',
-          true,
-        );
-      },
+
       memorySeries() {
         return this.quota
           ? [
-              (sizeOfStorage(this.quota.tenantAllocated['limits.memory']) / this.maxMemory) * 100,
-              (sizeOfStorage(this.quota.capacity.memory) / this.maxMemory) * 100,
-              100,
+              [
+                (sizeOfStorage(this.quota.tenantAllocated['limits.memory']) / this.maxMemory) * 100,
+                100 - (sizeOfStorage(this.quota.tenantAllocated['limits.memory']) / this.maxMemory) * 100,
+              ],
+              [
+                (sizeOfStorage(this.quota.capacity.memory) / this.maxMemory) * 100,
+                100 - (sizeOfStorage(this.quota.capacity.memory) / this.maxMemory) * 100,
+              ],
+              [100, 0],
             ]
-          : [0, 0, 0];
+          : [
+              [0, 100],
+              [0, 100],
+              [0, 100],
+            ];
       },
-      memoryOptions() {
-        return generateRadialBarChartOptions(
-          this.$root.$t('resource.memory'),
-          [
-            this.$t('tip.total', [this.$root.$t('resource.tenant')]),
-            this.$t('tip.total', [this.$t('tip.physics')]),
-            this.$root.$t('resource.memory_c', [this.$t('tip.virtual')]),
-          ],
-          this.quota ? this.maxMemory : 0,
-          'Gi',
-          true,
-        );
-      },
+
       storageSeries() {
         return this.quota
           ? [
-              (sizeOfStorage(this.quota.tenantAllocated['requests.storage']) / this.maxStorage) * 100,
-              (sizeOfStorage(this.quota.capacity['ephemeral-storage']) / this.maxStorage) * 100,
+              [
+                (sizeOfStorage(this.quota.tenantAllocated['requests.storage']) / this.maxStorage) * 100,
+                100 - (sizeOfStorage(this.quota.tenantAllocated['requests.storage']) / this.maxStorage) * 100,
+              ],
+              [
+                (sizeOfStorage(this.quota.capacity['ephemeral-storage']) / this.maxStorage) * 100,
+                100 - (sizeOfStorage(this.quota.capacity['ephemeral-storage']) / this.maxStorage) * 100,
+              ],
             ]
-          : [0, 0];
+          : [
+              [0, 100],
+              [0, 100],
+            ];
       },
-      storageOptions() {
-        return generateRadialBarChartOptions(
-          this.$root.$t('resource.storage'),
-          [this.$t('tip.total', [this.$root.$t('resource.tenant')]), this.$t('tip.total', [this.$t('tip.physics')])],
-          this.quota ? this.maxStorage : 0,
-          'Gi',
-          true,
-        );
-      },
+
       podSeries() {
         return this.quota
           ? this.quota.capacity.pods === 0
-            ? [0]
-            : [(this.quota.capacity.pods / this.quota.capacity.pods) * 100]
-          : [0];
-      },
-      podOptions() {
-        return generateRadialBarChartOptions(
-          this.$root.$t('resource.pod'),
-          [this.$t('tip.sum')],
-          this.quota ? this.quota.capacity.pods : 0,
-          '',
-          true,
-        );
+            ? [[0, 100]]
+            : [
+                [
+                  (this.quota.capacity.pods / this.quota.capacity.pods) * 100,
+                  100 - (this.quota.capacity.pods / this.quota.capacity.pods) * 100,
+                ],
+              ]
+          : [[0, 100]];
       },
     },
     methods: {
