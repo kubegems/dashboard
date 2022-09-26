@@ -20,7 +20,6 @@
       <v-col class="py-0" cols="3">
         <BaseRadialBarChart
           class="my-3"
-          :label-show="false"
           :metrics="cpuSeries"
           :title="$root.$t('resource.cpu')"
           :total="statistics ? statistics.Cpu : 0"
@@ -31,7 +30,6 @@
       <v-col class="py-0" cols="3">
         <BaseRadialBarChart
           class="my-3"
-          :label-show="false"
           :metrics="memorySeries"
           :title="$root.$t('resource.memory')"
           :total="statistics ? statistics.Memory : 0"
@@ -42,7 +40,6 @@
       <v-col class="py-0" cols="3">
         <BaseRadialBarChart
           class="my-3"
-          :label-show="false"
           :metrics="storageSeries"
           :title="$root.$t('resource.storage')"
           :total="statistics ? statistics.Storage : 0"
@@ -53,7 +50,6 @@
       <v-col class="py-0" cols="3">
         <BaseRadialBarChart
           class="my-3"
-          :label-show="false"
           :metrics="podSeries"
           :title="$root.$t('resource.pod')"
           :total="statistics ? statistics.Pod : 0"
@@ -65,7 +61,6 @@
       <v-col v-if="nvidia && showMore" class="py-0" cols="3">
         <BaseRadialBarChart
           class="my-3"
-          :label-show="false"
           :metrics="nvidiaGpuSeries"
           :title="`Nvidia ${$root.$t('resource.gpu')}`"
           :total="statistics ? statistics.NvidiaGpu : 0"
@@ -78,7 +73,6 @@
         <v-col class="py-0" cols="3">
           <BaseRadialBarChart
             class="my-3"
-            :label-show="false"
             :metrics="tkeGpuSeries"
             :title="`Tke ${$root.$t('resource.gpu')}`"
             :total="statistics ? statistics.TkeGpu : 0"
@@ -89,7 +83,6 @@
         <v-col class="py-0" cols="3">
           <BaseRadialBarChart
             class="my-3"
-            :label-show="false"
             :metrics="tkeMemorySeries"
             :title="`Tke ${$root.$t('resource.video_memory')}`"
             :total="statistics ? statistics.TkeMemory : 0"
@@ -146,75 +139,89 @@
       cpuSeries() {
         return this.statistics
           ? this.statistics.AllocatedCpu === 0
-            ? [0, 100]
+            ? [[0, 100]]
             : [
-                (this.statistics.AllocatedCpu / this.statistics.Cpu) * 100,
-                100 - (this.statistics.AllocatedCpu / this.statistics.Cpu) * 100,
+                [
+                  (this.statistics.AllocatedCpu / this.statistics.Cpu) * 100,
+                  100 - (this.statistics.AllocatedCpu / this.statistics.Cpu) * 100,
+                ],
               ]
-          : [0, 100];
+          : [[0, 100]];
       },
       memorySeries() {
         return this.statistics
           ? this.statistics.AllocatedMemory === 0
-            ? [0, 100]
+            ? [[0, 100]]
             : [
-                (this.statistics.AllocatedMemory / this.statistics.Memory) * 100,
-                100 - (this.statistics.AllocatedMemory / this.statistics.Memory) * 100,
+                [
+                  (this.statistics.AllocatedMemory / this.statistics.Memory) * 100,
+                  100 - (this.statistics.AllocatedMemory / this.statistics.Memory) * 100,
+                ],
               ]
-          : [0, 100];
+          : [[0, 100]];
       },
       storageSeries() {
         return this.statistics
           ? this.statistics.AllocatedStorage === 0
-            ? [0, 100]
+            ? [[0, 100]]
             : [
-                (this.statistics.AllocatedStorage / this.statistics.Storage) * 100,
-                100 - (this.statistics.AllocatedStorage / this.statistics.Storage) * 100,
+                [
+                  (this.statistics.AllocatedStorage / this.statistics.Storage) * 100,
+                  100 - (this.statistics.AllocatedStorage / this.statistics.Storage) * 100,
+                ],
               ]
-          : [0, 100];
+          : [[0, 100]];
       },
       podSeries() {
         return this.statistics
           ? this.statistics.AllocatedPod === 0
-            ? [0, 100]
+            ? [[0, 100]]
             : [
-                (this.statistics.AllocatedPod / this.statistics.Pod) * 100,
-                100 - (this.statistics.AllocatedPod / this.statistics.Pod) * 100,
+                [
+                  (this.statistics.AllocatedPod / this.statistics.Pod) * 100,
+                  100 - (this.statistics.AllocatedPod / this.statistics.Pod) * 100,
+                ],
               ]
-          : [0, 100];
+          : [[0, 100]];
       },
 
       nvidiaGpuSeries() {
         return this.statistics
           ? this.statistics.AllocatedNvidiaGpu === 0
-            ? [0, 100]
+            ? [[0, 100]]
             : [
-                (this.statistics.AllocatedNvidiaGpu / this.statistics.NvidiaGpu) * 100,
-                100 - (this.statistics.AllocatedNvidiaGpu / this.statistics.NvidiaGpu) * 100,
+                [
+                  (this.statistics.AllocatedNvidiaGpu / this.statistics.NvidiaGpu) * 100,
+                  100 - (this.statistics.AllocatedNvidiaGpu / this.statistics.NvidiaGpu) * 100,
+                ],
               ]
-          : [0, 100];
+          : [[0, 100]];
       },
 
       tkeGpuSeries() {
         return this.statistics
           ? this.statistics.AllocatedTkeGpu === 0
-            ? [0, 100]
+            ? [[0, 100]]
             : [
-                (this.statistics.AllocatedTkeGpu / this.statistics.TkeGpu) * 100,
-                100 - (this.statistics.AllocatedTkeGpu / this.statistics.TkeGpu) * 100,
+                [
+                  (this.statistics.AllocatedTkeGpu / this.statistics.TkeGpu) * 100,
+                  100 - (this.statistics.AllocatedTkeGpu / this.statistics.TkeGpu) * 100,
+                ],
               ]
-          : [0, 100];
+          : [[0, 100]];
       },
 
       tkeMemorySeries() {
         return this.statistics
           ? this.statistics.AllocatedTkeMemory === 0
-            ? [0, 100]
+            ? [[0, 100]]
             : [
-                (this.statistics.AllocatedTkeMemory / this.statistics.TkeMemory) * 100,
-                100 - (this.statistics.AllocatedTkeMemory / this.statistics.TkeMemory) * 100,
+                [
+                  (this.statistics.AllocatedTkeMemory / this.statistics.TkeMemory) * 100,
+                  100 - (this.statistics.AllocatedTkeMemory / this.statistics.TkeMemory) * 100,
+                ],
               ]
-          : [0, 100];
+          : [[0, 100]];
       },
     },
   };

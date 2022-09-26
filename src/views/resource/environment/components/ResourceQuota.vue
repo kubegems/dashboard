@@ -23,7 +23,6 @@
           <BaseRadialBarChart
             id="env_cpu"
             class="my-3"
-            :label-show="false"
             :metrics="cpuSeries"
             :title="$root.$t('resource.cpu')"
             :total="quota ? quota.Cpu : 0"
@@ -35,7 +34,6 @@
           <BaseRadialBarChart
             id="env_memory"
             class="my-3"
-            :label-show="false"
             :metrics="memorySeries"
             :title="$root.$t('resource.memory')"
             :total="quota ? quota.Memory : 0"
@@ -47,7 +45,6 @@
           <BaseRadialBarChart
             id="env_storage"
             class="my-3"
-            :label-show="false"
             :metrics="storageSeries"
             :title="$root.$t('resource.storage')"
             :total="quota ? quota.Storage : 0"
@@ -59,7 +56,6 @@
           <BaseRadialBarChart
             id="env_pod"
             class="my-3"
-            :label-show="false"
             :metrics="podSeries"
             :title="$root.$t('resource.pod')"
             :total="quota ? quota.Pod : 0"
@@ -72,7 +68,6 @@
           <BaseRadialBarChart
             id="env_nvidia_gpu"
             class="my-3"
-            :label-show="false"
             :metrics="nvidiaGpuSeries"
             :title="`Nvidia ${$root.$t('resource.gpu')}`"
             :total="quota ? quota.NvidiaGpu : 0"
@@ -85,7 +80,6 @@
             <BaseRadialBarChart
               id="env_tke_gpu"
               class="my-3"
-              :label-show="false"
               :metrics="tkeGpuSeries"
               :title="`Tke ${$root.$t('resource.gpu')}`"
               :total="quota ? quota.TkeGpu : 0"
@@ -97,7 +91,6 @@
             <BaseRadialBarChart
               id="env_tke_memory"
               class="my-3"
-              :label-show="false"
               :metrics="tkeMemorySeries"
               :title="`Tke ${$root.$t('resource.video_memory')}`"
               :total="quota ? quota.TkeMemory : 0"
@@ -145,60 +138,74 @@
       cpuSeries() {
         return this.quota
           ? [
-              this.quota.Cpu === 0 ? 0 : (this.quota.UsedCpu / this.quota.Cpu) * 100,
-              100 - (this.quota.UsedCpu / this.quota.Cpu) * 100,
+              [
+                this.quota.Cpu === 0 ? 0 : (this.quota.UsedCpu / this.quota.Cpu) * 100,
+                100 - (this.quota.UsedCpu / this.quota.Cpu) * 100,
+              ],
             ]
-          : [0, 100];
+          : [[0, 100]];
       },
       memorySeries() {
         return this.quota
           ? [
-              this.quota.Memory === 0 ? 0 : (this.quota.UsedMemory / this.quota.Memory) * 100,
-              100 - (this.quota.UsedMemory / this.quota.Memory) * 100,
+              [
+                this.quota.Memory === 0 ? 0 : (this.quota.UsedMemory / this.quota.Memory) * 100,
+                100 - (this.quota.UsedMemory / this.quota.Memory) * 100,
+              ],
             ]
-          : [0, 100];
+          : [[0, 100]];
       },
       storageSeries() {
         return this.quota
           ? [
-              this.quota.Storage === 0 ? 0 : (this.quota.UsedStorage / this.quota.Storage) * 100,
-              100 - (this.quota.UsedStorage / this.quota.Storage) * 100,
+              [
+                this.quota.Storage === 0 ? 0 : (this.quota.UsedStorage / this.quota.Storage) * 100,
+                100 - (this.quota.UsedStorage / this.quota.Storage) * 100,
+              ],
             ]
-          : [0, 100];
+          : [[0, 100]];
       },
       podSeries() {
         return this.quota
           ? [
-              this.quota.Pod === 0 ? 0 : (this.quota.UsedPod / this.quota.Pod) * 100,
-              100 - (this.quota.Pod === 0 ? 0 : (this.quota.UsedPod / this.quota.Pod) * 100),
+              [
+                this.quota.Pod === 0 ? 0 : (this.quota.UsedPod / this.quota.Pod) * 100,
+                100 - (this.quota.Pod === 0 ? 0 : (this.quota.UsedPod / this.quota.Pod) * 100),
+              ],
             ]
-          : [0, 100];
+          : [[0, 100]];
       },
 
       nvidiaGpuSeries() {
         return this.quota
           ? [
-              this.quota.NvidiaGpu === 0 ? 0 : (this.quota.UsedNvidiaGpu / this.quota.NvidiaGpu) * 100,
-              100 - (this.quota.UsedNvidiaGpu / this.quota.NvidiaGpu) * 100,
+              [
+                this.quota.NvidiaGpu === 0 ? 0 : (this.quota.UsedNvidiaGpu / this.quota.NvidiaGpu) * 100,
+                100 - (this.quota.UsedNvidiaGpu / this.quota.NvidiaGpu) * 100,
+              ],
             ]
-          : [0, 100];
+          : [[0, 100]];
       },
 
       tkeGpuSeries() {
         return this.quota
           ? [
-              this.quota.TkeGpu === 0 ? 0 : (this.quota.UsedTkeGpu / this.quota.TkeGpu) * 100,
-              100 - (this.quota.UsedTkeGpu / this.quota.TkeGpu) * 100,
+              [
+                this.quota.TkeGpu === 0 ? 0 : (this.quota.UsedTkeGpu / this.quota.TkeGpu) * 100,
+                100 - (this.quota.UsedTkeGpu / this.quota.TkeGpu) * 100,
+              ],
             ]
-          : [0, 100];
+          : [[0, 100]];
       },
       tkeMemorySeries() {
         return this.quota
           ? [
-              this.quota.TkeMemory === 0 ? 0 : (this.quota.UsedTkeMemory / this.quota.TkeMemory) * 100,
-              100 - (this.quota.UsedTkeMemory / this.quota.TkeMemory) * 100,
+              [
+                this.quota.TkeMemory === 0 ? 0 : (this.quota.UsedTkeMemory / this.quota.TkeMemory) * 100,
+                100 - (this.quota.UsedTkeMemory / this.quota.TkeMemory) * 100,
+              ],
             ]
-          : [0, 100];
+          : [[0, 100]];
       },
     },
     mounted() {
