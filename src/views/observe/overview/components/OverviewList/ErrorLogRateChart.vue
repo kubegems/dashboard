@@ -17,7 +17,7 @@
 <template>
   <BasePanel v-model="panel" icon="mdi-speedometer" :title="$t('table.error_log_count')" @dispose="dispose">
     <template #action>
-      <BaseDatetimePicker v-model="date" color="primary" :default-value="60" @change="onDatetimeChange(undefined)" />
+      <Duration v-model="duration" reverse />
     </template>
     <template #content>
       <div class="d-flex flex-column mt-0 mx-2">
@@ -33,7 +33,7 @@
           single-tooptip
           title=""
           type=""
-          unit="lines/min"
+          unit="lines"
         />
       </div>
     </template>
@@ -44,12 +44,16 @@
   import { mapState } from 'vuex';
 
   import messages from '../../i18n';
+  import Duration from './Duration';
   import { getMetricsQueryrange } from '@/api';
 
   export default {
     name: 'ErrorLogRateChart',
     i18n: {
       messages: messages,
+    },
+    components: {
+      Duration,
     },
     props: {
       env: {
@@ -61,7 +65,7 @@
       return {
         panel: false,
         data: [],
-        date: [],
+        duration: '1h',
       };
     },
     computed: {
@@ -80,6 +84,14 @@
         deep: true,
         immediate: true,
       },
+      duration: {
+        handler(newValue) {
+          if (newValue) {
+            this.errorLogRate();
+          }
+        },
+        deep: true,
+      },
     },
     methods: {
       open() {
@@ -87,16 +99,9 @@
       },
       async errorLogRate() {
         let data = await getMetricsQueryrange(this.env.clusterName, this.env.namespace, {
-          start: this.$moment(this.date[0]).utc().format(),
-          end: this.$moment(this.date[1]).utc().format(),
-          resource: 'log',
-          rule: 'errorLogCount',
-          scope: 'containers',
+          expr: `sum(sum_over_time(gems_loki_error_logs_count_last_1m{namespace="${this.env.namespace}"}[${this.duration}]))`,
         });
         this.data = data;
-      },
-      onDatetimeChange() {
-        this.errorLogRate();
       },
       dispose() {
         this.data = [];

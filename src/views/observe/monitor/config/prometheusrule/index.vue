@@ -269,9 +269,9 @@
       headers() {
         const items = [
           { text: this.$t('table.name'), value: 'name', align: 'start' },
-          { text: this.$t('table.expr'), value: 'expr', align: 'start', width: 300 },
+          { text: this.$t('table.expr'), value: 'expr', align: 'start' },
           { text: this.$t('table.for'), value: 'for', align: 'start' },
-          { text: this.$root.$t('resource.receiver'), value: 'receivers', align: 'start', width: 150 },
+          { text: this.$root.$t('resource.receiver'), value: 'receivers', align: 'start' },
           { text: this.$t('table.status'), value: 'open', align: 'start', width: 80 },
         ];
         if (this.m_permisson_resourceAllow(this.$route.query.env)) {

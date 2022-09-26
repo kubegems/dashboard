@@ -15,60 +15,59 @@
 -->
 
 <template>
-  <v-flex>
-    <v-sheet class="text-body-2 text--darken-1 d-flex align-right mx-1" :style="{ float: 'right' }">
-      <v-menu
-        v-model="durationMenu"
-        bottom
-        class="mx-1 px-1"
-        left
-        offset-y
-        origin="top center"
-        transition="scale-transition"
+  <v-menu
+    v-model="durationMenu"
+    bottom
+    class="mx-1 px-1"
+    left
+    offset-y
+    origin="top center"
+    transition="scale-transition"
+  >
+    <template #activator="{ on }">
+      <v-btn
+        :class="reverse ? `white--text font-weight-medium primary` : `primary--text font-weight-medium white`"
+        dark
+        depressed
+        small
+        text
+        v-on="on"
       >
-        <template #activator="{ on }">
-          <v-btn class="primary--text font-weight-medium" color="white" small text v-on="on">
-            {{ durationText }}
-            <v-icon v-if="durationMenu" right> mdi-chevron-up </v-icon>
-            <v-icon v-else right> mdi-chevron-down </v-icon>
-          </v-btn>
-        </template>
-        <v-data-iterator
-          class="file-iterator"
-          hide-default-footer
-          :items="[{ text: $t('tip.time'), values: durations }]"
-        >
-          <template #no-data>
-            <v-card>
-              <v-card-text> {{ $root.$t('data.no_data') }} </v-card-text>
-            </v-card>
-          </template>
-          <template #default="props">
-            <v-card v-for="item in props.items" :key="item.text" flat>
-              <v-list dense>
-                <v-flex class="text-subtitle-2 text-center ma-2">
-                  <span>{{ $t('tip.time') }}</span>
-                </v-flex>
-                <v-divider class="mx-2" />
-                <v-list-item
-                  v-for="(dur, index) in item.values"
-                  :key="index"
-                  class="text-caption text-center font-weight-medium mx-2"
-                  link
-                  :style="{ color: dur.value === duration ? `#1e88e5 !important` : `` }"
-                  @click="setDuration(dur)"
-                >
-                  <v-list-item-content>
-                    <span>{{ dur.text }}</span>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list>
-            </v-card>
-          </template>
-        </v-data-iterator>
-      </v-menu>
-    </v-sheet>
-  </v-flex>
+        {{ durationText }}
+        <v-icon v-if="durationMenu" right> mdi-chevron-up </v-icon>
+        <v-icon v-else right> mdi-chevron-down </v-icon>
+      </v-btn>
+    </template>
+    <v-data-iterator class="file-iterator" hide-default-footer :items="[{ text: $t('tip.time'), values: durations }]">
+      <template #no-data>
+        <v-card>
+          <v-card-text> {{ $root.$t('data.no_data') }} </v-card-text>
+        </v-card>
+      </template>
+      <template #default="props">
+        <v-card v-for="item in props.items" :key="item.text" flat>
+          <v-list dense>
+            <v-flex class="text-subtitle-2 text-center ma-2">
+              <span>{{ $t('tip.time') }}</span>
+            </v-flex>
+            <v-divider class="mx-2" />
+            <v-list-item
+              v-for="(dur, index) in item.values"
+              :key="index"
+              class="text-caption text-center font-weight-medium mx-2"
+              link
+              :style="{ color: dur.value === duration ? `#1e88e5 !important` : `` }"
+              @click="setDuration(dur)"
+            >
+              <v-list-item-content>
+                <span>{{ dur.text }}</span>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-card>
+      </template>
+    </v-data-iterator>
+  </v-menu>
 </template>
 
 <script>
@@ -78,6 +77,12 @@
     name: 'Duration',
     i18n: {
       messages: messages,
+    },
+    props: {
+      reverse: {
+        type: Boolean,
+        default: () => false,
+      },
     },
     data() {
       return {
