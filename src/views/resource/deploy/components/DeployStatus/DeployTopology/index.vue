@@ -149,7 +149,7 @@
         /* eslint-disable jsx-quotes */
         const div = (
           <div class="float-left img">
-            <div class="v-menu__content manuable__content__active imgtip">
+            <div class="v-menu__content manuable__content__active imgtip" onclick={this.kindCardClick}>
               <div class="v-card v-sheet theme--light text-center">
                 <div class="v-card__text pa-2">{kind}</div>
               </div>
@@ -236,6 +236,15 @@
           },
         });
       },
+      nameCardClick(e) {
+        e.stopPropagation();
+      },
+      messageCardClick(e) {
+        e.stopPropagation();
+      },
+      kindCardClick(e) {
+        e.stopPropagation();
+      },
       renderContent(h, node) {
         /* eslint-disable jsx-quotes */
         return (
@@ -274,7 +283,10 @@
                     <span></span>
                   )}
                   <span class="resource">
-                    <div class="v-menu__content theme--light manuable__content__active resourcetip">
+                    <div
+                      class="v-menu__content theme--light manuable__content__active resourcetip"
+                      onclick={this.nameCardClick}
+                    >
                       <div class="v-card v-sheet theme--light text-center">
                         <div class="v-card__text pa-2">{node.data.name}</div>
                       </div>
@@ -294,7 +306,7 @@
               <div class="datetime">
                 {node.data.conditions && node.data.conditions.length > 0 ? (
                   <span class="message">
-                    <div class="v-menu__content manuable__content__active messagetip">
+                    <div class="v-menu__content manuable__content__active messagetip" onclick={this.messageCardClick}>
                       <div class="v-card v-sheet theme--light text-center">
                         <div class="v-card__text pa-2">
                           {node.data.conditions

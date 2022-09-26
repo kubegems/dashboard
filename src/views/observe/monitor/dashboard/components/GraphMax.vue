@@ -142,7 +142,7 @@
       async init(graph, namespace) {
         this.graph = graph;
         this.namespace = namespace;
-        this.loadMetrics();
+        this.onDatetimeChange();
         this.getLabel();
       },
       async loadMetrics(newParams = {}) {

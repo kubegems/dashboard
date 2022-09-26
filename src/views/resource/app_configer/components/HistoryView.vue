@@ -27,6 +27,9 @@
     <template #content>
       <v-card class="px-3" flat>
         <v-data-iterator disable-filtering disable-pagination hide-default-footer :items="history">
+          <template #no-data>
+            <div class="text-center text-body-2 pt-12">{{ $root.$t('data.no_data') }}</div>
+          </template>
           <template #default="props">
             <v-simple-table :height="height">
               <thead>
@@ -37,8 +40,8 @@
                 </tr>
               </thead>
               <tbody>
-                <template v-for="(item, idx) in props.items">
-                  <tr :key="idx">
+                <template v-for="(item, index) in props.items">
+                  <tr :key="index">
                     <td class="text-center">{{ item.rev }} </td>
                     <td>{{ $moment(item.last_update_time).format('lll') }}</td>
                     <td>
@@ -64,7 +67,7 @@
                       </v-row>
                     </td>
                   </tr>
-                  <tr v-show="item.expanded" :key="idx + 'content'">
+                  <tr v-show="item.expanded" :key="`${index}content`">
                     <td class="px-0" colspan="3">
                       <CodeDiff
                         :file-name="item.key"

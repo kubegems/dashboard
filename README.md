@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://kubegems.io" target="_blank">
-    <img alt="Kubegems Logo" width="30%" style="max-width: 100%;" src="./public/kubegem-logo.jpeg">
+    <img alt="Kubegems Logo" width="30%" style="max-width: 100%;" src="./public/kubegems-logo.jpeg">
   </a>
 </p>
 
