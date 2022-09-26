@@ -19,7 +19,7 @@
     <v-dialog hide-overlay light persistent :value="dialog" width="300">
       <v-card color="primary" dark flat>
         <v-card-text class="text-center">
-          {{ $t('deploying') }}...
+          {{ $t('tip.deploying') }}...
           <v-progress-linear class="mb-0" color="white" indeterminate />
         </v-card-text>
       </v-card>
