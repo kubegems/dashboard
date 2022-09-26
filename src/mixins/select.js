@@ -189,6 +189,7 @@ const select = {
           projectName: ns.Project.ProjectName,
           disabled: ns.VirtualSpaceID > 0 && virtualspace,
           nsLabels: ns.NSLabels,
+          metaType: ns.MetaType,
         });
       });
       this.m_select_projectEnvironmentItems = projectEnvironmentSelect;
