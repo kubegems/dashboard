@@ -16,7 +16,6 @@
 
 <template>
   <BaseBarChart
-    id="config_alert_bar"
     :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
     :color="['#ff5252', '#673ab7']"
     :height="`${extendHeight}px`"
@@ -68,16 +67,14 @@
     },
     methods: {
       async loadData() {
-        this.series = this.series.concat(
-          this.metrics.map((metricAndValues) => {
-            return {
-              label: metricAndValues.metric.name,
-              data: metricAndValues.values.map((v) => {
-                return { x: this.$moment(new Date(v[0])).format('LTS'), y: v[1] };
-              }),
-            };
-          }),
-        );
+        this.series = this.metrics.map((metricAndValues) => {
+          return {
+            label: metricAndValues.metric.name,
+            data: metricAndValues.values.map((v) => {
+              return { x: this.$moment(new Date(v[0])).format('LTS'), y: v[1] };
+            }),
+          };
+        });
       },
     },
   };
