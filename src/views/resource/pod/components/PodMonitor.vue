@@ -43,7 +43,7 @@
             label="container"
             :metrics="memory"
             :title="$t('table.used', [$root.$t('resource.memory')])"
-            type="memory"
+            unit="Gi"
           />
         </v-col>
       </v-row>

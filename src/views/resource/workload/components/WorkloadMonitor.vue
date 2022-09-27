@@ -43,7 +43,7 @@
             label="pod"
             :metrics="memory"
             :title="$t('tip.used', [$root.$t('resource.memory')])"
-            type="memory"
+            unit="Gi"
           />
         </v-col>
       </v-row>
