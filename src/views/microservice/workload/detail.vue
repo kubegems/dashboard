@@ -77,7 +77,7 @@
         tab: 0,
         workload: null,
         services: null,
-        pass: false,
+        pass: { pass: false, time: '' },
       };
     },
     computed: {

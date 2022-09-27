@@ -146,7 +146,7 @@
       return {
         gateway: null,
         tab: 0,
-        pass: false,
+        pass: { pass: false, time: '' },
       };
     },
     computed: {

@@ -160,7 +160,11 @@
                   external: this.tooltipExternal
                     ? (context) => {
                         const { tooltip } = context;
-                        this.triggerVal = (tooltip.dataPoints[0].dataset.data[0] / 100) * this.total;
+                        if (tooltip.dataPoints?.length > 0) {
+                          if (tooltip.dataPoints[0].dataset.data?.length > 0) {
+                            this.triggerVal = (tooltip.dataPoints[0].dataset.data[0] / 100) * this.total;
+                          }
+                        }
                       }
                     : null,
                 },

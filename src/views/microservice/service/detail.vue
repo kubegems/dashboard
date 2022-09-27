@@ -168,7 +168,7 @@
         service: null,
         vs: null,
         mode: null,
-        pass: false,
+        pass: { pass: false, time: '' },
       };
     },
     computed: {
