@@ -126,6 +126,7 @@
       dispose() {
         this.tab = 0;
         this.type = undefined;
+        this.inDeploy = false;
       },
       async addData() {
         if (this.type === 'app') {
