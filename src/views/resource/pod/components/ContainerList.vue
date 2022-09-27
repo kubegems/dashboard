@@ -352,7 +352,7 @@
               d.values.forEach((v) => {
                 memoryUsed.push(parseFloat(v[1]));
               });
-              MemoryLatest[d.metric.container] = latest ? beautifyStorageUnit(latest) : 0;
+              MemoryLatest[d.metric.container] = latest ? beautifyStorageUnit(latest * 1024 * 1024 * 1024) : 0;
               MemoryUsed[d.metric.container] = memoryUsed;
             });
             this.containerStatusesCopy.forEach((c, index) => {
