@@ -140,7 +140,7 @@
     watch: {
       metrics: {
         handler(newValue) {
-          if (newValue) {
+          if (newValue && newValue?.length > 0) {
             this.loadChart();
           }
         },
