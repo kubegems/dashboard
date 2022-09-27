@@ -158,7 +158,8 @@
       return {
         items: [],
         params: {},
-        pass: false,
+        pass: { pass: false, time: '' },
+        timestamp: 0,
       };
     },
     computed: {
@@ -171,7 +172,8 @@
     watch: {
       pass: {
         handler(newValue) {
-          if (newValue) {
+          if (newValue && newValue.time !== this.timestamp) {
+            this.timestamp = newValue.time;
             this.istioGatewayInstanceList();
           }
         },

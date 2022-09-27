@@ -16,7 +16,7 @@
 
 <template>
   <div>
-    <v-card v-if="!pass" class="mx-0 mt-6" flat :height="`400px`">
+    <v-card v-if="!pass.pass" class="mx-0 mt-6" flat :height="`400px`">
       <v-row :style="{ height: `400px` }">
         <v-col class="d-flex align-center justify-center">
           <div class="d-flex align-center pa-10">
@@ -48,7 +48,7 @@
     data() {
       return {
         missingPlugins: [],
-        pass: true,
+        pass: { pass: true, time: '' },
       };
     },
     watch: {
@@ -82,9 +82,9 @@
         this.missingPlugins = plugins.filter((p) => {
           return !data[p];
         });
-        this.pass = this.missingPlugins?.length === 0;
-        this.$emit('change', this.pass);
-        this.$emit('input', this.pass);
+        this.pass.pass = this.missingPlugins?.length === 0;
+        this.$emit('change', { pass: this.pass.pass, time: Date.parse(new Date()) });
+        this.$emit('input', { pass: this.pass.pass, time: Date.parse(new Date()) });
       },
     },
   };
