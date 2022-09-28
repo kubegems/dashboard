@@ -61,7 +61,7 @@
               <v-icon left small> mdi-arrow-up-down-bold </v-icon>
               {{ $t('operate.scale_replicas') }}
             </v-btn>
-            <v-btn v-if="m_permisson_resourceAllow" class="primary--text" small text @click="rollingback">
+            <v-btn v-if="m_permisson_resourceAllow()" class="primary--text" small text @click="rollingback">
               <v-icon left small> mdi-redo-variant </v-icon>
               {{ $t('operate.rollback') }}
             </v-btn>
@@ -80,7 +80,7 @@
             <v-icon left small> mdi-code-json </v-icon>
             YAML
           </v-btn>
-          <v-menu v-if="m_permisson_resourceAllow" left>
+          <v-menu v-if="m_permisson_resourceAllow()" left>
             <template #activator="{ on }">
               <v-btn icon>
                 <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>

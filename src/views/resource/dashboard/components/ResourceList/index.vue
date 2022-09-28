@@ -173,7 +173,7 @@
             width: 150,
           },
         ];
-        if (this.m_permisson_tenantAllow) {
+        if (this.m_permisson_tenantAllow()) {
           items.push({
             text: this.$root.$t('operate.operate'),
             value: 'action',

@@ -306,7 +306,7 @@
           { text: this.$t('table.status'), value: 'status', align: 'start' },
           { text: this.$t('table.label'), value: 'labels', align: 'start', width: 450 },
         ];
-        if (this.m_permisson_virtualSpaceAllow) {
+        if (this.m_permisson_virtualSpaceAllow()) {
           items.push({ text: '', value: 'action', align: 'end', width: 10 });
         }
         items.push({ text: '', value: 'data-table-expand' });

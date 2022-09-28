@@ -27,7 +27,7 @@
         />
         <EnvironmentFilter />
         <v-spacer />
-        <v-menu v-if="m_permisson_virtualSpaceAllow" left>
+        <v-menu v-if="m_permisson_virtualSpaceAllow()" left>
           <template #activator="{ on }">
             <v-btn icon>
               <v-icon color="primary" v-on="on"> mdi-dots-vertical </v-icon>
@@ -199,7 +199,7 @@
           { text: this.$t('table.rule_count'), value: 'rules', align: 'start' },
           { text: this.$root.$t('resource.create_at'), value: 'createAt', align: 'start', width: 180 },
         ];
-        if (this.m_permisson_virtualSpaceAllow) {
+        if (this.m_permisson_virtualSpaceAllow()) {
           items.push({
             text: '',
             value: 'action',

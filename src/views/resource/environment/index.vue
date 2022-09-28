@@ -234,7 +234,7 @@
             width: 150,
           },
         ];
-        if (this.m_permisson_projectAllow) {
+        if (this.m_permisson_projectAllow()) {
           items.push({ text: '', value: 'action', align: 'center', width: 20 });
         }
         return items;

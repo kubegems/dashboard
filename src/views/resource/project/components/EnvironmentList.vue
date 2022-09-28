@@ -20,7 +20,7 @@
       <BaseSubTitle class="pt-2" :divider="false" :title="`${$root.$t('resource.cluster')} ${cluster.ClusterName}`">
         <template #action>
           <v-switch
-            v-if="m_permisson_resourceAllow"
+            v-if="m_permisson_resourceAllow()"
             v-model="cluster.Isolation"
             class="float-right mt-2 mr-4"
             color="primary"
@@ -202,7 +202,7 @@
             width: 150,
           },
         ];
-        if (this.m_permisson_resourceAllow) {
+        if (this.m_permisson_resourceAllow()) {
           items.push({
             text: this.$t('environment.table.network_isolation'),
             value: 'isolation',

@@ -26,7 +26,7 @@
           @refresh="m_filter_list"
         />
         <v-spacer />
-        <v-menu v-if="m_permisson_resourceAllow" left>
+        <v-menu v-if="m_permisson_resourceAllow()" left>
           <template #activator="{ on }">
             <v-btn icon>
               <v-icon color="primary" v-on="on"> mdi-dots-vertical </v-icon>

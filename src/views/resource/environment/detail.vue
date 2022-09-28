@@ -20,7 +20,7 @@
     <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
-          <template v-if="m_permisson_projectAllow">
+          <template v-if="m_permisson_projectAllow()">
             <v-btn class="primary--text" small text @click="scaleResource">
               <v-icon left small> mdi-scale </v-icon>
               {{ $t('operate.scale_resource') }}

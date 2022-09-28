@@ -136,7 +136,7 @@
                   {{ $t('operate.report') }}
                 </v-btn>
               </v-flex>
-              <v-flex v-if="m_permisson_resourceAllow">
+              <v-flex v-if="m_permisson_resourceAllow()">
                 <v-btn
                   v-if="!item.unpublishable && item.isHarborRegistry"
                   color="primary"

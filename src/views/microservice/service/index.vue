@@ -27,7 +27,7 @@
         />
         <EnvironmentFilter />
         <v-spacer />
-        <v-menu v-if="m_permisson_virtualSpaceAllow" left>
+        <v-menu v-if="m_permisson_virtualSpaceAllow()" left>
           <template #activator="{ on }">
             <v-btn icon>
               <v-icon color="primary" v-on="on"> mdi-dots-vertical </v-icon>
