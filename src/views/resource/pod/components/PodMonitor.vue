@@ -67,6 +67,21 @@
           />
         </v-col>
       </v-row>
+
+      <v-row v-if="tke || nvidia">
+        <v-col cols="6">
+          <BaseAreaChart id="pod_gpu" label="pod" :metrics="gpu" :title="$root.$t('resource.gpu')" type="%" />
+        </v-col>
+        <v-col cols="6">
+          <BaseAreaChart
+            id="pod_gpu_memory"
+            label="pod"
+            :metrics="gpuMemory"
+            :title="$root.$t('resource.video_memory')"
+            type="memory"
+          />
+        </v-col>
+      </v-row>
     </v-card-text>
   </v-card>
 </template>
@@ -80,6 +95,8 @@
   import {
     CONTAINER_CPU_USAGE_PROMQL,
     CONTAINER_MEMORY_USAGE_PROMQL,
+    GPU_USAGE,
+    GPU_MEMORY_USAGE,
     POD_NETWORK_IN_PROMQL,
     POD_NETWORK_OUT_PROMQL,
   } from '@/utils/prometheus';
@@ -102,6 +119,8 @@
         memory: [],
         networkin: [],
         networkout: [],
+        gpu: [],
+        gpuMemory: [],
         date: [],
         params: {
           start: '',
@@ -113,6 +132,32 @@
     },
     computed: {
       ...mapState(['Scale']),
+      tke() {
+        if (
+          this.item?.spec?.containers?.some((c) => {
+            return c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda-core'];
+          }) ||
+          this.item?.spec?.template?.spec?.containers?.some((c) => {
+            return c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda-core'];
+          })
+        ) {
+          return true;
+        }
+        return false;
+      },
+      nvidia() {
+        if (
+          this.item?.spec?.containers?.some((c) => {
+            return c?.resources?.limits && c?.resources?.limits['nvidia.com/gpu'];
+          }) ||
+          this.item?.spec?.template?.spec?.containers?.some((c) => {
+            return c?.resources?.limits && c?.resources?.limits['nvidia.com/gpu'];
+          })
+        ) {
+          return true;
+        }
+        return false;
+      },
     },
     watch: {
       item() {
@@ -142,6 +187,10 @@
         this.podMemoryUsage();
         this.podNetworkIn();
         this.podNetworkOut();
+        if (this.tke || this.nvidia) {
+          this.podGpu();
+          this.podGpuMemory();
+        }
       },
       async podCPUUsage() {
         const containers = [];
@@ -187,6 +236,26 @@
           );
           const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
           if (data) this.networkout = data;
+        }
+      },
+      async podGpu() {
+        if (this.item) {
+          const query = GPU_USAGE.replaceAll('$1', this.item.metadata.name).replaceAll(
+            '$2',
+            this.item.metadata.namespace,
+          );
+          const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
+          if (data) this.gpu = data;
+        }
+      },
+      async podGpuMemory() {
+        if (this.item) {
+          const query = GPU_MEMORY_USAGE.replaceAll('$1', this.item.metadata.name).replaceAll(
+            '$2',
+            this.item.metadata.namespace,
+          );
+          const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
+          if (data) this.gpuMemory = data;
         }
       },
       onDatetimeChange() {

@@ -243,7 +243,7 @@
   },
   "sidebar": {
     "cluster": "集団資源",
-    "runtime": "ランタイム",
+    "runtime": "Kubernetes",
     "microservice": "仕える",
     "observability": "観察",
     "administration": "システム"
