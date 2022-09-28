@@ -264,7 +264,7 @@
       };
     },
     computed: {
-      ...mapState(['Auth', 'Circular', 'AdminViewport', 'Scale']),
+      ...mapState(['Auth', 'Circular', 'AdminViewport', 'Scale', 'Locale']),
       ...mapGetters(['Tenant', 'Project', 'Environment']),
       objRules() {
         return {
@@ -292,8 +292,8 @@
       },
       tabItems() {
         return [
-          { text: this.$t('tab.form'), value: 'DeployForm' },
-          { text: 'Values', value: 'DeployFrom' },
+          { text: this.$t('tab.form'), value: 'SchemaForm' },
+          { text: 'Values', value: 'ValuesForm' },
         ];
       },
     },
@@ -323,6 +323,17 @@
         this.readme = this.filesCopy['README.md'] || {};
         if (this.filesCopy['values.schema.json']) {
           this.schemaJson = JSON.parse(this.filesCopy['values.schema.json']);
+        }
+        if (this.Locale !== 'zh-Hans' && this.Locale !== 'zh-Hant') {
+          if (this.filesCopy['i18n/values.en.json']) {
+            const enSchemaJson = JSON.parse(this.filesCopy['i18n/values.en.json']);
+            this.schemaJson = Object.assign(this.schemaJson, enSchemaJson);
+          } else {
+            this.$store.commit('SET_SNACKBAR', {
+              text: this.$t('tip.no_i18n_file'),
+              color: 'warning',
+            });
+          }
         }
         if (this.filesCopy['values.yaml']) {
           this.appValues = this.$yamlload(this.filesCopy['values.yaml']) || {};
