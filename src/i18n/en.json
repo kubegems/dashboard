@@ -251,7 +251,7 @@
   },
   "sidebar": {
     "cluster": "Cluster",
-    "runtime": "Runtime",
+    "runtime": "Kubernetes",
     "microservice": "Mesh",
     "observability": "Observability",
     "administration": "Management"

@@ -287,6 +287,9 @@
               (pre || pre) + (current || current) + `${index === arr.length - 1 ? '' : '|'}`,
             '',
           );
+        } else {
+          this.variable = undefined;
+          this.variableValues = [];
         }
 
         if (this.items?.length > 0 && this.items[this.tab] && this.items[this.tab].graphs) {
