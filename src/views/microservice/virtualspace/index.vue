@@ -167,7 +167,7 @@
           { text: this.$root.$t('resource.create_at'), value: 'createdAt', align: 'start' },
           { text: this.$t('table.creator'), value: 'createdBy', align: 'start' },
         ];
-        if (this.m_permisson_virtualSpaceAllow || this.m_permisson_tenantAllow) {
+        if (this.m_permisson_virtualSpaceAllow || this.m_permisson_tenantAllow()) {
           items.push({ text: '', value: 'action', align: 'center', width: 20 });
         }
         return items;

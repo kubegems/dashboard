@@ -441,7 +441,7 @@
         // 系统管理员->租户管理员->项目管理员(auth中有项目ID)->其他,断路判断是否启用环境过滤
         this.m_select_projectEnvironmentItems = this.m_select_projectEnvironmentItems.filter((projectEnv) => {
           return (
-            this.m_permisson_tenantAllow ||
+            this.m_permisson_tenantAllow() ||
             this.Auth.projects.some((p) => {
               return p.isAdmin && p.id === this.obj.TenantProjectId;
             }) ||

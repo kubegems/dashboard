@@ -26,7 +26,7 @@
           @refresh="m_filter_list"
         />
         <v-spacer />
-        <v-menu v-if="m_permisson_resourceAllow" left>
+        <v-menu v-if="m_permisson_resourceAllow()" left>
           <template #activator="{ on }">
             <v-btn icon>
               <v-icon color="primary" v-on="on"> mdi-dots-vertical </v-icon>
@@ -178,7 +178,7 @@
             align: 'start',
           });
         }
-        if (this.m_permisson_resourceAllow) {
+        if (this.m_permisson_resourceAllow()) {
           items.push({ text: '', value: 'action', align: 'center', width: 20 });
         }
         return items;

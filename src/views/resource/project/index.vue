@@ -227,7 +227,7 @@
             align: 'start',
           });
         }
-        if (this.m_permisson_tenantAllow) {
+        if (this.m_permisson_tenantAllow()) {
           items.push({ text: '', value: 'action', align: 'center', width: 20 });
         }
         return items;

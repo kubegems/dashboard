@@ -62,8 +62,8 @@ const permission = {
           }
         }) > -1 ||
         this.Admin ||
-        this.m_permisson_projectAllow ||
-        this.m_permisson_tenantAllow
+        this.m_permisson_projectAllow() ||
+        this.m_permisson_tenantAllow()
       );
     },
     m_permisson_projectAllow(project = undefined) {
@@ -76,7 +76,7 @@ const permission = {
           }
         }) > -1 ||
         this.Admin ||
-        this.m_permisson_tenantAllow
+        this.m_permisson_tenantAllow()
       );
     },
     m_permisson_tenantAllow(tenant = undefined) {

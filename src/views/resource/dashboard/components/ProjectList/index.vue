@@ -18,7 +18,7 @@
   <v-card>
     <BaseSubTitle class="pt-2" :divider="false" :title="$root.$t('resource.project')">
       <template #action>
-        <v-btn v-if="m_permisson_tenantAllow" class="float-right mr-2" color="primary" small text @click="addProject">
+        <v-btn v-if="m_permisson_tenantAllow()" class="float-right mr-2" color="primary" small text @click="addProject">
           <v-icon left small> mdi-plus-box </v-icon>
           {{ $root.$t('operate.create_c', [$root.$t('resource.project')]) }}
         </v-btn>
@@ -33,7 +33,7 @@
               <span class="text-body-2 ml-3">{{ $t('project.table.alias') }} : {{ item.ProjectAlias }}</span>
               <span class="text-body-2 ml-3">{{ $t('project.table.remark') }} : {{ item.Remark }}</span>
               <v-btn
-                v-if="m_permisson_projectAllow"
+                v-if="m_permisson_projectAllow()"
                 class="float-right"
                 color="primary"
                 depressed

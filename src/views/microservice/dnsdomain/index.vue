@@ -25,7 +25,7 @@
           @refresh="m_filter_list"
         />
         <v-spacer />
-        <v-menu v-if="m_permisson_tenantAllow || m_permisson_virtualSpaceAllow" left>
+        <v-menu v-if="m_permisson_tenantAllow() || m_permisson_virtualSpaceAllow()" left>
           <template #activator="{ on }">
             <v-btn icon>
               <v-icon color="primary" v-on="on"> mdi-dots-vertical </v-icon>
@@ -143,7 +143,7 @@
           { text: this.$root.$t('resource.create_at'), value: 'createdAt', align: 'start' },
           { text: this.$t('table.creator'), value: 'createdBy', align: 'start' },
         ];
-        if (this.m_permisson_virtualSpaceAllow || this.m_permisson_tenantAllow) {
+        if (this.m_permisson_virtualSpaceAllow() || this.m_permisson_tenantAllow()) {
           items.push({ text: '', value: 'action', align: 'center', width: 20 });
         }
         return items;

@@ -18,7 +18,7 @@
     <BaseBreadcrumb>
       <template #extend>
         <v-flex class="kubegems__full-right">
-          <v-menu v-if="m_permisson_resourceAllow" left>
+          <v-menu v-if="m_permisson_resourceAllow()" left>
             <template #activator="{ on }">
               <v-btn icon>
                 <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
