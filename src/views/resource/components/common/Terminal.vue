@@ -155,7 +155,6 @@
         item: null,
         termArgs: {
           wsurl: '',
-          cols: 350,
         },
         term: null,
         websock: null,
@@ -167,6 +166,9 @@
       ...mapState(['JWT', 'Scale', 'AdminViewport']),
       rows() {
         return parseInt((window.innerHeight - 64 * this.Scale - 10) / (18.5 * this.getRate()) - 2);
+      },
+      cols() {
+        return parseInt(window.innerWidth / (20 / this.getRate())) * 2.5;
       },
       height() {
         return window.innerHeight - 64 * this.Scale - 1;
@@ -281,7 +283,7 @@
             brightWhite: '#FFFFFF',
           },
           rows: this.rows,
-          cols: this.termArgs.cols,
+          cols: this.cols,
           scrollback: 1000,
         });
         const fitAddon = new FitAddon();
@@ -299,7 +301,7 @@
         var msg = JSON.stringify({
           type: 'resize',
           rows: this.rows,
-          cols: this.termArgs.cols,
+          cols: this.cols,
         });
         this.websock.send(msg);
       },
