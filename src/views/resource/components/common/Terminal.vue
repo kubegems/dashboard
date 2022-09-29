@@ -168,7 +168,7 @@
         return parseInt((window.innerHeight - 64 * this.Scale - 10) / (18.5 * this.getRate()) - 2);
       },
       cols() {
-        return parseInt(window.innerWidth / (20 / this.getRate())) * 2;
+        return parseInt(window.innerWidth / (20 / this.getRate())) * 2.5;
       },
       height() {
         return window.innerHeight - 64 * this.Scale - 1;
