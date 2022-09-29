@@ -19,7 +19,7 @@
     <v-card flat>
       <v-card-title class="px-0">
         <BaseFilter
-          :default="{ items: [], text: $t('tip.receiver_name'), value: 'search' }"
+          :default="{ items: [], text: $t('filter.receiver_name'), value: 'search' }"
           :filters="filters"
           @refresh="filterList"
         />
@@ -215,7 +215,7 @@
         return items;
       },
       filters() {
-        return [{ text: this.$t('tip.receiver_name'), value: 'search', items: [] }];
+        return [{ text: this.$t('filter.receiver_name'), value: 'search', items: [] }];
       },
     },
     watch: {

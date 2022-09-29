@@ -174,7 +174,7 @@
                       :rules="fieldRules.required"
                       solo
                     />
-                    <MetricsSuggestion
+                    <!-- <MetricsSuggestion
                       :cluster="
                         queryList[index].environment
                           ? queryList[index].environment.clusterName
@@ -185,7 +185,7 @@
                       :expr="queryList[index].expr"
                       :index="index"
                       @insertMetrics="insertMetrics"
-                    />
+                    /> -->
                   </template>
 
                   <template v-else>
@@ -284,7 +284,7 @@
   import messages from '../i18n';
   import ButtonInput from './components/ButtonInput';
   import MetricsItem from './components/MetricsItem';
-  import MetricsSuggestion from './components/MetricsSuggestion';
+  // import MetricsSuggestion from './components/MetricsSuggestion';
   import ResourceSelectCascade from './components/ResourceSelectCascade';
   import { getMetricsLabelValues, getMetricsLabels, getMetricsQueryrange } from '@/api';
   import BasePermission from '@/mixins/permission';
@@ -304,7 +304,7 @@
       AddPrometheusRule,
       ButtonInput,
       MetricsItem,
-      MetricsSuggestion,
+      // MetricsSuggestion,
       ProjectEnvSelectCascade,
       ResourceSelectCascade,
     },
