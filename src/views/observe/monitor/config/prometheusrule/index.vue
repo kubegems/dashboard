@@ -401,9 +401,9 @@
       async switchBlackList(item) {
         if (item.isOpen) {
           this.$store.commit('SET_CONFIRM', {
-            title: this.$root.$t('operate.disable_c', [this.$root.$t('resource.prometheus_rule')]),
+            title: this.$t('operate.disable_c', [this.$root.$t('resource.prometheus_rule')]),
             content: {
-              text: `${this.$root.$t('operate.disable_c', [this.$root.$t('resource.prometheus_rule')])} ${item.name}`,
+              text: `${this.$t('operate.disable_c', [this.$root.$t('resource.prometheus_rule')])} ${item.name}`,
               type: 'confirm',
             },
             param: { item },
@@ -414,9 +414,9 @@
           });
         } else {
           this.$store.commit('SET_CONFIRM', {
-            title: this.$root.$t('operate.enable_c', [this.$root.$t('resource.prometheus_rule')]),
+            title: this.$t('operate.enable_c', [this.$root.$t('resource.prometheus_rule')]),
             content: {
-              text: `${this.$root.$t('operate.enable_c', [this.$root.$t('resource.prometheus_rule')])} ${item.name}`,
+              text: `${this.$t('operate.enable_c', [this.$root.$t('resource.prometheus_rule')])} ${item.name}`,
               type: 'confirm',
             },
             param: { item },
