@@ -264,7 +264,7 @@
                   grid: {
                     display: false,
                   },
-                  type: 'timeseries',
+                  type: 'time',
                   time: {
                     unit: 'second',
                     displayFormats: {

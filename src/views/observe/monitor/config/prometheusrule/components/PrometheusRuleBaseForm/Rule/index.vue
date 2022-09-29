@@ -114,14 +114,14 @@
                 :rules="objRules.exprRule"
                 @keyup="onExprInput"
               />
-              <MetricsSuggestion
+              <!-- <MetricsSuggestion
                 :cluster="$route.query.cluster"
                 :expr="obj.expr"
                 :left="20"
                 :newline="118"
                 :top="250"
                 @insertMetrics="insertMetrics"
-              />
+              /> -->
             </v-col>
           </template>
           <template v-if="mod === 'ql' && mode === 'logging'">
@@ -226,7 +226,7 @@
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
   import { required, timeInterval } from '@/utils/rules';
-  import MetricsSuggestion from '@/views/observe/monitor/metrics/components/MetricsSuggestion';
+  // import MetricsSuggestion from '@/views/observe/monitor/metrics/components/MetricsSuggestion';
   import ResourceSelectCascade from '@/views/observe/monitor/metrics/components/ResourceSelectCascade';
   import Metrics from '@/views/observe/monitor/mixins/metrics';
 
@@ -238,7 +238,7 @@
     components: {
       AlertLevelForm,
       AlertLevelItem,
-      MetricsSuggestion,
+      // MetricsSuggestion,
       ResourceSelectCascade,
       RuleLabelpairs,
     },
@@ -375,6 +375,7 @@
         } else if (this.mod === 'ql' && this.mode === 'monitor') {
           if (!this.obj.expr) {
             this.obj.expr = '';
+            this.obj.promqlGenerator = null;
           }
           this.$delete(this.obj, 'logqlGenerator');
         } else if (this.mod === 'ql' && this.mode === 'logging') {
