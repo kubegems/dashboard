@@ -65,7 +65,7 @@
       };
     },
     computed: {
-      ...mapState(['Scale']),
+      ...mapState(['Scale', 'Progress']),
       height() {
         return window.innerHeight - 250 * this.Scale - 1;
       },
@@ -79,7 +79,12 @@
           if (newValue) {
             this.$store.commit('SET_PROGRESS', true);
           } else {
-            this.$store.commit('SET_PROGRESS', false);
+            const interval = setInterval(() => {
+              if (this.Progress) {
+                this.$store.commit('SET_PROGRESS', false);
+                clearInterval(interval);
+              }
+            }, 1000);
           }
         },
         deep: true,

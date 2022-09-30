@@ -65,7 +65,10 @@
             </v-card-actions>
 
             <v-flex v-if="item.recommentContent" class="card__watermark-bg" />
-            <v-flex v-if="item.recommentContent" class="card__watermark font-weight-medium">
+            <v-flex
+              v-if="item.recommentContent"
+              :class="`${Locale === 'en' ? 'card__watermark-en' : 'card__watermark'} font-weight-medium`"
+            >
               {{ $t('tip.recommend') }}
             </v-flex>
           </v-card>
@@ -124,7 +127,7 @@
       };
     },
     computed: {
-      ...mapState(['Scale']),
+      ...mapState(['Scale', 'Locale']),
       height() {
         return parseInt((window.innerHeight - 148) / this.Scale);
       },
@@ -264,6 +267,16 @@
       position: absolute;
       top: 10px;
       right: 7px;
+      transform: rotate(47deg);
+      text-transform: uppercase;
+      color: white;
+      font-size: 12px;
+    }
+
+    &__watermark-en {
+      position: absolute;
+      top: 14px;
+      right: 0;
       transform: rotate(47deg);
       text-transform: uppercase;
       color: white;
