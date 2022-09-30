@@ -67,7 +67,7 @@
                   <v-list-item-content class="text-caption kubegems__text kubegems__break-all py-0">
                     {{
                       state.lastState.terminated.startedAt
-                        ? $moment(state.lastState.terminated.startedAt, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
+                        ? $moment(state.lastState.terminated.startedAt).format('lll')
                         : ''
                     }}
                   </v-list-item-content>
@@ -79,7 +79,7 @@
                   <v-list-item-content class="text-caption kubegems__text kubegems__break-all py-0">
                     {{
                       state.lastState.terminated.finishedAt
-                        ? $moment(state.lastState.terminated.finishedAt, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
+                        ? $moment(state.lastState.terminated.finishedAt).format('lll')
                         : ''
                     }}
                   </v-list-item-content>
