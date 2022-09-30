@@ -131,8 +131,16 @@
         <template #[`item.container`]="{ item }">
           {{ item.spec.containers.length }}
         </template>
-        <template #[`item.restart`]="{ item }">
-          {{ getRestart(item.status.containerStatuses) }}
+        <template #[`item.restart`]="{ item, index }">
+          <span class="mr-1">{{ getRestart(item.status.containerStatuses) }}</span>
+          <div v-if="getRestart(item.status.containerStatuses) > 0" class="float-right">
+            <v-flex :id="`re${item.metadata.resourceVersion}`" />
+            <RestartTip :item="item" :top="params.size - index <= 5 || (items.length <= 5 && index >= 1)">
+              <template #trigger>
+                <v-icon color="orange" small>mdi-alert-circle</v-icon>
+              </template>
+            </RestartTip>
+          </div>
         </template>
         <template #[`item.age`]="{ item }">
           {{ item.status.startTime ? $moment(item.status.startTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() : '' }}
@@ -215,6 +223,7 @@
   import { mapGetters, mapState } from 'vuex';
 
   import ContainerItems from './components/ContainerItems';
+  import RestartTip from './components/RestartTip';
   import messages from './i18n';
   import { deletePod, getPodList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
@@ -236,6 +245,7 @@
       ContainerItems,
       EventTip,
       NamespaceFilter,
+      RestartTip,
     },
     mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],
     data() {
@@ -253,22 +263,22 @@
       ...mapGetters(['Environment']),
       headers() {
         const items = [
-          { text: this.$t('table.name'), value: 'name', align: 'start', width: 358 },
+          { text: this.$t('table.name'), value: 'name', align: 'start', width: 320 },
           { text: this.$t('table.status'), value: 'status', align: 'start', width: 250 },
           { text: this.$t('table.container_count'), value: 'container', align: 'start', sortable: false },
-          { text: this.$t('table.restart_count'), value: 'restart', align: 'start', sortable: false },
+          { text: this.$t('table.restart_count'), value: 'restart', align: 'end', sortable: false, width: 90 },
           {
             text: this.$t('table.used', [this.$root.$t('resource.cpu')]),
             value: 'cpu',
             align: 'start',
-            width: 150,
+            width: 140,
             sortable: false,
           },
           {
             text: this.$t('table.used', [this.$root.$t('resource.memory')]),
             value: 'memory',
             align: 'start',
-            width: 150,
+            width: 140,
             sortable: false,
           },
           { text: 'Age', value: 'age', align: 'start' },

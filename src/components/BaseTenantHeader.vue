@@ -23,7 +23,8 @@
           v-model="projectMenu"
           bottom
           content-class="tenant-header__bg"
-          max-width="280px"
+          max-height="310px"
+          max-width="400px"
           min-width="120px"
           nudge-bottom="5px"
           offset-y
@@ -109,8 +110,8 @@
             v-model="environmentMenu"
             bottom
             content-class="z-index-bg"
-            max-height="300px"
-            max-width="280px"
+            max-height="310px"
+            max-width="400px"
             min-width="120px"
             nudge-bottom="5px"
             offset-y

@@ -28,7 +28,12 @@
     "volume": "卷",
     "env": "环境变量",
     "condition": "状况",
-    "last_change_at": "上次改变时间"
+    "last_change_at": "上次改变时间",
+    "last_state": "最新状况",
+    "exit_code": "退出码",
+    "reason": "原因",
+    "started_at": "开始时间",
+    "finished_at": "结束时间"
   },
   "operate": {
     "terminal": "终端",
