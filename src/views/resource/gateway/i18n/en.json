@@ -1,7 +1,7 @@
 {
   "tip": {
     "instance_count": "Number of Instances",
-    "default": "Default gateway",
+    "default": "Default",
     "port": "Gateway Port",
     "status": "Status",
     "loadbalancer": "External Load Balancer Gateway (LoadBalancer)",

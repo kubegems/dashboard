@@ -134,7 +134,10 @@
               </v-card-actions>
 
               <v-flex v-if="plugin.required" class="plugins__watermark-bg" />
-              <v-flex v-if="plugin.required" class="plugins__watermark font-weight-medium">
+              <v-flex
+                v-if="plugin.required"
+                :class="`${Locale === 'en' ? 'plugins__watermark-en' : 'plugins__watermark'} font-weight-medium`"
+              >
                 {{ $t('tip.inner') }}
               </v-flex>
             </v-card>
@@ -335,6 +338,16 @@
       position: absolute;
       top: 14px;
       right: -1px;
+      transform: rotate(47deg);
+      text-transform: uppercase;
+      color: white;
+      font-size: 12px;
+    }
+
+    &__watermark-en {
+      position: absolute;
+      top: 15px;
+      right: -3px;
       transform: rotate(47deg);
       text-transform: uppercase;
       color: white;
