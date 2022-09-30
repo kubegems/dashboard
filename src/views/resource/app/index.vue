@@ -430,7 +430,6 @@
       async onTabChange() {
         this.params.page = 1;
         this.items = [];
-        this.pageCount = 0;
         await this.appRunningList();
       },
       linkApp() {
@@ -441,7 +440,6 @@
         this.$refs.deployApp.open();
       },
       async appRunningList(noprocess = false) {
-        this.pageCount = 0;
         let kind = 'app';
         let data = {};
         if (this.tabItems[this.tab].value === 'AppList') {

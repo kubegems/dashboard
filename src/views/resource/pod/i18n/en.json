@@ -28,7 +28,12 @@
     "volume": "Volume",
     "env": "Environment Variables",
     "condition": "Status",
-    "last_change_at": "Last changed time"
+    "last_change_at": "Last changed time",
+    "last_state": "Latest status",
+    "exit_code": "Exit code",
+    "reason": "Reason",
+    "started_at": "Started at",
+    "finished_at": "Finished at"
   },
   "operate": {
     "terminal": "Terminal",
