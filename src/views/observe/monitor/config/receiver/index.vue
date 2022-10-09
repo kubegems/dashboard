@@ -282,9 +282,7 @@
           },
           param: { item },
           doFunc: async (param) => {
-            await deleteReceiver(this.$route.query.cluster, param.item.namespace, {
-              source: 'kubegems-default-monitor-alert-rule',
-            });
+            await deleteReceiver(this.$route.query.cluster, param.item.namespace, param.item.name);
             this.receiverList();
           },
         });
