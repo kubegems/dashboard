@@ -452,7 +452,7 @@ const select = {
     },
     async m_select_projectSelectData(tenantId = null, noprocessing = false) {
       let data = null;
-      if (this.Admin && this.AdminViewport) {
+      if (this.Admin && this.AdminViewport && tenantId === null) {
         data = await projectSelectData({ noprocessing: noprocessing });
       } else {
         data = await tenantProjectSelectData(tenantId || this.Tenant().ID, {
