@@ -67,7 +67,10 @@
     "global_var": "全域變數",
     "global_var_val": "變數值",
     "global_var_tip": "全局變量用來過濾監控圖標中的監控數據",
-    "missing_template": "模版缺失"
+    "missing_template": "模版缺失",
+
+    "feishu": "飛書",
+    "user_id": "用戶Id"
   },
   "tab": {
     "generate_from_template": "由模版生成",
@@ -85,7 +88,8 @@
     "match_string": "符合的字串（支援正則）",
     "dest_container": "目標容器",
     "time": "時長",
-    "inhabit_label": "抑制標籤"
+    "inhabit_label": "抑制標籤",
+    "user_id": "用戶Id(回車創建)"
   },
   "operate": {
     "query": "查詢",

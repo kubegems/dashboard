@@ -68,6 +68,7 @@
 
   import messages from '../../../../../i18n';
   import EmailForm from './EmailForm';
+  import FeishuForm from './FeishuForm';
   import WebhookForm from './WebhookForm';
   import BaseResource from '@/mixins/resource';
   import { required } from '@/utils/rules';
@@ -79,6 +80,7 @@
     },
     components: {
       EmailForm,
+      FeishuForm,
       WebhookForm,
     },
     mixins: [BaseResource],
@@ -106,16 +108,19 @@
         expand: false,
         receiverType: 'Email',
         formComponent: 'EmailForm',
-        receiverTypeItems: [
-          { text: 'Email', value: 'Email' },
-          { text: 'Webhook', value: 'Webhook' },
-        ],
         channelRule: [required],
       };
     },
     computed: {
       ...mapState(['Admin', 'AdminViewport']),
       ...mapGetters(['Cluster']),
+      receiverTypeItems() {
+        return [
+          { text: 'Email', value: 'Email' },
+          { text: 'Webhook', value: 'Webhook' },
+          { text: this.$t('tip.feishu'), value: 'Feishu' },
+        ];
+      },
     },
     methods: {
       init() {
@@ -133,18 +138,10 @@
       },
 
       addData(config) {
-        switch (this.receiverType) {
-          case 'Email':
-            this.type === 'Email'
-              ? this.$emit('updateData', this.receiverType, this.configIndex, config)
-              : this.$emit('addData', this.receiverType, config);
-
-            break;
-          case 'Webhook':
-            this.type === 'Webhook'
-              ? this.$emit('updateData', this.receiverType, this.configIndex, config)
-              : this.$emit('addData', this.receiverType, config);
-            break;
+        if (this.type === 'Email' || this.type === 'Webhook' || this.type === 'Feishu') {
+          this.$emit('updateData', this.receiverType, this.configIndex, config);
+        } else {
+          this.$emit('addData', this.receiverType, config);
         }
         this.closeCard();
       },
@@ -155,6 +152,9 @@
             break;
           case 'Webhook':
             this.formComponent = 'WebhookForm';
+            break;
+          case 'Feishu':
+            this.formComponent = 'FeishuForm';
             break;
         }
       },

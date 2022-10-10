@@ -17,23 +17,23 @@
 <template>
   <v-list-item two-line>
     <v-list-item-content class="py-2">
-      Email
+      {{ $t('tip.feishu') }}
       <v-list-item-subtitle class="text-body-2 py-0">
-        <v-list-item class="float-left py-0 pl-0" :style="{ width: `300px` }" two-line>
+        <v-list-item class="float-left py-0 pl-0" :style="{ width: `500px` }" two-line>
           <v-list-item-content class="py-0">
-            <v-list-item-title class="text-subtitle-2 py-1 primary--text"> {{ $t('tip.send') }} </v-list-item-title>
+            <v-list-item-title class="text-subtitle-2 py-1 primary--text"> URL </v-list-item-title>
             <v-list-item-subtitle class="text-body-2 py-1">
-              {{ item.from }}
+              {{ item.url }}
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </v-list-item-subtitle>
       <v-list-item-subtitle class="text-body-2 py-0">
-        <v-list-item class="float-left py-0 pl-0" two-line>
+        <v-list-item class="float-left py-0 pl-0" :style="{ width: `500px` }" two-line>
           <v-list-item-content class="py-0">
-            <v-list-item-title class="text-subtitle-2 py-1 primary--text"> {{ $t('tip.recv') }} </v-list-item-title>
-            <v-list-item-subtitle class="text-body-2 py-1 white-space" :style="{ wordBreak: 'break-all' }">
-              {{ item.to }}
+            <v-list-item-title class="text-subtitle-2 py-1 primary--text"> {{ $t('tip.user_id') }} </v-list-item-title>
+            <v-list-item-subtitle class="text-body-2 py-1">
+              {{ item.at }}
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
@@ -53,7 +53,7 @@
   import messages from '../../../../../i18n';
 
   export default {
-    name: 'EmailItem',
+    name: 'FeishuItem',
     i18n: {
       messages: messages,
     },
@@ -77,6 +77,5 @@
 <style lang="scss" scoped>
   .white-space {
     white-space: normal;
-  }
-</style>
->
+  }</style
+>>

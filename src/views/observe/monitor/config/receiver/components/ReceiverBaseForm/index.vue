@@ -90,6 +90,7 @@
           name: '',
           webhookConfigs: [],
           emailConfigs: [],
+          alertProxyConfigs: [],
         },
         namespace: '',
         type: null,
@@ -134,6 +135,12 @@
             }
             this.obj.webhookConfigs.push({ ...data });
             break;
+          case 'Feishu':
+            if (!this.obj.alertProxyConfigs) {
+              this.$set(this.obj, 'alertProxyConfigs', []);
+            }
+            this.obj.alertProxyConfigs.push({ ...data });
+            break;
         }
       },
       updateData(receiverType, index, config) {
@@ -144,6 +151,9 @@
           case 'Webhook':
             this.$set(this.obj.webhookConfigs, index, { ...config });
             break;
+          case 'Feishu':
+            this.$set(this.obj.alertProxyConfigs, index, { ...config });
+            break;
         }
       },
       removeConfig(receiverType, index) {
@@ -153,6 +163,9 @@
             break;
           case 'Webhook':
             this.$delete(this.obj.webhookConfigs, index);
+            break;
+          case 'Feishu':
+            this.$delete(this.obj.alertProxyConfigs, index);
             break;
         }
       },
@@ -187,6 +200,9 @@
           channelLenth++;
         }
         if (this.obj.emailConfigs && this.obj.emailConfigs.length > 0) {
+          channelLenth++;
+        }
+        if (this.obj.alertProxyConfigs && this.obj.alertProxyConfigs.length > 0) {
           channelLenth++;
         }
         if (channelLenth === 0) {
