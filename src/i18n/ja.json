@@ -226,7 +226,9 @@
     "sync_c": "{0} を同期",
     "save": "保存",
     "detail": "詳細",
-    "reset": "リセット"
+    "reset": "リセット",
+    "upload": "ファイルのアップロード",
+    "download": "ダウンロード"
   },
   "form": {
     "definition": "{0}の定義",
@@ -493,7 +495,11 @@
     "unknown_error": "不明なエラー",
     "start_end": "有効時間",
     "show": "表示",
-    "hide": "折り畳む"
+    "hide": "折り畳む",
+    "file_upload": "<span class=\"filepond--label-action\">クリックしてファイルをアップロードしてください</span>",
+    "dest_dir": "ターゲット パス",
+    "path_tip": "パスが間違っていますか? pwd コマンドを使用して絶対パスを取得してください",
+    "download_tip": "指定したファイルをダブルクリックしてダウンロードします。パスが間違っています。pwd コマンドを実行して絶対パスを解決してください"
   },
   "tab": {
     "overview": "概要",

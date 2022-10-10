@@ -56,21 +56,21 @@
               <!-- panel-header -->
               <v-expansion-panel-header disable-icon-rotate>
                 <div>
-                  <v-btn class="mr-2" color="primary" depressed x-small>
+                  <v-btn class="mr-2 my-1" color="primary" depressed x-small>
                     {{ index + 1 }}
                   </v-btn>
                   <template v-if="item.resourceObj">
-                    <v-btn class="mr-2" color="success" depressed x-small>
+                    <v-btn class="mr-2 my-1" color="success" depressed x-small>
                       {{ item.resourceObj.resourceShowName }}
                     </v-btn>
-                    <v-btn color="success" depressed x-small>
+                    <v-btn class="my-1" color="success" depressed x-small>
                       {{ item.resourceObj.showName }}
                     </v-btn>
                   </template>
                 </div>
                 <template #actions>
-                  <v-icon v-if="metricsObject[item._$id]" color="success"> mdi-check </v-icon>
-                  <v-icon v-else>mdi-alert-circle</v-icon>
+                  <v-icon v-if="metricsObject[item._$id]" class="my-1" color="success"> mdi-check </v-icon>
+                  <v-icon v-else class="my-1">mdi-alert-circle</v-icon>
                 </template>
               </v-expansion-panel-header>
               <!-- panel-header -->

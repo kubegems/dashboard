@@ -84,6 +84,7 @@
           <v-col cols="12">
             <VariableSelect
               v-model="variableVal"
+              :edit="edit"
               :form-variables="variableVal"
               in-form
               :variable-select-items="variableSelectItems"

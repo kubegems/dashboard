@@ -22,7 +22,7 @@
       </v-card>
     </v-col>
     <v-col class="py-0" :cols="2">
-      <v-card class="mb-0" flat height="265px">
+      <v-card class="mb-0" flat height="200px">
         <div class="pa-2">
           <h4 class="font-weight-regular text-title kubegems__text mx-3">{{ $t('tip.request_count') }}</h4>
           <div class="d-flex align-center mt-2">
@@ -52,7 +52,7 @@
           <BaseAreaChart
             id="requests"
             :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-            :extend-height="150"
+            :extend-height="80"
             :label-show="false"
             :metrics="requests"
             sample
@@ -63,7 +63,7 @@
       </v-card>
     </v-col>
     <v-col class="py-0" :cols="2">
-      <v-card class="mb-0" flat height="265px">
+      <v-card class="mb-0" flat height="200px">
         <div class="pa-2">
           <h4 class="font-weight-regular text-title kubegems__text mx-3">{{ $t('tip.response_time') }}</h4>
           <div class="d-flex align-center mt-2">
@@ -85,7 +85,7 @@
           <BaseAreaChart
             id="avgresponsetime"
             :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-            :extend-height="150"
+            :extend-height="80"
             :label-show="false"
             :metrics="avgresponsetime"
             sample
@@ -96,7 +96,7 @@
       </v-card>
     </v-col>
     <v-col class="py-0" :cols="2">
-      <v-card class="mb-0" flat height="265px">
+      <v-card class="mb-0" flat height="200px">
         <div class="pa-2">
           <h4 class="font-weight-regular text-title kubegems__text mx-3"> {{ $t('tip.error_request') }} </h4>
           <div class="d-flex align-center mt-2">
@@ -124,7 +124,7 @@
           <BaseAreaChart
             id="errrequests"
             :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-            :extend-height="150"
+            :extend-height="80"
             :label-show="false"
             :metrics="errrequests"
             sample
@@ -135,7 +135,7 @@
       </v-card>
     </v-col>
     <v-col class="py-0" :cols="2">
-      <v-card class="mb-0" flat height="265px">
+      <v-card class="mb-0" flat height="200px">
         <div class="pa-2">
           <h4 class="font-weight-regular text-title kubegems__text mx-3">{{ $t('tip.traffic') }}</h4>
           <div class="d-flex align-center mt-2">
@@ -161,7 +161,7 @@
           <BaseAreaChart
             id="network"
             :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
-            :extend-height="150"
+            :extend-height="80"
             :label-show="false"
             :metrics="network"
             sample

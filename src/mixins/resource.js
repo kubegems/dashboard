@@ -78,19 +78,19 @@ const resource = {
         ) {
           item.TkeGpu = parseFloat(data.spec.hard['tencent.com/vcuda-core']);
           item.AllocatedTkeGpu = parseFloat(
-            data.status.allocated ? data.status.allocated['tencent.com/vcuda-core'] : 0,
+            data.status.allocated ? data.status.allocated['limits.tencent.com/vcuda-core'] : 0,
           );
           item.ApplyTkeGpu =
             parseFloat(data.spec.hard['tencent.com/vcuda-core']) -
-            parseFloat(data.status.allocated ? data.status.allocated['tencent.com/vcuda-core'] : 0);
+            parseFloat(data.status.allocated ? data.status.allocated['limits.tencent.com/vcuda-core'] : 0);
 
           item.TkeMemory = parseFloat(data.spec.hard['tencent.com/vcuda-memory']);
           item.AllocatedTkeMemory = parseFloat(
-            data.status.allocated ? data.status.allocated['tencent.com/vcuda-memory'] : 0,
+            data.status.allocated ? data.status.allocated['limits.tencent.com/vcuda-memory'] : 0,
           );
           item.ApplyTkeMemory =
             parseFloat(data.spec.hard['tencent.com/vcuda-memory']) -
-            parseFloat(data.status.allocated ? data.status.allocated['tencent.com/vcuda-memory'] : 0);
+            parseFloat(data.status.allocated ? data.status.allocated['limits.tencent.com/vcuda-memory'] : 0);
         }
         return item;
       }

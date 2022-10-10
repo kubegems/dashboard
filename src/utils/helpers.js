@@ -315,3 +315,10 @@ export function getApiVersion(kind, defaultVersion = 'core/v1') {
   apiVersion = apiVersion === 'v1' ? 'core/v1' : apiVersion;
   return apiVersion;
 }
+
+export function getQueryString(name) {
+  var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+  var r = location.search.substr(1).match(reg);
+  if (r != null) return unescape(decodeURI(r[2]));
+  return null;
+}

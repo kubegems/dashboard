@@ -402,6 +402,7 @@
           Object.assign(this.params, {
             query: ENVIRONMENT_CPU_USAGE_PROMQL.replaceAll('$1', environments),
             noprocessing: true,
+            pass: true,
           }),
         );
         data.forEach((d) => {
@@ -426,6 +427,7 @@
           Object.assign(this.params, {
             query: ENVIRONMENT_MEMORY_USAGE_PROMQL.replaceAll('$1', environments),
             noprocessing: true,
+            pass: true,
           }),
         );
         data.forEach((d) => {
@@ -450,6 +452,7 @@
           Object.assign(this.params, {
             query: ENVIRONMENT_NETWORK_IN_PROMQL.replaceAll('$1', environments),
             noprocessing: true,
+            pass: true,
           }),
         );
         data.forEach((d) => {
@@ -474,6 +477,7 @@
           Object.assign(this.params, {
             query: ENVIRONMENT_NETWORK_OUT_PROMQL.replaceAll('$1', environments),
             noprocessing: true,
+            pass: true,
           }),
         );
         data.forEach((d) => {

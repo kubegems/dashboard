@@ -28,7 +28,7 @@
             text
             @click="initReuqestRouting"
           >
-            <v-icon left small> mdi-code-json-branch </v-icon>
+            <v-icon left small> mdi-source-branch </v-icon>
             {{ $t('operate.request_route') }}
           </v-btn>
           <v-btn

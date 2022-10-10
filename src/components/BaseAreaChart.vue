@@ -413,7 +413,7 @@
                 : this.$LINE_THEME_COLORS[index % 12],
             fill: this.chartType === 'area',
             cubicInterpolationMode: 'default',
-            tension: 0.5,
+            tension: 0.3,
           };
         });
 

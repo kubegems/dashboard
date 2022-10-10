@@ -18,11 +18,13 @@
   <v-menu
     v-model="menu"
     bottom
+    :close-on-click="!inForm"
     :close-on-content-click="false"
     max-height="450px"
     max-width="450px"
     :min-width="`${width}px`"
-    nudge-bottom="5px"
+    nudge-bottom="15px"
+    nudge-right="60px"
     offset-y
     origin="top center"
     right
@@ -39,7 +41,7 @@
         :label="$t('tip.global_var_val')"
         multiple
         :no-data-text="$root.$t('data.no_data')"
-        :value="showText()"
+        :value="showVal || edit ? showText() : undefined"
         v-on="on"
       >
         <template #selection>
@@ -120,6 +122,10 @@
       messages: messages,
     },
     props: {
+      edit: {
+        type: Boolean,
+        default: () => false,
+      },
       formVariables: {
         type: Array,
         default: () => [],
@@ -156,6 +162,7 @@
         variableItemsCopy: [],
         labelpairs: {},
         search: '',
+        showVal: false,
       };
     },
     computed: {
@@ -166,6 +173,15 @@
       },
     },
     watch: {
+      menu: {
+        handler(newValue) {
+          if (newValue) {
+            this.showVal = false;
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
       variable: {
         handler(newValue) {
           if (newValue) {
@@ -229,6 +245,7 @@
           });
           this.$emit('input', items);
           this.$emit('change', items);
+          this.showVal = true;
         } else {
           this.labelpairs[`labelpairs[${this.variable}]`] = this.selectedItems.reduce(
             (pre, current, index, arr) =>

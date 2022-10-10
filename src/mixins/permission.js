@@ -102,14 +102,14 @@ const permission = {
       );
     },
     async m_permission_matrix(cluster, query = {}) {
-      if (this.Plugins?.['monitoring']) {
+      if (this.Plugins?.['monitoring'] || query.pass) {
         const data = await matrix(cluster, query);
         return data;
       }
       return [];
     },
     async m_permission_vector(cluster, query = {}) {
-      if (this.Plugins?.['monitoring']) {
+      if (this.Plugins?.['monitoring'] || query.pass) {
         const data = await vector(cluster, query);
         return data;
       }
