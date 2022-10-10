@@ -20,6 +20,7 @@
       <v-col class="py-0" cols="4">
         <BaseRadialBarChart
           class="my-3"
+          :extend-height="180"
           :metrics="cpuSeries"
           :title="$root.$t('resource.cpu')"
           :total="quota ? quota.Cpu : 0"
@@ -30,6 +31,7 @@
       <v-col class="py-0" cols="4">
         <BaseRadialBarChart
           class="my-3"
+          :extend-height="180"
           :metrics="memorySeries"
           :title="$root.$t('resource.memory')"
           :total="quota ? quota.Memory : 0"
@@ -40,6 +42,7 @@
       <v-col class="py-0" cols="4">
         <BaseRadialBarChart
           class="my-3"
+          :extend-height="180"
           :metrics="storageSeries"
           :title="$root.$t('resource.storage')"
           :total="quota ? quota.Storage : 0"
@@ -52,6 +55,7 @@
         <v-col v-if="nvidia && showMore" class="py-0" cols="4">
           <BaseRadialBarChart
             class="my-3"
+            :extend-height="180"
             :metrics="nvidiaSeries"
             :title="`Nvidia ${$root.$t('resource.gpu')}`"
             :total="quota ? quota.NvidiaGpu : 0"
@@ -64,6 +68,7 @@
           <v-col class="py-0" cols="4">
             <BaseRadialBarChart
               class="my-3"
+              :extend-height="180"
               :metrics="tkeSeries"
               :title="`Tke ${$root.$t('resource.gpu')}`"
               :total="quota ? quota.TkeGpu : 0"
@@ -74,6 +79,7 @@
           <v-col class="py-0" cols="4">
             <BaseRadialBarChart
               class="my-3"
+              :extend-height="180"
               :metrics="tkeMemorySeries"
               :title="`Tke ${$root.$t('resource.video_memory')}`"
               :total="quota ? quota.TkeMemory : 0"

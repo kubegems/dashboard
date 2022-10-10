@@ -22,10 +22,15 @@
         <v-btn v-if="terminalType !== 'kubectl'" color="white" depressed icon @click="openOnBlankTab">
           <v-icon color="white" small> mdi-open-in-new </v-icon>
         </v-btn>
+        <span class="text-caption">
+          <v-icon color="white" small> mdi-information-variant </v-icon>
+          {{ $root.$t('tip.download_tip') }}
+        </span>
       </v-flex>
     </template>
     <template #action>
       <v-sheet v-if="terminalType !== 'kubectl'" class="text-subtitle-2 primary white--text">
+        <BaseFileUploader ref="uploader" :dist="dist" />
         <v-btn class="mx-2" color="white" icon text @click="restartContainer">
           <v-icon>mdi-refresh</v-icon>
         </v-btn>
@@ -79,7 +84,8 @@
       </v-sheet>
     </template>
     <template #content>
-      <div id="terminal" :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`" />
+      <div id="terminal" :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`" @dblclick="dbclick" />
+      <DownloadFile :file="file" :left="left" :top="top" />
     </template>
   </BaseFullScreenDialog>
 </template>
@@ -89,8 +95,10 @@
   import 'xterm/css/xterm.css';
   import { Terminal } from 'xterm';
   import { FitAddon } from 'xterm-addon-fit';
+  import { WebLinksAddon } from 'xterm-addon-web-links';
 
-  import messages from '../i18n';
+  import messages from '../../i18n';
+  import DownloadFile from './DownloadFile';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 
@@ -106,12 +114,23 @@
     term.onResize(onTermResize);
   };
 
-  const bindTerminal = (term, websocket, bidirectional) => {
+  const bindTerminal = (term, websocket, bidirectional, _vue) => {
     term.socket = websocket;
 
     // 回显
     const webSocketMessage = function (ev) {
       term.write(ev.data);
+      const reg = new RegExp('.*?(\\/[\\w\/]*)', 'g');
+      const matches = reg.exec(ev.data);
+      if (matches) {
+        _vue.dist = matches[1]
+          .replaceAll('#', '')
+          .replaceAll('$', '')
+          .replaceAll(' ', '')
+          .replaceAll('[6n', '')
+          .replaceAll('[00m', '')
+          .replaceAll('[J', '');
+      }
     };
     // 心跳
     const heartBeatTimer = setInterval(function () {
@@ -130,9 +149,11 @@
 
     // 回显
     websocket.onmessage = webSocketMessage;
+
     if (bidirectional) {
       term.onData(terminalData);
     }
+
     // 关闭的时候处理
     websocket.addEventListener('close', function () {
       websocket.removeEventListener('message', webSocketMessage);
@@ -145,6 +166,9 @@
     name: 'Terminal',
     i18n: {
       messages: messages,
+    },
+    components: {
+      DownloadFile,
     },
     mixins: [BaseResource],
     data() {
@@ -160,6 +184,11 @@
         websock: null,
         terminalType: 'shell',
         containerMenu: false,
+        dist: '/',
+
+        left: 0,
+        top: 0,
+        file: '',
       };
     },
     computed: {
@@ -180,6 +209,14 @@
     methods: {
       open() {
         this.dialog = true;
+        this.$router.replace({
+          query: {
+            ...this.$route.query,
+            t_cluster: this.ThisCluster,
+            t_namespace: this.item.namespace,
+            t_pod: this.item.name,
+          },
+        });
       },
       init(container, item, type) {
         this.terminalType = type;
@@ -200,13 +237,18 @@
         this.dispose();
         this.initWebSocket();
       },
-      dispose() {
+      async dispose() {
         if (this.websock && this.websock.readyState === 1) {
           this.websock.send(JSON.stringify({ type: 'close' }));
         }
         this.websock = null;
         this.doClose();
         if (window.opener) window.close();
+        if (this.$refs.uploader) this.$refs.uploader.reset();
+        await this.$router.replace({
+          params: this.$route.params,
+          query: { ...this.$route.query, t_cluster: null, t_namespace: null, t_pod: null },
+        });
       },
       initWebSocket() {
         if (this.item && this.terminalType !== 'kubectl') {
@@ -288,12 +330,13 @@
         });
         const fitAddon = new FitAddon();
         term.loadAddon(fitAddon);
+        term.loadAddon(new WebLinksAddon());
         term.open(document.getElementById('terminal'));
         fitAddon.fit();
         term.focus();
         this.term = term;
 
-        bindTerminal(this.term, this.websock, true);
+        bindTerminal(this.term, this.websock, true, this);
         bindTerminalResize(this.term, this.websock);
         const xtermScreen = document.querySelector('.xterm-screen');
         xtermScreen.style.height = `${this.height}px`;
@@ -342,6 +385,17 @@
         this.dispose();
         this.dialog = false;
         window.open(routeData.href, '_blank');
+      },
+      dbclick(e) {
+        if (this.term.hasSelection()) {
+          const reg = RegExp('^[\\w-_\\.#]*(\\.[\\w-_\\.#]*)?$', 'g');
+          const selection = this.term.getSelection().replaceAll(' ', '');
+          if (selection && reg.exec(selection)) {
+            this.top = e.clientY / this.Scale;
+            this.left = e.clientX / this.Scale;
+            this.file = `${this.dist}/${selection}`;
+          }
+        }
       },
     },
   };

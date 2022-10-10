@@ -54,7 +54,7 @@
           :title="$root.$t('resource.pod')"
           :total="statistics ? statistics.Pod : 0"
           unit=""
-          :val="statistics ? statistics.AllocatedPod : 0"
+          :val="statistics ? parseInt(statistics.AllocatedPod) : 0"
         />
       </v-col>
 

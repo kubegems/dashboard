@@ -73,24 +73,26 @@ const resource = {
             parseFloat(data.status.allocated ? data.status.allocated['limits.nvidia.com/gpu'] : 0);
         }
         if (
-          (data.spec.hard[`tencent.com/vcuda-core`] && parseInt(data.spec.hard[`tencent.com/vcuda-core`]) > 0) ||
-          (data.spec.hard[`tencent.com/vcuda-memory`] && parseInt(data.spec.hard[`tencent.com/vcuda-memory`]) > 0)
+          (data.spec.hard[`limits.tencent.com/vcuda-core`] &&
+            parseInt(data.spec.hard[`limits.tencent.com/vcuda-core`]) > 0) ||
+          (data.spec.hard[`limits.tencent.com/vcuda-memory`] &&
+            parseInt(data.spec.hard[`limits.tencent.com/vcuda-memory`]) > 0)
         ) {
-          item.TkeGpu = parseFloat(data.spec.hard['tencent.com/vcuda-core']);
+          item.TkeGpu = parseFloat(data.spec.hard['limits.tencent.com/vcuda-core']);
           item.AllocatedTkeGpu = parseFloat(
-            data.status.allocated ? data.status.allocated['tencent.com/vcuda-core'] : 0,
+            data.status.allocated ? data.status.allocated['limits.tencent.com/vcuda-core'] : 0,
           );
           item.ApplyTkeGpu =
-            parseFloat(data.spec.hard['tencent.com/vcuda-core']) -
-            parseFloat(data.status.allocated ? data.status.allocated['tencent.com/vcuda-core'] : 0);
+            parseFloat(data.spec.hard['limits.tencent.com/vcuda-core']) -
+            parseFloat(data.status.allocated ? data.status.allocated['limits.tencent.com/vcuda-core'] : 0);
 
-          item.TkeMemory = parseFloat(data.spec.hard['tencent.com/vcuda-memory']);
+          item.TkeMemory = parseFloat(data.spec.hard['limits.tencent.com/vcuda-memory']);
           item.AllocatedTkeMemory = parseFloat(
-            data.status.allocated ? data.status.allocated['tencent.com/vcuda-memory'] : 0,
+            data.status.allocated ? data.status.allocated['limits.tencent.com/vcuda-memory'] : 0,
           );
           item.ApplyTkeMemory =
-            parseFloat(data.spec.hard['tencent.com/vcuda-memory']) -
-            parseFloat(data.status.allocated ? data.status.allocated['tencent.com/vcuda-memory'] : 0);
+            parseFloat(data.spec.hard['limits.tencent.com/vcuda-memory']) -
+            parseFloat(data.status.allocated ? data.status.allocated['limits.tencent.com/vcuda-memory'] : 0);
         }
         return item;
       }
@@ -115,7 +117,7 @@ const resource = {
 
         if (data.resources.capacity['nvidia.com/gpu'] && parseInt(data.resources.capacity[`nvidia.com/gpu`]) > 0) {
           quota.NvidiaGpu = parseFloat(data.resources.capacity['nvidia.com/gpu']);
-          quota.UsedNvidiaGpu = parseFloat(data.resources.tenantAllocated['nvidia.com/gpu'] || 0);
+          quota.UsedNvidiaGpu = parseFloat(data.resources.tenantAllocated['limits.nvidia.com/gpu'] || 0);
           quota.AllocatedNvidiaGpu = quota.NvidiaGpu - quota.UsedNvidiaGpu + (item.NowNvidiaGpu || 0);
         }
 
@@ -126,11 +128,11 @@ const resource = {
             parseInt(data.resources.capacity[`tencent.com/vcuda-memory`]) > 0)
         ) {
           quota.TkeGpu = parseFloat(data.resources.capacity['tencent.com/vcuda-core']);
-          quota.UsedTkeGpu = parseFloat(data.resources.tenantAllocated['tencent.com/vcuda-core'] || 0);
+          quota.UsedTkeGpu = parseFloat(data.resources.tenantAllocated['limits.tencent.com/vcuda-core'] || 0);
           quota.AllocatedTkeGpu = quota.TkeGpu - quota.UsedTkeGpu + (item.NowTkeGpu || 0);
 
           quota.TkeMemory = parseFloat(data.resources.capacity['tencent.com/vcuda-memory']);
-          quota.UsedTkeMemory = parseFloat(data.resources.tenantAllocated['tencent.com/vcuda-memory'] || 0);
+          quota.UsedTkeMemory = parseFloat(data.resources.tenantAllocated['limits.tencent.com/vcuda-memory'] || 0);
           quota.AllocatedTkeMemory = quota.TkeMemory - quota.UsedTkeMemory + (item.NowTkeMemory || 0);
         }
         return quota;

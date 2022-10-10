@@ -89,7 +89,7 @@
         </v-card-text>
       </v-card>
 
-      <draggable v-model="items[tab].graphs" class="row mt-3 mb-1 pb-0" @end="onDraggableEnd">
+      <draggable v-if="items[tab]" v-model="items[tab].graphs" class="row mt-3 mb-1 pb-0" @end="onDraggableEnd">
         <v-col
           v-for="(graph, index) in items[tab] ? items[tab].graphs : []"
           :key="index"
@@ -240,6 +240,8 @@
               this.$route.meta?.dependencies || [],
             );
             if (this.missingPlugins?.length === 0) {
+              await this.$router.replace({ query: { ...this.$route.query, tab: null } });
+              this.items = [];
               this.dashboardList();
             } else {
               this.$store.commit('SET_SNACKBAR', {
@@ -291,6 +293,7 @@
           this.variable = undefined;
           this.variableValues = [];
         }
+        this.variableKey = randomString(4);
 
         if (this.items?.length > 0 && this.items[this.tab] && this.items[this.tab].graphs) {
           this.items[this.tab].graphs.forEach((item, index) => {
@@ -319,6 +322,8 @@
             return i.name === this.$route.query.tab;
           });
           this.tab = index > -1 ? index : 0;
+        } else {
+          this.tab = 0;
         }
         this.loadMetrics();
       },
@@ -432,14 +437,18 @@
         this.loadMetrics();
       },
       onTabChange() {
-        this.$refs.variableSelect.reset();
-        this.labelpairs = {};
-        this.variableKey = randomString(4);
-        this.loadMetrics();
-        this.$router.replace({
-          query: {
-            tab: this.items[this.tab]?.name || null,
-          },
+        this.$nextTick(() => {
+          if (this.tab > -1) {
+            this.$refs.variableSelect.reset();
+            this.labelpairs = {};
+            this.variableKey = randomString(4);
+            this.loadMetrics();
+            this.$router.replace({
+              query: {
+                tab: this.items[this.tab]?.name || null,
+              },
+            });
+          }
         });
       },
       getUnit(unit) {

@@ -68,6 +68,8 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex';
+
   import messages from '../../i18n';
   import BaseSelect from '@/mixins/select';
 
@@ -90,6 +92,9 @@
         env: undefined,
       };
     },
+    computed: {
+      ...mapGetters('Tenant'),
+    },
     watch: {
       value: {
         handler(newValue) {
@@ -100,7 +105,7 @@
     },
     mounted() {
       this.$nextTick(() => {
-        this.m_select_projectSelectData();
+        this.m_select_projectSelectData(this.Tenant().ID);
       });
     },
     methods: {

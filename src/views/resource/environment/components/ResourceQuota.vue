@@ -248,28 +248,28 @@
               ? parseFloat(data.quota.status.used['limits.nvidia.com/gpu'])
               : 0,
 
-            TkeGpu: data.quota.status.hard['tencent.com/vcuda-core']
-              ? parseFloat(data.quota.status.hard['tencent.com/vcuda-core'])
+            TkeGpu: data.quota.status.hard['limits.tencent.com/vcuda-core']
+              ? parseFloat(data.quota.status.hard['limits.tencent.com/vcuda-core'])
               : 0,
-            UsedTkeGpu: data.quota.status.used['tencent.com/vcuda-core']
-              ? parseFloat(data.quota.status.used['tencent.com/vcuda-core'])
+            UsedTkeGpu: data.quota.status.used['limits.tencent.com/vcuda-core']
+              ? parseFloat(data.quota.status.used['limits.tencent.com/vcuda-core'])
               : 0,
 
-            TkeMemory: data.quota.status.hard['tencent.com/vcuda-memory']
-              ? parseFloat(data.quota.status.hard['tencent.com/vcuda-memory'])
+            TkeMemory: data.quota.status.hard['limits.tencent.com/vcuda-memory']
+              ? parseFloat(data.quota.status.hard['limits.tencent.com/vcuda-memory'])
               : 0,
-            UsedTkeMemory: data.quota.status.used['tencent.com/vcuda-memory']
-              ? parseFloat(data.quota.status.used['tencent.com/vcuda-memory'])
+            UsedTkeMemory: data.quota.status.used['limits.tencent.com/vcuda-memory']
+              ? parseFloat(data.quota.status.used['limits.tencent.com/vcuda-memory'])
               : 0,
           };
           this.nvidia =
             Object.prototype.hasOwnProperty.call(data.quota.status.hard, 'limits.nvidia.com/gpu') &&
             parseInt(data.quota.status.hard['limits.nvidia.com/gpu']) > 0;
           this.tke =
-            (Object.prototype.hasOwnProperty.call(data.quota.status.hard, 'tencent.com/vcuda-core') &&
-              parseInt(data.quota.status.hard['tencent.com/vcuda-core']) > 0) ||
-            (Object.prototype.hasOwnProperty.call(data.quota.status.hard, 'tencent.com/vcuda-memory') &&
-              parseInt(data.quota.status.hard['tencent.com/vcuda-memory']) > 0);
+            (Object.prototype.hasOwnProperty.call(data.quota.status.hard, 'limits.tencent.com/vcuda-core') &&
+              parseInt(data.quota.status.hard['limits.tencent.com/vcuda-core']) > 0) ||
+            (Object.prototype.hasOwnProperty.call(data.quota.status.hard, 'limits.tencent.com/vcuda-memory') &&
+              parseInt(data.quota.status.hard['limits.tencent.com/vcuda-memory']) > 0);
         } else {
           this.quota = {
             Cpu: 0,
