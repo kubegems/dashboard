@@ -266,10 +266,10 @@
             Object.prototype.hasOwnProperty.call(data.quota.status.hard, 'limits.nvidia.com/gpu') &&
             parseInt(data.quota.status.hard['limits.nvidia.com/gpu']) > 0;
           this.tke =
-            (Object.prototype.hasOwnProperty.call(data.quota.status.hard, 'tencent.com/vcuda-core') &&
-              parseInt(data.quota.status.hard['tencent.com/vcuda-core']) > 0) ||
-            (Object.prototype.hasOwnProperty.call(data.quota.status.hard, 'tencent.com/vcuda-memory') &&
-              parseInt(data.quota.status.hard['tencent.com/vcuda-memory']) > 0);
+            (Object.prototype.hasOwnProperty.call(data.quota.status.hard, 'limits.tencent.com/vcuda-core') &&
+              parseInt(data.quota.status.hard['limits.tencent.com/vcuda-core']) > 0) ||
+            (Object.prototype.hasOwnProperty.call(data.quota.status.hard, 'limits.tencent.com/vcuda-memory') &&
+              parseInt(data.quota.status.hard['limits.tencent.com/vcuda-memory']) > 0);
         } else {
           this.quota = {
             Cpu: 0,
