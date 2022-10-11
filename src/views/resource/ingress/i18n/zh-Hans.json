@@ -22,6 +22,8 @@
     "auto_domain": "自动生成域名"
   },
   "operate": {
-    "add_path": "添加Path"
+    "add_path": "添加Path",
+    "add_secret": "添加密钥",
+    "remove_secret": "移除密钥"
   }
 }

@@ -36,7 +36,6 @@
     "port_name": "Port Name",
     "port_name_hint": "Recommended http://grpc",
     "container_port": "Container Port",
-    "host_port": "Host Port",
     "mount_path": "Mount Path",
     "volume_name": "Volume Name",
     "origin_path": "Source Path",

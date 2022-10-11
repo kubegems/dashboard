@@ -39,7 +39,6 @@
     "port_name": "端口名称",
     "port_name_hint": "推荐http/grpc",
     "container_port": "容器端口",
-    "host_port": "主机端口",
 
     "mount_path": "挂载路径",
     "volume_name": "卷名称",
