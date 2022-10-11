@@ -115,6 +115,23 @@
                   </v-chip>
                 </v-flex>
               </v-flex>
+
+              <v-flex
+                v-for="(proxy, index) in item.alertProxyConfigs"
+                :key="`proxy${index}`"
+                class="text-body-2 break-word my-1"
+              >
+                <template v-if="proxy.type === 'feishu'">
+                  <div class="text-subtitle-2 kubegems__text">
+                    {{ `${$t('tip.feishu')}${index + 1}: ` }}
+                  </div>
+                  <div>{{ `url : ${proxy.url}` }} </div>
+                  <span>{{ $t('tip.user_id') }} : </span>
+                  <v-chip v-for="(item, key) in proxy.at.split(',')" :key="key" class="mx-1" color="success" small>
+                    {{ item }}
+                  </v-chip>
+                </template>
+              </v-flex>
             </td>
           </template>
           <template #[`item.action`]="{ item }">
@@ -293,6 +310,9 @@
           counter++;
         }
         if (item.webhookConfigs && item.webhookConfigs.length > 0) {
+          counter++;
+        }
+        if (item.alertProxyConfigs && item.alertProxyConfigs.length > 0) {
           counter++;
         }
         return counter;

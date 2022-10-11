@@ -49,7 +49,10 @@
     "base_config": "基本配置",
     "plugin_type": "外掛程式類型",
 
-    "no_log_data": "暫無日誌數據"
+    "no_log_data": "暫無日誌數據",
+
+    "feishu": "飛書",
+    "user_id": "用戶Id"
   },
   "operate": {
     "download_log": "下載日誌",

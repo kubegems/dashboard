@@ -48,7 +48,10 @@
     "config": "{0}配置",
     "base_config": "基本配置",
     "plugin_type": "插件类型",
-    "no_log_data": "暂无日志数据"
+    "no_log_data": "暂无日志数据",
+
+    "feishu": "飞书",
+    "user_id": "用户Id"
   },
   "operate": {
     "download_log": "下载日志",

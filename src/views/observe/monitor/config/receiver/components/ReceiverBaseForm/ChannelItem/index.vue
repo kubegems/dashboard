@@ -39,6 +39,7 @@
 <script>
   import messages from '../../../../../i18n';
   import EmailItem from './EmailItem';
+  import FeishuItem from './FeishuItem';
   import WebhookItem from './WebhookItem';
 
   export default {
@@ -48,6 +49,7 @@
     },
     components: {
       EmailItem,
+      FeishuItem,
       WebhookItem,
     },
     props: {
@@ -58,7 +60,7 @@
     },
     data() {
       return {
-        itemMap: { Email: 'EmailItem', Webhook: 'WebhookItem' },
+        itemMap: { Email: 'EmailItem', Webhook: 'WebhookItem', Feishu: 'FeishuItem' },
       };
     },
     computed: {
@@ -75,6 +77,15 @@
           arr = arr.concat(
             this.obj.webhookConfigs.map((item, index) => {
               return { ...item, type: 'Webhook', index: index };
+            }),
+          );
+        }
+        if (this.obj.alertProxyConfigs) {
+          arr = arr.concat(
+            this.obj.alertProxyConfigs.map((item, index) => {
+              if (item.type === 'feishu') {
+                return { ...item, type: 'Feishu', index: index };
+              }
             }),
           );
         }

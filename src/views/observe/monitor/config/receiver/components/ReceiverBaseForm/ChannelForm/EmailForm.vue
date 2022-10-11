@@ -49,6 +49,9 @@
               </template>
             </v-text-field>
           </v-flex>
+          <div class="kubegems__clear-float" />
+        </v-sheet>
+        <v-sheet class="px-0">
           <v-flex class="float-left text-subtitle-2 pt-4 primary--text kubegems__min-width" />
           <v-flex class="float-left ml-0 kubegems__form-width">
             <v-text-field
@@ -59,7 +62,7 @@
               :rules="emailConfigRules.fromRule"
             />
           </v-flex>
-          <v-flex class="float-left kubegems__form-width">
+          <v-flex class="float-left ml-2 kubegems__form-width">
             <v-text-field
               v-model="emailConfig.authPassword"
               :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
@@ -71,7 +74,6 @@
               @click:append="show = !show"
             />
           </v-flex>
-          <v-flex class="float-left text-subtitle-2 pt-4 primary--text kubegems__min-width" />
           <div class="kubegems__clear-float" />
         </v-sheet>
         <v-sheet class="px-0">
