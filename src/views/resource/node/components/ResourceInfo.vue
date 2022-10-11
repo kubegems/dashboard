@@ -38,9 +38,9 @@
             :extend-height="200"
             :metrics="memorySeries"
             :title="$root.$t('resource.memory')"
-            :total="totalRequests['memory'] ? sizeOfCpu(item.status.capacity['memory']) : 0"
+            :total="totalRequests['memory'] ? sizeOfStorage(item.status.capacity['memory']) : 0"
             unit="Gi"
-            :val="totalRequests['memory'] ? sizeOfCpu(totalRequests['memory']) : 0"
+            :val="totalRequests['memory'] ? sizeOfStorage(totalRequests['memory']) : 0"
           />
         </v-col>
         <v-col cols="4">

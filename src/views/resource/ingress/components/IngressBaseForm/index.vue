@@ -327,9 +327,11 @@
         this.obj.metadata.annotations = data;
         this.$refs.annotationForm.closeCard();
       },
-      addRulerData(data) {
+      addRulerData(data, closeCard = true) {
         this.obj = data;
-        this.$refs.ingressRuleForm.closeCard();
+        if (closeCard) {
+          this.$refs.ingressRuleForm.closeCard();
+        }
       },
       updatePort(index) {
         const rule = this.obj.spec.rules[index];

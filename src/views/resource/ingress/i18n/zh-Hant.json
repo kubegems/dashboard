@@ -22,6 +22,8 @@
     "auto_domain": "自動生成功能變數名稱"
   },
   "operate": {
-    "add_path": "添加Path"
+    "add_path": "添加Path",
+    "add_secret": "添加密鑰",
+    "remove_secret": "移除密鑰"
   }
 }

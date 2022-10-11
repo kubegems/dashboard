@@ -35,7 +35,7 @@
             @click:close="removePort(item)"
           >
             <strong class="mx-1"> {{ item.name }} </strong>
-            {{ $t('tip.port') }} : {{ item.hostPort }}
+            {{ $t('tip.port') }} : {{ item.containerPort }}
           </v-chip>
         </template>
       </v-combobox>
@@ -74,13 +74,6 @@
                 :rules="objRules.containerPortRules"
               />
             </v-col>
-            <v-col>
-              <v-text-field
-                v-model.number="obj.hostPort"
-                :label="$t('tip.host_port')"
-                :rules="objRules.hostPortRules"
-              />
-            </v-col>
           </v-row>
         </v-form>
       </v-card-text>
@@ -112,14 +105,11 @@
         obj: {
           name: 'http',
           containerPort: 0,
-          hostPort: 0,
           protocol: 'TCP',
-          hostIP: '',
         },
         objRules: {
           nameRules: [required],
           containerPortRules: [required],
-          hostPortRules: [required],
           protocolRules: [required],
         },
         protocolItems: [{ text: 'TCP', value: 'TCP' }],

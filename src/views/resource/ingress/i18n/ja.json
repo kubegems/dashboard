@@ -22,6 +22,8 @@
     "auto_domain": "ドメインを自動生成する"
   },
   "operate": {
-    "add_path": "Path を追加"
+    "add_path": "Path を追加",
+    "add_secret": "キーを追加",
+    "remove_secret": "キーを削除"
   }
 }

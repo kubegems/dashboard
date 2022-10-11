@@ -208,7 +208,11 @@
         const emails = this.emailConfig.to.split(',');
         this.emailToSelected = emails;
         await this.useEmailList();
-        this.emailToSelect = this.emailToSelect.concat(emails);
+        this.emailToSelect = this.emailToSelect.concat(
+          emails.map((e) => {
+            return { text: e, value: e };
+          }),
+        );
         this.smtpServerInput = this.emailConfig.smtpServer.split(':')[0];
         this.port = this.emailConfig.smtpServer.split(':')[1];
         this.expand = true;

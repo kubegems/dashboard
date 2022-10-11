@@ -41,7 +41,7 @@
                 </template>
               </v-text-field>
             </v-flex>
-            <v-flex v-if="hasTLS" class="float-left ml-2 kubegems__form-width">
+            <v-flex v-if="hasTLS || needTlsSecret" class="float-left ml-2 kubegems__form-width">
               <v-autocomplete
                 v-model="ruler.secretName"
                 class="my-0"
@@ -51,14 +51,25 @@
                 :label="$root.$t('resource.secret')"
                 :no-data-text="$root.$t('data.no_data')"
                 :rules="rulerRules.secretNameRule"
-                @focus="onSecretSelectFocus(ThisCluster, obj.metadata.namespace, 'kubernetes.io/tls')"
               >
                 <template #selection="{ item }">
                   <v-chip class="mx-1" color="primary" small>
                     {{ item['text'] }}
                   </v-chip>
                 </template>
+                <template v-if="needTlsSecret" #append>
+                  <v-btn class="mt-n1" color="error" small text @click.stop="removeTlsSecret">
+                    <v-icon left small> mdi-close-thick </v-icon>
+                    {{ $t('operate.remove_secret') }}
+                  </v-btn>
+                </template>
               </v-autocomplete>
+            </v-flex>
+            <v-flex v-else class="float-left ml-2 kubegems__form-width">
+              <v-btn class="mt-4" color="primary" small text @click="addTlsSecret">
+                <v-icon left small> mdi-plus </v-icon>
+                {{ $t('operate.add_secret') }}
+              </v-btn>
             </v-flex>
             <div class="kubegems__clear-float" />
           </v-sheet>
@@ -267,6 +278,7 @@
           host: '',
           paths: [{ path: '', pathType: '', serviceName: '', servicePort: '', portType: 'name', portTypeMenu: false }],
         },
+        needTlsSecret: false,
       };
     },
     computed: {
@@ -309,6 +321,15 @@
           this.objCopy = deepCopy(newValue);
         },
         deep: true,
+      },
+      hasTLS: {
+        handler(newValue) {
+          if (newValue) {
+            this.m_select_secretSelectData(this.ThisCluster, this.obj?.metadata?.namespace, 'kubernetes.io/tls');
+          }
+        },
+        deep: true,
+        immediate: true,
       },
     },
     methods: {
@@ -397,7 +418,7 @@
           if (this.ruler.host === this.$t('tip.auto_domain')) {
             this.ruler.host = '';
           }
-          if (this.hasTLS) {
+          if (this.hasTLS || this.needTlsSecret) {
             if (!this.objCopy.spec.tls) {
               this.objCopy.spec.tls = [];
             }
@@ -421,7 +442,7 @@
               },
             });
           }
-          if (!this.hasTLS) {
+          if (!this.hasTLS && !this.needTlsSecret) {
             if (this.objCopy.spec.tls && this.objCopy.spec.tls.length > 0) {
               const index = this.objCopy.spec.tls.findIndex((tls) => {
                 return tls.hosts.find((h) => {
@@ -447,6 +468,7 @@
         ];
         this.ruler = deepCopy(this.$options.data().ruler);
         this.$refs.form.resetValidation();
+        this.needTlsSecret = false;
         this.$emit('closeOverlay');
       },
       onServiceSelectFocus(clusterName, namespace) {
@@ -458,6 +480,21 @@
       setPortType(portType, index) {
         this.ruler.paths[index].portType = portType.value;
         this.ruler.paths[index].portTypeMenu = false;
+      },
+      removeTlsSecret() {
+        if (this.objCopy.spec.tls && this.objCopy.spec.tls.length > 0) {
+          const index = this.objCopy.spec.tls.findIndex((tls) => {
+            return tls.hosts.find((h) => {
+              return h === this.ruler.host;
+            });
+          });
+          this.$delete(this.objCopy.spec.tls, index);
+          this.$emit('addData', this.objCopy, false);
+        }
+        this.needTlsSecret = false;
+      },
+      addTlsSecret() {
+        this.needTlsSecret = true;
       },
     },
   };
