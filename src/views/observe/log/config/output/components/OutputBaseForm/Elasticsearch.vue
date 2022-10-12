@@ -46,6 +46,9 @@
             :rules="objRules.indexNameRules"
           />
         </v-col>
+        <v-col cols="6">
+          <v-switch v-model="obj.spec.elasticsearch.logstash_format" class="mt-5" label="logstash_format" />
+        </v-col>
       </v-row>
     </v-form>
   </div>
@@ -75,6 +78,7 @@
               host: '',
               port: '',
               index_name: '',
+              logstash_format: false,
             },
           },
         },
@@ -89,7 +93,7 @@
       this.$nextTick(() => {
         this.$refs.form.resetValidation();
         if (this.item?.spec?.elasticsearch) {
-          this.obj = this.$_.merge(this.item, this.obj);
+          this.obj = this.item;
         }
       });
     },

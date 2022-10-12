@@ -86,7 +86,7 @@
       this.$nextTick(() => {
         this.$refs.form.resetValidation();
         if (this.item?.spec?.loki) {
-          this.obj = this.$_.merge(this.item, this.obj);
+          this.obj = this.item;
         }
       });
     },
