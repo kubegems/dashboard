@@ -27,7 +27,10 @@
             <v-list-item class="float-left py-0 pl-0" :style="{ width: `515px` }" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
-                  <v-icon class="float-left icon__pod" color="primary" left small> mdi-cube </v-icon>
+                  <v-icon v-if="container.init" class="float-left icon__pod" color="primary" left small>
+                    mdi-alpha-i-circle
+                  </v-icon>
+                  <v-icon v-else class="float-left icon__pod" color="primary" left small> mdi-alpha-c-circle </v-icon>
                   <v-flex class="float-left">
                     {{ container.name }}
                   </v-flex>
@@ -82,6 +85,7 @@
                     Terminated({{ container.state.terminated.reason }})
                   </span>
                   <span v-else-if="container.state.waiting"> Waiting({{ container.state.waiting.reason }}) </span>
+                  <span v-else> -- </span>
                 </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1"> {{ $t('table.status') }} </v-list-item-subtitle>
               </v-list-item-content>
@@ -200,6 +204,14 @@
         type: Array,
         default: () => [],
       },
+      initContainers: {
+        type: Array,
+        default: () => [],
+      },
+      initContainerStatuses: {
+        type: Array,
+        default: () => [],
+      },
       item: {
         type: Object,
         default: () => {},
@@ -208,6 +220,7 @@
     data() {
       return {
         containerStatusesCopy: [],
+        initContainerStatusesCopy: [],
       };
     },
     computed: {
@@ -228,6 +241,24 @@
               this.$set(this.containerStatusesCopy, index, container);
             }
           });
+
+          if (this.initContainerStatuses.length > 0) {
+            this.initContainerStatusesCopy = deepCopy(this.initContainerStatuses);
+            this.initContainers.forEach((c) => {
+              const index = this.initContainerStatusesCopy.findIndex((s) => {
+                return s.name === c.name;
+              });
+              if (index > -1) {
+                const container = this.initContainerStatusesCopy[index];
+                container.image = c.image;
+                container.resources = c.resources;
+                container.init = true;
+                this.$set(this.initContainerStatusesCopy, index, container);
+              }
+            });
+
+            this.containerStatusesCopy = this.containerStatusesCopy.concat(this.initContainerStatusesCopy);
+          }
         },
         deep: true,
         immediate: true,
@@ -239,13 +270,21 @@
           if (item.state.running) return 'Running';
           if (item.state.terminated) return 'Terminated';
           if (item.state.waiting) return 'Waiting';
+          else return 'Unknown';
         } else return 'Failed';
       },
       getContainerProbes(item, container) {
         const probes = [];
-        const spec = item.spec.containers.find((c) => {
-          return (c.name = container.name);
-        });
+        let spec = undefined;
+        if (container.init) {
+          spec = item.spec.initContainers.find((c) => {
+            return (c.name = container.name);
+          });
+        } else {
+          spec = item.spec.containers.find((c) => {
+            return (c.name = container.name);
+          });
+        }
         if (spec) {
           if (spec.livenessProbe) {
             probes.push({ title: this.$t('tip.live_probe'), probe: spec.livenessProbe });
@@ -290,7 +329,8 @@
 <style lang="scss" scoped>
   .icon {
     &__pod {
-      margin-top: 2px;
+      margin-top: 3px;
+      font-size: 18px !important;
     }
   }
 </style>

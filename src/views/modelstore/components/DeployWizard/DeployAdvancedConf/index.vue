@@ -88,10 +88,14 @@
           />
 
           <v-text-field
-            v-if="obj.server.kind === ''"
-            v-model="obj.model.license"
-            label="License"
-            :rules="objRules.licenseRules"
+            v-if="
+              obj.server.kind === '' &&
+              item.annotations &&
+              item.annotations['modelx.kubegems.io/token-required'] === 'true'
+            "
+            v-model="obj.model.token"
+            label="Token"
+            :rules="objRules.tokenRules"
           />
         </v-col>
       </v-row>
@@ -219,7 +223,7 @@
             url: '',
             version: '',
             source: '',
-            license: '',
+            token: '',
           },
           server: {
             args: [],
@@ -249,7 +253,7 @@
           protocolRules: [required],
           implementationRules: [(v) => !!(v?.trim()?.length > 0 || v === '') || this.$t('tip.required')],
           gatewayRules: [required],
-          licenseRules: [required],
+          tokenRules: [required],
         },
       };
     },

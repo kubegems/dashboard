@@ -182,6 +182,8 @@
             <ContainerItems
               :container-statuses="item && item.status ? item.status.containerStatuses : []"
               :containers="item && item.spec.containers"
+              :init-container-statuses="item && item.status ? item.status.initContainerStatuses : []"
+              :init-containers="item && item.spec.initContainers"
               :item="item"
             />
           </td>

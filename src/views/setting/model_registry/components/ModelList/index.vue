@@ -103,6 +103,16 @@
             {{ $t('operate.offline') }}
           </template>
         </template>
+        <template #[`item.auth`]="{ item }">
+          <template v-if="item.annotations && item.annotations['modelx.kubegems.io/token-required'] === 'true'">
+            <v-icon color="success" small>mdi-check-circle</v-icon>
+            {{ $t('tip.need_auth') }}
+          </template>
+          <template v-else>
+            <v-icon color="error" small>mdi-close-circle</v-icon>
+            {{ $t('tip.not_need_auth') }}
+          </template>
+        </template>
         <template #[`item.tags`]="{ item }">
           <BaseCollapseChips id="m_tag" :chips="item.tags || []" icon="mdi-label" single-line />
           <v-btn v-if="registry && !registry.online" color="orange" icon @click="tagModel(item)">
@@ -129,6 +139,18 @@
                     {{ $t('operate.recommend_content') }}
                   </v-btn>
                 </v-flex>
+                <template v-if="registry && !registry.online">
+                  <v-flex v-if="item.annotations && item.annotations['modelx.kubegems.io/token-required'] === 'true'">
+                    <v-btn color="error" small text @click="setNotNeedToken(item)">
+                      {{ $t('operate.cancel_auth_flag') }}
+                    </v-btn>
+                  </v-flex>
+                  <v-flex v-else>
+                    <v-btn color="primary" small text @click="setNeedToken(item)">
+                      {{ $t('operate.set_auth_flag') }}
+                    </v-btn>
+                  </v-flex>
+                </template>
                 <v-flex>
                   <v-btn color="error" small text @click="removeModel(item)"> {{ $root.$t('operate.delete') }} </v-btn>
                 </v-flex>
@@ -213,8 +235,13 @@
           { text: this.$t('table.last_modified'), value: 'lastModified', align: 'start' },
           { text: this.$t('table.recommend'), value: 'recomment', align: 'start', width: 120 },
           { text: this.$t('table.published'), value: 'enabled', align: 'start', width: 90 },
+
           { text: '', value: 'action', align: 'center', width: 20, sortable: false },
         ];
+
+        if (this.registry && !this.registry.online) {
+          items.splice(8, 0, { text: this.$t('table.auth'), value: 'auth', align: 'start', width: 90 });
+        }
 
         return items;
       },
@@ -330,6 +357,44 @@
           },
         });
       },
+      setNotNeedToken(item) {
+        this.$store.commit('SET_CONFIRM', {
+          title: `${this.$t('operate.cancel_auth_flag')}`,
+          content: {
+            text: `${this.$t('operate.cancel_auth_flag_c', [`${this.$t('tab.ai_model')} ${item.name}`])}`,
+            type: 'confirm',
+          },
+          param: { item },
+          doFunc: async (param) => {
+            const data = deepCopy(param.item);
+            if (!data.annotations) {
+              data.annotations = {};
+            }
+            data.annotations['modelx.kubegems.io/token-required'] = 'false';
+            await putAdminUpdateModel(this.$route.params.name, Base64.encode(param.item.name), data);
+            this.modelList();
+          },
+        });
+      },
+      setNeedToken(item) {
+        this.$store.commit('SET_CONFIRM', {
+          title: `${this.$t('operate.set_auth_flag')}`,
+          content: {
+            text: `${this.$t('operate.set_auth_flag_c', [`${this.$t('tab.ai_model')} ${item.name}`])}`,
+            type: 'confirm',
+          },
+          param: { item },
+          doFunc: async (param) => {
+            const data = deepCopy(param.item);
+            if (!data.annotations) {
+              data.annotations = {};
+            }
+            data.annotations['modelx.kubegems.io/token-required'] = 'true';
+            await putAdminUpdateModel(this.$route.params.name, Base64.encode(param.item.name), data);
+            this.modelList();
+          },
+        });
+      },
       togglePublishModel(item) {
         this.$store.commit('SET_CONFIRM', {
           title: item.enabled
@@ -353,7 +418,7 @@
       toggleOnlineModels(online = true) {
         if (!Object.values(this.m_table_batchResources).some((c) => c.checked)) {
           this.$store.commit('SET_SNACKBAR', {
-            text: `请勾选算法模型`,
+            text: this.$t('tip.model_select'),
             color: 'warning',
           });
           return;

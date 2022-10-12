@@ -3,3 +3,12 @@
   font-weight: 400;
   cursor: pointer;
 }
+
+[data-filepond-item-state='processing-complete'] .filepond--item-panel {
+  background-color: #00acc1;
+}
+
+[data-filepond-item-state*='error'] .filepond--item-panel,
+[data-filepond-item-state*='invalid'] .filepond--item-panel {
+  background-color: #ef5350;
+}

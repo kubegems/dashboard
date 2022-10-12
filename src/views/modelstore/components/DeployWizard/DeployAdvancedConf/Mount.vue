@@ -61,15 +61,11 @@
               />
             </v-col>
             <v-col v-if="obj.kind === 'HostPath'">
-              <v-text-field
-                v-model.number="obj.sourcePath"
-                :label="$t('tip.origin_path')"
-                :rules="objRules.sourcePathRules"
-              />
+              <v-text-field v-model.number="obj.source" :label="$t('tip.origin_path')" :rules="objRules.sourceRules" />
             </v-col>
             <v-col v-else-if="obj.kind === 'PVC'">
               <v-autocomplete
-                v-model="obj.sourcePath"
+                v-model="obj.source"
                 hide-no-data
                 hide-selected
                 :items="persistentVolumeClaimItems"
@@ -79,7 +75,22 @@
                   left: true,
                   origin: `top center`,
                 }"
-                :rules="objRules.sourcePathRules"
+                :rules="objRules.sourceRules"
+              />
+            </v-col>
+            <v-col v-else-if="obj.kind === 'ConfigMap'">
+              <v-autocomplete
+                v-model="obj.source"
+                hide-no-data
+                hide-selected
+                :items="configMapItems"
+                :label="$t('tip.configmap_name')"
+                :menu-props="{
+                  bottom: true,
+                  left: true,
+                  origin: `top center`,
+                }"
+                :rules="objRules.sourceRules"
               />
             </v-col>
             <v-col>
@@ -105,7 +116,7 @@
 
 <script>
   import messages from '../../../i18n';
-  import { getPersistentVolumeClaimList } from '@/api';
+  import { getConfigMapList, getPersistentVolumeClaimList } from '@/api';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
@@ -128,20 +139,22 @@
         obj: {
           kind: 'HostPath',
           mountPath: '',
-          sourcePath: '',
+          source: '',
         },
         objRules: {
           kindRules: [required],
           mountPathRules: [required],
-          sourcePathRules: [required],
+          sourceRules: [required],
         },
         kindItems: [
           { text: 'PersistentVolumeClaim', value: 'PVC' },
           { text: 'HostPath', value: 'HostPath' },
           { text: 'EmptyDir', value: 'EmptyDir' },
           { text: 'Model', value: 'Model' },
+          { text: 'ConfigMap', value: 'ConfigMap' },
         ],
         persistentVolumeClaimItems: [],
+        configMapItems: [],
       };
     },
     watch: {
@@ -179,10 +192,15 @@
         this.$emit('change', this.mounts);
       },
       async onKindChange() {
-        this.obj.sourcePath = '';
+        this.obj.source = '';
         if (this.obj.kind === 'PVC') {
           const data = await getPersistentVolumeClaimList(this.base.cluster, this.base.namespace, { size: 1000 });
           this.persistentVolumeClaimItems = data.List.map((p) => {
+            return { text: p.metadata.name, value: p.metadata.name };
+          });
+        } else if (this.obj.kind === 'ConfigMap') {
+          const data = await getConfigMapList(this.base.cluster, this.base.namespace, { size: 1000 });
+          this.configMapItems = data.List.map((p) => {
             return { text: p.metadata.name, value: p.metadata.name };
           });
         }

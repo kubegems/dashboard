@@ -28,7 +28,8 @@
     "delay_msg": "初始延遲{0}s&nbsp;超時{1}s&nbsp;頻率{2}s",
     "path": "路徑",
     "port": "端口",
-    "command": "命令"
+    "command": "命令",
+    "now_path": "當前路徑"
   },
   "table": {
     "container_name": "容器名",

@@ -10,7 +10,8 @@
     "tag": "Tags",
     "last_modified": "Last updated",
     "recommend": "Recommended Values",
-    "published": "Listing Status"
+    "published": "Listing Status",
+    "auth": "Authentication required"
   },
   "operate": {
     "recommend_content": "Recommended Content",
@@ -23,7 +24,12 @@
     "active": "Activate",
     "forbid_c": "Disable {0}",
     "active_C": "Activate {0}",
-    "check": "Validation"
+    "check": "Validation",
+
+    "cancel_auth_flag": "Cancel authentication mark",
+    "set_auth_flag": "Add authentication mark",
+    "cancel_auth_flag_c": "Cancel {0} authentication mark",
+    "set_auth_flag_c": "Add authentication mark for {0}"
   },
   "filter": {
     "search": "Model Name",
@@ -59,7 +65,11 @@
     "auth_type": "Authentication Method",
     "passwd_auth": "Authentication based on username and password",
     "token_auth": "Token-based Authentication",
-    "passwd_or_token_auth": "Authentication based on username or token"
+    "passwd_or_token_auth": "Authentication based on username or token",
+    "model_select": "Please select ai model",
+
+    "need_auth": "Yes",
+    "not_need_auth": "No"
   },
   "form": {
     "recomment_rule": "Format Error (0-100)"

@@ -114,10 +114,12 @@
                     {{ `${$t('tip.feishu')}${index + 1}: ` }}
                   </div>
                   <div>{{ `url : ${proxy.url}` }} </div>
-                  <span>{{ $t('tip.user_id') }} : </span>
-                  <v-chip v-for="(item, key) in proxy.at.split(',')" :key="key" class="mx-1" color="success" small>
-                    {{ item }}
-                  </v-chip>
+                  <template v-if="proxy.at">
+                    <span>{{ $t('tip.user_id') }} : </span>
+                    <v-chip v-for="(item, key) in proxy.at.split(',')" :key="key" class="mx-1" color="success" small>
+                      {{ item }}
+                    </v-chip>
+                  </template>
                 </template>
               </v-flex>
             </td>

@@ -57,7 +57,8 @@
     "video_card": "ビデオカード",
     "can_use": "消耗品",
     "total": "合計",
-    "core": "コア"
+    "core": "コア",
+    "configmap_name": "構成名"
   },
   "tab": {
     "description": "はじめに",

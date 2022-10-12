@@ -22,6 +22,7 @@
         <v-btn v-if="terminalType !== 'kubectl'" color="white" depressed icon @click="openOnBlankTab">
           <v-icon color="white" small> mdi-open-in-new </v-icon>
         </v-btn>
+        <span class="text-body-2 mx-2"> {{ $t('tip.now_path') }} : {{ dist }} </span>
         <span class="text-caption">
           <v-icon color="white" small> mdi-information-variant </v-icon>
           {{ $root.$t('tip.download_tip') }}

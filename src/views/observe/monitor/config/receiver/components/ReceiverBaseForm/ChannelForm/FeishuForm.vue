@@ -33,38 +33,65 @@
           </v-flex>
           <div class="kubegems__clear-float" />
         </v-sheet>
+
         <v-sheet class="pt-2 px-0">
           <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width" />
+
           <v-flex class="float-left ml-0 kubegems__long-width">
-            <v-autocomplete
-              v-model="at"
-              class="my-0"
-              color="primary"
-              hide-selected
-              :items="atItems"
-              :label="$t('form.user_id')"
-              multiple
-              :no-data-text="$root.$t('data.no_data')"
-              :rules="feishuConfigRules.toRule"
-              :search-input.sync="atText"
-              @keydown.13="createAt"
-            >
-              <template #selection="{ item }">
-                <v-chip
-                  class="mx-1"
-                  close
-                  close-icon="mdi-close-circle"
-                  color="primary"
-                  small
-                  @click:close="removeAt(item)"
-                >
-                  {{ item['text'] }}
-                </v-chip>
-              </template>
-            </v-autocomplete>
+            <v-switch v-model="advanced" dense hide-details :label="$t('tip.advanced_setting')" />
           </v-flex>
           <div class="kubegems__clear-float" />
         </v-sheet>
+
+        <template v-if="advanced">
+          <v-sheet class="pt-2 px-0">
+            <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width" />
+            <v-flex class="float-left ml-0" :style="{ width: '689px' }">
+              <v-autocomplete
+                v-model="at"
+                class="my-0"
+                color="primary"
+                hide-selected
+                :items="atItems"
+                :label="$t('form.user_id')"
+                multiple
+                :no-data-text="$root.$t('data.no_data')"
+                :rules="feishuConfigRules.toRule"
+                :search-input.sync="atText"
+                @keydown.13="createAt"
+              >
+                <template #selection="{ item }">
+                  <v-chip
+                    class="mx-1"
+                    close
+                    close-icon="mdi-close-circle"
+                    color="primary"
+                    small
+                    @click:close="removeAt(item)"
+                  >
+                    {{ item['text'] }}
+                  </v-chip>
+                </template>
+              </v-autocomplete>
+            </v-flex>
+            <v-flex class="float-left ml-0" :style="{ width: '131px', lineHeight: '66px' }">
+              <span class="orange--text text-caption kubegems__pointer" @click="toFeishu">
+                <v-icon color="orange" small> mdi-information-variant </v-icon>
+                {{ $t('tip.get_feishu_id') }}
+              </span>
+            </v-flex>
+            <div class="kubegems__clear-float" />
+          </v-sheet>
+
+          <v-sheet class="pt-2 px-0">
+            <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width" />
+
+            <v-flex class="float-left ml-0 kubegems__long-width">
+              <v-text-field v-model="feishuConfig.signSecret" class="my-0" :label="$t('form.sign_secret')" required />
+            </v-flex>
+            <div class="kubegems__clear-float" />
+          </v-sheet>
+        </template>
       </v-card-text>
       <v-card-actions class="pa-0">
         <v-spacer />
@@ -113,11 +140,13 @@
           type: 'feishu',
           url: '',
           at: '',
+          signSecret: '',
         },
         feishuConfigRules: {
           urlRule: [required],
           atRule: [required],
         },
+        advanced: false,
       };
     },
     computed: {
@@ -133,14 +162,22 @@
       // 更新时调用
       init() {
         this.feishuConfig = deepCopy(this.obj.alertProxyConfigs[this.configIndex]);
-        this.at = this.feishuConfig.at.split(',');
-        this.atItems = this.at.map((a) => {
-          return { text: a, value: a };
-        });
+        if (this.feishuConfig.at) {
+          this.at = this.feishuConfig.at.split(',');
+          this.atItems = this.at.map((a) => {
+            return { text: a, value: a };
+          });
+          this.advanced = true;
+        }
+        if (this.feishuConfig.signSecret) {
+          this.advanced = true;
+        }
       },
       addData() {
         if (this.$refs.form.validate(true)) {
-          this.feishuConfig.at = this.at.join(',');
+          if (this.at.length > 0) {
+            this.feishuConfig.at = this.at.join(',');
+          }
           this.$emit('addData', deepCopy(this.feishuConfig));
           this.closeCard();
         }
@@ -166,6 +203,9 @@
         if (index > -1) {
           this.at.splice(index, 1);
         }
+      },
+      toFeishu() {
+        window.open('https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/contact-v3/user/batch_get_id');
       },
     },
   };

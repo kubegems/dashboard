@@ -45,15 +45,19 @@
               <v-list-item-title class="kubegems__break-all">
                 {{ $root.$t('resource.container') }} : {{ state.name }}
               </v-list-item-title>
-              <v-list-item class="float-left pa-0" two-line>
+              <v-list-item class="float-left pa-0 list__item" two-line>
                 <v-list-item-content class="py-0">
-                  <v-list-item-title> {{ $t('tip.exit_code') }} </v-list-item-title>
+                  <v-list-item-title> {{ $t('tip.last_start_at') }} </v-list-item-title>
                   <v-list-item-content class="text-caption kubegems__text kubegems__break-all py-0">
-                    {{ state.lastState.terminated.exitCode }}
+                    {{
+                      state.state.running && state.state.running.startedAt
+                        ? $moment(state.state.running.startedAt).format('lll')
+                        : ''
+                    }}
                   </v-list-item-content>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item class="float-left pa-0" two-line>
+              <v-list-item class="float-left pa-0 list__item" two-line>
                 <v-list-item-content class="py-0">
                   <v-list-item-title> {{ $t('tip.reason') }} </v-list-item-title>
                   <v-list-item-content class="text-caption kubegems__text kubegems__break-all py-0">
@@ -61,7 +65,15 @@
                   </v-list-item-content>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item class="float-left pa-0" two-line>
+              <v-list-item class="float-left pa-0 list__item" two-line>
+                <v-list-item-content class="py-0">
+                  <v-list-item-title> {{ $t('tip.exit_code') }} </v-list-item-title>
+                  <v-list-item-content class="text-caption kubegems__text kubegems__break-all py-0">
+                    {{ state.lastState.terminated.exitCode }}
+                  </v-list-item-content>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item class="float-left pa-0 list__item" two-line>
                 <v-list-item-content class="py-0">
                   <v-list-item-title> {{ $t('tip.started_at') }} </v-list-item-title>
                   <v-list-item-content class="text-caption kubegems__text kubegems__break-all py-0">
@@ -73,7 +85,7 @@
                   </v-list-item-content>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item class="float-left pa-0" two-line>
+              <v-list-item class="float-left pa-0 list__item" two-line>
                 <v-list-item-content class="py-0">
                   <v-list-item-title> {{ $t('tip.finished_at') }} </v-list-item-title>
                   <v-list-item-content class="text-caption kubegems__text kubegems__break-all py-0">
@@ -93,7 +105,19 @@
               <v-list-item-title class="kubegems__break-all">
                 {{ $root.$t('resource.container') }} : {{ state.name }}
               </v-list-item-title>
-              <v-list-item class="float-left pa-0" two-line>
+              <v-list-item class="float-left pa-0 list__item" two-line>
+                <v-list-item-content class="py-0">
+                  <v-list-item-title> {{ $t('tip.last_start_at') }} </v-list-item-title>
+                  <v-list-item-content class="text-caption kubegems__text kubegems__break-all py-0">
+                    {{
+                      state.state.running && state.state.running.startedAt
+                        ? $moment(state.state.running.startedAt).format('lll')
+                        : ''
+                    }}
+                  </v-list-item-content>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item class="float-left pa-0 list__item" two-line>
                 <v-list-item-content class="py-0">
                   <v-list-item-title> {{ $t('tip.last_state') }} </v-list-item-title>
                   <v-list-item-content class="text-caption kubegems__text kubegems__break-all py-0">
@@ -109,7 +133,7 @@
               <v-list-item-title class="kubegems__break-all">
                 {{ $root.$t('resource.container') }} : {{ state.name }}
               </v-list-item-title>
-              <v-list-item class="float-left pa-0" two-line>
+              <v-list-item class="float-left pa-0 list__item" two-line>
                 <v-list-item-content class="py-0">
                   <v-list-item-title> {{ $t('tip.last_state') }} </v-list-item-title>
                   <v-list-item-content class="text-caption kubegems__text kubegems__break-all py-0">
@@ -176,3 +200,11 @@
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .list {
+    &__item {
+      min-height: 44px !important;
+    }
+  }
+</style>
