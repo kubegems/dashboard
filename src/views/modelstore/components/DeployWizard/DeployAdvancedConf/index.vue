@@ -87,7 +87,16 @@
             :rules="objRules.imageRules"
           />
 
-          <v-text-field v-if="obj.server.kind === ''" v-model="obj.model.token" label="Token" />
+          <v-text-field
+            v-if="
+              obj.server.kind === '' &&
+              item.annotations &&
+              item.annotations['modelx.kubegems.io/token-required'] === 'true'
+            "
+            v-model="obj.model.token"
+            label="Token"
+            :rules="objRules.tokenRules"
+          />
         </v-col>
       </v-row>
     </v-card-text>

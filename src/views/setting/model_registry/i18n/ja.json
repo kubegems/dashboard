@@ -10,7 +10,8 @@
     "tag": "タグ",
     "last_modified": "最終更新日",
     "recommend": "推奨値",
-    "published": "参加状況"
+    "published": "参加状況",
+    "auth": "認証が必要です"
   },
   "operate": {
     "recommend_content": "推奨コンテンツ",
@@ -23,7 +24,12 @@
     "active": "有効",
     "forbid_c": "{0} を無効化",
     "active_C": "{0}をアクティベートする",
-    "check": "チェックサム"
+    "check": "チェックサム",
+
+    "cancel_auth_flag": "認証マークを取り消す",
+    "set_auth_flag": "認証ロゴを追加",
+    "cancel_auth_flag_c": "{0} 認証トークンをキャンセル",
+    "set_auth_flag_c": "{0} の認証 ID を追加"
   },
   "filter": {
     "search": "モデル名",
@@ -60,7 +66,10 @@
     "passwd_auth": "ユーザー名コードベース認証",
     "token_auth": "トークンベースの認証",
     "passwd_or_token_auth": "ユーザー名パスワードやトークンベースの認証",
-    "model_select": "アルゴリズムモデルにチェックを入れてください"
+    "model_select": "アルゴリズムモデルにチェックを入れてください",
+
+    "need_auth": "はい",
+    "not_need_auth": "番号"
   },
   "form": {
     "recomment_rule": "書式が不適切です(0-100)"
