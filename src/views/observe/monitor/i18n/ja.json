@@ -91,7 +91,8 @@
     "dest_container": "対象コンテナ",
     "time": "期間",
     "inhabit_label": "ラベルを抑制します。",
-    "user_id": "ユーザーID(入力して作成)"
+    "user_id": "ユーザーID(入力して作成)",
+    "sign_secret": "署名をチェック"
   },
   "operate": {
     "query": "クエリ",

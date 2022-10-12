@@ -91,7 +91,8 @@
     "dest_container": "目標容器",
     "time": "時長",
     "inhabit_label": "抑制標籤",
-    "user_id": "用戶Id(回車創建)"
+    "user_id": "用戶Id(回車創建)",
+    "sign_secret": "校驗簽名"
   },
   "operate": {
     "query": "查詢",

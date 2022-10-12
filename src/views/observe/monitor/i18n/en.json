@@ -91,7 +91,8 @@
     "dest_container": "Target container",
     "time": "Duration",
     "inhabit_label": "Repress Tags",
-    "user_id": "User Id(Enter to create)"
+    "user_id": "User Id(Enter to create)",
+    "sign_secret": "Sign Secret"
   },
   "operate": {
     "query": "Query",

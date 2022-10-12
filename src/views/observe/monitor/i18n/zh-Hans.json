@@ -97,7 +97,8 @@
     "dest_container": "目标容器",
     "time": "时长",
     "inhabit_label": "抑制标签",
-    "user_id": "用户Id(回车创建)"
+    "user_id": "用户Id(回车创建)",
+    "sign_secret": "校验签名"
   },
   "operate": {
     "query": "查询",

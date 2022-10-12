@@ -82,6 +82,15 @@
             </v-flex>
             <div class="kubegems__clear-float" />
           </v-sheet>
+
+          <v-sheet class="pt-2 px-0">
+            <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width" />
+
+            <v-flex class="float-left ml-0 kubegems__long-width">
+              <v-text-field v-model="feishuConfig.signSecret" class="my-0" :label="$t('form.sign_secret')" required />
+            </v-flex>
+            <div class="kubegems__clear-float" />
+          </v-sheet>
         </template>
       </v-card-text>
       <v-card-actions class="pa-0">
@@ -131,6 +140,7 @@
           type: 'feishu',
           url: '',
           at: '',
+          signSecret: '',
         },
         feishuConfigRules: {
           urlRule: [required],
@@ -157,6 +167,9 @@
           this.atItems = this.at.map((a) => {
             return { text: a, value: a };
           });
+          this.advanced = true;
+        }
+        if (this.feishuConfig.signSecret) {
           this.advanced = true;
         }
       },
