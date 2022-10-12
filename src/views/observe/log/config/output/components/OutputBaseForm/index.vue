@@ -71,7 +71,7 @@
         </v-col>
       </v-row>
 
-      <component :is="formComponent" :ref="formComponent" :edit="true" :item="obj" />
+      <component :is="formComponent" :ref="formComponent" :edit="edit" :item="obj" />
     </v-form>
   </div>
 </template>
@@ -153,7 +153,6 @@
           this.loadData();
         },
         deep: true,
-        immediate: true,
       },
     },
     methods: {
