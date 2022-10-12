@@ -87,12 +87,7 @@
             :rules="objRules.imageRules"
           />
 
-          <v-text-field
-            v-if="obj.server.kind === ''"
-            v-model="obj.model.license"
-            label="License"
-            :rules="objRules.licenseRules"
-          />
+          <v-text-field v-if="obj.server.kind === ''" v-model="obj.model.token" label="Token" />
         </v-col>
       </v-row>
     </v-card-text>
@@ -219,7 +214,7 @@
             url: '',
             version: '',
             source: '',
-            license: '',
+            token: '',
           },
           server: {
             args: [],
@@ -249,7 +244,7 @@
           protocolRules: [required],
           implementationRules: [(v) => !!(v?.trim()?.length > 0 || v === '') || this.$t('tip.required')],
           gatewayRules: [required],
-          licenseRules: [required],
+          tokenRules: [required],
         },
       };
     },

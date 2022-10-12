@@ -32,8 +32,9 @@
     "last_state": "Latest status",
     "exit_code": "Exit code",
     "reason": "Reason",
-    "started_at": "Started at",
-    "finished_at": "Finished at"
+    "started_at": "Last Started at",
+    "finished_at": "Last End at",
+    "last_start_at": "Latest Start at"
   },
   "operate": {
     "terminal": "Terminal",

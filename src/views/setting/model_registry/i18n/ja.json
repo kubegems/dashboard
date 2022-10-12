@@ -59,7 +59,8 @@
     "auth_type": "このニュースをサイトで公開するか否かの設定",
     "passwd_auth": "ユーザー名コードベース認証",
     "token_auth": "トークンベースの認証",
-    "passwd_or_token_auth": "ユーザー名パスワードやトークンベースの認証"
+    "passwd_or_token_auth": "ユーザー名パスワードやトークンベースの認証",
+    "model_select": "アルゴリズムモデルにチェックを入れてください"
   },
   "form": {
     "recomment_rule": "書式が不適切です(0-100)"

@@ -60,7 +60,8 @@
     "core": "Core",
 
     "experience": "Model Experience",
-    "not_support": "Not Support"
+    "not_support": "Not Support",
+    "configmap_name": "ConfigMap Name"
   },
   "tab": {
     "description": "Introduction",

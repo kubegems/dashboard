@@ -28,7 +28,8 @@
     "delay_msg": "Initial delay{0}s&nbsp;timeout{1}s&nbsp;frequencies{2}s",
     "path": "Path",
     "port": "Port",
-    "command": "Commands"
+    "command": "Commands",
+    "now_path": "Current path"
   },
   "table": {
     "container_name": "Container Name",

@@ -45,6 +45,7 @@
     "origin_path": "源路径",
     "volume_type": "卷类型",
     "volume_mount": "卷挂载",
+    "configmap_name": "配置名称",
 
     "deploy_info": "部署信息",
     "runtime": "运行时",

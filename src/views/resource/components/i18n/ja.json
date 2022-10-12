@@ -28,7 +28,8 @@
     "delay_msg": "{0}の初期遅延&nbsp;{1}s&nbsp;周波数{2}s",
     "path": "パス",
     "port": "ポート",
-    "command": "コマンド"
+    "command": "コマンド",
+    "now_path": "現在のパス"
   },
   "table": {
     "container_name": "コンテナ名",

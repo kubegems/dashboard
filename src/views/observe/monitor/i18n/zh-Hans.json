@@ -75,7 +75,9 @@
     "missing_template": "模版缺失",
 
     "feishu": "飞书",
-    "user_id": "用户Id"
+    "user_id": "用户Id",
+    "advanced_setting": "高级配置",
+    "get_feishu_id": "如何获取飞书用户Id"
   },
   "tab": {
     "generate_from_template": "由模版生成",

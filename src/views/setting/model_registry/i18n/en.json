@@ -59,7 +59,8 @@
     "auth_type": "Authentication Method",
     "passwd_auth": "Authentication based on username and password",
     "token_auth": "Token-based Authentication",
-    "passwd_or_token_auth": "Authentication based on username or token"
+    "passwd_or_token_auth": "Authentication based on username or token",
+    "model_select": "Please select ai model"
   },
   "form": {
     "recomment_rule": "Format Error (0-100)"

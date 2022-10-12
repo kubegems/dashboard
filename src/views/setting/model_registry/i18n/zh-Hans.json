@@ -59,7 +59,8 @@
     "auth_type": "认证方式",
     "passwd_auth": "基于用户名密码的认证",
     "token_auth": "基于Token的认证",
-    "passwd_or_token_auth": "基于用户名密码或Token的认证"
+    "passwd_or_token_auth": "基于用户名密码或Token的认证",
+    "model_select": "请勾选算法模型"
   },
   "form": {
     "recomment_rule": "格式错误(0-100)"

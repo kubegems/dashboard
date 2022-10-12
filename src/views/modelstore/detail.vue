@@ -163,9 +163,9 @@
       },
       async refreshModel() {
         this.$store.commit('SET_CONFIRM', {
-          title: '同步算法模型',
+          title: this.$root.$t('operate.sync_c', this.$t('tip.ai_model')),
           content: {
-            text: `同步算法模型 ${this.$route.params.name}`,
+            text: `${this.$root.$t('operate.sync_c', this.$t('tip.ai_model'))} ${this.$route.params.name}`,
             type: 'confirm',
           },
           param: {},

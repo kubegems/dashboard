@@ -353,7 +353,7 @@
       toggleOnlineModels(online = true) {
         if (!Object.values(this.m_table_batchResources).some((c) => c.checked)) {
           this.$store.commit('SET_SNACKBAR', {
-            text: `请勾选算法模型`,
+            text: this.$t('tip.model_select'),
             color: 'warning',
           });
           return;

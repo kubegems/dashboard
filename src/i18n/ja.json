@@ -499,7 +499,12 @@
     "file_upload": "<span class=\"filepond--label-action\">クリックしてファイルをアップロードしてください</span>",
     "dest_dir": "ターゲット パス",
     "path_tip": "パスが間違っていますか? pwd コマンドを使用して絶対パスを取得してください",
-    "download_tip": "指定したファイルをダブルクリックしてダウンロードします。パスが間違っています。pwd コマンドを実行して絶対パスを解決してください"
+    "download_tip": "指定したファイルをダブルクリックしてダウンロードします。パスが間違っています。pwd コマンドを実行して絶対パスを解決してください",
+
+    "label_tap_to_retry": "リトライ",
+    "label_tap_to_cancel": "アップロードを停止",
+    "label_file_processing_complete": "アップロード完了",
+    "label_file_processing": "アップロード中"
   },
   "tab": {
     "overview": "概要",

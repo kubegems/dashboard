@@ -28,7 +28,7 @@
           </v-list-item-content>
         </v-list-item>
       </v-list-item-subtitle>
-      <v-list-item-subtitle class="text-body-2 py-0">
+      <v-list-item-subtitle v-if="item.at" class="text-body-2 py-0">
         <v-list-item class="float-left py-0 pl-0" :style="{ width: `500px` }" two-line>
           <v-list-item-content class="py-0">
             <v-list-item-title class="text-subtitle-2 py-1 primary--text"> {{ $t('tip.user_id') }} </v-list-item-title>

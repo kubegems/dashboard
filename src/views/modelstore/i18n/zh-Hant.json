@@ -59,7 +59,8 @@
     "total": "總共",
     "core": "核心",
     "experience": "模型體驗",
-    "not_support": "暫不支援"
+    "not_support": "暫不支援",
+    "configmap_name": "配置名稱"
   },
   "tab": {
     "description": "介紹",

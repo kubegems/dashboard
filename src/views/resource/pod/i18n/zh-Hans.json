@@ -31,9 +31,10 @@
     "last_change_at": "上次改变时间",
     "last_state": "最新状况",
     "exit_code": "退出码",
-    "reason": "原因",
-    "started_at": "开始时间",
-    "finished_at": "结束时间"
+    "reason": "退出原因",
+    "started_at": "上次启动时间",
+    "finished_at": "上次退出时间",
+    "last_start_at": "最近启动时间"
   },
   "operate": {
     "terminal": "终端",
