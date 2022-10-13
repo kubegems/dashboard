@@ -495,7 +495,8 @@
     "unknown_error": "未知錯誤",
     "start_end": "起止時間",
     "show": "顯示",
-    "hide": "摺疊"
+    "hide": "摺疊",
+    "need_login": "請登錄後訪問"
   },
   "tab": {
     "overview": "概覽",

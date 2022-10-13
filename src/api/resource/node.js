@@ -2,18 +2,20 @@ import axios from 'axios';
 
 import { getApiVersion } from '@/utils/helpers';
 
-const apiVersion = getApiVersion('node');
-
 // 节点列表
-export const getNodeList = (clusterName, query = {}) =>
+export const getNodeList = (clusterName, query = {}) => {
+  const apiVersion = getApiVersion('node');
   axios(`proxy/cluster/${clusterName}/${apiVersion}/nodes`, {
     params: query,
   });
+};
 // 节点详情
-export const getNodeDetail = (clusterName, name, query = {}) =>
+export const getNodeDetail = (clusterName, name, query = {}) => {
+  const apiVersion = getApiVersion('node');
   axios(`proxy/cluster/${clusterName}/${apiVersion}/nodes/${name}`, {
     params: query,
   });
+};
 // 节点资源分配
 export const getNodeResourceAllocated = (clusterName, name, query = {}) =>
   axios(`proxy/cluster/${clusterName}/custom/core/v1/nodes/${name}`, {

@@ -2,8 +2,6 @@ import axios from 'axios';
 
 import { getApiVersion } from '@/utils/helpers';
 
-const apiVersion = getApiVersion('persistentvolumeclaim');
-
 // 存储卷列表
 export const getPersistentVolumeClaimList = (clusterName, namespace, query = {}) =>
   axios(`proxy/cluster/${clusterName}/custom/core/v1/namespaces/${namespace}/pvcs`, {
@@ -15,14 +13,20 @@ export const getPersistentVolumeClaimDetail = (clusterName, namespace, name, que
     params: query,
   });
 // 添加存储卷
-export const postAddPersistentVolumeClaim = (clusterName, namespace, name, body = {}) =>
+export const postAddPersistentVolumeClaim = (clusterName, namespace, name, body = {}) => {
+  const apiVersion = getApiVersion('persistentvolumeclaim');
   axios.post(`proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/persistentvolumeclaims/${name}`, body);
+};
 // 更新存储卷
-export const patchUpdatePersistentVolumeClaim = (clusterName, namespace, name, body = {}) =>
+export const patchUpdatePersistentVolumeClaim = (clusterName, namespace, name, body = {}) => {
+  const apiVersion = getApiVersion('persistentvolumeclaim');
   axios.patch(
     `proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/persistentvolumeclaims/${name}`,
     body,
   );
+};
 // 删除存储卷
-export const deletePersistentVolumeClaim = (clusterName, namespace, name) =>
+export const deletePersistentVolumeClaim = (clusterName, namespace, name) => {
+  const apiVersion = getApiVersion('persistentvolumeclaim');
   axios.delete(`proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/persistentvolumeclaims/${name}`);
+};

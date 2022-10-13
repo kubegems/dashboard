@@ -495,7 +495,8 @@
     "unknown_error": "不明なエラー",
     "start_end": "有効時間",
     "show": "表示",
-    "hide": "折り畳む"
+    "hide": "折り畳む",
+    "need_login": "訪問するにはログインしてください"
   },
   "tab": {
     "overview": "概要",
