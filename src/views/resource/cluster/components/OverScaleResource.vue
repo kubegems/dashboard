@@ -281,16 +281,16 @@
       async clusterQuota() {
         const data = await getClusterQuota(this.item.ID);
         this.quota = {
-          Cpu: sizeOfCpu(data.resources.capacity['cpu']),
-          UsedCpu: sizeOfCpu(data.resources.used['cpu']),
-          AllocatedCpu: sizeOfCpu(data.resources.capacity['cpu']) * this.obj.OversoldConfig.cpu,
-          Memory: sizeOfStorage(data.resources.capacity['memory']),
-          UsedMemory: sizeOfStorage(data.resources.used['memory']),
-          AllocatedMemory: sizeOfStorage(data.resources.capacity['memory']) * this.obj.OversoldConfig.memory,
-          Storage: sizeOfStorage(data.resources.capacity['ephemeral-storage']),
-          UsedStorage: sizeOfStorage(data.resources.used['ephemeral-storage']),
+          Cpu: sizeOfCpu(data.resources.capacity['limits.cpu']),
+          UsedCpu: sizeOfCpu(data.resources.used['limits.cpu']),
+          AllocatedCpu: sizeOfCpu(data.resources.capacity['limits.cpu']) * this.obj.OversoldConfig.cpu,
+          Memory: sizeOfStorage(data.resources.capacity['limits.memory']),
+          UsedMemory: sizeOfStorage(data.resources.used['limits.memory']),
+          AllocatedMemory: sizeOfStorage(data.resources.capacity['limits.memory']) * this.obj.OversoldConfig.memory,
+          Storage: sizeOfStorage(data.resources.capacity['limits.ephemeral-storage']),
+          UsedStorage: sizeOfStorage(data.resources.used['limits.ephemeral-storage']),
           AllocatedStorage:
-            sizeOfStorage(data.resources.capacity['ephemeral-storage']) * this.obj.OversoldConfig.storage,
+            sizeOfStorage(data.resources.capacity['limits.ephemeral-storage']) * this.obj.OversoldConfig.storage,
         };
         this.overResource = {
           cpu: this.quota.Cpu * this.obj.OversoldConfig.cpu,

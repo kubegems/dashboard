@@ -32,12 +32,14 @@
         <div>
           <h5 class="text-size font-weight-regular">
             {{ $root.$t('resource.cpu_c', [$t('tip.physics')]) }}
-            {{ quota ? sizeOfCpu(quota.capacity.cpu).toFixed(1) : 0 }}
+            {{ quota ? sizeOfCpu(quota.capacity['limits.cpu']).toFixed(1) : 0 }}
             core (1:{{ cluster ? cluster.OversoldConfig.cpu : 1 }})
           </h5>
           <h5 class="text-size font-weight-regular">
             {{ $root.$t('resource.cpu_c', [$t('tip.virtual')]) }}
-            {{ quota && cluster ? (sizeOfCpu(quota.capacity.cpu) * cluster.OversoldConfig.cpu).toFixed(1) : 0 }}
+            {{
+              quota && cluster ? (sizeOfCpu(quota.capacity['limits.cpu']) * cluster.OversoldConfig.cpu).toFixed(1) : 0
+            }}
             core
           </h5>
         </div>
@@ -49,14 +51,16 @@
         <div>
           <h5 class="text-size font-weight-regular">
             {{ $root.$t('resource.storage_c', [$t('tip.physics')]) }}
-            {{ quota ? sizeOfStorage(quota.capacity['ephemeral-storage']).toFixed(1) : 0 }}
+            {{ quota ? sizeOfStorage(quota.capacity['limits.ephemeral-storage']).toFixed(1) : 0 }}
             Gi (1:{{ cluster ? cluster.OversoldConfig.storage : 1 }})
           </h5>
           <h5 class="text-size font-weight-regular">
             {{ $root.$t('resource.storage_c', [$t('tip.virtual')]) }}
             {{
               quota && cluster
-                ? (sizeOfStorage(quota.capacity['ephemeral-storage']) * cluster.OversoldConfig.storage).toFixed(1)
+                ? (sizeOfStorage(quota.capacity['limits.ephemeral-storage']) * cluster.OversoldConfig.storage).toFixed(
+                    1,
+                  )
                 : 0
             }}
             Gi
@@ -70,13 +74,15 @@
         <div>
           <h5 class="text-size font-weight-regular">
             {{ $root.$t('resource.memory_c', [$t('tip.physics')]) }}
-            {{ quota ? sizeOfStorage(quota.capacity.memory).toFixed(1) : 0 }}
+            {{ quota ? sizeOfStorage(quota.capacity['limits.memory']).toFixed(1) : 0 }}
             Gi (1:{{ cluster ? cluster.OversoldConfig.memory : 1 }})
           </h5>
           <h5 class="text-size font-weight-regular">
             {{ $root.$t('resource.memory_c', [$t('tip.virtual')]) }}
             {{
-              quota && cluster ? (sizeOfStorage(quota.capacity.memory) * cluster.OversoldConfig.memory).toFixed(1) : 0
+              quota && cluster
+                ? (sizeOfStorage(quota.capacity['limits.memory']) * cluster.OversoldConfig.memory).toFixed(1)
+                : 0
             }}
             Gi
           </h5>

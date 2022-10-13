@@ -49,7 +49,7 @@
               </v-avatar>
               <span>
                 {{ $t('tip.total', [$t('tip.physics')]) }}
-                {{ quota ? sizeOfCpu(quota.capacity.cpu).toFixed(1) : 0 }}
+                {{ quota ? sizeOfCpu(quota.capacity['limits.cpu']).toFixed(1) : 0 }}
                 core
               </span>
             </v-sheet>
@@ -101,7 +101,7 @@
               </v-avatar>
               <span>
                 {{ $t('tip.total', [$t('tip.physics')]) }}
-                {{ quota ? sizeOfStorage(quota.capacity.memory).toFixed(1) : 0 }}
+                {{ quota ? sizeOfStorage(quota.capacity['limits.memory']).toFixed(1) : 0 }}
                 Gi
               </span>
             </v-sheet>
@@ -143,7 +143,7 @@
               </v-avatar>
               <span>
                 {{ $t('tip.total', [$root.$t('resource.tenant')]) }}
-                {{ quota ? sizeOfStorage(quota.tenantAllocated['requests.storage']).toFixed(1) : 0 }}
+                {{ quota ? sizeOfStorage(quota.tenantAllocated['limits.storage']).toFixed(1) : 0 }}
                 Gi
               </span>
             </v-sheet>
@@ -153,7 +153,7 @@
               </v-avatar>
               <span>
                 {{ $t('tip.total', [$t('tip.physics')]) }}
-                {{ quota ? sizeOfStorage(quota.capacity['ephemeral-storage']).toFixed(1) : 0 }}
+                {{ quota ? sizeOfStorage(quota.capacity['limits.ephemeral-storage']).toFixed(1) : 0 }}
                 Gi
               </span>
             </v-sheet>
@@ -237,19 +237,19 @@
       ...mapGetters(['Cluster']),
       maxCpu() {
         return this.cluster
-          ? sizeOfCpu(this.quota.capacity.cpu) * this.cluster.OversoldConfig.cpu
-          : sizeOfCpu(this.quota.capacity.cpu);
+          ? sizeOfCpu(this.quota.capacity['limits.cpu']) * this.cluster.OversoldConfig.cpu
+          : sizeOfCpu(this.quota.capacity['limits.cpu']);
       },
       maxMemory() {
         return this.cluster
-          ? sizeOfStorage(this.quota.capacity.memory) * this.cluster.OversoldConfig.memory
-          : sizeOfStorage(this.quota.capacity.memory);
+          ? sizeOfStorage(this.quota.capacity['limits.memory']) * this.cluster.OversoldConfig.memory
+          : sizeOfStorage(this.quota.capacity['limits.memory']);
       },
       maxStorage() {
-        return sizeOfStorage(this.quota.capacity['ephemeral-storage']) >
-          sizeOfStorage(this.quota.tenantAllocated['requests.storage'])
-          ? sizeOfStorage(this.quota.capacity['ephemeral-storage'])
-          : sizeOfStorage(this.quota.tenantAllocated['requests.storage']);
+        return sizeOfStorage(this.quota.capacity['limits.ephemeral-storage']) >
+          sizeOfStorage(this.quota.tenantAllocated['limits.storage'])
+          ? sizeOfStorage(this.quota.capacity['limits.ephemeral-storage'])
+          : sizeOfStorage(this.quota.tenantAllocated['limits.storage']);
       },
       cpuSeries() {
         return this.quota
@@ -259,8 +259,8 @@
                 100 - (sizeOfCpu(this.quota.tenantAllocated['limits.cpu']) / this.maxCpu) * 100,
               ],
               [
-                (sizeOfCpu(this.quota.capacity.cpu) / this.maxCpu) * 100,
-                100 - (sizeOfCpu(this.quota.capacity.cpu) / this.maxCpu) * 100,
+                (sizeOfCpu(this.quota.capacity['limits.cpu']) / this.maxCpu) * 100,
+                100 - (sizeOfCpu(this.quota.capacity['limits.cpu']) / this.maxCpu) * 100,
               ],
               [100, 0],
             ]
@@ -279,8 +279,8 @@
                 100 - (sizeOfStorage(this.quota.tenantAllocated['limits.memory']) / this.maxMemory) * 100,
               ],
               [
-                (sizeOfStorage(this.quota.capacity.memory) / this.maxMemory) * 100,
-                100 - (sizeOfStorage(this.quota.capacity.memory) / this.maxMemory) * 100,
+                (sizeOfStorage(this.quota.capacity['limits.memory']) / this.maxMemory) * 100,
+                100 - (sizeOfStorage(this.quota.capacity['limits.memory']) / this.maxMemory) * 100,
               ],
               [100, 0],
             ]
@@ -295,12 +295,12 @@
         return this.quota
           ? [
               [
-                (sizeOfStorage(this.quota.tenantAllocated['requests.storage']) / this.maxStorage) * 100,
-                100 - (sizeOfStorage(this.quota.tenantAllocated['requests.storage']) / this.maxStorage) * 100,
+                (sizeOfStorage(this.quota.tenantAllocated['limits.storage']) / this.maxStorage) * 100,
+                100 - (sizeOfStorage(this.quota.tenantAllocated['limits.storage']) / this.maxStorage) * 100,
               ],
               [
-                (sizeOfStorage(this.quota.capacity['ephemeral-storage']) / this.maxStorage) * 100,
-                100 - (sizeOfStorage(this.quota.capacity['ephemeral-storage']) / this.maxStorage) * 100,
+                (sizeOfStorage(this.quota.capacity['limits.ephemeral-storage']) / this.maxStorage) * 100,
+                100 - (sizeOfStorage(this.quota.capacity['limits.ephemeral-storage']) / this.maxStorage) * 100,
               ],
             ]
           : [

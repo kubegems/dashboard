@@ -289,8 +289,8 @@
             e.Memory = e.quota.status.hard['limits.memory']
               ? parseFloat(sizeOfStorage(e.quota.status.hard['limits.memory']))
               : 0;
-            e.Storage = e.quota.status.hard['requests.storage']
-              ? parseFloat(sizeOfStorage(e.quota.status.hard['requests.storage']))
+            e.Storage = e.quota.status.hard['limits.storage']
+              ? parseFloat(sizeOfStorage(e.quota.status.hard['limits.storage']))
               : 0;
           } else {
             e.Cpu = 0;
@@ -304,8 +304,8 @@
             e.UsedMemory = e.quota.status.used['limits.memory']
               ? parseFloat(sizeOfStorage(e.quota.status.used['limits.memory']))
               : 0;
-            e.UsedStorage = e.quota.status.used['requests.storage']
-              ? parseFloat(sizeOfStorage(e.quota.status.used['requests.storage']))
+            e.UsedStorage = e.quota.status.used['limits.storage']
+              ? parseFloat(sizeOfStorage(e.quota.status.used['limits.storage']))
               : 0;
           } else {
             e.UsedCpu = 0;

@@ -75,11 +75,11 @@
           </v-col>
           <v-col cols="4">
             <BaseRadialBarChart
-              id="node_tke_gpu"
+              id="node_tke_memory"
               class="my-3"
               :extend-height="200"
               :metrics="gpuTkeMemorySeries"
-              :title="`Tke ${$root.$t('resource.vcuda-memory')}`"
+              :title="`Tke ${$root.$t('resource.video_memory')}`"
               :total="
                 totalRequests['tencent.com/vcuda-memory']
                   ? parseInt(item.status.capacity['tencent.com/vcuda-memory'])

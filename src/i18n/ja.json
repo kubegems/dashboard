@@ -504,7 +504,8 @@
     "label_tap_to_retry": "リトライ",
     "label_tap_to_cancel": "アップロードを停止",
     "label_file_processing_complete": "アップロード完了",
-    "label_file_processing": "アップロード中"
+    "label_file_processing": "アップロード中",
+    "label_file_processing_error": "アップロードに失敗しました"
   },
   "tab": {
     "overview": "概要",

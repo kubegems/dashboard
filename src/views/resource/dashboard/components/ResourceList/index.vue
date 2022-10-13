@@ -218,13 +218,13 @@
         const item = this.items[index];
         item.Cpu = parseFloat(sizeOfCpu(data.spec.hard['limits.cpu']));
         item.Memory = parseFloat(sizeOfStorage(data.spec.hard['limits.memory']));
-        item.Storage = parseFloat(sizeOfStorage(data.spec.hard[`requests.storage`]));
+        item.Storage = parseFloat(sizeOfStorage(data.spec.hard[`limits.storage`]));
         item.AllocatedCpu = parseFloat(sizeOfCpu(data.status.allocated ? data.status.allocated['limits.cpu'] : 0));
         item.AllocatedMemory = parseFloat(
           sizeOfStorage(data.status.allocated ? data.status.allocated['limits.memory'] : 0),
         );
         item.AllocatedStorage = parseFloat(
-          sizeOfStorage(data.status.allocated ? data.status.allocated[`requests.storage`] : 0),
+          sizeOfStorage(data.status.allocated ? data.status.allocated[`limits.storage`] : 0),
         );
         item.CpuPercentage = item.Cpu > 0 ? ((item.AllocatedCpu / item.Cpu) * 100).toFixed(1) : 0;
         item.MemoryPercentage = item.Memory > 0 ? ((item.AllocatedMemory / item.Memory) * 100).toFixed(1) : 0;
@@ -242,19 +242,19 @@
         if (
           Object.prototype.hasOwnProperty.call(
             data.spec.hard,
-            'tencent.com/vcuda-core' ||
-              Object.prototype.hasOwnProperty.call(data.spec.hard, 'tencent.com/vcuda-memory'),
+            'limits.tencent.com/vcuda-core' ||
+              Object.prototype.hasOwnProperty.call(data.spec.hard, 'limits.tencent.com/vcuda-memory'),
           )
         ) {
-          item.TkeGpu = parseFloat(data.spec.hard['tencent.com/vcuda-core']);
+          item.TkeGpu = parseFloat(data.spec.hard['limits.tencent.com/vcuda-core']);
           item.AllocatedTkeGpu = parseFloat(
-            (data.status.allocated && data.status.allocated['tencent.com/vcuda-core']) || 0,
+            (data.status.allocated && data.status.allocated['limits.tencent.com/vcuda-core']) || 0,
           );
           item.TkeGpuPercentage = item.TkeGpu > 0 ? ((item.AllocatedTkeGpu / item.TkeGpu) * 100).toFixed(1) : 0;
 
-          item.TkeMemory = parseFloat(data.spec.hard['tencent.com/vcuda-memory']);
+          item.TkeMemory = parseFloat(data.spec.hard['limits.tencent.com/vcuda-memory']);
           item.AllocatedTkeMemory = parseFloat(
-            (data.status.allocated && data.status.allocated['tencent.com/vcuda-memory']) || 0,
+            (data.status.allocated && data.status.allocated['limits.tencent.com/vcuda-memory']) || 0,
           );
           item.TkeMemoryPercentage =
             item.TkeMemory > 0 ? ((item.AllocatedTkeMemory / item.TkeMemory) * 100).toFixed(1) : 0;

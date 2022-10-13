@@ -42,14 +42,14 @@ const resource = {
         const item = {
           Cpu: parseFloat(sizeOfCpu(data.spec.hard['limits.cpu'])),
           Memory: parseFloat(sizeOfStorage(data.spec.hard['limits.memory'])),
-          Storage: parseFloat(sizeOfStorage(data.spec.hard[`requests.storage`])),
+          Storage: parseFloat(sizeOfStorage(data.spec.hard[`limits.storage`])),
           Pod: 5120,
           AllocatedCpu: parseFloat(sizeOfCpu(data.status.allocated ? data.status.allocated['limits.cpu'] : 0)),
           AllocatedMemory: parseFloat(
             sizeOfStorage(data.status.allocated ? data.status.allocated['limits.memory'] : 0),
           ),
           AllocatedStorage: parseFloat(
-            sizeOfStorage(data.status.allocated ? data.status.allocated[`requests.storage`] : 0),
+            sizeOfStorage(data.status.allocated ? data.status.allocated[`limits.storage`] : 0),
           ),
           AllocatedPod: 0,
           ApplyCpu:
@@ -59,8 +59,8 @@ const resource = {
             parseFloat(sizeOfStorage(data.spec.hard['limits.memory'])) -
             parseFloat(sizeOfStorage(data.status.allocated ? data.status.allocated['limits.memory'] : 0)),
           ApplyStorage:
-            parseFloat(sizeOfStorage(data.spec.hard[`requests.storage`])) -
-            parseFloat(sizeOfStorage(data.status.allocated ? data.status.allocated[`requests.storage`] : 0)),
+            parseFloat(sizeOfStorage(data.spec.hard[`limits.storage`])) -
+            parseFloat(sizeOfStorage(data.status.allocated ? data.status.allocated[`limits.storage`] : 0)),
           ApplyPod: 0,
         };
         if (data.spec.hard[`limits.nvidia.com/gpu`] && parseInt(data.spec.hard[`limits.nvidia.com/gpu`]) > 0) {
@@ -105,33 +105,37 @@ const resource = {
         quota.CpuRatio = data.oversoldConfig ? data.oversoldConfig.cpu : 1;
         quota.MemoryRatio = data.oversoldConfig ? data.oversoldConfig.memory : 1;
         quota.StorageRatio = data.oversoldConfig ? data.oversoldConfig.storage : 1;
-        quota.Cpu = parseFloat(sizeOfCpu(data.resources.capacity.cpu)) * quota.CpuRatio;
+        quota.Cpu = parseFloat(sizeOfCpu(data.resources.capacity['limits.cpu'])) * quota.CpuRatio;
         quota.UsedCpu = parseFloat(sizeOfCpu(data.resources.tenantAllocated['limits.cpu']));
         quota.AllocatedCpu = quota.Cpu - quota.UsedCpu + item.NowCpu;
-        quota.Memory = parseFloat(sizeOfStorage(data.resources.capacity.memory)) * quota.MemoryRatio;
+        quota.Memory = parseFloat(sizeOfStorage(data.resources.capacity['limits.memory'])) * quota.MemoryRatio;
         quota.UsedMemory = parseFloat(sizeOfStorage(data.resources.tenantAllocated['limits.memory']));
         quota.AllocatedMemory = quota.Memory - quota.UsedMemory + item.NowMemory;
-        quota.Storage = parseFloat(sizeOfStorage(data.resources.capacity['ephemeral-storage'])) * quota.StorageRatio;
-        quota.UsedStorage = parseFloat(sizeOfStorage(data.resources.tenantAllocated['requests.storage']));
+        quota.Storage =
+          parseFloat(sizeOfStorage(data.resources.capacity['limits.ephemeral-storage'])) * quota.StorageRatio;
+        quota.UsedStorage = parseFloat(sizeOfStorage(data.resources.tenantAllocated['limits.storage']));
         quota.AllocatedStorage = quota.Storage - quota.UsedStorage + item.NowStorage;
 
-        if (data.resources.capacity['nvidia.com/gpu'] && parseInt(data.resources.capacity[`nvidia.com/gpu`]) > 0) {
-          quota.NvidiaGpu = parseFloat(data.resources.capacity['nvidia.com/gpu']);
+        if (
+          data.resources.capacity['limits.nvidia.com/gpu'] &&
+          parseInt(data.resources.capacity[`limits.nvidia.com/gpu`]) > 0
+        ) {
+          quota.NvidiaGpu = parseFloat(data.resources.capacity['limits.nvidia.com/gpu']);
           quota.UsedNvidiaGpu = parseFloat(data.resources.tenantAllocated['limits.nvidia.com/gpu'] || 0);
           quota.AllocatedNvidiaGpu = quota.NvidiaGpu - quota.UsedNvidiaGpu + (item.NowNvidiaGpu || 0);
         }
 
         if (
-          (data.resources.capacity['tencent.com/vcuda-core'] &&
-            parseInt(data.resources.capacity[`tencent.com/vcuda-core`]) > 0) ||
-          (data.resources.capacity['tencent.com/vcuda-memory'] &&
-            parseInt(data.resources.capacity[`tencent.com/vcuda-memory`]) > 0)
+          (data.resources.capacity['limits.tencent.com/vcuda-core'] &&
+            parseInt(data.resources.capacity[`limits.tencent.com/vcuda-core`]) > 0) ||
+          (data.resources.capacity['limits.tencent.com/vcuda-memory'] &&
+            parseInt(data.resources.capacity[`limits.tencent.com/vcuda-memory`]) > 0)
         ) {
-          quota.TkeGpu = parseFloat(data.resources.capacity['tencent.com/vcuda-core']);
+          quota.TkeGpu = parseFloat(data.resources.capacity['limits.tencent.com/vcuda-core']);
           quota.UsedTkeGpu = parseFloat(data.resources.tenantAllocated['limits.tencent.com/vcuda-core'] || 0);
           quota.AllocatedTkeGpu = quota.TkeGpu - quota.UsedTkeGpu + (item.NowTkeGpu || 0);
 
-          quota.TkeMemory = parseFloat(data.resources.capacity['tencent.com/vcuda-memory']);
+          quota.TkeMemory = parseFloat(data.resources.capacity['limits.tencent.com/vcuda-memory']);
           quota.UsedTkeMemory = parseFloat(data.resources.tenantAllocated['limits.tencent.com/vcuda-memory'] || 0);
           quota.AllocatedTkeMemory = quota.TkeMemory - quota.UsedTkeMemory + (item.NowTkeMemory || 0);
         }

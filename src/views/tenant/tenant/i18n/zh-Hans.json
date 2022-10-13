@@ -64,7 +64,7 @@
       "resource_scale": "资源调整"
     },
     "form": {
-      "apply": "可用{0}",
+      "apply": "最大可用{0}",
       "limit_rule": "超出最大限制",
       "unit": "单位"
     },

@@ -305,7 +305,7 @@
               'limits.cpu': 0,
               'requests.memory': 0,
               'limits.memory': 0,
-              'requests.storage': 0,
+              'limits.storage': 0,
               'count/pods': 100,
             },
             LimitRange: {
@@ -404,6 +404,9 @@
             NowCpu: this.obj.statistics?.Cpu || 0,
             NowMemory: this.obj.statistics?.Memory || 0,
             NowStorage: this.obj.statistics?.Storage || 0,
+            NowNvidiaGpu: this.obj.statistics.NvidiaGpu,
+            NowTkeGpu: this.obj.statistics.TkeGpu,
+            NowTkeMemory: this.obj.statistics.TkeMemory,
           });
         }
       },

@@ -57,8 +57,10 @@
           :val="statistics ? parseInt(statistics.AllocatedPod) : 0"
         />
       </v-col>
+    </v-row>
 
-      <v-expand-transition>
+    <v-expand-transition>
+      <v-row>
         <v-col v-if="nvidia && showMore" class="py-0" cols="3">
           <BaseRadialBarChart
             class="my-3"
@@ -92,8 +94,8 @@
             />
           </v-col>
         </template>
-      </v-expand-transition>
-    </v-row>
+      </v-row>
+    </v-expand-transition>
 
     <div v-if="tke || nvidia" class="mb-2 text-center">
       <v-btn color="primary" small text @click="showMore = !showMore">

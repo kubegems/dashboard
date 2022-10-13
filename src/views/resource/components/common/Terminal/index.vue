@@ -19,14 +19,16 @@
     <template #header>
       <v-flex class="ml-2 text-h6 mt-n1">
         {{ item ? item.name : '' }}
-        <v-btn v-if="terminalType !== 'kubectl'" color="white" depressed icon @click="openOnBlankTab">
-          <v-icon color="white" small> mdi-open-in-new </v-icon>
-        </v-btn>
-        <span class="text-body-2 mx-2"> {{ $t('tip.now_path') }} : {{ dist }} </span>
-        <span class="text-caption">
-          <v-icon color="white" small> mdi-information-variant </v-icon>
-          {{ $root.$t('tip.download_tip') }}
-        </span>
+        <template v-if="terminalType !== 'kubectl'">
+          <v-btn color="white" depressed icon @click="openOnBlankTab">
+            <v-icon color="white" small> mdi-open-in-new </v-icon>
+          </v-btn>
+          <span class="text-body-2 mx-2"> {{ $t('tip.now_path') }} : {{ dist }} </span>
+          <span class="text-caption">
+            <v-icon color="white" small> mdi-information-variant </v-icon>
+            {{ $root.$t('tip.download_tip') }}
+          </span>
+        </template>
       </v-flex>
     </template>
     <template #action>
@@ -121,16 +123,18 @@
     // 回显
     const webSocketMessage = function (ev) {
       term.write(ev.data);
-      const reg = new RegExp('.*?(\\/[\\w\/]*)', 'g');
-      const matches = reg.exec(ev.data);
-      if (matches) {
-        _vue.dist = matches[1]
-          .replaceAll('#', '')
-          .replaceAll('$', '')
-          .replaceAll(' ', '')
-          .replaceAll('[6n', '')
-          .replaceAll('[00m', '')
-          .replaceAll('[J', '');
+      if (_vue.terminalType !== 'kubectl') {
+        const reg = new RegExp('.*?(\\/[\\w\/]*)', 'g');
+        const matches = reg.exec(ev.data);
+        if (matches) {
+          _vue.dist = matches[1]
+            .replaceAll('#', '')
+            .replaceAll('$', '')
+            .replaceAll(' ', '')
+            .replaceAll('[6n', '')
+            .replaceAll('[00m', '')
+            .replaceAll('[J', '');
+        }
       }
     };
     // 心跳
@@ -210,14 +214,16 @@
     methods: {
       open() {
         this.dialog = true;
-        this.$router.replace({
-          query: {
-            ...this.$route.query,
-            t_cluster: this.ThisCluster,
-            t_namespace: this.item.namespace,
-            t_pod: this.item.name,
-          },
-        });
+        if (this.terminalType !== 'kubectl') {
+          this.$router.replace({
+            query: {
+              ...this.$route.query,
+              t_cluster: this.ThisCluster,
+              t_namespace: this.item.namespace,
+              t_pod: this.item.name,
+            },
+          });
+        }
       },
       init(container, item, type) {
         this.terminalType = type;
@@ -246,10 +252,12 @@
         this.doClose();
         if (window.opener) window.close();
         if (this.$refs.uploader) this.$refs.uploader.reset();
-        await this.$router.replace({
-          params: this.$route.params,
-          query: { ...this.$route.query, t_cluster: null, t_namespace: null, t_pod: null },
-        });
+        if (this.terminalType !== 'kubectl') {
+          await this.$router.replace({
+            params: this.$route.params,
+            query: { ...this.$route.query, t_cluster: null, t_namespace: null, t_pod: null },
+          });
+        }
       },
       initWebSocket() {
         if (this.item && this.terminalType !== 'kubectl') {
@@ -388,6 +396,7 @@
         window.open(routeData.href, '_blank');
       },
       dbclick(e) {
+        if (this.terminalType === 'kubectl') return;
         if (this.term.hasSelection()) {
           const reg = RegExp('^[\\w-_\\.#]*(\\.[\\w-_\\.#]*)?$', 'g');
           const selection = this.term.getSelection().replaceAll(' ', '');
