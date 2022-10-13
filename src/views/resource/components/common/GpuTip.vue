@@ -57,7 +57,7 @@
                   <v-list-item-content class="py-0">
                     <v-list-item-title> {{ $root.$t('resource.video_memory') }} </v-list-item-title>
                     <v-list-item-content class="text-caption kubegems__text">
-                      {{ parseInt(item.TkeMemory || 0) / 100 }} Gi
+                      {{ parseInt(((item.TkeMemory || 0) * 256) / 1024) }} Gi
                       <div v-if="allocated">
                         {{ $t('tip.used') }} : {{ (parseInt(item.AllocatedTkeMemory || 0) * 256) / 1024 }} Gi ({{
                           item.TkeMemoryPercentage
