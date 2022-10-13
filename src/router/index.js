@@ -61,7 +61,7 @@ router.beforeEach(async (to, from, next) => {
   }
   if (to.meta.requireAuth && !store.state.JWT) {
     store.commit('SET_SNACKBAR', {
-      text: '请登录后访问',
+      text: Vue.prototype.$_i18n.t('tip.need_login'),
       color: 'warning',
     });
     next({ name: 'login', query: { redirect: to.fullPath } });

@@ -246,22 +246,22 @@
             NvidiaGpu: data.quota.status.hard['limits.nvidia.com/gpu']
               ? parseFloat(data.quota.status.hard['limits.nvidia.com/gpu'])
               : 0,
-            UsedNvidiaGpu: data.quota.status.used['limits.nvidia.com/gpu']
-              ? parseFloat(data.quota.status.used['limits.nvidia.com/gpu'])
+            UsedNvidiaGpu: data.quota.status.used['requests.nvidia.com/gpu']
+              ? parseFloat(data.quota.status.used['requests.nvidia.com/gpu'])
               : 0,
 
             TkeGpu: data.quota.status.hard['limits.tencent.com/vcuda-core']
               ? parseFloat(data.quota.status.hard['limits.tencent.com/vcuda-core'])
               : 0,
-            UsedTkeGpu: data.quota.status.used['limits.tencent.com/vcuda-core']
-              ? parseFloat(data.quota.status.used['limits.tencent.com/vcuda-core'])
+            UsedTkeGpu: data.quota.status.used['requests.tencent.com/vcuda-core']
+              ? parseFloat(data.quota.status.used['requests.tencent.com/vcuda-core'])
               : 0,
 
             TkeMemory: data.quota.status.hard['limits.tencent.com/vcuda-memory']
               ? parseFloat(data.quota.status.hard['limits.tencent.com/vcuda-memory'])
               : 0,
-            UsedTkeMemory: data.quota.status.used['limits.tencent.com/vcuda-memory']
-              ? parseFloat(data.quota.status.used['limits.tencent.com/vcuda-memory'])
+            UsedTkeMemory: data.quota.status.used['requests.tencent.com/vcuda-memory']
+              ? parseFloat(data.quota.status.used['requests.tencent.com/vcuda-memory'])
               : 0,
           };
           this.nvidia =

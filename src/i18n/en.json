@@ -519,7 +519,8 @@
     "unknown_error": "Unknown error",
     "start_end": "Start Time And End Time",
     "show": "Show",
-    "hide": "Hide"
+    "hide": "Hide",
+    "need_login": "Please login first"
   },
   "tab": {
     "overview": "Overview",

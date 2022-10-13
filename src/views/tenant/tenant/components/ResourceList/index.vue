@@ -191,13 +191,13 @@
           item.Storage = item.Content['limits.storage'] ? sizeOfStorage(item.Content['limits.storage']) : 0;
 
           if (item.Content['limits.nvidia.com/gpu']) {
-            item.NvidiaGpu = sizeOfStorage(item.Content['limits.nvidia.com/gpu']);
+            item.NvidiaGpu = parseFloat(item.Content['limits.nvidia.com/gpu']);
           }
           if (item.Content['limits.tencent.com/vcuda-core']) {
-            item.TkeGpu = parseInt(item.Content['limits.tencent.com/vcuda-core']);
+            item.TkeGpu = parseFloat(item.Content['limits.tencent.com/vcuda-core']);
           }
           if (item.Content['limits.tencent.com/vcuda-memory']) {
-            item.TkeMemory = parseInt(item.Content['limits.tencent.com/vcuda-memory']);
+            item.TkeMemory = parseFloat(item.Content['limits.tencent.com/vcuda-memory']);
           }
 
           this.allCpu += item.Cpu;
