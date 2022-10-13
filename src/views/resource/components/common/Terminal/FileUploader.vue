@@ -33,10 +33,10 @@
       <v-card-text class="pa-3">
         <div class="uploader__title mb-2"> {{ $root.$t('operate.upload') }} </div>
         <div class="uploader__title mb-2">
-          {{ $root.$t('tip.dest_dir') }} : {{ dist }}
+          {{ $t('tip.dest_dir') }} : {{ dist }}
           <div class="orange--text">
             <v-icon color="orange" small> mdi-information-variant </v-icon>
-            {{ $root.$t('tip.path_tip') }}
+            {{ $t('tip.path_tip') }}
           </div>
         </div>
         <FilePond
@@ -44,12 +44,12 @@
           allow-multiple="true"
           credits="false"
           :files="files"
-          :label-file-processing="$root.$t('tip.label_file_processing')"
-          :label-file-processing-complete="$root.$t('tip.label_file_processing_complete')"
-          :label-file-processing-error="$root.$t('tip.label_file_processing_error')"
-          :label-idle="$root.$t('tip.file_upload')"
-          :label-tap-to-cancel="$root.$t('tip.label_tap_to_cancel')"
-          :label-tap-to-retry="$root.$t('tip.label_tap_to_retry')"
+          :label-file-processing="$t('tip.label_file_processing')"
+          :label-file-processing-complete="$t('tip.label_file_processing_complete')"
+          :label-file-processing-error="$t('tip.label_file_processing_error')"
+          :label-idle="$t('tip.file_upload')"
+          :label-tap-to-cancel="$t('tip.label_tap_to_cancel')"
+          :label-tap-to-retry="$t('tip.label_tap_to_retry')"
           max-parallel-uploads="5"
           @init="onFilePondInit"
         />
@@ -63,6 +63,7 @@
   import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
   import vueFilePond, { setOptions } from 'vue-filepond';
 
+  import messages from '../../i18n';
   import store from '@/store';
   import { getQueryString } from '@/utils/helpers';
 
@@ -94,12 +95,7 @@
           if (request.status >= 200 && request.status < 300) {
             load(request.responseText);
           } else {
-            if (request.status >= 400 && request.status < 500) {
-              store.commit('SET_SNACKBAR', {
-                text: JSON.stringify(request),
-                color: 'error',
-              });
-            }
+            error('error');
           }
         };
 
@@ -117,7 +113,10 @@
   });
 
   export default {
-    name: 'BaseFileUploader',
+    name: 'FileUploader',
+    i18n: {
+      messages: messages,
+    },
     components: {
       FilePond,
     },

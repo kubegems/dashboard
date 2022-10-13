@@ -31,7 +31,7 @@
   import { mapState } from 'vuex';
 
   export default {
-    name: 'DownloadFile',
+    name: 'FileDownloader',
     props: {
       file: {
         type: String,
