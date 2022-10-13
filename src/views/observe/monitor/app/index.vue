@@ -297,7 +297,6 @@
         }
       },
       async appPerformanceDashboard(noprocess = false, tableRefresh = false) {
-        this.items = [];
         const data = await getAppPerformanceDashboard(this.cluster, this.env?.namespace, {
           service: this.service,
           ...this.params,

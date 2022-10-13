@@ -329,7 +329,6 @@
 <style lang="scss" scoped>
   .icon {
     &__pod {
-      margin-top: 3px;
       font-size: 18px !important;
     }
   }
