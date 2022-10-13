@@ -241,6 +241,9 @@
         handler(newValue) {
           if (newValue) {
             this.obj = deepCopy(newValue);
+            if (!this.obj.ResourceQuota['limits.storage']) {
+              this.obj.ResourceQuota['limits.storage'] = this.obj.ResourceQuota['requests.storage'];
+            }
             if (!this.obj.ResourceQuota['count/pods']) {
               this.obj.ResourceQuota['count/pods'] = 5120;
             }

@@ -113,6 +113,9 @@
         }
         if (this.item.TenantResourceQuotaApply && this.item.TenantResourceQuotaApply.Status === 'pending') {
           const data = await getTenantResourceApplyDetail(this.item.TenantID, this.item.TenantResourceQuotaApplyID);
+          if (!this.item.Content[`limits.storage`]) {
+            this.item.Content[`limits.storage`] = this.item.Content[`requests.storage`] || '0';
+          }
           content = {
             'limits.cpu': data.Content[`limits.cpu`],
             'limits.memory': data.Content[`limits.memory`].replaceAll('Gi', ''),

@@ -26,15 +26,15 @@
           <span class="text-body-2 mx-2"> {{ $t('tip.now_path') }} : {{ dist }} </span>
           <span class="text-caption">
             <v-icon color="white" small> mdi-information-variant </v-icon>
-            {{ $root.$t('tip.download_tip') }}
+            {{ $t('tip.download_tip') }}
           </span>
         </template>
       </v-flex>
     </template>
     <template #action>
       <v-sheet v-if="terminalType !== 'kubectl'" class="text-subtitle-2 primary white--text">
-        <BaseFileUploader ref="uploader" :dist="dist" />
-        <v-btn class="mx-2" color="white" icon text @click="restartContainer">
+        <FileUploader ref="uploader" :dist="dist" />
+        <v-btn class="mx-2" color="white" icon text @click="refreshContainer">
           <v-icon>mdi-refresh</v-icon>
         </v-btn>
         {{ $root.$t('resource.container') }}
@@ -88,7 +88,7 @@
     </template>
     <template #content>
       <div id="terminal" :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`" @dblclick="dbclick" />
-      <DownloadFile :file="file" :left="left" :top="top" />
+      <FileDownloader :file="file" :left="left" :top="top" />
     </template>
   </BaseFullScreenDialog>
 </template>
@@ -101,7 +101,8 @@
   import { WebLinksAddon } from 'xterm-addon-web-links';
 
   import messages from '../../i18n';
-  import DownloadFile from './DownloadFile';
+  import FileDownloader from './FileDownloader';
+  import FileUploader from './FileUploader';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 
@@ -173,7 +174,8 @@
       messages: messages,
     },
     components: {
-      DownloadFile,
+      FileDownloader,
+      FileUploader,
     },
     mixins: [BaseResource],
     data() {
@@ -240,11 +242,11 @@
           this.initWebSocket();
         }
       },
-      restartContainer() {
-        this.dispose();
+      refreshContainer() {
+        this.dispose(false);
         this.initWebSocket();
       },
-      async dispose() {
+      async dispose(clearQuery = true) {
         if (this.websock && this.websock.readyState === 1) {
           this.websock.send(JSON.stringify({ type: 'close' }));
         }
@@ -252,7 +254,7 @@
         this.doClose();
         if (window.opener) window.close();
         if (this.$refs.uploader) this.$refs.uploader.reset();
-        if (this.terminalType !== 'kubectl') {
+        if (this.terminalType !== 'kubectl' && clearQuery) {
           await this.$router.replace({
             params: this.$route.params,
             query: { ...this.$route.query, t_cluster: null, t_namespace: null, t_pod: null },

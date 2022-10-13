@@ -218,6 +218,9 @@
         const item = this.items[index];
         item.Cpu = parseFloat(sizeOfCpu(data.spec.hard['limits.cpu']));
         item.Memory = parseFloat(sizeOfStorage(data.spec.hard['limits.memory']));
+        if (!data.spec.hard[`limits.storage`]) {
+          data.spec.hard[`limits.storage`] = data.spec.hard[`requests.storage`] || 0;
+        }
         item.Storage = parseFloat(sizeOfStorage(data.spec.hard[`limits.storage`]));
         item.AllocatedCpu = parseFloat(sizeOfCpu(data.status.allocated ? data.status.allocated['limits.cpu'] : 0));
         item.AllocatedMemory = parseFloat(

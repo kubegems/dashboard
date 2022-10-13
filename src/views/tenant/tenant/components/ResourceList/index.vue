@@ -185,6 +185,9 @@
         data.List.forEach((item) => {
           item.Cpu = item.Content['limits.cpu'] ? sizeOfCpu(item.Content['limits.cpu']) : 0;
           item.Memory = item.Content['limits.memory'] ? sizeOfStorage(item.Content['limits.memory']) : 0;
+          if (!item.Content['limits.storage']) {
+            item.Content['limits.storage'] = item.Content['requests.storage'] || 0;
+          }
           item.Storage = item.Content['limits.storage'] ? sizeOfStorage(item.Content['limits.storage']) : 0;
 
           if (item.Content['limits.nvidia.com/gpu']) {
