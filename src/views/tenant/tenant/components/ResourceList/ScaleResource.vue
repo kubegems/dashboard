@@ -111,6 +111,7 @@
         if (item.TkeMemory) {
           content['limits.tencent.com/vcuda-memory'] = item.TkeMemory;
         }
+
         this.$refs.resource.setContent(content);
       },
       reset() {
