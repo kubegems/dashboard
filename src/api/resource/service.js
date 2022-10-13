@@ -5,29 +5,29 @@ import { getApiVersion } from '@/utils/helpers';
 // 服务列表
 export const getServiceList = (clusterName, namespace, query = {}) => {
   const apiVersion = getApiVersion('service');
-  axios(`proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/services`, {
+  return axios(`proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/services`, {
     params: query,
   });
 };
 // 服务详情
 export const getServiceDetail = (clusterName, namespace, name, query = {}) => {
   const apiVersion = getApiVersion('service');
-  axios(`proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/services/${name}`, {
+  return axios(`proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/services/${name}`, {
     params: query,
   });
 };
 // 添加服务
 export const postAddService = (clusterName, namespace, name, body = {}) => {
   const apiVersion = getApiVersion('service');
-  axios.post(`proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/services/${name}`, body);
+  return axios.post(`proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/services/${name}`, body);
 };
 // 更新服务
 export const patchUpdateService = (clusterName, namespace, name, body = {}) => {
   const apiVersion = getApiVersion('service');
-  axios.patch(`proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/services/${name}`, body);
+  return axios.patch(`proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/services/${name}`, body);
 };
 // 删除服务
 export const deleteService = (clusterName, namespace, name) => {
   const apiVersion = getApiVersion('service');
-  axios.delete(`proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/services/${name}`);
+  return axios.delete(`proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/services/${name}`);
 };

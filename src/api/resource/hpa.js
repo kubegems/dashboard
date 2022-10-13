@@ -13,5 +13,7 @@ export const postSetHpa = (clusterName, namespace, body = {}) =>
 // 删除hpa
 export const deleteHpa = (clusterName, namespace, name) => {
   const apiVersion = getApiVersion('horizontalpodautoscaler', 'autoscaling/v2beta2');
-  axios.delete(`proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/horizontalpodautoscaler/${name}`);
+  return axios.delete(
+    `proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/horizontalpodautoscaler/${name}`,
+  );
 };

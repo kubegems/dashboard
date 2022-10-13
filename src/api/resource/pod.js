@@ -11,12 +11,12 @@ export const getPodList = (clusterName, namespace, query = {}) =>
 // 容器组详情
 export const getPodDetail = (clusterName, namespace, name, query = {}) => {
   const apiVersion = getApiVersion('pod');
-  axios(`proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/pods/${name}`, {
+  return axios(`proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/pods/${name}`, {
     params: query,
   });
 };
 // 删除容器组
 export const deletePod = (clusterName, namespace, name) => {
   const apiVersion = getApiVersion('pod');
-  axios.delete(`proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/pods/${name}`);
+  return axios.delete(`proxy/cluster/${clusterName}/${apiVersion}/namespaces/${namespace}/pods/${name}`);
 };

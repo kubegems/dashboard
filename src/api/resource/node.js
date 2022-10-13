@@ -5,14 +5,14 @@ import { getApiVersion } from '@/utils/helpers';
 // 节点列表
 export const getNodeList = (clusterName, query = {}) => {
   const apiVersion = getApiVersion('node');
-  axios(`proxy/cluster/${clusterName}/${apiVersion}/nodes`, {
+  return axios(`proxy/cluster/${clusterName}/${apiVersion}/nodes`, {
     params: query,
   });
 };
 // 节点详情
 export const getNodeDetail = (clusterName, name, query = {}) => {
   const apiVersion = getApiVersion('node');
-  axios(`proxy/cluster/${clusterName}/${apiVersion}/nodes/${name}`, {
+  return axios(`proxy/cluster/${clusterName}/${apiVersion}/nodes/${name}`, {
     params: query,
   });
 };
