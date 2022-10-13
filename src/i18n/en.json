@@ -528,7 +528,8 @@
     "label_tap_to_retry": "tap to retry",
     "label_tap_to_cancel": "tap to cancel",
     "label_file_processing_complete": "upload complete",
-    "label_file_processing": "uploading"
+    "label_file_processing": "uploading",
+    "label_file_processing_error": "error during upload"
   },
   "tab": {
     "overview": "Overview",

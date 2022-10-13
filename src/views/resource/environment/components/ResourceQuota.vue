@@ -63,8 +63,10 @@
             :val="quota ? quota.UsedPod : 0"
           />
         </v-col>
+      </v-row>
 
-        <v-expand-transition>
+      <v-expand-transition>
+        <v-row>
           <v-col v-if="nvidia && showMore" class="py-0" cols="3">
             <BaseRadialBarChart
               id="env_nvidia_gpu"
@@ -100,8 +102,8 @@
               />
             </v-col>
           </template>
-        </v-expand-transition>
-      </v-row>
+        </v-row>
+      </v-expand-transition>
 
       <div v-if="tke || nvidia" class="text-center">
         <v-btn color="primary" small text @click="showMore = !showMore">

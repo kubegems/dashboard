@@ -262,7 +262,7 @@
       },
       async loadData() {
         this.clearInterval();
-        this.appPerformanceDashboard();
+        this.appPerformanceDashboard(false, true);
         this.timeinterval = setInterval(() => {
           this.params.start = this.$moment(this.params.start).utc().add(30, 'seconds').format();
           this.params.end = this.$moment(this.params.end).utc().add(30, 'seconds').format();
@@ -296,7 +296,7 @@
           this.$set(this.items, index, item);
         }
       },
-      async appPerformanceDashboard(noprocess = false) {
+      async appPerformanceDashboard(noprocess = false, tableRefresh = false) {
         this.items = [];
         const data = await getAppPerformanceDashboard(this.cluster, this.env?.namespace, {
           service: this.service,
@@ -327,18 +327,19 @@
             data.requestRate[0].metric['name'] = 'Request Rate';
             this.requestRate = data.requestRate;
           }
+          if (tableRefresh) {
+            data.operationlatencyP95.forEach((d) => {
+              this.setTableValue(d, 'latency');
+            });
 
-          data.operationlatencyP95.forEach((d) => {
-            this.setTableValue(d, 'latency');
-          });
+            data.operationRequestRate.forEach((d) => {
+              this.setTableValue(d, 'requestRate');
+            });
 
-          data.operationRequestRate.forEach((d) => {
-            this.setTableValue(d, 'requestRate');
-          });
-
-          data.operationErrorRate.forEach((d) => {
-            this.setTableValue(d, 'errorRate');
-          });
+            data.operationErrorRate.forEach((d) => {
+              this.setTableValue(d, 'errorRate');
+            });
+          }
         }
       },
       toTrace(item) {

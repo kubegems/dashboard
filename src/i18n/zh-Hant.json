@@ -504,7 +504,8 @@
     "label_tap_to_retry": "重試",
     "label_tap_to_cancel": "停止上傳",
     "label_file_processing_complete": "上傳完成",
-    "label_file_processing": "上傳中"
+    "label_file_processing": "上傳中",
+    "label_file_processing_error": "上傳失敗"
   },
   "tab": {
     "overview": "概覽",

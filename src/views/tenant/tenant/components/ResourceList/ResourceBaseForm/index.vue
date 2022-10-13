@@ -113,7 +113,7 @@
                 </span>
               </v-flex>
               <v-text-field
-                v-model="obj.Content[`requests.storage`]"
+                v-model="obj.Content[`limits.storage`]"
                 class="my-0"
                 :label="
                   edit
@@ -186,7 +186,7 @@
                     </span>
                   </v-flex>
                   <v-text-field
-                    v-model="obj.Content['tencent.com/vcuda-core']"
+                    v-model="obj.Content['limits.tencent.com/vcuda-core']"
                     class="my-0"
                     :label="
                       edit
@@ -199,7 +199,7 @@
                   >
                     <template #append>
                       <span class="text-body-2 kubegems__text">
-                        {{ parseInt(obj.Content['tencent.com/vcuda-core'] || 0) / 100 }} Gpu
+                        {{ parseInt(obj.Content['limits.tencent.com/vcuda-core'] || 0) / 100 }} Gpu
                       </span>
                     </template>
                   </v-text-field>
@@ -216,7 +216,7 @@
                     </span>
                   </v-flex>
                   <v-text-field
-                    v-model="obj.Content[`tencent.com/vcuda-memory`]"
+                    v-model="obj.Content[`limits.tencent.com/vcuda-memory`]"
                     class="my-0"
                     :label="
                       edit
@@ -229,7 +229,7 @@
                   >
                     <template #append>
                       <span class="text-body-2 kubegems__text">
-                        {{ (parseInt(obj.Content['tencent.com/vcuda-memory'] || 0) * 256) / 1024 }}Gi
+                        {{ (parseInt(obj.Content['limits.tencent.com/vcuda-memory'] || 0) * 256) / 1024 }}Gi
                       </span>
                     </template>
                   </v-text-field>
@@ -284,7 +284,7 @@
           Content: {
             'limits.cpu': '',
             'limits.memory': '',
-            'requests.storage': '',
+            'limits.storage': '',
           },
         },
       };
@@ -355,8 +355,8 @@
       tke: {
         handler(newValue) {
           if (newValue && !this.edit) {
-            this.obj.Content['tencent.com/vcuda-core'] = '';
-            this.obj.Content['tencent.com/vcuda-memory'] = '';
+            this.obj.Content['limits.tencent.com/vcuda-core'] = '';
+            this.obj.Content['limits.tencent.com/vcuda-memory'] = '';
           }
         },
         deep: true,
@@ -373,8 +373,8 @@
             delete data.Content['limits.nvidia.com/gpu'];
           }
           if (this.tke) {
-            delete data.Content['tencent.com/vcuda-core'];
-            delete data.Content['tencent.com/vcuda-memory'];
+            delete data.Content['limits.tencent.com/vcuda-core'];
+            delete data.Content['limits.tencent.com/vcuda-memory'];
           }
         }
         return data;

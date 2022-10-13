@@ -46,6 +46,7 @@
           :files="files"
           :label-file-processing="$root.$t('tip.label_file_processing')"
           :label-file-processing-complete="$root.$t('tip.label_file_processing_complete')"
+          :label-file-processing-error="$root.$t('tip.label_file_processing_error')"
           :label-idle="$root.$t('tip.file_upload')"
           :label-tap-to-cancel="$root.$t('tip.label_tap_to_cancel')"
           :label-tap-to-retry="$root.$t('tip.label_tap_to_retry')"
@@ -93,7 +94,12 @@
           if (request.status >= 200 && request.status < 300) {
             load(request.responseText);
           } else {
-            error('oh no');
+            if (request.status >= 400 && request.status < 500) {
+              store.commit('SET_SNACKBAR', {
+                text: JSON.stringify(request),
+                color: 'error',
+              });
+            }
           }
         };
 

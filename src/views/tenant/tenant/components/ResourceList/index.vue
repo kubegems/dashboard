@@ -185,16 +185,16 @@
         data.List.forEach((item) => {
           item.Cpu = item.Content['limits.cpu'] ? sizeOfCpu(item.Content['limits.cpu']) : 0;
           item.Memory = item.Content['limits.memory'] ? sizeOfStorage(item.Content['limits.memory']) : 0;
-          item.Storage = item.Content['requests.storage'] ? sizeOfStorage(item.Content['requests.storage']) : 0;
+          item.Storage = item.Content['limits.storage'] ? sizeOfStorage(item.Content['limits.storage']) : 0;
 
           if (item.Content['limits.nvidia.com/gpu']) {
             item.NvidiaGpu = sizeOfStorage(item.Content['limits.nvidia.com/gpu']);
           }
-          if (item.Content['tencent.com/vcuda-core']) {
-            item.TkeGpu = parseInt(item.Content['tencent.com/vcuda-core']);
+          if (item.Content['limits.tencent.com/vcuda-core']) {
+            item.TkeGpu = parseInt(item.Content['limits.tencent.com/vcuda-core']);
           }
-          if (item.Content['tencent.com/vcuda-memory']) {
-            item.TkeMemory = parseInt(item.Content['tencent.com/vcuda-memory']);
+          if (item.Content['limits.tencent.com/vcuda-memory']) {
+            item.TkeMemory = parseInt(item.Content['limits.tencent.com/vcuda-memory']);
           }
 
           this.allCpu += item.Cpu;

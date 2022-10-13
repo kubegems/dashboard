@@ -67,10 +67,16 @@
               :metrics="gpuTkeSeries"
               :title="`Tke ${$root.$t('resource.gpu')}`"
               :total="
-                totalRequests['tencent.com/vcuda-core'] ? parseInt(item.status.capacity['tencent.com/vcuda-core']) : 0
+                totalRequests['limits.tencent.com/vcuda-core']
+                  ? parseInt(item.status.capacity['limits.tencent.com/vcuda-core'])
+                  : 0
               "
               unit=""
-              :val="totalRequests['tencent.com/vcuda-core'] ? parseFloat(totalRequests['tencent.com/vcuda-core']) : 0"
+              :val="
+                totalRequests['limits.tencent.com/vcuda-core']
+                  ? parseFloat(totalRequests['limits.tencent.com/vcuda-core'])
+                  : 0
+              "
             />
           </v-col>
           <v-col cols="4">
@@ -81,13 +87,15 @@
               :metrics="gpuTkeMemorySeries"
               :title="`Tke ${$root.$t('resource.vcuda-memory')}`"
               :total="
-                totalRequests['tencent.com/vcuda-memory']
-                  ? parseInt(item.status.capacity['tencent.com/vcuda-memory'])
+                totalRequests['limits.tencent.com/vcuda-memory']
+                  ? parseInt(item.status.capacity['limits.tencent.com/vcuda-memory'])
                   : 0
               "
               unit=""
               :val="
-                totalRequests['tencent.com/vcuda-memory'] ? parseFloat(totalRequests['tencent.com/vcuda-memory']) : 0
+                totalRequests['limits.tencent.com/vcuda-memory']
+                  ? parseFloat(totalRequests['limits.tencent.com/vcuda-memory'])
+                  : 0
               "
             />
           </v-col>
@@ -101,9 +109,11 @@
               :extend-height="200"
               :metrics="gpuNvidiaSeries"
               :title="`Nvidia ${$root.$t('resource.gpu')}`"
-              :total="totalRequests['nvidia.com/gpu'] ? parseInt(item.status.capacity['nvidia.com/gpu']) : 0"
+              :total="
+                totalRequests['limits.nvidia.com/gpu'] ? parseInt(item.status.capacity['limits.nvidia.com/gpu']) : 0
+              "
               unit=""
-              :val="totalRequests['nvidia.com/gpu'] ? parseFloat(totalRequests['nvidia.com/gpu']) : 0"
+              :val="totalRequests['limits.nvidia.com/gpu'] ? parseFloat(totalRequests['limits.nvidia.com/gpu']) : 0"
             />
           </v-col>
         </v-row>
@@ -329,19 +339,20 @@
       },
 
       gpuTkeSeries() {
-        return this.totalRequests['tencent.com/vcuda-core'] && this.item.status.capacity['tencent.com/vcuda-core']
+        return this.totalRequests['limits.tencent.com/vcuda-core'] &&
+          this.item.status.capacity['limits.tencent.com/vcuda-core']
           ? [
               [
-                parseInt(this.item.status.capacity['tencent.com/vcuda-core']) === 0
+                parseInt(this.item.status.capacity['limits.tencent.com/vcuda-core']) === 0
                   ? 0
-                  : (parseInt(this.totalRequests['tencent.com/vcuda-core']) /
-                      parseInt(this.item.status.capacity['tencent.com/vcuda-core'])) *
+                  : (parseInt(this.totalRequests['limits.tencent.com/vcuda-core']) /
+                      parseInt(this.item.status.capacity['limits.tencent.com/vcuda-core'])) *
                     100,
                 100 -
-                  (parseInt(this.item.status.capacity['tencent.com/vcuda-core']) === 0
+                  (parseInt(this.item.status.capacity['limits.tencent.com/vcuda-core']) === 0
                     ? 0
-                    : (parseInt(this.totalRequests['tencent.com/vcuda-core']) /
-                        parseInt(this.item.status.capacity['tencent.com/vcuda-core'])) *
+                    : (parseInt(this.totalRequests['limits.tencent.com/vcuda-core']) /
+                        parseInt(this.item.status.capacity['limits.tencent.com/vcuda-core'])) *
                       100),
               ],
             ]
@@ -349,17 +360,19 @@
       },
 
       gpuNvidiaSeries() {
-        return this.totalRequests['nvidia.com/gpu'] && this.totalLimits['nvidia.com/gpu']
+        return this.totalRequests['limits.nvidia.com/gpu'] && this.totalLimits['limits.nvidia.com/gpu']
           ? [
               [
-                parseInt(this.totalLimits['nvidia.com/gpu']) === 0
+                parseInt(this.totalLimits['limits.nvidia.com/gpu']) === 0
                   ? 0
-                  : (parseInt(this.totalRequests['nvidia.com/gpu']) / parseInt(this.totalLimits['nvidia.com/gpu'])) *
+                  : (parseInt(this.totalRequests['limits.nvidia.com/gpu']) /
+                      parseInt(this.totalLimits['limits.nvidia.com/gpu'])) *
                     100,
                 100 -
-                  (parseInt(this.totalLimits['nvidia.com/gpu']) === 0
+                  (parseInt(this.totalLimits['limits.nvidia.com/gpu']) === 0
                     ? 0
-                    : (parseInt(this.totalRequests['nvidia.com/gpu']) / parseInt(this.totalLimits['nvidia.com/gpu'])) *
+                    : (parseInt(this.totalRequests['limits.nvidia.com/gpu']) /
+                        parseInt(this.totalLimits['limits.nvidia.com/gpu'])) *
                       100),
               ],
             ]
@@ -367,19 +380,20 @@
       },
 
       gpuTkeMemorySeries() {
-        return this.totalRequests['tencent.com/vcuda-memory'] && this.item.status.capacity['tencent.com/vcuda-memory']
+        return this.totalRequests['limits.tencent.com/vcuda-memory'] &&
+          this.item.status.capacity['limits.tencent.com/vcuda-memory']
           ? [
               [
-                parseInt(this.item.status.capacity['tencent.com/vcuda-memory']) === 0
+                parseInt(this.item.status.capacity['limits.tencent.com/vcuda-memory']) === 0
                   ? 0
-                  : (parseInt(this.totalRequests['tencent.com/vcuda-memory']) /
-                      parseInt(this.item.status.capacity['tencent.com/vcuda-memory'])) *
+                  : (parseInt(this.totalRequests['limits.tencent.com/vcuda-memory']) /
+                      parseInt(this.item.status.capacity['limits.tencent.com/vcuda-memory'])) *
                     100,
                 100 -
-                  (parseInt(this.item.status.capacity['tencent.com/vcuda-memory']) === 0
+                  (parseInt(this.item.status.capacity['limits.tencent.com/vcuda-memory']) === 0
                     ? 0
-                    : (parseInt(this.totalRequests['tencent.com/vcuda-memory']) /
-                        parseInt(this.item.status.capacity['tencent.com/vcuda-memory'])) *
+                    : (parseInt(this.totalRequests['limits.tencent.com/vcuda-memory']) /
+                        parseInt(this.item.status.capacity['limits.tencent.com/vcuda-memory'])) *
                       100),
               ],
             ]

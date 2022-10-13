@@ -84,7 +84,7 @@
           const obj = this.$refs.resource.getData();
           data.Content['limits.cpu'] = `${obj.Content['limits.cpu']}`;
           data.Content['limits.memory'] = `${obj.Content['limits.memory']}Gi`;
-          data.Content[`requests.storage`] = `${obj.Content[`requests.storage`]}Gi`;
+          data.Content[`limits.storage`] = `${obj.Content[`limits.storage`]}Gi`;
           await postApprovePass(this.item.ID, data);
           this.passLoading = false;
           this.reset();
@@ -105,30 +105,31 @@
         });
         this.item.NowCpu = parseFloat(sizeOfCpu(data.spec.hard['limits.cpu']));
         this.item.NowMemory = parseFloat(sizeOfStorage(data.spec.hard['limits.memory']));
-        this.item.NowStorage = parseFloat(sizeOfStorage(data.spec.hard[`requests.storage`]));
-        if (item.NvidiaGpu) {
-          this.item.NowNvidiaGpu = data.spec.hard['limits.nvidia.com/gpu'];
+        this.item.NowStorage = parseFloat(sizeOfStorage(data.spec.hard[`limits.storage`]));
+        if (item.Content[`limits.nvidia.com/gpu`]) {
+          this.item.NowNvidiaGpu = parseFloat(data.spec.hard['limits.nvidia.com/gpu']);
         }
-        if (item.TkeGpu) {
-          this.item.NowTkeGpu = data.spec.hard['tencent.com/vcuda-core'];
+        if (item.Content[`limits.tencent.com/vcuda-core`]) {
+          this.item.NowTkeGpu = parseFloat(data.spec.hard['limits.tencent.com/vcuda-core']);
         }
-        if (item.TkeMemory) {
-          this.item.NowTkeMemory = data.spec.hard['tencent.com/vcuda-memory'];
+        if (item.Content[`limits.tencent.com/vcuda-memory`]) {
+          this.item.NowTkeMemory = parseFloat(data.spec.hard['limits.tencent.com/vcuda-memory']);
         }
         this.quota = await this.m_resource_clusterQuota(this.item.ClusterID, this.item);
         const content = {
           'limits.cpu': this.item.Content[`limits.cpu`],
           'limits.memory': this.item.Content[`limits.memory`].replaceAll('Gi', ''),
-          'requests.storage': this.item.Content[`requests.storage`].replaceAll('Gi', ''),
+          'limits.storage': this.item.Content[`limits.storage`].replaceAll('Gi', ''),
         };
-        if (item.NvidiaGpu) {
+
+        if (this.item.NowNvidiaGpu) {
           content['limits.nvidia.com/gpu'] = this.item.Content[`limits.nvidia.com/gpu`];
         }
-        if (item.TkeGpu) {
-          content['tencent.com/vcuda-core'] = this.item.Content[`tencent.com/vcuda-core`];
+        if (this.item.NowTkeGpu) {
+          content['limits.tencent.com/vcuda-core'] = this.item.Content[`limits.tencent.com/vcuda-core`];
         }
-        if (item.TkeMemory) {
-          content['tencent.com/vcuda-memory'] = this.item.Content[`tencent.com/vcuda-memory`];
+        if (this.item.NowTkeMemory) {
+          content['limits.tencent.com/vcuda-memory'] = this.item.Content[`limits.tencent.com/vcuda-memory`];
         }
         this.$refs.resource.setContent(content);
       },

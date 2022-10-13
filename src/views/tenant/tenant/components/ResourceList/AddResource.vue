@@ -86,7 +86,7 @@
             return;
           }
           data.Content['limits.memory'] = `${data.Content['limits.memory']}Gi`;
-          data.Content[`requests.storage`] = `${data.Content[`requests.storage`]}Gi`;
+          data.Content[`limits.storage`] = `${data.Content[`limits.storage`]}Gi`;
           data.TenantID = this.item.ID;
           await postAddTenantResourceQuota(this.item.ID, data);
           this.reset();

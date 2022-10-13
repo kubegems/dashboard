@@ -120,7 +120,7 @@
                           {{ $root.$t('resource.cpu') }} : {{ data.Content['limits.cpu'] }},
                           {{ $root.$t('resource.memory') }} : {{ data.Content['limits.memory'] }},
                           {{ $root.$t('resource.storage') }} :
-                          {{ data.Content['requests.storage'] }}
+                          {{ data.Content['limits.storage'] }}
                         </span>
                       </span>
                       <small class="text--secondary" :style="getStatusColor(data)">

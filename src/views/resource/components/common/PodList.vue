@@ -37,7 +37,7 @@
                 item &&
                 item.spec.resources &&
                 item.spec.resources.limits &&
-                item.spec.resources.limits['tencent.com/vcuda-core']
+                item.spec.resources.limits['limits.tencent.com/vcuda-core']
               "
               class="float-left ml-2"
             >

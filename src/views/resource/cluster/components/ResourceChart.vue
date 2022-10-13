@@ -143,7 +143,7 @@
               </v-avatar>
               <span>
                 {{ $t('tip.total', [$root.$t('resource.tenant')]) }}
-                {{ quota ? sizeOfStorage(quota.tenantAllocated['requests.storage']).toFixed(1) : 0 }}
+                {{ quota ? sizeOfStorage(quota.tenantAllocated['limits.storage']).toFixed(1) : 0 }}
                 Gi
               </span>
             </v-sheet>
@@ -153,7 +153,7 @@
               </v-avatar>
               <span>
                 {{ $t('tip.total', [$t('tip.physics')]) }}
-                {{ quota ? sizeOfStorage(quota.capacity['ephemeral-storage']).toFixed(1) : 0 }}
+                {{ quota ? sizeOfStorage(quota.capacity['limits.ephemeral-storage']).toFixed(1) : 0 }}
                 Gi
               </span>
             </v-sheet>
@@ -246,10 +246,10 @@
           : sizeOfStorage(this.quota.capacity.memory);
       },
       maxStorage() {
-        return sizeOfStorage(this.quota.capacity['ephemeral-storage']) >
-          sizeOfStorage(this.quota.tenantAllocated['requests.storage'])
-          ? sizeOfStorage(this.quota.capacity['ephemeral-storage'])
-          : sizeOfStorage(this.quota.tenantAllocated['requests.storage']);
+        return sizeOfStorage(this.quota.capacity['limits.ephemeral-storage']) >
+          sizeOfStorage(this.quota.tenantAllocated['limits.storage'])
+          ? sizeOfStorage(this.quota.capacity['limits.ephemeral-storage'])
+          : sizeOfStorage(this.quota.tenantAllocated['limits.storage']);
       },
       cpuSeries() {
         return this.quota
@@ -295,12 +295,12 @@
         return this.quota
           ? [
               [
-                (sizeOfStorage(this.quota.tenantAllocated['requests.storage']) / this.maxStorage) * 100,
-                100 - (sizeOfStorage(this.quota.tenantAllocated['requests.storage']) / this.maxStorage) * 100,
+                (sizeOfStorage(this.quota.tenantAllocated['limits.storage']) / this.maxStorage) * 100,
+                100 - (sizeOfStorage(this.quota.tenantAllocated['limits.storage']) / this.maxStorage) * 100,
               ],
               [
-                (sizeOfStorage(this.quota.capacity['ephemeral-storage']) / this.maxStorage) * 100,
-                100 - (sizeOfStorage(this.quota.capacity['ephemeral-storage']) / this.maxStorage) * 100,
+                (sizeOfStorage(this.quota.capacity['limits.ephemeral-storage']) / this.maxStorage) * 100,
+                100 - (sizeOfStorage(this.quota.capacity['limits.ephemeral-storage']) / this.maxStorage) * 100,
               ],
             ]
           : [

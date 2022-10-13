@@ -138,6 +138,8 @@
           project: '',
           environment: '',
           version: '',
+          projectId: 0,
+          environmentId: 0,
         },
         pluginsPass: false,
       };
@@ -214,6 +216,8 @@
         if (env) {
           this.obj.cluster = env.clusterName;
           this.obj.namespace = env.namespace;
+          this.obj.projectId = env.projectid;
+          this.obj.environmentId = env.value;
           const missingPlugins = await this.m_permission_plugin_pass(env.clusterName, []);
           if (missingPlugins?.length === 0) {
             this.pluginsPass = true;
