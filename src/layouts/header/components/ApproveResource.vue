@@ -105,6 +105,9 @@
         });
         this.item.NowCpu = parseFloat(sizeOfCpu(data.spec.hard['limits.cpu']));
         this.item.NowMemory = parseFloat(sizeOfStorage(data.spec.hard['limits.memory']));
+        if (!data.spec.hard[`limits.storage`]) {
+          data.spec.hard[`limits.storage`] = data.spec.hard[`requests.storage`] || 0;
+        }
         this.item.NowStorage = parseFloat(sizeOfStorage(data.spec.hard[`limits.storage`]));
         if (item.Content[`limits.nvidia.com/gpu`]) {
           this.item.NowNvidiaGpu = parseFloat(data.spec.hard['limits.nvidia.com/gpu']);
@@ -116,6 +119,9 @@
           this.item.NowTkeMemory = parseFloat(data.spec.hard['limits.tencent.com/vcuda-memory']);
         }
         this.quota = await this.m_resource_clusterQuota(this.item.ClusterID, this.item);
+        if (!this.item.Content[`limits.storage`]) {
+          this.item.Content[`limits.storage`] = this.item.Content[`requests.storage`] || '0';
+        }
         const content = {
           'limits.cpu': this.item.Content[`limits.cpu`],
           'limits.memory': this.item.Content[`limits.memory`].replaceAll('Gi', ''),
