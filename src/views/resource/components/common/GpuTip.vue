@@ -32,7 +32,7 @@
         </span>
       </template>
       <v-card flat>
-        <v-flex class="text-body-2 text-center primary white--text py-2 font-weight-medium">
+        <v-flex class="text-body-2 text-center primary white--text pa-2 font-weight-medium">
           <v-icon color="white" left small> mdi-memory </v-icon>
           <span>{{ type === 'tke' ? 'Tencent Vcuda' : 'Nvidia Gpu' }}</span>
         </v-flex>
@@ -74,7 +74,7 @@
                     <v-list-item-content class="text-caption kubegems__text">
                       {{ parseInt(item.NvidiaGpu || 0) }} Gpu
                       <div v-if="allocated">
-                        {{ $t('tip.used') }} : {{ parseInt(item.AllocatedNvidiaGpu || 0) / 100 }} Gpu ({{
+                        {{ $t('tip.used') }} : {{ parseInt(item.AllocatedNvidiaGpu || 0) }} Gpu ({{
                           item.NvidiaGpuPercentage
                         }}%)
                       </div>
