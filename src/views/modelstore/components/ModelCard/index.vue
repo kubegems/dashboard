@@ -19,7 +19,7 @@
       <v-col v-for="(item, index) in items" :key="index" class="pt-0" cols="3">
         <v-hover #default="{ hover }">
           <v-card class="mx-auto card__pos" :elevation="hover ? 5 : 0" flat height="100%">
-            <v-list-item three-line>
+            <v-list-item class="mb-5" three-line>
               <v-list-item-avatar size="80" tile>
                 <BaseLogo icon-name="ai-model" :ml="0" :width="60" />
               </v-list-item-avatar>
@@ -48,7 +48,7 @@
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <v-card-actions class="pl-4 pr-2 py-0 mb-2">
+            <v-card-actions class="pl-4 pr-2 py-0 mb-2" :style="{ position: 'absolute', bottom: '0', width: '100%' }">
               <div>
                 <v-rating
                   background-color="orange lighten-3"
