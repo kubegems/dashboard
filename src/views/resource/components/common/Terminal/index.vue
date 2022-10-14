@@ -207,7 +207,7 @@
         return parseInt((window.innerWidth / (20 / this.getRate())) * 2.5);
       },
       height() {
-        return window.innerHeight - 64 * this.Scale - 1;
+        return window.innerHeight - parseInt(64 * this.Scale) - 1;
       },
     },
     destroyed() {
