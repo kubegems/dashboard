@@ -33,7 +33,7 @@
     "file_upload": "<span class=\"filepond--label-action\">请点击上传文件</span>",
     "dest_dir": "目标路径",
     "path_tip": "路径不对? 请使用 pwd 命令获取绝对路径",
-    "download_tip": "双击指定文件可进行下载，路径不对，请先执行pwd命令解析绝对路径",
+    "download_tip": "双击或选中指定文件可进行下载，路径不对，请先执行pwd命令解析绝对路径",
     "label_tap_to_retry": "重试",
     "label_tap_to_cancel": "停止上传",
     "label_file_processing_complete": "上传完成",

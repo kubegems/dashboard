@@ -87,7 +87,12 @@
       </v-sheet>
     </template>
     <template #content>
-      <div id="terminal" :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`" @dblclick="dbclick" />
+      <div
+        id="terminal"
+        :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
+        @click="click"
+        @dblclick="dbclick"
+      />
       <FileDownloader :container="container" :file="file" :left="left" :top="top" />
     </template>
   </BaseFullScreenDialog>
@@ -352,6 +357,10 @@
         const xtermScreen = document.querySelector('.xterm-screen');
         xtermScreen.style.height = `${this.height}px`;
 
+        term.onSelectionChange(() => {
+          this.doDownload(null);
+        });
+
         var msg = JSON.stringify({
           type: 'resize',
           rows: this.rows,
@@ -398,14 +407,24 @@
         window.open(routeData.href, '_blank');
       },
       dbclick(e) {
+        this.doDownload(e);
+      },
+      click(e) {
+        this.doDownload(e, false);
+      },
+      doDownload(e, setFile = true) {
         if (this.terminalType === 'kubectl') return;
         if (this.term.hasSelection()) {
-          const reg = RegExp('^[\\w-_\\.#]*(\\.[\\w-_\\.#]*)?$', 'g');
+          const reg = RegExp('^[\\w- _\\.#\\(\\)\\u4e00-\\u9fa5]*(\\.[\\w-_\\.#]*)?$', 'g');
           const selection = this.term.getSelection().replaceAll(' ', '');
           if (selection && reg.exec(selection)) {
-            this.top = e.clientY / this.Scale;
-            this.left = e.clientX / this.Scale;
-            this.file = `${this.dist}/${selection}`;
+            if (e) {
+              this.top = e.clientY / this.Scale;
+              this.left = e.clientX / this.Scale;
+            }
+            if (setFile) {
+              this.file = `${this.dist}/${selection}`;
+            }
           }
         }
       },

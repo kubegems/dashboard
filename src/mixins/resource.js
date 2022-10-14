@@ -39,6 +39,12 @@ const resource = {
         noprocessing: true,
       });
       if (data.spec.hard) {
+        if (!data.spec.hard[`limits.storage`]) {
+          data.spec.hard[`limits.storage`] = data.spec.hard[`requests.storage`];
+        }
+        if (!data.status.allocated[`limits.storage`]) {
+          data.status.allocated[`limits.storage`] = data.status.allocated[`requests.storage`];
+        }
         const item = {
           Cpu: parseFloat(sizeOfCpu(data.spec.hard['limits.cpu'])),
           Memory: parseFloat(sizeOfStorage(data.spec.hard['limits.memory'])),

@@ -33,7 +33,7 @@
     "file_upload": "<span class=\"filepond--label-action\">Click to upload file</span>",
     "dest_dir": "Dest Dir",
     "path_tip": "The path is wrong? Please use the pwd command to get the absolute path",
-    "download_tip": "Double-click the specified file to download, the path is wrong, please execute the pwd command to resolve the absolute path",
+    "download_tip": "Double-click or select the specified file to download, the path is wrong, please execute the pwd command to resolve the absolute path",
     "label_tap_to_retry": "tap to retry",
     "label_tap_to_cancel": "tap to cancel",
     "label_file_processing_complete": "upload complete",
