@@ -496,7 +496,8 @@
     "start_end": "起止時間",
     "show": "顯示",
     "hide": "摺疊",
-    "need_login": "請登錄後訪問"
+    "need_login": "請登錄後訪問",
+    "gpu_allocated": "Gpu分配"
   },
   "tab": {
     "overview": "概覽",

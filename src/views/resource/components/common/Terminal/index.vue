@@ -33,7 +33,7 @@
     </template>
     <template #action>
       <v-sheet v-if="terminalType !== 'kubectl'" class="text-subtitle-2 primary white--text">
-        <FileUploader ref="uploader" :dist="dist" />
+        <FileUploader ref="uploader" :container="container" :dist="dist" />
         <v-btn class="mx-2" color="white" icon text @click="refreshContainer">
           <v-icon>mdi-refresh</v-icon>
         </v-btn>
@@ -88,7 +88,7 @@
     </template>
     <template #content>
       <div id="terminal" :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`" @dblclick="dbclick" />
-      <FileDownloader :file="file" :left="left" :top="top" />
+      <FileDownloader :container="container" :file="file" :left="left" :top="top" />
     </template>
   </BaseFullScreenDialog>
 </template>
@@ -204,7 +204,7 @@
         return parseInt((window.innerHeight - 64 * this.Scale - 10) / (18.5 * this.getRate()) - 2);
       },
       cols() {
-        return parseInt(window.innerWidth / (20 / this.getRate())) * 2.5;
+        return parseInt((window.innerWidth / (20 / this.getRate())) * 2.5);
       },
       height() {
         return window.innerHeight - 64 * this.Scale - 1;

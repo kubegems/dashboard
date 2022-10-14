@@ -520,7 +520,8 @@
     "start_end": "Start Time And End Time",
     "show": "Show",
     "hide": "Hide",
-    "need_login": "Please login first"
+    "need_login": "Please login first",
+    "gpu_allocated": "GPU allocation"
   },
   "tab": {
     "overview": "Overview",
