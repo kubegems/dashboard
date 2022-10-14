@@ -242,10 +242,18 @@
           t.Memory = 0;
           t.Storage = 0;
           t.ResourceQuotas.forEach((r) => {
+            if (!r.Content['limits.storage']) {
+              r.Content['limits.storage'] = r.Content['requests.storage'];
+            }
+
             t.Cpu += sizeOfCpu(r.Content['limits.cpu']);
             t.Memory += sizeOfStorage(r.Content['limits.memory']);
             t.Storage += sizeOfStorage(r.Content['limits.storage']);
           });
+
+          if (!t.AllocatedResourcequota['limits.storage']) {
+            t.AllocatedResourcequota['limits.storage'] = t.AllocatedResourcequota['requests.storage'];
+          }
 
           t.AllocatedCpu = t.AllocatedResourcequota ? sizeOfCpu(t.AllocatedResourcequota['requests.cpu']) : 0;
           t.AllocatedMemory = t.AllocatedResourcequota ? sizeOfStorage(t.AllocatedResourcequota['requests.memory']) : 0;
