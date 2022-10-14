@@ -150,9 +150,9 @@
               <v-sheet class="px-2">
                 <v-flex class="text-subtitle-1">
                   nvidia {{ $t('resource.form.apply', [$root.$t('resource.gpu')]) }}
-                  <span class="text-subtitle-2 primary--text">
+                  <div class="text-subtitle-2 primary--text">
                     {{ quota ? quota.AllocatedNvidiaGpu.toFixed(1) : 0 }} Gpu
-                  </span>
+                  </div>
                 </v-flex>
                 <v-text-field
                   v-model="obj.Content['limits.nvidia.com/gpu']"
@@ -179,11 +179,11 @@
                 <v-sheet class="px-2">
                   <v-flex class="text-subtitle-1">
                     tke {{ $t('resource.form.apply', [$root.$t('resource.gpu')]) }}
-                    <span class="text-subtitle-2 primary--text">
+                    <div class="text-subtitle-2 primary--text">
                       {{ quota ? quota.AllocatedTkeGpu.toFixed(1) : 0 }} {{ $t('resource.form.unit') }} (1{{
                         $t('resource.form.unit')
                       }}=0.01 Gpu)
-                    </span>
+                    </div>
                   </v-flex>
                   <v-text-field
                     v-model="obj.Content['limits.tencent.com/vcuda-core']"
@@ -209,11 +209,11 @@
                 <v-sheet class="px-2">
                   <v-flex class="text-subtitle-1">
                     tke {{ $t('resource.form.apply', [$root.$t('resource.video_memory')]) }}
-                    <span class="text-subtitle-2 primary--text">
+                    <div class="text-subtitle-2 primary--text">
                       {{ quota ? quota.AllocatedTkeMemory.toFixed(1) : 0 }} {{ $t('resource.form.unit') }} (1{{
                         $t('resource.form.unit')
                       }}=256Mi)
-                    </span>
+                    </div>
                   </v-flex>
                   <v-text-field
                     v-model="obj.Content[`limits.tencent.com/vcuda-memory`]"
