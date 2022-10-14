@@ -163,9 +163,9 @@
       },
       async refreshModel() {
         this.$store.commit('SET_CONFIRM', {
-          title: this.$root.$t('operate.sync_c', this.$t('tip.ai_model')),
+          title: this.$root.$t('operate.refresh'),
           content: {
-            text: `${this.$root.$t('operate.sync_c', this.$t('tip.ai_model'))} ${this.$route.params.name}`,
+            text: `${this.$root.$t('operate.refresh')} ${this.$route.params.name}`,
             type: 'confirm',
           },
           param: {},

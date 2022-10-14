@@ -114,7 +114,7 @@
   import ScaleResource from './ScaleResource';
   import { getTenantResourceQuota, getTenantResourceQuotaList } from '@/api';
   import BasePermission from '@/mixins/permission';
-  import { sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
+  import { sizeOfCpu, sizeOfStorage, sizeOfTke } from '@/utils/helpers';
   import GpuTip from '@/views/resource/components/common/GpuTip';
 
   export default {
@@ -246,15 +246,15 @@
               Object.prototype.hasOwnProperty.call(data.spec.hard, 'limits.tencent.com/vcuda-memory'),
           )
         ) {
-          item.TkeGpu = parseFloat(data.spec.hard['limits.tencent.com/vcuda-core']);
+          item.TkeGpu = parseFloat(sizeOfTke(data.spec.hard['limits.tencent.com/vcuda-core']));
           item.AllocatedTkeGpu = parseFloat(
-            (data.status.allocated && data.status.allocated['limits.tencent.com/vcuda-core']) || 0,
+            sizeOfTke((data.status.allocated && data.status.allocated['limits.tencent.com/vcuda-core']) || 0),
           );
           item.TkeGpuPercentage = item.TkeGpu > 0 ? ((item.AllocatedTkeGpu / item.TkeGpu) * 100).toFixed(1) : 0;
 
-          item.TkeMemory = parseFloat(data.spec.hard['limits.tencent.com/vcuda-memory']);
+          item.TkeMemory = parseFloat(sizeOfTke(data.spec.hard['limits.tencent.com/vcuda-memory']));
           item.AllocatedTkeMemory = parseFloat(
-            (data.status.allocated && data.status.allocated['limits.tencent.com/vcuda-memory']) || 0,
+            sizeOfTke((data.status.allocated && data.status.allocated['limits.tencent.com/vcuda-memory']) || 0),
           );
           item.TkeMemoryPercentage =
             item.TkeMemory > 0 ? ((item.AllocatedTkeMemory / item.TkeMemory) * 100).toFixed(1) : 0;
