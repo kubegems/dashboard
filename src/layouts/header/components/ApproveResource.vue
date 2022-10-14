@@ -85,6 +85,17 @@
           data.Content['limits.cpu'] = `${obj.Content['limits.cpu']}`;
           data.Content['limits.memory'] = `${obj.Content['limits.memory']}Gi`;
           data.Content[`limits.storage`] = `${obj.Content[`limits.storage`]}Gi`;
+
+          if (obj.Content['limits.nvidia.com/gpu']) {
+            data.Content['limits.nvidia.com/gpu'] = obj.Content[`limits.nvidia.com/gpu`];
+          }
+          if (obj.Content['limits.tencent.com/vcuda-core']) {
+            data.Content['limits.tencent.com/vcuda-core'] = obj.Content[`limits.tencent.com/vcuda-core`];
+          }
+          if (obj.Content['limits.tencent.com/vcuda-memory']) {
+            data.Content['limits.tencent.com/vcuda-memory'] = obj.Content[`limits.tencent.com/vcuda-memory`];
+          }
+
           await postApprovePass(this.item.ID, data);
           this.passLoading = false;
           this.reset();
