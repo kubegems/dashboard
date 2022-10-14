@@ -33,7 +33,7 @@
     "file_upload": "<span class=\"filepond--label-action\">請點擊上傳文件</span>",
     "dest_dir": "目標路徑",
     "path_tip": "路徑不對? 請使用 pwd 命令獲取絕對路徑",
-    "download_tip": "雙擊指定文件可進行下載，路徑不對，請先執行pwd命令解析絕對路徑",
+    "download_tip": "雙擊或選中指定文件可進行下載，路徑不對，請先執行pwd命令解析絕對路徑",
     "label_tap_to_retry": "重試",
     "label_tap_to_cancel": "停止上傳",
     "label_file_processing_complete": "上傳完成",

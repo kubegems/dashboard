@@ -2,7 +2,7 @@ import Ajv from 'ajv';
 import { mapGetters, mapState } from 'vuex';
 
 import { getClusterQuota, getTenantResourceQuota } from '@/api';
-import { sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
+import { sizeOfCpu, sizeOfStorage, sizeOfTke } from '@/utils/helpers';
 
 const resource = {
   computed: {
@@ -39,6 +39,12 @@ const resource = {
         noprocessing: true,
       });
       if (data.spec.hard) {
+        if (!data.spec.hard[`limits.storage`]) {
+          data.spec.hard[`limits.storage`] = data.spec.hard[`requests.storage`];
+        }
+        if (!data.status.allocated[`limits.storage`]) {
+          data.status.allocated[`limits.storage`] = data.status.allocated[`requests.storage`];
+        }
         const item = {
           Cpu: parseFloat(sizeOfCpu(data.spec.hard['limits.cpu'])),
           Memory: parseFloat(sizeOfStorage(data.spec.hard['limits.memory'])),
@@ -78,21 +84,21 @@ const resource = {
           (data.spec.hard[`limits.tencent.com/vcuda-memory`] &&
             parseInt(data.spec.hard[`limits.tencent.com/vcuda-memory`]) > 0)
         ) {
-          item.TkeGpu = parseFloat(data.spec.hard['limits.tencent.com/vcuda-core']);
+          item.TkeGpu = parseFloat(sizeOfTke(data.spec.hard['limits.tencent.com/vcuda-core']));
           item.AllocatedTkeGpu = parseFloat(
-            data.status.allocated ? data.status.allocated['limits.tencent.com/vcuda-core'] : 0,
+            sizeOfTke(data.status.allocated ? data.status.allocated['limits.tencent.com/vcuda-core'] : 0),
           );
           item.ApplyTkeGpu =
-            parseFloat(data.spec.hard['limits.tencent.com/vcuda-core']) -
-            parseFloat(data.status.allocated ? data.status.allocated['limits.tencent.com/vcuda-core'] : 0);
+            parseFloat(sizeOfTke(data.spec.hard['limits.tencent.com/vcuda-core'])) -
+            parseFloat(sizeOfTke(data.status.allocated ? data.status.allocated['limits.tencent.com/vcuda-core'] : 0));
 
-          item.TkeMemory = parseFloat(data.spec.hard['limits.tencent.com/vcuda-memory']);
+          item.TkeMemory = parseFloat(sizeOfTke(data.spec.hard['limits.tencent.com/vcuda-memory']));
           item.AllocatedTkeMemory = parseFloat(
-            data.status.allocated ? data.status.allocated['limits.tencent.com/vcuda-memory'] : 0,
+            sizeOfTke(data.status.allocated ? data.status.allocated['limits.tencent.com/vcuda-memory'] : 0),
           );
           item.ApplyTkeMemory =
-            parseFloat(data.spec.hard['limits.tencent.com/vcuda-memory']) -
-            parseFloat(data.status.allocated ? data.status.allocated['limits.tencent.com/vcuda-memory'] : 0);
+            parseFloat(sizeOfTke(data.spec.hard['limits.tencent.com/vcuda-memory'])) -
+            parseFloat(sizeOfTke(data.status.allocated ? data.status.allocated['limits.tencent.com/vcuda-memory'] : 0));
         }
         return item;
       }
@@ -131,12 +137,16 @@ const resource = {
           (data.resources.capacity['limits.tencent.com/vcuda-memory'] &&
             parseInt(data.resources.capacity[`limits.tencent.com/vcuda-memory`]) > 0)
         ) {
-          quota.TkeGpu = parseFloat(data.resources.capacity['limits.tencent.com/vcuda-core']);
-          quota.UsedTkeGpu = parseFloat(data.resources.tenantAllocated['limits.tencent.com/vcuda-core'] || 0);
+          quota.TkeGpu = parseFloat(sizeOfTke(data.resources.capacity['limits.tencent.com/vcuda-core']));
+          quota.UsedTkeGpu = parseFloat(
+            sizeOfTke(data.resources.tenantAllocated['limits.tencent.com/vcuda-core'] || 0),
+          );
           quota.AllocatedTkeGpu = quota.TkeGpu - quota.UsedTkeGpu + (item.NowTkeGpu || 0);
 
-          quota.TkeMemory = parseFloat(data.resources.capacity['limits.tencent.com/vcuda-memory']);
-          quota.UsedTkeMemory = parseFloat(data.resources.tenantAllocated['limits.tencent.com/vcuda-memory'] || 0);
+          quota.TkeMemory = parseFloat(sizeOfTke(data.resources.capacity['limits.tencent.com/vcuda-memory']));
+          quota.UsedTkeMemory = parseFloat(
+            sizeOfTke(data.resources.tenantAllocated['limits.tencent.com/vcuda-memory'] || 0),
+          );
           quota.AllocatedTkeMemory = quota.TkeMemory - quota.UsedTkeMemory + (item.NowTkeMemory || 0);
         }
         return quota;

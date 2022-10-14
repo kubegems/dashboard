@@ -120,7 +120,7 @@
   import messages from '../i18n';
   import { getEnvironmentQuota } from '@/api';
   import BaseResource from '@/mixins/resource';
-  import { sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
+  import { sizeOfCpu, sizeOfStorage, sizeOfTke } from '@/utils/helpers';
 
   export default {
     name: 'ResourceQuota',
@@ -251,17 +251,17 @@
               : 0,
 
             TkeGpu: data.quota.status.hard['limits.tencent.com/vcuda-core']
-              ? parseFloat(data.quota.status.hard['limits.tencent.com/vcuda-core'])
+              ? parseFloat(sizeOfTke(data.quota.status.hard['limits.tencent.com/vcuda-core']))
               : 0,
             UsedTkeGpu: data.quota.status.used['requests.tencent.com/vcuda-core']
-              ? parseFloat(data.quota.status.used['requests.tencent.com/vcuda-core'])
+              ? parseFloat(sizeOfTke(data.quota.status.used['requests.tencent.com/vcuda-core']))
               : 0,
 
             TkeMemory: data.quota.status.hard['limits.tencent.com/vcuda-memory']
-              ? parseFloat(data.quota.status.hard['limits.tencent.com/vcuda-memory'])
+              ? parseFloat(sizeOfTke(data.quota.status.hard['limits.tencent.com/vcuda-memory']))
               : 0,
             UsedTkeMemory: data.quota.status.used['requests.tencent.com/vcuda-memory']
-              ? parseFloat(data.quota.status.used['requests.tencent.com/vcuda-memory'])
+              ? parseFloat(sizeOfTke(data.quota.status.used['requests.tencent.com/vcuda-memory']))
               : 0,
           };
           this.nvidia =
