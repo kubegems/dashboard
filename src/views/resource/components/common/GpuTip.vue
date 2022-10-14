@@ -28,18 +28,25 @@
     >
       <template #activator="{ on }">
         <span class="kubegems__pointer" v-on="on">
-          <BaseLogo :icon-name="type" />
+          <v-icon color="primary" left :style="{ fontSize: '20px', marginTop: '-2px' }"> mdi-alpha-g-circle </v-icon>
         </span>
       </template>
       <v-card flat>
         <v-flex class="text-body-2 text-center primary white--text pa-2 font-weight-medium">
           <v-icon color="white" left small> mdi-memory </v-icon>
-          <span>{{ type === 'tke' ? 'Tencent Vcuda' : 'Nvidia Gpu' }}</span>
+          <span>{{ $root.$t('tip.gpu_allocated') }}</span>
         </v-flex>
+
+        <v-tabs v-model="tab" class="v-tabs--default" fixed-tabs height="30">
+          <v-tab v-for="item in tabItems" :key="item.value">
+            {{ item.text }}
+          </v-tab>
+        </v-tabs>
+
         <v-list class="pa-0 kubegems__tip" dense>
           <v-list-item>
             <v-list-item-content>
-              <template v-if="type === 'tke'">
+              <template v-if="tab === 0">
                 <v-list-item class="float-left pa-0" two-line>
                   <v-list-item-content class="py-0">
                     <v-list-item-title> {{ $root.$t('resource.gpu') }} </v-list-item-title>
@@ -67,7 +74,7 @@
                   </v-list-item-content>
                 </v-list-item>
               </template>
-              <template v-if="type === 'nvidia'">
+              <template v-if="tab === 1">
                 <v-list-item class="float-left pa-0" two-line>
                   <v-list-item-content class="py-0">
                     <v-list-item-title> {{ $root.$t('resource.gpu') }} </v-list-item-title>
@@ -107,10 +114,15 @@
         type: Object,
         default: () => {},
       },
-      type: {
-        type: String,
-        default: () => 'tke',
-      },
+    },
+    data() {
+      return {
+        tab: 0,
+        tabItems: [
+          { text: 'Tke', value: 'tke' },
+          { text: 'Nvidia', value: 'nvidia' },
+        ],
+      };
     },
   };
 </script>

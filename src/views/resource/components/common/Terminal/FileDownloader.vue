@@ -33,6 +33,10 @@
   export default {
     name: 'FileDownloader',
     props: {
+      container: {
+        type: String,
+        default: '',
+      },
       file: {
         type: String,
         default: '',
@@ -67,7 +71,7 @@
     methods: {
       async download() {
         window.open(
-          `/api/v1/proxy/cluster/${this.$route.query.t_cluster}/custom/core/v1/namespaces/${this.$route.query.t_namespace}/pods/${this.$route.query.t_pod}/actions/file?filename=${this.file}&token=${this.JWT}`,
+          `/api/v1/proxy/cluster/${this.$route.query.t_cluster}/custom/core/v1/namespaces/${this.$route.query.t_namespace}/pods/${this.$route.query.t_pod}/actions/file?filename=${this.file}&token=${this.JWT}&container=${this.container}`,
         );
       },
     },

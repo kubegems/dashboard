@@ -496,7 +496,8 @@
     "start_end": "有効時間",
     "show": "表示",
     "hide": "折り畳む",
-    "need_login": "訪問するにはログインしてください"
+    "need_login": "訪問するにはログインしてください",
+    "gpu_allocated": "GPU 割り当て"
   },
   "tab": {
     "overview": "概要",

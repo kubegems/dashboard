@@ -519,7 +519,8 @@
     "start_end": "起止时间",
     "show": "显示",
     "hide": "折叠",
-    "need_login": "请登录后访问"
+    "need_login": "请登录后访问",
+    "gpu_allocated": "Gpu分配"
   },
   "tab": {
     "overview": "概览",

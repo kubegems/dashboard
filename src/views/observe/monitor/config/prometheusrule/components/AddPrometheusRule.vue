@@ -114,9 +114,9 @@
           if (this.mode === 'monitor') {
             obj.source = 'kubegems-default-monitor-alert-rule';
             // 移除labelpairs中的空值
-            for (const key in obj.labelpairs) {
-              if (!obj.labelpairs[key]) {
-                delete obj.labelpairs[key];
+            for (const key in obj.promqlGenerator.labelpairs) {
+              if (!obj.promqlGenerator.labelpairs[key]) {
+                delete obj.promqlGenerator.labelpairs[key];
               }
             }
             await postAddPrometheusRule(this.$route.query.cluster, this.$route.query.namespace, obj);

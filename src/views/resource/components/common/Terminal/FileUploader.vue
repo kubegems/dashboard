@@ -15,6 +15,7 @@
 -->
 <template>
   <v-menu
+    v-model="menu"
     bottom
     :close-delay="200"
     :close-on-content-click="false"
@@ -70,6 +71,7 @@
   import 'filepond/dist/filepond.min.css';
 
   let destDir = '/';
+  let container = '';
   const FilePond = vueFilePond(FilePondPluginFileValidateSize, FilePondPluginFileValidateType);
   setOptions({
     server: {
@@ -83,7 +85,7 @@
           'POST',
           `/api/v1/proxy/cluster/${getQueryString('t_cluster')}/custom/core/v1/namespaces/${getQueryString(
             't_namespace',
-          )}/pods/${getQueryString('t_pod')}/actions/upfile`,
+          )}/pods/${getQueryString('t_pod')}/actions/upfile?container=${container}`,
         );
         request.setRequestHeader('Authorization', `Bearer ${store.state.JWT}`);
 
@@ -121,19 +123,35 @@
       FilePond,
     },
     props: {
+      container: {
+        type: String,
+        default: '',
+      },
       dist: {
         type: String,
         default: () => '/',
       },
     },
     data() {
-      return { files: [] };
+      return {
+        menu: false,
+        files: [],
+      };
     },
     watch: {
       dist: {
         handler(newValue) {
           if (newValue) {
             destDir = this.dist;
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
+      menu: {
+        handler(newValue) {
+          if (newValue) {
+            container = this.container;
           }
         },
         deep: true,
