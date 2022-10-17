@@ -393,12 +393,12 @@
         let end = new Date(this.datetime[1]).getTime();
         if (start > end) {
           const v = [...this.datetime];
-          this.datetime = [v[1], v[0]];
           if (this.date[0] === this.date[1]) {
             this.time = [formatDatetime(v[1], 'hh:mm:ss'), formatDatetime(v[0], 'hh:mm:ss')];
           } else {
             this.date = [formatDatetime(v[1], 'yyyy-MM-dd'), formatDatetime(v[0], 'yyyy-MM-dd')];
           }
+          this.datetime = [new Date(`${this.date[0]} ${this.time[0]}`), new Date(`${this.date[1]} ${this.time[1]}`)];
         }
       },
       // 检查是否手动触碰值

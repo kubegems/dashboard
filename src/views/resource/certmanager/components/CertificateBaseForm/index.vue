@@ -111,7 +111,13 @@
         </v-row>
       </v-card-text>
       <BaseSubTitle :title="$t('form.domain')" />
-      <DnsNameForm ref="dnsNameForm" @addData="addData" @closeOverlay="closeExpand" @updateData="updateData" />
+      <DnsNameForm
+        ref="dnsNameForm"
+        class="kubegems__forminform"
+        @addData="addData"
+        @closeOverlay="closeExpand"
+        @updateData="updateData"
+      />
       <DnsNameItem
         :items="obj.spec.dnsNames"
         @expandCard="expandCard"

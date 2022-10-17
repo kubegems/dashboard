@@ -25,7 +25,7 @@
             v-model="labelpairs"
             :variable="variable"
             :variable-values="variableValues"
-            @loadMetrics="loadMetrics"
+            @loadMetrics="refreshMetrics"
           />
           <ProjectEnvSelectCascade v-model="env" first :offset-y="4" reverse :tenant="tenant" />
 
@@ -295,6 +295,9 @@
         }
         this.variableKey = randomString(4);
 
+        this.loadData();
+      },
+      loadData() {
         if (this.items?.length > 0 && this.items[this.tab] && this.items[this.tab].graphs) {
           this.items[this.tab].graphs.forEach((item, index) => {
             this.getMetrics(item, index);
@@ -309,6 +312,10 @@
             });
           }
         }, 1000 * 30);
+      },
+      refreshMetrics() {
+        this.clearInterval();
+        this.loadData();
       },
       clearInterval() {
         if (this.timeinterval) clearInterval(this.timeinterval);

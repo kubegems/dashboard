@@ -17,7 +17,7 @@
 <template>
   <v-form ref="form" v-model="valid" class="my-2" lazy-validation @submit.prevent>
     <v-expand-transition>
-      <v-card v-show="expand" class="my-2 pa-2 kubegems__expand-transition" :elevation="4" flat>
+      <v-card v-show="expand" class="my-2 pa-1 kubegems__expand-transition" :elevation="4" flat>
         <BaseSubTitle :divider="false">
           <template #action>
             <v-btn class="float-right mr-2" color="primary" small text @click="addPath">

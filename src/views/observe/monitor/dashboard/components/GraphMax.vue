@@ -76,7 +76,7 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
+  import { mapGetters, mapState } from 'vuex';
 
   import messages from '../../i18n';
   import { getMetricsLabelValues, getMetricsLabels, getMetricsQueryrange, getRuleSearch } from '@/api';
@@ -114,6 +114,7 @@
     },
     computed: {
       ...mapState(['JWT', 'Scale']),
+      ...mapGetters(['Tenant']),
       outerHeight() {
         return parseInt((window.innerHeight - 64) / this.Scale);
       },
@@ -200,7 +201,7 @@
             noprocessing: true,
           });
         } else {
-          resData = await getRuleSearch(this.graph.promqlGenerator);
+          resData = await getRuleSearch(this.Tenant().ID, this.graph.promqlGenerator);
           resData = resData.labels;
         }
         const labels = resData?.filter((d) => {

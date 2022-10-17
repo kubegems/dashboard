@@ -27,6 +27,7 @@ export function getIconName(name, def = 'kubernetes') {
   if (name.indexOf('tomcat') > -1) return 'logos:tomcat';
   if (name.indexOf('consul') > -1) return 'logos:consul';
   if (name.indexOf('etcd') > -1) return 'logos:etcd';
+  if (name === 'gpu') return 'img:gpu.svg';
   if (name.indexOf('memcached') > -1) return 'logos:memcached';
   if (name.indexOf('kafka') > -1) return 'logos:kafka-icon';
   if (name.indexOf('influxdb') > -1) return 'logos:influxdb';

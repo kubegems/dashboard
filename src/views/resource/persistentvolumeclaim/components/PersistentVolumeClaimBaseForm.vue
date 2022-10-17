@@ -123,7 +123,13 @@
         </v-row>
       </v-card-text>
 
-      <LabelForm ref="labelForm" :data="obj.metadata.labels" @addData="addLabelData" @closeOverlay="closeExpand" />
+      <LabelForm
+        ref="labelForm"
+        class="kubegems__forminform"
+        :data="obj.metadata.labels"
+        @addData="addLabelData"
+        @closeOverlay="closeExpand"
+      />
       <BaseSubTitle :title="$t('tip.label')" />
       <v-card-text class="pa-2">
         <LabelItem
@@ -137,6 +143,7 @@
 
       <AnnotationForm
         ref="annotationForm"
+        class="kubegems__forminform"
         :data="obj.metadata.annotations"
         @addData="addAnnotationData"
         @closeOverlay="closeExpand"

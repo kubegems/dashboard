@@ -122,7 +122,13 @@
         </v-row>
       </v-card-text>
 
-      <DataForm ref="dataForm" :data="obj.spec.configMapData" @addData="addData" @closeOverlay="closeExpand" />
+      <DataForm
+        ref="dataForm"
+        class="kubegems__forminform"
+        :data="obj.spec.configMapData"
+        @addData="addData"
+        @closeOverlay="closeExpand"
+      />
       <BaseSubTitle :title="$t('tip.config_item')">
         <template #tips>
           <v-icon class="mt-n1 kubegems__pointer" color="warning" right small @click="help">

@@ -133,6 +133,8 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex';
+
   import messages from '../../i18n';
   import { getRuleList, getRuleResourceList, getRuleScopeList, getRuleSearch } from '@/api';
   import BaseSelect from '@/mixins/select';
@@ -184,6 +186,7 @@
       };
     },
     computed: {
+      ...mapGetters(['Tenant']),
       resourceObj() {
         return this.resourceIndex > -1 ? this.resourceItems[this.resourceIndex] : null;
       },
@@ -238,7 +241,7 @@
     },
     methods: {
       async loadRule() {
-        const data = await getRuleSearch({
+        const data = await getRuleSearch(this.Tenant().ID, {
           scope: this.generator.scope,
           resource: this.generator.resource,
           rule: this.generator.rule,

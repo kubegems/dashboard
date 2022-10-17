@@ -36,7 +36,7 @@ export const getRuleDetail = (tenantid, ruleid, query = {}) =>
   });
 
 // prometheus三级模版搜索
-export const getRuleSearch = (query = {}) =>
-  axios(`observability/tenant/_all/template/search`, {
+export const getRuleSearch = (tenantid, query = {}) =>
+  axios(`observability/tenant/${tenantid}/template/search`, {
     params: query,
   });

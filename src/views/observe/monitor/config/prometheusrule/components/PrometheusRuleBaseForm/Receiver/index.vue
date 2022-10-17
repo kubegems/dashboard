@@ -25,6 +25,7 @@
 
       <ReceiverForm
         ref="receiverForm"
+        class="kubegems__forminform"
         :cluster="obj.cluster"
         :data="obj.receivers"
         :mode="mode"

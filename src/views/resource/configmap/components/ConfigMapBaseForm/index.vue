@@ -80,6 +80,7 @@
       <component
         :is="formComponent"
         :ref="formComponent"
+        class="kubegems__forminform"
         :data="obj.data"
         @addData="addData"
         @closeOverlay="closeExpand"
