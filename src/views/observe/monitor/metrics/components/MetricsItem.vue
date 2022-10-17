@@ -165,6 +165,7 @@
               rule: resourceObj.rule,
               scope: resourceObj.scope,
               unit: unit?.value,
+              labelpairs: labelpairs,
             },
           };
         }
@@ -175,7 +176,6 @@
               name: '',
               for: '1m',
               promqlGenerator: null,
-              labelpairs,
               alertLevels: [],
               receivers: [],
             },

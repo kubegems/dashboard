@@ -103,6 +103,9 @@
       init(initData, generator) {
         this.$nextTick(() => {
           this.$refs[this.formComponent].setData(initData);
+          if (initData?.promqlGenerator?.labelpairs) {
+            this.$refs[this.formComponent].setLabelpairs(initData.promqlGenerator.labelpairs);
+          }
           this.$refs[this.formComponent].getInhibitLabels();
           this.generator = generator;
         });

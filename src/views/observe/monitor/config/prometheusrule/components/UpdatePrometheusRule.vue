@@ -123,7 +123,9 @@
           this.item = deepCopy(item);
           // 提前加载命名空间
           this.$refs[this.formComponent].setData(this.item);
-          this.$refs[this.formComponent].setLabelpairs(this.item.labelpairs);
+          if (this.item?.promqlGenerator?.labelpairs) {
+            this.$refs[this.formComponent].setLabelpairs(this.item.promqlGenerator.labelpairs);
+          }
           this.generator = this.item.promqlGenerator;
         });
       },

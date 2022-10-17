@@ -377,9 +377,9 @@
         }
       },
       doClose() {
-        this.term.write(this.$t('tip.container_lost'));
         window.removeEventListener('resize', this.onWindowResize);
         if (this.term) {
+          this.term.write(this.$t('tip.container_lost'));
           this.term.dispose();
         }
       },
