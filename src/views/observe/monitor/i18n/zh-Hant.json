@@ -72,7 +72,9 @@
     "feishu": "飛書",
     "user_id": "用戶Id",
     "advanced_setting": "高級配置",
-    "get_feishu_id": "如何獲取飛書用戶Id"
+    "get_feishu_id": "如何獲取飛書用戶Id",
+
+    "app_performance_monitor": "應用性能監控"
   },
   "tab": {
     "generate_from_template": "由模版生成",

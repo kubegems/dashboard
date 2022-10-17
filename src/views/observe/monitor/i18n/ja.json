@@ -72,7 +72,9 @@
     "feishu": "feishu",
     "user_id": "ユーザーID",
     "advanced_setting": "詳細設定",
-    "get_feishu_id": "フェイシュウのユーザーIDの取得方法"
+    "get_feishu_id": "フェイシュウのユーザーIDの取得方法",
+
+    "app_performance_monitor": "アプリケーションのパフォーマンス監視"
   },
   "tab": {
     "generate_from_template": "テンプレート生成",

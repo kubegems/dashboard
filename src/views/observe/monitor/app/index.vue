@@ -104,59 +104,68 @@
             <v-flex class="text-subtitle-2 float-right table__item mx-2">
               {{ item.latency && item.latency.length > 0 ? `${item.latency[0].toFixed(2)} us` : 0 }}
             </v-flex>
-            <v-sparkline
-              auto-draw
-              :auto-draw-duration="200"
-              auto-line-width
-              color="rgba(29, 136, 229, 0.6)"
-              fill
-              :line-width="5"
-              smooth
-              type="trend"
-              :value="item.latency ? item.latency : []"
-            />
+            <span class="kubegems__pointer" @click="appPerformanceMonitor(item)">
+              <v-sparkline
+                auto-draw
+                :auto-draw-duration="200"
+                auto-line-width
+                color="rgba(29, 136, 229, 0.6)"
+                fill
+                :line-width="5"
+                smooth
+                type="trend"
+                :value="item.latency ? item.latency : []"
+              />
+            </span>
           </template>
           <template #[`item.requestRate`]="{ item }">
             <v-flex class="text-subtitle-2 float-right table__item mx-2">
               {{ item.requestRate && item.requestRate.length > 0 ? `${item.requestRate[0].toFixed(2)} req/s` : 0 }}
             </v-flex>
-            <v-sparkline
-              auto-draw
-              :auto-draw-duration="200"
-              auto-line-width
-              color="rgba(29, 136, 229, 0.6)"
-              fill
-              :line-width="5"
-              smooth
-              type="trend"
-              :value="item.requestRate ? item.requestRate : []"
-            />
+            <span class="kubegems__pointer" @click="appPerformanceMonitor(item)">
+              <v-sparkline
+                auto-draw
+                :auto-draw-duration="200"
+                auto-line-width
+                color="rgba(29, 136, 229, 0.6)"
+                fill
+                :line-width="5"
+                smooth
+                type="trend"
+                :value="item.requestRate ? item.requestRate : []"
+              />
+            </span>
           </template>
           <template #[`item.errorRate`]="{ item }">
             <v-flex class="text-subtitle-2 float-right table__item mx-2">
               {{ item.errorRate && item.errorRate.length > 0 ? item.errorRate[0].toFixed(2) : 0 }}
             </v-flex>
-            <v-sparkline
-              auto-draw
-              :auto-draw-duration="200"
-              auto-line-width
-              color="rgba(29, 136, 229, 0.6)"
-              fill
-              :line-width="5"
-              smooth
-              type="trend"
-              :value="item.errorRate ? item.errorRate : []"
-            />
+            <span class="kubegems__pointer" @click="appPerformanceMonitor(item)">
+              <v-sparkline
+                auto-draw
+                :auto-draw-duration="200"
+                auto-line-width
+                color="rgba(29, 136, 229, 0.6)"
+                fill
+                :line-width="5"
+                smooth
+                type="trend"
+                :value="item.errorRate ? item.errorRate : []"
+              />
+            </span>
           </template>
         </v-data-table>
       </v-card>
     </div>
+
+    <AppPerformanceMonitor ref="appPerformanceMonitor" :cluster="cluster" :env="env" :service="service" />
   </v-container>
 </template>
 
 <script>
   import { mapGetters, mapState } from 'vuex';
 
+  import AppPerformanceMonitor from './components/AppPerformanceMonitor';
   import ServiceSelect from './components/ServiceSelect';
   import { getAppPerformanceDashboard } from '@/api';
   import BasePermission from '@/mixins/permission';
@@ -165,6 +174,7 @@
   export default {
     name: 'AppPerformance',
     components: {
+      AppPerformanceMonitor,
       ProjectEnvSelectCascade,
       ServiceSelect,
     },
@@ -354,6 +364,10 @@
       },
       clearInterval() {
         if (this.timeinterval) clearInterval(this.timeinterval);
+      },
+      appPerformanceMonitor(item) {
+        this.$refs.appPerformanceMonitor.init(item);
+        this.$refs.appPerformanceMonitor.open();
       },
     },
   };
