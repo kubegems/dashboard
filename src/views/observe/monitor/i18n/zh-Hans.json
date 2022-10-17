@@ -77,7 +77,9 @@
     "feishu": "飞书",
     "user_id": "用户Id",
     "advanced_setting": "高级配置",
-    "get_feishu_id": "如何获取飞书用户Id"
+    "get_feishu_id": "如何获取飞书用户Id",
+
+    "app_performance_monitor": "应用性能监控"
   },
   "tab": {
     "generate_from_template": "由模版生成",
