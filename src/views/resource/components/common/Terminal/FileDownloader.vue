@@ -18,8 +18,8 @@
     <v-card>
       <v-card-text class="pa-2">
         <v-flex>
-          <v-btn color="error" small text @click="download">
-            {{ $root.$t('operate.download') }}
+          <v-btn color="primary" small text @click="download">
+            {{ $root.$t('operate.download') }} <span class="grey--text">{{ getFile() }}</span>
           </v-btn>
         </v-flex>
       </v-card-text>
@@ -73,6 +73,13 @@
         window.open(
           `/api/v1/proxy/cluster/${this.$route.query.t_cluster}/custom/core/v1/namespaces/${this.$route.query.t_namespace}/pods/${this.$route.query.t_pod}/actions/file?filename=${this.file}&token=${this.JWT}&container=${this.container}`,
         );
+      },
+      getFile() {
+        const index = this.file.lastIndexOf('/');
+        if (index > -1) {
+          return ` ${this.file.substr(index + 1)}`;
+        }
+        return ` ${this.file}`;
       },
     },
   };

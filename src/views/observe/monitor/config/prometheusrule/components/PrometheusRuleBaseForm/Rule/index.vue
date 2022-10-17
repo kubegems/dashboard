@@ -457,18 +457,18 @@
         } else if (this.obj.logqlGenerator && this.mode === 'logging') {
           this.mod = 'template';
         }
-        this.setLabelpairs(this.obj?.promqlGenerator?.labelpairs || {});
       },
       setResourceData() {
+        const labelpairs = this.obj?.promqlGenerator?.labelpairs || {};
         if (this.resource) {
           this.obj.promqlGenerator = {
             scope: this.resource.scope,
             resource: this.resource.resource,
             rule: this.resource.rule,
             unit: this.resource.unit,
-            labelpairs: {},
+            labelpairs: labelpairs,
           };
-          this.setLabelpairs();
+          this.setLabelpairs(labelpairs);
         }
       },
       closeExpand() {
@@ -489,7 +489,8 @@
       },
       // mergeLabelpairs 点击编辑时数据labelpairs与全值合并
       setLabelpairs(mergeLabelpairs = {}) {
-        if (!this.obj.promqlGenerator?.labelpairs) {
+        if (this.mod === 'ql') return;
+        if (!this.obj?.promqlGenerator?.labelpairs) {
           this.obj.promqlGenerator.labelpairs = {};
         }
         const labelpairs = {};
@@ -515,7 +516,9 @@
               expr: this.obj.expr,
             },
           );
-          this.obj.promqlGenerator.labelpairs = {};
+          if (!this.obj.promqlGenerator?.labelpairs) {
+            this.obj.promqlGenerator.labelpairs = {};
+          }
           this.inhibitLabelItems = data.map((l) => {
             if (l !== '__name__') {
               this.obj.promqlGenerator.labelpairs[l] = '';

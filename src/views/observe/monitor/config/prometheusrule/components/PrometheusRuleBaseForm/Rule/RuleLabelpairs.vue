@@ -52,6 +52,7 @@
         handler() {
           this.initLabels();
         },
+        deep: true,
         immediate: true,
       },
     },
