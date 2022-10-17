@@ -18,6 +18,7 @@
   <BaseDialog
     v-model="dialog"
     icon="mdi-wrench"
+    min-height="500px"
     :title="$root.$t('operate.update_c', [$root.$t('resource.configmap')])"
     :width="1000"
     @reset="reset"

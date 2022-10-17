@@ -16,7 +16,7 @@
 
 <template>
   <v-dialog v-model="dialog" height="100%" :max-width="width" :overlay-opacity="0.3" persistent scrollable>
-    <v-card>
+    <v-card :min-height="minHeight">
       <v-sheet class="px-4 py-2 primary">
         <div class="justify-center float-left text-h6 py-1 white--text">
           <v-icon class="mt-n1 white--text" left>{{ icon }}</v-icon>
@@ -68,6 +68,10 @@
         default: () => false,
       },
       icon: {
+        type: String,
+        default: () => '',
+      },
+      minHeight: {
         type: String,
         default: () => '',
       },

@@ -196,6 +196,7 @@
 
       <AlertLevelForm
         ref="alertLevelForm"
+        class="kubegems__forminform"
         :data="obj.alertLevels"
         :namespace="obj.namespace"
         @addData="addData"
