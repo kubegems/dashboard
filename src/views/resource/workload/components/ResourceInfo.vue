@@ -92,7 +92,7 @@
             ? workload.spec.template.spec.containers.concat(
                 workload.spec.template.spec.initContainers
                   ? workload.spec.template.spec.initContainers.map((i) => {
-                      return { ...i, showName: `${i.name} (init)` };
+                      return { ...i, showName: `${i.name}`, init: true };
                     })
                   : [],
               )

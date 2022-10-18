@@ -68,7 +68,7 @@
             ? cronjob.spec.jobTemplate.spec.template.spec.containers.concat(
                 cronjob.spec.jobTemplate.spec.template.spec.initContainers
                   ? cronjob.spec.jobTemplate.spec.template.spec.initContainers.map((i) => {
-                      return { ...i, showName: `${i.name} (init)` };
+                      return { ...i, showName: `${i.name}`, init: true };
                     })
                   : [],
               )

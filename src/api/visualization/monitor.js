@@ -38,7 +38,7 @@ export const postMonitorDashboardTemplate = (body = {}) => axios.post(`observabi
 
 // 更新大盘模版
 export const putMonitorDashboardTemplate = (name, body = {}) =>
-  axios.post(`observability/template/dashboard/${name}`, body);
+  axios.put(`observability/template/dashboard/${name}`, body);
 
 // 应用性能
 export const getAppPerformanceDashboard = (cluster, namespace, query = {}) =>
