@@ -240,7 +240,6 @@
               this.$route.meta?.dependencies || [],
             );
             if (this.missingPlugins?.length === 0) {
-              await this.$router.replace({ query: { ...this.$route.query, tab: null } });
               this.items = [];
               this.dashboardList();
             } else {
@@ -329,6 +328,9 @@
             return i.name === this.$route.query.tab;
           });
           this.tab = index > -1 ? index : 0;
+          if (this.tab === 0) {
+            await this.$router.replace({ query: { ...this.$route.query, tab: null } });
+          }
         } else {
           this.tab = 0;
         }

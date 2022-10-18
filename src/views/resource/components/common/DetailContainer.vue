@@ -29,7 +29,13 @@
       </thead>
       <tbody>
         <tr v-for="(item, i) in containers" :key="`${item.name}${i}`">
-          <td>{{ item.showName || item.name }}</td>
+          <td>
+            <v-icon v-if="item.init" class="float-left icon__pod" color="primary" left small>
+              mdi-alpha-i-circle
+            </v-icon>
+            <v-icon v-else class="float-left icon__pod" color="primary" left small> mdi-alpha-c-circle </v-icon>
+            {{ item.showName || item.name }}
+          </td>
           <td>{{ item.image }}</td>
           <td>
             <template v-if="item.livenessProbe">
@@ -118,6 +124,13 @@
         word-break: break-all;
         white-space: break-spaces;
       }
+    }
+  }
+
+  .icon {
+    &__pod {
+      font-size: 18px !important;
+      margin-top: 2px;
     }
   }
 </style>

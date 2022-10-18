@@ -70,7 +70,7 @@
     watch: {
       metrics: {
         handler(newValue) {
-          if (newValue && newValue?.length > 0) {
+          if (newValue && newValue?.length >= 0 && document.getElementById(this.chartId)) {
             this.loadChart();
           }
         },
