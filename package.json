@@ -1,6 +1,6 @@
 {
   "name": "kubegems-dashboard",
-  "version": "1.22.0-beta.3",
+  "version": "1.22.0-beta.2",
   "private": true,
   "license": "Apache-2.0",
   "scripts": {
@@ -8,7 +8,6 @@
     "build": "cross-env vue-cli-service build && rm -rf dist/js/*.map dist/*.map",
     "lint": "vue-cli-service lint",
     "prepare": "husky install",
-    "log": "conventional-changelog --config ./node_modules/vue-cli-plugin-commitlint/lib/log -i CHANGELOG -o CHANGELOGS/CHANGELOG -s -r 0",
     "cz": "git add . && git cz",
     "amend": "git add . && git commit --amend"
   },
@@ -31,6 +30,12 @@
       "stylelint --fix",
       "git add"
     ]
+  },
+  "standard-version": {
+    "skip": {
+      "tag": true,
+      "commit": true
+    }
   },
   "dependencies": {
     "ajv": "^8.6.3",
@@ -82,7 +87,6 @@
     "babel-loader": "^7.1.5",
     "commitizen": "^4.2.4",
     "commitlint": "^13.2.0",
-    "conventional-changelog-cli": "^2.1.1",
     "cross-env": "^7.0.3",
     "eslint": "^7.27.0",
     "eslint-config-prettier": "^8.5.0",
