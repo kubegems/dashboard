@@ -17,17 +17,23 @@
 <template>
   <BaseFullScreenDialog v-model="dialog" icon="mdi-console" :title="$t('tip.terminal')" @dispose="dispose">
     <template #header>
-      <v-flex class="ml-2 text-h6 mt-n1">
+      <v-flex class="ml-2 text-h6 mt-n1 terminal__title">
         {{ item ? item.name : '' }}
         <template v-if="terminalType !== 'kubectl'">
           <v-btn color="white" depressed icon @click="openOnBlankTab">
             <v-icon color="white" small> mdi-open-in-new </v-icon>
           </v-btn>
           <span class="text-body-2 mx-2"> {{ $t('tip.now_path') }} : {{ dist }} </span>
-          <span class="text-caption">
-            <v-icon color="white" small> mdi-information-variant </v-icon>
-            {{ $t('tip.download_tip') }}
-          </span>
+          <v-menu nudge-right="20px" nudge-top="16px" open-on-hover right>
+            <template #activator="{ on }">
+              <span class="text-caption" v-on="on">
+                <v-icon color="white" small> mdi-information-variant </v-icon>
+              </span>
+            </template>
+            <v-card>
+              <v-card-text class="pa-2 text-caption"> {{ $t('tip.download_tip') }} </v-card-text>
+            </v-card>
+          </v-menu>
         </template>
       </v-flex>
     </template>
@@ -130,7 +136,7 @@
     const webSocketMessage = function (ev) {
       term.write(ev.data);
       if (_vue.terminalType !== 'kubectl') {
-        const reg = new RegExp('.*?(\\/[\\w\/]*)', 'g');
+        const reg = new RegExp('.*?(\\/[\\w-_\\$\\.#\/\\u4e00-\\u9fa5]*)', 'g');
         const matches = reg.exec(ev.data);
         if (matches) {
           _vue.dist = matches[1]
@@ -431,3 +437,12 @@
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .terminal {
+    &__title {
+      max-width: 1300px;
+      overflow: hidden;
+    }
+  }
+</style>

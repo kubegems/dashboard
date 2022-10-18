@@ -8,7 +8,8 @@
     "scale_replicas": "レプリカの数をセットする",
     "rollback": "ロールバック",
     "auto_scale_policy": "柔軟スケーリングポリシー",
-    "confirm_and_publish": "確定"
+    "confirm_and_publish": "確定",
+    "upgrade_model": "モデルの更新"
   },
   "tip": {
     "platform_app": "プラットフォームのアプリ",

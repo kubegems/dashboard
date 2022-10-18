@@ -25,8 +25,8 @@
             color="primary"
             hide-selected
             :items="trafficItems"
-            label="流量比例"
-            no-data-text="暂无可选数据"
+            :label="$t('tip.traffic_weight')"
+            :no-data-text="$root.$t('data.no_data')"
             @change="onTrafficChange"
           >
             <template #selection="{ item }">
@@ -40,7 +40,7 @@
           <v-text-field
             v-model="obj.strategy.canary.steps[0].setWeight"
             class="my-0"
-            label="灰度流量比例"
+            :label="$t('tip.canary_weight')"
             required
             :rules="canaryRules.setWeightRule"
             suffix="%"
@@ -49,7 +49,7 @@
           />
         </v-col>
       </v-row>
-      <BaseSubTitle title="匹配(headers)" />
+      <BaseSubTitle :title="`${$t('tip.regex')}(headers)`" />
       <StringMatchForm
         :data="obj.strategy.canary.trafficRouting.istio.virtualService.headers"
         @addData="addHeaderData"
@@ -59,12 +59,16 @@
 </template>
 
 <script>
+  import messages from '../../../../i18n';
   import StringMatchForm from './StringMatchForm';
   import { deepCopy } from '@/utils/helpers';
   import { positiveInteger } from '@/utils/rules';
 
   export default {
     name: 'HeaderTraffic',
+    i18n: {
+      messages: messages,
+    },
     components: {
       StringMatchForm,
     },
@@ -75,10 +79,6 @@
           setWeightRule: [positiveInteger],
         },
         traffic: 'false',
-        trafficItems: [
-          { text: '默认流量比例', value: 'false' },
-          { text: '自定义流量比例', value: 'true' },
-        ],
         obj: {
           strategy: {
             canary: {
@@ -98,6 +98,14 @@
           },
         },
       };
+    },
+    computed: {
+      trafficItems() {
+        return [
+          { text: this.$t('tip.default_traffic_weight'), value: 'false' },
+          { text: this.$t('tip.custom_traffic_weight'), value: 'true' },
+        ];
+      },
     },
     mounted() {
       this.$nextTick(() => {

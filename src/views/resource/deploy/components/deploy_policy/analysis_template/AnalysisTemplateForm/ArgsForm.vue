@@ -22,7 +22,7 @@
         <v-card-text class="pa-0">
           <v-sheet class="pt-2 px-2">
             <v-flex class="float-left text-subtitle-2 pt-6 primary--text kubegems__min-width">
-              <span>参数</span>
+              <span>{{ $t('tip.params') }}</span>
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-text-field v-model="obj.name" class="my-0" label="name" required :rules="objRules.nameRule" />
@@ -35,8 +35,8 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
-          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> {{ $root.$t('operate.cancel') }} </v-btn>
+          <v-btn color="primary" small text @click="addData"> {{ $root.$t('operate.save') }} </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -44,12 +44,16 @@
 </template>
 
 <script>
+  import messages from '../../../../i18n';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'ArgsForm',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     props: {
       data: {

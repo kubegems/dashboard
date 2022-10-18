@@ -38,7 +38,11 @@
     "label_tap_to_cancel": "停止上传",
     "label_file_processing_complete": "上传完成",
     "label_file_processing": "上传中",
-    "label_file_processing_error": "上传失败"
+    "label_file_processing_error": "上传失败",
+
+    "gpu_core": "总核心",
+    "gpu_memory": "总显存",
+    "gpu_resource": "Gpu资源"
   },
   "table": {
     "container_name": "容器名",
