@@ -37,6 +37,11 @@
             {{ $t('operate.advanced_deploy') }}
           </v-btn>
 
+          <v-btn v-if="$route.query.kind === 'modelstore'" class="primary--text" small text @click="upgradeModel">
+            <v-icon left small> mdi-arrow-up-bold </v-icon>
+            {{ $t('operate.upgrade_model') }}
+          </v-btn>
+
           <v-btn
             v-if="
               app &&
@@ -128,6 +133,7 @@
     <Rollingback v-if="$route.query.kind === 'app'" ref="rollingback" />
     <ResourceYaml v-if="$route.query.kind === 'modelstore'" ref="resourceYaml" :item="app" />
     <UpdateModelRuntime ref="updateModelRuntime" @refresh="appRunningDetail" />
+    <UpgradeModel ref="upgradeModel" @refresh="appRunningDetail" />
   </v-container>
 </template>
 
@@ -140,6 +146,7 @@
   import Rollingback from './components/Rollingback';
   import ScaleReplicas from './components/ScaleReplicas';
   import UpdateModelRuntime from './components/UpdateModelRuntime';
+  import UpgradeModel from './components/UpgradeModel';
   import messages from './i18n';
   import { deleteApp, deleteAppStoreApp, deleteModelRuntime, getAppRunningDetail, getModelRuntimeDetail } from '@/api';
   import BasePermission from '@/mixins/permission';
@@ -171,6 +178,7 @@
       Rollingback,
       ScaleReplicas,
       UpdateModelRuntime,
+      UpgradeModel,
     },
     mixins: [BasePermission, BaseResource],
     data() {
@@ -337,6 +345,10 @@
       updateModelRuntime() {
         this.$refs.updateModelRuntime.init(this.app);
         this.$refs.updateModelRuntime.open();
+      },
+      upgradeModel() {
+        this.$refs.upgradeModel.init(this.app);
+        this.$refs.upgradeModel.open();
       },
     },
   };

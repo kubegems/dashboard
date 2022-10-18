@@ -38,7 +38,11 @@
     "label_tap_to_cancel": "停止上傳",
     "label_file_processing_complete": "上傳完成",
     "label_file_processing": "上傳中",
-    "label_file_processing_error": "上傳失敗"
+    "label_file_processing_error": "上傳失敗",
+
+    "gpu_core": "總核心",
+    "gpu_memory": "總顯存",
+    "gpu_resource": "Gpu資源"
   },
   "table": {
     "container_name": "容器名",

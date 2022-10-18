@@ -72,6 +72,11 @@
             <v-card>
               <v-card-text class="pa-2">
                 <v-flex>
+                  <v-btn color="primary" small text @click="updateMonitorDashboardTemplate(item)">
+                    {{ $root.$t('operate.edit') }}
+                  </v-btn>
+                </v-flex>
+                <v-flex>
                   <v-btn color="error" small text @click="removeMonitorDashboardTemplate(item)">
                     {{ $root.$t('operate.delete') }}
                   </v-btn>
@@ -93,6 +98,7 @@
     </v-card>
 
     <AddMonitorTemplate ref="addMonitorTemplate" @refresh="monitorTemplateList" />
+    <UpdateMonitorTemplate ref="updateMonitorTemplate" @refresh="monitorTemplateList" />
   </v-container>
 </template>
 
@@ -100,6 +106,7 @@
   import { mapState } from 'vuex';
 
   import AddMonitorTemplate from './components/AddMonitorTemplate';
+  import UpdateMonitorTemplate from './components/UpdateMonitorTemplate';
   import messages from './i18n';
   import { deleteMonitorDashboardTemplate, getMonitorDashboardTemplate } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
@@ -112,6 +119,7 @@
     },
     components: {
       AddMonitorTemplate,
+      UpdateMonitorTemplate,
     },
     mixins: [BaseFilter],
     data() {
@@ -185,6 +193,10 @@
       },
       addMonitorDashboardTemplate() {
         this.$refs.addMonitorTemplate.open();
+      },
+      updateMonitorDashboardTemplate(item) {
+        this.$refs.updateMonitorTemplate.init(item);
+        this.$refs.updateMonitorTemplate.open();
       },
     },
   };

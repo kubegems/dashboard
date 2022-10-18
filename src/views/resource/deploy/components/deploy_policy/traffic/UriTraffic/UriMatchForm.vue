@@ -22,7 +22,7 @@
         <v-card-text class="pa-0">
           <v-sheet class="pt-2 px-2">
             <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width">
-              <span>匹配规则</span>
+              <span>{{ $t('tip.regex_rule') }}</span>
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-autocomplete
@@ -36,7 +36,7 @@
                   { text: 'regex', valeu: 'regex' },
                 ]"
                 label="match"
-                no-data-text="暂无可选数据"
+                :no-data-text="$root.$t('data.no_data')"
                 :rules="objRules.matchRule"
               >
                 <template #selection="{ item }">
@@ -54,8 +54,8 @@
         </v-card-text>
         <v-card-actions class="pa-0">
           <v-spacer />
-          <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
-          <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
+          <v-btn color="error" small text @click="closeCard"> {{ $root.$t('operate.cancel') }} </v-btn>
+          <v-btn color="primary" small text @click="addData"> {{ $root.$t('operate.save') }} </v-btn>
         </v-card-actions>
       </v-card>
     </v-expand-transition>
@@ -71,7 +71,7 @@
                       <v-list-item-title class="text-subtitle-2 py-1">
                         {{ getValue(labelsCopy) }}
                       </v-list-item-title>
-                      <v-list-item-subtitle class="text-body-2 py-1"> 匹配规则 </v-list-item-subtitle>
+                      <v-list-item-subtitle class="text-body-2 py-1"> {{ $t('tip.regex_rule') }} </v-list-item-subtitle>
                     </v-list-item-content>
                   </v-list-item>
                 </v-list-item-subtitle>
@@ -94,7 +94,7 @@
             <v-list-item-subtitle class="text-body-2 py-0 text-center">
               <v-btn color="primary" text @click="expandCard">
                 <v-icon left small> mdi-tag-plus </v-icon>
-                添加匹配
+                {{ $root.$t('operate.add_c', [$t('tip.regex')]) }}
               </v-btn>
             </v-list-item-subtitle>
           </v-list-item-content>
@@ -105,12 +105,16 @@
 </template>
 
 <script>
+  import messages from '../../../../i18n';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
 
   export default {
     name: 'UriMatchForm',
+    i18n: {
+      messages: messages,
+    },
     mixins: [BaseResource],
     props: {
       data: {

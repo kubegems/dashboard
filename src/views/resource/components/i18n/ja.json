@@ -38,7 +38,11 @@
     "label_tap_to_cancel": "アップロードを停止",
     "label_file_processing_complete": "アップロード完了",
     "label_file_processing": "アップロード中",
-    "label_file_processing_error": "アップロードに失敗しました"
+    "label_file_processing_error": "アップロードに失敗しました",
+
+    "gpu_core": "トータルコア",
+    "gpu_memory": "ビデオメモリの合計",
+    "gpu_resource": "GPU リソース"
   },
   "table": {
     "container_name": "コンテナ名",

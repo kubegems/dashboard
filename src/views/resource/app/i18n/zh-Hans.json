@@ -8,7 +8,8 @@
     "scale_replicas": "调整副本数",
     "rollback": "回滚",
     "auto_scale_policy": "弹性伸缩策略",
-    "confirm_and_publish": "确定并发布"
+    "confirm_and_publish": "确定并发布",
+    "upgrade_model": "更新模型"
   },
   "tip": {
     "platform_app": "平台应用",
