@@ -17,6 +17,9 @@
   <a title="Crowdin" target="_blank" href="https://crowdin.com">
     <img src="https://badges.crowdin.net/kubegems-dashboard/localized.svg">
   </a>
+  <a title="commitizen" target="_blank" href="http://commitizen.github.io/cz-cli/">
+    <img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg">
+  </a>
 </p>
 
 <p align="center">
