@@ -505,6 +505,7 @@
     "metadata": "元數據",
     "event": "事件",
     "pod": "容器組",
-    "monitor": "監控"
+    "monitor": "監控",
+    "gpu_monitor": "GPU監控"
   }
 }

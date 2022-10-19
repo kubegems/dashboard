@@ -42,7 +42,15 @@
 
     "gpu_core": "トータルコア",
     "gpu_memory": "ビデオメモリの合計",
-    "gpu_resource": "GPU リソース"
+    "gpu_resource": "GPU リソース",
+
+    "gpu_used": "{0}ご利用金額",
+    "gpu_used_prcent": "{0}利用方法",
+    "gpu_temp": "GPU 温度",
+    "gpu_power": "GPU パワー",
+    "limits": "{0}限界値",
+    "requests": "{0}リクエスト値",
+    "core": "芯"
   },
   "table": {
     "container_name": "コンテナ名",

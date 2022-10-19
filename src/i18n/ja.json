@@ -505,6 +505,7 @@
     "metadata": "メタデータ",
     "event": "イベント",
     "pod": "ポッド",
-    "monitor": "監視"
+    "monitor": "監視",
+    "gpu_monitor": "GPU監視"
   }
 }

@@ -44,42 +44,16 @@
             </v-flex>
             <v-flex
               v-if="
-                item.metadata.labels &&
-                item.metadata.labels['tencent.com/vcuda'] &&
-                item.metadata.labels['tencent.com/vcuda'] === 'true'
+                (item.metadata.labels &&
+                  item.metadata.labels['tencent.com/vcuda'] &&
+                  item.metadata.labels['tencent.com/vcuda'] === 'true') ||
+                (item.metadata.labels['nvidia.com/gpu'] && item.metadata.labels['nvidia.com/gpu'] === 'true')
               "
               class="float-left ml-2"
             >
-              <v-menu :close-delay="200" nudge-bottom="7px" open-on-hover top>
-                <template #activator="{ on }">
-                  <span v-on="on">
-                    <BaseLogo icon-name="tke" />
-                  </span>
-                </template>
-                <v-card>
-                  <v-card-text class="pa-2"> tencent vcuda </v-card-text>
-                </v-card>
-              </v-menu>
+              <GpuTip :allocated="false" :item="item" />
             </v-flex>
-            <v-flex
-              v-if="
-                item.metadata.labels &&
-                item.metadata.labels['nvidia.com/gpu'] &&
-                item.metadata.labels['nvidia.com/gpu'] === 'true'
-              "
-              class="float-left ml-2"
-            >
-              <v-menu :close-delay="200" nudge-bottom="7px" open-on-hover top>
-                <template #activator="{ on }">
-                  <span v-on="on">
-                    <BaseLogo icon-name="nvidia" />
-                  </span>
-                </template>
-                <v-card>
-                  <v-card-text class="pa-2"> nvidia </v-card-text>
-                </v-card>
-              </v-menu>
-            </v-flex>
+
             <div class="kubegems__clear-float" />
           </a>
         </template>
@@ -233,6 +207,7 @@
     NODE_LOAD_PROMQL,
     NODE_POD_RUNNING_COUNT_PROMQL,
   } from '@/utils/prometheus';
+  import GpuTip from '@/views/resource/components/common/GpuTip';
 
   export default {
     name: 'Node',
@@ -241,6 +216,7 @@
     },
     components: {
       GpuScheduleForm,
+      GpuTip,
     },
     mixins: [BaseFilter, BasePermission, BaseResource],
     data() {
@@ -302,6 +278,7 @@
         this.nodeMemoryUsage(true);
         this.nodeLoad5(true);
         this.nodePodCount(true);
+        this.nodeGPUUsage();
         if (this.interval) {
           clearInterval(this.interval);
         }
@@ -368,6 +345,19 @@
               100
             ).toFixed(1);
             item.memoryPercentage = parseFloat(d?.value[1]).toFixed(1);
+            this.$set(this.items, index, item);
+          }
+        });
+      },
+      nodeGPUUsage() {
+        this.items.forEach((item, index) => {
+          if (
+            item?.metadata?.labels['tencent.com/vcuda'] === 'true' ||
+            item?.metadata?.labels['nvidia.com/gpu'] === 'true'
+          ) {
+            item.TkeGpu = item.status.capacity['tencent.com/vcuda-core'];
+            item.TkeMemory = item.status.capacity['tencent.com/vcuda-memory'];
+            item.NvidiaGpu = item.status.capacity['nvidia.com/gpu'];
             this.$set(this.items, index, item);
           }
         });

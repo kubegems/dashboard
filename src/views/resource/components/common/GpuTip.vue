@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <v-flex class="my-1">
+  <v-flex>
     <v-menu
       bottom
       :close-delay="200"
@@ -48,25 +48,37 @@
               </v-list-item-title>
               <v-row>
                 <v-col class="py-1">
-                  <v-list-item class="float-left pa-0" two-line>
+                  <v-list-item class="float-left pa-0 gpu__item" two-line>
                     <v-list-item-content class="text-caption kubegems__text">
                       {{ $t('tip.gpu_core') }} : {{ parseInt(item.TkeGpu || 0) / 100 }} Gpu
                       <div v-if="allocated">
-                        {{ $t('tip.used') }} : {{ parseInt(item.AllocatedTkeGpu || 0) / 100 }} Gpu ({{
-                          item.TkeGpuPercentage
-                        }}%)
+                        {{ $t('tip.used') }} : {{ parseInt(item.AllocatedTkeGpu || 0) / 100 }} Gpu
+                        <v-progress-linear
+                          class="rounded font-weight-medium mt-1"
+                          :color="getColor(item.TkeGpuPercentage)"
+                          height="10"
+                          :value="item.TkeGpuPercentage"
+                        >
+                          <span class="white--text">{{ item.TkeGpuPercentage }}% </span>
+                        </v-progress-linear>
                       </div>
                     </v-list-item-content>
                   </v-list-item>
                 </v-col>
                 <v-col class="py-1">
-                  <v-list-item class="float-left pa-0" two-line>
+                  <v-list-item class="float-left pa-0 gpu__item" two-line>
                     <v-list-item-content class="text-caption kubegems__text">
                       {{ $t('tip.gpu_memory') }} : {{ parseInt(((item.TkeMemory || 0) * 256) / 1024) }} Gi
                       <div v-if="allocated">
-                        {{ $t('tip.used') }} : {{ (parseInt(item.AllocatedTkeMemory || 0) * 256) / 1024 }} Gi ({{
-                          item.TkeMemoryPercentage
-                        }}%)
+                        {{ $t('tip.used') }} : {{ (parseInt(item.AllocatedTkeMemory || 0) * 256) / 1024 }} Gi
+                        <v-progress-linear
+                          class="rounded font-weight-medium mt-1"
+                          :color="getColor(item.TkeMemoryPercentage)"
+                          height="10"
+                          :value="item.TkeMemoryPercentage"
+                        >
+                          <span class="white--text">{{ item.TkeMemoryPercentage }}% </span>
+                        </v-progress-linear>
                       </div>
                     </v-list-item-content>
                   </v-list-item>
@@ -80,14 +92,20 @@
                 <div class="logo"> Nvidia Gpu </div>
               </v-list-item-title>
               <v-row>
-                <v-col class="py-1">
-                  <v-list-item class="float-left pa-0" two-line>
+                <v-col class="py-1" cols="6">
+                  <v-list-item class="float-left pa-0 gpu__item" two-line>
                     <v-list-item-content class="text-caption kubegems__text">
                       {{ $t('tip.gpu_core') }} : {{ parseInt(item.NvidiaGpu || 0) }} Gpu
                       <div v-if="allocated">
-                        {{ $t('tip.used') }} : {{ parseInt(item.AllocatedNvidiaGpu || 0) }} Gpu ({{
-                          item.NvidiaGpuPercentage
-                        }}%)
+                        {{ $t('tip.used') }} : {{ parseInt(item.AllocatedNvidiaGpu || 0) }} Gpu
+                        <v-progress-linear
+                          class="rounded font-weight-medium mt-1"
+                          :color="getColor(item.NvidiaGpuPercentage)"
+                          height="10"
+                          :value="item.NvidiaGpuPercentage"
+                        >
+                          <span class="white--text">{{ item.NvidiaGpuPercentage }}% </span>
+                        </v-progress-linear>
                       </div>
                     </v-list-item-content>
                   </v-list-item>
@@ -119,6 +137,11 @@
         default: () => {},
       },
     },
+    methods: {
+      getColor(percentage) {
+        return percentage ? (percentage < 60 ? 'primary' : percentage < 80 ? 'warning' : 'red darken-1') : 'primary';
+      },
+    },
   };
 </script>
 
@@ -127,5 +150,11 @@
     float: left;
     line-height: 20px;
     margin-left: 4px;
+  }
+
+  .gpu {
+    &__item {
+      min-height: 40px !important;
+    }
   }
 </style>

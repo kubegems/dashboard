@@ -16,8 +16,6 @@
     "app_store_app": "应用商店应用",
     "model_store_app": "算法商店应用",
     "used": "{0}使用量",
-    "gpu_temp": "GPU温度",
-    "gpu_power": "GPU功率",
     "version": "版本",
     "replicas": "副本",
     "now_replicas": "当前副本数",

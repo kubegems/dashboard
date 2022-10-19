@@ -4,6 +4,7 @@
   },
   "exclude": ["node_modules", "dist"],
   "vueCompilerOptions": {
-    "experimentalCompatMode": 2
+    "experimentalCompatMode": 2,
+    "target": 2.7
   }
 }

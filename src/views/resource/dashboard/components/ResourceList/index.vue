@@ -31,7 +31,7 @@
         <v-flex class="float-left resource__tr">
           {{ item.Cluster.ClusterName }}
         </v-flex>
-        <v-flex v-if="item.NvidiaGpu || item.TkeGpu" class="float-left ml-2 resource__icon">
+        <v-flex v-if="item.NvidiaGpu || item.TkeGpu" class="float-left resource__icon">
           <GpuTip :item="item" />
         </v-flex>
         <template v-if="item.TenantResourceQuotaApply && item.TenantResourceQuotaApply.Status === 'pending'">
@@ -280,7 +280,7 @@
     }
 
     &__icon {
-      margin-top: 10px;
+      margin-top: 15px;
     }
   }
 </style>

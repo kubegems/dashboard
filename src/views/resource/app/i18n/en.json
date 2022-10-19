@@ -16,8 +16,6 @@
     "app_store_app": "App Store App",
     "model_store_app": "Algorithm Store App",
     "used": "{0} Usage",
-    "gpu_temp": "GPU temperature",
-    "gpu_power": "GPU power",
     "version": "Version",
     "replicas": "Duplicate",
     "now_replicas": "Current number of copies",

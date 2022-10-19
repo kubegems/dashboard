@@ -16,8 +16,6 @@
     "app_store_app": "カタログアプリ",
     "model_store_app": "アルゴリズムストアアプリ",
     "used": "{0}使用量",
-    "gpu_temp": "GPU 温度",
-    "gpu_power": "GPU 電源",
     "version": "バージョン",
     "replicas": "開くべきクリック ギルドVault 4",
     "now_replicas": "現在のレプリカ数",

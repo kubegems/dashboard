@@ -42,7 +42,15 @@
 
     "gpu_core": "總核心",
     "gpu_memory": "總顯存",
-    "gpu_resource": "Gpu資源"
+    "gpu_resource": "Gpu資源",
+
+    "gpu_used": "{0}使用量",
+    "gpu_used_prcent": "{0}使用率",
+    "gpu_temp": "GPU溫度",
+    "gpu_power": "GPU功率",
+    "limits": "{0}限制值",
+    "requests": "{0}請求值",
+    "core": "核心"
   },
   "table": {
     "container_name": "容器名",
