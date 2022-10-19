@@ -42,7 +42,15 @@
 
     "gpu_core": "Total Core",
     "gpu_memory": "Total Video Memory",
-    "gpu_resource": "Gpu Resource"
+    "gpu_resource": "Gpu Resource",
+
+    "gpu_used": "{0} Usage",
+    "gpu_used_prcent": "{0} Usage Rate",
+    "gpu_temp": "GPU temperature",
+    "gpu_power": "GPU power",
+    "limits": "{0} Limits",
+    "requests": "{0} Requests",
+    "core": "core"
   },
   "table": {
     "container_name": "Container Name",

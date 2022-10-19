@@ -121,6 +121,7 @@
             topkind: 'ModelDeployment',
             topname: app ? app.name || app.metadata.name : '',
           }"
+          type="ModelDeployment"
         />
       </v-col>
     </v-row>
@@ -154,8 +155,10 @@
   import AppDeployList from '@/views/resource/appmanifest/components/AppDeployList';
   import AppImageSecurityReportList from '@/views/resource/appmanifest/components/AppImageSecurityReportList';
   import AppResourceFileList from '@/views/resource/appmanifest/components/AppResourceFileList';
+  import NvidiaGpuMonitor from '@/views/resource/components/common/NvidiaGpuMonitor';
   import PodList from '@/views/resource/components/common/PodList';
   import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
+  import TkeGpuMonitor from '@/views/resource/components/common/TkeGpuMonitor';
   import DeployControlCenter from '@/views/resource/deploy/components/DeployControlCenter';
   import DeployStatus from '@/views/resource/deploy/components/DeployStatus';
 
@@ -172,11 +175,13 @@
       DeployStatus,
       ModelMonitor,
       ModelResourceInfo,
+      NvidiaGpuMonitor,
       PodList,
       ResourceInfo,
       ResourceYaml,
       Rollingback,
       ScaleReplicas,
+      TkeGpuMonitor,
       UpdateModelRuntime,
       UpgradeModel,
     },
@@ -202,11 +207,20 @@
         } else if (this.$route.query.kind === 'appstore') {
           return [{ text: this.$t('tab.resource_status'), value: 'DeployStatus' }];
         } else if (this.$route.query.kind === 'modelstore') {
-          return [
+          const items = [
             { text: this.$t('tab.runtime'), value: 'ModelResourceInfo' },
             { text: this.$root.$t('tab.pod'), value: 'PodList' },
             { text: this.$root.$t('tab.monitor'), value: 'ModelMonitor' },
           ];
+
+          if (this.isTke()) {
+            items.push({ text: this.$root.$t('tab.gpu_monitor'), value: 'TkeGpuMonitor' });
+          }
+
+          if (this.isNvidia()) {
+            items.push({ text: this.$root.$t('tab.gpu_monitor'), value: 'NvidiaGpuMonitor' });
+          }
+          return items;
         }
         return [];
       },
@@ -349,6 +363,12 @@
       upgradeModel() {
         this.$refs.upgradeModel.init(this.app);
         this.$refs.upgradeModel.open();
+      },
+      isTke() {
+        return this.app?.spec?.server?.resources?.limits['tencent.com/vcuda-core'];
+      },
+      isNvidia() {
+        return this.app?.spec?.server?.resources?.limits['nvidia.com/gpu'];
       },
     },
   };

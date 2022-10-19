@@ -7,6 +7,9 @@
             <BaseDatetimePicker v-model="date" :default-value="30" @change="onDatetimeChange(undefined)" />
           </v-sheet>
         </v-flex>
+        <div class="float-right"> <BaseLogo icon-name="nvidia" :ml="2" :width="20" /> </div>
+        <div class="float-right logo kubegems__text"> Provider By </div>
+
         <div class="kubegems__clear-float" />
       </v-flex>
     </v-card-title>
@@ -14,21 +17,28 @@
       <v-row>
         <v-col cols="6">
           <BaseAreaChart
-            id="cpu"
             label="pod"
-            :metrics="cpu"
-            :title="$t('tip.used', [$root.$t('resource.cpu')])"
-            type="cpu"
+            :metrics="gpu"
+            :title="$t('tip.gpu_used_prcent', [$root.$t('resource.gpu')])"
+            type="%"
           />
         </v-col>
         <v-col cols="6">
           <BaseAreaChart
-            id="memory"
             label="pod"
-            :metrics="memory"
-            :title="$t('tip.used', [$root.$t('resource.memory')])"
+            :metrics="gpuMemory"
+            :title="$t('tip.gpu_used', [$root.$t('resource.video_memory')])"
             type="memory"
           />
+        </v-col>
+      </v-row>
+
+      <v-row>
+        <v-col cols="6">
+          <BaseAreaChart label="pod" :metrics="gpuTemp" :title="$t('tip.gpu_temp')" type="°C" />
+        </v-col>
+        <v-col cols="6">
+          <BaseAreaChart label="pod" :metrics="gpuPower" :title="$t('tip.gpu_power')" type="W" />
         </v-col>
       </v-row>
     </v-card-text>
@@ -42,10 +52,10 @@
   import { getPodList } from '@/api';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
-  import { MODEL_WORKLOAD_CPU_USAGE_CORE_PROMQL, MODEL_WORKLOAD_MEMORY_USAGE_BYTE_PROMQL } from '@/utils/prometheus';
+  import { N_GPU_MEMORY_USAGE, N_GPU_POWER, N_GPU_TEMP, N_GPU_USAGE } from '@/utils/prometheus';
 
   export default {
-    name: 'ModelMonitor',
+    name: 'NvidiaGpuMonitor',
     i18n: {
       messages: messages,
     },
@@ -53,13 +63,19 @@
     props: {
       item: {
         type: Object,
-        default: () => null,
+        default: () => {},
+      },
+      type: {
+        type: String,
+        default: () => 'Pod',
       },
     },
     data() {
       return {
-        cpu: [],
-        memory: [],
+        gpu: [],
+        gpuMemory: [],
+        gpuTemp: [],
+        gpuPower: [],
         date: [],
         params: {
           start: '',
@@ -67,33 +83,35 @@
           noprocessing: true,
         },
         timeinterval: null,
-        pods: '',
       };
     },
     computed: {
       ...mapState(['Scale']),
     },
-
     destroyed() {
       if (this.timeinterval) clearInterval(this.timeinterval);
     },
     mounted() {
       this.$nextTick(async () => {
-        await this.podList();
+        if (this.type === 'Pod') {
+          this.pods = [this.item.metadata.name];
+        } else {
+          await this.podList();
+        }
         this.onDatetimeChange();
       });
     },
     methods: {
       async podList() {
-        const data = await getPodList(this.ThisCluster, this.ThisNamespace, {
-          topkind: 'ModelDeployment',
+        const data = await getPodList(this.ThisCluster, this.$route.query.namespace, {
+          topkind: this.type,
           topname: this.item.metadata.name,
           size: 1000,
           noprocessing: true,
         });
         this.pods = data.List.map((d) => {
           return d.metadata.name;
-        }).join('|');
+        });
       },
       async loadMetrics() {
         if (this.timeinterval) clearInterval(this.timeinterval);
@@ -105,26 +123,34 @@
         }, 1000 * 30);
       },
       async loadData() {
-        this.modelCPUUsage();
-        this.modelMemoryUsage();
+        this.gpuUsage();
+        this.gpuMemoryUsage();
+        this.gpuTempMetrics();
+        this.gpuPowerMetrics();
       },
-      async modelCPUUsage() {
-        const query = MODEL_WORKLOAD_CPU_USAGE_CORE_PROMQL.replaceAll('$1', this.pods).replaceAll(
+      async gpuUsage() {
+        const query = N_GPU_USAGE.replaceAll('$1', this.pods.join('|')).replaceAll('$2', this.$route.query.namespace);
+        const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
+        if (data) this.gpu = data;
+      },
+      async gpuMemoryUsage() {
+        const query = N_GPU_MEMORY_USAGE.replaceAll('$1', this.pods.join('|')).replaceAll(
           '$2',
-          this.item.metadata.namespace,
+          this.$route.query.namespace,
         );
         const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
-        if (data) this.cpu = data;
+        if (data) this.gpuMemory = data;
       },
-      async modelMemoryUsage() {
-        const query = MODEL_WORKLOAD_MEMORY_USAGE_BYTE_PROMQL.replaceAll('$1', this.pods).replaceAll(
-          '$2',
-          this.item.metadata.namespace,
-        );
+      async gpuTempMetrics() {
+        const query = N_GPU_TEMP.replaceAll('$1', this.pods.join('|')).replaceAll('$2', this.$route.query.namespace);
         const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
-        if (data) this.memory = data;
+        if (data) this.gpuTemp = data;
       },
-
+      async gpuPowerMetrics() {
+        const query = N_GPU_POWER.replaceAll('$1', this.pods.join('|')).replaceAll('$2', this.$route.query.namespace);
+        const data = await this.m_permission_matrix(this.ThisCluster, Object.assign(this.params, { query: query }));
+        if (data) this.gpuPower = data;
+      },
       onDatetimeChange() {
         this.params.start = this.$moment(this.date[0]).utc().format();
         this.params.end = this.$moment(this.date[1]).utc().format();
@@ -133,3 +159,10 @@
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .logo {
+    line-height: 28px;
+    font-size: 13px;
+  }
+</style>

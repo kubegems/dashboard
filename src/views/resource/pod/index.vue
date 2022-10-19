@@ -77,11 +77,12 @@
         </template>
         <template #[`item.name`]="{ item }">
           <v-flex class="float-left">
-            <a class="text-subtitle-2" @click.stop="podDetail(item)">
+            <a class="text-subtitle-2 kubegems__inline_flex" @click.stop="podDetail(item)">
               {{ item.metadata.name }}
             </a>
-            <BaseLogo v-if="isTke(item)" absolute icon-name="tke" :mt="0" :width="20" />
-            <BaseLogo v-if="isNvidia(item)" absolute icon-name="nvidia" :mt="0" :width="20" />
+          </v-flex>
+          <v-flex v-if="isTke(item) || isNvidia(item)" class="float-left">
+            <GpuTip :allocated="false" :item="item" />
           </v-flex>
           <div class="kubegems__clear-float" />
         </template>
@@ -236,6 +237,7 @@
   import { stringifySelector } from '@/utils/k8s_selector';
   import { POD_CPU_USAGE_PROMQL, POD_MEMORY_USAGE_PROMQL } from '@/utils/prometheus';
   import EventTip from '@/views/resource/components/common/EventTip';
+  import GpuTip from '@/views/resource/components/common/GpuTip';
   import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
 
   export default {
@@ -246,6 +248,7 @@
     components: {
       ContainerItems,
       EventTip,
+      GpuTip,
       NamespaceFilter,
       RestartTip,
     },
@@ -407,7 +410,12 @@
             sort: this.m_table_generateResourceSortParamValue(),
           }),
         );
-        this.items = data.List;
+        this.items = data.List.map((d) => {
+          return {
+            ...d,
+            ...this.getGpuLimit(d),
+          };
+        });
         this.pageCount = Math.ceil(data.Total / this.params.size);
         this.params.page = data.CurrentPage;
         this.$router.replace({ query: { ...this.$route.query, ...this.params } });
@@ -584,6 +592,25 @@
         return item.spec.containers.some((c) => {
           return c?.resources?.limits && c?.resources?.limits['nvidia.com/gpu'];
         });
+      },
+      getGpuLimit(item) {
+        const gpu = {
+          TkeGpu: 0,
+          TkeMemory: 0,
+          NvidiaGpu: 0,
+        };
+        item.spec.containers.forEach((c) => {
+          if (c?.resources?.limits && c?.resources?.limits['nvidia.com/gpu']) {
+            gpu.NvidiaGpu += parseFloat(c?.resources?.limits && c?.resources?.limits['nvidia.com/gpu']);
+          }
+          if (c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda-core']) {
+            gpu.TkeGpu += parseFloat(c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda-core']);
+          }
+          if (c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda-memory']) {
+            gpu.TkeMemory += parseFloat(c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda-memory']);
+          }
+        });
+        return gpu;
       },
     },
   };

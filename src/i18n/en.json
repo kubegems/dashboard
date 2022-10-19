@@ -529,6 +529,7 @@
     "metadata": "Metadata",
     "event": "Event",
     "pod": "Pod",
-    "monitor": "Monitor"
+    "monitor": "Monitor",
+    "gpu_monitor": "GPU Monitor"
   }
 }

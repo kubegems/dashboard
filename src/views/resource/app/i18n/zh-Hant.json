@@ -16,8 +16,6 @@
     "app_store_app": "應用商店應用",
     "model_store_app": "演算法商店應用",
     "used": "{0}使用量",
-    "gpu_temp": "GPU溫度",
-    "gpu_power": "GPU功率",
     "version": "版本",
     "replicas": "副本",
     "now_replicas": "當前副本數",
