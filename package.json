@@ -109,7 +109,6 @@
     "vue-cli-plugin-vuetify": "^2.0.7",
     "vue-cli-plugin-yaml": "^1.0.2",
     "vue-eslint-parser": "^9.0.2",
-    "vue-template-compiler": "^2.6.12",
     "vuetify-loader": "^1.7.3"
   },
   "browserslist": [

@@ -241,6 +241,7 @@
             );
             if (this.missingPlugins?.length === 0) {
               this.items = [];
+              this.labelpairs = {};
               this.dashboardList();
             } else {
               this.$store.commit('SET_SNACKBAR', {
