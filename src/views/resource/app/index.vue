@@ -369,12 +369,13 @@
           if (!updatingApp) return;
           const app = JSON.parse(updatingApp);
           if (app.MessageType !== 'objectChanged') return;
-          if (app.EventKind === 'delete') {
-            this.m_table_generateParams();
-            this.appRunningList(true);
-            return;
-          }
+
           if (app.InvolvedObject.Kind === 'Application') {
+            if (app.EventKind === 'delete') {
+              this.m_table_generateParams();
+              this.appRunningList(true);
+              return;
+            }
             if (app.EventKind === 'add' && this.params.page === 1) {
               this.appRunningList(true);
               return;
