@@ -1,5 +1,3 @@
-import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert';
-
 <Alert message="在使用前请联系集群管理员开启 KubeGems Observability 相关的组件。" />
 
 ## KubeGems OpenTelemetry Collector
@@ -14,13 +12,37 @@ import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert'
 |  jaeger   | thrift_http | 14268 |
 |  zipkin   |             | 9411  |
 
-## PHP Metrics
+## Nodejs Metrics
 
-OpenTelmetry PHP SDK 中的 Metrics 尚处于早期阶段，暂不提供接入文档
+OpenTelmetry Nodejs SDK 中的 Mtrics 尚处于早期阶段，暂不提供接入文档
 
-更多请参阅 [OpenTelemetry PHP SDK](https://github.com/open-telemetry/opentelemetry-php)
+这里是官方提供的一个 SDK 初始化 counter 类型的样例
 
-样例可参阅[OpenTelemetry PHP SDK Examples](https://github.com/open-telemetry/opentelemetry-php/tree/main/examples)
+- 安装依赖包
+
+```
+npm install --save @opentelemetry/sdk-metrics-base
+```
+
+- SDK 的基本设置如下：
+
+```javascript
+const opentelemetry = require('@opentelemetry/api-metrics');
+const { MeterProvider } = require('@opentelemetry/sdk-metrics-base');
+
+// To create an instrument, you first need to initialize the Meter provider.
+// NOTE: The default OpenTelemetry meter provider does not record any metric instruments.
+//       Registering a working meter provider allows the API methods to record instruments.
+opentelemetry.setGlobalMeterProvider(new MeterProvider());
+
+// To record a metric event, we used the global singleton meter to create an instrument.
+const counter = opentelemetry.getMeter('default').createCounter('foo');
+
+// record a metric event.
+counter.add(1, { attributeKey: 'attribute-value' });
+```
+
+更多请参阅 [OpenTelemetry Nodejs SDK](https://www.npmjs.com/package/@opentelemetry/sdk-metrics-base)
 
 ---
 
@@ -45,3 +67,7 @@ OpenTelmetry PHP SDK 中的 Metrics 尚处于早期阶段，暂不提供接入�
 | OTEL_EXPORTER_OTLP_PROTOCOL | 通常有 SDK 实现，通常是 `http/protobuf` 或者 `grpc` | 指定用于所有遥测数据的 OTLP 传输协议 |
 | OTEL_EXPORTER_OTLP_HEADERS | N/A | 允许您将配置为键值对以添加到的 gRPC 或 HTTP 请求头中 |
 | OTEL_EXPORTER_OTLP_TIMEOUT | 10000(10s) | 所有上报数据（traces、metrics、logs）的超时值，单位 ms |
+
+<script setup>
+  import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert';
+</script>

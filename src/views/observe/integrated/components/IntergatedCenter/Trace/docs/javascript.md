@@ -1,5 +1,3 @@
-import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert';
-
 <Alert message="在使用前请联系集群管理员开启 KubeGems Observability 相关的组件。" />
 
 ## KubeGems OpenTelemetry Collector
@@ -14,37 +12,59 @@ import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert'
 |  jaeger   | thrift_http | 14268 |
 |  zipkin   |             | 9411  |
 
-## Nodejs Metrics
+## JavaScript Trace
 
-OpenTelmetry Nodejs SDK 中的 Mtrics 尚处于早期阶段，暂不提供接入文档
-
-这里是官方提供的一个 SDK 初始化 counter 类型的样例
-
-- 安装依赖包
+#### step 1 安装依赖包
 
 ```
-npm install --save @opentelemetry/sdk-metrics-base
+npm install --save @opentelemetry/api
+npm install --save @opentelemetry/sdk-node
+npm install --save @opentelemetry/auto-instrumentations-node
 ```
 
-- SDK 的基本设置如下：
+#### step 2 初始化 Tracer
 
-```nodejs
-const opentelemetry = require('@opentelemetry/api-metrics');
-const { MeterProvider } = require('@opentelemetry/sdk-metrics-base');
+```javascript
+// tracing.js
 
-// To create an instrument, you first need to initialize the Meter provider.
-// NOTE: The default OpenTelemetry meter provider does not record any metric instruments.
-//       Registering a working meter provider allows the API methods to record instruments.
-opentelemetry.setGlobalMeterProvider(new MeterProvider());
+'use strict';
 
-// To record a metric event, we used the global singleton meter to create an instrument.
-const counter = opentelemetry.getMeter('default').createCounter('foo');
+const process = require('process');
+const opentelemetry = require('@opentelemetry/sdk-node');
+const { getNodeAutoInstrumentations } = require('@opentelemetry/auto-instrumentations-node');
+const { ConsoleSpanExporter } = require('@opentelemetry/sdk-trace-base');
+const { Resource } = require('@opentelemetry/resources');
+const { SemanticResourceAttributes } = require('@opentelemetry/semantic-conventions');
 
-// record a metric event.
-counter.add(1, { attributeKey: 'attribute-value' });
+// configure the SDK to export telemetry data to the console
+// enable all auto-instrumentations from the meta package
+const traceExporter = new ConsoleSpanExporter();
+const sdk = new opentelemetry.NodeSDK({
+  resource: new Resource({
+    [SemanticResourceAttributes.SERVICE_NAME]: 'my-service',
+  }),
+  traceExporter,
+  instrumentations: [getNodeAutoInstrumentations()],
+});
+
+// initialize the SDK and register with the OpenTelemetry API
+// this enables the API to record telemetry
+sdk
+  .start()
+  .then(() => console.log('Tracing initialized'))
+  .catch((error) => console.log('Error initializing tracing', error));
+
+// gracefully shut down the SDK on process exit
+process.on('SIGTERM', () => {
+  sdk
+    .shutdown()
+    .then(() => console.log('Tracing terminated'))
+    .catch((error) => console.log('Error terminating tracing', error))
+    .finally(() => process.exit(0));
+});
 ```
 
-更多请参阅 [OpenTelemetry Nodejs SDK](https://www.npmjs.com/package/@opentelemetry/sdk-metrics-base)
+更多请参阅 [OpenTelemetry JavaScript SDK](https://github.com/open-telemetry/opentelemetry-js)
 
 ---
 
@@ -69,3 +89,7 @@ counter.add(1, { attributeKey: 'attribute-value' });
 | OTEL_EXPORTER_OTLP_PROTOCOL | 通常有 SDK 实现，通常是 `http/protobuf` 或者 `grpc` | 指定用于所有遥测数据的 OTLP 传输协议 |
 | OTEL_EXPORTER_OTLP_HEADERS | N/A | 允许您将配置为键值对以添加到的 gRPC 或 HTTP 请求头中 |
 | OTEL_EXPORTER_OTLP_TIMEOUT | 10000(10s) | 所有上报数据（traces、metrics、logs）的超时值，单位 ms |
+
+<script setup>
+  import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert';
+</script>

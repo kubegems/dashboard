@@ -1,5 +1,3 @@
-import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert';
-
 <Alert message="在使用前请联系集群管理员开启 KubeGems Observability 相关的组件。" />
 
 ## KubeGems OpenTelemetry Collector
@@ -34,34 +32,25 @@ npm install --save @opentelemetry/sdk-trace-node
 
 #### step 2 初始化 Tracer 并启动 express
 
-```
-const opentelemetry = require("@opentelemetry/api");
-const { registerInstrumentations } = require("@opentelemetry/instrumentation");
-const { NodeTracerProvider } = require("@opentelemetry/sdk-trace-node");
-const { Resource } = require("@opentelemetry/resources");
-const {
-  SemanticResourceAttributes,
-} = require("@opentelemetry/semantic-conventions");
-const {
-  SimpleSpanProcessor,
-  ConsoleSpanExporter,
-} = require("@opentelemetry/tracing");
-const grpc = require("@grpc/grpc-js");
-const {
-  CollectorTraceExporter,
-} = require("@opentelemetry/exporter-collector-grpc");
+```javascript
+const opentelemetry = require('@opentelemetry/api');
+const { registerInstrumentations } = require('@opentelemetry/instrumentation');
+const { NodeTracerProvider } = require('@opentelemetry/sdk-trace-node');
+const { Resource } = require('@opentelemetry/resources');
+const { SemanticResourceAttributes } = require('@opentelemetry/semantic-conventions');
+const { SimpleSpanProcessor, ConsoleSpanExporter } = require('@opentelemetry/tracing');
+const grpc = require('@grpc/grpc-js');
+const { CollectorTraceExporter } = require('@opentelemetry/exporter-collector-grpc');
 
-const {
-  ExpressInstrumentation,
-} = require("@opentelemetry/instrumentation-express");
-const { HttpInstrumentation } = require("@opentelemetry/instrumentation-http");
+const { ExpressInstrumentation } = require('@opentelemetry/instrumentation-express');
+const { HttpInstrumentation } = require('@opentelemetry/instrumentation-http');
 
-var os = require("os");
+var os = require('os');
 var hostname = os.hostname();
 
 const provider = new NodeTracerProvider({
   resource: new Resource({
-    [SemanticResourceAttributes.SERVICE_NAME]: "your-nodejaApp",
+    [SemanticResourceAttributes.SERVICE_NAME]: 'your-nodejaApp',
   }),
 });
 provider.register();
@@ -70,16 +59,16 @@ registerInstrumentations({
   instrumentations: [
     new HttpInstrumentation(),
     new ExpressInstrumentation({
-      ignoreLayersType: [new RegExp("middleware.*")],
-}},
+      ignoreLayersType: [new RegExp('middleware.*')],
+    }),
   ],
   tracerProvider: provider,
 });
 
-var url = "opentelemetry-collector.observability:4317";
+var url = 'opentelemetry-collector.observability:4317';
 
 var logStdout = false;
-if (url == "stdout") {
+if (url == 'stdout') {
   logStdout = true;
 }
 const collectorOptions = {
@@ -95,13 +84,13 @@ if (!logStdout) {
   provider.addSpanProcessor(new SimpleSpanProcessor(stdexporter));
 }
 provider.register();
-var tracer = opentelemetry.trace.getTracer("your-nodejsApp");
+var tracer = opentelemetry.trace.getTracer('your-nodejsApp');
 
-var express = require("express");
+var express = require('express');
 var app = express();
 
-app.get("/hello", function (req, res, next) {
-  res.send("success");
+app.get('/hello', function (req, res, next) {
+  res.send('success');
 });
 
 var server = app.listen(8079, function () {
@@ -134,3 +123,7 @@ var server = app.listen(8079, function () {
 | OTEL_EXPORTER_OTLP_PROTOCOL | 通常有 SDK 实现，通常是 `http/protobuf` 或者 `grpc` | 指定用于所有遥测数据的 OTLP 传输协议 |
 | OTEL_EXPORTER_OTLP_HEADERS | N/A | 允许您将配置为键值对以添加到的 gRPC 或 HTTP 请求头中 |
 | OTEL_EXPORTER_OTLP_TIMEOUT | 10000(10s) | 所有上报数据（traces、metrics、logs）的超时值，单位 ms |
+
+<script setup>
+  import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert';
+</script>

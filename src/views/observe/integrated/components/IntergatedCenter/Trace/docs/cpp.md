@@ -1,5 +1,3 @@
-import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert';
-
 <Alert message="在使用前请联系集群管理员开启 KubeGems Observability 相关的组件。" />
 
 ## KubeGems OpenTelemetry Collector
@@ -14,59 +12,71 @@ import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert'
 |  jaeger   | thrift_http | 14268 |
 |  zipkin   |             | 9411  |
 
-## JavaScript Trace
+## C++ Trace
 
-#### step 1 安装依赖包
+OpenTelemetry C++ SDK 提供了 OpenTelemetry C++ API 的参考实现，并根据规范为处理器、采样器和核心导出器提供实现。
 
-```nodejs
-npm install --save @opentelemetry/api
-npm install --save @opentelemetry/sdk-node
-npm install --save @opentelemetry/auto-instrumentations-node
+导出器负责将遥测数据发送到特定的后端。OpenTelemetry 提供了六个开箱即用的跟踪导出器：
+
+- In-Memory Exporter：将数据保存在内存中，用于调试。
+- Jaeger Exporter：准备收集的遥测数据并将其通过 UDP 和 HTTP 发送到 Jaeger 后端。
+- Zipkin 导出器：准备收集的遥测数据并将其通过 Zipkin API 发送到 Zipkin 后端。
+- Logging Exporter：将遥测数据保存到日志流中。
+- OpenTelemetry(otlp) Exporter：使用 protobuf/gRPC 或 protobuf/HTTP 将数据发送到 OpenTelemetry Collector。
+- ETW 导出器：将遥测数据发送到 Windows 事件跟踪 (ETW)。
+
+```cpp
+//namespace alias used in sample code here.
+namespace sdktrace   = opentelemetry::sdk::trace;
+// otlp grpc exporter
+opentelemetry::exporter::otlp::OtlpGrpcExporterOptions opts;
+opts.endpoint = "opentelemetry-collector.observability::4317";
+opts.use_ssl_credentials = false;
+opts.ssl_credentials_cacert_as_string = "ssl-certificate";
+auto otlp_grpc_exporter =
+    std::unique_ptr<sdktrace::SpanExporter>(new opentelemetry::exporter::otlp::OtlpGrpcExporter(opts));
+
+// otlp http exporter
+opentelemetry::exporter::otlp::OtlpHttpExporterOptions opts;
+opts.url = "http://opentelemetry-collector.observability:4318/v1/traces";
+auto otlp_http_exporter =
+    std::unique_ptr<sdktrace::SpanExporter>(new opentelemetry::exporter::otlp::OtlpHttpExporter(opts));
 ```
 
-#### step 2 初始化 Tracer
+## 配置资源
 
-```js
-// tracing.js
-
-'use strict';
-
-const process = require('process');
-const opentelemetry = require('@opentelemetry/sdk-node');
-const { getNodeAutoInstrumentations } = require('@opentelemetry/auto-instrumentations-node');
-const { ConsoleSpanExporter } = require('@opentelemetry/sdk-trace-base');
-const { Resource } = require('@opentelemetry/resources');
-const { SemanticResourceAttributes } = require('@opentelemetry/semantic-conventions');
-
-// configure the SDK to export telemetry data to the console
-// enable all auto-instrumentations from the meta package
-const traceExporter = new ConsoleSpanExporter();
-const sdk = new opentelemetry.NodeSDK({
-  resource: new Resource({
-    [SemanticResourceAttributes.SERVICE_NAME]: 'my-service',
-  }),
-  traceExporter,
-  instrumentations: [getNodeAutoInstrumentations()],
-});
-
-// initialize the SDK and register with the OpenTelemetry API
-// this enables the API to record telemetry
-sdk
-  .start()
-  .then(() => console.log('Tracing initialized'))
-  .catch((error) => console.log('Error initializing tracing', error));
-
-// gracefully shut down the SDK on process exit
-process.on('SIGTERM', () => {
-  sdk
-    .shutdown()
-    .then(() => console.log('Tracing terminated'))
-    .catch((error) => console.log('Error terminating tracing', error))
-    .finally(() => process.exit(0));
-});
+```cpp
+auto resource_attributes = opentelemetry::sdk::resource::ResourceAttributes
+    {
+        {"service.name", "shoppingcart"},
+        {"service.instance.id", "instance-12"}
+    };
+auto resource = opentelemetry::sdk::resource::Resource::Create(resource_attributes);
+auto received_attributes = resource.GetAttributes();
 ```
 
-更多请参阅 [OpenTelemetry JavaScript SDK](https://github.com/open-telemetry/opentelemetry-js)
+## 配置 trace 采样
+
+```cpp
+//AlwaysOnSampler
+auto always_on_sampler = std::unique_ptr<sdktrace::AlwaysOnSampler>
+    (new sdktrace::AlwaysOnSampler);
+
+//AlwaysOffSampler
+auto always_off_sampler = std::unique_ptr<sdktrace::AlwaysOffSampler>
+    (new sdktrace::AlwaysOffSampler);
+
+//ParentBasedSampler
+auto parent_based_sampler = std::unique_ptr<sdktrace::ParentBasedSampler>
+    (new sdktrace::ParentBasedSampler);
+
+//TraceIdRatioBasedSampler - Sample 50% generated spans
+double ratio       = 0.5;
+auto always_off_sampler = std::unique_ptr<sdktrace::TraceIdRatioBasedSampler>
+    (new sdktrace::TraceIdRatioBasedSampler(ratio));
+```
+
+更多请参阅 [OpenTelemetry C++ SDK](https://opentelemetry-cpp.readthedocs.io/en/latest/sdk/GettingStarted.html)
 
 ---
 
@@ -91,3 +101,7 @@ process.on('SIGTERM', () => {
 | OTEL_EXPORTER_OTLP_PROTOCOL | 通常有 SDK 实现，通常是 `http/protobuf` 或者 `grpc` | 指定用于所有遥测数据的 OTLP 传输协议 |
 | OTEL_EXPORTER_OTLP_HEADERS | N/A | 允许您将配置为键值对以添加到的 gRPC 或 HTTP 请求头中 |
 | OTEL_EXPORTER_OTLP_TIMEOUT | 10000(10s) | 所有上报数据（traces、metrics、logs）的超时值，单位 ms |
+
+<script setup>
+  import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert';
+</script>

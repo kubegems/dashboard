@@ -297,7 +297,7 @@
             source: this.source,
           });
           this.$store.commit('SET_JWT', data.token);
-          this.$store.commit('SET_VERSION', process.env.VUE_APP_RELEASE);
+          this.$store.commit('SET_VERSION', import.meta.env.VUE_APP_RELEASE);
           await this.loadData();
           this.$store.commit('SET_SNACKBAR', {
             text: this.$t('status.success'),

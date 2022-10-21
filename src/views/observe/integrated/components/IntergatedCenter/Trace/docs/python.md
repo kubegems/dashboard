@@ -1,5 +1,3 @@
-import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert';
-
 <Alert message="在使用前请联系集群管理员开启 KubeGems Observability 相关的组件。" />
 
 ## KubeGems OpenTelemetry Collector
@@ -14,7 +12,9 @@ import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert'
 |  jaeger   | thrift_http | 14268 |
 |  zipkin   |             | 9411  |
 
-## Python Metrics
+## Python Trace
+
+OpenTelmetry 为 Python 提供了自动化的检测和埋点。这种方法简单、容易，并且不需要很多代码更改。只需要安装几个 Python 包即可成功检测应用程序的代码
 
 #### step 1 安装 opentelmetry 相关的库
 
@@ -57,7 +57,7 @@ provider.add_span_processor(processor)
 trace.set_tracer_provider(provider)
 ```
 
-更多请参阅 [OpenTelemetry Python SDK](https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation)
+更多请参阅 [OpenTelemetry Python SDK](https://opentelemetry.io/docs/instrumentation/python/getting-started/)
 
 ---
 
@@ -82,3 +82,7 @@ trace.set_tracer_provider(provider)
 | OTEL_EXPORTER_OTLP_PROTOCOL | 通常有 SDK 实现，通常是 `http/protobuf` 或者 `grpc` | 指定用于所有遥测数据的 OTLP 传输协议 |
 | OTEL_EXPORTER_OTLP_HEADERS | N/A | 允许您将配置为键值对以添加到的 gRPC 或 HTTP 请求头中 |
 | OTEL_EXPORTER_OTLP_TIMEOUT | 10000(10s) | 所有上报数据（traces、metrics、logs）的超时值，单位 ms |
+
+<script setup>
+  import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert';
+</script>

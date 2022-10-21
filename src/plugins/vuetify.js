@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import Vuetify from 'vuetify/lib';
+import Vuetify from 'vuetify';
 import '@/scss/vuetify/overrides.scss';
 Vue.use(Vuetify);
 
@@ -11,7 +11,7 @@ const theme = {
   default: '#563dea',
 };
 
-const vuetify = new Vuetify({
+export default new Vuetify({
   theme: {
     themes: {
       dark: theme,
@@ -19,5 +19,3 @@ const vuetify = new Vuetify({
     },
   },
 });
-
-export default vuetify;

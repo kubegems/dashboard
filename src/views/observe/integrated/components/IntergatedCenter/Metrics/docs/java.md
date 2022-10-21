@@ -1,5 +1,3 @@
-import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert';
-
 <Alert message="在使用前请联系集群管理员开启 KubeGems Observability 相关的组件。" />
 
 ## KubeGems OpenTelemetry Collector
@@ -14,61 +12,40 @@ import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert'
 |  jaeger   | thrift_http | 14268 |
 |  zipkin   |             | 9411  |
 
-## Golang Metrics
+## Java Metrics with Agent
 
-OpenTelemetry Golang SDK 中的 Metrics 尚处于实验阶段。
+#### step 1 下载 Agent
 
-- 初始化 `Meter`
+[opentelemetry-javaagent.jar](https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar)
 
-```
-import "go.opentelemetry.io/otel/metric/global"
+#### step2 设置 java 启动参数
 
-var Meter = global.MeterProvider().Meter("your_goApp")
-```
-
-- 设置 `Counter` 类型的指标
-
-计数器是一种同步仪器，用于测量加法非递减值。
-
-```
-def counter():
-    counter = meter.create_counter(name="some.prefix.counter", description="TODO")
-
-    while True:
-        counter.add(1)
-        time.sleep(1)
+```java
+java -javaagent:<path/to/opentelemetry-javaagent.jar> \
+     -Dotel.exporter.otlp.endpoint=http://opentelemetry-collector.observability:4318 \
+     -Dotel.service.name=java-opentelemetry-otlp-instrumentation
+     -jar myapp.jar
 ```
 
-- 设置 `GaugeObserver` 类型指标
+| System property | Environment variable | Description |
+| --- | --- | --- |
+| otel.traces.exporter=otlp (default) | OTEL_TRACES_EXPORTER=otlp | Select the OpenTelemetry exporter for tracing (default) |
+| otel.metrics.exporter=otlp | OTEL_METRICS_EXPORTER=otlp | Select the OpenTelemetry exporter for metrics (default) |
+| otel.logs.exporter=otlp | OTEL_LOGS_EXPORTER=otlp | Select the OpenTelemetry exporter for logs |
+| otel.exporter.otlp.endpoint | OTEL_EXPORTER_OTLP_ENDPOINT | The OTLP traces, metrics, and logs endpoint to connect to. Must be a URL with a scheme of either `http` or `https` based on the use of TLS. If protocol is `http/protobuf` the version and signal will be appended to the path (e.g. `v1/traces`, `v1/metrics`, or `v1/logs`). Default is `http://localhost:4317` when protocol is `grpc`, and `http://localhost:4318/v1/{signal}` when protocol is `http/protobuf`. |
+| otel.exporter.otlp.traces.endpoint | OTEL_EXPORTER_OTLP_TRACES_ENDPOINT | The OTLP traces endpoint to connect to. Must be a URL with a scheme of either `http` or `https` based on the use of TLS. Default is `http://localhost:4317` when protocol is `grpc`, and `http://localhost:4318/v1/traces` when protocol is `http/protobuf`. |
+| otel.service.name | OTEL_SERVICE_NAME | Specify logical service name. Takes precedence over service.name defined with otel.resource.attributes |
+| otel.exporter.otlp.headers | OTEL_EXPORTER_OTLP_HEADERS | Key-value pairs separated by commas to pass as request headers on OTLP trace, metric, and log requests. |
+| otel.traces.sampler | OTEL_TRACES_SAMPLER | The sampler to use for tracing. Defaults to `parentbased_always_on` |
+| otel.traces.sampler.arg | OTEL_TRACES_SAMPLER_ARG | An argument to the configured tracer if supported, for example a ratio. |
 
-```
-def gauge_observer():
-    def callback():
-        return [Measurement(random.random())]
+> 更多 java sdk 的配置参考[OpenTelemetry Java SDK Configuration](https://github.com/open-telemetry/opentelemetry-java/blob/main/sdk-extensions/autoconfigure/README.md#otlp-exporter-both-span-and-metric-exporters)
 
-    gauge = meter.create_observable_gauge(
-        name="some.prefix.gauge_observer",
-        callback=callback,
-        description="TODO",
-    )
-```
+#### Step3 登录 kubegems 指标观测性并查看调用链接
 
-- 设置 `Histogram` 类型指标
+## Java Metrics Manual
 
-```
-def histogram():
-    histogram = meter.create_histogram(
-        name="some.prefix.histogram",
-        description="TODO",
-        unit="microseconds",
-    )
-
-    while True:
-        histogram.record(random.randint(1, 5000000), attributes={"attr1": "value1"})
-        time.sleep(1)
-```
-
-更多请参阅 [OpenTelemetry Golang SDK](https://github.com/open-telemetry/opentelemetry-go)
+更多请参阅请 [OpenTelemetry Java SDK](https://opentelemetry.io/docs/instrumentation/java/manual/)
 
 ---
 
@@ -93,3 +70,7 @@ def histogram():
 | OTEL_EXPORTER_OTLP_PROTOCOL | 通常有 SDK 实现，通常是 `http/protobuf` 或者 `grpc` | 指定用于所有遥测数据的 OTLP 传输协议 |
 | OTEL_EXPORTER_OTLP_HEADERS | N/A | 允许您将配置为键值对以添加到的 gRPC 或 HTTP 请求头中 |
 | OTEL_EXPORTER_OTLP_TIMEOUT | 10000(10s) | 所有上报数据（traces、metrics、logs）的超时值，单位 ms |
+
+<script setup>
+  import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert';
+</script>

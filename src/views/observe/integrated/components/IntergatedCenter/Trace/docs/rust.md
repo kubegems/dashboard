@@ -1,5 +1,3 @@
-import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert';
-
 <Alert message="在使用前请联系集群管理员开启 KubeGems Observability 相关的组件。" />
 
 ## KubeGems OpenTelemetry Collector
@@ -14,59 +12,77 @@ import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert'
 |  jaeger   | thrift_http | 14268 |
 |  zipkin   |             | 9411  |
 
-## Ruby Trace
+## Rust Trace
 
-#### step 1 下载 opentelemetry 库
+OpenTelmetry Rust SDK 中的 Trace 尚处于早期阶段，暂不提供接入文档
 
-```ruby
-gem install opentelemetry-api
-gem install opentelemetry-sdk
-gem install opentelemetry-exporter-otlp
-opentelemetry-instrumentation-all
+以下是一个官方的 Trace 样例
+
+```rust
+use opentelemetry::{KeyValue, trace::Tracer};
+use opentelemetry::sdk::{trace::{self, IdGenerator, Sampler}, Resource};
+use opentelemetry::sdk::metrics::{selectors, PushController};
+use opentelemetry::util::tokio_interval_stream;
+use opentelemetry_otlp::{Protocol, WithExportConfig, ExportConfig};
+use std::time::Duration;
+use tonic::metadata::*;
+
+fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync + 'static>> {
+    let mut map = MetadataMap::with_capacity(3);
+
+    map.insert("x-host", "example.com".parse().unwrap());
+    map.insert("x-number", "123".parse().unwrap());
+    map.insert_bin("trace-proto-bin", MetadataValue::from_bytes(b"[binary data]"));
+
+    let tracer = opentelemetry_otlp::new_pipeline()
+        .tracing()
+        .with_exporter(
+            opentelemetry_otlp::new_exporter()
+            .tonic()
+            .with_endpoint("http://opentelemetry-collector.observability:4317")
+            .with_timeout(Duration::from_secs(3))
+            .with_metadata(map)
+         )
+        .with_trace_config(
+            trace::config()
+                .with_sampler(Sampler::AlwaysOn)
+                .with_id_generator(IdGenerator::default())
+                .with_max_events_per_span(64)
+                .with_max_attributes_per_span(16)
+                .with_max_events_per_span(16)
+                .with_resource(Resource::new(vec![KeyValue::new("service.name", "example")])),
+        )
+        .install_batch(opentelemetry::runtime::Tokio)?;
+
+    let export_config = ExportConfig {
+        endpoint: "http://opentelemetry-collector.observability:4317".to_string(),
+        timeout: Duration::from_secs(3),
+        protocol: Protocol::Grpc
+    };
+
+    let meter = opentelemetry_otlp::new_pipeline()
+        .metrics(tokio::spawn, tokio_interval_stream)
+        .with_exporter(
+            opentelemetry_otlp::new_exporter()
+                .tonic()
+                .with_export_config(export_config),
+                // can also config it using with_* functions like the tracing part above.
+        )
+        .with_stateful(true)
+        .with_period(Duration::from_secs(3))
+        .with_timeout(Duration::from_secs(10))
+        .with_aggregator_selector(selectors::simple::Selector::Exact)
+        .build();
+
+    tracer.in_span("doing_work", |cx| {
+        // Traced app logic here...
+    });
+
+    Ok(())
+}
 ```
 
-#### step2 设置环境变量
-
-```
-export service.name=your-rubyApp
-export service.version=your-rubyApp-version
-```
-
-#### step3 设置埋点
-
-```ruby
-require 'opentelemetry/sdk'
-require 'opentelemetry-exporter-otlp'
-
-# Configure the sdk with default export and context propagation formats
-# see SDK#configure for customizing the setup
-OpenTelemetry::SDK.configure do |c|
-  c.add_span_processor(
-    OpenTelemetry::SDK::Trace::Export::BatchSpanProcessor.new(
-      OpenTelemetry::Exporter::OTLP::Exporter.new(
-        endpoint: 'http://opentelemetry-collector.observability:2318/opentelemetry/v1/traces'
-      )
-    )
-  )
-end
-
-# To start a trace you need to get a Tracer from the TracerProvider
-tracer = OpenTelemetry.tracer_provider.tracer('my_app_or_gem', '0.1.0')
-
-tracer.in_span('foo') do |span|
-  # set an attribute
-  span.set_attribute('tform', 'osx')
-  # add an event
-  span.add_event('event in bar')
-  # create bar as child of foo
-  tracer.in_span('bar') do |child_span|
-    # inspect the span
-    pp child_span
-  end
-end
-```
-
-更多可参阅 [OpenTelemetry Ruby SDK](https://github.com/open-telemetry/opentelemetry-ruby)
+更多请参阅[OpenTelemetry Rust SDK](https://docs.rs/opentelemetry/latest/opentelemetry/)
 
 ---
 
@@ -91,3 +107,7 @@ end
 | OTEL_EXPORTER_OTLP_PROTOCOL | 通常有 SDK 实现，通常是 `http/protobuf` 或者 `grpc` | 指定用于所有遥测数据的 OTLP 传输协议 |
 | OTEL_EXPORTER_OTLP_HEADERS | N/A | 允许您将配置为键值对以添加到的 gRPC 或 HTTP 请求头中 |
 | OTEL_EXPORTER_OTLP_TIMEOUT | 10000(10s) | 所有上报数据（traces、metrics、logs）的超时值，单位 ms |
+
+<script setup>
+  import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert';
+</script>

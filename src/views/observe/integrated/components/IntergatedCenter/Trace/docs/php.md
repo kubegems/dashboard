@@ -1,5 +1,3 @@
-import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert';
-
 <Alert message="在使用前请联系集群管理员开启 KubeGems Observability 相关的组件。" />
 
 ## KubeGems OpenTelemetry Collector
@@ -14,52 +12,13 @@ import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert'
 |  jaeger   | thrift_http | 14268 |
 |  zipkin   |             | 9411  |
 
-## Python Trace
+## PHP Trace
 
-OpenTelmetry 为 Python 提供了自动化的检测和埋点。这种方法简单、容易，并且不需要很多代码更改。只需要安装几个 Python 包即可成功检测应用程序的代码
+OpenTelemetry PHP SDK 中的 Trace 尚处于早期阶段，暂不提供接入文档
 
-#### step 1 安装 opentelmetry 相关的库
+更多可参阅 [OpenTelemetry PHP SDK](https://github.com/open-telemetry/opentelemetry-php)
 
-```python
-$ pip install opentelemetry-distro
-$ pip install opentelemetry-instrumentation-flask
-$ pip install flask
-$ pip install requests
-```
-
-#### step 2 执行自动检测
-
-```
-$ opentelemetry-instrument --traces_exporter otlp  python  your-pythonApp
-```
-
-#### step 3 配置 OTLP Exporter
-
-```
-$ pip install opentelemetry-exporter-otlp-proto-http
-```
-
-通过下列代码初始化 trace
-
-```python
-from opentelemetry import trace
-from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
-from opentelemetry.sdk.resources import SERVICE_NAME, Resource
-from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.sdk.trace.export import BatchSpanProcessor
-
-# Service name is required for most backends
-resource = Resource(attributes={
-    SERVICE_NAME: "your-pythonApp"
-})
-
-provider = TracerProvider(resource=resource)
-processor = BatchSpanProcessor(OTLPSpanExporter(endpoint="opentelemetry-collector.observability:4318"))
-provider.add_span_processor(processor)
-trace.set_tracer_provider(provider)
-```
-
-更多请参阅 [OpenTelemetry Python SDK](https://opentelemetry.io/docs/instrumentation/python/getting-started/)
+样例可参阅[OpenTelemetry PHP SDK Examples](https://github.com/open-telemetry/opentelemetry-php/tree/main/examples)
 
 ---
 
@@ -84,3 +43,7 @@ trace.set_tracer_provider(provider)
 | OTEL_EXPORTER_OTLP_PROTOCOL | 通常有 SDK 实现，通常是 `http/protobuf` 或者 `grpc` | 指定用于所有遥测数据的 OTLP 传输协议 |
 | OTEL_EXPORTER_OTLP_HEADERS | N/A | 允许您将配置为键值对以添加到的 gRPC 或 HTTP 请求头中 |
 | OTEL_EXPORTER_OTLP_TIMEOUT | 10000(10s) | 所有上报数据（traces、metrics、logs）的超时值，单位 ms |
+
+<script setup>
+  import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert';
+</script>

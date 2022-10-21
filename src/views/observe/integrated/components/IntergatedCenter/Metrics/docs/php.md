@@ -1,5 +1,3 @@
-import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert';
-
 <Alert message="在使用前请联系集群管理员开启 KubeGems Observability 相关的组件。" />
 
 ## KubeGems OpenTelemetry Collector
@@ -14,11 +12,13 @@ import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert'
 |  jaeger   | thrift_http | 14268 |
 |  zipkin   |             | 9411  |
 
-## Erlang Trace
+## PHP Metrics
 
-OpenTelmetry Erlang SDK 中的 Trace 尚处于实验阶段，目前并不提供接入
+OpenTelmetry PHP SDK 中的 Metrics 尚处于早期阶段，暂不提供接入文档
 
-更多请参阅 [OpenTelemetry Erlang SDK](https://github.com/open-telemetry/opentelemetry-erlang)
+更多请参阅 [OpenTelemetry PHP SDK](https://github.com/open-telemetry/opentelemetry-php)
+
+样例可参阅[OpenTelemetry PHP SDK Examples](https://github.com/open-telemetry/opentelemetry-php/tree/main/examples)
 
 ---
 
@@ -43,3 +43,7 @@ OpenTelmetry Erlang SDK 中的 Trace 尚处于实验阶段，目前并不提供�
 | OTEL_EXPORTER_OTLP_PROTOCOL | 通常有 SDK 实现，通常是 `http/protobuf` 或者 `grpc` | 指定用于所有遥测数据的 OTLP 传输协议 |
 | OTEL_EXPORTER_OTLP_HEADERS | N/A | 允许您将配置为键值对以添加到的 gRPC 或 HTTP 请求头中 |
 | OTEL_EXPORTER_OTLP_TIMEOUT | 10000(10s) | 所有上报数据（traces、metrics、logs）的超时值，单位 ms |
+
+<script setup>
+  import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert';
+</script>

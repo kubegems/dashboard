@@ -50,7 +50,7 @@
   </v-flex>
 </template>
 
-<script>
+<script lang="jsx">
   import { VueOkrTree } from 'vue-okr-tree';
   import { mapGetters, mapState } from 'vuex';
 

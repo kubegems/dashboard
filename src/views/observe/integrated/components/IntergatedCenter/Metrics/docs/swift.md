@@ -1,5 +1,3 @@
-import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert';
-
 <Alert message="在使用前请联系集群管理员开启 KubeGems Observability 相关的组件。" />
 
 ## KubeGems OpenTelemetry Collector
@@ -14,71 +12,13 @@ import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert'
 |  jaeger   | thrift_http | 14268 |
 |  zipkin   |             | 9411  |
 
-## C++ Trace
+## Swift Metrics
 
-OpenTelemetry C++ SDK 提供了 OpenTelemetry C++ API 的参考实现，并根据规范为处理器、采样器和核心导出器提供实现。
+OpenTelmetry Swift SDK 中的 Metrics 尚处于早期阶段，暂不提供接入文档
 
-导出器负责将遥测数据发送到特定的后端。OpenTelemetry 提供了六个开箱即用的跟踪导出器：
+更多请参阅 [OpenTelemetry Switft SDK](https://github.com/open-telemetry/opentelemetry-swift)
 
-- In-Memory Exporter：将数据保存在内存中，用于调试。
-- Jaeger Exporter：准备收集的遥测数据并将其通过 UDP 和 HTTP 发送到 Jaeger 后端。
-- Zipkin 导出器：准备收集的遥测数据并将其通过 Zipkin API 发送到 Zipkin 后端。
-- Logging Exporter：将遥测数据保存到日志流中。
-- OpenTelemetry(otlp) Exporter：使用 protobuf/gRPC 或 protobuf/HTTP 将数据发送到 OpenTelemetry Collector。
-- ETW 导出器：将遥测数据发送到 Windows 事件跟踪 (ETW)。
-
-```cpp
-//namespace alias used in sample code here.
-namespace sdktrace   = opentelemetry::sdk::trace;
-// otlp grpc exporter
-opentelemetry::exporter::otlp::OtlpGrpcExporterOptions opts;
-opts.endpoint = "opentelemetry-collector.observability::4317";
-opts.use_ssl_credentials = false;
-opts.ssl_credentials_cacert_as_string = "ssl-certificate";
-auto otlp_grpc_exporter =
-    std::unique_ptr<sdktrace::SpanExporter>(new opentelemetry::exporter::otlp::OtlpGrpcExporter(opts));
-
-// otlp http exporter
-opentelemetry::exporter::otlp::OtlpHttpExporterOptions opts;
-opts.url = "http://opentelemetry-collector.observability:4318/v1/traces";
-auto otlp_http_exporter =
-    std::unique_ptr<sdktrace::SpanExporter>(new opentelemetry::exporter::otlp::OtlpHttpExporter(opts));
-```
-
-## 配置资源
-
-```cpp
-auto resource_attributes = opentelemetry::sdk::resource::ResourceAttributes
-    {
-        {"service.name", "shoppingcart"},
-        {"service.instance.id", "instance-12"}
-    };
-auto resource = opentelemetry::sdk::resource::Resource::Create(resource_attributes);
-auto received_attributes = resource.GetAttributes();
-```
-
-## 配置 trace 采样
-
-```cpp
-//AlwaysOnSampler
-auto always_on_sampler = std::unique_ptr<sdktrace::AlwaysOnSampler>
-    (new sdktrace::AlwaysOnSampler);
-
-//AlwaysOffSampler
-auto always_off_sampler = std::unique_ptr<sdktrace::AlwaysOffSampler>
-    (new sdktrace::AlwaysOffSampler);
-
-//ParentBasedSampler
-auto parent_based_sampler = std::unique_ptr<sdktrace::ParentBasedSampler>
-    (new sdktrace::ParentBasedSampler);
-
-//TraceIdRatioBasedSampler - Sample 50% generated spans
-double ratio       = 0.5;
-auto always_off_sampler = std::unique_ptr<sdktrace::TraceIdRatioBasedSampler>
-    (new sdktrace::TraceIdRatioBasedSampler(ratio));
-```
-
-更多请参阅 [OpenTelemetry C++ SDK](https://opentelemetry-cpp.readthedocs.io/en/latest/sdk/GettingStarted.html)
+样例请参阅 [OpenTelemetry Switft SDK Examples](https://github.com/open-telemetry/opentelemetry-swift/tree/main/Examples)
 
 ---
 
@@ -103,3 +43,7 @@ auto always_off_sampler = std::unique_ptr<sdktrace::TraceIdRatioBasedSampler>
 | OTEL_EXPORTER_OTLP_PROTOCOL | 通常有 SDK 实现，通常是 `http/protobuf` 或者 `grpc` | 指定用于所有遥测数据的 OTLP 传输协议 |
 | OTEL_EXPORTER_OTLP_HEADERS | N/A | 允许您将配置为键值对以添加到的 gRPC 或 HTTP 请求头中 |
 | OTEL_EXPORTER_OTLP_TIMEOUT | 10000(10s) | 所有上报数据（traces、metrics、logs）的超时值，单位 ms |
+
+<script setup>
+  import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert';
+</script>

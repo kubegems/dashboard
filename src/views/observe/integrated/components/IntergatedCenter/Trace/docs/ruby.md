@@ -1,10 +1,8 @@
-import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert';
-
 <Alert message="在使用前请联系集群管理员开启 KubeGems Observability 相关的组件。" />
 
 ## KubeGems OpenTelemetry Collector
 
-修改应用 SDK 中的 Exporter Endpoint 地址为 opentelemetry-collector.observability: `<port>`。 其中， opentelemetry-collector 是 Collector 的 Service 名称，observability 是 Collector 所在命名空间，不同上报协议对应端口如下:
+修改应用 SDK 中的 Exporter Endpoint 地址为 opentelemetry-collector.observability:`<port>`。 其中， opentelemetry-collector 是 Collector 的 Service 名称，observability 是 Collector 所在命名空间，不同上报协议对应端口如下:
 
 | Receivers |  Protocols  | Port  |
 | :-------: | :---------: | :---: |
@@ -14,13 +12,59 @@ import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert'
 |  jaeger   | thrift_http | 14268 |
 |  zipkin   |             | 9411  |
 
-## ruby metrics
+## Ruby Trace
 
-OpenTelmetry Ruby SDK 中的 Metrics 尚处于早期阶段，暂不提供接入文档
+#### step 1 下载 opentelemetry 库
 
-更多可参阅 [OpenTelemetry Ruby SDK library](https://github.com/open-telemetry/opentelemetry-ruby)
+```ruby
+gem install opentelemetry-api
+gem install opentelemetry-sdk
+gem install opentelemetry-exporter-otlp
+opentelemetry-instrumentation-all
+```
 
-样例可参阅 [OpenTelemetry Ruby SDK Examples](https://github.com/open-telemetry/opentelemetry-ruby/tree/main/examples)
+#### step2 设置环境变量
+
+```
+export service.name=your-rubyApp
+export service.version=your-rubyApp-version
+```
+
+#### step3 设置埋点
+
+```ruby
+require 'opentelemetry/sdk'
+require 'opentelemetry-exporter-otlp'
+
+# Configure the sdk with default export and context propagation formats
+# see SDK#configure for customizing the setup
+OpenTelemetry::SDK.configure do |c|
+  c.add_span_processor(
+    OpenTelemetry::SDK::Trace::Export::BatchSpanProcessor.new(
+      OpenTelemetry::Exporter::OTLP::Exporter.new(
+        endpoint: 'http://opentelemetry-collector.observability:2318/opentelemetry/v1/traces'
+      )
+    )
+  )
+end
+
+# To start a trace you need to get a Tracer from the TracerProvider
+tracer = OpenTelemetry.tracer_provider.tracer('my_app_or_gem', '0.1.0')
+
+tracer.in_span('foo') do |span|
+  # set an attribute
+  span.set_attribute('tform', 'osx')
+  # add an event
+  span.add_event('event in bar')
+  # create bar as child of foo
+  tracer.in_span('bar') do |child_span|
+    # inspect the span
+    pp child_span
+  end
+end
+```
+
+更多可参阅 [OpenTelemetry Ruby SDK](https://github.com/open-telemetry/opentelemetry-ruby)
 
 ---
 
@@ -45,3 +89,7 @@ OpenTelmetry Ruby SDK 中的 Metrics 尚处于早期阶段，暂不提供接入�
 | OTEL_EXPORTER_OTLP_PROTOCOL | 通常有 SDK 实现，通常是 `http/protobuf` 或者 `grpc` | 指定用于所有遥测数据的 OTLP 传输协议 |
 | OTEL_EXPORTER_OTLP_HEADERS | N/A | 允许您将配置为键值对以添加到的 gRPC 或 HTTP 请求头中 |
 | OTEL_EXPORTER_OTLP_TIMEOUT | 10000(10s) | 所有上报数据（traces、metrics、logs）的超时值，单位 ms |
+
+<script setup>
+  import Alert from '@/views/observe/integrated/components/IntergatedCenter/Alert';
+</script>
