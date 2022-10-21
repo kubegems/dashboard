@@ -70,13 +70,7 @@
               >
                 {{ $root.$t('operate.detail') }}
               </v-btn>
-              <v-btn
-                color="primary"
-                :disabled="!clusterStatus[item.ClusterName]"
-                small
-                text
-                @click="updateCluster(item)"
-              >
+              <v-btn color="primary" small text @click="updateCluster(item)">
                 {{ $root.$t('operate.edit') }}
               </v-btn>
               <v-btn color="error" small text @click="removeCluster(item)"> {{ $root.$t('operate.delete') }} </v-btn>

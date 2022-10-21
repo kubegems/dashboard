@@ -231,11 +231,13 @@
           if (!updatingApp) return;
           const app = JSON.parse(updatingApp);
           if (app.MessageType !== 'objectChanged') return;
-          if (app.Content && this.app && app.Content.AppName === this.app.AppName) {
-            if (app.EventKind === 'delete') {
-              this.$router.push({ name: 'app-list', params: this.$route.params });
-            } else {
-              this.app.runtime.raw = app.Content;
+          if (app.InvolvedObject.Kind === 'Application') {
+            if (app.Content?.AppName === this.app?.AppName) {
+              if (app.EventKind === 'delete') {
+                this.$router.push({ name: 'app-list', params: this.$route.params });
+              } else {
+                if (this.app.runtime) this.app.runtime.raw = app.Content;
+              }
             }
           }
         },
