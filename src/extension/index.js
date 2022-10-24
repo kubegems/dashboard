@@ -56,7 +56,7 @@ Vue.prototype.$yamlload = (data) => {
     const d = yaml.load(data);
     if (typeof d === 'string') {
       store.commit('SET_SNACKBAR', {
-        text: '不符合标准的yaml格式',
+        text: Vue.prototype.$_i18n.t('tip.not_based_yaml'),
         color: 'warning',
       });
       return null;
