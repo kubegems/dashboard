@@ -121,7 +121,6 @@
 
       <IngressRuleForm
         ref="ingressRuleForm"
-        :annotations="obj.metadata.annotations"
         class="kubegems__forminform"
         :domain="baseDomain"
         :obj="obj"
