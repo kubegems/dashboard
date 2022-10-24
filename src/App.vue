@@ -34,7 +34,7 @@
       };
     },
     data() {
-      this.latestVersion = process.env.VUE_APP_RELEASE;
+      this.latestVersion = import.meta.env.VUE_APP_RELEASE;
       return {
         isReloadAlive: true,
       };

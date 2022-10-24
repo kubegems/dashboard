@@ -169,7 +169,7 @@
       async logout() {
         this.$store.commit('CLEARALL');
         await this.$router.push({ name: 'login' });
-        this.$store.commit('SET_VERSION', process.env.VUE_APP_RELEASE);
+        this.$store.commit('SET_VERSION', import.meta.env.VUE_APP_RELEASE);
       },
       showAbout() {
         this.$refs.about.init();

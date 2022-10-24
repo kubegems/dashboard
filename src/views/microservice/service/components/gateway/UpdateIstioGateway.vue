@@ -40,14 +40,14 @@
   import { getIstioGatewayDetail, patchUpdateIstioGateway } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
-  import IstioGatewaySchema from '@/views/microservice/service/mixins/schema';
+  import IstioGatewaySchema from '@/utils/schema/gateway';
 
   export default {
     name: 'UpdateGateway',
     components: {
       IstioGatewayBaseForm,
     },
-    mixins: [BaseResource, IstioGatewaySchema],
+    mixins: [BaseResource],
     data() {
       return {
         dialog: false,
@@ -70,7 +70,7 @@
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
             if (!this.m_resource_checkDataWithOutNS(data)) return;
-            if (!this.m_resource_validateJsonSchema(this.gatewayschema, data)) {
+            if (!this.m_resource_validateJsonSchema(IstioGatewaySchema, data)) {
               return;
             }
           } else if (this.formComponent === 'IstioGatewayBaseForm') {

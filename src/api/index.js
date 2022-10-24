@@ -6,7 +6,7 @@ import store from '@/store';
 import { validateJWT } from '@/utils/helpers';
 
 axios.defaults.baseURL = `${window.location.origin}/api/v1`;
-axios.defaults.timeout = 1000 * parseInt(process.env.VUE_APP_API_TIMEOUT);
+axios.defaults.timeout = 1000 * parseInt(import.meta.env.VUE_APP_API_TIMEOUT);
 
 axios.interceptors.request.use(function (config) {
   if (
@@ -16,7 +16,7 @@ axios.interceptors.request.use(function (config) {
     ) === -1
   ) {
     store.commit('CLEARALL');
-    store.commit('SET_VERSION', process.env.VUE_APP_RELEASE);
+    store.commit('SET_VERSION', import.meta.env.VUE_APP_RELEASE);
     window.localStorage.clear();
     router.push({
       name: 'login',
@@ -125,7 +125,7 @@ axios.interceptors.response.use(
             color: 'warning',
           });
           store.commit('CLEARALL');
-          store.commit('SET_VERSION', process.env.VUE_APP_RELEASE);
+          store.commit('SET_VERSION', import.meta.env.VUE_APP_RELEASE);
           if (
             ['/login', '/403', '/404', '/white/page', '/white/tenant', '/whitecluster/cluster'].indexOf(
               window.location.pathname,

@@ -55,14 +55,14 @@
   import { postAddIngress } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { randomString } from '@/utils/helpers';
-  import IngressSchema from '@/views/resource/ingress/mixins/schema';
+  import IngressSchema from '@/utils/schema/ingress';
 
   export default {
     name: 'AddIngress',
     components: {
       IngressBaseForm,
     },
-    mixins: [BaseResource, IngressSchema],
+    mixins: [BaseResource],
     data() {
       return {
         dialog: false,
@@ -94,7 +94,7 @@
           if (this.formComponent === 'BaseForm') {
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
-            if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+            if (!this.m_resource_validateJsonSchema(IngressSchema, data)) {
               return;
             }
           } else if (this.formComponent === 'IngressBaseForm') {
@@ -122,7 +122,7 @@
           const yaml = this.$refs[this.formComponent].getYaml();
           const data = this.$yamlload(yaml);
           this.m_resource_addNsToData(data, this.AdminViewport ? data?.metadata?.namespace : this.ThisNamespace);
-          if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+          if (!this.m_resource_validateJsonSchema(IngressSchema, data)) {
             this.yaml = true;
             this.switchKey = randomString(6);
             return;

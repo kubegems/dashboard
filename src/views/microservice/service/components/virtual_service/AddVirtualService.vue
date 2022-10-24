@@ -39,14 +39,14 @@
   import IstioVirtualServiceBaseForm from './IstioVirtualServiceBaseForm';
   import { postAddIstioVirtualService } from '@/api';
   import BaseResource from '@/mixins/resource';
-  import IstioVirtualServiceSchema from '@/views/microservice/service/mixins/schema';
+  import IstioVirtualServiceSchema from '@/utils/schema/virtualservice';
 
   export default {
     name: 'AddIstioVirtualService',
     components: {
       IstioVirtualServiceBaseForm,
     },
-    mixins: [BaseResource, IstioVirtualServiceSchema],
+    mixins: [BaseResource],
     data() {
       return {
         dialog: false,
@@ -67,7 +67,7 @@
           if (this.formComponent === 'BaseYamlForm') {
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
-            if (!this.m_resource_validateJsonSchema(this.virtualserviceschema, data)) {
+            if (!this.m_resource_validateJsonSchema(IstioVirtualServiceSchema, data)) {
               return;
             }
           } else if (this.formComponent === 'IstioVirtualServiceBaseForm') {

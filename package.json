@@ -4,9 +4,10 @@
   "private": true,
   "license": "Apache-2.0",
   "scripts": {
-    "serve": "cross-env VUE_APP_RELEASE=local vue-cli-service serve",
-    "build": "cross-env vue-cli-service build && rm -rf dist/js/*.map dist/*.map",
-    "lint": "vue-cli-service lint",
+    "serve": "vite",
+    "build": "vite build && rm -rf dist/js/*.map dist/*.map",
+    "preview": "vite preview",
+    "lint": "eslint ./ --ext .ts,.tsx,.vue,.js,.jsx",
     "prepare": "husky install",
     "cz": "git add . && git cz",
     "amend": "git add . && git commit --amend"
@@ -18,12 +19,12 @@
   },
   "config": {
     "commitizen": {
-      "path": "./node_modules/vue-cli-plugin-commitlint/lib/cz"
+      "path": "./node_modules/cz-conventional-changelog"
     }
   },
   "lint-staged": {
     "**/*.{js,jsx,vue}": [
-      "vue-cli-service lint --fix",
+      "eslint ./ --ext .ts,.tsx,.vue,.js,.jsx --fix",
       "git add"
     ],
     "**/*.{html,vue,css,sass,scss}": [
@@ -38,12 +39,15 @@
     }
   },
   "dependencies": {
+    "@iconify-json/emojione": "^1.1.2",
+    "@iconify-json/logos": "^1.1.16",
+    "@iconify-json/mdi": "^1.1.33",
+    "@iconify/vue2": "^1.2.1",
     "ajv": "^8.6.3",
     "axios": "^0.27.2",
     "chart.js": "^3.9.1",
     "chartjs-adapter-moment": "^1.0.0",
     "chartjs-plugin-doughnutlabel-v3": "^1.2.0",
-    "core-js": "^3.6.5",
     "fast-json-patch": "^3.1.1",
     "filepond": "^4.30.4",
     "filepond-plugin-file-validate-size": "^2.2.7",
@@ -55,7 +59,7 @@
     "lodash": "^4.17.21",
     "markdown-it": "^12.0.6",
     "moment": "^2.29.4",
-    "v-code-diff": "^0.3.11",
+    "v-code-diff": "^0.3.12",
     "vue": "^2.7.13",
     "vue-clipboard2": "^0.3.3",
     "vue-filepond": "^7.0.3",
@@ -64,7 +68,7 @@
     "vue-meta": "^2.4.0",
     "vue-okr-tree": "1.0.10",
     "vue-router": "^3.4.4",
-    "vue-slider-component": "^3.2.14",
+    "vue-slider-component": "^3.2.20",
     "vue-table-dynamic": "^0.4.10",
     "vue2-ace-editor": "^0.0.15",
     "vuedraggable": "^2.24.3",
@@ -75,19 +79,10 @@
     "xterm-addon-web-links": "^0.7.0"
   },
   "devDependencies": {
-    "@iconify-json/emojione": "^1.1.2",
-    "@iconify-json/logos": "^1.1.16",
-    "@iconify-json/mdi": "^1.1.33",
-    "@iconify/vue2": "^1.2.1",
-    "@mdx-js/vue-loader": "^1.6.22",
-    "@vue/cli-plugin-babel": "^5.0.4",
-    "@vue/cli-plugin-eslint": "^5.0.4",
-    "@vue/cli-service": "^5.0.4",
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.5",
+    "@vitejs/plugin-vue2": "^2.0.0",
+    "@vitejs/plugin-vue2-jsx": "^1.0.3",
     "commitizen": "^4.2.4",
     "commitlint": "^13.2.0",
-    "cross-env": "^7.0.3",
     "eslint": "^7.27.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-define-config": "^1.5.1",
@@ -96,20 +91,19 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^8.4.1",
     "eslint-plugin-vuetify": "^1.1.0",
+    "happy-dom": "^7.4.0",
     "husky": "^7.0.2",
     "lint-staged": "^11.0.0",
     "prettier": "^2.6.2",
     "right-pad": "^1.0.1",
-    "sass": "^1.26.11",
-    "sass-loader": "^12.6.0",
+    "sass": "~1.26.5",
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^22.0.0",
     "stylelint-scss": "^3.19.0",
-    "vue-cli-plugin-commitlint": "^1.0.12",
-    "vue-cli-plugin-vuetify": "^2.0.7",
-    "vue-cli-plugin-yaml": "^1.0.2",
-    "vue-eslint-parser": "^9.0.2",
-    "vuetify-loader": "^1.7.3"
+    "unplugin-vue-components": "^0.22.8",
+    "vite": "^3.1.8",
+    "vite-plugin-chunk-split": "^0.4.1",
+    "vite-plugin-md": "^0.20.4"
   },
   "browserslist": [
     "> 1%",

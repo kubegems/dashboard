@@ -16,3 +16,4 @@ dist/
 
 *.py
 *.pyc
+.vite

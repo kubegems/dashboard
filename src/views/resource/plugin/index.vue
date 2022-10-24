@@ -299,7 +299,7 @@
       async platformVersion() {
         const data = await getPlatformVersion({ noprocessing: true });
         this.apiVersion = data?.GitVersion;
-        this.uiVersion = process.env.VUE_APP_RELEASE;
+        this.uiVersion = import.meta.env.VUE_APP_RELEASE;
       },
     },
   };
