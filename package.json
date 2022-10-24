@@ -6,6 +6,7 @@
   "scripts": {
     "serve": "vite",
     "build": "vite build && rm -rf dist/js/*.map dist/*.map",
+    "preview": "vite preview",
     "lint": "eslint ./ --ext .ts,.tsx,.vue,.js,.jsx",
     "prepare": "husky install",
     "cz": "git add . && git cz",
@@ -38,6 +39,10 @@
     }
   },
   "dependencies": {
+    "@iconify-json/emojione": "^1.1.2",
+    "@iconify-json/logos": "^1.1.16",
+    "@iconify-json/mdi": "^1.1.33",
+    "@iconify/vue2": "^1.2.1",
     "ajv": "^8.6.3",
     "axios": "^0.27.2",
     "chart.js": "^3.9.1",
@@ -74,11 +79,6 @@
     "xterm-addon-web-links": "^0.7.0"
   },
   "devDependencies": {
-    "@iconify-json/emojione": "^1.1.2",
-    "@iconify-json/logos": "^1.1.16",
-    "@iconify-json/mdi": "^1.1.33",
-    "@iconify/vue2": "^1.2.1",
-    "@mdx-js/vue-loader": "^1.6.22",
     "@vitejs/plugin-vue2": "^2.0.0",
     "commitizen": "^4.2.4",
     "commitlint": "^13.2.0",
@@ -101,6 +101,7 @@
     "stylelint-scss": "^3.19.0",
     "unplugin-vue-components": "^0.22.8",
     "vite": "^3.1.8",
+    "vite-plugin-chunk-split": "^0.4.1",
     "vite-plugin-md": "^0.20.4",
     "vite-plugin-vuetify": "^1.0.0-alpha.17",
     "vue-eslint-parser": "^9.0.2"

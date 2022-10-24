@@ -4,6 +4,7 @@ import vue from '@vitejs/plugin-vue2';
 import { VuetifyResolver } from 'unplugin-vue-components/resolvers';
 import Components from 'unplugin-vue-components/vite';
 import { defineConfig } from 'vite';
+import { chunkSplitPlugin } from 'vite-plugin-chunk-split';
 import Markdown from 'vite-plugin-md';
 
 export default defineConfig({
@@ -21,6 +22,27 @@ export default defineConfig({
       dts: false,
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
     }),
+    chunkSplitPlugin({
+      strategy: 'default',
+      customSplitting: {
+        'vue-vendor': ['vue', 'vue-clipboard2', 'vue-form-wizard', 'vue-i18n', 'vue-meta', 'vuex'],
+        'vuetify-vendor': ['vuetify'],
+        xterm: ['xterm', 'xterm-addon-fit', 'xterm-addon-web-links'],
+        filepond: [
+          'filepond',
+          'filepond-plugin-file-validate-size',
+          'filepond-plugin-file-validate-type',
+          'vue-filepond',
+        ],
+        '@iconify-json/emojione': ['@iconify-json/emojione'],
+        '@iconify-json/logos': ['@iconify-json/logos'],
+        '@iconify-json/mdi': ['@iconify-json/mdi'],
+        'base-tool': ['moment', 'lodash', 'js-yaml', 'js-base64', 'ajv', 'vuedraggable'],
+        highlight: ['highlight.js'],
+        chart: ['chart.js', 'chartjs-adapter-moment', 'chartjs-plugin-doughnutlabel-v3'],
+        'vue2-ace-editor': ['vue2-ace-editor'],
+      },
+    }),
   ],
   envPrefix: 'VUE_APP_',
   css: {
@@ -31,14 +53,7 @@ export default defineConfig({
     },
   },
   build: {
-    chunkSizeWarningLimit: 512,
-    rollupOptions: {
-      output: {
-        chunkFileNames: 'static/chunk/[name]-[hash].js',
-        entryFileNames: 'static/entry/[name]-[hash].js',
-        assetFileNames: 'static/[ext]/[name]-[hash].[ext]',
-      },
-    },
+    chunkSizeWarningLimit: 2048,
   },
   server: {
     host: '0.0.0.0',
