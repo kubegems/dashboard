@@ -9,7 +9,8 @@
               <BaseDatetimePicker v-model="date" :default-value="30" @change="onDatetimeChange(undefined)" />
             </v-sheet>
           </v-flex>
-          <div class="float-right">
+          <div class="float-right logo kubegems__text"> tke-gpu-manager </div>
+          <div class="float-right mr-1">
             <BaseLogo icon-name="tke" :ml="2" :width="20" />
           </div>
           <div class="float-right logo kubegems__text"> Provider By </div>
@@ -20,7 +21,7 @@
         <v-row>
           <v-col cols="6">
             <BaseAreaChart
-              label="pod"
+              label="gpu"
               :metrics="gpu"
               :title="$t('tip.gpu_used_prcent', [$root.$t('resource.gpu')])"
               type="%"
@@ -28,7 +29,7 @@
           </v-col>
           <v-col cols="6">
             <BaseAreaChart
-              label="pod"
+              label="gpu_memory"
               :metrics="gpuMemory"
               :title="$t('tip.gpu_used', [$root.$t('resource.video_memory')])"
               unit="Mi"
