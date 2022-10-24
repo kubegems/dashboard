@@ -245,10 +245,6 @@
     },
     mixins: [BaseResource, BaseSelect],
     props: {
-      annotations: {
-        type: Object,
-        default: () => null,
-      },
       domain: {
         type: String,
         default: () => '',
@@ -302,12 +298,10 @@
       },
       hasTLS() {
         return (
-          (this.annotations &&
-            ['HTTPS', 'GRPCS'].indexOf(this.annotations['nginx.ingress.kubernetes.io/backend-protocol']) > -1) ||
-          (this.obj.spec.tls?.length &&
-            this.obj.spec.tls.some((t) => {
-              return t.hosts.indexOf(this.ruler.host) > -1;
-            }))
+          this.obj.spec.tls?.length &&
+          this.obj.spec.tls.some((t) => {
+            return t.hosts.indexOf(this.ruler.host) > -1;
+          })
         );
       },
     },
