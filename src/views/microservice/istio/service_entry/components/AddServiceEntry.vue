@@ -38,11 +38,11 @@
 
   import { postAddIstioServiceEntry } from '@/api';
   import BaseResource from '@/mixins/resource';
-  import IstioServiceEntrySchema from '@/views/microservice/istio/service_entry/mixins/schema';
+  import IstioServiceEntrySchema from '@/utils/schema/serviceentry';
 
   export default {
     name: 'AddServiceEntry',
-    mixins: [BaseResource, IstioServiceEntrySchema],
+    mixins: [BaseResource],
     data() {
       return {
         dialog: false,
@@ -63,7 +63,7 @@
           if (this.formComponent === 'BaseYamlForm') {
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
-            if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+            if (!this.m_resource_validateJsonSchema(IstioServiceEntrySchema, data)) {
               return;
             }
             if (!this.m_resource_checkDataWithOutNS(data)) return;

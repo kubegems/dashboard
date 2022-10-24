@@ -55,14 +55,14 @@
   import { postAddCertificate } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { randomString } from '@/utils/helpers';
-  import CertmanagerSchema from '@/views/resource/certmanager/mixins/schema';
+  import CertmanagerSchema from '@/utils/schema/certificate';
 
   export default {
     name: 'AddCertificate',
     components: {
       CertificateBaseForm,
     },
-    mixins: [BaseResource, CertmanagerSchema],
+    mixins: [BaseResource],
     data() {
       return {
         dialog: false,
@@ -84,7 +84,7 @@
           if (this.formComponent === 'BaseYamlForm') {
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
-            if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+            if (!this.m_resource_validateJsonSchema(CertmanagerSchema, data)) {
               return;
             }
           } else if (this.formComponent === 'CertificateBaseForm') {
@@ -112,7 +112,7 @@
           const yaml = this.$refs[this.formComponent].getYaml();
           const data = this.$yamlload(yaml);
           this.m_resource_addNsToData(data, this.AdminViewport ? data?.metadata?.namespace : this.ThisNamespace);
-          if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+          if (!this.m_resource_validateJsonSchema(CertmanagerSchema, data)) {
             this.yaml = true;
             this.switchKey = randomString(6);
             return;

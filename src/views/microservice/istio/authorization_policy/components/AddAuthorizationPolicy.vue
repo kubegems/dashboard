@@ -38,11 +38,11 @@
 
   import { postAddIstioAuthorizationPolicy } from '@/api';
   import BaseResource from '@/mixins/resource';
-  import IstioAuthorizationPolicySchema from '@/views/microservice/istio/authorization_policy/mixins/schema';
+  import IstioAuthorizationPolicySchema from '@/utils/schema/authorizationpolicy';
 
   export default {
     name: 'AddIstioAuthorizationPolicy',
-    mixins: [BaseResource, IstioAuthorizationPolicySchema],
+    mixins: [BaseResource],
     data() {
       return {
         dialog: false,
@@ -63,7 +63,7 @@
           if (this.formComponent === 'BaseYamlForm') {
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
-            if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+            if (!this.m_resource_validateJsonSchema(IstioAuthorizationPolicySchema, data)) {
               return;
             }
             if (!this.m_resource_checkDataWithOutNS(data)) return;

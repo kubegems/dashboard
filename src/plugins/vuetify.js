@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuetify from 'vuetify';
 import '@/scss/vuetify/overrides.scss';
+
 Vue.use(Vuetify);
 
 const theme = {

@@ -39,14 +39,14 @@
   import IstioDestinationRuleBaseForm from './IstioDestinationRuleBaseForm';
   import { postAddIstioDestinationRule } from '@/api';
   import BaseResource from '@/mixins/resource';
-  import IstioDestinationRuleSchema from '@/views/microservice/service/mixins/schema';
+  import IstioDestinationRuleSchema from '@/utils/schema/destinationrule';
 
   export default {
     name: 'AddIstioDestinationRule',
     components: {
       IstioDestinationRuleBaseForm,
     },
-    mixins: [BaseResource, IstioDestinationRuleSchema],
+    mixins: [BaseResource],
     data() {
       return {
         dialog: false,
@@ -67,7 +67,7 @@
           if (this.formComponent === 'BaseYamlForm') {
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
-            if (!this.m_resource_validateJsonSchema(this.destinationruleschema, data)) {
+            if (!this.m_resource_validateJsonSchema(IstioDestinationRuleSchema, data)) {
               return;
             }
           } else if (this.formComponent === 'IstioDestinationRuleBaseForm') {

@@ -51,18 +51,18 @@
 <script>
   import { mapState } from 'vuex';
 
-  import ServiceMonitorSchema from '../mixins/schema';
   import ServiceMonitorBaseForm from './ServiceMonitorBaseForm';
   import { getServiceMonitorDetail, patchUpdateServiceMonitor } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';
+  import ServiceMonitorSchema from '@/utils/schema/servicemonitor';
 
   export default {
     name: 'UpdateServiceMonitor',
     components: {
       ServiceMonitorBaseForm,
     },
-    mixins: [BaseResource, ServiceMonitorSchema],
+    mixins: [BaseResource],
     data() {
       return {
         dialog: false,
@@ -86,7 +86,7 @@
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
             if (!this.checkDataWithNS(data, this.item.metadata.namespace)) return;
-            if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+            if (!this.m_resource_validateJsonSchema(ServiceMonitorSchema, data)) {
               return;
             }
           } else if (this.formComponent === 'ServiceMonitorBaseForm') {
@@ -121,7 +121,7 @@
         } else {
           const yaml = this.$refs[this.formComponent].getYaml();
           const data = this.$yamlload(yaml);
-          if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+          if (!this.m_resource_validateJsonSchema(ServiceMonitorSchema, data)) {
             this.yaml = true;
             this.switchKey = randomString(6);
             return;
