@@ -103,9 +103,10 @@
           this.gpuMemoryLimit =
             (parseFloat(c?.resources?.limits && c?.resources?.limits?.[`tencent.com/vcuda-memory`]) * 256) / 1024;
           this.gpuRequest =
-            parseFloat(c?.resources?.limits && c?.resources?.requests?.[`tencent.com/vcuda-core`]) / 100;
+            parseFloat((c?.resources?.requests && c?.resources?.requests?.[`tencent.com/vcuda-core`]) || 0) / 100;
           this.gpuMemoryRequest =
-            (parseFloat(c?.resources?.limits && c?.resources?.requests?.[`tencent.com/vcuda-memory`]) * 256) / 1024;
+            (parseFloat((c?.resources?.requests && c?.resources?.requests?.[`tencent.com/vcuda-memory`]) || 0) * 256) /
+            1024;
         });
       },
     },

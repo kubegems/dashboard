@@ -126,6 +126,7 @@
           network: ['bps', 'Kbps', 'Mbps', 'Gbps'],
           timecost: ['us', 'ms', 's'],
           reqrate: ['req/s'],
+          count: ['', 'k', 'm'],
         },
         chartId: '',
         legendIndexs: [],

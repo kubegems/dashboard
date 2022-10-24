@@ -248,8 +248,12 @@
         return this.$refs.form.validate(true);
       },
       getData() {
-        this.obj.variables = {};
-        this.obj.variables[this.variables] = this.variableVal.join(',');
+        if (this.globalVariable) {
+          this.obj.variables = {};
+          this.obj.variables[this.variables] = this.variableVal.join(',');
+        } else {
+          this.obj.variables = null;
+        }
         return this.obj;
       },
       reset() {

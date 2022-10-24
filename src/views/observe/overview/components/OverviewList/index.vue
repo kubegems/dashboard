@@ -54,11 +54,11 @@
         <StatusTag :item="item" :l="item.logging" :m="item.monitoring" :s="item.serviceMesh" />
       </template>
       <template #[`item.errorLogCount`]="{ item }">
-        {{ item.errorLogCount }}
+        {{ beautyLogCount(item.errorLogCount || 0) }}
         <v-icon color="primary" small @click="showErrorLogRate(item)"> mdi-chart-line </v-icon>
       </template>
       <template #[`item.logRate`]="{ item }">
-        {{ item.logRate }}
+        {{ beautyLogRate(item.logRate || 0) }}
         <v-icon color="primary" small @click="showLogRate(item)"> mdi-chart-line </v-icon>
       </template>
       <template #[`item.eventCount`]="{ item }">
@@ -180,8 +180,8 @@
           { text: this.$t('table.alert_rule_count'), value: 'alertRuleCount', align: 'end', width: 100 },
           { text: this.$t('table.living_alert_count'), value: 'alertLiving', align: 'end' },
           { text: this.$t('table.log_count'), value: 'loggingCollectorCount', align: 'start' },
-          { text: this.$t('table.error_log_count'), value: 'errorLogCount', align: 'end', width: 100 },
-          { text: this.$t('table.log_rate'), value: 'logRate', align: 'end', width: 120 },
+          { text: this.$t('table.error_log_count'), value: 'errorLogCount', align: 'end', width: 105 },
+          { text: this.$t('table.log_rate'), value: 'logRate', align: 'end', width: 130 },
           { text: this.$t('table.event_count'), value: 'eventCount', align: 'end', width: 100 },
         ];
       },
@@ -219,7 +219,7 @@
         if (index > -1) {
           this.$set(this.items, index, data);
         }
-        this.pageCount = parseInt(this.items.length / this.params.size + 1);
+        this.pageCount = Math.ceil(this.items.length / this.params.size);
       },
       onPageSizeChange(size) {
         this.params.page = 1;
@@ -239,6 +239,27 @@
       showErrorLogRate(item) {
         this.env = item;
         this.$refs.errorLogRateChart.open();
+      },
+      beautyLogCount(count) {
+        let result = parseFloat(count);
+        const units = ['', 'k', 'm'];
+        for (const index in units) {
+          if (Math.abs(result) < 1000.0) {
+            return `${result.toFixed(1)} ${units[index]}`;
+          }
+          result /= 1000.0;
+        }
+        return `${result.toFixed(1)} Yi`;
+      },
+      beautyLogRate(rate) {
+        let result = rate ? parseInt(rate.replaceAll('/min', '')) : 0;
+        if (result > 6000) {
+          result = `${(result / 60).toFixed(1)}`;
+          result = `${this.beautyLogCount(result)} /s`;
+        } else {
+          result = `${this.beautyLogCount(result)} /m`;
+        }
+        return result;
       },
     },
   };

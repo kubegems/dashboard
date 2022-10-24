@@ -7,7 +7,8 @@
             <BaseDatetimePicker v-model="date" :default-value="30" @change="onDatetimeChange(undefined)" />
           </v-sheet>
         </v-flex>
-        <div class="float-right"> <BaseLogo icon-name="nvidia" :ml="2" :width="20" /> </div>
+        <div class="float-right logo kubegems__text"> nvidia-device-plugin </div>
+        <div class="float-right mr-1"> <BaseLogo icon-name="nvidia" :ml="2" :width="20" /> </div>
         <div class="float-right logo kubegems__text"> Provider By </div>
 
         <div class="kubegems__clear-float" />
