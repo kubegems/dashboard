@@ -51,19 +51,19 @@
 <script>
   import { mapState } from 'vuex';
 
-  import FlowSchema from '../mixins/schema';
   import FlowBaseForm from './FlowBaseForm';
   import { getClusterFlowDetailData, getFlowDetailData, patchClusterFlowData, patchFlowData } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';
   import { SERVICE_LOGGING_NS } from '@/utils/namespace';
+  import FlowSchema from '@/utils/schema/flow';
 
   export default {
     name: 'UpdateFlow',
     components: {
       FlowBaseForm,
     },
-    mixins: [BaseResource, FlowSchema],
+    mixins: [BaseResource],
     data() {
       return {
         dialog: false,
@@ -102,7 +102,7 @@
           if (this.formComponent === 'BaseYamlForm') {
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
-            if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+            if (!this.m_resource_validateJsonSchema(FlowSchema, data)) {
               return;
             }
           } else if (this.formComponent === 'FlowBaseForm') {
@@ -132,7 +132,7 @@
           const yaml = this.$refs[this.formComponent].getYaml();
           const data = this.$yamlload(yaml);
           this.m_resource_addNsToData(data, this.$route.query.namespace);
-          if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+          if (!this.m_resource_validateJsonSchema(FlowSchema, data)) {
             this.yaml = true;
             this.switchKey = randomString(6);
             return;

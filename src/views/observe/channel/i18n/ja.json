@@ -1,0 +1,34 @@
+{
+  "table": {
+    "name": "名前",
+    "channel": "チャネル",
+    "default": "ビルトイン"
+  },
+  "tip": {
+    "email": "メール",
+    "send": "差出人",
+    "recv": "宛先",
+    "smtp": "SMTPサーバ",
+    "port": "ポート",
+    "yes": "はい",
+    "no": "番号",
+    "send_passwd": "差出人のパスワード",
+    "test_success": "テストが正常に送信されました",
+    "feishu": "feishu",
+    "user_id": "ユーザーID",
+    "advanced_setting": "詳細設定",
+    "get_feishu_id": "フェイシュウのユーザーIDの取得方法",
+    "sign_secret": "署名をチェック",
+    "skip_verify": "セキュリティチェックをスキップ"
+  },
+  "filter": {
+    "channel_name": "アラームチャンネル"
+  },
+  "resource": {
+    "channel": "アラームチャンネル"
+  },
+  "operate": {
+    "test_c": "{0}チャンネルをテスト",
+    "test": "テスト"
+  }
+}

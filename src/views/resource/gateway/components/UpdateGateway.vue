@@ -55,14 +55,14 @@
   import { getGatewayDetail, putUpdateGateway } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';
-  import GatewaySchema from '@/views/resource/gateway/mixins/schema';
+  import GatewaySchema from '@/utils/schema/tenantgateway';
 
   export default {
     name: 'UpdateGateway',
     components: {
       GatewayBaseForm,
     },
-    mixins: [BaseResource, GatewaySchema],
+    mixins: [BaseResource],
     data() {
       return {
         dialog: false,
@@ -87,7 +87,7 @@
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
             if (!this.m_resource_checkDataWithOutNS(data)) return;
-            if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+            if (!this.m_resource_validateJsonSchema(GatewaySchema, data)) {
               return;
             }
           } else if (this.formComponent === 'GatewayBaseForm') {
@@ -109,7 +109,7 @@
         } else {
           const yaml = this.$refs[this.formComponent].getYaml();
           const data = this.$yamlload(yaml);
-          if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+          if (!this.m_resource_validateJsonSchema(GatewaySchema, data)) {
             this.yaml = true;
             this.switchKey = randomString(6);
             return;

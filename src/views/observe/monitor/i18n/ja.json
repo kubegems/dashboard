@@ -25,15 +25,9 @@
     "byte_rate": "バイトレート",
     "time": "時間",
     "precent": "パーセント",
-    "email": "メール",
-    "send": "差出人",
-    "recv": "宛先",
-    "smtp": "SMTPサーバ",
     "alert_channel": "警察",
     "add_alert_channel": "通知チャンネルを追加してください。",
     "email_config": "メールアドレス設定",
-    "send_passwd": "差出人のパスワード",
-    "test_success": "テストEmailの送信",
     "rule_detail": "ルール詳細",
     "alert_trend": "警告推移",
     "alert_count": "警告回数",
@@ -69,11 +63,6 @@
     "global_var_tip": "グローバル変数は、監視アイコンで監視データをフィルタリングするために使用されます",
     "missing_template": "テンプレートがありません",
 
-    "feishu": "feishu",
-    "user_id": "ユーザーID",
-    "advanced_setting": "詳細設定",
-    "get_feishu_id": "フェイシュウのユーザーIDの取得方法",
-
     "app_performance_monitor": "アプリケーションのパフォーマンス監視"
   },
   "tab": {
@@ -93,8 +82,7 @@
     "dest_container": "対象コンテナ",
     "time": "期間",
     "inhabit_label": "ラベルを抑制します。",
-    "user_id": "ユーザーID(入力して作成)",
-    "sign_secret": "署名をチェック"
+    "user_id": "ユーザーID(入力して作成)"
   },
   "operate": {
     "query": "クエリ",
@@ -113,8 +101,7 @@
     "servicemonitor_name": "採集器名"
   },
   "table": {
-    "name": "注文番号による検索",
-    "channel": "チャネル",
+    "name": "名前",
     "expr": "メトリクス",
     "for": "評価時間",
     "status": "状態",

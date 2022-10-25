@@ -85,8 +85,8 @@
     computed: {
       dashboardVersion() {
         return {
-          version: process.env.VUE_APP_RELEASE,
-          date: process.env.VUE_APP_DATE ? this.$moment(process.env.VUE_APP_DATE).format('lll') : '',
+          version: import.meta.env.VUE_APP_RELEASE,
+          date: import.meta.env.VUE_APP_DATE ? this.$moment(import.meta.env.VUE_APP_DATE).format('lll') : '',
         };
       },
       cnDict() {

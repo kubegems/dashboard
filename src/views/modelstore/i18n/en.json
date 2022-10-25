@@ -61,7 +61,11 @@
 
     "experience": "Model Experience",
     "not_support": "Not Support",
-    "configmap_name": "ConfigMap Name"
+    "configmap_name": "ConfigMap Name",
+
+    "upgrage_strategy": "Upgrage Strategy",
+    "rollingupdate": "Rollingupdate",
+    "recreate": "Recreate"
   },
   "tab": {
     "description": "Introduction",

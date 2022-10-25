@@ -58,7 +58,11 @@
     "can_use": "消耗品",
     "total": "合計",
     "core": "コア",
-    "configmap_name": "構成名"
+    "configmap_name": "構成名",
+
+    "upgrage_strategy": "更新策略",
+    "rollingupdate": "滚動更新",
+    "recreate": "再構築"
   },
   "tab": {
     "description": "はじめに",

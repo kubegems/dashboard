@@ -40,14 +40,14 @@
   import { getIstioVirtualServiceDetail, patchUpdateIstioVirtualService } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
-  import IstioVirtualServiceSchema from '@/views/microservice/service/mixins/schema';
+  import IstioVirtualServiceSchema from '@/utils/schema/virtualservice';
 
   export default {
     name: 'UpdateIstioVirtualService',
     components: {
       IstioVirtualServiceBaseForm,
     },
-    mixins: [BaseResource, IstioVirtualServiceSchema],
+    mixins: [BaseResource],
     data() {
       return {
         dialog: false,
@@ -70,7 +70,7 @@
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
             if (!this.m_resource_checkDataWithOutNS(data)) return;
-            if (!this.m_resource_validateJsonSchema(this.virtualserviceschema, data)) {
+            if (!this.m_resource_validateJsonSchema(IstioVirtualServiceSchema, data)) {
               return;
             }
           } else if (this.formComponent === 'IstioVirtualServiceBaseForm') {

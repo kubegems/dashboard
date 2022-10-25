@@ -39,11 +39,11 @@
   import { getIstioPeerAuthenticationDetail, patchUpdateIstioPeerAuthentication } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
-  import IstioPeerAuthenticationSchema from '@/views/microservice/istio/peer_authentication/mixins/schema';
+  import IstioAuthorizationPolicySchema from '@/utils/schema/peerauthentication';
 
   export default {
     name: 'UpdatePeerAuthentication',
-    mixins: [BaseResource, IstioPeerAuthenticationSchema],
+    mixins: [BaseResource],
     data() {
       return {
         dialog: false,
@@ -64,6 +64,9 @@
           if (this.formComponent === 'BaseYamlForm') {
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
+            if (!this.m_resource_validateJsonSchema(IstioAuthorizationPolicySchema, data)) {
+              return;
+            }
             if (!this.m_resource_checkDataWithOutNS(data)) return;
             data = this.m_resource_beautifyData(data);
           }

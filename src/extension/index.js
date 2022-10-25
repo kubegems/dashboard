@@ -17,6 +17,9 @@ import yaml from 'js-yaml';
 import _ from 'lodash';
 import moment from 'moment';
 import Vue from 'vue';
+import 'moment/dist/locale/zh-cn';
+import 'moment/dist/locale/ja';
+import 'moment/dist/locale/zh-tw';
 
 import store from '@/store';
 
@@ -29,24 +32,34 @@ Vue.prototype.$aceOptions = {
   readOnly: false,
 };
 Vue.prototype.$aceinit = () => {
-  require('brace/theme/chrome');
-  require('brace/ext/language_tools');
-  require('brace/ext/searchbox');
-  require('brace/ext/beautify');
-  require('brace/mode/yaml');
-  require('brace/mode/json');
-  require('brace/mode/xml');
-  require('brace/mode/ini');
-  require('brace/mode/html');
-  require('brace/mode/java');
-  require('brace/mode/python');
-  require('brace/mode/golang');
-  require('brace/mode/c_cpp');
-  require('brace/mode/plain_text');
-  require('brace/snippets/json');
+  import.meta.globEager('brace/theme/chrome');
+  import.meta.globEager('brace/ext/language_tools');
+  import.meta.globEager('brace/ext/searchbox');
+  import.meta.globEager('brace/ext/beautify');
+  import.meta.globEager('brace/mode/yaml');
+  import.meta.globEager('brace/mode/json');
+  import.meta.globEager('brace/mode/xml');
+  import.meta.globEager('brace/mode/ini');
+  import.meta.globEager('brace/mode/html');
+  import.meta.globEager('brace/mode/java');
+  import.meta.globEager('brace/mode/python');
+  import.meta.globEager('brace/mode/golang');
+  import.meta.globEager('brace/mode/c_cpp');
+  import.meta.globEager('brace/mode/plain_text');
+  import.meta.globEager('brace/snippets/json');
 };
 
-moment.locale(store.state.Locale === 'zh-Hans' ? 'zh-cn' : store.state.Locale);
+moment.locale(
+  (() => {
+    if (store.state.Locale === 'zh-Hans') {
+      return 'zh-cn';
+    }
+    if (store.state.Locale === 'zh-Hant') {
+      return 'zh-tw';
+    }
+    return store.state.Locale;
+  })(),
+);
 Vue.prototype.$moment = moment;
 
 Vue.prototype.$_ = _;

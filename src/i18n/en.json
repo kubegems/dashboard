@@ -351,6 +351,7 @@
       "output": "Flow",
       "flow": "Output",
       "monitor_app": "App Performance",
+      "channel": "Alert Channel",
 
       "g_dashboard": "Dashboard",
       "g_integrated": "Integrated",
@@ -468,7 +469,8 @@
     "prometheus_rule": "PrometheusRule are usually Prometheus alert rules set for monitoring indicators.",
     "flow": "Flow/ClusterFlow defines a log flow with filters and outputs.",
     "output": "Output/ClusterOutput defines the output to which your flow can send log messages.",
-    "dash_app": "App monitor from Jaeger"
+    "dash_app": "App monitor from Jaeger",
+    "alert_channel": "The alert channel provides a variety of alert message sending methods to notify users, including (email, Feishu, webhook, etc.)"
   },
 
   "metadata": {

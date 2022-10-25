@@ -11,6 +11,9 @@
   <a href="https://cn.vuejs.org/">
     <img src="https://img.shields.io/badge/Language-Vue-blue.svg" alt="Language">
   </a>
+  <a href="https://github.com/vuejs/vue">
+    <img src="https://img.shields.io/badge/vue-2.7.x-green.svg" alt="vue">
+  </a>
   <a href="https://opensource.org/licenses/Apache-2.0">
     <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License">
   </a>
@@ -19,6 +22,15 @@
   </a>
   <a title="commitizen" target="_blank" href="http://commitizen.github.io/cz-cli/">
     <img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg">
+  </a>
+  <a title="release" target="_blank" href="https://github.com/kubegems/dashboard/releases">
+    <img src="https://img.shields.io/github/v/release/kubegems/dashboard?include_prereleases">
+  </a>
+  <a title="size" target="_blank" href="/">
+    <img src="https://img.shields.io/github/repo-size/kubegems/dashboard">
+  </a>
+  <a title="github search hit" target="_blank" href="https://github.com/kubegems">
+    <img src="https://img.shields.io/github/search/kubegems/dashboard/kubegems">
   </a>
 </p>
 
@@ -56,7 +68,7 @@ Clone the repository, and run `yarn && yarn build`
 git clone https://github.com/kubegems/dsahboard.git
 cd dashboard/
 yarn && yarn build
-yarn serve
+yarn start
 ```
 
 ## Documentation

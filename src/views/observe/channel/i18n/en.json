@@ -1,0 +1,34 @@
+{
+  "table": {
+    "name": "Name",
+    "channel": "Channel",
+    "default": "Default"
+  },
+  "tip": {
+    "email": "Email",
+    "send": "Sender",
+    "recv": "Recipients",
+    "smtp": "SMTP Server",
+    "port": "Port",
+    "feishu": "Feishu",
+    "user_id": "User ID",
+    "yes": "Yse",
+    "no": "No",
+    "advanced_setting": "Advanced configuration",
+    "get_feishu_id": "How to get Feishu user ID",
+    "send_passwd": "Sender Email Password",
+    "test_success": "Test channel successfully!",
+    "sign_secret": "Sign Secret",
+    "skip_verify": "Skip Insecure Verify"
+  },
+  "filter": {
+    "channel_name": "Alert Channel"
+  },
+  "resource": {
+    "channel": "Alert Channel"
+  },
+  "operate": {
+    "test_c": "Test {0} Channel",
+    "test": "Test"
+  }
+}

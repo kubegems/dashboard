@@ -25,13 +25,14 @@
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-autocomplete
-                v-model="receiver.name"
+                v-model="obj.alertChannel.id"
                 color="primary"
                 hide-selected
-                :items="receiverSelect"
+                :items="receiverItems"
                 :label="$root.$t('resource.receiver')"
                 :no-data-text="$root.$t('data.no_data')"
-                :rules="receiverRules.nameRule"
+                :rules="objRules.idRule"
+                @change="onReceiverChange"
                 @focus="onReceiverSelectFocus"
               >
                 <template #selection="{ item }">
@@ -42,7 +43,7 @@
               </v-autocomplete>
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
-              <v-text-field v-model="receiver.interval" label="发送间隔" required :rules="receiverRules.intervalRule" />
+              <v-text-field v-model="obj.interval" label="发送间隔" required :rules="objRules.intervalRule" />
             </v-flex>
             <div class="kubegems__clear-float" />
           </v-sheet>
@@ -58,10 +59,10 @@
 </template>
 
 <script>
-  import { mapGetters, mapState } from 'vuex';
+  import { mapGetters } from 'vuex';
 
   import messages from '../../../../../i18n';
-  import { getReceiverList } from '@/api';
+  import { getChannelList } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -79,31 +80,29 @@
         type: Array,
         default: () => null,
       },
-      mode: {
-        type: String,
-        default: () => 'monitor',
-      },
     },
     data() {
       return {
         valid: false,
         expand: false,
         receiverCopy: {},
-        receiver: {
+        obj: {
           index: -1,
-          name: '',
+          alertChannel: {
+            id: 0,
+            name: '',
+          },
           interval: '',
         },
-        receiverRules: {
-          nameRule: [required],
+        objRules: {
+          idRule: [required],
           intervalRule: [timeInterval],
         },
-        receiverSelect: [],
+        receiverItems: [],
       };
     },
     computed: {
-      ...mapState(['JWT', 'AdminViewport']),
-      ...mapGetters(['Project', 'Environment']),
+      ...mapGetters(['Tenant']),
     },
     watch: {
       data() {
@@ -118,37 +117,51 @@
     methods: {
       // 编辑时调用
       async init(data) {
-        this.receiver = data;
+        this.obj = data;
         await this.receiverList();
         this.expand = true;
       },
       async receiverList() {
-        const data = await getReceiverList(this.$route.query.cluster, this.$route.query.namespace, {
-          scope: this.mode,
+        const data = await getChannelList(this.Tenant().ID, {
+          size: 100,
         });
-        this.receiverSelect = data.map((item) => {
+        this.receiverItems = data.List.map((item) => {
           return {
-            text: item.name,
-            value: item.name,
+            text: `${item.name}(${item.channelConfig.channelType})`,
+            value: item.id,
           };
         });
       },
       onReceiverSelectFocus() {
         this.receiverList();
       },
+      onReceiverChange() {
+        const alertChannel = this.receiverItems.find((r) => {
+          return r.value === this.obj.alertChannel.id;
+        });
+        if (alertChannel) {
+          this.obj.alertChannel.name = alertChannel.text;
+        }
+      },
       addData() {
         if (this.$refs.form.validate(true)) {
-          if (this.receiver.index === -1) {
+          if (this.obj.index === -1) {
             const receiver = {
-              name: this.receiver.name,
-              interval: this.receiver.interval,
+              alertChannel: {
+                id: this.obj.alertChannel.id,
+                name: this.obj.alertChannel.name,
+              },
+              interval: this.obj.interval,
             };
             this.receiverCopy.push(receiver);
           } else {
-            const receiver = this.receiverCopy[this.receiver.index];
-            receiver.name = this.receiver.name;
-            receiver.interval = this.receiver.interval;
-            this.$set(this.receiverCopy, this.receiver.index, receiver);
+            const receiver = this.receiverCopy[this.obj.index];
+            receiver.alertChannel = {
+              id: this.obj.alertChannel.id,
+              name: this.obj.alertChannel.name,
+            };
+            receiver.interval = this.obj.interval;
+            this.$set(this.receiverCopy, this.obj.index, receiver);
           }
           this.$emit('addData', this.receiverCopy);
           this.closeCard();
@@ -157,7 +170,7 @@
       closeCard() {
         this.expand = false;
         this.$refs.form.reset();
-        this.receiver.index = -1;
+        this.obj.index = -1;
         this.$emit('closeOverlay');
       },
       expandCard() {

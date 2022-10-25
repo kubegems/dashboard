@@ -339,6 +339,7 @@
       "output": "日誌路由器",
       "flow": "日誌採集器",
       "monitor_app": "應用性能",
+      "channel": "告警渠道",
       "g_dashboard": "概覽",
       "g_integrated": "接入中心",
       "g_observability": "可視化",
@@ -445,7 +446,8 @@
     "prometheus_rule": "告警規則 （PrometheusRule） 通常是針對監控指標設置的Prometheus告警規則。",
     "flow": "日誌採集器 （Flow/ClusterFlow） 定義了一個帶有篩檢程式和輸出的日誌流。",
     "output": "日誌路由器 （Output/ClusterOutput） 定義您的流可以發送日誌消息的輸出。",
-    "dash_app": "應用監控（Jaeger）"
+    "dash_app": "應用監控（Jaeger）",
+    "alert_channel": "告警渠道提供多種告警消息發送方式通知用戶，包括(郵箱，飛書，webhook等)"
   },
   "metadata": {
     "description": "更便捷的雲原生管理平臺",

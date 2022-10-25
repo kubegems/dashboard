@@ -89,7 +89,7 @@
   import { getCronJobDetail, patchUpdateCronJob } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';
-  import CronjobSchema from '@/views/resource/cronjob/mixins/schema';
+  import CronjobSchema from '@/utils/schema/cronjob';
 
   export default {
     name: 'UpdateCronJob',
@@ -99,7 +99,7 @@
     components: {
       CronjobBaseForm,
     },
-    mixins: [BaseResource, CronjobSchema],
+    mixins: [BaseResource],
     data() {
       return {
         dialog: false,
@@ -125,7 +125,7 @@
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
             if (!this.m_resource_checkDataWithNS(data, this.item.metadata.namespace)) return;
-            if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+            if (!this.m_resource_validateJsonSchema(CronjobSchema, data)) {
               return;
             }
           } else if (this.formComponent === 'CronjobBaseForm') {
@@ -154,7 +154,7 @@
           const yaml = this.$refs[this.formComponent].getYaml();
           const data = this.$yamlload(yaml);
           this.m_resource_addNsToData(data, this.AdminViewport ? this.item.metadata.namespace : this.ThisNamespace);
-          if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+          if (!this.m_resource_validateJsonSchema(CronjobSchema, data)) {
             this.yaml = true;
             this.switchKey = randomString(6);
             return;
