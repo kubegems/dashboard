@@ -68,7 +68,7 @@ Clone the repository, and run `yarn && yarn build`
 git clone https://github.com/kubegems/dsahboard.git
 cd dashboard/
 yarn && yarn build
-yarn serve
+yarn start
 ```
 
 ## Documentation

@@ -4,7 +4,7 @@
   "private": true,
   "license": "Apache-2.0",
   "scripts": {
-    "serve": "vite",
+    "start": "vite",
     "build": "vite build && rm -rf dist/js/*.map dist/*.map",
     "preview": "vite preview",
     "lint": "eslint ./ --ext .ts,.tsx,.vue,.js,.jsx",
@@ -68,7 +68,7 @@
     "vue-meta": "^2.4.0",
     "vue-okr-tree": "1.0.10",
     "vue-router": "^3.4.4",
-    "vue-slider-component": "^3.2.20",
+    "vue-slider-component": "^2.8.16",
     "vue-table-dynamic": "^0.4.10",
     "vue2-ace-editor": "^0.0.15",
     "vuedraggable": "^2.24.3",

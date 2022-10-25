@@ -18,15 +18,15 @@
   <BaseDialog
     v-model="dialog"
     icon="mdi-call-received"
-    :title="$root.$t('operate.create_c', [$root.$t('resource.receiver')])"
+    :title="$root.$t('operate.create_c', [$t('resource.channel')])"
     :width="1000"
     @reset="reset"
   >
     <template #content>
-      <component :is="formComponent" :ref="formComponent" title="Receiver" />
+      <component :is="formComponent" :ref="formComponent" title="Channel" />
     </template>
     <template #action>
-      <v-btn class="float-right mx-2" color="primary" :loading="Circular" text @click="addReceiver">
+      <v-btn class="float-right mx-2" color="primary" :loading="Circular" text @click="addChannel">
         {{ $root.$t('operate.confirm') }}
       </v-btn>
     </template>
@@ -34,37 +34,39 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
+  import { mapGetters, mapState } from 'vuex';
 
-  import ReceiverBaseForm from './ReceiverBaseForm';
-  import { postAddReceiver } from '@/api';
-  import BaseResource from '@/mixins/resource';
+  import messages from '../i18n';
+  import ChannelBaseForm from './ChannelBaseForm';
+  import { postAddChannel } from '@/api';
 
   export default {
-    name: 'AddReceiver',
-    components: {
-      ReceiverBaseForm,
+    name: 'AddChannel',
+    i18n: {
+      messages: messages,
     },
-    mixins: [BaseResource],
+    components: {
+      ChannelBaseForm,
+    },
     props: {},
     data() {
       return {
         dialog: false,
-        formComponent: 'ReceiverBaseForm',
+        formComponent: 'ChannelBaseForm',
       };
     },
     computed: {
-      ...mapState(['Circular', 'AdminViewport']),
+      ...mapState(['Circular']),
+      ...mapGetters(['Tenant']),
     },
     methods: {
       open() {
         this.dialog = true;
       },
-      async addReceiver() {
+      async addChannel() {
         if (this.$refs[this.formComponent].validate()) {
-          let data = this.$refs[this.formComponent].getData();
-          data = this.m_resource_beautifyData(data);
-          await postAddReceiver(this.$route.query.cluster, this.$route.query.namespace, data);
+          const data = this.$refs[this.formComponent].getData();
+          await postAddChannel(this.Tenant().ID, data);
           this.reset();
           this.$emit('refresh');
         }
@@ -72,7 +74,7 @@
       reset() {
         this.dialog = false;
         this.$refs[this.formComponent].reset();
-        this.formComponent = 'ReceiverBaseForm';
+        this.formComponent = 'ChannelBaseForm';
       },
     },
   };

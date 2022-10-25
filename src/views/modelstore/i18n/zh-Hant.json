@@ -60,7 +60,11 @@
     "core": "核心",
     "experience": "模型體驗",
     "not_support": "暫不支援",
-    "configmap_name": "配置名稱"
+    "configmap_name": "配置名稱",
+
+    "upgrage_strategy": "更新策略",
+    "rollingupdate": "滾動更新",
+    "recreate": "重建"
   },
   "tab": {
     "description": "介紹",

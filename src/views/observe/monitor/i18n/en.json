@@ -25,15 +25,9 @@
     "byte_rate": "Byte Rate",
     "time": "Time",
     "precent": "Percentage",
-    "email": "Email",
-    "send": "Sender",
-    "recv": "recipients",
-    "smtp": "SMTP Server",
     "alert_channel": "Warning channels",
     "add_alert_channel": "Please add a warning channel",
     "email_config": "Email Configuration",
-    "send_passwd": "Sender Email Password",
-    "test_success": "Test email sent successfully!",
     "rule_detail": "Rule Details",
     "alert_trend": "Warning trends",
     "alert_count": "Number of warnings",
@@ -69,11 +63,6 @@
     "global_var_tip": "Global variables are used to filter monitoring data in the monitoring chart",
     "missing_template": "Template is missing",
 
-    "feishu": "feishu",
-    "user_id": "User Id",
-    "advanced_setting": "Advanced configuration",
-    "get_feishu_id": "How to get Feishu user ID",
-
     "app_performance_monitor": "App Performance"
   },
   "tab": {
@@ -93,8 +82,7 @@
     "dest_container": "Target container",
     "time": "Duration",
     "inhabit_label": "Repress Tags",
-    "user_id": "User Id(Enter to create)",
-    "sign_secret": "Sign Secret"
+    "user_id": "User Id(Enter to create)"
   },
   "operate": {
     "query": "Query",
@@ -114,7 +102,6 @@
   },
   "table": {
     "name": "Name",
-    "channel": "Channels",
     "expr": "Indicators",
     "for": "Evaluation Time",
     "status": "Status",

@@ -65,7 +65,7 @@
                 :enable-cross="false"
                 :marks="sliderItems[obj.name].memory.marks"
                 :max="sliderItems[obj.name].memory.max"
-                process-style="background-color:#3498db"
+                process-style="background-color: #1e88e5"
                 :tooltip="'always'"
               >
                 <template #tooltip="props">
@@ -89,7 +89,7 @@
 </template>
 
 <script>
-  import VueSlider from 'vue-slider-component';
+  import VueSlider from 'vue-slider-component/src/vue2-slider';
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
@@ -106,7 +106,7 @@
   import BaseSelect from '@/mixins/select';
   import { beautifyCpuUnit, beautifyStorageUnit, deepCopy, sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
 
-  import 'vue-slider-component/theme/default.css';
+  // import 'vue-slider-component/theme/default.css';
 
   export default {
     name: 'ResourceLimit',

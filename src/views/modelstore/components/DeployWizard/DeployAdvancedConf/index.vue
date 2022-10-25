@@ -101,6 +101,33 @@
       </v-row>
     </v-card-text>
 
+    <BaseSubTitle class="mt-3" color="grey lighten-3" :divider="false" :title="$t('tip.upgrage_strategy')" />
+    <v-card-text class="pa-2">
+      <v-row>
+        <v-col cols="12">
+          <v-autocomplete
+            v-model="obj.server.upgradeStrategy"
+            hide-no-data
+            hide-selected
+            :items="upgradeStrategyItems"
+            :label="$t('tip.upgrage_strategy')"
+            :menu-props="{
+              bottom: true,
+              left: true,
+              origin: `top center`,
+            }"
+            :rules="objRules.upgradeStrategyRules"
+          >
+            <template #selection="{ item }">
+              <v-chip class="my-1" color="primary" small text-color="white">
+                {{ item.text }}
+              </v-chip>
+            </template>
+          </v-autocomplete>
+        </v-col>
+      </v-row>
+    </v-card-text>
+
     <ResourceConf ref="resourceConf" :base="base" :spec="spec" />
 
     <v-switch v-model="advanced" class="ml-3" :label="$t('tip.advanced_config')" />
@@ -240,6 +267,7 @@
                 memory: '4Gi',
               },
             },
+            upgradeStrategy: 'RollingUpdate',
           },
           replicas: 1,
           ingress: {
@@ -254,6 +282,7 @@
           implementationRules: [(v) => !!(v?.trim()?.length > 0 || v === '') || this.$t('tip.required')],
           gatewayRules: [required],
           tokenRules: [required],
+          upgradeStrategyRules: [required],
         },
       };
     },
@@ -286,6 +315,12 @@
           { text: 'mlflow server', value: 'MLFLOW_SERVER', icon: 'mlflow' },
           { text: 'xgboost server', value: 'XGBOOST_SERVER', icon: 'xgboost' },
           { text: 'custom server', value: '', icon: 'kubegems' },
+        ];
+      },
+      upgradeStrategyItems() {
+        return [
+          { text: this.$t('tip.rollingupdate'), value: 'RollingUpdate' },
+          { text: this.$t('tip.recreate'), value: 'Recreate' },
         ];
       },
     },

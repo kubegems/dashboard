@@ -339,6 +339,7 @@
       "output": "ログルーター",
       "flow": "ログのコレクタ",
       "monitor_app": "パフォーマンス",
+      "channel": "チャネル",
       "g_dashboard": "概要",
       "g_integrated": "アクセスセンター",
       "g_observability": "可視性",
@@ -445,7 +446,8 @@
     "prometheus_rule": "警報規則 (PrometheusRule) は、指標を設定したPrometheus警告規則である。",
     "flow": "ログキャプチャ(Flow/ClusterFlow) は、フィルタと出力付きログストリームを定義する。",
     "output": "ログルーター (Output/ClusterOutput) は、あなたのストリームからメッセージ送信の出力を定義します。",
-    "dash_app": "ジャガーアプリケーション化"
+    "dash_app": "ジャガーアプリケーション化",
+    "alert_channel": "アラート チャネルは、ユーザーに通知するためのさまざまなアラート メッセージ送信方法を提供します。"
   },
   "metadata": {
     "description": "より簡単に、クラウドベースでお届けします",

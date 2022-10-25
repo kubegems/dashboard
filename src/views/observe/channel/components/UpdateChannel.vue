@@ -18,15 +18,15 @@
   <BaseDialog
     v-model="dialog"
     icon="mdi-call-received"
-    :title="$root.$t('operate.update_c', [$root.$t('resource.receiver')])"
+    :title="$root.$t('operate.update_c', [$t('resource.channel')])"
     :width="1000"
     @reset="reset"
   >
     <template #content>
-      <component :is="formComponent" :ref="formComponent" :edit="true" :item="item" title="Receiver" />
+      <component :is="formComponent" :ref="formComponent" :edit="true" :item="item" title="channel" />
     </template>
     <template #action>
-      <v-btn class="float-right mx-2" color="primary" :loading="Circular" text @click="updateReceiver">
+      <v-btn class="float-right mx-2" color="primary" :loading="Circular" text @click="updateChannel">
         {{ $root.$t('operate.confirm') }}
       </v-btn>
     </template>
@@ -34,42 +34,46 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
+  import { mapGetters, mapState } from 'vuex';
 
-  import ReceiverBaseForm from './ReceiverBaseForm';
-  import { putUpdateReceiver } from '@/api';
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
-  import { deepCopy } from '@/utils/helpers';
+  import messages from '../i18n';
+  import ChannelBaseForm from './ChannelBaseForm';
+  import { getChannelDetail, putUpdateChannel } from '@/api';
 
   export default {
-    name: 'UpdateReceiver',
-    components: {
-      ReceiverBaseForm,
+    name: 'UpdateChannel',
+    i18n: {
+      messages: messages,
     },
-    mixins: [BaseResource, BaseSelect],
+    components: {
+      ChannelBaseForm,
+    },
     data() {
       return {
         dialog: false,
-        formComponent: 'ReceiverBaseForm',
-        item: {},
+        formComponent: 'ChannelBaseForm',
+        item: null,
       };
     },
     computed: {
-      ...mapState(['Circular', 'AdminViewport']),
+      ...mapState(['Circular']),
+      ...mapGetters(['Tenant']),
     },
     methods: {
       open() {
         this.dialog = true;
       },
       async init(item) {
-        this.item = deepCopy(item);
+        this.channelDetail(item);
       },
-      async updateReceiver() {
+      async channelDetail(item) {
+        const data = await getChannelDetail(this.Tenant().ID, item.id);
+        this.item = data;
+      },
+      async updateChannel() {
         if (this.$refs[this.formComponent].validate()) {
-          let data = this.$refs[this.formComponent].getData();
-          data = this.m_resource_beautifyData(data);
-          await putUpdateReceiver(this.$route.query.cluster, this.$route.query.namespace, data.name, data);
+          const data = this.$refs[this.formComponent].getData();
+          await putUpdateChannel(this.Tenant().ID, data.id, data);
 
           this.reset();
           this.$emit('refresh');
@@ -78,7 +82,7 @@
       reset() {
         this.dialog = false;
         this.$refs[this.formComponent].reset();
-        this.formComponent = 'ReceiverBaseForm';
+        this.formComponent = 'ChannelBaseForm';
       },
     },
   };

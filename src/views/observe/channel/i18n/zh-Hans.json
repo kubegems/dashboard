@@ -1,0 +1,34 @@
+{
+  "table": {
+    "name": "名称",
+    "channel": "渠道",
+    "default": "内置"
+  },
+  "tip": {
+    "email": "邮箱",
+    "send": "发件人",
+    "recv": "收件人",
+    "smtp": "SMTP服务器",
+    "port": "端口",
+    "feishu": "飞书",
+    "user_id": "用户Id",
+    "yes": "是",
+    "no": "否",
+    "advanced_setting": "高级配置",
+    "get_feishu_id": "如何获取飞书用户Id",
+    "send_passwd": "发件人邮箱密码",
+    "test_success": "测试发送成功!",
+    "sign_secret": "校验签名",
+    "skip_verify": "跳过安全校验"
+  },
+  "filter": {
+    "channel_name": "告警渠道"
+  },
+  "resource": {
+    "channel": "告警渠道"
+  },
+  "operate": {
+    "test_c": "测试 {0} 渠道",
+    "test": "测试"
+  }
+}

@@ -17,6 +17,9 @@ import yaml from 'js-yaml';
 import _ from 'lodash';
 import moment from 'moment';
 import Vue from 'vue';
+import 'moment/dist/locale/zh-cn';
+import 'moment/dist/locale/ja';
+import 'moment/dist/locale/zh-tw';
 
 import store from '@/store';
 
@@ -46,7 +49,17 @@ Vue.prototype.$aceinit = () => {
   import.meta.globEager('brace/snippets/json');
 };
 
-moment.locale(store.state.Locale === 'zh-Hans' ? 'zh-cn' : store.state.Locale);
+moment.locale(
+  (() => {
+    if (store.state.Locale === 'zh-Hans') {
+      return 'zh-cn';
+    }
+    if (store.state.Locale === 'zh-Hant') {
+      return 'zh-tw';
+    }
+    return store.state.Locale;
+  })(),
+);
 Vue.prototype.$moment = moment;
 
 Vue.prototype.$_ = _;

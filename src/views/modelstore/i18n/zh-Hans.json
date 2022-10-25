@@ -67,7 +67,11 @@
     "core": "核心",
 
     "experience": "模型体验",
-    "not_support": "暂不支持"
+    "not_support": "暂不支持",
+
+    "upgrage_strategy": "更新策略",
+    "rollingupdate": "滚动更新",
+    "recreate": "重建"
   },
   "tab": {
     "description": "介绍",

@@ -26,7 +26,7 @@
                   {{ $root.$t('resource.receiver') }}
                 </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1">
-                  {{ item.name }}
+                  {{ item.alertChannel.name }}
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>

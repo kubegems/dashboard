@@ -334,7 +334,7 @@
               namespace: item.namespace,
             },
             name: item.name,
-            receiversStr: (item.receivers || []).map((receiver) => receiver.name).join(', '),
+            receiversStr: (item.receivers || []).map((receiver) => receiver.alertChannel.name).join(', '),
             ...item,
           };
         });
