@@ -251,7 +251,7 @@
             t.Storage += sizeOfStorage(r.Content['limits.storage']);
           });
 
-          if (!t.AllocatedResourcequota['limits.storage']) {
+          if (t.AllocatedResourcequota && !t.AllocatedResourcequota['limits.storage']) {
             t.AllocatedResourcequota['limits.storage'] = t.AllocatedResourcequota['requests.storage'];
           }
 
