@@ -53,31 +53,6 @@
         <v-card>
           <v-card-title class="text-h6 primary--text">
             {{ node ? node.metadata.name : '' }}
-
-            <template v-if="tke">
-              <v-menu :close-delay="200" open-on-hover top>
-                <template #activator="{ on }">
-                  <span class="mt-2 mr-2" v-on="on">
-                    <BaseLogo icon-name="tke" />
-                  </span>
-                </template>
-                <v-card>
-                  <v-card-text class="pa-2"> tencent vcuda </v-card-text>
-                </v-card>
-              </v-menu>
-            </template>
-            <template v-if="nvidia">
-              <v-menu :close-delay="200" open-on-hover top>
-                <template #activator="{ on }">
-                  <span class="mt-2 mr-2" v-on="on">
-                    <BaseLogo icon-name="nvidia" />
-                  </span>
-                </template>
-                <v-card>
-                  <v-card-text class="pa-2"> nvidia </v-card-text>
-                </v-card>
-              </v-menu>
-            </template>
           </v-card-title>
           <v-list-item two-line>
             <v-list-item-content class="kubegems__text">
@@ -199,18 +174,6 @@
           { text: this.$root.$t('tab.monitor'), value: 'NodeMonitor' },
         ];
         return items;
-      },
-      tke() {
-        if (this?.node?.metadata?.labels) {
-          return this.node.metadata.labels['tencent.com/vcuda'] === 'true';
-        }
-        return false;
-      },
-      nvidia() {
-        if (this?.node?.metadata?.labels) {
-          return this.node.metadata.labels['nvidia.com/gpu'] === 'true';
-        }
-        return false;
       },
     },
     mounted() {

@@ -4,9 +4,9 @@
   "private": true,
   "license": "Apache-2.0",
   "scripts": {
-    "start": "vite --force",
+    "start": "vite --force --cors -l info",
     "build": "vite build && rm -rf dist/js/*.map dist/*.map",
-    "preview": "vite preview",
+    "preview": "vite preview -l info -d",
     "lint": "eslint ./ --ext .ts,.tsx,.vue,.js,.jsx",
     "prepare": "husky install",
     "cz": "git add . && git cz",
@@ -40,8 +40,8 @@
   },
   "dependencies": {
     "@iconify-json/emojione": "^1.1.2",
-    "@iconify-json/logos": "^1.1.16",
-    "@iconify-json/mdi": "^1.1.33",
+    "@iconify-json/logos": "^1.1.17",
+    "@iconify-json/mdi": "^1.1.34",
     "@iconify/vue2": "^1.2.1",
     "ajv": "^8.6.3",
     "axios": "^0.27.2",
@@ -66,13 +66,13 @@
     "vue-form-wizard": "0.8.4",
     "vue-i18n": "^8.27.2",
     "vue-meta": "^2.4.0",
-    "vue-okr-tree": "1.0.10",
+    "vue-okr-tree": "^1.0.12",
     "vue-router": "^3.4.4",
     "vue-slider-component": "^2.8.16",
     "vue-table-dynamic": "^0.4.10",
     "vue2-ace-editor": "^0.0.15",
     "vuedraggable": "^2.24.3",
-    "vuetify": "^2.6.11",
+    "vuetify": "^2.6.12",
     "vuex": "^3.6.2",
     "xterm": "^4.19.0",
     "xterm-addon-fit": "^0.6.0",
@@ -107,7 +107,9 @@
     "vite-plugin-md": "^0.20.4"
   },
   "browserslist": [
-    "> 1%",
-    "last 2 versions"
+    "> 5%",
+    "last 2 versions",
+    "not ie <= 11",
+    "not dead"
   ]
 }
