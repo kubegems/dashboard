@@ -176,7 +176,6 @@
         "
         :style="{ height: `${height}px !important` }"
         theme="chrome"
-        @init="$aceinit"
         @keydown.stop
       />
     </template>

@@ -17,7 +17,7 @@
 <template>
   <div>
     <span
-      :class="`v-avatar mr-2 ${
+      :class="`v-avatar mr-1 ${
         item.task && (item.task.status.status === 'Running' || item.task.status.status === 'Pending')
           ? 'kubegems__waiting-flashing'
           : ''
@@ -48,8 +48,8 @@
         nudge-bottom="5px"
         offset-y
         open-on-hover
-        :origin="`${size - index <= 5 || (items.length <= 5 && index >= 1) ? 'bottom center' : 'top center'}`"
-        :top="size - index <= 5 || (items.length <= 5 && index >= 1)"
+        :origin="`${top ? 'bottom center' : 'top center'}`"
+        :top="stop"
         transition="scale-transition"
       >
         <template #activator="{ on }">
@@ -90,17 +90,13 @@
       messages: messages,
     },
     props: {
-      index: {
-        type: Number,
-        default: () => 1,
-      },
       item: {
         type: Object,
         default: () => {},
       },
-      size: {
-        type: Number,
-        default: () => 10,
+      top: {
+        type: Boolean,
+        default: () => false,
       },
     },
   };

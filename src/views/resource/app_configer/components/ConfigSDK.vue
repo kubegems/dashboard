@@ -35,7 +35,6 @@
           :lang="lang"
           :options="Object.assign($aceOptions, { readOnly: true, wrap: true })"
           :style="{ height: `${height}px !important` }"
-          @init="$aceinit"
           @keydown.stop
         />
       </v-card>

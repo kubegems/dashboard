@@ -20,6 +20,21 @@ import Vue from 'vue';
 import 'moment/dist/locale/zh-cn';
 import 'moment/dist/locale/ja';
 import 'moment/dist/locale/zh-tw';
+import 'brace/theme/chrome';
+import 'brace/ext/language_tools';
+import 'brace/ext/searchbox';
+import 'brace/ext/beautify';
+import 'brace/mode/yaml';
+import 'brace/mode/json';
+import 'brace/mode/xml';
+import 'brace/mode/ini';
+import 'brace/mode/html';
+import 'brace/mode/java';
+import 'brace/mode/python';
+import 'brace/mode/golang';
+import 'brace/mode/c_cpp';
+import 'brace/mode/plain_text';
+import 'brace/snippets/json';
 
 import store from '@/store';
 
@@ -30,23 +45,6 @@ Vue.prototype.$aceOptions = {
   showPrintMargin: false,
   wrap: true,
   readOnly: false,
-};
-Vue.prototype.$aceinit = () => {
-  import.meta.globEager('brace/theme/chrome');
-  import.meta.globEager('brace/ext/language_tools');
-  import.meta.globEager('brace/ext/searchbox');
-  import.meta.globEager('brace/ext/beautify');
-  import.meta.globEager('brace/mode/yaml');
-  import.meta.globEager('brace/mode/json');
-  import.meta.globEager('brace/mode/xml');
-  import.meta.globEager('brace/mode/ini');
-  import.meta.globEager('brace/mode/html');
-  import.meta.globEager('brace/mode/java');
-  import.meta.globEager('brace/mode/python');
-  import.meta.globEager('brace/mode/golang');
-  import.meta.globEager('brace/mode/c_cpp');
-  import.meta.globEager('brace/mode/plain_text');
-  import.meta.globEager('brace/snippets/json');
 };
 
 moment.locale(

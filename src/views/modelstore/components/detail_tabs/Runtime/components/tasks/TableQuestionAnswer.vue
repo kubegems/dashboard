@@ -17,7 +17,6 @@
           :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
           :style="{ height: `200px !important` }"
           theme="chrome"
-          @init="$aceinit"
           @keydown.stop
         />
       </v-col>
