@@ -26,7 +26,7 @@ export default defineConfig({
     chunkSplitPlugin({
       strategy: 'default',
       customSplitting: {
-        'vue-vendor': ['vue', 'vue-clipboard2', 'vue-form-wizard', 'vue-i18n', 'vue-meta', 'vuex'],
+        'vue-vendor': ['vue', 'vue-clipboard2', 'vue-form-wizard', 'vue-meta', 'vuex'],
         'vuetify-vendor': ['vuetify'],
         xterm: ['xterm', 'xterm-addon-fit', 'xterm-addon-web-links'],
         filepond: [
@@ -44,6 +44,8 @@ export default defineConfig({
         'vue2-ace-editor': ['vue2-ace-editor'],
         'vue-slider-component': ['vue-slider-component'],
         moment: ['moment'],
+        'vue-table-dynamic': ['vue-table-dynamic'],
+        'vue-i18n': ['vue-i18n'],
       },
     }),
   ],
@@ -63,7 +65,7 @@ export default defineConfig({
   },
   server: {
     host: '0.0.0.0',
-    // port: 8080,
+    port: 3000,
     strictPort: true,
     proxy: {
       'models/model/infer': {

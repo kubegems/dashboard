@@ -527,17 +527,17 @@
   dependencies:
     "@iconify/types" "*"
 
-"@iconify-json/logos@^1.1.16":
-  version "1.1.16"
-  resolved "https://registry.npmmirror.com/@iconify-json/logos/-/logos-1.1.16.tgz#a9bed9c55855a897e75069695941e724279c599a"
-  integrity sha512-ka6Irz4qNuk+RNDDVZEMTw3ceUk43FpBxReikswTrUXPlis6LgLZNyh9SV00SFeuBdT+A5gF45kJ124IxtOL5g==
+"@iconify-json/logos@^1.1.17":
+  version "1.1.17"
+  resolved "https://registry.npmmirror.com/@iconify-json/logos/-/logos-1.1.17.tgz#3d3d83519657bc3e4cab4b582dc3dce194343325"
+  integrity sha512-N6xKFKZ9UD5thRAwv8TvBQD3MJQe17UnN7QtfXnAVjlcnMIvdZ1lkZ12S/kw38i2v8gIZ6i6B9Cng5NPzTWd/g==
   dependencies:
     "@iconify/types" "*"
 
-"@iconify-json/mdi@^1.1.33":
-  version "1.1.33"
-  resolved "https://registry.npmmirror.com/@iconify-json/mdi/-/mdi-1.1.33.tgz#c479990263d19a7c5639ea6b41cb48add8e7d89b"
-  integrity sha512-P8zIjwYvQ6SsmHc02O4oNV3jsqbL4bXcfKSt9MfCPMBvF9CLzz6QHMzQgt/Okgsb8wfhkfSQeREp+dSxV9pLRA==
+"@iconify-json/mdi@^1.1.34":
+  version "1.1.34"
+  resolved "https://registry.npmmirror.com/@iconify-json/mdi/-/mdi-1.1.34.tgz#fe2541448975e39cadcb4f4de07c42bbd4650422"
+  integrity sha512-Jle/BrVmaKMMPVitsO3lbJ8VpXUVCAhfMFAMo0VoxLDX8ZiKiQyVDHXPug9wGaXYb9mrFZE4UWVK63Cjx8L3rQ==
   dependencies:
     "@iconify/types" "*"
 
@@ -891,9 +891,9 @@
     "@yankeeinlondon/happy-wrapper" "^2.5.0"
 
 "@yankeeinlondon/happy-wrapper@^2.5.0", "@yankeeinlondon/happy-wrapper@^2.6.0":
-  version "2.6.0"
-  resolved "https://registry.npmmirror.com/@yankeeinlondon/happy-wrapper/-/happy-wrapper-2.6.0.tgz#cd9217c103da967af59509049233e0127db9e925"
-  integrity sha512-az+gEjG4Jl4GbM35ID5pn4v7FwfrgeA1br/B9STXlDLvIsV8q7mCxQ1oYa8bR1iHtNQg7kgW6s9DYheaTemrHQ==
+  version "2.7.0"
+  resolved "https://registry.npmmirror.com/@yankeeinlondon/happy-wrapper/-/happy-wrapper-2.7.0.tgz#f28eb1e66a9474e1495f86f2bd3cf4bd356bd4e1"
+  integrity sha512-BfvtViLDCwWAP2tO5J2TSSjVft/WJmx4imPDw0jn5GqeScOVHE8gVxq5VNvM9DQSztifYrxCYg0kuQj9CeVpSA==
   dependencies:
     native-dash "^1.23.2"
 
@@ -1233,9 +1233,9 @@ camelcase@^5.0.0, camelcase@^5.3.1:
   integrity sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==
 
 caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001400:
-  version "1.0.30001423"
-  resolved "https://registry.npmmirror.com/caniuse-lite/-/caniuse-lite-1.0.30001423.tgz#57176d460aa8cd85ee1a72016b961eb9aca55d91"
-  integrity sha512-09iwWGOlifvE1XuHokFMP7eR38a0JnajoyL3/i87c8ZjRWRrdKo1fqjNfugfBD0UDBIOz0U+jtNhJ0EPm1VleQ==
+  version "1.0.30001425"
+  resolved "https://registry.npmmirror.com/caniuse-lite/-/caniuse-lite-1.0.30001425.tgz#52917791a453eb3265143d2cd08d80629e82c735"
+  integrity sha512-/pzFv0OmNG6W0ym80P3NtapU0QEiDS3VuYAZMGoLLqiC7f6FJFe1MjpQDREGApeenD9wloeytmVDj+JLXPC6qw==
 
 caseless@^0.12.0, caseless@~0.12.0:
   version "0.12.0"
@@ -1697,9 +1697,9 @@ detect-indent@6.1.0:
   integrity sha512-reYkTUJAZb9gUuZ2RvVCNhVHdg62RHnJ7WJl8ftMi4diZ6NWlciOzQN88pUhSELEwflJht4oQDv0F0BMlwaYtA==
 
 diff2html@^3.4.5:
-  version "3.4.19"
-  resolved "https://registry.npmmirror.com/diff2html/-/diff2html-3.4.19.tgz#6150ed253957e22f38f078a5fb1b70d27eb9ce6c"
-  integrity sha512-23tBeyRxcw31p/XlEn9ZGYP9mRQRL3cB25aigrWV29UUUmEnlHnmUpFWGKVSiCJXoize+31SV412BYmdilRqEw==
+  version "3.4.21"
+  resolved "https://registry.npmmirror.com/diff2html/-/diff2html-3.4.21.tgz#df04705433dbc61efd7dc275a26c4de5f6e41e31"
+  integrity sha512-I5KoezAf2SwPLHzMz4zRKuYW7KIN4LL4hncwR+rvrFXiYyXPgZRqK+123NodUC2N7HUTgF2lLVDFDyovUQNUUg==
   dependencies:
     diff "5.1.0"
     hogan.js "3.0.2"
@@ -2021,9 +2021,9 @@ eslint-config-prettier@^8.5.0:
   integrity sha512-obmWKLUNCnhtQRKc+tmnYuQl0pFU1ibYJQ5BGhTVB08bHe9wC8qUeG7c08dj9XX+AuPj1YSGSQIHl1pnDHZR0Q==
 
 eslint-define-config@^1.5.1:
-  version "1.7.0"
-  resolved "https://registry.npmmirror.com/eslint-define-config/-/eslint-define-config-1.7.0.tgz#64690da6261b2fcf298e11c5f6da77e05fdd50dc"
-  integrity sha512-13zk8z8eKO4tpPMvAGV0sa6ok0XuMeu7Zhcizu2bLwcLy1fbNt7/h8PU1wbp9IoIgQETggZJozU0nPXUXOao2g==
+  version "1.8.0"
+  resolved "https://registry.npmmirror.com/eslint-define-config/-/eslint-define-config-1.8.0.tgz#8d651e7337d41b683f7c26400b76ffddd230b083"
+  integrity sha512-YibjbNkHKMo3QAnV3bgc+BdvmYCcCpuoRdAIc+6W/P91G02ZOrCVaPrco9Uf4md25NanjkV2bnfwce8XfPRS7A==
 
 eslint-import-resolver-alias@^1.1.2:
   version "1.1.2"
@@ -2715,9 +2715,9 @@ gray-matter@^4.0.3:
     strip-bom-string "^1.0.0"
 
 happy-dom@^7.4.0:
-  version "7.6.0"
-  resolved "https://registry.npmmirror.com/happy-dom/-/happy-dom-7.6.0.tgz#90c5f686b5473aa14b2766ff96203973322d7fab"
-  integrity sha512-QnNsiblZdyVDzW5ts6E7ub79JnabqHJeJgt+1WGNq9fSYqS/r/RzzTVXCZSDl6EVkipdwI48B4bgXAnMZPecIw==
+  version "7.6.6"
+  resolved "https://registry.npmmirror.com/happy-dom/-/happy-dom-7.6.6.tgz#f94ce99c5a32d1ea8578b75e8f584e8fcd162513"
+  integrity sha512-28NxRiHXjzhr+BGciLNUoQW4OaBnQPRT/LPYLufh0Fj3Iwh1j9qJaozjBm/Uqdj5Ps4cukevQ7ERieA6Ddwf1g==
   dependencies:
     css.escape "^1.5.1"
     he "^1.2.0"
@@ -2917,11 +2917,11 @@ indent-string@^4.0.0:
   integrity sha512-EdDDZu4A2OyIK7Lr/2zG+w5jmbuk1DVBnEwREQvBzspBJkCEbRa8GxU1lghYcaGJCnRWibjDXlq779X1/y5xwg==
 
 inferred-types@^0.22.0:
-  version "0.22.0"
-  resolved "https://registry.npmmirror.com/inferred-types/-/inferred-types-0.22.0.tgz#66273fe73d0e5a3d750590f9b14e05a70c4a76cb"
-  integrity sha512-7JF/huiuS1ANuQisfRigytz4IdYbmQVXOW+Jt6IL4k3TQxsCxAz72rWccBKTomnmGzBRcd3ki8gyrESYY/2bYw==
+  version "0.22.8"
+  resolved "https://registry.npmmirror.com/inferred-types/-/inferred-types-0.22.8.tgz#f6a2744820500b38971246183d93e72c0dfad34b"
+  integrity sha512-gs0zTE04eOBso5tFZPA2UoYiH9qMCqCJCUdH9K6P6cofqNkI1L5bx9QDE0XE0khJgLN7TmH+W0JhwBbnkdjzWQ==
   dependencies:
-    common-types "^1.31.1"
+    brilliant-errors "^0.6.0"
 
 inflight@^1.0.4:
   version "1.0.6"
@@ -4109,9 +4109,9 @@ progress@^2.0.0:
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
 
 promise@^8.0.0:
-  version "8.2.0"
-  resolved "https://registry.npmmirror.com/promise/-/promise-8.2.0.tgz#a1f6280ab67457fbfc8aad2b198c9497e9e5c806"
-  integrity sha512-+CMAlLHqwRYwBMXKCP+o8ns7DN+xHDUiI+0nArsiJ9y+kJVPLFxEaSw6Ha9s9H0tftxg2Yzl25wqj9G7m5wLZg==
+  version "8.3.0"
+  resolved "https://registry.npmmirror.com/promise/-/promise-8.3.0.tgz#8cb333d1edeb61ef23869fbb8a4ea0279ab60e0a"
+  integrity sha512-rZPNPKTOYVNEEKFaq1HqTgOwZD+4/YHS5ukLzQCypkj+OkYx7iv0mA91lJlpPPZ8vMau3IIGj5Qlwrx+8iiSmg==
   dependencies:
     asap "~2.0.6"
 
@@ -5080,9 +5080,9 @@ unplugin-vue-components@^0.22.8:
     unplugin "^0.10.1"
 
 unplugin@^0.10.1:
-  version "0.10.1"
-  resolved "https://registry.npmmirror.com/unplugin/-/unplugin-0.10.1.tgz#e00dc951c1901aef4124121057102a8c290e28b3"
-  integrity sha512-y1hdBitiLOJvCmer0/IGrMGmHplsm2oFRGWleoAJTRQ8aMHxHOe9gLntYlh1WNLKufBuQ2sOTrHF+KWH4xE8Ag==
+  version "0.10.2"
+  resolved "https://registry.npmmirror.com/unplugin/-/unplugin-0.10.2.tgz#0f7089c3666f592cc448d746e39e7f41e9afb01a"
+  integrity sha512-6rk7GUa4ICYjae5PrAllvcDeuT8pA9+j5J5EkxbMFaV+SalHhxZ7X2dohMzu6C3XzsMT+6jwR/+pwPNR3uK9MA==
   dependencies:
     acorn "^8.8.0"
     chokidar "^3.5.3"
@@ -5316,10 +5316,10 @@ vue-meta@^2.4.0:
   dependencies:
     deepmerge "^4.2.2"
 
-vue-okr-tree@1.0.10:
-  version "1.0.10"
-  resolved "https://registry.npmmirror.com/vue-okr-tree/-/vue-okr-tree-1.0.10.tgz#532893c9d1db14936a01693129674443e095058c"
-  integrity sha512-DIFc3yc5dR015qZQBrF5aGoWCiGtdgSBfyGiOjv5SwKxufJhQXZzyBS14bc0wtEw8KTbzRShb3PHeYxQS5CglA==
+vue-okr-tree@^1.0.12:
+  version "1.0.12"
+  resolved "https://registry.npmmirror.com/vue-okr-tree/-/vue-okr-tree-1.0.12.tgz#a3f156805ba12527062f82f305e5de5b34d00edd"
+  integrity sha512-cAgO2cqHX+PEaQi9iroAZq51JYp3pFpbJ4R5UJDqrudjiXYHLlxLe1F05P5y+O2IAbyiXuEtJ1ofO18Og8bPZw==
   dependencies:
     core-js "^2.6.5"
     github-markdown-css "^4.0.0"
@@ -5374,7 +5374,7 @@ vuedraggable@^2.24.3:
   dependencies:
     sortablejs "1.10.2"
 
-vuetify@^2.6.11:
+vuetify@^2.6.12:
   version "2.6.12"
   resolved "https://registry.npmmirror.com/vuetify/-/vuetify-2.6.12.tgz#ef1871c720834d53e00fef142b9841a3e8c1a4f9"
   integrity sha512-qe3hcMpWmT1O15tp+p65lOS7UKZ/hQYQktCsw9iXx2u3RwVbX6GR82gY2iROrKsiAzYDvMgrYxWQwY/pUfkekw==
