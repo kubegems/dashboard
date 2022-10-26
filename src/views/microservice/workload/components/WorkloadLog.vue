@@ -153,7 +153,6 @@
           width: 'auto',
         }"
         theme="chrome"
-        @init="$aceinit"
         @keydown.stop
       />
     </v-card-text>

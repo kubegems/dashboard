@@ -269,7 +269,7 @@
       headers() {
         const items = [
           { text: this.$t('table.name'), value: 'name', align: 'start', width: 320 },
-          { text: this.$t('table.status'), value: 'status', align: 'start', width: 250 },
+          { text: this.$t('table.status'), value: 'status', align: 'start', width: 255 },
           { text: this.$t('table.container_count'), value: 'container', align: 'start', sortable: false },
           { text: this.$t('table.restart_count'), value: 'restart', align: 'end', sortable: false, width: 90 },
           {

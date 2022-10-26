@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 // 发送告警渠道测试
-export const getSendTestChannel = (tenantId, channelId) =>
-  axios(`observability/tenant/${tenantId}/channels/${channelId}/test`);
+export const postSendTestChannel = (tenantId, channelId) =>
+  axios.post(`observability/tenant/${tenantId}/channels/${channelId}/test`);
 
 // 告警渠道列表
 export const getChannelList = (tenantId, query = {}) =>

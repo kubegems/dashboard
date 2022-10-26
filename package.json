@@ -4,7 +4,7 @@
   "private": true,
   "license": "Apache-2.0",
   "scripts": {
-    "start": "vite",
+    "start": "vite --force",
     "build": "vite build && rm -rf dist/js/*.map dist/*.map",
     "preview": "vite preview",
     "lint": "eslint ./ --ext .ts,.tsx,.vue,.js,.jsx",
@@ -81,6 +81,7 @@
   "devDependencies": {
     "@vitejs/plugin-vue2": "^2.0.0",
     "@vitejs/plugin-vue2-jsx": "^1.0.3",
+    "@volar-plugins/vetur": "^0.1.0",
     "commitizen": "^4.2.4",
     "commitlint": "^13.2.0",
     "eslint": "^7.27.0",

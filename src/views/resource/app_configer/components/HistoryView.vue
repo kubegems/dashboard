@@ -52,7 +52,7 @@
                             :color="item.expanded ? 'green' : 'primary'"
                             small
                             text
-                            @click="expandItem(idx)"
+                            @click="expandItem(index)"
                           >
                             <v-icon small>mdi-vector-difference</v-icon>
                             diff
@@ -181,13 +181,13 @@
         );
         return detail.value;
       },
-      async expandItem(idx) {
-        if (this.history[idx].expanded) {
-          this.history[idx].expanded = false;
+      async expandItem(index) {
+        if (this.history[index].expanded) {
+          this.history[index].expanded = false;
         } else {
-          this.history[idx].expanded = true;
-          const detail = await this.getHistoryDetail(this.history[idx].rev);
-          this.history[idx].value = detail;
+          this.history[index].expanded = true;
+          const detail = await this.getHistoryDetail(this.history[index].rev);
+          this.history[index].value = detail;
         }
       },
       async rollback(item) {
@@ -219,7 +219,7 @@
             } else {
               this.$store.commit('SET_SNACKBAR', {
                 text: this.$t('status.rollback_success'),
-                color: 'green',
+                color: 'success',
               });
               this.$emit('rollback', res);
             }

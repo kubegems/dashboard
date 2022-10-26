@@ -174,7 +174,7 @@
   import AddChannel from './components/AddChannel';
   import UpdateChannel from './components/UpdateChannel';
   import messages from './i18n';
-  import { deleteChannel, getChannelList, getSendTestChannel } from '@/api';
+  import { deleteChannel, getChannelList, postSendTestChannel } from '@/api';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
 
@@ -271,8 +271,8 @@
           param: { item },
           doFunc: async (param) => {
             if (param.item.name.length > 0) {
-              await getSendTestChannel(this.Tenant().ID, param.item.id);
-              store.commit('SET_SNACKBAR', {
+              await postSendTestChannel(this.Tenant().ID, param.item.id);
+              this.$store.commit('SET_SNACKBAR', {
                 text: this.$t('tip.test_success'),
                 color: 'success',
               });

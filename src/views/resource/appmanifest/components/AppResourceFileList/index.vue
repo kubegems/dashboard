@@ -104,7 +104,6 @@
           :options="Object.assign($aceOptions, { readOnly: true, wrap: true })"
           theme="chrome"
           :value="manifest"
-          @init="$aceinit"
           @keydown.stop
         />
       </v-col>

@@ -26,7 +26,6 @@
       lang="yaml"
       :options="Object.assign($aceOptions, { readOnly: true, wrap: false })"
       theme="chrome"
-      @init="$aceinit"
       @keydown.stop
     />
   </v-flex>
