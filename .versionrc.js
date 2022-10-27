@@ -6,6 +6,5 @@ module.exports = {
     { type: 'revert', hidden: true },
     { type: 'build', hidden: true },
     { type: 'chore', hidden: true },
-    { type: 'ci', hidden: true },
   ],
 };

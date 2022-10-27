@@ -17,7 +17,7 @@
 <template>
   <div :style="{ height: `${extendHeight}px`, position: 'relative', width: width }">
     <canvas v-if="mustCheckPremission" :id="chartId" />
-    <div v-else class="text-center kubegems__full-center text-body-2">
+    <div v-else class="text-center kubegems__full-center text-caption">
       {{ $root.$t('plugin.missing', ['monitoring']) }}
     </div>
   </div>

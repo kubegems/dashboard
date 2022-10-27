@@ -53,6 +53,7 @@
             id="requests"
             :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
             :extend-height="80"
+            :global-plugins-check="false"
             :label-show="false"
             :metrics="requests"
             sample
@@ -86,6 +87,7 @@
             id="avgresponsetime"
             :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
             :extend-height="80"
+            :global-plugins-check="false"
             :label-show="false"
             :metrics="avgresponsetime"
             sample
@@ -125,6 +127,7 @@
             id="errrequests"
             :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
             :extend-height="80"
+            :global-plugins-check="false"
             :label-show="false"
             :metrics="errrequests"
             sample
@@ -162,6 +165,7 @@
             id="network"
             :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
             :extend-height="80"
+            :global-plugins-check="false"
             :label-show="false"
             :metrics="network"
             sample

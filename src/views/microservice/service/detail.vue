@@ -207,6 +207,7 @@
     },
     methods: {
       async microServiceDetail() {
+        if (!this.VirtualSpace().ID) return;
         const data = await getMicroServiceDetail(
           this.VirtualSpace().ID,
           this.$route.query.environmentid,

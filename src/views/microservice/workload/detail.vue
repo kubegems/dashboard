@@ -106,6 +106,7 @@
     },
     methods: {
       async microAppWorkoladDetail() {
+        if (!this.VirtualSpace().ID) return;
         const data = await getMicroAppWorkoladDetail(
           this.VirtualSpace().ID,
           this.$route.query.environmentid,
