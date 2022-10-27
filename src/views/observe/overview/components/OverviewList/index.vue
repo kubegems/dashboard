@@ -253,12 +253,7 @@
       },
       beautyLogRate(rate) {
         let result = rate ? parseInt(rate.replaceAll('/min', '')) : 0;
-        if (result > 6000) {
-          result = `${(result / 60).toFixed(1)}`;
-          result = `${this.beautyLogCount(result)} /s`;
-        } else {
-          result = `${this.beautyLogCount(result)} /m`;
-        }
+        result = `${this.beautyLogCount(result)} /min`;
         return result;
       },
     },

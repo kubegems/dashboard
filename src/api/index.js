@@ -86,7 +86,7 @@ axios.interceptors.response.use(
       store.commit('SET_PROGRESS', false);
       store.commit('SET_CIRCULAR', false);
       store.commit('SET_SNACKBAR', {
-        text: response.data.Message || response.data.message,
+        text: response.data?.Message || response.data?.message || '',
         color: 'warning',
       });
     }

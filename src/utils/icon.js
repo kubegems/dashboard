@@ -36,6 +36,9 @@ export function getIconName(name, def = 'kubernetes') {
   if (name.indexOf('sonarqube') > -1) return 'logos:sonarqube';
   if (name.indexOf('vault') > -1) return 'logos:vault-icon';
   if (name.indexOf('vmware') > -1) return 'img:vmware.svg';
+  if (name.indexOf('email') > -1) return 'img:email.svg';
+  if (name.indexOf('feishu') > -1) return 'img:feishu.svg';
+  if (name.indexOf('webhook') > -1) return 'img:webhook.svg';
   if (name.indexOf('apm-server') > -1) {
     return 'img:apm-server.svg';
   }
