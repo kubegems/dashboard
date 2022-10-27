@@ -18,7 +18,7 @@ OpenTelemetry Golang SDK 中的 Metrics 尚处于实验阶段。
 
 - 初始化 `Meter`
 
-```
+```golang
 import "go.opentelemetry.io/otel/metric/global"
 
 var Meter = global.MeterProvider().Meter("your_goApp")
@@ -28,7 +28,7 @@ var Meter = global.MeterProvider().Meter("your_goApp")
 
 计数器是一种同步仪器，用于测量加法非递减值。
 
-```
+```golang
 def counter():
     counter = meter.create_counter(name="some.prefix.counter", description="TODO")
 
@@ -39,7 +39,7 @@ def counter():
 
 - 设置 `GaugeObserver` 类型指标
 
-```
+```golang
 def gauge_observer():
     def callback():
         return [Measurement(random.random())]
@@ -53,7 +53,7 @@ def gauge_observer():
 
 - 设置 `Histogram` 类型指标
 
-```
+```golang
 def histogram():
     histogram = meter.create_histogram(
         name="some.prefix.histogram",

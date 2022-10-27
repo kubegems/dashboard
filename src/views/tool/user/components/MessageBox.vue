@@ -84,7 +84,7 @@
       };
     },
     computed: {
-      ...mapState(['JWT', 'User']),
+      ...mapState(['JWT']),
       params() {
         return {
           page: 1,

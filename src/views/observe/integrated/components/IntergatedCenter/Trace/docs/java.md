@@ -20,7 +20,7 @@
 
 #### step2 设置 java 启动参数
 
-```java
+```
 java -javaagent:<path/to/opentelemetry-javaagent.jar> \
      -Dotel.exporter.otlp.endpoint=http://opentelemetry-collector.observability:4318 \
      -Dotel.service.name=java-opentelemetry-otlp-instrumentation
