@@ -194,18 +194,24 @@
         return locales;
       },
     },
+    watch: {
+      '$store.state.User': {
+        handler(newValue) {
+          if (newValue) {
+            this.user = newValue;
+            this.objInfo = Object.assign(this.objInfo, this.user);
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
+    },
     mounted() {
       this.$nextTick(() => {
-        this.loginUserInfo();
         this.language = this.Locale;
       });
     },
     methods: {
-      async loginUserInfo() {
-        const data = await getLoginUserInfo({ noprocessing: true });
-        this.user = data;
-        this.objInfo = Object.assign(this.objInfo, this.user);
-      },
       async updateUser() {
         if (this.$refs.infoForm.validate(true)) {
           this.$store.commit('SET_CONFIRM', {
@@ -216,7 +222,7 @@
             },
             param: {},
             doFunc: async () => {
-              await putUpdateUser(this.User.ID, Object.assign(this.user, this.objInfo));
+              await putUpdateUser(Object.assign(this.user, this.objInfo));
               const data = await getLoginUserInfo();
               this.$store.commit('SET_USER', data);
             },

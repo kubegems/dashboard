@@ -27,7 +27,7 @@ go get go.opentelemetry.io/otel \
 
 #### step2 配置 OpenTelemetry 的环境变量
 
-```
+```golang
 var (
     serviceName  = os.Getenv("SERVICE_NAME")
     collectorURL = os.Getenv("opentelemetry-collector.observability:4317")
@@ -45,7 +45,7 @@ var (
 
 #### Step3 在 `main.go`中添加 opentelemetry 初始化函数
 
-```go
+```golang
 import (
     .....
     "github.com/gin-gonic/gin"
@@ -100,7 +100,7 @@ func initTracer() func(context.Context) error {
 
 #### step4 在 main.go 中初始化 tracer
 
-```go
+```golang
 func main() {
     cleanup := initTracer()
     defer cleanup(context.Background())

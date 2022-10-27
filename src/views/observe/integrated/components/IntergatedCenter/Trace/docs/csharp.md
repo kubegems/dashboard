@@ -18,13 +18,13 @@
 
 #### step1 选择需要下载的 otel 库
 
-```c#
+```
 dotnet add package OpenTelemetry.Instrumentation.{library-name-or-type}
 ```
 
 例如：以下是如何自动检测来自 ASP.NET Core 应用程序的入站和输出请求
 
-```console
+```
 dotnet add package OpenTelemetry --prerelease
 dotnet add package OpenTelemetry.Extensions.Hosting --prerelease
 dotnet add package OpenTelemetry.Exporter.Console --prerelease
@@ -34,7 +34,7 @@ dotnet add package OpenTelemetry.Instrumentation.Http --prerelease
 
 #### step2 在启动时配置每个检测库并使用它们
 
-```c#
+```csharp
 using System.Diagnostics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -87,7 +87,7 @@ dotnet add package OpenTelemetry.Extensions.Hosting --prerelease
 
 - 如果使用的是 ASP.NET Core，请在 ASP.NET Core 服务中配置 exporter
 
-```c#
+```csharp
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenTelemetryTracing(b =>
@@ -104,7 +104,7 @@ builder.Services.AddOpenTelemetryTracing(b =>
 
 - 否则，在创建跟踪器提供程序时配置 exporter
 
-```c#
+```csharp
 using var tracerProvider = Sdk.CreateTracerProviderBuilder()
     .AddOtlpExporter(opt =>
     {

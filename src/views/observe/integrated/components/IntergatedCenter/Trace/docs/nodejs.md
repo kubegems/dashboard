@@ -18,7 +18,7 @@ Node.js 支持在 http、https、grpc、express、mysql、mongodb、redis 等框
 
 #### step 1 安装依赖包
 
-```nodejs
+```
 npm install --save @opentelemetry/api
 npm install --save @opentelemetry/node
 npm install --save @opentelemetry/tracing
@@ -33,19 +33,20 @@ npm install --save @opentelemetry/sdk-trace-node
 #### step 2 初始化 Tracer 并启动 express
 
 ```javascript
-const opentelemetry = require('@opentelemetry/api');
-const { registerInstrumentations } = require('@opentelemetry/instrumentation');
-const { NodeTracerProvider } = require('@opentelemetry/sdk-trace-node');
-const { Resource } = require('@opentelemetry/resources');
-const { SemanticResourceAttributes } = require('@opentelemetry/semantic-conventions');
-const { SimpleSpanProcessor, ConsoleSpanExporter } = require('@opentelemetry/tracing');
-const grpc = require('@grpc/grpc-js');
-const { CollectorTraceExporter } = require('@opentelemetry/exporter-collector-grpc');
+import opentelemetry from '@opentelemetry/api';
+import { registerInstrumentations } from '@opentelemetry/instrumentation';
+import { NodeTracerProvider } from '@opentelemetry/sdk-trace-node';
+import { Resource } from '@opentelemetry/resources';
+import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
+import { SimpleSpanProcessor, ConsoleSpanExporter } from '@opentelemetry/tracing';
+import grpc from '@grpc/grpc-js';
+import { CollectorTraceExporter } from '@opentelemetry/exporter-collector-grpc';
 
-const { ExpressInstrumentation } = require('@opentelemetry/instrumentation-express');
-const { HttpInstrumentation } = require('@opentelemetry/instrumentation-http');
+import { ExpressInstrumentation } from '@opentelemetry/instrumentation-express';
+import { HttpInstrumentation } from '@opentelemetry/instrumentation-http';
+import express from 'express';
 
-var os = require('os');
+import os from 'os';
 var hostname = os.hostname();
 
 const provider = new NodeTracerProvider({
@@ -86,7 +87,6 @@ if (!logStdout) {
 provider.register();
 var tracer = opentelemetry.trace.getTracer('your-nodejsApp');
 
-var express = require('express');
 var app = express();
 
 app.get('/hello', function (req, res, next) {
