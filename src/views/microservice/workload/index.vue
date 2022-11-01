@@ -181,11 +181,17 @@
                           <v-list-item class="float-left py-0 pl-0" :style="{ width: `200px` }" two-line>
                             <v-list-item-content class="py-0">
                               <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
-                                {{
-                                  pod.status.startTime
-                                    ? $moment(pod.status.startTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
-                                    : ''
-                                }}
+                                <RealDatetimeTip :datetime="pod.status.startTime">
+                                  <template #trigger>
+                                    <span>
+                                      {{
+                                        pod.status.startTime
+                                          ? $moment(pod.status.startTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
+                                          : ''
+                                      }}
+                                    </span>
+                                  </template>
+                                </RealDatetimeTip>
                               </v-list-item-title>
                               <v-list-item-subtitle class="text-body-2 py-1"> Age </v-list-item-subtitle>
                             </v-list-item-content>
@@ -265,6 +271,7 @@
   import BaseSelect from '@/mixins/select';
   import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
   import PluginPass from '@/views/microservice/components/PluginPass';
+  import RealDatetimeTip from '@/views/resource/components/common/RealDatetimeTip';
 
   export default {
     name: 'Workload',
@@ -274,6 +281,7 @@
     components: {
       EnvironmentFilter,
       PluginPass,
+      RealDatetimeTip,
     },
     mixins: [BaseFilter, BasePermission, BaseResource, BaseSelect],
     data() {

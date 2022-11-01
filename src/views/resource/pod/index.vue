@@ -143,8 +143,17 @@
             </RestartTip>
           </div>
         </template>
-        <template #[`item.age`]="{ item }">
-          {{ item.status.startTime ? $moment(item.status.startTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() : '' }}
+        <template #[`item.age`]="{ item, index }">
+          <RealDatetimeTip
+            :datetime="item.status.startTime"
+            :top="params.size - index <= 5 || (items.length <= 5 && index >= 1)"
+          >
+            <template #trigger>
+              <span>
+                {{ item.status.startTime ? $moment(item.status.startTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() : '' }}
+              </span>
+            </template>
+          </RealDatetimeTip>
         </template>
         <template #[`item.cpu`]="{ item }">
           <v-flex class="text-subtitle-2">
@@ -239,6 +248,7 @@
   import EventTip from '@/views/resource/components/common/EventTip';
   import GpuTip from '@/views/resource/components/common/GpuTip';
   import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
+  import RealDatetimeTip from '@/views/resource/components/common/RealDatetimeTip';
 
   export default {
     name: 'Pod',
@@ -250,6 +260,7 @@
       EventTip,
       GpuTip,
       NamespaceFilter,
+      RealDatetimeTip,
       RestartTip,
     },
     mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],

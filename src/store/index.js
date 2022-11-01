@@ -371,7 +371,7 @@ export default new Store({
             simple: true,
             noprocessing: true,
           });
-          commit('SET_PLUGINS', data);
+          if (data) commit('SET_PLUGINS', data);
           return true;
         }
         return false;

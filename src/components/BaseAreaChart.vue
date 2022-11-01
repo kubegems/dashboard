@@ -93,6 +93,10 @@
         type: Boolean,
         default: () => false,
       },
+      timeDisplay: {
+        type: String,
+        default: () => 'HH:mm:ss',
+      },
       title: {
         type: String,
         default: () => null,
@@ -269,7 +273,7 @@
                   time: {
                     unit: 'second',
                     displayFormats: {
-                      second: 'HH:mm:ss',
+                      second: this.timeDisplay,
                     },
                     tooltipFormat: 'YYYY-MM-DD HH:mm:ss',
                     stepSize: 200,

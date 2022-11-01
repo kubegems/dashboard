@@ -97,7 +97,14 @@
           @change="onMatchChange"
         >
           <template #selection="{ item }">
-            <v-chip class="mx-1" color="primary" small>
+            <v-chip
+              class="mx-1"
+              close
+              close-icon="mdi-close-circle"
+              color="primary"
+              small
+              @click:close="removeMatch(item)"
+            >
               {{ item['text'] }}
             </v-chip>
           </template>
@@ -200,23 +207,26 @@
           this.loadData();
         },
         deep: true,
-        immediate: true,
       },
+    },
+    mounted() {
+      this.$nextTick(() => {
+        this.outputList();
+        this.clusterOutputList();
+        this.matchList();
+      });
     },
     methods: {
       loadData() {
         this.$nextTick(() => {
-          this.outputList();
-          this.clusterOutputList();
-          this.matchList();
           if (!this.item) {
             this.$refs.form.resetValidation();
           } else {
             this.obj = deepCopy(this.item);
           }
 
-          this.filters =
-            this.obj.spec.filters.length > 1
+          this.filters = this.obj.spec.filters
+            ? this.obj.spec.filters.length > 1
               ? this.obj.spec.filters.reduce((f1, f2) => {
                   return Array.isArray(f1) ? f1.concat(Object.keys(f2)) : Object.keys(f1).concat(Object.keys(f2));
                 })
@@ -224,7 +234,8 @@
                   .map((f) => {
                     return Object.keys(f);
                   })
-                  .flat();
+                  .flat()
+            : [];
 
           if (this.obj.spec.match) {
             this.matchs =
@@ -261,6 +272,12 @@
         this.matchItems = this.m_select_workloadSelectItems.map((d) => {
           return { text: d.text, value: d.text };
         });
+        if (!this.edit) {
+          this.matchs = this.matchItems.map((m) => {
+            return m.value;
+          });
+          this.onMatchChange();
+        }
       },
       reset() {
         this.$refs.form && this.$refs.form.resetValidation();
@@ -373,6 +390,16 @@
           });
         });
         this.obj.spec.match = matchs;
+      },
+      removeMatch(item) {
+        let index = this.matchs.indexOf(item.value);
+        if (index > -1) {
+          this.matchs.splice(index, 1);
+          index = this.obj.spec.match.findIndex((m) => {
+            return m.select.labels.app === item.value;
+          });
+          this.obj.spec.match.splice(index, 1);
+        }
       },
     },
   };

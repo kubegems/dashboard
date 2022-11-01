@@ -87,6 +87,7 @@
         this.$refs.form.resetValidation();
         if (this.item?.spec?.loki) {
           this.obj = this.item;
+          this.$forceUpdate();
         }
       });
     },

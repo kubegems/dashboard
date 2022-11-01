@@ -48,18 +48,26 @@
         <span v-else-if="item.state.waiting"> Waiting({{ item.state.waiting.reason }}) </span>
       </template>
       <template #[`item.age`]="{ item }">
-        <span v-if="item.state.running">
-          {{
-            item.state.running.startedAt ? $moment(item.state.running.startedAt, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() : ''
-          }}
-        </span>
-        <span v-else-if="item.state.terminated">
-          {{
-            item.state.terminated.startedAt
-              ? $moment(item.state.terminated.startedAt, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
-              : ''
-          }}
-        </span>
+        <RealDatetimeTip
+          :datetime="item.state.running ? item.state.running.startedAt : item.state.terminated.startedAt"
+        >
+          <template #trigger>
+            <span v-if="item.state.running">
+              {{
+                item.state.running.startedAt
+                  ? $moment(item.state.running.startedAt, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
+                  : ''
+              }}
+            </span>
+            <span v-else-if="item.state.terminated">
+              {{
+                item.state.terminated.startedAt
+                  ? $moment(item.state.terminated.startedAt, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
+                  : ''
+              }}
+            </span>
+          </template>
+        </RealDatetimeTip>
       </template>
       <template #[`item.cpu`]="{ item }">
         <v-flex class="text-subtitle-2">
@@ -152,9 +160,13 @@
         Failed
       </template>
       <template #[`item.age`]>
-        <span>
-          {{ $moment(item.metadata.creationTimestamp, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() }}
-        </span>
+        <RealDatetimeTip :datetime="item.metadata.creationTimestamp">
+          <template #trigger>
+            <span>
+              {{ $moment(item.metadata.creationTimestamp, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() }}
+            </span>
+          </template>
+        </RealDatetimeTip>
       </template>
       <template #[`item.cpu`]="{ item }">
         <v-flex class="text-subtitle-2">
@@ -204,6 +216,7 @@
   import { beautifyCpuUnit, beautifyStorageUnit, deepCopy } from '@/utils/helpers';
   import { CONTAINER_CPU_USAGE_PROMQL, CONTAINER_MEMORY_USAGE_PROMQL } from '@/utils/prometheus';
   import ContainerLog from '@/views/resource/components/common/ContainerLog';
+  import RealDatetimeTip from '@/views/resource/components/common/RealDatetimeTip';
   import Terminal from '@/views/resource/components/common/Terminal';
 
   export default {
@@ -213,6 +226,7 @@
     },
     components: {
       ContainerLog,
+      RealDatetimeTip,
       Terminal,
     },
     mixins: [BasePermission, BaseResource],
