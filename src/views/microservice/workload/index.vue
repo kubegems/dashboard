@@ -378,6 +378,7 @@
     },
     methods: {
       async microAppWorkoladList(noprocess = false) {
+        if (!this.VirtualSpace().ID) return;
         const data = await getMicroAppWorkoladList(
           this.VirtualSpace().ID,
           this.EnvironmentFilter?.value || this.$route.query?.environmentid,

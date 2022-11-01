@@ -196,6 +196,7 @@
         }
       },
       async istioGatewayInstanceList() {
+        if (!this.VirtualSpace().ID) return;
         const data = await getIstioGatewayInstanceList(
           this.VirtualSpace().ID,
           this.EnvironmentFilter?.clusterid || this.$route.query?.clusterid,

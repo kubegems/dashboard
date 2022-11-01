@@ -309,6 +309,7 @@
         this.microServiceList(noprocess);
       },
       async microServiceList(noprocess) {
+        if (!this.VirtualSpace().ID) return;
         const data = await getMicroServiceList(
           this.VirtualSpace().ID,
           this.EnvironmentFilter?.value || this.$route.query?.environmentid,

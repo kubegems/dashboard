@@ -58,14 +58,11 @@
         },
         deep: true,
       },
-      '$store.state.EnvironmentFilter': {
-        handler: function (env) {
-          if (env) {
-            this.pluginsPass(env.cluster);
-          } else {
-            if (this.$route.query.cluster) {
-              this.pluginsPass(this.$route.query.cluster);
-            }
+      '$route.query': {
+        handler: function (newValue) {
+          if (newValue) {
+            const { cluster } = newValue;
+            this.pluginsPass(cluster);
           }
         },
         deep: true,
@@ -74,9 +71,7 @@
     },
     methods: {
       async pluginsPass(cluster) {
-        if (!cluster) {
-          cluster = this.$route.query.cluster;
-        }
+        if (!cluster) return;
         const data = await getClusterPluginsList(cluster, { simple: true, noprocessing: true });
         const plugins = this.$route.meta?.dependencies || [];
         this.missingPlugins = plugins.filter((p) => {
