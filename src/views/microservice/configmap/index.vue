@@ -235,8 +235,8 @@
     methods: {
       async configMapList(noprocess = false) {
         const data = await getConfigMapList(
-          this.EnvironmentFilter.cluster,
-          this.EnvironmentFilter.namespace,
+          this.EnvironmentFilter?.cluster || this.$route.query?.cluster,
+          this.EnvironmentFilter?.namespace || this.$route.query?.namespace,
           Object.assign(this.params, {
             noprocessing: noprocess,
             sort: this.m_table_generateResourceSortParamValue(),
