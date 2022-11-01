@@ -77,6 +77,7 @@
     },
     methods: {
       open() {
+        this.formComponent = 'FlowBaseForm';
         this.dialog = true;
       },
       async addFlow() {
@@ -139,7 +140,7 @@
       reset() {
         this.dialog = false;
         this.$refs[this.formComponent].reset();
-        this.formComponent = 'FlowBaseForm';
+        this.formComponent = '';
         this.yaml = false;
       },
     },

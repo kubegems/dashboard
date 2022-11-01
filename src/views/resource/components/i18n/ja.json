@@ -50,7 +50,9 @@
     "gpu_power": "GPU パワー",
     "limits": "{0}限界値",
     "requests": "{0}リクエスト値",
-    "core": "芯"
+    "core": "芯",
+    "real_time": "特定の時間",
+    "datetime": "時間"
   },
   "table": {
     "container_name": "コンテナ名",

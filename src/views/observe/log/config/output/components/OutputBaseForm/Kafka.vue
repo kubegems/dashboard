@@ -72,6 +72,7 @@
         this.$refs.form.resetValidation();
         if (this.item?.spec?.kafka) {
           this.obj = this.item;
+          this.$forceUpdate();
         }
       });
     },

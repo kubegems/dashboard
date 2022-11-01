@@ -18,11 +18,18 @@
   <v-card class="kubegems__h-24" flat>
     <BaseSubTitle :divider="false" :title="$t('tip.alert_trend')" />
     <div class="mx-3 mb-3" :style="{ height: `100%`, width: `100%` }">
-      <BaseBarChart
+      <BaseAreaChart
         id="alert_history"
+        chart-type="line"
         :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
+        colorful
+        :global-plugins-check="false"
         height="290px"
         :metrics="series"
+        :precision="0"
+        time-display="YYYY-MM-DD"
+        title=""
+        type=""
       />
     </div>
   </v-card>
@@ -35,7 +42,7 @@
   import { getAlertGraph } from '@/api';
 
   export default {
-    name: 'AlertHistoryBar',
+    name: 'AlertHistoryLine',
     i18n: {
       messages: messages,
     },
@@ -69,14 +76,7 @@
           start: this.$moment().utc().add(-30, 'days').format(),
           end: this.$moment().utc().format(),
         });
-        this.series = data.map((d) => {
-          return {
-            label: d.metric?.project,
-            data: d.values.map((v) => {
-              return { x: this.$moment(new Date(v[0] * 1000)).format('L'), y: v[1] };
-            }),
-          };
-        });
+        this.series = data;
       },
     },
   };

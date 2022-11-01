@@ -65,7 +65,13 @@
           {{ getRestart(item.status.containerStatuses) }}
         </template>
         <template #[`item.age`]="{ item }">
-          {{ item.status.startTime ? $moment(item.status.startTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() : '' }}
+          <RealDatetimeTip :datetime="item.status.startTime">
+            <template #trigger>
+              <span>
+                {{ item.status.startTime ? $moment(item.status.startTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() : '' }}
+              </span>
+            </template>
+          </RealDatetimeTip>
         </template>
       </v-data-table>
     </v-card-text>
@@ -75,11 +81,15 @@
 <script>
   import messages from '../i18n';
   import BaseResource from '@/mixins/resource';
+  import RealDatetimeTip from '@/views/resource/components/common/RealDatetimeTip';
 
   export default {
     name: 'GatewayPodList',
     i18n: {
       messages: messages,
+    },
+    components: {
+      RealDatetimeTip,
     },
     mixins: [BaseResource],
     props: {
