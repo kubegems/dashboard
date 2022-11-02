@@ -137,9 +137,9 @@
   import messages from '../../../i18n';
   import ProjectEnvSelect from '../ProjectEnvSelect';
   import { getAppStoreRunningDetail, getChartSchema, getServiceMonitorStatus, postDeployAppStore } from '@/api';
+  import BaseYaml from '@/mixins/yaml';
   import { randomString } from '@/utils/helpers';
   import JsonSchema from '@/views/appstore/components/DeployWizard/JsonSchema';
-  import { YamlMixin } from '@/views/appstore/mixins/yaml';
 
   export default {
     name: 'MiddlewareMetrics',
@@ -150,7 +150,7 @@
       JsonSchema,
       ProjectEnvSelect,
     },
-    mixins: [YamlMixin],
+    mixins: [BaseYaml],
     props: {
       appName: {
         type: String,

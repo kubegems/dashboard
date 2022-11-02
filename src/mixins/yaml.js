@@ -2,7 +2,7 @@ import * as jsonpatch from 'fast-json-patch';
 import { isEmpty, set } from 'lodash';
 import YAML from 'yaml';
 
-const YamlMixin = {
+const yamlUtils = {
   methods: {
     // setValue modifies the current values (text) based on a path
     setValue(values, path, newValue = null) {
@@ -97,4 +97,4 @@ const YamlMixin = {
   },
 };
 
-export { YamlMixin };
+export default yamlUtils;

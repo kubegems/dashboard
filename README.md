@@ -52,23 +52,21 @@ KubeGems Dashboard is the web interface for [KubeGems](https://github.com/kubege
 
 Node.js is required. If you don't have a Node.js development environment, please [set it up](https://nodejs.org/en/download/). The minimum version required is 16.
 
-#### Yarn
+#### Pnpm
 
-We use [Yarn](https://yarnpkg.com/) to do package management. If you don't have yarn, use the following to install:
+We use [Pnpm](https://pnpm.io/) to do package management. If you don't have pnpm, use the following to install:
 
 ```sh
-npm install -g yarn@1.22.17
+npm install -g pnpm
 ```
 
-The minimum version required is 1.22.17, but you can use a newer version.
-
-Clone the repository, and run `yarn && yarn build`
+Clone the repository, and run `pnpm && pnpm build`
 
 ```sh
 git clone https://github.com/kubegems/dsahboard.git
 cd dashboard/
-yarn && yarn build
-yarn start
+pnpm && pnpm build
+pnpm start
 ```
 
 ## Documentation

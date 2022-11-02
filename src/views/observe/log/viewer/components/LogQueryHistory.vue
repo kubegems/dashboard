@@ -15,7 +15,7 @@
 -->
 
 <template>
-  <BaseFullScreenDialog v-model="visible" icon="mdi-history" :title="$t('tip.query_history')" @dispose="handleDispose">
+  <BaseFullScreenDialog v-model="dialog" icon="mdi-history" :title="$t('tip.query_history')" @dispose="handleDispose">
     <template #action>
       <ProjectEnvSelectCascade
         :key="selectKey"
@@ -28,14 +28,17 @@
       />
     </template>
     <template #content>
-      <v-card v-if="visible" class="log-history" flat>
+      <v-card v-if="dialog" class="log-history" flat>
         <v-data-table
           class="px-4"
           :headers="headers"
           hide-default-footer
+          item-key="ID"
           :items="items"
           :items-per-page="-1"
           :no-data-text="$root.$t('data.no_data')"
+          show-expand
+          single-expand
           :sort-by="['CreateAt']"
           :sort-desc="[true]"
         >
@@ -77,6 +80,23 @@
             </v-flex>
             <div class="kubegems__clear-float" />
           </template>
+          <template #expanded-item="{ headers, item }">
+            <td class="my-2 py-2" :colspan="headers.length">
+              <div
+                v-for="(time, index) in getQueryDatetimes(item.TimeRanges)"
+                :key="index"
+                class="text-caption mx-1 float-left"
+              >
+                <div class="float-left">
+                  {{ time.s }} - {{ time.e }}
+                  <v-btn class="mt-n1" color="primary" small text @click="handleQuery(item, time)">
+                    {{ $t('operate.timerange_query') }}
+                  </v-btn>
+                </div>
+                <div class="float-left log-histroy__split" />
+              </div>
+            </td>
+          </template>
         </v-data-table>
       </v-card>
     </template>
@@ -104,7 +124,7 @@
     inject: ['reload'],
     data() {
       return {
-        visible: false,
+        dialog: false,
         clusterid: undefined,
         items: [],
         namespace: '',
@@ -128,6 +148,7 @@
           { text: this.$t('table.last_query_at'), value: 'createAt', align: 'start', width: 200 },
           { text: this.$t('table.count'), value: 'total', align: 'start', width: 100 },
           { text: '', value: 'action', align: 'end', width: 140, sortable: false },
+          { text: '', value: 'data-table-expand' },
         ];
       },
     },
@@ -145,7 +166,7 @@
     },
     methods: {
       show() {
-        this.visible = true;
+        this.dialog = true;
         this.m_select_environmentSelectData();
         this.tenant = this.Tenant();
         this.selectKey = `history-${randomString(4)}`;
@@ -198,7 +219,8 @@
         return filterList;
       },
 
-      async handleQuery(item) {
+      async handleQuery(item, timeRange = {}) {
+        this.dialog = false;
         const ns = new RegExp('namespace="([\\w-#\\(\\)\\*\\.@\\?&^$!%<>\\/]+)"', 'g').exec(item.LogQL);
         if (ns) {
           this.namespace = ns[1];
@@ -214,9 +236,10 @@
               cluster: env.clusterName,
               namespace: this.namespace,
               filters: item.FilterJSON,
+              start: timeRange.start || null,
+              end: timeRange.end || null,
             },
           });
-          this.visible = false;
           this.reload();
         } else {
           this.$store.commit('SET_SNACKBAR', {
@@ -235,7 +258,7 @@
           },
           doFunc: async () => {
             const ids = item.Ids.split(',')
-              .reduce((pre, current) => pre + `lid=${current}`, '')
+              .reduce((pre, current) => pre + `lid=${current}&`, '')
               .slice(0, -1);
             await deleteLogQueryHistory(ids);
             this.getHistoryList();
@@ -246,6 +269,24 @@
       handleDispose() {
         this.cluster = undefined;
         this.items = [];
+      },
+      getQueryDatetimes(timeRanges) {
+        const times = timeRanges.split(',').filter((time) => {
+          return Boolean(time);
+        });
+        return times.map((t) => {
+          const timeR = t.split('|');
+          if (timeR?.length > 1) {
+            const startTimestamp = timeR[0];
+            const endTimestamp = timeR[1];
+            return {
+              start: startTimestamp,
+              end: endTimestamp,
+              s: this.$moment(new Date(parseInt(startTimestamp))).format('lll'),
+              e: this.$moment(new Date(parseInt(endTimestamp))).format('lll'),
+            };
+          }
+        });
       },
     },
   };
@@ -271,6 +312,12 @@
     }
     &::-webkit-scrollbar:vertical {
       width: 10px;
+    }
+
+    &__split {
+      border-right: 1px solid grey;
+      width: 1px;
+      height: 22px;
     }
   }
 </style>

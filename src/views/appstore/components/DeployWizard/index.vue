@@ -200,9 +200,9 @@
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
+  import BaseYaml from '@/mixins/yaml';
   import { deepCopy } from '@/utils/helpers';
   import { k8sName, required } from '@/utils/rules';
-  import { YamlMixin } from '@/views/appstore/mixins/yaml';
 
   import 'vue-form-wizard/dist/vue-form-wizard.min.css';
 
@@ -219,7 +219,7 @@
       TabContent,
       Tips,
     },
-    mixins: [BasePermission, BaseResource, BaseSelect, YamlMixin],
+    mixins: [BasePermission, BaseResource, BaseSelect, BaseYaml],
     props: {
       currentApp: {
         type: Object,
