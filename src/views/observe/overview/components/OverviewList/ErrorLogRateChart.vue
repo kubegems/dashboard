@@ -97,9 +97,29 @@
       open() {
         this.panel = true;
       },
+      getParams() {
+        if (this.duration === '30s') {
+          return { offset: -20, dur: 'seconds' };
+        }
+        if (this.duration === '5m') {
+          return { offset: -5, dur: 'minutes' };
+        }
+        if (this.duration === '1h') {
+          return { offset: -1, dur: 'hours' };
+        }
+        if (this.duration === '1d') {
+          return { offset: -1, dur: 'days' };
+        }
+        if (this.duration === '1w') {
+          return { offset: -1, dur: 'weeks' };
+        }
+      },
       async errorLogRate() {
+        const { offset, dur } = this.getParams();
         let data = await getMetricsQueryrange(this.env.clusterName, this.env.namespace, {
           expr: `sum(sum_over_time(gems_loki_error_logs_count_last_1m{namespace="${this.env.namespace}"}[${this.duration}]))`,
+          start: this.$moment().utc().add(offset, dur).format(),
+          end: this.$moment().utc().format(),
         });
         this.data = data;
       },

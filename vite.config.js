@@ -38,7 +38,7 @@ export default defineConfig({
         '@iconify-json/emojione': ['@iconify-json/emojione'],
         '@iconify-json/logos': ['@iconify-json/logos'],
         '@iconify-json/mdi': ['@iconify-json/mdi'],
-        'base-tool': ['lodash', 'js-yaml', 'js-base64', 'ajv', 'vuedraggable'],
+        'base-tool': ['lodash', 'yaml', 'js-base64', 'ajv', 'vuedraggable', 'brace'],
         highlight: ['highlight.js'],
         chart: ['chart.js', 'chartjs-adapter-moment', 'chartjs-plugin-doughnutlabel-v3'],
         'vue2-ace-editor': ['vue2-ace-editor'],

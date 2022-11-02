@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import yaml from 'js-yaml';
 import _ from 'lodash';
 import moment from 'moment';
 import Vue from 'vue';
+import YAML from 'yaml';
 import 'moment/dist/locale/zh-cn';
 import 'moment/dist/locale/ja';
 import 'moment/dist/locale/zh-tw';
@@ -69,7 +69,7 @@ Vue.prototype.$_ = _;
 
 Vue.prototype.$yamlload = (data) => {
   try {
-    const d = yaml.load(data);
+    const d = YAML.parse(data);
     if (typeof d === 'string') {
       store.commit('SET_SNACKBAR', {
         text: Vue.prototype.$_i18n.t('tip.not_based_yaml'),
@@ -88,7 +88,7 @@ Vue.prototype.$yamlload = (data) => {
 };
 Vue.prototype.$yamldump = (data) => {
   try {
-    const d = yaml.dump(data);
+    const d = YAML.stringify(data);
     return d;
   } catch (e) {
     store.commit('SET_SNACKBAR', {
