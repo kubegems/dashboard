@@ -21,7 +21,9 @@
     "sdk_demo": "SDK接入範例",
     "history": "配置項歷史",
     "rollback_tip": "回滾設定 {0} 到版本 {1}",
-    "delete_tip": "確認刪除 租戶「{0}」/專案「{1}」/環境「{2}」 下的設定項 {3} ？"
+    "delete_tip": "確認刪除 租戶「{0}」/專案「{1}」/環境「{2}」 下的設定項 {3} ？",
+    "access_info": "訪問信息",
+    "get_access_info": "獲取訪問信息"
   },
   "status": {
     "rollback_success": "回滾完成",

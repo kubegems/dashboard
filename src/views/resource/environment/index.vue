@@ -262,7 +262,7 @@
     },
     methods: {
       customFilter() {
-        if (this.$route.query.search && this.$route.query.search.length > 0) {
+        if (this.$route.query.search) {
           this.items = this.itemsCopy.filter((item) => {
             return (
               item.EnvironmentName &&
