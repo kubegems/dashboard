@@ -248,7 +248,7 @@
         return this.$refs.form.validate(true);
       },
       getData() {
-        if (this.globalVariable) {
+        if (this.globalVariable && this.variables) {
           this.obj.variables = {};
           this.obj.variables[this.variables] = this.variableVal.join(',');
         } else {
