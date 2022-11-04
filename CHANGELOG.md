@@ -1,3 +1,18 @@
+# 1.22.0-rc.1 (2022-11-04)
+
+### Bug Fixes
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | :bug: fix: 🐛 fix container list status is null bug | ([2342f74](https://github.com/chenshunliang/dashboard/commit/387f31ff915ccb20faa5d69e3c558d8484c8b26a)) |
+| - | :bug: fix: 🐛 fix monitor dashboard global variable nil bug | ([a46f1c0](https://github.com/chenshunliang/dashboard/commit/b7e1ecb5e47d370bb65bf3bedc149a0b51ed2a1e)) |
+
+### Build
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | refactor: 👷 add pnpm to project and remove yarn | ([42346d6](https://github.com/chenshunliang/dashboard/commit/a92792c897d792837ee3ba38dff320450e8ac1c1)) |
+
 # 1.22.0-rc.0 (2022-11-01)
 
 ### Bug Fixes
