@@ -49,7 +49,13 @@
       </template>
       <template #[`item.age`]="{ item }">
         <RealDatetimeTip
-          :datetime="item.state.running ? item.state.running.startedAt : item.state.terminated.startedAt"
+          :datetime="
+            item.state.running
+              ? item.state.running.startedAt
+              : item.state.terminated
+              ? item.state.terminated.startedAt
+              : ''
+          "
         >
           <template #trigger>
             <span v-if="item.state.running">
