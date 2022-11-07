@@ -39,7 +39,6 @@
     }
   },
   "dependencies": {
-    "@iconify-json/emojione": "^1.1.2",
     "@iconify-json/logos": "^1.1.17",
     "@iconify-json/mdi": "^1.1.34",
     "@iconify/vue2": "^1.2.1",

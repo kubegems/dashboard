@@ -124,7 +124,7 @@
                           <v-list-item class="float-left py-0 pl-0" :style="{ width: `300px` }" two-line>
                             <v-list-item-content class="py-0">
                               <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
-                                <v-icon class="float-left mt-1" color="primary" left small> mdi-cube </v-icon>
+                                <v-icon class="float-left workload__icon" color="primary" left small> mdi-cube </v-icon>
                                 <v-flex class="float-left">
                                   {{ pod.metadata.name }}
                                 </v-flex>
@@ -503,6 +503,10 @@
 <style lang="scss" scoped>
   .workload {
     &__inject {
+      margin-top: 2px;
+    }
+
+    &__icon {
       margin-top: 2px;
     }
   }

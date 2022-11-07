@@ -102,6 +102,15 @@
             <v-flex v-if="isTke(item) || isNvidia(item)" class="float-left gpu__icon">
               <GpuTip :allocated="false" :item="item" />
             </v-flex>
+            <v-flex
+              v-if="
+                item.workload.spec.template.metadata.annotations &&
+                item.workload.spec.template.metadata.annotations['sidecar.istio.io/inject'] === 'true'
+              "
+              class="float-left"
+            >
+              <img class="ml-2" :src="`/icon/istio.svg`" width="18px" />
+            </v-flex>
             <v-flex class="float-left ml-2">
               <ResourceAdvise
                 v-if="item.hasOwnProperty('advise')"
