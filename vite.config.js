@@ -35,7 +35,6 @@ export default defineConfig({
           'filepond-plugin-file-validate-type',
           'vue-filepond',
         ],
-        '@iconify-json/emojione': ['@iconify-json/emojione'],
         '@iconify-json/logos': ['@iconify-json/logos'],
         '@iconify-json/mdi': ['@iconify-json/mdi'],
         'base-tool': ['lodash', 'yaml', 'js-yaml', 'js-base64', 'ajv', 'vuedraggable', 'brace'],

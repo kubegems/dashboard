@@ -201,9 +201,6 @@ export function getIconName(name, def = 'kubernetes') {
   if (name.indexOf('mlflow') > -1) return 'img:mlflow.svg';
   if (name.indexOf('xgboost') > -1) return 'img:xgboost.svg';
 
-  if (name === 'ja') return 'emojione:flag-for-japan';
-  if (name === 'en') return 'emojione:flag-for-united-states';
-
   // if (name.indexOf('selfhosted') > -1) return 'img:kubegems.svg';
 
   switch (def) {
@@ -215,8 +212,6 @@ export function getIconName(name, def = 'kubernetes') {
       return 'mdi:bank-outline';
     case 'kubegems':
       return 'img:kubegems.svg';
-    case 'locale':
-      return 'emojione:flag-for-china';
     default:
       return 'logos:kubernetes';
   }

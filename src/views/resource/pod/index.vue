@@ -84,6 +84,12 @@
           <v-flex v-if="isTke(item) || isNvidia(item)" class="float-left">
             <GpuTip :allocated="false" :item="item" />
           </v-flex>
+          <v-flex
+            v-if="item.metadata.annotations && item.metadata.annotations['sidecar.istio.io/inject'] === 'true'"
+            class="float-left"
+          >
+            <img class="ml-1" :src="`/icon/istio.svg`" width="18px" />
+          </v-flex>
           <div class="kubegems__clear-float" />
         </template>
         <template #[`item.namespace`]="{ item }">

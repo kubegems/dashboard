@@ -113,14 +113,7 @@
                   <template #activator="{ on }">
                     <div id="login_locale" />
                     <v-btn class="primary--text font-weight-medium mb-3" color="white" dark depressed small v-on="on">
-                      <BaseLogo
-                        class="primary--text logo__logo mr-2"
-                        default-logo="locale"
-                        :icon-name="Locale"
-                        :ml="0"
-                        :mt="1"
-                        :width="18"
-                      />
+                      <img class="locale__icon mr-2" :src="`/icon/i18n/${Locale}.svg`" />
                       {{ localeShow }}
                       <v-icon v-if="localeMenu" right> mdi-chevron-up </v-icon>
                       <v-icon v-else right> mdi-chevron-down </v-icon>
@@ -150,13 +143,7 @@
                             <v-list-item-content>
                               <div>
                                 <div class="float-left mr-2">
-                                  <BaseLogo
-                                    class="primary--text logo__logo"
-                                    default-logo="locale"
-                                    :icon-name="ln.locale"
-                                    :ml="0"
-                                    :width="20"
-                                  />
+                                  <img class="locale__icon" :src="`/icon/i18n/${ln.locale}.svg`" />
                                 </div>
                                 <div class="float-left locale">{{ ln.title }}</div>
                                 <div class="kubegems__clear-float" />
@@ -616,5 +603,9 @@
 
   .locale {
     line-height: 20px;
+
+    &__icon {
+      margin-top: 2px;
+    }
   }
 </style>

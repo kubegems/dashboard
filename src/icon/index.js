@@ -13,12 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { icons as emojione } from '@iconify-json/emojione';
 import { icons as logosIconSet } from '@iconify-json/logos';
 import { icons as mdiIconSet } from '@iconify-json/mdi';
 import { Icon, addCollection } from '@iconify/vue2/dist/offline';
 
-addCollection(emojione);
 addCollection(logosIconSet);
 addCollection(mdiIconSet);
 
