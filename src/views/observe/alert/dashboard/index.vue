@@ -68,7 +68,7 @@
   import BaseSelect from '@/mixins/select';
 
   export default {
-    name: 'ObserveMonitor',
+    name: 'AlertDashboard',
     i18n: {
       messages: messages,
     },
