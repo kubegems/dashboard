@@ -32,7 +32,7 @@
             />
           </v-col>
           <v-col cols="12">
-            <BaseDatetimePicker v-model="date" :default-value="30" in-form :offset-y="0" />
+            <BaseDatetimePicker v-model="date" :default-value="360" in-form :offset-y="0" />
           </v-col>
         </v-row>
       </v-form>
