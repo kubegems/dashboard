@@ -123,6 +123,7 @@
         ref="ingressRuleForm"
         class="kubegems__forminform"
         :domain="baseDomain"
+        :edit="edit"
         :obj="obj"
         @addData="addRulerData"
         @closeOverlay="closeExpand"
