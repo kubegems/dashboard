@@ -59,5 +59,10 @@
     "tip": {
       "copyed": "已复制到粘贴板"
     }
+  },
+  "token": {
+    "tip": {
+      "token_tip": "时间设置未 0 表示 token 永不过期"
+    }
   }
 }

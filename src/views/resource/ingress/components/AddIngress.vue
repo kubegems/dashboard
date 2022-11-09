@@ -91,7 +91,7 @@
         }
         if (this.$refs[this.formComponent].validate()) {
           let data = '';
-          if (this.formComponent === 'BaseForm') {
+          if (this.formComponent === 'BaseYamlForm') {
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
             if (!this.m_resource_validateJsonSchema(IngressSchema, data)) {

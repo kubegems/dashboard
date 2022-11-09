@@ -77,14 +77,15 @@
                 :rules="objRules.matchRule"
               />
             </v-col>
-            <v-col cols="3">
+            <v-col cols="6">
               <v-autocomplete
-                v-model="obj.logqlGenerator.labelpairs.container"
+                v-model="containers"
                 class="my-0"
                 color="primary"
                 hide-selected
                 :items="containerItems"
                 :label="$t('form.dest_container')"
+                multiple
                 :no-data-text="$root.$t('data.no_data')"
               >
                 <template #selection="{ item }">
@@ -94,7 +95,7 @@
                 </template>
               </v-autocomplete>
             </v-col>
-            <v-col cols="3">
+            <v-col cols="6">
               <v-text-field
                 v-model="obj.logqlGenerator.duration"
                 class="my-0"
@@ -294,6 +295,7 @@
           },
         },
         mod: 'template',
+        containers: [],
         containerItems: [],
         inhibitLabelText: '',
         resource: undefined,
@@ -457,6 +459,11 @@
           this.mod = 'ql';
         } else if (this.obj.logqlGenerator && this.mode === 'logging') {
           this.mod = 'template';
+          if (this.obj.logqlGenerator?.labelpairs?.container) {
+            this.containers = this.obj.logqlGenerator?.labelpairs?.container.split('|').filter((c) => {
+              return Boolean(c);
+            });
+          }
         }
       },
       setResourceData() {
@@ -549,6 +556,9 @@
         return this.$refs.form.validate(true);
       },
       getData() {
+        if (this.mode === 'logging' && this.containers?.length > 0) {
+          this.obj.logqlGenerator.labelpairs.container = this.containers.join('|');
+        }
         return this.obj;
       },
       insertMetrics(metrics) {

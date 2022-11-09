@@ -23,7 +23,15 @@
     @reset="reset"
   >
     <template #content>
-      <BaseSubTitle :title="$root.$t('form.definition', [$t('tab.auth')])" />
+      <BaseSubTitle :title="$root.$t('form.definition', [$t('tab.auth')])">
+        <template #tips>
+          <span class="orange--text text-caption">
+            <v-icon color="orange" right small> mdi-information-variant </v-icon>
+            {{ $t('token.tip.token_tip') }}
+          </span>
+        </template>
+      </BaseSubTitle>
+
       <v-card-text class="pa-2 mt-2">
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
           <v-sheet>

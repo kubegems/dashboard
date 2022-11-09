@@ -32,8 +32,14 @@
               <span>{{ $root.$t('form.definition', [$t('tip.ingress_rule')]) }}</span>
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
-              <v-text-field v-model="ruler.host" class="my-0" label="域名" :rules="rulerRules.hostRule">
-                <template #append>
+              <v-text-field
+                v-model="ruler.host"
+                class="my-0"
+                label="域名"
+                :readonly="edit"
+                :rules="rulerRules.hostRule"
+              >
+                <template v-if="!edit" #append>
                   <v-btn class="mt-n1" color="primary" small text @click="randomHost">
                     <v-icon left small> mdi-all-inclusive </v-icon>
                     {{ $t('tip.random_domain') }}
@@ -249,6 +255,10 @@
         type: String,
         default: () => '',
       },
+      edit: {
+        type: Boolean,
+        default: () => false,
+      },
       obj: {
         type: Object,
         default: () => null,
@@ -416,10 +426,18 @@
             if (!this.objCopy.spec.tls) {
               this.objCopy.spec.tls = [];
             }
-            this.objCopy.spec.tls.push({
-              hosts: [this.ruler.host],
-              secretName: this.ruler.secretName,
-            });
+            if (
+              this.objCopy.spec.tls.findIndex((tls) => {
+                return tls.hosts.find((h) => {
+                  return h === this.ruler.host;
+                });
+              }) === -1
+            ) {
+              this.objCopy.spec.tls.push({
+                hosts: [this.ruler.host],
+                secretName: this.ruler.secretName,
+              });
+            }
           }
           if (this.ruler.index === -1) {
             this.objCopy.spec.rules.push({
