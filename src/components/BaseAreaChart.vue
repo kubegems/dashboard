@@ -33,9 +33,9 @@
   export default {
     name: 'BaseAreaChart',
     props: {
-      id: {
-        type: String,
-        default: () => '',
+      animation: {
+        type: Boolean,
+        default: () => true,
       },
       beginAtZero: {
         type: Boolean,
@@ -60,6 +60,10 @@
       globalPluginsCheck: {
         type: Boolean,
         default: () => true,
+      },
+      id: {
+        type: String,
+        default: () => '',
       },
       label: {
         type: String,
@@ -179,6 +183,13 @@
               datasets: this.loadDatasets(),
             },
             options: {
+              animation: this.animation,
+              spanGaps: true,
+              datasets: {
+                line: {
+                  pointRadius: 0,
+                },
+              },
               responsive: true,
               maintainAspectRatio: false,
               plugins: {

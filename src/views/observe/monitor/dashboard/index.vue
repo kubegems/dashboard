@@ -111,6 +111,7 @@
               </div>
               <BaseAreaChart
                 :key="`c${index}${tab}`"
+                :animation="false"
                 chart-type="line"
                 :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
                 colorful

@@ -55,6 +55,7 @@
         </v-row>
         <div class="mx-2">
           <BaseAreaChart
+            :animation="false"
             chart-type="line"
             :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
             colorful
