@@ -233,7 +233,7 @@
         if (!this.datetime.length) {
           return this.$t('datetimepicker.tip.range');
         }
-        if (this.type === 'relative' && this.shortcut) {
+        if (this.type === 'relative' && this.shortcut && !this.inForm) {
           return (
             this.dateShortcutOptions.find((item) => item.value === this.shortcut)?.text ||
             this.$t('datetimepicker.last.last_c', [this.shortcut])
