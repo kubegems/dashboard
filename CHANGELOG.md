@@ -1,17 +1,35 @@
+# 1.22.0 (2022-11-09)
+
+### Bug Fixes
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | fix: 🐛 fix ingress tls repeat bug, fix log alert template container can not multiple select bug | ([ae19a55](https://github.com/chenshunliang/dashboard/commit/ae19a55449ac61b94fafc86dd6103218644a15b3)) |
+| - | fix: 🐛 fix broadcast datetimepicker default value bug | ([8937de8](https://github.com/chenshunliang/dashboard/commit/8937de829a1977c75aa508c5c9c5e0966de28f3a)) |
+| - | fix: 🐛 fix alert dashboard statistics error bug | ([fdb5701](https://github.com/chenshunliang/dashboard/commit/fdb57011d8a37e1bb48c248b5a577607477ac59a)) |
+
+### 🚀 性能优化
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | perf: ⚡ add app config preview panel and enhans app config filter | ([e36b061](https://github.com/chenshunliang/dashboard/commit/e36b0610291732e7fcfe1e9545b3f39fd7944897)) |
+| - | refactor: ➖ remove emoji icon pkg | ([43c38ea](https://github.com/chenshunliang/dashboard/commit/43c38eacbc32df7b58d7f348809664b6ed7e60e6)) |
+| - | perf: ⚡ close chart.js animation | ([e671359](https://github.com/chenshunliang/dashboard/commit/e67135914e57b45eaff6d8e89b67084cc5463e75)) |
+
 # 1.22.0-rc.1 (2022-11-04)
 
 ### Bug Fixes
 
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
-| - | :bug: fix: 🐛 fix container list status is null bug | ([2342f74](https://github.com/chenshunliang/dashboard/commit/387f31ff915ccb20faa5d69e3c558d8484c8b26a)) |
-| - | :bug: fix: 🐛 fix monitor dashboard global variable nil bug | ([a46f1c0](https://github.com/chenshunliang/dashboard/commit/b7e1ecb5e47d370bb65bf3bedc149a0b51ed2a1e)) |
+| - | :bug: fix: 🐛 fix container list status is null bug | ([387f31f](https://github.com/chenshunliang/dashboard/commit/387f31ff915ccb20faa5d69e3c558d8484c8b26a)) |
+| - | :bug: fix: 🐛 fix monitor dashboard global variable nil bug | ([b7e1ecb](https://github.com/chenshunliang/dashboard/commit/b7e1ecb5e47d370bb65bf3bedc149a0b51ed2a1e)) |
 
 ### Build
 
 | 范围 | 描述 | commitId |
 | --- | --- | --- |
-| - | refactor: 👷 add pnpm to project and remove yarn | ([42346d6](https://github.com/chenshunliang/dashboard/commit/a92792c897d792837ee3ba38dff320450e8ac1c1)) |
+| - | refactor: 👷 add pnpm to project and remove yarn | ([a92792c](https://github.com/chenshunliang/dashboard/commit/a92792c897d792837ee3ba38dff320450e8ac1c1)) |
 
 # 1.22.0-rc.0 (2022-11-01)
 
