@@ -62,7 +62,7 @@
   },
   "token": {
     "tip": {
-      "token_tip": "時間設置未 0 表示 token 永不過期"
+      "token_tip": "時間設置為 0 表示 token 永不過期"
     }
   }
 }

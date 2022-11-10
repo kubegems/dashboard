@@ -62,7 +62,7 @@
   },
   "token": {
     "tip": {
-      "token_tip": "Time setting not 0 means the token will never expire"
+      "token_tip": "Time set to 0 means the token never expires"
     }
   }
 }
