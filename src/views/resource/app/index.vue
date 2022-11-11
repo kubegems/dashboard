@@ -91,14 +91,18 @@
             {{ item.runtime.createAt ? $moment(item.runtime.createAt).format('lll') : '' }}
           </template>
           <template #[`item.taskStatus`]="{ item, index }">
-            <TaskStatusTip :index="index" :item="item" :size="params.size" />
+            <TaskStatusTip
+              :index="index"
+              :item="item"
+              :top="params.size - index <= 5 || (items.length <= 5 && index >= 1)"
+            />
           </template>
           <template #[`item.appStatus`]="{ item, index }">
             <v-flex :id="`e${item.name}`" />
             <AppStatusTip :item="item" :top="params.size - index <= 5 || (items.length <= 5 && index >= 1)">
               <template #trigger>
                 <span
-                  :class="`v-avatar mr-2 ${item.runtime.status === 'Progressing' ? 'kubegems__waiting-flashing' : ''}`"
+                  :class="`v-avatar mr-1 ${item.runtime.status === 'Progressing' ? 'kubegems__waiting-flashing' : ''}`"
                   :style="{
                     height: '10px',
                     minWidth: '10px',
@@ -369,12 +373,13 @@
           if (!updatingApp) return;
           const app = JSON.parse(updatingApp);
           if (app.MessageType !== 'objectChanged') return;
-          if (app.EventKind === 'delete') {
-            this.m_table_generateParams();
-            this.appRunningList(true);
-            return;
-          }
+
           if (app.InvolvedObject.Kind === 'Application') {
+            if (app.EventKind === 'delete') {
+              this.m_table_generateParams();
+              this.appRunningList(true);
+              return;
+            }
             if (app.EventKind === 'add' && this.params.page === 1) {
               this.appRunningList(true);
               return;
@@ -430,7 +435,6 @@
       async onTabChange() {
         this.params.page = 1;
         this.items = [];
-        this.pageCount = 0;
         await this.appRunningList();
       },
       linkApp() {
@@ -441,7 +445,6 @@
         this.$refs.deployApp.open();
       },
       async appRunningList(noprocess = false) {
-        this.pageCount = 0;
         let kind = 'app';
         let data = {};
         if (this.tabItems[this.tab].value === 'AppList') {

@@ -25,7 +25,7 @@
             <v-icon left small> mdi-code-json </v-icon>
             YAML
           </v-btn>
-          <v-menu v-if="m_permisson_resourceAllow" left>
+          <v-menu v-if="m_permisson_resourceAllow()" left>
             <template #activator="{ on }">
               <v-btn icon>
                 <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
@@ -89,9 +89,11 @@
       UpdateConfigMap,
     },
     mixins: [BaseFilter, BasePermission, BaseResource],
-    data: () => ({
-      configmap: null,
-    }),
+    data() {
+      return {
+        configmap: null,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Scale']),
       ...mapGetters(['VirtualSpace']),

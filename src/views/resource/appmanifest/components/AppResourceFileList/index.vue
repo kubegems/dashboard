@@ -104,7 +104,6 @@
           :options="Object.assign($aceOptions, { readOnly: true, wrap: true })"
           theme="chrome"
           :value="manifest"
-          @init="$aceinit"
           @keydown.stop
         />
       </v-col>
@@ -143,13 +142,15 @@
         default: () => null,
       },
     },
-    data: () => ({
-      tree: [],
-      active: [],
-      activeFile: '',
-      items: [],
-      historyView: false,
-    }),
+    data() {
+      return {
+        tree: [],
+        active: [],
+        activeFile: '',
+        items: [],
+        historyView: false,
+      };
+    },
     computed: {
       ...mapState(['Scale']),
       ...mapGetters(['Project', 'Tenant', 'Environment']),
@@ -251,9 +252,9 @@
       },
       removeResourceFile(item) {
         this.$store.commit('SET_CONFIRM', {
-          title: this.$root.$t('operate.delete_c', [$t('table.resource_file')]),
+          title: this.$root.$t('operate.delete_c', [this.$t('table.resource_file')]),
           content: {
-            text: `${this.$root.$t('operate.delete_c', [$t('table.resource_file')])} ${item.name}`,
+            text: `${this.$root.$t('operate.delete_c', [this.$t('table.resource_file')])} ${item.name}`,
             type: 'delete',
             name: item.name,
           },
@@ -278,7 +279,7 @@
       },
       syncAppResource() {
         this.$store.commit('SET_CONFIRM', {
-          title: this.$root.$t('operate.sync_c', [$root.$t('resource.app')]),
+          title: this.$root.$t('operate.sync_c', [this.$root.$t('resource.app')]),
           content: {
             text: this.$t('tip.sync_alert', [this.app.name]),
             type: 'confirm',
@@ -292,7 +293,7 @@
       },
       async refreshResource() {
         this.$store.commit('SET_CONFIRM', {
-          title: this.$t('operate.refresh_c', [$root.$t('resource.app')]),
+          title: this.$t('operate.refresh_c', [this.$root.$t('resource.app')]),
           content: {
             text: this.$t('tip.refresh_tip', [this.app.name]),
             type: 'confirm',

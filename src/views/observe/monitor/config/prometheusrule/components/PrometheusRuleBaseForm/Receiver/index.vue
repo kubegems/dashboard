@@ -25,10 +25,8 @@
 
       <ReceiverForm
         ref="receiverForm"
-        :cluster="obj.cluster"
+        class="kubegems__forminform"
         :data="obj.receivers"
-        :mode="mode"
-        :namespace="obj.namespace"
         @addData="addData"
         @closeOverlay="closeExpand"
       />
@@ -69,10 +67,6 @@
       item: {
         type: Object,
         default: () => null,
-      },
-      mode: {
-        type: String,
-        default: () => 'monitor',
       },
     },
     data() {
@@ -122,7 +116,7 @@
         const receiver = this.obj.receivers[index];
         const data = {
           index: index,
-          name: receiver.name,
+          alertChannel: receiver.alertChannel,
           interval: receiver.interval,
         };
 

@@ -15,14 +15,14 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-send" title="蓝绿部署" :width="1000" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-send" :title="$t('tip.blue_green')" :width="1000" @reset="reset">
     <template #content>
       <v-flex>
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
           <v-flex :class="expand ? 'kubegems__overlay' : ''" />
           <BaseDeployInfoForm ref="baseDeployInfoForm" :runtime="runtime" />
 
-          <BaseSubTitle title="服务设置" />
+          <BaseSubTitle :title="$t('tip.service_setting')" />
           <v-card-text class="pa-2">
             <v-row>
               <v-col cols="6">
@@ -32,8 +32,8 @@
                   color="primary"
                   hide-selected
                   :items="activeServiceItems"
-                  label="主版本服务（蓝）"
-                  no-data-text="暂无可选数据"
+                  :label="$t('tip.blue')"
+                  :no-data-text="$root.$t('data.no_data')"
                   :rules="bluegreenRules.activeServiceRules"
                   :search-input.sync="activeServiceText"
                   @keyup.enter="createActiveService"
@@ -52,8 +52,8 @@
                   color="primary"
                   hide-selected
                   :items="previewServiceItems"
-                  label="发布版本服务（绿）"
-                  no-data-text="暂无可选数据"
+                  :label="$t('tip.green')"
+                  :no-data-text="$root.$t('data.no_data')"
                   :rules="bluegreenRules.previewServiceRules"
                   :search-input.sync="previewServiceText"
                   @keyup.enter="createPreviewService"
@@ -68,7 +68,7 @@
             </v-row>
           </v-card-text>
 
-          <BaseSubTitle title="更新策略" />
+          <BaseSubTitle :title="$t('tip.upgrade_policy')" />
           <v-card-text class="pa-2">
             <v-row>
               <v-col cols="6">
@@ -78,8 +78,8 @@
                   color="primary"
                   hide-selected
                   :items="updatePolicyitems"
-                  label="更新策略"
-                  no-data-text="暂无可选数据"
+                  :label="$t('tip.upgrade_policy')"
+                  :no-data-text="$root.$t('data.no_data')"
                   :rules="bluegreenRules.autoPromotionEnabledRules"
                   @change="onUpdatePolicyChange"
                 >
@@ -94,7 +94,7 @@
                 <v-text-field
                   v-model="obj.strategy.blueGreen.autoPromotionSeconds"
                   class="my-0"
-                  label="延时时间"
+                  :label="$t('tip.delay_time')"
                   required
                   :rules="bluegreenRules.autoPromotionSecondsRules"
                 />
@@ -109,11 +109,11 @@
             @addData="addAnalysisData"
             @closeOverlay="closeExpand"
           />
-          <BaseSubTitle title="应用分析（需启用prometheus与istio）" />
+          <BaseSubTitle :title="$t('tip.app_analysis')" />
           <v-card-text class="pa-2">
             <AnalysisTemplateItem
               :obj="obj.strategy.blueGreen.prePromotionAnalysis"
-              title="更新过程中分析"
+              :title="$t('tip.post_analysis')"
               @expandCard="expandCard('pre')"
               @removeAnalysis="removePreAnalysis"
               @updateAnalysis="updatePreAnalysis"
@@ -122,7 +122,7 @@
             <AnalysisTemplateItem
               class="mt-3"
               :obj="obj.strategy.blueGreen.postPromotionAnalysis"
-              title="更新完成后分析"
+              :title="$t('tip.complete_analysis')"
               @expandCard="expandCard('post')"
               @removeAnalysis="removePostAnalysis"
               @updateAnalysis="updatePostAnalysis"
@@ -133,7 +133,7 @@
     </template>
     <template #action>
       <v-btn class="float-right" color="primary" :loading="Circular" text @click="strategyDeployEnvironmentApps">
-        确定
+        {{ $root.$t('operate.confirm') }}
       </v-btn>
     </template>
   </BaseDialog>
@@ -142,6 +142,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import AnalysisTemplateForm from './analysis_template/AnalysisTemplateForm';
   import AnalysisTemplateItem from './analysis_template/AnalysisTemplateItem';
   import BaseDeployInfoForm from './base/BaseDeployInfoForm';
@@ -152,7 +153,10 @@
   import StrategyDeploy from '@/views/resource/deploy/mixins/deploy';
 
   export default {
-    name: 'Recreate',
+    name: 'BlueGreen',
+    i18n: {
+      messages: messages,
+    },
     components: {
       AnalysisTemplateForm,
       AnalysisTemplateItem,
@@ -165,10 +169,6 @@
         valid: false,
         expand: false,
         updatePolicy: 'manual',
-        updatePolicyitems: [
-          { text: '手动更新', value: 'manual' },
-          { text: '自动更新', value: 'auto' },
-        ],
         analysis: {},
         activeServiceItems: [],
         activeServiceText: '',
@@ -200,6 +200,12 @@
     },
     computed: {
       ...mapState(['Circular']),
+      updatePolicyitems() {
+        return [
+          { text: this.$t('tip.manual'), value: 'manual' },
+          { text: this.$t('tip.auto'), value: 'auto' },
+        ];
+      },
     },
     methods: {
       open() {

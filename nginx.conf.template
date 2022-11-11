@@ -58,6 +58,8 @@ server {
     proxy_buffering off;
     proxy_cache off;
     chunked_transfer_encoding off;
+    client_max_body_size 1024m;
+    client_body_timeout 2m;
 
     proxy_pass http://${API_SERVER}/;
   }

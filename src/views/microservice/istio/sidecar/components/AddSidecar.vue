@@ -38,15 +38,17 @@
 
   import { postAddIstioSidecar } from '@/api';
   import BaseResource from '@/mixins/resource';
-  import IstioSidecarSchema from '@/views/microservice/istio/sidecar/mixins/schema';
+  import IstioSidecarSchema from '@/utils/schema/sidecar';
 
   export default {
     name: 'AddSidecar',
-    mixins: [BaseResource, IstioSidecarSchema],
-    data: () => ({
-      dialog: false,
-      formComponent: 'BaseYamlForm',
-    }),
+    mixins: [BaseResource],
+    data() {
+      return {
+        dialog: false,
+        formComponent: 'BaseYamlForm',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'EnvironmentFilter']),
       ...mapGetters(['VirtualSpace']),
@@ -61,7 +63,7 @@
           if (this.formComponent === 'BaseYamlForm') {
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
-            if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+            if (!this.m_resource_validateJsonSchema(IstioSidecarSchema, data)) {
               return;
             }
             if (!this.m_resource_checkDataWithOutNS(data)) return;

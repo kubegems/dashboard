@@ -23,7 +23,6 @@
           <BaseRadialBarChart
             id="env_cpu"
             class="my-3"
-            :label-show="false"
             :metrics="cpuSeries"
             :title="$root.$t('resource.cpu')"
             :total="quota ? quota.Cpu : 0"
@@ -35,7 +34,6 @@
           <BaseRadialBarChart
             id="env_memory"
             class="my-3"
-            :label-show="false"
             :metrics="memorySeries"
             :title="$root.$t('resource.memory')"
             :total="quota ? quota.Memory : 0"
@@ -47,7 +45,6 @@
           <BaseRadialBarChart
             id="env_storage"
             class="my-3"
-            :label-show="false"
             :metrics="storageSeries"
             :title="$root.$t('resource.storage')"
             :total="quota ? quota.Storage : 0"
@@ -59,7 +56,6 @@
           <BaseRadialBarChart
             id="env_pod"
             class="my-3"
-            :label-show="false"
             :metrics="podSeries"
             :title="$root.$t('resource.pod')"
             :total="quota ? quota.Pod : 0"
@@ -67,46 +63,47 @@
             :val="quota ? quota.UsedPod : 0"
           />
         </v-col>
-
-        <v-col v-if="nvidia && showMore" class="py-0" cols="3">
-          <BaseRadialBarChart
-            id="env_nvidia_gpu"
-            class="my-3"
-            :label-show="false"
-            :metrics="nvidiaGpuSeries"
-            :title="`Nvidia ${$root.$t('resource.gpu')}`"
-            :total="quota ? quota.NvidiaGpu : 0"
-            unit="gpu"
-            :val="quota ? quota.UsedNvidiaGpu : 0"
-          />
-        </v-col>
-        <template v-if="tke && showMore">
-          <v-col class="py-0" cols="3">
-            <BaseRadialBarChart
-              id="env_tke_gpu"
-              class="my-3"
-              :label-show="false"
-              :metrics="tkeGpuSeries"
-              :title="`Tke ${$root.$t('resource.gpu')}`"
-              :total="quota ? quota.TkeGpu : 0"
-              unit=""
-              :val="quota ? quota.UsedTkeGpu : 0"
-            />
-          </v-col>
-          <v-col class="py-0" cols="3">
-            <BaseRadialBarChart
-              id="env_tke_memory"
-              class="my-3"
-              :label-show="false"
-              :metrics="tkeMemorySeries"
-              :title="`Tke ${$root.$t('resource.video_memory')}`"
-              :total="quota ? quota.TkeMemory : 0"
-              unit=""
-              :val="quota ? quota.UsedTkeMemory : 0"
-            />
-          </v-col>
-        </template>
       </v-row>
+
+      <v-expand-transition>
+        <v-row>
+          <v-col v-if="nvidia && showMore" class="py-0" cols="3">
+            <BaseRadialBarChart
+              id="env_nvidia_gpu"
+              class="my-3"
+              :metrics="nvidiaGpuSeries"
+              :title="`Nvidia ${$root.$t('resource.gpu')}`"
+              :total="quota ? quota.NvidiaGpu : 0"
+              unit="gpu"
+              :val="quota ? quota.UsedNvidiaGpu : 0"
+            />
+          </v-col>
+          <template v-if="tke && showMore">
+            <v-col class="py-0" cols="3">
+              <BaseRadialBarChart
+                id="env_tke_gpu"
+                class="my-3"
+                :metrics="tkeGpuSeries"
+                :title="`Tke ${$root.$t('resource.gpu')}`"
+                :total="quota ? quota.TkeGpu : 0"
+                unit=""
+                :val="quota ? quota.UsedTkeGpu : 0"
+              />
+            </v-col>
+            <v-col class="py-0" cols="3">
+              <BaseRadialBarChart
+                id="env_tke_memory"
+                class="my-3"
+                :metrics="tkeMemorySeries"
+                :title="`Tke ${$root.$t('resource.video_memory')}`"
+                :total="quota ? quota.TkeMemory : 0"
+                unit=""
+                :val="quota ? quota.UsedTkeMemory : 0"
+              />
+            </v-col>
+          </template>
+        </v-row>
+      </v-expand-transition>
 
       <div v-if="tke || nvidia" class="text-center">
         <v-btn color="primary" small text @click="showMore = !showMore">
@@ -123,7 +120,7 @@
   import messages from '../i18n';
   import { getEnvironmentQuota } from '@/api';
   import BaseResource from '@/mixins/resource';
-  import { sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
+  import { sizeOfCpu, sizeOfStorage, sizeOfTke } from '@/utils/helpers';
 
   export default {
     name: 'ResourceQuota',
@@ -143,37 +140,76 @@
       ...mapState(['JWT', 'Scale']),
       ...mapGetters(['Environment', 'Project']),
       cpuSeries() {
-        return this.quota ? [this.quota.Cpu === 0 ? 0 : (this.quota.UsedCpu / this.quota.Cpu) * 100, 50] : [0, 50];
+        return this.quota
+          ? [
+              [
+                this.quota.Cpu === 0 ? 0 : (this.quota.UsedCpu / this.quota.Cpu) * 100,
+                100 - (this.quota.UsedCpu / this.quota.Cpu) * 100,
+              ],
+            ]
+          : [[0, 100]];
       },
       memorySeries() {
         return this.quota
-          ? [this.quota.Memory === 0 ? 0 : (this.quota.UsedMemory / this.quota.Memory) * 100, 50]
-          : [0, 50];
+          ? [
+              [
+                this.quota.Memory === 0 ? 0 : (this.quota.UsedMemory / this.quota.Memory) * 100,
+                100 - (this.quota.UsedMemory / this.quota.Memory) * 100,
+              ],
+            ]
+          : [[0, 100]];
       },
       storageSeries() {
         return this.quota
-          ? [this.quota.Storage === 0 ? 0 : (this.quota.UsedStorage / this.quota.Storage) * 100, 50]
-          : [0, 50];
+          ? [
+              [
+                this.quota.Storage === 0 ? 0 : (this.quota.UsedStorage / this.quota.Storage) * 100,
+                100 - (this.quota.UsedStorage / this.quota.Storage) * 100,
+              ],
+            ]
+          : [[0, 100]];
       },
       podSeries() {
-        return this.quota ? [this.quota.Pod === 0 ? 0 : (this.quota.UsedPod / this.quota.Pod) * 100, 50] : [0, 50];
+        return this.quota
+          ? [
+              [
+                this.quota.Pod === 0 ? 0 : (this.quota.UsedPod / this.quota.Pod) * 100,
+                100 - (this.quota.Pod === 0 ? 0 : (this.quota.UsedPod / this.quota.Pod) * 100),
+              ],
+            ]
+          : [[0, 100]];
       },
 
       nvidiaGpuSeries() {
         return this.quota
-          ? [this.quota.NvidiaGpu === 0 ? 0 : (this.quota.UsedNvidiaGpu / this.quota.NvidiaGpu) * 100, 50]
-          : [0, 50];
+          ? [
+              [
+                this.quota.NvidiaGpu === 0 ? 0 : (this.quota.UsedNvidiaGpu / this.quota.NvidiaGpu) * 100,
+                100 - (this.quota.UsedNvidiaGpu / this.quota.NvidiaGpu) * 100,
+              ],
+            ]
+          : [[0, 100]];
       },
 
       tkeGpuSeries() {
         return this.quota
-          ? [this.quota.TkeGpu === 0 ? 0 : (this.quota.UsedTkeGpu / this.quota.TkeGpu) * 100, 50]
-          : [0, 50];
+          ? [
+              [
+                this.quota.TkeGpu === 0 ? 0 : (this.quota.UsedTkeGpu / this.quota.TkeGpu) * 100,
+                100 - (this.quota.UsedTkeGpu / this.quota.TkeGpu) * 100,
+              ],
+            ]
+          : [[0, 100]];
       },
       tkeMemorySeries() {
         return this.quota
-          ? [this.quota.TkeMemory === 0 ? 0 : (this.quota.UsedTkeMemory / this.quota.TkeMemory) * 100, 50]
-          : [0, 50];
+          ? [
+              [
+                this.quota.TkeMemory === 0 ? 0 : (this.quota.UsedTkeMemory / this.quota.TkeMemory) * 100,
+                100 - (this.quota.UsedTkeMemory / this.quota.TkeMemory) * 100,
+              ],
+            ]
+          : [[0, 100]];
       },
     },
     mounted() {
@@ -210,32 +246,32 @@
             NvidiaGpu: data.quota.status.hard['limits.nvidia.com/gpu']
               ? parseFloat(data.quota.status.hard['limits.nvidia.com/gpu'])
               : 0,
-            UsedNvidiaGpu: data.quota.status.used['limits.nvidia.com/gpu']
-              ? parseFloat(data.quota.status.used['limits.nvidia.com/gpu'])
+            UsedNvidiaGpu: data.quota.status.used['requests.nvidia.com/gpu']
+              ? parseFloat(data.quota.status.used['requests.nvidia.com/gpu'])
               : 0,
 
-            TkeGpu: data.quota.status.hard['tencent.com/vcuda-core']
-              ? parseFloat(data.quota.status.hard['tencent.com/vcuda-core'])
+            TkeGpu: data.quota.status.hard['limits.tencent.com/vcuda-core']
+              ? parseFloat(sizeOfTke(data.quota.status.hard['limits.tencent.com/vcuda-core']))
               : 0,
-            UsedTkeGpu: data.quota.status.used['tencent.com/vcuda-core']
-              ? parseFloat(data.quota.status.used['tencent.com/vcuda-core'])
+            UsedTkeGpu: data.quota.status.used['requests.tencent.com/vcuda-core']
+              ? parseFloat(sizeOfTke(data.quota.status.used['requests.tencent.com/vcuda-core']))
               : 0,
 
-            TkeMemory: data.quota.status.hard['tencent.com/vcuda-memory']
-              ? parseFloat(data.quota.status.hard['tencent.com/vcuda-memory'])
+            TkeMemory: data.quota.status.hard['limits.tencent.com/vcuda-memory']
+              ? parseFloat(sizeOfTke(data.quota.status.hard['limits.tencent.com/vcuda-memory']))
               : 0,
-            UsedTkeMemory: data.quota.status.used['tencent.com/vcuda-memory']
-              ? parseFloat(data.quota.status.used['tencent.com/vcuda-memory'])
+            UsedTkeMemory: data.quota.status.used['requests.tencent.com/vcuda-memory']
+              ? parseFloat(sizeOfTke(data.quota.status.used['requests.tencent.com/vcuda-memory']))
               : 0,
           };
           this.nvidia =
             Object.prototype.hasOwnProperty.call(data.quota.status.hard, 'limits.nvidia.com/gpu') &&
             parseInt(data.quota.status.hard['limits.nvidia.com/gpu']) > 0;
           this.tke =
-            (Object.prototype.hasOwnProperty.call(data.quota.status.hard, 'tencent.com/vcuda-core') &&
-              parseInt(data.quota.status.hard['tencent.com/vcuda-core']) > 0) ||
-            (Object.prototype.hasOwnProperty.call(data.quota.status.hard, 'tencent.com/vcuda-memory') &&
-              parseInt(data.quota.status.hard['tencent.com/vcuda-memory']) > 0);
+            (Object.prototype.hasOwnProperty.call(data.quota.status.hard, 'limits.tencent.com/vcuda-core') &&
+              parseInt(data.quota.status.hard['limits.tencent.com/vcuda-core']) > 0) ||
+            (Object.prototype.hasOwnProperty.call(data.quota.status.hard, 'limits.tencent.com/vcuda-memory') &&
+              parseInt(data.quota.status.hard['limits.tencent.com/vcuda-memory']) > 0);
         } else {
           this.quota = {
             Cpu: 0,

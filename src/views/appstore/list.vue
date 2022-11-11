@@ -27,7 +27,7 @@
                 <div class="mr-4 float-left">
                   <img height="40" :src="item.imgSrc" />
                 </div>
-                <a class="mr-4 float-left" :href="item.address" target="_blank">{{ item.URL }}</a>
+                <a class="mr-4 float-left" :href="item.URL" target="_blank">{{ item.URL }}</a>
                 <div class="mr-4 float-left">
                   <StatusTip :item="item">
                     <template #trigger>
@@ -104,9 +104,11 @@
       RepositoryInfo,
       StatusTip,
     },
-    data: () => ({
-      items: [],
-    }),
+    data() {
+      return {
+        items: [],
+      };
+    },
     computed: {
       ...mapState(['JWT']),
       ...mapGetters(['Tenant']),
@@ -123,7 +125,7 @@
           return {
             name: item.ChartRepoName,
             ...item,
-            ...this.getRepositoryMeta(item.ChartRepoName),
+            ...this.getRepositoryMeta(item),
           };
         });
       },
@@ -166,7 +168,7 @@
         });
       },
       getRepositoryMeta(item) {
-        switch (item.name) {
+        switch (item.ChartRepoName) {
           case 'bitnami':
             return {
               imgSrc: '/icon/bitnami.svg',
@@ -176,6 +178,43 @@
             return {
               imgSrc: '/icon/chartmuseum.svg',
               tip: this.$t('tip.chartmuseum'),
+            };
+          case 'banzaicloud':
+            return {
+              imgSrc: '/icon/banzaicloud.svg',
+              tip: this.$t('tip.banzaicloud'),
+            };
+          case 'hashicorp':
+            return {
+              imgSrc: '/icon/hashicorp.svg',
+              tip: this.$t('tip.hashicorp'),
+            };
+          case 'grafana':
+            return {
+              imgSrc: '/icon/grafana.svg',
+              tip: this.$t('tip.grafana'),
+            };
+          case 'elastic':
+            return {
+              imgSrc: '/icon/elastic.svg',
+              tip: this.$t('tip.kubegems'),
+            };
+          case 'opentelemetry-helm':
+          case 'opentelemetry':
+            return {
+              imgSrc: '/icon/opentelemetry.svg',
+              tip: this.$t('tip.opentelemetry'),
+            };
+          case 'kubecost':
+            return {
+              imgSrc: '/icon/kubecost.svg',
+              tip: this.$t('tip.kubecost'),
+            };
+          case 'scylla':
+          case 'scylladb':
+            return {
+              imgSrc: '/icon/scylla.svg',
+              tip: this.$t('tip.scylla'),
             };
           default:
             return {

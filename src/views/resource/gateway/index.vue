@@ -86,7 +86,7 @@
           </v-card>
         </v-hover>
       </v-col>
-      <v-col v-if="m_permisson_resourceAllow" class="pt-0" cols="3">
+      <v-col v-if="m_permisson_resourceAllow()" class="pt-0" cols="3">
         <v-card class="full-height" flat min-height="211">
           <v-card-text class="pa-0 full-height">
             <v-list-item class="full-height" three-line>
@@ -128,9 +128,11 @@
       UpdateGateway,
     },
     mixins: [BaseFilter, BasePermission, BaseResource],
-    data: () => ({
-      items: [],
-    }),
+    data() {
+      return {
+        items: [],
+      };
+    },
     computed: {
       ...mapState(['JWT', 'AdminViewport']),
       ...mapGetters(['Tenant', 'Cluster']),

@@ -44,9 +44,11 @@
       Sidebar,
       Tool,
     },
-    data: () => ({
-      expandOnHover: false,
-    }),
+    data() {
+      return {
+        expandOnHover: false,
+      };
+    },
     computed: {
       ...mapState(['Admin', 'AdminViewport', 'SidebarKey', 'Scale']),
       height() {

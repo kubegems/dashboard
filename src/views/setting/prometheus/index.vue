@@ -107,14 +107,16 @@
       ScopeResourceLayout,
       UpdateTemplate,
     },
-    data: () => ({
-      items: [],
-      pageCount: 0,
-      params: {
-        page: 1,
-        size: 10,
-      },
-    }),
+    data() {
+      return {
+        items: [],
+        pageCount: 0,
+        params: {
+          page: 1,
+          size: 10,
+        },
+      };
+    },
     computed: {
       ...mapGetters(['Tenant']),
       headers() {
@@ -142,7 +144,7 @@
     },
     methods: {
       async ruleList() {
-        const data = await getRuleList(this.Tenant().ID, this.$route.query.resourceId, { ...this.params });
+        const data = await getRuleList('_all', this.$route.query.resourceId, { ...this.params });
         this.items = data.List;
         this.pageCount = Math.ceil(data.Total / this.params.size);
         this.params.page = data.CurrentPage;
@@ -178,7 +180,7 @@
           },
           param: { item },
           doFunc: async (param) => {
-            await deleteAddRule(this.Tenant().ID, param.item.id);
+            await deleteAddRule('_all', param.item.id);
             this.ruleList();
           },
         });

@@ -25,7 +25,7 @@
               $TENANT_ROLE[m_permisson_tenantRole] ? $t(`role.tenant.${m_permisson_tenantRole}`) : $t('data.unknown')
             }}
           </span>
-          <v-btn v-if="m_permisson_tenantAllow" class="primary--text mt-n1" small text @click="manageUser">
+          <v-btn v-if="m_permisson_tenantAllow()" class="primary--text mt-n1" small text @click="manageUser">
             <v-icon left small> mdi-account-settings </v-icon>
             {{ `${$t('resource.tenant_c', [$t('resource.member', [''])])}` }}
           </v-btn>
@@ -74,9 +74,11 @@
       ResourceList,
     },
     mixins: [BasePermission, BaseResource],
-    data: () => ({
-      statistics: null,
-    }),
+    data() {
+      return {
+        statistics: null,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Admin']),
       ...mapGetters(['Tenant']),

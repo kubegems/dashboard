@@ -44,12 +44,12 @@ export const POD_CPU_USAGE_BY_CONTAINER_PROMQL = `round(gems_container_cpu_usage
 export const POD_MEMORY_BY_CONTAINER_USAGE_PROMQL = `gems_container_memory_usage_bytes{pod=~"$1", namespace=~"$2", container!=""}`;
 
 export const WORKLOAD_CPU_USAGE_CORE_PROMQL = `round(sum(gems_container_cpu_usage_cores{workload=~"$1", namespace=~"$2"})without(container), 0.001) * 1000 * 1000 * 1000`;
-export const WORKLOAD_MEMORY_USAGE_BYTE_PROMQL = `sum(gems_container_memory_usage_bytes{workload=~"$1", namespace=~"$2"})without(container)`;
+export const WORKLOAD_MEMORY_USAGE_BYTE_PROMQL = `round(sum(gems_container_memory_usage_bytes{workload=~"$1", namespace=~"$2"})without(container) / 1024 / 1024, 0.01)`;
 export const WORKLOAD_NETWORK_IN_PROMQL = `round(gems_container_network_receive_bps{workload=~"$1", namespace=~"$2"}, 0.001)`;
 export const WORKLOAD_NETWORK_OUT_PROMQL = `round(gems_container_network_send_bps{workload=~"$1", namespace=~"$2"}, 0.001)`;
 
 export const CONTAINER_CPU_USAGE_PROMQL = `round(gems_container_cpu_usage_cores{container=~"$1", pod=~"$2", namespace=~"$3"}, 0.001) * 1000 * 1000 * 1000`;
-export const CONTAINER_MEMORY_USAGE_PROMQL = `gems_container_memory_usage_bytes{container=~"$1", pod=~"$2", namespace=~"$3"}`;
+export const CONTAINER_MEMORY_USAGE_PROMQL = `round(gems_container_memory_usage_bytes{container=~"$1", pod=~"$2", namespace=~"$3"} / 1024 / 1024, 0.01)`;
 
 export const PVC_USAGE_PROMQL = `gems_pvc_usage_bytes{namespace="$1",persistentvolumeclaim="$2"}`;
 export const PVC_USAGE_INODE_PROMQL = `round(gems_pvc_inode_used{namespace="$1",persistentvolumeclaim="$2"} / gems_pvc_inode_total{namespace="$1",persistentvolumeclaim="$2"} * 100, 0.01)`;
@@ -83,10 +83,13 @@ export const ISTIO_INGRESS_GATEWAY_DOWNSTREAM_443_RESPONSE_DURATION_PROMQL = `ge
 export const ISTIO_INGRESS_NETWORK_PROMQL = `sum(gems_istio_workload_request_bps{reporter="destination",  destination_workload="$1", destination_workload_namespace="$2"} >= 0)`;
 export const ISTIO_EGRESS_NETWORK_PROMQL = `sum(gems_istio_workload_response_bps{reporter="destination",  destination_workload="$1", destination_workload_namespace="$2"} >= 0)`;
 
-export const GPU_USAGE = `round(gems_container_gpu_usage_percent{pod=~"$1", namespace=~"$2"}, 0.01)`;
-export const GPU_MEMORY_USAGE = `round(gems_container_gpu_memory_usage_mb{pod=~"$1", namespace=~"$2"}, 0.001) / 1024`;
-export const GPU_TEMP = `round(gems_container_gpu_temp{pod=~"$1", namespace=~"$2"}, 0.01)`;
-export const GPU_POWER = `round(gems_container_gpu_power_usage_watt{pod=~"$1", namespace=~"$2"}, 0.01)`;
+export const N_GPU_USAGE = `round(gems_container_gpu_usage_percent{pod=~"$1", namespace=~"$2"}, 0.01)`;
+export const N_GPU_MEMORY_USAGE = `round(gems_container_gpu_memory_usage_mb{pod=~"$1", namespace=~"$2"}, 0.001) / 1024`;
+export const N_GPU_TEMP = `round(gems_container_gpu_temp{pod=~"$1", namespace=~"$2"}, 0.01)`;
+export const N_GPU_POWER = `round(gems_container_gpu_power_usage_watt{pod=~"$1", namespace=~"$2"}, 0.01)`;
+
+export const T_GPU_USAGE = `round(container_gpu_utilization{pod=~"$1", namespace=~"$2"}, 0.01)`;
+export const T_GPU_MEMORY_USAGE = `round(container_gpu_memory_total{pod=~"$1", namespace=~"$2"}, 0.001)`;
 
 export const MODEL_WORKLOAD_CPU_USAGE_CORE_PROMQL = `round(sum(gems_container_cpu_usage_cores{pod=~"$1", namespace=~"$2"})without(container), 0.001) * 1000 * 1000 * 1000`;
 export const MODEL_WORKLOAD_MEMORY_USAGE_BYTE_PROMQL = `sum(gems_container_memory_usage_bytes{pod=~"$1", namespace=~"$2"})without(container)`;

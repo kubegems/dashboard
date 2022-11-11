@@ -57,12 +57,14 @@
         default: () => [],
       },
     },
-    data: () => ({
-      dialog: false,
-      yaml: null,
-      item: null,
-      formComponent: 'TemplateBaseForm',
-    }),
+    data() {
+      return {
+        dialog: false,
+        yaml: null,
+        item: null,
+        formComponent: 'TemplateBaseForm',
+      };
+    },
     computed: {
       ...mapState(['Circular']),
       ...mapGetters(['Tenant']),
@@ -77,14 +79,14 @@
           if (this.formComponent === 'TemplateBaseForm') {
             data = this.$refs[this.formComponent].getData();
 
-            await putUpdateRule(this.Tenant().ID, data.id, data);
+            await putUpdateRule('_all', data.id, data);
           }
           this.reset();
           this.$emit('refresh');
         }
       },
       async init(item) {
-        const data = await getRuleDetail(this.Tenant().ID, item.id);
+        const data = await getRuleDetail('_all', item.id);
         this.item = data;
       },
       reset() {

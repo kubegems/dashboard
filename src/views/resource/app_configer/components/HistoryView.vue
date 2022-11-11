@@ -27,6 +27,9 @@
     <template #content>
       <v-card class="px-3" flat>
         <v-data-iterator disable-filtering disable-pagination hide-default-footer :items="history">
+          <template #no-data>
+            <div class="text-center text-body-2 pt-12">{{ $root.$t('data.no_data') }}</div>
+          </template>
           <template #default="props">
             <v-simple-table :height="height">
               <thead>
@@ -37,8 +40,8 @@
                 </tr>
               </thead>
               <tbody>
-                <template v-for="(item, idx) in props.items">
-                  <tr :key="idx">
+                <template v-for="(item, index) in props.items">
+                  <tr :key="index">
                     <td class="text-center">{{ item.rev }} </td>
                     <td>{{ $moment(item.last_update_time).format('lll') }}</td>
                     <td>
@@ -49,7 +52,7 @@
                             :color="item.expanded ? 'green' : 'primary'"
                             small
                             text
-                            @click="expandItem(idx)"
+                            @click="expandItem(index)"
                           >
                             <v-icon small>mdi-vector-difference</v-icon>
                             diff
@@ -64,7 +67,7 @@
                       </v-row>
                     </td>
                   </tr>
-                  <tr v-show="item.expanded" :key="idx + 'content'">
+                  <tr v-show="item.expanded" :key="`${index}content`">
                     <td class="px-0" colspan="3">
                       <CodeDiff
                         :file-name="item.key"
@@ -178,13 +181,13 @@
         );
         return detail.value;
       },
-      async expandItem(idx) {
-        if (this.history[idx].expanded) {
-          this.history[idx].expanded = false;
+      async expandItem(index) {
+        if (this.history[index].expanded) {
+          this.history[index].expanded = false;
         } else {
-          this.history[idx].expanded = true;
-          const detail = await this.getHistoryDetail(this.history[idx].rev);
-          this.history[idx].value = detail;
+          this.history[index].expanded = true;
+          const detail = await this.getHistoryDetail(this.history[index].rev);
+          this.history[index].value = detail;
         }
       },
       async rollback(item) {
@@ -216,7 +219,7 @@
             } else {
               this.$store.commit('SET_SNACKBAR', {
                 text: this.$t('status.rollback_success'),
-                color: 'green',
+                color: 'success',
               });
               this.$emit('rollback', res);
             }

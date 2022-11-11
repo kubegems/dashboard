@@ -80,15 +80,17 @@
     },
     mixins: [BaseSelect],
     inject: ['reload'],
-    data: () => ({
-      dialog: false,
+    data() {
+      return {
+        dialog: false,
 
-      search: '',
-      params: {
-        page: 1,
-        size: 1000,
-      },
-    }),
+        search: '',
+        params: {
+          page: 1,
+          size: 1000,
+        },
+      };
+    },
     computed: {
       ...mapState(['Circular', 'Locale']),
       ...mapGetters(['Tenant']),

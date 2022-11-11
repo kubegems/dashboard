@@ -144,42 +144,44 @@
         default: () => null,
       },
     },
-    data: () => ({
-      valid: false,
-      expand: false,
-      obj: {
-        apiVersion: 'cert-manager.io/v1',
-        kind: 'Issuer',
-        metadata: {
-          name: '',
-          namespace: null,
+    data() {
+      return {
+        valid: false,
+        expand: false,
+        obj: {
+          apiVersion: 'cert-manager.io/v1',
+          kind: 'Issuer',
+          metadata: {
+            name: '',
+            namespace: null,
+          },
+          spec: {
+            selfSigned: {},
+          },
         },
-        spec: {
-          selfSigned: {},
-        },
-      },
-      issuer: 'selfSigned',
-      issuerItems: [
-        { text: 'SelfSigned', value: 'selfSigned' },
-        { text: 'Let’s Encrypt', value: 'acme' },
-      ],
-      serverText: '',
-      serverItems: [
-        {
-          text: 'https://acme-staging-v02.api.letsencrypt.org/directory',
-          value: 'https://acme-staging-v02.api.letsencrypt.org/directory',
-        },
-        {
-          text: 'https://acme-v02.api.letsencrypt.org/directory',
-          value: 'https://acme-v02.api.letsencrypt.org/directory',
-        },
-        {
-          text: 'https://acme-staging.api.letsencrypt.org/directory',
-          value: 'https://acme-staging.api.letsencrypt.org/directory',
-        },
-      ],
-      ingressItems: [],
-    }),
+        issuer: 'selfSigned',
+        issuerItems: [
+          { text: 'SelfSigned', value: 'selfSigned' },
+          { text: 'Let’s Encrypt', value: 'acme' },
+        ],
+        serverText: '',
+        serverItems: [
+          {
+            text: 'https://acme-staging-v02.api.letsencrypt.org/directory',
+            value: 'https://acme-staging-v02.api.letsencrypt.org/directory',
+          },
+          {
+            text: 'https://acme-v02.api.letsencrypt.org/directory',
+            value: 'https://acme-v02.api.letsencrypt.org/directory',
+          },
+          {
+            text: 'https://acme-staging.api.letsencrypt.org/directory',
+            value: 'https://acme-staging.api.letsencrypt.org/directory',
+          },
+        ],
+        ingressItems: [],
+      };
+    },
     computed: {
       ...mapState(['Admin', 'AdminViewport', 'ApiResources']),
       ...mapGetters(['Cluster']),

@@ -124,7 +124,7 @@
                           <v-list-item class="float-left py-0 pl-0" :style="{ width: `300px` }" two-line>
                             <v-list-item-content class="py-0">
                               <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
-                                <v-icon class="float-left mt-1" color="primary" left small> mdi-cube </v-icon>
+                                <v-icon class="float-left workload__icon" color="primary" left small> mdi-cube </v-icon>
                                 <v-flex class="float-left">
                                   {{ pod.metadata.name }}
                                 </v-flex>
@@ -181,11 +181,17 @@
                           <v-list-item class="float-left py-0 pl-0" :style="{ width: `200px` }" two-line>
                             <v-list-item-content class="py-0">
                               <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
-                                {{
-                                  pod.status.startTime
-                                    ? $moment(pod.status.startTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
-                                    : ''
-                                }}
+                                <RealDatetimeTip :datetime="pod.status.startTime">
+                                  <template #trigger>
+                                    <span>
+                                      {{
+                                        pod.status.startTime
+                                          ? $moment(pod.status.startTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
+                                          : ''
+                                      }}
+                                    </span>
+                                  </template>
+                                </RealDatetimeTip>
                               </v-list-item-title>
                               <v-list-item-subtitle class="text-body-2 py-1"> Age </v-list-item-subtitle>
                             </v-list-item-content>
@@ -265,6 +271,7 @@
   import BaseSelect from '@/mixins/select';
   import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
   import PluginPass from '@/views/microservice/components/PluginPass';
+  import RealDatetimeTip from '@/views/resource/components/common/RealDatetimeTip';
 
   export default {
     name: 'Workload',
@@ -274,6 +281,7 @@
     components: {
       EnvironmentFilter,
       PluginPass,
+      RealDatetimeTip,
     },
     mixins: [BaseFilter, BasePermission, BaseResource, BaseSelect],
     data() {
@@ -291,7 +299,8 @@
           size: 10,
         },
         podItems: [],
-        pass: false,
+        pass: { pass: false, time: '' },
+        timestamp: 0,
       };
     },
     computed: {
@@ -305,7 +314,7 @@
           { text: this.$t('table.status'), value: 'status', align: 'start' },
           { text: this.$t('table.label'), value: 'labels', align: 'start', width: 450 },
         ];
-        if (this.m_permisson_virtualSpaceAllow) {
+        if (this.m_permisson_virtualSpaceAllow()) {
           items.push({ text: '', value: 'action', align: 'end', width: 10 });
         }
         items.push({ text: '', value: 'data-table-expand' });
@@ -324,7 +333,8 @@
     watch: {
       pass: {
         handler(newValue) {
-          if (newValue) {
+          if (newValue && newValue.time !== this.timestamp) {
+            this.timestamp = newValue.time;
             this.microAppWorkoladList();
           }
         },
@@ -376,6 +386,7 @@
     },
     methods: {
       async microAppWorkoladList(noprocess = false) {
+        if (!this.VirtualSpace().ID) return;
         const data = await getMicroAppWorkoladList(
           this.VirtualSpace().ID,
           this.EnvironmentFilter?.value || this.$route.query?.environmentid,
@@ -492,6 +503,10 @@
 <style lang="scss" scoped>
   .workload {
     &__inject {
+      margin-top: 2px;
+    }
+
+    &__icon {
       margin-top: 2px;
     }
   }

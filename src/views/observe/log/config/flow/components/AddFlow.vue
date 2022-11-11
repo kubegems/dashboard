@@ -51,30 +51,33 @@
 <script>
   import { mapState } from 'vuex';
 
-  import FlowSchema from '../mixins/schema';
   import FlowBaseForm from './FlowBaseForm';
   import { postClusterFlowData, postFlowData } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { randomString } from '@/utils/helpers';
   import { SERVICE_LOGGING_NS } from '@/utils/namespace';
+  import FlowSchema from '@/utils/schema/flow';
 
   export default {
     name: 'AddFlow',
     components: {
       FlowBaseForm,
     },
-    mixins: [BaseResource, FlowSchema],
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      formComponent: 'FlowBaseForm',
-      switchKey: '',
-    }),
+    mixins: [BaseResource],
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        formComponent: 'FlowBaseForm',
+        switchKey: '',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'AdminViewport']),
     },
     methods: {
       open() {
+        this.formComponent = 'FlowBaseForm';
         this.dialog = true;
       },
       async addFlow() {
@@ -93,7 +96,7 @@
           if (this.formComponent === 'BaseYamlForm') {
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
-            if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+            if (!this.m_resource_validateJsonSchema(FlowSchema, data)) {
               return;
             }
           } else if (this.formComponent === 'FlowBaseForm') {
@@ -123,7 +126,7 @@
           const yaml = this.$refs[this.formComponent].getYaml();
           const data = this.$yamlload(yaml);
           this.m_resource_addNsToData(data, this.$route.query.namespace);
-          if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+          if (!this.m_resource_validateJsonSchema(FlowSchema, data)) {
             this.yaml = true;
             this.switchKey = randomString(6);
             return;
@@ -137,7 +140,7 @@
       reset() {
         this.dialog = false;
         this.$refs[this.formComponent].reset();
-        this.formComponent = 'FlowBaseForm';
+        this.formComponent = '';
         this.yaml = false;
       },
     },

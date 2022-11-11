@@ -46,6 +46,7 @@
         <template v-if="mode === 'template'">
           <v-col cols="6">
             <ResourceSelectCascade
+              ref="resourceSelectCascade"
               v-model="resource"
               :generator="generator"
               single-line
@@ -90,14 +91,14 @@
           </v-col>
           <v-col cols="12">
             <v-textarea v-model="obj.expr" auto-grow :label="$t('tip.query_ql')" :rules="objRules.exprRule" />
-            <MetricsSuggestion
+            <!-- <MetricsSuggestion
               :cluster="environment.clusterName"
               :expr="obj.expr"
               :left="20"
               :newline="118"
               :top="250"
               @insertMetrics="insertMetrics"
-            />
+            /> -->
           </v-col>
           <v-col cols="6">
             <v-autocomplete
@@ -130,7 +131,7 @@
   import messages from '../../i18n';
   import { deepCopy } from '@/utils/helpers';
   import { required } from '@/utils/rules';
-  import MetricsSuggestion from '@/views/observe/monitor/metrics/components/MetricsSuggestion';
+  // import MetricsSuggestion from '@/views/observe/monitor/metrics/components/MetricsSuggestion';
   import ResourceSelectCascade from '@/views/observe/monitor/metrics/components/ResourceSelectCascade';
   import Metrics from '@/views/observe/monitor/mixins/metrics';
 
@@ -140,7 +141,7 @@
       messages: messages,
     },
     components: {
-      MetricsSuggestion,
+      // MetricsSuggestion,
       ResourceSelectCascade,
     },
     mixins: [Metrics],
@@ -149,10 +150,10 @@
         type: Boolean,
         default: () => false,
       },
-      environment: {
-        type: Object,
-        default: () => {},
-      },
+      // environment: {
+      //   type: Object,
+      //   default: () => {},
+      // },
       generator: {
         type: Object,
         default: () => undefined,
@@ -255,6 +256,7 @@
         this.obj = this.$options.data().obj;
         this.mode = 'template';
         this.resource = undefined;
+        this.$refs.resourceSelectCascade.reset();
       },
       insertMetrics(metrics) {
         this.$set(this.obj, 'expr', metrics);

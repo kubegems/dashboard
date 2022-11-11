@@ -44,10 +44,12 @@
     components: {
       AppBaseForm,
     },
-    data: () => ({
-      dialog: false,
-      formComponent: 'AppBaseForm',
-    }),
+    data() {
+      return {
+        dialog: false,
+        formComponent: 'AppBaseForm',
+      };
+    },
     computed: {
       ...mapState(['Circular']),
     },

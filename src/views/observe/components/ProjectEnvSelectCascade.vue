@@ -109,7 +109,23 @@
           <v-list-item-group v-model="environmentIndex" color="primary" @change="onEnvironmentChange">
             <v-list-item v-for="item in environmentItems" :key="item.value" dense>
               <v-list-item-content>
-                <v-list-item-title class="select__list__title pl-2" v-text="item.environmentName" />
+                <v-list-item-title class="select__list__title pl-2">
+                  <div class="float-left select__env">
+                    {{ item.environmentName }}
+                  </div>
+                  <v-chip
+                    class="float-right mt-1"
+                    :color="
+                      $METATYPE_CN[item.metaType] && $METATYPE_CN[item.metaType].color
+                        ? $METATYPE_CN[item.metaType].color
+                        : 'grey'
+                    "
+                    label
+                    x-small
+                  >
+                    {{ $root.$t(`metadata.environment_type.${item.metaType}`) }}
+                  </v-chip>
+                </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list-item-group>
@@ -273,6 +289,10 @@
       float: left;
       width: 50%;
       padding: 8px;
+    }
+
+    &__env {
+      line-height: 24px;
     }
 
     &__title {

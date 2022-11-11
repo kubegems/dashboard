@@ -31,11 +31,8 @@
         <v-flex class="float-left resource__tr">
           {{ item.Cluster.ClusterName }}
         </v-flex>
-        <v-flex v-if="item.TkeGpu" class="float-left ml-2 resource__icon">
-          <GpuTip :item="item" type="tke" />
-        </v-flex>
-        <v-flex v-if="item.NvidiaGpu" class="float-left ml-2 resource__icon">
-          <GpuTip :item="item" type="nvidia" />
+        <v-flex v-if="item.NvidiaGpu || item.TkeGpu" class="float-left resource__icon">
+          <GpuTip :item="item" />
         </v-flex>
         <template v-if="item.TenantResourceQuotaApply && item.TenantResourceQuotaApply.Status === 'pending'">
           <v-flex class="float-left ml-2 resource__tr">
@@ -117,7 +114,7 @@
   import ScaleResource from './ScaleResource';
   import { getTenantResourceQuota, getTenantResourceQuotaList } from '@/api';
   import BasePermission from '@/mixins/permission';
-  import { sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
+  import { sizeOfCpu, sizeOfStorage, sizeOfTke } from '@/utils/helpers';
   import GpuTip from '@/views/resource/components/common/GpuTip';
 
   export default {
@@ -131,14 +128,16 @@
       ScaleResource,
     },
     mixins: [BasePermission],
-    data: () => ({
-      items: [],
-      pageCount: 0,
-      params: {
-        page: 1,
-        size: 5,
-      },
-    }),
+    data() {
+      return {
+        items: [],
+        pageCount: 0,
+        params: {
+          page: 1,
+          size: 5,
+        },
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Admin']),
       ...mapGetters(['Tenant']),
@@ -171,7 +170,7 @@
             width: 150,
           },
         ];
-        if (this.m_permisson_tenantAllow) {
+        if (this.m_permisson_tenantAllow()) {
           items.push({
             text: this.$root.$t('operate.operate'),
             value: 'action',
@@ -216,13 +215,16 @@
         const item = this.items[index];
         item.Cpu = parseFloat(sizeOfCpu(data.spec.hard['limits.cpu']));
         item.Memory = parseFloat(sizeOfStorage(data.spec.hard['limits.memory']));
-        item.Storage = parseFloat(sizeOfStorage(data.spec.hard[`requests.storage`]));
+        if (!data.spec.hard[`limits.storage`]) {
+          data.spec.hard[`limits.storage`] = data.spec.hard[`requests.storage`] || 0;
+        }
+        item.Storage = parseFloat(sizeOfStorage(data.spec.hard[`limits.storage`]));
         item.AllocatedCpu = parseFloat(sizeOfCpu(data.status.allocated ? data.status.allocated['limits.cpu'] : 0));
         item.AllocatedMemory = parseFloat(
           sizeOfStorage(data.status.allocated ? data.status.allocated['limits.memory'] : 0),
         );
         item.AllocatedStorage = parseFloat(
-          sizeOfStorage(data.status.allocated ? data.status.allocated[`requests.storage`] : 0),
+          sizeOfStorage(data.status.allocated ? data.status.allocated[`limits.storage`] : 0),
         );
         item.CpuPercentage = item.Cpu > 0 ? ((item.AllocatedCpu / item.Cpu) * 100).toFixed(1) : 0;
         item.MemoryPercentage = item.Memory > 0 ? ((item.AllocatedMemory / item.Memory) * 100).toFixed(1) : 0;
@@ -240,19 +242,19 @@
         if (
           Object.prototype.hasOwnProperty.call(
             data.spec.hard,
-            'tencent.com/vcuda-core' ||
-              Object.prototype.hasOwnProperty.call(data.spec.hard, 'tencent.com/vcuda-memory'),
+            'limits.tencent.com/vcuda-core' ||
+              Object.prototype.hasOwnProperty.call(data.spec.hard, 'limits.tencent.com/vcuda-memory'),
           )
         ) {
-          item.TkeGpu = parseFloat(data.spec.hard['tencent.com/vcuda-core']);
+          item.TkeGpu = parseFloat(sizeOfTke(data.spec.hard['limits.tencent.com/vcuda-core']));
           item.AllocatedTkeGpu = parseFloat(
-            (data.status.allocated && data.status.allocated['tencent.com/vcuda-core']) || 0,
+            sizeOfTke((data.status.allocated && data.status.allocated['limits.tencent.com/vcuda-core']) || 0),
           );
           item.TkeGpuPercentage = item.TkeGpu > 0 ? ((item.AllocatedTkeGpu / item.TkeGpu) * 100).toFixed(1) : 0;
 
-          item.TkeMemory = parseFloat(data.spec.hard['tencent.com/vcuda-memory']);
+          item.TkeMemory = parseFloat(sizeOfTke(data.spec.hard['limits.tencent.com/vcuda-memory']));
           item.AllocatedTkeMemory = parseFloat(
-            (data.status.allocated && data.status.allocated['tencent.com/vcuda-memory']) || 0,
+            sizeOfTke((data.status.allocated && data.status.allocated['limits.tencent.com/vcuda-memory']) || 0),
           );
           item.TkeMemoryPercentage =
             item.TkeMemory > 0 ? ((item.AllocatedTkeMemory / item.TkeMemory) * 100).toFixed(1) : 0;
@@ -278,7 +280,7 @@
     }
 
     &__icon {
-      margin-top: 10px;
+      margin-top: 15px;
     }
   }
 </style>

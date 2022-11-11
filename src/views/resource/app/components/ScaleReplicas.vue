@@ -67,18 +67,21 @@
       messages: messages,
     },
     mixins: [BaseResource],
-    data: () => ({
-      dialog: false,
-      valid: false,
-      item: null,
-      obj: {
+    data() {
+      return {
+        dialog: false,
+        valid: false,
+        item: null,
+        obj: {
+          replicas: 0,
+        },
         replicas: 0,
-      },
-      replicas: 0,
-      objRules: {
-        replicasRules: [(v) => parseInt(v) >= 0 || this.$t('form.limit_min_rule')],
-      },
-    }),
+        objRules: {
+          replicasRules: [(v) => parseInt(v) >= 0 || this.$t('form.limit_min_rule')],
+        },
+        kind: 'app',
+      };
+    },
     computed: {
       ...mapState(['Circular']),
       ...mapGetters(['Tenant', 'Project', 'Environment']),
@@ -86,8 +89,10 @@
     methods: {
       init(kind) {
         if (kind === 'modelstore') {
+          this.kind = 'modelstore';
           this.modelRuntimeDetail();
         } else {
+          this.kind = 'app';
           this.appRunningReplicas();
         }
       },
@@ -117,7 +122,7 @@
       },
       async scaleAppReplicas() {
         if (this.$refs.form.validate(true)) {
-          if (this.item.kind === 'ModelDeployment') {
+          if (this.kind === 'modelstore') {
             const data = deepCopy(this.item);
             data.spec.replicas = this.obj.replicas;
             await putModelRuntime(

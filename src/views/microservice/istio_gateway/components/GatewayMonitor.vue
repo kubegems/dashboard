@@ -115,20 +115,22 @@
         default: () => null,
       },
     },
-    data: () => ({
-      qpsMetrics: [],
-      downstream80QpsMetrics: [],
-      downstream443QpsMetrics: [],
-      responseDurationMetrics: [],
-      downstream80ResponseDurationMetrics: [],
-      downstream443ResponseDurationMetrics: [],
-      timeinterval: null,
-      date: [],
-      params: {
-        start: '',
-        end: '',
-      },
-    }),
+    data() {
+      return {
+        qpsMetrics: [],
+        downstream80QpsMetrics: [],
+        downstream443QpsMetrics: [],
+        responseDurationMetrics: [],
+        downstream80ResponseDurationMetrics: [],
+        downstream443ResponseDurationMetrics: [],
+        timeinterval: null,
+        date: [],
+        params: {
+          start: '',
+          end: '',
+        },
+      };
+    },
     computed: {
       ...mapState(['Scale']),
     },

@@ -16,7 +16,6 @@
 
 <template>
   <BaseBarChart
-    id="config_alert_bar"
     :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
     :color="['#ff5252', '#673ab7']"
     :height="`${extendHeight}px`"
@@ -34,20 +33,18 @@
         type: Number,
         default: () => 250,
       },
-      label: {
-        type: String,
-        default: () => null,
-      },
       metrics: {
         type: Array,
         default: () => [],
       },
     },
-    data: () => ({
-      series: [],
-      timeinterval: null,
-      height: 250,
-    }),
+    data() {
+      return {
+        series: [],
+        timeinterval: null,
+        height: 250,
+      };
+    },
     computed: {
       ...mapState(['Scale']),
     },
@@ -70,28 +67,14 @@
     },
     methods: {
       async loadData() {
-        let series = [];
-        series = series.concat(
-          this.metrics.map((metricAndValues) => {
-            return {
-              lable:
-                metricAndValues.metric && JSON.stringify(metricAndValues.metric) !== '{}'
-                  ? this.label
-                    ? metricAndValues.metric[this.label]
-                    : Object.values(metricAndValues.metric)[0]
-                  : this.$route.params.name,
-              data: metricAndValues.values.map((v) => {
-                return { x: this.$moment(new Date(v[0])).format('LTS'), y: v[1] };
-              }),
-            };
-          }),
-        );
-        const timeout = setTimeout(() => {
-          if (this.$refs.vueApexCharts) {
-            this.$refs.vueApexCharts.updateSeries(series, false, true);
-          }
-          clearTimeout(timeout);
-        }, 200);
+        this.series = this.metrics.map((metricAndValues) => {
+          return {
+            label: metricAndValues.metric.name,
+            data: metricAndValues.values.map((v) => {
+              return { x: this.$moment(new Date(v[0])).format('LTS'), y: v[1] };
+            }),
+          };
+        });
       },
     },
   };

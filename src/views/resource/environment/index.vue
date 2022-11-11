@@ -192,15 +192,17 @@
     },
     mixins: [BaseFilter, BasePermission, BaseResource, BaseSelect, BaseTable],
     inject: ['reload'],
-    data: () => ({
-      items: [],
-      itemsCopy: [],
-      tenant: -1,
-      params: {},
-      page: 1,
-      pageCount: 0,
-      itemsPerPage: 10,
-    }),
+    data() {
+      return {
+        items: [],
+        itemsCopy: [],
+        tenant: -1,
+        params: {},
+        page: 1,
+        pageCount: 0,
+        itemsPerPage: 10,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Admin', 'AdminViewport']),
       ...mapGetters(['Project', 'Tenant', 'Cluster']),
@@ -232,7 +234,7 @@
             width: 150,
           },
         ];
-        if (this.m_permisson_projectAllow) {
+        if (this.m_permisson_projectAllow()) {
           items.push({ text: '', value: 'action', align: 'center', width: 20 });
         }
         return items;
@@ -260,7 +262,7 @@
     },
     methods: {
       customFilter() {
-        if (this.$route.query.search && this.$route.query.search.length > 0) {
+        if (this.$route.query.search) {
           this.items = this.itemsCopy.filter((item) => {
             return (
               item.EnvironmentName &&
@@ -287,8 +289,8 @@
             e.Memory = e.quota.status.hard['limits.memory']
               ? parseFloat(sizeOfStorage(e.quota.status.hard['limits.memory']))
               : 0;
-            e.Storage = e.quota.status.hard['requests.storage']
-              ? parseFloat(sizeOfStorage(e.quota.status.hard['requests.storage']))
+            e.Storage = e.quota.status.hard['limits.storage']
+              ? parseFloat(sizeOfStorage(e.quota.status.hard['limits.storage']))
               : 0;
           } else {
             e.Cpu = 0;
@@ -302,8 +304,8 @@
             e.UsedMemory = e.quota.status.used['limits.memory']
               ? parseFloat(sizeOfStorage(e.quota.status.used['limits.memory']))
               : 0;
-            e.UsedStorage = e.quota.status.used['requests.storage']
-              ? parseFloat(sizeOfStorage(e.quota.status.used['requests.storage']))
+            e.UsedStorage = e.quota.status.used['limits.storage']
+              ? parseFloat(sizeOfStorage(e.quota.status.used['limits.storage']))
               : 0;
           } else {
             e.UsedCpu = 0;

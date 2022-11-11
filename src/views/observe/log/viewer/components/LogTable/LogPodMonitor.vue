@@ -43,27 +43,19 @@
       <v-card :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')} mt-4`" flat>
         <v-card-text class="py-0" :style="{ height: `${height}px`, overflowY: 'auto' }">
           <BaseAreaChart
-            id="cpu"
             label="container"
             :metrics="cpu"
             :title="$t('tip.used', [$root.$t('resource.cpu')])"
             type="cpu"
           />
           <BaseAreaChart
-            id="memory"
             label="container"
             :metrics="memory"
             :title="$t('tip.used', [$root.$t('resource.memory')])"
             type="memory"
           />
-          <BaseAreaChart id="networkin" label="pod" :metrics="networkin" :title="$t('tip.in_traffic')" type="network" />
-          <BaseAreaChart
-            id="networkout"
-            label="pod"
-            :metrics="networkout"
-            :title="$t('tip.out_traffic')"
-            type="network"
-          />
+          <BaseAreaChart label="pod" :metrics="networkin" :title="$t('tip.in_traffic')" type="network" />
+          <BaseAreaChart label="pod" :metrics="networkout" :title="$t('tip.out_traffic')" type="network" />
         </v-card-text>
       </v-card>
     </template>
@@ -90,25 +82,27 @@
       messages: messages,
     },
     mixins: [BasePermission, BaseResource],
-    data: () => ({
-      panel: false,
-      cpu: [],
-      memory: [],
-      networkin: [],
-      networkout: [],
-      date: [],
-      params: {
-        start: '',
-        end: '',
-      },
-      timeinterval: null,
-      promqlParams: {
-        cluster: '',
-        namespace: '',
-        pod: '',
-        timestamp: '',
-      },
-    }),
+    data() {
+      return {
+        panel: false,
+        cpu: [],
+        memory: [],
+        networkin: [],
+        networkout: [],
+        date: [],
+        params: {
+          start: '',
+          end: '',
+        },
+        timeinterval: null,
+        promqlParams: {
+          cluster: '',
+          namespace: '',
+          pod: '',
+          timestamp: '',
+        },
+      };
+    },
     computed: {
       ...mapState(['Scale']),
       height() {

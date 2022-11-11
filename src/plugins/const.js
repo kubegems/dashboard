@@ -155,6 +155,7 @@ const CONTAINER_STATUS_COLOR = {
   Waiting: '#fb8c00',
   Terminated: '#607D8B',
   Failed: '#ff5252',
+  Unknown: '#9E9E9E',
 };
 const NODE_STATUS_COLOR = {
   Ready: '#00BCD4',

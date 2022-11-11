@@ -18,6 +18,7 @@
   <BaseDialog
     v-model="dialog"
     icon="mdi-wrench"
+    min-height="500px"
     :title="$root.$t('operate.add_c', [$root.$t('resource.configmap')])"
     :width="1000"
     @reset="reset"
@@ -55,20 +56,22 @@
   import { postAddConfigMap } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { randomString } from '@/utils/helpers';
-  import ConfigmapSchema from '@/views/resource/configmap/mixins/schema';
+  import ConfigmapSchema from '@/utils/schema/configmap';
 
   export default {
     name: 'AddConfigMap',
     components: {
       ConfigMapBaseForm,
     },
-    mixins: [BaseResource, ConfigmapSchema],
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      formComponent: 'ConfigMapBaseForm',
-      switchKey: '',
-    }),
+    mixins: [BaseResource],
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        formComponent: 'ConfigMapBaseForm',
+        switchKey: '',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'AdminViewport']),
     },
@@ -92,7 +95,7 @@
           if (this.formComponent === 'BaseYamlForm') {
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
-            if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+            if (!this.m_resource_validateJsonSchema(ConfigmapSchema, data)) {
               return;
             }
           } else if (this.formComponent === 'ConfigMapBaseForm') {
@@ -122,7 +125,7 @@
           const yaml = this.$refs[this.formComponent].getYaml();
           const data = this.$yamlload(yaml);
           this.m_resource_addNsToData(data, this.AdminViewport ? data?.metadata?.namespace : this.ThisNamespace);
-          if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+          if (!this.m_resource_validateJsonSchema(ConfigmapSchema, data)) {
             this.yaml = true;
             this.switchKey = randomString(6);
             return;

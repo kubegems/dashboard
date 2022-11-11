@@ -26,7 +26,6 @@
       lang="yaml"
       :options="Object.assign($aceOptions, { readOnly: true, wrap: false })"
       theme="chrome"
-      @init="$aceinit"
       @keydown.stop
     />
   </v-flex>
@@ -50,10 +49,12 @@
         default: () => null,
       },
     },
-    data: () => ({
-      log: '',
-      logWebsocket: null,
-    }),
+    data() {
+      return {
+        log: '',
+        logWebsocket: null,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Scale']),
       height() {

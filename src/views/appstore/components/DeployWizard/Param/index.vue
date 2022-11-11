@@ -111,7 +111,7 @@
   import SingleSelectParam from './SingleSelectParam';
   import TextAreaParam from './TextAreaParam';
   import TextFieldParam from './TextFieldParam';
-  import { YamlMixin } from '@/views/appstore/mixins/yaml';
+  import BaseYaml from '@/mixins/yaml';
 
   export default {
     name: 'Param',
@@ -124,7 +124,7 @@
       TextAreaParam,
       TextFieldParam,
     },
-    mixins: [YamlMixin],
+    mixins: [BaseYaml],
     props: {
       allParams: {
         type: Array,

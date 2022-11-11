@@ -80,18 +80,20 @@
       messages: messages,
     },
     mixins: [BasePermission, BaseResource],
-    data: () => ({
-      panel: false,
-      cpu: [],
-      memory: [],
-      date: [],
-      params: {
-        start: '',
-        end: '',
-      },
-      item: null,
-      timeinterval: null,
-    }),
+    data() {
+      return {
+        panel: false,
+        cpu: [],
+        memory: [],
+        date: [],
+        params: {
+          start: '',
+          end: '',
+        },
+        item: null,
+        timeinterval: null,
+      };
+    },
     computed: {
       ...mapState(['Scale']),
     },

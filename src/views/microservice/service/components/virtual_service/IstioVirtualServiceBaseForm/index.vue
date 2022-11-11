@@ -164,31 +164,33 @@
         default: () => null,
       },
     },
-    data: () => ({
-      valid: false,
-      expand: false,
-      gateways: [],
-      obj: {
-        apiVersion: 'networking.istio.io/v1beta1',
-        kind: 'VirtualService',
-        metadata: {
-          name: '',
-          namespace: null,
+    data() {
+      return {
+        valid: false,
+        expand: false,
+        gateways: [],
+        obj: {
+          apiVersion: 'networking.istio.io/v1beta1',
+          kind: 'VirtualService',
+          metadata: {
+            name: '',
+            namespace: null,
+          },
+          spec: {
+            hosts: [],
+            gateways: [],
+            exportTo: [],
+            http: [],
+            tls: [],
+            tcp: [],
+          },
         },
-        spec: {
-          hosts: [],
-          gateways: [],
-          exportTo: [],
-          http: [],
-          tls: [],
-          tcp: [],
-        },
-      },
-      exportTo: [],
-      exportToText: '',
-      hosts: [],
-      hostText: '',
-    }),
+        exportTo: [],
+        exportToText: '',
+        hosts: [],
+        hostText: '',
+      };
+    },
     computed: {
       ...mapState(['EnvironmentFilter', 'ApiResources']),
       objRules() {

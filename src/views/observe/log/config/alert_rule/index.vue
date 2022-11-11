@@ -232,32 +232,34 @@
         default: () => false,
       },
     },
-    data: () => ({
-      items: [],
-      itemsCopy: [],
-      page: 1,
-      pageCount: 0,
-      itemsPerPage: 10,
-      params: {
-        state: '',
-        isAdmin: false,
-      },
-      amenities: [],
-      alertStatus: { inactive: 0, firing: 0, pending: 0 },
-      alertStateFilter: [],
-      alertStateArr: [{ inactive: 'success' }, { pending: 'warning' }, { firing: 'error' }],
-      cluster: undefined,
-      namespace: undefined,
-    }),
+    data() {
+      return {
+        items: [],
+        itemsCopy: [],
+        page: 1,
+        pageCount: 0,
+        itemsPerPage: 10,
+        params: {
+          state: '',
+          isAdmin: false,
+        },
+        amenities: [],
+        alertStatus: { inactive: 0, firing: 0, pending: 0 },
+        alertStateFilter: [],
+        alertStateArr: [{ inactive: 'success' }, { pending: 'warning' }, { firing: 'error' }],
+        cluster: undefined,
+        namespace: undefined,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'AdminViewport', 'Scale']),
       ...mapGetters(['Environment']),
       headers() {
         const items = [
           { text: this.$t('table.name'), value: 'name', align: 'start' },
-          { text: this.$t('table.expr'), value: 'expr', align: 'start', width: 300 },
+          { text: this.$t('table.expr'), value: 'expr', align: 'start' },
           { text: this.$t('table.for'), value: 'for', align: 'start' },
-          { text: this.$root.$t('resource.receiver'), value: 'receivers', align: 'start', width: 150 },
+          { text: this.$root.$t('resource.receiver'), value: 'receivers', align: 'start' },
           { text: this.$t('table.status'), value: 'open', align: 'start', width: 80 },
         ];
         if (this.m_permisson_resourceAllow(this.$route.query.env)) {
@@ -290,7 +292,7 @@
     },
     methods: {
       customFilter() {
-        if (this.$route.query.search && this.$route.query.search.length > 0) {
+        if (this.$route.query.search) {
           this.items = this.itemsCopy.filter((item) => {
             return (
               item.name && item.name.toLocaleLowerCase().indexOf(this.$route.query.search.toLocaleLowerCase()) > -1
@@ -332,7 +334,7 @@
               namespace: item.namespace,
             },
             name: item.name,
-            receiversStr: (item.receivers || []).map((receiver) => receiver.name).join(', '),
+            receiversStr: (item.receivers || []).map((receiver) => receiver.alertChannel.name).join(', '),
             ...item,
           };
         });

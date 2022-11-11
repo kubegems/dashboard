@@ -21,18 +21,18 @@
       <template #extend>
         <v-flex v-if="service && service.istioSidecar && pass" class="kubegems__full-right">
           <v-btn
-            v-if="m_permisson_virtualSpaceAllow"
+            v-if="m_permisson_virtualSpaceAllow()"
             class="primary--text"
             :disabled="!(mode === 'request_routing' || mode === null)"
             small
             text
             @click="initReuqestRouting"
           >
-            <v-icon left small> mdi-code-json-branch </v-icon>
+            <v-icon left small> mdi-source-branch </v-icon>
             {{ $t('operate.request_route') }}
           </v-btn>
           <v-btn
-            v-if="m_permisson_virtualSpaceAllow"
+            v-if="m_permisson_virtualSpaceAllow()"
             class="primary--text"
             :disabled="!(mode === 'fault_injection' || mode === null)"
             small
@@ -43,7 +43,7 @@
             {{ $t('operate.fault_injection') }}
           </v-btn>
           <v-btn
-            v-if="m_permisson_virtualSpaceAllow"
+            v-if="m_permisson_virtualSpaceAllow()"
             class="primary--text"
             :disabled="!(mode === 'traffic_shifting' || mode === null)"
             small
@@ -54,7 +54,7 @@
             {{ $t('operate.traffic_shift') }}
           </v-btn>
           <v-btn
-            v-if="m_permisson_virtualSpaceAllow"
+            v-if="m_permisson_virtualSpaceAllow()"
             class="primary--text"
             :disabled="!(mode === 'tcp_traffic_shifting' || mode === null)"
             small
@@ -65,7 +65,7 @@
             {{ $t('operate.tcp_traffic_shift') }}
           </v-btn>
           <v-btn
-            v-if="m_permisson_virtualSpaceAllow"
+            v-if="m_permisson_virtualSpaceAllow()"
             class="primary--text"
             :disabled="!(mode === 'request_timeouts' || mode === null)"
             small
@@ -75,7 +75,7 @@
             <v-icon left small> mdi-clock </v-icon>
             {{ $t('operate.request_timeout') }}
           </v-btn>
-          <v-menu v-if="m_permisson_virtualSpaceAllow" left>
+          <v-menu v-if="m_permisson_virtualSpaceAllow()" left>
             <template #activator="{ on }">
               <v-btn icon>
                 <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
@@ -162,13 +162,15 @@
       VSControlInfo,
     },
     mixins: [BasePermission, BaseResource],
-    data: () => ({
-      tab: 0,
-      service: null,
-      vs: null,
-      mode: null,
-      pass: false,
-    }),
+    data() {
+      return {
+        tab: 0,
+        service: null,
+        vs: null,
+        mode: null,
+        pass: { pass: false, time: '' },
+      };
+    },
     computed: {
       ...mapState(['JWT']),
       ...mapGetters(['VirtualSpace']),
@@ -205,6 +207,7 @@
     },
     methods: {
       async microServiceDetail() {
+        if (!this.VirtualSpace().ID) return;
         const data = await getMicroServiceDetail(
           this.VirtualSpace().ID,
           this.$route.query.environmentid,

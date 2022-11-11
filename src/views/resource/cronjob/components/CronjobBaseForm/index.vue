@@ -52,10 +52,12 @@
         default: () => 0,
       },
     },
-    data: () => ({
-      valid: false,
-      steps: ['CronJobBaseInfo', 'ContaninerImage', 'StorageMount', 'ScheduleSelector'],
-    }),
+    data() {
+      return {
+        valid: false,
+        steps: ['CronJobBaseInfo', 'ContaninerImage', 'StorageMount', 'ScheduleSelector'],
+      };
+    },
     computed: {
       obj() {
         return this.$refs[this.steps[this.step]].getData();

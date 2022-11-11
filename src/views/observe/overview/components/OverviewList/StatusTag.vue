@@ -26,6 +26,7 @@
           :style="{ fontFamily: 'kubegems-sample' }"
           x-small
           v-on="on"
+          @click="toPage(item)"
         >
           {{ item.name }}
         </v-btn>
@@ -48,6 +49,10 @@
       messages: messages,
     },
     props: {
+      item: {
+        type: Object,
+        default: () => null,
+      },
       l: {
         type: Boolean,
         default: false,
@@ -91,6 +96,37 @@
     methods: {
       setColor(status) {
         return status ? 'primary' : '';
+      },
+      toPage(item) {
+        if (item.key === 'm' && item.status) {
+          this.$router.push({
+            name: 'observe-monitor-config',
+            params: this.$route.params,
+            query: {
+              proj: this.item.projectName,
+              env: this.item.environmentName,
+              projid: this.item.projectID,
+              envid: this.item.environmentID,
+              cluster: this.item.clusterName,
+              namespace: this.item.namespace,
+              refresh: 1,
+            },
+          });
+        } else if (item.key === 'l' && item.status) {
+          this.$router.push({
+            name: 'log-config',
+            params: this.$route.params,
+            query: {
+              proj: this.item.projectName,
+              env: this.item.environmentName,
+              projid: this.item.projectID,
+              envid: this.item.environmentID,
+              cluster: this.item.clusterName,
+              namespace: this.item.namespace,
+              refresh: 1,
+            },
+          });
+        }
       },
     },
   };

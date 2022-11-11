@@ -52,7 +52,7 @@
             ? pod.spec.containers.concat(
                 pod.spec.initContainers
                   ? pod.spec.initContainers.map((i) => {
-                      return { ...i, showName: `${i.name} (init)` };
+                      return { ...i, showName: `${i.name}`, init: true };
                     })
                   : [],
               )

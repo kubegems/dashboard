@@ -51,9 +51,11 @@
         default: () => null,
       },
     },
-    data: () => ({
-      dialog: false,
-    }),
+    data() {
+      return {
+        dialog: false,
+      };
+    },
     computed: {
       ...mapState(['Scale']),
       height() {

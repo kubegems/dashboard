@@ -32,7 +32,6 @@
   import AlertRule from './alert_rule';
   import Flow from './flow';
   import Output from './output';
-  import Receiver from './receiver';
   import ProjectEnvironmentLayout from '@/views/observe/components/ProjectEnvironmentLayout';
 
   export default {
@@ -45,14 +44,12 @@
       Flow,
       Output,
       ProjectEnvironmentLayout,
-      Receiver,
     },
     data() {
       this.tabMap = {
         flow: 0,
         output: 1,
         alert: 2,
-        receiver: 3,
       };
 
       return {
@@ -83,12 +80,6 @@
             text: this.$t('tab.log_alert_rule'),
             component: 'AlertRule',
             tab: 'alert',
-          },
-          {
-            icon: 'mdi-call-received',
-            text: this.$t('tab.log_receiver'),
-            component: 'Receiver',
-            tab: 'receiver',
           },
         ];
       },

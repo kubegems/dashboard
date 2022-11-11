@@ -30,7 +30,7 @@
           {{ item.name }}
         </v-flex>
         <v-flex v-if="item.istioSidecar" class="float-left ml-2">
-          <v-menu :attach="`#r${index}`" :close-delay="200" open-on-hover top>
+          <v-menu :close-delay="200" nudge-bottom="3px" nudge-right="20px" open-on-hover top>
             <template #activator="{ on }">
               <span v-on="on">
                 <img class="workload__inject" src="/icon/istio.svg" width="18px" />

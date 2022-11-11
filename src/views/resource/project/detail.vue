@@ -27,11 +27,11 @@
                 : $root.$t('data.unknown')
             }}
           </span>
-          <v-btn v-if="m_permisson_projectAllow" class="primary--text" small text @click="addEnvironment">
+          <v-btn v-if="m_permisson_projectAllow()" class="primary--text" small text @click="addEnvironment">
             <v-icon left small> mdi-plus-box </v-icon>
             {{ $root.$t('operate.create_c', [$root.$t('resource.environment')]) }}
           </v-btn>
-          <v-btn v-if="m_permisson_projectAllow" class="primary--text" small text @click="manageUser">
+          <v-btn v-if="m_permisson_projectAllow()" class="primary--text" small text @click="manageUser">
             <v-icon left small> mdi-account-settings </v-icon>
             {{ $root.$t('resource.project_c', [$root.$t('resource.member')]) }}
           </v-btn>
@@ -39,7 +39,7 @@
             <v-icon left small> mdi-format-list-text </v-icon>
             {{ $t('tip.resource_list') }}
           </v-btn>
-          <v-menu v-if="m_permisson_tenantAllow" left>
+          <v-menu v-if="m_permisson_tenantAllow()" left>
             <template #activator="{ on }">
               <v-btn icon>
                 <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
@@ -104,13 +104,15 @@
       UpdateProject,
     },
     mixins: [BasePermission, BaseResource, BaseSelect],
-    data: () => ({
-      resources: [],
-      quota: {},
-      basic: {},
-      project: null,
-      ready: false,
-    }),
+    data() {
+      return {
+        resources: [],
+        quota: {},
+        basic: {},
+        project: null,
+        ready: false,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'AdminViewport']),
       ...mapGetters(['Project']),

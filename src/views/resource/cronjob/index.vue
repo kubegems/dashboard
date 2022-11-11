@@ -27,7 +27,7 @@
         />
         <NamespaceFilter />
         <v-spacer />
-        <v-menu v-if="m_permisson_resourceAllow" left>
+        <v-menu v-if="m_permisson_resourceAllow()" left>
           <template #activator="{ on }">
             <v-btn icon>
               <v-icon color="primary" v-on="on"> mdi-dots-vertical </v-icon>
@@ -102,10 +102,21 @@
             Suspend
           </span>
         </template>
-        <template #[`item.lastAt`]="{ item }">
-          {{
-            item.status.lastScheduleTime ? $moment(item.status.lastScheduleTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() : ''
-          }}
+        <template #[`item.lastAt`]="{ item, index }">
+          <RealDatetimeTip
+            :datetime="item.status.lastScheduleTime"
+            :top="params.size - index <= 5 || (items.length <= 5 && index >= 1)"
+          >
+            <template #trigger>
+              <span>
+                {{
+                  item.status.lastScheduleTime
+                    ? $moment(item.status.lastScheduleTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
+                    : ''
+                }}
+              </span>
+            </template>
+          </RealDatetimeTip>
         </template>
         <template #[`item.action`]="{ item }">
           <v-flex :id="`r${item.metadata.resourceVersion}`" />
@@ -160,6 +171,7 @@
   import BaseResource from '@/mixins/resource';
   import BaseTable from '@/mixins/table';
   import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
+  import RealDatetimeTip from '@/views/resource/components/common/RealDatetimeTip';
 
   export default {
     name: 'CronJob',
@@ -169,17 +181,20 @@
     components: {
       AddCronJob,
       NamespaceFilter,
+      RealDatetimeTip,
       UpdateCronJob,
     },
     mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],
-    data: () => ({
-      items: [],
-      pageCount: 0,
-      params: {
-        page: 1,
-        size: 10,
-      },
-    }),
+    data() {
+      return {
+        items: [],
+        pageCount: 0,
+        params: {
+          page: 1,
+          size: 10,
+        },
+      };
+    },
     computed: {
       ...mapState(['JWT', 'AdminViewport', 'MessageStreamWS']),
       ...mapGetters(['Environment']),
@@ -195,7 +210,7 @@
             sortable: false,
           },
         ];
-        if (this.m_permisson_resourceAllow) {
+        if (this.m_permisson_resourceAllow()) {
           items.push({
             text: '',
             value: 'action',

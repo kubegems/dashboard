@@ -39,16 +39,18 @@
   import { getIstioSidecarDetail, patchUpdateIstioSidecar } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
-  import IstioSidecarSchema from '@/views/microservice/istio/sidecar/mixins/schema';
+  import IstioSidecarSchema from '@/utils/schema/sidecar';
 
   export default {
     name: 'UpdateSidecar',
-    mixins: [BaseResource, IstioSidecarSchema],
-    data: () => ({
-      dialog: false,
-      item: null,
-      formComponent: 'BaseYamlForm',
-    }),
+    mixins: [BaseResource],
+    data() {
+      return {
+        dialog: false,
+        item: null,
+        formComponent: 'BaseYamlForm',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'EnvironmentFilter']),
     },
@@ -62,6 +64,9 @@
           if (this.formComponent === 'BaseYamlForm') {
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
+            if (!this.m_resource_validateJsonSchema(IstioSidecarSchema, data)) {
+              return;
+            }
             if (!this.m_resource_checkDataWithOutNS(data)) return;
             data = this.m_resource_beautifyData(data);
           }

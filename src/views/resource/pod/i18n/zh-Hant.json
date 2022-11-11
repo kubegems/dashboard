@@ -28,7 +28,13 @@
     "volume": "卷",
     "env": "環境變數",
     "condition": "狀況",
-    "last_change_at": "上次改變時間"
+    "last_change_at": "上次改變時間",
+    "last_state": "最新狀況",
+    "exit_code": "退出碼",
+    "reason": "退出原因",
+    "started_at": "上次啟動時間",
+    "finished_at": "上次退出時間",
+    "last_start_at": "最近啟動時間"
   },
   "operate": {
     "terminal": "終端",

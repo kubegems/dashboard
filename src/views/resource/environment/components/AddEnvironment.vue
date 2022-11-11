@@ -59,12 +59,14 @@
       EnvironmentBaseForm,
     },
     mixins: [BaseSelect],
-    data: () => ({
-      dialog: false,
-      formComponent: 'EnvironmentBaseForm',
-      projectid: 0,
-      step: 0,
-    }),
+    data() {
+      return {
+        dialog: false,
+        formComponent: 'EnvironmentBaseForm',
+        projectid: 0,
+        step: 0,
+      };
+    },
     computed: {
       ...mapState(['Circular', 'User', 'AdminViewport']),
       ...mapGetters(['Project']),

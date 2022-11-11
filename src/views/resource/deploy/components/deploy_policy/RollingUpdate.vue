@@ -15,20 +15,20 @@
 -->
 
 <template>
-  <BaseDialog v-model="dialog" icon="mdi-send" title="滚动更新部署" :width="1000" @reset="reset">
+  <BaseDialog v-model="dialog" icon="mdi-send" :title="$t('tip.rolling_update')" :width="1000" @reset="reset">
     <template #content>
       <v-flex>
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
           <BaseDeployInfoForm ref="baseDeployInfoForm" :runtime="runtime" />
 
-          <BaseSubTitle title="滚动更新策略" />
+          <BaseSubTitle :title="$t('tip.rolling_update_policy')" />
           <v-card-text class="pa-2">
             <v-row>
               <v-col cols="6">
                 <v-text-field
                   v-model="obj.strategy.rolling.maxUnavailable"
                   class="my-0"
-                  label="容器组最大不可用数量"
+                  :label="$t('tip.max_unavailable')"
                   required
                   :rules="rollingUpdateRules.maxUnavailableRules"
                 />
@@ -37,7 +37,7 @@
                 <v-text-field
                   v-model="obj.strategy.rolling.maxSurge"
                   class="my-0"
-                  label="容器组最大超出数量"
+                  :label="$t('tip.max_surge')"
                   required
                   :rules="rollingUpdateRules.maxSurgeRules"
                 />
@@ -49,7 +49,7 @@
     </template>
     <template #action>
       <v-btn class="float-right" color="primary" :loading="Circular" text @click="strategyDeployEnvironmentApps">
-        确定
+        {{ $root.$t('operate.confirm') }}
       </v-btn>
     </template>
   </BaseDialog>
@@ -58,6 +58,7 @@
 <script>
   import { mapState } from 'vuex';
 
+  import messages from '../../i18n';
   import BaseDeployInfoForm from './base/BaseDeployInfoForm';
   import { postStrategyDeployEnvironmentApps } from '@/api';
   import { deepCopy } from '@/utils/helpers';
@@ -66,6 +67,9 @@
 
   export default {
     name: 'RollingUpdate',
+    i18n: {
+      messages: messages,
+    },
     components: {
       BaseDeployInfoForm,
     },

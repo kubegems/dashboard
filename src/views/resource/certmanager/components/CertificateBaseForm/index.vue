@@ -111,7 +111,13 @@
         </v-row>
       </v-card-text>
       <BaseSubTitle :title="$t('form.domain')" />
-      <DnsNameForm ref="dnsNameForm" @addData="addData" @closeOverlay="closeExpand" @updateData="updateData" />
+      <DnsNameForm
+        ref="dnsNameForm"
+        class="kubegems__forminform"
+        @addData="addData"
+        @closeOverlay="closeExpand"
+        @updateData="updateData"
+      />
       <DnsNameItem
         :items="obj.spec.dnsNames"
         @expandCard="expandCard"
@@ -153,63 +159,65 @@
         default: () => null,
       },
     },
-    data: () => ({
-      valid: false,
-      expand: false,
-      obj: {
-        apiVersion: 'cert-manager.io/v1',
-        kind: 'Certificate',
-        metadata: {
-          name: '',
-          namespace: null,
-        },
-        spec: {
-          duration: '8760h0m0s',
-          renewBefore: '360h0m0s',
-          secretName: '',
-          dnsNames: [],
-          usages: [],
-          issuerRef: {
-            kind: 'Issuer',
+    data() {
+      return {
+        valid: false,
+        expand: false,
+        obj: {
+          apiVersion: 'cert-manager.io/v1',
+          kind: 'Certificate',
+          metadata: {
             name: '',
+            namespace: null,
+          },
+          spec: {
+            duration: '8760h0m0s',
+            renewBefore: '360h0m0s',
+            secretName: '',
+            dnsNames: [],
+            usages: [],
+            issuerRef: {
+              kind: 'Issuer',
+              name: '',
+            },
           },
         },
-      },
-      renew: true,
-      durationItems: [
-        { text: '3个月', value: '2160h0m0s' },
-        { text: '6个月', value: '4320h0m0s' },
-        { text: '1年', value: '8760h0m0s' },
-        { text: '2年', value: '17520h0m0s' },
-        { text: '5年', value: '43800h0m0s' },
-        { text: '10年', value: '87600h0m0s' },
-      ],
-      keyUsage: [
-        { text: 'signing', value: 'signing' },
-        { text: 'digital signature', value: 'digital signature' },
-        { text: 'server auth', value: 'server auth' },
-        { text: 'client auth', value: 'client auth' },
-        { text: 'content commitment', value: 'content commitment' },
-        { text: 'key encipherment', value: 'key encipherment' },
-        { text: 'key agreement', value: 'key agreement' },
-        { text: 'data encipherment', value: 'data encipherment' },
-        { text: 'cert sign', value: 'cert sign' },
-        { text: 'crl sign', value: 'crl sign' },
-        { text: 'encipher only', value: 'encipher only' },
-        { text: 'decipher only', value: 'decipher only' },
-        { text: 'any', value: 'any' },
-        { text: 'code signing', value: 'code signing' },
-        { text: 'email protection', value: 'email protection' },
-        { text: 's/mime', value: 's/mime' },
-        { text: 'ipsec end system', value: 'ipsec end system' },
-        { text: 'ipsec tunnel', value: 'ipsec tunnel' },
-        { text: 'ipsec user', value: 'ipsec user' },
-        { text: 'timestamping', value: 'timestamping' },
-        { text: 'ocsp signing', value: 'ocsp signing' },
-        { text: 'microsoft sgc', value: 'microsoft sgc' },
-        { text: 'netscape sgc', value: 'netscape sgc' },
-      ],
-    }),
+        renew: true,
+        durationItems: [
+          { text: '3个月', value: '2160h0m0s' },
+          { text: '6个月', value: '4320h0m0s' },
+          { text: '1年', value: '8760h0m0s' },
+          { text: '2年', value: '17520h0m0s' },
+          { text: '5年', value: '43800h0m0s' },
+          { text: '10年', value: '87600h0m0s' },
+        ],
+        keyUsage: [
+          { text: 'signing', value: 'signing' },
+          { text: 'digital signature', value: 'digital signature' },
+          { text: 'server auth', value: 'server auth' },
+          { text: 'client auth', value: 'client auth' },
+          { text: 'content commitment', value: 'content commitment' },
+          { text: 'key encipherment', value: 'key encipherment' },
+          { text: 'key agreement', value: 'key agreement' },
+          { text: 'data encipherment', value: 'data encipherment' },
+          { text: 'cert sign', value: 'cert sign' },
+          { text: 'crl sign', value: 'crl sign' },
+          { text: 'encipher only', value: 'encipher only' },
+          { text: 'decipher only', value: 'decipher only' },
+          { text: 'any', value: 'any' },
+          { text: 'code signing', value: 'code signing' },
+          { text: 'email protection', value: 'email protection' },
+          { text: 's/mime', value: 's/mime' },
+          { text: 'ipsec end system', value: 'ipsec end system' },
+          { text: 'ipsec tunnel', value: 'ipsec tunnel' },
+          { text: 'ipsec user', value: 'ipsec user' },
+          { text: 'timestamping', value: 'timestamping' },
+          { text: 'ocsp signing', value: 'ocsp signing' },
+          { text: 'microsoft sgc', value: 'microsoft sgc' },
+          { text: 'netscape sgc', value: 'netscape sgc' },
+        ],
+      };
+    },
     computed: {
       ...mapState(['Admin', 'AdminViewport', 'ApiResources']),
       ...mapGetters(['Cluster']),

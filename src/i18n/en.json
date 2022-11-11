@@ -74,7 +74,9 @@
       "ops": "Ops",
       "admin": "Admin",
       "sys": "System Admin",
-      "tenantadmin": "Tenant Admin"
+      "tenantadmin": "Tenant Admin",
+      "projectadmin": "Project Admin",
+      "projectops": "Project Ops"
     },
     "environment": {
       "operator": "Operator",
@@ -232,7 +234,9 @@
     "sync_c": "Sync {0}",
     "save": "Save",
     "detail": "Detail",
-    "reset": "Reset"
+    "reset": "Reset",
+    "upload": "File Upload",
+    "download": "Download"
   },
   "form": {
     "definition": "{0} Definition",
@@ -249,7 +253,7 @@
   },
   "sidebar": {
     "cluster": "Cluster",
-    "runtime": "Runtime",
+    "runtime": "Kubernetes",
     "microservice": "Mesh",
     "observability": "Observability",
     "administration": "Management"
@@ -347,6 +351,7 @@
       "output": "Flow",
       "flow": "Output",
       "monitor_app": "App Performance",
+      "channel": "Alert Channel",
 
       "g_dashboard": "Dashboard",
       "g_integrated": "Integrated",
@@ -464,7 +469,8 @@
     "prometheus_rule": "PrometheusRule are usually Prometheus alert rules set for monitoring indicators.",
     "flow": "Flow/ClusterFlow defines a log flow with filters and outputs.",
     "output": "Output/ClusterOutput defines the output to which your flow can send log messages.",
-    "dash_app": "App monitor from Jaeger"
+    "dash_app": "App monitor from Jaeger",
+    "alert_channel": "The alert channel provides a variety of alert message sending methods to notify users, including (email, Feishu, webhook, etc.)"
   },
 
   "metadata": {
@@ -515,7 +521,10 @@
     "unknown_error": "Unknown error",
     "start_end": "Start Time And End Time",
     "show": "Show",
-    "hide": "Hide"
+    "hide": "Hide",
+    "need_login": "Please login first",
+    "gpu_allocated": "GPU allocation",
+    "not_based_yaml": "Non-standard yaml format"
   },
   "tab": {
     "overview": "Overview",
@@ -523,6 +532,7 @@
     "metadata": "Metadata",
     "event": "Event",
     "pod": "Pod",
-    "monitor": "Monitor"
+    "monitor": "Monitor",
+    "gpu_monitor": "GPU Monitor"
   }
 }

@@ -285,13 +285,15 @@
       RollingUpdate,
     },
     mixins: [BasePermission, BaseResource],
-    data: () => ({
-      runtime: null,
-      statusSSE: null,
-      taskStatus: '',
-      taskErrorMsg: '',
-      deploy: true,
-    }),
+    data() {
+      return {
+        runtime: null,
+        statusSSE: null,
+        taskStatus: '',
+        taskErrorMsg: '',
+        deploy: true,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'AdminViewport']),
       ...mapGetters(['Tenant', 'Project', 'Environment']),
@@ -438,7 +440,7 @@
 
   .deploy-switch {
     position: absolute;
-    z-index: 15;
+    z-index: 9;
     margin: auto;
     top: 0;
     bottom: 0;
@@ -456,7 +458,7 @@
     background-color: rgb(33, 33, 33);
     border-color: rgb(33, 33, 33);
     position: absolute;
-    z-index: 10;
+    z-index: 8;
     margin: auto;
     top: 0;
     bottom: 0;

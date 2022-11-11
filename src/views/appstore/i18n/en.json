@@ -23,7 +23,14 @@
     "complete": "Finished",
     "bitnami": "Bitnami allows you to easily start and run your favorite open source software on any platform, including your laptop, Kubernetes and all major clouds.",
     "kubegems": "A collection of files describing Kubernetes related resources that can be used by individual apps to deploy some complex HTTP servers as well as web full-stack apps, databases, caches, etc.",
-    "chartmuseum": "ChartMuseum is an open-source, easily deployable and Helm Chart repository server."
+    "chartmuseum": "ChartMuseum is an open-source, easily deployable and Helm Chart repository server.",
+    "banzaicloud": "Building the operating system for your containers and clouds",
+    "hashicorp": "HashiCorp delivers consistent workflows to provision, secure, connect, and run any infrastructure for any application.",
+    "grafana": "Grafana is the open source analytics & monitoring solution for every database.",
+    "opentelemetry": "High-quality, ubiquitous, and portable telemetry to enable effective observability.",
+    "kubecost": "Kubecost provides real-time cost visibility and insights for teams using Kubernetes, helping you continuously reduce your cloud costs.",
+    "scylla": "ScyllaDB is the distributed database for data-intensive apps that require high performance and low latency.",
+    "no_i18n_file": "No translation files exist, use the original language"
   },
   "filter": {
     "name": "App name"
@@ -35,7 +42,7 @@
     "version": "Version"
   },
   "tab": {
-    "form": "Form",
+    "form": "Schema Form",
     "app_detail": "App Details",
     "config_file": "Profile"
   }

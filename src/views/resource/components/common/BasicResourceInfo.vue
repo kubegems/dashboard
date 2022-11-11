@@ -18,7 +18,7 @@
   <v-card flat>
     <v-card-title class="text-h6 primary--text">
       {{ item ? item.metadata.name : '' }}
-      <BaseLogo
+      <!-- <BaseLogo
         v-if="item && ['Pod', 'Deployment', 'StatefulSet', 'DaemonSet'].indexOf(item.kind) > -1 && tke"
         icon-name="tke"
         :ml="0"
@@ -29,7 +29,7 @@
         icon-name="nvidia"
         :ml="0"
         :width="24"
-      />
+      /> -->
     </v-card-title>
     <v-list-item two-line>
       <v-list-item-content class="kubegems__text">
@@ -86,33 +86,33 @@
         default: () => true,
       },
     },
-    computed: {
-      tke() {
-        if (
-          this.item?.spec?.containers?.some((c) => {
-            return c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda'];
-          }) ||
-          this.item?.spec?.template?.spec?.containers?.some((c) => {
-            return c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda'];
-          })
-        ) {
-          return true;
-        }
-        return false;
-      },
-      nvidia() {
-        if (
-          this.item?.spec?.containers?.some((c) => {
-            return c?.resources?.limits && c?.resources?.limits['nvidia.com/gpu'];
-          }) ||
-          this.item?.spec?.template?.spec?.containers?.some((c) => {
-            return c?.resources?.limits && c?.resources?.limits['nvidia.com/gpu'];
-          })
-        ) {
-          return true;
-        }
-        return false;
-      },
-    },
+    // computed: {
+    //   tke() {
+    //     if (
+    //       this.item?.spec?.containers?.some((c) => {
+    //         return c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda-core'];
+    //       }) ||
+    //       this.item?.spec?.template?.spec?.containers?.some((c) => {
+    //         return c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda-core'];
+    //       })
+    //     ) {
+    //       return true;
+    //     }
+    //     return false;
+    //   },
+    //   nvidia() {
+    //     if (
+    //       this.item?.spec?.containers?.some((c) => {
+    //         return c?.resources?.limits && c?.resources?.limits['nvidia.com/gpu'];
+    //       }) ||
+    //       this.item?.spec?.template?.spec?.containers?.some((c) => {
+    //         return c?.resources?.limits && c?.resources?.limits['nvidia.com/gpu'];
+    //       })
+    //     ) {
+    //       return true;
+    //     }
+    //     return false;
+    //   },
+    // },
   };
 </script>

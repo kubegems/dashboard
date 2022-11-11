@@ -56,7 +56,7 @@
   import { getServiceDetail, patchUpdateService } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';
-  import ServiceSchema from '@/views/resource/service/mixins/schema';
+  import ServiceSchema from '@/utils/schema/service';
 
   export default {
     name: 'UpdateService',
@@ -66,14 +66,16 @@
     components: {
       ServiceBaseForm,
     },
-    mixins: [BaseResource, ServiceSchema],
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      item: null,
-      formComponent: 'ServiceBaseForm',
-      switchKey: '',
-    }),
+    mixins: [BaseResource],
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        item: null,
+        formComponent: 'ServiceBaseForm',
+        switchKey: '',
+      };
+    },
     computed: {
       ...mapState(['Circular']),
     },
@@ -98,7 +100,7 @@
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
             if (!this.m_resource_checkDataWithNS(data, this.item.metadata.namespace)) return;
-            if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+            if (!this.m_resource_validateJsonSchema(ServiceSchema, data)) {
               return;
             }
           } else if (this.formComponent === 'ServiceBaseForm') {
@@ -138,7 +140,7 @@
           const yaml = this.$refs[this.formComponent].getYaml();
           const data = this.$yamlload(yaml);
           this.m_resource_addNsToData(data, this.AdminViewport ? this.item.metadata.namespace : this.ThisNamespace);
-          if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+          if (!this.m_resource_validateJsonSchema(ServiceSchema, data)) {
             this.yaml = true;
             this.switchKey = randomString(6);
             return;

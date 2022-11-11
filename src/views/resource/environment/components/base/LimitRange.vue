@@ -163,50 +163,52 @@
         default: () => null,
       },
     },
-    data: () => ({
-      valid: false,
-      expand: false,
-      obj: {
-        LimitRange: {
-          Container: {
-            default: {
-              cpu: '500m',
-              memory: '1Gi',
+    data() {
+      return {
+        valid: false,
+        expand: false,
+        obj: {
+          LimitRange: {
+            Container: {
+              default: {
+                cpu: '500m',
+                memory: '1Gi',
+              },
+              defaultRequest: {
+                cpu: '10m',
+                memory: '10Mi',
+              },
+              min: {
+                cpu: '0',
+                memory: '0Mi',
+              },
+              max: {
+                cpu: '24',
+                memory: '48Gi',
+              },
             },
-            defaultRequest: {
-              cpu: '10m',
-              memory: '10Mi',
+            Pod: {
+              min: {
+                cpu: '0',
+                memory: '0Mi',
+              },
+              max: {
+                cpu: '48',
+                memory: '64Gi',
+              },
             },
-            min: {
-              cpu: '0',
-              memory: '0Mi',
-            },
-            max: {
-              cpu: '24',
-              memory: '48Gi',
-            },
-          },
-          Pod: {
-            min: {
-              cpu: '0',
-              memory: '0Mi',
-            },
-            max: {
-              cpu: '48',
-              memory: '64Gi',
-            },
-          },
-          PersistentVolumeClaim: {
-            min: {
-              storage: '0Mi',
-            },
-            max: {
-              storage: '1Ti',
+            PersistentVolumeClaim: {
+              min: {
+                storage: '0Mi',
+              },
+              max: {
+                storage: '1Ti',
+              },
             },
           },
         },
-      },
-    }),
+      };
+    },
     computed: {
       objRules() {
         return {

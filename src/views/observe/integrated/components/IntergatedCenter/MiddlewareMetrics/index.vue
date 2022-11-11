@@ -29,7 +29,7 @@
                 v-html="$t('tip.cpnfirm_project_and_env', [env ? env.projectName : '', env ? env.environmentName : ''])"
               />
               <div class="timeline__div">
-                {{ `${obj.appName}-obs-${randomStr}` }}
+                {{ `${appName}-metrics-obs-${randomStr}` }}
                 <v-icon
                   :class="{ 'kubegems__waiting-circle-flashing': appStatus !== 'Healthy', 'ml-2': true }"
                   color="success"
@@ -117,11 +117,6 @@
       </template>
       <template v-else>
         <ProjectEnvSelect v-model="env" class="px-2 mt-0" t="metrics" />
-        <v-row class="px-2 mt-0">
-          <v-col cols="6">
-            <v-text-field v-model="obj.appName" :label="$t('tip.name')" :rules="objRules.appNameRule" />
-          </v-col>
-        </v-row>
         <JsonSchema
           ref="jsonSchema"
           :app-values="appValues"
@@ -142,10 +137,9 @@
   import messages from '../../../i18n';
   import ProjectEnvSelect from '../ProjectEnvSelect';
   import { getAppStoreRunningDetail, getChartSchema, getServiceMonitorStatus, postDeployAppStore } from '@/api';
+  import BaseYaml from '@/mixins/yaml';
   import { randomString } from '@/utils/helpers';
-  import { required } from '@/utils/rules';
   import JsonSchema from '@/views/appstore/components/DeployWizard/JsonSchema';
-  import { YamlMixin } from '@/views/appstore/mixins/yaml';
 
   export default {
     name: 'MiddlewareMetrics',
@@ -156,8 +150,12 @@
       JsonSchema,
       ProjectEnvSelect,
     },
-    mixins: [YamlMixin],
+    mixins: [BaseYaml],
     props: {
+      appName: {
+        type: String,
+        default: () => '',
+      },
       chartName: {
         type: String,
         default: () => '',
@@ -173,12 +171,6 @@
         schemaJson: {},
         params: [],
         chart: {},
-        obj: {
-          appName: '',
-        },
-        objRules: {
-          appNameRule: [required],
-        },
         deploying: false,
         deployStatus: 'deploying',
         lastError: '',
@@ -227,7 +219,7 @@
       async deployMiddlewareMetricsServiceMonitor() {
         if (this.$refs.form.validate(true) && this.$refs.jsonSchema.validate()) {
           if (this.env?.projectid && this.env?.value) {
-            const appName = this.obj.appName;
+            const appName = `${this.appName}-metrics-obs-${this.randomStr}`;
             if (Object.prototype.hasOwnProperty.call(this.appValues, 'nameOverride')) {
               this.appValues.nameOverride = appName;
             }
@@ -235,7 +227,7 @@
               this.appValues.fullnameOverride = appName;
             }
             const data = {
-              name: `${appName}-obs-${this.randomStr}`,
+              name: appName,
               project_id: this.env?.projectid,
               environment_id: this.env?.value,
               repoURL: this.chart.repo || 'kubegems_online_store',
@@ -319,7 +311,7 @@
           this.Tenant().ID,
           this.env.projectid,
           this.env.value,
-          `${this.obj.appName}-obs-${this.randomStr}`,
+          `${this.appName}-metrics-obs-${this.randomStr}`,
           {
             watch: false,
           },
@@ -328,7 +320,7 @@
       },
       async getServiceMonitorStatus() {
         this.loading = true;
-        const data = await getServiceMonitorStatus(this.env.clusterName, this.env.environmentName, {
+        const data = await getServiceMonitorStatus(this.env.clusterName, this.env.namespace, {
           service: this.appValues.nameOverride,
         });
         this.loading = false;
@@ -339,14 +331,14 @@
         this.$router.push({
           name: 'app-detail',
           params: {
-            name: `${this.obj.appName}-obs-${this.randomStr}`,
+            name: `${this.appName}-metrics-obs-${this.randomStr}`,
             tenant: this.Tenant().TenantName,
             project: this.env.projectName,
             environment: this.env.environmentName,
           },
           query: {
             kind: 'appstore',
-            name: `${this.obj.appName}-obs-${this.randomStr}`,
+            name: `${this.appName}-metrics-obs-${this.randomStr}`,
             type: 'Deployment',
             projectid: this.env.projectid,
             environmentid: this.env.value,

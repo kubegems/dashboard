@@ -44,6 +44,35 @@ export function deepCopy(item) {
   return JSON.parse(JSON.stringify(item));
 }
 
+export function sizeOfTke(num, suffix = 's') {
+  if (num === undefined) return 0;
+  if (num === null) return 0;
+  num = num.toString();
+  if (!isNaN(num)) {
+    return parseFloat(num);
+  }
+  const units = ['s', 'k', 'M', 'T'];
+  const pos = units.indexOf(suffix);
+  for (const index in units) {
+    if (num.indexOf(units[index]) > -1) {
+      if (index < pos) {
+        let n = parseFloat(num.replace(units[index], ''));
+        for (let i = 0; i < pos - index; i++) {
+          n = n / 1000.0;
+        }
+        return n;
+      } else {
+        let n = parseFloat(num.replace(units[index], ''));
+        for (let i = 0; i < index - pos; i++) {
+          n = n * 1000.0;
+        }
+        return n;
+      }
+    }
+  }
+  return 0;
+}
+
 export function sizeOfStorage(num, suffix = 'Gi') {
   if (num === undefined) return 0;
   if (num === null) return 0;
@@ -314,4 +343,11 @@ export function getApiVersion(kind, defaultVersion = 'core/v1') {
   let apiVersion = apiResources[kind] || defaultVersion;
   apiVersion = apiVersion === 'v1' ? 'core/v1' : apiVersion;
   return apiVersion;
+}
+
+export function getQueryString(name) {
+  var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+  var r = location.search.substr(1).match(reg);
+  if (r != null) return unescape(decodeURI(r[2]));
+  return null;
 }

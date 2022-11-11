@@ -56,7 +56,7 @@
   import { postAddService } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { randomString } from '@/utils/helpers';
-  import ServiceSchema from '@/views/resource/service/mixins/schema';
+  import ServiceSchema from '@/utils/schema/service';
 
   export default {
     name: 'AddService',
@@ -66,13 +66,15 @@
     components: {
       ServiceBaseForm,
     },
-    mixins: [BaseResource, ServiceSchema],
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      formComponent: 'ServiceBaseForm',
-      switchKey: '',
-    }),
+    mixins: [BaseResource],
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        formComponent: 'ServiceBaseForm',
+        switchKey: '',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'AdminViewport']),
     },
@@ -96,7 +98,7 @@
           if (this.formComponent === 'BaseYamlForm') {
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
-            if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+            if (!this.m_resource_validateJsonSchema(ServiceSchema, data)) {
               return;
             }
           } else if (this.formComponent === 'ServiceBaseForm') {
@@ -135,7 +137,7 @@
           const yaml = this.$refs[this.formComponent].getYaml();
           const data = this.$yamlload(yaml);
           this.m_resource_addNsToData(data, this.AdminViewport ? data?.metadata?.namespace : this.ThisNamespace);
-          if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+          if (!this.m_resource_validateJsonSchema(ServiceSchema, data)) {
             this.yaml = true;
             this.switchKey = randomString(6);
             return;

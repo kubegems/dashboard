@@ -115,20 +115,22 @@
   export default {
     name: 'ManageUser',
     mixins: [BaseSelect],
-    data: () => ({
-      dialog: false,
-      tab: 0,
-      allUsers: [],
-      allUsersCopy: [],
-      users: [],
-      usersCopy: [],
-      testUsers: [],
-      devUsers: [],
-      opsUsers: [],
-      adminUsers: [],
-      searchAllUser: '',
-      searchRoleUser: '',
-    }),
+    data() {
+      return {
+        dialog: false,
+        tab: 0,
+        allUsers: [],
+        allUsersCopy: [],
+        users: [],
+        usersCopy: [],
+        testUsers: [],
+        devUsers: [],
+        opsUsers: [],
+        adminUsers: [],
+        searchAllUser: '',
+        searchRoleUser: '',
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Scale']),
       ...mapGetters(['Tenant', 'Project']),

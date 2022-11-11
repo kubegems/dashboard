@@ -45,12 +45,14 @@
       ResourceBaseForm,
     },
     mixins: [BaseResource],
-    data: () => ({
-      dialog: false,
-      item: null,
-      quota: null,
-      cluster: '',
-    }),
+    data() {
+      return {
+        dialog: false,
+        item: null,
+        quota: null,
+        cluster: '',
+      };
+    },
     computed: {
       ...mapState(['Circular']),
     },
@@ -72,7 +74,7 @@
         if (this.$refs.resource.validate()) {
           const data = deepCopy(this.$refs.resource.getData());
           data.Content['limits.memory'] = `${data.Content['limits.memory']}Gi`;
-          data.Content[`requests.storage`] = `${data.Content[`requests.storage`]}Gi`;
+          data.Content[`limits.storage`] = `${data.Content[`limits.storage`]}Gi`;
           data.ClusterID = this.item.ClusterID;
           data.TenantID = this.item.TenantID;
           await postTenantResourceApply(this.item.TenantID, this.item.ClusterID, data);
@@ -98,32 +100,35 @@
         let content = {
           'limits.cpu': item.Cpu,
           'limits.memory': item.Memory,
-          'requests.storage': item.Storage,
+          'limits.storage': item.Storage,
         };
         if (item.NvidiaGpu) {
-          content['limits.nvidia.com/gpu'] = item.AllocatedNvidiaGpu;
+          content['limits.nvidia.com/gpu'] = item.NvidiaGpu;
         }
         if (item.TkeGpu) {
-          content['tencent.com/vcuda-core'] = item.AllocatedTkeGpu;
+          content['limits.tencent.com/vcuda-core'] = item.TkeGpu;
         }
         if (item.TkeMemory) {
-          content['tencent.com/vcuda-memory'] = item.AllocatedTkeMemory;
+          content['limits.tencent.com/vcuda-memory'] = item.TkeMemory;
         }
         if (this.item.TenantResourceQuotaApply && this.item.TenantResourceQuotaApply.Status === 'pending') {
           const data = await getTenantResourceApplyDetail(this.item.TenantID, this.item.TenantResourceQuotaApplyID);
+          if (!this.item.Content[`limits.storage`]) {
+            this.item.Content[`limits.storage`] = this.item.Content[`requests.storage`] || '0';
+          }
           content = {
             'limits.cpu': data.Content[`limits.cpu`],
             'limits.memory': data.Content[`limits.memory`].replaceAll('Gi', ''),
-            'requests.storage': data.Content[`requests.storage`].replaceAll('Gi', ''),
+            'limits.storage': data.Content[`limits.storage`].replaceAll('Gi', ''),
           };
           if (item.NvidiaGpu) {
             content['limits.nvidia.com/gpu'] = data.Content[`limits.nvidia.com/gpu`];
           }
           if (item.TkeGpu) {
-            content['tencent.com/vcuda-core'] = data.Content[`tencent.com/vcuda-core`];
+            content['limits.tencent.com/vcuda-core'] = data.Content[`limits.tencent.com/vcuda-core`];
           }
           if (item.TkeMemory) {
-            content['tencent.com/vcuda-memory'] = data.Content[`tencent.com/vcuda-memory`];
+            content['limits.tencent.com/vcuda-memory'] = data.Content[`limits.tencent.com/vcuda-memory`];
           }
         }
         this.$refs.resource.setContent(content);

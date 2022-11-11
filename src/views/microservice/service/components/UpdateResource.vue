@@ -46,10 +46,12 @@
         default: () => '',
       },
     },
-    data: () => ({
-      dialog: false,
-      item: null,
-    }),
+    data() {
+      return {
+        dialog: false,
+        item: null,
+      };
+    },
     computed: {
       ...mapState(['Circular', 'EnvironmentFilter']),
     },

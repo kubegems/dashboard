@@ -108,7 +108,6 @@
       env: {
         handler(newValue) {
           if (newValue) {
-            this.cluster = newValue.clusterName;
             this.loadData();
           }
         },
@@ -133,11 +132,15 @@
     },
     methods: {
       async loadData() {
-        this.missingPlugins = await this.m_permission_plugin_pass(this.cluster, this.$route.meta?.dependencies || []);
+        this.missingPlugins = await this.m_permission_plugin_pass(
+          this.env.clusterName,
+          this.$route.meta?.dependencies || [],
+        );
         if (this.missingPlugins?.length === 0) {
           this.$store.commit('SET_PROGRESS', true);
           this.show = false;
           this.iframeKey = Date.now();
+          this.cluster = this.env.clusterName;
         } else {
           this.$store.commit('SET_SNACKBAR', {
             text: this.$root.$t('plugin.cluster_missing', [this.missingPlugins.join(', ')]),

@@ -153,16 +153,18 @@
         default: () => false,
       },
     },
-    data: () => ({
-      items: [],
-      pageCount: 0,
-      cluster: undefined,
-      namespace: undefined,
-      params: {
-        page: 1,
-        size: 10,
-      },
-    }),
+    data() {
+      return {
+        items: [],
+        pageCount: 0,
+        cluster: undefined,
+        namespace: undefined,
+        params: {
+          page: 1,
+          size: 10,
+        },
+      };
+    },
     computed: {
       ...mapState(['JWT', 'AdminViewport']),
       headers() {
@@ -201,7 +203,7 @@
           const { cluster, namespace } = this.params;
           const { cluster: newCluster, namespace: newNamespace } = newValue;
           const needRefresh = (cluster !== newCluster || namespace !== newNamespace) && this.pass;
-          if (needRefresh) {
+          if (needRefresh || newValue.refresh) {
             this.m_table_generateParams();
             this.serviceMonitorList();
           }

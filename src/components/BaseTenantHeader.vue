@@ -23,7 +23,8 @@
           v-model="projectMenu"
           bottom
           content-class="tenant-header__bg"
-          max-width="220px"
+          max-height="310px"
+          max-width="400px"
           min-width="120px"
           nudge-bottom="5px"
           offset-y
@@ -109,8 +110,8 @@
             v-model="environmentMenu"
             bottom
             content-class="z-index-bg"
-            max-height="300px"
-            max-width="220px"
+            max-height="310px"
+            max-width="400px"
             min-width="120px"
             nudge-bottom="5px"
             offset-y
@@ -240,12 +241,14 @@
         default: () => true,
       },
     },
-    data: () => ({
-      projectMenu: false,
-      environmentMenu: false,
-      loadingPro: false,
-      loadingEnv: false,
-    }),
+    data() {
+      return {
+        projectMenu: false,
+        environmentMenu: false,
+        loadingPro: false,
+        loadingEnv: false,
+      };
+    },
     computed: {
       ...mapState(['AdminViewport']),
       ...mapGetters(['Project', 'Environment', 'Tenant']),

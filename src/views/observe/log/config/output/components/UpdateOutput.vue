@@ -51,25 +51,27 @@
 <script>
   import { mapState } from 'vuex';
 
-  import OutputSchema from '../mixins/schema';
   import OutputBaseForm from './OutputBaseForm';
   import { getClusterOutputDetailData, getOutputDetailData, patchClusterOutputData, patchOutputData } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';
+  import OutputSchema from '@/utils/schema/output';
 
   export default {
     name: 'UpdateOutput',
     components: {
       OutputBaseForm,
     },
-    mixins: [BaseResource, OutputSchema],
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      item: null,
-      formComponent: 'OutputBaseForm',
-      switchKey: '',
-    }),
+    mixins: [BaseResource],
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        item: null,
+        formComponent: 'OutputBaseForm',
+        switchKey: '',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'AdminViewport']),
     },
@@ -99,7 +101,7 @@
           if (this.formComponent === 'BaseYamlForm') {
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
-            if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+            if (!this.m_resource_validateJsonSchema(OutputSchema, data)) {
               return;
             }
           } else if (this.formComponent === 'OutputBaseForm') {
@@ -124,7 +126,7 @@
           const yaml = this.$refs[this.formComponent].getYaml();
           const data = this.$yamlload(yaml);
           this.m_resource_addNsToData(data, this.$route.query.namespace);
-          if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+          if (!this.m_resource_validateJsonSchema(OutputSchema, data)) {
             this.yaml = true;
             this.switchKey = randomString(6);
             return;

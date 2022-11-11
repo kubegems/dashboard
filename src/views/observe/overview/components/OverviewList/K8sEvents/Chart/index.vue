@@ -22,10 +22,10 @@
     <div class="my-8" />
     <div class="d-flex justify-space-around">
       <div class="kubegems__h-24 kubegems__w-11">
-        <EventPieChart chart-id="source_pie" :data="data" :title="$t('tip.event_source')" type="source_component" />
+        <EventPieChart :data="data" :title="$t('tip.event_source')" type="source_component" />
       </div>
       <div class="kubegems__h-24 kubegems__w-11">
-        <EventPieChart chart-id="type_pie" :data="data" :title="$t('tip.event_type')" type="reason" />
+        <EventPieChart :data="data" :title="$t('tip.event_type')" type="reason" />
       </div>
     </div>
   </div>

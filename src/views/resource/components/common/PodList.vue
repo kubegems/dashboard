@@ -37,7 +37,7 @@
                 item &&
                 item.spec.resources &&
                 item.spec.resources.limits &&
-                item.spec.resources.limits['tencent.com/vcuda-core']
+                item.spec.resources.limits['limits.tencent.com/vcuda-core']
               "
               class="float-left ml-2"
             >
@@ -113,8 +113,17 @@
         <template #[`item.restart`]="{ item }">
           {{ getRestart(item.status.containerStatuses) }}
         </template>
-        <template #[`item.age`]="{ item }">
-          {{ item.status.startTime ? $moment(item.status.startTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() : '' }}
+        <template #[`item.age`]="{ item, index }">
+          <RealDatetimeTip
+            :datetime="item.status.startTime"
+            :top="params.size - index <= 5 || (items.length <= 5 && index >= 1)"
+          >
+            <template #trigger>
+              <span>
+                {{ item.status.startTime ? $moment(item.status.startTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() : '' }}
+              </span>
+            </template>
+          </RealDatetimeTip>
         </template>
         <template #[`item.cpu`]="{ item }">
           <v-flex class="text-subtitle-2">
@@ -223,6 +232,7 @@
   import BaseTable from '@/mixins/table';
   import { beautifyCpuUnit, beautifyStorageUnit } from '@/utils/helpers';
   import { POD_CPU_USAGE_PROMQL, POD_MEMORY_USAGE_PROMQL } from '@/utils/prometheus';
+  import RealDatetimeTip from '@/views/resource/components/common/RealDatetimeTip';
 
   export default {
     name: 'PodList',
@@ -232,6 +242,7 @@
     components: {
       ContainerLog,
       EventTip,
+      RealDatetimeTip,
       Terminal,
     },
     mixins: [BasePermission, BaseResource, BaseTable],
@@ -245,15 +256,17 @@
         default: () => {},
       },
     },
-    data: () => ({
-      items: [],
-      pageCount: 0,
-      params: {
-        page: 1,
-        size: 10,
-        noprocessing: true,
-      },
-    }),
+    data() {
+      return {
+        items: [],
+        pageCount: 0,
+        params: {
+          page: 1,
+          size: 10,
+          noprocessing: true,
+        },
+      };
+    },
     computed: {
       ...mapState(['MessageStreamWS', 'AdminViewport']),
       headers() {

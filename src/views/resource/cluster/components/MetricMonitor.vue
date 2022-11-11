@@ -29,7 +29,6 @@
     </v-tabs>
 
     <BaseAreaChart
-      :id="`api${tab}`"
       :key="key"
       :ref="`tab${tab}`"
       :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
@@ -72,12 +71,14 @@
       },
     },
 
-    data: () => ({
-      tab: 0,
-      count: 0,
-      key: 0,
-      timeinterval: null,
-    }),
+    data() {
+      return {
+        tab: 0,
+        count: 0,
+        key: 0,
+        timeinterval: null,
+      };
+    },
     computed: {
       ...mapState(['Scale']),
       tabItems() {

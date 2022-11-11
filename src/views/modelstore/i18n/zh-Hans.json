@@ -39,13 +39,13 @@
     "port_name": "端口名称",
     "port_name_hint": "推荐http/grpc",
     "container_port": "容器端口",
-    "host_port": "主机端口",
 
     "mount_path": "挂载路径",
     "volume_name": "卷名称",
     "origin_path": "源路径",
     "volume_type": "卷类型",
     "volume_mount": "卷挂载",
+    "configmap_name": "配置名称",
 
     "deploy_info": "部署信息",
     "runtime": "运行时",
@@ -67,7 +67,11 @@
     "core": "核心",
 
     "experience": "模型体验",
-    "not_support": "暂不支持"
+    "not_support": "暂不支持",
+
+    "upgrage_strategy": "更新策略",
+    "rollingupdate": "滚动更新",
+    "recreate": "重建"
   },
   "tab": {
     "description": "介绍",

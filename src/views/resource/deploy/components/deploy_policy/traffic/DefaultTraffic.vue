@@ -22,7 +22,7 @@
           <v-text-field
             v-model="obj.strategy.canary.steps[0].setWeight"
             class="my-0"
-            label="灰度流量比例"
+            :label="$t('tip.canary_weight')"
             required
             :rules="canaryRules.setWeightRule"
             suffix="%"
@@ -36,11 +36,15 @@
 </template>
 
 <script>
+  import messages from '../../../i18n';
   import { deepCopy } from '@/utils/helpers';
   import { positiveInteger } from '@/utils/rules';
 
   export default {
     name: 'DefaultTraffic',
+    i18n: {
+      messages: messages,
+    },
     props: {
       data: {
         type: Object,

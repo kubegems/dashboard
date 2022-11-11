@@ -100,12 +100,14 @@
     i18n: {
       messages: messages,
     },
-    data: () => ({
-      panel: false,
-      item: null,
-      items: [],
-      app: null,
-    }),
+    data() {
+      return {
+        panel: false,
+        item: null,
+        items: [],
+        app: null,
+      };
+    },
     computed: {
       ...mapState(['Scale']),
       ...mapGetters(['Tenant', 'Project']),

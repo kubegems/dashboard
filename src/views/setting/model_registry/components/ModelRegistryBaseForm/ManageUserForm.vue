@@ -111,21 +111,23 @@
         default: () => false,
       },
     },
-    data: () => ({
-      valid: false,
-      tab: 0,
-      allUsers: [],
-      allUsersCopy: [],
-      users: [],
-      usersCopy: [],
-      adminUsers: [],
-      searchAllUser: '',
-      searchRoleUser: '',
-      obj: {
-        name: '',
+    data() {
+      return {
+        valid: false,
+        tab: 0,
+        allUsers: [],
+        allUsersCopy: [],
         users: [],
-      },
-    }),
+        usersCopy: [],
+        adminUsers: [],
+        searchAllUser: '',
+        searchRoleUser: '',
+        obj: {
+          name: '',
+          users: [],
+        },
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Scale']),
       ...mapGetters(['Tenant']),

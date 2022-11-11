@@ -54,11 +54,13 @@
         default: () => null,
       },
     },
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      formComponent: 'RequestTimeoutsBaseForm',
-    }),
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        formComponent: 'RequestTimeoutsBaseForm',
+      };
+    },
     computed: {
       ...mapState(['Circular']),
       ...mapGetters(['VirtualSpace']),

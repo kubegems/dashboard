@@ -158,7 +158,7 @@
 
     <LogContext ref="logContext" />
     <LogSaveSnapshot ref="logSaveSnapshot" />
-    <LogQueryHistory ref="logQueryHistory" @queryHistory="handleQueryHistroy" />
+    <LogQueryHistory ref="logQueryHistory" />
     <LogSnapshot ref="logSnapshot" />
   </v-container>
 </template>
@@ -259,7 +259,7 @@
       onDateChange() {
         if (this.cluster.value) {
           this.$refs.logQuery.getSeriesList();
-          this.$refs.logQuery.search();
+          // this.$refs.logQuery.search();
         }
       },
 
@@ -302,7 +302,6 @@
         };
         this.items = [];
         this.params.levels = [];
-
         const data = await getLogQueryRange(params.ClusterName, params);
 
         if (data.resultType === '') {
@@ -379,6 +378,7 @@
           ClusterName: this.cluster.text,
           CreatorID: this.User.ID,
           ClusterID: this.cluster.value,
+          TimeRange: `${this.dateTimestamp[0]?.substr(0, 13)}|${this.dateTimestamp[1]?.substr(0, 13)}`,
         });
       },
 
@@ -496,10 +496,6 @@
 
       handleShowSnapshot() {
         this.$refs.logSnapshot.show();
-      },
-
-      handleQueryHistroy() {
-        this.$refs.logQuery.getValuesByPathQuery();
       },
 
       handleShowContext(item) {

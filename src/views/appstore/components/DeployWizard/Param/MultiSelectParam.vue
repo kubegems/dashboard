@@ -87,11 +87,13 @@
         default: () => {},
       },
     },
-    data: () => ({
-      items: [],
-      selectedItems: [],
-      search: null,
-    }),
+    data() {
+      return {
+        items: [],
+        selectedItems: [],
+        search: null,
+      };
+    },
     computed: {
       pathLevel() {
         return this.param.path.split('/').length;

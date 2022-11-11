@@ -39,16 +39,18 @@
   import { getIstioGatewayDetail, patchUpdateIstioGateway } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
-  import IstioGatewaySchema from '@/views/microservice/istio/gateway/mixins/schema';
+  import IstioGatewaySchema from '@/utils/schema/gateway';
 
   export default {
     name: 'UpdateGateway',
-    mixins: [BaseResource, IstioGatewaySchema],
-    data: () => ({
-      dialog: false,
-      item: null,
-      formComponent: 'BaseYamlForm',
-    }),
+    mixins: [BaseResource],
+    data() {
+      return {
+        dialog: false,
+        item: null,
+        formComponent: 'BaseYamlForm',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'EnvironmentFilter']),
     },
@@ -62,6 +64,9 @@
           if (this.formComponent === 'BaseYamlForm') {
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
+            if (!this.m_resource_validateJsonSchema(IstioGatewaySchema, data)) {
+              return;
+            }
             if (!this.m_resource_checkDataWithOutNS(data)) return;
             data = this.m_resource_beautifyData(data);
           }

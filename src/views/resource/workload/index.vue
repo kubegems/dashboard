@@ -27,7 +27,7 @@
         />
         <NamespaceFilter />
         <v-spacer />
-        <v-menu v-if="m_permisson_resourceAllow" left>
+        <v-menu v-if="m_permisson_resourceAllow()" left>
           <template #activator="{ on }">
             <v-btn icon>
               <v-icon color="primary" v-on="on"> mdi-dots-vertical </v-icon>
@@ -99,11 +99,17 @@
                 {{ item.workload.metadata.name }}
               </a>
             </v-flex>
-            <v-flex v-if="isTke(item)" class="float-left mt-1 ml-2 icon-height">
-              <BaseLogo icon-name="tke" mt="n1" :width="20" />
+            <v-flex v-if="isTke(item) || isNvidia(item)" class="float-left gpu__icon">
+              <GpuTip :allocated="false" :item="item" />
             </v-flex>
-            <v-flex v-if="isNvidia(item)" class="float-left mt-1 ml-2 icon-height">
-              <BaseLogo icon-name="nvidia" mt="n1" :width="20" />
+            <v-flex
+              v-if="
+                item.workload.spec.template.metadata.annotations &&
+                item.workload.spec.template.metadata.annotations['sidecar.istio.io/inject'] === 'true'
+              "
+              class="float-left"
+            >
+              <img class="ml-2" :src="`/icon/istio.svg`" width="18px" />
             </v-flex>
             <v-flex class="float-left ml-2">
               <ResourceAdvise
@@ -233,6 +239,7 @@
   import BaseResource from '@/mixins/resource';
   import BaseTable from '@/mixins/table';
   import EventTip from '@/views/resource/components/common/EventTip';
+  import GpuTip from '@/views/resource/components/common/GpuTip';
   import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
 
   export default {
@@ -243,6 +250,7 @@
     components: {
       AddWorkload,
       EventTip,
+      GpuTip,
       NamespaceFilter,
       ResourceAdvise,
       ResourceLimit,
@@ -276,7 +284,7 @@
           { text: this.$t('table.status'), value: 'status', align: 'start', sortable: false },
           { text: this.$root.$t('resource.create_at'), value: 'createAt', align: 'start' },
         ];
-        if (this.m_permisson_resourceAllow) {
+        if (this.m_permisson_resourceAllow()) {
           items.push({
             text: '',
             value: 'action',
@@ -429,6 +437,7 @@
         data.List.forEach((item) => {
           workloads.push({
             workload: item,
+            ...this.getGpuLimit(item),
           });
         });
         this.items = workloads;
@@ -582,7 +591,7 @@
       },
       isTke(item) {
         return item.spec.template.spec.containers.some((c) => {
-          return c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda'];
+          return c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda-core'];
         });
       },
       isNvidia(item) {
@@ -590,6 +599,33 @@
           return c?.resources?.limits && c?.resources?.limits['nvidia.com/gpu'];
         });
       },
+      getGpuLimit(item) {
+        const gpu = {
+          TkeGpu: 0,
+          TkeMemory: 0,
+          NvidiaGpu: 0,
+        };
+        item.spec.template.spec.containers.forEach((c) => {
+          if (c?.resources?.limits && c?.resources?.limits['nvidia.com/gpu']) {
+            gpu.NvidiaGpu += parseFloat(c?.resources?.limits && c?.resources?.limits['nvidia.com/gpu']);
+          }
+          if (c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda-core']) {
+            gpu.TkeGpu += parseFloat(c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda-core']);
+          }
+          if (c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda-memory']) {
+            gpu.TkeMemory += parseFloat(c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda-memory']);
+          }
+        });
+        return gpu;
+      },
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .gpu {
+    &__icon {
+      margin-top: 1px;
+    }
+  }
+</style>

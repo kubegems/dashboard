@@ -30,7 +30,6 @@
           :options="Object.assign($aceOptions, { readOnly: true, wrap: true })"
           :style="{ height: `${height}px !important` }"
           theme="chrome"
-          @init="$aceinit"
           @keydown.stop
         />
       </v-card-text>
@@ -49,10 +48,12 @@
         default: () => null,
       },
     },
-    data: () => ({
-      panel: false,
-      kubeyaml: '',
-    }),
+    data() {
+      return {
+        panel: false,
+        kubeyaml: '',
+      };
+    },
     computed: {
       ...mapState(['Scale']),
       height() {

@@ -16,7 +16,7 @@
 
 <template>
   <div>
-    <v-card v-if="!pass" class="mx-0 mt-6" flat :height="`400px`">
+    <v-card v-if="!pass.pass" class="mx-0 mt-6" flat :height="`400px`">
       <v-row :style="{ height: `400px` }">
         <v-col class="d-flex align-center justify-center">
           <div class="d-flex align-center pa-10">
@@ -48,7 +48,7 @@
     data() {
       return {
         missingPlugins: [],
-        pass: true,
+        pass: { pass: true, time: '' },
       };
     },
     watch: {
@@ -58,14 +58,11 @@
         },
         deep: true,
       },
-      '$store.state.EnvironmentFilter': {
-        handler: function (env) {
-          if (env) {
-            this.pluginsPass(env.cluster);
-          } else {
-            if (this.$route.query.cluster) {
-              this.pluginsPass(this.$route.query.cluster);
-            }
+      '$route.query': {
+        handler: function (newValue) {
+          if (newValue) {
+            const { cluster } = newValue;
+            this.pluginsPass(cluster);
           }
         },
         deep: true,
@@ -74,17 +71,15 @@
     },
     methods: {
       async pluginsPass(cluster) {
-        if (!cluster) {
-          cluster = this.$route.query.cluster;
-        }
+        if (!cluster) return;
         const data = await getClusterPluginsList(cluster, { simple: true, noprocessing: true });
         const plugins = this.$route.meta?.dependencies || [];
         this.missingPlugins = plugins.filter((p) => {
           return !data[p];
         });
-        this.pass = this.missingPlugins?.length === 0;
-        this.$emit('change', this.pass);
-        this.$emit('input', this.pass);
+        this.pass.pass = this.missingPlugins?.length === 0;
+        this.$emit('change', { pass: this.pass.pass, time: Date.parse(new Date()) });
+        this.$emit('input', { pass: this.pass.pass, time: Date.parse(new Date()) });
       },
     },
   };

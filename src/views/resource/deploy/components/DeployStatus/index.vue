@@ -38,11 +38,13 @@
         default: () => null,
       },
     },
-    data: () => ({
-      statusTree: [],
-      appname: '',
-      statusSSE: null,
-    }),
+    data() {
+      return {
+        statusTree: [],
+        appname: '',
+        statusSSE: null,
+      };
+    },
     computed: {
       ...mapState(['JWT']),
       ...mapGetters(['Project', 'Tenant', 'Environment']),

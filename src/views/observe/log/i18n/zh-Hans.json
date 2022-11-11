@@ -47,7 +47,11 @@
     "other": "其他",
     "config": "{0}配置",
     "base_config": "基本配置",
-    "plugin_type": "插件类型"
+    "plugin_type": "插件类型",
+    "no_log_data": "暂无日志数据",
+
+    "feishu": "飞书",
+    "user_id": "用户Id"
   },
   "operate": {
     "download_log": "下载日志",
@@ -67,8 +71,7 @@
     "disable": "禁用",
     "enable_c": "启用{0}",
     "disable_c": "禁用{0}",
-
-    "no_log_data": "暂无日志数据"
+    "timerange_query": "时间段查询"
   },
   "table": {
     "name": "名称",

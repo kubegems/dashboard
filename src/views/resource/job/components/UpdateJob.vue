@@ -89,7 +89,7 @@
   import { getJobDetail, patchUpdateJob } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';
-  import JobSchema from '@/views/resource/job/mixins/schema';
+  import JobSchema from '@/utils/schema/job';
 
   export default {
     name: 'UpdateJob',
@@ -99,16 +99,18 @@
     components: {
       JobBaseForm,
     },
-    mixins: [BaseResource, JobSchema],
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      item: null,
-      formComponent: 'JobBaseForm',
-      step: 0,
-      totalStep: 4,
-      switchKey: '',
-    }),
+    mixins: [BaseResource],
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        item: null,
+        formComponent: 'JobBaseForm',
+        step: 0,
+        totalStep: 4,
+        switchKey: '',
+      };
+    },
     computed: {
       ...mapState(['Circular']),
     },
@@ -123,7 +125,7 @@
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
             if (!this.m_resource_checkDataWithNS(data, this.item.metadata.namespace)) return;
-            if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+            if (!this.m_resource_validateJsonSchema(JobSchema, data)) {
               return;
             }
           } else if (this.formComponent === 'JobBaseForm') {
@@ -152,7 +154,7 @@
           const yaml = this.$refs[this.formComponent].getYaml();
           const data = this.$yamlload(yaml);
           this.m_resource_addNsToData(data, this.AdminViewport ? this.item.metadata.namespace : this.ThisNamespace);
-          if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+          if (!this.m_resource_validateJsonSchema(JobSchema, data)) {
             this.yaml = true;
             this.switchKey = randomString(6);
             return;

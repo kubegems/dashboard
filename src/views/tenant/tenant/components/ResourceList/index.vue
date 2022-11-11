@@ -57,11 +57,8 @@
           <v-flex class="float-left resource__tr">
             {{ item.Cluster.ClusterName }}
           </v-flex>
-          <v-flex v-if="item.TkeGpu" class="float-left ml-2 resource__icon">
-            <GpuTip :allocated="false" :item="item" type="tke" />
-          </v-flex>
-          <v-flex v-if="item.NvidiaGpu" class="float-left ml-2 resource__icon">
-            <GpuTip :allocated="false" :item="item" type="nvidia" />
+          <v-flex v-if="item.NvidiaGpu || item.TkeGpu" class="float-left ml-2 resource__icon">
+            <GpuTip :allocated="false" :item="item" />
           </v-flex>
         </template>
         <template #[`item.cpu`]="{ item }"> {{ item.Cpu }} core </template>
@@ -185,16 +182,19 @@
         data.List.forEach((item) => {
           item.Cpu = item.Content['limits.cpu'] ? sizeOfCpu(item.Content['limits.cpu']) : 0;
           item.Memory = item.Content['limits.memory'] ? sizeOfStorage(item.Content['limits.memory']) : 0;
-          item.Storage = item.Content['requests.storage'] ? sizeOfStorage(item.Content['requests.storage']) : 0;
+          if (!item.Content['limits.storage']) {
+            item.Content['limits.storage'] = item.Content['requests.storage'] || 0;
+          }
+          item.Storage = item.Content['limits.storage'] ? sizeOfStorage(item.Content['limits.storage']) : 0;
 
           if (item.Content['limits.nvidia.com/gpu']) {
-            item.NvidiaGpu = sizeOfStorage(item.Content['limits.nvidia.com/gpu']);
+            item.NvidiaGpu = parseFloat(item.Content['limits.nvidia.com/gpu']);
           }
-          if (item.Content['tencent.com/vcuda-core']) {
-            item.TkeGpu = parseInt(item.Content['tencent.com/vcuda-core']);
+          if (item.Content['limits.tencent.com/vcuda-core']) {
+            item.TkeGpu = parseFloat(item.Content['limits.tencent.com/vcuda-core']);
           }
-          if (item.Content['tencent.com/vcuda-memory']) {
-            item.TkeMemory = parseInt(item.Content['tencent.com/vcuda-memory']);
+          if (item.Content['limits.tencent.com/vcuda-memory']) {
+            item.TkeMemory = parseFloat(item.Content['limits.tencent.com/vcuda-memory']);
           }
 
           this.allCpu += item.Cpu;

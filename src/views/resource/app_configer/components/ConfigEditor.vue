@@ -68,7 +68,6 @@
           :class="`rounded-b mb-4 clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
           :height="550"
           :lang="suffix"
-          @init="$aceinit"
           @keydown.stop
         />
       </v-card>

@@ -28,7 +28,13 @@
     "volume": "ボリューム",
     "env": "環境変数",
     "condition": "有効ステータス",
-    "last_change_at": "最終変更日時"
+    "last_change_at": "最終変更日時",
+    "last_state": "最新のステータス",
+    "exit_code": "終了コード",
+    "reason": "理由",
+    "started_at": "前回起動時間",
+    "finished_at": "前回終了する時間",
+    "last_start_at": "最終起動時間"
   },
   "operate": {
     "terminal": "ターミナル",

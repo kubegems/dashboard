@@ -90,18 +90,20 @@
       messages: messages,
     },
     mixins: [BaseResource, BaseSelect],
-    data: () => ({
-      dialog: false,
-      valid: false,
-      obj: {
-        projectid: null,
-        environmentid: null,
-      },
-      objRules: {
-        projectIDRules: [required],
-        environmentIDRules: [required],
-      },
-    }),
+    data() {
+      return {
+        dialog: false,
+        valid: false,
+        obj: {
+          projectid: null,
+          environmentid: null,
+        },
+        objRules: {
+          projectIDRules: [required],
+          environmentIDRules: [required],
+        },
+      };
+    },
     computed: {
       ...mapState(['Circular', 'Admin']),
       ...mapGetters(['VirtualSpace']),

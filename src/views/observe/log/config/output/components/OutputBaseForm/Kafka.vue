@@ -71,7 +71,8 @@
       this.$nextTick(() => {
         this.$refs.form.resetValidation();
         if (this.item?.spec?.kafka) {
-          this.obj = this.$_.merge(this.item, this.obj);
+          this.obj = this.item;
+          this.$forceUpdate();
         }
       });
     },

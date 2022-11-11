@@ -81,7 +81,7 @@
   import { postAddDaemonSet, postAddDeployment, postAddStatefulSet } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { randomString } from '@/utils/helpers';
-  import WorkloadSchema from '@/views/resource/workload/mixins/schema';
+  import WorkloadSchema from '@/utils/schema/workload';
 
   export default {
     name: 'AddWorkload',
@@ -91,16 +91,18 @@
     components: {
       WorkloadBaseForm,
     },
-    mixins: [BaseResource, WorkloadSchema],
-    data: () => ({
-      dialog: false,
-      yaml: false,
-      formComponent: 'WorkloadBaseForm',
-      kind: '',
-      step: 0,
-      totalStep: 5,
-      switchKey: '',
-    }),
+    mixins: [BaseResource],
+    data() {
+      return {
+        dialog: false,
+        yaml: false,
+        formComponent: 'WorkloadBaseForm',
+        kind: '',
+        step: 0,
+        totalStep: 5,
+        switchKey: '',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'AdminViewport']),
     },
@@ -114,7 +116,7 @@
           if (this.formComponent === 'BaseYamlForm') {
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
-            if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+            if (!this.m_resource_validateJsonSchema(WorkloadSchema, data)) {
               return;
             }
           } else if (this.formComponent === 'WorkloadBaseForm') {
@@ -149,7 +151,7 @@
           const yaml = this.$refs[this.formComponent].getYaml();
           const data = this.$yamlload(yaml);
           this.m_resource_addNsToData(data, this.AdminViewport ? data?.metadata?.namespace : this.ThisNamespace);
-          if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+          if (!this.m_resource_validateJsonSchema(WorkloadSchema, data)) {
             this.yaml = true;
             this.switchKey = randomString(6);
             return;

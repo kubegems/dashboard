@@ -39,7 +39,7 @@
             <v-icon left small> mdi-logout </v-icon>
             {{ $root.$t('operate.return') }}
           </v-btn>
-          <v-menu v-if="m_permisson_tenantAllow || m_permisson_virtualSpaceAllow" left>
+          <v-menu v-if="m_permisson_tenantAllow() || m_permisson_virtualSpaceAllow()" left>
             <template #activator="{ on }">
               <v-btn icon>
                 <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
@@ -86,9 +86,11 @@
       UpdateVirtualSpace,
     },
     mixins: [BasePermission],
-    data: () => ({
-      virtualspace: null,
-    }),
+    data() {
+      return {
+        virtualspace: null,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'AdminViewport']),
       ...mapGetters(['VirtualSpace']),

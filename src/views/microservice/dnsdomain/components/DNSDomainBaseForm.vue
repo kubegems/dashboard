@@ -42,12 +42,14 @@
   export default {
     name: 'DNSDomainBaseForm',
     mixins: [BaseResource],
-    data: () => ({
-      valid: false,
-      obj: {
-        VirtualDomainName: '',
-      },
-    }),
+    data() {
+      return {
+        valid: false,
+        obj: {
+          VirtualDomainName: '',
+        },
+      };
+    },
     computed: {
       ...mapState(['Circular']),
       objRules() {

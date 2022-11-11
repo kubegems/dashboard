@@ -130,21 +130,23 @@
       messages: messages,
     },
     mixins: [BaseFilter, BaseSelect],
-    data: () => ({
-      items: [],
-      pageCount: 0,
-      date: [],
-      params: {
-        page: 1,
-        size: 20,
-        // todo
-        CreatedAt_gte: null,
-        CreatedAt_lte: null,
-        order: '-CreatedAt',
-      },
-      yaml: '',
-      userItems: [],
-    }),
+    data() {
+      return {
+        items: [],
+        pageCount: 0,
+        date: [],
+        params: {
+          page: 1,
+          size: 20,
+          // todo
+          CreatedAt_gte: null,
+          CreatedAt_lte: null,
+          order: '-CreatedAt',
+        },
+        yaml: '',
+        userItems: [],
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Admin', 'AdminViewport']),
       ...mapGetters(['Tenant']),
@@ -190,13 +192,13 @@
             text: this.$t('filter.action'),
             value: 'Action',
             items: [
-              { text: this.$root.$t('operate.create'), value: '创建', parent: 'Action' },
-              { text: this.$root.$t('operate.delete'), value: '删除', parent: 'Action' },
-              { text: this.$root.$t('operate.update'), value: '更新', parent: 'Action' },
-              { text: this.$root.$t('operate.shell'), value: '执行命令', parent: 'Action' },
-              { text: this.$root.$t('operate.login'), value: '登录', parent: 'Action' },
-              { text: this.$root.$t('operate.enable'), value: '启用', parent: 'Action' },
-              { text: this.$root.$t('operate.disable'), value: '禁用', parent: 'Action' },
+              { text: this.$root.$t('operate.create'), value: this.$root.$t('operate.create'), parent: 'Action' },
+              { text: this.$root.$t('operate.delete'), value: this.$root.$t('operate.delete'), parent: 'Action' },
+              { text: this.$root.$t('operate.update'), value: this.$root.$t('operate.update'), parent: 'Action' },
+              { text: this.$root.$t('operate.shell'), value: this.$root.$t('operate.shell'), parent: 'Action' },
+              { text: this.$root.$t('operate.login'), value: this.$root.$t('operate.login'), parent: 'Action' },
+              { text: this.$root.$t('operate.enable'), value: this.$root.$t('operate.enable'), parent: 'Action' },
+              { text: this.$root.$t('operate.disable'), value: this.$root.$t('operate.disable'), parent: 'Action' },
             ],
           },
         ];

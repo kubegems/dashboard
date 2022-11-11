@@ -51,16 +51,16 @@
     <div class="metrics-item__chart">
       <div ref="container" class="metrics-item__container">
         <BaseAreaChart
-          v-if="data"
-          :id="data._$origin.resourceObj.rule"
           chart-type="line"
           :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
           colorful
-          :extend-height="295"
+          :extend-height="280"
+          :global-plugins-check="false"
           label="all"
           :label-show="false"
-          :metrics="data ? data.data : []"
+          :metrics="data.data"
           single-tooptip
+          title=""
           type=""
           :unit="getUnit(unit)"
         />
@@ -84,7 +84,7 @@
     props: {
       data: {
         type: Object,
-        default: () => null,
+        default: () => {},
       },
       labelpairs: {
         type: Object,
@@ -165,6 +165,7 @@
               rule: resourceObj.rule,
               scope: resourceObj.scope,
               unit: unit?.value,
+              labelpairs: labelpairs,
             },
           };
         }
@@ -175,7 +176,6 @@
               name: '',
               for: '1m',
               promqlGenerator: null,
-              labelpairs,
               alertLevels: [],
               receivers: [],
             },

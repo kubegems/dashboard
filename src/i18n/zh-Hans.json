@@ -74,7 +74,9 @@
       "ops": "运维",
       "admin": "管理员",
       "sys": "系统管理员",
-      "tenantadmin": "租户管理员"
+      "tenantadmin": "租户管理员",
+      "projectadmin": "项目管理员",
+      "projectops": "项目运维"
     },
     "environment": {
       "operator": "操作成员",
@@ -232,7 +234,9 @@
     "sync_c": "同步{0}",
     "save": "保存",
     "detail": "详情",
-    "reset": "重置"
+    "reset": "重置",
+    "upload": "文件上传",
+    "download": "下载"
   },
   "form": {
     "definition": "{0}定义",
@@ -347,6 +351,7 @@
       "output": "日志路由器",
       "flow": "日志采集器",
       "monitor_app": "应用性能",
+      "channel": "告警渠道",
 
       "g_dashboard": "概览",
       "g_integrated": "接入中心",
@@ -464,7 +469,8 @@
     "prometheus_rule": "告警规则 (PrometheusRule) 通常是针对监控指标设置的Prometheus告警规则。",
     "flow": "日志采集器 (Flow/ClusterFlow) 定义了一个带有过滤器和输出的日志流。",
     "output": "日志路由器 (Output/ClusterOutput) 定义您的流可以发送日志消息的输出。",
-    "dash_app": "应用监控(Jaeger)"
+    "dash_app": "应用监控(Jaeger)",
+    "alert_channel": "告警渠道提供多种告警消息发送方式通知用户，包括(邮箱，飞书，webhook等)"
   },
   "metadata": {
     "description": "更便捷的云原生管理平台",
@@ -514,7 +520,10 @@
     "unknown_error": "未知错误",
     "start_end": "起止时间",
     "show": "显示",
-    "hide": "折叠"
+    "hide": "折叠",
+    "need_login": "请登录后访问",
+    "gpu_allocated": "Gpu分配",
+    "not_based_yaml": "不符合标准的yaml格式"
   },
   "tab": {
     "overview": "概览",
@@ -522,6 +531,7 @@
     "metadata": "元数据",
     "event": "事件",
     "pod": "容器组",
-    "monitor": "监控"
+    "monitor": "监控",
+    "gpu_monitor": "GPU监控"
   }
 }

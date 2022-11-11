@@ -21,7 +21,7 @@
         <v-card-text class="pa-0">
           <v-sheet class="pt-2 px-2">
             <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width">
-              <span class="ml-2">{{ $root.$t('form.definition', [$root.$t('resource.registry')]) }}</span>
+              <span class="ml-2">{{ $root.$t('form.definition', [$root.$t('resource.image_registry')]) }}</span>
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
               <v-text-field

@@ -371,7 +371,7 @@ export default new Store({
             simple: true,
             noprocessing: true,
           });
-          commit('SET_PLUGINS', data);
+          if (data) commit('SET_PLUGINS', data);
           return true;
         }
         return false;
@@ -383,6 +383,7 @@ export default new Store({
         refresh = true;
       }
       if ((!state.PluginsInterval && state.JWT) || refresh) {
+        clearInterval(state.PluginsInterval);
         const r = await doFunc();
         if (r) {
           state.PluginsInterval = setInterval(doFunc, 1000 * 30);

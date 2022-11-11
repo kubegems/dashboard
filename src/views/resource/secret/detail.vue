@@ -24,7 +24,7 @@
             <v-icon left small> mdi-code-json </v-icon>
             YAML
           </v-btn>
-          <v-menu v-if="m_permisson_resourceAllow" left>
+          <v-menu v-if="m_permisson_resourceAllow()" left>
             <template #activator="{ on }">
               <v-btn icon>
                 <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
@@ -100,10 +100,12 @@
       UpdateSecret,
     },
     mixins: [BaseFilter, BasePermission, BaseResource],
-    data: () => ({
-      secret: null,
-      datas: [],
-    }),
+    data() {
+      return {
+        secret: null,
+        datas: [],
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Scale']),
       height() {

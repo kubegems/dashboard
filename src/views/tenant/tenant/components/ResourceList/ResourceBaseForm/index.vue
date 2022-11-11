@@ -113,7 +113,7 @@
                 </span>
               </v-flex>
               <v-text-field
-                v-model="obj.Content[`requests.storage`]"
+                v-model="obj.Content[`limits.storage`]"
                 class="my-0"
                 :label="
                   edit
@@ -150,9 +150,9 @@
               <v-sheet class="px-2">
                 <v-flex class="text-subtitle-1">
                   nvidia {{ $t('resource.form.apply', [$root.$t('resource.gpu')]) }}
-                  <span class="text-subtitle-2 primary--text">
+                  <div class="text-subtitle-2 primary--text">
                     {{ quota ? quota.AllocatedNvidiaGpu.toFixed(1) : 0 }} Gpu
-                  </span>
+                  </div>
                 </v-flex>
                 <v-text-field
                   v-model="obj.Content['limits.nvidia.com/gpu']"
@@ -179,14 +179,14 @@
                 <v-sheet class="px-2">
                   <v-flex class="text-subtitle-1">
                     tke {{ $t('resource.form.apply', [$root.$t('resource.gpu')]) }}
-                    <span class="text-subtitle-2 primary--text">
+                    <div class="text-subtitle-2 primary--text">
                       {{ quota ? quota.AllocatedTkeGpu.toFixed(1) : 0 }} {{ $t('resource.form.unit') }} (1{{
                         $t('resource.form.unit')
                       }}=0.01 Gpu)
-                    </span>
+                    </div>
                   </v-flex>
                   <v-text-field
-                    v-model="obj.Content['tencent.com/vcuda-core']"
+                    v-model="obj.Content['limits.tencent.com/vcuda-core']"
                     class="my-0"
                     :label="
                       edit
@@ -199,7 +199,7 @@
                   >
                     <template #append>
                       <span class="text-body-2 kubegems__text">
-                        {{ parseInt(obj.Content['tencent.com/vcuda-core'] || 0) / 100 }} Gpu
+                        {{ parseInt(obj.Content['limits.tencent.com/vcuda-core'] || 0) / 100 }} Gpu
                       </span>
                     </template>
                   </v-text-field>
@@ -209,14 +209,14 @@
                 <v-sheet class="px-2">
                   <v-flex class="text-subtitle-1">
                     tke {{ $t('resource.form.apply', [$root.$t('resource.video_memory')]) }}
-                    <span class="text-subtitle-2 primary--text">
+                    <div class="text-subtitle-2 primary--text">
                       {{ quota ? quota.AllocatedTkeMemory.toFixed(1) : 0 }} {{ $t('resource.form.unit') }} (1{{
                         $t('resource.form.unit')
                       }}=256Mi)
-                    </span>
+                    </div>
                   </v-flex>
                   <v-text-field
-                    v-model="obj.Content[`tencent.com/vcuda-memory`]"
+                    v-model="obj.Content[`limits.tencent.com/vcuda-memory`]"
                     class="my-0"
                     :label="
                       edit
@@ -229,7 +229,7 @@
                   >
                     <template #append>
                       <span class="text-body-2 kubegems__text">
-                        {{ (parseInt(obj.Content['tencent.com/vcuda-memory'] || 0) * 256) / 1024 }}Gi
+                        {{ (parseInt(obj.Content['limits.tencent.com/vcuda-memory'] || 0) * 256) / 1024 }}Gi
                       </span>
                     </template>
                   </v-text-field>
@@ -284,7 +284,7 @@
           Content: {
             'limits.cpu': '',
             'limits.memory': '',
-            'requests.storage': '',
+            'limits.storage': '',
           },
         },
       };
@@ -355,8 +355,8 @@
       tke: {
         handler(newValue) {
           if (newValue && !this.edit) {
-            this.obj.Content['tencent.com/vcuda-core'] = '';
-            this.obj.Content['tencent.com/vcuda-memory'] = '';
+            this.obj.Content['limits.tencent.com/vcuda-core'] = '';
+            this.obj.Content['limits.tencent.com/vcuda-memory'] = '';
           }
         },
         deep: true,
@@ -368,13 +368,13 @@
       },
       getData() {
         const data = deepCopy(this.obj);
-        if (!canSetGpu) {
+        if (!this.canSetGpu) {
           if (this.nvidia) {
             delete data.Content['limits.nvidia.com/gpu'];
           }
           if (this.tke) {
-            delete data.Content['tencent.com/vcuda-core'];
-            delete data.Content['tencent.com/vcuda-memory'];
+            delete data.Content['limits.tencent.com/vcuda-core'];
+            delete data.Content['limits.tencent.com/vcuda-memory'];
           }
         }
         return data;

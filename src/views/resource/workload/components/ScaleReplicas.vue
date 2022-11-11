@@ -72,16 +72,18 @@
         default: () => null,
       },
     },
-    data: () => ({
-      dialog: false,
-      valid: false,
-      obj: {
-        Replicas: 0,
-      },
-      objRules: {
-        ReplicasRules: [(v) => parseInt(v) >= 0 || this.$t('form.limit_min_rule')],
-      },
-    }),
+    data() {
+      return {
+        dialog: false,
+        valid: false,
+        obj: {
+          Replicas: 0,
+        },
+        objRules: {
+          ReplicasRules: [(v) => parseInt(v) >= 0 || this.$t('form.limit_min_rule')],
+        },
+      };
+    },
     computed: {
       ...mapState(['Circular']),
     },

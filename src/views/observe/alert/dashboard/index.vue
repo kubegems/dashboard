@@ -44,7 +44,7 @@
         />
       </v-col>
       <v-col class="pt-0" cols="12">
-        <AlertHistoryBar :tenant="tenant" />
+        <AlertHistoryLine :tenant="tenant" />
       </v-col>
       <v-col class="pt-0" cols="6">
         <AlertCategoryBar :tenant="tenant" />
@@ -61,20 +61,20 @@
 
   import messages from '../i18n';
   import AlertCategoryBar from './components/AlertCategoryBar';
-  import AlertHistoryBar from './components/AlertHistoryBar';
+  import AlertHistoryLine from './components/AlertHistoryLine';
   import AlertTopBar from './components/AlertTopBar';
   import ValueCard from './components/ValueCard';
   import { getAlertToday } from '@/api';
   import BaseSelect from '@/mixins/select';
 
   export default {
-    name: 'ObserveMonitor',
+    name: 'AlertDashboard',
     i18n: {
       messages: messages,
     },
     components: {
       AlertCategoryBar,
-      AlertHistoryBar,
+      AlertHistoryLine,
       AlertTopBar,
       ValueCard,
     },

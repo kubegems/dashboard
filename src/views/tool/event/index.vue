@@ -164,21 +164,23 @@
       messages: messages,
     },
     mixins: [BaseFilter, BaseSelect],
-    data: () => ({
-      items: [],
-      dataLength: 0,
-      date: [],
-      params: {
-        limit: 500,
-        clustername: undefined,
-        start: null,
-        end: null,
-      },
-      page: 1,
-      itemsPerPage: 10,
-      pageCount: 0,
-      pluginPass: [],
-    }),
+    data() {
+      return {
+        items: [],
+        dataLength: 0,
+        date: [],
+        params: {
+          limit: 500,
+          clustername: undefined,
+          start: null,
+          end: null,
+        },
+        page: 1,
+        itemsPerPage: 10,
+        pageCount: 0,
+        pluginPass: [],
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Admin', 'Scale', 'AdminViewport']),
       ...mapGetters(['Cluster', 'Tenant']),
@@ -280,6 +282,7 @@
     },
     methods: {
       async loadPluginPass() {
+        if (!this.params.clustername) return;
         const data = await getClusterPluginsList(this.params.clustername, {
           simple: true,
           noprocessing: true,
@@ -335,7 +338,7 @@
         if (this.JWT) {
           if (!(this.Tenant().ID > 0 || this.Admin)) {
             this.$store.commit('SET_SNACKBAR', {
-              text: `请创建或加入租户`,
+              text: this.$root.$t('tip.select_tenant'),
               color: 'warning',
             });
             return;
@@ -367,7 +370,7 @@
           this.params.clustername = params['clustername'];
         } else {
           this.$store.commit('SET_SNACKBAR', {
-            text: '请选择集群',
+            text: this.$root.$t('tip.select_cluster'),
             color: 'warning',
           });
           this.params.clustername = null;

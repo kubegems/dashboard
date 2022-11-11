@@ -88,9 +88,11 @@
         default: () => [],
       },
     },
-    data: () => ({
-      dialog: false,
-    }),
+    data() {
+      return {
+        dialog: false,
+      };
+    },
     computed: {
       ...mapState(['Scale']),
       wizardHeight() {

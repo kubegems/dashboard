@@ -26,7 +26,6 @@
         lang="yaml"
         :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
         theme="chrome"
-        @init="$aceinit"
         @keydown.stop
       />
     </div>
@@ -48,10 +47,12 @@
         default: () => '',
       },
     },
-    data: () => ({
-      valid: false,
-      kubeyaml: '',
-    }),
+    data() {
+      return {
+        valid: false,
+        kubeyaml: '',
+      };
+    },
     computed: {
       ...mapState(['Scale']),
     },

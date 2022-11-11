@@ -115,15 +115,17 @@
       DeployResult,
     },
     mixins: [BaseResource],
-    data: () => ({
-      panel: false,
-      containerMenu: false,
-      resource: null,
-      items: [],
-      tab: 0,
-      container: '',
-      containers: [],
-    }),
+    data() {
+      return {
+        panel: false,
+        containerMenu: false,
+        resource: null,
+        items: [],
+        tab: 0,
+        container: '',
+        containers: [],
+      };
+    },
     computed: {
       ...mapState(['Scale']),
       ...mapGetters(['Tenant', 'Project']),

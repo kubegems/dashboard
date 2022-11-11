@@ -134,7 +134,10 @@
               </v-card-actions>
 
               <v-flex v-if="plugin.required" class="plugins__watermark-bg" />
-              <v-flex v-if="plugin.required" class="plugins__watermark font-weight-medium">
+              <v-flex
+                v-if="plugin.required"
+                :class="`${Locale === 'en' ? 'plugins__watermark-en' : 'plugins__watermark'} font-weight-medium`"
+              >
                 {{ $t('tip.inner') }}
               </v-flex>
             </v-card>
@@ -160,13 +163,15 @@
       messages: messages,
     },
     mixins: [BasePermission, BaseResource],
-    data: () => ({
-      tab: 0,
-      pluginDict: {},
-      interval: null,
-      apiVersion: null,
-      uiVersion: null,
-    }),
+    data() {
+      return {
+        tab: 0,
+        pluginDict: {},
+        interval: null,
+        apiVersion: null,
+        uiVersion: null,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'AdminViewport', 'Locale']),
       ...mapGetters(['Cluster']),
@@ -294,7 +299,7 @@
       async platformVersion() {
         const data = await getPlatformVersion({ noprocessing: true });
         this.apiVersion = data?.GitVersion;
-        this.uiVersion = process.env.VUE_APP_RELEASE;
+        this.uiVersion = import.meta.env.VUE_APP_RELEASE;
       },
     },
   };
@@ -333,6 +338,16 @@
       position: absolute;
       top: 14px;
       right: -1px;
+      transform: rotate(47deg);
+      text-transform: uppercase;
+      color: white;
+      font-size: 12px;
+    }
+
+    &__watermark-en {
+      position: absolute;
+      top: 15px;
+      right: -3px;
       transform: rotate(47deg);
       text-transform: uppercase;
       color: white;

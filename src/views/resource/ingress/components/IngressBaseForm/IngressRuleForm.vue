@@ -17,7 +17,7 @@
 <template>
   <v-form ref="form" v-model="valid" class="my-2" lazy-validation @submit.prevent>
     <v-expand-transition>
-      <v-card v-show="expand" class="my-2 pa-2 kubegems__expand-transition" :elevation="4" flat>
+      <v-card v-show="expand" class="my-2 pa-1 kubegems__expand-transition" :elevation="4" flat>
         <BaseSubTitle :divider="false">
           <template #action>
             <v-btn class="float-right mr-2" color="primary" small text @click="addPath">
@@ -32,8 +32,14 @@
               <span>{{ $root.$t('form.definition', [$t('tip.ingress_rule')]) }}</span>
             </v-flex>
             <v-flex class="float-left ml-2 kubegems__form-width">
-              <v-text-field v-model="ruler.host" class="my-0" label="域名" :rules="rulerRules.hostRule">
-                <template #append>
+              <v-text-field
+                v-model="ruler.host"
+                class="my-0"
+                label="域名"
+                :readonly="edit"
+                :rules="rulerRules.hostRule"
+              >
+                <template v-if="!edit" #append>
                   <v-btn class="mt-n1" color="primary" small text @click="randomHost">
                     <v-icon left small> mdi-all-inclusive </v-icon>
                     {{ $t('tip.random_domain') }}
@@ -41,7 +47,7 @@
                 </template>
               </v-text-field>
             </v-flex>
-            <v-flex v-if="hasTLS" class="float-left ml-2 kubegems__form-width">
+            <v-flex v-if="hasTLS || needTlsSecret" class="float-left ml-2 kubegems__form-width">
               <v-autocomplete
                 v-model="ruler.secretName"
                 class="my-0"
@@ -51,14 +57,25 @@
                 :label="$root.$t('resource.secret')"
                 :no-data-text="$root.$t('data.no_data')"
                 :rules="rulerRules.secretNameRule"
-                @focus="onSecretSelectFocus(ThisCluster, obj.metadata.namespace, 'kubernetes.io/tls')"
               >
                 <template #selection="{ item }">
                   <v-chip class="mx-1" color="primary" small>
                     {{ item['text'] }}
                   </v-chip>
                 </template>
+                <template v-if="needTlsSecret" #append>
+                  <v-btn class="mt-n1" color="error" small text @click.stop="removeTlsSecret">
+                    <v-icon left small> mdi-close-thick </v-icon>
+                    {{ $t('operate.remove_secret') }}
+                  </v-btn>
+                </template>
               </v-autocomplete>
+            </v-flex>
+            <v-flex v-else class="float-left ml-2 kubegems__form-width">
+              <v-btn class="mt-4" color="primary" small text @click="addTlsSecret">
+                <v-icon left small> mdi-plus </v-icon>
+                {{ $t('operate.add_secret') }}
+              </v-btn>
             </v-flex>
             <div class="kubegems__clear-float" />
           </v-sheet>
@@ -234,13 +251,13 @@
     },
     mixins: [BaseResource, BaseSelect],
     props: {
-      annotations: {
-        type: Object,
-        default: () => null,
-      },
       domain: {
         type: String,
         default: () => '',
+      },
+      edit: {
+        type: Boolean,
+        default: () => false,
       },
       obj: {
         type: Object,
@@ -267,6 +284,7 @@
           host: '',
           paths: [{ path: '', pathType: '', serviceName: '', servicePort: '', portType: 'name', portTypeMenu: false }],
         },
+        needTlsSecret: false,
       };
     },
     computed: {
@@ -290,8 +308,10 @@
       },
       hasTLS() {
         return (
-          this.annotations &&
-          ['HTTPS', 'GRPCS'].indexOf(this.annotations['nginx.ingress.kubernetes.io/backend-protocol']) > -1
+          this.obj.spec.tls?.length &&
+          this.obj.spec.tls.some((t) => {
+            return t.hosts.indexOf(this.ruler.host) > -1;
+          })
         );
       },
     },
@@ -305,6 +325,15 @@
           this.objCopy = deepCopy(newValue);
         },
         deep: true,
+      },
+      hasTLS: {
+        handler(newValue) {
+          if (newValue) {
+            this.m_select_secretSelectData(this.ThisCluster, this.obj?.metadata?.namespace, 'kubernetes.io/tls');
+          }
+        },
+        deep: true,
+        immediate: true,
       },
     },
     methods: {
@@ -393,14 +422,22 @@
           if (this.ruler.host === this.$t('tip.auto_domain')) {
             this.ruler.host = '';
           }
-          if (this.hasTLS) {
+          if (this.hasTLS || this.needTlsSecret) {
             if (!this.objCopy.spec.tls) {
               this.objCopy.spec.tls = [];
             }
-            this.objCopy.spec.tls.push({
-              hosts: [this.ruler.host],
-              secretName: this.ruler.secretName,
-            });
+            if (
+              this.objCopy.spec.tls.findIndex((tls) => {
+                return tls.hosts.find((h) => {
+                  return h === this.ruler.host;
+                });
+              }) === -1
+            ) {
+              this.objCopy.spec.tls.push({
+                hosts: [this.ruler.host],
+                secretName: this.ruler.secretName,
+              });
+            }
           }
           if (this.ruler.index === -1) {
             this.objCopy.spec.rules.push({
@@ -417,7 +454,7 @@
               },
             });
           }
-          if (!this.hasTLS) {
+          if (!this.hasTLS && !this.needTlsSecret) {
             if (this.objCopy.spec.tls && this.objCopy.spec.tls.length > 0) {
               const index = this.objCopy.spec.tls.findIndex((tls) => {
                 return tls.hosts.find((h) => {
@@ -443,6 +480,7 @@
         ];
         this.ruler = deepCopy(this.$options.data().ruler);
         this.$refs.form.resetValidation();
+        this.needTlsSecret = false;
         this.$emit('closeOverlay');
       },
       onServiceSelectFocus(clusterName, namespace) {
@@ -454,6 +492,21 @@
       setPortType(portType, index) {
         this.ruler.paths[index].portType = portType.value;
         this.ruler.paths[index].portTypeMenu = false;
+      },
+      removeTlsSecret() {
+        if (this.objCopy.spec.tls && this.objCopy.spec.tls.length > 0) {
+          const index = this.objCopy.spec.tls.findIndex((tls) => {
+            return tls.hosts.find((h) => {
+              return h === this.ruler.host;
+            });
+          });
+          this.$delete(this.objCopy.spec.tls, index);
+          this.$emit('addData', this.objCopy, false);
+        }
+        this.needTlsSecret = false;
+      },
+      addTlsSecret() {
+        this.needTlsSecret = true;
       },
     },
   };

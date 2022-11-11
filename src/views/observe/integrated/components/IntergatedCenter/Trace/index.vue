@@ -25,18 +25,18 @@
 <script>
   import { mapState } from 'vuex';
 
-  import Cpp from './docs/cpp.mdx';
-  import Csharp from './docs/csharp.mdx';
-  import Erlang from './docs/erlang.mdx';
-  import Golang from './docs/golang.mdx';
-  import Java from './docs/java.mdx';
-  import Javascript from './docs/javascript.mdx';
-  import Nodejs from './docs/nodejs.mdx';
-  import Php from './docs/php.mdx';
-  import Python from './docs/python.mdx';
-  import Ruby from './docs/ruby.mdx';
-  import Rust from './docs/rust.mdx';
-  import Swift from './docs/swift.mdx';
+  import Cpp from './docs/cpp.md';
+  import Csharp from './docs/csharp.md';
+  import Erlang from './docs/erlang.md';
+  import Golang from './docs/golang.md';
+  import Java from './docs/java.md';
+  import Javascript from './docs/javascript.md';
+  import Nodejs from './docs/nodejs.md';
+  import Php from './docs/php.md';
+  import Python from './docs/python.md';
+  import Ruby from './docs/ruby.md';
+  import Rust from './docs/rust.md';
+  import Swift from './docs/swift.md';
 
   export default {
     name: 'Trace',

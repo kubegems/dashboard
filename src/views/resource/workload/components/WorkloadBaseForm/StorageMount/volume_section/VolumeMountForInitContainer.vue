@@ -45,7 +45,6 @@
           :rules="mountRules[container.name].mountPathRule"
         />
       </v-flex>
-      <v-flex class="float-left text-subtitle-2 pt-4 primary--text kubegems__min-width" />
       <v-flex class="float-left ml-2 kubegems__form-width">
         <v-text-field
           v-if="mounts[container.name].readOnly !== null"

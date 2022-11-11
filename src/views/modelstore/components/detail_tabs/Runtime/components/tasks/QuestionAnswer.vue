@@ -10,7 +10,6 @@
           :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
           :style="{ height: `${height / 2 - 10}px !important` }"
           theme="chrome"
-          @init="$aceinit"
           @keydown.stop
         />
 
@@ -22,7 +21,6 @@
           :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
           :style="{ height: `${height / 2 - 10}px !important` }"
           theme="chrome"
-          @init="$aceinit"
           @keydown.stop
         />
       </v-col>

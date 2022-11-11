@@ -26,7 +26,7 @@
           @refresh="m_filter_list"
         />
         <v-spacer />
-        <v-menu v-if="m_permisson_resourceAllow" left>
+        <v-menu v-if="m_permisson_resourceAllow()" left>
           <template #activator="{ on }">
             <v-btn icon>
               <v-icon color="primary" v-on="on"> mdi-dots-vertical </v-icon>
@@ -149,14 +149,16 @@
       UpdateRegistry,
     },
     mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],
-    data: () => ({
-      items: [],
-      pageCount: 0,
-      params: {
-        page: 1,
-        size: 10,
-      },
-    }),
+    data() {
+      return {
+        items: [],
+        pageCount: 0,
+        params: {
+          page: 1,
+          size: 10,
+        },
+      };
+    },
     computed: {
       ...mapState(['Admin', 'AdminViewport', 'JWT']),
       ...mapGetters(['Project']),
@@ -176,7 +178,7 @@
             align: 'start',
           });
         }
-        if (this.m_permisson_resourceAllow) {
+        if (this.m_permisson_resourceAllow()) {
           items.push({ text: '', value: 'action', align: 'center', width: 20 });
         }
         return items;

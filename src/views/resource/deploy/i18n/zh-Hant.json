@@ -51,7 +51,50 @@
     "step_status": "任務步驟狀態",
     "error_info": "錯誤資訊",
     "traffic_topology": "流量拓撲",
-    "step_and_traffic": "步驟&流量"
+    "step_and_traffic": "步驟&流量",
+
+    "auto": "自動更新",
+    "manual": "手動更新",
+    "service_setting": "服務設置",
+    "blue": "主版本服務（藍）",
+    "green": "發布版本服務（綠）",
+    "upgrade_policy": "更新策略",
+    "delay_time": "延時時間",
+    "app_analysis": "應用分析（需啟用prometheus與istio）",
+    "post_analysis": "更新過程中分析",
+    "complete_analysis": "更新完成後分析",
+
+    "traffic_setting": "流量設置",
+    "traffic_route": "流量路由",
+    "canary_weight": "灰度流量比例",
+    "canary_service": "灰度服務",
+    "online_service": "線上服務",
+    "canary_setting": "灰度配置",
+    "analysis": "應用分析",
+    "default": "默認",
+    "istio_gateway": "istio網關",
+
+    "rolling_update_policy": "滾動更新策略",
+    "max_unavailable": "容器組最大不可用數量",
+    "max_surge": "容器組最大超出數量",
+
+    "runtime": "當前運行時",
+    "version": "版本號",
+    "publish_soon": "即將發布",
+    "auto_generate_version": "自動生成版本號",
+    "unpublished": "不可發布",
+
+    "regex_rule": "匹配規則",
+    "regex": "匹配",
+    "regex_header": "匹配頭",
+    "traffic_weight": "流量比例",
+    "default_traffic_weight": "默認流量比例",
+    "custom_traffic_weight": "自定義流量比例",
+
+    "analysis_template": "分析模板",
+    "template_range": "模版範圍",
+    "params": "參數",
+    "cluster_level": "集群級別"
   },
   "operate": {
     "switch_deploy": "切換部署模式",
@@ -66,7 +109,11 @@
     "resource_live": "資源Live",
     "resource_diff": "資源Diff",
     "log": "日誌",
-    "app_status": "應用狀態"
+    "app_status": "應用狀態",
+
+    "traffic": "按流量灰度",
+    "header": "按請求頭灰度",
+    "uri": "按請求uri灰度"
   },
   "table": {
     "name": "名稱",

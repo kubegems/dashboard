@@ -22,6 +22,11 @@
       <ServiceInfo class="pb-2" :item="item" />
     </template>
 
+    <v-card v-if="$route.query.type === 'Service'" class="mt-3" flat>
+      <BaseSubTitle class="pt-2" :divider="false" :title="$root.$t('resource.workload')" />
+      <WorkloadList :workloads="item ? item.workloads : []" />
+    </v-card>
+
     <v-card v-for="(traffics, key) in traffic" :key="`${key}`" class="mt-3" flat>
       <BaseSubTitle class="pt-2" :divider="false" :title="`${trafficCn[key]}`" />
       <v-data-table
@@ -48,11 +53,6 @@
           {{ item.Protocol }}
         </template>
       </v-data-table>
-    </v-card>
-
-    <v-card v-if="$route.query.type === 'Service'" class="mt-3" flat>
-      <BaseSubTitle class="pt-2" :divider="false" :title="$root.$t('resource.workload')" />
-      <WorkloadList :workloads="item ? item.workloads : []" />
     </v-card>
   </div>
 </template>

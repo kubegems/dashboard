@@ -113,6 +113,18 @@
                   {{ item.state }}
                 </v-chip>
               </span>
+              <v-flex v-if="item.tplLost" class="float-left">
+                <v-menu nudge-right="20px" nudge-top="8px" open-on-hover right>
+                  <template #activator="{ on }">
+                    <span v-on="on">
+                      <v-icon color="orange" small> mdi-alert-rhombus </v-icon>
+                    </span>
+                  </template>
+                  <v-card>
+                    <v-card-text class="pa-2 text-caption"> {{ $t('tip.missing_template') }} </v-card-text>
+                  </v-card>
+                </v-menu>
+              </v-flex>
             </v-flex>
           </template>
           <template v-if="AdminViewport" #[`item.namespace`]="{ item }">
@@ -232,32 +244,34 @@
         default: () => false,
       },
     },
-    data: () => ({
-      items: [],
-      itemsCopy: [],
-      page: 1,
-      pageCount: 0,
-      itemsPerPage: 10,
-      params: {
-        state: '',
-        isAdmin: false,
-      },
-      amenities: [],
-      alertStatus: { inactive: 0, firing: 0, pending: 0 },
-      alertStateFilter: [],
-      alertStateArr: [{ inactive: 'success' }, { pending: 'warning' }, { firing: 'error' }],
-      cluster: undefined,
-      namespace: undefined,
-    }),
+    data() {
+      return {
+        items: [],
+        itemsCopy: [],
+        page: 1,
+        pageCount: 0,
+        itemsPerPage: 10,
+        params: {
+          state: '',
+          isAdmin: false,
+        },
+        amenities: [],
+        alertStatus: { inactive: 0, firing: 0, pending: 0 },
+        alertStateFilter: [],
+        alertStateArr: [{ inactive: 'success' }, { pending: 'warning' }, { firing: 'error' }],
+        cluster: undefined,
+        namespace: undefined,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'AdminViewport', 'Scale']),
       ...mapGetters(['Environment']),
       headers() {
         const items = [
           { text: this.$t('table.name'), value: 'name', align: 'start' },
-          { text: this.$t('table.expr'), value: 'expr', align: 'start', width: 300 },
+          { text: this.$t('table.expr'), value: 'expr', align: 'start' },
           { text: this.$t('table.for'), value: 'for', align: 'start' },
-          { text: this.$root.$t('resource.receiver'), value: 'receivers', align: 'start', width: 150 },
+          { text: this.$root.$t('resource.receiver'), value: 'receivers', align: 'start' },
           { text: this.$t('table.status'), value: 'open', align: 'start', width: 80 },
         ];
         if (this.m_permisson_resourceAllow(this.$route.query.env)) {
@@ -290,7 +304,7 @@
     },
     methods: {
       customFilter() {
-        if (this.$route.query.search && this.$route.query.search.length > 0) {
+        if (this.$route.query.search) {
           this.items = this.itemsCopy.filter((item) => {
             return (
               item.name && item.name.toLocaleLowerCase().indexOf(this.$route.query.search.toLocaleLowerCase()) > -1
@@ -332,7 +346,7 @@
               namespace: item.namespace,
             },
             name: item.name,
-            receiversStr: (item.receivers || []).map((receiver) => receiver.name).join(', '),
+            receiversStr: (item.receivers || []).map((receiver) => receiver.alertChannel.name).join(', '),
             ...item,
           };
         });
@@ -387,9 +401,9 @@
       async switchBlackList(item) {
         if (item.isOpen) {
           this.$store.commit('SET_CONFIRM', {
-            title: this.$root.$t('operate.disable_c', [this.$root.$t('resource.prometheus_rule')]),
+            title: this.$t('operate.disable_c', [this.$root.$t('resource.prometheus_rule')]),
             content: {
-              text: `${this.$root.$t('operate.disable_c', [this.$root.$t('resource.prometheus_rule')])} ${item.name}`,
+              text: `${this.$t('operate.disable_c', [this.$root.$t('resource.prometheus_rule')])} ${item.name}`,
               type: 'confirm',
             },
             param: { item },
@@ -400,9 +414,9 @@
           });
         } else {
           this.$store.commit('SET_CONFIRM', {
-            title: this.$root.$t('operate.enable_c', [this.$root.$t('resource.prometheus_rule')]),
+            title: this.$t('operate.enable_c', [this.$root.$t('resource.prometheus_rule')]),
             content: {
-              text: `${this.$root.$t('operate.enable_c', [this.$root.$t('resource.prometheus_rule')])} ${item.name}`,
+              text: `${this.$t('operate.enable_c', [this.$root.$t('resource.prometheus_rule')])} ${item.name}`,
               type: 'confirm',
             },
             param: { item },

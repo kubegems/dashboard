@@ -58,15 +58,17 @@
       messages: messages,
     },
     mixins: [BaseSelect],
-    data: () => ({
-      valid: false,
-      items: [],
-      obj: [],
-      objRules: {
-        ApplicationRule: [required],
-      },
-      linkedAppItems: [],
-    }),
+    data() {
+      return {
+        valid: false,
+        items: [],
+        obj: [],
+        objRules: {
+          ApplicationRule: [required],
+        },
+        linkedAppItems: [],
+      };
+    },
     computed: {
       ...mapState(['AdminViewport']),
       ...mapGetters(['Project', 'Tenant', 'Environment']),

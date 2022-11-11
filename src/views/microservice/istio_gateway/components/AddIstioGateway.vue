@@ -46,10 +46,12 @@
       IstioGatewayBaseForm,
     },
     mixins: [BaseResource],
-    data: () => ({
-      dialog: false,
-      formComponent: 'IstioGatewayBaseForm',
-    }),
+    data() {
+      return {
+        dialog: false,
+        formComponent: 'IstioGatewayBaseForm',
+      };
+    },
     computed: {
       ...mapState(['Circular']),
       ...mapGetters(['VirtualSpace']),

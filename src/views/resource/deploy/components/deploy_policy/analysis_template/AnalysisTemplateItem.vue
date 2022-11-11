@@ -23,7 +23,7 @@
             <v-list-item class="float-left pa-0 kubegems__two-width" two-line>
               <v-list-item-content class="py-0">
                 <v-list-item-title class="text-subtitle-2 py-1">
-                  {{ obj.templates ? obj.templates.length : 0 }} 个template
+                  {{ obj.templates ? obj.templates.length : 0 }} template
                 </v-list-item-title>
                 <v-list-item-subtitle class="text-body-2 py-1"> templates </v-list-item-subtitle>
               </v-list-item-content>
@@ -53,7 +53,7 @@
           <v-list-item-subtitle class="text-body-2 py-0 text-center">
             <v-btn color="primary" text @click="expandCard">
               <v-icon left small> mdi-plus </v-icon>
-              添加{{ title }}
+              {{ $root.$t('operate.add_c', [title]) }}
             </v-btn>
           </v-list-item-subtitle>
         </v-list-item-content>

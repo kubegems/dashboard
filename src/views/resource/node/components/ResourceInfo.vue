@@ -24,7 +24,6 @@
             id="node_cpu"
             class="my-3"
             :extend-height="200"
-            :label-show="false"
             :metrics="cpuSeries"
             :title="$root.$t('resource.cpu')"
             :total="totalRequests['cpu'] ? sizeOfCpu(item.status.capacity['cpu']) : 0"
@@ -37,12 +36,11 @@
             id="node_memory"
             class="my-3"
             :extend-height="200"
-            :label-show="false"
             :metrics="memorySeries"
             :title="$root.$t('resource.memory')"
-            :total="totalRequests['memory'] ? sizeOfCpu(item.status.capacity['memory']) : 0"
+            :total="totalRequests['memory'] ? sizeOfStorage(item.status.capacity['memory']) : 0"
             unit="Gi"
-            :val="totalRequests['memory'] ? sizeOfCpu(totalRequests['memory']) : 0"
+            :val="totalRequests['memory'] ? sizeOfStorage(totalRequests['memory']) : 0"
           />
         </v-col>
         <v-col cols="4">
@@ -50,7 +48,6 @@
             id="node_pod"
             class="my-3"
             :extend-height="200"
-            :label-show="false"
             :metrics="podSeries"
             :title="$root.$t('resource.pod')"
             :total="item ? parseInt(item.status.capacity.pods) : 0"
@@ -60,54 +57,57 @@
         </v-col>
       </v-row>
 
-      <v-row v-if="showMore && tke">
-        <v-col cols="4">
-          <BaseRadialBarChart
-            id="node_tke_gpu"
-            class="my-3"
-            :extend-height="200"
-            :label-show="false"
-            :metrics="gpuTkeSeries"
-            :title="`Tke ${$root.$t('resource.gpu')}`"
-            :total="
-              totalRequests['tencent.com/vcuda-core'] ? parseInt(item.status.capacity['tencent.com/vcuda-core']) : 0
-            "
-            unit=""
-            :val="totalRequests['tencent.com/vcuda-core'] ? parseFloat(totalRequests['tencent.com/vcuda-core']) : 0"
-          />
-        </v-col>
-        <v-col cols="4">
-          <BaseRadialBarChart
-            id="node_tke_gpu"
-            class="my-3"
-            :extend-height="200"
-            :label-show="false"
-            :metrics="gpuTkeMemorySeries"
-            :title="`Tke ${$root.$t('resource.vcuda-memory')}`"
-            :total="
-              totalRequests['tencent.com/vcuda-memory'] ? parseInt(item.status.capacity['tencent.com/vcuda-memory']) : 0
-            "
-            unit=""
-            :val="totalRequests['tencent.com/vcuda-memory'] ? parseFloat(totalRequests['tencent.com/vcuda-memory']) : 0"
-          />
-        </v-col>
-      </v-row>
+      <v-expand-transition>
+        <v-row v-if="showMore && tke">
+          <v-col cols="4">
+            <BaseRadialBarChart
+              id="node_tke_gpu"
+              class="my-3"
+              :extend-height="200"
+              :metrics="gpuTkeSeries"
+              :title="`Tke ${$root.$t('resource.gpu')}`"
+              :total="
+                totalRequests['tencent.com/vcuda-core'] ? parseInt(item.status.capacity['tencent.com/vcuda-core']) : 0
+              "
+              unit=""
+              :val="totalRequests['tencent.com/vcuda-core'] ? parseFloat(totalRequests['tencent.com/vcuda-core']) : 0"
+            />
+          </v-col>
+          <v-col cols="4">
+            <BaseRadialBarChart
+              id="node_tke_memory"
+              class="my-3"
+              :extend-height="200"
+              :metrics="gpuTkeMemorySeries"
+              :title="`Tke ${$root.$t('resource.video_memory')}`"
+              :total="
+                totalRequests['tencent.com/vcuda-memory']
+                  ? parseInt(item.status.capacity['tencent.com/vcuda-memory'])
+                  : 0
+              "
+              unit=""
+              :val="
+                totalRequests['tencent.com/vcuda-memory'] ? parseFloat(totalRequests['tencent.com/vcuda-memory']) : 0
+              "
+            />
+          </v-col>
+        </v-row>
 
-      <v-row v-if="showMore && nvidia">
-        <v-col cols="4">
-          <BaseRadialBarChart
-            id="node_nvidia_gpu"
-            class="my-3"
-            :extend-height="200"
-            :label-show="false"
-            :metrics="gpuNvidiaSeries"
-            :title="`Nvidia ${$root.$t('resource.gpu')}`"
-            :total="totalRequests['nvidia.com/gpu'] ? parseInt(item.status.capacity['nvidia.com/gpu']) : 0"
-            unit=""
-            :val="totalRequests['nvidia.com/gpu'] ? parseFloat(totalRequests['nvidia.com/gpu']) : 0"
-          />
-        </v-col>
-      </v-row>
+        <v-row v-if="showMore && nvidia">
+          <v-col cols="4">
+            <BaseRadialBarChart
+              id="node_nvidia_gpu"
+              class="my-3"
+              :extend-height="200"
+              :metrics="gpuNvidiaSeries"
+              :title="`Nvidia ${$root.$t('resource.gpu')}`"
+              :total="totalRequests['nvidia.com/gpu'] ? parseInt(item.status.capacity['nvidia.com/gpu']) : 0"
+              unit=""
+              :val="totalRequests['nvidia.com/gpu'] ? parseFloat(totalRequests['nvidia.com/gpu']) : 0"
+            />
+          </v-col>
+        </v-row>
+      </v-expand-transition>
 
       <div v-if="tke || nvidia" class="pb-3 text-center">
         <v-btn color="primary" small text @click="showMore = !showMore">
@@ -272,13 +272,15 @@
         default: () => null,
       },
     },
-    data: () => ({
-      totalLimits: {},
-      totalRequests: {},
-      podCount: 0,
-      node: null,
-      showMore: false,
-    }),
+    data() {
+      return {
+        totalLimits: {},
+        totalRequests: {},
+        podCount: 0,
+        node: null,
+        showMore: false,
+      };
+    },
     computed: {
       tke() {
         if (this.item?.metadata?.labels) {
@@ -295,68 +297,106 @@
       cpuSeries() {
         return this.totalRequests['cpu'] && this.item.status.capacity['cpu']
           ? [
-              sizeOfCpu(this.item.status.capacity['cpu']) === 0
-                ? 0
-                : (sizeOfCpu(this.totalRequests['cpu']) / sizeOfCpu(this.item.status.capacity['cpu'])) * 100,
-              50,
+              [
+                sizeOfCpu(this.item.status.capacity['cpu']) === 0
+                  ? 0
+                  : (sizeOfCpu(this.totalRequests['cpu']) / sizeOfCpu(this.item.status.capacity['cpu'])) * 100,
+                100 -
+                  (sizeOfCpu(this.item.status.capacity['cpu']) === 0
+                    ? 0
+                    : (sizeOfCpu(this.totalRequests['cpu']) / sizeOfCpu(this.item.status.capacity['cpu'])) * 100),
+              ],
             ]
-          : [0, 50];
+          : [[0, 100]];
       },
       memorySeries() {
         return this.totalRequests['memory'] && this.item.status.capacity['memory']
           ? [
-              sizeOfStorage(this.item.status.capacity['memory']) === 0
-                ? 0
-                : (sizeOfStorage(this.totalRequests['memory']) / sizeOfStorage(this.item.status.capacity['memory'])) *
-                  100,
-              50,
+              [
+                sizeOfStorage(this.item.status.capacity['memory']) === 0
+                  ? 0
+                  : (sizeOfStorage(this.totalRequests['memory']) / sizeOfStorage(this.item.status.capacity['memory'])) *
+                    100,
+                100 -
+                  (sizeOfStorage(this.item.status.capacity['memory']) === 0
+                    ? 0
+                    : (sizeOfStorage(this.totalRequests['memory']) /
+                        sizeOfStorage(this.item.status.capacity['memory'])) *
+                      100),
+              ],
             ]
-          : [0, 50];
+          : [[0, 100]];
       },
 
       gpuTkeSeries() {
         return this.totalRequests['tencent.com/vcuda-core'] && this.item.status.capacity['tencent.com/vcuda-core']
           ? [
-              parseInt(this.item.status.capacity['tencent.com/vcuda-core']) === 0
-                ? 0
-                : (parseInt(this.totalRequests['tencent.com/vcuda-core']) /
-                    parseInt(this.item.status.capacity['tencent.com/vcuda-core'])) *
-                  100,
-              50,
+              [
+                parseInt(this.item.status.capacity['tencent.com/vcuda-core']) === 0
+                  ? 0
+                  : (parseInt(this.totalRequests['tencent.com/vcuda-core']) /
+                      parseInt(this.item.status.capacity['tencent.com/vcuda-core'])) *
+                    100,
+                100 -
+                  (parseInt(this.item.status.capacity['tencent.com/vcuda-core']) === 0
+                    ? 0
+                    : (parseInt(this.totalRequests['tencent.com/vcuda-core']) /
+                        parseInt(this.item.status.capacity['tencent.com/vcuda-core'])) *
+                      100),
+              ],
             ]
-          : [0, 50];
+          : [[0, 100]];
       },
 
       gpuNvidiaSeries() {
         return this.totalRequests['nvidia.com/gpu'] && this.totalLimits['nvidia.com/gpu']
           ? [
-              parseInt(this.totalLimits['nvidia.com/gpu']) === 0
-                ? 0
-                : (parseInt(this.totalRequests['nvidia.com/gpu']) / parseInt(this.totalLimits['nvidia.com/gpu'])) * 100,
-              50,
+              [
+                parseInt(this.totalLimits['nvidia.com/gpu']) === 0
+                  ? 0
+                  : (parseInt(this.totalRequests['nvidia.com/gpu']) / parseInt(this.totalLimits['nvidia.com/gpu'])) *
+                    100,
+                100 -
+                  (parseInt(this.totalLimits['nvidia.com/gpu']) === 0
+                    ? 0
+                    : (parseInt(this.totalRequests['nvidia.com/gpu']) / parseInt(this.totalLimits['nvidia.com/gpu'])) *
+                      100),
+              ],
             ]
-          : [0, 50];
+          : [[0, 100]];
       },
 
       gpuTkeMemorySeries() {
         return this.totalRequests['tencent.com/vcuda-memory'] && this.item.status.capacity['tencent.com/vcuda-memory']
           ? [
-              parseInt(this.item.status.capacity['tencent.com/vcuda-memory']) === 0
-                ? 0
-                : (parseInt(this.totalRequests['tencent.com/vcuda-memory']) /
-                    parseInt(this.item.status.capacity['tencent.com/vcuda-memory'])) *
-                  100,
-              50,
+              [
+                parseInt(this.item.status.capacity['tencent.com/vcuda-memory']) === 0
+                  ? 0
+                  : (parseInt(this.totalRequests['tencent.com/vcuda-memory']) /
+                      parseInt(this.item.status.capacity['tencent.com/vcuda-memory'])) *
+                    100,
+                100 -
+                  (parseInt(this.item.status.capacity['tencent.com/vcuda-memory']) === 0
+                    ? 0
+                    : (parseInt(this.totalRequests['tencent.com/vcuda-memory']) /
+                        parseInt(this.item.status.capacity['tencent.com/vcuda-memory'])) *
+                      100),
+              ],
             ]
-          : [0, 50];
+          : [[0, 100]];
       },
 
       podSeries() {
         return this.item
           ? parseInt(this.item.status.capacity.pods) === 0
-            ? [0, 50]
-            : [(this.podCount / parseInt(this.item.status.capacity.pods)) * 100, 50]
-          : [0, 50];
+            ? [[0, 100]]
+            : [
+                [
+                  (this.podCount / parseInt(this.item.status.capacity.pods)) * 100,
+                  100 - (this.podCount / parseInt(this.item.status.capacity.pods)) * 100,
+                ],
+              ]
+          : [[0, 100]];
       },
     },
     watch: {

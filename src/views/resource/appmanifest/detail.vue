@@ -87,10 +87,12 @@
       UpdateApp,
     },
     mixins: [BaseResource],
-    data: () => ({
-      tab: 0,
-      app: null,
-    }),
+    data() {
+      return {
+        tab: 0,
+        app: null,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'AdminViewport']),
       ...mapGetters(['Tenant', 'Project', 'Environment']),

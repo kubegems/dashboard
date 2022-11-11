@@ -210,7 +210,7 @@
           const needRefresh = (cluster !== newCluster || namespace !== newNamespace) && this.pass;
           this.params = { ...this.params, ...newValue };
           this.params.namespace = this.params.namespace || '_all';
-          if (needRefresh) {
+          if (needRefresh || newValue.refresh) {
             this.getFlowList();
           } else {
             this.frontFilter();
@@ -227,7 +227,7 @@
 
         const params = [cluster, namespace, { page: 1, size: 999 }];
         const res = await Promise.all([getFlowsData(...params), getClusterFlowsData(...params)]);
-        const list = res.reduce((pre, current) => pre.concat(current.List), []);
+        const list = res.reduce((pre, current) => pre.concat(current?.List || []), []);
         this.cacheAll = list.sort(
           (a, b) => Date.parse(b.metadata.creationTimestamp) - Date.parse(a.metadata.creationTimestamp),
         );

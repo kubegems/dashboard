@@ -27,7 +27,7 @@
     </template>
     <template #action>
       <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateGateway">
-        {{ $root.$t('confirm') }}
+        {{ $root.$t('operate.confirm') }}
       </v-btn>
     </template>
     <template #header-action>
@@ -55,21 +55,23 @@
   import { getGatewayDetail, putUpdateGateway } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';
-  import GatewaySchema from '@/views/resource/gateway/mixins/schema';
+  import GatewaySchema from '@/utils/schema/tenantgateway';
 
   export default {
     name: 'UpdateGateway',
     components: {
       GatewayBaseForm,
     },
-    mixins: [BaseResource, GatewaySchema],
-    data: () => ({
-      dialog: false,
-      yaml: null,
-      item: null,
-      formComponent: 'GatewayBaseForm',
-      switchKey: '',
-    }),
+    mixins: [BaseResource],
+    data() {
+      return {
+        dialog: false,
+        yaml: null,
+        item: null,
+        formComponent: 'GatewayBaseForm',
+        switchKey: '',
+      };
+    },
     computed: {
       ...mapState(['Circular']),
       ...mapGetters(['Tenant']),
@@ -85,7 +87,7 @@
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
             if (!this.m_resource_checkDataWithOutNS(data)) return;
-            if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+            if (!this.m_resource_validateJsonSchema(GatewaySchema, data)) {
               return;
             }
           } else if (this.formComponent === 'GatewayBaseForm') {
@@ -107,7 +109,7 @@
         } else {
           const yaml = this.$refs[this.formComponent].getYaml();
           const data = this.$yamlload(yaml);
-          if (!this.m_resource_validateJsonSchema(this.schema, data)) {
+          if (!this.m_resource_validateJsonSchema(GatewaySchema, data)) {
             this.yaml = true;
             this.switchKey = randomString(6);
             return;

@@ -39,16 +39,18 @@
   import { getIstioServiceEntryDetail, patchUpdateIstioServiceEntry } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
-  import IstioServiceEntrySchema from '@/views/microservice/istio/service_entry/mixins/schema';
+  import IstioServiceEntrySchema from '@/utils/schema/serviceentry';
 
   export default {
     name: 'UpdateServiceEntry',
-    mixins: [BaseResource, IstioServiceEntrySchema],
-    data: () => ({
-      dialog: false,
-      item: null,
-      formComponent: 'BaseYamlForm',
-    }),
+    mixins: [BaseResource],
+    data() {
+      return {
+        dialog: false,
+        item: null,
+        formComponent: 'BaseYamlForm',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'EnvironmentFilter']),
     },
@@ -62,6 +64,9 @@
           if (this.formComponent === 'BaseYamlForm') {
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
+            if (!this.m_resource_validateJsonSchema(IstioServiceEntrySchema, data)) {
+              return;
+            }
             if (!this.m_resource_checkDataWithOutNS(data)) return;
             data = this.m_resource_beautifyData(data);
           }

@@ -27,7 +27,7 @@
     "image_never": "ローカルのミラーでのみ使用できます",
     "params": "パラメーター",
     "access_control": "利用期限およびアクセス",
-    "prvileged": "特権モード (Priivileged)",
+    "privileged": "特権モード (Priivileged)",
     "allow_escalation": "特権拡張 (AllowPrivilegeEscalation)",
     "root_readonly": "root読み取り専用(ReadOnlyRootFilesystem)",
     "method": "方法",

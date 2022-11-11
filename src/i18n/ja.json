@@ -69,7 +69,9 @@
       "ops": "運用",
       "admin": "管理者",
       "sys": "システム管理者",
-      "tenantadmin": "テナント管理者"
+      "tenantadmin": "テナント管理者",
+      "projectadmin": "プロジェクトマネージャー",
+      "projectops": "プロジェクト運用"
     },
     "environment": {
       "operator": "メンバーの動作",
@@ -224,7 +226,9 @@
     "sync_c": "{0} を同期",
     "save": "保存",
     "detail": "詳細",
-    "reset": "リセット"
+    "reset": "リセット",
+    "upload": "ファイルのアップロード",
+    "download": "ダウンロード"
   },
   "form": {
     "definition": "{0}の定義",
@@ -241,7 +245,7 @@
   },
   "sidebar": {
     "cluster": "集団資源",
-    "runtime": "ランタイム",
+    "runtime": "Kubernetes",
     "microservice": "仕える",
     "observability": "観察",
     "administration": "システム"
@@ -335,6 +339,7 @@
       "output": "ログルーター",
       "flow": "ログのコレクタ",
       "monitor_app": "パフォーマンス",
+      "channel": "チャネル",
       "g_dashboard": "概要",
       "g_integrated": "アクセスセンター",
       "g_observability": "可視性",
@@ -441,7 +446,8 @@
     "prometheus_rule": "警報規則 (PrometheusRule) は、指標を設定したPrometheus警告規則である。",
     "flow": "ログキャプチャ(Flow/ClusterFlow) は、フィルタと出力付きログストリームを定義する。",
     "output": "ログルーター (Output/ClusterOutput) は、あなたのストリームからメッセージ送信の出力を定義します。",
-    "dash_app": "ジャガーアプリケーション化"
+    "dash_app": "ジャガーアプリケーション化",
+    "alert_channel": "アラート チャネルは、ユーザーに通知するためのさまざまなアラート メッセージ送信方法を提供します。"
   },
   "metadata": {
     "description": "より簡単に、クラウドベースでお届けします",
@@ -491,7 +497,10 @@
     "unknown_error": "不明なエラー",
     "start_end": "有効時間",
     "show": "表示",
-    "hide": "折り畳む"
+    "hide": "折り畳む",
+    "need_login": "訪問するにはログインしてください",
+    "gpu_allocated": "GPU 割り当て",
+    "not_based_yaml": "非標準の yaml 形式"
   },
   "tab": {
     "overview": "概要",
@@ -499,6 +508,7 @@
     "metadata": "メタデータ",
     "event": "イベント",
     "pod": "ポッド",
-    "monitor": "監視"
+    "monitor": "監視",
+    "gpu_monitor": "GPU監視"
   }
 }

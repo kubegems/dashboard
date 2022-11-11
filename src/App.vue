@@ -34,7 +34,7 @@
       };
     },
     data() {
-      this.latestVersion = process.env.VUE_APP_RELEASE;
+      this.latestVersion = import.meta.env.VUE_APP_RELEASE;
       return {
         isReloadAlive: true,
       };
@@ -79,7 +79,7 @@
         this.$store.commit('SET_SCALE', scale);
       },
       async clearLocalStorage() {
-        if (!this.Version || this.Version !== this.latestVersion) {
+        if (this.Version && this.Version !== this.latestVersion) {
           this.$store.commit('CLEARALL');
           await this.$router.push({ name: 'login' });
           this.$store.commit('SET_SNACKBAR', {

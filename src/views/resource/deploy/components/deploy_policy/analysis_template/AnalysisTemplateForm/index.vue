@@ -23,7 +23,7 @@
           <v-card-text class="pa-0">
             <v-sheet class="pt-2 px-2">
               <v-flex class="float-left text-subtitle-2 py-1 primary--text kubegems__min-width pt-5">
-                <span>分析模版</span>
+                <span>{{ $t('tip.analysis_template') }}</span>
               </v-flex>
               <v-flex class="float-left ml-2 kubegems__long-width">
                 <v-autocomplete
@@ -32,8 +32,8 @@
                   color="primary"
                   hide-selected
                   :items="analysisTemplateItems"
-                  label="分析模版"
-                  no-data-text="暂无可选数据"
+                  :label="$t('tip.analysis_template')"
+                  :no-data-text="$root.$t('data.no_data')"
                   :rules="objRules.analysisTemplateRule"
                   @change="onAnalysisTemplateChange"
                 >
@@ -57,8 +57,8 @@
                   color="primary"
                   hide-selected
                   :items="clusterScopeItems"
-                  label="模版范围"
-                  no-data-text="暂无可选数据"
+                  :label="$t('tip.template_range')"
+                  :no-data-text="$root.$t('data.no_data')"
                   :rules="objRules.clusterScopeRule"
                 >
                   <template #selection="{ item }">
@@ -72,7 +72,7 @@
             </v-sheet>
 
             <ArgsForm ref="argsForm" :data="obj.args" @addData="addArgsData" />
-            <BaseSubTitle title="参数" />
+            <BaseSubTitle :title="$t('tip.params')" />
             <v-card-text class="pa-2">
               <ArgsItem
                 :args="obj.args"
@@ -85,8 +85,8 @@
           </v-card-text>
           <v-card-actions class="pa-0">
             <v-spacer />
-            <v-btn color="error" small text @click="closeCard"> 取消 </v-btn>
-            <v-btn color="primary" small text @click="addData"> 保存 </v-btn>
+            <v-btn color="error" small text @click="closeCard"> {{ $root.$t('operate.cancel') }} </v-btn>
+            <v-btn color="primary" small text @click="addData"> {{ $root.$t('operate.save') }} </v-btn>
           </v-card-actions>
         </v-card>
       </v-expand-transition>
@@ -97,6 +97,7 @@
 <script>
   import { mapGetters } from 'vuex';
 
+  import messages from '../../../../i18n';
   import ArgsForm from './ArgsForm';
   import ArgsItem from './ArgsItem';
   import { getStrategyDeployEnvironmentAppsAnalysisTempalte } from '@/api';
@@ -106,6 +107,9 @@
 
   export default {
     name: 'AnalysisTemplateForm',
+    i18n: {
+      messages: messages,
+    },
     components: {
       ArgsForm,
       ArgsItem,
@@ -121,23 +125,24 @@
         default: () => '',
       },
     },
-    data: () => ({
-      valid: false,
-      expand: false,
-      analysisTemplate: '',
-      clusterScope: 'true',
-      clusterScopeItems: [{ text: '集群级别', value: 'true' }],
-      analysisTemplateItems: [],
-      obj: {
-        templates: [],
-        args: [],
-      },
-      objRules: {
-        analysisTemplateRule: [required],
-        clusterScopeRule: [required],
-      },
-      t: '',
-    }),
+    data() {
+      return {
+        valid: false,
+        expand: false,
+        analysisTemplate: '',
+        clusterScope: 'true',
+        analysisTemplateItems: [],
+        obj: {
+          templates: [],
+          args: [],
+        },
+        objRules: {
+          analysisTemplateRule: [required],
+          clusterScopeRule: [required],
+        },
+        t: '',
+      };
+    },
     computed: {
       ...mapGetters(['Tenant', 'Environment', 'Project']),
       template() {
@@ -146,6 +151,9 @@
         });
         if (t) return t;
         return null;
+      },
+      clusterScopeItems() {
+        return [{ text: this.$t('tip.cluster_level'), value: 'true' }];
       },
     },
     watch: {

@@ -285,80 +285,82 @@
         default: () => 0,
       },
     },
-    data: () => ({
-      valid: false,
-      expand: false,
-      obj: {
-        data: {
-          EnvironmentName: '',
-          ClusterID: null,
-          MetaType: '',
-          Namespace: '',
-          DeletePolicy: 'delLabels',
-          ProjectID: 0,
-          Remark: '',
-          CreatorID: 0,
-          Users: [],
-          ResourceQuota: {
-            'requests.cpu': 0,
-            'limits.cpu': 0,
-            'requests.memory': 0,
-            'limits.memory': 0,
-            'requests.storage': 0,
-            'count/pods': 100,
+    data() {
+      return {
+        valid: false,
+        expand: false,
+        obj: {
+          data: {
+            EnvironmentName: '',
+            ClusterID: null,
+            MetaType: '',
+            Namespace: '',
+            DeletePolicy: 'delLabels',
+            ProjectID: 0,
+            Remark: '',
+            CreatorID: 0,
+            Users: [],
+            ResourceQuota: {
+              'requests.cpu': 0,
+              'limits.cpu': 0,
+              'requests.memory': 0,
+              'limits.memory': 0,
+              'limits.storage': 0,
+              'count/pods': 100,
+            },
+            LimitRange: {
+              Container: {
+                default: {
+                  cpu: '500m',
+                  memory: '1Gi',
+                },
+                defaultRequest: {
+                  cpu: '10m',
+                  memory: '10Mi',
+                },
+                min: {
+                  cpu: '0',
+                  memory: '0Mi',
+                },
+                max: {
+                  cpu: '24',
+                  memory: '48Gi',
+                },
+              },
+              Pod: {
+                min: {
+                  cpu: '0',
+                  memory: '0Mi',
+                },
+                max: {
+                  cpu: '48',
+                  memory: '64Gi',
+                },
+              },
+              PersistentVolumeClaim: {
+                min: {
+                  storage: '0Mi',
+                },
+                max: {
+                  storage: '1Ti',
+                },
+              },
+            },
           },
-          LimitRange: {
-            Container: {
-              default: {
-                cpu: '500m',
-                memory: '1Gi',
-              },
-              defaultRequest: {
-                cpu: '10m',
-                memory: '10Mi',
-              },
-              min: {
-                cpu: '0',
-                memory: '0Mi',
-              },
-              max: {
-                cpu: '24',
-                memory: '48Gi',
-              },
-            },
-            Pod: {
-              min: {
-                cpu: '0',
-                memory: '0Mi',
-              },
-              max: {
-                cpu: '48',
-                memory: '64Gi',
-              },
-            },
-            PersistentVolumeClaim: {
-              min: {
-                storage: '0Mi',
-              },
-              max: {
-                storage: '1Ti',
-              },
-            },
-          },
+          statistics: null,
+          quota: null,
         },
-        statistics: null,
-        quota: null,
-      },
-      tab: 0,
-      allUsers: [],
-      allUsersCopy: [],
-      users: [],
-      usersCopy: [],
-      readerUsers: [],
-      operatorUsers: [],
-      searchAllUser: '',
-      searchRoleUser: '',
-    }),
+        tab: 0,
+        allUsers: [],
+        allUsersCopy: [],
+        users: [],
+        usersCopy: [],
+        readerUsers: [],
+        operatorUsers: [],
+        searchAllUser: '',
+        searchRoleUser: '',
+      };
+    },
     computed: {
       ...mapState(['User', 'AdminViewport', 'JWT', 'Scale']),
       ...mapGetters(['Tenant', 'Project', 'Environment']),
@@ -402,6 +404,9 @@
             NowCpu: this.obj.statistics?.Cpu || 0,
             NowMemory: this.obj.statistics?.Memory || 0,
             NowStorage: this.obj.statistics?.Storage || 0,
+            NowNvidiaGpu: this.obj.statistics.NvidiaGpu,
+            NowTkeGpu: this.obj.statistics.TkeGpu,
+            NowTkeMemory: this.obj.statistics.TkeMemory,
           });
         }
       },

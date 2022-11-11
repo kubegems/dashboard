@@ -61,7 +61,7 @@
               <v-icon left small> mdi-arrow-up-down-bold </v-icon>
               {{ $t('operate.scale_replicas') }}
             </v-btn>
-            <v-btn v-if="m_permisson_resourceAllow" class="primary--text" small text @click="rollingback">
+            <v-btn v-if="m_permisson_resourceAllow()" class="primary--text" small text @click="rollingback">
               <v-icon left small> mdi-redo-variant </v-icon>
               {{ $t('operate.rollback') }}
             </v-btn>
@@ -80,7 +80,7 @@
             <v-icon left small> mdi-code-json </v-icon>
             YAML
           </v-btn>
-          <v-menu v-if="m_permisson_resourceAllow" left>
+          <v-menu v-if="m_permisson_resourceAllow()" left>
             <template #activator="{ on }">
               <v-btn icon>
                 <v-icon color="primary" small v-on="on"> mdi-dots-vertical </v-icon>
@@ -124,6 +124,7 @@
             topkind: $route.query.type,
             topname: workload ? workload.metadata.name : '',
           }"
+          :type="$route.query.type"
         />
       </v-col>
     </v-row>
@@ -160,8 +161,10 @@
   import { WORKLOAD_CPU_USAGE_PROMQL, WORKLOAD_MEMORY_USAGE_PROMQL } from '@/utils/prometheus';
   import BasicResourceInfo from '@/views/resource/components/common/BasicResourceInfo';
   import EventList from '@/views/resource/components/common/EventList';
+  import NvidiaGpuMonitor from '@/views/resource/components/common/NvidiaGpuMonitor';
   import PodList from '@/views/resource/components/common/PodList';
   import ResourceYaml from '@/views/resource/components/common/ResourceYaml';
+  import TkeGpuMonitor from '@/views/resource/components/common/TkeGpuMonitor';
   import Metadata from '@/views/resource/components/metadata/Metadata';
 
   export default {
@@ -174,33 +177,47 @@
       EventList,
       HPAStrategy,
       Metadata,
+      NvidiaGpuMonitor,
       PodList,
       ResourceInfo,
       ResourceYaml,
       Rollingback,
       ScaleReplicas,
+      TkeGpuMonitor,
       UpdateWorkload,
       WorkloadMonitor,
     },
     mixins: [BasePermission, BaseResource],
-    data: () => ({
-      workload: null,
-      tab: 0,
-      cpu: { val: 0, trend: '' },
-      memory: { val: 0, trend: '' },
-      cpuInterval: null,
-      memoryInterval: null,
-    }),
+    data() {
+      return {
+        workload: null,
+        tab: 0,
+        cpu: { val: 0, trend: '' },
+        memory: { val: 0, trend: '' },
+        cpuInterval: null,
+        memoryInterval: null,
+      };
+    },
     computed: {
       ...mapState(['JWT', 'MessageStreamWS']),
       tabItems() {
-        return [
+        const items = [
           { text: this.$root.$t('tab.resource_info'), value: 'ResourceInfo' },
           { text: this.$root.$t('tab.metadata'), value: 'Metadata' },
           { text: this.$root.$t('tab.pod'), value: 'PodList' },
           { text: this.$root.$t('tab.event'), value: 'EventList' },
           { text: this.$root.$t('tab.monitor'), value: 'WorkloadMonitor' },
         ];
+
+        if (this.isTke()) {
+          items.push({ text: this.$root.$t('tab.gpu_monitor'), value: 'TkeGpuMonitor' });
+        }
+
+        if (this.isNvidia()) {
+          items.push({ text: this.$root.$t('tab.gpu_monitor'), value: 'NvidiaGpuMonitor' });
+        }
+
+        return items;
       },
     },
     watch: {
@@ -383,6 +400,16 @@
             },
           });
         }
+      },
+      isTke() {
+        return this.workload?.spec?.template?.spec?.containers.some((c) => {
+          return c?.resources?.limits && c?.resources?.limits['tencent.com/vcuda-core'];
+        });
+      },
+      isNvidia() {
+        return this.workload?.spec?.template?.spec?.containers.some((c) => {
+          return c?.resources?.limits && c?.resources?.limits['nvidia.com/gpu'];
+        });
       },
     },
   };

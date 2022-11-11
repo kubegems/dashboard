@@ -27,7 +27,7 @@
     </template>
     <template #action>
       <v-btn class="float-right" color="primary" :loading="Circular" text @click="updateIstioVirtualService">
-        {{ $root.$t('confirm') }}
+        {{ $root.$t('operate.confirm') }}
       </v-btn>
     </template>
   </BaseDialog>
@@ -40,20 +40,22 @@
   import { getIstioVirtualServiceDetail, patchUpdateIstioVirtualService } from '@/api';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
-  import IstioVirtualServiceSchema from '@/views/microservice/service/mixins/schema';
+  import IstioVirtualServiceSchema from '@/utils/schema/virtualservice';
 
   export default {
     name: 'UpdateIstioVirtualService',
     components: {
       IstioVirtualServiceBaseForm,
     },
-    mixins: [BaseResource, IstioVirtualServiceSchema],
-    data: () => ({
-      dialog: false,
-      yaml: null,
-      item: null,
-      formComponent: 'BaseYamlForm',
-    }),
+    mixins: [BaseResource],
+    data() {
+      return {
+        dialog: false,
+        yaml: null,
+        item: null,
+        formComponent: 'BaseYamlForm',
+      };
+    },
     computed: {
       ...mapState(['Circular', 'EnvironmentFilter']),
     },
@@ -68,7 +70,7 @@
             data = this.$refs[this.formComponent].getYaml();
             data = this.$yamlload(data);
             if (!this.m_resource_checkDataWithOutNS(data)) return;
-            if (!this.m_resource_validateJsonSchema(this.virtualserviceschema, data)) {
+            if (!this.m_resource_validateJsonSchema(IstioVirtualServiceSchema, data)) {
               return;
             }
           } else if (this.formComponent === 'IstioVirtualServiceBaseForm') {

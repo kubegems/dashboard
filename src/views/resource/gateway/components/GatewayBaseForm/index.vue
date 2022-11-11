@@ -122,7 +122,13 @@
         </v-row>
       </v-card-text>
 
-      <DataForm ref="dataForm" :data="obj.spec.configMapData" @addData="addData" @closeOverlay="closeExpand" />
+      <DataForm
+        ref="dataForm"
+        class="kubegems__forminform"
+        :data="obj.spec.configMapData"
+        @addData="addData"
+        @closeOverlay="closeExpand"
+      />
       <BaseSubTitle :title="$t('tip.config_item')">
         <template #tips>
           <v-icon class="mt-n1 kubegems__pointer" color="warning" right small @click="help">
@@ -173,30 +179,32 @@
         default: () => null,
       },
     },
-    data: () => ({
-      valid: false,
-      expand: false,
-      protocolTypes: [
-        { text: 'http/1.1', value: 'http/1.1' },
-        { text: 'http/2', value: 'http/2' },
-      ],
-      protocol: 'http/2',
-      image: '',
-      obj: {
-        apiVersion: '',
-        kind: 'TenantGateway',
-        metadata: {
-          name: '',
+    data() {
+      return {
+        valid: false,
+        expand: false,
+        protocolTypes: [
+          { text: 'http/1.1', value: 'http/1.1' },
+          { text: 'http/2', value: 'http/2' },
+        ],
+        protocol: 'http/2',
+        image: '',
+        obj: {
+          apiVersion: '',
+          kind: 'TenantGateway',
+          metadata: {
+            name: '',
+          },
+          spec: {
+            tenant: '',
+            type: 'NodePort',
+            replicas: 1,
+            baseDomain: '',
+            configMapData: {},
+          },
         },
-        spec: {
-          tenant: '',
-          type: 'NodePort',
-          replicas: 1,
-          baseDomain: '',
-          configMapData: {},
-        },
-      },
-    }),
+      };
+    },
     computed: {
       ...mapState(['AdminViewport', 'ApiResources']),
       ...mapGetters(['Tenant']),

@@ -27,6 +27,7 @@ export function getIconName(name, def = 'kubernetes') {
   if (name.indexOf('tomcat') > -1) return 'logos:tomcat';
   if (name.indexOf('consul') > -1) return 'logos:consul';
   if (name.indexOf('etcd') > -1) return 'logos:etcd';
+  if (name === 'gpu') return 'img:gpu.svg';
   if (name.indexOf('memcached') > -1) return 'logos:memcached';
   if (name.indexOf('kafka') > -1) return 'logos:kafka-icon';
   if (name.indexOf('influxdb') > -1) return 'logos:influxdb';
@@ -35,6 +36,9 @@ export function getIconName(name, def = 'kubernetes') {
   if (name.indexOf('sonarqube') > -1) return 'logos:sonarqube';
   if (name.indexOf('vault') > -1) return 'logos:vault-icon';
   if (name.indexOf('vmware') > -1) return 'img:vmware.svg';
+  if (name.indexOf('email') > -1) return 'logos:google-gmail';
+  if (name.indexOf('feishu') > -1) return 'img:feishu.svg';
+  if (name.indexOf('webhook') > -1) return 'logos:webhooks';
   if (name.indexOf('apm-server') > -1) {
     return 'img:apm-server.svg';
   }
@@ -115,10 +119,10 @@ export function getIconName(name, def = 'kubernetes') {
   if (name.indexOf('redmine') > -1) return 'img:redmine.svg';
   if (name.indexOf('mxnet') > -1) return 'img:mxnet.svg';
   if (name.indexOf('magento') > -1) return 'img:magento.svg';
-  if (name.indexOf('jupyterhub') > -1) return 'img:jupyter.svg';
+  if (name.indexOf('jupyterhub') > -1) return 'logos:jupyter';
   if (name.indexOf('jasperreports') > -1) return 'img:jasperreports.svg';
   if (name.indexOf('oauth2') > -1) return 'logos:oauth';
-  if (name.indexOf('vscode') > -1) return 'img:vscode.svg';
+  if (name.indexOf('vscode') > -1) return 'logos:visual-studio-code';
   if (name.indexOf('gitlab') > -1) return 'logos:gitlab';
   if (name.indexOf('oauth') > -1) return 'logos:oauth';
   if (name.indexOf('ldap') > -1) return 'img:openldap.svg';
@@ -197,9 +201,6 @@ export function getIconName(name, def = 'kubernetes') {
   if (name.indexOf('mlflow') > -1) return 'img:mlflow.svg';
   if (name.indexOf('xgboost') > -1) return 'img:xgboost.svg';
 
-  if (name === 'ja') return 'emojione:flag-for-japan';
-  if (name === 'en') return 'emojione:flag-for-united-states';
-
   // if (name.indexOf('selfhosted') > -1) return 'img:kubegems.svg';
 
   switch (def) {
@@ -211,8 +212,6 @@ export function getIconName(name, def = 'kubernetes') {
       return 'mdi:bank-outline';
     case 'kubegems':
       return 'img:kubegems.svg';
-    case 'locale':
-      return 'emojione:flag-for-china';
     default:
       return 'logos:kubernetes';
   }

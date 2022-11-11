@@ -124,18 +124,20 @@
       messages: messages,
     },
     mixins: [BaseSelect],
-    data: () => ({
-      dialog: false,
-      tab: 0,
-      allUsers: [],
-      allUsersCopy: [],
-      users: [],
-      usersCopy: [],
-      ordinaryUsers: [],
-      adminUsers: [],
-      searchAllUser: '',
-      searchRoleUser: '',
-    }),
+    data() {
+      return {
+        dialog: false,
+        tab: 0,
+        allUsers: [],
+        allUsersCopy: [],
+        users: [],
+        usersCopy: [],
+        ordinaryUsers: [],
+        adminUsers: [],
+        searchAllUser: '',
+        searchRoleUser: '',
+      };
+    },
     computed: {
       ...mapState(['JWT', 'Scale']),
       ...mapGetters(['Tenant']),

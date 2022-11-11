@@ -102,13 +102,15 @@
       UpdatePrometheusRule,
     },
     mixins: [BaseAlert, BasePermission, BaseResource],
-    data: () => ({
-      date: [],
-      prometheusRule: null,
-      yaml: '',
-      metrics: [],
-      timeArray: [],
-    }),
+    data() {
+      return {
+        date: [],
+        prometheusRule: null,
+        yaml: '',
+        metrics: [],
+        timeArray: [],
+      };
+    },
     computed: {
       ...mapState(['JWT', 'AdminViewport', 'Admin', 'Scale']),
     },
@@ -190,7 +192,7 @@
       },
       async prometheusRuleChart() {
         this.metrics = this.$options.data().metrics;
-        if (this.prometheusRule === null || this.prometheusRule.origin.rules.length < 1) {
+        if (this.prometheusRule === null || this.prometheusRule.origin.rules?.length < 1) {
           await this.prometheusRuleDetail();
         }
 

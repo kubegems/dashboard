@@ -178,15 +178,17 @@
       UpdateProject,
     },
     mixins: [BaseFilter, BasePermission, BaseSelect],
-    data: () => ({
-      items: [],
-      tenant: -1,
-      pageCount: 0,
-      params: {
-        page: 1,
-        size: 10,
-      },
-    }),
+    data() {
+      return {
+        items: [],
+        tenant: -1,
+        pageCount: 0,
+        params: {
+          page: 1,
+          size: 10,
+        },
+      };
+    },
     computed: {
       ...mapState(['Admin', 'AdminViewport', 'JWT', 'ProjectStore']),
       ...mapGetters(['Tenant']),
@@ -225,7 +227,7 @@
             align: 'start',
           });
         }
-        if (this.m_permisson_tenantAllow) {
+        if (this.m_permisson_tenantAllow()) {
           items.push({ text: '', value: 'action', align: 'center', width: 20 });
         }
         return items;

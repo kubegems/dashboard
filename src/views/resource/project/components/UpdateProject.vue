@@ -53,11 +53,13 @@
       ProjectBaseForm,
     },
     mixins: [BaseSelect],
-    data: () => ({
-      dialog: false,
-      formComponent: 'ProjectBaseForm',
-      step: 0,
-    }),
+    data() {
+      return {
+        dialog: false,
+        formComponent: 'ProjectBaseForm',
+        step: 0,
+      };
+    },
     computed: {
       ...mapState(['Circular']),
     },

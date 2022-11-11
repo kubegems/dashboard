@@ -37,7 +37,15 @@
             :rules="objRules.portRules"
           />
         </v-col>
-        <v-col cols="6">
+        <v-col cols="12">
+          <v-switch
+            v-model="obj.spec.elasticsearch.logstash_format"
+            hide-details
+            label="logstash_format"
+            @change="onLogstashFormatChange"
+          />
+        </v-col>
+        <v-col v-if="!obj.spec.elasticsearch.logstash_format" cols="6">
           <v-text-field
             v-model.number="obj.spec.elasticsearch.index_name"
             class="my-0"
@@ -75,6 +83,8 @@
               host: '',
               port: '',
               index_name: '',
+              logstash_format: false,
+              ssl_verify: false,
             },
           },
         },
@@ -89,7 +99,8 @@
       this.$nextTick(() => {
         this.$refs.form.resetValidation();
         if (this.item?.spec?.elasticsearch) {
-          this.obj = this.$_.merge(this.item, this.obj);
+          this.obj = this.item;
+          this.$forceUpdate();
         }
       });
     },
@@ -100,6 +111,11 @@
       },
       validate() {
         return this.$refs.form.validate(true);
+      },
+      onLogstashFormatChange() {
+        if (this.obj.spec.elasticsearch.logstash_format) {
+          this.obj.spec.elasticsearch.index_name = '';
+        }
       },
     },
   };

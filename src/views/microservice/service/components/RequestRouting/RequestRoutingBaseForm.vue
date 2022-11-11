@@ -85,27 +85,29 @@
         default: () => null,
       },
     },
-    data: () => ({
-      valid: false,
-      expand: false,
-      serviceCopy: null,
-      routeDefault: {
-        destination: {
-          host: '',
-          subset: '',
-        },
-        weight: 100,
-      },
-      obj: {
-        match: [
-          {
-            headers: {},
-            uri: {},
+    data() {
+      return {
+        valid: false,
+        expand: false,
+        serviceCopy: null,
+        routeDefault: {
+          destination: {
+            host: '',
+            subset: '',
           },
-        ],
-        route: [],
-      },
-    }),
+          weight: 100,
+        },
+        obj: {
+          match: [
+            {
+              headers: {},
+              uri: {},
+            },
+          ],
+          route: [],
+        },
+      };
+    },
     computed: {
       ...mapState(['Admin', 'AdminViewport']),
       ...mapGetters(['Cluster']),

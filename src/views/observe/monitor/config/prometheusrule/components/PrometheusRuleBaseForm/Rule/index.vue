@@ -77,14 +77,15 @@
                 :rules="objRules.matchRule"
               />
             </v-col>
-            <v-col cols="3">
+            <v-col cols="6">
               <v-autocomplete
-                v-model="obj.logqlGenerator.labelpairs.container"
+                v-model="containers"
                 class="my-0"
                 color="primary"
                 hide-selected
                 :items="containerItems"
                 :label="$t('form.dest_container')"
+                multiple
                 :no-data-text="$root.$t('data.no_data')"
               >
                 <template #selection="{ item }">
@@ -94,7 +95,7 @@
                 </template>
               </v-autocomplete>
             </v-col>
-            <v-col cols="3">
+            <v-col cols="6">
               <v-text-field
                 v-model="obj.logqlGenerator.duration"
                 class="my-0"
@@ -114,14 +115,14 @@
                 :rules="objRules.exprRule"
                 @keyup="onExprInput"
               />
-              <MetricsSuggestion
+              <!-- <MetricsSuggestion
                 :cluster="$route.query.cluster"
                 :expr="obj.expr"
                 :left="20"
                 :newline="118"
                 :top="250"
                 @insertMetrics="insertMetrics"
-              />
+              /> -->
             </v-col>
           </template>
           <template v-if="mod === 'ql' && mode === 'logging'">
@@ -190,12 +191,13 @@
       <div v-if="mod === 'template' && mode === 'monitor'" class="mb-4">
         <BaseSubTitle :title="$t('tip.label_filter')" />
         <br />
-        <RuleLabelpairs v-model="obj.labelpairs" />
+        <RuleLabelpairs v-model="obj.promqlGenerator.labelpairs" />
       </div>
       <!-- 标签筛选 -->
 
       <AlertLevelForm
         ref="alertLevelForm"
+        class="kubegems__forminform"
         :data="obj.alertLevels"
         :namespace="obj.namespace"
         @addData="addData"
@@ -226,7 +228,7 @@
   import BaseSelect from '@/mixins/select';
   import { deepCopy } from '@/utils/helpers';
   import { required, timeInterval } from '@/utils/rules';
-  import MetricsSuggestion from '@/views/observe/monitor/metrics/components/MetricsSuggestion';
+  // import MetricsSuggestion from '@/views/observe/monitor/metrics/components/MetricsSuggestion';
   import ResourceSelectCascade from '@/views/observe/monitor/metrics/components/ResourceSelectCascade';
   import Metrics from '@/views/observe/monitor/mixins/metrics';
 
@@ -238,7 +240,7 @@
     components: {
       AlertLevelForm,
       AlertLevelItem,
-      MetricsSuggestion,
+      // MetricsSuggestion,
       ResourceSelectCascade,
       RuleLabelpairs,
     },
@@ -274,7 +276,6 @@
           name: '',
           namespace: '',
           for: '1m',
-          labelpairs: {},
           alertLevels: [],
           receivers: [],
           inhibitLabels: [],
@@ -283,6 +284,7 @@
             rule: '',
             unit: '',
             scope: '',
+            labelpairs: {},
           },
           logqlGenerator: {
             match: '',
@@ -293,6 +295,7 @@
           },
         },
         mod: 'template',
+        containers: [],
         containerItems: [],
         inhibitLabelText: '',
         resource: undefined,
@@ -321,14 +324,14 @@
           resourceRule: [required],
           ruleRule: [required],
           metricRule: [required],
-          forRule: [timeInterval],
+          forRule: [required, timeInterval],
           compareRule: [required],
           severityRule: [required],
           thresholdValueRule: [required],
           exprRule: [required],
           modRule: [required],
           matchRule: [required],
-          durationRule: [timeInterval],
+          durationRule: [required, timeInterval],
         };
       },
     },
@@ -341,6 +344,14 @@
         },
         deep: true,
         immediate: true,
+      },
+      '$route.query.namespace': {
+        handler(newValue) {
+          if (newValue) {
+            this.load();
+          }
+        },
+        deep: true,
       },
     },
     mounted() {
@@ -361,12 +372,14 @@
               scope: '',
               rule: '',
               unit: '',
+              labelpairs: {},
             };
           }
           this.$delete(this.obj, 'expr');
         } else if (this.mod === 'ql' && this.mode === 'monitor') {
           if (!this.obj.expr) {
             this.obj.expr = '';
+            this.obj.promqlGenerator = null;
           }
           this.$delete(this.obj, 'logqlGenerator');
         } else if (this.mod === 'ql' && this.mode === 'logging') {
@@ -374,7 +387,6 @@
             this.obj.expr = '';
           }
           this.$delete(this.obj, 'promqlGenerator');
-          this.$delete(this.obj, 'labelpairs');
         } else if (this.mod === 'template' && this.mode === 'logging') {
           if (!this.obj.logqlGenerator) {
             this.obj.logqlGenerator = {
@@ -447,17 +459,24 @@
           this.mod = 'ql';
         } else if (this.obj.logqlGenerator && this.mode === 'logging') {
           this.mod = 'template';
+          if (this.obj.logqlGenerator?.labelpairs?.container) {
+            this.containers = this.obj.logqlGenerator?.labelpairs?.container.split('|').filter((c) => {
+              return Boolean(c);
+            });
+          }
         }
       },
       setResourceData() {
+        const labelpairs = this.obj?.promqlGenerator?.labelpairs || {};
         if (this.resource) {
           this.obj.promqlGenerator = {
             scope: this.resource.scope,
             resource: this.resource.resource,
             rule: this.resource.rule,
             unit: this.resource.unit,
+            labelpairs: labelpairs,
           };
-          this.setLabelpairs();
+          this.setLabelpairs(labelpairs);
         }
       },
       closeExpand() {
@@ -470,12 +489,18 @@
       },
       onModChange() {
         this.load();
-        this.obj.labelpairs = {};
+        if (this.obj.promqlGenerator?.labelpairs) {
+          this.obj.promqlGenerator.labelpairs = {};
+        }
         this.obj.inhibitLabels = [];
         this.inhibitLabelItems = [];
       },
       // mergeLabelpairs 点击编辑时数据labelpairs与全值合并
       setLabelpairs(mergeLabelpairs = {}) {
+        if (this.mod === 'ql') return;
+        if (!this.obj?.promqlGenerator?.labelpairs) {
+          this.obj.promqlGenerator.labelpairs = {};
+        }
         const labelpairs = {};
         if (this.resource) {
           const labels = this.resource.labels || [];
@@ -483,8 +508,9 @@
             labelpairs[item] = '';
           });
         }
-        this.$set(this.obj, 'labelpairs', { ...labelpairs, ...mergeLabelpairs });
-        this.inhibitLabelItems = Object.keys(this.obj.labelpairs).map((l) => {
+        const lps = { ...labelpairs, ...mergeLabelpairs };
+        this.$set(this.obj.promqlGenerator, 'labelpairs', lps);
+        this.inhibitLabelItems = Object.keys(this.obj.promqlGenerator.labelpairs).map((l) => {
           return { text: l, value: l };
         });
       },
@@ -498,10 +524,12 @@
               expr: this.obj.expr,
             },
           );
-          this.obj.labelpairs = {};
+          if (!this.obj.promqlGenerator?.labelpairs) {
+            this.obj.promqlGenerator.labelpairs = {};
+          }
           this.inhibitLabelItems = data.map((l) => {
             if (l !== '__name__') {
-              this.obj.labelpairs[l] = '';
+              this.obj.promqlGenerator.labelpairs[l] = '';
               return { text: l, value: l };
             }
           });
@@ -528,6 +556,9 @@
         return this.$refs.form.validate(true);
       },
       getData() {
+        if (this.mode === 'logging' && this.containers?.length > 0) {
+          this.obj.logqlGenerator.labelpairs.container = this.containers.join('|');
+        }
         return this.obj;
       },
       insertMetrics(metrics) {
@@ -538,6 +569,7 @@
         this.$forceUpdate();
       },
       async getContainers() {
+        this.containerItems = [];
         const data = await getPodList(
           this.$route.query.cluster || this.obj.cluster,
           this.$route.query.namespace || this.obj.namespace,

@@ -23,7 +23,7 @@
             <v-flex class="float-left text-subtitle-2 pt-5 primary--text kubegems__min-width">
               <span>{{ $t('form.key_value') }}</span>
             </v-flex>
-            <v-flex class="float-left ml-2 kubegems__form-width">
+            <v-flex class="float-left ml-2 kubegems__long-width">
               <v-text-field
                 v-model="obj.key"
                 class="my-0"
@@ -45,7 +45,6 @@
                 lang="yaml"
                 :options="Object.assign($aceOptions, { readOnly: false, wrap: true })"
                 theme="chrome"
-                @init="$aceinit"
                 @keydown.stop
               />
             </v-flex>

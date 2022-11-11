@@ -30,7 +30,6 @@
 <script>
   import messages from '../i18n';
   import PrometheusRule from './prometheusrule';
-  import Receiver from './receiver';
   import ServiceMonitor from './servicemonitor';
   import ProjectEnvironmentLayout from '@/views/observe/components/ProjectEnvironmentLayout';
 
@@ -42,14 +41,12 @@
     components: {
       ProjectEnvironmentLayout,
       PrometheusRule,
-      Receiver,
       ServiceMonitor,
     },
     data() {
       this.tabMap = {
         servicemonitor: 0,
         prometheusrule: 1,
-        receiver: 2,
       };
 
       return {
@@ -74,12 +71,6 @@
             text: this.$t('tab.prometheus_rule'),
             component: 'PrometheusRule',
             tab: 'prometheusrule',
-          },
-          {
-            icon: 'mdi-call-received',
-            text: this.$t('tab.receiver'),
-            component: 'Receiver',
-            tab: 'receiver',
           },
         ];
       },
