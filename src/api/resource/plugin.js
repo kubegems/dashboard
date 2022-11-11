@@ -1,24 +1,20 @@
 import axios from 'axios';
 
-import { PLUGIN_GROUP } from '@/constants/gvk';
-
 // 启用插件
-export const postEnablePlugin = (clusterName, name, query = {}) =>
-  axios.post(
-    `proxy/cluster/${clusterName}/custom/${PLUGIN_GROUP}/v1beta1/installers/${name}/actions/enable`,
-    {},
-    { params: query },
-  );
+export const postEnablePlugin = (clusterName, name, body = {}) =>
+  axios.post(`proxy/cluster/${clusterName}/plugins/${name}`, body);
 // 关闭插件
-export const postDisablePlugin = (clusterName, name, query = {}) =>
-  axios.post(
-    `proxy/cluster/${clusterName}/custom/${PLUGIN_GROUP}/v1beta1/installers/${name}/actions/disable`,
-    {},
-    { params: query },
-  );
+export const deleteDisablePlugin = (clusterName, name, body = {}) =>
+  axios.delete(`proxy/cluster/${clusterName}/plugins/${name}`, body);
 // 集群插件列表
 export const getClusterPluginsList = (clusterName, query = {}) =>
-  axios(`proxy/cluster/${clusterName}/custom/${PLUGIN_GROUP}/v1beta1/installers`, {
+  axios(`proxy/cluster/${clusterName}/plugins`, {
+    params: query,
+  });
+
+// 集群插件详情
+export const getClusterPluginsDetail = (clusterName, name, query = {}) =>
+  axios(`proxy/cluster/${clusterName}/plugins/${name}`, {
     params: query,
   });
 
@@ -27,3 +23,7 @@ export const getPluginsList = (query = {}) =>
   axios(`plugins`, {
     params: query,
   });
+
+// 检查插件版本
+export const postCheckPluginUpdate = (clusterName, body = {}) =>
+  axios.post(`proxy/cluster/${clusterName}/plugins:check-update`, body);
