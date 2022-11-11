@@ -53,6 +53,7 @@
             id="requests"
             :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
             :extend-height="80"
+            :global-plugins-check="false"
             :label-show="false"
             :metrics="requests"
             sample
@@ -86,6 +87,7 @@
             id="avgresponsetime"
             :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
             :extend-height="80"
+            :global-plugins-check="false"
             :label-show="false"
             :metrics="avgresponsetime"
             sample
@@ -125,6 +127,7 @@
             id="errrequests"
             :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
             :extend-height="80"
+            :global-plugins-check="false"
             :label-show="false"
             :metrics="errrequests"
             sample
@@ -162,6 +165,7 @@
             id="network"
             :class="`clear-zoom-${Scale.toString().replaceAll('.', '-')}`"
             :extend-height="80"
+            :global-plugins-check="false"
             :label-show="false"
             :metrics="network"
             sample
@@ -179,7 +183,6 @@
 
   import messages from '../../i18n';
   import WorkloadInfo from './WorkloadInfo';
-  import BasePermission from '@/mixins/permission';
   import {
     ISTIO_EGRESS_NETWORK_PROMQL,
     ISTIO_INGRESS_NETWORK_PROMQL,
@@ -189,7 +192,8 @@
     ISTIO_WORKLOAD_REQUEST_LAST_24H_PROMQL,
     ISTIO_WORKLOAD_RESPONSE_DURATION_SECONDS_P95_PROMQL,
     ISTIO_WORKLOAD_RESPONSE_DURATION_SECONDS_P99_PROMQL,
-  } from '@/utils/prometheus';
+  } from '@/constants/prometheus';
+  import BasePermission from '@/mixins/permission';
 
   export default {
     name: 'MonitorCard',

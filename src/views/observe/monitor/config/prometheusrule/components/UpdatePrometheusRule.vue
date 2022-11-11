@@ -102,7 +102,7 @@
 
           if (this.mode === 'monitor') {
             // 移除labelpairs中的空值
-            for (const key in obj.promqlGenerator.labelpairs) {
+            for (const key in obj?.promqlGenerator?.labelpairs || []) {
               if (!obj.promqlGenerator.labelpairs[key]) {
                 delete obj.promqlGenerator.labelpairs[key];
               }

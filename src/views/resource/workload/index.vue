@@ -102,6 +102,15 @@
             <v-flex v-if="isTke(item) || isNvidia(item)" class="float-left gpu__icon">
               <GpuTip :allocated="false" :item="item" />
             </v-flex>
+            <v-flex
+              v-if="
+                item.workload.spec.template.metadata.annotations &&
+                item.workload.spec.template.metadata.annotations['sidecar.istio.io/inject'] === 'true'
+              "
+              class="float-left"
+            >
+              <img class="ml-2" :src="`/icon/istio.svg`" width="18px" />
+            </v-flex>
             <v-flex class="float-left ml-2">
               <ResourceAdvise
                 v-if="item.hasOwnProperty('advise')"
@@ -137,7 +146,7 @@
                     minWidth: '10px',
                     width: '10px',
                     backgroundColor: `${
-                      $WORKLOAD_STATUS_COLOR[m_resource_getWorkloadStatus(tabItems[tab].value, item.workload)]
+                      WORKLOAD_STATUS_COLOR[m_resource_getWorkloadStatus(tabItems[tab].value, item.workload)]
                     }`,
                   }"
                 />
@@ -225,6 +234,7 @@
     getStatefulSetList,
     getWorkloadResourcesList,
   } from '@/api';
+  import { WORKLOAD_STATUS_COLOR } from '@/constants/resource';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -254,6 +264,7 @@
         statefulset: 1,
         daemonset: 2,
       };
+      this.WORKLOAD_STATUS_COLOR = WORKLOAD_STATUS_COLOR;
 
       return {
         tab: this.tabMap[this.$route.query.tab] || 0,

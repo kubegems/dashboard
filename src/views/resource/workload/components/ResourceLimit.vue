@@ -38,13 +38,13 @@
               >
                 <VueSlider
                   v-model="sliderItems[obj.name].cpu.value"
-                  :adsorb="true"
+                  adsorb
                   :enable-cross="false"
                   :interval="sliderItems[obj.name].cpu.interval"
                   :marks="sliderItems[obj.name].cpu.marks"
                   :max="sliderItems[obj.name].cpu.max"
-                  process-style="background-color:#3498db"
-                  :tooltip="'always'"
+                  :process-style="{ backgroundColor: '#1e88e5' }"
+                  tooltip="always"
                 >
                   <template #tooltip="props">
                     <div class="tooltip">
@@ -61,12 +61,12 @@
             >
               <VueSlider
                 v-model="sliderItems[obj.name].memory.value"
-                :adsorb="true"
+                adsorb
                 :enable-cross="false"
                 :marks="sliderItems[obj.name].memory.marks"
                 :max="sliderItems[obj.name].memory.max"
-                process-style="background-color: #1e88e5"
-                :tooltip="'always'"
+                :process-style="{ backgroundColor: '#1e88e5' }"
+                tooltip="always"
               >
                 <template #tooltip="props">
                   <div class="tooltip">

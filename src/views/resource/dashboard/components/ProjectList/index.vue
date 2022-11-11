@@ -68,8 +68,8 @@
               <template #[`item.type`]="{ item }">
                 <v-chip
                   :color="
-                    $METATYPE_CN[item.MetaType] && $METATYPE_CN[item.MetaType].color
-                      ? $METATYPE_CN[item.MetaType].color
+                    METATYPE_CN[item.MetaType] && METATYPE_CN[item.MetaType].color
+                      ? METATYPE_CN[item.MetaType].color
                       : 'grey'
                   "
                   label
@@ -205,16 +205,17 @@
   import messages from '../../i18n';
   import Pagination from '../Pagination';
   import { getProjectEnvironmentList, getProjectEnvironmentQuotaList, getProjectList } from '@/api';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
-  import BaseSelect from '@/mixins/select';
-  import { beautifyCpuUnit, beautifyNetworkUnit, beautifyStorageUnit } from '@/utils/helpers';
+  import { METATYPE_CN } from '@/constants/platform';
   import {
     ENVIRONMENT_CPU_USAGE_PROMQL,
     ENVIRONMENT_MEMORY_USAGE_PROMQL,
     ENVIRONMENT_NETWORK_IN_PROMQL,
     ENVIRONMENT_NETWORK_OUT_PROMQL,
-  } from '@/utils/prometheus';
+  } from '@/constants/prometheus';
+  import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
+  import BaseSelect from '@/mixins/select';
+  import { beautifyCpuUnit, beautifyNetworkUnit, beautifyStorageUnit } from '@/utils/helpers';
   import AddEnvironment from '@/views/resource/environment/components/AddEnvironment';
   import AddProject from '@/views/resource/project/components/AddProject';
 
@@ -229,8 +230,9 @@
       Pagination,
     },
     mixins: [BasePermission, BaseResource, BaseSelect],
-    inject: ['reload'],
     data() {
+      this.METATYPE_CN = METATYPE_CN;
+
       return {
         projectItems: [],
         environmentItems: [],

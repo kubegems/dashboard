@@ -105,7 +105,7 @@
               minWidth: '10px',
               width: '10px',
               backgroundColor: `${
-                $PVC_STATUS_COLOR[
+                PVC_STATUS_COLOR[
                   item.metadata.annotations ? item.metadata.annotations[`storage.kubegems.io/in-use`] : 'undefined'
                 ]
               }`,
@@ -192,6 +192,7 @@
   import UpdatePersistentVolumeClaim from './components/UpdatePersistentVolumeClaim';
   import messages from './i18n';
   import { deletePersistentVolumeClaim, getPersistentVolumeClaimList, postAddVolumeSnapshot } from '@/api';
+  import { PVC_STATUS_COLOR } from '@/constants/resource';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -211,6 +212,8 @@
     },
     mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],
     data() {
+      this.PVC_STATUS_COLOR = PVC_STATUS_COLOR;
+
       return {
         items: [],
         pageCount: 0,

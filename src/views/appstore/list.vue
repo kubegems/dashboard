@@ -94,6 +94,7 @@
   import StatusTip from './components/StatusTip';
   import messages from './i18n';
   import { deleteRepository, getRepositoryList, postSyncRepository } from '@/api';
+  import { LOGO_BLUE } from '@/constants/platform';
 
   export default {
     name: 'RepositoryList',
@@ -218,7 +219,7 @@
             };
           default:
             return {
-              imgSrc: this.$LOGO_BLUE,
+              imgSrc: LOGO_BLUE,
               tip: this.$t('tip.kubegems'),
             };
         }

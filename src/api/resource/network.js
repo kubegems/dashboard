@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { TENANT_NETWORK_POLICY_GROUP } from '@/utils/gvk';
+import { TENANT_NETWORK_POLICY_GROUP } from '@/constants/gvk';
 import { getApiVersion } from '@/utils/helpers';
 
 // 网络隔离策略详情

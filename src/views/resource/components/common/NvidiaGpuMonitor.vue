@@ -51,9 +51,9 @@
 
   import messages from '../i18n';
   import { getPodList } from '@/api';
+  import { N_GPU_MEMORY_USAGE, N_GPU_POWER, N_GPU_TEMP, N_GPU_USAGE } from '@/constants/prometheus';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
-  import { N_GPU_MEMORY_USAGE, N_GPU_POWER, N_GPU_TEMP, N_GPU_USAGE } from '@/utils/prometheus';
 
   export default {
     name: 'NvidiaGpuMonitor',
@@ -64,7 +64,9 @@
     props: {
       item: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
       type: {
         type: String,

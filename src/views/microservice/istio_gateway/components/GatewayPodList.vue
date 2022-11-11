@@ -44,7 +44,7 @@
               height: '10px',
               minWidth: '10px',
               width: '10px',
-              backgroundColor: `${$POD_STATUS_COLOR[m_resource_getPodStatus(item)] || '#ff5252'}`,
+              backgroundColor: `${POD_STATUS_COLOR[m_resource_getPodStatus(item)] || '#ff5252'}`,
             }"
           />
           <span> {{ m_resource_getPodStatus(item) }}</span>
@@ -65,7 +65,13 @@
           {{ getRestart(item.status.containerStatuses) }}
         </template>
         <template #[`item.age`]="{ item }">
-          {{ item.status.startTime ? $moment(item.status.startTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() : '' }}
+          <RealDatetimeTip :datetime="item.status.startTime">
+            <template #trigger>
+              <span>
+                {{ item.status.startTime ? $moment(item.status.startTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() : '' }}
+              </span>
+            </template>
+          </RealDatetimeTip>
         </template>
       </v-data-table>
     </v-card-text>
@@ -74,12 +80,17 @@
 
 <script>
   import messages from '../i18n';
+  import { POD_STATUS_COLOR } from '@/constants/resource';
   import BaseResource from '@/mixins/resource';
+  import RealDatetimeTip from '@/views/resource/components/common/RealDatetimeTip';
 
   export default {
     name: 'GatewayPodList',
     i18n: {
       messages: messages,
+    },
+    components: {
+      RealDatetimeTip,
     },
     mixins: [BaseResource],
     props: {
@@ -89,6 +100,8 @@
       },
     },
     data() {
+      this.POD_STATUS_COLOR = POD_STATUS_COLOR;
+
       return {
         items: [],
       };

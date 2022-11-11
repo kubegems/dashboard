@@ -50,7 +50,9 @@
     "gpu_power": "GPU power",
     "limits": "{0} Limits",
     "requests": "{0} Requests",
-    "core": "core"
+    "core": "core",
+    "real_time": "The specific time",
+    "datetime": "Time"
   },
   "table": {
     "container_name": "Container Name",

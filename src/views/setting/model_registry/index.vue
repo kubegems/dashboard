@@ -134,6 +134,7 @@
     postAdminModelStoreSync,
     putAdminModelSource,
   } from '@/api';
+  import { LOGO_BLUE } from '@/constants/platform';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
@@ -295,7 +296,7 @@
             };
           default:
             return {
-              imgSrc: this.$LOGO_BLUE,
+              imgSrc: LOGO_BLUE,
               tip: this.$t('tip.kubegems'),
             };
         }

@@ -1,3 +1,41 @@
+# 1.22.0-rc.1 (2022-11-04)
+
+### Bug Fixes
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | :bug: fix: 🐛 fix container list status is null bug | ([2342f74](https://github.com/chenshunliang/dashboard/commit/387f31ff915ccb20faa5d69e3c558d8484c8b26a)) |
+| - | :bug: fix: 🐛 fix monitor dashboard global variable nil bug | ([a46f1c0](https://github.com/chenshunliang/dashboard/commit/b7e1ecb5e47d370bb65bf3bedc149a0b51ed2a1e)) |
+
+### Build
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | refactor: 👷 add pnpm to project and remove yarn | ([42346d6](https://github.com/chenshunliang/dashboard/commit/a92792c897d792837ee3ba38dff320450e8ac1c1)) |
+
+# 1.22.0-rc.0 (2022-11-01)
+
+### Bug Fixes
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | :bug: fix model deploy volume mount bugs, :zap: some optimizations | ([2342f74](https://github.com/chenshunliang/dashboard/commit/2342f74f5a93a58c30b46eb4eda5aa444c2ac663)) |
+| - | :bug: fit requests.storage to limits.storage | ([a46f1c0](https://github.com/chenshunliang/dashboard/commit/a46f1c01148f47b2d4f6709cb61f4c5c8d0a5281)) |
+| - | :bug: fix ace-editor import error bug, fix app config diff bugs | ([8e18a8e](https://github.com/chenshunliang/dashboard/commit/8e18a8eaea9c7b7c3bf53e32520cda058710cae4)) |
+| - | :bug: fix add appmanifest yaml schema error bug | ([b51cd00](https://github.com/chenshunliang/dashboard/commit/b51cd0035219cd813fb023878acf69f4f3571896)) |
+
+### Features
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | :sparkles: add alert channel for tenant , support model deploy upgrage strategy, fix few bugs | ([42346d6](https://github.com/chenshunliang/dashboard/commit/42346d63ed6ece9656b15737211d67a811ed2681)) |
+
+### Build
+
+| 范围 | 描述 | commitId |
+| --- | --- | --- |
+| - | 👷 add support vite to vue and remove webpack | ([42346d6](https://github.com/chenshunliang/dashboard/commit/59aa2524554d097bea3ae4ec0d0a9e9d86fa4be8)) |
+
 # Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.

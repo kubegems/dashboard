@@ -77,7 +77,7 @@
                       height: '10px',
                       minWidth: '10px',
                       width: '10px',
-                      backgroundColor: `${$CONTAINER_STATUS_COLOR[getContainerStatus(container)]}`,
+                      backgroundColor: `${CONTAINER_STATUS_COLOR[getContainerStatus(container)]}`,
                     }"
                   />
                   <span v-if="container.state.running"> Running </span>
@@ -177,6 +177,7 @@
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
+  import { CONTAINER_STATUS_COLOR } from '@/constants/resource';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
@@ -214,10 +215,14 @@
       },
       item: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
     },
     data() {
+      this.CONTAINER_STATUS_COLOR = CONTAINER_STATUS_COLOR;
+
       return {
         containerStatusesCopy: [],
         initContainerStatusesCopy: [],

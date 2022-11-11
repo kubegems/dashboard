@@ -73,8 +73,8 @@
   import { mapState } from 'vuex';
 
   import messages from '../../i18n';
+  import { SERVICE_MONITOR_NS } from '@/constants/namespace';
   import { debounce } from '@/utils/helpers';
-  import { SERVICE_MONITOR_NS } from '@/utils/namespace';
 
   export default {
     name: 'MetricsItem',
@@ -84,7 +84,9 @@
     props: {
       data: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
       labelpairs: {
         type: Object,

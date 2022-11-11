@@ -40,19 +40,21 @@
   import { getAppStoreDetail } from '@/api';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
+  import BaseYaml from '@/mixins/yaml';
   import { deepCopy } from '@/utils/helpers';
-  import { YamlMixin } from '@/views/appstore/mixins/yaml';
 
   export default {
     name: 'JsonSchema',
     components: {
       Param,
     },
-    mixins: [BaseResource, BaseSelect, YamlMixin],
+    mixins: [BaseResource, BaseSelect, BaseYaml],
     props: {
       appValues: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
       clusterName: {
         type: String,

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { PLUGIN_GROUP } from '@/utils/gvk';
+import { PLUGIN_GROUP } from '@/constants/gvk';
 
 // 启用插件
 export const postEnablePlugin = (clusterName, name, query = {}) =>

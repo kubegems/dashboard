@@ -27,8 +27,8 @@ npm install --save @opentelemetry/sdk-metrics-base
 - SDK 的基本设置如下：
 
 ```javascript
-const opentelemetry = require('@opentelemetry/api-metrics');
-const { MeterProvider } = require('@opentelemetry/sdk-metrics-base');
+import opentelemetry from '@opentelemetry/api-metrics';
+import { MeterProvider } from '@opentelemetry/sdk-metrics-base';
 
 // To create an instrument, you first need to initialize the Meter provider.
 // NOTE: The default OpenTelemetry meter provider does not record any metric instruments.

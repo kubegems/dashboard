@@ -70,7 +70,8 @@
     "enable": "启用",
     "disable": "禁用",
     "enable_c": "启用{0}",
-    "disable_c": "禁用{0}"
+    "disable_c": "禁用{0}",
+    "timerange_query": "时间段查询"
   },
   "table": {
     "name": "名称",

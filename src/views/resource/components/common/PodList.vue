@@ -91,7 +91,7 @@
                   height: '10px',
                   minWidth: '10px',
                   width: '10px',
-                  backgroundColor: `${$POD_STATUS_COLOR[m_resource_getPodStatus(item)] || '#ff5252'}`,
+                  backgroundColor: `${POD_STATUS_COLOR[m_resource_getPodStatus(item)] || '#ff5252'}`,
                 }"
               />
               <span> {{ m_resource_getPodStatus(item) }}</span>
@@ -113,8 +113,17 @@
         <template #[`item.restart`]="{ item }">
           {{ getRestart(item.status.containerStatuses) }}
         </template>
-        <template #[`item.age`]="{ item }">
-          {{ item.status.startTime ? $moment(item.status.startTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() : '' }}
+        <template #[`item.age`]="{ item, index }">
+          <RealDatetimeTip
+            :datetime="item.status.startTime"
+            :top="params.size - index <= 5 || (items.length <= 5 && index >= 1)"
+          >
+            <template #trigger>
+              <span>
+                {{ item.status.startTime ? $moment(item.status.startTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() : '' }}
+              </span>
+            </template>
+          </RealDatetimeTip>
         </template>
         <template #[`item.cpu`]="{ item }">
           <v-flex class="text-subtitle-2">
@@ -218,11 +227,13 @@
   import EventTip from './EventTip';
   import Terminal from './Terminal';
   import { getPodList } from '@/api';
+  import { POD_CPU_USAGE_PROMQL, POD_MEMORY_USAGE_PROMQL } from '@/constants/prometheus';
+  import { POD_STATUS_COLOR } from '@/constants/resource';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseTable from '@/mixins/table';
   import { beautifyCpuUnit, beautifyStorageUnit } from '@/utils/helpers';
-  import { POD_CPU_USAGE_PROMQL, POD_MEMORY_USAGE_PROMQL } from '@/utils/prometheus';
+  import RealDatetimeTip from '@/views/resource/components/common/RealDatetimeTip';
 
   export default {
     name: 'PodList',
@@ -232,6 +243,7 @@
     components: {
       ContainerLog,
       EventTip,
+      RealDatetimeTip,
       Terminal,
     },
     mixins: [BasePermission, BaseResource, BaseTable],
@@ -242,10 +254,14 @@
       },
       selector: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
     },
     data() {
+      this.POD_STATUS_COLOR = POD_STATUS_COLOR;
+
       return {
         items: [],
         pageCount: 0,

@@ -173,6 +173,7 @@
     },
     methods: {
       async istioGatewayInstanceDetail() {
+        if (!this.VirtualSpace().ID) return;
         const data = await getIstioGatewayInstanceDetail(
           this.VirtualSpace().ID,
           this.$route.query.clusterid,

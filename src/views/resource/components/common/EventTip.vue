@@ -92,7 +92,9 @@
       },
       item: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
       kind: {
         type: String,

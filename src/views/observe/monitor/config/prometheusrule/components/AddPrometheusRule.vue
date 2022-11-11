@@ -117,7 +117,7 @@
           if (this.mode === 'monitor') {
             obj.source = 'kubegems-default-monitor-alert-rule';
             // 移除labelpairs中的空值
-            for (const key in obj.promqlGenerator.labelpairs) {
+            for (const key in obj?.promqlGenerator?.labelpairs || []) {
               if (!obj.promqlGenerator.labelpairs[key]) {
                 delete obj.promqlGenerator.labelpairs[key];
               }

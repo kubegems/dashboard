@@ -1,0 +1,18 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "module": "es2020",
+    "target": "es6",
+    "sourceMap": true,
+    "watch": false,
+    "allowJs": true,
+    "checkJs": false,
+    "types": ["vite/client"],
+    "removeComments": true,
+    "moduleResolution": "node",
+    "paths": {
+      "@": ["./src"]
+    }
+  },
+  "exclude": ["node_modules", "logs"]
+}

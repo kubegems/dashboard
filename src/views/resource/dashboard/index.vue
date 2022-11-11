@@ -21,9 +21,7 @@
         <v-flex class="kubegems__full-right">
           <span class="text-body-2 kubegems__text">
             {{ `${$t('resource.tenant_c', [$t('resource.role')])}` }}:
-            {{
-              $TENANT_ROLE[m_permisson_tenantRole] ? $t(`role.tenant.${m_permisson_tenantRole}`) : $t('data.unknown')
-            }}
+            {{ TENANT_ROLE[m_permisson_tenantRole] ? $t(`role.tenant.${m_permisson_tenantRole}`) : $t('data.unknown') }}
           </span>
           <v-btn v-if="m_permisson_tenantAllow()" class="primary--text mt-n1" small text @click="manageUser">
             <v-icon left small> mdi-account-settings </v-icon>
@@ -60,6 +58,7 @@
   import ProjectList from './components/ProjectList';
   import ResourceList from './components/ResourceList';
   import { getTenantStatistics } from '@/api';
+  import { TENANT_ROLE } from '@/constants/platform';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
 
@@ -75,6 +74,8 @@
     },
     mixins: [BasePermission, BaseResource],
     data() {
+      this.TENANT_ROLE = TENANT_ROLE;
+
       return {
         statistics: null,
       };

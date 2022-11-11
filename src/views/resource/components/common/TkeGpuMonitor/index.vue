@@ -47,9 +47,9 @@
   import messages from '../../i18n';
   import DashboardCard from './DashboardCard';
   import { getPodList } from '@/api';
+  import { T_GPU_MEMORY_USAGE, T_GPU_USAGE } from '@/constants/prometheus';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
-  import { T_GPU_MEMORY_USAGE, T_GPU_USAGE } from '@/utils/prometheus';
 
   export default {
     name: 'TkeGpuMonitor',
@@ -63,7 +63,9 @@
     props: {
       item: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
       type: {
         type: String,

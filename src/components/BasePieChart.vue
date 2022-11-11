@@ -23,6 +23,7 @@
 <script>
   import Chart from 'chart.js/auto';
 
+  import { LINE_THEME_COLORS, LINE_THEME_FUL_COLORS } from '@/constants/chart';
   import { randomString } from '@/utils/helpers';
 
   export default {
@@ -144,11 +145,7 @@
           {
             data: this.metrics,
             backgroundColor:
-              this.color.length > 0
-                ? this.color
-                : this.colorful
-                ? this.$LINE_THEME_FUL_COLORS
-                : this.$LINE_THEME_COLORS,
+              this.color.length > 0 ? this.color : this.colorful ? LINE_THEME_FUL_COLORS : LINE_THEME_COLORS,
             hoverOffset: 4,
           },
         ];

@@ -49,9 +49,9 @@
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
+  import { GATEWAY_CONNECTIONS_PROMQL, GATEWAY_QPS_PROMQL } from '@/constants/prometheus';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
-  import { GATEWAY_CONNECTIONS_PROMQL, GATEWAY_QPS_PROMQL } from '@/utils/prometheus';
 
   export default {
     name: 'GatewayMonitor',
@@ -66,7 +66,9 @@
       },
       selector: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
     },
     data() {

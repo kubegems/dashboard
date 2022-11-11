@@ -83,8 +83,8 @@
   import Elasticsearch from './Elasticsearch';
   import Kafka from './Kafka';
   import Loki from './Loki';
+  import { SERVICE_LOGGING_NS } from '@/constants/namespace';
   import { deepCopy } from '@/utils/helpers';
-  import { SERVICE_LOGGING_NS } from '@/utils/namespace';
   import { required } from '@/utils/rules';
 
   export default {

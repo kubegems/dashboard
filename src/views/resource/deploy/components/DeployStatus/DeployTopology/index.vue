@@ -57,6 +57,7 @@
   import messages from '../../../i18n';
   import DeployLive from './DeployLive';
   import { deleteAppResource, getAppRunningResourceDetail, postSyncAppResource } from '@/api';
+  import { K8S_RESOURCE_ICON } from '@/constants/resource';
   import BaseResource from '@/mixins/resource';
 
   import 'vue-okr-tree/dist/vue-okr-tree.css';
@@ -161,7 +162,7 @@
         );
         const img = div.children[1];
         if (kind !== 'Application') {
-          img.data.attrs.src = `/icon/kubernetes/${this.$K8S_RESOURCE_ICON[kind] || 'cr'}.svg`;
+          img.data.attrs.src = `/icon/kubernetes/${K8S_RESOURCE_ICON[kind] || 'cr'}.svg`;
         }
         return div;
       },

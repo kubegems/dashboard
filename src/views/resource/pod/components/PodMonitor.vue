@@ -75,14 +75,14 @@
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
   import {
     CONTAINER_CPU_USAGE_PROMQL,
     CONTAINER_MEMORY_USAGE_PROMQL,
     POD_NETWORK_IN_PROMQL,
     POD_NETWORK_OUT_PROMQL,
-  } from '@/utils/prometheus';
+  } from '@/constants/prometheus';
+  import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'PodMonitor',

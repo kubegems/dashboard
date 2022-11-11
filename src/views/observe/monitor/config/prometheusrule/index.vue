@@ -221,12 +221,12 @@
   import AddPrometheusRule from './components/AddPrometheusRule';
   import UpdatePrometheusRule from './components/UpdatePrometheusRule';
   import { deletePrometheusRule, getPrometheusRuleList, postDisableAlertRule, postEnableAlertRule } from '@/api';
+  import { SERVICE_MONITOR_NS } from '@/constants/namespace';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseTable from '@/mixins/table';
   import { deepCopy } from '@/utils/helpers';
-  import { SERVICE_MONITOR_NS } from '@/utils/namespace';
 
   export default {
     name: 'PrometheusRule',
@@ -304,7 +304,7 @@
     },
     methods: {
       customFilter() {
-        if (this.$route.query.search && this.$route.query.search.length > 0) {
+        if (this.$route.query.search) {
           this.items = this.itemsCopy.filter((item) => {
             return (
               item.name && item.name.toLocaleLowerCase().indexOf(this.$route.query.search.toLocaleLowerCase()) > -1

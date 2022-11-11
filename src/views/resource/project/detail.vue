@@ -22,7 +22,7 @@
           <span class="text-body-2 mx-2">
             {{ $root.$t('resource.project_c', [$root.$t('resource.role')]) }}:
             {{
-              $PROJECT_ROLE[m_permisson_projectRole]
+              PROJECT_ROLE[m_permisson_projectRole]
                 ? $root.$t(`role.project.${m_permisson_projectRole}`)
                 : $root.$t('data.unknown')
             }}
@@ -83,6 +83,8 @@
   import UpdateProject from './components/UpdateProject';
   import messages from './i18n';
   import { deleteProject, getProjectDetail, getProjectQuota } from '@/api';
+  import { PROJECT_ROLE } from '@/constants/platform';
+  import { RESOURCE_CN } from '@/constants/resource';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
@@ -105,6 +107,8 @@
     },
     mixins: [BasePermission, BaseResource, BaseSelect],
     data() {
+      this.PROJECT_ROLE = PROJECT_ROLE;
+
       return {
         resources: [],
         quota: {},
@@ -134,7 +138,7 @@
         this.quota = data.quota.used ? data.quota.used : {};
         this.basic = data.resource;
         this.resources = Object.keys(this.quota).filter((i) => {
-          return this.$RESOURCE_CN[i] !== undefined;
+          return RESOURCE_CN[i] !== undefined;
         });
       },
       updateProject() {

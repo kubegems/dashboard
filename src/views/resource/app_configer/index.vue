@@ -36,12 +36,14 @@
             transition="scale-transition"
           >
             <template #activator="{ on }">
-              <v-btn class="kubegems__full-right" color="primary" small text v-on="on">获取访问信息</v-btn>
+              <v-btn class="kubegems__full-right" color="primary" small text v-on="on">
+                {{ $t('tip.get_access_info') }}
+              </v-btn>
             </template>
             <v-card>
               <v-flex class="text-body-2 text-center primary white--text py-2">
                 <v-icon color="white" left small> mdi-brightness-7 </v-icon>
-                <span>访问信息</span>
+                <span>{{ $t('tip.access_info') }}</span>
               </v-flex>
               <v-list class="pa-0 kubegems__tip" dense>
                 <v-list-item>
@@ -101,7 +103,7 @@
               <v-flex>
                 <v-btn color="primary" text @click="openCreateDialog">
                   <v-icon left>mdi-key-plus</v-icon>
-                  创建配置项
+                  {{ $root.$t('operate.create_c', [$t('tip.config')]) }}
                 </v-btn>
               </v-flex>
             </v-card-text>
@@ -110,6 +112,7 @@
       </v-card-title>
       <v-data-table
         class="mx-4"
+        disable-filtering
         :headers="headers"
         hide-default-footer
         :items="items"
@@ -118,6 +121,11 @@
         :page.sync="params.page"
         @page-count="pageCount = $event"
       >
+        <template #[`item.key`]="{ item }">
+          <a class="text-subtitle-2" @click.stop="configPreview(item)">
+            {{ item.key }}
+          </a>
+        </template>
         <template #[`item.createdTime`]="{ item }">
           <span> {{ item.createdTime ? $moment(item.createdTime).format('lll') : '' }} </span>
         </template>
@@ -190,6 +198,7 @@
       @close="closeHistoryDialog"
       @rollback="rollbackHistory"
     />
+    <ConfigPreview ref="configPreview" />
   </v-container>
 </template>
 
@@ -198,6 +207,7 @@
 
   import ConfigEditor from './components/ConfigEditor';
   import ConfigListener from './components/ConfigListener';
+  import ConfigPreview from './components/ConfigPreview';
   import ConfigSDK from './components/ConfigSDK';
   import DeleteItem from './components/DeleteItem';
   import HistoryView from './components/HistoryView';
@@ -215,6 +225,7 @@
       ConfigEditor,
       ConfigSDK,
       ConfigListener,
+      ConfigPreview,
       DeleteItem,
       HistoryView,
     },
@@ -297,14 +308,12 @@
         );
         this.items = datas;
         this.itemsCopy = deepCopy(datas);
+        if (this.$route.query.search) this.customFilter();
       },
       customFilter() {
-        if (this.$route.query.search && this.$route.query.search.length > 0) {
+        if (this.$route.query.search) {
           this.items = this.itemsCopy.filter((item) => {
-            return (
-              item.application &&
-              item.application.toLocaleLowerCase().indexOf(this.$route.query.search.toLocaleLowerCase()) > -1
-            );
+            return item.key && item.key.toLocaleLowerCase().indexOf(this.$route.query.search.toLocaleLowerCase()) > -1;
           });
         } else {
           this.items = this.itemsCopy;
@@ -354,6 +363,10 @@
           key: '',
           value: '',
         };
+      },
+      configPreview(item) {
+        this.$refs.configPreview.init(item);
+        this.$refs.configPreview.open();
       },
       closeDeleteDialog() {
         this.editor.currentDeleteItem = {};

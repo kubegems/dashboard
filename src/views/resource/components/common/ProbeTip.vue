@@ -44,9 +44,10 @@
                 <v-list-item class="float-left pa-0" two-line>
                   <v-list-item-content class="py-0">
                     <v-list-item-title> {{ $t('tip.http_check') }} </v-list-item-title>
-                    <v-list-item-content class="text-caption kubegems__text">
-                      {{ $t('tip.delay_msg', [item.initialDelaySeconds, item.timeoutSeconds, item.periodSeconds]) }}
-                    </v-list-item-content>
+                    <v-list-item-content
+                      class="text-caption kubegems__text"
+                      v-html="$t('tip.delay_msg', [item.initialDelaySeconds, item.timeoutSeconds, item.periodSeconds])"
+                    />
                   </v-list-item-content>
                 </v-list-item>
                 <v-list-item class="float-left pa-0" two-line>
@@ -78,9 +79,10 @@
                 <v-list-item class="float-left pa-0" two-line>
                   <v-list-item-content class="py-0">
                     <v-list-item-title> {{ $t('tip.shell_check') }} </v-list-item-title>
-                    <v-list-item-content class="text-caption kubegems__text">
-                      {{ $t('tip.delay_msg', [item.initialDelaySeconds, item.timeoutSeconds, item.periodSeconds]) }}
-                    </v-list-item-content>
+                    <v-list-item-content
+                      class="text-caption kubegems__text"
+                      v-html="$t('tip.delay_msg', [item.initialDelaySeconds, item.timeoutSeconds, item.periodSeconds])"
+                    />
                   </v-list-item-content>
                 </v-list-item>
                 <v-list-item class="float-left pa-0" two-line>
@@ -98,9 +100,10 @@
                 <v-list-item class="float-left pa-0" two-line>
                   <v-list-item-content class="py-0">
                     <v-list-item-title> {{ $t('tip.tcp_check') }} </v-list-item-title>
-                    <v-list-item-content class="text-caption kubegems__text">
-                      {{ $t('tip.delay_msg', [item.initialDelaySeconds, item.timeoutSeconds, item.periodSeconds]) }}
-                    </v-list-item-content>
+                    <v-list-item-content
+                      class="text-caption kubegems__text"
+                      v-html="$t('tip.delay_msg', [item.initialDelaySeconds, item.timeoutSeconds, item.periodSeconds])"
+                    />
                   </v-list-item-content>
                 </v-list-item>
                 <v-list-item class="float-left pa-0" two-line>
@@ -131,7 +134,9 @@
     props: {
       item: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
       title: {
         type: String,

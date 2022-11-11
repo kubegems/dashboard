@@ -134,6 +134,7 @@
 
   import Message from './Message';
   import User from './User';
+  import { LOGO_WHITE } from '@/constants/platform';
   import BasePermission from '@/mixins/permission';
   import BaseSelect from '@/mixins/select';
 
@@ -166,7 +167,7 @@
           { text: this.$root.$t('header.app_store'), value: 'app' },
           { text: this.$root.$t('header.model_store'), value: 'model' },
         ],
-        logo: this.$LOGO_WHITE,
+        logo: LOGO_WHITE,
       };
     },
     computed: {

@@ -16,7 +16,7 @@
 
 #### step 1 下载 opentelemetry 库
 
-```ruby
+```
 gem install opentelemetry-api
 gem install opentelemetry-sdk
 gem install opentelemetry-exporter-otlp

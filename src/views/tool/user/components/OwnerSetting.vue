@@ -140,6 +140,7 @@
 
   import messages from '../i18n';
   import { getLoginUserInfo, postResetPassword, putUpdateUser } from '@/api';
+  import { PLATFORM } from '@/constants/platform';
   import locales from '@/i18n/locales';
   import { email, password, phone, required } from '@/utils/rules';
 
@@ -194,18 +195,24 @@
         return locales;
       },
     },
+    watch: {
+      '$store.state.User': {
+        handler(newValue) {
+          if (newValue) {
+            this.user = newValue;
+            this.objInfo = Object.assign(this.objInfo, this.user);
+          }
+        },
+        deep: true,
+        immediate: true,
+      },
+    },
     mounted() {
       this.$nextTick(() => {
-        this.loginUserInfo();
         this.language = this.Locale;
       });
     },
     methods: {
-      async loginUserInfo() {
-        const data = await getLoginUserInfo({ noprocessing: true });
-        this.user = data;
-        this.objInfo = Object.assign(this.objInfo, this.user);
-      },
       async updateUser() {
         if (this.$refs.infoForm.validate(true)) {
           this.$store.commit('SET_CONFIRM', {
@@ -216,7 +223,7 @@
             },
             param: {},
             doFunc: async () => {
-              await putUpdateUser(this.User.ID, Object.assign(this.user, this.objInfo));
+              await putUpdateUser(Object.assign(this.user, this.objInfo));
               const data = await getLoginUserInfo();
               this.$store.commit('SET_USER', data);
             },
@@ -244,7 +251,7 @@
         this.$_i18n.locale = this.language;
         this.$moment.locale(this.language === 'zh-Hans' ? 'zh-cn' : this.language);
         if (window) {
-          window.document.title = `${this.$t(this.$route.meta.title)} - ${this.$PLATFORM}`;
+          window.document.title = `${this.$t(this.$route.meta.title)} - ${PLATFORM}`;
         }
         this.$store.commit('SET_LOCALE', this.language);
         this.reload();

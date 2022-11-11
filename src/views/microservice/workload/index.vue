@@ -95,7 +95,7 @@
                     minWidth: '10px',
                     width: '10px',
                     backgroundColor: `${
-                      $WORKLOAD_STATUS_COLOR[m_resource_getWorkloadStatus(tabItems[tab].value, item.Object)]
+                      WORKLOAD_STATUS_COLOR[m_resource_getWorkloadStatus(tabItems[tab].value, item.Object)]
                     }`,
                   }"
                 />
@@ -124,7 +124,7 @@
                           <v-list-item class="float-left py-0 pl-0" :style="{ width: `300px` }" two-line>
                             <v-list-item-content class="py-0">
                               <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
-                                <v-icon class="float-left mt-1" color="primary" left small> mdi-cube </v-icon>
+                                <v-icon class="float-left workload__icon" color="primary" left small> mdi-cube </v-icon>
                                 <v-flex class="float-left">
                                   {{ pod.metadata.name }}
                                 </v-flex>
@@ -147,7 +147,7 @@
                                     height: '10px',
                                     minWidth: '10px',
                                     width: '10px',
-                                    backgroundColor: `${$POD_STATUS_COLOR[m_resource_getPodStatus(pod)] || '#ff5252'}`,
+                                    backgroundColor: `${POD_STATUS_COLOR[m_resource_getPodStatus(pod)] || '#ff5252'}`,
                                   }"
                                 />
                                 <span>
@@ -181,11 +181,17 @@
                           <v-list-item class="float-left py-0 pl-0" :style="{ width: `200px` }" two-line>
                             <v-list-item-content class="py-0">
                               <v-list-item-title class="text-subtitle-2 py-1 kubegems__text font-weight-regular">
-                                {{
-                                  pod.status.startTime
-                                    ? $moment(pod.status.startTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
-                                    : ''
-                                }}
+                                <RealDatetimeTip :datetime="pod.status.startTime">
+                                  <template #trigger>
+                                    <span>
+                                      {{
+                                        pod.status.startTime
+                                          ? $moment(pod.status.startTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
+                                          : ''
+                                      }}
+                                    </span>
+                                  </template>
+                                </RealDatetimeTip>
                               </v-list-item-title>
                               <v-list-item-subtitle class="text-body-2 py-1"> Age </v-list-item-subtitle>
                             </v-list-item-content>
@@ -259,12 +265,14 @@
 
   import messages from './i18n';
   import { getMicroAppWorkoladList, getPodList, putInjectSideCarToMicroAppWorkolad } from '@/api';
+  import { POD_STATUS_COLOR, WORKLOAD_STATUS_COLOR } from '@/constants/resource';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
   import EnvironmentFilter from '@/views/microservice/components/EnvironmentFilter';
   import PluginPass from '@/views/microservice/components/PluginPass';
+  import RealDatetimeTip from '@/views/resource/components/common/RealDatetimeTip';
 
   export default {
     name: 'Workload',
@@ -274,6 +282,7 @@
     components: {
       EnvironmentFilter,
       PluginPass,
+      RealDatetimeTip,
     },
     mixins: [BaseFilter, BasePermission, BaseResource, BaseSelect],
     data() {
@@ -281,6 +290,8 @@
         deployment: 0,
         statefulset: 1,
       };
+      this.POD_STATUS_COLOR = POD_STATUS_COLOR;
+      this.WORKLOAD_STATUS_COLOR = WORKLOAD_STATUS_COLOR;
 
       return {
         tab: this.tabMap[this.$route.query.tab] || 0,
@@ -378,6 +389,7 @@
     },
     methods: {
       async microAppWorkoladList(noprocess = false) {
+        if (!this.VirtualSpace().ID) return;
         const data = await getMicroAppWorkoladList(
           this.VirtualSpace().ID,
           this.EnvironmentFilter?.value || this.$route.query?.environmentid,
@@ -494,6 +506,10 @@
 <style lang="scss" scoped>
   .workload {
     &__inject {
+      margin-top: 2px;
+    }
+
+    &__icon {
       margin-top: 2px;
     }
   }

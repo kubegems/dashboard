@@ -70,7 +70,8 @@
     "enable": "有効",
     "disable": "無効",
     "enable_c": "{0} を有効にする",
-    "disable_c": "{0} を無効化"
+    "disable_c": "{0} を無効化",
+    "timerange_query": "期間クエリ"
   },
   "table": {
     "name": "注文番号による検索",

@@ -103,7 +103,9 @@
         const data = this.resource?.liveState?.status?.operationState?.syncResult?.resources || [];
         this.items = data;
       },
-      dispose() {},
+      dispose() {
+        return;
+      },
     },
   };
 </script>

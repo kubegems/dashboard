@@ -132,8 +132,8 @@
             }
             kind = ['deployment', 'statefulset', 'daemonset'].indexOf(kind) > -1 ? 'workload' : kind;
 
-            const modules = import.meta.globEager(`@/utils/schema/*.js`);
-            const schema = modules[`/src/utils/schema/${kind}.js`]?.default;
+            const modules = import.meta.globEager(`@/utils/schema/*.ts`);
+            const schema = modules[`/src/utils/schema/${kind}.ts`]?.default;
             if (!this.m_resource_validateJsonSchema(schema, jsondata)) {
               return;
             }
@@ -189,8 +189,8 @@
             ['deployment', 'statefulset', 'daemonset'].indexOf(this.kind.toLocaleLowerCase()) > -1
               ? 'workload'
               : this.kind.toLocaleLowerCase();
-          const modules = import.meta.globEager(`@/utils/schema/*.js`);
-          const schema = modules[`/src/utils/schema/${kind}.js`]?.default;
+          const modules = import.meta.globEager(`@/utils/schema/*.ts`);
+          const schema = modules[`/src/utils/schema/${kind}.ts`]?.default;
           if (!this.m_resource_validateJsonSchema(schema, data)) {
             this.yaml = true;
             this.switchKey = randomString(6);

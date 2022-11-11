@@ -207,12 +207,12 @@
 
   import messages from '../../i18n';
   import { deleteLogAlertRule, getLogAlertRuleList, postDisableAlertRule, postEnableAlertRule } from '@/api';
+  import { SERVICE_MONITOR_NS } from '@/constants/namespace';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseTable from '@/mixins/table';
   import { deepCopy } from '@/utils/helpers';
-  import { SERVICE_MONITOR_NS } from '@/utils/namespace';
   import AddAlertRule from '@/views/observe/monitor/config/prometheusrule/components/AddPrometheusRule';
   import UpdateAlertRule from '@/views/observe/monitor/config/prometheusrule/components/UpdatePrometheusRule';
 
@@ -292,7 +292,7 @@
     },
     methods: {
       customFilter() {
-        if (this.$route.query.search && this.$route.query.search.length > 0) {
+        if (this.$route.query.search) {
           this.items = this.itemsCopy.filter((item) => {
             return (
               item.name && item.name.toLocaleLowerCase().indexOf(this.$route.query.search.toLocaleLowerCase()) > -1

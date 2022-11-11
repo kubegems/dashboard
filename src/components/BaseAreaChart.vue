@@ -17,7 +17,7 @@
 <template>
   <div :style="{ height: `${extendHeight}px`, position: 'relative', width: width }">
     <canvas v-if="mustCheckPremission" :id="chartId" />
-    <div v-else class="text-center kubegems__full-center text-body-2">
+    <div v-else class="text-center kubegems__full-center text-caption">
       {{ $root.$t('plugin.missing', ['monitoring']) }}
     </div>
   </div>
@@ -28,6 +28,7 @@
   import { mapState } from 'vuex';
   import 'chartjs-adapter-moment';
 
+  import { LINE_THEME_COLORS, LINE_THEME_FUL_COLORS } from '@/constants/chart';
   import { randomString } from '@/utils/helpers';
 
   export default {
@@ -92,6 +93,10 @@
       singleTooptip: {
         type: Boolean,
         default: () => false,
+      },
+      timeDisplay: {
+        type: String,
+        default: () => 'HH:mm:ss',
       },
       title: {
         type: String,
@@ -269,7 +274,7 @@
                   time: {
                     unit: 'second',
                     displayFormats: {
-                      second: 'HH:mm:ss',
+                      second: this.timeDisplay,
                     },
                     tooltipFormat: 'YYYY-MM-DD HH:mm:ss',
                     stepSize: 200,
@@ -404,14 +409,14 @@
               this.color.length > 0
                 ? this.color[index % this.color.length]
                 : this.colorful
-                ? this.$LINE_THEME_FUL_COLORS[index % 10]
-                : this.$LINE_THEME_COLORS[index % 12],
+                ? LINE_THEME_FUL_COLORS[index % 10]
+                : LINE_THEME_COLORS[index % 12],
             backgroundColor:
               this.color.length > 0
                 ? this.color[index % this.color.length]
                 : this.colorful
-                ? this.$LINE_THEME_FUL_COLORS[index % 10]
-                : this.$LINE_THEME_COLORS[index % 12],
+                ? LINE_THEME_FUL_COLORS[index % 10]
+                : LINE_THEME_COLORS[index % 12],
             fill: this.chartType === 'area',
             cubicInterpolationMode: 'default',
             tension: 0.3,

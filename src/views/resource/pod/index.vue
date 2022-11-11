@@ -84,6 +84,12 @@
           <v-flex v-if="isTke(item) || isNvidia(item)" class="float-left">
             <GpuTip :allocated="false" :item="item" />
           </v-flex>
+          <v-flex
+            v-if="item.metadata.annotations && item.metadata.annotations['sidecar.istio.io/inject'] === 'true'"
+            class="float-left"
+          >
+            <img class="ml-1" :src="`/icon/istio.svg`" width="18px" />
+          </v-flex>
           <div class="kubegems__clear-float" />
         </template>
         <template #[`item.namespace`]="{ item }">
@@ -105,7 +111,7 @@
                   height: '10px',
                   minWidth: '10px',
                   width: '10px',
-                  backgroundColor: `${$POD_STATUS_COLOR[m_resource_getPodStatus(item)] || '#ff5252'}`,
+                  backgroundColor: `${POD_STATUS_COLOR[m_resource_getPodStatus(item)] || '#ff5252'}`,
                 }"
               />
               <span>
@@ -143,8 +149,17 @@
             </RestartTip>
           </div>
         </template>
-        <template #[`item.age`]="{ item }">
-          {{ item.status.startTime ? $moment(item.status.startTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() : '' }}
+        <template #[`item.age`]="{ item, index }">
+          <RealDatetimeTip
+            :datetime="item.status.startTime"
+            :top="params.size - index <= 5 || (items.length <= 5 && index >= 1)"
+          >
+            <template #trigger>
+              <span>
+                {{ item.status.startTime ? $moment(item.status.startTime, 'YYYY-MM-DDTHH:mm:ssZ').fromNow() : '' }}
+              </span>
+            </template>
+          </RealDatetimeTip>
         </template>
         <template #[`item.cpu`]="{ item }">
           <v-flex class="text-subtitle-2">
@@ -229,16 +244,18 @@
   import RestartTip from './components/RestartTip';
   import messages from './i18n';
   import { deletePod, getPodList } from '@/api';
+  import { POD_CPU_USAGE_PROMQL, POD_MEMORY_USAGE_PROMQL } from '@/constants/prometheus';
+  import { POD_STATUS_COLOR } from '@/constants/resource';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseTable from '@/mixins/table';
   import { beautifyCpuUnit, beautifyStorageUnit } from '@/utils/helpers';
   import { stringifySelector } from '@/utils/k8s_selector';
-  import { POD_CPU_USAGE_PROMQL, POD_MEMORY_USAGE_PROMQL } from '@/utils/prometheus';
   import EventTip from '@/views/resource/components/common/EventTip';
   import GpuTip from '@/views/resource/components/common/GpuTip';
   import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
+  import RealDatetimeTip from '@/views/resource/components/common/RealDatetimeTip';
 
   export default {
     name: 'Pod',
@@ -250,10 +267,13 @@
       EventTip,
       GpuTip,
       NamespaceFilter,
+      RealDatetimeTip,
       RestartTip,
     },
     mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],
     data() {
+      this.POD_STATUS_COLOR = POD_STATUS_COLOR;
+
       return {
         items: [],
         pageCount: 0,

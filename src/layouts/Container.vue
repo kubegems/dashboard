@@ -48,7 +48,7 @@
     },
     methods: {
       parseLink(message) {
-        const reg = new RegExp('(http[\\/:\\.-_\\w]*)', 'g');
+        const reg = new RegExp('([http|https][\\/:\\.\\-_&\\?\\w=]*)', 'g');
         return message.replaceAll(
           reg,
           `<a href="$1" target="_blank" style="text-decoration: underline;color: white;">$1</a>`,

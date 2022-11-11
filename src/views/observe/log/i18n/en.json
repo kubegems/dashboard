@@ -70,7 +70,8 @@
     "enable": "Enabled",
     "disable": "Disabled",
     "enable_c": "Enable {0}",
-    "disable_c": "Disable {0}"
+    "disable_c": "Disable {0}",
+    "timerange_query": "Query with timerange"
   },
   "table": {
     "name": "Name",

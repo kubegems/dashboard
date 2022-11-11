@@ -69,6 +69,7 @@
 
 <script>
   import messages from '../../i18n';
+  import { MODEL_FRAMEWORK } from '@/constants/resource';
   import { deepCopy } from '@/utils/helpers';
 
   export default {
@@ -166,7 +167,7 @@
         return tag;
       },
       hasLogo(tag) {
-        return this.$MODEL_FRAMEWORK.some((i) => {
+        return MODEL_FRAMEWORK.some((i) => {
           return tag.toLowerCase().indexOf(i) > -1;
         });
       },

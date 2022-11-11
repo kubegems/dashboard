@@ -127,7 +127,10 @@
           this.conditions.splice(index, 1);
           const params = this.constructQueryParams();
           this.$emit('refresh', params, this.reload);
-          if (!this.reload) this.$emit('filter');
+          const timeout = setTimeout(() => {
+            if (!this.reload) this.$emit('filter');
+            clearTimeout(timeout);
+          }, 100);
           this.$refs.filter.blur();
         } else {
           const lastConditions = this.conditions.slice(-1);
@@ -145,7 +148,10 @@
 
             const params = this.constructQueryParams();
             this.$emit('refresh', params, this.reload);
-            if (!this.reload) this.$emit('filter');
+            const timeout = setTimeout(() => {
+              if (!this.reload) this.$emit('filter');
+              clearTimeout(timeout);
+            }, 100);
             this.$refs.filter.blur();
           } else {
             this.items = condition.items;
@@ -182,7 +188,10 @@
 
         const params = this.constructQueryParams();
         this.$emit('refresh', params, this.reload);
-        if (!this.reload) this.$emit('filter');
+        const timeout = setTimeout(() => {
+          if (!this.reload) this.$emit('filter');
+          clearTimeout(timeout);
+        }, 100);
         this.$refs.filter.blur();
       },
       constructQueryParams() {

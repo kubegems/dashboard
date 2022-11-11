@@ -194,7 +194,6 @@
         }/applications/${this.$route.params.name}/tasks?token=${this.JWT}&limit=1&watch=true`;
         const vue = this;
         this.statusSSE = new EventSource(url, { withCredentials: true });
-        this.statusSSE.onopen = () => {};
         this.statusSSE.addEventListener(
           'data',
           function (event) {

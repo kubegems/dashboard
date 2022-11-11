@@ -74,8 +74,8 @@
           <template #[`item.metaType`]="{ item }">
             <v-chip
               :color="
-                $METATYPE_CN[item.MetaType] && $METATYPE_CN[item.MetaType].color
-                  ? $METATYPE_CN[item.MetaType].color
+                METATYPE_CN[item.MetaType] && METATYPE_CN[item.MetaType].color
+                  ? METATYPE_CN[item.MetaType].color
                   : 'grey'
               "
               label
@@ -175,6 +175,7 @@
   import UpdateEnvironment from './components/UpdateEnvironment';
   import messages from './i18n';
   import { deleteEnvironment, getEnvironmentTenantResourceQuota } from '@/api';
+  import { METATYPE_CN } from '@/constants/platform';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -191,8 +192,9 @@
       UpdateEnvironment,
     },
     mixins: [BaseFilter, BasePermission, BaseResource, BaseSelect, BaseTable],
-    inject: ['reload'],
     data() {
+      this.METATYPE_CN = METATYPE_CN;
+
       return {
         items: [],
         itemsCopy: [],
@@ -262,7 +264,7 @@
     },
     methods: {
       customFilter() {
-        if (this.$route.query.search && this.$route.query.search.length > 0) {
+        if (this.$route.query.search) {
           this.items = this.itemsCopy.filter((item) => {
             return (
               item.EnvironmentName &&

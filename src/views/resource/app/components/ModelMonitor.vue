@@ -40,9 +40,12 @@
 
   import messages from '../i18n';
   import { getPodList } from '@/api';
+  import {
+    MODEL_WORKLOAD_CPU_USAGE_CORE_PROMQL,
+    MODEL_WORKLOAD_MEMORY_USAGE_BYTE_PROMQL,
+  } from '@/constants/prometheus';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
-  import { MODEL_WORKLOAD_CPU_USAGE_CORE_PROMQL, MODEL_WORKLOAD_MEMORY_USAGE_BYTE_PROMQL } from '@/utils/prometheus';
 
   export default {
     name: 'ModelMonitor',
