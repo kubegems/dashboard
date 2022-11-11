@@ -106,15 +106,15 @@
   import { mapGetters, mapState } from 'vuex';
 
   import messages from '../i18n';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
-  import { beautifyCpuUnit, beautifyStorageUnit, sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
   import {
     TOP_15_POD_CPU_AVG_PROMQL,
     TOP_15_POD_CPU_MAX_PROMQL,
     TOP_15_POD_MEMORY_AVG_PROMQL,
     TOP_15_POD_MEMORY_MAX_PROMQL,
-  } from '@/utils/prometheus';
+  } from '@/constants/prometheus';
+  import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
+  import { beautifyCpuUnit, beautifyStorageUnit, sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
 
   export default {
     name: 'TopNResourceUsage',

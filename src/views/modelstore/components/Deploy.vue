@@ -66,7 +66,6 @@
       open() {
         this.dialog = true;
       },
-      async init() {},
       dispose() {
         this.dialog = false;
         this.$refs.deployWizard.reset();

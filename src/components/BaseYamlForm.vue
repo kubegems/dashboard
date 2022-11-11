@@ -65,7 +65,6 @@
       if (this.item) this.kubeyaml = this.$yamldump(this.item);
     },
     methods: {
-      init() {},
       validate() {
         return this.$refs.form.validate(true);
       },

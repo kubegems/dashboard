@@ -58,8 +58,8 @@
   import { mapGetters, mapState } from 'vuex';
 
   import { getProjectEnvironmentList, getProjectList } from '@/api';
+  import { SERVICE_LOGGING_NS, SERVICE_MONITOR_NS } from '@/constants/namespace';
   import BaseSelect from '@/mixins/select';
-  import { SERVICE_LOGGING_NS, SERVICE_MONITOR_NS } from '@/utils/namespace';
 
   export default {
     name: 'ProjectEnvironmentTree',

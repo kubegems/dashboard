@@ -57,10 +57,6 @@
         type: Boolean,
         default: () => false,
       },
-      item: {
-        type: Object,
-        default: () => null,
-      },
     },
     data() {
       return {
@@ -76,18 +72,7 @@
     computed: {
       ...mapState(['AdminViewport']),
     },
-    watch: {
-      item() {
-        this.loadData();
-      },
-    },
-    mounted() {
-      this.loadData();
-    },
     methods: {
-      async loadData() {
-        this.$nextTick(() => {});
-      },
       reset() {
         this.$refs.form.resetValidation();
         this.obj = this.$options.data().obj;

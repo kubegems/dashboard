@@ -89,6 +89,7 @@
   import messages from '../../i18n';
   import AppResourceBaseForm from './AppResourceBaseForm';
   import { patchAppResourceFile } from '@/api';
+  import { APP_MENIFEST_TAG } from '@/constants/resource';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, randomString } from '@/utils/helpers';
 
@@ -135,8 +136,8 @@
             }
             kind = ['deployment', 'statefulset', 'daemonset'].indexOf(kind) > -1 ? 'workload' : kind;
 
-            const modules = import.meta.globEager(`@/utils/schema/*.js`);
-            const schema = modules[`/src/utils/schema/${kind}.js`]?.default;
+            const modules = import.meta.globEager(`@/utils/schema/*.ts`);
+            const schema = modules[`/src/utils/schema/${kind}.ts`]?.default;
             if (!this.m_resource_validateJsonSchema(schema, jsondata)) {
               return;
             }
@@ -174,8 +175,8 @@
               ['deployment', 'statefulset', 'daemonset'].indexOf(this.kind.toLocaleLowerCase()) > -1
                 ? 'workload'
                 : this.kind.toLocaleLowerCase();
-            const modules = import.meta.globEager(`@/utils/schema/*.js`);
-            const schema = modules[`/src/utils/schema/${kind}.js`]?.default;
+            const modules = import.meta.globEager(`@/utils/schema/*.ts`);
+            const schema = modules[`/src/utils/schema/${kind}.ts`]?.default;
             if (!this.m_resource_validateJsonSchema(schema, data)) {
               this.yaml = true;
               this.switchKey = randomString(6);
@@ -269,7 +270,7 @@
         this.app = deepCopy(app);
         this.file = deepCopy(file);
         this.item = deepCopy(this.$yamlload(file.manifest));
-        if (!this.$APP_MENIFEST_TAG[this.item?.kind]?.form) {
+        if (!APP_MENIFEST_TAG[this.item?.kind]?.form) {
           this.$store.commit('SET_SNACKBAR', {
             text: this.$t('tip.cannot_support'),
             color: 'warning',

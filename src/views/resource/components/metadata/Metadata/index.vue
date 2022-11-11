@@ -60,7 +60,7 @@
         <v-flex>
           <v-sheet v-for="(value, key) in metadata ? metadata.annotations : []" :key="key" class="ml-2">
             <v-chip
-              v-if="$ANNOTATION_IGNORE_ARRAY.indexOf(key) === -1"
+              v-if="ANNOTATION_IGNORE_ARRAY.indexOf(key) === -1"
               class="my-1 kubegems__text"
               :close="!readonly"
               close-icon="mdi-delete"
@@ -89,6 +89,7 @@
   import AddAnnotation from './AddAnnotation';
   import AddLabel from './AddLabel';
   import { patchMetadataNode } from '@/api';
+  import { ANNOTATION_IGNORE_ARRAY } from '@/constants/resource';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
 
@@ -113,6 +114,8 @@
       },
     },
     data() {
+      this.ANNOTATION_IGNORE_ARRAY = ANNOTATION_IGNORE_ARRAY;
+
       return {
         metadata: null,
       };

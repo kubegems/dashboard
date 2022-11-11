@@ -197,16 +197,16 @@
   import GpuScheduleForm from './components/GpuScheduleForm';
   import messages from './i18n';
   import { getNodeList, patchCordonNode } from '@/api';
-  import BaseFilter from '@/mixins/base_filter';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
-  import { convertStrToNum, sizeOfStorage } from '@/utils/helpers';
   import {
     NODE_ALL_CPU_USAGE_PROMQL,
     NODE_ALL_MEMORY_USAGE_PROMQL,
     NODE_LOAD_PROMQL,
     NODE_POD_RUNNING_COUNT_PROMQL,
-  } from '@/utils/prometheus';
+  } from '@/constants/prometheus';
+  import BaseFilter from '@/mixins/base_filter';
+  import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
+  import { convertStrToNum, sizeOfStorage } from '@/utils/helpers';
   import GpuTip from '@/views/resource/components/common/GpuTip';
 
   export default {

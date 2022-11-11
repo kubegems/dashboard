@@ -56,7 +56,9 @@
     props: {
       app: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
       selectRepo: {
         type: String,

@@ -63,7 +63,9 @@
       },
     },
     methods: {
-      dispose() {},
+      dispose() {
+        return;
+      },
     },
   };
 </script>

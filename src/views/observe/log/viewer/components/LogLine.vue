@@ -34,7 +34,7 @@
         v-for="(val, index) in chart ? chart['table-data'] : []"
         :key="index"
         class="ma-1 pa-1"
-        :style="`border-left: 3px solid ${$LINE_THEME_COLORS[index % 11]};font-size: 0.85rem;`"
+        :style="`border-left: 3px solid ${LINE_THEME_COLORS[index % 11]};font-size: 0.85rem;`"
       >
         <span class="pl-2">
           {{ index }}
@@ -48,6 +48,8 @@
 <script>
   import { mapState } from 'vuex';
 
+  import { LINE_THEME_COLORS } from '@/constants/chart';
+
   export default {
     name: 'LogLine',
     props: {
@@ -60,6 +62,11 @@
           };
         },
       },
+    },
+    data() {
+      this.LINE_THEME_COLORS = LINE_THEME_COLORS;
+
+      return {};
     },
     computed: {
       ...mapState(['Scale']),

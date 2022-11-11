@@ -140,6 +140,7 @@
 
   import messages from '../i18n';
   import { getLoginUserInfo, postResetPassword, putUpdateUser } from '@/api';
+  import { PLATFORM } from '@/constants/platform';
   import locales from '@/i18n/locales';
   import { email, password, phone, required } from '@/utils/rules';
 
@@ -250,7 +251,7 @@
         this.$_i18n.locale = this.language;
         this.$moment.locale(this.language === 'zh-Hans' ? 'zh-cn' : this.language);
         if (window) {
-          window.document.title = `${this.$t(this.$route.meta.title)} - ${this.$PLATFORM}`;
+          window.document.title = `${this.$t(this.$route.meta.title)} - ${PLATFORM}`;
         }
         this.$store.commit('SET_LOCALE', this.language);
         this.reload();

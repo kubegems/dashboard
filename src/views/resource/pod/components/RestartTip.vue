@@ -175,7 +175,9 @@
       },
       item: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
       top: {
         type: Boolean,

@@ -146,7 +146,7 @@
                     minWidth: '10px',
                     width: '10px',
                     backgroundColor: `${
-                      $WORKLOAD_STATUS_COLOR[m_resource_getWorkloadStatus(tabItems[tab].value, item.workload)]
+                      WORKLOAD_STATUS_COLOR[m_resource_getWorkloadStatus(tabItems[tab].value, item.workload)]
                     }`,
                   }"
                 />
@@ -234,6 +234,7 @@
     getStatefulSetList,
     getWorkloadResourcesList,
   } from '@/api';
+  import { WORKLOAD_STATUS_COLOR } from '@/constants/resource';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -263,6 +264,7 @@
         statefulset: 1,
         daemonset: 2,
       };
+      this.WORKLOAD_STATUS_COLOR = WORKLOAD_STATUS_COLOR;
 
       return {
         tab: this.tabMap[this.$route.query.tab] || 0,

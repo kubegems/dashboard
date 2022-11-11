@@ -68,6 +68,7 @@
 <script>
   import messages from '../i18n';
   import { getPlatformVersion } from '@/api';
+  import { LOGO_BLUE } from '@/constants/platform';
 
   export default {
     name: 'About',
@@ -79,7 +80,7 @@
         dialog: false,
         version: {},
         apiVersion: null,
-        logo: this.$LOGO_BLUE,
+        logo: LOGO_BLUE,
       };
     },
     computed: {

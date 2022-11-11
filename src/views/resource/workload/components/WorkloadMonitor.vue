@@ -75,14 +75,14 @@
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
   import {
     WORKLOAD_CPU_USAGE_CORE_PROMQL,
     WORKLOAD_MEMORY_USAGE_BYTE_PROMQL,
     WORKLOAD_NETWORK_IN_PROMQL,
     WORKLOAD_NETWORK_OUT_PROMQL,
-  } from '@/utils/prometheus';
+  } from '@/constants/prometheus';
+  import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'WorkloadMonitor',

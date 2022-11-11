@@ -30,14 +30,14 @@
         >
           <div class="d-flex align-center justify-center">
             <v-btn class="elevation-0" color="primary" dark fab small>
-              <v-icon>{{ $RESOURCE_ICON[key] }}</v-icon>
+              <v-icon>{{ RESOURCE_ICON[key] }}</v-icon>
             </v-btn>
             <div class="mx-2 text-width">
               <h2 class="text-h5">
                 {{ quota[key] }}
               </h2>
               <h5 class="text-subtitle-2 font-weight-regular">
-                {{ $root.$t(`resource.${$RESOURCE_EN[key]}`) }}
+                {{ $root.$t(`resource.${RESOURCE_EN[key]}`) }}
               </h5>
             </div>
           </div>
@@ -49,6 +49,7 @@
 
 <script>
   import messages from '../i18n';
+  import { RESOURCE_EN, RESOURCE_ICON } from '@/constants/resource';
   import BaseResource from '@/mixins/resource';
 
   export default {
@@ -60,12 +61,20 @@
     props: {
       quota: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
       resources: {
         type: Array,
         default: () => [],
       },
+    },
+    data() {
+      this.RESOURCE_EN = RESOURCE_EN;
+      this.RESOURCE_ICON = RESOURCE_ICON;
+
+      return {};
     },
   };
 </script>

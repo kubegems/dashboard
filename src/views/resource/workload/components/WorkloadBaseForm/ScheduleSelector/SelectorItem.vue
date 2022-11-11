@@ -63,7 +63,9 @@
     props: {
       selector: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
     },
     methods: {

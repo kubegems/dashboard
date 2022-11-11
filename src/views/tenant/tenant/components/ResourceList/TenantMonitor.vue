@@ -69,10 +69,10 @@
   import { mapState } from 'vuex';
 
   import messages from '../../i18n';
+  import { TENANT_CPU_USAGE_PROMQL, TENANT_MEMORY_USAGE_PROMQL } from '@/constants/prometheus';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import { deepCopy } from '@/utils/helpers';
-  import { TENANT_CPU_USAGE_PROMQL, TENANT_MEMORY_USAGE_PROMQL } from '@/utils/prometheus';
 
   export default {
     name: 'TenantMonitor',

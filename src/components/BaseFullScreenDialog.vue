@@ -76,6 +76,7 @@
 
 <script>
   import { mapState } from 'vuex';
+  import { LOGO_WHITE } from '@/constants/platform';
 
   export default {
     name: 'BaseFullScreenDialog',
@@ -103,7 +104,7 @@
     },
     data() {
       return {
-        logo: this.$LOGO_WHITE,
+        logo: LOGO_WHITE,
       };
     },
     computed: {

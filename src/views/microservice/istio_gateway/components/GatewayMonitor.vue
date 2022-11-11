@@ -91,9 +91,7 @@
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
-  import { SERVICE_GATEWAY_NS } from '@/utils/namespace';
+  import { SERVICE_GATEWAY_NS } from '@/constants/namespace';
   import {
     ISTIO_INGRESS_GATEWAY_DOWNSTREAM_443_QPS_PROMQL,
     ISTIO_INGRESS_GATEWAY_DOWNSTREAM_443_RESPONSE_DURATION_PROMQL,
@@ -101,7 +99,9 @@
     ISTIO_INGRESS_GATEWAY_DOWNSTREAM_80_RESPONSE_DURATION_PROMQL,
     ISTIO_INGRESS_GATEWAY_QPS_PROMQL,
     ISTIO_INGRESS_GATEWAY_REPONSE_DURATION_PROMQL,
-  } from '@/utils/prometheus';
+  } from '@/constants/prometheus';
+  import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
 
   export default {
     name: 'GatewayMonitor',

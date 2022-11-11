@@ -255,10 +255,10 @@
 <script>
   import messages from '../i18n';
   import { getNodeResourceAllocated } from '@/api';
+  import { NODE_ONE_POD_RUNNING_COUNT_PROMQL } from '@/constants/prometheus';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import { deepCopy, sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
-  import { NODE_ONE_POD_RUNNING_COUNT_PROMQL } from '@/utils/prometheus';
 
   export default {
     name: 'ResourceInfo',

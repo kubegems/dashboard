@@ -37,8 +37,8 @@
             <v-flex v-else>
               <v-flex class="primary white--text rounded chip float-left mt-0" color="primary">
                 {{
-                  $APP_MENIFEST_TAG[item.kind] && $APP_MENIFEST_TAG[item.kind].value
-                    ? $APP_MENIFEST_TAG[item.kind].value
+                  APP_MENIFEST_TAG[item.kind] && APP_MENIFEST_TAG[item.kind].value
+                    ? APP_MENIFEST_TAG[item.kind].value
                     : item.kind
                 }}
               </v-flex>
@@ -122,6 +122,7 @@
   import AppResourceFileHistory from './AppResourceFileHistory';
   import UpdateResourceFile from './UpdateResourceFile';
   import { deleteAppResourceFile, getAppResourceFiles, postRefreshAppResource, postSyncAppResource } from '@/api';
+  import { APP_MENIFEST_TAG } from '@/constants/resource';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
 
@@ -143,6 +144,8 @@
       },
     },
     data() {
+      this.APP_MENIFEST_TAG = APP_MENIFEST_TAG;
+
       return {
         tree: [],
         active: [],

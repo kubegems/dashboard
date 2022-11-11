@@ -60,9 +60,6 @@
         default: 0,
       },
     },
-    data() {
-      return {};
-    },
     computed: {
       diff() {
         if (this.value1 === 0) {

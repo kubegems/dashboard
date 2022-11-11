@@ -87,7 +87,6 @@
         get() {
           return this.genGroup(this.item.children);
         },
-        set() {},
       },
     },
 

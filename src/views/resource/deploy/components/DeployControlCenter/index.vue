@@ -132,7 +132,7 @@
                   minWidth: '10px',
                   width: '10px',
                   marginTop: '-2px',
-                  backgroundColor: `${$ARGO_ROLLOUT_STATUS_COLOR[status ? status.status : '']}`,
+                  backgroundColor: `${ARGO_ROLLOUT_STATUS_COLOR[status ? status.status : '']}`,
                 }"
               />
               {{ status ? status.status : '' }}
@@ -274,6 +274,7 @@
   import DeployStepPanel from './DeployStepPanel';
   import DeployStepStatus from './DeployStepStatus';
   import { getAppRelatedServices, postStrategyDeployEnvironmentAppsControl } from '@/api';
+  import { ARGO_ROLLOUT_STATUS_COLOR } from '@/constants/resource';
   import BaseResource from '@/mixins/resource';
 
   export default {
@@ -295,6 +296,8 @@
       },
     },
     data() {
+      this.ARGO_ROLLOUT_STATUS_COLOR = ARGO_ROLLOUT_STATUS_COLOR;
+
       return {
         status: null,
         statusSSE: null,
@@ -346,7 +349,6 @@
         }/applications/${this.$route.params.name}/strategydeploystatus?token=${this.JWT}&watch=true`;
         const vue = this;
         this.statusSSE = new EventSource(url, { withCredentials: true });
-        this.statusSSE.onopen = () => {};
         this.statusSSE.addEventListener(
           'data',
           function (event) {
@@ -443,7 +445,6 @@
         }/applications/${this.$route.params.name}/tasks?token=${this.JWT}&limit=1&watch=true`;
         const vue = this;
         this.deployStatusSSE = new EventSource(url, { withCredentials: true });
-        this.deployStatusSSE.onopen = () => {};
         this.deployStatusSSE.addEventListener(
           'data',
           function (event) {

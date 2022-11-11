@@ -114,7 +114,9 @@
     props: {
       app: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
       edit: {
         type: Boolean,

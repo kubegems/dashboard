@@ -131,7 +131,6 @@
         };
       },
     },
-    mounted() {},
     methods: {
       configIntergated(item, type) {
         this.$refs.intergatedCenter.init(item, type);

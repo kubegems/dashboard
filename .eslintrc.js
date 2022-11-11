@@ -13,14 +13,16 @@ module.exports = defineConfig({
     ecmaFeatures: {
       jsx: true,
     },
+    parser: '@typescript-eslint/parser',
   },
   extends: [
     'plugin:vue/recommended',
     'plugin:vuetify/base',
     'plugin:prettier/recommended',
     'plugin:import/recommended',
+    'plugin:@typescript-eslint/recommended',
   ],
-  plugins: ['vue'],
+  plugins: ['vue', '@typescript-eslint'],
   settings: {
     'import/resolver': {
       alias: {
@@ -189,6 +191,8 @@ module.exports = defineConfig({
     'vue/no-template-shadow': ['off'],
     'vue/multi-word-component-names': ['off'],
     'vue/no-v-html': ['off'],
+    '@typescript-eslint/no-this-alias': ['off'],
+    '@typescript-eslint/no-explicit-any': ['off'],
     // 'sort-imports': [
     //   'error',
     //   {
@@ -214,5 +218,7 @@ module.exports = defineConfig({
     '.local',
     '/bin',
     'Dockerfile',
+    'volar.config.js',
+    '.eslintrc.js',
   ],
 });

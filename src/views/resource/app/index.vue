@@ -108,7 +108,7 @@
                     minWidth: '10px',
                     width: '10px',
                     backgroundColor: `${
-                      $ARGO_STATUS_COLOR[item.runtime.status] ? $ARGO_STATUS_COLOR[item.runtime.status] : 'grey'
+                      ARGO_STATUS_COLOR[item.runtime.status] ? ARGO_STATUS_COLOR[item.runtime.status] : 'grey'
                     }`,
                   }"
                 />
@@ -160,7 +160,7 @@
                 height: '10px',
                 minWidth: '10px',
                 width: '10px',
-                backgroundColor: `${$POD_STATUS_COLOR[item.status.phase] || '#ff5252'}`,
+                backgroundColor: `${POD_STATUS_COLOR[item.status.phase] || '#ff5252'}`,
               }"
             />
             <span>
@@ -235,6 +235,7 @@
     getAppTaskList,
     getModelRuntimePodList,
   } from '@/api';
+  import { ARGO_STATUS_COLOR, POD_STATUS_COLOR } from '@/constants/resource';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -263,6 +264,8 @@
         appstore: 1,
         modelstore: 2,
       };
+      this.ARGO_STATUS_COLOR = ARGO_STATUS_COLOR;
+      this.POD_STATUS_COLOR = POD_STATUS_COLOR;
 
       return {
         items: [],

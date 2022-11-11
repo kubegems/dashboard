@@ -94,7 +94,9 @@
       },
       environment: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
     },
     data() {

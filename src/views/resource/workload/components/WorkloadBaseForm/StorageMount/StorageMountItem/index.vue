@@ -184,7 +184,9 @@
       },
       pvcs: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
       volumes: {
         type: Array,

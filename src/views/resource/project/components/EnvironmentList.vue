@@ -59,8 +59,8 @@
           <template #[`item.metaType`]="{ item }">
             <v-chip
               :color="
-                $METATYPE_CN[item.MetaType] && $METATYPE_CN[item.MetaType].color
-                  ? $METATYPE_CN[item.MetaType].color
+                METATYPE_CN[item.MetaType] && METATYPE_CN[item.MetaType].color
+                  ? METATYPE_CN[item.MetaType].color
                   : 'grey'
               "
               label
@@ -137,6 +137,7 @@
     postUpdateEnvironmentNetworkPolicy,
     postUpdateProjectNetworkPolicy,
   } from '@/api';
+  import { METATYPE_CN } from '@/constants/platform';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -149,7 +150,6 @@
       messages: messages,
     },
     mixins: [BaseFilter, BasePermission, BaseResource, BaseSelect],
-    inject: ['reload'],
     props: {
       ready: {
         type: Boolean,
@@ -157,6 +157,8 @@
       },
     },
     data() {
+      this.METATYPE_CN = METATYPE_CN;
+
       return {
         items: {},
         clusters: [],

@@ -40,7 +40,7 @@
             height: '10px',
             minWidth: '10px',
             width: '10px',
-            backgroundColor: `${$CONTAINER_STATUS_COLOR[getContainerStatus(item)]}`,
+            backgroundColor: `${CONTAINER_STATUS_COLOR[getContainerStatus(item)]}`,
           }"
         />
         <span v-if="item.state.running"> Running </span>
@@ -160,7 +160,7 @@
             height: '10px',
             minWidth: '10px',
             width: '10px',
-            backgroundColor: `${$CONTAINER_STATUS_COLOR[getContainerStatus(item)]}`,
+            backgroundColor: `${CONTAINER_STATUS_COLOR[getContainerStatus(item)]}`,
           }"
         />
         Failed
@@ -217,10 +217,11 @@
   import { mapState } from 'vuex';
 
   import messages from '../i18n';
+  import { CONTAINER_CPU_USAGE_PROMQL, CONTAINER_MEMORY_USAGE_PROMQL } from '@/constants/prometheus';
+  import { CONTAINER_STATUS_COLOR } from '@/constants/resource';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import { beautifyCpuUnit, beautifyStorageUnit, deepCopy } from '@/utils/helpers';
-  import { CONTAINER_CPU_USAGE_PROMQL, CONTAINER_MEMORY_USAGE_PROMQL } from '@/utils/prometheus';
   import ContainerLog from '@/views/resource/components/common/ContainerLog';
   import RealDatetimeTip from '@/views/resource/components/common/RealDatetimeTip';
   import Terminal from '@/views/resource/components/common/Terminal';
@@ -243,6 +244,8 @@
       },
     },
     data() {
+      this.CONTAINER_STATUS_COLOR = CONTAINER_STATUS_COLOR;
+
       return {
         status: '',
         containerStatusesCopy: [],

@@ -52,7 +52,6 @@
           :label-tap-to-cancel="$t('tip.label_tap_to_cancel')"
           :label-tap-to-retry="$t('tip.label_tap_to_retry')"
           max-parallel-uploads="5"
-          @init="onFilePondInit"
         />
       </v-card-text>
     </v-card>
@@ -159,7 +158,6 @@
       },
     },
     methods: {
-      onFilePondInit() {},
       reset() {
         if (this.$refs.filePond) this.$refs.filePond.removeFiles();
         destDir = '/';

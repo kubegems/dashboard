@@ -111,7 +111,7 @@
                   height: '10px',
                   minWidth: '10px',
                   width: '10px',
-                  backgroundColor: `${$POD_STATUS_COLOR[m_resource_getPodStatus(item)] || '#ff5252'}`,
+                  backgroundColor: `${POD_STATUS_COLOR[m_resource_getPodStatus(item)] || '#ff5252'}`,
                 }"
               />
               <span>
@@ -244,13 +244,14 @@
   import RestartTip from './components/RestartTip';
   import messages from './i18n';
   import { deletePod, getPodList } from '@/api';
+  import { POD_CPU_USAGE_PROMQL, POD_MEMORY_USAGE_PROMQL } from '@/constants/prometheus';
+  import { POD_STATUS_COLOR } from '@/constants/resource';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseTable from '@/mixins/table';
   import { beautifyCpuUnit, beautifyStorageUnit } from '@/utils/helpers';
   import { stringifySelector } from '@/utils/k8s_selector';
-  import { POD_CPU_USAGE_PROMQL, POD_MEMORY_USAGE_PROMQL } from '@/utils/prometheus';
   import EventTip from '@/views/resource/components/common/EventTip';
   import GpuTip from '@/views/resource/components/common/GpuTip';
   import NamespaceFilter from '@/views/resource/components/common/NamespaceFilter';
@@ -271,6 +272,8 @@
     },
     mixins: [BaseFilter, BasePermission, BaseResource, BaseTable],
     data() {
+      this.POD_STATUS_COLOR = POD_STATUS_COLOR;
+
       return {
         items: [],
         pageCount: 0,

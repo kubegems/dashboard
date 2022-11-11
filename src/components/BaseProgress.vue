@@ -37,11 +37,13 @@
 <script>
   import { mapState } from 'vuex';
 
+  import { PLATFORM } from '@/constants/platform';
+
   export default {
     name: 'BaseProgress',
     data() {
       return {
-        processName: this.$PLATFORM,
+        processName: PLATFORM,
         charWidth: [0, 13, 24, 36, 46, 60, 70, 86, 98, 110, 122, 134, 146],
       };
     },
