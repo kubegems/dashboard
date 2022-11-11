@@ -65,7 +65,6 @@
           }"
           :no-data-text="$root.$t('data.no_data')"
           :rules="objRules.versionRules"
-          @change="onAppVersionChange"
         >
           <template #selection="{ item }">
             <v-chip color="primary" small>
@@ -185,7 +184,6 @@
       onTenantProjectSelectFocus() {
         this.m_select_tenantProjectSelectData();
       },
-      onAppVersionChange() {},
       async onEnvSelectFocus() {
         await this.m_select_projectEnvironmentSelectData(this.projectId);
         this.m_select_projectEnvironmentItems = this.m_select_projectEnvironmentItems.filter((projectEnv) => {

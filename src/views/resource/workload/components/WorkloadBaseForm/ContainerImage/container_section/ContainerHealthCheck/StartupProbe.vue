@@ -136,7 +136,9 @@
     props: {
       containerCopy: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
     },
     methods: {

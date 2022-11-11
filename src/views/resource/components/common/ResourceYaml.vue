@@ -74,7 +74,9 @@
       open() {
         this.panel = true;
       },
-      dispose() {},
+      dispose() {
+        return;
+      },
     },
   };
 </script>

@@ -33,13 +33,13 @@
           <v-badge
             v-if="item.count > 1"
             bordered
-            :color="$EVENT_STATUS_COLOR[item.type]"
+            :color="EVENT_STATUS_COLOR[item.type]"
             :content="item.count > 99 ? '99+' : item.count"
             overlap
           >
             <v-chip
               class="white--text font-weight-medium chip-width"
-              :color="$EVENT_STATUS_COLOR[item.type]"
+              :color="EVENT_STATUS_COLOR[item.type]"
               label
               small
             >
@@ -49,7 +49,7 @@
           <v-chip
             v-else
             class="white--text font-weight-medium chip-width"
-            :color="$EVENT_STATUS_COLOR[item.type]"
+            :color="EVENT_STATUS_COLOR[item.type]"
             label
             small
           >
@@ -109,6 +109,7 @@
 <script>
   import messages from '../i18n';
   import { getEventList } from '@/api';
+  import { EVENT_STATUS_COLOR } from '@/constants/resource';
   import BaseResource from '@/mixins/resource';
   import RealDatetimeTip from '@/views/resource/components/common/RealDatetimeTip';
 
@@ -128,10 +129,14 @@
       },
       selector: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
     },
     data() {
+      this.EVENT_STATUS_COLOR = EVENT_STATUS_COLOR;
+
       return {
         items: [],
         pageCount: 0,

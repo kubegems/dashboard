@@ -152,7 +152,7 @@
       },
       // environment: {
       //   type: Object,
-      //   default: () => {},
+      //   default: () => { return {} },
       // },
       generator: {
         type: Object,

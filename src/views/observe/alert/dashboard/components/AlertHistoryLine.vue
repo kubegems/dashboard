@@ -17,7 +17,7 @@
 <template>
   <v-card class="kubegems__h-24" flat>
     <BaseSubTitle :divider="false" :title="$t('tip.alert_trend')" />
-    <div class="mx-3 mb-3" :style="{ height: `100%`, width: `100%` }">
+    <div class="mx-3 mb-3" :style="{ height: `100%` }">
       <BaseAreaChart
         id="alert_history"
         chart-type="line"

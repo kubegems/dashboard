@@ -15,6 +15,7 @@ import { projectWorkspace } from './project_workspace';
 import { tool } from './tool';
 import { userCenter } from './user_center';
 import { workspace } from './workspace';
+import { PLATFORM } from '@/constants/platform';
 import store from '@/store';
 
 const originalPush = Router.prototype.push;
@@ -49,7 +50,7 @@ const router = new Router({
 
 router.beforeResolve((to, from, next) => {
   if (window) {
-    window.document.title = `${Vue.prototype.$_i18n.t(to.meta.title)} - ${Vue.prototype.$PLATFORM}`;
+    window.document.title = `${Vue.prototype.$_i18n.t(to.meta.title)} - ${PLATFORM}`;
   }
   next();
 });

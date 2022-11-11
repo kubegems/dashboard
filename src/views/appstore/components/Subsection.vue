@@ -48,7 +48,9 @@
       },
       appValues: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
       clusterName: {
         type: String,
@@ -64,7 +66,9 @@
       },
       param: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
     },
     computed: {

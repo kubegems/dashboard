@@ -116,8 +116,8 @@
                   <v-chip
                     class="float-right mt-1"
                     :color="
-                      $METATYPE_CN[item.metaType] && $METATYPE_CN[item.metaType].color
-                        ? $METATYPE_CN[item.metaType].color
+                      METATYPE_CN[item.metaType] && METATYPE_CN[item.metaType].color
+                        ? METATYPE_CN[item.metaType].color
                         : 'grey'
                     "
                     label
@@ -137,6 +137,7 @@
 </template>
 
 <script>
+  import { METATYPE_CN } from '@/constants/platform';
   import BaseSelect from '@/mixins/select';
 
   export default {
@@ -169,6 +170,8 @@
       },
     },
     data() {
+      this.METATYPE_CN = METATYPE_CN;
+
       return {
         menu: false,
         env: undefined,

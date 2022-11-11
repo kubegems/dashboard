@@ -27,8 +27,8 @@
         minWidth: '10px',
         width: '10px',
         backgroundColor: `${
-          $APP_TASK_STATUS_COLOR[item.task ? item.task.status.status : '']
-            ? $APP_TASK_STATUS_COLOR[item.task ? item.task.status.status : '']
+          APP_TASK_STATUS_COLOR[item.task ? item.task.status.status : '']
+            ? APP_TASK_STATUS_COLOR[item.task ? item.task.status.status : '']
             : 'grey'
         }`,
       }"
@@ -83,6 +83,7 @@
 
 <script>
   import messages from '../i18n';
+  import { APP_TASK_STATUS_COLOR } from '@/constants/resource';
 
   export default {
     name: 'TaskStatusTip',
@@ -92,12 +93,19 @@
     props: {
       item: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
       top: {
         type: Boolean,
         default: () => false,
       },
+    },
+    data() {
+      this.APP_TASK_STATUS_COLOR = APP_TASK_STATUS_COLOR;
+
+      return {};
     },
   };
 </script>

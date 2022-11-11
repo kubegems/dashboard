@@ -115,6 +115,7 @@
 
   import messages from '../../i18n';
   import VersionSelect from './VersionSelect';
+  import { MODEL_FRAMEWORK } from '@/constants/resource';
 
   export default {
     name: 'ModelInfo',
@@ -158,7 +159,7 @@
     },
     methods: {
       hasLogo(tag) {
-        return this.$MODEL_FRAMEWORK.some((i) => {
+        return MODEL_FRAMEWORK.some((i) => {
           return tag.toLowerCase().indexOf(i) > -1;
         });
       },

@@ -95,7 +95,7 @@
                     minWidth: '10px',
                     width: '10px',
                     backgroundColor: `${
-                      $WORKLOAD_STATUS_COLOR[m_resource_getWorkloadStatus(tabItems[tab].value, item.Object)]
+                      WORKLOAD_STATUS_COLOR[m_resource_getWorkloadStatus(tabItems[tab].value, item.Object)]
                     }`,
                   }"
                 />
@@ -147,7 +147,7 @@
                                     height: '10px',
                                     minWidth: '10px',
                                     width: '10px',
-                                    backgroundColor: `${$POD_STATUS_COLOR[m_resource_getPodStatus(pod)] || '#ff5252'}`,
+                                    backgroundColor: `${POD_STATUS_COLOR[m_resource_getPodStatus(pod)] || '#ff5252'}`,
                                   }"
                                 />
                                 <span>
@@ -265,6 +265,7 @@
 
   import messages from './i18n';
   import { getMicroAppWorkoladList, getPodList, putInjectSideCarToMicroAppWorkolad } from '@/api';
+  import { POD_STATUS_COLOR, WORKLOAD_STATUS_COLOR } from '@/constants/resource';
   import BaseFilter from '@/mixins/base_filter';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
@@ -289,6 +290,8 @@
         deployment: 0,
         statefulset: 1,
       };
+      this.POD_STATUS_COLOR = POD_STATUS_COLOR;
+      this.WORKLOAD_STATUS_COLOR = WORKLOAD_STATUS_COLOR;
 
       return {
         tab: this.tabMap[this.$route.query.tab] || 0,

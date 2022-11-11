@@ -53,9 +53,9 @@
 
   import FlowBaseForm from './FlowBaseForm';
   import { postClusterFlowData, postFlowData } from '@/api';
+  import { SERVICE_LOGGING_NS } from '@/constants/namespace';
   import BaseResource from '@/mixins/resource';
   import { randomString } from '@/utils/helpers';
-  import { SERVICE_LOGGING_NS } from '@/utils/namespace';
   import FlowSchema from '@/utils/schema/flow';
 
   export default {

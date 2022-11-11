@@ -60,7 +60,9 @@
     props: {
       data: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
     },
     methods: {

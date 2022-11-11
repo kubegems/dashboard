@@ -75,9 +75,6 @@
         return this.$refs[this.steps[this.step]].getData();
       },
     },
-    watch: {
-      item() {},
-    },
     methods: {
       init(data) {
         this.$refs[this.steps[this.step]].init(data);

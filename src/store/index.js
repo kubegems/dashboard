@@ -136,7 +136,18 @@ export default new Store({
     SET_SIDEBAR_DRAWER(state, payload) {
       state.SidebarDrawer = payload;
     },
-    SET_CONFIRM(state, { title, content, doFunc, param, doClose = () => {} }) {
+    SET_CONFIRM(
+      state,
+      {
+        title,
+        content,
+        doFunc,
+        param,
+        doClose = () => {
+          return;
+        },
+      },
+    ) {
       state.Confirm = {
         title,
         content,

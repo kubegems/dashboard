@@ -60,11 +60,11 @@
         default: 0,
       },
     },
-    data() {
-      return {};
-    },
     computed: {
       diff() {
+        if (this.value1 === 0) {
+          return -100;
+        }
         let diff = this.value1 - this.value2;
         if (this.type === 'percentage') {
           diff = this.value1 !== 0 ? toFixed((diff / this.value1) * 100) : 0;

@@ -183,7 +183,6 @@
 
   import messages from '../../i18n';
   import WorkloadInfo from './WorkloadInfo';
-  import BasePermission from '@/mixins/permission';
   import {
     ISTIO_EGRESS_NETWORK_PROMQL,
     ISTIO_INGRESS_NETWORK_PROMQL,
@@ -193,7 +192,8 @@
     ISTIO_WORKLOAD_REQUEST_LAST_24H_PROMQL,
     ISTIO_WORKLOAD_RESPONSE_DURATION_SECONDS_P95_PROMQL,
     ISTIO_WORKLOAD_RESPONSE_DURATION_SECONDS_P99_PROMQL,
-  } from '@/utils/prometheus';
+  } from '@/constants/prometheus';
+  import BasePermission from '@/mixins/permission';
 
   export default {
     name: 'MonitorCard',

@@ -28,6 +28,7 @@
   import { mapState } from 'vuex';
   import 'chartjs-adapter-moment';
 
+  import { LINE_THEME_COLORS, LINE_THEME_FUL_COLORS } from '@/constants/chart';
   import { randomString } from '@/utils/helpers';
 
   export default {
@@ -408,14 +409,14 @@
               this.color.length > 0
                 ? this.color[index % this.color.length]
                 : this.colorful
-                ? this.$LINE_THEME_FUL_COLORS[index % 10]
-                : this.$LINE_THEME_COLORS[index % 12],
+                ? LINE_THEME_FUL_COLORS[index % 10]
+                : LINE_THEME_COLORS[index % 12],
             backgroundColor:
               this.color.length > 0
                 ? this.color[index % this.color.length]
                 : this.colorful
-                ? this.$LINE_THEME_FUL_COLORS[index % 10]
-                : this.$LINE_THEME_COLORS[index % 12],
+                ? LINE_THEME_FUL_COLORS[index % 10]
+                : LINE_THEME_COLORS[index % 12],
             fill: this.chartType === 'area',
             cubicInterpolationMode: 'default',
             tension: 0.3,

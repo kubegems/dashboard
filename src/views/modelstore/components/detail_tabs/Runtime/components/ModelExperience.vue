@@ -129,7 +129,9 @@
       init(item) {
         this.instance = item;
       },
-      dispose() {},
+      dispose() {
+        return;
+      },
     },
   };
 </script>

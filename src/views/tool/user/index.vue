@@ -38,7 +38,7 @@
                       </v-btn>
                     </v-avatar>
                     <span class="font-weight-medium kubegems__text">
-                      {{ $VENDOR[User.SourceVendor] || 'Selfhosted' }}
+                      {{ VENDOR[User.SourceVendor] || 'Selfhosted' }}
                     </span>
                   </v-chip>
                 </h3>
@@ -94,6 +94,7 @@
   import OwnerSetting from './components/OwnerSetting';
   import messages from './i18n';
   import { getLoginUserInfo } from '@/api';
+  import { VENDOR } from '@/constants/platform';
 
   export default {
     name: 'UserCenter',
@@ -107,6 +108,8 @@
       OwnerSetting,
     },
     data() {
+      this.VENDOR = VENDOR;
+
       return {
         tab: 0,
       };

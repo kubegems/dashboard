@@ -87,7 +87,9 @@
       open() {
         this.panel = true;
       },
-      dispose() {},
+      dispose() {
+        return;
+      },
       init(item) {
         this.content = item.value;
         this.title = item.key;

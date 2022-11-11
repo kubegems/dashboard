@@ -39,7 +39,9 @@
     props: {
       value: {
         type: Object,
-        default: () => {},
+        default: () => {
+          return {};
+        },
       },
     },
     data() {

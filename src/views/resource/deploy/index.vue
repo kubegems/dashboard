@@ -333,7 +333,6 @@
         }&watch=true`;
         const vue = this;
         this.statusSSE = new EventSource(url, { withCredentials: true });
-        this.statusSSE.onopen = () => {};
         this.statusSSE.addEventListener(
           'data',
           function (event) {

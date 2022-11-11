@@ -62,12 +62,12 @@
           <v-card-text class="pa-5">
             <div class="d-flex align-center">
               <v-btn class="elevation-0" color="primary" dark fab small>
-                <v-icon>{{ $RESOURCE_ICON[key] }}</v-icon>
+                <v-icon>{{ RESOURCE_ICON[key] }}</v-icon>
               </v-btn>
               <div class="ml-2 mr-1">
                 <h2 class="text-h6"> {{ workload[key] }} </h2>
                 <h4 class="font-weight-regular mt-1">
-                  {{ $root.$t(`resource.${$RESOURCE_EN[key]}`) }}
+                  {{ $root.$t(`resource.${RESOURCE_EN[key]}`) }}
                 </h4>
               </div>
             </div>
@@ -92,10 +92,11 @@
   import UpdateCluster from './components/UpdateCluster';
   import messages from './i18n';
   import { deleteCluster, getClusterDetail, getClusterQuota } from '@/api';
+  import { CLUSTER_POD_CAPACITY_PROMQL } from '@/constants/prometheus';
+  import { RESOURCE_CN, RESOURCE_EN, RESOURCE_ICON } from '@/constants/resource';
   import BasePermission from '@/mixins/permission';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
-  import { CLUSTER_POD_CAPACITY_PROMQL } from '@/utils/prometheus';
   import Terminal from '@/views/resource/components/common/Terminal';
 
   export default {
@@ -114,6 +115,9 @@
     },
     mixins: [BasePermission, BaseResource, BaseSelect],
     data() {
+      this.RESOURCE_EN = RESOURCE_EN;
+      this.RESOURCE_ICON = RESOURCE_ICON;
+
       return {
         cluster: null,
         quota: null,
@@ -178,7 +182,7 @@
           this.quota = data.resources;
           this.workload = data.workloads;
           this.resources = Object.keys(this.workload).filter((i) => {
-            return this.$RESOURCE_CN[i] !== undefined && this.$RESOURCE_CN[i] !== this.$root.$t('resource.node');
+            return RESOURCE_CN[i] !== undefined && RESOURCE_CN[i] !== this.$root.$t('resource.node');
           });
         }
       },

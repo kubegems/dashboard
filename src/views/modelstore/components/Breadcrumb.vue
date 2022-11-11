@@ -58,6 +58,7 @@
 <script>
   import messages from '../i18n';
   import { getModelSourceDetail } from '@/api';
+  import { LOGO_BLUE } from '@/constants/platform';
 
   export default {
     name: 'Breadcrumb',
@@ -99,7 +100,7 @@
               this.tip = this.$t('tip.tensorflow');
               break;
             case 'kubegems-charts':
-              this.imgSrc = this.$LOGO_BLUE;
+              this.imgSrc = LOGO_BLUE;
               this.tip = this.$t('tip.kubegems_chart');
               break;
             case 'bitnami':
@@ -119,7 +120,7 @@
               this.tip = this.$t('tip.paddlepaddle');
               break;
             default:
-              this.imgSrc = this.$LOGO_BLUE;
+              this.imgSrc = LOGO_BLUE;
               this.tip = this.$t('tip.kubegems');
               break;
           }

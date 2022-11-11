@@ -19,7 +19,7 @@
     <v-card-text class="d-flex pl-6 align-center flex-wrap" :style="{ height: `100%` }">
       <div class="d-flex align-center justify-start my-2" :style="{ width: `50%` }">
         <v-btn class="elevation-0 mr-2" color="primary" dark fab small>
-          <v-icon>{{ $RESOURCE_ICON['node'] }}</v-icon>
+          <v-icon>{{ RESOURCE_ICON['node'] }}</v-icon>
         </v-btn>
         <h6 class="text-large-size font-weight-regular">
           {{ $root.$t('resource.node') }} {{ workload && workload['node'] ? workload['node'] : '' }}
@@ -27,7 +27,7 @@
       </div>
       <div class="d-flex align-center justify-start my-2" :style="{ width: `50%` }">
         <v-btn class="elevation-0 mr-2" color="primary" dark fab small>
-          <v-icon>{{ $RESOURCE_ICON['cpu'] }}</v-icon>
+          <v-icon>{{ RESOURCE_ICON['cpu'] }}</v-icon>
         </v-btn>
         <div>
           <h5 class="text-size font-weight-regular">
@@ -46,7 +46,7 @@
       </div>
       <div class="d-flex align-center justify-start my-2" :style="{ width: `50%` }">
         <v-btn class="elevation-0 mr-2" color="primary" dark fab small>
-          <v-icon>{{ $RESOURCE_ICON['storage'] }}</v-icon>
+          <v-icon>{{ RESOURCE_ICON['storage'] }}</v-icon>
         </v-btn>
         <div>
           <h5 class="text-size font-weight-regular">
@@ -69,7 +69,7 @@
       </div>
       <div class="d-flex align-center justify-start my-2" :style="{ width: `50%` }">
         <v-btn class="elevation-0 mr-2" color="primary" dark fab small>
-          <v-icon>{{ $RESOURCE_ICON['memory'] }}</v-icon>
+          <v-icon>{{ RESOURCE_ICON['memory'] }}</v-icon>
         </v-btn>
         <div>
           <h5 class="text-size font-weight-regular">
@@ -94,6 +94,7 @@
 
 <script>
   import messages from '../i18n';
+  import { RESOURCE_ICON } from '@/constants/resource';
   import BaseResource from '@/mixins/resource';
   import { sizeOfCpu, sizeOfStorage } from '@/utils/helpers';
 
@@ -116,6 +117,11 @@
         type: Object,
         default: () => null,
       },
+    },
+    data() {
+      this.RESOURCE_ICON = RESOURCE_ICON;
+
+      return {};
     },
     methods: {
       sizeOfCpu: sizeOfCpu,

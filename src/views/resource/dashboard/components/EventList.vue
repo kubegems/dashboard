@@ -99,17 +99,17 @@
                   <v-badge
                     v-if="item.stream.count > 1"
                     bordered
-                    :color="$EVENT_STATUS_COLOR[item.stream.type]"
+                    :color="EVENT_STATUS_COLOR[item.stream.type]"
                     :content="item.stream.count >= 100 ? '99+' : item.stream.count"
                     overlap
                   >
-                    <v-avatar :color="$EVENT_STATUS_COLOR[item.stream.type]" size="45">
+                    <v-avatar :color="EVENT_STATUS_COLOR[item.stream.type]" size="45">
                       <span class="white--text text-h6">
                         {{ item.stream.type[0].toLocaleUpperCase() }}
                       </span>
                     </v-avatar>
                   </v-badge>
-                  <v-avatar v-else :color="$EVENT_STATUS_COLOR[item.stream.type]" size="45">
+                  <v-avatar v-else :color="EVENT_STATUS_COLOR[item.stream.type]" size="45">
                     <span class="white--text text-h6">{{ item.stream.type[0].toLocaleUpperCase() }}</span>
                   </v-avatar>
                 </div>
@@ -161,6 +161,7 @@
 
   import messages from '../i18n';
   import { getClusterPluginsList, getEventListFromLoki } from '@/api';
+  import { EVENT_STATUS_COLOR } from '@/constants/resource';
   import BaseResource from '@/mixins/resource';
   import BaseSelect from '@/mixins/select';
 
@@ -171,6 +172,8 @@
     },
     mixins: [BaseResource, BaseSelect],
     data() {
+      this.EVENT_STATUS_COLOR = EVENT_STATUS_COLOR;
+
       return {
         eventItems: [],
         clusterName: '',

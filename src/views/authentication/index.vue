@@ -165,7 +165,7 @@
                   submit
                   @click="login(source)"
                 >
-                  {{ ldap ? $VENDOR[vendor] : '' }} {{ $t('login') }}
+                  {{ ldap ? VENDOR[vendor] : '' }} {{ $t('login') }}
                 </v-btn>
               </v-form>
               <div v-if="enableOauthItems && enableOauthItems.length > 0 && !ldap" class="mt-5">
@@ -195,7 +195,7 @@
         </div>
       </v-container>
       <h6 class="px-12 text-body-2 mt-4 login__copyright font-weight-medium kubegems__text">
-        © 2021 — {{ $PLATFORM }} by Kubegems.io
+        © 2021 — {{ PLATFORM }} by Kubegems.io
       </h6>
     </div>
   </div>
@@ -206,6 +206,7 @@
 
   import messages from './i18n';
   import { getLoginUserAuth, getLoginUserInfo, getOauthAddr, getSystemAuthSource, postLogin } from '@/api';
+  import { PLATFORM, VENDOR } from '@/constants/platform';
   import locales from '@/i18n/locales';
   import BasePermission from '@/mixins/permission';
   import BaseSelect from '@/mixins/select';
@@ -220,6 +221,8 @@
     mixins: [BasePermission, BaseSelect],
     data() {
       this.locales = locales;
+      this.VENDOR = VENDOR;
+      this.PLATFORM = PLATFORM;
 
       return {
         valid: true,
@@ -355,7 +358,7 @@
         this.$_i18n.locale = this.locale;
         this.$moment.locale(this.locale === 'zh-Hans' ? 'zh-cn' : this.locale);
         if (window) {
-          window.document.title = `${this.$t(this.$route.meta.title)} - ${this.$PLATFORM}`;
+          window.document.title = `${this.$t(this.$route.meta.title)} - ${PLATFORM}`;
         }
         this.$store.commit('SET_LOCALE', this.locale);
       },

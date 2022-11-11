@@ -66,15 +66,15 @@
   import { mapState } from 'vuex';
 
   import messages from '../../../i18n';
-  import BasePermission from '@/mixins/permission';
-  import BaseResource from '@/mixins/resource';
-  import { deepCopy } from '@/utils/helpers';
   import {
     POD_CPU_USAGE_BY_CONTAINER_PROMQL,
     POD_MEMORY_BY_CONTAINER_USAGE_PROMQL,
     POD_NETWORK_IN_PROMQL,
     POD_NETWORK_OUT_PROMQL,
-  } from '@/utils/prometheus';
+  } from '@/constants/prometheus';
+  import BasePermission from '@/mixins/permission';
+  import BaseResource from '@/mixins/resource';
+  import { deepCopy } from '@/utils/helpers';
 
   export default {
     name: 'LogPodMonitor',

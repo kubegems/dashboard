@@ -160,8 +160,8 @@
   import { mapState } from 'vuex';
 
   import { getSecretList } from '@/api';
+  import { SERVICE_GATEWAY_NS } from '@/constants/namespace';
   import { deepCopy } from '@/utils/helpers';
-  import { SERVICE_GATEWAY_NS } from '@/utils/namespace';
   import { required } from '@/utils/rules';
 
   export default {
